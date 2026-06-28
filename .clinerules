@@ -1,0 +1,99 @@
+# Cline AI Rules — Dig Game Dev Environment
+
+## Always Start Here
+1. Read this file — `.clinerules`
+2. Read root `/readme.md` — reading order, architecture, scene lifecycle
+3. If you open a new directory always read readme.md and follow its instructions — every directory/subdirectory always needs a readme.md; if none exists, create one
+4. Read `/markdown/readme.md` — full structure & policies
+5. Read relevant policy in `/markdown/policy/` when needed (naming, separation, SSOT, etc.)
+6. Run `markdown/tools/pathing-resolve/` if import errors arise
+7. Follow all rules strictly — no exceptions
+
+---
+
+## Core Rules
+
+### 1. Single Source of Truth
+ALL numeric/string/config values live in `/values/`. NEVER hardcode magic numbers. Systems read from values, values NEVER import systems.
+
+### 2. One Responsibility Per File
+Max ~300 lines per file. Every file must answer "what does this do?" in one sentence.
+
+### 3. Import Direction
+```
+values/  ←  systems/  ←  world/  ←  ui/scenes/
+```
+- values/ imports nothing
+- systems/ imports from values/ only
+- world/ imports from values/ and systems/
+- ui/scenes/ imports from all layers
+- NO circular dependencies — inject at setup time
+
+### 4. AI Tools /ai-tools/
+Date-stamp filenames: `YYYY-MM-DD-description.ext`. Archive outdated with date prefix.
+
+### 5. Markdown /markdown/
+Date-stamp filenames: `YYYY-MM-DD-topic.md`. Archive at 10+ files.
+
+### 6. Debugging /debugging/
+Active debugging only. Once resolved, document fix in /markdown/ and clean up. Persistent bugs go in /debugging/persistant-bugs/ and /markdown/persistant-bugs/. Solved at root → move to /markdown/persistant-bugs/solved-at-root/.
+
+### 7. Archive Policy
+See /markdown/archive-policy.md. Archive unused with date prefix. Delete if >180d AND no references. Never delete active game code.
+
+---
+
+## Naming Quick Ref (see naming-policy.md for full)
+
+| What | Convention | Example |
+|------|-----------|---------|
+| Directories | kebab-case | `systems/mining/` |
+| Classes | PascalCase | `TileCollisionSystem` |
+| Functions | camelCase | `getRenderIndex()` |
+| Variables | camelCase | `currentHp` |
+| Constants | UPPER_SNAKE_CASE or Object.freeze | `TILE_TYPES.AIR` |
+| Files (classes) | PascalCase.js | `TileCollisionSystem.js` |
+| Files (utilities) | camelCase.js | `seededRandom.js` |
+| Markdown | YYYY-MM-DD-topic.md | `2026-06-25-naming-policy.md` |
+
+
+
+---
+
+## Scene Lifecycle
+```
+BootScene → MenuAudioScene (launched alongside menus)
+  ↓
+MainMenuScene → PLAY
+  ↓
+StartMenuScene → select save slot → SPACE
+  ↓
+WorldLoadScene → loading bar
+  ↓
+PlayScene (game runs here)
+```
+
+---
+
+## Game Systems Quick Map
+
+| Category | Directory | Examples |
+|----------|-----------|---------|
+| Mining | /systems/mining/ | DigSystem, TileCollisionSystem |
+| Progression | /systems/progression/ | PlayerLevelSystem, UpgradeSystem |
+| Visual | /systems/visual/ | HUDSystem, FloatingTextSystem |
+| Audio | /sound/ | SoundSystem, SoundLibraryManager, VoiceLineManager |
+| Environment | /systems/environment/ | DayNightCycle, WeatherSystem |
+| Lighting | /systems/lighting/ | LightSystem, ShaderSystem |
+| Combo | /systems/combo/ | ComboSystem, HitstopSystem |
+
+<!-- Quick map is kept in sync with actual directory contents — update whenever systems are added/moved -->
+
+## Workflow
+1. Read this file
+2. Read root /readme.md
+3. Read /markdown/readme.md
+4. Read `/markdown/policy/` if unsure about naming, organization, or other policies
+5. Make changes
+6. Date-stamp any new .md or /ai-tools/ files
+7. NOTIFY: "Done with [change]"

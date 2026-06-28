@@ -1,0 +1,622 @@
+{
+  "id": "robot-run-stop-00",
+  "anchorPolicy": {
+    "canvas": [
+      341,
+      341
+    ],
+    "targetAnchorX": 170,
+    "targetBottomY": 339,
+    "chromaKey": "#00ff00",
+    "notes": [
+      "Raw Grok frames are preserved separately.",
+      "Anchored candidates are chroma-key cleaned, normalized to 341x341, baseline aligned, then center clamped.",
+      "These review frames are not wired into Phaser runtime."
+    ]
+  },
+  "raw": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 174.82,
+        "rootAnchorY": 219.85,
+        "rootAnchorPixels": 341,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 175.05,
+        "rootAnchorY": 200.41,
+        "rootAnchorPixels": 336,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 183.91,
+        "rootAnchorY": 211.65,
+        "rootAnchorPixels": 353,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 174.48,
+        "rootAnchorY": 214.52,
+        "rootAnchorPixels": 356,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 180.76,
+        "rootAnchorY": 201.04,
+        "rootAnchorPixels": 334,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 193.06,
+        "rootAnchorY": 218.0,
+        "rootAnchorPixels": 81,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 176.17,
+        "rootAnchorY": 213.59,
+        "rootAnchorPixels": 336,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 7,
+        "sourceFrame": null,
+        "bbox": [
+          0,
+          29,
+          310,
+          339
+        ],
+        "centerX": 155.0,
+        "rootAnchorX": 171.18,
+        "rootAnchorY": 223.89,
+        "rootAnchorPixels": 339,
+        "bottom": 339,
+        "clipped": true,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 8,
+        "sourceFrame": null,
+        "bbox": [
+          1,
+          29,
+          311,
+          339
+        ],
+        "centerX": 156.0,
+        "rootAnchorX": 169.66,
+        "rootAnchorY": 204.42,
+        "rootAnchorPixels": 341,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 9,
+        "sourceFrame": null,
+        "bbox": [
+          2,
+          29,
+          312,
+          339
+        ],
+        "centerX": 157.0,
+        "rootAnchorX": 170.4,
+        "rootAnchorY": 201.79,
+        "rootAnchorPixels": 351,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 10,
+        "sourceFrame": null,
+        "bbox": [
+          2,
+          29,
+          312,
+          339
+        ],
+        "centerX": 157.0,
+        "rootAnchorX": 170.27,
+        "rootAnchorY": 201.78,
+        "rootAnchorPixels": 346,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 11,
+        "sourceFrame": null,
+        "bbox": [
+          2,
+          29,
+          312,
+          339
+        ],
+        "centerX": 157.0,
+        "rootAnchorX": 170.45,
+        "rootAnchorY": 201.63,
+        "rootAnchorPixels": 352,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 12,
+        "sourceFrame": null,
+        "bbox": [
+          2,
+          29,
+          312,
+          339
+        ],
+        "centerX": 157.0,
+        "rootAnchorX": 170.4,
+        "rootAnchorY": 201.56,
+        "rootAnchorPixels": 351,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "root-core",
+      "maxBBoxCenterDriftPx": 2.0,
+      "maxRootAnchorDriftPx": 18.58,
+      "maxAnchorDriftPx": 18.58
+    },
+    "clippedFrames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "nonTransparentCornerFrames": []
+  },
+  "anchored": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 190.82,
+        "rootAnchorY": 219.85,
+        "rootAnchorPixels": 341,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 191.05,
+        "rootAnchorY": 200.41,
+        "rootAnchorPixels": 336,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 199.91,
+        "rootAnchorY": 211.65,
+        "rootAnchorPixels": 353,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 190.48,
+        "rootAnchorY": 214.52,
+        "rootAnchorPixels": 356,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 196.76,
+        "rootAnchorY": 201.04,
+        "rootAnchorPixels": 334,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 209.06,
+        "rootAnchorY": 218.0,
+        "rootAnchorPixels": 81,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 192.17,
+        "rootAnchorY": 213.59,
+        "rootAnchorPixels": 336,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 7,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 187.18,
+        "rootAnchorY": 223.89,
+        "rootAnchorPixels": 339,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 8,
+        "sourceFrame": null,
+        "bbox": [
+          15,
+          29,
+          325,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": 183.66,
+        "rootAnchorY": 204.42,
+        "rootAnchorPixels": 341,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 9,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 184.4,
+        "rootAnchorY": 201.79,
+        "rootAnchorPixels": 351,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 10,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 184.27,
+        "rootAnchorY": 201.78,
+        "rootAnchorPixels": 346,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 11,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 184.45,
+        "rootAnchorY": 201.63,
+        "rootAnchorPixels": 352,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 12,
+        "sourceFrame": null,
+        "bbox": [
+          16,
+          29,
+          326,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 184.4,
+        "rootAnchorY": 201.56,
+        "rootAnchorPixels": 351,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "root-core",
+      "maxBBoxCenterDriftPx": 1.0,
+      "maxRootAnchorDriftPx": 18.58,
+      "maxAnchorDriftPx": 18.58
+    },
+    "clippedFrames": [],
+    "nonTransparentCornerFrames": []
+  }
+}

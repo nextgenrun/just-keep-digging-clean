@@ -1,0 +1,262 @@
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { UI_COLORS } from "../../values/uiColors.js";
+
+const MENU_BACKGROUND_BASE_PATH = "sprites/backgrounds/background-database/";
+
+export const MENU_BACKGROUND_ASSETS = Object.freeze([
+  {
+    key: ASSET_KEYS.background.dbImage1,
+    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_f1frtjf1frtjf1fr.webp`,
+  },
+  {
+    key: ASSET_KEYS.background.dbImage2,
+    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_g6ozmlg6ozmlg6oz.webp`,
+  },
+  {
+    key: ASSET_KEYS.background.dbImage3,
+    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_i30bfci30bfci30b.webp`,
+  },
+  {
+    key: ASSET_KEYS.background.dbImage4,
+    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_kjwykkjwykkjwykk.webp`,
+  },
+  {
+    key: ASSET_KEYS.background.dbImage5,
+    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_rimx2primx2primx.webp`,
+  },
+  {
+    key: ASSET_KEYS.background.dbImage6,
+    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_wocn9hwocn9hwocn.webp`,
+  },
+]);
+
+export const MENU_BACKGROUND_KEYS = Object.freeze(MENU_BACKGROUND_ASSETS.map((asset) => asset.key));
+
+let selectedMenuBackgroundKey = null;
+
+const COL = Object.freeze({
+  bg: UI_COLORS.bg,
+  overlay: UI_COLORS.overlay,
+  panel: UI_COLORS.cardBase,
+  panelHi: 0xffffff,
+  borderDim: UI_COLORS.borderDim,
+  borderBright: UI_COLORS.borderSel,
+  gold: 0xc9a227,
+  fill: 0x9de3a1,
+  title: UI_COLORS.title,
+  shadow: UI_COLORS.dim,
+  dim: "#8899aa",
+  hint: "#4a5a6a",
+  pct: "#9de3a1",
+});
+
+export function getSelectedMenuBackgroundKey() {
+  if (!selectedMenuBackgroundKey) {
+    selectedMenuBackgroundKey = MENU_BACKGROUND_KEYS[Math.floor(Math.random() * MENU_BACKGROUND_KEYS.length)];
+  }
+  return selectedMenuBackgroundKey;
+}
+
+export function setSelectedMenuBackgroundKey(key) {
+  if (MENU_BACKGROUND_KEYS.includes(key)) selectedMenuBackgroundKey = key;
+  return getSelectedMenuBackgroundKey();
+}
+
+export function getSelectedMenuBackgroundAsset() {
+  const key = getSelectedMenuBackgroundKey();
+  return MENU_BACKGROUND_ASSETS.find((asset) => asset.key === key) ?? MENU_BACKGROUND_ASSETS[0];
+}
+
+export function addMenuBackground(scene, options = {}) {
+  const W = options.width ?? scene.scale?.width ?? scene.cameras.main.width;
+  const H = options.height ?? scene.scale?.height ?? scene.cameras.main.height;
+  const preferredKey = options.key ?? getSelectedMenuBackgroundKey();
+  const availableKey = scene.textures.exists(preferredKey)
+    ? preferredKey
+    : MENU_BACKGROUND_KEYS.find((key) => scene.textures.exists(key));
+
+  if (!availableKey) return null;
+
+  const img = scene.add.image(W / 2, H / 2, availableKey);
+  img.setScale(Math.max(W / img.width, H / img.height)).setAlpha(options.alpha ?? 0.24);
+  options.objects?.push?.(img);
+  return img;
+}
+
+function addCornerFrame(g, W, H) {
+  const inset = 44;
+  const short = 80;
+  const long = 160;
+
+  g.lineStyle(1, COL.borderDim, 0.72);
+  g.strokeRect(inset, inset, W - inset * 2, H - inset * 2);
+
+  g.lineStyle(2, COL.borderBright, 0.8);
+  g.lineBetween(inset, inset, inset + long, inset);
+  g.lineBetween(inset, inset, inset, inset + short);
+  g.lineBetween(W - inset, inset, W - inset - long, inset);
+  g.lineBetween(W - inset, inset, W - inset, inset + short);
+  g.lineBetween(inset, H - inset, inset + long, H - inset);
+  g.lineBetween(inset, H - inset, inset, H - inset - short);
+  g.lineBetween(W - inset, H - inset, W - inset - long, H - inset);
+  g.lineBetween(W - inset, H - inset, W - inset, H - inset - short);
+
+  g.lineStyle(1, COL.gold, 0.55);
+  g.lineBetween(inset + 12, inset + 12, inset + 92, inset + 12);
+  g.lineBetween(W - inset - 12, inset + 12, W - inset - 92, inset + 12);
+  g.lineBetween(inset + 12, H - inset - 12, inset + 92, H - inset - 12);
+  g.lineBetween(W - inset - 12, H - inset - 12, W - inset - 92, H - inset - 12);
+}
+
+function addLogoOrTitle(scene, objects, W, options) {
+  if (options.preferLogo && scene.textures.exists(ASSET_KEYS.branding.logo)) {
+    const logo = scene.add.image(W / 2, 138, ASSET_KEYS.branding.logo);
+    const scale = Math.min(520 / logo.width, 160 / logo.height);
+    logo.setScale(scale);
+    objects.push(logo);
+    return;
+  }
+
+  const title = options.title ?? "Just Keep Digging";
+  const titleShadow = scene.add.text(W / 2 + 3, 183, title, {
+    fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
+    fontSize: "76px",
+    fontStyle: "bold",
+    color: COL.shadow,
+  }).setOrigin(0.5).setAlpha(0.42);
+
+  const titleText = scene.add.text(W / 2, 180, title, {
+    fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
+    fontSize: "76px",
+    fontStyle: "bold",
+    color: COL.title,
+  }).setOrigin(0.5);
+
+  objects.push(titleShadow, titleText);
+}
+
+export function createMenuLoadingScreen(scene, options = {}) {
+  const W = scene.scale?.width ?? scene.cameras.main.width;
+  const H = scene.scale?.height ?? scene.cameras.main.height;
+  const objects = [];
+
+  const bg = scene.add.rectangle(W / 2, H / 2, W, H, COL.bg);
+  objects.push(bg);
+
+  addMenuBackground(scene, {
+    objects,
+    width: W,
+    height: H,
+    key: options.backgroundKey,
+    alpha: options.backgroundAlpha ?? 0.24,
+  });
+
+  const vignette = scene.add.graphics();
+  vignette.fillStyle(COL.overlay, options.overlayAlpha ?? 0.34);
+  vignette.fillRect(0, 0, W, H);
+  objects.push(vignette);
+
+  const frame = scene.add.graphics();
+  addCornerFrame(frame, W, H);
+  objects.push(frame);
+
+  addLogoOrTitle(scene, objects, W, options);
+
+  const subtitle = scene.add.text(W / 2, options.preferLogo ? 258 : 268, options.subtitle ?? "A L P H A", {
+    fontFamily: "Consolas, monospace",
+    fontSize: "18px",
+    color: "#c9a227",
+    letterSpacing: 5,
+  }).setOrigin(0.5);
+  objects.push(subtitle);
+
+  const sep1 = scene.add.graphics();
+  sep1.lineStyle(1, COL.borderBright, 0.75);
+  sep1.lineBetween(220, 300, W - 220, 300);
+  objects.push(sep1);
+
+  const barW = options.barWidth ?? 600;
+  const barH = options.barHeight ?? 18;
+  const barX = W / 2 - barW / 2;
+  const barY = options.barY ?? 405;
+
+  const panel = scene.add.graphics();
+  panel.lineStyle(1, COL.borderDim, 0.95);
+  panel.fillStyle(COL.panel, 0.94);
+  panel.fillRoundedRect(W / 2 - 360, barY - 68, 720, 132, 8);
+  panel.strokeRoundedRect(W / 2 - 360, barY - 68, 720, 132, 8);
+  panel.fillStyle(COL.panelHi, 0.035);
+  panel.fillRoundedRect(W / 2 - 356, barY - 64, 712, 48, 7);
+  objects.push(panel);
+
+  const labelText = scene.add.text(W / 2, barY - 38, options.label ?? "Loading...", {
+    fontFamily: "Consolas, monospace",
+    fontSize: "15px",
+    color: COL.dim,
+  }).setOrigin(0.5);
+  objects.push(labelText);
+
+  const barBg = scene.add.graphics();
+  barBg.fillStyle(0x1e2a36, 1);
+  barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 4);
+  barBg.lineStyle(1, COL.borderBright, 0.75);
+  barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 4);
+  objects.push(barBg);
+
+  const barFill = scene.add.graphics();
+  objects.push(barFill);
+
+  const pctText = scene.add.text(W / 2, barY + barH + 16, "0%", {
+    fontFamily: "Consolas, monospace",
+    fontSize: "14px",
+    color: COL.pct,
+  }).setOrigin(0.5);
+  objects.push(pctText);
+
+  const detailText = scene.add.text(W / 2, barY + 72, options.detail ?? "", {
+    fontFamily: "Consolas, monospace",
+    fontSize: "13px",
+    color: COL.hint,
+  }).setOrigin(0.5);
+  objects.push(detailText);
+
+  const sep2 = scene.add.graphics();
+  sep2.lineStyle(1, COL.borderDim, 0.65);
+  sep2.lineBetween(80, H - 82, W - 80, H - 82);
+  objects.push(sep2);
+
+  const setProgress = (value) => {
+    const clamped = Phaser.Math.Clamp(value || 0, 0, 1);
+    barFill.clear();
+    barFill.fillStyle(COL.fill, 1);
+    barFill.fillRoundedRect(barX, barY, Math.max(2, barW * clamped), barH, 3);
+    pctText.setText(`${Math.floor(clamped * 100)}%`);
+  };
+
+  setProgress(options.progress ?? 0);
+
+  return {
+    objects,
+    labelText,
+    detailText,
+    pctText,
+    setProgress,
+    setLabel: (text) => labelText.setText(text),
+    setDetail: (text) => detailText.setText(text),
+    fadeOut(duration = 300, onComplete) {
+      scene.tweens.add({
+        targets: objects,
+        alpha: 0,
+        duration,
+        ease: "Power1.in",
+        onComplete: () => {
+          objects.forEach((object) => object?.destroy());
+          onComplete?.();
+        },
+      });
+    },
+    destroy() {
+      objects.forEach((object) => object?.destroy());
+    },
+  };
+}

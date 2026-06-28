@@ -1,0 +1,234 @@
+{
+  "id": "dig-down",
+  "displayName": "Pickaxe Dig Down",
+  "createdAt": "2026-06-24T04:37:23",
+  "sourceRun": "grok-scout-001",
+  "sourceDirs": [
+    "dig-sideways-v8-combo-00"
+  ],
+  "notes": "Approved scout dig-sideways-v8-combo-00 repurposed as one pickaxe dig-down action.",
+  "frameCount": 7,
+  "frameSize": [
+    341,
+    341
+  ],
+  "fps": 18,
+  "runtimeSheet": "sprites/character/character-v8/runtime/dig-down-sheet.webp",
+  "runtimePiskel": "sprites/character/character-v8/runtime/dig-down.piskel",
+  "v8Piskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+  "framesDir": "sprites/character/character-v8/frames/dig-down",
+  "preview": "sprites/character/character-v8/previews/dig-down-approved-scout-slowmo.gif",
+  "overlayPreview": "sprites/character/character-v8/overlays/dig-down-approved-scout-overlay-slowmo.gif",
+  "contactSheet": "sprites/character/character-v8/contact-sheets/dig-down-approved-scout-contact-sheet.png",
+  "sheetGrid": {
+    "columns": 7,
+    "rows": 1,
+    "size": [
+      2387,
+      341
+    ]
+  },
+  "sourceOrder": [
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-000.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-001.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-002.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-003.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-004.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-005.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "dig-sideways-v8-combo-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/dig-sideways-v8-combo-00/frame-006.png",
+      "archivedInSourceDir": false
+    }
+  ],
+  "analysis": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          89,
+          55,
+          252,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 163.14,
+        "rootAnchorY": 225.82,
+        "rootAnchorPixels": 102,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          27,
+          30,
+          259,
+          339
+        ],
+        "centerX": 143.0,
+        "rootAnchorX": 160.28,
+        "rootAnchorY": 229.87,
+        "rootAnchorPixels": 129,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          21,
+          30,
+          258,
+          339
+        ],
+        "centerX": 139.5,
+        "rootAnchorX": 157.8,
+        "rootAnchorY": 230.09,
+        "rootAnchorPixels": 115,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          52,
+          36,
+          262,
+          339
+        ],
+        "centerX": 157.0,
+        "rootAnchorX": 171.51,
+        "rootAnchorY": 237.78,
+        "rootAnchorPixels": 159,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          44,
+          40,
+          298,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 209.32,
+        "rootAnchorY": 239.62,
+        "rootAnchorPixels": 73,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          27,
+          29,
+          333,
+          339
+        ],
+        "centerX": 180.0,
+        "rootAnchorX": 209.08,
+        "rootAnchorY": 220.46,
+        "rootAnchorPixels": 123,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          43,
+          29,
+          324,
+          339
+        ],
+        "centerX": 183.5,
+        "rootAnchorX": 226.43,
+        "rootAnchorY": 221.32,
+        "rootAnchorPixels": 126,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "root-core",
+      "maxBBoxCenterDriftPx": 31.0,
+      "maxRootAnchorDriftPx": 54.92,
+      "maxAnchorDriftPx": 54.92
+    },
+    "clippedFrames": [],
+    "nonTransparentCornerFrames": []
+  }
+}

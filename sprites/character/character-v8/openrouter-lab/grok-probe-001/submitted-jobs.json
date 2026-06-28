@@ -1,0 +1,17 @@
+{
+  "runId": "grok-probe-001",
+  "estimatedSpendCents": 5.2,
+  "jobs": [
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-probe-001/payloads/walk-wind-up-to-walk-loop-00.json",
+      "response": {
+        "id": "JUP20HnX9KnkWd0zUkMG",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JUP20HnX9KnkWd0zUkMG",
+        "status": "pending"
+      }
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "runId": "grok-scout-001",
+  "model": "x-ai/grok-imagine-video",
+  "maxSpendCents": 100.0,
+  "estimatedTotalCents": 93.6,
+  "withinBudget": true,
+  "pricing": {
+    "cents_per_image_input": "0.2",
+    "cents_per_video_output_second_480p": "5",
+    "cents_per_video_output_second_720p": "7"
+  },
+  "jobs": [
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 0,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smooth idle-to-walk wind-up into the existing walking loop, grounded feet, no sliding. priority: usable gametime transition into walk loop."
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 1,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smooth idle-to-walk wind-up into the existing walking loop, grounded feet, no sliding. priority: usable gametime transition into walk loop."
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 2,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smooth idle-to-walk wind-up into the existing walking loop, grounded feet, no sliding. priority: usable gametime transition into walk loop."
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 3,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smooth idle-to-walk wind-up into the existing walking loop, grounded feet, no sliding. priority: usable gametime transition into walk loop."
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 0,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smoothly relax from combat digging stance into normal idle without a body pop. priority: usable combat idle fade back into normal idle."
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 1,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smoothly relax from combat digging stance into normal idle without a body pop. priority: usable combat idle fade back into normal idle."
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 2,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smoothly relax from combat digging stance into normal idle without a body pop. priority: usable combat idle fade back into normal idle."
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 3,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: smoothly relax from combat digging stance into normal idle without a body pop. priority: usable combat idle fade back into normal idle."
+    },
+    {
+      "target": "duck-downwards",
+      "index": 0,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: controlled crouch or downward duck motion with a stable grounded body. priority: usable duck/downward crouch transition."
+    },
+    {
+      "target": "duck-downwards",
+      "index": 1,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: controlled crouch or downward duck motion with a stable grounded body. priority: usable duck/downward crouch transition."
+    },
+    {
+      "target": "wall-push",
+      "index": 0,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: subtle shoulder and body pressure pushing into a solid wall tile, grounded stance, small believable strain loop. priority: usable loop for pushing into a blocked tile."
+    },
+    {
+      "target": "wall-push",
+      "index": 1,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: subtle shoulder and body pressure pushing into a solid wall tile, grounded stance, small believable strain loop. priority: usable loop for pushing into a blocked tile."
+    },
+    {
+      "target": "wall-push",
+      "index": 2,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: subtle shoulder and body pressure pushing into a solid wall tile, grounded stance, small believable strain loop. priority: usable loop for pushing into a blocked tile."
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 0,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: stronger sideways digging swing timing, stable feet and hips, no teleporting body, readable impact rhythm. priority: usable timing reference for sideways dig combo."
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 1,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: stronger sideways digging swing timing, stable feet and hips, no teleporting body, readable impact rhythm. priority: usable timing reference for sideways dig combo."
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 2,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: stronger sideways digging swing timing, stable feet and hips, no teleporting body, readable impact rhythm. priority: usable timing reference for sideways dig combo."
+    },
+    {
+      "target": "falling-downward-through-sky",
+      "index": 0,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: falling downward through open sky from the current jump pose, body stable, readable downward motion, no camera movement. priority: usable falling-downward-through-sky loop from current jump pose."
+    },
+    {
+      "target": "falling-downward-through-sky",
+      "index": 1,
+      "duration": 1,
+      "resolution": "480p",
+      "estimatedCents": 5.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: falling downward through open sky from the current jump pose, body stable, readable downward motion, no camera movement. priority: usable falling-downward-through-sky loop from current jump pose."
+    }
+  ]
+}

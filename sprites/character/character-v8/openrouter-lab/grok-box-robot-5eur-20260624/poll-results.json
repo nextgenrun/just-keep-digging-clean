@@ -1,0 +1,1573 @@
+{
+  "runId": "grok-box-robot-5eur-20260624",
+  "results": [
+    {
+      "target": "robot-idle",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "q5dqgk7DLxB88VP3Vydq",
+        "generation_id": "gen-vid-1782270530-mQUqiNzGJhIwGFJlSoqy",
+        "polling_url": "https://openrouter.ai/api/v1/videos/q5dqgk7DLxB88VP3Vydq",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/q5dqgk7DLxB88VP3Vydq/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-idle-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-idle-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-idle-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-idle-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-idle",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "6OF5ud0yfbbYigEJgqeq",
+        "generation_id": "gen-vid-1782270533-lFoyLwpsmdRPH6vPbrDB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/6OF5ud0yfbbYigEJgqeq",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/6OF5ud0yfbbYigEJgqeq/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-idle-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-idle-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-idle-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-idle-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-idle",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "uKOy04jdBI6hats3f5jn",
+        "generation_id": "gen-vid-1782270535-OpUWkuR1R9VST25vmtXu",
+        "polling_url": "https://openrouter.ai/api/v1/videos/uKOy04jdBI6hats3f5jn",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/uKOy04jdBI6hats3f5jn/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-idle-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-idle-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-idle-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-idle-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-idle-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-start",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "AGXKbpCcSmoprKX5TLq2",
+        "generation_id": "gen-vid-1782270538-roYc49wbTp4L01tmCpXN",
+        "polling_url": "https://openrouter.ai/api/v1/videos/AGXKbpCcSmoprKX5TLq2",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/AGXKbpCcSmoprKX5TLq2/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-start-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-start-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-start-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-start-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-start",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "0xf3iGjfcsEqoHg7N2SX",
+        "generation_id": "gen-vid-1782270540-UENp3vQovzC0kjWx4FbQ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/0xf3iGjfcsEqoHg7N2SX",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/0xf3iGjfcsEqoHg7N2SX/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-start-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-start-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-start-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-start-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-start-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "vabSaaCh8U0WJwYaAFvT",
+        "generation_id": "gen-vid-1782270543-ldlR3yESm7S7HydnytaB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/vabSaaCh8U0WJwYaAFvT",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/vabSaaCh8U0WJwYaAFvT/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-loop-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-loop-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "b6MI9tm5euFdohaa3WKP",
+        "generation_id": "gen-vid-1782270545-ZRV4X9rrynqdDWAcNUpw",
+        "polling_url": "https://openrouter.ai/api/v1/videos/b6MI9tm5euFdohaa3WKP",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/b6MI9tm5euFdohaa3WKP/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-loop-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-loop-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "zKx0xLCGSdqPuAq4YW5w",
+        "generation_id": "gen-vid-1782270548-dbG3Bk1m9pPEs0GMqkO1",
+        "polling_url": "https://openrouter.ai/api/v1/videos/zKx0xLCGSdqPuAq4YW5w",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/zKx0xLCGSdqPuAq4YW5w/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-loop-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-loop-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "fSXZQGAnH7BKLHkuu2VW",
+        "generation_id": "gen-vid-1782270550-PP5mOQWjK1jbyLEXaSiT",
+        "polling_url": "https://openrouter.ai/api/v1/videos/fSXZQGAnH7BKLHkuu2VW",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/fSXZQGAnH7BKLHkuu2VW/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-loop-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-loop-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-03",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-loop-03-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-loop-03/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-stop",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "B11Z5kLeIZ0nmgOu6EgR",
+        "generation_id": "gen-vid-1782270553-i3LR2Bv6dAfbl6pFba8A",
+        "polling_url": "https://openrouter.ai/api/v1/videos/B11Z5kLeIZ0nmgOu6EgR",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/B11Z5kLeIZ0nmgOu6EgR/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-stop-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-stop-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-stop-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-stop-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-stop",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "DQ2LczuPKKtkFUrD5Ddf",
+        "generation_id": "gen-vid-1782270555-X85uUDViR0TMKl22UpI2",
+        "polling_url": "https://openrouter.ai/api/v1/videos/DQ2LczuPKKtkFUrD5Ddf",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/DQ2LczuPKKtkFUrD5Ddf/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-stop-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-stop-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-stop-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-stop-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-walk-stop",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "yHva69mI3XfoI4HHUUKq",
+        "generation_id": "gen-vid-1782270557-LAHayWjjgxAxdDBtTER4",
+        "polling_url": "https://openrouter.ai/api/v1/videos/yHva69mI3XfoI4HHUUKq",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/yHva69mI3XfoI4HHUUKq/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-walk-stop-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-walk-stop-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-stop-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-walk-stop-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-walk-stop-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-run-loop",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "70ytogi5hfxCLW9nCKnx",
+        "generation_id": "gen-vid-1782270559-DBivXk5Eu6EkcsWigQxp",
+        "polling_url": "https://openrouter.ai/api/v1/videos/70ytogi5hfxCLW9nCKnx",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/70ytogi5hfxCLW9nCKnx/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-run-loop-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-run-loop-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-loop-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-loop-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-run-loop",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "V58eUh0SbVjSXqcPrqn1",
+        "generation_id": "gen-vid-1782270560-HdF5UKyVp614udrQ0mwE",
+        "polling_url": "https://openrouter.ai/api/v1/videos/V58eUh0SbVjSXqcPrqn1",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/V58eUh0SbVjSXqcPrqn1/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-run-loop-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-run-loop-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-loop-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-loop-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-run-loop",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "qdJOXNcnCu46HQvsz1Hp",
+        "generation_id": "gen-vid-1782270562-PenKmovC06k7EvBcmzHH",
+        "polling_url": "https://openrouter.ai/api/v1/videos/qdJOXNcnCu46HQvsz1Hp",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/qdJOXNcnCu46HQvsz1Hp/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-run-loop-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-run-loop-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-loop-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-loop-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-loop-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-run-stop",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "sW8YcJqO7bXxOBq0p5Ah",
+        "generation_id": "gen-vid-1782270565-Vs9w67tX7wWwm3JaDrfI",
+        "polling_url": "https://openrouter.ai/api/v1/videos/sW8YcJqO7bXxOBq0p5Ah",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/sW8YcJqO7bXxOBq0p5Ah/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-run-stop-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-run-stop-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-stop-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-stop-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-run-stop",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "qZQ7yv4ne1cVmLmJfBTv",
+        "generation_id": "gen-vid-1782270567-T42EzMH3gXEiRLgeDmbW",
+        "polling_url": "https://openrouter.ai/api/v1/videos/qZQ7yv4ne1cVmLmJfBTv",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/qZQ7yv4ne1cVmLmJfBTv/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-run-stop-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-run-stop-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-stop-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-stop-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-run-stop",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "6Yz5dOv0GgnepV3kWO65",
+        "generation_id": "gen-vid-1782270569-Nras2n8vGPV5gGyDQm4A",
+        "polling_url": "https://openrouter.ai/api/v1/videos/6Yz5dOv0GgnepV3kWO65",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/6Yz5dOv0GgnepV3kWO65/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-run-stop-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-run-stop-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-stop-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-run-stop-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-run-stop-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-jump",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "DDma5m5rje32GE5u3iqK",
+        "generation_id": "gen-vid-1782270571-cois6D85vcRSiK71BrBe",
+        "polling_url": "https://openrouter.ai/api/v1/videos/DDma5m5rje32GE5u3iqK",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/DDma5m5rje32GE5u3iqK/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-jump-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-jump-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-jump-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-jump-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-jump",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "toct5NKPCP11q3BR0R4j",
+        "generation_id": "gen-vid-1782270574-Hq9v988yuaUAJZuMXGi8",
+        "polling_url": "https://openrouter.ai/api/v1/videos/toct5NKPCP11q3BR0R4j",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/toct5NKPCP11q3BR0R4j/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-jump-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-jump-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-jump-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-jump-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-jump",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "W1S30H64i4Ut0bzzq401",
+        "generation_id": "gen-vid-1782270576-u4N0tG3HTMjzdXbLjP8k",
+        "polling_url": "https://openrouter.ai/api/v1/videos/W1S30H64i4Ut0bzzq401",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/W1S30H64i4Ut0bzzq401/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-jump-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-jump-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-jump-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-jump-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-jump-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-fall",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "fonyF0JwsednT5y8RWpl",
+        "generation_id": "gen-vid-1782270579-CXntAdZCpAUys4iWPTsq",
+        "polling_url": "https://openrouter.ai/api/v1/videos/fonyF0JwsednT5y8RWpl",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/fonyF0JwsednT5y8RWpl/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-fall-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-fall-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fall-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fall-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-fall",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "6YqcEMhKW9xnTFPR2T1N",
+        "generation_id": "gen-vid-1782270581-zxTQf37Umd7s7WThWxaS",
+        "polling_url": "https://openrouter.ai/api/v1/videos/6YqcEMhKW9xnTFPR2T1N",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/6YqcEMhKW9xnTFPR2T1N/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-fall-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-fall-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fall-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fall-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-fall",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "3saYWa3CDuXRTFwOsHUN",
+        "generation_id": "gen-vid-1782270584-ltkXTOiwDTagvRqP8cop",
+        "polling_url": "https://openrouter.ai/api/v1/videos/3saYWa3CDuXRTFwOsHUN",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/3saYWa3CDuXRTFwOsHUN/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-fall-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-fall-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fall-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fall-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fall-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-duck",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "ytZ0epx547lZHhPZFBls",
+        "generation_id": "gen-vid-1782270586-Zn1cormbi5NOckza8qGI",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ytZ0epx547lZHhPZFBls",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ytZ0epx547lZHhPZFBls/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-duck-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-duck-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-duck-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-duck-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-duck",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "pSWkIjdq1nXuY1ZX29FO",
+        "generation_id": "gen-vid-1782270588-UPo1FKbkTYIv2EuWpDf6",
+        "polling_url": "https://openrouter.ai/api/v1/videos/pSWkIjdq1nXuY1ZX29FO",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/pSWkIjdq1nXuY1ZX29FO/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-duck-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-duck-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-duck-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-duck-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-duck-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-sideways",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "JsJdHLkVdMsgPp4brbD2",
+        "generation_id": "gen-vid-1782270589-olJAKvB3JrLWDDmZNj8D",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JsJdHLkVdMsgPp4brbD2",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/JsJdHLkVdMsgPp4brbD2/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-sideways-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-sideways-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-sideways-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-sideways-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-sideways",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "19amFxdCQzOW5W92ARrm",
+        "generation_id": "gen-vid-1782270592-cd5UCUT2riDwPFmCZUFL",
+        "polling_url": "https://openrouter.ai/api/v1/videos/19amFxdCQzOW5W92ARrm",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/19amFxdCQzOW5W92ARrm/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-sideways-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-sideways-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-sideways-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-sideways-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-sideways",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "qNZuyumiSvxqL6L7Ivmm",
+        "generation_id": "gen-vid-1782270595-7BGaq6sugFggCsQguYkt",
+        "polling_url": "https://openrouter.ai/api/v1/videos/qNZuyumiSvxqL6L7Ivmm",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/qNZuyumiSvxqL6L7Ivmm/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-sideways-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-sideways-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-sideways-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-sideways-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-sideways-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-down",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "c7bEHcM5q6sy6D6D5teO",
+        "generation_id": "gen-vid-1782270597-3jxKSN0GRjBqCahOJZLH",
+        "polling_url": "https://openrouter.ai/api/v1/videos/c7bEHcM5q6sy6D6D5teO",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/c7bEHcM5q6sy6D6D5teO/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-down-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-down-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-down-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-down-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-down",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "137M0HpCgxaPSrdLPwUU",
+        "generation_id": "gen-vid-1782270599-XjAy01LrFOrbWIA7JuQr",
+        "polling_url": "https://openrouter.ai/api/v1/videos/137M0HpCgxaPSrdLPwUU",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/137M0HpCgxaPSrdLPwUU/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-down-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-down-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-down-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-down-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-down",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "oxFmK4FLVXMcUD52AEel",
+        "generation_id": "gen-vid-1782270602-GLl5uzgqy5JSv57ThQsE",
+        "polling_url": "https://openrouter.ai/api/v1/videos/oxFmK4FLVXMcUD52AEel",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/oxFmK4FLVXMcUD52AEel/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-down-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-down-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-down-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-down-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-down-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-up",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "D92dJtJN0pgH3L1b7ral",
+        "generation_id": "gen-vid-1782270605-cA55uu7lVLms3uUF3FMZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/D92dJtJN0pgH3L1b7ral",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/D92dJtJN0pgH3L1b7ral/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-up-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-up-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-up",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "FGDcrgIUL9g0JRMPfVcY",
+        "generation_id": "gen-vid-1782270606-eU1ztLOU1wYfwuiYdhlO",
+        "polling_url": "https://openrouter.ai/api/v1/videos/FGDcrgIUL9g0JRMPfVcY",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/FGDcrgIUL9g0JRMPfVcY/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-up-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-up-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-up",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "KfL4OqRvAxMxvMGM3hpu",
+        "generation_id": "gen-vid-1782270609-L8hmnlgdFH67ioOalLAg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/KfL4OqRvAxMxvMGM3hpu",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/KfL4OqRvAxMxvMGM3hpu/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-up-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-up-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-02",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-02-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-02/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-up-sideways",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "S61Pgq5Ik3fthRhSazxZ",
+        "generation_id": "gen-vid-1782270612-BQYK4fwmAJD3CyCLJyab",
+        "polling_url": "https://openrouter.ai/api/v1/videos/S61Pgq5Ik3fthRhSazxZ",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/S61Pgq5Ik3fthRhSazxZ/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-up-sideways-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-up-sideways-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-sideways-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-sideways-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-dig-up-sideways",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "xv61Blu59gJz74A7YSCI",
+        "generation_id": "gen-vid-1782270614-C6vyh8BykNJtSgPjN7EK",
+        "polling_url": "https://openrouter.ai/api/v1/videos/xv61Blu59gJz74A7YSCI",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/xv61Blu59gJz74A7YSCI/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-dig-up-sideways-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-dig-up-sideways-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-sideways-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-dig-up-sideways-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-dig-up-sideways-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-wall-push",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "meesYyA1Gvu5w4Xzk7Zd",
+        "generation_id": "gen-vid-1782270616-734ux5TO7XPcs6LwpVwF",
+        "polling_url": "https://openrouter.ai/api/v1/videos/meesYyA1Gvu5w4Xzk7Zd",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/meesYyA1Gvu5w4Xzk7Zd/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-wall-push-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-wall-push-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-wall-push-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-wall-push-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-wall-push",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "gdAGJaSe9srQpyL34SLu",
+        "generation_id": "gen-vid-1782270617-5kO11VuxYMDe0FFbQZMX",
+        "polling_url": "https://openrouter.ai/api/v1/videos/gdAGJaSe9srQpyL34SLu",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/gdAGJaSe9srQpyL34SLu/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-wall-push-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-wall-push-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-wall-push-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-wall-push-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-wall-push-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-climb",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "n6VKApMkDnR9wbqZ6ZJ1",
+        "generation_id": "gen-vid-1782270620-6bFPmJkjh56TE7hp5fG6",
+        "polling_url": "https://openrouter.ai/api/v1/videos/n6VKApMkDnR9wbqZ6ZJ1",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/n6VKApMkDnR9wbqZ6ZJ1/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-climb-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-climb-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-climb-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-climb-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-climb",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "uCvt8vdXKEHF2YZNGfNr",
+        "generation_id": "gen-vid-1782270622-SlgOAKPjuJ6t3058Ssxc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/uCvt8vdXKEHF2YZNGfNr",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/uCvt8vdXKEHF2YZNGfNr/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-climb-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-climb-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-climb-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-climb-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-climb-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-fly-climb",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "UCw9mhxhCxyrZvxWqXSr",
+        "generation_id": "gen-vid-1782270624-uv8q1STdjpjdwNLiiitc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/UCw9mhxhCxyrZvxWqXSr",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/UCw9mhxhCxyrZvxWqXSr/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-fly-climb-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-fly-climb-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fly-climb-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fly-climb-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-fly-climb",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "higZBaMkYdXklxZtplDR",
+        "generation_id": "gen-vid-1782270626-ks79qYgPrynf0n1pI9xc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/higZBaMkYdXklxZtplDR",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/higZBaMkYdXklxZtplDR/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-fly-climb-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-fly-climb-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fly-climb-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-fly-climb-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-fly-climb-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-attack-down",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "7mWLTtAQByHXHsLy6K0A",
+        "generation_id": "gen-vid-1782270628-NvRPMPzo55yNgv0oJi9e",
+        "polling_url": "https://openrouter.ai/api/v1/videos/7mWLTtAQByHXHsLy6K0A",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/7mWLTtAQByHXHsLy6K0A/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-attack-down-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-attack-down-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-attack-down-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-attack-down-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-attack-down",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "UaKJpzbNm3Ewf8Fd17Et",
+        "generation_id": "gen-vid-1782270630-p5i7Pcsr7HnsVCsG8kiB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/UaKJpzbNm3Ewf8Fd17Et",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/UaKJpzbNm3Ewf8Fd17Et/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-attack-down-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-attack-down-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-attack-down-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-attack-down-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-attack-down-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-quickslash",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "o4wglShjNyF3dODkZ0OJ",
+        "generation_id": "gen-vid-1782270633-UNN5YAoPlAFjNlHXHeI4",
+        "polling_url": "https://openrouter.ai/api/v1/videos/o4wglShjNyF3dODkZ0OJ",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/o4wglShjNyF3dODkZ0OJ/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-quickslash-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-quickslash-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-quickslash-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-quickslash-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-quickslash",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "zBAftKQW5FfWuLPO9ILp",
+        "generation_id": "gen-vid-1782270635-mqKlYYufjyxZEDNUKYdc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/zBAftKQW5FfWuLPO9ILp",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/zBAftKQW5FfWuLPO9ILp/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-quickslash-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-quickslash-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-quickslash-01",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-quickslash-01-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-quickslash-01/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-thunder-charge",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "GG2gIsGA4B9hwpsl0kR3",
+        "generation_id": "gen-vid-1782270637-N0qVhAEBgfbCS8k3uyda",
+        "polling_url": "https://openrouter.ai/api/v1/videos/GG2gIsGA4B9hwpsl0kR3",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/GG2gIsGA4B9hwpsl0kR3/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-thunder-charge-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-thunder-charge-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-thunder-charge-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-thunder-charge-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-thunder-charge-00/anchor-report.json"
+      }
+    },
+    {
+      "target": "robot-combat-idle-recover",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "dnXMKjQsJC1MBemlWBts",
+        "generation_id": "gen-vid-1782270639-Ycq3PSkOdDnf8J3iKgOT",
+        "polling_url": "https://openrouter.ai/api/v1/videos/dnXMKjQsJC1MBemlWBts",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/dnXMKjQsJC1MBemlWBts/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/videos/robot-combat-idle-recover-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/extracted-frames/robot-combat-idle-recover-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-grok-reference-contact-sheet.png",
+        "anchoredFramesDir": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-combat-idle-recover-00",
+        "anchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-anchored-candidate-slowmo.gif",
+        "anchoredOverlayPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-anchored-candidate-overlay-slowmo.gif",
+        "anchoredContactSheet": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-anchored-candidate-contact-sheet.png",
+        "rawVsAnchoredPreview": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/reviews/robot-combat-idle-recover-00-raw-vs-anchored-slowmo.gif",
+        "anchorReport": "sprites/character/character-v8/openrouter-lab/grok-box-robot-5eur-20260624/anchored-frames/robot-combat-idle-recover-00/anchor-report.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# Lighting
+
+Game system — lighting.

@@ -1,0 +1,993 @@
+{
+  "runId": "grok-followup-smart-001",
+  "results": [
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "0Jvfmcxxw0ytYJbRa1xA",
+        "generation_id": "gen-vid-1782265820-ei0gzqyGDuaTbPsA89K3",
+        "polling_url": "https://openrouter.ai/api/v1/videos/0Jvfmcxxw0ytYJbRa1xA",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/0Jvfmcxxw0ytYJbRa1xA/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "TWfAhDiIEFDoUDaltf1n",
+        "generation_id": "gen-vid-1782265823-2l2VemSulCGGxcswdDzM",
+        "polling_url": "https://openrouter.ai/api/v1/videos/TWfAhDiIEFDoUDaltf1n",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/TWfAhDiIEFDoUDaltf1n/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "sGqYbRc7u6STFzVOEYTa",
+        "generation_id": "gen-vid-1782265826-aXY6GSoiUUhVCffk8J2L",
+        "polling_url": "https://openrouter.ai/api/v1/videos/sGqYbRc7u6STFzVOEYTa",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/sGqYbRc7u6STFzVOEYTa/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "fVhk34I0VamYCTHTDZWy",
+        "generation_id": "gen-vid-1782265829-lV0nv8XHiKb2t9ys4kj1",
+        "polling_url": "https://openrouter.ai/api/v1/videos/fVhk34I0VamYCTHTDZWy",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/fVhk34I0VamYCTHTDZWy/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "NHbXZbxRUpllF1wT9ZnR",
+        "generation_id": "gen-vid-1782265830-m8kvzaTGt3C793577Lut",
+        "polling_url": "https://openrouter.ai/api/v1/videos/NHbXZbxRUpllF1wT9ZnR",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/NHbXZbxRUpllF1wT9ZnR/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "CQDQ2QL0XUNw28tRXsxN",
+        "generation_id": "gen-vid-1782265832-YuCXDjTArm5R9piEqSTe",
+        "polling_url": "https://openrouter.ai/api/v1/videos/CQDQ2QL0XUNw28tRXsxN",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/CQDQ2QL0XUNw28tRXsxN/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 6,
+      "status": "completed",
+      "poll": {
+        "id": "Dvkp64Gm7PLQuOVOQzIG",
+        "generation_id": "gen-vid-1782265835-eA5ZbXNWeggg8CY5DUge",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Dvkp64Gm7PLQuOVOQzIG",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/Dvkp64Gm7PLQuOVOQzIG/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-06.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-06",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-06-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-06-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-06-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 7,
+      "status": "completed",
+      "poll": {
+        "id": "sxPmOyhgxdu2iGDmLs8i",
+        "generation_id": "gen-vid-1782265838-9lUBJXBpiVTzfyCfri8H",
+        "polling_url": "https://openrouter.ai/api/v1/videos/sxPmOyhgxdu2iGDmLs8i",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/sxPmOyhgxdu2iGDmLs8i/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-07.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-07",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-07-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-07-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-07-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 8,
+      "status": "completed",
+      "poll": {
+        "id": "nzR7HM40j9QOjK1SXOuv",
+        "generation_id": "gen-vid-1782265841-kW90PoYSezsd1nq35HjH",
+        "polling_url": "https://openrouter.ai/api/v1/videos/nzR7HM40j9QOjK1SXOuv",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/nzR7HM40j9QOjK1SXOuv/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-08.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-08",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-08-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-08-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-08-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 9,
+      "status": "completed",
+      "poll": {
+        "id": "T3l33KIFb5n9MDJUW5sx",
+        "generation_id": "gen-vid-1782265842-6xFcKH4cBsrac72gkOQB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/T3l33KIFb5n9MDJUW5sx",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/T3l33KIFb5n9MDJUW5sx/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-09.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-09",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-09-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-09-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-09-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 10,
+      "status": "completed",
+      "poll": {
+        "id": "7w4NnUeATwKwihelLcCV",
+        "generation_id": "gen-vid-1782265845-QlenY9OxXdfyiLfYMp8g",
+        "polling_url": "https://openrouter.ai/api/v1/videos/7w4NnUeATwKwihelLcCV",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/7w4NnUeATwKwihelLcCV/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-10.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-10",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-10-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-10-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-10-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 11,
+      "status": "completed",
+      "poll": {
+        "id": "yBNlBr0xgUNLc42iywhm",
+        "generation_id": "gen-vid-1782265847-RTSo1UdGRe511OMbD2gF",
+        "polling_url": "https://openrouter.ai/api/v1/videos/yBNlBr0xgUNLc42iywhm",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/yBNlBr0xgUNLc42iywhm/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/walk-wind-up-to-walk-loop-11.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/walk-wind-up-to-walk-loop-11",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-11-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-11-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/walk-wind-up-to-walk-loop-11-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "32yFVuUo1Qeav4C2BjS5",
+        "generation_id": "gen-vid-1782265849-Zs8TQAgKISw0wTzEWWzl",
+        "polling_url": "https://openrouter.ai/api/v1/videos/32yFVuUo1Qeav4C2BjS5",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/32yFVuUo1Qeav4C2BjS5/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "L9wpushZ7soCCcdUeHsH",
+        "generation_id": "gen-vid-1782265852-CWGwJRNQac07RPUVM1cu",
+        "polling_url": "https://openrouter.ai/api/v1/videos/L9wpushZ7soCCcdUeHsH",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/L9wpushZ7soCCcdUeHsH/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "ioue0wuHZflxDuNhfV4g",
+        "generation_id": "gen-vid-1782265854-83VdVqjvFYqT11Ol8RCe",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ioue0wuHZflxDuNhfV4g",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ioue0wuHZflxDuNhfV4g/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "XZfc3zAnIJIdnIPe7WSD",
+        "generation_id": "gen-vid-1782265857-kYYhabMoXG7rycWDy5LD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/XZfc3zAnIJIdnIPe7WSD",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/XZfc3zAnIJIdnIPe7WSD/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "XY70fpMcv0TCJykaVvVX",
+        "generation_id": "gen-vid-1782265860-v9V9e2Kc0CwmUScJ986G",
+        "polling_url": "https://openrouter.ai/api/v1/videos/XY70fpMcv0TCJykaVvVX",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/XY70fpMcv0TCJykaVvVX/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "HBAAsUeX8ZEG15wAFVkB",
+        "generation_id": "gen-vid-1782265861-dZchRHTNiZBreP6Mb7Bg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/HBAAsUeX8ZEG15wAFVkB",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/HBAAsUeX8ZEG15wAFVkB/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 6,
+      "status": "completed",
+      "poll": {
+        "id": "dPDjK8kYUfzLKZ4QkriT",
+        "generation_id": "gen-vid-1782265864-VP1lOTPv5t9Y3zj5Ehmp",
+        "polling_url": "https://openrouter.ai/api/v1/videos/dPDjK8kYUfzLKZ4QkriT",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/dPDjK8kYUfzLKZ4QkriT/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-06.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-06",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-06-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-06-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-06-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 7,
+      "status": "completed",
+      "poll": {
+        "id": "F0J5aYWDE7uxqyfPRHty",
+        "generation_id": "gen-vid-1782265867-o86uiqzKaP5N7QQJYTqo",
+        "polling_url": "https://openrouter.ai/api/v1/videos/F0J5aYWDE7uxqyfPRHty",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/F0J5aYWDE7uxqyfPRHty/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-07.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-07",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-07-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-07-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-07-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 8,
+      "status": "completed",
+      "poll": {
+        "id": "V7QWU3u3M0zVVAseERod",
+        "generation_id": "gen-vid-1782265868-9plxlPSl5QyjzwM7s2xf",
+        "polling_url": "https://openrouter.ai/api/v1/videos/V7QWU3u3M0zVVAseERod",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/V7QWU3u3M0zVVAseERod/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-08.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-08",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-08-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-08-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-08-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 9,
+      "status": "completed",
+      "poll": {
+        "id": "SXYAPbA8oJQ4wojlffVs",
+        "generation_id": "gen-vid-1782265871-qdr41O7hSi75IYNjTQZl",
+        "polling_url": "https://openrouter.ai/api/v1/videos/SXYAPbA8oJQ4wojlffVs",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/SXYAPbA8oJQ4wojlffVs/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/combat-idle-to-normal-idle-09.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/combat-idle-to-normal-idle-09",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-09-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-09-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/combat-idle-to-normal-idle-09-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "EmxYnAnY2hszQCHx47cy",
+        "generation_id": "gen-vid-1782265873-YPJ15z5qUMnZlZ0sq7Zj",
+        "polling_url": "https://openrouter.ai/api/v1/videos/EmxYnAnY2hszQCHx47cy",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/EmxYnAnY2hszQCHx47cy/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "TrVcv7zr3MNxYVZqCOtR",
+        "generation_id": "gen-vid-1782265876-02FN9bXgxmFofNWVZEO3",
+        "polling_url": "https://openrouter.ai/api/v1/videos/TrVcv7zr3MNxYVZqCOtR",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/TrVcv7zr3MNxYVZqCOtR/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "JOfIz4HsosR6ZQ4pIr0l",
+        "generation_id": "gen-vid-1782265878-23zd0LI4ssrpILVQMigS",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JOfIz4HsosR6ZQ4pIr0l",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/JOfIz4HsosR6ZQ4pIr0l/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "pNlAVV3LaAozK7cHbycu",
+        "generation_id": "gen-vid-1782265881-Kk2gIcKJ8LzPL3VUkvBR",
+        "polling_url": "https://openrouter.ai/api/v1/videos/pNlAVV3LaAozK7cHbycu",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/pNlAVV3LaAozK7cHbycu/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "AdIyHGKPG8WseF6IlJv5",
+        "generation_id": "gen-vid-1782265883-GXCLaIwVYVTsNiHH8wGT",
+        "polling_url": "https://openrouter.ai/api/v1/videos/AdIyHGKPG8WseF6IlJv5",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/AdIyHGKPG8WseF6IlJv5/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "fmmPd6VNccxoJJ5lncBE",
+        "generation_id": "gen-vid-1782265885-28mp9Pxkdf42ImuaC9HZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/fmmPd6VNccxoJJ5lncBE",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/fmmPd6VNccxoJJ5lncBE/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 6,
+      "status": "completed",
+      "poll": {
+        "id": "2ycyut6CCBpPg6CSyIRb",
+        "generation_id": "gen-vid-1782265886-UR30dtJkdDvmYVF6lZgG",
+        "polling_url": "https://openrouter.ai/api/v1/videos/2ycyut6CCBpPg6CSyIRb",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/2ycyut6CCBpPg6CSyIRb/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-06.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-06",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-06-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-06-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-06-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 7,
+      "status": "completed",
+      "poll": {
+        "id": "R54j7H1e0Irsma7mzTd3",
+        "generation_id": "gen-vid-1782265888-vLtJ3n65Vog9cT99nxwc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/R54j7H1e0Irsma7mzTd3",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/R54j7H1e0Irsma7mzTd3/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/dig-sideways-v8-combo-07.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/dig-sideways-v8-combo-07",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-07-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-07-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/dig-sideways-v8-combo-07-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "BWmWzikgumbTmIPcpjRP",
+        "generation_id": "gen-vid-1782265891-R5EbNkUFMm0F3mAwDXdh",
+        "polling_url": "https://openrouter.ai/api/v1/videos/BWmWzikgumbTmIPcpjRP",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/BWmWzikgumbTmIPcpjRP/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/wall-push-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/wall-push-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "SHksmDQd3pEEkDMXllJL",
+        "generation_id": "gen-vid-1782265893-YPVoF3npXEWLm9ShvLEw",
+        "polling_url": "https://openrouter.ai/api/v1/videos/SHksmDQd3pEEkDMXllJL",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/SHksmDQd3pEEkDMXllJL/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/wall-push-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/wall-push-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "14eAVfvVNV7M9TX88yRV",
+        "generation_id": "gen-vid-1782265896-ntKCuUUOWNdtbtXdVqoc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/14eAVfvVNV7M9TX88yRV",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/14eAVfvVNV7M9TX88yRV/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/wall-push-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/wall-push-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "0TSqPrUILPyy9rG4AJtX",
+        "generation_id": "gen-vid-1782265898-yfQ5QIVvkFEw4RUXdQFJ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/0TSqPrUILPyy9rG4AJtX",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/0TSqPrUILPyy9rG4AJtX/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/wall-push-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/wall-push-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "ZjwoOwnLIjLAXaSHPKVj",
+        "generation_id": "gen-vid-1782265901-PUtcSaqwsaoOqpyfF9ab",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ZjwoOwnLIjLAXaSHPKVj",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ZjwoOwnLIjLAXaSHPKVj/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/wall-push-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/wall-push-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "bQaGt0dV02v6XRgckFgD",
+        "generation_id": "gen-vid-1782265903-7OfouQmYAzaBHa7Nz66A",
+        "polling_url": "https://openrouter.ai/api/v1/videos/bQaGt0dV02v6XRgckFgD",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/bQaGt0dV02v6XRgckFgD/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/wall-push-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/wall-push-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/wall-push-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "best-of-polish",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "Oj7PpQc4qlCG9ZtW0N2J",
+        "generation_id": "gen-vid-1782265905-YyqlNhsOl2zmAz7KmHUc",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Oj7PpQc4qlCG9ZtW0N2J",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/Oj7PpQc4qlCG9ZtW0N2J/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.142,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/best-of-polish-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/best-of-polish-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/best-of-polish-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/best-of-polish-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/best-of-polish-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "best-of-polish",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "f1uEh1QAOz8Gt5dCMLyl",
+        "generation_id": "gen-vid-1782265906-pwUfUYjhnqZ3NmunQ7Ko",
+        "polling_url": "https://openrouter.ai/api/v1/videos/f1uEh1QAOz8Gt5dCMLyl",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/f1uEh1QAOz8Gt5dCMLyl/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.142,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/videos/best-of-polish-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/extracted-frames/best-of-polish-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/best-of-polish-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/best-of-polish-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-followup-smart-001/reviews/best-of-polish-01-grok-reference-contact-sheet.png"
+      }
+    }
+  ]
+}

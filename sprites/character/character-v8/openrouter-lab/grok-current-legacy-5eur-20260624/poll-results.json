@@ -1,0 +1,1279 @@
+{
+  "runId": "grok-current-legacy-5eur-20260624",
+  "results": [
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "TQjXvMUy1jKZ0FW4O5qG",
+        "generation_id": "gen-vid-1782270235-iiS42J7iobceatcy21to",
+        "polling_url": "https://openrouter.ai/api/v1/videos/TQjXvMUy1jKZ0FW4O5qG",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/TQjXvMUy1jKZ0FW4O5qG/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "zgtqY7NuYXghpiw0FNpJ",
+        "generation_id": "gen-vid-1782270237-lP1zMzuOJXY39GCkpEOA",
+        "polling_url": "https://openrouter.ai/api/v1/videos/zgtqY7NuYXghpiw0FNpJ",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/zgtqY7NuYXghpiw0FNpJ/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "KWgZfLFmjxH64gMN9Oyy",
+        "generation_id": "gen-vid-1782270240-a1rgLWYOS9tMvK9sw9Gy",
+        "polling_url": "https://openrouter.ai/api/v1/videos/KWgZfLFmjxH64gMN9Oyy",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/KWgZfLFmjxH64gMN9Oyy/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "3n8dkrR7jJebjJ3nn2xm",
+        "generation_id": "gen-vid-1782270244-f8BL36cg8P4XEP3DMIdf",
+        "polling_url": "https://openrouter.ai/api/v1/videos/3n8dkrR7jJebjJ3nn2xm",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/3n8dkrR7jJebjJ3nn2xm/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "ZNIZcsJFitEeiwEdh2qx",
+        "generation_id": "gen-vid-1782270246-IchdCmQJ571yTKJm6q0l",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ZNIZcsJFitEeiwEdh2qx",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ZNIZcsJFitEeiwEdh2qx/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "ZNwFQfPE5WwUPwpJ9UEA",
+        "generation_id": "gen-vid-1782270248-HGMYgn6Rexa3HuIPYhZB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ZNwFQfPE5WwUPwpJ9UEA",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ZNwFQfPE5WwUPwpJ9UEA/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-accelerate-03",
+      "index": 6,
+      "status": "completed",
+      "poll": {
+        "id": "DMrLJWFjA28cJjxPH16f",
+        "generation_id": "gen-vid-1782270251-6zFS4oeCqse2TJycryJT",
+        "polling_url": "https://openrouter.ai/api/v1/videos/DMrLJWFjA28cJjxPH16f",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/DMrLJWFjA28cJjxPH16f/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-accelerate-03-06.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-accelerate-03-06",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-06-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-06-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-accelerate-03-06-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "QVkBRBkoxUPwIaXdnPW3",
+        "generation_id": "gen-vid-1782270254-UzEb44RkNaIpsyu182Av",
+        "polling_url": "https://openrouter.ai/api/v1/videos/QVkBRBkoxUPwIaXdnPW3",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/QVkBRBkoxUPwIaXdnPW3/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "yZYx0yHhvhcq5WPWmfKF",
+        "generation_id": "gen-vid-1782270256-r3n79eQlqJlljdngeX9r",
+        "polling_url": "https://openrouter.ai/api/v1/videos/yZYx0yHhvhcq5WPWmfKF",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/yZYx0yHhvhcq5WPWmfKF/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "k1j9KJtcYpxNaY4IkjXT",
+        "generation_id": "gen-vid-1782270259-tZC8UFpl4qbYFgufbnFt",
+        "polling_url": "https://openrouter.ai/api/v1/videos/k1j9KJtcYpxNaY4IkjXT",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/k1j9KJtcYpxNaY4IkjXT/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "mtia4gdy7lFHR2CxYkqp",
+        "generation_id": "gen-vid-1782270262-jAexxPyNNMDBQJg2zvWu",
+        "polling_url": "https://openrouter.ai/api/v1/videos/mtia4gdy7lFHR2CxYkqp",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/mtia4gdy7lFHR2CxYkqp/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "ekkrIyCZWlGqj5YqHO8a",
+        "generation_id": "gen-vid-1782270264-pSOvkwHuf9AoWjv0lJDR",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ekkrIyCZWlGqj5YqHO8a",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ekkrIyCZWlGqj5YqHO8a/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "Zv6sd4Q1rBE5w4Ql2OI4",
+        "generation_id": "gen-vid-1782270267-F33G2q5UHy0L7p68xDxO",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Zv6sd4Q1rBE5w4Ql2OI4",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/Zv6sd4Q1rBE5w4Ql2OI4/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-07",
+      "index": 6,
+      "status": "completed",
+      "poll": {
+        "id": "BnMgr8h24F1mlHOLEBtF",
+        "generation_id": "gen-vid-1782270269-iNwVbJJIsMImmq0wIghY",
+        "polling_url": "https://openrouter.ai/api/v1/videos/BnMgr8h24F1mlHOLEBtF",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/BnMgr8h24F1mlHOLEBtF/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-07-06.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-07-06",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-06-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-06-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-07-06-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-09",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "39XdoKhWJ9aTIqyYCFXz",
+        "generation_id": "gen-vid-1782270272-5jMq7igvSupZnxMuI5Pn",
+        "polling_url": "https://openrouter.ai/api/v1/videos/39XdoKhWJ9aTIqyYCFXz",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/39XdoKhWJ9aTIqyYCFXz/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-09-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-09-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-09",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "YvUJt2wCgY7Axw6WAQ4F",
+        "generation_id": "gen-vid-1782270275-nXgbJY2gTtvsuCsWZbvE",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YvUJt2wCgY7Axw6WAQ4F",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/YvUJt2wCgY7Axw6WAQ4F/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-09-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-09-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-09",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "rUL6xWKW39C81EpgPgWn",
+        "generation_id": "gen-vid-1782270278-Fc2UqElC0iq0FSWEh1Lg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/rUL6xWKW39C81EpgPgWn",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/rUL6xWKW39C81EpgPgWn/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-09-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-09-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-09",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "qI6KZxarj7fec77yb5T3",
+        "generation_id": "gen-vid-1782270280-hOyt9v7tglkI2agArAsI",
+        "polling_url": "https://openrouter.ai/api/v1/videos/qI6KZxarj7fec77yb5T3",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/qI6KZxarj7fec77yb5T3/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-09-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-09-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-09",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "ZckrKUS6BM5Jc78nSP9V",
+        "generation_id": "gen-vid-1782270282-banXLencwS2xjJXK0Ydd",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ZckrKUS6BM5Jc78nSP9V",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ZckrKUS6BM5Jc78nSP9V/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-09-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-09-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-09",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "4JtBzDoa0o0a95TVZCVG",
+        "generation_id": "gen-vid-1782270284-dqhUJwMI1cLD4KOx4aGW",
+        "polling_url": "https://openrouter.ai/api/v1/videos/4JtBzDoa0o0a95TVZCVG",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/4JtBzDoa0o0a95TVZCVG/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-09-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-09-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-09-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-10",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "gErMHEolzUBXrVrZEaqC",
+        "generation_id": "gen-vid-1782270287-WfbvdyCXghJkYfi51PUJ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/gErMHEolzUBXrVrZEaqC",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/gErMHEolzUBXrVrZEaqC/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-10-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-10-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-10",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "MQSAb0IPomxGwajgPIYf",
+        "generation_id": "gen-vid-1782270289-GXWYuh8wuHGl1zocircV",
+        "polling_url": "https://openrouter.ai/api/v1/videos/MQSAb0IPomxGwajgPIYf",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/MQSAb0IPomxGwajgPIYf/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-10-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-10-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-10",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "P8MGgBhoXn71Y9fNGiso",
+        "generation_id": "gen-vid-1782270291-BeBorKevIKTuYTBK70YZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/P8MGgBhoXn71Y9fNGiso",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/P8MGgBhoXn71Y9fNGiso/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-10-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-10-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-10",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "YLMtMTaHjZmowADnerba",
+        "generation_id": "gen-vid-1782270293-BZFhUTUEDvHDaFSLZGiF",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YLMtMTaHjZmowADnerba",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/YLMtMTaHjZmowADnerba/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-10-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-10-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-10",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "HekbF7Pp80gZyZ3SLnaZ",
+        "generation_id": "gen-vid-1782270296-AHwgEU2Xfs9WcjqL03RB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/HekbF7Pp80gZyZ3SLnaZ",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/HekbF7Pp80gZyZ3SLnaZ/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-10-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-10-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-10",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "SGi4FwU00pNwUfinchmG",
+        "generation_id": "gen-vid-1782270298-KSXG0RLUGRIlnxPaBeE4",
+        "polling_url": "https://openrouter.ai/api/v1/videos/SGi4FwU00pNwUfinchmG",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/SGi4FwU00pNwUfinchmG/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-10-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-10-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-10-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-11",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "n6suV6di6n3avxEpi4GN",
+        "generation_id": "gen-vid-1782270301-vGmTJzVtozeUcaJRP554",
+        "polling_url": "https://openrouter.ai/api/v1/videos/n6suV6di6n3avxEpi4GN",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/n6suV6di6n3avxEpi4GN/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-11-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-11-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-11",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "CEcf7MHGJJQxzhI8ZIaR",
+        "generation_id": "gen-vid-1782270303-T6YuPthYjdnBjWp3JC5w",
+        "polling_url": "https://openrouter.ai/api/v1/videos/CEcf7MHGJJQxzhI8ZIaR",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/CEcf7MHGJJQxzhI8ZIaR/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-11-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-11-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-11",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "3U0IYQal6rJAyiByULlw",
+        "generation_id": "gen-vid-1782270305-a1oSZnX0WwDpZdJUt6YL",
+        "polling_url": "https://openrouter.ai/api/v1/videos/3U0IYQal6rJAyiByULlw",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/3U0IYQal6rJAyiByULlw/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-11-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-11-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-11",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "bxrnGFNk4iCBRZ9uWpnv",
+        "generation_id": "gen-vid-1782270308-M7utgLVQDmz2Q77gnNIm",
+        "polling_url": "https://openrouter.ai/api/v1/videos/bxrnGFNk4iCBRZ9uWpnv",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/bxrnGFNk4iCBRZ9uWpnv/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-11-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-11-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-run-loop-11",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "Jw74u5wm3iYRP3VUXf3T",
+        "generation_id": "gen-vid-1782270309-Q5IBTA0YBwlWo9EFASjg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Jw74u5wm3iYRP3VUXf3T",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/Jw74u5wm3iYRP3VUXf3T/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-run-loop-11-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-run-loop-11-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-run-loop-11-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-decelerate-to-idle-08",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "JMmYRuqZioYK68nON0OL",
+        "generation_id": "gen-vid-1782270311-Rv1wHwiu7GGgzp5Owc4l",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JMmYRuqZioYK68nON0OL",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/JMmYRuqZioYK68nON0OL/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-decelerate-to-idle-08-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-decelerate-to-idle-08-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-decelerate-to-idle-08",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "NQ4hSqdGAdzuuzjvmNcO",
+        "generation_id": "gen-vid-1782270314-6dB7GAxfrJwGrPsEBieI",
+        "polling_url": "https://openrouter.ai/api/v1/videos/NQ4hSqdGAdzuuzjvmNcO",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/NQ4hSqdGAdzuuzjvmNcO/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-decelerate-to-idle-08-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-decelerate-to-idle-08-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-decelerate-to-idle-08",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "GpeXbu3sL2M370jUcVUz",
+        "generation_id": "gen-vid-1782270317-1lOSfRcVvcMWFr54KXGq",
+        "polling_url": "https://openrouter.ai/api/v1/videos/GpeXbu3sL2M370jUcVUz",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/GpeXbu3sL2M370jUcVUz/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-decelerate-to-idle-08-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-decelerate-to-idle-08-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-decelerate-to-idle-08",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "g7TqqwRhZesH4rdE2Za0",
+        "generation_id": "gen-vid-1782270320-8k1BNHPv83LNkz18N03C",
+        "polling_url": "https://openrouter.ai/api/v1/videos/g7TqqwRhZesH4rdE2Za0",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/g7TqqwRhZesH4rdE2Za0/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-decelerate-to-idle-08-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-decelerate-to-idle-08-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-decelerate-to-idle-08",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "wOSkXwnhfZRaDEoeCb6e",
+        "generation_id": "gen-vid-1782270322-0VF6o1xLyJx1jZzaFuYO",
+        "polling_url": "https://openrouter.ai/api/v1/videos/wOSkXwnhfZRaDEoeCb6e",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/wOSkXwnhfZRaDEoeCb6e/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-decelerate-to-idle-08-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-decelerate-to-idle-08-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-decelerate-to-idle-08",
+      "index": 5,
+      "status": "completed",
+      "poll": {
+        "id": "koQw3r7x0VQ7CWOKKV32",
+        "generation_id": "gen-vid-1782270325-xxyv0RqP3MkGUJvknUsY",
+        "polling_url": "https://openrouter.ai/api/v1/videos/koQw3r7x0VQ7CWOKKV32",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/koQw3r7x0VQ7CWOKKV32/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-decelerate-to-idle-08-05.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-decelerate-to-idle-08-05",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-05-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-05-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-decelerate-to-idle-08-05-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-transition-00",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "eE0tM2HNWnUzEqNCNFqc",
+        "generation_id": "gen-vid-1782270327-Le73pORSrbR3sWbX2enH",
+        "polling_url": "https://openrouter.ai/api/v1/videos/eE0tM2HNWnUzEqNCNFqc",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/eE0tM2HNWnUzEqNCNFqc/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-transition-00-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-transition-00-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-transition-00",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "00sz9o6pJmWsbnU22BN4",
+        "generation_id": "gen-vid-1782270329-A8DHqlEju000QCn4BpGU",
+        "polling_url": "https://openrouter.ai/api/v1/videos/00sz9o6pJmWsbnU22BN4",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/00sz9o6pJmWsbnU22BN4/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-transition-00-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-transition-00-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-transition-00",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "4ArCrYpUHqLHrtW0Kchx",
+        "generation_id": "gen-vid-1782270331-v8zo6j8DNlIK51ORsBvU",
+        "polling_url": "https://openrouter.ai/api/v1/videos/4ArCrYpUHqLHrtW0Kchx",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/4ArCrYpUHqLHrtW0Kchx/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-transition-00-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-transition-00-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-walk-transition-00",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "6QE3cbuBW2Xtxe2YIM5w",
+        "generation_id": "gen-vid-1782270334-L849Dmg6rWTJZiSGf6LF",
+        "polling_url": "https://openrouter.ai/api/v1/videos/6QE3cbuBW2Xtxe2YIM5w",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/6QE3cbuBW2Xtxe2YIM5w/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-walk-transition-00-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-walk-transition-00-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-walk-transition-00-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-dig-sideways-single-06",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "h5nLBsHGWPynMJNVW5fO",
+        "generation_id": "gen-vid-1782270337-RCGfLUgrKaynCrcLOXkx",
+        "polling_url": "https://openrouter.ai/api/v1/videos/h5nLBsHGWPynMJNVW5fO",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/h5nLBsHGWPynMJNVW5fO/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-dig-sideways-single-06-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-dig-sideways-single-06-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-dig-sideways-single-06",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "IBJ4rOutUAOlmCaFgeTY",
+        "generation_id": "gen-vid-1782270339-6JJ69jNu7kJPsj3alqan",
+        "polling_url": "https://openrouter.ai/api/v1/videos/IBJ4rOutUAOlmCaFgeTY",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/IBJ4rOutUAOlmCaFgeTY/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-dig-sideways-single-06-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-dig-sideways-single-06-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-dig-sideways-single-06",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "GF1IxOPyaun59lqU9YTX",
+        "generation_id": "gen-vid-1782270342-T38iSCvGr9xEoxEqy5xh",
+        "polling_url": "https://openrouter.ai/api/v1/videos/GF1IxOPyaun59lqU9YTX",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/GF1IxOPyaun59lqU9YTX/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-dig-sideways-single-06-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-dig-sideways-single-06-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-02-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-dig-sideways-single-06",
+      "index": 3,
+      "status": "completed",
+      "poll": {
+        "id": "VOQR7lcZ5yCIASQIm57n",
+        "generation_id": "gen-vid-1782270345-bkXgIE03ndbhpEZU08u7",
+        "polling_url": "https://openrouter.ai/api/v1/videos/VOQR7lcZ5yCIASQIm57n",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/VOQR7lcZ5yCIASQIm57n/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-dig-sideways-single-06-03.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-dig-sideways-single-06-03",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-03-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-03-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-03-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-dig-sideways-single-06",
+      "index": 4,
+      "status": "completed",
+      "poll": {
+        "id": "UbC1CZLfKajR03ZkTk7O",
+        "generation_id": "gen-vid-1782270347-kBQPl1yWkRSlhKFL2EP6",
+        "polling_url": "https://openrouter.ai/api/v1/videos/UbC1CZLfKajR03ZkTk7O",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/UbC1CZLfKajR03ZkTk7O/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-dig-sideways-single-06-04.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-dig-sideways-single-06-04",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-04-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-04-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-dig-sideways-single-06-04-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-edge-look-over-01",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "yNz3ZljzAo34OGXDJOg9",
+        "generation_id": "gen-vid-1782270350-FRy72fSWM0t0iT66cMY2",
+        "polling_url": "https://openrouter.ai/api/v1/videos/yNz3ZljzAo34OGXDJOg9",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/yNz3ZljzAo34OGXDJOg9/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-edge-look-over-01-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-edge-look-over-01-00",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-00-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-00-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-00-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-edge-look-over-01",
+      "index": 1,
+      "status": "completed",
+      "poll": {
+        "id": "lJFLnUBO426fUmnL8q9x",
+        "generation_id": "gen-vid-1782270353-JSBadoNzraWcxvr6SV6u",
+        "polling_url": "https://openrouter.ai/api/v1/videos/lJFLnUBO426fUmnL8q9x",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/lJFLnUBO426fUmnL8q9x/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-edge-look-over-01-01.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-edge-look-over-01-01",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-01-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-01-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-01-grok-reference-contact-sheet.png"
+      }
+    },
+    {
+      "target": "current-edge-look-over-01",
+      "index": 2,
+      "status": "completed",
+      "poll": {
+        "id": "ilB7dRufVCN6EQKXYoRj",
+        "generation_id": "gen-vid-1782270354-MiWdrk5n3rIj3YLmcVeA",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ilB7dRufVCN6EQKXYoRj",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ilB7dRufVCN6EQKXYoRj/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/videos/current-edge-look-over-01-02.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/extracted-frames/current-edge-look-over-01-02",
+      "frameCount": 13,
+      "reviewAssets": {
+        "preview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-02-grok-reference-slowmo.gif",
+        "overlayPreview": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-02-grok-reference-overlay-slowmo.gif",
+        "contactSheet": "sprites/character/character-v8/openrouter-lab/grok-current-legacy-5eur-20260624/reviews/current-edge-look-over-01-02-grok-reference-contact-sheet.png"
+      }
+    }
+  ]
+}

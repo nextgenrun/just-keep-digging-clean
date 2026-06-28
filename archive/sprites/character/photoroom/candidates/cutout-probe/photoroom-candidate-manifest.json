@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "run": "cutout-probe",
+  "probe": true,
+  "createdAt": "2026-06-23T21:58:10",
+  "seed": 20260623,
+  "margin": 24,
+  "api": {
+    "endpoint": "https://image-api.photoroom.com/v2/edit",
+    "enhancer": null,
+    "backgroundRemoval": "removeBackground=true"
+  },
+  "reviewSheet": "visual-approval-previews/photoroom-character/cutout-probe-before-after-contact-sheet.png",
+  "reviewGifs": {
+    "walk": "visual-approval-previews/photoroom-character/cutout-probe-walk-before-after.gif"
+  },
+  "results": [
+    {
+      "id": "walk",
+      "frameCount": 51,
+      "processedFrames": [
+        {
+          "frame": 0,
+          "path": "sprites/character/photoroom/candidates/cutout-probe/frames/walk/frame-000.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 592,
+              "paleSoftRatio": 0.024267
+            },
+            "after": {
+              "visiblePixels": 24072,
+              "paleSoftPixels": 1088,
+              "paleSoftRatio": 0.045198
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 50,
+          "path": "sprites/character/photoroom/candidates/cutout-probe/frames/walk/frame-050.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 588,
+              "paleSoftRatio": 0.024853
+            },
+            "after": {
+              "visiblePixels": 23424,
+              "paleSoftPixels": 1178,
+              "paleSoftRatio": 0.05029
+            },
+            "empty": false
+          }
+        }
+      ],
+      "complete": false
+    }
+  ]
+}

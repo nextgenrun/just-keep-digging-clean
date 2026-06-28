@@ -1,0 +1,234 @@
+{
+  "id": "wall-push",
+  "displayName": "Wall Push",
+  "createdAt": "2026-06-24T04:37:19",
+  "sourceRun": "grok-scout-001",
+  "sourceDirs": [
+    "wall-push-00"
+  ],
+  "notes": "Approved scout wall-push-00; wall-push-01/02 archived by user.",
+  "frameCount": 7,
+  "frameSize": [
+    341,
+    341
+  ],
+  "fps": 8,
+  "runtimeSheet": "sprites/character/character-v8/runtime/wall-push-sheet.webp",
+  "runtimePiskel": "sprites/character/character-v8/runtime/wall-push.piskel",
+  "v8Piskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+  "framesDir": "sprites/character/character-v8/frames/wall-push",
+  "preview": "sprites/character/character-v8/previews/wall-push-approved-scout-slowmo.gif",
+  "overlayPreview": "sprites/character/character-v8/overlays/wall-push-approved-scout-overlay-slowmo.gif",
+  "contactSheet": "sprites/character/character-v8/contact-sheets/wall-push-approved-scout-contact-sheet.png",
+  "sheetGrid": {
+    "columns": 7,
+    "rows": 1,
+    "size": [
+      2387,
+      341
+    ]
+  },
+  "sourceOrder": [
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-000.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-001.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-002.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-003.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-004.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-005.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "wall-push-00",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/wall-push-00/frame-006.png",
+      "archivedInSourceDir": false
+    }
+  ],
+  "analysis": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          91,
+          13,
+          250,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 161.77,
+        "rootAnchorY": 196.88,
+        "rootAnchorPixels": 110,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          48,
+          13,
+          293,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": null,
+        "rootAnchorY": null,
+        "rootAnchorPixels": 0,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          33,
+          13,
+          308,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 152.5,
+        "rootAnchorY": 220.89,
+        "rootAnchorPixels": 160,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          32,
+          13,
+          309,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 153.91,
+        "rootAnchorY": 222.02,
+        "rootAnchorPixels": 153,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          32,
+          13,
+          309,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 153.71,
+        "rootAnchorY": 222.27,
+        "rootAnchorPixels": 159,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          34,
+          13,
+          306,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": 151.77,
+        "rootAnchorY": 219.65,
+        "rootAnchorPixels": 130,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          47,
+          13,
+          293,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": null,
+        "rootAnchorY": null,
+        "rootAnchorPixels": 0,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "bbox-center",
+      "maxBBoxCenterDriftPx": 0.5,
+      "maxRootAnchorDriftPx": 8.06,
+      "maxAnchorDriftPx": 0.5
+    },
+    "clippedFrames": [],
+    "nonTransparentCornerFrames": []
+  }
+}

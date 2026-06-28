@@ -1,0 +1,136 @@
+{
+  "generatedBy": "Codex PIL procedural v3 layered sky generator",
+  "seed": 7331,
+  "layers": {
+    "base": "sky-v3-base.webp",
+    "nebula": "sky-v3-nebula-veil.webp",
+    "aurora": "sky-v3-aurora-ribbons.webp",
+    "horizon": "sky-v3-horizon-glow.webp",
+    "cloudsFar": "sky-v3-clouds-far.webp",
+    "cloudsNear": "sky-v3-clouds-near.webp",
+    "planet1": "sky-v3-planet-1.webp",
+    "planet2": "sky-v3-planet-2.webp"
+  },
+  "validation": {
+    "sky-v3-base.webp": {
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGBA",
+      "transparentCorners": false,
+      "alphaBBox": [
+        0,
+        0,
+        2048,
+        2048
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-nebula-veil.webp": {
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGBA",
+      "transparentCorners": true,
+      "alphaBBox": [
+        0,
+        45,
+        2048,
+        1613
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-aurora-ribbons.webp": {
+      "size": [
+        2048,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparentCorners": true,
+      "alphaBBox": [
+        0,
+        0,
+        2048,
+        692
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-horizon-glow.webp": {
+      "size": [
+        2048,
+        512
+      ],
+      "mode": "RGBA",
+      "transparentCorners": false,
+      "alphaBBox": [
+        0,
+        14,
+        2048,
+        512
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-clouds-far.webp": {
+      "size": [
+        2048,
+        768
+      ],
+      "mode": "RGBA",
+      "transparentCorners": true,
+      "alphaBBox": [
+        0,
+        280,
+        2048,
+        644
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-clouds-near.webp": {
+      "size": [
+        2048,
+        768
+      ],
+      "mode": "RGBA",
+      "transparentCorners": true,
+      "alphaBBox": [
+        0,
+        316,
+        2048,
+        676
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-planet-1.webp": {
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparentCorners": true,
+      "alphaBBox": [
+        46,
+        46,
+        979,
+        979
+      ],
+      "hiddenRgbPixels": 0
+    },
+    "sky-v3-planet-2.webp": {
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparentCorners": true,
+      "alphaBBox": [
+        235,
+        236,
+        790,
+        789
+      ],
+      "hiddenRgbPixels": 0
+    }
+  }
+}

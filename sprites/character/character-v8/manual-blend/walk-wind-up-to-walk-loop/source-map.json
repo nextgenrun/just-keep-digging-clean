@@ -1,0 +1,351 @@
+{
+  "id": "walk-wind-up-to-walk-loop",
+  "fps": 12,
+  "frameSize": [
+    341,
+    341
+  ],
+  "frameCount": 55,
+  "parts": [
+    {
+      "sourceAnimation": "walk-wind-up",
+      "frameCount": 4
+    },
+    {
+      "sourceAnimation": "walk",
+      "frameCount": 51
+    }
+  ],
+  "frames": [
+    {
+      "frame": 0,
+      "sourceAnimation": "walk-wind-up",
+      "sourceFrame": 0,
+      "file": "frames/frame-000.png"
+    },
+    {
+      "frame": 1,
+      "sourceAnimation": "walk-wind-up",
+      "sourceFrame": 1,
+      "file": "frames/frame-001.png"
+    },
+    {
+      "frame": 2,
+      "sourceAnimation": "walk-wind-up",
+      "sourceFrame": 2,
+      "file": "frames/frame-002.png"
+    },
+    {
+      "frame": 3,
+      "sourceAnimation": "walk-wind-up",
+      "sourceFrame": 3,
+      "file": "frames/frame-003.png"
+    },
+    {
+      "frame": 4,
+      "sourceAnimation": "walk",
+      "sourceFrame": 0,
+      "file": "frames/frame-004.png"
+    },
+    {
+      "frame": 5,
+      "sourceAnimation": "walk",
+      "sourceFrame": 1,
+      "file": "frames/frame-005.png"
+    },
+    {
+      "frame": 6,
+      "sourceAnimation": "walk",
+      "sourceFrame": 2,
+      "file": "frames/frame-006.png"
+    },
+    {
+      "frame": 7,
+      "sourceAnimation": "walk",
+      "sourceFrame": 3,
+      "file": "frames/frame-007.png"
+    },
+    {
+      "frame": 8,
+      "sourceAnimation": "walk",
+      "sourceFrame": 4,
+      "file": "frames/frame-008.png"
+    },
+    {
+      "frame": 9,
+      "sourceAnimation": "walk",
+      "sourceFrame": 5,
+      "file": "frames/frame-009.png"
+    },
+    {
+      "frame": 10,
+      "sourceAnimation": "walk",
+      "sourceFrame": 6,
+      "file": "frames/frame-010.png"
+    },
+    {
+      "frame": 11,
+      "sourceAnimation": "walk",
+      "sourceFrame": 7,
+      "file": "frames/frame-011.png"
+    },
+    {
+      "frame": 12,
+      "sourceAnimation": "walk",
+      "sourceFrame": 8,
+      "file": "frames/frame-012.png"
+    },
+    {
+      "frame": 13,
+      "sourceAnimation": "walk",
+      "sourceFrame": 9,
+      "file": "frames/frame-013.png"
+    },
+    {
+      "frame": 14,
+      "sourceAnimation": "walk",
+      "sourceFrame": 10,
+      "file": "frames/frame-014.png"
+    },
+    {
+      "frame": 15,
+      "sourceAnimation": "walk",
+      "sourceFrame": 11,
+      "file": "frames/frame-015.png"
+    },
+    {
+      "frame": 16,
+      "sourceAnimation": "walk",
+      "sourceFrame": 12,
+      "file": "frames/frame-016.png"
+    },
+    {
+      "frame": 17,
+      "sourceAnimation": "walk",
+      "sourceFrame": 13,
+      "file": "frames/frame-017.png"
+    },
+    {
+      "frame": 18,
+      "sourceAnimation": "walk",
+      "sourceFrame": 14,
+      "file": "frames/frame-018.png"
+    },
+    {
+      "frame": 19,
+      "sourceAnimation": "walk",
+      "sourceFrame": 15,
+      "file": "frames/frame-019.png"
+    },
+    {
+      "frame": 20,
+      "sourceAnimation": "walk",
+      "sourceFrame": 16,
+      "file": "frames/frame-020.png"
+    },
+    {
+      "frame": 21,
+      "sourceAnimation": "walk",
+      "sourceFrame": 17,
+      "file": "frames/frame-021.png"
+    },
+    {
+      "frame": 22,
+      "sourceAnimation": "walk",
+      "sourceFrame": 18,
+      "file": "frames/frame-022.png"
+    },
+    {
+      "frame": 23,
+      "sourceAnimation": "walk",
+      "sourceFrame": 19,
+      "file": "frames/frame-023.png"
+    },
+    {
+      "frame": 24,
+      "sourceAnimation": "walk",
+      "sourceFrame": 20,
+      "file": "frames/frame-024.png"
+    },
+    {
+      "frame": 25,
+      "sourceAnimation": "walk",
+      "sourceFrame": 21,
+      "file": "frames/frame-025.png"
+    },
+    {
+      "frame": 26,
+      "sourceAnimation": "walk",
+      "sourceFrame": 22,
+      "file": "frames/frame-026.png"
+    },
+    {
+      "frame": 27,
+      "sourceAnimation": "walk",
+      "sourceFrame": 23,
+      "file": "frames/frame-027.png"
+    },
+    {
+      "frame": 28,
+      "sourceAnimation": "walk",
+      "sourceFrame": 24,
+      "file": "frames/frame-028.png"
+    },
+    {
+      "frame": 29,
+      "sourceAnimation": "walk",
+      "sourceFrame": 25,
+      "file": "frames/frame-029.png"
+    },
+    {
+      "frame": 30,
+      "sourceAnimation": "walk",
+      "sourceFrame": 26,
+      "file": "frames/frame-030.png"
+    },
+    {
+      "frame": 31,
+      "sourceAnimation": "walk",
+      "sourceFrame": 27,
+      "file": "frames/frame-031.png"
+    },
+    {
+      "frame": 32,
+      "sourceAnimation": "walk",
+      "sourceFrame": 28,
+      "file": "frames/frame-032.png"
+    },
+    {
+      "frame": 33,
+      "sourceAnimation": "walk",
+      "sourceFrame": 29,
+      "file": "frames/frame-033.png"
+    },
+    {
+      "frame": 34,
+      "sourceAnimation": "walk",
+      "sourceFrame": 30,
+      "file": "frames/frame-034.png"
+    },
+    {
+      "frame": 35,
+      "sourceAnimation": "walk",
+      "sourceFrame": 31,
+      "file": "frames/frame-035.png"
+    },
+    {
+      "frame": 36,
+      "sourceAnimation": "walk",
+      "sourceFrame": 32,
+      "file": "frames/frame-036.png"
+    },
+    {
+      "frame": 37,
+      "sourceAnimation": "walk",
+      "sourceFrame": 33,
+      "file": "frames/frame-037.png"
+    },
+    {
+      "frame": 38,
+      "sourceAnimation": "walk",
+      "sourceFrame": 34,
+      "file": "frames/frame-038.png"
+    },
+    {
+      "frame": 39,
+      "sourceAnimation": "walk",
+      "sourceFrame": 35,
+      "file": "frames/frame-039.png"
+    },
+    {
+      "frame": 40,
+      "sourceAnimation": "walk",
+      "sourceFrame": 36,
+      "file": "frames/frame-040.png"
+    },
+    {
+      "frame": 41,
+      "sourceAnimation": "walk",
+      "sourceFrame": 37,
+      "file": "frames/frame-041.png"
+    },
+    {
+      "frame": 42,
+      "sourceAnimation": "walk",
+      "sourceFrame": 38,
+      "file": "frames/frame-042.png"
+    },
+    {
+      "frame": 43,
+      "sourceAnimation": "walk",
+      "sourceFrame": 39,
+      "file": "frames/frame-043.png"
+    },
+    {
+      "frame": 44,
+      "sourceAnimation": "walk",
+      "sourceFrame": 40,
+      "file": "frames/frame-044.png"
+    },
+    {
+      "frame": 45,
+      "sourceAnimation": "walk",
+      "sourceFrame": 41,
+      "file": "frames/frame-045.png"
+    },
+    {
+      "frame": 46,
+      "sourceAnimation": "walk",
+      "sourceFrame": 42,
+      "file": "frames/frame-046.png"
+    },
+    {
+      "frame": 47,
+      "sourceAnimation": "walk",
+      "sourceFrame": 43,
+      "file": "frames/frame-047.png"
+    },
+    {
+      "frame": 48,
+      "sourceAnimation": "walk",
+      "sourceFrame": 44,
+      "file": "frames/frame-048.png"
+    },
+    {
+      "frame": 49,
+      "sourceAnimation": "walk",
+      "sourceFrame": 45,
+      "file": "frames/frame-049.png"
+    },
+    {
+      "frame": 50,
+      "sourceAnimation": "walk",
+      "sourceFrame": 46,
+      "file": "frames/frame-050.png"
+    },
+    {
+      "frame": 51,
+      "sourceAnimation": "walk",
+      "sourceFrame": 47,
+      "file": "frames/frame-051.png"
+    },
+    {
+      "frame": 52,
+      "sourceAnimation": "walk",
+      "sourceFrame": 48,
+      "file": "frames/frame-052.png"
+    },
+    {
+      "frame": 53,
+      "sourceAnimation": "walk",
+      "sourceFrame": 49,
+      "file": "frames/frame-053.png"
+    },
+    {
+      "frame": 54,
+      "sourceAnimation": "walk",
+      "sourceFrame": 50,
+      "file": "frames/frame-054.png"
+    }
+  ]
+}

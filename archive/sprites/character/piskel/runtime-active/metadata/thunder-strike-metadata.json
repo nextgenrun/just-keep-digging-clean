@@ -1,0 +1,48 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/thunder-strike.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 1,
+  "frameSize": [
+    1280,
+    1280
+  ],
+  "sheetGrid": [
+    1,
+    1
+  ],
+  "sheetSize": [
+    1280,
+    1280
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 0,
+  "runtimeFps": 12,
+  "phaserKey": "char-v2-thunder-strike",
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {},
+  "runtimeOutputs": [
+    "sprites/character/character-v2/digging/abilities/thunder-strike/thunder-strike.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1280
+      ],
+      "centerX": 640.0,
+      "bottom": 1280,
+      "clipped": true,
+      "cornerAlpha": [
+        5,
+        5,
+        4,
+        1
+      ]
+    }
+  ]
+}

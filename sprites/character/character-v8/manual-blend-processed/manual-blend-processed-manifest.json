@@ -1,0 +1,71 @@
+{
+  "createdAt": "2026-06-24T03:47:51",
+  "root": "sprites/character/character-v8/manual-blend-processed",
+  "notes": [
+    "Manual folder order is preserved with Windows-like natural filename sorting.",
+    "Outputs are review-only and do not touch Phaser runtime assets.",
+    "Halo cleanup is local alpha/defringe cleanup; no Photoroom or redesign pass is applied here."
+  ],
+  "animations": [
+    {
+      "id": "walk-wind-up-to-walk-loop",
+      "sourceFrameCount": 57,
+      "processedFrameCount": 57,
+      "framesDir": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/frames",
+      "piskel": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop.piskel",
+      "preview": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop-cleaned-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop-overlay-slowmo.gif",
+      "beforeAfterPreview": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop-manual-vs-cleaned-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop-contact-sheet.png",
+      "sourceOrder": "sprites/character/character-v8/manual-blend-processed/walk-wind-up-to-walk-loop/source-order.json",
+      "afterDrift": {
+        "anchorMode": "root-core",
+        "maxBBoxCenterDriftPx": 6.5,
+        "maxRootAnchorDriftPx": 24.52,
+        "maxAnchorDriftPx": 24.52
+      },
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    },
+    {
+      "id": "combat-idle-to-normal-idle",
+      "sourceFrameCount": 51,
+      "processedFrameCount": 51,
+      "framesDir": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/frames",
+      "piskel": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/combat-idle-to-normal-idle.piskel",
+      "preview": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/combat-idle-to-normal-idle-cleaned-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/combat-idle-to-normal-idle-overlay-slowmo.gif",
+      "beforeAfterPreview": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/combat-idle-to-normal-idle-manual-vs-cleaned-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/combat-idle-to-normal-idle-contact-sheet.png",
+      "sourceOrder": "sprites/character/character-v8/manual-blend-processed/combat-idle-to-normal-idle/source-order.json",
+      "afterDrift": {
+        "anchorMode": "root-core",
+        "maxBBoxCenterDriftPx": 32.5,
+        "maxRootAnchorDriftPx": 0.59,
+        "maxAnchorDriftPx": 0.59
+      },
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    },
+    {
+      "id": "duck-downwards",
+      "sourceFrameCount": 7,
+      "processedFrameCount": 7,
+      "framesDir": "sprites/character/character-v8/manual-blend-processed/duck-downwards/frames",
+      "piskel": "sprites/character/character-v8/manual-blend-processed/duck-downwards/duck-downwards.piskel",
+      "preview": "sprites/character/character-v8/manual-blend-processed/duck-downwards/duck-downwards-cleaned-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/manual-blend-processed/duck-downwards/duck-downwards-overlay-slowmo.gif",
+      "beforeAfterPreview": "sprites/character/character-v8/manual-blend-processed/duck-downwards/duck-downwards-manual-vs-cleaned-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/manual-blend-processed/duck-downwards/duck-downwards-contact-sheet.png",
+      "sourceOrder": "sprites/character/character-v8/manual-blend-processed/duck-downwards/source-order.json",
+      "afterDrift": {
+        "anchorMode": "root-core",
+        "maxBBoxCenterDriftPx": 3.5,
+        "maxRootAnchorDriftPx": 23.38,
+        "maxAnchorDriftPx": 23.38
+      },
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    }
+  ]
+}

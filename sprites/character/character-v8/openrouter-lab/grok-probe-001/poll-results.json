@@ -1,0 +1,26 @@
+{
+  "runId": "grok-probe-001",
+  "results": [
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 0,
+      "status": "completed",
+      "poll": {
+        "id": "JUP20HnX9KnkWd0zUkMG",
+        "generation_id": "gen-vid-1782262728-tAuvayosU5Ifmu5AIoBP",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JUP20HnX9KnkWd0zUkMG",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/JUP20HnX9KnkWd0zUkMG/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/character-v8/openrouter-lab/grok-probe-001/videos/walk-wind-up-to-walk-loop-00.mp4",
+      "framesDir": "sprites/character/character-v8/openrouter-lab/grok-probe-001/extracted-frames/walk-wind-up-to-walk-loop-00",
+      "frameCount": 7
+    }
+  ]
+}

@@ -1,0 +1,1225 @@
+/**
+ * StarPillarSystem
+ *
+ * Renders a magical stone pillar at the sky island. The pillar displays:
+ *   - 10 star slots (one per resource constellation, lights up when unlocked)
+ *   - 6 rarity-tier badges on the opposite face
+ *
+ * Press E near the pillar to open the full zoom-out STAR CHART view, which shows
+ * all 10 constellation positions in the sky arc above the island. Locked ones appear
+ * as dim "???" outlines; unlocked ones glow in their resource colour with named labels.
+ *
+ * Press E again (or ESC) to smoothly return to normal play.
+ */
+
+import { CONSTELLATION_BUFFS } from "../../values/constellationBuffs.js";
+import { USER_SETTINGS } from "../UserSettings.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+
+// ─── Module-level constants ───────────────────────────────────────────────────
+
+const RARITY_BADGES = [
+  { color: 0x87CEEB, cssColor: '#87CEEB', label: '★',    name: 'Common'    },
+  { color: 0xCC44FF, cssColor: '#CC44FF', label: '★★',   name: 'Rare'      },
+  { color: 0xFFD700, cssColor: '#FFD700', label: '★★★',  name: 'Legendary' },
+  { color: 0xFF4422, cssColor: '#FF4422', label: '✦',    name: 'Ancient'   },
+  { color: 0x00FFEE, cssColor: '#00FFEE', label: '✦✦',   name: 'Cosmic'    },
+  { color: 0x9900FF, cssColor: '#9900FF', label: '✦✦✦',  name: 'Void'      },
+];
+
+// Resource slot order — matches CONSTELLATION_DEFS order in FloatingTextSystem
+const PILLAR_SLOT_ORDER = [
+  'dirt', 'stone', 'copper', 'darkDirtNormal', 'steel',
+  'iron', 'bronze', 'darkDirtStrong', 'silver', 'gold',
+];
+
+// Colours matching CONSTELLATION_LINE_COLORS in FloatingTextSystem
+const RESOURCE_LINE_COLORS = {
+  dirt:           0xA0784A,
+  stone:          0x888888,
+  copper:         0xFF7700,
+  darkDirtNormal: 0x5544AA,
+  darkDirtStrong: 0x663322,
+  bronze:         0xCC8800,
+  steel:          0x778899,
+  iron:           0x8899AA,
+  silver:         0xCCDDEE,
+  gold:           0xFFD700,
+};
+
+const RESOURCE_CSS_COLORS = {
+  dirt:           '#A0784A',
+  stone:          '#888888',
+  copper:         '#FF7700',
+  darkDirtNormal: '#5544AA',
+  darkDirtStrong: '#663322',
+  bronze:         '#CC8800',
+  steel:          '#778899',
+  iron:           '#8899AA',
+  silver:         '#CCDDEE',
+  gold:           '#FFD700',
+};
+
+const RESOURCE_DISPLAY_NAMES = {
+  dirt:           'The Shovel',
+  stone:          'The Mountain',
+  copper:         'The Anvil',
+  darkDirtNormal: 'The Cave',
+  darkDirtStrong: 'The Fortress',
+  steel:          'The Sword',
+  iron:           'The Hammer',
+  bronze:         'The Shield',
+  silver:         'The Crescent',
+  gold:           'The Crown',
+};
+
+const RESOURCE_TILE_DISPLAY_NAMES = {
+  dirt:           'Dirt',
+  stone:          'Stone',
+  copper:         'Copper',
+  darkDirtNormal: 'Dark Dirt',
+  darkDirtStrong: 'Hard Dirt',
+  steel:          'Steel',
+  iron:           'Iron',
+  bronze:         'Bronze',
+  silver:         'Silver',
+  gold:           'Gold',
+};
+
+// Target zoom for the star chart view
+const CHART_ZOOM = 0.14;
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+export class StarPillarSystem {
+  constructor(scene, config, floatingTextSystem) {
+    this.scene  = scene;
+    this.config = config;
+    this.fts    = floatingTextSystem;
+
+    // Pillar world coords (computed in create())
+    this._pillarCenterX = 0;
+    this._pillarBaseY   = 0;
+
+    // Visual objects
+    this._pillarGfx    = null;   // main stone pillar graphics
+    this._runeTexts    = [];     // 3 rune text objects
+    this._slots        = [];     // 10 slot circle GameObjects
+    this._badges       = [];     // 6 rarity badge circle GameObjects
+    this._badgeLabels  = [];     // 6 badge label texts
+    this._pillarLabel  = null;   // "✦ Star Pillar ✦" text
+    this._ePrompt      = null;   // "Press E" world-space prompt
+
+    // Star chart view state
+    this._isViewOpen   = false;
+    this._viewObjects  = [];     // all GOs created for the chart (destroyed on close)
+    this._overlay      = null;   // dark bg overlay
+    this._chartTitle   = null;   // fixed-screen "STAR CHART" text
+    this._chartHint    = null;   // fixed-screen "Press E to close" text
+    this._zoomTween    = null;
+    this._chartViewport = null;
+
+    // Camera saved state
+    this._origZoom     = 1;
+    this._origScrollX  = 0;
+    this._origScrollY  = 0;
+
+    // Proximity & dirty-flag
+    this._playerInRange     = false;
+    this._lastUnlockedCount = -1;
+    this._lastRaritySig     = '';
+  }
+
+  // ── Public API ─────────────────────────────────────────────────────────────
+
+  /** Called once from PlaySceneSetup after the world is created. */
+  create() {
+    const ts = this.config.tileSize;
+    this._pillarCenterX = this.config.starPillarTileX * ts + ts / 2;
+    this._pillarBaseY   = (this.config.starPillarTileY + 1) * ts; // bottom of tile row 34
+
+    this._buildPillarVisual();
+    this._buildEPrompt();
+
+    // Restore already-unlocked constellations/stars from localStorage, then sync
+    // pillar slots and rarity badges.
+    this.fts.ensureConstellationsLoaded?.();
+    const initialUnlocked = this.fts.getUnlockedConstellations();
+    this._refreshPillarSlots(true, initialUnlocked);
+    this._lastUnlockedCount = initialUnlocked.length;
+    this._refreshRarityBadges(true);
+  }
+
+  /**
+   * Called every frame from PlaySceneUpdate._updateSystems().
+   * Handles proximity, rune animation, slot refresh, and E-key detection.
+   */
+  update(time, delta, playerTile, keys) {
+    if (!playerTile) return;
+
+    // ── Proximity check ──
+    const dx = Math.abs(playerTile.tx - this.config.starPillarTileX);
+    const dy = Math.abs(playerTile.ty - this.config.starPillarTileY);
+    this._playerInRange = dx <= this.config.starPillarProximityTiles &&
+                          dy <= (this.config.starPillarProximityTiles + 2);
+
+    // ── E prompt visibility ──
+    if (this._ePrompt) {
+      this._ePrompt.setVisible(this._playerInRange && !this._isViewOpen);
+    }
+
+    // ── Rune twinkle ──
+    const runeAlpha = Math.sin(time / 800) * 0.2 + 0.8;
+    for (const r of this._runeTexts) {
+      if (r && r.active) r.setAlpha(runeAlpha);
+    }
+
+    // ── Pillar slot dirty-check ──
+    const unlocked = this.fts.getUnlockedConstellations();
+    if (unlocked.length !== this._lastUnlockedCount) {
+      this._refreshPillarSlots(false, unlocked);
+      this._lastUnlockedCount = unlocked.length;
+    }
+
+    const rarityCounts = this.fts.getStarRarityCounts?.() || [];
+    const raritySig = rarityCounts.join(',');
+    if (raritySig !== this._lastRaritySig) {
+      this._refreshRarityBadges(false, rarityCounts);
+      this._lastRaritySig = raritySig;
+    }
+
+    // NOTE: E key is handled by GameInputHandler + PlaySceneUpdate
+    // (see handlePlayingStateInput and _updatePlayingState).
+    // This method only updates proximity, rune animation, and slot dirty-check.
+  }
+
+  /**
+   * Called from PlaySceneUpdate before the special-tile E handler.
+   * Returns true if the E key was consumed.
+   */
+  handleInteract() {
+    if (this._isViewOpen) {
+      this.closeConstellationView();
+      return true;
+    }
+    if (this._playerInRange) {
+      this.openConstellationView();
+      return true;
+    }
+    return false;
+  }
+
+  /** Called by FloatingTextSystem callback when a new constellation unlocks. */
+  onConstellationUnlocked(resourceType) {
+    const idx = PILLAR_SLOT_ORDER.indexOf(resourceType);
+    if (idx === -1) return;
+
+    const slot = this._slots[idx];
+    if (!slot || !slot.active) return;
+
+    const color    = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
+    const cssColor = RESOURCE_CSS_COLORS[resourceType]  || '#87CEEB';
+
+    // Destroy old slot and recreate in resource colour
+    const x = slot.x;
+    const y = slot.y;
+    slot.destroy();
+    const newSlot = this.scene.add.circle(x, y, 9, color, 1);
+    newSlot.setDepth(13);
+    this._slots[idx] = newSlot;
+
+    // Bounce-scale pop on the slot
+    this.scene.tweens.add({
+      targets: newSlot,
+      scaleX: { from: 1, to: 2.2 },
+      scaleY: { from: 1, to: 2.2 },
+      duration: 350,
+      ease: 'Back.out',
+      yoyo: true,
+    });
+
+    // ── Light beam shooting up from pillar cap ──────────────────────────────
+    const cx = this._pillarCenterX;
+    const by = this._pillarBaseY;
+    const shaftH = 360;
+    const capH   = 28;
+    const baseH  = 18;
+    const capTopY = by - baseH - shaftH - capH;
+
+    // Tall narrow beam rising from pillar
+    const beamH = 900;
+    const beam  = this.scene.add.rectangle(cx, capTopY - beamH / 2, 8, beamH, color, 0.75);
+    beam.setDepth(11);
+    beam.setAlpha(0);
+    this.scene.tweens.add({
+      targets: beam,
+      alpha: { from: 0, to: 0.75 },
+      duration: 200,
+      onComplete: () => {
+        this.scene.tweens.add({
+          targets: beam,
+          scaleX: 14,
+          alpha: 0,
+          duration: 1400,
+          ease: 'Power2.out',
+          onComplete: () => beam.destroy(),
+        });
+      },
+    });
+
+    // Glow halo around pillar cap
+    const halo = this.scene.add.ellipse(cx, capTopY, 200, 50, color, 0.22);
+    halo.setDepth(11);
+    this.scene.tweens.add({
+      targets: halo, scaleX: 4, scaleY: 3, alpha: 0,
+      duration: 1200, ease: 'Power3.out',
+      onComplete: () => halo.destroy(),
+    });
+
+    // Pillar label flash
+    if (this._pillarLabel) {
+      this.scene.tweens.add({
+        targets: this._pillarLabel,
+        alpha: { from: 1, to: 0.2 },
+        duration: 180, yoyo: true, repeat: 3,
+      });
+    }
+
+    this._refreshRarityBadges(false);
+
+    if (this.scene.soundSystem?.playUiConfirm) {
+      this.scene.soundSystem.playUiConfirm();
+    }
+  }
+
+  /** Clean up all created objects (called on scene shutdown). */
+  destroy() {
+    this._pillarGfx?.destroy();
+    this._runeTexts.forEach(r => r?.destroy());
+    this._slots.forEach(s => s?.destroy());
+    this._badges.forEach(b => b?.destroy());
+    this._badgeLabels.forEach(l => l?.destroy());
+    this._pillarLabel?.destroy();
+    this._ePrompt?.destroy();
+    this._viewObjects.forEach(o => o?.destroy());
+    this._overlay?.destroy();
+    this._chartTitle?.destroy();
+    this._chartHint?.destroy();
+    this._zoomTween?.stop();
+  }
+
+  // ── Pillar visual ──────────────────────────────────────────────────────────
+
+  _buildPillarVisual() {
+    const cx = this._pillarCenterX;
+    const by = this._pillarBaseY;
+    const gfx = this.scene.add.graphics();
+    gfx.setDepth(12);
+    this._pillarGfx = gfx;
+
+    const shaftW  = 160;
+    const shaftH  = 360;
+    const capW    = 180;
+    const capH    = 28;
+    const baseW   = 190;
+    const baseH   = 18;
+
+    // Base slab
+    gfx.fillStyle(0x1A1A2E, 1);
+    gfx.fillRect(cx - baseW / 2, by - baseH, baseW, baseH);
+    gfx.lineStyle(2, 0x3344AA, 0.6);
+    gfx.strokeRect(cx - baseW / 2, by - baseH, baseW, baseH);
+
+    // Stone shaft — dark stone with subtle highlight on right edge
+    gfx.fillStyle(0x222233, 1);
+    gfx.fillRect(cx - shaftW / 2, by - baseH - shaftH, shaftW, shaftH);
+
+    // Shaft bevel (lighter left edge, darker right)
+    gfx.fillStyle(0x334455, 0.4);
+    gfx.fillRect(cx - shaftW / 2, by - baseH - shaftH, 10, shaftH);
+    gfx.fillStyle(0x000011, 0.35);
+    gfx.fillRect(cx + shaftW / 2 - 10, by - baseH - shaftH, 10, shaftH);
+
+    // Horizontal detail bands
+    gfx.lineStyle(1, 0x445566, 0.5);
+    for (let i = 1; i <= 4; i++) {
+      const bandY = by - baseH - (shaftH * i / 5);
+      gfx.lineBetween(cx - shaftW / 2 + 4, bandY, cx + shaftW / 2 - 4, bandY);
+    }
+
+    // Cap
+    gfx.fillStyle(0x2A2A44, 1);
+    gfx.fillRect(cx - capW / 2, by - baseH - shaftH - capH, capW, capH);
+    gfx.lineStyle(2, 0x6677BB, 0.7);
+    gfx.strokeRect(cx - capW / 2, by - baseH - shaftH - capH, capW, capH);
+
+    // Central glowing line running up the shaft
+    gfx.lineStyle(2, 0x4466CC, 0.35);
+    gfx.lineBetween(cx, by - baseH - 10, cx, by - baseH - shaftH + 10);
+
+    // Pillar label
+    this._pillarLabel = this.scene.add.text(cx, by - baseH - shaftH - capH - 18, '✦  Star Pillar  ✦', {
+      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+      fontSize: '18px',
+      color: '#AABBEE',
+      stroke: '#000022',
+      strokeThickness: 4,
+      shadow: { offsetX: 0, offsetY: 0, color: '#4466FF', blur: 10, fill: true },
+    }).setOrigin(0.5, 1).setDepth(14);
+
+    // ── 3 Rune glyphs centered on shaft ──
+    const runeSymbols = ['⬡', '✦', '⊕'];
+    const runeYOffsets = [-shaftH * 0.75, -shaftH * 0.5, -shaftH * 0.28];
+    for (let i = 0; i < 3; i++) {
+      const r = this.scene.add.text(cx, by - baseH + runeYOffsets[i], runeSymbols[i], {
+        fontFamily: 'Segoe UI Symbol, sans-serif',
+        fontSize: '22px',
+        color: '#8899BB',
+        stroke: '#000022',
+        strokeThickness: 3,
+      }).setOrigin(0.5).setDepth(14);
+      this._runeTexts.push(r);
+    }
+
+    // ── 10 Constellation star slots (right face of pillar) ──
+    const slotX    = cx + shaftW / 2 + 22;
+    const slotTopY = by - baseH - shaftH + 20;
+    const slotStep = (shaftH - 40) / 9;
+
+    for (let i = 0; i < 10; i++) {
+      const sy = slotTopY + i * slotStep;
+      // Slot background circle (dim, locked state)
+      const slot = this.scene.add.circle(slotX, sy, 9, 0x222244, 1);
+      slot.setDepth(13);
+      // Dim outline ring using graphics
+      gfx.lineStyle(1, 0x334466, 0.7);
+      gfx.strokeCircle(slotX, sy, 11);
+      this._slots.push(slot);
+    }
+
+    // ── 6 Rarity badge circles (left face of pillar) ──
+    const badgeX    = cx - shaftW / 2 - 24;
+    const badgeTopY = by - baseH - shaftH + 30;
+    const badgeStep = (shaftH - 40) / 5;
+
+    for (let i = 0; i < 6; i++) {
+      const badgeY = badgeTopY + i * badgeStep;
+      const badgeDef = RARITY_BADGES[i];
+
+      // Badge circle (dim until earned)
+      const badge = this.scene.add.circle(badgeX, badgeY, 14, badgeDef.color, 0.2);
+      badge.setDepth(13);
+      this._badges.push(badge);
+
+      // Badge outline
+      gfx.lineStyle(1, badgeDef.color, 0.5);
+      gfx.strokeCircle(badgeX, badgeY, 15);
+
+      // Badge label
+      const bl = this.scene.add.text(badgeX, badgeY, badgeDef.label, {
+        fontFamily: 'Segoe UI Symbol, sans-serif',
+        fontSize: '11px',
+        color: badgeDef.cssColor,
+        alpha: 0.4,
+      }).setOrigin(0.5).setDepth(14);
+      this._badgeLabels.push(bl);
+    }
+  }
+
+  _buildEPrompt() {
+    const cx = this._pillarCenterX;
+    const by = this._pillarBaseY;
+    this._ePrompt = this.scene.add.text(cx, by - 420, `[${USER_SETTINGS.getKeyLabel("interact")}] View Star Chart`, {
+      fontFamily: 'Consolas, monospace',
+      fontSize: '16px',
+      color: '#AACCFF',
+      stroke: '#000022',
+      strokeThickness: 4,
+      shadow: { offsetX: 0, offsetY: 0, color: '#4488FF', blur: 8, fill: true },
+    }).setOrigin(0.5, 1).setDepth(20).setVisible(false);
+  }
+
+  refreshInteractPromptLabels() {
+    this._ePrompt?.setText(`[${USER_SETTINGS.getKeyLabel("interact")}] View Star Chart`);
+    this._chartHint?.setText(`Press ${USER_SETTINGS.getKeyLabel("interact")} to close`);
+  }
+
+  _refreshPillarSlots(init = false, unlocked = null) {
+    if (!unlocked) unlocked = this.fts.getUnlockedConstellations();
+
+    for (let i = 0; i < PILLAR_SLOT_ORDER.length; i++) {
+      const resourceType = PILLAR_SLOT_ORDER[i];
+      const isUnlocked = unlocked.includes(resourceType);
+      const slot = this._slots[i];
+      if (!slot || !slot.active) continue;
+
+      if (isUnlocked) {
+        const color = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
+        // Rebuild slot in resource colour
+        const x = slot.x;
+        const y = slot.y;
+        slot.destroy();
+        const newSlot = this.scene.add.circle(x, y, 9, color, 1);
+        newSlot.setDepth(13);
+        this._slots[i] = newSlot;
+
+        if (!init) {
+          this.scene.tweens.add({
+            targets: newSlot,
+            scaleX: { from: 1, to: 1.6 },
+            scaleY: { from: 1, to: 1.6 },
+            duration: 250, ease: 'Back.out', yoyo: true,
+          });
+        }
+      }
+    }
+  }
+
+  _refreshRarityBadges(init = false, counts = null) {
+    const rarityCounts = counts || this.fts.getStarRarityCounts?.() || [];
+    this._lastRaritySig = rarityCounts.join(',');
+
+    for (let i = 0; i < RARITY_BADGES.length; i++) {
+      const badge = this._badges[i];
+      const label = this._badgeLabels[i];
+      const def = RARITY_BADGES[i];
+      if (!badge || !badge.active) continue;
+
+      const collected = rarityCounts[i] || 0;
+      const earned = collected > 0;
+      const wasEarned = !!badge._earned;
+      badge._earned = earned;
+      badge.setFillStyle(def.color, earned ? 0.88 : 0.2);
+      badge.setAlpha(earned ? 1 : 0.75);
+
+      if (label && label.active) {
+        label.setAlpha(earned ? 1 : 0.4);
+        label.setText(earned && collected > 1 ? `${def.label}` : def.label);
+      }
+
+      if (!init && earned && !wasEarned) {
+        this.scene.tweens.add({
+          targets: [badge, label].filter(Boolean),
+          scaleX: { from: 1, to: 1.65 },
+          scaleY: { from: 1, to: 1.65 },
+          duration: 260,
+          ease: 'Back.out',
+          yoyo: true,
+        });
+      }
+    }
+  }
+
+  _getChartCenterWorld() {
+    const anchor = this.fts.getConstellationSkyAnchor?.();
+    if (anchor) {
+      return {
+        x: anchor.x,
+        y: anchor.y - 560,
+      };
+    }
+
+    const ts = this.config.tileSize;
+    return {
+      x: this.config.starPillarTileX * ts + ts / 2,
+      y: (this.config.starPillarTileY + 1) * ts - 560,
+    };
+  }
+
+  _setChartViewport(scrollX, scrollY, width, height) {
+    this._chartViewport = {
+      scrollX,
+      scrollY,
+      width,
+      height,
+      scale: 1 / CHART_ZOOM,
+    };
+  }
+
+  _chartUiSize(value) {
+    const scale = this._chartViewport?.scale || (1 / CHART_ZOOM);
+    return value * scale;
+  }
+
+  _chartUiPoint(screenX, screenY) {
+    const viewport = this._chartViewport;
+    if (!viewport) {
+      const cam = this.scene.cameras.main;
+      return { x: cam.scrollX + screenX / cam.zoom, y: cam.scrollY + screenY / cam.zoom };
+    }
+
+    return {
+      x: viewport.scrollX + this._chartUiSize(screenX),
+      y: viewport.scrollY + this._chartUiSize(screenY),
+    };
+  }
+
+  _chartFontSize(px) {
+    return `${this._chartUiSize(px)}px`;
+  }
+
+  _chartTextStyle(style) {
+    return {
+      ...style,
+      fontSize: typeof style.fontSize === 'number'
+        ? this._chartFontSize(style.fontSize)
+        : style.fontSize,
+      strokeThickness: typeof style.strokeThickness === 'number'
+        ? this._chartUiSize(style.strokeThickness)
+        : style.strokeThickness,
+      shadow: style.shadow
+        ? {
+            ...style.shadow,
+            offsetX: this._chartUiSize(style.shadow.offsetX || 0),
+            offsetY: this._chartUiSize(style.shadow.offsetY || 0),
+            blur: this._chartUiSize(style.shadow.blur || 0),
+          }
+        : undefined,
+    };
+  }
+
+  // ── Star Chart zoom view ───────────────────────────────────────────────────
+
+  openConstellationView() {
+    if (this._isViewOpen) return;
+    if (this._zoomTween && this._zoomTween.isPlaying()) return;
+
+    this._isViewOpen = true;
+    this.scene._pillarViewActive = true;
+
+    const cam = this.scene.cameras.main;
+    this._origZoom    = cam.zoom;
+    this._origScrollX = cam.scrollX;
+    this._origScrollY = cam.scrollY;
+
+    cam.stopFollow();
+
+    // Compute chart center in world space from the Star Pillar anchor.
+    const chartCenter = this._getChartCenterWorld();
+    const chartCenterX = chartCenter.x;
+    const chartCenterY = chartCenter.y;
+
+    const vw = this.config.viewportWidth;
+    const vh = this.config.viewportHeight;
+    const targetScrollX = Phaser.Math.Clamp(
+      chartCenterX - vw / (2 * CHART_ZOOM),
+      0,
+      this.config.worldWidthPx - vw / CHART_ZOOM
+    );
+    const targetScrollY = Phaser.Math.Clamp(
+      chartCenterY - vh / (2 * CHART_ZOOM),
+      0,
+      this.config.worldDepthPx - vh / CHART_ZOOM
+    );
+    this._setChartViewport(targetScrollX, targetScrollY, vw, vh);
+
+    // Dark overlay in chart/world space so it scales with the zoomed view.
+    const overlayCenter = this._chartUiPoint(vw / 2, vh / 2);
+    this._overlay = this.scene.add.rectangle(
+      overlayCenter.x,
+      overlayCenter.y,
+      this._chartUiSize(vw),
+      this._chartUiSize(vh),
+      0x000011,
+      0
+    ).setDepth(80);
+    this.scene.tweens.add({
+      targets: this._overlay, alpha: 0.72, duration: 600,
+    });
+
+    // Deep-space starfield scattered across the overlay
+    const sfGfx = this.scene.add.graphics();
+    sfGfx.setDepth(81).setAlpha(0);
+    for (let i = 0; i < 280; i++) {
+      const sx   = Math.random() * vw;
+      const sy   = Math.random() * vh;
+      const sr   = Math.random() * 1.4 + 0.3;
+      const sa   = Math.random() * 0.35 + 0.05;
+      const pt   = this._chartUiPoint(sx, sy);
+      sfGfx.fillStyle(0xFFFFFF, sa);
+      sfGfx.fillCircle(pt.x, pt.y, this._chartUiSize(sr));
+    }
+    // A handful of soft nebula-colour blobs
+    const nebulaColors = [0x1A0033, 0x001133, 0x002211, 0x110022];
+    for (let i = 0; i < 6; i++) {
+      const nx = Math.random() * vw;
+      const ny = Math.random() * vh;
+      const nr = 60 + Math.random() * 120;
+      const pt = this._chartUiPoint(nx, ny);
+      sfGfx.fillStyle(nebulaColors[i % nebulaColors.length], 0.12);
+      sfGfx.fillCircle(pt.x, pt.y, this._chartUiSize(nr));
+    }
+    this.scene.tweens.add({ targets: sfGfx, alpha: 1, duration: 800 });
+    this._viewObjects.push(sfGfx);
+
+    // Chart title + hint in world space, sized to read correctly at CHART_ZOOM.
+    const titlePos = this._chartUiPoint(vw / 2, 32);
+    this._chartTitle = this.scene.add.text(titlePos.x, titlePos.y, 'STAR CHART', this._chartTextStyle({
+      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+      fontSize: 32,
+      color: '#AABBEE',
+      stroke: '#000022',
+      strokeThickness: 6,
+      shadow: { offsetX: 0, offsetY: 0, color: '#4466FF', blur: 18, fill: true },
+    })).setOrigin(0.5).setDepth(200).setAlpha(0);
+
+    const hintPos = this._chartUiPoint(vw / 2, vh - 24);
+    this._chartHint = this.scene.add.text(hintPos.x, hintPos.y, `Press ${USER_SETTINGS.getKeyLabel("interact")} to close`, this._chartTextStyle({
+      fontFamily: 'Consolas, monospace',
+      fontSize: 16,
+      color: '#6677AA',
+      stroke: '#000011',
+      strokeThickness: 4,
+    })).setOrigin(0.5).setDepth(200).setAlpha(0);
+
+    // Zoom tween
+    this._zoomTween = this.scene.tweens.add({
+      targets: cam,
+      zoom: CHART_ZOOM,
+      scrollX: targetScrollX,
+      scrollY: targetScrollY,
+      duration: 1200,
+      ease: 'Cubic.out',
+      onComplete: () => {
+        this._drawConstellationView();
+        const { header, rows } = this._buildProgressPanel();
+
+        // Fade in title and hint first
+        this.scene.tweens.add({
+          targets: [this._chartTitle, this._chartHint, ...header],
+          alpha: 1, duration: 400,
+        });
+
+        // Cascade rows in one by one with 45ms stagger
+        rows.forEach((rowObjs, i) => {
+          this.scene.tweens.add({
+            targets: rowObjs,
+            alpha: 1,
+            duration: 280,
+            delay: 80 + i * 48,
+            ease: 'Power2.out',
+          });
+        });
+      },
+    });
+  }
+
+  closeConstellationView() {
+    if (!this._isViewOpen) return;
+    if (this._zoomTween && this._zoomTween.isPlaying()) return;
+
+    // Destroy chart objects
+    this._viewObjects.forEach(o => { if (o && o.active) o.destroy(); });
+    this._viewObjects = [];
+
+    // Fade and destroy overlay
+    if (this._overlay) {
+      this.scene.tweens.add({
+        targets: this._overlay, alpha: 0, duration: 400,
+        onComplete: () => { this._overlay?.destroy(); this._overlay = null; },
+      });
+    }
+
+    // Fade out title/hint
+    if (this._chartTitle) {
+      this.scene.tweens.add({
+        targets: [this._chartTitle, this._chartHint], alpha: 0, duration: 300,
+        onComplete: () => {
+          this._chartTitle?.destroy(); this._chartTitle = null;
+          this._chartHint?.destroy();  this._chartHint  = null;
+        },
+      });
+    }
+
+    const cam = this.scene.cameras.main;
+    this._zoomTween = this.scene.tweens.add({
+      targets: cam,
+      zoom:    this._origZoom,
+      scrollX: this._origScrollX,
+      scrollY: this._origScrollY,
+      duration: 900,
+      ease: 'Cubic.in',
+      onComplete: () => {
+        cam.startFollow(
+          this.scene.player, true,
+          this.config.cameraLerpX, this.config.cameraLerpY
+        );
+        this._chartViewport = null;
+        this._isViewOpen = false;
+        this.scene._pillarViewActive = false;
+      },
+    });
+  }
+
+  _drawConstellationView() {
+    const data      = this.fts.getConstellationData();
+    const unlocked  = this.fts.getUnlockedConstellations();
+    const counts    = this.fts.getConstellationCounts();
+    const sp        = data.spacing; // 80px
+
+    // One shared graphics object for all lines and shapes
+    const gfx = this.scene.add.graphics();
+    gfx.setDepth(90);
+    this._viewObjects.push(gfx);
+
+    // Subtle arc guide line connecting all constellation centers
+    gfx.lineStyle(1, 0x223355, 0.3);
+    const centerPoints = PILLAR_SLOT_ORDER.map(rt => {
+      return data.worldCenters?.[rt] || this.fts.getConstellationWorldCenter?.(rt);
+    }).filter(Boolean);
+    gfx.beginPath();
+    centerPoints.forEach((pt, i) => {
+      if (i === 0) gfx.moveTo(pt.x, pt.y);
+      else gfx.lineTo(pt.x, pt.y);
+    });
+    gfx.strokePath();
+
+    for (const resourceType of PILLAR_SLOT_ORDER) {
+      const worldCenter = data.worldCenters?.[resourceType] || this.fts.getConstellationWorldCenter?.(resourceType);
+      if (!worldCenter) continue;
+
+      const centerX = worldCenter.x;
+      const centerY = worldCenter.y;
+      const def = data.defs[resourceType];
+      if (!def) continue;
+
+      const isUnlocked  = unlocked.includes(resourceType);
+      const threshold   = data.thresholds[resourceType] ?? 5;
+      const collected   = Math.min(counts[resourceType] || 0, threshold);
+      const isPartial   = !isUnlocked && collected > 0;
+
+      const lineColor   = data.lineColors[resourceType] || 0x334455;
+      const cssColor    = isUnlocked ? (RESOURCE_CSS_COLORS[resourceType] || '#AABBEE')
+                        : isPartial  ? (RESOURCE_CSS_COLORS[resourceType] || '#556677')
+                        : '#334455';
+
+      const signAlpha = isUnlocked ? 0.36 : isPartial ? 0.20 : 0.08;
+      this._addChartConstellationSign(
+        resourceType,
+        centerX,
+        centerY,
+        signAlpha,
+        !isUnlocked && !isPartial ? 0x526078 : null
+      );
+
+      // ── Connecting lines ──────────────────────────────────────────────────
+      if (isUnlocked) {
+        gfx.lineStyle(3, lineColor, 0.8);
+        for (const [i, j] of def.lines) {
+          const [dx1, dy1] = def.points[i];
+          const [dx2, dy2] = def.points[j];
+          gfx.lineBetween(
+            centerX + dx1 * sp, centerY + dy1 * sp,
+            centerX + dx2 * sp, centerY + dy2 * sp
+          );
+        }
+      } else if (isPartial) {
+        // Dashed lines in resource color at low alpha
+        gfx.lineStyle(1, lineColor, 0.28);
+        for (const [i, j] of def.lines) {
+          const [dx1, dy1] = def.points[i];
+          const [dx2, dy2] = def.points[j];
+          this._drawDashedLine(
+            gfx,
+            centerX + dx1 * sp, centerY + dy1 * sp,
+            centerX + dx2 * sp, centerY + dy2 * sp
+          );
+        }
+      } else {
+        gfx.lineStyle(1, 0x334455, 0.15);
+        for (const [i, j] of def.lines) {
+          const [dx1, dy1] = def.points[i];
+          const [dx2, dy2] = def.points[j];
+          this._drawDashedLine(
+            gfx,
+            centerX + dx1 * sp, centerY + dy1 * sp,
+            centerX + dx2 * sp, centerY + dy2 * sp
+          );
+        }
+      }
+
+      // ── Star points ───────────────────────────────────────────────────────
+      for (let pi = 0; pi < def.points.length; pi++) {
+        const [dx, dy] = def.points[pi];
+        const sx = centerX + dx * sp;
+        const sy = centerY + dy * sp;
+
+        if (isUnlocked) {
+          this._drawFilledStar(gfx, sx, sy, 14, lineColor, 1.0);
+        } else if (isPartial && pi < collected) {
+          // Collected but not yet unlocked — dim filled star in resource color
+          this._drawFilledStar(gfx, sx, sy, 11, lineColor, 0.48);
+        } else {
+          // Not yet collected
+          gfx.lineStyle(1, isPartial ? lineColor : 0x334455, isPartial ? 0.22 : 0.15);
+          gfx.strokeCircle(sx, sy, 7);
+        }
+      }
+
+      // ── Name label ────────────────────────────────────────────────────────
+      const labelText = isUnlocked ? (RESOURCE_DISPLAY_NAMES[resourceType] || resourceType)
+                      : isPartial  ? (RESOURCE_DISPLAY_NAMES[resourceType] || resourceType)
+                      : '???';
+      const label = this.scene.add.text(centerX, centerY + sp * 2.6, labelText, {
+        fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+        fontSize: isUnlocked ? '22px' : isPartial ? '18px' : '16px',
+        color: cssColor,
+        stroke: '#000011',
+        strokeThickness: isUnlocked ? 5 : 3,
+        shadow: isUnlocked
+          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 12, fill: true }
+          : isPartial
+          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 5, fill: true }
+          : undefined,
+        alpha: isUnlocked ? 1 : isPartial ? 0.7 : 0.28,
+      }).setOrigin(0.5).setDepth(92);
+      this._viewObjects.push(label);
+
+      // Progress counter below label for partial constellations
+      if (isPartial) {
+        const progressLabel = this.scene.add.text(
+          centerX, centerY + sp * 2.6 + 26,
+          `${collected} / ${threshold}`,
+          {
+            fontFamily: 'Consolas, monospace',
+            fontSize: '15px',
+            color: cssColor,
+            stroke: '#000011',
+            strokeThickness: 2,
+            alpha: 0.6,
+          }
+        ).setOrigin(0.5).setDepth(92);
+        this._viewObjects.push(progressLabel);
+      }
+
+      // ── Backdrop glow circle ──────────────────────────────────────────────
+      if (isUnlocked) {
+        const glow = this.scene.add.circle(centerX, centerY, sp * 1.8, lineColor, 0.07);
+        glow.setDepth(89);
+        this._viewObjects.push(glow);
+      } else if (isPartial) {
+        // Pulsing glow to draw attention to in-progress constellations
+        const partialGlow = this.scene.add.circle(centerX, centerY, sp * 1.4, lineColor, 0.04);
+        partialGlow.setDepth(89);
+        this._viewObjects.push(partialGlow);
+        this.scene.tweens.add({
+          targets: partialGlow,
+          alpha: { from: 0.02, to: 0.10 },
+          duration: 1400 + Math.random() * 600,
+          yoyo: true, repeat: -1, ease: 'Sine.inOut',
+        });
+      }
+    }
+  }
+
+  // ── Progress panel ─────────────────────────────────────────────────────────
+
+  /**
+   * Build the "STAR PROGRESS" panel in chart/world space.
+   * Returns { header: [...], rows: [[...], [...], ...] } so rows can be staggered in separately.
+   * All objects are pushed to this._viewObjects so they're destroyed on close.
+   */
+  _buildProgressPanel() {
+    const u = (value) => this._chartUiSize(value);
+    const p = (x, y) => this._chartUiPoint(x, y);
+
+    const panelOrigin = p(12, 42);
+    const panelX   = panelOrigin.x;
+    const panelY   = panelOrigin.y;
+    const panelW   = u(520);
+    const rowH     = u(56);
+    const headerH  = u(54);
+    const panelH   = headerH + u(22) + PILLAR_SLOT_ORDER.length * rowH + u(12);
+
+    const data      = this.fts.getConstellationData();
+    const unlocked  = this.fts.getUnlockedConstellations();
+    const counts    = this.fts.getConstellationCounts();
+
+    const depth = 150;
+
+    const header = []; // objects that fade in first (bg, border, title, col labels)
+    const rows   = []; // array of per-row object arrays for staggered reveal
+
+    // ── Panel background ──────────────────────────────────────────────────────
+    const bg = this.scene.add.rectangle(
+      panelX + panelW / 2, panelY + panelH / 2,
+      panelW, panelH,
+      0x000818, 0.90
+    ).setDepth(depth).setAlpha(0);
+    this._viewObjects.push(bg);
+    header.push(bg);
+
+    // Decorative starfield inside the panel
+    const panelSf = this.scene.add.graphics();
+    panelSf.setDepth(depth + 1).setAlpha(0);
+    for (let i = 0; i < 60; i++) {
+      panelSf.fillStyle(0xFFFFFF, Math.random() * 0.12 + 0.03);
+      panelSf.fillCircle(
+        panelX + Math.random() * panelW,
+        panelY + Math.random() * panelH,
+        u(Math.random() * 1.2 + 0.3)
+      );
+    }
+    this._viewObjects.push(panelSf);
+    header.push(panelSf);
+
+    // Border
+    const borderGfx = this.scene.add.graphics();
+    borderGfx.lineStyle(u(1), 0x4466BB, 0.8);
+    borderGfx.strokeRect(panelX, panelY, panelW, panelH);
+    borderGfx.lineStyle(u(1), 0x223366, 0.4);
+    borderGfx.strokeRect(panelX + u(2), panelY + u(2), panelW - u(4), panelH - u(4));
+    borderGfx.setDepth(depth + 1).setAlpha(0);
+    this._viewObjects.push(borderGfx);
+    header.push(borderGfx);
+
+    // ── Header title ──────────────────────────────────────────────────────────
+    const titleTxt = this.scene.add.text(
+      panelX + panelW / 2, panelY + headerH / 2,
+      '✦  STAR PROGRESS  ✦',
+      this._chartTextStyle({
+        fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+        fontSize: 17,
+        color: '#AABBEE',
+        stroke: '#000022',
+        strokeThickness: 4,
+        shadow: { offsetX: 0, offsetY: 0, color: '#4466FF', blur: 12, fill: true },
+      })
+    ).setOrigin(0.5).setDepth(depth + 2).setAlpha(0);
+    this._viewObjects.push(titleTxt);
+    header.push(titleTxt);
+
+    // Divider
+    const divGfx = this.scene.add.graphics();
+    divGfx.lineStyle(u(1), 0x334466, 0.7);
+    divGfx.lineBetween(panelX + u(8), panelY + headerH, panelX + panelW - u(8), panelY + headerH);
+    divGfx.setDepth(depth + 1).setAlpha(0);
+    this._viewObjects.push(divGfx);
+    header.push(divGfx);
+
+    // Column headers
+    const colHeaderY = panelY + headerH + u(8);
+    const colNameX   = panelX + u(14);
+    const colDotsX   = panelX + u(210);
+    const colStatX   = panelX + panelW - u(10);
+
+    for (const [lbl, x, orig] of [
+      ['Constellation', colNameX, 0],
+      ['Stars',         colDotsX, 0],
+      ['Status',        colStatX, 1],
+    ]) {
+      const h = this.scene.add.text(x, colHeaderY, lbl, this._chartTextStyle({
+        fontFamily: 'Consolas, monospace',
+        fontSize: 11,
+        color: '#445577',
+      })).setOrigin(orig, 0).setDepth(depth + 2).setAlpha(0);
+      this._viewObjects.push(h);
+      header.push(h);
+    }
+
+    // ── Rows ──────────────────────────────────────────────────────────────────
+    for (let i = 0; i < PILLAR_SLOT_ORDER.length; i++) {
+      const resourceType = PILLAR_SLOT_ORDER[i];
+      const isUnlocked   = unlocked.includes(resourceType);
+      const threshold    = data.thresholds[resourceType] ?? 5;
+      const collected    = Math.min(counts[resourceType] || 0, threshold);
+      const hasAny       = collected > 0;
+      const lineColor    = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
+      const cssColor     = RESOURCE_CSS_COLORS[resourceType]  || '#87CEEB';
+      const dispName     = RESOURCE_DISPLAY_NAMES[resourceType] || resourceType;
+      const upgradeText  = this._getUpgradeText(resourceType);
+
+      const rowY    = panelY + headerH + u(24) + i * rowH;
+      const rowObjs = [];
+
+      // Alternating row tint
+      if (i % 2 === 0) {
+        const rowBg = this.scene.add.rectangle(
+          panelX + panelW / 2, rowY + rowH / 2 - u(2),
+          panelW - u(4), rowH - u(2),
+          0x0A1428, 0.55
+        ).setDepth(depth).setAlpha(0);
+        this._viewObjects.push(rowBg);
+        rowObjs.push(rowBg);
+      }
+
+      // Left accent bar for unlocked rows
+      if (isUnlocked) {
+        const accent = this.scene.add.rectangle(
+          panelX + u(3), rowY + rowH / 2 - u(2), u(3), rowH - u(6), lineColor, 0.85
+        ).setDepth(depth + 2).setAlpha(0);
+        this._viewObjects.push(accent);
+        rowObjs.push(accent);
+      }
+
+      // Constellation name
+      const nameColor = isUnlocked ? cssColor : (hasAny ? '#8899BB' : '#334455');
+      const nameStr   = isUnlocked ? dispName : (hasAny ? dispName : '???');
+      const nameText  = this.scene.add.text(colNameX, rowY + u(18), nameStr, this._chartTextStyle({
+        fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+        fontSize: 14,
+        color: nameColor,
+        stroke: '#000011',
+        strokeThickness: isUnlocked ? 3 : 2,
+        shadow: isUnlocked
+          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 8, fill: true }
+          : hasAny
+          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 4, fill: true }
+          : undefined,
+      })).setOrigin(0, 0.5).setDepth(depth + 2).setAlpha(0);
+      this._viewObjects.push(nameText);
+      rowObjs.push(nameText);
+
+      const upgradeColor = isUnlocked ? '#DDE7FF' : (hasAny ? '#7788AA' : '#4A5872');
+      const upgradePrefix = isUnlocked ? '' : 'Unlock: ';
+      const upgradeInfo = this.scene.add.text(colNameX, rowY + u(38), `${upgradePrefix}${upgradeText}`, this._chartTextStyle({
+        fontFamily: 'Consolas, monospace',
+        fontSize: 11,
+        color: upgradeColor,
+        stroke: '#000011',
+        strokeThickness: 2,
+        shadow: isUnlocked
+          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 5, fill: true }
+          : undefined,
+      })).setOrigin(0, 0.5).setDepth(depth + 2).setAlpha(0);
+      this._viewObjects.push(upgradeInfo);
+      rowObjs.push(upgradeInfo);
+
+      // Dot progress bar
+      const dotSpacing = u(14);
+      const dotGfx     = this.scene.add.graphics();
+      dotGfx.setDepth(depth + 2).setAlpha(0);
+      for (let d = 0; d < threshold; d++) {
+        const dx = colDotsX + d * dotSpacing;
+        const dy = rowY + u(18);
+        if (d < collected) {
+          dotGfx.fillStyle(lineColor, isUnlocked ? 1.0 : 0.80);
+          dotGfx.fillCircle(dx, dy, u(5));
+          // Inner shine dot
+          dotGfx.fillStyle(0xFFFFFF, 0.3);
+          dotGfx.fillCircle(dx - u(1), dy - u(1), u(2));
+        } else {
+          dotGfx.lineStyle(u(1), hasAny ? lineColor : 0x334455, hasAny ? 0.35 : 0.22);
+          dotGfx.strokeCircle(dx, dy, u(5));
+        }
+      }
+      this._viewObjects.push(dotGfx);
+      rowObjs.push(dotGfx);
+
+      // Status text
+      let statusStr, statusColor;
+      if (isUnlocked) {
+        statusStr   = 'UNLOCKED ✦';
+        statusColor = cssColor;
+      } else if (collected > 0) {
+        statusStr   = `${collected} / ${threshold}`;
+        statusColor = '#7788AA';
+      } else {
+        statusStr   = `need ${threshold}`;
+        statusColor = '#334455';
+      }
+      const statusText = this.scene.add.text(colStatX, rowY + u(18), statusStr, this._chartTextStyle({
+        fontFamily: 'Consolas, monospace',
+        fontSize: 12,
+        color: statusColor,
+        stroke: '#000011',
+        strokeThickness: 2,
+        shadow: isUnlocked
+          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 6, fill: true }
+          : undefined,
+      })).setOrigin(1, 0.5).setDepth(depth + 2).setAlpha(0);
+      this._viewObjects.push(statusText);
+      rowObjs.push(statusText);
+
+      rows.push(rowObjs);
+    }
+
+    return { header, rows };
+  }
+
+  _getUpgradeText(resourceType) {
+    const resourceName = RESOURCE_TILE_DISPLAY_NAMES[resourceType] || resourceType;
+    const abilityDesc = CONSTELLATION_BUFFS[resourceType]?.description || 'Ability buff';
+    return `${resourceName} sky tiles +1x, ${abilityDesc}`;
+  }
+
+  _getConstellationSignKey(resourceType) {
+    return ASSET_KEYS.constellations?.signs?.[resourceType] || null;
+  }
+
+  _addChartConstellationSign(resourceType, centerX, centerY, alpha, tint = null) {
+    const key = this._getConstellationSignKey(resourceType);
+    if (!key || !this.scene.textures.exists(key)) return null;
+
+    const image = this.scene.add.image(centerX, centerY, key);
+    const maxSourceDim = Math.max(image.width || 1, image.height || 1);
+    const targetSize = this.config.constellationSignWorldSizePx || 360;
+    const scale = targetSize / maxSourceDim;
+
+    image
+      .setOrigin(0.5)
+      .setScale(scale)
+      .setDepth(88)
+      .setAlpha(alpha);
+
+    if (tint !== null) image.setTint(tint);
+    if (typeof Phaser !== 'undefined' && Phaser.BlendModes?.SCREEN !== undefined) {
+      image.setBlendMode(Phaser.BlendModes.SCREEN);
+    }
+
+    this._viewObjects.push(image);
+    return image;
+  }
+
+  // ── Drawing helpers ────────────────────────────────────────────────────────
+
+  /** Draw a filled 5-pointed star on a graphics object. */
+  _drawFilledStar(gfx, x, y, size, color, alpha = 1) {
+    const inner = size * 0.42;
+    const outer = size;
+    const pts   = 5;
+    const startAngle = -Math.PI / 2;
+
+    gfx.fillStyle(color, alpha);
+    gfx.beginPath();
+    for (let i = 0; i < pts * 2; i++) {
+      const r = i % 2 === 0 ? outer : inner;
+      const a = startAngle + (i * Math.PI / pts);
+      const px = x + Math.cos(a) * r;
+      const py = y + Math.sin(a) * r;
+      if (i === 0) gfx.moveTo(px, py);
+      else gfx.lineTo(px, py);
+    }
+    gfx.closePath();
+    gfx.fillPath();
+
+    // Soft inner glow
+    gfx.fillStyle(0xFFFFFF, alpha * 0.25);
+    gfx.fillCircle(x, y, size * 0.28);
+  }
+
+  /** Draw a dashed line using manual segment/gap iteration (Phaser has no dash API). */
+  _drawDashedLine(gfx, x1, y1, x2, y2, dashLen = 10, gapLen = 8) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const totalLen = Math.sqrt(dx * dx + dy * dy);
+    if (totalLen === 0) return;
+    const nx = dx / totalLen;
+    const ny = dy / totalLen;
+
+    let pos = 0;
+    let drawing = true;
+    gfx.beginPath();
+    while (pos < totalLen) {
+      const seg    = drawing ? dashLen : gapLen;
+      const endPos = Math.min(pos + seg, totalLen);
+      if (drawing) {
+        gfx.moveTo(x1 + nx * pos,    y1 + ny * pos);
+        gfx.lineTo(x1 + nx * endPos, y1 + ny * endPos);
+      }
+      pos = endPos;
+      drawing = !drawing;
+    }
+    gfx.strokePath();
+  }
+}

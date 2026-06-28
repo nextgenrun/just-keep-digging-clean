@@ -1,0 +1,234 @@
+{
+  "id": "walk-run",
+  "displayName": "High Speed Run",
+  "createdAt": "2026-06-24T04:37:29",
+  "sourceRun": "grok-scout-001",
+  "sourceDirs": [
+    "walk-wind-up-to-walk-loop-03"
+  ],
+  "notes": "Approved scout walk-wind-up-to-walk-loop-03 used only at higher walk-speed upgrades.",
+  "frameCount": 7,
+  "frameSize": [
+    341,
+    341
+  ],
+  "fps": 16,
+  "runtimeSheet": "sprites/character/character-v8/runtime/walk-run-sheet.webp",
+  "runtimePiskel": "sprites/character/character-v8/runtime/walk-run.piskel",
+  "v8Piskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+  "framesDir": "sprites/character/character-v8/frames/walk-run",
+  "preview": "sprites/character/character-v8/previews/walk-run-approved-scout-slowmo.gif",
+  "overlayPreview": "sprites/character/character-v8/overlays/walk-run-approved-scout-overlay-slowmo.gif",
+  "contactSheet": "sprites/character/character-v8/contact-sheets/walk-run-approved-scout-contact-sheet.png",
+  "sheetGrid": {
+    "columns": 7,
+    "rows": 1,
+    "size": [
+      2387,
+      341
+    ]
+  },
+  "sourceOrder": [
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-000.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-001.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-002.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-003.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-004.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-005.png",
+      "archivedInSourceDir": false
+    },
+    {
+      "sourceDir": "walk-wind-up-to-walk-loop-03",
+      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/walk-wind-up-to-walk-loop-03/frame-006.png",
+      "archivedInSourceDir": false
+    }
+  ],
+  "analysis": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          109,
+          47,
+          218,
+          339
+        ],
+        "centerX": 163.5,
+        "rootAnchorX": 152.44,
+        "rootAnchorY": 212.25,
+        "rootAnchorPixels": 157,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          95,
+          46,
+          246,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 152.12,
+        "rootAnchorY": 213.27,
+        "rootAnchorPixels": 170,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          84,
+          55,
+          257,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 155.48,
+        "rootAnchorY": 219.92,
+        "rootAnchorPixels": 138,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          95,
+          48,
+          251,
+          339
+        ],
+        "centerX": 173.0,
+        "rootAnchorX": 152.2,
+        "rootAnchorY": 210.8,
+        "rootAnchorPixels": 137,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          62,
+          58,
+          278,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": 155.51,
+        "rootAnchorY": 220.85,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          89,
+          52,
+          262,
+          339
+        ],
+        "centerX": 175.5,
+        "rootAnchorX": 156.46,
+        "rootAnchorY": 215.31,
+        "rootAnchorPixels": 141,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          100,
+          44,
+          241,
+          339
+        ],
+        "centerX": 170.5,
+        "rootAnchorX": 156.88,
+        "rootAnchorY": 209.81,
+        "rootAnchorPixels": 92,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "root-core",
+      "maxBBoxCenterDriftPx": 7.0,
+      "maxRootAnchorDriftPx": 3.36,
+      "maxAnchorDriftPx": 3.36
+    },
+    "clippedFrames": [],
+    "nonTransparentCornerFrames": []
+  }
+}

@@ -1,0 +1,1199 @@
+{
+  "ok": true,
+  "run": "review-walk-upscale",
+  "probe": false,
+  "createdAt": "2026-06-23T22:14:22",
+  "seed": 20260623,
+  "margin": 24,
+  "api": {
+    "endpoint": "https://image-api.photoroom.com/v2/edit",
+    "enhancer": "upscale-fast",
+    "backgroundRemoval": null
+  },
+  "reviewSheet": "visual-approval-previews/photoroom-character/review-walk-upscale-before-after-contact-sheet.png",
+  "reviewGifs": {
+    "walk": "visual-approval-previews/photoroom-character/review-walk-upscale-walk-before-after.gif"
+  },
+  "results": [
+    {
+      "id": "walk",
+      "frameCount": 51,
+      "processedFrames": [
+        {
+          "frame": 0,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-000.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 592,
+              "paleSoftRatio": 0.024267
+            },
+            "after": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 612,
+              "paleSoftRatio": 0.025087
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 1,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-001.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              254,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24690,
+              "paleSoftPixels": 617,
+              "paleSoftRatio": 0.02499
+            },
+            "after": {
+              "visiblePixels": 24690,
+              "paleSoftPixels": 633,
+              "paleSoftRatio": 0.025638
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 2,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-002.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              256,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25655,
+              "paleSoftPixels": 647,
+              "paleSoftRatio": 0.025219
+            },
+            "after": {
+              "visiblePixels": 25655,
+              "paleSoftPixels": 661,
+              "paleSoftRatio": 0.025765
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 3,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-003.png",
+          "metric": {
+            "bbox": [
+              87,
+              0,
+              273,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25314,
+              "paleSoftPixels": 779,
+              "paleSoftRatio": 0.030773
+            },
+            "after": {
+              "visiblePixels": 25314,
+              "paleSoftPixels": 798,
+              "paleSoftRatio": 0.031524
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 4,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-004.png",
+          "metric": {
+            "bbox": [
+              83,
+              0,
+              284,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25420,
+              "paleSoftPixels": 790,
+              "paleSoftRatio": 0.031078
+            },
+            "after": {
+              "visiblePixels": 25420,
+              "paleSoftPixels": 801,
+              "paleSoftRatio": 0.031511
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 5,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-005.png",
+          "metric": {
+            "bbox": [
+              79,
+              0,
+              290,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25353,
+              "paleSoftPixels": 786,
+              "paleSoftRatio": 0.031002
+            },
+            "after": {
+              "visiblePixels": 25353,
+              "paleSoftPixels": 798,
+              "paleSoftRatio": 0.031476
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 6,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-006.png",
+          "metric": {
+            "bbox": [
+              67,
+              0,
+              300,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25443,
+              "paleSoftPixels": 823,
+              "paleSoftRatio": 0.032347
+            },
+            "after": {
+              "visiblePixels": 25443,
+              "paleSoftPixels": 838,
+              "paleSoftRatio": 0.032936
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 7,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-007.png",
+          "metric": {
+            "bbox": [
+              53,
+              0,
+              296,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25196,
+              "paleSoftPixels": 786,
+              "paleSoftRatio": 0.031195
+            },
+            "after": {
+              "visiblePixels": 25196,
+              "paleSoftPixels": 804,
+              "paleSoftRatio": 0.03191
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 8,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-008.png",
+          "metric": {
+            "bbox": [
+              52,
+              0,
+              287,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25087,
+              "paleSoftPixels": 774,
+              "paleSoftRatio": 0.030853
+            },
+            "after": {
+              "visiblePixels": 25087,
+              "paleSoftPixels": 784,
+              "paleSoftRatio": 0.031251
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 9,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-009.png",
+          "metric": {
+            "bbox": [
+              65,
+              0,
+              269,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24799,
+              "paleSoftPixels": 713,
+              "paleSoftRatio": 0.028751
+            },
+            "after": {
+              "visiblePixels": 24799,
+              "paleSoftPixels": 722,
+              "paleSoftRatio": 0.029114
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 10,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-010.png",
+          "metric": {
+            "bbox": [
+              77,
+              0,
+              256,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24063,
+              "paleSoftPixels": 686,
+              "paleSoftRatio": 0.028508
+            },
+            "after": {
+              "visiblePixels": 24063,
+              "paleSoftPixels": 698,
+              "paleSoftRatio": 0.029007
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 11,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-011.png",
+          "metric": {
+            "bbox": [
+              91,
+              0,
+              250,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23692,
+              "paleSoftPixels": 614,
+              "paleSoftRatio": 0.025916
+            },
+            "after": {
+              "visiblePixels": 23692,
+              "paleSoftPixels": 626,
+              "paleSoftRatio": 0.026422
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 12,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-012.png",
+          "metric": {
+            "bbox": [
+              88,
+              0,
+              261,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24912,
+              "paleSoftPixels": 602,
+              "paleSoftRatio": 0.024165
+            },
+            "after": {
+              "visiblePixels": 24912,
+              "paleSoftPixels": 618,
+              "paleSoftRatio": 0.024807
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 13,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-013.png",
+          "metric": {
+            "bbox": [
+              84,
+              0,
+              269,
+              341
+            ],
+            "before": {
+              "visiblePixels": 28225,
+              "paleSoftPixels": 651,
+              "paleSoftRatio": 0.023065
+            },
+            "after": {
+              "visiblePixels": 28225,
+              "paleSoftPixels": 669,
+              "paleSoftRatio": 0.023702
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 14,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-014.png",
+          "metric": {
+            "bbox": [
+              79,
+              0,
+              290,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29547,
+              "paleSoftPixels": 909,
+              "paleSoftRatio": 0.030765
+            },
+            "after": {
+              "visiblePixels": 29547,
+              "paleSoftPixels": 929,
+              "paleSoftRatio": 0.031441
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 15,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-015.png",
+          "metric": {
+            "bbox": [
+              72,
+              0,
+              296,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29948,
+              "paleSoftPixels": 954,
+              "paleSoftRatio": 0.031855
+            },
+            "after": {
+              "visiblePixels": 29948,
+              "paleSoftPixels": 983,
+              "paleSoftRatio": 0.032824
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 16,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-016.png",
+          "metric": {
+            "bbox": [
+              63,
+              0,
+              294,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29934,
+              "paleSoftPixels": 952,
+              "paleSoftRatio": 0.031803
+            },
+            "after": {
+              "visiblePixels": 29934,
+              "paleSoftPixels": 977,
+              "paleSoftRatio": 0.032638
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 17,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-017.png",
+          "metric": {
+            "bbox": [
+              62,
+              0,
+              281,
+              341
+            ],
+            "before": {
+              "visiblePixels": 28887,
+              "paleSoftPixels": 868,
+              "paleSoftRatio": 0.030048
+            },
+            "after": {
+              "visiblePixels": 28887,
+              "paleSoftPixels": 891,
+              "paleSoftRatio": 0.030844
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 18,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-018.png",
+          "metric": {
+            "bbox": [
+              70,
+              0,
+              270,
+              341
+            ],
+            "before": {
+              "visiblePixels": 27604,
+              "paleSoftPixels": 796,
+              "paleSoftRatio": 0.028836
+            },
+            "after": {
+              "visiblePixels": 27604,
+              "paleSoftPixels": 808,
+              "paleSoftRatio": 0.029271
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 19,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-019.png",
+          "metric": {
+            "bbox": [
+              88,
+              0,
+              259,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25595,
+              "paleSoftPixels": 706,
+              "paleSoftRatio": 0.027584
+            },
+            "after": {
+              "visiblePixels": 25595,
+              "paleSoftPixels": 724,
+              "paleSoftRatio": 0.028287
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 20,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-020.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 588,
+              "paleSoftRatio": 0.024853
+            },
+            "after": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 602,
+              "paleSoftRatio": 0.025445
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 21,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-021.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 592,
+              "paleSoftRatio": 0.024267
+            },
+            "after": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 612,
+              "paleSoftRatio": 0.025087
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 22,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-022.png",
+          "metric": {
+            "bbox": [
+              87,
+              0,
+              273,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25314,
+              "paleSoftPixels": 779,
+              "paleSoftRatio": 0.030773
+            },
+            "after": {
+              "visiblePixels": 25314,
+              "paleSoftPixels": 798,
+              "paleSoftRatio": 0.031524
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 23,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-023.png",
+          "metric": {
+            "bbox": [
+              74,
+              0,
+              295,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25412,
+              "paleSoftPixels": 800,
+              "paleSoftRatio": 0.031481
+            },
+            "after": {
+              "visiblePixels": 25412,
+              "paleSoftPixels": 817,
+              "paleSoftRatio": 0.03215
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 24,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-024.png",
+          "metric": {
+            "bbox": [
+              57,
+              0,
+              296,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25352,
+              "paleSoftPixels": 790,
+              "paleSoftRatio": 0.031161
+            },
+            "after": {
+              "visiblePixels": 25352,
+              "paleSoftPixels": 812,
+              "paleSoftRatio": 0.032029
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 25,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-025.png",
+          "metric": {
+            "bbox": [
+              53,
+              0,
+              286,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25209,
+              "paleSoftPixels": 754,
+              "paleSoftRatio": 0.02991
+            },
+            "after": {
+              "visiblePixels": 25209,
+              "paleSoftPixels": 776,
+              "paleSoftRatio": 0.030783
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 26,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-026.png",
+          "metric": {
+            "bbox": [
+              59,
+              0,
+              272,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25256,
+              "paleSoftPixels": 694,
+              "paleSoftRatio": 0.027479
+            },
+            "after": {
+              "visiblePixels": 25256,
+              "paleSoftPixels": 715,
+              "paleSoftRatio": 0.02831
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 27,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-027.png",
+          "metric": {
+            "bbox": [
+              78,
+              0,
+              248,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24224,
+              "paleSoftPixels": 671,
+              "paleSoftRatio": 0.0277
+            },
+            "after": {
+              "visiblePixels": 24224,
+              "paleSoftPixels": 687,
+              "paleSoftRatio": 0.02836
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 28,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-028.png",
+          "metric": {
+            "bbox": [
+              89,
+              0,
+              256,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23768,
+              "paleSoftPixels": 602,
+              "paleSoftRatio": 0.025328
+            },
+            "after": {
+              "visiblePixels": 23768,
+              "paleSoftPixels": 614,
+              "paleSoftRatio": 0.025833
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 29,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-029.png",
+          "metric": {
+            "bbox": [
+              83,
+              0,
+              269,
+              341
+            ],
+            "before": {
+              "visiblePixels": 28413,
+              "paleSoftPixels": 696,
+              "paleSoftRatio": 0.024496
+            },
+            "after": {
+              "visiblePixels": 28413,
+              "paleSoftPixels": 711,
+              "paleSoftRatio": 0.025024
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 30,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-030.png",
+          "metric": {
+            "bbox": [
+              78,
+              0,
+              285,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29526,
+              "paleSoftPixels": 856,
+              "paleSoftRatio": 0.028991
+            },
+            "after": {
+              "visiblePixels": 29526,
+              "paleSoftPixels": 871,
+              "paleSoftRatio": 0.029499
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 31,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-031.png",
+          "metric": {
+            "bbox": [
+              69,
+              0,
+              292,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29951,
+              "paleSoftPixels": 929,
+              "paleSoftRatio": 0.031017
+            },
+            "after": {
+              "visiblePixels": 29951,
+              "paleSoftPixels": 943,
+              "paleSoftRatio": 0.031485
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 32,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-032.png",
+          "metric": {
+            "bbox": [
+              66,
+              0,
+              276,
+              341
+            ],
+            "before": {
+              "visiblePixels": 28640,
+              "paleSoftPixels": 830,
+              "paleSoftRatio": 0.02898
+            },
+            "after": {
+              "visiblePixels": 28640,
+              "paleSoftPixels": 839,
+              "paleSoftRatio": 0.029295
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 33,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-033.png",
+          "metric": {
+            "bbox": [
+              79,
+              0,
+              269,
+              341
+            ],
+            "before": {
+              "visiblePixels": 26799,
+              "paleSoftPixels": 770,
+              "paleSoftRatio": 0.028732
+            },
+            "after": {
+              "visiblePixels": 26799,
+              "paleSoftPixels": 772,
+              "paleSoftRatio": 0.028807
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 34,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-034.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              255,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23823,
+              "paleSoftPixels": 578,
+              "paleSoftRatio": 0.024262
+            },
+            "after": {
+              "visiblePixels": 23823,
+              "paleSoftPixels": 596,
+              "paleSoftRatio": 0.025018
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 35,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-035.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              256,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25655,
+              "paleSoftPixels": 647,
+              "paleSoftRatio": 0.025219
+            },
+            "after": {
+              "visiblePixels": 25655,
+              "paleSoftPixels": 661,
+              "paleSoftRatio": 0.025765
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 36,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-036.png",
+          "metric": {
+            "bbox": [
+              83,
+              0,
+              284,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25420,
+              "paleSoftPixels": 790,
+              "paleSoftRatio": 0.031078
+            },
+            "after": {
+              "visiblePixels": 25420,
+              "paleSoftPixels": 801,
+              "paleSoftRatio": 0.031511
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 37,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-037.png",
+          "metric": {
+            "bbox": [
+              61,
+              0,
+              298,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25416,
+              "paleSoftPixels": 802,
+              "paleSoftRatio": 0.031555
+            },
+            "after": {
+              "visiblePixels": 25416,
+              "paleSoftPixels": 815,
+              "paleSoftRatio": 0.032066
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 38,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-038.png",
+          "metric": {
+            "bbox": [
+              53,
+              0,
+              287,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25251,
+              "paleSoftPixels": 746,
+              "paleSoftRatio": 0.029543
+            },
+            "after": {
+              "visiblePixels": 25251,
+              "paleSoftPixels": 760,
+              "paleSoftRatio": 0.030098
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 39,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-039.png",
+          "metric": {
+            "bbox": [
+              68,
+              0,
+              262,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24470,
+              "paleSoftPixels": 715,
+              "paleSoftRatio": 0.029219
+            },
+            "after": {
+              "visiblePixels": 24470,
+              "paleSoftPixels": 719,
+              "paleSoftRatio": 0.029383
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 40,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-040.png",
+          "metric": {
+            "bbox": [
+              77,
+              0,
+              256,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24063,
+              "paleSoftPixels": 686,
+              "paleSoftRatio": 0.028508
+            },
+            "after": {
+              "visiblePixels": 24063,
+              "paleSoftPixels": 698,
+              "paleSoftRatio": 0.029007
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 41,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-041.png",
+          "metric": {
+            "bbox": [
+              91,
+              0,
+              250,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23692,
+              "paleSoftPixels": 614,
+              "paleSoftRatio": 0.025916
+            },
+            "after": {
+              "visiblePixels": 23692,
+              "paleSoftPixels": 626,
+              "paleSoftRatio": 0.026422
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 42,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-042.png",
+          "metric": {
+            "bbox": [
+              88,
+              0,
+              261,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24912,
+              "paleSoftPixels": 602,
+              "paleSoftRatio": 0.024165
+            },
+            "after": {
+              "visiblePixels": 24912,
+              "paleSoftPixels": 618,
+              "paleSoftRatio": 0.024807
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 43,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-043.png",
+          "metric": {
+            "bbox": [
+              84,
+              0,
+              269,
+              341
+            ],
+            "before": {
+              "visiblePixels": 28225,
+              "paleSoftPixels": 651,
+              "paleSoftRatio": 0.023065
+            },
+            "after": {
+              "visiblePixels": 28225,
+              "paleSoftPixels": 669,
+              "paleSoftRatio": 0.023702
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 44,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-044.png",
+          "metric": {
+            "bbox": [
+              79,
+              0,
+              290,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29547,
+              "paleSoftPixels": 909,
+              "paleSoftRatio": 0.030765
+            },
+            "after": {
+              "visiblePixels": 29547,
+              "paleSoftPixels": 929,
+              "paleSoftRatio": 0.031441
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 45,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-045.png",
+          "metric": {
+            "bbox": [
+              72,
+              0,
+              296,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29948,
+              "paleSoftPixels": 954,
+              "paleSoftRatio": 0.031855
+            },
+            "after": {
+              "visiblePixels": 29948,
+              "paleSoftPixels": 983,
+              "paleSoftRatio": 0.032824
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 46,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-046.png",
+          "metric": {
+            "bbox": [
+              63,
+              0,
+              294,
+              341
+            ],
+            "before": {
+              "visiblePixels": 29934,
+              "paleSoftPixels": 952,
+              "paleSoftRatio": 0.031803
+            },
+            "after": {
+              "visiblePixels": 29934,
+              "paleSoftPixels": 977,
+              "paleSoftRatio": 0.032638
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 47,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-047.png",
+          "metric": {
+            "bbox": [
+              62,
+              0,
+              281,
+              341
+            ],
+            "before": {
+              "visiblePixels": 28887,
+              "paleSoftPixels": 868,
+              "paleSoftRatio": 0.030048
+            },
+            "after": {
+              "visiblePixels": 28887,
+              "paleSoftPixels": 891,
+              "paleSoftRatio": 0.030844
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 48,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-048.png",
+          "metric": {
+            "bbox": [
+              70,
+              0,
+              270,
+              341
+            ],
+            "before": {
+              "visiblePixels": 27604,
+              "paleSoftPixels": 796,
+              "paleSoftRatio": 0.028836
+            },
+            "after": {
+              "visiblePixels": 27604,
+              "paleSoftPixels": 808,
+              "paleSoftRatio": 0.029271
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 49,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-049.png",
+          "metric": {
+            "bbox": [
+              88,
+              0,
+              259,
+              341
+            ],
+            "before": {
+              "visiblePixels": 25595,
+              "paleSoftPixels": 706,
+              "paleSoftRatio": 0.027584
+            },
+            "after": {
+              "visiblePixels": 25595,
+              "paleSoftPixels": 724,
+              "paleSoftRatio": 0.028287
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 50,
+          "path": "sprites/character/photoroom/candidates/review-walk-upscale/frames/walk/frame-050.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 588,
+              "paleSoftRatio": 0.024853
+            },
+            "after": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 602,
+              "paleSoftRatio": 0.025445
+            },
+            "empty": false
+          }
+        }
+      ],
+      "complete": true
+    }
+  ]
+}

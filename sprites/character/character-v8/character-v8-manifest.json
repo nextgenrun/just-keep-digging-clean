@@ -1,0 +1,1087 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-06-24T02:37:00",
+  "frameSize": [
+    341,
+    341
+  ],
+  "notes": [
+    "Sandbox output only; not wired into Phaser runtime.",
+    "Idle and walk prefer approved cached Photoroom frames when present.",
+    "V7 sources are locally cleaned from rendered checkerboard backgrounds.",
+    "dig-7 is recorded as missing if the folder is empty."
+  ],
+  "animations": [
+    {
+      "id": "idle",
+      "displayName": "Idle",
+      "fps": 8,
+      "sheetColumns": 13,
+      "source": "approved-photoroom-idle-walk",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/idle-sheet.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 35,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/idle-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "framesDir": "sprites/character/character-v8/frames/idle",
+      "preview": "sprites/character/character-v8/previews/idle-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/idle-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/idle-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/idle-drift-report.json",
+      "sheetGrid": {
+        "columns": 13,
+        "rows": 3,
+        "size": [
+          4433,
+          1023
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.58,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "walk",
+      "displayName": "Walk",
+      "fps": 14,
+      "sheetColumns": 12,
+      "source": "approved-photoroom-idle-walk",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/walk-sheet.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 51,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/walk-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "framesDir": "sprites/character/character-v8/frames/walk",
+      "preview": "sprites/character/character-v8/previews/walk-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/walk-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/walk-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/walk-drift-report.json",
+      "sheetGrid": {
+        "columns": 12,
+        "rows": 5,
+        "size": [
+          4092,
+          1705
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.52,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "dig-sideways",
+      "displayName": "Dig Sideways",
+      "fps": 30,
+      "sheetColumns": 8,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/dig/dig-sideways-sheet.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 18,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/dig-sideways-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-sideways",
+      "preview": "sprites/character/character-v8/previews/dig-sideways-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-sideways-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-sideways-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/dig-sideways-drift-report.json",
+      "sheetGrid": {
+        "columns": 8,
+        "rows": 3,
+        "size": [
+          2728,
+          1023
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 18.91,
+        "clippedFrames": [
+          1,
+          7,
+          8,
+          9,
+          17
+        ],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "dig-up",
+      "displayName": "Dig Up",
+      "fps": 30,
+      "sheetColumns": 6,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/dig/dig-up-sheet.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 9,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/dig-up-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-up",
+      "preview": "sprites/character/character-v8/previews/dig-up-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-up-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-up-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/dig-up-drift-report.json",
+      "sheetGrid": {
+        "columns": 6,
+        "rows": 2,
+        "size": [
+          2046,
+          682
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.7,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "dig-up-sideways",
+      "displayName": "Dig Up Sideways",
+      "fps": 30,
+      "sheetColumns": 6,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/dig/dig-up-sideways-sheet.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/dig-up-sideways-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-up-sideways",
+      "preview": "sprites/character/character-v8/previews/dig-up-sideways-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-up-sideways-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-up-sideways-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/dig-up-sideways-drift-report.json",
+      "sheetGrid": {
+        "columns": 6,
+        "rows": 3,
+        "size": [
+          2046,
+          1023
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.6,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "dig-up-look",
+      "displayName": "Dig Up Look",
+      "fps": 1,
+      "sheetColumns": 1,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/dig/dig-up-look.png"
+      ],
+      "slowdown": 8,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/dig-up-look-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-up-look",
+      "preview": "sprites/character/character-v8/previews/dig-up-look-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-up-look-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-up-look-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/dig-up-look-drift-report.json",
+      "sheetGrid": {
+        "columns": 1,
+        "rows": 1,
+        "size": [
+          341,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 0.0,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "fly-climb",
+      "displayName": "Fly And Climb",
+      "fps": 14,
+      "sheetColumns": 9,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v5-walk/fly-climb/fly-climb-sheet.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 25,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/fly-climb-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "framesDir": "sprites/character/character-v8/frames/fly-climb",
+      "preview": "sprites/character/character-v8/previews/fly-climb-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/fly-climb-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/fly-climb-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/fly-climb-drift-report.json",
+      "sheetGrid": {
+        "columns": 9,
+        "rows": 3,
+        "size": [
+          3069,
+          1023
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 14.01,
+        "clippedFrames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "jump",
+      "displayName": "Jump",
+      "fps": 12,
+      "sheetColumns": 1,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v2/character-movement/movement-bare-hands/jump/jump-1.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/jump-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/jump.piskel",
+      "framesDir": "sprites/character/character-v8/frames/jump",
+      "preview": "sprites/character/character-v8/previews/jump-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/jump-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/jump-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/jump-drift-report.json",
+      "sheetGrid": {
+        "columns": 1,
+        "rows": 1,
+        "size": [
+          341,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 0.0,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "duck",
+      "displayName": "Duck",
+      "fps": 8,
+      "sheetColumns": 1,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v2/character-movement/movement-bare-hands/duck/duck-1.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/duck-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/duck.piskel",
+      "framesDir": "sprites/character/character-v8/frames/duck",
+      "preview": "sprites/character/character-v8/previews/duck-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/duck-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/duck-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/duck-drift-report.json",
+      "sheetGrid": {
+        "columns": 1,
+        "rows": 1,
+        "size": [
+          341,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 0.0,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "dig-down",
+      "displayName": "Dig Down",
+      "fps": 12,
+      "sheetColumns": 1,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v2/digging/digging-bare-hand/dig-down/dig-down-1.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/dig-down-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-down",
+      "preview": "sprites/character/character-v8/previews/dig-down-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-down-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-down-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/dig-down-drift-report.json",
+      "sheetGrid": {
+        "columns": 1,
+        "rows": 1,
+        "size": [
+          341,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 0.0,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "quickslash",
+      "displayName": "Quickslash",
+      "fps": 12,
+      "sheetColumns": 2,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v2/digging/abilities/quickslash/uickslash-1.webp",
+        "sprites/character/character-v2/digging/abilities/quickslash/uickslash-2 .webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 2,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/quickslash-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/quickslash.piskel",
+      "framesDir": "sprites/character/character-v8/frames/quickslash",
+      "preview": "sprites/character/character-v8/previews/quickslash-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/quickslash-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/quickslash-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/quickslash-drift-report.json",
+      "sheetGrid": {
+        "columns": 2,
+        "rows": 1,
+        "size": [
+          682,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.28,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "thunder-charge",
+      "displayName": "Thunder Strike Charge",
+      "fps": 6,
+      "sheetColumns": 1,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v2/digging/abilities/thunder-strike/charging.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/thunder-charge-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/thunder-charge.piskel",
+      "framesDir": "sprites/character/character-v8/frames/thunder-charge",
+      "preview": "sprites/character/character-v8/previews/thunder-charge-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/thunder-charge-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/thunder-charge-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/thunder-charge-drift-report.json",
+      "sheetGrid": {
+        "columns": 1,
+        "rows": 1,
+        "size": [
+          341,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 0.0,
+        "clippedFrames": [
+          0
+        ],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "thunder-strike",
+      "displayName": "Thunder Strike",
+      "fps": 12,
+      "sheetColumns": 1,
+      "source": "current-runtime",
+      "sourceRuntimePath": [
+        "sprites/character/character-v2/digging/abilities/thunder-strike/thunder-strike.webp"
+      ],
+      "slowdown": 8,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/thunder-strike-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/thunder-strike.piskel",
+      "framesDir": "sprites/character/character-v8/frames/thunder-strike",
+      "preview": "sprites/character/character-v8/previews/thunder-strike-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/thunder-strike-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/thunder-strike-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/thunder-strike-drift-report.json",
+      "sheetGrid": {
+        "columns": 1,
+        "rows": 1,
+        "size": [
+          341,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 0.0,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "dig-sideways-v8-combo",
+      "displayName": "Dig Sideways V8 Combo",
+      "fps": 30,
+      "sheetColumns": 8,
+      "source": "dig-sideways-frames-clean-plus-v7-dig-6",
+      "hitFrameGroups": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          6,
+          7,
+          8
+        ],
+        [
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        [
+          14,
+          15,
+          16,
+          17
+        ],
+        [
+          18,
+          19,
+          20
+        ]
+      ],
+      "groupStatus": [
+        {
+          "id": "dig-1",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-1",
+          "frameCount": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "missing": false
+        },
+        {
+          "id": "dig-2",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-2",
+          "frameCount": 4,
+          "frames": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "missing": false
+        },
+        {
+          "id": "dig-3",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-3",
+          "frameCount": 3,
+          "frames": [
+            6,
+            7,
+            8
+          ],
+          "missing": false
+        },
+        {
+          "id": "dig-4",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-4",
+          "frameCount": 5,
+          "frames": [
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "missing": false
+        },
+        {
+          "id": "dig-5",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-5",
+          "frameCount": 4,
+          "frames": [
+            14,
+            15,
+            16,
+            17
+          ],
+          "missing": false
+        },
+        {
+          "id": "dig-6",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-6",
+          "frameCount": 3,
+          "frames": [
+            18,
+            19,
+            20
+          ],
+          "missing": false
+        },
+        {
+          "id": "dig-7",
+          "sourceDir": "sprites/character/character-v5-walk/dig/dig-sideways-frames-clean/dig-7",
+          "frameCount": 0,
+          "frames": [],
+          "missing": true
+        }
+      ],
+      "slowdown": 10,
+      "frameCount": 21,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/dig-sideways-v8-combo-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/dig-sideways-v8-combo.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-sideways-v8-combo",
+      "preview": "sprites/character/character-v8/previews/dig-sideways-v8-combo-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-sideways-v8-combo-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-sideways-v8-combo-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/dig-sideways-v8-combo-drift-report.json",
+      "sheetGrid": {
+        "columns": 8,
+        "rows": 3,
+        "size": [
+          2728,
+          1023
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 21.91,
+        "clippedFrames": [
+          1,
+          7,
+          8,
+          9,
+          17,
+          20
+        ],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "attack-down-v7",
+      "displayName": "Attack Down V7",
+      "fps": 18,
+      "sheetColumns": 8,
+      "source": "v7-checkerboard-cleaned",
+      "sourceFiles": [
+        "sprites/character/character-v7-added-improved animations/attack down/41.png",
+        "sprites/character/character-v7-added-improved animations/attack down/42.png",
+        "sprites/character/character-v7-added-improved animations/attack down/43.png",
+        "sprites/character/character-v7-added-improved animations/attack down/44.png",
+        "sprites/character/character-v7-added-improved animations/attack down/45.png",
+        "sprites/character/character-v7-added-improved animations/attack down/46.png",
+        "sprites/character/character-v7-added-improved animations/attack down/47.png",
+        "sprites/character/character-v7-added-improved animations/attack down/48.png",
+        "sprites/character/character-v7-added-improved animations/attack down/49.png",
+        "sprites/character/character-v7-added-improved animations/attack down/50.png",
+        "sprites/character/character-v7-added-improved animations/attack down/51.png",
+        "sprites/character/character-v7-added-improved animations/attack down/52.png",
+        "sprites/character/character-v7-added-improved animations/attack down/53.png",
+        "sprites/character/character-v7-added-improved animations/attack down/54.png",
+        "sprites/character/character-v7-added-improved animations/attack down/55.png",
+        "sprites/character/character-v7-added-improved animations/attack down/56.png"
+      ],
+      "droppedSourceFrameIndices": [],
+      "flipXApplied": true,
+      "alignment": "lower-span",
+      "visualCenterClamp": true,
+      "offsetX": 0,
+      "slowdown": 10,
+      "frameCount": 16,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/attack-down-v7-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/attack-down-v7.piskel",
+      "framesDir": "sprites/character/character-v8/frames/attack-down-v7",
+      "preview": "sprites/character/character-v8/previews/attack-down-v7-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/attack-down-v7-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/attack-down-v7-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/attack-down-v7-drift-report.json",
+      "sheetGrid": {
+        "columns": 8,
+        "rows": 2,
+        "size": [
+          2728,
+          682
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 17.62,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "idle-fight-dig-stance",
+      "displayName": "Idle Fight Dig Stance",
+      "fps": 8,
+      "sheetColumns": 8,
+      "source": "v7-checkerboard-cleaned",
+      "sourceFiles": [
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/11.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/12.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/13.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/14.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/15.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/16.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/17.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/18.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/19.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/20.png",
+        "sprites/character/character-v7-added-improved animations/idle-fight-dig-stance/21.png"
+      ],
+      "droppedSourceFrameIndices": [],
+      "flipXApplied": false,
+      "alignment": "root-core",
+      "visualCenterClamp": false,
+      "offsetX": -18,
+      "slowdown": 10,
+      "frameCount": 11,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/idle-fight-dig-stance-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/idle-fight-dig-stance.piskel",
+      "framesDir": "sprites/character/character-v8/frames/idle-fight-dig-stance",
+      "preview": "sprites/character/character-v8/previews/idle-fight-dig-stance-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/idle-fight-dig-stance-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/idle-fight-dig-stance-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/idle-fight-dig-stance-drift-report.json",
+      "sheetGrid": {
+        "columns": 8,
+        "rows": 2,
+        "size": [
+          2728,
+          682
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.46,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "leans-against-wall",
+      "displayName": "Leans Against Wall",
+      "fps": 8,
+      "sheetColumns": 6,
+      "source": "v7-checkerboard-cleaned",
+      "sourceFiles": [
+        "sprites/character/character-v7-added-improved animations/leans-against-wall/17.png",
+        "sprites/character/character-v7-added-improved animations/leans-against-wall/18.png",
+        "sprites/character/character-v7-added-improved animations/leans-against-wall/19.png",
+        "sprites/character/character-v7-added-improved animations/leans-against-wall/20.png",
+        "sprites/character/character-v7-added-improved animations/leans-against-wall/21.png",
+        "sprites/character/character-v7-added-improved animations/leans-against-wall/22.png"
+      ],
+      "droppedSourceFrameIndices": [
+        -1
+      ],
+      "flipXApplied": false,
+      "alignment": "root-core",
+      "visualCenterClamp": false,
+      "offsetX": 10,
+      "slowdown": 10,
+      "frameCount": 6,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/leans-against-wall-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "framesDir": "sprites/character/character-v8/frames/leans-against-wall",
+      "preview": "sprites/character/character-v8/previews/leans-against-wall-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/leans-against-wall-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/leans-against-wall-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/leans-against-wall-drift-report.json",
+      "sheetGrid": {
+        "columns": 6,
+        "rows": 1,
+        "size": [
+          2046,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "bbox-center",
+        "maxAnchorDriftPx": 10.0,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "walk-wind-up",
+      "displayName": "Walk Wind Up",
+      "fps": 12,
+      "sheetColumns": 4,
+      "source": "v7-checkerboard-cleaned",
+      "sourceFiles": [
+        "sprites/character/character-v7-added-improved animations/walk-wind-up/02.png",
+        "sprites/character/character-v7-added-improved animations/walk-wind-up/03.png",
+        "sprites/character/character-v7-added-improved animations/walk-wind-up/04.png",
+        "sprites/character/character-v7-added-improved animations/walk-wind-up/05.png"
+      ],
+      "droppedSourceFrameIndices": [
+        4
+      ],
+      "flipXApplied": false,
+      "alignment": "root-core",
+      "visualCenterClamp": false,
+      "offsetX": 0,
+      "slowdown": 10,
+      "frameCount": 4,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/walk-wind-up-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/walk-wind-up.piskel",
+      "framesDir": "sprites/character/character-v8/frames/walk-wind-up",
+      "preview": "sprites/character/character-v8/previews/walk-wind-up-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/walk-wind-up-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/walk-wind-up-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/walk-wind-up-drift-report.json",
+      "sheetGrid": {
+        "columns": 4,
+        "rows": 1,
+        "size": [
+          1364,
+          341
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.16,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "v7-leftover-transition-candidates",
+      "displayName": "V7 Leftover Transition Candidates",
+      "fps": 8,
+      "sheetColumns": 8,
+      "source": "v7-checkerboard-cleaned",
+      "sourceFiles": [
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/01.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/02.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/03.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/04.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/05.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/06.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/07.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/08.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/09.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/10.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/11.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/12.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/24.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/25.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/26.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/27.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/28.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/30.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/31.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/32.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/33.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/34.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/36.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/37.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/38.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/39.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/40.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/42.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/43.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/44.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/45.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/46.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/48.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/49.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/50.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/51.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/52.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/54.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/55.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/56.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/57.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/58.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/60.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/61.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/62.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/63.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/64.png",
+        "sprites/character/character-v7-added-improved animations/left-over-frames(can maby be used for transitions)/65.png"
+      ],
+      "droppedSourceFrameIndices": [],
+      "flipXApplied": false,
+      "alignment": "root-core",
+      "visualCenterClamp": false,
+      "offsetX": 0,
+      "slowdown": 10,
+      "frameCount": 48,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/v7-leftover-transition-candidates-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/v7-leftover-transition-candidates.piskel",
+      "framesDir": "sprites/character/character-v8/frames/v7-leftover-transition-candidates",
+      "preview": "sprites/character/character-v8/previews/v7-leftover-transition-candidates-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/v7-leftover-transition-candidates-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/v7-leftover-transition-candidates-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/v7-leftover-transition-candidates-drift-report.json",
+      "sheetGrid": {
+        "columns": 8,
+        "rows": 6,
+        "size": [
+          2728,
+          2046
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 50.06,
+        "clippedFrames": [
+          7,
+          8
+        ],
+        "nonTransparentCornerFrames": []
+      }
+    },
+    {
+      "id": "v7-loose-idle-candidates",
+      "displayName": "V7 Loose Idle Candidates",
+      "fps": 8,
+      "sheetColumns": 8,
+      "source": "v7-root-numbered-frames",
+      "sourceFiles": [
+        "sprites/character/character-v7-added-improved animations/01.png",
+        "sprites/character/character-v7-added-improved animations/02.png",
+        "sprites/character/character-v7-added-improved animations/03.png",
+        "sprites/character/character-v7-added-improved animations/04.png",
+        "sprites/character/character-v7-added-improved animations/05.png",
+        "sprites/character/character-v7-added-improved animations/06.png",
+        "sprites/character/character-v7-added-improved animations/07.png",
+        "sprites/character/character-v7-added-improved animations/08.png",
+        "sprites/character/character-v7-added-improved animations/09.png",
+        "sprites/character/character-v7-added-improved animations/10.png",
+        "sprites/character/character-v7-added-improved animations/26.png",
+        "sprites/character/character-v7-added-improved animations/27.png",
+        "sprites/character/character-v7-added-improved animations/28.png",
+        "sprites/character/character-v7-added-improved animations/29.png",
+        "sprites/character/character-v7-added-improved animations/35.png",
+        "sprites/character/character-v7-added-improved animations/37.png",
+        "sprites/character/character-v7-added-improved animations/41.png",
+        "sprites/character/character-v7-added-improved animations/47.png",
+        "sprites/character/character-v7-added-improved animations/53.png",
+        "sprites/character/character-v7-added-improved animations/57.png",
+        "sprites/character/character-v7-added-improved animations/58.png",
+        "sprites/character/character-v7-added-improved animations/59.png",
+        "sprites/character/character-v7-added-improved animations/60.png",
+        "sprites/character/character-v7-added-improved animations/61.png",
+        "sprites/character/character-v7-added-improved animations/62.png",
+        "sprites/character/character-v7-added-improved animations/63.png",
+        "sprites/character/character-v7-added-improved animations/64.png",
+        "sprites/character/character-v7-added-improved animations/65.png"
+      ],
+      "slowdown": 10,
+      "frameCount": 28,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheet": "sprites/character/character-v8/sheets/v7-loose-idle-candidates-sheet.webp",
+      "piskel": "sprites/character/character-v8/piskel/v7-loose-idle-candidates.piskel",
+      "framesDir": "sprites/character/character-v8/frames/v7-loose-idle-candidates",
+      "preview": "sprites/character/character-v8/previews/v7-loose-idle-candidates-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/v7-loose-idle-candidates-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/v7-loose-idle-candidates-contact-sheet.png",
+      "driftReport": "sprites/character/character-v8/reports/v7-loose-idle-candidates-drift-report.json",
+      "sheetGrid": {
+        "columns": 8,
+        "rows": 4,
+        "size": [
+          2728,
+          1364
+        ]
+      },
+      "analysisSummary": {
+        "anchorMode": "root-core",
+        "maxAnchorDriftPx": 0.7,
+        "clippedFrames": [],
+        "nonTransparentCornerFrames": []
+      }
+    }
+  ],
+  "transitionReviews": [
+    {
+      "id": "combat-idle-to-normal-idle-slowmo",
+      "path": "sprites/character/character-v8/review/combat-idle-to-normal-idle-slowmo.gif"
+    },
+    {
+      "id": "walk-wind-up-to-walk-loop-slowmo",
+      "path": "sprites/character/character-v8/review/walk-wind-up-to-walk-loop-slowmo.gif"
+    },
+    {
+      "id": "idle-to-look-up-retarget-slowmo",
+      "path": "sprites/character/character-v8/review/idle-to-look-up-retarget-slowmo.gif"
+    },
+    {
+      "id": "attack-down-source-and-facing-flip-slowmo",
+      "path": "sprites/character/character-v8/review/attack-down-source-and-facing-flip-slowmo.gif"
+    },
+    {
+      "id": "wall-push-debug-box-slowmo",
+      "path": "sprites/character/character-v8/review/wall-push-debug-box-slowmo.gif"
+    }
+  ],
+  "manualBlendExports": [
+    {
+      "id": "combat-idle-to-normal-idle",
+      "framesDir": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames",
+      "frameCount": 46,
+      "sourceMap": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/source-map.json",
+      "preview": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/combat-idle-to-normal-idle-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/combat-idle-to-normal-idle-contact-sheet.png"
+    },
+    {
+      "id": "walk-wind-up-to-walk-loop",
+      "framesDir": "sprites/character/character-v8/manual-blend/walk-wind-up-to-walk-loop/frames",
+      "frameCount": 55,
+      "sourceMap": "sprites/character/character-v8/manual-blend/walk-wind-up-to-walk-loop/source-map.json",
+      "preview": "sprites/character/character-v8/manual-blend/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/manual-blend/walk-wind-up-to-walk-loop/walk-wind-up-to-walk-loop-contact-sheet.png"
+    }
+  ]
+}

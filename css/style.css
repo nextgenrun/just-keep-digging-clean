@@ -1,0 +1,190 @@
+:root {
+  --bg-top: #1a2332;
+  --bg-bottom: #0c1018;
+  --panel-bg: rgba(8, 12, 18, 0.92);
+  --panel-border: #2d3d4e;
+  --text-main: #e8edf2;
+  --text-dim: #8fa8bc;
+  --canvas-glow: rgba(20, 50, 90, 0.7);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  display: block;
+}
+
+/* Ambient depth layers behind everything */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 55%, rgba(20, 55, 90, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(10, 30, 60, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Info panel ─────────────────────────────── */
+
+.info-panel {
+  position: relative;
+  z-index: 1;
+  padding: 22px 18px;
+  border-right: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.info-panel h1 {
+  margin: 0 0 14px;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 12px;
+  text-shadow: 0 0 22px rgba(80, 140, 200, 0.35);
+}
+
+
+.info-panel p {
+  margin: 0 0 10px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  font-size: 0.87rem;
+}
+
+/* Key hint chips */
+.info-panel strong {
+  color: var(--text-main);
+  background: rgba(74, 140, 220, 0.14);
+  border: 1px solid rgba(74, 140, 220, 0.22);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+}
+
+/* ── Game canvas area ───────────────────────── */
+
+#game-root {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, #111926 0%, #080c14 100%);
+}
+
+/* Vignette darkens canvas edges for depth */
+#game-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Remove ugly browser focus ring on canvas */
+#game-root canvas:focus {
+  outline: none;
+}
+
+#game-root canvas {
+  border: 1px solid #1a2e48;
+  box-shadow:
+    0 0 0 1px rgba(25, 55, 95, 0.5),
+    0 8px 30px rgba(0, 0, 0, 0.65),
+    0 20px 70px rgba(0, 0, 0, 0.4),
+    0 0 70px var(--canvas-glow);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges; /* Firefox fallback */
+  /* Promote to GPU layer for smoother compositing */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ── Fullscreen button ──────────────────────── */
+
+#fs-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  background: rgba(10, 18, 30, 0.72);
+  border: 1px solid #1e3248;
+  border-radius: 4px;
+  color: #8fa8bc;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+#fs-btn:hover {
+  background: rgba(30, 50, 80, 0.88);
+  color: #e8edf2;
+}
+
+#fs-btn.is-fullscreen {
+  color: #c9a227;
+  border-color: #c9a227;
+}
+
+#game-root:fullscreen,
+#game-root:-webkit-full-screen,
+#game-root.fullscreen-fallback {
+  width: 100vw;
+  height: 100vh;
+  background: #080c14;
+}
+
+#game-root:fullscreen canvas,
+#game-root:-webkit-full-screen canvas,
+#game-root.fullscreen-fallback canvas {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+#game-root.fullscreen-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+@media (max-width: 1024px) {
+  body {
+    display: block;
+  }
+
+  .info-panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--panel-border);
+    max-height: 160px;
+  }
+}

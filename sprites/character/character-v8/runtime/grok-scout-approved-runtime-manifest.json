@@ -1,0 +1,81 @@
+{
+  "createdAt": "2026-06-24T04:37:35",
+  "sourceRun": "grok-scout-001",
+  "notes": [
+    "Only top-level approved frames are imported.",
+    "Any frame moved into an archive subfolder is excluded from runtime.",
+    "Outputs are 341x341 Piskel/runtime sheets with local halo cleanup and centering."
+  ],
+  "imports": [
+    {
+      "id": "wall-push",
+      "frameCount": 7,
+      "runtimeSheet": "sprites/character/character-v8/runtime/wall-push-sheet.webp",
+      "runtimePiskel": "sprites/character/character-v8/runtime/wall-push.piskel",
+      "framesDir": "sprites/character/character-v8/frames/wall-push",
+      "preview": "sprites/character/character-v8/previews/wall-push-approved-scout-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/wall-push-approved-scout-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/wall-push-approved-scout-contact-sheet.png",
+      "metadata": "sprites/character/character-v8/runtime/wall-push-metadata.json",
+      "maxAnchorDriftPx": 0.5,
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    },
+    {
+      "id": "dig-down",
+      "frameCount": 7,
+      "runtimeSheet": "sprites/character/character-v8/runtime/dig-down-sheet.webp",
+      "runtimePiskel": "sprites/character/character-v8/runtime/dig-down.piskel",
+      "framesDir": "sprites/character/character-v8/frames/dig-down",
+      "preview": "sprites/character/character-v8/previews/dig-down-approved-scout-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/dig-down-approved-scout-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/dig-down-approved-scout-contact-sheet.png",
+      "metadata": "sprites/character/character-v8/runtime/dig-down-metadata.json",
+      "maxAnchorDriftPx": 54.92,
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    },
+    {
+      "id": "falling-downward-through-sky",
+      "frameCount": 7,
+      "runtimeSheet": "sprites/character/character-v8/runtime/falling-downward-through-sky-sheet.webp",
+      "runtimePiskel": "sprites/character/character-v8/runtime/falling-downward-through-sky.piskel",
+      "framesDir": "sprites/character/character-v8/frames/falling-downward-through-sky",
+      "preview": "sprites/character/character-v8/previews/falling-downward-through-sky-approved-scout-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/falling-downward-through-sky-approved-scout-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/falling-downward-through-sky-approved-scout-contact-sheet.png",
+      "metadata": "sprites/character/character-v8/runtime/falling-downward-through-sky-metadata.json",
+      "maxAnchorDriftPx": 0.56,
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    },
+    {
+      "id": "walk-run",
+      "frameCount": 7,
+      "runtimeSheet": "sprites/character/character-v8/runtime/walk-run-sheet.webp",
+      "runtimePiskel": "sprites/character/character-v8/runtime/walk-run.piskel",
+      "framesDir": "sprites/character/character-v8/frames/walk-run",
+      "preview": "sprites/character/character-v8/previews/walk-run-approved-scout-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/walk-run-approved-scout-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/walk-run-approved-scout-contact-sheet.png",
+      "metadata": "sprites/character/character-v8/runtime/walk-run-metadata.json",
+      "maxAnchorDriftPx": 3.36,
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    },
+    {
+      "id": "combat-idle-recover",
+      "frameCount": 16,
+      "runtimeSheet": "sprites/character/character-v8/runtime/combat-idle-recover-sheet.webp",
+      "runtimePiskel": "sprites/character/character-v8/runtime/combat-idle-recover.piskel",
+      "framesDir": "sprites/character/character-v8/frames/combat-idle-recover",
+      "preview": "sprites/character/character-v8/previews/combat-idle-recover-approved-scout-slowmo.gif",
+      "overlayPreview": "sprites/character/character-v8/overlays/combat-idle-recover-approved-scout-overlay-slowmo.gif",
+      "contactSheet": "sprites/character/character-v8/contact-sheets/combat-idle-recover-approved-scout-contact-sheet.png",
+      "metadata": "sprites/character/character-v8/runtime/combat-idle-recover-metadata.json",
+      "maxAnchorDriftPx": 0.84,
+      "clippedFrames": [],
+      "nonTransparentCornerFrames": []
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "thunder-strike",
+  "displayName": "Thunder Strike",
+  "frameCount": 1,
+  "frameSize": [
+    1280,
+    1280
+  ],
+  "fps": 12,
+  "orientation": "front",
+  "centeringPolicy": {},
+  "medianCenterX": 640.0,
+  "medianRootAnchorX": null,
+  "medianRootAnchorY": null,
+  "maxCenterDriftPx": 0,
+  "maxRootAnchorDriftPx": 0,
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1280
+      ],
+      "centerX": 640.0,
+      "rootAnchorX": null,
+      "rootAnchorY": null,
+      "rootAnchorPixels": 0,
+      "bottom": 1280,
+      "clipped": true,
+      "cornerAlpha": [
+        5,
+        5,
+        4,
+        1
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": null,
+      "rootAnchorDeltaYFromMedian": null,
+      "bottomDeltaFromTarget": null
+    }
+  ]
+}

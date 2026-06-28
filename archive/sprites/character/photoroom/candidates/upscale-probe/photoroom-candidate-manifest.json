@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "run": "upscale-probe",
+  "probe": true,
+  "createdAt": "2026-06-23T22:00:00",
+  "seed": 20260623,
+  "margin": 24,
+  "api": {
+    "endpoint": "https://image-api.photoroom.com/v2/edit",
+    "enhancer": "upscale-fast",
+    "backgroundRemoval": null
+  },
+  "reviewSheet": "visual-approval-previews/photoroom-character/upscale-probe-before-after-contact-sheet.png",
+  "reviewGifs": {
+    "walk": "visual-approval-previews/photoroom-character/upscale-probe-walk-before-after.gif"
+  },
+  "results": [
+    {
+      "id": "walk",
+      "frameCount": 51,
+      "processedFrames": [
+        {
+          "frame": 0,
+          "path": "sprites/character/photoroom/candidates/upscale-probe/frames/walk/frame-000.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 592,
+              "paleSoftRatio": 0.024267
+            },
+            "after": {
+              "visiblePixels": 24395,
+              "paleSoftPixels": 612,
+              "paleSoftRatio": 0.025087
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 50,
+          "path": "sprites/character/photoroom/candidates/upscale-probe/frames/walk/frame-050.png",
+          "metric": {
+            "bbox": [
+              93,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 588,
+              "paleSoftRatio": 0.024853
+            },
+            "after": {
+              "visiblePixels": 23659,
+              "paleSoftPixels": 602,
+              "paleSoftRatio": 0.025445
+            },
+            "empty": false
+          }
+        }
+      ],
+      "complete": false
+    }
+  ]
+}

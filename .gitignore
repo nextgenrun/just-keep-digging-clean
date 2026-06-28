@@ -1,0 +1,25 @@
+# Git ignore for Dig Game Dev Environment
+
+# SSH credentials (sensitive)
+_ssh-git/
+
+# Exports (generated/large assets)
+exports/
+
+# Git metadata
+.git/
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and temp
+*.log
+*.tmp

@@ -1,0 +1,3 @@
+# Mining
+
+Game system — mining.

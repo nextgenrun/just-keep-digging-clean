@@ -1,0 +1,71 @@
+{
+  "id": "quickslash",
+  "displayName": "Quickslash",
+  "frameCount": 2,
+  "frameSize": [
+    1280,
+    1280
+  ],
+  "fps": 12,
+  "orientation": "front",
+  "centeringPolicy": {},
+  "medianCenterX": 640.0,
+  "medianRootAnchorX": 638.11,
+  "medianRootAnchorY": 707.74,
+  "maxCenterDriftPx": 0,
+  "maxRootAnchorDriftPx": 34.15,
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1240
+      ],
+      "centerX": 640.0,
+      "rootAnchorX": 672.26,
+      "rootAnchorY": 793.44,
+      "rootAnchorPixels": 2211,
+      "bottom": 1240,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 34.15,
+      "rootAnchorDeltaYFromMedian": 85.71,
+      "bottomDeltaFromTarget": null
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1280
+      ],
+      "centerX": 640.0,
+      "rootAnchorX": 603.95,
+      "rootAnchorY": 622.03,
+      "rootAnchorPixels": 95883,
+      "bottom": 1280,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        2,
+        1,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": -34.15,
+      "rootAnchorDeltaYFromMedian": -85.71,
+      "bottomDeltaFromTarget": null
+    }
+  ]
+}

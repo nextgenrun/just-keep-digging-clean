@@ -1,0 +1,198 @@
+{
+  "generatedBy": "Codex local merchant singular frame extractor",
+  "sourceVersion": "npc-v4-approved",
+  "contract": "Five approval-ready merchant NPC single sprites; frame 0 extracted from each approved 8-frame sheet; no repainting or restyling.",
+  "frameIndex": 0,
+  "frameSize": 1024,
+  "approvalOrder": [
+    "Money Monster",
+    "Player Upgrades",
+    "Gear Merchant",
+    "Bobo Merchant",
+    "Gem Power Merchant"
+  ],
+  "merchants": {
+    "moneyMonster": {
+      "label": "Money Monster",
+      "sourceSheet": "sprites/npc/npc-v4-approved/sheets/merchant-idle/money-monster-idle-sheet.webp",
+      "frameIndex": 0,
+      "outputPath": "sprites/npc/npc-v4-approved/singles/merchant-idle/money-monster.webp",
+      "previewPath": "visual-approval-previews/npc-merchant-singles/01-money-monster-preview.png",
+      "repair": {
+        "filledTransparentHolePixels": 0,
+        "underpaintedTransparentPixels": 149261,
+        "holeBridgePixels": 2,
+        "silhouetteUnderpaintPixels": 32,
+        "solidifySilhouetteScanlines": true,
+        "scanlineVerticalSmoothPixels": 48
+      },
+      "validation": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBBox": [
+          189,
+          153,
+          830,
+          970
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 0,
+        "semiTransparentPixels": 0,
+        "valid": true
+      }
+    },
+    "playerUpgrades": {
+      "label": "Player Upgrades",
+      "sourceSheet": "sprites/npc/npc-v4-approved/sheets/merchant-idle/player-upgrades-idle-sheet.webp",
+      "frameIndex": 0,
+      "outputPath": "sprites/npc/npc-v4-approved/singles/merchant-idle/player-upgrades.webp",
+      "previewPath": "visual-approval-previews/npc-merchant-singles/02-player-upgrades-preview.png",
+      "repair": {
+        "filledTransparentHolePixels": 0,
+        "underpaintedTransparentPixels": 134087,
+        "holeBridgePixels": 2,
+        "silhouetteUnderpaintPixels": 32,
+        "solidifySilhouetteScanlines": true,
+        "scanlineVerticalSmoothPixels": 48
+      },
+      "validation": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBBox": [
+          229,
+          150,
+          795,
+          967
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 0,
+        "semiTransparentPixels": 0,
+        "valid": true
+      }
+    },
+    "gearMerchant": {
+      "label": "Gear Merchant",
+      "sourceSheet": "sprites/npc/npc-v4-approved/sheets/merchant-idle/gear-merchant-idle-sheet.webp",
+      "frameIndex": 0,
+      "outputPath": "sprites/npc/npc-v4-approved/singles/merchant-idle/gear-merchant.webp",
+      "previewPath": "visual-approval-previews/npc-merchant-singles/03-gear-merchant-preview.png",
+      "repair": {
+        "filledTransparentHolePixels": 0,
+        "underpaintedTransparentPixels": 142991,
+        "holeBridgePixels": 2,
+        "silhouetteUnderpaintPixels": 32,
+        "solidifySilhouetteScanlines": true,
+        "scanlineVerticalSmoothPixels": 48
+      },
+      "validation": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBBox": [
+          251,
+          153,
+          769,
+          967
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 0,
+        "semiTransparentPixels": 0,
+        "valid": true
+      }
+    },
+    "boboMerchant": {
+      "label": "Bobo Merchant",
+      "sourceSheet": "sprites/npc/npc-v4-approved/sheets/merchant-idle/bobo-merchant-idle-sheet.webp",
+      "frameIndex": 0,
+      "outputPath": "sprites/npc/npc-v4-approved/singles/merchant-idle/bobo-merchant.webp",
+      "previewPath": "visual-approval-previews/npc-merchant-singles/04-bobo-merchant-preview.png",
+      "repair": {
+        "filledTransparentHolePixels": 8662,
+        "underpaintedTransparentPixels": 225464,
+        "holeBridgePixels": 2,
+        "silhouetteUnderpaintPixels": 32,
+        "solidifySilhouetteScanlines": true,
+        "scanlineVerticalSmoothPixels": 48
+      },
+      "validation": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBBox": [
+          196,
+          154,
+          824,
+          970
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 0,
+        "semiTransparentPixels": 0,
+        "valid": true
+      }
+    },
+    "gemPowerMerchant": {
+      "label": "Gem Power Merchant",
+      "sourceSheet": "sprites/npc/npc-v4-approved/sheets/merchant-idle/gem-power-merchant-idle-sheet.webp",
+      "frameIndex": 0,
+      "outputPath": "sprites/npc/npc-v4-approved/singles/merchant-idle/gem-power-merchant.webp",
+      "previewPath": "visual-approval-previews/npc-merchant-singles/05-gem-power-merchant-preview.png",
+      "repair": {
+        "filledTransparentHolePixels": 0,
+        "underpaintedTransparentPixels": 189951,
+        "holeBridgePixels": 2,
+        "silhouetteUnderpaintPixels": 32,
+        "solidifySilhouetteScanlines": true,
+        "scanlineVerticalSmoothPixels": 48
+      },
+      "validation": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBBox": [
+          177,
+          154,
+          847,
+          970
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 0,
+        "semiTransparentPixels": 0,
+        "valid": true
+      }
+    }
+  },
+  "contactSheet": "visual-approval-previews/npc-merchant-singles/merchant-singular-contact-sheet.png",
+  "valid": true
+}

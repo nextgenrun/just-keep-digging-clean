@@ -1,0 +1,21 @@
+// ==================== UI COLORS ====================
+export const UI_COLORS = Object.freeze({
+  bg:         0x0d1117,
+  overlay:    0x000000,
+  cardBase:   0x131c26,
+  cardHover:  0x1a2840,
+  cardSel:    0x1a2840,
+  borderDim:  0x2a3a4a,
+  borderHov:  0x6b99cc,
+  borderSel:  0x6b99cc,
+  borderGood: 0x4ecb71,
+  borderBad:  0xe07030,
+  title:      '#f7f0df',
+  gold:       '#ffd700',
+  body:       '#8899aa',
+  dim:        '#3e93e7',
+  info:       '#7ab8f5',
+  success:    '#4ecb71',
+  danger:     '#e07030',
+  white:      '#ffffff',
+});

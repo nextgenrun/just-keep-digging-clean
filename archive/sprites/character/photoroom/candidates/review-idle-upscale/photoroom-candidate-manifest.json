@@ -1,0 +1,831 @@
+{
+  "ok": true,
+  "run": "review-idle-upscale",
+  "probe": false,
+  "createdAt": "2026-06-23T22:38:24",
+  "seed": 20260623,
+  "margin": 24,
+  "api": {
+    "endpoint": "https://image-api.photoroom.com/v2/edit",
+    "enhancer": "upscale-fast",
+    "backgroundRemoval": null
+  },
+  "reviewSheet": "visual-approval-previews/photoroom-character/review-idle-upscale-before-after-contact-sheet.png",
+  "reviewGifs": {
+    "idle": "visual-approval-previews/photoroom-character/review-idle-upscale-idle-before-after.gif"
+  },
+  "results": [
+    {
+      "id": "idle",
+      "frameCount": 35,
+      "processedFrames": [
+        {
+          "frame": 0,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-000.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23714,
+              "paleSoftPixels": 245,
+              "paleSoftRatio": 0.010331
+            },
+            "after": {
+              "visiblePixels": 23714,
+              "paleSoftPixels": 245,
+              "paleSoftRatio": 0.010331
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 1,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-001.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23626,
+              "paleSoftPixels": 227,
+              "paleSoftRatio": 0.009608
+            },
+            "after": {
+              "visiblePixels": 23626,
+              "paleSoftPixels": 227,
+              "paleSoftRatio": 0.009608
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 2,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-002.png",
+          "metric": {
+            "bbox": [
+              97,
+              0,
+              248,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23556,
+              "paleSoftPixels": 214,
+              "paleSoftRatio": 0.009085
+            },
+            "after": {
+              "visiblePixels": 23556,
+              "paleSoftPixels": 215,
+              "paleSoftRatio": 0.009127
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 3,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-003.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23024,
+              "paleSoftPixels": 209,
+              "paleSoftRatio": 0.009077
+            },
+            "after": {
+              "visiblePixels": 23024,
+              "paleSoftPixels": 209,
+              "paleSoftRatio": 0.009077
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 4,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-004.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              250,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24133,
+              "paleSoftPixels": 237,
+              "paleSoftRatio": 0.009821
+            },
+            "after": {
+              "visiblePixels": 24133,
+              "paleSoftPixels": 237,
+              "paleSoftRatio": 0.009821
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 5,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-005.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              248,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23783,
+              "paleSoftPixels": 224,
+              "paleSoftRatio": 0.009418
+            },
+            "after": {
+              "visiblePixels": 23783,
+              "paleSoftPixels": 224,
+              "paleSoftRatio": 0.009418
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 6,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-006.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23644,
+              "paleSoftPixels": 236,
+              "paleSoftRatio": 0.009981
+            },
+            "after": {
+              "visiblePixels": 23644,
+              "paleSoftPixels": 236,
+              "paleSoftRatio": 0.009981
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 7,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-007.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 224,
+              "paleSoftRatio": 0.009445
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 224,
+              "paleSoftRatio": 0.009445
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 8,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-008.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              249,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23988,
+              "paleSoftPixels": 252,
+              "paleSoftRatio": 0.010505
+            },
+            "after": {
+              "visiblePixels": 23988,
+              "paleSoftPixels": 252,
+              "paleSoftRatio": 0.010505
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 9,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-009.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              252,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24216,
+              "paleSoftPixels": 236,
+              "paleSoftRatio": 0.009746
+            },
+            "after": {
+              "visiblePixels": 24216,
+              "paleSoftPixels": 236,
+              "paleSoftRatio": 0.009746
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 10,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-010.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              254,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24336,
+              "paleSoftPixels": 241,
+              "paleSoftRatio": 0.009903
+            },
+            "after": {
+              "visiblePixels": 24336,
+              "paleSoftPixels": 241,
+              "paleSoftRatio": 0.009903
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 11,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-011.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              254,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24319,
+              "paleSoftPixels": 237,
+              "paleSoftRatio": 0.009745
+            },
+            "after": {
+              "visiblePixels": 24319,
+              "paleSoftPixels": 237,
+              "paleSoftRatio": 0.009745
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 12,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-012.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              253,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24188,
+              "paleSoftPixels": 237,
+              "paleSoftRatio": 0.009798
+            },
+            "after": {
+              "visiblePixels": 24188,
+              "paleSoftPixels": 237,
+              "paleSoftRatio": 0.009798
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 13,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-013.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              251,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23941,
+              "paleSoftPixels": 222,
+              "paleSoftRatio": 0.009273
+            },
+            "after": {
+              "visiblePixels": 23941,
+              "paleSoftPixels": 222,
+              "paleSoftRatio": 0.009273
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 14,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-014.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              248,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23697,
+              "paleSoftPixels": 245,
+              "paleSoftRatio": 0.010339
+            },
+            "after": {
+              "visiblePixels": 23697,
+              "paleSoftPixels": 245,
+              "paleSoftRatio": 0.010339
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 15,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-015.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23523,
+              "paleSoftPixels": 227,
+              "paleSoftRatio": 0.00965
+            },
+            "after": {
+              "visiblePixels": 23523,
+              "paleSoftPixels": 228,
+              "paleSoftRatio": 0.009693
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 16,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-016.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23484,
+              "paleSoftPixels": 229,
+              "paleSoftRatio": 0.009751
+            },
+            "after": {
+              "visiblePixels": 23484,
+              "paleSoftPixels": 229,
+              "paleSoftRatio": 0.009751
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 17,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-017.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23525,
+              "paleSoftPixels": 240,
+              "paleSoftRatio": 0.010202
+            },
+            "after": {
+              "visiblePixels": 23525,
+              "paleSoftPixels": 241,
+              "paleSoftRatio": 0.010244
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 18,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-018.png",
+          "metric": {
+            "bbox": [
+              96,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23620,
+              "paleSoftPixels": 223,
+              "paleSoftRatio": 0.009441
+            },
+            "after": {
+              "visiblePixels": 23620,
+              "paleSoftPixels": 223,
+              "paleSoftRatio": 0.009441
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 19,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-019.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              248,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23767,
+              "paleSoftPixels": 257,
+              "paleSoftRatio": 0.010813
+            },
+            "after": {
+              "visiblePixels": 23767,
+              "paleSoftPixels": 257,
+              "paleSoftRatio": 0.010813
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 20,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-020.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              249,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23929,
+              "paleSoftPixels": 259,
+              "paleSoftRatio": 0.010824
+            },
+            "after": {
+              "visiblePixels": 23929,
+              "paleSoftPixels": 259,
+              "paleSoftRatio": 0.010824
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 21,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-021.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              250,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24075,
+              "paleSoftPixels": 228,
+              "paleSoftRatio": 0.00947
+            },
+            "after": {
+              "visiblePixels": 24075,
+              "paleSoftPixels": 228,
+              "paleSoftRatio": 0.00947
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 22,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-022.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              251,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24201,
+              "paleSoftPixels": 231,
+              "paleSoftRatio": 0.009545
+            },
+            "after": {
+              "visiblePixels": 24201,
+              "paleSoftPixels": 231,
+              "paleSoftRatio": 0.009545
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 23,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-023.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              251,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24212,
+              "paleSoftPixels": 243,
+              "paleSoftRatio": 0.010036
+            },
+            "after": {
+              "visiblePixels": 24212,
+              "paleSoftPixels": 243,
+              "paleSoftRatio": 0.010036
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 24,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-024.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              250,
+              341
+            ],
+            "before": {
+              "visiblePixels": 24084,
+              "paleSoftPixels": 266,
+              "paleSoftRatio": 0.011045
+            },
+            "after": {
+              "visiblePixels": 24084,
+              "paleSoftPixels": 266,
+              "paleSoftRatio": 0.011045
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 25,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-025.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              249,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23996,
+              "paleSoftPixels": 275,
+              "paleSoftRatio": 0.01146
+            },
+            "after": {
+              "visiblePixels": 23996,
+              "paleSoftPixels": 275,
+              "paleSoftRatio": 0.01146
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 26,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-026.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              249,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23996,
+              "paleSoftPixels": 275,
+              "paleSoftRatio": 0.01146
+            },
+            "after": {
+              "visiblePixels": 23996,
+              "paleSoftPixels": 275,
+              "paleSoftRatio": 0.01146
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 27,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-027.png",
+          "metric": {
+            "bbox": [
+              94,
+              0,
+              249,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23996,
+              "paleSoftPixels": 275,
+              "paleSoftRatio": 0.01146
+            },
+            "after": {
+              "visiblePixels": 23996,
+              "paleSoftPixels": 275,
+              "paleSoftRatio": 0.01146
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 28,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-028.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 29,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-029.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 30,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-030.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 31,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-031.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 32,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-032.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 33,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-033.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        },
+        {
+          "frame": 34,
+          "path": "sprites/character/photoroom/candidates/review-idle-upscale/frames/idle/frame-034.png",
+          "metric": {
+            "bbox": [
+              95,
+              0,
+              247,
+              341
+            ],
+            "before": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "after": {
+              "visiblePixels": 23715,
+              "paleSoftPixels": 248,
+              "paleSoftRatio": 0.010458
+            },
+            "empty": false
+          }
+        }
+      ],
+      "complete": true
+    }
+  ]
+}

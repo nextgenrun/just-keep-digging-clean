@@ -1,0 +1,204 @@
+{
+  "runId": "grok-scout-001",
+  "estimatedSpendCents": 93.6,
+  "jobs": [
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/walk-wind-up-to-walk-loop-00.json",
+      "response": {
+        "id": "2lnf0Sim90XfKJLi9Jza",
+        "polling_url": "https://openrouter.ai/api/v1/videos/2lnf0Sim90XfKJLi9Jza",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 1,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/walk-wind-up-to-walk-loop-01.json",
+      "response": {
+        "id": "wRSV7uweXPXN4s1O0cwD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/wRSV7uweXPXN4s1O0cwD",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 2,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/walk-wind-up-to-walk-loop-02.json",
+      "response": {
+        "id": "uvKt49S7rq6mlJeu0Xfi",
+        "polling_url": "https://openrouter.ai/api/v1/videos/uvKt49S7rq6mlJeu0Xfi",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "walk-wind-up-to-walk-loop",
+      "index": 3,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/walk-wind-up-to-walk-loop-03.json",
+      "response": {
+        "id": "CPq6CwjlfT4odGVI5Mvl",
+        "polling_url": "https://openrouter.ai/api/v1/videos/CPq6CwjlfT4odGVI5Mvl",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/combat-idle-to-normal-idle-00.json",
+      "response": {
+        "id": "L5zBKs44LXgIowvXzMKK",
+        "polling_url": "https://openrouter.ai/api/v1/videos/L5zBKs44LXgIowvXzMKK",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 1,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/combat-idle-to-normal-idle-01.json",
+      "response": {
+        "id": "i2QiOb1nsJ9sNa7yEqhL",
+        "polling_url": "https://openrouter.ai/api/v1/videos/i2QiOb1nsJ9sNa7yEqhL",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 2,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/combat-idle-to-normal-idle-02.json",
+      "response": {
+        "id": "Hok3bB61Y8mw53jdQsZm",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Hok3bB61Y8mw53jdQsZm",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "combat-idle-to-normal-idle",
+      "index": 3,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/combat-idle-to-normal-idle-03.json",
+      "response": {
+        "id": "oUdTYXM5vnojcPACJoXD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/oUdTYXM5vnojcPACJoXD",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "duck-downwards",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/duck-downwards-00.json",
+      "response": {
+        "id": "bS5iEAwB65Ox1cPGvACh",
+        "polling_url": "https://openrouter.ai/api/v1/videos/bS5iEAwB65Ox1cPGvACh",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "duck-downwards",
+      "index": 1,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/duck-downwards-01.json",
+      "response": {
+        "id": "hRb6cVJmz0tqiVDFkJMX",
+        "polling_url": "https://openrouter.ai/api/v1/videos/hRb6cVJmz0tqiVDFkJMX",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/wall-push-00.json",
+      "response": {
+        "id": "T4sCK306KCjmEBxL7uBH",
+        "polling_url": "https://openrouter.ai/api/v1/videos/T4sCK306KCjmEBxL7uBH",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 1,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/wall-push-01.json",
+      "response": {
+        "id": "UbdQsdom093Sc9y22RAN",
+        "polling_url": "https://openrouter.ai/api/v1/videos/UbdQsdom093Sc9y22RAN",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "wall-push",
+      "index": 2,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/wall-push-02.json",
+      "response": {
+        "id": "VqAX0bGhvqDQ8Pr4Z47z",
+        "polling_url": "https://openrouter.ai/api/v1/videos/VqAX0bGhvqDQ8Pr4Z47z",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/dig-sideways-v8-combo-00.json",
+      "response": {
+        "id": "LrBmN4jNT8vWrIj8qLXd",
+        "polling_url": "https://openrouter.ai/api/v1/videos/LrBmN4jNT8vWrIj8qLXd",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 1,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/dig-sideways-v8-combo-01.json",
+      "response": {
+        "id": "6FicirejLQJ7wczHknbg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/6FicirejLQJ7wczHknbg",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "dig-sideways-v8-combo",
+      "index": 2,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/dig-sideways-v8-combo-02.json",
+      "response": {
+        "id": "5RXFSZADDtfBt5wLW63m",
+        "polling_url": "https://openrouter.ai/api/v1/videos/5RXFSZADDtfBt5wLW63m",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "falling-downward-through-sky",
+      "index": 0,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/falling-downward-through-sky-00.json",
+      "response": {
+        "id": "mXYx3DnR485JzaAJl81x",
+        "polling_url": "https://openrouter.ai/api/v1/videos/mXYx3DnR485JzaAJl81x",
+        "status": "pending"
+      }
+    },
+    {
+      "target": "falling-downward-through-sky",
+      "index": 1,
+      "estimatedCents": 5.2,
+      "payloadPath": "sprites/character/character-v8/openrouter-lab/grok-scout-001/payloads/falling-downward-through-sky-01.json",
+      "response": {
+        "id": "SbiNKluAHalTTyUCAOfD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/SbiNKluAHalTTyUCAOfD",
+        "status": "pending"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "duck",
+  "displayName": "Duck",
+  "frameCount": 1,
+  "frameSize": [
+    1024,
+    1024
+  ],
+  "fps": 8,
+  "orientation": "front",
+  "centeringPolicy": {},
+  "medianCenterX": 512.0,
+  "medianRootAnchorX": 497.48,
+  "medianRootAnchorY": 674.72,
+  "maxCenterDriftPx": 0,
+  "maxRootAnchorDriftPx": 0,
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1024,
+        962
+      ],
+      "centerX": 512.0,
+      "rootAnchorX": 497.48,
+      "rootAnchorY": 674.72,
+      "rootAnchorPixels": 7271,
+      "bottom": 962,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 0.0,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": null
+    }
+  ]
+}

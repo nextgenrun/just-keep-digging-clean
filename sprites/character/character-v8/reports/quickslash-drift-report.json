@@ -1,0 +1,56 @@
+{
+  "frameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        9,
+        42,
+        319,
+        339
+      ],
+      "centerX": 164.0,
+      "rootAnchorX": 170.37,
+      "rootAnchorY": 229.85,
+      "rootAnchorPixels": 137,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        28,
+        40,
+        338,
+        339
+      ],
+      "centerX": 183.0,
+      "rootAnchorX": 169.82,
+      "rootAnchorY": 183.98,
+      "rootAnchorPixels": 6507,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "drift": {
+    "anchorMode": "root-core",
+    "maxBBoxCenterDriftPx": 9.5,
+    "maxRootAnchorDriftPx": 0.28,
+    "maxAnchorDriftPx": 0.28
+  },
+  "clippedFrames": [],
+  "nonTransparentCornerFrames": []
+}

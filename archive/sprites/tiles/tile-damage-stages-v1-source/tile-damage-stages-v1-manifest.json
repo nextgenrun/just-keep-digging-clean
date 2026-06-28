@@ -1,0 +1,78 @@
+{
+  "tiles": {
+    "dirt": {
+      "1": "sprites/tiles/tiles-under-1000/dirt-tiles/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/dirt-tiles/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/dirt-tiles/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/dirt-tiles/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/dirt-tiles/5-of-5-hp.webp"
+    },
+    "stone": {
+      "1": "sprites/tiles/tiles-under-1000/resource-stone-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-stone-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-stone-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-stone-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-stone-tile/5-of-5-hp.webp"
+    },
+    "copper": {
+      "1": "sprites/tiles/tiles-under-1000/resource-copper-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-copper-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-copper-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-copper-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-copper-tile/5-of-5-hp.webp"
+    },
+    "darkDirtNormal": {
+      "1": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/5-of-5-hp.webp"
+    },
+    "darkDirtStrong": {
+      "1": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/5-of-5-hp.webp"
+    },
+    "bronze": {
+      "1": "sprites/tiles/tiles-under-1000/resource-bronze-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-bronze-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-bronze-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-bronze-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-bronze-tile/5-of-5-hp.webp"
+    },
+    "steel": {
+      "1": "sprites/tiles/tiles-under-1000/resource-steel-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-steel-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-steel-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-steel-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-steel-tile/5-of-5-hp.webp"
+    },
+    "iron": {
+      "1": "sprites/tiles/tiles-under-1000/resource-iron-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-iron-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-iron-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-iron-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-iron-tile/5-of-5-hp.webp"
+    },
+    "silver": {
+      "1": "sprites/tiles/tiles-under-1000/resource-silver-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-silver-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-silver-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-silver-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-silver-tile/5-of-5-hp.webp"
+    },
+    "gold": {
+      "1": "sprites/tiles/tiles-under-1000/resource-gold-tile/1-of-5-hp.webp",
+      "2": "sprites/tiles/tiles-under-1000/resource-gold-tile/2-of-5-hp.webp",
+      "3": "sprites/tiles/tiles-under-1000/resource-gold-tile/3-of-5-hp.webp",
+      "4": "sprites/tiles/tiles-under-1000/resource-gold-tile/4-of-5-hp.webp",
+      "5": "sprites/tiles/tiles-under-1000/resource-gold-tile/5-of-5-hp.webp"
+    }
+  },
+  "fx": {
+    "break1": "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-1.webp",
+    "break2": "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp"
+  }
+}

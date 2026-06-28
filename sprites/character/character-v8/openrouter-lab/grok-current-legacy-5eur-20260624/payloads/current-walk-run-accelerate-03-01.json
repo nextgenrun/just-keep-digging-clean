@@ -1,0 +1,9 @@
+{
+  "model": "x-ai/grok-imagine-video",
+  "prompt": "Side-view 2D game sprite animation reference of the exact same miner character: bald head, brown leather work clothes, purple glowing belt gem, same proportions, same lighting, same outfit. Transparent-background sprite reference, locked camera, no zoom, no redesign, no added gear, no background scene, no foot sliding, no size popping, no teleporting, stable grounded baseline. Motion goal: game-ready high-speed walk-to-run acceleration loop, grounded feet, stable torso, no design change. learned from approved follow-up walk-wind-up-to-walk-loop-03; preserve that rhythm and improve consistency.",
+  "duration": 2,
+  "resolution": "480p",
+  "aspect_ratio": "1:1",
+  "generate_audio": false,
+  "frame_images": "[embedded-data-url omitted]"
+}

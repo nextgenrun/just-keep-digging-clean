@@ -1,0 +1,746 @@
+{
+  "generatedBy": "Codex local stable merchant idle generator",
+  "contract": "Five currently in-game merchant NPC idle sheets; 8 frames of 1024x1024; source silhouette is locked with local-only animation.",
+  "excluded": [
+    "shadowMiner",
+    "darkMiner",
+    "lightMiner"
+  ],
+  "merchants": {
+    "moneyMonster": {
+      "label": "Money Monster",
+      "source": "sprites/npc/npc-v3/merchants/money-monster-store.webp",
+      "sheet": "sprites/npc/npc-v3/sheets/merchant-idle/money-monster-idle-sheet.webp",
+      "validation": {
+        "size": [
+          8192,
+          1024
+        ],
+        "mode": "RGBA",
+        "frameWidth": 1024,
+        "frameHeight": 1024,
+        "frames": 8,
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 320499,
+        "alphaBBox": [
+          32,
+          72,
+          8156,
+          1024
+        ]
+      },
+      "motion": {
+        "adjacentPairs": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "changedPixels": 72060,
+            "meanAbsDiff": 0.3798,
+            "diffBBox": [
+              53,
+              180,
+              987,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "changedPixels": 72105,
+            "meanAbsDiff": 0.1332,
+            "diffBBox": [
+              53,
+              176,
+              987,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              2,
+              3
+            ],
+            "changedPixels": 74524,
+            "meanAbsDiff": 0.2739,
+            "diffBBox": [
+              51,
+              176,
+              989,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              3,
+              4
+            ],
+            "changedPixels": 76347,
+            "meanAbsDiff": 0.4393,
+            "diffBBox": [
+              54,
+              176,
+              986,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              4,
+              5
+            ],
+            "changedPixels": 66064,
+            "meanAbsDiff": 0.3808,
+            "diffBBox": [
+              66,
+              147,
+              974,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              5,
+              6
+            ],
+            "changedPixels": 66017,
+            "meanAbsDiff": 0.121,
+            "diffBBox": [
+              66,
+              147,
+              974,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              6,
+              7
+            ],
+            "changedPixels": 76288,
+            "meanAbsDiff": 0.2791,
+            "diffBBox": [
+              54,
+              147,
+              986,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              7,
+              0
+            ],
+            "changedPixels": 74565,
+            "meanAbsDiff": 0.4371,
+            "diffBBox": [
+              51,
+              180,
+              989,
+              1024
+            ]
+          }
+        ],
+        "minChangedPixels": 66017,
+        "maxChangedPixels": 76347,
+        "minMeanAbsDiff": 0.121,
+        "maxMeanAbsDiff": 0.4393
+      }
+    },
+    "playerUpgrades": {
+      "label": "Player Upgrades",
+      "source": "sprites/npc/npc-v3/merchants/merchant-player-upgrades-facing-right.webp",
+      "sheet": "sprites/npc/npc-v3/sheets/merchant-idle/player-upgrades-idle-sheet.webp",
+      "validation": {
+        "size": [
+          8192,
+          1024
+        ],
+        "mode": "RGBA",
+        "frameWidth": 1024,
+        "frameHeight": 1024,
+        "frames": 8,
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 21482,
+        "alphaBBox": [
+          155,
+          22,
+          8080,
+          1024
+        ]
+      },
+      "motion": {
+        "adjacentPairs": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "changedPixels": 82419,
+            "meanAbsDiff": 0.5679,
+            "diffBBox": [
+              154,
+              22,
+              884,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "changedPixels": 41679,
+            "meanAbsDiff": 0.1614,
+            "diffBBox": [
+              118,
+              153,
+              856,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              2,
+              3
+            ],
+            "changedPixels": 84142,
+            "meanAbsDiff": 0.4951,
+            "diffBBox": [
+              118,
+              22,
+              904,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              3,
+              4
+            ],
+            "changedPixels": 86979,
+            "meanAbsDiff": 0.6384,
+            "diffBBox": [
+              118,
+              23,
+              904,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              4,
+              5
+            ],
+            "changedPixels": 79077,
+            "meanAbsDiff": 0.5894,
+            "diffBBox": [
+              118,
+              25,
+              904,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              5,
+              6
+            ],
+            "changedPixels": 38684,
+            "meanAbsDiff": 0.1622,
+            "diffBBox": [
+              118,
+              201,
+              904,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              6,
+              7
+            ],
+            "changedPixels": 85141,
+            "meanAbsDiff": 0.5189,
+            "diffBBox": [
+              153,
+              25,
+              912,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              7,
+              0
+            ],
+            "changedPixels": 85443,
+            "meanAbsDiff": 0.6423,
+            "diffBBox": [
+              161,
+              23,
+              912,
+              1024
+            ]
+          }
+        ],
+        "minChangedPixels": 38684,
+        "maxChangedPixels": 86979,
+        "minMeanAbsDiff": 0.1614,
+        "maxMeanAbsDiff": 0.6423
+      }
+    },
+    "gearMerchant": {
+      "label": "Gear Merchant",
+      "source": "sprites/npc/npc-v3/merchants/merchant-store-facing-right.webp",
+      "sheet": "sprites/npc/npc-v3/sheets/merchant-idle/gear-merchant-idle-sheet.webp",
+      "validation": {
+        "size": [
+          8192,
+          1024
+        ],
+        "mode": "RGBA",
+        "frameWidth": 1024,
+        "frameHeight": 1024,
+        "frames": 8,
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 594215,
+        "alphaBBox": [
+          189,
+          10,
+          8021,
+          1024
+        ]
+      },
+      "motion": {
+        "adjacentPairs": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "changedPixels": 37379,
+            "meanAbsDiff": 0.1235,
+            "diffBBox": [
+              123,
+              112,
+              853,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "changedPixels": 35971,
+            "meanAbsDiff": 0.099,
+            "diffBBox": [
+              123,
+              112,
+              862,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              2,
+              3
+            ],
+            "changedPixels": 37995,
+            "meanAbsDiff": 0.1275,
+            "diffBBox": [
+              123,
+              95,
+              862,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              3,
+              4
+            ],
+            "changedPixels": 39294,
+            "meanAbsDiff": 0.1095,
+            "diffBBox": [
+              189,
+              95,
+              862,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              4,
+              5
+            ],
+            "changedPixels": 35355,
+            "meanAbsDiff": 0.1277,
+            "diffBBox": [
+              168,
+              95,
+              796,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              5,
+              6
+            ],
+            "changedPixels": 33930,
+            "meanAbsDiff": 0.1031,
+            "diffBBox": [
+              168,
+              95,
+              870,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              6,
+              7
+            ],
+            "changedPixels": 39019,
+            "meanAbsDiff": 0.1271,
+            "diffBBox": [
+              189,
+              112,
+              870,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              7,
+              0
+            ],
+            "changedPixels": 38258,
+            "meanAbsDiff": 0.1086,
+            "diffBBox": [
+              194,
+              112,
+              853,
+              1024
+            ]
+          }
+        ],
+        "minChangedPixels": 33930,
+        "maxChangedPixels": 39294,
+        "minMeanAbsDiff": 0.099,
+        "maxMeanAbsDiff": 0.1277
+      }
+    },
+    "boboMerchant": {
+      "label": "Bobo Merchant",
+      "source": "sprites/npc/npc-v3/merchants/bobo-merchant-facing-right.webp",
+      "sheet": "sprites/npc/npc-v3/sheets/merchant-idle/bobo-merchant-idle-sheet.webp",
+      "validation": {
+        "size": [
+          8192,
+          1024
+        ],
+        "mode": "RGBA",
+        "frameWidth": 1024,
+        "frameHeight": 1024,
+        "frames": 8,
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 368422,
+        "alphaBBox": [
+          258,
+          15,
+          8080,
+          1024
+        ]
+      },
+      "motion": {
+        "adjacentPairs": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "changedPixels": 53658,
+            "meanAbsDiff": 0.137,
+            "diffBBox": [
+              258,
+              15,
+              909,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "changedPixels": 48292,
+            "meanAbsDiff": 0.0868,
+            "diffBBox": [
+              132,
+              16,
+              921,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              2,
+              3
+            ],
+            "changedPixels": 55843,
+            "meanAbsDiff": 0.1455,
+            "diffBBox": [
+              132,
+              15,
+              921,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              3,
+              4
+            ],
+            "changedPixels": 59236,
+            "meanAbsDiff": 0.1717,
+            "diffBBox": [
+              132,
+              15,
+              917,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              4,
+              5
+            ],
+            "changedPixels": 49911,
+            "meanAbsDiff": 0.1366,
+            "diffBBox": [
+              132,
+              17,
+              862,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              5,
+              6
+            ],
+            "changedPixels": 44018,
+            "meanAbsDiff": 0.0771,
+            "diffBBox": [
+              132,
+              19,
+              862,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              6,
+              7
+            ],
+            "changedPixels": 58400,
+            "meanAbsDiff": 0.1531,
+            "diffBBox": [
+              132,
+              17,
+              912,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              7,
+              0
+            ],
+            "changedPixels": 56500,
+            "meanAbsDiff": 0.1606,
+            "diffBBox": [
+              258,
+              15,
+              912,
+              1024
+            ]
+          }
+        ],
+        "minChangedPixels": 44018,
+        "maxChangedPixels": 59236,
+        "minMeanAbsDiff": 0.0771,
+        "maxMeanAbsDiff": 0.1717
+      }
+    },
+    "gemPowerMerchant": {
+      "label": "Gem Power Merchant",
+      "source": "sprites/npc/npc-v3/merchants/gem-power-merchant-facing-front.webp",
+      "sheet": "sprites/npc/npc-v3/sheets/merchant-idle/gem-power-merchant-idle-sheet.webp",
+      "validation": {
+        "size": [
+          8192,
+          1024
+        ],
+        "mode": "RGBA",
+        "frameWidth": 1024,
+        "frameHeight": 1024,
+        "frames": 8,
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentCorners": true,
+        "hiddenRgbPixels": 18305,
+        "alphaBBox": [
+          39,
+          0,
+          8171,
+          1024
+        ]
+      },
+      "motion": {
+        "adjacentPairs": [
+          {
+            "pair": [
+              0,
+              1
+            ],
+            "changedPixels": 67792,
+            "meanAbsDiff": 0.4794,
+            "diffBBox": [
+              60,
+              0,
+              993,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              1,
+              2
+            ],
+            "changedPixels": 70473,
+            "meanAbsDiff": 0.3616,
+            "diffBBox": [
+              60,
+              0,
+              993,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              2,
+              3
+            ],
+            "changedPixels": 71731,
+            "meanAbsDiff": 0.4187,
+            "diffBBox": [
+              52,
+              0,
+              1001,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              3,
+              4
+            ],
+            "changedPixels": 68094,
+            "meanAbsDiff": 0.4597,
+            "diffBBox": [
+              50,
+              0,
+              1003,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              4,
+              5
+            ],
+            "changedPixels": 65863,
+            "meanAbsDiff": 0.4659,
+            "diffBBox": [
+              57,
+              0,
+              996,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              5,
+              6
+            ],
+            "changedPixels": 68202,
+            "meanAbsDiff": 0.3513,
+            "diffBBox": [
+              57,
+              0,
+              996,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              6,
+              7
+            ],
+            "changedPixels": 72956,
+            "meanAbsDiff": 0.4308,
+            "diffBBox": [
+              50,
+              0,
+              1003,
+              1024
+            ]
+          },
+          {
+            "pair": [
+              7,
+              0
+            ],
+            "changedPixels": 66531,
+            "meanAbsDiff": 0.4484,
+            "diffBBox": [
+              52,
+              0,
+              1001,
+              1024
+            ]
+          }
+        ],
+        "minChangedPixels": 65863,
+        "maxChangedPixels": 72956,
+        "minMeanAbsDiff": 0.3513,
+        "maxMeanAbsDiff": 0.4794
+      }
+    }
+  }
+}

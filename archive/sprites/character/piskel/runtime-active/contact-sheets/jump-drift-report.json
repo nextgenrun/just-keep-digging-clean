@@ -1,0 +1,45 @@
+{
+  "id": "jump",
+  "displayName": "Jump",
+  "frameCount": 1,
+  "frameSize": [
+    1024,
+    1024
+  ],
+  "fps": 12,
+  "orientation": "front",
+  "centeringPolicy": {},
+  "medianCenterX": 512.0,
+  "medianRootAnchorX": 510.86,
+  "medianRootAnchorY": 484.62,
+  "maxCenterDriftPx": 0,
+  "maxRootAnchorDriftPx": 0,
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "centerX": 512.0,
+      "rootAnchorX": 510.86,
+      "rootAnchorY": 484.62,
+      "rootAnchorPixels": 3120,
+      "bottom": 1024,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 0.0,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": null
+    }
+  ]
+}

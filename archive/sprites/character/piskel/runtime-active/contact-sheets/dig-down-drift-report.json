@@ -1,0 +1,45 @@
+{
+  "id": "dig-down",
+  "displayName": "Dig Down",
+  "frameCount": 1,
+  "frameSize": [
+    1024,
+    1024
+  ],
+  "fps": 12,
+  "orientation": "front",
+  "centeringPolicy": {},
+  "medianCenterX": 512.0,
+  "medianRootAnchorX": 422.36,
+  "medianRootAnchorY": 706.98,
+  "maxCenterDriftPx": 0,
+  "maxRootAnchorDriftPx": 0,
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "centerX": 512.0,
+      "rootAnchorX": 422.36,
+      "rootAnchorY": 706.98,
+      "rootAnchorPixels": 85353,
+      "bottom": 1024,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        2,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 0.0,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": null
+    }
+  ]
+}

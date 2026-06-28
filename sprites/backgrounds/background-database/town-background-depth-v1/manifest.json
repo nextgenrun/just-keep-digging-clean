@@ -1,0 +1,6086 @@
+{
+  "generatedBy": "Codex authored town-depth strip generator",
+  "seed": 9127,
+  "columns": 13,
+  "sourceFrameSize": [
+    2048,
+    2048
+  ],
+  "runtimeFrameSize": [
+    512,
+    512
+  ],
+  "frames": 6,
+  "sheetGrid": [
+    3,
+    2
+  ],
+  "contract": "13 unique town columns across the NPC zone; source art is authored at 2048x2048, runtime sheets export six 512x512 frames arranged as a 3x2 grid for WebGL compatibility.",
+  "layers": {
+    "farThreshold": [
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-00-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-01-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-02-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-03-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.2701,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1937,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.5115,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.2721,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1894,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.5178,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-04-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.8718,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.6123,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 1.7334,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.8881,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.6013,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 1.7608,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "upgrades"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-05-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 1.0571,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.7382,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 2.151,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 1.0821,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.7269,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 2.1872,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-06-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 1.2757,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.8964,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 2.5831,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 1.3393,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.9081,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 2.6349,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-07-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.972,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.6763,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 1.9951,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.9888,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.6578,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 2.0304,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-08-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.8241,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.578,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 1.6296,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.8313,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.5627,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 1.6522,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "gear"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-09-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.2033,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1462,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.3827,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.2002,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1381,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.3877,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-10-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-11-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "gem"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/far-threshold-col-12-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            255,
+            255
+          ],
+          "transparentCorners": false,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": false
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "gem"
+      }
+    ],
+    "midTown": [
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-00-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-01-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0844,
+              "diffBBox": [
+                719,
+                623,
+                2048,
+                1758
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.3271,
+              "diffBBox": [
+                719,
+                623,
+                2048,
+                1758
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.4779,
+              "diffBBox": [
+                756,
+                634,
+                2048,
+                1747
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0737,
+              "diffBBox": [
+                807,
+                658,
+                2048,
+                1723
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.3156,
+              "diffBBox": [
+                789,
+                644,
+                2048,
+                1737
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.4785,
+              "diffBBox": [
+                727,
+                625,
+                2048,
+                1756
+              ]
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-02-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1803,
+              "diffBBox": [
+                0,
+                572,
+                2048,
+                1809
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.8074,
+              "diffBBox": [
+                0,
+                572,
+                2048,
+                1809
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 1.156,
+              "diffBBox": [
+                0,
+                582,
+                2048,
+                1799
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1762,
+              "diffBBox": [
+                0,
+                606,
+                2048,
+                1775
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.7337,
+              "diffBBox": [
+                0,
+                593,
+                2048,
+                1788
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 1.2255,
+              "diffBBox": [
+                0,
+                574,
+                2048,
+                1807
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-03-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1037,
+              "diffBBox": [
+                0,
+                597,
+                1868,
+                1784
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.4252,
+              "diffBBox": [
+                0,
+                597,
+                1868,
+                1784
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.6548,
+              "diffBBox": [
+                0,
+                607,
+                1857,
+                1774
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0989,
+              "diffBBox": [
+                0,
+                632,
+                1833,
+                1749
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.4097,
+              "diffBBox": [
+                0,
+                618,
+                1847,
+                1763
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.6654,
+              "diffBBox": [
+                0,
+                600,
+                1865,
+                1781
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-04-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                649,
+                980,
+                820,
+                1016
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0025,
+              "diffBBox": [
+                649,
+                980,
+                820,
+                1016
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0023,
+              "diffBBox": [
+                649,
+                980,
+                820,
+                1016
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                649,
+                980,
+                820,
+                1016
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0025,
+              "diffBBox": [
+                649,
+                980,
+                820,
+                1016
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0023,
+              "diffBBox": [
+                649,
+                980,
+                820,
+                1016
+              ]
+            }
+          ]
+        },
+        "district": "upgrades"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-05-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-06-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-07-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                1645,
+                970,
+                1816,
+                1006
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0025,
+              "diffBBox": [
+                1645,
+                970,
+                1816,
+                1006
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0023,
+              "diffBBox": [
+                1645,
+                970,
+                1816,
+                1006
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                1645,
+                970,
+                1816,
+                1006
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0025,
+              "diffBBox": [
+                1645,
+                970,
+                1816,
+                1006
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0023,
+              "diffBBox": [
+                1645,
+                970,
+                1816,
+                1006
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-08-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            253
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "gear"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-09-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.139,
+              "diffBBox": [
+                1183,
+                740,
+                2048,
+                1610
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1718,
+              "diffBBox": [
+                1198,
+                755,
+                2048,
+                1595
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1353,
+              "diffBBox": [
+                1202,
+                760,
+                2048,
+                1591
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1755,
+              "diffBBox": [
+                1183,
+                740,
+                2048,
+                1610
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-10-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.8469,
+              "diffBBox": [
+                0,
+                598,
+                2048,
+                1783
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 1.0396,
+              "diffBBox": [
+                0,
+                612,
+                2048,
+                1769
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0022,
+              "diffBBox": [
+                11,
+                1090,
+                182,
+                1126
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.8232,
+              "diffBBox": [
+                0,
+                617,
+                2048,
+                1764
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 1.0634,
+              "diffBBox": [
+                0,
+                598,
+                2048,
+                1783
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0022,
+              "diffBBox": [
+                11,
+                1090,
+                182,
+                1126
+              ]
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-11-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            253
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.8314,
+              "diffBBox": [
+                0,
+                597,
+                2048,
+                1784
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 1.0183,
+              "diffBBox": [
+                0,
+                611,
+                2048,
+                1770
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0022,
+              "diffBBox": [
+                1053,
+                990,
+                1224,
+                1026
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.7937,
+              "diffBBox": [
+                0,
+                615,
+                2048,
+                1766
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 1.0559,
+              "diffBBox": [
+                0,
+                597,
+                2048,
+                1784
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0022,
+              "diffBBox": [
+                1053,
+                990,
+                1224,
+                1026
+              ]
+            }
+          ]
+        },
+        "district": "gem"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/mid-town-col-12-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            216
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.3185,
+              "diffBBox": [
+                0,
+                682,
+                1310,
+                1699
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.4084,
+              "diffBBox": [
+                0,
+                697,
+                1295,
+                1684
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.3277,
+              "diffBBox": [
+                0,
+                701,
+                1291,
+                1680
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.3992,
+              "diffBBox": [
+                0,
+                682,
+                1310,
+                1699
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "gem"
+      }
+    ],
+    "nearProps": [
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-00-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                928,
+                1836,
+                953,
+                1861
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                928,
+                1836,
+                953,
+                1861
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                928,
+                1836,
+                953,
+                1861
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                928,
+                1836,
+                953,
+                1861
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                928,
+                1836,
+                953,
+                1861
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                928,
+                1836,
+                953,
+                1861
+              ]
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-01-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            254
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-02-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            254
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 1224,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-03-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            254
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                324,
+                1730,
+                349,
+                1755
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                324,
+                1730,
+                349,
+                1755
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                324,
+                1730,
+                349,
+                1755
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                324,
+                1730,
+                349,
+                1755
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                324,
+                1730,
+                349,
+                1755
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                324,
+                1730,
+                349,
+                1755
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-04-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            227
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "upgrades"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-05-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            254
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                1528,
+                1808,
+                1553,
+                1833
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                1528,
+                1808,
+                1553,
+                1833
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                1528,
+                1808,
+                1553,
+                1833
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                1528,
+                1808,
+                1553,
+                1833
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                1528,
+                1808,
+                1553,
+                1833
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                1528,
+                1808,
+                1553,
+                1833
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-06-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            238
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-07-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            228
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-08-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            228
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                724,
+                1848,
+                749,
+                1873
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                724,
+                1848,
+                749,
+                1873
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                724,
+                1848,
+                749,
+                1873
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                724,
+                1848,
+                749,
+                1873
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                724,
+                1848,
+                749,
+                1873
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                724,
+                1848,
+                749,
+                1873
+              ]
+            }
+          ]
+        },
+        "district": "gear"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-09-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            254
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-10-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            255
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-11-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            227
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                1780,
+                1798,
+                1805,
+                1823
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                1780,
+                1798,
+                1805,
+                1823
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                1780,
+                1798,
+                1805,
+                1823
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                1780,
+                1798,
+                1805,
+                1823
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                1780,
+                1798,
+                1805,
+                1823
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0009,
+              "diffBBox": [
+                1780,
+                1798,
+                1805,
+                1823
+              ]
+            }
+          ]
+        },
+        "district": "gem"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/near-props-col-12-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            253
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": null
+            }
+          ]
+        },
+        "district": "gem"
+      }
+    ],
+    "lights": [
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-00-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            80
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0003,
+              "diffBBox": [
+                972,
+                766,
+                1703,
+                1585
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                338,
+                766,
+                1703,
+                1585
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0007,
+              "diffBBox": [
+                338,
+                766,
+                1703,
+                1585
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0002,
+              "diffBBox": [
+                338,
+                986,
+                1088,
+                1447
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0008,
+              "diffBBox": [
+                338,
+                766,
+                1703,
+                1585
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0008,
+              "diffBBox": [
+                338,
+                766,
+                1703,
+                1585
+              ]
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-01-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            251
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.2776,
+              "diffBBox": [
+                651,
+                784,
+                1786,
+                1632
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.2424,
+              "diffBBox": [
+                1270,
+                783,
+                1786,
+                1632
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.5289,
+              "diffBBox": [
+                651,
+                785,
+                1785,
+                1630
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.2821,
+              "diffBBox": [
+                653,
+                788,
+                1781,
+                1627
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.2427,
+              "diffBBox": [
+                1270,
+                785,
+                1781,
+                1627
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.5331,
+              "diffBBox": [
+                653,
+                783,
+                1785,
+                1630
+              ]
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-02-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            247
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.135,
+              "diffBBox": [
+                45,
+                688,
+                1871,
+                1597
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1534,
+              "diffBBox": [
+                45,
+                515,
+                1871,
+                1597
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0147,
+              "diffBBox": [
+                179,
+                515,
+                1871,
+                1597
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1352,
+              "diffBBox": [
+                45,
+                515,
+                1256,
+                1597
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1535,
+              "diffBBox": [
+                45,
+                515,
+                1871,
+                1597
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0147,
+              "diffBBox": [
+                45,
+                515,
+                1871,
+                1194
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-03-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            244
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1718,
+              "diffBBox": [
+                690,
+                559,
+                1808,
+                1627
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0086,
+              "diffBBox": [
+                703,
+                770,
+                1808,
+                1627
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1674,
+              "diffBBox": [
+                690,
+                559,
+                1098,
+                1414
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1718,
+              "diffBBox": [
+                688,
+                559,
+                1098,
+                1414
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0086,
+              "diffBBox": [
+                687,
+                559,
+                1808,
+                1627
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1676,
+              "diffBBox": [
+                687,
+                559,
+                1808,
+                1627
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-04-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            244
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0003,
+              "diffBBox": [
+                67,
+                941,
+                1409,
+                1509
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1431,
+              "diffBBox": [
+                67,
+                755,
+                1896,
+                1509
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1391,
+              "diffBBox": [
+                67,
+                753,
+                1896,
+                1509
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0005,
+              "diffBBox": [
+                74,
+                941,
+                1896,
+                1393
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1429,
+              "diffBBox": [
+                67,
+                753,
+                1896,
+                1509
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1396,
+              "diffBBox": [
+                67,
+                755,
+                1409,
+                1509
+              ]
+            }
+          ]
+        },
+        "district": "upgrades"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-05-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            251
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.3545,
+              "diffBBox": [
+                372,
+                708,
+                1804,
+                1592
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.278,
+              "diffBBox": [
+                369,
+                706,
+                1801,
+                1588
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1795,
+              "diffBBox": [
+                379,
+                706,
+                1803,
+                1589
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.3543,
+              "diffBBox": [
+                369,
+                706,
+                1805,
+                1592
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.2779,
+              "diffBBox": [
+                370,
+                707,
+                1806,
+                1593
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1795,
+              "diffBBox": [
+                374,
+                711,
+                1806,
+                1593
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-06-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            250
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1731,
+              "diffBBox": [
+                235,
+                589,
+                1745,
+                1183
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1172,
+              "diffBBox": [
+                238,
+                589,
+                1745,
+                1183
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0532,
+              "diffBBox": [
+                239,
+                589,
+                1409,
+                1360
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1732,
+              "diffBBox": [
+                236,
+                707,
+                1745,
+                1360
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1172,
+              "diffBBox": [
+                235,
+                705,
+                1745,
+                1360
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0532,
+              "diffBBox": [
+                241,
+                589,
+                1745,
+                1360
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-07-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            250
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0608,
+              "diffBBox": [
+                0,
+                765,
+                1760,
+                1440
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0784,
+              "diffBBox": [
+                0,
+                765,
+                1760,
+                1440
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1416,
+              "diffBBox": [
+                0,
+                766,
+                1760,
+                1440
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0604,
+              "diffBBox": [
+                0,
+                766,
+                1760,
+                1440
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.078,
+              "diffBBox": [
+                0,
+                768,
+                254,
+                1043
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1411,
+              "diffBBox": [
+                0,
+                766,
+                1760,
+                1136
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-08-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            251
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1745,
+              "diffBBox": [
+                0,
+                782,
+                1723,
+                1702
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.3925,
+              "diffBBox": [
+                0,
+                784,
+                1723,
+                1702
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.21,
+              "diffBBox": [
+                0,
+                787,
+                813,
+                1685
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.174,
+              "diffBBox": [
+                0,
+                786,
+                1723,
+                1702
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.393,
+              "diffBBox": [
+                0,
+                783,
+                1723,
+                1702
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.2103,
+              "diffBBox": [
+                0,
+                782,
+                1723,
+                1702
+              ]
+            }
+          ]
+        },
+        "district": "gear"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-09-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            128
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0208,
+              "diffBBox": [
+                235,
+                666,
+                2048,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0228,
+              "diffBBox": [
+                235,
+                666,
+                2048,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0435,
+              "diffBBox": [
+                235,
+                666,
+                2048,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0211,
+              "diffBBox": [
+                235,
+                666,
+                2048,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0227,
+              "diffBBox": [
+                235,
+                697,
+                2048,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0433,
+              "diffBBox": [
+                1624,
+                697,
+                2048,
+                1161
+              ]
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-10-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            251
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.071,
+              "diffBBox": [
+                0,
+                861,
+                1470,
+                1521
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0775,
+              "diffBBox": [
+                0,
+                659,
+                2033,
+                1271
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1504,
+              "diffBBox": [
+                0,
+                659,
+                2033,
+                1521
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0711,
+              "diffBBox": [
+                0,
+                659,
+                2033,
+                1521
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0776,
+              "diffBBox": [
+                0,
+                659,
+                2033,
+                1521
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1506,
+              "diffBBox": [
+                0,
+                659,
+                2033,
+                1521
+              ]
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-11-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            248
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0862,
+              "diffBBox": [
+                386,
+                757,
+                2028,
+                2042
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.5513,
+              "diffBBox": [
+                386,
+                757,
+                2033,
+                2047
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.5393,
+              "diffBBox": [
+                386,
+                759,
+                2036,
+                2048
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0862,
+              "diffBBox": [
+                386,
+                763,
+                2036,
+                2048
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.5512,
+              "diffBBox": [
+                840,
+                760,
+                2035,
+                2048
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.5391,
+              "diffBBox": [
+                386,
+                757,
+                2032,
+                2046
+              ]
+            }
+          ]
+        },
+        "district": "gem"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/lights-col-12-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            85
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0013,
+              "diffBBox": [
+                292,
+                513,
+                1786,
+                1586
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.001,
+              "diffBBox": [
+                292,
+                513,
+                1786,
+                1586
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.001,
+              "diffBBox": [
+                292,
+                638,
+                1786,
+                1586
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0011,
+              "diffBBox": [
+                798,
+                513,
+                1786,
+                1586
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0008,
+              "diffBBox": [
+                292,
+                513,
+                1627,
+                1405
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.001,
+              "diffBBox": [
+                292,
+                513,
+                1786,
+                1586
+              ]
+            }
+          ]
+        },
+        "district": "gem"
+      }
+    ],
+    "fogDust": [
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-00-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            36
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                827,
+                1178,
+                1989,
+                1690
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                827,
+                1178,
+                1989,
+                1690
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                827,
+                1178,
+                1989,
+                1690
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                827,
+                1178,
+                1989,
+                1690
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                827,
+                1178,
+                1989,
+                1690
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                827,
+                1178,
+                1989,
+                1690
+              ]
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-01-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            35
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.027,
+              "diffBBox": [
+                0,
+                654,
+                401,
+                1601
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0179,
+              "diffBBox": [
+                0,
+                654,
+                401,
+                1601
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0495,
+              "diffBBox": [
+                0,
+                655,
+                401,
+                1601
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0271,
+              "diffBBox": [
+                0,
+                662,
+                401,
+                1601
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.018,
+              "diffBBox": [
+                0,
+                665,
+                401,
+                1601
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0494,
+              "diffBBox": [
+                0,
+                656,
+                401,
+                1601
+              ]
+            }
+          ]
+        },
+        "district": "threshold"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-02-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            37
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1265,
+              "diffBBox": [
+                0,
+                855,
+                2048,
+                1492
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0004,
+              "diffBBox": [
+                0,
+                1332,
+                74,
+                1495
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1138,
+              "diffBBox": [
+                0,
+                855,
+                2048,
+                1495
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1264,
+              "diffBBox": [
+                0,
+                861,
+                2048,
+                1492
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0006,
+              "diffBBox": [
+                0,
+                1347,
+                60,
+                1480
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1138,
+              "diffBBox": [
+                0,
+                861,
+                2048,
+                1480
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-03-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            36
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0314,
+              "diffBBox": [
+                0,
+                582,
+                1807,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0704,
+              "diffBBox": [
+                0,
+                582,
+                1807,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.112,
+              "diffBBox": [
+                0,
+                582,
+                1807,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0293,
+              "diffBBox": [
+                0,
+                582,
+                1807,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0701,
+              "diffBBox": [
+                0,
+                582,
+                1807,
+                1694
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1102,
+              "diffBBox": [
+                0,
+                582,
+                1807,
+                1694
+              ]
+            }
+          ]
+        },
+        "district": "money"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-04-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            36
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.155,
+              "diffBBox": [
+                0,
+                457,
+                2048,
+                1546
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.2488,
+              "diffBBox": [
+                0,
+                450,
+                2048,
+                1546
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0654,
+              "diffBBox": [
+                748,
+                449,
+                2048,
+                1546
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1555,
+              "diffBBox": [
+                0,
+                449,
+                2048,
+                1546
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.2475,
+              "diffBBox": [
+                0,
+                451,
+                2048,
+                1546
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0661,
+              "diffBBox": [
+                748,
+                460,
+                2048,
+                1546
+              ]
+            }
+          ]
+        },
+        "district": "upgrades"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-05-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            43
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1574,
+              "diffBBox": [
+                0,
+                414,
+                2033,
+                1758
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1958,
+              "diffBBox": [
+                0,
+                414,
+                2033,
+                1753
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1804,
+              "diffBBox": [
+                0,
+                414,
+                2033,
+                1761
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1578,
+              "diffBBox": [
+                0,
+                414,
+                2033,
+                1765
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1959,
+              "diffBBox": [
+                0,
+                414,
+                2033,
+                1765
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1801,
+              "diffBBox": [
+                0,
+                414,
+                2033,
+                1764
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-06-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            29
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0115,
+              "diffBBox": [
+                117,
+                582,
+                2048,
+                1714
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0635,
+              "diffBBox": [
+                117,
+                582,
+                2048,
+                1714
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0454,
+              "diffBBox": [
+                117,
+                582,
+                2048,
+                1714
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0114,
+              "diffBBox": [
+                117,
+                582,
+                2048,
+                1714
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.063,
+              "diffBBox": [
+                117,
+                582,
+                2048,
+                1714
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0459,
+              "diffBBox": [
+                117,
+                582,
+                2048,
+                1714
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-07-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            35
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.2429,
+              "diffBBox": [
+                0,
+                305,
+                2048,
+                1795
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.4623,
+              "diffBBox": [
+                0,
+                305,
+                2048,
+                1795
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.3358,
+              "diffBBox": [
+                0,
+                305,
+                2048,
+                1792
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.2406,
+              "diffBBox": [
+                0,
+                305,
+                2048,
+                1783
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.4652,
+              "diffBBox": [
+                0,
+                305,
+                2048,
+                1789
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.3359,
+              "diffBBox": [
+                0,
+                305,
+                2048,
+                1794
+              ]
+            }
+          ]
+        },
+        "district": "square"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-08-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            31
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0331,
+              "diffBBox": [
+                381,
+                760,
+                1756,
+                1507
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.1775,
+              "diffBBox": [
+                368,
+                760,
+                1756,
+                1517
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1304,
+              "diffBBox": [
+                364,
+                760,
+                1756,
+                1520
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0333,
+              "diffBBox": [
+                364,
+                760,
+                1756,
+                1520
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.1773,
+              "diffBBox": [
+                365,
+                760,
+                1756,
+                1520
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1304,
+              "diffBBox": [
+                373,
+                760,
+                1756,
+                1514
+              ]
+            }
+          ]
+        },
+        "district": "gear"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-09-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            43
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.2296,
+              "diffBBox": [
+                0,
+                434,
+                2048,
+                1598
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.2456,
+              "diffBBox": [
+                0,
+                434,
+                2048,
+                1593
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.2978,
+              "diffBBox": [
+                0,
+                435,
+                2048,
+                1319
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.2326,
+              "diffBBox": [
+                0,
+                442,
+                2048,
+                1594
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.2458,
+              "diffBBox": [
+                0,
+                446,
+                2048,
+                1598
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.2983,
+              "diffBBox": [
+                0,
+                437,
+                2048,
+                1319
+              ]
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-10-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            29
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                338,
+                328,
+                1859,
+                1515
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": [
+                338,
+                328,
+                1859,
+                1515
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                338,
+                328,
+                1859,
+                1515
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                338,
+                328,
+                1859,
+                1515
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0,
+              "diffBBox": [
+                338,
+                328,
+                1859,
+                1515
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.0001,
+              "diffBBox": [
+                338,
+                328,
+                1859,
+                1515
+              ]
+            }
+          ]
+        },
+        "district": "bobo"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-11-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            35
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1081,
+              "diffBBox": [
+                351,
+                536,
+                2048,
+                1764
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.2171,
+              "diffBBox": [
+                341,
+                536,
+                2048,
+                1773
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1055,
+              "diffBBox": [
+                341,
+                536,
+                2048,
+                1776
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.1064,
+              "diffBBox": [
+                341,
+                536,
+                2048,
+                1776
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.2152,
+              "diffBBox": [
+                344,
+                536,
+                2048,
+                1775
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1091,
+              "diffBBox": [
+                356,
+                536,
+                2048,
+                1770
+              ]
+            }
+          ]
+        },
+        "district": "gem"
+      },
+      {
+        "path": "sprites/backgrounds/background-database/town-background-depth-v1/sheets/fog-dust-col-12-sheet.webp",
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "frames": 6,
+        "validation": {
+          "size": [
+            1536,
+            1024
+          ],
+          "mode": "RGBA",
+          "frames": 6,
+          "alphaExtrema": [
+            0,
+            43
+          ],
+          "transparentCorners": true,
+          "hiddenRgbPixels": 0,
+          "nonBlank": true,
+          "transparentLayer": true
+        },
+        "motion": {
+          "adjacentPairs": [
+            {
+              "pair": [
+                0,
+                1
+              ],
+              "meanAbsDiff": 0.1111,
+              "diffBBox": [
+                30,
+                1202,
+                2048,
+                1674
+              ]
+            },
+            {
+              "pair": [
+                1,
+                2
+              ],
+              "meanAbsDiff": 0.0686,
+              "diffBBox": [
+                36,
+                1202,
+                2048,
+                1674
+              ]
+            },
+            {
+              "pair": [
+                2,
+                3
+              ],
+              "meanAbsDiff": 0.1954,
+              "diffBBox": [
+                24,
+                1204,
+                2048,
+                1674
+              ]
+            },
+            {
+              "pair": [
+                3,
+                4
+              ],
+              "meanAbsDiff": 0.109,
+              "diffBBox": [
+                20,
+                1213,
+                2048,
+                1674
+              ]
+            },
+            {
+              "pair": [
+                4,
+                5
+              ],
+              "meanAbsDiff": 0.0672,
+              "diffBBox": [
+                20,
+                1211,
+                2048,
+                1674
+              ]
+            },
+            {
+              "pair": [
+                5,
+                0
+              ],
+              "meanAbsDiff": 0.1948,
+              "diffBBox": [
+                21,
+                1203,
+                2048,
+                1674
+              ]
+            }
+          ]
+        },
+        "district": "gem"
+      }
+    ]
+  }
+}

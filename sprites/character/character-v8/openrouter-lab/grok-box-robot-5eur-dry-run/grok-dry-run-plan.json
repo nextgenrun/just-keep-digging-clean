@@ -1,0 +1,455 @@
+{
+  "runId": "grok-box-robot-5eur-dry-run",
+  "model": "x-ai/grok-imagine-video",
+  "maxSpendCents": 500.0,
+  "estimatedTotalCents": 499.8,
+  "withinBudget": true,
+  "pricing": {
+    "cents_per_image_input": "0.2",
+    "cents_per_video_output_second_480p": "5",
+    "cents_per_video_output_second_720p": "7"
+  },
+  "jobs": [
+    {
+      "target": "robot-idle",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: main idle loop, tiny eye/lamp pulse only, feet locked to baseline, no bob larger than 2 pixels."
+    },
+    {
+      "target": "robot-idle",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: main idle loop, tiny eye/lamp pulse only, feet locked to baseline, no bob larger than 2 pixels."
+    },
+    {
+      "target": "robot-idle",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: main idle loop, tiny eye/lamp pulse only, feet locked to baseline, no bob larger than 2 pixels."
+    },
+    {
+      "target": "robot-walk-start",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: idle into walking, one clean weight shift, block boots stay grounded, no sliding."
+    },
+    {
+      "target": "robot-walk-start",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: idle into walking, one clean weight shift, block boots stay grounded, no sliding."
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: core walking loop with block boots, simple alternating foot contacts, no knees, no skating."
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: core walking loop with block boots, simple alternating foot contacts, no knees, no skating."
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: core walking loop with block boots, simple alternating foot contacts, no knees, no skating."
+    },
+    {
+      "target": "robot-walk-loop",
+      "index": 3,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: core walking loop with block boots, simple alternating foot contacts, no knees, no skating."
+    },
+    {
+      "target": "robot-walk-stop",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: walking decelerates into idle, feet plant firmly, no backward teleport."
+    },
+    {
+      "target": "robot-walk-stop",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: walking decelerates into idle, feet plant firmly, no backward teleport."
+    },
+    {
+      "target": "robot-walk-stop",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: walking decelerates into idle, feet plant firmly, no backward teleport."
+    },
+    {
+      "target": "robot-run-loop",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: upgraded fast run loop, same block proportions, stronger stride but no extra parts."
+    },
+    {
+      "target": "robot-run-loop",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: upgraded fast run loop, same block proportions, stronger stride but no extra parts."
+    },
+    {
+      "target": "robot-run-loop",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: upgraded fast run loop, same block proportions, stronger stride but no extra parts."
+    },
+    {
+      "target": "robot-run-stop",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: fast movement braking into idle, like landing or decelerating, block boots plant on baseline."
+    },
+    {
+      "target": "robot-run-stop",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: fast movement braking into idle, like landing or decelerating, block boots plant on baseline."
+    },
+    {
+      "target": "robot-run-stop",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: fast movement braking into idle, like landing or decelerating, block boots plant on baseline."
+    },
+    {
+      "target": "robot-jump",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: jump takeoff and airtime pose, block boots visible, no squash/stretch redesign."
+    },
+    {
+      "target": "robot-jump",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: jump takeoff and airtime pose, block boots visible, no squash/stretch redesign."
+    },
+    {
+      "target": "robot-jump",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: jump takeoff and airtime pose, block boots visible, no squash/stretch redesign."
+    },
+    {
+      "target": "robot-fall",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: falling downward loop, arms slightly out, same box head and torso proportions, no camera movement."
+    },
+    {
+      "target": "robot-fall",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: falling downward loop, arms slightly out, same box head and torso proportions, no camera movement."
+    },
+    {
+      "target": "robot-fall",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: falling downward loop, arms slightly out, same box head and torso proportions, no camera movement."
+    },
+    {
+      "target": "robot-duck",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: duck or crouch pose, torso lowers as one rigid box, feet stay planted."
+    },
+    {
+      "target": "robot-duck",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: duck or crouch pose, torso lowers as one rigid box, feet stay planted."
+    },
+    {
+      "target": "robot-dig-sideways",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: sideways digging hit, one clean wind-up impact recovery, clamp hands, grounded feet, left-facing source."
+    },
+    {
+      "target": "robot-dig-sideways",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: sideways digging hit, one clean wind-up impact recovery, clamp hands, grounded feet, left-facing source."
+    },
+    {
+      "target": "robot-dig-sideways",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: sideways digging hit, one clean wind-up impact recovery, clamp hands, grounded feet, left-facing source."
+    },
+    {
+      "target": "robot-dig-down",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: downward digging hit below the feet, blocky arms, clear impact, stable body."
+    },
+    {
+      "target": "robot-dig-down",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: downward digging hit below the feet, blocky arms, clear impact, stable body."
+    },
+    {
+      "target": "robot-dig-down",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: downward digging hit below the feet, blocky arms, clear impact, stable body."
+    },
+    {
+      "target": "robot-dig-up",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: upward digging hit, same robot scale, arms lift without head or torso redesign."
+    },
+    {
+      "target": "robot-dig-up",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: upward digging hit, same robot scale, arms lift without head or torso redesign."
+    },
+    {
+      "target": "robot-dig-up",
+      "index": 2,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: upward digging hit, same robot scale, arms lift without head or torso redesign."
+    },
+    {
+      "target": "robot-dig-up-sideways",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: diagonal up-sideways digging hit, readable direction, planted boots, no spin."
+    },
+    {
+      "target": "robot-dig-up-sideways",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: diagonal up-sideways digging hit, readable direction, planted boots, no spin."
+    },
+    {
+      "target": "robot-wall-push",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: pushing into a blocked tile or wall, subtle pressure, planted block boots."
+    },
+    {
+      "target": "robot-wall-push",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: pushing into a blocked tile or wall, subtle pressure, planted block boots."
+    },
+    {
+      "target": "robot-climb",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: climbing loop placeholder, simple arms and block boots move vertically, same proportions."
+    },
+    {
+      "target": "robot-climb",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: climbing loop placeholder, simple arms and block boots move vertically, same proportions."
+    },
+    {
+      "target": "robot-fly-climb",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: flying or powered climb loop placeholder, tiny core/lamp energy only, no smoke or new parts."
+    },
+    {
+      "target": "robot-fly-climb",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: flying or powered climb loop placeholder, tiny core/lamp energy only, no smoke or new parts."
+    },
+    {
+      "target": "robot-attack-down",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: attack downward placeholder, compact impact below, stable body and feet."
+    },
+    {
+      "target": "robot-attack-down",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: attack downward placeholder, compact impact below, stable body and feet."
+    },
+    {
+      "target": "robot-quickslash",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: quick side attack placeholder, fast arm motion without motion blur or redesigned weapon."
+    },
+    {
+      "target": "robot-quickslash",
+      "index": 1,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: quick side attack placeholder, fast arm motion without motion blur or redesigned weapon."
+    },
+    {
+      "target": "robot-thunder-charge",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: ability charge pose, purple core brightens as a simple solid shape, no particle haze."
+    },
+    {
+      "target": "robot-combat-idle-recover",
+      "index": 0,
+      "duration": 2,
+      "resolution": "480p",
+      "estimatedCents": 10.2,
+      "hasFirstFrame": true,
+      "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: combat-ready idle relaxes back into normal idle, no body pop."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "frameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        44,
+        21,
+        272,
+        339
+      ],
+      "centerX": 158.0,
+      "rootAnchorX": 170.4,
+      "rootAnchorY": 223.32,
+      "rootAnchorPixels": 1204,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "drift": {
+    "anchorMode": "bbox-center",
+    "maxBBoxCenterDriftPx": 0.0,
+    "maxRootAnchorDriftPx": 0.0,
+    "maxAnchorDriftPx": 0.0
+  },
+  "clippedFrames": [],
+  "nonTransparentCornerFrames": []
+}

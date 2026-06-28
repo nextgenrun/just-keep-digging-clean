@@ -1,0 +1,291 @@
+{
+  "sourceMode": "combined-piskel-review-pack",
+  "sourceManifest": "sprites/character/piskel/character-animation-manifest.json",
+  "packPath": "sprites/character/piskel/packs/all-player-animations-review.piskel",
+  "frameCount": 159,
+  "frameSize": [
+    341,
+    341
+  ],
+  "ranges": [
+    {
+      "id": "idle",
+      "displayName": "Idle",
+      "startFrame": 0,
+      "endFrame": 34,
+      "frameCount": 35,
+      "fps": 8,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/idle.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/idle-sheet.webp"
+      ]
+    },
+    {
+      "id": "walk",
+      "displayName": "Walk",
+      "startFrame": 35,
+      "endFrame": 85,
+      "frameCount": 51,
+      "fps": 14,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/walk.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/walk-sheet.webp"
+      ]
+    },
+    {
+      "id": "dig-sideways",
+      "displayName": "Dig Sideways",
+      "startFrame": 86,
+      "endFrame": 103,
+      "frameCount": 18,
+      "fps": 30,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/dig-sideways.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/dig/dig-sideways-sheet.webp"
+      ]
+    },
+    {
+      "id": "dig-up",
+      "displayName": "Dig Up",
+      "startFrame": 104,
+      "endFrame": 112,
+      "frameCount": 9,
+      "fps": 30,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/dig-up.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/dig/dig-up-sheet.webp"
+      ]
+    },
+    {
+      "id": "dig-up-sideways",
+      "displayName": "Dig Up Sideways",
+      "startFrame": 113,
+      "endFrame": 125,
+      "frameCount": 13,
+      "fps": 30,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/dig-up-sideways.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/dig/dig-up-sideways-sheet.webp"
+      ]
+    },
+    {
+      "id": "dig-up-look",
+      "displayName": "Dig Up Look",
+      "startFrame": 126,
+      "endFrame": 126,
+      "frameCount": 1,
+      "fps": 1,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/dig-up-look.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/dig/dig-up-look.png"
+      ]
+    },
+    {
+      "id": "fly-climb",
+      "displayName": "Fly And Climb",
+      "startFrame": 127,
+      "endFrame": 151,
+      "frameCount": 25,
+      "fps": 14,
+      "originalFrameSize": [
+        341,
+        341
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": false,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/fly-climb.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v5-walk/fly-climb/fly-climb-sheet.webp"
+      ]
+    },
+    {
+      "id": "jump",
+      "displayName": "Jump",
+      "startFrame": 152,
+      "endFrame": 152,
+      "frameCount": 1,
+      "fps": 12,
+      "originalFrameSize": [
+        1024,
+        1024
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": true,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/jump.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v2/character-movement/movement-bare-hands/jump/jump-1.webp"
+      ]
+    },
+    {
+      "id": "duck",
+      "displayName": "Duck",
+      "startFrame": 153,
+      "endFrame": 153,
+      "frameCount": 1,
+      "fps": 8,
+      "originalFrameSize": [
+        1024,
+        1024
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": true,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/duck.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v2/character-movement/movement-bare-hands/duck/duck-1.webp"
+      ]
+    },
+    {
+      "id": "dig-down",
+      "displayName": "Dig Down",
+      "startFrame": 154,
+      "endFrame": 154,
+      "frameCount": 1,
+      "fps": 12,
+      "originalFrameSize": [
+        1024,
+        1024
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": true,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/dig-down.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v2/digging/digging-bare-hand/dig-down/dig-down-1.webp"
+      ]
+    },
+    {
+      "id": "quickslash",
+      "displayName": "Quickslash",
+      "startFrame": 155,
+      "endFrame": 156,
+      "frameCount": 2,
+      "fps": 12,
+      "originalFrameSize": [
+        1280,
+        1280
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": true,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/quickslash.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v2/digging/abilities/quickslash/uickslash-1.webp",
+        "sprites/character/character-v2/digging/abilities/quickslash/uickslash-2 .webp"
+      ]
+    },
+    {
+      "id": "thunder-charge",
+      "displayName": "Thunder Strike Charge",
+      "startFrame": 157,
+      "endFrame": 157,
+      "frameCount": 1,
+      "fps": 6,
+      "originalFrameSize": [
+        1280,
+        1280
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": true,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/thunder-charge.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v2/digging/abilities/thunder-strike/charging.webp"
+      ]
+    },
+    {
+      "id": "thunder-strike",
+      "displayName": "Thunder Strike",
+      "startFrame": 158,
+      "endFrame": 158,
+      "frameCount": 1,
+      "fps": 12,
+      "originalFrameSize": [
+        1280,
+        1280
+      ],
+      "reviewFrameSize": [
+        341,
+        341
+      ],
+      "scaledForReview": true,
+      "sourcePiskel": "sprites/character/piskel/runtime-active/thunder-strike.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v2/digging/abilities/thunder-strike/thunder-strike.webp"
+      ]
+    }
+  ],
+  "notes": [
+    "This file is for online Piskel review/import convenience.",
+    "Animations with original frame sizes larger than 341x341 are scaled into the review canvas.",
+    "Use the per-animation .piskel files for exact runtime export back to Phaser."
+  ]
+}

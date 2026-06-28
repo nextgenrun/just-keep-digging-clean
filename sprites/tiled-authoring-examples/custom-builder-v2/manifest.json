@@ -1,0 +1,1033 @@
+{
+  "tileSize": 94,
+  "firstgid": 10000,
+  "tileCount": 102,
+  "runtimeUsed": false,
+  "status": "approved mockups wired into Tiled workspace only",
+  "atlas": "exports/tiled/palettes/tiles/images/dig-game-custom-builder-v2.png",
+  "review": "sprites/tiled-authoring-examples/custom-builder-v2/custom-builder-v2-numbered-review.png",
+  "paletteMap": "exports/tiled/palettes/tiles/dig-game-palette-custom-builder-v2.tmx",
+  "tileset": "exports/tiled/palettes/tiles/dig-game-custom-builder-v2.tsx",
+  "records": [
+    {
+      "id": 0,
+      "name": "Outside / Surface #01",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 1,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/001-outside_surface-01.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 1,
+      "name": "Outside / Surface #02",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 2,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/002-outside_surface-02.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 2,
+      "name": "Outside / Surface #03",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 3,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/003-outside_surface-03.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 3,
+      "name": "Outside / Surface #04",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 4,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/004-outside_surface-04.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 4,
+      "name": "Outside / Surface #05",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 5,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/005-outside_surface-05.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 5,
+      "name": "Outside / Surface #06",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 6,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/006-outside_surface-06.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 6,
+      "name": "Outside / Surface #07",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 7,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/007-outside_surface-07.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 7,
+      "name": "Outside / Surface #08",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 8,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/008-outside_surface-08.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 8,
+      "name": "Outside / Surface #09",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 9,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/009-outside_surface-09.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 9,
+      "name": "Outside / Surface #10",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 10,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/010-outside_surface-10.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 10,
+      "name": "Outside / Surface #11",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 11,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/011-outside_surface-11.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 11,
+      "name": "Outside / Surface #12",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 12,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/012-outside_surface-12.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 12,
+      "name": "Outside / Surface #13",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 13,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/013-outside_surface-13.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 13,
+      "name": "Outside / Surface #14",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 14,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/014-outside_surface-14.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 14,
+      "name": "Outside / Surface #15",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 15,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/015-outside_surface-15.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 15,
+      "name": "Outside / Surface #16",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 16,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/016-outside_surface-16.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 16,
+      "name": "Outside / Surface #17",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 17,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/017-outside_surface-17.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 17,
+      "name": "Outside / Surface #18",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 18,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/018-outside_surface-18.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 18,
+      "name": "Outside / Surface #19",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 19,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/019-outside_surface-19.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 19,
+      "name": "Outside / Surface #20",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 20,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/020-outside_surface-20.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 20,
+      "name": "Outside / Surface #21",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 21,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/021-outside_surface-21.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 21,
+      "name": "Outside / Surface #22",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 22,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/022-outside_surface-22.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 22,
+      "name": "Outside / Surface #23",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 23,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/023-outside_surface-23.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 23,
+      "name": "Outside / Surface #24",
+      "category": "outside_surface",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/01-outside-surface-mockup.png",
+      "sourceTileNumber": 24,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/024-outside_surface-24.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 24,
+      "name": "Cave Town Construction #01",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 1,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/025-cave_town-01.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 25,
+      "name": "Cave Town Construction #02",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 2,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/026-cave_town-02.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 26,
+      "name": "Cave Town Construction #03",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 3,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/027-cave_town-03.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 27,
+      "name": "Cave Town Construction #04",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 4,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/028-cave_town-04.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 28,
+      "name": "Cave Town Construction #05",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 5,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/029-cave_town-05.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 29,
+      "name": "Cave Town Construction #06",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 6,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/030-cave_town-06.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 30,
+      "name": "Cave Town Construction #07",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 7,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/031-cave_town-07.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 31,
+      "name": "Cave Town Construction #08",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 8,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/032-cave_town-08.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 32,
+      "name": "Cave Town Construction #09",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 9,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/033-cave_town-09.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 33,
+      "name": "Cave Town Construction #10",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 10,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/034-cave_town-10.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 34,
+      "name": "Cave Town Construction #11",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 11,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/035-cave_town-11.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 35,
+      "name": "Cave Town Construction #12",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 12,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/036-cave_town-12.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 36,
+      "name": "Cave Town Construction #13",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 13,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/037-cave_town-13.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 37,
+      "name": "Cave Town Construction #14",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 14,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/038-cave_town-14.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 38,
+      "name": "Cave Town Construction #15",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 15,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/039-cave_town-15.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 39,
+      "name": "Cave Town Construction #16",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 16,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/040-cave_town-16.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 40,
+      "name": "Cave Town Construction #17",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 17,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/041-cave_town-17.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 41,
+      "name": "Cave Town Construction #18",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 18,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/042-cave_town-18.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 42,
+      "name": "Cave Town Construction #19",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 19,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/043-cave_town-19.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 43,
+      "name": "Cave Town Construction #20",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 20,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/044-cave_town-20.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 44,
+      "name": "Cave Town Construction #21",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 21,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/045-cave_town-21.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 45,
+      "name": "Cave Town Construction #22",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 22,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/046-cave_town-22.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 46,
+      "name": "Cave Town Construction #23",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 23,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/047-cave_town-23.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 47,
+      "name": "Cave Town Construction #24",
+      "category": "cave_town",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/02-cave-town-construction-mockup.png",
+      "sourceTileNumber": 24,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/048-cave_town-24.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 48,
+      "name": "Void / Abyss #01",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 1,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/049-void_abyss-01.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 49,
+      "name": "Void / Abyss #02",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 2,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/050-void_abyss-02.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 50,
+      "name": "Void / Abyss #03",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 3,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/051-void_abyss-03.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 51,
+      "name": "Void / Abyss #04",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 4,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/052-void_abyss-04.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 52,
+      "name": "Void / Abyss #05",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 5,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/053-void_abyss-05.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 53,
+      "name": "Void / Abyss #06",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 6,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/054-void_abyss-06.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 54,
+      "name": "Void / Abyss #07",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 7,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/055-void_abyss-07.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 55,
+      "name": "Void / Abyss #08",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 8,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/056-void_abyss-08.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 56,
+      "name": "Void / Abyss #09",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 9,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/057-void_abyss-09.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 57,
+      "name": "Void / Abyss #10",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 10,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/058-void_abyss-10.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 58,
+      "name": "Void / Abyss #11",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 11,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/059-void_abyss-11.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 59,
+      "name": "Void / Abyss #12",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 12,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/060-void_abyss-12.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 60,
+      "name": "Void / Abyss #13",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 13,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/061-void_abyss-13.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 61,
+      "name": "Void / Abyss #14",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 14,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/062-void_abyss-14.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 62,
+      "name": "Void / Abyss #15",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 15,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/063-void_abyss-15.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 63,
+      "name": "Void / Abyss #16",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 16,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/064-void_abyss-16.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 64,
+      "name": "Void / Abyss #17",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 17,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/065-void_abyss-17.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 65,
+      "name": "Void / Abyss #18",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 18,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/066-void_abyss-18.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 66,
+      "name": "Void / Abyss #19",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 19,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/067-void_abyss-19.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 67,
+      "name": "Void / Abyss #20",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 20,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/068-void_abyss-20.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 68,
+      "name": "Void / Abyss #21",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 21,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/069-void_abyss-21.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 69,
+      "name": "Void / Abyss #22",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 22,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/070-void_abyss-22.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 70,
+      "name": "Void / Abyss #23",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 23,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/071-void_abyss-23.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 71,
+      "name": "Void / Abyss #24",
+      "category": "void_abyss",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/03-void-abyss-mockup.png",
+      "sourceTileNumber": 24,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/072-void_abyss-24.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 72,
+      "name": "Depth Band Construction #01",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 1,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/073-depth_bands-01.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 73,
+      "name": "Depth Band Construction #02",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 2,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/074-depth_bands-02.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 74,
+      "name": "Depth Band Construction #03",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 3,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/075-depth_bands-03.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 75,
+      "name": "Depth Band Construction #04",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 4,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/076-depth_bands-04.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 76,
+      "name": "Depth Band Construction #05",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 5,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/077-depth_bands-05.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 77,
+      "name": "Depth Band Construction #06",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 6,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/078-depth_bands-06.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 78,
+      "name": "Depth Band Construction #07",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 7,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/079-depth_bands-07.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 79,
+      "name": "Depth Band Construction #08",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 8,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/080-depth_bands-08.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 80,
+      "name": "Depth Band Construction #09",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 9,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/081-depth_bands-09.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 81,
+      "name": "Depth Band Construction #10",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 10,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/082-depth_bands-10.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 82,
+      "name": "Depth Band Construction #11",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 11,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/083-depth_bands-11.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 83,
+      "name": "Depth Band Construction #12",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 12,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/084-depth_bands-12.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 84,
+      "name": "Depth Band Construction #13",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 13,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/085-depth_bands-13.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 85,
+      "name": "Depth Band Construction #14",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 14,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/086-depth_bands-14.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 86,
+      "name": "Depth Band Construction #15",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 15,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/087-depth_bands-15.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 87,
+      "name": "Depth Band Construction #16",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 16,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/088-depth_bands-16.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 88,
+      "name": "Depth Band Construction #17",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 17,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/089-depth_bands-17.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 89,
+      "name": "Depth Band Construction #18",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 18,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/090-depth_bands-18.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 90,
+      "name": "Depth Band Construction #19",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 19,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/091-depth_bands-19.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 91,
+      "name": "Depth Band Construction #20",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 20,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/092-depth_bands-20.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 92,
+      "name": "Depth Band Construction #21",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 21,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/093-depth_bands-21.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 93,
+      "name": "Depth Band Construction #22",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 22,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/094-depth_bands-22.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 94,
+      "name": "Depth Band Construction #23",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 23,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/095-depth_bands-23.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 95,
+      "name": "Depth Band Construction #24",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 24,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/096-depth_bands-24.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 96,
+      "name": "Depth Band Construction #25",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 25,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/097-depth_bands-25.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 97,
+      "name": "Depth Band Construction #26",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 26,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/098-depth_bands-26.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 98,
+      "name": "Depth Band Construction #27",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 27,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/099-depth_bands-27.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 99,
+      "name": "Depth Band Construction #28",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 28,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/100-depth_bands-28.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 100,
+      "name": "Depth Band Construction #29",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 29,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/101-depth_bands-29.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    },
+    {
+      "id": 101,
+      "name": "Depth Band Construction #30",
+      "category": "depth_bands",
+      "sourceSheet": "visual-approval-previews/tiled-library-v2-mockups/04-depth-band-construction-mockup.png",
+      "sourceTileNumber": 30,
+      "cellPath": "sprites/tiled-authoring-examples/custom-builder-v2/cells/102-depth_bands-30.png",
+      "approvedStatus": "preview-approved-for-tiled-workspace",
+      "runtimeUsed": false
+    }
+  ]
+}

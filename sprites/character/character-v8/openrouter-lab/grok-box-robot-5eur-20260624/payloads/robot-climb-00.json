@@ -1,0 +1,9 @@
+{
+  "model": "x-ai/grok-imagine-video",
+  "prompt": "Side-view 2D game sprite animation reference of the exact same simple box robot miner from the provided first frame: square metal head with two fixed yellow square eyes, box torso, purple diamond core gem on chest, brown shoulder pads, blocky segmented arms, mitten clamp hands, chunky block boots, thick dark outline, earthy mining palette. Ultra-simple animation puppet, low-detail pixel-art/cartoon hybrid, 3 to 5 main color regions, stable rigid shapes. Anchor contract: the purple chest core and torso center stay on the same vertical centerline, the lowest boot sole stays on one fixed ground baseline, the robot remains the same size in every frame, and the camera never follows the motion. Flat solid chroma-key green background (#00ff00) only, no shadows, no scenery, no checkerboard, no black or white matte, no new accessories, no tiny bolts, no cables, no fingers, no face changes, no redesign, no camera movement, no zoom, same proportions every frame, feet locked to a stable baseline, no visible guide lines or anchor marks. Motion goal: climbing loop placeholder, simple arms and block boots move vertically, same proportions.",
+  "duration": 2,
+  "resolution": "480p",
+  "aspect_ratio": "1:1",
+  "generate_audio": false,
+  "frame_images": "[embedded-data-url omitted]"
+}

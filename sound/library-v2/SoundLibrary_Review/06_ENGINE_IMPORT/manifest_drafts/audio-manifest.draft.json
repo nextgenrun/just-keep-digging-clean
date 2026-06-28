@@ -1,0 +1,43 @@
+{
+  "buses": {
+    "master": { "volume": 1.0 },
+    "sfx": { "volume": 1.0 },
+    "ui": { "volume": 1.0 },
+    "ambience": { "volume": 1.0 },
+    "weather": { "volume": 1.0 },
+    "voice": { "volume": 1.0 },
+    "music": { "volume": 0.0 }
+  },
+  "events": {
+    "dig.dirt.hit": {
+      "bus": "sfx",
+      "files": [],
+      "volume": 0.68,
+      "pitchRandom": [0.94, 1.06],
+      "cooldownMs": 45,
+      "maxInstances": 3
+    },
+    "ui.click": {
+      "bus": "ui",
+      "files": [],
+      "volume": 0.65,
+      "cooldownMs": 35,
+      "maxInstances": 2
+    },
+    "surface.day": {
+      "bus": "ambience",
+      "files": [],
+      "loop": true,
+      "volume": 0.16,
+      "fadeMs": 1200
+    },
+    "darkness.accent": {
+      "bus": "sfx",
+      "files": [],
+      "volume": 0.32,
+      "pitchRandom": [0.92, 1.03],
+      "cooldownMs": 12000,
+      "priority": "low"
+    }
+  }
+}

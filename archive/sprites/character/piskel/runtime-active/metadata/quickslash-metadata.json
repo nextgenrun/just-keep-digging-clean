@@ -1,0 +1,68 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/quickslash.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 2,
+  "frameSize": [
+    1280,
+    1280
+  ],
+  "sheetGrid": [
+    2,
+    1
+  ],
+  "sheetSize": [
+    2560,
+    1280
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 1,
+  "runtimeFps": 12,
+  "phaserKey": "char-v2-quickslash",
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {},
+  "runtimeOutputs": [
+    "sprites/character/character-v2/digging/abilities/quickslash/uickslash-1.webp",
+    "sprites/character/character-v2/digging/abilities/quickslash/uickslash-2 .webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1240
+      ],
+      "centerX": 640.0,
+      "bottom": 1240,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1280
+      ],
+      "centerX": 640.0,
+      "bottom": 1280,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        2,
+        1,
+        0
+      ]
+    }
+  ]
+}

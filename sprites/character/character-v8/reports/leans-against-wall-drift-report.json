@@ -1,0 +1,144 @@
+{
+  "frameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        109,
+        9,
+        265,
+        339
+      ],
+      "centerX": 187.0,
+      "rootAnchorX": 179.62,
+      "rootAnchorY": 201.1,
+      "rootAnchorPixels": 104,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        118,
+        21,
+        243,
+        339
+      ],
+      "centerX": 180.5,
+      "rootAnchorX": null,
+      "rootAnchorY": null,
+      "rootAnchorPixels": 0,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        97,
+        10,
+        241,
+        339
+      ],
+      "centerX": 169.0,
+      "rootAnchorX": 179.64,
+      "rootAnchorY": 197.47,
+      "rootAnchorPixels": 80,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        99,
+        12,
+        243,
+        339
+      ],
+      "centerX": 171.0,
+      "rootAnchorX": 179.89,
+      "rootAnchorY": 199.18,
+      "rootAnchorPixels": 157,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        98,
+        13,
+        250,
+        339
+      ],
+      "centerX": 174.0,
+      "rootAnchorX": 180.19,
+      "rootAnchorY": 200.75,
+      "rootAnchorPixels": 134,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        104,
+        12,
+        256,
+        339
+      ],
+      "centerX": 180.0,
+      "rootAnchorX": null,
+      "rootAnchorY": null,
+      "rootAnchorPixels": 0,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "drift": {
+    "anchorMode": "bbox-center",
+    "maxBBoxCenterDriftPx": 10.0,
+    "maxRootAnchorDriftPx": 0.43,
+    "maxAnchorDriftPx": 10.0
+  },
+  "clippedFrames": [],
+  "nonTransparentCornerFrames": []
+}

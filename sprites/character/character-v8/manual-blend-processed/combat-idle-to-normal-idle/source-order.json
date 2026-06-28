@@ -1,0 +1,2535 @@
+{
+  "id": "combat-idle-to-normal-idle",
+  "sourceDir": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames",
+  "frameCount": 51,
+  "fps": 8,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourceOrder": [
+    {
+      "canonicalFrame": 0,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-0000.png",
+      "outputFile": "frames/frame-000.png"
+    },
+    {
+      "canonicalFrame": 1,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-001.png",
+      "outputFile": "frames/frame-001.png"
+    },
+    {
+      "canonicalFrame": 2,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-002.png",
+      "outputFile": "frames/frame-002.png"
+    },
+    {
+      "canonicalFrame": 3,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-003.png",
+      "outputFile": "frames/frame-003.png"
+    },
+    {
+      "canonicalFrame": 4,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-004.png",
+      "outputFile": "frames/frame-004.png"
+    },
+    {
+      "canonicalFrame": 5,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-005.png",
+      "outputFile": "frames/frame-005.png"
+    },
+    {
+      "canonicalFrame": 6,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-006.png",
+      "outputFile": "frames/frame-006.png"
+    },
+    {
+      "canonicalFrame": 7,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-007.png",
+      "outputFile": "frames/frame-007.png"
+    },
+    {
+      "canonicalFrame": 8,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-008.png",
+      "outputFile": "frames/frame-008.png"
+    },
+    {
+      "canonicalFrame": 9,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-009.png",
+      "outputFile": "frames/frame-009.png"
+    },
+    {
+      "canonicalFrame": 10,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-010 (01).png",
+      "outputFile": "frames/frame-010.png"
+    },
+    {
+      "canonicalFrame": 11,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-010 (2).png",
+      "outputFile": "frames/frame-011.png"
+    },
+    {
+      "canonicalFrame": 12,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-010 (4).png",
+      "outputFile": "frames/frame-012.png"
+    },
+    {
+      "canonicalFrame": 13,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-010 (5).png",
+      "outputFile": "frames/frame-013.png"
+    },
+    {
+      "canonicalFrame": 14,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-011.png",
+      "outputFile": "frames/frame-014.png"
+    },
+    {
+      "canonicalFrame": 15,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-012(1).png",
+      "outputFile": "frames/frame-015.png"
+    },
+    {
+      "canonicalFrame": 16,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-012.png",
+      "outputFile": "frames/frame-016.png"
+    },
+    {
+      "canonicalFrame": 17,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-013 (2).png",
+      "outputFile": "frames/frame-017.png"
+    },
+    {
+      "canonicalFrame": 18,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-013.png",
+      "outputFile": "frames/frame-018.png"
+    },
+    {
+      "canonicalFrame": 19,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-014.png",
+      "outputFile": "frames/frame-019.png"
+    },
+    {
+      "canonicalFrame": 20,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-015.png",
+      "outputFile": "frames/frame-020.png"
+    },
+    {
+      "canonicalFrame": 21,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-016.png",
+      "outputFile": "frames/frame-021.png"
+    },
+    {
+      "canonicalFrame": 22,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-017.png",
+      "outputFile": "frames/frame-022.png"
+    },
+    {
+      "canonicalFrame": 23,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-018.png",
+      "outputFile": "frames/frame-023.png"
+    },
+    {
+      "canonicalFrame": 24,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-019.png",
+      "outputFile": "frames/frame-024.png"
+    },
+    {
+      "canonicalFrame": 25,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-020.png",
+      "outputFile": "frames/frame-025.png"
+    },
+    {
+      "canonicalFrame": 26,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-021.png",
+      "outputFile": "frames/frame-026.png"
+    },
+    {
+      "canonicalFrame": 27,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-022.png",
+      "outputFile": "frames/frame-027.png"
+    },
+    {
+      "canonicalFrame": 28,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-023.png",
+      "outputFile": "frames/frame-028.png"
+    },
+    {
+      "canonicalFrame": 29,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-024.png",
+      "outputFile": "frames/frame-029.png"
+    },
+    {
+      "canonicalFrame": 30,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-025.png",
+      "outputFile": "frames/frame-030.png"
+    },
+    {
+      "canonicalFrame": 31,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-026.png",
+      "outputFile": "frames/frame-031.png"
+    },
+    {
+      "canonicalFrame": 32,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-027.png",
+      "outputFile": "frames/frame-032.png"
+    },
+    {
+      "canonicalFrame": 33,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-028.png",
+      "outputFile": "frames/frame-033.png"
+    },
+    {
+      "canonicalFrame": 34,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-029.png",
+      "outputFile": "frames/frame-034.png"
+    },
+    {
+      "canonicalFrame": 35,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-030.png",
+      "outputFile": "frames/frame-035.png"
+    },
+    {
+      "canonicalFrame": 36,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-031.png",
+      "outputFile": "frames/frame-036.png"
+    },
+    {
+      "canonicalFrame": 37,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-032.png",
+      "outputFile": "frames/frame-037.png"
+    },
+    {
+      "canonicalFrame": 38,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-033.png",
+      "outputFile": "frames/frame-038.png"
+    },
+    {
+      "canonicalFrame": 39,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-034.png",
+      "outputFile": "frames/frame-039.png"
+    },
+    {
+      "canonicalFrame": 40,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-035.png",
+      "outputFile": "frames/frame-040.png"
+    },
+    {
+      "canonicalFrame": 41,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-036.png",
+      "outputFile": "frames/frame-041.png"
+    },
+    {
+      "canonicalFrame": 42,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-037.png",
+      "outputFile": "frames/frame-042.png"
+    },
+    {
+      "canonicalFrame": 43,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-038.png",
+      "outputFile": "frames/frame-043.png"
+    },
+    {
+      "canonicalFrame": 44,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-039.png",
+      "outputFile": "frames/frame-044.png"
+    },
+    {
+      "canonicalFrame": 45,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-040.png",
+      "outputFile": "frames/frame-045.png"
+    },
+    {
+      "canonicalFrame": 46,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-041.png",
+      "outputFile": "frames/frame-046.png"
+    },
+    {
+      "canonicalFrame": 47,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-042.png",
+      "outputFile": "frames/frame-047.png"
+    },
+    {
+      "canonicalFrame": 48,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-043.png",
+      "outputFile": "frames/frame-048.png"
+    },
+    {
+      "canonicalFrame": 49,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-044.png",
+      "outputFile": "frames/frame-049.png"
+    },
+    {
+      "canonicalFrame": 50,
+      "sourceFile": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames/frame-045.png",
+      "outputFile": "frames/frame-050.png"
+    }
+  ],
+  "before": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          88,
+          21,
+          247,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 152.48,
+        "rootAnchorY": 200.65,
+        "rootAnchorPixels": 141,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          77,
+          24,
+          252,
+          339
+        ],
+        "centerX": 164.5,
+        "rootAnchorX": 151.67,
+        "rootAnchorY": 201.56,
+        "rootAnchorPixels": 158,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          90,
+          31,
+          246,
+          339
+        ],
+        "centerX": 168.0,
+        "rootAnchorX": 152.15,
+        "rootAnchorY": 206.5,
+        "rootAnchorPixels": 166,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          101,
+          31,
+          257,
+          339
+        ],
+        "centerX": 179.0,
+        "rootAnchorX": 152.44,
+        "rootAnchorY": 206.69,
+        "rootAnchorPixels": 174,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          103,
+          25,
+          261,
+          339
+        ],
+        "centerX": 182.0,
+        "rootAnchorX": 151.93,
+        "rootAnchorY": 202.57,
+        "rootAnchorPixels": 173,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          98,
+          22,
+          263,
+          339
+        ],
+        "centerX": 180.5,
+        "rootAnchorX": 151.58,
+        "rootAnchorY": 200.56,
+        "rootAnchorPixels": 162,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          92,
+          26,
+          257,
+          339
+        ],
+        "centerX": 174.5,
+        "rootAnchorX": 152.25,
+        "rootAnchorY": 204.34,
+        "rootAnchorPixels": 162,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 7,
+        "sourceFrame": null,
+        "bbox": [
+          84,
+          31,
+          249,
+          339
+        ],
+        "centerX": 166.5,
+        "rootAnchorX": 152.49,
+        "rootAnchorY": 207.97,
+        "rootAnchorPixels": 149,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 8,
+        "sourceFrame": null,
+        "bbox": [
+          83,
+          27,
+          248,
+          339
+        ],
+        "centerX": 165.5,
+        "rootAnchorX": 151.87,
+        "rootAnchorY": 204.03,
+        "rootAnchorPixels": 163,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 9,
+        "sourceFrame": null,
+        "bbox": [
+          89,
+          23,
+          254,
+          339
+        ],
+        "centerX": 171.5,
+        "rootAnchorX": 152.04,
+        "rootAnchorY": 201.75,
+        "rootAnchorPixels": 158,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 10,
+        "sourceFrame": null,
+        "bbox": [
+          91,
+          45,
+          249,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": 153.8,
+        "rootAnchorY": 210.62,
+        "rootAnchorPixels": 157,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 11,
+        "sourceFrame": null,
+        "bbox": [
+          94,
+          25,
+          259,
+          339
+        ],
+        "centerX": 176.5,
+        "rootAnchorX": 151.68,
+        "rootAnchorY": 204.33,
+        "rootAnchorPixels": 158,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 12,
+        "sourceFrame": null,
+        "bbox": [
+          77,
+          24,
+          252,
+          339
+        ],
+        "centerX": 164.5,
+        "rootAnchorX": 151.67,
+        "rootAnchorY": 201.56,
+        "rootAnchorPixels": 158,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 13,
+        "sourceFrame": null,
+        "bbox": [
+          88,
+          21,
+          247,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 152.48,
+        "rootAnchorY": 200.65,
+        "rootAnchorPixels": 141,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 14,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.33,
+        "rootAnchorY": 198.35,
+        "rootAnchorPixels": 121,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 15,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 199.74,
+        "rootAnchorPixels": 118,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 16,
+        "sourceFrame": null,
+        "bbox": [
+          93,
+          59,
+          259,
+          339
+        ],
+        "centerX": 176.0,
+        "rootAnchorX": 168.62,
+        "rootAnchorY": 217.16,
+        "rootAnchorPixels": 11,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 17,
+        "sourceFrame": null,
+        "bbox": [
+          99,
+          43,
+          245,
+          339
+        ],
+        "centerX": 172.0,
+        "rootAnchorX": 162.24,
+        "rootAnchorY": 210.66,
+        "rootAnchorPixels": 135,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 18,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.22,
+        "rootAnchorY": 199.76,
+        "rootAnchorPixels": 123,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 19,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          18,
+          223,
+          339
+        ],
+        "centerX": 169.5,
+        "rootAnchorX": 170.09,
+        "rootAnchorY": 198.97,
+        "rootAnchorPixels": 123,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 20,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          221,
+          339
+        ],
+        "centerX": 168.5,
+        "rootAnchorX": 170.14,
+        "rootAnchorY": 198.58,
+        "rootAnchorPixels": 126,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 21,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 169.93,
+        "rootAnchorY": 198.29,
+        "rootAnchorPixels": 105,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 22,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          217,
+          339
+        ],
+        "centerX": 166.5,
+        "rootAnchorX": 169.73,
+        "rootAnchorY": 198.01,
+        "rootAnchorPixels": 91,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 23,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.03,
+        "rootAnchorY": 198.4,
+        "rootAnchorPixels": 107,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 24,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 169.51,
+        "rootAnchorY": 198.91,
+        "rootAnchorPixels": 124,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 25,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          225,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 170.39,
+        "rootAnchorY": 198.98,
+        "rootAnchorPixels": 132,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 26,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          16,
+          226,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 169.73,
+        "rootAnchorY": 199.2,
+        "rootAnchorPixels": 125,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 27,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          226,
+          339
+        ],
+        "centerX": 171.5,
+        "rootAnchorX": 170.14,
+        "rootAnchorY": 199.43,
+        "rootAnchorPixels": 130,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 28,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          17,
+          224,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": 170.1,
+        "rootAnchorY": 199.21,
+        "rootAnchorPixels": 130,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 29,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          222,
+          339
+        ],
+        "centerX": 169.5,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 199.41,
+        "rootAnchorPixels": 131,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 30,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          220,
+          339
+        ],
+        "centerX": 168.5,
+        "rootAnchorX": 170.15,
+        "rootAnchorY": 198.87,
+        "rootAnchorPixels": 127,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 31,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          217,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 169.56,
+        "rootAnchorY": 198.96,
+        "rootAnchorPixels": 121,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 32,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 169.84,
+        "rootAnchorY": 198.35,
+        "rootAnchorPixels": 106,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 33,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 169.88,
+        "rootAnchorY": 198.89,
+        "rootAnchorPixels": 114,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 34,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.24,
+        "rootAnchorY": 198.79,
+        "rootAnchorPixels": 114,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 35,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          219,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.27,
+        "rootAnchorY": 198.6,
+        "rootAnchorPixels": 115,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 36,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          220,
+          339
+        ],
+        "centerX": 168.0,
+        "rootAnchorX": 169.88,
+        "rootAnchorY": 198.83,
+        "rootAnchorPixels": 127,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 37,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.25,
+        "rootAnchorY": 198.53,
+        "rootAnchorPixels": 128,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 38,
+        "sourceFrame": null,
+        "bbox": [
+          114,
+          14,
+          222,
+          339
+        ],
+        "centerX": 168.0,
+        "rootAnchorX": 169.52,
+        "rootAnchorY": 198.66,
+        "rootAnchorPixels": 156,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 39,
+        "sourceFrame": null,
+        "bbox": [
+          114,
+          14,
+          223,
+          339
+        ],
+        "centerX": 168.5,
+        "rootAnchorX": 169.54,
+        "rootAnchorY": 198.75,
+        "rootAnchorPixels": 159,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 40,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          223,
+          339
+        ],
+        "centerX": 169.5,
+        "rootAnchorX": 170.45,
+        "rootAnchorY": 198.78,
+        "rootAnchorPixels": 162,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 41,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 198.69,
+        "rootAnchorPixels": 155,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 42,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 198.69,
+        "rootAnchorPixels": 155,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 43,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.25,
+        "rootAnchorY": 198.69,
+        "rootAnchorPixels": 155,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 44,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.04,
+        "rootAnchorY": 198.27,
+        "rootAnchorPixels": 137,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 45,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.06,
+        "rootAnchorY": 198.3,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 46,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.01,
+        "rootAnchorY": 198.24,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 47,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.01,
+        "rootAnchorY": 198.24,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 48,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.1,
+        "rootAnchorY": 198.32,
+        "rootAnchorPixels": 135,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 49,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.04,
+        "rootAnchorY": 198.27,
+        "rootAnchorPixels": 137,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 50,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.03,
+        "rootAnchorY": 198.27,
+        "rootAnchorPixels": 135,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "root-core",
+      "maxBBoxCenterDriftPx": 14.0,
+      "maxRootAnchorDriftPx": 18.35,
+      "maxAnchorDriftPx": 18.35
+    },
+    "clippedFrames": [],
+    "nonTransparentCornerFrames": []
+  },
+  "after": {
+    "frameStats": [
+      {
+        "frame": 0,
+        "sourceFrame": null,
+        "bbox": [
+          106,
+          21,
+          265,
+          339
+        ],
+        "centerX": 185.5,
+        "rootAnchorX": 170.48,
+        "rootAnchorY": 200.65,
+        "rootAnchorPixels": 141,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceFrame": null,
+        "bbox": [
+          94,
+          16,
+          273,
+          339
+        ],
+        "centerX": 183.5,
+        "rootAnchorX": 170.34,
+        "rootAnchorY": 197.99,
+        "rootAnchorPixels": 171,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceFrame": null,
+        "bbox": [
+          105,
+          16,
+          269,
+          339
+        ],
+        "centerX": 187.0,
+        "rootAnchorX": 170.4,
+        "rootAnchorY": 200.26,
+        "rootAnchorPixels": 188,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          16,
+          280,
+          339
+        ],
+        "centerX": 198.0,
+        "rootAnchorX": 170.1,
+        "rootAnchorY": 200.4,
+        "rootAnchorPixels": 193,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceFrame": null,
+        "bbox": [
+          120,
+          16,
+          283,
+          339
+        ],
+        "centerX": 201.5,
+        "rootAnchorX": 170.34,
+        "rootAnchorY": 198.58,
+        "rootAnchorPixels": 190,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          22,
+          281,
+          339
+        ],
+        "centerX": 198.5,
+        "rootAnchorX": 169.58,
+        "rootAnchorY": 200.56,
+        "rootAnchorPixels": 162,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceFrame": null,
+        "bbox": [
+          108,
+          16,
+          278,
+          339
+        ],
+        "centerX": 193.0,
+        "rootAnchorX": 170.15,
+        "rootAnchorY": 199.83,
+        "rootAnchorPixels": 174,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 7,
+        "sourceFrame": null,
+        "bbox": [
+          98,
+          16,
+          271,
+          339
+        ],
+        "centerX": 184.5,
+        "rootAnchorX": 169.95,
+        "rootAnchorY": 201.36,
+        "rootAnchorPixels": 179,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 8,
+        "sourceFrame": null,
+        "bbox": [
+          99,
+          16,
+          270,
+          339
+        ],
+        "centerX": 184.5,
+        "rootAnchorX": 170.05,
+        "rootAnchorY": 199.44,
+        "rootAnchorPixels": 185,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 9,
+        "sourceFrame": null,
+        "bbox": [
+          107,
+          23,
+          272,
+          339
+        ],
+        "centerX": 189.5,
+        "rootAnchorX": 170.04,
+        "rootAnchorY": 201.75,
+        "rootAnchorPixels": 158,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 10,
+        "sourceFrame": null,
+        "bbox": [
+          101,
+          16,
+          275,
+          339
+        ],
+        "centerX": 188.0,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 198.07,
+        "rootAnchorPixels": 194,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 11,
+        "sourceFrame": null,
+        "bbox": [
+          111,
+          16,
+          280,
+          339
+        ],
+        "centerX": 195.5,
+        "rootAnchorX": 170.41,
+        "rootAnchorY": 200.69,
+        "rootAnchorPixels": 177,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 12,
+        "sourceFrame": null,
+        "bbox": [
+          94,
+          16,
+          273,
+          339
+        ],
+        "centerX": 183.5,
+        "rootAnchorX": 170.34,
+        "rootAnchorY": 197.99,
+        "rootAnchorPixels": 171,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 13,
+        "sourceFrame": null,
+        "bbox": [
+          106,
+          21,
+          265,
+          339
+        ],
+        "centerX": 185.5,
+        "rootAnchorX": 170.48,
+        "rootAnchorY": 200.65,
+        "rootAnchorPixels": 141,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 14,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.33,
+        "rootAnchorY": 198.35,
+        "rootAnchorPixels": 121,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 15,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 199.74,
+        "rootAnchorPixels": 118,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 16,
+        "sourceFrame": null,
+        "bbox": [
+          83,
+          16,
+          274,
+          339
+        ],
+        "centerX": 178.5,
+        "rootAnchorX": 170.21,
+        "rootAnchorY": 198.41,
+        "rootAnchorPixels": 17,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 17,
+        "sourceFrame": null,
+        "bbox": [
+          101,
+          16,
+          260,
+          339
+        ],
+        "centerX": 180.5,
+        "rootAnchorX": 169.9,
+        "rootAnchorY": 199.03,
+        "rootAnchorPixels": 173,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 18,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          217,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.22,
+        "rootAnchorY": 199.76,
+        "rootAnchorPixels": 123,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 19,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          18,
+          223,
+          339
+        ],
+        "centerX": 169.5,
+        "rootAnchorX": 170.09,
+        "rootAnchorY": 198.97,
+        "rootAnchorPixels": 123,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 20,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          221,
+          339
+        ],
+        "centerX": 168.5,
+        "rootAnchorX": 170.14,
+        "rootAnchorY": 198.58,
+        "rootAnchorPixels": 126,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 21,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 169.93,
+        "rootAnchorY": 198.29,
+        "rootAnchorPixels": 105,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 22,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          217,
+          339
+        ],
+        "centerX": 166.5,
+        "rootAnchorX": 169.73,
+        "rootAnchorY": 198.01,
+        "rootAnchorPixels": 91,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 23,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          218,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.03,
+        "rootAnchorY": 198.4,
+        "rootAnchorPixels": 107,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 24,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          16,
+          221,
+          339
+        ],
+        "centerX": 168.5,
+        "rootAnchorX": 169.51,
+        "rootAnchorY": 198.91,
+        "rootAnchorPixels": 124,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 25,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          225,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 170.39,
+        "rootAnchorY": 198.98,
+        "rootAnchorPixels": 132,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 26,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          16,
+          226,
+          339
+        ],
+        "centerX": 171.0,
+        "rootAnchorX": 169.73,
+        "rootAnchorY": 199.2,
+        "rootAnchorPixels": 125,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 27,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          226,
+          339
+        ],
+        "centerX": 171.5,
+        "rootAnchorX": 170.14,
+        "rootAnchorY": 199.43,
+        "rootAnchorPixels": 130,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 28,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          17,
+          224,
+          339
+        ],
+        "centerX": 170.0,
+        "rootAnchorX": 170.1,
+        "rootAnchorY": 199.21,
+        "rootAnchorPixels": 130,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 29,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          17,
+          222,
+          339
+        ],
+        "centerX": 169.5,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 199.41,
+        "rootAnchorPixels": 131,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 30,
+        "sourceFrame": null,
+        "bbox": [
+          118,
+          17,
+          220,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.15,
+        "rootAnchorY": 198.87,
+        "rootAnchorPixels": 127,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 31,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          217,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 169.56,
+        "rootAnchorY": 198.96,
+        "rootAnchorPixels": 121,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 32,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 169.84,
+        "rootAnchorY": 198.35,
+        "rootAnchorPixels": 106,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 33,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 169.88,
+        "rootAnchorY": 198.89,
+        "rootAnchorPixels": 114,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 34,
+        "sourceFrame": null,
+        "bbox": [
+          117,
+          16,
+          218,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.24,
+        "rootAnchorY": 199.79,
+        "rootAnchorPixels": 114,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 35,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          219,
+          339
+        ],
+        "centerX": 167.5,
+        "rootAnchorX": 170.27,
+        "rootAnchorY": 198.6,
+        "rootAnchorPixels": 115,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 36,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          220,
+          339
+        ],
+        "centerX": 168.0,
+        "rootAnchorX": 169.88,
+        "rootAnchorY": 198.83,
+        "rootAnchorPixels": 127,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 37,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          16,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.25,
+        "rootAnchorY": 199.53,
+        "rootAnchorPixels": 128,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 38,
+        "sourceFrame": null,
+        "bbox": [
+          114,
+          14,
+          222,
+          339
+        ],
+        "centerX": 168.0,
+        "rootAnchorX": 169.52,
+        "rootAnchorY": 198.66,
+        "rootAnchorPixels": 156,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 39,
+        "sourceFrame": null,
+        "bbox": [
+          114,
+          14,
+          223,
+          339
+        ],
+        "centerX": 168.5,
+        "rootAnchorX": 169.54,
+        "rootAnchorY": 198.75,
+        "rootAnchorPixels": 159,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 40,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          223,
+          339
+        ],
+        "centerX": 169.5,
+        "rootAnchorX": 170.45,
+        "rootAnchorY": 198.78,
+        "rootAnchorPixels": 162,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 41,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 198.69,
+        "rootAnchorPixels": 155,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 42,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.26,
+        "rootAnchorY": 198.69,
+        "rootAnchorPixels": 155,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 43,
+        "sourceFrame": null,
+        "bbox": [
+          116,
+          15,
+          222,
+          339
+        ],
+        "centerX": 169.0,
+        "rootAnchorX": 170.25,
+        "rootAnchorY": 198.69,
+        "rootAnchorPixels": 155,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 44,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.04,
+        "rootAnchorY": 198.27,
+        "rootAnchorPixels": 137,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 45,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.06,
+        "rootAnchorY": 198.3,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 46,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.01,
+        "rootAnchorY": 198.24,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 47,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.01,
+        "rootAnchorY": 198.24,
+        "rootAnchorPixels": 136,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 48,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.1,
+        "rootAnchorY": 198.32,
+        "rootAnchorPixels": 135,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 49,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.04,
+        "rootAnchorY": 198.27,
+        "rootAnchorPixels": 137,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 50,
+        "sourceFrame": null,
+        "bbox": [
+          115,
+          14,
+          219,
+          339
+        ],
+        "centerX": 167.0,
+        "rootAnchorX": 170.03,
+        "rootAnchorY": 198.27,
+        "rootAnchorPixels": 135,
+        "bottom": 339,
+        "clipped": false,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "drift": {
+      "anchorMode": "root-core",
+      "maxBBoxCenterDriftPx": 32.5,
+      "maxRootAnchorDriftPx": 0.59,
+      "maxAnchorDriftPx": 0.59
+    },
+    "clippedFrames": [],
+    "nonTransparentCornerFrames": []
+  }
+}
