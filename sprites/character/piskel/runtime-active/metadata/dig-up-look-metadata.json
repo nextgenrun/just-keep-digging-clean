@@ -1,0 +1,58 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/dig-up-look.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 1,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sheetGrid": [
+    1,
+    1
+  ],
+  "sheetSize": [
+    341,
+    341
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 0,
+  "runtimeFps": 1,
+  "phaserKey": "char-v5-dig-up-look-frame",
+  "orientation": "front-up",
+  "hitFrameGroups": [],
+  "centeringPolicy": {
+    "runtimeBaselineY": 338,
+    "bottomY": 339,
+    "bottomTolerancePx": 2,
+    "maxAnchorDriftPx": 5
+  },
+  "runtimeOutputs": [
+    "sprites/character/character-v5-walk/dig/dig-up-look.png"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        113,
+        26,
+        222,
+        339
+      ],
+      "centerX": 167.5,
+      "rootAnchorX": 167.61,
+      "rootAnchorY": 206.22,
+      "rootAnchorPixels": 140,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/dig-up-look-alignment-overlay.png",
+  "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/dig-up-look-drift-report.json"
+}

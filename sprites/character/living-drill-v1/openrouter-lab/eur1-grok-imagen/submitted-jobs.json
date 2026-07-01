@@ -1,0 +1,96 @@
+{
+  "runId": "living-drill-v1-eur1",
+  "budgetUsd": 1.08,
+  "estimatedPreviousCostUsd": 0.052,
+  "jobs": [
+    {
+      "animation": "dig",
+      "payloadPath": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/payloads/living-drill-dig.json",
+      "response": {
+        "id": "tmUXUnSa3I7dmAwFCaKt",
+        "polling_url": "https://openrouter.ai/api/v1/videos/tmUXUnSa3I7dmAwFCaKt",
+        "status": "pending"
+      }
+    },
+    {
+      "animation": "idle",
+      "payloadPath": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/payloads/living-drill-idle.json",
+      "response": {
+        "id": "QNQtGm77JNmDYsVgYo1Y",
+        "polling_url": "https://openrouter.ai/api/v1/videos/QNQtGm77JNmDYsVgYo1Y",
+        "status": "pending"
+      }
+    },
+    {
+      "animation": "fly",
+      "payloadPath": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/payloads/living-drill-fly.json",
+      "response": {
+        "id": "m7ctzDWICICnnbc3zLKt",
+        "polling_url": "https://openrouter.ai/api/v1/videos/m7ctzDWICICnnbc3zLKt",
+        "status": "pending"
+      }
+    }
+  ],
+  "results": [
+    {
+      "animation": "dig",
+      "status": "completed",
+      "poll": {
+        "id": "tmUXUnSa3I7dmAwFCaKt",
+        "generation_id": "gen-vid-1782750318-8OOeQY9s0SdJEc0MxUAW",
+        "polling_url": "https://openrouter.ai/api/v1/videos/tmUXUnSa3I7dmAwFCaKt",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/tmUXUnSa3I7dmAwFCaKt/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/videos/living-drill-dig.mp4",
+      "framesDir": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/extracted-frames/dig",
+      "frameCount": 9
+    },
+    {
+      "animation": "idle",
+      "status": "completed",
+      "poll": {
+        "id": "QNQtGm77JNmDYsVgYo1Y",
+        "generation_id": "gen-vid-1782750388-IyjBmOrYEc7qfci0KKdW",
+        "polling_url": "https://openrouter.ai/api/v1/videos/QNQtGm77JNmDYsVgYo1Y",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/QNQtGm77JNmDYsVgYo1Y/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/videos/living-drill-idle.mp4",
+      "framesDir": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/extracted-frames/idle",
+      "frameCount": 9
+    },
+    {
+      "animation": "fly",
+      "status": "completed",
+      "poll": {
+        "id": "m7ctzDWICICnnbc3zLKt",
+        "generation_id": "gen-vid-1782750429-AD3qLvmTvptfCtnAItkT",
+        "polling_url": "https://openrouter.ai/api/v1/videos/m7ctzDWICICnnbc3zLKt",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/m7ctzDWICICnnbc3zLKt/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/videos/living-drill-fly.mp4",
+      "framesDir": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/extracted-frames/fly",
+      "frameCount": 9
+    }
+  ]
+}

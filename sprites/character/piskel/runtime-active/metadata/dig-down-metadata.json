@@ -1,0 +1,53 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/dig-down.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 1,
+  "frameSize": [
+    1024,
+    1024
+  ],
+  "sheetGrid": [
+    1,
+    1
+  ],
+  "sheetSize": [
+    1024,
+    1024
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 0,
+  "runtimeFps": 12,
+  "phaserKey": "char-v2-dig-down-1",
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {},
+  "runtimeOutputs": [
+    "sprites/character/character-v2/digging/digging-bare-hand/dig-down/dig-down-1.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "centerX": 512.0,
+      "rootAnchorX": 422.36,
+      "rootAnchorY": 706.98,
+      "rootAnchorPixels": 85353,
+      "bottom": 1024,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        2,
+        0,
+        0
+      ]
+    }
+  ],
+  "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/dig-down-alignment-overlay.png",
+  "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/dig-down-drift-report.json"
+}

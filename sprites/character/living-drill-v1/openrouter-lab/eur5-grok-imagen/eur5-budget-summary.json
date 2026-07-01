@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "budgetUsd": 5.35,
+  "budgetNote": "User described this as a EUR5 hard-limit key; USD cap used by OpenRouter runner is 5.35.",
+  "knownRuns": [
+    {
+      "label": "initial-four-state-batch",
+      "jobs": [
+        "idle-hover",
+        "fly-hover",
+        "dig-bite-loop",
+        "dig-contact-break-recoil"
+      ],
+      "knownCostUsd": 0.408
+    },
+    {
+      "label": "dig-no-block-rerun",
+      "jobs": [
+        "dig-bite-loop",
+        "dig-contact-break-recoil"
+      ],
+      "knownCostUsd": 0.204
+    }
+  ],
+  "totalKnownCostUsd": 0.612,
+  "remainingAgainstRunnerCapUsd": 4.738,
+  "notes": [
+    "No API key is stored in this repository.",
+    "The dig rerun was required because the first dig videos baked target blocks into the player sprite.",
+    "The final runtime import palette-locks non-blue pixels to grayscale and normalizes accepted frames to the 94x94 anchor."
+  ]
+}

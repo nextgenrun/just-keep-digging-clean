@@ -1,0 +1,379 @@
+{
+  "schemaVersion": 1,
+  "asset": "living-drill-v1",
+  "source": "OpenRouter x-ai/grok-imagine-video extracted frames",
+  "anchor": [
+    47,
+    47
+  ],
+  "frameSize": [
+    94,
+    94
+  ],
+  "method": "Each Grok frame is edge-background-cleaned, cropped to visible pixels, normalized to the median body size, body-centered at 47,47, then exported through .piskel/runtime sheets.",
+  "frameSourceOverrides": {
+    "dig": "idle"
+  },
+  "rejectedSourceFrames": {
+    "idle": [
+      "frame-002.png",
+      "frame-003.png",
+      "frame-007.png"
+    ],
+    "fly": [
+      "frame-002.png",
+      "frame-005.png",
+      "frame-008.png"
+    ]
+  },
+  "frames": {
+    "idle": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          24,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          18,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          25,
+          34,
+          70,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          70,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          20,
+          34,
+          71,
+          61
+        ],
+        "bodyBBox": [
+          24,
+          34,
+          71,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          19,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          26,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          24,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ],
+    "dig": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          24,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          18,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          25,
+          34,
+          70,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          70,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          20,
+          34,
+          71,
+          61
+        ],
+        "bodyBBox": [
+          24,
+          34,
+          71,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          19,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          26,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          24,
+          34,
+          69,
+          61
+        ],
+        "bodyBBox": [
+          25,
+          34,
+          69,
+          61
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ],
+    "fly": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          22,
+          26,
+          72,
+          68
+        ],
+        "bodyBBox": [
+          23,
+          26,
+          72,
+          68
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          16,
+          26,
+          72,
+          71
+        ],
+        "bodyBBox": [
+          23,
+          26,
+          72,
+          68
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          20,
+          27,
+          72,
+          69
+        ],
+        "bodyBBox": [
+          23,
+          27,
+          72,
+          69
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          22,
+          26,
+          72,
+          68
+        ],
+        "bodyBBox": [
+          23,
+          26,
+          72,
+          68
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          23,
+          27,
+          72,
+          69
+        ],
+        "bodyBBox": [
+          23,
+          27,
+          72,
+          69
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          21,
+          26,
+          72,
+          68
+        ],
+        "bodyBBox": [
+          23,
+          26,
+          72,
+          68
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ]
+  }
+}

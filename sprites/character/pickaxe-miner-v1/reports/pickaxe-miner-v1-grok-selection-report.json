@@ -1,0 +1,690 @@
+{
+  "schemaVersion": 1,
+  "asset": "pickaxe-miner-v1",
+  "source": "OpenRouter x-ai/grok-imagine-video extracted frames",
+  "budgetLimit": "EUR 0.50",
+  "anchor": [
+    47,
+    47
+  ],
+  "frameSize": [
+    94,
+    94
+  ],
+  "selected": {
+    "idle": [
+      {
+        "sourceFrame": "frame-000.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle/frame-000.png",
+        "score": 7.5,
+        "sourceBody": {
+          "left": 28,
+          "top": 12,
+          "right": 65,
+          "bottom": 82,
+          "width": 37,
+          "height": 70,
+          "centerX": 46.0,
+          "centerY": 46.5
+        }
+      },
+      {
+        "sourceFrame": "frame-001.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle/frame-001.png",
+        "score": 9.6,
+        "sourceBody": {
+          "left": 28,
+          "top": 12,
+          "right": 68,
+          "bottom": 82,
+          "width": 40,
+          "height": 70,
+          "centerX": 47.5,
+          "centerY": 46.5
+        }
+      },
+      {
+        "sourceFrame": "frame-008.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle/frame-008.png",
+        "score": 8.9,
+        "sourceBody": {
+          "left": 32,
+          "top": 11,
+          "right": 68,
+          "bottom": 82,
+          "width": 36,
+          "height": 71,
+          "centerX": 49.5,
+          "centerY": 46.0
+        }
+      },
+      {
+        "sourceFrame": "frame-009.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle/frame-009.png",
+        "score": 5.9,
+        "sourceBody": {
+          "left": 30,
+          "top": 12,
+          "right": 69,
+          "bottom": 82,
+          "width": 39,
+          "height": 70,
+          "centerX": 49.0,
+          "centerY": 46.5
+        }
+      },
+      {
+        "sourceFrame": "frame-011.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle/frame-011.png",
+        "score": 4.5,
+        "sourceBody": {
+          "left": 29,
+          "top": 12,
+          "right": 66,
+          "bottom": 82,
+          "width": 37,
+          "height": 70,
+          "centerX": 47.0,
+          "centerY": 46.5
+        }
+      },
+      {
+        "sourceFrame": "frame-012.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle/frame-012.png",
+        "score": 4.5,
+        "sourceBody": {
+          "left": 29,
+          "top": 12,
+          "right": 66,
+          "bottom": 82,
+          "width": 37,
+          "height": 70,
+          "centerX": 47.0,
+          "centerY": 46.5
+        }
+      }
+    ],
+    "walk": [
+      {
+        "sourceFrame": "frame-000.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-000.png",
+        "score": 36.7,
+        "sourceBody": {
+          "left": 28,
+          "top": 12,
+          "right": 66,
+          "bottom": 82,
+          "width": 38,
+          "height": 70,
+          "centerX": 46.5,
+          "centerY": 46.5
+        }
+      },
+      {
+        "sourceFrame": "frame-001.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-001.png",
+        "score": 20.9,
+        "sourceBody": {
+          "left": 16,
+          "top": 10,
+          "right": 68,
+          "bottom": 82,
+          "width": 52,
+          "height": 72,
+          "centerX": 41.5,
+          "centerY": 45.5
+        }
+      },
+      {
+        "sourceFrame": "frame-004.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-004.png",
+        "score": 18.6,
+        "sourceBody": {
+          "left": 23,
+          "top": 14,
+          "right": 76,
+          "bottom": 82,
+          "width": 53,
+          "height": 68,
+          "centerX": 49.0,
+          "centerY": 47.5
+        }
+      },
+      {
+        "sourceFrame": "frame-006.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-006.png",
+        "score": 8.2,
+        "sourceBody": {
+          "left": 22,
+          "top": 11,
+          "right": 76,
+          "bottom": 82,
+          "width": 54,
+          "height": 71,
+          "centerX": 48.5,
+          "centerY": 46.0
+        }
+      },
+      {
+        "sourceFrame": "frame-007.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-007.png",
+        "score": 37.1,
+        "sourceBody": {
+          "left": 28,
+          "top": 14,
+          "right": 76,
+          "bottom": 82,
+          "width": 48,
+          "height": 68,
+          "centerX": 51.5,
+          "centerY": 47.5
+        }
+      },
+      {
+        "sourceFrame": "frame-008.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-008.png",
+        "score": 7.5,
+        "sourceBody": {
+          "left": 23,
+          "top": 11,
+          "right": 76,
+          "bottom": 82,
+          "width": 53,
+          "height": 71,
+          "centerX": 49.0,
+          "centerY": 46.0
+        }
+      },
+      {
+        "sourceFrame": "frame-011.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-011.png",
+        "score": 29.5,
+        "sourceBody": {
+          "left": 15,
+          "top": 13,
+          "right": 76,
+          "bottom": 82,
+          "width": 61,
+          "height": 69,
+          "centerX": 45.0,
+          "centerY": 47.0
+        }
+      },
+      {
+        "sourceFrame": "frame-012.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk/frame-012.png",
+        "score": 33.4,
+        "sourceBody": {
+          "left": 30,
+          "top": 11,
+          "right": 76,
+          "bottom": 82,
+          "width": 46,
+          "height": 71,
+          "centerX": 52.5,
+          "centerY": 46.0
+        }
+      }
+    ],
+    "dig": [
+      {
+        "sourceFrame": "frame-002.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-002.png",
+        "score": 20.8,
+        "sourceBody": {
+          "left": 22,
+          "top": 13,
+          "right": 88,
+          "bottom": 82,
+          "width": 66,
+          "height": 69,
+          "centerX": 54.5,
+          "centerY": 47.0
+        }
+      },
+      {
+        "sourceFrame": "frame-003.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-003.png",
+        "score": 11.8,
+        "sourceBody": {
+          "left": 22,
+          "top": 13,
+          "right": 94,
+          "bottom": 82,
+          "width": 72,
+          "height": 69,
+          "centerX": 57.5,
+          "centerY": 47.0
+        }
+      },
+      {
+        "sourceFrame": "frame-004.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-004.png",
+        "score": 3.0,
+        "sourceBody": {
+          "left": 25,
+          "top": 12,
+          "right": 94,
+          "bottom": 82,
+          "width": 69,
+          "height": 70,
+          "centerX": 59.0,
+          "centerY": 46.5
+        }
+      },
+      {
+        "sourceFrame": "frame-005.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-005.png",
+        "score": 11.1,
+        "sourceBody": {
+          "left": 24,
+          "top": 10,
+          "right": 94,
+          "bottom": 82,
+          "width": 70,
+          "height": 72,
+          "centerX": 58.5,
+          "centerY": 45.5
+        }
+      },
+      {
+        "sourceFrame": "frame-009.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-009.png",
+        "score": 17.8,
+        "sourceBody": {
+          "left": 25,
+          "top": 8,
+          "right": 94,
+          "bottom": 82,
+          "width": 69,
+          "height": 74,
+          "centerX": 59.0,
+          "centerY": 44.5
+        }
+      },
+      {
+        "sourceFrame": "frame-010.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-010.png",
+        "score": 8.1,
+        "sourceBody": {
+          "left": 23,
+          "top": 13,
+          "right": 94,
+          "bottom": 82,
+          "width": 71,
+          "height": 69,
+          "centerX": 58.0,
+          "centerY": 47.0
+        }
+      },
+      {
+        "sourceFrame": "frame-011.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-011.png",
+        "score": 8.1,
+        "sourceBody": {
+          "left": 23,
+          "top": 13,
+          "right": 94,
+          "bottom": 82,
+          "width": 71,
+          "height": 69,
+          "centerX": 58.0,
+          "centerY": 47.0
+        }
+      },
+      {
+        "sourceFrame": "frame-012.png",
+        "sourcePath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig/frame-012.png",
+        "score": 3.0,
+        "sourceBody": {
+          "left": 25,
+          "top": 12,
+          "right": 94,
+          "bottom": 82,
+          "width": 69,
+          "height": 70,
+          "centerX": 59.0,
+          "centerY": 46.5
+        }
+      }
+    ]
+  },
+  "exported": {
+    "idle": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          29,
+          12,
+          66,
+          82
+        ],
+        "bodyBBox": [
+          29,
+          12,
+          66,
+          82
+        ]
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          29,
+          12,
+          66,
+          82
+        ],
+        "bodyBBox": [
+          29,
+          12,
+          66,
+          82
+        ]
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          29,
+          12,
+          66,
+          82
+        ],
+        "bodyBBox": [
+          29,
+          12,
+          66,
+          82
+        ]
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          29,
+          12,
+          66,
+          82
+        ],
+        "bodyBBox": [
+          29,
+          12,
+          66,
+          82
+        ]
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          29,
+          12,
+          66,
+          82
+        ],
+        "bodyBBox": [
+          29,
+          12,
+          66,
+          82
+        ]
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          29,
+          12,
+          66,
+          82
+        ],
+        "bodyBBox": [
+          29,
+          12,
+          66,
+          82
+        ]
+      }
+    ],
+    "walk": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          22,
+          12,
+          73,
+          83
+        ]
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      },
+      {
+        "frame": 6,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      },
+      {
+        "frame": 7,
+        "alphaBBox": [
+          21,
+          12,
+          74,
+          83
+        ],
+        "bodyBBox": [
+          21,
+          12,
+          74,
+          83
+        ]
+      }
+    ],
+    "dig": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          13,
+          13,
+          83,
+          83
+        ],
+        "bodyBBox": [
+          13,
+          13,
+          83,
+          83
+        ]
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          12,
+          13,
+          82,
+          83
+        ],
+        "bodyBBox": [
+          12,
+          13,
+          82,
+          83
+        ]
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          13,
+          12,
+          83,
+          82
+        ],
+        "bodyBBox": [
+          13,
+          12,
+          83,
+          82
+        ]
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          12,
+          12,
+          82,
+          82
+        ],
+        "bodyBBox": [
+          12,
+          12,
+          82,
+          82
+        ]
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          13,
+          12,
+          83,
+          82
+        ],
+        "bodyBBox": [
+          13,
+          12,
+          83,
+          82
+        ]
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          12,
+          13,
+          82,
+          83
+        ],
+        "bodyBBox": [
+          12,
+          13,
+          82,
+          83
+        ]
+      },
+      {
+        "frame": 6,
+        "alphaBBox": [
+          12,
+          13,
+          82,
+          83
+        ],
+        "bodyBBox": [
+          12,
+          13,
+          82,
+          83
+        ]
+      },
+      {
+        "frame": 7,
+        "alphaBBox": [
+          13,
+          12,
+          83,
+          82
+        ],
+        "bodyBBox": [
+          13,
+          12,
+          83,
+          82
+        ]
+      }
+    ]
+  }
+}

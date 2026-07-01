@@ -1,0 +1,33 @@
+{
+  "name": "leans-against-wall",
+  "source": "sprites/character/character-v8/frames/leans-against-wall",
+  "output": "sprites/character/character-v8/runtime/leans-against-wall-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/leans-against-wall-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/leans-against-wall-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 6,
+  "columns": 6,
+  "rows": 1,
+  "fps": 8,
+  "borderHaloPixelsRemoved": 122,
+  "alphaPixelsChanged": 43511,
+  "anchor": {
+    "targetCenterX": 177,
+    "targetBottom": 339,
+    "maxShiftX": 10,
+    "maxShiftY": 0,
+    "avgShiftX": 5.67,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 18.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 0.5,
+    "bottomRange": 0
+  }
+}

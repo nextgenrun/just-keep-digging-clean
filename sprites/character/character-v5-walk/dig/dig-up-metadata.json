@@ -1,0 +1,254 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/dig-up.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 9,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sheetGrid": [
+    6,
+    2
+  ],
+  "sheetSize": [
+    2046,
+    682
+  ],
+  "unusedGridFrames": [
+    9,
+    10,
+    11
+  ],
+  "phaserEndFrame": 8,
+  "runtimeFps": 30,
+  "phaserKey": "char-v5-dig-up-sheet",
+  "orientation": "front-up",
+  "hitFrameGroups": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      3,
+      4,
+      5
+    ],
+    [
+      6,
+      7,
+      8
+    ]
+  ],
+  "centeringPolicy": {
+    "runtimeBaselineY": 338,
+    "bottomY": 339,
+    "bottomTolerancePx": 2,
+    "maxAnchorDriftPx": 10
+  },
+  "runtimeOutputs": [
+    "sprites/character/character-v5-walk/dig/dig-up-sheet.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        85,
+        12,
+        227,
+        339
+      ],
+      "centerX": 156.0,
+      "rootAnchorX": 166.21,
+      "rootAnchorY": 215.3,
+      "rootAnchorPixels": 114,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        79,
+        9,
+        227,
+        339
+      ],
+      "centerX": 153.0,
+      "rootAnchorX": 166.79,
+      "rootAnchorY": 214.76,
+      "rootAnchorPixels": 113,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        70,
+        9,
+        226,
+        339
+      ],
+      "centerX": 148.0,
+      "rootAnchorX": 166.34,
+      "rootAnchorY": 214.61,
+      "rootAnchorPixels": 116,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        79,
+        11,
+        245,
+        339
+      ],
+      "centerX": 162.0,
+      "rootAnchorX": 166.79,
+      "rootAnchorY": 216.67,
+      "rootAnchorPixels": 123,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        89,
+        12,
+        240,
+        339
+      ],
+      "centerX": 164.5,
+      "rootAnchorX": 166.91,
+      "rootAnchorY": 217.77,
+      "rootAnchorPixels": 120,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        81,
+        9,
+        254,
+        339
+      ],
+      "centerX": 167.5,
+      "rootAnchorX": 166.37,
+      "rootAnchorY": 217.32,
+      "rootAnchorPixels": 126,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        83,
+        12,
+        250,
+        339
+      ],
+      "centerX": 166.5,
+      "rootAnchorX": 166.48,
+      "rootAnchorY": 215.66,
+      "rootAnchorPixels": 126,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 7,
+      "sourceFrame": null,
+      "bbox": [
+        76,
+        12,
+        234,
+        339
+      ],
+      "centerX": 155.0,
+      "rootAnchorX": 166.51,
+      "rootAnchorY": 216.15,
+      "rootAnchorPixels": 129,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 8,
+      "sourceFrame": null,
+      "bbox": [
+        70,
+        9,
+        233,
+        339
+      ],
+      "centerX": 151.5,
+      "rootAnchorX": 166.42,
+      "rootAnchorY": 214.33,
+      "rootAnchorPixels": 121,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "alignmentOverlayPath": "sprites/character/character-v5-walk/dig/dig-up-alignment-overlay.png",
+  "driftReportPath": "sprites/character/character-v5-walk/dig/dig-up-drift-report.json"
+}

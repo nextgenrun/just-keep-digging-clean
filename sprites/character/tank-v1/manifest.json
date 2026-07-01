@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "id": "tank-v1",
+  "displayName": "One Tile Tank",
+  "sourceMockup": "C:\\Users\\Mila\\AppData\\Local\\Temp\\codex-clipboard-848dc669-a656-454d-b8fe-9346c19a6b19.png",
+  "referenceCopy": "sprites/character/tank-v1/reference/mockup-reference.png",
+  "budget": {
+    "provider": "Grok Imagen via OpenRouter",
+    "limit": "EUR 1",
+    "status": "not executed in local sandbox; prompts recorded for later generation",
+    "priority": [
+      "idle",
+      "drive",
+      "dig",
+      "fly"
+    ]
+  },
+  "frameSize": [
+    94,
+    94
+  ],
+  "bodyBox": {
+    "w": 94,
+    "h": 94
+  },
+  "chassisAnchor": {
+    "x": 47,
+    "y": 47
+  },
+  "treadBaselineY": 93,
+  "chassisBounds": {
+    "x": 7,
+    "y": 8,
+    "w": 82,
+    "h": 85
+  },
+  "drillPivot": {
+    "x": 84,
+    "y": 43
+  },
+  "drillRigFrameSize": [
+    188,
+    94
+  ],
+  "drillTipRestPx": 18,
+  "drillTipMaxPx": 54,
+  "drillPenetrationPx": [
+    30,
+    36
+  ],
+  "palette": {
+    "outline": [
+      4,
+      4,
+      4,
+      255
+    ],
+    "white": [
+      236,
+      236,
+      232,
+      255
+    ],
+    "white_shadow": [
+      190,
+      191,
+      188,
+      255
+    ],
+    "mid": [
+      132,
+      134,
+      132,
+      255
+    ],
+    "dark": [
+      40,
+      41,
+      40,
+      255
+    ],
+    "tread": [
+      23,
+      24,
+      23,
+      255
+    ],
+    "rim": [
+      104,
+      106,
+      104,
+      255
+    ],
+    "highlight": [
+      255,
+      255,
+      250,
+      190
+    ]
+  },
+  "runtime": {
+    "idleSheet": "sprites/character/tank-v1/runtime/tank-idle-sheet.png",
+    "driveSheet": "sprites/character/tank-v1/runtime/tank-drive-sheet.png",
+    "flySheet": "sprites/character/tank-v1/runtime/tank-fly-sheet.png",
+    "digSheet": "sprites/character/tank-v1/runtime/tank-dig-sheet.png",
+    "drillSheet": "sprites/character/tank-v1/runtime/tank-drill-sheet.png"
+  },
+  "piskel": {
+    "idle": "sprites/character/tank-v1/piskel/tank-idle.piskel",
+    "drive": "sprites/character/tank-v1/piskel/tank-drive.piskel",
+    "fly": "sprites/character/tank-v1/piskel/tank-fly.piskel",
+    "dig": "sprites/character/tank-v1/piskel/tank-dig.piskel",
+    "drill": "sprites/character/tank-v1/piskel/tank-drill.piskel",
+    "drillRig": "sprites/character/tank-v1/piskel/tank-drill-rig.piskel"
+  },
+  "animations": {
+    "idle": {
+      "frames": 6,
+      "fps": 6
+    },
+    "drive": {
+      "frames": 8,
+      "fps": 12
+    },
+    "fly": {
+      "frames": 6,
+      "fps": 8
+    },
+    "dig": {
+      "frames": 6,
+      "fps": 10
+    },
+    "drill": {
+      "frames": 8,
+      "fps": 24
+    }
+  },
+  "digTiming": {
+    "phases": [
+      "brace",
+      "contact",
+      "penetrate",
+      "fracture",
+      "break",
+      "recoil"
+    ],
+    "breakAtProgress": 0.68,
+    "durationMs": 900
+  },
+  "prompts": [
+    {
+      "animation": "idle",
+      "prompt": "One-tile grayscale pixel-art tank character, black outline, rounded white chassis, dark rubber tread, segmented cone drill mounted on front, match provided mockup exactly, transparent background, fixed camera, no palette drift."
+    },
+    {
+      "animation": "drive",
+      "prompt": "Same one-tile grayscale pixel-art tank mockup, fixed chassis anchor, only tread and wheel motion changes, transparent background, no color drift, no silhouette drift."
+    },
+    {
+      "animation": "dig",
+      "prompt": "Same one-tile grayscale tank with front drill bracing and vibrating, fixed chassis anchor and drill pivot, transparent background, no recolor, no silhouette drift."
+    },
+    {
+      "animation": "fly",
+      "prompt": "Same one-tile grayscale tank hovering with tiny underside motion only, fixed chassis anchor, transparent background, no recolor, no silhouette drift."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "budgetUsd": 0.54,
+  "budgetNote": "User requested max OpenRouter spend of EUR 0.50; runner used a USD cap of 0.54.",
+  "jobs": [
+    "dig",
+    "idle",
+    "walk"
+  ],
+  "knownCostUsd": 0.156,
+  "remainingAgainstRunnerCapUsd": 0.384,
+  "notes": [
+    "No API key is stored in this repository.",
+    "Frames were extracted from Grok videos, scored for anchor/body stability, centralized to 94x94, and exported through .piskel/runtime sheets.",
+    "The miner is a separate selectable sandbox character and does not use the living-drill forward-commit behavior."
+  ]
+}

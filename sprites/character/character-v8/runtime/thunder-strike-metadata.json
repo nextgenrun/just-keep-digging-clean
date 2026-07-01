@@ -1,0 +1,33 @@
+{
+  "name": "thunder-strike",
+  "source": "sprites/character/character-v8/frames/thunder-strike",
+  "output": "sprites/character/character-v8/runtime/thunder-strike-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/thunder-strike-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/thunder-strike-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/thunder-strike-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/thunder-strike.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 1,
+  "columns": 1,
+  "rows": 1,
+  "fps": 10,
+  "borderHaloPixelsRemoved": 0,
+  "alphaPixelsChanged": 0,
+  "anchor": {
+    "targetCenterX": 170,
+    "targetBottom": 339,
+    "maxShiftX": 0,
+    "maxShiftY": 0,
+    "avgShiftX": 0.0,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 0.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 0.0,
+    "bottomRange": 0
+  }
+}

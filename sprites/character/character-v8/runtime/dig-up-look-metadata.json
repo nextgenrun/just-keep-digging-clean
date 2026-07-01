@@ -1,0 +1,33 @@
+{
+  "name": "dig-up-look",
+  "source": "sprites/character/character-v8/frames/dig-up-look",
+  "output": "sprites/character/character-v8/runtime/legacy-dig-up-look-clean.png",
+  "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-look-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/dig-up-look-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/dig-up-look-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 1,
+  "columns": 1,
+  "rows": 1,
+  "fps": 1,
+  "borderHaloPixelsRemoved": 750,
+  "alphaPixelsChanged": 750,
+  "anchor": {
+    "targetCenterX": 170,
+    "targetBottom": 339,
+    "maxShiftX": 0,
+    "maxShiftY": 0,
+    "avgShiftX": 0.0,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 0.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 0.0,
+    "bottomRange": 0
+  }
+}

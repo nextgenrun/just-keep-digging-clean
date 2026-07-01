@@ -1,0 +1,33 @@
+{
+  "name": "fly-climb",
+  "source": "sprites/character/character-v8/frames/fly-climb",
+  "output": "sprites/character/character-v8/runtime/legacy-fly-climb-clean-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/fly-climb-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/fly-climb-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 25,
+  "columns": 16,
+  "rows": 2,
+  "fps": 14,
+  "borderHaloPixelsRemoved": 30106,
+  "alphaPixelsChanged": 182202,
+  "anchor": {
+    "targetCenterX": 194,
+    "targetBottom": 339,
+    "maxShiftX": 4,
+    "maxShiftY": 0,
+    "avgShiftX": 1.2,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 7.5,
+    "bottomRange": 2
+  },
+  "driftAfter": {
+    "centerXRange": 2.0,
+    "bottomRange": 0
+  }
+}

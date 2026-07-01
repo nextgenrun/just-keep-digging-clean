@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "character": "tank-v1",
+  "frameSize": [
+    94,
+    94
+  ],
+  "drillFrameSize": [
+    96,
+    44
+  ],
+  "anchorMode": "fixed-chassis-center-and-tread-baseline",
+  "maxAnchorDriftPx": 0,
+  "maxChassisBoundsDriftPx": 0,
+  "maxPaletteDrift": 0,
+  "acceptedFrames": [
+    {
+      "animation": "idle",
+      "frame": 0
+    },
+    {
+      "animation": "idle",
+      "frame": 1
+    },
+    {
+      "animation": "idle",
+      "frame": 2
+    },
+    {
+      "animation": "idle",
+      "frame": 3
+    },
+    {
+      "animation": "idle",
+      "frame": 4
+    },
+    {
+      "animation": "idle",
+      "frame": 5
+    },
+    {
+      "animation": "drive",
+      "frame": 0
+    },
+    {
+      "animation": "drive",
+      "frame": 1
+    },
+    {
+      "animation": "drive",
+      "frame": 2
+    },
+    {
+      "animation": "drive",
+      "frame": 3
+    },
+    {
+      "animation": "drive",
+      "frame": 4
+    },
+    {
+      "animation": "drive",
+      "frame": 5
+    },
+    {
+      "animation": "drive",
+      "frame": 6
+    },
+    {
+      "animation": "drive",
+      "frame": 7
+    },
+    {
+      "animation": "fly",
+      "frame": 0
+    },
+    {
+      "animation": "fly",
+      "frame": 1
+    },
+    {
+      "animation": "fly",
+      "frame": 2
+    },
+    {
+      "animation": "fly",
+      "frame": 3
+    },
+    {
+      "animation": "fly",
+      "frame": 4
+    },
+    {
+      "animation": "fly",
+      "frame": 5
+    },
+    {
+      "animation": "dig",
+      "frame": 0
+    },
+    {
+      "animation": "dig",
+      "frame": 1
+    },
+    {
+      "animation": "dig",
+      "frame": 2
+    },
+    {
+      "animation": "dig",
+      "frame": 3
+    },
+    {
+      "animation": "dig",
+      "frame": 4
+    },
+    {
+      "animation": "dig",
+      "frame": 5
+    },
+    {
+      "animation": "drill",
+      "frame": 0
+    },
+    {
+      "animation": "drill",
+      "frame": 1
+    },
+    {
+      "animation": "drill",
+      "frame": 2
+    },
+    {
+      "animation": "drill",
+      "frame": 3
+    },
+    {
+      "animation": "drill",
+      "frame": 4
+    },
+    {
+      "animation": "drill",
+      "frame": 5
+    },
+    {
+      "animation": "drill",
+      "frame": 6
+    },
+    {
+      "animation": "drill",
+      "frame": 7
+    }
+  ],
+  "notes": [
+    "Generated placeholder sheets use a fixed chassis drawing and fixed palette.",
+    "Only wheel spokes, tread highlights, drill highlights, and in-engine effects animate.",
+    "The mockup remains the locked style reference for later Grok Imagen replacements."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "idle",
+  "source": "sprites/character/character-v8/frames/idle",
+  "output": "sprites/character/character-v8/runtime/legacy-idle-clean-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/idle-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/idle-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/idle-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/idle.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 35,
+  "columns": 16,
+  "rows": 3,
+  "fps": 8,
+  "borderHaloPixelsRemoved": 14140,
+  "alphaPixelsChanged": 57309,
+  "anchor": {
+    "targetCenterX": 168,
+    "targetBottom": 339,
+    "maxShiftX": 4,
+    "maxShiftY": 0,
+    "avgShiftX": 0.97,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 5.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 1.0,
+    "bottomRange": 0
+  }
+}

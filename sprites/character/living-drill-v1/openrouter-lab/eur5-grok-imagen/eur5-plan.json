@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "budgetUsd": 5.35,
+  "model": "x-ai/grok-imagine-video",
+  "jobs": [
+    "idle-hover",
+    "fly-hover",
+    "dig-bite-loop",
+    "dig-contact-break-recoil"
+  ],
+  "payloads": {
+    "idle-hover": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/payloads/living-drill-idle-hover.json",
+    "fly-hover": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/payloads/living-drill-fly-hover.json",
+    "dig-bite-loop": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/payloads/living-drill-dig-bite-loop.json",
+    "dig-contact-break-recoil": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/payloads/living-drill-dig-contact-break-recoil.json"
+  },
+  "acceptance": [
+    "Reject frames where body size changes.",
+    "Reject frames where body anchor drifts from 47,47.",
+    "Reject frames where the shell, drill cone, palette, or silhouette is redesigned.",
+    "Prefer stable body over flashy effects."
+  ]
+}

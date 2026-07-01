@@ -1,0 +1,53 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/thunder-charge.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 1,
+  "frameSize": [
+    1280,
+    1280
+  ],
+  "sheetGrid": [
+    1,
+    1
+  ],
+  "sheetSize": [
+    1280,
+    1280
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 0,
+  "runtimeFps": 6,
+  "phaserKey": "char-v2-thunder-charge",
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {},
+  "runtimeOutputs": [
+    "sprites/character/character-v2/digging/abilities/thunder-strike/charging.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1280,
+        1280
+      ],
+      "centerX": 640.0,
+      "rootAnchorX": 1162.57,
+      "rootAnchorY": 372.89,
+      "rootAnchorPixels": 186,
+      "bottom": 1280,
+      "clipped": true,
+      "cornerAlpha": [
+        3,
+        24,
+        2,
+        1
+      ]
+    }
+  ],
+  "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/thunder-charge-alignment-overlay.png",
+  "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/thunder-charge-drift-report.json"
+}

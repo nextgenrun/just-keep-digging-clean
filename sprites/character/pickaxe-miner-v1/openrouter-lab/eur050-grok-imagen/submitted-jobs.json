@@ -1,0 +1,34 @@
+{
+  "runId": "pickaxe-miner-v1-eur050",
+  "budgetUsd": 0.54,
+  "estimatedCostUsdPerJob": 0.102,
+  "jobs": [
+    {
+      "animation": "dig",
+      "payloadPath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/payloads/pickaxe-miner-dig.json",
+      "response": {
+        "id": "86TMB3ONJ3G4tB2L2Dwo",
+        "polling_url": "https://openrouter.ai/api/v1/videos/86TMB3ONJ3G4tB2L2Dwo",
+        "status": "pending"
+      }
+    },
+    {
+      "animation": "idle",
+      "payloadPath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/payloads/pickaxe-miner-idle.json",
+      "response": {
+        "id": "SGo6LlxAnD5drq6wmubC",
+        "polling_url": "https://openrouter.ai/api/v1/videos/SGo6LlxAnD5drq6wmubC",
+        "status": "pending"
+      }
+    },
+    {
+      "animation": "walk",
+      "payloadPath": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/payloads/pickaxe-miner-walk.json",
+      "response": {
+        "id": "G72QWl0cxnRAe6smwaY4",
+        "polling_url": "https://openrouter.ai/api/v1/videos/G72QWl0cxnRAe6smwaY4",
+        "status": "pending"
+      }
+    }
+  ]
+}

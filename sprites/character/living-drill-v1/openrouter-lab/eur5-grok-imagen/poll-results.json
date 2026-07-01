@@ -1,0 +1,47 @@
+{
+  "runId": "living-drill-v1-eur5",
+  "budgetUsd": 5.35,
+  "totalKnownCostUsd": 0.204,
+  "results": [
+    {
+      "animation": "dig-bite-loop",
+      "status": "completed",
+      "poll": {
+        "id": "9Ms9pJqzuF4G3nSG2fbm",
+        "generation_id": "gen-vid-1782753934-wYi0vz33yQfCbmTJYaQP",
+        "polling_url": "https://openrouter.ai/api/v1/videos/9Ms9pJqzuF4G3nSG2fbm",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/9Ms9pJqzuF4G3nSG2fbm/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/videos/living-drill-dig-bite-loop.mp4",
+      "framesDir": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop",
+      "frameCount": 25
+    },
+    {
+      "animation": "dig-contact-break-recoil",
+      "status": "completed",
+      "poll": {
+        "id": "1WAJVnEz8Ct7WSHNHp4b",
+        "generation_id": "gen-vid-1782753936-iIlloiTo7AcXTQsp9WrE",
+        "polling_url": "https://openrouter.ai/api/v1/videos/1WAJVnEz8Ct7WSHNHp4b",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/1WAJVnEz8Ct7WSHNHp4b/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.102,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/videos/living-drill-dig-contact-break-recoil.mp4",
+      "framesDir": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil",
+      "frameCount": 25
+    }
+  ]
+}

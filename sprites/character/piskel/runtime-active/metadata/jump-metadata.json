@@ -1,0 +1,53 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/jump.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 1,
+  "frameSize": [
+    1024,
+    1024
+  ],
+  "sheetGrid": [
+    1,
+    1
+  ],
+  "sheetSize": [
+    1024,
+    1024
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 0,
+  "runtimeFps": 12,
+  "phaserKey": "char-v2-jump-1",
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {},
+  "runtimeOutputs": [
+    "sprites/character/character-v2/character-movement/movement-bare-hands/jump/jump-1.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "centerX": 512.0,
+      "rootAnchorX": 510.86,
+      "rootAnchorY": 484.62,
+      "rootAnchorPixels": 3120,
+      "bottom": 1024,
+      "clipped": true,
+      "cornerAlpha": [
+        1,
+        1,
+        1,
+        0
+      ]
+    }
+  ],
+  "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/jump-alignment-overlay.png",
+  "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/jump-drift-report.json"
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "pickaxe-miner-v1",
+  "displayName": "Pickaxe Miner",
+  "sourceMockup": "C:\\Users\\Mila\\AppData\\Local\\Temp\\codex-clipboard-eb7c7d7f-e401-4d6b-851c-22ad48b4f4d8.png",
+  "frameSize": [
+    94,
+    94
+  ],
+  "anchor": {
+    "x": 47,
+    "y": 47
+  },
+  "runtime": {
+    "idleSheet": "sprites/character/pickaxe-miner-v1/runtime/pickaxe-miner-idle-sheet.png",
+    "walkSheet": "sprites/character/pickaxe-miner-v1/runtime/pickaxe-miner-walk-sheet.png",
+    "digSheet": "sprites/character/pickaxe-miner-v1/runtime/pickaxe-miner-dig-sheet.png"
+  },
+  "animations": {
+    "idle": {
+      "frames": 6,
+      "fps": 6
+    },
+    "walk": {
+      "frames": 8,
+      "fps": 10
+    },
+    "dig": {
+      "frames": 8,
+      "fps": 12
+    }
+  },
+  "budget": {
+    "provider": "OpenRouter Grok Imagine Video",
+    "limit": "EUR 0.50",
+    "status": "Grok frames imported through anchored .piskel/runtime export"
+  },
+  "prompts": {
+    "idle": "Use the supplied anchor image as a locked sprite sheet reference. One 94x94 game tile canvas, side view facing right. The miner body center is fixed at the red crosshair. Do not zoom, crop, rotate, resize, recolor, restyle, redesign, or shift the character. Keep the hardhat, head lamp, face, brown overalls, boots, gloves, pickaxe, black outline thickness, and palette identical in every frame. Do not draw terrain, blocks, walls, UI, shadows, or background objects inside the sprite frame. State idle loop: subtle breathing, tiny helmet lamp glint, pickaxe held still. Body anchor and feet stay stable.",
+    "walk": "Use the supplied anchor image as a locked sprite sheet reference. One 94x94 game tile canvas, side view facing right. The miner body center is fixed at the red crosshair. Do not zoom, crop, rotate, resize, recolor, restyle, redesign, or shift the character. Keep the hardhat, head lamp, face, brown overalls, boots, gloves, pickaxe, black outline thickness, and palette identical in every frame. Do not draw terrain, blocks, walls, UI, shadows, or background objects inside the sprite frame. State walk loop: short readable side walk cycle, legs/arms move, pickaxe carried low. Body size and anchor stay stable.",
+    "dig": "Use the supplied anchor image as a locked sprite sheet reference. One 94x94 game tile canvas, side view facing right. The miner body center is fixed at the red crosshair. Do not zoom, crop, rotate, resize, recolor, restyle, redesign, or shift the character. Keep the hardhat, head lamp, face, brown overalls, boots, gloves, pickaxe, black outline thickness, and palette identical in every frame. Do not draw terrain, blocks, walls, UI, shadows, or background objects inside the sprite frame. State dig loop: miner swings pickaxe into the block in front of him. Animate arms and pickaxe arc with small sparks/dust at right edge only; do not include the block itself."
+  },
+  "runtimeSource": "grok-imagine-video-eur050-filtered",
+  "reports": {
+    "selection": "sprites/character/pickaxe-miner-v1/reports/pickaxe-miner-v1-grok-selection-report.json"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "budget": {
+    "provider": "OpenRouter",
+    "model": "x-ai/grok-imagine-video",
+    "limitEur": 1,
+    "estimatedPerJobUsdFromPreviousRun": 0.052,
+    "plannedJobs": [
+      "dig",
+      "idle",
+      "fly"
+    ],
+    "status": "blocked-until-OPENROUTER_API_KEY-is-set"
+  },
+  "payloads": {
+    "dig": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/payloads/living-drill-dig.json",
+    "idle": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/payloads/living-drill-idle.json",
+    "fly": "sprites/character/living-drill-v1/openrouter-lab/eur1-grok-imagen/payloads/living-drill-fly.json"
+  },
+  "acceptance": [
+    "Use the mockup as locked visual identity.",
+    "Extract only frames with stable one-tile centered body.",
+    "Run frames through piskel/anchoring before sandbox runtime export.",
+    "Prefer dig quality over extra idle/fly variants if budget gets tight."
+  ]
+}

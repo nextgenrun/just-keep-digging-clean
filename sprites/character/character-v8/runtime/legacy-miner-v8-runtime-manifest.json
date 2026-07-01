@@ -1,0 +1,601 @@
+{
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "cleanupPolicy": "Border-connected dominant-background flood fill plus median center/bottom anchoring. Interior character pixels are not keyed out by color.",
+  "animations": [
+    {
+      "name": "idle",
+      "source": "sprites/character/character-v8/frames/idle",
+      "output": "sprites/character/character-v8/runtime/legacy-idle-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/idle-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/idle-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/idle-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 35,
+      "columns": 16,
+      "rows": 3,
+      "fps": 8,
+      "borderHaloPixelsRemoved": 14140,
+      "alphaPixelsChanged": 57309,
+      "anchor": {
+        "targetCenterX": 168,
+        "targetBottom": 339,
+        "maxShiftX": 4,
+        "maxShiftY": 0,
+        "avgShiftX": 0.97,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 5.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "walk",
+      "source": "sprites/character/character-v8/frames/walk",
+      "output": "sprites/character/character-v8/runtime/legacy-walk-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/walk-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/walk-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/walk-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 51,
+      "columns": 16,
+      "rows": 4,
+      "fps": 14,
+      "borderHaloPixelsRemoved": 2,
+      "alphaPixelsChanged": 267490,
+      "anchor": {
+        "targetCenterX": 168,
+        "targetBottom": 339,
+        "maxShiftX": 18,
+        "maxShiftY": 0,
+        "avgShiftX": 4.94,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 34.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "dig-sideways",
+      "source": "sprites/character/character-v8/frames/dig-sideways",
+      "output": "sprites/character/character-v8/runtime/legacy-dig-sideways-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/dig-sideways-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/dig-sideways-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 18,
+      "columns": 16,
+      "rows": 2,
+      "fps": 30,
+      "borderHaloPixelsRemoved": 20883,
+      "alphaPixelsChanged": 202996,
+      "anchor": {
+        "targetCenterX": 151,
+        "targetBottom": 339,
+        "maxShiftX": 17,
+        "maxShiftY": 0,
+        "avgShiftX": 8.67,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 30.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "dig-up",
+      "source": "sprites/character/character-v8/frames/dig-up",
+      "output": "sprites/character/character-v8/runtime/legacy-dig-up-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/dig-up-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/dig-up-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 9,
+      "columns": 9,
+      "rows": 1,
+      "fps": 30,
+      "borderHaloPixelsRemoved": 24277,
+      "alphaPixelsChanged": 108875,
+      "anchor": {
+        "targetCenterX": 160,
+        "targetBottom": 339,
+        "maxShiftX": 10,
+        "maxShiftY": 0,
+        "avgShiftX": 5.78,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 19.5,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "dig-up-sideways",
+      "source": "sprites/character/character-v8/frames/dig-up-sideways",
+      "output": "sprites/character/character-v8/runtime/legacy-dig-up-sideways-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/dig-up-sideways-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/dig-up-sideways-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 13,
+      "columns": 13,
+      "rows": 1,
+      "fps": 30,
+      "borderHaloPixelsRemoved": 44617,
+      "alphaPixelsChanged": 165787,
+      "anchor": {
+        "targetCenterX": 192,
+        "targetBottom": 339,
+        "maxShiftX": 22,
+        "maxShiftY": 0,
+        "avgShiftX": 7.08,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 28.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "fly-climb",
+      "source": "sprites/character/character-v8/frames/fly-climb",
+      "output": "sprites/character/character-v8/runtime/legacy-fly-climb-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/fly-climb-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/fly-climb-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 25,
+      "columns": 16,
+      "rows": 2,
+      "fps": 14,
+      "borderHaloPixelsRemoved": 30106,
+      "alphaPixelsChanged": 182202,
+      "anchor": {
+        "targetCenterX": 194,
+        "targetBottom": 339,
+        "maxShiftX": 4,
+        "maxShiftY": 0,
+        "avgShiftX": 1.2,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 7.5,
+        "bottomRange": 2
+      },
+      "driftAfter": {
+        "centerXRange": 2.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "dig-up-look",
+      "source": "sprites/character/character-v8/frames/dig-up-look",
+      "output": "sprites/character/character-v8/runtime/legacy-dig-up-look-clean.png",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-look-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/dig-up-look-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/dig-up-look-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 1,
+      "columns": 1,
+      "rows": 1,
+      "fps": 1,
+      "borderHaloPixelsRemoved": 750,
+      "alphaPixelsChanged": 750,
+      "anchor": {
+        "targetCenterX": 170,
+        "targetBottom": 339,
+        "maxShiftX": 0,
+        "maxShiftY": 0,
+        "avgShiftX": 0.0,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 0.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "dig-down",
+      "source": "sprites/character/character-v8/frames/dig-down",
+      "output": "sprites/character/character-v8/runtime/dig-down-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-down-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/dig-down-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/dig-down-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 7,
+      "columns": 7,
+      "rows": 1,
+      "fps": 18,
+      "borderHaloPixelsRemoved": 0,
+      "alphaPixelsChanged": 91616,
+      "anchor": {
+        "targetCenterX": 170,
+        "targetBottom": 339,
+        "maxShiftX": 30,
+        "maxShiftY": 0,
+        "avgShiftX": 13.57,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 44.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "duck-downwards",
+      "source": "sprites/character/character-v8/manual-blend/duck-downwards",
+      "output": "sprites/character/character-v8/runtime/duck-downwards-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/duck-downwards-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/duck-downwards-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 7,
+      "columns": 7,
+      "rows": 1,
+      "fps": 10,
+      "borderHaloPixelsRemoved": 140,
+      "alphaPixelsChanged": 13544,
+      "anchor": {
+        "targetCenterX": 168,
+        "targetBottom": 339,
+        "maxShiftX": 3,
+        "maxShiftY": 0,
+        "avgShiftX": 1.29,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 5.5,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.5,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "combat-idle-recover",
+      "source": "sprites/character/character-v8/frames/combat-idle-recover",
+      "output": "sprites/character/character-v8/runtime/combat-idle-recover-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/combat-idle-recover-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/combat-idle-recover-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 16,
+      "columns": 16,
+      "rows": 1,
+      "fps": 8,
+      "borderHaloPixelsRemoved": 0,
+      "alphaPixelsChanged": 42876,
+      "anchor": {
+        "targetCenterX": 185,
+        "targetBottom": 339,
+        "maxShiftX": 8,
+        "maxShiftY": 0,
+        "avgShiftX": 2.38,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 16.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "combat-idle-to-normal-idle",
+      "source": "sprites/character/character-v8/manual-blend/combat-idle-to-normal-idle/frames",
+      "output": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/combat-idle-to-normal-idle-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/combat-idle-to-normal-idle-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 51,
+      "columns": 16,
+      "rows": 4,
+      "fps": 14,
+      "borderHaloPixelsRemoved": 14416,
+      "alphaPixelsChanged": 152938,
+      "anchor": {
+        "targetCenterX": 168,
+        "targetBottom": 339,
+        "maxShiftX": 14,
+        "maxShiftY": 0,
+        "avgShiftX": 2.25,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 17.5,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "leans-against-wall",
+      "source": "sprites/character/character-v8/frames/leans-against-wall",
+      "output": "sprites/character/character-v8/runtime/leans-against-wall-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/leans-against-wall-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/leans-against-wall-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 6,
+      "columns": 6,
+      "rows": 1,
+      "fps": 8,
+      "borderHaloPixelsRemoved": 122,
+      "alphaPixelsChanged": 43511,
+      "anchor": {
+        "targetCenterX": 177,
+        "targetBottom": 339,
+        "maxShiftX": 10,
+        "maxShiftY": 0,
+        "avgShiftX": 5.67,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 18.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.5,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "falling-downward-through-sky",
+      "source": "sprites/character/character-v8/frames/falling-downward-through-sky",
+      "output": "sprites/character/character-v8/runtime/falling-downward-through-sky-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/falling-downward-through-sky-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/falling-downward-through-sky-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 7,
+      "columns": 7,
+      "rows": 1,
+      "fps": 12,
+      "borderHaloPixelsRemoved": 0,
+      "alphaPixelsChanged": 22978,
+      "anchor": {
+        "targetCenterX": 164,
+        "targetBottom": 339,
+        "maxShiftX": 8,
+        "maxShiftY": 0,
+        "avgShiftX": 2.71,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 13.5,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "walk-run",
+      "source": "sprites/character/character-v8/frames/walk-run",
+      "output": "sprites/character/character-v8/runtime/walk-run-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/walk-run-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/walk-run-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/walk-run-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 7,
+      "columns": 7,
+      "rows": 1,
+      "fps": 16,
+      "borderHaloPixelsRemoved": 0,
+      "alphaPixelsChanged": 19830,
+      "anchor": {
+        "targetCenterX": 170,
+        "targetBottom": 339,
+        "maxShiftX": 6,
+        "maxShiftY": 0,
+        "avgShiftX": 2.14,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 12.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 1.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "wall-push",
+      "source": "sprites/character/character-v8/frames/wall-push",
+      "output": "sprites/character/character-v8/runtime/wall-push-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/wall-push-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/wall-push-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/wall-push-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 7,
+      "columns": 7,
+      "rows": 1,
+      "fps": 8,
+      "borderHaloPixelsRemoved": 2665,
+      "alphaPixelsChanged": 2665,
+      "anchor": {
+        "targetCenterX": 170,
+        "targetBottom": 339,
+        "maxShiftX": 0,
+        "maxShiftY": 0,
+        "avgShiftX": 0.0,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 0.5,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.5,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "quickslash",
+      "source": "sprites/character/character-v8/frames/quickslash",
+      "output": "sprites/character/character-v8/runtime/legacy-quickslash-clean-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/quickslash-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/quickslash-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/quickslash-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/quickslash.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 2,
+      "columns": 2,
+      "rows": 1,
+      "fps": 12,
+      "borderHaloPixelsRemoved": 1024,
+      "alphaPixelsChanged": 40364,
+      "anchor": {
+        "targetCenterX": 174,
+        "targetBottom": 339,
+        "maxShiftX": 10,
+        "maxShiftY": 0,
+        "avgShiftX": 9.5,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 19.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.5,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "thunder-charge",
+      "source": "sprites/character/character-v8/frames/thunder-charge",
+      "output": "sprites/character/character-v8/runtime/thunder-charge-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/thunder-charge-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/thunder-charge-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/thunder-charge-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/thunder-charge.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 1,
+      "columns": 1,
+      "rows": 1,
+      "fps": 6,
+      "borderHaloPixelsRemoved": 238,
+      "alphaPixelsChanged": 238,
+      "anchor": {
+        "targetCenterX": 155,
+        "targetBottom": 339,
+        "maxShiftX": 0,
+        "maxShiftY": 0,
+        "avgShiftX": 0.0,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 0.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.0,
+        "bottomRange": 0
+      }
+    },
+    {
+      "name": "thunder-strike",
+      "source": "sprites/character/character-v8/frames/thunder-strike",
+      "output": "sprites/character/character-v8/runtime/thunder-strike-sheet.webp",
+      "cleanedFrames": "sprites/character/character-v8/runtime/thunder-strike-cleaned-frames",
+      "preview": "sprites/character/character-v8/previews/thunder-strike-runtime-contact.png",
+      "slowmoPreview": "sprites/character/character-v8/previews/thunder-strike-slowmo.gif",
+      "piskel": "sprites/character/character-v8/piskel/thunder-strike.piskel",
+      "frameWidth": 341,
+      "frameHeight": 341,
+      "frameCount": 1,
+      "columns": 1,
+      "rows": 1,
+      "fps": 10,
+      "borderHaloPixelsRemoved": 0,
+      "alphaPixelsChanged": 0,
+      "anchor": {
+        "targetCenterX": 170,
+        "targetBottom": 339,
+        "maxShiftX": 0,
+        "maxShiftY": 0,
+        "avgShiftX": 0.0,
+        "avgShiftY": 0.0
+      },
+      "driftBefore": {
+        "centerXRange": 0.0,
+        "bottomRange": 0
+      },
+      "driftAfter": {
+        "centerXRange": 0.0,
+        "bottomRange": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "runId": "living-drill-v1-eur5",
+  "budgetUsd": 5.35,
+  "estimatedCostUsdPerJob": 0.052,
+  "jobs": [
+    {
+      "animation": "dig-bite-loop",
+      "payloadPath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/payloads/living-drill-dig-bite-loop.json",
+      "response": {
+        "id": "9Ms9pJqzuF4G3nSG2fbm",
+        "polling_url": "https://openrouter.ai/api/v1/videos/9Ms9pJqzuF4G3nSG2fbm",
+        "status": "pending"
+      }
+    },
+    {
+      "animation": "dig-contact-break-recoil",
+      "payloadPath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/payloads/living-drill-dig-contact-break-recoil.json",
+      "response": {
+        "id": "1WAJVnEz8Ct7WSHNHp4b",
+        "polling_url": "https://openrouter.ai/api/v1/videos/1WAJVnEz8Ct7WSHNHp4b",
+        "status": "pending"
+      }
+    }
+  ]
+}

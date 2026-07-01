@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "budgetUsd": 0.54,
+  "jobs": [
+    "idle",
+    "walk",
+    "dig"
+  ],
+  "payloads": {
+    "idle": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/payloads/pickaxe-miner-idle.json",
+    "walk": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/payloads/pickaxe-miner-walk.json",
+    "dig": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/payloads/pickaxe-miner-dig.json"
+  },
+  "acceptance": [
+    "Reject color drift, size drift, anchor drift, and redesigned frames.",
+    "Keep terrain/block art out of sprite sheets."
+  ]
+}

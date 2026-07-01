@@ -1,0 +1,50 @@
+{
+  "id": "dig-up-look",
+  "displayName": "Dig Up Look",
+  "frameCount": 1,
+  "frameSize": [
+    341,
+    341
+  ],
+  "fps": 1,
+  "orientation": "front-up",
+  "centeringPolicy": {
+    "runtimeBaselineY": 338,
+    "bottomY": 339,
+    "bottomTolerancePx": 2,
+    "maxAnchorDriftPx": 5
+  },
+  "medianCenterX": 167.5,
+  "medianRootAnchorX": 167.61,
+  "medianRootAnchorY": 206.22,
+  "maxCenterDriftPx": 0,
+  "maxRootAnchorDriftPx": 0,
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        113,
+        26,
+        222,
+        339
+      ],
+      "centerX": 167.5,
+      "rootAnchorX": 167.61,
+      "rootAnchorY": 206.22,
+      "rootAnchorPixels": 140,
+      "bottom": 339,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 0.0,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 0
+    }
+  ]
+}

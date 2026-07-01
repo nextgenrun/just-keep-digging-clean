@@ -1,234 +1,33 @@
 {
-  "id": "falling-downward-through-sky",
-  "displayName": "Falling Downward Through Sky",
-  "createdAt": "2026-06-24T04:37:26",
-  "sourceRun": "grok-scout-001",
-  "sourceDirs": [
-    "falling-downward-through-sky-00"
-  ],
-  "notes": "Approved scout falling-downward-through-sky-00; -01 remains reference for sideways/upward motion.",
+  "name": "falling-downward-through-sky",
+  "source": "sprites/character/character-v8/frames/falling-downward-through-sky",
+  "output": "sprites/character/character-v8/runtime/falling-downward-through-sky-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/falling-downward-through-sky-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/falling-downward-through-sky-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
   "frameCount": 7,
-  "frameSize": [
-    341,
-    341
-  ],
+  "columns": 7,
+  "rows": 1,
   "fps": 12,
-  "runtimeSheet": "sprites/character/character-v8/runtime/falling-downward-through-sky-sheet.webp",
-  "runtimePiskel": "sprites/character/character-v8/runtime/falling-downward-through-sky.piskel",
-  "v8Piskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
-  "framesDir": "sprites/character/character-v8/frames/falling-downward-through-sky",
-  "preview": "sprites/character/character-v8/previews/falling-downward-through-sky-approved-scout-slowmo.gif",
-  "overlayPreview": "sprites/character/character-v8/overlays/falling-downward-through-sky-approved-scout-overlay-slowmo.gif",
-  "contactSheet": "sprites/character/character-v8/contact-sheets/falling-downward-through-sky-approved-scout-contact-sheet.png",
-  "sheetGrid": {
-    "columns": 7,
-    "rows": 1,
-    "size": [
-      2387,
-      341
-    ]
+  "borderHaloPixelsRemoved": 0,
+  "alphaPixelsChanged": 22978,
+  "anchor": {
+    "targetCenterX": 164,
+    "targetBottom": 339,
+    "maxShiftX": 8,
+    "maxShiftY": 0,
+    "avgShiftX": 2.71,
+    "avgShiftY": 0.0
   },
-  "sourceOrder": [
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-000.png",
-      "archivedInSourceDir": false
-    },
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-001.png",
-      "archivedInSourceDir": false
-    },
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-002.png",
-      "archivedInSourceDir": false
-    },
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-003.png",
-      "archivedInSourceDir": false
-    },
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-004.png",
-      "archivedInSourceDir": false
-    },
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-005.png",
-      "archivedInSourceDir": false
-    },
-    {
-      "sourceDir": "falling-downward-through-sky-00",
-      "sourceFile": "sprites/character/character-v8/openrouter-lab/grok-scout-001/extracted-frames/falling-downward-through-sky-00/frame-006.png",
-      "archivedInSourceDir": false
-    }
-  ],
-  "analysis": {
-    "frameStats": [
-      {
-        "frame": 0,
-        "sourceFrame": null,
-        "bbox": [
-          42,
-          51,
-          297,
-          339
-        ],
-        "centerX": 169.5,
-        "rootAnchorX": 170.08,
-        "rootAnchorY": 177.75,
-        "rootAnchorPixels": 385,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "frame": 1,
-        "sourceFrame": null,
-        "bbox": [
-          34,
-          47,
-          296,
-          339
-        ],
-        "centerX": 165.0,
-        "rootAnchorX": 170.33,
-        "rootAnchorY": 160.7,
-        "rootAnchorPixels": 385,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "frame": 2,
-        "sourceFrame": null,
-        "bbox": [
-          37,
-          48,
-          290,
-          339
-        ],
-        "centerX": 163.5,
-        "rootAnchorX": 169.52,
-        "rootAnchorY": 152.1,
-        "rootAnchorPixels": 393,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "frame": 3,
-        "sourceFrame": null,
-        "bbox": [
-          40,
-          56,
-          289,
-          339
-        ],
-        "centerX": 164.5,
-        "rootAnchorX": 170.27,
-        "rootAnchorY": 160.18,
-        "rootAnchorPixels": 452,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "frame": 4,
-        "sourceFrame": null,
-        "bbox": [
-          40,
-          75,
-          288,
-          339
-        ],
-        "centerX": 164.0,
-        "rootAnchorX": 169.8,
-        "rootAnchorY": 179.25,
-        "rootAnchorPixels": 432,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "frame": 5,
-        "sourceFrame": null,
-        "bbox": [
-          30,
-          104,
-          290,
-          339
-        ],
-        "centerX": 160.0,
-        "rootAnchorX": 169.8,
-        "rootAnchorY": 205.83,
-        "rootAnchorPixels": 446,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "frame": 6,
-        "sourceFrame": null,
-        "bbox": [
-          15,
-          101,
-          297,
-          339
-        ],
-        "centerX": 156.0,
-        "rootAnchorX": 170.27,
-        "rootAnchorY": 212.08,
-        "rootAnchorPixels": 442,
-        "bottom": 339,
-        "clipped": false,
-        "cornerAlpha": [
-          0,
-          0,
-          0,
-          0
-        ]
-      }
-    ],
-    "drift": {
-      "anchorMode": "root-core",
-      "maxBBoxCenterDriftPx": 8.0,
-      "maxRootAnchorDriftPx": 0.56,
-      "maxAnchorDriftPx": 0.56
-    },
-    "clippedFrames": [],
-    "nonTransparentCornerFrames": []
+  "driftBefore": {
+    "centerXRange": 13.5,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 1.0,
+    "bottomRange": 0
   }
 }

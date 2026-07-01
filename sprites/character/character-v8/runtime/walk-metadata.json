@@ -1,0 +1,33 @@
+{
+  "name": "walk",
+  "source": "sprites/character/character-v8/frames/walk",
+  "output": "sprites/character/character-v8/runtime/legacy-walk-clean-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/walk-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/walk-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/walk-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/walk.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 51,
+  "columns": 16,
+  "rows": 4,
+  "fps": 14,
+  "borderHaloPixelsRemoved": 2,
+  "alphaPixelsChanged": 267490,
+  "anchor": {
+    "targetCenterX": 168,
+    "targetBottom": 339,
+    "maxShiftX": 18,
+    "maxShiftY": 0,
+    "avgShiftX": 4.94,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 34.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 1.0,
+    "bottomRange": 0
+  }
+}

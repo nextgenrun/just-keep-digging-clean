@@ -1,0 +1,565 @@
+{
+  "version": "square-bot-clean-20260701",
+  "frameSize": [
+    341,
+    341
+  ],
+  "animations": [
+    {
+      "id": "attack-down",
+      "displayName": "Robot Attack Down",
+      "role": "extra",
+      "fps": 12,
+      "repeat": 0,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/attack-down-sheet.webp",
+      "piskel": "piskel/attack-down.piskel",
+      "sources": [
+        {
+          "source": "robot-attack-down-01",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "climb",
+      "displayName": "Robot Climb",
+      "role": "core",
+      "fps": 12,
+      "repeat": -1,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/climb-sheet.webp",
+      "piskel": "piskel/climb.piskel",
+      "sources": [
+        {
+          "source": "robot-climb-00",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "combat-idle-recover",
+      "displayName": "Robot Combat Idle Recover",
+      "role": "core",
+      "fps": 8,
+      "repeat": 0,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/combat-idle-recover-sheet.webp",
+      "piskel": "piskel/combat-idle-recover.piskel",
+      "sources": [
+        {
+          "source": "robot-combat-idle-recover-00",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "dig-down",
+      "displayName": "Robot Dig Down",
+      "role": "core",
+      "fps": 18,
+      "repeat": 0,
+      "frameCount": 39,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 5,
+      "runtimeSheet": "sheets/dig-down-sheet.webp",
+      "piskel": "piskel/dig-down.piskel",
+      "sources": [
+        {
+          "source": "robot-dig-down-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-dig-down-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-dig-down-02",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "dig-sideways",
+      "displayName": "Robot Dig Sideways",
+      "role": "core",
+      "fps": 24,
+      "repeat": 0,
+      "frameCount": 26,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 4,
+      "runtimeSheet": "sheets/dig-sideways-sheet.webp",
+      "piskel": "piskel/dig-sideways.piskel",
+      "sources": [
+        {
+          "source": "robot-dig-sideways-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-dig-sideways-02",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "dig-up",
+      "displayName": "Robot Dig Up",
+      "role": "core",
+      "fps": 24,
+      "repeat": 0,
+      "frameCount": 29,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 4,
+      "runtimeSheet": "sheets/dig-up-sheet.webp",
+      "piskel": "piskel/dig-up.piskel",
+      "sources": [
+        {
+          "source": "robot-dig-up-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-dig-up-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-dig-up-02",
+          "frames": 3
+        }
+      ]
+    },
+    {
+      "id": "dig-up-look",
+      "displayName": "Robot Dig Up Look",
+      "role": "core",
+      "fps": 1,
+      "repeat": -1,
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 1,
+      "runtimeSheet": "sheets/dig-up-look-sheet.webp",
+      "piskel": "piskel/dig-up-look.piskel",
+      "sources": [
+        {
+          "source": "robot-dig-up-00",
+          "frames": 1
+        }
+      ]
+    },
+    {
+      "id": "dig-up-sideways",
+      "displayName": "Robot Dig Up Sideways",
+      "role": "core",
+      "fps": 24,
+      "repeat": 0,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/dig-up-sideways-sheet.webp",
+      "piskel": "piskel/dig-up-sideways.piskel",
+      "sources": [
+        {
+          "source": "robot-dig-up-sideways-01",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "duck",
+      "displayName": "Robot Duck",
+      "role": "core",
+      "fps": 8,
+      "repeat": 0,
+      "frameCount": 26,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 4,
+      "runtimeSheet": "sheets/duck-sheet.webp",
+      "piskel": "piskel/duck.piskel",
+      "sources": [
+        {
+          "source": "robot-duck-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-duck-01",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "earthquake-react",
+      "displayName": "Robot Earthquake React",
+      "role": "extra",
+      "fps": 10,
+      "repeat": 0,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/earthquake-react-sheet.webp",
+      "piskel": "piskel/earthquake-react.piskel",
+      "sources": [
+        {
+          "source": "robot-run-stop-01",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "falling",
+      "displayName": "Robot Falling",
+      "role": "core",
+      "fps": 12,
+      "repeat": -1,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/falling-sheet.webp",
+      "piskel": "piskel/falling.piskel",
+      "sources": [
+        {
+          "source": "robot-fall-00",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "fly",
+      "displayName": "Robot Fly",
+      "role": "core",
+      "fps": 14,
+      "repeat": -1,
+      "frameCount": 26,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 4,
+      "runtimeSheet": "sheets/fly-sheet.webp",
+      "piskel": "piskel/fly.piskel",
+      "sources": [
+        {
+          "source": "robot-fly-climb-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-fly-climb-01",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "idle",
+      "displayName": "Robot Idle",
+      "role": "core",
+      "fps": 8,
+      "repeat": -1,
+      "frameCount": 19,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 3,
+      "runtimeSheet": "sheets/idle-sheet.webp",
+      "piskel": "piskel/idle.piskel",
+      "sources": [
+        {
+          "source": "robot-idle-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-idle-02",
+          "frames": 6
+        }
+      ]
+    },
+    {
+      "id": "jump",
+      "displayName": "Robot Jump",
+      "role": "core",
+      "fps": 12,
+      "repeat": 0,
+      "frameCount": 39,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 5,
+      "runtimeSheet": "sheets/jump-sheet.webp",
+      "piskel": "piskel/jump.piskel",
+      "sources": [
+        {
+          "source": "robot-jump-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-jump-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-jump-02",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "quickslash",
+      "displayName": "Robot Quickslash",
+      "role": "core",
+      "fps": 12,
+      "repeat": 0,
+      "frameCount": 10,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/quickslash-sheet.webp",
+      "piskel": "piskel/quickslash.piskel",
+      "sources": [
+        {
+          "source": "robot-quickslash-01",
+          "frames": 10
+        }
+      ]
+    },
+    {
+      "id": "thunder-charge",
+      "displayName": "Robot Thunder Charge",
+      "role": "core",
+      "fps": 8,
+      "repeat": -1,
+      "frameCount": 11,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/thunder-charge-sheet.webp",
+      "piskel": "piskel/thunder-charge.piskel",
+      "sources": [
+        {
+          "source": "robot-thunder-charge-00",
+          "frames": 11
+        }
+      ]
+    },
+    {
+      "id": "thunder-strike",
+      "displayName": "Robot Thunder Strike",
+      "role": "core",
+      "fps": 12,
+      "repeat": 0,
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 2,
+      "runtimeSheet": "sheets/thunder-strike-sheet.webp",
+      "piskel": "piskel/thunder-strike.piskel",
+      "sources": [
+        {
+          "source": "robot-attack-down-01",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "walk-loop",
+      "displayName": "Robot Walk Loop",
+      "role": "core",
+      "fps": 14,
+      "repeat": -1,
+      "frameCount": 52,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 7,
+      "runtimeSheet": "sheets/walk-loop-sheet.webp",
+      "piskel": "piskel/walk-loop.piskel",
+      "sources": [
+        {
+          "source": "robot-walk-loop-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-walk-loop-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-walk-loop-02",
+          "frames": 13
+        },
+        {
+          "source": "robot-walk-loop-03",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "walk-run",
+      "displayName": "Robot Run Loop",
+      "role": "core",
+      "fps": 16,
+      "repeat": -1,
+      "frameCount": 37,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 5,
+      "runtimeSheet": "sheets/walk-run-sheet.webp",
+      "piskel": "piskel/walk-run.piskel",
+      "sources": [
+        {
+          "source": "robot-walk-start-01",
+          "frames": 11
+        },
+        {
+          "source": "robot-run-loop-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-run-loop-02",
+          "frames": 13
+        }
+      ]
+    },
+    {
+      "id": "walk-start",
+      "displayName": "Robot Walk Start",
+      "role": "core",
+      "fps": 12,
+      "repeat": 0,
+      "frameCount": 21,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 3,
+      "runtimeSheet": "sheets/walk-start-sheet.webp",
+      "piskel": "piskel/walk-start.piskel",
+      "sources": [
+        {
+          "source": "robot-walk-start-00",
+          "frames": 13
+        },
+        {
+          "source": "robot-idle-00",
+          "frames": 8
+        }
+      ]
+    },
+    {
+      "id": "walk-stop",
+      "displayName": "Robot Walk Stop",
+      "role": "core",
+      "fps": 12,
+      "repeat": 0,
+      "frameCount": 27,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 4,
+      "runtimeSheet": "sheets/walk-stop-sheet.webp",
+      "piskel": "piskel/walk-stop.piskel",
+      "sources": [
+        {
+          "source": "robot-walk-stop-00",
+          "frames": 6
+        },
+        {
+          "source": "robot-walk-stop-01",
+          "frames": 13
+        },
+        {
+          "source": "robot-run-stop-00",
+          "frames": 8
+        }
+      ]
+    },
+    {
+      "id": "wall-push",
+      "displayName": "Robot Wall Push",
+      "role": "core",
+      "fps": 8,
+      "repeat": -1,
+      "frameCount": 8,
+      "frameSize": [
+        341,
+        341
+      ],
+      "sheetColumns": 8,
+      "sheetRows": 1,
+      "runtimeSheet": "sheets/wall-push-sheet.webp",
+      "piskel": "piskel/wall-push.piskel",
+      "sources": [
+        {
+          "source": "robot-wall-push-00",
+          "frames": 8
+        }
+      ]
+    }
+  ]
+}

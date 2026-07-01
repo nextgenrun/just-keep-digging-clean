@@ -1,0 +1,29 @@
+{
+  "budget": "EUR 1",
+  "executionStatus": "pending external Grok Imagen/OpenRouter run",
+  "strategy": "Generate only key poses; derive in-betweens from anchored transforms and engine FX.",
+  "acceptance": [
+    "Same grayscale palette as mockup.",
+    "Chassis center and tread baseline do not move between accepted frames.",
+    "Drill pivot remains fixed to front mount.",
+    "No checkerboard or non-transparent corner pixels."
+  ],
+  "prompts": [
+    {
+      "animation": "idle",
+      "prompt": "One-tile grayscale pixel-art tank character, black outline, rounded white chassis, dark rubber tread, segmented cone drill mounted on front, match provided mockup exactly, transparent background, fixed camera, no palette drift."
+    },
+    {
+      "animation": "drive",
+      "prompt": "Same one-tile grayscale pixel-art tank mockup, fixed chassis anchor, only tread and wheel motion changes, transparent background, no color drift, no silhouette drift."
+    },
+    {
+      "animation": "dig",
+      "prompt": "Same one-tile grayscale tank with front drill bracing and vibrating, fixed chassis anchor and drill pivot, transparent background, no recolor, no silhouette drift."
+    },
+    {
+      "animation": "fly",
+      "prompt": "Same one-tile grayscale tank hovering with tiny underside motion only, fixed chassis anchor, transparent background, no recolor, no silhouette drift."
+    }
+  ]
+}

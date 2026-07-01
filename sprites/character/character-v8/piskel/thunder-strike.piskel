@@ -1,9 +1,9 @@
 {
   "modelVersion": 2,
   "piskel": {
-    "name": "Thunder Strike",
-    "description": "Generated from Just Keep Digging runtime character assets.",
-    "fps": 12,
+    "name": "Legacy Miner V8 thunder-strike",
+    "description": "Generated from cleaned legacy miner v8 runtime frames.",
+    "fps": 10,
     "height": 341,
     "width": 341,
     "layers": [

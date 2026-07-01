@@ -1,0 +1,33 @@
+{
+  "name": "dig-sideways",
+  "source": "sprites/character/character-v8/frames/dig-sideways",
+  "output": "sprites/character/character-v8/runtime/legacy-dig-sideways-clean-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/dig-sideways-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/dig-sideways-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 18,
+  "columns": 16,
+  "rows": 2,
+  "fps": 30,
+  "borderHaloPixelsRemoved": 20883,
+  "alphaPixelsChanged": 202996,
+  "anchor": {
+    "targetCenterX": 151,
+    "targetBottom": 339,
+    "maxShiftX": 17,
+    "maxShiftY": 0,
+    "avgShiftX": 8.67,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 30.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 1.0,
+    "bottomRange": 0
+  }
+}

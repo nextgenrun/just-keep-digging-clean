@@ -1,0 +1,461 @@
+{
+  "schemaVersion": 1,
+  "asset": "living-drill-v1",
+  "tool": "Blender 5.1 headless motion blockout",
+  "anchorPx": {
+    "x": 47,
+    "y": 47
+  },
+  "frameSize": [
+    94,
+    94
+  ],
+  "usage": "Motion reference only; final accepted frames are rebuilt through anchored Piskel/runtime sheets.",
+  "animations": {
+    "idle": {
+      "frames": [
+        {
+          "t": 0.0,
+          "bodyBobPx": 0.0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.0,
+          "rearThrustLengthPx": 8.404,
+          "bottomThrustLengthPx": 6.863,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.1429,
+          "bodyBobPx": 0.247,
+          "bodyAngleDeg": 0.318,
+          "drillSpinPhase": 0.22,
+          "rearThrustLengthPx": 8.8,
+          "bottomThrustLengthPx": 6.253,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.2857,
+          "bodyBobPx": 0.35,
+          "bodyAngleDeg": 0.45,
+          "drillSpinPhase": 0.44,
+          "rearThrustLengthPx": 8.375,
+          "bottomThrustLengthPx": 5.495,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.4286,
+          "bodyBobPx": 0.247,
+          "bodyAngleDeg": 0.318,
+          "drillSpinPhase": 0.66,
+          "rearThrustLengthPx": 7.38,
+          "bottomThrustLengthPx": 5.033,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.5714,
+          "bodyBobPx": 0.0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.88,
+          "rearThrustLengthPx": 6.396,
+          "bottomThrustLengthPx": 5.137,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.7143,
+          "bodyBobPx": -0.247,
+          "bodyAngleDeg": -0.318,
+          "drillSpinPhase": 0.1,
+          "rearThrustLengthPx": 6.0,
+          "bottomThrustLengthPx": 5.747,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.8571,
+          "bodyBobPx": -0.35,
+          "bodyAngleDeg": -0.45,
+          "drillSpinPhase": 0.32,
+          "rearThrustLengthPx": 6.425,
+          "bottomThrustLengthPx": 6.505,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 1.0,
+          "bodyBobPx": -0.247,
+          "bodyAngleDeg": -0.318,
+          "drillSpinPhase": 0.54,
+          "rearThrustLengthPx": 7.42,
+          "bottomThrustLengthPx": 6.967,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        }
+      ],
+      "fps": 7
+    },
+    "fly": {
+      "frames": [
+        {
+          "t": 0.0,
+          "bodyBobPx": 0.0,
+          "bodyAngleDeg": 0.292,
+          "drillSpinPhase": 0.0,
+          "rearThrustLengthPx": 11.7,
+          "bottomThrustLengthPx": 17.373,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.1429,
+          "bodyBobPx": 0.389,
+          "bodyAngleDeg": 0.695,
+          "drillSpinPhase": 0.18,
+          "rearThrustLengthPx": 14.194,
+          "bottomThrustLengthPx": 15.033,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.2857,
+          "bodyBobPx": 0.55,
+          "bodyAngleDeg": 0.691,
+          "drillSpinPhase": 0.36,
+          "rearThrustLengthPx": 13.609,
+          "bottomThrustLengthPx": 11.665,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.4286,
+          "bodyBobPx": 0.389,
+          "bodyAngleDeg": 0.282,
+          "drillSpinPhase": 0.54,
+          "rearThrustLengthPx": 10.667,
+          "bottomThrustLengthPx": 11.426,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.5714,
+          "bodyBobPx": 0.0,
+          "bodyAngleDeg": -0.292,
+          "drillSpinPhase": 0.72,
+          "rearThrustLengthPx": 9.0,
+          "bottomThrustLengthPx": 14.612,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.7143,
+          "bodyBobPx": -0.389,
+          "bodyAngleDeg": -0.695,
+          "drillSpinPhase": 0.9,
+          "rearThrustLengthPx": 10.667,
+          "bottomThrustLengthPx": 17.29,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 0.8571,
+          "bodyBobPx": -0.55,
+          "bodyAngleDeg": -0.691,
+          "drillSpinPhase": 0.08,
+          "rearThrustLengthPx": 13.609,
+          "bottomThrustLengthPx": 16.152,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        },
+        {
+          "t": 1.0,
+          "bodyBobPx": -0.389,
+          "bodyAngleDeg": -0.282,
+          "drillSpinPhase": 0.26,
+          "rearThrustLengthPx": 14.194,
+          "bottomThrustLengthPx": 12.605,
+          "biteDepth01": 0,
+          "contactPressure01": 0
+        }
+      ],
+      "fps": 9
+    },
+    "dig_bite": {
+      "frames": [
+        {
+          "t": 0.0,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.0,
+          "rearThrustLengthPx": 7.0,
+          "bottomThrustLengthPx": 7.2,
+          "biteDepth01": 0.0,
+          "contactPressure01": 0.25
+        },
+        {
+          "t": 0.1111,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.38,
+          "rearThrustLengthPx": 6.778,
+          "bottomThrustLengthPx": 7.067,
+          "biteDepth01": 0.2977,
+          "contactPressure01": 0.4733
+        },
+        {
+          "t": 0.2222,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.0,
+          "drillSpinPhase": 0.76,
+          "rearThrustLengthPx": 6.556,
+          "bottomThrustLengthPx": 6.933,
+          "biteDepth01": 0.5295,
+          "contactPressure01": 0.6471
+        },
+        {
+          "t": 0.3333,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.14,
+          "rearThrustLengthPx": 6.333,
+          "bottomThrustLengthPx": 6.8,
+          "biteDepth01": 0.7037,
+          "contactPressure01": 0.7778
+        },
+        {
+          "t": 0.4444,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.0,
+          "drillSpinPhase": 0.52,
+          "rearThrustLengthPx": 6.111,
+          "bottomThrustLengthPx": 6.667,
+          "biteDepth01": 0.8285,
+          "contactPressure01": 0.8714
+        },
+        {
+          "t": 0.5556,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.9,
+          "rearThrustLengthPx": 5.889,
+          "bottomThrustLengthPx": 6.533,
+          "biteDepth01": 0.9122,
+          "contactPressure01": 0.9342
+        },
+        {
+          "t": 0.6667,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.0,
+          "drillSpinPhase": 0.28,
+          "rearThrustLengthPx": 5.667,
+          "bottomThrustLengthPx": 6.4,
+          "biteDepth01": 0.963,
+          "contactPressure01": 0.9722
+        },
+        {
+          "t": 0.7778,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.66,
+          "rearThrustLengthPx": 5.444,
+          "bottomThrustLengthPx": 6.267,
+          "biteDepth01": 0.989,
+          "contactPressure01": 0.9918
+        },
+        {
+          "t": 0.8889,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.0,
+          "drillSpinPhase": 0.04,
+          "rearThrustLengthPx": 5.222,
+          "bottomThrustLengthPx": 6.133,
+          "biteDepth01": 0.9986,
+          "contactPressure01": 0.999
+        },
+        {
+          "t": 1.0,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.42,
+          "rearThrustLengthPx": 5.0,
+          "bottomThrustLengthPx": 6.0,
+          "biteDepth01": 1.0,
+          "contactPressure01": 1.0
+        }
+      ],
+      "fps": 14
+    },
+    "dig_break": {
+      "frames": [
+        {
+          "t": 0.0,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.0,
+          "rearThrustLengthPx": 4.0,
+          "bottomThrustLengthPx": 5.0,
+          "biteDepth01": 0.76,
+          "contactPressure01": 1.0
+        },
+        {
+          "t": 0.1429,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 1.178,
+          "drillSpinPhase": 0.42,
+          "rearThrustLengthPx": 4.286,
+          "bottomThrustLengthPx": 5.2,
+          "biteDepth01": 0.7943,
+          "contactPressure01": 0.9643
+        },
+        {
+          "t": 0.2857,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -1.156,
+          "drillSpinPhase": 0.84,
+          "rearThrustLengthPx": 4.571,
+          "bottomThrustLengthPx": 5.4,
+          "biteDepth01": 0.8286,
+          "contactPressure01": 0.9286
+        },
+        {
+          "t": 0.4286,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.303,
+          "drillSpinPhase": 0.26,
+          "rearThrustLengthPx": 4.857,
+          "bottomThrustLengthPx": 5.6,
+          "biteDepth01": 0.8629,
+          "contactPressure01": 0.8929
+        },
+        {
+          "t": 0.5714,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.426,
+          "drillSpinPhase": 0.68,
+          "rearThrustLengthPx": 5.143,
+          "bottomThrustLengthPx": 5.8,
+          "biteDepth01": 0.8971,
+          "contactPressure01": 0.8571
+        },
+        {
+          "t": 0.7143,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.486,
+          "drillSpinPhase": 0.1,
+          "rearThrustLengthPx": 5.429,
+          "bottomThrustLengthPx": 6.0,
+          "biteDepth01": 0.9314,
+          "contactPressure01": 0.8214
+        },
+        {
+          "t": 0.8571,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.144,
+          "drillSpinPhase": 0.52,
+          "rearThrustLengthPx": 5.714,
+          "bottomThrustLengthPx": 6.2,
+          "biteDepth01": 0.9657,
+          "contactPressure01": 0.7857
+        },
+        {
+          "t": 1.0,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.94,
+          "rearThrustLengthPx": 6.0,
+          "bottomThrustLengthPx": 6.4,
+          "biteDepth01": 1,
+          "contactPressure01": 0.75
+        }
+      ],
+      "fps": 14
+    },
+    "recoil": {
+      "frames": [
+        {
+          "t": 0.0,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.0,
+          "rearThrustLengthPx": 4.0,
+          "bottomThrustLengthPx": 5.0,
+          "biteDepth01": 0.18,
+          "contactPressure01": 0.25
+        },
+        {
+          "t": 0.1429,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.736,
+          "drillSpinPhase": 0.16,
+          "rearThrustLengthPx": 4.555,
+          "bottomThrustLengthPx": 5.444,
+          "biteDepth01": 0.1134,
+          "contactPressure01": 0.1574
+        },
+        {
+          "t": 0.2857,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.194,
+          "drillSpinPhase": 0.32,
+          "rearThrustLengthPx": 4.953,
+          "bottomThrustLengthPx": 5.763,
+          "biteDepth01": 0.0656,
+          "contactPressure01": 0.0911
+        },
+        {
+          "t": 0.4286,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.173,
+          "drillSpinPhase": 0.48,
+          "rearThrustLengthPx": 5.22,
+          "bottomThrustLengthPx": 5.976,
+          "biteDepth01": 0.0336,
+          "contactPressure01": 0.0466
+        },
+        {
+          "t": 0.5714,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.075,
+          "drillSpinPhase": 0.64,
+          "rearThrustLengthPx": 5.382,
+          "bottomThrustLengthPx": 6.106,
+          "biteDepth01": 0.0142,
+          "contactPressure01": 0.0197
+        },
+        {
+          "t": 0.7143,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.012,
+          "drillSpinPhase": 0.8,
+          "rearThrustLengthPx": 5.465,
+          "bottomThrustLengthPx": 6.172,
+          "biteDepth01": 0.0042,
+          "contactPressure01": 0.0058
+        },
+        {
+          "t": 0.8571,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": -0.003,
+          "drillSpinPhase": 0.96,
+          "rearThrustLengthPx": 5.496,
+          "bottomThrustLengthPx": 6.197,
+          "biteDepth01": 0.0005,
+          "contactPressure01": 0.0007
+        },
+        {
+          "t": 1.0,
+          "bodyBobPx": 0,
+          "bodyAngleDeg": 0.0,
+          "drillSpinPhase": 0.12,
+          "rearThrustLengthPx": 5.5,
+          "bottomThrustLengthPx": 6.2,
+          "biteDepth01": 0.0,
+          "contactPressure01": 0.0
+        }
+      ],
+      "fps": 12
+    }
+  }
+}

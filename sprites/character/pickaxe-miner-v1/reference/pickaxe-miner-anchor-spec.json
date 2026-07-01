@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "assetId": "pickaxe-miner-v1",
+  "sourceMockup": "C:\\Users\\Mila\\AppData\\Local\\Temp\\codex-clipboard-eb7c7d7f-e401-4d6b-851c-22ad48b4f4d8.png",
+  "apiModel": "x-ai/grok-imagine-video",
+  "frameSize": [
+    94,
+    94
+  ],
+  "bodyAnchorPx": {
+    "x": 47,
+    "y": 47
+  },
+  "canvasRules": [
+    "Body center stays fixed on the red crosshair at 47,47.",
+    "Keep miner size, helmet, face, outfit, outline, skin palette, and pickaxe palette stable between frames.",
+    "Do not draw terrain, blocks, UI, or background into sprite frames.",
+    "Only arms, legs, pickaxe arc, dust, and tiny strike sparks may animate."
+  ]
+}

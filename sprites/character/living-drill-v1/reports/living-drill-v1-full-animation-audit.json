@@ -1,0 +1,763 @@
+{
+  "schemaVersion": 1,
+  "asset": "living-drill-v1",
+  "method": "V2 motion polish: Blender blockout profile drives timing/feel, while final accepted frames remain anchored Piskel/runtime sheets.",
+  "anchor": [
+    47,
+    47
+  ],
+  "frameSize": [
+    94,
+    94
+  ],
+  "blenderMotionProfile": "sprites/character/living-drill-v1/blender/v2-motion-polish/living-drill-motion-profile.json",
+  "changes": [
+    "Blender 5.1 blockout profile now drives timing, thrust pulse lengths, spin phase, bite pressure, and recoil settle.",
+    "Idle keeps the stable approved body cadence with quieter drill shimmer and no body popping.",
+    "Fly keeps the approved body locked while thrust flicker follows the Blender pulse curve.",
+    "Dig adds stronger in-mask cone spin and contact sparks without changing the anchored silhouette.",
+    "Dig recoil uses the approved dig body frames with a short Blender-timed settle curve."
+  ],
+  "animations": {
+    "idle": {
+      "frames": 8,
+      "fps": 7,
+      "centerDriftPx": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "bodySizeDriftPx": {
+        "width": 0,
+        "height": 0
+      },
+      "motionSmoothness": {
+        "silhouetteDeltaPx": {
+          "max": 123,
+          "avg": 91.429
+        },
+        "blueEffectBounds": {
+          "minLeft": 25,
+          "maxRight": 66,
+          "minTop": 35,
+          "maxBottom": 64
+        },
+        "drillTipRightEdgeDriftPx": 0,
+        "profileBiteDepthRange": [
+          0.0,
+          0.0
+        ],
+        "profileSpinPhaseSteps": 8
+      },
+      "framesDetail": [
+        {
+          "alphaBBox": [
+            25,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            25,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            25,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            25,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            25,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            25,
+            31,
+            69,
+            64
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        }
+      ]
+    },
+    "fly": {
+      "frames": 8,
+      "fps": 9,
+      "centerDriftPx": {
+        "x": 0.0,
+        "y": 0.5
+      },
+      "bodySizeDriftPx": {
+        "width": 0,
+        "height": 1
+      },
+      "motionSmoothness": {
+        "silhouetteDeltaPx": {
+          "max": 173,
+          "avg": 121.429
+        },
+        "blueEffectBounds": {
+          "minLeft": 9,
+          "maxRight": 66,
+          "minTop": 35,
+          "maxBottom": 81
+        },
+        "drillTipRightEdgeDriftPx": 0,
+        "profileBiteDepthRange": [
+          0.0,
+          0.0
+        ],
+        "profileSpinPhaseSteps": 8
+      },
+      "framesDetail": [
+        {
+          "alphaBBox": [
+            12,
+            31,
+            69,
+            81
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            63
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 32,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 46.5
+        },
+        {
+          "alphaBBox": [
+            9,
+            31,
+            69,
+            79
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            10,
+            31,
+            69,
+            75
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            63
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 32,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 46.5
+        },
+        {
+          "alphaBBox": [
+            13,
+            31,
+            69,
+            75
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            63
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 32,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 46.5
+        },
+        {
+          "alphaBBox": [
+            15,
+            31,
+            69,
+            78
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            63
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 32,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 46.5
+        },
+        {
+          "alphaBBox": [
+            13,
+            31,
+            69,
+            81
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            63
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 32,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 46.5
+        },
+        {
+          "alphaBBox": [
+            10,
+            31,
+            69,
+            80
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            63
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 32,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 46.5
+        },
+        {
+          "alphaBBox": [
+            9,
+            31,
+            69,
+            76
+          ],
+          "bodyBBox": [
+            26,
+            31,
+            69,
+            64
+          ],
+          "bodyWidth": 43,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.0,
+          "bodyCenterY": 47.0
+        }
+      ]
+    },
+    "dig": {
+      "frames": 10,
+      "fps": 14,
+      "centerDriftPx": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "bodySizeDriftPx": {
+        "width": 0,
+        "height": 0
+      },
+      "motionSmoothness": {
+        "silhouetteDeltaPx": {
+          "max": 286,
+          "avg": 169.333
+        },
+        "blueEffectBounds": {
+          "minLeft": 21,
+          "maxRight": 47,
+          "minTop": 37,
+          "maxBottom": 64
+        },
+        "drillTipRightEdgeDriftPx": 0,
+        "profileBiteDepthRange": [
+          0.0,
+          1.0
+        ],
+        "profileSpinPhaseSteps": 10
+      },
+      "framesDetail": [
+        {
+          "alphaBBox": [
+            22,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            22,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            23,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            23,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            21,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        }
+      ]
+    },
+    "dig_recoil": {
+      "frames": 8,
+      "fps": 12,
+      "centerDriftPx": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "bodySizeDriftPx": {
+        "width": 0,
+        "height": 0
+      },
+      "motionSmoothness": {
+        "silhouetteDeltaPx": {
+          "max": 286,
+          "avg": 173.286
+        },
+        "blueEffectBounds": {
+          "minLeft": 21,
+          "maxRight": 47,
+          "minTop": 37,
+          "maxBottom": 64
+        },
+        "drillTipRightEdgeDriftPx": 0,
+        "profileBiteDepthRange": [
+          0.0,
+          0.18
+        ],
+        "profileSpinPhaseSteps": 8
+      },
+      "framesDetail": [
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            21,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            23,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        },
+        {
+          "alphaBBox": [
+            23,
+            31,
+            72,
+            64
+          ],
+          "bodyBBox": [
+            24,
+            31,
+            72,
+            64
+          ],
+          "bodyWidth": 48,
+          "bodyHeight": 33,
+          "bodyCenterX": 47.5,
+          "bodyCenterY": 47.0
+        }
+      ]
+    }
+  }
+}

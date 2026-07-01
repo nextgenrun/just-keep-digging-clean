@@ -1,0 +1,1196 @@
+{
+  "schemaVersion": 1,
+  "asset": "living-drill-v1",
+  "sourceLab": "eur5-grok-imagen",
+  "anchor": [
+    47,
+    47
+  ],
+  "frameSize": [
+    94,
+    94
+  ],
+  "selectionMethod": "Score generated frames by source body box size and anchor stability, keep stable candidates, normalize through .piskel export.",
+  "sources": {
+    "idle": "idle-hover",
+    "fly": "fly-hover",
+    "dig": "dig-bite-loop",
+    "dig_recoil": "dig-contact-break-recoil"
+  },
+  "selected": {
+    "idle": [
+      {
+        "sourceFrame": "frame-000.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-000.png",
+        "score": 5.0,
+        "sourceBody": {
+          "left": 30,
+          "top": 36,
+          "right": 72,
+          "bottom": 69,
+          "width": 42,
+          "height": 33,
+          "centerX": 50.5,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-003.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-003.png",
+        "score": 8.9,
+        "sourceBody": {
+          "left": 31,
+          "top": 37,
+          "right": 72,
+          "bottom": 68,
+          "width": 41,
+          "height": 31,
+          "centerX": 51.0,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-007.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-007.png",
+        "score": 21.8,
+        "sourceBody": {
+          "left": 28,
+          "top": 32,
+          "right": 72,
+          "bottom": 63,
+          "width": 44,
+          "height": 31,
+          "centerX": 49.5,
+          "centerY": 47.0
+        }
+      },
+      {
+        "sourceFrame": "frame-010.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-010.png",
+        "score": 5.9,
+        "sourceBody": {
+          "left": 29,
+          "top": 35,
+          "right": 72,
+          "bottom": 68,
+          "width": 43,
+          "height": 33,
+          "centerX": 50.0,
+          "centerY": 51.0
+        }
+      },
+      {
+        "sourceFrame": "frame-015.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-015.png",
+        "score": 8.4,
+        "sourceBody": {
+          "left": 29,
+          "top": 34,
+          "right": 72,
+          "bottom": 66,
+          "width": 43,
+          "height": 32,
+          "centerX": 50.0,
+          "centerY": 49.5
+        }
+      },
+      {
+        "sourceFrame": "frame-018.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-018.png",
+        "score": 17.0,
+        "sourceBody": {
+          "left": 30,
+          "top": 40,
+          "right": 72,
+          "bottom": 73,
+          "width": 42,
+          "height": 33,
+          "centerX": 50.5,
+          "centerY": 56.0
+        }
+      },
+      {
+        "sourceFrame": "frame-020.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-020.png",
+        "score": 19.7,
+        "sourceBody": {
+          "left": 28,
+          "top": 33,
+          "right": 73,
+          "bottom": 64,
+          "width": 45,
+          "height": 31,
+          "centerX": 50.0,
+          "centerY": 48.0
+        }
+      },
+      {
+        "sourceFrame": "frame-024.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/idle-hover/frame-024.png",
+        "score": 23.2,
+        "sourceBody": {
+          "left": 33,
+          "top": 37,
+          "right": 72,
+          "bottom": 71,
+          "width": 39,
+          "height": 34,
+          "centerX": 52.0,
+          "centerY": 53.5
+        }
+      }
+    ],
+    "fly": [
+      {
+        "sourceFrame": "frame-001.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-001.png",
+        "score": 26.4,
+        "sourceBody": {
+          "left": 21,
+          "top": 32,
+          "right": 72,
+          "bottom": 77,
+          "width": 51,
+          "height": 45,
+          "centerX": 46.0,
+          "centerY": 54.0
+        }
+      },
+      {
+        "sourceFrame": "frame-003.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-003.png",
+        "score": 34.9,
+        "sourceBody": {
+          "left": 9,
+          "top": 29,
+          "right": 72,
+          "bottom": 79,
+          "width": 63,
+          "height": 50,
+          "centerX": 40.0,
+          "centerY": 53.5
+        }
+      },
+      {
+        "sourceFrame": "frame-006.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-006.png",
+        "score": 14.9,
+        "sourceBody": {
+          "left": 14,
+          "top": 30,
+          "right": 72,
+          "bottom": 79,
+          "width": 58,
+          "height": 49,
+          "centerX": 42.5,
+          "centerY": 54.0
+        }
+      },
+      {
+        "sourceFrame": "frame-010.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-010.png",
+        "score": 22.5,
+        "sourceBody": {
+          "left": 20,
+          "top": 32,
+          "right": 72,
+          "bottom": 77,
+          "width": 52,
+          "height": 45,
+          "centerX": 45.5,
+          "centerY": 54.0
+        }
+      },
+      {
+        "sourceFrame": "frame-015.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-015.png",
+        "score": 31.3,
+        "sourceBody": {
+          "left": 8,
+          "top": 30,
+          "right": 72,
+          "bottom": 77,
+          "width": 64,
+          "height": 47,
+          "centerX": 39.5,
+          "centerY": 53.0
+        }
+      },
+      {
+        "sourceFrame": "frame-018.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-018.png",
+        "score": 29.5,
+        "sourceBody": {
+          "left": 20,
+          "top": 30,
+          "right": 72,
+          "bottom": 73,
+          "width": 52,
+          "height": 43,
+          "centerX": 45.5,
+          "centerY": 51.0
+        }
+      },
+      {
+        "sourceFrame": "frame-021.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-021.png",
+        "score": 19.8,
+        "sourceBody": {
+          "left": 13,
+          "top": 28,
+          "right": 72,
+          "bottom": 79,
+          "width": 59,
+          "height": 51,
+          "centerX": 42.0,
+          "centerY": 53.0
+        }
+      },
+      {
+        "sourceFrame": "frame-024.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/fly-hover/frame-024.png",
+        "score": 34.5,
+        "sourceBody": {
+          "left": 10,
+          "top": 29,
+          "right": 72,
+          "bottom": 80,
+          "width": 62,
+          "height": 51,
+          "centerX": 40.5,
+          "centerY": 54.0
+        }
+      }
+    ],
+    "dig": [
+      {
+        "sourceFrame": "frame-001.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-001.png",
+        "score": 7.4,
+        "sourceBody": {
+          "left": 31,
+          "top": 36,
+          "right": 77,
+          "bottom": 68,
+          "width": 46,
+          "height": 32,
+          "centerX": 53.5,
+          "centerY": 51.5
+        }
+      },
+      {
+        "sourceFrame": "frame-003.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-003.png",
+        "score": 3.0,
+        "sourceBody": {
+          "left": 32,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 45,
+          "height": 33,
+          "centerX": 54.0,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-004.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-004.png",
+        "score": 8.7,
+        "sourceBody": {
+          "left": 29,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 48,
+          "height": 33,
+          "centerX": 52.5,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-006.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-006.png",
+        "score": 8.7,
+        "sourceBody": {
+          "left": 29,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 48,
+          "height": 33,
+          "centerX": 52.5,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-009.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-009.png",
+        "score": 4.8,
+        "sourceBody": {
+          "left": 30,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 47,
+          "height": 33,
+          "centerX": 53.0,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-010.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-010.png",
+        "score": 8.7,
+        "sourceBody": {
+          "left": 29,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 48,
+          "height": 33,
+          "centerX": 52.5,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-013.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-013.png",
+        "score": 6.9,
+        "sourceBody": {
+          "left": 33,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 44,
+          "height": 33,
+          "centerX": 54.5,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-018.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-018.png",
+        "score": 8.7,
+        "sourceBody": {
+          "left": 29,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 48,
+          "height": 33,
+          "centerX": 52.5,
+          "centerY": 52.0
+        }
+      },
+      {
+        "sourceFrame": "frame-019.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-019.png",
+        "score": 8.3,
+        "sourceBody": {
+          "left": 30,
+          "top": 36,
+          "right": 77,
+          "bottom": 68,
+          "width": 47,
+          "height": 32,
+          "centerX": 53.0,
+          "centerY": 51.5
+        }
+      },
+      {
+        "sourceFrame": "frame-024.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-bite-loop/frame-024.png",
+        "score": 8.7,
+        "sourceBody": {
+          "left": 29,
+          "top": 36,
+          "right": 77,
+          "bottom": 69,
+          "width": 48,
+          "height": 33,
+          "centerX": 52.5,
+          "centerY": 52.0
+        }
+      }
+    ],
+    "dig_recoil": [
+      {
+        "sourceFrame": "frame-001.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-001.png",
+        "score": 27.3,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 73,
+          "bottom": 71,
+          "width": 55,
+          "height": 44,
+          "centerX": 45.0,
+          "centerY": 48.5
+        }
+      },
+      {
+        "sourceFrame": "frame-003.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-003.png",
+        "score": 0.0,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 80,
+          "bottom": 71,
+          "width": 62,
+          "height": 44,
+          "centerX": 48.5,
+          "centerY": 48.5
+        }
+      },
+      {
+        "sourceFrame": "frame-008.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-008.png",
+        "score": 3.5,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 80,
+          "bottom": 70,
+          "width": 62,
+          "height": 43,
+          "centerX": 48.5,
+          "centerY": 48.0
+        }
+      },
+      {
+        "sourceFrame": "frame-013.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-013.png",
+        "score": 11.7,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 83,
+          "bottom": 71,
+          "width": 65,
+          "height": 44,
+          "centerX": 50.0,
+          "centerY": 48.5
+        }
+      },
+      {
+        "sourceFrame": "frame-018.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-018.png",
+        "score": 19.1,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 76,
+          "bottom": 72,
+          "width": 58,
+          "height": 45,
+          "centerX": 46.5,
+          "centerY": 49.0
+        }
+      },
+      {
+        "sourceFrame": "frame-020.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-020.png",
+        "score": 19.1,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 76,
+          "bottom": 70,
+          "width": 58,
+          "height": 43,
+          "centerX": 46.5,
+          "centerY": 48.0
+        }
+      },
+      {
+        "sourceFrame": "frame-022.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-022.png",
+        "score": 15.6,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 76,
+          "bottom": 71,
+          "width": 58,
+          "height": 44,
+          "centerX": 46.5,
+          "centerY": 48.5
+        }
+      },
+      {
+        "sourceFrame": "frame-024.png",
+        "sourcePath": "sprites/character/living-drill-v1/openrouter-lab/eur5-grok-imagen/extracted-frames/dig-contact-break-recoil/frame-024.png",
+        "score": 15.6,
+        "sourceBody": {
+          "left": 18,
+          "top": 27,
+          "right": 76,
+          "bottom": 71,
+          "width": 58,
+          "height": 44,
+          "centerX": 46.5,
+          "centerY": 48.5
+        }
+      }
+    ]
+  },
+  "exportedFrames": {
+    "idle": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          25,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          25,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          25,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          25,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 6,
+        "alphaBBox": [
+          23,
+          31,
+          71,
+          64
+        ],
+        "bodyBBox": [
+          23,
+          31,
+          71,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 7,
+        "alphaBBox": [
+          22,
+          31,
+          69,
+          64
+        ],
+        "bodyBBox": [
+          26,
+          31,
+          69,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ],
+    "fly": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          14,
+          23,
+          79,
+          72
+        ],
+        "bodyBBox": [
+          17,
+          23,
+          79,
+          72
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          16,
+          23,
+          78,
+          74
+        ],
+        "bodyBBox": [
+          16,
+          23,
+          78,
+          72
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          12,
+          23,
+          79,
+          73
+        ],
+        "bodyBBox": [
+          17,
+          23,
+          79,
+          72
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          13,
+          22,
+          81,
+          73
+        ],
+        "bodyBBox": [
+          14,
+          22,
+          81,
+          73
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          13,
+          22,
+          78,
+          74
+        ],
+        "bodyBBox": [
+          17,
+          22,
+          78,
+          73
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          12,
+          24,
+          80,
+          73
+        ],
+        "bodyBBox": [
+          15,
+          24,
+          80,
+          71
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 6,
+        "alphaBBox": [
+          15,
+          23,
+          79,
+          73
+        ],
+        "bodyBBox": [
+          17,
+          23,
+          79,
+          72
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 7,
+        "alphaBBox": [
+          12,
+          23,
+          83,
+          73
+        ],
+        "bodyBBox": [
+          13,
+          23,
+          83,
+          72
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ],
+    "dig": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          22,
+          31,
+          72,
+          64
+        ],
+        "bodyBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          21,
+          31,
+          71,
+          64
+        ],
+        "bodyBBox": [
+          23,
+          31,
+          71,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          22,
+          31,
+          71,
+          64
+        ],
+        "bodyBBox": [
+          23,
+          31,
+          71,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "bodyBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "bodyBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          22,
+          31,
+          71,
+          64
+        ],
+        "bodyBBox": [
+          23,
+          31,
+          71,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 6,
+        "alphaBBox": [
+          20,
+          31,
+          71,
+          64
+        ],
+        "bodyBBox": [
+          23,
+          31,
+          71,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 7,
+        "alphaBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "bodyBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 8,
+        "alphaBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "bodyBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 9,
+        "alphaBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "bodyBBox": [
+          24,
+          31,
+          72,
+          64
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ],
+    "dig_recoil": [
+      {
+        "frame": 0,
+        "alphaBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "bodyBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 1,
+        "alphaBBox": [
+          16,
+          26,
+          78,
+          70
+        ],
+        "bodyBBox": [
+          16,
+          26,
+          78,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 2,
+        "alphaBBox": [
+          16,
+          26,
+          78,
+          70
+        ],
+        "bodyBBox": [
+          16,
+          26,
+          78,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 3,
+        "alphaBBox": [
+          16,
+          26,
+          78,
+          70
+        ],
+        "bodyBBox": [
+          16,
+          26,
+          78,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 4,
+        "alphaBBox": [
+          17,
+          25,
+          79,
+          69
+        ],
+        "bodyBBox": [
+          17,
+          25,
+          79,
+          69
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 5,
+        "alphaBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "bodyBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 6,
+        "alphaBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "bodyBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      },
+      {
+        "frame": 7,
+        "alphaBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "bodyBBox": [
+          17,
+          26,
+          79,
+          70
+        ],
+        "anchorPx": {
+          "x": 47,
+          "y": 47
+        }
+      }
+    ]
+  }
+}

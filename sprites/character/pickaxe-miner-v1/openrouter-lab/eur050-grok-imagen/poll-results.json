@@ -1,0 +1,67 @@
+{
+  "runId": "pickaxe-miner-v1-eur050",
+  "budgetUsd": 0.54,
+  "totalKnownCostUsd": 0.156,
+  "results": [
+    {
+      "animation": "dig",
+      "status": "completed",
+      "poll": {
+        "id": "86TMB3ONJ3G4tB2L2Dwo",
+        "generation_id": "gen-vid-1782756606-cr8HyZhNkUz1l3yID1U3",
+        "polling_url": "https://openrouter.ai/api/v1/videos/86TMB3ONJ3G4tB2L2Dwo",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/86TMB3ONJ3G4tB2L2Dwo/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/videos/pickaxe-miner-dig.mp4",
+      "framesDir": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/dig",
+      "frameCount": 13
+    },
+    {
+      "animation": "idle",
+      "status": "completed",
+      "poll": {
+        "id": "SGo6LlxAnD5drq6wmubC",
+        "generation_id": "gen-vid-1782756609-Nk9pqk9WUn0SFPohGAhV",
+        "polling_url": "https://openrouter.ai/api/v1/videos/SGo6LlxAnD5drq6wmubC",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/SGo6LlxAnD5drq6wmubC/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/videos/pickaxe-miner-idle.mp4",
+      "framesDir": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/idle",
+      "frameCount": 13
+    },
+    {
+      "animation": "walk",
+      "status": "completed",
+      "poll": {
+        "id": "G72QWl0cxnRAe6smwaY4",
+        "generation_id": "gen-vid-1782756611-Me4Hh8aMarAprhLwZREs",
+        "polling_url": "https://openrouter.ai/api/v1/videos/G72QWl0cxnRAe6smwaY4",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/G72QWl0cxnRAe6smwaY4/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.052,
+          "is_byok": false
+        }
+      },
+      "video": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/videos/pickaxe-miner-walk.mp4",
+      "framesDir": "sprites/character/pickaxe-miner-v1/openrouter-lab/eur050-grok-imagen/extracted-frames/walk",
+      "frameCount": 13
+    }
+  ]
+}

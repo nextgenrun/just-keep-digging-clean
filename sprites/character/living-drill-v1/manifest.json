@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "living-drill-v1",
+  "displayName": "Living Drill",
+  "sourceMockup": "C:\\Users\\Mila\\AppData\\Local\\Temp\\codex-clipboard-e1ecd630-9c44-49a0-8aec-1664a8e44a59.png",
+  "referenceCopy": "sprites/character/living-drill-v1/reference/mockup-reference.png",
+  "anchorSpec": "sprites/character/living-drill-v1/reference/living-drill-anchor-spec.json",
+  "apiAnchor": "sprites/character/living-drill-v1/reference/living-drill-api-anchor-480.png",
+  "anchorGuide": "sprites/character/living-drill-v1/reference/living-drill-anchor-guide-480.png",
+  "frameSize": [
+    94,
+    94
+  ],
+  "anchor": {
+    "x": 47,
+    "y": 47
+  },
+  "anchorRules": [
+    "Keep the cabin/body gameplay pivot centered on the red crosshair; ignore blue flame/thrust when deciding placement.",
+    "Keep the drill nose pointing right in source frames.",
+    "Do not scale, crop, rotate, recolor, or redesign the body between frames.",
+    "Blue rear and bottom thrust are effect layers and may flicker, but must not move the body anchor.",
+    "The exported runtime frames are recentred through the .piskel cleanup pass before acceptance."
+  ],
+  "runtime": {
+    "idleSheet": "sprites/character/living-drill-v1/runtime/living-drill-idle-sheet.png",
+    "digSheet": "sprites/character/living-drill-v1/runtime/living-drill-dig-sheet.png",
+    "flySheet": "sprites/character/living-drill-v1/runtime/living-drill-fly-sheet.png"
+  },
+  "piskel": {
+    "idle": "sprites/character/living-drill-v1/piskel/living-drill-idle.piskel",
+    "dig": "sprites/character/living-drill-v1/piskel/living-drill-dig.piskel",
+    "fly": "sprites/character/living-drill-v1/piskel/living-drill-fly.piskel",
+    "dig_recoil": "sprites/character/living-drill-v1/piskel/living-drill-dig-recoil.piskel"
+  },
+  "animations": {
+    "idle": {
+      "frames": 8,
+      "fps": 7
+    },
+    "fly": {
+      "frames": 8,
+      "fps": 9
+    },
+    "dig": {
+      "frames": 10,
+      "fps": 14
+    },
+    "dig_recoil": {
+      "frames": 8,
+      "fps": 12
+    }
+  },
+  "budget": {
+    "provider": "Grok Imagine Video via OpenRouter",
+    "limit": "EUR 1",
+    "status": "EUR5 Grok frames polished through Blender motion blockout plus anchored .piskel/runtime export",
+    "priority": [
+      "dig",
+      "idle",
+      "fly"
+    ]
+  },
+  "prompts": {
+    "dig": "Side-view 2D pixel-art game sprite animation reference of the exact same living drill character from the supplied locked anchor image: a compact one-tile machine creature where the whole body is a drill head, rounded white rear shell, segmented gray cone drill nose, black pixel outline, blue rear thruster and optional blue bottom hover thrust, grayscale highlights. Locked camera, no zoom, no redesign, no added limbs, no tank tread, no separate drill arm, no background scene, no size popping. Critical anchor rule: body center stays fixed to the middle of the 94x94 tile; flame/thrust effects must not shift the body. Motion goal: strongest priority, smooth drilling bite cycle. The whole character vibrates, grinds forward, drill cone bands visibly spin, then recoils smoothly. Keep the same silhouette and palette.",
+    "idle": "Side-view 2D pixel-art game sprite animation reference of the exact same living drill character from the supplied locked anchor image: a compact one-tile machine creature where the whole body is a drill head, rounded white rear shell, segmented gray cone drill nose, black pixel outline, blue rear thruster and optional blue bottom hover thrust, grayscale highlights. Locked camera, no zoom, no redesign, no added limbs, no tank tread, no separate drill arm, no background scene, no size popping. Critical anchor rule: body center stays fixed to the middle of the 94x94 tile; flame/thrust effects must not shift the body. Motion goal: subtle breathing/hover idle, tiny drill shimmer and rear flame flicker only. Keep the body centered.",
+    "fly": "Side-view 2D pixel-art game sprite animation reference of the exact same living drill character from the supplied locked anchor image: a compact one-tile machine creature where the whole body is a drill head, rounded white rear shell, segmented gray cone drill nose, black pixel outline, blue rear thruster and optional blue bottom hover thrust, grayscale highlights. Locked camera, no zoom, no redesign, no added limbs, no tank tread, no separate drill arm, no background scene, no size popping. Critical anchor rule: body center stays fixed to the middle of the 94x94 tile; flame/thrust effects must not shift the body. Motion goal: smooth flying hover, rear flame pulses, slight bob, no body redesign or color drift."
+  },
+  "runtimeSource": "grok-imagine-video-eur5-filtered-piskel-blender-motion-v2",
+  "reports": {
+    "grokImportDrift": "sprites/character/living-drill-v1/reports/living-drill-v1-grok-import-drift-report.json",
+    "eur5Selection": "sprites/character/living-drill-v1/reports/living-drill-v1-eur5-selection-report.json",
+    "fullAnimationAudit": "sprites/character/living-drill-v1/reports/living-drill-v1-full-animation-audit.json",
+    "v2MotionPolish": "sprites/character/living-drill-v1/reports/living-drill-v1-v2-motion-polish-report.json"
+  },
+  "frameSourceOverrides": {},
+  "rejectedSourceFrames": {
+    "idle": [
+      "frame-002.png",
+      "frame-003.png",
+      "frame-007.png"
+    ],
+    "fly": [
+      "frame-002.png",
+      "frame-005.png",
+      "frame-008.png"
+    ]
+  },
+  "pipeline": {
+    "blenderMotionProfile": "sprites/character/living-drill-v1/blender/v2-motion-polish/living-drill-motion-profile.json"
+  }
+}

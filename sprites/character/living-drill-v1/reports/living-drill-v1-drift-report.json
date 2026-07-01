@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "asset": "living-drill-v1",
+  "anchor": [
+    47,
+    47
+  ],
+  "frameSize": [
+    94,
+    94
+  ],
+  "acceptedFrames": [
+    {
+      "animation": "idle",
+      "frame": 0
+    },
+    {
+      "animation": "idle",
+      "frame": 1
+    },
+    {
+      "animation": "idle",
+      "frame": 2
+    },
+    {
+      "animation": "idle",
+      "frame": 3
+    },
+    {
+      "animation": "idle",
+      "frame": 4
+    },
+    {
+      "animation": "idle",
+      "frame": 5
+    },
+    {
+      "animation": "dig",
+      "frame": 0
+    },
+    {
+      "animation": "dig",
+      "frame": 1
+    },
+    {
+      "animation": "dig",
+      "frame": 2
+    },
+    {
+      "animation": "dig",
+      "frame": 3
+    },
+    {
+      "animation": "dig",
+      "frame": 4
+    },
+    {
+      "animation": "dig",
+      "frame": 5
+    },
+    {
+      "animation": "dig",
+      "frame": 6
+    },
+    {
+      "animation": "dig",
+      "frame": 7
+    },
+    {
+      "animation": "dig",
+      "frame": 8
+    },
+    {
+      "animation": "dig",
+      "frame": 9
+    },
+    {
+      "animation": "fly",
+      "frame": 0
+    },
+    {
+      "animation": "fly",
+      "frame": 1
+    },
+    {
+      "animation": "fly",
+      "frame": 2
+    },
+    {
+      "animation": "fly",
+      "frame": 3
+    },
+    {
+      "animation": "fly",
+      "frame": 4
+    },
+    {
+      "animation": "fly",
+      "frame": 5
+    }
+  ],
+  "notes": [
+    "Frames are derived from one extracted mockup cutout and anchored on a fixed 94x94 canvas.",
+    "Grok payloads are prepared but not submitted because no OPENROUTER_API_KEY is available.",
+    "Replace these runtime sheets with accepted Grok frames after piskel cleanup."
+  ]
+}

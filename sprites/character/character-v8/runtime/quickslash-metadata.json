@@ -1,0 +1,33 @@
+{
+  "name": "quickslash",
+  "source": "sprites/character/character-v8/frames/quickslash",
+  "output": "sprites/character/character-v8/runtime/legacy-quickslash-clean-sheet.webp",
+  "cleanedFrames": "sprites/character/character-v8/runtime/quickslash-cleaned-frames",
+  "preview": "sprites/character/character-v8/previews/quickslash-runtime-contact.png",
+  "slowmoPreview": "sprites/character/character-v8/previews/quickslash-slowmo.gif",
+  "piskel": "sprites/character/character-v8/piskel/quickslash.piskel",
+  "frameWidth": 341,
+  "frameHeight": 341,
+  "frameCount": 2,
+  "columns": 2,
+  "rows": 1,
+  "fps": 12,
+  "borderHaloPixelsRemoved": 1024,
+  "alphaPixelsChanged": 40364,
+  "anchor": {
+    "targetCenterX": 174,
+    "targetBottom": 339,
+    "maxShiftX": 10,
+    "maxShiftY": 0,
+    "avgShiftX": 9.5,
+    "avgShiftY": 0.0
+  },
+  "driftBefore": {
+    "centerXRange": 19.0,
+    "bottomRange": 0
+  },
+  "driftAfter": {
+    "centerXRange": 0.5,
+    "bottomRange": 0
+  }
+}
