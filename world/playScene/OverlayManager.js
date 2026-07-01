@@ -194,7 +194,7 @@ export class OverlayManager {
     }
     return [
       "Press ENTER, click, or any movement key to start",
-      `${USER_SETTINGS.getKeyLabel("moveLeft")}/${USER_SETTINGS.getKeyLabel("moveRight")} move and aim, ${USER_SETTINGS.getKeyLabel("jump")} fly, ${USER_SETTINGS.getKeyLabel("dig")} dig`,
+      `${USER_SETTINGS.getKeyLabel("moveLeft")}/${USER_SETTINGS.getKeyLabel("moveRight")} move and aim, ${USER_SETTINGS.getKeyLabel("fly")} fly, ${USER_SETTINGS.getKeyLabel("dig")} dig`,
       `${USER_SETTINGS.getKeyLabel("inventory")} inventory  |  ${USER_SETTINGS.getKeyLabel("interact")} interact  |  ${USER_SETTINGS.getKeyLabel("pause")} pause`,
       "",
     ].join("\n");

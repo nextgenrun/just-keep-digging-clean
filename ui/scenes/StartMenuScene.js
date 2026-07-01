@@ -423,7 +423,11 @@ export class StartMenuScene extends Phaser.Scene {
     if (this._characterPanel) return;
     const W = this.scale.width;
     const H = this.scale.height;
-    const pw = 600, ph = 320;
+    const optionCount = PLAYER_CHARACTER_OPTIONS.length;
+    const cardW = optionCount > 2 ? 240 : 264;
+    const cardGap = optionCount > 2 ? 22 : 56;
+    const optionTotalW = optionCount * cardW + (optionCount - 1) * cardGap;
+    const pw = Math.max(600, optionTotalW + 80), ph = 320;
     const px = W / 2, py = H / 2;
 
     const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
@@ -443,13 +447,13 @@ export class StartMenuScene extends Phaser.Scene {
     const controls = [];
 
     PLAYER_CHARACTER_OPTIONS.forEach((opt, i) => {
-      const cardX = px - 160 + i * 320;
+      const cardX = px - optionTotalW / 2 + cardW / 2 + i * (cardW + cardGap);
       const cardY = py + 30;
       const cardG = this.add.graphics();
       cardG.fillStyle(0x131c26, 1);
-      cardG.fillRoundedRect(cardX - 132, cardY - 76, 264, 140, 8);
+      cardG.fillRoundedRect(cardX - cardW / 2, cardY - 76, cardW, 140, 8);
       cardG.lineStyle(2, opt.accent, 0.9);
-      cardG.strokeRoundedRect(cardX - 132, cardY - 76, 264, 140, 8);
+      cardG.strokeRoundedRect(cardX - cardW / 2, cardY - 76, cardW, 140, 8);
       objects.push(cardG);
 
       const nameTxt = this.add.text(cardX, cardY - 44, opt.title, {
@@ -458,17 +462,17 @@ export class StartMenuScene extends Phaser.Scene {
       objects.push(nameTxt);
 
       const descTxt = this.add.text(cardX, cardY - 8, opt.description, {
-        fontFamily: 'Consolas, monospace', fontSize: '13px', color: '#aab5c0', align: 'center', wordWrap: { width: 220 },
+        fontFamily: 'Consolas, monospace', fontSize: '13px', color: '#aab5c0', align: 'center', wordWrap: { width: cardW - 42 },
       }).setOrigin(0.5);
       objects.push(descTxt);
 
       const badgeTxt = this.add.text(cardX, cardY + 44, opt.id.toUpperCase(), {
         fontFamily: 'Consolas, monospace', fontSize: '12px', fontStyle: 'bold',
-        color: opt.id === 'robot' ? '#d8a7ff' : '#6ecf87',
+        color: opt.id === 'robot' ? '#d8a7ff' : opt.id === 'drillHead' ? '#f0c56a' : '#6ecf87',
       }).setOrigin(0.5);
       objects.push(badgeTxt);
 
-      const hitZone = this.add.rectangle(cardX, cardY, 264, 140, 0x000000, 0)
+      const hitZone = this.add.rectangle(cardX, cardY, cardW, 140, 0x000000, 0)
         .setInteractive({ useHandCursor: true });
       hitZone.on('pointerdown', () => {
         this._closeCharacterPanel();

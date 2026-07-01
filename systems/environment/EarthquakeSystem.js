@@ -540,7 +540,8 @@ export class EarthquakeSystem {
       this.scene.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
       if (result.destroyed) {
         this._emitDust(tile.tx, tile.ty, 7);
-        this.scene.digSystem?.processDestroyedTile(tile.tx, tile.ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+        const reward = this.scene.digSystem?.processDestroyedTile(tile.tx, tile.ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+        this.scene.showLootPickupFeedback?.(reward, { tx: tile.tx, ty: tile.ty });
       }
       this._log("tile mutation", { ...tile, destroyed: result.destroyed, hp: result.hp });
     }
@@ -664,7 +665,8 @@ export class EarthquakeSystem {
       const result = this.scene.worldModel.damageTile(tx, ty, Math.max(1, hp));
       if (!result.destroyed) continue;
 
-      this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+      const reward = this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+      this.scene.showLootPickupFeedback?.(reward, { tx, ty });
       this._queueRubbleRestore({
         tx,
         ty,

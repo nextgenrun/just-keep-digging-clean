@@ -155,6 +155,11 @@ export class DigSystem {
     // Apply quickslash multiplier if active
     if (playerAbilities && playerAbilities.isQuickslashActive && playerAbilities.isQuickslashActive()) {
       cooldown = cooldown / PLAYER_ABILITIES_CONFIG.quickslashSpeedMultiplier;
+      const stats = playerAbilities.getConstellationStats?.() || {};
+      const speedBonus = Math.max(0, stats.quickslashSpeedBonus || 0);
+      if (speedBonus > 0) {
+        cooldown = cooldown / (1 + speedBonus);
+      }
     }
     
     return cooldown;
@@ -205,6 +210,10 @@ export class DigSystem {
       }
     }
     
+    // Guard against NaN propagation — if damage isn't finite, default to baseDamage
+    if (!Number.isFinite(damage)) {
+      return Math.max(1, baseDamage);
+    }
     return Math.max(1, Math.round(damage));
   }
 
@@ -268,6 +277,16 @@ export class DigSystem {
 
     const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
 
+    if (playerAbilities?.isQuickslashActive?.()) {
+      if (!playerAbilities.canPayQuickslashCost?.()) {
+        return {
+          success: false,
+          reason: "no-gp",
+        };
+      }
+      playerAbilities.spendQuickslashCost?.();
+    }
+
     // Use baseDamageHard for mineral/ore tiles, baseDamage for dirt/soft tiles
     const HARD_TILE_TYPES = new Set([TILE_TYPES.STONE, TILE_TYPES.COPPER, TILE_TYPES.STEEL, TILE_TYPES.IRON, TILE_TYPES.BRONZE, TILE_TYPES.SILVER, TILE_TYPES.GOLD]);
     const isHardTile = HARD_TILE_TYPES.has(tileType);
@@ -296,16 +315,27 @@ export class DigSystem {
     }
 
     let damage = this._getDamage(baseDamage, tileType);
+
+    if (playerAbilities?.isQuickslashActive?.()) {
+      const stats = playerAbilities.getConstellationStats?.() || {};
+      damage += Math.max(0, stats.quickslashFlatDamage || 0);
+    }
     
     if (this.comboSystem && typeof this.comboSystem.getMultiplier === 'function') {
-      damage = Math.floor(damage * this.comboSystem.getMultiplier());
+      const comboMult = this.comboSystem.getMultiplier();
+      if (Number.isFinite(comboMult) && comboMult > 0) {
+        damage = Math.floor(damage * comboMult);
+      }
     }
     
     if (isCriticalHit) {
       const critMultiplier = this.playerLevelSystem
         ? this.playerLevelSystem.getCriticalHitDamageMultiplier()
         : 2;
-      damage = Math.max(1, Math.floor(damage * critMultiplier));
+      if (Number.isFinite(critMultiplier) && critMultiplier > 0) {
+        damage = Math.max(1, Math.floor(damage * critMultiplier));
+      }
+      // If critMultiplier is invalid, keep damage as-is (already applied)
     }
 
     const result = this.worldModel.damageTile(targetTile.tx, targetTile.ty, damage);

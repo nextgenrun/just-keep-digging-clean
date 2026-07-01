@@ -3,7 +3,7 @@
  * Handles scene initialization, world setup, and system creation
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { normalizePlayerCharacterId } from "../../values/playerCharacters.js";
+import { PLAYER_CHARACTER_IDS, normalizePlayerCharacterId } from "../../values/playerCharacters.js";
 import { PLAYER_ASSET_PROFILES, getPlayerAssetProfile } from "../../values/playerAssetProfiles.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
@@ -23,6 +23,8 @@ import { GameInputHandler } from "./GameInputHandler.js";
 import { OverlayManager } from "./OverlayManager.js";
 import { NPCManager } from "./NPCManager.js";
 import { BackgroundRenderer } from "./BackgroundRenderer.js";
+import { BackgroundObjectPlacer } from "../rendering/BackgroundObjectPlacer.js";
+import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
 import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
 import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
 import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
@@ -33,6 +35,7 @@ import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
 import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { HitstopSystem } from "../../systems/combo/HitstopSystem.js";
 import { ScreenFlashSystem } from "../../systems/visual/ScreenFlashSystem.js";
+import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
@@ -40,6 +43,7 @@ import { ClimbTrailSystem } from "../../systems/visual/ClimbTrailSystem.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
+import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
 import { SpecialBlockEffectsManager } from "../../systems/mining/SpecialBlockEffectsManager.js";
 import { MilestoneBoardSystem } from "../../systems/visual/MilestoneBoardSystem.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
@@ -154,7 +158,7 @@ function _loadRobotSheets(scene) {
   loadSheet(robot.walkLoopSheet, "walk-loop-sheet.webp", robot.walkLoopFrames);
   loadSheet(robot.walkRunSheet, "walk-run-sheet.webp", robot.walkRunFrames);
   loadSheet(robot.walkStopSheet, "walk-stop-sheet.webp", robot.walkStopFrames);
-  loadSheet(robot.jumpSheet, "jump-sheet.webp", robot.jumpFrames);
+  loadSheet(robot.airborneSheet, "jump-sheet.webp", robot.airborneFrames);
   loadSheet(robot.fallingSheet, "falling-sheet.webp", robot.fallingFrames);
   loadSheet(robot.duckSheet, "duck-sheet.webp", robot.duckFrames);
   loadSheet(robot.digDownSheet, "dig-down-sheet.webp", robot.digDownFrames);
@@ -174,19 +178,45 @@ function _loadRobotSheets(scene) {
   if (scene.load.isLoading()) scene.load.start();
 }
 
+function _loadLivingDrillSheets(scene) {
+  const drill = PLAYER_ASSET_PROFILES.drillHead;
+  const base = drill.basePath;
+  const version = drill.version;
+  const hasExpectedFrames = (sheetKey, frames) => {
+    if (!scene.textures.exists(sheetKey)) return false;
+    return frames.every(frame => scene.textures.getFrame(sheetKey, String(frame)));
+  };
+  const loadSheet = (sheetKey, fileName, frames) => {
+    if (!sheetKey || !frames?.length) return false;
+    if (hasExpectedFrames(sheetKey, frames)) return false;
+    if (scene.textures.exists(sheetKey)) scene.textures.remove(sheetKey);
+    scene.load.spritesheet(sheetKey, `${base}/${fileName}?v=${version}`, {
+      frameWidth: drill.frameWidth || 94,
+      frameHeight: drill.frameHeight || 94,
+      endFrame: frames.length - 1,
+    });
+    return true;
+  };
+  return [
+    loadSheet(drill.idleSheet, "living-drill-idle-sheet.png", drill.idleFrames),
+    loadSheet(drill.digSheet, "living-drill-dig-sheet.png", drill.digFrames),
+    loadSheet(drill.flySheet, "living-drill-fly-sheet.png", drill.flyFrames),
+  ].some(Boolean);
+}
+
 /**
  * Wait for Phaser's loader to finish loading all queued assets.
  * Returns a Promise that resolves when loading completes or fails.
  */
-function _awaitLoadComplete(scene) {
+function _awaitLoadComplete(scene, forceNextLoad = false) {
   return new Promise((resolve) => {
-    if (!scene.load.isLoading()) {
+    if (!forceNextLoad && !scene.load.isLoading()) {
       resolve();
       return;
     }
     scene.load.once('complete', resolve);
     scene.load.once('loaderror', (file) => {
-      console.warn('[PlaySceneSetup] Robot sheet load error:', file?.key || file?.src || file);
+      console.warn('[PlaySceneSetup] Character sheet load error:', file?.key || file?.src || file);
       // Don't reject — let it continue with legacy fallback if needed
     });
   });
@@ -210,7 +240,7 @@ function _createRobotAnims(scene) {
   cs(r.walkLoopAnim, r.walkLoopSheet, r.walkLoopFrames, r.walkAnimation.baseFps, -1);
   cs(r.walkRunAnim, r.walkRunSheet, r.walkRunFrames, r.walkRunAnimationFps, -1);
   cs(r.walkStopAnim, r.walkStopSheet, r.walkStopFrames, r.walkAnimation.baseFps, 0);
-  cq(r.jumpAnim, r.jumpSheet, r.jumpFrames, r.jumpAnimationFps || 12, 0);
+  cq(r.airborneAnim, r.airborneSheet, r.airborneFrames, r.airborneAnimationFps || 12, 0);
   cs(r.fallingAnim, r.fallingSheet, r.fallingFrames, r.fallingAnimationFps, -1);
   cq(r.duckAnim, r.duckSheet, r.duckFrames, r.duckAnimationFps || 8, 0);
   cs(r.digDownAnim, r.digDownSheet, r.digDownFrames, r.digDownAnimationFps, 0);
@@ -229,6 +259,71 @@ function _createRobotAnims(scene) {
   cs(r.earthquakeReactAnim, r.earthquakeReactSheet, r.earthquakeReactFrames, 10, 0);
 }
 
+function _createLivingDrillAnims(scene, profile) {
+  const assertSheet = (sheetKey, frames) => {
+    if (!scene.textures.exists(sheetKey)) {
+      throw new Error(`[LivingDrill] Missing required spritesheet: ${sheetKey}`);
+    }
+    const missingFrame = frames.find(frame => !scene.textures.getFrame(sheetKey, String(frame)));
+    if (missingFrame !== undefined) {
+      throw new Error(`[LivingDrill] Spritesheet ${sheetKey} is missing frame ${missingFrame}`);
+    }
+  };
+  const specs = new Map();
+  const queue = (keys, sheetKey, frames, frameRate, repeat = -1) => {
+    const keyList = Array.isArray(keys) ? keys : [keys];
+    keyList.forEach(key => {
+      if (!key || specs.has(key)) return;
+      specs.set(key, { sheetKey, frames, frameRate, repeat });
+    });
+  };
+  const create = (key, { sheetKey, frames, frameRate, repeat }) => {
+    assertSheet(sheetKey, frames);
+    if (scene.anims.exists(key)) scene.anims.remove(key);
+    scene.anims.create({
+      key,
+      frames: frames.map(frame => ({ key: sheetKey, frame: String(frame) })),
+      frameRate,
+      repeat,
+    });
+  };
+
+  queue([
+    profile.idleAnim,
+    profile.walkAnim,
+    profile.walkStartAnim,
+    profile.walkLoopAnim,
+    profile.walkRunAnim,
+    profile.walkStopAnim,
+    profile.airborneAnim,
+    profile.fallingAnim,
+    profile.duckAnim,
+    profile.digUpLookAnim,
+    profile.wallPushAnim,
+    profile.combatIdleRecoverAnim,
+    profile.thunderStrikeChargeAnim,
+    profile.earthquakeReactAnim,
+  ], profile.idleSheet, profile.idleFrames, profile.idleAnimationFps || 7, -1);
+  queue([
+    profile.climbAnim,
+    profile.flyAnim,
+    profile.flyClimbAnim,
+  ], profile.flySheet || profile.idleSheet, profile.flyFrames || profile.idleFrames, profile.flyAnimationFps || profile.idleAnimationFps || 7, -1);
+  queue([
+    profile.digSidewaysAnim,
+    profile.digDownAnim,
+    profile.digUpAnim,
+    profile.digUpSidewaysAnim,
+    profile.quickslashAnim,
+    profile.thunderStrikeStrikeAnim,
+    profile.attackDownAnim,
+    ...(profile.digSidewaysHitAnims || []),
+    ...(profile.digUpHitAnims || []),
+    ...(profile.digUpSidewaysHitAnims || []),
+  ], profile.digSheet, profile.digFrames, profile.digAnimationFps || 14, 0);
+  specs.forEach((spec, key) => create(key, spec));
+}
+
 async function _setupSceneSafe(data = {}) {
   this.saveSlot = data.saveSlot || 1;
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
@@ -237,11 +332,28 @@ async function _setupSceneSafe(data = {}) {
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
   this._cachedSaveData = initialCachedSave;
-  this.playerCharacterId = normalizePlayerCharacterId(initialCachedSave?.playerCharacterId ?? data.playerCharacterId);
+  this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? initialCachedSave?.playerCharacterId);
   this.playerAssetProfile = getPlayerAssetProfile(this.playerCharacterId);
 
+  if (this.playerAssetProfile.isLivingDrill) {
+    this.config = Object.freeze({
+      ...this.config,
+      playerBodyWidthPx: this.config.tileSize,
+      playerBodyHeightPx: this.config.tileSize,
+      playerDisplaySizePx: this.config.tileSize,
+      playerVisualOriginCenter: true,
+    });
+    const queuedLivingDrillSheets = _loadLivingDrillSheets(this);
+    if (queuedLivingDrillSheets) {
+      const loadComplete = _awaitLoadComplete(this, true);
+      this.load.start();
+      await loadComplete;
+    }
+    _createLivingDrillAnims(this, this.playerAssetProfile);
+  }
+
   // ── Robot spritesheets — load on demand if missing, then create animations ─
-  if (this.playerCharacterId !== 'legacy') {
+  if (this.playerCharacterId === PLAYER_CHARACTER_IDS.robot) {
     const missingSheets = !this.textures.exists(PLAYER_ASSET_PROFILES.robot.idleSheet);
     if (missingSheets) {
       console.warn('[PlaySceneSetup] Robot sheets not found, loading on demand...');
@@ -263,9 +375,15 @@ async function _setupSceneSafe(data = {}) {
   }
   this.npcManager = new NPCManager(this, ASSET_KEYS);
   this.backgroundRenderer = new BackgroundRenderer(this, ASSET_KEYS);
-  this.backgroundRenderer.createTiledBackground();
+  if (!TILED_BACKGROUND_OBJECTS?.enabled) {
+    this.backgroundRenderer.createTiledBackground();
+  }
+  this.bgObjectPlacer = new BackgroundObjectPlacer(this, ASSET_KEYS);
+  this.bgObjectPlacer.placeObjects(TILED_BACKGROUND_OBJECTS, { debug: false });
   this.worldRenderer = new WorldRenderer(this, this.worldModel, this.config);
   this.worldRenderer.create();
+  this.caveTemplateVisualSystem = new CaveTemplateVisualSystem(this);
+  this.caveTemplateVisualSystem.create(this.worldModel);
   this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
 
   this._safeReturnGfx = this.add.graphics();
@@ -291,18 +409,25 @@ async function _setupSceneSafe(data = {}) {
     playerSpawnTileX * ts + ts / 2,
     (playerSpawnTileY + 1) * ts,
     this.playerAssetProfile.idleSheet,
-    this.playerAssetProfile.idleFrames[0]
+    this.playerAssetProfile.isLivingDrill ? undefined : this.playerAssetProfile.idleFrames[0]
   );
-  this.player.setOrigin(0.5, 1);
+  this.player.setOrigin(0.5, this.config.playerVisualOriginCenter ? 0.5 : 1);
   this.player.setDepth(HUD_LAYOUT.playerDepth);
-  this.player.setDisplaySize(this.config.playerDisplaySizePx, this.config.playerDisplaySizePx);
+  if (this.playerAssetProfile.isLivingDrill) {
+    this.player.setScale(this.playerAssetProfile.visualScale || 1);
+  } else {
+    const displaySize = this.playerAssetProfile.displaySizePx || this.config.playerDisplaySizePx;
+    this.player.setDisplaySize(displaySize, displaySize);
+  }
 
   this._onAnimComplete = (animation) => {
     const profile = this.playerAssetProfile || ASSET_KEYS.player;
-    if (profile.digAnims.includes(animation.key)) {
+    if (!profile.isLivingDrill && profile.digAnims.includes(animation.key)) {
       this.flushPendingDigImpactFeedback?.();
       this.isDigAnimating = false;
-      this._combatIdleRecoverUntilMs = (this.time?.now || 0) + 2000;
+      this._combatIdleRecoverUntilMs = (this.time?.now || 0) + 3000;
+      this._combatIdleReturnActive = false;
+      this._combatIdleReturnPlayed = false;
       this.player.setFlipX(false);
       this.player.anims.timeScale = 1.0;
       this.pickaxeTrailSystem?.stop();
@@ -316,8 +441,10 @@ async function _setupSceneSafe(data = {}) {
     } else if (animation.key === (profile.walkStopAnim || ASSET_KEYS.player.walkStopAnim)) {
       this.player.anims.timeScale = 1.0;
       this.updatePlayerVisualState(true);
-    } else if (animation.key === (profile.combatIdleRecoverAnim || ASSET_KEYS.player.combatIdleRecoverAnim)) {
+    } else if (animation.key === (profile.combatIdleToNormalIdleAnim || ASSET_KEYS.player.combatIdleToNormalIdleAnim)) {
       this._combatIdleRecoverUntilMs = 0;
+      this._combatIdleReturnActive = false;
+      this._combatIdleReturnPlayed = true;
       this.updatePlayerVisualState(true);
     }
   };
@@ -373,12 +500,12 @@ async function _setupSceneSafe(data = {}) {
   this.hudSystem.setSpecialBlockEffectsManager(this.specialBlockEffectsManager);
   this.floatingTextSystem = new FloatingTextSystem(this);
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
+  this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
 
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
-    const reward = COMBO_CONFIG.milestoneRewards[milestone];
-    if (reward) {
-      this.hudSystem.flashStatus(`${reward.message} Combo ${milestone}!`, "#ffdd44", 1500);
-    }
+    const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
+    const message = reward?.message || "Combo";
+    this.hudSystem.flashStatus(`${message} ${milestone}!`, "#ffdd44", 1500);
     if (this.shakeSystem) {
       this.shakeSystem.shake(comboShakeSignatureFor(milestone));
     }
@@ -489,7 +616,7 @@ async function _setupSceneSafe(data = {}) {
       const specialTileData = this.specialTileSystem ? this.specialTileSystem.getSaveData() : null;
       const depthGateData = this.depthGateSystem ? this.depthGateSystem.getSaveData() : null;
       const dayNightData = this.dayNightCycle?.toJSON?.() ?? null;
-      this.dugTileSaveStore.save(this.worldIdentity, this.worldModel.getDugTileKeys(), this.digSystem.getResourceTotals(), this.upgradeSystem.getUpgradeLevels(), this.playerLevelSystem.toJSON(), specialTileData, depthGateData, dayNightData, this.worldModel.getRubbleTiles());
+      this.dugTileSaveStore.save(this.worldIdentity, this.worldModel.getDugTileKeys(), this.digSystem.getResourceTotals(), this.upgradeSystem.getUpgradeLevels(), this.playerLevelSystem.toJSON(), specialTileData, depthGateData, dayNightData, this.worldModel.getRubbleTiles(), this.playerCharacterId);
     }
     clearInterval(this._autosaveInterval);
     this.queueDugTilesSave();
@@ -515,7 +642,10 @@ async function _setupSceneSafe(data = {}) {
     this.screenFlashSystem?.destroy();
     this.pickaxeTrailSystem?.destroy();
     this.climbTrailSystem?.destroy();
+    this._livingDrillTween?.stop();
+    this._livingDrillOccluder?.destroy();
     this.starPillarSystem?.destroy();
+    this.lootPickupFxSystem?.destroy();
     this.floatingTextSystem?.destroy();
     this.weatherSystem?.destroy();
     this.shaderSystem?.destroy();

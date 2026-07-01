@@ -424,7 +424,7 @@ export const UPGRADES = Object.freeze({
     id: "worldTwoTunnelAccess",
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "World Two Tunnel Key",
-    description: "Opens the sealed surface tunnel to the separated build zone beyond World One.",
+    description: "Endgame Bobo key. Opens the sealed far-right surface tunnel to the separated build zone.",
     baseCost: 0,
     goldCost: 25000,
     resources: {

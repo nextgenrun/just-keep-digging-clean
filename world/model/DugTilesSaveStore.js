@@ -174,8 +174,8 @@ export class DugTilesSaveStore {
     return null;
   }
 
-  async save(worldIdentity, dugTileKeys, resources = DEFAULT_RESOURCES, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = []) {
-    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles);
+  async save(worldIdentity, dugTileKeys, resources = DEFAULT_RESOURCES, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null) {
+    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId);
     this.saveToLocalStorage(payload);
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
     if (!this.endpoint) return;
@@ -183,10 +183,11 @@ export class DugTilesSaveStore {
     catch (error) { console.warn('Failed to save to remote server:', error.message); }
   }
 
-  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = []) {
+  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null) {
     return {
       version: 4,
       updatedAt: new Date().toISOString(),
+      playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
         seed: worldIdentity.seed,
         width: worldIdentity.width,
@@ -221,6 +222,7 @@ export class DugTilesSaveStore {
       specialTileData: payload.specialTileData || null,
       depthGateData: normalizeDepthGateData(payload.depthGateData),
       dayNightData: payload.dayNightData || null,
+      playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }
 

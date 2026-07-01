@@ -13,7 +13,6 @@ export const AUDIO_CONFIG = Object.freeze({
   tileHitVolume: 0.9,
   copperCollectVolume: 1.2,
   rewardVolume: 1.0,
-  jumpVolume: 0.2,
   uiVolume: 0.6,
   
   // Intervals

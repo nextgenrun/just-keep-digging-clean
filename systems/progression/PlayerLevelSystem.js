@@ -1,4 +1,5 @@
 import { LEVEL_CONFIG } from "../../values/levelConfig.js";
+import { GEM_POWER_CONFIG } from "../../values/gemPower.js";
 
 export class PlayerLevelSystem {
   constructor() {
@@ -44,6 +45,7 @@ export class PlayerLevelSystem {
       globalMiningSpeed: this.calculatedBonuses.globalMiningSpeed,
       perLevelSpeed: this.calculatedBonuses.perLevelSpeed,
       hardcapMiningSpeed: this.calculatedBonuses.hardcapMiningSpeed,
+      gemPowerMaxBonus: this.getGemPowerMaxBonus(),
     };
   }
 
@@ -65,6 +67,15 @@ export class PlayerLevelSystem {
 
   getMovementSpeedMultiplier() {
     return 1.0;
+  }
+
+  getGemPowerMaxBonus(level = this.level) {
+    const safeLevel = Math.max(1, Math.floor(Number.isFinite(level) ? level : 1));
+    const gpPerLevel = GEM_POWER_CONFIG.gpPerLevel || 10;
+    const gpPerLevelHardcap = GEM_POWER_CONFIG.gpPerLevelHardcap || 2;
+    return safeLevel <= 99
+      ? safeLevel * gpPerLevel
+      : 99 * gpPerLevel + (safeLevel - 99) * gpPerLevelHardcap;
   }
 
   gainXP(resourceType) {

@@ -26,9 +26,6 @@ export class PlayerPhysicsBody {
     // Ground detection
     this.onGround = false;
     
-    // Just jumped state (for animation) - kept for backward compatibility
-    this.justJumped = false;
-    
     // Climbing state
     this.isClimbing = false;
   }
@@ -74,21 +71,6 @@ export class PlayerPhysicsBody {
    */
   setClimbing(climbing) {
     this.isClimbing = climbing;
-  }
-
-  /**
-   * Check if player just jumped this frame
-   * @returns {boolean}
-   */
-  isJustJumped() {
-    return this.justJumped;
-  }
-
-  /**
-   * Reset just jumped state
-   */
-  resetJustJumped() {
-    this.justJumped = false;
   }
 
   /**

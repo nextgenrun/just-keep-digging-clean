@@ -5,6 +5,7 @@ export const KEYBIND_ACTIONS = Object.freeze([
   { id: "moveRight", label: "Move / Aim Right", description: "Walk right and aim right.", defaultKey: "D", group: "Gameplay" },
   { id: "aimUp", label: "Aim Up", description: "Aim mining and abilities upward.", defaultKey: "W", group: "Gameplay" },
   { id: "aimDown", label: "Aim Down", description: "Aim mining and abilities downward.", defaultKey: "S", group: "Gameplay" },
+  { id: "fly", label: "Fly", description: "Hold to fly when you have Gem Power.", defaultKey: "SHIFT", group: "Gameplay" },
   { id: "dig", label: "Dig", description: "Mine the aimed tile.", defaultKey: "F", group: "Gameplay" },
   { id: "interact", label: "Interact", description: "Talk, use campfires, boards, pillars, and special tiles.", defaultKey: "E", group: "Gameplay" },
   { id: "inventory", label: "Inventory", description: "Open and close the inventory.", defaultKey: "I", group: "Menus" },

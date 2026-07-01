@@ -35,7 +35,7 @@ export class PlayerInputHandler {
     const moveDown = addBoundKey("aimDown");
 
     // Register action keys
-    const jump = addBoundKey("jump");
+    const fly = addBoundKey("fly");
     const mine = addBoundKey("dig");
     const interact = addBoundKey("interact");
     const gemVision = addBoundKey("gemVision");
@@ -46,7 +46,7 @@ export class PlayerInputHandler {
 
     // Register system keys
     const restart = addBoundKey("restart");
-    const shift = jump;
+    const shift = fly;
     const enter = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     const devCheat = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
     const escape = addBoundKey("pause");
@@ -80,7 +80,7 @@ export class PlayerInputHandler {
       aimDown: moveDown,
       
       // Actions
-      jump,
+      fly,
       mine,
       interact,
       z: gemVision,

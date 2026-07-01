@@ -1,10 +1,10 @@
 :root {
   --bg-top: #1a2332;
   --bg-bottom: #0c1018;
-  --panel-bg: rgba(8, 12, 18, 0.92);
+  --panel-bg: rgba(10, 14, 22, 0.95);
   --panel-border: #2d3d4e;
-  --text-main: #e8edf2;
-  --text-dim: #8fa8bc;
+  --text-main: #f0f4f8;
+  --text-dim: #9ab0c4;
   --canvas-glow: rgba(20, 50, 90, 0.7);
 }
 
@@ -22,7 +22,9 @@ body {
   color: var(--text-main);
   background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  font-variant-ligatures: contextual common-ligatures;
 }
 
 body {
@@ -92,7 +94,7 @@ body::before {
   z-index: 1;
   width: 100vw;
   height: 100vh;
-  display: flex;
+  display: center;
   align-items: center;
   justify-content: center;
   background: radial-gradient(ellipse at center, #111926 0%, #080c14 100%);
@@ -120,11 +122,13 @@ body::before {
     0 8px 30px rgba(0, 0, 0, 0.65),
     0 20px 70px rgba(0, 0, 0, 0.4),
     0 0 70px var(--canvas-glow);
-  image-rendering: pixelated;
-  image-rendering: crisp-edges; /* Firefox fallback */
+  /* Allow smooth text rendering for canvas-based Phaser text */
+  image-rendering: auto;
   /* Promote to GPU layer for smoother compositing */
   will-change: transform;
   transform: translateZ(0);
+  /* Subtle text contrast boost for Phaser's canvas-rendered text */
+  filter: contrast(1.02) brightness(1.01);
 }
 
 /* ── Fullscreen button ──────────────────────── */

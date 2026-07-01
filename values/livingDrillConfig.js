@@ -1,0 +1,20 @@
+export const LIVING_DRILL_CONFIG = Object.freeze({
+  dig: Object.freeze({
+    biteStartDepth: 0.18,
+    biteMaxPartialDepth: 0.72,
+    breakDepth: 1,
+    impactAngleOffsetDeg: 2.5,
+    partialDurationMinMs: 170,
+    partialDurationMaxMs: 620,
+    partialCooldownBaseMultiplier: 0.58,
+    partialHardnessMultiplier: 0.24,
+    breakDurationMinMs: 230,
+    breakDurationMaxMs: 520,
+    breakCooldownMultiplier: 0.7,
+    releaseRetractMs: 260,
+    invalidRetractMs: 160,
+    targetChangeRetractMs: 170,
+    commitDurationMs: 150,
+    commitEase: "Sine.easeOut",
+  }),
+});

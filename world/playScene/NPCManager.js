@@ -173,7 +173,7 @@ export class NPCManager {
       }
     }
 
-    if (nearestNPC && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
+    if (nearestNPC && this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
       // Play NPC voice line before showing shop
       if (this.scene.soundSystem) {
         this.scene.soundSystem.playNPCVoiceLine(nearestNPC.merchantId);

@@ -5,6 +5,18 @@
 
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
 
+const DEFAULT_MAX_MULTIPLIER = 1.5;
+
+function getMaxCombo() {
+  return Number.isFinite(COMBO_CONFIG.maxCombo) ? COMBO_CONFIG.maxCombo : 100;
+}
+
+function getMaxMultiplier() {
+  return Number.isFinite(COMBO_CONFIG.maxMultiplier)
+    ? COMBO_CONFIG.maxMultiplier
+    : DEFAULT_MAX_MULTIPLIER;
+}
+
 export class ComboSystem {
   constructor() {
     // Current combo state
@@ -35,7 +47,7 @@ export class ComboSystem {
     }
     
     // Increment combo, but don't exceed maxCombo
-    this.comboCount = Math.min(COMBO_CONFIG.maxCombo, this.comboCount + 1);
+    this.comboCount = Math.min(getMaxCombo(), this.comboCount + 1);
     this.lastComboTime = nowMs;
     
     // Calculate new multiplier
@@ -63,7 +75,7 @@ export class ComboSystem {
     // Phase 1: Very slow progression to 1.1x at combo 50
     if (combo <= 50) {
       // Linear interpolation from 1.0 to 1.1
-      return Math.min(1.0 + (combo / 50) * 0.1, COMBO_CONFIG.maxMultiplier);
+      return Math.min(1.0 + (combo / 50) * 0.1, getMaxMultiplier());
     }
     
     // Phase 2: Slow progression to 1.25x at combo 200
@@ -71,7 +83,7 @@ export class ComboSystem {
       // Linear interpolation from 1.1 to 1.25
       const excess = combo - 50;
       const range = 150;
-      return Math.min(1.1 + (excess / range) * 0.15, COMBO_CONFIG.maxMultiplier);
+      return Math.min(1.1 + (excess / range) * 0.15, getMaxMultiplier());
     }
     
     // Phase 3: Very slow progression from 1.25x to 1.5x cap at combo 9999
@@ -82,7 +94,7 @@ export class ComboSystem {
     
     // Logarithmic scaling: 1.25 + (0.25 * log10(1 + excessRatio * 9))
     const calculated = 1.25 + 0.25 * Math.log10(1 + excessRatio * 9);
-    return Math.min(calculated, COMBO_CONFIG.maxMultiplier);
+    return Math.min(calculated, getMaxMultiplier());
   }
 
   /**
@@ -178,7 +190,7 @@ export class ComboSystem {
     if (amount <= 0) return;
     
     // Clamp combo count to max limit
-    this.comboCount = Math.min(COMBO_CONFIG.maxCombo, this.comboCount + amount);
+    this.comboCount = Math.min(getMaxCombo(), this.comboCount + amount);
     this.lastComboTime = nowMs;
     
     // Calculate new multiplier
@@ -257,7 +269,7 @@ export class ComboSystem {
       const comboCount = Number(data.comboCount);
       if (Number.isFinite(comboCount)) {
         // Clamp combo count to valid range (0 to maxCombo) and ensure integer
-        this.comboCount = Math.max(0, Math.min(COMBO_CONFIG.maxCombo, Math.floor(comboCount)));
+        this.comboCount = Math.max(0, Math.min(getMaxCombo(), Math.floor(comboCount)));
       } else {
         this.comboCount = 0; // Reset to 0 on invalid data
       }
@@ -267,7 +279,7 @@ export class ComboSystem {
       const multiplier = Number(data.currentMultiplier);
       if (Number.isFinite(multiplier)) {
         // Clamp multiplier to valid range (1.0 to maxMultiplier)
-        this.currentMultiplier = Math.max(1.0, Math.min(COMBO_CONFIG.maxMultiplier, multiplier));
+        this.currentMultiplier = Math.max(1.0, Math.min(getMaxMultiplier(), multiplier));
       } else {
         this.currentMultiplier = 1.0; // Reset to 1.0 on invalid data
       }

@@ -6,27 +6,27 @@ const MENU_BACKGROUND_BASE_PATH = "sprites/backgrounds/background-database/";
 export const MENU_BACKGROUND_ASSETS = Object.freeze([
   {
     key: ASSET_KEYS.background.dbImage1,
-    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_f1frtjf1frtjf1fr.webp`,
+    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_45 PM.png`,
   },
   {
     key: ASSET_KEYS.background.dbImage2,
-    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_g6ozmlg6ozmlg6oz.webp`,
+    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_49 PM.png`,
   },
   {
     key: ASSET_KEYS.background.dbImage3,
-    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_i30bfci30bfci30b.webp`,
+    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_52 PM.png`,
   },
   {
     key: ASSET_KEYS.background.dbImage4,
-    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_kjwykkjwykkjwykk.webp`,
+    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_58 PM.png`,
   },
   {
     key: ASSET_KEYS.background.dbImage5,
-    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_rimx2primx2primx.webp`,
+    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_33_03 PM.png`,
   },
   {
     key: ASSET_KEYS.background.dbImage6,
-    path: `${MENU_BACKGROUND_BASE_PATH}Gemini_Generated_Image_wocn9hwocn9hwocn.webp`,
+    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_40_41 PM (1).png`,
   },
 ]);
 
@@ -135,10 +135,44 @@ function addLogoOrTitle(scene, objects, W, options) {
   objects.push(titleShadow, titleText);
 }
 
+function createLoadingParticles(scene, W, H, objects) {
+  // Small floating spark particles above/below the loading bar
+  const particleCount = 8;
+  const particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    const x = 120 + Math.random() * (W - 240);
+    const y = 340 + Math.random() * 120;
+    const size = 1.5 + Math.random() * 2.5;
+    const alpha = 0.15 + Math.random() * 0.25;
+    const dot = scene.add.circle(x, y, size, 0xffd700, alpha);
+    objects.push(dot);
+    particles.push({ dot, baseY: y, speed: 0.15 + Math.random() * 0.25, offset: Math.random() * Math.PI * 2 });
+  }
+
+  // Add a slow floating tween to each particle
+  const particleTween = scene.tweens.addCounter({
+    from: 0,
+    to: Math.PI * 2,
+    duration: 3000 + Math.random() * 2000,
+    repeat: -1,
+    onUpdate: (tween) => {
+      const progress = tween.getValue();
+      particles.forEach((p, idx) => {
+        const phase = progress + p.offset;
+        p.dot.y = p.baseY + Math.sin(phase * 0.7) * 8;
+        p.dot.alpha = 0.12 + Math.sin(phase * 0.5) * 0.15 + 0.15;
+      });
+    },
+  });
+
+  return particleTween;
+}
+
 export function createMenuLoadingScreen(scene, options = {}) {
   const W = scene.scale?.width ?? scene.cameras.main.width;
   const H = scene.scale?.height ?? scene.cameras.main.height;
   const objects = [];
+  const tweens = [];
 
   const bg = scene.add.rectangle(W / 2, H / 2, W, H, COL.bg);
   objects.push(bg);
@@ -176,47 +210,67 @@ export function createMenuLoadingScreen(scene, options = {}) {
   objects.push(sep1);
 
   const barW = options.barWidth ?? 600;
-  const barH = options.barHeight ?? 18;
+  const barH = options.barHeight ?? 20;
   const barX = W / 2 - barW / 2;
   const barY = options.barY ?? 405;
 
   const panel = scene.add.graphics();
   panel.lineStyle(1, COL.borderDim, 0.95);
   panel.fillStyle(COL.panel, 0.94);
-  panel.fillRoundedRect(W / 2 - 360, barY - 68, 720, 132, 8);
-  panel.strokeRoundedRect(W / 2 - 360, barY - 68, 720, 132, 8);
+  panel.fillRoundedRect(W / 2 - 360, barY - 72, 720, 138, 8);
+  panel.strokeRoundedRect(W / 2 - 360, barY - 72, 720, 138, 8);
   panel.fillStyle(COL.panelHi, 0.035);
-  panel.fillRoundedRect(W / 2 - 356, barY - 64, 712, 48, 7);
+  panel.fillRoundedRect(W / 2 - 356, barY - 68, 712, 50, 7);
   objects.push(panel);
 
-  const labelText = scene.add.text(W / 2, barY - 38, options.label ?? "Loading...", {
-    fontFamily: "Consolas, monospace",
-    fontSize: "15px",
-    color: COL.dim,
+  const labelText = scene.add.text(W / 2, barY - 36, options.label ?? "Loading...", {
+    fontFamily: "Consolas, 'Courier New', monospace",
+    fontSize: "16px",
+    color: "#c8dae8",
   }).setOrigin(0.5);
   objects.push(labelText);
 
   const barBg = scene.add.graphics();
   barBg.fillStyle(0x1e2a36, 1);
-  barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 4);
+  barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
   barBg.lineStyle(1, COL.borderBright, 0.75);
-  barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 4);
+  barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
   objects.push(barBg);
+
+  const barGlow = scene.add.graphics();
+  objects.push(barGlow);
 
   const barFill = scene.add.graphics();
   objects.push(barFill);
 
-  const pctText = scene.add.text(W / 2, barY + barH + 16, "0%", {
-    fontFamily: "Consolas, monospace",
-    fontSize: "14px",
+  // Pulsing glow on the progress bar
+  const glowTween = scene.tweens.addCounter({
+    from: 0.3,
+    to: 0.7,
+    duration: 1200,
+    yoyo: true,
+    repeat: -1,
+    ease: "Sine.easeInOut",
+    onUpdate: (tween) => {
+      const alpha = tween.getValue();
+      barGlow.clear();
+      barGlow.fillStyle(COL.fill, alpha * 0.25);
+      barGlow.fillRoundedRect(barX - 4, barY - 4, barW + 8, barH + 8, 7);
+    },
+  });
+  tweens.push(glowTween);
+
+  const pctText = scene.add.text(W / 2, barY + barH + 18, "0%", {
+    fontFamily: "Consolas, 'Courier New', monospace",
+    fontSize: "15px",
     color: COL.pct,
   }).setOrigin(0.5);
   objects.push(pctText);
 
-  const detailText = scene.add.text(W / 2, barY + 72, options.detail ?? "", {
-    fontFamily: "Consolas, monospace",
-    fontSize: "13px",
-    color: COL.hint,
+  const detailText = scene.add.text(W / 2, barY + 76, options.detail ?? "", {
+    fontFamily: "Consolas, 'Courier New', monospace",
+    fontSize: "14px",
+    color: "#7a9ab4",
   }).setOrigin(0.5);
   objects.push(detailText);
 
@@ -225,11 +279,29 @@ export function createMenuLoadingScreen(scene, options = {}) {
   sep2.lineBetween(80, H - 82, W - 80, H - 82);
   objects.push(sep2);
 
+  // Floating spark particles
+  const particleTween = createLoadingParticles(scene, W, H, objects);
+  tweens.push(particleTween);
+
+  // Subtle pulsing overlay rectangle behind the bar area for extra depth
+  const barAreaGlow = scene.add.graphics();
+  barAreaGlow.fillStyle(0x1a2a3a, 0.15);
+  barAreaGlow.fillRoundedRect(barX - 20, barY - 60, barW + 40, barH + 100, 12);
+  objects.unshift(barAreaGlow); // behind everything else
+
   const setProgress = (value) => {
     const clamped = Phaser.Math.Clamp(value || 0, 0, 1);
+    const fillWidth = Math.max(2, barW * clamped);
+
+    // Fill bar
     barFill.clear();
     barFill.fillStyle(COL.fill, 1);
-    barFill.fillRoundedRect(barX, barY, Math.max(2, barW * clamped), barH, 3);
+    barFill.fillRoundedRect(barX, barY, fillWidth, barH, 4);
+
+    // Bright leading edge highlight
+    barFill.fillStyle(0xc0f0d0, 0.6);
+    barFill.fillRoundedRect(barX + fillWidth - 4, barY + 2, Math.min(4, fillWidth), barH - 4, 2);
+
     pctText.setText(`${Math.floor(clamped * 100)}%`);
   };
 
@@ -244,6 +316,8 @@ export function createMenuLoadingScreen(scene, options = {}) {
     setLabel: (text) => labelText.setText(text),
     setDetail: (text) => detailText.setText(text),
     fadeOut(duration = 300, onComplete) {
+      // Stop all tweens
+      tweens.forEach((t) => t?.stop?.());
       scene.tweens.add({
         targets: objects,
         alpha: 0,
@@ -256,6 +330,7 @@ export function createMenuLoadingScreen(scene, options = {}) {
       });
     },
     destroy() {
+      tweens.forEach((t) => t?.stop?.());
       objects.forEach((object) => object?.destroy());
     },
   };

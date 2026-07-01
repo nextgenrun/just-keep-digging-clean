@@ -1,69 +1,16 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
-// Per-resource threshold — shallow resources are common (5), deep ones are rare (1-3)
-const CONSTELLATION_THRESHOLDS = {
-  dirt:           5,   // surface (0m)
-  stone:          5,   // surface (0m)
-  copper:         5,   // surface (0m)
-  darkDirtNormal: 3,   // 100m
-  steel:          3,   // 150m
-  iron:           2,   // 300m
-  bronze:         2,   // 600m
-  darkDirtStrong: 2,   // 800m
-  silver:         2,   // 1200m
-  gold:           1,   // 1600m
-};
-const CONSTELLATION_SPACING   = 80; // pixels per grid unit
-
-// Point offsets [dx, dy] in grid units; lines are index pairs into the points array
-const CONSTELLATION_DEFS = {
-  dirt:           { name: 'The Shovel',   points: [[0,-2],[-1,-1],[1,-1],[0,0],[0,2]],  lines: [[0,1],[0,2],[1,2],[2,3],[3,4]] },
-  stone:          { name: 'The Mountain', points: [[0,-2],[-2,-1],[2,-1],[-2,1],[2,1]], lines: [[0,1],[0,2],[1,3],[2,4],[3,4]] },
-  copper:         { name: 'The Anvil',    points: [[-2,-1],[2,-1],[0,0],[-1,1],[1,1]],  lines: [[0,1],[0,2],[1,2],[2,3],[2,4],[3,4]] },
-  darkDirtNormal: { name: 'The Cave',     points: [[-2,1],[-1,-1],[0,-2],[1,-1],[2,1]], lines: [[0,1],[1,2],[2,3],[3,4]] },
-  darkDirtStrong: { name: 'The Fortress', points: [[-2,-2],[0,-2],[2,-2],[-1,1],[1,1]], lines: [[0,3],[1,3],[1,4],[2,4],[3,4]] },
-  bronze:         { name: 'The Shield',   points: [[0,-2],[-2,-1],[2,-1],[-1,1],[1,1]], lines: [[0,1],[0,2],[1,3],[2,4],[3,4]] },
-  steel:          { name: 'The Sword',    points: [[0,-2],[0,-1],[-1,0],[1,0],[0,1]],   lines: [[0,1],[1,2],[1,3],[2,3],[1,4]] },
-  iron:           { name: 'The Hammer',   points: [[-1,-2],[0,-2],[1,-2],[0,0],[0,2]],  lines: [[0,1],[1,2],[1,3],[3,4]] },
-  silver:         { name: 'The Crescent', points: [[1,-2],[0,-1],[-1,0],[0,1],[1,2]],   lines: [[0,1],[1,2],[2,3],[3,4]] },
-  gold:           { name: 'The Crown',    points: [[-2,-1],[0,-2],[2,-1],[-1,1],[1,1]], lines: [[0,1],[1,2],[0,3],[2,4],[3,4]] },
-};
-
-// Fixed center positions: [deltaX, deltaY] in pixels from the constellation anchor.
-// The anchor can be separate from the interactive Star Pillar, so collected stars
-// can live in the upper-right sky while the island/pillar stay in place.
-const CONSTELLATION_CENTERS = {
-  dirt:           [ -947, -460],   // far left, lower arc
-  stone:          [ -803, -580],
-  copper:         [ -588, -670],
-  darkDirtNormal: [ -328, -710],
-  steel:          [  -47, -720],   // top of arc, directly above pillar
-  iron:           [  234, -710],
-  bronze:         [  494, -670],
-  darkDirtStrong: [  709, -580],
-  silver:         [  853, -460],
-  gold:           [  940, -340],   // far right, lower arc
-};
-
-// Glow line color per resource type
-const CONSTELLATION_LINE_COLORS = {
-  dirt: 0xA0784A, stone: 0x888888, copper: 0xFF7700, darkDirtNormal: 0x5544AA,
-  darkDirtStrong: 0x663322, bronze: 0xCC8800, steel: 0x778899, iron: 0x8899AA,
-  silver: 0xCCDDEE, gold: 0xFFD700,
-};
-
-const SKY_STAR_TEXTURE_PREFIX = 'dig-game-sky-star-rarity-';
-const SKY_STAR_DISPLAY_SIZES = [34, 42, 52, 60, 68, 76];
-const SKY_RARITY_FALLBACKS = [
-  { name: 'common',    glowColor: 0x87CEEB, multiplier: 2,  label: '★'    },
-  { name: 'rare',      glowColor: 0xCC44FF, multiplier: 3,  label: '★★'   },
-  { name: 'legendary', glowColor: 0xFFD700, multiplier: 5,  label: '★★★'  },
-  { name: 'ancient',   glowColor: 0xFF4422, multiplier: 8,  label: '✦'    },
-  { name: 'cosmic',    glowColor: 0x00FFEE, multiplier: 14, label: '✦✦'   },
-  { name: 'void',      glowColor: 0x9900FF, multiplier: 25, label: '✦✦✦'  },
-];
+const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
+const CONSTELLATION_SPACING = STAR_CONSTELLATION_CONFIG.spacingPx;
+const CONSTELLATION_DEFS = STAR_CONSTELLATION_CONFIG.defs;
+const CONSTELLATION_CENTERS = STAR_CONSTELLATION_CONFIG.centers;
+const CONSTELLATION_LINE_COLORS = STAR_CONSTELLATION_CONFIG.lineColors;
+const SKY_STAR_TEXTURE_PREFIX = STAR_CONSTELLATION_CONFIG.skyStarTexturePrefix;
+const SKY_STAR_DISPLAY_SIZES = STAR_CONSTELLATION_CONFIG.skyStarDisplaySizesPx;
+const SKY_RARITY_FALLBACKS = STAR_CONSTELLATION_CONFIG.rarityFallbacks;
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class FloatingTextSystem {
@@ -195,6 +142,10 @@ export class FloatingTextSystem {
    * @param {number} damage - Damage dealt (whole integers)
    */
   showDamage(worldX, worldY, damage) {
+    // Guard against NaN — if damage is not a finite number, show 0
+    if (!Number.isFinite(damage) || damage < 0) {
+      damage = 0;
+    }
     const formattedDamage = String(damage);
     
     // Scale size and color based on damage
@@ -317,6 +268,8 @@ export class FloatingTextSystem {
    * @param {number} multiplier - Critical hit multiplier (e.g., 1.5)
    */
   showCriticalHit(worldX, worldY, damage, multiplier) {
+    // Guard against NaN
+    if (!Number.isFinite(damage) || damage < 0) damage = 0;
     const formattedDamage = Math.floor(damage);
     const text = ` ${formattedDamage}`;
     
@@ -374,6 +327,8 @@ export class FloatingTextSystem {
    * @param {number} damage
    */
   showHeavyPunchDamage(worldX, worldY, damage) {
+    // Guard against NaN
+    if (!Number.isFinite(damage) || damage < 0) damage = 0;
     const formattedDamage = Math.floor(damage);
     const text = ` ${formattedDamage}`;
 

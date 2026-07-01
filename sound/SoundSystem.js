@@ -149,7 +149,6 @@ export class SoundSystem {
       case ASSET_KEYS.audio.sfx.tileHit: return baseVolume * this.config.tileHitVolume;
       case ASSET_KEYS.audio.sfx.copperCollect: return baseVolume * this.config.copperCollectVolume;
       case ASSET_KEYS.audio.sfx.reward: return baseVolume * this.config.rewardVolume;
-      case ASSET_KEYS.audio.sfx.jump: return baseVolume * this.config.jumpVolume;
       case ASSET_KEYS.audio.sfx.uiSelect: case ASSET_KEYS.audio.sfx.uiConfirm: return baseVolume * this.config.uiVolume;
       default: return baseVolume;
     }
@@ -484,7 +483,6 @@ export class SoundSystem {
       'update-2/I Will Haunt You.wav',
       'update-2/I Will Haunt You(1).wav',
       'update-2/I Will Haunt You(2).wav',
-      'update-2/i wish i could jump!.wav',
       'update-2/Nightmare in my brain.wav',
       "update-2/They Ask Me Why I'm Happy.wav",
       "update-2/They Ask Me Why I'm Happy(1).wav",

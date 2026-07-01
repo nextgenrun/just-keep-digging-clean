@@ -1,6 +1,7 @@
 export const PLAYER_CHARACTER_IDS = Object.freeze({
   legacy: "legacy",
   robot: "robot",
+  drillHead: "drillHead",
 });
 
 export const DEFAULT_PLAYER_CHARACTER_ID = PLAYER_CHARACTER_IDS.robot;
@@ -19,6 +20,13 @@ export const PLAYER_CHARACTER_OPTIONS = Object.freeze([
     title: "BOX ROBOT",
     description: "Simple anchored robot animation set.",
     accent: 0xd8a7ff,
+  },
+  {
+    id: PLAYER_CHARACTER_IDS.drillHead,
+    label: "Drill",
+    title: "LIVING DRILL",
+    description: "One-tile drill body. The whole sprite bites into blocks.",
+    accent: 0xf0c56a,
   },
 ]);
 

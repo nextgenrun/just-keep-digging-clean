@@ -1160,7 +1160,7 @@ export class ShopOverlay {
             "\"Ah, you seek wisdom! Let me tell you of the powers you can unlock!\"\n\n" +
             "═══════════════════════════════════════════════════════════════\n\n" +
             "✈️ FLIGHT (Gem Power Merchant)\n" +
-            `   Hold ${USER_SETTINGS.getKeyLabel("jump")} in the air to fly! Costs Gem Power.\n` +
+            `   Hold ${USER_SETTINGS.getKeyLabel("fly")} in the air to fly! Costs Gem Power.\n` +
             "   Upgrade: Gem Power Tank (more GP), Efficiency (less drain),\n" +
             "   Regeneration (faster recharge), Fly Speed (faster flight)\n\n" +
             "👁️ GEM VISION (Gem Power Merchant)\n" +
@@ -1176,8 +1176,8 @@ export class ShopOverlay {
             "═══════════════════════════════════════════════════════════════\n\n" +
             "\"There is a Gem of Great Power hidden high in the sky!\n" +
             "I have felt its energy carried on the wind above us.\n\n" +
-            "Train your legs, adventurer! Buy Jump Boots and Jump Height\n" +
-            "from the upgrade merchant.\n" +
+            "Build your mobility, adventurer! Upgrade your flight tools\n" +
+            "and Gem Power capacity.\n" +
             "and look UPWARD to the heavens.\n\n" +
             "The gem awaits those who are strong enough to reach it.\"\n\n" +
             `[Press any key or ${USER_SETTINGS.getKeyLabel("interact")} to close]`
@@ -1191,13 +1191,17 @@ export class ShopOverlay {
             "Gem of Great Power",
             "You have discovered the Gem of Great Power!\n\n" +
             "FLIGHT IS NOW UNLOCKED!\n" +
-            `Hold ${USER_SETTINGS.getKeyLabel("jump")} while airborne to fly - it costs Gem Power (purple bar).\n` +
+            `Hold ${USER_SETTINGS.getKeyLabel("fly")} to fly - it costs Gem Power (purple bar).\n` +
             "Gem Power regenerates slowly on its own.\n\n" +
             "Talk to the Gem Power Merchant here on the Sky Island\n" +
             "to upgrade your fly capacity, efficiency, and speed!\n\n" +
             `[Press any key or ${USER_SETTINGS.getKeyLabel("interact")} to close]`
           );
           return;
+        }
+
+        if (upgradeId === 'worldTwoTunnelAccess') {
+          this.scene?.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
         }
 
         this.scene?.hudSystem?.flashStatus?.(`Purchased ${upgradeDef.name}!`, "#44ff44", 2000);
@@ -1248,6 +1252,8 @@ export class ShopOverlay {
           }
         } else if (result.reason === "requires_upgrade") {
           message = "Requires another upgrade first!";
+        } else if (result.reason === "requires_depth_gate") {
+          message = `Reach and claim ${result.required}m first!`;
         }
 
         this.scene?.hudSystem?.flashStatus?.(message, "#ff4444", 2500);

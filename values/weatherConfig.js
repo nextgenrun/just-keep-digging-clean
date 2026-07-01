@@ -15,6 +15,22 @@ export const WEATHER_CONFIG = Object.freeze({
   transitionRatePerSecond: 0.42,
   windRatePerSecond: 0.34,
 
+  director: {
+    recentHistorySize: 2,
+    repeatPenalty: 0.55,
+    seasonWeights: {
+      spring: { drizzle: 1.25, rain: 1.18, storm: 0.95 },
+      summer: { clear: 1.20, drizzle: 0.75, rain: 0.90, storm: 1.18 },
+      autumn: { drizzle: 1.15, rain: 1.30, storm: 1.10 },
+      winter: { clear: 1.05, drizzle: 0.90, rain: 0.85, storm: 0.92 },
+    },
+  },
+
+  forecast: {
+    windowMs: 14000,
+    hudShowProgress: true,
+  },
+
   depth: {
     surfaceFadeTiles: 18,
     undergroundFullTiles: 36,
@@ -30,6 +46,78 @@ export const WEATHER_CONFIG = Object.freeze({
     lightning: 995,
   },
 
+  occlusion: {
+    sampleSpacingPx: 54,
+    resampleMs: 120,
+    scanAboveViewportPx: 1200,
+    scanBelowViewportPx: 220,
+    coverTopPaddingPx: 18,
+    fallPastViewportPx: 96,
+  },
+
+  debug: {
+    enabled: false,
+    drawDepth: 997,
+    openSkyColor: 0x53d8ff,
+    coveredColor: 0xffd166,
+    landingColor: 0xbfe8ff,
+    playerShelterColor: 0xff6b6b,
+    lineAlpha: 0.34,
+  },
+
+  visualCovers: Object.freeze([
+    Object.freeze({
+      kind: "townRoof",
+      startTileX: 1,
+      endTileOffsetFromSpawn: 40,
+      yTilesAboveFloor: 5.85,
+      heightTiles: 1.22,
+    }),
+    Object.freeze({ kind: "cover", xTile: 4.95, yTile: 62.68, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 11.54, yTile: 62.58, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 18.16, yTile: 62.65, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 24.55, yTile: 62.63, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 31.22, yTile: 62.54, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 36.63, yTile: 62.57, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 43.46, yTile: 62.66, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 50.27, yTile: 62.65, widthTiles: 7.41, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 61.91, yTile: 62.68, widthTiles: 6.57, heightTiles: 0.74 }),
+    Object.freeze({ kind: "cover", xTile: 111.02, yTile: 60.68, widthTiles: 8.27, heightTiles: 0.84 }),
+  ]),
+
+  gusts: {
+    drizzleMax: 28,
+    rainMax: 70,
+    stormMax: 155,
+    retargetMs: [850, 2400],
+    ratePerSecond: 1.35,
+  },
+
+  wetness: {
+    fillRatePerSecond: 0.34,
+    dryRatePerSecond: 0.045,
+  },
+
+  worldWetness: {
+    fillRatePerSecond: 0.30,
+    dryRatePerSecond: 0.038,
+    columnFillPerSecond: 0.42,
+    columnDryPerSecond: 0.030,
+    exposedWetnessThreshold: 0.16,
+  },
+
+  gameplay: {
+    enabled: true,
+    maxWetMovementPenalty: 0.08,
+    stormMiningAmbienceBonus: 0,
+    stormXpAmbienceBonus: 0,
+  },
+
+  visibility: {
+    enabled: true,
+    maxStormPenalty: 0.18,
+  },
+
   rain: {
     minFrequencyMs: 92,
     maxFrequencyMs: 13,
@@ -38,12 +126,87 @@ export const WEATHER_CONFIG = Object.freeze({
     maxSpeedY: 1280,
     minSpeedY: 760,
     windScale: 1.18,
+    maxParticlesForeground: 620,
+    maxParticlesMidground: 360,
+    maxParticlesSheet: 150,
+    maxParticlesDust: 70,
+    maxParticlesSteam: 90,
+    maxParticlesRipple: 120,
+    layers: {
+      foreground: {
+        ratePerSecond: 620,
+        maxBurst: 16,
+        spawnY: -68,
+        minLifespanMs: 160,
+        maxLifespanMs: 860,
+        minSpeedY: 840,
+        maxSpeedY: 1460,
+        windScale: 1.28,
+        windSpread: 72,
+        xJitterPx: 32,
+        alpha: 0.92,
+        flashBoost: 0.35,
+      },
+      midground: {
+        ratePerSecond: 360,
+        maxBurst: 10,
+        spawnY: -52,
+        minLifespanMs: 190,
+        maxLifespanMs: 940,
+        minSpeedY: 620,
+        maxSpeedY: 1080,
+        windScale: 0.84,
+        windSpread: 50,
+        xJitterPx: 42,
+        alpha: 0.50,
+        flashBoost: 0.24,
+      },
+      sheet: {
+        ratePerSecond: 92,
+        maxBurst: 5,
+        spawnY: -84,
+        minLifespanMs: 240,
+        maxLifespanMs: 1100,
+        minSpeedY: 760,
+        maxSpeedY: 1280,
+        windScale: 0.62,
+        windSpread: 36,
+        xJitterPx: 58,
+        alpha: 0.30,
+        flashBoost: 0.55,
+      },
+    },
+    dust: {
+      ratePerSecond: 42,
+      maxBurst: 3,
+      alpha: 0.20,
+      stormDistanceStart: 0.70,
+      stormDistanceEnd: 0.20,
+    },
+    steam: {
+      ratePerSecond: 26,
+      maxBurst: 3,
+      alpha: 0.22,
+      minWetness: 0.22,
+    },
+    ripples: {
+      ratePerSecond: 52,
+      maxBurst: 4,
+      alpha: 0.30,
+      minWetness: 0.18,
+    },
   },
 
   splashes: {
     minFrequencyMs: 320,
     maxFrequencyMs: 52,
     alpha: 0.42,
+    ratePerSecond: 145,
+    maxBurst: 8,
+    maxParticles: 140,
+    jitterPx: 28,
+    yJitterPx: 5,
+    gustBoost: 0.55,
   },
 
   underground: {
@@ -53,6 +216,14 @@ export const WEATHER_CONFIG = Object.freeze({
     mistMaxFrequencyMs: 160,
     dripAlpha: 0.55,
     mistAlpha: 0.34,
+    coverDripScale: 0.42,
+    dripRatePerSecond: 42,
+    dripMaxBurst: 4,
+    dripUndersideOffsetPx: 16,
+    mistRatePerSecond: 24,
+    mistMaxBurst: 3,
+    maxDripParticles: 160,
+    maxMistParticles: 120,
   },
 
   lighting: {
@@ -78,7 +249,16 @@ export const WEATHER_CONFIG = Object.freeze({
 
   audio: {
     rainVolume: 0.13,
+    roofRainVolume: 0.08,
+    windVolume: 0.035,
+    caveDripVolume: 0.045,
     thunderVolume: 0.24,
     undergroundMuffle: 0.42,
+    coverMuffle: 0.30,
+    openLowpassHz: 1850,
+    coverLowpassHz: 820,
+    thunderOpenLowpassHz: 1050,
+    thunderCaveLowpassHz: 390,
+    thunderDurationMs: [1150, 2500],
   },
 });

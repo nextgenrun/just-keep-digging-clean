@@ -20,6 +20,12 @@ function hasEscapeClosableOverlay(scene) {
   );
 }
 
+function syncProgressionGemPowerMax(scene) {
+  const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
+  const milestoneBonus = scene.milestoneBoardSystem?.getBonuses?.()?.gpMaxBonus ?? 0;
+  scene.playerController?.setProgressionGemPowerMaxBonus?.(levelBonus + milestoneBonus);
+}
+
 /**
  * Main update loop - called from PlayScene.update()
  * @param {number} time - Current time
@@ -241,7 +247,7 @@ function _updatePlayingState(time, delta, keys) {
   // Block all gameplay while campfire menu is open (like shop overlay does)
   if (this.campfireSystem && this.campfireSystem.isSelecting()) return;
 
-  // Update player controller (physics, movement, jump logic)
+  // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
   
   // NPC interaction
@@ -289,14 +295,16 @@ function _updatePlayingState(time, delta, keys) {
     
     if (result.reason !== "cooldown") {
       // Play quickslash attack animation
-      const quickslashAnimKey = ASSET_KEYS.player.quickslashAnim;
+      const quickslashProfile = this.playerAssetProfile || ASSET_KEYS.player;
+      const quickslashAnimKey = quickslashProfile.quickslashAnim || ASSET_KEYS.player.quickslashAnim;
       this.isDigAnimating = true;
       // Flip sprite for right-facing attacks (similar to dig animation)
       const flipX = quickslashDir === 1;
       this.player.setFlipX(flipX);
       this.player.play(quickslashAnimKey, true);
       // Keep sprite size consistent with other character animations
-      this.player.setDisplaySize(this.config.playerDisplaySizePx, this.config.playerDisplaySizePx);
+      const quickslashDisplaySize = quickslashProfile.displaySizePx || this.config.playerDisplaySizePx;
+      this.player.setDisplaySize(quickslashDisplaySize, quickslashDisplaySize);
       
       // Scale animation speed to match quickslash speed - DISABLED for visibility
       if (this._gamefeelConfig && this.digSystem) {
@@ -308,10 +316,17 @@ function _updatePlayingState(time, delta, keys) {
       this.pickaxeTrailSystem?.start();
     }
     
-    if (result.success) {
+      if (result.success) {
       this.playMineImpactFx(quickslashTarget, result.destroyed);
       this.playMineFeedbackAudio(result, tileType);
       this.applyMineFeedback(result, quickslashTarget);
+      if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
+        this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+          resourceType: result.behindResourceType,
+          amount: result.behindResourceAmount,
+          isLuckyDrop: result.behindIsLuckyDrop,
+        });
+      }
       
       // Show damage number for quickslash hit
       if (this.floatingTextSystem) {
@@ -344,18 +359,21 @@ function _updatePlayingState(time, delta, keys) {
   
   // Normal mining (F key)
   if (this.playerController.consumeMineInput() && !isQuickslashActive) {
-    const tileType = aimTargetTile ? this.worldModel.getTileType(aimTargetTile.tx, aimTargetTile.ty) : null;
-    const result = this.digSystem.tryMine(aimTargetTile, time, this.playerController.getAimLabel(), abilities);
+    const mineAttempt = this.prepareLivingDrillMineAttempt?.(aimTargetTile) || { allow: true, targetTile: aimTargetTile };
+    if (mineAttempt.allow) {
+      const mineTargetTile = mineAttempt.targetTile;
+      const tileType = mineTargetTile ? this.worldModel.getTileType(mineTargetTile.tx, mineTargetTile.ty) : null;
+      const result = this.digSystem.tryMine(mineTargetTile, time, this.playerController.getAimLabel(), abilities);
 
-    if (result.reason !== "cooldown") {
-      this.startDigAnimation({ result, targetTile: aimTargetTile, tileType });
-    }
+      if (result.reason !== "cooldown") {
+        this.startDigAnimation({ result, targetTile: mineTargetTile, tileType });
+      }
 
-    if (result.success) {
+      if (result.success) {
       // Show damage number for every successful hit
       if (this.floatingTextSystem) {
-        const worldX = aimTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-        const worldY = aimTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+        const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+        const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
         
         // Show damage number
         this.floatingTextSystem.showDamage(worldX, worldY, result.damage);
@@ -366,8 +384,8 @@ function _updatePlayingState(time, delta, keys) {
         
         // Show resource collection text
         if (this.floatingTextSystem && result.resourceType) {
-          const worldX = aimTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-          const worldY = aimTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+          const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+          const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
           const resourceLabel = result.resourceType.charAt(0).toUpperCase() + result.resourceType.slice(1);
           const resourceColor = result.resourceType === 'gold' ? '#FFD700' :
                                 result.resourceType === 'silver' ? '#C0C0C0' :
@@ -377,30 +395,39 @@ function _updatePlayingState(time, delta, keys) {
                                 result.resourceType === 'copper' ? '#B87333' :
                                 result.resourceType === 'stone' ? '#808080' : '#8B4513';
           this.floatingTextSystem.showResource(worldX, worldY, resourceLabel, resourceColor, result.resourceAmount);
+          this.showLootPickupFeedback?.(result, mineTargetTile);
+        }
+
+        if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
+          this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+            resourceType: result.behindResourceType,
+            amount: result.behindResourceAmount,
+            isLuckyDrop: result.behindIsLuckyDrop,
+          });
         }
         
         // Visual feedback for critical hits
         if (result.isCriticalHit && this.floatingTextSystem) {
-          const worldX = aimTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-          const worldY = aimTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+          const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+          const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
           const damage = this.digSystem._getDamage(5, tileType) * this.playerLevelSystem.getCriticalHitDamageMultiplier();
           this.floatingTextSystem.showCriticalHit(worldX, worldY, damage, 1.5);
         }
         
         // Visual feedback for resource luck
         if (result.isLuckyDrop && this.floatingTextSystem) {
-          const worldX = aimTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-          const worldY = aimTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+          const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+          const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
           this.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
         }
       }
     }
 
-    const refreshedAim = this.inputHandler.resolveAimTargetTile();
-    this.inputHandler.updateAimBox(refreshedAim, this.inputHandler.isSolidAimTarget(refreshedAim));
+      const refreshedAim = this.inputHandler.resolveAimTargetTile();
+      this.inputHandler.updateAimBox(refreshedAim, this.inputHandler.isSolidAimTarget(refreshedAim));
     
     // Handle level up events
-    if (result.levelUp && this.levelUpPopup) {
+      if (result.levelUp && this.levelUpPopup) {
       // Ensure rewards is always an array
       const rewards = Array.isArray(result.rewards) ? result.rewards : [];
       console.log('[LEVEL UP] Showing popup - Level:', result.newLevel, 'hasChoice:', result.hasChoice, 'rewards:', rewards);
@@ -418,6 +445,7 @@ function _updatePlayingState(time, delta, keys) {
         };
       }
     }
+  }
   }
 
   // Special tile interaction (E key for gamble/teleport tiles)
@@ -443,6 +471,7 @@ function _updatePlayingState(time, delta, keys) {
   //   isDigAnimating stays true while ability is active,
   //   reset only happens on a later frame when the animation finishes.
   const playerAbilities = this.playerController.abilities;
+  const playerProfile = this.playerAssetProfile || ASSET_KEYS.player;
   const cInput = this.playerController.input.getThunderStrikeInput();
 
   if (cInput && !this._thunderStrikeAnimating) {
@@ -450,7 +479,7 @@ function _updatePlayingState(time, delta, keys) {
     if (started) {
       this.isDigAnimating = true;
       this._thunderStrikeAnimating = true;  // Track active state across frames
-      this.player.play(ASSET_KEYS.player.thunderStrikeChargeAnim, true);
+      this.player.play(playerProfile.thunderStrikeChargeAnim || ASSET_KEYS.player.thunderStrikeChargeAnim, true);
     }
   }
 
@@ -465,8 +494,9 @@ function _updatePlayingState(time, delta, keys) {
 
         if (strikeResult.success) {
           // Play strike animation on the player sprite
-          this.player.play(ASSET_KEYS.player.thunderStrikeStrikeAnim, true);
-          this.player.setDisplaySize(this.config.playerDisplaySizePx, this.config.playerDisplaySizePx);
+          this.player.play(playerProfile.thunderStrikeStrikeAnim || ASSET_KEYS.player.thunderStrikeStrikeAnim, true);
+          const thunderDisplaySize = playerProfile.displaySizePx || this.config.playerDisplaySizePx;
+          this.player.setDisplaySize(thunderDisplaySize, thunderDisplaySize);
           this.player.anims.timeScale = 1;
 
           // Mark timestamp so we hold the strike sprite for a visible duration
@@ -508,7 +538,13 @@ function _updatePlayingState(time, delta, keys) {
               }
 
               if (result.destroyed) {
+                if (result.breachedBedrock) {
+                  this.queueDugTilesSave();
+                  return;
+                }
+
                 const reward = this.digSystem.processDestroyedTile(result.tx, result.ty, result.tileType, time, false, result.wasRubble);
+                this.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
 
                 if (reward.levelUp && this.levelUpPopup) {
                   const rewards = Array.isArray(reward.rewards) ? reward.rewards : [];
@@ -550,6 +586,7 @@ function _updatePlayingState(time, delta, keys) {
   }
 
   // Visual state
+  this.updateLivingDrillEngagementTimeout?.(time);
   if (!this.isDigAnimating) {
     this.updatePlayerVisualState();
   }
@@ -602,6 +639,7 @@ function _updatePlayingState(time, delta, keys) {
   this.hudSystem.setXTile(playerTile.tx);
   this.hudSystem.setTilesBroken(this.digSystem.getTilesBroken());
   this.hudSystem.setAim(this.playerController.getAimLabel());
+  syncProgressionGemPowerMax(this);
 
   const gemPowerPct = this.playerController.getGemPowerPercent();
   this.hudSystem.setGemPower(gemPowerPct);
@@ -655,13 +693,13 @@ function _updatePlayingState(time, delta, keys) {
 // Runs every frame AFTER all game systems have updated so the camera
 // tracks the player's actual position. Three concerns, one place:
 //
-//   1. shakeSystem.update()     � apply active camera-shake offset
-//   2. updateCameraLookAhead()  � bias the camera target along the
+//   1. shakeSystem.update()     -- apply active camera-shake offset
+//   2. updateCameraLookAhead()  -- bias the camera target along the
 //                                 player's last movement direction so the
 //                                 action sits ahead of the crosshair.
-//   3. updateDepthBandZoom()    � smooth zoom transition when crossing
+//   3. updateDepthBandZoom()    -- smooth zoom transition when crossing
 //                                 a depth band (surface <-> underground).
-//   4. updateUiZoom()           � inversely scale UI elements registered
+//   4. updateUiZoom()           -- inversely scale UI elements registered
 //                                 in _zoomCompensationTargets so the HUD
 //                                 does not shrink when the camera zooms.
 export function updateCameraSystems(scene, time, delta) {

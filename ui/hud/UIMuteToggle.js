@@ -1,5 +1,159 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+
+// ─── Generated button texture keys ────────────────────────────────────────
+export const MUTE_BTN_TEXTURES = Object.freeze({
+  musicOn: "_hud_btn_music_on",
+  musicOff: "_hud_btn_music_off",
+  sfxOn: "_hud_btn_sfx_on",
+  sfxOff: "_hud_btn_sfx_off",
+});
+
+// ─── In-engine texture generation ─────────────────────────────────────────
+const BTN_SIZE = 40;
+const BTN_RADIUS = 7;
+
+function roundedRectPath(ctx, x, y, w, h, r) {
+  const rr = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rr, y);
+  ctx.lineTo(x + w - rr, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + rr);
+  ctx.lineTo(x + w, y + h - rr);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - rr, y + h);
+  ctx.lineTo(x + rr, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - rr);
+  ctx.lineTo(x, y + rr);
+  ctx.quadraticCurveTo(x, y, x + rr, y);
+  ctx.closePath();
+}
+
+function drawMusicNote(ctx, cx, cy, active) {
+  const color = active ? "#f0d080" : "#6a7a8a";
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.2;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  // Staff line
+  ctx.beginPath();
+  ctx.moveTo(cx + 4, cy - 2);
+  ctx.lineTo(cx + 4, cy + 8);
+  ctx.stroke();
+
+  // Note head
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.ellipse(cx + 2, cy + 7, 4, 3, -0.3, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Second note (offset)
+  ctx.beginPath();
+  ctx.moveTo(cx + 11, cy - 5);
+  ctx.lineTo(cx + 11, cy + 5);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(cx + 9, cy + 4, 4, 3, -0.3, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Beam connecting the two stems
+  ctx.beginPath();
+  ctx.moveTo(cx + 4, cy - 2);
+  ctx.lineTo(cx + 11, cy - 5);
+  ctx.stroke();
+}
+
+function drawSpeaker(ctx, cx, cy, active) {
+  const color = active ? "#80d0f0" : "#6a7a8a";
+  ctx.fillStyle = color;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  // Speaker body (trapezoid)
+  ctx.beginPath();
+  ctx.moveTo(cx - 6, cy - 5);
+  ctx.lineTo(cx - 6, cy + 5);
+  ctx.lineTo(cx - 1, cy + 5);
+  ctx.lineTo(cx + 4, cy + 9);
+  ctx.lineTo(cx + 4, cy - 9);
+  ctx.lineTo(cx - 1, cy - 5);
+  ctx.closePath();
+  ctx.fill();
+
+  // Sound waves
+  ctx.beginPath();
+  ctx.arc(cx + 7, cy, 4, -0.7, 0.7);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx + 10, cy, 6, -0.7, 0.7);
+  ctx.stroke();
+
+  // X overlay if muted
+  if (!active) {
+    ctx.strokeStyle = "#ff6b6b";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx + 6, cy - 7);
+    ctx.lineTo(cx + 14, cy + 4);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx + 14, cy - 7);
+    ctx.lineTo(cx + 6, cy + 4);
+    ctx.stroke();
+  }
+}
+
+function createMuteButtonTexture(scene, key, icon, active) {
+  if (scene.textures.exists(key)) return;
+
+  const tex = scene.textures.createCanvas(key, BTN_SIZE, BTN_SIZE);
+  const ctx = tex.getContext();
+  ctx.clearRect(0, 0, BTN_SIZE, BTN_SIZE);
+
+  // Background panel
+  const bg = active
+    ? ctx.createLinearGradient(0, 0, 0, BTN_SIZE)
+    : ctx.createLinearGradient(0, 0, 0, BTN_SIZE);
+  if (active) {
+    bg.addColorStop(0, "rgba(30, 38, 48, 0.98)");
+    bg.addColorStop(1, "rgba(16, 22, 30, 0.98)");
+  } else {
+    bg.addColorStop(0, "rgba(20, 26, 34, 0.98)");
+    bg.addColorStop(1, "rgba(10, 14, 20, 0.98)");
+  }
+  ctx.fillStyle = bg;
+  roundedRectPath(ctx, 1, 1, BTN_SIZE - 2, BTN_SIZE - 2, BTN_RADIUS);
+  ctx.fill();
+
+  // Border
+  ctx.strokeStyle = active
+    ? "rgba(255, 200, 100, 0.85)"
+    : "rgba(60, 74, 88, 0.80)";
+  ctx.lineWidth = 1.8;
+  roundedRectPath(ctx, 2, 2, BTN_SIZE - 4, BTN_SIZE - 4, BTN_RADIUS - 1);
+  ctx.stroke();
+
+  // Draw icon
+  if (icon === "music") {
+    drawMusicNote(ctx, 10, 14, active);
+  } else {
+    drawSpeaker(ctx, 10, 14, active);
+  }
+
+  tex.refresh();
+}
+
+export function ensureMuteButtonTextures(scene) {
+  if (!scene?.textures) return MUTE_BTN_TEXTURES;
+  createMuteButtonTexture(scene, MUTE_BTN_TEXTURES.musicOn, "music", true);
+  createMuteButtonTexture(scene, MUTE_BTN_TEXTURES.musicOff, "music", false);
+  createMuteButtonTexture(scene, MUTE_BTN_TEXTURES.sfxOn, "sfx", true);
+  createMuteButtonTexture(scene, MUTE_BTN_TEXTURES.sfxOff, "sfx", false);
+  return MUTE_BTN_TEXTURES;
+}
+
+// ─── UIMuteToggle class ───────────────────────────────────────────────────
 
 export class UIMuteToggle {
   constructor(scene, soundSystem, x = 20, y = 20) {
@@ -12,6 +166,9 @@ export class UIMuteToggle {
     this._toastTween = null;
     this._destroyed = false;
 
+    // Ensure textures exist (safe to call multiple times)
+    ensureMuteButtonTextures(scene);
+
     this.createUI();
   }
 
@@ -21,15 +178,13 @@ export class UIMuteToggle {
     this.container.setScrollFactor(0);
     this.container.setDepth(2000);
 
-    // --- Music button (left) — stone-art sprite with ON/OFF states side by side ---
-    // Using origin (0,0) to prevent position shift when cropping between states
-    this._musicImg = this.scene.add.image(-20, -20, ASSET_KEYS.ui.btnMusicStates)
+    // --- Music button (left) — generated in-engine texture ---
+    this._musicImg = this.scene.add.image(-20, -20, MUTE_BTN_TEXTURES.musicOn)
       .setOrigin(0, 0);
     this.container.add(this._musicImg);
 
-    // --- SFX button (right) — stone-art sprite with ON/OFF states side by side ---
-    // Position accounts for 40px button width + 6px gap = 46px from center of first button
-    this._sfxImg = this.scene.add.image(26, -20, ASSET_KEYS.ui.btnSfxStates)
+    // --- SFX button (right) — generated in-engine texture ---
+    this._sfxImg = this.scene.add.image(26, -20, MUTE_BTN_TEXTURES.sfxOn)
       .setOrigin(0, 0);
     this.container.add(this._sfxImg);
 
@@ -158,29 +313,21 @@ export class UIMuteToggle {
 
   _updateButtonState(img, enabled) {
     if (this._destroyed || !img?.texture) return;
-    // Sprite has ON state (left half) and OFF/muted state (right half) side by side
-    // Scale so one state half exactly fills the 40×40 button area
-    const src = img.texture.getSourceImage();
-    const stateW = src.width / 2;
-    const th = src.height;
-    const scale = 40 / stateW;
-    img.setScale(scale, 40 / th);
-    
-    // Store base position if not set
-    if (img._baseX === undefined) {
-      img._baseX = img.x;
-    }
-    
-    if (enabled) {
-      // ON state: crop left half, no position adjustment needed
-      img.setCrop(0, 0, stateW, th);
-      img.x = img._baseX;
+    // We now use separate full textures for ON/OFF states rather than
+    // a side-by-side sprite sheet. Determine which texture key to use.
+    const texKey = img.texture.key;
+    let newKey;
+    if (texKey.startsWith(MUTE_BTN_TEXTURES.musicOn) || texKey.startsWith(MUTE_BTN_TEXTURES.musicOff)) {
+      newKey = enabled ? MUTE_BTN_TEXTURES.musicOn : MUTE_BTN_TEXTURES.musicOff;
     } else {
-      // OFF state: crop right half, shift left to compensate for crop offset
-      img.setCrop(stateW, 0, stateW, th);
-      // Shift left by the scaled state width to keep visual position consistent
-      img.x = img._baseX - (stateW * scale);
+      newKey = enabled ? MUTE_BTN_TEXTURES.sfxOn : MUTE_BTN_TEXTURES.sfxOff;
     }
+    if (texKey !== newKey) {
+      img.setTexture(newKey);
+    }
+    // Ensure uniform scale (40×40 source rendered at native size)
+    img.setScale(1);
+    img.setCrop();
   }
 
   // ─── Public API (unchanged) ───

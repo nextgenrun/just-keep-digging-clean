@@ -184,7 +184,7 @@ export class UpgradeSystem {
   purchaseUpgrade(upgradeId) {
     const canPurchase = this.canPurchaseUpgrade(upgradeId);
     if (!canPurchase.canPurchase) {
-      return { success: false, reason: canPurchase.reason };
+      return { success: false, ...canPurchase };
     }
     
     const cost = canPurchase.cost;
@@ -239,8 +239,6 @@ export class UpgradeSystem {
       gemDashCooldownReduction: 0,
       gemDashExplode: 0,
       walkSpeed: 0,
-      extraJumps: 0,
-      jumpSpeed: 0,
       digDamageAdditive: 0,
       digDamageMultiplier: 0,
       mineCooldownReduction: 0,
@@ -411,16 +409,6 @@ export class UpgradeSystem {
       GEM_VISION_CONFIG.minDrain, 
       (baseDrain - drainReduction - deepSightBonus) * rangeCostMultiplier
     );
-  }
-
-  getEffectiveExtraJumps(baseJumps) {
-    const effects = this.getUpgradeEffects();
-    return baseJumps + effects.extraJumps;
-  }
-
-  getEffectiveJumpSpeed(baseJumpSpeed) {
-    const effects = this.getUpgradeEffects();
-    return baseJumpSpeed + effects.jumpSpeed;
   }
 
   getEffectiveDigDamageMultiplier(baseDamage) {

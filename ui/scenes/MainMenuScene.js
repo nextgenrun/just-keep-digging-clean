@@ -1,20 +1,21 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { UI_COLORS } from "../../values/uiColors.js";
 import { createButton } from "../PhaserUiKit.js";
 import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
 
 const COL = {
-  bg:        0x0d1117,
-  cardBase:  0x131c26,
-  cardHover: 0x1a2840,
-  borderDim: 0x2a3a4a,
-  borderHov: 0x3a4f62,
-  title:     '#f7f0df',
+  bg:        UI_COLORS.bg,
+  cardBase:  UI_COLORS.cardBase,
+  cardHover: UI_COLORS.cardHover,
+  borderDim: UI_COLORS.borderDim,
+  borderHov: UI_COLORS.borderHov,
+  title:     UI_COLORS.title,
   dim:       '#4a5a6a',
   hint:      '#5a7a8a',
   version:   '#2a3a4a',
-  white:     '#ffffff',
-  body:      '#a0b8c8',
+  white:     UI_COLORS.white,
+  body:      UI_COLORS.body,
 };
 
 const BTN_W      = 260;

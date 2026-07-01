@@ -23,6 +23,20 @@ export const RESOURCE_RARITIES = Object.freeze([
   { id: "ancient", chance: 0.0005, multiplier: 12 },
 ]);
 
+// Tile types that can have rarity tiers (affecting HP and yield)
+export const ALL_RESOURCE_TYPES = Object.freeze([
+  TILE_TYPES.DIRT,
+  TILE_TYPES.STONE,
+  TILE_TYPES.COPPER,
+  TILE_TYPES.DARK_DIRT_NORMAL,
+  TILE_TYPES.DARK_DIRT_STRONG,
+  TILE_TYPES.BRONZE,
+  TILE_TYPES.STEEL,
+  TILE_TYPES.IRON,
+  TILE_TYPES.SILVER,
+  TILE_TYPES.GOLD,
+]);
+
 function hashUint(tx, ty, seed, salt = 0) {
   let value = Math.imul(tx | 0, 0x1f123bb5) ^ Math.imul(ty | 0, 0x5f356495);
   value ^= Math.imul(seed | 0, 0x6c8e9cf5) ^ Math.imul(salt | 0, 0x27d4eb2d);

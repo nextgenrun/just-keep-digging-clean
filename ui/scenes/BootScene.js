@@ -1,5 +1,7 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { PLAYER_ASSET_PROFILES } from "../../values/playerAssetProfiles.js";
+import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
+import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import {
   MENU_BACKGROUND_ASSETS,
   createMenuLoadingScreen,
@@ -10,12 +12,118 @@ import {
 
 const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep Digging Logo_simple_compose_01kkt3qqn1f9c95wecwtsbqe9y-Photoroom.webp";
 
-  export class BootScene extends Phaser.Scene {
+function makeAuthoredBackgroundKey(path) {
+  const keyName = getRuntimeAuthoredAssetFilename(path) || String(path);
+  const slug = keyName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  return `authored-bg-${slug || "asset"}`;
+}
+
+function collectAuthoredBackgroundPaths(tiledBackgroundObjects) {
+  const paths = new Set();
+  const layers = tiledBackgroundObjects?.layers ?? {};
+  for (const objects of Object.values(layers)) {
+    if (!Array.isArray(objects)) continue;
+    for (const obj of objects) {
+      const resolvedFilename = extractAuthoredObjectFilename(obj?.resolvedFilename);
+      if (resolvedFilename) {
+        paths.add(resolvedFilename);
+        continue;
+      }
+
+      const sourcePath = obj?.properties?.sourcePath;
+      if (typeof sourcePath === "string" && sourcePath.trim()) {
+        paths.add(sourcePath.trim().replace(/\\/g, "/"));
+      } else {
+        const imageName = extractAuthoredObjectFilename(obj?.name);
+        if (imageName) paths.add(imageName);
+      }
+    }
+  }
+  return [...paths].sort();
+}
+
+const AUTHORED_LAYER_BASE = "exports/dig_game_12layer_palette_true_separate_v1/sprites/backgrounds/12layer-true-separate-v1/";
+const AUTHORED_L11_PROPS_BASE = "exports/pallet-v9/dig_game_empty_backgrounds_and_separate_props_v1/sprites/props/near_props_seam_breakers/";
+const AUTHORED_LAYER_DIRS = Object.freeze({
+  l01: "l01_base_colour_field",
+  l02: "l02_atmospheric_depth",
+  l03: "l03_far_light_volume",
+  l04: "l04_distant_skyline_belt",
+  l05: "l05_far_landmark_band",
+  l06: "l06_mid_terrain_masses",
+  l07: "l07_mid_structural_cards",
+  l08: "l08_overhang_ceiling_cards",
+  l09: "l09_foreground_frame_layer",
+  l10: "l10_traversable_edge_cards",
+  l11: "l11_near_props_seam_breakers",
+  l12: "l12_fx_accent_layer",
+});
+
+function isAuthoredLayerImageName(name) {
+  return typeof name === "string" && /__l\d{2}__.+\.png$/i.test(name.trim());
+}
+
+function extractAuthoredObjectFilename(name) {
+  if (typeof name !== "string") return "";
+  const cleaned = name.trim().replace(/^\d+:\s*/, "").replace(/\\/g, "/");
+  const filename = cleaned.split("/").pop() || "";
+  return /\.(png|webp)$/i.test(filename) ? filename : "";
+}
+
+function resolveAuthoredBackgroundPath(path) {
+  const normalized = String(path || "").trim().replace(/\\/g, "/");
+  if (normalized.startsWith("sprites/backgrounds/generated-runtime-v1/")) {
+    return normalized.replace(
+      "sprites/backgrounds/generated-runtime-v1/",
+      "exports/dig_game_runtime_bg_props_v1/sprites/backgrounds/generated-runtime-v1/"
+    );
+  }
+  if (normalized.startsWith("sprites/background-props/generated-runtime-v1/")) {
+    return normalized.replace(
+      "sprites/background-props/generated-runtime-v1/",
+      "exports/cleaned/dig_game_palette_clean_overwrite_runtime_v3/sprites/background-props/generated-runtime-v1/"
+    );
+  }
+
+  const filename = extractAuthoredObjectFilename(normalized);
+  const layerFilename = getRuntimeAuthoredLayerFilename(filename);
+  if (isAuthoredLayerImageName(layerFilename)) {
+    const layerId = layerFilename.match(/__(l\d{2})__/i)?.[1]?.toLowerCase();
+    if (layerId === "l11") return `${AUTHORED_L11_PROPS_BASE}${layerFilename}`;
+
+    const layerDir = AUTHORED_LAYER_DIRS[layerId];
+    if (layerDir) return `${AUTHORED_LAYER_BASE}${layerDir}/${layerFilename}`;
+  }
+  if (/^bg_.+\.webp$/i.test(filename)) {
+    return `exports/dig_game_runtime_bg_props_v1/sprites/backgrounds/generated-runtime-v1/${filename}`;
+  }
+  if (/^prop_.+\.webp$/i.test(filename)) {
+    return `exports/cleaned/dig_game_palette_clean_overwrite_runtime_v3/sprites/background-props/generated-runtime-v1/${filename}`;
+  }
+  return normalized;
+}
+
+function getRuntimeAuthoredAssetFilename(path) {
+  const filename = extractAuthoredObjectFilename(path);
+  return getRuntimeAuthoredLayerFilename(filename || String(path || ""));
+}
+
+function getRuntimeAuthoredLayerFilename(filename) {
+  if (typeof filename !== "string") return "";
+  return filename.trim();
+}
+
+export class BootScene extends Phaser.Scene {
   constructor() {
     super("BootScene");
     this.audioAssetManager = null;
     this.debugText = null;
     this.loadingUi = null;
+    this._queuedImagePaths = new Set();
   }
 
   preload() {
@@ -45,7 +153,8 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
   }
 
   queueImage(key, path) {
-    if (!this.textures.exists(key)) {
+    if (!this.textures.exists(key) && !this._queuedImagePaths.has(path)) {
+      this._queuedImagePaths.add(path);
       this.load.image(key, path);
     }
   }
@@ -57,16 +166,43 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
   }
 
   async startFullPreload() {
+    const totalMessages = LOADING_MESSAGES.length;
+
+    // Build a shuffled index pool so we cycle randomly without repeats
+    let msgPool = Array.from({ length: totalMessages }, (_, i) => i);
+    // Fisher-Yates shuffle
+    for (let i = msgPool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [msgPool[i], msgPool[j]] = [msgPool[j], msgPool[i]];
+    }
+    let poolIndex = 0;
+
+    // Start at a random message
+    const startIndex = Math.floor(Math.random() * totalMessages);
+    const initial = LOADING_MESSAGES[startIndex];
     this.loadingUi = createMenuLoadingScreen(this, {
       title: "Just Keep Digging",
       subtitle: "A L P H A",
-      label: "Loading game assets...",
-      detail: "Preparing the mine...",
+      label: initial.label,
+      detail: initial.detail,
       preferLogo: true,
       progress: 0,
       backgroundKey: getSelectedMenuBackgroundKey(),
       backgroundAlpha: 0.24,
       overlayAlpha: 0.34,
+    });
+
+    // Cycle messages every 8 seconds — randomly shuffled
+    this._messageTimer = this.time.addEvent({
+      delay: 8000,
+      loop: true,
+      callback: () => {
+        const idx = msgPool[poolIndex % totalMessages];
+        poolIndex = (poolIndex + 1) % totalMessages;
+        const msg = LOADING_MESSAGES[idx];
+        this.loadingUi?.setLabel(msg.label);
+        this.loadingUi?.setDetail(msg.detail);
+      },
     });
 
     const onProgress = (value) => {
@@ -81,8 +217,10 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
     this.load.once('complete', () => {
       this.load.off('progress', onProgress);
       this.load.off('loaderror', onLoadError);
+      this._messageTimer?.remove();
       this.loadingUi?.setProgress(1);
-      this.loadingUi?.setLabel("Loading complete");
+      this.loadingUi?.setLabel("Loading complete!");
+      this.loadingUi?.setDetail("The mine awaits...");
       this.loadingUi?.fadeOut(300, () => this.finishBoot());
     });
 
@@ -100,31 +238,6 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
 
   preloadBranding() {
     this.queueImage(ASSET_KEYS.branding.logo, BRAND_LOGO_PATH);
-
-    // UI sprite kit
-    const ui = ASSET_KEYS.ui;
-    const p  = "sprites/UI/ui-gen/";
-    this.load.image(ui.barHp,            p + "20260316_0351_Image Generation_remix_01kkt5c76pfbhtg2w4yq8pcqc8.webp");
-    this.load.image(ui.barGp,            p + "20260316_0351_Image Generation_remix_01kkt5cdxafmfafm2y6eww32qc.webp");
-    this.load.image(ui.barFrameEmpty,    p + "20260316_0357_Image Generation_remix_01kkt5pzwhfx49xkad9w6fb6e0.webp");
-    this.load.image(ui.panelLarge,       p + "20260316_0357_Image Generation_remix_01kkt5q4rdf4ebemzkmpsc7h29.webp");
-    this.load.image(ui.btnSelect,        p + "20260316_0359_Image Generation_remix_01kkt5v3dvf6k93k4ke0fj4bjr.webp");
-    this.load.image(ui.hudBars,          p + "20260316_0359_Image Generation_remix_01kkt5vbc7fbns7exccv3yqctj.webp");
-    this.load.image(ui.panelHudStat,     p + "20260316_0406_Mining Game HUD_remix_01kkt67fbrepx9pfywvg37sq0s.webp");
-    this.load.image(ui.iconPickaxe,      p + "20260316_0406_Image Generation_remix_01kkt67myae28aq23kh3m74tz0.webp");
-    this.load.image(ui.resourceBar4slot, p + "20260316_0407_Image Generation_remix_01kkt6arnkfr4va0q2e63say5w.webp");
-    this.load.image(ui.slotFrame,        p + "20260316_0407_Image Generation_remix_01kkt6aw0eftpr5c7nvk4y8384.webp");
-    this.load.image(ui.iconsResources,   p + "20260316_0410_Image Generation_remix_01kkt6g4rjeqcs2hchf5wkkadn.webp");
-    this.load.image(ui.iconCoin,         p + "20260316_0411_Image Generation_remix_01kkt6g7rpfjgbeksmarjgrsrn.webp");
-    this.load.image(ui.btnMusicStates,   p + "20260316_0412_Fantasy Game UI_remix_01kkt6jze4fxeb3jq32gtmzbyp.webp");
-    this.load.image(ui.btnSfxStates,     p + "20260316_0412_Image Generation_remix_01kkt6k2shf609qk0j2t7a0m5q.webp");
-    this.load.image(ui.cardShopStates,   p + "20260316_0414_Image Generation_remix_01kkt6pnqsfwc8zkbh2smjynn7.webp");
-    this.load.image(ui.barXp,            p + "20260316_0414_Image Generation_remix_01kkt6pt49feysk41jpxspny1p.webp");
-    this.load.image(ui.popupLevelup,     p + "20260316_0416_Image Generation_remix_01kkt6stmrfcdv1z9xkjkqtn0m.webp");
-    this.load.image(ui.panelOverlay,     p + "20260316_0416_Image Generation_remix_01kkt6syasesxt699tztd4emjd.webp");
-    this.load.image(ui.btnStates,        p + "20260316_0417_Image Generation_remix_01kkt6wsz9ens96g9h1yx6hv3r.webp");
-    this.load.image(ui.btnCloseStates,   p + "20260316_0417_Image Generation_remix_01kkt6wxphf9crzxcrmb90x93x.webp");
-    this.load.image(ui.panelDeath,       p + "20260316_0420_Image Generation_remix_01kkt70qf8frd9955knc33gy1w.webp");
   }
 
   preloadBackgrounds() {
@@ -160,7 +273,15 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
     this.load.image(sky.planet1, skyBase + "sky-v3-planet-1.webp");
     this.load.image(sky.planet2, skyBase + "sky-v3-planet-2.webp");
 
-    // Surface decorative elements
+    this.preloadAuthoredBackgroundObjects();
+  }
+
+  preloadAuthoredBackgroundObjects() {
+    const paths = collectAuthoredBackgroundPaths(TILED_BACKGROUND_OBJECTS);
+    paths.forEach((path) => {
+      this.queueImage(makeAuthoredBackgroundKey(path), resolveAuthoredBackgroundPath(path));
+    });
+    console.log(`[BootScene] Queued ${paths.length} authored TMX background assets`);
   }
 
   preloadConstellationSprites() {
@@ -305,33 +426,64 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
 
   preloadPlayerSprites() {
     const baseV2 = "sprites/character/character-v2";
-    const baseV5Walk = "sprites/character/character-v5-walk";
     const player = ASSET_KEYS.player;
     const frame341 = { frameWidth: 341, frameHeight: 341 };
-    const v5CharacterVersion = "v5-idle-walk-upscale-20260623";
+    const runtimeV8Base = "sprites/character/character-v8/runtime";
+    const legacyRuntimeVersion = "legacy-v8-polish-20260701";
 
-    this.load.spritesheet(player.idleSheet, `${baseV5Walk}/idle-sheet.webp?v=${v5CharacterVersion}`, {
+    this.load.spritesheet(player.idleSheet, `${runtimeV8Base}/legacy-idle-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
       ...frame341, endFrame: player.idleFrames.length - 1,
     });
-    this.load.spritesheet(player.walkSheet, `${baseV5Walk}/walk-sheet.webp?v=${v5CharacterVersion}`, {
+    this.load.spritesheet(player.walkSheet, `${runtimeV8Base}/legacy-walk-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
       ...frame341, endFrame: player.walkFrames.length - 1,
     });
-    this.load.spritesheet(player.digSidewaysSheet, `${baseV5Walk}/dig/dig-sideways-sheet.webp?v=${v5CharacterVersion}`, {
+    this.load.spritesheet(player.digSidewaysSheet, `${runtimeV8Base}/legacy-dig-sideways-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
       ...frame341, endFrame: player.digSidewaysFrames.length - 1,
     });
-    this.load.spritesheet(player.digUpSheet, `${baseV5Walk}/dig/dig-up-sheet.webp?v=${v5CharacterVersion}`, {
+    this.load.spritesheet(player.digUpSheet, `${runtimeV8Base}/legacy-dig-up-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
       ...frame341, endFrame: player.digUpFrames.length - 1,
     });
-    this.load.spritesheet(player.digUpSidewaysSheet, `${baseV5Walk}/dig/dig-up-sideways-sheet.webp?v=${v5CharacterVersion}`, {
+    this.load.spritesheet(player.digUpSidewaysSheet, `${runtimeV8Base}/legacy-dig-up-sideways-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
       ...frame341, endFrame: player.digUpSidewaysFrames.length - 1,
     });
-    this.load.spritesheet(player.flyClimbSheet, `${baseV5Walk}/fly-climb/fly-climb-sheet.webp?v=${v5CharacterVersion}`, {
+    this.load.spritesheet(player.flyClimbSheet, `${runtimeV8Base}/legacy-fly-climb-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
       ...frame341, endFrame: player.flyClimbFrames.length - 1,
     });
-    this.load.image(player.digUpLookFrame, `${baseV5Walk}/dig/dig-up-look.png?v=${v5CharacterVersion}`);
+    this.load.image(player.digUpLookFrame, `${runtimeV8Base}/legacy-dig-up-look-clean.png?v=${legacyRuntimeVersion}`);
 
+    this.load.spritesheet(player.duckSheet, `${runtimeV8Base}/duck-downwards-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.duckFrames.length - 1,
+    });
+    this.load.spritesheet(player.digDownSheet, `${runtimeV8Base}/dig-down-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.digDownFrames.length - 1,
+    });
+    this.load.spritesheet(player.thunderStrikeChargeSheet, `${runtimeV8Base}/thunder-charge-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.thunderStrikeChargeFrames.length - 1,
+    });
+    this.load.spritesheet(player.thunderStrikeStrikeSheet, `${runtimeV8Base}/thunder-strike-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.thunderStrikeStrikeFrames.length - 1,
+    });
+
+    this.load.spritesheet(player.wallPushSheet, `${runtimeV8Base}/wall-push-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.wallPushFrames.length - 1,
+    });
+    this.load.spritesheet(player.leanAgainstWallSheet, `${runtimeV8Base}/leans-against-wall-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.leanAgainstWallFrames.length - 1,
+    });
+    this.load.spritesheet(player.fallingSheet, `${runtimeV8Base}/falling-downward-through-sky-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.fallingFrames.length - 1,
+    });
+    this.load.spritesheet(player.walkRunSheet, `${runtimeV8Base}/walk-run-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.walkRunFrames.length - 1,
+    });
+    this.load.spritesheet(player.combatIdleRecoverSheet, `${runtimeV8Base}/combat-idle-recover-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.combatIdleRecoverFrames.length - 1,
+    });
+    this.load.spritesheet(player.combatIdleToNormalIdleSheet, `${runtimeV8Base}/combat-idle-to-normal-idle-sheet.webp?v=${legacyRuntimeVersion}`, {
+      ...frame341, endFrame: player.combatIdleToNormalIdleFrames.length - 1,
+    });
     const movementBase = `${baseV2}/character-movement/movement-bare-hands`;
-    this.load.image('char-v2-jump-1', `${movementBase}/jump/jump-1.webp`);
+    this.load.image('char-v2-airborne-1', `${movementBase}/jump/jump-1.webp`);
     this.load.image('char-v2-duck-1', `${movementBase}/duck/duck-1.webp`);
 
     const digBase = `${baseV2}/digging/digging-bare-hand`;
@@ -363,7 +515,7 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
     loadRobotSheet(robot.walkLoopSheet, "walk-loop-sheet.webp", robot.walkLoopFrames);
     loadRobotSheet(robot.walkRunSheet, "walk-run-sheet.webp", robot.walkRunFrames);
     loadRobotSheet(robot.walkStopSheet, "walk-stop-sheet.webp", robot.walkStopFrames);
-    loadRobotSheet(robot.jumpSheet, "jump-sheet.webp", robot.jumpFrames);
+    loadRobotSheet(robot.airborneSheet, "jump-sheet.webp", robot.airborneFrames);
     loadRobotSheet(robot.fallingSheet, "falling-sheet.webp", robot.fallingFrames);
     loadRobotSheet(robot.duckSheet, "duck-sheet.webp", robot.duckFrames);
     loadRobotSheet(robot.digDownSheet, "dig-down-sheet.webp", robot.digDownFrames);
@@ -500,6 +652,17 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
     this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.copper, "sprites/UI/copper/copper-icon.webp");
+    this.load.image(ASSET_KEYS.ui.lootBag, "sprites/UI/loot-pickups/inventory-bag.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.stone, "sprites/UI/loot-pickups/stone.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.copper, "sprites/UI/loot-pickups/copper.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.darkDirtNormal, "sprites/UI/loot-pickups/dark-dirt-normal.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.darkDirtStrong, "sprites/UI/loot-pickups/dark-dirt-strong.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.steel, "sprites/UI/loot-pickups/steel.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.iron, "sprites/UI/loot-pickups/iron.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.bronze, "sprites/UI/loot-pickups/bronze.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.silver, "sprites/UI/loot-pickups/silver.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.gold, "sprites/UI/loot-pickups/gold.png");
   }
 
   createAnimations() {
@@ -561,22 +724,46 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
     });
 
     this.anims.create({
-      key: ASSET_KEYS.player.jumpAnim,
-      frames: ASSET_KEYS.player.jumpFrames.map((key) => ({ key })),
+      key: ASSET_KEYS.player.airborneAnim,
+      frames: ASSET_KEYS.player.airborneFrames.map((key) => ({ key })),
       frameRate: 12,
       repeat: 0,
     });
 
-    this.anims.create({
-      key: ASSET_KEYS.player.duckAnim,
-      frames: ASSET_KEYS.player.duckFrames.map((key) => ({ key })),
-      frameRate: 8,
-      repeat: 0,
-    });
+    if (this.textures.exists(ASSET_KEYS.player.duckSheet)) {
+      createSheetAnim(ASSET_KEYS.player.duckAnim, ASSET_KEYS.player.duckSheet, ASSET_KEYS.player.duckFrames, ASSET_KEYS.player.duckAnimationFps, 0);
+    } else {
+      this.anims.create({
+        key: ASSET_KEYS.player.duckAnim,
+        frames: [{ key: "char-v2-duck-1" }],
+        frameRate: 8,
+        repeat: 0,
+      });
+    }
 
-    // v8 dig down animation — only create if the spritesheet texture exists
+    if (this.textures.exists(ASSET_KEYS.player.walkRunSheet)) {
+      createSheetAnim(ASSET_KEYS.player.walkRunAnim, ASSET_KEYS.player.walkRunSheet, ASSET_KEYS.player.walkRunFrames, ASSET_KEYS.player.walkRunAnimationFps, -1);
+    }
+    if (this.textures.exists(ASSET_KEYS.player.fallingSheet)) {
+      createSheetAnim(ASSET_KEYS.player.fallingAnim, ASSET_KEYS.player.fallingSheet, ASSET_KEYS.player.fallingFrames, ASSET_KEYS.player.fallingAnimationFps, -1);
+    }
+    if (this.textures.exists(ASSET_KEYS.player.wallPushSheet)) {
+      createSheetAnim(ASSET_KEYS.player.wallPushAnim, ASSET_KEYS.player.wallPushSheet, ASSET_KEYS.player.wallPushFrames, ASSET_KEYS.player.wallPushAnimationFps, -1);
+    }
+    if (this.textures.exists(ASSET_KEYS.player.leanAgainstWallSheet)) {
+      createSheetAnim(ASSET_KEYS.player.leanAgainstWallAnim, ASSET_KEYS.player.leanAgainstWallSheet, ASSET_KEYS.player.leanAgainstWallFrames, ASSET_KEYS.player.leanAgainstWallAnimationFps, -1);
+    }
+    if (this.textures.exists(ASSET_KEYS.player.combatIdleRecoverSheet)) {
+      createSheetAnim(ASSET_KEYS.player.combatIdleRecoverAnim, ASSET_KEYS.player.combatIdleRecoverSheet, ASSET_KEYS.player.combatIdleRecoverFrames, ASSET_KEYS.player.combatIdleRecoverAnimationFps, -1);
+    }
+    if (this.textures.exists(ASSET_KEYS.player.combatIdleToNormalIdleSheet)) {
+      createSheetAnim(ASSET_KEYS.player.combatIdleToNormalIdleAnim, ASSET_KEYS.player.combatIdleToNormalIdleSheet, ASSET_KEYS.player.combatIdleToNormalIdleFrames, ASSET_KEYS.player.combatIdleToNormalIdleAnimationFps, 0);
+    }
+
     if (this.textures.exists(ASSET_KEYS.player.digDownSheet)) {
-      createSheetAnim(ASSET_KEYS.player.digDownAnim, ASSET_KEYS.player.digDownSheet, ASSET_KEYS.player.digDownFrames, 12, 0);
+      createSheetAnim(ASSET_KEYS.player.digDownAnim, ASSET_KEYS.player.digDownSheet, ASSET_KEYS.player.digDownFrames, ASSET_KEYS.player.digDownAnimationFps, 0);
+    } else {
+      createImageAnim(ASSET_KEYS.player.digDownAnim, "char-v2-dig-down-1", ASSET_KEYS.player.digDownAnimationFps, 0);
     }
 
     createHitAnims(
@@ -613,28 +800,28 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
       -1
     );
 
-    this.anims.create({
-      key: ASSET_KEYS.player.quickslashAnim,
-      frames: ASSET_KEYS.player.quickslashFrames.map((key) => ({ key })),
-      frameRate: 12,
-      repeat: 0,
-    });
+    if (this.textures.exists(ASSET_KEYS.player.quickslashSheet)) {
+      createSheetAnim(ASSET_KEYS.player.quickslashAnim, ASSET_KEYS.player.quickslashSheet, ASSET_KEYS.player.quickslashFrames, 12, 0);
+    } else {
+      this.anims.create({
+        key: ASSET_KEYS.player.quickslashAnim,
+        frames: [{ key: "char-v2-quickslash-1" }, { key: "char-v2-quickslash-2" }],
+        frameRate: 12,
+        repeat: 0,
+      });
+    }
 
-    // Thunder Strike charge animation (single frame, loops during charging)
-    this.anims.create({
-      key: ASSET_KEYS.player.thunderStrikeChargeAnim,
-      frames: ASSET_KEYS.player.thunderStrikeChargeFrames.map((key) => ({ key })),
-      frameRate: 6, // Slower frame rate for charging effect
-      repeat: -1, // Loop during charge
-    });
+    if (this.textures.exists(ASSET_KEYS.player.thunderStrikeChargeSheet)) {
+      createSheetAnim(ASSET_KEYS.player.thunderStrikeChargeAnim, ASSET_KEYS.player.thunderStrikeChargeSheet, ASSET_KEYS.player.thunderStrikeChargeFrames, ASSET_KEYS.player.thunderStrikeChargeAnimationFps, -1);
+    } else {
+      createImageAnim(ASSET_KEYS.player.thunderStrikeChargeAnim, "char-v2-thunder-charge", 6, -1);
+    }
 
-    // Thunder Strike strike animation (single frame, plays once)
-    this.anims.create({
-      key: ASSET_KEYS.player.thunderStrikeStrikeAnim,
-      frames: ASSET_KEYS.player.thunderStrikeStrikeFrames.map((key) => ({ key })),
-      frameRate: 12,
-      repeat: 0, // Play once
-    });
+    if (this.textures.exists(ASSET_KEYS.player.thunderStrikeStrikeSheet)) {
+      createSheetAnim(ASSET_KEYS.player.thunderStrikeStrikeAnim, ASSET_KEYS.player.thunderStrikeStrikeSheet, ASSET_KEYS.player.thunderStrikeStrikeFrames, ASSET_KEYS.player.thunderStrikeStrikeAnimationFps, 0);
+    } else {
+      createImageAnim(ASSET_KEYS.player.thunderStrikeStrikeAnim, "char-v2-thunder-strike", 12, 0);
+    }
 
     this.anims.create({
       key: ASSET_KEYS.npcs.boboIdleAnim,
@@ -773,7 +960,6 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
       'update-2/I Will Haunt You.wav',
       'update-2/I Will Haunt You(1).wav',
       'update-2/I Will Haunt You(2).wav',
-      'update-2/i wish i could jump!.wav',
       'update-2/Nightmare in my brain.wav',
       "update-2/They Ask Me Why I'm Happy.wav",
       "update-2/They Ask Me Why I'm Happy(1).wav",

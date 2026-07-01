@@ -67,7 +67,7 @@ export class PlayerState {
     }
 
     if (!this.onGround) {
-      this.motionState = "jump";
+      this.motionState = "airborne";
       return;
     }
 
@@ -137,26 +137,6 @@ export class PlayerState {
     this._isClimbing = climbing;
     if (this.physicsBody) {
       this.physicsBody.setClimbing(climbing);
-    }
-  }
-  
-  /**
-   * Get whether player just jumped
-   * @returns {boolean}
-   */
-  justJumped() {
-    return this.physicsBody ? this.physicsBody.isJustJumped() : false;
-  }
-  
-  /**
-   * Set just jumped state
-   * @param {boolean} value
-   */
-  setJustJumped(value) {
-    if (this.physicsBody) {
-      if (!value) {
-        this.physicsBody.resetJustJumped();
-      }
     }
   }
   

@@ -16,6 +16,10 @@ export function createCommonShaderUniforms() {
     uSurfaceAmount: float(1),
     uUndergroundAmount: float(0),
     uUndergroundSignal: float(0),
+    uWeatherWetness: float(0),
+    uWeatherVisibilityPenalty: float(0),
+    uWeatherShelterAmount: float(0),
+    uWeatherGustAmount: float(0),
 
     uNightAmount: float(0),
     uSunAlpha: float(1),

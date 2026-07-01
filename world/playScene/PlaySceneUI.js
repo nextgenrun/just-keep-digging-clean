@@ -60,11 +60,9 @@ export function setupUIMethods(prototype) {
   };
 
   prototype._calcSafeReturnDepth = function() {
-    const effectiveJumpSpeed = this.upgradeSystem.getEffectiveJumpSpeed(this.config.jumpSpeedPxPerSec);
-    const singleJumpPx = (effectiveJumpSpeed * effectiveJumpSpeed) / (2 * this.config.gravityY);
-    const totalJumps = 1 + this.upgradeSystem.getEffectiveExtraJumps(0);
-    const totalReachPx = singleJumpPx * totalJumps;
-    const depthTiles = Math.floor(totalReachPx / this.config.tileSize);
+    const maxFlyTiles = this.playerController?.abilities?.getMaxFlightHeightTiles?.();
+    const fallbackTiles = this.config.safeReturnDepthTiles ?? 3;
+    const depthTiles = Number.isFinite(maxFlyTiles) ? Math.floor(maxFlyTiles) : fallbackTiles;
     return Math.max(2, Math.min(depthTiles, this.config.climbWarningDepthTiles - 1));
   };
 
@@ -80,7 +78,7 @@ export function setupUIMethods(prototype) {
 
     this._safeReturnText.setPosition(HUD_LAYOUT.warnTextX, lineY + HUD_LAYOUT.warnTextOffsetY);
     this._safeReturnText.setText(
-      `✓  Jump reach: ~${depth} tiles deep — safe to return without flying from here`
+      `✓  Current flight return range: ~${depth} tiles`
     );
   };
 
@@ -369,7 +367,7 @@ export function setupUIMethods(prototype) {
                             + Math.round((ue.mineCooldownReduction ?? 0) * 100);
           statRow('MINE SPEED', `+${totalSpdPct}%`, '#7ab8f5');
           if ((ue.walkSpeed ?? 0) > 0) statRow('WALK SPEED', `+${ue.walkSpeed}px/s`);
-          if ((ue.extraJumps ?? 0) > 0) statRow('EXTRA JUMPS', `+${ue.extraJumps}`);
+          if ((ue.levitationSpeed ?? 0) > 0) statRow('FLY SPEED', `+${ue.levitationSpeed}px/s`);
           divider();
           
           statRow('GEM POWER', `${gpRaw} / ${gpMax}`, gpRaw / Math.max(gpMax, 1) > 0.7 ? '#4ecb71' : '#7ab8f5');

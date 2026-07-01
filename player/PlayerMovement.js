@@ -27,11 +27,6 @@ export class PlayerMovement {
   update(dt, collisionSystem, isClimbing) {
     if (!this.body) return;
     
-    // Climbing overrides gravity
-    if (isClimbing) {
-      this.body.vy = 0;
-    }
-    
     // Update physics body (gravity, velocity caps)
     this.body.update(dt);
     
@@ -92,11 +87,6 @@ export class PlayerMovement {
     if (up) this.body.vy = -speed;
     else if (down) this.body.vy = speed;
     else this.body.vy = 0;
-  }
-
-  jump(velocityY) {
-    this.body.vy = velocityY;
-    this.body.justJumped = true;
   }
 
   /**

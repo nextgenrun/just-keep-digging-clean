@@ -15,6 +15,7 @@
 import { CONSTELLATION_BUFFS } from "../../values/constellationBuffs.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 
 // ─── Module-level constants ───────────────────────────────────────────────────
 
@@ -845,14 +846,14 @@ export class StarPillarSystem {
         const sy = centerY + dy * sp;
 
         if (isUnlocked) {
-          this._drawFilledStar(gfx, sx, sy, 14, lineColor, 1.0);
+          this._drawFilledStar(gfx, sx, sy, STAR_CONSTELLATION_CONFIG.chartStarSizePx, lineColor, 1.0);
         } else if (isPartial && pi < collected) {
           // Collected but not yet unlocked — dim filled star in resource color
-          this._drawFilledStar(gfx, sx, sy, 11, lineColor, 0.48);
+          this._drawFilledStar(gfx, sx, sy, STAR_CONSTELLATION_CONFIG.chartPartialStarSizePx, lineColor, 0.48);
         } else {
           // Not yet collected
           gfx.lineStyle(1, isPartial ? lineColor : 0x334455, isPartial ? 0.22 : 0.15);
-          gfx.strokeCircle(sx, sy, 7);
+          gfx.strokeCircle(sx, sy, STAR_CONSTELLATION_CONFIG.chartEmptyStarRadiusPx);
         }
       }
 

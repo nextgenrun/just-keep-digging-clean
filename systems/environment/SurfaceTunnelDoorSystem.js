@@ -1,4 +1,5 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 
 const WORLD_TWO_UPGRADE_ID = "worldTwoTunnelAccess";
@@ -6,9 +7,9 @@ const WORLD_TWO_UPGRADE_ID = "worldTwoTunnelAccess";
 export class SurfaceTunnelDoorSystem {
   constructor(scene, options = {}) {
     this.scene = scene;
-    this.tx = options.tx ?? 69;
-    this.topTy = options.topTy ?? 63;
-    this.heightTiles = options.heightTiles ?? 2;
+    this.tx = options.tx ?? SURFACE_TUNNEL_DOOR_CONFIG.tileX;
+    this.topTy = options.topTy ?? SURFACE_TUNNEL_DOOR_CONFIG.topTileY;
+    this.heightTiles = options.heightTiles ?? SURFACE_TUNNEL_DOOR_CONFIG.heightTiles;
     this.sprite = null;
   }
 

@@ -691,6 +691,45 @@ export class WorldModel {
       `[WorldModel] Applied Tiled world override: ${applied} tiles ` +
       `(${explicitAir} explicit AIR, ${bedrock} BEDROCK) from ${override.source}`
     );
+
+    // Apply root overlay data from the same override file
+    this.applyTiledRootOverlays(override.rootOverlays);
+  }
+
+  /**
+   * Apply authored root overlay data from the TMX's 01_OPTIONAL_root_overlays layer.
+   * @param {object} rootOverlayData - { runs: [startIndex, length, overlayType, ...], stats }
+   */
+  applyTiledRootOverlays(rootOverlayData) {
+    if (!rootOverlayData?.runs || !Array.isArray(rootOverlayData.runs)) {
+      return;
+    }
+
+    const runs = rootOverlayData.runs;
+    let applied = 0;
+
+    for (let i = 0; i < runs.length; i += 3) {
+      const startIndex = runs[i];
+      const runLength = runs[i + 1];
+      const overlayType = runs[i + 2];
+
+      if (!Number.isInteger(startIndex) || !Number.isInteger(runLength) || !Number.isInteger(overlayType)) {
+        continue;
+      }
+
+      for (let offset = 0; offset < runLength; offset += 1) {
+        const idx = startIndex + offset;
+        if (idx < 0 || idx >= this.rootOverlay.length) {
+          continue;
+        }
+        this.rootOverlay[idx] = overlayType;
+        applied += 1;
+      }
+    }
+
+    if (applied > 0) {
+      console.log(`[WorldModel] Applied ${applied} authored root overlays from TMX`);
+    }
   }
 
   // ============ CAVE/GEODE/CRYSTAL PLANNING ============

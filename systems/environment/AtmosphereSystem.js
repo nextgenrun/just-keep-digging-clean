@@ -39,7 +39,8 @@ export class AtmosphereSystem {
 
     this.lightRays.update(time, phase);
 
-    const windPower = ws ? Math.abs(ws.wind || 0) : 0;
+    const weather = ws?.getSnapshot?.();
+    const windPower = ws ? Math.abs(ws.wind || 0) + (weather?.windGustAmount || 0) * 120 : 0;
     this.groundEffects.update(delta, phase, nightAmount, windPower);
   }
 

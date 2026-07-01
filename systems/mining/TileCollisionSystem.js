@@ -103,7 +103,7 @@ export class TileCollisionSystem {
         }
       }
     } else if (amount < 0) {
-      // Moving up (jumping)
+      // Moving up
       const tileTop = this.worldToTile(top);
 
       for (let tx = tileLeft; tx <= tileRight; tx++) {
@@ -167,7 +167,7 @@ export class TileCollisionSystem {
 
   /**
    * Activate ceiling guard for specified number of frames
-   * Used after air jumps or dashes to prevent tunneling
+   * Used after fast air movement or dashes to prevent tunneling
    * @param {number} frames - Number of frames to keep guard active
    */
   activateCeilingGuard(frames = 5) {

@@ -24,7 +24,7 @@ export class WelcomeMessageGenerator {
         (!saveData.resources || this.isEmptyResources(saveData.resources))) {
       return {
         title: "",
-        body:       `Press ENTER,\n${USER_SETTINGS.getKeyLabel("moveLeft")}/${USER_SETTINGS.getKeyLabel("aimUp")}/${USER_SETTINGS.getKeyLabel("aimDown")}/${USER_SETTINGS.getKeyLabel("moveRight")} move and aim, ${USER_SETTINGS.getKeyLabel("jump")} fly, ${USER_SETTINGS.getKeyLabel("dig")} dig\n\n\n`,
+        body:       `Press ENTER,\n${USER_SETTINGS.getKeyLabel("moveLeft")}/${USER_SETTINGS.getKeyLabel("aimUp")}/${USER_SETTINGS.getKeyLabel("aimDown")}/${USER_SETTINGS.getKeyLabel("moveRight")} move and aim, ${USER_SETTINGS.getKeyLabel("fly")} fly, ${USER_SETTINGS.getKeyLabel("dig")} dig\n\n\n`,
         status: "Press ENTER to start",
         statusColor: "#9bc9ff"
       };

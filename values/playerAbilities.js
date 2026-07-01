@@ -20,6 +20,7 @@ export const PLAYER_ABILITIES_CONFIG = Object.freeze({
   thunderStrikeCost: 100,
   thunderStrikeChargeTimeMs: 1000,
   thunderStrikeMaxTiles: 10,
+  thunderStrikeBaseDamage: 50,
   thunderStrikeBaseDamageMultiplier: 3,
   thunderStrikeDamageFalloff: 0.10,
 });

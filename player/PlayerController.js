@@ -74,6 +74,11 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
       const speedMultiplier = this.playerLevelSystem.getMovementSpeedMultiplier();
       baseSpeed = baseSpeed * speedMultiplier;
     }
+
+    if (this.abilities?.isQuickslashActive?.()) {
+      const quickslashBurstSpeed = this.abilities.getConstellationStats?.().quickslashBurstSpeed || 0;
+      baseSpeed += quickslashBurstSpeed;
+    }
     
     return baseSpeed;
   }
@@ -101,6 +106,7 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     
     // Update abilities (climbing, gem power regen)
     this.abilities.update(dt, this.input, this.state.isGrounded(), this.movement.isFacingRight());
+    this.state.setClimbing(Boolean(this.abilities.isClimbing?.() || this.abilities.isFlying?.()));
     
     // Update movement (pass collision system for tile-based collision resolution)
     this.movement.update(dt, this.collisionSystem, this.state.isClimbing());
@@ -108,7 +114,7 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     // Apply horizontal movement
     if (this.externalKnockbackMs <= 0) {
       const horizMove = this.input.getHorizontalMovement();
-      this.movement.applyHorizontalMovement(this._getWalkSpeed(), horizMove.left, horizMove.right);
+      this.movement.applyHorizontalMovement(this._getWeatherAdjustedWalkSpeed(), horizMove.left, horizMove.right);
     }
     
     // Update aim
@@ -117,10 +123,15 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     // Sync sprite position with physics body
     this._syncSpriteWithPhysics();
     
-    // Reset just jumped state after one frame
-    if (this.physicsBody.isJustJumped()) {
-      this.physicsBody.resetJustJumped();
-    }
+  }
+
+  _getWeatherAdjustedWalkSpeed() {
+    const baseSpeed = this._getWalkSpeed();
+    const weatherState = this.scene?.weatherSystem?.getPlayerWeatherState?.();
+    const penalty = weatherState?.onWetSurface
+      ? (weatherState.movementWetnessPenalty || 0)
+      : 0;
+    return baseSpeed * Math.max(0.1, 1 - penalty);
   }
   
   /**
@@ -132,18 +143,23 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
   _syncSpriteWithPhysics() {
     if (!this.physicsBody || !this.sprite) return;
     
-    const oldSpriteX = this.sprite.x;
-    const oldSpriteY = this.sprite.y;
-    
-    // Physics body uses top-left coordinates, sprite origin is bottom-center (0.5, 1)
-    // Align sprite center X with physics body center X
-    this.sprite.x = this.physicsBody.x + this.physicsBody.w / 2;
-    
-    // Align grounded visual poses to the same floor contact used by the V5 walk sheet.
+    // Physics body uses top-left coordinates. Most character sheets are bottom-center
+    // anchored; one-tile vehicle bodies can opt into center anchoring.
     const motionState = this.getMotionState();
-    const isAirborneVisual = motionState === 'jump' || motionState === 'climb';
+    const isAirborneVisual = motionState === 'airborne' || motionState === 'climb';
     const groundedVisualYOffset = !isAirborneVisual && this.state.isGrounded() ? 6 : 0;
-    this.sprite.y = this.physicsBody.y + this.physicsBody.h + groundedVisualYOffset;
+    this.sprite.x = this.physicsBody.x + this.physicsBody.w / 2;
+    if (this.config.playerVisualOriginCenter) {
+      this.sprite.y = this.physicsBody.y + this.physicsBody.h / 2;
+    } else {
+      this.sprite.y = this.physicsBody.y + this.physicsBody.h + groundedVisualYOffset;
+    }
+
+    const visualOffset = this.sprite.getData?.("visualOffset");
+    if (visualOffset) {
+      this.sprite.x += visualOffset.x || 0;
+      this.sprite.y += visualOffset.y || 0;
+    }
     
   }
   
@@ -192,6 +208,10 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
 
   getGemPowerMax() {
     return this.abilities.getGemPowerMax();
+  }
+
+  setProgressionGemPowerMaxBonus(bonus) {
+    this.abilities?.setProgressionGemPowerMaxBonus?.(bonus);
   }
 
   hasGemPower() {

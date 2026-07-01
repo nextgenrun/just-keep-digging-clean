@@ -11,5 +11,5 @@ export function createPlayerAnims(scene) {
   // scene.anims.create({ key: "player-walk", frames: [...], frameRate: 10, repeat: -1 });
   // scene.anims.create({ key: "player-dig", frames: [...], frameRate: 12, repeat: 0 });
   // scene.anims.create({ key: "player-climb", frames: [...], frameRate: 8, repeat: -1 });
-  // scene.anims.create({ key: "player-jump", frames: [...], frameRate: 10, repeat: 0 });
+  // scene.anims.create({ key: "player-airborne", frames: [...], frameRate: 10, repeat: 0 });
 }

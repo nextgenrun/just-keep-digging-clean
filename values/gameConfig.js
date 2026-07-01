@@ -9,6 +9,12 @@ const DEBUG_MODE = true;
 
 export const GAME_CONFIG = Object.freeze({
   debugMode: DEBUG_MODE,
+  // Feature flags. Disable with lootVisuals: false or featureFlags["loot-visuals"]: false.
+  lootVisuals: true,
+  featureFlags: Object.freeze({
+    lootVisuals: true,
+    "loot-visuals": true,
+  }),
   // Viewport & World
   viewportWidth: 1280,
   viewportHeight: 720,

@@ -3,6 +3,7 @@ import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ensureHudTorchTextures } from "../../ui/GeneratedHudTextures.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 
 export class HUDSystem {
   constructor(scene, maxXTile, refreshIntervalMs = 90) {
@@ -247,6 +248,8 @@ export class HUDSystem {
       .setScrollFactor(0)
       .setDepth(HUD_LAYOUT.hudDepth + 1);
 
+    this._createLootBagTarget();
+
     this.refresh();
     this.statsDirty = false;
   }
@@ -257,6 +260,85 @@ export class HUDSystem {
 
   setSpecialBlockEffectsManager(manager) {
     this.specialBlockEffectsManager = manager;
+  }
+
+  _createLootBagTarget() {
+    const featureFlags = this.scene.config?.featureFlags;
+    const lootVisualsEnabled = this.scene.config?.lootVisuals !== false
+      && featureFlags?.lootVisuals !== false
+      && featureFlags?.["loot-visuals"] !== false;
+    const vw = this.scene.scale?.width || 1280;
+    const vh = this.scene.scale?.height || 720;
+    const x = vw - 42;
+    const y = vh - 42;
+
+    this.lootBagContainer = this.scene.add.container(x, y)
+      .setScrollFactor(0)
+      .setDepth(HUD_LAYOUT.hudOverlayDepth + 4)
+      .setVisible(lootVisualsEnabled);
+
+    const bg = this.scene.add.rectangle(0, 0, 50, 50, 0x101820, 0.82);
+    bg.setStrokeStyle(2, 0xc9a227, 0.9);
+    bg.setOrigin(0.5);
+
+    if (this.scene.textures.exists(ASSET_KEYS.ui.lootBag)) {
+      this.lootBagIcon = this.scene.add.image(0, 0, ASSET_KEYS.ui.lootBag)
+        .setDisplaySize(46, 46);
+    } else {
+      this.lootBagIcon = this._createFallbackLootBagGraphic();
+    }
+
+    const badgeBg = this.scene.add.rectangle(15, 15, 17, 15, 0xffd98f, 1).setOrigin(0.5);
+    badgeBg.setStrokeStyle(1, 0x101820, 0.85);
+    this.lootBagBadge = this.scene.add.text(15, 15, "I", {
+      fontFamily: "Consolas, monospace",
+      fontSize: "12px",
+      color: "#101820",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
+
+    this.lootBagContainer.add([bg, this.lootBagIcon, badgeBg, this.lootBagBadge]);
+  }
+
+  _createFallbackLootBagGraphic() {
+    const bag = this.scene.add.graphics();
+    bag.fillStyle(0x8a5a2b, 1);
+    bag.fillRoundedRect(-14, -6, 28, 23, 4);
+    bag.lineStyle(2, 0xffd98f, 0.9);
+    bag.strokeRoundedRect(-14, -6, 28, 23, 4);
+    bag.lineStyle(3, 0x5a351b, 1);
+    bag.beginPath();
+    bag.arc(0, -6, 9, Math.PI, Math.PI * 2);
+    bag.strokePath();
+    bag.fillStyle(0xffd98f, 1);
+    bag.fillRect(-3, 3, 6, 5);
+    return bag;
+  }
+
+  getLootPickupTarget() {
+    if (!this.lootBagContainer) {
+      const vw = this.scene.scale?.width || 1280;
+      const vh = this.scene.scale?.height || 720;
+      return { x: vw - 42, y: vh - 42 };
+    }
+    return {
+      x: this.lootBagContainer.x,
+      y: this.lootBagContainer.y,
+    };
+  }
+
+  pulseLootTarget(_resourceType = null, strong = false) {
+    if (!this.lootBagContainer || this._destroyed) return;
+    const scale = strong ? 1.24 : 1.14;
+    this.scene.tweens.killTweensOf(this.lootBagContainer);
+    this.lootBagContainer.setScale(1);
+    this.scene.tweens.add({
+      targets: this.lootBagContainer,
+      scale,
+      duration: 90,
+      yoyo: true,
+      ease: "Back.out",
+    });
   }
 
   setDepth(value) {
@@ -322,7 +404,7 @@ export class HUDSystem {
 
   setFlightHeight(currentHeight, maxHeight) {
     const heightStr = `${currentHeight.toFixed(1)}/${maxHeight} tiles`;
-    const flyKey = USER_SETTINGS.getKeyLabel("jump");
+    const flyKey = USER_SETTINGS.getKeyLabel("fly");
     
     if (currentHeight > 0.1) {
       this.flyHintText.setText(`✈️ FLYING  (${heightStr})`);
@@ -426,7 +508,10 @@ export class HUDSystem {
       };
       const icon = weatherIcons[snap.kind] || "☀️";
       const label = snap.kind.charAt(0).toUpperCase() + snap.kind.slice(1);
-      this.weatherText.setText(`${icon} ${label}`);
+      const forecast = snap.forecastKind && snap.forecastKind !== snap.kind
+        ? ` -> ${snap.forecastKind.charAt(0).toUpperCase() + snap.forecastKind.slice(1)}`
+        : "";
+      this.weatherText.setText(`${icon} ${label}${forecast}`);
 
       if (dnc) {
         this.weatherTempText.setText(`${dnc.getCurrentTemperature()}°C`);
@@ -482,7 +567,10 @@ export class HUDSystem {
     this.comboText.setText(`🔥 COMBO ${comboCount}  ${multiplierStr}x`);
     
     let color = this.colors.primary;
-    for (const [tierName, tierConfig] of Object.entries(COMBO_CONFIG.multiplierTiers)) {
+    const multiplierTiers = COMBO_CONFIG.multiplierTiers && typeof COMBO_CONFIG.multiplierTiers === "object"
+      ? COMBO_CONFIG.multiplierTiers
+      : {};
+    for (const tierConfig of Object.values(multiplierTiers)) {
       if (multiplier >= tierConfig.minMultiplier) {
         color = tierConfig.color;
       }
@@ -598,6 +686,7 @@ export class HUDSystem {
       this.clockPanel, this.clockTimeText, this.clockDayText,
       this.weatherPanel, this.weatherText, this.weatherTempText,
       this.weatherSeasonText, this.weatherIntensityBar,
+      this.lootBagContainer,
     ];
     objects.forEach(obj => obj?.destroy());
   }

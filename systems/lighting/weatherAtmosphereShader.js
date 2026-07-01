@@ -14,6 +14,10 @@ uniform float uLightningFlash;
 uniform float uSurfaceAmount;
 uniform float uUndergroundAmount;
 uniform float uUndergroundSignal;
+uniform float uWeatherWetness;
+uniform float uWeatherVisibilityPenalty;
+uniform float uWeatherShelterAmount;
+uniform float uWeatherGustAmount;
 uniform float uNightAmount;
 uniform vec3 uSkyColor;
 uniform vec3 uHorizonColor;
@@ -51,14 +55,20 @@ void main() {
   float t = uGameTime * 0.001;
   float surface = clamp(uSurfaceAmount, 0.0, 1.0);
   float underground = clamp(uUndergroundAmount, 0.0, 1.0);
-  float rain = clamp(uRainAmount, 0.0, 1.0) * surface;
+  float shelter = clamp(uWeatherShelterAmount, 0.0, 1.0);
+  float exposedSurface = surface * (1.0 - shelter * 0.70);
+  float rain = clamp(uRainAmount, 0.0, 1.0) * exposedSurface;
   float storm = clamp(uStormAmount, 0.0, 1.0);
   float cave = clamp(uUndergroundSignal + underground * 0.25, 0.0, 1.0);
+  float wetness = clamp(uWeatherWetness, 0.0, 1.0);
+  float visibility = clamp(uWeatherVisibilityPenalty, 0.0, 1.0);
+  float gust = clamp(uWeatherGustAmount, 0.0, 1.0);
 
   float vertical = smoothstep(1.04, 0.04, uv.y);
-  float cloudNoise = noise(vec2(uv.x * 3.0 + t * 0.025 + uWind * 0.0009, uv.y * 4.4 - t * 0.018));
-  float haze = (rain * 0.18 + storm * surface * 0.13 + uNightAmount * surface * 0.06) * vertical;
-  haze += cloudNoise * rain * 0.10;
+  float cloudNoise = noise(vec2(uv.x * 3.0 + t * (0.025 + gust * 0.030) + uWind * 0.0009, uv.y * 4.4 - t * 0.018));
+  float haze = (rain * 0.18 + storm * exposedSurface * 0.13 + uNightAmount * surface * 0.06) * vertical;
+  haze += cloudNoise * rain * (0.10 + gust * 0.06);
+  haze += visibility * vertical * 0.20;
 
   float rainLine = rainLines(uv, uWind, t) * rain * 0.20;
   float caveNoise = noise(vec2(uv.x * 92.0 + t * 0.55, uv.y * 58.0 - t * 0.28));
@@ -69,10 +79,11 @@ void main() {
   vec3 skyWash = mix(uSkyColor, uHorizonColor, smoothstep(0.74, 0.05, uv.y));
   vec3 color = mix(rainColor, skyWash, 0.20) * haze;
   color += vec3(0.72, 0.88, 1.00) * rainLine;
+  color += vec3(0.42, 0.72, 0.90) * wetness * exposedSurface * smoothstep(0.74, 1.0, uv.y) * 0.035;
   color += caveColor * max(0.0, caveGrain);
-  color += vec3(0.82, 0.93, 1.0) * uLightningFlash * surface * 0.08;
+  color += vec3(0.82, 0.93, 1.0) * uLightningFlash * exposedSurface * 0.08;
 
-  float alpha = clamp((haze + rainLine + max(0.0, caveGrain) + uLightningFlash * surface * 0.05) * uLayerAlpha, 0.0, 0.42);
+  float alpha = clamp((haze + rainLine + wetness * 0.018 + max(0.0, caveGrain) + uLightningFlash * exposedSurface * 0.05) * uLayerAlpha, 0.0, 0.42);
   gl_FragColor = vec4(color * uLayerAlpha, alpha);
 }
 `;

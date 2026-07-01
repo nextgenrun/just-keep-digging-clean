@@ -240,6 +240,10 @@ export class ShaderSystem {
     shader.setUniform("uSurfaceAmount.value", clamp01(weather.surfaceAmount));
     shader.setUniform("uUndergroundAmount.value", clamp01(weather.undergroundAmount));
     shader.setUniform("uUndergroundSignal.value", clamp01(weather.undergroundSignal));
+    shader.setUniform("uWeatherWetness.value", clamp01(weather.worldWetnessAmount ?? weather.surfaceWetness ?? 0));
+    shader.setUniform("uWeatherVisibilityPenalty.value", clamp01(weather.visibilityPenalty));
+    shader.setUniform("uWeatherShelterAmount.value", clamp01(weather.playerShelterAmount));
+    shader.setUniform("uWeatherGustAmount.value", clamp01(weather.windGustAmount ?? weather.gustAmount ?? 0));
 
     shader.setUniform("uNightAmount.value", clamp01(dayNight.nightAmount));
     shader.setUniform("uSunAlpha.value", clamp01(dayNight.sunAlpha));
@@ -329,6 +333,16 @@ export class ShaderSystem {
       surfaceAmount: 1,
       undergroundAmount: 0,
       undergroundSignal: 0,
+      forecastKind: "clear",
+      forecastProgress: 0,
+      stormDistance: 1,
+      playerShelterAmount: 0,
+      visibilityPenalty: 0,
+      movementWetnessPenalty: 0,
+      campfireExposure: 0,
+      windGustAmount: 0,
+      worldWetnessAmount: 0,
+      surfaceWetness: 0,
       lightningFlashAmount: 0,
       isStorming: false,
     };

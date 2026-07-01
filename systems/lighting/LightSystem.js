@@ -209,6 +209,16 @@ export class LightSystem {
       surfaceAmount: 1,
       undergroundAmount: 0,
       undergroundSignal: 0,
+      forecastKind: "clear",
+      forecastProgress: 0,
+      stormDistance: 1,
+      playerShelterAmount: 0,
+      visibilityPenalty: 0,
+      movementWetnessPenalty: 0,
+      campfireExposure: 0,
+      windGustAmount: 0,
+      worldWetnessAmount: 0,
+      surfaceWetness: 0,
       lightningFlashAmount: 0,
       isStorming: false,
     };
@@ -338,8 +348,8 @@ export class LightSystem {
     const radiusWorld = radiusTiles * this.scene.config.tileSize * fire.radiusScale;
 
     camera.matrix.transformPoint(player.x, player.y, this._screenPoint);
-    const screenX = this._screenPoint.x + fire.screenOffsetX * camera.zoomX;
-    const screenY = this._screenPoint.y + fire.screenOffsetY * camera.zoomY;
+    const screenX = this._screenPoint.x - camera.scrollX * camera.zoomX + fire.screenOffsetX * camera.zoomX;
+    const screenY = this._screenPoint.y - camera.scrollY * camera.zoomY + fire.screenOffsetY * camera.zoomY;
 
     this._eraser.setDisplaySize(radiusWorld * 2 * camera.zoomX, radiusWorld * 2 * camera.zoomY);
     darkness.erase(this._eraser, screenX, screenY);
@@ -463,8 +473,8 @@ export class LightSystem {
       if (revealAlpha <= 0.01) continue;
 
       camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
-      const screenX = this._crystalScreenPoint.x;
-      const screenY = this._crystalScreenPoint.y;
+      const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
+      const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
 
       this._crystalEraser
         .setDisplaySize(radiusX * 2 * zoomX, radiusY * 2 * zoomY)
