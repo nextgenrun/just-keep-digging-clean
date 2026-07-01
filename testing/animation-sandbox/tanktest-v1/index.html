@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tank Test V1 - Dig Game</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      background: #101316;
+      color: #d8dde2;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #sandbox-root { position: relative; width: min(100vw, 1280px); }
+    #sandbox-root canvas { display: block; }
+    .overlay {
+      position: absolute;
+      z-index: 10;
+      background: rgba(14, 17, 20, 0.76);
+      border: 1px solid rgba(164, 178, 190, 0.22);
+      color: #d8dde2;
+      text-shadow: 1px 1px 0 #000;
+      backdrop-filter: blur(4px);
+    }
+    #info-overlay {
+      top: 8px;
+      left: 8px;
+      min-width: 260px;
+      padding: 8px 10px;
+      font-size: 12px;
+      line-height: 1.45;
+      pointer-events: none;
+    }
+    #control-panel {
+      top: 8px;
+      right: 8px;
+      width: 244px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px;
+    }
+    #control-panel button {
+      min-height: 26px;
+      border: 1px solid #3d4851;
+      background: #20262c;
+      color: #cfd6dd;
+      font: 11px/1.1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      cursor: pointer;
+    }
+    #control-panel button:hover { background: #2d353d; color: #fff; }
+    #control-panel button.active {
+      border-color: #83c5d8;
+      background: #17424f;
+      color: #f5fdff;
+    }
+    #control-panel .wide { grid-column: span 2; }
+  </style>
+</head>
+<body>
+<div id="sandbox-root">
+  <div id="info-overlay" class="overlay">loading...</div>
+  <div id="control-panel" class="overlay"></div>
+</div>
+<script src="../../../libs/phaser.js"></script>
+<script src="sandbox.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation Sandbox — Dig Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #111; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+    #sandbox-root { position: relative; }
+    #sandbox-root canvas { display: block; }
+    #info-overlay {
+      position: absolute; top: 4px; left: 4px;
+      color: #aaa; font: 12px/1.4 monospace;
+      pointer-events: none; text-shadow: 1px 1px 0 #000;
+      z-index: 10;
+    }
+    #spawn-panel {
+      position: absolute; top: 4px; right: 4px;
+      display: flex; flex-direction: column; gap: 2px;
+      z-index: 10;
+    }
+    #spawn-panel button {
+      font: 10px/1 monospace; padding: 3px 6px;
+      background: #222; color: #ccc; border: 1px solid #444;
+      cursor: pointer; white-space: nowrap;
+    }
+    #spawn-panel button:hover { background: #333; color: #fff; }
+  </style>
+</head>
+<body>
+<div id="sandbox-root">
+  <div id="info-overlay">loading...</div>
+  <div id="spawn-panel"></div>
+</div>
+<script src="../libs/phaser.js"></script>
+<script src="sandbox.js"></script>
+</body>
+</html>
