@@ -18,6 +18,10 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 | `2026-06-25-rewire-imports.bat` | Batch import path rewire |
 | `2026-06-25-compare-stubs.py` | Compare stub files against originals |
 | `2026-06-25-fix-player-stubs.py` | Fix player stub files |
+| `2026-06-30-create-tiled-v8-polish.py` | Create the Tiled-only v8 visual review TMX with repaired/upscaled texture variants |
+| `2026-06-30-create-tiled-v8-bold-composite.py` | Add large composite background plates to v8 to reduce box seams and low-resolution tiled structure |
+| `2026-06-30-create-tiled-v9-world-rebuild.py` | Build a fresh Tiled-only v9 background/object world using current pallet-v9 assets as a full redesign |
+| `2026-07-01-create-cave-geode-crystal-sheet.py` | Create the cave/geode/glow-crystal Tiled template sheet for copy-paste authoring |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.
