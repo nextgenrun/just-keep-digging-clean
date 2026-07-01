@@ -17,7 +17,7 @@ Every numeric value, string constant, spawn rate, price, multiplier, color, size
 | Category | Files | Examples |
 |---|---|---|
 | Game constants | `gameConfig.js` | viewport size, tile size, world dimensions |
-| Player stats | `playerStats.js` | walk speed, jump height, max HP, dig power |
+| Player stats | `playerStats.js` | walk speed, climb/fly speed, max HP, dig power |
 | Player abilities | `playerAbilities.js` | gem power capacity, dash speed, ability costs |
 | Player characters | `playerCharacters.js` | character definitions, base stats per character |
 | UI config | `uiConfig.js` | HUD layout, font sizes, colors, panel sizes |

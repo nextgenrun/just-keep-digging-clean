@@ -9,7 +9,7 @@ Animation frame definitions and creation. These are Phaser animation configs tha
 
 | File | Purpose |
 |------|---------|
-| `PlayerAnims.js` | Player character animation configs (idle, walk, dig, climb, jump) |
+| `PlayerAnims.js` | Player character animation configs (idle, walk, dig, climb, airborne) |
 | `NpcAnims.js` | NPC animation configs (merchants, quest NPCs) |
 | `RobotAnims.js` | Robot character animation configs (alternate player model) |
 

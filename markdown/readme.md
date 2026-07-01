@@ -250,7 +250,7 @@ Every numeric or string game constant lives in `/values/`. This is the single so
 - Spawn rates, resource prices
 - Upgrade costs and multipliers
 - UI colors, layouts, fonts
-- Player stats (walk speed, jump height)
+- Player stats (walk speed, climb/fly speed)
 
 ---
 
