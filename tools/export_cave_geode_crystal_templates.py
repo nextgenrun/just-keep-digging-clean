@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from collections import defaultdict
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -41,9 +42,9 @@ def object_rect(obj: ET.Element) -> dict:
     w = float(obj.attrib.get("width", TILE_PX))
     h = float(obj.attrib.get("height", TILE_PX))
     if "gid" in obj.attrib:
-      top = y - h
+        top = y - h
     else:
-      top = y
+        top = y
     return {
         "left": x,
         "top": top,
@@ -113,8 +114,11 @@ def extract_templates() -> dict:
         rect = anchor["rect"]
         center_x = rect["cx"]
         center_y = rect["cy"]
-        width_tiles = rect["w"] / TILE_PX
-        height_tiles = rect["h"] / TILE_PX
+        rx = float(props.get("rx", 0) or 0)
+        ry = float(props.get("ry", 0) or 0)
+        wall = float(props.get("wallThickness", 0) or 0)
+        width_tiles = (math.ceil(rx + wall) + 2) * 2 + 1
+        height_tiles = (math.ceil(ry + wall) + 2) * 2 + 1
         visual_objects = []
 
         for child in children.get(template_id, []):
@@ -144,11 +148,12 @@ def extract_templates() -> dict:
             "name": anchor["obj"].attrib.get("name", template_id),
             "templateType": props["templateType"],
             "sizeBucket": template_size_bucket(width_tiles, height_tiles),
+            "sizeBand": props.get("sizeBand", ""),
             "widthTiles": round(width_tiles, 3),
             "heightTiles": round(height_tiles, 3),
-            "rx": props.get("rx", 0),
-            "ry": props.get("ry", 0),
-            "wallThickness": props.get("wallThickness", 0),
+            "rx": rx,
+            "ry": ry,
+            "wallThickness": wall,
             "objects": visual_objects,
         })
 

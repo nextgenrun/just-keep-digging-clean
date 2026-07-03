@@ -8,18 +8,24 @@
   "piskel": "sprites/character/character-v8/piskel/walk-run.piskel",
   "frameWidth": 341,
   "frameHeight": 341,
-  "frameCount": 7,
-  "columns": 7,
+  "frameCount": 2,
+  "columns": 2,
   "rows": 1,
   "fps": 16,
   "borderHaloPixelsRemoved": 0,
-  "alphaPixelsChanged": 19830,
+  "alphaPixelsChanged": 10618,
+  "targetedTransforms": {
+    "sourceFrameOrder": [
+      0,
+      1
+    ]
+  },
   "anchor": {
-    "targetCenterX": 170,
+    "targetCenterX": 167,
     "targetBottom": 339,
-    "maxShiftX": 6,
+    "maxShiftX": 4,
     "maxShiftY": 0,
-    "avgShiftX": 2.14,
+    "avgShiftX": 4.0,
     "avgShiftY": 0.0
   },
   "driftBefore": {

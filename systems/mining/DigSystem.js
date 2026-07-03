@@ -6,6 +6,8 @@ import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { getBlockEffect } from "../../values/specialBlocks.js";
 import { getResourceYieldMultiplier, getResourceHpMultiplier } from "../../values/dynamicSoil.js";
 
+const HARD_TILE_TYPES = new Set([TILE_TYPES.STONE, TILE_TYPES.COPPER, TILE_TYPES.STEEL, TILE_TYPES.IRON, TILE_TYPES.BRONZE, TILE_TYPES.SILVER, TILE_TYPES.GOLD]);
+
 const EMPTY_RESOURCES = Object.freeze({
   dirt: 0,
   stone: 0,
@@ -217,6 +219,90 @@ export class DigSystem {
     return Math.max(1, Math.round(damage));
   }
 
+  _getBaseDamageForTile(tileType) {
+    return HARD_TILE_TYPES.has(tileType)
+      ? (MINING_CONFIG.baseDamageHard || 4)
+      : (MINING_CONFIG.baseDamage || 8);
+  }
+
+  _getHeavyPunchFraction() {
+    if (!this.upgradeSystem) return 0;
+    const effects = this.upgradeSystem.getUpgradeEffects?.() || {};
+    return Number.isFinite(effects.heavyPunchDamage)
+      ? Math.max(0, Math.min(1, effects.heavyPunchDamage))
+      : 0;
+  }
+
+  _tryApplyHeavyPunchBehind(targetTile, damage, aimDirection, options = {}) {
+    const heavyPunchResult = {
+      heavyPunchHit: false,
+      heavyPunchTile: null,
+      behindDestroyed: false,
+      behindResourceType: null,
+      behindResourceAmount: 0,
+      behindIsLuckyDrop: false,
+      behindDamage: 0,
+    };
+
+    if (!targetTile || !aimDirection) return heavyPunchResult;
+
+    const heavyPunchFraction = this._getHeavyPunchFraction();
+    if (heavyPunchFraction <= 0) return heavyPunchResult;
+
+    const dirMap = { LEFT: [-1, 0], RIGHT: [1, 0], UP: [0, -1], DOWN: [0, 1] };
+    const dir = dirMap[aimDirection];
+    if (!dir) return heavyPunchResult;
+
+    let bx = targetTile.tx + dir[0];
+    let by = targetTile.ty + dir[1];
+
+    if (options.skipGeodeWallBehind !== false) {
+      const behindType = this.worldModel.inBounds(bx, by) ? this.worldModel.getTileType(bx, by) : null;
+      if (behindType === TILE_TYPES.GEODE_WALL) {
+        bx += dir[0];
+        by += dir[1];
+      }
+    }
+
+    if (!this.worldModel.inBounds(bx, by) || !this.worldModel.isDiggable(bx, by)) {
+      return heavyPunchResult;
+    }
+
+    heavyPunchResult.behindDamage = Math.max(1, Math.floor(damage * heavyPunchFraction));
+    const behindResult = this.worldModel.damageTile(bx, by, heavyPunchResult.behindDamage);
+    if (!behindResult.success) return heavyPunchResult;
+
+    this.worldRenderer.applyTileUpdate(bx, by);
+    heavyPunchResult.heavyPunchHit = true;
+    heavyPunchResult.heavyPunchTile = { tx: bx, ty: by };
+    heavyPunchResult.behindDestroyed = behindResult.destroyed;
+
+    if (behindResult.destroyed) {
+      this.tilesBroken += 1;
+      if (!behindResult.wasRubble) {
+        heavyPunchResult.behindResourceType = tileTypeToResource(behindResult.typeBeforeDamage);
+        if (heavyPunchResult.behindResourceType) {
+          heavyPunchResult.behindResourceAmount = this._getNativeYield(behindResult.typeBeforeDamage, bx, by);
+          if (this._rollLuckyDrop()) {
+            heavyPunchResult.behindResourceAmount += 1;
+            heavyPunchResult.behindIsLuckyDrop = true;
+          }
+          this.resources[heavyPunchResult.behindResourceType] += heavyPunchResult.behindResourceAmount;
+          if (this.playerLevelSystem) {
+            this.playerLevelSystem.gainXP(heavyPunchResult.behindResourceType);
+          }
+        }
+
+        this._handleSpecialBlockEffects(
+          { destroyed: true, typeBeforeDamage: behindResult.typeBeforeDamage },
+          heavyPunchResult.heavyPunchTile
+        );
+      }
+    }
+
+    return heavyPunchResult;
+  }
+
   tryMine(targetTile, nowMs, aimDirection = null, playerAbilities = null) {
     if (nowMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
       return {
@@ -241,32 +327,72 @@ export class DigSystem {
       };
     }
 
+    const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
+
     if (!this.worldModel.isDiggable(targetTile.tx, targetTile.ty)) {
       // Show hint for GEODE_WALL (requires Heavy Punch upgrade)
-      const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
-      if (tileType === TILE_TYPES.GEODE_WALL && this.floatingTextSystem) {
+      if (tileType === TILE_TYPES.GEODE_WALL) {
         const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
         const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-        const hasHeavyPunch = this.upgradeSystem && this.upgradeSystem.getUpgradeLevel('heavyPunch') > 0;
+        const hasHeavyPunch = this._getHeavyPunchFraction() > 0;
         if (hasHeavyPunch) {
+          const baseDamage = this._getBaseDamageForTile(tileType);
+          const damage = this._getDamage(baseDamage, tileType);
+          const heavyPunchResult = this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection, {
+            skipGeodeWallBehind: false,
+          });
+
+          if (heavyPunchResult.heavyPunchHit) {
+            return {
+              success: true,
+              tileType,
+              typeBeforeDamage: tileType,
+              destroyed: false,
+              hp: null,
+              damage,
+              resourceType: null,
+              resourceAmount: 0,
+              resource: null,
+              xpGained: 0,
+              levelUp: false,
+              newLevel: null,
+              hasChoice: false,
+              rewards: null,
+              isCriticalHit: false,
+              isLuckyDrop: false,
+              frontDamageApplied: false,
+              ...heavyPunchResult,
+              specialBlockEffect: null,
+              specialBlockDestroyed: false,
+              gemPowerRestored: 0,
+              levelsGained: 0,
+              skyTileMultiplier: 1,
+              skyTilePassiveBonus: false,
+            };
+          }
+
           // Player has heavy punch but the target is the wall itself (not behind it)
           // Show hint about aiming through the wall
-          this.floatingTextSystem.showFloatingText(
-            worldX, worldY - 12,
-            "⚡ Heavy Punch through wall!",
-            "#ff8800",
-            1000,
-            16
-          );
+          if (this.floatingTextSystem) {
+            this.floatingTextSystem.showFloatingText(
+              worldX, worldY - 12,
+              "⚡ Heavy Punch through wall!",
+              "#ff8800",
+              1000,
+              16
+            );
+          }
         } else {
           // Player has NOT unlocked heavy punch — show upgrade hint
-          this.floatingTextSystem.showFloatingText(
-            worldX, worldY - 12,
-            "⚠ Needs Heavy Punch!",
-            "#ff4444",
-            1500,
-            18
-          );
+          if (this.floatingTextSystem) {
+            this.floatingTextSystem.showFloatingText(
+              worldX, worldY - 12,
+              "⚠ Needs Heavy Punch!",
+              "#ff4444",
+              1500,
+              18
+            );
+          }
         }
       }
       return {
@@ -274,8 +400,6 @@ export class DigSystem {
         reason: "blocked",
       };
     }
-
-    const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
 
     if (playerAbilities?.isQuickslashActive?.()) {
       if (!playerAbilities.canPayQuickslashCost?.()) {
@@ -288,9 +412,7 @@ export class DigSystem {
     }
 
     // Use baseDamageHard for mineral/ore tiles, baseDamage for dirt/soft tiles
-    const HARD_TILE_TYPES = new Set([TILE_TYPES.STONE, TILE_TYPES.COPPER, TILE_TYPES.STEEL, TILE_TYPES.IRON, TILE_TYPES.BRONZE, TILE_TYPES.SILVER, TILE_TYPES.GOLD]);
-    const isHardTile = HARD_TILE_TYPES.has(tileType);
-    let baseDamage = isHardTile ? (MINING_CONFIG.baseDamageHard || 4) : (MINING_CONFIG.baseDamage || 8);
+    let baseDamage = this._getBaseDamageForTile(tileType);
     let specialBlockEffect = null;
     let specialBlockDestroyed = false;
     let gemPowerRestored = 0;
@@ -361,76 +483,8 @@ export class DigSystem {
     }
 
     // Heavy Punch
-    let heavyPunchHit = false;
-    let heavyPunchTile = null;
-    let behindDestroyed = false;
-    let behindResourceType = null;
-    let behindResourceAmount = 0;
-    let behindIsLuckyDrop = false;
-    let behindDamage = 0;
-      if (aimDirection && this.upgradeSystem) {
-      const effects = this.upgradeSystem.getUpgradeEffects();
-      if (effects.heavyPunchDamage > 0) {
-        const heavyPunchLevel = this.upgradeSystem.getUpgradeLevel('heavyPunch');
-        let heavyPunchFraction = 0;
-        
-        if (heavyPunchLevel <= 10) {
-          heavyPunchFraction = heavyPunchLevel * 0.025;
-        } else {
-          heavyPunchFraction = 0.25 + (heavyPunchLevel - 10) * 0.00167;
-        }
-        
-        behindDamage = Math.max(1, Math.floor(damage * heavyPunchFraction));
-        const dirMap = { LEFT: [-1, 0], RIGHT: [1, 0], UP: [0, -1], DOWN: [0, 1] };
-        const dir = dirMap[aimDirection];
-        if (dir) {
-          // First behind tile
-          let bx = targetTile.tx + dir[0];
-          let by = targetTile.ty + dir[1];
-
-          // Check if the behind tile is GEODE_WALL — if so, pass through it and target the next tile
-          // This allows heavy punch to reach GEODE_INTERIOR inside geodes
-          const behindType = this.worldModel.inBounds(bx, by) ? this.worldModel.getTileType(bx, by) : null;
-          if (behindType === TILE_TYPES.GEODE_WALL) {
-            // Skip the wall, aim one tile further
-            bx += dir[0];
-            by += dir[1];
-          }
-
-          if (this.worldModel.inBounds(bx, by) && this.worldModel.isDiggable(bx, by)) {
-            const behindResult = this.worldModel.damageTile(bx, by, behindDamage);
-            if (behindResult.success) {
-              this.worldRenderer.applyTileUpdate(bx, by);
-              heavyPunchHit = true;
-              heavyPunchTile = { tx: bx, ty: by };
-              behindDestroyed = behindResult.destroyed;
-              if (behindResult.destroyed) {
-                this.tilesBroken += 1;
-                if (!behindResult.wasRubble) {
-                  behindResourceType = tileTypeToResource(behindResult.typeBeforeDamage);
-                  if (behindResourceType) {
-                    behindResourceAmount = this._getNativeYield(behindResult.typeBeforeDamage, bx, by);
-                    if (this._rollLuckyDrop()) {
-                      behindResourceAmount += 1;
-                      behindIsLuckyDrop = true;
-                    }
-                    this.resources[behindResourceType] += behindResourceAmount;
-                    if (this.playerLevelSystem) {
-                      this.playerLevelSystem.gainXP(behindResourceType);
-                    }
-                  }
-
-                  this._handleSpecialBlockEffects(
-                    { destroyed: true, typeBeforeDamage: behindResult.typeBeforeDamage },
-                    heavyPunchTile
-                  );
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    const heavyPunchResult = this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection);
+    let { heavyPunchHit, heavyPunchTile, behindDestroyed, behindResourceType, behindResourceAmount, behindIsLuckyDrop, behindDamage } = heavyPunchResult;
 
     let resourceType = null;
     let resourceAmount = 0;

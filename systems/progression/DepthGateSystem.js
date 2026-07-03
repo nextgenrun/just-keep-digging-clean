@@ -14,7 +14,7 @@ const GATES = Object.freeze([
   {
     threshold: 1000,
     title: "DEPTH WARNING: 1000M",
-    message: "You are moving beyond the known mining range. Continue only if you are ready for extreme danger.",
+    message: "You are entering the 1000M tier. Torches now burn near 15 GP/s and scale to ~30 GP/s by 2000M; deep darkness also ramps up 2-3x.",
   },
 ]);
 

@@ -1,0 +1,23 @@
+{
+  "animation": "duck-downwards",
+  "displayName": "Duck Downwards",
+  "frameCount": 4,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/duck-downwards-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/duck-downwards/duck-downwards-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/duck-downwards/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/duck-downwards/duck-downwards-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/duck-downwards/duck-downwards-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="250" viewBox="0 0 760 250">
+<rect width="760" height="250" fill="#070b13"/>
+<text x="24" y="24" fill="#eef2ff" font-family="Arial, sans-serif" font-size="20" font-weight="700">Weather precipitation mask legend</text>
+<rect x="24" y="12" width="72" height="22" fill="rgb(64,198,255)"/><text x="112" y="30" fill="#eef2ff" font-family="Arial, sans-serif" font-size="18">direct rain/snow/hail path</text>
+<rect x="24" y="46" width="72" height="22" fill="rgb(255,187,89)"/><text x="112" y="64" fill="#eef2ff" font-family="Arial, sans-serif" font-size="18">landing surface / splash line</text>
+<rect x="24" y="80" width="72" height="22" fill="rgb(255,101,93)"/><text x="112" y="98" fill="#eef2ff" font-family="Arial, sans-serif" font-size="18">town roof / visual cover blocker</text>
+<rect x="24" y="114" width="72" height="22" fill="rgb(66,46,83)"/><text x="112" y="132" fill="#eef2ff" font-family="Arial, sans-serif" font-size="18">sheltered: no direct precipitation</text>
+<rect x="24" y="148" width="72" height="22" fill="rgb(70,75,83)"/><text x="112" y="166" fill="#eef2ff" font-family="Arial, sans-serif" font-size="18">solid terrain/interior blocker</text>
+<rect x="24" y="182" width="72" height="22" fill="rgb(151,92,255)"/><text x="112" y="200" fill="#eef2ff" font-family="Arial, sans-serif" font-size="18">ignored outer bedrock/cave-wall shell</text>
+</svg>

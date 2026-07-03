@@ -13,7 +13,30 @@
   "rows": 4,
   "fps": 14,
   "borderHaloPixelsRemoved": 2,
-  "alphaPixelsChanged": 267490,
+  "alphaPixelsChanged": 266814,
+  "targetedTransforms": {
+    "targetedWalkMattePixelsRemoved": {
+      "12": 339,
+      "13": 358,
+      "14": 429,
+      "15": 425,
+      "16": 410,
+      "17": 438,
+      "18": 396,
+      "29": 373,
+      "30": 389,
+      "31": 390,
+      "32": 374,
+      "33": 375,
+      "42": 334,
+      "43": 360,
+      "44": 432,
+      "45": 428,
+      "46": 414,
+      "47": 431,
+      "48": 392
+    }
+  },
   "anchor": {
     "targetCenterX": 168,
     "targetBottom": 339,

@@ -14,6 +14,7 @@
   "fps": 6,
   "borderHaloPixelsRemoved": 238,
   "alphaPixelsChanged": 238,
+  "targetedTransforms": {},
   "anchor": {
     "targetCenterX": 155,
     "targetBottom": 339,

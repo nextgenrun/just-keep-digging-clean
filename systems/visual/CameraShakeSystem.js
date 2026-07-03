@@ -26,23 +26,78 @@
  * isn't available (Phaser < 3.60).
  */
 
-import { CAMERA_SHAKE_SIGNATURES } from "../../values/cameraShake.js";
+import {
+  CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP,
+  CAMERA_SHAKE_DEFAULT_FLASH_ENABLED,
+  CAMERA_SHAKE_SIGNATURES,
+  CAMERA_SHAKE_EVENT_GROUPS,
+} from "../../values/cameraShake.js";
 
 export class CameraShakeSystem {
   /**
    * @param {Phaser.Scene} scene
    * @param {Object} [config] - signature map; defaults to CAMERA_SHAKE_SIGNATURES
+   * @param {Object} [options]
+   * @param {Function} [options.getDisplaySettings] - optional lazy settings getter
    */
-  constructor(scene, config = CAMERA_SHAKE_SIGNATURES) {
+  constructor(scene, config = CAMERA_SHAKE_SIGNATURES, options = {}) {
     this.scene = scene;
     this.config = config;
+    this._options = options || {};
 
     // Active shake state — only one at a time, priority decides replacement.
-    // { name, startTime, duration, intensity, freqX, freqY, decay, priority }
+    // { name, group, startTime, duration, intensity, freqX, freqY, decay, priority }
     this._active = null;
+    this._getDisplaySettings = typeof this._options.getDisplaySettings === "function"
+      ? this._options.getDisplaySettings
+      : null;
+    this._defaultGroups = CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP;
 
     // Fallback detection: Phaser 3.60+ has camera.setFollowOffset
     this._hasFollowOffset = typeof scene.cameras.main.setFollowOffset === "function";
+  }
+
+  _readDisplaySettings() {
+    try {
+      return this._getDisplaySettings?.();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  _resolveEventGroup(signatureName) {
+    if (!signatureName) return "";
+    const root = String(signatureName).split(".")[0];
+    return CAMERA_SHAKE_EVENT_GROUPS[root] || root;
+  }
+
+  _getGroupEnabled(displaySettings, group) {
+    const defaults = this._defaultGroups;
+    const fallback = defaults[group];
+    if (typeof fallback !== "boolean") return true;
+
+    const groups = displaySettings?.cameraShakeGroups;
+    if (!groups || typeof groups !== "object" || !(group in groups)) {
+      return fallback;
+    }
+    return Boolean(groups[group]);
+  }
+
+  _getMasterEnabled(displaySettings) {
+    if (displaySettings == null) return true;
+    return displaySettings.cameraShakeEnabled !== false;
+  }
+
+  _getIntensityMultiplier(displaySettings) {
+    const raw = displaySettings?.cameraShakeIntensity;
+    const numeric = Number(raw);
+    if (!Number.isFinite(numeric)) return 1;
+    return Math.max(0, numeric);
+  }
+
+  _getFlashEnabled(displaySettings) {
+    if (displaySettings == null) return CAMERA_SHAKE_DEFAULT_FLASH_ENABLED;
+    return displaySettings.cameraShakeFlashEnabled !== false;
   }
 
   /**
@@ -64,6 +119,16 @@ export class CameraShakeSystem {
       return false;
     }
 
+    const displaySettings = this._readDisplaySettings();
+    if (!this._getMasterEnabled(displaySettings)) {
+      return false;
+    }
+
+    const group = this._resolveEventGroup(signatureName);
+    if (!this._getGroupEnabled(displaySettings, group)) {
+      return false;
+    }
+
     const nextPriority = sig.priority ?? 0;
     const activePriority = this._active?.priority ?? -Infinity;
     if (this._active && !options.force && activePriority > nextPriority) {
@@ -78,13 +143,20 @@ export class CameraShakeSystem {
 
     const safeIntensityScale = Number.isFinite(intensityScale) ? intensityScale : 1;
     const safeDurationScale = Number.isFinite(options.durationScale) ? options.durationScale : 1;
+    const safeGroupScale = this._getGroupEnabled(displaySettings, group) ? 1 : 0;
+    const safeMasterScale = this._getIntensityMultiplier(displaySettings);
     const duration = Math.max(20, sig.duration * Math.max(0.2, safeDurationScale));
+    const intensity = Math.max(0, sig.intensity * safeGroupScale * safeMasterScale * Math.max(0, safeIntensityScale));
+    if (!Number.isFinite(intensity) || intensity <= 0) {
+      return false;
+    }
 
     this._active = {
       name: signatureName,
+      group,
       startTime: this.scene.time?.now ?? performance.now(),
       duration,
-      intensity: Math.max(0, sig.intensity * Math.max(0, safeIntensityScale)),
+      intensity,
       freqX: sig.freqX ?? 0.05,
       freqY: sig.freqY ?? 0.06,
       decay: sig.decay ?? "exp",
@@ -92,7 +164,7 @@ export class CameraShakeSystem {
     };
 
     // Companion screen flash if the signature has a color
-    if (sig.color && this.scene.screenFlashSystem) {
+    if (sig.color && this._getFlashEnabled(displaySettings) && this.scene.screenFlashSystem) {
       this.scene.screenFlashSystem._flash(
         sig.color,
         sig.flashAlpha ?? 0.03,
@@ -125,6 +197,16 @@ export class CameraShakeSystem {
    */
   update(time, delta) {
     if (!this._active) return;
+    const displaySettings = this._readDisplaySettings();
+    if (!this._getMasterEnabled(displaySettings)) {
+      this.stop();
+      return;
+    }
+    if (!this._getGroupEnabled(displaySettings, this._active.group)) {
+      this.stop();
+      return;
+    }
+
     const cam = this.scene.cameras?.main;
     if (!cam) return;
 
@@ -192,6 +274,7 @@ export class CameraShakeSystem {
     return {
       active: !!this._active,
       signature: this._active ? this._active.name : null,
+      group: this._active ? this._active.group : null,
       priority: this._active ? this._active.priority : null,
       hasFollowOffset: this._hasFollowOffset,
     };

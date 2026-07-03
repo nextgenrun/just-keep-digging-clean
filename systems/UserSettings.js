@@ -1,4 +1,9 @@
 import { AUDIO_CONFIG } from "../values/audioConfig.js";
+import {
+  CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP,
+  CAMERA_SHAKE_DEFAULT_FLASH_ENABLED,
+  CAMERA_SHAKE_DEFAULT_INTENSITY,
+} from "../values/cameraShake.js";
 import { KEYBIND_ACTIONS, KEYBIND_ACTION_BY_ID, createDefaultKeybinds } from "../values/keybindActions.js";
 
 const STORAGE_KEY = "jkd-settings-v2";
@@ -67,6 +72,10 @@ const DEFAULT_SETTINGS = Object.freeze({
   },
   display: {
     showControlHints: true,
+    cameraShakeEnabled: true,
+    cameraShakeIntensity: CAMERA_SHAKE_DEFAULT_INTENSITY,
+    cameraShakeFlashEnabled: CAMERA_SHAKE_DEFAULT_FLASH_ENABLED,
+    cameraShakeGroups: CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP,
   },
   keybinds: createDefaultKeybinds(),
 });
@@ -77,11 +86,36 @@ function clamp01(value, fallback = 1) {
   return Math.max(0, Math.min(1, numeric));
 }
 
+function clampRange(value, fallback = 1, min = 0, max = 1) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return fallback;
+  return Math.max(min, Math.min(max, numeric));
+}
+
+function sanitizeCameraShakeGroups(inputGroups) {
+  const result = { ...CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP };
+  if (!inputGroups || typeof inputGroups !== "object") return result;
+
+  for (const [key, defaultValue] of Object.entries(CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP)) {
+    const raw = inputGroups[key];
+    if (typeof raw === "boolean") {
+      result[key] = raw;
+    } else if (raw === undefined) {
+      result[key] = defaultValue;
+    }
+  }
+
+  return result;
+}
+
 function cloneDefaults() {
   return {
     version: DEFAULT_SETTINGS.version,
     audio: { ...DEFAULT_SETTINGS.audio },
-    display: { ...DEFAULT_SETTINGS.display },
+    display: {
+      ...DEFAULT_SETTINGS.display,
+      cameraShakeGroups: { ...DEFAULT_SETTINGS.display.cameraShakeGroups },
+    },
     keybinds: { ...DEFAULT_SETTINGS.keybinds },
   };
 }
@@ -159,6 +193,10 @@ function sanitizeSettings(input) {
     },
     display: {
       showControlHints: display.showControlHints !== false,
+      cameraShakeEnabled: display.cameraShakeEnabled !== false,
+      cameraShakeIntensity: clampRange(display.cameraShakeIntensity, defaults.cameraShakeIntensity, 0, 1),
+      cameraShakeFlashEnabled: display.cameraShakeFlashEnabled !== false,
+      cameraShakeGroups: sanitizeCameraShakeGroups(display.cameraShakeGroups),
     },
     keybinds: { ...defaults.keybinds },
   };
@@ -273,6 +311,30 @@ class UserSettingsStore {
     const display = this.load().display;
     if (Object.prototype.hasOwnProperty.call(partial, "showControlHints")) {
       display.showControlHints = Boolean(partial.showControlHints);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "cameraShakeEnabled")) {
+      display.cameraShakeEnabled = Boolean(partial.cameraShakeEnabled);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "cameraShakeIntensity")) {
+      display.cameraShakeIntensity = clampRange(
+        partial.cameraShakeIntensity,
+        CAMERA_SHAKE_DEFAULT_INTENSITY,
+        0,
+        1
+      );
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "cameraShakeFlashEnabled")) {
+      display.cameraShakeFlashEnabled = Boolean(partial.cameraShakeFlashEnabled);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "cameraShakeGroups")) {
+      const next = partial.cameraShakeGroups;
+      if (next && typeof next === "object") {
+        for (const key of Object.keys(CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP)) {
+          if (Object.prototype.hasOwnProperty.call(next, key)) {
+            display.cameraShakeGroups[key] = Boolean(next[key]);
+          }
+        }
+      }
     }
     this.save();
   }

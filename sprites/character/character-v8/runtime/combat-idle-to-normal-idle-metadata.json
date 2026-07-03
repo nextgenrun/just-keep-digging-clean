@@ -8,18 +8,30 @@
   "piskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
   "frameWidth": 341,
   "frameHeight": 341,
-  "frameCount": 51,
+  "frameCount": 47,
   "columns": 16,
-  "rows": 4,
+  "rows": 3,
   "fps": 14,
   "borderHaloPixelsRemoved": 14416,
-  "alphaPixelsChanged": 152938,
+  "alphaPixelsChanged": 259207,
+  "targetedTransforms": {
+    "removedSourceFrames": [
+      0,
+      1,
+      16,
+      17
+    ],
+    "polishedSourceFrames": [
+      12,
+      13
+    ]
+  },
   "anchor": {
     "targetCenterX": 168,
     "targetBottom": 339,
     "maxShiftX": 14,
     "maxShiftY": 0,
-    "avgShiftX": 2.25,
+    "avgShiftX": 2.11,
     "avgShiftY": 0.0
   },
   "driftBefore": {

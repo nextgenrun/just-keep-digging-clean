@@ -8,18 +8,26 @@
   "piskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
   "frameWidth": 341,
   "frameHeight": 341,
-  "frameCount": 6,
-  "columns": 6,
+  "frameCount": 4,
+  "columns": 4,
   "rows": 1,
   "fps": 8,
   "borderHaloPixelsRemoved": 122,
-  "alphaPixelsChanged": 43511,
+  "alphaPixelsChanged": 32075,
+  "targetedTransforms": {
+    "sourceFrameOrder": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
   "anchor": {
-    "targetCenterX": 177,
+    "targetCenterX": 176,
     "targetBottom": 339,
-    "maxShiftX": 10,
+    "maxShiftX": 11,
     "maxShiftY": 0,
-    "avgShiftX": 5.67,
+    "avgShiftX": 6.75,
     "avgShiftY": 0.0
   },
   "driftBefore": {

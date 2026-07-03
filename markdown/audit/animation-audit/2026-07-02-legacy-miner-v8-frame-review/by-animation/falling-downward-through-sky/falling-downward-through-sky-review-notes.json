@@ -1,0 +1,23 @@
+{
+  "animation": "falling-downward-through-sky",
+  "displayName": "Falling Downward Through Sky",
+  "frameCount": 7,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/falling-downward-through-sky-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/falling-downward-through-sky/falling-downward-through-sky-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/falling-downward-through-sky/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/falling-downward-through-sky/falling-downward-through-sky-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/falling-downward-through-sky/falling-downward-through-sky-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

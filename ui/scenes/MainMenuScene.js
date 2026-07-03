@@ -339,16 +339,23 @@ export class MainMenuScene extends Phaser.Scene {
 
   _showSettings() {
     if (this._overlay) return;
-    const base = this._createOverlayBase('SETTINGS', { width: 820, height: 560 });
+    const W = this.scale.width;
+    const H = this.scale.height;
+    const panelWidth = Math.min(W - 120, 860);
+    const panelHeight = Math.min(H - 120, 640);
+    const settingsWidth = Math.min(panelWidth - 120, 760);
+    const settingsHeight = Math.min(panelHeight - 190, 430);
+    const compact = settingsWidth < 700;
+    const base = this._createOverlayBase('SETTINGS', { width: panelWidth, height: panelHeight });
     const { cx, cy } = base;
     const settingsContent = createSettingsPanelContent(this, {
       x: cx,
       y: cy + 42,
-      width: 760,
-      height: 430,
+      width: settingsWidth,
+      height: settingsHeight,
       depth: 103,
       manageFocus: true,
-      compact: false,
+      compact,
       onCancel: () => this._closeOverlay(),
     });
     settingsContent.root.setAlpha(0);

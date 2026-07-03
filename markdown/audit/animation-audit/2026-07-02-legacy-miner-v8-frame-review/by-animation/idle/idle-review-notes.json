@@ -1,0 +1,64 @@
+{
+  "animation": "idle",
+  "displayName": "Idle",
+  "frameCount": 35,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/idle-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/legacy-idle-clean-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/idle/idle-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/idle/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/idle/idle-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/idle/idle-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [
+    {
+      "localFrame": 26,
+      "previousLocalFrame": 25,
+      "meanDiff": 0.0584
+    },
+    {
+      "localFrame": 27,
+      "previousLocalFrame": 26,
+      "meanDiff": 0.0574
+    },
+    {
+      "localFrame": 29,
+      "previousLocalFrame": 28,
+      "meanDiff": 0.0626
+    },
+    {
+      "localFrame": 30,
+      "previousLocalFrame": 29,
+      "meanDiff": 0.0602
+    },
+    {
+      "localFrame": 31,
+      "previousLocalFrame": 30,
+      "meanDiff": 0.06
+    },
+    {
+      "localFrame": 32,
+      "previousLocalFrame": 31,
+      "meanDiff": 0.0577
+    },
+    {
+      "localFrame": 33,
+      "previousLocalFrame": 32,
+      "meanDiff": 0.056
+    },
+    {
+      "localFrame": 34,
+      "previousLocalFrame": 33,
+      "meanDiff": 0.0589
+    }
+  ],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

@@ -620,8 +620,11 @@ export function setupUIMethods(prototype) {
     const H = this.config.viewportHeight;
     const cx = W / 2;
     const cy = H / 2;
-    const PANEL_W = 800;
-    const PANEL_H = 500;
+    const PANEL_W = Math.min(W - 80, 860);
+    const PANEL_H = Math.min(H - 120, 540);
+    const SETTINGS_WIDTH = Math.min(PANEL_W - 120, 760);
+    const SETTINGS_HEIGHT = Math.min(PANEL_H - 140, 420);
+    const SETTINGS_COMPACT = SETTINGS_WIDTH < 680;
     const PANEL_Y = cy + 10;
     const DEPTH = 2500;
     const tabsDef = ['GENERAL', 'STATS', 'SETTINGS'];
@@ -793,20 +796,20 @@ export function setupUIMethods(prototype) {
       } else if (tabIdx === 1) {
         buildStats();
       } else {
-        const settingsContent = createSettingsPanelContent(this, {
-          x: 0,
-          y: 42,
-          width: 720,
-          height: 330,
-          parent: panel.root,
-          depth: DEPTH + 3,
-          soundSystem: this.soundSystem,
-          inputHandler: this.inputHandler,
-          uiMuteToggle: this.uiMuteToggle,
-          manageFocus: true,
-          compact: true,
-          onCancel: () => this.resumeGame(),
-        });
+          const settingsContent = createSettingsPanelContent(this, {
+            x: 0,
+            y: 42,
+            width: SETTINGS_WIDTH,
+            height: SETTINGS_HEIGHT,
+            parent: panel.root,
+            depth: DEPTH + 3,
+            soundSystem: this.soundSystem,
+            inputHandler: this.inputHandler,
+            uiMuteToggle: this.uiMuteToggle,
+            manageFocus: true,
+            compact: SETTINGS_COMPACT,
+            onCancel: () => this.resumeGame(),
+          });
         state.contentObjects.push(settingsContent);
       }
 

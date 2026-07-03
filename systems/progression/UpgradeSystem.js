@@ -228,6 +228,8 @@ export class UpgradeSystem {
       gemPowerMax: 0,
       gemPowerDrainReduction: 0,
       gemPowerRegenIncrease: 0,
+      torchDrainReduction: 0,
+      torchBonusRadius: 0,
       gemLevitation: 0,
       levitationSpeed: 0,
       gemDashUnlocked: 0,
@@ -285,7 +287,8 @@ export class UpgradeSystem {
             upgrade.softcapValue,
             upgrade.maxValue,
             level,
-            upgrade.softcapLevel
+            upgrade.softcapLevel,
+            upgrade.maxLevel
           );
         } else {
           effects[upgrade.effectType] += effect;

@@ -1,0 +1,11 @@
+1.random copper tile indistrutactable randomly
+2. sky pilar UI + visualls still not good enough
+3. some hidden caves have no outer shell appear random and dont have better loot while the dark fade does work should look more like darkness of lack of torch light hidden caves and cave Visuals need tuning
+4. chest have no interaction/loot yet
+5. underground backgrounds should use underground backgrounds from older backups now is black background
+6. finding gold and silver at lower depts like 300m 80M this can occur but should be super rare gold/silver at 1000M+ should be the ''normal finding'' dept
+7. minor less important issue combo counter stuck at 100 combo can scale very slowly after that even if no more bonus dmg counter should still go up not cap at 100
+8. in darkness geode and sky tiles can stay visible as sources of light
+9. thunder strike dmg scaling is completely broken example normal dmg hit 80 dmg thunderstrike hit 55
+10. Visuals after 1000M need huge update too match below 1000M below 1000M needs to be frequent gold/silver/bronze but very tough ''dirt'' that looks diffrent similair fade too earlyr depts 
+11. max darkness should be pointed upwards slightly now points at feed character instead of center bodymass/head

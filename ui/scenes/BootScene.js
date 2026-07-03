@@ -2,6 +2,7 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { PLAYER_ASSET_PROFILES } from "../../values/playerAssetProfiles.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
+import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import {
   MENU_BACKGROUND_ASSETS,
   createMenuLoadingScreen,
@@ -11,6 +12,8 @@ import {
 } from "../components/LoadingScreenView.js";
 
 const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep Digging Logo_simple_compose_01kkt3qqn1f9c95wecwtsbqe9y-Photoroom.webp";
+const SKY_PORTAL_CANONICAL_PATH = TELEPORT_PORTAL_CONFIG.canonicalAssetPath;
+const SKY_PORTAL_FILENAME = TELEPORT_PORTAL_CONFIG.gateFilename;
 
 function makeAuthoredBackgroundKey(path) {
   const keyName = getRuntimeAuthoredAssetFilename(path) || String(path);
@@ -70,12 +73,17 @@ function isAuthoredLayerImageName(name) {
 function extractAuthoredObjectFilename(name) {
   if (typeof name !== "string") return "";
   const cleaned = name.trim().replace(/^\d+:\s*/, "").replace(/\\/g, "/");
-  const filename = cleaned.split("/").pop() || "";
+  const withoutQuery = cleaned.split("?")[0].split("#")[0];
+  const filename = withoutQuery.split("/").pop() || "";
   return /\.(png|webp)$/i.test(filename) ? filename : "";
 }
 
 function resolveAuthoredBackgroundPath(path) {
   const normalized = String(path || "").trim().replace(/\\/g, "/");
+  const filename = extractAuthoredObjectFilename(normalized);
+  if (filename.toLowerCase() === SKY_PORTAL_FILENAME) {
+    return SKY_PORTAL_CANONICAL_PATH;
+  }
   if (normalized.startsWith("sprites/backgrounds/generated-runtime-v1/")) {
     return normalized.replace(
       "sprites/backgrounds/generated-runtime-v1/",
@@ -89,7 +97,6 @@ function resolveAuthoredBackgroundPath(path) {
     );
   }
 
-  const filename = extractAuthoredObjectFilename(normalized);
   const layerFilename = getRuntimeAuthoredLayerFilename(filename);
   if (isAuthoredLayerImageName(layerFilename)) {
     const layerId = layerFilename.match(/__(l\d{2})__/i)?.[1]?.toLowerCase();
@@ -105,6 +112,10 @@ function resolveAuthoredBackgroundPath(path) {
     return `exports/cleaned/dig_game_palette_clean_overwrite_runtime_v3/sprites/background-props/generated-runtime-v1/${filename}`;
   }
   return normalized;
+}
+
+function isSkyPortalCanonicalPath(path) {
+  return String(path || "").trim().replace(/\\/g, "/").toLowerCase() === SKY_PORTAL_CANONICAL_PATH.toLowerCase();
 }
 
 function getRuntimeAuthoredAssetFilename(path) {
@@ -278,10 +289,27 @@ export class BootScene extends Phaser.Scene {
 
   preloadAuthoredBackgroundObjects() {
     const paths = collectAuthoredBackgroundPaths(TILED_BACKGROUND_OBJECTS);
-    paths.forEach((path) => {
-      this.queueImage(makeAuthoredBackgroundKey(path), resolveAuthoredBackgroundPath(path));
-    });
-    console.log(`[BootScene] Queued ${paths.length} authored TMX background assets`);
+    const resolvedByKey = new Map();
+
+    for (const path of paths) {
+      const key = makeAuthoredBackgroundKey(path);
+      const resolved = resolveAuthoredBackgroundPath(path);
+      const existing = resolvedByKey.get(key);
+
+      if (!resolved) {
+        continue;
+      }
+
+      // Force canonical eclipse-gate texture if it appears anywhere with duplicate names.
+      if (!existing || (isSkyPortalCanonicalPath(resolved) && !isSkyPortalCanonicalPath(existing))) {
+        resolvedByKey.set(key, resolved);
+      }
+    }
+
+    for (const [key, resolved] of resolvedByKey) {
+      this.queueImage(key, resolved);
+    }
+    console.log(`[BootScene] Queued ${resolvedByKey.size} authored TMX background assets`);
   }
 
   preloadConstellationSprites() {
@@ -429,59 +457,33 @@ export class BootScene extends Phaser.Scene {
     const player = ASSET_KEYS.player;
     const frame341 = { frameWidth: 341, frameHeight: 341 };
     const runtimeV8Base = "sprites/character/character-v8/runtime";
-    const legacyRuntimeVersion = "legacy-v8-polish-20260701";
+    const legacyRuntimeVersion = "legacy-v8-frame-review-20260702";
+    const loadRuntimeSheet = (key, filename, frames) => {
+      if (!key || !frames?.length) return;
+      this.load.spritesheet(key, `${runtimeV8Base}/${filename}?v=${legacyRuntimeVersion}`, {
+        ...frame341,
+        endFrame: frames.length - 1,
+      });
+    };
 
-    this.load.spritesheet(player.idleSheet, `${runtimeV8Base}/legacy-idle-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.idleFrames.length - 1,
-    });
-    this.load.spritesheet(player.walkSheet, `${runtimeV8Base}/legacy-walk-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.walkFrames.length - 1,
-    });
-    this.load.spritesheet(player.digSidewaysSheet, `${runtimeV8Base}/legacy-dig-sideways-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.digSidewaysFrames.length - 1,
-    });
-    this.load.spritesheet(player.digUpSheet, `${runtimeV8Base}/legacy-dig-up-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.digUpFrames.length - 1,
-    });
-    this.load.spritesheet(player.digUpSidewaysSheet, `${runtimeV8Base}/legacy-dig-up-sideways-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.digUpSidewaysFrames.length - 1,
-    });
-    this.load.spritesheet(player.flyClimbSheet, `${runtimeV8Base}/legacy-fly-climb-clean-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.flyClimbFrames.length - 1,
-    });
+    loadRuntimeSheet(player.idleSheet, "legacy-idle-clean-sheet.webp", player.idleFrames);
+    loadRuntimeSheet(player.walkSheet, "legacy-walk-clean-sheet.webp", player.walkFrames);
+    loadRuntimeSheet(player.digSidewaysSheet, "legacy-dig-sideways-clean-sheet.webp", player.digSidewaysFrames);
+    loadRuntimeSheet(player.digUpSheet, "legacy-dig-up-clean-sheet.webp", player.digUpFrames);
+    loadRuntimeSheet(player.digUpSidewaysSheet, "legacy-dig-up-sideways-clean-sheet.webp", player.digUpSidewaysFrames);
+    loadRuntimeSheet(player.flyClimbSheet, "legacy-fly-climb-clean-sheet.webp", player.flyClimbFrames);
     this.load.image(player.digUpLookFrame, `${runtimeV8Base}/legacy-dig-up-look-clean.png?v=${legacyRuntimeVersion}`);
 
-    this.load.spritesheet(player.duckSheet, `${runtimeV8Base}/duck-downwards-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.duckFrames.length - 1,
-    });
-    this.load.spritesheet(player.digDownSheet, `${runtimeV8Base}/dig-down-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.digDownFrames.length - 1,
-    });
-    this.load.spritesheet(player.thunderStrikeChargeSheet, `${runtimeV8Base}/thunder-charge-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.thunderStrikeChargeFrames.length - 1,
-    });
-    this.load.spritesheet(player.thunderStrikeStrikeSheet, `${runtimeV8Base}/thunder-strike-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.thunderStrikeStrikeFrames.length - 1,
-    });
-
-    this.load.spritesheet(player.wallPushSheet, `${runtimeV8Base}/wall-push-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.wallPushFrames.length - 1,
-    });
-    this.load.spritesheet(player.leanAgainstWallSheet, `${runtimeV8Base}/leans-against-wall-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.leanAgainstWallFrames.length - 1,
-    });
-    this.load.spritesheet(player.fallingSheet, `${runtimeV8Base}/falling-downward-through-sky-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.fallingFrames.length - 1,
-    });
-    this.load.spritesheet(player.walkRunSheet, `${runtimeV8Base}/walk-run-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.walkRunFrames.length - 1,
-    });
-    this.load.spritesheet(player.combatIdleRecoverSheet, `${runtimeV8Base}/combat-idle-recover-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.combatIdleRecoverFrames.length - 1,
-    });
-    this.load.spritesheet(player.combatIdleToNormalIdleSheet, `${runtimeV8Base}/combat-idle-to-normal-idle-sheet.webp?v=${legacyRuntimeVersion}`, {
-      ...frame341, endFrame: player.combatIdleToNormalIdleFrames.length - 1,
-    });
+    loadRuntimeSheet(player.duckSheet, "duck-downwards-sheet.webp", player.duckFrames);
+    loadRuntimeSheet(player.digDownSheet, "dig-down-sheet.webp", player.digDownFrames);
+    loadRuntimeSheet(player.thunderStrikeChargeSheet, "thunder-charge-sheet.webp", player.thunderStrikeChargeFrames);
+    loadRuntimeSheet(player.thunderStrikeStrikeSheet, "thunder-strike-sheet.webp", player.thunderStrikeStrikeFrames);
+    loadRuntimeSheet(player.wallPushSheet, "wall-push-sheet.webp", player.wallPushFrames);
+    loadRuntimeSheet(player.leanAgainstWallSheet, "leans-against-wall-sheet.webp", player.leanAgainstWallFrames);
+    loadRuntimeSheet(player.fallingSheet, "falling-downward-through-sky-sheet.webp", player.fallingFrames);
+    loadRuntimeSheet(player.walkRunSheet, "walk-run-sheet.webp", player.walkRunFrames);
+    loadRuntimeSheet(player.combatIdleRecoverSheet, "combat-idle-recover-sheet.webp", player.combatIdleRecoverFrames);
+    loadRuntimeSheet(player.combatIdleToNormalIdleSheet, "combat-idle-to-normal-idle-sheet.webp", player.combatIdleToNormalIdleFrames);
     const movementBase = `${baseV2}/character-movement/movement-bare-hands`;
     this.load.image('char-v2-airborne-1', `${movementBase}/jump/jump-1.webp`);
     this.load.image('char-v2-duck-1', `${movementBase}/duck/duck-1.webp`);
@@ -538,6 +540,7 @@ export class BootScene extends Phaser.Scene {
     const approvedWorldBase = "sprites/tiles/approved-world";
     this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-wall.webp`);
     this.load.image(ASSET_KEYS.tiles.caveWall, `${approvedWorldBase}/cave-wall.webp`);
+    this.load.image(ASSET_KEYS.tiles.caveEdge, `${approvedWorldBase}/cave-edge.webp`);
     this.load.image(ASSET_KEYS.tiles.caveCeiling, `${approvedWorldBase}/cave-ceiling.webp`);
     this.load.image(ASSET_KEYS.tiles.caveCeilingChains, `${approvedWorldBase}/cave-ceiling-chains.webp`);
     this.load.image(ASSET_KEYS.tiles.treasureStone, `${approvedWorldBase}/treasure-stone.webp`);
@@ -745,16 +748,16 @@ export class BootScene extends Phaser.Scene {
       createSheetAnim(ASSET_KEYS.player.walkRunAnim, ASSET_KEYS.player.walkRunSheet, ASSET_KEYS.player.walkRunFrames, ASSET_KEYS.player.walkRunAnimationFps, -1);
     }
     if (this.textures.exists(ASSET_KEYS.player.fallingSheet)) {
-      createSheetAnim(ASSET_KEYS.player.fallingAnim, ASSET_KEYS.player.fallingSheet, ASSET_KEYS.player.fallingFrames, ASSET_KEYS.player.fallingAnimationFps, -1);
+      createSheetAnim(ASSET_KEYS.player.fallingAnim, ASSET_KEYS.player.fallingSheet, ASSET_KEYS.player.fallingFrames, ASSET_KEYS.player.fallingAnimationFps, 0);
     }
     if (this.textures.exists(ASSET_KEYS.player.wallPushSheet)) {
-      createSheetAnim(ASSET_KEYS.player.wallPushAnim, ASSET_KEYS.player.wallPushSheet, ASSET_KEYS.player.wallPushFrames, ASSET_KEYS.player.wallPushAnimationFps, -1);
+      createSheetAnim(ASSET_KEYS.player.wallPushAnim, ASSET_KEYS.player.wallPushSheet, ASSET_KEYS.player.wallPushFrames, ASSET_KEYS.player.wallPushAnimationFps, 0);
     }
     if (this.textures.exists(ASSET_KEYS.player.leanAgainstWallSheet)) {
-      createSheetAnim(ASSET_KEYS.player.leanAgainstWallAnim, ASSET_KEYS.player.leanAgainstWallSheet, ASSET_KEYS.player.leanAgainstWallFrames, ASSET_KEYS.player.leanAgainstWallAnimationFps, -1);
+      createSheetAnim(ASSET_KEYS.player.leanAgainstWallAnim, ASSET_KEYS.player.leanAgainstWallSheet, ASSET_KEYS.player.leanAgainstWallFrames, ASSET_KEYS.player.leanAgainstWallAnimationFps, 0);
     }
     if (this.textures.exists(ASSET_KEYS.player.combatIdleRecoverSheet)) {
-      createSheetAnim(ASSET_KEYS.player.combatIdleRecoverAnim, ASSET_KEYS.player.combatIdleRecoverSheet, ASSET_KEYS.player.combatIdleRecoverFrames, ASSET_KEYS.player.combatIdleRecoverAnimationFps, -1);
+      createSheetAnim(ASSET_KEYS.player.combatIdleRecoverAnim, ASSET_KEYS.player.combatIdleRecoverSheet, ASSET_KEYS.player.combatIdleRecoverFrames, ASSET_KEYS.player.combatIdleRecoverAnimationFps, 0);
     }
     if (this.textures.exists(ASSET_KEYS.player.combatIdleToNormalIdleSheet)) {
       createSheetAnim(ASSET_KEYS.player.combatIdleToNormalIdleAnim, ASSET_KEYS.player.combatIdleToNormalIdleSheet, ASSET_KEYS.player.combatIdleToNormalIdleFrames, ASSET_KEYS.player.combatIdleToNormalIdleAnimationFps, 0);

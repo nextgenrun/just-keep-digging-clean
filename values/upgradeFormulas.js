@@ -32,20 +32,20 @@ export function calculateEffect(baseEffect, level, softcapLevel = 10, maxEffectM
 }
 
 // Calculate heavy punch effect with custom softcap
-export function calculateHeavyPunchEffect(softcapValue, maxValue, level, softcapLevel = 10) {
-  if (level <= softcapLevel) {
-    // Linear up to softcap: 2.5% per level, max 25% at level 10
-    return level * softcapValue;
+export function calculateHeavyPunchEffect(softcapValue, maxValue, level, softcapLevel = 10, maxLevel = 99) {
+  const safeLevel = Number.isFinite(level) ? Math.max(0, level) : 0;
+  const safeSoftcapLevel = Number.isFinite(softcapLevel) ? Math.max(1, softcapLevel) : 10;
+  const safeMaxLevel = Number.isFinite(maxLevel) ? Math.max(safeSoftcapLevel, maxLevel) : 99;
+
+  if (safeLevel <= 0) return 0;
+
+  if (safeLevel <= safeSoftcapLevel) {
+    return Math.min(maxValue, (softcapValue / safeSoftcapLevel) * safeLevel);
   }
-  
-  // After softcap, very slow logarithmic growth to maxValue (40% at level 99)
-  const softcapEffect = softcapLevel * softcapValue; // 25%
-  const extraLevels = level - softcapLevel;
-  const maxExtraEffect = maxValue - softcapValue; // 40% - 25% = 15% extra over 89 levels
-  const growthFactor = 0.96; // Very slow decay
-  const extraEffect = maxExtraEffect * (1 - Math.pow(growthFactor, extraLevels));
-  
-  return Math.min(softcapEffect + extraEffect, maxValue * level);
+
+  const postSoftcapLevels = Math.max(1, safeMaxLevel - safeSoftcapLevel);
+  const progress = Math.min(1, (safeLevel - safeSoftcapLevel) / postSoftcapLevels);
+  return Math.min(maxValue, softcapValue + (maxValue - softcapValue) * progress);
 }
 
 // Get upgrade cost for a specific upgrade at current level
@@ -81,7 +81,7 @@ export function getUpgradeEffect(upgradeId, level) {
   
   // FIX: Use custom heavy punch formula with softcap
   if (upgradeId === 'heavyPunch' && upgrade.softcapLevel && upgrade.softcapValue && upgrade.maxValue) {
-    return calculateHeavyPunchEffect(upgrade.softcapValue, upgrade.maxValue, level, upgrade.softcapLevel);
+    return calculateHeavyPunchEffect(upgrade.softcapValue, upgrade.maxValue, level, upgrade.softcapLevel, upgrade.maxLevel);
   }
   
   if (upgrade.maxEffect) {

@@ -22,6 +22,7 @@ export function setupGameplayMethods(prototype) {
   const isIdleLikeMotionState = (motionState) => motionState === "idle";
   const isWalkingIntoBlockedSide = (scene, motionState) => {
     if (!isWalkMotionState(motionState) || scene.playerController?.isGrounded?.() !== true) return false;
+    if (scene.isDigAnimating || scene.inputHandler?.getKeys?.()?.mine?.isDown === true) return false;
     const body = scene.player?.body;
     if (body?.blocked?.[motionState === "walk-left" ? "left" : "right"] || body?.touching?.[motionState === "walk-left" ? "left" : "right"]) return true;
     const physicsBody = scene.playerController?.physicsBody;
@@ -692,7 +693,19 @@ export function setupGameplayMethods(prototype) {
     }
 
     this.player.setFlipX(flipX);
-    this.player.play(targetAnim, !force);
+    const oneShotHoldAnims = [
+      profile.duckAnim || ASSET_KEYS.player.duckAnim,
+      profile.fallingAnim || ASSET_KEYS.player.fallingAnim,
+      profile.wallPushAnim || ASSET_KEYS.player.wallPushAnim,
+      profile.leanAgainstWallAnim || ASSET_KEYS.player.leanAgainstWallAnim,
+    ];
+    const shouldHoldCompletedOneShot = !force
+      && currentAnimKey === targetAnim
+      && !this.player.anims.isPlaying
+      && oneShotHoldAnims.includes(targetAnim);
+    if (!shouldHoldCompletedOneShot) {
+      this.player.play(targetAnim, !force);
+    }
     const displaySize = profile.displaySizePx || this.config.playerDisplaySizePx;
     this.player.setDisplaySize(displaySize, displaySize);
     this._lastPlayedAnim = targetAnim;

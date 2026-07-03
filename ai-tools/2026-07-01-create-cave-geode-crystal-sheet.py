@@ -28,13 +28,23 @@ GID_GEM_POWER = RUNTIME_FIRSTGID + 962
 GID_GEODE_INTERIOR = RUNTIME_FIRSTGID + 972
 
 TEXTURE_BY_KIND = {
-    "caveWall": "tile-approved-cave-wall",
+    "bedrock": "tile-bedrock",
+    "caveWall": "tile-approved-cave-edge",
     "caveCeiling": "tile-approved-cave-ceiling",
     "geodeWall": "tile-bedrock",
     "geodeInterior": "tile-geode-interior",
     "chest": "tile-approved-chest-normal",
     "gemPower": "gempower-block",
     "glowCrystal": "tile-geode-interior",
+}
+
+SECTION_LABELS = {
+    "normalCaves": "normal-caves",
+    "hiddenCaves": "hidden-caves",
+    "hiddenCaveTreasureRooms": "hidden-cave-treasure-rooms",
+    "geodes": "geodes",
+    "glowCrystals": "glow-crystals",
+    "combinedExamples": "combined-cave-geode-crystal-examples",
 }
 
 
@@ -61,6 +71,23 @@ def load_generation_config() -> dict:
     geodes = section(text, "geodes")
     crystals = section(text, "glowCrystals")
     palette = [int(v, 16) for v in re.findall(r"0x[0-9A-Fa-f]{6}", crystals)]
+    geode_bands = []
+    for band in re.finditer(
+        r"name:\s*'(?P<name>[^']+)'.*?weight:\s*(?P<weight>[0-9.]+).*?"
+        r"radiusXMin:\s*(?P<rxmin>[0-9.]+).*?radiusXMax:\s*(?P<rxmax>[0-9.]+).*?"
+        r"radiusYMin:\s*(?P<rymin>[0-9.]+).*?radiusYMax:\s*(?P<rymax>[0-9.]+)",
+        geodes,
+        re.S,
+    ):
+        geode_bands.append({
+            "name": band.group("name"),
+            "weight": float(band.group("weight")),
+            "radiusXMin": int(float(band.group("rxmin"))),
+            "radiusXMax": int(float(band.group("rxmax"))),
+            "radiusYMin": int(float(band.group("rymin"))),
+            "radiusYMax": int(float(band.group("rymax"))),
+        })
+
     return {
         "caves": {
             "radiusXMin": number(caves, "radiusXMin"),
@@ -83,6 +110,7 @@ def load_generation_config() -> dict:
             "radiusYMin": number(geodes, "radiusYMin"),
             "radiusYMax": number(geodes, "radiusYMax"),
             "wallThickness": number(geodes, "wallThickness"),
+            "sizeBands": geode_bands,
         },
         "glowCrystals": {
             "radiusXMin": number(crystals, "radiusXMin"),
@@ -144,6 +172,7 @@ def add_anchor(group: ET.Element, next_id: int, template: dict, x: int, y: int, 
         "sourceOccurrenceIndex": template["index"],
         "cx": template["cx"], "cy": template["cy"], "rx": template["rx"], "ry": template["ry"],
         "wallThickness": template.get("wallThickness", 0),
+        "sizeBand": template.get("sizeBand", ""),
         "runtimeEligible": True,
         "copyInstruction": "Copy this anchor and its matching visual children into dig-game-world-edit-v-7-30-06-2026-;layered.tmx.",
     })
@@ -168,6 +197,40 @@ def add_tile_obj(group: ET.Element, next_id: int, template: dict, x: int, y: int
     if tint is not None:
         props["tint"] = f"#{tint:06X}"
     add_props(obj, props)
+    return next_id + 1
+
+
+def add_sheet_background_tile(group: ET.Element, next_id: int, template: dict, x: int, y: int) -> int:
+    obj = ET.SubElement(group, "object", {
+        "id": str(next_id), "name": f"{template['id']}__bedrock-square", "type": "template-background",
+        "gid": str(GID_GEODE_WALL), "x": fmt(x), "y": fmt(y + TILE_PX),
+        "width": str(TILE_PX), "height": str(TILE_PX),
+    })
+    add_props(obj, {
+        "templateRole": "sheetBackground",
+        "templateId": template["id"],
+        "templateType": template["type"],
+        "textureKey": TEXTURE_BY_KIND["bedrock"],
+        "visualKind": "bedrock",
+        "runtimeEligible": False,
+    })
+    return next_id + 1
+
+
+def add_section_label(group: ET.Element, next_id: int, label: str, x: int, y: int) -> int:
+    obj = ET.SubElement(group, "object", {
+        "id": str(next_id), "name": label, "type": "section-label",
+        "x": fmt(x), "y": fmt(y), "width": str(TILE_PX * 10), "height": str(TILE_PX),
+    })
+    text = ET.SubElement(obj, "text", {
+        "fontfamily": "Segoe UI", "pixelsize": "42", "bold": "1",
+        "color": "#E8F2FF", "wrap": "1",
+    })
+    text.text = label
+    add_props(obj, {
+        "templateRole": "sectionLabel",
+        "runtimeEligible": False,
+    })
     return next_id + 1
 
 
@@ -201,8 +264,17 @@ def build_templates(cfg: dict) -> list[dict]:
                 wall = 0
             elif template_type == "geodes":
                 c = cfg["geodes"]
-                rx = rng.randint(c["radiusXMin"], c["radiusXMax"])
-                ry = rng.randint(c["radiusYMin"], c["radiusYMax"])
+                bands = c.get("sizeBands") or [{
+                    "name": "small",
+                    "weight": 1,
+                    "radiusXMin": c["radiusXMin"],
+                    "radiusXMax": c["radiusXMax"],
+                    "radiusYMin": c["radiusYMin"],
+                    "radiusYMax": c["radiusYMax"],
+                }]
+                band = bands[min(len(bands) - 1, index * len(bands) // max(1, count))]
+                rx = rng.randint(band["radiusXMin"], band["radiusXMax"])
+                ry = rng.randint(band["radiusYMin"], band["radiusYMax"])
                 wall = c["wallThickness"]
             else:
                 c = cfg["glowCrystals"]
@@ -215,18 +287,19 @@ def build_templates(cfg: dict) -> list[dict]:
                 "type": template_type,
                 "index": index,
                 "cx": 0, "cy": 0, "rx": rx, "ry": ry, "wallThickness": wall,
+                "sizeBand": band["name"] if template_type == "geodes" else "",
                 "color": rng.choice(cfg["glowCrystals"]["palette"]),
             })
     return templates
 
-
 def draw_template(group: ET.Element, next_id: int, template: dict, origin_tx: int, origin_ty: int) -> int:
     rx, ry, wall = template["rx"], template["ry"], template.get("wallThickness", 0)
     pad = 2
-    min_tx = -math.ceil(rx + wall) - pad
-    max_tx = math.ceil(rx + wall) + pad
-    min_ty = -math.ceil(ry + wall) - pad
-    max_ty = math.ceil(ry + wall) + pad
+    radius = max(math.ceil(rx + wall), math.ceil(ry + wall)) + pad
+    min_tx = -radius
+    max_tx = radius
+    min_ty = -radius
+    max_ty = radius
     x = origin_tx * TILE_PX
     y = origin_ty * TILE_PX
     w = (max_tx - min_tx + 1) * TILE_PX
@@ -237,6 +310,7 @@ def draw_template(group: ET.Element, next_id: int, template: dict, origin_tx: in
         for ltx in range(min_tx, max_tx + 1):
             sx = (origin_tx + ltx - min_tx) * TILE_PX
             sy = (origin_ty + lty - min_ty) * TILE_PX
+            next_id = add_sheet_background_tile(group, next_id, template, sx, sy)
             outer = is_inside(ltx, lty, 0, 0, rx + wall, ry + wall)
             inner = is_inside(ltx, lty, 0, 0, rx, ry)
             if template["type"] == "geodes":
@@ -248,17 +322,17 @@ def draw_template(group: ET.Element, next_id: int, template: dict, origin_tx: in
                     next_id = add_tile_obj(group, next_id, template, sx, sy, gid, kind)
             elif template["type"] == "glowCrystals":
                 if inner:
-                    next_id = add_tile_obj(group, next_id, template, sx, sy, GID_GEODE_INTERIOR, "glowCrystal", 0.82, template["color"])
+                    next_id = add_tile_obj(group, next_id, template, sx, sy, GID_GEODE_INTERIOR, "glowCrystal", 1, template["color"])
             elif template["type"] == "hiddenCaveTreasureRooms":
                 if abs(ltx) <= 1 and abs(lty) <= 1:
                     kind = "chest" if ltx == 0 and lty == 0 else "caveCeiling"
                     gid = GID_CHEST if kind == "chest" else GID_CAVE_CEILING
-                    next_id = add_tile_obj(group, next_id, template, sx, sy, gid, kind, 0.9)
+                    next_id = add_tile_obj(group, next_id, template, sx, sy, gid, kind)
             else:
                 if outer and not inner and wall > 0:
                     next_id = add_tile_obj(group, next_id, template, sx, sy, GID_CAVE_WALL, "caveWall")
                 elif inner and (lty == -math.ceil(ry) or (ltx + lty) % 11 == 0):
-                    next_id = add_tile_obj(group, next_id, template, sx, sy, GID_CAVE_CEILING, "caveCeiling", 0.72)
+                    next_id = add_tile_obj(group, next_id, template, sx, sy, GID_CAVE_CEILING, "caveCeiling")
     return next_id
 
 
@@ -281,19 +355,31 @@ def main() -> None:
     group = ET.SubElement(root, "objectgroup", {"id": "1", "name": "COPY_FROM_HERE_cave-geode-crystal-templates"})
     next_id = 1
     templates = build_templates(cfg)
-    row_y = {
-        "normalCaves": 4,
-        "hiddenCaves": 30,
-        "hiddenCaveTreasureRooms": 52,
-        "geodes": 72,
-        "glowCrystals": 96,
-        "combinedExamples": 118,
-    }
-    cursor = {key: 4 for key in row_y}
-    for template in templates:
-        row = template["type"]
-        next_id = draw_template(group, next_id, template, cursor[row], row_y[row])
-        cursor[row] += max(14, math.ceil((template["rx"] + template.get("wallThickness", 0)) * 2) + 8)
+    section_order = [
+        "normalCaves",
+        "hiddenCaves",
+        "hiddenCaveTreasureRooms",
+        "geodes",
+        "glowCrystals",
+        "combinedExamples",
+    ]
+    y_cursor = 4
+    max_x = 0
+    for section_key in section_order:
+        section_templates = [t for t in templates if t["type"] == section_key]
+        next_id = add_section_label(group, next_id, SECTION_LABELS[section_key], 4 * TILE_PX, (y_cursor - 2) * TILE_PX)
+        x_cursor = 4
+        max_section_h = 0
+        for template in section_templates:
+            square_tiles = (max(math.ceil(template["rx"] + template.get("wallThickness", 0)), math.ceil(template["ry"] + template.get("wallThickness", 0))) + 2) * 2 + 1
+            next_id = draw_template(group, next_id, template, x_cursor, y_cursor)
+            x_cursor += square_tiles + 4
+            max_section_h = max(max_section_h, square_tiles)
+        max_x = max(max_x, x_cursor + 4)
+        y_cursor += max_section_h + 8
+
+    root.attrib["width"] = str(max(MAP_W, max_x))
+    root.attrib["height"] = str(max(MAP_H, y_cursor + 4))
 
     root.attrib["nextobjectid"] = str(next_id)
     ET.indent(root, space=" ")
@@ -301,7 +387,7 @@ def main() -> None:
     report = {
         "sourceMap": str(SOURCE_TMX.relative_to(ROOT)).replace("\\", "/"),
         "output": str(OUT_TMX.relative_to(ROOT)).replace("\\", "/"),
-        "templateCounts": {key: sum(1 for t in templates if t["type"] == key) for key in row_y},
+        "templateCounts": {key: sum(1 for t in templates if t["type"] == key) for key in section_order},
         "worldGenSource": str(WORLD_GEN_JS.relative_to(ROOT)).replace("\\", "/"),
     }
     REPORT.write_text(json.dumps(report, indent=2), encoding="utf-8")

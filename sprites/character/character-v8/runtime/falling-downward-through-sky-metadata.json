@@ -14,6 +14,17 @@
   "fps": 12,
   "borderHaloPixelsRemoved": 0,
   "alphaPixelsChanged": 22978,
+  "targetedTransforms": {
+    "solidifiedAlphaFrames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
   "anchor": {
     "targetCenterX": 164,
     "targetBottom": 339,

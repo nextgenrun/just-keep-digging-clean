@@ -1,0 +1,3 @@
+globalFrame,animation,localFrame,sourceFrame,sourcePiskel,reviewFramePng,exactDuplicateOfGlobal,exactDuplicateOfLocal,adjacentMeanDiffFromPrevious
+219,walk-run,0,sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-000.png,sprites/character/character-v8/piskel/walk-run.piskel,markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/walk-run/frames/frame-000.png,,,
+220,walk-run,1,sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-001.png,sprites/character/character-v8/piskel/walk-run.piskel,markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/walk-run/frames/frame-001.png,,,16.8145

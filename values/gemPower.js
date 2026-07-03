@@ -3,7 +3,7 @@ export const GEM_POWER_CONFIG = Object.freeze({
   // Base values
   baseMax: 100,
   baseDrain: 15,
-  baseRegen: 2,
+    baseRegen: 1,
   
   // Flight
   minFlyThresholdPct: 0.15, // Minimum GP % of max required to START flying (15% → scales with tank upgrades)
@@ -14,7 +14,7 @@ export const GEM_POWER_CONFIG = Object.freeze({
   
   // Upgrade multipliers
   tankMultiplier: 40, // GP per level (increased from 20 to 40)
-  regenMultiplier: 3, // GP/s per level
+  regenMultiplier: 1.5, // GP/s per level
   drainReductionMultiplier: 1, // GP/s reduction per level
   
   // Leveling multipliers

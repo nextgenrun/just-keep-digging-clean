@@ -270,8 +270,23 @@ export class WorldModel {
       if (below === TILE_TYPES.AIR || below === TILE_TYPES.CHEST || below === TILE_TYPES.GLOW_CRYSTAL) {
         return "caveCeiling";
       }
+      const left = this.getTileType(tx - 1, ty);
+      const right = this.getTileType(tx + 1, ty);
+      const above = this.getTileType(tx, ty - 1);
+      if (this.isCaveInteriorVisualNeighbor(left) ||
+          this.isCaveInteriorVisualNeighbor(right) ||
+          this.isCaveInteriorVisualNeighbor(above)) {
+        return "caveEdge";
+      }
     }
     return "";
+  }
+
+  isCaveInteriorVisualNeighbor(type) {
+    return type === TILE_TYPES.AIR ||
+      type === TILE_TYPES.CHEST ||
+      type === TILE_TYPES.GLOW_CRYSTAL ||
+      type === TILE_TYPES.GEODE_INTERIOR;
   }
 
   getSkyTileOriginalType(tx, ty) {
@@ -796,15 +811,32 @@ export class WorldModel {
     this.geodeZones = [];
 
     for (let i = 0; i < totalGeodes; i++) {
-      const cx = this.rng.nextInt(15, this.width - 15);
-      const cy = this.rng.nextInt(this.config.topAirRows + cfg.surfaceSkipDepth, this.depth - 15);
-      const rx = this.rng.nextInt(cfg.radiusXMin, cfg.radiusXMax);
-      const ry = this.rng.nextInt(cfg.radiusYMin, cfg.radiusYMax);
+      const sizeBand = this.pickGeodeSizeBand(cfg);
+      const rx = this.rng.nextInt(sizeBand.radiusXMin, sizeBand.radiusXMax);
+      const ry = this.rng.nextInt(sizeBand.radiusYMin, sizeBand.radiusYMax);
+      const marginX = Math.ceil(rx + cfg.wallThickness + 2);
+      const marginY = Math.ceil(ry + cfg.wallThickness + 2);
+      const cx = this.rng.nextInt(marginX, this.width - marginX);
+      const minY = this.config.topAirRows + cfg.surfaceSkipDepth + marginY;
+      const cy = this.rng.nextInt(minY, this.depth - marginY);
       const isHeavyPunch = this.rng.next() < cfg.heavyPunchChance;
 
-      this.geodeZones.push({ cx, cy, rx, ry, wallThickness: cfg.wallThickness, isHeavyPunch });
+      this.geodeZones.push({ cx, cy, rx, ry, wallThickness: cfg.wallThickness, isHeavyPunch, sizeBand: sizeBand.name });
     }
     console.log(`[WorldModel] Planned ${this.geodeZones.length} geode pockets`);
+  }
+
+  pickGeodeSizeBand(cfg) {
+    const bands = Array.isArray(cfg.sizeBands) && cfg.sizeBands.length > 0
+      ? cfg.sizeBands
+      : [{ name: 'small', weight: 1, radiusXMin: cfg.radiusXMin, radiusXMax: cfg.radiusXMax, radiusYMin: cfg.radiusYMin, radiusYMax: cfg.radiusYMax }];
+    const totalWeight = bands.reduce((sum, band) => sum + Math.max(0, Number(band.weight) || 0), 0);
+    let roll = this.rng.next() * Math.max(1, totalWeight);
+    for (const band of bands) {
+      roll -= Math.max(0, Number(band.weight) || 0);
+      if (roll <= 0) return band;
+    }
+    return bands[bands.length - 1];
   }
 
   isInGeodeInterior(tx, ty) {

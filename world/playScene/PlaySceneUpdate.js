@@ -211,6 +211,11 @@ function _updateSystems(time, delta, keys) {
       this.worldRenderer.updateGlowCrystals(playerTile, 25);
     }
 
+    if (this.caveInteriorOcclusionSystem && this.playerController) {
+      const playerTile = this.playerController.getPlayerTile();
+      this.caveInteriorOcclusionSystem.update(playerTile);
+    }
+
   // Update Star Pillar System (always active — handles proximity + zoom view)
   if (this.starPillarSystem && this.playerController) {
     const playerTile = this.playerController.getPlayerTile();
@@ -320,6 +325,16 @@ function _updatePlayingState(time, delta, keys) {
       this.playMineImpactFx(quickslashTarget, result.destroyed);
       this.playMineFeedbackAudio(result, tileType);
       this.applyMineFeedback(result, quickslashTarget);
+      if (result.heavyPunchHit && result.heavyPunchTile && this.floatingTextSystem) {
+        const worldX = result.heavyPunchTile.tx * this.config.tileSize + this.config.tileSize / 2;
+        const worldY = result.heavyPunchTile.ty * this.config.tileSize + this.config.tileSize / 2;
+        this.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
+      }
+
+      if (result.behindDestroyed) {
+        this.queueDugTilesSave?.();
+      }
+
       if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
         this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
           resourceType: result.behindResourceType,
@@ -329,7 +344,7 @@ function _updatePlayingState(time, delta, keys) {
       }
       
       // Show damage number for quickslash hit
-      if (this.floatingTextSystem) {
+      if (this.floatingTextSystem && result.frontDamageApplied !== false) {
         const worldX = quickslashTarget.tx * this.config.tileSize + this.config.tileSize / 2;
         const worldY = quickslashTarget.ty * this.config.tileSize + this.config.tileSize / 2;
         this.floatingTextSystem.showDamage(worldX, worldY, result.damage);
@@ -371,12 +386,18 @@ function _updatePlayingState(time, delta, keys) {
 
       if (result.success) {
       // Show damage number for every successful hit
-      if (this.floatingTextSystem) {
+      if (this.floatingTextSystem && result.frontDamageApplied !== false) {
         const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
         const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
         
         // Show damage number
         this.floatingTextSystem.showDamage(worldX, worldY, result.damage);
+      }
+
+      if (result.heavyPunchHit && result.heavyPunchTile && this.floatingTextSystem) {
+        const worldX = result.heavyPunchTile.tx * this.config.tileSize + this.config.tileSize / 2;
+        const worldY = result.heavyPunchTile.ty * this.config.tileSize + this.config.tileSize / 2;
+        this.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
       }
       
       if (result.destroyed) {
@@ -395,17 +416,8 @@ function _updatePlayingState(time, delta, keys) {
                                 result.resourceType === 'copper' ? '#B87333' :
                                 result.resourceType === 'stone' ? '#808080' : '#8B4513';
           this.floatingTextSystem.showResource(worldX, worldY, resourceLabel, resourceColor, result.resourceAmount);
-          this.showLootPickupFeedback?.(result, mineTargetTile);
         }
 
-        if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
-          this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
-            resourceType: result.behindResourceType,
-            amount: result.behindResourceAmount,
-            isLuckyDrop: result.behindIsLuckyDrop,
-          });
-        }
-        
         // Visual feedback for critical hits
         if (result.isCriticalHit && this.floatingTextSystem) {
           const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
@@ -420,6 +432,18 @@ function _updatePlayingState(time, delta, keys) {
           const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
           this.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
         }
+      }
+
+      if (result.behindDestroyed) {
+        this.queueDugTilesSave();
+      }
+
+      if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
+        this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+          resourceType: result.behindResourceType,
+          amount: result.behindResourceAmount,
+          isLuckyDrop: result.behindIsLuckyDrop,
+        });
       }
     }
 

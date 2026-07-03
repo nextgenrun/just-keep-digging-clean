@@ -44,6 +44,7 @@ import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
 import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
+import { CaveInteriorOcclusionSystem } from "../../systems/visual/CaveInteriorOcclusionSystem.js";
 import { SpecialBlockEffectsManager } from "../../systems/mining/SpecialBlockEffectsManager.js";
 import { MilestoneBoardSystem } from "../../systems/visual/MilestoneBoardSystem.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
@@ -384,6 +385,8 @@ async function _setupSceneSafe(data = {}) {
   this.worldRenderer.create();
   this.caveTemplateVisualSystem = new CaveTemplateVisualSystem(this);
   this.caveTemplateVisualSystem.create(this.worldModel);
+  this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
+  this.caveInteriorOcclusionSystem.create(this.worldModel);
   this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
 
   this._safeReturnGfx = this.add.graphics();
@@ -478,7 +481,9 @@ async function _setupSceneSafe(data = {}) {
   this._lastPlayerX = this.player.x;
   this._lastPlayerY = this.player.y;
   this._cameraDepthBand = -1;
-  this.shakeSystem = new CameraShakeSystem(this);
+  this.shakeSystem = new CameraShakeSystem(this, undefined, {
+    getDisplaySettings: () => USER_SETTINGS.getDisplay(),
+  });
   this.add.rectangle(this.config.worldWidthPx + 5000, this.config.worldDepthPx / 2, 10000, this.config.worldDepthPx, 0x000000).setDepth(HUD_LAYOUT.bgMaskDepth);
 
   this.inputHandler = new PlayerInputHandler(this);

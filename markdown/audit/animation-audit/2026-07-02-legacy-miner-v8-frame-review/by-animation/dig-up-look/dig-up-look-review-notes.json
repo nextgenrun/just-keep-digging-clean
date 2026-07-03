@@ -1,0 +1,23 @@
+{
+  "animation": "dig-up-look",
+  "displayName": "Dig Up Look",
+  "frameCount": 1,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-look-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/legacy-dig-up-look-clean.png",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-up-look/dig-up-look-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-up-look/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-up-look/dig-up-look-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-up-look/dig-up-look-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

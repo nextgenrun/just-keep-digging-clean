@@ -1,0 +1,23 @@
+{
+  "animation": "dig-sideways",
+  "displayName": "Dig Sideways",
+  "frameCount": 18,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/legacy-dig-sideways-clean-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-sideways/dig-sideways-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-sideways/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-sideways/dig-sideways-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/dig-sideways/dig-sideways-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

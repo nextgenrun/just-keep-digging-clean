@@ -1,6 +1,7 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ensureHudTorchTextures } from "../../ui/GeneratedHudTextures.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
@@ -19,7 +20,7 @@ export class HUDSystem {
     this.gemPowerRaw = 0;
     this.gemPowerMax = 0;
     this.torchActive = false;
-    this.torchDrainGpPerSecond = 5;
+    this.torchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
     this._destroyed = false;
 
     this.statsDirty = true;
@@ -388,7 +389,7 @@ export class HUDSystem {
     }
   }
 
-  setTorchState(active, drainGpPerSecond = 5) {
+  setTorchState(active, drainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond) {
     this.torchActive = Boolean(active);
     this.torchDrainGpPerSecond = drainGpPerSecond;
     const torchKey = USER_SETTINGS.getKeyLabel("torch");

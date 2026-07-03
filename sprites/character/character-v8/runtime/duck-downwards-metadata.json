@@ -8,18 +8,26 @@
   "piskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
   "frameWidth": 341,
   "frameHeight": 341,
-  "frameCount": 7,
-  "columns": 7,
+  "frameCount": 4,
+  "columns": 4,
   "rows": 1,
   "fps": 10,
   "borderHaloPixelsRemoved": 140,
-  "alphaPixelsChanged": 13544,
+  "alphaPixelsChanged": 36298,
+  "targetedTransforms": {
+    "sourceFrameOrder": [
+      6,
+      5,
+      4,
+      3
+    ]
+  },
   "anchor": {
-    "targetCenterX": 168,
+    "targetCenterX": 167,
     "targetBottom": 339,
-    "maxShiftX": 3,
+    "maxShiftX": 4,
     "maxShiftY": 0,
-    "avgShiftX": 1.29,
+    "avgShiftX": 2.5,
     "avgShiftY": 0.0
   },
   "driftBefore": {

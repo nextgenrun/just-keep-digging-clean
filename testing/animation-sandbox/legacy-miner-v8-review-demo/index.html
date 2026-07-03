@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>Legacy Miner V8 Review Demo</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #161616;
+        color: #e8e2d6;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+      }
+
+      .toolbar,
+      .controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        background: #202020;
+      }
+
+      .toolbar {
+        padding: 10px 12px 6px;
+      }
+
+      .controls {
+        padding: 4px 12px 10px;
+        border-bottom: 1px solid #3a3a3a;
+      }
+
+      button {
+        border: 1px solid #5a5145;
+        background: #2b2925;
+        color: #f1eadf;
+        border-radius: 6px;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+
+      button:hover,
+      button.active {
+        background: #4b3d2c;
+      }
+
+      input[type="range"] {
+        width: 130px;
+      }
+
+      #game {
+        min-height: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar" id="toolbar"></div>
+    <div class="controls" id="controls"></div>
+    <div id="game"></div>
+    <script src="../../../libs/phaser.js"></script>
+    <script src="reviewDemoConfig.js"></script>
+    <script src="sandbox.js"></script>
+  </body>
+</html>

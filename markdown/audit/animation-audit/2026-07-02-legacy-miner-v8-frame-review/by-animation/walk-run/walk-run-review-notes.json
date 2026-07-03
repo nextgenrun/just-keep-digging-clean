@@ -1,0 +1,23 @@
+{
+  "animation": "walk-run",
+  "displayName": "Walk Run",
+  "frameCount": 2,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/walk-run-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/walk-run-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/walk-run/walk-run-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/walk-run/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/walk-run/walk-run-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/walk-run/walk-run-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

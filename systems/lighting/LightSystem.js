@@ -24,6 +24,8 @@ export class LightSystem {
     this._currentRadiusTiles = null;
     this._currentGlowStrength = 0;
     this._currentFacingOffsetWorld = 0;
+    this._latestDepth = 0;
+    this._currentTorchDrainGpPerSecond = this.config.torchDrainGpPerSecond;
     this._screenPoint = new Phaser.Math.Vector2();
     this._crystalScreenPoint = new Phaser.Math.Vector2();
     this._manualTorchOff = true; // starts off and stays off until the player toggles it on
@@ -55,9 +57,13 @@ export class LightSystem {
 
     const deltaMs = Math.max(0, Number.isFinite(delta) ? delta : 0);
     const dt = deltaMs / 1000;
+    const activeDepth = Number.isFinite(depth) ? depth : this._latestDepth;
+    this._latestDepth = activeDepth;
+    const torchDrainRate = this._getTorchDrainPerSecond(activeDepth);
+    const lighting = this._resolveLightingState(activeDepth);
 
     if (gameplayActive && this._torchActive) {
-      const requested = this.config.torchDrainGpPerSecond * dt;
+      const requested = torchDrainRate * dt;
       const consumed = this.playerController?.consumeGemPower?.(requested) ?? 0;
       if (consumed + Number.EPSILON < requested) this.forceTorchOff();
     }
@@ -65,10 +71,10 @@ export class LightSystem {
     // Auto-recover torch if it was drained by GP depletion (not manually toggled).
     if (gameplayActive && !this._torchActive && !this._manualTorchOff && this.playerController?.hasGemPower?.()) {
       this._torchActive = true;
-      this.scene.hudSystem?.setTorchState(true, this.config.torchDrainGpPerSecond);
+      this.scene.hudSystem?.setTorchState(true, torchDrainRate);
     }
-
-    const lighting = this._resolveLightingState(depth);
+    this._currentTorchDrainGpPerSecond = torchDrainRate;
+    this._latestDepth = activeDepth;
     const targetRadius = this._computeVisibilityRadius(lighting);
     const targetGlow = this._computeTargetGlow(lighting);
     const response = 1 - Math.exp(-this.config.transitionResponsePerSecond * dt);
@@ -114,13 +120,15 @@ export class LightSystem {
       nextKey.on("down", this._torchKeyHandler);
     }
     this._torchKey = nextKey;
-    this.scene.hudSystem?.setTorchState(this._torchActive, this.config.torchDrainGpPerSecond);
+    const torchDrainRate = this._getTorchDrainPerSecond(this._latestDepth);
+    this._currentTorchDrainGpPerSecond = torchDrainRate;
+    this.scene.hudSystem?.setTorchState(this._torchActive, torchDrainRate);
   }
 
   forceTorchOff() {
     if (!this._torchActive) return;
     this._torchActive = false;
-    this.scene.hudSystem?.setTorchState(false, this.config.torchDrainGpPerSecond);
+    this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
     this.scene.hudSystem?.flashStatus("Torch extinguished - no GP", "#ff9a55", 1800);
   }
 
@@ -146,7 +154,7 @@ export class LightSystem {
     if (this._torchActive) {
       this._torchActive = false;
       this._manualTorchOff = true;
-      this.scene.hudSystem?.setTorchState(false, this.config.torchDrainGpPerSecond);
+      this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
       this.scene.hudSystem?.flashStatus(`Torch turned off (${USER_SETTINGS.getKeyLabel("torch")} to relight)`, "#ff9a55", 1800);
       return;
     }
@@ -156,7 +164,7 @@ export class LightSystem {
     }
     this._torchActive = true;
     this._manualTorchOff = false;
-    this.scene.hudSystem?.setTorchState(true, this.config.torchDrainGpPerSecond);
+    this.scene.hudSystem?.setTorchState(true, this._getTorchDrainPerSecond(this._latestDepth));
     this.scene.hudSystem?.flashStatus("Torch relit", "#ffc06a", 900);
   }
 
@@ -182,12 +190,15 @@ export class LightSystem {
     this._lightingState = surfaceLightInfluence > 0.82
       ? "surfaceSunlight"
       : surfaceLightInfluence > 0.02
-        ? "transition"
-        : "undergroundDarkness";
+      ? "transition"
+      : "undergroundDarkness";
 
     return {
       state: this._lightingState,
       depth,
+      torchBonusRadius: this._getTorchBonusRadius(),
+      torchDarknessMultiplier: this._getTorchDarknessMultiplier(depth),
+      torchDrainPerSecond: this._getTorchDrainPerSecond(depth),
       depthRatio,
       nightAmount,
       sunStrength,
@@ -288,7 +299,9 @@ export class LightSystem {
 
   _computeVisibilityRadius(lighting) {
     const baseRadius = this._getBaseVisibilityRadius(lighting.depth);
-    const torchBonus = this._torchActive ? this.config.torchBonusRadiusTiles : 0;
+    const torchBonus = this._torchActive
+      ? this.config.torchBonusRadiusTiles + Number(lighting.torchBonusRadius || 0)
+      : 0;
     const surface = lighting.surfaceLightInfluence;
     const underground = lighting.undergroundDarknessInfluence;
     const weather = lighting.weather;
@@ -510,10 +523,13 @@ export class LightSystem {
       caveCfg.maxDarknessAlpha,
       lighting.depthRatio
     ) * lighting.undergroundDarknessInfluence;
+    const torchDarknessMultiplier = Number(lighting.torchDarknessMultiplier) || 1;
     const caveWeather = weather.undergroundSignal * caveCfg.caveWeatherAlpha * lighting.undergroundDarknessInfluence;
+    const caveWeatherBoost = caveWeather * torchDarknessMultiplier;
     const torchOffBoost = this._torchActive
       ? 0
-      : caveCfg.torchOffDarknessBoost * lighting.undergroundDarknessInfluence;
+      : caveCfg.torchOffDarknessBoost * lighting.undergroundDarknessInfluence * torchDarknessMultiplier;
+    const scaledCaveBase = caveBase * torchDarknessMultiplier;
     const minimumCaveAlpha = caveCfg.minimumReadableAlpha * lighting.undergroundDarknessInfluence;
 
     const surfaceReveal = weather.lightningFlashAmount
@@ -521,7 +537,7 @@ export class LightSystem {
       * surfaceCfg.lightningRevealStrength;
     const caveReveal = lighting.stormCavePulse * caveCfg.lightningRevealStrength;
 
-    return clamp01(Math.max(minimumCaveAlpha, surfaceDim + caveBase + caveWeather + torchOffBoost) - surfaceReveal - caveReveal);
+    return clamp01(Math.max(minimumCaveAlpha, surfaceDim + scaledCaveBase + caveWeatherBoost + torchOffBoost) - surfaceReveal - caveReveal);
   }
 
   _getFireMotion(time, lighting) {
@@ -718,5 +734,66 @@ export class LightSystem {
     const rg = Math.round(ag + (bg - ag) * amount);
     const rb = Math.round(ab + (bb - ab) * amount);
     return (rr << 16) | (rg << 8) | rb;
+  }
+
+  _getUpgradeEffects() {
+    const effects = this.scene?.upgradeSystem?.getUpgradeEffects?.();
+    return effects && typeof effects === "object" ? effects : {};
+  }
+
+  _getTorchBonusRadius() {
+    const effects = this._getUpgradeEffects();
+    return Number.isFinite(effects.torchBonusRadius) ? Math.max(0, effects.torchBonusRadius) : 0;
+  }
+
+  _getTorchDrainPerSecond(depth = 0) {
+    const cfg = this.config;
+    const base = cfg.torchDrainGpPerSecond;
+    const effects = this._getUpgradeEffects();
+    const reduction = Math.max(0, effects.torchDrainReduction || 0);
+
+    const start = Number.isFinite(cfg.torchDrainDepthStartTiles)
+      ? Math.max(0, cfg.torchDrainDepthStartTiles)
+      : Number.POSITIVE_INFINITY;
+    const rampEnd = Number.isFinite(cfg.torchDrainDepthRampEndTiles)
+      ? Math.max(start, cfg.torchDrainDepthRampEndTiles)
+      : start;
+    const startMultiplier = Number.isFinite(cfg.torchDrainDepthStartMultiplier)
+      ? Math.max(1, cfg.torchDrainDepthStartMultiplier)
+      : 1;
+    const maxMultiplier = Number.isFinite(cfg.torchDrainDepthMaxMultiplier)
+      ? Math.max(startMultiplier, cfg.torchDrainDepthMaxMultiplier)
+      : startMultiplier;
+
+    if (depth < start || !Number.isFinite(start)) {
+      return Math.max(0.1, base - reduction);
+    }
+
+    if (rampEnd <= start) {
+      return Math.max(0.1, base * maxMultiplier - reduction);
+    }
+
+    const scale = clamp01((depth - start) / (rampEnd - start));
+    return Math.max(0.1, base * Phaser.Math.Linear(startMultiplier, maxMultiplier, scale) - reduction);
+  }
+
+  _getTorchDarknessMultiplier(depth = 0) {
+    const cfg = this.config;
+    const start = Number.isFinite(cfg.torchDarknessDepthStartTiles)
+      ? Math.max(0, cfg.torchDarknessDepthStartTiles)
+      : Number.POSITIVE_INFINITY;
+
+    if (depth < start || !Number.isFinite(start)) {
+      return 1;
+    }
+
+    const rampEnd = Number.isFinite(cfg.torchDarknessDepthRampEndTiles)
+      ? Math.max(start, cfg.torchDarknessDepthRampEndTiles)
+      : start;
+    if (rampEnd <= start) {
+      return Math.max(1, cfg.torchDarknessDepthMaxMultiplier || 1);
+    }
+
+    return Math.max(1, Phaser.Math.Linear(1, cfg.torchDarknessDepthMaxMultiplier || 1, clamp01((depth - start) / (rampEnd - start))));
   }
 }

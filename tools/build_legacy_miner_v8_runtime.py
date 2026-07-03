@@ -7,7 +7,7 @@ import io
 from collections import Counter, deque
 from pathlib import Path
 
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageFilter
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +16,8 @@ RUNTIME = CHAR / "runtime"
 PREVIEWS = CHAR / "previews"
 REPORTS = CHAR / "reports"
 PISKEL = CHAR / "piskel"
+BACKUP_DIG_DOWN = Path("C:/xampp/_Backups/dig-game-simple/back-ups-dig-game/23-06-2026-big-progress-tiled-piksel/sprites/character/character-v5-walk/dig/dig-down")
+DIG_DOWN_RESTORED_SOURCE = CHAR / "manual-blend" / "dig-down-v5-restored"
 FRAME_SIZE = (341, 341)
 MAX_WEBP_DIM = 16383
 
@@ -68,7 +70,7 @@ ANIMS: dict[str, dict] = {
         "anchor": True,
     },
     "dig-down": {
-        "source": frame_source("frames", "dig-down"),
+        "source": DIG_DOWN_RESTORED_SOURCE,
         "output": "dig-down-sheet.webp",
         "fps": 18,
         "anchor": True,
@@ -77,12 +79,6 @@ ANIMS: dict[str, dict] = {
         "source": frame_source("manual-blend", "duck-downwards"),
         "output": "duck-downwards-sheet.webp",
         "fps": 10,
-        "anchor": True,
-    },
-    "combat-idle-recover": {
-        "source": frame_source("frames", "combat-idle-recover"),
-        "output": "combat-idle-recover-sheet.webp",
-        "fps": 8,
         "anchor": True,
     },
     "combat-idle-to-normal-idle": {
@@ -107,12 +103,6 @@ ANIMS: dict[str, dict] = {
         "source": frame_source("frames", "walk-run"),
         "output": "walk-run-sheet.webp",
         "fps": 16,
-        "anchor": True,
-    },
-    "wall-push": {
-        "source": frame_source("frames", "wall-push"),
-        "output": "wall-push-sheet.webp",
-        "fps": 8,
         "anchor": True,
     },
     "quickslash": {
@@ -154,6 +144,29 @@ def load_frame(path: Path) -> Image.Image:
     return canvas
 
 
+def write_restored_dig_down_sources() -> dict:
+    if not BACKUP_DIG_DOWN.exists():
+        raise FileNotFoundError(f"Missing requested dig-down backup source: {BACKUP_DIG_DOWN}")
+    DIG_DOWN_RESTORED_SOURCE.mkdir(parents=True, exist_ok=True)
+    for old_frame in DIG_DOWN_RESTORED_SOURCE.glob("frame-*.png"):
+        old_frame.unlink()
+    restored = []
+    for index, path in enumerate(frame_paths(BACKUP_DIG_DOWN)):
+        if path.name.lower().endswith(".zip"):
+            continue
+        image = Image.open(path).convert("RGBA")
+        cutout = cutout_checker_background(image)
+        normalized = remove_isolated_neutral_components(fit_to_runtime_frame(cutout, max_width=260, max_height=330))
+        out = DIG_DOWN_RESTORED_SOURCE / f"frame-{index:03d}.png"
+        normalized.save(out)
+        restored.append(str(out.relative_to(ROOT)).replace("\\", "/"))
+    return {
+        "backupSource": str(BACKUP_DIG_DOWN).replace("\\", "/"),
+        "restoredSource": str(DIG_DOWN_RESTORED_SOURCE.relative_to(ROOT)).replace("\\", "/"),
+        "frames": restored,
+    }
+
+
 def quantized_rgb(rgb: tuple[int, int, int], bucket: int = 8) -> tuple[int, int, int]:
     return tuple((c // bucket) * bucket for c in rgb)
 
@@ -185,6 +198,27 @@ def color_distance(a: tuple[int, int, int], b: tuple[int, int, int]) -> float:
 
 def low_saturation(rgb: tuple[int, int, int], spread_limit: int = 34) -> bool:
     return max(rgb) - min(rgb) <= spread_limit
+
+
+def checker_background_like(pixel: tuple[int, int, int, int]) -> bool:
+    r, g, b, a = pixel
+    if a <= 8:
+        return True
+    rgb = (r, g, b)
+    average = sum(rgb) / 3
+    return a >= 245 and low_saturation(rgb, 24) and 42 <= average <= 122
+
+
+def walk_matte_like(pixel: tuple[int, int, int, int]) -> bool:
+    r, g, b, a = pixel
+    if a <= 8:
+        return True
+    rgb = (r, g, b)
+    if a >= 246 and low_saturation(rgb, 10) and 18 <= max(rgb) <= 74:
+        return True
+    if a <= 245 and low_saturation(rgb, 36) and max(rgb) <= 90:
+        return True
+    return False
 
 
 def background_like(pixel: tuple[int, int, int, int], bg: tuple[int, int, int]) -> bool:
@@ -242,6 +276,180 @@ def cleanup_border_halo(image: Image.Image) -> tuple[Image.Image, int]:
             px[x, y] = (0, 0, 0, 0)
             changed += 1
     return cleaned, changed
+
+
+def flood_cleanup(image: Image.Image, predicate) -> tuple[Image.Image, int]:
+    cleaned = image.copy()
+    px = cleaned.load()
+    w, h = cleaned.size
+    seen: set[tuple[int, int]] = set()
+    queue: deque[tuple[int, int]] = deque()
+
+    def add_if_match(x: int, y: int) -> None:
+        if (x, y) in seen:
+            return
+        if predicate(px[x, y]):
+            seen.add((x, y))
+            queue.append((x, y))
+
+    for x in range(w):
+        add_if_match(x, 0)
+        add_if_match(x, h - 1)
+    for y in range(h):
+        add_if_match(0, y)
+        add_if_match(w - 1, y)
+
+    while queue:
+        x, y = queue.popleft()
+        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+            if nx < 0 or ny < 0 or nx >= w or ny >= h or (nx, ny) in seen:
+                continue
+            if predicate(px[nx, ny]):
+                seen.add((nx, ny))
+                queue.append((nx, ny))
+
+    changed = 0
+    for x, y in seen:
+        if px[x, y][3] != 0:
+            px[x, y] = (0, 0, 0, 0)
+            changed += 1
+    return cleaned, changed
+
+
+def cutout_checker_background(image: Image.Image) -> Image.Image:
+    cleaned, _ = flood_cleanup(image, checker_background_like)
+    return remove_isolated_neutral_components(cleaned)
+
+
+def remove_isolated_neutral_components(image: Image.Image) -> Image.Image:
+    cleaned = image.copy()
+    px = cleaned.load()
+    w, h = cleaned.size
+    seen: set[tuple[int, int]] = set()
+
+    for start_y in range(h):
+        for start_x in range(w):
+            if (start_x, start_y) in seen or px[start_x, start_y][3] <= 8:
+                continue
+            queue: deque[tuple[int, int]] = deque([(start_x, start_y)])
+            seen.add((start_x, start_y))
+            component: list[tuple[int, int]] = []
+            saturated = False
+            while queue:
+                x, y = queue.popleft()
+                component.append((x, y))
+                r, g, b, _ = px[x, y]
+                if not low_saturation((r, g, b), 34):
+                    saturated = True
+                for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                    if nx < 0 or ny < 0 or nx >= w or ny >= h or (nx, ny) in seen:
+                        continue
+                    if px[nx, ny][3] > 8:
+                        seen.add((nx, ny))
+                        queue.append((nx, ny))
+            if saturated or len(component) >= 6000:
+                continue
+            for x, y in component:
+                px[x, y] = (0, 0, 0, 0)
+    return cleaned
+
+
+def fit_to_runtime_frame(image: Image.Image, *, max_width: int, max_height: int) -> Image.Image:
+    bbox = image.getchannel("A").getbbox()
+    if not bbox:
+        return Image.new("RGBA", FRAME_SIZE, (0, 0, 0, 0))
+    content = image.crop(bbox)
+    scale = min(max_width / content.width, max_height / content.height)
+    new_size = (
+        max(1, round(content.width * scale)),
+        max(1, round(content.height * scale)),
+    )
+    resized = content.resize(new_size, Image.Resampling.LANCZOS)
+    canvas = Image.new("RGBA", FRAME_SIZE, (0, 0, 0, 0))
+    x = (FRAME_SIZE[0] - resized.width) // 2
+    y = FRAME_SIZE[1] - resized.height - 2
+    canvas.alpha_composite(resized, (x, y))
+    return canvas
+
+
+def scale_frame_content(frame: Image.Image, scale: float) -> Image.Image:
+    bbox = frame.getchannel("A").getbbox()
+    if not bbox:
+        return frame
+    content = frame.crop(bbox)
+    resized = content.resize(
+        (max(1, round(content.width * scale)), max(1, round(content.height * scale))),
+        Image.Resampling.LANCZOS,
+    )
+    canvas = Image.new("RGBA", FRAME_SIZE, (0, 0, 0, 0))
+    center_x = (bbox[0] + bbox[2]) / 2
+    bottom = bbox[3]
+    x = round(center_x - resized.width / 2)
+    y = round(bottom - resized.height)
+    canvas.alpha_composite(resized, (x, y))
+    return canvas
+
+
+def solidify_visible_pixels(frame: Image.Image, threshold: int = 24) -> Image.Image:
+    solid = frame.copy()
+    px = solid.load()
+    w, h = solid.size
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a > threshold:
+                px[x, y] = (r, g, b, 255)
+    return solid
+
+
+def apply_animation_transforms(name: str, frames: list[Image.Image]) -> tuple[list[Image.Image], dict]:
+    report: dict[str, object] = {}
+    if name == "walk":
+        leak_frames = set(range(12, 19)) | set(range(29, 34)) | set(range(42, 49))
+        cleaned_frames = []
+        changed: dict[int, int] = {}
+        for index, frame in enumerate(frames):
+            if index in leak_frames:
+                cleaned, removed = flood_cleanup(frame, walk_matte_like)
+                cleaned_frames.append(cleaned)
+                changed[index] = removed
+            else:
+                cleaned_frames.append(frame)
+        report["targetedWalkMattePixelsRemoved"] = changed
+        return cleaned_frames, report
+    if name == "dig-up" and len(frames) > 3:
+        frames = frames.copy()
+        frames[3] = scale_frame_content(frames[3], 1.035).filter(ImageFilter.UnsharpMask(radius=1.0, percent=110, threshold=3))
+        report["polishedFrames"] = [3]
+        return frames, report
+    if name == "duck-downwards":
+        order = [6, 5, 4, 3]
+        report["sourceFrameOrder"] = order
+        return [frames[index] for index in order if index < len(frames)], report
+    if name == "combat-idle-to-normal-idle":
+        remove = {0, 1, 16, 17}
+        transformed = []
+        for index, frame in enumerate(frames):
+            if index in remove:
+                continue
+            if index in {12, 13}:
+                frame = scale_frame_content(frame, 1.035)
+            transformed.append(frame)
+        report["removedSourceFrames"] = sorted(remove)
+        report["polishedSourceFrames"] = [12, 13]
+        return transformed, report
+    if name == "leans-against-wall":
+        keep = [0, 1, 2, 3]
+        report["sourceFrameOrder"] = keep
+        return [frames[index] for index in keep if index < len(frames)], report
+    if name == "falling-downward-through-sky":
+        report["solidifiedAlphaFrames"] = list(range(len(frames)))
+        return [solidify_visible_pixels(frame) for frame in frames], report
+    if name == "walk-run":
+        keep = [0, 1]
+        report["sourceFrameOrder"] = keep
+        return [frames[index] for index in keep if index < len(frames)], report
+    return frames, report
 
 
 def bbox_for(image: Image.Image) -> tuple[int, int, int, int] | None:
@@ -427,6 +635,7 @@ def build_anim(name: str, cfg: dict) -> dict:
         cleaned_frame, removed = cleanup_border_halo(frame)
         cleaned.append(cleaned_frame)
         removed_total += removed
+    cleaned, transform_report = apply_animation_transforms(name, cleaned)
 
     if cfg.get("anchor", True):
         processed, anchor_report = anchor_frames(cleaned)
@@ -451,6 +660,8 @@ def build_anim(name: str, cfg: dict) -> dict:
     piskel = save_piskel(name, processed, int(cfg["fps"]))
     cleaned_dir = RUNTIME / f"{name}-cleaned-frames"
     cleaned_dir.mkdir(parents=True, exist_ok=True)
+    for old_frame in cleaned_dir.glob("frame-*.png"):
+        old_frame.unlink()
     for index, frame in enumerate(processed):
         frame.save(cleaned_dir / f"frame-{index:03d}.png")
 
@@ -474,6 +685,7 @@ def build_anim(name: str, cfg: dict) -> dict:
         "fps": cfg["fps"],
         "borderHaloPixelsRemoved": removed_total,
         "alphaPixelsChanged": alpha_changed,
+        "targetedTransforms": transform_report,
         "anchor": anchor_report,
         "driftBefore": {
             "centerXRange": round((max(before_centers) - min(before_centers)) if before_centers else 0, 2),
@@ -510,10 +722,14 @@ def write_audit(manifest: dict) -> None:
 
 
 def main() -> None:
+    restored_sources = write_restored_dig_down_sources()
     manifest = {
         "frameWidth": FRAME_SIZE[0],
         "frameHeight": FRAME_SIZE[1],
-        "cleanupPolicy": "Border-connected dominant-background flood fill plus median center/bottom anchoring. Interior character pixels are not keyed out by color.",
+        "cleanupPolicy": "Border-connected dominant-background flood fill, targeted walk matte flood cleanup, restored v5 dig-down cutouts, one-shot frame culls/reorders, falling alpha solidification, and median center/bottom anchoring. Interior character pixels are not globally keyed by color.",
+        "restoredSources": {
+            "digDown": restored_sources,
+        },
         "animations": [],
     }
     for name, cfg in ANIMS.items():

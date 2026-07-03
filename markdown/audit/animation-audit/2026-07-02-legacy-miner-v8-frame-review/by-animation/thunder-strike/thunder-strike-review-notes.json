@@ -1,0 +1,23 @@
+{
+  "animation": "thunder-strike",
+  "displayName": "Thunder Strike",
+  "frameCount": 1,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/thunder-strike.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/thunder-strike-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/thunder-strike-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-strike/thunder-strike-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-strike/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-strike/thunder-strike-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-strike/thunder-strike-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

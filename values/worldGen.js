@@ -9,13 +9,13 @@ export const WORLD_GEN_CONFIG = Object.freeze({
   caves: {
     totalCavesMin: 90,
     totalCavesMax: 140,
-    // Cave dimensions — height is ALWAYS 1-3 tiles (no huge caves).
+    // Cave dimensions — height is ALWAYS 2-3 tiles total (no tall normal caves).
     // Width varies wildly to create dynamic, natural-feeling chambers:
     // narrow crawlspaces, wide halls, multi-chamber pockets.
     radiusXMin: 2,       // 2 tiles wide (tiny pocket)
     radiusXMax: 40,      // 40 tiles wide (massive hall, still 1-3 high)
-    radiusYMin: 1,       // 1 tile high (tight crawlspace)
-    radiusYMax: 3,       // 3 tiles high (max — never taller)
+    radiusYMin: 1,       // low tunnel radius
+    radiusYMax: 1,       // hard cap: 2-3 tiles total after ellipse rasterization
     // Unbreakable cave wall shell thickness
     wallThickness: 1,    // 1 tile thick shell of CAVE_WALL
     // Entrances — number of gaps in the wall
@@ -78,6 +78,11 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     radiusXMax: 4,    // maximum X radius (8 tiles wide)
     radiusYMin: 2,    // minimum Y radius (4 tiles tall)
     radiusYMax: 4,    // maximum Y radius (8 tiles tall)
+    sizeBands: Object.freeze([
+      Object.freeze({ name: 'small', weight: 55, radiusXMin: 2, radiusXMax: 4, radiusYMin: 2, radiusYMax: 4 }),
+      Object.freeze({ name: 'large', weight: 35, radiusXMin: 5, radiusXMax: 11, radiusYMin: 3, radiusYMax: 7 }),
+      Object.freeze({ name: 'huge', weight: 10, radiusXMin: 12, radiusXMax: 20, radiusYMin: 6, radiusYMax: 11 }),
+    ]),
     // Wall thickness — 2-tile-thick undiggable shell around the interior
     wallThickness: 2,
     // Depth restrictions

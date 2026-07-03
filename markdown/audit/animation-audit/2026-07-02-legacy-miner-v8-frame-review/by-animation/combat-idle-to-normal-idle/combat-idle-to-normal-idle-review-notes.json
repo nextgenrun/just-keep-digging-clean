@@ -1,0 +1,64 @@
+{
+  "animation": "combat-idle-to-normal-idle",
+  "displayName": "Combat Idle To Normal Idle",
+  "frameCount": 47,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/combat-idle-to-normal-idle/combat-idle-to-normal-idle-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/combat-idle-to-normal-idle/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/combat-idle-to-normal-idle/combat-idle-to-normal-idle-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/combat-idle-to-normal-idle/combat-idle-to-normal-idle-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [
+    {
+      "localFrame": 38,
+      "previousLocalFrame": 37,
+      "meanDiff": 0.0584
+    },
+    {
+      "localFrame": 39,
+      "previousLocalFrame": 38,
+      "meanDiff": 0.0574
+    },
+    {
+      "localFrame": 41,
+      "previousLocalFrame": 40,
+      "meanDiff": 0.0626
+    },
+    {
+      "localFrame": 42,
+      "previousLocalFrame": 41,
+      "meanDiff": 0.0602
+    },
+    {
+      "localFrame": 43,
+      "previousLocalFrame": 42,
+      "meanDiff": 0.06
+    },
+    {
+      "localFrame": 44,
+      "previousLocalFrame": 43,
+      "meanDiff": 0.0577
+    },
+    {
+      "localFrame": 45,
+      "previousLocalFrame": 44,
+      "meanDiff": 0.056
+    },
+    {
+      "localFrame": 46,
+      "previousLocalFrame": 45,
+      "meanDiff": 0.0589
+    }
+  ],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

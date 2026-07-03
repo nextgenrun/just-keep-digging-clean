@@ -43,7 +43,7 @@ export const UPGRADES = Object.freeze({
     name: "Gem Power Regeneration",
     description: "Increases Gem Power regeneration rate",
     baseCost: 105,
-    baseEffect: 3,
+      baseEffect: 1.5,
     effectType: "gemPowerRegenIncrease",
     merchant: "gemPowerMerchant",
     maxEffect: 45
@@ -419,6 +419,30 @@ export const UPGRADES = Object.freeze({
     effectType: "unlockThunderStrike",
     merchant: "boboMerchant",
     oneTimePurchase: true
+  },
+  torchDrainEfficiency: {
+    id: "torchDrainEfficiency",
+    category: UPGRADE_CATEGORIES.SPECIAL,
+    name: "Torch Drain Efficiency",
+    description: "Reduce torch GP drain per second.",
+    baseCost: 180,
+    baseEffect: 0.75,
+    effectType: "torchDrainReduction",
+    maxEffect: 5,
+    maxLevel: 10,
+    merchant: "boboMerchant"
+  },
+  torchRange: {
+    id: "torchRange",
+    category: UPGRADE_CATEGORIES.SPECIAL,
+    name: "Torch Range",
+    description: "Increase torch radius by a small amount.",
+    baseCost: 140,
+    baseEffect: 0.2,
+    effectType: "torchBonusRadius",
+    maxEffect: 1.2,
+    maxLevel: 10,
+    merchant: "boboMerchant"
   },
   worldTwoTunnelAccess: {
     id: "worldTwoTunnelAccess",

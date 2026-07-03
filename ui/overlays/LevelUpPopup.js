@@ -134,7 +134,7 @@ export class LevelUpPopup {
     this.container.add(this.milestoneText);
 
     // Create continue text and a larger clickable button
-    this.continueText = scene.add.text(0, 0, "Press ENTER / SPACE to continue", {
+    this.continueText = scene.add.text(0, 0, "", {
       fontFamily: "Consolas, monospace",
       fontSize: "18px",
       color: UI_COLORS.gold,

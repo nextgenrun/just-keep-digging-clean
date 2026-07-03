@@ -45,7 +45,14 @@ export const LIGHT_CONFIG = Object.freeze({
 
   // Torch extends visibility without clearing the entire screen.
   torchBonusRadiusTiles: 2.5,         // Extra radius when torch is active
-  torchDrainGpPerSecond: 5,
+  torchDrainGpPerSecond: 8,
+  torchDrainDepthStartTiles: 1000,     // Depth where torch drain starts ramping up
+  torchDrainDepthRampEndTiles: 2000,   // Depth where torch drain reaches max ramp scaling
+  torchDrainDepthStartMultiplier: 1.875, // 8 GP/s * 1.875 = 15 GP/s at 1000m
+  torchDrainDepthMaxMultiplier: 3.75,   // 8 GP/s * 3.75 = 30 GP/s at 2000m+
+  torchDarknessDepthStartTiles: 1000,  // Start increasing cave darkness at this depth
+  torchDarknessDepthRampEndTiles: 2000, // Depth where darkness reaches max multiplier
+  torchDarknessDepthMaxMultiplier: 2.5, // 2-3x target darkness by 2000m
   torchCoreColor: 0xffd28a,
   torchCoreGlowAlpha: 0.12,
   torchCoreDiameterScale: 0.58,

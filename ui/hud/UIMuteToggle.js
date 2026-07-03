@@ -136,9 +136,9 @@ function createMuteButtonTexture(scene, key, icon, active) {
 
   // Draw icon
   if (icon === "music") {
-    drawMusicNote(ctx, 10, 14, active);
+    drawMusicNote(ctx, 16, 19, active);
   } else {
-    drawSpeaker(ctx, 10, 14, active);
+    drawSpeaker(ctx, 19, 19, active);
   }
 
   tex.refresh();

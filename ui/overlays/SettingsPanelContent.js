@@ -1,4 +1,5 @@
 import { KEYBIND_ACTIONS } from "../../values/keybindActions.js";
+import { CAMERA_SHAKE_SETTINGS_GROUPS } from "../../values/cameraShake.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { USER_SETTINGS, formatKey, normalizeKeyboardEvent } from "../../systems/UserSettings.js";
 import {
@@ -292,7 +293,33 @@ export function createSettingsPanelContent(scene, options = {}) {
 
   function buildDisplay() {
     const display = USER_SETTINGS.getDisplay();
-    state.objects.push(addText(scene, root, -260, -120, "Display", {
+    const headerY = compact
+      ? -Math.min(height / 2 - 20, 160)
+      : -Math.min(height / 2 - 20, 140);
+    const sectionGap = compact ? 44 : 50;
+    const sliderWidth = compact ? Math.min(width - 120, 470) : Math.min(width - 90, 540);
+    const masterY = headerY + sectionGap;
+    const intensityY = masterY + (compact ? 50 : 56);
+    const flashY = intensityY + (compact ? 42 : 48);
+    const groupHeaderY = flashY + 36;
+    const groupStartY = groupHeaderY + 14;
+    const groupColumns = compact
+      ? (width >= 700 ? 3 : (width >= 520 ? 2 : 1))
+      : (width >= 760 ? 3 : (width >= 560 ? 2 : 1));
+    const groupRows = Math.ceil(CAMERA_SHAKE_SETTINGS_GROUPS.length / groupColumns);
+    const groupGap = compact ? 20 : 24;
+    const maxOffsetByPanel = Math.max(0, Math.floor(width / 2 - 215));
+    const groupOffset = groupColumns === 3
+      ? Math.max(70, Math.min(maxOffsetByPanel, 150))
+      : groupColumns === 2
+        ? Math.max(64, Math.min(maxOffsetByPanel, 130))
+        : 0;
+    const groupX = groupColumns === 3 ? [-groupOffset, 0, groupOffset]
+      : groupColumns === 2 ? [-groupOffset, groupOffset]
+      : [0];
+    const resetY = Math.min(height / 2 - 30, groupStartY + groupRows * groupGap + 18);
+
+    state.objects.push(addText(scene, root, 0, headerY, "Display", {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
@@ -301,8 +328,8 @@ export function createSettingsPanelContent(scene, options = {}) {
 
     const fullscreenButton = createButton(scene, {
       x: 0,
-      y: -72,
-      width: 420,
+      y: masterY - (compact ? 78 : 84),
+      width: Math.min(width - 100, 420),
       height: 44,
       label: "TOGGLE FULLSCREEN",
       hint: USER_SETTINGS.getKeyLabel("fullscreen"),
@@ -321,7 +348,7 @@ export function createSettingsPanelContent(scene, options = {}) {
 
     const hints = createTogglePair(scene, {
       x: 40,
-      y: -12,
+      y: masterY - (compact ? 38 : 40),
       label: "Control Hints",
       value: display.showControlHints,
       parent: root,
@@ -334,9 +361,76 @@ export function createSettingsPanelContent(scene, options = {}) {
     state.objects.push(hints.root);
     state.controls.push(hints.onBtn, hints.offBtn);
 
+    const cameraShakeMaster = createTogglePair(scene, {
+      x: 40,
+      y: masterY,
+      label: "Camera Shake",
+      value: display.cameraShakeEnabled,
+      parent: root,
+      depth,
+      onChange: value => {
+        USER_SETTINGS.updateDisplay({ cameraShakeEnabled: value });
+      },
+    });
+    state.objects.push(cameraShakeMaster.root);
+    state.controls.push(cameraShakeMaster.onBtn, cameraShakeMaster.offBtn);
+
+    const camShakeIntensity = createSlider(scene, {
+      x: 0,
+      y: intensityY,
+      width: sliderWidth,
+      label: "Camera Shake Intensity",
+      value: display.cameraShakeIntensity,
+      parent: root,
+      depth,
+      onChange: value => {
+        USER_SETTINGS.updateDisplay({ cameraShakeIntensity: value });
+      },
+    });
+    state.controls.push(camShakeIntensity);
+
+    const camFlashToggle = createTogglePair(scene, {
+      x: 40,
+      y: flashY,
+      label: "Shake Flash",
+      value: display.cameraShakeFlashEnabled !== false,
+      parent: root,
+      depth,
+      onChange: value => {
+        USER_SETTINGS.updateDisplay({ cameraShakeFlashEnabled: value });
+      },
+    });
+    state.objects.push(camFlashToggle.root);
+    state.controls.push(camFlashToggle.onBtn, camFlashToggle.offBtn);
+
+    state.objects.push(addText(scene, root, 0, groupHeaderY, "Camera Shake Events", {
+      fontFamily: "Consolas, monospace",
+      fontSize: compact ? "10px" : "11px",
+      color: UI_COLORS.hint,
+    }, [0.5, 0.5]));
+
+    CAMERA_SHAKE_SETTINGS_GROUPS.forEach((group, index) => {
+      const row = Math.floor(index / groupColumns);
+      const col = index % groupColumns;
+      const gy = groupStartY + row * groupGap;
+      const toggle = createTogglePair(scene, {
+        x: groupX[col],
+        y: gy,
+        label: group.label,
+        value: Boolean(display.cameraShakeGroups?.[group.key]),
+        parent: root,
+        depth,
+        onChange: value => {
+          USER_SETTINGS.updateDisplay({ cameraShakeGroups: { [group.key]: value } });
+        },
+      });
+      state.objects.push(toggle.root);
+      state.controls.push(toggle.onBtn, toggle.offBtn);
+    });
+
     const resetControls = createButton(scene, {
       x: -120,
-      y: 72,
+      y: resetY,
       width: 240,
       height: 42,
       label: "RESET KEYBINDS",
@@ -351,7 +445,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     });
     const resetAll = createButton(scene, {
       x: 150,
-      y: 72,
+      y: resetY,
       width: 240,
       height: 42,
       label: "RESET SETTINGS",

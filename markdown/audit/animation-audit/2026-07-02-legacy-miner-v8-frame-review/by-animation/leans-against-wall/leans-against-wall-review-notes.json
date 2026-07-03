@@ -1,0 +1,23 @@
+{
+  "animation": "leans-against-wall",
+  "displayName": "Leans Against Wall",
+  "frameCount": 4,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/leans-against-wall-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/leans-against-wall/leans-against-wall-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/leans-against-wall/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/leans-against-wall/leans-against-wall-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/leans-against-wall/leans-against-wall-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

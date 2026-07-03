@@ -1,6 +1,6 @@
 {
   "name": "dig-down",
-  "source": "sprites/character/character-v8/frames/dig-down",
+  "source": "sprites/character/character-v8/manual-blend/dig-down-v5-restored",
   "output": "sprites/character/character-v8/runtime/dig-down-sheet.webp",
   "cleanedFrames": "sprites/character/character-v8/runtime/dig-down-cleaned-frames",
   "preview": "sprites/character/character-v8/previews/dig-down-runtime-contact.png",
@@ -8,26 +8,27 @@
   "piskel": "sprites/character/character-v8/piskel/dig-down.piskel",
   "frameWidth": 341,
   "frameHeight": 341,
-  "frameCount": 7,
-  "columns": 7,
+  "frameCount": 5,
+  "columns": 5,
   "rows": 1,
   "fps": 18,
-  "borderHaloPixelsRemoved": 0,
-  "alphaPixelsChanged": 91616,
+  "borderHaloPixelsRemoved": 10669,
+  "alphaPixelsChanged": 10669,
+  "targetedTransforms": {},
   "anchor": {
     "targetCenterX": 170,
     "targetBottom": 339,
-    "maxShiftX": 30,
+    "maxShiftX": 0,
     "maxShiftY": 0,
-    "avgShiftX": 13.57,
+    "avgShiftX": 0.0,
     "avgShiftY": 0.0
   },
   "driftBefore": {
-    "centerXRange": 44.0,
+    "centerXRange": 0.5,
     "bottomRange": 0
   },
   "driftAfter": {
-    "centerXRange": 1.0,
+    "centerXRange": 0.0,
     "bottomRange": 0
   }
 }

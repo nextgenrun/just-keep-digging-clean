@@ -1,0 +1,23 @@
+{
+  "animation": "thunder-charge",
+  "displayName": "Thunder Charge",
+  "frameCount": 1,
+  "frameSize": [
+    341,
+    341
+  ],
+  "sourcePiskel": "sprites/character/character-v8/piskel/thunder-charge.piskel",
+  "cleanedFrames": "sprites/character/character-v8/runtime/thunder-charge-cleaned-frames",
+  "runtimeOutput": "sprites/character/character-v8/runtime/thunder-charge-sheet.webp",
+  "reviewPiskel": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-charge/thunder-charge-review.piskel",
+  "framesDirectory": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-charge/frames",
+  "contactSheet": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-charge/thunder-charge-contact-sheet.png",
+  "frameMap": "markdown/audit/animation-audit/2026-07-02-legacy-miner-v8-frame-review/by-animation/thunder-charge/thunder-charge-frame-map.csv",
+  "exactDuplicateGroups": [],
+  "nearAdjacentRepeats": [],
+  "notes": [
+    "Review-only files for manual frame verification.",
+    "Exact repeats are pixel-identical inside this animation.",
+    "Near adjacent repeats are candidates only; inspect visually before deleting."
+  ]
+}

@@ -1,0 +1,6 @@
+direct: direct rain/snow/hail path
+surface: landing surface / splash line
+visual_cover: town roof / visual cover blocker
+sheltered: sheltered: no direct precipitation
+solid: solid terrain/interior blocker
+ignored_shell: ignored outer bedrock/cave-wall shell

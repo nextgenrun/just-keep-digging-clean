@@ -625,7 +625,7 @@ export class StarPillarSystem {
       0
     ).setDepth(80);
     this.scene.tweens.add({
-      targets: this._overlay, alpha: 0.72, duration: 600,
+      targets: this._overlay, alpha: 0.86, duration: 600,
     });
 
     // Deep-space starfield scattered across the overlay
@@ -657,20 +657,20 @@ export class StarPillarSystem {
     const titlePos = this._chartUiPoint(vw / 2, 32);
     this._chartTitle = this.scene.add.text(titlePos.x, titlePos.y, 'STAR CHART', this._chartTextStyle({
       fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: 32,
-      color: '#AABBEE',
+      fontSize: 36,
+      color: '#F2F7FF',
       stroke: '#000022',
-      strokeThickness: 6,
-      shadow: { offsetX: 0, offsetY: 0, color: '#4466FF', blur: 18, fill: true },
+      strokeThickness: 8,
+      shadow: { offsetX: 0, offsetY: 0, color: '#66A3FF', blur: 20, fill: true },
     })).setOrigin(0.5).setDepth(200).setAlpha(0);
 
     const hintPos = this._chartUiPoint(vw / 2, vh - 24);
     this._chartHint = this.scene.add.text(hintPos.x, hintPos.y, `Press ${USER_SETTINGS.getKeyLabel("interact")} to close`, this._chartTextStyle({
       fontFamily: 'Consolas, monospace',
-      fontSize: 16,
-      color: '#6677AA',
+      fontSize: 18,
+      color: '#DDE7FF',
       stroke: '#000011',
-      strokeThickness: 4,
+      strokeThickness: 5,
     })).setOrigin(0.5).setDepth(200).setAlpha(0);
 
     // Zoom tween
@@ -927,9 +927,9 @@ export class StarPillarSystem {
     const panelOrigin = p(12, 42);
     const panelX   = panelOrigin.x;
     const panelY   = panelOrigin.y;
-    const panelW   = u(520);
-    const rowH     = u(56);
-    const headerH  = u(54);
+    const panelW   = u(620);
+    const rowH     = u(62);
+    const headerH  = u(58);
     const panelH   = headerH + u(22) + PILLAR_SLOT_ORDER.length * rowH + u(12);
 
     const data      = this.fts.getConstellationData();
@@ -945,7 +945,7 @@ export class StarPillarSystem {
     const bg = this.scene.add.rectangle(
       panelX + panelW / 2, panelY + panelH / 2,
       panelW, panelH,
-      0x000818, 0.90
+      0x000818, 0.97
     ).setDepth(depth).setAlpha(0);
     this._viewObjects.push(bg);
     header.push(bg);
@@ -966,7 +966,7 @@ export class StarPillarSystem {
 
     // Border
     const borderGfx = this.scene.add.graphics();
-    borderGfx.lineStyle(u(1), 0x4466BB, 0.8);
+    borderGfx.lineStyle(u(2), 0x6F8EFF, 0.95);
     borderGfx.strokeRect(panelX, panelY, panelW, panelH);
     borderGfx.lineStyle(u(1), 0x223366, 0.4);
     borderGfx.strokeRect(panelX + u(2), panelY + u(2), panelW - u(4), panelH - u(4));
@@ -980,11 +980,11 @@ export class StarPillarSystem {
       '✦  STAR PROGRESS  ✦',
       this._chartTextStyle({
         fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-        fontSize: 17,
-        color: '#AABBEE',
+        fontSize: 20,
+        color: '#F2F7FF',
         stroke: '#000022',
-        strokeThickness: 4,
-        shadow: { offsetX: 0, offsetY: 0, color: '#4466FF', blur: 12, fill: true },
+        strokeThickness: 5,
+        shadow: { offsetX: 0, offsetY: 0, color: '#66A3FF', blur: 14, fill: true },
       })
     ).setOrigin(0.5).setDepth(depth + 2).setAlpha(0);
     this._viewObjects.push(titleTxt);
@@ -1001,7 +1001,7 @@ export class StarPillarSystem {
     // Column headers
     const colHeaderY = panelY + headerH + u(8);
     const colNameX   = panelX + u(14);
-    const colDotsX   = panelX + u(210);
+    const colDotsX   = panelX + u(270);
     const colStatX   = panelX + panelW - u(10);
 
     for (const [lbl, x, orig] of [
@@ -1011,8 +1011,10 @@ export class StarPillarSystem {
     ]) {
       const h = this.scene.add.text(x, colHeaderY, lbl, this._chartTextStyle({
         fontFamily: 'Consolas, monospace',
-        fontSize: 11,
-        color: '#445577',
+        fontSize: 13,
+        color: '#AFC4FF',
+        stroke: '#000011',
+        strokeThickness: 2,
       })).setOrigin(orig, 0).setDepth(depth + 2).setAlpha(0);
       this._viewObjects.push(h);
       header.push(h);
@@ -1058,10 +1060,10 @@ export class StarPillarSystem {
       const nameStr   = isUnlocked ? dispName : (hasAny ? dispName : '???');
       const nameText  = this.scene.add.text(colNameX, rowY + u(18), nameStr, this._chartTextStyle({
         fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-        fontSize: 14,
+        fontSize: 16,
         color: nameColor,
         stroke: '#000011',
-        strokeThickness: isUnlocked ? 3 : 2,
+        strokeThickness: isUnlocked ? 4 : 3,
         shadow: isUnlocked
           ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 8, fill: true }
           : hasAny
@@ -1071,11 +1073,11 @@ export class StarPillarSystem {
       this._viewObjects.push(nameText);
       rowObjs.push(nameText);
 
-      const upgradeColor = isUnlocked ? '#DDE7FF' : (hasAny ? '#7788AA' : '#4A5872');
+      const upgradeColor = isUnlocked ? '#F0F5FF' : (hasAny ? '#B7C6EA' : '#71809F');
       const upgradePrefix = isUnlocked ? '' : 'Unlock: ';
       const upgradeInfo = this.scene.add.text(colNameX, rowY + u(38), `${upgradePrefix}${upgradeText}`, this._chartTextStyle({
         fontFamily: 'Consolas, monospace',
-        fontSize: 11,
+        fontSize: 12,
         color: upgradeColor,
         stroke: '#000011',
         strokeThickness: 2,
@@ -1100,7 +1102,7 @@ export class StarPillarSystem {
           dotGfx.fillStyle(0xFFFFFF, 0.3);
           dotGfx.fillCircle(dx - u(1), dy - u(1), u(2));
         } else {
-          dotGfx.lineStyle(u(1), hasAny ? lineColor : 0x334455, hasAny ? 0.35 : 0.22);
+          dotGfx.lineStyle(u(1), hasAny ? lineColor : 0x63708C, hasAny ? 0.55 : 0.42);
           dotGfx.strokeCircle(dx, dy, u(5));
         }
       }
@@ -1114,17 +1116,17 @@ export class StarPillarSystem {
         statusColor = cssColor;
       } else if (collected > 0) {
         statusStr   = `${collected} / ${threshold}`;
-        statusColor = '#7788AA';
+        statusColor = '#B7C6EA';
       } else {
         statusStr   = `need ${threshold}`;
-        statusColor = '#334455';
+        statusColor = '#7E8BAA';
       }
       const statusText = this.scene.add.text(colStatX, rowY + u(18), statusStr, this._chartTextStyle({
         fontFamily: 'Consolas, monospace',
-        fontSize: 12,
+        fontSize: 14,
         color: statusColor,
         stroke: '#000011',
-        strokeThickness: 2,
+        strokeThickness: 3,
         shadow: isUnlocked
           ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 6, fill: true }
           : undefined,

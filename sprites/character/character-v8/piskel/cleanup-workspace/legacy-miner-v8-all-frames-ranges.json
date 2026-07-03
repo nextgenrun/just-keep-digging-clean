@@ -1,0 +1,3025 @@
+{
+  "sourceManifest": "sprites/character/character-v8/runtime/legacy-miner-v8-runtime-manifest.json",
+  "pack": "sprites/character/character-v8/piskel/cleanup-workspace/legacy-miner-v8-all-frames-cleanup.piskel",
+  "contactSheet": "sprites/character/character-v8/piskel/cleanup-workspace/legacy-miner-v8-all-frames-contact-sheet.png",
+  "frameCount": 264,
+  "frameSize": [
+    341,
+    341
+  ],
+  "ranges": [
+    {
+      "animation": "idle",
+      "displayName": "Idle",
+      "startGlobalFrame": 0,
+      "endGlobalFrame": 34,
+      "frameCount": 35,
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/idle-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-idle-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": [
+        {
+          "localFrame": 26,
+          "previousLocalFrame": 25,
+          "meanDiff": 0.0584
+        },
+        {
+          "localFrame": 27,
+          "previousLocalFrame": 26,
+          "meanDiff": 0.0574
+        },
+        {
+          "localFrame": 29,
+          "previousLocalFrame": 28,
+          "meanDiff": 0.0626
+        },
+        {
+          "localFrame": 30,
+          "previousLocalFrame": 29,
+          "meanDiff": 0.0602
+        },
+        {
+          "localFrame": 31,
+          "previousLocalFrame": 30,
+          "meanDiff": 0.06
+        },
+        {
+          "localFrame": 32,
+          "previousLocalFrame": 31,
+          "meanDiff": 0.0577
+        },
+        {
+          "localFrame": 33,
+          "previousLocalFrame": 32,
+          "meanDiff": 0.056
+        },
+        {
+          "localFrame": 34,
+          "previousLocalFrame": 33,
+          "meanDiff": 0.0589
+        }
+      ]
+    },
+    {
+      "animation": "walk",
+      "displayName": "Walk",
+      "startGlobalFrame": 35,
+      "endGlobalFrame": 85,
+      "frameCount": 51,
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/walk-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-walk-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "dig-sideways",
+      "displayName": "Dig Sideways",
+      "startGlobalFrame": 86,
+      "endGlobalFrame": 103,
+      "frameCount": 18,
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-dig-sideways-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "dig-up",
+      "displayName": "Dig Up",
+      "startGlobalFrame": 104,
+      "endGlobalFrame": 112,
+      "frameCount": 9,
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-dig-up-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "dig-up-sideways",
+      "displayName": "Dig Up Sideways",
+      "startGlobalFrame": 113,
+      "endGlobalFrame": 125,
+      "frameCount": 13,
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-dig-up-sideways-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "fly-climb",
+      "displayName": "Fly Climb",
+      "startGlobalFrame": 126,
+      "endGlobalFrame": 150,
+      "frameCount": 25,
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-fly-climb-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "dig-up-look",
+      "displayName": "Dig Up Look",
+      "startGlobalFrame": 151,
+      "endGlobalFrame": 151,
+      "frameCount": 1,
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-up-look-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-dig-up-look-clean.png",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "dig-down",
+      "displayName": "Dig Down",
+      "startGlobalFrame": 152,
+      "endGlobalFrame": 158,
+      "frameCount": 7,
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/dig-down-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/dig-down-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "duck-downwards",
+      "displayName": "Duck Downwards",
+      "startGlobalFrame": 159,
+      "endGlobalFrame": 165,
+      "frameCount": 7,
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/duck-downwards-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "combat-idle-recover",
+      "displayName": "Combat Idle Recover",
+      "startGlobalFrame": 166,
+      "endGlobalFrame": 181,
+      "frameCount": 16,
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/combat-idle-recover-sheet.webp",
+      "exactDuplicateGroups": [
+        {
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "nearAdjacentRepeats": [
+        {
+          "localFrame": 1,
+          "previousLocalFrame": 0,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 2,
+          "previousLocalFrame": 1,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 3,
+          "previousLocalFrame": 2,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 4,
+          "previousLocalFrame": 3,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 5,
+          "previousLocalFrame": 4,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 6,
+          "previousLocalFrame": 5,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 7,
+          "previousLocalFrame": 6,
+          "meanDiff": 0.0
+        },
+        {
+          "localFrame": 8,
+          "previousLocalFrame": 7,
+          "meanDiff": 0.0
+        }
+      ]
+    },
+    {
+      "animation": "combat-idle-to-normal-idle",
+      "displayName": "Combat Idle To Normal Idle",
+      "startGlobalFrame": 182,
+      "endGlobalFrame": 232,
+      "frameCount": 51,
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-sheet.webp",
+      "exactDuplicateGroups": [
+        {
+          "frames": [
+            0,
+            13
+          ]
+        },
+        {
+          "frames": [
+            1,
+            12
+          ]
+        }
+      ],
+      "nearAdjacentRepeats": [
+        {
+          "localFrame": 42,
+          "previousLocalFrame": 41,
+          "meanDiff": 0.0584
+        },
+        {
+          "localFrame": 43,
+          "previousLocalFrame": 42,
+          "meanDiff": 0.0574
+        },
+        {
+          "localFrame": 45,
+          "previousLocalFrame": 44,
+          "meanDiff": 0.0626
+        },
+        {
+          "localFrame": 46,
+          "previousLocalFrame": 45,
+          "meanDiff": 0.0602
+        },
+        {
+          "localFrame": 47,
+          "previousLocalFrame": 46,
+          "meanDiff": 0.06
+        },
+        {
+          "localFrame": 48,
+          "previousLocalFrame": 47,
+          "meanDiff": 0.0577
+        },
+        {
+          "localFrame": 49,
+          "previousLocalFrame": 48,
+          "meanDiff": 0.056
+        },
+        {
+          "localFrame": 50,
+          "previousLocalFrame": 49,
+          "meanDiff": 0.0589
+        }
+      ]
+    },
+    {
+      "animation": "leans-against-wall",
+      "displayName": "Leans Against Wall",
+      "startGlobalFrame": 233,
+      "endGlobalFrame": 238,
+      "frameCount": 6,
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/leans-against-wall-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "falling-downward-through-sky",
+      "displayName": "Falling Downward Through Sky",
+      "startGlobalFrame": 239,
+      "endGlobalFrame": 245,
+      "frameCount": 7,
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/falling-downward-through-sky-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "walk-run",
+      "displayName": "Walk Run",
+      "startGlobalFrame": 246,
+      "endGlobalFrame": 252,
+      "frameCount": 7,
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/walk-run-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/walk-run-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "wall-push",
+      "displayName": "Wall Push",
+      "startGlobalFrame": 253,
+      "endGlobalFrame": 259,
+      "frameCount": 7,
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/wall-push-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/wall-push-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "quickslash",
+      "displayName": "Quickslash",
+      "startGlobalFrame": 260,
+      "endGlobalFrame": 261,
+      "frameCount": 2,
+      "sourcePiskel": "sprites/character/character-v8/piskel/quickslash.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/quickslash-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/legacy-quickslash-clean-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "thunder-charge",
+      "displayName": "Thunder Charge",
+      "startGlobalFrame": 262,
+      "endGlobalFrame": 262,
+      "frameCount": 1,
+      "sourcePiskel": "sprites/character/character-v8/piskel/thunder-charge.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/thunder-charge-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/thunder-charge-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    },
+    {
+      "animation": "thunder-strike",
+      "displayName": "Thunder Strike",
+      "startGlobalFrame": 263,
+      "endGlobalFrame": 263,
+      "frameCount": 1,
+      "sourcePiskel": "sprites/character/character-v8/piskel/thunder-strike.piskel",
+      "cleanedFrames": "sprites/character/character-v8/runtime/thunder-strike-cleaned-frames",
+      "runtimeOutput": "sprites/character/character-v8/runtime/thunder-strike-sheet.webp",
+      "exactDuplicateGroups": [],
+      "nearAdjacentRepeats": []
+    }
+  ],
+  "frames": [
+    {
+      "globalFrame": 0,
+      "animation": "idle",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 1,
+      "animation": "idle",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.163
+    },
+    {
+      "globalFrame": 2,
+      "animation": "idle",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 4.6086
+    },
+    {
+      "globalFrame": 3,
+      "animation": "idle",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.6892
+    },
+    {
+      "globalFrame": 4,
+      "animation": "idle",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.2005
+    },
+    {
+      "globalFrame": 5,
+      "animation": "idle",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.9183
+    },
+    {
+      "globalFrame": 6,
+      "animation": "idle",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 4.4505
+    },
+    {
+      "globalFrame": 7,
+      "animation": "idle",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.7052
+    },
+    {
+      "globalFrame": 8,
+      "animation": "idle",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.8033
+    },
+    {
+      "globalFrame": 9,
+      "animation": "idle",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.0771
+    },
+    {
+      "globalFrame": 10,
+      "animation": "idle",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 3.1213
+    },
+    {
+      "globalFrame": 11,
+      "animation": "idle",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 7.4193
+    },
+    {
+      "globalFrame": 12,
+      "animation": "idle",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.51
+    },
+    {
+      "globalFrame": 13,
+      "animation": "idle",
+      "localFrame": 13,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-013.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2544
+    },
+    {
+      "globalFrame": 14,
+      "animation": "idle",
+      "localFrame": 14,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-014.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 7.37
+    },
+    {
+      "globalFrame": 15,
+      "animation": "idle",
+      "localFrame": 15,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-015.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 3.4822
+    },
+    {
+      "globalFrame": 16,
+      "animation": "idle",
+      "localFrame": 16,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-016.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2724
+    },
+    {
+      "globalFrame": 17,
+      "animation": "idle",
+      "localFrame": 17,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-017.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.6852
+    },
+    {
+      "globalFrame": 18,
+      "animation": "idle",
+      "localFrame": 18,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-018.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2163
+    },
+    {
+      "globalFrame": 19,
+      "animation": "idle",
+      "localFrame": 19,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-019.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.9045
+    },
+    {
+      "globalFrame": 20,
+      "animation": "idle",
+      "localFrame": 20,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-020.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2958
+    },
+    {
+      "globalFrame": 21,
+      "animation": "idle",
+      "localFrame": 21,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-021.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.3711
+    },
+    {
+      "globalFrame": 22,
+      "animation": "idle",
+      "localFrame": 22,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-022.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.5633
+    },
+    {
+      "globalFrame": 23,
+      "animation": "idle",
+      "localFrame": 23,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-023.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.0071
+    },
+    {
+      "globalFrame": 24,
+      "animation": "idle",
+      "localFrame": 24,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-024.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.8439
+    },
+    {
+      "globalFrame": 25,
+      "animation": "idle",
+      "localFrame": 25,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-025.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.3876
+    },
+    {
+      "globalFrame": 26,
+      "animation": "idle",
+      "localFrame": 26,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-026.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0584
+    },
+    {
+      "globalFrame": 27,
+      "animation": "idle",
+      "localFrame": 27,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-027.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0574
+    },
+    {
+      "globalFrame": 28,
+      "animation": "idle",
+      "localFrame": 28,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-028.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.4008
+    },
+    {
+      "globalFrame": 29,
+      "animation": "idle",
+      "localFrame": 29,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-029.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0626
+    },
+    {
+      "globalFrame": 30,
+      "animation": "idle",
+      "localFrame": 30,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-030.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0602
+    },
+    {
+      "globalFrame": 31,
+      "animation": "idle",
+      "localFrame": 31,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-031.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.06
+    },
+    {
+      "globalFrame": 32,
+      "animation": "idle",
+      "localFrame": 32,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-032.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0577
+    },
+    {
+      "globalFrame": 33,
+      "animation": "idle",
+      "localFrame": 33,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-033.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.056
+    },
+    {
+      "globalFrame": 34,
+      "animation": "idle",
+      "localFrame": 34,
+      "sourceFrame": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-034.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0589
+    },
+    {
+      "globalFrame": 35,
+      "animation": "walk",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 36,
+      "animation": "walk",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 3.4882
+    },
+    {
+      "globalFrame": 37,
+      "animation": "walk",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 8.0857
+    },
+    {
+      "globalFrame": 38,
+      "animation": "walk",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.3679
+    },
+    {
+      "globalFrame": 39,
+      "animation": "walk",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.399
+    },
+    {
+      "globalFrame": 40,
+      "animation": "walk",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.5972
+    },
+    {
+      "globalFrame": 41,
+      "animation": "walk",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.5301
+    },
+    {
+      "globalFrame": 42,
+      "animation": "walk",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.1857
+    },
+    {
+      "globalFrame": 43,
+      "animation": "walk",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.655
+    },
+    {
+      "globalFrame": 44,
+      "animation": "walk",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.8657
+    },
+    {
+      "globalFrame": 45,
+      "animation": "walk",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.4635
+    },
+    {
+      "globalFrame": 46,
+      "animation": "walk",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.9349
+    },
+    {
+      "globalFrame": 47,
+      "animation": "walk",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.9365
+    },
+    {
+      "globalFrame": 48,
+      "animation": "walk",
+      "localFrame": 13,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-013.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.5831
+    },
+    {
+      "globalFrame": 49,
+      "animation": "walk",
+      "localFrame": 14,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-014.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.6925
+    },
+    {
+      "globalFrame": 50,
+      "animation": "walk",
+      "localFrame": 15,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-015.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.9626
+    },
+    {
+      "globalFrame": 51,
+      "animation": "walk",
+      "localFrame": 16,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-016.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.7788
+    },
+    {
+      "globalFrame": 52,
+      "animation": "walk",
+      "localFrame": 17,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-017.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.5655
+    },
+    {
+      "globalFrame": 53,
+      "animation": "walk",
+      "localFrame": 18,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-018.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.6407
+    },
+    {
+      "globalFrame": 54,
+      "animation": "walk",
+      "localFrame": 19,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-019.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7666
+    },
+    {
+      "globalFrame": 55,
+      "animation": "walk",
+      "localFrame": 20,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-020.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.8431
+    },
+    {
+      "globalFrame": 56,
+      "animation": "walk",
+      "localFrame": 21,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-021.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.0988
+    },
+    {
+      "globalFrame": 57,
+      "animation": "walk",
+      "localFrame": 22,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-022.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.6379
+    },
+    {
+      "globalFrame": 58,
+      "animation": "walk",
+      "localFrame": 23,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-023.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.4081
+    },
+    {
+      "globalFrame": 59,
+      "animation": "walk",
+      "localFrame": 24,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-024.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.8591
+    },
+    {
+      "globalFrame": 60,
+      "animation": "walk",
+      "localFrame": 25,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-025.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.9854
+    },
+    {
+      "globalFrame": 61,
+      "animation": "walk",
+      "localFrame": 26,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-026.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.4028
+    },
+    {
+      "globalFrame": 62,
+      "animation": "walk",
+      "localFrame": 27,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-027.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.0958
+    },
+    {
+      "globalFrame": 63,
+      "animation": "walk",
+      "localFrame": 28,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-028.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.5658
+    },
+    {
+      "globalFrame": 64,
+      "animation": "walk",
+      "localFrame": 29,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-029.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.1085
+    },
+    {
+      "globalFrame": 65,
+      "animation": "walk",
+      "localFrame": 30,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-030.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.9054
+    },
+    {
+      "globalFrame": 66,
+      "animation": "walk",
+      "localFrame": 31,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-031.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.6473
+    },
+    {
+      "globalFrame": 67,
+      "animation": "walk",
+      "localFrame": 32,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-032.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.2841
+    },
+    {
+      "globalFrame": 68,
+      "animation": "walk",
+      "localFrame": 33,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-033.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.6722
+    },
+    {
+      "globalFrame": 69,
+      "animation": "walk",
+      "localFrame": 34,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-034.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.3325
+    },
+    {
+      "globalFrame": 70,
+      "animation": "walk",
+      "localFrame": 35,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-035.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.7187
+    },
+    {
+      "globalFrame": 71,
+      "animation": "walk",
+      "localFrame": 36,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-036.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.6021
+    },
+    {
+      "globalFrame": 72,
+      "animation": "walk",
+      "localFrame": 37,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-037.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.899
+    },
+    {
+      "globalFrame": 73,
+      "animation": "walk",
+      "localFrame": 38,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-038.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.1944
+    },
+    {
+      "globalFrame": 74,
+      "animation": "walk",
+      "localFrame": 39,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-039.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7646
+    },
+    {
+      "globalFrame": 75,
+      "animation": "walk",
+      "localFrame": 40,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-040.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 8.2619
+    },
+    {
+      "globalFrame": 76,
+      "animation": "walk",
+      "localFrame": 41,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-041.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.9331
+    },
+    {
+      "globalFrame": 77,
+      "animation": "walk",
+      "localFrame": 42,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-042.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.937
+    },
+    {
+      "globalFrame": 78,
+      "animation": "walk",
+      "localFrame": 43,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-043.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.5854
+    },
+    {
+      "globalFrame": 79,
+      "animation": "walk",
+      "localFrame": 44,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-044.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.6891
+    },
+    {
+      "globalFrame": 80,
+      "animation": "walk",
+      "localFrame": 45,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-045.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.9669
+    },
+    {
+      "globalFrame": 81,
+      "animation": "walk",
+      "localFrame": 46,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-046.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.7767
+    },
+    {
+      "globalFrame": 82,
+      "animation": "walk",
+      "localFrame": 47,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-047.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.5661
+    },
+    {
+      "globalFrame": 83,
+      "animation": "walk",
+      "localFrame": 48,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-048.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.6441
+    },
+    {
+      "globalFrame": 84,
+      "animation": "walk",
+      "localFrame": 49,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-049.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7649
+    },
+    {
+      "globalFrame": 85,
+      "animation": "walk",
+      "localFrame": 50,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-cleaned-frames/frame-050.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.838
+    },
+    {
+      "globalFrame": 86,
+      "animation": "dig-sideways",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 87,
+      "animation": "dig-sideways",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 28.0152
+    },
+    {
+      "globalFrame": 88,
+      "animation": "dig-sideways",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 28.9065
+    },
+    {
+      "globalFrame": 89,
+      "animation": "dig-sideways",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.5144
+    },
+    {
+      "globalFrame": 90,
+      "animation": "dig-sideways",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.6859
+    },
+    {
+      "globalFrame": 91,
+      "animation": "dig-sideways",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.7784
+    },
+    {
+      "globalFrame": 92,
+      "animation": "dig-sideways",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 19.5229
+    },
+    {
+      "globalFrame": 93,
+      "animation": "dig-sideways",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 29.49
+    },
+    {
+      "globalFrame": 94,
+      "animation": "dig-sideways",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.8797
+    },
+    {
+      "globalFrame": 95,
+      "animation": "dig-sideways",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 32.0245
+    },
+    {
+      "globalFrame": 96,
+      "animation": "dig-sideways",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.0935
+    },
+    {
+      "globalFrame": 97,
+      "animation": "dig-sideways",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 20.5872
+    },
+    {
+      "globalFrame": 98,
+      "animation": "dig-sideways",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.0774
+    },
+    {
+      "globalFrame": 99,
+      "animation": "dig-sideways",
+      "localFrame": 13,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-013.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 7.0569
+    },
+    {
+      "globalFrame": 100,
+      "animation": "dig-sideways",
+      "localFrame": 14,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-014.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.1015
+    },
+    {
+      "globalFrame": 101,
+      "animation": "dig-sideways",
+      "localFrame": 15,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-015.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.8318
+    },
+    {
+      "globalFrame": 102,
+      "animation": "dig-sideways",
+      "localFrame": 16,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-016.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.562
+    },
+    {
+      "globalFrame": 103,
+      "animation": "dig-sideways",
+      "localFrame": 17,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-sideways-cleaned-frames/frame-017.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 33.0764
+    },
+    {
+      "globalFrame": 104,
+      "animation": "dig-up",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 105,
+      "animation": "dig-up",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.6595
+    },
+    {
+      "globalFrame": 106,
+      "animation": "dig-up",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.4489
+    },
+    {
+      "globalFrame": 107,
+      "animation": "dig-up",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 20.6796
+    },
+    {
+      "globalFrame": 108,
+      "animation": "dig-up",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.4254
+    },
+    {
+      "globalFrame": 109,
+      "animation": "dig-up",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.4019
+    },
+    {
+      "globalFrame": 110,
+      "animation": "dig-up",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.8934
+    },
+    {
+      "globalFrame": 111,
+      "animation": "dig-up",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.3123
+    },
+    {
+      "globalFrame": 112,
+      "animation": "dig-up",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.0713
+    },
+    {
+      "globalFrame": 113,
+      "animation": "dig-up-sideways",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 114,
+      "animation": "dig-up-sideways",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 20.62
+    },
+    {
+      "globalFrame": 115,
+      "animation": "dig-up-sideways",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.6092
+    },
+    {
+      "globalFrame": 116,
+      "animation": "dig-up-sideways",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 29.6807
+    },
+    {
+      "globalFrame": 117,
+      "animation": "dig-up-sideways",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.2458
+    },
+    {
+      "globalFrame": 118,
+      "animation": "dig-up-sideways",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.225
+    },
+    {
+      "globalFrame": 119,
+      "animation": "dig-up-sideways",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 20.9499
+    },
+    {
+      "globalFrame": 120,
+      "animation": "dig-up-sideways",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 35.5567
+    },
+    {
+      "globalFrame": 121,
+      "animation": "dig-up-sideways",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 30.0007
+    },
+    {
+      "globalFrame": 122,
+      "animation": "dig-up-sideways",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.7471
+    },
+    {
+      "globalFrame": 123,
+      "animation": "dig-up-sideways",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.3626
+    },
+    {
+      "globalFrame": 124,
+      "animation": "dig-up-sideways",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 21.0627
+    },
+    {
+      "globalFrame": 125,
+      "animation": "dig-up-sideways",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-sideways-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-sideways.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.8904
+    },
+    {
+      "globalFrame": 126,
+      "animation": "fly-climb",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 127,
+      "animation": "fly-climb",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 28.4742
+    },
+    {
+      "globalFrame": 128,
+      "animation": "fly-climb",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.7506
+    },
+    {
+      "globalFrame": 129,
+      "animation": "fly-climb",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.7978
+    },
+    {
+      "globalFrame": 130,
+      "animation": "fly-climb",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.8024
+    },
+    {
+      "globalFrame": 131,
+      "animation": "fly-climb",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.1087
+    },
+    {
+      "globalFrame": 132,
+      "animation": "fly-climb",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.7641
+    },
+    {
+      "globalFrame": 133,
+      "animation": "fly-climb",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.6729
+    },
+    {
+      "globalFrame": 134,
+      "animation": "fly-climb",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.536
+    },
+    {
+      "globalFrame": 135,
+      "animation": "fly-climb",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.4699
+    },
+    {
+      "globalFrame": 136,
+      "animation": "fly-climb",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.5455
+    },
+    {
+      "globalFrame": 137,
+      "animation": "fly-climb",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.6813
+    },
+    {
+      "globalFrame": 138,
+      "animation": "fly-climb",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7573
+    },
+    {
+      "globalFrame": 139,
+      "animation": "fly-climb",
+      "localFrame": 13,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-013.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.3943
+    },
+    {
+      "globalFrame": 140,
+      "animation": "fly-climb",
+      "localFrame": 14,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-014.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.4488
+    },
+    {
+      "globalFrame": 141,
+      "animation": "fly-climb",
+      "localFrame": 15,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-015.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.9711
+    },
+    {
+      "globalFrame": 142,
+      "animation": "fly-climb",
+      "localFrame": 16,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-016.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.0206
+    },
+    {
+      "globalFrame": 143,
+      "animation": "fly-climb",
+      "localFrame": 17,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-017.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.4341
+    },
+    {
+      "globalFrame": 144,
+      "animation": "fly-climb",
+      "localFrame": 18,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-018.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.5919
+    },
+    {
+      "globalFrame": 145,
+      "animation": "fly-climb",
+      "localFrame": 19,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-019.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7499
+    },
+    {
+      "globalFrame": 146,
+      "animation": "fly-climb",
+      "localFrame": 20,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-020.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.9732
+    },
+    {
+      "globalFrame": 147,
+      "animation": "fly-climb",
+      "localFrame": 21,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-021.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.552
+    },
+    {
+      "globalFrame": 148,
+      "animation": "fly-climb",
+      "localFrame": 22,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-022.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.2566
+    },
+    {
+      "globalFrame": 149,
+      "animation": "fly-climb",
+      "localFrame": 23,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-023.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.1378
+    },
+    {
+      "globalFrame": 150,
+      "animation": "fly-climb",
+      "localFrame": 24,
+      "sourceFrame": "sprites/character/character-v8/runtime/fly-climb-cleaned-frames/frame-024.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/fly-climb.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.5522
+    },
+    {
+      "globalFrame": 151,
+      "animation": "dig-up-look",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-up-look-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 152,
+      "animation": "dig-down",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 153,
+      "animation": "dig-down",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 24.9829
+    },
+    {
+      "globalFrame": 154,
+      "animation": "dig-down",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.7686
+    },
+    {
+      "globalFrame": 155,
+      "animation": "dig-down",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 24.5909
+    },
+    {
+      "globalFrame": 156,
+      "animation": "dig-down",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 28.8939
+    },
+    {
+      "globalFrame": 157,
+      "animation": "dig-down",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 30.997
+    },
+    {
+      "globalFrame": 158,
+      "animation": "dig-down",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/dig-down-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/dig-down.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 23.2806
+    },
+    {
+      "globalFrame": 159,
+      "animation": "duck-downwards",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 160,
+      "animation": "duck-downwards",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 3.259
+    },
+    {
+      "globalFrame": 161,
+      "animation": "duck-downwards",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.2258
+    },
+    {
+      "globalFrame": 162,
+      "animation": "duck-downwards",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.4927
+    },
+    {
+      "globalFrame": 163,
+      "animation": "duck-downwards",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.8963
+    },
+    {
+      "globalFrame": 164,
+      "animation": "duck-downwards",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.8628
+    },
+    {
+      "globalFrame": 165,
+      "animation": "duck-downwards",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/duck-downwards-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.3697
+    },
+    {
+      "globalFrame": 166,
+      "animation": "combat-idle-recover",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 167,
+      "animation": "combat-idle-recover",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 168,
+      "animation": "combat-idle-recover",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 169,
+      "animation": "combat-idle-recover",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 170,
+      "animation": "combat-idle-recover",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 171,
+      "animation": "combat-idle-recover",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 172,
+      "animation": "combat-idle-recover",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 173,
+      "animation": "combat-idle-recover",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 174,
+      "animation": "combat-idle-recover",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": 166,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 0.0
+    },
+    {
+      "globalFrame": 175,
+      "animation": "combat-idle-recover",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7897
+    },
+    {
+      "globalFrame": 176,
+      "animation": "combat-idle-recover",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.0773
+    },
+    {
+      "globalFrame": 177,
+      "animation": "combat-idle-recover",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.6346
+    },
+    {
+      "globalFrame": 178,
+      "animation": "combat-idle-recover",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.4333
+    },
+    {
+      "globalFrame": 179,
+      "animation": "combat-idle-recover",
+      "localFrame": 13,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-013.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 19.3895
+    },
+    {
+      "globalFrame": 180,
+      "animation": "combat-idle-recover",
+      "localFrame": 14,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-014.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 8.6989
+    },
+    {
+      "globalFrame": 181,
+      "animation": "combat-idle-recover",
+      "localFrame": 15,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-recover-cleaned-frames/frame-015.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-recover.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 21.943
+    },
+    {
+      "globalFrame": 182,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 183,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.2129
+    },
+    {
+      "globalFrame": 184,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 11.8974
+    },
+    {
+      "globalFrame": 185,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.6863
+    },
+    {
+      "globalFrame": 186,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.088
+    },
+    {
+      "globalFrame": 187,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 8.7282
+    },
+    {
+      "globalFrame": 188,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.8848
+    },
+    {
+      "globalFrame": 189,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 7,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-007.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.277
+    },
+    {
+      "globalFrame": 190,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 8,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-008.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 8.667
+    },
+    {
+      "globalFrame": 191,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 9,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-009.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.3354
+    },
+    {
+      "globalFrame": 192,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 10,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-010.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.9071
+    },
+    {
+      "globalFrame": 193,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 11,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-011.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.4697
+    },
+    {
+      "globalFrame": 194,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 12,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-012.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": 183,
+      "exactDuplicateOfLocal": 1,
+      "adjacentMeanDiffFromPrevious": 14.8179
+    },
+    {
+      "globalFrame": 195,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 13,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-013.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": 182,
+      "exactDuplicateOfLocal": 0,
+      "adjacentMeanDiffFromPrevious": 15.2129
+    },
+    {
+      "globalFrame": 196,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 14,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-014.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.6683
+    },
+    {
+      "globalFrame": 197,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 15,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-015.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.163
+    },
+    {
+      "globalFrame": 198,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 16,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-016.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 26.8668
+    },
+    {
+      "globalFrame": 199,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 17,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-017.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 15.5062
+    },
+    {
+      "globalFrame": 200,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 18,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-018.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 21.556
+    },
+    {
+      "globalFrame": 201,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 19,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-019.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.6892
+    },
+    {
+      "globalFrame": 202,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 20,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-020.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 10.2005
+    },
+    {
+      "globalFrame": 203,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 21,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-021.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.9183
+    },
+    {
+      "globalFrame": 204,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 22,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-022.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 4.4505
+    },
+    {
+      "globalFrame": 205,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 23,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-023.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.7052
+    },
+    {
+      "globalFrame": 206,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 24,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-024.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.8033
+    },
+    {
+      "globalFrame": 207,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 25,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-025.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.0771
+    },
+    {
+      "globalFrame": 208,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 26,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-026.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 3.1213
+    },
+    {
+      "globalFrame": 209,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 27,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-027.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 7.4193
+    },
+    {
+      "globalFrame": 210,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 28,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-028.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.51
+    },
+    {
+      "globalFrame": 211,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 29,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-029.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2544
+    },
+    {
+      "globalFrame": 212,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 30,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-030.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 7.37
+    },
+    {
+      "globalFrame": 213,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 31,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-031.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 3.4822
+    },
+    {
+      "globalFrame": 214,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 32,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-032.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2724
+    },
+    {
+      "globalFrame": 215,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 33,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-033.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.6852
+    },
+    {
+      "globalFrame": 216,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 34,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-034.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2163
+    },
+    {
+      "globalFrame": 217,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 35,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-035.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.9045
+    },
+    {
+      "globalFrame": 218,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 36,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-036.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 2.2958
+    },
+    {
+      "globalFrame": 219,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 37,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-037.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.3711
+    },
+    {
+      "globalFrame": 220,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 38,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-038.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.5633
+    },
+    {
+      "globalFrame": 221,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 39,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-039.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.0071
+    },
+    {
+      "globalFrame": 222,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 40,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-040.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.8439
+    },
+    {
+      "globalFrame": 223,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 41,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-041.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 5.3876
+    },
+    {
+      "globalFrame": 224,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 42,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-042.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0584
+    },
+    {
+      "globalFrame": 225,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 43,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-043.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0574
+    },
+    {
+      "globalFrame": 226,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 44,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-044.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 6.4008
+    },
+    {
+      "globalFrame": 227,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 45,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-045.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0626
+    },
+    {
+      "globalFrame": 228,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 46,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-046.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0602
+    },
+    {
+      "globalFrame": 229,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 47,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-047.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.06
+    },
+    {
+      "globalFrame": 230,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 48,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-048.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0577
+    },
+    {
+      "globalFrame": 231,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 49,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-049.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.056
+    },
+    {
+      "globalFrame": 232,
+      "animation": "combat-idle-to-normal-idle",
+      "localFrame": 50,
+      "sourceFrame": "sprites/character/character-v8/runtime/combat-idle-to-normal-idle-cleaned-frames/frame-050.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/combat-idle-to-normal-idle.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 0.0589
+    },
+    {
+      "globalFrame": 233,
+      "animation": "leans-against-wall",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 234,
+      "animation": "leans-against-wall",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 20.147
+    },
+    {
+      "globalFrame": 235,
+      "animation": "leans-against-wall",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.7073
+    },
+    {
+      "globalFrame": 236,
+      "animation": "leans-against-wall",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.6539
+    },
+    {
+      "globalFrame": 237,
+      "animation": "leans-against-wall",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 7.38
+    },
+    {
+      "globalFrame": 238,
+      "animation": "leans-against-wall",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/leans-against-wall-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 8.7009
+    },
+    {
+      "globalFrame": 239,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 240,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 22.2202
+    },
+    {
+      "globalFrame": 241,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.2934
+    },
+    {
+      "globalFrame": 242,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.4739
+    },
+    {
+      "globalFrame": 243,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.4623
+    },
+    {
+      "globalFrame": 244,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 20.3796
+    },
+    {
+      "globalFrame": 245,
+      "animation": "falling-downward-through-sky",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/falling-downward-through-sky-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 14.7204
+    },
+    {
+      "globalFrame": 246,
+      "animation": "walk-run",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 247,
+      "animation": "walk-run",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.1412
+    },
+    {
+      "globalFrame": 248,
+      "animation": "walk-run",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 12.7536
+    },
+    {
+      "globalFrame": 249,
+      "animation": "walk-run",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 16.0977
+    },
+    {
+      "globalFrame": 250,
+      "animation": "walk-run",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 18.2827
+    },
+    {
+      "globalFrame": 251,
+      "animation": "walk-run",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.51
+    },
+    {
+      "globalFrame": 252,
+      "animation": "walk-run",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/walk-run-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/walk-run.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 17.9969
+    },
+    {
+      "globalFrame": 253,
+      "animation": "wall-push",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 254,
+      "animation": "wall-push",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 46.6742
+    },
+    {
+      "globalFrame": 255,
+      "animation": "wall-push",
+      "localFrame": 2,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-002.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 33.309
+    },
+    {
+      "globalFrame": 256,
+      "animation": "wall-push",
+      "localFrame": 3,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-003.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 9.8415
+    },
+    {
+      "globalFrame": 257,
+      "animation": "wall-push",
+      "localFrame": 4,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-004.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 1.1358
+    },
+    {
+      "globalFrame": 258,
+      "animation": "wall-push",
+      "localFrame": 5,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-005.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 13.3667
+    },
+    {
+      "globalFrame": 259,
+      "animation": "wall-push",
+      "localFrame": 6,
+      "sourceFrame": "sprites/character/character-v8/runtime/wall-push-cleaned-frames/frame-006.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/wall-push.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 31.7032
+    },
+    {
+      "globalFrame": 260,
+      "animation": "quickslash",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/quickslash-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/quickslash.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 261,
+      "animation": "quickslash",
+      "localFrame": 1,
+      "sourceFrame": "sprites/character/character-v8/runtime/quickslash-cleaned-frames/frame-001.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/quickslash.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": 27.1381
+    },
+    {
+      "globalFrame": 262,
+      "animation": "thunder-charge",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/thunder-charge-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/thunder-charge.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    },
+    {
+      "globalFrame": 263,
+      "animation": "thunder-strike",
+      "localFrame": 0,
+      "sourceFrame": "sprites/character/character-v8/runtime/thunder-strike-cleaned-frames/frame-000.png",
+      "sourcePiskel": "sprites/character/character-v8/piskel/thunder-strike.piskel",
+      "exactDuplicateOfGlobal": null,
+      "exactDuplicateOfLocal": null,
+      "adjacentMeanDiffFromPrevious": null
+    }
+  ],
+  "notes": [
+    "Combined Piskel pack is for review. Apply final deletes to per-animation sourcePiskel files.",
+    "exactDuplicateGroups are exact pixel matches inside one animation.",
+    "nearAdjacentRepeats are candidates only; review visually before deleting."
+  ]
+}

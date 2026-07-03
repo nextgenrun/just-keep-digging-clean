@@ -26,6 +26,35 @@
  * It implements a custom multi-frequency shake via camera.setFollowOffset()
  * so we don't rely on Phaser's built-in (which is purely random-noise).
  */
+export const CAMERA_SHAKE_DEFAULT_INTENSITY = 1;
+export const CAMERA_SHAKE_DEFAULT_FLASH_ENABLED = true;
+
+export const CAMERA_SHAKE_EVENT_GROUPS = Object.freeze({
+  mining: "mining",
+  earthquake: "earthquake",
+  weatherThunder: "weather",
+  thunderStrike: "thunderStrike",
+  combo: "combo",
+  misc: "misc",
+});
+
+export const CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP = Object.freeze({
+  mining: true,
+  earthquake: true,
+  weather: true,
+  thunderStrike: true,
+  combo: true,
+  misc: true,
+});
+
+export const CAMERA_SHAKE_SETTINGS_GROUPS = Object.freeze([
+  { key: "mining", label: "Mining", groupKeys: ["mining"] },
+  { key: "earthquake", label: "Earthquakes", groupKeys: ["earthquake"] },
+  { key: "weather", label: "Weather", groupKeys: ["weather"] },
+  { key: "combo", label: "Combat / Combo", groupKeys: ["combo", "thunderStrike"] },
+  { key: "misc", label: "Misc", groupKeys: ["misc"] },
+]);
+
 export const CAMERA_SHAKE_SIGNATURES = Object.freeze({
 
   // ─── Mining (pickaxe hits) ───────────────────────────────────────────────
