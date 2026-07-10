@@ -1,9 +1,10 @@
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../values/playerAbilities.js";
-import { GEM_VISION_CONFIG } from "../values/gemVision.js";
+import { MINING_CONFIG } from "../values/miningConfig.js";
 import { GEM_POWER_CONFIG } from "../values/gemPower.js";
 import { computeAbilityStats, getDefaultAbilityStats } from "../values/constellationBuffs.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import { HARD_RESOURCE_TILE_TYPES, tileTypeToResource } from "../values/resourceTypes.js";
 
 export class PlayerAbilities {
   constructor(sprite, worldModel, config, upgradeSystem = null, physicsBody = null, playerLevelSystem = null, comboSystem = null) {
@@ -22,10 +23,6 @@ export class PlayerAbilities {
     this._gemPowerMax = this._baseGemPowerMax;
     this._gemPowerRegenRate = GEM_POWER_CONFIG.baseRegen || 2;
 
-    // Gem vision
-    this._gemVisionActive = false;
-    this._gemVisionToggleCooldown = 0;
-
     // Climbing
     this._climbing = false;
 
@@ -37,6 +34,7 @@ export class PlayerAbilities {
 
     // Quickslash
     this._quickslashActive = false;
+    this._quickslashDirection = 1;
     this._quickslashTimer = 0;
     this._constellationStats = getDefaultAbilityStats();
     this._constellationStatsSig = null;
@@ -73,10 +71,13 @@ export class PlayerAbilities {
     const flyDownHeld = input.getFlyDownInput?.() === true;
 
     if (flightAvailable && flyHeld && this.body) {
-      const canStartFlying = !this._flying && this.gemPower >= this._getMinFlyGpThreshold();
+      const canStartFlying = !this._flying && (this._godMode || this.gemPower >= this._getFlyStartCost());
       const canContinueFlying = this._flying && this.gemPower > 0;
 
       if (canStartFlying || canContinueFlying) {
+        if (canStartFlying && !this._godMode) {
+          this.consumeGemPower(this._getFlyStartCost());
+        }
         const flightDirection = (!isGrounded && flyDownHeld) ? 1 : -1;
         this.body.vy = this._getClimbSpeed() * flightDirection;
         this._flying = true;
@@ -120,7 +121,7 @@ export class PlayerAbilities {
 
   _updateQuickslash(input, facingRight) {
     const wantsQuickslash = input?.getQuickslashInput?.() === true;
-    if (!wantsQuickslash || !PLAYER_ABILITIES_CONFIG.quickslashEnabled) {
+    if (!wantsQuickslash || !PLAYER_ABILITIES_CONFIG.quickslashEnabled || !this._isQuickslashUnlocked()) {
       this._quickslashActive = false;
       return;
     }
@@ -130,9 +131,12 @@ export class PlayerAbilities {
       return;
     }
 
+    if (!this._quickslashActive) {
+      this._quickslashDirection = facingRight ? 1 : -1;
+    }
     this._quickslashActive = true;
     if (this.body) {
-      const dir = facingRight ? 1 : -1;
+      const dir = this._quickslashDirection;
       const burstSpeed = Math.max(0, this.getConstellationStats().quickslashBurstSpeed || 0);
       if (burstSpeed > 0) {
         this.body.vx = dir * Math.max(Math.abs(this.body.vx || 0), burstSpeed);
@@ -168,10 +172,22 @@ export class PlayerAbilities {
   isFlying() { return this._flying; }
   isClimbing() { return this._climbing; }
 
-  isGemVisionActive() { return this._gemVisionActive; }
-
   isQuickslashActive() { return this._quickslashActive; }
-  getQuickslashDirection() { return this.sprite && !this.sprite.flipX ? 1 : -1; }
+  getQuickslashDirection() { return this._quickslashDirection || 1; }
+
+  _isQuickslashUnlocked() {
+    if (this._godMode) return true;
+    if (this.upgradeSystem?.isQuickslashUnlocked) return this.upgradeSystem.isQuickslashUnlocked();
+    const effects = this.upgradeSystem?.getUpgradeEffects?.() ?? {};
+    return (effects.unlockQuickslash || 0) > 0;
+  }
+
+  _isThunderStrikeUnlocked() {
+    if (this._godMode) return true;
+    if (this.upgradeSystem?.isThunderStrikeUnlocked) return this.upgradeSystem.isThunderStrikeUnlocked();
+    const effects = this.upgradeSystem?.getUpgradeEffects?.() ?? {};
+    return (effects.unlockThunderStrike || 0) > 0;
+  }
 
   _refreshConstellationStats() {
     const unlocked = this.sprite?.scene?.floatingTextSystem?.getUnlockedConstellations?.() || [];
@@ -210,6 +226,10 @@ export class PlayerAbilities {
   }
 
   startThunderStrikeCharge() {
+    if (!this._isThunderStrikeUnlocked()) {
+      this._thunderStrikeCharging = false;
+      return false;
+    }
     if (this.gemPower >= this.getThunderStrikeCost() || this._godMode) {
       this._thunderStrikeCharging = true;
       this._thunderStrikeChargeStart = Date.now();
@@ -222,7 +242,12 @@ export class PlayerAbilities {
 
   updateThunderStrikeCharge() {
     const chargeDuration = Date.now() - this._thunderStrikeChargeStart;
-    if (chargeDuration >= (PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs || 600)) {
+    const configuredChargeTimeMs = Number.isFinite(PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs)
+      ? PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs
+      : 1000;
+    const chargeTimeMs = Math.max(1000, configuredChargeTimeMs);
+
+    if (chargeDuration >= chargeTimeMs) {
       return { complete: true };
     }
     return { complete: false };
@@ -244,17 +269,10 @@ export class PlayerAbilities {
       (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel('thunderStrike') + 5 : 5)
         + (stats.thunderstrikeRange || 0)
     );
-    const baseDamage = this.config.baseDamage || 8;
-    const legacyStrikeDamage = PLAYER_ABILITIES_CONFIG.thunderStrikeBaseDamage;
-    const baseStrikeDamage = Math.max(
-      1,
-      Math.round(
-        Math.max(
-          legacyStrikeDamage,
-          baseDamage * (PLAYER_ABILITIES_CONFIG.thunderStrikeBaseDamageMultiplier || 3)
-        ) * (1 + (stats.thunderstrikeDamageMult || 0))
-      )
-    );
+    const normalDamageMultiplier = Number.isFinite(PLAYER_ABILITIES_CONFIG.thunderStrikeNormalDamageMultiplier)
+      ? PLAYER_ABILITIES_CONFIG.thunderStrikeNormalDamageMultiplier
+      : 1.5;
+    const thunderStrikeBonusMultiplier = 1 + (stats.thunderstrikeDamageMult || 0);
     const falloff = Math.max(
       0,
       (PLAYER_ABILITIES_CONFIG.thunderStrikeDamageFalloff || 0) - (stats.thunderstrikeFalloffReduction || 0)
@@ -265,16 +283,81 @@ export class PlayerAbilities {
       const checkTy = playerTile.ty + i;
       if (checkTy >= this.worldModel.depth) break;
       if (this.worldModel.isDiggable(playerTile.tx, checkTy)) {
-        const dmg = Math.max(1, Math.round(baseStrikeDamage * Math.max(0.2, 1 - falloff * (i - 1))));
+        const tileType = this.worldModel.getTileType(playerTile.tx, checkTy);
+        const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
+        const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;
+        const dmg = Math.max(1, Math.round(tileDamage * Math.max(0.2, 1 - falloff * (i - 1))));
         const dmgResult = this.worldModel.damageTile(playerTile.tx, checkTy, dmg);
         results.push({ tx: playerTile.tx, ty: checkTy, damage: dmg, destroyed: dmgResult.destroyed, tileType: dmgResult.typeBeforeDamage, wasRubble: dmgResult.wasRubble });
       } else if (bedrockBreachesLeft > 0 && this.worldModel.getTileType(playerTile.tx, checkTy) === TILE_TYPES.BEDROCK) {
-        this.worldModel.setTile(playerTile.tx, checkTy, TILE_TYPES.AIR, 0);
+        const tileType = this.worldModel.getTileType(playerTile.tx, checkTy);
+        const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
+        const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;
         bedrockBreachesLeft -= 1;
-        results.push({ tx: playerTile.tx, ty: checkTy, damage: baseStrikeDamage, destroyed: true, tileType: TILE_TYPES.BEDROCK, wasRubble: false, breachedBedrock: true });
+        this.worldModel.setTile(playerTile.tx, checkTy, TILE_TYPES.AIR, 0);
+        results.push({ tx: playerTile.tx, ty: checkTy, damage: Math.max(1, Math.round(tileDamage)), destroyed: true, tileType: TILE_TYPES.BEDROCK, wasRubble: false, breachedBedrock: true });
       }
     }
     return { success: true, results };
+  }
+
+  _getBaseDamageForTile(tileType) {
+    return HARD_RESOURCE_TILE_TYPES.has(tileType)
+      ? (MINING_CONFIG.baseDamageHard || 8)
+      : (MINING_CONFIG.baseDamage || 16);
+  }
+
+  _getSpecialBlockDamageMultiplier() {
+    const sceneManager = this.sprite?.scene?.specialBlockEffectsManager;
+    if (sceneManager?.getDamageMultiplier) {
+      const sceneMultiplier = sceneManager.getDamageMultiplier();
+      if (Number.isFinite(sceneMultiplier)) {
+        return sceneMultiplier;
+      }
+    }
+    return 1.0;
+  }
+
+  _getNormalMiningDamageForTile(tileType) {
+    const baseDamage = this._getBaseDamageForTile(tileType);
+    let damage = baseDamage;
+
+    const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
+    const pickaxeDamage = effects.pickaxeDamage || 0;
+    const pickaxeMultipliers = effects.pickaxeMultipliers || {};
+    const tileTypeName = tileTypeToResource(tileType);
+    const multiplier = pickaxeMultipliers[tileTypeName] || pickaxeMultipliers.default || 1.0;
+    const strengthBonus = effects.digDamageAdditive || 0;
+    const levelFlatBonus = this.playerLevelSystem
+      ? this.playerLevelSystem.getMiningFlatDamageBonus()
+      : 0;
+
+    if (this.playerLevelSystem) {
+      const levelMultiplier = this.playerLevelSystem.getMiningDamageMultiplier();
+      if (pickaxeDamage > 0) {
+        damage = pickaxeDamage * multiplier * levelMultiplier;
+      } else {
+        damage = baseDamage * levelMultiplier;
+      }
+    } else {
+      if (pickaxeDamage > 0) {
+        damage = pickaxeDamage * multiplier;
+      } else {
+        damage = baseDamage;
+      }
+    }
+
+    damage += strengthBonus + levelFlatBonus;
+
+    const damageMultiplier = this._getSpecialBlockDamageMultiplier();
+    if (damageMultiplier > 1.0) {
+      damage *= damageMultiplier;
+    }
+
+    if (!Number.isFinite(damage)) {
+      return Math.max(1, baseDamage);
+    }
+    return Math.max(1, Math.round(damage));
   }
 
   getThunderStrikeCost() {
@@ -351,8 +434,9 @@ export class PlayerAbilities {
     return this.config.climbSpeedPxPerSec || 252;
   }
 
-  _getMinFlyGpThreshold() {
-    return Math.ceil(this.getGemPowerMax() * GEM_POWER_CONFIG.minFlyThresholdPct);
+  _getFlyStartCost() {
+    const startCost = GEM_POWER_CONFIG.flightStartCost;
+    return Number.isFinite(startCost) ? Math.max(0, startCost) : 0;
   }
 
   getDashCooldownMs() { return 0; }

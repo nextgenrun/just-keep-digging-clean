@@ -1,6 +1,7 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
+import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
 const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
@@ -597,15 +598,8 @@ export class FloatingTextSystem {
    */
   showSkyTileDestruction(worldX, worldY, resourceType, rarity = 0, multiplier = null, hasPassiveBonus = false) {
     // Resource type to CSS color string for text
-    const resourceColors = {
-      dirt: '#8B4513', stone: '#808080', copper: '#B87333',
-      darkDirtNormal: '#654321', darkDirtStrong: '#3E2723',
-      steel: '#4682B4', iron: '#71797E', bronze: '#CD7F32',
-      silver: '#C0C0C0', gold: '#FFD700',
-    };
-
     const rarityCfg = this._getSkyRarityConfig(rarity);
-    const resourceColor = resourceColors[resourceType] || '#87CEEB';
+    const resourceColor = RESOURCE_COLORS[resourceType] || '#87CEEB';
     const rarityColor = rarityCfg.glowColor || 0x87CEEB;
     const rarityCSSColor = `#${rarityColor.toString(16).padStart(6, '0')}`;
     const displayName = this._formatResourceName(resourceType);
@@ -1435,19 +1429,7 @@ export class FloatingTextSystem {
    * @private
    */
   _formatResourceName(resourceType) {
-    const names = {
-      dirt: 'Dirt',
-      stone: 'Stone',
-      copper: 'Copper',
-      darkDirtNormal: 'Dark Dirt',
-      darkDirtStrong: 'Hard Dirt',
-      steel: 'Steel',
-      iron: 'Iron',
-      bronze: 'Bronze',
-      silver: 'Silver',
-      gold: 'Gold',
-    };
-    return names[resourceType] || resourceType;
+    return getResourceDisplayName(resourceType);
   }
 
   /**

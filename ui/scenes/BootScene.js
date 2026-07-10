@@ -1,8 +1,10 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { AUTHORED_BACKGROUND_ASSET_OVERRIDES } from "../../values/authoredBackgroundAssetOverrides.js";
 import { PLAYER_ASSET_PROFILES } from "../../values/playerAssetProfiles.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
+import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
 import {
   MENU_BACKGROUND_ASSETS,
   createMenuLoadingScreen,
@@ -15,7 +17,7 @@ const BRAND_LOGO_PATH = "sprites/branding/logo-enter-v-1/20260316_0321_Just Keep
 const SKY_PORTAL_CANONICAL_PATH = TELEPORT_PORTAL_CONFIG.canonicalAssetPath;
 const SKY_PORTAL_FILENAME = TELEPORT_PORTAL_CONFIG.gateFilename;
 
-function makeAuthoredBackgroundKey(path) {
+function makeAuthoredBackgroundBaseKey(path) {
   const keyName = getRuntimeAuthoredAssetFilename(path) || String(path);
   const slug = keyName
     .toLowerCase()
@@ -32,15 +34,14 @@ function collectAuthoredBackgroundPaths(tiledBackgroundObjects) {
     if (!Array.isArray(objects)) continue;
     for (const obj of objects) {
       const resolvedFilename = extractAuthoredObjectFilename(obj?.resolvedFilename);
-      if (resolvedFilename) {
-        paths.add(resolvedFilename);
-        continue;
-      }
-
       const sourcePath = obj?.properties?.sourcePath;
       if (typeof sourcePath === "string" && sourcePath.trim()) {
         paths.add(sourcePath.trim().replace(/\\/g, "/"));
-      } else {
+      }
+
+      if (resolvedFilename) {
+        paths.add(resolvedFilename);
+      } else if (!sourcePath) {
         const imageName = extractAuthoredObjectFilename(obj?.name);
         if (imageName) paths.add(imageName);
       }
@@ -49,8 +50,12 @@ function collectAuthoredBackgroundPaths(tiledBackgroundObjects) {
   return [...paths].sort();
 }
 
-const AUTHORED_LAYER_BASE = "exports/dig_game_12layer_palette_true_separate_v1/sprites/backgrounds/12layer-true-separate-v1/";
-const AUTHORED_L11_PROPS_BASE = "exports/pallet-v9/dig_game_empty_backgrounds_and_separate_props_v1/sprites/props/near_props_seam_breakers/";
+const FULL_NON_TILE_RUNTIME_LIBRARY = "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/";
+const FULL_NON_TILE_SPRITES_BASE = `${FULL_NON_TILE_RUNTIME_LIBRARY}sprites/`;
+const GENERATED_RUNTIME_BG_BASE = `${FULL_NON_TILE_SPRITES_BASE}backgrounds/generated-runtime-v1/`;
+const GENERATED_RUNTIME_PROP_BASE = `${FULL_NON_TILE_SPRITES_BASE}background-props/generated-runtime-v1/`;
+const AUTHORED_LAYER_BASE = `${FULL_NON_TILE_SPRITES_BASE}bg12/`;
+const AUTHORED_L11_PROPS_BASE = `${FULL_NON_TILE_SPRITES_BASE}props/near_props_seam_breakers/`;
 const AUTHORED_LAYER_DIRS = Object.freeze({
   l01: "l01_base_colour_field",
   l02: "l02_atmospheric_depth",
@@ -78,22 +83,26 @@ function extractAuthoredObjectFilename(name) {
   return /\.(png|webp)$/i.test(filename) ? filename : "";
 }
 
-function resolveAuthoredBackgroundPath(path) {
+function resolveAuthoredBackgroundPath(path, options = {}) {
+  const useCleanupOverrides = options.useCleanupOverrides !== false;
   const normalized = String(path || "").trim().replace(/\\/g, "/");
   const filename = extractAuthoredObjectFilename(normalized);
+  const overridePath = getAuthoredBackgroundOverridePath(filename, { useCleanupOverrides });
+  if (overridePath) return overridePath;
+
   if (filename.toLowerCase() === SKY_PORTAL_FILENAME) {
     return SKY_PORTAL_CANONICAL_PATH;
   }
   if (normalized.startsWith("sprites/backgrounds/generated-runtime-v1/")) {
     return normalized.replace(
       "sprites/backgrounds/generated-runtime-v1/",
-      "exports/dig_game_runtime_bg_props_v1/sprites/backgrounds/generated-runtime-v1/"
+      GENERATED_RUNTIME_BG_BASE
     );
   }
   if (normalized.startsWith("sprites/background-props/generated-runtime-v1/")) {
     return normalized.replace(
       "sprites/background-props/generated-runtime-v1/",
-      "exports/cleaned/dig_game_palette_clean_overwrite_runtime_v3/sprites/background-props/generated-runtime-v1/"
+      GENERATED_RUNTIME_PROP_BASE
     );
   }
 
@@ -106,12 +115,18 @@ function resolveAuthoredBackgroundPath(path) {
     if (layerDir) return `${AUTHORED_LAYER_BASE}${layerDir}/${layerFilename}`;
   }
   if (/^bg_.+\.webp$/i.test(filename)) {
-    return `exports/dig_game_runtime_bg_props_v1/sprites/backgrounds/generated-runtime-v1/${filename}`;
+    return `${GENERATED_RUNTIME_BG_BASE}${filename}`;
   }
   if (/^prop_.+\.webp$/i.test(filename)) {
-    return `exports/cleaned/dig_game_palette_clean_overwrite_runtime_v3/sprites/background-props/generated-runtime-v1/${filename}`;
+    return `${GENERATED_RUNTIME_PROP_BASE}${filename}`;
   }
   return normalized;
+}
+
+function getAuthoredBackgroundOverridePath(filename, options = {}) {
+  if (options.useCleanupOverrides === false || !AUTHORED_BACKGROUND_ASSET_OVERRIDES.enabled) return "";
+  const key = String(filename || "").trim().toLowerCase();
+  return AUTHORED_BACKGROUND_ASSET_OVERRIDES.byFilename[key] || "";
 }
 
 function isSkyPortalCanonicalPath(path) {
@@ -134,7 +149,9 @@ export class BootScene extends Phaser.Scene {
     this.audioAssetManager = null;
     this.debugText = null;
     this.loadingUi = null;
-    this._queuedImagePaths = new Set();
+    this._queuedImagePaths = new Map();
+    this._isPreloading = false;
+    this._bootAttempt = 0;
   }
 
   preload() {
@@ -164,8 +181,16 @@ export class BootScene extends Phaser.Scene {
   }
 
   queueImage(key, path) {
-    if (!this.textures.exists(key) && !this._queuedImagePaths.has(path)) {
-      this._queuedImagePaths.add(path);
+    if (this.textures.exists(key)) return;
+
+    if (!this._queuedImagePaths.has(path)) {
+      this._queuedImagePaths.set(path, new Set());
+    }
+    const keysForPath = this._queuedImagePaths.get(path);
+    if (keysForPath.has(key)) return;
+
+    keysForPath.add(key);
+    if (path && path !== "") {
       this.load.image(key, path);
     }
   }
@@ -177,7 +202,40 @@ export class BootScene extends Phaser.Scene {
   }
 
   async startFullPreload() {
+    if (this._isPreloading) return;
+    this._isPreloading = true;
+    this._bootAttempt += 1;
+    const attempt = this._bootAttempt;
+
+    if (typeof this.load.reset === "function") {
+      this.load.reset();
+    }
+
     const totalMessages = LOADING_MESSAGES.length;
+    const initialLabel = `Loading game assets... (${attempt})`;
+    if (!this.loadingUi) {
+      const startIndex = Math.floor(Math.random() * totalMessages);
+      const initial = LOADING_MESSAGES[startIndex];
+      this.loadingUi = createMenuLoadingScreen(this, {
+        title: "Just Keep Digging",
+        subtitle: "A L P H A",
+        label: initial.label,
+        detail: initial.detail,
+        preferLogo: true,
+        progress: 0,
+        backgroundKey: getSelectedMenuBackgroundKey(),
+        backgroundAlpha: 0.24,
+        overlayAlpha: 0.34,
+      });
+    } else {
+      this.loadingUi.setLabel(initialLabel);
+      this.loadingUi.setDetail("Preparing assets...");
+      this.loadingUi.setProgress(0);
+      this.loadingUi.clearFailure?.();
+    }
+    this.loadingUi?.setRetryHandler(() => {
+      this.startFullPreload();
+    });
 
     // Build a shuffled index pool so we cycle randomly without repeats
     let msgPool = Array.from({ length: totalMessages }, (_, i) => i);
@@ -187,21 +245,14 @@ export class BootScene extends Phaser.Scene {
       [msgPool[i], msgPool[j]] = [msgPool[j], msgPool[i]];
     }
     let poolIndex = 0;
+    let hasLoadFailure = false;
+    const failedKeys = [];
 
     // Start at a random message
     const startIndex = Math.floor(Math.random() * totalMessages);
     const initial = LOADING_MESSAGES[startIndex];
-    this.loadingUi = createMenuLoadingScreen(this, {
-      title: "Just Keep Digging",
-      subtitle: "A L P H A",
-      label: initial.label,
-      detail: initial.detail,
-      preferLogo: true,
-      progress: 0,
-      backgroundKey: getSelectedMenuBackgroundKey(),
-      backgroundAlpha: 0.24,
-      overlayAlpha: 0.34,
-    });
+    this.loadingUi?.setLabel(initial.label || initialLabel);
+    this.loadingUi?.setDetail(initial.detail || "Preparing your adventure...");
 
     // Cycle messages every 8 seconds — randomly shuffled
     this._messageTimer = this.time.addEvent({
@@ -220,7 +271,13 @@ export class BootScene extends Phaser.Scene {
       this.loadingUi?.setProgress(value);
     };
     const onLoadError = (file) => {
-      console.warn('[BootScene] Failed to load asset:', file?.key || file?.src || file);
+      hasLoadFailure = true;
+      const target = file?.key || file?.src || file?.url || file || "unknown asset";
+      if (!failedKeys.includes(target)) failedKeys.push(target);
+      const failLabel = failedKeys.length > 1 ? `${failedKeys.length} assets failed` : `Asset failed: ${target}`;
+      console.warn('[BootScene] Failed to load asset:', target);
+      this.loadingUi?.setFailure(failLabel);
+      this.loadingUi?.setLabel("Load error");
     };
 
     this.load.on('progress', onProgress);
@@ -229,22 +286,43 @@ export class BootScene extends Phaser.Scene {
       this.load.off('progress', onProgress);
       this.load.off('loaderror', onLoadError);
       this._messageTimer?.remove();
+      this._messageTimer = null;
+
+      if (hasLoadFailure) {
+        this._isPreloading = false;
+        this.loadingUi?.setFailure(failedKeys.length > 1 ? `${failedKeys.length} assets failed to load.` : `Failed to load: ${failedKeys[0] || "an asset"}`);
+        this.loadingUi?.setRetryHandler(() => this.startFullPreload());
+        return;
+      }
+
+      this.loadingUi?.clearFailure?.();
       this.loadingUi?.setProgress(1);
       this.loadingUi?.setLabel("Loading complete!");
       this.loadingUi?.setDetail("The mine awaits...");
-      this.loadingUi?.fadeOut(300, () => this.finishBoot());
+      this.loadingUi?.fadeOut(300, () => {
+        this._isPreloading = false;
+        this.finishBoot();
+      });
     });
 
-    this.preloadBranding();
-    this.preloadBackgrounds();
-    this.preloadConstellationSprites();
-    this.preloadNPCs();
-    this.preloadPlayerSprites();
-    this.preloadTileSprites();
-    this.preloadFxSprites();
-    this.preloadUiSprites();
-    await this.preloadAudio();
-    this.load.start();
+    try {
+      this.preloadBranding();
+      this.preloadBackgrounds();
+      this.preloadConstellationSprites();
+      this.preloadNPCs();
+      this.preloadPlayerSprites();
+      this.preloadTileSprites();
+      this.preloadFxSprites();
+      this.preloadUiSprites();
+      await this.preloadAudio();
+      this.load.start();
+    } catch (error) {
+      this.loadingUi?.setFailure("Unable to start asset load. Retry to try again.");
+      this.loadingUi?.setLabel("Boot queue error");
+      this._isPreloading = false;
+      this._messageTimer?.remove();
+      throw error;
+    }
   }
 
   preloadBranding() {
@@ -252,20 +330,20 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadBackgrounds() {
-    this.queueImage(ASSET_KEYS.background.world1, "sprites/backgrounds/base-background-world-1.webp");
+    this.queueImage(ASSET_KEYS.background.world1, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/base-background-world-1.webp`);
     
     // Load town houses
-    this.queueImage(ASSET_KEYS.background.houseMoneyMonster, "sprites/backgrounds/background-town/money-monster-npc-house.webp");
-    this.queueImage(ASSET_KEYS.background.housePlayerUpgrade, "sprites/backgrounds/background-town/player-upgrade-npc-house.webp");
+    this.queueImage(ASSET_KEYS.background.houseMoneyMonster, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/money-monster-npc-house.webp`);
+    this.queueImage(ASSET_KEYS.background.housePlayerUpgrade, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/player-upgrade-npc-house.webp`);
     
     // Load background database images
     MENU_BACKGROUND_ASSETS.forEach(({ key, path }) => this.queueImage(key, path));
 
     const townLoop = ASSET_KEYS.background.townLoop;
-    this.load.image(townLoop.aboveFloor, "sprites/infinate-loops/above-floor-layer.png");
-    this.load.image(townLoop.floor, "sprites/infinate-loops/floor-layer.png");
+    this.load.image(townLoop.aboveFloor, `${FULL_NON_TILE_SPRITES_BASE}infinate-loops/above-floor-layer.png`);
+    this.load.image(townLoop.floor, `${FULL_NON_TILE_SPRITES_BASE}infinate-loops/floor-layer.png`);
 
-    const undergroundBase = "sprites/infinate-loops/underground-0-1000/";
+    const undergroundBase = `${FULL_NON_TILE_SPRITES_BASE}infinate-loops/underground-0-1000/`;
     ASSET_KEYS.background.undergroundLoops.forEach((background, index) => {
       const startDepth = String(index * 200).padStart(3, "0");
       const endDepth = String((index + 1) * 200).padStart(3, "0");
@@ -274,7 +352,7 @@ export class BootScene extends Phaser.Scene {
 
     // Load layered sky backgrounds (above ground)
     const sky = ASSET_KEYS.background.skyBackgrounds;
-    const skyBase = "sprites/backgrounds/background-database/sky-background-v3/";
+    const skyBase = `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-database/sky-background-v3/`;
     this.load.image(sky.base, skyBase + "sky-v3-base.webp");
     this.load.image(sky.nebula, skyBase + "sky-v3-nebula-veil.webp");
     this.load.image(sky.aurora, skyBase + "sky-v3-aurora-ribbons.webp");
@@ -292,22 +370,26 @@ export class BootScene extends Phaser.Scene {
     const resolvedByKey = new Map();
 
     for (const path of paths) {
-      const key = makeAuthoredBackgroundKey(path);
-      const resolved = resolveAuthoredBackgroundPath(path);
-      const existing = resolvedByKey.get(key);
+      const key = makeAuthoredBackgroundBaseKey(path);
+      const cleanResolved = resolveAuthoredBackgroundPath(path, { useCleanupOverrides: true });
+      const existing = resolvedByKey.get(key) || {};
 
-      if (!resolved) {
+      if (!cleanResolved) {
         continue;
       }
 
       // Force canonical eclipse-gate texture if it appears anywhere with duplicate names.
-      if (!existing || (isSkyPortalCanonicalPath(resolved) && !isSkyPortalCanonicalPath(existing))) {
-        resolvedByKey.set(key, resolved);
+      if (cleanResolved && (!existing.clean || (isSkyPortalCanonicalPath(cleanResolved) && !isSkyPortalCanonicalPath(existing.clean)))) {
+        existing.clean = cleanResolved;
       }
+
+      resolvedByKey.set(key, existing);
     }
 
     for (const [key, resolved] of resolvedByKey) {
-      this.queueImage(key, resolved);
+      if (resolved.clean) {
+        this.queueImage(key, resolved.clean);
+      }
     }
     console.log(`[BootScene] Queued ${resolvedByKey.size} authored TMX background assets`);
   }
@@ -457,7 +539,7 @@ export class BootScene extends Phaser.Scene {
     const player = ASSET_KEYS.player;
     const frame341 = { frameWidth: 341, frameHeight: 341 };
     const runtimeV8Base = "sprites/character/character-v8/runtime";
-    const legacyRuntimeVersion = "legacy-v8-frame-review-20260702";
+    const legacyRuntimeVersion = "legacy-v8-polish-approved-20260703";
     const loadRuntimeSheet = (key, filename, frames) => {
       if (!key || !frames?.length) return;
       this.load.spritesheet(key, `${runtimeV8Base}/${filename}?v=${legacyRuntimeVersion}`, {
@@ -557,6 +639,12 @@ export class BootScene extends Phaser.Scene {
         this.load.image(key, `${soilBase}bases/soil-${depthBands[band]}-v${variant + 1}.webp`);
       });
     });
+    const deepDepthBands = ["1000-1200", "1200-1400", "1400-1600", "1600-plus"];
+    soil.deepBases?.forEach((bandKeys, band) => {
+      bandKeys.forEach((key, variant) => {
+        this.load.image(key, `${soilBase}deep-bases/deep-soil-${deepDepthBands[band]}-v${variant + 1}.png`);
+      });
+    });
     soil.cracks.forEach((key, stage) => {
       this.load.image(key, `${soilBase}overlays/crack-stage-${stage + 1}.png`);
     });
@@ -623,6 +711,22 @@ export class BootScene extends Phaser.Scene {
       [ASSET_KEYS.tiles.goldHp1, ASSET_KEYS.tiles.goldHp2, ASSET_KEYS.tiles.goldHp3, ASSET_KEYS.tiles.goldHp4, ASSET_KEYS.tiles.goldHp5],
       "sprites/tiles/tiles-under-1000/resource-gold-tile"
     );
+    loadDamageStages(
+      [ASSET_KEYS.tiles.lavaDirtHp1, ASSET_KEYS.tiles.lavaDirtHp2, ASSET_KEYS.tiles.lavaDirtHp3, ASSET_KEYS.tiles.lavaDirtHp4, ASSET_KEYS.tiles.lavaDirtHp5],
+      "sprites/tiles/second-world/lava-dirt"
+    );
+    loadDamageStages(
+      [ASSET_KEYS.tiles.obsidianHp1, ASSET_KEYS.tiles.obsidianHp2, ASSET_KEYS.tiles.obsidianHp3, ASSET_KEYS.tiles.obsidianHp4, ASSET_KEYS.tiles.obsidianHp5],
+      "sprites/tiles/second-world/obsidian"
+    );
+    loadDamageStages(
+      [ASSET_KEYS.tiles.emberOreHp1, ASSET_KEYS.tiles.emberOreHp2, ASSET_KEYS.tiles.emberOreHp3, ASSET_KEYS.tiles.emberOreHp4, ASSET_KEYS.tiles.emberOreHp5],
+      "sprites/tiles/second-world/ember-ore"
+    );
+    loadDamageStages(
+      [ASSET_KEYS.tiles.magmaCrystalHp1, ASSET_KEYS.tiles.magmaCrystalHp2, ASSET_KEYS.tiles.magmaCrystalHp3, ASSET_KEYS.tiles.magmaCrystalHp4, ASSET_KEYS.tiles.magmaCrystalHp5],
+      "sprites/tiles/second-world/magma-crystal"
+    );
 
     // Special tiles
     this.load.image(ASSET_KEYS.tiles.teleportTile, "sprites/tiles/special-tiles-v2/teleport-tile.webp");
@@ -652,9 +756,17 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadUiSprites() {
+    this.load.spritesheet(UI_ICON_ATLAS.key, UI_ICON_ATLAS.path, {
+      frameWidth: UI_ICON_ATLAS.frameWidth,
+      frameHeight: UI_ICON_ATLAS.frameHeight,
+    });
     this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.copper, "sprites/UI/copper/copper-icon.webp");
+    this.load.image(ASSET_KEYS.ui.resources.lavaDirt, "sprites/UI/second-world/lava-dirt-icon.webp");
+    this.load.image(ASSET_KEYS.ui.resources.obsidian, "sprites/UI/second-world/obsidian-icon.webp");
+    this.load.image(ASSET_KEYS.ui.resources.emberOre, "sprites/UI/second-world/ember-ore-icon.webp");
+    this.load.image(ASSET_KEYS.ui.resources.magmaCrystal, "sprites/UI/second-world/magma-crystal-icon.webp");
     this.load.image(ASSET_KEYS.ui.lootBag, "sprites/UI/loot-pickups/inventory-bag.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.stone, "sprites/UI/loot-pickups/stone.png");
@@ -666,6 +778,10 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.lootPickups.bronze, "sprites/UI/loot-pickups/bronze.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.silver, "sprites/UI/loot-pickups/silver.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.gold, "sprites/UI/loot-pickups/gold.png");
+    this.load.image(ASSET_KEYS.ui.lootPickups.lavaDirt, "sprites/UI/second-world/lava-dirt-icon.webp");
+    this.load.image(ASSET_KEYS.ui.lootPickups.obsidian, "sprites/UI/second-world/obsidian-icon.webp");
+    this.load.image(ASSET_KEYS.ui.lootPickups.emberOre, "sprites/UI/second-world/ember-ore-icon.webp");
+    this.load.image(ASSET_KEYS.ui.lootPickups.magmaCrystal, "sprites/UI/second-world/magma-crystal-icon.webp");
   }
 
   createAnimations() {
@@ -674,11 +790,16 @@ export class BootScene extends Phaser.Scene {
     }
 
     const sheetFrames = (sheetKey, frames) => frames.map((frame) => ({ key: sheetKey, frame }));
-    const createSheetAnim = (key, sheetKey, frames, frameRate, repeat = -1) => {
-      if (!frames?.length || this.anims.exists(key)) return;
+    const createSheetAnim = (key, sheetKey, frames, frameRate, repeat = -1, options = {}) => {
+      if (!this.textures.exists(sheetKey) || this.anims.exists(key)) return;
+      const fallbackToFirstFrame = options.fallbackToFirstFrame === true;
+      const resolvedFrames = (frames && frames.length)
+        ? frames
+        : (fallbackToFirstFrame ? [0] : []);
+      if (!resolvedFrames.length) return;
       this.anims.create({
         key,
-        frames: sheetFrames(sheetKey, frames),
+        frames: sheetFrames(sheetKey, resolvedFrames),
         frameRate,
         repeat,
       });
@@ -757,7 +878,14 @@ export class BootScene extends Phaser.Scene {
       createSheetAnim(ASSET_KEYS.player.leanAgainstWallAnim, ASSET_KEYS.player.leanAgainstWallSheet, ASSET_KEYS.player.leanAgainstWallFrames, ASSET_KEYS.player.leanAgainstWallAnimationFps, 0);
     }
     if (this.textures.exists(ASSET_KEYS.player.combatIdleRecoverSheet)) {
-      createSheetAnim(ASSET_KEYS.player.combatIdleRecoverAnim, ASSET_KEYS.player.combatIdleRecoverSheet, ASSET_KEYS.player.combatIdleRecoverFrames, ASSET_KEYS.player.combatIdleRecoverAnimationFps, 0);
+      createSheetAnim(
+        ASSET_KEYS.player.combatIdleRecoverAnim,
+        ASSET_KEYS.player.combatIdleRecoverSheet,
+        ASSET_KEYS.player.combatIdleRecoverFrames,
+        ASSET_KEYS.player.combatIdleRecoverAnimationFps,
+        0,
+        { fallbackToFirstFrame: true }
+      );
     }
     if (this.textures.exists(ASSET_KEYS.player.combatIdleToNormalIdleSheet)) {
       createSheetAnim(ASSET_KEYS.player.combatIdleToNormalIdleAnim, ASSET_KEYS.player.combatIdleToNormalIdleSheet, ASSET_KEYS.player.combatIdleToNormalIdleFrames, ASSET_KEYS.player.combatIdleToNormalIdleAnimationFps, 0);
@@ -979,8 +1107,7 @@ export class BootScene extends Phaser.Scene {
     });
 
     // === GEM MERCHANT UPDATE-2 VOICELINES ===
-    // 55 new .wav files from gem-merchant-voice-lines/update-2/
-    // Keys: npc-gemPowerMerchant-0..54
+    // Update-2 .wav files from gem-merchant-voice-lines/update-2/
     const gemMerchantUpdate2Files = [
       'update-2/A A A A A A.wav',
       'update-2/A A A A A A(1).wav',
@@ -996,8 +1123,6 @@ export class BootScene extends Phaser.Scene {
       'update-2/Dont Dig Too Deep(1).wav',
       'update-2/Evil Laugh.wav',
       'update-2/Evil Laugh(1).wav',
-      'update-2/Gem Vision.wav',
-      'update-2/Gem Vision(1).wav',
       'update-2/Glad too see you!.wav',
       'update-2/Glad too see you!(1).wav',
       'update-2/Glad too see you!(2).wav',
@@ -1039,7 +1164,7 @@ export class BootScene extends Phaser.Scene {
       'update-2/Where Are Your Shoes_(1).wav'
     ];
     
-    // Load gem merchant update-2 files: keys npc-gemPowerMerchant-0..54
+    // Load gem merchant update-2 files.
     gemMerchantUpdate2Files.forEach((file, index) => {
       this.queueAudio(`npc-gemPowerMerchant-${index}`, voiceDir('gem-merchant-voice-lines') + file);
     });

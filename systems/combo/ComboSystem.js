@@ -8,7 +8,9 @@ import { COMBO_CONFIG } from "../../values/comboConfig.js";
 const DEFAULT_MAX_MULTIPLIER = 1.5;
 
 function getMaxCombo() {
-  return Number.isFinite(COMBO_CONFIG.maxCombo) ? COMBO_CONFIG.maxCombo : 100;
+  return Number.isFinite(COMBO_CONFIG.maxCombo) && COMBO_CONFIG.maxCombo > 0
+    ? COMBO_CONFIG.maxCombo
+    : Number.POSITIVE_INFINITY;
 }
 
 function getMaxMultiplier() {
@@ -46,7 +48,7 @@ export class ComboSystem {
       this.resetCombo();
     }
     
-    // Increment combo, but don't exceed maxCombo
+    // Increment combo, respecting an optional tracking cap.
     this.comboCount = Math.min(getMaxCombo(), this.comboCount + 1);
     this.lastComboTime = nowMs;
     
@@ -189,7 +191,7 @@ export class ComboSystem {
     // Validate amount is positive
     if (amount <= 0) return;
     
-    // Clamp combo count to max limit
+    // Add combo points while respecting an optional tracking cap.
     this.comboCount = Math.min(getMaxCombo(), this.comboCount + amount);
     this.lastComboTime = nowMs;
     
@@ -268,7 +270,7 @@ export class ComboSystem {
       // Ensure comboCount is a valid number, default to 0 if invalid
       const comboCount = Number(data.comboCount);
       if (Number.isFinite(comboCount)) {
-        // Clamp combo count to valid range (0 to maxCombo) and ensure integer
+        // Clamp combo count to valid range and optional maxCombo, then ensure integer.
         this.comboCount = Math.max(0, Math.min(getMaxCombo(), Math.floor(comboCount)));
       } else {
         this.comboCount = 0; // Reset to 0 on invalid data

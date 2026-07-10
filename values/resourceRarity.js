@@ -26,8 +26,8 @@ export const RESOURCE_RARITY_CONFIG = Object.freeze({
     steel: 0.09,           // 9.00% (FIXED: was 0.9 = 90%!)
     iron: 0.03,            // 3.00% (FIXED: was 0.3 = 30%!)
     bronze: 0.02,          // 2.00% (FIXED: was 0.2 = 20%!)
-    silver: 0.03,          // 3.00% (FIXED: was 0.08 = 8%!)
-    gold: 0.01,            // 1.00%
+    silver: 0.15,          // 3.00% (FIXED: was 0.08 = 8%!)
+    gold: 0.05,            // 1.00%
   },
 });
 
@@ -45,8 +45,8 @@ export function getRarityAtDepth(depthTiles, tileType) {
     darkDirtStrong: 100,
     steel: 50,
     iron: 150,
-    bronze: 300,
-    silver: 700,    // Starts at 700m
+    bronze: 350,
+    silver: 550,    // Starts at 700m
     gold: 800,     // Gold starts at 800m
   };
   

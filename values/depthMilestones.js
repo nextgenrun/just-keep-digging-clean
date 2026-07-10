@@ -10,6 +10,7 @@ export const DEPTH_MILESTONES = [
   { depth: 500,  name: 'Deep Delver',      reward: '+3% Mining Speed',      miningSpeedPct: 3 },
   { depth: 600,  name: 'Bronze Collector', reward: '+1 GP Max',             gpMaxBonus: 1 },
   { depth: 700,  name: 'Iron Grasp',       reward: '+2% Crit Chance',       critChancePct: 2 },
+  { depth: 750,  name: 'The Descent',      reward: '+4 GP Max',             gpMaxBonus: 4 },
   { depth: 800,  name: 'Steel Will',       reward: '+3 GP Max',             gpMaxBonus: 3 },
   { depth: 900,  name: 'Silver Tongue',    reward: '+4% Mining Speed',      miningSpeedPct: 4 },
   { depth: 1000, name: 'Gold Seeker',      reward: '+5 GP Max',             gpMaxBonus: 5 },

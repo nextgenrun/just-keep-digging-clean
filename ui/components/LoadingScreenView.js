@@ -1,7 +1,7 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 
-const MENU_BACKGROUND_BASE_PATH = "sprites/backgrounds/background-database/";
+const MENU_BACKGROUND_BASE_PATH = "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/";
 
 export const MENU_BACKGROUND_ASSETS = Object.freeze([
   {
@@ -173,6 +173,8 @@ export function createMenuLoadingScreen(scene, options = {}) {
   const H = scene.scale?.height ?? scene.cameras.main.height;
   const objects = [];
   const tweens = [];
+  let retryHandler = typeof options.onRetry === "function" ? options.onRetry : null;
+  let inFailureState = false;
 
   const bg = scene.add.rectangle(W / 2, H / 2, W, H, COL.bg);
   objects.push(bg);
@@ -274,6 +276,82 @@ export function createMenuLoadingScreen(scene, options = {}) {
   }).setOrigin(0.5);
   objects.push(detailText);
 
+  const failureText = scene.add.text(W / 2, barY + 118, "", {
+    fontFamily: "Consolas, 'Courier New', monospace",
+    fontSize: "14px",
+    color: "#ff8f72",
+    align: "center",
+  }).setOrigin(0.5);
+  failureText.setAlpha(0);
+  objects.push(failureText);
+
+  const retryButton = scene.add.rectangle(W / 2, barY + 156, 150, 36, 0xe07030, 0.98);
+  const retryButtonText = scene.add.text(W / 2, barY + 156, "RETRY", {
+    fontFamily: "Consolas, 'Courier New', monospace",
+    fontSize: "14px",
+    fontStyle: "bold",
+    color: "#ffffff",
+  }).setOrigin(0.5);
+  const retryHintText = scene.add.text(W / 2, barY + 182, "Press RETRY only when loading has stopped due to an error.", {
+    fontFamily: "Consolas, 'Courier New', monospace",
+    fontSize: "11px",
+    color: "#5a6f80",
+  }).setOrigin(0.5);
+  retryButton.setInteractive({ useHandCursor: true });
+  retryButton.setAlpha(0);
+  retryButtonText.setAlpha(0);
+  retryHintText.setAlpha(0);
+  objects.push(retryButton, retryButtonText, retryHintText);
+
+  const updateRetryUi = () => {
+    const isInteractive = inFailureState && Boolean(retryHandler);
+    retryButton.setAlpha(isInteractive ? 1 : 0);
+    retryButtonText.setAlpha(isInteractive ? 1 : 0);
+    retryHintText.setAlpha(isInteractive ? 1 : 0);
+  };
+  const setRetryHandler = (handler) => {
+    retryHandler = typeof handler === "function" ? handler : null;
+    updateRetryUi();
+  };
+
+  const showFailure = (message = "Loading failed.") => {
+    inFailureState = true;
+    labelText.setText("Loading failed");
+    detailText.setText("Please fix the issue and retry loading.");
+    failureText.setText(String(message));
+    failureText.setAlpha(1);
+    failureText.setColor("#ff8f72");
+    scene.tweens.killTweensOf(failureText);
+    updateRetryUi();
+    scene.tweens.add({
+      targets: failureText,
+      alpha: { from: 1, to: 0.9 },
+      yoyo: true,
+      repeat: -1,
+      duration: 220,
+    });
+  };
+
+  const clearFailure = () => {
+    inFailureState = false;
+    failureText.setAlpha(0);
+    failureText.setText("");
+    retryButtonText.setText("RETRY");
+    scene.tweens.killTweensOf(failureText);
+    updateRetryUi();
+  };
+
+  retryButton.on("pointerdown", () => {
+    if (!inFailureState || !retryHandler) return;
+    const nextLabel = "Retrying...";
+    retryButtonText.setText(nextLabel);
+    retryHintText.setText("Restarting preload...");
+    const handler = retryHandler;
+    retryHandler = null;
+    updateRetryUi();
+    handler();
+  });
+
   const sep2 = scene.add.graphics();
   sep2.lineStyle(1, COL.borderDim, 0.65);
   sep2.lineBetween(80, H - 82, W - 80, H - 82);
@@ -315,6 +393,9 @@ export function createMenuLoadingScreen(scene, options = {}) {
     setProgress,
     setLabel: (text) => labelText.setText(text),
     setDetail: (text) => detailText.setText(text),
+    setFailure: showFailure,
+    clearFailure,
+    setRetryHandler,
     fadeOut(duration = 300, onComplete) {
       // Stop all tweens
       tweens.forEach((t) => t?.stop?.());

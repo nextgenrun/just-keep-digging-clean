@@ -295,8 +295,14 @@
       "rows": 1,
       "fps": 18,
       "borderHaloPixelsRemoved": 10669,
-      "alphaPixelsChanged": 10669,
-      "targetedTransforms": {},
+      "alphaPixelsChanged": 56103,
+      "targetedTransforms": {
+        "approvedScaleMatchedFrames": [
+          3,
+          4
+        ],
+        "targetMaxWidth": 204
+      },
       "anchor": {
         "targetCenterX": 170,
         "targetBottom": 339,
@@ -415,17 +421,18 @@
       "rows": 1,
       "fps": 8,
       "borderHaloPixelsRemoved": 122,
-      "alphaPixelsChanged": 32075,
+      "alphaPixelsChanged": 71066,
       "targetedTransforms": {
         "sourceFrameOrder": [
           0,
           1,
           2,
           3
-        ]
+        ],
+        "approvedRuntimeOffsetX": 22
       },
       "anchor": {
-        "targetCenterX": 176,
+        "targetCenterX": 198,
         "targetBottom": 339,
         "maxShiftX": 11,
         "maxShiftY": 0,
@@ -478,45 +485,6 @@
       },
       "driftBefore": {
         "centerXRange": 13.5,
-        "bottomRange": 0
-      },
-      "driftAfter": {
-        "centerXRange": 1.0,
-        "bottomRange": 0
-      }
-    },
-    {
-      "name": "walk-run",
-      "source": "sprites/character/character-v8/frames/walk-run",
-      "output": "sprites/character/character-v8/runtime/walk-run-sheet.webp",
-      "cleanedFrames": "sprites/character/character-v8/runtime/walk-run-cleaned-frames",
-      "preview": "sprites/character/character-v8/previews/walk-run-runtime-contact.png",
-      "slowmoPreview": "sprites/character/character-v8/previews/walk-run-slowmo.gif",
-      "piskel": "sprites/character/character-v8/piskel/walk-run.piskel",
-      "frameWidth": 341,
-      "frameHeight": 341,
-      "frameCount": 2,
-      "columns": 2,
-      "rows": 1,
-      "fps": 16,
-      "borderHaloPixelsRemoved": 0,
-      "alphaPixelsChanged": 10618,
-      "targetedTransforms": {
-        "sourceFrameOrder": [
-          0,
-          1
-        ]
-      },
-      "anchor": {
-        "targetCenterX": 167,
-        "targetBottom": 339,
-        "maxShiftX": 4,
-        "maxShiftY": 0,
-        "avgShiftX": 4.0,
-        "avgShiftY": 0.0
-      },
-      "driftBefore": {
-        "centerXRange": 12.0,
         "bottomRange": 0
       },
       "driftAfter": {

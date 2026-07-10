@@ -88,7 +88,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._animateCardEntry();
 
     // --- Start prompt (shown below cards once a slot is selected) ---
-    this._startPrompt = this.add.text(W / 2, 590, 'SELECT  A  SLOT  TO  BEGIN', {
+    this._startPrompt = this.add.text(W / 2, 590, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
       fontFamily: 'Consolas, monospace',
       fontSize: '16px',
       color: COL.dim,
@@ -100,7 +100,7 @@ export class StartMenuScene extends Phaser.Scene {
     sepLine2.lineBetween(80, 640, W - 80, 640);
 
     // --- Hint bar ---
-    this.add.text(W / 2, 656, '1/2/3 — select     SPACE — start     DEL — clear     B — backups     E — export     I — import     ESC — menu', {
+    this.add.text(W / 2, 656, '1 / 2 / 3: choose save     SPACE: start     DEL / BACKSPACE: clear     B: backups     E: export     I: import     ESC: menu', {
       fontFamily: 'Consolas, monospace',
       fontSize: '12px',
       color: COL.hint,

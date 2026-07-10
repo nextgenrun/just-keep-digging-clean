@@ -2,6 +2,7 @@ import { WEATHER_CONFIG } from "../../values/weatherConfig.js";
 import { WeatherAudioController } from "./WeatherAudioController.js";
 import { WeatherDirector } from "./WeatherDirector.js";
 import { WeatherGameplayController } from "./WeatherGameplayController.js";
+import { WeatherImpactRainController } from "./WeatherImpactRainController.js";
 import { WeatherLightningController } from "./WeatherLightningController.js";
 import { WeatherOcclusionSampler } from "./WeatherOcclusionSampler.js";
 import { WeatherParticleController } from "./WeatherParticleController.js";
@@ -31,6 +32,7 @@ export class WeatherSystem {
     this.occlusionSampler = new WeatherOcclusionSampler(scene, config, weatherConfig);
     this.worldState = new WeatherWorldState(scene, config, weatherConfig);
     this.gameplayController = new WeatherGameplayController(weatherConfig);
+    this.impactRainController = new WeatherImpactRainController(scene, config, weatherConfig);
     this.particleController = new WeatherParticleController(scene, config, weatherConfig);
     this.audioController = new WeatherAudioController(scene, weatherConfig);
     this.lightningController = new WeatherLightningController(scene, weatherConfig, this.audioController);
@@ -82,6 +84,15 @@ export class WeatherSystem {
       stormDistance: director.stormDistance,
       destroyed: this._destroyed,
     });
+    this.impactRainController.update(time, dt, {
+      kind: this.kind,
+      intensity: this.intensity,
+      wind: this.wind,
+      gust: this.gust,
+      depth,
+      occlusion,
+      lightningFlashAmount: this.getLightningFlashAmount(),
+    });
     this.particleController.update(time, dt, {
       kind: this.kind,
       intensity: this.intensity,
@@ -108,6 +119,7 @@ export class WeatherSystem {
     const { width, height } = this._getViewport();
     this._tintOverlay?.setPosition(width / 2, height / 2).setSize(width, height);
     this.occlusionSampler.resize();
+    this.impactRainController.resize();
     this.particleController.resize();
     this.lightningController.resize();
   }
@@ -216,6 +228,7 @@ export class WeatherSystem {
   destroy() {
     this._destroyed = true;
     this.occlusionSampler.destroy();
+    this.impactRainController.destroy();
     this.particleController.destroy();
     this.lightningController.destroy();
     this.audioController.destroy();

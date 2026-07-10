@@ -122,11 +122,18 @@ export class UIResourceBar {
   }
 
   setResources(resources = DEFAULT_RESOURCES) {
-    const next = {
-      dirt: clampCount(resources.dirt),
-      stone: clampCount(resources.stone),
-      copper: clampCount(resources.copper),
-    };
+    const dirt = clampCount(resources.dirt);
+    const stone = clampCount(resources.stone);
+    const copper = clampCount(resources.copper);
+    if (
+      this.resources.dirt === dirt &&
+      this.resources.stone === stone &&
+      this.resources.copper === copper
+    ) {
+      return;
+    }
+
+    const next = { dirt, stone, copper };
 
     this.updateCount("dirt", next.dirt);
     this.updateCount("stone", next.stone);

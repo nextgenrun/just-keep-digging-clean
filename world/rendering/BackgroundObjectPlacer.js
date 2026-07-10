@@ -1,12 +1,22 @@
+import { applyAuthoredBackgroundTextureFilter } from "./authoredBackgroundTextureFilters.js";
+
 /**
  * Consumes the authored background object data from TILED_BACKGROUND_OBJECTS.
  * Places background sprite objects at their authored positions with correct depth ordering.
  */
 export class BackgroundObjectPlacer {
-  constructor(scene, ASSET_KEYS) {
+  constructor(scene, ASSET_KEYS, options = {}) {
     this.scene = scene;
     this.ASSET_KEYS = ASSET_KEYS;
     this.placedObjects = [];
+    this._useRawAuthoredBackgrounds = options.useRawAuthoredBackgrounds === true;
+  }
+
+  setAuthoredBackgroundMode(mode = "clean") {
+    const useRaw = mode === "raw";
+    if (this._useRawAuthoredBackgrounds === useRaw) return;
+    this._useRawAuthoredBackgrounds = useRaw;
+    this._textureFilenameIndex = null;
   }
 
   /**
@@ -83,6 +93,8 @@ export class BackgroundObjectPlacer {
           continue;
         }
 
+        const filterFilename = obj.resolvedFilename || obj.sourcePath || obj.properties?.sourcePath || obj.name || '';
+        applyAuthoredBackgroundTextureFilter(this.scene, textureKey, filterFilename);
         const img = this.scene.add.image(rect.left, rect.bottom, textureKey);
         img.setOrigin(0, 1);
         img.setDepth(layerDepth);
@@ -268,7 +280,19 @@ export class BackgroundObjectPlacer {
 
     const textureManager = this.scene.textures;
     const knownFiles = new Map();
+    const useRawMode = this._useRawAuthoredBackgrounds === true;
     for (const key of textureManager.getTextureKeys()) {
+      if (!key.startsWith("authored-bg-")) continue;
+
+      const isRawKey = key.endsWith("-raw");
+      const rawSibling = isRawKey ? key : `${key}-raw`;
+
+      if (useRawMode) {
+        if (!isRawKey && textureManager.exists(rawSibling)) continue;
+      } else if (isRawKey) {
+        continue;
+      }
+
       const tex = textureManager.get(key);
       const source = tex?.getSourceImage();
       if (!source?.src) continue;
@@ -315,7 +339,9 @@ export class BackgroundObjectPlacer {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
       .slice(0, 80);
-    return `authored-bg-${slug || "asset"}`;
+    const baseKey = `authored-bg-${slug || "asset"}`;
+    const rawKey = `${baseKey}-raw`;
+    return this._useRawAuthoredBackgrounds && this.scene.textures.exists(rawKey) ? rawKey : baseKey;
   }
 
   /**

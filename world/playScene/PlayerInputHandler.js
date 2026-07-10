@@ -38,7 +38,6 @@ export class PlayerInputHandler {
     const fly = addBoundKey("fly");
     const mine = addBoundKey("dig");
     const interact = addBoundKey("interact");
-    const gemVision = addBoundKey("gemVision");
     const gemDashAlt = addBoundKey("gemDash");
     const quickslash = addBoundKey("quickslash");
     const thunderStrike = addBoundKey("thunderStrike");
@@ -83,7 +82,6 @@ export class PlayerInputHandler {
       fly,
       mine,
       interact,
-      z: gemVision,
       g: gemDashAlt,
       q: quickslash,
       c: thunderStrike,

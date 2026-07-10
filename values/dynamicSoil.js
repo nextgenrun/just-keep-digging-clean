@@ -4,11 +4,18 @@ export const SOIL_DEPTH_LIMIT = 1000;
 export const SOIL_BAND_SIZE = 200;
 export const SOIL_BAND_COUNT = 5;
 export const SOIL_VARIANT_COUNT = 3;
+export const DEEP_SOIL_DEPTH_START = 1000;
+export const DEEP_SOIL_BAND_SIZE = 200;
+export const DEEP_SOIL_BAND_COUNT = 4;
+export const DEEP_SOIL_VARIANT_COUNT = 6;
 export const SOIL_TYPE_COUNT = 3;
 export const SOIL_RARITY_COUNT = 4;
 export const SOIL_DAMAGE_STAGE_COUNT = 5;
-export const SOIL_ATLAS_FRAME_COUNT =
+export const SURFACE_SOIL_ATLAS_FRAME_COUNT =
   SOIL_BAND_COUNT * SOIL_VARIANT_COUNT * SOIL_TYPE_COUNT * SOIL_RARITY_COUNT * SOIL_DAMAGE_STAGE_COUNT;
+export const DEEP_SOIL_ATLAS_FRAME_COUNT =
+  DEEP_SOIL_BAND_COUNT * DEEP_SOIL_VARIANT_COUNT * SOIL_TYPE_COUNT * SOIL_RARITY_COUNT * SOIL_DAMAGE_STAGE_COUNT;
+export const SOIL_ATLAS_FRAME_COUNT = SURFACE_SOIL_ATLAS_FRAME_COUNT + DEEP_SOIL_ATLAS_FRAME_COUNT;
 
 export const SOIL_TYPES = Object.freeze([
   TILE_TYPES.DIRT,
@@ -35,6 +42,10 @@ export const ALL_RESOURCE_TYPES = Object.freeze([
   TILE_TYPES.IRON,
   TILE_TYPES.SILVER,
   TILE_TYPES.GOLD,
+  TILE_TYPES.LAVA_DIRT,
+  TILE_TYPES.OBSIDIAN,
+  TILE_TYPES.EMBER_ORE,
+  TILE_TYPES.MAGMA_CRYSTAL,
 ]);
 
 function hashUint(tx, ty, seed, salt = 0) {
@@ -80,8 +91,23 @@ export function getSoilBand(tx, depthTiles, seed) {
   return band;
 }
 
+export function getDeepSoilBand(tx, depthTiles, seed) {
+  if (depthTiles < DEEP_SOIL_DEPTH_START) return -1;
+  let band = 0;
+  const deepDepth = depthTiles - DEEP_SOIL_DEPTH_START;
+  for (let boundary = 1; boundary < DEEP_SOIL_BAND_COUNT; boundary += 1) {
+    const cutoff = boundary * DEEP_SOIL_BAND_SIZE + boundaryOffset(tx, SOIL_BAND_COUNT + boundary, seed);
+    if (deepDepth >= cutoff) band = boundary;
+  }
+  return Math.min(DEEP_SOIL_BAND_COUNT - 1, band);
+}
+
 export function getSoilVariant(tx, ty, seed) {
   return hashUint(tx, ty, seed, 733) % SOIL_VARIANT_COUNT;
+}
+
+export function getDeepSoilVariant(tx, ty, seed) {
+  return hashUint(tx, ty, seed, 1907) % DEEP_SOIL_VARIANT_COUNT;
 }
 
 export function getResourceRarityIndex(tileType, tx, ty, depthTiles, seed) {
@@ -114,8 +140,21 @@ export function getSoilRarityIndex(tileType, tx, ty, depthTiles, seed) {
 
 export function getSoilVisualDescriptor(tileType, tx, ty, depthTiles, seed) {
   const typeIndex = getSoilTypeIndex(tileType);
+  if (typeIndex < 0) return null;
+
+  const deepBand = getDeepSoilBand(tx, depthTiles, seed);
+  if (deepBand >= 0) {
+    return {
+      band: deepBand,
+      variant: getDeepSoilVariant(tx, ty, seed),
+      typeIndex,
+      rarity: getSoilRarityIndex(tileType, tx, ty, depthTiles, seed),
+      deep: true,
+    };
+  }
+
   const band = getSoilBand(tx, depthTiles, seed);
-  if (typeIndex < 0 || band < 0) return null;
+  if (band < 0) return null;
   return {
     band,
     variant: getSoilVariant(tx, ty, seed),
@@ -127,6 +166,11 @@ export function getSoilVisualDescriptor(tileType, tx, ty, depthTiles, seed) {
 export function getSoilAtlasOffset(descriptor, damageStage) {
   const stageIndex = Math.max(1, Math.min(SOIL_DAMAGE_STAGE_COUNT, damageStage)) - 1;
   const rarityIndex = Number.isInteger(descriptor.rarityIndex) ? descriptor.rarityIndex : descriptor.rarity || 0;
+  if (descriptor.deep) {
+    return SURFACE_SOIL_ATLAS_FRAME_COUNT
+      + (((descriptor.band * DEEP_SOIL_VARIANT_COUNT + descriptor.variant) * SOIL_TYPE_COUNT + descriptor.typeIndex)
+        * SOIL_RARITY_COUNT + rarityIndex) * SOIL_DAMAGE_STAGE_COUNT + stageIndex;
+  }
   return (((descriptor.band * SOIL_VARIANT_COUNT + descriptor.variant) * SOIL_TYPE_COUNT + descriptor.typeIndex)
     * SOIL_RARITY_COUNT + rarityIndex) * SOIL_DAMAGE_STAGE_COUNT + stageIndex;
 }

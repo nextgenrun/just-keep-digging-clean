@@ -2,6 +2,7 @@
 
 | Archived Item | Original Location | Date Archived | Reason |
 |---------------|------------------|---------------|--------|
+| generation/unused-dynamic-generation-pipeline | dynamic-systems/generation | 2026-07-10 | Unreferenced generation pipeline superseded by world/model/WorldModel.js |
 | character/animation-archive | sprites/character/animation-archive | 2026-06-26 | Old animation experiments, superseded by v5 walk |
 | character/character-v8 | sprites/character/character-v8 | 2026-06-26 | v8 character drafts, superseded by v5 walk + robot |
 | character/cinamatic-animations | sprites/character/cinamatic animations | 2026-06-26 | Unused cinematic animation drafts |

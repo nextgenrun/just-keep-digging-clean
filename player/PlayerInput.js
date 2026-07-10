@@ -148,14 +148,6 @@ export class PlayerInput {
   }
   
   /**
-   * Get Z input (for gem vision)
-   * @returns {boolean}
-   */
-  getZInput() {
-    return this.keys.z.isDown;
-  }
-  
-  /**
    * Get fly input
    * @returns {boolean}
    */

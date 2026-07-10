@@ -423,7 +423,7 @@ export class LevelUpPopup {
     if (hasChoice) {
       // Show choice options
       this.instructionText.setVisible(true);
-      this.instructionText.setText("Choose your reward:");
+      this.instructionText.setText("Choose one reward to unlock:");
       this.option1Container.setVisible(true);
       this.option2Container.setVisible(true);
       this.option1Container.hitRect?.setVisible(true);
@@ -433,7 +433,8 @@ export class LevelUpPopup {
       this.continueButton.setVisible(false);
     } else {
       // Show milestone rewards only
-      this.instructionText.setVisible(false);
+      this.instructionText.setVisible(true);
+      this.instructionText.setText("Milestone reward granted. Press ENTER or SPACE to continue.");
       this.option1Container.setVisible(false);
       this.option2Container.setVisible(false);
       this.option1Container.hitRect?.setVisible(false);

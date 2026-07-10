@@ -3,8 +3,69 @@ import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
-import { ensureHudTorchTextures } from "../../ui/GeneratedHudTextures.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
+
+const WEATHER_ICONS = Object.freeze({
+  clear: "☀️",
+  drizzle: "🌦",
+  rain: "🌧",
+  storm: "⛈",
+});
+
+const SEASON_ICONS = Object.freeze({
+  spring: "🌸",
+  summer: "☀️",
+  autumn: "🍂",
+  winter: "❄️",
+});
+
+function setTextIfChanged(textObject, value) {
+  if (textObject?.text !== value) textObject?.setText(value);
+}
+
+const HUD_TORCH_TEXTURE_KEYS = Object.freeze({
+  off: "_hud_torch_off_v2",
+  on: "_hud_torch_on_v2",
+});
+
+const HUD_TORCH_TEXTURE_SIZE = 72;
+
+function ensureHudTorchTextures(scene) {
+  if (!scene?.textures) return HUD_TORCH_TEXTURE_KEYS;
+
+  const size = HUD_TORCH_TEXTURE_SIZE;
+  const makeTorchTexture = (key, active) => {
+    if (scene.textures.exists(key)) return;
+
+    const texture = scene.textures.createCanvas(key, size, size);
+    const ctx = texture.getContext();
+    ctx.clearRect(0, 0, size, size);
+
+    ctx.fillStyle = active ? "#2b1a12" : "#1d2126";
+    ctx.fillRect(4, 4, size - 8, size - 8);
+
+    ctx.fillStyle = active ? "#3f2c20" : "#31363f";
+    ctx.fillRect(size * 0.32, size * 0.34, size * 0.14, size * 0.28);
+
+    ctx.fillStyle = active ? "#f8b45b" : "#6f7a86";
+    ctx.beginPath();
+    ctx.moveTo(size * 0.4, size * 0.22);
+    ctx.bezierCurveTo(size * 0.29, size * 0.35, size * 0.31, size * 0.61, size * 0.43, size * 0.67);
+    ctx.bezierCurveTo(size * 0.55, size * 0.58, size * 0.51, size * 0.41, size * 0.59, size * 0.3);
+    ctx.bezierCurveTo(size * 0.63, size * 0.24, size * 0.61, size * 0.18, size * 0.5, size * 0.2);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = active ? "#ffe7a8" : "#9da7b4";
+    ctx.fillRect(size * 0.26, size * 0.47, size * 0.31, size * 0.04);
+    texture.refresh();
+  };
+
+  makeTorchTexture(HUD_TORCH_TEXTURE_KEYS.off, false);
+  makeTorchTexture(HUD_TORCH_TEXTURE_KEYS.on, true);
+  return HUD_TORCH_TEXTURE_KEYS;
+}
 
 export class HUDSystem {
   constructor(scene, maxXTile, refreshIntervalMs = 90) {
@@ -13,6 +74,8 @@ export class HUDSystem {
     this.refreshIntervalMs = refreshIntervalMs;
 
     this.depth = 0;
+    this._displayedDepth = 0;      // tweened depth for count-up display
+    this._depthTween = null;
     this.xTile = 0;
     this.tilesBroken = 0;
     this.aim = "RIGHT";
@@ -22,6 +85,10 @@ export class HUDSystem {
     this.torchActive = false;
     this.torchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
     this._destroyed = false;
+
+    // Combo pop state
+    this._lastComboCount = 0;
+    this._comboPopTween = null;
 
     this.statsDirty = true;
     this.lastRefreshMs = 0;
@@ -347,7 +414,69 @@ export class HUDSystem {
     if (next !== this.depth) {
       this.depth = next;
       this.statsDirty = true;
+      this._startDepthCountUp();
     }
+  }
+
+  _startDepthCountUp() {
+    if (!HUD_JUICE_CONFIG.enabled || !HUD_JUICE_CONFIG.depthCountUp.enabled) {
+      this._displayedDepth = this.depth;
+      return;
+    }
+    const cfg = HUD_JUICE_CONFIG.depthCountUp;
+    const prev = this._displayedDepth;
+
+    // Kill any existing depth tween
+    if (this._depthTween) {
+      this._depthTween.stop();
+      this._depthTween = null;
+    }
+
+    // Check for 100m milestone flash
+    const milestoneEvery = cfg.milestoneEvery;
+    if (milestoneEvery > 0 && prev > 0) {
+      const prevMilestone = Math.floor(prev / milestoneEvery);
+      const newMilestone = Math.floor(this.depth / milestoneEvery);
+      if (newMilestone > prevMilestone) {
+        this._flashDepthMilestone();
+      }
+    }
+
+    // Tween the displayed depth
+    this._displayedDepth = prev;
+    this._depthTween = this.scene.tweens.add({
+      targets: this,
+      _displayedDepth: this.depth,
+      duration: cfg.durationMs,
+      ease: cfg.ease,
+      onUpdate: () => { this.statsDirty = true; },
+      onComplete: () => {
+        this._displayedDepth = this.depth;
+        this._depthTween = null;
+        this.statsDirty = true;
+      },
+    });
+  }
+
+  _flashDepthMilestone() {
+    const cfg = HUD_JUICE_CONFIG.depthCountUp;
+    if (!this.statsText?.active) return;
+    const originalColor = this.colors.primary;
+    this.statsText.setColor(cfg.milestoneFlashColor);
+    this.scene.tweens.add({
+      targets: this.statsText,
+      alpha: 0.5,
+      duration: cfg.milestoneFlashMs * 0.3,
+      yoyo: true,
+      repeat: 1,
+      ease: 'Sine.easeInOut',
+      onComplete: () => {
+        if (this.statsText?.active) {
+          this.statsText.setColor(originalColor);
+          this.statsText.setAlpha(1);
+        }
+      },
+    });
   }
 
   setXTile(value) {
@@ -492,36 +621,29 @@ export class HUDSystem {
     const ws = this.scene.weatherSystem;
 
     if (dnc) {
-      this.clockTimeText.setText(dnc.getTimeString12());
+      setTextIfChanged(this.clockTimeText, dnc.getTimeString12());
 
       const phaseLabel = dnc.getCurrentPhaseLabel();
       const day = dnc.getDay();
-      this.clockDayText.setText(`Day ${day} — ${phaseLabel}`);
+      setTextIfChanged(this.clockDayText, `Day ${day} — ${phaseLabel}`);
     }
 
     if (ws) {
       const snap = ws.getSnapshot();
-      const weatherIcons = {
-        clear: "☀️",
-        drizzle: "🌦",
-        rain: "🌧",
-        storm: "⛈",
-      };
-      const icon = weatherIcons[snap.kind] || "☀️";
+      const icon = WEATHER_ICONS[snap.kind] || "☀️";
       const label = snap.kind.charAt(0).toUpperCase() + snap.kind.slice(1);
       const forecast = snap.forecastKind && snap.forecastKind !== snap.kind
         ? ` -> ${snap.forecastKind.charAt(0).toUpperCase() + snap.forecastKind.slice(1)}`
         : "";
-      this.weatherText.setText(`${icon} ${label}${forecast}`);
+      setTextIfChanged(this.weatherText, `${icon} ${label}${forecast}`);
 
       if (dnc) {
-        this.weatherTempText.setText(`${dnc.getCurrentTemperature()}°C`);
+        setTextIfChanged(this.weatherTempText, `${dnc.getCurrentTemperature()}°C`);
       }
 
       if (dnc) {
         const season = dnc.getSeason();
-        const seasonIcons = { spring: "🌸", summer: "☀️", autumn: "🍂", winter: "❄️" };
-        this.weatherSeasonText.setText(`${seasonIcons[season] || ""} ${season.charAt(0).toUpperCase() + season.slice(1)}`);
+        setTextIfChanged(this.weatherSeasonText, `${SEASON_ICONS[season] || ""} ${season.charAt(0).toUpperCase() + season.slice(1)}`);
       }
 
       const intensity = snap.intensity;
@@ -565,8 +687,14 @@ export class HUDSystem {
     
     const multiplier = this.comboSystem.getMultiplier();
     const multiplierStr = multiplier.toFixed(2);
-    this.comboText.setText(`🔥 COMBO ${comboCount}  ${multiplierStr}x`);
-    
+    setTextIfChanged(this.comboText, `🔥 COMBO ${comboCount}  ${multiplierStr}x`);
+
+    // Combo pop — quick scale punch when combo count increases
+    if (HUD_JUICE_CONFIG.enabled && HUD_JUICE_CONFIG.comboPop.enabled && comboCount > this._lastComboCount) {
+      this._playComboPop();
+    }
+    this._lastComboCount = comboCount;
+
     let color = this.colors.primary;
     const multiplierTiers = COMBO_CONFIG.multiplierTiers && typeof COMBO_CONFIG.multiplierTiers === "object"
       ? COMBO_CONFIG.multiplierTiers
@@ -630,7 +758,7 @@ export class HUDSystem {
     }
 
     if (lines.length > 0) {
-      this.buffTimerText.setText(lines.join('\n'));
+      setTextIfChanged(this.buffTimerText, lines.join('\n'));
       this.buffTimerText.setVisible(true);
     } else {
       this.buffTimerText.setVisible(false);
@@ -676,9 +804,31 @@ export class HUDSystem {
     }
   }
 
+  _playComboPop() {
+    const cfg = HUD_JUICE_CONFIG.comboPop;
+    if (!this.comboText?.active) return;
+    if (this._comboPopTween) {
+      this._comboPopTween.stop();
+    }
+    this.comboText.setScale(1);
+    this._comboPopTween = this.scene.tweens.add({
+      targets: this.comboText,
+      scale: cfg.scaleAmount,
+      duration: cfg.durationMs,
+      ease: cfg.ease,
+      yoyo: true,
+      onComplete: () => {
+        if (this.comboText?.active) this.comboText.setScale(1);
+        this._comboPopTween = null;
+      },
+    });
+  }
+
   destroy() {
     if (this._destroyed) return;
     this._destroyed = true;
+    this._depthTween?.stop();
+    this._comboPopTween?.stop();
     const objects = [
       this.hudBg, this.statsText, this.statusBg, this.statusText,
       this.flyHintText, this.dashCooldownText, this.torchIcon, this.torchStatusText, this.buffTimerText,
@@ -694,6 +844,7 @@ export class HUDSystem {
 
   refresh() {
     if (this._destroyed || !this.statsText?.active) return;
-    this.statsText.setText(`Depth: ${this.depth}m`);
+    const displayDepth = Math.round(this._displayedDepth);
+    this.statsText.setText(`Depth: ${displayDepth}m`);
   }
 }

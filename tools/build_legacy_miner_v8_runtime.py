@@ -99,12 +99,6 @@ ANIMS: dict[str, dict] = {
         "fps": 12,
         "anchor": True,
     },
-    "walk-run": {
-        "source": frame_source("frames", "walk-run"),
-        "output": "walk-run-sheet.webp",
-        "fps": 16,
-        "anchor": True,
-    },
     "quickslash": {
         "source": frame_source("frames", "quickslash"),
         "output": "legacy-quickslash-clean-sheet.webp",
@@ -390,6 +384,22 @@ def scale_frame_content(frame: Image.Image, scale: float) -> Image.Image:
     return canvas
 
 
+def scale_frame_content_to_width(frame: Image.Image, max_width: int) -> Image.Image:
+    bbox = frame.getchannel("A").getbbox()
+    if not bbox:
+        return frame
+    width = bbox[2] - bbox[0]
+    if width <= max_width:
+        return frame
+    return scale_frame_content(frame, max_width / width)
+
+
+def shift_frame_content(frame: Image.Image, dx: int = 0, dy: int = 0) -> Image.Image:
+    shifted = Image.new("RGBA", FRAME_SIZE, (0, 0, 0, 0))
+    shifted.alpha_composite(frame, (dx, dy))
+    return shifted
+
+
 def solidify_visible_pixels(frame: Image.Image, threshold: int = 24) -> Image.Image:
     solid = frame.copy()
     px = solid.load()
@@ -422,6 +432,16 @@ def apply_animation_transforms(name: str, frames: list[Image.Image]) -> tuple[li
         frames[3] = scale_frame_content(frames[3], 1.035).filter(ImageFilter.UnsharpMask(radius=1.0, percent=110, threshold=3))
         report["polishedFrames"] = [3]
         return frames, report
+    if name == "dig-down":
+        frames = frames.copy()
+        scaled = []
+        for index in (3, 4):
+            if index < len(frames):
+                frames[index] = scale_frame_content_to_width(frames[index], 204).filter(ImageFilter.UnsharpMask(radius=1.0, percent=90, threshold=3))
+                scaled.append(index)
+        report["approvedScaleMatchedFrames"] = scaled
+        report["targetMaxWidth"] = 204
+        return frames, report
     if name == "duck-downwards":
         order = [6, 5, 4, 3]
         report["sourceFrameOrder"] = order
@@ -441,14 +461,11 @@ def apply_animation_transforms(name: str, frames: list[Image.Image]) -> tuple[li
     if name == "leans-against-wall":
         keep = [0, 1, 2, 3]
         report["sourceFrameOrder"] = keep
-        return [frames[index] for index in keep if index < len(frames)], report
+        report["approvedRuntimeOffsetX"] = 22
+        return [shift_frame_content(frames[index], 22) for index in keep if index < len(frames)], report
     if name == "falling-downward-through-sky":
         report["solidifiedAlphaFrames"] = list(range(len(frames)))
         return [solidify_visible_pixels(frame) for frame in frames], report
-    if name == "walk-run":
-        keep = [0, 1]
-        report["sourceFrameOrder"] = keep
-        return [frames[index] for index in keep if index < len(frames)], report
     return frames, report
 
 

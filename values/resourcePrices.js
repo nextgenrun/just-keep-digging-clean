@@ -12,6 +12,10 @@ export const RESOURCE_PRICES_CONFIG = Object.freeze({
     bronze: 100,
     silver: 250,
     gold: 500,
+    lavaDirt: 120,
+    obsidian: 1200,
+    emberOre: 3200,
+    magmaCrystal: 8000,
   },
   
   // Resource name mapping for UI
@@ -26,5 +30,9 @@ export const RESOURCE_PRICES_CONFIG = Object.freeze({
     bronze: "Bronze",
     silver: "Silver",
     gold: "Gold",
+    lavaDirt: "Lava Dirt",
+    obsidian: "Obsidian",
+    emberOre: "Ember Ore",
+    magmaCrystal: "Magma Crystal",
   },
 });

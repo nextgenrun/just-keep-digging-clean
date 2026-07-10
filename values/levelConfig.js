@@ -24,6 +24,10 @@ export const LEVEL_CONFIG = Object.freeze({
     bronze: 340,
     silver: 450,
     gold: 750,
+    lavaDirt: 900,
+    obsidian: 1300,
+    emberOre: 1900,
+    magmaCrystal: 2800,
   },
 
   // Every 5 levels: Choose ONE of these two options

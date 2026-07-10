@@ -71,6 +71,8 @@ export class WeatherOcclusionSampler {
       const blockerScreenY = blocker ? this._worldToScreenY(blocker.worldY, worldView, height) : height + cfg.fallPastViewportPx;
       const covered = Boolean(blocker && blocker.worldY <= worldView.y + cfg.coverTopPaddingPx);
       const landingScreenY = blocker ? blockerScreenY : height + cfg.fallPastViewportPx;
+      const impactScreenY = landingScreenY;
+      const impactWorldY = blocker?.worldY ?? scanBottom;
       samples.push({
         screenX,
         worldX,
@@ -80,6 +82,9 @@ export class WeatherOcclusionSampler {
         blockerScreenY,
         landingScreenY,
         landingWorldY: blocker?.worldY ?? scanBottom,
+        impactScreenY,
+        impactWorldY,
+        impactSource: blocker?.source || "air",
         source: blocker?.source || "air",
       });
     }
@@ -96,6 +101,7 @@ export class WeatherOcclusionSampler {
       landingSamples: this.landingSamples,
       openSkyAmount: clamp01(this.openSamples.length / total),
       coveredAmount: clamp01(this.coveredSamples.length / total),
+      nearestImpactForScreenX: (screenX) => this._nearestImpactForScreenX(screenX),
     };
   }
 
@@ -125,10 +131,75 @@ export class WeatherOcclusionSampler {
   }
 
   _findFirstBlocker(worldX, scanTop, scanBottom) {
+    const mask = this._findSurfaceMaskBlocker(worldX, scanTop, scanBottom);
+    if (mask) return mask;
     const visual = this._findVisualBlocker(worldX, scanTop, scanBottom);
     const tile = this._findTileBlocker(worldX, scanTop, scanBottom);
     if (visual && tile) return visual.worldY <= tile.worldY ? visual : tile;
     return visual || tile;
+  }
+
+  _findSurfaceMaskBlocker(worldX, scanTop, scanBottom) {
+    const mask = this.weatherConfig.surfaceLandingMask;
+    if (!mask?.enabled || !Array.isArray(mask.landingYByColumn)) return null;
+
+    const tileSize = this.config.tileSize || 94;
+    const maskBottom = (mask.maxSurfaceTileY || mask.tileHeight || 0) * tileSize;
+    if (scanTop > maskBottom || scanBottom < 0) return null;
+
+    const tx = Math.floor(worldX / tileSize);
+    if (tx < 0 || tx >= mask.landingYByColumn.length) return null;
+
+    const landingTileY = mask.landingYByColumn[tx];
+    if (!Number.isFinite(landingTileY)) {
+      return { worldY: scanTop, undersideWorldY: scanTop, source: "surfaceMaskBlocked" };
+    }
+
+    const adjustedTileY = this._adjustSurfaceMaskLandingTileY(tx, landingTileY);
+    const worldY = adjustedTileY * tileSize;
+    if (worldY < scanTop || worldY > scanBottom) return null;
+    return { worldY, undersideWorldY: worldY + tileSize, source: "surfaceMask" };
+  }
+
+  _adjustSurfaceMaskLandingTileY(tx, landingTileY) {
+    const mask = this.weatherConfig.surfaceLandingMask;
+    const worldModel = this.scene.worldModel;
+    const zoneOffset = this._getSurfaceMaskZoneOffset(tx);
+    const baseTileY = landingTileY + zoneOffset;
+    const snapMax = Math.max(0, mask?.snapDownMaxTiles || 0);
+    const maxTileY = Math.min(mask?.maxSurfaceTileY || baseTileY, baseTileY + snapMax);
+    if (!worldModel?.isSolid || snapMax <= 0) return baseTileY;
+
+    for (let ty = Math.floor(baseTileY); ty <= maxTileY; ty += 1) {
+      if (worldModel.isSolid(tx, ty)) return ty;
+    }
+    return baseTileY;
+  }
+
+  _getSurfaceMaskZoneOffset(tx) {
+    const zones = this.weatherConfig.surfaceLandingMask?.offsetZones || [];
+    for (const zone of zones) {
+      if (tx >= zone.startTileX && tx <= zone.endTileX) {
+        return zone.offsetTiles || 0;
+      }
+    }
+    return 0;
+  }
+
+  _nearestImpactForScreenX(screenX) {
+    if (this.samples.length === 0) return null;
+    let best = null;
+    let bestDistance = Infinity;
+    for (const sample of this.samples) {
+      if (!sample.openToSky) continue;
+      const distance = Math.abs(sample.screenX - screenX);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = sample;
+      }
+    }
+    const maxDistance = this.weatherConfig.rain?.impact?.maxNearestSampleDistancePx ?? Infinity;
+    return best && bestDistance <= maxDistance ? best : null;
   }
 
   _findVisualBlocker(worldX, scanTop, scanBottom) {
@@ -197,6 +268,7 @@ export class WeatherOcclusionSampler {
       landingSamples: [],
       openSkyAmount: 1,
       coveredAmount: 0,
+      nearestImpactForScreenX: () => null,
     };
   }
 }

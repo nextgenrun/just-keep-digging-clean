@@ -16,6 +16,12 @@ import {
   createTogglePair,
 } from "../../ui/PhaserUiKit.js";
 import { createSettingsPanelContent } from "../../ui/overlays/SettingsPanelContent.js";
+import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
+import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
+import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
+import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
+import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
+import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 
 /**
@@ -24,6 +30,37 @@ import { USER_SETTINGS } from "../../systems/UserSettings.js";
 export function setupUIMethods(prototype) {
   prototype.createOverlay = function() {
     this.overlayManager.createOverlay();
+  };
+
+  prototype.createSceneUI = function() {
+    if (this._sceneUIInitialized) return;
+    this._sceneUIInitialized = true;
+
+    this.uiNotifications = new UINotificationSystem(this);
+    this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem, this.config.viewportWidth - 123, 20);
+    this.uiInventoryPopup = new UIInventoryPopup(this);
+    this.shopOverlay = new ShopOverlay(this, this.upgradeSystem, this.soundSystem);
+    this.xpProgressBar = new XPProgressBar(this);
+    this.levelUpPopup = new LevelUpPopup(this);
+  };
+
+  prototype.destroySceneUI = function() {
+    if (!this._sceneUIInitialized) return;
+    this._sceneUIInitialized = false;
+
+    this.uiNotifications?.destroy();
+    this.uiMuteToggle?.destroy();
+    this.uiInventoryPopup?.destroy();
+    this.shopOverlay?.destroy();
+    this.xpProgressBar?.destroy();
+    this.levelUpPopup?.destroy();
+
+    this.uiNotifications = null;
+    this.uiMuteToggle = null;
+    this.uiInventoryPopup = null;
+    this.shopOverlay = null;
+    this.xpProgressBar = null;
+    this.levelUpPopup = null;
   };
 
   prototype.showOverlay = function(title, body) {
@@ -41,6 +78,17 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.drawStatusBars = function(gemPowerPct, gpRaw, gpMax) {
+    if (
+      gemPowerPct === this._lastGemPowerBarPct &&
+      gpRaw === this._lastGemPowerBarRaw &&
+      gpMax === this._lastGemPowerBarMax
+    ) {
+      return;
+    }
+    this._lastGemPowerBarPct = gemPowerPct;
+    this._lastGemPowerBarRaw = gpRaw;
+    this._lastGemPowerBarMax = gpMax;
+
     const gpNorm = gemPowerPct / 100;
     const gpColor = gpNorm > HUD_LAYOUT.gpThresholdHigh ? HUD_LAYOUT.gpColorHigh
       : gpNorm > HUD_LAYOUT.gpThresholdMid ? HUD_LAYOUT.gpColorMid
@@ -828,7 +876,7 @@ export function setupUIMethods(prototype) {
     state.hint = createHintLegend(this, {
       x: 0,
       y: PANEL_H / 2 - 26,
-      text: 'WASD / ARROWS — navigate     ENTER / SPACE — select     ESC — resume',
+      text: 'WASD / Arrows: move     Enter / Space: select     P / Esc: resume',
       parent: panel.root,
     });
 

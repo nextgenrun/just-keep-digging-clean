@@ -1,5 +1,19 @@
 {
-  "digDownSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/dig-down-candidate-sheet.webp",
-  "fallingSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/falling-candidate-sheet.webp",
-  "motionProfile": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/legacy-miner-motion-profile.json"
+  "walkSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/walk-candidate-sheet.webp",
+  "idleSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/idle-candidate-sheet.webp",
+  "dig-downSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/dig-down-candidate-sheet.webp",
+  "falling-downward-through-skySheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/falling-downward-through-sky-candidate-sheet.webp",
+  "fly-climbSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/fly-climb-candidate-sheet.webp",
+  "leans-against-wallSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/leans-against-wall-candidate-sheet.webp",
+  "thunder-strikeSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/thunder-strike-candidate-sheet.webp",
+  "thunder-chargeSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/thunder-charge-candidate-sheet.webp",
+  "combat-idle-to-normal-idleSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/combat-idle-to-normal-idle-candidate-sheet.webp",
+  "quickslashSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/quickslash-candidate-sheet.webp",
+  "dig-sidewaysSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/dig-sideways-candidate-sheet.webp",
+  "dig-upSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/dig-up-candidate-sheet.webp",
+  "dig-up-sidewaysSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/dig-up-sideways-candidate-sheet.webp",
+  "duck-downwardsSheet": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/sheets/duck-downwards-candidate-sheet.webp",
+  "motionProfile": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/legacy-miner-motion-profile.json",
+  "idleFrameMapJson": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/idle-frame-map.json",
+  "idleFrameMapCsv": "markdown/audit/animation-audit/2026-07-03-legacy-miner-demo-review/idle-frame-map.csv"
 }

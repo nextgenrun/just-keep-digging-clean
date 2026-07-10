@@ -44,9 +44,6 @@ export class WeatherParticleController {
     const coveredRain = clamp01(state.intensity * state.depth.surfaceAmount * state.occlusion.coveredAmount);
     const gustAmount = clamp01(Math.abs(state.gust) / Math.max(1, this.weatherConfig.gusts.stormMax));
 
-    this._emitRainLayer("foreground", this._rainEmitter, surfaceRain, dt, state, state.occlusion.openSamples);
-    this._emitRainLayer("midground", this._softRainEmitter, surfaceRain * 0.72, dt, state, state.occlusion.openSamples);
-    this._emitRainLayer("sheet", this._sheetEmitter, surfaceRain * (state.kind === "storm" ? 0.62 : 0.2), dt, state, state.occlusion.openSamples);
     this._emitSplashes(surfaceRain, gustAmount, dt, state.occlusion.landingSamples);
     this._emitDrips(Math.max(caveRain, coveredRain * this.weatherConfig.underground.coverDripScale), dt, state);
     this._emitMist(Math.max(caveRain, surfaceRain * 0.32 + gustAmount * surfaceRain * 0.18), dt, state.occlusion.landingSamples);

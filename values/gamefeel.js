@@ -38,9 +38,9 @@ export const GAMEFEEL_CONFIG = Object.freeze({
 
   // ── PICKAXE TRAIL (swing arc ghost sprites) ────────────────────────────
   trail: {
-    alpha:       0.65,
+    alpha:       0.35,
     tint:        0xaaddff,  // subtle blue-white
-    fadeMs:      3990,
+    fadeMs:      1990,
     depth:       18,        // just below playerDepth:20
   },
 
@@ -48,13 +48,13 @@ export const GAMEFEEL_CONFIG = Object.freeze({
   climb: {
     alpha:       0.58,
     tint:        0xccaaff,  // subtle purple trail during flying/climbing
-    fadeMs:      2390,
+    fadeMs:      990,
     depth:       18,        // just below playerDepth:20
   },
 
   // ── TILE DESTROY PARTICLES ─────────────────────────────────────────────
   particles: {
-    count:          7,
+    count:          15,
     critCount:      12,
     speedMin:       70,
     speedMax:       220,
@@ -84,5 +84,28 @@ export const GAMEFEEL_CONFIG = Object.freeze({
   animSpeed: {
     baseCooldownMs: 750,  // matches miningConfig.mineCooldownMs baseline
     maxSpeedMultiplier: 2.5,
+  },
+
+  // ── PLAYER BODY LANGUAGE (squash & stretch) ────────────────────────────
+  bodyLanguage: {
+    enabled: true,
+    affectLivingDrill: false,   // drill has its own bite/commit visuals
+    // Landing squash — triggers when touching down after a real fall
+    landSquashMinVy: 260,       // px/s downward velocity needed to squash
+    landSquashAmount: 0.14,     // scaleY compress at min velocity
+    landSquashMaxAmount: 0.22,  // scaleY compress at heavy landings
+    landSquashMaxVy: 900,       // velocity at which max squash is reached
+    landRecoverMs: 170,         // spring back duration
+    landRecoverEase: "Back.easeOut",
+    // Falling stretch — subtle vertical stretch while dropping fast
+    fallStretchMinVy: 420,      // px/s downward velocity to begin stretch
+    fallStretchMaxVy: 1000,
+    fallStretchAmount: 0.06,    // max scaleY stretch
+    fallStretchLerp: 0.18,      // smoothing per frame
+    // Dig impact pop — tiny punch on every successful hit
+    digPopAmount: 0.05,         // uniform scale pop on hit
+    digPopDestroyAmount: 0.09,  // bigger pop when the tile breaks
+    digPopMs: 90,
+    digPopEase: "Sine.easeOut",
   },
 });

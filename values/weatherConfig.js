@@ -55,6 +55,30 @@ export const WEATHER_CONFIG = Object.freeze({
     fallPastViewportPx: 96,
   },
 
+  surfaceLandingMask: {
+    enabled: true,
+    tileWidth: 120,
+    tileHeight: 130,
+    maxSurfaceTileY: 130,
+    snapDownMaxTiles: 3,
+    offsetZones: Object.freeze([]),
+    source: "ai-tools/weather-tuning/outputs/2026-07-03-user-rain-landing-mask.json",
+    landingYByColumn: Object.freeze([
+      null, null, null, 11, 16, 16, 16, 16, 16, 22,
+      23, 24, 24, 25, 25, 25, 25, 25, 26, 26,
+      26, 27, 28, 28, 29, 30, 31, 31, 48, 49,
+      50, 50, 50, 50, 50, 49, 48, 34, 34, 35,
+      35, 36, 37, 37, 38, 38, 39, 40, 41, 42,
+      42, 43, 44, 44, 56, 57, 58, 58, 58, 57,
+      57, 59, 60, 60, 60, 60, 60, 60, 63, 64,
+      64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+      64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+      64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+      64, 64, 64, 64, 64, 64, 64, 64, 63, 63, 62,
+      58, 58, 58, 58, 58, 57, 57, 55, 46,
+    ]),
+  },
+
   debug: {
     enabled: false,
     drawDepth: 997,
@@ -132,6 +156,21 @@ export const WEATHER_CONFIG = Object.freeze({
     maxParticlesDust: 70,
     maxParticlesSteam: 90,
     maxParticlesRipple: 120,
+    impact: {
+      enabled: true,
+      maxActiveDrops: 620,
+      hardStopPaddingPx: 2,
+      minFallDistancePx: 28,
+      maxNearestSampleDistancePx: 86,
+      foregroundLengthPx: 36,
+      midgroundLengthPx: 26,
+      sheetLengthPx: 54,
+      impactDurationMs: 170,
+      impactRadiusPx: 8,
+      impactAlpha: 0.68,
+      ceilingImpactScale: 0.62,
+      flashBoost: 0.32,
+    },
     layers: {
       foreground: {
         ratePerSecond: 620,

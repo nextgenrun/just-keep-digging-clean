@@ -154,7 +154,6 @@ export const LOADING_MESSAGES = Object.freeze([
   // ── Gameplay tips ──
   { label: "Tip: Hold SHIFT to sprint", detail: "Great for escaping cave-ins!" },
   { label: "Tip: Upgrade your pickaxe first", detail: "It pays for itself in no time" },
-  { label: "Tip: Gem vision reveals hidden ores", detail: "Press V to activate" },
   { label: "Tip: Merchants restock every zone", detail: "Check back often!" },
   { label: "Tip: Chain hits for combo XP bonus", detail: "Fast fingers = fast levels" },
   { label: "Tip: Watch for falling stalactites", detail: "They hurt. A lot." },

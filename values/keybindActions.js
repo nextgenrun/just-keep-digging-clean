@@ -14,7 +14,6 @@ export const KEYBIND_ACTIONS = Object.freeze([
   { id: "muteSfx", label: "SFX Toggle", description: "Toggle effects and voices on or off.", defaultKey: "N", group: "Audio" },
   { id: "restart", label: "Restart Run", description: "Restart the current run in debug/death flows.", defaultKey: "R", group: "System" },
   { id: "mainMenu", label: "Main Menu", description: "Return to the main menu from pause.", defaultKey: "HOME", group: "System" },
-  { id: "gemVision", label: "Gem Vision", description: "Use gem vision when unlocked.", defaultKey: "Z", group: "Abilities" },
   { id: "quickslash", label: "Quickslash", description: "Use quickslash when unlocked.", defaultKey: "Q", group: "Abilities" },
   { id: "thunderStrike", label: "Thunderstrike", description: "Use thunderstrike when unlocked.", defaultKey: "C", group: "Abilities" },
   { id: "torch", label: "Torch", description: "Toggle or use torch behavior.", defaultKey: "T", group: "Abilities" },

@@ -242,10 +242,6 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     return this.state.getPlayerTile();
   }
 
-  isGemVisionActive() {
-    return this.abilities.isGemVisionActive();
-  }
-
   getPlayerPosition() {
     return {
       x: this.sprite.x,

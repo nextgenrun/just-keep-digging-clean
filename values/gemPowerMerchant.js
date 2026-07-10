@@ -32,37 +32,6 @@ export const GEM_POWER_MERCHANT_UPGRADES = Object.freeze({
     effectType: "levitationSpeed",
     merchant: "gemPowerMerchant"
   },
-  gemVisionUnlock: {
-    id: "gemVisionUnlock",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision",
-    description: "Hold Z to zoom out and see more of world! Consumes Gem Power while active.",
-    baseCost: 150,
-    baseEffect: 2,
-    effectType: "gemVisionUnlocked",
-    merchant: "gemPowerMerchant",
-    oneTimePurchase: true
-  },
-  gemVisionRange: {
-    id: "gemVisionRange",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision Range",
-    description: "Increases zoom out range to see even more of world",
-    baseCost: 200,
-    baseEffect: 2,
-    effectType: "gemVisionRange",
-    merchant: "gemPowerMerchant"
-  },
-  gemVisionEfficiency: {
-    id: "gemVisionEfficiency",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision Efficiency",
-    description: "Reduces Gem Power drain while using Gem Vision",
-    baseCost: 300,
-    baseEffect: 2,
-    effectType: "gemVisionDrainReduction",
-    merchant: "gemPowerMerchant"
-  },
   upOrDown: {
     id: "upOrDown",
     category: UPGRADE_CATEGORIES.GEM_POWER,

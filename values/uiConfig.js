@@ -18,7 +18,6 @@ export const UI_CONFIG = Object.freeze({
   flashDevCheat: 2500,
   hardResetDelayMs: 2000,
   flashGemPowerLow: 2500,
-  flashGemVision: 500,
   flashGemDash: 600,
 
   // Background tile layer depth cutoffs

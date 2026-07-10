@@ -1,0 +1,17 @@
+1. quickslahs availble from lvl one should be unlock with bobo NPC
+2. Some sprites still facing wrong direction/flipping weirdly
+3. Q quickslash animation facing wrong direction
+4. When player gets locked in by earthquacke need tooltip that says ''KEEP DIGGING FIND A TELEPORTER TO TELEPORT UP'' (consider adding voiceline ''damm im stuck! i should look for a teleporter too teleport back up'' maby i can find it somewhere down here?
+5. new dig sounds need removal or big rework
+6. particle effects hovering should not use same variant underground, particle effects should not be visible ''inside buildings''
+7. add teleport sound teleporter hum sound and teleport animations
+8. money monster UI broken with new resources should only be sale able at new vender in new red area
+9. Flying need ''start up'' cost too prevent shift spam Flying abuse it will cost way less gempower than holding shift this can replace minimum req for Flying at low GP
+10. gem power regen should be way more expensive like 250
+11. gem power tiles should have diffrent variants that recover diffrent fixed amounts instead of Always full
+12. star pillar upgrades should focus more on more sky tiles and unique upgrades
+13. dig up sideways sprite is facing wrong direction need 180 flip
+14 somtimes find random tile with insane amount of xp 20x more than all other tiles for no apparant reason?
+15. dig down animation needs to alter lef/right
+16. some sprites randomly face other direction
+17. lean against wall animation still emty space bewteen wall and character + black line in sprite viewfield

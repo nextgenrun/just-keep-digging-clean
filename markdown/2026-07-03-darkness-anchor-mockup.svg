@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Darkness Anchor Mockup</title>
+  <desc id="desc">Comparison mockup showing current darkness/light focus anchored near the player's feet versus a proposed upward anchor near body mass and head.</desc>
+  <defs>
+    <radialGradient id="lowLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffe58a" stop-opacity="0.9"/>
+      <stop offset="24%" stop-color="#f5b44b" stop-opacity="0.42"/>
+      <stop offset="58%" stop-color="#537061" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#020505" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="highLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff0a6" stop-opacity="0.95"/>
+      <stop offset="28%" stop-color="#f7c552" stop-opacity="0.46"/>
+      <stop offset="64%" stop-color="#63816f" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#020505" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="caveBg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#101b18"/>
+      <stop offset="55%" stop-color="#06100f"/>
+      <stop offset="100%" stop-color="#020505"/>
+    </linearGradient>
+    <pattern id="tilePattern" width="48" height="48" patternUnits="userSpaceOnUse">
+      <rect width="48" height="48" fill="none"/>
+      <path d="M0 47H48M47 0V48" stroke="#284037" stroke-opacity="0.26" stroke-width="1"/>
+      <path d="M8 15h12M27 30h13M13 38h8" stroke="#4b6658" stroke-opacity="0.18" stroke-width="2" stroke-linecap="round"/>
+    </pattern>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <style>
+      .label { font-family: Verdana, Geneva, sans-serif; fill: #eaf3e9; font-size: 28px; font-weight: 700; }
+      .small { font-family: Verdana, Geneva, sans-serif; fill: #b9c8bd; font-size: 18px; }
+      .note { font-family: Verdana, Geneva, sans-serif; fill: #dce8dc; font-size: 19px; }
+      .bad { fill: #ff6f58; }
+      .good { fill: #7ef0a5; }
+      .lineBad { stroke: #ff6f58; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 8; }
+      .lineGood { stroke: #7ef0a5; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 8; }
+      .panelStroke { stroke: #48675b; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="#050908"/>
+  <text x="700" y="48" text-anchor="middle" class="label">Darkness / Torch Focus Anchor - Visual Approval Mockup</text>
+  <text x="700" y="76" text-anchor="middle" class="small">Goal: shift the max darkness/light focus slightly upward so it reads from body mass/head, not the feet.</text>
+
+  <g transform="translate(70 110)">
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#caveBg)" class="panelStroke"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#tilePattern)" opacity="0.85"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="#000000" opacity="0.48"/>
+    <circle cx="300" cy="452" r="238" fill="url(#lowLight)"/>
+    <ellipse cx="300" cy="452" rx="98" ry="58" fill="#ffe58a" opacity="0.07"/>
+
+    <g filter="url(#softShadow)">
+      <ellipse cx="300" cy="518" rx="70" ry="16" fill="#000000" opacity="0.46"/>
+      <rect x="257" y="305" width="86" height="128" rx="28" fill="#314b4a"/>
+      <rect x="269" y="316" width="62" height="95" rx="20" fill="#5f8878"/>
+      <circle cx="300" cy="268" r="42" fill="#c88f63"/>
+      <rect x="264" y="236" width="72" height="31" rx="9" fill="#252f31"/>
+      <rect x="279" y="220" width="42" height="19" rx="5" fill="#d9b249"/>
+      <rect x="234" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="331" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="268" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="308" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="246" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <rect x="304" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <circle cx="300" cy="301" r="8" fill="#ffdc7a" opacity="0.85"/>
+    </g>
+
+    <line x1="104" y1="452" x2="496" y2="452" class="lineBad"/>
+    <line x1="300" y1="224" x2="300" y2="552" class="lineBad"/>
+    <circle cx="300" cy="452" r="15" fill="#ff6f58"/>
+    <circle cx="300" cy="452" r="28" fill="none" stroke="#ff6f58" stroke-width="3"/>
+    <text x="32" y="44" class="label">Current</text>
+    <text x="32" y="74" class="small">Focus sits too low; darkness reads from feet.</text>
+    <text x="300" y="590" text-anchor="middle" class="note bad">Anchor: feet / lower body</text>
+  </g>
+
+  <g transform="translate(730 110)">
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#caveBg)" class="panelStroke"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#tilePattern)" opacity="0.85"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="#000000" opacity="0.48"/>
+    <circle cx="300" cy="375" r="238" fill="url(#highLight)"/>
+    <ellipse cx="300" cy="365" rx="91" ry="103" fill="#fff0a6" opacity="0.08"/>
+
+    <g filter="url(#softShadow)">
+      <ellipse cx="300" cy="518" rx="70" ry="16" fill="#000000" opacity="0.46"/>
+      <rect x="257" y="305" width="86" height="128" rx="28" fill="#314b4a"/>
+      <rect x="269" y="316" width="62" height="95" rx="20" fill="#5f8878"/>
+      <circle cx="300" cy="268" r="42" fill="#d9a06f"/>
+      <rect x="264" y="236" width="72" height="31" rx="9" fill="#252f31"/>
+      <rect x="279" y="220" width="42" height="19" rx="5" fill="#e1bc52"/>
+      <rect x="234" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="331" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="268" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="308" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="246" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <rect x="304" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <circle cx="300" cy="301" r="8" fill="#ffef9b" opacity="0.95"/>
+    </g>
+
+    <line x1="104" y1="375" x2="496" y2="375" class="lineGood"/>
+    <line x1="300" y1="224" x2="300" y2="552" class="lineGood"/>
+    <circle cx="300" cy="375" r="15" fill="#7ef0a5"/>
+    <circle cx="300" cy="375" r="28" fill="none" stroke="#7ef0a5" stroke-width="3"/>
+    <path d="M300 452 C335 438 338 394 309 382" fill="none" stroke="#f7e08d" stroke-width="5" stroke-linecap="round"/>
+    <path d="M309 382 L337 386 L320 407 Z" fill="#f7e08d"/>
+    <text x="32" y="44" class="label">Proposed</text>
+    <text x="32" y="74" class="small">Focus nudged upward toward body mass/head.</text>
+    <text x="300" y="590" text-anchor="middle" class="note good">Anchor: chest/head zone</text>
+  </g>
+
+  <g transform="translate(350 774)">
+    <rect x="0" y="-25" width="700" height="36" rx="6" fill="#0e1715" stroke="#385145"/>
+    <text x="350" y="0" text-anchor="middle" class="small">Approval target: keep radius/intensity, move the darkness/light origin upward by a small character-relative offset.</text>
+  </g>
+</svg>

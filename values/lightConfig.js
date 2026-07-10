@@ -1,6 +1,6 @@
 export const LIGHT_CONFIG = Object.freeze({
   depthStartTiles: 3,
-  depthMaxTiles: 1000,
+  depthMaxTiles: 2000,
   maxDepthDarkness: 1.0,
   maxNightDarkness: 0.35,
   maxCombinedDarkness: 1.0,
@@ -8,7 +8,7 @@ export const LIGHT_CONFIG = Object.freeze({
 
   // Tunneling vision: outside this radius is black once underground.
   baseVisibilityRadiusTiles: 7.5,     // Fallback radius at depthStartTiles (no torch)
-  minVisibilityRadiusTiles: 0.5,      // Abyss radius at 1000m+ (no torch)
+  minVisibilityRadiusTiles: 0.625,      // Abyss radius at 1000m+ (no torch), +25%
   visibilityRadiusStops: Object.freeze([
     Object.freeze([0, 12.0]),
     Object.freeze([3, 7.5]),
@@ -67,7 +67,7 @@ export const LIGHT_CONFIG = Object.freeze({
   torchFlickerSpeed: 0.0024,
   transitionResponsePerSecond: 5,
   facingOffsetTiles: 0.22,
-  glowVerticalOffsetTiles: -0.12,
+  glowVerticalOffsetTiles: -0.2,
 
   torchFire: Object.freeze({
     radiusFlickerAmount: 0.014,
@@ -95,6 +95,32 @@ export const LIGHT_CONFIG = Object.freeze({
     minActiveRatio: 0.08,
     playerRevealLeashTiles: 1.2,
     maxRevealRadiusTiles: 2.25,
+  }),
+
+  skyTileLights: Object.freeze({
+    enabled: true,
+    maxSourcesPerFrame: 18,
+    cameraPaddingTiles: 5,
+    revealAlpha: 0.08,
+    undergroundRevealBoost: 0.10,
+    flickerSpeed: 0.0014,
+    flickerAmount: 0.05,
+    playerRevealLeashTiles: 2.4,
+    radiusTiles: 1.2,
+    maxRadiusTiles: 1.6,
+  }),
+
+  geodeTileLights: Object.freeze({
+    enabled: true,
+    maxSourcesPerFrame: 18,
+    cameraPaddingTiles: 6,
+    revealAlpha: 0.11,
+    undergroundRevealBoost: 0.16,
+    flickerSpeed: 0.0012,
+    flickerAmount: 0.07,
+    playerRevealLeashTiles: 2.8,
+    radiusTiles: 1.4,
+    maxRadiusTiles: 2.1,
   }),
 
   // Night penalty — darkness shrinks vision further

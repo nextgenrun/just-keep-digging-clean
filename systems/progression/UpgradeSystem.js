@@ -1,5 +1,4 @@
 import { UPGRADES, getUpgradeCost, getUpgradeEffect, calculateHeavyPunchEffect } from "../../values/upgradeFormulas.js";
-import { GEM_VISION_CONFIG } from "../../values/gemVision.js";
 
 export class UpgradeSystem {
   constructor(digSystem = null, playerLevelSystem = null) {
@@ -31,6 +30,11 @@ export class UpgradeSystem {
   }
 
   getMoney() {
+    return this.money;
+  }
+
+  setMoney(amount) {
+    this.money = Number.isFinite(amount) ? Math.max(0, amount) : 0;
     return this.money;
   }
 
@@ -230,13 +234,10 @@ export class UpgradeSystem {
       gemPowerRegenIncrease: 0,
       torchDrainReduction: 0,
       torchBonusRadius: 0,
+      noTorchMinVisibilityRadius: 0,
       gemLevitation: 0,
       levitationSpeed: 0,
       gemDashUnlocked: 0,
-      gemVisionUnlocked: 0,
-      gemVisionRange: 0,
-      gemVisionDeepSight: 0,
-      gemVisionDrainReduction: 0,
       gemDashDistance: 0,
       gemDashCooldownReduction: 0,
       gemDashExplode: 0,
@@ -256,6 +257,8 @@ export class UpgradeSystem {
       critChance: 0,
       heavyPunchDamage: 0,
       luckyCollector: 0,
+      unlockQuickslash: 0,
+      unlockThunderStrike: 0,
     };
 
     // Track pickaxes by metal tier to only apply the highest one
@@ -381,37 +384,12 @@ export class UpgradeSystem {
     return (this.upgradeLevels['gemDashExplode'] || 0) > 0;
   }
 
-  // Gem Vision methods
-  isGemVisionUnlocked() {
-    return (this.upgradeLevels['gemVisionUnlock'] || 0) > 0;
+  isQuickslashUnlocked() {
+    return (this.upgradeLevels['quickslashAbility'] || 0) > 0;
   }
 
-  isGemVisionDeepSightUnlocked() {
-    return (this.upgradeLevels['gemVisionDeepSight'] || 0) > 0;
-  }
-
-  getEffectiveGemVisionRange() {
-    const effects = this.getUpgradeEffects();
-    const baseRange = GEM_VISION_CONFIG.baseRange;
-    const rangeBonus = effects.gemVisionRange; // Each level adds 0.1 (10% more zoom)
-    const deepSightBonus = effects.gemVisionDeepSight > 0 ? GEM_VISION_CONFIG.deepSightBonus : 0;
-    return Math.max(0.15, baseRange - rangeBonus - deepSightBonus); // Smaller value = more zoom out
-  }
-
-  getEffectiveGemVisionDrain() {
-    const effects = this.getUpgradeEffects();
-    const baseDrain = GEM_VISION_CONFIG.baseDrain;
-    const drainReduction = effects.gemVisionDrainReduction;
-    const deepSightBonus = effects.gemVisionDeepSight > 0 ? GEM_VISION_CONFIG.deepSightLevelDrainReduction : 0;
-    
-    // BALANCE OVERHAUL: Add range scaling cost - higher range = more drain
-    const rangeLevel = this.getUpgradeLevel('gemVisionRange');
-    const rangeCostMultiplier = 1 + (rangeLevel * 0.15); // +15% drain per vision range level
-    
-    return Math.max(
-      GEM_VISION_CONFIG.minDrain, 
-      (baseDrain - drainReduction - deepSightBonus) * rangeCostMultiplier
-    );
+  isThunderStrikeUnlocked() {
+    return (this.upgradeLevels['thunderStrikeAbility'] || 0) > 0;
   }
 
   getEffectiveDigDamageMultiplier(baseDamage) {

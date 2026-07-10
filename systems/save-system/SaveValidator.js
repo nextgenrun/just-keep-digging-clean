@@ -2,6 +2,8 @@
  * Validates save data structure and content
  * Ensures data integrity before loading saves
  */
+import { RESOURCE_KEYS } from "../../values/resourceTypes.js";
+
 export class SaveValidator {
   /**
    * Validate save data structure
@@ -51,9 +53,9 @@ export class SaveValidator {
     if (!saveData.resources || typeof saveData.resources !== 'object') {
       errors.push('Missing or invalid resources object');
     } else {
-      const resourceFields = ['dirt', 'stone', 'copper', 'darkDirtNormal', 'darkDirtStrong', 'steel', 'iron', 'bronze', 'silver', 'gold'];
-      for (const field of resourceFields) {
-        if (typeof saveData.resources[field] !== 'number' || saveData.resources[field] < 0) {
+      for (const field of RESOURCE_KEYS) {
+        if (saveData.resources[field] !== undefined &&
+            (typeof saveData.resources[field] !== 'number' || saveData.resources[field] < 0)) {
           errors.push(`Invalid resource ${field}: ${saveData.resources[field]}`);
         }
       }

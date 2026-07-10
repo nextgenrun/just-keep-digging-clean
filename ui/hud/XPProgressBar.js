@@ -102,6 +102,10 @@ export class XPProgressBar {
    * @param {number} xpRequired - XP required for next level
    */
   update(level, currentXP, xpRequired) {
+    if (level === this.level && currentXP === this.currentXP && xpRequired === this.xpRequired) {
+      return;
+    }
+
     this.level = level;
     this.currentXP = currentXP;
     this.xpRequired = xpRequired;

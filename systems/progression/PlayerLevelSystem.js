@@ -99,8 +99,18 @@ export class PlayerLevelSystem {
   }
 
   gainLevel() {
-    this.level += 1;
+    const levelGain = Number.isFinite(arguments[0]) ? Math.floor(arguments[0]) : 1;
+    const gainCount = Math.max(1, levelGain);
+    const startLevel = this.level;
+    this.level += gainCount;
     this._recalculateBonuses();
+    return {
+      levelUp: true,
+      newLevel: this.level,
+      levelsGained: this.level - startLevel,
+      hasChoice: false,
+      rewards: [],
+    };
   }
 
   getXPRequiredForNextLevel() {

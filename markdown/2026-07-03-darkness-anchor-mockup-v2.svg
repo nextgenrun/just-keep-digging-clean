@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Darkness Anchor Mockup V2</title>
+  <desc id="desc">Second darkness anchor mockup comparing the previous upward focus to a slightly higher anchor with 25 percent more minimum vision at maximum darkness.</desc>
+  <defs>
+    <radialGradient id="prevLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff0a6" stop-opacity="0.92"/>
+      <stop offset="26%" stop-color="#f7c552" stop-opacity="0.42"/>
+      <stop offset="63%" stop-color="#63816f" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#020505" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="v2Light" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff4b8" stop-opacity="0.96"/>
+      <stop offset="30%" stop-color="#f8cb59" stop-opacity="0.48"/>
+      <stop offset="68%" stop-color="#789985" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#020505" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="caveBg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#111c19"/>
+      <stop offset="58%" stop-color="#06100f"/>
+      <stop offset="100%" stop-color="#020505"/>
+    </linearGradient>
+    <pattern id="tilePattern" width="48" height="48" patternUnits="userSpaceOnUse">
+      <rect width="48" height="48" fill="none"/>
+      <path d="M0 47H48M47 0V48" stroke="#29433a" stroke-opacity="0.25" stroke-width="1"/>
+      <path d="M8 15h12M27 30h13M13 38h8" stroke="#4b6658" stroke-opacity="0.18" stroke-width="2" stroke-linecap="round"/>
+    </pattern>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <style>
+      .label { font-family: Verdana, Geneva, sans-serif; fill: #eaf3e9; font-size: 28px; font-weight: 700; }
+      .small { font-family: Verdana, Geneva, sans-serif; fill: #b9c8bd; font-size: 18px; }
+      .note { font-family: Verdana, Geneva, sans-serif; fill: #dce8dc; font-size: 19px; }
+      .muted { fill: #d9c477; }
+      .good { fill: #85f3aa; }
+      .linePrev { stroke: #d9c477; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 8; }
+      .lineGood { stroke: #85f3aa; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 8; }
+      .panelStroke { stroke: #48675b; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="#050908"/>
+  <text x="700" y="48" text-anchor="middle" class="label">Darkness Anchor Mockup V2</text>
+  <text x="700" y="76" text-anchor="middle" class="small">Revision: slightly higher focus plus 25% larger minimum vision at maximum darkness.</text>
+
+  <g transform="translate(70 110)">
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#caveBg)" class="panelStroke"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#tilePattern)" opacity="0.85"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="#000000" opacity="0.5"/>
+    <circle cx="300" cy="375" r="238" fill="url(#prevLight)"/>
+    <circle cx="300" cy="375" r="72" fill="none" stroke="#d9c477" stroke-width="4" opacity="0.8"/>
+    <circle cx="300" cy="375" r="72" fill="#fff0a6" opacity="0.07"/>
+
+    <g filter="url(#softShadow)">
+      <ellipse cx="300" cy="518" rx="70" ry="16" fill="#000000" opacity="0.46"/>
+      <rect x="257" y="305" width="86" height="128" rx="28" fill="#314b4a"/>
+      <rect x="269" y="316" width="62" height="95" rx="20" fill="#5f8878"/>
+      <circle cx="300" cy="268" r="42" fill="#d9a06f"/>
+      <rect x="264" y="236" width="72" height="31" rx="9" fill="#252f31"/>
+      <rect x="279" y="220" width="42" height="19" rx="5" fill="#e1bc52"/>
+      <rect x="234" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="331" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="268" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="308" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="246" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <rect x="304" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <circle cx="300" cy="301" r="8" fill="#ffef9b" opacity="0.95"/>
+    </g>
+
+    <line x1="104" y1="375" x2="496" y2="375" class="linePrev"/>
+    <line x1="300" y1="224" x2="300" y2="552" class="linePrev"/>
+    <circle cx="300" cy="375" r="15" fill="#d9c477"/>
+    <circle cx="300" cy="375" r="28" fill="none" stroke="#d9c477" stroke-width="3"/>
+    <text x="32" y="44" class="label">Previous Proposed</text>
+    <text x="32" y="74" class="small">Chest focus from the first mockup.</text>
+    <text x="300" y="590" text-anchor="middle" class="note muted">Minimum vision baseline</text>
+  </g>
+
+  <g transform="translate(730 110)">
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#caveBg)" class="panelStroke"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="url(#tilePattern)" opacity="0.85"/>
+    <rect x="0" y="0" width="600" height="640" rx="8" fill="#000000" opacity="0.5"/>
+    <circle cx="300" cy="342" r="256" fill="url(#v2Light)"/>
+    <circle cx="300" cy="342" r="90" fill="none" stroke="#85f3aa" stroke-width="4" opacity="0.95"/>
+    <circle cx="300" cy="342" r="90" fill="#fff4b8" opacity="0.09"/>
+
+    <g filter="url(#softShadow)">
+      <ellipse cx="300" cy="518" rx="70" ry="16" fill="#000000" opacity="0.46"/>
+      <rect x="257" y="305" width="86" height="128" rx="28" fill="#314b4a"/>
+      <rect x="269" y="316" width="62" height="95" rx="20" fill="#5f8878"/>
+      <circle cx="300" cy="268" r="42" fill="#e0aa78"/>
+      <rect x="264" y="236" width="72" height="31" rx="9" fill="#252f31"/>
+      <rect x="279" y="220" width="42" height="19" rx="5" fill="#e7c45f"/>
+      <rect x="234" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="331" y="345" width="35" height="96" rx="16" fill="#4f7569"/>
+      <rect x="268" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="308" y="424" width="24" height="91" rx="11" fill="#2e4447"/>
+      <rect x="246" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <rect x="304" y="506" width="50" height="15" rx="7" fill="#1f2d31"/>
+      <circle cx="300" cy="301" r="8" fill="#fff3ac" opacity="1"/>
+    </g>
+
+    <line x1="104" y1="342" x2="496" y2="342" class="lineGood"/>
+    <line x1="300" y1="224" x2="300" y2="552" class="lineGood"/>
+    <circle cx="300" cy="342" r="15" fill="#85f3aa"/>
+    <circle cx="300" cy="342" r="28" fill="none" stroke="#85f3aa" stroke-width="3"/>
+    <path d="M300 375 C327 370 337 353 313 346" fill="none" stroke="#fff0a6" stroke-width="5" stroke-linecap="round"/>
+    <path d="M313 346 L339 342 L324 365 Z" fill="#fff0a6"/>
+    <text x="32" y="44" class="label">V2 Candidate</text>
+    <text x="32" y="74" class="small">Slightly higher, with +25% minimum vision.</text>
+    <text x="300" y="590" text-anchor="middle" class="note good">Minimum vision radius: 72 -> 90</text>
+  </g>
+
+  <g transform="translate(310 774)">
+    <rect x="0" y="-25" width="780" height="36" rx="6" fill="#0e1715" stroke="#385145"/>
+    <text x="390" y="0" text-anchor="middle" class="small">Implementation target if approved: raise anchor a little more and multiply max-darkness minimum vision by 1.25.</text>
+  </g>
+</svg>

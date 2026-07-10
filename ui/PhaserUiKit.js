@@ -1,10 +1,11 @@
 import { UI_COLORS } from "../values/uiColors.js";
+import { createUiIcon, resolveUiIconForLabel } from "./UiIconAtlas.js";
 
 export const UI_THEME = Object.freeze({
-  fontBody: "Consolas, monospace",
-  fontTitle: "Trebuchet MS, Segoe UI, sans-serif",
-  radius: 8,
-  radiusSmall: 5,
+  fontBody: "Bahnschrift, Consolas, monospace",
+  fontTitle: "Bahnschrift SemiCondensed, Trebuchet MS, Segoe UI, sans-serif",
+  radius: 7,
+  radiusSmall: 4,
   depthOverlay: 2500,
   pressScale: 0.97,
   fadeMs: 180,
@@ -44,6 +45,7 @@ export function createPanel(scene, options = {}) {
     alpha = 0.98,
     parent = null,
     titleY = -height / 2 + 28,
+    icon = null,
   } = options;
 
   const root = scene.add.container(x, y);
@@ -67,18 +69,24 @@ export function createPanel(scene, options = {}) {
         letterSpacing: 2,
       }).setOrigin(0.5, 0.5)
     : null;
+  const panelIconName = icon || resolveUiIconForLabel(title);
+  const panelIcon = title && panelIconName
+    ? createUiIcon(scene, panelIconName, { x: -width / 2 + 34, y: titleY, size: 34, scrollFactor })
+    : null;
 
   const sep = scene.add.graphics();
   sep.lineStyle(1, UI_COLORS.borderDim, 0.8);
   sep.lineBetween(-width / 2 + 24, titleY + 28, width / 2 - 24, titleY + 28);
 
   root.add(titleText ? [bg, titleText, sep] : [bg]);
+  if (panelIcon) root.add(panelIcon);
   addToParent(parent, root);
 
   return {
     root,
     bg,
     titleText,
+    panelIcon,
     sep,
     width,
     height,
@@ -99,6 +107,7 @@ export function createButton(scene, options = {}) {
     hovered: false,
     selected: Boolean(options.selected),
     enabled: options.enabled !== false,
+    disabledReason: options.disabledReason || "",
     pressing: false,
   };
 
@@ -119,12 +128,17 @@ export function createButton(scene, options = {}) {
     labelColor = UI_COLORS.white,
     disabledColor = UI_COLORS.dim,
     hintColor = UI_COLORS.hint,
+    disabledHintColor = UI_COLORS.dim,
     fontSize = "14px",
     align = "center",
     onClick = null,
     onFocus = null,
     playSounds = true,
+    icon = null,
+    autoIcon = true,
   } = options;
+  let buttonHint = hint || "";
+  const resolvedIcon = icon || (autoIcon ? resolveUiIconForLabel(label) : null);
 
   const root = scene.add.container(x, y);
   root.setSize(width, height);
@@ -137,7 +151,8 @@ export function createButton(scene, options = {}) {
 
   const bg = scene.add.graphics();
   const accentBar = scene.add.graphics();
-  const textX = align === "left" ? -width / 2 + 18 : 0;
+  const hasIcon = Boolean(resolvedIcon) && width >= 72;
+  const textX = align === "left" ? -width / 2 + (hasIcon ? 49 : 18) : (hasIcon ? 8 : 0);
   const textOrigin = align === "left" ? [0, 0.5] : [0.5, 0.5];
   const text = scene.add.text(textX, 0, label, {
     fontFamily: UI_THEME.fontBody,
@@ -145,12 +160,20 @@ export function createButton(scene, options = {}) {
     fontStyle: "bold",
     color: labelColor,
   }).setOrigin(textOrigin[0], textOrigin[1]);
-  const hintText = hint
-    ? scene.add.text(width / 2 - 12, 0, hint, {
+  const hintText = buttonHint || state.disabledReason
+    ? scene.add.text(width / 2 - 12, 0, buttonHint, {
         fontFamily: UI_THEME.fontBody,
         fontSize: "12px",
         color: hintColor,
       }).setOrigin(1, 0.5)
+    : null;
+  const iconSprite = hasIcon
+    ? createUiIcon(scene, resolvedIcon, {
+        x: -width / 2 + Math.max(17, Math.min(22, height / 2)),
+        y: 0,
+        size: Math.max(20, Math.min(34, height - 10)),
+        scrollFactor,
+      })
     : null;
   const hit = scene.add.rectangle(0, 0, width, height, 0x000000, 0)
     .setInteractive({ useHandCursor: true });
@@ -181,6 +204,16 @@ export function createButton(scene, options = {}) {
       text.setColor(state.enabled ? labelColor : disabledColor);
       text.setAlpha(alpha);
       hintText?.setAlpha(alpha);
+      iconSprite?.setAlpha(alpha);
+      if (hintText) {
+        if (!state.enabled && state.disabledReason) {
+          hintText.setText(state.disabledReason);
+          hintText.setColor(disabledHintColor);
+        } else {
+          hintText.setText(buttonHint);
+          hintText.setColor(hintColor);
+        }
+      }
     } catch (_) {
       // Phaser text can briefly lose its canvas during scene teardown/focus churn.
     }
@@ -228,6 +261,7 @@ export function createButton(scene, options = {}) {
   hit.on("pointerdown", activate);
 
   root.add(hintText ? [bg, accentBar, text, hintText, hit] : [bg, accentBar, text, hit]);
+  if (iconSprite) root.add(iconSprite);
   addToParent(parent, root);
   draw();
 
@@ -236,6 +270,7 @@ export function createButton(scene, options = {}) {
     bg,
     text,
     hintText,
+    iconSprite,
     hit,
     activate,
     isEnabled() {
@@ -249,9 +284,14 @@ export function createButton(scene, options = {}) {
       state.selected = Boolean(value);
       draw();
     },
-    setEnabled(value) {
+    setEnabled(value, reason = null) {
       state.enabled = Boolean(value);
       state.pressing = false;
+      if (state.enabled) {
+        state.disabledReason = "";
+      } else {
+        state.disabledReason = reason ? String(reason) : "";
+      }
       root.disableInteractive();
       hit.disableInteractive();
       if (state.enabled) {
@@ -270,6 +310,13 @@ export function createButton(scene, options = {}) {
     setHint(value) {
       if (hintText && !hintText.active) return;
       hintText?.setText(value);
+      if (!state.disabledReason) {
+        buttonHint = String(value || "");
+      }
+    },
+    setDisabledReason(value) {
+      state.disabledReason = value ? String(value) : "";
+      draw();
     },
     setVisible(value) {
       root.setVisible(value);
@@ -547,17 +594,22 @@ export function createTabBar(scene, options = {}) {
 
   let active = activeIndex;
   const startX = -((tabs.length - 1) * spacing) / 2;
-  const buttons = tabs.map((label, index) => createButton(scene, {
-    x: startX + index * spacing,
-    y: 0,
-    width: 112,
-    height: 32,
-    label,
-    fontSize: "12px",
-    accent: UI_COLORS.borderSel,
-    parent: root,
-    onClick: () => setActive(index),
-  }));
+  const buttons = tabs.map((tab, index) => {
+    const label = typeof tab === "string" ? tab : tab.label;
+    const icon = typeof tab === "string" ? null : tab.icon;
+    return createButton(scene, {
+      x: startX + index * spacing,
+      y: 0,
+      width: 112,
+      height: 32,
+      label,
+      icon,
+      fontSize: "12px",
+      accent: UI_COLORS.borderSel,
+      parent: root,
+      onClick: () => setActive(index),
+    });
+  });
 
   function setActive(index, silent = false) {
     active = Phaser.Math.Clamp(index, 0, Math.max(0, tabs.length - 1));

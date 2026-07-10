@@ -1,5 +1,5 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { AUDIO_CONFIG } from "../../values/audioConfig.js";
+import { ASSET_KEYS } from "../values/assetKeys.js";
+import { AUDIO_CONFIG } from "../values/audioConfig.js";
 import { SoundLibraryManager } from "./SoundLibraryManager.js";
 import { VoiceLineManager } from "./VoiceLineManager.js";
 export class SoundSystem {
@@ -169,7 +169,7 @@ export class SoundSystem {
     }
   }
 
-  playSfx(key, volumeMultiplier = 1.0) {
+  playSfx(key, volumeMultiplier = 1.0, options = {}) {
     if (!this.sfxEnabled) return null;
     if (!this.scene.cache.audio.exists(key)) {
       console.warn(`[SoundSystem] Audio asset not available: ${key}`);
@@ -179,7 +179,8 @@ export class SoundSystem {
       // Create a new sound instance each time to allow overlapping playback.
       // Important for rapid dig sounds where multiple hits happen in quick succession.
       const sound = this.scene.sound.add(key, { 
-        volume: this.getSfxVolumeForKey(key) * volumeMultiplier 
+        volume: this.getSfxVolumeForKey(key) * volumeMultiplier,
+        rate: Number.isFinite(options.rate) && options.rate > 0 ? options.rate : 1,
       });
       sound.once('complete', () => {
         try { sound.destroy(); } catch (_) {}
@@ -282,17 +283,20 @@ export class SoundSystem {
     return null;
   }
 
-  playDig() {
+  playDig(options = {}) {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     const soundKey = this.soundLibraryManager.getRandomSound('dig');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey);
+    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey, 1, options);
     return null;
   }
 
-  playTileBreak() {
+  playTileBreak(options = {}) {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     const soundKey = this.soundLibraryManager.getRandomSound('tileBreak');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey);
+    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) {
+      const volume = Number.isFinite(options.volume) ? options.volume : 1;
+      return this.playSfx(soundKey, volume, options);
+    }
     return null;
   }
 
@@ -441,7 +445,12 @@ export class SoundSystem {
     if (this.scene.cache.audio.exists('dig-star-0')) {
       this.soundLibraryManager.libraries.starDig.push({ key: 'dig-star-0', file: 'dig-star-0', path: 'sound/soundEffects/costume-sounds/dig/dig-star/MUSCChim_Chimes dream 3 (ID 2081)_BigSoundBank.com.wav' });
     }
-    const totalLoaded = this.soundLibraryManager.libraries.dig.length + this.soundLibraryManager.libraries.footsteps.length + this.soundLibraryManager.libraries.tileBreak.length + this.soundLibraryManager.libraries.tileHit.length + (this.soundLibraryManager.libraries.starDig?.length || 0);
+
+    const totalLoaded = this.soundLibraryManager.libraries.dig.length
+      + this.soundLibraryManager.libraries.footsteps.length
+      + this.soundLibraryManager.libraries.tileBreak.length
+      + this.soundLibraryManager.libraries.tileHit.length
+      + (this.soundLibraryManager.libraries.starDig?.length || 0);
     console.log(`[SoundSystem] Populated ${totalLoaded} sound effect libraries from pre-loaded cache`);
   }
 
@@ -516,8 +525,6 @@ export class SoundSystem {
       'update-2/Dont Dig Too Deep(1).wav',
       'update-2/Evil Laugh.wav',
       'update-2/Evil Laugh(1).wav',
-      'update-2/Gem Vision.wav',
-      'update-2/Gem Vision(1).wav',
       'update-2/Glad too see you!.wav',
       'update-2/Glad too see you!(1).wav',
       'update-2/Glad too see you!(2).wav',

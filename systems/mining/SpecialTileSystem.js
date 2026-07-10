@@ -4,6 +4,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { createZeroResourceTotals } from "../../values/resourceTypes.js";
 
 export class SpecialTileSystem {
   constructor(scene, worldModel, playerController, floatingTextSystem) {
@@ -478,19 +479,7 @@ export class SpecialTileSystem {
       return { success: true, type: "gamble", result: "win", multiplied: newResources };
     }
 
-    const emptyResources = {
-      dirt: 0,
-      stone: 0,
-      copper: 0,
-      darkDirtNormal: 0,
-      darkDirtStrong: 0,
-      steel: 0,
-      iron: 0,
-      bronze: 0,
-      silver: 0,
-      gold: 0,
-    };
-    digSystem.setResourceTotals(emptyResources);
+    digSystem.setResourceTotals(createZeroResourceTotals());
     this.floatingTextSystem?.showFloatingText(worldPos.x, worldPos.y, "GAMBLE LOSE! All resources lost!", "#ff0000");
     this._playSound("gamble-lose");
     return { success: true, type: "gamble", result: "lose", lostResources: resources };
@@ -499,8 +488,12 @@ export class SpecialTileSystem {
   _playSound(type) {
     if (!this.scene.soundSystem) return;
     switch (type) {
+      case "teleport":
+        break;
       case "gamble-win":
         this.scene.soundSystem.playSfx("reward");
+        break;
+      case "gamble-lose":
         break;
     }
   }

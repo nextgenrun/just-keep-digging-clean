@@ -198,14 +198,14 @@ export function createSettingsPanelContent(scene, options = {}) {
     const captureRoot = scene.add.container(cx, cy).setDepth(depth + 400).setScrollFactor(0);
     const shade = scene.add.rectangle(0, 0, W, H, 0x000000, 0.72).setInteractive();
     const bg = scene.add.rectangle(0, 0, 520, 170, UI_COLORS.bg, 0.98).setStrokeStyle(2, UI_COLORS.borderSel);
-    const title = scene.add.text(0, -48, `Press a new key for ${action.label}`, {
+    const title = scene.add.text(0, -48, `Press a new key for ${action.label} (ESC to cancel)`, {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
       color: UI_COLORS.title,
       align: "center",
     }).setOrigin(0.5);
-    const hint = scene.add.text(0, 8, "ESC cancels. Duplicate bindings are not accepted.", {
+    const hint = scene.add.text(0, 8, "Press a valid key to replace this binding. ESC cancels capture.", {
       fontFamily: "Consolas, monospace",
       fontSize: "12px",
       color: UI_COLORS.hint,
@@ -228,14 +228,14 @@ export function createSettingsPanelContent(scene, options = {}) {
       event?.stopPropagation?.();
       const nextKey = normalizeKeyboardEvent(event);
       if (!nextKey || nextKey === "ESC") {
-        row.flashStatus("Canceled.", UI_COLORS.hint);
+        row.flashStatus("Binding capture canceled.", UI_COLORS.hint);
         closeCapture();
         return;
       }
 
       const result = USER_SETTINGS.setKeybind(action.id, nextKey);
       if (!result.ok) {
-        row.flashStatus(result.error);
+        row.flashStatus(`Cannot bind "${formatKey(nextKey)}": ${result.error}`);
         closeCapture();
         return;
       }
@@ -257,7 +257,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     const startY = compact ? -116 : -124;
 
     state.objects.push(addText(scene, root, 0, startY - 26,
-      "Click a binding, then press a new key. UI navigation stays on arrows/WASD, Enter/Space, and ESC.",
+      "Click a binding, then press a new key. ESC always exits binding mode. Navigation keys remain fixed on arrows/WASD, Enter, Space.",
       { fontSize: compact ? "10px" : "11px", color: UI_COLORS.hint, align: "center" },
       [0.5, 0]
     ));

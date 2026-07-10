@@ -1,6 +1,6 @@
 // ==================== GAME CONFIG (SSOT) ====================
 const TILE_SIZE = 94;
-const WORLD_WIDTH_TILES = 120;
+const WORLD_WIDTH_TILES = 280;
 const WORLD_DEPTH_TILES = 2000;
 const TOP_AIR_ROWS = 65;
 

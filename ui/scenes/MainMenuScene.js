@@ -3,6 +3,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { createButton } from "../PhaserUiKit.js";
 import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
+import { transitionTo, fadeInOnStart } from "./SceneTransition.js";
 
 const COL = {
   bg:        UI_COLORS.bg,
@@ -112,7 +113,7 @@ export class MainMenuScene extends Phaser.Scene {
     sep2.setAlpha(0);
     this._fadeInObjs.push(sep2);
 
-    const hintBar = this.add.text(W / 2, H - 54, '↑ ↓ — navigate     ENTER — select     ESC — back', {
+    const hintBar = this.add.text(W / 2, H - 54, 'WASD / ↑↓: move     ENTER / SPACE: confirm     ESC / BACKSPACE: return', {
       fontFamily: 'Consolas, monospace',
       fontSize:   '13px',
       color:      COL.hint,

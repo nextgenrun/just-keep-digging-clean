@@ -3,6 +3,7 @@
  * Provides context-aware messages for new saves vs returning players
  */
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { RESOURCE_KEYS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
 
 export class WelcomeMessageGenerator {
   /**
@@ -11,13 +12,7 @@ export class WelcomeMessageGenerator {
    * @returns {Object} Message object with title, body, status, and statusColor
    */
   static generateMessage(saveData) {
-    // Default resources object with all 10 resources
-    const defaultResources = {
-      dirt: 0, stone: 0, copper: 0,
-      darkDirtNormal: 0, darkDirtStrong: 0,
-      steel: 0, iron: 0, bronze: 0,
-      silver: 0, gold: 0
-    };
+    const defaultResources = sanitizeResourceTotals(null);
 
     // Check if this is a new save (no data)
     if (!saveData || (!saveData.dugTiles || saveData.dugTiles.length === 0) && 
@@ -32,7 +27,7 @@ export class WelcomeMessageGenerator {
 
     // Calculate total progress
     const tilesDug = saveData.dugTiles?.length || 0;
-    const resources = saveData.resources || defaultResources;
+    const resources = sanitizeResourceTotals(saveData.resources || defaultResources);
 
     // Generate message based on progress tier
     let title = "";
@@ -41,7 +36,7 @@ export class WelcomeMessageGenerator {
     let statusColor = "#9de3a1";
 
     // Compact resource display format
-    const resourceDisplay = `gold:${resources.gold} silver:${resources.silver} iron:${resources.iron} Bronze:${resources.bronze} steel:${resources.steel} Copper:${resources.copper} Stone:${resources.stone} Dirt:${resources.dirt}`;
+    const resourceDisplay = `gold:${resources.gold} silver:${resources.silver} iron:${resources.iron} lava:${resources.lavaDirt} obsidian:${resources.obsidian} ember:${resources.emberOre} magma:${resources.magmaCrystal} Copper:${resources.copper} Stone:${resources.stone} Dirt:${resources.dirt}`;
 
     if (tilesDug < 100) {
       // Early game - just starting out
@@ -72,7 +67,6 @@ export class WelcomeMessageGenerator {
    */
   static isEmptyResources(resources) {
     if (!resources) return true;
-    const resourceFields = ['dirt', 'stone', 'copper', 'darkDirtNormal', 'darkDirtStrong', 'steel', 'iron', 'bronze', 'silver', 'gold'];
-    return resourceFields.every(field => !resources[field] || resources[field] === 0);
+    return RESOURCE_KEYS.every(field => !resources[field] || resources[field] === 0);
   }
 }

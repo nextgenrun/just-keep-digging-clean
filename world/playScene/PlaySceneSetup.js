@@ -15,6 +15,7 @@ import { DigSystem } from "../../systems/mining/DigSystem.js";
 import { HUDSystem } from "../../systems/visual/HUDSystem.js";
 import { SoundSystem } from "../../sound/SoundSystem.js";
 import { FloatingTextSystem } from "../../systems/visual/FloatingTextSystem.js";
+import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
@@ -25,14 +26,9 @@ import { NPCManager } from "./NPCManager.js";
 import { BackgroundRenderer } from "./BackgroundRenderer.js";
 import { BackgroundObjectPlacer } from "../rendering/BackgroundObjectPlacer.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
-import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
-import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
-import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
 import { SpecialTileSystem } from "../../systems/mining/SpecialTileSystem.js";
 import { DayNightCycle } from "../../systems/environment/DayNightCycle.js";
 import { AtmosphereSystem } from "../../systems/environment/AtmosphereSystem.js";
-import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
-import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { HitstopSystem } from "../../systems/combo/HitstopSystem.js";
 import { ScreenFlashSystem } from "../../systems/visual/ScreenFlashSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
@@ -40,6 +36,10 @@ import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
 import { ClimbTrailSystem } from "../../systems/visual/ClimbTrailSystem.js";
+import { PostFxSystem } from "../../systems/visual/PostFxSystem.js";
+import { PlayerBodyLanguageSystem } from "../../systems/visual/PlayerBodyLanguageSystem.js";
+import { AmbientParticleSystem } from "../../systems/environment/AmbientParticleSystem.js";
+import { DepthMilestoneCinematic } from "../../systems/visual/DepthMilestoneCinematic.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
@@ -56,7 +56,6 @@ import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnel
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js";
 
 function comboShakeSignatureFor(milestone) {
@@ -68,6 +67,32 @@ function comboShakeSignatureFor(milestone) {
   if (milestone >= 50) return "combo.medium";
   if (milestone >= 25) return "combo.medium";
   return "combo.small";
+}
+
+function setAuthoredBackgroundVisualMode(scene, mode) {
+  const requestedMode = mode === "raw" ? "raw" : "clean";
+  if (scene._authoredBackgroundMode === requestedMode) return;
+
+  if (!scene.bgObjectPlacer || !TILED_BACKGROUND_OBJECTS?.enabled) {
+    scene._authoredBackgroundMode = requestedMode;
+    return;
+  }
+
+  scene._authoredBackgroundMode = requestedMode;
+  scene.bgObjectPlacer.setAuthoredBackgroundMode(requestedMode);
+  scene.bgObjectPlacer.destroy();
+  scene.bgObjectPlacer.placeObjects(TILED_BACKGROUND_OBJECTS, { debug: false });
+  const modeLabel = requestedMode === "raw" ? "RAW authored" : "Clean authored";
+  scene.hudSystem?.flashStatus?.(
+    `TMX background: ${modeLabel}`,
+    "#88c9ff",
+    1200
+  );
+}
+
+function toggleAuthoredBackgroundVisualMode(scene) {
+  const requestedMode = scene._authoredBackgroundMode === "raw" ? "clean" : "raw";
+  setAuthoredBackgroundVisualMode(scene, requestedMode);
 }
 
 function installDebugUiSmokeHooks(scene) {
@@ -98,6 +123,7 @@ function installDebugUiSmokeHooks(scene) {
       case 5: scene.campfireSystem?._openBuffSelection?.(); break;
       case 6: scene.milestoneBoardSystem?._openBoardView?.(); break;
       case 7: scene.depthGateSystem?._open?.({ threshold: 100, title: "DEPTH WARNING: 100M", message: "Smoke test depth confirmation." }); break;
+      case 8: toggleAuthoredBackgroundVisualMode(scene); break;
       default: break;
     }
   };
@@ -376,10 +402,11 @@ async function _setupSceneSafe(data = {}) {
   }
   this.npcManager = new NPCManager(this, ASSET_KEYS);
   this.backgroundRenderer = new BackgroundRenderer(this, ASSET_KEYS);
+  this._authoredBackgroundMode = "clean";
   if (!TILED_BACKGROUND_OBJECTS?.enabled) {
     this.backgroundRenderer.createTiledBackground();
   }
-  this.bgObjectPlacer = new BackgroundObjectPlacer(this, ASSET_KEYS);
+  this.bgObjectPlacer = new BackgroundObjectPlacer(this, ASSET_KEYS, { useRawAuthoredBackgrounds: this._authoredBackgroundMode === "raw" });
   this.bgObjectPlacer.placeObjects(TILED_BACKGROUND_OBJECTS, { debug: false });
   this.worldRenderer = new WorldRenderer(this, this.worldModel, this.config);
   this.worldRenderer.create();
@@ -428,10 +455,14 @@ async function _setupSceneSafe(data = {}) {
     if (!profile.isLivingDrill && profile.digAnims.includes(animation.key)) {
       this.flushPendingDigImpactFeedback?.();
       this.isDigAnimating = false;
+      this._combatIdleFlipX = this._actionFlipX;
       this._combatIdleRecoverUntilMs = (this.time?.now || 0) + 3000;
       this._combatIdleReturnActive = false;
       this._combatIdleReturnPlayed = false;
-      this.player.setFlipX(false);
+      if (typeof this._actionFlipX === "boolean") {
+        this.player.setFlipX(this._actionFlipX);
+      }
+      this._actionFlipX = null;
       this.player.anims.timeScale = 1.0;
       this.pickaxeTrailSystem?.stop();
       this.updatePlayerVisualState(true);
@@ -448,6 +479,7 @@ async function _setupSceneSafe(data = {}) {
       this._combatIdleRecoverUntilMs = 0;
       this._combatIdleReturnActive = false;
       this._combatIdleReturnPlayed = true;
+      this._combatIdleFlipX = null;
       this.updatePlayerVisualState(true);
     }
   };
@@ -476,10 +508,6 @@ async function _setupSceneSafe(data = {}) {
   if (typeof this.cameras.main.setDeadzone === "function" && (_dzW > 0 || _dzH > 0)) {
     this.cameras.main.setDeadzone(_dzW, _dzH);
   }
-  this._cameraLookAheadX = 0;
-  this._cameraLookAheadY = 0;
-  this._lastPlayerX = this.player.x;
-  this._lastPlayerY = this.player.y;
   this._cameraDepthBand = -1;
   this.shakeSystem = new CameraShakeSystem(this, undefined, {
     getDisplaySettings: () => USER_SETTINGS.getDisplay(),
@@ -506,7 +534,6 @@ async function _setupSceneSafe(data = {}) {
   this.floatingTextSystem = new FloatingTextSystem(this);
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
-
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
     const message = reward?.message || "Combo";
@@ -565,6 +592,16 @@ async function _setupSceneSafe(data = {}) {
   this.pickaxeTrailSystem = new PickaxeTrailSystem(this, this.player, GAMEFEEL_CONFIG.trail);
   this.climbTrailSystem = new ClimbTrailSystem(this, this.player, GAMEFEEL_CONFIG.climb);
 
+  // ── AAA polish layer: postFX grading, body language, ambient atmosphere ──
+  this.postFxSystem = new PostFxSystem(this);
+  this.postFxSystem.create();
+  this.playerBodyLanguage = new PlayerBodyLanguageSystem(this, this.player);
+  this.playerBodyLanguage.create();
+  this.ambientParticleSystem = new AmbientParticleSystem(this);
+  this.ambientParticleSystem.create();
+  this.depthMilestoneCinematic = new DepthMilestoneCinematic(this);
+  this.depthMilestoneCinematic.create();
+
   const _gfx = this.make.graphics({ add: false });
   _gfx.fillStyle(0xffffff, 1);
   _gfx.fillCircle(GAMEFEEL_CONFIG.particles.size, GAMEFEEL_CONFIG.particles.size, GAMEFEEL_CONFIG.particles.size);
@@ -592,12 +629,7 @@ async function _setupSceneSafe(data = {}) {
   this.soundSystem.loadVoiceLineLibraries();
   this.soundSystem.printStats();
 
-  const viewportWidth = this.config.viewportWidth;
-  this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem, viewportWidth - 123, 20);
-  this.uiInventoryPopup = new UIInventoryPopup(this);
-  this.shopOverlay = new ShopOverlay(this, this.upgradeSystem, this.soundSystem);
-  this.xpProgressBar = new XPProgressBar(this);
-  this.levelUpPopup = new LevelUpPopup(this);
+  this.createSceneUI();
 
   const keys = this.inputHandler.getKeys();
   this.interactKey = keys.interact;
@@ -632,21 +664,20 @@ async function _setupSceneSafe(data = {}) {
     if (this._debugKey) { this._debugKey.off('down', this._debugKeyHandler); }
     if (this._debugUiSmokeKeyHandler) { this.input.keyboard.off('keydown', this._debugUiSmokeKeyHandler); this._debugUiSmokeKeyHandler = null; }
     if (this._resizeHandler) { this.scale.off('resize', this._resizeHandler); }
-    this.uiResourceBar?.destroy();
-    this.uiMuteToggle?.destroy();
-    this.uiInventoryPopup?.destroy();
-    this.shopOverlay?.destroy();
+    this.destroySceneUI();
     this.milestoneBoardSystem?.destroy();
     this.biomeSystem?.destroy();
     this.campfireSystem?.destroy();
     this.specialTileSystem?.destroy();
-    this.xpProgressBar?.destroy();
-    this.levelUpPopup?.destroy();
     this._gpLabelText?.destroy();
     this.hitstopSystem?.destroy();
     this.screenFlashSystem?.destroy();
     this.pickaxeTrailSystem?.destroy();
     this.climbTrailSystem?.destroy();
+    this.postFxSystem?.destroy();
+    this.playerBodyLanguage?.destroy();
+    this.ambientParticleSystem?.destroy();
+    this.depthMilestoneCinematic?.destroy();
     this._livingDrillTween?.stop();
     this._livingDrillOccluder?.destroy();
     this.starPillarSystem?.destroy();
@@ -664,7 +695,6 @@ async function _setupSceneSafe(data = {}) {
     this.depthGateSystem?.destroy();
     this.surfaceTunnelDoorSystem?.destroy();
     this.earthquakeSystem?.destroy();
-    this.uiNotifications?.destroy();
     this.shakeSystem?.stop();
     if (this._activeParticleChips) {
       this._activeParticleChips.forEach(chip => { this.tweens.killTweensOf(chip); chip.destroy(); });

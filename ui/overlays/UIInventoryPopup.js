@@ -1,71 +1,41 @@
+import { createButton, createPanel, UI_THEME } from "../PhaserUiKit.js";
+import { createUiIcon } from "../UiIconAtlas.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { createButton } from "../PhaserUiKit.js";
+import { UI_INVENTORY_LAYOUT, UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
-
-const RESOURCE_CONFIG = {
-  dirt: { name: 'Dirt', icon: '🟫', color: '#d8c3a5' },
-  stone: { name: 'Stone', icon: '⬜', color: '#c9d2db' },
-  copper: { name: 'Copper', icon: '🟡', color: '#ffd27a' },
-  darkDirtNormal: { name: 'Dark Dirt', icon: '🟫', color: '#8b5a2b' },
-  darkDirtStrong: { name: 'Dark Dirt (Strong)', icon: '🟫', color: '#6b4226' },
-  steel: { name: 'Steel', icon: '⬜', color: '#b8c4cc' },
-  iron: { name: 'Iron', icon: '⬜', color: '#d4d4d4' },
-  bronze: { name: 'Bronze', icon: '🟡', color: '#cd7f32' },
-  silver: { name: 'Silver', icon: '⬜', color: '#c0c0c0' },
-  gold: { name: 'Gold', icon: '🟡', color: '#ffd700' },
-};
-
-/** Main-menu dark theme color palette */
-const COL = {
-  bg:        UI_COLORS.bg,
-  cardBase:  UI_COLORS.cardBase,
-  cardHover: UI_COLORS.cardHover,
-  borderDim: UI_COLORS.borderDim,
-  borderHov: UI_COLORS.borderHov,
-  accent:    UI_COLORS.borderSel,
-  white:     UI_COLORS.white,
-  title:     UI_COLORS.title,
-  dim:       UI_COLORS.dim,
-  hint:      UI_COLORS.hint,
-  body:      UI_COLORS.body,
-  gold:      '#ffd700',
-};
 
 export class UIInventoryPopup {
   constructor(scene) {
     this.scene = scene;
     this.isOpen = false;
-    this.container = null;
     this.backdrop = null;
-    this.items = {};
+    this.panel = null;
+    this.resourceContainer = null;
+    this.resourceSlots = [];
     this.qtyTexts = {};
-    this.moneyText = null;
+    this.items = {};
     this.money = 0;
+    this.moneyText = null;
+    this.summaryText = null;
+    this.panelWidth = UI_INVENTORY_LAYOUT.maxWidth;
+    this.panelHeight = UI_INVENTORY_LAYOUT.maxHeight;
 
-    // Initialize all resources to 0
-    for (const key in RESOURCE_CONFIG) {
+    Object.keys(UI_RESOURCE_PRESENTATION).forEach(key => {
       this.items[key] = 0;
       this.qtyTexts[key] = null;
-    }
-
+    });
     this.setupKeyboardListeners();
   }
 
   setupKeyboardListeners() {
-    if (this.inventoryKey) {
-      this.inventoryKey.off('down');
-    }
-    if (this.escapeKey) {
-      this.escapeKey.off('down');
-    }
+    this.inventoryKey?.off("down", this.handleInventoryToggle, this);
+    this.escapeKey?.off("down", this.handleInventoryClose, this);
     this.inventoryKey = this.scene.input.keyboard.addKey(keyToPhaserKey(USER_SETTINGS.getKey("inventory")));
-    this.inventoryKey.on('down', () => this.toggle());
-
-    // ESC key to close inventory
     this.escapeKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-    this.escapeKey.on('down', () => {
-      if (this.isOpen) this.close();
-    });
+    this.handleInventoryToggle = () => this.toggle();
+    this.handleInventoryClose = () => { if (this.isOpen) this.close(); };
+    this.inventoryKey.on("down", this.handleInventoryToggle);
+    this.escapeKey.on("down", this.handleInventoryClose);
   }
 
   refreshKeybinds() {
@@ -73,209 +43,231 @@ export class UIInventoryPopup {
   }
 
   toggle() {
-    if (this.isOpen) {
-      this.close();
-    } else {
-      this.open();
-    }
+    if (this.isOpen) this.close(); else this.open();
   }
 
   open() {
     if (this.isOpen) return;
     this.isOpen = true;
     this.createPopup();
+    this.scene.playerController?.setControlsEnabled?.(false);
   }
 
   close() {
     if (!this.isOpen) return;
     this.isOpen = false;
-    const b = this.backdrop;
-    const c = this.container;
+    const backdrop = this.backdrop;
+    const panel = this.panel;
     this.backdrop = null;
-    this.container = null;
+    this.panel = null;
+    this.resourceContainer = null;
+    this.resourceSlots = [];
     this.moneyText = null;
-    for (const key in RESOURCE_CONFIG) {
-      this.qtyTexts[key] = null;
-    }
-    if (b && c) {
-      this.scene.tweens.killTweensOf(b);
-      this.scene.tweens.killTweensOf(c);
+    this.summaryText = null;
+    Object.keys(this.qtyTexts).forEach(key => { this.qtyTexts[key] = null; });
+
+    if (backdrop && panel?.root) {
+      this.scene.tweens.killTweensOf([backdrop, panel.root]);
       this.scene.tweens.add({
-        targets: [b, c],
+        targets: [backdrop, panel.root],
         alpha: 0,
-        duration: 160,
-        ease: 'Power1.in',
-        onComplete: () => { b.destroy(); c.destroy(); }
+        duration: UI_THEME.fadeMs,
+        ease: "Power1.in",
+        onComplete: () => {
+          backdrop.destroy();
+          panel.destroy();
+        },
       });
     }
+    this.scene.playerController?.setControlsEnabled?.(true);
   }
 
   createPopup() {
+    const layout = UI_INVENTORY_LAYOUT;
     const viewportWidth = this.scene.scale.gameSize.width;
     const viewportHeight = this.scene.scale.gameSize.height;
+    this.panelWidth = Math.max(layout.minimumWidth, Math.min(viewportWidth - layout.viewportMarginX, layout.maxWidth));
+    this.panelHeight = Math.max(layout.minimumHeight, Math.min(viewportHeight - layout.viewportMarginY, layout.maxHeight));
+    const centerX = viewportWidth / 2;
+    const centerY = viewportHeight / 2;
 
-    // Backdrop
-    this.backdrop = this.scene.add.rectangle(
-      viewportWidth / 2,
-      viewportHeight / 2,
-      viewportWidth,
-      viewportHeight,
-      0x0d1117,
-      0.88
-    );
-    this.backdrop.setInteractive();
-    this.backdrop.on('pointerdown', () => this.close());
-    this.backdrop.setScrollFactor(0);
-    this.backdrop.setDepth(2999);
+    this.backdrop = this.scene.add.rectangle(centerX, centerY, viewportWidth, viewportHeight, UI_COLORS.overlay, 0)
+      .setInteractive({ useHandCursor: true })
+      .setScrollFactor(0)
+      .setDepth(UI_THEME.depthOverlay - 1)
+      .on("pointerdown", () => this.close());
 
-    this.container = this.scene.add.container(viewportWidth / 2, viewportHeight / 2);
-    this.container.setScrollFactor(0);
-    this.container.setDepth(3000);
+    this.panel = createPanel(this.scene, {
+      x: centerX,
+      y: centerY,
+      width: this.panelWidth,
+      height: this.panelHeight,
+      title: "FIELD INVENTORY",
+      icon: "inventory",
+      depth: UI_THEME.depthOverlay,
+      accent: UI_COLORS.borderSel,
+    });
+    this.panel.root.setAlpha(0);
 
-    // Panel — main menu dark theme
-    const bg = this.scene.add.rectangle(0, 0, 700, 650, 0x0d1117, 0.97);
-    bg.setStrokeStyle(2, 0x2a3a4a);
-    bg.setOrigin(0.5);
-    this.container.add(bg);
+    const blocker = this.scene.add.rectangle(0, 0, this.panelWidth, this.panelHeight, UI_COLORS.overlay, 0)
+      .setInteractive()
+      .on("pointerdown", (_pointer, _x, _y, event) => event?.stopPropagation?.());
+    this.panel.root.add(blocker);
 
     createButton(this.scene, {
-      x: 296,
-      y: -304,
-      width: 82,
+      x: this.panelWidth / 2 - 66,
+      y: -this.panelHeight / 2 + 29,
+      width: 104,
       height: 34,
-      label: 'CLOSE',
+      label: "CLOSE",
       hint: USER_SETTINGS.getKeyLabel("pause"),
       accent: UI_COLORS.borderBad,
       labelColor: UI_COLORS.danger,
-      parent: this.container,
-      fontSize: '11px',
+      parent: this.panel.root,
+      fontSize: "11px",
       onClick: () => this.close(),
     });
 
-    // Header
-    const header = this.scene.add.text(0, -285, 'INVENTORY', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: '24px',
-      fontStyle: 'bold',
-      color: '#c9a227',
-      letterSpacing: 2,
-    });
-    header.setOrigin(0.5);
-    this.container.add(header);
-
-    // Money
-    this.moneyText = this.scene.add.text(0, -255, `Money: ${this.money.toLocaleString()} M`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '16px',
-      color: '#ffd700'
-    });
-    this.moneyText.setOrigin(0.5);
-    this.container.add(this.moneyText);
-
-    // Separator
-    const sep = this.scene.add.graphics();
-    sep.lineStyle(1, 0x2a3a4a, 0.8);
-    sep.lineBetween(-300, -240, 300, -240);
-    this.container.add(sep);
-
+    this.createHeaderSummary();
     this.createResourceSection();
+    const footer = this.scene.add.text(0, this.panelHeight / 2 - 24,
+      `Click outside or press ${USER_SETTINGS.getKeyLabel("inventory")} / ESC to return`, {
+        fontFamily: UI_THEME.fontBody,
+        fontSize: "11px",
+        color: UI_COLORS.hint,
+      }).setOrigin(0.5);
+    this.panel.root.add(footer);
 
-    const footer = this.scene.add.text(0, 304, `Click outside, Close, or ${USER_SETTINGS.getKeyLabel("pause")} / Esc to return`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '12px',
-      color: COL.hint,
-    }).setOrigin(0.5);
-    this.container.add(footer);
+    this.scene.tweens.add({ targets: this.backdrop, alpha: 0.72, duration: UI_THEME.fadeMs, ease: "Power1.out" });
+    this.scene.tweens.add({ targets: this.panel.root, alpha: 1, duration: 220, ease: "Power2.out" });
+  }
 
-    // Fade in
-    this.backdrop.setAlpha(0);
-    this.container.setAlpha(0);
-    this.scene.tweens.add({ targets: [this.backdrop, this.container], alpha: 1, duration: 200, ease: 'Power2.out' });
+  createHeaderSummary() {
+    const topY = -this.panelHeight / 2 + 78;
+    const walletBg = this.scene.add.rectangle(this.panelWidth / 2 - 124, topY, 196, 44, UI_COLORS.cardSel, 0.96)
+      .setStrokeStyle(1, UI_COLORS.borderDim);
+    const walletIcon = createUiIcon(this.scene, "sell", { x: this.panelWidth / 2 - 200, y: topY, size: 38 });
+    this.moneyText = this.scene.add.text(this.panelWidth / 2 - 176, topY, `${this.money.toLocaleString()} M`, {
+      fontFamily: UI_THEME.fontBody,
+      fontSize: "16px",
+      fontStyle: "bold",
+      color: UI_COLORS.gold,
+    }).setOrigin(0, 0.5);
+    this.summaryText = this.scene.add.text(-this.panelWidth / 2 + 32, topY, "", {
+      fontFamily: UI_THEME.fontBody,
+      fontSize: "12px",
+      color: UI_COLORS.body,
+    }).setOrigin(0, 0.5);
+    this.panel.root.add([walletBg, walletIcon, this.moneyText, this.summaryText].filter(Boolean));
+    this.refreshSummary();
   }
 
   createResourceSection() {
-    const startY = -230;
-    let y = startY;
-    let rowIndex = 0;
+    this.resourceContainer?.destroy(true);
+    this.resourceSlots = [];
+    this.resourceContainer = this.scene.add.container(0, -this.panelHeight / 2 + UI_INVENTORY_LAYOUT.headerHeight + 30);
+    this.panel.root.add(this.resourceContainer);
 
-    for (const [key, config] of Object.entries(RESOURCE_CONFIG)) {
-      y += this.createResourceItem(y, config.name, config.icon, config.color, this.items[key], key, rowIndex++);
+    const heldResources = Object.entries(UI_RESOURCE_PRESENTATION)
+      .filter(([key]) => Number(this.items[key]) > 0);
+    if (!heldResources.length) {
+      const emptyIcon = createUiIcon(this.scene, "inventory", { x: 0, y: 92, size: 72, alpha: 0.55 });
+      const emptyText = this.scene.add.text(0, 148, "YOUR BAG IS EMPTY\nDig and collect materials to fill it.", {
+        fontFamily: UI_THEME.fontBody,
+        fontSize: "15px",
+        color: UI_COLORS.dim,
+        align: "center",
+        lineSpacing: 8,
+      }).setOrigin(0.5);
+      this.resourceContainer.add([emptyIcon, emptyText].filter(Boolean));
+      return;
     }
+
+    const layout = UI_INVENTORY_LAYOUT;
+    const cardWidth = (this.panelWidth - layout.contentInset * 2 - layout.columnGap) / layout.columns;
+    heldResources.forEach(([key, config], index) => {
+      const row = Math.floor(index / layout.columns);
+      const col = index % layout.columns;
+      const x = -this.panelWidth / 2 + layout.contentInset + cardWidth / 2 + col * (cardWidth + layout.columnGap);
+      const y = row * (layout.itemHeight + layout.rowGap);
+      this.createResourceRow(x, y, cardWidth, config, this.items[key], key);
+    });
   }
 
-  createResourceItem(y, name, icon, color, quantity, resourceKey, rowIndex = 0) {
-    // Alternating row backgrounds — main menu card style
-    const rowBgColor = rowIndex % 2 === 0 ? 0x131c26 : 0x0f1820;
-    const itemBg = this.scene.add.rectangle(0, y + 20, 660, 50, rowBgColor, 0.7);
-    itemBg.setOrigin(0.5);
-    this.container.add(itemBg);
-
-    // Icon
-    const iconText = this.scene.add.text(-280, y + 20, icon, {
-      fontFamily: 'Arial',
-      fontSize: '28px'
+  createResourceRow(x, y, width, config, quantity, resourceKey) {
+    const height = UI_INVENTORY_LAYOUT.itemHeight;
+    const root = this.scene.add.container(x, y);
+    const card = this.scene.add.rectangle(0, 0, width, height, UI_COLORS.cardBase, 0.96)
+      .setStrokeStyle(1, UI_COLORS.borderDim);
+    const accentColor = Phaser.Display.Color.HexStringToColor(config.color).color;
+    const accent = this.scene.add.rectangle(-width / 2 + 2, 0, 4, height - 8, accentColor, 0.9);
+    const icon = createUiIcon(this.scene, config.icon, {
+      x: -width / 2 + 36,
+      y: 0,
+      size: UI_INVENTORY_LAYOUT.iconSize,
     });
-    iconText.setOrigin(0.5);
-    this.container.add(iconText);
-
-    // Name
-    const nameText = this.scene.add.text(-180, y + 20, name, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '18px',
-      color: '#ffffff',
-      fontStyle: 'bold',
-    });
-    nameText.setOrigin(0.5, 0.5);
-    this.container.add(nameText);
-
-    // Quantity — color-coded by resource type
-    const qtyText = this.scene.add.text(280, y + 20, quantity > 0 ? quantity.toString() : '—', {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '22px',
-      color: quantity > 0 ? color : '#4a5a6a',
-      fontStyle: quantity > 0 ? 'bold' : 'normal'
-    });
-    qtyText.setOrigin(0.5, 0.5);
-    this.container.add(qtyText);
-
-    // Store reference to quantity text for updates
+    const name = this.scene.add.text(-width / 2 + 70, -9, config.name.toUpperCase(), {
+      fontFamily: UI_THEME.fontBody,
+      fontSize: "13px",
+      fontStyle: "bold",
+      color: UI_COLORS.white,
+    }).setOrigin(0, 0.5);
+    const type = this.scene.add.text(-width / 2 + 70, 12, "MINED MATERIAL", {
+      fontFamily: UI_THEME.fontBody,
+      fontSize: "9px",
+      color: UI_COLORS.hint,
+      letterSpacing: 1,
+    }).setOrigin(0, 0.5);
+    const qtyText = this.scene.add.text(width / 2 - 18, 0, Math.floor(quantity).toLocaleString(), {
+      fontFamily: UI_THEME.fontBody,
+      fontSize: "20px",
+      fontStyle: "bold",
+      color: config.color,
+    }).setOrigin(1, 0.5);
+    root.add([card, accent, icon, name, type, qtyText].filter(Boolean));
+    this.resourceContainer.add(root);
+    this.resourceSlots.push(root);
     this.qtyTexts[resourceKey] = qtyText;
+  }
 
-    return 55;
+  refreshSummary() {
+    if (!this.summaryText) return;
+    const values = Object.values(this.items).map(Number).filter(Number.isFinite);
+    const unique = values.filter(value => value > 0).length;
+    const total = values.reduce((sum, value) => sum + Math.max(0, value), 0);
+    this.summaryText.setText(`${unique} MATERIAL TYPES  ·  ${Math.floor(total).toLocaleString()} TOTAL UNITS`);
   }
 
   setMoney(amount) {
+    if (Object.is(this.money, amount)) return;
     this.money = amount;
-    if (this.isOpen && this.moneyText) {
-      this.moneyText.setText(`Money: ${amount.toLocaleString()} M`);
-    }
+    this.moneyText?.setText(`${Number(amount || 0).toLocaleString()} M`);
   }
 
   setResources(resources) {
-    this.items = { ...resources };
+    const nextResources = resources || {};
+    const hasChanges = Object.keys(UI_RESOURCE_PRESENTATION)
+      .some(key => !Object.is(this.items[key], nextResources[key] ?? this.items[key]));
+    if (!hasChanges) return;
+    this.items = { ...this.items, ...nextResources };
     if (this.isOpen) {
-      for (const key in RESOURCE_CONFIG) {
-        if (this.qtyTexts[key] && this.items[key] !== undefined) {
-          const qty = this.items[key];
-          this.qtyTexts[key].setText(qty > 0 ? qty.toString() : '—');
-          // Update color dynamically
-          this.qtyTexts[key].setColor(qty > 0 ? RESOURCE_CONFIG[key]?.color || '#ffffff' : '#4a5a6a');
-        }
-      }
+      this.createResourceSection();
+      this.refreshSummary();
     }
   }
 
   resize() {
-    // Called on viewport resize — currently no layout recalc needed
+    if (!this.isOpen) return;
+    this.backdrop?.destroy();
+    this.panel?.destroy();
+    this.backdrop = null;
+    this.panel = null;
+    this.createPopup();
   }
 
   destroy() {
     this.close();
-    if (this.inventoryKey) {
-      this.inventoryKey.off('down');
-    }
-    if (this.escapeKey) {
-      this.escapeKey.off('down');
-    }
+    this.inventoryKey?.off("down", this.handleInventoryToggle, this);
+    this.escapeKey?.off("down", this.handleInventoryClose, this);
   }
 }

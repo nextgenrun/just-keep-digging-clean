@@ -27,8 +27,9 @@ OUTPUT_BG_JS = ROOT / "values" / "tiledBackgroundObjects.js"
 
 CROP_X = 40
 CROP_Y = 40
-WORLD_WIDTH = 120
+WORLD_WIDTH = 280
 WORLD_HEIGHT = 2000
+LEGACY_WORLD_WIDTH = 120
 
 # Authored tile layer constants (same as before)
 LAYER_NAME_TILE_TYPES = "00_PAINT_HERE_tile_types"
@@ -37,6 +38,7 @@ LAYER_NAME_ROOT_OVERLAYS = "01_OPTIONAL_root_overlays"
 GID_NO_OVERRIDE = 0
 GID_EXPLICIT_AIR = 1
 GID_AUTHORING_TILE_24 = 25
+SECOND_WORLD_MARKER_GID = 3094
 
 AUTHORING_TILESET_FIRSTGID = 1
 AUTHORING_TILESET_TILECOUNT = 31
@@ -76,8 +78,8 @@ TILE_TYPE_COMBO_BLOCK = 22
 TILE_TYPE_LEGEND_BLOCK = 23
 TILE_TYPE_GEODE_WALL = 28
 TILE_TYPE_CHEST = 29
-TILE_TYPE_ROOT_OVERLAY = 30
-TILE_TYPE_ROOT_OVERLAY_DEEP = 31
+TILE_TYPE_ROOT_OVERLAY = 25
+TILE_TYPE_ROOT_OVERLAY_DEEP = 26
 
 RUNTIME_DAMAGE_TILE_TYPES = [
     TILE_TYPE_DIRT, TILE_TYPE_STONE, TILE_TYPE_COPPER,
@@ -167,6 +169,8 @@ def authored_gid_to_tile_type(gid: int) -> int | None:
     gid &= TILED_GID_FLAG_MASK
     if gid == GID_NO_OVERRIDE:
         return None
+    if gid == SECOND_WORLD_MARKER_GID:
+        return None
     if gid == GID_AUTHORING_TILE_24:
         return TILE_TYPE_BEDROCK
     if AUTHORING_TILESET_FIRSTGID <= gid < AUTHORING_TILESET_FIRSTGID + AUTHORING_TILESET_TILECOUNT:
@@ -205,6 +209,15 @@ def append_run(flat_runs: list[int], start: int, length: int, tile_type: int) ->
     flat_runs.extend([start, length, tile_type])
 
 
+def append_mask_run(flat_runs: list[int], start: int, length: int) -> None:
+    if length <= 0:
+        return
+    if flat_runs and flat_runs[-2] + flat_runs[-1] == start:
+        flat_runs[-1] += length
+        return
+    flat_runs.extend([start, length])
+
+
 def build_tile_overrides_from_layer(gids: list[int], map_width: int, map_height: int) -> dict:
     """
     Build tile type overrides from a tile layer, using the same crop as before.
@@ -236,9 +249,18 @@ def build_tile_overrides_from_layer(gids: list[int], map_width: int, map_height:
             gid = gids[source_index] & TILED_GID_FLAG_MASK
             gid_counts[gid] += 1
 
+            if gid == SECOND_WORLD_MARKER_GID:
+                stats["secondWorldMarker"] += 1
+                flush_active()
+                continue
+
             try:
                 tile_type = authored_gid_to_tile_type(gid)
             except ValueError as exc:
+                if world_x >= LEGACY_WORLD_WIDTH:
+                    stats["ignoredUnsupportedExpandedArea"] += 1
+                    flush_active()
+                    continue
                 if len(invalid) < 25:
                     invalid.append({"x": world_x, "y": world_y, "gid": gid, "error": str(exc)})
                 stats["invalidGids"] += 1
@@ -278,6 +300,92 @@ def build_tile_overrides_from_layer(gids: list[int], map_width: int, map_height:
         "runs": flat_runs,
         "stats": dict(stats),
         "gidCounts": {str(k): v for k, v in sorted(gid_counts.items())},
+    }
+
+
+def build_second_world_area_from_layer(gids: list[int], map_width: int, map_height: int) -> dict:
+    marker_cells: list[tuple[int, int]] = []
+    for source_y in range(map_height):
+        row_start = source_y * map_width
+        for source_x in range(map_width):
+            gid = gids[row_start + source_x] & TILED_GID_FLAG_MASK
+            if gid == SECOND_WORLD_MARKER_GID:
+                marker_cells.append((source_x, source_y))
+
+    if not marker_cells:
+        return {
+            "enabled": False,
+            "markerGid": SECOND_WORLD_MARKER_GID,
+            "sourceLayer": LAYER_NAME_TILE_TYPES,
+            "sourceBounds": None,
+            "targetBounds": None,
+            "cellCount": 0,
+            "runs": [],
+            "stats": {"sourceCells": 0, "mappedCells": 0, "skippedCells": 0},
+        }
+
+    source_min_x = min(x for x, _ in marker_cells)
+    source_max_x = max(x for x, _ in marker_cells)
+    source_min_y = min(y for _, y in marker_cells)
+    source_max_y = max(y for _, y in marker_cells)
+    world_indices: list[int] = []
+    skipped = 0
+
+    for source_x, source_y in marker_cells:
+        target_x = source_x - CROP_X
+        target_y = source_y - source_min_y
+        if 0 <= target_x < WORLD_WIDTH and 0 <= target_y < WORLD_HEIGHT:
+            world_indices.append(target_y * WORLD_WIDTH + target_x)
+        else:
+            skipped += 1
+
+    world_indices = sorted(set(world_indices))
+    flat_runs: list[int] = []
+    if world_indices:
+        run_start = world_indices[0]
+        run_len = 1
+        for idx in world_indices[1:]:
+            if run_start + run_len == idx:
+                run_len += 1
+            else:
+                append_mask_run(flat_runs, run_start, run_len)
+                run_start = idx
+                run_len = 1
+        append_mask_run(flat_runs, run_start, run_len)
+
+    target_xs = [idx % WORLD_WIDTH for idx in world_indices]
+    target_ys = [idx // WORLD_WIDTH for idx in world_indices]
+    target_bounds = None
+    if target_xs and target_ys:
+        target_bounds = {
+            "x": min(target_xs),
+            "y": min(target_ys),
+            "width": max(target_xs) - min(target_xs) + 1,
+            "height": max(target_ys) - min(target_ys) + 1,
+        }
+
+    source_bounds = {
+        "x": source_min_x,
+        "y": source_min_y,
+        "width": source_max_x - source_min_x + 1,
+        "height": source_max_y - source_min_y + 1,
+    }
+    stats = {
+        "sourceCells": len(marker_cells),
+        "mappedCells": len(world_indices),
+        "skippedCells": skipped,
+        "runCount": len(flat_runs) // 2,
+    }
+    print(f"  Second world marker stats: {stats}, source={source_bounds}, target={target_bounds}")
+    return {
+        "enabled": bool(world_indices),
+        "markerGid": SECOND_WORLD_MARKER_GID,
+        "sourceLayer": LAYER_NAME_TILE_TYPES,
+        "sourceBounds": source_bounds,
+        "targetBounds": target_bounds,
+        "cellCount": len(world_indices),
+        "runs": flat_runs,
+        "stats": stats,
     }
 
 
@@ -507,10 +615,10 @@ def find_bg_object_groups(root: ET.Element) -> list[dict]:
     return result
 
 
-def extract_v7_overrides(source_tmx: Path) -> tuple[dict, dict, dict, list]:
+def extract_v7_overrides(source_tmx: Path) -> tuple[dict, dict, dict, list, dict]:
     """
     Main extraction function.
-    Returns (tileTypeOverrides, rootOverlayData, bgObjectData).
+    Returns (tileTypeOverrides, rootOverlayData, mapMeta, bgObjectData, secondWorldArea).
     bgObjectData is list of (layerName, objects).
     """
     root = ET.parse(source_tmx).getroot()
@@ -545,6 +653,7 @@ def extract_v7_overrides(source_tmx: Path) -> tuple[dict, dict, dict, list]:
         raise ValueError(f"Decoded GID count {len(tile_gids)} does not match map area {map_width * map_height}")
 
     tile_overrides = build_tile_overrides_from_layer(tile_gids, map_width, map_height)
+    second_world_area = build_second_world_area_from_layer(tile_gids, map_width, map_height)
 
     # Extract root overlay data
     print("Extracting root overlay data...")
@@ -567,7 +676,7 @@ def extract_v7_overrides(source_tmx: Path) -> tuple[dict, dict, dict, list]:
     print("Extracting background objects...")
     bg_objects = find_bg_object_groups(root)
 
-    return tile_overrides, root_overlays, map_meta, bg_objects
+    return tile_overrides, root_overlays, map_meta, bg_objects, second_world_area
 
 
 def format_number_array(values: list[int], per_line: int = 18) -> str:
@@ -585,6 +694,12 @@ def js_number(value: float | int, precision: int = 3) -> str:
     if isinstance(value, int) or float(value).is_integer():
         return str(int(value))
     return str(round(float(value), precision))
+
+
+def js_frozen_object_or_null(value: dict | None) -> str:
+    if value is None:
+        return "null"
+    return f"Object.freeze({json.dumps(value, sort_keys=True)})"
 
 
 def format_bg_objects_js(map_meta: dict, layer_objects: list[dict]) -> str:
@@ -678,7 +793,7 @@ def format_bg_objects_js(map_meta: dict, layer_objects: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def write_tiled_world_override_js(tile_overrides: dict, root_overlays: dict) -> None:
+def write_tiled_world_override_js(tile_overrides: dict, root_overlays: dict, second_world_area: dict) -> None:
     """Write the combined tiledWorldOverrideData.js with both tile types and root overlays."""
     stats_json = json.dumps(tile_overrides["stats"], indent=2, sort_keys=True)
     gid_counts_json = json.dumps(tile_overrides["gidCounts"], indent=2, sort_keys=True)
@@ -686,6 +801,10 @@ def write_tiled_world_override_js(tile_overrides: dict, root_overlays: dict) -> 
 
     overlay_runs = format_number_array(root_overlays["runs"])
     overlay_stats_json = json.dumps(root_overlays["stats"], indent=2, sort_keys=True)
+    second_world_runs = format_number_array(second_world_area["runs"], per_line=20)
+    second_world_stats_json = json.dumps(second_world_area["stats"], indent=2, sort_keys=True)
+    second_source_bounds_js = js_frozen_object_or_null(second_world_area.get("sourceBounds"))
+    second_target_bounds_js = js_frozen_object_or_null(second_world_area.get("targetBounds"))
 
     text = f"""// Auto-generated by tools/export_tiled_all_layers.py.
 // Source: {source_tmx_rel()}
@@ -702,6 +821,7 @@ export const TILED_WORLD_OVERRIDE = Object.freeze({{
     noOverride: 0,
     explicitAir: 1,
     tile24RemappedToBedrock: 25,
+    secondWorldMarker: {SECOND_WORLD_MARKER_GID},
   }}),
   // Tile type overrides (flat triples: [startIndex, runLength, tileType, ...])
   runs: Object.freeze([
@@ -713,11 +833,26 @@ export const TILED_WORLD_OVERRIDE = Object.freeze({{
   // Root overlay data from 01_OPTIONAL_root_overlays layer
   rootOverlays: Object.freeze({{
     // Flat triples: [startIndex, runLength, overlayType, ...]
-    // overlayType: 30 = ROOT_OVERLAY, 31 = ROOT_OVERLAY_DEEP
+    // overlayType: 25 = ROOT_OVERLAY, 26 = ROOT_OVERLAY_DEEP
     runs: Object.freeze([
 {overlay_runs}
     ]),
     stats: Object.freeze({overlay_stats_json}),
+  }}),
+
+  // Marker mask for the runtime-generated industrial magma second world.
+  // Flat pairs: [startIndex, runLength, ...]
+  secondWorldArea: Object.freeze({{
+    enabled: {js_bool(bool(second_world_area.get("enabled")))},
+    markerGid: {int(second_world_area.get("markerGid", SECOND_WORLD_MARKER_GID))},
+    sourceLayer: {json.dumps(second_world_area.get("sourceLayer", LAYER_NAME_TILE_TYPES))},
+    sourceBounds: {second_source_bounds_js},
+    targetBounds: {second_target_bounds_js},
+    cellCount: {int(second_world_area.get("cellCount", 0))},
+    runs: Object.freeze([
+{second_world_runs}
+    ]),
+    stats: Object.freeze({second_world_stats_json}),
   }}),
 }});
 """
@@ -737,14 +872,15 @@ def write_tiled_background_objects_js(map_meta: dict, layer_objects: list[dict])
 def main() -> None:
     print(f"=== Exporting all layers from {SOURCE_TMX.name} ===\\n")
 
-    tile_overrides, root_overlays, map_meta, bg_objects = extract_v7_overrides(SOURCE_TMX)
+    tile_overrides, root_overlays, map_meta, bg_objects, second_world_area = extract_v7_overrides(SOURCE_TMX)
 
     print(f"\\nTile type overrides: {len(tile_overrides['runs']) // 3} runs")
     print(f"Root overlay runs: {len(root_overlays['runs']) // 3} runs")
+    print(f"Second world marker runs: {len(second_world_area['runs']) // 2} runs")
     total_bg = sum(len(layer["objects"]) for layer in bg_objects)
     print(f"Background objects: {total_bg} across {len(bg_objects)} layers")
 
-    write_tiled_world_override_js(tile_overrides, root_overlays)
+    write_tiled_world_override_js(tile_overrides, root_overlays, second_world_area)
     write_tiled_background_objects_js(map_meta, bg_objects)
 
     print("\\nDone!")

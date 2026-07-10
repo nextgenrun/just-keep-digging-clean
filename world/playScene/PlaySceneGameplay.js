@@ -8,6 +8,7 @@ import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { LIVING_DRILL_CONFIG } from "../../values/livingDrillConfig.js";
+import { getMaterialFeedback, GLINT_CONFIG } from "../../values/materialFeedback.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -57,6 +58,9 @@ export function setupGameplayMethods(prototype) {
   const isFallingDownward = (scene) => (scene.playerController?.physicsBody?.vy ?? 0) > 60;
   const getP = (scene) => scene.playerAssetProfile || ASSET_KEYS.player;
   const isLivingDrill = (scene) => getP(scene).isLivingDrill === true;
+  const flipXForDirectionX = (directionX) => directionX < 0;
+  const flipXForSidewaysDigDirectionX = (directionX) => directionX > 0;
+  const flipXForUpSidewaysDirectionX = (directionX) => directionX > 0;
   const aimToDirection = (aim, facingRight = true) => {
     if (aim === "UP") return { x: 0, y: -1, angle: -90 };
     if (aim === "DOWN") return { x: 0, y: 1, angle: 90 };
@@ -224,8 +228,12 @@ export function setupGameplayMethods(prototype) {
     const profile = getP(this);
     const cfg = profile.walkAnimation || ASSET_KEYS.player.walkAnimation;
     const ratio = this.playerController?.getWalkSpeedRatio?.() ?? 1;
-    return ratio >= (cfg.runSpeedRatioThreshold ?? 1.35)
+    const walkRunFrames = profile.walkRunFrames || ASSET_KEYS.player.walkRunFrames;
+    const walkRunAnim = walkRunFrames?.length
       ? profile.walkRunAnim || ASSET_KEYS.player.walkRunAnim
+      : null;
+    return ratio >= (cfg.runSpeedRatioThreshold ?? 1.35) && walkRunAnim
+      ? walkRunAnim
       : profile.walkLoopAnim || ASSET_KEYS.player.walkLoopAnim;
   };
 
@@ -246,6 +254,7 @@ export function setupGameplayMethods(prototype) {
     if (!result || !targetTile) return;
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
     this._applyMineShake?.(result);
+    if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
     if (result.destroyed) {
       const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
       const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
@@ -278,10 +287,14 @@ export function setupGameplayMethods(prototype) {
     if (result.reason === "cooldown") return;
     if (result.reason === "blocked") { this.soundSystem.playTileHit(); return; }
     if (result.reason === "no-target") return;
+
     if (result.success) {
-      if (tileType === 16) { this.soundSystem.playStarDig(); }
-      else if (tileType === 1 || tileType === 2 || tileType === 3) { this.soundSystem.playDig(); }
-      if (result.destroyed) this.soundSystem.playTileBreak();
+      const material = getMaterialFeedback(tileType);
+      if (tileType === TILE_TYPES.SKY_TILE) { this.soundSystem.playStarDig(); }
+      else if (tileType === TILE_TYPES.DIRT || tileType === TILE_TYPES.STONE || tileType === TILE_TYPES.COPPER) {
+        this.soundSystem.playDig({ rate: material.digRate });
+      }
+      if (result.destroyed) this.soundSystem.playTileBreak({ rate: material.breakRate, volume: material.breakVolume });
     }
   };
 
@@ -320,14 +333,16 @@ export function setupGameplayMethods(prototype) {
 
     if (aim === "UP-LEFT") {
       animKey = nextComboAnim(this, "_digUpSidewaysComboIndex", profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim);
-      flipX = true;
+      flipX = flipXForUpSidewaysDirectionX(-1);
     } else if (aim === "UP-RIGHT") {
       animKey = nextComboAnim(this, "_digUpSidewaysComboIndex", profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim);
+      flipX = flipXForUpSidewaysDirectionX(1);
     } else if (aim === "LEFT" || aim === "DOWN-LEFT") {
       animKey = nextComboAnim(this, "_digSidewaysComboIndex", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      flipX = flipXForSidewaysDigDirectionX(-1);
     } else if (aim === "RIGHT" || aim === "DOWN-RIGHT") {
       animKey = nextComboAnim(this, "_digSidewaysComboIndex", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
-      flipX = true;
+      flipX = flipXForSidewaysDigDirectionX(1);
     } else if (aim === "UP") {
       animKey = nextComboAnim(this, "_digUpComboIndex", profile.digUpHitAnims || ASSET_KEYS.player.digUpHitAnims, profile.digUpAnim || ASSET_KEYS.player.digUpAnim);
     } else if (aim === "DOWN") {
@@ -338,6 +353,7 @@ export function setupGameplayMethods(prototype) {
     }
 
     this.isDigAnimating = true;
+    this._actionFlipX = flipX;
     this.queueDigImpactFeedback(mineFeedback);
     this.player.setFlipX(flipX);
     this.player.play(animKey, true);
@@ -366,7 +382,7 @@ export function setupGameplayMethods(prototype) {
     const dir = useAim
       ? aimToDirection(aim, this.playerController?.isFacingRight?.() !== false)
       : aimToDirection(motionState === "walk-left" ? "LEFT" : motionState === "walk-right" ? "RIGHT" : null, this.playerController?.isFacingRight?.() !== false);
-    this.player.setFlipX(dir.x < 0);
+    this.player.setFlipX(dir.x > 0);
     this.player.setAngle(dir.angle);
     this.player.setScale(profile.visualScale || 1);
     if (!this.player.anims.currentAnim || this.player.anims.currentAnim.key !== targetAnim || force) {
@@ -380,7 +396,7 @@ export function setupGameplayMethods(prototype) {
     const direction = engagement.direction;
     const bitePx = Math.round(this.config.tileSize * Phaser.Math.Clamp(engagement.bite, 0, 1));
     setLivingDrillVisualOffset(this, direction.x * bitePx, direction.y * bitePx);
-    this.player.setFlipX(direction.x < 0);
+    this.player.setFlipX(direction.x > 0);
     this.player.setAngle(direction.angle + angleOffset);
     drawLivingDrillDamageOverlay(this, engagement, Math.max(engagement.bite, engagement.damageProgress || 0));
   };
@@ -493,7 +509,7 @@ export function setupGameplayMethods(prototype) {
     this._livingDrillDigState = engagement;
     this.isDigAnimating = true;
     this.queueDigImpactFeedback(mineFeedback);
-    this.player.setFlipX(direction.x < 0);
+    this.player.setFlipX(direction.x > 0);
     this.player.setAngle(direction.angle);
     this.player.setTexture(getP(this).digSheet || getP(this).idleSheet);
     this.player.setScale(getP(this).visualScale || 1);
@@ -656,6 +672,8 @@ export function setupGameplayMethods(prototype) {
       const combatRecoverActive = combatRecoverUntil > now;
       const combatReturnActive = this._combatIdleReturnActive === true;
       const combatReturnDue = combatRecoverUntil > 0 && !combatRecoverActive && this._combatIdleReturnPlayed !== true;
+      const useCombatFlip = typeof this._combatIdleFlipX === "boolean"
+        && (combatRecoverActive || combatReturnActive || combatReturnDue);
       targetAnim = this.playerController.isGrounded() && aimLabel === "DOWN"
         ? (profile.duckAnim || ASSET_KEYS.player.duckAnim)
         : (combatReturnActive || combatReturnDue)
@@ -669,9 +687,13 @@ export function setupGameplayMethods(prototype) {
         this._combatIdleRecoverUntilMs = 0;
         this._combatIdleReturnActive = true;
       }
-      if (aimLabel === "UP-LEFT") { flipX = true; }
-      else if (aimLabel === "UP-RIGHT") { flipX = false; }
+      if (useCombatFlip) { flipX = this._combatIdleFlipX; }
+      else if (aimLabel === "UP-LEFT") { flipX = flipXForUpSidewaysDirectionX(-1); }
+      else if (aimLabel === "UP-RIGHT") { flipX = flipXForUpSidewaysDirectionX(1); }
       else { flipX = !this.playerController.isFacingRight(); }
+      if (!useCombatFlip && !combatRecoverActive && !combatReturnActive && !combatReturnDue) {
+        this._combatIdleFlipX = null;
+      }
     }
 
     if (isWalking) {
@@ -717,15 +739,19 @@ export function setupGameplayMethods(prototype) {
     const tileType = result.tileType ?? result.typeBeforeDamage ?? null;
     const signature = result.isCriticalHit && result.destroyed && tileType !== TILE_TYPES.SKY_TILE
       ? "mining.crit" : mineShakeSignatureForTile(tileType);
-    const intensityScale = result.destroyed ? 1 : 0.65;
+    const material = getMaterialFeedback(tileType);
+    const intensityScale = (result.destroyed ? 1 : 0.65) * (material.shakeScale || 1);
     this.shakeSystem?.shake(signature, intensityScale);
   };
 
   prototype._applyDestroyParticles = function(worldX, worldY, tileType) {
     if (!this._gamefeelConfig) return;
     const cfg = this._gamefeelConfig.particles;
+    const material = getMaterialFeedback(tileType);
     const color = cfg.tileColors[tileType] || cfg.defaultColor;
-    const count = cfg.count;
+    const count = Math.round(cfg.count * (material.particleScale || 1));
+    const sizeScale = material.particleSizeScale || 1;
+    if (material.glint) this._applyGlintBurst?.(worldX, worldY, material.glintColor);
     if (!this._activeParticleChips) this._activeParticleChips = [];
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.8;
@@ -734,7 +760,7 @@ export function setupGameplayMethods(prototype) {
       const vy = Math.sin(angle) * speed - 60;
       const chip = this.add.graphics();
       chip.fillStyle(color, 0.9);
-      chip.fillCircle(0, 0, cfg.size * (0.6 + Math.random() * 0.7));
+      chip.fillCircle(0, 0, cfg.size * sizeScale * (0.6 + Math.random() * 0.7));
       chip.setPosition(worldX + (Math.random() - 0.5) * 16, worldY + (Math.random() - 0.5) * 16);
       chip.setDepth(cfg.depth);
       this._activeParticleChips.push(chip);
@@ -750,6 +776,37 @@ export function setupGameplayMethods(prototype) {
           const idx = this._activeParticleChips.indexOf(chip);
           if (idx !== -1) this._activeParticleChips.splice(idx, 1);
           chip.destroy();
+        },
+      });
+    }
+  };
+
+  // Precious-material sparkle burst (gold/silver/sky) — small rising glints
+  prototype._applyGlintBurst = function(worldX, worldY, color) {
+    const g = GLINT_CONFIG;
+    if (!this._activeParticleChips) this._activeParticleChips = [];
+    for (let i = 0; i < g.count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = g.distMin + Math.random() * (g.distMax - g.distMin);
+      const px = worldX + Math.cos(angle) * dist;
+      const py = worldY + Math.sin(angle) * dist;
+      const size = g.sizeMin + Math.random() * (g.sizeMax - g.sizeMin);
+      const spark = this.add.star(px, py, 4, size * 0.45, size, color, 1);
+      spark.setDepth(g.depth);
+      spark.setBlendMode(Phaser.BlendModes.ADD);
+      this._activeParticleChips.push(spark);
+      this.tweens.add({
+        targets: spark,
+        y: py - (g.riseMin + Math.random() * (g.riseMax - g.riseMin)),
+        angle: 90 + Math.random() * 180,
+        alpha: 0,
+        scale: 0.2,
+        duration: g.durationMin + Math.random() * (g.durationMax - g.durationMin),
+        ease: 'Sine.easeOut',
+        onComplete: () => {
+          const idx = this._activeParticleChips.indexOf(spark);
+          if (idx !== -1) this._activeParticleChips.splice(idx, 1);
+          spark.destroy();
         },
       });
     }

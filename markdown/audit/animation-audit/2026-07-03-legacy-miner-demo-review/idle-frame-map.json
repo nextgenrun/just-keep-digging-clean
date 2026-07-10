@@ -1,0 +1,133 @@
+{
+  "sourceFrameCount": 35,
+  "candidateFrameCount": 22,
+  "keptSourceFrames": [
+    0,
+    1,
+    2,
+    3,
+    7,
+    8,
+    9,
+    10,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "removedSourceFrames": [
+    4,
+    5,
+    6,
+    11,
+    12,
+    13,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34
+  ],
+  "candidateFrameToSourceFrame": [
+    {
+      "candidateFrame": 0,
+      "sourceFrame": 0
+    },
+    {
+      "candidateFrame": 1,
+      "sourceFrame": 1
+    },
+    {
+      "candidateFrame": 2,
+      "sourceFrame": 2
+    },
+    {
+      "candidateFrame": 3,
+      "sourceFrame": 3
+    },
+    {
+      "candidateFrame": 4,
+      "sourceFrame": 7
+    },
+    {
+      "candidateFrame": 5,
+      "sourceFrame": 8
+    },
+    {
+      "candidateFrame": 6,
+      "sourceFrame": 9
+    },
+    {
+      "candidateFrame": 7,
+      "sourceFrame": 10
+    },
+    {
+      "candidateFrame": 8,
+      "sourceFrame": 14
+    },
+    {
+      "candidateFrame": 9,
+      "sourceFrame": 15
+    },
+    {
+      "candidateFrame": 10,
+      "sourceFrame": 16
+    },
+    {
+      "candidateFrame": 11,
+      "sourceFrame": 17
+    },
+    {
+      "candidateFrame": 12,
+      "sourceFrame": 18
+    },
+    {
+      "candidateFrame": 13,
+      "sourceFrame": 19
+    },
+    {
+      "candidateFrame": 14,
+      "sourceFrame": 20
+    },
+    {
+      "candidateFrame": 15,
+      "sourceFrame": 21
+    },
+    {
+      "candidateFrame": 16,
+      "sourceFrame": 22
+    },
+    {
+      "candidateFrame": 17,
+      "sourceFrame": 23
+    },
+    {
+      "candidateFrame": 18,
+      "sourceFrame": 24
+    },
+    {
+      "candidateFrame": 19,
+      "sourceFrame": 25
+    },
+    {
+      "candidateFrame": 20,
+      "sourceFrame": 26
+    },
+    {
+      "candidateFrame": 21,
+      "sourceFrame": 27
+    }
+  ]
+}

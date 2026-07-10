@@ -45,4 +45,10 @@ export const TILE_TYPES = Object.freeze({
 
   // Glow Crystal — pretty glowing clusters (visual-only, non-diggable)
   GLOW_CRYSTAL: 30,
+
+  // Second world resources — industrial magma area
+  LAVA_DIRT: 31,
+  OBSIDIAN: 32,
+  EMBER_ORE: 33,
+  MAGMA_CRYSTAL: 34,
 });

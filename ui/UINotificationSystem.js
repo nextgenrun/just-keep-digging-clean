@@ -7,6 +7,20 @@ const KIND_STYLES = Object.freeze({
   danger: { accent: 0xe07030, color: UI_COLORS.white },
 });
 
+const KIND_PRIORITY = Object.freeze({
+  info: 0,
+  success: 1,
+  warning: 2,
+  danger: 3,
+});
+
+const KIND_DEFAULT_DURATIONS = Object.freeze({
+  info: 2000,
+  success: 2400,
+  warning: 3600,
+  danger: 5200,
+});
+
 function colorStringToNumber(value) {
   if (typeof value !== "string" || !value.startsWith("#")) return null;
   const parsed = Number.parseInt(value.slice(1), 16);
@@ -32,22 +46,38 @@ export class UINotificationSystem {
     this.keyed = new Map();
     this._allEntries = new Set();
     this.destroyed = false;
+    this._dedupeHistory = new Map();
+    this._dedupeWindowMs = options.dedupeWindowMs ?? 1800;
+    this._entryCounter = 0;
   }
 
   show(message, options = {}) {
     if (!message || this.destroyed || !this.scene?.add || !this.scene?.time) return null;
+    const now = Date.now();
+    const normalized = this._normalizeOptions(options);
+    const key = normalized.key || null;
+    const dedupeKey = normalized.dedupeKey || `${normalized.kind}|${String(message).trim().toLowerCase()}`;
 
-    const key = options.key || null;
+    this._cleanupDedupes(now);
+    if (!key && !normalized.noDedupe) {
+      const lastAt = this._dedupeHistory.get(dedupeKey) || 0;
+      if (now - lastAt < this._dedupeWindowMs) return null;
+      this._dedupeHistory.set(dedupeKey, now);
+    }
+
     const existing = key ? this.keyed.get(key) : null;
     if (existing && !existing.expiring && existing.root?.active) {
-      this._updateEntry(existing, message, options);
+      this._updateEntry(existing, message, normalized);
       return existing;
     } else if (existing) {
       this.keyed.delete(key);
     }
 
-    const entry = this._createEntry(message, options);
-    this.entries.unshift(entry);
+    const entry = this._createEntry(message, normalized);
+    this.entries.push(entry);
+    this._entryCounter += 1;
+    entry.createdAt = now;
+    this._sortEntries();
     if (key) this.keyed.set(key, entry);
 
     while (this.entries.length > this.maxToasts) {
@@ -62,7 +92,7 @@ export class UINotificationSystem {
       duration: 150,
       ease: "Power2.out",
     });
-    this._schedule(entry, options.durationMs);
+    this._schedule(entry, normalized.durationMs);
     return entry;
   }
 
@@ -96,6 +126,7 @@ export class UINotificationSystem {
   }
 
   _createEntry(message, options) {
+    const normalized = this._normalizeOptions(options);
     const width = Math.min(520, Math.max(280, (this.scene.scale?.width || 1280) - 48));
     const root = this.scene.add.container(this._centerX(), this.baseY - 18)
       .setDepth(this.depth)
@@ -115,7 +146,6 @@ export class UINotificationSystem {
     root.add([bg, text]);
 
     const entry = {
-      key: options.key || null,
       root,
       bg,
       text,
@@ -124,8 +154,12 @@ export class UINotificationSystem {
       timer: null,
       targetY: this.baseY,
       expiring: false,
+      key: normalized.key || null,
+      priority: Number.isFinite(normalized.priority) ? normalized.priority : KIND_PRIORITY.info,
+      durationMs: Number.isFinite(normalized.durationMs) ? normalized.durationMs : KIND_DEFAULT_DURATIONS.info,
+      kind: normalized.kind,
     };
-    this._updateEntry(entry, message, options, false);
+    this._updateEntry(entry, message, normalized, false);
     this._allEntries.add(entry);
     return entry;
   }
@@ -135,11 +169,16 @@ export class UINotificationSystem {
 
     const kind = options.kind || inferKind(options.color);
     const style = KIND_STYLES[kind] || KIND_STYLES.info;
-    const colorNumber = colorStringToNumber(options.color) ?? style.accent;
+    const color = options.color || style.color;
+    const durationMs = options.durationMs;
+    const colorNumber = colorStringToNumber(color) ?? style.accent;
 
     entry.text.setText(String(message));
-    entry.text.setColor(options.color || style.color);
+    entry.text.setColor(color);
     entry.height = Math.max(42, entry.text.height + 22);
+    entry.kind = kind;
+    entry.priority = Number.isFinite(options.priority) ? options.priority : KIND_PRIORITY[kind];
+    entry.durationMs = Number.isFinite(durationMs) ? durationMs : KIND_DEFAULT_DURATIONS[kind];
 
     entry.bg.clear();
     entry.bg.fillStyle(UI_COLORS.bg, 0.94);
@@ -160,6 +199,44 @@ export class UINotificationSystem {
     entry.timer?.remove?.();
     const duration = Math.max(150, Number.isFinite(durationMs) ? durationMs : 2200);
     entry.timer = this.scene.time.delayedCall(duration, () => this._expire(entry));
+  }
+
+  _normalizeOptions(options = {}) {
+    const kind = options.kind || inferKind(options.color);
+    const style = KIND_STYLES[kind] || KIND_STYLES.info;
+    const durationMs = Number.isFinite(options.durationMs)
+      ? options.durationMs
+      : KIND_DEFAULT_DURATIONS[kind];
+    const priority = Number.isFinite(options.priority)
+      ? options.priority
+      : KIND_PRIORITY[kind];
+
+    return {
+      ...options,
+      kind,
+      priority,
+      durationMs: Number.isFinite(durationMs) ? durationMs : 2200,
+      color: options.color || style.color,
+      noDedupe: options.noDedupe ?? false,
+    };
+  }
+
+  _sortEntries() {
+    this.entries = this.entries.sort((a, b) => {
+      const aPriority = Number.isFinite(a?.priority) ? a.priority : 0;
+      const bPriority = Number.isFinite(b?.priority) ? b.priority : 0;
+      if (aPriority !== bPriority) return bPriority - aPriority;
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    this._layout();
+  }
+
+  _cleanupDedupes(now) {
+    if (!this._dedupeHistory?.size) return;
+    const cutoff = now - this._dedupeWindowMs;
+    for (const [dedupeKey, at] of this._dedupeHistory.entries()) {
+      if (!Number.isFinite(at) || at < cutoff) this._dedupeHistory.delete(dedupeKey);
+    }
   }
 
   _expire(entry, immediate = false) {

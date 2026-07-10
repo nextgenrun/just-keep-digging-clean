@@ -14,7 +14,6 @@
 | combat-idle-to-normal-idle | 47 | 14416 | 17.5 -> 1.0 | 0 -> 0 | x14 y0 |
 | leans-against-wall | 4 | 122 | 18.0 -> 0.5 | 0 -> 0 | x11 y0 |
 | falling-downward-through-sky | 7 | 0 | 13.5 -> 1.0 | 0 -> 0 | x8 y0 |
-| walk-run | 2 | 0 | 12.0 -> 1.0 | 0 -> 0 | x4 y0 |
 | quickslash | 2 | 1024 | 19.0 -> 0.5 | 0 -> 0 | x10 y0 |
 | thunder-charge | 1 | 238 | 0.0 -> 0.0 | 0 -> 0 | x0 y0 |
 | thunder-strike | 1 | 0 | 0.0 -> 0.0 | 0 -> 0 | x0 y0 |

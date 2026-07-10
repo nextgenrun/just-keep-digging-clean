@@ -9,7 +9,7 @@
  *   - thunderStrike.* — player Thunder Strike ability (fixed feel)
  *   - weatherThunder.*— storm thunder (dynamic intensity/duration)
  *   - combo.*         — combo milestones (tier-scaled punchy)
- *   - misc.*          — gem-vision reveal, level-up, cave-in, player hit
+ *   - misc.*          — level-up, cave-in, player hit
  *
  * Each signature defines:
  *   duration   – how long the shake lasts (ms)
@@ -111,8 +111,6 @@ export const CAMERA_SHAKE_SIGNATURES = Object.freeze({
 
   // ─── Misc one-shots ──────────────────────────────────────────────────────
   misc: {
-    gemVisionActivate: { duration: 220, intensity: 4.5, freqX: 0.040, freqY: 0.050, decay: 'exp',
-                          color: 0x44CCFF, flashAlpha: 0.024 },
     levelUp:           { duration: 420, intensity: 6.0, freqX: 0.045, freqY: 0.055, decay: 'exp',
                           color: 0xFFD700, flashAlpha: 0.044 },
     caveIn:            { duration: 600, intensity: 11.0, freqX: 0.030, freqY: 0.060, decay: 'exp',

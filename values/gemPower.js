@@ -6,7 +6,7 @@ export const GEM_POWER_CONFIG = Object.freeze({
     baseRegen: 1,
   
   // Flight
-  minFlyThresholdPct: 0.15, // Minimum GP % of max required to START flying (15% → scales with tank upgrades)
+  flightStartCost: 10, // One-time GP spend when Shift starts flight, preventing Shift spam
   flightHeightMultiplier: 0.03, // tiles per GP (0 GP = 0 tiles, 100 GP = 3 tiles)
   maxFlightHeightTiles: 20, // Hard cap on flight height — prevents unbounded scaling with tank upgrades + level
   lowGpWarningThreshold: 20, // GP level that triggers "Low Gem Power" HUD flash

@@ -59,12 +59,99 @@
       #game {
         min-height: 0;
       }
+
+      .split-view {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr 1fr;
+        padding: 10px;
+      }
+
+      .split-panel {
+        border: 1px solid #312a22;
+        background: #1e1b18;
+        border-radius: 8px;
+        padding: 8px;
+        overflow: hidden;
+      }
+
+      .split-panel-title {
+        font-size: 13px;
+        color: #c9c0b0;
+        margin: 0 0 6px;
+        letter-spacing: 0.02em;
+      }
+
+      .split-frame {
+        width: 1180px;
+        height: 700px;
+        border: 0;
+        transform-origin: top left;
+        transform: scale(0.5);
+      }
+
+      .split-frame-wrap {
+        width: 590px;
+        height: 350px;
+        overflow: hidden;
+      }
     </style>
   </head>
   <body>
     <div class="toolbar" id="toolbar"></div>
     <div class="controls" id="controls"></div>
     <div id="game"></div>
+
+    <script>
+      (function () {
+        const query = new URLSearchParams(window.location.search);
+        const compareMode = (query.get("compare") || "split").toLowerCase();
+        const singleMode = compareMode === "single";
+        const isSplitHost = query.get("splitFrame") !== "1" && !singleMode;
+
+        if (!isSplitHost) {
+          return;
+        }
+
+        window.__legacyMinerSplitHost = true;
+
+        const leftVisual = (query.get("leftVisual") || "off").trim() || "off";
+        const rightVisual = (query.get("rightVisual") || query.get("visual") || "impact").trim() || "impact";
+
+        const mkSrc = (visualMode) => {
+          const child = new URLSearchParams(query);
+          child.set("compare", "single");
+          child.set("splitFrame", "1");
+          child.set("visual", visualMode);
+          child.delete("leftVisual");
+          child.delete("rightVisual");
+          child.delete("compareSide");
+          return `${window.location.pathname}?${child.toString()}`;
+        };
+        const escapeHtml = (value) => value.replace(/&/g, "&amp;");
+
+        const leftSrc = mkSrc(leftVisual);
+        const rightSrc = mkSrc(rightVisual);
+
+        document.body.innerHTML = `
+          <div class="split-view">
+            <div class="split-panel">
+              <div class="split-panel-title">Left pane (baseline): ${leftVisual}</div>
+              <div class="split-frame-wrap">
+                <iframe class="split-frame" src="${escapeHtml(leftSrc)}" title="Legacy Miner baseline side-by-side"></iframe>
+              </div>
+            </div>
+            <div class="split-panel">
+              <div class="split-panel-title">Right pane (active compare): ${rightVisual}</div>
+              <div class="split-frame-wrap">
+                <iframe class="split-frame" src="${escapeHtml(rightSrc)}" title="Legacy Miner active side-by-side"></iframe>
+              </div>
+            </div>
+          </div>
+        `;
+      })();
+    </script>
+
     <script src="../../../libs/phaser.js"></script>
     <script src="reviewDemoConfig.js"></script>
     <script src="sandbox.js"></script>

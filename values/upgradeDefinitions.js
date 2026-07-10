@@ -42,8 +42,8 @@ export const UPGRADES = Object.freeze({
     category: UPGRADE_CATEGORIES.GEM_POWER,
     name: "Gem Power Regeneration",
     description: "Increases Gem Power regeneration rate",
-    baseCost: 105,
-      baseEffect: 1.5,
+    baseCost: 250,
+    baseEffect: 1.5,
     effectType: "gemPowerRegenIncrease",
     merchant: "gemPowerMerchant",
     maxEffect: 45
@@ -59,53 +59,7 @@ export const UPGRADES = Object.freeze({
     merchant: "gemPowerMerchant",
     maxEffect: 400
   },
-  
-  // GEM VISION UPGRADES
-  gemVisionUnlock: {
-    id: "gemVisionUnlock",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision",
-    description: "Hold Z to zoom out and see more of world! Consumes Gem Power while active.",
-    baseCost: 150,
-    baseEffect: 2,
-    effectType: "gemVisionUnlocked",
-    merchant: "gemPowerMerchant",
-    oneTimePurchase: true
-  },
-  gemVisionRange: {
-    id: "gemVisionRange",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision Range",
-    description: "Increases zoom out range to see more of world (each level zooms further out)",
-    baseCost: 200,
-    baseEffect: 0.05,
-    effectType: "gemVisionRange",
-    merchant: "gemPowerMerchant",
-    maxEffect: 0.60
-  },
-  gemVisionDeepSight: {
-    id: "gemVisionDeepSight",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision Deep Sight",
-    description: "Advanced zoom technology - see 4x area with minimal Gem Power drain",
-    baseCost: 500,
-    baseEffect: 1,
-    effectType: "gemVisionDeepSight",
-    merchant: "gemPowerMerchant",
-    oneTimePurchase: true
-  },
-  gemVisionEfficiency: {
-    id: "gemVisionEfficiency",
-    category: UPGRADE_CATEGORIES.GEM_POWER,
-    name: "Gem Vision Efficiency",
-    description: "Reduces Gem Power drain while using Gem Vision",
-    baseCost: 300,
-    baseEffect: 2,
-    effectType: "gemVisionDrainReduction",
-    merchant: "gemPowerMerchant",
-    maxEffect: 20
-  },
-  
+
   // PLAYER UPGRADES MERCHANT UPGRADES
   agility: {
     id: "agility",
@@ -405,6 +359,7 @@ export const UPGRADES = Object.freeze({
     description: "Unlock the Quick Slash ability (Q key) — burst forward and break tiles rapidly",
     baseCost: 0,
     goldCost: 100,
+    baseEffect: 1,
     effectType: "unlockQuickslash",
     merchant: "boboMerchant",
     oneTimePurchase: true
@@ -416,6 +371,7 @@ export const UPGRADES = Object.freeze({
     description: "Unlock the Thunder Strike ability (C key) — channel lightning to break tiles below you",
     baseCost: 0,
     goldCost: 250,
+    baseEffect: 1,
     effectType: "unlockThunderStrike",
     merchant: "boboMerchant",
     oneTimePurchase: true
@@ -441,6 +397,18 @@ export const UPGRADES = Object.freeze({
     baseEffect: 0.2,
     effectType: "torchBonusRadius",
     maxEffect: 1.2,
+    maxLevel: 10,
+    merchant: "boboMerchant"
+  },
+  boboCaveEyes: {
+    id: "boboCaveEyes",
+    category: UPGRADE_CATEGORIES.SPECIAL,
+    name: "Cave Eyes",
+    description: "Increase minimum visibility while the torch is off.",
+    baseCost: 220,
+    baseEffect: 0.08,
+    effectType: "noTorchMinVisibilityRadius",
+    maxEffect: 0.8,
     maxLevel: 10,
     merchant: "boboMerchant"
   },

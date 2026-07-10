@@ -13,8 +13,14 @@
   "rows": 1,
   "fps": 18,
   "borderHaloPixelsRemoved": 10669,
-  "alphaPixelsChanged": 10669,
-  "targetedTransforms": {},
+  "alphaPixelsChanged": 56103,
+  "targetedTransforms": {
+    "approvedScaleMatchedFrames": [
+      3,
+      4
+    ],
+    "targetMaxWidth": 204
+  },
   "anchor": {
     "targetCenterX": 170,
     "targetBottom": 339,

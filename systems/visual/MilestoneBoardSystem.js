@@ -1,8 +1,78 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { DEPTH_MILESTONES, getMilestoneAtDepth, computeMilestoneBonuses } from "../../values/depthMilestones.js";
-import { createButton } from "../../ui/PhaserUiKit.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+
+function parseColorHex(value, fallback = 0x666666) {
+  if (typeof value === "number" && Number.isInteger(value)) return value;
+  if (typeof value !== "string") return fallback;
+
+  const normalized = value.startsWith("#") ? value.slice(1) : value;
+  const fullHex = normalized.length === 3
+    ? normalized.split("").map((ch) => ch + ch).join("")
+    : normalized;
+  const parsed = Number.parseInt(fullHex, 16);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function createButton(scene, {
+  x = 0,
+  y = 0,
+  width = 120,
+  height = 30,
+  label = "BUTTON",
+  hint = "",
+  accent = UI_COLORS.borderDim,
+  labelColor = "#ffffff",
+  depth = 0,
+  fontSize = "10px",
+  onClick = () => {},
+}) {
+  const fg = parseColorHex(accent, 0x4a4a4a);
+  const hover = Math.max(0x000000, fg - 0x0f0f0f);
+
+  const root = scene.add.container(x, y).setScrollFactor(0).setDepth(depth);
+
+  const bg = scene.add.rectangle(0, 0, width, height, 0x1b1b1f, 0.95)
+    .setScrollFactor(0)
+    .setDepth(depth)
+    .setStrokeStyle(2, fg, 0.95)
+    .setInteractive({ useHandCursor: true });
+
+  const labelText = scene.add.text(-width / 2 + 10, -1, label, {
+    fontFamily: "Consolas, monospace",
+    fontSize,
+    fontStyle: "bold",
+    color: labelColor,
+    stroke: "#000000",
+    strokeThickness: 2,
+  }).setOrigin(0).setDepth(depth + 1);
+
+  const hintText = hint
+    ? scene.add.text(width / 2 - 10, 0, hint, {
+      fontFamily: "Consolas, monospace",
+      fontSize: "8px",
+      color: UI_COLORS.hint,
+      stroke: "#000000",
+      strokeThickness: 1,
+    }).setOrigin(1, 0.5).setDepth(depth + 1)
+    : null;
+
+  bg.on("pointerdown", () => {
+    onClick();
+  });
+  bg.on("pointerover", () => {
+    try { bg.setFillStyle(hover, 0.98); } catch (e) {}
+  });
+  bg.on("pointerout", () => {
+    try { bg.setFillStyle(0x1b1b1f, 0.95); } catch (e) {}
+  });
+
+  root.add([bg, labelText]);
+  root.add(labelText);
+  if (hintText) root.add(hintText);
+  return { root, bg, labelText, hintText };
+}
 
 /**
  * MilestoneBoardSystem
@@ -164,8 +234,8 @@ export class MilestoneBoardSystem {
    * Called from PlayScene update
    */
   checkDepthMilestone(depth) {
-    if (depth <= this._maxDepthRunThisRun) return null;
-    this._maxDepthRunThisRun = depth;
+    if (depth <= this._maxDepthThisRun) return null;
+    this._maxDepthThisRun = depth;
 
     const milestone = getMilestoneAtDepth(depth);
     if (!milestone) return null;

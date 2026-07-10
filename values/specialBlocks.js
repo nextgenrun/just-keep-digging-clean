@@ -77,7 +77,13 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
     gemPowerBlock: {
       type: 'instant',
       effect: 'restoreGemPower',
-      value: 1.0,              // 100%
+      restoreTiers: Object.freeze([
+        Object.freeze({ minDepthTiles: 0, restoreAmount: 25 }),
+        Object.freeze({ minDepthTiles: 250, restoreAmount: 40 }),
+        Object.freeze({ minDepthTiles: 500, restoreAmount: 60 }),
+        Object.freeze({ minDepthTiles: 1000, restoreAmount: 90 }),
+        Object.freeze({ minDepthTiles: 1500, restoreAmount: 130 }),
+      ]),
     },
     speedBlock: {
       type: 'timed',
@@ -188,4 +194,14 @@ export function getGlowEffect(blockType) {
  */
 export function getBlockEffect(blockType) {
   return SPECIAL_BLOCKS_CONFIG.effects[blockType] || null;
+}
+
+export function getGemPowerBlockRestoreAmount(depthTiles) {
+  const tiers = SPECIAL_BLOCKS_CONFIG.effects.gemPowerBlock.restoreTiers;
+  const safeDepth = Number.isFinite(depthTiles) ? Math.max(0, depthTiles) : 0;
+  let selected = tiers[0];
+  for (const tier of tiers) {
+    if (safeDepth >= tier.minDepthTiles) selected = tier;
+  }
+  return selected.restoreAmount;
 }

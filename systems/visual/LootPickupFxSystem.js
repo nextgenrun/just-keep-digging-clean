@@ -1,32 +1,7 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
-
-const RESOURCE_COLORS = Object.freeze({
-  dirt: 0xc2905f,
-  stone: 0xb9c2c9,
-  copper: 0xd37b3b,
-  darkDirtNormal: 0x6f472d,
-  darkDirtStrong: 0x4d2f1d,
-  steel: 0x9fb5c4,
-  iron: 0xc6c6c6,
-  bronze: 0xcd7f32,
-  silver: 0xd8dde8,
-  gold: 0xffd34d,
-});
-
-const RESOURCE_ORE_COLORS = Object.freeze({
-  dirt: 0x6a3e24,
-  stone: 0xd5dbdf,
-  copper: 0xf28a32,
-  darkDirtNormal: 0x2a1b14,
-  darkDirtStrong: 0x160f0b,
-  steel: 0xa8c2d2,
-  iron: 0xb8a185,
-  bronze: 0xcf7e32,
-  silver: 0xd9e2ed,
-  gold: 0xffb51e,
-});
+import { RESOURCE_COLOR_INTS, RESOURCE_ORE_COLOR_INTS } from "../../values/resourceTypes.js";
 
 function isLootVisualsEnabled(scene) {
   const config = scene?.config || GAME_CONFIG;
@@ -134,7 +109,7 @@ export class LootPickupFxSystem {
   }
 
   _arrivalBurst(x, y, resourceType, isLuckyDrop, isSkyTileBonus) {
-    const color = isLuckyDrop ? 0x9dff75 : isSkyTileBonus ? 0xa8f5ff : (RESOURCE_COLORS[resourceType] || 0xffffff);
+    const color = isLuckyDrop ? 0x9dff75 : isSkyTileBonus ? 0xa8f5ff : (RESOURCE_COLOR_INTS[resourceType] || 0xffffff);
     const count = isLuckyDrop || isSkyTileBonus ? 7 : 4;
     for (let i = 0; i < count; i += 1) {
       const angle = (i / count) * Math.PI * 2 + Math.random() * 0.25;
@@ -180,8 +155,8 @@ export class LootPickupFxSystem {
     const key = `loot-pickup-fallback-${resourceType || "resource"}`;
     if (this.scene.textures.exists(key)) return key;
 
-    const color = RESOURCE_COLORS[resourceType] || 0xffffff;
-    const oreColor = RESOURCE_ORE_COLORS[resourceType] || 0xffd98f;
+    const color = RESOURCE_COLOR_INTS[resourceType] || 0xffffff;
+    const oreColor = RESOURCE_ORE_COLOR_INTS[resourceType] || 0xffd98f;
     const canvas = this.scene.textures.createCanvas(key, 32, 32);
     const ctx = canvas.getContext();
     ctx.clearRect(0, 0, 32, 32);

@@ -1,16 +1,34 @@
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
-import { UPGRADE_CATEGORIES } from "../../values/upgradeCategories.js";
 import { getUpgradeCost } from "../../values/upgradeFormulas.js";
 import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
-import { RESOURCE_SPAWN_CONFIG } from "../../values/resourceSpawn.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { createButton } from "../PhaserUiKit.js";
+import { UI_FONTS, SHOP_MERCHANT_PROFILES } from "../../values/uiLayout.js";
+import { UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import {
+  MONEY_MONSTER_RESOURCE_KEYS,
+  NEXT_RESOURCE_KEYS,
+  START_RESOURCE_KEYS,
+  getResourceDisplayName,
+} from "../../values/resourceTypes.js";
+import { createButton } from "../PhaserUiKit.js";
+import {
+  isSellCapableMerchant,
+  resolveMerchantUiIcon,
+  resolveUpgradeUiIcon,
+} from "../UiIconAtlas.js";
+import { createIconBadge, createModalShell } from "../UiModalShell.js";
 
-/**
- * Main Menu Theme Color Palette (matches MainMenuScene.js / PlaySceneUI.js esc menu)
- */
-const COL = { ...UI_COLORS }; // Alias for backward compatibility during migration
+const LIST_ROW_HEIGHT = 62;
+
+function resourceIconKey(resource) {
+  const presentation = UI_RESOURCE_PRESENTATION[resource];
+  return presentation?.icon || presentation?.iconKey || resource;
+}
+
+function formatMoney(value) {
+  return Math.max(0, Number(value) || 0).toLocaleString() + " M";
+}
 
 export class ShopOverlay {
   constructor(scene, upgradeSystem, soundSystem) {
@@ -18,1408 +36,854 @@ export class ShopOverlay {
     this.upgradeSystem = upgradeSystem;
     this.soundSystem = soundSystem;
     this.currentMerchant = null;
-    this.isVisible = false;  // CRITICAL: Initialize to false so shop doesn't block input on boot
+    this.isVisible = false;
     this._destroyed = false;
-    this._isTransitioning = false;
-    this._mmButtons = [];
-    this.upgradesContainer = null;
-    this.prevPageButton = null;
-    this.nextPageButton = null;
-    
-    // FIX: Ensure backdrop is non-interactive to prevent input blocking during boot
-    this.backdrop = null;
-    this.container = null;
-
-    // Grid-based navigation
+    this.moneyMonsterMode = "buy";
     this.currentPage = 0;
-    this.selectedRow = 0;
-    this.selectedCol = 0;
-    this.allUpgrades = []; // All upgrades across all pages
-    this.itemsPerPage = 9; // 3 columns × 3 rows
-    this.columns = 3;
-    this.rows = 3;
-    this.totalPages = 0;
-
-    // Mode for Money Monster: 'buy' (upgrade grid), 'sell' (sell buttons), or 'top' (ESC button)
-    this.moneyMonsterMode = 'buy';
-    this.sellButtons = []; // Track sell button positions
-    this.selectedSellButton = 0; // Index in sellButtons array
-
-    // Top buttons (ESC, Sell All)
-    this.topButtonSelected = null; // 'esc' or 'sellAll' or null (in grid)
-
-    // Grid layout
-    this.gridColumnWidth = 260; // Width of each column (780 / 3)
-    this.gridRowHeight = 147; // Height of each row (3 rows × 147 = 441px, same total as before)
-    this.gridStartX = -390; // Left edge of grid
-    this.gridStartY = -185; // Top edge of grid
-
-    // Keyboard input
-    this.keyW = null;
-    this.keyS = null;
-    this.keyA = null;
-    this.keyD = null;
-    this.keyQ = null;
-    this.keyE = null;
-    this.keyF = null;
-    this.keyB = null;
-    this.keySpace = null;
-    this.keyEsc = null;
-    this.keyLeft = null;
-    this.keyRight = null;
-    this.keyUp = null;
-    this.keyDown = null;
-    this.keyTab = null;
-
-    this.createOverlay();
-  }
-
-  createOverlay() {
-    const viewportWidth = this.scene.config.viewportWidth;
-    const viewportHeight = this.scene.config.viewportHeight;
-    const centerX = viewportWidth / 2;
-    const centerY = viewportHeight / 2;
-
-    // Background - explicitly non-interactive to prevent click capture
-    this.backdrop = this.scene.add
-      .rectangle(centerX, centerY, viewportWidth, viewportHeight, 0x000000, 0)
-      .setScrollFactor(0)
-      .setDepth(3000)
-      .setVisible(false);
-
-    // Main container
-    this.container = this.scene.add.container(centerX, centerY)
-      .setScrollFactor(0)
-      .setDepth(3001)
-      .setVisible(false);
-
-    // Shop background panel — main menu dark theme
-    this.shopBg = this.scene.add.rectangle(0, 0, 800, 600, UI_COLORS.bg, 0.98)
-      .setStrokeStyle(2, UI_COLORS.borderDim);
-
-    // Title background bar
-    this.titleBg = this.scene.add.rectangle(0, -270, 780, 46, UI_COLORS.cardBase, 0.9)
-      .setStrokeStyle(1, UI_COLORS.borderDim);
-
-    // Title text — gold accent like main menu
-    this.titleText = this.scene.add.text(0, -270, "SHOP", {
-      fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
-      fontSize: "24px",
-      fontStyle: "bold",
-      color: '#c9a227',
-      letterSpacing: 2,
-    }).setOrigin(0.5);
-
-    // Money display
-    this.moneyText = this.scene.add.text(-300, -270, "Money: 0", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "18px",
-      color: UI_COLORS.gold,
-    }).setOrigin(0.5);
-
-    // Grid container
-    this.upgradesContainer = this.scene.add.container(0, 0);
-
-    // Selection highlight box — gold accent
-    this.selectionBox = this.scene.add.rectangle(0, 0, 240, 140, UI_COLORS.borderDim, 0)
-      .setStrokeStyle(2, '#c9a227', 1)
-      .setVisible(false);
-
-    // Pagination display
-    this.paginationText = this.scene.add.text(0, 270, "Page 1 / 1", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "14px",
-      color: '#5a7a8a',
-    }).setOrigin(0.5);
-
-    this.prevPageButton = createButton(this.scene, {
-      x: -250,
-      y: 270,
-      width: 112,
-      height: 32,
-      label: 'PREV',
-      hint: 'Q',
-      accent: UI_COLORS.borderHov,
-      parent: this.container,
-      fontSize: '12px',
-      onClick: () => this.prevPage(),
-    });
-    this.nextPageButton = createButton(this.scene, {
-      x: 250,
-      y: 270,
-      width: 112,
-      height: 32,
-      label: 'NEXT',
-      hint: 'E',
-      accent: UI_COLORS.borderHov,
-      parent: this.container,
-      fontSize: '12px',
-      onClick: () => this.nextPage(),
-    });
-
-    // Help text — using main menu hint color
-    this.helpText = this.scene.add.text(0, -210, this._buildHelpText(), {
-      fontFamily: "Consolas, monospace",
-      fontSize: "12px",
-      color: '#4a5a6a',
-    }).setOrigin(0.5);
-
-    this.closeButton = createButton(this.scene, {
-      x: 350,
-      y: -270,
-      width: 104,
-      height: 36,
-      label: "CLOSE",
-      hint: this._closeHint(),
-      accent: UI_COLORS.borderBad,
-      labelColor: UI_COLORS.danger,
-      fontSize: "12px",
-      parent: this.container,
-      onClick: () => this.hide(),
-    });
-
-    this.closeButton.setVisible(false);
-
-    this.container.add([
-      this.shopBg,
-      this.titleBg,
-      this.titleText,
-      this.moneyText,
-      this.upgradesContainer,
-      this.selectionBox,
-      this.paginationText,
-      this.helpText
-    ]);
-    this.container.bringToTop?.(this.prevPageButton.root);
-    this.container.bringToTop?.(this.nextPageButton.root);
-    this.container.bringToTop?.(this.closeButton.root);
-
-    // Setup keyboard input
-    this.setupKeyboardInput();
-  }
-
-  _closeHint() {
-    const pauseKey = USER_SETTINGS.getKeyLabel("pause");
-    return pauseKey === "ESC" ? "ESC" : `${pauseKey}/ESC`;
-  }
-
-  _buildHelpText() {
-    return `WASD / Arrows: Navigate  |  Enter / Space: Buy  |  Q/E or Buttons: Page  |  ${this._closeHint()}: Close  |  TAB: Sell`;
-  }
-
-  refreshKeybindHints() {
-    this.helpText?.setText(this._buildHelpText());
-    this.closeButton?.setHint?.(this._closeHint());
-  }
-
-  setupKeyboardInput() {
-    // Navigation keys (use addKey for continuous checking in update)
-    this.keyW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.keyA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.keyQ = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    this.keyE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    this.keyLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    this.keyRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-    this.keyUp = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    this.keyDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    this.keyTab = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
-
-    // Action keys - register with addKey() to avoid intercepting game input
-    this.keyF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    this.keyB = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
-    this.keySpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    this.keyEnter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.keyEsc = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-  }
-
-
-  update() {
-    if (this._destroyed || !this.isVisible) return;
-
-    // W/Up key - navigate up in grid or to top buttons
-    if (Phaser.Input.Keyboard.JustDown(this.keyW) || Phaser.Input.Keyboard.JustDown(this.keyUp)) {
-      this.navigateUp();
-    }
-
-    // S/Down key - navigate down in grid
-    if (Phaser.Input.Keyboard.JustDown(this.keyS) || Phaser.Input.Keyboard.JustDown(this.keyDown)) {
-      this.navigateDown();
-    }
-
-    // A/Left key - navigate left in grid
-    if (Phaser.Input.Keyboard.JustDown(this.keyA) || Phaser.Input.Keyboard.JustDown(this.keyLeft)) {
-      this.navigateLeft();
-    }
-
-    // D/Right key - navigate right in grid
-    if (Phaser.Input.Keyboard.JustDown(this.keyD) || Phaser.Input.Keyboard.JustDown(this.keyRight)) {
-      this.navigateRight();
-    }
-
-    // Q key - previous page
-    if (Phaser.Input.Keyboard.JustDown(this.keyQ)) {
-      this.prevPage();
-    }
-
-    // E key - next page
-    if (Phaser.Input.Keyboard.JustDown(this.keyE)) {
-      this.nextPage();
-    }
-
-    // Tab key - toggle between buy/sell modes (only for Money Monster)
-    if (Phaser.Input.Keyboard.JustDown(this.keyTab)) {
-      if (this.currentMerchant === 'moneyMonster') {
-        this.toggleMoneyMonsterMode();
-      }
-    }
-
-    // F, B, Space, Enter keys - purchase selected upgrade
-    if (Phaser.Input.Keyboard.JustDown(this.keyF) ||
-        Phaser.Input.Keyboard.JustDown(this.keyB) ||
-        Phaser.Input.Keyboard.JustDown(this.keySpace) ||
-        Phaser.Input.Keyboard.JustDown(this.keyEnter)) {
-      this.purchaseSelected();
-    }
-
-    // ESC key - close shop
-    if (Phaser.Input.Keyboard.JustDown(this.keyEsc)) {
-      if (this.soundSystem) this.soundSystem.playUiConfirm();
-      this.hide();
-    }
-  }
-
-  toggleMoneyMonsterMode() {
-    if (this.moneyMonsterMode === 'buy') {
-      // Switch to sell mode
-      this.moneyMonsterMode = 'sell';
-      this.selectedSellButton = 0;
-      this.selectionBox.setVisible(false); // Hide grid selection box
-      // Show selection on first sell button
-      if (this.sellButtons.length > 0) {
-        this.updateSellSelection();
-      }
-    } else {
-      // Switch to buy mode
-      this.moneyMonsterMode = 'buy';
-      this.topButtonSelected = null;
-      this.updateSelection(); // Show grid selection box
-    }
-
-    if (this.soundSystem) this.soundSystem.playUiSelect();
-  }
-
-  navigateUp() {
-    // Check if in top button mode and pressing W
-    if (this.topButtonSelected !== null && (this.topButtonSelected === 'esc' || this.topButtonSelected === 'sellAll')) {
-      // Move back to grid
-      this.topButtonSelected = null;
-      this.moneyMonsterMode = 'buy';
-      if (this.soundSystem) this.soundSystem.playUiSelect();
-      this.updateSelection();
-      return;
-    }
-
-    // If in buy mode and at top of grid, go to top buttons
-    if (this.moneyMonsterMode === 'buy' && this.currentMerchant === 'moneyMonster') {
-      if (this.selectedRow === 0) {
-        this.topButtonSelected = 'esc';
-        this.selectionBox.setVisible(false);
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        return;
-      }
-
-      if (this.selectedRow > 0) {
-        this.selectedRow--;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        this.updateSelection();
-      }
-      return;
-    }
-
-    // Normal grid navigation for non-Money Monster or when not at top
-    if (this.moneyMonsterMode === 'buy') {
-      if (this.selectedRow > 0) {
-        this.selectedRow--;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        this.updateSelection();
-      }
-    } else if (this.moneyMonsterMode === 'sell') {
-      if (this.selectedSellButton > 0) {
-        this.selectedSellButton--;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        this.updateSellSelection();
-      } else {
-        // Go back to buy mode
-        this.toggleMoneyMonsterMode();
-      }
-    }
-  }
-
-  navigateDown() {
-    // If in top button mode
-    if (this.topButtonSelected !== null) {
-      if (this.currentMerchant === 'moneyMonster' && this.topButtonSelected === 'esc') {
-        // Could add sellAll button here in future
-      }
-      // Move to grid
-      this.topButtonSelected = null;
-      this.moneyMonsterMode = 'buy';
-      this.selectedRow = 0;
-      this.selectedCol = 0;
-      if (this.soundSystem) this.soundSystem.playUiSelect();
-      this.updateSelection();
-      return;
-    }
-
-    // Normal grid navigation
-    if (this.moneyMonsterMode === 'buy') {
-      const itemsOnCurrentPage = this.getItemsOnCurrentPage();
-      const maxRow = Math.min(this.rows - 1, Math.ceil(itemsOnCurrentPage.length / this.columns) - 1);
-
-      if (this.selectedRow < maxRow) {
-        const targetIndex = (this.selectedRow + 1) * this.columns + this.selectedCol;
-        if (targetIndex < itemsOnCurrentPage.length) {
-          this.selectedRow++;
-          if (this.soundSystem) this.soundSystem.playUiSelect();
-          this.updateSelection();
-        }
-      }
-    } else if (this.moneyMonsterMode === 'sell') {
-      if (this.selectedSellButton < this.sellButtons.length - 1) {
-        this.selectedSellButton++;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        this.updateSellSelection();
-      }
-    }
-  }
-
-  navigateLeft() {
-    if (this.topButtonSelected !== null) return;
-
-    if (this.moneyMonsterMode === 'buy') {
-      if (this.selectedCol > 0) {
-        this.selectedCol--;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        this.updateSelection();
-      }
-    }
-  }
-
-  navigateRight() {
-    if (this.topButtonSelected !== null) return;
-
-    if (this.moneyMonsterMode === 'buy') {
-      const itemsOnCurrentPage = this.getItemsOnCurrentPage();
-      const itemsInCurrentRow = itemsOnCurrentPage.slice(
-        this.selectedRow * this.columns,
-        (this.selectedRow + 1) * this.columns
-      );
-
-      if (this.selectedCol < this.columns - 1 && this.selectedCol < itemsInCurrentRow.length - 1) {
-        this.selectedCol++;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        this.updateSelection();
-      }
-    }
-  }
-
-  nextPage() {
-    if (this._destroyed || !this.isVisible || !this.upgradesContainer) return;
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-      this.selectedRow = 0;
-      this.selectedCol = 0;
-      if (this.soundSystem) this.soundSystem.playUiSelect();
-      this.renderCurrentPage();
-      this.updatePagination();
-    }
-  }
-
-  prevPage() {
-    if (this._destroyed || !this.isVisible || !this.upgradesContainer) return;
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.selectedRow = 0;
-      this.selectedCol = 0;
-      if (this.soundSystem) this.soundSystem.playUiSelect();
-      this.renderCurrentPage();
-      this.updatePagination();
-    }
-  }
-
-  purchaseSelected() {
-    if (this._destroyed || !this.isVisible || !this.upgradeSystem) return;
-
-    // Handle top button selection
-    if (this.topButtonSelected === 'esc') {
-      if (this.soundSystem) this.soundSystem.playUiConfirm();
-      this.hide();
-      return;
-    }
-
-    // Handle sell mode
-    if (this.moneyMonsterMode === 'sell') {
-      if (this.sellButtons[this.selectedSellButton]) {
-        const btnInfo = this.sellButtons[this.selectedSellButton];
-        this.sellResource(btnInfo.resourceKey, 1, btnInfo.price);
-      }
-      return;
-    }
-
-    const itemsOnCurrentPage = this.getItemsOnCurrentPage();
-    const selectedIndex = this.selectedRow * this.columns + this.selectedCol;
-    const selected = itemsOnCurrentPage[selectedIndex];
-
-    if (selected && selected.id) {
-      // Check if this is an owned one-time purchase upgrade (like Sell All Button)
-      const currentOwnedLevel = this.upgradeSystem.getUpgradeLevel(selected.id);
-      const isActuallyOwned = selected.oneTimePurchase && currentOwnedLevel > 0;
-
-      // For owned one-time purchase upgrades like Sell All, trigger special action
-      if (isActuallyOwned) {
-        if (selected.id === 'sellAllButton') {
-          const currentResources = this.scene?.digSystem?.getResourceTotals?.() || null;
-          const canActuallySellAll = currentResources && Object.values(currentResources).some(v => v > 0);
-          if (canActuallySellAll) {
-            this.sellAllResources();
-          } else {
-            this.scene?.hudSystem?.flashStatus?.("No resources to sell!", "#ff4444", 1500);
-          }
-          return;
-        }
-      }
-
-      this.purchaseUpgrade(selected.id);
-    }
-  }
-
-  getItemsOnCurrentPage() {
-    if (!Array.isArray(this.allUpgrades)) return [];
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.allUpgrades.slice(start, end);
-  }
-
-  updateSelection() {
-    if (this._destroyed || !this.selectionBox) return;
-
-    if (this.moneyMonsterMode !== 'buy') {
-      this.selectionBox.setVisible(false);
-      return;
-    }
-
-    if (this.topButtonSelected === 'esc') {
-      // Highlight ESC button
-      this.selectionBox.setPosition(350, -270);
-      this.selectionBox.setSize(90, 36);
-      this.selectionBox.setVisible(true);
-      return;
-    }
-
-    const itemsOnCurrentPage = this.getItemsOnCurrentPage();
-    const selectedIndex = this.selectedRow * this.columns + this.selectedCol;
-
-    if (selectedIndex >= itemsOnCurrentPage.length) {
-      this.selectionBox.setVisible(false);
-      return;
-    }
-
-    const selected = itemsOnCurrentPage[selectedIndex];
-    if (selected) {
-      this.selectionBox.setPosition(selected.x, selected.y);
-      this.selectionBox.setSize(240, 100);
-      this.selectionBox.setVisible(true);
-      this.scene.tweens.killTweensOf(this.selectionBox);
-      this.selectionBox.setScale(1.06);
-      this.scene.tweens.add({ targets: this.selectionBox, scaleX: 1.0, scaleY: 1.0, duration: 120, ease: 'Power2.out' });
-    } else {
-      this.selectionBox.setVisible(false);
-    }
-  }
-
-  updateSellSelection() {
-    if (this._destroyed || !this.selectionBox) return;
-    if (this.sellButtons[this.selectedSellButton]) {
-      const btnInfo = this.sellButtons[this.selectedSellButton];
-      this.selectionBox.setPosition(btnInfo.x ?? 300, btnInfo.y);
-      this.selectionBox.setSize(94, 28);
-      this.selectionBox.setVisible(true);
-    }
-  }
-
-  updatePagination() {
-    if (this._destroyed || !this.paginationText) return;
-    this.paginationText.setText(`Page ${this.currentPage + 1} / ${this.totalPages}`);
-    this.prevPageButton?.setEnabled(this.currentPage > 0);
-    this.nextPageButton?.setEnabled(this.currentPage < this.totalPages - 1);
-  }
-
-  show(merchantId) {
-    if (this._destroyed || !this.scene || !this.container || !this.backdrop || !this.upgradesContainer) return;
-    this.scene.tweens.killTweensOf([this.backdrop, this.container]);
-    this.scene.tweens.killTweensOf(this.upgradesContainer.getAll?.() || []);
-
-    this._isTransitioning = true;
-    this.currentMerchant = merchantId;
-    this.isVisible = true;
-    this.refreshKeybindHints();
-
-    this.container.setVisible(true);
-    this.closeButton?.setVisible(true);
-    this.helpText.setVisible(true);
-    this.paginationText.setVisible(true);
-
-    // Disable player controls when shop is open
-    if (this.scene.setShopOpen) {
-      this.scene.setShopOpen(true);
-    }
-
-    // Reset page and selection
-    this.currentPage = 0;
-    this.selectedRow = 0;
-    this.selectedCol = 0;
-    this.moneyMonsterMode = 'buy';
+    this.selectedIndex = 0;
+    this.itemsPerPage = 5;
+    this.allUpgrades = [];
+    this.sellItems = [];
     this.sellButtons = [];
     this.selectedSellButton = 0;
     this.topButtonSelected = null;
 
-    // Expand panel for Money Monster to fit sell section
-    if (merchantId === 'moneyMonster') {
-      this.shopBg.setSize(800, 700);
-      this.paginationText.setY(160);
-      this.prevPageButton?.root.setY(160);
-      this.nextPageButton?.root.setY(160);
-    } else {
-      this.shopBg.setSize(800, 600);
-      this.paginationText.setY(270);
-      this.prevPageButton?.root.setY(270);
-      this.nextPageButton?.root.setY(270);
-    }
+    this.shell = createModalShell(scene, {
+      title: "MERCHANT DESK",
+      subtitle: "Select an item to inspect it",
+      icon: "shop",
+      maxWidth: 1040,
+      maxHeight: 672,
+      depth: 3000,
+      onClose: () => this.hide(),
+    });
+    this.container = this.shell.root;
+    this.backdrop = this.shell.backdrop;
+    this.upgradesContainer = this.shell.content;
 
-    const money = this.upgradeSystem?.getMoney?.() ?? 0;
-    this.moneyText.setText(`Money: ${money.toLocaleString()}`);
+    this.walletText = scene.add.text(0, 0, "WALLET  0 M", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "16px",
+      fontStyle: "bold",
+      color: UI_COLORS.gold,
+    }).setOrigin(1, 0.5);
+    this.helpText = scene.add.text(0, 0, "", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
+      color: UI_COLORS.hint || UI_COLORS.body,
+      align: "center",
+    }).setOrigin(0.5);
+    this.shell.root.add([this.walletText, this.helpText]);
 
-    const merchantNames = {
-      'gemPowerMerchant': 'Gem Power Merchant',
-      'playerUpgrades': 'Player Upgrades',
-      'gearMerchant': 'Gear Merchant',
-      'moneyMonster': 'Money Monster',
-      'boboMerchant': "Bobo's Shop"
+    this._setupKeyboardInput();
+    this.refreshKeybindHints();
+    this._layoutChrome();
+  }
+
+  _setupKeyboardInput() {
+    const keyboard = this.scene.input.keyboard;
+    const code = Phaser.Input.Keyboard.KeyCodes;
+    this.keys = {
+      up: keyboard.addKey(code.W),
+      down: keyboard.addKey(code.S),
+      left: keyboard.addKey(code.A),
+      right: keyboard.addKey(code.D),
+      arrowUp: keyboard.addKey(code.UP),
+      arrowDown: keyboard.addKey(code.DOWN),
+      arrowLeft: keyboard.addKey(code.LEFT),
+      arrowRight: keyboard.addKey(code.RIGHT),
+      previous: keyboard.addKey(code.Q),
+      next: keyboard.addKey(code.E),
+      confirm: keyboard.addKey(code.ENTER),
+      action: keyboard.addKey(code.F),
+      space: keyboard.addKey(code.SPACE),
+      tab: keyboard.addKey(code.TAB),
+      escape: keyboard.addKey(code.ESC),
     };
-    this.titleText.setText(merchantNames[merchantId] || 'Shop');
+  }
 
+  _layoutChrome() {
+    this.shell.layout();
+    this.walletText.setPosition(this.shell.width / 2 - 82, -this.shell.height / 2 + 41);
+    this.helpText.setPosition(0, this.shell.height / 2 - 25);
+  }
+
+  refreshKeybindHints() {
+    const interact = USER_SETTINGS.getKeyLabel("interact");
+    this.helpText.setText(
+      "W/S or arrows: select    Q/E: page    A/D or Tab: tabs    " +
+      interact + "/Enter: action    ESC: close"
+    );
+  }
+
+  update() {
+    if (!this.isVisible || this._destroyed) return;
+    const just = Phaser.Input.Keyboard.JustDown;
+    if (just(this.keys.escape)) {
+      this.hide();
+      return;
+    }
+    if (just(this.keys.tab)) {
+      this.toggleMoneyMonsterMode();
+      return;
+    }
+    if (just(this.keys.up) || just(this.keys.arrowUp)) this.navigateUp();
+    else if (just(this.keys.down) || just(this.keys.arrowDown)) this.navigateDown();
+    else if (just(this.keys.left) || just(this.keys.arrowLeft)) this.navigateLeft();
+    else if (just(this.keys.right) || just(this.keys.arrowRight)) this.navigateRight();
+    else if (just(this.keys.previous)) this.prevPage();
+    else if (just(this.keys.next)) this.nextPage();
+    else if (just(this.keys.confirm) || just(this.keys.action) || just(this.keys.space)) this.purchaseSelected();
+  }
+
+  show(merchantId) {
+    if (this._destroyed) return;
+    this.currentMerchant = merchantId;
+    this.isVisible = true;
+    this.currentPage = 0;
+    this.selectedIndex = 0;
+    this.moneyMonsterMode = "buy";
+    this.selectedSellButton = 0;
+    this.scene.setShopOpen?.(true);
+    this._syncMerchantChrome();
     this.populateUpgrades(merchantId);
-
-    // ── Staggered entry animation ──────────────────────────────────────────
-    // Cards are rebuilt before the animation so new merchant content is animated.
-    const allCards = this.upgradesContainer.getAll?.() || [];
-    allCards.forEach((obj, i) => {
-      obj.setAlpha(0);
-      this.scene.tweens.add({
-        targets: obj,
-        alpha: 1,
-        duration: 220,
-        ease: 'Power2.out',
-        delay: i * 30,
-      });
-    });
-
-    if (this.soundSystem) this.soundSystem.playUiSelect();
-
-    // Fade in
-    this.backdrop.setAlpha(0).setVisible(true);
-    this.container.setAlpha(0).setVisible(true);
-    this.scene.tweens.add({
-      targets: [this.backdrop, this.container],
-      alpha: 1,
-      duration: 200,
-      ease: 'Power2.out',
-      onComplete: () => {
-        if (!this._destroyed && this.isVisible) this._isTransitioning = false;
-      },
-    });
+    this.shell.show();
+    this._layoutChrome();
+    this.soundSystem?.playUiSelect?.();
   }
 
   hide() {
-    if (this._destroyed || !this.scene || !this.container || !this.backdrop) return;
-    if (!this.isVisible && !this._isTransitioning) return;
-
+    if (this._destroyed || !this.isVisible) return;
     this.isVisible = false;
-    this._isTransitioning = true;
-
-    // Re-enable player controls immediately; the fade is visual only.
-    if (this.scene.setShopOpen) {
-      this.scene.setShopOpen(false);
-    }
-
-    // Fade-out then hide
-    this.scene.tweens.killTweensOf([this.backdrop, this.container]);
-    this.scene.tweens.killTweensOf(this.upgradesContainer?.getAll?.() || []);
-    const finishHide = () => {
-      if (this._destroyed) return;
-      if (this.backdrop) this.backdrop.setVisible(false);
-      if (this.container) this.container.setVisible(false);
-      if (this.closeButton) this.closeButton.setVisible(false);
-      if (this.helpText) this.helpText.setVisible(false);
-      if (this.paginationText) this.paginationText.setVisible(false);
-      if (this.selectionBox) this.selectionBox.setVisible(false);
-
-      // Restore default panel size
-      if (this.shopBg) {
-        this.shopBg.setSize(800, 600);
-      }
-      if (this.paginationText) {
-        this.paginationText.setY(270);
-      }
-      this._destroyMmButtons();
-
-      // Clear upgrades container
-      if (this.upgradesContainer) {
-        this.upgradesContainer.removeAll(true);
-      }
-      this.allUpgrades = [];
-      this._isTransitioning = false;
-    };
-
-    if (!this.backdrop.visible && !this.container.visible) {
-      finishHide();
-      return;
-    }
-
-    this.scene.tweens.add({
-      targets: [this.backdrop, this.container],
-      alpha: 0,
-      duration: 150,
-      ease: 'Power1.in',
-      onComplete: finishHide,
-    });
+    this.scene.setShopOpen?.(false);
+    this.shell.hide();
   }
 
-  populateUpgrades(merchantId) {
-    if (!this.upgradesContainer || !this.upgradeSystem) {
-      this.allUpgrades = [];
-      this.totalPages = 1;
-      this.updatePagination();
-      this.selectionBox?.setVisible(false);
-      this.scene?.hudSystem?.flashStatus?.("Shop is unavailable", "#ff6b6b", 1500);
-      return;
-    }
-
-    this._destroyMmButtons();
-    this.upgradesContainer.removeAll(true);
-    this.allUpgrades = [];
-
-    if (merchantId === 'moneyMonster') {
-      this.populateMoneyMonster();
-      return;
-    }
-
-    const upgrades = [];
-    for (const upgradeId in UPGRADES) {
-      const upgrade = UPGRADES[upgradeId];
-      if (upgrade.merchant === merchantId && !upgrade.comingSoon) {
-        upgrades.push({ ...upgrade, id: upgradeId });
-      }
-    }
-
-    this.allUpgrades = upgrades;
-    this.totalPages = Math.max(1, Math.ceil(upgrades.length / this.itemsPerPage));
-
-    this.renderCurrentPage();
-    this.updatePagination();
-    this.updateSelection();
+  _syncMerchantChrome() {
+    const profile = SHOP_MERCHANT_PROFILES[this.currentMerchant] || SHOP_MERCHANT_PROFILES.default;
+    this.shell.setHeader(profile.title, profile.role + "  |  " + profile.greeting);
+    this.shell.setIcon(resolveMerchantUiIcon(this.currentMerchant));
+    this.moneyText = this.walletText;
+    this._updateWallet();
   }
 
-  renderCurrentPage() {
-    if (!this.upgradesContainer || !this.upgradeSystem) return;
-
-    // Clear current page display
-    this.upgradesContainer.removeAll(true);
-
-    const itemsOnPage = this.getItemsOnCurrentPage();
-
-    for (let i = 0; i < itemsOnPage.length; i++) {
-      const row = Math.floor(i / this.columns);
-      const col = i % this.columns;
-      const upgrade = itemsOnPage[i];
-
-      this.createGridUpgradeItem(upgrade, row, col);
-    }
+  _updateWallet() {
+    this.walletText.setText("WALLET  " + formatMoney(this.upgradeSystem?.getMoney?.() || 0));
   }
 
-  createGridUpgradeItem(upgrade, row, col) {
-    if (this._destroyed || !this.scene || !this.upgradeSystem || !this.upgradesContainer) return;
-
-    const x = this.gridStartX + col * this.gridColumnWidth + (this.gridColumnWidth / 2);
-    const y = this.gridStartY + row * this.gridRowHeight + (this.gridRowHeight / 2);
-
-    const currentLevel = this.upgradeSystem.getUpgradeLevel(upgrade.id);
-    const cost = getUpgradeCost(upgrade.id, currentLevel);
-
-    // Check full purchase requirements (money + resources)
-    const purchaseCheck = this.upgradeSystem.canPurchaseUpgrade(upgrade.id);
-    const canPurchase = purchaseCheck.canPurchase;
-
-    // Get resource requirements for display
-    let resourceReqText = "";
-    let missingResources = false;
-    if (upgrade.resources) {
-      const resourceNames = {
-        dirt: "Dirt",
-        stone: "Stone",
-        copper: "Copper",
-        iron: "Iron",
-        bronze: "Bronze",
-        steel: "Steel",
-        silver: "Silver",
-        gold: "Gold"
-      };
-
-      if (this.scene?.digSystem) {
-        const resources = this.scene?.digSystem?.getResourceTotals?.() || {};
-        const reqParts = [];
-
-        for (const [resourceType, amount] of Object.entries(upgrade.resources)) {
-          const have = resources[resourceType] || 0;
-          const name = resourceNames[resourceType] || resourceType;
-          const color = have >= amount ? "#44ff44" : "#ff4444";
-          reqParts.push(`${name}: ${have}/${amount}`);
-
-          if (have < amount) {
-            missingResources = true;
-          }
-        }
-
-        resourceReqText = reqParts.join(", ");
-      }
-    }
-
-    // Store position for selection
-    const itemsOnPage = this.getItemsOnCurrentPage();
-    const index = row * this.columns + col;
-    if (itemsOnPage[index]) {
-      itemsOnPage[index].x = x;
-      itemsOnPage[index].y = y;
-    }
-
-    // Special case: sellAllButton when owned — becomes a functional SELL ALL card
-    const isSellAllOwned = upgrade.id === 'sellAllButton' && currentLevel > 0;
-    const resources = isSellAllOwned ? (this.scene?.digSystem?.getResourceTotals?.() || null) : null;
-    const canSellAll = isSellAllOwned && resources && Object.values(resources).some(v => v > 0);
-
-    // Background box (make interactive for clicks) — using main menu color palette
-    let bgColor, strokeColor, hoverColor;
-    if (isSellAllOwned) {
-      bgColor = canSellAll ? 0x2a2614 : UI_COLORS.neutral;
-      strokeColor = canSellAll ? 0xffaa00 : UI_COLORS.borderDim;
-      hoverColor = canSellAll ? 0x3a3418 : bgColor;
-    } else if (cost >= Infinity || currentLevel >= (upgrade.maxLevel ?? Infinity)) {
-      bgColor = 0x151a20;
-      strokeColor = UI_COLORS.borderDim;
-      hoverColor = 0x1a222a;
-    } else if (canPurchase) {
-      bgColor = 0x162b1e;
-      strokeColor = UI_COLORS.borderGood;
-      hoverColor = 0x1d3928;
-    } else {
-      bgColor = 0x241920;
-      strokeColor = cost < Infinity ? UI_COLORS.borderBad : UI_COLORS.borderDim;
-      hoverColor = 0x2d2028;
-    }
-
-    const bg = this.scene.add.rectangle(x, y, 240, 140, bgColor, 0.9)
-      .setStrokeStyle(1, strokeColor)
-      .setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        if (this._destroyed || !this.isVisible || !this.upgradeSystem) return;
-        this.selectedRow = row;
-        this.selectedCol = col;
-        this.moneyMonsterMode = 'buy';
-        this.topButtonSelected = null;
-        this.updateSelection();
-
-        // Check ownership dynamically in case it changed since card creation
-        const currentOwnedLevel = this.upgradeSystem.getUpgradeLevel(upgrade.id);
-        const isActuallyOwned = upgrade.id === 'sellAllButton' && currentOwnedLevel > 0;
-
-        // For owned one-time purchase upgrades like Sell All, trigger special action
-        if (upgrade.oneTimePurchase && isActuallyOwned) {
-          if (upgrade.id === 'sellAllButton') {
-            const currentResources = this.scene?.digSystem?.getResourceTotals?.() || null;
-            const canActuallySellAll = currentResources && Object.values(currentResources).some(v => v > 0);
-            if (canActuallySellAll) {
-              this.sellAllResources();
-            } else {
-              this.scene?.hudSystem?.flashStatus?.("No resources to sell!", "#ff4444", 1500);
-            }
-          }
-        } else {
-          this.purchaseUpgrade(upgrade.id);
-        }
-      })
-      .on('pointerover', () => {
-        if (this._destroyed || !this.isVisible) return;
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        try {
-          bg.setFillStyle(hoverColor, 0.95);
-        } catch (e) {}
-      })
-      .on('pointerout', () => {
-        if (this._destroyed) return;
-        try {
-          bg.setFillStyle(bgColor, 0.9);
-        } catch (e) {}
-      });
-
-    // Upgrade name — Consolas like main menu
-    const nameText = this.scene.add.text(x, y - 55, upgrade.name, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "13px",
-      color: '#ffffff',
-      fontWeight: "bold",
-      wordWrap: { width: 220 }
-    }).setOrigin(0.5);
-
-    // Level display
-    let levelText = upgrade.oneTimePurchase
-      ? (currentLevel > 0 ? "OWNED" : "NOT OWNED")
-      : `Level ${currentLevel}`;
-
-    const levelDisplay = this.scene.add.text(x, y - 33, levelText, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "11px",
-      color: '#5a7a8a',
-    }).setOrigin(0.5);
-
-    // Cost display
-    let costDisplay;
-    if (isSellAllOwned) {
-      costDisplay = canSellAll ? "SELL ALL" : "NO RESOURCES";
-    } else {
-      costDisplay = cost >= Infinity ? "MAX" : `${cost.toLocaleString()} M`;
-      if (resourceReqText) costDisplay += ` | ${resourceReqText}`;
-    }
-
-    const costText = this.scene.add.text(x, y - 10, costDisplay, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "10px",
-      color: isSellAllOwned ? (canSellAll ? "#ffaa00" : '#4a5a6a') : (canPurchase ? '#c9a227' : '#4a5a6a'),
-      fontWeight: "bold",
-      wordWrap: { width: 220 }
-    }).setOrigin(0.5);
-
-    // Description
-    const descText = this.scene.add.text(x, y + 48, upgrade.description, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "10px",
-      color: isSellAllOwned ? (canSellAll ? "#ffcc44" : '#4a5a6a') : (canPurchase ? '#4ecb71' : '#4a5a6a'),
-      wordWrap: { width: 220 }
-    }).setOrigin(0.5);
-
-    this.upgradesContainer.add([bg, nameText, levelDisplay, costText, descText]);
+  setMerchantMode(mode, silent = false) {
+    if (mode === "sell" && !isSellCapableMerchant(this.currentMerchant)) return;
+    const next = mode === "sell" ? "sell" : "buy";
+    if (next === this.moneyMonsterMode && !silent) return;
+    this.moneyMonsterMode = next;
+    this.currentPage = 0;
+    this.selectedIndex = 0;
+    this.selectedSellButton = 0;
+    if (!silent) this.soundSystem?.playUiSelect?.();
+    this._render();
   }
 
-  _destroyMmButtons() {
-    for (const obj of this._mmButtons) {
-      // Remove from container if it was added there
-      try {
-        if (obj.parentContainer) {
-          obj.parentContainer.remove(obj);
-        }
-      } catch (_) {}
-      try { obj?.destroy?.(); } catch (_) {}
-    }
-    this._mmButtons = [];
+  toggleMoneyMonsterMode() {
+    if (!isSellCapableMerchant(this.currentMerchant)) return;
+    this.setMerchantMode(this.moneyMonsterMode === "buy" ? "sell" : "buy");
+  }
+
+  populateUpgrades(merchantId = this.currentMerchant) {
+    this.currentMerchant = merchantId;
+    this.allUpgrades = Object.entries(UPGRADES)
+      .filter(([, upgrade]) => (
+        upgrade.merchant === merchantId &&
+        !upgrade.comingSoon &&
+        !upgrade.hiddenFromShop
+      ))
+      .map(([id, upgrade]) => ({ ...upgrade, id }));
+    this.sellItems = MONEY_MONSTER_RESOURCE_KEYS.map(resource => ({
+      resource,
+      name: getResourceDisplayName(resource),
+      basePrice: RESOURCE_PRICES_CONFIG.basePrices[resource] || 0,
+    }));
+    this._render();
   }
 
   populateMoneyMonster() {
-    this._destroyMmButtons();
-    this.upgradesContainer.removeAll(true);
-    this.allUpgrades = [];
-    this.sellButtons = []; // Clear sell button tracking
-    this.moneyMonsterMode = 'buy'; // Reset to buy mode
-    this.topButtonSelected = null;
-
-    const upgrades = [];
-    for (const upgradeId in UPGRADES) {
-      const upgrade = UPGRADES[upgradeId];
-      if (upgrade.merchant === 'moneyMonster') {
-        upgrades.push({ ...upgrade, id: upgradeId });
-      }
-    }
-
-    this.allUpgrades = upgrades;
-    this.totalPages = Math.max(1, Math.ceil(upgrades.length / this.itemsPerPage));
-
-    this.renderCurrentPage();
-    this.updatePagination();
-    this.updateSelection();
-    this._buildMmSellUI();
+    this.populateUpgrades(this.currentMerchant || "moneyMonster");
   }
 
-  _buildMmSellUI() {
-    try {
-      // Ensure scene reference is valid
-      const scene = this.scene;
-      if (!scene || !scene.digSystem || !this.upgradeSystem) {
-        return;
-      }
-      const resources = scene.digSystem.getResourceTotals();
+  _render() {
+    if (!this.isVisible && !this.shell.root.visible) return;
+    this._layoutChrome();
+    this.upgradesContainer.removeAll(true);
+    const rect = this.shell.getContentRect();
+    const seller = isSellCapableMerchant(this.currentMerchant);
+    let bodyTop = rect.top;
 
-      const prices = RESOURCE_PRICES_CONFIG.basePrices;
-      const names = RESOURCE_PRICES_CONFIG.resourceNames;
-
-      const resourceKeys = [
-        'dirt', 'stone', 'copper',
-        'darkDirtNormal', 'darkDirtStrong',
-        'steel', 'iron', 'bronze', 'silver', 'gold'
-      ];
-
-      const titleY = 178;
-      let rowStartY = 218;
-      const rowGap = 28;
-
-      // Section title — main menu style
-      const titleText = this.scene.add.text(0, titleY, "SELL RESOURCES FOR MONEY", {
-        fontFamily: "Consolas, monospace",
+    if (seller) {
+      const tabY = rect.top + 20;
+      createButton(this.scene, {
+        x: rect.left + 92,
+        y: tabY,
+        width: 176,
+        height: 38,
+        label: "UPGRADES",
+        hint: "A",
+        icon: "upgrade",
+        accent: this.moneyMonsterMode === "buy" ? UI_COLORS.borderSel : UI_COLORS.borderDim,
+        parent: this.upgradesContainer,
         fontSize: "12px",
-        color: '#5a7a8a',
-        fontWeight: "bold"
-      }).setOrigin(0.5);
-      this._mmButtons.push(titleText);
-      this.container.add(titleText);
-
-      // Check if Sell All button is unlocked
-      const effects = this.upgradeSystem.getUpgradeEffects();
-      const sellAllUnlocked = effects.sellAllUnlocked > 0;
-      const marketReportsUnlocked = effects.marketReports > 0;
-
-      // Sell All button (if unlocked) - positioned after title, before resource rows
-      if (sellAllUnlocked) {
-        const sellAllBtnY = titleY + 28;
-        const totalResources = Object.values(resources).reduce((sum, val) => sum + val, 0);
-        const canSellAll = totalResources > 0;
-
-        const sellAllBtn = createButton(this.scene, {
-          x: 300,
-          y: sellAllBtnY,
-          width: 118,
-          height: 26,
-          label: 'SELL ALL',
-          accent: 0xffaa00,
-          labelColor: canSellAll ? '#ffd98f' : UI_COLORS.dim,
-          parent: this.container,
-          fontSize: '10px',
-          onClick: () => this.sellAllResources(),
-        });
-        sellAllBtn.setEnabled(canSellAll);
-
-        const sellAllHint = this.scene.add.text(180, sellAllBtnY, "Sell all resources:", {
-          fontFamily: "Consolas, monospace",
-          fontSize: "11px",
-          color: '#ffffff'
-        }).setOrigin(1, 0.5);
-
-        this._mmButtons.push(sellAllBtn.root, sellAllHint);
-        this.container.add(sellAllHint);
-
-        // Adjust row start to account for sell all button
-        rowStartY = titleY + 58;
-      }
-
-      for (let i = 0; i < resourceKeys.length; i++) {
-        const key = resourceKeys[i];
-        const amount = resources[key] || 0;
-        const price = prices[key] || 0;
-        const displayName = names[key] || key;
-        const colIdx = i < 5 ? 0 : 1;
-        const rowIdx = i % 5;
-        const labelX = colIdx === 0 ? -370 : -10;
-        const priceX = colIdx === 0 ? -120 : 240;
-        const buttonX = colIdx === 0 ? -58 : 302;
-        const y = rowStartY + rowIdx * rowGap;
-        const canSell = amount > 0;
-
-        // Name + amount
-        const rowLabel = this.scene.add.text(labelX, y,
-          `${displayName}: ${amount}`,
-          {
-            fontFamily: "Consolas, monospace",
-            fontSize: "12px",
-            color: canSell ? '#ffffff' : '#4a5a6a'
-          }
-        ).setOrigin(0, 0.5);
-
-        // Price - always show adjusted price; Market Reports adds depth + total info
-        let adjustedPrice = price;
-        const startResources = ['dirt', 'stone', 'copper'];
-        const nextResources = ['iron', 'bronze', 'steel', 'silver', 'gold'];
-        if (startResources.includes(key) && effects.startResourceBonus > 0) {
-          adjustedPrice = Math.floor(price * (1 + effects.startResourceBonus));
-        }
-        if (nextResources.includes(key) && effects.nextResourceBonus > 0) {
-          adjustedPrice = Math.floor(price * (1 + effects.nextResourceBonus));
-        }
-        if (effects.marketBonus > 0) {
-          adjustedPrice = Math.floor(adjustedPrice * (1 + effects.marketBonus));
-        }
-
-        const priceLabel = this.scene.add.text(priceX, y, `$${adjustedPrice}`, {
-          fontFamily: "Consolas, monospace",
-          fontSize: "12px",
-          color: '#c9a227'
-        }).setOrigin(1, 0.5);
-
-        // Sell button
-        const btn = createButton(this.scene, {
-          x: buttonX,
-          y,
-          width: 84,
-          height: 24,
-          label: 'SELL',
-          accent: UI_COLORS.borderGood,
-          labelColor: UI_COLORS.success,
-          parent: this.container,
-          fontSize: '10px',
-          onClick: () => {
-            try {
-              if (!this.scene?.digSystem) {
-                console.error('[SHOP SELL ERROR] Missing digSystem!');
-                this.scene?.hudSystem?.flashStatus('Shop system error!', "#ff4444", 1500);
-                return;
-              }
-
-              if (!this.scene?.hudSystem) {
-                console.error('[SHOP SELL ERROR] Missing hudSystem!');
-                return;
-              }
-
-              const current = this.scene?.digSystem?.getResourceTotals?.() || {};
-              if ((current[key] || 0) >= 1) {
-                this.sellResource(key, 1, prices[key] || 0);
-              } else {
-                this.scene?.hudSystem?.flashStatus?.(`No ${displayName} to sell!`, "#ff4444", 1200);
-              }
-            } catch (e) {
-              console.error('[SHOP SELL ERROR] Unhandled error in pointerdown:', e);
-              if (this.scene?.hudSystem) {
-                this.scene?.hudSystem?.flashStatus?.(`Error: ${e.message}`, "#ff4444", 2000);
-              }
-            }
-          },
-        });
-        btn.setEnabled(canSell);
-
-        this._mmButtons.push(rowLabel, priceLabel, btn.root);
-        this.container.add([rowLabel, priceLabel]);
-
-        // Track sell button position for keyboard navigation
-        if (canSell) {
-          this.sellButtons.push({
-            resourceKey: key,
-            displayName: displayName,
-            amount: amount,
-            price: price,
-            x: buttonX,
-            y: y,
-            button: btn.root
-          });
-        }
-      }
-    } catch (e) {
-      console.error('[SHOP] Error building sell UI:', e);
+        onClick: () => this.setMerchantMode("buy"),
+      });
+      createButton(this.scene, {
+        x: rect.left + 278,
+        y: tabY,
+        width: 176,
+        height: 38,
+        label: "SELL",
+        hint: "D",
+        icon: "sell",
+        accent: this.moneyMonsterMode === "sell" ? UI_COLORS.borderSel : UI_COLORS.borderDim,
+        parent: this.upgradesContainer,
+        fontSize: "12px",
+        onClick: () => this.setMerchantMode("sell"),
+      });
+      bodyTop += 50;
     }
+
+    const bodyBottom = rect.bottom;
+    const bodyHeight = bodyBottom - bodyTop;
+    const gap = 16;
+    const leftWidth = Math.min(390, Math.max(285, rect.width * 0.4));
+    const rightWidth = rect.width - leftWidth - gap;
+    const leftX = rect.left;
+    const rightX = leftX + leftWidth + gap;
+    this.itemsPerPage = Math.max(2, Math.min(6, Math.floor((bodyHeight - 72) / LIST_ROW_HEIGHT)));
+
+    this._drawSurface(leftX, bodyTop, leftWidth, bodyHeight, false);
+    this._drawSurface(rightX, bodyTop, rightWidth, bodyHeight, true);
+
+    const items = this.moneyMonsterMode === "sell" ? this.sellItems : this.allUpgrades;
+    if (items.length) {
+      this.selectedIndex = Phaser.Math.Clamp(this.selectedIndex, 0, items.length - 1);
+      this.currentPage = Phaser.Math.Clamp(
+        Math.floor(this.selectedIndex / this.itemsPerPage),
+        0,
+        Math.max(0, Math.ceil(items.length / this.itemsPerPage) - 1)
+      );
+    } else {
+      this.selectedIndex = 0;
+      this.currentPage = 0;
+    }
+
+    this._renderList(items, leftX, bodyTop, leftWidth, bodyHeight);
+    if (this.moneyMonsterMode === "sell") {
+      this._renderSellDetail(items[this.selectedIndex], rightX, bodyTop, rightWidth, bodyHeight);
+    } else {
+      this._renderUpgradeDetail(items[this.selectedIndex], rightX, bodyTop, rightWidth, bodyHeight);
+    }
+    this._updateWallet();
+  }
+
+  _drawSurface(x, y, width, height, emphasized) {
+    const gfx = this.scene.add.graphics();
+    gfx.fillStyle(emphasized ? UI_COLORS.cardBase : UI_COLORS.bg, emphasized ? 0.98 : 0.72);
+    gfx.fillRoundedRect(x, y, width, height, 7);
+    gfx.lineStyle(emphasized ? 2 : 1, emphasized ? UI_COLORS.borderSel : UI_COLORS.borderDim, 0.92);
+    gfx.strokeRoundedRect(x, y, width, height, 7);
+    this.upgradesContainer.add(gfx);
+  }
+
+  _text(x, y, value, style = {}, originX = 0, originY = 0) {
+    const text = this.scene.add.text(x, y, value, {
+      fontFamily: style.fontFamily || UI_FONTS.body,
+      fontSize: style.fontSize || "14px",
+      color: style.color || UI_COLORS.body,
+      fontStyle: style.fontStyle,
+      align: style.align,
+      wordWrap: style.wordWrap,
+      lineSpacing: style.lineSpacing,
+    }).setOrigin(originX, originY);
+    this.upgradesContainer.add(text);
+    return text;
+  }
+
+  _renderList(items, x, y, width, height) {
+    const title = this.moneyMonsterMode === "sell" ? "RESOURCE STOCK" : "AVAILABLE UPGRADES";
+    this._text(x + 16, y + 14, title, {
+      fontFamily: UI_FONTS.display,
+      fontSize: "15px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+
+    if (!items.length) {
+      this._text(x + width / 2, y + height / 2, "Nothing is available here yet.", {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "13px",
+        color: UI_COLORS.body,
+        align: "center",
+        wordWrap: { width: width - 40 },
+      }, 0.5, 0.5);
+      return;
+    }
+
+    const start = this.currentPage * this.itemsPerPage;
+    const visible = items.slice(start, start + this.itemsPerPage);
+    const listTop = y + 39;
+    visible.forEach((item, localIndex) => {
+      const index = start + localIndex;
+      const selected = index === this.selectedIndex;
+      const rowY = listTop + localIndex * LIST_ROW_HEIGHT;
+      const bg = this.scene.add.rectangle(
+        x + width / 2,
+        rowY + 27,
+        width - 18,
+        54,
+        selected ? UI_COLORS.cardSel : UI_COLORS.cardBase,
+        selected ? 1 : 0.82
+      ).setStrokeStyle(selected ? 2 : 1, selected ? UI_COLORS.borderSel : UI_COLORS.borderDim)
+        .setInteractive({ useHandCursor: true });
+      bg.on("pointerover", () => {
+        if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderHov);
+      });
+      bg.on("pointerout", () => {
+        if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderDim);
+      });
+      bg.on("pointerdown", () => {
+        this.selectedIndex = index;
+        this.selectedSellButton = index;
+        this.soundSystem?.playUiSelect?.();
+        this._render();
+      });
+      this.upgradesContainer.add(bg);
+
+      const iconKey = this.moneyMonsterMode === "sell"
+        ? resourceIconKey(item.resource)
+        : resolveUpgradeUiIcon(item);
+      createIconBadge(this.scene, iconKey, {
+        x: x + 42,
+        y: rowY + 27,
+        size: 42,
+        iconSize: 34,
+        selected,
+        parent: this.upgradesContainer,
+      });
+
+      const name = this.moneyMonsterMode === "sell" ? item.name : item.name;
+      const sub = this.moneyMonsterMode === "sell"
+        ? String(this._getResourceAmount(item.resource)).toLocaleString() + " owned"
+        : this._upgradeRowStatus(item);
+      this._text(x + 69, rowY + 16, name, {
+        fontSize: "14px",
+        fontStyle: "bold",
+        color: selected ? UI_COLORS.title : UI_COLORS.body,
+        wordWrap: { width: width - 150 },
+      });
+      this._text(x + 69, rowY + 37, sub, {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "11px",
+        color: selected ? UI_COLORS.gold : UI_COLORS.dim,
+      });
+      if (this.moneyMonsterMode === "sell") {
+        this._text(x + width - 22, rowY + 27, formatMoney(this._adjustedUnitPrice(item.resource, item.basePrice)), {
+          fontFamily: UI_FONTS.mono,
+          fontSize: "11px",
+          color: UI_COLORS.gold,
+        }, 1, 0.5);
+      }
+    });
+
+    const pages = Math.max(1, Math.ceil(items.length / this.itemsPerPage));
+    const footerY = y + height - 22;
+    this._text(x + width / 2, footerY, "PAGE " + (this.currentPage + 1) + " / " + pages, {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
+      color: UI_COLORS.body,
+    }, 0.5, 0.5);
+    if (pages > 1) {
+      createButton(this.scene, {
+        x: x + 55,
+        y: footerY,
+        width: 82,
+        height: 30,
+        label: "PREV",
+        hint: "Q",
+        accent: UI_COLORS.borderDim,
+        parent: this.upgradesContainer,
+        fontSize: "10px",
+        onClick: () => this.prevPage(),
+      });
+      createButton(this.scene, {
+        x: x + width - 55,
+        y: footerY,
+        width: 82,
+        height: 30,
+        label: "NEXT",
+        hint: "E",
+        accent: UI_COLORS.borderDim,
+        parent: this.upgradesContainer,
+        fontSize: "10px",
+        onClick: () => this.nextPage(),
+      });
+    }
+  }
+
+  _upgradeRowStatus(upgrade) {
+    const level = this.upgradeSystem?.getUpgradeLevel?.(upgrade.id) || 0;
+    if (upgrade.oneTimePurchase) return level > 0 ? "OWNED" : "ONE-TIME PURCHASE";
+    const max = upgrade.maxLevel ?? "MAX";
+    return "LEVEL " + level + " / " + max;
+  }
+
+  _renderUpgradeDetail(upgrade, x, y, width, height) {
+    if (!upgrade) {
+      this._renderEmptyDetail(x, y, width, height, "No upgrades available");
+      return;
+    }
+    const level = this.upgradeSystem.getUpgradeLevel(upgrade.id);
+    const cost = getUpgradeCost(upgrade.id, level);
+    const check = this.upgradeSystem.canPurchaseUpgrade(upgrade.id);
+    const owned = upgrade.oneTimePurchase && level > 0;
+    const maxed = owned || level >= (upgrade.maxLevel ?? Infinity) || cost >= Infinity;
+
+    createIconBadge(this.scene, resolveUpgradeUiIcon(upgrade), {
+      x: x + 58,
+      y: y + 58,
+      size: 76,
+      iconSize: 64,
+      selected: true,
+      parent: this.upgradesContainer,
+    });
+    this._text(x + 110, y + 27, upgrade.name, {
+      fontFamily: UI_FONTS.display,
+      fontSize: "23px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+      wordWrap: { width: width - 138 },
+    });
+    this._text(x + 110, y + 59, upgrade.category ? String(upgrade.category).toUpperCase() : "UPGRADE", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
+      color: UI_COLORS.gold,
+    });
+    this._text(x + 20, y + 108, upgrade.description || "No description available.", {
+      fontSize: "14px",
+      color: UI_COLORS.body,
+      wordWrap: { width: width - 40, useAdvancedWrap: true },
+      lineSpacing: 3,
+    });
+
+    const statY = y + Math.min(195, height * 0.43);
+    const stat = this.scene.add.graphics();
+    stat.fillStyle(UI_COLORS.bg, 0.95);
+    stat.fillRoundedRect(x + 18, statY, width - 36, 62, 6);
+    stat.lineStyle(1, UI_COLORS.borderDim, 0.95);
+    stat.strokeRoundedRect(x + 18, statY, width - 36, 62, 6);
+    this.upgradesContainer.add(stat);
+    this._text(x + 36, statY + 13, owned ? "OWNERSHIP" : "CURRENT LEVEL", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "10px",
+      color: UI_COLORS.dim,
+    });
+    this._text(x + 36, statY + 38, owned ? "OWNED" : String(level), {
+      fontFamily: UI_FONTS.display,
+      fontSize: "22px",
+      fontStyle: "bold",
+      color: owned ? UI_COLORS.success : UI_COLORS.title,
+    });
+    this._text(x + width / 2, statY + 38, maxed ? "MAXIMUM" : "NEXT  >  " + (level + 1), {
+      fontFamily: UI_FONTS.display,
+      fontSize: "18px",
+      fontStyle: "bold",
+      color: maxed ? UI_COLORS.dim : UI_COLORS.gold,
+    }, 0.5, 0.5);
+
+    const requirementsY = statY + 78;
+    this._text(x + 20, requirementsY, "REQUIREMENTS", {
+      fontFamily: UI_FONTS.display,
+      fontSize: "14px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+    const requirementLines = this._buildRequirementLines(upgrade, cost);
+    requirementLines.slice(0, 4).forEach((line, index) => {
+      this._text(x + 24, requirementsY + 26 + index * 20, line.text, {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "12px",
+        color: line.met ? UI_COLORS.success : UI_COLORS.danger,
+      });
+    });
+
+    const actionY = y + height - 37;
+    const actionLabel = owned
+      ? (upgrade.id === "sellAllButton" ? "SELL ALL RESOURCES" : "OWNED")
+      : maxed
+        ? "MAXIMUM LEVEL"
+        : "BUY UPGRADE  -  " + formatMoney(cost);
+    const action = createButton(this.scene, {
+      x: x + width / 2,
+      y: actionY,
+      width: width - 36,
+      height: 48,
+      label: actionLabel,
+      hint: USER_SETTINGS.getKeyLabel("interact"),
+      icon: owned && upgrade.id === "sellAllButton" ? "sell" : "upgrade",
+      accent: check.canPurchase || (owned && upgrade.id === "sellAllButton")
+        ? UI_COLORS.borderSel
+        : UI_COLORS.borderDim,
+      parent: this.upgradesContainer,
+      fontSize: "13px",
+      onClick: () => {
+        if (owned && upgrade.id === "sellAllButton") this.sellAllResources();
+        else this.purchaseUpgrade(upgrade.id);
+      },
+    });
+    action.setEnabled?.(!maxed || (owned && upgrade.id === "sellAllButton"));
+  }
+
+  _buildRequirementLines(upgrade, cost) {
+    const wallet = this.upgradeSystem?.getMoney?.() || 0;
+    const resources = this.scene.digSystem?.getResourceTotals?.() || {};
+    const lines = [{
+      text: "Money  " + formatMoney(wallet) + " / " + formatMoney(Number.isFinite(cost) ? cost : 0),
+      met: Number.isFinite(cost) && wallet >= cost,
+    }];
+    Object.entries(upgrade.resources || {}).forEach(([resource, amount]) => {
+      const have = resources[resource] || 0;
+      lines.push({
+        text: getResourceDisplayName(resource) + "  " + have.toLocaleString() + " / " + amount.toLocaleString(),
+        met: have >= amount,
+      });
+    });
+    if (upgrade.requiresLevel) {
+      const current = this.upgradeSystem?.playerLevelSystem?.getLevel?.() || 0;
+      lines.push({ text: "Player level  " + current + " / " + upgrade.requiresLevel, met: current >= upgrade.requiresLevel });
+    }
+    return lines;
+  }
+
+  _renderSellDetail(item, x, y, width, height) {
+    if (!item) {
+      this._renderEmptyDetail(x, y, width, height, "No resources can be sold here");
+      return;
+    }
+    const amount = this._getResourceAmount(item.resource);
+    const unitPrice = this._adjustedUnitPrice(item.resource, item.basePrice);
+    createIconBadge(this.scene, resourceIconKey(item.resource), {
+      x: x + 58,
+      y: y + 58,
+      size: 76,
+      iconSize: 64,
+      selected: true,
+      parent: this.upgradesContainer,
+    });
+    this._text(x + 110, y + 28, item.name, {
+      fontFamily: UI_FONTS.display,
+      fontSize: "24px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+    this._text(x + 110, y + 62, "RESOURCE EXCHANGE", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
+      color: UI_COLORS.gold,
+    });
+    this._text(x + 20, y + 116, "Sell from your current stock. Market bonuses are already included in the value shown below.", {
+      fontSize: "14px",
+      color: UI_COLORS.body,
+      wordWrap: { width: width - 40, useAdvancedWrap: true },
+      lineSpacing: 3,
+    });
+
+    const statY = y + Math.min(205, height * 0.46);
+    this._drawSurface(x + 18, statY, width - 36, 78, false);
+    this._text(x + 36, statY + 17, "IN STOCK", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "10px",
+      color: UI_COLORS.dim,
+    });
+    this._text(x + 36, statY + 48, amount.toLocaleString(), {
+      fontFamily: UI_FONTS.display,
+      fontSize: "24px",
+      fontStyle: "bold",
+      color: amount > 0 ? UI_COLORS.title : UI_COLORS.dim,
+    });
+    this._text(x + width - 36, statY + 17, "VALUE EACH", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "10px",
+      color: UI_COLORS.dim,
+    }, 1, 0);
+    this._text(x + width - 36, statY + 48, formatMoney(unitPrice), {
+      fontFamily: UI_FONTS.display,
+      fontSize: "21px",
+      fontStyle: "bold",
+      color: UI_COLORS.gold,
+    }, 1, 0.5);
+
+    const buttonsY = y + height - 39;
+    const half = (width - 48) / 2;
+    const sellOne = createButton(this.scene, {
+      x: x + 18 + half / 2,
+      y: buttonsY,
+      width: half,
+      height: 48,
+      label: "SELL 1  -  " + formatMoney(unitPrice),
+      hint: "Enter",
+      icon: "sell",
+      accent: amount > 0 ? UI_COLORS.borderGood : UI_COLORS.borderDim,
+      parent: this.upgradesContainer,
+      fontSize: "11px",
+      onClick: () => this.sellResource(item.resource, 1, item.basePrice),
+    });
+    sellOne.setEnabled?.(amount > 0);
+    const sellStack = createButton(this.scene, {
+      x: x + width - 18 - half / 2,
+      y: buttonsY,
+      width: half,
+      height: 48,
+      label: "SELL STACK  -  " + formatMoney(unitPrice * amount),
+      hint: "F",
+      icon: "sell",
+      accent: amount > 0 ? UI_COLORS.borderSel : UI_COLORS.borderDim,
+      parent: this.upgradesContainer,
+      fontSize: "11px",
+      onClick: () => this.sellResource(item.resource, amount, item.basePrice),
+    });
+    sellStack.setEnabled?.(amount > 0);
+  }
+
+  _renderEmptyDetail(x, y, width, height, label) {
+    createIconBadge(this.scene, "lock", {
+      x: x + width / 2,
+      y: y + height / 2 - 35,
+      size: 72,
+      iconSize: 60,
+      parent: this.upgradesContainer,
+    });
+    this._text(x + width / 2, y + height / 2 + 34, label, {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "13px",
+      color: UI_COLORS.body,
+      align: "center",
+      wordWrap: { width: width - 60 },
+    }, 0.5, 0.5);
+  }
+
+  _getResourceAmount(resource) {
+    return this.scene.digSystem?.getResourceTotals?.()?.[resource] || 0;
+  }
+
+  _adjustedUnitPrice(resource, basePrice) {
+    const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
+    let price = basePrice || 0;
+    if (START_RESOURCE_KEYS.includes(resource) && effects.startResourceBonus > 0) {
+      price = Math.floor(price * (1 + effects.startResourceBonus));
+    }
+    if (NEXT_RESOURCE_KEYS.includes(resource) && effects.nextResourceBonus > 0) {
+      price = Math.floor(price * (1 + effects.nextResourceBonus));
+    }
+    if (effects.marketBonus > 0) price = Math.floor(price * (1 + effects.marketBonus));
+    return price;
+  }
+
+  getItemsOnCurrentPage() {
+    const items = this.moneyMonsterMode === "sell" ? this.sellItems : this.allUpgrades;
+    const start = this.currentPage * this.itemsPerPage;
+    return items.slice(start, start + this.itemsPerPage);
+  }
+
+  navigateUp() {
+    const items = this.moneyMonsterMode === "sell" ? this.sellItems : this.allUpgrades;
+    if (!items.length) return;
+    this.selectedIndex = (this.selectedIndex - 1 + items.length) % items.length;
+    this.selectedSellButton = this.selectedIndex;
+    this.soundSystem?.playUiSelect?.();
+    this._render();
+  }
+
+  navigateDown() {
+    const items = this.moneyMonsterMode === "sell" ? this.sellItems : this.allUpgrades;
+    if (!items.length) return;
+    this.selectedIndex = (this.selectedIndex + 1) % items.length;
+    this.selectedSellButton = this.selectedIndex;
+    this.soundSystem?.playUiSelect?.();
+    this._render();
+  }
+
+  navigateLeft() {
+    if (isSellCapableMerchant(this.currentMerchant) && this.moneyMonsterMode === "sell") {
+      this.setMerchantMode("buy");
+    } else {
+      this.prevPage();
+    }
+  }
+
+  navigateRight() {
+    if (isSellCapableMerchant(this.currentMerchant) && this.moneyMonsterMode === "buy") {
+      this.setMerchantMode("sell");
+    } else {
+      this.nextPage();
+    }
+  }
+
+  prevPage() {
+    const items = this.moneyMonsterMode === "sell" ? this.sellItems : this.allUpgrades;
+    const pages = Math.max(1, Math.ceil(items.length / this.itemsPerPage));
+    this.currentPage = (this.currentPage - 1 + pages) % pages;
+    this.selectedIndex = Math.min(this.currentPage * this.itemsPerPage, Math.max(0, items.length - 1));
+    this.soundSystem?.playUiSelect?.();
+    this._render();
+  }
+
+  nextPage() {
+    const items = this.moneyMonsterMode === "sell" ? this.sellItems : this.allUpgrades;
+    const pages = Math.max(1, Math.ceil(items.length / this.itemsPerPage));
+    this.currentPage = (this.currentPage + 1) % pages;
+    this.selectedIndex = Math.min(this.currentPage * this.itemsPerPage, Math.max(0, items.length - 1));
+    this.soundSystem?.playUiSelect?.();
+    this._render();
+  }
+
+  updateSelection() {
+    this._render();
+  }
+
+  updateSellSelection() {
+    this.selectedIndex = this.selectedSellButton;
+    this._render();
+  }
+
+  updatePagination() {
+    this._render();
+  }
+
+  purchaseSelected() {
+    if (this.moneyMonsterMode === "sell") {
+      const item = this.sellItems[this.selectedIndex];
+      if (item) this.sellResource(item.resource, 1, item.basePrice);
+      return;
+    }
+    const upgrade = this.allUpgrades[this.selectedIndex];
+    if (!upgrade) return;
+    const level = this.upgradeSystem.getUpgradeLevel(upgrade.id);
+    if (upgrade.id === "sellAllButton" && level > 0) this.sellAllResources();
+    else this.purchaseUpgrade(upgrade.id);
   }
 
   purchaseUpgrade(upgradeId) {
-    if (this._destroyed || !this.isVisible || !this.upgradeSystem || !upgradeId) return;
-
-    try {
-      const upgradeDef = UPGRADES[upgradeId];
-      if (!upgradeDef) {
-        this.scene?.hudSystem?.flashStatus?.("Upgrade unavailable", "#ff4444", 1800);
-        return;
-      }
-
-      const result = this.upgradeSystem.purchaseUpgrade(upgradeId);
-      if (!result) {
-        this.scene?.hudSystem?.flashStatus?.("Upgrade unavailable", "#ff4444", 1800);
-        return;
-      }
-
-      if (result.success) {
-        if (this.soundSystem) this.soundSystem.playUiConfirm();
-
-        if (upgradeId === 'boboWisdom') {
-          this.hide();
-          this.scene.showGameDialog(
-            "Bobo's Wisdom",
-            "Bobo leans close and whispers with wide eyes...\n\n" +
-            "\"Ah, you seek wisdom! Let me tell you of the powers you can unlock!\"\n\n" +
-            "═══════════════════════════════════════════════════════════════\n\n" +
-            "✈️ FLIGHT (Gem Power Merchant)\n" +
-            `   Hold ${USER_SETTINGS.getKeyLabel("fly")} in the air to fly! Costs Gem Power.\n` +
-            "   Upgrade: Gem Power Tank (more GP), Efficiency (less drain),\n" +
-            "   Regeneration (faster recharge), Fly Speed (faster flight)\n\n" +
-            "👁️ GEM VISION (Gem Power Merchant)\n" +
-            `   Hold ${USER_SETTINGS.getKeyLabel("gemVision")} to zoom out and see more of the world!\n` +
-            "   Upgrade: Range (zoom further), Deep Sight (4x area), Efficiency\n\n" +
-            "⚔️ QUICKSLASH (Always Active)\n" +
-            `   Hold ${USER_SETTINGS.getKeyLabel("quickslash")} while moving to dash forward! Costs 10 GP per dash.\n` +
-            "   Burst speed: 900 px/s, cooldown: 50ms\n\n" +
-            "⚡ THUNDER STRIKE (Always Active)\n" +
-            `   Press ${USER_SETTINGS.getKeyLabel("thunderStrike")} to charge, then strike downward!\n` +
-            "   Costs 100 GP, charges in 1 second, hits up to 10 tiles.\n" +
-            "   Damage: 3x normal, falloff: 10% per tile\n\n" +
-            "═══════════════════════════════════════════════════════════════\n\n" +
-            "\"There is a Gem of Great Power hidden high in the sky!\n" +
-            "I have felt its energy carried on the wind above us.\n\n" +
-            "Build your mobility, adventurer! Upgrade your flight tools\n" +
-            "and Gem Power capacity.\n" +
-            "and look UPWARD to the heavens.\n\n" +
-            "The gem awaits those who are strong enough to reach it.\"\n\n" +
-            `[Press any key or ${USER_SETTINGS.getKeyLabel("interact")} to close]`
-          );
-          return;
-        }
-
-        if (upgradeId === 'gemPowerUnlock') {
-          this.hide();
-          this.scene.showGameDialog(
-            "Gem of Great Power",
-            "You have discovered the Gem of Great Power!\n\n" +
-            "FLIGHT IS NOW UNLOCKED!\n" +
-            `Hold ${USER_SETTINGS.getKeyLabel("fly")} to fly - it costs Gem Power (purple bar).\n` +
-            "Gem Power regenerates slowly on its own.\n\n" +
-            "Talk to the Gem Power Merchant here on the Sky Island\n" +
-            "to upgrade your fly capacity, efficiency, and speed!\n\n" +
-            `[Press any key or ${USER_SETTINGS.getKeyLabel("interact")} to close]`
-          );
-          return;
-        }
-
-        if (upgradeId === 'worldTwoTunnelAccess') {
-          this.scene?.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
-        }
-
-        this.scene?.hudSystem?.flashStatus?.(`Purchased ${upgradeDef.name}!`, "#44ff44", 2000);
-        this.populateUpgrades(this.currentMerchant);
-        this.moneyText?.setText(`Money: ${this.upgradeSystem.getMoney().toLocaleString()}`);
-      } else {
-        if (this.soundSystem) this.soundSystem.playUiSelect();
-        let message = "Cannot purchase";
-
-        if (result.reason === "not_enough_money") {
-          message = "Not enough money!";
-        } else if (result.reason === "max_level") {
-          message = "Max level reached!";
-        } else if (result.reason === "not_enough_resources") {
-          const upgrade = upgradeDef;
-          if (upgrade && upgrade.resources) {
-            const resourceNames = {
-              dirt: "Dirt",
-              stone: "Stone",
-              copper: "Copper",
-              iron: "Iron",
-              bronze: "Bronze",
-              steel: "Steel",
-              silver: "Silver",
-              gold: "Gold"
-            };
-
-            // Build detailed message about missing resources
-            const missing = [];
-            if (this.scene?.digSystem) {
-              const resources = this.scene?.digSystem?.getResourceTotals?.() || {};
-              for (const [resourceType, amount] of Object.entries(upgrade.resources)) {
-                const have = resources[resourceType] || 0;
-                if (have < amount) {
-                  const name = resourceNames[resourceType] || resourceType;
-                  missing.push(`${name} (${have}/${amount})`);
-                }
-              }
-            }
-
-            if (missing.length > 0) {
-              message = `Need: ${missing.join(", ")}`;
-            } else {
-              message = "Not enough resources!";
-            }
-          } else {
-            message = "Not enough resources!";
-          }
-        } else if (result.reason === "requires_upgrade") {
-          message = "Requires another upgrade first!";
-        } else if (result.reason === "requires_depth_gate") {
-          message = `Reach and claim ${result.required}m first!`;
-        }
-
-        this.scene?.hudSystem?.flashStatus?.(message, "#ff4444", 2500);
-      }
-    } catch (e) {
-      console.error('Error purchasing upgrade:', e);
-      this.scene?.hudSystem?.flashStatus?.(`Error purchasing upgrade!`, "#ff4444", 2000);
+    if (!this.isVisible || !upgradeId) return;
+    const upgrade = UPGRADES[upgradeId];
+    const result = this.upgradeSystem?.purchaseUpgrade?.(upgradeId);
+    if (!upgrade || !result) {
+      this._notify("Upgrade unavailable", UI_COLORS.danger);
+      return;
     }
+    if (!result.success) {
+      const messages = {
+        not_enough_money: "Not enough money.",
+        max_level: "This upgrade is already at maximum.",
+        not_enough_resources: "Required materials are missing.",
+        requires_upgrade: "Another upgrade is required first.",
+        requires_depth_gate: "A deeper milestone must be claimed first.",
+      };
+      this.soundSystem?.playUiSelect?.();
+      this._notify(messages[result.reason] || "Purchase requirements are not met.", UI_COLORS.danger);
+      this._render();
+      return;
+    }
+
+    this.soundSystem?.playUiConfirm?.();
+    if (upgradeId === "worldTwoTunnelAccess") this.scene.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
+    this._notify("Purchased " + upgrade.name + ".", UI_COLORS.success);
+
+    if (upgradeId === "boboWisdom") {
+      this.hide();
+      this.scene.showGameDialog?.(
+        "Bobo's Wisdom",
+        "Flight, Quickslash, and Thunder Strike all draw from Gem Power.\n\n" +
+        "Build capacity, efficiency, regeneration, and movement before attempting the highest sky routes.\n\n" +
+        "The Gem of Great Power waits above the island."
+      );
+      return;
+    }
+    if (upgradeId === "gemPowerUnlock") {
+      this.hide();
+      this.scene.showGameDialog?.(
+        "Gem of Great Power",
+        "Flight is unlocked.\n\nHold " + USER_SETTINGS.getKeyLabel("fly") +
+        " in the air to fly. Visit the Gem Power Workshop to improve capacity, efficiency, and speed."
+      );
+      return;
+    }
+    this.populateUpgrades(this.currentMerchant);
   }
 
-  sellResource(resource, amount, price) {
-    if (this._destroyed || !this.upgradeSystem) return;
-
-    try {
-      const digSystem = this.scene?.digSystem;
-      if (!digSystem) {
-        console.error('[SHOP SELL] No digSystem available');
-        return;
-      }
-      const resources = digSystem.getResourceTotals();
-      
-      if ((resources[resource] || 0) >= amount) {
-        // Get upgrade effects
-        const effects = this.upgradeSystem.getUpgradeEffects();
-
-        // Apply resource price bonuses
-        let adjustedPrice = price;
-
-        // Start resources: dirt, stone, copper
-        const startResources = ['dirt', 'stone', 'copper'];
-        if (startResources.includes(resource) && effects.startResourceBonus > 0) {
-          adjustedPrice = Math.floor(price * (1 + effects.startResourceBonus));
-        }
-
-        // Next resources: iron, bronze, steel, silver, gold
-        const nextResources = ['iron', 'bronze', 'steel', 'silver', 'gold'];
-        if (nextResources.includes(resource) && effects.nextResourceBonus > 0) {
-          adjustedPrice = Math.floor(price * (1 + effects.nextResourceBonus));
-        }
-
-        // Apply market insight bonus (percentage bonus on all sales)
-        if (effects.marketBonus > 0) {
-          adjustedPrice = Math.floor(adjustedPrice * (1 + effects.marketBonus));
-        }
-
-        // Apply lucky sales chance (10% chance per level for extra 50% money)
-        let luckyBonus = 0;
-        if (effects.luckySales > 0 && Math.random() < (effects.luckySales * 0.10)) {
-          luckyBonus = Math.floor(adjustedPrice * 0.5);
-          this.scene?.hudSystem?.flashStatus?.("LUCKY! Bonus money!", "#ffff00", 1000);
-        }
-
-        const finalPrice = adjustedPrice + luckyBonus;
-
-        // SAVE current mode and selection
-        const savedMode = this.moneyMonsterMode;
-        const savedSellButtonIndex = this.selectedSellButton;
-
-        // Modify resource copy and update dig system
-        resources[resource] -= amount;
-        digSystem.setResourceTotals(resources);
-        this.upgradeSystem.addMoney(finalPrice);
-
-        this.soundSystem?.playUiConfirm?.();
-        this.scene?.hudSystem?.flashStatus?.(`Sold ${amount} ${resource} for ${finalPrice} Money!`, "#44ff44", 1500);
-
-        // Rebuild Money Monster UI with updated totals
-        this.populateMoneyMonster();
-
-        // RESTORE mode and selection
-        this.moneyMonsterMode = savedMode;
-        if (savedMode === 'sell') {
-          this.selectedSellButton = Math.min(savedSellButtonIndex, Math.max(0, this.sellButtons.length - 1));
-          this.updateSellSelection();
-        }
-
-        this.moneyText?.setText(`Money: ${this.upgradeSystem.getMoney().toLocaleString()}`);
-        this.scene?.uiResourceBar?.setResources?.(digSystem.getResourceTotals());
-      }
-    } catch (e) {
-      console.error('[SHOP SELL] Error in sellResource:', e);
+  sellResource(resource, amount, basePrice) {
+    const digSystem = this.scene.digSystem;
+    if (!digSystem || !this.upgradeSystem) return;
+    const resources = digSystem.getResourceTotals();
+    const available = resources[resource] || 0;
+    const count = Math.max(0, Math.min(available, Math.floor(amount || 0)));
+    if (count <= 0) {
+      this._notify("No " + getResourceDisplayName(resource) + " available to sell.", UI_COLORS.danger);
+      return;
     }
+
+    const unitPrice = this._adjustedUnitPrice(resource, basePrice);
+    let total = unitPrice * count;
+    const luckySales = this.upgradeSystem.getUpgradeEffects?.().luckySales || 0;
+    if (luckySales > 0 && Math.random() < luckySales * 0.1) {
+      const bonus = Math.floor(total * 0.5);
+      total += bonus;
+      this._notify("Lucky sale bonus: +" + formatMoney(bonus), UI_COLORS.gold);
+    }
+
+    resources[resource] = available - count;
+    digSystem.setResourceTotals(resources);
+    this.upgradeSystem.addMoney(total);
+    this.soundSystem?.playUiConfirm?.();
+    this._notify(
+      "Sold " + count.toLocaleString() + " " + getResourceDisplayName(resource) + " for " + formatMoney(total) + ".",
+      UI_COLORS.success
+    );
+    this.scene.uiResourceBar?.setResources?.(digSystem.getResourceTotals());
+    this._render();
   }
 
   sellAllResources() {
-    if (this._destroyed || !this.scene?.digSystem || !this.upgradeSystem) return;
-
-    try {
-      const resources = this.scene?.digSystem?.getResourceTotals?.() || {};
-      const effects = this.upgradeSystem.getUpgradeEffects();
-
-      const resourceKeys = ['dirt', 'stone', 'copper', 'darkDirtNormal', 'darkDirtStrong', 'steel', 'iron', 'bronze', 'silver', 'gold'];
-      let totalMoney = 0;
-      let totalSold = 0;
-
-      for (const key of resourceKeys) {
-        const amount = resources[key] || 0;
-        if (amount <= 0) continue;
-
-        const basePrice = RESOURCE_PRICES_CONFIG.basePrices[key] || 0;
-        let adjustedPrice = basePrice;
-
-        // Apply resource price bonuses
-        const startResources = ['dirt', 'stone', 'copper'];
-        if (startResources.includes(key) && effects.startResourceBonus > 0) {
-          adjustedPrice = Math.floor(basePrice * (1 + effects.startResourceBonus));
-        }
-
-        const nextResources = ['iron', 'bronze', 'steel', 'silver', 'gold'];
-        if (nextResources.includes(key) && effects.nextResourceBonus > 0) {
-          adjustedPrice = Math.floor(basePrice * (1 + effects.nextResourceBonus));
-        }
-
-        // Apply market insight bonus
-        if (effects.marketBonus > 0) {
-          adjustedPrice = Math.floor(adjustedPrice * (1 + effects.marketBonus));
-        }
-
-        // Apply lucky sales to each stack
-        let luckyBonus = 0;
-        if (effects.luckySales > 0) {
-          for (let i = 0; i < amount; i++) {
-            if (Math.random() < (effects.luckySales * 0.10)) {
-              luckyBonus += Math.floor(adjustedPrice * 0.5);
-            }
-          }
-        }
-
-        totalMoney += adjustedPrice * amount + luckyBonus;
-        totalSold += amount;
-        resources[key] = 0;
-      }
-
-      if (totalSold > 0) {
-        this.scene?.digSystem?.setResourceTotals?.(resources);
-        this.upgradeSystem.addMoney(totalMoney);
-
-        this.soundSystem?.playUiConfirm?.();
-        this.scene?.hudSystem?.flashStatus?.(`Sold ${totalSold} resources for ${totalMoney.toLocaleString()} Money!`, "#44ff44", 2000);
-
-        this.populateMoneyMonster();
-        this.moneyText?.setText(`Money: ${this.upgradeSystem.getMoney().toLocaleString()}`);
-        this.scene?.uiResourceBar?.setResources?.(this.scene?.digSystem?.getResourceTotals?.() || {});
-      } else {
-        this.scene?.hudSystem?.flashStatus?.("No resources to sell!", "#ff4444", 1500);
-      }
-    } catch (e) {
-      console.error('Error in sellAllResources:', e);
-      this.scene?.hudSystem?.flashStatus?.(`Error selling all resources!`, "#ff4444", 2000);
+    const digSystem = this.scene.digSystem;
+    if (!digSystem || !this.upgradeSystem) return;
+    const resources = digSystem.getResourceTotals();
+    let totalMoney = 0;
+    let totalSold = 0;
+    MONEY_MONSTER_RESOURCE_KEYS.forEach(resource => {
+      const amount = resources[resource] || 0;
+      if (amount <= 0) return;
+      const basePrice = RESOURCE_PRICES_CONFIG.basePrices[resource] || 0;
+      totalMoney += this._adjustedUnitPrice(resource, basePrice) * amount;
+      totalSold += amount;
+      resources[resource] = 0;
+    });
+    if (totalSold <= 0) {
+      this._notify("No resources are available to sell.", UI_COLORS.danger);
+      return;
     }
+    digSystem.setResourceTotals(resources);
+    this.upgradeSystem.addMoney(totalMoney);
+    this.soundSystem?.playUiConfirm?.();
+    this._notify("Sold " + totalSold.toLocaleString() + " resources for " + formatMoney(totalMoney) + ".", UI_COLORS.success);
+    this.scene.uiResourceBar?.setResources?.(resources);
+    this._render();
+  }
+
+  _notify(message, color) {
+    this.scene.hudSystem?.flashStatus?.(message, color || UI_COLORS.body, 2200);
   }
 
   destroy() {
     if (this._destroyed) return;
     this._destroyed = true;
-    this.scene?.tweens?.killTweensOf?.([this.backdrop, this.container, this.selectionBox]);
-    this.scene?.tweens?.killTweensOf?.(this.upgradesContainer?.getAll?.() || []);
-    this._destroyMmButtons();
-    if (this.closeButton) this.closeButton.destroy();
-    if (this.backdrop) this.backdrop.destroy();
-    if (this.container) this.container.destroy();
-    this.closeButton = null;
-    this.backdrop = null;
-    this.container = null;
-    this.selectionBox = null;
-    this.paginationText = null;
-    this.helpText = null;
+    this.isVisible = false;
+    Object.values(this.keys || {}).forEach(key => key?.destroy?.());
+    this.shell?.destroy?.();
+    this.scene = null;
   }
 }

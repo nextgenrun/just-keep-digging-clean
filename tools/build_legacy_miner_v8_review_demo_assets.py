@@ -16,6 +16,8 @@ FRAMES_DIR = OUT_DIR / "frames"
 CONTACT_DIR = OUT_DIR / "contact-sheets"
 FRAME_SIZE = (341, 341)
 ANCHOR = (170, 339)
+IDLE_REJECTED_FRAMES = frozenset({4, 5, 6, 11, 12, 13})
+IDLE_REJECTED_TAIL_START = 28
 
 
 def rel(path: Path) -> str:
@@ -33,6 +35,22 @@ def harden_alpha(frame: Image.Image, threshold: int = 12) -> Image.Image:
     return result
 
 
+def low_saturation(rgb: tuple[int, int, int], spread_limit: int = 34) -> bool:
+    return max(rgb) - min(rgb) <= spread_limit
+
+
+def walk_matte_like(pixel: tuple[int, int, int, int]) -> bool:
+    r, g, b, a = pixel
+    if a <= 8:
+        return True
+    rgb = (r, g, b)
+    if a >= 246 and low_saturation(rgb, 10) and 18 <= max(rgb) <= 74:
+        return True
+    if a >= 246 and low_saturation(rgb, 18) and 75 <= max(rgb) <= 124:
+        return True
+    return a <= 245 and low_saturation(rgb, 36) and max(rgb) <= 90
+
+
 def load_numbered_frames(name: str) -> list[Image.Image]:
     folder = CHAR_RUNTIME / f"{name}-cleaned-frames"
     return [Image.open(path).convert("RGBA") for path in sorted(folder.glob("frame-*.png"))]
@@ -48,9 +66,11 @@ def save_numbered_frames(name: str, frames: list[Image.Image]) -> None:
 
 
 def write_sheet(path: Path, frames: list[Image.Image]) -> None:
-    sheet = Image.new("RGBA", (FRAME_SIZE[0] * len(frames), FRAME_SIZE[1]), (0, 0, 0, 0))
+    columns = min(16, max(1, len(frames)))
+    rows = max(1, math.ceil(len(frames) / columns))
+    sheet = Image.new("RGBA", (FRAME_SIZE[0] * columns, FRAME_SIZE[1] * rows), (0, 0, 0, 0))
     for index, frame in enumerate(frames):
-        sheet.alpha_composite(frame, (index * FRAME_SIZE[0], 0))
+        sheet.alpha_composite(frame, ((index % columns) * FRAME_SIZE[0], (index // columns) * FRAME_SIZE[1]))
     path.parent.mkdir(parents=True, exist_ok=True)
     sheet.save(path)
 
@@ -107,6 +127,107 @@ def largest_component_mask(alpha: Image.Image) -> Image.Image:
     for x, y in best:
         out[x, y] = 255
     return mask
+
+
+def remove_neutral_matte_leak(frame: Image.Image) -> Image.Image:
+    result = frame.copy()
+    pixels = result.load()
+    body = Image.new("L", frame.size, 0)
+    body_pixels = body.load()
+    width, height = frame.size
+
+    for y in range(height):
+        for x in range(width):
+            pixel = pixels[x, y]
+            if pixel[3] > 8 and not walk_matte_like(pixel):
+                body_pixels[x, y] = 255
+
+    protected = body.filter(ImageFilter.MaxFilter(3))
+    protected_pixels = protected.load()
+    for y in range(height):
+        for x in range(width):
+            if protected_pixels[x, y] == 0 and walk_matte_like(pixels[x, y]):
+                pixels[x, y] = (0, 0, 0, 0)
+    remove_border_connected_matte(result, protected)
+    return result
+
+
+def remove_border_connected_matte(frame: Image.Image, protected: Image.Image) -> None:
+    pixels = frame.load()
+    protected_pixels = protected.load()
+    width, height = frame.size
+    seen: set[tuple[int, int]] = set()
+    queue = deque()
+    for x in range(width):
+        queue.append((x, 0))
+        queue.append((x, height - 1))
+    for y in range(height):
+        queue.append((0, y))
+        queue.append((width - 1, y))
+    while queue:
+        x, y = queue.popleft()
+        if (x, y) in seen:
+            continue
+        seen.add((x, y))
+        if protected_pixels[x, y] > 0 or not walk_matte_like(pixels[x, y]):
+            continue
+        pixels[x, y] = (0, 0, 0, 0)
+        for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if 0 <= nx < width and 0 <= ny < height and (nx, ny) not in seen:
+                queue.append((nx, ny))
+
+
+def remove_light_halo(frame: Image.Image) -> Image.Image:
+    result = frame.copy()
+    pixels = result.load()
+    width, height = result.size
+    for y in range(height):
+        for x in range(width):
+            r, g, b, a = pixels[x, y]
+            if 0 < a < 250 and low_saturation((r, g, b), 48) and (r + g + b) / 3 >= 168:
+                pixels[x, y] = (0, 0, 0, 0)
+    return result
+
+
+def reduce_washed_highlights(frame: Image.Image) -> Image.Image:
+    result = ImageEnhance.Contrast(frame).enhance(1.14)
+    result = ImageEnhance.Color(result).enhance(1.06)
+    result = result.filter(ImageFilter.UnsharpMask(radius=0.75, percent=150, threshold=2))
+    pixels = result.load()
+    width, height = result.size
+    for y in range(height):
+        for x in range(width):
+            r, g, b, a = pixels[x, y]
+            if a == 0:
+                continue
+            average = (r + g + b) / 3
+            spread = max(r, g, b) - min(r, g, b)
+            if average >= 158 and spread <= 108:
+                factor = 0.86 if average >= 205 else 0.91
+                pixels[x, y] = (round(r * factor), round(g * factor), round(b * factor), a)
+    return result
+
+
+def build_walk_candidate() -> list[Image.Image]:
+    return [harden_alpha(remove_neutral_matte_leak(frame), 14) for frame in load_numbered_frames("walk")]
+
+
+def select_idle_review_frames(frames: list[Image.Image]) -> list[Image.Image]:
+    kept = idle_kept_source_indices(len(frames))
+    return [frames[index] for index in kept]
+
+
+def idle_kept_source_indices(frame_count: int) -> list[int]:
+    return [
+        index
+        for index in range(frame_count)
+        if index not in IDLE_REJECTED_FRAMES and index < IDLE_REJECTED_TAIL_START
+    ]
+
+
+def build_idle_candidate() -> list[Image.Image]:
+    frames = load_numbered_frames("idle")
+    return [remove_light_halo(reduce_washed_highlights(frame.copy())) for frame in select_idle_review_frames(frames)]
 
 
 def composite_rgb_source(frame: Image.Image) -> Image.Image:
@@ -216,6 +337,87 @@ def build_falling_candidate() -> list[Image.Image]:
     return candidate
 
 
+def shift_visible(frame: Image.Image, dx: int = 0, dy: int = 0) -> Image.Image:
+    shifted = Image.new("RGBA", FRAME_SIZE, (0, 0, 0, 0))
+    shifted.alpha_composite(frame, (dx, dy))
+    return shifted
+
+
+def solid_candidate(name: str) -> list[Image.Image]:
+    return [harden_alpha(frame, 14) for frame in load_numbered_frames(name)]
+
+
+def shifted_candidate(name: str, dx: int, dy: int = 0) -> list[Image.Image]:
+    return [shift_visible(frame, dx, dy) for frame in load_numbered_frames(name)]
+
+
+def scaled_candidate(name: str, target_width: int) -> list[Image.Image]:
+    return [rescale_visible(frame, target_width) for frame in load_numbered_frames(name)]
+
+
+def alpha_blend_solid(a: Image.Image, b: Image.Image, amount: float) -> Image.Image:
+    blended = Image.blend(a, b, amount).convert("RGBA")
+    alpha = ImageChops.lighter(a.getchannel("A"), b.getchannel("A"))
+    blended.putalpha(alpha)
+    return blended
+
+
+def build_combat_return_candidate() -> list[Image.Image]:
+    frames = load_numbered_frames("combat-idle-to-normal-idle")
+    idle = load_numbered_frames("idle")
+    if len(frames) < 4 or not idle:
+        return frames
+    target = idle[0]
+    frames = [frame.copy() for frame in frames]
+    frames[-4] = alpha_blend_solid(frames[-4], target, 0.25)
+    frames[-3] = alpha_blend_solid(frames[-3], target, 0.45)
+    frames[-2] = alpha_blend_solid(frames[-2], target, 0.70)
+    frames[-1] = target.copy()
+    return [remove_light_halo(frame) for frame in frames]
+
+
+def copy_candidate(name: str) -> list[Image.Image]:
+    return [frame.copy() for frame in load_numbered_frames(name)]
+
+
+CANDIDATE_BUILDERS = {
+    "walk": build_walk_candidate,
+    "idle": build_idle_candidate,
+    "dig-down": build_dig_down_candidate,
+    "falling-downward-through-sky": build_falling_candidate,
+    "fly-climb": lambda: solid_candidate("fly-climb"),
+    "leans-against-wall": lambda: copy_candidate("leans-against-wall"),
+    "thunder-strike": lambda: copy_candidate("thunder-strike"),
+    "thunder-charge": lambda: copy_candidate("thunder-charge"),
+    "combat-idle-to-normal-idle": build_combat_return_candidate,
+    "quickslash": lambda: solid_candidate("quickslash"),
+    "dig-sideways": lambda: copy_candidate("dig-sideways"),
+    "dig-up": lambda: copy_candidate("dig-up"),
+    "dig-up-sideways": lambda: copy_candidate("dig-up-sideways"),
+    "duck-downwards": lambda: copy_candidate("duck-downwards"),
+}
+
+
+def build_all_candidates() -> dict[str, str]:
+    outputs: dict[str, str] = {}
+    for name, builder in CANDIDATE_BUILDERS.items():
+        current = load_numbered_frames(name)
+        candidate = builder()
+        compare_current = current
+        frame_labels = None
+        if name == "idle":
+            compare_current = [frame.copy() for frame in select_idle_review_frames(current)]
+            frame_labels = [f"{index:03d}" for index in idle_kept_source_indices(len(current))]
+            current_sheet = SHEETS_DIR / "idle-current-kept-sheet.webp"
+            write_sheet(current_sheet, compare_current)
+        save_numbered_frames(f"{name}-candidate", candidate)
+        sheet = SHEETS_DIR / f"{name}-candidate-sheet.webp"
+        write_sheet(sheet, candidate)
+        write_compare_sheet(name, compare_current, candidate, frame_labels)
+        outputs[f"{name}Sheet"] = rel(sheet)
+    return outputs
+
+
 def checker(size: tuple[int, int], cell: int = 16) -> Image.Image:
     image = Image.new("RGB", size, (34, 34, 34))
     draw = ImageDraw.Draw(image)
@@ -226,7 +428,12 @@ def checker(size: tuple[int, int], cell: int = 16) -> Image.Image:
     return image
 
 
-def write_compare_sheet(name: str, current: list[Image.Image], candidate: list[Image.Image]) -> None:
+def write_compare_sheet(
+    name: str,
+    current: list[Image.Image],
+    candidate: list[Image.Image],
+    frame_labels: list[str] | None = None,
+) -> None:
     thumb = (128, 128)
     label_h = 36
     rows = len(current)
@@ -235,7 +442,8 @@ def write_compare_sheet(name: str, current: list[Image.Image], candidate: list[I
     draw.text((8, 8), name, fill=(238, 232, 220))
     for index, (before, after) in enumerate(zip(current, candidate)):
         y = index * (thumb[1] + label_h) + label_h
-        draw.text((8, y + 50), f"{index:03d}", fill=(238, 232, 220))
+        label = frame_labels[index] if frame_labels and index < len(frame_labels) else f"{index:03d}"
+        draw.text((8, y + 50), label, fill=(238, 232, 220))
         for col, (label, frame) in enumerate((("current", before), ("candidate", after))):
             x = 52 + col * (thumb[0] + 24)
             bg = checker(thumb)
@@ -246,6 +454,32 @@ def write_compare_sheet(name: str, current: list[Image.Image], candidate: list[I
     path = CONTACT_DIR / f"{name}-current-vs-candidate.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     sheet.save(path)
+
+
+def write_idle_frame_map() -> dict[str, str]:
+    source_count = len(load_numbered_frames("idle"))
+    kept = idle_kept_source_indices(source_count)
+    removed = [index for index in range(source_count) if index not in kept]
+    mapping = {
+        "sourceFrameCount": source_count,
+        "candidateFrameCount": len(kept),
+        "keptSourceFrames": kept,
+        "removedSourceFrames": removed,
+        "candidateFrameToSourceFrame": [
+            {"candidateFrame": candidate_index, "sourceFrame": source_index}
+            for candidate_index, source_index in enumerate(kept)
+        ],
+    }
+    json_path = OUT_DIR / "idle-frame-map.json"
+    csv_path = OUT_DIR / "idle-frame-map.csv"
+    json_path.write_text(json.dumps(mapping, indent=2) + "\n", encoding="utf-8")
+    csv_lines = ["candidateFrame,sourceFrame,status"]
+    for candidate_index, source_index in enumerate(kept):
+        csv_lines.append(f"{candidate_index:03d},{source_index:03d},kept")
+    for source_index in removed:
+        csv_lines.append(f",{source_index:03d},removed")
+    csv_path.write_text("\n".join(csv_lines) + "\n", encoding="utf-8")
+    return {"idleFrameMapJson": rel(json_path), "idleFrameMapCsv": rel(csv_path)}
 
 
 def motion_frames(count: int, kind: str) -> list[dict[str, float]]:
@@ -272,6 +506,9 @@ def write_motion_profile() -> Path:
             "dig-sideways": {"fps": 30, "frames": motion_frames(18, "dig-sideways")},
             "dig-down": {"fps": 18, "frames": motion_frames(5, "dig-down")},
             "falling": {"fps": 12, "frames": motion_frames(7, "falling")},
+            "fly-climb": {"fps": 14, "frames": motion_frames(25, "falling")},
+            "quickslash": {"fps": 12, "frames": motion_frames(2, "dig-sideways")},
+            "thunder-strike": {"fps": 12, "frames": motion_frames(1, "dig-down")},
         },
     }
     path = OUT_DIR / "legacy-miner-motion-profile.json"
@@ -286,10 +523,11 @@ def write_readme(paths: dict[str, str]) -> None:
         "Review-only candidate sheets for the Phaser demo. These files are not wired into gameplay.",
         "",
         "Outputs:",
-        f"- Dig-down candidate sheet: `{paths['digDownSheet']}`",
-        f"- Falling candidate sheet: `{paths['fallingSheet']}`",
+        "- Candidate sheets: `sheets/`",
         f"- Motion profile: `{paths['motionProfile']}`",
         f"- Contact sheets: `{rel(CONTACT_DIR)}`",
+        f"- Idle source frame map: `{paths['idleFrameMapCsv']}`",
+        "- Idle candidate removes source frames `004,005,006,011,012,013,028-034`.",
         "- Optional Blender export: `tools/export_legacy_miner_blender_motion_reference.py`",
         "",
     ]
@@ -302,21 +540,10 @@ def main() -> None:
     FRAMES_DIR.mkdir(parents=True, exist_ok=True)
     CONTACT_DIR.mkdir(parents=True, exist_ok=True)
 
-    dig_current = load_numbered_frames("dig-down")
-    dig_candidate = build_dig_down_candidate()
-    fall_current = load_numbered_frames("falling-downward-through-sky")
-    fall_candidate = build_falling_candidate()
-
-    save_numbered_frames("dig-down-candidate", dig_candidate)
-    save_numbered_frames("falling-candidate", fall_candidate)
-    dig_sheet = SHEETS_DIR / "dig-down-candidate-sheet.webp"
-    fall_sheet = SHEETS_DIR / "falling-candidate-sheet.webp"
-    write_sheet(dig_sheet, dig_candidate)
-    write_sheet(fall_sheet, fall_candidate)
-    write_compare_sheet("dig-down", dig_current, dig_candidate)
-    write_compare_sheet("falling", fall_current, fall_candidate)
+    paths = build_all_candidates()
     motion_profile = write_motion_profile()
-    paths = {"digDownSheet": rel(dig_sheet), "fallingSheet": rel(fall_sheet), "motionProfile": rel(motion_profile)}
+    paths["motionProfile"] = rel(motion_profile)
+    paths.update(write_idle_frame_map())
     write_readme(paths)
     (OUT_DIR / "manifest.json").write_text(json.dumps(paths, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"ok": True, **paths}, indent=2))

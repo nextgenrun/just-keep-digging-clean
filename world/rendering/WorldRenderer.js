@@ -13,6 +13,8 @@ import {
   SOIL_ATLAS_FRAME_COUNT,
   SOIL_BAND_COUNT,
   SOIL_VARIANT_COUNT,
+  DEEP_SOIL_BAND_COUNT,
+  DEEP_SOIL_VARIANT_COUNT,
   SOIL_TYPE_COUNT,
   SOIL_RARITY_COUNT,
   SOIL_DAMAGE_STAGE_COUNT,
@@ -31,6 +33,10 @@ const RESOURCE_GLOW_COLORS = {
   9:  0x71797E, // iron — iron gray
   10: 0xC0C0C0, // silver — silver
   11: 0xFFD700, // gold — gold
+  31: 0xD85A2A, // lavaDirt
+  32: 0x2B1B31, // obsidian
+  33: 0xFF6B21, // emberOre
+  34: 0xFF2E6D, // magmaCrystal
 };
 
 // Per-rarity glow configuration
@@ -56,6 +62,10 @@ const RUBBLE_ACCENT_COLORS = {
   [TILE_TYPES.IRON]: 0x71797e,
   [TILE_TYPES.SILVER]: 0xc0c0c0,
   [TILE_TYPES.GOLD]: 0xffd700,
+  [TILE_TYPES.LAVA_DIRT]: 0xd85a2a,
+  [TILE_TYPES.OBSIDIAN]: 0x2b1b31,
+  [TILE_TYPES.EMBER_ORE]: 0xff6b21,
+  [TILE_TYPES.MAGMA_CRYSTAL]: 0xff2e6d,
 };
 
 function hashUnit(seed, a = 0, b = 0, c = 0) {
@@ -153,11 +163,6 @@ export class WorldRenderer {
     this.layer = null;
     this.rootOverlayLayer = null;
     
-    // Gem Vision state
-    this._gemVisionActive = false;
-    this._revealedResources = new Map(); // Map: "tx,ty" -> {timestamp, type}
-    this._highlightGraphics = null; // Graphics object for resource highlights
-    
     // Sky tile highlighting
     this._skyTileGraphics = null; // Graphics object for sky tile glow effects
     this._specialBlockGraphics = null; // Graphics object for special block glow effects
@@ -175,9 +180,6 @@ export class WorldRenderer {
     this.createLayer();
     this.paintInitialWorld();
     this.layer.setCollisionByExclusion([-1, 0], true);
-    
-    // Create graphics object for resource highlights
-    this._highlightGraphics = this.scene.add.graphics();
     
     // Create graphics object for sky tile glow effects
     this._skyTileGraphics = this.scene.add.graphics();
@@ -250,6 +252,28 @@ export class WorldRenderer {
     const scratchContext = scratch.getContext('2d');
     scratchContext.imageSmoothingEnabled = false;
 
+    const composeSoilCell = (baseImage, descriptor, stage, smoothBase = false) => {
+      scratchContext.clearRect(0, 0, tileSize, tileSize);
+      scratchContext.imageSmoothingEnabled = smoothBase;
+      scratchContext.drawImage(baseImage, 0, 0, tileSize, tileSize);
+      scratchContext.imageSmoothingEnabled = false;
+
+      if (descriptor.typeIndex > 0) {
+        scratchContext.fillStyle = descriptor.typeIndex === 1 ? 'rgba(8,7,12,0.17)' : 'rgba(5,4,9,0.34)';
+        scratchContext.fillRect(0, 0, tileSize, tileSize);
+        const hardnessKey = descriptor.typeIndex === 1 ? soilKeys.hardness.compact : soilKeys.hardness.strong;
+        scratchContext.drawImage(getImage(hardnessKey), 0, 0, tileSize, tileSize);
+      }
+
+      if (rarityKeys[descriptor.rarity]) {
+        scratchContext.drawImage(getImage(rarityKeys[descriptor.rarity]), 0, 0, tileSize, tileSize);
+      }
+      scratchContext.drawImage(getImage(soilKeys.cracks[stage - 1]), 0, 0, tileSize, tileSize);
+
+      const index = 1 + getSoilAtlasOffset(descriptor, stage);
+      drawCell(index, scratch);
+    };
+
     for (let band = 0; band < SOIL_BAND_COUNT; band += 1) {
       for (let variant = 0; variant < SOIL_VARIANT_COUNT; variant += 1) {
         const baseImage = getImage(soilKeys.bases[band][variant]);
@@ -257,24 +281,21 @@ export class WorldRenderer {
         for (let typeIndex = 0; typeIndex < SOIL_TYPE_COUNT; typeIndex += 1) {
           for (let rarity = 0; rarity < SOIL_RARITY_COUNT; rarity += 1) {
             for (let stage = 1; stage <= SOIL_DAMAGE_STAGE_COUNT; stage += 1) {
-              scratchContext.clearRect(0, 0, tileSize, tileSize);
-              scratchContext.drawImage(baseImage, 0, 0, tileSize, tileSize);
+              composeSoilCell(baseImage, { band, variant, typeIndex, rarity }, stage);
+            }
+          }
+        }
+      }
+    }
 
-              if (typeIndex > 0) {
-                scratchContext.fillStyle = typeIndex === 1 ? 'rgba(8,7,12,0.17)' : 'rgba(5,4,9,0.34)';
-                scratchContext.fillRect(0, 0, tileSize, tileSize);
-                const hardnessKey = typeIndex === 1 ? soilKeys.hardness.compact : soilKeys.hardness.strong;
-                scratchContext.drawImage(getImage(hardnessKey), 0, 0, tileSize, tileSize);
-              }
-
-              if (rarityKeys[rarity]) {
-                scratchContext.drawImage(getImage(rarityKeys[rarity]), 0, 0, tileSize, tileSize);
-              }
-              scratchContext.drawImage(getImage(soilKeys.cracks[stage - 1]), 0, 0, tileSize, tileSize);
-
-              const descriptor = { band, variant, typeIndex, rarity };
-              const index = 1 + getSoilAtlasOffset(descriptor, stage);
-              drawCell(index, scratch);
+    for (let band = 0; band < DEEP_SOIL_BAND_COUNT; band += 1) {
+      for (let variant = 0; variant < DEEP_SOIL_VARIANT_COUNT; variant += 1) {
+        const baseImage = getImage(soilKeys.deepBases?.[band]?.[variant]);
+        if (!baseImage) throw new Error(`Missing deep dynamic soil base: band ${band}, variant ${variant}`);
+        for (let typeIndex = 0; typeIndex < SOIL_TYPE_COUNT; typeIndex += 1) {
+          for (let rarity = 0; rarity < SOIL_RARITY_COUNT; rarity += 1) {
+            for (let stage = 1; stage <= SOIL_DAMAGE_STAGE_COUNT; stage += 1) {
+              composeSoilCell(baseImage, { band, variant, typeIndex, rarity, deep: true }, stage, true);
             }
           }
         }
@@ -416,109 +437,6 @@ export class WorldRenderer {
   }
 
   /**
-   * Start gem vision - scan for rare resources around player
-   * @param {Object} playerTile - Current player position
-   * @param {number} range - Vision range in tiles
-   * @param {boolean} deepSight - Whether deep sight upgrade is unlocked
-   */
-  startGemVision(playerTile, range, deepSight) {
-    this._gemVisionActive = true;
-    this._revealedResources.clear();
-
-    // Basic vision reveals copper; Deep Sight reveals all metals
-    const basicTypes = new Set([TILE_TYPES.COPPER]);
-    const deepTypes = new Set([
-      TILE_TYPES.COPPER, TILE_TYPES.BRONZE, TILE_TYPES.IRON,
-      TILE_TYPES.STEEL, TILE_TYPES.SILVER, TILE_TYPES.GOLD,
-    ]);
-    const visibleTypes = deepSight ? deepTypes : basicTypes;
-
-    const tileTypeToName = {
-      [TILE_TYPES.COPPER]: 'copper',
-      [TILE_TYPES.BRONZE]: 'bronze',
-      [TILE_TYPES.IRON]:   'iron',
-      [TILE_TYPES.STEEL]:  'steel',
-      [TILE_TYPES.SILVER]: 'silver',
-      [TILE_TYPES.GOLD]:   'gold',
-    };
-
-    const radius = Math.floor(range);
-    for (let dy = -radius; dy <= radius; dy++) {
-      for (let dx = -radius; dx <= radius; dx++) {
-        const checkTx = playerTile.tx + dx;
-        const checkTy = playerTile.ty + dy;
-        if (!this.worldModel.inBounds(checkTx, checkTy)) continue;
-
-        const tileType = this.worldModel.getTileType(checkTx, checkTy);
-        if (visibleTypes.has(tileType)) {
-          this._revealedResources.set(`${checkTx},${checkTy}`, {
-            timestamp: performance.now(),
-            type: tileTypeToName[tileType] ?? 'unknown',
-          });
-        }
-      }
-    }
-  }
-
-  /**
-   * Stop gem vision - clear all highlighted resources
-   */
-  stopGemVision() {
-    this._gemVisionActive = false;
-    this._revealedResources.clear();
-    
-    // Clear highlight graphics
-    if (this._highlightGraphics) {
-      this._highlightGraphics.clear();
-    }
-  }
-
-  /**
-   * Update gem vision highlights - render glowing outlines on revealed resources
-   * Should be called every frame while vision is active
-   */
-  updateGemVisionHighlights() {
-    if (!this._gemVisionActive || !this._highlightGraphics) {
-      return;
-    }
-    
-    const tileSize = this.config.tileSize;
-    const currentTime = performance.now();
-    const highlightDuration = 3000; // 3 seconds
-    const fadeStartTime = currentTime - highlightDuration;
-    
-    // Clear previous highlights
-    this._highlightGraphics.clear();
-    
-    // Render highlights for each revealed resource
-    for (const [key, data] of this._revealedResources.entries()) {
-      const [tx, ty] = key.split(',').map(Number);
-      const { timestamp, type } = data;
-      
-      // Check if this resource should still be highlighted
-      if (currentTime - timestamp < highlightDuration) {
-        const x = tx * tileSize + tileSize / 2;
-        const y = ty * tileSize + tileSize / 2;
-        
-        // Color-coded by resource type for Deep Sight readability
-        const typeColors = {
-          copper: 0xff8800, bronze: 0xcd7f32, iron:   0xaaaacc,
-          steel:  0xccccdd, silver: 0xe0e0ff, gold:   0xffd700,
-        };
-        const color = typeColors[type] ?? 0xffff00;
-        
-        // Render glowing outline
-        this._highlightGraphics.lineStyle(3, 0xff00ff, 1); // 3px stroke, no fill
-        this._highlightGraphics.strokeRect(x, y, tileSize - 4, tileSize - 4);
-
-        // Add glow effect
-        this._highlightGraphics.fillStyle(0x220000, 0.3); // Semi-transparent glow
-        this._highlightGraphics.fillRect(x, y, tileSize, tileSize);
-      }
-    }
-  }
-
-  /**
    * Convert player tile coordinates to pixel coordinates
    */
   playerTileToPixel(playerTile) {
@@ -557,13 +475,6 @@ export class WorldRenderer {
         }
       }
     }
-  }
-
-  /**
-   * Check if gem vision is active
-   */
-  isGemVisionActive() {
-    return this._gemVisionActive;
   }
 
   /**
@@ -958,7 +869,6 @@ export class WorldRenderer {
    * Clean up graphics objects created by this renderer
    */
   destroy() {
-    this._highlightGraphics?.destroy();
     this._skyTileGraphics?.destroy();
     this._specialBlockGraphics?.destroy();
     this.rootOverlayLayer?.destroy();

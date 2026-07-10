@@ -13,17 +13,18 @@
   "rows": 1,
   "fps": 8,
   "borderHaloPixelsRemoved": 122,
-  "alphaPixelsChanged": 32075,
+  "alphaPixelsChanged": 71066,
   "targetedTransforms": {
     "sourceFrameOrder": [
       0,
       1,
       2,
       3
-    ]
+    ],
+    "approvedRuntimeOffsetX": 22
   },
   "anchor": {
-    "targetCenterX": 176,
+    "targetCenterX": 198,
     "targetBottom": 339,
     "maxShiftX": 11,
     "maxShiftY": 0,

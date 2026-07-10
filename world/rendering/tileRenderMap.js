@@ -77,6 +77,34 @@ export const DAMAGE_STAGE_KEYS_BY_TYPE = Object.freeze({
     ASSET_KEYS.tiles.goldHp4,
     ASSET_KEYS.tiles.goldHp5,
   ],
+  [TILE_TYPES.LAVA_DIRT]: [
+    ASSET_KEYS.tiles.lavaDirtHp1,
+    ASSET_KEYS.tiles.lavaDirtHp2,
+    ASSET_KEYS.tiles.lavaDirtHp3,
+    ASSET_KEYS.tiles.lavaDirtHp4,
+    ASSET_KEYS.tiles.lavaDirtHp5,
+  ],
+  [TILE_TYPES.OBSIDIAN]: [
+    ASSET_KEYS.tiles.obsidianHp1,
+    ASSET_KEYS.tiles.obsidianHp2,
+    ASSET_KEYS.tiles.obsidianHp3,
+    ASSET_KEYS.tiles.obsidianHp4,
+    ASSET_KEYS.tiles.obsidianHp5,
+  ],
+  [TILE_TYPES.EMBER_ORE]: [
+    ASSET_KEYS.tiles.emberOreHp1,
+    ASSET_KEYS.tiles.emberOreHp2,
+    ASSET_KEYS.tiles.emberOreHp3,
+    ASSET_KEYS.tiles.emberOreHp4,
+    ASSET_KEYS.tiles.emberOreHp5,
+  ],
+  [TILE_TYPES.MAGMA_CRYSTAL]: [
+    ASSET_KEYS.tiles.magmaCrystalHp1,
+    ASSET_KEYS.tiles.magmaCrystalHp2,
+    ASSET_KEYS.tiles.magmaCrystalHp3,
+    ASSET_KEYS.tiles.magmaCrystalHp4,
+    ASSET_KEYS.tiles.magmaCrystalHp5,
+  ],
 });
 
 const DAMAGE_SOURCE_KEYS = Object.freeze(Object.values(DAMAGE_STAGE_KEYS_BY_TYPE).flat());

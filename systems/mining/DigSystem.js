@@ -3,65 +3,14 @@ import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
 import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
-import { getBlockEffect } from "../../values/specialBlocks.js";
-import { getResourceYieldMultiplier, getResourceHpMultiplier } from "../../values/dynamicSoil.js";
-
-const HARD_TILE_TYPES = new Set([TILE_TYPES.STONE, TILE_TYPES.COPPER, TILE_TYPES.STEEL, TILE_TYPES.IRON, TILE_TYPES.BRONZE, TILE_TYPES.SILVER, TILE_TYPES.GOLD]);
-
-const EMPTY_RESOURCES = Object.freeze({
-  dirt: 0,
-  stone: 0,
-  copper: 0,
-  darkDirtNormal: 0,
-  darkDirtStrong: 0,
-  steel: 0,
-  iron: 0,
-  bronze: 0,
-  silver: 0,
-  gold: 0,
-});
-
-function sanitizeResourceTotals(resources) {
-  return {
-    dirt: Math.max(0, Number.isFinite(resources?.dirt) ? Math.floor(resources.dirt) : 0),
-    stone: Math.max(0, Number.isFinite(resources?.stone) ? Math.floor(resources.stone) : 0),
-    copper: Math.max(0, Number.isFinite(resources?.copper) ? Math.floor(resources.copper) : 0),
-    darkDirtNormal: Math.max(0, Number.isFinite(resources?.darkDirtNormal) ? Math.floor(resources.darkDirtNormal) : 0),
-    darkDirtStrong: Math.max(0, Number.isFinite(resources?.darkDirtStrong) ? Math.floor(resources.darkDirtStrong) : 0),
-    steel: Math.max(0, Number.isFinite(resources?.steel) ? Math.floor(resources.steel) : 0),
-    iron: Math.max(0, Number.isFinite(resources?.iron) ? Math.floor(resources.iron) : 0),
-    bronze: Math.max(0, Number.isFinite(resources?.bronze) ? Math.floor(resources.bronze) : 0),
-    silver: Math.max(0, Number.isFinite(resources?.silver) ? Math.floor(resources.silver) : 0),
-    gold: Math.max(0, Number.isFinite(resources?.gold) ? Math.floor(resources.gold) : 0),
-  };
-}
-
-function tileTypeToResource(tileType) {
-  switch (tileType) {
-    case TILE_TYPES.DIRT:
-      return "dirt";
-    case TILE_TYPES.DARK_DIRT_NORMAL:
-      return "darkDirtNormal";
-    case TILE_TYPES.DARK_DIRT_STRONG:
-      return "darkDirtStrong";
-    case TILE_TYPES.STONE:
-      return "stone";
-    case TILE_TYPES.COPPER:
-      return "copper";
-    case TILE_TYPES.STEEL:
-      return "steel";
-    case TILE_TYPES.IRON:
-      return "iron";
-    case TILE_TYPES.BRONZE:
-      return "bronze";
-    case TILE_TYPES.SILVER:
-      return "silver";
-    case TILE_TYPES.GOLD:
-      return "gold";
-    default:
-      return null;
-  }
-}
+import { getBlockEffect, getGemPowerBlockRestoreAmount } from "../../values/specialBlocks.js";
+import { getResourceYieldMultiplier } from "../../values/dynamicSoil.js";
+import {
+  HARD_RESOURCE_TILE_TYPES,
+  createZeroResourceTotals,
+  sanitizeResourceTotals,
+  tileTypeToResource,
+} from "../../values/resourceTypes.js";
 
 export class DigSystem {
   constructor(worldModel, worldRenderer, config, upgradeSystem = null, playerLevelSystem = null, floatingTextSystem = null, comboSystem = null, specialBlockEffectsManager = null) {
@@ -76,7 +25,7 @@ export class DigSystem {
 
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
-    this.resources = { ...EMPTY_RESOURCES };
+    this.resources = createZeroResourceTotals();
   }
 
   setPlayerLevelSystem(playerLevelSystem) {
@@ -163,7 +112,17 @@ export class DigSystem {
         cooldown = cooldown / (1 + speedBonus);
       }
     }
-    
+
+    // Apply combo momentum — mild dig-speed reward for sustained combos
+    const momentum = COMBO_CONFIG.momentum;
+    if (momentum?.enabled && this.comboSystem && typeof this.comboSystem.getComboCount === "function") {
+      const combo = this.comboSystem.getComboCount();
+      if (combo >= momentum.minCombo) {
+        const ramp = Math.min(1, (combo - momentum.minCombo) / Math.max(1, momentum.fullEffectAtCombo - momentum.minCombo));
+        cooldown = cooldown * (1 - momentum.maxCooldownReduction * ramp);
+      }
+    }
+
     return cooldown;
   }
 
@@ -220,7 +179,7 @@ export class DigSystem {
   }
 
   _getBaseDamageForTile(tileType) {
-    return HARD_TILE_TYPES.has(tileType)
+    return HARD_RESOURCE_TILE_TYPES.has(tileType)
       ? (MINING_CONFIG.baseDamageHard || 4)
       : (MINING_CONFIG.baseDamage || 8);
   }
@@ -287,7 +246,8 @@ export class DigSystem {
             heavyPunchResult.behindResourceAmount += 1;
             heavyPunchResult.behindIsLuckyDrop = true;
           }
-          this.resources[heavyPunchResult.behindResourceType] += heavyPunchResult.behindResourceAmount;
+          this.resources[heavyPunchResult.behindResourceType] =
+            (this.resources[heavyPunchResult.behindResourceType] || 0) + heavyPunchResult.behindResourceAmount;
           if (this.playerLevelSystem) {
             this.playerLevelSystem.gainXP(heavyPunchResult.behindResourceType);
           }
@@ -529,7 +489,7 @@ export class DigSystem {
             isLuckyDrop = true;
           }
 
-          this.resources[resourceType] += resourceAmount;
+          this.resources[resourceType] = (this.resources[resourceType] || 0) + resourceAmount;
 
           if (this.playerLevelSystem) {
             const xpMultiplier = isSkyTileBonus ? 2 : 1;
@@ -539,6 +499,13 @@ export class DigSystem {
             newLevel = xpResult.newLevel;
             hasChoice = xpResult.hasChoice;
             rewards = xpResult.rewards;
+          }
+
+          if (levelsGained > 0 && this.playerLevelSystem) {
+            levelUp = true;
+            newLevel = this.playerLevelSystem.level;
+            hasChoice = false;
+            rewards = [];
           }
 
           if (isSkyTileBonus && this.floatingTextSystem) {
@@ -604,18 +571,7 @@ export class DigSystem {
   }
 
   getResourceTotals() {
-    return {
-      dirt: this.resources.dirt,
-      stone: this.resources.stone,
-      copper: this.resources.copper,
-      darkDirtNormal: this.resources.darkDirtNormal,
-      darkDirtStrong: this.resources.darkDirtStrong,
-      steel: this.resources.steel,
-      iron: this.resources.iron,
-      bronze: this.resources.bronze,
-      silver: this.resources.silver,
-      gold: this.resources.gold,
-    };
+    return sanitizeResourceTotals(this.resources);
   }
 
   setResourceTotals(resources) {
@@ -645,6 +601,7 @@ export class DigSystem {
       newLevel: null,
       hasChoice: false,
       rewards: [],
+      levelsGained: 0,
       specialBlockEffect: null,
     };
 
@@ -675,7 +632,7 @@ export class DigSystem {
         result.resourceAmount += 1;
         result.isLuckyDrop = true;
       }
-      this.resources[resourceType] += result.resourceAmount;
+      this.resources[resourceType] = (this.resources[resourceType] || 0) + result.resourceAmount;
     }
 
     if (tileType === TILE_TYPES.SKY_TILE && resourceType && this.floatingTextSystem) {
@@ -714,6 +671,9 @@ export class DigSystem {
       if (specialResult.levelsGained) {
         result.levelUp = true;
         result.newLevel = this.playerLevelSystem ? this.playerLevelSystem.level : null;
+        result.levelsGained = specialResult.levelsGained;
+        result.hasChoice = false;
+        result.rewards = [];
       }
     }
 
@@ -756,17 +716,18 @@ export class DigSystem {
 
     switch (result.typeBeforeDamage) {
       case TILE_TYPES.GEM_POWER_BLOCK:
-        // GEM_POWER_BLOCK restores gem power to maximum
+        // GEM_POWER_BLOCK restores a fixed tiered amount, not full GP.
         // Gem power is managed by PlayerAbilities, not PlayerLevelSystem
         // Get scene to access player abilities
         if (scene && scene.playerController && scene.playerController.abilities) {
           const abilities = scene.playerController.abilities;
           const maxGP = abilities.getGemPowerMax();
           const currentGP = abilities.getGemPowerRaw();
-          const gpToRestore = maxGP;
+          const depthTiles = targetTile.ty - (this.worldModel?.topAirRows || 0);
+          const gpToRestore = Math.max(0, Math.min(maxGP - currentGP, getGemPowerBlockRestoreAmount(depthTiles)));
           
-          // Restore gem power by setting it to max
-          abilities.gemPower = maxGP;
+          // Restore only the tiered amount so GP blocks stay valuable without becoming full refills.
+          abilities.gemPower = Math.min(maxGP, currentGP + gpToRestore);
           
           specialBlockEffect = 'gemPowerRestored';
           gemPowerRestored = gpToRestore;
@@ -775,7 +736,7 @@ export class DigSystem {
         }
         specialBlockDestroyed = true;
         if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, '💎 GEM POWER RESTORED!', '#9900FF', 2000);
+          this.floatingTextSystem.showFloatingText(worldX, worldY, `+${gemPowerRestored} GP`, '#9900FF', 2000);
         }
         break;
 
@@ -794,8 +755,8 @@ export class DigSystem {
 
       case TILE_TYPES.XP_BLOCK:
         if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevel === 'function') {
-          this.playerLevelSystem.gainLevel();
-          levelsGained = 1;
+          const levelResult = this.playerLevelSystem.gainLevel(1) || {};
+          levelsGained = Number.isFinite(levelResult.levelsGained) ? levelResult.levelsGained : 1;
           specialBlockEffect = 'levelUp';
         } else {
           console.warn('[DigSystem] XP_BLOCK effect requires playerLevelSystem with gainLevel method');
@@ -849,10 +810,8 @@ export class DigSystem {
       case TILE_TYPES.LEGEND_BLOCK:
         if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevel === 'function') {
           // Skip level-up choice dialog — auto-apply +5 levels with no prompts
-          for (let i = 0; i < 5; i++) {
-            this.playerLevelSystem.gainLevel();
-          }
-          levelsGained = 5;
+          const levelResult = this.playerLevelSystem.gainLevel(5) || {};
+          levelsGained = Number.isFinite(levelResult.levelsGained) ? levelResult.levelsGained : 5;
           specialBlockEffect = 'legendLevelUp';
         } else {
           console.warn('[DigSystem] LEGEND_BLOCK effect requires playerLevelSystem with gainLevel method');

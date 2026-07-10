@@ -7,6 +7,7 @@
 import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
 
 function hasEscapeClosableOverlay(scene) {
   return Boolean(
@@ -24,6 +25,27 @@ function syncProgressionGemPowerMax(scene) {
   const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
   const milestoneBonus = scene.milestoneBoardSystem?.getBonuses?.()?.gpMaxBonus ?? 0;
   scene.playerController?.setProgressionGemPowerMaxBonus?.(levelBonus + milestoneBonus);
+}
+
+function _handleLevelUpResult(scene, result) {
+  if (!result?.levelUp || !scene.levelUpPopup) return;
+
+  const rewards = Array.isArray(result.rewards) ? result.rewards : [];
+  const level = Number.isFinite(result.newLevel)
+    ? result.newLevel
+    : scene.playerLevelSystem?.level;
+  const hasChoice = Boolean(result.hasChoice);
+
+  if (scene.levelUpPopup.visible) {
+    scene._pendingLevelUp = {
+      level,
+      hasChoice,
+      rewards,
+    };
+    return;
+  }
+
+  scene.levelUpPopup.show(level, hasChoice, rewards);
 }
 
 /**
@@ -55,17 +77,17 @@ export function updateScene(time, delta) {
   // 1. Check for level up popup input (has highest priority after global)
   if (this.levelUpPopup && this.levelUpPopup.visible) {
     const choice = this.levelUpPopup.handleInput();
-    if (choice) {
-      if (choice !== "continue") {
-        this.playerLevelSystem.applyChoiceReward(choice);
+      if (choice) {
+        if (choice !== "continue") {
+          this.playerLevelSystem.applyChoiceReward(choice);
+        }
+        // Check if there's a pending level up after closing current popup
+        if (this._pendingLevelUp && !this.levelUpPopup.visible) {
+          console.log('[LEVEL UP] Showing pending level up - Level:', this._pendingLevelUp.level);
+          this.levelUpPopup.show(this._pendingLevelUp.level, this._pendingLevelUp.hasChoice, this._pendingLevelUp.rewards);
+          this._pendingLevelUp = null;
+        }
       }
-      // Check if there's a pending level up after closing current popup
-      if (this._pendingLevelUp && !this.levelUpPopup.visible) {
-        console.log('[LEVEL UP] Showing pending level up - Level:', this._pendingLevelUp.level);
-        this.levelUpPopup.show(this._pendingLevelUp.level, this._pendingLevelUp.hasChoice, this._pendingLevelUp.rewards);
-        this._pendingLevelUp = null;
-      }
-    }
     return; // Skip all other updates while level up popup is visible
   }
 
@@ -126,6 +148,11 @@ function _updateSystems(time, delta, keys) {
   this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
   this.uiResourceBar?.setMoney(this.upgradeSystem.getMoney());
 
+  // Capture the pre-movement tile once for systems updated in this section.
+  // PlayerState.getPlayerTile() calculates the body's center and returns a new
+  // tile object, so repeated calls here add avoidable work and allocations.
+  const playerTile = this.playerController?.getPlayerTile?.() ?? null;
+
   // Update XP progress bar
   if (this.xpProgressBar && this.playerLevelSystem) {
     const level = this.playerLevelSystem.level;
@@ -166,11 +193,8 @@ function _updateSystems(time, delta, keys) {
     this.weatherSystem.update(time, delta);
   }
 
-  if (this.lightSystem && this.playerController) {
-    const lightPlayerTile = this.playerController.getPlayerTile();
-    const lightDepth = lightPlayerTile
-      ? Math.max(0, lightPlayerTile.ty - this.config.topAirRows + 1)
-      : 0;
+  if (this.lightSystem && playerTile) {
+    const lightDepth = Math.max(0, playerTile.ty - this.config.topAirRows + 1)
     const gameplayActive = this.gameState === "playing"
       && !this._pillarViewActive
       && !this.campfireSystem?.isSelecting?.();
@@ -188,37 +212,26 @@ function _updateSystems(time, delta, keys) {
 
 
     // Update sky tile glow effects (always active)
-    if (this.worldRenderer && this.playerController) {
-      const playerTile = this.playerController.getPlayerTile();
+    if (this.worldRenderer && playerTile) {
       this.worldRenderer.updateSkyTileGlow(playerTile, 20);
     }
 
-    // Update root overlay decorations (always active)
-    if (this.worldRenderer && this.playerController) {
-      const playerTile = this.playerController.getPlayerTile();
-      this.worldRenderer.updateRootOverlays(playerTile, 20);
-    }
-
     // Update chest glow effects (always active — golden pulsing light around treasure chests)
-    if (this.worldRenderer && this.playerController) {
-      const playerTile = this.playerController.getPlayerTile();
+    if (this.worldRenderer && playerTile) {
       this.worldRenderer.updateChestGlow(playerTile, 25);
     }
 
     // Update glow crystal effects (always active — pretty colored crystal clusters)
-    if (this.worldRenderer && this.playerController) {
-      const playerTile = this.playerController.getPlayerTile();
+    if (this.worldRenderer && playerTile) {
       this.worldRenderer.updateGlowCrystals(playerTile, 25);
     }
 
-    if (this.caveInteriorOcclusionSystem && this.playerController) {
-      const playerTile = this.playerController.getPlayerTile();
+    if (this.caveInteriorOcclusionSystem && playerTile) {
       this.caveInteriorOcclusionSystem.update(playerTile);
     }
 
   // Update Star Pillar System (always active — handles proximity + zoom view)
-  if (this.starPillarSystem && this.playerController) {
-    const playerTile = this.playerController.getPlayerTile();
+  if (this.starPillarSystem && playerTile) {
     this.starPillarSystem.update(time, delta, playerTile, keys);
   }
 }
@@ -286,15 +299,15 @@ function _updatePlayingState(time, delta, keys) {
   
   // Quickslash: auto-trigger attacks when Q is held
   if (isQuickslashActive) {
-    const tileType = aimTargetTile ? this.worldModel.getTileType(aimTargetTile.tx, aimTargetTile.ty) : null;
     const quickslashDir = abilities.getQuickslashDirection();
     
     // Determine aim label based on quickslash direction
     const quickslashAim = quickslashDir === 1 ? "RIGHT" : "LEFT";
     const quickslashTarget = {
-      tx: this.playerController.getPlayerTile().tx + quickslashDir,
-      ty: this.playerController.getPlayerTile().ty
+      tx: playerTile.tx + quickslashDir,
+      ty: playerTile.ty
     };
+    const tileType = this.worldModel.getTileType(quickslashTarget.tx, quickslashTarget.ty);
     
     const result = this.digSystem.tryMine(quickslashTarget, time, quickslashAim, abilities);
     
@@ -303,8 +316,8 @@ function _updatePlayingState(time, delta, keys) {
       const quickslashProfile = this.playerAssetProfile || ASSET_KEYS.player;
       const quickslashAnimKey = quickslashProfile.quickslashAnim || ASSET_KEYS.player.quickslashAnim;
       this.isDigAnimating = true;
-      // Flip sprite for right-facing attacks (similar to dig animation)
-      const flipX = quickslashDir === 1;
+      const flipX = quickslashDir < 0;
+      this._actionFlipX = flipX;
       this.player.setFlipX(flipX);
       this.player.play(quickslashAnimKey, true);
       // Keep sprite size consistent with other character animations
@@ -352,16 +365,7 @@ function _updatePlayingState(time, delta, keys) {
       
       // Handle level up events from quickslash (same as normal mining)
       if (result.levelUp && this.levelUpPopup) {
-        const rewards = Array.isArray(result.rewards) ? result.rewards : [];
-        if (!this.levelUpPopup.visible) {
-          this.levelUpPopup.show(result.newLevel, result.hasChoice, rewards);
-        } else {
-          this._pendingLevelUp = {
-            level: result.newLevel,
-            hasChoice: result.hasChoice,
-            rewards: rewards
-          };
-        }
+        _handleLevelUpResult(this, result);
       }
     }
   }
@@ -370,6 +374,7 @@ function _updatePlayingState(time, delta, keys) {
   if (wasQuickslashActive && !isQuickslashActive) {
     this.isDigAnimating = false;
     this.updatePlayerVisualState(true);
+    this._actionFlipX = null;
   }
   
   // Normal mining (F key)
@@ -407,14 +412,8 @@ function _updatePlayingState(time, delta, keys) {
         if (this.floatingTextSystem && result.resourceType) {
           const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
           const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-          const resourceLabel = result.resourceType.charAt(0).toUpperCase() + result.resourceType.slice(1);
-          const resourceColor = result.resourceType === 'gold' ? '#FFD700' :
-                                result.resourceType === 'silver' ? '#C0C0C0' :
-                                result.resourceType === 'steel' ? '#4682B4' :
-                                result.resourceType === 'iron' ? '#71797E' :
-                                result.resourceType === 'bronze' ? '#CD7F32' :
-                                result.resourceType === 'copper' ? '#B87333' :
-                                result.resourceType === 'stone' ? '#808080' : '#8B4513';
+          const resourceLabel = getResourceDisplayName(result.resourceType);
+          const resourceColor = RESOURCE_COLORS[result.resourceType] || '#8B4513';
           this.floatingTextSystem.showResource(worldX, worldY, resourceLabel, resourceColor, result.resourceAmount);
         }
 
@@ -452,23 +451,8 @@ function _updatePlayingState(time, delta, keys) {
     
     // Handle level up events
       if (result.levelUp && this.levelUpPopup) {
-      // Ensure rewards is always an array
-      const rewards = Array.isArray(result.rewards) ? result.rewards : [];
-      console.log('[LEVEL UP] Showing popup - Level:', result.newLevel, 'hasChoice:', result.hasChoice, 'rewards:', rewards);
-      
-      // Only show popup if not already visible (prevent duplicate popups)
-      if (!this.levelUpPopup.visible) {
-        this.levelUpPopup.show(result.newLevel, result.hasChoice, rewards);
-      } else {
-        console.warn('[LEVEL UP] Popup already visible, queuing level up event');
-        // Store pending level up to show after current popup closes
-        this._pendingLevelUp = {
-          level: result.newLevel,
-          hasChoice: result.hasChoice,
-          rewards: rewards
-        };
+        _handleLevelUpResult(this, result);
       }
-    }
   }
   }
 
@@ -570,14 +554,7 @@ function _updatePlayingState(time, delta, keys) {
                 const reward = this.digSystem.processDestroyedTile(result.tx, result.ty, result.tileType, time, false, result.wasRubble);
                 this.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
 
-                if (reward.levelUp && this.levelUpPopup) {
-                  const rewards = Array.isArray(reward.rewards) ? reward.rewards : [];
-                  if (!this.levelUpPopup.visible) {
-                    this.levelUpPopup.show(reward.newLevel, reward.hasChoice, rewards);
-                  } else {
-                    this._pendingLevelUp = { level: reward.newLevel, hasChoice: reward.hasChoice, rewards };
-                  }
-                }
+                if (reward.levelUp && this.levelUpPopup) _handleLevelUpResult(this, reward);
 
                 this.queueDugTilesSave();
               }
@@ -639,6 +616,8 @@ function _updatePlayingState(time, delta, keys) {
         this.soundSystem.playSfx('reward');
       }
       this.shakeSystem?.shake("misc.depthMilestone");
+      // Trigger cinematic for curated depths (100, 300, 500, 750, 1000, 1500, 2000)
+      this.depthMilestoneCinematic?.trigger?.(depth, milestone);
       // Flash status
       if (this.hudSystem) {
         this.hudSystem.flashStatus(
@@ -713,56 +692,14 @@ function _updatePlayingState(time, delta, keys) {
   }
 }
 
-// -- Per-frame camera & UI-zoom updates ------------------------------------
-// Runs every frame AFTER all game systems have updated so the camera
-// tracks the player's actual position. Three concerns, one place:
+// -- Per-frame camera updates -----------------------------------------------
+// Runs every frame after gameplay systems so active camera feedback is applied
+// against the player's current position.
 //
 //   1. shakeSystem.update()     -- apply active camera-shake offset
-//   2. updateCameraLookAhead()  -- bias the camera target along the
-//                                 player's last movement direction so the
-//                                 action sits ahead of the crosshair.
-//   3. updateDepthBandZoom()    -- smooth zoom transition when crossing
-//                                 a depth band (surface <-> underground).
-//   4. updateUiZoom()           -- inversely scale UI elements registered
-//                                 in _zoomCompensationTargets so the HUD
-//                                 does not shrink when the camera zooms.
 export function updateCameraSystems(scene, time, delta) {
   // 1. Apply active shake offset (custom multi-frequency, see CameraShakeSystem)
   if (scene.shakeSystem) scene.shakeSystem.update(time, delta);
-
-  // 2. Look-ahead: lerp the camera target offset toward the player's
-  //    movement direction. We use delta-time-aware lerp so the offset
-  //    feels identical on 30fps and 144fps.
-  if (scene.player && scene.cameras && scene.cameras.main) {
-    const dx = scene.player.x - (scene._lastPlayerX ?? scene.player.x);
-    const dy = scene.player.y - (scene._lastPlayerY ?? scene.player.y);
-    scene._lastPlayerX = scene.player.x;
-    scene._lastPlayerY = scene.player.y;
-
-    // Normalize per-frame velocity into a unit vector, scaled by config
-    const speed = Math.hypot(dx, dy);
-    if (speed > 0.1) {
-      const inv = 1 / speed;
-      const maxLead = scene.config?.cameraLookAheadPx ?? 40;
-      const targetX = dx * inv * maxLead;
-      const targetY = dy * inv * maxLead;
-      const a = scene.config?.cameraLookAheadLerp ?? 0.06;
-      scene._cameraLookAheadX += (targetX - scene._cameraLookAheadX) * a;
-      scene._cameraLookAheadY += (targetY - scene._cameraLookAheadY) * a;
-    } else {
-      // Decay back to zero
-      scene._cameraLookAheadX *= 0.85;
-      scene._cameraLookAheadY *= 0.85;
-    }
-
-    // NOTE: We DO NOT push the look-ahead into setFollowOffset here
-    // because the shake system also uses setFollowOffset for its own
-    // offset, and the two are not coordinated. Calling setFollowOffset
-    // here would clobber the shake every frame. We track the value
-    // internally so it can be applied properly once a two-camera
-    // system is in place.
-    scene._lastAppliedLookAhead = { x: scene._cameraLookAheadX, y: scene._cameraLookAheadY };
-  }
 
   // NOTE: Camera zoom is intentionally NOT changed at runtime.
   //   - Zooming the main camera would scale the HUD/menus (which use

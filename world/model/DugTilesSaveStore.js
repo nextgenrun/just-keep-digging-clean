@@ -4,36 +4,13 @@
  * Full persistence layer with localStorage and optional remote endpoint support.
  */
 import { SaveBackupManager } from "../../systems/save-system/SaveBackupManager.js";
+import { RESOURCE_ZERO_TOTALS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
 const LOCAL_STORAGE_KEY = "dig-game-dug-tiles-admin";
 const MAX_DUG_TILE_KEYS = 500000;
 const MAX_RUBBLE_TILES = 500000;
-
-const DEFAULT_RESOURCES = Object.freeze({
-  dirt: 0, stone: 0, copper: 0,
-  darkDirtNormal: 0, darkDirtStrong: 0,
-  steel: 0, iron: 0, bronze: 0, silver: 0, gold: 0,
-});
-
-function clampResourceCount(value) {
-  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
-}
-
-function normalizeResources(resources) {
-  return {
-    dirt: clampResourceCount(resources?.dirt),
-    stone: clampResourceCount(resources?.stone),
-    copper: clampResourceCount(resources?.copper),
-    darkDirtNormal: clampResourceCount(resources?.darkDirtNormal),
-    darkDirtStrong: clampResourceCount(resources?.darkDirtStrong),
-    steel: clampResourceCount(resources?.steel),
-    iron: clampResourceCount(resources?.iron),
-    bronze: clampResourceCount(resources?.bronze),
-    silver: clampResourceCount(resources?.silver),
-    gold: clampResourceCount(resources?.gold),
-  };
-}
+const LEGACY_WORLD_WIDTH_TILES = 120;
 
 function sanitizeDugTileKeys(dugTileKeys) {
   if (!Array.isArray(dugTileKeys)) return [];
@@ -88,8 +65,10 @@ function normalizeDepthGateData(data) {
 
 function worldMatches(expectedWorld, candidateWorld) {
   if (!expectedWorld || !candidateWorld) return false;
+  const widthMatches = expectedWorld.width === candidateWorld.width
+    || (candidateWorld.width === LEGACY_WORLD_WIDTH_TILES && expectedWorld.width >= LEGACY_WORLD_WIDTH_TILES);
   return expectedWorld.seed === candidateWorld.seed
-    && expectedWorld.width === candidateWorld.width
+    && widthMatches
     && expectedWorld.depth === candidateWorld.depth
     && expectedWorld.topAirRows === candidateWorld.topAirRows;
 }
@@ -174,7 +153,7 @@ export class DugTilesSaveStore {
     return null;
   }
 
-  async save(worldIdentity, dugTileKeys, resources = DEFAULT_RESOURCES, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null) {
+  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null) {
     const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId);
     this.saveToLocalStorage(payload);
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
@@ -196,7 +175,7 @@ export class DugTilesSaveStore {
       },
       dugTiles: sanitizeDugTileKeys(dugTileKeys),
       rubbleTiles: sanitizeRubbleTiles(rubbleTiles),
-      resources: normalizeResources(resources),
+      resources: sanitizeResourceTotals(resources),
       upgrades: upgrades || null,
       levelData: levelData || null,
       specialTileData: specialTileData || null,
@@ -216,7 +195,7 @@ export class DugTilesSaveStore {
       world: { seed: world.seed, width: world.width, depth: world.depth, topAirRows: world.topAirRows },
       dugTiles: sanitizeDugTileKeys(payload.dugTiles),
       rubbleTiles: sanitizeRubbleTiles(payload.rubbleTiles),
-      resources: normalizeResources(payload.resources),
+      resources: sanitizeResourceTotals(payload.resources),
       upgrades: payload.upgrades || null,
       levelData: payload.levelData || null,
       specialTileData: payload.specialTileData || null,

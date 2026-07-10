@@ -1,11 +1,14 @@
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const smoothstep = (value) => {
   const t = clamp01(value);
   return t * t * (3 - 2 * t);
 };
+const SKY_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.SKY_TILE]));
+const GEODE_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.GEODE_INTERIOR, TILE_TYPES.GEODE_WALL]));
 
 /**
  * Depth-aware lighting compositor.
@@ -181,6 +184,7 @@ export class LightSystem {
     const surfaceLightInfluence = this._getSurfaceLightInfluence(depth);
     const undergroundDarknessInfluence = 1 - surfaceLightInfluence;
     const depthRatio = this._getDepthRatio(depth);
+    const noTorchMinVisibilityRadius = this._getUpgradeEffects().noTorchMinVisibilityRadius || 0;
     const nightAmount = clamp01(this.dayNightCycle?.getNightAmount?.() ?? 0);
     const sunStrength = this._getSunStrength();
     const stormCavePulse = weather.lightningFlashAmount
@@ -197,6 +201,7 @@ export class LightSystem {
       state: this._lightingState,
       depth,
       torchBonusRadius: this._getTorchBonusRadius(),
+      noTorchMinVisibilityRadius: this._torchActive ? 0 : Math.max(0, Number(noTorchMinVisibilityRadius) || 0),
       torchDarknessMultiplier: this._getTorchDarknessMultiplier(depth),
       torchDrainPerSecond: this._getTorchDrainPerSecond(depth),
       depthRatio,
@@ -305,6 +310,9 @@ export class LightSystem {
     const surface = lighting.surfaceLightInfluence;
     const underground = lighting.undergroundDarknessInfluence;
     const weather = lighting.weather;
+    const noTorchMinVisibilityBonus = this._torchActive
+      ? 0
+      : Math.max(0, Number(lighting.noTorchMinVisibilityRadius || 0));
     const minRadius = Number.isFinite(this.config.minVisibilityRadiusTiles)
       ? this.config.minVisibilityRadiusTiles
       : 0.5;
@@ -313,7 +321,7 @@ export class LightSystem {
     const stormMultiplier = 1 - weather.stormAmount * this.config.stormVisibilityPenalty * surface;
     const caveWeatherMultiplier = 1 - weather.undergroundSignal * underground * 0.06;
 
-    return Math.max(minRadius, (baseRadius + torchBonus) * nightMultiplier * stormMultiplier * caveWeatherMultiplier);
+    return Math.max(minRadius + noTorchMinVisibilityBonus, (baseRadius + torchBonus) * nightMultiplier * stormMultiplier * caveWeatherMultiplier);
   }
 
   _computeTargetGlow(lighting) {
@@ -335,6 +343,7 @@ export class LightSystem {
     const darkness = this._darknessTexture;
     const camera = this.scene.cameras.main;
     const player = this.scene.player;
+    const playerTile = this.playerController?.getPlayerTile?.() || null;
 
     darkness.clear();
     darkness.fill(this.config.darknessColor, 1);
@@ -371,7 +380,15 @@ export class LightSystem {
       lighting,
       camera,
       darkness,
-      this.playerController?.getPlayerTile?.(),
+      playerTile,
+      radiusTiles
+    );
+    this._eraseSkyAndGeodeLights(
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
       radiusTiles
     );
 
@@ -494,6 +511,123 @@ export class LightSystem {
         .setAlpha(revealAlpha);
       darkness.erase(this._crystalEraser, screenX, screenY);
       sourcesDrawn += 1;
+    }
+  }
+
+  _eraseSkyAndGeodeLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
+    this._eraseTileTypeLightSources({
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
+      playerVisionRadiusTiles,
+      cfg: this.config.skyTileLights,
+      tileTypes: SKY_LIGHT_TILE_TYPES,
+    });
+
+    this._eraseTileTypeLightSources({
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
+      playerVisionRadiusTiles,
+      cfg: this.config.geodeTileLights,
+      tileTypes: GEODE_LIGHT_TILE_TYPES,
+    });
+  }
+
+  _eraseTileTypeLightSources({
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0,
+    cfg,
+    tileTypes,
+  }) {
+    if (!cfg?.enabled || !this._crystalEraser || !this.scene.worldModel || !tileTypes || tileTypes.size === 0) {
+      return;
+    }
+
+    const worldModel = this.scene.worldModel;
+    const tileSize = this.scene.config.tileSize;
+    const zoomX = camera.zoomX || camera.zoom || 1;
+    const zoomY = camera.zoomY || camera.zoom || 1;
+    const worldView = camera.worldView || {
+      x: camera.scrollX,
+      y: camera.scrollY,
+      width: camera.width / zoomX,
+      height: camera.height / zoomY,
+    };
+    const paddingWorld = (cfg.cameraPaddingTiles || 0) * tileSize;
+
+    const viewStartTileX = Math.floor((worldView.x - paddingWorld) / tileSize);
+    const viewEndTileX = Math.floor((worldView.x + worldView.width + paddingWorld) / tileSize);
+    const viewStartTileY = Math.floor((worldView.y - paddingWorld) / tileSize);
+    const viewEndTileY = Math.floor((worldView.y + worldView.height + paddingWorld) / tileSize);
+    const startTileX = Math.max(0, viewStartTileX);
+    const endTileX = Math.min(worldModel.width - 1, viewEndTileX);
+    const startTileY = Math.max(0, viewStartTileY);
+    const endTileY = Math.min(worldModel.depth - 1, viewEndTileY);
+
+    if (endTileX < startTileX || endTileY < startTileY) return;
+
+    const sources = [];
+    const revealLeash = Number.isFinite(playerVisionRadiusTiles)
+      ? playerVisionRadiusTiles + (cfg.playerRevealLeashTiles || 0)
+      : Number.POSITIVE_INFINITY;
+
+    for (let ty = startTileY; ty <= endTileY; ty += 1) {
+      for (let tx = startTileX; tx <= endTileX; tx += 1) {
+        const tileType = worldModel.getTileType(tx, ty);
+        if (!tileTypes.has(tileType)) continue;
+
+        if (playerTile && Number.isFinite(revealLeash)) {
+          const dx = tx - playerTile.tx;
+          const dy = ty - playerTile.ty;
+          if (Math.hypot(dx, dy) > revealLeash) continue;
+        }
+
+        const distanceSq = playerTile
+          ? (tx - playerTile.tx) * (tx - playerTile.tx) + (ty - playerTile.ty) * (ty - playerTile.ty)
+          : 0;
+        sources.push({ tx, ty, distanceSq });
+      }
+    }
+
+    if (sources.length === 0) return;
+
+    sources.sort((a, b) => a.distanceSq - b.distanceSq);
+    const maxSources = Math.max(1, cfg.maxSourcesPerFrame || 20);
+
+    const revealBase = cfg.revealAlpha || 0.1;
+    const radiusTiles = cfg.radiusTiles || 1.15;
+    const flickerSpeed = cfg.flickerSpeed || 0;
+    const flickerAmount = cfg.flickerAmount || 0;
+    const maxRadiusTiles = cfg.maxRadiusTiles || radiusTiles;
+    const baseReveal = revealBase * (1 + lighting.undergroundDarknessInfluence * (cfg.undergroundRevealBoost || 0));
+
+    for (let i = 0; i < sources.length && i < maxSources; i += 1) {
+      const source = sources[i];
+      const phase = (source.tx + source.ty * 97) * 0.17;
+      const flicker = 1 + Math.sin(time * flickerSpeed + phase) * flickerAmount;
+      const revealAlpha = clamp01(baseReveal * flicker);
+      if (revealAlpha <= 0.01) continue;
+
+      const worldX = source.tx * tileSize + tileSize * 0.5;
+      const worldY = source.ty * tileSize + tileSize * 0.5;
+      const scaledRadiusTiles = Math.max(0.65, Math.min(maxRadiusTiles, radiusTiles + (flicker - 1) * 0.3));
+
+      camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
+      this._crystalEraser
+        .setDisplaySize(scaledRadiusTiles * tileSize * 2 * zoomX, scaledRadiusTiles * tileSize * 2 * zoomY)
+        .setAlpha(revealAlpha);
+      const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
+      const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
+      darkness.erase(this._crystalEraser, screenX, screenY);
     }
   }
 

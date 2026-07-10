@@ -29,8 +29,76 @@
  */
 
 import { UI_COLORS } from "../../values/uiColors.js";
-import { createButton } from "../../ui/PhaserUiKit.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../UserSettings.js";
+
+function parseColorHex(value, fallback = 0x666666) {
+  if (typeof value === "number" && Number.isInteger(value)) return value;
+  if (typeof value !== "string") return fallback;
+
+  const normalized = value.startsWith("#") ? value.slice(1) : value;
+  const fullHex = normalized.length === 3
+    ? normalized.split("").map((ch) => ch + ch).join("")
+    : normalized;
+  const parsed = Number.parseInt(fullHex, 16);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function createButton(scene, {
+  x = 0,
+  y = 0,
+  width = 120,
+  height = 30,
+  label = "BUTTON",
+  hint = "",
+  accent = UI_COLORS.borderDim,
+  labelColor = "#ffffff",
+  depth = 0,
+  fontSize = "10px",
+  onClick = () => {},
+}) {
+  const fg = parseColorHex(accent, 0x666666);
+  const hover = Math.max(0x000000, fg - 0x0f0f0f);
+
+  const root = scene.add.container(x, y).setScrollFactor(0).setDepth(depth);
+
+  const bg = scene.add.rectangle(0, 0, width, height, 0x1b1b1f, 0.95)
+    .setInteractive({ useHandCursor: true })
+    .setStrokeStyle(2, fg, 0.95);
+
+  const labelText = scene.add.text(-width / 2 + 10, -1, label, {
+    fontFamily: "Consolas, monospace",
+    fontSize,
+    fontStyle: "bold",
+    color: labelColor,
+    stroke: "#ffffff",
+    strokeThickness: 2,
+  }).setOrigin(0);
+
+  const hintText = hint
+    ? scene.add.text(width / 2 - 10, 0, hint, {
+      fontFamily: "Consolas, monospace",
+      fontSize: "8px",
+      color: UI_COLORS.hint,
+      stroke: "#ffffff",
+      strokeThickness: 1,
+    }).setOrigin(1, 0.5)
+    : null;
+
+  bg.on("pointerdown", () => {
+    onClick();
+  });
+  bg.on("pointerover", () => {
+    try { bg.setFillStyle(hover, 0.98); } catch (e) {}
+  });
+  bg.on("pointerout", () => {
+    try { bg.setFillStyle(0x1b1b1f, 0.95); } catch (e) {}
+  });
+
+  root.add([bg, labelText]);
+  if (hintText) root.add(hintText);
+
+  return { root, bg, labelText, hintText };
+}
 
 // ── Main Menu Theme Palette (matches ShopOverlay / MainMenuScene) ──────────
 const COL = {
