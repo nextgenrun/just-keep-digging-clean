@@ -1,0 +1,25 @@
+{
+  "status": "review-only-no-runtime-wiring",
+  "scope": "background-only-mockup-comparison",
+  "meshy": {
+    "model": "Meshy 6",
+    "successfulPreviewTaskId": "019f6556-8220-727d-969e-c2c52f220f91",
+    "successfulRefineTaskId": "019f6559-8aca-7a4a-8dae-64be8338da3a",
+    "creditsConsumed": 30,
+    "glb": "meshy-cave-refined.glb",
+    "glbSha256": "337269a959ad91f5d2bf253be170cef611c7e4a8932d796ac7dccd41d9a66104"
+  },
+  "render": {
+    "camera": "orthographic cave-mouth",
+    "resolution": [
+      1280,
+      720
+    ],
+    "file": "meshy-cave-background-1280x720.png"
+  },
+  "comparison": {
+    "current": "sprites/backgrounds/world-v11-runtime-polished-v4/depth-chunks/level1-r001-c01.webp",
+    "file": "background-comparison.png"
+  },
+  "credentialStored": false
+}

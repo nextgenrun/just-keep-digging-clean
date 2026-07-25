@@ -1,0 +1,789 @@
+{
+  "source": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\survival_character.blend",
+  "version": [
+    5,
+    1,
+    2
+  ],
+  "objects": [
+    {
+      "name": "Backpack",
+      "type": "MESH",
+      "dimensions": [
+        0.4394,
+        0.598,
+        0.4803
+      ],
+      "parent": "root",
+      "vertices": 11201,
+      "polygons": 11424,
+      "materials": [
+        "Backpack2"
+      ]
+    },
+    {
+      "name": "Body3",
+      "type": "MESH",
+      "dimensions": [
+        1.1124,
+        0.4066,
+        0.9618
+      ],
+      "parent": "root",
+      "vertices": 9132,
+      "polygons": 9120,
+      "materials": [
+        "Head",
+        "Body2",
+        "Arms"
+      ]
+    },
+    {
+      "name": "Eye",
+      "type": "MESH",
+      "dimensions": [
+        0.0993,
+        0.0315,
+        0.0319
+      ],
+      "parent": "root",
+      "vertices": 844,
+      "polygons": 880,
+      "materials": [
+        "Body_Arkit:Eye"
+      ]
+    },
+    {
+      "name": "Eyebrows",
+      "type": "MESH",
+      "dimensions": [
+        0.1366,
+        0.0492,
+        0.0206
+      ],
+      "parent": "root",
+      "vertices": 2602,
+      "polygons": 1168,
+      "materials": [
+        "Brows_Leashes"
+      ]
+    },
+    {
+      "name": "Eyeleash",
+      "type": "MESH",
+      "dimensions": [
+        0.1065,
+        0.0203,
+        0.0178
+      ],
+      "parent": "root",
+      "vertices": 5628,
+      "polygons": 2412,
+      "materials": [
+        "Brows_Leashes"
+      ]
+    },
+    {
+      "name": "Gloves",
+      "type": "MESH",
+      "dimensions": [
+        1.1227,
+        0.1819,
+        0.1879
+      ],
+      "parent": "root",
+      "vertices": 1354,
+      "polygons": 1342,
+      "materials": [
+        "Gloves1"
+      ]
+    },
+    {
+      "name": "Hair",
+      "type": "MESH",
+      "dimensions": [
+        0.2255,
+        0.2666,
+        0.2566
+      ],
+      "parent": "root",
+      "vertices": 31515,
+      "polygons": 19214,
+      "materials": [
+        "Hair3"
+      ]
+    },
+    {
+      "name": "Jacket",
+      "type": "MESH",
+      "dimensions": [
+        1.08,
+        0.7179,
+        0.3843
+      ],
+      "parent": "root",
+      "vertices": 5335,
+      "polygons": 5327,
+      "materials": [
+        "Jacket1"
+      ]
+    },
+    {
+      "name": "Jeans",
+      "type": "MESH",
+      "dimensions": [
+        0.4154,
+        1.0343,
+        0.2764
+      ],
+      "parent": "root",
+      "vertices": 2145,
+      "polygons": 2123,
+      "materials": [
+        "Jeans1"
+      ]
+    },
+    {
+      "name": "Mouth1",
+      "type": "MESH",
+      "dimensions": [
+        0.0712,
+        0.0696,
+        0.0407
+      ],
+      "parent": "root",
+      "vertices": 4149,
+      "polygons": 4226,
+      "materials": [
+        "Mouth"
+      ]
+    },
+    {
+      "name": "root",
+      "type": "ARMATURE",
+      "dimensions": [
+        1.3316,
+        1.4477,
+        1.7066
+      ],
+      "parent": null,
+      "bones": 160,
+      "boneNames": [
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "spine_04",
+        "spine_05",
+        "neck_01",
+        "neck_02",
+        "head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "lowerarm_twist_02_l",
+        "lowerarm_twist_01_l",
+        "lowerarm_correctiveRoot_l",
+        "lowerarm_in_l",
+        "lowerarm_out_l",
+        "lowerarm_fwd_l",
+        "lowerarm_bck_l",
+        "hand_l",
+        "wrist_inner_l",
+        "wrist_outer_l",
+        "index_metacarpal_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "middle_metacarpal_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "pinky_metacarpal_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "ring_metacarpal_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "weapon_l",
+        "upperarm_twist_01_l",
+        "upperarm_twistCor_01_l",
+        "upperarm_twist_02_l",
+        "upperarm_tricep_l",
+        "upperarm_bicep_l",
+        "upperarm_twistCor_02_l",
+        "upperarm_correctiveRoot_l",
+        "upperarm_bck_l",
+        "upperarm_fwd_l",
+        "upperarm_in_l",
+        "upperarm_out_l",
+        "clavicle_out_l",
+        "clavicle_scap_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "lowerarm_twist_02_r",
+        "lowerarm_twist_01_r",
+        "lowerarm_correctiveRoot_r",
+        "lowerarm_out_r",
+        "lowerarm_in_r",
+        "lowerarm_fwd_r",
+        "lowerarm_bck_r",
+        "hand_r",
+        "wrist_inner_r",
+        "wrist_outer_r",
+        "pinky_metacarpal_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "ring_metacarpal_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "middle_metacarpal_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "index_metacarpal_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "weapon_r",
+        "upperarm_twist_01_r",
+        "upperarm_twistCor_01_r",
+        "upperarm_twist_02_r",
+        "upperarm_tricep_r",
+        "upperarm_bicep_r",
+        "upperarm_twistCor_02_r",
+        "upperarm_correctiveRoot_r",
+        "upperarm_bck_r",
+        "upperarm_in_r",
+        "upperarm_fwd_r",
+        "upperarm_out_r",
+        "clavicle_out_r",
+        "clavicle_scap_r",
+        "clavicle_pec_r",
+        "spine_04_latissimus_l",
+        "spine_04_latissimus_r",
+        "clavicle_pec_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ankle_fwd_r",
+        "ankle_bck_r",
+        "calf_twist_02_r",
+        "calf_twistCor_02_r",
+        "calf_twist_01_r",
+        "calf_correctiveRoot_r",
+        "calf_kneeBack_r",
+        "calf_knee_r",
+        "thigh_twist_01_r",
+        "thigh_twistCor_01_r",
+        "thigh_twist_02_r",
+        "thigh_twistCor_02_r",
+        "thigh_correctiveRoot_r",
+        "thigh_fwd_r",
+        "thigh_bck_r",
+        "thigh_out_r",
+        "thigh_in_r",
+        "thigh_bck_lwr_r",
+        "thigh_fwd_lwr_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ankle_bck_l",
+        "ankle_fwd_l",
+        "calf_twist_02_l",
+        "calf_twistCor_02_l",
+        "calf_twist_01_l",
+        "calf_correctiveRoot_l",
+        "calf_kneeBack_l",
+        "calf_knee_l",
+        "thigh_twist_01_l",
+        "thigh_twistCor_01_l",
+        "thigh_twist_02_l",
+        "thigh_twistCor_02_l",
+        "thigh_correctiveRoot_l",
+        "thigh_bck_l",
+        "thigh_fwd_l",
+        "thigh_out_l",
+        "thigh_bck_lwr_l",
+        "thigh_in_l",
+        "thigh_fwd_lwr_l",
+        "ik_foot_root",
+        "ik_foot_l",
+        "ik_foot_r",
+        "ik_hand_root",
+        "ik_hand_gun",
+        "ik_hand_l",
+        "ik_hand_r",
+        "interaction",
+        "center_of_mass"
+      ]
+    },
+    {
+      "name": "Shoes",
+      "type": "MESH",
+      "dimensions": [
+        0.4466,
+        0.1498,
+        0.3161
+      ],
+      "parent": "root",
+      "vertices": 4592,
+      "polygons": 4080,
+      "materials": [
+        "Shoes1"
+      ]
+    }
+  ],
+  "actions": [],
+  "images": [
+    {
+      "name": "Backpack_BaseColor.jpg",
+      "filepath": "//Textures\\Textures\\Backpack\\Backpack_BaseColor.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_BaseColor.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Backpack_Normal.jpg",
+      "filepath": "//Textures\\Textures\\Backpack\\Backpack_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Backpack_OcclusionRoughnessMetallic.jpg",
+      "filepath": "//Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Backpack_OcclusionRoughnessMetallic.jpg.001",
+      "filepath": "//Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Backpack_OcclusionRoughnessMetallic.jpg.002",
+      "filepath": "//Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Body_Arkit:base_color_texture",
+      "filepath": "//..\\..\\..\\..\\6_Textures\\Flippednormals Eye Kit\\RealTime\\RealTime\\textures\\DarkBrown\\4k\\darkBrownEye_light_albedo_4k.png",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\..\\..\\..\\..\\6_Textures\\Flippednormals Eye Kit\\RealTime\\RealTime\\textures\\DarkBrown\\4k\\darkBrownEye_light_albedo_4k.png",
+      "packed": false,
+      "exists": false,
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Body_BaseColor.<UDIM>.png",
+      "filepath": "//Textures\\Textures\\Body\\Body_BaseColor.<UDIM>.png",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Body\\Body_BaseColor.<UDIM>.png",
+      "packed": false,
+      "exists": false,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Body_Normal.1001.png.002",
+      "filepath": "//Textures\\Textures\\Body\\Body_Normal.<UDIM>.png",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Body\\Body_Normal.<UDIM>.png",
+      "packed": false,
+      "exists": false,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Body_OcclusionRoughnessMetallic.1001.png.007",
+      "filepath": "//Textures\\Textures\\Body\\Body_OcclusionRoughnessMetallic.<UDIM>.png",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Body\\Body_OcclusionRoughnessMetallic.<UDIM>.png",
+      "packed": false,
+      "exists": false,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Body_OcclusionRoughnessMetallic.<UDIM>.png.003",
+      "filepath": "//Textures\\Textures\\Body\\Body_OcclusionRoughnessMetallic.<UDIM>.png",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Body\\Body_OcclusionRoughnessMetallic.<UDIM>.png",
+      "packed": false,
+      "exists": false,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Eyebrows_AO.jpg",
+      "filepath": "//Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_AO.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_AO.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Eyebrows_BaseColor.jpg",
+      "filepath": "//Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_BaseColor.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_BaseColor.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Eyebrows_Normal.jpg",
+      "filepath": "//Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Eyebrows_Opacity.jpg",
+      "filepath": "//Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_Opacity.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_Opacity.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Gloves_BaseColor.jpg",
+      "filepath": "//Textures\\Textures\\Gloves\\Gloves_BaseColor.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_BaseColor.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Gloves_Normal.jpg",
+      "filepath": "//Textures\\Textures\\Gloves\\Gloves_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Gloves_OcclusionRoughnessMetallic.jpg",
+      "filepath": "//Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Gloves_OcclusionRoughnessMetallic.jpg.001",
+      "filepath": "//Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Gloves_OcclusionRoughnessMetallic.jpg.002",
+      "filepath": "//Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "HairBrown_Alpha.jpg",
+      "filepath": "//Textures\\Textures\\HairStyle\\HairBrown_Alpha.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\HairStyle\\HairBrown_Alpha.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "HairBrown_Diffuse_2.jpg",
+      "filepath": "//Textures\\Textures\\HairStyle\\HairBrown_Diffuse_2.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\HairStyle\\HairBrown_Diffuse_2.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "HairBrown_Normal.jpg",
+      "filepath": "//Textures\\Textures\\HairStyle\\HairBrown_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\HairStyle\\HairBrown_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Jacket_BaseColor.jpg",
+      "filepath": "//Textures\\Textures\\Jacket\\Jacket_BaseColor.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_BaseColor.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Jacket_Normal.jpg",
+      "filepath": "//Textures\\Textures\\Jacket\\Jacket_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Jacket_OcclusionRoughnessMetallic.jpg",
+      "filepath": "//Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Jacket_OcclusionRoughnessMetallic.jpg.001",
+      "filepath": "//Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Jacket_OcclusionRoughnessMetallic.jpg.002",
+      "filepath": "//Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        8192,
+        8192
+      ]
+    },
+    {
+      "name": "Jeans_BaseColor.jpg",
+      "filepath": "//Textures\\Textures\\Jeans\\Jeans_BaseColor.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_BaseColor.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Jeans_Normal.jpg",
+      "filepath": "//Textures\\Textures\\Jeans\\Jeans_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Jeans_OcclusionRoughnessMetallic.jpg",
+      "filepath": "//Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Jeans_OcclusionRoughnessMetallic.jpg.001",
+      "filepath": "//Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Jeans_OcclusionRoughnessMetallic.jpg.002",
+      "filepath": "//Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Render Result",
+      "filepath": "",
+      "absolutePath": "",
+      "packed": false,
+      "exists": false,
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Shoes_BaseColor.jpg",
+      "filepath": "//Textures\\Textures\\Shoes\\Shoes_BaseColor.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_BaseColor.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Shoes_Normal.jpg",
+      "filepath": "//Textures\\Textures\\Shoes\\Shoes_Normal.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_Normal.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Shoes_OcclusionRoughnessMetallic.jpg",
+      "filepath": "//Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Shoes_OcclusionRoughnessMetallic.jpg.001",
+      "filepath": "//Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    {
+      "name": "Shoes_OcclusionRoughnessMetallic.jpg.002",
+      "filepath": "//Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg",
+      "absolutePath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg",
+      "packed": false,
+      "exists": true,
+      "size": [
+        4096,
+        4096
+      ]
+    }
+  ],
+  "materials": [
+    "Arms",
+    "Backpack2",
+    "Body2",
+    "Body_Arkit:Eye",
+    "Brows_Leashes",
+    "Dots Stroke",
+    "Gloves1",
+    "Hair3",
+    "Head",
+    "Jacket1",
+    "Jeans1",
+    "Mouth",
+    "Shoes1"
+  ],
+  "scenes": [
+    "Scene"
+  ]
+}

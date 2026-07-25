@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "tool": "Blender motion-envelope reference generated from cleaned V8 sprite alpha bounds.",
+  "frameSize": [
+    341,
+    341
+  ],
+  "anchorPx": {
+    "x": 170,
+    "y": 339
+  },
+  "animations": {
+    "falling-downward-through-sky": {
+      "fps": 12,
+      "frames": [
+        {
+          "frame": 0,
+          "sourceFrame": "frame-000.png",
+          "cx": 163.5,
+          "cy": 189.0,
+          "w": 265,
+          "h": 300,
+          "reachX": 132.5,
+          "reachY": 150.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 1,
+          "sourceFrame": "frame-001.png",
+          "cx": 164.0,
+          "cy": 187.0,
+          "w": 272,
+          "h": 304,
+          "reachX": 136.0,
+          "reachY": 152.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 2,
+          "sourceFrame": "frame-002.png",
+          "cx": 163.5,
+          "cy": 187.5,
+          "w": 263,
+          "h": 303,
+          "reachX": 131.5,
+          "reachY": 151.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 3,
+          "sourceFrame": "frame-003.png",
+          "cx": 164.5,
+          "cy": 192.0,
+          "w": 259,
+          "h": 294,
+          "reachX": 129.5,
+          "reachY": 147.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 4,
+          "sourceFrame": "frame-004.png",
+          "cx": 164.0,
+          "cy": 201.5,
+          "w": 258,
+          "h": 275,
+          "reachX": 129.0,
+          "reachY": 137.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 5,
+          "sourceFrame": "frame-005.png",
+          "cx": 164.0,
+          "cy": 217.0,
+          "w": 270,
+          "h": 244,
+          "reachX": 135.0,
+          "reachY": 122.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 6,
+          "sourceFrame": "frame-006.png",
+          "cx": 164.5,
+          "cy": 215.0,
+          "w": 293,
+          "h": 248,
+          "reachX": 146.5,
+          "reachY": 124.0,
+          "angle": 0,
+          "bottom": 339
+        }
+      ]
+    }
+  }
+}

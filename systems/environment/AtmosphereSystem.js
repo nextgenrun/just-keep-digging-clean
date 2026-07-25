@@ -5,6 +5,7 @@
  */
 import { LightRayAtmosphere } from "./LightRayAtmosphere.js";
 import { GroundEffectsAtmosphere } from "./GroundEffectsAtmosphere.js";
+import { SkylineWeatherVfxSystem } from "./SkylineWeatherVfxSystem.js";
 
 export class AtmosphereSystem {
   constructor(scene, config = {}) {
@@ -24,6 +25,9 @@ export class AtmosphereSystem {
 
     this._createClouds();
     this._createHorizonGlow();
+    this.skylineWeatherVfx = new SkylineWeatherVfxSystem(scene);
+    this.imagegenVfxEnabled = this.skylineWeatherVfx.create();
+    this.cloudContainer?.setVisible(!this.imagegenVfxEnabled);
   }
 
   update(time, delta) {
@@ -34,8 +38,9 @@ export class AtmosphereSystem {
     const phase = dnc.getCurrentPhaseName();
     const nightAmount = dnc.getNightAmount();
 
-    this._updateClouds(delta);
+    if (!this.imagegenVfxEnabled) this._updateClouds(delta);
     this._updateHorizonGlow(phase, nightAmount);
+    this.skylineWeatherVfx.update(time, delta);
 
     this.lightRays.update(time, phase);
 
@@ -47,6 +52,7 @@ export class AtmosphereSystem {
   resize() {
     this._createHorizonGlow();
     this.lightRays.resize();
+    this.skylineWeatherVfx.resize();
   }
 
   destroy() {
@@ -55,6 +61,7 @@ export class AtmosphereSystem {
     this.horizonGlow?.destroy();
     this.lightRays.destroy();
     this.groundEffects.destroy();
+    this.skylineWeatherVfx.destroy();
     this.clouds = [];
   }
 
@@ -65,7 +72,8 @@ export class AtmosphereSystem {
 
     const tileSize = this.config.tileSize || 94;
     const surfaceWorldY = (this.config.topAirRows || 65) * tileSize;
-    const skyHeight = 400;
+    const viewportH = this.config.viewportHeight || 720;
+    const skyHeight = Math.max(400, viewportH * 1.1);
     const cloudAreaTop = surfaceWorldY - skyHeight;
 
     const viewportW = this.config.viewportWidth || 1280;
@@ -100,15 +108,24 @@ export class AtmosphereSystem {
 
   _updateClouds(delta) {
     const seconds = delta / 1000;
-    const now = Date.now();
+    const now = this.scene.time?.now ?? Date.now();
+    const weather = this.scene.weatherSystem?.getLightingSnapshot?.() || {};
+    const cloudCover = Phaser.Math.Clamp(weather.cloudCoverAmount ?? 0, 0, 1);
+    const wind = this.scene.weatherSystem?.wind ?? 0;
+    const direction = wind === 0 ? 1 : Math.sign(wind);
+    const speedScale = 1 + Math.min(1.5, Math.abs(wind) / 140);
+    this.cloudContainer?.setAlpha(0.42 + cloudCover * 0.58);
 
     this.clouds.forEach(c => {
-      c.sprite.x += c.speed * seconds;
+      c.sprite.x += c.speed * direction * speedScale * seconds;
       c.sprite.y = c.y + Math.sin((now / 3000) + c.phase) * c.floatAmp;
 
       const cam = this.scene.cameras.main;
-      if (c.sprite.x > cam.scrollX + cam.width + 400) {
+      if (direction >= 0 && c.sprite.x > cam.scrollX + cam.width + 400) {
         c.sprite.x = cam.scrollX - 400;
+        c.baseX = c.sprite.x;
+      } else if (direction < 0 && c.sprite.x < cam.scrollX - 400) {
+        c.sprite.x = cam.scrollX + cam.width + 400;
         c.baseX = c.sprite.x;
       }
     });
@@ -127,7 +144,10 @@ export class AtmosphereSystem {
 
   _updateHorizonGlow(phase, nightAmount) {
     const isDawnDusk = phase === "dawn" || phase === "dusk" || phase === "sunset";
-    if (!isDawnDusk) {
+    const sunlight = this.scene.lightSystem?.getSunlightSnapshot?.();
+    const sunStrength = sunlight?.strength ?? 1;
+    const surfaceInfluence = this.scene.lightSystem?.getShaderSnapshot?.().surfaceLightInfluence ?? 1;
+    if (!isDawnDusk || sunStrength <= 0.001 || surfaceInfluence <= 0.001) {
       this.horizonGlow.setAlpha(0);
       return;
     }
@@ -142,18 +162,24 @@ export class AtmosphereSystem {
     if (phase === "dusk") color = 0xc86848;
     else if (phase === "sunset") color = 0xa03828;
 
-    const glowH = 80;
-    const glowY = h - glowH;
+    const source = sunlight?.screenPosition || { x: w * 0.5, y: h * 0.3 };
+    const glowH = Math.max(90, h * 0.18);
 
     for (let i = 0; i < 6; i++) {
-      const bandH = glowH / 6;
-      const bandY = glowY + i * bandH;
-      const alpha = 0.12 - i * 0.018;
+      const p = 1 - i / 6;
+      const alpha = 0.018 + p * 0.018;
       if (alpha <= 0) continue;
       this.horizonGlow.fillStyle(color, alpha);
-      this.horizonGlow.fillRect(0, bandY, w, bandH);
+      this.horizonGlow.fillEllipse(
+        source.x,
+        source.y + glowH * 0.22,
+        w * (0.32 + i * 0.14),
+        glowH * (0.55 + i * 0.24),
+      );
     }
 
-    this.horizonGlow.setAlpha(0.6);
+    this.horizonGlow.setAlpha(
+      0.6 * sunStrength * surfaceInfluence * (1 - nightAmount * 0.35)
+    );
   }
 }

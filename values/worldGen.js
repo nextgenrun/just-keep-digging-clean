@@ -1,9 +1,50 @@
+import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
+
 // ==================== WORLD GENERATION CONFIG ====================
 export const WORLD_GEN_CONFIG = Object.freeze({
   // Terrain composition ratios (must sum to 1.0)
   dirtRatio: 0.9845,
   stoneRatio: 0.010,
   copperRatio: 0.005,
+
+  terrain: Object.freeze({
+    band1MaxDepth: 30,
+    band1StoneChance: 0.1,
+    band2MaxDepth: 60,
+    band2CopperChance: 0.05,
+    band2StoneChance: 0.15,
+    band3MaxDepth: 120,
+    band3IronChance: 0.03,
+    band3DarkDirtNormalChance: 0.04,
+    band3CopperChance: 0.08,
+    band3StoneChance: 0.2,
+    band4MaxDepth: 300,
+    band4GoldChance: 0.02,
+    band4SilverChance: 0.03,
+    band4DarkDirtStrongChance: 0.04,
+    band4DarkDirtNormalChance: 0.08,
+    band4SteelChance: 0.15,
+    band4IronChance: 0.3,
+    band4CopperChance: 0.5,
+    band4StoneChance: 0.65,
+    deepGoldChance: 0.005,
+    deepSilverChance: 0.015,
+    deepDarkDirtStrongChance: 0.03,
+    deepDarkDirtNormalChance: 0.08,
+    deepBronzeChance: 0.12,
+    deepSteelChance: 0.22,
+    deepIronChance: 0.35,
+    deepCopperChance: 0.55,
+    deepStoneChance: 0.70,
+  }),
+
+  spawnGeometry: Object.freeze({
+    caveBottomPaddingTiles: 20,
+    shaftHalfWidthTiles: 1,
+    shaftDepthTiles: 6,
+    leftStaircaseStartX: 68,
+    leftStaircaseDepthTiles: 10,
+  }),
 
   // Cave generation
   caves: {
@@ -31,6 +72,15 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     interiorRarityBoostTiers: 3,
     // Resource density multiplier inside caves (2.5x normal)
     interiorResourceMultiplier: 2.5,
+    // Integrated caves remain part of the authoritative world by default so
+    // every PlayScene system (lighting, UI, audio, saves and special tiles)
+    // stays active. `?compactCaves=1` is the explicit compact-scene review mode.
+    standaloneScene: Object.freeze({
+      enabled: false,
+      mouthWidthTiles: 2,
+      mouthHeightTiles: 1,
+      shellThicknessTiles: 1,
+    }),
     
     // === HIDDEN CAVERNS ===
     // 25% of caves become "hidden" — walls are normal diggable terrain,
@@ -135,7 +185,7 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     // Deep roots (100m+) — rarer
     deep: {
       minDepth: 100,
-      maxDepth: 2000,
+      maxDepth: WORLD_DEPTH_CONFIG.levelTwoDepthMeters,
       overlayType: 'deep',     // maps to ROOT_OVERLAY_DEEP
       spawnChance: 0.008,      // 0.8% of eligible tiles
       caveChance: 0.01,        // 1% in caves
@@ -144,10 +194,10 @@ export const WORLD_GEN_CONFIG = Object.freeze({
 
   // Gold spawn
   gold: {
-    maxDepth: 1940, // 2000 - topAirRows
+    maxDepth: WORLD_DEPTH_CONFIG.levelTwoDepthMeters,
     minGuaranteedAttempts: 100,
   },
 
   // Depth calculations
-  maxDepth: 1940, // 2000 - 60 (topAirRows)
+  maxDepth: WORLD_DEPTH_CONFIG.levelTwoDepthMeters,
 });

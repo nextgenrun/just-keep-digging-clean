@@ -1,0 +1,124 @@
+{
+  "clips": {
+    "Idle_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Idle_Loop.Survival_UAL_Idle_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-idle-loop.fbx",
+      "bytes": 6005552,
+      "seconds": 2.5
+    },
+    "Idle_Talking_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Idle_Talking_Loop.Survival_UAL_Idle_Talking_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-idle-talking-loop.fbx",
+      "bytes": 6179456,
+      "seconds": 2.9166667461395264
+    },
+    "Jog_Fwd_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jog_Fwd_Loop.Survival_UAL_Jog_Fwd_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-jog-fwd-loop.fbx",
+      "bytes": 5344816,
+      "seconds": 0.9166666865348816
+    },
+    "Jump_Start": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jump_Start.Survival_UAL_Jump_Start",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-jump-start.fbx",
+      "bytes": 5518688,
+      "seconds": 1.3333333730697632
+    },
+    "Jump_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jump_Loop.Survival_UAL_Jump_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-jump-loop.fbx",
+      "bytes": 6005552,
+      "seconds": 2.5
+    },
+    "Jump_Land": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jump_Land.Survival_UAL_Jump_Land",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-jump-land.fbx",
+      "bytes": 5483920,
+      "seconds": 1.25
+    },
+    "Crouch_Idle_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Crouch_Idle_Loop.Survival_UAL_Crouch_Idle_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-crouch-idle-loop.fbx",
+      "bytes": 6179440,
+      "seconds": 2.9166667461395264
+    },
+    "Shield_Dash": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Shield_Dash.Survival_UAL_Shield_Dash",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-shield-dash.fbx",
+      "bytes": 5414368,
+      "seconds": 1.0833333730697632
+    },
+    "ClimbUp_1m": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_ClimbUp_1m.Survival_UAL_ClimbUp_1m",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-climbup-1m.fbx",
+      "bytes": 5240480,
+      "seconds": 0.6666666865348816
+    },
+    "Punch_Jab": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Punch_Jab.Survival_UAL_Punch_Jab",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-punch-jab.fbx",
+      "bytes": 5327424,
+      "seconds": 0.875
+    },
+    "Punch_Cross": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Punch_Cross.Survival_UAL_Punch_Cross",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-punch-cross.fbx",
+      "bytes": 5379584,
+      "seconds": 1.0
+    },
+    "TreeChopping_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_TreeChopping_Loop.Survival_UAL_TreeChopping_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-treechopping-loop.fbx",
+      "bytes": 5362208,
+      "seconds": 0.9583333134651184
+    },
+    "Melee_Hook": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Melee_Hook.Survival_UAL_Melee_Hook",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-melee-hook.fbx",
+      "bytes": 5536080,
+      "seconds": 0.4583333432674408
+    },
+    "Melee_Hook_Rec": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Melee_Hook_Rec.Survival_UAL_Melee_Hook_Rec",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-melee-hook-rec.fbx",
+      "bytes": 5692576,
+      "seconds": 0.5833333134651184
+    },
+    "OverhandThrow": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_OverhandThrow.Survival_UAL_OverhandThrow",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-overhandthrow.fbx",
+      "bytes": 5518704,
+      "seconds": 1.3333333730697632
+    },
+    "Push_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Push_Loop.Survival_UAL_Push_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-push-loop.fbx",
+      "bytes": 6075104,
+      "seconds": 2.6666667461395264
+    },
+    "Roll": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Roll.Survival_UAL_Roll",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-roll.fbx",
+      "bytes": 5570848,
+      "seconds": 1.4583333730697632
+    },
+    "Spell_Simple_Idle_Loop": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Spell_Simple_Idle_Loop.Survival_UAL_Spell_Simple_Idle_Loop",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-spell-simple-idle-loop.fbx",
+      "bytes": 5831696,
+      "seconds": 2.0833332538604736
+    },
+    "Hit_Chest": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Hit_Chest.Survival_UAL_Hit_Chest",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-hit-chest.fbx",
+      "bytes": 5379584,
+      "seconds": 0.3333333432674408
+    },
+    "Death01": {
+      "asset": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Death01.Survival_UAL_Death01",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-death01.fbx",
+      "bytes": 5970768,
+      "seconds": 2.4166667461395264
+    }
+  }
+}

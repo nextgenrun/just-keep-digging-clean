@@ -2,21 +2,25 @@ import { GAME_CONFIG } from "./values/gameConfig.js";
 import { BootScene } from "./ui/scenes/BootScene.js";
 import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
-import { StartMenuScene } from "./ui/scenes/StartMenuScene.js";
-import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js";
-import { PlayScene } from "./world/PlayScene.js";
+import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260718";
+import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
+import { PlayScene } from "./world/PlayScene.js?rev=20260718-mesh-grounded";
+import { CaveScene } from "./ui/scenes/CaveScene.js";
+import {
+  finalizeRenderDensityFoundation,
+  installRenderDensityFoundation,
+  resolveRenderDensityProfile,
+} from "./systems/visual/RenderDensitySystem.js";
+import { installRuntimeCanarySystem } from "./systems/health/RuntimeCanarySystem.js";
+import { installAdminHealthPanel } from "./ui/admin/AdminHealthPanel.js";
 
-window.__jkdUiErrors = window.__jkdUiErrors || [];
+const runtimeCanarySystem = installRuntimeCanarySystem({
+  globalRef: window,
+  documentRef: document,
+});
 
 function captureUiError(kind, detail) {
-  const entry = {
-    kind,
-    message: detail?.message || String(detail || "Unknown UI error"),
-    stack: detail?.stack || "",
-    at: new Date().toISOString(),
-  };
-  window.__jkdUiErrors.push(entry);
-  if (window.__jkdUiErrors.length > 80) window.__jkdUiErrors.shift();
+  return runtimeCanarySystem.captureError(kind, detail);
 }
 
 window.addEventListener("error", event => {
@@ -27,13 +31,20 @@ window.addEventListener("unhandledrejection", event => {
   captureUiError("unhandledrejection", event.reason || "Unhandled promise rejection");
 });
 
+const renderDensityProfile = resolveRenderDensityProfile(globalThis.window?.location?.search || "");
+
 const phaserConfig = {
-  type: Phaser.AUTO,
+  type: renderDensityProfile.rendererMode === "auto" ? Phaser.AUTO : Phaser.WEBGL,
   parent: "game-root",
-  width: GAME_CONFIG.viewportWidth,
-  height: GAME_CONFIG.viewportHeight,
-  pixelArt: true,
-  roundPixels: true,
+  width: renderDensityProfile.backingWidth,
+  height: renderDensityProfile.backingHeight,
+  render: {
+    pixelArt: GAME_CONFIG.rendererQuality.pixelArt,
+    antialias: GAME_CONFIG.rendererQuality.antialias,
+    antialiasGL: GAME_CONFIG.rendererQuality.antialiasGL,
+    roundPixels: GAME_CONFIG.rendererQuality.roundPixels,
+    powerPreference: GAME_CONFIG.rendererQuality.powerPreference,
+  },
   backgroundColor: "#111820",
   physics: {
     default: "arcade",
@@ -47,7 +58,24 @@ const phaserConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, MenuAudioScene, MainMenuScene, StartMenuScene, WorldLoadScene, PlayScene],
+  callbacks: {
+    preBoot: game => installRenderDensityFoundation(game, renderDensityProfile),
+    postBoot: game => {
+      finalizeRenderDensityFoundation(game, renderDensityProfile);
+      runtimeCanarySystem.attachGame(game);
+    },
+  },
+  scene: [BootScene, MenuAudioScene, MainMenuScene, StartMenuScene, WorldLoadScene, PlayScene, CaveScene],
 };
 
-window.__phaserGame = new Phaser.Game(phaserConfig);
+installAdminHealthPanel(runtimeCanarySystem, {
+  globalRef: window,
+  documentRef: document,
+});
+
+try {
+  window.__phaserGame = new Phaser.Game(phaserConfig);
+} catch (error) {
+  captureUiError(runtimeCanarySystem.config.events.runtimeError, error);
+  throw error;
+}

@@ -5,6 +5,12 @@
  */
 import { TIME_CONFIG } from "../../values/timeConfig.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
+import { clamp01 } from "../../values/mathUtils.js";
+
+const smoothstep01 = value => {
+  const t = clamp01(value);
+  return t * t * (3 - 2 * t);
+};
 
 export class DayNightCycle {
   constructor(scene, config = {}) {
@@ -13,7 +19,7 @@ export class DayNightCycle {
     this.timeConfig = TIME_CONFIG;
 
     // Time tracking (0-1, where 0 = midnight, 0.5 = noon)
-    this.currentTime = 0.4; // Start at morning for demo purposes
+    this.currentTime = this.timeConfig.initialTime;
 
     // Day counter
     this.day = this.timeConfig.initialDay;
@@ -101,8 +107,8 @@ export class DayNightCycle {
    */
   getNightAmount() {
     const t = this.currentTime;
-    const nightStart = 0.75; // 6 PM
-    const nightEnd = 0.25;   // 6 AM
+    const nightStart = this.timeConfig.celestial.setTime;
+    const nightEnd = this.timeConfig.celestial.riseTime;
     const transitionPct = Math.max(0.02, Math.min(0.15, 5000 / this.dayDuration));
 
     if (t >= nightStart) {
@@ -185,65 +191,130 @@ export class DayNightCycle {
     return angles[phase] || angles.afternoon;
   }
 
-  /**
-   * Get sun position in viewport-relative coordinates
-   * @param {number} viewportW
-   * @param {number} viewportH
-   * @returns {{x: number, y: number}}
-   */
-  getSunScreenPosition(viewportW, viewportH) {
-    return this._getCelestialPosition(this.timeConfig.sunArc, viewportW, viewportH);
+  getSunWorldPosition() {
+    return this._getCelestialWorldPosition(
+      this.timeConfig.sunArc,
+      this.timeConfig.celestial.sun.phaseOffset,
+    );
+  }
+
+  getMoonWorldPosition() {
+    return this._getCelestialWorldPosition(
+      this.timeConfig.moonArc,
+      this.timeConfig.celestial.moon.phaseOffset,
+    );
   }
 
   /**
-   * Get moon position in viewport-relative coordinates
-   * @param {number} viewportW
-   * @param {number} viewportH
-   * @returns {{x: number, y: number}}
+   * Project the stable world-space sun into the active camera for screen effects.
+   */
+  getSunScreenPosition(viewportW, viewportH) {
+    return this._projectWorldPositionToScreen(this.getSunWorldPosition(), viewportW, viewportH);
+  }
+
+  /**
+   * Project the stable world-space moon into the active camera for screen effects.
    */
   getMoonScreenPosition(viewportW, viewportH) {
-    return this._getCelestialPosition(this.timeConfig.moonArc, viewportW, viewportH);
+    return this._projectWorldPositionToScreen(this.getMoonWorldPosition(), viewportW, viewportH);
   }
 
   /**
    * Calculate celestial body position based on arc definition
    * @private
    */
-  _getCelestialPosition(arc, vw, vh) {
-    const t = this.currentTime;
-    // Normalize to 0-1 across the day for position
-    const pos = (t + 0.5) % 1; // Sun/moon opposite
-
-    // Interpolate along arc
-    const risePhase = 0.25;  // 6 AM
-    const noonPhase = 0.5;   // 12 PM
-    const setPhase = 0.75;   // 6 PM
+  _getCelestialOrbitPosition(arc, phaseOffset = 0) {
+    const orbit = this.timeConfig.celestial;
+    const pos = this._getCelestialOrbitTime(phaseOffset);
+    const risePhase = orbit.riseTime;
+    const noonPhase = orbit.noonTime;
+    const setPhase = orbit.setTime;
+    const belowTravel = Math.max(0.001, orbit.belowHorizonTravelFraction);
+    const noonX = arc.noonX ?? arc.zenithX;
+    const noonY = arc.noonY ?? arc.zenithY;
 
     let nx, ny;
     if (pos < risePhase) {
-      // Below horizon
-      nx = -1.2;
-      ny = 1.2;
+      const p = smoothstep01((pos - (risePhase - belowTravel)) / belowTravel);
+      nx = -orbit.belowHorizonX + (arc.riseX + orbit.belowHorizonX) * p;
+      ny = orbit.belowHorizonY + (arc.riseY - orbit.belowHorizonY) * p;
     } else if (pos < noonPhase) {
       // Rising
       const p = (pos - risePhase) / (noonPhase - risePhase);
-      nx = arc.riseX + (arc.noonX - arc.riseX) * p;
-      ny = arc.riseY + (arc.noonY - arc.riseY) * p;
-    } else if (pos < setPhase) {
+      nx = arc.riseX + (noonX - arc.riseX) * p;
+      ny = arc.riseY + (noonY - arc.riseY) * p;
+    } else if (pos <= setPhase) {
       // Setting
       const p = (pos - noonPhase) / (setPhase - noonPhase);
-      nx = arc.noonX + (arc.setX - arc.noonX) * p;
-      ny = arc.noonY + (arc.setY - arc.noonY) * p;
+      nx = noonX + (arc.setX - noonX) * p;
+      ny = noonY + (arc.setY - noonY) * p;
     } else {
-      // Below horizon
-      nx = 1.2;
-      ny = 1.2;
+      const p = smoothstep01((pos - setPhase) / belowTravel);
+      nx = arc.setX + (orbit.belowHorizonX - arc.setX) * p;
+      ny = arc.setY + (orbit.belowHorizonY - arc.setY) * p;
     }
 
+    return { x: nx, y: ny };
+  }
+
+  _getCelestialWorldPosition(arc, phaseOffset = 0) {
+    const orbit = this.timeConfig.celestial;
+    const normalized = this._getCelestialOrbitPosition(arc, phaseOffset);
+    const tileSize = this.config.tileSize || 94;
+    const worldWidth = this.config.worldWidthPx
+      || (this.config.worldWidthTiles || 280) * tileSize;
+    const surfaceWorldY = (this.config.topAirRows || 65) * tileSize;
+
     return {
-      x: vw * 0.5 + nx * vw * 0.5,
-      y: vh * 0.15 + ny * vh * 0.35,
+      x: worldWidth * orbit.worldCenterXRatio
+        + normalized.x * worldWidth * orbit.worldHorizontalRadiusRatio,
+      y: surfaceWorldY
+        + orbit.worldOriginOffsetTiles * tileSize
+        + normalized.y * orbit.worldVerticalRadiusTiles * tileSize,
     };
+  }
+
+  _projectWorldPositionToScreen(position, viewportW, viewportH) {
+    const cam = this.scene?.cameras?.main;
+    const width = Number.isFinite(viewportW) ? viewportW : (cam?.width ?? this.config.viewportWidth ?? 0);
+    const height = Number.isFinite(viewportH) ? viewportH : (cam?.height ?? this.config.viewportHeight ?? 0);
+    const zoomX = Number.isFinite(cam?.zoomX) ? cam.zoomX : (Number.isFinite(cam?.zoom) ? cam.zoom : 1);
+    const zoomY = Number.isFinite(cam?.zoomY) ? cam.zoomY : (Number.isFinite(cam?.zoom) ? cam.zoom : 1);
+    const viewX = cam?.worldView?.x ?? cam?.scrollX ?? 0;
+    const viewY = cam?.worldView?.y ?? cam?.scrollY ?? 0;
+
+    return {
+      x: (cam?.x ?? 0) + (position.x - viewX) * zoomX,
+      y: (cam?.y ?? 0) + (position.y - viewY) * zoomY,
+      viewportWidth: width,
+      viewportHeight: height,
+    };
+  }
+
+  _getCelestialOrbitTime(phaseOffset = 0) {
+    return ((this.currentTime + phaseOffset) % 1 + 1) % 1;
+  }
+
+  _isCelestialAboveHorizon(phaseOffset = 0) {
+    const orbitTime = this._getCelestialOrbitTime(phaseOffset);
+    const orbit = this.timeConfig.celestial;
+    return orbitTime >= orbit.riseTime && orbitTime <= orbit.setTime;
+  }
+
+  _getHorizonVisibility(phaseOffset = 0) {
+    const orbitTime = this._getCelestialOrbitTime(phaseOffset);
+    const orbit = this.timeConfig.celestial;
+    if (orbitTime < orbit.riseTime || orbitTime > orbit.setTime) return 0;
+    const fade = Math.max(0.001, orbit.horizonFadeFraction);
+    const riseVisibility = smoothstep01((orbitTime - orbit.riseTime) / fade);
+    const setVisibility = smoothstep01((orbit.setTime - orbitTime) / fade);
+    return Math.min(riseVisibility, setVisibility);
+  }
+
+  _getCelestialElevation(phaseOffset = 0) {
+    const orbitTime = this._getCelestialOrbitTime(phaseOffset);
+    const noonTime = this.timeConfig.celestial.noonTime;
+    return Math.cos((orbitTime - noonTime) * Math.PI * 2);
   }
 
   /**
@@ -267,7 +338,8 @@ export class DayNightCycle {
    * @returns {number} 0-1
    */
   getSunAlpha() {
-    return this.currentPhase?.sunAlpha ?? 1;
+    const offset = this.timeConfig.celestial.sun.phaseOffset;
+    return (this.currentPhase?.sunAlpha ?? 1) * this._getHorizonVisibility(offset);
   }
 
   /**
@@ -275,7 +347,64 @@ export class DayNightCycle {
    * @returns {number} 0-1
    */
   getMoonAlpha() {
-    return this.currentPhase?.moonAlpha ?? 0;
+    const offset = this.timeConfig.celestial.moon.phaseOffset;
+    return (this.currentPhase?.moonAlpha ?? 0) * this._getHorizonVisibility(offset);
+  }
+
+  /**
+   * Get an immutable world-space state plus its active-camera projection.
+   * @returns {Readonly<Object>}
+   */
+  getSunState(viewportW, viewportH) {
+    return this._getCelestialBodyState("sun", viewportW, viewportH);
+  }
+
+  /**
+   * Get an immutable world-space state plus its active-camera projection.
+   * @returns {Readonly<Object>}
+   */
+  getMoonState(viewportW, viewportH) {
+    return this._getCelestialBodyState("moon", viewportW, viewportH);
+  }
+
+  /**
+   * Stable read-only clock snapshot for lighting, weather, and skyline systems.
+   * @returns {Readonly<Object>}
+   */
+  getCelestialSnapshot(viewportW, viewportH) {
+    const phase = this._getCurrentPhase();
+    return Object.freeze({
+      normalizedTime: this._getCelestialOrbitTime(),
+      day: this.day,
+      phase: phase?.name || "day",
+      phaseLabel: phase?.label || "",
+      sun: this.getSunState(viewportW, viewportH),
+      moon: this.getMoonState(viewportW, viewportH),
+    });
+  }
+
+  _getCelestialBodyState(body, viewportW, viewportH) {
+    const bodyConfig = this.timeConfig.celestial[body];
+    const phase = this._getCurrentPhase();
+    const worldPosition = body === "sun"
+      ? this.getSunWorldPosition()
+      : this.getMoonWorldPosition();
+    const position = this._projectWorldPositionToScreen(worldPosition, viewportW, viewportH);
+    const phaseAlpha = body === "sun" ? phase?.sunAlpha : phase?.moonAlpha;
+    const aboveHorizon = this._isCelestialAboveHorizon(bodyConfig.phaseOffset);
+    const horizonVisibility = this._getHorizonVisibility(bodyConfig.phaseOffset);
+
+    return Object.freeze({
+      normalizedTime: this._getCelestialOrbitTime(),
+      orbitTime: this._getCelestialOrbitTime(bodyConfig.phaseOffset),
+      phase: phase?.name || "day",
+      worldPosition: Object.freeze({ x: worldPosition.x, y: worldPosition.y }),
+      screenPosition: Object.freeze({ x: position.x, y: position.y }),
+      elevation: this._getCelestialElevation(bodyConfig.phaseOffset),
+      aboveHorizon,
+      alpha: (phaseAlpha ?? 0) * horizonVisibility,
+      color: bodyConfig.color,
+    });
   }
 
   /**
@@ -366,7 +495,7 @@ export class DayNightCycle {
     sunGfx.fillCircle(0, 0, 26);
     sunGfx.fillStyle(0xffdd44, 0.10);
     sunGfx.fillCircle(0, 0, 36);
-    sunGfx.setDepth(48);
+    sunGfx.setScrollFactor(1).setDepth(this.timeConfig.celestial.renderDepth);
     this.sunSprite = sunGfx;
     this.sunSprite.setPosition(-200, -200);
 
@@ -378,7 +507,7 @@ export class DayNightCycle {
     moonGfx.fillCircle(0, 0, 20);
     moonGfx.fillStyle(0x0a0e1a, 1);
     moonGfx.fillCircle(-5, -3, 12);
-    moonGfx.setDepth(48);
+    moonGfx.setScrollFactor(1).setDepth(this.timeConfig.celestial.renderDepth);
     this.moonSprite = moonGfx;
     this.moonSprite.setPosition(-200, -200);
   }
@@ -409,18 +538,19 @@ export class DayNightCycle {
    * @private
    */
   _updateSunMoonPositions() {
-    const cam = this.scene.cameras.main;
-    const vw = cam.width;
-    const vh = cam.height;
-
-    const sunPos = this.getSunScreenPosition(vw, vh);
-    const moonPos = this.getMoonScreenPosition(vw, vh);
+    const sunPos = this.getSunWorldPosition();
+    const moonPos = this.getMoonWorldPosition();
+    const weather = this.scene.weatherSystem?.getLightingSnapshot?.() || {};
+    const sunTransmission = clamp01(weather.sunTransmittance ?? 1)
+      * clamp01(weather.sunExposure ?? weather.exposure ?? 1);
+    const moonTransmission = 1 - clamp01(weather.fogAmount ?? 0) * 0.65;
+    const surfaceVisibility = this._getSurfaceLightInfluence();
 
     this.sunSprite.setPosition(sunPos.x, sunPos.y);
-    this.sunSprite.setAlpha(this.getSunAlpha());
+    this.sunSprite.setAlpha(this.getSunAlpha() * sunTransmission * surfaceVisibility);
 
     this.moonSprite.setPosition(moonPos.x, moonPos.y);
-    this.moonSprite.setAlpha(this.getMoonAlpha());
+    this.moonSprite.setAlpha(this.getMoonAlpha() * moonTransmission * surfaceVisibility);
   }
 
   /**
@@ -432,9 +562,15 @@ export class DayNightCycle {
     const phase = this.currentPhase;
     if (!phase || !this.skyTintOverlay) return;
 
-    // Interpolate tint alpha based on night amount + weather — subtle
-    const baseAlpha = nightAmount * 0.18 + (phase.name === "dusk" || phase.name === "sunset" ? 0.08 : 0);
-    this.skyTintOverlay.setAlpha(Math.min(0.28, baseAlpha) * this._getSurfaceLightInfluence());
+    const isScenic = String(this.scene.worldVisualRuntimeMode || "").startsWith("scenic");
+    const tintConfig = isScenic
+      ? this.timeConfig.skyTintOverlay.scenic
+      : this.timeConfig.skyTintOverlay.legacy;
+    const isDusk = phase.name === "dusk" || phase.name === "sunset";
+    const baseAlpha = nightAmount * tintConfig.nightAlpha + (isDusk ? tintConfig.duskAlpha : 0);
+    this.skyTintOverlay.setAlpha(
+      Math.min(tintConfig.maxAlpha, baseAlpha) * this._getSurfaceLightInfluence()
+    );
     this.skyTintOverlay.setFillStyle(this.getSkyColor(), 1);
   }
 

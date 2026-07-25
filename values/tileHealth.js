@@ -1,4 +1,5 @@
 import { TILE_TYPES } from "./tileTypes.js";
+import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
 
 export const TILE_HEALTH = Object.freeze({
   dirt: 3,
@@ -42,6 +43,7 @@ export const TILE_HEALTH_CONFIG = Object.freeze({
     [TILE_TYPES.OBSIDIAN]: { min: 3200, max: 6200 },
     [TILE_TYPES.EMBER_ORE]: { min: 4200, max: 7600 },
     [TILE_TYPES.MAGMA_CRYSTAL]: { min: 5600, max: 9800 },
+    [TILE_TYPES.ANCIENT_RELIC_CACHE]: { min: 700, max: 700 },
     [TILE_TYPES.TELEPORT_TILE]: { min: 999999999, max: 999999999999 },
     [TILE_TYPES.GAMBLE_TILE]: { min: 99999999999, max: 99999999999999 },
   },
@@ -51,7 +53,7 @@ export function getTileHealth(tileType, depthTiles, rarityMultiplier = 1) {
   const hc = TILE_HEALTH_CONFIG.tileHealth[tileType];
   if (!hc) return 10;
   if (hc.min === hc.max) return hc.min;
-  const maxDepth = 1940;
+  const maxDepth = WORLD_DEPTH_CONFIG.levelTwoDepthMeters;
   const dr = Math.min(1, Math.max(0, depthTiles / maxDepth));
   const bh = Math.floor(hc.min + (hc.max - hc.min) * dr);
   return Math.floor(bh * rarityMultiplier);

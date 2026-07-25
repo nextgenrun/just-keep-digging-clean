@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import base64
 import io
+import re
 from collections import Counter, deque
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageFilter
+from PIL import Image, ImageChops, ImageEnhance, ImageFilter, ImageStat
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +18,7 @@ RUNTIME = CHAR / "runtime"
 PREVIEWS = CHAR / "previews"
 REPORTS = CHAR / "reports"
 PISKEL = CHAR / "piskel"
+MOTION_PROFILES = REPORTS / "blender-motion-profiles"
 BACKUP_DIG_DOWN = Path("C:/xampp/_Backups/dig-game-simple/back-ups-dig-game/23-06-2026-big-progress-tiled-piksel/sprites/character/character-v5-walk/dig/dig-down")
 DIG_DOWN_RESTORED_SOURCE = CHAR / "manual-blend" / "dig-down-v5-restored"
 FRAME_SIZE = (341, 341)
@@ -32,6 +35,7 @@ ANIMS: dict[str, dict] = {
         "output": "legacy-idle-clean-sheet.webp",
         "fps": 8,
         "anchor": True,
+        "cullSourceIndices": [3],
     },
     "walk": {
         "source": frame_source("frames", "walk"),
@@ -44,6 +48,7 @@ ANIMS: dict[str, dict] = {
         "output": "legacy-dig-sideways-clean-sheet.webp",
         "fps": 30,
         "anchor": True,
+        "anchorMode": "feet",
     },
     "dig-up": {
         "source": frame_source("frames", "dig-up"),
@@ -86,12 +91,13 @@ ANIMS: dict[str, dict] = {
         "output": "combat-idle-to-normal-idle-sheet.webp",
         "fps": 14,
         "anchor": True,
+        "cullSourceIndices": [0, 1, 10, 16, 17],
     },
     "leans-against-wall": {
         "source": frame_source("frames", "leans-against-wall"),
         "output": "leans-against-wall-sheet.webp",
         "fps": 8,
-        "anchor": True,
+        "anchor": False,
     },
     "falling-downward-through-sky": {
         "source": frame_source("frames", "falling-downward-through-sky"),
@@ -104,6 +110,24 @@ ANIMS: dict[str, dict] = {
         "output": "legacy-quickslash-clean-sheet.webp",
         "fps": 12,
         "anchor": True,
+    },
+    "quickslash-v2": {
+        "source": frame_source("frames", "quickslash", "v2"),
+        "output": "quickslash-v2-clean-sheet.webp",
+        "fps": 30,
+        "anchor": False,
+        "cullSourceIndices": [23],
+        "sourcePreparation": "checkerboard-center-square",
+        "orientation": "right",
+        "recommendedDisplaySizePx": 98,
+    },
+    "teleport-in": {
+        "source": frame_source("frames", "teleport-in"),
+        "output": "teleport-in-clean-sheet.webp",
+        "fps": 30,
+        "anchor": False,
+        "sourcePreparation": "checkerboard-center-square",
+        "orientation": "front-action",
     },
     "thunder-charge": {
         "source": frame_source("frames", "thunder-charge"),
@@ -120,22 +144,114 @@ ANIMS: dict[str, dict] = {
 }
 
 
+def natural_path_key(path: Path) -> tuple[object, ...]:
+    return tuple(int(part) if part.isdigit() else part.lower() for part in re.split(r"(\d+)", path.name))
+
+
 def frame_paths(source: Path) -> list[Path]:
     return sorted(
         [p for p in source.iterdir() if p.suffix.lower() in {".png", ".webp"}],
-        key=lambda p: p.name.lower(),
+        key=natural_path_key,
     )
 
 
-def load_frame(path: Path) -> Image.Image:
+def crop_center_square(image: Image.Image) -> Image.Image:
+    side = min(image.size)
+    left = (image.width - side) // 2
+    top = (image.height - side) // 2
+    return image.crop((left, top, left + side, top + side))
+
+
+def checker_matte_candidate(pixel: tuple[int, int, int, int]) -> bool:
+    r, g, b, a = pixel
+    if a <= 8:
+        return True
+    chroma = max(r, g, b) - min(r, g, b)
+    luminance = (r + g + b) / 3
+    return a >= 245 and chroma <= 14 and 168 <= luminance <= 238
+
+
+def remove_baked_checkerboard(image: Image.Image) -> tuple[Image.Image, int]:
+    """Remove light checker components, including enclosed holes inside FX silhouettes."""
+    cleaned = image.copy()
+    px = cleaned.load()
+    width, height = cleaned.size
+    seen: set[tuple[int, int]] = set()
+    removed = 0
+
+    for start_y in range(height):
+        for start_x in range(width):
+            if (start_x, start_y) in seen or not checker_matte_candidate(px[start_x, start_y]):
+                continue
+            queue: deque[tuple[int, int]] = deque([(start_x, start_y)])
+            seen.add((start_x, start_y))
+            component: list[tuple[int, int]] = []
+            touches_edge = False
+            while queue:
+                x, y = queue.popleft()
+                component.append((x, y))
+                touches_edge = touches_edge or x == 0 or y == 0 or x == width - 1 or y == height - 1
+                for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                    if nx < 0 or ny < 0 or nx >= width or ny >= height or (nx, ny) in seen:
+                        continue
+                    if checker_matte_candidate(px[nx, ny]):
+                        seen.add((nx, ny))
+                        queue.append((nx, ny))
+            if not touches_edge and len(component) < 24:
+                continue
+            for x, y in component:
+                if px[x, y][3] != 0:
+                    px[x, y] = (0, 0, 0, 0)
+                    removed += 1
+
+    return cleaned, removed
+
+
+def defringe_checker_cutout(image: Image.Image) -> tuple[Image.Image, int]:
+    cleaned = image.copy()
+    alpha = cleaned.getchannel("A")
+    nearby_min_alpha = alpha.filter(ImageFilter.MinFilter(31))
+    cleaned_px = cleaned.load()
+    nearby_px = nearby_min_alpha.load()
+    changed = 0
+    width, height = cleaned.size
+    for y in range(height):
+        for x in range(width):
+            r, g, b, a = cleaned_px[x, y]
+            if a <= 8 or nearby_px[x, y] >= a:
+                continue
+            chroma = max(r, g, b) - min(r, g, b)
+            luminance = (r + g + b) / 3
+            if chroma <= 24 and 150 <= luminance <= 253:
+                cleaned_px[x, y] = (0, 0, 0, 0)
+                changed += 1
+            elif chroma <= 60 and 150 <= luminance <= 253:
+                softened_alpha = min(a, max(20, (chroma - 12) * 6))
+                if softened_alpha != a:
+                    cleaned_px[x, y] = (r, g, b, softened_alpha)
+                    changed += 1
+    return cleaned, changed
+
+
+def prepare_checkerboard_capture(image: Image.Image) -> tuple[Image.Image, int]:
+    square = crop_center_square(image)
+    cutout, removed = remove_baked_checkerboard(square)
+    resized = cutout.resize(FRAME_SIZE, Image.Resampling.LANCZOS)
+    defringed, fringe_changed = defringe_checker_cutout(resized)
+    return defringed, removed + fringe_changed
+
+
+def load_frame(path: Path, cfg: dict | None = None) -> tuple[Image.Image, int]:
     image = Image.open(path).convert("RGBA")
+    if cfg and cfg.get("sourcePreparation") == "checkerboard-center-square":
+        return prepare_checkerboard_capture(image)
     if image.size == FRAME_SIZE:
-        return image
+        return image, 0
     canvas = Image.new("RGBA", FRAME_SIZE, (0, 0, 0, 0))
     x = (FRAME_SIZE[0] - image.width) // 2
     y = FRAME_SIZE[1] - image.height
     canvas.alpha_composite(image, (x, y))
-    return canvas
+    return canvas, 0
 
 
 def write_restored_dig_down_sources() -> dict:
@@ -412,26 +528,151 @@ def solidify_visible_pixels(frame: Image.Image, threshold: int = 24) -> Image.Im
     return solid
 
 
+def fill_small_alpha_holes(frame: Image.Image, max_area: int = 180) -> tuple[Image.Image, int]:
+    """Reconstruct small enclosed cutout holes without closing real open silhouettes."""
+    restored = frame.copy()
+    alpha = restored.getchannel("A")
+    bbox = alpha.getbbox()
+    if not bbox:
+        return restored, 0
+
+    px = restored.load()
+    left, top, right, bottom = bbox
+    seen: set[tuple[int, int]] = set()
+    holes: list[list[tuple[int, int]]] = []
+    for start_y in range(top, bottom):
+        for start_x in range(left, right):
+            if (start_x, start_y) in seen or px[start_x, start_y][3] > 8:
+                continue
+            queue: deque[tuple[int, int]] = deque([(start_x, start_y)])
+            seen.add((start_x, start_y))
+            component: list[tuple[int, int]] = []
+            touches_bounds = False
+            while queue:
+                x, y = queue.popleft()
+                component.append((x, y))
+                touches_bounds = touches_bounds or x == left or x == right - 1 or y == top or y == bottom - 1
+                for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                    if nx < left or nx >= right or ny < top or ny >= bottom or (nx, ny) in seen:
+                        continue
+                    if px[nx, ny][3] <= 8:
+                        seen.add((nx, ny))
+                        queue.append((nx, ny))
+            if not touches_bounds and len(component) <= max_area:
+                holes.append(component)
+
+    restored_pixels = 0
+    for component in holes:
+        pending = set(component)
+        while pending:
+            updates: list[tuple[int, int, tuple[int, int, int, int]]] = []
+            for x, y in pending:
+                neighbours = []
+                for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                    if nx < 0 or ny < 0 or nx >= restored.width or ny >= restored.height or (nx, ny) in pending:
+                        continue
+                    neighbour = px[nx, ny]
+                    if neighbour[3] > 8:
+                        neighbours.append(neighbour)
+                if neighbours:
+                    count = len(neighbours)
+                    updates.append((x, y, (
+                        round(sum(p[0] for p in neighbours) / count),
+                        round(sum(p[1] for p in neighbours) / count),
+                        round(sum(p[2] for p in neighbours) / count),
+                        255,
+                    )))
+            if not updates:
+                break
+            for x, y, color in updates:
+                px[x, y] = color
+                pending.remove((x, y))
+                restored_pixels += 1
+    return restored, restored_pixels
+
+
+def defringe_light_semi_alpha(frame: Image.Image) -> tuple[Image.Image, int]:
+    """Replace pale semi-transparent edge RGB while preserving the authored silhouette."""
+    cleaned = frame.copy()
+    source = frame.load()
+    target = cleaned.load()
+    changed = 0
+    for y in range(frame.height):
+        for x in range(frame.width):
+            r, g, b, a = source[x, y]
+            if a <= 8 or a >= 247 or min(r, g, b) < 190 or max(r, g, b) - min(r, g, b) > 34:
+                continue
+            neighbours = []
+            for radius in (1, 2, 3):
+                for ny in range(max(0, y - radius), min(frame.height, y + radius + 1)):
+                    for nx in range(max(0, x - radius), min(frame.width, x + radius + 1)):
+                        nr, ng, nb, na = source[nx, ny]
+                        if na >= 247 and (nr + ng + nb) / 3 < (r + g + b) / 3 - 8:
+                            neighbours.append((nr, ng, nb))
+                if neighbours:
+                    break
+            if not neighbours:
+                continue
+            count = len(neighbours)
+            target[x, y] = (
+                round(sum(p[0] for p in neighbours) / count),
+                round(sum(p[1] for p in neighbours) / count),
+                round(sum(p[2] for p in neighbours) / count),
+                a,
+            )
+            changed += 1
+    return cleaned, changed
+
+
+def polish_cutout(frame: Image.Image, *, fill_holes: bool = True) -> tuple[Image.Image, dict]:
+    polished = solidify_visible_pixels(frame)
+    restored = 0
+    if fill_holes:
+        polished, restored = fill_small_alpha_holes(polished)
+    return polished, {"restoredHolePixels": restored}
+
+
 def apply_animation_transforms(name: str, frames: list[Image.Image]) -> tuple[list[Image.Image], dict]:
     report: dict[str, object] = {}
+    if name == "idle":
+        polished = frames.copy()
+        changed: dict[int, dict[str, int]] = {}
+        # Source frame 3 is culled before this stage, so original frames 21-34
+        # become local indices 20-33.
+        for index in range(20, len(polished)):
+            defringed, fringe_pixels = defringe_light_semi_alpha(polished[index])
+            rebuilt, hole_report = polish_cutout(defringed)
+            polished[index] = rebuilt.filter(ImageFilter.UnsharpMask(radius=0.8, percent=75, threshold=3))
+            changed[index] = {
+                "lightFringePixelsRecolored": fringe_pixels,
+                "restoredHolePixels": hole_report["restoredHolePixels"],
+            }
+        report["removedSourceFrames"] = [3]
+        report["polishedFeedbackFrames"] = changed
+        return polished, report
     if name == "walk":
-        leak_frames = set(range(12, 19)) | set(range(29, 34)) | set(range(42, 49))
-        cleaned_frames = []
-        changed: dict[int, int] = {}
+        leak_frames = {1, 2, 3, 4, 24, 35} | set(range(12, 20)) | set(range(28, 34)) | set(range(43, 50))
+        cleaned_frames = frames.copy()
+        changed: dict[int, dict[str, int]] = {}
         for index, frame in enumerate(frames):
             if index in leak_frames:
-                cleaned, removed = flood_cleanup(frame, walk_matte_like)
-                cleaned_frames.append(cleaned)
-                changed[index] = removed
-            else:
-                cleaned_frames.append(frame)
-        report["targetedWalkMattePixelsRemoved"] = changed
+                cleaned, details = polish_cutout(frame)
+                cleaned_frames[index] = cleaned
+                changed[index] = details
+        report["reconstructedWalkFrames"] = changed
         return cleaned_frames, report
-    if name == "dig-up" and len(frames) > 3:
-        frames = frames.copy()
-        frames[3] = scale_frame_content(frames[3], 1.035).filter(ImageFilter.UnsharpMask(radius=1.0, percent=110, threshold=3))
-        report["polishedFrames"] = [3]
-        return frames, report
+    if name == "dig-up":
+        polished = [
+            scale_frame_content(frame, 1.035).filter(ImageFilter.UnsharpMask(radius=0.9, percent=90, threshold=3))
+            for frame in frames
+        ]
+        report["scaleNormalizedFrames"] = list(range(len(polished)))
+        report["scaleFactor"] = 1.035
+        return polished, report
+    if name == "dig-up-look":
+        polished = [scale_frame_content(frame, 1.04).filter(ImageFilter.UnsharpMask(radius=0.9, percent=90, threshold=3)) for frame in frames]
+        report["scaleFactor"] = 1.04
+        return polished, report
     if name == "dig-down":
         frames = frames.copy()
         scaled = []
@@ -445,27 +686,72 @@ def apply_animation_transforms(name: str, frames: list[Image.Image]) -> tuple[li
     if name == "duck-downwards":
         order = [6, 5, 4, 3]
         report["sourceFrameOrder"] = order
+        report["recoveryFrameOrder"] = [2, 1, 0]
         return [frames[index] for index in order if index < len(frames)], report
     if name == "combat-idle-to-normal-idle":
-        remove = {0, 1, 16, 17}
-        transformed = []
+        transformed = frames.copy()
         for index, frame in enumerate(frames):
-            if index in remove:
-                continue
-            if index in {12, 13}:
-                frame = scale_frame_content(frame, 1.035)
-            transformed.append(frame)
-        report["removedSourceFrames"] = sorted(remove)
-        report["polishedSourceFrames"] = [12, 13]
+            if index in {10, 11}:
+                polished = scale_frame_content(frame, 1.025).filter(ImageFilter.UnsharpMask(radius=0.8, percent=80, threshold=3))
+                if index == 11:
+                    polished = ImageEnhance.Brightness(polished).enhance(0.97)
+                    polished = ImageEnhance.Color(polished).enhance(1.06)
+                transformed[index] = polished
+        report["removedSourceFrames"] = [0, 1, 10, 16, 17]
+        report["polishedOutputFrames"] = [10, 11]
         return transformed, report
     if name == "leans-against-wall":
         keep = [0, 1, 2, 3]
+        isolated_removed = [remove_isolated_neutral_components(frames[index]) for index in keep if index < len(frames)]
+        foot_anchored, foot_report = anchor_frames_by_feet(isolated_removed)
+        offsets = [22, 22, 34, 34]
         report["sourceFrameOrder"] = keep
-        report["approvedRuntimeOffsetX"] = 22
-        return [shift_frame_content(frames[index], 22) for index in keep if index < len(frames)], report
+        report["runtimeOffsetXByFrame"] = offsets
+        report["footAnchor"] = foot_report
+        return [shift_frame_content(frame, offsets[index]) for index, frame in enumerate(foot_anchored)], report
     if name == "falling-downward-through-sky":
+        polished = []
+        restored: dict[int, int] = {}
+        for index, frame in enumerate(frames):
+            rebuilt, details = polish_cutout(scale_frame_content(frame, 1.04))
+            polished.append(rebuilt)
+            restored[index] = details["restoredHolePixels"]
         report["solidifiedAlphaFrames"] = list(range(len(frames)))
-        return [solidify_visible_pixels(frame) for frame in frames], report
+        report["scaleFactor"] = 1.04
+        report["restoredHolePixels"] = restored
+        return polished, report
+    if name == "teleport-in":
+        polished = frames.copy()
+        factors: dict[int, float] = {}
+        # The opening portal previously filled almost the entire 341 px cell,
+        # making the teleport read much larger than the 89 px player even
+        # though the resolved character frames already match idle.  Cap the
+        # reveal width while it is still portal-dominant, then let the existing
+        # body normalization ease naturally back to the standard player scale.
+        portal_reveal_max_width = 280
+        portal_width_capped_frames: dict[int, int] = {}
+        for index in range(8, min(27, len(polished))):
+            if index == 8 or index == 26:
+                factor = 0.96
+            elif index == 9 or index == 25:
+                factor = 0.93
+            else:
+                factor = 0.90
+            polished[index] = scale_frame_content(polished[index], factor).filter(ImageFilter.UnsharpMask(radius=0.8, percent=80, threshold=3))
+            factors[index] = factor
+        for index in range(min(12, len(polished))):
+            before_bbox = polished[index].getchannel("A").getbbox()
+            polished[index] = scale_frame_content_to_width(
+                polished[index],
+                portal_reveal_max_width,
+            )
+            after_bbox = polished[index].getchannel("A").getbbox()
+            if before_bbox and after_bbox and after_bbox[2] - after_bbox[0] < before_bbox[2] - before_bbox[0]:
+                portal_width_capped_frames[index] = after_bbox[2] - after_bbox[0]
+        report["portalRevealMaxWidthPx"] = portal_reveal_max_width
+        report["portalWidthCappedFrames"] = portal_width_capped_frames
+        report["scaleNormalizedFrames"] = factors
+        return polished, report
     return frames, report
 
 
@@ -536,6 +822,59 @@ def anchor_frames(frames: list[Image.Image]) -> tuple[list[Image.Image], dict]:
     }
 
 
+def anchor_frames_by_feet(frames: list[Image.Image], foot_band_height: int = 28) -> tuple[list[Image.Image], dict]:
+    """Stabilize ground contact without letting an extended arm/tool drag the body sideways."""
+    samples: list[dict[str, float] | None] = []
+    for frame in frames:
+        alpha = frame.getchannel("A")
+        bbox = alpha.getbbox()
+        if not bbox:
+            samples.append(None)
+            continue
+        left, _, right, bottom = bbox
+        start_y = max(0, bottom - foot_band_height)
+        alpha_px = alpha.load()
+        xs = [
+            x
+            for y in range(start_y, bottom)
+            for x in range(left, right)
+            if alpha_px[x, y] > 24
+        ]
+        samples.append({
+            "footX": median([float(x) for x in xs]) if xs else (left + right) / 2,
+            "bottom": float(bottom),
+        })
+
+    usable = [sample for sample in samples if sample]
+    if not usable:
+        return frames, {"maxShiftX": 0, "maxShiftY": 0, "avgShiftX": 0, "avgShiftY": 0}
+    target_foot_x = round(median([sample["footX"] for sample in usable]))
+    target_bottom = round(median([sample["bottom"] for sample in usable]))
+    anchored: list[Image.Image] = []
+    shifts: list[tuple[int, int]] = []
+    for frame, sample in zip(frames, samples):
+        if not sample:
+            anchored.append(frame)
+            shifts.append((0, 0))
+            continue
+        dx = round(target_foot_x - sample["footX"])
+        dy = round(target_bottom - sample["bottom"])
+        anchored.append(shift_frame_content(frame, dx, dy))
+        shifts.append((dx, dy))
+    abs_x = [abs(x) for x, _ in shifts]
+    abs_y = [abs(y) for _, y in shifts]
+    return anchored, {
+        "mode": "feet",
+        "targetFootX": target_foot_x,
+        "targetBottom": target_bottom,
+        "footBandHeight": foot_band_height,
+        "maxShiftX": max(abs_x) if abs_x else 0,
+        "maxShiftY": max(abs_y) if abs_y else 0,
+        "avgShiftX": round(sum(abs_x) / len(abs_x), 2) if abs_x else 0,
+        "avgShiftY": round(sum(abs_y) / len(abs_y), 2) if abs_y else 0,
+    }
+
+
 def grid_size(frame_count: int) -> tuple[int, int]:
     if frame_count <= 0:
         return (1, 1)
@@ -561,7 +900,10 @@ def save_contact(name: str, frames: list[Image.Image]) -> Path:
     rows = math.ceil(len(frames) / columns) if frames else 1
     contact = Image.new("RGBA", (thumb[0] * columns, thumb[1] * rows), (24, 24, 24, 255))
     for index, frame in enumerate(frames):
-        small = frame.resize(thumb, Image.Resampling.NEAREST)
+        # The audit is for judging painted sprite quality, so preview it with
+        # the same smooth sampling used by the Phaser runtime. NEAREST made
+        # detailed 341 px art look falsely pixelated when reduced to 128 px.
+        small = frame.resize(thumb, Image.Resampling.LANCZOS)
         contact.alpha_composite(small, ((index % columns) * thumb[0], (index // columns) * thumb[1]))
     preview = PREVIEWS / f"{name}-runtime-contact.png"
     preview.parent.mkdir(parents=True, exist_ok=True)
@@ -639,12 +981,84 @@ def diff_alpha(before: Image.Image, after: Image.Image) -> int:
     return sum(1 for b, a in zip(before.getchannel("A").getdata(), after.getchannel("A").getdata()) if b != a)
 
 
-def build_anim(name: str, cfg: dict) -> dict:
-    paths = frame_paths(cfg["source"])
-    if not paths:
-        raise FileNotFoundError(f"No frames found for {name}: {cfg['source']}")
+def source_frame_number(path: Path) -> int | None:
+    matches = re.findall(r"\d+", path.stem)
+    return int(matches[-1]) if matches else None
 
-    loaded = [load_frame(path) for path in paths]
+
+def adjacent_motion_report(frames: list[Image.Image], paths: list[Path]) -> dict:
+    metrics = [frame_metrics(frame) for frame in frames]
+    transitions = []
+    source_gaps = []
+    for index in range(1, len(frames)):
+        previous = metrics[index - 1]
+        current = metrics[index]
+        difference = ImageChops.difference(frames[index - 1], frames[index])
+        mean_difference = round(sum(ImageStat.Stat(difference).mean) / 4, 3)
+        previous_number = source_frame_number(paths[index - 1])
+        current_number = source_frame_number(paths[index])
+        source_gap = current_number - previous_number if previous_number is not None and current_number is not None else None
+        transition = {
+            "fromFrame": index - 1,
+            "toFrame": index,
+            "fromSource": paths[index - 1].name,
+            "toSource": paths[index].name,
+            "sourceFrameGap": source_gap,
+            "centerShiftX": round(float(current.get("centerX", 0)) - float(previous.get("centerX", 0)), 2),
+            "centerShiftY": round(float(current.get("centerY", 0)) - float(previous.get("centerY", 0)), 2),
+            "widthDelta": int(current.get("width", 0)) - int(previous.get("width", 0)),
+            "heightDelta": int(current.get("height", 0)) - int(previous.get("height", 0)),
+            "meanPixelDifference": mean_difference,
+        }
+        transitions.append(transition)
+        if source_gap is not None and source_gap > 1:
+            source_gaps.append(transition)
+    return {"transitions": transitions, "sourceGapTransitions": source_gaps}
+
+
+def write_motion_profile(name: str, frames: list[Image.Image], paths: list[Path], fps: int) -> Path:
+    samples = []
+    for index, (frame, path) in enumerate(zip(frames, paths)):
+        metric = frame_metrics(frame)
+        if metric.get("empty"):
+            sample = {"frame": index, "cx": 170, "cy": 170, "w": 1, "h": 1, "reachX": 0, "reachY": 0, "angle": 0}
+        else:
+            sample = {
+                "frame": index,
+                "sourceFrame": path.name,
+                "cx": metric["centerX"],
+                "cy": metric["centerY"],
+                "w": metric["width"],
+                "h": metric["height"],
+                "reachX": metric["right"] - metric["centerX"],
+                "reachY": metric["centerY"] - metric["top"],
+                "angle": 0,
+                "bottom": metric["bottom"],
+            }
+        samples.append(sample)
+    profile = {
+        "schemaVersion": 1,
+        "tool": "Blender motion-envelope reference generated from cleaned V8 sprite alpha bounds.",
+        "frameSize": list(FRAME_SIZE),
+        "anchorPx": {"x": FRAME_SIZE[0] // 2, "y": FRAME_SIZE[1] - 2},
+        "animations": {name: {"fps": fps, "frames": samples}},
+    }
+    MOTION_PROFILES.mkdir(parents=True, exist_ok=True)
+    out = MOTION_PROFILES / f"{name}-motion-profile.json"
+    out.write_text(json.dumps(profile, indent=2) + "\n", encoding="utf-8")
+    return out
+
+
+def build_anim(name: str, cfg: dict) -> dict:
+    source_paths = frame_paths(cfg["source"])
+    if not source_paths:
+        raise FileNotFoundError(f"No frames found for {name}: {cfg['source']}")
+    culled_source_indices = set(cfg.get("cullSourceIndices", []))
+    paths = [path for index, path in enumerate(source_paths) if index not in culled_source_indices]
+
+    loaded_with_reports = [load_frame(path, cfg) for path in paths]
+    loaded = [item[0] for item in loaded_with_reports]
+    source_matte_removed = sum(item[1] for item in loaded_with_reports)
     before_metrics = [frame_metrics(frame) for frame in loaded]
     cleaned = []
     removed_total = 0
@@ -654,7 +1068,9 @@ def build_anim(name: str, cfg: dict) -> dict:
         removed_total += removed
     cleaned, transform_report = apply_animation_transforms(name, cleaned)
 
-    if cfg.get("anchor", True):
+    if cfg.get("anchorMode") == "feet":
+        processed, anchor_report = anchor_frames_by_feet(cleaned)
+    elif cfg.get("anchor", True):
         processed, anchor_report = anchor_frames(cleaned)
     else:
         processed = cleaned
@@ -675,6 +1091,8 @@ def build_anim(name: str, cfg: dict) -> dict:
     preview = save_contact(name, processed)
     slowmo_preview = save_slowmo_gif(name, processed, int(cfg["fps"]))
     piskel = save_piskel(name, processed, int(cfg["fps"]))
+    motion_profile = write_motion_profile(name, processed, paths, int(cfg["fps"]))
+    motion_report = adjacent_motion_report(processed, paths)
     cleaned_dir = RUNTIME / f"{name}-cleaned-frames"
     cleaned_dir.mkdir(parents=True, exist_ok=True)
     for old_frame in cleaned_dir.glob("frame-*.png"):
@@ -694,15 +1112,23 @@ def build_anim(name: str, cfg: dict) -> dict:
         "preview": str(preview.relative_to(ROOT)).replace("\\", "/"),
         "slowmoPreview": str(slowmo_preview.relative_to(ROOT)).replace("\\", "/"),
         "piskel": str(piskel.relative_to(ROOT)).replace("\\", "/"),
+        "motionProfile": str(motion_profile.relative_to(ROOT)).replace("\\", "/"),
         "frameWidth": FRAME_SIZE[0],
         "frameHeight": FRAME_SIZE[1],
         "frameCount": len(processed),
         "columns": columns,
         "rows": rows,
         "fps": cfg["fps"],
+        "orientation": cfg.get("orientation"),
+        "sourcePreparation": cfg.get("sourcePreparation"),
+        "culledSourceIndices": sorted(culled_source_indices),
+        "recommendedDisplaySizePx": cfg.get("recommendedDisplaySizePx", 89),
+        "sourceFrames": [str(path.relative_to(ROOT)).replace("\\", "/") for path in paths],
+        "sourceMattePixelsRemoved": source_matte_removed,
         "borderHaloPixelsRemoved": removed_total,
         "alphaPixelsChanged": alpha_changed,
         "targetedTransforms": transform_report,
+        "motionAudit": motion_report,
         "anchor": anchor_report,
         "driftBefore": {
             "centerXRange": round((max(before_centers) - min(before_centers)) if before_centers else 0, 2),
@@ -738,23 +1164,53 @@ def write_audit(manifest: dict) -> None:
     (REPORTS / "legacy-miner-v8-runtime-audit.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def main() -> None:
+def parse_ids(value: str | None) -> list[str] | None:
+    if not value:
+        return None
+    ids = [part.strip() for part in value.split(",") if part.strip()]
+    unknown = [name for name in ids if name not in ANIMS]
+    if unknown:
+        raise ValueError(f"Unknown animation ids: {', '.join(unknown)}")
+    return ids
+
+
+def load_or_create_manifest(targeted: bool) -> dict:
+    manifest_path = RUNTIME / "legacy-miner-v8-runtime-manifest.json"
+    if targeted and manifest_path.is_file():
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
     restored_sources = write_restored_dig_down_sources()
-    manifest = {
+    return {
         "frameWidth": FRAME_SIZE[0],
         "frameHeight": FRAME_SIZE[1],
-        "cleanupPolicy": "Border-connected dominant-background flood fill, targeted walk matte flood cleanup, restored v5 dig-down cutouts, one-shot frame culls/reorders, falling alpha solidification, and median center/bottom anchoring. Interior character pixels are not globally keyed by color.",
-        "restoredSources": {
-            "digDown": restored_sources,
-        },
+        "cleanupPolicy": "Border-connected dominant-background flood fill, enclosed checker-matte removal for imported captures, targeted walk matte cleanup, restored v5 dig-down cutouts, one-shot frame culls/reorders, falling alpha solidification, and optional median center/bottom anchoring. Interior character pixels are not globally keyed by color.",
+        "restoredSources": {"digDown": restored_sources},
         "animations": [],
     }
-    for name, cfg in ANIMS.items():
-        manifest["animations"].append(build_anim(name, cfg))
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Build cleaned Legacy Miner V8 animation assets.")
+    parser.add_argument("--ids", help="Comma-separated animation ids. Omit to rebuild all V8 animations.")
+    args = parser.parse_args()
+    selected_ids = parse_ids(args.ids)
+    targeted = selected_ids is not None
+    names = selected_ids or list(ANIMS)
+    manifest = load_or_create_manifest(targeted)
+    manifest["cleanupPolicy"] = "Border-connected dominant-background flood fill, enclosed checker-matte removal for imported captures, targeted walk matte cleanup, restored v5 dig-down cutouts, one-shot frame culls/reorders, falling alpha solidification, and optional median center/bottom anchoring. Interior character pixels are not globally keyed by color."
+    existing = {item["name"]: item for item in manifest.get("animations", [])}
+    for name in names:
+        existing[name] = build_anim(name, ANIMS[name])
+    manifest["animations"] = [existing[name] for name in ANIMS if name in existing]
     RUNTIME.mkdir(parents=True, exist_ok=True)
     (RUNTIME / "legacy-miner-v8-runtime-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     write_audit(manifest)
-    print(json.dumps(manifest, indent=2))
+    print(json.dumps({
+        "ok": True,
+        "targeted": targeted,
+        "built": names,
+        "manifest": str((RUNTIME / "legacy-miner-v8-runtime-manifest.json").relative_to(ROOT)).replace("\\", "/"),
+        "animations": [existing[name] for name in names],
+    }, indent=2))
 
 
 if __name__ == "__main__":

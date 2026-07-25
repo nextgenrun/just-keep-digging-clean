@@ -1,3 +1,5 @@
+import { PLAYER_COLLISION_CONFIG } from "../values/playerCollision.js";
+
 /**
  * PlayerMovement — Handles player movement, facing direction, and speed.
  * Uses TileCollisionSystem for deterministic grid-based collision resolution.
@@ -10,13 +12,14 @@ export class PlayerMovement {
     this._walkSpeed = config.walkSpeedPxPerSec || 200;
     this._climbSpeed = config.climbSpeedPxPerSec || 252;
     // Maximum velocity hard cap to prevent extreme tunneling
-    this.MAX_ABSOLUTE_VELOCITY = config.tileSize * 30;
+    this.MAX_ABSOLUTE_VELOCITY = config.tileSize * PLAYER_COLLISION_CONFIG.maxVelocityTilesPerSecond;
   }
 
   setWalkSpeed(speed) { this._walkSpeed = speed; }
   setClimbSpeed(speed) { this._climbSpeed = speed; }
 
   isFacingRight() { return this._facingRight; }
+  setFacingRight(facingRight) { this._facingRight = facingRight === true; }
 
   /**
    * Update physics with collision resolution
@@ -26,6 +29,10 @@ export class PlayerMovement {
    */
   update(dt, collisionSystem, isClimbing) {
     if (!this.body) return;
+    if (collisionSystem && !collisionSystem.resolveBodyOverlap(this.body)) {
+      this.body.resetVelocity();
+      return;
+    }
     
     // Update physics body (gravity, velocity caps)
     this.body.update(dt);

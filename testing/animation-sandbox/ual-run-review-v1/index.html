@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>UAL Run Review v1 · Dig Game</title>
+  <link rel="stylesheet" href="../ual-walk-review-v1/review.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Dig Game · current Survival character run review</p>
+      <h1>Five run candidates in the real game frame</h1>
+      <p class="intro">Same Survival character, same 94px grid, same 31 × 75 body, and the actual runtime-rendered sheets. The current production run stays visible as the control while four Unreal/Survival motion alternatives are judged at the live locomotion scale.</p>
+    </div>
+    <div class="truth-card" aria-label="Runtime truth">
+      <span>94px tile grid</span>
+      <span>109px locomotion render</span>
+      <span>31 × 75 collider</span>
+      <span>No production promotion</span>
+    </div>
+  </header>
+
+  <section class="control-deck" aria-label="Run review controls">
+    <div class="button-cluster">
+      <button id="play-toggle" type="button">Pause</button>
+      <button id="step-back" type="button">− 1/30s</button>
+      <button id="step-forward" type="button">+ 1/30s</button>
+      <button id="restart" type="button">Restart</button>
+    </div>
+
+    <label class="field">
+      <span>Cadence</span>
+      <select id="cadence-mode">
+        <option value="game-matched">Live game matched</option>
+        <option value="native">Native 30 FPS</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Camera zoom</span>
+      <select id="view-scale">
+        <option value="1">1× live scale</option>
+        <option value="2">2× inspection</option>
+      </select>
+    </label>
+
+    <label class="field speed-field">
+      <span>Travel speed <output id="speed-value">200 px/s</output></span>
+      <input id="speed" type="range">
+    </label>
+
+    <label class="check-field">
+      <input id="flip-facing" type="checkbox">
+      <span>Face left</span>
+    </label>
+    <label class="check-field">
+      <input id="show-guides" type="checkbox" checked>
+      <span>Collider + tile guides</span>
+    </label>
+
+    <label class="timeline-field">
+      <span>Shared review time</span>
+      <input id="timeline" type="range" min="0" max="6000" step="1" value="0">
+    </label>
+  </section>
+
+  <section class="review-note">
+    <strong>Review decision:</strong>
+    Options A, B, D, and E are rejected. Option C — Compact UAL jog — remains the only retained run candidate here. This is review metadata only; it does not promote a new gameplay animation.
+  </section>
+
+  <main id="candidate-grid" class="candidate-grid" aria-label="Run candidates"></main>
+
+  <footer class="selection-dock">
+    <div>
+      <span class="selection-label">Your review choice</span>
+      <strong id="selection-summary">Option C · Compact UAL jog · selected sample</strong>
+    </div>
+    <a class="tuning-lab-link" href="../ual-animation-tuning-lab-v2/">Open expanded tuning lab →</a>
+    <a class="tuning-lab-link" href="../epic-gasp-action-review-v1/">Open 50-animation catalog →</a>
+    <span id="load-status" role="status">Loading five runtime candidates · C retained · A/B/D/E rejected…</span>
+  </footer>
+
+  <noscript>This run review needs JavaScript enabled.</noscript>
+  <script type="module" src="runReview.js"></script>
+</body>
+</html>

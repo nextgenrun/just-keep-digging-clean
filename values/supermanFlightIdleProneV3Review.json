@@ -1,0 +1,33 @@
+{
+  "version": "superman-flight-idle-prone-review-v3-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "testing/blender-animation-lab-v1/review-drafts/superman-flight-idle-prone-v2/superman-flight-idle-prone-v2.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V2",
+    "idleFrame": 1,
+    "root": "DG_PRONE_FLIGHT_IDLE_V2_ROOT"
+  },
+  "output": {
+    "root": "testing/blender-animation-lab-v1/review-drafts/superman-flight-idle-prone-v3",
+    "blend": "superman-flight-idle-prone-v3.blend",
+    "manifest": "prone-flight-idle-v3-manifest.json",
+    "preview": "prone-flight-idle-v3-preview.png"
+  },
+  "pose": {
+    "action": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3",
+    "rootName": "DG_PRONE_FLIGHT_IDLE_V3_ROOT",
+    "rootDisplaySize": 0.001,
+    "frameStart": 1,
+    "frameEnd": 1,
+    "forwardFist": {
+      "bone": "hand_l",
+      "rotationEulerDegrees": [0, 90, 0]
+    }
+  },
+  "preview": {
+    "sizePx": 512,
+    "transparent": false
+  }
+}

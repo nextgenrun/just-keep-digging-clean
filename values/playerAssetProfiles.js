@@ -1,5 +1,8 @@
-import { ASSET_KEYS } from "./assetKeys.js";
 import { PLAYER_CHARACTER_IDS, normalizePlayerCharacterId } from "./playerCharacters.js";
+import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260723-superman-old-jab";
+import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
+
+export { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260723-superman-old-jab";
 
 const range = (length) => Array.from({ length }, (_, index) => index);
 
@@ -110,6 +113,7 @@ const robot = Object.freeze({
   walkAnims: ["robot-v1-walk-start-anim", "robot-v1-walk-loop-anim", "robot-v1-walk-run-anim", "robot-v1-walk-stop-anim"],
   walkMovingAnims: ["robot-v1-walk-start-anim", "robot-v1-walk-loop-anim", "robot-v1-walk-run-anim"],
 
+  quickslashSourceFacesRight: false,
   wallPushAnimationFps: 8,
   digDownAnimationFps: 18,
   fallingAnimationFps: 12,
@@ -178,6 +182,7 @@ const drillHead = Object.freeze({
   digAnims: ["living-drill-dig"],
   walkAnims: ["living-drill-idle"],
   walkMovingAnims: ["living-drill-idle"],
+  quickslashSourceFacesRight: false,
   idleAnimationFps: 7,
   digAnimationFps: 14,
   flyAnimationFps: 9,
@@ -191,11 +196,36 @@ const drillHead = Object.freeze({
 });
 
 export const PLAYER_ASSET_PROFILES = Object.freeze({
-  [PLAYER_CHARACTER_IDS.legacy]: ASSET_KEYS.player,
+  [PLAYER_CHARACTER_IDS.ualNative]: UAL_NATIVE_PLAYER_ASSET_PROFILE,
+  [PLAYER_CHARACTER_IDS.survivalUal]: SURVIVAL_UAL_PLAYER_ASSET_PROFILE,
   [PLAYER_CHARACTER_IDS.robot]: robot,
   [PLAYER_CHARACTER_IDS.drillHead]: drillHead,
 });
 
 export function getPlayerAssetProfile(value) {
-  return PLAYER_ASSET_PROFILES[normalizePlayerCharacterId(value)] || ASSET_KEYS.player;
+  return PLAYER_ASSET_PROFILES[normalizePlayerCharacterId(value)] || UAL_NATIVE_PLAYER_ASSET_PROFILE;
+}
+
+export function resolvePlayerDisplaySizePx(profile, fallbackSizePx, animationKey = null) {
+  const animationSize = animationKey
+    ? Number(profile?.displaySizePxByAnimation?.[animationKey])
+    : NaN;
+  if (Number.isFinite(animationSize) && animationSize > 0) return animationSize;
+  const profileSize = Number(profile?.displaySizePx);
+  if (Number.isFinite(profileSize) && profileSize > 0) return profileSize;
+  return fallbackSizePx;
+}
+
+export function resolvePlayerVisualOrigin(profile, animationKey = null, textureKey = null, fallback = {}) {
+  const animationOrigin = animationKey ? profile?.visualOriginByAnimation?.[animationKey] : null;
+  const sheetOrigin = textureKey ? profile?.visualOriginBySheet?.[textureKey] : null;
+  const override = animationOrigin || sheetOrigin;
+  const fallbackX = Number.isFinite(fallback.x) ? fallback.x : 0.5;
+  const fallbackY = Number.isFinite(fallback.y) ? fallback.y : 1;
+  const profileX = Number.isFinite(profile?.visualOriginX) ? profile.visualOriginX : fallbackX;
+  const profileY = Number.isFinite(profile?.visualOriginY) ? profile.visualOriginY : fallbackY;
+  return {
+    x: Number.isFinite(override?.x) ? override.x : profileX,
+    y: Number.isFinite(override?.y) ? override.y : profileY,
+  };
 }

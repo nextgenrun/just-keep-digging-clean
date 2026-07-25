@@ -1,0 +1,78 @@
+{
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "clips": {
+    "idle": {
+      "file": "survival-character-unreal-v1-idle-sheet.png",
+      "frames": 48,
+      "columns": 16,
+      "rows": 3,
+      "fps": 12,
+      "loop": true,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "walk": {
+      "file": "survival-character-unreal-v1-walk-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 16,
+      "loop": true,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "run": {
+      "file": "survival-character-unreal-v1-run-sheet.png",
+      "frames": 28,
+      "columns": 16,
+      "rows": 2,
+      "fps": 16,
+      "loop": true,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "fly": {
+      "file": "survival-character-unreal-v1-fly-sheet.png",
+      "frames": 36,
+      "columns": 16,
+      "rows": 3,
+      "fps": 16,
+      "loop": true,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "attack": {
+      "file": "survival-character-unreal-v1-attack-sheet.png",
+      "frames": 18,
+      "columns": 16,
+      "rows": 2,
+      "fps": 18,
+      "loop": false,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "dig-side": {
+      "file": "survival-character-unreal-v1-dig-side-sheet.png",
+      "frames": 32,
+      "columns": 16,
+      "rows": 2,
+      "fps": 36,
+      "loop": false,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "dig-up": {
+      "file": "survival-character-unreal-v1-dig-up-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 27,
+      "loop": false,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    },
+    "dig-down": {
+      "file": "survival-character-unreal-v1-dig-down-sheet.png",
+      "frames": 30,
+      "columns": 16,
+      "rows": 2,
+      "fps": 33,
+      "loop": false,
+      "motionAuthority": "Unreal Engine 5.8 IK Retargeter"
+    }
+  }
+}

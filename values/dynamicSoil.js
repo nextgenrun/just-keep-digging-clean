@@ -48,17 +48,6 @@ export const ALL_RESOURCE_TYPES = Object.freeze([
   TILE_TYPES.MAGMA_CRYSTAL,
 ]);
 
-function hashUint(tx, ty, seed, salt = 0) {
-  let value = Math.imul(tx | 0, 0x1f123bb5) ^ Math.imul(ty | 0, 0x5f356495);
-  value ^= Math.imul(seed | 0, 0x6c8e9cf5) ^ Math.imul(salt | 0, 0x27d4eb2d);
-  value = Math.imul(value ^ (value >>> 15), 0x2c1b3c6d);
-  value = Math.imul(value ^ (value >>> 12), 0x297a2d39);
-  return (value ^ (value >>> 15)) >>> 0;
-}
-
-function hash01(tx, ty, seed, salt = 0) {
-  return hashUint(tx, ty, seed, salt) / 0x100000000;
-}
 
 function smoothstep(value) {
   return value * value * (3 - 2 * value);
@@ -120,17 +109,16 @@ export function getResourceRarityIndex(tileType, tx, ty, depthTiles, seed) {
   return 0;
 }
 
-export function getResourceYieldMultiplier(tileType, tx, ty, depthTiles, seed) {
+function getResourceMultiplier(tileType, tx, ty, depthTiles, seed) {
   return RESOURCE_RARITIES[getResourceRarityIndex(tileType, tx, ty, depthTiles, seed)].multiplier;
 }
 
 export function getResourceHpMultiplier(tileType, tx, ty, depthTiles, seed) {
-  return RESOURCE_RARITIES[getResourceRarityIndex(tileType, tx, ty, depthTiles, seed)].multiplier;
+  return getResourceMultiplier(tileType, tx, ty, depthTiles, seed);
 }
 
-export function getSoilYieldMultiplier(tileType, tx, ty, depthTiles, seed) {
-  if (isSoilType(tileType)) return getResourceYieldMultiplier(tileType, tx, ty, depthTiles, seed);
-  return 1;
+export function getResourceYieldMultiplier(tileType, tx, ty, depthTiles, seed) {
+  return getResourceMultiplier(tileType, tx, ty, depthTiles, seed);
 }
 
 export function getSoilRarityIndex(tileType, tx, ty, depthTiles, seed) {
@@ -174,3 +162,4 @@ export function getSoilAtlasOffset(descriptor, damageStage) {
   return (((descriptor.band * SOIL_VARIANT_COUNT + descriptor.variant) * SOIL_TYPE_COUNT + descriptor.typeIndex)
     * SOIL_RARITY_COUNT + rarityIndex) * SOIL_DAMAGE_STAGE_COUNT + stageIndex;
 }
+import { hashUint, hash01 } from "./deterministicMath.js";

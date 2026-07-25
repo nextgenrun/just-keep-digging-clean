@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "blenderVersion": "5.1.2",
+  "productionChanged": false,
+  "catalogActions": 18,
+  "masterActions": 17,
+  "sourceHandMotionWorld": 0.163981,
+  "endpointTween": {
+    "sourceAction": "DGAL_punch-jab",
+    "editableAction": "DGAL_EDIT_authored_punch-jab",
+    "startFrame": 1,
+    "endFrame": 13,
+    "midFrame": 7,
+    "totalDegrees": 42.0,
+    "midpointDegrees": 21.0,
+    "baselinePreserved": true
+  },
+  "hitboxesAndProps": {
+    "hitboxCount": 4,
+    "bodyGamePx": [
+      31.0,
+      75.0
+    ],
+    "bodyGuideWorld": [
+      0.76438,
+      1.8493
+    ],
+    "tileGrid": true,
+    "pickaxe": "DGAL_ProceduralPickaxe",
+    "gripReport": "mean 0.0000 m | max 0.0001 m | 46 samples"
+  },
+  "meshyFit": {
+    "source": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\source-assets\\meshy-warrior-demo-blender.glb",
+    "audit": {
+      "meshes": 1,
+      "excludedMeshes": 1,
+      "armatures": 1,
+      "vertices": 126764,
+      "triangles": 218400,
+      "materials": 1,
+      "vertexGroups": 24,
+      "unweightedVertices": 0,
+      "nonManifoldEdges": 35498,
+      "rigged": true
+    },
+    "mappedBones": 22,
+    "retargetAction": "DGAL_MESHY_punch-jab",
+    "armMotionDegrees": 98.453,
+    "fitScale": 0.929885,
+    "nativeWeightsPreserved": true
+  },
+  "renders": [
+    "testing\\blender-animation-lab-v1\\review-drafts\\meshy-fit-endpoint-proof-v1\\proof-renders\\survival-punch-jab-frame-01.png",
+    "testing\\blender-animation-lab-v1\\review-drafts\\meshy-fit-endpoint-proof-v1\\proof-renders\\meshy-punch-jab-frame-01.png",
+    "testing\\blender-animation-lab-v1\\review-drafts\\meshy-fit-endpoint-proof-v1\\proof-renders\\survival-punch-jab-frame-12.png",
+    "testing\\blender-animation-lab-v1\\review-drafts\\meshy-fit-endpoint-proof-v1\\proof-renders\\meshy-punch-jab-frame-12.png"
+  ]
+}

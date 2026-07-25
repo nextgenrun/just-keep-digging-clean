@@ -1,0 +1,52 @@
+{
+  "clips": {
+    "idle": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_idle.Survival_idle",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-idle-retargeted.fbx",
+      "bytes": 8042848,
+      "seconds": 7.566666603088379
+    },
+    "walk": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_walk.Survival_walk",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-walk-retargeted.fbx",
+      "bytes": 5744736,
+      "seconds": 1.5
+    },
+    "run": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_run.Survival_run",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-run-retargeted.fbx",
+      "bytes": 5883824,
+      "seconds": 1.7666666507720947
+    },
+    "fly": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_fly.Survival_fly",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-fly-retargeted.fbx",
+      "bytes": 6527184,
+      "seconds": 3.0
+    },
+    "attack": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_attack.Survival_attack",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-attack-retargeted.fbx",
+      "bytes": 5483920,
+      "seconds": 1.0
+    },
+    "dig_up": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_dig_up.Survival_dig_up",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-dig-up-retargeted.fbx",
+      "bytes": 5483920,
+      "seconds": 1.0
+    },
+    "dig_down": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_dig_down.Survival_dig_down",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-dig-down-retargeted.fbx",
+      "bytes": 5831680,
+      "seconds": 1.6666666269302368
+    },
+    "mining_strike": {
+      "asset": "/Game/SurvivalMotion/Animations/Survival_mining_strike.Survival_mining_strike",
+      "file": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-mining-strike-retargeted.fbx",
+      "bytes": 5918624,
+      "seconds": 1.8333333730697632
+    }
+  }
+}

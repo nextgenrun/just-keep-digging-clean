@@ -1,4 +1,5 @@
 import { SHADER_CONFIG } from "../../values/shaderConfig.js";
+import { clamp01Finite as clamp01 } from "../../values/mathUtils.js";
 import {
   createCommonShaderUniforms,
   WEATHER_ATMOSPHERE_SHADER_KEY,
@@ -8,8 +9,6 @@ import {
   LIGHTNING_FLASH_SHADER_KEY,
   LIGHTNING_FLASH_FRAGMENT,
 } from "./shaderIndex.js";
-
-const clamp01 = (value) => Math.max(0, Math.min(1, Number.isFinite(value) ? value : 0));
 
 function hexToVec3(hex, fallback = 0xffffff) {
   const color = Number.isFinite(hex) ? hex : fallback;
@@ -109,8 +108,16 @@ export class ShaderSystem {
       this._debugSnapshot = snapshot;
 
       for (const [name, entry] of this.layers.entries()) {
+        const alpha = this._getLayerAlpha(name, entry.config, snapshot);
+        entry.lastAlpha = alpha;
+        const active = this.enabled
+          && entry.config.enabled !== false
+          && alpha > this._getInactiveAlphaThreshold();
+        this._setLayerVisible(entry, active);
+        if (!active) continue;
+
         this._applyUniforms(entry.shader, snapshot);
-        this._applyLayerUniforms(name, entry.shader, entry.config);
+        entry.shader.setUniform("uLayerAlpha.value", alpha);
       }
     } catch (error) {
       console.warn("[ShaderSystem] Disabled after update error:", error);
@@ -143,7 +150,12 @@ export class ShaderSystem {
   setEnabled(enabled) {
     this.enabled = Boolean(enabled) && this.available;
     for (const entry of this.layers.values()) {
-      entry.image.setVisible(this.enabled && entry.config.enabled !== false);
+      this._setLayerVisible(
+        entry,
+        this.enabled
+          && entry.config.enabled !== false
+          && entry.lastAlpha > this._getInactiveAlphaThreshold()
+      );
     }
   }
 
@@ -194,7 +206,7 @@ export class ShaderSystem {
     const shader = this.scene.add.shader(baseShader, width / 2, height / 2, width, height)
       .setOrigin(0.5)
       .setScrollFactor(0)
-      .setVisible(true);
+      .setVisible(false);
     shader.setRenderToTexture(textureKey);
 
     const image = this.scene.add.image(width / 2, height / 2, textureKey)
@@ -203,7 +215,7 @@ export class ShaderSystem {
       .setDepth(layerConfig.depth)
       .setDisplaySize(width, height)
       .setBlendMode(Phaser.BlendModes.ADD)
-      .setVisible(true);
+      .setVisible(false);
 
     this.layers.set(name, {
       shader,
@@ -212,6 +224,8 @@ export class ShaderSystem {
       textureKey,
       width,
       height,
+      lastAlpha: 0,
+      renderActive: false,
     });
   }
 
@@ -272,33 +286,44 @@ export class ShaderSystem {
     shader.setUniform("uSunStrength.value", clamp01(light.sunStrength));
   }
 
-  _applyLayerUniforms(name, shader, layerConfig) {
+  _getLayerAlpha(name, layerConfig, snapshot = this._debugSnapshot) {
     let alpha = layerConfig.alpha ?? 0;
 
     if (name === "weatherAtmosphere") {
-      const weather = this._debugSnapshot.weather;
+      const weather = snapshot.weather;
       alpha *= clamp01(
         weather.rainAmount * 0.85
         + weather.stormAmount * 0.55
         + weather.undergroundSignal * 0.55
-        + this._debugSnapshot.dayNight.nightAmount * weather.surfaceAmount * 0.25
+        + snapshot.dayNight.nightAmount * weather.surfaceAmount * 0.25
       );
     } else if (name === "darknessLight") {
-      const light = this._debugSnapshot.light;
+      const light = snapshot.light;
       alpha *= clamp01(
         light.darknessAlpha * 0.85
         + light.torchGlowStrength * 0.45
         + light.undergroundDarknessInfluence * 0.30
-        + this._debugSnapshot.dayNight.nightAmount * light.surfaceLightInfluence * 0.18
+        + snapshot.dayNight.nightAmount * light.surfaceLightInfluence * 0.18
       );
     } else if (name === "lightningFlash") {
-      const weather = this._debugSnapshot.weather;
+      const weather = snapshot.weather;
       alpha *= clamp01(weather.lightningFlashAmount * (0.75 + weather.stormAmount * 0.25));
     }
 
-    shader.setUniform("uLayerAlpha.value", clamp01(alpha));
-    const entry = this.layers.get(name);
-    entry?.image?.setVisible(this.enabled && layerConfig.enabled !== false && alpha > 0.001);
+    return clamp01(alpha);
+  }
+
+  _getInactiveAlphaThreshold() {
+    return Math.max(0, Number(this.config.performance?.inactiveLayerAlphaThreshold) || 0);
+  }
+
+  _setLayerVisible(entry, visible) {
+    const nextVisible = Boolean(visible);
+    if (entry.renderActive === nextVisible) return;
+
+    entry.renderActive = nextVisible;
+    entry.shader?.setVisible?.(nextVisible);
+    entry.image?.setVisible?.(nextVisible);
   }
 
   _recreateLayers() {

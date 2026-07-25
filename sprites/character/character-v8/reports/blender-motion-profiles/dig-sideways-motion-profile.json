@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "tool": "Blender motion-envelope reference generated from cleaned V8 sprite alpha bounds.",
+  "frameSize": [
+    341,
+    341
+  ],
+  "anchorPx": {
+    "x": 170,
+    "y": 339
+  },
+  "animations": {
+    "dig-sideways": {
+      "fps": 30,
+      "frames": [
+        {
+          "frame": 0,
+          "sourceFrame": "frame-000.png",
+          "cx": 153.0,
+          "cy": 184.5,
+          "w": 234,
+          "h": 309,
+          "reachX": 117.0,
+          "reachY": 154.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 1,
+          "sourceFrame": "frame-001.png",
+          "cx": 136.0,
+          "cy": 184.0,
+          "w": 268,
+          "h": 310,
+          "reachX": 134.0,
+          "reachY": 155.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 2,
+          "sourceFrame": "frame-002.png",
+          "cx": 153.5,
+          "cy": 186.5,
+          "w": 235,
+          "h": 305,
+          "reachX": 117.5,
+          "reachY": 152.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 3,
+          "sourceFrame": "frame-003.png",
+          "cx": 153.5,
+          "cy": 187.0,
+          "w": 235,
+          "h": 304,
+          "reachX": 117.5,
+          "reachY": 152.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 4,
+          "sourceFrame": "frame-004.png",
+          "cx": 147.5,
+          "cy": 186.5,
+          "w": 247,
+          "h": 305,
+          "reachX": 123.5,
+          "reachY": 152.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 5,
+          "sourceFrame": "frame-005.png",
+          "cx": 146.0,
+          "cy": 187.0,
+          "w": 250,
+          "h": 304,
+          "reachX": 125.0,
+          "reachY": 152.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 6,
+          "sourceFrame": "frame-006.png",
+          "cx": 159.5,
+          "cy": 184.5,
+          "w": 223,
+          "h": 309,
+          "reachX": 111.5,
+          "reachY": 154.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 7,
+          "sourceFrame": "frame-007.png",
+          "cx": 136.0,
+          "cy": 185.0,
+          "w": 272,
+          "h": 308,
+          "reachX": 136.0,
+          "reachY": 154.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 8,
+          "sourceFrame": "frame-008.png",
+          "cx": 136.0,
+          "cy": 181.0,
+          "w": 268,
+          "h": 316,
+          "reachX": 134.0,
+          "reachY": 158.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 9,
+          "sourceFrame": "frame-009.png",
+          "cx": 159.0,
+          "cy": 184.5,
+          "w": 224,
+          "h": 309,
+          "reachX": 112.0,
+          "reachY": 154.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 10,
+          "sourceFrame": "frame-010.png",
+          "cx": 162.0,
+          "cy": 184.5,
+          "w": 216,
+          "h": 309,
+          "reachX": 108.0,
+          "reachY": 154.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 11,
+          "sourceFrame": "frame-011.png",
+          "cx": 143.0,
+          "cy": 186.5,
+          "w": 254,
+          "h": 305,
+          "reachX": 127.0,
+          "reachY": 152.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 12,
+          "sourceFrame": "frame-012.png",
+          "cx": 143.5,
+          "cy": 187.0,
+          "w": 255,
+          "h": 304,
+          "reachX": 127.5,
+          "reachY": 152.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 13,
+          "sourceFrame": "frame-013.png",
+          "cx": 143.0,
+          "cy": 186.0,
+          "w": 254,
+          "h": 306,
+          "reachX": 127.0,
+          "reachY": 153.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 14,
+          "sourceFrame": "frame-014.png",
+          "cx": 147.0,
+          "cy": 186.5,
+          "w": 246,
+          "h": 305,
+          "reachX": 123.0,
+          "reachY": 152.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 15,
+          "sourceFrame": "frame-015.png",
+          "cx": 149.0,
+          "cy": 185.5,
+          "w": 242,
+          "h": 307,
+          "reachX": 121.0,
+          "reachY": 153.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 16,
+          "sourceFrame": "frame-016.png",
+          "cx": 157.5,
+          "cy": 184.0,
+          "w": 227,
+          "h": 310,
+          "reachX": 113.5,
+          "reachY": 155.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 17,
+          "sourceFrame": "frame-017.png",
+          "cx": 135.5,
+          "cy": 184.5,
+          "w": 271,
+          "h": 309,
+          "reachX": 135.5,
+          "reachY": 154.5,
+          "angle": 0,
+          "bottom": 339
+        }
+      ]
+    }
+  }
+}

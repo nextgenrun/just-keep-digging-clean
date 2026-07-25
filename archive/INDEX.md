@@ -2,7 +2,11 @@
 
 | Archived Item | Original Location | Date Archived | Reason |
 |---------------|------------------|---------------|--------|
+| manifests/tiled-world-retirement | active Tiled-era world assembly (staged only) | 2026-07-16 | Scenic-v2 is default; physical move waits until the explicit legacy rollback and hidden layout imports are retired |
+| experiments/rejected-legacy-miner-unreal-walk | testing/unreal-legacy-miner-walk and testing/animation-sandbox/legacy-miner-unreal-walk-poc | 2026-07-15 | Rejected visual experiment; likeness, walk quality, and side-view result were unacceptable |
 | generation/unused-dynamic-generation-pipeline | dynamic-systems/generation | 2026-07-10 | Unreferenced generation pipeline superseded by world/model/WorldModel.js |
+| ui/unused-generated-hud-textures | ui/GeneratedHudTextures.js | 2026-07-10 | Unreferenced duplicate HUD torch texture generator |
+| animations/todo-animation-stubs | animations/*.js | 2026-07-10 | Unreferenced TODO-only animation modules |
 | character/animation-archive | sprites/character/animation-archive | 2026-06-26 | Old animation experiments, superseded by v5 walk |
 | character/character-v8 | sprites/character/character-v8 | 2026-06-26 | v8 character drafts, superseded by v5 walk + robot |
 | character/cinamatic-animations | sprites/character/cinamatic animations | 2026-06-26 | Unused cinematic animation drafts |

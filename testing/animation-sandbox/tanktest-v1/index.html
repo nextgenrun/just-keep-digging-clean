@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tank Test V1 - Dig Game</title>
+  <title>Character + Arc Core POC - Dig Game</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -17,7 +17,7 @@
       justify-content: center;
     }
     #sandbox-root { position: relative; width: min(100vw, 1280px); }
-    #sandbox-root canvas { display: block; }
+    #sandbox-root canvas { display: block; image-rendering: auto; }
     .overlay {
       position: absolute;
       z-index: 10;
@@ -68,6 +68,6 @@
   <div id="control-panel" class="overlay"></div>
 </div>
 <script src="../../../libs/phaser.js"></script>
-<script src="sandbox.js"></script>
+<script type="module" src="sandbox.js"></script>
 </body>
 </html>

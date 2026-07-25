@@ -65,11 +65,16 @@ PlayScene (game runs here, MenuAudioScene stopped)
 |----------|-----------|---------|
 | Mining | `/systems/mining/` | DigSystem, TileCollisionSystem, SpecialTileSystem, SpecialBlockEffectsManager |
 | Progression | `/systems/progression/` | PlayerLevelSystem, UpgradeSystem, DepthGateSystem |
-| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
+| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
 | Audio | `/systems/audio/` | SoundSystem, SoundLibraryManager, VoiceLineManager |
 | Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
 | Lighting | `/systems/lighting/` | LightSystem, ShaderSystem |
 | Combo | `/systems/combo/` | ComboSystem, HitstopSystem |
+| Health | `/systems/health/` | RuntimeCanarySystem, RuntimeCanaryReporter, deterministic runtime checks |
+
+`DayNightCycle` owns the sun/moon world-space orbit. `LightSystem`, weather,
+atmosphere, and shaders consume camera-projected positions from that same source;
+celestial sprites must not be converted back to fixed-screen objects.
 
 ---
 
@@ -124,6 +129,10 @@ Or use PHP:
 php -S localhost:8080
 ```
 
+`serve.py` disables browser caching for HTML, JavaScript modules, CSS, and JSON.
+This prevents a development reload from mixing old and new ES-module versions
+after runtime renderer or scene changes. Image/audio assets remain cacheable.
+
 ---
 
 ## Version Control
@@ -151,3 +160,5 @@ This project uses a 3-tier version control system:
 | `/markdown/pathing/readme.md` | Import path resolution |
 | `/markdown/2026-06-25-next-steps.md` | Immediate next steps |
 | `/markdown/2026-06-25-phase3-roadmap.md` | Phase 3 roadmap |
+| `/markdown/2026-07-12-v11-polished-runtime-backgrounds.md` | V11 polished surface/depth streaming package and rollback |
+| `/markdown/2026-07-13-v11-split-sky-islands-tmx.md` | V11 open-sky bedrock cleanup and two four-portal sky-island banks |

@@ -1,10 +1,10 @@
 import { TILE_TYPES } from "../../values/tileTypes.js";
-import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
 import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
-import { getBlockEffect, getGemPowerBlockRestoreAmount } from "../../values/specialBlocks.js";
+import { getGemPowerBlockRestoreAmount } from "../../values/specialBlocks.js";
 import { getResourceYieldMultiplier } from "../../values/dynamicSoil.js";
+import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import {
   HARD_RESOURCE_TILE_TYPES,
   createZeroResourceTotals,
@@ -22,6 +22,7 @@ export class DigSystem {
     this.floatingTextSystem = floatingTextSystem;
     this.comboSystem = comboSystem;
     this.specialBlockEffectsManager = specialBlockEffectsManager;
+    this.ancientRelicSystem = null;
 
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
@@ -38,6 +39,10 @@ export class DigSystem {
 
   setFloatingTextSystem(floatingTextSystem) {
     this.floatingTextSystem = floatingTextSystem;
+  }
+
+  setAncientRelicSystem(ancientRelicSystem) {
+    this.ancientRelicSystem = ancientRelicSystem;
   }
 
   _getNativeYield(tileType, tx, ty) {
@@ -78,6 +83,32 @@ export class DigSystem {
     this.campfireSystem = campfireSystem;
   }
 
+  _awardAncientRelics(tileType, tx, ty) {
+    if (tileType !== TILE_TYPES.ANCIENT_RELIC_CACHE || !this.ancientRelicSystem) return 0;
+
+    const gained = this.ancientRelicSystem.add(ANCIENT_RELIC_CONFIG.cache.relicsPerCache);
+    if (gained <= 0) return 0;
+
+    const worldX = tx * this.config.tileSize + this.config.tileSize / 2;
+    const worldY = ty * this.config.tileSize + this.config.tileSize / 2;
+    const plural = gained === 1 ? "" : "S";
+    this.floatingTextSystem?.showFloatingText(
+      worldX,
+      worldY - 14,
+      `+${gained} ${ANCIENT_RELIC_CONFIG.displayName.toUpperCase()}${plural}`,
+      ANCIENT_RELIC_CONFIG.color,
+      ANCIENT_RELIC_CONFIG.cache.floatingTextDurationMs,
+      ANCIENT_RELIC_CONFIG.cache.floatingTextFontSizePx
+    );
+    this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
+    this.worldRenderer?.scene?.hudSystem?.flashStatus?.(
+      `${ANCIENT_RELIC_CONFIG.displayName} found: ${this.ancientRelicSystem.getCount()}`,
+      ANCIENT_RELIC_CONFIG.color,
+      ANCIENT_RELIC_CONFIG.cache.statusDurationMs
+    );
+    return gained;
+  }
+
   _getCooldown(playerAbilities = null) {
     let cooldown = this.config.mineCooldownMs;
     
@@ -87,11 +118,7 @@ export class DigSystem {
     
     // Apply level-based mining speed bonus
     if (this.playerLevelSystem) {
-      let speedBonus = this.playerLevelSystem.getMiningSpeedBonus();
-      // Add campfire mining speed bonus
-      if (this.campfireSystem) {
-        speedBonus += this.campfireSystem.getMiningSpeedBonus();
-      }
+      const speedBonus = this.playerLevelSystem.getMiningSpeedBonus();
       cooldown = cooldown * (1 - speedBonus);
     }
     
@@ -200,6 +227,7 @@ export class DigSystem {
       behindResourceType: null,
       behindResourceAmount: 0,
       behindIsLuckyDrop: false,
+      behindAncientRelics: 0,
       behindDamage: 0,
     };
 
@@ -239,6 +267,7 @@ export class DigSystem {
     if (behindResult.destroyed) {
       this.tilesBroken += 1;
       if (!behindResult.wasRubble) {
+        heavyPunchResult.behindAncientRelics = this._awardAncientRelics(behindResult.typeBeforeDamage, bx, by);
         heavyPunchResult.behindResourceType = tileTypeToResource(behindResult.typeBeforeDamage);
         if (heavyPunchResult.behindResourceType) {
           heavyPunchResult.behindResourceAmount = this._getNativeYield(behindResult.typeBeforeDamage, bx, by);
@@ -263,15 +292,17 @@ export class DigSystem {
     return heavyPunchResult;
   }
 
-  tryMine(targetTile, nowMs, aimDirection = null, playerAbilities = null) {
-    if (nowMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
+  tryMine(targetTile, nowMs, aimDirection = null, playerAbilities = null, options = {}) {
+    const cooldownTimeMs = Number.isFinite(options.actionStartedAtMs)
+      ? options.actionStartedAtMs
+      : nowMs;
+    if (!options.ignoreCooldown && cooldownTimeMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
       return {
         success: false,
         reason: "cooldown",
       };
     }
-
-    this.lastMineTime = nowMs;
+    if (!options.ignoreCooldown) this.lastMineTime = cooldownTimeMs;
 
     if (!targetTile || !this.worldModel.inBounds(targetTile.tx, targetTile.ty)) {
       return {
@@ -295,7 +326,7 @@ export class DigSystem {
         const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
         const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
         const hasHeavyPunch = this._getHeavyPunchFraction() > 0;
-        if (hasHeavyPunch) {
+        if (hasHeavyPunch && !options.skipHeavyPunch) {
           const baseDamage = this._getBaseDamageForTile(tileType);
           const damage = this._getDamage(baseDamage, tileType);
           const heavyPunchResult = this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection, {
@@ -342,7 +373,7 @@ export class DigSystem {
               16
             );
           }
-        } else {
+        } else if (!hasHeavyPunch) {
           // Player has NOT unlocked heavy punch — show upgrade hint
           if (this.floatingTextSystem) {
             this.floatingTextSystem.showFloatingText(
@@ -358,10 +389,13 @@ export class DigSystem {
       return {
         success: false,
         reason: "blocked",
+        tileType,
+        typeBeforeDamage: tileType,
+        blockedByBedrock: tileType === TILE_TYPES.BEDROCK || tileType === TILE_TYPES.CAVE_WALL,
       };
     }
 
-    if (playerAbilities?.isQuickslashActive?.()) {
+    if (!options.skipAbilityCost && playerAbilities?.isQuickslashActive?.()) {
       if (!playerAbilities.canPayQuickslashCost?.()) {
         return {
           success: false,
@@ -385,7 +419,9 @@ export class DigSystem {
         critChance += this.upgradeSystem.getUpgradeEffects().critChance || 0;
       }
       if (this.playerLevelSystem) {
-        critChance += this.playerLevelSystem.calculatedBonuses.criticalHitChance || 0;
+        critChance += this.playerLevelSystem.getCriticalHitChance?.()
+          ?? this.playerLevelSystem.calculatedBonuses.criticalHitChance
+          ?? 0;
       }
       // Guaranteed crit from special blocks (e.g., Crit Block)
       if (this.specialBlockEffectsManager && this.specialBlockEffectsManager.isGuaranteedCritActive()) {
@@ -420,6 +456,10 @@ export class DigSystem {
       // If critMultiplier is invalid, keep damage as-is (already applied)
     }
 
+    if (Number.isFinite(options.damageMultiplier) && options.damageMultiplier > 0) {
+      damage = Math.max(1, Math.floor(damage * options.damageMultiplier));
+    }
+
     const result = this.worldModel.damageTile(targetTile.tx, targetTile.ty, damage);
 
     if (!result.success) {
@@ -443,7 +483,9 @@ export class DigSystem {
     }
 
     // Heavy Punch
-    const heavyPunchResult = this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection);
+    const heavyPunchResult = options.skipHeavyPunch
+      ? this._tryApplyHeavyPunchBehind(null, damage, aimDirection)
+      : this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection);
     let { heavyPunchHit, heavyPunchTile, behindDestroyed, behindResourceType, behindResourceAmount, behindIsLuckyDrop, behindDamage } = heavyPunchResult;
 
     let resourceType = null;
@@ -457,11 +499,13 @@ export class DigSystem {
     let isSkyTileBonus = false;
     let skyTileMultiplier = 1;
     let skyTilePassiveBonus = false;
+    let ancientRelics = 0;
 
     if (result.destroyed) {
       this.tilesBroken += 1;
 
       if (!result.wasRubble) {
+        ancientRelics = this._awardAncientRelics(result.typeBeforeDamage, targetTile.tx, targetTile.ty);
         let skyTileRarity = 0;
         let rewardTileType = result.typeBeforeDamage;
         if (result.typeBeforeDamage === TILE_TYPES.SKY_TILE) {
@@ -519,7 +563,7 @@ export class DigSystem {
               skyTileMultiplier,
               skyTilePassiveBonus
             );
-            this.floatingTextSystem.spawnSkyTownStar(
+            this.floatingTextSystem.releaseCollectedSkyStar(
               skyTileRarity,
               worldX,
               worldY,
@@ -559,11 +603,71 @@ export class DigSystem {
       levelsGained,
       skyTileMultiplier,
       skyTilePassiveBonus,
+      ancientRelics,
     };
   }
 
-  getEffectiveCooldownMs() {
-    return this._getCooldown();
+  tryMineArea(targetEntries, nowMs, aimDirection = null, playerAbilities = null) {
+    if (nowMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
+      return { success: false, reason: "cooldown", hits: [], destroyedCount: 0 };
+    }
+
+    if (playerAbilities?.isQuickslashActive?.()) {
+      if (playerAbilities.canPayQuickslashCost?.() === false) {
+        return { success: false, reason: "no-gp", hits: [], destroyedCount: 0 };
+      }
+    }
+
+    this.lastMineTime = nowMs;
+    const seen = new Set();
+    const entries = (Array.isArray(targetEntries) ? targetEntries : []).filter(entry => {
+      if (!entry || !Number.isInteger(entry.tx) || !Number.isInteger(entry.ty)) return false;
+      const key = `${entry.tx},${entry.ty}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const quickslashCostIndex = playerAbilities?.isQuickslashActive?.()
+      ? entries.findIndex(entry => (
+        this.worldModel.inBounds(entry.tx, entry.ty)
+        && this.worldModel.isDiggable(entry.tx, entry.ty)
+      ))
+      : -1;
+
+    const heavyPunchFraction = this._getHeavyPunchFraction();
+    const hits = entries.map((entry, index) => {
+      const tileType = this.worldModel.inBounds(entry.tx, entry.ty)
+        ? this.worldModel.getTileType(entry.tx, entry.ty)
+        : null;
+      const damageMultiplier = entry.depthIndex > 0 ? 1 + heavyPunchFraction : 1;
+      const result = this.tryMine(entry, nowMs, aimDirection, playerAbilities, {
+        ignoreCooldown: true,
+        skipAbilityCost: index !== quickslashCostIndex,
+        skipHeavyPunch: true,
+        damageMultiplier,
+      });
+      return { ...entry, tileType, result };
+    });
+
+    const successfulHits = hits.filter(hit => hit.result?.success);
+    const levelUps = successfulHits.filter(hit => hit.result?.levelUp);
+    const rewards = levelUps.flatMap(hit => Array.isArray(hit.result.rewards) ? hit.result.rewards : []);
+    const lastLevelUp = levelUps[levelUps.length - 1]?.result || null;
+
+    return {
+      success: successfulHits.length > 0,
+      reason: successfulHits.length > 0 ? null : (hits[0]?.result?.reason || "no-target"),
+      hits,
+      destroyedCount: successfulHits.filter(hit => hit.result.destroyed).length,
+      levelUp: levelUps.length > 0,
+      newLevel: lastLevelUp?.newLevel ?? null,
+      hasChoice: levelUps.some(hit => hit.result.hasChoice),
+      rewards,
+    };
+  }
+
+  getEffectiveCooldownMs(playerAbilities = null) {
+    return this._getCooldown(playerAbilities);
   }
 
   getTilesBroken() {
@@ -603,6 +707,7 @@ export class DigSystem {
       rewards: [],
       levelsGained: 0,
       specialBlockEffect: null,
+      ancientRelics: 0,
     };
 
     this.tilesBroken += 1;
@@ -610,6 +715,8 @@ export class DigSystem {
     if (wasRubble) {
       return result;
     }
+
+    result.ancientRelics = this._awardAncientRelics(tileType, tx, ty);
 
     // Grant resource
     let rewardTileType = tileType;
@@ -646,7 +753,7 @@ export class DigSystem {
         skyMultiplier,
         skyTilePassiveBonus
       );
-      this.floatingTextSystem.spawnSkyTownStar(skyTileRarity, worldX, worldY, resourceType);
+      this.floatingTextSystem.releaseCollectedSkyStar(skyTileRarity, worldX, worldY, resourceType);
       result.skyTileMultiplier = skyMultiplier;
       result.skyTilePassiveBonus = skyTilePassiveBonus;
     }

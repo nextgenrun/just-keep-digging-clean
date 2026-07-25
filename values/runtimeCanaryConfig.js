@@ -1,0 +1,222 @@
+const PLAY_SCENE_REQUIRED_PATHS = Object.freeze([
+  "worldModel",
+  "worldRenderer",
+  "digSystem",
+  "playerController",
+  "hudSystem",
+]);
+
+const CAVE_SCENE_REQUIRED_PATHS = Object.freeze([
+  "worldModel",
+  "worldRenderer",
+  "gameplay",
+  "player",
+  "hudSystem",
+]);
+
+const SCENE_RULES = Object.freeze({
+  BootScene: Object.freeze({
+    settleMs: 0,
+    maxActiveMs: 120000,
+    requiredPaths: Object.freeze([]),
+  }),
+  WorldLoadScene: Object.freeze({
+    settleMs: 0,
+    maxActiveMs: 180000,
+    requiredPaths: Object.freeze([]),
+  }),
+  PlayScene: Object.freeze({
+    settleMs: 5000,
+    maxActiveMs: 0,
+    requiredPaths: PLAY_SCENE_REQUIRED_PATHS,
+  }),
+  CaveScene: Object.freeze({
+    settleMs: 3000,
+    maxActiveMs: 0,
+    requiredPaths: CAVE_SCENE_REQUIRED_PATHS,
+  }),
+});
+
+const PANEL_STYLES = Object.freeze({
+  root: Object.freeze({
+    position: "fixed",
+    top: "12px",
+    right: "12px",
+    width: "min(420px, calc(100vw - 24px))",
+    color: "#eaf7ff",
+    background: "rgba(7, 16, 24, 0.96)",
+    border: "1px solid rgba(130, 205, 255, 0.45)",
+    borderRadius: "10px",
+    boxShadow: "0 12px 36px rgba(0, 0, 0, 0.48)",
+    fontFamily: "Consolas, ui-monospace, monospace",
+    fontSize: "12px",
+    lineHeight: "1.45",
+    zIndex: "2147483647",
+  }),
+  toggle: Object.freeze({
+    width: "100%",
+    padding: "9px 12px",
+    color: "#ffffff",
+    background: "transparent",
+    border: "0",
+    cursor: "pointer",
+    font: "inherit",
+    fontWeight: "700",
+    textAlign: "left",
+  }),
+  details: Object.freeze({
+    display: "none",
+    padding: "0 12px 12px",
+    borderTop: "1px solid rgba(130, 205, 255, 0.2)",
+  }),
+  row: Object.freeze({
+    marginTop: "8px",
+    overflowWrap: "anywhere",
+  }),
+  events: Object.freeze({
+    maxHeight: "190px",
+    marginTop: "8px",
+    padding: "8px",
+    overflowY: "auto",
+    background: "rgba(0, 0, 0, 0.24)",
+    borderRadius: "6px",
+  }),
+  event: Object.freeze({
+    marginBottom: "6px",
+    paddingBottom: "6px",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+  }),
+  actions: Object.freeze({
+    display: "flex",
+    gap: "8px",
+    marginTop: "10px",
+  }),
+  action: Object.freeze({
+    padding: "6px 9px",
+    color: "#eaf7ff",
+    background: "rgba(72, 133, 169, 0.25)",
+    border: "1px solid rgba(130, 205, 255, 0.35)",
+    borderRadius: "5px",
+    cursor: "pointer",
+    font: "inherit",
+  }),
+});
+
+export const RUNTIME_CANARY_CONFIG = Object.freeze({
+  schemaVersion: 1,
+  globals: Object.freeze({
+    monitor: "__jkdHealth",
+    panel: "__jkdHealthPanel",
+    legacyErrors: "__jkdUiErrors",
+    production: "__DIG_GAME_PRODUCTION__",
+    buildId: "__DIG_GAME_BUILD_ID__",
+    adminEnabled: "__JKD_ADMIN_HEALTH__",
+    reportEndpoint: "__JKD_CANARY_REPORT_ENDPOINT__",
+  }),
+  build: Object.freeze({
+    developmentId: "development",
+    developmentMode: "development",
+    productionMode: "production",
+  }),
+  query: Object.freeze({
+    adminPanel: "adminHealth",
+    enabledValue: "1",
+  }),
+  hotkey: Object.freeze({
+    code: "F12",
+    ctrlKey: true,
+    shiftKey: true,
+    altKey: false,
+    debugOnly: true,
+  }),
+  timing: Object.freeze({
+    sampleIntervalMs: 1000,
+    noActiveSceneGraceMs: 5000,
+    frozenFrameMs: 8000,
+  }),
+  limits: Object.freeze({
+    eventHistory: 100,
+    legacyErrors: 80,
+    visibleEvents: 8,
+  }),
+  severity: Object.freeze({
+    info: "info",
+    warning: "warning",
+    error: "error",
+    ranks: Object.freeze({
+      info: 0,
+      warning: 1,
+      error: 2,
+    }),
+  }),
+  status: Object.freeze({
+    healthy: "healthy",
+    degraded: "degraded",
+    critical: "critical",
+  }),
+  events: Object.freeze({
+    lifecycle: "runtime-lifecycle",
+    runtimeError: "runtime-error",
+    unhandledRejection: "unhandled-rejection",
+    playSceneSetupFatal: "play-scene-setup-fatal",
+    assetLoadFailure: "asset-load-failure",
+    canvasMissing: "phaser-canvas-missing",
+    noActiveScene: "no-active-scene",
+    frozenFrame: "game-loop-frozen",
+    sceneStalled: "scene-stalled",
+    sceneInvariant: "scene-invariant-missing",
+  }),
+  messages: Object.freeze({
+    lifecycle: "Runtime lifecycle",
+    runtimeError: "Browser runtime error",
+    unhandledRejection: "Unhandled promise rejection",
+    playSceneSetupFatal: "PlayScene setup failed",
+    assetLoadFailure: "Runtime asset failed to load",
+    canvasMissing: "The Phaser canvas is missing or detached",
+    noActiveScene: "No Phaser scene is active",
+    frozenFrame: "The game loop stopped advancing while the page was active",
+    sceneStalled: "Scene exceeded its expected active time",
+    sceneInvariant: "Active scene is missing required collaborators",
+    noRecentEvents: "No failures recorded in this session.",
+    copySuccess: "Health report copied.",
+    copyFailure: "Copy failed; use window.__jkdHealth.snapshot().",
+  }),
+  sceneEvents: Object.freeze({
+    start: "start",
+    shutdown: "shutdown",
+    destroy: "destroy",
+    loadError: "loaderror",
+  }),
+  scenes: SCENE_RULES,
+  storage: Object.freeze({
+    lastCriticalKey: "jkd-runtime-canary-last-critical-v1",
+  }),
+  reporting: Object.freeze({
+    endpoint: "",
+    method: "POST",
+    contentType: "application/json",
+    minimumSeverity: "error",
+  }),
+  ui: Object.freeze({
+    labels: Object.freeze({
+      title: "CANARY",
+      build: "Build",
+      scenes: "Scenes",
+      fps: "FPS",
+      currentFindings: "Current findings",
+      recentEvents: "Recent events",
+      previousCritical: "Previous critical report is saved locally",
+      copy: "Copy report",
+      close: "Close",
+      healthy: "HEALTHY",
+      degraded: "DEGRADED",
+      critical: "CRITICAL",
+    }),
+    statusColors: Object.freeze({
+      healthy: "#69e6a6",
+      degraded: "#ffd166",
+      critical: "#ff6b6b",
+    }),
+    styles: PANEL_STYLES,
+  }),
+});

@@ -25,7 +25,8 @@ export class SurfaceTunnelDoorSystem {
   }
 
   isUnlocked() {
-    return this.scene.upgradeSystem?.getUpgradeLevel?.(WORLD_TWO_UPGRADE_ID) > 0;
+    return this.scene.upgradeSystem?.godModeActive === true
+      || this.scene.upgradeSystem?.getUpgradeLevel?.(WORLD_TWO_UPGRADE_ID) > 0;
   }
 
   open(options = {}) {

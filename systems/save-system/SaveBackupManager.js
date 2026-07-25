@@ -116,8 +116,16 @@ export class SaveBackupManager {
   _getNextBackupIndex(slotId) {
     const backups = this.getBackups(slotId);
     if (backups.length === 0) return 0;
+
+    if (backups.length < this.maxBackups) {
+      const usedIndexes = new Set(backups.map(backup => backup.index));
+      for (let index = 0; index < this.maxBackups; index++) {
+        if (!usedIndexes.has(index)) return index;
+      }
+    }
+
     const oldestBackup = backups[backups.length - 1];
-    return (oldestBackup.index + 1) % this.maxBackups;
+    return oldestBackup.index;
   }
 
   getBackupStats(slotId) {

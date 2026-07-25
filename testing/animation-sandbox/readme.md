@@ -2,6 +2,44 @@
 
 Standalone Phaser 3 mini-game for rapid animation & collision testing. Loads player spritesheets and tile textures into a small collidable world — no need to boot the full game.
 
+## Flight style lab
+
+`ual-flight-style-lab-v1/` is the additive five-direction flight chooser for the
+approved Survival/UAL character. It compares the current Shield Dash baseline,
+upright and crouched hoverboards, rotated Push Loop Superman flight, and a
+board-to-hero hybrid. The board follows projected feet while the 31x75 collider
+stays prop-free. All controls are bookmarkable and the lab never mutates
+gameplay.
+
+## Survivor side-combo review
+
+`survival-side-combo-review-v1/` is the review-only A–D chooser for a more satisfying unarmed SIDE combo. It plays the real Survivor UAL Jab/Cross sheets beside the approved Blender Survivor v2 `MINER_attack` and `MINER_dig_side` sheets at the 0.8-tile / 31×75 game contract. The selection is browser-local and cannot modify the live combo.
+
+## Current UAL pose and hitbox editor
+
+For the promoted native UAL character, use
+`ual-animation-tuning-lab-v2/` (stable URL, v3 editor). It loads the actual
+21-action / 943-frame review manifest while clearly separating the 18 sheets /
+867 frames loaded by gameplay. The active SIDE, UP, and UP-SIDE set is
+punch-only; Hook, the authored kick, and `Sword_Regular_C` remain rejected
+review actions. The lab applies the production 109px base and 123px locomotion
+display sizes and adds direct body/contact resize handles,
+flip-aware logical hand dragging, current-frame/action pose overrides, weighted
+frame holds, undo/redo, range copy, production comparison, and atomic JSON patch
+import/export. Contact/marker validation is visual diagnostic evidence, not a
+gameplay gate; production cooldown begins at action start while damage waits for
+the authored contact. The older root mini-game below remains useful as a
+collidable legacy harness.
+
+## Current-character run review
+
+`ual-run-review-v1/` is the review-only in-game frame for five running
+animation candidates using the current Survival character: the production
+Blender v2 run, the Unreal-retargeted run, the UE5-retargeted UAL jog, and two
+grounded walk-source stress tests evaluated at run speed. It uses the live 94px
+tile grid, 31x75 collider, and 109px locomotion render. It never promotes a
+selection into gameplay.
+
 ## How to Run
 
 ```bash

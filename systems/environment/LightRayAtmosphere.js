@@ -25,7 +25,7 @@ const LIGHT_RAY_LAYOUT = Object.freeze([
   Object.freeze({ x: 0.78, y: -0.05, w: 0.20, h: 0.72, angle: 13, alpha: 0.48, speed: 0.11, phase: 2.7 }),
 ]);
 
-const clamp01 = (value) => Math.max(0, Math.min(1, value));
+import { clamp01 } from "../../values/mathUtils.js";
 const smoothstep = (value) => {
   const t = clamp01(value);
   return t * t * (3 - 2 * t);
@@ -113,13 +113,18 @@ export class LightRayAtmosphere {
     const cam = this.scene.cameras.main;
     const width = cam.width || this.config.viewportWidth || 1280;
     const height = cam.height || this.config.viewportHeight || 720;
+    const sunlight = this._getSunlightSnapshot(width, height);
+    const sourceX = sunlight.screenPosition.x;
+    const sourceY = sunlight.screenPosition.y;
+    const sourceLean = (sourceX / Math.max(1, width) - 0.5) * 18;
 
     this.lightRays.forEach(ray => {
       const layout = ray.layout;
+      const spreadX = (layout.x - 0.5) * width * 0.78;
       ray.sprite
-        .setPosition(width * layout.x, height * layout.y)
+        .setPosition(sourceX + spreadX, sourceY + height * layout.y)
         .setDisplaySize(width * layout.w, height * layout.h)
-        .setRotation(Phaser.Math.DegToRad(layout.angle));
+        .setRotation(Phaser.Math.DegToRad(layout.angle + sourceLean));
     });
   }
 
@@ -128,26 +133,31 @@ export class LightRayAtmosphere {
 
     const preset = this._getLightRayPreset(phase);
     const surfaceInfluence = this._getSurfaceInfluence();
-    const weatherScale = this._getLightRayWeatherScale();
-    const pulse = 0.92 + Math.sin(time * 0.0008) * 0.04;
-    const baseAlpha = preset.alpha * weatherScale * surfaceInfluence * pulse;
-
-    this.lightRayContainer.setAlpha(baseAlpha > 0.001 ? 1 : 0);
-
     const cam = this.scene.cameras.main;
     const width = cam.width || this.config.viewportWidth || 1280;
     const height = cam.height || this.config.viewportHeight || 720;
+    const sunlight = this._getSunlightSnapshot(width, height);
+    const pulse = 0.92 + Math.sin(time * 0.0008) * 0.04;
+    const baseAlpha = preset.alpha * sunlight.strength * surfaceInfluence * pulse;
+
+    this.lightRayContainer.setAlpha(baseAlpha > 0.001 ? 1 : 0);
+
+    const sourceX = sunlight.screenPosition.x;
+    const sourceY = sunlight.screenPosition.y;
+    const sourceLean = (sourceX / Math.max(1, width) - 0.5) * 18;
+    const tint = this._multiplyTint(preset.tint, sunlight.tint);
 
     this.lightRays.forEach(ray => {
       const layout = ray.layout;
+      const spreadX = (layout.x - 0.5) * width * 0.78;
       const drift = Math.sin(time * 0.001 * layout.speed + layout.phase) * 18;
       const wobble = Math.sin(time * 0.001 * layout.speed + layout.phase) * 0.7;
 
       ray.sprite
-        .setTint(preset.tint)
+        .setTint(tint)
         .setAlpha(baseAlpha * layout.alpha)
-        .setPosition(width * layout.x + drift, height * layout.y)
-        .setRotation(Phaser.Math.DegToRad(layout.angle + wobble));
+        .setPosition(sourceX + spreadX + drift, sourceY + height * layout.y)
+        .setRotation(Phaser.Math.DegToRad(layout.angle + sourceLean + wobble));
     });
   }
 
@@ -165,22 +175,31 @@ export class LightRayAtmosphere {
     return LIGHT_RAY_PRESETS[phase] || LIGHT_RAY_PRESETS.afternoon;
   }
 
-  _getLightRayWeatherScale() {
-    const ws = this.scene.weatherSystem;
-    if (!ws) return 1;
+  _getSunlightSnapshot(width, height) {
+    const live = this.scene.lightSystem?.getSunlightSnapshot?.();
+    if (live) return live;
 
-    const snapshot = ws.getLightingSnapshot?.() || ws.getSnapshot?.() || {};
-    const kind = snapshot.kind ?? ws.kind;
-    const intensity = clamp01(snapshot.intensity ?? ws.intensity ?? 0);
-    const rainAmount = clamp01(
-      snapshot.rainAmount
-      ?? (kind === "drizzle" || kind === "rain" || kind === "storm" ? intensity : 0)
+    const cycle = this.scene.dayNightCycle;
+    const weather = this.scene.weatherSystem?.getLightingSnapshot?.() || {};
+    const sun = cycle?.getSunState?.(width, height);
+    const screenPosition = sun?.screenPosition
+      || cycle?.getSunScreenPosition?.(width, height)
+      || { x: width * 0.5, y: height * 0.2 };
+    const sunAlpha = clamp01(sun?.alpha ?? cycle?.getSunAlpha?.() ?? 1);
+    const transmittance = clamp01(weather.sunTransmittance ?? 1);
+    const exposure = clamp01(weather.sunExposure ?? weather.exposure ?? 1);
+    return {
+      strength: clamp01(sunAlpha * transmittance * exposure),
+      screenPosition,
+      tint: weather.sunTint ?? weather.tint ?? 0xffffff,
+    };
+  }
+
+  _multiplyTint(base, filter) {
+    const channel = shift => Math.round(
+      (((base >> shift) & 0xff) * ((filter >> shift) & 0xff)) / 255
     );
-    const stormAmount = clamp01(snapshot.stormAmount ?? (kind === "storm" ? intensity : 0));
-    const rainScale = Phaser.Math.Linear(1, 0.45, rainAmount);
-    const stormScale = Phaser.Math.Linear(rainScale, 0.18, stormAmount);
-
-    return clamp01(stormAmount > 0 ? stormScale : rainScale);
+    return (channel(16) << 16) | (channel(8) << 8) | channel(0);
   }
 
   _getSurfaceInfluence() {

@@ -1,0 +1,156 @@
+name: Dig Game Safety Gates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  merge_group:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+    inputs:
+      canary_url:
+        description: Optional deployed canary URL to probe after local validation
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dig-game-safety-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: "0"
+  NO_COLOR: "1"
+  PYTHONUTF8: "1"
+
+jobs:
+  structural-health:
+    name: Structural health
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Validate the complete runtime module graph
+        run: node testing/2026-07-22-all-game-systems-health-check.mjs
+
+      - name: Validate release-safety wiring
+        run: node testing/2026-07-25-release-safety-contract.mjs
+
+  deep-regression:
+    name: Deep gameplay regression
+    needs: structural-health
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Use Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Run fail-closed gameplay contracts
+        run: python testing/2026-07-22-deep-game-logic-health.py --timeout 90
+
+  production-canary:
+    name: Production package canary
+    needs: structural-health
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Use Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Validate production builder contracts
+        run: python testing/2026-07-18-production-deployment-smoke.py
+
+      - name: Build isolated canary package
+        run: python tools/2026-07-17-build-production.py --out-dir dist
+
+      - name: Probe canary HTTP and rollback identity
+        run: python testing/2026-07-25-production-http-canary.py --directory dist
+
+      - name: Preserve a rollback-ready canary artifact
+        if: github.event_name != 'pull_request' && github.event_name != 'merge_group'
+        uses: actions/upload-artifact@v7
+        with:
+          name: dig-game-canary-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  remote-canary:
+    name: Optional deployed canary
+    needs: structural-health
+    if: >-
+      (github.event_name == 'schedule' && vars.CANARY_URL != '') ||
+      (github.event_name == 'workflow_dispatch' && inputs.canary_url != '')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CANARY_URL: ${{ github.event_name == 'workflow_dispatch' && inputs.canary_url || vars.CANARY_URL }}
+    steps:
+      - name: Check out canary probe
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Use Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Probe deployed canary without writes
+        run: python testing/2026-07-25-production-http-canary.py --url "$CANARY_URL"
+
+  safety-gate:
+    name: Safety gate
+    if: always()
+    needs:
+      - structural-health
+      - deep-regression
+      - production-canary
+      - remote-canary
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Reject any failed or incomplete required worker
+        env:
+          STRUCTURAL_RESULT: ${{ needs.structural-health.result }}
+          DEEP_RESULT: ${{ needs.deep-regression.result }}
+          PRODUCTION_RESULT: ${{ needs.production-canary.result }}
+          REMOTE_RESULT: ${{ needs.remote-canary.result }}
+        run: |
+          test "$STRUCTURAL_RESULT" = "success"
+          test "$DEEP_RESULT" = "success"
+          test "$PRODUCTION_RESULT" = "success"
+          test "$REMOTE_RESULT" = "success" || test "$REMOTE_RESULT" = "skipped"

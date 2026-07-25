@@ -1,3 +1,5 @@
+import { V11_SKY_ISLAND_LAYOUT } from "./v11SkyIslandLayout.js";
+
 // ==================== PLAYER ABILITIES CONFIG ====================
 export const PLAYER_ABILITIES_CONFIG = Object.freeze({
   // Depth warnings
@@ -5,9 +7,9 @@ export const PLAYER_ABILITIES_CONFIG = Object.freeze({
   safeReturnDepthTiles: 10,
 
   // Sky island
-  skyIslandTileX: 23,
-  skyIslandTileY: 35,
-  skyIslandWidthTiles: 20,
+  skyIslandTileX: V11_SKY_ISLAND_LAYOUT.levels[0].leftTile,
+  skyIslandTileY: V11_SKY_ISLAND_LAYOUT.levels[0].floorRow,
+  skyIslandWidthTiles: V11_SKY_ISLAND_LAYOUT.levels[0].widthTiles,
 
   // Quickslash ability
   quickslashEnabled: true,

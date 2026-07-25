@@ -1,3 +1,5 @@
+import { PLAYER_COLLISION_CONFIG } from "../values/playerCollision.js";
+
 /**
  * Player State Handler
  * Manages ground detection and state validation
@@ -47,11 +49,27 @@ export class PlayerState {
     
     // Check tile below player's feet using worldModel directly
     const ts = this.config.tileSize;
-    const feetY = this.physicsBody.y + this.physicsBody.h;
-    const centerX = this.physicsBody.x + this.physicsBody.w / 2;
-    const tx = Math.floor(centerX / ts);
-    const ty = Math.floor(feetY / ts);
-    this.onGround = this.worldModel.isSolid(tx, ty) || this.worldModel.isSolid(tx + 1, ty);
+    const skin = PLAYER_COLLISION_CONFIG.skinPx;
+    const left = Math.floor((this.physicsBody.x + skin) / ts);
+    const right = Math.floor((this.physicsBody.x + this.physicsBody.w - skin) / ts);
+    const probeY = this.physicsBody.y + this.physicsBody.h + PLAYER_COLLISION_CONFIG.groundProbePx;
+    const ty = Math.floor(probeY / ts);
+    this.onGround = false;
+    for (let tx = left; tx <= right; tx += 1) {
+      if (!this.worldModel.isSolid(tx, ty)) continue;
+      this.onGround = true;
+      break;
+    }
+    this.physicsBody.onGround = this.onGround;
+  }
+
+  refreshAfterPhysics(input, abilities, collisionSystem = null) {
+    if (!this.physicsBody) return;
+    this.onGround = collisionSystem?.isOnGround?.(this.physicsBody)
+      ?? this.physicsBody.onGround
+      ?? false;
+    this.physicsBody.onGround = this.onGround;
+    this._updateMotionState(input, abilities);
   }
   
   /**

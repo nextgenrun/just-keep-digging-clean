@@ -1,0 +1,422 @@
+{
+  "version": 1,
+  "id": "blender-animation-lab-v1",
+  "status": "review-only",
+  "sessionName": "UAL Survival Animation Lab v1",
+  "blender": {
+    "executable": "C:/Program Files/Blender Foundation/Blender 5.1/blender.exe",
+    "minimumVersion": [5, 1, 0],
+    "fps": 30
+  },
+  "paths": {
+    "sourceBlend": "sprites/character/survival-character-fab-v1/source/survival_character.blend",
+    "carrierRoot": "testing/unreal-survival-motion-v2/SourceAssets/ual-exports",
+    "runtimeManifest": "sprites/character/survival-ual-player-v1/runtime/manifest.json",
+    "outputBlend": "testing/blender-animation-lab-v1/blender-animation-lab-v1.blend",
+    "buildReport": "testing/blender-animation-lab-v1/build-report.json",
+    "reviewOutputRoot": "testing/blender-animation-lab-v1/review-drafts",
+    "addonRoot": "testing/blender-animation-lab-v1/addon",
+    "addonModule": "dig_game_animation_lab"
+  },
+  "master": {
+    "armatureObject": "root",
+    "meshObjects": [
+      "Backpack",
+      "Body3",
+      "Eye",
+      "Eyebrows",
+      "Eyeleash",
+      "Gloves",
+      "Hair",
+      "Jacket",
+      "Jeans",
+      "Mouth1",
+      "Shoes"
+    ],
+    "requiredBones": [
+      "pelvis",
+      "spine_01",
+      "spine_03",
+      "head",
+      "hand_l",
+      "hand_r",
+      "foot_l",
+      "foot_r"
+    ],
+    "actionPrefix": "DGAL_",
+    "defaultAction": "idle",
+    "collections": [
+      "DGAL_SESSION",
+      "DGAL_BASELINE",
+      "DGAL_EDITED",
+      "DGAL_PROPS",
+      "DGAL_MESH_CANDIDATE",
+      "DGAL_GUIDES"
+    ]
+  },
+  "simpleUi": {
+    "showAdvanced": false,
+    "focusOnLaunch": true,
+    "viewReadyRetrySeconds": 0.25,
+    "defaultCharacter": "SURVIVAL",
+    "defaultHitboxVisible": true,
+    "defaultPickaxeVisible": false,
+    "defaultGearVisible": false,
+    "startMessage": "Choose an animation to begin",
+    "characters": [
+      {
+        "id": "SURVIVAL",
+        "label": "Survival",
+        "description": "Use the approved Survival character"
+      },
+      {
+        "id": "MESHY",
+        "label": "Meshy",
+        "description": "Preview the approved Meshy character candidate"
+      }
+    ]
+  },
+  "boneGuide": {
+    "collection": "DGAL_GUIDES",
+    "objectPrefix": "DGAL_BONE_LABEL_",
+    "materialName": "DGAL_BoneGuideText",
+    "locationConstraintName": "DGAL_BONE_LABEL_LOCATION",
+    "facingConstraintName": "DGAL_BONE_LABEL_FACING",
+    "reviewCameraName": "DGAL_ReviewCamera",
+    "armatureDisplayType": "OCTAHEDRAL",
+    "labelSize": 0.06,
+    "labelExtrude": 0.002,
+    "fallbackRotationRadians": [1.57079632679, 0.0, 0.0],
+    "showInFront": true,
+    "showTechnicalBoneNames": false,
+    "advancedShowTechnicalBoneNames": true,
+    "materialColor": [0.2, 0.85, 1.0, 1.0],
+    "semanticBones": [
+      {
+        "id": "hips",
+        "label": "Hips / Pelvis",
+        "hint": "Rotate this to shift the whole body and weight.",
+        "bones": ["pelvis", "Hips"],
+        "offset": [-0.31, 0.0, 0.02]
+      },
+      {
+        "id": "lower-spine",
+        "label": "Lower Spine",
+        "hint": "Rotate this for the lower-back bend and body weight.",
+        "bones": ["spine_01", "Spine", "Spine1"],
+        "offset": [0.14, 0.0, 0.04]
+      },
+      {
+        "id": "chest",
+        "label": "Chest / Spine",
+        "hint": "Rotate this to lean, twist, and open the torso.",
+        "bones": ["spine_03", "Chest", "Spine2"],
+        "offset": [0.15, 0.0, 0.05]
+      },
+      {
+        "id": "neck",
+        "label": "Neck",
+        "hint": "Rotate this to lead head direction naturally.",
+        "bones": ["neck_01", "Neck"],
+        "offset": [0.14, 0.0, 0.06]
+      },
+      {
+        "id": "head",
+        "label": "Head",
+        "hint": "Rotate this for direction, anticipation, and recovery.",
+        "bones": ["head", "Head"],
+        "offset": [0.15, 0.0, 0.08]
+      },
+      {
+        "id": "left-clavicle",
+        "label": "Left Shoulder",
+        "hint": "Rotate this before the left arm for a natural swing.",
+        "bones": ["clavicle_l", "LeftShoulder", "shoulder_l"],
+        "offset": [0.08, 0.0, 0.07]
+      },
+      {
+        "id": "right-clavicle",
+        "label": "Right Shoulder",
+        "hint": "Rotate this before the right arm for a natural swing.",
+        "bones": ["clavicle_r", "RightShoulder", "shoulder_r"],
+        "offset": [-0.22, 0.0, 0.07]
+      },
+      {
+        "id": "left-upper-arm",
+        "label": "Left Upper Arm",
+        "hint": "Rotate this for the large left-arm swing.",
+        "bones": ["upperarm_l", "LeftArm", "upper_arm_l"],
+        "offset": [0.08, 0.0, 0.04]
+      },
+      {
+        "id": "right-upper-arm",
+        "label": "Right Upper Arm",
+        "hint": "Rotate this for the large right-arm swing.",
+        "bones": ["upperarm_r", "RightArm", "upper_arm_r"],
+        "offset": [-0.22, 0.0, 0.04]
+      },
+      {
+        "id": "left-lower-arm",
+        "label": "Left Forearm",
+        "hint": "Rotate this to aim the left hand cleanly.",
+        "bones": ["lowerarm_l", "LeftForeArm", "lower_arm_l"],
+        "offset": [0.08, 0.0, -0.05]
+      },
+      {
+        "id": "right-lower-arm",
+        "label": "Right Forearm",
+        "hint": "Rotate this to aim the right hand cleanly.",
+        "bones": ["lowerarm_r", "RightForeArm", "lower_arm_r"],
+        "offset": [-0.22, 0.0, -0.05]
+      },
+      {
+        "id": "left-hand",
+        "label": "Left Hand",
+        "hint": "Rotate this for the finishing hand and prop grip.",
+        "bones": ["hand_l", "LeftHand"],
+        "offset": [0.06, 0.0, -0.08]
+      },
+      {
+        "id": "right-hand",
+        "label": "Right Hand",
+        "hint": "Rotate this for the striking hand and prop grip.",
+        "bones": ["hand_r", "RightHand"],
+        "offset": [-0.22, 0.0, -0.08]
+      },
+      {
+        "id": "left-thigh",
+        "label": "Left Thigh",
+        "hint": "Rotate this to drive the left leg.",
+        "bones": ["thigh_l", "LeftUpLeg", "upper_leg_l"],
+        "offset": [0.06, 0.0, -0.02]
+      },
+      {
+        "id": "right-thigh",
+        "label": "Right Thigh",
+        "hint": "Rotate this to drive the right leg.",
+        "bones": ["thigh_r", "RightUpLeg", "upper_leg_r"],
+        "offset": [-0.22, 0.0, -0.02]
+      },
+      {
+        "id": "left-calf",
+        "label": "Left Calf",
+        "hint": "Rotate this to bend and recover the left knee.",
+        "bones": ["calf_l", "LeftLeg", "lower_leg_l"],
+        "offset": [0.06, 0.0, -0.04]
+      },
+      {
+        "id": "right-calf",
+        "label": "Right Calf",
+        "hint": "Rotate this to bend and recover the right knee.",
+        "bones": ["calf_r", "RightLeg", "lower_leg_r"],
+        "offset": [-0.22, 0.0, -0.04]
+      },
+      {
+        "id": "left-foot",
+        "label": "Left Foot",
+        "hint": "Rotate this to plant the left foot cleanly.",
+        "bones": ["foot_l", "LeftFoot"],
+        "offset": [0.06, 0.0, -0.06]
+      },
+      {
+        "id": "right-foot",
+        "label": "Right Foot",
+        "hint": "Rotate this to plant the right foot cleanly.",
+        "bones": ["foot_r", "RightFoot"],
+        "offset": [-0.22, 0.0, -0.06]
+      }
+    ]
+  },
+  "animationBrowser": {
+    "categories": [
+      {
+        "label": "Standing and movement",
+        "actions": ["idle", "idle-talk", "walk", "run", "crouch"]
+      },
+      {
+        "label": "Air and travel",
+        "actions": ["airborne", "falling", "fly", "climb", "landing"]
+      },
+      {
+        "label": "Combat and mining",
+        "actions": ["punch-jab", "punch-cross", "ground-strike"]
+      },
+      {
+        "label": "Abilities",
+        "actions": ["wall-push", "teleport", "thunder-charge"]
+      },
+      {
+        "label": "Reactions",
+        "actions": ["hit-react", "death"]
+      }
+    ],
+    "displayNames": {
+      "idle": "Idle",
+      "idle-talk": "Talking idle",
+      "walk": "Walk (jog source)",
+      "run": "Run (jog source)",
+      "airborne": "Jump start",
+      "falling": "Falling loop",
+      "crouch": "Crouch idle",
+      "fly": "Fly dash",
+      "climb": "Climb",
+      "punch-jab": "Punch jab",
+      "punch-cross": "Punch cross",
+      "ground-strike": "Ground strike",
+      "landing": "Landing",
+      "wall-push": "Wall push",
+      "teleport": "Teleport roll",
+      "thunder-charge": "Thunder charge",
+      "hit-react": "Hit reaction",
+      "death": "Death"
+    },
+    "uncategorizedLabel": "Other animations"
+  },
+  "armTween": {
+    "defaultSide": "RIGHT",
+    "defaultStartFrame": 1,
+    "defaultEndFrame": 24,
+    "unsetFrame": -100000,
+    "minimumSpanFrames": 1,
+    "rangeMustStayInsideClip": true,
+    "interpolation": "BEZIER",
+    "bakedInterpolation": "LINEAR",
+    "chains": [
+      {
+        "id": "LEFT",
+        "label": "Left arm",
+        "description": "Left shoulder through hand",
+        "semanticBones": ["left-clavicle", "left-upper-arm", "left-lower-arm", "left-hand"],
+        "activeSemanticBone": "left-upper-arm"
+      },
+      {
+        "id": "RIGHT",
+        "label": "Right arm",
+        "description": "Right shoulder through hand",
+        "semanticBones": ["right-clavicle", "right-upper-arm", "right-lower-arm", "right-hand"],
+        "activeSemanticBone": "right-upper-arm"
+      }
+    ],
+    "labels": {
+      "section": "5. Animate a whole arm",
+      "intro": "Set two arm poses, then generate every in-between frame.",
+      "side": "Arm",
+      "start": "Start frame",
+      "end": "End frame",
+      "editStart": "Edit start pose",
+      "saveStart": "Save start pose",
+      "editEnd": "Edit end pose",
+      "saveEnd": "Save end pose",
+      "generate": "Generate in-between frames",
+      "hint": "Rotate the shoulder for a full sweep; refine elbow and hand if needed.",
+      "rangeHint": "End frame must be after Start and inside this animation."
+    }
+  },
+  "groundContactWorkspace": {
+    "id": "ground-strike-hand-contact-v1",
+    "label": "Ground Strike - Hand Contact",
+    "runtimeAnimationKey": "survival-ual-player-v1-attack-down-ground-strike-anim",
+    "sourceAction": "DGAL_ground-strike",
+    "editableAction": "DGAL_EDIT_ground-strike_hand-contact-v1",
+    "sourceClip": "OverhandThrow",
+    "rigObject": "root",
+    "handBone": "hand_r",
+    "visibleBones": ["spine_03", "clavicle_r", "upperarm_r", "lowerarm_r", "hand_r"],
+    "sourceFrameStart": 1,
+    "sourceContactFrame": 16,
+    "runtimeContactFrame": 18,
+    "sourceFrameEnd": 34,
+    "groundWorldZ": 0.0,
+    "groundGuideSize": 3.2,
+    "controlShapeRadius": 5.0,
+    "outputBlend": "testing/blender-animation-lab-v1/review-drafts/ground-strike-hand-contact-v1/ground-strike-hand-contact-v1.blend",
+    "workspaceName": "HAND CONTACT"
+  },
+  "renderContract": {
+    "sourceRenderSizePx": 512,
+    "sourceWindowPx": 448,
+    "sourceLeftPx": 32,
+    "sourceBaselinePx": 430,
+    "packedFrameSizePx": 256,
+    "displaySizePx": 109,
+    "tileSizePx": 94,
+    "targetVisibleHeightTiles": 0.8,
+    "visualOrigin": [0.5, 0.96484375]
+  },
+  "reviewStage": {
+    "camera": {
+      "name": "DGAL_ReviewCamera",
+      "orthographicScale": 3.0716,
+      "target": [0.0, 0.0, 0.95],
+      "offset": [1.85, 6.0, 0.32]
+    },
+    "render": {
+      "engine": "BLENDER_EEVEE",
+      "resolutionPx": 512,
+      "transparent": true,
+      "look": "Medium High Contrast",
+      "worldColor": [0.008, 0.012, 0.018]
+    },
+    "lights": [
+      { "name": "DGAL_Key", "offset": [3.5, 4.0, 4.5], "energy": 850.0, "color": [1.0, 0.74, 0.52], "size": 4.0 },
+      { "name": "DGAL_Fill", "offset": [-3.0, 2.5, 2.0], "energy": 520.0, "color": [0.36, 0.62, 1.0], "size": 3.0 },
+      { "name": "DGAL_Rim", "offset": [-2.0, -3.0, 4.0], "energy": 720.0, "color": [0.55, 0.78, 1.0], "size": 2.5 }
+    ]
+  },
+  "hitboxContract": {
+    "playerBodyPx": { "width": 31, "height": 75 },
+    "faceBandThicknessTiles": 0.1,
+    "contactsTiles": {
+      "side": { "width": 0.3, "height": 0.34 },
+      "vertical": { "width": 0.34, "height": 0.28 },
+      "diagonal": { "width": 0.46, "height": 0.42 }
+    }
+  },
+  "poseInterpolation": {
+    "default": "BEZIER",
+    "bezierHandleType": "AUTO_CLAMPED",
+    "supported": ["BEZIER", "LINEAR", "CONSTANT"],
+    "poseSlots": ["start", "anticipation", "contact", "recovery", "end"],
+    "rotationMode": "QUATERNION",
+    "visualKeying": true
+  },
+  "meshCandidates": [
+    {
+      "id": "meshy-warrior-demo",
+      "label": "Meshy Warrior approved review candidate",
+      "path": "testing/blender-animation-lab-v1/source-assets/meshy-warrior-demo-blender.glb",
+      "status": "approved-review-primary"
+    },
+    {
+      "id": "approved-survival-fab-v1",
+      "label": "Approved Survival",
+      "path": "sprites/character/survival-character-fab-v1/source/survival_character.blend",
+      "status": "approved"
+    },
+    {
+      "id": "legacy-miner-meshy-proof",
+      "label": "Legacy Miner Meshy proof",
+      "path": "archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/testing/unreal-legacy-miner-walk/SourceAssets/legacy-miner-meshy-rigged-v2.glb",
+      "status": "archived-rejected-disabled-evidence"
+    }
+  ],
+  "carriers": [
+    { "id": "idle", "file": "survival-ual-idle-loop.fbx", "sourceClip": "Idle_Loop", "runtimeActions": ["idle"], "loop": true },
+    { "id": "idle-talk", "file": "survival-ual-idle-talking-loop.fbx", "sourceClip": "Idle_Talking_Loop", "runtimeActions": ["idle-talk"], "loop": true },
+    { "id": "locomotion-jog", "file": "survival-ual-jog-fwd-loop.fbx", "sourceClip": "Jog_Fwd_Loop", "runtimeActions": ["walk", "run"], "loop": true },
+    { "id": "airborne", "file": "survival-ual-jump-start.fbx", "sourceClip": "Jump_Start", "runtimeActions": ["airborne"], "loop": false },
+    { "id": "falling", "file": "survival-ual-jump-loop.fbx", "sourceClip": "Jump_Loop", "runtimeActions": ["falling"], "loop": true },
+    { "id": "crouch", "file": "survival-ual-crouch-idle-loop.fbx", "sourceClip": "Crouch_Idle_Loop", "runtimeActions": ["crouch"], "loop": true },
+    { "id": "fly", "file": "survival-ual-shield-dash.fbx", "sourceClip": "Shield_Dash", "runtimeActions": ["fly"], "loop": false },
+    { "id": "climb", "file": "survival-ual-climbup-1m.fbx", "sourceClip": "ClimbUp_1m", "runtimeActions": ["climb"], "loop": true },
+    { "id": "punch-jab", "file": "survival-ual-punch-jab.fbx", "sourceClip": "Punch_Jab", "runtimeActions": ["punch-jab"], "loop": false },
+    { "id": "punch-cross", "file": "survival-ual-punch-cross.fbx", "sourceClip": "Punch_Cross", "runtimeActions": ["punch-cross"], "loop": false },
+    { "id": "ground-strike", "file": "survival-ual-overhandthrow.fbx", "sourceClip": "OverhandThrow", "runtimeActions": ["ground-strike"], "loop": false },
+    { "id": "landing", "file": "survival-ual-jump-land.fbx", "sourceClip": "Jump_Land", "runtimeActions": ["landing"], "loop": false },
+    { "id": "wall-push", "file": "survival-ual-push-loop.fbx", "sourceClip": "Push_Loop", "runtimeActions": ["wall-push"], "loop": true },
+    { "id": "teleport", "file": "survival-ual-roll.fbx", "sourceClip": "Roll", "runtimeActions": ["teleport"], "loop": false },
+    { "id": "thunder-charge", "file": "survival-ual-spell-simple-idle-loop.fbx", "sourceClip": "Spell_Simple_Idle_Loop", "runtimeActions": ["thunder-charge"], "loop": true },
+    { "id": "hit-react", "file": "survival-ual-hit-chest.fbx", "sourceClip": "Hit_Chest", "runtimeActions": ["hit-react"], "loop": false },
+    { "id": "death", "file": "survival-ual-death01.fbx", "sourceClip": "Death01", "runtimeActions": ["death"], "loop": false }
+  ]
+}

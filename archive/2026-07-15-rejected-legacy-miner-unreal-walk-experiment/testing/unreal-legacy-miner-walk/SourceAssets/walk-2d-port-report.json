@@ -1,0 +1,32 @@
+{
+  "scope": "walk-only",
+  "frame_count": 51,
+  "frame_size": [
+    341,
+    341
+  ],
+  "playback_fps": 14,
+  "sheet_layout": [
+    16,
+    4
+  ],
+  "sheet_size": [
+    5456,
+    1364
+  ],
+  "source_union_box": [
+    84,
+    36,
+    417,
+    476
+  ],
+  "scale": 0.7159090909090909,
+  "anchor": {
+    "center_x": 170,
+    "bottom_y": 337
+  },
+  "background": "transparent; exterior black removed by edge-connected flood fill",
+  "capture_presentation": "textured Blender render of the Unreal-exported retargeted animation",
+  "sheet": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\Renders\\legacy-miner-unreal-walk-sheet.webp",
+  "animated_preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\Renders\\legacy-miner-unreal-walk-preview.webp"
+}

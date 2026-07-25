@@ -34,6 +34,9 @@ export class LightSystem {
     this._manualTorchOff = true; // starts off and stays off until the player toggles it on
     this._lightingState = "surfaceSunlight";
     this._shaderSnapshot = this._createDefaultShaderSnapshot();
+    this._darknessRenderActive = false;
+    this._darknessRenderAlpha = null;
+    this._darknessHasSolidFill = false;
 
     this._ensureGeneratedTextures();
     this._eraser = scene.make.image({ key: config.visibilityMaskTextureKey, add: false })
@@ -113,6 +116,49 @@ export class LightSystem {
     };
   }
 
+  getSunlightSnapshot(weatherSnapshot = null) {
+    const camera = this.scene.cameras?.main;
+    const width = camera?.width || this.scene.config?.viewportWidth || 1280;
+    const height = camera?.height || this.scene.config?.viewportHeight || 720;
+    const cycleSun = this.dayNightCycle?.getSunState?.(width, height)
+      || this.dayNightCycle?.getSunlightSnapshot?.(width, height)
+      || null;
+    const sunAlpha = clamp01(cycleSun?.sunAlpha ?? cycleSun?.alpha ?? this.dayNightCycle?.getSunAlpha?.() ?? 1);
+    const screenPosition = cycleSun?.sunScreenPosition
+      || cycleSun?.screenPosition
+      || this.dayNightCycle?.getSunScreenPosition?.(width, height)
+      || { x: width * 0.5, y: height * 0.2 };
+    const worldPosition = cycleSun?.worldPosition
+      || this.dayNightCycle?.getSunWorldPosition?.()
+      || null;
+    const nightAmount = clamp01(cycleSun?.nightAmount ?? this.dayNightCycle?.getNightAmount?.() ?? 0);
+    const horizonT = clamp01(1 - screenPosition.y / Math.max(1, height * 0.72));
+    const baseStrength = clamp01(sunAlpha * (0.65 + horizonT * 0.35));
+    const weather = weatherSnapshot
+      || this.weatherSystem?.getLightingSnapshot?.()
+      || this._getFallbackWeatherSnapshot();
+    const sunTransmittance = clamp01(weather.sunTransmittance ?? 1);
+    const exposure = clamp01(weather.sunExposure ?? weather.exposure ?? 1);
+
+    return {
+      strength: clamp01(baseStrength * sunTransmittance * exposure),
+      baseStrength,
+      sunAlpha,
+      worldPosition: worldPosition
+        ? { x: worldPosition.x, y: worldPosition.y }
+        : null,
+      screenPosition: { x: screenPosition.x, y: screenPosition.y },
+      nightAmount,
+      cloudCoverAmount: clamp01(weather.cloudCoverAmount ?? 0),
+      sunTransmittance,
+      fogAmount: clamp01(weather.fogAmount ?? 0),
+      tint: Number.isFinite(weather.sunTint)
+        ? weather.sunTint
+        : Number.isFinite(weather.tint) ? weather.tint : 0xffffff,
+      exposure,
+    };
+  }
+
   refreshKeybinds() {
     const nextKey = this.scene.inputHandler?.getKeys?.().torch ?? null;
     if (this._torchKey && this._torchKey !== nextKey) {
@@ -144,6 +190,9 @@ export class LightSystem {
     this._eraser?.destroy();
     this._crystalEraser?.destroy();
     this._darknessTexture = null;
+    this._darknessRenderActive = false;
+    this._darknessRenderAlpha = null;
+    this._darknessHasSolidFill = false;
     this._torchHalo = null;
     this._torchCoreGlow = null;
     this._torchFlameGlow = null;
@@ -181,12 +230,13 @@ export class LightSystem {
 
   _resolveLightingState(depth) {
     const weather = this.weatherSystem?.getLightingSnapshot?.() ?? this._getFallbackWeatherSnapshot();
+    const sunlight = this.getSunlightSnapshot(weather);
     const surfaceLightInfluence = this._getSurfaceLightInfluence(depth);
     const undergroundDarknessInfluence = 1 - surfaceLightInfluence;
     const depthRatio = this._getDepthRatio(depth);
     const noTorchMinVisibilityRadius = this._getUpgradeEffects().noTorchMinVisibilityRadius || 0;
-    const nightAmount = clamp01(this.dayNightCycle?.getNightAmount?.() ?? 0);
-    const sunStrength = this._getSunStrength();
+    const nightAmount = sunlight.nightAmount;
+    const sunStrength = this._getSunStrength(sunlight);
     const stormCavePulse = weather.lightningFlashAmount
       * undergroundDarknessInfluence
       * (0.35 + weather.stormAmount * 0.65);
@@ -211,6 +261,7 @@ export class LightSystem {
       undergroundDarknessInfluence,
       stormCavePulse,
       weather,
+      sunlight,
     };
   }
 
@@ -237,6 +288,13 @@ export class LightSystem {
       surfaceWetness: 0,
       lightningFlashAmount: 0,
       isStorming: false,
+      cloudCoverAmount: 0,
+      sunTransmittance: 1,
+      fogAmount: 0,
+      sunTint: 0xffffff,
+      sunExposure: 1,
+      tint: 0xffffff,
+      exposure: 1,
     };
   }
 
@@ -254,14 +312,8 @@ export class LightSystem {
     return clamp01(rawInfluence * transitionTail);
   }
 
-  _getSunStrength() {
-    const sunAlpha = clamp01(this.dayNightCycle?.getSunAlpha?.() ?? 1);
-    const cam = this.scene.cameras.main;
-    const pos = this.dayNightCycle?.getSunScreenPosition?.(cam.width, cam.height);
-    if (!pos) return sunAlpha;
-
-    const horizonT = clamp01(1 - pos.y / Math.max(1, cam.height * 0.72));
-    return clamp01(sunAlpha * (0.65 + horizonT * 0.35));
+  _getSunStrength(sunlightSnapshot = null) {
+    return clamp01((sunlightSnapshot || this.getSunlightSnapshot()).strength);
   }
 
   _getDepthRatio(depth) {
@@ -345,10 +397,28 @@ export class LightSystem {
     const player = this.scene.player;
     const playerTile = this.playerController?.getPlayerTile?.() || null;
 
-    darkness.clear();
-    darkness.fill(this.config.darknessColor, 1);
     const darknessAlpha = this._computeDarknessAlpha(lighting);
-    darkness.setAlpha(darknessAlpha);
+    const inactiveThreshold = Math.max(
+      0,
+      Number(this.config.renderOptimization?.inactiveDarknessAlphaThreshold) || 0
+    );
+    const darknessActive = darknessAlpha > inactiveThreshold;
+    if (this._darknessRenderActive !== darknessActive) {
+      darkness.setVisible(darknessActive);
+      this._darknessRenderActive = darknessActive;
+    }
+
+    const renderAlpha = darknessActive ? darknessAlpha : 0;
+    if (this._darknessRenderAlpha !== renderAlpha) {
+      darkness.setAlpha(renderAlpha);
+      this._darknessRenderAlpha = renderAlpha;
+    }
+
+    if (darknessActive && (player || !this._darknessHasSolidFill)) {
+      darkness.clear();
+      darkness.fill(this.config.darknessColor, 1);
+      this._darknessHasSolidFill = true;
+    }
 
     if (!player) {
       this._setGlowState(this._torchHalo, 0, 0, 1, 0);
@@ -373,24 +443,27 @@ export class LightSystem {
     const screenX = this._screenPoint.x - camera.scrollX * camera.zoomX + fire.screenOffsetX * camera.zoomX;
     const screenY = this._screenPoint.y - camera.scrollY * camera.zoomY + fire.screenOffsetY * camera.zoomY;
 
-    this._eraser.setDisplaySize(radiusWorld * 2 * camera.zoomX, radiusWorld * 2 * camera.zoomY);
-    darkness.erase(this._eraser, screenX, screenY);
-    this._eraseCrystalLights(
-      time,
-      lighting,
-      camera,
-      darkness,
-      playerTile,
-      radiusTiles
-    );
-    this._eraseSkyAndGeodeLights(
-      time,
-      lighting,
-      camera,
-      darkness,
-      playerTile,
-      radiusTiles
-    );
+    if (darknessActive) {
+      this._eraser.setDisplaySize(radiusWorld * 2 * camera.zoomX, radiusWorld * 2 * camera.zoomY);
+      darkness.erase(this._eraser, screenX, screenY);
+      this._darknessHasSolidFill = false;
+      this._eraseCrystalLights(
+        time,
+        lighting,
+        camera,
+        darkness,
+        playerTile,
+        radiusTiles
+      );
+      this._eraseSkyAndGeodeLights(
+        time,
+        lighting,
+        camera,
+        darkness,
+        playerTile,
+        radiusTiles
+      );
+    }
 
     const glowX = player.x + this._currentFacingOffsetWorld + fire.worldOffsetX;
     const glowY = player.y + this.config.glowVerticalOffsetTiles * this.scene.config.tileSize + fire.worldOffsetY;
@@ -716,10 +789,18 @@ export class LightSystem {
   }
 
   _setGlowState(image, x, y, diameter, alpha, tint = null) {
+    const clampedAlpha = Phaser.Math.Clamp(alpha, 0, 1);
+    const visible = clampedAlpha > 0;
+    if (image.visible !== visible) image.setVisible(visible);
+    if (!visible) {
+      if (image.alpha !== 0) image.setAlpha(0);
+      return;
+    }
+
     image
       .setPosition(x, y)
       .setDisplaySize(diameter, diameter)
-      .setAlpha(Phaser.Math.Clamp(alpha, 0, 1));
+      .setAlpha(clampedAlpha);
     if (tint !== null) image.setTint(tint);
   }
 
@@ -745,10 +826,17 @@ export class LightSystem {
         .setScrollFactor(0)
         .setDepth(this.config.darknessRenderDepth)
         .setAlpha(1)
+        .setVisible(false)
         .setDisplaySize(camera.width, camera.height);
+      this._darknessRenderActive = false;
+      this._darknessRenderAlpha = 1;
+      this._darknessHasSolidFill = false;
     } catch (error) {
       console.warn("[LightSystem] Darkness render texture unavailable; disabling dynamic darkness.", error);
       this._darknessTexture = null;
+      this._darknessRenderActive = false;
+      this._darknessRenderAlpha = null;
+      this._darknessHasSolidFill = false;
     }
   }
 
@@ -834,6 +922,10 @@ export class LightSystem {
       undergroundDarknessInfluence: 0,
       nightAmount: 0,
       sunStrength: 1,
+      sunTint: 0xffffff,
+      sunExposure: 1,
+      cloudCoverAmount: 0,
+      fogAmount: 0,
       stormCavePulse: 0,
     };
   }
@@ -852,6 +944,10 @@ export class LightSystem {
       undergroundDarknessInfluence: lighting.undergroundDarknessInfluence,
       nightAmount: lighting.nightAmount,
       sunStrength: lighting.sunStrength,
+      sunTint: lighting.sunlight.tint,
+      sunExposure: lighting.sunlight.exposure,
+      cloudCoverAmount: lighting.sunlight.cloudCoverAmount,
+      fogAmount: lighting.sunlight.fogAmount,
       stormCavePulse: lighting.stormCavePulse,
     };
   }

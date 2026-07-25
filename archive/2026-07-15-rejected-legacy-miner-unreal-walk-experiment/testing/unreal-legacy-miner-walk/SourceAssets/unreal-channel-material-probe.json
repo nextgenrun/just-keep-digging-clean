@@ -1,0 +1,17 @@
+{
+  "R": {
+    "textures": [],
+    "node_texture": "/Game/LegacyMinerWalk/Meshy/T_LegacyMiner_channel_R.T_LegacyMiner_channel_R",
+    "output": "R"
+  },
+  "G": {
+    "textures": [],
+    "node_texture": "/Game/LegacyMinerWalk/Meshy/T_LegacyMiner_channel_G.T_LegacyMiner_channel_G",
+    "output": "G"
+  },
+  "B": {
+    "textures": [],
+    "node_texture": "/Game/LegacyMinerWalk/Meshy/T_LegacyMiner_channel_B.T_LegacyMiner_channel_B",
+    "output": "B"
+  }
+}

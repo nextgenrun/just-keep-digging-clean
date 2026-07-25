@@ -35,12 +35,12 @@ export const UI_AUTO_ICON_LABELS = Object.freeze({
 // Replace the reserved IDs once the future seller NPCs receive final identifiers.
 export const SELL_CAPABLE_MERCHANT_IDS = Object.freeze([
   "moneyMonster",
-  "futureSellMerchant1",
-  "futureSellMerchant2",
+  "magmaMoneyMonster",
 ]);
 
 export const UI_MERCHANT_ICONS = Object.freeze({
   moneyMonster: "moneyMonster",
+  magmaMoneyMonster: "sell",
   playerUpgrades: "upgrade",
   gearMerchant: "pickaxe",
   boboMerchant: "bobo",
@@ -58,7 +58,7 @@ export const UI_UPGRADE_ICONS = Object.freeze({
   marketInsight: "stats", luckySales: "luck", quickslashAbility: "speed",
   thunderStrikeAbility: "power", torchDrainEfficiency: "torch", torchRange: "torch",
   boboCaveEyes: "bobo", worldTwoTunnelAccess: "lock", mia: "bobo",
-  boboWisdom: "info", upOrDown: "gem",
+  arcCoreVehicle: "power", boboWisdom: "info", upOrDown: "gem",
 });
 
 export const UI_RESOURCE_PRESENTATION = Object.freeze({
@@ -72,6 +72,10 @@ export const UI_RESOURCE_PRESENTATION = Object.freeze({
   bronze: { name: "Bronze", icon: "bronze", color: "#c47d42" },
   silver: { name: "Silver", icon: "silver", color: "#d1d9df" },
   gold: { name: "Gold", icon: "gold", color: "#e5b83f" },
+  lavaDirt: { name: "Lava Dirt", icon: "darkDirt", color: "#d45b36" },
+  obsidian: { name: "Obsidian", icon: "stone", color: "#8067a8" },
+  emberOre: { name: "Ember Ore", icon: "gold", color: "#ff7a32" },
+  magmaCrystal: { name: "Magma Crystal", icon: "gem", color: "#ff3e86" },
 });
 
 export const UI_INVENTORY_LAYOUT = Object.freeze({

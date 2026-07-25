@@ -1,78 +1,7 @@
-import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
 import { DEPTH_MILESTONES, getMilestoneAtDepth, computeMilestoneBonuses } from "../../values/depthMilestones.js";
 import { USER_SETTINGS } from "../UserSettings.js";
-
-function parseColorHex(value, fallback = 0x666666) {
-  if (typeof value === "number" && Number.isInteger(value)) return value;
-  if (typeof value !== "string") return fallback;
-
-  const normalized = value.startsWith("#") ? value.slice(1) : value;
-  const fullHex = normalized.length === 3
-    ? normalized.split("").map((ch) => ch + ch).join("")
-    : normalized;
-  const parsed = Number.parseInt(fullHex, 16);
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-function createButton(scene, {
-  x = 0,
-  y = 0,
-  width = 120,
-  height = 30,
-  label = "BUTTON",
-  hint = "",
-  accent = UI_COLORS.borderDim,
-  labelColor = "#ffffff",
-  depth = 0,
-  fontSize = "10px",
-  onClick = () => {},
-}) {
-  const fg = parseColorHex(accent, 0x4a4a4a);
-  const hover = Math.max(0x000000, fg - 0x0f0f0f);
-
-  const root = scene.add.container(x, y).setScrollFactor(0).setDepth(depth);
-
-  const bg = scene.add.rectangle(0, 0, width, height, 0x1b1b1f, 0.95)
-    .setScrollFactor(0)
-    .setDepth(depth)
-    .setStrokeStyle(2, fg, 0.95)
-    .setInteractive({ useHandCursor: true });
-
-  const labelText = scene.add.text(-width / 2 + 10, -1, label, {
-    fontFamily: "Consolas, monospace",
-    fontSize,
-    fontStyle: "bold",
-    color: labelColor,
-    stroke: "#000000",
-    strokeThickness: 2,
-  }).setOrigin(0).setDepth(depth + 1);
-
-  const hintText = hint
-    ? scene.add.text(width / 2 - 10, 0, hint, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "8px",
-      color: UI_COLORS.hint,
-      stroke: "#000000",
-      strokeThickness: 1,
-    }).setOrigin(1, 0.5).setDepth(depth + 1)
-    : null;
-
-  bg.on("pointerdown", () => {
-    onClick();
-  });
-  bg.on("pointerover", () => {
-    try { bg.setFillStyle(hover, 0.98); } catch (e) {}
-  });
-  bg.on("pointerout", () => {
-    try { bg.setFillStyle(0x1b1b1f, 0.95); } catch (e) {}
-  });
-
-  root.add([bg, labelText]);
-  root.add(labelText);
-  if (hintText) root.add(hintText);
-  return { root, bg, labelText, hintText };
-}
 
 /**
  * MilestoneBoardSystem
@@ -82,10 +11,12 @@ function createButton(scene, {
  * Milestones persist per save slot via localStorage.
  */
 export class MilestoneBoardSystem {
-  constructor(scene, config, worldModel) {
+  constructor(scene, config, worldModel, ui, saveSlot = 1) {
     this.scene = scene;
     this.config = config;
     this.worldModel = worldModel;
+    this.ui = ui;
+    this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
 
     // Persisted milestone state
     this._reachedDepths = []; // array of depths reached (e.g. [100, 200, 300])
@@ -272,180 +203,88 @@ export class MilestoneBoardSystem {
   _openBoardView() {
     if (this._isBoardOpen) return;
     this._isBoardOpen = true;
+    this.scene.setShopOpen?.(true);
 
-    const cx = this.scene.cameras.main.width / 2;
-    const cy = this.scene.cameras.main.height / 2;
-    const W = 600;
-    const H = 500;
-    const DEPTH = 2600;
-
-    // Dark overlay
-    this._overlay = this.scene.add.rectangle(cx, cy, 1280, 720, 0x000000, 0.7)
-      .setScrollFactor(0).setDepth(DEPTH).setAlpha(0).setInteractive();
-    this.scene.tweens.add({ targets: this._overlay, alpha: 1, duration: 200 });
-    this._boardObjects.push(this._overlay);
-
-    // Panel
-    const panelG = this.scene.add.graphics().setScrollFactor(0).setDepth(DEPTH + 1).setAlpha(0);
-    panelG.fillStyle(0x0A0E1A, 1);
-    panelG.fillRoundedRect(cx - W / 2, cy - H / 2, W, H, 6);
-    panelG.lineStyle(2, 0xC9A227, 0.8);
-    panelG.strokeRoundedRect(cx - W / 2, cy - H / 2, W, H, 6);
-    this._boardObjects.push(panelG);
-    this.scene.tweens.add({ targets: panelG, alpha: 1, duration: 200 });
-
-    // Title
-    const title = this.scene.add.text(cx, cy - H / 2 + 25, '✦  DEPTH MILESTONES  ✦', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: '18px',
-      fontStyle: 'bold',
-      color: '#C9A227',
-      stroke: '#000000',
-      strokeThickness: 3,
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-    this._boardObjects.push(title);
-    this.scene.tweens.add({ targets: title, alpha: 1, duration: 250 });
-
-    const closeBtn = createButton(this.scene, {
-      x: cx + W / 2 - 62,
-      y: cy - H / 2 + 28,
-      width: 104,
-      height: 30,
-      label: 'CLOSE',
-      hint: 'ESC',
-      accent: UI_COLORS.borderBad,
-      labelColor: UI_COLORS.danger,
-      depth: DEPTH + 3,
-      fontSize: '10px',
-      onClick: () => this._closeBoardView(),
+    const shell = this.ui.createModalShell(this.scene, {
+      title: "DEPTH MILESTONES",
+      subtitle: this._reachedDepths.length + " / " + DEPTH_MILESTONES.length + " discovered  |  Permanent bonuses",
+      icon: "journal",
+      maxWidth: 900,
+      maxHeight: 650,
+      depth: 3150,
+      onClose: () => this._closeBoardView(),
     });
-    closeBtn.root.setAlpha(0);
-    this._boardObjects.push(closeBtn.root);
-    this.scene.tweens.add({ targets: closeBtn.root, alpha: 1, duration: 250 });
+    const content = shell.content;
+    const rect = shell.getContentRect();
+    const columns = rect.width >= 720 ? 2 : 1;
+    const gap = 14;
+    const columnWidth = (rect.width - gap * (columns - 1)) / columns;
+    const rows = Math.ceil(DEPTH_MILESTONES.length / columns);
+    const rowHeight = Math.max(52, Math.min(76, (rect.height - 16) / rows));
 
-    // Stats bar
-    const bonuses = this.getBonuses();
-    const statsText = this.scene.add.text(cx, cy - H / 2 + 50, 
-      `+${bonuses.gpMaxBonus} GP Max  |  +${bonuses.miningSpeedPct}% Speed  |  +${bonuses.critChancePct}% Crit`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '11px',
-      color: '#88AACC',
-      stroke: '#000000',
-      strokeThickness: 2,
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-    this._boardObjects.push(statsText);
-    this.scene.tweens.add({ targets: statsText, alpha: 1, duration: 300 });
-
-    // Divider
-    const divY = cy - H / 2 + 62;
-    const divG = this.scene.add.graphics().setScrollFactor(0).setDepth(DEPTH + 1).setAlpha(0);
-    divG.lineStyle(1, 0x334466, 0.6);
-    divG.lineBetween(cx - W / 2 + 10, divY, cx + W / 2 - 10, divY);
-    this._boardObjects.push(divG);
-    this.scene.tweens.add({ targets: divG, alpha: 1, duration: 250 });
-
-    // Milestone list
-    const startY = cy - H / 2 + 78;
-    let rowY = startY;
-
-    DEPTH_MILESTONES.forEach((m, i) => {
-      const isReached = this._reachedDepths.includes(m.depth);
-      const rowColor = isReached ? '#4ECB71' : '#334455';
-      const rowName  = isReached ? m.name : '???';
-      const rowDepth = isReached ? `${m.depth}m` : `???`;
-      const rowReward = isReached ? m.reward : '???';
-      const rowAlpha = isReached ? 1 : 0.3;
-
-      // Row background (alternating)
-      if (i % 2 === 0) {
-        const rowBg = this.scene.add.rectangle(
-          cx, rowY + 11, W - 10, 22,
-          isReached ? 0x0A1A0A : 0x0A0E1A,
-          isReached ? 0.4 : 0.2
-        ).setScrollFactor(0).setDepth(DEPTH + 1).setAlpha(0);
-        this._boardObjects.push(rowBg);
-        this.scene.tweens.add({ targets: rowBg, alpha: 1, duration: 150 + i * 20 });
-      }
-
-      // Depth
-      const dText = this.scene.add.text(cx - W / 2 + 15, rowY, rowDepth, {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '12px',
-        fontStyle: 'bold',
-        color: isReached ? '#C9A227' : '#334455',
-        stroke: '#000000',
-        strokeThickness: 2,
-        alpha: rowAlpha,
-      }).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-      this._boardObjects.push(dText);
-      this.scene.tweens.add({ targets: dText, alpha: rowAlpha, duration: 150 + i * 20 });
-
-      // Milestone name
-      const nText = this.scene.add.text(cx - 80, rowY, rowName, {
-        fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-        fontSize: '13px',
-        color: rowColor,
-        stroke: '#000000',
-        strokeThickness: 2,
-        alpha: rowAlpha,
-        shadow: isReached ? { offsetX: 0, offsetY: 0, color: '#4ECB71', blur: 4, fill: true } : undefined,
-      }).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-      this._boardObjects.push(nText);
-      this.scene.tweens.add({ targets: nText, alpha: rowAlpha, duration: 180 + i * 20 });
-
-      // Reward
-      const rText = this.scene.add.text(cx + 100, rowY, rowReward, {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '11px',
-        color: isReached ? '#AABBEE' : '#334455',
-        stroke: '#000000',
-        strokeThickness: 2,
-        alpha: rowAlpha,
-      }).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-      this._boardObjects.push(rText);
-      this.scene.tweens.add({ targets: rText, alpha: rowAlpha, duration: 200 + i * 20 });
-
-      // Unlocked checkmark
-      if (isReached) {
-        const check = this.scene.add.text(cx + W / 2 - 20, rowY, '✦', {
-          fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-          fontSize: '12px',
-          color: '#4ECB71',
-          stroke: '#000000',
-          strokeThickness: 2,
-        }).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-        this._boardObjects.push(check);
-        this.scene.tweens.add({ targets: check, alpha: 1, duration: 220 + i * 20 });
-      }
-
-      rowY += 24;
+    DEPTH_MILESTONES.forEach((milestone, index) => {
+      const col = index % columns;
+      const row = Math.floor(index / columns);
+      const x = rect.left + col * (columnWidth + gap);
+      const y = rect.top + row * rowHeight;
+      const reached = this._reachedDepths.includes(milestone.depth);
+      const card = this.scene.add.rectangle(
+        x + columnWidth / 2,
+        y + rowHeight / 2 - 3,
+        columnWidth,
+        rowHeight - 8,
+        reached ? UI_COLORS.cardSel : UI_COLORS.cardBase,
+        reached ? 1 : 0.84
+      ).setStrokeStyle(reached ? 2 : 1, reached ? UI_COLORS.borderSel : UI_COLORS.borderDim);
+      content.add(card);
+      this.ui.createIconBadge(this.scene, reached ? "journal" : "lock", {
+        x: x + 36,
+        y: y + rowHeight / 2 - 3,
+        size: Math.min(46, rowHeight - 18),
+        iconSize: Math.min(38, rowHeight - 24),
+        selected: reached,
+        parent: content,
+      });
+      const title = this.scene.add.text(x + 66, y + rowHeight / 2 - 15,
+        (milestone.depth || 0) + "M  " + (milestone.name || milestone.title || "Depth Milestone"), {
+          fontFamily: UI_FONTS.display,
+          fontSize: "14px",
+          fontStyle: "bold",
+          color: reached ? UI_COLORS.title : UI_COLORS.dim,
+        }
+      ).setOrigin(0, 0.5);
+      const status = this.scene.add.text(x + columnWidth - 16, y + rowHeight / 2 - 15,
+        reached ? "DISCOVERED" : "LOCKED", {
+          fontFamily: UI_FONTS.mono,
+          fontSize: "10px",
+          color: reached ? UI_COLORS.success : UI_COLORS.dim,
+        }
+      ).setOrigin(1, 0.5);
+      const description = this.scene.add.text(x + 66, y + rowHeight / 2 + 10,
+        milestone.description || milestone.rewardDescription || "Permanent depth reward", {
+          fontFamily: UI_FONTS.mono,
+          fontSize: "10px",
+          color: reached ? UI_COLORS.body : UI_COLORS.dim,
+          wordWrap: { width: columnWidth - 150, useAdvancedWrap: true },
+        }
+      ).setOrigin(0, 0.5);
+      content.add([title, status, description]);
     });
 
-    // Close hint
-    const closeHint = this.scene.add.text(cx, cy + H / 2 - 15, `Press ${USER_SETTINGS.getKeyLabel("interact")} or ESC to close`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '11px',
-      color: '#556677',
-      stroke: '#000000',
-      strokeThickness: 2,
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2).setAlpha(0);
-    this._boardObjects.push(closeHint);
-    this.scene.tweens.add({ targets: closeHint, alpha: 1, duration: 400 });
+    this._boardObjects = [shell];
+    shell.show();
   }
 
   _closeBoardView() {
     if (!this._isBoardOpen) return;
     this._isBoardOpen = false;
-
-    this._boardObjects.forEach(obj => {
-      this.scene.tweens.add({
-        targets: obj,
-        alpha: 0,
-        duration: 100,
-        onComplete: () => obj.destroy(),
-      });
-    });
+    this.scene.setShopOpen?.(false);
+    const objects = this._boardObjects;
     this._boardObjects = [];
+    objects.forEach(obj => {
+      if (obj?.hide) obj.hide(() => obj.destroy?.());
+      else obj?.destroy?.();
+    });
   }
 
   _updateBoardDisplay() {
@@ -459,13 +298,18 @@ export class MilestoneBoardSystem {
 
   _saveMilestones() {
     try {
-      localStorage.setItem('dig-game-milestones', JSON.stringify(this._reachedDepths));
+      localStorage.setItem(`dig-game-milestones-slot-${this.saveSlot}`, JSON.stringify(this._reachedDepths));
     } catch (e) {}
   }
 
   _loadMilestones() {
     try {
-      const data = localStorage.getItem('dig-game-milestones');
+      const storageKey = `dig-game-milestones-slot-${this.saveSlot}`;
+      let data = localStorage.getItem(storageKey);
+      if (!data && this.saveSlot === 1) {
+        data = localStorage.getItem('dig-game-milestones');
+        if (data) localStorage.setItem(storageKey, data);
+      }
       if (data) {
         this._reachedDepths = JSON.parse(data);
         if (!Array.isArray(this._reachedDepths)) this._reachedDepths = [];
@@ -484,3 +328,4 @@ export class MilestoneBoardSystem {
     this._ePrompt?.destroy();
   }
 }
+

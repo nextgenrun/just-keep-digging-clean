@@ -1,0 +1,35 @@
+button, select, input, textarea { font: inherit; }
+button, select, input[type="number"] {
+  min-height: 39px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(31, 48, 55, .94);
+}
+button { padding: 0 13px; cursor: pointer; }
+button:hover, button:focus-visible, select:focus-visible, input:focus-visible {
+  border-color: var(--cyan);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(128, 228, 218, .11);
+}
+button.primary { color: #081413; border-color: var(--cyan); background: var(--cyan); font-weight: 800; }
+.control-panel { align-self: start; position: sticky; top: 84px; max-height: calc(100vh - 100px); overflow-x: hidden; overflow-y: auto; }
+.control-panel section { padding: 17px; border-bottom: 1px solid var(--line); }
+.control-panel section:last-child { border-bottom: 0; }
+.control-panel h2 { margin: 0 0 13px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.button-row { display: grid; gap: 7px; }.button-row.four { grid-template-columns: repeat(2, 1fr); }
+.field-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+.control-panel label { display: grid; gap: 6px; color: var(--muted); font-size: 11px; letter-spacing: .04em; }
+.control-panel label > span { display: flex; justify-content: space-between; gap: 10px; }
+.control-panel select, .control-panel input[type="number"] { width: 100%; padding: 0 9px; }
+.wide { grid-column: 1 / -1; width: 100%; }
+.range-field { margin-top: 11px; }
+.range-field input { width: 100%; accent-color: var(--cyan); }
+.range-field output { color: var(--ink); font: 700 11px/1 ui-monospace, monospace; }
+.toggle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.toggle-grid label { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 9px; border: 1px solid rgba(144, 183, 183, .12); border-radius: 8px; background: rgba(24, 37, 43, .54); }
+.toggle-grid input { accent-color: var(--cyan); }
+.draft-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.advanced-controls summary { cursor: pointer; color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: .04em; }
+.advanced-controls details[open] summary { margin-bottom: 12px; color: var(--cyan); }
+@media (max-width: 520px) { .field-grid, .toggle-grid, .draft-actions { grid-template-columns: 1fr; } }

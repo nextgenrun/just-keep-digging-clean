@@ -4,12 +4,20 @@
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
+import {
+  CAVE_SCENE_CONFIG,
+  resolveCompactCaveScenesEnabled,
+} from "../../values/caveSceneConfig.js";
+import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { getTileHealth } from "../../values/tileHealth.js";
 import { getResourceHpMultiplier } from "../../values/dynamicSoil.js";
 import { TILED_WORLD_OVERRIDE } from "../../values/tiledWorldOverrideData.js";
+import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
 import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
+import { isInsideEllipse } from "../../values/deterministicMath.js";
+import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
 import { SeededRandom } from "./SeededRandom.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
@@ -24,14 +32,9 @@ const DIGGABLE_TYPES = new Set([
   TILE_TYPES.COMBO_BLOCK,
   TILE_TYPES.LEGEND_BLOCK,
   TILE_TYPES.GEODE_INTERIOR,
+  TILE_TYPES.ANCIENT_RELIC_CACHE,
 ]);
 const RUBBLE_HP_RATIO = 0.25;
-
-function isInsideEllipse(tx, ty, cx, cy, rx, ry) {
-  const nx = (tx - cx) / Math.max(1, rx);
-  const ny = (ty - cy) / Math.max(1, ry);
-  return nx * nx + ny * ny <= 1;
-}
 
 function makeTileKey(tx, ty) {
   return `${tx},${ty}`;
@@ -75,7 +78,6 @@ export class WorldModel {
   }
 
   index(tileX, tileY) { return tileY * this.widthTiles + tileX; }
-  _index(tileX, tileY) { return this.index(tileX, tileY); }
 
   inBounds(tileX, tileY) {
     return tileX >= 0 && tileX < this.widthTiles && tileY >= 0 && tileY < this.depthTiles;
@@ -141,6 +143,8 @@ export class WorldModel {
       width: this.widthTiles,
       depth: this.depthTiles,
       topAirRows: this.topAirRows,
+      layoutId: WORLD_GAMEPLAY_LAYOUT.id,
+      layoutRevision: WORLD_GAMEPLAY_LAYOUT.revision,
     };
   }
 
@@ -177,45 +181,52 @@ export class WorldModel {
     this.prepareSpawnZone();
     this.applyTiledWorldOverride();
     this.applySecondWorldArea();
+    this.applySecondWorldTown();
     this.buildLeftBedrockStaircase();
+    // Authored Tiled terrain remains authoritative. Only explicit compact
+    // rollback mouths are re-applied after the authored import.
+    this.reapplyStandaloneCaveMouths();
+    this.generateAncientRelicCaches();
+    this.applyTiledSurfaceAuthority();
   }
 
   generateBaseTerrain() {
+    const terrain = WORLD_GEN_CONFIG.terrain;
     for (let ty = this.topAirRows + 1; ty < this.depthTiles; ty += 1) {
       const depth = ty - this.topAirRows;
       for (let tx = 0; tx < this.widthTiles; tx += 1) {
         let type = TILE_TYPES.DIRT;
         const roll = this.rng.next();
 
-        if (depth < 30) {
-          type = roll < 0.1 ? TILE_TYPES.STONE : TILE_TYPES.DIRT;
-        } else if (depth < 60) {
-          if (roll < 0.05) type = TILE_TYPES.COPPER;
-          else if (roll < 0.15) type = TILE_TYPES.STONE;
-        } else if (depth < 120) {
-          if (roll < 0.03) type = TILE_TYPES.IRON;
-          else if (roll < 0.04) type = TILE_TYPES.DARK_DIRT_NORMAL;
-          else if (roll < 0.08) type = TILE_TYPES.COPPER;
-          else if (roll < 0.2) type = TILE_TYPES.STONE;
-        } else if (depth < 300) {
-          if (roll < 0.02) type = TILE_TYPES.GOLD;
-          else if (roll < 0.03) type = TILE_TYPES.SILVER;
-          else if (roll < 0.04) type = TILE_TYPES.DARK_DIRT_STRONG;
-          else if (roll < 0.08) type = TILE_TYPES.DARK_DIRT_NORMAL;
-          else if (roll < 0.15) type = TILE_TYPES.STEEL;
-          else if (roll < 0.3) type = TILE_TYPES.IRON;
-          else if (roll < 0.5) type = TILE_TYPES.COPPER;
-          else if (roll < 0.65) type = TILE_TYPES.STONE;
+        if (depth < terrain.band1MaxDepth) {
+          type = roll < terrain.band1StoneChance ? TILE_TYPES.STONE : TILE_TYPES.DIRT;
+        } else if (depth < terrain.band2MaxDepth) {
+          if (roll < terrain.band2CopperChance) type = TILE_TYPES.COPPER;
+          else if (roll < terrain.band2StoneChance) type = TILE_TYPES.STONE;
+        } else if (depth < terrain.band3MaxDepth) {
+          if (roll < terrain.band3IronChance) type = TILE_TYPES.IRON;
+          else if (roll < terrain.band3DarkDirtNormalChance) type = TILE_TYPES.DARK_DIRT_NORMAL;
+          else if (roll < terrain.band3CopperChance) type = TILE_TYPES.COPPER;
+          else if (roll < terrain.band3StoneChance) type = TILE_TYPES.STONE;
+        } else if (depth < terrain.band4MaxDepth) {
+          if (roll < terrain.band4GoldChance) type = TILE_TYPES.GOLD;
+          else if (roll < terrain.band4SilverChance) type = TILE_TYPES.SILVER;
+          else if (roll < terrain.band4DarkDirtStrongChance) type = TILE_TYPES.DARK_DIRT_STRONG;
+          else if (roll < terrain.band4DarkDirtNormalChance) type = TILE_TYPES.DARK_DIRT_NORMAL;
+          else if (roll < terrain.band4SteelChance) type = TILE_TYPES.STEEL;
+          else if (roll < terrain.band4IronChance) type = TILE_TYPES.IRON;
+          else if (roll < terrain.band4CopperChance) type = TILE_TYPES.COPPER;
+          else if (roll < terrain.band4StoneChance) type = TILE_TYPES.STONE;
         } else {
-          if (roll < 0.005) type = TILE_TYPES.GOLD;
-          else if (roll < 0.015) type = TILE_TYPES.SILVER;
-          else if (roll < 0.03) type = TILE_TYPES.DARK_DIRT_STRONG;
-          else if (roll < 0.08) type = TILE_TYPES.DARK_DIRT_NORMAL;
-          else if (roll < 0.12) type = TILE_TYPES.BRONZE;
-          else if (roll < 0.22) type = TILE_TYPES.STEEL;
-          else if (roll < 0.35) type = TILE_TYPES.IRON;
-          else if (roll < 0.55) type = TILE_TYPES.COPPER;
-          else if (roll < 0.7) type = TILE_TYPES.STONE;
+          if (roll < terrain.deepGoldChance) type = TILE_TYPES.GOLD;
+          else if (roll < terrain.deepSilverChance) type = TILE_TYPES.SILVER;
+          else if (roll < terrain.deepDarkDirtStrongChance) type = TILE_TYPES.DARK_DIRT_STRONG;
+          else if (roll < terrain.deepDarkDirtNormalChance) type = TILE_TYPES.DARK_DIRT_NORMAL;
+          else if (roll < terrain.deepBronzeChance) type = TILE_TYPES.BRONZE;
+          else if (roll < terrain.deepSteelChance) type = TILE_TYPES.STEEL;
+          else if (roll < terrain.deepIronChance) type = TILE_TYPES.IRON;
+          else if (roll < terrain.deepCopperChance) type = TILE_TYPES.COPPER;
+          else if (roll < terrain.deepStoneChance) type = TILE_TYPES.STONE;
         }
 
         this.setTile(tx, ty, type, this.getTileMaxHp(tx, ty, type));
@@ -229,9 +240,11 @@ export class WorldModel {
 
   generateCaves() {
     const cfg = WORLD_GEN_CONFIG.caves || {};
+    const geometry = WORLD_GEN_CONFIG.spawnGeometry;
     const total = this.rng.nextInt(cfg.totalCavesMin || 70, cfg.totalCavesMax || 120);
     const minY = this.topAirRows + (cfg.surfaceSkipDepth || 30);
-    const maxY = Math.max(minY + 1, this.depthTiles - 20);
+    const maxY = Math.max(minY + 1, this.depthTiles - geometry.caveBottomPaddingTiles);
+    const standaloneScene = resolveCompactCaveScenesEnabled(cfg.standaloneScene?.enabled);
 
     for (let i = 0; i < total; i += 1) {
       const rx = this.rng.nextInt(cfg.radiusXMin || 2, cfg.radiusXMax || 18);
@@ -239,13 +252,38 @@ export class WorldModel {
       const cx = this.rng.nextInt(Math.max(2, rx), Math.max(3, this.widthTiles - rx - 2));
       const cy = this.rng.nextInt(minY, maxY);
       const wallThickness = cfg.wallThickness || 1;
-      const zone = { cx, cy, rx, ry, wallThickness };
+      const sceneSelection = CAVE_SCENE_CONFIG.selection;
+      const caveNumber = i + 1;
+      const isTreasureRoom = caveNumber % sceneSelection.treasureEveryNthCave === 0;
+      const normalPresets = sceneSelection.normalPresetKeys;
+      const zone = {
+        id: `cave-${caveNumber}`,
+        cx,
+        cy,
+        rx,
+        ry,
+        wallThickness,
+        standaloneScene,
+        entranceSides: Object.freeze([
+          caveNumber % 2 === 0 ? "right" : "left",
+          ...(caveNumber % 3 === 0 && rx >= 8
+            ? [caveNumber % 2 === 0 ? "left" : "right"]
+            : []),
+        ]),
+        backgroundPresetKey: isTreasureRoom
+          ? sceneSelection.treasurePresetKey
+          : normalPresets[(caveNumber - 1) % normalPresets.length],
+      };
       this.caveZones.push(zone);
       this.applyCaveZone(zone);
     }
   }
 
   applyCaveZone(zone) {
+    if (zone.standaloneScene) {
+      this.applyStandaloneCaveMouth(zone);
+      return;
+    }
     const wallRx = zone.rx + zone.wallThickness;
     const wallRy = zone.ry + zone.wallThickness;
     for (let ty = zone.cy - Math.ceil(wallRy); ty <= zone.cy + Math.ceil(wallRy); ty += 1) {
@@ -259,6 +297,79 @@ export class WorldModel {
           this.setTile(tx, ty, TILE_TYPES.AIR, 0);
         }
       }
+    }
+    this._openIntegratedCaveEntrances(zone, wallRx);
+  }
+
+  _openIntegratedCaveEntrances(zone, wallRx) {
+    const sides = Array.isArray(zone.entranceSides) && zone.entranceSides.length
+      ? zone.entranceSides
+      : ["left"];
+    for (const side of sides) {
+      const direction = side === "right" ? 1 : -1;
+      const outerX = Math.max(0, Math.min(this.widthTiles - 1, Math.round(zone.cx + direction * wallRx)));
+      const innerX = Math.max(0, Math.min(this.widthTiles - 1, Math.round(zone.cx + direction * zone.rx)));
+      const fromX = Math.min(outerX, innerX);
+      const toX = Math.max(outerX, innerX);
+      for (let tx = fromX; tx <= toX; tx += 1) {
+        if (this.inBounds(tx, zone.cy)) this.setTile(tx, zone.cy, TILE_TYPES.AIR, 0);
+      }
+      if (!zone.entry) {
+        zone.entry = { tx: innerX, ty: zone.cy };
+        zone.mouthAnchor = { tx: outerX, ty: zone.cy };
+        zone.entrySide = side;
+      }
+    }
+  }
+
+  applyStandaloneCaveMouth(zone) {
+    const cfg = WORLD_GEN_CONFIG.caves?.standaloneScene || {};
+    const mouthWidth = Math.max(1, cfg.mouthWidthTiles || 1);
+    const shellThickness = Math.max(1, cfg.shellThicknessTiles || 1);
+    const left = zone.cx - Math.floor(mouthWidth / 2);
+    const right = left + mouthWidth - 1;
+    const top = zone.cy - shellThickness;
+    const bottom = zone.cy + Math.max(1, cfg.mouthHeightTiles || 1) * shellThickness;
+
+    for (let tx = left; tx <= right + shellThickness; tx += 1) {
+      for (let ty = top; ty <= bottom; ty += 1) {
+        if (!this.inBounds(tx, ty) || ty <= this.topAirRows) continue;
+        const isOpening = ty === zone.cy && tx >= left && tx <= right;
+        this.setTile(tx, ty, isOpening ? TILE_TYPES.AIR : TILE_TYPES.CAVE_WALL, 0);
+      }
+    }
+    zone.entry = { tx: right, ty: zone.cy };
+    zone.mouthAnchor = { tx: (left + right) / 2, ty: zone.cy };
+  }
+
+  reapplyStandaloneCaveMouths() {
+    for (const zone of this.caveZones) {
+      if (zone?.standaloneScene) this.applyStandaloneCaveMouth(zone);
+    }
+  }
+
+  generateAncientRelicCaches() {
+    const cfg = ANCIENT_RELIC_CONFIG.worldCaches;
+    const minY = Math.max(this.topAirRows + cfg.minDepthTiles, this.topAirRows + 1);
+    const maxY = Math.min(this.depthTiles - 2, this.topAirRows + cfg.maxDepthTiles);
+    if (minY > maxY) return;
+
+    const positions = [];
+    const maxAttempts = cfg.count * cfg.placementAttemptsPerCache;
+    for (let attempt = 0; attempt < maxAttempts && positions.length < cfg.count; attempt += 1) {
+      const tx = this.rng.nextInt(1, this.widthTiles - 2);
+      const ty = this.rng.nextInt(minY, maxY);
+      if (!RESOURCE_TILE_TYPES.has(this.getType(tx, ty))) continue;
+
+      const isTooClose = positions.some((position) => {
+        const dx = position.tx - tx;
+        const dy = position.ty - ty;
+        return dx * dx + dy * dy < cfg.minimumSpacingTiles * cfg.minimumSpacingTiles;
+      });
+      if (isTooClose) continue;
+
+      this.setTile(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE, this.getTileMaxHp(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE));
+      positions.push({ tx, ty });
     }
   }
 
@@ -310,6 +421,7 @@ export class WorldModel {
   }
 
   prepareSpawnZone() {
+    const geometry = WORLD_GEN_CONFIG.spawnGeometry;
     for (let ty = 0; ty < this.topAirRows; ty += 1) {
       for (let tx = 0; tx < this.widthTiles; tx += 1) {
         this.setTile(tx, ty, TILE_TYPES.AIR, 0);
@@ -334,16 +446,17 @@ export class WorldModel {
     }
 
     const shaftX = this.config.spawnTileX || 28;
-    for (let ty = this.topAirRows + 1; ty <= this.topAirRows + 6; ty += 1) {
-      for (let tx = shaftX - 1; tx <= shaftX + 1; tx += 1) {
+    for (let ty = this.topAirRows + 1; ty <= this.topAirRows + geometry.shaftDepthTiles; ty += 1) {
+      for (let tx = shaftX - geometry.shaftHalfWidthTiles; tx <= shaftX + geometry.shaftHalfWidthTiles; tx += 1) {
         this.setTile(tx, ty, TILE_TYPES.AIR, 0);
       }
     }
   }
 
   buildLeftBedrockStaircase() {
-    for (let depth = 0; depth <= 10; depth += 1) {
-      const tx = 68 + depth;
+    const geometry = WORLD_GEN_CONFIG.spawnGeometry;
+    for (let depth = 0; depth <= geometry.leftStaircaseDepthTiles; depth += 1) {
+      const tx = geometry.leftStaircaseStartX + depth;
       const ty = this.topAirRows + depth;
       if (!this.inBounds(tx, ty)) break;
       this.setTile(tx, ty, TILE_TYPES.BEDROCK, 0);
@@ -352,15 +465,34 @@ export class WorldModel {
 
   applyTiledWorldOverride(override = TILED_WORLD_OVERRIDE) {
     if (!override?.enabled) return;
-    if (override.width !== this.widthTiles || override.height !== this.depthTiles) {
+    if (override.width !== this.widthTiles || override.height > this.depthTiles) {
       console.warn(
-        `[WorldModel] Skipping Tiled world override: expected ${this.widthTiles}x${this.depthTiles}, ` +
+        `[WorldModel] Skipping Tiled world override: expected width ${this.widthTiles} and height <= ${this.depthTiles}, ` +
         `got ${override.width}x${override.height}`
       );
       return;
     }
 
-    const runs = Array.isArray(override.runs) ? override.runs : [];
+    const applied = this.applyTiledRuns(override.runs);
+    this.applyTiledRootOverlays(override.rootOverlays);
+    console.log(
+      `[WorldModel] Applied Tiled world override: ${applied} tiles from ${override.source}`
+      + (override.height < this.depthTiles ? ` (authored upper ${override.height} rows)` : "")
+    );
+  }
+
+  applyTiledSurfaceAuthority(authority = TILED_WORLD_OVERRIDE.surfaceAuthority) {
+    const applied = this.applyTiledRuns(authority?.runs);
+    if (applied > 0) {
+      console.log(
+        `[WorldModel] Re-applied ${applied} authoritative Tiled surface cells ` +
+        `through row ${authority.throughRow}`
+      );
+    }
+  }
+
+  applyTiledRuns(sourceRuns) {
+    const runs = Array.isArray(sourceRuns) ? sourceRuns : [];
     let applied = 0;
     for (let i = 0; i < runs.length; i += 3) {
       const startIndex = runs[i];
@@ -387,9 +519,7 @@ export class WorldModel {
         applied += 1;
       }
     }
-
-    this.applyTiledRootOverlays(override.rootOverlays);
-    console.log(`[WorldModel] Applied Tiled world override: ${applied} tiles from ${override.source}`);
+    return applied;
   }
 
   applyTiledRootOverlays(rootOverlayData) {
@@ -411,7 +541,19 @@ export class WorldModel {
     if (result.applied) {
       console.log(
         `[WorldModel] Applied second world area: ${result.cells} marker cells, ` +
-        `${result.nodeTiles} node tiles, ${result.caveTiles} cave tiles`
+        `${result.nodeTiles} node tiles, ${result.caveTiles} cave tiles, ` +
+        `${result.teleportTiles} teleport tiles`
+      );
+    }
+    return result;
+  }
+
+  applySecondWorldTown() {
+    const result = applySecondWorldTownToModel(this);
+    if (result.applied) {
+      console.log(
+        `[WorldModel] Applied second world town: ${result.bedrockTiles} bedrock tiles, `
+        + `${result.floorTiles} floor tiles`
       );
     }
     return result;

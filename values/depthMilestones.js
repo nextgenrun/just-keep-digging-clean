@@ -34,28 +34,6 @@ export function getMilestoneAtDepth(depth) {
 }
 
 /**
- * Get all milestones up to a given depth (inclusive)
- */
-export function getMilestonesUpToDepth(depth) {
-  return DEPTH_MILESTONES.filter(m => m.depth <= depth);
-}
-
-/**
- * Get the next milestone not yet reached
- */
-export function getNextMilestone(currentDepth) {
-  return DEPTH_MILESTONES.find(m => m.depth > currentDepth) || null;
-}
-
-/**
- * Get the last reached milestone depth (0 if none)
- */
-export function getLastReachedMilestoneDepth(reachedDepths) {
-  if (!reachedDepths || reachedDepths.length === 0) return 0;
-  return Math.max(...reachedDepths);
-}
-
-/**
  * Calculate total stat bonuses from all reached milestones
  */
 export function computeMilestoneBonuses(reachedDepths) {

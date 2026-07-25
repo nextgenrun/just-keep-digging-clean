@@ -1,0 +1,24 @@
+{
+  "version": "superman-flight-push-layer-review-v1-20260718",
+  "productionChanged": false,
+  "action": {
+    "id": "superman-flight",
+    "name": "DG_SUPERMAN_FLIGHT_PUSH_LAYER_V1",
+    "source": "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-push-loop.fbx",
+    "leadSide": "right"
+  },
+  "flightHitbox": {
+    "id": "superman-horizontal-review",
+    "visualHullWidthPx": 75,
+    "visualHullHeightPx": 31,
+    "physicsAabbWidthPx": 70,
+    "physicsAabbHeightPx": 34,
+    "anchor": "pelvis",
+    "policy": "review-only horizontal AABB; do not rotate the production tile collider without a swept-collision promotion"
+  },
+  "artifacts": {
+    "blend": "superman-flight-push-layer-v1.blend",
+    "runtimeManifest": "runtime/manifest.json",
+    "preview": "previews/superman-flight.gif"
+  }
+}

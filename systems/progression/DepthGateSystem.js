@@ -111,7 +111,7 @@ export class DepthGateSystem {
       justifyContent: "center",
       padding: "20px",
       background: "rgba(0, 0, 0, 0.74)",
-      fontFamily: "Consolas, monospace",
+      fontFamily: "Bahnschrift, Trebuchet MS, sans-serif",
     });
     const panel = document.createElement("div");
     panel.dataset.depthContent = "true";
@@ -121,8 +121,8 @@ export class DepthGateSystem {
       padding: "32px 36px 28px",
       color: UI_COLORS.title,
       textAlign: "center",
-      background: "linear-gradient(180deg, #111923 0%, #090d13 100%)",
-      border: "2px solid #c9a227",
+      background: "linear-gradient(180deg, #111a21 0%, #0b1015 100%)",
+      border: "2px solid #d6a84a",
       borderRadius: "8px",
       boxShadow: "0 18px 70px rgba(0,0,0,.78), inset 0 0 0 1px rgba(201,162,39,.2)",
       boxSizing: "border-box",
@@ -140,18 +140,18 @@ export class DepthGateSystem {
       height: "32px",
       color: UI_COLORS.muted,
       background: "#101720",
-      border: "1px solid #2a3a4a",
+      border: "1px solid #4a4033",
       borderRadius: "4px",
       font: "900 15px Consolas, monospace",
       cursor: "pointer",
     });
     close.addEventListener("pointerenter", () => {
       close.style.color = UI_COLORS.white;
-      close.style.borderColor = "#c9a227";
+      close.style.borderColor = "#d6a84a";
     });
     close.addEventListener("pointerleave", () => {
       close.style.color = UI_COLORS.muted;
-      close.style.borderColor = "#2a3a4a";
+      close.style.borderColor = "#4a4033";
     });
     close.addEventListener("click", () => this._decline());
 
@@ -242,8 +242,8 @@ export class DepthGateSystem {
       minWidth: "150px",
       padding: "11px 18px",
       color: primary ? "#0d1117" : UI_COLORS.white,
-      background: primary ? UI_COLORS.gold : "#131c26",
-      border: `2px solid ${primary ? UI_COLORS.gold : "#2a3a4a"}`,
+      background: primary ? UI_COLORS.gold : "#111a21",
+      border: `2px solid ${primary ? UI_COLORS.gold : "#4a4033"}`,
       borderRadius: "5px",
       font: "700 16px Consolas, monospace",
       cursor: "pointer",
@@ -322,10 +322,10 @@ export class DepthGateSystem {
       const selected = index === this.selectedIndex;
       element.style.background = primary
         ? (selected ? "#e1b83a" : UI_COLORS.gold)
-        : (selected ? "#1a2840" : "#131c26");
+        : (selected ? "#22313a" : "#111a21");
       element.style.borderColor = primary
         ? (selected ? "#f6df80" : UI_COLORS.gold)
-        : (selected ? "#c9a227" : "#2a3a4a");
+        : (selected ? "#d6a84a" : "#4a4033");
       element.style.boxShadow = selected
         ? "0 0 0 3px rgba(201,162,39,.24), 0 8px 22px rgba(0,0,0,.28)"
         : "none";
@@ -370,3 +370,4 @@ export class DepthGateSystem {
     Object.values(keys).forEach(key => key?.reset?.());
   }
 }
+

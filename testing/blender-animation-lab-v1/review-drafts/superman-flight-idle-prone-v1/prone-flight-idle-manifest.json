@@ -1,0 +1,14 @@
+{
+  "version": "superman-flight-idle-prone-review-v1-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "testing/blender-animation-lab-v1/review-drafts/superman-horizontal-idle-v1/superman-horizontal-idle-v1.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "DG_SUPERMAN_POSE_IDLE_V1",
+    "idleFrame": 1,
+    "root": "DG_HORIZONTAL_IDLE_ROOT"
+  },
+  "pose": "approved idle rotated prone; left fist extended horizontally forward",
+  "policy": "review-only visual preset; no game asset, collision, or runtime change"
+}

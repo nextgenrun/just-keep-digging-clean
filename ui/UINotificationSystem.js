@@ -1,10 +1,14 @@
 import { UI_COLORS } from "../values/uiColors.js";
+import { UI_FONTS } from "../values/uiLayout.js";
+import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
+import { ASSET_KEYS } from "../values/assetKeys.js";
+import { hasApprovedHudSkin } from "../systems/visual/ApprovedHudSkin.js";
 
 const KIND_STYLES = Object.freeze({
-  info: { accent: 0x7ab8f5, color: UI_COLORS.white },
-  success: { accent: 0x4ecb71, color: UI_COLORS.white },
-  warning: { accent: 0xffaa33, color: UI_COLORS.white },
-  danger: { accent: 0xe07030, color: UI_COLORS.white },
+  info: { accent: UI_COLORS.borderHov, color: UI_COLORS.white },
+  success: { accent: UI_COLORS.borderGood, color: UI_COLORS.white },
+  warning: { accent: UI_COLORS.gold, color: UI_COLORS.white },
+  danger: { accent: UI_COLORS.borderBad, color: UI_COLORS.white },
 });
 
 const KIND_PRIORITY = Object.freeze({
@@ -26,7 +30,6 @@ function colorStringToNumber(value) {
   const parsed = Number.parseInt(value.slice(1), 16);
   return Number.isFinite(parsed) ? parsed : null;
 }
-
 function inferKind(color) {
   const lower = typeof color === "string" ? color.toLowerCase() : "";
   if (lower.includes("44ff") || lower.includes("2ecc") || lower.includes("4ecb")) return "success";
@@ -38,10 +41,16 @@ function inferKind(color) {
 export class UINotificationSystem {
   constructor(scene, options = {}) {
     this.scene = scene;
+    this.approved = hasApprovedHudSkin(scene);
+    const reference = APPROVED_HUD_SKIN.referenceViewport;
+    this.skinScale = Math.min(
+      (scene.scale?.width || reference.width) / reference.width,
+      (scene.scale?.height || reference.height) / reference.height,
+    );
     this.maxToasts = options.maxToasts ?? 4;
     this.depth = options.depth ?? 3600;
-    this.baseY = options.y ?? 58;
-    this.gap = options.gap ?? 10;
+    this.baseY = options.y ?? (this.approved ? APPROVED_HUD_SKIN.layout.notification.y * this.skinScale : 58);
+    this.gap = options.gap ?? (this.approved ? APPROVED_HUD_SKIN.layout.notification.gap * this.skinScale : 10);
     this.entries = [];
     this.keyed = new Map();
     this._allEntries = new Set();
@@ -112,6 +121,12 @@ export class UINotificationSystem {
     return this.show(message, { ...options, kind: "info" });
   }
 
+  setBaseY(value) {
+    if (!Number.isFinite(value) || this.destroyed || value === this.baseY) return;
+    this.baseY = value;
+    this._layout();
+  }
+
   clear() {
     [...this.entries].forEach(entry => this._expire(entry, true));
   }
@@ -127,20 +142,28 @@ export class UINotificationSystem {
 
   _createEntry(message, options) {
     const normalized = this._normalizeOptions(options);
-    const width = Math.min(520, Math.max(280, (this.scene.scale?.width || 1280) - 48));
+    const skinLayout = APPROVED_HUD_SKIN.layout.notification;
+    const width = this.approved
+      ? skinLayout.width * this.skinScale
+      : Math.min(520, Math.max(280, (this.scene.scale?.width || 1280) - 48));
     const root = this.scene.add.container(this._centerX(), this.baseY - 18)
       .setDepth(this.depth)
       .setScrollFactor(0)
       .setAlpha(0);
 
-    const bg = this.scene.add.graphics();
-    const text = this.scene.add.text(-width / 2 + 18, 0, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: options.fontSize || "14px",
+    const bg = this.approved
+      ? this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.notification).setOrigin(0.5)
+      : this.scene.add.graphics();
+    const textInset = this.approved ? skinLayout.iconInset * this.skinScale : 18;
+    const text = this.scene.add.text(-width / 2 + textInset, 0, "", {
+      fontFamily: this.approved ? APPROVED_HUD_SKIN.font.family : UI_FONTS.mono,
+      fontSize: options.fontSize || `${this.approved ? skinLayout.fontSize * this.skinScale : 14}px`,
       fontStyle: "bold",
       color: UI_COLORS.white,
+      stroke: this.approved ? APPROVED_HUD_SKIN.font.shadow : undefined,
+      strokeThickness: this.approved ? APPROVED_HUD_SKIN.font.strokeThickness : 0,
       lineSpacing: 2,
-      wordWrap: { width: width - 36, useAdvancedWrap: true },
+      wordWrap: { width: width - textInset - skinLayout.rightInset * this.skinScale, useAdvancedWrap: true },
     }).setOrigin(0, 0.5);
 
     root.add([bg, text]);
@@ -150,7 +173,7 @@ export class UINotificationSystem {
       bg,
       text,
       width,
-      height: 42,
+      height: this.approved ? skinLayout.minHeight * this.skinScale : 42,
       timer: null,
       targetY: this.baseY,
       expiring: false,
@@ -175,18 +198,25 @@ export class UINotificationSystem {
 
     entry.text.setText(String(message));
     entry.text.setColor(color);
-    entry.height = Math.max(42, entry.text.height + 22);
+    const minHeight = this.approved
+      ? APPROVED_HUD_SKIN.layout.notification.minHeight * this.skinScale
+      : 42;
+    entry.height = Math.max(minHeight, entry.text.height + APPROVED_HUD_SKIN.layout.notification.verticalPadding * this.skinScale);
     entry.kind = kind;
     entry.priority = Number.isFinite(options.priority) ? options.priority : KIND_PRIORITY[kind];
     entry.durationMs = Number.isFinite(durationMs) ? durationMs : KIND_DEFAULT_DURATIONS[kind];
 
-    entry.bg.clear();
-    entry.bg.fillStyle(UI_COLORS.bg, 0.94);
-    entry.bg.fillRoundedRect(-entry.width / 2, -entry.height / 2, entry.width, entry.height, 6);
-    entry.bg.lineStyle(1, UI_COLORS.borderDim, 0.95);
-    entry.bg.strokeRoundedRect(-entry.width / 2, -entry.height / 2, entry.width, entry.height, 6);
-    entry.bg.fillStyle(colorNumber, 0.95);
-    entry.bg.fillRoundedRect(-entry.width / 2, -entry.height / 2, 5, entry.height, 6);
+    if (this.approved) {
+      entry.bg.setDisplaySize(entry.width, entry.height);
+    } else {
+      entry.bg.clear();
+      entry.bg.fillStyle(UI_COLORS.bg, 0.94);
+      entry.bg.fillRoundedRect(-entry.width / 2, -entry.height / 2, entry.width, entry.height, 6);
+      entry.bg.lineStyle(1, UI_COLORS.borderDim, 0.95);
+      entry.bg.strokeRoundedRect(-entry.width / 2, -entry.height / 2, entry.width, entry.height, 6);
+      entry.bg.fillStyle(colorNumber, 0.95);
+      entry.bg.fillRoundedRect(-entry.width / 2, -entry.height / 2, 5, entry.height, 6);
+    }
 
     entry.root.setAlpha(1);
     entry.expiring = false;

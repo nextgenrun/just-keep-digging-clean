@@ -11,9 +11,15 @@ export class ClimbTrailSystem {
     this.player = player;
     this.config = config;
     this._active = false;
+    this._frameCounter = 0;
 
     this._onAnimUpdate = () => {
-      if (this._active) this._spawnGhost();
+      if (!this._active) return;
+      this._frameCounter += 1;
+      if (this._frameCounter >= Math.max(1, this.config.spawnEveryFrames || 1)) {
+        this._frameCounter = 0;
+        this._spawnGhost();
+      }
     };
 
     this.player.on(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
@@ -23,6 +29,7 @@ export class ClimbTrailSystem {
   start() {
     if (this._active) return; // Already active
     this._active = true;
+    this._frameCounter = 0;
     // Spawn an immediate ghost so the very first frame gets a trail
     this._spawnGhost();
   }
@@ -30,6 +37,7 @@ export class ClimbTrailSystem {
   /** Call when player exits climb/fly state */
   stop() {
     this._active = false;
+    this._frameCounter = 0;
   }
 
   _spawnGhost() {
@@ -38,6 +46,7 @@ export class ClimbTrailSystem {
     ghost.setOrigin(p.originX, p.originY);
     ghost.setDisplaySize(p.displayWidth, p.displayHeight);
     ghost.setFlipX(p.flipX);
+    ghost.setAngle(p.angle || 0);
     ghost.setDepth(this.config.depth);
     ghost.setAlpha(this.config.alpha);
     ghost.setTint(this.config.tint);

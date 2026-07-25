@@ -1,0 +1,58 @@
+{
+  "source": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\exports\\survival-walk-retargeted.fbx",
+  "objects": [
+    {
+      "name": "root",
+      "type": "ARMATURE",
+      "parent": null,
+      "materials": [],
+      "vertices": null,
+      "bones": 160
+    },
+    {
+      "name": "SK_SurvivalCharacter_Fab_v1",
+      "type": "MESH",
+      "parent": "root",
+      "materials": [
+        "WorldGridMaterial",
+        "WorldGridMaterial_1",
+        "WorldGridMaterial_2",
+        "WorldGridMaterial_3",
+        "WorldGridMaterial_4",
+        "WorldGridMaterial_5",
+        "WorldGridMaterial_6",
+        "WorldGridMaterial_7",
+        "WorldGridMaterial_8",
+        "WorldGridMaterial_9",
+        "WorldGridMaterial_10",
+        "WorldGridMaterial_11"
+      ],
+      "vertices": 83188,
+      "bones": null
+    }
+  ],
+  "actions": [
+    {
+      "name": "root|Unreal Take|Base Layer",
+      "frameRange": [
+        1.0,
+        47.0
+      ],
+      "slots": 1
+    }
+  ],
+  "materials": [
+    "WorldGridMaterial",
+    "WorldGridMaterial_1",
+    "WorldGridMaterial_10",
+    "WorldGridMaterial_11",
+    "WorldGridMaterial_2",
+    "WorldGridMaterial_3",
+    "WorldGridMaterial_4",
+    "WorldGridMaterial_5",
+    "WorldGridMaterial_6",
+    "WorldGridMaterial_7",
+    "WorldGridMaterial_8",
+    "WorldGridMaterial_9"
+  ]
+}

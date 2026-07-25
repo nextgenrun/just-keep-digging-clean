@@ -42,8 +42,10 @@ export class EarthquakeSystem {
     this.scene = scene;
     this.config = config;
     this.state = "idle";
+    this.epicenter = null;
     this.intensity = null;
     this.stateRemaining = 0;
+    this.stateTotalMs = 0;
     this.nextEventMs = 0;
     this.mutationTimer = 0;
     this.caveIns = [];
@@ -55,6 +57,7 @@ export class EarthquakeSystem {
 
     this._restoreQueue = [];
     this._rubbleTimer = 0;
+    this._trapGuidanceShown = false;
 
     // ===== NEW: Warning text state =====
     this._warningText = null; // floating "⚠ EARTHQUAKE!" text
@@ -100,8 +103,7 @@ export class EarthquakeSystem {
     }
 
     if (this.state === "idle") {
-      const depth = this._getDepth();
-      if (depth < this.config.minimumDepth) return;
+      if (this.chainPending || this.caveIns.length > 0 || this.fallingRocks.length > 0) return;
       this.nextEventMs -= dt;
       if (this.nextEventMs <= 0) this.start();
       return;
@@ -136,20 +138,29 @@ export class EarthquakeSystem {
 
   start(forcedIntensity = null) {
     if (this.state !== "idle") this.cancelActiveHazards();
-    const depth = this._getDepth();
+    this._trapGuidanceShown = false;
+    this.scene.earthquakeHazardOverlay?.clear?.();
+    this.epicenter = this._selectWorldEpicenter();
+    const depth = this.epicenter?.depth ?? this.config.minimumDepth;
     this.intensity = forcedIntensity && this.config.intensities[forcedIntensity]
       ? forcedIntensity
       : this._rollIntensity(depth);
     const cfg = this.config.intensities[this.intensity];
     this.state = "warning";
     this.stateRemaining = rand(...cfg.warningMs);
+    this.stateTotalMs = this.stateRemaining;
     this._playTone("rumble");
 
     // ===== NEW: Show warning text + red flash =====
     this._showWarningText();
     this._redFlash();
 
-    this._log("warning started", { intensity: this.intensity, depth, durationMs: Math.round(this.stateRemaining) });
+    this._log("warning started", {
+      intensity: this.intensity,
+      epicenter: this.epicenter,
+      depth,
+      durationMs: Math.round(this.stateRemaining),
+    });
   }
 
   setPaused(paused) {
@@ -159,8 +170,10 @@ export class EarthquakeSystem {
 
   cancelActiveHazards() {
     this.state = "idle";
+    this.epicenter = null;
     this.intensity = null;
     this.stateRemaining = 0;
+    this.stateTotalMs = 0;
     this.caveIns.length = 0;
     this.chainPending = false;
     this.chainTimer = 0;
@@ -185,6 +198,8 @@ export class EarthquakeSystem {
       camera.shakeEffect?.stop?.();
     }
     if (this.scene?.shakeSystem) this.scene.shakeSystem.stop();
+    this.scene.earthquakeFeedbackUI?.reset?.();
+    this.scene.earthquakeHazardOverlay?.clear?.();
     this._scheduleNext();
     this._log("active hazards cancelled");
   }
@@ -193,6 +208,12 @@ export class EarthquakeSystem {
     return {
       state: this.state,
       intensity: this.intensity,
+      epicenter: this.epicenter ? { ...this.epicenter } : null,
+      epicenterDepth: this.epicenter?.depth ?? null,
+      playerDistanceTiles: this._getPlayerDistanceToEpicenter(),
+      playerAware: this.isPlayerAware(),
+      stateRemaining: Math.round(this.stateRemaining),
+      stateTotalMs: Math.round(this.stateTotalMs),
       depth: this._getDepth(),
       nextEventMs: Math.round(this.nextEventMs),
       caveIns: this.caveIns.length,
@@ -225,6 +246,7 @@ export class EarthquakeSystem {
     const cfg = this.config.intensities[this.intensity];
     this.state = "earthquake";
     this.stateRemaining = rand(...cfg.quakeMs);
+    this.stateTotalMs = this.stateRemaining;
     this.mutationTimer = 0;
 
     // ===== NEW: Save original tile types for cave-in recovery =====
@@ -258,6 +280,7 @@ export class EarthquakeSystem {
     const cfg = this.config.intensities[this.intensity];
     this.state = "aftermath";
     this.stateRemaining = rand(5000, 9000);
+    this.stateTotalMs = this.stateRemaining;
 
     const restoreDelay = this.config?.rubbleRestoreDelayMs || 3000;
     this._scheduleDugTunnelRubble(restoreDelay);
@@ -292,6 +315,7 @@ export class EarthquakeSystem {
     this.state = "idle";
     this.intensity = null;
     this.stateRemaining = 0;
+    this.stateTotalMs = 0;
     this.fx.clear();
     this._scheduleNext();
     this._log("event complete", { nextEventMs: Math.round(this.nextEventMs) });
@@ -299,7 +323,7 @@ export class EarthquakeSystem {
 
   _scheduleDugTunnelRubble(delayMs) {
     const baseCount = this.config.rubbleRespawnCounts?.[this.intensity] ?? 0;
-    const depth = this._getDepth();
+    const depth = this._getEpicenterDepth();
     const scale = this._getRubbleDepthScale(depth);
     const multiplier = Number.isFinite(scale.multiplier) ? scale.multiplier : 1;
     const count = Math.ceil(baseCount * multiplier);
@@ -335,7 +359,7 @@ export class EarthquakeSystem {
     });
   }
 
-  _getRubbleDepthScale(depth = this._getDepth()) {
+  _getRubbleDepthScale(depth = this._getEpicenterDepth()) {
     const bands = Array.isArray(this.config.rubbleDepthScaling)
       ? this.config.rubbleDepthScaling
       : [];
@@ -371,6 +395,7 @@ export class EarthquakeSystem {
   _updateRubbleRestoration(dt) {
     const now = performance.now();
     let restoredAny = false;
+    let restoredNearPlayer = false;
     let restoredThisFrame = 0;
     const restoresPerFrame = Math.max(1, Math.floor(this.config.rubbleRestoresPerFrame ?? 24));
     for (let i = this._restoreQueue.length - 1; i >= 0; i--) {
@@ -385,15 +410,54 @@ export class EarthquakeSystem {
 
         this.scene.worldRenderer.applyTileUpdate(entry.tx, entry.ty);
         this._emitDust(entry.tx, entry.ty, entry.source === "dug" ? 4 : 5);
+        this.scene.earthquakeHazardOverlay?.markRestoredRubble?.(entry.tx, entry.ty);
         restoredAny = true;
+        restoredNearPlayer ||= this._isTileNearPlayer(
+          entry.tx,
+          entry.ty,
+          this.config.playerFeedback?.trapGuidanceRadiusTiles
+        );
         restoredThisFrame += 1;
         if (restoredThisFrame >= restoresPerFrame) break;
       }
     }
 
     if (restoredAny) {
+      if (restoredNearPlayer) this._showTrapGuidance();
       this.scene.queueDugTilesSave?.();
     }
+  }
+
+  _showTrapGuidance() {
+    if (this._trapGuidanceShown) return;
+
+    const guidance = this.config.trapGuidance;
+    if (!guidance?.message) return;
+    this._trapGuidanceShown = true;
+    this.scene.earthquakeFeedbackUI?.activateEscapeObjective?.();
+
+    if (this.scene.uiNotifications?.warning) {
+      this.scene.uiNotifications.warning(guidance.message, {
+        key: guidance.key,
+        durationMs: guidance.durationMs,
+        color: guidance.color,
+        fontSize: `${guidance.fontSizePx}px`,
+      });
+      return;
+    }
+
+    const player = this.scene.playerController?.getPlayerTile();
+    if (!player || !this.scene.floatingTextSystem) return;
+
+    const ts = this.scene.config.tileSize;
+    this.scene.floatingTextSystem.showFloatingText(
+      player.tx * ts + ts / 2,
+      (player.ty - 2) * ts + ts / 2,
+      guidance.message,
+      guidance.color,
+      guidance.durationMs,
+      guidance.fontSizePx
+    );
   }
 
   // ── Warning / Flash / Text helpers ──────────────────────────────
@@ -405,16 +469,20 @@ export class EarthquakeSystem {
    * @private
    */
   _redFlash() {
+    const proximity = this._getPlayerProximity(this.config.playerFeedback?.flashRadiusTiles);
+    if (proximity <= 0) return;
+    const alpha = 0.06 * proximity;
+
     // Use ScreenFlashSystem if available (clean, reparentable)
     if (this.scene.screenFlashSystem) {
-      this.scene.screenFlashSystem._flash(0xff0000, 0.06, 120);
+      this.scene.screenFlashSystem._flash(0xff0000, alpha, 120);
       return;
     }
 
     // Fallback: direct red flash rectangle
     try {
       const { width, height } = this.scene.scale;
-      const flash = this.scene.add.rectangle(0, 0, width, height, 0xff0000, 0.06)
+      const flash = this.scene.add.rectangle(0, 0, width, height, 0xff0000, alpha)
         .setOrigin(0, 0)
         .setScrollFactor(0)
         .setDepth(1001);
@@ -437,17 +505,15 @@ export class EarthquakeSystem {
    * @private
    */
   _showWarningText() {
-    if (!this.scene.playerController) return;
-
     // Only show one warning text at a time
     if (this._warningText) return;
 
-    const player = this.scene.playerController?.getPlayerTile();
-    if (!player) return;
+    const epicenter = this.epicenter;
+    if (!epicenter) return;
 
     const ts = this.scene.config.tileSize;
-    const worldX = player.tx * ts + ts / 2;
-    const worldY = (player.ty - 2) * ts + ts / 2;
+    const worldX = epicenter.tx * ts + ts / 2;
+    const worldY = (epicenter.ty - 2) * ts + ts / 2;
 
     // Use FloatingTextSystem if available (manages its own life cycle)
     if (this.scene.floatingTextSystem) {
@@ -516,17 +582,18 @@ export class EarthquakeSystem {
   // ── Original cave-in logic (modified for rubble tracking) ──────
 
   _mutateNearbyTiles() {
-    const player = this.scene.playerController?.getPlayerTile();
-    if (!player) return;
+    const epicenter = this.epicenter;
+    if (!epicenter) return;
     const cfg = this.config.intensities[this.intensity];
     const candidates = [];
     const radius = this.config.radiusTiles;
-    for (let i = 0; i < 48; i += 1) {
-      const tx = player.tx + randInt(-radius, radius);
-      const ty = player.ty + randInt(-radius, radius);
+    const attempts = this.config.worldSpawn?.mutationSampleAttempts ?? 48;
+    for (let i = 0; i < attempts; i += 1) {
+      const tx = epicenter.tx + randInt(-radius, radius);
+      const ty = epicenter.ty + randInt(-radius, radius);
       const type = this.scene.worldModel.getTileType(tx, ty);
       if (!MUTABLE_TYPES.has(type)) continue;
-      const distance = Math.abs(tx - player.tx) + Math.abs(ty - player.ty);
+      const distance = Math.abs(tx - epicenter.tx) + Math.abs(ty - epicenter.ty);
       const exposed = this._hasAdjacentAir(tx, ty);
       const unstable = this._isUnstable(tx, ty);
       candidates.push({ tx, ty, type, score: (exposed ? 4 : 0) + (unstable ? 5 : 0) - distance * 0.05 });
@@ -540,16 +607,18 @@ export class EarthquakeSystem {
       this.scene.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
       if (result.destroyed) {
         this._emitDust(tile.tx, tile.ty, 7);
-        const reward = this.scene.digSystem?.processDestroyedTile(tile.tx, tile.ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
-        this.scene.showLootPickupFeedback?.(reward, { tx: tile.tx, ty: tile.ty });
+        if (this._isTileNearPlayer(tile.tx, tile.ty, this.config.playerFeedback?.rewardRadiusTiles)) {
+          const reward = this.scene.digSystem?.processDestroyedTile(tile.tx, tile.ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+          this.scene.showLootPickupFeedback?.(reward, { tx: tile.tx, ty: tile.ty });
+        }
       }
       this._log("tile mutation", { ...tile, destroyed: result.destroyed, hp: result.hp });
     }
   }
 
   _findDugRubbleCandidates(limit, radiusOverride = null) {
-    const player = this.scene.playerController?.getPlayerTile();
-    if (!player) return [];
+    const epicenter = this.epicenter;
+    if (!epicenter) return [];
 
     const model = this.scene.worldModel;
     const radius = Number.isFinite(radiusOverride)
@@ -566,7 +635,7 @@ export class EarthquakeSystem {
       if (occupied.has(tileKey(tx, ty))) continue;
       if (model.getTileType(tx, ty) !== TILE_TYPES.AIR) continue;
 
-      const distance = Math.abs(tx - player.tx) + Math.abs(ty - player.ty);
+      const distance = Math.abs(tx - epicenter.tx) + Math.abs(ty - epicenter.ty);
       if (distance > radius) continue;
 
       const source = model.getDugTileSource(tx, ty);
@@ -574,7 +643,7 @@ export class EarthquakeSystem {
 
       candidates.push({
         ...source,
-        score: -distance + (ty >= player.ty ? 0.35 : 0) + Math.random() * 0.25,
+        score: -distance + (ty >= epicenter.ty ? 0.35 : 0) + Math.random() * 0.25,
       });
     }
 
@@ -584,19 +653,25 @@ export class EarthquakeSystem {
 
   _findCeilingCandidates(limit) {
     if (limit <= 0) return [];
-    const player = this.scene.playerController?.getPlayerTile();
-    if (!player) return [];
+    const epicenter = this.epicenter;
+    if (!epicenter) return [];
+    const spawn = this.config.worldSpawn || {};
+    const halfWidth = spawn.ceilingSearchHalfWidthTiles ?? 10;
+    const above = spawn.ceilingSearchAboveTiles ?? 7;
+    const below = spawn.ceilingSearchBelowTiles ?? 4;
+    const maxAirDrop = spawn.maxAirDropTiles ?? 8;
+    const spacing = spawn.caveInSpacingTiles ?? 3;
     const candidates = [];
-    for (let tx = player.tx - 10; tx <= player.tx + 10; tx += 1) {
-      for (let ty = player.ty - 7; ty <= player.ty + 4; ty += 1) {
+    for (let tx = epicenter.tx - halfWidth; tx <= epicenter.tx + halfWidth; tx += 1) {
+      for (let ty = epicenter.ty - above; ty <= epicenter.ty + below; ty += 1) {
         if (this.scene.worldModel.getTileType(tx, ty) !== TILE_TYPES.AIR) continue;
         const ceilingY = ty - 1;
         const type = this.scene.worldModel.getTileType(tx, ceilingY);
         if (!MUTABLE_TYPES.has(type)) continue;
         let airBelow = 0;
-        while (airBelow < 8 && this.scene.worldModel.getTileType(tx, ty + airBelow) === TILE_TYPES.AIR) airBelow += 1;
+        while (airBelow < maxAirDrop && this.scene.worldModel.getTileType(tx, ty + airBelow) === TILE_TYPES.AIR) airBelow += 1;
         if (airBelow < 2) continue;
-        const distance = Math.abs(tx - player.tx) + Math.abs(ceilingY - player.ty);
+        const distance = Math.abs(tx - epicenter.tx) + Math.abs(ceilingY - epicenter.ty);
         candidates.push({
           tx, ty: ceilingY,
           type,
@@ -609,7 +684,7 @@ export class EarthquakeSystem {
     candidates.sort((a, b) => b.score - a.score);
     const selected = [];
     for (const candidate of candidates) {
-      if (selected.some(other => Math.abs(other.tx - candidate.tx) < 3)) continue;
+      if (selected.some(other => Math.abs(other.tx - candidate.tx) < spacing)) continue;
       selected.push(candidate);
       if (selected.length >= limit) break;
     }
@@ -665,8 +740,10 @@ export class EarthquakeSystem {
       const result = this.scene.worldModel.damageTile(tx, ty, Math.max(1, hp));
       if (!result.destroyed) continue;
 
-      const reward = this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
-      this.scene.showLootPickupFeedback?.(reward, { tx, ty });
+      if (this._isTileNearPlayer(tx, ty, this.config.playerFeedback?.rewardRadiusTiles)) {
+        const reward = this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+        this.scene.showLootPickupFeedback?.(reward, { tx, ty });
+      }
       this._queueRubbleRestore({
         tx,
         ty,
@@ -680,7 +757,12 @@ export class EarthquakeSystem {
       // Emit falling rock visual
       this._spawnFallingRock(tx, ty, type);
     }
-    this.scene.shakeSystem?.shake("earthquake.caveIn");
+    const collapseProximity = this._getPlayerProximity(
+      this.config.playerFeedback?.collapseShakeRadiusTiles
+    );
+    if (collapseProximity > 0) {
+      this.scene.shakeSystem?.shake("earthquake.caveIn", collapseProximity);
+    }
     this._playTone("collapse");
 
     if (this.scene.floatingTextSystem) {
@@ -749,18 +831,24 @@ export class EarthquakeSystem {
 
   _warningFx(delta) {
     if (Math.random() < delta / 280) {
-      const player = this.scene.playerController.getPlayerTile();
-      this._emitDust(player.tx + randInt(-7, 7), player.ty - randInt(2, 6), 1);
+      const epicenter = this.epicenter;
+      if (epicenter) this._emitDust(epicenter.tx + randInt(-7, 7), epicenter.ty - randInt(2, 6), 1);
     }
-    if (this.scene.shakeSystem && !this.scene.shakeSystem._active) this.scene.shakeSystem.shake("earthquake.warning");
+    const proximity = this._getPlayerProximity(this.config.playerFeedback?.shakeRadiusTiles);
+    if (proximity > 0 && this.scene.shakeSystem && !this.scene.shakeSystem._active) {
+      this.scene.shakeSystem.shake("earthquake.warning", proximity);
+    }
   }
 
   _quakeFx(delta) {
-    const cfg = this.config.intensities[this.intensity];
-    if (this.scene.shakeSystem && !this.scene.shakeSystem._active) this.scene.shakeSystem.shake("earthquake." + this.intensity);
+    const shakeIntensity = this.intensity === "medium" ? "moderate" : this.intensity;
+    const proximity = this._getPlayerProximity(this.config.playerFeedback?.shakeRadiusTiles);
+    if (proximity > 0 && this.scene.shakeSystem && !this.scene.shakeSystem._active) {
+      this.scene.shakeSystem.shake("earthquake." + shakeIntensity, proximity);
+    }
     if (Math.random() < delta / 90) {
-      const player = this.scene.playerController.getPlayerTile();
-      this._emitDust(player.tx + randInt(-9, 9), player.ty - randInt(2, 8), 2);
+      const epicenter = this.epicenter;
+      if (epicenter) this._emitDust(epicenter.tx + randInt(-9, 9), epicenter.ty - randInt(2, 8), 2);
     }
   }
 
@@ -789,6 +877,99 @@ export class EarthquakeSystem {
         drawn += 1;
       }
     }
+  }
+
+  _selectWorldEpicenter() {
+    const model = this.scene.worldModel;
+    if (!model) return null;
+
+    const spawn = this.config.worldSpawn || {};
+    const margin = Math.max(0, Math.floor(spawn.horizontalMarginTiles ?? 0));
+    const bottomMargin = Math.max(1, Math.floor(spawn.bottomMarginTiles ?? 1));
+    const minTx = Math.min(margin, Math.max(0, model.widthTiles - 1));
+    const maxTx = Math.max(minTx, model.widthTiles - 1 - margin);
+    const minTy = Math.min(
+      model.depthTiles - bottomMargin,
+      Math.max(model.topAirRows, model.topAirRows + this.config.minimumDepth - 1)
+    );
+    const maxTy = Math.max(minTy, model.depthTiles - 1 - bottomMargin);
+    const attempts = Math.max(1, Math.floor(spawn.randomCandidateAttempts ?? 1));
+    let fallback = null;
+
+    for (let attempt = 0; attempt < attempts; attempt += 1) {
+      const origin = { tx: randInt(minTx, maxTx), ty: randInt(minTy, maxTy) };
+      fallback ||= origin;
+      const cavity = this._findCavityAnchorNear(origin);
+      if (cavity) return this._makeEpicenter(cavity.tx, cavity.ty);
+    }
+
+    return fallback ? this._makeEpicenter(fallback.tx, fallback.ty) : null;
+  }
+
+  _findCavityAnchorNear(origin) {
+    if (this._isCavityAnchor(origin.tx, origin.ty)) return origin;
+    const spawn = this.config.worldSpawn || {};
+    const radius = Math.max(0, Math.floor(spawn.cavitySearchRadiusTiles ?? 0));
+    const attempts = Math.max(0, Math.floor(spawn.cavitySearchAttempts ?? 0));
+    for (let attempt = 0; attempt < attempts; attempt += 1) {
+      const tx = origin.tx + randInt(-radius, radius);
+      const ty = origin.ty + randInt(-radius, radius);
+      if (this._isCavityAnchor(tx, ty)) return { tx, ty };
+    }
+    return null;
+  }
+
+  _isCavityAnchor(tx, ty) {
+    const model = this.scene.worldModel;
+    if (!model?.inBounds(tx, ty + 1)) return false;
+    return model.getTileType(tx, ty) === TILE_TYPES.AIR
+      && model.getTileType(tx, ty + 1) === TILE_TYPES.AIR
+      && MUTABLE_TYPES.has(model.getTileType(tx, ty - 1));
+  }
+
+  _makeEpicenter(tx, ty) {
+    return {
+      tx,
+      ty,
+      depth: Math.max(0, ty - this.scene.config.topAirRows + 1),
+    };
+  }
+
+  isPlayerAware() {
+    const active = this.state !== "idle"
+      || this.chainPending
+      || (this.caveIns?.length ?? 0) > 0
+      || (this.fallingRocks?.length ?? 0) > 0;
+    if (!active) return false;
+    return this._getPlayerProximity(this.config.playerFeedback?.awarenessRadiusTiles) > 0;
+  }
+
+  isTilePlayerAware(tx, ty) {
+    return this._isTileNearPlayer(tx, ty, this.config.playerFeedback?.awarenessRadiusTiles);
+  }
+
+  _getPlayerDistanceToEpicenter() {
+    if (!this.epicenter) return null;
+    return this._getTileDistanceToPlayer(this.epicenter.tx, this.epicenter.ty);
+  }
+
+  _getPlayerProximity(radiusTiles) {
+    if (!Number.isFinite(radiusTiles) || radiusTiles <= 0) return 0;
+    const distance = this._getPlayerDistanceToEpicenter();
+    if (!Number.isFinite(distance)) return 0;
+    return Math.max(0, Math.min(1, 1 - distance / radiusTiles));
+  }
+
+  _isTileNearPlayer(tx, ty, radiusTiles) {
+    if (!Number.isFinite(radiusTiles) || radiusTiles < 0) return false;
+    const distance = this._getTileDistanceToPlayer(tx, ty);
+    return Number.isFinite(distance) && distance <= radiusTiles;
+  }
+
+  _getTileDistanceToPlayer(tx, ty) {
+    const player = this.scene.playerController?.getPlayerTile?.();
+    if (!player) return null;
+    return Math.hypot(tx - player.tx, ty - player.ty);
   }
 
   _getPlayerOccupiedTileKeys() {
@@ -843,14 +1024,18 @@ export class EarthquakeSystem {
     return tile ? Math.max(0, tile.ty - this.scene.config.topAirRows + 1) : 0;
   }
 
+  _getEpicenterDepth() {
+    return this.epicenter?.depth ?? this.config.minimumDepth;
+  }
+
   _getBand(depth) {
     return this.config.depthBands.find(band => depth >= band.min && depth <= band.max) ?? this.config.depthBands[0];
   }
 
   _scheduleNext() {
-    const band = this._getBand(this._getDepth());
     const multiplier = this._debugEnabled() ? this.config.debugFrequencyMultiplier : 1;
-    this.nextEventMs = rand(...this.config.baseIntervalMs) * band.cooldown / multiplier;
+    const cooldown = this.config.worldSpawn?.cooldownMultiplier ?? 1;
+    this.nextEventMs = rand(...this.config.baseIntervalMs) * cooldown / multiplier;
   }
 
   _rollIntensity(depth) {
@@ -896,6 +1081,8 @@ export class EarthquakeSystem {
   _playTone(kind) {
     const soundSystem = this.scene.soundSystem;
     if (!soundSystem?.sfxEnabled) return;
+    const proximity = this._getPlayerProximity(this.config.playerFeedback?.audioRadiusTiles);
+    if (proximity <= 0) return;
     const context = this.scene.sound?.context;
     if (!context || context.state === "suspended" || typeof context.createOscillator !== "function") return;
     const settings = {
@@ -911,7 +1098,7 @@ export class EarthquakeSystem {
     oscillator.type = kind === "crack" ? "square" : "sawtooth";
     oscillator.frequency.setValueAtTime(frequency, context.currentTime);
     oscillator.frequency.exponentialRampToValueAtTime(Math.max(20, frequency * 0.55), context.currentTime + duration);
-    gain.gain.setValueAtTime(volume * (soundSystem.masterVolume ?? 1), context.currentTime);
+    gain.gain.setValueAtTime(volume * proximity * (soundSystem.masterVolume ?? 1), context.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration);
     oscillator.connect(gain);
     gain.connect(context.destination);

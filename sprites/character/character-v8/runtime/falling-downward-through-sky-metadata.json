@@ -6,14 +6,29 @@
   "preview": "sprites/character/character-v8/previews/falling-downward-through-sky-runtime-contact.png",
   "slowmoPreview": "sprites/character/character-v8/previews/falling-downward-through-sky-slowmo.gif",
   "piskel": "sprites/character/character-v8/piskel/falling-downward-through-sky.piskel",
+  "motionProfile": "sprites/character/character-v8/reports/blender-motion-profiles/falling-downward-through-sky-motion-profile.json",
   "frameWidth": 341,
   "frameHeight": 341,
   "frameCount": 7,
   "columns": 7,
   "rows": 1,
   "fps": 12,
+  "orientation": null,
+  "sourcePreparation": null,
+  "culledSourceIndices": [],
+  "recommendedDisplaySizePx": 89,
+  "sourceFrames": [
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-000.png",
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-001.png",
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-002.png",
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-003.png",
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-004.png",
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-005.png",
+    "sprites/character/character-v8/frames/falling-downward-through-sky/frame-006.png"
+  ],
+  "sourceMattePixelsRemoved": 0,
   "borderHaloPixelsRemoved": 0,
-  "alphaPixelsChanged": 22978,
+  "alphaPixelsChanged": 75441,
   "targetedTransforms": {
     "solidifiedAlphaFrames": [
       0,
@@ -23,7 +38,94 @@
       4,
       5,
       6
-    ]
+    ],
+    "scaleFactor": 1.04,
+    "restoredHolePixels": {
+      "0": 594,
+      "1": 359,
+      "2": 514,
+      "3": 715,
+      "4": 603,
+      "5": 521,
+      "6": 376
+    }
+  },
+  "motionAudit": {
+    "transitions": [
+      {
+        "fromFrame": 0,
+        "toFrame": 1,
+        "fromSource": "frame-000.png",
+        "toSource": "frame-001.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.5,
+        "centerShiftY": -2.0,
+        "widthDelta": 7,
+        "heightDelta": 4,
+        "meanPixelDifference": 25.714
+      },
+      {
+        "fromFrame": 1,
+        "toFrame": 2,
+        "fromSource": "frame-001.png",
+        "toSource": "frame-002.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": 0.5,
+        "widthDelta": -9,
+        "heightDelta": -1,
+        "meanPixelDifference": 16.633
+      },
+      {
+        "fromFrame": 2,
+        "toFrame": 3,
+        "fromSource": "frame-002.png",
+        "toSource": "frame-003.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 1.0,
+        "centerShiftY": 4.5,
+        "widthDelta": -4,
+        "heightDelta": -9,
+        "meanPixelDifference": 14.041
+      },
+      {
+        "fromFrame": 3,
+        "toFrame": 4,
+        "fromSource": "frame-003.png",
+        "toSource": "frame-004.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": 9.5,
+        "widthDelta": -1,
+        "heightDelta": -19,
+        "meanPixelDifference": 20.317
+      },
+      {
+        "fromFrame": 4,
+        "toFrame": 5,
+        "fromSource": "frame-004.png",
+        "toSource": "frame-005.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 15.5,
+        "widthDelta": 12,
+        "heightDelta": -31,
+        "meanPixelDifference": 23.91
+      },
+      {
+        "fromFrame": 5,
+        "toFrame": 6,
+        "fromSource": "frame-005.png",
+        "toSource": "frame-006.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.5,
+        "centerShiftY": -2.0,
+        "widthDelta": 23,
+        "heightDelta": 4,
+        "meanPixelDifference": 16.734
+      }
+    ],
+    "sourceGapTransitions": []
   },
   "anchor": {
     "targetCenterX": 164,

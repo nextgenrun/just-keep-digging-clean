@@ -6,21 +6,541 @@
   "preview": "sprites/character/character-v8/previews/idle-runtime-contact.png",
   "slowmoPreview": "sprites/character/character-v8/previews/idle-slowmo.gif",
   "piskel": "sprites/character/character-v8/piskel/idle.piskel",
+  "motionProfile": "sprites/character/character-v8/reports/blender-motion-profiles/idle-motion-profile.json",
   "frameWidth": 341,
   "frameHeight": 341,
-  "frameCount": 35,
+  "frameCount": 34,
   "columns": 16,
   "rows": 3,
   "fps": 8,
-  "borderHaloPixelsRemoved": 14140,
-  "alphaPixelsChanged": 57309,
-  "targetedTransforms": {},
+  "orientation": null,
+  "sourcePreparation": null,
+  "culledSourceIndices": [
+    3
+  ],
+  "recommendedDisplaySizePx": 89,
+  "sourceFrames": [
+    "sprites/character/character-v8/frames/idle/frame-000.png",
+    "sprites/character/character-v8/frames/idle/frame-001.png",
+    "sprites/character/character-v8/frames/idle/frame-002.png",
+    "sprites/character/character-v8/frames/idle/frame-004.png",
+    "sprites/character/character-v8/frames/idle/frame-005.png",
+    "sprites/character/character-v8/frames/idle/frame-006.png",
+    "sprites/character/character-v8/frames/idle/frame-007.png",
+    "sprites/character/character-v8/frames/idle/frame-008.png",
+    "sprites/character/character-v8/frames/idle/frame-009.png",
+    "sprites/character/character-v8/frames/idle/frame-010.png",
+    "sprites/character/character-v8/frames/idle/frame-011.png",
+    "sprites/character/character-v8/frames/idle/frame-012.png",
+    "sprites/character/character-v8/frames/idle/frame-013.png",
+    "sprites/character/character-v8/frames/idle/frame-014.png",
+    "sprites/character/character-v8/frames/idle/frame-015.png",
+    "sprites/character/character-v8/frames/idle/frame-016.png",
+    "sprites/character/character-v8/frames/idle/frame-017.png",
+    "sprites/character/character-v8/frames/idle/frame-018.png",
+    "sprites/character/character-v8/frames/idle/frame-019.png",
+    "sprites/character/character-v8/frames/idle/frame-020.png",
+    "sprites/character/character-v8/frames/idle/frame-021.png",
+    "sprites/character/character-v8/frames/idle/frame-022.png",
+    "sprites/character/character-v8/frames/idle/frame-023.png",
+    "sprites/character/character-v8/frames/idle/frame-024.png",
+    "sprites/character/character-v8/frames/idle/frame-025.png",
+    "sprites/character/character-v8/frames/idle/frame-026.png",
+    "sprites/character/character-v8/frames/idle/frame-027.png",
+    "sprites/character/character-v8/frames/idle/frame-028.png",
+    "sprites/character/character-v8/frames/idle/frame-029.png",
+    "sprites/character/character-v8/frames/idle/frame-030.png",
+    "sprites/character/character-v8/frames/idle/frame-031.png",
+    "sprites/character/character-v8/frames/idle/frame-032.png",
+    "sprites/character/character-v8/frames/idle/frame-033.png",
+    "sprites/character/character-v8/frames/idle/frame-034.png"
+  ],
+  "sourceMattePixelsRemoved": 0,
+  "borderHaloPixelsRemoved": 13513,
+  "alphaPixelsChanged": 52602,
+  "targetedTransforms": {
+    "removedSourceFrames": [
+      3
+    ],
+    "polishedFeedbackFrames": {
+      "20": {
+        "lightFringePixelsRecolored": 0,
+        "restoredHolePixels": 93
+      },
+      "21": {
+        "lightFringePixelsRecolored": 14,
+        "restoredHolePixels": 1
+      },
+      "22": {
+        "lightFringePixelsRecolored": 10,
+        "restoredHolePixels": 1
+      },
+      "23": {
+        "lightFringePixelsRecolored": 8,
+        "restoredHolePixels": 0
+      },
+      "24": {
+        "lightFringePixelsRecolored": 15,
+        "restoredHolePixels": 0
+      },
+      "25": {
+        "lightFringePixelsRecolored": 15,
+        "restoredHolePixels": 0
+      },
+      "26": {
+        "lightFringePixelsRecolored": 15,
+        "restoredHolePixels": 0
+      },
+      "27": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      },
+      "28": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      },
+      "29": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      },
+      "30": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      },
+      "31": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      },
+      "32": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      },
+      "33": {
+        "lightFringePixelsRecolored": 16,
+        "restoredHolePixels": 1
+      }
+    }
+  },
+  "motionAudit": {
+    "transitions": [
+      {
+        "fromFrame": 0,
+        "toFrame": 1,
+        "fromSource": "frame-000.png",
+        "toSource": "frame-001.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": 1.0,
+        "widthDelta": -1,
+        "heightDelta": -2,
+        "meanPixelDifference": 6.163
+      },
+      {
+        "fromFrame": 1,
+        "toFrame": 2,
+        "fromSource": "frame-001.png",
+        "toSource": "frame-002.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 4.609
+      },
+      {
+        "fromFrame": 2,
+        "toFrame": 3,
+        "fromSource": "frame-002.png",
+        "toSource": "frame-004.png",
+        "sourceFrameGap": 2,
+        "centerShiftX": 0.5,
+        "centerShiftY": -1.0,
+        "widthDelta": 3,
+        "heightDelta": 2,
+        "meanPixelDifference": 7.767
+      },
+      {
+        "fromFrame": 3,
+        "toFrame": 4,
+        "fromSource": "frame-004.png",
+        "toSource": "frame-005.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": -2,
+        "heightDelta": 0,
+        "meanPixelDifference": 2.918
+      },
+      {
+        "fromFrame": 4,
+        "toFrame": 5,
+        "fromSource": "frame-005.png",
+        "toSource": "frame-006.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.5,
+        "centerShiftY": 0.0,
+        "widthDelta": -1,
+        "heightDelta": 0,
+        "meanPixelDifference": 4.45
+      },
+      {
+        "fromFrame": 5,
+        "toFrame": 6,
+        "fromSource": "frame-006.png",
+        "toSource": "frame-007.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": 0.0,
+        "widthDelta": 1,
+        "heightDelta": 0,
+        "meanPixelDifference": 2.705
+      },
+      {
+        "fromFrame": 6,
+        "toFrame": 7,
+        "fromSource": "frame-007.png",
+        "toSource": "frame-008.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 4,
+        "heightDelta": 0,
+        "meanPixelDifference": 5.803
+      },
+      {
+        "fromFrame": 7,
+        "toFrame": 8,
+        "fromSource": "frame-008.png",
+        "toSource": "frame-009.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.5,
+        "widthDelta": 2,
+        "heightDelta": -1,
+        "meanPixelDifference": 5.077
+      },
+      {
+        "fromFrame": 8,
+        "toFrame": 9,
+        "fromSource": "frame-009.png",
+        "toSource": "frame-010.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.5,
+        "centerShiftY": 0.0,
+        "widthDelta": 1,
+        "heightDelta": 0,
+        "meanPixelDifference": 3.121
+      },
+      {
+        "fromFrame": 9,
+        "toFrame": 10,
+        "fromSource": "frame-010.png",
+        "toSource": "frame-011.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -1.0,
+        "centerShiftY": 0.5,
+        "widthDelta": 0,
+        "heightDelta": -1,
+        "meanPixelDifference": 7.419
+      },
+      {
+        "fromFrame": 10,
+        "toFrame": 11,
+        "fromSource": "frame-011.png",
+        "toSource": "frame-012.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 1.0,
+        "centerShiftY": 0.0,
+        "widthDelta": -2,
+        "heightDelta": 0,
+        "meanPixelDifference": 6.51
+      },
+      {
+        "fromFrame": 11,
+        "toFrame": 12,
+        "fromSource": "frame-012.png",
+        "toSource": "frame-013.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -1.0,
+        "centerShiftY": 0.5,
+        "widthDelta": -2,
+        "heightDelta": -1,
+        "meanPixelDifference": 2.254
+      },
+      {
+        "fromFrame": 12,
+        "toFrame": 13,
+        "fromSource": "frame-013.png",
+        "toSource": "frame-014.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 1.0,
+        "centerShiftY": -0.5,
+        "widthDelta": -2,
+        "heightDelta": 1,
+        "meanPixelDifference": 7.37
+      },
+      {
+        "fromFrame": 13,
+        "toFrame": 14,
+        "fromSource": "frame-014.png",
+        "toSource": "frame-015.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": 0.0,
+        "widthDelta": -3,
+        "heightDelta": 0,
+        "meanPixelDifference": 3.482
+      },
+      {
+        "fromFrame": 14,
+        "toFrame": 15,
+        "fromSource": "frame-015.png",
+        "toSource": "frame-016.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": -0.5,
+        "widthDelta": 1,
+        "heightDelta": 1,
+        "meanPixelDifference": 2.272
+      },
+      {
+        "fromFrame": 15,
+        "toFrame": 16,
+        "fromSource": "frame-016.png",
+        "toSource": "frame-017.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 1.685
+      },
+      {
+        "fromFrame": 16,
+        "toFrame": 17,
+        "fromSource": "frame-017.png",
+        "toSource": "frame-018.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": -0.5,
+        "widthDelta": 0,
+        "heightDelta": 1,
+        "meanPixelDifference": 2.216
+      },
+      {
+        "fromFrame": 17,
+        "toFrame": 18,
+        "fromSource": "frame-018.png",
+        "toSource": "frame-019.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 1.904
+      },
+      {
+        "fromFrame": 18,
+        "toFrame": 19,
+        "fromSource": "frame-019.png",
+        "toSource": "frame-020.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 2,
+        "heightDelta": 0,
+        "meanPixelDifference": 2.296
+      },
+      {
+        "fromFrame": 19,
+        "toFrame": 20,
+        "fromSource": "frame-020.png",
+        "toSource": "frame-021.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 1.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 2,
+        "heightDelta": 0,
+        "meanPixelDifference": 6.268
+      },
+      {
+        "fromFrame": 20,
+        "toFrame": 21,
+        "fromSource": "frame-021.png",
+        "toSource": "frame-022.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": -0.5,
+        "widthDelta": 3,
+        "heightDelta": 1,
+        "meanPixelDifference": 8.108
+      },
+      {
+        "fromFrame": 21,
+        "toFrame": 22,
+        "fromSource": "frame-022.png",
+        "toSource": "frame-023.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.5,
+        "centerShiftY": 0.0,
+        "widthDelta": 1,
+        "heightDelta": 0,
+        "meanPixelDifference": 1.275
+      },
+      {
+        "fromFrame": 22,
+        "toFrame": 23,
+        "fromSource": "frame-023.png",
+        "toSource": "frame-024.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -1.0,
+        "centerShiftY": 0.5,
+        "widthDelta": -2,
+        "heightDelta": -1,
+        "meanPixelDifference": 7.427
+      },
+      {
+        "fromFrame": 23,
+        "toFrame": 24,
+        "fromSource": "frame-024.png",
+        "toSource": "frame-025.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.5,
+        "centerShiftY": 0.0,
+        "widthDelta": -1,
+        "heightDelta": 0,
+        "meanPixelDifference": 6.879
+      },
+      {
+        "fromFrame": 24,
+        "toFrame": 25,
+        "fromSource": "frame-025.png",
+        "toSource": "frame-026.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.087
+      },
+      {
+        "fromFrame": 25,
+        "toFrame": 26,
+        "fromSource": "frame-026.png",
+        "toSource": "frame-027.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.087
+      },
+      {
+        "fromFrame": 26,
+        "toFrame": 27,
+        "fromSource": "frame-027.png",
+        "toSource": "frame-028.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": -0.5,
+        "widthDelta": -2,
+        "heightDelta": 1,
+        "meanPixelDifference": 7.98
+      },
+      {
+        "fromFrame": 27,
+        "toFrame": 28,
+        "fromSource": "frame-028.png",
+        "toSource": "frame-029.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.091
+      },
+      {
+        "fromFrame": 28,
+        "toFrame": 29,
+        "fromSource": "frame-029.png",
+        "toSource": "frame-030.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.089
+      },
+      {
+        "fromFrame": 29,
+        "toFrame": 30,
+        "fromSource": "frame-030.png",
+        "toSource": "frame-031.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.089
+      },
+      {
+        "fromFrame": 30,
+        "toFrame": 31,
+        "fromSource": "frame-031.png",
+        "toSource": "frame-032.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.086
+      },
+      {
+        "fromFrame": 31,
+        "toFrame": 32,
+        "fromSource": "frame-032.png",
+        "toSource": "frame-033.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.084
+      },
+      {
+        "fromFrame": 32,
+        "toFrame": 33,
+        "fromSource": "frame-033.png",
+        "toSource": "frame-034.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 0.0,
+        "widthDelta": 0,
+        "heightDelta": 0,
+        "meanPixelDifference": 0.088
+      }
+    ],
+    "sourceGapTransitions": [
+      {
+        "fromFrame": 2,
+        "toFrame": 3,
+        "fromSource": "frame-002.png",
+        "toSource": "frame-004.png",
+        "sourceFrameGap": 2,
+        "centerShiftX": 0.5,
+        "centerShiftY": -1.0,
+        "widthDelta": 3,
+        "heightDelta": 2,
+        "meanPixelDifference": 7.767
+      }
+    ]
+  },
   "anchor": {
     "targetCenterX": 168,
     "targetBottom": 339,
     "maxShiftX": 4,
     "maxShiftY": 0,
-    "avgShiftX": 0.97,
+    "avgShiftX": 0.94,
     "avgShiftY": 0.0
   },
   "driftBefore": {

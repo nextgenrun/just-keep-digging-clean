@@ -1,0 +1,74 @@
+[
+  {
+    "index": 0,
+    "slotName": "Jacket1",
+    "importedSlotName": "Jacket1",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 1,
+    "slotName": "Brows_Leashes",
+    "importedSlotName": "Brows_Leashes",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 2,
+    "slotName": "Hair3",
+    "importedSlotName": "Hair3",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 3,
+    "slotName": "Backpack2",
+    "importedSlotName": "Backpack2",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 4,
+    "slotName": "Gloves1",
+    "importedSlotName": "Gloves1",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 5,
+    "slotName": "Mouth",
+    "importedSlotName": "Mouth",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 6,
+    "slotName": "Head",
+    "importedSlotName": "Head",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 7,
+    "slotName": "Body2",
+    "importedSlotName": "Body2",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 8,
+    "slotName": "Arms",
+    "importedSlotName": "Arms",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 9,
+    "slotName": "Eye",
+    "importedSlotName": "Eye",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 10,
+    "slotName": "Jeans1",
+    "importedSlotName": "Jeans1",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  },
+  {
+    "index": 11,
+    "slotName": "Shoes1",
+    "importedSlotName": "Shoes1",
+    "material": "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001DE8C777000) Class 'Material'>"
+  }
+]

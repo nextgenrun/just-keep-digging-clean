@@ -1,0 +1,227 @@
+{
+  "engine": "5.8.0-55116800+++UE5+Release-5.8",
+  "source_walk": "/Game/Characters/Mannequins/Anims/Unarmed/Walk/MF_Unarmed_Walk_Fwd.MF_Unarmed_Walk_Fwd",
+  "source_walk_seconds": 1.5,
+  "source_mesh": "/Game/Characters/Mannequins/Meshes/SKM_Quinn_Simple.SKM_Quinn_Simple",
+  "target_mesh": "/Game/LegacyMinerWalk/Meshy/SK_LegacyMiner_Meshy_v2.SK_LegacyMiner_Meshy_v2",
+  "target_bounds_extent_cm": [
+    52.463396072387695,
+    17.991086959838867,
+    90.00003054586068
+  ],
+  "source_ik_rig": "/Game/LegacyMinerWalk/Retarget/IK_Manny_Unarmed_Source2.IK_Manny_Unarmed_Source2",
+  "target_ik_rig": "/Game/LegacyMinerWalk/Retarget/IK_LegacyMiner_Meshy_v5.IK_LegacyMiner_Meshy_v5",
+  "source_auto_definition": true,
+  "target_auto_definition": true,
+  "source_chains": [
+    {
+      "name": "Spine",
+      "start": "<Struct 'BoneReference' (0x000001E985ADF60C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985ADF620) {}>"
+    },
+    {
+      "name": "Neck",
+      "start": "<Struct 'BoneReference' (0x000001E985C186CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C186E0) {}>"
+    },
+    {
+      "name": "Head",
+      "start": "<Struct 'BoneReference' (0x000001E985C1A50C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C1A520) {}>"
+    },
+    {
+      "name": "LeftLeg",
+      "start": "<Struct 'BoneReference' (0x000001E985C188CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C188E0) {}>"
+    },
+    {
+      "name": "LeftFoot",
+      "start": "<Struct 'BoneReference' (0x000001E985C159CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C159E0) {}>"
+    },
+    {
+      "name": "LeftClavicle",
+      "start": "<Struct 'BoneReference' (0x000001E985C15F4C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15F60) {}>"
+    },
+    {
+      "name": "LeftArm",
+      "start": "<Struct 'BoneReference' (0x000001E985C145CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C145E0) {}>"
+    },
+    {
+      "name": "LeftThumb",
+      "start": "<Struct 'BoneReference' (0x000001E985C1594C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15960) {}>"
+    },
+    {
+      "name": "LeftIndex",
+      "start": "<Struct 'BoneReference' (0x000001E985C187CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C187E0) {}>"
+    },
+    {
+      "name": "LeftMiddle",
+      "start": "<Struct 'BoneReference' (0x000001E985C18DCC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C18DE0) {}>"
+    },
+    {
+      "name": "LeftRing",
+      "start": "<Struct 'BoneReference' (0x000001E985C15D8C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15DA0) {}>"
+    },
+    {
+      "name": "LeftPinky",
+      "start": "<Struct 'BoneReference' (0x000001E985C1580C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15820) {}>"
+    },
+    {
+      "name": "LeftIndexMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C10A4C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C10A60) {}>"
+    },
+    {
+      "name": "LeftMiddleMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C1A74C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C1A760) {}>"
+    },
+    {
+      "name": "LeftRingMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C18C8C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C18CA0) {}>"
+    },
+    {
+      "name": "LeftPinkyMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C1B88C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C1B8A0) {}>"
+    },
+    {
+      "name": "RightLeg",
+      "start": "<Struct 'BoneReference' (0x000001E985C18C8C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C18CA0) {}>"
+    },
+    {
+      "name": "RightFoot",
+      "start": "<Struct 'BoneReference' (0x000001E985C1A74C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C1A760) {}>"
+    },
+    {
+      "name": "RightClavicle",
+      "start": "<Struct 'BoneReference' (0x000001E985C10A4C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C10A60) {}>"
+    },
+    {
+      "name": "RightArm",
+      "start": "<Struct 'BoneReference' (0x000001E985C1580C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15820) {}>"
+    },
+    {
+      "name": "RightThumb",
+      "start": "<Struct 'BoneReference' (0x000001E985C15D8C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15DA0) {}>"
+    },
+    {
+      "name": "RightIndex",
+      "start": "<Struct 'BoneReference' (0x000001E985C18DCC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C18DE0) {}>"
+    },
+    {
+      "name": "RightMiddle",
+      "start": "<Struct 'BoneReference' (0x000001E985C187CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C187E0) {}>"
+    },
+    {
+      "name": "RightRing",
+      "start": "<Struct 'BoneReference' (0x000001E985C1594C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15960) {}>"
+    },
+    {
+      "name": "RightPinky",
+      "start": "<Struct 'BoneReference' (0x000001E985C145CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C145E0) {}>"
+    },
+    {
+      "name": "RightIndexMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C15F4C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15F60) {}>"
+    },
+    {
+      "name": "RightMiddleMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C159CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C159E0) {}>"
+    },
+    {
+      "name": "RightRingMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C188CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C188E0) {}>"
+    },
+    {
+      "name": "RightPinkyMetacarpal",
+      "start": "<Struct 'BoneReference' (0x000001E985C1A50C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C1A520) {}>"
+    }
+  ],
+  "target_chains": [
+    {
+      "name": "Spine",
+      "start": "<Struct 'BoneReference' (0x000001E985C186CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C186E0) {}>"
+    },
+    {
+      "name": "Neck",
+      "start": "<Struct 'BoneReference' (0x000001E985C1A50C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C1A520) {}>"
+    },
+    {
+      "name": "Head",
+      "start": "<Struct 'BoneReference' (0x000001E985C188CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C188E0) {}>"
+    },
+    {
+      "name": "LeftLeg",
+      "start": "<Struct 'BoneReference' (0x000001E985C159CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C159E0) {}>"
+    },
+    {
+      "name": "LeftFoot",
+      "start": "<Struct 'BoneReference' (0x000001E985C15F4C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15F60) {}>"
+    },
+    {
+      "name": "LeftClavicle",
+      "start": "<Struct 'BoneReference' (0x000001E985C145CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C145E0) {}>"
+    },
+    {
+      "name": "LeftArm",
+      "start": "<Struct 'BoneReference' (0x000001E985C1594C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15960) {}>"
+    },
+    {
+      "name": "RightLeg",
+      "start": "<Struct 'BoneReference' (0x000001E985C187CC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C187E0) {}>"
+    },
+    {
+      "name": "RightFoot",
+      "start": "<Struct 'BoneReference' (0x000001E985C18DCC) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C18DE0) {}>"
+    },
+    {
+      "name": "RightClavicle",
+      "start": "<Struct 'BoneReference' (0x000001E985C15D8C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15DA0) {}>"
+    },
+    {
+      "name": "RightArm",
+      "start": "<Struct 'BoneReference' (0x000001E985C1580C) {}>",
+      "end": "<Struct 'BoneReference' (0x000001E985C15820) {}>"
+    }
+  ],
+  "retargeter": "/Game/LegacyMinerWalk/Retarget/RTG_MannyUnarmedWalk_To_LegacyMiner_v2.RTG_MannyUnarmedWalk_To_LegacyMiner_v2",
+  "retarget_operation_count": 5,
+  "output_walk": "/Game/LegacyMinerWalk/Animations/LegacyMiner_Unreal_Unarmed_Walk.LegacyMiner_Unreal_Unarmed_Walk",
+  "output_walk_seconds": 1.5,
+  "animation_authored_in_blender": false,
+  "retargeted_in_unreal": true,
+  "scope": "walk-only"
+}

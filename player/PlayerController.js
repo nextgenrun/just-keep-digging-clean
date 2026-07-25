@@ -6,6 +6,10 @@ import { PlayerPhysicsBody } from './PlayerPhysicsBody.js';
 import { GAME_CONFIG } from '../values/gameConfig.js';
 import { PLAYER_STATS_CONFIG } from '../values/playerStats.js';
 import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
+import { PLAYER_MOTION_POLISH_CONFIG } from '../values/playerMotionPolish.js';
+import { PLAYER_KINEMATIC_MOTION_CONFIG } from '../values/playerKinematicMotion.js';
+import { PLAYER_COLLISION_CONFIG } from '../values/playerCollision.js';
+import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=20260718-mesh-grounded';
 
   export class PlayerController {
   constructor(scene, sprite, worldModel, config, upgradeSystem = null, inputHandler = null, playerLevelSystem = null, comboSystem = null, collisionSystem = null) {
@@ -38,6 +42,9 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     const bodyPos = this._bodyPositionForStandingTile(tx, ty);
     this.physicsBody.setPosition(bodyPos.x, bodyPos.y);
     this.physicsBody.resetVelocity();
+    this.collisionSystem?.resolveBodyOverlap?.(this.physicsBody);
+    this._syncSpriteWithPhysics();
+    this.scene?.playTeleportInAnimation?.();
   }
 
   _bodyPositionForStandingTile(tx, ty) {
@@ -98,7 +105,7 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
 
   update(delta = 16.67) {
     if (!this.physicsBody) return;
-    const dt = Math.min(delta / 1000, 0.05); // cap at 50ms to prevent lag-spike physics errors
+    const dt = Math.min(delta / 1000, PLAYER_COLLISION_CONFIG.maxDeltaSeconds);
     this.externalKnockbackMs = Math.max(0, (this.externalKnockbackMs || 0) - delta);
     
     // Update state (ground detection, coyote time, etc.)
@@ -108,14 +115,15 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     this.abilities.update(dt, this.input, this.state.isGrounded(), this.movement.isFacingRight());
     this.state.setClimbing(Boolean(this.abilities.isClimbing?.() || this.abilities.isFlying?.()));
     
-    // Update movement (pass collision system for tile-based collision resolution)
-    this.movement.update(dt, this.collisionSystem, this.state.isClimbing());
-    
-    // Apply horizontal movement
+    // Apply this frame's horizontal input before collision integration.
     if (this.externalKnockbackMs <= 0) {
       const horizMove = this.input.getHorizontalMovement();
       this.movement.applyHorizontalMovement(this._getWeatherAdjustedWalkSpeed(), horizMove.left, horizMove.right);
     }
+
+    // Integrate and resolve against authoritative tile collision.
+    this.movement.update(dt, this.collisionSystem, this.state.isClimbing());
+    this.state.refreshAfterPhysics(this.input, this.abilities, this.collisionSystem);
     
     // Update aim
     this.input.updateAim();
@@ -142,12 +150,32 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
    */
   _syncSpriteWithPhysics() {
     if (!this.physicsBody || !this.sprite) return;
+
+    // The physics body remains authoritative. Only the visible sheet anchor
+    // changes so mixed Blender/UAL sheets share the same ground contact.
+    const visualOrigin = resolvePlayerVisualOrigin(
+      this.scene?.playerAssetProfile,
+      this.sprite.anims?.currentAnim?.key,
+      this.sprite.texture?.key,
+      {
+        x: 0.5,
+        y: this.config.playerVisualOriginCenter ? 0.5 : 1,
+      },
+    );
+    if (this.sprite.originX !== visualOrigin.x || this.sprite.originY !== visualOrigin.y) {
+      this.sprite.setOrigin(visualOrigin.x, visualOrigin.y);
+    }
     
     // Physics body uses top-left coordinates. Most character sheets are bottom-center
     // anchored; one-tile vehicle bodies can opt into center anchoring.
     const motionState = this.getMotionState();
     const isAirborneVisual = motionState === 'airborne' || motionState === 'climb';
-    const groundedVisualYOffset = !isAirborneVisual && this.state.isGrounded() ? 6 : 0;
+    const fallbackGroundedOffset = this.scene?.playerAssetProfile?.isUalNative
+      ? PLAYER_KINEMATIC_MOTION_CONFIG.anchor.ualGroundedOffsetPx
+      : PLAYER_KINEMATIC_MOTION_CONFIG.anchor.legacyGroundedOffsetPx;
+    const groundedVisualYOffset = !isAirborneVisual && this.state.isGrounded()
+      ? (this.scene?.playerKinematicMotion?.getGroundedVisualYOffset?.() ?? fallbackGroundedOffset)
+      : 0;
     this.sprite.x = this.physicsBody.x + this.physicsBody.w / 2;
     if (this.config.playerVisualOriginCenter) {
       this.sprite.y = this.physicsBody.y + this.physicsBody.h / 2;
@@ -179,6 +207,10 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
 
   getAimVector() {
     return this.input.getAimVector();
+  }
+
+  getVerticalAim() {
+    return this.input.getVerticalAim();
   }
 
   getAimTargetTile() {
@@ -230,12 +262,17 @@ import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
     if (!this.physicsBody) return;
     this.physicsBody.vx = Number.isFinite(vx) ? vx : 0;
     this.physicsBody.vy = Number.isFinite(vy) ? vy : 0;
-    this.externalKnockbackMs = 300;
+    this.externalKnockbackMs = PLAYER_MOTION_POLISH_CONFIG.hitReaction.externalKnockbackLockMs;
     this.state?.setClimbing(false);
+    this.scene?.playPlayerImpactReaction?.();
   }
 
   isFacingRight() {
     return this.movement.isFacingRight();
+  }
+
+  setFacingRight(facingRight) {
+    this.movement.setFacingRight(facingRight);
   }
 
   getPlayerTile() {

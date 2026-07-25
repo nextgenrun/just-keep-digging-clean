@@ -1,0 +1,1578 @@
+{
+  "version": 1,
+  "pipeline": "survival-body-ual-motion-unreal-ik-v1",
+  "frame_size": 512,
+  "orthographic_scale": 3.0716,
+  "weapon_policy": "none",
+  "visual_skin": {
+    "version": 1,
+    "id": "approved-survival-character-fab-v1-on-ual",
+    "source_blend": "sprites/character/survival-character-fab-v1/source/survival_character.blend",
+    "approval_reference": "sprites/character/survival-miner-poc-v1/reference/approved-action-proof.png",
+    "motion_source": "Quaternius Universal Animation Library active clips",
+    "motion_authority": "Unreal Engine 5.8 IK Retargeter",
+    "retargeter": "/Game/SurvivalMotion/Retarget/RTG_UAL_To_SurvivalCharacter_v1",
+    "target_mesh": "/Game/SurvivalMotion/Character/SK_SurvivalCharacter_Fab_v1",
+    "deformation_authority": "Survival source skeleton and native weights",
+    "rejected_mesh_policy": "legacy-miner-meshy-not-used",
+    "weapon_policy": "none"
+  },
+  "actions": {
+    "pickaxe-mining": {
+      "version": 1,
+      "pipeline": "survival-body-ual-motion-unreal-ik-v1",
+      "action": "pickaxe-mining",
+      "source": "unreal-ual-to-survival",
+      "source_clip": "TreeChopping_Loop",
+      "source_clips": [
+        "TreeChopping_Loop"
+      ],
+      "frame_size": 512,
+      "fps": 30,
+      "loop": true,
+      "source_frame_range": [
+        1.0,
+        25.0
+      ],
+      "source_frame_ranges": [
+        {
+          "clip": "TreeChopping_Loop",
+          "action_frame_range": [
+            1.0,
+            25.0
+          ],
+          "sampled_frame_range": [
+            1.0,
+            23.400000000000002
+          ]
+        }
+      ],
+      "sampled_source_frames": [
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 1.0
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 1.8
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 2.6
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 3.4000000000000004
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 4.2
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 5.0
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 5.800000000000001
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 6.6000000000000005
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 7.4
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 8.2
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 9.0
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 9.8
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 10.600000000000001
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 11.4
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 12.200000000000001
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 13.0
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 13.8
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 14.600000000000001
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 15.4
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 16.200000000000003
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 17.0
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 17.8
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 18.6
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 19.400000000000002
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 20.200000000000003
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 21.0
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 21.8
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 22.6
+        },
+        {
+          "clip": "TreeChopping_Loop",
+          "frame": 23.400000000000002
+        }
+      ],
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png",
+        "frame-008.png",
+        "frame-009.png",
+        "frame-010.png",
+        "frame-011.png",
+        "frame-012.png",
+        "frame-013.png",
+        "frame-014.png",
+        "frame-015.png",
+        "frame-016.png",
+        "frame-017.png",
+        "frame-018.png",
+        "frame-019.png",
+        "frame-020.png",
+        "frame-021.png",
+        "frame-022.png",
+        "frame-023.png",
+        "frame-024.png",
+        "frame-025.png",
+        "frame-026.png",
+        "frame-027.png",
+        "frame-028.png"
+      ],
+      "recenter_horizontal": false,
+      "game_retarget": {
+        "authority": "Unreal Engine 5.8 IK Retargeter",
+        "retargeter": "RTG_UAL_To_SurvivalCharacter_v1",
+        "target_pose": "UAL_SourceAligned"
+      },
+      "motion_origin": "unreal-ik-retargeted-ual",
+      "visual_skin": {
+        "version": 1,
+        "id": "approved-survival-character-fab-v1-on-ual",
+        "source_blend": "sprites/character/survival-character-fab-v1/source/survival_character.blend",
+        "approval_reference": "sprites/character/survival-miner-poc-v1/reference/approved-action-proof.png",
+        "motion_source": "Quaternius Universal Animation Library active clips",
+        "motion_authority": "Unreal Engine 5.8 IK Retargeter",
+        "retargeter": "/Game/SurvivalMotion/Retarget/RTG_UAL_To_SurvivalCharacter_v1",
+        "target_mesh": "/Game/SurvivalMotion/Character/SK_SurvivalCharacter_Fab_v1",
+        "deformation_authority": "Survival source skeleton and native weights",
+        "rejected_mesh_policy": "legacy-miner-meshy-not-used",
+        "weapon_policy": "none"
+      },
+      "rig_markers": {
+        "version": 1,
+        "space": "render-frame-px",
+        "source": "projected-survival-bones",
+        "bone_points": {
+          "hand_l": [
+            "hand_l",
+            "tail"
+          ],
+          "hand_r": [
+            "hand_r",
+            "tail"
+          ],
+          "foot_l": [
+            "foot_l",
+            "tail"
+          ],
+          "foot_r": [
+            "foot_r",
+            "tail"
+          ],
+          "pelvis": [
+            "pelvis",
+            "head"
+          ],
+          "head": [
+            "head",
+            "tail"
+          ]
+        },
+        "marker_names": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "pelvis",
+          "head"
+        ],
+        "frames": {
+          "0": {
+            "hand_l": [
+              315.879,
+              255.6744
+            ],
+            "hand_r": [
+              184.8423,
+              154.1414
+            ],
+            "foot_l": [
+              252.5741,
+              409.5922
+            ],
+            "foot_r": [
+              219.2505,
+              407.2436
+            ],
+            "pelvis": [
+              237.632,
+              283.7642
+            ],
+            "head": [
+              220.1382,
+              170.4853
+            ]
+          },
+          "1": {
+            "hand_l": [
+              311.7562,
+              259.9358
+            ],
+            "hand_r": [
+              193.9017,
+              156.2227
+            ],
+            "foot_l": [
+              251.2927,
+              409.4403
+            ],
+            "foot_r": [
+              218.6474,
+              407.1702
+            ],
+            "pelvis": [
+              237.9553,
+              283.8176
+            ],
+            "head": [
+              224.8672,
+              169.9345
+            ]
+          },
+          "2": {
+            "hand_l": [
+              295.3746,
+              269.2044
+            ],
+            "hand_r": [
+              219.4108,
+              158.9151
+            ],
+            "foot_l": [
+              248.9457,
+              409.1522
+            ],
+            "foot_r": [
+              217.712,
+              407.0732
+            ],
+            "pelvis": [
+              238.5391,
+              283.9139
+            ],
+            "head": [
+              234.5379,
+              169.6026
+            ]
+          },
+          "3": {
+            "hand_l": [
+              262.1871,
+              279.6694
+            ],
+            "hand_r": [
+              271.6281,
+              166.0229
+            ],
+            "foot_l": [
+              246.969,
+              408.6415
+            ],
+            "foot_r": [
+              216.4482,
+              406.7535
+            ],
+            "pelvis": [
+              239.223,
+              284.0268
+            ],
+            "head": [
+              245.7367,
+              170.4623
+            ]
+          },
+          "4": {
+            "hand_l": [
+              222.3454,
+              285.1521
+            ],
+            "hand_r": [
+              326.1414,
+              192.2772
+            ],
+            "foot_l": [
+              245.8818,
+              407.9848
+            ],
+            "foot_r": [
+              215.0876,
+              406.1815
+            ],
+            "pelvis": [
+              239.8384,
+              284.1284
+            ],
+            "head": [
+              253.8692,
+              172.5379
+            ]
+          },
+          "5": {
+            "hand_l": [
+              193.8347,
+              283.7859
+            ],
+            "hand_r": [
+              323.8041,
+              235.8231
+            ],
+            "foot_l": [
+              245.2079,
+              407.3618
+            ],
+            "foot_r": [
+              214.3529,
+              405.6478
+            ],
+            "pelvis": [
+              240.2088,
+              284.1895
+            ],
+            "head": [
+              256.7631,
+              174.4062
+            ]
+          },
+          "6": {
+            "hand_l": [
+              185.6456,
+              280.9145
+            ],
+            "hand_r": [
+              323.3608,
+              235.9352
+            ],
+            "foot_l": [
+              245.1772,
+              407.0335
+            ],
+            "foot_r": [
+              214.4114,
+              405.3922
+            ],
+            "pelvis": [
+              240.1585,
+              284.1812
+            ],
+            "head": [
+              256.4534,
+              174.4468
+            ]
+          },
+          "7": {
+            "hand_l": [
+              183.0752,
+              280.3902
+            ],
+            "hand_r": [
+              323.0481,
+              235.9843
+            ],
+            "foot_l": [
+              245.1752,
+              406.8608
+            ],
+            "foot_r": [
+              214.4401,
+              405.2452
+            ],
+            "pelvis": [
+              240.0409,
+              284.1618
+            ],
+            "head": [
+              256.2414,
+              174.4574
+            ]
+          },
+          "8": {
+            "hand_l": [
+              185.1178,
+              282.5717
+            ],
+            "hand_r": [
+              322.8694,
+              235.9294
+            ],
+            "foot_l": [
+              245.1972,
+              406.7827
+            ],
+            "foot_r": [
+              214.4362,
+              405.1451
+            ],
+            "pelvis": [
+              239.89,
+              284.1369
+            ],
+            "head": [
+              256.0291,
+              174.4648
+            ]
+          },
+          "9": {
+            "hand_l": [
+              190.2259,
+              286.1769
+            ],
+            "hand_r": [
+              322.8617,
+              235.7501
+            ],
+            "foot_l": [
+              245.2346,
+              406.7658
+            ],
+            "foot_r": [
+              214.3853,
+              405.0541
+            ],
+            "pelvis": [
+              239.7281,
+              284.1102
+            ],
+            "head": [
+              255.8263,
+              174.47
+            ]
+          },
+          "10": {
+            "hand_l": [
+              195.5838,
+              288.9153
+            ],
+            "hand_r": [
+              323.0767,
+              235.4427
+            ],
+            "foot_l": [
+              245.2866,
+              406.8006
+            ],
+            "foot_r": [
+              214.2603,
+              404.9584
+            ],
+            "pelvis": [
+              239.5658,
+              284.0834
+            ],
+            "head": [
+              255.7523,
+              174.4466
+            ]
+          },
+          "11": {
+            "hand_l": [
+              199.863,
+              288.9836
+            ],
+            "hand_r": [
+              324.958,
+              232.8718
+            ],
+            "foot_l": [
+              245.4686,
+              406.9442
+            ],
+            "foot_r": [
+              214.2921,
+              404.9921
+            ],
+            "pelvis": [
+              239.4099,
+              284.0576
+            ],
+            "head": [
+              255.632,
+              174.0543
+            ]
+          },
+          "12": {
+            "hand_l": [
+              206.8597,
+              288.9145
+            ],
+            "hand_r": [
+              327.3086,
+              227.6667
+            ],
+            "foot_l": [
+              245.7809,
+              407.1542
+            ],
+            "foot_r": [
+              214.4712,
+              405.118
+            ],
+            "pelvis": [
+              239.267,
+              284.0341
+            ],
+            "head": [
+              254.7708,
+              173.3469
+            ]
+          },
+          "13": {
+            "hand_l": [
+              216.5382,
+              288.4085
+            ],
+            "hand_r": [
+              328.3049,
+              220.261
+            ],
+            "foot_l": [
+              246.2238,
+              407.4154
+            ],
+            "foot_r": [
+              214.7686,
+              405.3138
+            ],
+            "pelvis": [
+              239.1357,
+              284.0124
+            ],
+            "head": [
+              253.0667,
+              172.4697
+            ]
+          },
+          "14": {
+            "hand_l": [
+              228.64,
+              287.1379
+            ],
+            "hand_r": [
+              326.0313,
+              211.2422
+            ],
+            "foot_l": [
+              246.816,
+              407.7109
+            ],
+            "foot_r": [
+              215.158,
+              405.5592
+            ],
+            "pelvis": [
+              239.0145,
+              283.9924
+            ],
+            "head": [
+              250.4852,
+              171.5699
+            ]
+          },
+          "15": {
+            "hand_l": [
+              242.5945,
+              284.8666
+            ],
+            "hand_r": [
+              318.9134,
+              201.4494
+            ],
+            "foot_l": [
+              247.5605,
+              408.0254
+            ],
+            "foot_r": [
+              215.6169,
+              405.8378
+            ],
+            "pelvis": [
+              238.9024,
+              283.9739
+            ],
+            "head": [
+              247.0784,
+              170.7743
+            ]
+          },
+          "16": {
+            "hand_l": [
+              257.4861,
+              281.7716
+            ],
+            "hand_r": [
+              306.3062,
+              192.1445
+            ],
+            "foot_l": [
+              248.1997,
+              408.365
+            ],
+            "foot_r": [
+              216.1891,
+              406.1731
+            ],
+            "pelvis": [
+              238.8004,
+              283.9571
+            ],
+            "head": [
+              242.9697,
+              170.1721
+            ]
+          },
+          "17": {
+            "hand_l": [
+              271.5919,
+              277.9515
+            ],
+            "hand_r": [
+              289.8247,
+              184.2811
+            ],
+            "foot_l": [
+              248.8885,
+              408.6762
+            ],
+            "foot_r": [
+              216.7507,
+              406.4812
+            ],
+            "pelvis": [
+              238.7023,
+              283.9409
+            ],
+            "head": [
+              238.7029,
+              169.8207
+            ]
+          },
+          "18": {
+            "hand_l": [
+              284.0365,
+              273.7205
+            ],
+            "hand_r": [
+              271.6257,
+              178.2486
+            ],
+            "foot_l": [
+              249.6088,
+              408.9413
+            ],
+            "foot_r": [
+              217.2818,
+              406.7464
+            ],
+            "pelvis": [
+              238.6061,
+              283.925
+            ],
+            "head": [
+              234.5745,
+              169.6895
+            ]
+          },
+          "19": {
+            "hand_l": [
+              294.2435,
+              269.4752
+            ],
+            "hand_r": [
+              254.1893,
+              174.1144
+            ],
+            "foot_l": [
+              250.3146,
+              409.1486
+            ],
+            "foot_r": [
+              217.7647,
+              406.9542
+            ],
+            "pelvis": [
+              238.5099,
+              283.9091
+            ],
+            "head": [
+              230.8498,
+              169.7232
+            ]
+          },
+          "20": {
+            "hand_l": [
+              301.9869,
+              265.6339
+            ],
+            "hand_r": [
+              239.8354,
+              171.6609
+            ],
+            "foot_l": [
+              250.9457,
+              409.2916
+            ],
+            "foot_r": [
+              218.1823,
+              407.0906
+            ],
+            "pelvis": [
+              238.4113,
+              283.8929
+            ],
+            "head": [
+              227.7423,
+              169.8536
+            ]
+          },
+          "21": {
+            "hand_l": [
+              306.8344,
+              262.9116
+            ],
+            "hand_r": [
+              230.4207,
+              169.8432
+            ],
+            "foot_l": [
+              251.3599,
+              409.3754
+            ],
+            "foot_r": [
+              218.4982,
+              407.1573
+            ],
+            "pelvis": [
+              238.3027,
+              283.8749
+            ],
+            "head": [
+              225.602,
+              169.9905
+            ]
+          },
+          "22": {
+            "hand_l": [
+              310.2402,
+              260.6605
+            ],
+            "hand_r": [
+              222.3785,
+              167.7724
+            ],
+            "foot_l": [
+              251.7186,
+              409.44
+            ],
+            "foot_r": [
+              218.7455,
+              407.2026
+            ],
+            "pelvis": [
+              238.1894,
+              283.8562
+            ],
+            "head": [
+              223.9212,
+              170.1287
+            ]
+          },
+          "23": {
+            "hand_l": [
+              312.5694,
+              258.8797
+            ],
+            "hand_r": [
+              215.6382,
+              165.5886
+            ],
+            "foot_l": [
+              252.0098,
+              409.4904
+            ],
+            "foot_r": [
+              218.9336,
+              407.2318
+            ],
+            "pelvis": [
+              238.075,
+              283.8374
+            ],
+            "head": [
+              222.6304,
+              170.2517
+            ]
+          },
+          "24": {
+            "hand_l": [
+              314.1098,
+              257.5398
+            ],
+            "hand_r": [
+              209.797,
+              163.3437
+            ],
+            "foot_l": [
+              252.233,
+              409.5292
+            ],
+            "foot_r": [
+              219.071,
+              407.2487
+            ],
+            "pelvis": [
+              237.9631,
+              283.8189
+            ],
+            "head": [
+              221.6651,
+              170.351
+            ]
+          },
+          "25": {
+            "hand_l": [
+              315.0796,
+              256.5955
+            ],
+            "hand_r": [
+              204.1545,
+              161.0044
+            ],
+            "foot_l": [
+              252.3941,
+              409.558
+            ],
+            "foot_r": [
+              219.1656,
+              407.256
+            ],
+            "pelvis": [
+              237.8572,
+              283.8014
+            ],
+            "head": [
+              220.9692,
+              170.423
+            ]
+          },
+          "26": {
+            "hand_l": [
+              315.5191,
+              256.1206
+            ],
+            "hand_r": [
+              197.4551,
+              158.4388
+            ],
+            "foot_l": [
+              252.4809,
+              409.5745
+            ],
+            "foot_r": [
+              219.2127,
+              407.2551
+            ],
+            "pelvis": [
+              237.7706,
+              283.7871
+            ],
+            "head": [
+              220.5793,
+              170.4575
+            ]
+          },
+          "27": {
+            "hand_l": [
+              315.752,
+              255.8466
+            ],
+            "hand_r": [
+              191.5888,
+              156.3685
+            ],
+            "foot_l": [
+              252.5347,
+              409.5846
+            ],
+            "foot_r": [
+              219.2375,
+              407.2512
+            ],
+            "pelvis": [
+              237.7029,
+              283.7759
+            ],
+            "head": [
+              220.3321,
+              170.4762
+            ]
+          },
+          "28": {
+            "hand_l": [
+              315.8519,
+              255.7174
+            ],
+            "hand_r": [
+              187.4028,
+              154.9654
+            ],
+            "foot_l": [
+              252.5626,
+              409.59
+            ],
+            "foot_r": [
+              219.2478,
+              407.2469
+            ],
+            "pelvis": [
+              237.6578,
+              283.7685
+            ],
+            "head": [
+              220.1978,
+              170.4838
+            ]
+          }
+        }
+      },
+      "weapon": null
+    },
+    "punch-uppercut": {
+      "version": 1,
+      "pipeline": "survival-body-ual-motion-unreal-ik-v1",
+      "action": "punch-uppercut",
+      "source": "unreal-ual-to-survival",
+      "source_clip": "Melee_Hook",
+      "source_clips": [
+        "Melee_Hook"
+      ],
+      "frame_size": 512,
+      "fps": 30,
+      "loop": false,
+      "source_frame_range": [
+        1.0,
+        13.0
+      ],
+      "source_frame_ranges": [
+        {
+          "clip": "Melee_Hook",
+          "action_frame_range": [
+            1.0,
+            13.0
+          ],
+          "sampled_frame_range": [
+            1.0,
+            12.200000000000001
+          ]
+        }
+      ],
+      "sampled_source_frames": [
+        {
+          "clip": "Melee_Hook",
+          "frame": 1.0
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 1.8
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 2.6
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 3.4000000000000004
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 4.2
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 5.0
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 5.800000000000001
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 6.6000000000000005
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 7.4
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 8.2
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 9.0
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 9.8
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 10.600000000000001
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 11.4
+        },
+        {
+          "clip": "Melee_Hook",
+          "frame": 12.200000000000001
+        }
+      ],
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png",
+        "frame-008.png",
+        "frame-009.png",
+        "frame-010.png",
+        "frame-011.png",
+        "frame-012.png",
+        "frame-013.png",
+        "frame-014.png"
+      ],
+      "recenter_horizontal": false,
+      "game_retarget": {
+        "authority": "Unreal Engine 5.8 IK Retargeter",
+        "retargeter": "RTG_UAL_To_SurvivalCharacter_v1",
+        "target_pose": "UAL_SourceAligned"
+      },
+      "motion_origin": "unreal-ik-retargeted-ual",
+      "visual_skin": {
+        "version": 1,
+        "id": "approved-survival-character-fab-v1-on-ual",
+        "source_blend": "sprites/character/survival-character-fab-v1/source/survival_character.blend",
+        "approval_reference": "sprites/character/survival-miner-poc-v1/reference/approved-action-proof.png",
+        "motion_source": "Quaternius Universal Animation Library active clips",
+        "motion_authority": "Unreal Engine 5.8 IK Retargeter",
+        "retargeter": "/Game/SurvivalMotion/Retarget/RTG_UAL_To_SurvivalCharacter_v1",
+        "target_mesh": "/Game/SurvivalMotion/Character/SK_SurvivalCharacter_Fab_v1",
+        "deformation_authority": "Survival source skeleton and native weights",
+        "rejected_mesh_policy": "legacy-miner-meshy-not-used",
+        "weapon_policy": "none"
+      },
+      "rig_markers": {
+        "version": 1,
+        "space": "render-frame-px",
+        "source": "projected-survival-bones",
+        "bone_points": {
+          "hand_l": [
+            "hand_l",
+            "tail"
+          ],
+          "hand_r": [
+            "hand_r",
+            "tail"
+          ],
+          "foot_l": [
+            "foot_l",
+            "tail"
+          ],
+          "foot_r": [
+            "foot_r",
+            "tail"
+          ],
+          "pelvis": [
+            "pelvis",
+            "head"
+          ],
+          "head": [
+            "head",
+            "tail"
+          ]
+        },
+        "marker_names": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "pelvis",
+          "head"
+        ],
+        "frames": {
+          "0": {
+            "hand_l": [
+              316.2395,
+              211.9991
+            ],
+            "hand_r": [
+              290.9088,
+              212.2937
+            ],
+            "foot_l": [
+              252.437,
+              411.3751
+            ],
+            "foot_r": [
+              229.3725,
+              410.8454
+            ],
+            "pelvis": [
+              256.5779,
+              288.3623
+            ],
+            "head": [
+              266.6103,
+              176.0993
+            ]
+          },
+          "1": {
+            "hand_l": [
+              325.9156,
+              194.4261
+            ],
+            "hand_r": [
+              274.4216,
+              223.032
+            ],
+            "foot_l": [
+              251.6609,
+              404.6938
+            ],
+            "foot_r": [
+              225.0397,
+              404.6971
+            ],
+            "pelvis": [
+              257.5823,
+              288.5281
+            ],
+            "head": [
+              256.2892,
+              176.8223
+            ]
+          },
+          "2": {
+            "hand_l": [
+              306.1145,
+              175.5118
+            ],
+            "hand_r": [
+              220.8911,
+              254.276
+            ],
+            "foot_l": [
+              258.1249,
+              395.3096
+            ],
+            "foot_r": [
+              218.328,
+              395.1025
+            ],
+            "pelvis": [
+              258.7375,
+              288.7187
+            ],
+            "head": [
+              236.4433,
+              179.9477
+            ]
+          },
+          "3": {
+            "hand_l": [
+              281.6615,
+              165.1381
+            ],
+            "hand_r": [
+              181.7494,
+              285.6033
+            ],
+            "foot_l": [
+              275.7974,
+              385.231
+            ],
+            "foot_r": [
+              212.0212,
+              386.0668
+            ],
+            "pelvis": [
+              259.5556,
+              288.8537
+            ],
+            "head": [
+              224.9066,
+              182.8842
+            ]
+          },
+          "4": {
+            "hand_l": [
+              288.9334,
+              161.7905
+            ],
+            "hand_r": [
+              166.7199,
+              287.9617
+            ],
+            "foot_l": [
+              293.5659,
+              376.2425
+            ],
+            "foot_r": [
+              209.8926,
+              382.8973
+            ],
+            "pelvis": [
+              259.9431,
+              288.9177
+            ],
+            "head": [
+              226.7662,
+              182.1789
+            ]
+          },
+          "5": {
+            "hand_l": [
+              316.6016,
+              171.9097
+            ],
+            "hand_r": [
+              142.5271,
+              255.3724
+            ],
+            "foot_l": [
+              310.6783,
+              364.4456
+            ],
+            "foot_r": [
+              209.9675,
+              383.2155
+            ],
+            "pelvis": [
+              260.2011,
+              288.9603
+            ],
+            "head": [
+              238.4896,
+              179.7566
+            ]
+          },
+          "6": {
+            "hand_l": [
+              333.9779,
+              214.3975
+            ],
+            "hand_r": [
+              173.9258,
+              196.884
+            ],
+            "foot_l": [
+              309.5498,
+              359.5857
+            ],
+            "foot_r": [
+              198.2612,
+              381.6019
+            ],
+            "pelvis": [
+              260.1069,
+              288.9447
+            ],
+            "head": [
+              264.5192,
+              178.3252
+            ]
+          },
+          "7": {
+            "hand_l": [
+              293.3757,
+              277.1527
+            ],
+            "hand_r": [
+              307.9463,
+              163.0887
+            ],
+            "foot_l": [
+              296.7905,
+              356.2237
+            ],
+            "foot_r": [
+              183.5122,
+              370.5944
+            ],
+            "pelvis": [
+              259.3952,
+              288.8273
+            ],
+            "head": [
+              308.515,
+              190.8387
+            ]
+          },
+          "8": {
+            "hand_l": [
+              243.0149,
+              271.6365
+            ],
+            "hand_r": [
+              414.7757,
+              204.5548
+            ],
+            "foot_l": [
+              285.5551,
+              350.1004
+            ],
+            "foot_r": [
+              173.8708,
+              357.2757
+            ],
+            "pelvis": [
+              258.865,
+              288.7398
+            ],
+            "head": [
+              330.086,
+              210.4964
+            ]
+          },
+          "9": {
+            "hand_l": [
+              235.0721,
+              242.3201
+            ],
+            "hand_r": [
+              415.5023,
+              234.5714
+            ],
+            "foot_l": [
+              282.1946,
+              349.0188
+            ],
+            "foot_r": [
+              171.7948,
+              351.9624
+            ],
+            "pelvis": [
+              258.7826,
+              288.7262
+            ],
+            "head": [
+              334.1046,
+              217.9203
+            ]
+          },
+          "10": {
+            "hand_l": [
+              226.914,
+              229.4153
+            ],
+            "hand_r": [
+              402.6132,
+              231.5105
+            ],
+            "foot_l": [
+              282.3195,
+              352.392
+            ],
+            "foot_r": [
+              176.1513,
+              355.4588
+            ],
+            "pelvis": [
+              258.8817,
+              288.7425
+            ],
+            "head": [
+              332.2227,
+              213.4173
+            ]
+          },
+          "11": {
+            "hand_l": [
+              217.2162,
+              218.1039
+            ],
+            "hand_r": [
+              384.9895,
+              231.1981
+            ],
+            "foot_l": [
+              282.7613,
+              357.7605
+            ],
+            "foot_r": [
+              182.0892,
+              360.8511
+            ],
+            "pelvis": [
+              259.0355,
+              288.7679
+            ],
+            "head": [
+              328.6876,
+              207.8001
+            ]
+          },
+          "12": {
+            "hand_l": [
+              209.5329,
+              209.3459
+            ],
+            "hand_r": [
+              370.6945,
+              237.1759
+            ],
+            "foot_l": [
+              283.1636,
+              362.8403
+            ],
+            "foot_r": [
+              187.6503,
+              365.7298
+            ],
+            "pelvis": [
+              259.1968,
+              288.7945
+            ],
+            "head": [
+              324.6931,
+              202.9202
+            ]
+          },
+          "13": {
+            "hand_l": [
+              204.7881,
+              203.8297
+            ],
+            "hand_r": [
+              357.7893,
+              241.2995
+            ],
+            "foot_l": [
+              283.4439,
+              366.6889
+            ],
+            "foot_r": [
+              191.9031,
+              369.2887
+            ],
+            "pelvis": [
+              259.3278,
+              288.8162
+            ],
+            "head": [
+              321.2801,
+              199.4902
+            ]
+          },
+          "14": {
+            "hand_l": [
+              202.6287,
+              201.3828
+            ],
+            "hand_r": [
+              349.3491,
+              241.9611
+            ],
+            "foot_l": [
+              283.5938,
+              368.731
+            ],
+            "foot_r": [
+              194.1368,
+              371.1658
+            ],
+            "pelvis": [
+              259.4014,
+              288.8283
+            ],
+            "head": [
+              319.3342,
+              197.7704
+            ]
+          }
+        }
+      },
+      "weapon": null
+    }
+  }
+}

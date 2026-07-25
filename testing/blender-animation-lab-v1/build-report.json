@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "id": "blender-animation-lab-v1",
+  "blenderVersion": [
+    5,
+    1,
+    2
+  ],
+  "outputBlend": "testing/blender-animation-lab-v1/blender-animation-lab-v1.blend",
+  "sourceHashes": {
+    "sprites/character/survival-character-fab-v1/source/survival_character.blend": "9bfead8c1ef601b96feb39cc52b58d37749c5e2438157b136a6ecb006c780fc9",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-idle-loop.fbx": "f30812f6cd5a44d0a4a0ea6690d38e631a574a5f14f2f8f868d5b54a75c53dd8",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-idle-talking-loop.fbx": "85a53f864cab6d4d8984577ea660407060414956b53bd3f66887a7d6e6803700",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-jog-fwd-loop.fbx": "ed6017869e4f1ba48efcc4f8d23886ef565ffa6f09b585b17441edb46673d88f",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-jump-start.fbx": "36c4d2e688a2f48fd92b4b0f7c91042843594058041fc2287737fad391c5c1c2",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-jump-loop.fbx": "8bc6fe6de4a6a0d2eb58e49532bab1ff9bc6f979b0fc3153f223b7bf0ebe10ff",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-crouch-idle-loop.fbx": "a97ec4ac27c3ff7990256ff066442515a6d19687f8df27a9fce463a6fc8680d9",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-shield-dash.fbx": "1d98879f5e3db2fe02c72a06cfdfb94f522d550b02cd918dcd93901d4eaa6fe0",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-climbup-1m.fbx": "0057dd2cc711e6630b282687262b828146cf12e7f8cd90474f4cef23b050c01f",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-punch-jab.fbx": "8bf33183a97cd28aa4d99aa461ad784ce7a316d6d57bba82b003d27694a9c834",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-punch-cross.fbx": "62a031fad82bfed94d209f7c18a4843adcd222446fe26f31231902d0fd8a698c",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-overhandthrow.fbx": "1cb00ed754bc635c8b696667450d1f4ce566155b33aa2da1ddf8055d3e46a886",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-jump-land.fbx": "660b25eb1d51cd32ed3aae355465c48da2540019220e7e321e7c58f5e64a7c90",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-push-loop.fbx": "c01d19e6c9aaa20cb2e7c002372e7357cc8eec2f2933ca70f01af51add596ebf",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-roll.fbx": "2a5c6a5b3397e1cd6bea8ad9e94b4bbcfc09404543a93c607bc86f2e7b161bed",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-spell-simple-idle-loop.fbx": "58f2d9a60bd6571e9c6ee35499793db40bd02e4116d7f0e8cf10e328e78e7603",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-hit-chest.fbx": "bb0f29f32f9bbedb5925afc5b321299941ac731cd797285934d236d0c10280a2",
+    "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-death01.fbx": "a98bb34fca47101037b3044d782978fa8a41154bc300e5c1dbe98465c841c451"
+  },
+  "sourcesPreserved": true,
+  "carrierCount": 17,
+  "runtimeActionCount": 18,
+  "masterActionCount": 17,
+  "actions": [
+    {
+      "name": "DGAL_airborne",
+      "frameRange": [
+        1.0,
+        34.0
+      ]
+    },
+    {
+      "name": "DGAL_climb",
+      "frameRange": [
+        1.0,
+        18.0
+      ]
+    },
+    {
+      "name": "DGAL_crouch",
+      "frameRange": [
+        1.0,
+        72.0
+      ]
+    },
+    {
+      "name": "DGAL_death",
+      "frameRange": [
+        1.0,
+        60.0
+      ]
+    },
+    {
+      "name": "DGAL_falling",
+      "frameRange": [
+        1.0,
+        62.0
+      ]
+    },
+    {
+      "name": "DGAL_fly",
+      "frameRange": [
+        1.0,
+        28.0
+      ]
+    },
+    {
+      "name": "DGAL_ground-strike",
+      "frameRange": [
+        1.0,
+        34.0
+      ]
+    },
+    {
+      "name": "DGAL_hit-react",
+      "frameRange": [
+        1.0,
+        10.0
+      ]
+    },
+    {
+      "name": "DGAL_idle",
+      "frameRange": [
+        1.0,
+        62.0
+      ]
+    },
+    {
+      "name": "DGAL_idle-talk",
+      "frameRange": [
+        1.0,
+        72.0
+      ]
+    },
+    {
+      "name": "DGAL_landing",
+      "frameRange": [
+        1.0,
+        32.0
+      ]
+    },
+    {
+      "name": "DGAL_locomotion-jog",
+      "frameRange": [
+        1.0,
+        24.0
+      ]
+    },
+    {
+      "name": "DGAL_punch-cross",
+      "frameRange": [
+        1.0,
+        26.0
+      ]
+    },
+    {
+      "name": "DGAL_punch-jab",
+      "frameRange": [
+        1.0,
+        23.0
+      ]
+    },
+    {
+      "name": "DGAL_teleport",
+      "frameRange": [
+        1.0,
+        37.0
+      ]
+    },
+    {
+      "name": "DGAL_thunder-charge",
+      "frameRange": [
+        1.0,
+        52.0
+      ]
+    },
+    {
+      "name": "DGAL_wall-push",
+      "frameRange": [
+        1.0,
+        66.0
+      ]
+    }
+  ],
+  "canonicalArmature": "root",
+  "productionChanged": false
+}

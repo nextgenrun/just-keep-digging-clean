@@ -1,0 +1,13 @@
+{
+  "id": "ground-strike-body-follow-5way-v1",
+  "runtimeAnimationKey": "survival-ual-player-v1-attack-down-ground-strike-anim",
+  "protectedSourceAction": "DGAL_ground-strike",
+  "inputReviewFile": "../ground-strike-hand-contact-v1/ground-strike-hand-contact-v1.blend",
+  "contactFrame": 16,
+  "handBone": "hand_r",
+  "contactTargetBoneTailWorldZ": -0.005,
+  "groundWorldZ": -0.025,
+  "approachCount": 5,
+  "reviewOnly": true,
+  "productionChanged": false
+}

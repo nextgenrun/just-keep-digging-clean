@@ -1,0 +1,58 @@
+{
+  "engine": "5.8.0-55116800+++UE5+Release-5.8",
+  "source_character": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\survival_character.fbx",
+  "source_mesh": "/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple",
+  "target_mesh": "/Game/SurvivalMotion/Character/SK_SurvivalCharacter_Fab_v1.SK_SurvivalCharacter_Fab_v1",
+  "target_bounds_extent_cm": [
+    56.133914947509766,
+    31.400850296020508,
+    94.18021102249622
+  ],
+  "source_auto_definition": true,
+  "target_auto_definition": true,
+  "retargeter": "/Game/SurvivalMotion/Retarget/RTG_Manny_To_SurvivalCharacter_v1.RTG_Manny_To_SurvivalCharacter_v1",
+  "clips": {
+    "idle": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/MM_Idle.MM_Idle",
+      "output": "/Game/SurvivalMotion/Animations/Survival_idle.Survival_idle",
+      "seconds": 7.566666603088379
+    },
+    "walk": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Walk/MF_Unarmed_Walk_Fwd.MF_Unarmed_Walk_Fwd",
+      "output": "/Game/SurvivalMotion/Animations/Survival_walk.Survival_walk",
+      "seconds": 1.5
+    },
+    "run": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Jog/MF_Unarmed_Jog_Fwd.MF_Unarmed_Jog_Fwd",
+      "output": "/Game/SurvivalMotion/Animations/Survival_run.Survival_run",
+      "seconds": 1.7666666507720947
+    },
+    "fly": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Jump/MM_Fall_Loop.MM_Fall_Loop",
+      "output": "/Game/SurvivalMotion/Animations/Survival_fly.Survival_fly",
+      "seconds": 3.0
+    },
+    "attack": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Attack/MM_Attack_01.MM_Attack_01",
+      "output": "/Game/SurvivalMotion/Animations/Survival_attack.Survival_attack",
+      "seconds": 1.0
+    },
+    "dig_up": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Attack/MM_Attack_02.MM_Attack_02",
+      "output": "/Game/SurvivalMotion/Animations/Survival_dig_up.Survival_dig_up",
+      "seconds": 1.0
+    },
+    "dig_down": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Attack/MM_Attack_03.MM_Attack_03",
+      "output": "/Game/SurvivalMotion/Animations/Survival_dig_down.Survival_dig_down",
+      "seconds": 1.6666666269302368
+    },
+    "mining_strike": {
+      "source": "/Game/Characters/Mannequins/Anims/Unarmed/Attack/MM_ChargedAttack.MM_ChargedAttack",
+      "output": "/Game/SurvivalMotion/Animations/Survival_mining_strike.Survival_mining_strike",
+      "seconds": 1.8333333730697632
+    }
+  },
+  "retargeted_in_unreal": true,
+  "animation_authored_in_blender": false
+}

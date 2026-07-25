@@ -3,6 +3,7 @@
  * Handles merchant placement and player interaction
  */
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
 
 export class NPCManager {
   constructor(scene, ASSET_KEYS, decorationSystem = null) {
@@ -16,6 +17,7 @@ export class NPCManager {
     // Merchant display names for the prompt
     this._merchantNames = {
       'moneyMonster': 'Money Monster',
+      'magmaMoneyMonster': ARC_CORE_CONFIG.merchant.displayName,
       'playerUpgrades': 'Upgrades',
       'gearMerchant': 'Gear Merchant',
       'boboMerchant': "Bobo's Shop",
@@ -27,17 +29,19 @@ export class NPCManager {
     const sx = this.scene.config.spawnTileX;
     const ay = this.scene.config.topAirRows - 1;
     const merchantSprites = this.ASSET_KEYS.npcs.merchantSprites;
+    const merchantIdleVideos = this.ASSET_KEYS.npcs.merchantIdleVideos;
     
     return [
       // Swapped: boboMerchant (was sx+35) ↔ moneyMonster (was sx+5)
       // Swapped: gemPowerMerchant (was sx+39) ↔ campfire (was at sx+50, now at sx+39)
       // Campfire is now at gemPowerMerchant's old position (sx+39)
       // gemPowerMerchant is now at campfire's old position (sx+50)
-      { assetKey: merchantSprites.moneyMonster,     merchantId: 'moneyMonster',     tx: sx + 35,     ty: ay         }, // was sx+5, now sx+35 (bobo's old spot)
-      { assetKey: merchantSprites.playerUpgrades,   merchantId: 'playerUpgrades',   tx: sx + 15,      ty: ay         },
-      { assetKey: merchantSprites.gearMerchant,     merchantId: 'gearMerchant',     tx: sx + 25,      ty: ay         },
-      { assetKey: merchantSprites.boboMerchant,     merchantId: 'boboMerchant',     tx: sx + 5,       ty: ay         }, // was sx+35, now sx+5 (moneyMonster's old spot)
-      { assetKey: merchantSprites.gemPowerMerchant, merchantId: 'gemPowerMerchant', tx: sx + 22,      ty: ay         }, // was sx+39, now at tile 50 (campfire's old spot)
+      { assetKey: merchantSprites.moneyMonster, videoKey: merchantIdleVideos.moneyMonster, merchantId: 'moneyMonster', tx: sx + 35, ty: ay },
+      { assetKey: merchantSprites.magmaMoneyMonster, videoKey: null, merchantId: 'magmaMoneyMonster', tx: ARC_CORE_CONFIG.merchant.tileX, ty: ARC_CORE_CONFIG.merchant.tileY },
+      { assetKey: merchantSprites.playerUpgrades, videoKey: merchantIdleVideos.playerUpgrades, merchantId: 'playerUpgrades', tx: sx + 15, ty: ay },
+      { assetKey: merchantSprites.gearMerchant, videoKey: merchantIdleVideos.gearMerchant, merchantId: 'gearMerchant', tx: sx + 25, ty: ay },
+      { assetKey: merchantSprites.boboMerchant, videoKey: merchantIdleVideos.boboMerchant, merchantId: 'boboMerchant', tx: sx + 5, ty: ay },
+      { assetKey: merchantSprites.gemPowerMerchant, videoKey: merchantIdleVideos.gemPowerMerchant, merchantId: 'gemPowerMerchant', tx: sx + 22, ty: ay },
     ];
   }
 
@@ -47,6 +51,7 @@ export class NPCManager {
     // Per-NPC ground offsets compensate for transparent bottom padding in the generated single sprites.
     const npcGroundOffsets = {
       'moneyMonster': 12,
+      'magmaMoneyMonster': 8,
       'playerUpgrades': 8,
       'gearMerchant': 9,
       'boboMerchant': 9,
@@ -54,8 +59,10 @@ export class NPCManager {
     };
     
     for (const npc of this.npcDefs) {
-      if (!this.scene.textures.exists(npc.assetKey)) {
-        console.warn(`NPC texture not found: ${npc.assetKey} - skipping`);
+      const hasIdleVideo = Boolean(npc.videoKey) && this.scene.cache.video.exists(npc.videoKey);
+      const hasFallbackTexture = this.scene.textures.exists(npc.assetKey);
+      if (!hasIdleVideo && !hasFallbackTexture) {
+        console.warn(`NPC visual not found: ${npc.videoKey} / ${npc.assetKey} - skipping`);
         
         // Create placeholder sprite as fallback
         const pos = this.scene.worldModel.tileToWorld(npc.tx, npc.ty);
@@ -82,13 +89,18 @@ export class NPCManager {
         x: npc.tx * ts + ts / 2,                    // tile center X
         y: (npc.ty + 1) * ts + groundOffset,       // platform surface + NPC-specific offset
       };
-      const sprite = this.scene.add.sprite(pos.x, pos.y, npc.assetKey);
-      sprite.setOrigin(0.5, 1);                      // origin at bottom-center
-      sprite.setDepth(15);
-
       // Generated single merchant sprites share one town scale so monsters feel creepy, not gigantic.
       const spriteSize = npcSize * 1.55;
+      const sprite = hasIdleVideo
+        ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
+        : this.scene.add.sprite(pos.x, pos.y, npc.assetKey);
+      sprite.setOrigin(0.5, 1);
+      sprite.setDepth(15);
       sprite.setDisplaySize(spriteSize, spriteSize);
+      if (hasIdleVideo) {
+        sprite.once('created', () => sprite.setDisplaySize(spriteSize, spriteSize));
+        sprite.play(true);
+      }
       
       // Store NPC sprite reference
       this.npcSprites.set(npc.merchantId, sprite);
@@ -162,12 +174,12 @@ export class NPCManager {
     const interactionRange = 3;
 
     let nearestNPC = null;
-    let nearestDistance = interactionRange;
+    let nearestDistance = interactionRange + 1;
 
     for (const npc of this.npcDefs) {
       const distance = Math.abs(playerTile.tx - npc.tx) + Math.abs(playerTile.ty - npc.ty);
 
-      if (distance < nearestDistance) {
+      if (distance <= interactionRange && distance < nearestDistance) {
         nearestDistance = distance;
         nearestNPC = npc;
       }
@@ -193,5 +205,17 @@ export class NPCManager {
    */
   getNPCSprite(merchantId) {
     return this.npcSprites.get(merchantId);
+  }
+
+  destroy() {
+    for (const sprite of this.npcSprites.values()) {
+      sprite.stop?.();
+      sprite.destroy?.();
+    }
+    this.npcSprites.clear();
+    for (const prompt of this._interactPrompts) {
+      prompt.text?.destroy?.();
+    }
+    this._interactPrompts = [];
   }
 }

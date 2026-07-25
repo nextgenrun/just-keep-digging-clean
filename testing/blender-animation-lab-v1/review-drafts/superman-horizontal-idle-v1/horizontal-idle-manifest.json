@@ -1,0 +1,14 @@
+{
+  "version": "superman-horizontal-idle-review-v1-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "testing/blender-animation-lab-v1/review-drafts/superman-pose-editor-v1/superman-pose-editor-v1.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "DG_SUPERMAN_POSE_IDLE_V1",
+    "idleFrame": 1,
+    "root": "CTRL_BODY_TILT"
+  },
+  "orientation": "approved idle snapshot rotated 90 degrees horizontal",
+  "policy": "review-only visual preset; no game asset or collision change"
+}

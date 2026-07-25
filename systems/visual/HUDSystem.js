@@ -5,6 +5,8 @@ import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
 
 const WEATHER_ICONS = Object.freeze({
   clear: "☀️",
@@ -316,6 +318,7 @@ export class HUDSystem {
       .setScrollFactor(0)
       .setDepth(HUD_LAYOUT.hudDepth + 1);
 
+    this.approvedSkin = new ApprovedHudSkin(scene, this);
     this._createLootBagTarget();
 
     this.refresh();
@@ -337,13 +340,26 @@ export class HUDSystem {
       && featureFlags?.["loot-visuals"] !== false;
     const vw = this.scene.scale?.width || 1280;
     const vh = this.scene.scale?.height || 720;
-    const x = vw - 42;
-    const y = vh - 42;
+    const approvedInventory = APPROVED_HUD_SKIN.layout.inventory;
+    const approvedScale = this.approvedSkin?.scale || 1;
+    const x = this.approvedSkin?.active
+      ? vw - (approvedInventory.right + approvedInventory.width / 2) * approvedScale
+      : vw - 42;
+    const y = this.approvedSkin?.active
+      ? vh - (approvedInventory.bottom + approvedInventory.height / 2) * approvedScale
+      : vh - 42;
 
     this.lootBagContainer = this.scene.add.container(x, y)
       .setScrollFactor(0)
       .setDepth(HUD_LAYOUT.hudOverlayDepth + 4)
       .setVisible(lootVisualsEnabled);
+
+    if (this.approvedSkin?.active) {
+      this.lootBagIcon = this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.inventory)
+        .setDisplaySize(approvedInventory.width * approvedScale, approvedInventory.height * approvedScale);
+      this.lootBagContainer.add(this.lootBagIcon);
+      return;
+    }
 
     const bg = this.scene.add.rectangle(0, 0, 50, 50, 0x101820, 0.82);
     bg.setStrokeStyle(2, 0xc9a227, 0.9);
@@ -530,6 +546,7 @@ export class HUDSystem {
     );
     this.torchIcon?.setTexture(this.torchActive ? this.torchTextures.on : this.torchTextures.off);
     this.torchIcon?.setAlpha(this.torchActive ? 1 : 0.82);
+    this.approvedSkin?.setTorchState(this.torchActive);
   }
 
   setFlightHeight(currentHeight, maxHeight) {
@@ -621,11 +638,17 @@ export class HUDSystem {
     const ws = this.scene.weatherSystem;
 
     if (dnc) {
-      setTextIfChanged(this.clockTimeText, dnc.getTimeString12());
-
       const phaseLabel = dnc.getCurrentPhaseLabel();
       const day = dnc.getDay();
-      setTextIfChanged(this.clockDayText, `Day ${day} — ${phaseLabel}`);
+      if (this.approvedSkin?.active) {
+        const phaseIcon = /night|dusk/i.test(phaseLabel) ? "☾" : "☀";
+        const season = dnc.getSeason();
+        setTextIfChanged(this.clockTimeText, `${phaseIcon} ${dnc.getTimeString12()}`);
+        setTextIfChanged(this.clockDayText, `DAY ${day} · ${season.toUpperCase()}`);
+      } else {
+        setTextIfChanged(this.clockTimeText, dnc.getTimeString12());
+        setTextIfChanged(this.clockDayText, `Day ${day} — ${phaseLabel}`);
+      }
     }
 
     if (ws) {
@@ -635,22 +658,26 @@ export class HUDSystem {
       const forecast = snap.forecastKind && snap.forecastKind !== snap.kind
         ? ` -> ${snap.forecastKind.charAt(0).toUpperCase() + snap.forecastKind.slice(1)}`
         : "";
-      setTextIfChanged(this.weatherText, `${icon} ${label}${forecast}`);
+      setTextIfChanged(
+        this.weatherText,
+        this.approvedSkin?.active ? `${icon} ${label.toUpperCase()}` : `${icon} ${label}${forecast}`,
+      );
 
       if (dnc) {
         setTextIfChanged(this.weatherTempText, `${dnc.getCurrentTemperature()}°C`);
       }
 
-      if (dnc) {
+      if (dnc && !this.approvedSkin?.active) {
         const season = dnc.getSeason();
         setTextIfChanged(this.weatherSeasonText, `${SEASON_ICONS[season] || ""} ${season.charAt(0).toUpperCase() + season.slice(1)}`);
       }
 
       const intensity = snap.intensity;
-      const barW = HUD_LAYOUT.weatherPanelW - 20;
-      const barH = 4;
-      const barX = this.weatherPanelX + 10;
-      const barY = HUD_LAYOUT.weatherY + HUD_LAYOUT.weatherPanelH - 10;
+      const approvedBar = this.approvedSkin?.getWeatherBarLayout();
+      const barW = approvedBar?.width ?? (HUD_LAYOUT.weatherPanelW - 20);
+      const barH = approvedBar?.height ?? 4;
+      const barX = approvedBar?.x ?? (this.weatherPanelX + 10);
+      const barY = approvedBar?.y ?? (HUD_LAYOUT.weatherY + HUD_LAYOUT.weatherPanelH - 10);
 
       this.weatherIntensityBar.clear();
       if (intensity > 0.05) {
@@ -673,6 +700,7 @@ export class HUDSystem {
         this.comboText.setVisible(false);
         this.comboTimerBg.setVisible(false);
         this.comboTimerBar.setVisible(false);
+        this.approvedSkin?.setComboVisible(false);
         this.comboVisible = false;
       }
       return;
@@ -682,12 +710,15 @@ export class HUDSystem {
       this.comboText.setVisible(true);
       this.comboTimerBg.setVisible(true);
       this.comboTimerBar.setVisible(true);
+      this.approvedSkin?.setComboVisible(true);
       this.comboVisible = true;
     }
     
     const multiplier = this.comboSystem.getMultiplier();
     const multiplierStr = multiplier.toFixed(2);
-    setTextIfChanged(this.comboText, `🔥 COMBO ${comboCount}  ${multiplierStr}x`);
+    setTextIfChanged(this.comboText, this.approvedSkin?.active
+      ? `COMBO ${comboCount}  ·  ${multiplierStr}x`
+      : `🔥 COMBO ${comboCount}  ${multiplierStr}x`);
 
     // Combo pop — quick scale punch when combo count increases
     if (HUD_JUICE_CONFIG.enabled && HUD_JUICE_CONFIG.comboPop.enabled && comboCount > this._lastComboCount) {
@@ -707,10 +738,11 @@ export class HUDSystem {
     this.comboText.setColor(color);
     
     const timerFraction = this.comboSystem.getTimerFraction(timeMs);
-    const barX = HUD_LAYOUT.comboBarX;
-    const barY = HUD_LAYOUT.comboBarY + HUD_LAYOUT.comboBarH - HUD_LAYOUT.comboTimerBarH - HUD_LAYOUT.comboTimerBarPadding;
-    const barW = HUD_LAYOUT.comboBarW;
-    const barH = HUD_LAYOUT.comboTimerBarH;
+    const approvedTimer = this.approvedSkin?.getComboTimerLayout();
+    const barX = approvedTimer?.x ?? HUD_LAYOUT.comboBarX;
+    const barY = approvedTimer?.y ?? (HUD_LAYOUT.comboBarY + HUD_LAYOUT.comboBarH - HUD_LAYOUT.comboTimerBarH - HUD_LAYOUT.comboTimerBarPadding);
+    const barW = approvedTimer?.width ?? HUD_LAYOUT.comboBarW;
+    const barH = approvedTimer?.height ?? HUD_LAYOUT.comboTimerBarH;
     
     this.comboTimerBg.clear();
     this.comboTimerBg.fillStyle(HUD_LAYOUT.comboTimerBgColor, 1);
@@ -758,10 +790,16 @@ export class HUDSystem {
     }
 
     if (lines.length > 0) {
-      setTextIfChanged(this.buffTimerText, lines.join('\n'));
-      this.buffTimerText.setVisible(true);
+      if (this.approvedSkin?.active) {
+        this.approvedSkin.setBuffLines(lines);
+        this.buffTimerText.setVisible(false);
+      } else {
+        setTextIfChanged(this.buffTimerText, lines.join('\n'));
+        this.buffTimerText.setVisible(true);
+      }
     } else {
       this.buffTimerText.setVisible(false);
+      this.approvedSkin?.setBuffLines([]);
     }
   }
 
@@ -840,11 +878,21 @@ export class HUDSystem {
       this.lootBagContainer,
     ];
     objects.forEach(obj => obj?.destroy());
+    this.approvedSkin?.destroy();
+    this.approvedSkin = null;
   }
 
   refresh() {
     if (this._destroyed || !this.statsText?.active) return;
     const displayDepth = Math.round(this._displayedDepth);
-    this.statsText.setText(`Depth: ${displayDepth}m`);
+    this.statsText.setText(this.approvedSkin?.active ? `DEPTH  ${displayDepth} m` : `Depth: ${displayDepth}m`);
+  }
+
+  bindGemPowerObjects(bg, fill, label) {
+    this.approvedSkin?.bindGemPowerObjects(bg, fill, label);
+  }
+
+  getGemPowerLayout() {
+    return this.approvedSkin?.active ? this.approvedSkin.getGemPowerLayout() : null;
   }
 }

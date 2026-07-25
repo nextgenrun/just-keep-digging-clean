@@ -7,6 +7,41 @@ export const TIME_CONFIG = Object.freeze({
   // Day duration in milliseconds (2 hours = 7200000)
   dayDurationMs: 7200000,
 
+  // Clock starts in late morning when no save data exists.
+  initialTime: 0.4,
+
+  // Scenic plates already carry an authored moonlit exposure and vignette.
+  // Keep time-of-day grading visible without applying a second heavy black pass.
+  skyTintOverlay: Object.freeze({
+    legacy: Object.freeze({ nightAlpha: 0.18, duskAlpha: 0.08, maxAlpha: 0.28 }),
+    scenic: Object.freeze({ nightAlpha: 0.055, duskAlpha: 0.025, maxAlpha: 0.10 }),
+  }),
+
+  // Authoritative world-space orbit shared by both bodies. The renderer projects
+  // these coordinates into screen space for shaders and atmospheric effects.
+  celestial: Object.freeze({
+    riseTime: 0.25,
+    noonTime: 0.5,
+    setTime: 0.75,
+    worldCenterXRatio: 0.5,
+    worldHorizontalRadiusRatio: 0.5,
+    worldOriginOffsetTiles: -5,
+    worldVerticalRadiusTiles: 12,
+    belowHorizonX: 1.2,
+    belowHorizonY: 1.2,
+    belowHorizonTravelFraction: 0.04,
+    horizonFadeFraction: 0.035,
+    renderDepth: 46,
+    sun: Object.freeze({
+      phaseOffset: 0,
+      color: 0xffee88,
+    }),
+    moon: Object.freeze({
+      phaseOffset: 0.5,
+      color: 0xc8c8d8,
+    }),
+  }),
+
   // Day phases — each segment covers a fraction of the 0-1 day cycle
   // currentTime 0.0 = midnight, 0.5 = noon
   phases: [
@@ -99,13 +134,15 @@ export const TIME_CONFIG = Object.freeze({
     setY: 0.4,
   },
 
-  // Moon position follows similar arc, offset 12 hours
+  // Moon follows the same east-to-west arc, offset by 12 hours above.
   moonArc: {
-    riseX: 0.6,
+    riseX: -0.6,
     riseY: 0.4,
+    noonX: 0,
+    noonY: -0.2,
     zenithX: 0,
     zenithY: -0.2,
-    setX: -0.6,
+    setX: 0.6,
     setY: 0.4,
   },
 

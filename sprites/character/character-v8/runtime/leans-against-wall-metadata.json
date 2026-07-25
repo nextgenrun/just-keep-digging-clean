@@ -6,14 +6,28 @@
   "preview": "sprites/character/character-v8/previews/leans-against-wall-runtime-contact.png",
   "slowmoPreview": "sprites/character/character-v8/previews/leans-against-wall-slowmo.gif",
   "piskel": "sprites/character/character-v8/piskel/leans-against-wall.piskel",
+  "motionProfile": "sprites/character/character-v8/reports/blender-motion-profiles/leans-against-wall-motion-profile.json",
   "frameWidth": 341,
   "frameHeight": 341,
   "frameCount": 4,
   "columns": 4,
   "rows": 1,
   "fps": 8,
+  "orientation": null,
+  "sourcePreparation": null,
+  "culledSourceIndices": [],
+  "recommendedDisplaySizePx": 89,
+  "sourceFrames": [
+    "sprites/character/character-v8/frames/leans-against-wall/frame-000.png",
+    "sprites/character/character-v8/frames/leans-against-wall/frame-001.png",
+    "sprites/character/character-v8/frames/leans-against-wall/frame-002.png",
+    "sprites/character/character-v8/frames/leans-against-wall/frame-003.png",
+    "sprites/character/character-v8/frames/leans-against-wall/frame-004.png",
+    "sprites/character/character-v8/frames/leans-against-wall/frame-005.png"
+  ],
+  "sourceMattePixelsRemoved": 0,
   "borderHaloPixelsRemoved": 122,
-  "alphaPixelsChanged": 71066,
+  "alphaPixelsChanged": 86312,
   "targetedTransforms": {
     "sourceFrameOrder": [
       0,
@@ -21,22 +35,76 @@
       2,
       3
     ],
-    "approvedRuntimeOffsetX": 22
+    "runtimeOffsetXByFrame": [
+      22,
+      22,
+      34,
+      34
+    ],
+    "footAnchor": {
+      "mode": "feet",
+      "targetFootX": 165,
+      "targetBottom": 339,
+      "footBandHeight": 28,
+      "maxShiftX": 7,
+      "maxShiftY": 0,
+      "avgShiftX": 5.25,
+      "avgShiftY": 0.0
+    }
+  },
+  "motionAudit": {
+    "transitions": [
+      {
+        "fromFrame": 0,
+        "toFrame": 1,
+        "fromSource": "frame-000.png",
+        "toSource": "frame-001.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -6.5,
+        "centerShiftY": -0.5,
+        "widthDelta": -5,
+        "heightDelta": 1,
+        "meanPixelDifference": 8.764
+      },
+      {
+        "fromFrame": 1,
+        "toFrame": 2,
+        "fromSource": "frame-001.png",
+        "toSource": "frame-002.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 6.5,
+        "centerShiftY": 0.5,
+        "widthDelta": 11,
+        "heightDelta": -1,
+        "meanPixelDifference": 9.668
+      },
+      {
+        "fromFrame": 2,
+        "toFrame": 3,
+        "fromSource": "frame-002.png",
+        "toSource": "frame-003.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -2.0,
+        "centerShiftY": -5.0,
+        "widthDelta": 8,
+        "heightDelta": 10,
+        "meanPixelDifference": 12.177
+      }
+    ],
+    "sourceGapTransitions": []
   },
   "anchor": {
-    "targetCenterX": 198,
-    "targetBottom": 339,
-    "maxShiftX": 11,
+    "maxShiftX": 0,
     "maxShiftY": 0,
-    "avgShiftX": 6.75,
-    "avgShiftY": 0.0
+    "avgShiftX": 0,
+    "avgShiftY": 0
   },
   "driftBefore": {
     "centerXRange": 18.0,
     "bottomRange": 0
   },
   "driftAfter": {
-    "centerXRange": 0.5,
+    "centerXRange": 6.5,
     "bottomRange": 0
   }
 }

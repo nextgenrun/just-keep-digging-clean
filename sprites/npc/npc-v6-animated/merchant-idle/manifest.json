@@ -1,0 +1,19 @@
+{
+  "approved": "2026-07-11",
+  "format": "transparent VP9 WebM",
+  "width": 1024,
+  "height": 1024,
+  "fps": 30,
+  "frames": 120,
+  "durationSeconds": 4,
+  "noAudio": true,
+  "sourceReviewFolder": "visual-approval-previews/npc-idle-polish-v1",
+  "animations": {
+    "moneyMonster": "money-monster-idle-alpha.webm",
+    "playerUpgrades": "player-upgrades-idle-alpha.webm",
+    "gearMerchant": "gear-merchant-idle-alpha.webm",
+    "boboMerchant": "bobo-merchant-idle-alpha.webm",
+    "gemPowerMerchant": "gem-power-merchant-idle-alpha.webm"
+  }
+}
+

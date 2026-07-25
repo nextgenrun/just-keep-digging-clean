@@ -4,11 +4,22 @@
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
-import { MINING_CONFIG } from "../../values/miningConfig.js";
-import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { LIVING_DRILL_CONFIG } from "../../values/livingDrillConfig.js";
+import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { getMaterialFeedback, GLINT_CONFIG } from "../../values/materialFeedback.js";
+import { ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
+import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
+import {
+  UAL_NATIVE_ACTION_TUNING,
+  resolveUalActionContact,
+  resolveUalActionTimeScale,
+  resolveUalFlightTravel,
+  resolveUalFlightTimeScale,
+} from "../../values/ualNativeActionTuning.js";
+import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
+import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
+import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -48,19 +59,36 @@ export function setupGameplayMethods(prototype) {
       default: return "mining.heavy";
     }
   };
-  const nextComboAnim = (scene, counterKey, anims, fallback) => {
-    if (!Array.isArray(anims) || anims.length === 0) return fallback;
-    const index = scene[counterKey] || 0;
-    scene[counterKey] = (index + 1) % anims.length;
-    return anims[index % anims.length] || fallback;
+  const selectComboAnim = (scene, family, direction, anims, fallback, targetTile) => {
+    if (!scene.ualMiningComboSelector) {
+      scene.ualMiningComboSelector = new UalMiningComboSelector();
+    }
+    return scene.ualMiningComboSelector.select({
+      family,
+      direction,
+      animationKeys: anims,
+      fallback,
+      targetTile,
+      nowMs: scene.time?.now || 0,
+    });
   };
   const isUpAim = (aim) => aim === "UP" || aim === "UP-LEFT" || aim === "UP-RIGHT";
-  const isFallingDownward = (scene) => (scene.playerController?.physicsBody?.vy ?? 0) > 60;
+  const isFallingDownward = (scene) => scene.playerKinematicMotion?.isFalling?.(
+    scene.playerController?.physicsBody?.vy ?? 0,
+  ) ?? scene.playerMotionPolish?.isFallingDownward?.(
+    scene.playerController?.physicsBody?.vy ?? 0,
+  ) ?? (scene.playerController?.physicsBody?.vy ?? 0) > PLAYER_MOTION_POLISH_CONFIG.fallingVyThresholdPxPerSec;
   const getP = (scene) => scene.playerAssetProfile || ASSET_KEYS.player;
   const isLivingDrill = (scene) => getP(scene).isLivingDrill === true;
   const flipXForDirectionX = (directionX) => directionX < 0;
-  const flipXForSidewaysDigDirectionX = (directionX) => directionX > 0;
-  const flipXForUpSidewaysDirectionX = (directionX) => directionX > 0;
+  const flipXForSidewaysDigDirectionX = (scene, directionX) => {
+    const sourceFacesRight = getP(scene).digSidewaysSourceFacesRight === true;
+    return sourceFacesRight ? directionX < 0 : directionX > 0;
+  };
+  const flipXForUpSidewaysDirectionX = (scene, directionX) => {
+    const sourceFacesRight = getP(scene).digUpSidewaysSourceFacesRight !== false;
+    return sourceFacesRight ? directionX < 0 : directionX > 0;
+  };
   const aimToDirection = (aim, facingRight = true) => {
     if (aim === "UP") return { x: 0, y: -1, angle: -90 };
     if (aim === "DOWN") return { x: 0, y: 1, angle: 90 };
@@ -69,17 +97,12 @@ export function setupGameplayMethods(prototype) {
     return facingRight ? { x: 1, y: 0, angle: 0 } : { x: -1, y: 0, angle: 0 };
   };
   const aimFromTargetTile = (scene, targetTile, fallbackAim) => {
-    const playerTile = scene.playerController?.getPlayerTile?.();
-    if (!targetTile || !playerTile) return fallbackAim;
-    const dx = Math.sign((targetTile.tx ?? playerTile.tx) - playerTile.tx);
-    const dy = Math.sign((targetTile.ty ?? playerTile.ty) - playerTile.ty);
-    if (dy < 0 && dx < 0) return "UP-LEFT";
-    if (dy < 0 && dx > 0) return "UP-RIGHT";
-    if (dy < 0) return "UP";
-    if (dy > 0) return "DOWN";
-    if (dx < 0) return "LEFT";
-    if (dx > 0) return "RIGHT";
-    return fallbackAim;
+    const direction = resolvePlayerTargetDirection(
+      scene.playerController?.physicsBody,
+      scene.config?.tileSize,
+      targetTile,
+    );
+    return direction?.aimLabel || fallbackAim;
   };
   const tileColorFor = (tileType) => {
     switch (tileType) {
@@ -217,8 +240,12 @@ export function setupGameplayMethods(prototype) {
     }
   };
 
-  prototype._getWalkAnimationTimeScale = function() {
+  prototype._getWalkAnimationTimeScale = function(animationKey = null) {
     const profile = getP(this);
+    const resolvedKey = animationKey || this._getMovingWalkLoopAnim();
+    const animation = resolvedKey ? this.anims.get(resolvedKey) : null;
+    const matched = this.playerKinematicMotion?.resolveLocomotionTimeScale?.(resolvedKey, animation);
+    if (Number.isFinite(matched)) return matched;
     const cfg = profile.walkAnimation || ASSET_KEYS.player.walkAnimation;
     const ratio = this.playerController?.getWalkSpeedRatio?.() ?? 1;
     return Phaser.Math.Clamp(ratio, cfg.minTimeScale, cfg.maxTimeScale);
@@ -237,9 +264,9 @@ export function setupGameplayMethods(prototype) {
       : profile.walkLoopAnim || ASSET_KEYS.player.walkLoopAnim;
   };
 
-  prototype._applyWalkAnimationTimeScale = function() {
+  prototype._applyWalkAnimationTimeScale = function(animationKey = null) {
     if (!this.player?.anims) return;
-    this.player.anims.timeScale = this._getWalkAnimationTimeScale();
+    this.player.anims.timeScale = this._getWalkAnimationTimeScale(animationKey);
   };
 
   prototype.playMineImpactFx = function(targetTile, destroyed) {
@@ -254,6 +281,12 @@ export function setupGameplayMethods(prototype) {
     if (!result || !targetTile) return;
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
     this._applyMineShake?.(result);
+    if (!result.success && result.blockedByBedrock) {
+      this.uiNotifications?.warning(MINING_CONFIG.blockedUi.bedrockMessage, {
+        key: MINING_CONFIG.blockedUi.notificationKey,
+        durationMs: MINING_CONFIG.blockedUi.durationMs,
+      });
+    }
     if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
     if (result.destroyed) {
       const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
@@ -328,45 +361,132 @@ export function setupGameplayMethods(prototype) {
     }
     const profile = getP(this);
     const aim = aimFromTargetTile(this, mineFeedback?.targetTile, this.playerController.getAimLabel());
+    if (profile.immediateDigImpactFeedback) {
+      this.queueDigImpactFeedback(mineFeedback);
+      this.flushPendingDigImpactFeedback();
+    }
+    const activeActionKey = this.player.anims.currentAnim?.key ?? null;
+    const nativePunchInProgress = profile.isUalNative
+      && this.isDigAnimating
+      && this.player.anims.isPlaying
+      && (profile.punchActionAnims || profile.digAnims || []).includes(activeActionKey);
+    if (nativePunchInProgress) return false;
+
     let animKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
     let flipX = false;
+    let postActionFacingFlipX = !this.playerController.isFacingRight();
 
-    if (aim === "UP-LEFT") {
-      animKey = nextComboAnim(this, "_digUpSidewaysComboIndex", profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim);
-      flipX = flipXForUpSidewaysDirectionX(-1);
+    if (mineFeedback?.animationKeyOverride) {
+      animKey = mineFeedback.animationKeyOverride;
+    } else if (aim === "UP-LEFT") {
+      animKey = selectComboAnim(this, "up-side", aim, profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim, mineFeedback?.targetTile);
+      flipX = flipXForUpSidewaysDirectionX(this, -1);
+      postActionFacingFlipX = true;
     } else if (aim === "UP-RIGHT") {
-      animKey = nextComboAnim(this, "_digUpSidewaysComboIndex", profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim);
-      flipX = flipXForUpSidewaysDirectionX(1);
+      animKey = selectComboAnim(this, "up-side", aim, profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim, mineFeedback?.targetTile);
+      flipX = flipXForUpSidewaysDirectionX(this, 1);
+      postActionFacingFlipX = false;
+    } else if (profile.isUalNative && aim === "DOWN-LEFT") {
+      animKey = selectComboAnim(this, "down-side", aim, profile.digDownSidewaysHitAnims, profile.digDownAnim || ASSET_KEYS.player.digDownAnim, mineFeedback?.targetTile);
+      flipX = flipXForSidewaysDigDirectionX(this, -1);
+      postActionFacingFlipX = true;
+    } else if (profile.isUalNative && aim === "DOWN-RIGHT") {
+      animKey = selectComboAnim(this, "down-side", aim, profile.digDownSidewaysHitAnims, profile.digDownAnim || ASSET_KEYS.player.digDownAnim, mineFeedback?.targetTile);
+      flipX = flipXForSidewaysDigDirectionX(this, 1);
+      postActionFacingFlipX = false;
     } else if (aim === "LEFT" || aim === "DOWN-LEFT") {
-      animKey = nextComboAnim(this, "_digSidewaysComboIndex", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
-      flipX = flipXForSidewaysDigDirectionX(-1);
+      animKey = selectComboAnim(this, "side", aim, profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim, mineFeedback?.targetTile);
+      flipX = flipXForSidewaysDigDirectionX(this, -1);
+      postActionFacingFlipX = true;
     } else if (aim === "RIGHT" || aim === "DOWN-RIGHT") {
-      animKey = nextComboAnim(this, "_digSidewaysComboIndex", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
-      flipX = flipXForSidewaysDigDirectionX(1);
+      animKey = selectComboAnim(this, "side", aim, profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim, mineFeedback?.targetTile);
+      flipX = flipXForSidewaysDigDirectionX(this, 1);
+      postActionFacingFlipX = false;
     } else if (aim === "UP") {
-      animKey = nextComboAnim(this, "_digUpComboIndex", profile.digUpHitAnims || ASSET_KEYS.player.digUpHitAnims, profile.digUpAnim || ASSET_KEYS.player.digUpAnim);
+      animKey = selectComboAnim(this, "up", aim, profile.digUpHitAnims || ASSET_KEYS.player.digUpHitAnims, profile.digUpAnim || ASSET_KEYS.player.digUpAnim, mineFeedback?.targetTile);
+      flipX = postActionFacingFlipX;
     } else if (aim === "DOWN") {
-      animKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
-      this._digDownCount = (this._digDownCount || 0) + 1;
-      const facingFlip = !this.playerController.isFacingRight();
-      flipX = (this._digDownCount % 3 === 0) ? !facingFlip : facingFlip;
+      animKey = selectComboAnim(this, "down", aim, profile.digDownHitAnims, profile.digDownAnim || ASSET_KEYS.player.digDownAnim, mineFeedback?.targetTile);
+      if (profile.isUalNative) {
+        flipX = postActionFacingFlipX;
+      } else {
+        this._digDownCount = (this._digDownCount || 0) + 1;
+        flipX = (this._digDownCount % 2 === 0) ? !postActionFacingFlipX : postActionFacingFlipX;
+      }
     }
+
+    const actionKind = mineFeedback?.actionKind === "quickslash" ? "quickslash" : "normal";
+    const animation = this.anims.get(animKey);
+    const frameCount = animation?.frames?.length || 1;
+    const frameRate = animation?.frameRate || profile.digSidewaysAnimationFps || 30;
+    const effectiveCooldownMs = this.digSystem?.getEffectiveCooldownMs?.(
+      this.playerController?.abilities,
+    ) || 0;
+    const actionTimeScale = profile.isUalNative
+      ? resolveUalActionTimeScale({ frameCount, frameRate, effectiveCooldownMs, kind: actionKind })
+      : 1;
+    const contactSpec = profile.isUalNative
+      ? resolveUalActionContact(profile, animKey, actionKind)
+      : null;
 
     this.isDigAnimating = true;
     this._actionFlipX = flipX;
-    this.queueDigImpactFeedback(mineFeedback);
+    this._postActionFacingFlipX = postActionFacingFlipX;
+    if (!profile.immediateDigImpactFeedback && mineFeedback?.result) this.queueDigImpactFeedback(mineFeedback);
     this.player.setFlipX(flipX);
+    if (profile.isUalNative && contactSpec && this.ualActionContactTimeline) {
+      const rigDirection = resolvePlayerTargetDirection(
+        this.playerController?.physicsBody,
+        this.config?.tileSize,
+        mineFeedback?.targetTile,
+      );
+      this.playerRigContact?.beginAction({
+        animationKey: animKey,
+        contactSpec,
+        targetTile: mineFeedback?.targetTile,
+        direction: rigDirection,
+      });
+      this.ualActionContactTimeline.begin({
+        animationKey: animKey,
+        contactFrame: contactSpec.textureFrame,
+        contactSequenceIndex: contactSpec.sequenceIndex,
+        onContact: (event) => mineFeedback?.onContact?.({
+          ...event,
+          now: this.time?.now || 0,
+          aim,
+          targetTile: mineFeedback?.targetTile || null,
+        }),
+        onComplete: () => this.playerRigContact?.endAction(),
+      });
+    } else {
+      mineFeedback?.onContact?.({
+        now: this.time?.now || 0,
+        aim,
+        targetTile: mineFeedback?.targetTile || null,
+        trigger: "immediate-fallback",
+      });
+    }
     this.player.play(animKey, true);
-    const displaySize = profile.displaySizePx || this.config.playerDisplaySizePx;
+    const displaySize = resolvePlayerDisplaySizePx(
+      profile,
+      this.config.playerDisplaySizePx,
+      animKey,
+    );
     this.player.setDisplaySize(displaySize, displaySize);
 
-    if (this._gamefeelConfig && this.digSystem) {
+    if (profile.isUalNative) {
+      this.player.setAngle(0);
+      this.player.anims.timeScale = actionTimeScale;
+    } else if (profile.preserveNativeActionCadence) {
+      this.player.anims.timeScale = 1;
+    } else if (this._gamefeelConfig && this.digSystem) {
       const baseCooldown = this._gamefeelConfig.animSpeed.baseCooldownMs;
       const effective = this.digSystem.getEffectiveCooldownMs();
       const mult = Math.min(baseCooldown / effective, this._gamefeelConfig.animSpeed.maxSpeedMultiplier);
       this.player.anims.timeScale = mult;
     }
-    this.pickaxeTrailSystem?.start();
+    if (profile.weaponPolicy !== "none") this.pickaxeTrailSystem?.start();
+    return true;
   };
 
   prototype.updateLivingDrillVisualState = function(force = false) {
@@ -613,20 +733,86 @@ export function setupGameplayMethods(prototype) {
   prototype.activateDevCheat = function() {
     console.log('[DEVCHEAT] ========================================');
     console.log('[DEVCHEAT] activateDevCheat() called!');
-    this.digSystem.setResourceTotals({ dirt: 5000, stone: 5000, copper: 5000, bronze: 5000, silver: 5000, gold: 5000 });
+    this.digSystem.setResourceTotals({
+      dirt: 5000,
+      stone: 5000,
+      copper: 5000,
+      bronze: 5000,
+      silver: 5000,
+      gold: 5000,
+      lavaDirt: 5000,
+      obsidian: 5000,
+      emberOre: 5000,
+      magmaCrystal: 5000,
+    });
     this.upgradeSystem.addMoney(50000);
     this.upgradeSystem.setGodMode(true);
+    this.upgradeSystem.grantUpgrade("worldTwoTunnelAccess");
+    this.upgradeSystem.grantUpgrade(ARC_CORE_UPGRADE_ID);
+    this.upgradeSystem.grantUpgrade(OMEGA_ARC_CORE_UPGRADE_ID);
     if (this.playerController && this.playerController.abilities) { this.playerController.abilities.setGodMode(true); }
+    this.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
+    this.arcCoreVehicleSystem?.syncOwnership?.();
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.uiResourceBar?.setMoney(this.upgradeSystem.getMoney());
     this.uiInventoryPopup?.setResources(this.digSystem.getResourceTotals());
     this.uiInventoryPopup?.setMoney(this.upgradeSystem.getMoney());
-    this.hudSystem.flashStatus("TRUE GODMODE! Buy Bobo's tunnel key to open World Two.", "#ff00ff", 2000);
+    this.hudSystem.flashStatus("TRUE GODMODE! World Two door + both Arc Cores unlocked.", "#ff00ff", 2400);
     console.log('[DEVCHEAT] ========================================');
   };
 
+  prototype.playTeleportInAnimation = function() {
+    const profile = getP(this);
+    const animationKey = profile.teleportInAnim;
+    if (!animationKey || !this.player || !this.anims.exists(animationKey)) return false;
+
+    this.ualActionContactTimeline?.cancel();
+    this.playerRigContact?.endAction();
+    this.isDigAnimating = false;
+    this._thunderStrikeAnimating = false;
+    this._thunderStrikePhase = null;
+    this._thunderStrikeHoldUntil = null;
+    this._thunderStrikeFacingFlipX = null;
+    this._teleportInAnimating = true;
+    this._actionFlipX = null;
+    this._postActionFacingFlipX = null;
+    this._combatIdleFlipX = null;
+    this._combatIdleRecoverUntilMs = 0;
+    this._combatIdleReturnActive = false;
+    this._combatIdleReturnPlayed = true;
+    this.player.anims.timeScale = 1;
+    this.player.setAngle(0);
+    this.player.setFlipX(false);
+    this.ualLocomotionTransitionSelector?.reset({
+      grounded: this.playerController?.isGrounded?.() !== false,
+      flying: this.playerController?.abilities?.isFlying?.() === true,
+      facingFlipX: false,
+    });
+    const displaySize = profile.teleportInDisplaySizePx || resolvePlayerDisplaySizePx(
+      profile,
+      this.config.playerDisplaySizePx,
+      animationKey,
+    );
+    this.player.setDisplaySize(displaySize, displaySize);
+    this.player.play(animationKey, true);
+    this.pickaxeTrailSystem?.stop();
+    return true;
+  };
+
+  prototype.playPlayerImpactReaction = function() {
+    const now = this.time?.now || 0;
+    if (!this.playerMotionPolish?.queueImpactReaction?.(now)) return false;
+    if (!this.isDigAnimating && !this._teleportInAnimating) {
+      this.updatePlayerVisualState(true);
+    }
+    return true;
+  };
+
   prototype.updatePlayerVisualState = function(force = false) {
-    if (this.isDigAnimating) return;
+    if (this.isDigAnimating || this._teleportInAnimating) {
+      this.playerMotionPolish?.interruptForAction?.(this.time?.now || 0);
+      return;
+    }
     if (isLivingDrill(this)) {
       this.updateLivingDrillVisualState(force);
       return;
@@ -641,44 +827,120 @@ export function setupGameplayMethods(prototype) {
     let targetAnim = profile.idleAnim || ASSET_KEYS.player.idleAnim;
     let flipX = false;
     let isWalking = false;
+    let flightTravelVisual = false;
+    let locomotionSelection = null;
+    const now = this.time?.now || 0;
+    const poweredFlight = this.playerController.abilities?.isFlying?.() === true;
+    if (!poweredFlight) this._ualFlightTravelVisual = false;
+    const verticalAim = this.playerController.getVerticalAim?.() || { up: false, down: false };
+    const wallBlocked = isWalkingIntoBlockedSide(this, motionState);
+    const combatRecoverUntil = this._combatIdleRecoverUntilMs || 0;
+    const combatRecoverActive = combatRecoverUntil > now;
+    const combatReturnActive = this._combatIdleReturnActive === true;
+    const combatReturnDue = combatRecoverUntil > 0 && !combatRecoverActive && this._combatIdleReturnPlayed !== true;
+    const specialIdleVisual = motionState === "idle" && (
+      verticalAim.down
+      || (verticalAim.up && isUpAim(aimLabel))
+      || combatRecoverActive
+      || combatReturnActive
+      || combatReturnDue
+    );
+    const idleFidgetAllowed = motionState === "idle"
+      && !combatRecoverActive
+      && !combatReturnActive
+      && !combatReturnDue;
+    const motionOverride = this.playerMotionPolish?.resolveOverride?.({
+      now,
+      motionState,
+      grounded: this.playerController.isGrounded(),
+      verticalAim,
+      wallBlocked,
+      wallFlipX: motionState === "walk-left",
+      facingFlipX: !this.playerController.isFacingRight(),
+      idleFidgetAllowed,
+      actionLocked: false,
+    }) || null;
 
     const wasClimbing = this._isClimbing || false;
-    const isClimbingNow = motionState === "climb";
+    const isClimbingNow = poweredFlight || motionState === "climb";
     this._isClimbing = isClimbingNow;
     if (isClimbingNow && !wasClimbing) { this.climbTrailSystem?.start(); }
     else if (!isClimbingNow && wasClimbing) { this.climbTrailSystem?.stop(); }
 
-    if (motionState === "climb") {
-      const isFlying = this.playerController.abilities?.isFlying?.() === true;
-      targetAnim = isFlying ? (profile.flyAnim || ASSET_KEYS.player.flyAnim) : (profile.climbAnim || ASSET_KEYS.player.climbAnim);
+    if (motionOverride) {
+      targetAnim = motionOverride.animationKey;
+      flipX = motionOverride.flipX;
+    } else if (
+      profile.isUalNative
+      && this.ualLocomotionTransitionSelector
+      && !wallBlocked
+      && !specialIdleVisual
+    ) {
+      const body = this.playerController?.physicsBody;
+      const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()
+        ?? body?.vx
+        ?? 0;
+      const verticalVelocity = this.playerKinematicMotion?.getResolvedVelocityY?.()
+        ?? body?.vy
+        ?? 0;
+      locomotionSelection = this.ualLocomotionTransitionSelector.resolve({
+        grounded: this.playerController.isGrounded(),
+        flying: poweredFlight || motionState === "climb",
+        horizontalVelocity,
+        verticalVelocity,
+        currentAnimationKey: currentAnimKey,
+        isPlaying: this.player.anims.isPlaying,
+        facingFlipX: !this.playerController.isFacingRight(),
+      });
+      targetAnim = locomotionSelection.animationKey;
+      flipX = locomotionSelection.facingFlipX;
+      isWalking = (profile.walkAnims || []).includes(targetAnim);
+      flightTravelVisual = locomotionSelection.phase === "flight-travel-enter"
+        || locomotionSelection.phase === "flight-travel-loop";
+      this._ualFlightTravelVisual = flightTravelVisual;
+    } else if (poweredFlight) {
+      const body = this.playerController?.physicsBody;
+      const horizontalSpeed = this.playerKinematicMotion?.getHorizontalSpeedPxPerSec?.()
+        ?? Math.abs(body?.vx || 0);
+      const verticalSpeed = this.playerKinematicMotion?.getVerticalSpeedPxPerSec?.()
+        ?? Math.abs(body?.vy || 0);
+      flightTravelVisual = resolveUalFlightTravel({
+        horizontalSpeedPxPerSec: horizontalSpeed,
+        verticalSpeedPxPerSec: verticalSpeed,
+        wasTraveling: this._ualFlightTravelVisual === true,
+      });
+      this._ualFlightTravelVisual = flightTravelVisual;
+      targetAnim = flightTravelVisual
+        ? (profile.flyAnim || ASSET_KEYS.player.flyAnim)
+        : (profile.flyClimbAnim || profile.climbAnim || ASSET_KEYS.player.climbAnim);
+      flipX = !this.playerController.isFacingRight();
+    } else if (motionState === "climb") {
+      targetAnim = profile.climbAnim || ASSET_KEYS.player.climbAnim;
       flipX = !this.playerController.isFacingRight();
     } else if (motionState === "airborne") {
       targetAnim = isFallingDownward(this) ? (profile.fallingAnim || ASSET_KEYS.player.fallingAnim) : (profile.airborneAnim || ASSET_KEYS.player.airborneAnim);
       flipX = !this.playerController.isFacingRight();
-    } else if (isWalkingIntoBlockedSide(this, motionState)) {
-      targetAnim = profile.leanAgainstWallAnim || profile.wallPushAnim || ASSET_KEYS.player.leanAgainstWallAnim || ASSET_KEYS.player.wallPushAnim;
+    } else if (wallBlocked) {
+      targetAnim = profile.idleAnim || ASSET_KEYS.player.idleAnim;
       flipX = motionState === "walk-left";
     } else if (motionState === "walk-left") {
       isWalking = true;
       targetAnim = profile.walkStartAnim || ASSET_KEYS.player.walkStartAnim;
       flipX = true;
+      this._combatIdleFlipX = true;
     } else if (motionState === "walk-right") {
       isWalking = true;
       targetAnim = profile.walkStartAnim || ASSET_KEYS.player.walkStartAnim;
       flipX = false;
+      this._combatIdleFlipX = false;
     } else if (motionState === "idle") {
-      const now = this.time?.now || 0;
-      const combatRecoverUntil = this._combatIdleRecoverUntilMs || 0;
-      const combatRecoverActive = combatRecoverUntil > now;
-      const combatReturnActive = this._combatIdleReturnActive === true;
-      const combatReturnDue = combatRecoverUntil > 0 && !combatRecoverActive && this._combatIdleReturnPlayed !== true;
       const useCombatFlip = typeof this._combatIdleFlipX === "boolean"
         && (combatRecoverActive || combatReturnActive || combatReturnDue);
-      targetAnim = this.playerController.isGrounded() && aimLabel === "DOWN"
+      targetAnim = this.playerController.isGrounded() && verticalAim.down
         ? (profile.duckAnim || ASSET_KEYS.player.duckAnim)
         : (combatReturnActive || combatReturnDue)
           ? (profile.combatIdleToNormalIdleAnim || ASSET_KEYS.player.combatIdleToNormalIdleAnim || profile.idleAnim || ASSET_KEYS.player.idleAnim)
-          : isUpAim(aimLabel)
+          : verticalAim.up && isUpAim(aimLabel)
         ? (profile.digUpLookAnim || ASSET_KEYS.player.digUpLookAnim)
         : combatRecoverActive
           ? (profile.combatIdleRecoverAnim || ASSET_KEYS.player.combatIdleRecoverAnim)
@@ -688,21 +950,37 @@ export function setupGameplayMethods(prototype) {
         this._combatIdleReturnActive = true;
       }
       if (useCombatFlip) { flipX = this._combatIdleFlipX; }
-      else if (aimLabel === "UP-LEFT") { flipX = flipXForUpSidewaysDirectionX(-1); }
-      else if (aimLabel === "UP-RIGHT") { flipX = flipXForUpSidewaysDirectionX(1); }
+      else if (aimLabel === "UP-LEFT") { flipX = flipXForUpSidewaysDirectionX(this, -1); }
+      else if (aimLabel === "UP-RIGHT") { flipX = flipXForUpSidewaysDirectionX(this, 1); }
       else { flipX = !this.playerController.isFacingRight(); }
       if (!useCombatFlip && !combatRecoverActive && !combatReturnActive && !combatReturnDue) {
         this._combatIdleFlipX = null;
       }
     }
 
-    if (isWalking) {
+    if (motionOverride) {
+      this.player.anims.timeScale = 1.0;
+    } else if (locomotionSelection) {
+      if (isWalking) {
+        this._applyWalkAnimationTimeScale(targetAnim);
+      } else {
+        const body = this.playerController?.physicsBody;
+        const flightActive = poweredFlight || motionState === "climb";
+        const kinematicSpeed = this.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
+        this.player.anims.timeScale = flightActive
+          ? resolveUalFlightTimeScale(
+            Number.isFinite(kinematicSpeed) ? kinematicSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
+            flightTravelVisual,
+          )
+          : 1.0;
+      }
+    } else if (isWalking) {
       if (currentAnimKey === (profile.walkStartAnim || ASSET_KEYS.player.walkStartAnim) && this.player.anims.isPlaying && !force) {
         targetAnim = profile.walkStartAnim || ASSET_KEYS.player.walkStartAnim;
       } else if (currentMovingWalkAnim && !force) {
         targetAnim = this._getMovingWalkLoopAnim();
       }
-      this._applyWalkAnimationTimeScale();
+      this._applyWalkAnimationTimeScale(targetAnim);
     } else {
       const shouldWindDown = !force && currentWalkAnim && !currentWalkStopAnim && isIdleLikeMotionState(motionState);
       if (shouldWindDown) {
@@ -710,16 +988,55 @@ export function setupGameplayMethods(prototype) {
       } else if (currentWalkStopAnim && this.player.anims.isPlaying && !force && isIdleLikeMotionState(motionState)) {
         targetAnim = profile.walkStopAnim || ASSET_KEYS.player.walkStopAnim;
       } else {
-        this.player.anims.timeScale = 1.0;
+        const body = this.playerController?.physicsBody;
+        const kinematicSpeed = this.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
+        const locomotionScale = motionState === "climb"
+          ? this.playerKinematicMotion?.resolveLocomotionTimeScale?.(
+            targetAnim,
+            this.anims.get(targetAnim),
+          )
+          : null;
+        this.player.anims.timeScale = poweredFlight
+          ? resolveUalFlightTimeScale(
+            Number.isFinite(kinematicSpeed) ? kinematicSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
+            flightTravelVisual,
+          )
+          : (Number.isFinite(locomotionScale) ? locomotionScale : 1.0);
       }
     }
 
+    const duckAnim = profile.duckAnim || ASSET_KEYS.player.duckAnim;
+    if (targetAnim === duckAnim && profile.duckSourceFacesRight === false) {
+      // Legacy Miner duck frames are authored facing left while the standing
+      // frames face right. Invert only once the duck animation is actually
+      // selected, so a preceding walk-stop keeps its normal orientation.
+      flipX = !flipX;
+    }
+
     this.player.setFlipX(flipX);
+    if (profile.isUalNative) {
+      const body = this.playerController?.physicsBody;
+      const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()
+        ?? body?.vx
+        ?? 0;
+      const flightActive = poweredFlight || motionState === "climb";
+      const flight = UAL_NATIVE_ACTION_TUNING.flight;
+      const velocitySign = Math.sign(horizontalVelocity) || (flipX ? -1 : 1);
+      const hoverRatio = Math.min(1, Math.abs(horizontalVelocity) / flight.referenceSpeedPxPerSec);
+      const targetAngle = flightActive
+        ? velocitySign * (flightTravelVisual
+          ? flight.travelBankDegrees
+          : flight.hoverBankDegrees * hoverRatio)
+        : 0;
+      const currentAngle = Number(this.player.angle) || 0;
+      this.player.setAngle(currentAngle + (targetAngle - currentAngle) * 0.28);
+    }
     const oneShotHoldAnims = [
-      profile.duckAnim || ASSET_KEYS.player.duckAnim,
+      duckAnim,
       profile.fallingAnim || ASSET_KEYS.player.fallingAnim,
       profile.wallPushAnim || ASSET_KEYS.player.wallPushAnim,
       profile.leanAgainstWallAnim || ASSET_KEYS.player.leanAgainstWallAnim,
+      ...(this.playerMotionPolish?.oneShotAnimationKeys || []),
     ];
     const shouldHoldCompletedOneShot = !force
       && currentAnimKey === targetAnim
@@ -728,7 +1045,14 @@ export function setupGameplayMethods(prototype) {
     if (!shouldHoldCompletedOneShot) {
       this.player.play(targetAnim, !force);
     }
-    const displaySize = profile.displaySizePx || this.config.playerDisplaySizePx;
+    if (!motionOverride && targetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
+      this.player.anims.timeScale = this.playerMotionPolish?.getIdleTimeScale?.(now) ?? 1.0;
+    }
+    const displaySize = resolvePlayerDisplaySizePx(
+      profile,
+      this.config.playerDisplaySizePx,
+      targetAnim,
+    );
     this.player.setDisplaySize(displaySize, displaySize);
     this._lastPlayedAnim = targetAnim;
   };

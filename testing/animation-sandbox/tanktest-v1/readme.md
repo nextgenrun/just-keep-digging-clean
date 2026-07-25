@@ -1,6 +1,8 @@
 # Tank Test V1
 
-Standalone Phaser sandbox for testing the one-tile tank character and the redesigned drill feel.
+Standalone Phaser sandbox for testing the tank character and the redesigned drill feel.
+
+The sandbox includes the native UAL mannequin using zero-retarget 30 FPS source motion: idle, walk/run, fly, unarmed attack, the punch-only SIDE/UP set, and same-facing DOWN. The active side chain is Jab/Cross/Jab/Cross; the former fifth power cross, kick, and `Sword_Regular_C` up strike are rejected. `Robot Sphere` remains an optional articulated concept with idle, roll, fly, and directional drill strips.
 
 ## Run
 
@@ -23,7 +25,11 @@ Do not open `index.html` directly with `file://`; Phaser loads the PNG sheets th
 
 ## Focus
 
-- The tank collision/body box is exactly `94x94`.
+- Every character mode uses a silhouette-matched physics hull instead of the old shared `94x94` harness collision.
+- The tank uses its measured chassis hull; the UAL character uses one stable torso hull; the single Robot Sphere uses one stable body hull.
+- The UAL character opens at the 109px production base size and origin, yielding an approximately `75px`/`0.8 tile` upright figure beside the `94px` blocks. This older concept harness does not apply the newer 123px walk/run compensation; use the tuning lab or game for locomotion scale truth.
+- `UAL View: 2x Inspect` enlarges the harness's 109px base to `218px` for close review while preserving its foot anchor and gameplay hitbox.
+- The drill, pickaxe swing, unarmed strikes, beams, exhaust, and other action effects never enlarge the movement hitbox.
 - The chassis art is anchored to the tile center and tread baseline.
 - The drill is a separate elastic tool layer, not part of the physics size.
 - The target tile stays solid until the configured break frame.
@@ -40,7 +46,10 @@ Do not open `index.html` directly with `file://`; Phaser loads the PNG sheets th
 | W / up | Set drill aim up |
 | S / down | Set drill aim down |
 | E | Drill with the current aim |
+| Q | Trigger the UAL character unarmed attack |
 | Shift + W / S or up / down | Fly movement |
+| Fly Mode panel button | Toggle a hands-free fly pose preview |
+| UAL View panel button | Toggle between `1x Production (109px)` truth view and `2x Inspect (218px)` |
 | R | Reset world |
 | Space | Toggle pause/step mode |
 | . | Step one frame while paused |
@@ -50,6 +59,10 @@ The panel also exposes animation buttons and debug toggles for body box, anchor,
 Use `Dig Up` and `Dig Down` in the panel to compare vertical drilling. `Drill` uses the current aim shown in the overlay. Side aim uses front drill mode; up/down aim uses center bore mode.
 
 Use `Tank Rig` and `Drill Head` to compare character concepts. In `Drill Head`, the whole player is the boring head and the dig read comes from body vibration plus target-tile grinding effects. Drill Head now loads anchored `living-drill-v1` runtime sheets for idle, dig, and fly from `sprites/character/living-drill-v1/runtime`.
+
+Use `UAL Native 30 FPS` to inspect the zero-retarget mannequin, native motion, and weapon-free punch mining at the 109px base scale. Production locomotion now uses 123px and should be judged in the tuning lab or game. Marker/contact overlays are diagnostic only; gameplay cooldown begins at action start and damage remains on the visual contact. Use `Robot Sphere` to inspect the rendered shell roll, articulated hover, directional drill deployment, and single-robot split bore against the four-cell footprint. Camera-entry tuning is intentionally deferred until the character direction is final.
+
+`Use Walk` / `Use Run` switches between native UAL locomotion clips while moving with A/D or the arrow keys.
 
 ## Generated Assets
 

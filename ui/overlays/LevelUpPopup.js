@@ -1,552 +1,311 @@
-/**
- * Level Up Popup UI Component
- * Shows when player levels up and allows choosing rewards
- */
-
-import { HUD_LAYOUT } from "../../values/hudLayout.js";
-import { LEVEL_CONFIG } from "../../values/levelConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton } from "../PhaserUiKit.js";
+import { createIconBadge, createModalShell } from "../UiModalShell.js";
+
+const REWARD_OPTIONS = Object.freeze([
+  Object.freeze({
+    type: "miningPower",
+    title: "MINING POWER",
+    subtitle: "Permanent digging strength",
+    description: "Increase the damage of every mining hit. Best for pushing stronger layers.",
+    icon: "upgrade",
+  }),
+  Object.freeze({
+    type: "resourceLuck",
+    title: "RESOURCE LUCK",
+    subtitle: "Permanent collection chance",
+    description: "Improve the chance of extracting bonus materials from every successful break.",
+    icon: "luck",
+  }),
+]);
 
 export class LevelUpPopup {
   constructor(scene) {
     this.scene = scene;
     this.visible = false;
     this.currentLevel = null;
-    this.pendingChoice = null;
+    this.pendingChoice = false;
     this.clickedChoice = null;
-    this._boundPointerDown = pointer => this._handleScenePointerDown(pointer);
-    scene.input.on('pointerdown', this._boundPointerDown);
+    this.selectedOption = 0;
+    this.rewards = [];
 
-    // Dark overlay (behind container)
-    this.bg = scene.add.graphics();
-    this.bg.setScrollFactor(0);
-    this.bg.setDepth(199);
-
-    // Main container
-    this.container = scene.add.container(0, 0);
-    this.container.setScrollFactor(0);
-    this.container.setDepth(200);
-
-    // Popup panel background
-    this.popupBg = scene.add.rectangle(0, 0, 1, 1, UI_COLORS.bg, 0.98);
-    this.popupBg.setStrokeStyle(2, UI_COLORS.borderSel);
-    this.container.add(this.popupBg);
-
-    // Create title text
-    this.titleText = scene.add.text(0, 0, "LEVEL UP!", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "40px",
-      color: UI_COLORS.gold,
-      fontStyle: "bold",
-      stroke: "#000000",
-      strokeThickness: 6
+    this.shell = createModalShell(scene, {
+      title: "LEVEL UP",
+      subtitle: "Permanent progression reward",
+      icon: "upgrade",
+      maxWidth: 820,
+      maxHeight: 620,
+      depth: 3200,
+      showClose: false,
     });
-    this.titleText.setOrigin(0.5);
-    this.container.add(this.titleText);
+    this.bg = this.shell.backdrop;
+    this.container = this.shell.root;
+    this.option1Container = { rewardType: REWARD_OPTIONS[0].type };
+    this.option2Container = { rewardType: REWARD_OPTIONS[1].type };
 
-    // Create subtitle text
-    this.subtitleText = scene.add.text(0, 0, "You reached Level X!", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "24px",
-      color: UI_COLORS.gold,
-      stroke: "#000000",
-      strokeThickness: 4
-    });
-    this.subtitleText.setOrigin(0.5);
-    this.container.add(this.subtitleText);
-
-    // Create instruction text
-    this.instructionText = scene.add.text(0, 0, "Choose your reward:", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "20px",
-      color: UI_COLORS.body,
-      stroke: "#000000",
-      strokeThickness: 3
-    });
-    this.instructionText.setOrigin(0.5);
-    this.container.add(this.instructionText);
-
-    // Create reward option 1 (Mining Power)
-    this.option1Container = scene.add.container(0, 0);
-    this.createRewardOption(this.option1Container, "miningPower", 1);
-    this.container.add(this.option1Container);
-
-    // Create reward option 2 (Resource Luck)
-    this.option2Container = scene.add.container(0, 0);
-    this.createRewardOption(this.option2Container, "resourceLuck", 2);
-    this.container.add(this.option2Container);
-
-    // Create per-level damage bonus text (automatic bonus every level)
-    this.perLevelDamageText = scene.add.text(0, 0, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "18px",
-      color: "#ff6666",
-      stroke: "#000000",
-      strokeThickness: 3,
-      align: "left"
-    });
-    this.perLevelDamageText.setOrigin(0.5);
-    this.perLevelDamageText.setWordWrapWidth(500);
-    this.perLevelDamageText.setVisible(false);
-    this.container.add(this.perLevelDamageText);
-
-    // Create per-level speed bonus text (automatic bonus every level)
-    this.perLevelSpeedText = scene.add.text(0, 0, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "18px",
-      color: "#66ff66",
-      stroke: "#000000",
-      strokeThickness: 3,
-      align: "right"
-    });
-    this.perLevelSpeedText.setOrigin(0.5);
-    this.perLevelSpeedText.setWordWrapWidth(500);
-    this.perLevelSpeedText.setVisible(false);
-    this.container.add(this.perLevelSpeedText);
-
-    // Create per-level GP max text (automatic bonus every level)
-    this.perLevelGpText = scene.add.text(0, 0, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "18px",
-      color: "#aaffff",
-      stroke: "#000000",
-      strokeThickness: 3,
-      align: "center"
-    });
-    this.perLevelGpText.setOrigin(0.5);
-    this.perLevelGpText.setWordWrapWidth(500);
-    this.perLevelGpText.setVisible(false);
-    this.container.add(this.perLevelGpText);
-
-    // Create milestone text (for levels without choice rewards)
-    this.milestoneText = scene.add.text(0, 0, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "22px",
-      color: "#ffaa00",
-      stroke: "#000000",
-      strokeThickness: 4,
-      align: "center"
-    });
-    this.milestoneText.setOrigin(0.5);
-    this.milestoneText.setWordWrapWidth(500);
-    this.milestoneText.setVisible(false);
-    this.container.add(this.milestoneText);
-
-    // Create continue text and a larger clickable button
-    this.continueText = scene.add.text(0, 0, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "18px",
-      color: UI_COLORS.gold,
-      stroke: "#000000",
-      strokeThickness: 3
-    });
-    this.continueText.setOrigin(0.5);
-    this.continueText.setVisible(false);
-    this.container.add(this.continueText);
-
-    this.continueButton = createButton(scene, {
-      x: 0,
-      y: 0,
-      width: 320,
-      height: 42,
-      label: 'CONTINUE',
-      hint: 'Enter/Space',
-      accent: UI_COLORS.borderSel,
-      parent: this.container,
-      onClick: () => {
-        if (this.visible && !this.pendingChoice) this.clickedChoice = 'continue';
-      },
-    });
-    this.continueButton.setVisible(false);
-
-    // Store keyboard input
-    this.spaceKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.key1 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
-    this.key2 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
-
-    this._layout();
-
-    // Hide until show() is called — container is Phaser-visible by default
-    this.container.setVisible(false);
-    this.bg.setVisible(false);
+    const code = Phaser.Input.Keyboard.KeyCodes;
+    this.spaceKey = scene.input.keyboard.addKey(code.SPACE);
+    this.enterKey = scene.input.keyboard.addKey(code.ENTER);
+    this.key1 = scene.input.keyboard.addKey(code.ONE);
+    this.key2 = scene.input.keyboard.addKey(code.TWO);
+    this.leftKey = scene.input.keyboard.addKey(code.LEFT);
+    this.rightKey = scene.input.keyboard.addKey(code.RIGHT);
+    this.aKey = scene.input.keyboard.addKey(code.A);
+    this.dKey = scene.input.keyboard.addKey(code.D);
   }
 
-  createRewardOption(container, rewardType, optionNumber) {
-    const scene = this.scene;
-    const reward = LEVEL_CONFIG.CHOICE_REWARDS[rewardType];
+  _text(x, y, value, style = {}, originX = 0, originY = 0) {
+    const text = this.scene.add.text(x, y, value, {
+      fontFamily: style.fontFamily || UI_FONTS.body,
+      fontSize: style.fontSize || "14px",
+      fontStyle: style.fontStyle,
+      color: style.color || UI_COLORS.body,
+      align: style.align,
+      wordWrap: style.wordWrap,
+      lineSpacing: style.lineSpacing,
+    }).setOrigin(originX, originY);
+    this.shell.content.add(text);
+    return text;
+  }
 
-    // Background
-    const bg = scene.add.rectangle(0, 0, 1, 1, UI_COLORS.cardBase, 0.96);
-    bg.setStrokeStyle(2, UI_COLORS.borderDim);
-    bg.setInteractive({ useHandCursor: true });
-    const handleOver = () => {
-      if (!this.visible || !this.pendingChoice) return;
-      bg.setFillStyle(UI_COLORS.cardHover, 1);
-      bg.setStrokeStyle(2, UI_COLORS.borderSel);
-      this.scene.soundSystem?.playUiSelect?.();
-    };
-    const handleOut = () => {
-      bg.setFillStyle(UI_COLORS.cardBase, 0.96);
-      bg.setStrokeStyle(2, UI_COLORS.borderDim);
-    };
-    const handleDown = () => {
-      this._selectChoice(rewardType, container);
-    };
-    bg.on('pointerover', handleOver);
-    bg.on('pointerout', handleOut);
-    bg.on('pointerdown', handleDown);
-    container.on('pointerover', handleOver);
-    container.on('pointerout', handleOut);
-    container.on('pointerdown', handleDown);
-    container.add(bg);
+  _drawCard(x, y, width, height, selected = false) {
+    const card = this.scene.add.rectangle(
+      x + width / 2,
+      y + height / 2,
+      width,
+      height,
+      selected ? UI_COLORS.cardSel : UI_COLORS.cardBase,
+      0.98
+    ).setStrokeStyle(selected ? 2 : 1, selected ? UI_COLORS.borderSel : UI_COLORS.borderDim);
+    this.shell.content.add(card);
+    return card;
+  }
 
-    const hitRect = scene.add.rectangle(0, 0, 1, 1, 0x000000, 0);
-    hitRect.setInteractive({ useHandCursor: true });
-    hitRect.on('pointerover', handleOver);
-    hitRect.on('pointerout', handleOut);
-    hitRect.on('pointerdown', handleDown);
-    this.container.add(hitRect);
+  _render() {
+    this.shell.layout();
+    this.shell.content.removeAll(true);
+    const rect = this.shell.getContentRect();
+    const level = this.currentLevel || 1;
+    this.shell.setHeader("LEVEL " + level + " REACHED", this.pendingChoice ? "Choose one permanent reward" : "Milestone reward granted");
 
-    // Icon
-    const iconText = scene.add.text(0, 0, reward.icon, {
-      fontFamily: "Arial",
-      fontSize: "48px"
+    const summaryHeight = 96;
+    this._drawCard(rect.left, rect.top, rect.width, summaryHeight, true);
+    createIconBadge(this.scene, "upgrade", {
+      x: rect.left + 48,
+      y: rect.top + 48,
+      size: 64,
+      iconSize: 54,
+      selected: true,
+      parent: this.shell.content,
     });
-    iconText.setOrigin(0.5);
-    container.add(iconText);
-
-    // Name
-    const nameText = scene.add.text(0, 0, reward.name, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "24px",
-      color: UI_COLORS.white,
-      fontStyle: "bold",
-      stroke: "#000000",
-      strokeThickness: 4
-    });
-    nameText.setOrigin(0.5);
-    container.add(nameText);
-
-    // Description
-    const descText = scene.add.text(0, 0, reward.description, {
-      fontFamily: "Consolas, monospace",
+    this._text(rect.left + 88, rect.top + 18, "AUTOMATIC LEVEL BONUSES", {
+      fontFamily: UI_FONTS.display,
       fontSize: "16px",
-      color: UI_COLORS.body,
-      stroke: "#000000",
-      strokeThickness: 3,
-      align: "center"
-    });
-    descText.setOrigin(0.5);
-    descText.setWordWrapWidth(250);
-    container.add(descText);
-
-    // Key hint
-    const hintText = scene.add.text(0, 0, `[${optionNumber}]`, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "32px",
-      color: UI_COLORS.gold,
       fontStyle: "bold",
-      stroke: "#000000",
-      strokeThickness: 5
+      color: UI_COLORS.title,
     });
-    hintText.setOrigin(0.5);
-    container.add(hintText);
-
-    // Store references
-    container.bg = bg;
-    container.iconText = iconText;
-    container.nameText = nameText;
-    container.descText = descText;
-    container.hintText = hintText;
-    container.rewardType = rewardType;
-    container.hitRect = hitRect;
-  }
-
-  _selectChoice(rewardType, container) {
-    if (!this.visible || !this.pendingChoice) return false;
-    if (this.clickedChoice) return false;
-    this.clickedChoice = rewardType;
-    this.scene.tweens.add({
-      targets: container,
-      scaleX: 0.97,
-      scaleY: 0.97,
-      duration: 55,
-      yoyo: true,
-      ease: 'Power2.out',
-    });
-    return true;
-  }
-
-  _handleScenePointerDown(pointer) {
-    if (!this.visible || !this.pendingChoice) return;
-    const x = pointer?.x ?? 0;
-    const y = pointer?.y ?? 0;
-    const hit = bounds => bounds
-      && x >= bounds.x
-      && x <= bounds.x + bounds.width
-      && y >= bounds.y
-      && y <= bounds.y + bounds.height;
-
-    if (hit(this.option1Container.choiceBounds)) {
-      this._selectChoice(this.option1Container.rewardType, this.option1Container);
-    } else if (hit(this.option2Container.choiceBounds)) {
-      this._selectChoice(this.option2Container.rewardType, this.option2Container);
-    }
-  }
-
-  _layout() {
-    const width = this.scene.scale.width;
-    const height = this.scene.scale.height;
-
-    // Center the popup
-    const centerX = width / 2;
-    const centerY = height / 2;
-
-    // Background fills entire screen
-    this.bg.clear();
-    this.bg.fillStyle(UI_COLORS.overlay, 0.85);
-    this.bg.fillRect(0, 0, width, height);
-
-    // Square popup — tall enough to hold per-level bonuses above choice cards
-    const popupWidth = Math.min(600, width - 40);
-    const popupHeight = popupWidth; // square
-    const popupX = (width - popupWidth) / 2;
-    const popupY = (height - popupHeight) / 2;
-
-    this.popupBg
-      .setPosition(popupX + popupWidth / 2, popupY + popupHeight / 2)
-      .setSize(popupWidth, popupHeight);
-
-    // Title
-    this.titleText.setPosition(centerX, popupY + 52);
-
-    // Subtitle
-    this.subtitleText.setPosition(centerX, popupY + 102);
-
-    // Per-level bonuses — placed ABOVE choice cards so they never overlap
-    this.perLevelDamageText.setPosition(centerX, popupY + 150);
-    this.perLevelSpeedText.setPosition(centerX, popupY + 176);
-    this.perLevelGpText.setPosition(centerX, popupY + 202);
-
-    // Instruction text (hasChoice only)
-    this.instructionText.setPosition(centerX, popupY + 244);
-
-    // Reward options — sit below all per-level text
-    const optionWidth = 255;
-    const slotH = Math.round(optionWidth * (2 / 3)); // 170px
-    const optionGap = 30;
-    const optionX1 = centerX - optionWidth - optionGap / 2;
-    const optionX2 = centerX + optionGap / 2;
-    const optionY = popupY + 278;
-
-    this._layoutRewardOption(this.option1Container, optionX1, optionY, optionWidth, slotH);
-    this._layoutRewardOption(this.option2Container, optionX2, optionY, optionWidth, slotH);
-
-    // Milestone text (noChoice only — below per-level bonuses)
-    this.milestoneText.setPosition(centerX, popupY + 252);
-
-    // Continue text (below option cards or milestone)
-    this.continueText.setPosition(centerX, popupY + 520);
-    this.continueButton.root.setPosition(centerX, popupY + 542);
-  }
-
-  _layoutRewardOption(container, x, y, width, height) {
-    // height is passed in (already computed from width * 2/3)
-    const slotH = height;
-    container.bg
-      .setPosition(x + width / 2, y + slotH / 2)
-      .setSize(width, slotH);
-    container.bg.disableInteractive();
-    container.bg.setInteractive({ useHandCursor: true });
-    container.setSize(width, slotH);
-    container.disableInteractive();
-    container.setInteractive(
-      new Phaser.Geom.Rectangle(x, y, width, slotH),
-      Phaser.Geom.Rectangle.Contains
-    );
-    container.hitRect
-      ?.setPosition(x + width / 2, y + slotH / 2)
-      .setSize(width, slotH);
-    container.hitRect?.disableInteractive();
-    container.hitRect?.setInteractive({ useHandCursor: true });
-    if (container.hitRect) this.container.bringToTop?.(container.hitRect);
-    container.choiceBounds = { x, y, width, height: slotH };
-
-    // Icon (top)
-    container.iconText.setPosition(x + width / 2, y + 40);
-
-    // Name (below icon)
-    container.nameText.setPosition(x + width / 2, y + 80);
-
-    // Description (below name)
-    container.descText.setPosition(x + width / 2, y + 130);
-
-    // Key hint (bottom right corner)
-    container.hintText.setPosition(x + width - 30, y + height - 25);
-  }
-
-  /**
-   * Show level up popup
-   * @param {number} level - The new level
-   * @param {number} hasChoice - Whether player needs to choose a reward
-   * @param {Array} rewards - Array of milestone rewards (if any)
-   */
-  show(level, hasChoice, rewards = []) {
-    this.currentLevel = level;
-    this.pendingChoice = hasChoice;
-    this.clickedChoice = null;
-
-    // Update text
-    this.titleText.setText("LEVEL UP!");
-    this.subtitleText.setText(`You reached Level ${level}!`);
-
-    // Calculate and show per-level bonuses
-    const perLevelPct = (level * 0.5).toFixed(1);  // e.g. "2.0" at level 4
-    const perLevelFlat = (level * 0.2).toFixed(1); // e.g. "0.8" at level 4
-
-    // Damage bonus (single line to avoid overlap)
-    this.perLevelDamageText.setText(`⚔️ +0.5% +0.2 flat dig dmg | Total: +${perLevelPct}% +${perLevelFlat} flat`);
-    this.perLevelDamageText.setVisible(true);
-
-    // Speed bonus (single line)
-    this.perLevelSpeedText.setText(`🏃 +0.5% movement speed | Total: +${perLevelPct}%`);
-    this.perLevelSpeedText.setVisible(true);
-
-    // GP max bonus (10 per level up to 99, then 2 per level)
+    const percent = (level * 0.5).toFixed(1);
+    const flat = (level * 0.2).toFixed(1);
     const gpGain = level <= 99 ? 10 : 2;
-    const gpTotal = level <= 99 ? level * 10 : 99 * 10 + (level - 99) * 2;
-    this.perLevelGpText.setText(`💎 +${gpGain} max GP | Total: +${gpTotal} max GP`);
-    this.perLevelGpText.setVisible(true);
+    const gpTotal = level <= 99 ? level * 10 : 990 + (level - 99) * 2;
+    this._text(rect.left + 88, rect.top + 46,
+      "Dig damage: +" + percent + "% and +" + flat + " flat    Movement: +" + percent + "%",
+      { fontFamily: UI_FONTS.mono, fontSize: "12px", color: UI_COLORS.body }
+    );
+    this._text(rect.left + 88, rect.top + 69,
+      "Gem Power: +" + gpGain + " this level, +" + gpTotal + " total",
+      { fontFamily: UI_FONTS.mono, fontSize: "12px", color: UI_COLORS.info }
+    );
 
-    if (hasChoice) {
-      // Show choice options
-      this.instructionText.setVisible(true);
-      this.instructionText.setText("Choose one reward to unlock:");
-      this.option1Container.setVisible(true);
-      this.option2Container.setVisible(true);
-      this.option1Container.hitRect?.setVisible(true);
-      this.option2Container.hitRect?.setVisible(true);
-      this.milestoneText.setVisible(false);
-      this.continueText.setVisible(false);
-      this.continueButton.setVisible(false);
-    } else {
-      // Show milestone rewards only
-      this.instructionText.setVisible(true);
-      this.instructionText.setText("Milestone reward granted. Press ENTER or SPACE to continue.");
-      this.option1Container.setVisible(false);
-      this.option2Container.setVisible(false);
-      this.option1Container.hitRect?.setVisible(false);
-      this.option2Container.hitRect?.setVisible(false);
-      this.continueText.setVisible(true);
-      this.continueButton.setVisible(true);
+    if (this.pendingChoice) this._renderChoices(rect, summaryHeight);
+    else this._renderMilestone(rect, summaryHeight);
+  }
 
-      // Build milestone text
-      let milestoneText = "";
-      rewards.forEach(reward => {
-        if (reward.type === 'milestone') {
-          milestoneText += `✓ ${reward.reward.description}\n\n`;
+  _renderChoices(rect, summaryHeight) {
+    const gap = 16;
+    const top = rect.top + summaryHeight + 18;
+    const cardWidth = (rect.width - gap) / 2;
+    const cardHeight = Math.max(190, rect.bottom - top - 8);
+
+    REWARD_OPTIONS.forEach((option, index) => {
+      const x = rect.left + index * (cardWidth + gap);
+      const selected = index === this.selectedOption;
+      const card = this._drawCard(x, top, cardWidth, cardHeight, selected)
+        .setInteractive({ useHandCursor: true });
+      card.on("pointerover", () => {
+        if (this.selectedOption !== index) {
+          this.selectedOption = index;
+          this.soundSystem?.playUiSelect?.();
+          this._render();
         }
       });
+      card.on("pointerdown", () => {
+        this.selectedOption = index;
+        this._render();
+      });
 
-      if (milestoneText) {
-        this.milestoneText.setVisible(true);
-        this.milestoneText.setText(milestoneText);
-      } else {
-        this.milestoneText.setVisible(false);
-      }
-    }
-
-    this.scene.tweens.killTweensOf(this.bg);
-    this.scene.tweens.killTweensOf(this.container);
-    this.bg.setVisible(true).setAlpha(0);
-    this.container.setVisible(true).setAlpha(0);
-    this.scene.tweens.add({ targets: this.bg, alpha: 1, duration: 250, ease: 'Power2.out' });
-    this.scene.tweens.add({ targets: this.container, alpha: 1, duration: 250, ease: 'Power2.out', delay: 50 });
-    this.visible = true;
-  }
-
-  /**
-   * Hide the popup
-   */
-  hide() {
-    this.visible = false; // stop input immediately
-    this.clickedChoice = null;
-    this.scene.tweens.killTweensOf(this.bg);
-    this.scene.tweens.killTweensOf(this.container);
-    this.scene.tweens.add({
-      targets: [this.bg, this.container],
-      alpha: 0,
-      duration: 200,
-      ease: 'Power1.in',
-      onComplete: () => {
-        this.bg.setVisible(false);
-        this.container.setVisible(false);
-        this.currentLevel = null;
-        this.pendingChoice = false;
-      }
+      createIconBadge(this.scene, option.icon, {
+        x: x + cardWidth / 2,
+        y: top + 55,
+        size: 76,
+        iconSize: 64,
+        selected,
+        parent: this.shell.content,
+      });
+      this._text(x + cardWidth / 2, top + 108, option.title, {
+        fontFamily: UI_FONTS.display,
+        fontSize: "19px",
+        fontStyle: "bold",
+        color: selected ? UI_COLORS.gold : UI_COLORS.title,
+      }, 0.5, 0.5);
+      this._text(x + cardWidth / 2, top + 133, option.subtitle, {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "11px",
+        color: UI_COLORS.info,
+      }, 0.5, 0.5);
+      this._text(x + 20, top + 158, option.description, {
+        fontSize: "13px",
+        color: UI_COLORS.body,
+        align: "center",
+        wordWrap: { width: cardWidth - 40, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }, 0, 0);
+      createButton(this.scene, {
+        x: x + cardWidth / 2,
+        y: top + cardHeight - 32,
+        width: cardWidth - 34,
+        height: 44,
+        label: "CHOOSE " + option.title,
+        hint: String(index + 1),
+        icon: option.icon,
+        accent: selected ? UI_COLORS.borderSel : UI_COLORS.borderDim,
+        parent: this.shell.content,
+        fontSize: "11px",
+        onClick: () => {
+          this.selectedOption = index;
+          this.clickedChoice = option.type;
+        },
+      });
     });
   }
 
-  /**
-   * Check for keyboard input (1 or 2 for choice rewards, Enter/Space for continue)
-   * @returns {string|null} The chosen reward type, or null if no choice made
-   */
+  _renderMilestone(rect, summaryHeight) {
+    const top = rect.top + summaryHeight + 18;
+    const height = rect.bottom - top;
+    this._drawCard(rect.left, top, rect.width, height, false);
+    createIconBadge(this.scene, "journal", {
+      x: rect.left + 58,
+      y: top + 58,
+      size: 70,
+      iconSize: 58,
+      parent: this.shell.content,
+    });
+    this._text(rect.left + 104, top + 22, "MILESTONE REWARD", {
+      fontFamily: UI_FONTS.display,
+      fontSize: "20px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+    const descriptions = this.rewards
+      .filter(reward => reward?.type === "milestone")
+      .map(reward => reward?.reward?.description)
+      .filter(Boolean);
+    this._text(rect.left + 104, top + 58,
+      descriptions.length ? descriptions.join("\n") : "Your milestone bonuses have been applied.",
+      {
+        fontSize: "14px",
+        color: UI_COLORS.body,
+        wordWrap: { width: rect.width - 140, useAdvancedWrap: true },
+        lineSpacing: 7,
+      }
+    );
+    createButton(this.scene, {
+      x: rect.left + rect.width / 2,
+      y: top + height - 35,
+      width: Math.min(430, rect.width - 40),
+      height: 48,
+      label: "CONTINUE",
+      hint: "ENTER",
+      icon: "play",
+      accent: UI_COLORS.borderSel,
+      parent: this.shell.content,
+      fontSize: "13px",
+      onClick: () => {
+        this.clickedChoice = "continue";
+      },
+    });
+  }
+
+  show(level, hasChoice, rewards = []) {
+    this.currentLevel = level;
+    this.pendingChoice = Boolean(hasChoice);
+    this.clickedChoice = null;
+    this.selectedOption = 0;
+    this.rewards = rewards;
+    this.visible = true;
+    this._render();
+    this.shell.show();
+  }
+
+  hide() {
+    if (!this.visible) return;
+    this.visible = false;
+    this.clickedChoice = null;
+    this.shell.hide(() => {
+      this.currentLevel = null;
+      this.pendingChoice = false;
+    });
+  }
+
   handleInput() {
     if (!this.visible) return null;
-
+    const just = Phaser.Input.Keyboard.JustDown;
     if (this.pendingChoice) {
+      if (just(this.leftKey) || just(this.aKey)) {
+        this.selectedOption = 0;
+        this._render();
+      } else if (just(this.rightKey) || just(this.dKey)) {
+        this.selectedOption = 1;
+        this._render();
+      }
+      if (just(this.key1)) this.clickedChoice = REWARD_OPTIONS[0].type;
+      if (just(this.key2)) this.clickedChoice = REWARD_OPTIONS[1].type;
+      if (just(this.enterKey) || just(this.spaceKey)) {
+        this.clickedChoice = REWARD_OPTIONS[this.selectedOption].type;
+      }
       if (this.clickedChoice) {
         const choice = this.clickedChoice;
         this.clickedChoice = null;
         this.hide();
         return choice;
       }
-      // Choice rewards - check for 1 or 2
-      if (Phaser.Input.Keyboard.JustDown(this.key1)) {
-        this.hide();
-        return this.option1Container.rewardType;
-      }
-      if (Phaser.Input.Keyboard.JustDown(this.key2)) {
-        this.hide();
-        return this.option2Container.rewardType;
-      }
-    } else {
-      if (this.clickedChoice === 'continue') {
-        this.clickedChoice = null;
-        this.hide();
-        return "continue";
-      }
-      // Milestone rewards - check for Enter/Space
-      if (Phaser.Input.Keyboard.JustDown(this.spaceKey) || Phaser.Input.Keyboard.JustDown(this.enterKey)) {
-        this.hide();
-        return "continue";
-      }
+      return null;
     }
-
+    if (this.clickedChoice === "continue" || just(this.enterKey) || just(this.spaceKey)) {
+      this.clickedChoice = null;
+      this.hide();
+      return "continue";
+    }
     return null;
   }
 
-  /**
-   * Handle resize events
-   */
   resize() {
-    this._layout();
+    if (this.visible) this._render();
+    else this.shell.layout();
   }
 
-  /**
-   * Clean up
-   */
   destroy() {
-    if (this._boundPointerDown) {
-      this.scene?.input?.off?.('pointerdown', this._boundPointerDown);
-      this._boundPointerDown = null;
-    }
-    this.container.destroy();
-    this.spaceKey.destroy();
-    this.enterKey.destroy();
-    this.key1.destroy();
-    this.key2.destroy();
+    [
+      this.spaceKey,
+      this.enterKey,
+      this.key1,
+      this.key2,
+      this.leftKey,
+      this.rightKey,
+      this.aKey,
+      this.dKey,
+    ].forEach(key => key?.destroy?.());
+    this.shell?.destroy?.();
   }
 }

@@ -4,11 +4,22 @@
  */
 
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { hasApprovedHudSkin } from "../../systems/visual/ApprovedHudSkin.js";
 
 export class XPProgressBar {
   constructor(scene) {
     this.scene = scene;
     this.visible = false;
+    this.approved = hasApprovedHudSkin(scene);
+
+    if (this.approved) {
+      this.frame = scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.xp)
+        .setOrigin(0, 0)
+        .setScrollFactor(0)
+        .setDepth(HUD_LAYOUT.hudDepth - 1);
+    }
 
     // Create graphics objects for the bar
     this.barBg = scene.add.graphics();
@@ -38,22 +49,41 @@ export class XPProgressBar {
     const width = this.scene.scale.width;
     const height = this.scene.scale.height;
 
-    // Position at bottom center
-    const barWidth = Math.min(600, width - 40);
-    const barHeight = 20;
-    const barX = (width - barWidth) / 2;
-    const barY = height - 50;
+    const layout = APPROVED_HUD_SKIN.layout.xp;
+    const reference = APPROVED_HUD_SKIN.referenceViewport;
+    const scale = Math.min(width / reference.width, height / reference.height);
+    const frameWidth = layout.width * scale;
+    const frameHeight = layout.height * scale;
+    const frameX = (width - frameWidth) / 2;
+    const frameY = height - (layout.bottom + layout.height) * scale;
+    const barWidth = this.approved ? layout.barWidth * scale : Math.min(600, width - 40);
+    const barHeight = this.approved ? layout.barHeight * scale : 20;
+    const barX = this.approved ? frameX + layout.barX * scale : (width - barWidth) / 2;
+    const barY = this.approved ? frameY + layout.barY * scale : height - 50;
 
     this.barWidth = barWidth;
     this.barHeight = barHeight;
     this.barX = barX;
     this.barY = barY;
 
-    // Position text
-    this.levelText.setPosition(barX - 100, barY + barHeight / 2);
-    this.levelText.setOrigin(1, 0.5);
-    this.xpText.setPosition(barX + barWidth + 10, barY + barHeight / 2);
-    this.xpText.setOrigin(0, 0.5);
+    if (this.approved) {
+      this.frame.setPosition(frameX, frameY).setDisplaySize(frameWidth, frameHeight);
+      this.levelText.setPosition(frameX + layout.levelX * scale, frameY + frameHeight / 2).setOrigin(0, 0.5);
+      this.xpText.setPosition(frameX + frameWidth - layout.xpRight * scale, frameY + frameHeight / 2).setOrigin(1, 0.5);
+      const textStyle = {
+        fontFamily: APPROVED_HUD_SKIN.font.family,
+        fontSize: `${layout.fontSize * scale}px`,
+        fontStyle: "bold",
+        color: APPROVED_HUD_SKIN.font.color,
+        stroke: APPROVED_HUD_SKIN.font.shadow,
+        strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
+      };
+      this.levelText.setStyle(textStyle);
+      this.xpText.setStyle(textStyle);
+    } else {
+      this.levelText.setPosition(barX - 100, barY + barHeight / 2).setOrigin(1, 0.5);
+      this.xpText.setPosition(barX + barWidth + 10, barY + barHeight / 2).setOrigin(0, 0.5);
+    }
 
     this.visible = true;
     this._draw();
@@ -64,8 +94,8 @@ export class XPProgressBar {
 
     // Draw background
     this.barBg.clear();
-    this.barBg.fillStyle(0x1a1a2e, 0.9);
-    this.barBg.lineStyle(2, 0x5566aa, 1);
+    this.barBg.fillStyle(0x080e13, this.approved ? 0.96 : 0.9);
+    this.barBg.lineStyle(this.approved ? 1 : 2, this.approved ? 0x4c3b24 : 0x5566aa, 1);
     this.barBg.fillRoundedRect(this.barX, this.barY, this.barWidth, this.barHeight, 4);
     this.barBg.strokeRoundedRect(this.barX, this.barY, this.barWidth, this.barHeight, 4);
 
@@ -81,14 +111,9 @@ export class XPProgressBar {
 
     const fillWidth = Math.max(this.barWidth * fillPercent, 6);
 
-    // Gradient color based on progress
-    let color;
-    if (fillPercent < 0.3) {
-      color = 0x66ff66; // Green
-    } else if (fillPercent < 0.7) {
-      color = 0xffff66; // Yellow
-    } else {
-      color = 0xffaa00; // Gold
+    let color = 0xf2d52b;
+    if (!this.approved) {
+      color = fillPercent < 0.3 ? 0x66ff66 : fillPercent < 0.7 ? 0xffff66 : 0xffaa00;
     }
 
     this.barFill.fillStyle(color, 0.85);
@@ -111,7 +136,7 @@ export class XPProgressBar {
     this.xpRequired = xpRequired;
 
     // Update text
-    this.levelText.setText(`Lvl ${level}`);
+    this.levelText.setText(this.approved ? `LEVEL ${level}` : `Lvl ${level}`);
     this.xpText.setText(`${currentXP.toLocaleString()} / ${xpRequired.toLocaleString()} XP`);
 
     // Animate fill smoothly
@@ -148,6 +173,7 @@ export class XPProgressBar {
     this.barFill.setVisible(true);
     this.levelText.setVisible(true);
     this.xpText.setVisible(true);
+    this.frame?.setVisible(true);
     this._draw();
   }
 
@@ -160,6 +186,7 @@ export class XPProgressBar {
     this.barFill.setVisible(false);
     this.levelText.setVisible(false);
     this.xpText.setVisible(false);
+    this.frame?.setVisible(false);
   }
 
   /**
@@ -170,5 +197,6 @@ export class XPProgressBar {
     this.barFill.destroy();
     this.levelText.destroy();
     this.xpText.destroy();
+    this.frame?.destroy();
   }
 }

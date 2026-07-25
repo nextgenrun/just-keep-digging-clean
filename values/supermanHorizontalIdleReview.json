@@ -1,0 +1,29 @@
+{
+  "version": "superman-horizontal-idle-review-v1-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "testing/blender-animation-lab-v1/review-drafts/superman-pose-editor-v1/superman-pose-editor-v1.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "DG_SUPERMAN_POSE_IDLE_V1",
+    "idleFrame": 1,
+    "root": "CTRL_BODY_TILT"
+  },
+  "output": {
+    "root": "testing/blender-animation-lab-v1/review-drafts/superman-horizontal-idle-v1",
+    "blend": "superman-horizontal-idle-v1.blend",
+    "manifest": "horizontal-idle-manifest.json",
+    "preview": "horizontal-idle-preview.png"
+  },
+  "pose": {
+    "rootName": "DG_HORIZONTAL_IDLE_ROOT",
+    "horizontalRotationDegrees": 90,
+    "rootDisplaySize": 0.001,
+    "frameStart": 1,
+    "frameEnd": 1
+  },
+  "preview": {
+    "sizePx": 512,
+    "transparent": false
+  }
+}

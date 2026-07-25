@@ -13,17 +13,24 @@
     feedbackCount: document.getElementById("feedback-count"),
     feedbackList: document.getElementById("feedback-list"),
     frameGrid: document.getElementById("frame-grid"),
+    gameActual: document.getElementById("game-actual-canvas"),
+    gameActualLabel: document.getElementById("game-actual-label"),
+    gameLoupe: document.getElementById("game-loupe-canvas"),
+    gameLoupeLabel: document.getElementById("game-loupe-label"),
     issue: document.getElementById("issue-select"),
     matte: document.getElementById("matte-select"),
     metrics: document.getElementById("metrics"),
     mirror: document.getElementById("mirror-canvas"),
     mirrorLabel: document.getElementById("opposite-preview-label"),
+    nativeQuality: document.getElementById("native-quality-canvas"),
     next: document.getElementById("next-frame"),
     note: document.getElementById("issue-note"),
     piskelSource: document.getElementById("piskel-source"),
     play: document.getElementById("play-toggle"),
     previous: document.getElementById("previous-frame"),
     remove: document.getElementById("remove-issue"),
+    qualitySummary: document.getElementById("quality-summary"),
+    sampling: document.getElementById("sampling-select"),
     save: document.getElementById("save-issue"),
     selectedSource: document.getElementById("selected-source"),
     selectedTitle: document.getElementById("selected-title"),
@@ -40,6 +47,7 @@
     frame: 0,
     isPlaying: false,
     matte: "checker",
+    sampling: "linear",
     timer: null,
     transitionId: null,
     viewId: "source",
@@ -53,6 +61,10 @@
 
   function activeView() {
     return SpriteAuditData.getView(activeAnimation(), state.viewId);
+  }
+
+  function renderOptions(extra = {}) {
+    return { smoothing: state.sampling === "linear", ...extra };
   }
 
   function setStatus(message) {
@@ -121,7 +133,7 @@
       if (SPRITE_AUDIT_CONFIG.reportedTargets.some((target) => target.animationId === animation.id)) button.classList.add("flagged");
       button.addEventListener("click", () => selectFrame(frame));
       elements.frameGrid.append(button);
-      jobs.push(SpriteAuditData.drawFrame(canvas, animation, frame, view.flipX, state.matte));
+      jobs.push(SpriteAuditData.drawFrame(canvas, animation, frame, view.flipX, state.matte, renderOptions()));
     }
 
     await Promise.all(jobs);
@@ -154,11 +166,26 @@
     elements.selectedSource.textContent = animation.file || animation.files[state.frame];
     elements.currentLabel.textContent = view.label;
     elements.mirrorLabel.textContent = view.flipX ? "Unflipped counterpart" : "Flipped counterpart";
-    elements.piskelSource.textContent = animation.piskelSource
-      ? `${animation.sourceStatus}: ${animation.piskelSource}`
-      : "No Piskel review source is mapped for this live asset.";
-    const metrics = await SpriteAuditData.drawFrame(elements.detail, animation, state.frame, view.flipX, state.matte);
-    await SpriteAuditData.drawFrame(elements.mirror, animation, state.frame, !view.flipX, state.matte);
+    const reviewSources = animation.piskelSource
+      ? [`${animation.sourceStatus}: ${animation.piskelSource}`]
+      : ["No Piskel review source is mapped for this live asset."];
+    if (animation.blenderSource) reviewSources.push(`Blender envelope: ${animation.blenderSource}`);
+    elements.piskelSource.textContent = reviewSources.join(" · ");
+    const displaySize = animation.displaySizePx || SPRITE_AUDIT_CONFIG.gameDisplaySizePx;
+    elements.gameActual.width = displaySize;
+    elements.gameActual.height = displaySize;
+    elements.gameActual.style.width = `${displaySize}px`;
+    elements.gameActual.style.height = `${displaySize}px`;
+    elements.gameActualLabel.textContent = `Actual game footprint · ${displaySize}×${displaySize}`;
+    elements.gameLoupeLabel.textContent = `Game sample · ${displaySize}×${displaySize} · audit loupe`;
+    elements.qualitySummary.textContent = `${state.sampling.toUpperCase()} sampling`;
+    const [metrics] = await Promise.all([
+      SpriteAuditData.drawFrame(elements.detail, animation, state.frame, view.flipX, state.matte, renderOptions()),
+      SpriteAuditData.drawFrame(elements.mirror, animation, state.frame, !view.flipX, state.matte, renderOptions()),
+      SpriteAuditData.drawFrame(elements.nativeQuality, animation, state.frame, view.flipX, state.matte, renderOptions({ mode: "frame-fill" })),
+      SpriteAuditData.drawFrame(elements.gameActual, animation, state.frame, view.flipX, state.matte, renderOptions({ mode: "frame-fill" })),
+      SpriteAuditData.drawFrame(elements.gameLoupe, animation, state.frame, view.flipX, state.matte, renderOptions({ mode: "game-loupe", gameSize: displaySize })),
+    ]);
     if (renderVersion !== inspectorVersion) return;
     elements.metrics.innerHTML = metricsMarkup(metrics);
     refreshIssueForm();
@@ -251,7 +278,7 @@
           selectFrame(frame, transition.id, step.viewId);
         });
         elements.transitionStrip.append(button);
-        jobs.push(SpriteAuditData.drawFrame(canvas, animation, frame, view.flipX, state.matte));
+        jobs.push(SpriteAuditData.drawFrame(canvas, animation, frame, view.flipX, state.matte, renderOptions()));
       });
     });
     await Promise.all(jobs);
@@ -293,6 +320,7 @@
       issueType: elements.issue.value,
       note,
       piskelSource: animation.piskelSource || null,
+      blenderSource: animation.blenderSource || null,
       runtimeCodeRef: transition?.codeRef || target?.codeRef || null,
       runtimeFile: animation.file || animation.files[state.frame],
       sourceOrientation: animation.orientation,
@@ -338,6 +366,7 @@
     });
     elements.view.addEventListener("change", () => { state.viewId = elements.view.value; renderGrid(); renderInspector(); });
     elements.matte.addEventListener("change", () => { state.matte = elements.matte.value; renderGrid(); renderInspector(); renderTransition(); });
+    elements.sampling.addEventListener("change", () => { state.sampling = elements.sampling.value; renderGrid(); renderInspector(); renderTransition(); });
     elements.issue.addEventListener("change", refreshIssueForm);
     elements.transition.addEventListener("change", () => { state.transitionId = elements.transition.value; renderTransition(); refreshIssueForm(); });
     elements.previous.addEventListener("click", () => selectFrame((state.frame - 1 + activeAnimation().frames) % activeAnimation().frames));
@@ -352,6 +381,7 @@
   async function initialise() {
     elements.animation.replaceChildren(...SPRITE_AUDIT_CONFIG.animations.map((animation) => option(animation.id, animation.label)));
     elements.animation.value = state.animationId;
+    elements.sampling.value = state.sampling;
     elements.issue.replaceChildren(...SPRITE_AUDIT_CONFIG.issueTypes.map((issue) => option(issue, issue)));
     elements.transition.replaceChildren(...SPRITE_AUDIT_CONFIG.transitions.map((transition) => option(transition.id, transition.label)));
     state.transitionId = SPRITE_AUDIT_CONFIG.transitions[0].id;

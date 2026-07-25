@@ -6,15 +6,30 @@
   "preview": "sprites/character/character-v8/previews/dig-up-look-runtime-contact.png",
   "slowmoPreview": "sprites/character/character-v8/previews/dig-up-look-slowmo.gif",
   "piskel": "sprites/character/character-v8/piskel/dig-up-look.piskel",
+  "motionProfile": "sprites/character/character-v8/reports/blender-motion-profiles/dig-up-look-motion-profile.json",
   "frameWidth": 341,
   "frameHeight": 341,
   "frameCount": 1,
   "columns": 1,
   "rows": 1,
   "fps": 1,
+  "orientation": null,
+  "sourcePreparation": null,
+  "culledSourceIndices": [],
+  "recommendedDisplaySizePx": 89,
+  "sourceFrames": [
+    "sprites/character/character-v8/frames/dig-up-look/frame-000.png"
+  ],
+  "sourceMattePixelsRemoved": 0,
   "borderHaloPixelsRemoved": 750,
-  "alphaPixelsChanged": 750,
-  "targetedTransforms": {},
+  "alphaPixelsChanged": 7067,
+  "targetedTransforms": {
+    "scaleFactor": 1.04
+  },
+  "motionAudit": {
+    "transitions": [],
+    "sourceGapTransitions": []
+  },
   "anchor": {
     "targetCenterX": 170,
     "targetBottom": 339,

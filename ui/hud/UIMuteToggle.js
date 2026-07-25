@@ -1,4 +1,7 @@
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { hasApprovedHudSkin } from "../../systems/visual/ApprovedHudSkin.js";
 
 // ─── Generated button texture keys ────────────────────────────────────────
 export const MUTE_BTN_TEXTURES = Object.freeze({
@@ -161,35 +164,56 @@ export class UIMuteToggle {
     this.soundSystem = soundSystem;
     this.x = x;
     this.y = y;
+    this.approved = hasApprovedHudSkin(scene);
 
     this._toast = null;
     this._toastTween = null;
     this._destroyed = false;
 
     // Ensure textures exist (safe to call multiple times)
-    ensureMuteButtonTextures(scene);
+    if (!this.approved) ensureMuteButtonTextures(scene);
 
     this.createUI();
   }
 
   createUI() {
+    const layout = APPROVED_HUD_SKIN.layout.audio;
+    const reference = APPROVED_HUD_SKIN.referenceViewport;
+    const scale = Math.min(
+      (this.scene.scale?.width || reference.width) / reference.width,
+      (this.scene.scale?.height || reference.height) / reference.height,
+    );
+    const buttonWidth = this.approved ? layout.width * scale : 40;
+    const buttonHeight = this.approved ? layout.height * scale : 40;
+    const buttonGap = this.approved ? layout.gap * scale : 6;
+    if (this.approved) {
+      this.x = (this.scene.scale?.width || reference.width) - (layout.right + layout.width / 2) * scale;
+      this.y = (layout.y + layout.height / 2) * scale;
+    }
+
     // Container anchored at (x, y) — left button center at (0,0), right at (56,0)
     this.container = this.scene.add.container(this.x, this.y);
     this.container.setScrollFactor(0);
     this.container.setDepth(2000);
 
     // --- Music button (left) — generated in-engine texture ---
-    this._musicImg = this.scene.add.image(-20, -20, MUTE_BTN_TEXTURES.musicOn)
-      .setOrigin(0, 0);
+    this._musicImg = this.scene.add.image(
+      -buttonWidth / 2,
+      -buttonHeight / 2,
+      this.approved ? ASSET_KEYS.ui.approvedHud.audioMusic : MUTE_BTN_TEXTURES.musicOn,
+    ).setOrigin(0, 0).setDisplaySize(buttonWidth, buttonHeight);
     this.container.add(this._musicImg);
 
     // --- SFX button (right) — generated in-engine texture ---
-    this._sfxImg = this.scene.add.image(26, -20, MUTE_BTN_TEXTURES.sfxOn)
-      .setOrigin(0, 0);
+    this._sfxImg = this.scene.add.image(
+      -buttonWidth / 2,
+      buttonHeight / 2 + buttonGap,
+      this.approved ? ASSET_KEYS.ui.approvedHud.audioSfx : MUTE_BTN_TEXTURES.sfxOn,
+    ).setOrigin(0, 0).setDisplaySize(buttonWidth, buttonHeight);
     this.container.add(this._sfxImg);
 
     // --- Interactivity (hit zones) ---
-    this._musicHit = this.scene.add.rectangle(0, 0, 40, 40, 0x000000, 0)
+    this._musicHit = this.scene.add.rectangle(0, 0, buttonWidth, buttonHeight, 0x000000, 0)
       .setInteractive({ useHandCursor: true });
     this.container.add(this._musicHit);
 
@@ -206,9 +230,9 @@ export class UIMuteToggle {
       this.scene.soundSystem.playUiSelect();
     });
     this._musicHit.on('pointerover', () => { if (!this._destroyed) this._musicImg.setAlpha(0.8); });
-    this._musicHit.on('pointerout', () => { if (!this._destroyed) this._musicImg.setAlpha(1); });
+    this._musicHit.on('pointerout', () => { if (!this._destroyed) this._updateButtonState(this._musicImg, this.soundSystem.musicEnabled); });
 
-    this._sfxHit = this.scene.add.rectangle(46, 0, 40, 40, 0x000000, 0)
+    this._sfxHit = this.scene.add.rectangle(0, buttonHeight + buttonGap, buttonWidth, buttonHeight, 0x000000, 0)
       .setInteractive({ useHandCursor: true });
     this.container.add(this._sfxHit);
 
@@ -225,7 +249,7 @@ export class UIMuteToggle {
       this.scene.soundSystem.playUiSelect();
     });
     this._sfxHit.on('pointerover', () => { if (!this._destroyed) this._sfxImg.setAlpha(0.8); });
-    this._sfxHit.on('pointerout', () => { if (!this._destroyed) this._sfxImg.setAlpha(1); });
+    this._sfxHit.on('pointerout', () => { if (!this._destroyed) this._updateButtonState(this._sfxImg, this.soundSystem.sfxEnabled); });
 
     // Reflect actual initial state
     this.syncMusicState(this.soundSystem.musicEnabled);
@@ -313,6 +337,12 @@ export class UIMuteToggle {
 
   _updateButtonState(img, enabled) {
     if (this._destroyed || !img?.texture) return;
+    if (this.approved) {
+      img.setAlpha(enabled ? 1 : 0.48);
+      if (enabled) img.clearTint();
+      else img.setTint(0x8b6570);
+      return;
+    }
     // We now use separate full textures for ON/OFF states rather than
     // a side-by-side sprite sheet. Determine which texture key to use.
     const texKey = img.texture.key;

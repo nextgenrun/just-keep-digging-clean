@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dig Game · Meshy Background Mockup</title>
+  <style>
+    :root { color-scheme:dark; --bg:#05080d; --panel:#09111a; --line:#24414e; --gold:#e4c47d; --cyan:#70e5ef; --text:#dbe6ed; --muted:#8da0af; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 50% 0,#122330 0,var(--bg) 48%); color:var(--text); font-family:Inter,Segoe UI,sans-serif; }
+    main { width:min(1500px,96vw); margin:0 auto; padding:38px 0 70px; }
+    h1,h2 { font-family:Georgia,serif; letter-spacing:.045em; }
+    h1 { margin:0; color:var(--gold); font-size:clamp(2rem,4vw,4rem); }
+    h2 { margin:38px 0 14px; }
+    p { color:var(--muted); line-height:1.6; max-width:1000px; }
+    .facts { display:flex; flex-wrap:wrap; gap:9px; margin:22px 0; }
+    .facts span { border:1px solid var(--line); border-radius:999px; padding:8px 13px; color:#b9cbd4; background:#071018; font-size:.82rem; letter-spacing:.08em; }
+    figure { margin:0; border:1px solid var(--line); background:var(--panel); box-shadow:0 18px 50px #0008; }
+    img { display:block; width:100%; height:auto; }
+    figcaption { padding:15px 18px 18px; color:var(--muted); }
+    strong { color:var(--cyan); }
+    .result { margin-top:26px; padding:20px 22px; border:1px solid #315665; background:#08131a; }
+    .rejected { margin-bottom:22px; padding:15px 18px; border:1px solid #9b4650; background:#2b1116; color:#ffb5be; font-weight:800; letter-spacing:.035em; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="rejected">REJECTED — this generated cave model is not a valid high-detail background-depth proof. Retained only as failure evidence.</div>
+  <h1>Actual Meshy Background Mockup</h1>
+  <p>One Meshy 6 cave-environment GLB, textured by Meshy and rendered directly in Blender from its cave-mouth view. This is a background comparison only.</p>
+  <div class="facts"><span>BACKGROUND ONLY</span><span>ACTUAL MESHY 6 GLB</span><span>1280×720</span><span>NO TILES</span><span>NO RUNTIME CHANGES</span></div>
+
+  <figure><img src="background-comparison.png" alt="Current V11 underground background compared with an actual Meshy cave render"><figcaption><strong>Direct A/B:</strong> current active V11 depth art versus the generated Meshy environment.</figcaption></figure>
+
+  <h2>Meshy render without labels</h2>
+  <figure><img src="meshy-cave-background-1280x720.png" alt="Actual Meshy cave environment rendered as a mining background"><figcaption>Review-only 1280×720 render. Nothing from this folder is loaded by Phaser.</figcaption></figure>
+
+  <div class="result"><strong>Decision:</strong> rejected for this use. Test depth on the existing high-detail V11 background instead.</div>
+</main>
+</body>
+</html>

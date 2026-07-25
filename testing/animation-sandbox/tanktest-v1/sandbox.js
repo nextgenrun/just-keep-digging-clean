@@ -4,7 +4,13 @@
  */
 /* global Phaser */
 
-const TILE_SIZE = 94;
+import { GAME_CONFIG } from "../../../values/gameConfig.js";
+import { ARC_CORE_CONFIG } from "../../../values/arcCoreConfig.js";
+import { ANIMATION_SANDBOX_HITBOX_CONFIG } from "../../../values/animationSandboxHitboxConfig.js";
+import { UAL_NATIVE_PLAYER_ASSET_PROFILE as SURVIVAL_PLAYER_ASSET_PROFILE } from "../../../values/ualNativePlayerAssetProfile.js";
+import { resolveArcCoreDigFootprint } from "../../../systems/vehicles/arcCoreDigFootprint.js";
+
+const TILE_SIZE = GAME_CONFIG.tileSize;
 const VIEW_W = 1280;
 const VIEW_H = 720;
 const WORLD_COLS = 16;
@@ -13,6 +19,8 @@ const WORLD_ROWS = 9;
 const ASSET_BASE = "../../../sprites/character/tank-v1/runtime";
 const LIVING_DRILL_ASSET_BASE = "../../../sprites/character/living-drill-v1/runtime";
 const PICKAXE_MINER_ASSET_BASE = "../../../sprites/character/pickaxe-miner-v1/runtime";
+const SURVIVAL_MINER_ASSET_BASE = `../../../${SURVIVAL_PLAYER_ASSET_PROFILE.basePath}`;
+const ROBOT_SPHERE_ASSET_BASE = "../../../sprites/character/robot-sphere-v2/runtime";
 
 const BODY_SIZE = TILE_SIZE;
 const MOVE_SPEED = 150;
@@ -34,6 +42,10 @@ const LIVING_DRILL_VISUAL_SCALE = 1.88;
 const DIG_DURATION = 0.9;
 const BREAK_PROGRESS = 0.68;
 const HIT_EPS = 0.001;
+const SURVIVAL_INSPECTION_SCALE = 2;
+const ROBOT_SPHERE_BODY_DISPLAY_SIZE = TILE_SIZE * ARC_CORE_CONFIG.displaySizeTiles;
+const ROBOT_SPHERE_FRAME_DISPLAY_SIZE = ANIMATION_SANDBOX_HITBOX_CONFIG.robotSphere.renderSize;
+const SURVIVAL_ATTACK_DURATION_MS = 1000;
 
 const TILE = Object.freeze({
   AIR: 0,
@@ -54,6 +66,8 @@ const CHARACTER_MODES = Object.freeze({
   tank: "tank",
   drillHead: "drillHead",
   pickaxeMiner: "pickaxeMiner",
+  survivalMiner: "survivalMiner",
+  robotSphere: "robotSphere",
   arcCore: "arcCore",
   wormholeMaw: "wormholeMaw",
 });
@@ -74,6 +88,18 @@ function clamp(value, min, max) {
 
 function lerp(a, b, t) {
   return a + (b - a) * clamp(t, 0, 1);
+}
+
+function getSurvivalVisualSize(useInspectionScale) {
+  const scale = useInspectionScale ? SURVIVAL_INSPECTION_SCALE : 1;
+  return SURVIVAL_PLAYER_ASSET_PROFILE.displaySizePx * scale;
+}
+
+function getSurvivalViewLabel(useInspectionScale) {
+  const size = getSurvivalVisualSize(useInspectionScale);
+  return useInspectionScale
+    ? `UAL View: 2x Inspect (${size}px)`
+    : `UAL View: 1x Production (${size}px)`;
 }
 
 function easeOutCubic(t) {
@@ -119,7 +145,9 @@ function isSideDirection(direction) {
 }
 
 function isEnergyConceptMode(mode) {
-  return mode === CHARACTER_MODES.arcCore || mode === CHARACTER_MODES.wormholeMaw;
+  return mode === CHARACTER_MODES.arcCore
+    || mode === CHARACTER_MODES.robotSphere
+    || mode === CHARACTER_MODES.wormholeMaw;
 }
 
 function tileName(type) {
@@ -236,12 +264,40 @@ const TankScene = new Phaser.Class({
       frameWidth: 94,
       frameHeight: 94,
     });
+    const survivalSheet = (key, fileName, frames) => this.load.spritesheet(key, `${SURVIVAL_MINER_ASSET_BASE}/${fileName}`, {
+      frameWidth: SURVIVAL_PLAYER_ASSET_PROFILE.frameWidth,
+      frameHeight: SURVIVAL_PLAYER_ASSET_PROFILE.frameHeight,
+      endFrame: frames.length - 1,
+    });
+    const loadSurvivalProfileSheet = (key, sheetProperty, framesProperty) => {
+      const entry = SURVIVAL_PLAYER_ASSET_PROFILE.sheetFiles.find(([property]) => property === sheetProperty);
+      if (!entry) throw new Error(`Missing UAL sandbox sheet entry: ${sheetProperty}`);
+      survivalSheet(key, entry[1], SURVIVAL_PLAYER_ASSET_PROFILE[framesProperty]);
+    };
+    loadSurvivalProfileSheet("survival_miner_idle", "idleSheet", "idleFrames");
+    loadSurvivalProfileSheet("survival_miner_walk", "walkSheet", "walkFrames");
+    loadSurvivalProfileSheet("survival_miner_run", "walkRunSheet", "walkRunFrames");
+    loadSurvivalProfileSheet("survival_miner_fly", "flySheet", "flyFrames");
+    loadSurvivalProfileSheet("survival_miner_quickslash", "punchJabSheet", "quickslashFrames");
+    loadSurvivalProfileSheet("survival_miner_dig_side", "punchJabSheet", "digSidewaysFrames");
+    loadSurvivalProfileSheet("survival_miner_dig_up", "punchCrossSheet", "digUpFrames");
+    loadSurvivalProfileSheet("survival_miner_dig_down", "punchCrossSheet", "digDownFrames");
+    const robotSheet = (key, clip) => this.load.spritesheet(key, `${ROBOT_SPHERE_ASSET_BASE}/robot-sphere-v2-${clip}-sheet.png`, {
+      frameWidth: 192,
+      frameHeight: 192,
+    });
+    robotSheet("robot_sphere_idle", "idle");
+    robotSheet("robot_sphere_roll", "roll");
+    robotSheet("robot_sphere_fly", "fly");
+    robotSheet("robot_sphere_dig_side", "dig-side");
+    robotSheet("robot_sphere_dig_up", "dig-up");
+    robotSheet("robot_sphere_dig_down", "dig-down");
   },
 
   create: function () {
     this.world = makeWorld();
     this.body = new TankBody(5, 6);
-    this.characterMode = CHARACTER_MODES.tank;
+    this.characterMode = CHARACTER_MODES.survivalMiner;
     this.facing = 1;
     this.digAim = DIG_DIRECTIONS.right;
     this.flyMode = false;
@@ -253,6 +309,11 @@ const TankScene = new Phaser.Class({
     this.drillSpinFrame = 0;
     this.particles = [];
     this.stepOnce = false;
+    this.survivalAttackStartMs = 0;
+    this.survivalAttackEndMs = 0;
+    this.survivalUseWalk = false;
+    this.survivalInspection2x = false;
+    this.previewFlyMode = false;
 
     this.debug = {
       bodyBox: true,
@@ -273,6 +334,16 @@ const TankScene = new Phaser.Class({
     this.livingDrillSprite.setOrigin(0.5, 0.5).setDepth(10).setVisible(false);
     this.pickaxeMinerSprite = this.add.sprite(this.body.x + BODY_SIZE * 0.5, this.body.y + BODY_SIZE * 0.5, "pickaxe_miner_idle", 0);
     this.pickaxeMinerSprite.setOrigin(0.5, 0.5).setDepth(10).setVisible(false);
+    this.survivalMinerSprite = this.add.sprite(this.body.x + BODY_SIZE * 0.5, this.body.y + BODY_SIZE * 0.5, "survival_miner_idle", 0);
+    this.survivalMinerSprite
+      .setOrigin(
+        SURVIVAL_PLAYER_ASSET_PROFILE.visualOriginX,
+        SURVIVAL_PLAYER_ASSET_PROFILE.visualOriginY,
+      )
+      .setDepth(10)
+      .setVisible(false);
+    this.robotSphereSprite = this.add.sprite(this.body.x + BODY_SIZE * 0.5, this.body.y + BODY_SIZE * 0.5, "robot_sphere_idle", 0);
+    this.robotSphereSprite.setOrigin(0.5, 0.5).setDepth(10).setVisible(false);
     this.playerGfx = this.add.graphics().setDepth(10);
     this.drillGfx = this.add.graphics().setDepth(10.5);
     this.occluderGfx = this.add.graphics().setDepth(11);
@@ -290,13 +361,13 @@ const TankScene = new Phaser.Class({
   },
 
   createAnimations: function () {
-    const create = (key, sheet, frameCount, fps) => {
+    const create = (key, sheet, frameCount, fps, repeat = -1) => {
       if (this.anims.exists(key)) return;
       this.anims.create({
         key,
         frames: Array.from({ length: frameCount }, (_, frame) => ({ key: sheet, frame })),
         frameRate: fps,
-        repeat: -1,
+        repeat,
       });
     };
 
@@ -310,6 +381,20 @@ const TankScene = new Phaser.Class({
     create("pickaxe-miner-idle", "pickaxe_miner_idle", 6, 6);
     create("pickaxe-miner-walk", "pickaxe_miner_walk", 8, 10);
     create("pickaxe-miner-dig", "pickaxe_miner_dig", 8, 12);
+    create("survival-miner-idle", "survival_miner_idle", SURVIVAL_PLAYER_ASSET_PROFILE.idleFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.idleAnimationFps);
+    create("survival-miner-walk", "survival_miner_walk", SURVIVAL_PLAYER_ASSET_PROFILE.walkFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.walkAnimationFps);
+    create("survival-miner-run", "survival_miner_run", SURVIVAL_PLAYER_ASSET_PROFILE.walkRunFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.walkRunAnimationFps);
+    create("survival-miner-fly", "survival_miner_fly", SURVIVAL_PLAYER_ASSET_PROFILE.flyFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.flyClimbAnimationFps);
+    create("survival-miner-attack", "survival_miner_quickslash", SURVIVAL_PLAYER_ASSET_PROFILE.quickslashFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.quickslashAnimationFps, 0);
+    create("survival-miner-dig-side", "survival_miner_dig_side", SURVIVAL_PLAYER_ASSET_PROFILE.digSidewaysFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.digSidewaysAnimationFps, 0);
+    create("survival-miner-dig-up", "survival_miner_dig_up", SURVIVAL_PLAYER_ASSET_PROFILE.digUpFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.digUpAnimationFps, 0);
+    create("survival-miner-dig-down", "survival_miner_dig_down", SURVIVAL_PLAYER_ASSET_PROFILE.digDownFrames.length, SURVIVAL_PLAYER_ASSET_PROFILE.digDownAnimationFps, 0);
+    create("robot-sphere-idle", "robot_sphere_idle", 16, 18);
+    create("robot-sphere-roll", "robot_sphere_roll", 16, 20);
+    create("robot-sphere-fly", "robot_sphere_fly", 16, 18);
+    create("robot-sphere-dig-side", "robot_sphere_dig_side", 18, 22, 0);
+    create("robot-sphere-dig-up", "robot_sphere_dig_up", 18, 22, 0);
+    create("robot-sphere-dig-down", "robot_sphere_dig_down", 18, 22, 0);
   },
 
   createInput: function () {
@@ -323,6 +408,7 @@ const TankScene = new Phaser.Class({
     this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.keyPeriod = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.PERIOD);
     this.keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
   },
 
   createPanel: function () {
@@ -341,30 +427,46 @@ const TankScene = new Phaser.Class({
 
     addButton("Idle", () => this.chassis.play("tank-idle", true));
     addButton("Drive", () => this.chassis.play("tank-drive", true));
-    addButton("Fly", () => this.chassis.play("tank-fly", true));
-    addButton("Tank Rig", () => {
-      this.characterMode = CHARACTER_MODES.tank;
+    addButton("Fly Mode", () => {
+      this.previewFlyMode = !this.previewFlyMode;
       this.drawAll();
+    });
+    addButton("Tank Rig", () => {
+      this.setCharacterMode(CHARACTER_MODES.tank);
     });
     addButton("Drill Head", () => {
-      this.characterMode = CHARACTER_MODES.drillHead;
-      this.drawAll();
+      this.setCharacterMode(CHARACTER_MODES.drillHead);
     });
     addButton("Pickaxe Miner", () => {
-      this.characterMode = CHARACTER_MODES.pickaxeMiner;
-      this.drawAll();
+      this.setCharacterMode(CHARACTER_MODES.pickaxeMiner);
+    });
+    addButton("UAL Native 30 FPS", () => {
+      this.setCharacterMode(CHARACTER_MODES.survivalMiner);
+    });
+    this.survivalViewButton = addButton(getSurvivalViewLabel(false), () => {
+      this.survivalInspection2x = !this.survivalInspection2x;
+      this.survivalViewButton.textContent = getSurvivalViewLabel(this.survivalInspection2x);
+      this.survivalViewButton.classList.toggle("active", this.survivalInspection2x);
+      this.setCharacterMode(CHARACTER_MODES.survivalMiner);
+    }, true);
+    this.survivalLocomotionButton = addButton("Use Walk", () => {
+      this.setCharacterMode(CHARACTER_MODES.survivalMiner);
+      this.survivalUseWalk = !this.survivalUseWalk;
+      this.survivalLocomotionButton.textContent = this.survivalUseWalk ? "Use Run" : "Use Walk";
+    });
+    addButton("Robot Sphere", () => {
+      this.setCharacterMode(CHARACTER_MODES.robotSphere);
     });
     addButton("Arc Core", () => {
-      this.characterMode = CHARACTER_MODES.arcCore;
-      this.drawAll();
+      this.setCharacterMode(CHARACTER_MODES.arcCore);
     });
     addButton("Wormhole", () => {
-      this.characterMode = CHARACTER_MODES.wormholeMaw;
-      this.drawAll();
+      this.setCharacterMode(CHARACTER_MODES.wormholeMaw);
     });
     addButton("Drill", () => this.startDig());
     addButton("Dig Up", () => this.startDig(DIG_DIRECTIONS.up));
     addButton("Dig Down", () => this.startDig(DIG_DIRECTIONS.down));
+    addButton("Attack (Q)", () => this.triggerSurvivalAttack());
     addButton("Face Left", () => {
       this.facing = -1;
       this.digAim = DIG_DIRECTIONS.left;
@@ -396,6 +498,13 @@ const TankScene = new Phaser.Class({
     addButton("Step", () => { this.stepOnce = true; });
   },
 
+  setCharacterMode: function (mode) {
+    this.characterMode = mode;
+    this.body.vx = 0;
+    this.body.vy = 0;
+    this.drawAll();
+  },
+
   resetWorld: function () {
     this.world = makeWorld();
     this.body.reset(5, 6);
@@ -408,6 +517,11 @@ const TankScene = new Phaser.Class({
     this.livingDrillBiteVisual = 0;
     this.livingDrillCommitPending = null;
     this.particles = [];
+    this.survivalAttackStartMs = 0;
+    this.survivalAttackEndMs = 0;
+    this.survivalUseWalk = false;
+    if (this.survivalLocomotionButton) this.survivalLocomotionButton.textContent = "Use Walk";
+    this.previewFlyMode = false;
     this.chassis.play("tank-idle", true);
     this.drawAll();
   },
@@ -417,6 +531,7 @@ const TankScene = new Phaser.Class({
     if (Phaser.Input.Keyboard.JustDown(this.keySpace)) this.debug.paused = !this.debug.paused;
     if (Phaser.Input.Keyboard.JustDown(this.keyPeriod)) this.stepOnce = true;
     if (Phaser.Input.Keyboard.JustDown(this.keyR)) this.resetWorld();
+    if (Phaser.Input.Keyboard.JustDown(this.keyQ)) this.triggerSurvivalAttack();
     if (this.debug.paused) {
       if (!this.stepOnce) dt = 0;
       else dt = 1 / 30;
@@ -441,7 +556,7 @@ const TankScene = new Phaser.Class({
     const up = this.cursors.up.isDown || this.keyW.isDown;
     const down = this.cursors.down.isDown || this.keyS.isDown;
 
-    this.flyMode = this.keyShift.isDown;
+    this.flyMode = this.keyShift.isDown || this.previewFlyMode;
 
     if (!this.flyMode && !this.activeDig) {
       if (Phaser.Input.Keyboard.JustDown(this.keyW) || Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
@@ -487,6 +602,32 @@ const TankScene = new Phaser.Class({
     this.body.onGround = !this.canOccupy(this.body.x, this.body.y + 2);
   },
 
+  triggerSurvivalAttack: function () {
+    if (this.activeDig) return;
+    this.setCharacterMode(CHARACTER_MODES.survivalMiner);
+    this.survivalAttackStartMs = this.time.now;
+    this.survivalAttackEndMs = this.time.now + SURVIVAL_ATTACK_DURATION_MS;
+    const cx = this.body.x + BODY_SIZE * 0.5 + this.facing * 42;
+    const cy = this.body.y + BODY_SIZE * 0.45;
+    for (let i = 0; i < 12; i += 1) {
+      this.spawnParticle({
+        x: cx + Phaser.Math.Between(-4, 10) * this.facing,
+        y: cy + Phaser.Math.Between(-32, 28),
+        vx: Phaser.Math.Between(80, 210) * this.facing,
+        vy: Phaser.Math.Between(-120, 110),
+        life: Phaser.Math.FloatBetween(0.18, 0.38),
+        size: Phaser.Math.Between(2, 5),
+        color: Phaser.Math.RND.pick([0xd7c5ff, 0x9d74ff, 0xffffff]),
+        gravity: 40,
+      });
+    }
+  },
+
+  isSurvivalAttacking: function () {
+    return this.characterMode === CHARACTER_MODES.survivalMiner
+      && this.time.now < this.survivalAttackEndMs;
+  },
+
   moveAxis: function (dx, dy) {
     if (dx === 0 && dy === 0) return;
     const nextX = this.body.x + dx;
@@ -498,35 +639,83 @@ const TankScene = new Phaser.Class({
     }
 
     if (dx !== 0) {
+      const bounds = this.getCollisionBoundsAt(nextX, nextY);
       if (dx > 0) {
-        const rightTile = Math.floor((nextX + BODY_SIZE - HIT_EPS) / TILE_SIZE);
-        this.body.x = rightTile * TILE_SIZE - BODY_SIZE;
+        const rightTile = Math.floor((bounds.right - HIT_EPS) / TILE_SIZE);
+        this.body.x = nextX + rightTile * TILE_SIZE - bounds.right;
       } else {
-        const leftTile = Math.floor((nextX + HIT_EPS) / TILE_SIZE);
-        this.body.x = (leftTile + 1) * TILE_SIZE;
+        const leftTile = Math.floor((bounds.left + HIT_EPS) / TILE_SIZE);
+        this.body.x = nextX + (leftTile + 1) * TILE_SIZE - bounds.left;
       }
       this.body.vx = 0;
     }
     if (dy !== 0) {
+      const bounds = this.getCollisionBoundsAt(nextX, nextY);
       if (dy > 0) {
-        const bottomTile = Math.floor((nextY + BODY_SIZE - HIT_EPS) / TILE_SIZE);
-        this.body.y = bottomTile * TILE_SIZE - BODY_SIZE;
+        const bottomTile = Math.floor((bounds.bottom - HIT_EPS) / TILE_SIZE);
+        this.body.y = nextY + bottomTile * TILE_SIZE - bounds.bottom;
       } else {
-        const topTile = Math.floor((nextY + HIT_EPS) / TILE_SIZE);
-        this.body.y = (topTile + 1) * TILE_SIZE;
+        const topTile = Math.floor((bounds.top + HIT_EPS) / TILE_SIZE);
+        this.body.y = nextY + (topTile + 1) * TILE_SIZE - bounds.top;
       }
       this.body.vy = 0;
     }
   },
 
+  getCollisionProfile: function () {
+    return ANIMATION_SANDBOX_HITBOX_CONFIG[this.characterMode]
+      || ANIMATION_SANDBOX_HITBOX_CONFIG.tank;
+  },
+
+  getCollisionRectsAt: function (x, y) {
+    const profile = this.getCollisionProfile();
+    if (profile.kind === "orientedRect") {
+      const direction = this.getCurrentDigDirection();
+      const vertical = isVerticalDirection(direction);
+      const width = vertical ? profile.height : profile.width;
+      const height = vertical ? profile.width : profile.height;
+      return [{
+        x: x + profile.centerX - width * 0.5,
+        y: y + profile.centerY - height * 0.5,
+        width,
+        height,
+      }];
+    }
+
+    return [{
+      x: x + profile.x,
+      y: y + profile.y,
+      width: profile.width,
+      height: profile.height,
+    }];
+  },
+
+  getCollisionBoundsAt: function (x, y) {
+    const rects = this.getCollisionRectsAt(x, y);
+    return rects.reduce((bounds, rect) => ({
+      left: Math.min(bounds.left, rect.x),
+      right: Math.max(bounds.right, rect.x + rect.width),
+      top: Math.min(bounds.top, rect.y),
+      bottom: Math.max(bounds.bottom, rect.y + rect.height),
+    }), {
+      left: Number.POSITIVE_INFINITY,
+      right: Number.NEGATIVE_INFINITY,
+      top: Number.POSITIVE_INFINITY,
+      bottom: Number.NEGATIVE_INFINITY,
+    });
+  },
+
   canOccupy: function (x, y) {
-    const left = Math.floor((x + HIT_EPS) / TILE_SIZE);
-    const right = Math.floor((x + BODY_SIZE - HIT_EPS) / TILE_SIZE);
-    const top = Math.floor((y + HIT_EPS) / TILE_SIZE);
-    const bottom = Math.floor((y + BODY_SIZE - HIT_EPS) / TILE_SIZE);
-    for (let row = top; row <= bottom; row += 1) {
-      for (let col = left; col <= right; col += 1) {
-        if (this.isSolid(col, row)) return false;
+    const rects = this.getCollisionRectsAt(x, y);
+    for (const rect of rects) {
+      const left = Math.floor((rect.x + HIT_EPS) / TILE_SIZE);
+      const right = Math.floor((rect.x + rect.width - HIT_EPS) / TILE_SIZE);
+      const top = Math.floor((rect.y + HIT_EPS) / TILE_SIZE);
+      const bottom = Math.floor((rect.y + rect.height - HIT_EPS) / TILE_SIZE);
+      for (let row = top; row <= bottom; row += 1) {
+        for (let col = left; col <= right; col += 1) {
+          if (this.isSolid(col, row)) return false;
+        }
       }
     }
     return true;
@@ -557,6 +746,18 @@ const TankScene = new Phaser.Class({
     return { tx, ty, type: this.world[ty][tx] };
   },
 
+  getRobotSphereDigTargets: function (primaryTarget, direction) {
+    if (!primaryTarget) return [];
+    const footprint = resolveArcCoreDigFootprint(
+      primaryTarget,
+      directionName(direction).toUpperCase(),
+      ARC_CORE_CONFIG.dig,
+    );
+    return footprint
+      .filter(target => target.tx >= 0 && target.tx < WORLD_COLS && target.ty >= 0 && target.ty < WORLD_ROWS)
+      .map(target => ({ ...target, type: this.world[target.ty][target.tx] }));
+  },
+
   startDig: function (requestedDirection) {
     if (this.activeDig) return;
     const direction = directionCopy(requestedDirection || this.getCurrentDigDirection());
@@ -568,8 +769,12 @@ const TankScene = new Phaser.Class({
       this.pulseAirHit(direction);
       return;
     }
+    const targets = this.characterMode === CHARACTER_MODES.robotSphere
+      ? this.getRobotSphereDigTargets(target, direction)
+      : null;
     this.activeDig = {
       target,
+      targets,
       direction,
       elapsed: 0,
       broken: false,
@@ -636,9 +841,13 @@ const TankScene = new Phaser.Class({
 
     if (!dig.broken && progress >= BREAK_PROGRESS) {
       dig.broken = true;
-      if (this.world[dig.target.ty][dig.target.tx] !== TILE.AIR) {
-        this.world[dig.target.ty][dig.target.tx] = TILE.AIR;
-        this.spawnBreakBurst(dig);
+      const breakTargets = Array.isArray(dig.targets) && dig.targets.length > 0 ? dig.targets : [dig.target];
+      for (const breakTarget of breakTargets) {
+        const type = this.world[breakTarget.ty][breakTarget.tx];
+        if (type !== TILE.AIR && type !== TILE.BEDROCK) {
+          this.world[breakTarget.ty][breakTarget.tx] = TILE.AIR;
+          this.spawnBreakBurst({ ...dig, target: breakTarget });
+        }
       }
       if (this.characterMode === CHARACTER_MODES.drillHead) {
         this.livingDrillCommitPending = {
@@ -685,7 +894,10 @@ const TankScene = new Phaser.Class({
   spawnDrillContactParticles: function (progress) {
     const dig = this.activeDig;
     if (!dig) return;
-    const face = this.getTargetFace(dig.target, dig.direction);
+    const contactTarget = this.characterMode === CHARACTER_MODES.robotSphere && Array.isArray(dig.targets)
+      ? Phaser.Math.RND.pick(dig.targets)
+      : dig.target;
+    const face = this.getTargetFace(contactTarget, dig.direction);
     const perp = perpendicular(dig.direction);
     const strength = progress > 0.55 ? 1.4 : 1;
     for (let i = 0; i < 5; i += 1) {
@@ -781,6 +993,8 @@ const TankScene = new Phaser.Class({
     }
     this.livingDrillSprite.setVisible(false);
     this.pickaxeMinerSprite.setVisible(false);
+    this.survivalMinerSprite.setVisible(false);
+    this.robotSphereSprite.setVisible(false);
     this.chassis.setVisible(true);
     if (this.activeDig) {
       this.chassis.play("tank-dig", true);
@@ -798,8 +1012,11 @@ const TankScene = new Phaser.Class({
   getDrillRig: function (direction) {
     const dir = direction || this.getCurrentDigDirection();
     if (this.characterMode === CHARACTER_MODES.drillHead || isEnergyConceptMode(this.characterMode)) {
+      let mode = "wormhole maw";
+      if (this.characterMode === CHARACTER_MODES.arcCore) mode = "arc core bore";
+      else if (this.characterMode === CHARACTER_MODES.robotSphere) mode = "single robot 2x2 bore";
       return {
-        mode: this.characterMode === CHARACTER_MODES.arcCore ? "arc core bore" : "wormhole maw",
+        mode,
         pivot: {
           x: BODY_SIZE * 0.5 + dir.x * BODY_SIZE * 0.5,
           y: BODY_SIZE * 0.5 + dir.y * BODY_SIZE * 0.5,
@@ -812,6 +1029,18 @@ const TankScene = new Phaser.Class({
     if (this.characterMode === CHARACTER_MODES.pickaxeMiner) {
       return {
         mode: "pickaxe swing",
+        pivot: {
+          x: BODY_SIZE * 0.5 + dir.x * BODY_SIZE * 0.5,
+          y: BODY_SIZE * 0.5 + dir.y * BODY_SIZE * 0.5,
+        },
+        baseRadius: 0,
+        tipRadius: 0,
+        ringCount: 0,
+      };
+    }
+    if (this.characterMode === CHARACTER_MODES.survivalMiner) {
+      return {
+        mode: this.isSurvivalAttacking() ? "UAL unarmed attack" : "UAL unarmed dig",
         pivot: {
           x: BODY_SIZE * 0.5 + dir.x * BODY_SIZE * 0.5,
           y: BODY_SIZE * 0.5 + dir.y * BODY_SIZE * 0.5,
@@ -855,7 +1084,18 @@ const TankScene = new Phaser.Class({
   },
 
   getTargetFace: function (target, direction) {
-    if (this.characterMode === CHARACTER_MODES.drillHead || this.characterMode === CHARACTER_MODES.pickaxeMiner || isEnergyConceptMode(this.characterMode)) {
+    if (this.characterMode === CHARACTER_MODES.robotSphere) {
+      if (direction.x > 0) return { x: target.tx * TILE_SIZE, y: (target.ty + 0.5) * TILE_SIZE };
+      if (direction.x < 0) return { x: (target.tx + 1) * TILE_SIZE, y: (target.ty + 0.5) * TILE_SIZE };
+      return {
+        x: (target.tx + 0.5) * TILE_SIZE,
+        y: direction.y > 0 ? target.ty * TILE_SIZE : (target.ty + 1) * TILE_SIZE,
+      };
+    }
+    if (this.characterMode === CHARACTER_MODES.drillHead
+      || this.characterMode === CHARACTER_MODES.pickaxeMiner
+      || this.characterMode === CHARACTER_MODES.survivalMiner
+      || isEnergyConceptMode(this.characterMode)) {
       const pivot = this.getPivotWorld(direction);
       if (direction.x > 0) return { x: target.tx * TILE_SIZE, y: pivot.y };
       if (direction.x < 0) return { x: (target.tx + 1) * TILE_SIZE, y: pivot.y };
@@ -878,7 +1118,9 @@ const TankScene = new Phaser.Class({
   },
 
   getDrillLength: function () {
-    if (this.characterMode === CHARACTER_MODES.drillHead || isEnergyConceptMode(this.characterMode)) return 0;
+    if (this.characterMode === CHARACTER_MODES.drillHead
+      || this.characterMode === CHARACTER_MODES.survivalMiner
+      || isEnergyConceptMode(this.characterMode)) return 0;
     if (!this.activeDig) return DRILL_REST;
     const progress = clamp(this.activeDig.elapsed / DIG_DURATION, 0, 1);
     if (isVerticalDirection(this.activeDig.direction)) {
@@ -951,14 +1193,26 @@ const TankScene = new Phaser.Class({
   drawPlayer: function () {
     const g = this.playerGfx;
     g.clear();
+    this.livingDrillSprite.setVisible(false);
+    this.pickaxeMinerSprite.setVisible(false);
+    this.survivalMinerSprite.setVisible(false);
+    this.robotSphereSprite.setVisible(false);
     if (this.characterMode === CHARACTER_MODES.tank) {
-      this.livingDrillSprite.setVisible(false);
-      this.pickaxeMinerSprite.setVisible(false);
       return;
     }
 
     if (this.characterMode === CHARACTER_MODES.pickaxeMiner) {
       this.drawPickaxeMinerPlayer(g);
+      return;
+    }
+
+    if (this.characterMode === CHARACTER_MODES.survivalMiner) {
+      this.drawSurvivalMinerPlayer(g);
+      return;
+    }
+
+    if (this.characterMode === CHARACTER_MODES.robotSphere) {
+      this.drawRobotSpherePlayer(g);
       return;
     }
 
@@ -1029,6 +1283,126 @@ const TankScene = new Phaser.Class({
       const perp = perpendicular(direction);
       g.lineStyle(3, 0xffd77d, 0.65);
       g.lineBetween(face.x - perp.x * 14, face.y - perp.y * 14, face.x + perp.x * 14, face.y + perp.y * 14);
+    }
+  },
+
+  drawSurvivalMinerPlayer: function (g) {
+    const direction = this.getCurrentDigDirection();
+    const moving = Math.abs(this.body.vx) > 1;
+    const attacking = this.isSurvivalAttacking();
+    const digProgress = this.activeDig ? clamp(this.activeDig.elapsed / DIG_DURATION, 0, 1) : 0;
+    let animation = "survival-miner-idle";
+    if (attacking) animation = "survival-miner-attack";
+    else if (this.activeDig) {
+      animation = direction.x !== 0
+        ? "survival-miner-dig-side"
+        : direction.y < 0 ? "survival-miner-dig-up" : "survival-miner-dig-down";
+    } else if (this.flyMode) animation = "survival-miner-fly";
+    else if (moving) animation = this.survivalUseWalk ? "survival-miner-walk" : "survival-miner-run";
+
+    const visualSize = getSurvivalVisualSize(this.survivalInspection2x);
+    const cx = this.body.x + BODY_SIZE * 0.5 + this.recoilX;
+    const cy = this.body.y + BODY_SIZE + this.recoilY;
+    this.survivalMinerSprite
+      .setVisible(true)
+      .setPosition(cx, cy)
+      .setDisplaySize(visualSize, visualSize)
+      .setFlipX(this.facing < 0)
+      .setAngle(0)
+      .play(animation, true);
+
+    if (this.flyMode && !this.activeDig && !attacking) {
+      const exhaustX = cx - this.facing * 42;
+      const exhaustY = cy + 18;
+      g.fillStyle(0x8f6cff, 0.16);
+      g.fillEllipse(exhaustX, exhaustY, 42 + Math.sin(this.time.now * 0.022) * 8, 18);
+      g.lineStyle(3, 0xd9c8ff, 0.55);
+      g.lineBetween(exhaustX - this.facing * 8, exhaustY, exhaustX - this.facing * 32, exhaustY + Math.sin(this.time.now * 0.03) * 7);
+    }
+
+    if (this.activeDig && digProgress > 0.12 && digProgress < 0.74) {
+      const face = this.getTargetFace(this.activeDig.target, direction);
+      const perp = perpendicular(direction);
+      g.lineStyle(5, 0x9e79ff, 0.24);
+      g.lineBetween(face.x - perp.x * 22, face.y - perp.y * 22, face.x + perp.x * 22, face.y + perp.y * 22);
+      g.lineStyle(2, 0xffe6a3, 0.82);
+      g.lineBetween(face.x - perp.x * 13, face.y - perp.y * 13, face.x + perp.x * 13, face.y + perp.y * 13);
+    }
+
+    if (attacking) {
+      const progress = clamp((this.time.now - this.survivalAttackStartMs) / SURVIVAL_ATTACK_DURATION_MS, 0, 1);
+      const slashX = cx + this.facing * 54;
+      const slashY = cy - 4;
+      g.lineStyle(12, 0x8b64ff, 0.12 * (1 - progress));
+      g.beginPath();
+      g.arc(slashX, slashY, 51, -1.15, 1.15, this.facing < 0);
+      g.strokePath();
+      g.lineStyle(3, 0xe5d9ff, 0.72 * (1 - progress));
+      g.beginPath();
+      g.arc(slashX, slashY, 46, -1.08, 1.08, this.facing < 0);
+      g.strokePath();
+    }
+  },
+
+  drawRobotSpherePlayer: function (g) {
+    const direction = this.getCurrentDigDirection();
+    const moving = Math.abs(this.body.vx) > 1;
+    const progress = this.activeDig ? clamp(this.activeDig.elapsed / DIG_DURATION, 0, 1) : 0;
+    const cx = this.body.x + BODY_SIZE * 0.5 + this.recoilX * 0.3;
+    const cy = this.body.y + BODY_SIZE * 0.5 + this.recoilY * 0.3;
+    let animation = "robot-sphere-idle";
+    if (this.activeDig) {
+      animation = direction.x !== 0
+        ? "robot-sphere-dig-side"
+        : direction.y < 0 ? "robot-sphere-dig-up" : "robot-sphere-dig-down";
+    } else if (this.flyMode) {
+      animation = "robot-sphere-fly";
+    } else if (moving) {
+      animation = "robot-sphere-roll";
+    }
+    this.robotSphereSprite
+      .setVisible(true)
+      .setPosition(cx, cy)
+      .setDisplaySize(ROBOT_SPHERE_FRAME_DISPLAY_SIZE, ROBOT_SPHERE_FRAME_DISPLAY_SIZE)
+      .setFlipX(direction.x < 0)
+      .setAngle(0)
+      .play(animation, true);
+
+    if (this.activeDig && progress > 0.06 && progress < 0.8) {
+      this.drawRobotSphereBore(g, cx, cy, direction, progress);
+    }
+  },
+
+  drawRobotSphereBore: function (g, cx, cy, direction, progress) {
+    const targets = Array.isArray(this.activeDig?.targets) ? this.activeDig.targets : [];
+    const perp = perpendicular(direction);
+    const energy = clamp((progress - 0.06) / 0.4, 0, 1);
+    for (let laneIndex = 0; laneIndex < ARC_CORE_CONFIG.dig.widthTiles; laneIndex += 1) {
+      const laneTargets = targets.filter(target => target.widthIndex === laneIndex);
+      const contactTarget = laneTargets.find(target => target.depthIndex === 0);
+      if (!contactTarget) continue;
+      const face = this.getTargetFace(contactTarget, direction);
+      const laneOffset = (laneIndex - (ARC_CORE_CONFIG.dig.widthTiles - 1) * 0.5) * 18;
+      const beamStartX = cx + direction.x * ROBOT_SPHERE_BODY_DISPLAY_SIZE * 0.28 + perp.x * laneOffset;
+      const beamStartY = cy + direction.y * ROBOT_SPHERE_BODY_DISPLAY_SIZE * 0.28 + perp.y * laneOffset;
+      const contactX = face.x - direction.x * 4;
+      const contactY = face.y - direction.y * 4;
+      const laneColor = laneIndex === 0 ? 0x63f5ff : 0x8fd8ff;
+
+      g.lineStyle(9, laneColor, 0.12 + energy * 0.13);
+      g.lineBetween(beamStartX, beamStartY, contactX, contactY);
+      g.lineStyle(3 + energy * 3, laneColor, 0.84);
+      g.lineBetween(beamStartX, beamStartY, contactX, contactY);
+      g.lineStyle(1, 0xffffff, 0.82);
+      g.lineBetween(beamStartX, beamStartY, contactX, contactY);
+
+      const deepTarget = laneTargets.find(target => target.depthIndex === 1);
+      if (deepTarget && progress > 0.28) {
+        const deepCenterX = (deepTarget.tx + 0.5) * TILE_SIZE;
+        const deepCenterY = (deepTarget.ty + 0.5) * TILE_SIZE;
+        g.lineStyle(4, laneColor, 0.35 + energy * 0.3);
+        g.lineBetween(contactX, contactY, deepCenterX, deepCenterY);
+      }
     }
   },
 
@@ -1198,7 +1572,10 @@ const TankScene = new Phaser.Class({
   drawDrill: function () {
     const g = this.drillGfx;
     g.clear();
-    if (this.characterMode === CHARACTER_MODES.drillHead || this.characterMode === CHARACTER_MODES.pickaxeMiner || isEnergyConceptMode(this.characterMode)) return;
+    if (this.characterMode === CHARACTER_MODES.drillHead
+      || this.characterMode === CHARACTER_MODES.pickaxeMiner
+      || this.characterMode === CHARACTER_MODES.survivalMiner
+      || isEnergyConceptMode(this.characterMode)) return;
     const direction = this.getCurrentDigDirection();
     const rig = this.getDrillRig(direction);
     const pivot = this.getPivotWorld(direction);
@@ -1387,6 +1764,24 @@ const TankScene = new Phaser.Class({
   drawOccluderAndDamage: function () {
     const g = this.occluderGfx;
     g.clear();
+    const robotDig = this.characterMode === CHARACTER_MODES.robotSphere ? this.activeDig : null;
+    if (robotDig && Array.isArray(robotDig.targets)) {
+      const progress = clamp(robotDig.elapsed / DIG_DURATION, 0, 1);
+      for (const target of robotDig.targets) {
+        const type = target.type;
+        if (!robotDig.broken && type !== TILE.AIR) {
+          this.drawTile(g, target.tx, target.ty, type, 1);
+          if (type !== TILE.BEDROCK) {
+            this.drawArcCoreTileDamage(g, { ...robotDig, target }, progress);
+          }
+        }
+        if (this.debug.targetTile) {
+          g.lineStyle(3, ARC_CORE_CONFIG.dig.targetColor, 0.78);
+          g.strokeRect(target.tx * TILE_SIZE + 4, target.ty * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8);
+        }
+      }
+      return;
+    }
     const target = this.getOccluderTarget();
     if (!target) return;
     const type = this.activeDig ? this.activeDig.typeBeforeBreak : target.type;
@@ -1400,7 +1795,7 @@ const TankScene = new Phaser.Class({
     const dig = this.activeDig;
     if (dig && !dig.broken) {
       const progress = clamp(dig.elapsed / DIG_DURATION, 0, 1);
-      if (this.characterMode === CHARACTER_MODES.arcCore) {
+      if (this.characterMode === CHARACTER_MODES.arcCore || this.characterMode === CHARACTER_MODES.robotSphere) {
         this.drawArcCoreTileDamage(g, dig, progress);
       } else if (this.characterMode === CHARACTER_MODES.wormholeMaw) {
         this.drawWormholeTileDamage(g, dig, progress);
@@ -1566,8 +1961,13 @@ const TankScene = new Phaser.Class({
     const g = this.debugGfx;
     g.clear();
     if (this.debug.bodyBox) {
-      g.lineStyle(2, 0x4be0ff, 0.95);
-      g.strokeRect(this.body.x, this.body.y, BODY_SIZE, BODY_SIZE);
+      const collisionRects = this.getCollisionRectsAt(this.body.x, this.body.y);
+      for (const rect of collisionRects) {
+        g.fillStyle(0x4be0ff, 0.08);
+        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        g.lineStyle(2, 0x4be0ff, 0.95);
+        g.strokeRect(rect.x, rect.y, rect.width, rect.height);
+      }
     }
     if (this.debug.anchor) {
       const ax = this.body.x + BODY_SIZE * 0.5;
@@ -1596,9 +1996,11 @@ const TankScene = new Phaser.Class({
       g.fillCircle(pivot.x + direction.x * length, pivot.y + direction.y * length, 4);
     }
     if (this.debug.targetTile) {
-      const target = this.activeDig ? this.activeDig.target : this.getFacingTarget();
-      if (target) {
-        g.lineStyle(3, 0xffffff, 0.64);
+      const targets = this.characterMode === CHARACTER_MODES.robotSphere && this.activeDig?.targets
+        ? this.activeDig.targets
+        : [this.activeDig ? this.activeDig.target : this.getFacingTarget()].filter(Boolean);
+      for (const target of targets) {
+        g.lineStyle(3, this.characterMode === CHARACTER_MODES.robotSphere ? ARC_CORE_CONFIG.dig.targetColor : 0xffffff, 0.64);
         g.strokeRect(target.tx * TILE_SIZE + 4, target.ty * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8);
       }
     }
@@ -1612,15 +2014,27 @@ const TankScene = new Phaser.Class({
     const direction = this.getCurrentDigDirection();
     const aim = directionName(direction);
     const mode = this.getDrillRig(direction).mode;
+    const collisionProfile = this.getCollisionProfile();
+    const collisionRects = this.getCollisionRectsAt(this.body.x, this.body.y);
+    const collisionBounds = this.getCollisionBoundsAt(this.body.x, this.body.y);
+    const robotTargetCount = this.characterMode === CHARACTER_MODES.robotSphere
+      ? (this.activeDig?.targets?.length || ARC_CORE_CONFIG.dig.widthTiles * ARC_CORE_CONFIG.dig.depthTiles)
+      : 1;
     this.infoEl.innerHTML = [
-      "Tank Test V1",
-      `Body: ${BODY_SIZE}x${BODY_SIZE}`,
+      "Character + Arc Core POC",
+      `Hitbox: ${collisionProfile.label}`,
+      `Hitbox size: ${Math.round(collisionBounds.right - collisionBounds.left)}x${Math.round(collisionBounds.bottom - collisionBounds.top)} (${collisionRects.length} ${collisionRects.length === 1 ? "rect" : "rects"})`,
       `Tile: (${this.body.tileX}, ${this.body.tileY})`,
       `Pos: (${this.body.x.toFixed(1)}, ${this.body.y.toFixed(1)})`,
       `Facing: ${this.facing > 0 ? "right" : "left"}`,
       `Drill aim: ${aim}`,
       `Mode: ${mode}`,
+      ...(this.characterMode === CHARACTER_MODES.survivalMiner
+        ? [`UAL view: ${this.survivalInspection2x ? "2x inspection" : "1x production truth"} (${getSurvivalVisualSize(this.survivalInspection2x)}px)`]
+        : []),
+      `Mining footprint: ${this.characterMode === CHARACTER_MODES.robotSphere ? `${ARC_CORE_CONFIG.dig.widthTiles}x${ARC_CORE_CONFIG.dig.depthTiles} (${robotTargetCount} blocks)` : "1 block"}`,
       "Press E to drill",
+      "Press Q for UAL unarmed attack",
       `Fly: ${this.flyMode}`,
       `Dig phase: ${phase}`,
       `Dig progress: ${(digProgress * 100).toFixed(0)}%`,
@@ -1636,8 +2050,8 @@ const GAME = new Phaser.Game({
   parent: "sandbox-root",
   width: VIEW_W,
   height: VIEW_H,
-  pixelArt: true,
-  roundPixels: true,
+  pixelArt: false,
+  roundPixels: false,
   backgroundColor: "#13191d",
   physics: { default: "arcade", arcade: { gravity: { y: 0 }, debug: false } },
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },

@@ -1,5 +1,4 @@
-const clamp01 = (value) => Math.max(0, Math.min(1, value));
-const lerp = (a, b, t) => a + (b - a) * t;
+import { clamp01, lerp } from "../../values/mathUtils.js";
 
 export class WeatherWorldState {
   constructor(scene, config, weatherConfig) {

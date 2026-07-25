@@ -1,0 +1,77 @@
+name: Build Verified Rollback Candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Previously green commit SHA or tag to rebuild
+        required: true
+        type: string
+      reason:
+        description: Why this rollback candidate is needed
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dig-game-rollback-${{ inputs.ref }}
+  cancel-in-progress: false
+
+env:
+  FORCE_COLOR: "0"
+  NO_COLOR: "1"
+  PYTHONUTF8: "1"
+
+jobs:
+  rollback-candidate:
+    name: Verified rollback candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out requested rollback ref
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Resolve immutable commit identity
+        id: resolved
+        shell: bash
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Use Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Use Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Revalidate structural health
+        run: node testing/2026-07-22-all-game-systems-health-check.mjs
+
+      - name: Revalidate deep gameplay contracts
+        run: python testing/2026-07-22-deep-game-logic-health.py --timeout 90
+
+      - name: Revalidate production builder
+        run: python testing/2026-07-18-production-deployment-smoke.py
+
+      - name: Build requested rollback package
+        run: python tools/2026-07-17-build-production.py --out-dir dist
+
+      - name: Probe requested rollback package
+        run: python testing/2026-07-25-production-http-canary.py --directory dist
+
+      - name: Preserve verified rollback package
+        uses: actions/upload-artifact@v7
+        with:
+          name: rollback-candidate-${{ steps.resolved.outputs.sha }}
+          path: dist/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30

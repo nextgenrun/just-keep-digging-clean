@@ -80,6 +80,8 @@ export function createPanel(scene, options = {}) {
 
   root.add(titleText ? [bg, titleText, sep] : [bg]);
   if (panelIcon) root.add(panelIcon);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
   addToParent(parent, root);
 
   return {
@@ -142,12 +144,6 @@ export function createButton(scene, options = {}) {
 
   const root = scene.add.container(x, y);
   root.setSize(width, height);
-  root.setInteractive(
-    new Phaser.Geom.Rectangle(-width / 2, -height / 2, width, height),
-    Phaser.Geom.Rectangle.Contains
-  );
-  setTreeDepth(root, depth);
-  setTreeScroll(root, scrollFactor);
 
   const bg = scene.add.graphics();
   const accentBar = scene.add.graphics();
@@ -253,15 +249,14 @@ export function createButton(scene, options = {}) {
     draw();
   }
 
-  root.on("pointerover", handlePointerOver);
-  root.on("pointerout", handlePointerOut);
-  root.on("pointerdown", activate);
   hit.on("pointerover", handlePointerOver);
   hit.on("pointerout", handlePointerOut);
   hit.on("pointerdown", activate);
 
   root.add(hintText ? [bg, accentBar, text, hintText, hit] : [bg, accentBar, text, hit]);
   if (iconSprite) root.add(iconSprite);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
   addToParent(parent, root);
   draw();
 
@@ -292,13 +287,8 @@ export function createButton(scene, options = {}) {
       } else {
         state.disabledReason = reason ? String(reason) : "";
       }
-      root.disableInteractive();
       hit.disableInteractive();
       if (state.enabled) {
-        root.setInteractive(
-          new Phaser.Geom.Rectangle(-width / 2, -height / 2, width, height),
-          Phaser.Geom.Rectangle.Contains
-        );
         hit.setInteractive({ useHandCursor: true });
       }
       draw();
@@ -325,15 +315,6 @@ export function createButton(scene, options = {}) {
       root.destroy(true);
     },
   };
-}
-
-export function createIconButton(scene, options = {}) {
-  return createButton(scene, {
-    width: options.width ?? 42,
-    height: options.height ?? 42,
-    fontSize: options.fontSize ?? "18px",
-    ...options,
-  });
 }
 
 export function createTogglePair(scene, options = {}) {
@@ -394,6 +375,8 @@ export function createTogglePair(scene, options = {}) {
     if (!silent) onChange?.(current);
   }
 
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
   addToParent(parent, root);
   refresh();
 
@@ -525,6 +508,8 @@ export function createSlider(scene, options = {}) {
   scene.input.on("pointerup", onPointerUp);
 
   root.add([labelText, valueText, track, fill, thumb, hit]);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
   addToParent(parent, root);
   draw();
 
@@ -617,6 +602,8 @@ export function createTabBar(scene, options = {}) {
     if (!silent) onChange?.(active);
   }
 
+  setTreeDepth(root, depth);
+  setTreeScroll(root, 0);
   addToParent(parent, root);
   setActive(active, true);
 
@@ -631,16 +618,6 @@ export function createTabBar(scene, options = {}) {
       root.destroy(true);
     },
   };
-}
-
-export function createSelectableCard(scene, options = {}) {
-  return createButton(scene, {
-    align: "left",
-    width: options.width ?? 240,
-    height: options.height ?? 120,
-    fontSize: options.fontSize ?? "13px",
-    ...options,
-  });
 }
 
 export function createKeybindRow(scene, options = {}) {
@@ -707,6 +684,8 @@ export function createKeybindRow(scene, options = {}) {
   }).setOrigin(1, 0.5);
 
   root.add(descText ? [labelText, descText, statusText] : [labelText, statusText]);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, 0);
   addToParent(parent, root);
 
   const api = {

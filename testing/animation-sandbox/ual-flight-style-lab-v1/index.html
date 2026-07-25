@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>UAL Flight Style Lab v1 · Dig Game</title>
+  <link rel="stylesheet" href="flight.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Dig Game · approved character · flight proof of concept</p>
+      <h1>Make flying feel like the reward</h1>
+      <p class="intro">Five real-motion directions: the current rocket baseline, two hoverboards, Superman flight, and an adaptive hybrid. Nothing here changes gameplay until one is approved.</p>
+    </div>
+    <div class="truth" aria-label="Sandbox facts">
+      <span>Runtime sheets + Blender review</span>
+      <span>31 × 75 ground · 70 × 34 flight test</span>
+      <span>0.8-tile character target</span>
+      <span>Review only</span>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="style-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">A–E flight directions</p>
+          <h2 id="style-heading">Choose a silhouette first</h2>
+        </div>
+        <div class="transport" aria-label="Playback controls">
+          <button id="play-toggle" type="button">Pause</button>
+          <button id="step-frame" type="button">Step</button>
+          <button id="restart" type="button">Restart</button>
+        </div>
+      </div>
+      <div id="variant-buttons" class="variant-grid" role="list"></div>
+    </section>
+
+    <section class="stage-shell" aria-label="Animated flight review stage">
+      <canvas id="flight-stage" width="1180" height="620" role="img" aria-label="Animated character flight style preview"></canvas>
+      <div class="stage-topline">
+        <span id="phase-readout">Loading flight motion…</span>
+        <span id="source-readout">—</span>
+      </div>
+      <div class="stage-bottomline">
+        <span><kbd>W/S</kbd> lift</span>
+        <span><kbd>A/D</kbd> bank</span>
+        <span><kbd>Shift</kbd> boost</span>
+        <span><kbd>Space</kbd> pause</span>
+      </div>
+    </section>
+
+    <section class="phase-deck" aria-labelledby="phase-heading">
+      <div>
+        <p class="section-kicker">Flight timing</p>
+        <h2 id="phase-heading">Inspect the full loop or one phase</h2>
+      </div>
+      <div id="phase-buttons" class="phase-buttons"></div>
+    </section>
+
+    <section class="tuning-grid" aria-label="Flight tuning controls">
+      <div class="control-card identity-card">
+        <h3>Source</h3>
+        <label>
+          <span>Character body</span>
+          <select id="character-select"></select>
+        </label>
+        <label>
+          <span>Review scale</span>
+          <select id="view-scale">
+            <option value="detail">2.2× inspection</option>
+            <option value="game">1× game scale</option>
+          </select>
+        </label>
+        <label class="check-row">
+          <input id="face-left" type="checkbox">
+          <span>Face left</span>
+        </label>
+        <label class="check-row">
+          <input id="show-collider" type="checkbox" checked>
+          <span>Collider + tile guides</span>
+        </label>
+      </div>
+
+      <div class="control-card">
+        <h3>Flight feel</h3>
+        <label class="range-row">
+          <span>World speed <output id="speed-output"></output></span>
+          <input id="speed-control" type="range">
+        </label>
+        <label class="range-row">
+          <span>Pose pitch <output id="pitch-output"></output></span>
+          <input id="pitch-control" type="range">
+        </label>
+        <label class="range-row">
+          <span>Playback <output id="playback-output"></output></span>
+          <input id="playback-control" type="range">
+        </label>
+      </div>
+
+      <div class="control-card">
+        <h3>Board fit</h3>
+        <label class="range-row">
+          <span>Board height <output id="board-y-output"></output></span>
+          <input id="board-y-control" type="range">
+        </label>
+        <label class="range-row">
+          <span>Board scale <output id="board-scale-output"></output></span>
+          <input id="board-scale-control" type="range">
+        </label>
+        <p id="board-note" class="control-note">Board controls apply to B, C, and E.</p>
+      </div>
+
+      <div class="control-card">
+        <h3>Energy</h3>
+        <label class="range-row">
+          <span>Trail length <output id="trail-output"></output></span>
+          <input id="trail-control" type="range">
+        </label>
+        <label class="range-row">
+          <span>VFX strength <output id="effect-output"></output></span>
+          <input id="effect-control" type="range">
+        </label>
+        <div class="action-row">
+          <button id="reset-preset" type="button">Reset style</button>
+          <button id="copy-link" type="button">Copy review link</button>
+          <button id="copy-json" type="button">Copy tuning JSON</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="load-status" role="status">Loading approved flight sheets…</span>
+    <a href="../ual-animation-tuning-lab-v2/">Open full character tuning lab →</a>
+  </footer>
+
+  <noscript>This flight lab needs JavaScript enabled.</noscript>
+  <script type="module" src="flightLab.js"></script>
+</body>
+</html>

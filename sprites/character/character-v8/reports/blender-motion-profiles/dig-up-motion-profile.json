@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "tool": "Blender motion-envelope reference generated from cleaned V8 sprite alpha bounds.",
+  "frameSize": [
+    341,
+    341
+  ],
+  "anchorPx": {
+    "x": 170,
+    "y": 339
+  },
+  "animations": {
+    "dig-up": {
+      "fps": 30,
+      "frames": [
+        {
+          "frame": 0,
+          "sourceFrame": "frame-000.png",
+          "cx": 160.5,
+          "cy": 171.0,
+          "w": 141,
+          "h": 336,
+          "reachX": 70.5,
+          "reachY": 168.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 1,
+          "sourceFrame": "frame-001.png",
+          "cx": 160.5,
+          "cy": 169.5,
+          "w": 147,
+          "h": 339,
+          "reachX": 73.5,
+          "reachY": 169.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 2,
+          "sourceFrame": "frame-002.png",
+          "cx": 159.5,
+          "cy": 169.5,
+          "w": 155,
+          "h": 339,
+          "reachX": 77.5,
+          "reachY": 169.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 3,
+          "sourceFrame": "frame-003.png",
+          "cx": 159.5,
+          "cy": 171.5,
+          "w": 167,
+          "h": 335,
+          "reachX": 83.5,
+          "reachY": 167.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 4,
+          "sourceFrame": "frame-004.png",
+          "cx": 160.5,
+          "cy": 171.0,
+          "w": 149,
+          "h": 336,
+          "reachX": 74.5,
+          "reachY": 168.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 5,
+          "sourceFrame": "frame-005.png",
+          "cx": 160.5,
+          "cy": 169.5,
+          "w": 175,
+          "h": 339,
+          "reachX": 87.5,
+          "reachY": 169.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 6,
+          "sourceFrame": "frame-006.png",
+          "cx": 160.5,
+          "cy": 171.5,
+          "w": 167,
+          "h": 335,
+          "reachX": 83.5,
+          "reachY": 167.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 7,
+          "sourceFrame": "frame-007.png",
+          "cx": 160.5,
+          "cy": 171.5,
+          "w": 157,
+          "h": 335,
+          "reachX": 78.5,
+          "reachY": 167.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 8,
+          "sourceFrame": "frame-008.png",
+          "cx": 160.5,
+          "cy": 169.5,
+          "w": 165,
+          "h": 339,
+          "reachX": 82.5,
+          "reachY": 169.5,
+          "angle": 0,
+          "bottom": 339
+        }
+      ]
+    }
+  }
+}

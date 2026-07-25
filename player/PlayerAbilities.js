@@ -1,10 +1,10 @@
-import { GAME_CONFIG } from "../values/gameConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../values/playerAbilities.js";
 import { MINING_CONFIG } from "../values/miningConfig.js";
 import { GEM_POWER_CONFIG } from "../values/gemPower.js";
 import { computeAbilityStats, getDefaultAbilityStats } from "../values/constellationBuffs.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { HARD_RESOURCE_TILE_TYPES, tileTypeToResource } from "../values/resourceTypes.js";
+import { isProtectedSecondWorldDividerTile } from "../values/secondWorldConfig.js";
 
 export class PlayerAbilities {
   constructor(sprite, worldModel, config, upgradeSystem = null, physicsBody = null, playerLevelSystem = null, comboSystem = null) {
@@ -225,14 +225,14 @@ export class PlayerAbilities {
     return this.consumeGemPower(this.getQuickslashCost());
   }
 
-  startThunderStrikeCharge() {
+  startThunderStrikeCharge(nowMs = this.sprite?.scene?.time?.now ?? Date.now()) {
     if (!this._isThunderStrikeUnlocked()) {
       this._thunderStrikeCharging = false;
       return false;
     }
     if (this.gemPower >= this.getThunderStrikeCost() || this._godMode) {
       this._thunderStrikeCharging = true;
-      this._thunderStrikeChargeStart = Date.now();
+      this._thunderStrikeChargeStart = Number.isFinite(nowMs) ? nowMs : 0;
       return true;
     }
     return false;
@@ -240,8 +240,8 @@ export class PlayerAbilities {
 
   isThunderStrikeCharging() { return this._thunderStrikeCharging; }
 
-  updateThunderStrikeCharge() {
-    const chargeDuration = Date.now() - this._thunderStrikeChargeStart;
+  updateThunderStrikeCharge(nowMs = this.sprite?.scene?.time?.now ?? Date.now()) {
+    const chargeDuration = Math.max(0, (Number.isFinite(nowMs) ? nowMs : 0) - this._thunderStrikeChargeStart);
     const configuredChargeTimeMs = Number.isFinite(PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs)
       ? PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs
       : 1000;
@@ -289,7 +289,11 @@ export class PlayerAbilities {
         const dmg = Math.max(1, Math.round(tileDamage * Math.max(0.2, 1 - falloff * (i - 1))));
         const dmgResult = this.worldModel.damageTile(playerTile.tx, checkTy, dmg);
         results.push({ tx: playerTile.tx, ty: checkTy, damage: dmg, destroyed: dmgResult.destroyed, tileType: dmgResult.typeBeforeDamage, wasRubble: dmgResult.wasRubble });
-      } else if (bedrockBreachesLeft > 0 && this.worldModel.getTileType(playerTile.tx, checkTy) === TILE_TYPES.BEDROCK) {
+      } else if (
+        bedrockBreachesLeft > 0
+        && this.worldModel.getTileType(playerTile.tx, checkTy) === TILE_TYPES.BEDROCK
+        && !isProtectedSecondWorldDividerTile(playerTile.tx, checkTy)
+      ) {
         const tileType = this.worldModel.getTileType(playerTile.tx, checkTy);
         const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
         const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;

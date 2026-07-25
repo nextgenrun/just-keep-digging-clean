@@ -87,7 +87,7 @@ export const RESOURCE_BY_TILE_TYPE = Object.freeze({
 });
 
 export const RESOURCE_TILE_TYPE_VALUES = Object.freeze(Object.keys(RESOURCE_BY_TILE_TYPE).map(Number));
-export const RESOURCE_TILE_TYPE_SET = Object.freeze(new Set(RESOURCE_TILE_TYPE_VALUES));
+
 export const HARD_RESOURCE_TILE_TYPES = Object.freeze(new Set([
   TILE_TYPES.STONE,
   TILE_TYPES.COPPER,
@@ -120,10 +120,6 @@ export function sanitizeResourceTotals(resources) {
 
 export function tileTypeToResource(tileType) {
   return RESOURCE_BY_TILE_TYPE[tileType] || null;
-}
-
-export function isResourceTileType(tileType) {
-  return RESOURCE_TILE_TYPE_SET.has(tileType);
 }
 
 export function getResourceDisplayName(resourceType) {

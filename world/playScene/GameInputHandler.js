@@ -49,6 +49,11 @@ export class GameInputHandler {
       return true;
     }
 
+    if (justDown(keys.screenRecord) || justDown(keys.screenRecordF10)) {
+      this.scene.screenRecordSystem?.toggle();
+      return true;
+    }
+
     if (justDown(keys.muteMusic)) {
       const musicOn = !this.scene.soundSystem.musicEnabled;
       USER_SETTINGS.updateAudio({ musicEnabled: musicOn });

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "tool": "Blender motion-envelope reference generated from cleaned V8 sprite alpha bounds.",
+  "frameSize": [
+    341,
+    341
+  ],
+  "anchorPx": {
+    "x": 170,
+    "y": 339
+  },
+  "animations": {
+    "duck-downwards": {
+      "fps": 10,
+      "frames": [
+        {
+          "frame": 0,
+          "sourceFrame": "frame-006.png",
+          "cx": 167.0,
+          "cy": 199.0,
+          "w": 166,
+          "h": 280,
+          "reachX": 83.0,
+          "reachY": 140.0,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 1,
+          "sourceFrame": "frame-007.png",
+          "cx": 167.0,
+          "cy": 212.5,
+          "w": 166,
+          "h": 253,
+          "reachX": 83.0,
+          "reachY": 126.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 2,
+          "sourceFrame": "frame-008.png",
+          "cx": 166.5,
+          "cy": 223.5,
+          "w": 159,
+          "h": 231,
+          "reachX": 79.5,
+          "reachY": 115.5,
+          "angle": 0,
+          "bottom": 339
+        },
+        {
+          "frame": 3,
+          "sourceFrame": "frame-009.png",
+          "cx": 166.5,
+          "cy": 233.5,
+          "w": 159,
+          "h": 211,
+          "reachX": 79.5,
+          "reachY": 105.5,
+          "angle": 0,
+          "bottom": 339
+        }
+      ]
+    }
+  }
+}

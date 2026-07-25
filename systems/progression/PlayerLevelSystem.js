@@ -37,10 +37,10 @@ export class PlayerLevelSystem {
       miningDamageMultiplier: this.calculatedBonuses.miningDamageMultiplier,
       miningFlatDamageBonus: this.calculatedBonuses.miningFlatDamageBonus,
       miningSpeedBonus: this.calculatedBonuses.miningSpeedBonus,
-      criticalHitChance: this.calculatedBonuses.criticalHitChance,
+      criticalHitChance: this.getCriticalHitChance(),
       criticalHitDamage: this.calculatedBonuses.criticalHitDamage,
       maxHpBonus: this.calculatedBonuses.maxHpBonus,
-      xpMultiplier: this.calculatedBonuses.xpMultiplier,
+      xpMultiplier: this.getXpMultiplier(),
       resourceLuck: this.calculatedBonuses.resourceLuck,
       globalMiningSpeed: this.calculatedBonuses.globalMiningSpeed,
       perLevelSpeed: this.calculatedBonuses.perLevelSpeed,
@@ -51,6 +51,14 @@ export class PlayerLevelSystem {
 
   getMiningDamageMultiplier() { return this.calculatedBonuses.miningDamageMultiplier; }
   getMiningFlatDamageBonus() { return this.calculatedBonuses.miningFlatDamageBonus; }
+  getCriticalHitChance() {
+    const campfireBonus = this.campfireSystem?.getCritBonus?.() || 0;
+    return Math.min(1, this.calculatedBonuses.criticalHitChance + campfireBonus);
+  }
+  getXpMultiplier() {
+    const campfireBonus = this.campfireSystem?.getXpBonus?.() || 0;
+    return this.calculatedBonuses.xpMultiplier + campfireBonus;
+  }
   getCriticalHitDamageMultiplier() {
     return 1.5 + (this.calculatedBonuses.criticalHitDamage || 0) / 100;
   }
@@ -80,7 +88,7 @@ export class PlayerLevelSystem {
 
   gainXP(resourceType) {
     const baseXP = LEVEL_CONFIG.TILE_XP[resourceType] || LEVEL_CONFIG.defaultXP || 1;
-    const xpMultiplier = 1 + this.calculatedBonuses.xpMultiplier;
+    const xpMultiplier = 1 + this.getXpMultiplier();
     const xpGained = Math.floor(baseXP * xpMultiplier);
     this.currentXP += xpGained;
     this.totalXP += xpGained;

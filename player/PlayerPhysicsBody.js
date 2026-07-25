@@ -9,7 +9,7 @@ export class PlayerPhysicsBody {
     this.x = x;
     this.y = y;
     
-    // Hitbox dimensions (slightly smaller than sprite for smoother movement)
+    // Profile-measured upright silhouette used as the authoritative body AABB.
     this.w = config.playerBodyWidthPx;
     this.h = config.playerBodyHeightPx;
     

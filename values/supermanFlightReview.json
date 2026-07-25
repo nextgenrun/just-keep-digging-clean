@@ -1,0 +1,83 @@
+{
+  "version": "superman-flight-push-layer-review-v1-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+    "pushFbx": "testing/unreal-survival-motion-v2/SourceAssets/ual-exports/survival-ual-push-loop.fbx",
+    "pushAction": "root|Unreal Take|Base Layer",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "pickaxe": "SurvivalMinerPickaxe",
+    "hiddenObjectPrefixes": ["ACC_"]
+  },
+  "output": {
+    "root": "testing/blender-animation-lab-v1/review-drafts/superman-flight-push-layer-v1",
+    "blend": "superman-flight-push-layer-v1.blend",
+    "frameDirectory": "frames",
+    "runtimeDirectory": "runtime",
+    "runtimeManifest": "manifest.json",
+    "runtimeSheet": "superman-flight-sheet.png",
+    "previewDirectory": "previews",
+    "previewGif": "superman-flight.gif",
+    "motionStrip": "superman-flight-motion-strip.png",
+    "renderMetadata": "render-metadata.json",
+    "reviewManifest": "review-manifest.json"
+  },
+  "action": {
+    "id": "superman-flight",
+    "name": "DG_SUPERMAN_FLIGHT_PUSH_LAYER_V1",
+    "sourceFrameStart": 1,
+    "sourceFrameEnd": 66,
+    "frameCount": 36,
+    "columns": 12,
+    "fps": 16,
+    "loop": true,
+    "sourceRenderSizePx": 512,
+    "packedFrameSizePx": 256,
+    "previewFrameSizePx": 128,
+    "motionStripSamples": 6
+  },
+  "poseLayer": {
+    "objectPitchDegrees": 58,
+    "objectLocationOffset": [0, 0, 0],
+    "leadSide": "right",
+    "bones": [
+      {"name": "spine_01", "rotationEulerDegrees": [0, -8, 0]},
+      {"name": "spine_03", "rotationEulerDegrees": [0, -12, 0]},
+      {"name": "neck_01", "rotationEulerDegrees": [0, 8, 0]},
+      {"name": "head", "rotationEulerDegrees": [0, 6, 0]},
+      {"name": "clavicle_r", "rotationEulerDegrees": [0, 6, -8]},
+      {"name": "upperarm_r", "rotationEulerDegrees": [0, -8, -4]},
+      {"name": "lowerarm_r", "rotationEulerDegrees": [0, 4, 2]},
+      {"name": "hand_r", "rotationEulerDegrees": [0, 0, 8]},
+      {"name": "clavicle_l", "rotationEulerDegrees": [0, 10, 32]},
+      {"name": "upperarm_l", "rotationEulerDegrees": [0, 12, 44]},
+      {"name": "lowerarm_l", "rotationEulerDegrees": [0, -8, 22]},
+      {"name": "hand_l", "rotationEulerDegrees": [0, 0, 14]},
+      {"name": "thigh_r", "rotationEulerDegrees": [0, -8, 0]},
+      {"name": "calf_r", "rotationEulerDegrees": [0, 10, 0]},
+      {"name": "foot_r", "rotationEulerDegrees": [0, 8, 0]},
+      {"name": "thigh_l", "rotationEulerDegrees": [0, -8, 0]},
+      {"name": "calf_l", "rotationEulerDegrees": [0, 10, 0]},
+      {"name": "foot_l", "rotationEulerDegrees": [0, 8, 0]}
+    ],
+    "ikTargets": {
+      "leadHand": [0.88, 0.14, 0.02],
+      "tuckedHand": [0.18, -0.24, -0.08],
+      "rightFoot": [-0.88, 0.16, 0.02],
+      "leftFoot": [-0.88, -0.28, -0.10],
+      "armChainCount": 3,
+      "legChainCount": 3,
+      "iterations": 128
+    }
+  },
+  "flightHitbox": {
+    "id": "superman-horizontal-review",
+    "visualHullWidthPx": 75,
+    "visualHullHeightPx": 31,
+    "physicsAabbWidthPx": 70,
+    "physicsAabbHeightPx": 34,
+    "anchor": "pelvis",
+    "policy": "review-only horizontal AABB; do not rotate the production tile collider without a swept-collision promotion"
+  }
+}

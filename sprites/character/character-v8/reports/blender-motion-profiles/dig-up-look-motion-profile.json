@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "tool": "Blender motion-envelope reference generated from cleaned V8 sprite alpha bounds.",
+  "frameSize": [
+    341,
+    341
+  ],
+  "anchorPx": {
+    "x": 170,
+    "y": 339
+  },
+  "animations": {
+    "dig-up-look": {
+      "fps": 1,
+      "frames": [
+        {
+          "frame": 0,
+          "sourceFrame": "frame-000.png",
+          "cx": 169.5,
+          "cy": 171.0,
+          "w": 111,
+          "h": 336,
+          "reachX": 55.5,
+          "reachY": 168.0,
+          "angle": 0,
+          "bottom": 339
+        }
+      ]
+    }
+  }
+}

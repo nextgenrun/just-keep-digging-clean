@@ -8,8 +8,7 @@ import { WeatherOcclusionSampler } from "./WeatherOcclusionSampler.js";
 import { WeatherParticleController } from "./WeatherParticleController.js";
 import { WeatherWorldState } from "./WeatherWorldState.js";
 
-const clamp01 = (value) => Math.max(0, Math.min(1, value));
-const lerp = (a, b, t) => a + (b - a) * t;
+import { clamp01, lerp } from "../../values/mathUtils.js";
 
 export class WeatherSystem {
   constructor(scene, config = {}, weatherConfig = WEATHER_CONFIG) {
@@ -25,6 +24,8 @@ export class WeatherSystem {
     this.gust = 0;
     this.targetGust = 0;
     this.surfaceWetness = 0;
+    this._lightingSnapshot = null;
+    this._lightingColorChannels = null;
 
     this._destroyed = false;
 
@@ -39,6 +40,8 @@ export class WeatherSystem {
 
     this._createTintOverlay();
     this._applyDirectorPatch(this.director.start(this.scene.time.now || 0, true), true);
+    this._lightingSnapshot = this._getLightingTarget();
+    this._lightingColorChannels = this._colorChannels(this._lightingSnapshot.sunTint);
   }
 
   update(time, delta) {
@@ -54,6 +57,7 @@ export class WeatherSystem {
     this.intensity = lerp(this.intensity, this.targetIntensity, transitionT);
     this.wind = lerp(this.wind, this.targetWind, windT);
     this.gust = lerp(this.gust, this.targetGust, gustT);
+    this._updateLightingSnapshot(dt);
 
     const depth = this._getDepthFactors();
     const occlusion = this.occlusionSampler.update(time, {
@@ -187,6 +191,10 @@ export class WeatherSystem {
     };
   }
 
+  getOcclusionSnapshot() {
+    return this.occlusionSampler.getSnapshot();
+  }
+
   getLightingSnapshot() {
     const depth = this._getDepthFactors();
     const occlusion = this.occlusionSampler.getSnapshot();
@@ -196,6 +204,7 @@ export class WeatherSystem {
     const lightningFlashAmount = this.getLightningFlashAmount();
     const rainAmount = this._isRainKind() ? clamp01(this.intensity) : 0;
     const stormAmount = this.kind === "storm" ? clamp01(this.intensity) : 0;
+    const sunlight = this._lightingSnapshot || this._getLightingTarget();
 
     return {
       kind: this.kind,
@@ -222,6 +231,9 @@ export class WeatherSystem {
       surfaceWetness: world.worldWetnessAmount,
       lightningFlashAmount,
       isStorming: stormAmount > 0.55,
+      tint: sunlight.sunTint,
+      exposure: sunlight.sunExposure,
+      ...sunlight,
     };
   }
 
@@ -286,8 +298,12 @@ export class WeatherSystem {
     const surfaceWeather = this.intensity * depth.surfaceAmount;
     const stormAmount = this.kind === "storm" ? this.intensity : 0;
     const visibilityPenalty = this.gameplayController.getSnapshot().visibilityPenalty || 0;
+    const isScenic = String(this.scene.worldVisualRuntimeMode || "").startsWith("scenic");
+    const nightAlpha = isScenic
+      ? (lighting.scenicNightAlpha ?? lighting.nightAlpha)
+      : lighting.nightAlpha;
     const tintAlpha = clamp01(
-      nightAmount * depth.surfaceAmount * lighting.nightAlpha +
+      nightAmount * depth.surfaceAmount * nightAlpha +
       surfaceWeather * lighting.rainAlpha +
       stormAmount * depth.surfaceAmount * lighting.stormAlpha +
       depth.undergroundSignal * lighting.undergroundAlpha +
@@ -302,6 +318,74 @@ export class WeatherSystem {
 
   _getWindGustAmount() {
     return clamp01(Math.abs(this.gust) / Math.max(1, this.weatherConfig.gusts?.stormMax || 1));
+  }
+
+  _updateLightingSnapshot(dt) {
+    const target = this._getLightingTarget();
+    if (!this._lightingSnapshot) {
+      this._lightingSnapshot = target;
+      this._lightingColorChannels = this._colorChannels(target.sunTint);
+      return;
+    }
+    const rate = this.weatherConfig.sunlight?.responsePerSecond || 0;
+    const amount = 1 - Math.exp(-rate * dt / 1000);
+    const current = this._lightingSnapshot;
+    const color = this._lightingColorChannels || this._colorChannels(current.sunTint);
+    const targetColor = this._colorChannels(target.sunTint);
+    this._lightingColorChannels = {
+      r: lerp(color.r, targetColor.r, amount),
+      g: lerp(color.g, targetColor.g, amount),
+      b: lerp(color.b, targetColor.b, amount),
+    };
+    this._lightingSnapshot = {
+      cloudCoverAmount: lerp(current.cloudCoverAmount, target.cloudCoverAmount, amount),
+      sunTransmittance: lerp(current.sunTransmittance, target.sunTransmittance, amount),
+      fogAmount: lerp(current.fogAmount, target.fogAmount, amount),
+      sunTint: this._packColor(this._lightingColorChannels),
+      sunExposure: lerp(current.sunExposure, target.sunExposure, amount),
+    };
+  }
+
+  _getLightingTarget() {
+    const cfg = this.weatherConfig.sunlight;
+    const profile = cfg?.profiles?.[this.kind] || cfg?.profiles?.clear;
+    const intensityRange = this.weatherConfig.phases?.[this.kind]?.intensity || [0, 1];
+    const range = Math.max(Number.EPSILON, intensityRange[1] - intensityRange[0]);
+    const amount = this.kind === "clear"
+      ? 0
+      : clamp01((this.intensity - intensityRange[0]) / range);
+    const sample = (key, fallback) => {
+      const values = profile?.[key] || fallback;
+      return lerp(values[0], values[1], amount);
+    };
+    return {
+      cloudCoverAmount: sample("cloudCoverAmount", [0, 0]),
+      sunTransmittance: sample("sunTransmittance", [1, 1]),
+      fogAmount: sample("fogAmount", [0, 0]),
+      sunTint: this._lerpColor(
+        profile?.sunTint?.[0] ?? cfg?.defaultTint ?? 0xffffff,
+        profile?.sunTint?.[1] ?? cfg?.defaultTint ?? 0xffffff,
+        amount
+      ),
+      sunExposure: sample("sunExposure", [1, 1]),
+    };
+  }
+
+  _lerpColor(from, to, amount) {
+    const mix = (shift) => {
+      const start = (from >> shift) & 0xff;
+      const end = (to >> shift) & 0xff;
+      return Math.round(lerp(start, end, amount));
+    };
+    return (mix(16) << 16) | (mix(8) << 8) | mix(0);
+  }
+
+  _colorChannels(color) {
+    return { r: (color >> 16) & 0xff, g: (color >> 8) & 0xff, b: color & 0xff };
+  }
+
+  _packColor(color) {
+    return (Math.round(color.r) << 16) | (Math.round(color.g) << 8) | Math.round(color.b);
   }
 
   _isRainKind() {

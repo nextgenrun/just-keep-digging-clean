@@ -45,6 +45,11 @@ export const SHOP_MERCHANT_PROFILES = Object.freeze({
     role: "Licensed Buyer",
     greeting: "Upgrade your market skills or convert gathered resources into money.",
   }),
+  magmaMoneyMonster: Object.freeze({
+    title: "MOLTEN MONSTER EXCHANGE",
+    role: "World Two Resource Buyer",
+    greeting: "I buy Lava Dirt, Obsidian, Ember Ore, and Magma Crystals. The old monster will not.",
+  }),
   boboMerchant: Object.freeze({
     title: "BOBO'S COUNTER",
     role: "Collector of Useful Things",

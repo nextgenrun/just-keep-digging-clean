@@ -1,0 +1,231 @@
+{
+  "cellPx": 94,
+  "rows": 10,
+  "groundSourceY": 534,
+  "exactTownColumns": 13,
+  "chunks": [
+    {
+      "file": "level1-ground-facade-01-v2.webp",
+      "startColumn": 0,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-02-v2.webp",
+      "startColumn": 32,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-03-v2.webp",
+      "startColumn": 64,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-04-v2.webp",
+      "startColumn": 96,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-05-v2.webp",
+      "startColumn": 128,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-06-v2.webp",
+      "startColumn": 160,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-07-v2.webp",
+      "startColumn": 192,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-08-v2.webp",
+      "startColumn": 224,
+      "columns": 32
+    },
+    {
+      "file": "level1-ground-facade-09-v2.webp",
+      "startColumn": 256,
+      "columns": 24
+    }
+  ],
+  "markers": [
+    {
+      "index": 0,
+      "name": "copper-1"
+    },
+    {
+      "index": 1,
+      "name": "copper-2"
+    },
+    {
+      "index": 2,
+      "name": "copper-3"
+    },
+    {
+      "index": 3,
+      "name": "bronze-1"
+    },
+    {
+      "index": 4,
+      "name": "bronze-2"
+    },
+    {
+      "index": 5,
+      "name": "bronze-3"
+    },
+    {
+      "index": 6,
+      "name": "steel-1"
+    },
+    {
+      "index": 7,
+      "name": "steel-2"
+    },
+    {
+      "index": 8,
+      "name": "steel-3"
+    },
+    {
+      "index": 9,
+      "name": "iron-1"
+    },
+    {
+      "index": 10,
+      "name": "iron-2"
+    },
+    {
+      "index": 11,
+      "name": "iron-3"
+    },
+    {
+      "index": 12,
+      "name": "silver-1"
+    },
+    {
+      "index": 13,
+      "name": "silver-2"
+    },
+    {
+      "index": 14,
+      "name": "silver-3"
+    },
+    {
+      "index": 15,
+      "name": "gold-1"
+    },
+    {
+      "index": 16,
+      "name": "gold-2"
+    },
+    {
+      "index": 17,
+      "name": "gold-3"
+    },
+    {
+      "index": 18,
+      "name": "obsidian-1"
+    },
+    {
+      "index": 19,
+      "name": "obsidian-2"
+    },
+    {
+      "index": 20,
+      "name": "obsidian-3"
+    },
+    {
+      "index": 21,
+      "name": "ember-ore-1"
+    },
+    {
+      "index": 22,
+      "name": "ember-ore-2"
+    },
+    {
+      "index": 23,
+      "name": "ember-ore-3"
+    },
+    {
+      "index": 24,
+      "name": "magma-crystal-1"
+    },
+    {
+      "index": 25,
+      "name": "magma-crystal-2"
+    },
+    {
+      "index": 26,
+      "name": "magma-crystal-3"
+    },
+    {
+      "index": 27,
+      "name": "stone-1"
+    },
+    {
+      "index": 28,
+      "name": "stone-2"
+    },
+    {
+      "index": 29,
+      "name": "stone-3"
+    },
+    {
+      "index": 30,
+      "name": "teleport"
+    },
+    {
+      "index": 31,
+      "name": "gamble"
+    },
+    {
+      "index": 32,
+      "name": "gem-power"
+    },
+    {
+      "index": 33,
+      "name": "speed"
+    },
+    {
+      "index": 34,
+      "name": "xp"
+    },
+    {
+      "index": 35,
+      "name": "crit"
+    },
+    {
+      "index": 36,
+      "name": "berserk"
+    },
+    {
+      "index": 37,
+      "name": "combo"
+    },
+    {
+      "index": 38,
+      "name": "legend"
+    },
+    {
+      "index": 39,
+      "name": "geode-interior"
+    },
+    {
+      "index": 40,
+      "name": "geode-wall"
+    },
+    {
+      "index": 41,
+      "name": "chest"
+    },
+    {
+      "index": 42,
+      "name": "ancient-relic"
+    },
+    {
+      "index": 43,
+      "name": "glow-crystal"
+    }
+  ]
+}

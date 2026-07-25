@@ -3,21 +3,53 @@
  * Handles scene initialization, world setup, and system creation
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { PLAYER_CHARACTER_IDS, normalizePlayerCharacterId } from "../../values/playerCharacters.js";
-import { PLAYER_ASSET_PROFILES, getPlayerAssetProfile } from "../../values/playerAssetProfiles.js";
+import {
+  PLAYER_CHARACTER_IDS,
+  normalizePlayerCharacterId,
+  resolvePersistedPlayerCharacterId,
+} from "../../values/playerCharacters.js?rev=20260718";
+import {
+  PLAYER_ASSET_PROFILES,
+  getPlayerAssetProfile,
+  resolvePlayerDisplaySizePx,
+  resolvePlayerVisualOrigin,
+} from "../../values/playerAssetProfiles.js?rev=20260718-mesh-grounded";
+import {
+  awaitLoadComplete,
+  hasPlayerProfileSheets,
+  queueLivingDrillSheets,
+  queuePlayerProfileSheets,
+  queueRobotSheets,
+} from "../../player/PlayerAssetLoader.js";
+import { createUalNativePlayerAnimations } from "../../player/UalNativePlayerAnimations.js";
+import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { WorldModel } from "../WorldModel.js";
-import { WorldRenderer } from "../rendering/WorldRenderer.js";
-import { PlayerController } from "../../player/PlayerController.js";
+import { createWorldRenderer } from "../rendering/WorldRenderFactory.js";
+import { WORLD_VISUAL_RUNTIME_MODES } from "../../values/worldVisualRuntime.js";
+import { WorldBackgroundMasterSystem } from "../rendering/WorldBackgroundMasterSystem.js";
+import { WorldBackgroundAmbientMotionSystem } from "../rendering/WorldBackgroundAmbientMotionSystem.js";
+import { LevelOneLivingBackdropSystem } from "../rendering/LevelOneLivingBackdropSystem.js";
+import { WorldScenicFacadeSystem } from "../rendering/WorldScenicFacadeSystem.js";
+import { DeepWorldLivingBackdropSystem } from "../rendering/DeepWorldLivingBackdropSystem.js";
+import { StartZoneScenicBackgroundSystem } from "../rendering/StartZoneScenicBackgroundSystem.js";
+import { StartZoneGroundFacadeSystem } from "../rendering/StartZoneGroundFacadeSystem.js";
+import { LevelOneGroundFacadeSystem } from "../rendering/LevelOneGroundFacadeSystem.js";
+import { SecondWorldTownRenderer } from "../secondWorld/SecondWorldTownRenderer.js";
+import { PlayerController } from "../../player/PlayerController.js?rev=20260718-mesh-grounded";
 import { TileCollisionSystem } from "../../systems/mining/TileCollisionSystem.js";
 import { DigSystem } from "../../systems/mining/DigSystem.js";
+import { reportPlaySceneSetupFailure } from "../../systems/health/RuntimeCanarySystem.js";
 import { HUDSystem } from "../../systems/visual/HUDSystem.js";
 import { SoundSystem } from "../../sound/SoundSystem.js";
 import { FloatingTextSystem } from "../../systems/visual/FloatingTextSystem.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
+import { createButton } from "../../ui/PhaserUiKit.js";
+import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
+import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
@@ -31,13 +63,20 @@ import { DayNightCycle } from "../../systems/environment/DayNightCycle.js";
 import { AtmosphereSystem } from "../../systems/environment/AtmosphereSystem.js";
 import { HitstopSystem } from "../../systems/combo/HitstopSystem.js";
 import { ScreenFlashSystem } from "../../systems/visual/ScreenFlashSystem.js";
+import { ScreenRecordSystem } from "../../systems/visual/ScreenRecordSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
 import { ClimbTrailSystem } from "../../systems/visual/ClimbTrailSystem.js";
+import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
 import { PostFxSystem } from "../../systems/visual/PostFxSystem.js";
 import { PlayerBodyLanguageSystem } from "../../systems/visual/PlayerBodyLanguageSystem.js";
+import { PlayerMotionPolishSystem } from "../../systems/visual/PlayerMotionPolishSystem.js";
+import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinematicMotionSystem.js";
+import { UalNativeLocomotionTransitionSelector } from "../../systems/visual/UalNativeLocomotionTransitionSelector.js";
+import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
+import { PlayerSolidOcclusionSystem } from "../../systems/visual/PlayerSolidOcclusionSystem.js";
 import { AmbientParticleSystem } from "../../systems/environment/AmbientParticleSystem.js";
 import { DepthMilestoneCinematic } from "../../systems/visual/DepthMilestoneCinematic.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
@@ -51,12 +90,23 @@ import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import BiomeSystem from "../../systems/environment/BiomeSystem.js";
 import { CampfireSystem } from "../../systems/environment/CampfireSystem.js";
 import { EarthquakeSystem } from "../../systems/environment/EarthquakeSystem.js";
+import { EarthquakeFeedbackUI } from "../../systems/visual/EarthquakeFeedbackUI.js";
+import { EarthquakeHazardOverlay } from "../../systems/visual/EarthquakeHazardOverlay.js";
 import { DepthGateSystem } from "../../systems/progression/DepthGateSystem.js";
 import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnelDoorSystem.js";
+import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSystem.js";
+import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
+
+const PLAY_SCENE_UI_FACTORIES = Object.freeze({
+  createButton,
+  createIconBadge,
+  createModalShell,
+});
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js";
+import { CaveEntryController } from "./CaveEntryController.js";
 
 function comboShakeSignatureFor(milestone) {
   if (milestone >= 5000) return "combo.godlike";
@@ -72,6 +122,19 @@ function comboShakeSignatureFor(milestone) {
 function setAuthoredBackgroundVisualMode(scene, mode) {
   const requestedMode = mode === "raw" ? "raw" : "clean";
   if (scene._authoredBackgroundMode === requestedMode) return;
+
+  if (
+    scene.worldBackgroundMasterSystem?.enabled
+    && scene.worldBackgroundMasterSystem.config?.suppressLegacyAuthoredObjectsWhenEnabled
+  ) {
+    scene._authoredBackgroundMode = requestedMode;
+    scene.hudSystem?.flashStatus?.(
+      "TMX background: v11 master is authoritative",
+      "#88c9ff",
+      1200
+    );
+    return;
+  }
 
   if (!scene.bgObjectPlacer || !TILED_BACKGROUND_OBJECTS?.enabled) {
     scene._authoredBackgroundMode = requestedMode;
@@ -139,6 +202,7 @@ export async function setupScene(data = {}) {
     await _setupSceneSafe.call(this, data);
   } catch (err) {
     console.error('[PlayScene] Fatal error during setupScene:', err);
+    reportPlaySceneSetupFailure(err);
     // Show error on screen for diagnosis
     try {
       // Create visible error overlay
@@ -166,87 +230,6 @@ export async function setupScene(data = {}) {
       this.scene.get('MenuAudioScene')?.attachTo?.(this);
     } catch (_) { /* ignore */ }
   }
-}
-
-// ── Robot on-demand loading helper (hoisted for forward-reference safety) ──
-function _loadRobotSheets(scene) {
-  const robot = PLAYER_ASSET_PROFILES.robot;
-  const robotBase = robot.basePath;
-  const robotVersion = robot.version;
-  const loadSheet = (sheetKey, fileName, frames) => {
-    if (!sheetKey || !frames?.length) return;
-    if (scene.textures.exists(sheetKey)) return;
-    scene.load.spritesheet(sheetKey, `${robotBase}/${fileName}?v=${robotVersion}`, {
-      frameWidth: 341, frameHeight: 341, endFrame: frames.length - 1,
-    });
-  };
-  loadSheet(robot.idleSheet, "idle-sheet.webp", robot.idleFrames);
-  loadSheet(robot.walkStartSheet, "walk-start-sheet.webp", robot.walkStartFrames);
-  loadSheet(robot.walkLoopSheet, "walk-loop-sheet.webp", robot.walkLoopFrames);
-  loadSheet(robot.walkRunSheet, "walk-run-sheet.webp", robot.walkRunFrames);
-  loadSheet(robot.walkStopSheet, "walk-stop-sheet.webp", robot.walkStopFrames);
-  loadSheet(robot.airborneSheet, "jump-sheet.webp", robot.airborneFrames);
-  loadSheet(robot.fallingSheet, "falling-sheet.webp", robot.fallingFrames);
-  loadSheet(robot.duckSheet, "duck-sheet.webp", robot.duckFrames);
-  loadSheet(robot.digDownSheet, "dig-down-sheet.webp", robot.digDownFrames);
-  loadSheet(robot.digSidewaysSheet, "dig-sideways-sheet.webp", robot.digSidewaysFrames);
-  loadSheet(robot.digUpSheet, "dig-up-sheet.webp", robot.digUpFrames);
-  loadSheet(robot.digUpSidewaysSheet, "dig-up-sideways-sheet.webp", robot.digUpSidewaysFrames);
-  loadSheet(robot.digUpLookSheet, "dig-up-look-sheet.webp", robot.digUpLookFrames);
-  loadSheet(robot.wallPushSheet, "wall-push-sheet.webp", robot.wallPushFrames);
-  loadSheet(robot.combatIdleRecoverSheet, "combat-idle-recover-sheet.webp", robot.combatIdleRecoverFrames);
-  loadSheet(robot.climbSheet, "climb-sheet.webp", robot.climbFrames);
-  loadSheet(robot.flySheet, "fly-sheet.webp", robot.flyFrames);
-  loadSheet(robot.quickslashSheet, "quickslash-sheet.webp", robot.quickslashFrames);
-  loadSheet(robot.thunderStrikeChargeSheet, "thunder-charge-sheet.webp", robot.thunderStrikeChargeFrames);
-  loadSheet(robot.thunderStrikeStrikeSheet, "thunder-strike-sheet.webp", robot.thunderStrikeStrikeFrames);
-  loadSheet(robot.attackDownSheet, "attack-down-sheet.webp", robot.attackDownFrames);
-  loadSheet(robot.earthquakeReactSheet, "earthquake-react-sheet.webp", robot.earthquakeReactFrames);
-  if (scene.load.isLoading()) scene.load.start();
-}
-
-function _loadLivingDrillSheets(scene) {
-  const drill = PLAYER_ASSET_PROFILES.drillHead;
-  const base = drill.basePath;
-  const version = drill.version;
-  const hasExpectedFrames = (sheetKey, frames) => {
-    if (!scene.textures.exists(sheetKey)) return false;
-    return frames.every(frame => scene.textures.getFrame(sheetKey, String(frame)));
-  };
-  const loadSheet = (sheetKey, fileName, frames) => {
-    if (!sheetKey || !frames?.length) return false;
-    if (hasExpectedFrames(sheetKey, frames)) return false;
-    if (scene.textures.exists(sheetKey)) scene.textures.remove(sheetKey);
-    scene.load.spritesheet(sheetKey, `${base}/${fileName}?v=${version}`, {
-      frameWidth: drill.frameWidth || 94,
-      frameHeight: drill.frameHeight || 94,
-      endFrame: frames.length - 1,
-    });
-    return true;
-  };
-  return [
-    loadSheet(drill.idleSheet, "living-drill-idle-sheet.png", drill.idleFrames),
-    loadSheet(drill.digSheet, "living-drill-dig-sheet.png", drill.digFrames),
-    loadSheet(drill.flySheet, "living-drill-fly-sheet.png", drill.flyFrames),
-  ].some(Boolean);
-}
-
-/**
- * Wait for Phaser's loader to finish loading all queued assets.
- * Returns a Promise that resolves when loading completes or fails.
- */
-function _awaitLoadComplete(scene, forceNextLoad = false) {
-  return new Promise((resolve) => {
-    if (!forceNextLoad && !scene.load.isLoading()) {
-      resolve();
-      return;
-    }
-    scene.load.once('complete', resolve);
-    scene.load.once('loaderror', (file) => {
-      console.warn('[PlaySceneSetup] Character sheet load error:', file?.key || file?.src || file);
-      // Don't reject — let it continue with legacy fallback if needed
-    });
-  });
 }
 
 function _createRobotAnims(scene) {
@@ -351,6 +334,32 @@ function _createLivingDrillAnims(scene, profile) {
   specs.forEach((spec, key) => create(key, spec));
 }
 
+async function _ensureUalNativePlayer(scene, profile) {
+  const queuedUalSheets = queuePlayerProfileSheets(scene, profile);
+  if (queuedUalSheets) {
+    const loadComplete = awaitLoadComplete(scene, {
+      forceNextLoad: true,
+      onLoadError: (file) => {
+        console.warn('[PlaySceneSetup] UAL native sheet load error:', file?.key || file?.src || file);
+      },
+    });
+    scene.load.start();
+    await loadComplete;
+  }
+  if (!hasPlayerProfileSheets(scene, profile)) {
+    throw new Error('UAL native production sheets failed to load; no substitute character path is allowed');
+  }
+  createUalNativePlayerAnimations(scene, profile);
+  scene.config = Object.freeze({
+    ...scene.config,
+    playerBodyWidthPx: profile.playerBodyWidthPx,
+    playerBodyHeightPx: profile.playerBodyHeightPx,
+    playerDisplaySizePx: profile.displaySizePx,
+    playerVisualOriginCenter: false,
+  });
+  console.log('[PlaySceneSetup] UAL native 30 fps animations and measured hitbox ready');
+}
+
 async function _setupSceneSafe(data = {}) {
   this.saveSlot = data.saveSlot || 1;
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
@@ -359,8 +368,13 @@ async function _setupSceneSafe(data = {}) {
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
   this._cachedSaveData = initialCachedSave;
-  this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? initialCachedSave?.playerCharacterId);
+  const cachedPlayerCharacterId = resolvePersistedPlayerCharacterId(initialCachedSave?.playerCharacterId);
+  this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? cachedPlayerCharacterId);
   this.playerAssetProfile = getPlayerAssetProfile(this.playerCharacterId);
+
+  if (this.playerAssetProfile.isUalNative) {
+    await _ensureUalNativePlayer(this, this.playerAssetProfile);
+  }
 
   if (this.playerAssetProfile.isLivingDrill) {
     this.config = Object.freeze({
@@ -370,9 +384,14 @@ async function _setupSceneSafe(data = {}) {
       playerDisplaySizePx: this.config.tileSize,
       playerVisualOriginCenter: true,
     });
-    const queuedLivingDrillSheets = _loadLivingDrillSheets(this);
+    const queuedLivingDrillSheets = queueLivingDrillSheets(this);
     if (queuedLivingDrillSheets) {
-      const loadComplete = _awaitLoadComplete(this, true);
+      const loadComplete = awaitLoadComplete(this, {
+        forceNextLoad: true,
+        onLoadError: (file) => {
+          console.warn('[PlaySceneSetup] Character sheet load error:', file?.key || file?.src || file);
+        },
+      });
       this.load.start();
       await loadComplete;
     }
@@ -384,36 +403,85 @@ async function _setupSceneSafe(data = {}) {
     const missingSheets = !this.textures.exists(PLAYER_ASSET_PROFILES.robot.idleSheet);
     if (missingSheets) {
       console.warn('[PlaySceneSetup] Robot sheets not found, loading on demand...');
-      _loadRobotSheets(this);
-    }
-    if (this.load.isLoading()) {
+      const queuedRobotSheets = queueRobotSheets(this);
+      if (queuedRobotSheets) {
+        const loadComplete = awaitLoadComplete(this, {
+          forceNextLoad: true,
+          onLoadError: (file) => {
+            console.warn('[PlaySceneSetup] Robot sheet load error:', file?.key || file?.src || file);
+          },
+        });
+        this.load.start();
+        await loadComplete;
+      }
+    } else if (this.load.isLoading()) {
       this.load.start();
-      await _awaitLoadComplete(this);
+      await awaitLoadComplete(this);
     }
     // Only create robot animations if the idle sheet actually loaded
     if (this.textures.exists(PLAYER_ASSET_PROFILES.robot.idleSheet)) {
       _createRobotAnims(this);
       console.log('[PlaySceneSetup] Robot animations created');
     } else {
-      console.warn('[PlaySceneSetup] Robot idle sheet failed to load, falling back to legacy');
-      this.playerCharacterId = 'legacy';
-      this.playerAssetProfile = getPlayerAssetProfile('legacy');
+      console.warn('[PlaySceneSetup] Robot idle sheet failed to load, falling back to UAL native');
+      this.playerCharacterId = PLAYER_CHARACTER_IDS.ualNative;
+      this.playerAssetProfile = getPlayerAssetProfile(PLAYER_CHARACTER_IDS.ualNative);
+      await _ensureUalNativePlayer(this, this.playerAssetProfile);
     }
   }
   this.npcManager = new NPCManager(this, ASSET_KEYS);
   this.backgroundRenderer = new BackgroundRenderer(this, ASSET_KEYS);
-  this._authoredBackgroundMode = "clean";
-  if (!TILED_BACKGROUND_OBJECTS?.enabled) {
-    this.backgroundRenderer.createTiledBackground();
+  const worldVisualSelection = createWorldRenderer(this, this.worldModel, this.config);
+  this.worldVisualRuntimeMode = worldVisualSelection.mode;
+  this.worldRenderer = worldVisualSelection.renderer;
+
+  if (this.worldVisualRuntimeMode === WORLD_VISUAL_RUNTIME_MODES.legacy) {
+    this.backgroundRenderer.createUniverseSkyBackground();
+    this.startZoneScenicBackgroundSystem = new StartZoneScenicBackgroundSystem(this);
+    this.startZoneScenicBackgroundSystem.create();
+    this._authoredBackgroundMode = "clean";
+    this.worldBackgroundMasterSystem = new WorldBackgroundMasterSystem(this);
+    const v11MasterActive = this.worldBackgroundMasterSystem.create();
+    this.bgObjectPlacer = new BackgroundObjectPlacer(this, ASSET_KEYS, { useRawAuthoredBackgrounds: this._authoredBackgroundMode === "raw" });
+    const suppressLegacyAuthoredObjects = v11MasterActive
+      && this.worldBackgroundMasterSystem.config?.suppressLegacyAuthoredObjectsWhenEnabled;
+    if (!suppressLegacyAuthoredObjects) {
+      if (!TILED_BACKGROUND_OBJECTS?.enabled) this.backgroundRenderer.createTiledBackground();
+      this.bgObjectPlacer.placeObjects(TILED_BACKGROUND_OBJECTS, { debug: false });
+    } else {
+      console.info("[PlaySceneSetup] v11 master active; skipped legacy v7 background objects");
+    }
+    this.worldRenderer.create();
+    this.levelOneGroundFacadeSystem = new LevelOneGroundFacadeSystem(this, this.worldModel);
+    const levelOneFacadeActive = this.levelOneGroundFacadeSystem.create();
+    this.startZoneGroundFacadeSystem = new StartZoneGroundFacadeSystem(this, this.worldModel);
+    if (!levelOneFacadeActive) this.startZoneGroundFacadeSystem.create();
+    this.worldScenicFacadeSystem = new WorldScenicFacadeSystem(this, this.worldModel);
+    this.worldScenicFacadeSystem.create();
+    this.deepWorldLivingBackdropSystem = new DeepWorldLivingBackdropSystem(this);
+    this.deepWorldLivingBackdropSystem.create();
+    this.worldBackgroundAmbientMotionSystem = new WorldBackgroundAmbientMotionSystem(this);
+    this.worldBackgroundAmbientMotionSystem.create();
+    this.levelOneLivingBackdropSystem = new LevelOneLivingBackdropSystem(this);
+    this.levelOneLivingBackdropSystem.create();
+    this.secondWorldTownRenderer = new SecondWorldTownRenderer(this);
+    this.secondWorldTownRenderer.create();
+    this.caveTemplateVisualSystem = new CaveTemplateVisualSystem(this);
+    this.caveTemplateVisualSystem.create(this.worldModel);
+    this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
+    this.caveInteriorOcclusionSystem.create(this.worldModel);
+  } else {
+    this._authoredBackgroundMode = "scenic-v2";
+    this.worldRenderer.create();
+    console.info("[PlaySceneSetup] Scenic-v2 owns the complete visible world; legacy visual stack was not constructed");
   }
-  this.bgObjectPlacer = new BackgroundObjectPlacer(this, ASSET_KEYS, { useRawAuthoredBackgrounds: this._authoredBackgroundMode === "raw" });
-  this.bgObjectPlacer.placeObjects(TILED_BACKGROUND_OBJECTS, { debug: false });
-  this.worldRenderer = new WorldRenderer(this, this.worldModel, this.config);
-  this.worldRenderer.create();
-  this.caveTemplateVisualSystem = new CaveTemplateVisualSystem(this);
-  this.caveTemplateVisualSystem.create(this.worldModel);
-  this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
-  this.caveInteriorOcclusionSystem.create(this.worldModel);
+
+  // Sky Island platforms and eclipse gates are gameplay landmarks, not part of
+  // either terrain renderer. Construct them for both the legacy rollback and
+  // scenic-v2 so SpecialTileSystem's saved teleport graph never becomes an
+  // invisible, still-functional interaction layer.
+  this.v11SkyIslandVisualSystem = new V11SkyIslandVisualSystem(this);
+  this.v11SkyIslandVisualSystem.create();
   this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
 
   this._safeReturnGfx = this.add.graphics();
@@ -441,36 +509,73 @@ async function _setupSceneSafe(data = {}) {
     this.playerAssetProfile.idleSheet,
     this.playerAssetProfile.isLivingDrill ? undefined : this.playerAssetProfile.idleFrames[0]
   );
-  this.player.setOrigin(0.5, this.config.playerVisualOriginCenter ? 0.5 : 1);
+  const playerOrigin = resolvePlayerVisualOrigin(
+    this.playerAssetProfile,
+    this.playerAssetProfile.idleAnim,
+    this.player.texture?.key,
+    { x: 0.5, y: this.config.playerVisualOriginCenter ? 0.5 : 1 },
+  );
+  this.player.setOrigin(playerOrigin.x, playerOrigin.y);
   this.player.setDepth(HUD_LAYOUT.playerDepth);
   if (this.playerAssetProfile.isLivingDrill) {
     this.player.setScale(this.playerAssetProfile.visualScale || 1);
   } else {
-    const displaySize = this.playerAssetProfile.displaySizePx || this.config.playerDisplaySizePx;
+    const displaySize = resolvePlayerDisplaySizePx(
+      this.playerAssetProfile,
+      this.config.playerDisplaySizePx,
+      this.playerAssetProfile.idleAnim,
+    );
     this.player.setDisplaySize(displaySize, displaySize);
   }
 
+  this.ualActionContactTimeline = this.playerAssetProfile.isUalNative
+    ? new UalActionContactTimeline(this.player)
+    : null;
+
   this._onAnimComplete = (animation) => {
     const profile = this.playerAssetProfile || ASSET_KEYS.player;
-    if (!profile.isLivingDrill && profile.digAnims.includes(animation.key)) {
+    const now = this.time?.now || 0;
+    if (this._teleportInAnimating && animation.key === profile.teleportInAnim) {
+      this._teleportInAnimating = false;
+      this.player.anims.timeScale = 1;
+      this.updatePlayerVisualState(true);
+    } else if (
+      !profile.isLivingDrill
+      && (profile.punchActionAnims || profile.digAnims).includes(animation.key)
+    ) {
       this.flushPendingDigImpactFeedback?.();
       this.isDigAnimating = false;
-      this._combatIdleFlipX = this._actionFlipX;
-      this._combatIdleRecoverUntilMs = (this.time?.now || 0) + 3000;
+      this.playerRigContact?.endAction();
+      const settledFlipX = typeof this._postActionFacingFlipX === "boolean"
+        ? this._postActionFacingFlipX
+        : this._actionFlipX;
+      this._combatIdleFlipX = settledFlipX;
+      const recoverDurationMs = this.playerMotionPolish?.getPostActionRecoverDurationMs?.() ?? 3000;
+      this._combatIdleRecoverUntilMs = now + recoverDurationMs;
       this._combatIdleReturnActive = false;
       this._combatIdleReturnPlayed = false;
-      if (typeof this._actionFlipX === "boolean") {
-        this.player.setFlipX(this._actionFlipX);
+      if (typeof settledFlipX === "boolean") {
+        this.player.setFlipX(settledFlipX);
+        this.playerController?.setFacingRight?.(!settledFlipX);
       }
       this._actionFlipX = null;
+      this._postActionFacingFlipX = null;
       this.player.anims.timeScale = 1.0;
       this.pickaxeTrailSystem?.stop();
       this.updatePlayerVisualState(true);
+    } else if (this.playerMotionPolish?.onAnimationComplete?.(animation.key, now)) {
+      this.updatePlayerVisualState(true);
+    } else if (
+      profile.isUalNative
+      && (profile.locomotionTransitionAnims || []).includes(animation.key)
+    ) {
+      this.updatePlayerVisualState(false);
     } else if (animation.key === (profile.walkStartAnim || ASSET_KEYS.player.walkStartAnim)) {
       const motionState = this.playerController?.getMotionState?.();
       if (motionState === "walk-left" || motionState === "walk-right") {
-        this._applyWalkAnimationTimeScale?.();
-        this.player.play(this._getMovingWalkLoopAnim?.() || profile.walkLoopAnim || ASSET_KEYS.player.walkLoopAnim, true);
+        const movingKey = this._getMovingWalkLoopAnim?.() || profile.walkLoopAnim || ASSET_KEYS.player.walkLoopAnim;
+        this.player.play(movingKey, true);
+        this._applyWalkAnimationTimeScale?.(movingKey);
       }
     } else if (animation.key === (profile.walkStopAnim || ASSET_KEYS.player.walkStopAnim)) {
       this.player.anims.timeScale = 1.0;
@@ -488,7 +593,10 @@ async function _setupSceneSafe(data = {}) {
   this._onAnimUpdate = (anim, frame) => {
     const profile = this.playerAssetProfile || ASSET_KEYS.player;
     const isWalkAnim = (profile.walkMovingAnims || ASSET_KEYS.player.walkMovingAnims).includes(anim.key);
-    const isFootstepFrame = frame.index === 1 || frame.index === 5;
+    const authoredFootsteps = profile.footstepFrameIndices?.[anim.key];
+    const isFootstepFrame = authoredFootsteps
+      ? authoredFootsteps.includes(frame.index)
+      : frame.index === 1 || frame.index === 5;
     if (isWalkAnim && isFootstepFrame) {
       if (this.playerController && this.playerController.isGrounded() && this.soundSystem) {
         const motionState = this.playerController.getMotionState();
@@ -515,10 +623,14 @@ async function _setupSceneSafe(data = {}) {
   this.add.rectangle(this.config.worldWidthPx + 5000, this.config.worldDepthPx / 2, 10000, this.config.worldDepthPx, 0x000000).setDepth(HUD_LAYOUT.bgMaskDepth);
 
   this.inputHandler = new PlayerInputHandler(this);
+  this.caveEntryController = new CaveEntryController(this);
+  this.caveEntryController.create();
   this.overlayManager = new OverlayManager(this);
   this.comboSystem = new ComboSystem();
   this.specialBlockEffectsManager = new SpecialBlockEffectsManager(this);
   this.digSystem = new DigSystem(this.worldModel, this.worldRenderer, this.config, null, null, null, this.comboSystem, this.specialBlockEffectsManager);
+  this.ancientRelicSystem = new AncientRelicSystem();
+  this.digSystem.setAncientRelicSystem(this.ancientRelicSystem);
   this.playerLevelSystem = new PlayerLevelSystem();
   this.playerLevelSystem.setComboSystem(this.comboSystem);
   this.upgradeSystem = new UpgradeSystem(this.digSystem);
@@ -531,7 +643,7 @@ async function _setupSceneSafe(data = {}) {
   this.hudSystem = new HUDSystem(this, this.config.worldWidthTiles - 1, this.config.hudRefreshIntervalMs);
   this.hudSystem.setComboSystem(this.comboSystem);
   this.hudSystem.setSpecialBlockEffectsManager(this.specialBlockEffectsManager);
-  this.floatingTextSystem = new FloatingTextSystem(this);
+  this.floatingTextSystem = new FloatingTextSystem(this, this.saveSlot);
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
@@ -548,14 +660,14 @@ async function _setupSceneSafe(data = {}) {
     }
   });
 
-  this.milestoneBoardSystem = new MilestoneBoardSystem(this, this.config, this.worldModel);
+  this.milestoneBoardSystem = new MilestoneBoardSystem(this, this.config, this.worldModel, PLAY_SCENE_UI_FACTORIES, this.saveSlot);
   this.milestoneBoardSystem.create();
   this.biomeSystem = new BiomeSystem(this, this.config, this.worldModel);
-  this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel);
+  this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel, PLAY_SCENE_UI_FACTORIES, this.saveSlot);
   this.campfireSystem.create();
   this.digSystem.setCampfireSystem(this.campfireSystem);
   this.playerLevelSystem.setCampfireSystem(this.campfireSystem);
-  this.starPillarSystem = new StarPillarSystem(this, this.config, this.floatingTextSystem);
+  this.starPillarSystem = new StarPillarSystem(this, this.config, this.floatingTextSystem, PLAY_SCENE_UI_FACTORIES);
   this.starPillarSystem.create();
   this.floatingTextSystem.setConstellationUnlockedCallback((type) => {
     this.starPillarSystem.onConstellationUnlocked(type);
@@ -580,7 +692,9 @@ async function _setupSceneSafe(data = {}) {
       if (cStats.thunderstrikeFalloffReduction > 0) buffs.push(`-${Math.round(cStats.thunderstrikeFalloffReduction * 100)}% ${thunderKey} falloff`);
       if (cStats.thunderstrikeCostReduction > 0) buffs.push(`-${cStats.thunderstrikeCostReduction} ${thunderKey} cost`);
       if (buffs.length > 0 && this.hudSystem) {
-        setTimeout(() => { if (this.hudSystem) this.hudSystem.flashStatus(`${passiveBuffText} | ${buffs.join(' | ')}`, '#AABBEE', 3000); }, 1500);
+        this.time.delayedCall(1500, () => {
+          if (this.hudSystem) this.hudSystem.flashStatus(`${passiveBuffText} | ${buffs.join(' | ')}`, '#AABBEE', 3000);
+        });
       }
       if (this.shakeSystem) this.shakeSystem.shake("misc.constellationUnlock");
     }
@@ -591,12 +705,49 @@ async function _setupSceneSafe(data = {}) {
   this.screenFlashSystem = new ScreenFlashSystem(this, GAMEFEEL_CONFIG.flash);
   this.pickaxeTrailSystem = new PickaxeTrailSystem(this, this.player, GAMEFEEL_CONFIG.trail);
   this.climbTrailSystem = new ClimbTrailSystem(this, this.player, GAMEFEEL_CONFIG.climb);
+  this.flightFootParticleSystem = new FlightFootParticleSystem(
+    this,
+    this.player,
+    this.playerAssetProfile,
+  );
 
   // ── AAA polish layer: postFX grading, body language, ambient atmosphere ──
   this.postFxSystem = new PostFxSystem(this);
   this.postFxSystem.create();
   this.playerBodyLanguage = new PlayerBodyLanguageSystem(this, this.player);
   this.playerBodyLanguage.create();
+  this.playerMotionPolish = this.playerAssetProfile.isUalNative
+    ? new PlayerMotionPolishSystem(this.playerAssetProfile)
+    : null;
+  this.playerMotionPolish?.reset(this.time?.now || 0);
+  this.playerKinematicMotion = new PlayerKinematicMotionSystem(
+    this,
+    this.player,
+    this.playerController,
+    this.playerAssetProfile,
+  );
+  this.ualLocomotionTransitionSelector = this.playerAssetProfile.isUalNative
+    ? new UalNativeLocomotionTransitionSelector(this.playerAssetProfile)
+    : null;
+  this.ualLocomotionTransitionSelector?.reset({
+    grounded: this.playerController?.isGrounded?.() !== false,
+    flying: this.playerController?.abilities?.isFlying?.() === true,
+    facingFlipX: !this.playerController?.isFacingRight?.(),
+  });
+  this.playerRigContact = new PlayerRigContactSystem(
+    this,
+    this.player,
+    this.playerController,
+    this.playerAssetProfile,
+  );
+  this.playerRigContact.create();
+  this.playerSolidOcclusion = new PlayerSolidOcclusionSystem(
+    this,
+    this.player,
+    this.worldModel,
+    this.playerAssetProfile,
+  );
+  this.playerSolidOcclusion.create();
   this.ambientParticleSystem = new AmbientParticleSystem(this);
   this.ambientParticleSystem.create();
   this.depthMilestoneCinematic = new DepthMilestoneCinematic(this);
@@ -617,10 +768,12 @@ async function _setupSceneSafe(data = {}) {
   this.shaderSystem.create();
   this.atmosphereSystem = new AtmosphereSystem(this, this.config);
   this.gameInputHandler = new GameInputHandler(this, this.inputHandler, this.playerController.input);
+  this.screenRecordSystem = new ScreenRecordSystem(this);
   this._refreshSafeReturnLine();
   this._gemPowerBarBg = this.add.graphics().setScrollFactor(0).setDepth(HUD_LAYOUT.hudDepth);
   this._gemPowerBarFill = this.add.graphics().setScrollFactor(0).setDepth(HUD_LAYOUT.hudOverlayDepth);
   this._gpLabelText = this.add.text(HUD_LAYOUT.gpLabelX, HUD_LAYOUT.gpLabelY, "", { fontFamily: "Consolas, monospace", fontSize: HUD_LAYOUT.gpLabelFontSize, color: HUD_LAYOUT.gpLabelColor }).setScrollFactor(0).setDepth(HUD_LAYOUT.hudOverlayDepth);
+  this.hudSystem?.bindGemPowerObjects(this._gemPowerBarBg, this._gemPowerBarFill, this._gpLabelText);
 
   this.soundSystem = new SoundSystem(this);
   this.soundSystem.init();
@@ -637,34 +790,49 @@ async function _setupSceneSafe(data = {}) {
   this.overlayManager.createOverlay();
 
   this.earthquakeSystem = new EarthquakeSystem(this);
+  this.earthquakeFeedbackUI = new EarthquakeFeedbackUI(this, this.earthquakeSystem);
+  this.earthquakeHazardOverlay = new EarthquakeHazardOverlay(this, this.earthquakeSystem);
   this.depthGateSystem = new DepthGateSystem(this);
   this.upgradeSystem.setProgressionStateProvider(() => ({
     isDepthGateAccepted: threshold => this.depthGateSystem?.accepted?.has?.(threshold) === true,
   }));
   this.surfaceTunnelDoorSystem = new SurfaceTunnelDoorSystem(this);
   this.surfaceTunnelDoorSystem.create();
+  this.arcCoreVehicleSystem = new ArcCoreVehicleSystem(this);
+  this.arcCoreVehicleSystem.create();
   installDebugUiSmokeHooks(this);
   installJkdE2EHarness(this);
 
   this._autosaveInterval = setInterval(() => this.queueDugTilesSave(), 60000);
 
   this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-    if (this.comboSystem && this.dugTileSaveStore) {
-      const specialTileData = this.specialTileSystem ? this.specialTileSystem.getSaveData() : null;
-      const depthGateData = this.depthGateSystem ? this.depthGateSystem.getSaveData() : null;
-      const dayNightData = this.dayNightCycle?.toJSON?.() ?? null;
-      this.dugTileSaveStore.save(this.worldIdentity, this.worldModel.getDugTileKeys(), this.digSystem.getResourceTotals(), this.upgradeSystem.getUpgradeLevels(), this.playerLevelSystem.toJSON(), specialTileData, depthGateData, dayNightData, this.worldModel.getRubbleTiles(), this.playerCharacterId);
-    }
+    this.caveEntryController?.destroy();
     clearInterval(this._autosaveInterval);
     this.queueDugTilesSave();
     if (this.player) {
       this.player.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
       this.player.off(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
     }
+    this.ualActionContactTimeline?.destroy();
     if (this._debugKey) { this._debugKey.off('down', this._debugKeyHandler); }
     if (this._debugUiSmokeKeyHandler) { this.input.keyboard.off('keydown', this._debugUiSmokeKeyHandler); this._debugUiSmokeKeyHandler = null; }
     if (this._resizeHandler) { this.scale.off('resize', this._resizeHandler); }
     this.destroySceneUI();
+    this.npcManager?.destroy();
+    this.overlayManager?.destroy();
+    this.startZoneScenicBackgroundSystem?.destroy();
+    this.levelOneGroundFacadeSystem?.destroy();
+    this.startZoneGroundFacadeSystem?.destroy();
+    this.deepWorldLivingBackdropSystem?.destroy();
+    this.worldScenicFacadeSystem?.destroy();
+    this.worldBackgroundAmbientMotionSystem?.destroy();
+    this.levelOneLivingBackdropSystem?.destroy();
+    this.v11SkyIslandVisualSystem?.destroy();
+    this.worldRenderer?.destroy();
+    this.bgObjectPlacer?.destroy();
+    this.caveTemplateVisualSystem?.destroy();
+    this.caveInteriorOcclusionSystem?.destroy();
+    this.specialBlockEffectsManager?.destroy();
     this.milestoneBoardSystem?.destroy();
     this.biomeSystem?.destroy();
     this.campfireSystem?.destroy();
@@ -672,10 +840,21 @@ async function _setupSceneSafe(data = {}) {
     this._gpLabelText?.destroy();
     this.hitstopSystem?.destroy();
     this.screenFlashSystem?.destroy();
+    this.screenRecordSystem?.destroy();
     this.pickaxeTrailSystem?.destroy();
     this.climbTrailSystem?.destroy();
+    this.flightFootParticleSystem?.destroy();
     this.postFxSystem?.destroy();
     this.playerBodyLanguage?.destroy();
+    this.playerMotionPolish?.destroy();
+    this.playerKinematicMotion?.destroy();
+    this.ualLocomotionTransitionSelector?.reset();
+    this.ualLocomotionTransitionSelector = null;
+    this.playerRigContact?.destroy();
+    this.ualMiningComboSelector?.reset?.();
+    this.ualMiningComboSelector = null;
+    this._ualFlightTravelVisual = false;
+    this.playerSolidOcclusion?.destroy();
     this.ambientParticleSystem?.destroy();
     this.depthMilestoneCinematic?.destroy();
     this._livingDrillTween?.stop();
@@ -694,7 +873,10 @@ async function _setupSceneSafe(data = {}) {
     this.voiceLineManager?.destroy();
     this.depthGateSystem?.destroy();
     this.surfaceTunnelDoorSystem?.destroy();
+    this.arcCoreVehicleSystem?.destroy();
     this.earthquakeSystem?.destroy();
+    this.earthquakeFeedbackUI?.destroy();
+    this.earthquakeHazardOverlay?.destroy();
     this.shakeSystem?.stop();
     if (this._activeParticleChips) {
       this._activeParticleChips.forEach(chip => { this.tweens.killTweensOf(chip); chip.destroy(); });
@@ -708,6 +890,7 @@ async function _setupSceneSafe(data = {}) {
   if (cachedSave && cachedSave.comboData) { this.comboSystem.fromJSON(cachedSave.comboData); }
   this.applyPersistentState(cachedSave, false);
   this.surfaceTunnelDoorSystem?.syncFromUpgrade();
+  this.arcCoreVehicleSystem?.syncOwnership();
   this.updatePlayerVisualState(true);
   this.restorePersistentState();
   if (data.autoStart !== false) { this.startRun(); } else { this.enterTitleState(); }

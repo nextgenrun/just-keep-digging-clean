@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>v11 Skyline Motion Mockup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">V11 SURFACE · PREVIEW ONLY</p>
+        <h1>Skyline motion study</h1>
+      </div>
+      <div class="controls" aria-label="Motion controls">
+        <label><input id="motion-toggle" type="checkbox" checked> Motion</label>
+        <label for="intensity">Intensity <output id="intensity-value">1.6×</output></label>
+        <input id="intensity" type="range" min="0" max="3" value="1.6" step="0.1">
+      </div>
+    </header>
+    <section class="stage-shell">
+      <div id="skyline-stage" class="skyline-stage" role="img" aria-label="The exact v11 town skyline with moving clouds, stars, smoke, and window light">
+        <img src="../../../sprites/backgrounds/world-v11-test/level-1-band-01-ground-row-65-master.png" alt="" draggable="false">
+        <div class="sky-parallax" aria-hidden="true"></div>
+        <canvas id="motion-canvas" width="1001" height="430" aria-hidden="true"></canvas>
+        <div class="vignette" aria-hidden="true"></div>
+      </div>
+    </section>
+    <footer>
+      <span>Exact source: <code>level-1-band-01-ground-row-65-master.png</code></span>
+      <span>Cloud drift · rotating windmills · moon haze · smoke · window light</span>
+    </footer>
+  </main>
+  <script type="module" src="mockup.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "version": "superman-pose-editor-v1-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "MINER_idle",
+    "idleFrame": 1
+  },
+  "output": {
+    "root": "testing/blender-animation-lab-v1/review-drafts/superman-pose-editor-v1",
+    "blend": "superman-pose-editor-v1.blend",
+    "manifest": "pose-editor-manifest.json",
+    "preview": "idle-pose-preview.png"
+  },
+  "pose": {
+    "actionName": "DG_SUPERMAN_POSE_IDLE_V1",
+    "visibleBodyBones": ["pelvis", "spine_03", "head"],
+    "bodyControl": {
+      "name": "CTRL_BODY_TILT",
+      "label": "1  BODY TILT  (R = rotate)",
+      "size": 0.62,
+      "color": [1.0, 0.52, 0.08, 1.0],
+      "labelOffset": [0.0, 0.76, 0.03]
+    },
+    "limbControls": [
+      {
+        "name": "CTRL_LEAD_HAND",
+        "bone": "hand_r",
+        "label": "2  LEAD HAND  (G = move)",
+        "size": 0.13,
+        "color": [0.08, 0.84, 1.0, 1.0],
+        "labelOffset": [0.17, 0.17, 0.03],
+        "chainCount": 3
+      },
+      {
+        "name": "CTRL_TUCKED_HAND",
+        "bone": "hand_l",
+        "label": "3  TUCKED HAND  (G = move)",
+        "size": 0.13,
+        "color": [0.62, 0.32, 1.0, 1.0],
+        "labelOffset": [-0.2, 0.16, 0.03],
+        "chainCount": 3
+      },
+      {
+        "name": "CTRL_RIGHT_FOOT",
+        "bone": "foot_r",
+        "label": "4  RIGHT FOOT  (G = move)",
+        "size": 0.13,
+        "color": [0.22, 1.0, 0.56, 1.0],
+        "labelOffset": [0.17, -0.1, 0.03],
+        "chainCount": 3
+      },
+      {
+        "name": "CTRL_LEFT_FOOT",
+        "bone": "foot_l",
+        "label": "5  LEFT FOOT  (G = move)",
+        "size": 0.13,
+        "color": [1.0, 0.3, 0.58, 1.0],
+        "labelOffset": [-0.23, -0.12, 0.03],
+        "chainCount": 3
+      }
+    ],
+    "bodyLabels": [
+      {"bone": "pelvis", "label": "POSE MODE: HIPS", "offset": [-0.38, 0.02, 0.03]},
+      {"bone": "spine_03", "label": "POSE MODE: CHEST", "offset": [-0.4, 0.08, 0.03]},
+      {"bone": "head", "label": "POSE MODE: HEAD", "offset": [-0.32, 0.1, 0.03]}
+    ],
+    "ikIterations": 128,
+    "labelSize": 0.09,
+    "instructionLabel": "START HERE: select a coloured ring, then G to move it.  Use the orange body ring + R to make the body fly.  Save As when you like the pose.",
+    "instructionOffset": [0.0, 1.15, 0.03]
+  },
+  "preview": {
+    "sizePx": 512,
+    "transparent": false
+  }
+}

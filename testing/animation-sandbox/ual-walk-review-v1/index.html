@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>UAL Walk Review v1 · Dig Game</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Dig Game · native UAL proof of concept</p>
+      <h1>Pick the walk that survives the real game</h1>
+      <p class="intro">Five native loops, one model, exact 0.8-tile scale, and the live 94px-grid stride formula. Option C is selected and promoted; this comparison remains available as the decision record.</p>
+    </div>
+    <div class="truth-card" aria-label="Review truth">
+      <span>200 px/s live walk</span>
+      <span>109px render canvas</span>
+      <span>31 × 75 collider</span>
+      <span>Option C promoted</span>
+    </div>
+  </header>
+
+  <section class="control-deck" aria-label="Walk review controls">
+    <div class="button-cluster">
+      <button id="play-toggle" type="button">Pause</button>
+      <button id="step-back" type="button" title="Pause and step backward by 1/30 second">− 1/30s</button>
+      <button id="step-forward" type="button" title="Pause and step forward by 1/30 second">+ 1/30s</button>
+      <button id="restart" type="button">Restart</button>
+    </div>
+
+    <label class="field">
+      <span>Cadence</span>
+      <select id="cadence-mode">
+        <option value="game-matched">Live game matched</option>
+        <option value="native">Native 30 FPS</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Camera zoom</span>
+      <select id="view-scale">
+        <option value="1">1× live scale</option>
+        <option value="2">2× inspection</option>
+      </select>
+    </label>
+
+    <label class="field speed-field">
+      <span>World speed <output id="speed-value">200 px/s</output></span>
+      <input id="speed" type="range">
+    </label>
+
+    <label class="check-field">
+      <input id="flip-facing" type="checkbox">
+      <span>Face left</span>
+    </label>
+    <label class="check-field">
+      <input id="show-guides" type="checkbox" checked>
+      <span>Collider + tile guides</span>
+    </label>
+
+    <label class="timeline-field">
+      <span>Shared review time</span>
+      <input id="timeline" type="range" min="0" max="6000" step="1" value="0">
+    </label>
+  </section>
+
+  <section class="review-note">
+    <strong>Default mode is the real test:</strong>
+    every clip is treated as a direct walk replacement and fed through the current stride-matching clamp. Switch to native cadence only to inspect the untouched source performance.
+  </section>
+
+  <main id="candidate-grid" class="candidate-grid" aria-label="Walk candidates"></main>
+
+  <footer class="selection-dock">
+    <div>
+      <span class="selection-label">Your review choice</span>
+      <strong id="selection-summary">Option C · Energetic jog · promoted</strong>
+    </div>
+    <a class="tuning-lab-link" href="../ual-animation-tuning-lab-v2/">Open expanded tuning lab →</a>
+    <span id="load-status" role="status">Loading five native sheets…</span>
+  </footer>
+
+  <noscript>This walk review needs JavaScript enabled.</noscript>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

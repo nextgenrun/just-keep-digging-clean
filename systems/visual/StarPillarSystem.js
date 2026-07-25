@@ -16,18 +16,18 @@ import { CONSTELLATION_BUFFS } from "../../values/constellationBuffs.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
+import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
 
 // ─── Module-level constants ───────────────────────────────────────────────────
 
-const RARITY_BADGES = [
-  { color: 0x87CEEB, cssColor: '#87CEEB', label: '★',    name: 'Common'    },
-  { color: 0xCC44FF, cssColor: '#CC44FF', label: '★★',   name: 'Rare'      },
-  { color: 0xFFD700, cssColor: '#FFD700', label: '★★★',  name: 'Legendary' },
-  { color: 0xFF4422, cssColor: '#FF4422', label: '✦',    name: 'Ancient'   },
-  { color: 0x00FFEE, cssColor: '#00FFEE', label: '✦✦',   name: 'Cosmic'    },
-  { color: 0x9900FF, cssColor: '#9900FF', label: '✦✦✦',  name: 'Void'      },
-];
+const RARITY_BADGES = STAR_CONSTELLATION_CONFIG.rarityFallbacks.map((rarity) => ({
+  color: rarity.glowColor,
+  cssColor: `#${rarity.glowColor.toString(16).padStart(6, "0").toUpperCase()}`,
+  label: rarity.label,
+  name: rarity.name.charAt(0).toUpperCase() + rarity.name.slice(1),
+}));
 
 // Resource slot order — matches CONSTELLATION_DEFS order in FloatingTextSystem
 const PILLAR_SLOT_ORDER = [
@@ -35,45 +35,20 @@ const PILLAR_SLOT_ORDER = [
   'iron', 'bronze', 'darkDirtStrong', 'silver', 'gold',
 ];
 
-// Colours matching CONSTELLATION_LINE_COLORS in FloatingTextSystem
-const RESOURCE_LINE_COLORS = {
-  dirt:           0xA0784A,
-  stone:          0x888888,
-  copper:         0xFF7700,
-  darkDirtNormal: 0x5544AA,
-  darkDirtStrong: 0x663322,
-  bronze:         0xCC8800,
-  steel:          0x778899,
-  iron:           0x8899AA,
-  silver:         0xCCDDEE,
-  gold:           0xFFD700,
-};
+const RESOURCE_LINE_COLORS = STAR_CONSTELLATION_CONFIG.lineColors;
+const RESOURCE_CSS_COLORS = Object.fromEntries(
+  Object.entries(RESOURCE_LINE_COLORS).map(([resourceType, color]) => [
+    resourceType,
+    `#${color.toString(16).padStart(6, "0").toUpperCase()}`,
+  ])
+);
 
-const RESOURCE_CSS_COLORS = {
-  dirt:           '#A0784A',
-  stone:          '#888888',
-  copper:         '#FF7700',
-  darkDirtNormal: '#5544AA',
-  darkDirtStrong: '#663322',
-  bronze:         '#CC8800',
-  steel:          '#778899',
-  iron:           '#8899AA',
-  silver:         '#CCDDEE',
-  gold:           '#FFD700',
-};
-
-const RESOURCE_DISPLAY_NAMES = {
-  dirt:           'The Shovel',
-  stone:          'The Mountain',
-  copper:         'The Anvil',
-  darkDirtNormal: 'The Cave',
-  darkDirtStrong: 'The Fortress',
-  steel:          'The Sword',
-  iron:           'The Hammer',
-  bronze:         'The Shield',
-  silver:         'The Crescent',
-  gold:           'The Crown',
-};
+const RESOURCE_DISPLAY_NAMES = Object.fromEntries(
+  Object.entries(STAR_CONSTELLATION_CONFIG.defs).map(([resourceType, definition]) => [
+    resourceType,
+    definition.name,
+  ])
+);
 
 const RESOURCE_TILE_DISPLAY_NAMES = {
   dirt:           'Dirt',
@@ -95,10 +70,11 @@ const STAR_CHART_GRID_COLUMNS = 3;
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class StarPillarSystem {
-  constructor(scene, config, floatingTextSystem) {
+  constructor(scene, config, floatingTextSystem, ui) {
     this.scene  = scene;
     this.config = config;
     this.fts    = floatingTextSystem;
+    this.ui     = ui;
 
     // Pillar world coords (computed in create())
     this._pillarCenterX = 0;
@@ -147,8 +123,7 @@ export class StarPillarSystem {
     this._buildPillarVisual();
     this._buildEPrompt();
 
-    // Restore already-unlocked constellations/stars from localStorage, then sync
-    // pillar slots and rarity badges.
+    // Load saved UI progression, then sync pillar slots and rarity badges.
     this.fts.ensureConstellationsLoaded?.();
     const initialUnlocked = this.fts.getUnlockedConstellations();
     this._refreshPillarSlots(true, initialUnlocked);
@@ -632,176 +607,54 @@ export class StarPillarSystem {
 
   openConstellationView() {
     if (this._isViewOpen) return;
-    if (this._zoomTween && this._zoomTween.isPlaying()) return;
 
     this._isViewOpen = true;
     this._isChartUiReady = false;
     this._chartUiObjects = [];
     this._selectedConstellationIndex = -1;
     this.scene._pillarViewActive = true;
+    this.scene.setShopOpen?.(true);
 
-    const cam = this.scene.cameras.main;
-    this._origZoom    = cam.zoom;
-    this._origScrollX = cam.scrollX;
-    this._origScrollY = cam.scrollY;
+    const data = this.fts.getConstellationData();
+    const unlocked = this.fts.getUnlockedConstellations() || [];
+    const counts = this.fts.getConstellationCounts() || {};
+    const focused = this._getFocusedConstellation(unlocked, counts, data);
+    this._selectedConstellationIndex = Math.max(0, PILLAR_SLOT_ORDER.indexOf(focused));
 
-    cam.stopFollow();
-
-    // Compute chart center in world space from the Star Pillar anchor.
-    const chartCenter = this._getChartCenterWorld();
-    const chartCenterX = chartCenter.x;
-    const chartCenterY = chartCenter.y;
-
-    const vw = this.config.viewportWidth;
-    const vh = this.config.viewportHeight;
-    const targetScrollX = Phaser.Math.Clamp(
-      chartCenterX - vw / (2 * CHART_ZOOM),
-      0,
-      this.config.worldWidthPx - vw / CHART_ZOOM
-    );
-    const targetScrollY = Phaser.Math.Clamp(
-      chartCenterY - vh / (2 * CHART_ZOOM),
-      0,
-      this.config.worldDepthPx - vh / CHART_ZOOM
-    );
-    this._setChartViewport(targetScrollX, targetScrollY, vw, vh);
-
-    // Dark overlay in chart/world space so it scales with the zoomed view.
-    const overlayCenter = this._chartUiPoint(vw / 2, vh / 2);
-    this._overlay = this.scene.add.rectangle(
-      overlayCenter.x,
-      overlayCenter.y,
-      this._chartUiSize(vw),
-      this._chartUiSize(vh),
-      0x000011,
-      0
-    ).setDepth(80);
-    this.scene.tweens.add({
-      targets: this._overlay, alpha: 0.86, duration: 600,
+    this._starShell = this.ui.createModalShell(this.scene, {
+      title: "STAR PILLAR",
+      subtitle: this._getChartHintText(),
+      icon: "constellation",
+      maxWidth: 1120,
+      maxHeight: 660,
+      depth: 3180,
+      onClose: () => this.closeConstellationView(),
     });
-
-    // Deep-space starfield scattered across the overlay
-    const sfGfx = this.scene.add.graphics();
-    sfGfx.setDepth(81).setAlpha(0);
-    for (let i = 0; i < 280; i++) {
-      const sx   = Math.random() * vw;
-      const sy   = Math.random() * vh;
-      const sr   = Math.random() * 1.4 + 0.3;
-      const sa   = Math.random() * 0.35 + 0.05;
-      const pt   = this._chartUiPoint(sx, sy);
-      sfGfx.fillStyle(0xFFFFFF, sa);
-      sfGfx.fillCircle(pt.x, pt.y, this._chartUiSize(sr));
-    }
-    // A handful of soft nebula-colour blobs
-    const nebulaColors = [0x1A0033, 0x001133, 0x002211, 0x110022];
-    for (let i = 0; i < 6; i++) {
-      const nx = Math.random() * vw;
-      const ny = Math.random() * vh;
-      const nr = 60 + Math.random() * 120;
-      const pt = this._chartUiPoint(nx, ny);
-      sfGfx.fillStyle(nebulaColors[i % nebulaColors.length], 0.12);
-      sfGfx.fillCircle(pt.x, pt.y, this._chartUiSize(nr));
-    }
-    this.scene.tweens.add({ targets: sfGfx, alpha: 1, duration: 800 });
-    this._viewObjects.push(sfGfx);
-
-    // Chart title + hint in world space, sized to read correctly at CHART_ZOOM.
-    const titlePos = this._chartUiPoint(vw / 2, 32);
-    this._chartTitle = this.scene.add.text(titlePos.x, titlePos.y, 'STAR PILLAR', this._chartTextStyle({
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: 36,
-      color: '#F2F7FF',
-      stroke: '#000022',
-      strokeThickness: 8,
-      shadow: { offsetX: 0, offsetY: 0, color: '#66A3FF', blur: 20, fill: true },
-    })).setOrigin(0.5).setDepth(200).setAlpha(0);
-
-    const hintPos = this._chartUiPoint(vw / 2, vh - 24);
-    this._chartHint = this.scene.add.text(hintPos.x, hintPos.y, this._getChartHintText(), this._chartTextStyle({
-      fontFamily: 'Consolas, monospace',
-      fontSize: 18,
-      color: '#DDE7FF',
-      stroke: '#000011',
-      strokeThickness: 5,
-    })).setOrigin(0.5).setDepth(200).setAlpha(0);
-
-    // Zoom tween
-    this._zoomTween = this.scene.tweens.add({
-      targets: cam,
-      zoom: CHART_ZOOM,
-      scrollX: targetScrollX,
-      scrollY: targetScrollY,
-      duration: 1200,
-      ease: 'Cubic.out',
-      onComplete: () => {
-        const data = this.fts.getConstellationData();
-        const unlocked = this.fts.getUnlockedConstellations() || [];
-        const counts = this.fts.getConstellationCounts() || {};
-        const focused = this._getFocusedConstellation(unlocked, counts, data);
-        this._selectedConstellationIndex = Math.max(0, PILLAR_SLOT_ORDER.indexOf(focused));
-        const { header, rows } = this._buildStarChartUi();
-        this._isChartUiReady = true;
-
-        // Fade in title and hint first
-        this._tweenChartUiAlpha([this._chartTitle, this._chartHint, ...header], 400);
-
-        // Cascade rows in one by one with 45ms stagger
-        rows.forEach((rowObjs, i) => {
-          this._tweenChartUiAlpha(rowObjs, 280, 80 + i * 48, 'Power2.out');
-        });
-      },
-    });
+    this._starShell.show();
+    this._buildStarChartUi();
+    this._isChartUiReady = true;
   }
 
   closeConstellationView() {
     if (!this._isViewOpen) return;
-    if (this._zoomTween && this._zoomTween.isPlaying()) return;
 
     this._isChartUiReady = false;
-
-    // Destroy chart objects
-    this._viewObjects.forEach(o => { if (o && o.active) o.destroy(); });
+    this._clearStarChartUiObjects();
+    const shell = this._starShell;
+    this._starShell = null;
+    if (shell) shell.hide(() => shell.destroy());
+    this._viewObjects.forEach(obj => obj?.destroy?.());
     this._viewObjects = [];
-    this._chartUiObjects = [];
-
-    // Fade and destroy overlay
-    if (this._overlay) {
-      this.scene.tweens.add({
-        targets: this._overlay, alpha: 0, duration: 400,
-        onComplete: () => { this._overlay?.destroy(); this._overlay = null; },
-      });
-    }
-
-    // Fade out title/hint
-    if (this._chartTitle) {
-      this.scene.tweens.add({
-        targets: [this._chartTitle, this._chartHint], alpha: 0, duration: 300,
-        onComplete: () => {
-          this._chartTitle?.destroy(); this._chartTitle = null;
-          this._chartHint?.destroy();  this._chartHint  = null;
-        },
-      });
-    }
-
-    const cam = this.scene.cameras.main;
-    this._zoomTween = this.scene.tweens.add({
-      targets: cam,
-      zoom:    this._origZoom,
-      scrollX: this._origScrollX,
-      scrollY: this._origScrollY,
-      duration: 900,
-      ease: 'Cubic.in',
-      onComplete: () => {
-        cam.startFollow(
-          this.scene.player, true,
-          this.config.cameraLerpX, this.config.cameraLerpY
-        );
-        this._chartViewport = null;
-        this._isViewOpen = false;
-        this.scene._pillarViewActive = false;
-        this._selectedConstellationIndex = -1;
-      },
-    });
+    this._overlay?.destroy?.();
+    this._overlay = null;
+    this._chartTitle = null;
+    this._chartHint = null;
+    this._chartViewport = null;
+    this._zoomTween = null;
+    this._selectedConstellationIndex = -1;
+    this._isViewOpen = false;
+    this.scene._pillarViewActive = false;
+    this.scene.setShopOpen?.(false);
   }
 
   _drawConstellationView() {
@@ -983,7 +836,7 @@ export class StarPillarSystem {
   }
 
   _rebuildStarChartUi(instant = false) {
-    if (!this._isViewOpen || !this._chartViewport) return;
+    if (!this._isViewOpen || !this._starShell) return;
     const { header, rows } = this._buildStarChartUi();
     if (!instant) return { header, rows };
 
@@ -1013,337 +866,266 @@ export class StarPillarSystem {
 
   _buildStarChartUi() {
     this._clearStarChartUiObjects();
+    const shell = this._starShell;
+    if (!shell) return { header: [], rows: [] };
 
-    const u = (value) => this._chartUiSize(value);
-    const p = (x, y) => this._chartUiPoint(x, y);
-    const track = (obj) => {
-      if (obj) {
-        this._chartUiObjects.push(obj);
-        this._viewObjects.push(obj);
-      }
+    shell.layout();
+    const content = shell.content;
+    const rect = shell.getContentRect();
+    const header = [];
+    const rows = [];
+    const track = (obj, bucket = header) => {
+      if (!obj) return obj;
+      content.add(obj);
+      this._chartUiObjects.push(obj);
+      bucket.push(obj);
       return obj;
+    };
+    const addText = (x, y, text, style = {}, originX = 0, originY = 0, bucket = header) => {
+      const obj = this.scene.add.text(x, y, text, {
+        fontFamily: style.fontFamily || UI_FONTS.body,
+        fontSize: style.fontSize || "13px",
+        fontStyle: style.fontStyle,
+        color: style.color || UI_COLORS.body,
+        align: style.align,
+        lineSpacing: style.lineSpacing,
+        wordWrap: style.wordWrap,
+      }).setOrigin(originX, originY);
+      return track(obj, bucket);
     };
 
     const data = this.fts.getConstellationData();
     const unlocked = this.fts.getUnlockedConstellations() || [];
     const counts = this.fts.getConstellationCounts() || {};
+    const relicCount = this.scene.ancientRelicSystem?.getCount?.() || 0;
     if (this._selectedConstellationIndex < 0 || this._selectedConstellationIndex >= PILLAR_SLOT_ORDER.length) {
       const focused = this._getFocusedConstellation(unlocked, counts, data);
       this._selectedConstellationIndex = Math.max(0, PILLAR_SLOT_ORDER.indexOf(focused));
     }
 
     const selectedResource = PILLAR_SLOT_ORDER[this._selectedConstellationIndex] || PILLAR_SLOT_ORDER[0];
-    const selectedStatus = this._getConstellationStatus(selectedResource, unlocked, counts, data);
+    const selectedStatus = this._getConstellationStatus(selectedResource, unlocked, counts, data, relicCount);
     const selectedColor = RESOURCE_LINE_COLORS[selectedResource] || 0x87CEEB;
-    const selectedCss = RESOURCE_CSS_COLORS[selectedResource] || '#87CEEB';
+    const selectedCss = RESOURCE_CSS_COLORS[selectedResource] || "#87CEEB";
     const selectedName = RESOURCE_DISPLAY_NAMES[selectedResource] || selectedResource;
     const selectedTile = RESOURCE_TILE_DISPLAY_NAMES[selectedResource] || selectedResource;
     const selectedBuff = CONSTELLATION_BUFFS[selectedResource];
 
-    const depth = 150;
-    const header = [];
-    const rows = [];
-    const panelFill = UI_COLORS.bg;
-    const cardFill = UI_COLORS.cardBase;
-    const cardFocusFill = UI_COLORS.cardSel;
-    const borderDim = UI_COLORS.borderDim;
-    const borderFocus = UI_COLORS.borderSel;
-    const accentGold = UI_COLORS.gold;
+    const gap = 18;
+    const focusWidth = Math.min(390, Math.max(300, rect.width * 0.4));
+    const gridX = rect.left + focusWidth + gap;
+    const gridWidth = rect.width - focusWidth - gap;
+    const focusX = rect.left;
+    const focusY = rect.top;
+    const focusHeight = rect.height;
 
-    const addText = (screenX, screenY, text, style, originX = 0, originY = 0, depthOffset = 4) => {
-      const pt = p(screenX, screenY);
-      const obj = this.scene.add.text(pt.x, pt.y, text, this._chartTextStyle(style))
-        .setOrigin(originX, originY)
-        .setDepth(depth + depthOffset)
-        .setAlpha(0);
-      return track(obj);
-    };
+    const focusPanel = this.scene.add.graphics();
+    focusPanel.fillStyle(UI_COLORS.cardBase, 0.99);
+    focusPanel.fillRoundedRect(focusX, focusY, focusWidth, focusHeight, 8);
+    focusPanel.fillStyle(selectedColor, selectedStatus.isUnlocked ? 0.12 : 0.055);
+    focusPanel.fillRoundedRect(focusX + 8, focusY + 8, focusWidth - 16, focusHeight - 16, 6);
+    focusPanel.lineStyle(2, UI_COLORS.borderSel, 1);
+    focusPanel.strokeRoundedRect(focusX, focusY, focusWidth, focusHeight, 8);
+    focusPanel.lineStyle(1, selectedColor, 0.55);
+    focusPanel.strokeRoundedRect(focusX + 8, focusY + 8, focusWidth - 16, focusHeight - 16, 6);
+    track(focusPanel);
 
-    const leftX = 8;
-    const leftY = 86;
-    const leftSize = 392;
-    const cardSize = 112;
-    const cardGapX = 10;
-    const cardGapY = 12;
-    const gridX = 410;
-    const gridY = 104;
-
-    // Left focused UI square.
-    const leftPt = p(leftX, leftY);
-    const leftW = u(leftSize);
-    const leftPanel = this.scene.add.graphics();
-    leftPanel
-      .setDepth(depth)
-      .setAlpha(0);
-    leftPanel.fillStyle(panelFill, 0.98);
-    leftPanel.fillRoundedRect(leftPt.x, leftPt.y, leftW, leftW, u(8));
-    leftPanel.fillStyle(cardFill, 0.92);
-    leftPanel.fillRoundedRect(leftPt.x + u(10), leftPt.y + u(10), leftW - u(20), u(58), u(6));
-    leftPanel.lineStyle(u(2), borderFocus, 0.96);
-    leftPanel.strokeRoundedRect(leftPt.x, leftPt.y, leftW, leftW, u(8));
-    leftPanel.lineStyle(u(1), borderDim, 0.78);
-    leftPanel.strokeRoundedRect(leftPt.x + u(8), leftPt.y + u(8), leftW - u(16), leftW - u(16), u(6));
-    leftPanel.fillStyle(accentGold, 0.9);
-    leftPanel.fillRoundedRect(leftPt.x + u(18), leftPt.y + u(18), u(5), u(42), u(3));
-    track(leftPanel);
-    header.push(leftPanel);
-
-    const leftGlow = this.scene.add.graphics();
-    leftGlow.setDepth(depth + 1).setAlpha(0);
-    leftGlow.fillStyle(selectedColor, selectedStatus.isUnlocked ? 0.14 : 0.08);
-    leftGlow.fillCircle(leftPt.x + leftW / 2, leftPt.y + u(168), u(104));
-    leftGlow.lineStyle(u(1), selectedColor, selectedStatus.hasAny ? 0.5 : 0.25);
-    leftGlow.strokeCircle(leftPt.x + leftW / 2, leftPt.y + u(168), u(112));
-    track(leftGlow);
-    header.push(leftGlow);
-
-    header.push(addText(leftX + 24, leftY + 24, 'CONSTELLATION FOCUS', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: 18,
+    addText(focusX + 22, focusY + 18, "CONSTELLATION FOCUS", {
+      fontFamily: UI_FONTS.display,
+      fontSize: "16px",
+      fontStyle: "bold",
       color: UI_COLORS.title,
-      stroke: '#000011',
-      strokeThickness: 4,
-      shadow: { offsetX: 0, offsetY: 0, color: '#66A3FF', blur: 10, fill: true },
-    }));
-
-    header.push(addText(leftX + leftSize - 24, leftY + 26, selectedStatus.label, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: 13,
+    });
+    addText(focusX + focusWidth - 22, focusY + 20, selectedStatus.label, {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
       color: selectedStatus.color,
-      stroke: '#000011',
-      strokeThickness: 3,
-      shadow: selectedStatus.isUnlocked
-        ? { offsetX: 0, offsetY: 0, color: selectedCss, blur: 8, fill: true }
-        : undefined,
-    }, 1, 0));
+    }, 1, 0);
+    addText(focusX + 22, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "10px",
+      color: UI_COLORS.gold,
+    });
 
-    const focusCenter = p(leftX + leftSize / 2, leftY + 168);
+    const signY = focusY + Math.min(145, focusHeight * 0.29);
     const focusSign = this._addChartUiConstellationSign(
       selectedResource,
-      focusCenter.x,
-      focusCenter.y,
-      u(206),
-      u(186),
-      selectedStatus.hasAny || selectedStatus.isUnlocked ? 0.96 : 0.62,
-      depth + 3,
+      focusX + focusWidth / 2,
+      signY,
+      Math.min(210, focusWidth - 90),
+      Math.min(165, focusHeight * 0.3),
+      selectedStatus.hasAny || selectedStatus.isUnlocked ? 0.98 : 0.52,
+      2,
       selectedStatus.hasAny || selectedStatus.isUnlocked ? null : 0x64718B
     );
     if (focusSign) {
       track(focusSign);
-      header.push(focusSign);
     } else {
-      const focusGlyph = this.scene.add.graphics();
-      focusGlyph.setDepth(depth + 3).setAlpha(0);
+      const glyph = this.scene.add.graphics();
       this._drawChartConstellationGlyph(
-        focusGlyph,
+        glyph,
         selectedResource,
-        focusCenter.x,
-        focusCenter.y,
-        u(30),
+        focusX + focusWidth / 2,
+        signY,
+        28,
         selectedColor,
-        selectedStatus.hasAny || selectedStatus.isUnlocked ? 1 : 0.55
+        selectedStatus.hasAny || selectedStatus.isUnlocked ? 1 : 0.5
       );
-      track(focusGlyph);
-      header.push(focusGlyph);
+      track(glyph);
     }
 
-    header.push(addText(leftX + leftSize / 2, leftY + 282, selectedName, {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: 27,
+    const nameY = focusY + Math.min(245, focusHeight * 0.48);
+    addText(focusX + focusWidth / 2, nameY, selectedName, {
+      fontFamily: UI_FONTS.display,
+      fontSize: "25px",
+      fontStyle: "bold",
       color: selectedCss,
-      align: 'center',
-      stroke: '#000011',
-      strokeThickness: 5,
-      shadow: { offsetX: 0, offsetY: 0, color: selectedCss, blur: 10, fill: true },
-    }, 0.5, 0.5));
-
-    header.push(addText(leftX + leftSize / 2, leftY + 312, `${selectedTile.toUpperCase()} STAR SIGN`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: 13,
+      align: "center",
+    }, 0.5, 0.5);
+    addText(focusX + focusWidth / 2, nameY + 29, selectedTile.toUpperCase() + " STAR SIGN", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
       color: UI_COLORS.body,
-      align: 'center',
-      stroke: '#000011',
-      strokeThickness: 3,
-    }, 0.5, 0.5));
+      align: "center",
+    }, 0.5, 0.5);
 
-    const focusDots = this.scene.add.graphics();
-    focusDots.setDepth(depth + 3).setAlpha(0);
-    const dotsStart = p(leftX + leftSize / 2 - 36, leftY + 340);
-    this._drawChartProgressDots(
-      focusDots,
-      dotsStart.x,
-      dotsStart.y,
-      selectedStatus.threshold,
-      selectedStatus.collected,
-      selectedColor,
-      selectedStatus.isUnlocked,
-      u(6),
-      u(18)
-    );
-    track(focusDots);
-    header.push(focusDots);
+    const progressTop = focusY + Math.min(300, focusHeight * 0.59);
+    const progressPanel = this.scene.add.graphics();
+    progressPanel.fillStyle(UI_COLORS.bg, 0.95);
+    progressPanel.fillRoundedRect(focusX + 18, progressTop, focusWidth - 36, 72, 6);
+    progressPanel.lineStyle(1, UI_COLORS.borderDim, 0.95);
+    progressPanel.strokeRoundedRect(focusX + 18, progressTop, focusWidth - 36, 72, 6);
+    track(progressPanel);
+    addText(focusX + 34, progressTop + 14, "PROGRESS", {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "10px",
+      color: UI_COLORS.dim,
+    });
+    const progressValue = selectedStatus.progressLabel;
+    addText(focusX + 34, progressTop + 42, progressValue, {
+      fontFamily: UI_FONTS.display,
+      fontSize: selectedStatus.relicRequirement > 0 && !selectedStatus.isUnlocked ? "14px" : "18px",
+      fontStyle: "bold",
+      color: selectedStatus.isUnlocked ? selectedCss : UI_COLORS.title,
+    });
 
-    const rewardText = selectedStatus.isUnlocked
-      ? `${selectedBuff?.name || 'Unlocked Buff'} active`
-      : `${selectedStatus.collected} / ${selectedStatus.threshold} stars`;
-    header.push(addText(leftX + leftSize / 2, leftY + 360, 'PROGRESS', {
-      fontFamily: 'Consolas, monospace',
-      fontSize: 10,
-      color: UI_COLORS.body,
-      align: 'center',
-      stroke: '#000011',
-      strokeThickness: 3,
-    }, 0.5, 1));
-    header.push(addText(leftX + leftSize / 2, leftY + 362, rewardText, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: 14,
-      color: selectedStatus.isUnlocked ? selectedCss : '#DDE7FF',
-      align: 'center',
-      stroke: '#000011',
-      strokeThickness: 3,
-    }, 0.5, 0));
+    const barX = focusX + 34;
+    const barY = progressTop + 61;
+    const barWidth = focusWidth - 68;
+    const ratio = selectedStatus.isUnlocked
+      ? 1
+      : Phaser.Math.Clamp(selectedStatus.collected / Math.max(1, selectedStatus.threshold), 0, 1);
+    const progressBar = this.scene.add.graphics();
+    progressBar.fillStyle(UI_COLORS.cardBase, 1);
+    progressBar.fillRoundedRect(barX, barY, barWidth, 5, 3);
+    progressBar.fillStyle(selectedColor, 0.95);
+    progressBar.fillRoundedRect(barX, barY, barWidth * ratio, 5, 3);
+    track(progressBar);
 
-    header.push(addText(leftX + 32, leftY + 390, this._getUpgradeText(selectedResource), {
-      fontFamily: 'Consolas, monospace',
-      fontSize: 13,
-      color: '#DDE7FF',
-      align: 'center',
-      wordWrap: { width: u(leftSize - 64), useAdvancedWrap: true },
-      stroke: '#000011',
-      strokeThickness: 3,
-    }, 0, 0));
-
-    header.push(addText(gridX, gridY - 30, 'STAR SIGNS', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: 18,
+    const rewardTop = progressTop + 88;
+    addText(focusX + 22, rewardTop, selectedStatus.isUnlocked ? "ACTIVE REWARD" : "UNLOCK REWARD", {
+      fontFamily: UI_FONTS.display,
+      fontSize: "14px",
+      fontStyle: "bold",
       color: UI_COLORS.title,
-      stroke: '#000011',
-      strokeThickness: 4,
-      shadow: { offsetX: 0, offsetY: 0, color: '#66A3FF', blur: 10, fill: true },
-    }));
-
-    header.push(addText(gridX + (cardSize + cardGapX) * STAR_CHART_GRID_COLUMNS - cardGapX, gridY - 27, `${unlocked.length} / ${PILLAR_SLOT_ORDER.length} unlocked`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: 13,
-      color: UI_COLORS.body,
-      stroke: '#000011',
-      strokeThickness: 3,
-    }, 1, 0));
-
-    for (let i = 0; i < PILLAR_SLOT_ORDER.length; i++) {
-      const resourceType = PILLAR_SLOT_ORDER[i];
-      const rowObjs = [];
-      const col = i % STAR_CHART_GRID_COLUMNS;
-      const row = Math.floor(i / STAR_CHART_GRID_COLUMNS);
-      const cardX = gridX + col * (cardSize + cardGapX);
-      const cardY = gridY + row * (cardSize + cardGapY);
-      const cardPt = p(cardX, cardY);
-      const status = this._getConstellationStatus(resourceType, unlocked, counts, data);
-      const lineColor = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
-      const cssColor = RESOURCE_CSS_COLORS[resourceType] || '#87CEEB';
-      const name = RESOURCE_DISPLAY_NAMES[resourceType] || resourceType;
-      const isFocused = resourceType === selectedResource;
-      const activeAlpha = status.isUnlocked ? 1 : (status.hasAny ? 0.74 : 0.34);
-      const displayColor = status.hasAny || status.isUnlocked ? lineColor : 0x64718B;
-
-      const cardGfx = this.scene.add.graphics();
-      cardGfx.setDepth(depth + 1).setAlpha(0);
-      cardGfx.fillStyle(isFocused ? cardFocusFill : cardFill, 0.96);
-      cardGfx.fillRoundedRect(cardPt.x, cardPt.y, u(cardSize), u(cardSize), u(8));
-      cardGfx.fillStyle(lineColor, status.isUnlocked ? 0.12 : (status.hasAny ? 0.08 : 0.03));
-      cardGfx.fillRoundedRect(cardPt.x + u(6), cardPt.y + u(6), u(cardSize - 12), u(cardSize - 12), u(6));
-      cardGfx.lineStyle(u(isFocused ? 3 : 1.5), isFocused ? borderFocus : borderDim, isFocused ? 1 : 0.78);
-      cardGfx.strokeRoundedRect(cardPt.x, cardPt.y, u(cardSize), u(cardSize), u(8));
-      if (isFocused) {
-        cardGfx.lineStyle(u(1), accentGold, 0.9);
-        cardGfx.strokeRoundedRect(cardPt.x + u(5), cardPt.y + u(5), u(cardSize - 10), u(cardSize - 10), u(6));
+    });
+    addText(focusX + 22, rewardTop + 27,
+      selectedBuff?.name || "Constellation upgrade", {
+        fontFamily: UI_FONTS.body,
+        fontSize: "14px",
+        fontStyle: "bold",
+        color: selectedStatus.isUnlocked ? selectedCss : UI_COLORS.gold,
       }
-      cardGfx.fillStyle(lineColor, status.isUnlocked ? 0.95 : (status.hasAny ? 0.72 : 0.38));
-      cardGfx.fillCircle(cardPt.x + u(18), cardPt.y + u(18), u(7));
-      cardGfx.fillStyle(status.isUnlocked ? 0x14301E : (status.hasAny ? 0x1A2840 : 0x111923), 0.92);
-      cardGfx.fillRoundedRect(cardPt.x + u(cardSize - 56), cardPt.y + u(cardSize - 27), u(46), u(18), u(5));
-      cardGfx.lineStyle(u(1), status.isUnlocked ? UI_COLORS.borderGood : borderDim, status.hasAny || status.isUnlocked ? 0.85 : 0.55);
-      cardGfx.strokeRoundedRect(cardPt.x + u(cardSize - 56), cardPt.y + u(cardSize - 27), u(46), u(18), u(5));
-      track(cardGfx);
-      rowObjs.push(cardGfx);
+    );
+    addText(focusX + 22, rewardTop + 52, this._getUpgradeText(selectedResource), {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
+      color: UI_COLORS.body,
+      wordWrap: { width: focusWidth - 44, useAdvancedWrap: true },
+      lineSpacing: 3,
+    });
 
-      const nameText = addText(cardX + 32, cardY + 12, name.replace('The ', ''), {
-        fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-        fontSize: 12,
-        color: status.hasAny || status.isUnlocked ? cssColor : '#8290AA',
-        stroke: '#000011',
-        strokeThickness: 3,
-        shadow: status.isUnlocked
-          ? { offsetX: 0, offsetY: 0, color: cssColor, blur: 6, fill: true }
-          : undefined,
-      });
-      rowObjs.push(nameText);
+    addText(gridX, rect.top + 4, "STAR SIGNS", {
+      fontFamily: UI_FONTS.display,
+      fontSize: "16px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+    addText(gridX + gridWidth, rect.top + 7,
+      unlocked.length + " / " + PILLAR_SLOT_ORDER.length + " UNLOCKED", {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "11px",
+        color: UI_COLORS.body,
+      }, 1, 0
+    );
 
-      const glyphCenter = p(cardX + cardSize / 2, cardY + 59);
+    const columns = STAR_CHART_GRID_COLUMNS;
+    const gridTop = rect.top + 34;
+    const cardGap = 10;
+    const cardWidth = (gridWidth - cardGap * (columns - 1)) / columns;
+    const rowCount = Math.ceil(PILLAR_SLOT_ORDER.length / columns);
+    const cardHeight = (rect.height - 34 - cardGap * (rowCount - 1)) / rowCount;
+
+    PILLAR_SLOT_ORDER.forEach((resourceType, index) => {
+      const rowObjects = [];
+      const col = index % columns;
+      const row = Math.floor(index / columns);
+      const x = gridX + col * (cardWidth + cardGap);
+      const y = gridTop + row * (cardHeight + cardGap);
+      const status = this._getConstellationStatus(resourceType, unlocked, counts, data, relicCount);
+      const lineColor = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
+      const cssColor = RESOURCE_CSS_COLORS[resourceType] || "#87CEEB";
+      const name = RESOURCE_DISPLAY_NAMES[resourceType] || resourceType;
+      const selected = index === this._selectedConstellationIndex;
+
+      const card = this.scene.add.graphics();
+      card.fillStyle(selected ? UI_COLORS.cardSel : UI_COLORS.cardBase, 0.98);
+      card.fillRoundedRect(x, y, cardWidth, cardHeight, 7);
+      card.fillStyle(lineColor, status.isUnlocked ? 0.1 : status.hasAny ? 0.055 : 0.02);
+      card.fillRoundedRect(x + 5, y + 5, cardWidth - 10, cardHeight - 10, 5);
+      card.lineStyle(selected ? 2 : 1, selected ? UI_COLORS.borderSel : UI_COLORS.borderDim, selected ? 1 : 0.82);
+      card.strokeRoundedRect(x, y, cardWidth, cardHeight, 7);
+      track(card, rowObjects);
+
       const sign = this._addChartUiConstellationSign(
         resourceType,
-        glyphCenter.x,
-        glyphCenter.y,
-        u(70),
-        u(58),
-        activeAlpha,
-        depth + 3,
+        x + cardWidth / 2,
+        y + Math.min(43, cardHeight * 0.39),
+        Math.min(72, cardWidth - 32),
+        Math.min(55, cardHeight * 0.48),
+        status.isUnlocked ? 0.98 : status.hasAny ? 0.72 : 0.28,
+        3,
         status.hasAny || status.isUnlocked ? null : 0x64718B
       );
-      if (sign) {
-        track(sign);
-        rowObjs.push(sign);
-      } else {
-        const glyph = this.scene.add.graphics();
-        glyph.setDepth(depth + 3).setAlpha(0);
-        this._drawChartConstellationGlyph(glyph, resourceType, glyphCenter.x, glyphCenter.y, u(12), displayColor, activeAlpha);
-        track(glyph);
-        rowObjs.push(glyph);
-      }
+      if (sign) track(sign, rowObjects);
 
-      const dots = this.scene.add.graphics();
-      dots.setDepth(depth + 3).setAlpha(0);
-      const cardDots = p(cardX + 18, cardY + cardSize - 21);
-      this._drawChartProgressDots(
-        dots,
-        cardDots.x,
-        cardDots.y,
-        status.threshold,
-        status.collected,
-        lineColor,
-        status.isUnlocked,
-        u(3.4),
-        u(8.5)
-      );
-      track(dots);
-      rowObjs.push(dots);
-
-      const statusText = addText(cardX + cardSize - 12, cardY + cardSize - 18, status.shortLabel, {
-        fontFamily: 'Consolas, monospace',
-        fontSize: 11,
+      addText(x + cardWidth / 2, y + cardHeight - 39, name.replace("The ", ""), {
+        fontFamily: UI_FONTS.display,
+        fontSize: cardWidth < 105 ? "10px" : "12px",
+        fontStyle: "bold",
+        color: status.hasAny || status.isUnlocked ? cssColor : UI_COLORS.dim,
+        align: "center",
+      }, 0.5, 0.5, rowObjects);
+      addText(x + cardWidth / 2, y + cardHeight - 17, status.shortLabel, {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "9px",
         color: status.color,
-        stroke: '#000011',
-        strokeThickness: 3,
-      }, 1, 0.5);
-      rowObjs.push(statusText);
+        align: "center",
+      }, 0.5, 0.5, rowObjects);
 
       const hit = this.scene.add.rectangle(
-        cardPt.x + u(cardSize / 2),
-        cardPt.y + u(cardSize / 2),
-        u(cardSize),
-        u(cardSize),
+        x + cardWidth / 2,
+        y + cardHeight / 2,
+        cardWidth,
+        cardHeight,
         0x000000,
         0
-      )
-        .setDepth(depth + 10)
-        .setAlpha(0)
-        .setInteractive({ useHandCursor: true });
-      hit.on('pointerover', () => this._selectConstellationIndex(i, false));
-      hit.on('pointerdown', () => this._selectConstellationIndex(i, true));
-      track(hit);
-
-      rows.push(rowObjs);
-    }
+      ).setInteractive({ useHandCursor: true });
+      hit.on("pointerover", () => this._selectConstellationIndex(index, false));
+      hit.on("pointerdown", () => this._selectConstellationIndex(index, true));
+      track(hit, rowObjects);
+      rows.push(rowObjects);
+    });
 
     return { header, rows };
   }
@@ -1374,22 +1156,47 @@ export class StarPillarSystem {
     return PILLAR_SLOT_ORDER[0];
   }
 
-  _getConstellationStatus(resourceType, unlocked, counts, data) {
+  _getConstellationStatus(resourceType, unlocked, counts, data, relicCount = 0) {
     const threshold = data.thresholds[resourceType] ?? 5;
     const collected = Math.min(counts[resourceType] || 0, threshold);
     const isUnlocked = unlocked.includes(resourceType);
+    const relicRequirement = getConstellationRelicRequirement(resourceType);
+    const relics = Math.max(0, Math.floor(relicCount));
     const hasAny = collected > 0;
-    const cssColor = RESOURCE_CSS_COLORS[resourceType] || '#87CEEB';
+    const relicProgress = relicRequirement > 0 ? ` • ${relics} / ${relicRequirement} RELICS` : "";
+    const shortRelicProgress = relicRequirement > 0 ? ` ${relics}/${relicRequirement}R` : "";
 
     if (isUnlocked) {
-      return { threshold, collected: threshold, isUnlocked, hasAny: true, label: 'UNLOCKED', shortLabel: 'DONE', color: UI_COLORS.success };
+      return { threshold, collected: threshold, isUnlocked, hasAny: true, relicRequirement, relics, label: 'UNLOCKED', shortLabel: 'DONE', progressLabel: 'UNLOCKED', color: UI_COLORS.success };
+    }
+
+    if (collected >= threshold && relics < relicRequirement) {
+      return {
+        threshold, collected, isUnlocked, hasAny, relicRequirement, relics,
+        label: `NEED ${relicRequirement - relics} RELIC${relicRequirement - relics === 1 ? '' : 'S'}`,
+        shortLabel: `${collected}/${threshold}S ${relics}/${relicRequirement}R`,
+        progressLabel: `${collected} / ${threshold} STARS${relicProgress}`,
+        color: UI_COLORS.gold,
+      };
     }
 
     if (hasAny) {
-      return { threshold, collected, isUnlocked, hasAny, label: `${collected} / ${threshold}`, shortLabel: `${collected}/${threshold}`, color: '#DDE7FF' };
+      return {
+        threshold, collected, isUnlocked, hasAny, relicRequirement, relics,
+        label: `${collected} / ${threshold}`,
+        shortLabel: `${collected}/${threshold}S${shortRelicProgress}`,
+        progressLabel: `${collected} / ${threshold} STARS${relicProgress}`,
+        color: '#DDE7FF',
+      };
     }
 
-    return { threshold, collected, isUnlocked, hasAny, label: `NEED ${threshold}`, shortLabel: `need ${threshold}`, color: UI_COLORS.body };
+    return {
+      threshold, collected, isUnlocked, hasAny, relicRequirement, relics,
+      label: `NEED ${threshold}`,
+      shortLabel: `need ${threshold}S${shortRelicProgress}`,
+      progressLabel: `${collected} / ${threshold} STARS${relicProgress}`,
+      color: UI_COLORS.body,
+    };
   }
 
   _drawChartConstellationGlyph(gfx, resourceType, centerX, centerY, spacing, color, alpha = 1) {

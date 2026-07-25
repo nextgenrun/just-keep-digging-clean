@@ -1,28 +1,11 @@
 import { SECOND_WORLD_CONFIG } from "../../values/secondWorldConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
-
-function hashUint(a, b, c, d = 0) {
-  let value = Math.imul(a | 0, 0x1f123bb5) ^ Math.imul(b | 0, 0x5f356495);
-  value ^= Math.imul(c | 0, 0x6c8e9cf5) ^ Math.imul(d | 0, 0x27d4eb2d);
-  value = Math.imul(value ^ (value >>> 15), 0x2c1b3c6d);
-  value = Math.imul(value ^ (value >>> 12), 0x297a2d39);
-  return (value ^ (value >>> 15)) >>> 0;
-}
-
-function hash01(a, b, c, d = 0) {
-  return hashUint(a, b, c, d) / 0x100000000;
-}
+import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
 
 function randomInt(seed, salt, min, max) {
   const lo = Math.min(min, max);
   const hi = Math.max(min, max);
   return lo + Math.floor(hash01(seed, salt, 991) * (hi - lo + 1));
-}
-
-function isInsideEllipse(tx, ty, cx, cy, rx, ry) {
-  const nx = (tx - cx) / Math.max(1, rx);
-  const ny = (ty - cy) / Math.max(1, ry);
-  return nx * nx + ny * ny <= 1;
 }
 
 function chooseWeightedTile(seed, salt, entries) {
@@ -37,13 +20,27 @@ function chooseWeightedTile(seed, salt, entries) {
   return entries[entries.length - 1]?.type || TILE_TYPES.LAVA_DIRT;
 }
 
-function buildMask(worldModel, area) {
+function markMaskCell(mask, worldModel, tx, ty, state) {
+  if (!worldModel.inBounds(tx, ty)) return;
+  const idx = worldModel.index(tx, ty);
+  if (mask[idx]) return;
+  mask[idx] = 1;
+  state.cellCount += 1;
+  state.minX = Math.min(state.minX, tx);
+  state.minY = Math.min(state.minY, ty);
+  state.maxX = Math.max(state.maxX, tx);
+  state.maxY = Math.max(state.maxY, ty);
+}
+
+function buildMask(worldModel, area, config) {
   const mask = new Uint8Array(worldModel.tileType.length);
-  let cellCount = 0;
-  let minX = Infinity;
-  let minY = Infinity;
-  let maxX = -Infinity;
-  let maxY = -Infinity;
+  const state = {
+    cellCount: 0,
+    minX: Infinity,
+    minY: Infinity,
+    maxX: -Infinity,
+    maxY: -Infinity,
+  };
 
   const runs = Array.isArray(area?.runs) ? area.runs : [];
   for (let i = 0; i < runs.length; i += 2) {
@@ -56,26 +53,29 @@ function buildMask(worldModel, area) {
       if (idx < 0 || idx >= mask.length || mask[idx]) continue;
       const tx = idx % worldModel.width;
       const ty = Math.floor(idx / worldModel.width);
-      mask[idx] = 1;
-      cellCount += 1;
-      minX = Math.min(minX, tx);
-      minY = Math.min(minY, ty);
-      maxX = Math.max(maxX, tx);
-      maxY = Math.max(maxY, ty);
+      markMaskCell(mask, worldModel, tx, ty, state);
+    }
+  }
+
+  const runtimeArea = config.runtimeArea;
+  const extensionStartY = Math.max(config.entry.floorY + 1, runtimeArea.extensionStartTileY);
+  for (let ty = extensionStartY; ty < worldModel.depthTiles; ty += 1) {
+    for (let tx = runtimeArea.leftTile; tx <= runtimeArea.rightTile; tx += 1) {
+      markMaskCell(mask, worldModel, tx, ty, state);
     }
   }
 
   const targetBounds = area?.targetBounds || {};
-  const bounds = cellCount > 0
+  const bounds = state.cellCount > 0
     ? {
-        x: Number.isInteger(targetBounds.x) ? targetBounds.x : minX,
-        y: Number.isInteger(targetBounds.y) ? targetBounds.y : minY,
-        width: Number.isInteger(targetBounds.width) ? targetBounds.width : maxX - minX + 1,
-        height: Number.isInteger(targetBounds.height) ? targetBounds.height : maxY - minY + 1,
+        x: state.minX,
+        y: state.minY,
+        width: state.maxX - state.minX + 1,
+        height: state.maxY - state.minY + 1,
       }
     : null;
 
-  return { mask, bounds, cellCount };
+  return { mask, bounds, cellCount: state.cellCount };
 }
 
 function setGeneratedTile(worldModel, tx, ty, type, hp = null) {
@@ -190,18 +190,50 @@ function reinforceBounds(worldModel, mask, bounds, config) {
   }
 }
 
+function paintTeleportAnchors(worldModel, mask, config) {
+  const anchors = config.generation.teleportAnchors || [];
+  let teleportTiles = 0;
+
+  for (const anchor of anchors) {
+    const tx = anchor?.tx;
+    const ty = anchor?.ty;
+    if (!Number.isInteger(tx) || !Number.isInteger(ty)) continue;
+    if (!worldModel.inBounds(tx, ty) || !mask[worldModel.index(tx, ty)]) continue;
+    setGeneratedTile(worldModel, tx, ty, TILE_TYPES.TELEPORT_TILE);
+    teleportTiles += 1;
+  }
+
+  return teleportTiles;
+}
+
 function carveEntry(worldModel, config) {
   const entry = config.entry;
+  let floorTiles = 0;
   for (let tx = entry.bridgeStartX; tx <= entry.bridgeEndX; tx += 1) {
     if (!worldModel.inBounds(tx, entry.floorY)) continue;
     for (let yOffset = entry.airRowsAboveFloor; yOffset >= 1; yOffset -= 1) {
       setGeneratedTile(worldModel, tx, entry.floorY - yOffset, TILE_TYPES.AIR, 0);
     }
     setGeneratedTile(worldModel, tx, entry.floorY, TILE_TYPES.FLOOR_TOWN_2, 0);
+    floorTiles += 1;
     for (let yOffset = 1; yOffset <= entry.airRowsBelowFloor; yOffset += 1) {
       setGeneratedTile(worldModel, tx, entry.floorY + yOffset, TILE_TYPES.AIR, 0);
     }
   }
+  return floorTiles;
+}
+
+function paintUndergroundDivider(worldModel, config) {
+  const divider = config.undergroundDivider;
+  if (!divider || !Number.isInteger(divider.tileX) || !Number.isInteger(divider.startTileY)) return 0;
+
+  let dividerTiles = 0;
+  for (let ty = divider.startTileY; ty < worldModel.depthTiles; ty += 1) {
+    if (!worldModel.inBounds(divider.tileX, ty)) continue;
+    setGeneratedTile(worldModel, divider.tileX, ty, TILE_TYPES.BEDROCK, 0);
+    dividerTiles += 1;
+  }
+  return dividerTiles;
 }
 
 export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CONFIG) {
@@ -209,7 +241,7 @@ export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CON
     return { applied: false, reason: "disabled" };
   }
 
-  const { mask, bounds, cellCount } = buildMask(worldModel, area);
+  const { mask, bounds, cellCount } = buildMask(worldModel, area, config);
   if (!bounds || cellCount <= 0) {
     return { applied: false, reason: "empty-mask" };
   }
@@ -225,10 +257,8 @@ export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CON
 
       if (ty < floorY) {
         setGeneratedTile(worldModel, tx, ty, TILE_TYPES.AIR, 0);
-      } else if (ty === floorY) {
-        setGeneratedTile(worldModel, tx, ty, TILE_TYPES.FLOOR_TOWN_2, 0);
-        floorTiles += 1;
       } else {
+        // Keep the Level Two surface mineable; carveEntry restores only the safe bridge floor.
         setGeneratedTile(worldModel, tx, ty, chooseBaseTile(worldModel, tx, ty, bounds, config));
         terrainTiles += 1;
       }
@@ -238,7 +268,19 @@ export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CON
   const nodeTiles = paintResourceNodes(worldModel, mask, bounds, config);
   const caveTiles = paintCaves(worldModel, mask, bounds, config);
   reinforceBounds(worldModel, mask, bounds, config);
-  carveEntry(worldModel, config);
+  const teleportTiles = paintTeleportAnchors(worldModel, mask, config);
+  floorTiles += carveEntry(worldModel, config);
+
+  const levelOneSealStartY = config.runtimeArea.levelOneBottomTileY + 1;
+  for (let ty = levelOneSealStartY; ty < worldModel.depthTiles; ty += 1) {
+    for (let tx = 0; tx < config.runtimeArea.leftTile; tx += 1) {
+      setGeneratedTile(worldModel, tx, ty, TILE_TYPES.BEDROCK, 0);
+    }
+  }
+
+  // The surface bridge is the only Level 1 -> Level 2 route. Its door controls access;
+  // this unbreakable column prevents players from entering through either mine wall.
+  const dividerTiles = paintUndergroundDivider(worldModel, config);
 
   return {
     applied: true,
@@ -247,6 +289,9 @@ export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CON
     floorTiles,
     nodeTiles,
     caveTiles,
+    teleportTiles,
+    dividerTiles,
+    depthMeters: config.runtimeArea.depthMeters,
     bounds,
   };
 }

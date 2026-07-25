@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Directional Side Punch Review · Dig Game</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">Dig Game · directional fist review</p>
+    <h1>Keep the side punch. Aim the torso.</h1>
+    <p>All three cards use the same approved Punch Cross timing. B and C only change the torso direction; this page cannot change gameplay.</p>
+  </header>
+
+  <section class="controls" aria-label="Directional punch review controls">
+    <button id="play-toggle" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <label><span>Review scale</span><select id="zoom"><option value="1">Game scale</option><option value="1.45">Inspection</option></select></label>
+    <label class="check"><input id="flip" type="checkbox" checked><span>Face target</span></label>
+    <strong id="status" role="status">Loading real Punch Cross layers…</strong>
+  </section>
+
+  <section class="truth" aria-label="Review guardrails">
+    <span>same Punch Cross timing</span><span>torso-only high / low layer</span><span>31 × 75 gameplay collider</span><span>review only</span>
+  </section>
+
+  <main id="candidate-grid" class="candidate-grid" aria-label="Directional side punch candidates"></main>
+
+  <footer class="selection">
+    <span>Temporary review choice</span>
+    <strong id="selection-summary">Option A · Side punch control</strong>
+    <em>Nothing is wired until you approve it.</em>
+  </footer>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

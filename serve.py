@@ -10,16 +10,27 @@ import socket
 import socketserver
 import sys
 import webbrowser
+from urllib.parse import urlsplit
 
 # Force correct MIME type for ES modules regardless of Windows registry
 mimetypes.add_type("application/javascript", ".js")
 mimetypes.add_type("text/css", ".css")
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+NO_CACHE_EXTENSIONS = frozenset((".html", ".js", ".mjs", ".css", ".json"))
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 class Handler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        request_path = urlsplit(self.path).path
+        extension = os.path.splitext(request_path)[1].lower()
+        if request_path.endswith("/") or extension in NO_CACHE_EXTENSIONS:
+            self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+        super().end_headers()
+
     def do_POST(self):
         if self.path != "/screenrecord":
             self.send_error(404, "Unknown POST endpoint")
@@ -88,10 +99,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         }).encode("utf-8"))
 
     def guess_type(self, path):
-        base, ext = os.path.splitext(path)
+        _, ext = os.path.splitext(path)
         if ext in ('.js', '.mjs'):
             return 'application/javascript'
         return super().guess_type(path)
+
     def log_message(self, fmt, *args):
         print(fmt % args)
 

@@ -185,7 +185,6 @@ export class SoundSystem {
       sound.once('complete', () => {
         try { sound.destroy(); } catch (_) {}
       });
-      sound.once('destroy', () => {});
       sound.play();
       return sound;
     } catch (error) {

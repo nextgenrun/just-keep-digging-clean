@@ -1,4 +1,19 @@
 import { GAME_CONFIG } from "../values/gameConfig.js";
+import { RESOURCE_BY_TILE_TYPE } from "../values/resourceTypes.js";
+import { TILE_TYPES } from "../values/tileTypes.js";
+import { WORLD_VISUAL_LANDMARKS } from "../values/worldVisualLandmarks.js";
+import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
+import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
+import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
+
+const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
+  100, 350, 700, 1100, 1450, 1800, 2500, 3500, 4500, 4990,
+]);
+const BACKGROUND_PREVIEW_RANGES = Object.freeze({
+  level1: Object.freeze({ minX: 1, maxX: 112 }),
+  level2: Object.freeze({ minX: 113, maxX: 278 }),
+});
+const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 33, 63]);
 
 function e2eEnabled() {
   if (!GAME_CONFIG.debugMode || typeof window === "undefined") return false;
@@ -244,6 +259,67 @@ function forcePlayerState(scene, options = {}) {
   return getState(scene);
 }
 
+function findBackgroundPreviewTile(scene, level, depth) {
+  const range = BACKGROUND_PREVIEW_RANGES[level];
+  const targetY = GAME_CONFIG.topAirRows + depth;
+  let best = null;
+  for (let y = Math.max(GAME_CONFIG.topAirRows, targetY - 48); y <= Math.min(GAME_CONFIG.worldDepthTiles - 3, targetY + 48); y++) {
+    for (let x = range.minX; x <= range.maxX; x++) {
+      if (scene.worldModel?.isSolid?.(x, y) || !scene.worldModel?.isSolid?.(x, y + 1)) continue;
+      let nearbyAir = 0;
+      for (let oy = -3; oy <= 1; oy++) {
+        for (let ox = -4; ox <= 4; ox++) {
+          if (!scene.worldModel?.isSolid?.(x + ox, y + oy)) nearbyAir++;
+        }
+      }
+      const score = nearbyAir * 10 - Math.abs(y - targetY) - Math.abs(x - (range.minX + range.maxX) / 2) * 0.02;
+      if (!best || score > best.score) best = { tx: x, ty: y, score };
+    }
+  }
+  return best || { tx: range.minX + 4, ty: targetY };
+}
+
+function findSemanticPreview(scene, predicate) {
+  const model = scene.worldModel;
+  if (!model) return null;
+  const offsets = [];
+  for (let radius = 1; radius <= 8; radius += 1) {
+    for (let oy = -radius; oy <= radius; oy += 1) {
+      for (let ox = -radius; ox <= radius; ox += 1) {
+        if (Math.max(Math.abs(ox), Math.abs(oy)) !== radius) continue;
+        offsets.push({ ox, oy });
+      }
+    }
+  }
+  for (let ty = GAME_CONFIG.topAirRows; ty < model.depth; ty += 1) {
+    for (let tx = 0; tx < model.width; tx += 1) {
+      const type = model.getTileType(tx, ty);
+      if (!predicate(type)) continue;
+      for (const { ox, oy } of offsets) {
+        const playerTx = tx + ox;
+        const playerTy = ty + oy;
+        if (playerTx < 1 || playerTx >= model.width - 1 || playerTy < 1 || playerTy >= model.depth - 1) continue;
+        if (model.isSolid(playerTx, playerTy) || !model.isSolid(playerTx, playerTy + 1)) continue;
+        return { targetTx: tx, targetTy: ty, playerTx, playerTy, type };
+      }
+    }
+  }
+  return null;
+}
+
+function findOpenAdjacentTile(scene, tx, ty) {
+  const candidates = [
+    { tx: tx - 1, ty },
+    { tx: tx + 1, ty },
+    { tx, ty: ty - 1 },
+    { tx, ty: ty + 1 },
+  ];
+  return candidates.find((tile) => (
+    scene.worldModel?.inBounds?.(tile.tx, tile.ty)
+    && !scene.worldModel?.isSolid?.(tile.tx, tile.ty)
+  )) || null;
+}
+
 function resetTestSave() {
   try {
     const prefixes = [
@@ -267,6 +343,125 @@ function resetTestSave() {
 export function installJkdE2EHarness(scene) {
   if (!e2eEnabled()) return;
 
+  let backgroundPreviewIndex = -1;
+  let surfaceBenchmarkPreviewIndex = -1;
+  const handleBackgroundPreviewKey = event => {
+    const semanticPredicate = event.code === "F6"
+      ? type => type === TILE_TYPES.SKY_TILE
+      : event.code === "F7"
+        ? type => type === TILE_TYPES.BEDROCK
+        : event.code === "F8"
+          ? type => Boolean(RESOURCE_BY_TILE_TYPE[type]) && type !== TILE_TYPES.STONE
+          : null;
+    if (semanticPredicate) {
+      event.preventDefault?.();
+      const preview = findSemanticPreview(scene, semanticPredicate);
+      if (!preview) {
+        console.warn(`[JkdE2EHarness] No traversable ${event.code} semantic preview target is available`);
+        return;
+      }
+      forcePlayerState(scene, { tx: preview.playerTx, ty: preview.playerTy });
+      console.info(
+        `[JkdE2EHarness] ${event.code} semantic preview target ${preview.targetTx},${preview.targetTy} `
+        + `from ${preview.playerTx},${preview.playerTy}`
+      );
+      return;
+    }
+    if (event.code === "F11") {
+      event.preventDefault?.();
+      scene.weatherSystem?.forceWeather?.("clear", 0, 10 * 60 * 1000);
+      console.info("[JkdE2EHarness] F11 clear-weather visual benchmark preview");
+      return;
+    }
+    if (event.code === "F10") {
+      event.preventDefault?.();
+      surfaceBenchmarkPreviewIndex = (
+        surfaceBenchmarkPreviewIndex + 1
+      ) % SURFACE_BENCHMARK_PREVIEW_TILES.length;
+      const tx = SURFACE_BENCHMARK_PREVIEW_TILES[surfaceBenchmarkPreviewIndex];
+      closeTransientUi(scene);
+      forcePlayerState(scene, { tx, ty: GAME_CONFIG.topAirRows - 1 });
+      console.info(`[JkdE2EHarness] F10 surface benchmark preview at ${tx},${GAME_CONFIG.topAirRows - 1}`);
+      return;
+    }
+    if (event.code === "F9") {
+      event.preventDefault?.();
+      const entrance = resolveWorldVisualLandmarkAnchor(
+        scene,
+        scene.worldModel,
+        WORLD_VISUAL_LANDMARKS.entries[0]
+      );
+      if (!entrance) {
+        console.warn("[JkdE2EHarness] No traversable cave mouth is available for the F9 preview");
+        return;
+      }
+      forcePlayerState(scene, { tx: Math.ceil(entrance.tileX), ty: entrance.floorTileY - 1 });
+      console.info(
+        `[JkdE2EHarness] Scenic mine-entrance pilot preview at ${entrance.zoneId} `
+        + `${entrance.tileX},${entrance.floorTileY}`
+      );
+      return;
+    }
+    if (!event.ctrlKey || !event.altKey) return;
+    if (event.code === "Home") {
+      event.preventDefault?.();
+      scene.activateDevCheat?.();
+      forcePlayerState(scene, { tx: 146, ty: GAME_CONFIG.topAirRows - 1 });
+      console.info("[JkdE2EHarness] Level 2 surface + godmode preview at 146,64");
+      return;
+    }
+    if (event.code === "End") {
+      event.preventDefault?.();
+      scene.activateDevCheat?.();
+      forcePlayerState(scene, { tx: 139, ty: GAME_CONFIG.topAirRows - 1 });
+      scene.shopOverlay?.show?.("magmaMoneyMonster");
+      scene.shopOverlay?.setMerchantMode?.("sell", true);
+      console.info("[JkdE2EHarness] Molten Money Monster sell preview");
+      return;
+    }
+    if (event.code === "KeyT") {
+      event.preventDefault?.();
+      scene.activateDevCheat?.();
+      const anchor = SECOND_WORLD_CONFIG.generation.teleportAnchors[0];
+      const preview = findOpenAdjacentTile(scene, anchor.tx, anchor.ty);
+      if (!preview) {
+        console.warn("[JkdE2EHarness] Level 2 teleport anchor has no open preview cell");
+        return;
+      }
+      forcePlayerState(scene, preview);
+      console.info(
+        `[JkdE2EHarness] Level 2 teleport preview beside ${anchor.tx},${anchor.ty}`
+      );
+      return;
+    }
+    if (event.code === "Insert") {
+      event.preventDefault?.();
+      const level = V11_SKY_ISLAND_LAYOUT.levels.find((entry) => entry.levelId === 1);
+      forcePlayerState(scene, level.groundPortal.skyArrivalTile);
+      console.info("[JkdE2EHarness] Level 1 Sky Island preview");
+      return;
+    }
+    if (event.code === "Delete") {
+      event.preventDefault?.();
+      const level = V11_SKY_ISLAND_LAYOUT.levels.find((entry) => entry.levelId === 2);
+      forcePlayerState(scene, level.groundPortal.skyArrivalTile);
+      console.info("[JkdE2EHarness] Level 2 Sky Island preview");
+      return;
+    }
+    const level = event.code === "PageDown" ? "level1" : (event.code === "PageUp" ? "level2" : null);
+    if (!level) return;
+    event.preventDefault?.();
+    backgroundPreviewIndex = (backgroundPreviewIndex + 1) % BACKGROUND_PREVIEW_DEPTHS.length;
+    const depth = BACKGROUND_PREVIEW_DEPTHS[backgroundPreviewIndex];
+    const previewTile = findBackgroundPreviewTile(scene, level, depth);
+    forcePlayerState(scene, {
+      tx: previewTile.tx,
+      ty: previewTile.ty,
+    });
+    console.info(`[JkdE2EHarness] Background preview ${level} near ${depth}m at ${previewTile.tx},${previewTile.ty}`);
+  };
+  window.addEventListener("keydown", handleBackgroundPreviewKey);
+
   const harness = {
     version: 1,
     getState: () => getState(scene),
@@ -281,7 +476,9 @@ export function installJkdE2EHarness(scene) {
   };
 
   window.__jkdE2E = harness;
+  console.info("[JkdE2EHarness] Installed; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {
       delete window.__jkdE2E;
     }

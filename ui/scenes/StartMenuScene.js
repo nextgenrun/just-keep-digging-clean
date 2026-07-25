@@ -1,8 +1,12 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 
-import { GAME_CONFIG } from "../../values/gameConfig.js";
-import { normalizePlayerCharacterId, PLAYER_CHARACTER_OPTIONS } from "../../values/playerCharacters.js";
+import {
+  DEFAULT_PLAYER_CHARACTER_ID,
+  resolvePersistedPlayerCharacterId,
+  resolvePlayerCharacterIdFromSearch,
+} from "../../values/playerCharacters.js?rev=20260718";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton } from "../PhaserUiKit.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
@@ -21,8 +25,8 @@ const COL = {
   cardHover:  UI_COLORS.cardHover,
   cardSel:    UI_COLORS.cardSel,
   borderDim:  UI_COLORS.borderDim,
-  borderHov:  0x6b99cc,
-  borderSel:  UI_COLORS.borderGood,
+  borderHov:  UI_COLORS.borderHov,
+  borderSel:  UI_COLORS.borderSel,
   titleMain:  UI_COLORS.title,
   titleShadow:'#000000',
   gold:       UI_COLORS.gold,
@@ -30,8 +34,8 @@ const COL = {
   blue:       UI_COLORS.info,
   green:      UI_COLORS.success,
   white:      UI_COLORS.white,
-  hint:       '#3d5060',
-  version:    '#2a3a4a',
+  hint:       UI_COLORS.hint,
+  version:    UI_COLORS.dim,
   statGreen:  '#6ecf87',
   statBlue:   UI_COLORS.info,
   warning:    UI_COLORS.danger,
@@ -89,7 +93,7 @@ export class StartMenuScene extends Phaser.Scene {
 
     // --- Start prompt (shown below cards once a slot is selected) ---
     this._startPrompt = this.add.text(W / 2, 590, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '16px',
       color: COL.dim,
     }).setOrigin(0.5);
@@ -101,14 +105,14 @@ export class StartMenuScene extends Phaser.Scene {
 
     // --- Hint bar ---
     this.add.text(W / 2, 656, '1 / 2 / 3: choose save     SPACE: start     DEL / BACKSPACE: clear     B: backups     E: export     I: import     ESC: menu', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.hint,
     }).setOrigin(0.5);
 
     // --- Version ---
     this.add.text(W - 14, H - 10, 'v0.1-alpha', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '11px',
       color: COL.version,
     }).setOrigin(1, 1);
@@ -151,12 +155,13 @@ export class StartMenuScene extends Phaser.Scene {
             dugTiles: saveData.dugTiles?.length || 0,
             resources: saveData.resources || { dirt: 0, stone: 0, copper: 0 },
             updatedAt: saveData.updatedAt,
+            playerCharacterId: saveData.playerCharacterId,
           });
         } else {
-          slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null });
+          slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null, playerCharacterId: null });
         }
       } catch (_) {
-        slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null });
+        slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null, playerCharacterId: null });
       }
     }
     return slots;
@@ -185,7 +190,7 @@ export class StartMenuScene extends Phaser.Scene {
 
       // Slot number label
       const slotLabel = this.add.text(cx - CARD_W / 2 + 20, cy - CARD_H / 2 + 18, `SLOT  ${slot.id}`, {
-        fontFamily: 'Consolas, monospace',
+        fontFamily: UI_FONTS.mono,
         fontSize: '13px',
         fontStyle: 'bold',
         color: '#6a8a9a',
@@ -202,15 +207,15 @@ export class StartMenuScene extends Phaser.Scene {
         // Status — date
         const date = slot.updatedAt ? new Date(slot.updatedAt).toLocaleDateString() : 'Unknown date';
         const statusTxt = this.add.text(cx, cy - CARD_H / 2 + 18, `Last played: ${date}`, {
-          fontFamily: 'Consolas, monospace',
+          fontFamily: UI_FONTS.mono,
           fontSize: '13px',
-          color: COL.blue,
+          color: UI_COLORS.gold,
         }).setOrigin(0.5, 0);
         objs.push(statusTxt);
 
         // Tiles dug
         const tilesTxt = this.add.text(cx, cy - 30, `${slot.dugTiles}  tiles dug`, {
-          fontFamily: 'Consolas, monospace',
+          fontFamily: UI_FONTS.mono,
           fontSize: '20px',
           fontStyle: 'bold',
           color: COL.white,
@@ -220,7 +225,7 @@ export class StartMenuScene extends Phaser.Scene {
 
         // Continue indicator
         const contTxt = this.add.text(cx, cy + CARD_H / 2 - 30, '▶  CONTINUE', {
-          fontFamily: 'Consolas, monospace',
+          fontFamily: UI_FONTS.mono,
           fontSize: '14px',
           color: '#4ecb71',
         }).setOrigin(0.5, 1);
@@ -229,7 +234,7 @@ export class StartMenuScene extends Phaser.Scene {
       } else {
         // Empty slot
         const emptyLabel = this.add.text(cx, cy - 15, '＋', {
-          fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+          fontFamily: UI_FONTS.display,
           fontSize: '30px',
           fontStyle: 'bold',
           color: '#2a4a5a',
@@ -237,7 +242,7 @@ export class StartMenuScene extends Phaser.Scene {
         objs.push(emptyLabel);
 
         const newTxt = this.add.text(cx, cy + CARD_H / 2 - 30, '+  NEW SAVE', {
-          fontFamily: 'Consolas, monospace',
+          fontFamily: UI_FONTS.mono,
           fontSize: '14px',
           color: '#7ab8f5',
         }).setOrigin(0.5, 1);
@@ -390,13 +395,8 @@ export class StartMenuScene extends Phaser.Scene {
 
   // ─── Start game ──────────────────────────────────────────────────────────
 
-  _startGame(playerCharacterId = null) {
+  _startGame() {
     if (this._isStartingGame || this.selectedSlot === null) return;
-    // Always show character panel when no character has been selected yet
-    if (!playerCharacterId) {
-      this._showCharacterPanel(this.selectedSlot);
-      return;
-    }
     this._isStartingGame = true;
     this.soundSystem?.playUiConfirm?.();
 
@@ -406,107 +406,15 @@ export class StartMenuScene extends Phaser.Scene {
     }
 
     const worldIdentity = `save-slot-${this.selectedSlot}`;
-    const selectedCharacterId = normalizePlayerCharacterId(playerCharacterId);
+    const savedCharacterId = resolvePersistedPlayerCharacterId(
+      this.saveSlots.find((slot) => slot.id === this.selectedSlot)?.playerCharacterId,
+    );
+    const queryCharacterId = resolvePlayerCharacterIdFromSearch(globalThis.window?.location?.search || "");
     this.scene.start("WorldLoadScene", {
       saveSlot: this.selectedSlot,
       worldIdentity,
-      playerCharacterId: selectedCharacterId,
+      playerCharacterId: queryCharacterId ?? savedCharacterId ?? DEFAULT_PLAYER_CHARACTER_ID,
     });
-  }
-
-  _getSelectedSlotData() {
-    if (this.selectedSlot === null) return null;
-    return this.saveSlots?.find(s => s.id === this.selectedSlot) || null;
-  }
-
-  _showCharacterPanel(slotId) {
-    if (this._characterPanel) return;
-    const W = this.scale.width;
-    const H = this.scale.height;
-    const optionCount = PLAYER_CHARACTER_OPTIONS.length;
-    const cardW = optionCount > 2 ? 240 : 264;
-    const cardGap = optionCount > 2 ? 22 : 56;
-    const optionTotalW = optionCount * cardW + (optionCount - 1) * cardGap;
-    const pw = Math.max(600, optionTotalW + 80), ph = 320;
-    const px = W / 2, py = H / 2;
-
-    const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
-    const panelG = this.add.graphics();
-    panelG.lineStyle(2, 0x6b99cc, 1);
-    panelG.fillStyle(0x0d1117, 1);
-    panelG.fillRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
-    panelG.strokeRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
-    const title = this.add.text(px, py - ph / 2 + 28, `New Save — Slot ${slotId}`, {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif', fontSize: '20px', fontStyle: 'bold', color: UI_COLORS.title,
-    }).setOrigin(0.5);
-    const hint = this.add.text(px, py - ph / 2 + 52, 'Choose your character', {
-      fontFamily: 'Consolas, monospace', fontSize: '13px', color: '#3d5060',
-    }).setOrigin(0.5);
-
-    const objects = [shade, panelG, title, hint];
-    const controls = [];
-
-    PLAYER_CHARACTER_OPTIONS.forEach((opt, i) => {
-      const cardX = px - optionTotalW / 2 + cardW / 2 + i * (cardW + cardGap);
-      const cardY = py + 30;
-      const cardG = this.add.graphics();
-      cardG.fillStyle(0x131c26, 1);
-      cardG.fillRoundedRect(cardX - cardW / 2, cardY - 76, cardW, 140, 8);
-      cardG.lineStyle(2, opt.accent, 0.9);
-      cardG.strokeRoundedRect(cardX - cardW / 2, cardY - 76, cardW, 140, 8);
-      objects.push(cardG);
-
-      const nameTxt = this.add.text(cardX, cardY - 44, opt.title, {
-        fontFamily: 'Consolas, monospace', fontSize: '18px', fontStyle: 'bold', color: '#f7f0df',
-      }).setOrigin(0.5);
-      objects.push(nameTxt);
-
-      const descTxt = this.add.text(cardX, cardY - 8, opt.description, {
-        fontFamily: 'Consolas, monospace', fontSize: '13px', color: '#aab5c0', align: 'center', wordWrap: { width: cardW - 42 },
-      }).setOrigin(0.5);
-      objects.push(descTxt);
-
-      const badgeTxt = this.add.text(cardX, cardY + 44, opt.id.toUpperCase(), {
-        fontFamily: 'Consolas, monospace', fontSize: '12px', fontStyle: 'bold',
-        color: opt.id === 'robot' ? '#d8a7ff' : opt.id === 'drillHead' ? '#f0c56a' : '#6ecf87',
-      }).setOrigin(0.5);
-      objects.push(badgeTxt);
-
-      const hitZone = this.add.rectangle(cardX, cardY, cardW, 140, 0x000000, 0)
-        .setInteractive({ useHandCursor: true });
-      hitZone.on('pointerdown', () => {
-        this._closeCharacterPanel();
-        this._startGame(opt.id);
-      });
-      objects.push(hitZone);
-    });
-
-    const cancelBtn = createButton(this, {
-      x: px, y: py + ph / 2 - 30, width: 140, height: 34,
-      label: 'CANCEL', hint: 'ESC', accent: UI_COLORS.borderHov, depth: 10, fontSize: '12px',
-      onClick: () => this._closeCharacterPanel(),
-    });
-    controls.push(cancelBtn);
-
-    this._characterPanel = { objects, controls };
-
-    const onEsc = (evt) => {
-      if (evt.key === 'Escape') this._closeCharacterPanel();
-    };
-    this.input.keyboard.once('keydown', onEsc);
-    this._charPanelEscHandler = onEsc;
-  }
-
-  _closeCharacterPanel() {
-    if (!this._characterPanel) return;
-    if (this._charPanelEscHandler) {
-      this.input.keyboard.off('keydown', this._charPanelEscHandler);
-      this._charPanelEscHandler = null;
-    }
-    this._characterPanel.objects.forEach(o => o.destroy());
-    this._characterPanel.controls?.forEach(c => c.destroy());
-    this._characterPanel = null;
-    this._isStartingGame = false;
   }
 
   // ─── In-canvas confirmation panel ────────────────────────────────────────
@@ -521,19 +429,19 @@ export class StartMenuScene extends Phaser.Scene {
     const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
     const panelG = this.add.graphics();
     panelG.lineStyle(2, 0xe07030, 1);
-    panelG.fillStyle(0x0d1117, 1);
+    panelG.fillStyle(UI_COLORS.bg, 1);
     panelG.fillRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
     panelG.strokeRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
 
     const qText = this.add.text(px, py - 28, `Clear save slot  ${slotId}?`, {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+      fontFamily: UI_FONTS.display,
       fontSize: '22px',
       fontStyle: 'bold',
       color: '#f7f0df',
     }).setOrigin(0.5);
 
     const hintText = this.add.text(px, py + 16, 'Y — yes        N / ESC — cancel', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '15px',
       color: COL.dim,
     }).setOrigin(0.5);
@@ -628,21 +536,21 @@ export class StartMenuScene extends Phaser.Scene {
 
     const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
     const panelG = this.add.graphics();
-    panelG.lineStyle(2, 0x6b99cc, 1);
-    panelG.fillStyle(0x0d1117, 1);
+    panelG.lineStyle(2, UI_COLORS.borderHov, 1);
+    panelG.fillStyle(UI_COLORS.bg, 1);
     panelG.fillRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
     panelG.strokeRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
 
     const title = this.add.text(px, py - ph / 2 + 30, `Backups for Slot ${slotId}`, {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+      fontFamily: UI_FONTS.display,
       fontSize: '20px',
       fontStyle: 'bold',
-      color: COL.blue,
+      color: UI_COLORS.gold,
     }).setOrigin(0.5);
 
     const statsText = this.add.text(px, py - ph / 2 + 60, 
       `${backups.length} backups available • ${stats.backupStats?.totalSizeBytes ? (stats.backupStats.totalSizeBytes / 1024).toFixed(1) + ' KB' : '0 KB'}`, {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '13px',
       color: COL.dim,
     }).setOrigin(0.5);
@@ -652,7 +560,7 @@ export class StartMenuScene extends Phaser.Scene {
 
     if (backups.length === 0) {
       const noBackups = this.add.text(px, py, 'No backups available', {
-        fontFamily: 'Consolas, monospace',
+        fontFamily: UI_FONTS.mono,
         fontSize: '16px',
         color: COL.dim,
       }).setOrigin(0.5);
@@ -664,7 +572,7 @@ export class StartMenuScene extends Phaser.Scene {
         const date = new Date(backup.timestamp).toLocaleString();
         const backupText = this.add.text(px - pw / 2 + 30, startY + i * 50, 
           `Backup ${i + 1}: ${date}`, {
-          fontFamily: 'Consolas, monospace',
+          fontFamily: UI_FONTS.mono,
           fontSize: '13px',
           color: COL.white,
         }).setOrigin(0, 0.5);
@@ -703,7 +611,7 @@ export class StartMenuScene extends Phaser.Scene {
     controls.push(closeBtn);
 
     const hintText = this.add.text(px, py + ph / 2 - 68, 'Click restore on any backup', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.dim,
     }).setOrigin(0.5);
@@ -768,22 +676,22 @@ export class StartMenuScene extends Phaser.Scene {
 
     const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
     const panelG = this.add.graphics();
-    panelG.lineStyle(2, 0x6b99cc, 1);
-    panelG.fillStyle(0x0d1117, 1);
+    panelG.lineStyle(2, UI_COLORS.borderHov, 1);
+    panelG.fillStyle(UI_COLORS.bg, 1);
     panelG.fillRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
     panelG.strokeRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
 
     const title = this.add.text(px, py - ph / 2 + 40, 'Import Save File', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+      fontFamily: UI_FONTS.display,
       fontSize: '20px',
       fontStyle: 'bold',
-      color: COL.blue,
+      color: UI_COLORS.gold,
     }).setOrigin(0.5);
 
     const hintText = this.add.text(px, py - 10, 
       'Click the button below to select a save file to import.\n' +
       'The save will be imported into the currently selected slot.', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '13px',
       color: COL.dim,
       align: 'center',
@@ -831,7 +739,7 @@ export class StartMenuScene extends Phaser.Scene {
     };
 
     const closeHint = this.add.text(px, py + ph / 2 - 24, 'JSON save files only', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.dim,
     }).setOrigin(0.5);

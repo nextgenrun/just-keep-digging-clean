@@ -6,6 +6,36 @@ export class BackgroundRenderer {
   constructor(scene, ASSET_KEYS) {
     this.scene = scene;
     this.ASSET_KEYS = ASSET_KEYS;
+    this._skyCreated = false;
+    this._skyLayers = [];
+    this._skyBodies = [];
+  }
+
+  createUniverseSkyBackground() {
+    const skyHeight = this.scene.config.topAirRows * this.scene.config.tileSize;
+    this.createLayeredSkyBackground(skyHeight);
+  }
+
+  updateUniverseSky() {
+    if (!this._skyCreated) return;
+    const dayNight = this.scene.dayNightCycle;
+    const weather = this.scene.weatherSystem?.getLightingSnapshot?.() || {};
+    const night = dayNight?.getNightAmount?.() ?? 0;
+    const skyTint = dayNight?.getSkyColor?.() ?? 0xffffff;
+    const cloudCover = Phaser.Math.Clamp(weather.cloudCoverAmount ?? 0, 0, 1);
+    const sunTransmission = Phaser.Math.Clamp(weather.sunTransmittance ?? 1, 0, 1);
+
+    this._skyLayers.forEach(layer => {
+      let alphaScale = 1;
+      if (layer.kind === "nebula") alphaScale = (0.52 + night * 0.48) * (1 - cloudCover * 0.18);
+      else if (layer.kind === "aurora") alphaScale = (0.34 + night * 0.66) * (1 - cloudCover * 0.24);
+      else if (layer.kind === "horizon") alphaScale = (0.72 - night * 0.38) * sunTransmission;
+      else if (layer.kind === "cloud") alphaScale = (0.48 + cloudCover * 0.52) * (1 - night * 0.12);
+      layer.sprite.setTint(skyTint).setAlpha(layer.baseAlpha * Math.max(0, alphaScale));
+    });
+    this._skyBodies.forEach(body => {
+      body.sprite.setTint(skyTint).setAlpha(body.baseAlpha * (0.62 + night * 0.38) * (1 - cloudCover * 0.22));
+    });
   }
 
   createTiledBackground() {
@@ -447,13 +477,13 @@ export class BackgroundRenderer {
   }
 
   createLayeredSkyBackground(skyHeight) {
-    if (skyHeight <= 0) return;
+    if (skyHeight <= 0 || this._skyCreated) return;
 
     const sky = this.ASSET_KEYS.background.skyBackgrounds;
     const worldWidth = this.scene.config.worldWidthPx;
     const maxSegmentPx = 2048;
     const clampY = (value) => Math.max(0, Math.min(skyHeight, value));
-    const addTileLayer = (key, y, height, depth, alpha, tileScaleX = 1, tileScaleY = 1, tilePositionX = 0) => {
+    const addTileLayer = (key, y, height, depth, alpha, kind, tileScaleX = 1, tileScaleY = 1, tilePositionX = 0) => {
       // Skip if the texture doesn't exist
       if (!this.scene.textures.exists(key)) {
         console.warn(`[BackgroundRenderer] Sky layer texture "${key}" not found, skipping`);
@@ -478,34 +508,38 @@ export class BackgroundRenderer {
         layer.tilePositionX = tilePositionX + sx / tileScaleX;
         layer.tilePositionY = 0;
         layers.push(layer);
+        this._skyLayers.push({ sprite: layer, baseAlpha: alpha, kind });
       }
 
       return layers;
     };
 
     const baseScaleY = Math.max(1, skyHeight / 2048);
-    addTileLayer(sky.base, 0, skyHeight, -9.96, 1, 1.15, baseScaleY);
-    addTileLayer(sky.nebula, 0, skyHeight * 0.76, -9.94, 0.70, 1.35, Math.max(1, skyHeight / 2600), 280);
-    addTileLayer(sky.aurora, skyHeight * 0.06, Math.min(1500, skyHeight * 0.38), -9.92, 0.56, 1.18, 1.10, 620);
+    addTileLayer(sky.base, 0, skyHeight, -9.96, 1, "base", 1.15, baseScaleY);
+    addTileLayer(sky.nebula, 0, skyHeight * 0.76, -9.94, 0.70, "nebula", 1.35, Math.max(1, skyHeight / 2600), 280);
+    addTileLayer(sky.aurora, skyHeight * 0.06, Math.min(1500, skyHeight * 0.38), -9.92, 0.56, "aurora", 1.18, 1.10, 620);
 
     if (this.scene.textures.exists(sky.planet2)) {
-      this.scene.add.image(worldWidth * 0.31, skyHeight * 0.28, sky.planet2)
+      const planet = this.scene.add.image(worldWidth * 0.31, skyHeight * 0.28, sky.planet2)
         .setDepth(-9.90)
         .setAlpha(0.68)
         .setScale(0.40)
         .setOrigin(0.5);
+      this._skyBodies.push({ sprite: planet, baseAlpha: 0.68 });
     }
 
     if (this.scene.textures.exists(sky.planet1)) {
-      this.scene.add.image(worldWidth * 0.73, skyHeight * 0.24, sky.planet1)
+      const planet = this.scene.add.image(worldWidth * 0.73, skyHeight * 0.24, sky.planet1)
         .setDepth(-9.89)
         .setAlpha(0.84)
         .setScale(0.66)
         .setOrigin(0.5);
+      this._skyBodies.push({ sprite: planet, baseAlpha: 0.84 });
     }
 
-    addTileLayer(sky.cloudsFar, skyHeight - 1420, 840, -9.86, 0.68, 1.24, 1.10, 420);
-    addTileLayer(sky.horizon, skyHeight - 650, 650, -9.84, 0.84, 1.35, 1.26);
-    addTileLayer(sky.cloudsNear, skyHeight - 840, 840, -9.82, 0.84, 1.08, 1.12, 950);
+    addTileLayer(sky.cloudsFar, skyHeight - 1420, 840, -9.86, 0.68, "cloud", 1.24, 1.10, 420);
+    addTileLayer(sky.horizon, skyHeight - 650, 650, -9.84, 0.84, "horizon", 1.35, 1.26);
+    addTileLayer(sky.cloudsNear, skyHeight - 840, 840, -9.82, 0.84, "cloud", 1.08, 1.12, 950);
+    this._skyCreated = true;
   }
 }

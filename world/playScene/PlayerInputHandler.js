@@ -4,6 +4,7 @@
  * Single source of truth for all input key registration
  */
 import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
+import { getAabbAdjacentAimCandidates } from "../../player/playerDirectionalTargets.js";
 
 export class PlayerInputHandler {
   constructor(scene) {
@@ -54,6 +55,10 @@ export class PlayerInputHandler {
     const muteSfx = addBoundKey("muteSfx");
     const mainMenuKey = addBoundKey("mainMenu");
     const fullscreen = addBoundKey("fullscreen");
+    const screenRecord = addBoundKey("screenRecord");
+    // Keep the default recorder shortcut available even if an older saved
+    // keybind profile failed to migrate the new action.
+    const screenRecordF10 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F10);
 
     // Prevent browser default behavior for captured keys
     const captureKeys = new Set([
@@ -100,6 +105,8 @@ export class PlayerInputHandler {
       muteSfx,
       mainMenuKey,
       fullscreen,
+      screenRecord,
+      screenRecordF10,
 
       // Legacy compatibility (expose individual keys)
       left: moveLeft,
@@ -136,45 +143,29 @@ export class PlayerInputHandler {
   }
 
   resolveAimTargetTile() {
-    const playerTile = this.scene.playerController.state.getPlayerTile();
     const aim = this.scene.playerController.getAimVector();
-    const candidates = this.getAimCandidates(playerTile, aim);
+    return this.resolveAimTargetTileForVector(aim);
+  }
 
-    for (const candidate of candidates) {
-      if (!this.scene.worldModel.inBounds(candidate.tx, candidate.ty)) {
-        continue;
-      }
+  resolveAimTargetTileForVector(aim) {
+    const candidates = this.getAimCandidates(null, aim);
+    const inBounds = candidates.filter((candidate) => (
+      this.scene.worldModel.inBounds(candidate.tx, candidate.ty)
+    ));
 
+    for (const candidate of inBounds) {
       if (this.scene.worldModel.isSolid(candidate.tx, candidate.ty)) {
         return candidate;
       }
     }
 
-    return candidates[0] ?? null;
+    return inBounds[0] ?? null;
   }
 
   getAimCandidates(baseTile, aim) {
-    if (aim.x !== 0) {
-      return [
-        { tx: baseTile.tx + aim.x, ty: baseTile.ty },
-        { tx: baseTile.tx + aim.x, ty: baseTile.ty + 1 },
-        { tx: baseTile.tx + aim.x, ty: baseTile.ty - 1 },
-      ];
-    }
-
-    if (aim.y > 0) {
-      return [
-        { tx: baseTile.tx, ty: baseTile.ty + 1 },
-        { tx: baseTile.tx - 1, ty: baseTile.ty + 1 },
-        { tx: baseTile.tx + 1, ty: baseTile.ty + 1 },
-      ];
-    }
-
-    return [
-      { tx: baseTile.tx, ty: baseTile.ty - 1 },
-      { tx: baseTile.tx - 1, ty: baseTile.ty - 1 },
-      { tx: baseTile.tx + 1, ty: baseTile.ty - 1 },
-    ];
+    const body = this.scene.playerController?.physicsBody;
+    const tileSize = this.scene.config?.tileSize;
+    return getAabbAdjacentAimCandidates(body, tileSize, aim);
   }
 
   isSolidAimTarget(targetTile) {

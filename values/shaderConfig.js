@@ -2,6 +2,13 @@ export const SHADER_CONFIG = Object.freeze({
   enabled: true,
   debug: false,
 
+  performance: Object.freeze({
+    // Below this alpha the layer is already visually absent. Hide both the
+    // sampled image and its render-to-texture shader so Phaser skips the
+    // otherwise full-screen WebGL pass.
+    inactiveLayerAlphaThreshold: 0.001,
+  }),
+
   layers: Object.freeze({
     weatherAtmosphere: Object.freeze({
       enabled: true,

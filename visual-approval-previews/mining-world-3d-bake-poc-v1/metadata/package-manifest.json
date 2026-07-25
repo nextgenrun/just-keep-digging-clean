@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "status": "review-only-no-runtime-wiring",
+  "generatedBy": "ai-tools/2026-07-15-build-mining-world-3d-poc.py",
+  "tileSizePx": 94,
+  "currentTileReference": "sprites/tiles/dynamic-soil/previews/soil-contact-sheet.png",
+  "currentRuntimeReference": "visual-approval-previews/v11-runtime-streamed-baseline-2026-07-11.png",
+  "currentDepthReference": "sprites/backgrounds/world-v11-runtime-polished-v4/depth-chunks/level1-r001-c01.webp",
+  "productionPlayerReference": "sprites/character/character-v8/runtime/idle-cleaned-frames/frame-000.png",
+  "tileCandidates": [
+    {
+      "source": "renders/tile-01-amber-soil-512.png",
+      "runtimeCandidate": "final/tile-01-amber-soil-94.webp"
+    },
+    {
+      "source": "renders/tile-02-amber-soil-copper-512.png",
+      "runtimeCandidate": "final/tile-02-amber-soil-copper-94.webp"
+    },
+    {
+      "source": "renders/tile-03-blue-slate-512.png",
+      "runtimeCandidate": "final/tile-03-blue-slate-94.webp"
+    },
+    {
+      "source": "renders/tile-04-blue-slate-crystal-512.png",
+      "runtimeCandidate": "final/tile-04-blue-slate-crystal-94.webp"
+    },
+    {
+      "source": "renders/tile-05-iron-strata-512.png",
+      "runtimeCandidate": "final/tile-05-iron-strata-94.webp"
+    },
+    {
+      "source": "renders/tile-06-blackstone-crystal-512.png",
+      "runtimeCandidate": "final/tile-06-blackstone-crystal-94.webp"
+    }
+  ],
+  "review": [
+    "final/tile-comparison.png",
+    "final/gameplay-candidate.png",
+    "final/background-comparison.png",
+    "final/current-vs-3d-overview.png"
+  ]
+}

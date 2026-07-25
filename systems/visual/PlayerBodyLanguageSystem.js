@@ -6,8 +6,9 @@
  * All tunables live in values/gamefeel.js (bodyLanguage section).
  */
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
+import { clamp01Finite as clamp01 } from "../../values/mathUtils.js";
+import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
 
-const clamp01 = (v) => Math.max(0, Math.min(1, Number.isFinite(v) ? v : 0));
 
 export class PlayerBodyLanguageSystem {
   constructor(scene, player, config = GAMEFEEL_CONFIG.bodyLanguage) {
@@ -72,7 +73,11 @@ export class PlayerBodyLanguageSystem {
       const s = profile.visualScale || 1;
       return { x: s, y: s };
     }
-    const displaySize = profile?.displaySizePx || scene.config?.playerDisplaySizePx;
+    const displaySize = resolvePlayerDisplaySizePx(
+      profile,
+      scene.config?.playerDisplaySizePx,
+      this.player?.anims?.currentAnim?.key,
+    );
     const frame = this.player.frame;
     const fw = frame?.realWidth || this.player.width || 1;
     const fh = frame?.realHeight || this.player.height || 1;

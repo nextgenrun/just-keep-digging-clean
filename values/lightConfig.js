@@ -1,4 +1,9 @@
 export const LIGHT_CONFIG = Object.freeze({
+  renderOptimization: Object.freeze({
+    // Keep this below one 8-bit alpha step. The hidden render texture is
+    // rebuilt immediately when darkness becomes visible again.
+    inactiveDarknessAlphaThreshold: 0.001,
+  }),
   depthStartTiles: 3,
   depthMaxTiles: 2000,
   maxDepthDarkness: 1.0,
@@ -22,7 +27,7 @@ export const LIGHT_CONFIG = Object.freeze({
 
   surfaceSunlight: Object.freeze({
     fullStrengthDepthTiles: 0,
-    fadeOutEndDepthTiles: 3,
+    fadeOutEndDepthTiles: 10,
     maxUndergroundInfluence: 0.03,
     daylightDarknessAlpha: 0.00,
     nightDarknessAlpha: 0.18,

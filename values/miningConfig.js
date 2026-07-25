@@ -7,4 +7,11 @@ export const MINING_CONFIG = Object.freeze({
   // Base damage
   baseDamage: 16,     // base dig damage for soft tiles (dirt, dark dirt)
   baseDamageHard: 8, // base dig damage for hard tiles (stone, copper)
+
+  blockedUi: Object.freeze({
+    bedrockMessage: "Cannot dig",
+    notificationKey: "mining-cannot-dig-bedrock",
+    durationMs: 1600,
+    color: "#f6d36c",
+  }),
 });

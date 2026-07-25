@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "frameSizePx": 256,
+  "resourceAtlas": {
+    "columns": 8,
+    "variants": 3,
+    "frameStarts": {
+      "copper": 0,
+      "bronze": 3,
+      "steel": 6,
+      "iron": 9,
+      "silver": 12,
+      "gold": 15,
+      "obsidian": 18,
+      "ember-ore": 21,
+      "magma-crystal": 24,
+      "stone": 27
+    },
+    "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-insets-beauty-v1.png"
+  },
+  "skyStars": {
+    "columns": 3,
+    "rarities": [
+      "common",
+      "rare",
+      "legendary",
+      "ancient",
+      "cosmic",
+      "void"
+    ],
+    "beautyPath": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-beauty-v1.png",
+    "emissivePath": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-emissive-v1.png"
+  },
+  "specialRewards": {
+    "columns": 4,
+    "frames": {
+      "gemPower": 0,
+      "speed": 1,
+      "xp": 2,
+      "crit": 3,
+      "berserk": 4,
+      "combo": 5,
+      "legend": 6
+    },
+    "beautyPath": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v1.png",
+    "emissivePath": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-emissive-v1.png"
+  },
+  "bedrock": {
+    "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/bedrock-seamless-v1.webp"
+  },
+  "sha256": {
+    "resource-insets-beauty-v1.png": "0797df6650d7409833c121b17ea7cd1e212bdb66470e88aa7f2fbf542648a0fd",
+    "sky-stars-beauty-v1.png": "9f94adc6c9b1cd50fb876e7a653885866ec2fb6a7b576250cadca142985827c4",
+    "sky-stars-emissive-v1.png": "c4bfb7e3b8730fd49044e27194efef3879b3763a3a422fe4fc42cc520b87dfb0",
+    "special-reward-insets-beauty-v1.png": "d4b94d95afa3ec2fe5ff0fab14bd1ac8973f39c5f9cb14e39b3968331b1c6d80",
+    "special-reward-insets-emissive-v1.png": "b30df0111d7643c16655d21b7bbd9ed49e2482efbcb3981f7ebc43eb92256542",
+    "bedrock-seamless-v1.webp": "bb55e969a2a1a471cae8e1ab317f5e2c05a642a86e09c4c03b42a9dbf2a21de8",
+    "semantic-decals-preview-v1.webp": "b9f487674c2691e6c1f8337a836a1457891812253e1d7e9a4f3b4bcc08871dfe"
+  }
+}

@@ -5,9 +5,8 @@
  * All tunables live in values/postFxConfig.js.
  */
 import { POSTFX_CONFIG } from "../../values/postFxConfig.js";
+import { clamp01Finite as clamp01, lerp } from "../../values/mathUtils.js";
 
-const clamp01 = (v) => Math.max(0, Math.min(1, Number.isFinite(v) ? v : 0));
-const lerp = (a, b, t) => a + (b - a) * t;
 
 export class PostFxSystem {
   constructor(scene, config = POSTFX_CONFIG) {

@@ -1,0 +1,39 @@
+{
+  "version": "directional-side-punch-review-v1-20260718",
+  "productionChanged": false,
+  "candidates": [
+    {
+      "id": "side-control",
+      "option": "A",
+      "label": "Side punch control",
+      "target": "SIDE",
+      "sheet": "runtime/side-control-sheet.png",
+      "preview": "previews/side-control.gif",
+      "motionStrip": "previews/side-control-strip.png",
+      "frameCount": 31,
+      "fps": 30
+    },
+    {
+      "id": "torso-high",
+      "option": "B",
+      "label": "High punch \u00b7 torso rises",
+      "target": "HIGH",
+      "sheet": "runtime/torso-high-sheet.png",
+      "preview": "previews/torso-high.gif",
+      "motionStrip": "previews/torso-high-strip.png",
+      "frameCount": 31,
+      "fps": 30
+    },
+    {
+      "id": "torso-low",
+      "option": "C",
+      "label": "Low punch \u00b7 torso drops",
+      "target": "LOW",
+      "sheet": "runtime/torso-low-sheet.png",
+      "preview": "previews/torso-low.gif",
+      "motionStrip": "previews/torso-low-strip.png",
+      "frameCount": 31,
+      "fps": 30
+    }
+  ]
+}

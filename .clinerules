@@ -86,6 +86,7 @@ PlayScene (game runs here)
 | Environment | /systems/environment/ | DayNightCycle, WeatherSystem |
 | Lighting | /systems/lighting/ | LightSystem, ShaderSystem |
 | Combo | /systems/combo/ | ComboSystem, HitstopSystem |
+| Health | /systems/health/ | RuntimeCanarySystem, RuntimeCanaryReporter |
 
 <!-- Quick map is kept in sync with actual directory contents — update whenever systems are added/moved -->
 

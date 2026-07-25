@@ -1,0 +1,20 @@
+{
+  "version": "superman-pose-editor-v1-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "MINER_idle",
+    "idleFrame": 1
+  },
+  "action": "DG_SUPERMAN_POSE_IDLE_V1",
+  "controls": [
+    "CTRL_BODY_TILT",
+    "CTRL_LEAD_HAND",
+    "CTRL_TUCKED_HAND",
+    "CTRL_RIGHT_FOOT",
+    "CTRL_LEFT_FOOT"
+  ],
+  "policy": "review-only pose editing; never game-loaded without explicit approval"
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dig Game · 3D Mining World POC</title>
+  <style>
+    :root { color-scheme: dark; --bg:#060a10; --panel:#0b121b; --line:#23404e; --cyan:#70e5ef; --gold:#e0bd73; --text:#dce7ee; --muted:#8798a8; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 50% 0,#102331 0,var(--bg) 45%); color:var(--text); font-family:Inter,Segoe UI,sans-serif; }
+    main { width:min(1500px,96vw); margin:0 auto; padding:36px 0 70px; }
+    h1,h2 { margin:0; font-family:Georgia,serif; letter-spacing:.06em; }
+    h1 { color:var(--gold); font-size:clamp(2rem,4vw,4.2rem); }
+    h2 { margin:38px 0 14px; color:#eef6f8; }
+    p { color:var(--muted); max-width:1000px; line-height:1.55; }
+    .facts { display:flex; flex-wrap:wrap; gap:9px; margin:22px 0; }
+    .facts span { border:1px solid var(--line); border-radius:999px; padding:8px 13px; color:#b8c8d2; background:#081018; font-size:.82rem; letter-spacing:.08em; }
+    .warning { border-left:4px solid var(--gold); background:#151109; padding:16px 18px; color:#d8c89f; }
+    .hero, .card { border:1px solid var(--line); background:var(--panel); box-shadow:0 18px 50px #0008; }
+    .hero img, .card img { display:block; width:100%; height:auto; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:20px; }
+    .card figcaption { padding:15px 17px 18px; color:var(--muted); }
+    .card strong { display:block; color:var(--cyan); margin-bottom:5px; }
+    .decision { margin-top:26px; padding:22px; border:1px solid #315767; background:#08131b; }
+    code { color:var(--cyan); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Mining World 3D Bake POC</h1>
+  <p>This is the corrected comparison for Just Keep Digging. It tests front-facing 3D geometry baked into the existing 94px tile and 1280×720 background contracts.</p>
+  <div class="facts">
+    <span>SIDE VIEW</span><span>94PX PER TILE</span><span>0.8-TILE MINER</span><span>NO PHYSICS CHANGES</span><span>REVIEW ONLY</span>
+  </div>
+  <p class="warning"><strong>Meshy boundary:</strong> no provider/key was connected, so the POC uses locally generated Blender geometry. The import point is preserved: Meshy GLBs can replace the rock, ore, and crystal constructors without changing camera, scale, collision, or Phaser.</p>
+
+  <section class="hero"><img src="final/current-vs-3d-overview.png" alt="Current V11 mining runtime beside the side-view 3D-baked proof"></section>
+
+  <h2>Fair underground background comparison</h2>
+  <figure class="card"><img src="final/background-comparison.png" alt="Current active V11 depth background beside the same background with sparse 3D relief"><figcaption><strong>Same source art on both sides</strong>The hybrid keeps the current V11 depth chunk and adds only camera-correct rock silhouettes, crystals, and lighting. That isolates the value of the 3D tactic.</figcaption></figure>
+
+  <h2>Tiles at actual game scale</h2>
+  <div class="grid">
+    <figure class="card"><img src="final/tile-comparison.png" alt="Current dynamic soil tile atlas beside 3D-baked tile candidates"><figcaption><strong>Tile bake</strong>Active soil faces on beveled 3D slabs, with sparse relief and ore veins, downsampled to native 94px WebP candidates.</figcaption></figure>
+    <figure class="card"><img src="final/gameplay-candidate.png" alt="3D cave gameplay candidate with 94-pixel grid and production miner"><figcaption><strong>Gameplay frame</strong>The camera shows the same 13.6 × 7.7-tile area as the 1280×720 Phaser viewport.</figcaption></figure>
+  </div>
+
+  <h2>Background-only bake</h2>
+  <figure class="card"><img src="renders/cave-background-1280x720.png" alt="Player-free hybrid cave background bake"><figcaption><strong>Player-free layer</strong>The active V11 depth art remains intact while sparse 3D rocks, crystals, and light sit behind the authoritative tile grid.</figcaption></figure>
+
+  <div class="decision"><strong>POC result:</strong> the tactic is strongest for tile-edge relief, ore variants, and sparse cave landmarks. A full 3D background replacement is not justified by this pass; the current V11 depth art should stay as the style anchor.</div>
+</main>
+</body>
+</html>

@@ -4,12 +4,16 @@
  * Full persistence layer with localStorage and optional remote endpoint support.
  */
 import { SaveBackupManager } from "../../systems/save-system/SaveBackupManager.js";
+import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
 import { RESOURCE_ZERO_TOTALS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
+import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
+import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
 const LOCAL_STORAGE_KEY = "dig-game-dug-tiles-admin";
 const MAX_DUG_TILE_KEYS = 500000;
 const MAX_RUBBLE_TILES = 500000;
+const MAX_CAVE_SCENE_NODE_KEYS = 10000;
 const LEGACY_WORLD_WIDTH_TILES = 120;
 
 function sanitizeDugTileKeys(dugTileKeys) {
@@ -53,6 +57,38 @@ function sanitizeRubbleTiles(rubbleTiles) {
   return normalized;
 }
 
+export function sanitizeCaveSceneData(data) {
+  const collectedNodes = Array.isArray(data?.collectedNodes) ? data.collectedNodes : [];
+  const normalized = [];
+  const seen = new Set();
+  for (const key of collectedNodes) {
+    if (typeof key !== "string") continue;
+    const coordinateMatch = /^([a-z0-9][a-z0-9-]{0,63}):(\d{1,3}),(\d{1,3})$/i.exec(key);
+    const legacyMatch = /^([a-z0-9][a-z0-9-]{0,63}):(\d{1,2})$/i.exec(key);
+    const legacyNode = legacyMatch
+      ? CAVE_SCENE_CONFIG.rewards.nodeLayout[Number.parseInt(legacyMatch[2], 10)]
+      : null;
+    if (!coordinateMatch && !legacyNode) continue;
+    const caveId = coordinateMatch?.[1] || legacyMatch[1];
+    const tx = coordinateMatch ? Number.parseInt(coordinateMatch[2], 10) : legacyNode.tx;
+    const ty = coordinateMatch ? Number.parseInt(coordinateMatch[3], 10) : legacyNode.ty;
+    if (tx < 0 || ty < 0 || tx >= 1000 || ty >= 1000) continue;
+    const normalizedKey = `${caveId}:${tx},${ty}`;
+    if (seen.has(normalizedKey)) continue;
+    seen.add(normalizedKey);
+    normalized.push(normalizedKey);
+    if (normalized.length >= MAX_CAVE_SCENE_NODE_KEYS) break;
+  }
+  return { collectedNodes: normalized };
+}
+
+function sanitizeAncientRelicData(data) {
+  const count = Number.isFinite(data?.count) ? Math.floor(data.count) : 0;
+  return {
+    count: Math.max(0, Math.min(ANCIENT_RELIC_CONFIG.persistence.maxRelics, count)),
+  };
+}
+
 function normalizeDepthGateData(data) {
   const valid = new Set([100, 300, 1000]);
   const acceptedThresholds = Array.isArray(data?.acceptedThresholds)
@@ -67,10 +103,16 @@ function worldMatches(expectedWorld, candidateWorld) {
   if (!expectedWorld || !candidateWorld) return false;
   const widthMatches = expectedWorld.width === candidateWorld.width
     || (candidateWorld.width === LEGACY_WORLD_WIDTH_TILES && expectedWorld.width >= LEGACY_WORLD_WIDTH_TILES);
+  const expectedLayoutId = expectedWorld.layoutId || WORLD_GAMEPLAY_LAYOUT.id;
+  const candidateLayoutId = candidateWorld.layoutId || WORLD_GAMEPLAY_LAYOUT.id;
+  const expectedLayoutRevision = expectedWorld.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision;
+  const candidateLayoutRevision = candidateWorld.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision;
   return expectedWorld.seed === candidateWorld.seed
     && widthMatches
     && expectedWorld.depth === candidateWorld.depth
-    && expectedWorld.topAirRows === candidateWorld.topAirRows;
+    && expectedWorld.topAirRows === candidateWorld.topAirRows
+    && expectedLayoutId === candidateLayoutId
+    && expectedLayoutRevision === candidateLayoutRevision;
 }
 
 export class DugTilesSaveStore {
@@ -153,18 +195,18 @@ export class DugTilesSaveStore {
     return null;
   }
 
-  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null) {
-    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId);
-    this.saveToLocalStorage(payload);
+  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null) {
+    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId, caveSceneData, ancientRelicData);
+    const localSaved = this.saveToLocalStorage(payload);
+    if (!localSaved) return false;
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
-    if (!this.endpoint) return;
-    try { await this.saveToEndpoint(payload); }
-    catch (error) { console.warn('Failed to save to remote server:', error.message); }
+    if (!this.endpoint) return true;
+    return this.saveToEndpoint(payload);
   }
 
-  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null) {
+  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null) {
     return {
-      version: 4,
+      version: 7,
       updatedAt: new Date().toISOString(),
       playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
@@ -172,6 +214,8 @@ export class DugTilesSaveStore {
         width: worldIdentity.width,
         depth: worldIdentity.depth,
         topAirRows: worldIdentity.topAirRows,
+        layoutId: worldIdentity.layoutId || WORLD_GAMEPLAY_LAYOUT.id,
+        layoutRevision: worldIdentity.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision,
       },
       dugTiles: sanitizeDugTileKeys(dugTileKeys),
       rubbleTiles: sanitizeRubbleTiles(rubbleTiles),
@@ -181,6 +225,8 @@ export class DugTilesSaveStore {
       specialTileData: specialTileData || null,
       depthGateData: normalizeDepthGateData(depthGateData),
       dayNightData: dayNightData || null,
+      caveSceneData: sanitizeCaveSceneData(caveSceneData),
+      ancientRelicData: sanitizeAncientRelicData(ancientRelicData),
     };
   }
 
@@ -192,7 +238,16 @@ export class DugTilesSaveStore {
     return {
       version: Number.isInteger(payload.version) ? payload.version : 1,
       updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : null,
-      world: { seed: world.seed, width: world.width, depth: world.depth, topAirRows: world.topAirRows },
+      world: {
+        seed: world.seed,
+        width: world.width,
+        depth: world.depth,
+        topAirRows: world.topAirRows,
+        layoutId: typeof world.layoutId === "string" ? world.layoutId : WORLD_GAMEPLAY_LAYOUT.id,
+        layoutRevision: Number.isInteger(world.layoutRevision)
+          ? world.layoutRevision
+          : WORLD_GAMEPLAY_LAYOUT.revision,
+      },
       dugTiles: sanitizeDugTileKeys(payload.dugTiles),
       rubbleTiles: sanitizeRubbleTiles(payload.rubbleTiles),
       resources: sanitizeResourceTotals(payload.resources),
@@ -201,6 +256,8 @@ export class DugTilesSaveStore {
       specialTileData: payload.specialTileData || null,
       depthGateData: normalizeDepthGateData(payload.depthGateData),
       dayNightData: payload.dayNightData || null,
+      caveSceneData: sanitizeCaveSceneData(payload.caveSceneData),
+      ancientRelicData: sanitizeAncientRelicData(payload.ancientRelicData),
       playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }
@@ -213,8 +270,13 @@ export class DugTilesSaveStore {
   }
 
   saveToLocalStorage(payload) {
-    try { window.localStorage.setItem(this.localStorageKey, JSON.stringify(payload)); }
-    catch { /* ignore storage limits */ }
+    try {
+      window.localStorage.setItem(this.localStorageKey, JSON.stringify(payload));
+      return true;
+    } catch (error) {
+      console.warn('[DugTilesSaveStore] Local save failed:', error?.message || error);
+      return false;
+    }
   }
 
   async loadFromEndpoint() {
@@ -228,12 +290,20 @@ export class DugTilesSaveStore {
 
   async saveToEndpoint(payload) {
     try {
-      await fetch(this.endpoint, {
+      const response = await fetch(this.endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
-    } catch { /* silence */ }
+      if (!response.ok) {
+        console.warn(`[DugTilesSaveStore] Remote save failed: HTTP ${response.status}`);
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.warn('[DugTilesSaveStore] Remote save failed:', error?.message || error);
+      return false;
+    }
   }
 
   clearSave() {
@@ -247,7 +317,14 @@ export class DugTilesSaveStore {
       await fetch(this.endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ seed: worldIdentity.seed, width: worldIdentity.width, depth: worldIdentity.depth, topAirRows: worldIdentity.topAirRows }),
+        body: JSON.stringify({
+          seed: worldIdentity.seed,
+          width: worldIdentity.width,
+          depth: worldIdentity.depth,
+          topAirRows: worldIdentity.topAirRows,
+          layoutId: worldIdentity.layoutId || WORLD_GAMEPLAY_LAYOUT.id,
+          layoutRevision: worldIdentity.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision,
+        }),
       });
     } catch (error) { console.warn('Failed to clear remote save:', error.message); }
   }

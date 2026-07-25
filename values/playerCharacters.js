@@ -1,42 +1,51 @@
 export const PLAYER_CHARACTER_IDS = Object.freeze({
+  ualNative: "ualNative",
+  survivalUal: "survivalUal",
   legacy: "legacy",
   robot: "robot",
   drillHead: "drillHead",
 });
 
-export const DEFAULT_PLAYER_CHARACTER_ID = PLAYER_CHARACTER_IDS.robot;
+export const DEFAULT_PLAYER_CHARACTER_ID = PLAYER_CHARACTER_IDS.survivalUal;
+export const PLAYER_CHARACTER_QUERY_PARAM = "character";
 
-export const PLAYER_CHARACTER_OPTIONS = Object.freeze([
-  {
-    id: PLAYER_CHARACTER_IDS.legacy,
-    label: "Legacy",
-    title: "LEGACY MINER",
-    description: "Original miner animation set.",
-    accent: 0x6ecf87,
-  },
-  {
-    id: PLAYER_CHARACTER_IDS.robot,
-    label: "Robot",
-    title: "BOX ROBOT",
-    description: "Simple anchored robot animation set.",
-    accent: 0xd8a7ff,
-  },
-  {
-    id: PLAYER_CHARACTER_IDS.drillHead,
-    label: "Drill",
-    title: "LIVING DRILL",
-    description: "One-tile drill body. The whole sprite bites into blocks.",
-    accent: 0xf0c56a,
-  },
+const SELECTABLE_PLAYER_CHARACTER_IDS = new Set([
+  PLAYER_CHARACTER_IDS.ualNative,
+  PLAYER_CHARACTER_IDS.survivalUal,
+  PLAYER_CHARACTER_IDS.robot,
+  PLAYER_CHARACTER_IDS.drillHead,
+  PLAYER_CHARACTER_IDS.legacy,
 ]);
 
-const PLAYER_CHARACTER_ID_SET = new Set(PLAYER_CHARACTER_OPTIONS.map(option => option.id));
-
 export function normalizePlayerCharacterId(value) {
-  return PLAYER_CHARACTER_ID_SET.has(value) ? value : DEFAULT_PLAYER_CHARACTER_ID;
+  if (
+    value === PLAYER_CHARACTER_IDS.robot
+    || value === PLAYER_CHARACTER_IDS.drillHead
+    || value === PLAYER_CHARACTER_IDS.survivalUal
+  ) {
+    return value;
+  }
+  if (value === PLAYER_CHARACTER_IDS.ualNative || value === PLAYER_CHARACTER_IDS.legacy) {
+    return PLAYER_CHARACTER_IDS.ualNative;
+  }
+  return DEFAULT_PLAYER_CHARACTER_ID;
 }
 
-export function getPlayerCharacterProfile(value) {
-  const id = normalizePlayerCharacterId(value);
-  return PLAYER_CHARACTER_OPTIONS.find(option => option.id === id) || PLAYER_CHARACTER_OPTIONS[0];
+export function resolvePersistedPlayerCharacterId(value) {
+  if (value === null || value === undefined) return null;
+  if (value === PLAYER_CHARACTER_IDS.ualNative || value === PLAYER_CHARACTER_IDS.legacy) {
+    return DEFAULT_PLAYER_CHARACTER_ID;
+  }
+  return normalizePlayerCharacterId(value);
+}
+
+export function resolvePlayerCharacterIdFromSearch(search = "") {
+  try {
+    const value = new URLSearchParams(search).get(PLAYER_CHARACTER_QUERY_PARAM);
+    return SELECTABLE_PLAYER_CHARACTER_IDS.has(value)
+      ? normalizePlayerCharacterId(value)
+      : null;
+  } catch {
+    return null;
+  }
 }

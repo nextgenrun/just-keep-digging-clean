@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "profileId": "dig-game-scenic-ortho-v1",
+  "blenderVersion": "5.1.x",
+  "tileSizePx": 94,
+  "referenceViewport": {
+    "widthPx": 1280,
+    "heightPx": 720
+  },
+  "masterScale": 2,
+  "masterViewport": {
+    "widthPx": 2560,
+    "heightPx": 1440
+  },
+  "camera": {
+    "projection": "ORTHO",
+    "location": [0.0, -14.0, 0.0],
+    "target": [0.0, 0.0, 0.0],
+    "orthoHeightWorldUnits": 7.659574468085107,
+    "clipStart": 0.1,
+    "clipEnd": 200.0
+  },
+  "axes": {
+    "screenRight": "+X",
+    "screenUp": "+Z",
+    "cameraDepth": "+Y"
+  },
+  "normalization": {
+    "origin": "bottom-center",
+    "scaleFromManifest": ["heightTiles", "widthTiles"]
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE",
+    "filmTransparent": true,
+    "fileFormat": "PNG",
+    "colorDepth": "16",
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast"
+  },
+  "promotionRules": {
+    "optionalNeutralPasses": []
+  },
+  "passes": ["beauty", "albedo", "normal", "depth", "ao", "emissive"]
+}

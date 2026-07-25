@@ -56,7 +56,10 @@ export const WEATHER_CONFIG = Object.freeze({
   },
 
   surfaceLandingMask: {
-    enabled: true,
+    // The v11 surface is one continuous outdoor space. Real TMX/world-model
+    // solids now own rain landing; the old 120-column indoor-town mask must
+    // not shelter or recolour any part of the surface.
+    enabled: false,
     tileWidth: 120,
     tileHeight: 130,
     maxSurfaceTileY: 130,
@@ -89,25 +92,7 @@ export const WEATHER_CONFIG = Object.freeze({
     lineAlpha: 0.34,
   },
 
-  visualCovers: Object.freeze([
-    Object.freeze({
-      kind: "townRoof",
-      startTileX: 1,
-      endTileOffsetFromSpawn: 40,
-      yTilesAboveFloor: 5.85,
-      heightTiles: 1.22,
-    }),
-    Object.freeze({ kind: "cover", xTile: 4.95, yTile: 62.68, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 11.54, yTile: 62.58, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 18.16, yTile: 62.65, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 24.55, yTile: 62.63, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 31.22, yTile: 62.54, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 36.63, yTile: 62.57, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 43.46, yTile: 62.66, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 50.27, yTile: 62.65, widthTiles: 7.41, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 61.91, yTile: 62.68, widthTiles: 6.57, heightTiles: 0.74 }),
-    Object.freeze({ kind: "cover", xTile: 111.02, yTile: 60.68, widthTiles: 8.27, heightTiles: 0.84 }),
-  ]),
+  visualCovers: Object.freeze([]),
 
   gusts: {
     drizzleMax: 28,
@@ -266,7 +251,11 @@ export const WEATHER_CONFIG = Object.freeze({
   },
 
   lighting: {
+    // Legacy receives a weather-owned night grade. Scenic plates already carry
+    // authored moonlight and are graded by DayNightCycle/LightSystem, so adding
+    // the same pass again crushes benchmark shadow detail.
     nightAlpha: 0.12,
+    scenicNightAlpha: 0,
     rainAlpha: 0.07,
     stormAlpha: 0.09,
     undergroundAlpha: 0.06,
@@ -275,6 +264,43 @@ export const WEATHER_CONFIG = Object.freeze({
     stormTint: 0x0b1830,
     nightTint: 0x0a0e1a,
     caveTint: 0x101a24,
+  },
+
+  // Weather owns atmospheric attenuation; DayNightCycle still owns the sun
+  // arc and time-of-day brightness. Each range is [phase entry, phase peak].
+  sunlight: {
+    responsePerSecond: 0.72,
+    defaultTint: 0xffffff,
+    profiles: {
+      clear: {
+        cloudCoverAmount: [0.00, 0.00],
+        sunTransmittance: [1.00, 1.00],
+        fogAmount: [0.00, 0.00],
+        sunTint: [0xffffff, 0xffffff],
+        sunExposure: [1.00, 1.00],
+      },
+      drizzle: {
+        cloudCoverAmount: [0.24, 0.43],
+        sunTransmittance: [0.92, 0.82],
+        fogAmount: [0.02, 0.07],
+        sunTint: [0xe0eff8, 0xcfe5f3],
+        sunExposure: [0.98, 0.94],
+      },
+      rain: {
+        cloudCoverAmount: [0.48, 0.76],
+        sunTransmittance: [0.75, 0.55],
+        fogAmount: [0.08, 0.16],
+        sunTint: [0xb9d5e8, 0x91b6d1],
+        sunExposure: [0.92, 0.80],
+      },
+      storm: {
+        cloudCoverAmount: [0.78, 0.98],
+        sunTransmittance: [0.48, 0.20],
+        fogAmount: [0.15, 0.26],
+        sunTint: [0x7f9fbd, 0x556f91],
+        sunExposure: [0.82, 0.58],
+      },
+    },
   },
 
   lightning: {

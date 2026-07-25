@@ -1,9 +1,9 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton } from "../PhaserUiKit.js";
 import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
-import { transitionTo, fadeInOnStart } from "./SceneTransition.js";
 
 const COL = {
   bg:        UI_COLORS.bg,
@@ -12,9 +12,9 @@ const COL = {
   borderDim: UI_COLORS.borderDim,
   borderHov: UI_COLORS.borderHov,
   title:     UI_COLORS.title,
-  dim:       '#4a5a6a',
-  hint:      '#5a7a8a',
-  version:   '#2a3a4a',
+  dim:       UI_COLORS.dim,
+  hint:      UI_COLORS.hint,
+  version:   UI_COLORS.dim,
   white:     UI_COLORS.white,
   body:      UI_COLORS.body,
 };
@@ -74,13 +74,13 @@ export class MainMenuScene extends Phaser.Scene {
 
     // ── Separator + tagline ─────────────────────────────────────────────────
     const sep1 = this.add.graphics();
-    sep1.lineStyle(1, 0x3a4f62, 0.8);
+    sep1.lineStyle(1, UI_COLORS.borderSel, 0.72);
     sep1.lineBetween(220, 238, W - 220, 238);
     sep1.setAlpha(0);
     this._fadeInObjs.push(sep1);
 
     const tagline = this.add.text(W / 2, 266, 'dig deep.  grow stronger.  keep going.', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize:   '14px',
       color:      COL.hint,
       letterSpacing: 1,
@@ -101,27 +101,27 @@ export class MainMenuScene extends Phaser.Scene {
 
     // Keyboard cursor — thin accent bar on the left of buttons
     this._cursor = this.add.rectangle(
-      BTN_X - BTN_W / 2 - 8, BTN_FIRST_Y, 3, Math.round(BTN_H * 0.65), 0xffffff
+      BTN_X - BTN_W / 2 - 8, BTN_FIRST_Y, 3, Math.round(BTN_H * 0.65), UI_COLORS.gold
     );
     this._cursor.setAlpha(0);
     this._fadeInObjs.push(this._cursor);
 
     // ── Bottom bar ───────────────────────────────────────────────────────────
     const sep2 = this.add.graphics();
-    sep2.lineStyle(1, 0x2a3a4a, 0.8);
+    sep2.lineStyle(1, UI_COLORS.borderDim, 0.8);
     sep2.lineBetween(80, H - 80, W - 80, H - 80);
     sep2.setAlpha(0);
     this._fadeInObjs.push(sep2);
 
     const hintBar = this.add.text(W / 2, H - 54, 'WASD / ↑↓: move     ENTER / SPACE: confirm     ESC / BACKSPACE: return', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize:   '13px',
       color:      COL.hint,
     }).setOrigin(0.5).setAlpha(0);
     this._fadeInObjs.push(hintBar);
 
     this.add.text(W - 14, H - 10, 'v0.1-alpha', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize:   '11px',
       color:      COL.version,
     }).setOrigin(1, 1);
@@ -166,7 +166,7 @@ export class MainMenuScene extends Phaser.Scene {
 
     // Label
     const text = this.add.text(x, y, label, {
-      fontFamily:    'Consolas, monospace',
+      fontFamily:    UI_FONTS.mono,
       fontSize:      '16px',
       fontStyle:     'bold',
       color:         COL.white,
@@ -267,13 +267,13 @@ export class MainMenuScene extends Phaser.Scene {
     const shade = this.add.rectangle(cx, cy, W, H, 0x000000, 0).setDepth(100);
 
     const panel = this.add.graphics().setDepth(101).setAlpha(0);
-    panel.lineStyle(2, COL.borderHov, 1);
-    panel.fillStyle(0x0d1117, 1);
+    panel.lineStyle(2, UI_COLORS.borderSel, 1);
+    panel.fillStyle(UI_COLORS.bg, 1);
     panel.fillRoundedRect(cx - PW / 2, cy - PH / 2, PW, PH, 8);
     panel.strokeRoundedRect(cx - PW / 2, cy - PH / 2, PW, PH, 8);
 
     const titleText = this.add.text(cx, cy - PH / 2 + 36, title, {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
+      fontFamily: UI_FONTS.display,
       fontSize:   '22px',
       fontStyle:  'bold',
       color:      COL.title,
@@ -285,7 +285,7 @@ export class MainMenuScene extends Phaser.Scene {
     sep.lineBetween(cx - PW / 2 + 30, cy - PH / 2 + 62, cx + PW / 2 - 30, cy - PH / 2 + 62);
 
     const closeHint = this.add.text(cx, cy + PH / 2 - 24, 'ESC — close', {
-      fontFamily: 'Consolas, monospace',
+      fontFamily: UI_FONTS.mono,
       fontSize:   '13px',
       color:      COL.hint,
     }).setOrigin(0.5).setDepth(102).setAlpha(0);
@@ -387,7 +387,7 @@ export class MainMenuScene extends Phaser.Scene {
       '',
       'v0.1-alpha',
     ].join('\n'), {
-      fontFamily:  'Consolas, monospace',
+      fontFamily:  UI_FONTS.mono,
       fontSize:    '15px',
       color:       COL.body,
       lineSpacing: 8,
@@ -399,3 +399,4 @@ export class MainMenuScene extends Phaser.Scene {
     this._overlay = { objs: [base.shade, base.panel, base.titleText, base.sep, base.closeHint, base.closeBtn.root, body] };
   }
 }
+

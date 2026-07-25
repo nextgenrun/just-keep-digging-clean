@@ -8,6 +8,11 @@ import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
+import {
+  resolveUalActionContact,
+  UAL_NATIVE_ACTION_TUNING,
+} from "../../values/ualNativeActionTuning.js";
+import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
 
 function hasEscapeClosableOverlay(scene) {
   return Boolean(
@@ -25,6 +30,14 @@ function syncProgressionGemPowerMax(scene) {
   const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
   const milestoneBonus = scene.milestoneBoardSystem?.getBonuses?.()?.gpMaxBonus ?? 0;
   scene.playerController?.setProgressionGemPowerMaxBonus?.(levelBonus + milestoneBonus);
+}
+
+function resolveLiveContactDirection(scene, targetTile) {
+  return resolvePlayerTargetDirection(
+    scene.playerController?.physicsBody,
+    scene.config?.tileSize,
+    targetTile,
+  );
 }
 
 function _handleLevelUpResult(scene, result) {
@@ -48,6 +61,217 @@ function _handleLevelUpResult(scene, result) {
   scene.levelUpPopup.show(level, hasChoice, rewards);
 }
 
+function handleQuickslashMineResult(scene, result, targetTile, tileType) {
+  if (!result || result.reason === "cooldown" || !targetTile) return;
+  scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
+  scene.flushPendingDigImpactFeedback?.();
+  if (!result.success) return;
+
+  if (result.heavyPunchHit && result.heavyPunchTile && scene.floatingTextSystem) {
+    const worldX = result.heavyPunchTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+    const worldY = result.heavyPunchTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+    scene.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
+  }
+  if (result.behindDestroyed) scene.queueDugTilesSave?.();
+  if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
+    scene.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+      resourceType: result.behindResourceType,
+      amount: result.behindResourceAmount,
+      isLuckyDrop: result.behindIsLuckyDrop,
+    });
+  }
+  if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
+    const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+    const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+    scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
+  }
+  if (result.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, result);
+}
+
+function handleNormalMineResult(scene, result, targetTile, tileType, { flushContactFeedback = true } = {}) {
+  if (!result || result.reason === "cooldown" || !targetTile) return;
+  if (flushContactFeedback) {
+    scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
+    scene.flushPendingDigImpactFeedback?.();
+  }
+
+  if (result.success) {
+    if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
+      const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+      const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+      scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
+    }
+    if (result.heavyPunchHit && result.heavyPunchTile && scene.floatingTextSystem) {
+      const worldX = result.heavyPunchTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+      const worldY = result.heavyPunchTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+      scene.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
+    }
+    if (result.destroyed) {
+      scene.queueDugTilesSave?.();
+      if (scene.floatingTextSystem && result.resourceType) {
+        const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+        const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+        const resourceLabel = getResourceDisplayName(result.resourceType);
+        const resourceColor = RESOURCE_COLORS[result.resourceType] || "#8B4513";
+        scene.floatingTextSystem.showResource(worldX, worldY, resourceLabel, resourceColor, result.resourceAmount);
+      }
+      if (result.isCriticalHit && scene.floatingTextSystem) {
+        const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+        const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+        const damage = scene.digSystem._getDamage(5, tileType) * scene.playerLevelSystem.getCriticalHitDamageMultiplier();
+        scene.floatingTextSystem.showCriticalHit(worldX, worldY, damage, 1.5);
+      }
+      if (result.isLuckyDrop && scene.floatingTextSystem) {
+        const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+        const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+        scene.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
+      }
+    }
+    if (result.behindDestroyed) scene.queueDugTilesSave?.();
+    if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
+      scene.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+        resourceType: result.behindResourceType,
+        amount: result.behindResourceAmount,
+        isLuckyDrop: result.behindIsLuckyDrop,
+      });
+    }
+  }
+
+  const refreshedAim = scene.inputHandler.resolveAimTargetTile();
+  scene.inputHandler.updateAimBox(refreshedAim, scene.inputHandler.isSolidAimTarget(refreshedAim));
+  if (result.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, result);
+}
+
+function finishThunderStrikeVisual(scene) {
+  scene.ualActionContactTimeline?.cancel();
+  scene.playerRigContact?.endAction();
+  scene._thunderStrikeAnimating = false;
+  scene._thunderStrikePhase = null;
+  scene._thunderStrikeHoldUntil = null;
+  scene.player.anims.timeScale = 1;
+  scene.player.setFlipX(
+    typeof scene._thunderStrikeFacingFlipX === "boolean"
+      ? scene._thunderStrikeFacingFlipX
+      : !scene.playerController.isFacingRight(),
+  );
+  scene._thunderStrikeFacingFlipX = null;
+  scene.pickaxeTrailSystem?.stop();
+  scene.isDigAnimating = false;
+  scene.updatePlayerVisualState(true);
+}
+
+function handleThunderStrikeResult(scene, strikeResult, now) {
+  if (!strikeResult?.success) return false;
+
+  const playerTile = scene.playerController.getPlayerTile();
+  if (!playerTile || playerTile.tx === undefined || playerTile.ty === undefined) {
+    scene.soundSystem?.playTileBreak();
+    return true;
+  }
+  if (!Array.isArray(strikeResult.results) || strikeResult.results.length === 0) return true;
+
+  const startX = playerTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+  const startY = playerTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+  const bottomResult = strikeResult.results[strikeResult.results.length - 1];
+  const endY = bottomResult.ty * scene.config.tileSize + scene.config.tileSize / 2;
+  scene.floatingTextSystem?.showThunderStrikeLightning(
+    scene.player.x,
+    scene.player.y,
+    startX,
+    startY,
+    endY,
+    scene.config.tileSize,
+  );
+
+  strikeResult.results.forEach((result) => {
+    scene.worldRenderer.applyTileUpdate(result.tx, result.ty);
+    if (scene.floatingTextSystem) {
+      const worldX = result.tx * scene.config.tileSize + scene.config.tileSize / 2;
+      const worldY = result.ty * scene.config.tileSize + scene.config.tileSize / 2;
+      scene.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.damage);
+    }
+    if (!result.destroyed) return;
+    if (result.breachedBedrock) {
+      scene.queueDugTilesSave?.();
+      return;
+    }
+
+    const reward = scene.digSystem.processDestroyedTile(
+      result.tx,
+      result.ty,
+      result.tileType,
+      now,
+      false,
+      result.wasRubble,
+    );
+    scene.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
+    if (reward.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, reward);
+    scene.queueDugTilesSave?.();
+  });
+  scene.soundSystem?.playTileBreak();
+  return true;
+}
+
+function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOverride = null) {
+  const aimDirection = aimDirectionOverride || scene.playerController.getAimLabel();
+  const targets = scene.arcCoreVehicleSystem.resolveDigTargets(aimTargetTile, aimDirection);
+  const areaResult = scene.digSystem.tryMineArea(targets, time, aimDirection, abilities);
+  if (areaResult.reason === "cooldown") return areaResult;
+
+  scene.arcCoreVehicleSystem.playDigPulse(targets);
+  let audioPlayed = false;
+  let shouldSave = false;
+  let blockedBedrockHit = null;
+
+  for (const hit of areaResult.hits) {
+    const result = hit.result;
+    if (!result?.success) {
+      if (!blockedBedrockHit && result?.blockedByBedrock) blockedBedrockHit = hit;
+      continue;
+    }
+    const targetTile = { tx: hit.tx, ty: hit.ty };
+    scene.playMineImpactFx(targetTile, result.destroyed);
+    if (!audioPlayed) {
+      scene.playMineFeedbackAudio(result, hit.tileType);
+      audioPlayed = true;
+    }
+    scene.applyMineFeedback(result, targetTile);
+
+    const worldX = hit.tx * scene.config.tileSize + scene.config.tileSize / 2;
+    const worldY = hit.ty * scene.config.tileSize + scene.config.tileSize / 2;
+    if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
+      scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
+    }
+    if (result.destroyed) {
+      shouldSave = true;
+      if (result.resourceType && scene.floatingTextSystem) {
+        const label = getResourceDisplayName(result.resourceType);
+        const color = RESOURCE_COLORS[result.resourceType] || "#FFB347";
+        scene.floatingTextSystem.showResource(worldX, worldY, label, color, result.resourceAmount);
+      }
+      if (result.isCriticalHit && scene.floatingTextSystem) {
+        scene.floatingTextSystem.showCriticalHit(worldX, worldY, result.damage, 1.5);
+      }
+      if (result.isLuckyDrop && scene.floatingTextSystem) {
+        scene.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
+      }
+    }
+  }
+
+  if (blockedBedrockHit) {
+    const result = blockedBedrockHit.result;
+    const targetTile = { tx: blockedBedrockHit.tx, ty: blockedBedrockHit.ty };
+    if (!audioPlayed) scene.playMineFeedbackAudio(result, blockedBedrockHit.tileType);
+    scene.applyMineFeedback(result, targetTile);
+  }
+
+  if (shouldSave) scene.queueDugTilesSave?.();
+  if (areaResult.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, areaResult);
+  const refreshedAim = scene.inputHandler.resolveAimTargetTile();
+  scene.inputHandler.updateAimBox(refreshedAim, scene.inputHandler.isSolidAimTarget(refreshedAim));
+  return areaResult;
+}
+
 /**
  * Main update loop - called from PlayScene.update()
  * @param {number} time - Current time
@@ -56,6 +280,8 @@ function _handleLevelUpResult(scene, result) {
 export function updateScene(time, delta) {
   // Safety guard: if setup hasn't completed, skip update
   if (!this.gameInputHandler) return;
+
+  this.worldBackgroundMasterSystem?.update();
 
   // 0. Handle global input (works in any state, including during popups)
   if (this.gameInputHandler.handleGlobalInput()) {
@@ -152,6 +378,7 @@ function _updateSystems(time, delta, keys) {
   // PlayerState.getPlayerTile() calculates the body's center and returns a new
   // tile object, so repeated calls here add avoidable work and allocations.
   const playerTile = this.playerController?.getPlayerTile?.() ?? null;
+  this.worldRenderer?.updateRenderWindow?.(playerTile);
 
   // Update XP progress bar
   if (this.xpProgressBar && this.playerLevelSystem) {
@@ -192,6 +419,12 @@ function _updateSystems(time, delta, keys) {
   if (this.weatherSystem) {
     this.weatherSystem.update(time, delta);
   }
+  this.worldRenderer?.update?.(time, delta, { playerTile });
+  this.backgroundRenderer?.updateUniverseSky();
+  this.startZoneScenicBackgroundSystem?.update();
+  this.levelOneGroundFacadeSystem?.update(time);
+  this.startZoneGroundFacadeSystem?.update(time);
+  this.worldScenicFacadeSystem?.update(time, delta);
 
   if (this.lightSystem && playerTile) {
     const lightDepth = Math.max(0, playerTile.ty - this.config.topAirRows + 1)
@@ -209,6 +442,10 @@ function _updateSystems(time, delta, keys) {
   if (this.atmosphereSystem) {
     this.atmosphereSystem.update(time, delta);
   }
+
+  this.worldBackgroundAmbientMotionSystem?.update(time, delta);
+  this.levelOneLivingBackdropSystem?.update(time, delta);
+  this.deepWorldLivingBackdropSystem?.update(time, delta);
 
 
     // Update sky tile glow effects (always active)
@@ -248,6 +485,8 @@ function _updatePlayingState(time, delta, keys) {
   if (this.depthGateSystem?.update()) return;
 
   this.earthquakeSystem?.update(delta);
+  this.earthquakeFeedbackUI?.update();
+  this.earthquakeHazardOverlay?.update();
 
   // Get player tile early (needed for campfire proximity check)
   let playerTile = null;
@@ -267,13 +506,21 @@ function _updatePlayingState(time, delta, keys) {
 
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
+  this.playerKinematicMotion?.samplePhysics(delta);
+  this.playerRigContact?.update(delta);
+
+  playerTile = this.playerController.getPlayerTile();
+  const arcCoreConsumedInteraction = this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
   
   // NPC interaction
-  this.npcManager.checkNPCInteraction();
+  if (!arcCoreConsumedInteraction) this.npcManager.checkNPCInteraction();
   
   // Update NPC interact prompts (floating "Press E" text visibility)
-  playerTile = this.playerController.getPlayerTile();
   this.npcManager.updateInteractPrompts(playerTile);
+
+  // Integrated caves stay in PlayScene. Only explicit compact review mouths
+  // open CaveScene; geodes always remain in the authoritative world.
+  if (!arcCoreConsumedInteraction && this.caveEntryController?.update(playerTile, keys)) return;
 
     // Special tile system (gamble and teleport tiles)
     this.specialTileSystem.update();
@@ -292,172 +539,131 @@ function _updatePlayingState(time, delta, keys) {
   // Mining
   const abilities = this.playerController.abilities;
   const isQuickslashActive = abilities && abilities.isQuickslashActive && abilities.isQuickslashActive();
+  const arcCoreActive = this.arcCoreVehicleSystem?.isActive?.() === true;
   
   // Track previous quickslash state to detect when Q is released
   const wasQuickslashActive = this._wasQuickslashActive || false;
   this._wasQuickslashActive = isQuickslashActive;
   
-  // Quickslash: auto-trigger attacks when Q is held
-  if (isQuickslashActive) {
+  // Quickslash: one native action owns one GP cost, one contact, and one hit.
+  if (isQuickslashActive && !this._teleportInAnimating) {
     const quickslashDir = abilities.getQuickslashDirection();
-    
-    // Determine aim label based on quickslash direction
-    const quickslashAim = quickslashDir === 1 ? "RIGHT" : "LEFT";
-    const quickslashTarget = {
-      tx: playerTile.tx + quickslashDir,
-      ty: playerTile.ty
-    };
-    const tileType = this.worldModel.getTileType(quickslashTarget.tx, quickslashTarget.ty);
-    
-    const result = this.digSystem.tryMine(quickslashTarget, time, quickslashAim, abilities);
-    
-    if (result.reason !== "cooldown") {
-      // Play quickslash attack animation
-      const quickslashProfile = this.playerAssetProfile || ASSET_KEYS.player;
-      const quickslashAnimKey = quickslashProfile.quickslashAnim || ASSET_KEYS.player.quickslashAnim;
-      this.isDigAnimating = true;
-      const flipX = quickslashDir < 0;
-      this._actionFlipX = flipX;
-      this.player.setFlipX(flipX);
-      this.player.play(quickslashAnimKey, true);
-      // Keep sprite size consistent with other character animations
-      const quickslashDisplaySize = quickslashProfile.displaySizePx || this.config.playerDisplaySizePx;
-      this.player.setDisplaySize(quickslashDisplaySize, quickslashDisplaySize);
-      
-      // Scale animation speed to match quickslash speed - DISABLED for visibility
-      if (this._gamefeelConfig && this.digSystem) {
-        // Keep animation at normal speed while keeping mining effect fast
-        this.player.anims.timeScale = 1;
-      }
-      
-      // Start pickaxe trail
-      this.pickaxeTrailSystem?.start();
-    }
-    
-      if (result.success) {
-      this.playMineImpactFx(quickslashTarget, result.destroyed);
-      this.playMineFeedbackAudio(result, tileType);
-      this.applyMineFeedback(result, quickslashTarget);
-      if (result.heavyPunchHit && result.heavyPunchTile && this.floatingTextSystem) {
-        const worldX = result.heavyPunchTile.tx * this.config.tileSize + this.config.tileSize / 2;
-        const worldY = result.heavyPunchTile.ty * this.config.tileSize + this.config.tileSize / 2;
-        this.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
-      }
+    const quickslashAim = quickslashDir > 0 ? "RIGHT" : "LEFT";
+    const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
+      x: quickslashDir,
+      y: 0,
+    });
+    const quickslashCommittedDirection = resolvePlayerTargetDirection(
+      this.playerController?.physicsBody,
+      this.config.tileSize,
+      quickslashTarget,
+    );
 
-      if (result.behindDestroyed) {
-        this.queueDugTilesSave?.();
-      }
-
-      if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
-        this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
-          resourceType: result.behindResourceType,
-          amount: result.behindResourceAmount,
-          isLuckyDrop: result.behindIsLuckyDrop,
-        });
-      }
-      
-      // Show damage number for quickslash hit
-      if (this.floatingTextSystem && result.frontDamageApplied !== false) {
-        const worldX = quickslashTarget.tx * this.config.tileSize + this.config.tileSize / 2;
-        const worldY = quickslashTarget.ty * this.config.tileSize + this.config.tileSize / 2;
-        this.floatingTextSystem.showDamage(worldX, worldY, result.damage);
-      }
-      
-      // Handle level up events from quickslash (same as normal mining)
-      if (result.levelUp && this.levelUpPopup) {
-        _handleLevelUpResult(this, result);
-      }
+    if (arcCoreActive) {
+      handleArcCoreMine(this, quickslashTarget, time, abilities, quickslashAim);
+    } else if (
+      !this.isDigAnimating
+      && quickslashTarget
+    ) {
+      const profile = this.playerAssetProfile || ASSET_KEYS.player;
+      const tileType = this.worldModel.getTileType(quickslashTarget.tx, quickslashTarget.ty);
+      this.startDigAnimation({
+        targetTile: quickslashTarget,
+        tileType,
+        actionKind: "quickslash",
+        animationKeyOverride: profile.quickslashAnim || ASSET_KEYS.player.quickslashAnim,
+        onContact: (contactEvent) => {
+          const now = contactEvent?.now ?? this.time?.now ?? time;
+          const contactDirection = quickslashCommittedDirection
+            || resolveLiveContactDirection(this, quickslashTarget);
+          if (!contactDirection) return;
+          this._lastPlayerRigContactValidation = this.playerRigContact?.validateContact({
+            targetTile: quickslashTarget,
+            direction: contactDirection,
+          });
+          const result = this.digSystem.tryMine(
+            quickslashTarget,
+            now,
+            contactDirection.aimLabel || quickslashAim,
+            abilities,
+            { actionStartedAtMs: time },
+          );
+          handleQuickslashMineResult(this, result, quickslashTarget, tileType);
+        },
+      });
     }
   }
-  
-  // Reset to normal state when Q is released
-  if (wasQuickslashActive && !isQuickslashActive) {
-    this.isDigAnimating = false;
+
+  // Releasing Q never cuts a committed native contact/recovery short.
+  if (wasQuickslashActive && !isQuickslashActive && !this.isDigAnimating) {
     this.updatePlayerVisualState(true);
     this._actionFlipX = null;
   }
-  
+
   // Normal mining (F key)
-  if (this.playerController.consumeMineInput() && !isQuickslashActive) {
-    const mineAttempt = this.prepareLivingDrillMineAttempt?.(aimTargetTile) || { allow: true, targetTile: aimTargetTile };
-    if (mineAttempt.allow) {
-      const mineTargetTile = mineAttempt.targetTile;
-      const tileType = mineTargetTile ? this.worldModel.getTileType(mineTargetTile.tx, mineTargetTile.ty) : null;
-      const result = this.digSystem.tryMine(mineTargetTile, time, this.playerController.getAimLabel(), abilities);
+  if (!this._teleportInAnimating && this.playerController.consumeMineInput() && !isQuickslashActive) {
+    if (arcCoreActive) {
+      handleArcCoreMine(this, aimTargetTile, time, abilities);
+    } else {
+      const mineAttempt = this.prepareLivingDrillMineAttempt?.(aimTargetTile)
+        || { allow: true, targetTile: aimTargetTile };
+      if (mineAttempt.allow) {
+        const mineTargetTile = mineAttempt.targetTile;
+        const tileType = mineTargetTile
+          ? this.worldModel.getTileType(mineTargetTile.tx, mineTargetTile.ty)
+          : null;
+        const committedDirection = resolvePlayerTargetDirection(
+          this.playerController?.physicsBody,
+          this.config.tileSize,
+          mineTargetTile,
+        );
+        const resolvedAim = committedDirection?.aimLabel || this.playerController.getAimLabel();
+        const profile = this.playerAssetProfile || ASSET_KEYS.player;
 
-      if (result.reason !== "cooldown") {
-        this.startDigAnimation({ result, targetTile: mineTargetTile, tileType });
-      }
-
-      if (result.success) {
-      // Show damage number for every successful hit
-      if (this.floatingTextSystem && result.frontDamageApplied !== false) {
-        const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-        const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-        
-        // Show damage number
-        this.floatingTextSystem.showDamage(worldX, worldY, result.damage);
-      }
-
-      if (result.heavyPunchHit && result.heavyPunchTile && this.floatingTextSystem) {
-        const worldX = result.heavyPunchTile.tx * this.config.tileSize + this.config.tileSize / 2;
-        const worldY = result.heavyPunchTile.ty * this.config.tileSize + this.config.tileSize / 2;
-        this.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
-      }
-      
-      if (result.destroyed) {
-        this.queueDugTilesSave();
-        
-        // Show resource collection text
-        if (this.floatingTextSystem && result.resourceType) {
-          const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-          const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-          const resourceLabel = getResourceDisplayName(result.resourceType);
-          const resourceColor = RESOURCE_COLORS[result.resourceType] || '#8B4513';
-          this.floatingTextSystem.showResource(worldX, worldY, resourceLabel, resourceColor, result.resourceAmount);
+        if (profile.isUalNative) {
+          if (
+            !this.isDigAnimating
+            && mineTargetTile
+          ) {
+            this.startDigAnimation({
+              targetTile: mineTargetTile,
+              tileType,
+              actionKind: "normal",
+              onContact: (contactEvent) => {
+                const now = contactEvent?.now ?? this.time?.now ?? time;
+                const contactDirection = committedDirection
+                  || resolveLiveContactDirection(this, mineTargetTile);
+                if (!contactDirection) return;
+                this._lastPlayerRigContactValidation = this.playerRigContact?.validateContact({
+                  targetTile: mineTargetTile,
+                  direction: contactDirection,
+                });
+                const result = this.digSystem.tryMine(
+                  mineTargetTile,
+                  now,
+                  contactDirection.aimLabel || resolvedAim,
+                  abilities,
+                  { actionStartedAtMs: time },
+                );
+                handleNormalMineResult(this, result, mineTargetTile, tileType);
+              },
+            });
+          }
+        } else {
+          const result = this.digSystem.tryMine(mineTargetTile, time, resolvedAim, abilities);
+          if (result.reason !== "cooldown") {
+            this.startDigAnimation({ result, targetTile: mineTargetTile, tileType });
+          }
+          handleNormalMineResult(this, result, mineTargetTile, tileType, {
+            flushContactFeedback: false,
+          });
         }
-
-        // Visual feedback for critical hits
-        if (result.isCriticalHit && this.floatingTextSystem) {
-          const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-          const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-          const damage = this.digSystem._getDamage(5, tileType) * this.playerLevelSystem.getCriticalHitDamageMultiplier();
-          this.floatingTextSystem.showCriticalHit(worldX, worldY, damage, 1.5);
-        }
-        
-        // Visual feedback for resource luck
-        if (result.isLuckyDrop && this.floatingTextSystem) {
-          const worldX = mineTargetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-          const worldY = mineTargetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-          this.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
-        }
-      }
-
-      if (result.behindDestroyed) {
-        this.queueDugTilesSave();
-      }
-
-      if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
-        this.showLootPickupFeedback?.(result, result.heavyPunchTile, {
-          resourceType: result.behindResourceType,
-          amount: result.behindResourceAmount,
-          isLuckyDrop: result.behindIsLuckyDrop,
-        });
       }
     }
-
-      const refreshedAim = this.inputHandler.resolveAimTargetTile();
-      this.inputHandler.updateAimBox(refreshedAim, this.inputHandler.isSolidAimTarget(refreshedAim));
-    
-    // Handle level up events
-      if (result.levelUp && this.levelUpPopup) {
-        _handleLevelUpResult(this, result);
-      }
-  }
   }
 
   // Special tile interaction (E key for gamble/teleport tiles)
-  if (Phaser.Input.Keyboard.JustDown(keys.interact)) {
+  if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
     const interactResult = this.specialTileSystem?.handleInteract?.() || { success: false };
     if (interactResult.success) {
       console.log('[SPECIAL TILE] Interaction successful:', interactResult.type, interactResult);
@@ -475,115 +681,76 @@ function _updatePlayingState(time, delta, keys) {
     }
   }
 
-  // Thunder Strike (C key) — follows same pattern as quickslash:
-  //   isDigAnimating stays true while ability is active,
-  //   reset only happens on a later frame when the animation finishes.
+  // Thunder Strike (C key): charge and strike are separate authored phases.
+  // Tile mutation, rewards, sound and lightning all occur on the strike contact.
   const playerAbilities = this.playerController.abilities;
   const playerProfile = this.playerAssetProfile || ASSET_KEYS.player;
   const cInput = this.playerController.input.getThunderStrikeInput();
 
-  if (cInput && !this._thunderStrikeAnimating) {
-    const started = playerAbilities.startThunderStrikeCharge();
+  if (cInput && !this.isDigAnimating && !this._thunderStrikeAnimating && !this._teleportInAnimating) {
+    const started = playerAbilities.startThunderStrikeCharge(time);
     if (started) {
       this.isDigAnimating = true;
-      this._thunderStrikeAnimating = true;  // Track active state across frames
-      this.player.play(playerProfile.thunderStrikeChargeAnim || ASSET_KEYS.player.thunderStrikeChargeAnim, true);
+      this._thunderStrikeAnimating = true;
+      this._thunderStrikePhase = "charge";
+      this._thunderStrikeFacingFlipX = this.player.flipX;
+      this.player.anims.timeScale = 1;
+      this.player.play(
+        playerProfile.thunderStrikeChargeAnim || ASSET_KEYS.player.thunderStrikeChargeAnim,
+        true,
+      );
     }
   }
 
-  // Update thunder strike charge / strike animation
-  if (this._thunderStrikeAnimating) {
-    if (playerAbilities.isThunderStrikeCharging()) {
-      const chargeResult = playerAbilities.updateThunderStrikeCharge();
-
-      if (chargeResult.complete) {
-        // Execute the strike
+  if (this._thunderStrikeAnimating && this._thunderStrikePhase === "charge") {
+    const chargeResult = playerAbilities.updateThunderStrikeCharge(time);
+    if (chargeResult.complete) {
+      const strikeAnimationKey = playerProfile.thunderStrikeStrikeAnim
+        || ASSET_KEYS.player.thunderStrikeStrikeAnim;
+      const contactSpec = resolveUalActionContact(
+        playerProfile,
+        strikeAnimationKey,
+        "thunderstrike",
+      );
+      const executeAtContact = () => {
         const strikeResult = playerAbilities.executeThunderStrike();
+        const applied = handleThunderStrikeResult(this, strikeResult, this.time?.now || time);
+        if (!applied) {
+          finishThunderStrikeVisual(this);
+        }
+        return applied;
+      };
 
-        if (strikeResult.success) {
-          // Play strike animation on the player sprite
-          this.player.play(playerProfile.thunderStrikeStrikeAnim || ASSET_KEYS.player.thunderStrikeStrikeAnim, true);
-          const thunderDisplaySize = playerProfile.displaySizePx || this.config.playerDisplaySizePx;
-          this.player.setDisplaySize(thunderDisplaySize, thunderDisplaySize);
-          this.player.anims.timeScale = 1;
-
-          // Mark timestamp so we hold the strike sprite for a visible duration
-          this._thunderStrikeHoldUntil = time + 350; // hold strike sprite ~350ms
-
-          // Get player position for lightning effect
-          const playerTile = this.playerController.getPlayerTile();
-
-          if (!playerTile || playerTile.tx === undefined || playerTile.ty === undefined) {
-            // Safety: player tile unavailable — still play sound, release on next frame
-            if (this.soundSystem) this.soundSystem.playTileBreak();
-            this._thunderStrikeHoldUntil = time; // release immediately
-          } else if (strikeResult.results.length === 0) {
-            // No tiles hit — release immediately
-            this._thunderStrikeHoldUntil = time;
-          } else {
-            const startX = playerTile.tx * this.config.tileSize + this.config.tileSize / 2;
-            const startY = playerTile.ty * this.config.tileSize + this.config.tileSize / 2;
-            const bottomResult = strikeResult.results[strikeResult.results.length - 1];
-            const endY = bottomResult.ty * this.config.tileSize + this.config.tileSize / 2;
-
-            // Show lightning bolt visual effect
-            if (this.floatingTextSystem) {
-              this.floatingTextSystem.showThunderStrikeLightning(
-                this.player.x, this.player.y,
-                startX, startY, endY,
-                this.config.tileSize
-              );
-            }
-
-            // Update tiles that were damaged + grant rewards for destroyed tiles
-            strikeResult.results.forEach(result => {
-              this.worldRenderer.applyTileUpdate(result.tx, result.ty);
-
-              if (this.floatingTextSystem) {
-                const worldX = result.tx * this.config.tileSize + this.config.tileSize / 2;
-                const worldY = result.ty * this.config.tileSize + this.config.tileSize / 2;
-                this.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.damage);
-              }
-
-              if (result.destroyed) {
-                if (result.breachedBedrock) {
-                  this.queueDugTilesSave();
-                  return;
-                }
-
-                const reward = this.digSystem.processDestroyedTile(result.tx, result.ty, result.tileType, time, false, result.wasRubble);
-                this.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
-
-                if (reward.levelUp && this.levelUpPopup) _handleLevelUpResult(this, reward);
-
-                this.queueDugTilesSave();
-              }
-            });
-
-            // Play sound effect
-            if (this.soundSystem) {
-              this.soundSystem.playTileBreak();
-            }
-          }
-        } else {
-          // Strike failed (e.g. not-charging race) — release immediately
-          this._thunderStrikeAnimating = false;
-          this.isDigAnimating = false;
-          this.updatePlayerVisualState(true);
+      this._thunderStrikePhase = "strike";
+      let shouldPlayStrike = true;
+      if (playerProfile.isUalNative && this.ualActionContactTimeline) {
+        this.ualActionContactTimeline.begin({
+          animationKey: strikeAnimationKey,
+          contactFrame: contactSpec.textureFrame,
+          contactSequenceIndex: contactSpec.sequenceIndex,
+          onContact: executeAtContact,
+          onComplete: () => finishThunderStrikeVisual(this),
+        });
+      } else {
+        shouldPlayStrike = executeAtContact();
+        if (shouldPlayStrike) {
+          this._thunderStrikeHoldUntil = time + UAL_NATIVE_ACTION_TUNING.thunderStrike.holdMs;
         }
       }
-      // else: still charging — isDigAnimating stays true, charge anim keeps playing
-    } else if (this._thunderStrikeHoldUntil && time >= this._thunderStrikeHoldUntil) {
-      // Strike animation hold time elapsed — restore normal state (same as quickslash Q-release)
-      this._thunderStrikeAnimating = false;
-      this._thunderStrikeHoldUntil = null;
-      this.player.setFlipX(false);
-      this.player.anims.timeScale = 1.0;
-      this.pickaxeTrailSystem?.stop();
-      this.isDigAnimating = false;
-      this.updatePlayerVisualState(true);
+      if (shouldPlayStrike) {
+        this.player.play(strikeAnimationKey, true);
+        const thunderDisplaySize = playerProfile.displaySizePx || this.config.playerDisplaySizePx;
+        this.player.setDisplaySize(thunderDisplaySize, thunderDisplaySize);
+        this.player.anims.timeScale = 1;
+      }
     }
-    // else: strike anim is still displaying — hold it (isDigAnimating stays true)
+  } else if (
+    this._thunderStrikeAnimating
+    && this._thunderStrikePhase === "strike"
+    && this._thunderStrikeHoldUntil
+    && time >= this._thunderStrikeHoldUntil
+  ) {
+    finishThunderStrikeVisual(this);
   }
 
   // Visual state
@@ -591,6 +758,10 @@ function _updatePlayingState(time, delta, keys) {
   if (!this.isDigAnimating) {
     this.updatePlayerVisualState();
   }
+  this.flightFootParticleSystem?.update(
+    delta,
+    !this.isDigAnimating && this.playerController?.abilities?.isFlying?.() === true,
+  );
 
   // HUD updates - reuse playerTile from line 162 (no const to avoid redeclaration)
   playerTile = this.playerController.getPlayerTile();

@@ -1,4 +1,4 @@
-const clamp01 = (value) => Math.max(0, Math.min(1, value));
+import { clamp01 } from "../../values/mathUtils.js";
 
 export class WeatherOcclusionSampler {
   constructor(scene, config, weatherConfig) {

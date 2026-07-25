@@ -6,12 +6,27 @@
   "preview": "sprites/character/character-v8/previews/duck-downwards-runtime-contact.png",
   "slowmoPreview": "sprites/character/character-v8/previews/duck-downwards-slowmo.gif",
   "piskel": "sprites/character/character-v8/piskel/duck-downwards.piskel",
+  "motionProfile": "sprites/character/character-v8/reports/blender-motion-profiles/duck-downwards-motion-profile.json",
   "frameWidth": 341,
   "frameHeight": 341,
   "frameCount": 4,
   "columns": 4,
   "rows": 1,
   "fps": 10,
+  "orientation": null,
+  "sourcePreparation": null,
+  "culledSourceIndices": [],
+  "recommendedDisplaySizePx": 89,
+  "sourceFrames": [
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-006.png",
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-007.png",
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-008.png",
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-009.png",
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-010.png",
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-011.png",
+    "sprites/character/character-v8/manual-blend/duck-downwards/frame-012.png"
+  ],
+  "sourceMattePixelsRemoved": 0,
   "borderHaloPixelsRemoved": 140,
   "alphaPixelsChanged": 36298,
   "targetedTransforms": {
@@ -20,7 +35,53 @@
       5,
       4,
       3
+    ],
+    "recoveryFrameOrder": [
+      2,
+      1,
+      0
     ]
+  },
+  "motionAudit": {
+    "transitions": [
+      {
+        "fromFrame": 0,
+        "toFrame": 1,
+        "fromSource": "frame-006.png",
+        "toSource": "frame-007.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 13.5,
+        "widthDelta": 0,
+        "heightDelta": -27,
+        "meanPixelDifference": 13.37
+      },
+      {
+        "fromFrame": 1,
+        "toFrame": 2,
+        "fromSource": "frame-007.png",
+        "toSource": "frame-008.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": -0.5,
+        "centerShiftY": 11.0,
+        "widthDelta": -7,
+        "heightDelta": -22,
+        "meanPixelDifference": 14.32
+      },
+      {
+        "fromFrame": 2,
+        "toFrame": 3,
+        "fromSource": "frame-008.png",
+        "toSource": "frame-009.png",
+        "sourceFrameGap": 1,
+        "centerShiftX": 0.0,
+        "centerShiftY": 10.0,
+        "widthDelta": 0,
+        "heightDelta": -20,
+        "meanPixelDifference": 10.896
+      }
+    ],
+    "sourceGapTransitions": []
   },
   "anchor": {
     "targetCenterX": 167,

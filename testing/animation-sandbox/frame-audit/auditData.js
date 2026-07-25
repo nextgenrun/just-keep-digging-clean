@@ -91,21 +91,45 @@ const SpriteAuditData = (() => {
     context.fillText(message.slice(0, 32), 8, 42);
   }
 
-  async function drawFrame(canvas, animation, frameIndex, flipX, matte) {
+  async function drawFrame(canvas, animation, frameIndex, flipX, matte, renderOptions = {}) {
     try {
       const frame = await getFrameCanvas(animation, frameIndex);
       const context = canvas.getContext("2d", { willReadFrequently: true });
       const width = canvas.width;
       const height = canvas.height;
+      const smoothing = renderOptions.smoothing !== false;
+
+      if (renderOptions.mode === "game-loupe") {
+        const gameSize = renderOptions.gameSize || SPRITE_AUDIT_CONFIG.gameDisplaySizePx;
+        const sampled = document.createElement("canvas");
+        sampled.width = gameSize;
+        sampled.height = gameSize;
+        const sampledContext = sampled.getContext("2d");
+        drawBackdrop(sampledContext, gameSize, gameSize, matte);
+        sampledContext.imageSmoothingEnabled = smoothing;
+        sampledContext.save();
+        if (flipX) {
+          sampledContext.translate(gameSize, 0);
+          sampledContext.scale(-1, 1);
+        }
+        sampledContext.drawImage(frame, 0, 0, gameSize, gameSize);
+        sampledContext.restore();
+        context.clearRect(0, 0, width, height);
+        context.imageSmoothingEnabled = false;
+        context.drawImage(sampled, 0, 0, width, height);
+        return measureFrame(frame);
+      }
+
       context.clearRect(0, 0, width, height);
       drawBackdrop(context, width, height, matte);
-      const scale = Math.min((width * 0.92) / frame.width, (height * 0.92) / frame.height);
-      const drawWidth = frame.width * scale;
-      const drawHeight = frame.height * scale;
-      const drawX = (width - drawWidth) / 2;
-      const drawY = (height - drawHeight) / 2;
+      const fillCanvas = renderOptions.mode === "frame-fill";
+      const scale = fillCanvas ? 1 : Math.min((width * 0.92) / frame.width, (height * 0.92) / frame.height);
+      const drawWidth = fillCanvas ? width : frame.width * scale;
+      const drawHeight = fillCanvas ? height : frame.height * scale;
+      const drawX = fillCanvas ? 0 : (width - drawWidth) / 2;
+      const drawY = fillCanvas ? 0 : (height - drawHeight) / 2;
       context.save();
-      context.imageSmoothingEnabled = true;
+      context.imageSmoothingEnabled = smoothing;
       if (flipX) {
         context.translate(width, 0);
         context.scale(-1, 1);

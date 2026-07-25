@@ -2,16 +2,17 @@
  * PlayScene - Main game scene
  * Delegates setup to PlaySceneSetup and PlaySceneGameplay modules
  */
-import { setupScene } from "./playScene/PlaySceneSetup.js";
+import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260718-mesh-grounded";
 import { setupUIMethods } from "./playScene/PlaySceneUI.js";
 import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js";
-import { updateScene, updateCameraSystems } from "./playScene/PlaySceneUpdate.js";
+import { updateScene } from "./playScene/PlaySceneUpdate.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { PLAYER_STATS_CONFIG } from "../values/playerStats.js";
 import { PLAYER_ABILITIES_CONFIG } from "../values/playerAbilities.js";
 import { UI_CONFIG } from "../values/uiConfig.js";
 import { MINING_CONFIG } from "../values/miningConfig.js";
 import { WEATHER_CONFIG } from "../values/weatherConfig.js";
+import { installUiReviewHarness } from "../testing/UiReviewHarness.js";
 
 export class PlayScene extends Phaser.Scene {
   constructor() {
@@ -39,6 +40,7 @@ export class PlayScene extends Phaser.Scene {
 
   async create(data = {}) {
     await setupScene.call(this, data);
+    this._uiReviewHarness = installUiReviewHarness(this);
   }
 
   update(time, delta) {

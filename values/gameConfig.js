@@ -1,14 +1,40 @@
+import { V11_SKY_ISLAND_LAYOUT } from "./v11SkyIslandLayout.js";
+import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
+
 // ==================== GAME CONFIG (SSOT) ====================
 const TILE_SIZE = 94;
 const WORLD_WIDTH_TILES = 280;
-const WORLD_DEPTH_TILES = 2000;
-const TOP_AIR_ROWS = 65;
+const WORLD_DEPTH_TILES = WORLD_DEPTH_CONFIG.worldDepthTiles;
+const TOP_AIR_ROWS = WORLD_DEPTH_CONFIG.topAirRows;
 
-// Debug mode flag - set to false for production builds
-const DEBUG_MODE = true;
+// Development stays debug-enabled. The isolated production index sets this
+// marker before loading any modules, so production builds cannot enable the
+// E2E/debug harness through query parameters.
+const DEBUG_MODE = globalThis.__DIG_GAME_PRODUCTION__ !== true;
 
 export const GAME_CONFIG = Object.freeze({
   debugMode: DEBUG_MODE,
+  rendererQuality: Object.freeze({
+    pixelArt: false,
+    antialias: true,
+    antialiasGL: true,
+    roundPixels: false,
+    powerPreference: "high-performance",
+    defaultDensityPreset: "high",
+    densityPresets: Object.freeze({
+      legacy: 1,
+      balanced: 1,
+      high: 1.5,
+      ultra: 2,
+    }),
+    query: Object.freeze({
+      qualityParam: "renderQuality",
+      densityRollbackParam: "nativeDensity",
+      rendererParam: "renderer",
+      autoRendererValue: "auto",
+      disabledValue: "0",
+    }),
+  }),
   // Feature flags. Disable with lootVisuals: false or featureFlags["loot-visuals"]: false.
   lootVisuals: true,
   featureFlags: Object.freeze({
@@ -72,8 +98,8 @@ export const GAME_CONFIG = Object.freeze({
   ],
 
   // Star Pillar
-  starPillarTileX: 27,
-  starPillarTileY: 34,
+  starPillarTileX: V11_SKY_ISLAND_LAYOUT.levels[0].pillarTileX,
+  starPillarTileY: V11_SKY_ISLAND_LAYOUT.levels[0].pillarTileY,
   starPillarProximityTiles: 4,
   constellationAnchorTileX: 90,
   constellationAnchorTileY: 20,
@@ -87,9 +113,9 @@ export const GAME_CONFIG = Object.freeze({
   maxTileHp: 100,
 
   // Sky island
-  skyIslandTileX: 23,
-  skyIslandTileY: 35,
-  skyIslandWidthTiles: 20,
+  skyIslandTileX: V11_SKY_ISLAND_LAYOUT.levels[0].leftTile,
+  skyIslandTileY: V11_SKY_ISLAND_LAYOUT.levels[0].floorRow,
+  skyIslandWidthTiles: V11_SKY_ISLAND_LAYOUT.levels[0].widthTiles,
 
   // HUD refresh
   hudRefreshIntervalMs: 1000,

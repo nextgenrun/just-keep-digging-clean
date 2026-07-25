@@ -1,0 +1,36 @@
+{
+  "frameWidth": 192,
+  "frameHeight": 192,
+  "clips": {
+    "idle": {
+      "file": "robot-sphere-v2-idle-sheet.png",
+      "frames": 16,
+      "fps": 18
+    },
+    "roll": {
+      "file": "robot-sphere-v2-roll-sheet.png",
+      "frames": 16,
+      "fps": 20
+    },
+    "fly": {
+      "file": "robot-sphere-v2-fly-sheet.png",
+      "frames": 16,
+      "fps": 18
+    },
+    "dig-side": {
+      "file": "robot-sphere-v2-dig-side-sheet.png",
+      "frames": 18,
+      "fps": 22
+    },
+    "dig-up": {
+      "file": "robot-sphere-v2-dig-up-sheet.png",
+      "frames": 18,
+      "fps": 22
+    },
+    "dig-down": {
+      "file": "robot-sphere-v2-dig-down-sheet.png",
+      "frames": 18,
+      "fps": 22
+    }
+  }
+}

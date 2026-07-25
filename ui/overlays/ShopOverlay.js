@@ -8,6 +8,7 @@ import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import {
   MONEY_MONSTER_RESOURCE_KEYS,
   NEXT_RESOURCE_KEYS,
+  SECOND_WORLD_RESOURCE_KEYS,
   START_RESOURCE_KEYS,
   getResourceDisplayName,
 } from "../../values/resourceTypes.js";
@@ -28,6 +29,12 @@ function resourceIconKey(resource) {
 
 function formatMoney(value) {
   return Math.max(0, Number(value) || 0).toLocaleString() + " M";
+}
+
+function sellResourceKeysForMerchant(merchantId) {
+  return merchantId === "magmaMoneyMonster"
+    ? SECOND_WORLD_RESOURCE_KEYS
+    : MONEY_MONSTER_RESOURCE_KEYS;
 }
 
 export class ShopOverlay {
@@ -111,7 +118,7 @@ export class ShopOverlay {
   refreshKeybindHints() {
     const interact = USER_SETTINGS.getKeyLabel("interact");
     this.helpText.setText(
-      "W/S or arrows: select    Q/E: page    A/D or Tab: tabs    " +
+      "W/S or arrows: select    A/D or Tab: tabs    " +
       interact + "/Enter: action    ESC: close"
     );
   }
@@ -132,8 +139,12 @@ export class ShopOverlay {
     else if (just(this.keys.left) || just(this.keys.arrowLeft)) this.navigateLeft();
     else if (just(this.keys.right) || just(this.keys.arrowRight)) this.navigateRight();
     else if (just(this.keys.previous)) this.prevPage();
-    else if (just(this.keys.next)) this.nextPage();
-    else if (just(this.keys.confirm) || just(this.keys.action) || just(this.keys.space)) this.purchaseSelected();
+    else if (this.scene.interactKey && just(this.scene.interactKey)) this.purchaseSelected();
+    else if (just(this.keys.confirm) || just(this.keys.space)) this.purchaseSelected();
+    else if (just(this.keys.action)) {
+      if (this.moneyMonsterMode === "sell") this.sellSelectedStack();
+      else this.purchaseSelected();
+    }
   }
 
   show(merchantId) {
@@ -142,7 +153,7 @@ export class ShopOverlay {
     this.isVisible = true;
     this.currentPage = 0;
     this.selectedIndex = 0;
-    this.moneyMonsterMode = "buy";
+    this.moneyMonsterMode = merchantId === "magmaMoneyMonster" ? "sell" : "buy";
     this.selectedSellButton = 0;
     this.scene.setShopOpen?.(true);
     this._syncMerchantChrome();
@@ -197,7 +208,7 @@ export class ShopOverlay {
         !upgrade.hiddenFromShop
       ))
       .map(([id, upgrade]) => ({ ...upgrade, id }));
-    this.sellItems = MONEY_MONSTER_RESOURCE_KEYS.map(resource => ({
+    this.sellItems = sellResourceKeysForMerchant(merchantId).map(resource => ({
       resource,
       name: getResourceDisplayName(resource),
       basePrice: RESOURCE_PRICES_CONFIG.basePrices[resource] || 0,
@@ -768,6 +779,13 @@ export class ShopOverlay {
     else this.purchaseUpgrade(upgrade.id);
   }
 
+  sellSelectedStack() {
+    if (this.moneyMonsterMode !== "sell") return;
+    const item = this.sellItems[this.selectedIndex];
+    if (!item) return;
+    this.sellResource(item.resource, this._getResourceAmount(item.resource), item.basePrice);
+  }
+
   purchaseUpgrade(upgradeId) {
     if (!this.isVisible || !upgradeId) return;
     const upgrade = UPGRADES[upgradeId];
@@ -791,7 +809,8 @@ export class ShopOverlay {
     }
 
     this.soundSystem?.playUiConfirm?.();
-    if (upgradeId === "worldTwoTunnelAccess") this.scene.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
+      if (upgradeId === "worldTwoTunnelAccess") this.scene.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
+      if (upgradeId === "arcCoreVehicle") this.scene.arcCoreVehicleSystem?.syncOwnership?.();
     this._notify("Purchased " + upgrade.name + ".", UI_COLORS.success);
 
     if (upgradeId === "boboWisdom") {
@@ -854,7 +873,7 @@ export class ShopOverlay {
     const resources = digSystem.getResourceTotals();
     let totalMoney = 0;
     let totalSold = 0;
-    MONEY_MONSTER_RESOURCE_KEYS.forEach(resource => {
+    sellResourceKeysForMerchant(this.currentMerchant).forEach(resource => {
       const amount = resources[resource] || 0;
       if (amount <= 0) return;
       const basePrice = RESOURCE_PRICES_CONFIG.basePrices[resource] || 0;

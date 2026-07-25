@@ -327,6 +327,10 @@ export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTi
       : TILE_RENDER_INDEX.CHEST;
   }
 
+  if (type === TILE_TYPES.ANCIENT_RELIC_CACHE) {
+    return TILE_RENDER_INDEX.CHEST_RARE;
+  }
+
   if (type === TILE_TYPES.GLOW_CRYSTAL) {
     return -1;
   }

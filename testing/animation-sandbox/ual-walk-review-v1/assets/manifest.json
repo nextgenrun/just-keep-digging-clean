@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "pipeline": "native-ual-game-rig-v2-zero-weapon-walk-review",
+  "production_runtime_unchanged": false,
+  "promoted_action": "walk-review-jog",
+  "frame_width": 256,
+  "frame_height": 256,
+  "display_size_px": 109,
+  "target_visible_height_tiles": 0.8,
+  "source_facing": "right",
+  "actions": {
+    "walk-review-current": {
+      "file": "ual-native-player-v1-walk-review-current-sheet.webp",
+      "frame_count": 40,
+      "frame_width": 256,
+      "frame_height": 256,
+      "columns": 16,
+      "rows": 3,
+      "fps": 30,
+      "loop": true,
+      "source": "ual1",
+      "source_clip": "Walk_Loop"
+    },
+    "walk-review-formal": {
+      "file": "ual-native-player-v1-walk-review-formal-sheet.webp",
+      "frame_count": 40,
+      "frame_width": 256,
+      "frame_height": 256,
+      "columns": 16,
+      "rows": 3,
+      "fps": 30,
+      "loop": true,
+      "source": "ual1",
+      "source_clip": "Walk_Formal_Loop"
+    },
+    "walk-review-jog": {
+      "file": "ual-native-player-v1-walk-review-jog-sheet.webp",
+      "frame_count": 28,
+      "frame_width": 256,
+      "frame_height": 256,
+      "columns": 16,
+      "rows": 2,
+      "fps": 30,
+      "loop": true,
+      "source": "ual1",
+      "source_clip": "Jog_Fwd_Loop"
+    },
+    "walk-review-sprint": {
+      "file": "ual-native-player-v1-walk-review-sprint-sheet.webp",
+      "frame_count": 20,
+      "frame_width": 256,
+      "frame_height": 256,
+      "columns": 16,
+      "rows": 2,
+      "fps": 30,
+      "loop": true,
+      "source": "ual1",
+      "source_clip": "Sprint_Loop"
+    },
+    "walk-review-carry": {
+      "file": "ual-native-player-v1-walk-review-carry-sheet.webp",
+      "frame_count": 60,
+      "frame_width": 256,
+      "frame_height": 256,
+      "columns": 16,
+      "rows": 4,
+      "fps": 30,
+      "loop": true,
+      "source": "ual2",
+      "source_clip": "Walk_Carry_Loop"
+    }
+  }
+}

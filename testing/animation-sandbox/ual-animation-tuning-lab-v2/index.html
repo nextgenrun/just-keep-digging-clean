@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>UAL Pose &amp; Hitbox Editor v3</title>
+  <link rel="stylesheet" href="lab.css">
+  <link rel="stylesheet" href="controls.css">
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Dig Game · production UAL rig</p>
+      <h1>Pose &amp; hitbox editor <span>v3</span></h1>
+      <p class="lede">Drag physics and contact boxes, correct logical hands, transform individual frames, retime holds, compare production truth, and export a reversible patch.</p>
+    </div>
+    <div class="truth-grid" aria-label="Production facts">
+      <div><span>Tile</span><strong id="truth-tile">—</strong></div>
+      <div><span>Visible rig</span><strong id="truth-scale">—</strong></div>
+      <div><span>Collider</span><strong id="truth-body">—</strong></div>
+      <div><span>Walk draft</span><strong>Option C · Jog</strong></div>
+    </div>
+  </header>
+
+  <nav id="scenario-tabs" class="scenario-tabs" aria-label="Tuning scenarios"></nav>
+
+  <main class="lab-shell">
+    <aside class="control-panel" aria-label="Animation controls">
+      <section>
+        <h2>Playback</h2>
+        <div class="button-row four">
+          <button id="play" type="button">Pause</button>
+          <button id="restart" type="button">Restart</button>
+          <button id="step-back" type="button">− frame</button>
+          <button id="step-forward" type="button">+ frame</button>
+        </div>
+        <label class="range-field wide"><span>Timeline <output id="time-output">0.00s</output></span><input id="timeline" type="range" min="0" max="1000" value="0"></label>
+        <div class="field-grid">
+          <label><span>Playback</span><select id="playback-rate"></select></label>
+          <label><span>Cadence</span><select id="cadence-mode"></select></label>
+          <label><span>Facing</span><select id="facing"><option value="right">Right</option><option value="left">Left</option></select></label>
+          <label><span>Zoom</span><select id="zoom"></select></label>
+        </div>
+      </section>
+
+      <section class="editor-controls">
+        <h2>Direct editor</h2>
+        <div class="tool-grid" role="toolbar" aria-label="Editor tools">
+          <button id="tool-body" type="button" data-editor-tool="body">Body</button>
+          <button id="tool-contact" type="button" data-editor-tool="contact">Contact</button>
+          <button id="tool-hand" type="button" data-editor-tool="hand">Marker</button>
+          <button id="tool-pose" type="button" data-editor-tool="pose">Frame pose</button>
+        </div>
+        <div class="field-grid">
+          <label><span>Edit scope</span><select id="editor-scope"><option value="frame">Current frame</option><option value="action">Whole action</option></select></label>
+          <label><span>Logical marker</span><select id="hand-marker"><option value="hand_l">Left hand</option><option value="hand_r">Right hand</option><option value="foot_l">Left foot</option><option value="foot_r">Right foot</option></select></label>
+        </div>
+        <div class="editor-readout">
+          <strong id="editor-selection">Body collider</strong>
+          <span id="editor-context">action · frame</span>
+          <span id="override-count">0 overrides</span>
+          <span id="editor-disabled-reason"></span>
+        </div>
+
+        <div class="editor-inspector" data-tool-panel="body">
+          <p>Physics body · global game pixels</p>
+          <div class="field-grid">
+            <label><span>Width px</span><input id="body-width" type="number"></label>
+            <label><span>Height px</span><input id="body-height" type="number"></label>
+            <label><span>Offset X</span><input id="body-offset-x" type="number"></label>
+            <label><span>Offset Y</span><input id="body-offset-y" type="number"></label>
+          </div>
+        </div>
+
+        <div class="editor-inspector" data-tool-panel="contact" hidden>
+          <p>Attack volume · direction-local game pixels</p>
+          <div class="field-grid">
+            <label><span>Forward px</span><input id="contact-forward" type="number"></label>
+            <label><span>Normal px</span><input id="contact-normal" type="number"></label>
+            <label><span>Width ×</span><input id="contact-width-scale" type="number"></label>
+            <label><span>Height ×</span><input id="contact-height-scale" type="number"></label>
+            <label class="wide"><span>Contact marker</span><select id="contact-marker"><option value="auto">Auto furthest</option><option value="hand_l">Left hand</option><option value="hand_r">Right hand</option><option value="foot_l">Left foot</option><option value="foot_r">Right foot</option></select></label>
+          </div>
+        </div>
+
+        <div class="editor-inspector" data-tool-panel="hand" hidden>
+          <p>Logical marker · packed source-frame pixels</p>
+          <div class="field-grid">
+            <label><span>Offset X</span><input id="hand-offset-x" type="number"></label>
+            <label><span>Offset Y</span><input id="hand-offset-y" type="number"></label>
+          </div>
+          <div id="hand-edit-warning" class="editor-warning">Moves contact/rig metadata only. Individual limb pixels require a Blender source-rig rerender.</div>
+        </div>
+
+        <div class="editor-inspector" data-tool-panel="pose" hidden>
+          <p>Whole raster frame · feet pivot</p>
+          <div class="field-grid">
+            <label><span>Offset X</span><input id="pose-offset-x" type="number"></label>
+            <label><span>Offset Y</span><input id="pose-offset-y" type="number"></label>
+            <label><span>Rotation °</span><input id="pose-rotation" type="number"></label>
+            <label><span>Hold ×</span><input id="frame-hold" type="number"></label>
+            <label><span>Scale X</span><input id="pose-scale-x" type="number"></label>
+            <label><span>Scale Y</span><input id="pose-scale-y" type="number"></label>
+          </div>
+        </div>
+
+        <div class="range-copy">
+          <span>Copy current pose/contact/hand to sequence range</span>
+          <div class="range-copy-row"><input id="range-start" type="number" min="0"><span>to</span><input id="range-end" type="number" min="0"><button id="apply-range" type="button">Apply</button></div>
+        </div>
+        <div class="toggle-grid editor-toggles">
+          <label><input id="snap-enabled" type="checkbox"> Pixel snap</label>
+          <label><input id="production-ghost" type="checkbox" checked> Production ghost</label>
+          <label><input id="bypass-edits" type="checkbox"> Bypass edits</label>
+        </div>
+        <div class="button-row four editor-history">
+          <button id="undo-edit" type="button">Undo</button><button id="redo-edit" type="button">Redo</button>
+          <button id="copy-override" type="button">Copy</button><button id="paste-override" type="button">Paste</button>
+          <button id="clear-override" type="button">Reset scope</button><button id="reset-action" type="button">Reset action</button>
+          <button id="reset-all-editor" class="wide" type="button">Reset all editor changes</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Locomotion draft</h2>
+        <label class="range-field"><span>Speed <output id="speed-output"></output></span><input id="speed" type="range"></label>
+        <label class="range-field"><span>Stride <output id="stride-output"></output></span><input id="stride" type="range"></label>
+        <div class="field-grid">
+          <label><span>Min cadence</span><input id="cadence-min" type="number"></label>
+          <label><span>Max cadence</span><input id="cadence-max" type="number"></label>
+          <label><span>Start trim</span><input id="start-trim" type="number"></label>
+          <label><span>Stop trim</span><input id="stop-trim" type="number"></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Scenario input</h2>
+        <label class="wide"><span>Mining aim</span><select id="aim"></select></label>
+        <label class="wide"><span>Full library action</span><select id="library-action"></select></label>
+      </section>
+
+      <section class="advanced-controls">
+        <details id="advanced-drawer">
+          <summary>Advanced timing &amp; collision</summary>
+          <div class="field-grid">
+            <label><span>Run enter px/s</span><input id="run-enter" type="number"></label>
+            <label><span>Run exit px/s</span><input id="run-exit" type="number"></label>
+            <label><span>Landing frames</span><input id="landing-frames" type="number"></label>
+            <label><span>Hover hold s</span><input id="flight-hover" type="number"></label>
+            <label><span>Travel hold s</span><input id="flight-travel" type="number"></label>
+            <label><span>Combo gap ms</span><input id="combo-gap" type="number"></label>
+            <label><span>Contact frame ±</span><input id="contact-offset" type="number"></label>
+            <label><span>Global contact ×</span><input id="contact-scale" type="number"></label>
+          </div>
+        </details>
+      </section>
+
+      <section>
+        <h2>Inspection layers</h2>
+        <div class="toggle-grid">
+          <label><input id="guides" type="checkbox" checked> Tile guides</label>
+          <label><input id="collider" type="checkbox" checked> Collider</label>
+          <label><input id="rig" type="checkbox" checked> Rig markers</label>
+          <label><input id="contact" type="checkbox" checked> Contact geometry</label>
+          <label><input id="onion" type="checkbox"> Onion frames</label>
+        </div>
+      </section>
+
+      <section class="draft-actions">
+        <button id="reset-draft" type="button">Reset live values</button>
+        <button id="open-import" type="button">Import patch</button>
+        <button id="export-draft" class="primary" type="button">Export draft JSON</button>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="stage-card">
+        <div class="stage-head">
+          <div><p id="scenario-kicker">Scenario</p><h2 id="scenario-title">Locomotion</h2></div>
+          <div id="marker-status" class="marker-status">Loading production manifest…</div>
+        </div>
+        <div class="stage-editor-bar"><strong>Drag to edit</strong><span>Box handles resize · center drags · arrows nudge · Shift = 5px · Delete resets scope · Ctrl+Z undo</span></div>
+        <canvas id="stage" tabindex="0" aria-label="Interactive UAL pose and hitbox editing stage"></canvas>
+        <div class="stage-legend"><span><i class="body"></i>body collider</span><span><i class="marker"></i>rig marker</span><span><i class="contact"></i>contact volume</span><span><i class="face"></i>tile face</span></div>
+      </div>
+
+      <div id="telemetry" class="telemetry-grid" aria-label="Live telemetry"></div>
+
+      <section class="event-card">
+        <header><div><p>Deterministic review</p><h2>Event track</h2></div><button id="clear-events" type="button">Clear</button></header>
+        <ol id="event-track"></ol>
+      </section>
+
+      <section id="export-panel" class="export-card" hidden>
+        <header><div><p>Sandbox only · production unchanged</p><h2>Draft JSON</h2></div><button id="copy-json" type="button">Copy</button></header>
+        <textarea id="draft-json" spellcheck="false" readonly></textarea>
+        <div class="import-panel">
+          <label for="import-json">Paste a v3 patch or full lab export to restore it atomically</label>
+          <textarea id="import-json" spellcheck="false" placeholder="Paste JSON here"></textarea>
+          <div class="import-actions"><button id="apply-import" type="button">Apply imported patch</button><span id="import-error" role="alert"></span></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer><span id="load-status" role="status">Loading production library…</span><a href="../ual-walk-review-v1/">Back to walk source comparison</a></footer>
+  <script type="module" src="lab.js"></script>
+</body>
+</html>

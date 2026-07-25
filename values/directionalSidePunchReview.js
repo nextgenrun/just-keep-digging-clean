@@ -1,0 +1,40 @@
+const candidate = (id, option, label, targetLabel, targetHeightTiles, summary) => Object.freeze({
+  id,
+  option,
+  label,
+  targetLabel,
+  targetHeightTiles,
+  summary,
+  file: `../../blender-animation-lab-v1/review-drafts/directional-side-punch-v1/runtime/${id}-sheet.png`,
+  preview: `../../blender-animation-lab-v1/review-drafts/directional-side-punch-v1/previews/${id}.gif`,
+  frameCount: 31,
+  columns: 16,
+  fps: 30,
+  impactFrame: 9,
+});
+
+export const DIRECTIONAL_SIDE_PUNCH_REVIEW = Object.freeze({
+  productionChanged: false,
+  selectionQueryKey: "candidate",
+  selectionStorageKey: "dig-game-directional-side-punch-review-v1",
+  defaultCandidateId: "side-control",
+  candidates: Object.freeze([
+    candidate("side-control", "A", "Side punch control", "Side tile", 1.12,
+      "The untouched approved Punch Cross. It is the timing and silhouette control for the two torso-only layers."),
+    candidate("torso-high", "B", "High punch · torso rises", "High tile", 2.06,
+      "The exact same Punch Cross. Only spine, neck, and head lean up; the arms keep the original sideways punch motion."),
+    candidate("torso-low", "C", "Low punch · torso drops", "Low tile", 0.48,
+      "The exact same Punch Cross. Only spine, neck, and head lean down; the arms keep the original sideways punch motion."),
+  ]),
+  stage: Object.freeze({
+    tileSizePx: 94,
+    displaySizePx: 109,
+    groundYRatio: 0.8,
+    actorXRatio: 0.32,
+    targetXRatio: 0.6,
+    minimumCanvasWidthPx: 300,
+    canvasHeightPx: 300,
+    maxDevicePixelRatio: 2,
+    zoomOptions: Object.freeze([1, 1.45]),
+  }),
+});

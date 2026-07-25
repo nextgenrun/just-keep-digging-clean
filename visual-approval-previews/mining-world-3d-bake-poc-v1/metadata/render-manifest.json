@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "status": "review-only-no-runtime-wiring",
+  "generator": "ai-tools/2026-07-15-render-mining-world-3d-poc.py",
+  "tileSizePx": 94,
+  "viewport": [
+    1280,
+    720
+  ],
+  "camera": {
+    "projection": "orthographic-front",
+    "pixelsPerBlenderUnit": 94
+  },
+  "tileRenders": [
+    "tile-01-amber-soil",
+    "tile-02-amber-soil-copper",
+    "tile-03-blue-slate",
+    "tile-04-blue-slate-crystal",
+    "tile-05-iron-strata",
+    "tile-06-blackstone-crystal"
+  ],
+  "backgroundRender": "renders/cave-background-1280x720.png",
+  "gameplayRender": "renders/gameplay-bake-1280x720.png",
+  "sourceBlend": "sources/mining-world-3d-bake-poc-v1.blend",
+  "meshyBoundary": "Geometry is locally procedural because no Meshy provider or API key was connected; replace block/rock/crystal constructors with imported Meshy GLBs without changing the camera or bake contract."
+}

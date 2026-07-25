@@ -1,0 +1,109 @@
+{
+  "schema": "dig-game-blender-animation-lab-review-v1",
+  "createdUtc": "2026-07-17T15:20:42.559970+00:00",
+  "session": "meshy-fit-endpoint-proof-v1",
+  "productionChanged": false,
+  "blenderVersion": "5.1.2",
+  "action": {
+    "name": "DGAL_punch-jab",
+    "source": "DGAL_punch-jab",
+    "frameRange": [
+      1,
+      23
+    ],
+    "interpolation": "BEZIER"
+  },
+  "gamePresentation": {
+    "tileSizePx": 94.0,
+    "packedFramePx": 256.0,
+    "displaySizePx": 109.0,
+    "targetVisibleHeightTiles": 0.800000011920929
+  },
+  "hitboxes": [
+    {
+      "label": "Player body",
+      "kind": "BODY",
+      "sizeGamePx": [
+        31.0,
+        75.0
+      ],
+      "offsetGamePx": [
+        0.0,
+        0.0
+      ],
+      "frameRange": [
+        1,
+        62
+      ],
+      "anchorBone": "pelvis"
+    },
+    {
+      "label": "Side contact",
+      "kind": "CONTACT",
+      "sizeGamePx": [
+        28.200000762939453,
+        31.959999084472656
+      ],
+      "offsetGamePx": [
+        0.0,
+        0.0
+      ],
+      "frameRange": [
+        1,
+        62
+      ],
+      "anchorBone": "hand_r"
+    },
+    {
+      "label": "Vertical contact",
+      "kind": "CONTACT",
+      "sizeGamePx": [
+        31.959999084472656,
+        26.31999969482422
+      ],
+      "offsetGamePx": [
+        0.0,
+        0.0
+      ],
+      "frameRange": [
+        1,
+        62
+      ],
+      "anchorBone": "hand_r"
+    },
+    {
+      "label": "Diagonal contact",
+      "kind": "CONTACT",
+      "sizeGamePx": [
+        43.2400016784668,
+        39.47999954223633
+      ],
+      "offsetGamePx": [
+        0.0,
+        0.0
+      ],
+      "frameRange": [
+        1,
+        62
+      ],
+      "anchorBone": "hand_r"
+    }
+  ],
+  "attachmentReport": "mean 0.0000 m | max 0.0001 m | 46 samples",
+  "meshAudit": "{\"meshes\":1,\"excludedMeshes\":1,\"armatures\":1,\"vertices\":126764,\"triangles\":218400,\"materials\":1,\"vertexGroups\":24,\"unweightedVertices\":0,\"nonManifoldEdges\":35498,\"rigged\":true}",
+  "meshFitMode": "RIG_RETARGET",
+  "sources": {
+    "runtimeManifest": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-ual-player-v1\\runtime\\manifest.json",
+      "sha256": "fc463bebcf47831107d838bf9644e9aa6e5764288e96cf3e60c0bfe8f584c08f"
+    },
+    "meshCandidate": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\source-assets\\meshy-warrior-demo-blender.glb",
+      "sha256": "d08e9b025677cd062dee6f239fae70d250844a9b3d2878f3f4e43e7da965b2bc"
+    },
+    "selectedClip": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-punch-jab.fbx",
+      "sha256": "8bf33183a97cd28aa4d99aa461ad784ce7a316d6d57bba82b003d27694a9c834"
+    }
+  }
+}

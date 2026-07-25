@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "label": "Robot Sphere Arc Core proof-of-concept",
+  "scope": "testing/animation-sandbox/tanktest-v1 only",
+  "source": "sprites/character/robot-sphere-poc-v1/reference/approved-arc-core-proof.png",
+  "assets": {
+    "closed": {
+      "path": "sprites/character/robot-sphere-poc-v1/runtime/robot-sphere-poc-v1-closed.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        210,
+        365,
+        570,
+        900
+      ]
+    },
+    "hover": {
+      "path": "sprites/character/robot-sphere-poc-v1/runtime/robot-sphere-poc-v1-hover.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        530,
+        145,
+        1015,
+        900
+      ]
+    },
+    "drill": {
+      "path": "sprites/character/robot-sphere-poc-v1/runtime/robot-sphere-poc-v1-drill.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        1018,
+        330,
+        1536,
+        990
+      ]
+    }
+  }
+}

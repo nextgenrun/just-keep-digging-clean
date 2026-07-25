@@ -1,0 +1,91 @@
+{
+  "source": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\SourceAssets\\legacy-miner-meshy-rigged-v2.glb",
+  "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\SourceAssets\\legacy-miner-meshy-ue.fbx",
+  "source_height_m": 1.779999,
+  "target_height_cm": 180.0,
+  "scale_to_cm": 101.123639,
+  "prepared_bounds_cm": {
+    "min": [
+      -52.4634,
+      -17.9911,
+      0.0
+    ],
+    "max": [
+      52.4634,
+      17.9911,
+      180.0001
+    ]
+  },
+  "mesh_count": 1,
+  "mesh_details": [
+    {
+      "name": "SK_LegacyMiner_Meshy_v2_Body",
+      "parent": "SK_LegacyMiner_Meshy_v2_Armature",
+      "vertices": 119519,
+      "bounds_cm": {
+        "min": [
+          -52.46338653564453,
+          -17.991085052490234,
+          0.0
+        ],
+        "max": [
+          52.46338653564453,
+          17.991085052490234,
+          180.0000762939453
+        ]
+      },
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "modifiers": [
+        "ARMATURE"
+      ]
+    }
+  ],
+  "vertex_count": 119519,
+  "triangle_count": 217147,
+  "material_count": 1,
+  "textures": [
+    "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\SourceAssets\\Textures\\T_LegacyMiner_texture_0.png"
+  ],
+  "bone_count": 24,
+  "bones": [
+    "Hips",
+    "LeftUpLeg",
+    "LeftLeg",
+    "LeftFoot",
+    "LeftToeBase",
+    "RightUpLeg",
+    "RightLeg",
+    "RightFoot",
+    "RightToeBase",
+    "Spine02",
+    "Spine01",
+    "Spine",
+    "LeftShoulder",
+    "LeftArm",
+    "LeftForeArm",
+    "LeftHand",
+    "RightShoulder",
+    "RightArm",
+    "RightForeArm",
+    "RightHand",
+    "neck",
+    "Head",
+    "head_end",
+    "headfront"
+  ],
+  "actions_removed": true,
+  "animation_authored": false,
+  "export_axes": {
+    "forward": "-X",
+    "up": "Z"
+  }
+}

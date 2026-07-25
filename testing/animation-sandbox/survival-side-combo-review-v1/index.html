@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Survivor Side Combo Review · Dig Game</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">Dig Game · unarmed combat review</p>
+    <h1>Pick the side combo before it changes the game</h1>
+    <p>All four choices use fist-only motion. The approved Blender Survivor body is visible in B–D; this page never changes the live combo.</p>
+  </header>
+
+  <section class="controls" aria-label="Combo review controls">
+    <button id="play-toggle" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <label><span>Review scale</span><select id="zoom"><option value="1">Game scale</option><option value="1.45">Inspection</option></select></label>
+    <label class="check"><input id="flip" type="checkbox"><span>Face left</span></label>
+    <strong id="status" role="status">Loading real motion sheets…</strong>
+  </section>
+
+  <section class="truth" aria-label="Review guardrails">
+    <span>0.8-tile target scale</span><span>31 × 75 gameplay collider</span><span>No pickaxe</span><span>Review only</span>
+  </section>
+
+  <main id="candidate-grid" class="candidate-grid" aria-label="Side combo candidates"></main>
+
+  <footer class="selection">
+    <span>Your temporary review choice</span>
+    <strong id="selection-summary">Option A · Approved four-hit chain</strong>
+    <em>Nothing is promoted until you choose.</em>
+  </footer>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "id": "ground-strike-hand-contact-v1",
+  "runtimeAnimationKey": "survival-ual-player-v1-attack-down-ground-strike-anim",
+  "sourceClip": "OverhandThrow",
+  "protectedAction": "DGAL_ground-strike",
+  "editableAction": "DGAL_EDIT_ground-strike_hand-contact-v1",
+  "sourceContactFrame": 16,
+  "runtimeContactFrame": 18,
+  "handBone": "hand_r",
+  "editingMode": "pose-auto-ik",
+  "productionChanged": false
+}

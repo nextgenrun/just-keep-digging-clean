@@ -1,5 +1,4 @@
-const clamp01 = (value) => Math.max(0, Math.min(1, value));
-const lerp = (a, b, t) => a + (b - a) * t;
+import { clamp01, lerp } from "../../values/mathUtils.js";
 
 const LAYER_STYLES = Object.freeze({
   foreground: { width: 1.35, alphaScale: 1.00, lengthKey: "foregroundLengthPx" },

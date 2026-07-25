@@ -1,13 +1,100 @@
+import { PLAYER_COLLISION_CONFIG } from "../../values/playerCollision.js";
+
 /**
  * Custom tile-based collision system for Phaser
  * Replaces Arcade Physics with deterministic grid collision
  * Perfect for Motherload-style digging games
  */
 export class TileCollisionSystem {
-  constructor(worldModel, config) {
+  constructor(worldModel, config, collisionConfig = PLAYER_COLLISION_CONFIG) {
     this.worldModel = worldModel;
     this.config = config;
     this.tileSize = config.tileSize;
+    this.collisionConfig = collisionConfig;
+    this.skinPx = collisionConfig.skinPx;
+    this.groundProbePx = collisionConfig.groundProbePx;
+    this.maxStepPx = this.tileSize * collisionConfig.maxStepTiles;
+  }
+
+  _bodyTileBounds(entity, offsetX = 0, offsetY = 0) {
+    const skin = Math.min(this.skinPx, entity.w * 0.25, entity.h * 0.25);
+    const left = entity.x + offsetX;
+    const top = entity.y + offsetY;
+    return {
+      left: this.worldToTile(left + skin),
+      right: this.worldToTile(left + entity.w - skin),
+      top: this.worldToTile(top + skin),
+      bottom: this.worldToTile(top + entity.h - skin),
+    };
+  }
+
+  getOverlappingSolidTiles(entity) {
+    if (!entity || !Number.isFinite(entity.x) || !Number.isFinite(entity.y)) return [];
+    if (!(entity.w > 0) || !(entity.h > 0)) return [];
+    const bounds = this._bodyTileBounds(entity);
+    const overlaps = [];
+    for (let ty = bounds.top; ty <= bounds.bottom; ty += 1) {
+      for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
+        if (this.isSolidAtTile(tx, ty)) overlaps.push({ tx, ty });
+      }
+    }
+    return overlaps;
+  }
+
+  isBodyOverlappingSolid(entity) {
+    return this.getOverlappingSolidTiles(entity).length > 0;
+  }
+
+  resolveBodyOverlap(entity) {
+    const overlaps = this.getOverlappingSolidTiles(entity);
+    if (overlaps.length === 0) return true;
+    if (this.collisionConfig.recoverOverlaps !== true) return false;
+
+    const originalX = entity.x;
+    const originalY = entity.y;
+    const candidates = [];
+    for (const tile of overlaps) {
+      const tileLeft = tile.tx * this.tileSize;
+      const tileRight = tileLeft + this.tileSize;
+      const tileTop = tile.ty * this.tileSize;
+      const tileBottom = tileTop + this.tileSize;
+      candidates.push(
+        { axis: "y", amount: tileTop - (originalY + entity.h), priority: 0 },
+        { axis: "x", amount: tileLeft - (originalX + entity.w), priority: 1 },
+        { axis: "x", amount: tileRight - originalX, priority: 1 },
+        { axis: "y", amount: tileBottom - originalY, priority: 2 },
+      );
+    }
+    candidates.sort((left, right) => (
+      Math.abs(left.amount) - Math.abs(right.amount) || left.priority - right.priority
+    ));
+
+    for (const candidate of candidates) {
+      entity.x = originalX + (candidate.axis === "x" ? candidate.amount : 0);
+      entity.y = originalY + (candidate.axis === "y" ? candidate.amount : 0);
+      if (this.isBodyOverlappingSolid(entity)) continue;
+      if (candidate.axis === "x") entity.vx = 0;
+      if (candidate.axis === "y") {
+        entity.vy = 0;
+        entity.onGround = candidate.amount < 0;
+      }
+      return true;
+    }
+
+    entity.x = originalX;
+    entity.y = originalY;
+    return false;
+  }
+
+  _moveInSteps(amount, moveStep) {
+    if (!Number.isFinite(amount) || Math.abs(amount) <= this.skinPx) return false;
+    let remaining = amount;
+    while (Math.abs(remaining) > this.skinPx) {
+      const step = Math.sign(remaining) * Math.min(Math.abs(remaining), this.maxStepPx);
+      if (moveStep(step)) return true;
+      remaining -= step;
+    }
+    return false;
   }
 
   /**
@@ -35,41 +122,20 @@ export class TileCollisionSystem {
    * @param {number} amount - Amount to move (can be positive or negative)
    */
   moveAndCollideX(entity, amount) {
-    entity.x += amount;
-
-    const left = entity.x;
-    const right = entity.x + entity.w;
-    const top = entity.y;
-    const bottom = entity.y + entity.h - 1; // -1 to avoid checking next tile too early
-
-    const tileTop = this.worldToTile(top);
-    const tileBottom = this.worldToTile(bottom);
-
-    if (amount > 0) {
-      // Moving right
-      const tileRight = this.worldToTile(right);
-
-      for (let ty = tileTop; ty <= tileBottom; ty++) {
-        if (this.isSolidAtTile(tileRight, ty)) {
-          // Collision detected - snap to left of the solid tile
-          entity.x = tileRight * this.tileSize - entity.w;
-          entity.vx = 0;
-          break;
-        }
+    return this._moveInSteps(amount, (step) => {
+      entity.x += step;
+      const bounds = this._bodyTileBounds(entity);
+      const leadingColumn = step > 0 ? bounds.right : bounds.left;
+      for (let ty = bounds.top; ty <= bounds.bottom; ty += 1) {
+        if (!this.isSolidAtTile(leadingColumn, ty)) continue;
+        entity.x = step > 0
+          ? leadingColumn * this.tileSize - entity.w
+          : (leadingColumn + 1) * this.tileSize;
+        entity.vx = 0;
+        return true;
       }
-    } else if (amount < 0) {
-      // Moving left
-      const tileLeft = this.worldToTile(left);
-
-      for (let ty = tileTop; ty <= tileBottom; ty++) {
-        if (this.isSolidAtTile(tileLeft, ty)) {
-          // Collision detected - snap to right of the solid tile
-          entity.x = (tileLeft + 1) * this.tileSize;
-          entity.vx = 0;
-          break;
-        }
-      }
-    }
+      return false;
+    });
   }
 
   /**
@@ -79,42 +145,21 @@ export class TileCollisionSystem {
    */
   moveAndCollideY(entity, amount) {
     entity.onGround = false;
-    entity.y += amount;
-
-    const left = entity.x;
-    const right = entity.x + entity.w - 1; // -1 to avoid checking next tile too early
-    const top = entity.y;
-    const bottom = entity.y + entity.h;
-
-    const tileLeft = this.worldToTile(left);
-    const tileRight = this.worldToTile(right);
-
-    if (amount > 0) {
-      // Moving down (falling)
-      const tileBottom = this.worldToTile(bottom);
-
-      for (let tx = tileLeft; tx <= tileRight; tx++) {
-        if (this.isSolidAtTile(tx, tileBottom)) {
-          // Collision detected - snap to top of the solid tile
-          entity.y = tileBottom * this.tileSize - entity.h;
-          entity.vy = 0;
-          entity.onGround = true;
-          break;
-        }
+    return this._moveInSteps(amount, (step) => {
+      entity.y += step;
+      const bounds = this._bodyTileBounds(entity);
+      const leadingRow = step > 0 ? bounds.bottom : bounds.top;
+      for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
+        if (!this.isSolidAtTile(tx, leadingRow)) continue;
+        entity.y = step > 0
+          ? leadingRow * this.tileSize - entity.h
+          : (leadingRow + 1) * this.tileSize;
+        entity.vy = 0;
+        entity.onGround = step > 0;
+        return true;
       }
-    } else if (amount < 0) {
-      // Moving up
-      const tileTop = this.worldToTile(top);
-
-      for (let tx = tileLeft; tx <= tileRight; tx++) {
-        if (this.isSolidAtTile(tx, tileTop)) {
-          // Collision detected - snap to bottom of the solid tile
-          entity.y = (tileTop + 1) * this.tileSize;
-          entity.vy = 0;
-          break;
-        }
-      }
-    }
+      return false;
+    });
   }
 
   /**
@@ -123,17 +168,10 @@ export class TileCollisionSystem {
    * @returns {boolean} True if entity is on solid ground
    */
   isOnGround(entity) {
-    const left = entity.x;
-    const right = entity.x + entity.w - 1;
-    const bottom = entity.y + entity.h + 1; // Check just below the entity
+    const bounds = this._bodyTileBounds(entity, 0, this.groundProbePx);
 
-    const tileLeft = this.worldToTile(left);
-    const tileRight = this.worldToTile(right);
-    const tileBottom = this.worldToTile(bottom);
-
-    // Check if any tile directly below is solid
-    for (let tx = tileLeft; tx <= tileRight; tx++) {
-      if (this.isSolidAtTile(tx, tileBottom)) {
+    for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
+      if (this.isSolidAtTile(tx, bounds.bottom)) {
         return true;
       }
     }
@@ -147,17 +185,10 @@ export class TileCollisionSystem {
    * @returns {boolean} True if entity is hitting ceiling
    */
   isHittingCeiling(entity) {
-    const left = entity.x;
-    const right = entity.x + entity.w - 1;
-    const top = entity.y - 1; // Check just above the entity
+    const bounds = this._bodyTileBounds(entity, 0, -this.groundProbePx);
 
-    const tileLeft = this.worldToTile(left);
-    const tileRight = this.worldToTile(right);
-    const tileTop = this.worldToTile(top);
-
-    // Check if any tile directly above is solid
-    for (let tx = tileLeft; tx <= tileRight; tx++) {
-      if (this.isSolidAtTile(tx, tileTop)) {
+    for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
+      if (this.isSolidAtTile(tx, bounds.top)) {
         return true;
       }
     }

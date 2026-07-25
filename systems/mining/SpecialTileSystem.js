@@ -3,6 +3,7 @@ import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
+import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { createZeroResourceTotals } from "../../values/resourceTypes.js";
 
@@ -63,6 +64,23 @@ export class SpecialTileSystem {
         }
       }
 
+      const groundPortalLevel = this._findUnlockedGroundPortalAt(tile.tx, tile.ty);
+      if (groundPortalLevel) {
+        this._showPrompt(
+          tile.tx,
+          tile.ty,
+          `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${groundPortalLevel.groundPortal.promptLabel}`
+        );
+        this.promptTile = {
+          tx: tile.tx,
+          ty: tile.ty,
+          type: "teleportGroundToSky",
+          levelId: groundPortalLevel.levelId,
+        };
+        foundSpecialTile = true;
+        break;
+      }
+
       const tileType = this.worldModel.getTileType(tile.tx, tile.ty);
       if (tileType === TILE_TYPES.TELEPORT_TILE) {
         const pair = this.pairedTeleporters.get(tileKey);
@@ -119,6 +137,7 @@ export class SpecialTileSystem {
     if (!this.promptTile) return { success: false, reason: "no-special-tile" };
     if (this.promptTile.type === "teleport" || this.promptTile.type === "teleportPaired") return this._activateTeleport();
     if (this.promptTile.type === "teleportSkyReturn") return this._activateSkyTeleportReturn();
+    if (this.promptTile.type === "teleportGroundToSky") return this._activateGroundTeleport();
     if (this.promptTile.type === "gamble") return this._activateGamble();
     if (this.promptTile.type === "gambleUsed") return { success: false, reason: "already-used" };
     return { success: false, reason: "unknown-type" };
@@ -127,6 +146,42 @@ export class SpecialTileSystem {
   _buildSkyPortalSlots() {
     const slots = [];
     const tilePx = TILED_BACKGROUND_OBJECTS?.tilePx || this.worldModel.config.tileSize || TELEPORT_PORTAL_CONFIG.fallbackTilePx;
+    if (V11_SKY_ISLAND_LAYOUT.enabled) {
+      for (const level of V11_SKY_ISLAND_LAYOUT.levels) {
+        for (const authoredSlot of level.portalSlots) {
+          const rect = {
+            left: authoredSlot.leftTile * tilePx,
+            right: (authoredSlot.leftTile + authoredSlot.widthTiles) * tilePx,
+            bottom: authoredSlot.bottomTile * tilePx,
+            top: (authoredSlot.bottomTile - authoredSlot.heightTiles) * tilePx,
+            w: authoredSlot.widthTiles * tilePx,
+            h: authoredSlot.heightTiles * tilePx,
+          };
+          const glowX = rect.left + rect.w * TELEPORT_PORTAL_CONFIG.apertureOffsetX;
+          const glowY = rect.top + rect.h * TELEPORT_PORTAL_CONFIG.apertureOffsetY;
+          const interactionTx = Math.floor(glowX / tilePx);
+          const interactionTy = Math.floor(glowY / tilePx);
+          const landingTile = this._findSafeAdjacentTile(interactionTx, interactionTy)
+            || this._findSafeReturnTile(interactionTx, interactionTy)
+            || { tx: interactionTx, ty: interactionTy };
+          slots.push({
+            id: authoredSlot.id,
+            objectId: null,
+            levelId: level.levelId,
+            slotIndex: authoredSlot.slotIndex,
+            layerKey: "V11_SPLIT_SKY_ISLAND_PORTALS_V1",
+            rect,
+            glowX,
+            glowY,
+            glowRadius: Math.max(1, Math.min(rect.w, rect.h) * TELEPORT_PORTAL_CONFIG.glowRadiusScale),
+            interactionTx,
+            interactionTy,
+            landingTile,
+          });
+        }
+      }
+      return slots;
+    }
     const layers = TILED_BACKGROUND_OBJECTS?.layers ?? {};
     const layerOrder = TILED_BACKGROUND_OBJECTS?.layerOrder ?? Object.keys(layers);
     const layerMeta = TILED_BACKGROUND_OBJECTS?.layerMeta ?? {};
@@ -196,18 +251,43 @@ export class SpecialTileSystem {
     return this.skyPortalSlots.find((slot) => slot.id === String(slotId)) || null;
   }
 
-  _reserveGateSlotForNewPortal() {
+  _hasUnlockedPortalForLevel(levelId) {
+    return Array.from(this.pairedTeleporters.values()).some((pair) => pair.levelId === levelId);
+  }
+
+  _findUnlockedGroundPortalAt(tx, ty) {
+    if (!V11_SKY_ISLAND_LAYOUT.enabled) return null;
+    return V11_SKY_ISLAND_LAYOUT.levels.find((level) =>
+      this._hasUnlockedPortalForLevel(level.levelId)
+      && level.groundPortal?.interactionTiles?.some((tile) => tile.tx === tx && tile.ty === ty)
+    ) || null;
+  }
+
+  _syncGroundPortalVisuals() {
+    for (const level of V11_SKY_ISLAND_LAYOUT.levels) {
+      this.scene.v11SkyIslandVisualSystem?.setGroundPortalUnlocked(
+        level.levelId,
+        this._hasUnlockedPortalForLevel(level.levelId)
+      );
+    }
+  }
+
+  _reserveGateSlotForNewPortal(tile) {
     if (!this.skyPortalSlots.length) return null;
 
+    const levelId = tile.tx <= V11_SKY_ISLAND_LAYOUT.dividerTileX ? 1 : 2;
+    const levelSlots = this.skyPortalSlots.filter((slot) => slot.levelId === levelId);
     const usedSlots = new Set(Array.from(this.pairedTeleporters.values()).map((pair) => String(pair.gateSlotId)));
-    const available = this.skyPortalSlots.find((slot) => !usedSlots.has(slot.id));
+    const available = levelSlots.find((slot) => !usedSlots.has(slot.id));
     if (available) return available;
 
-    const oldestKey = this.portalOrder[0];
-    const oldestPair = oldestKey ? this.pairedTeleporters.get(oldestKey) : null;
-    const slotToReuse = oldestPair ? this._findSlotById(oldestPair.gateSlotId) : null;
-    if (oldestKey) this._removeSkyPortal(oldestKey);
-    return slotToReuse || this.skyPortalSlots[0];
+    const shallowestEntry = this.portalOrder
+      .map((key) => ({ key, pair: this.pairedTeleporters.get(key) }))
+      .filter(({ pair }) => pair?.levelId === levelId)
+      .sort((a, b) => a.pair.dungeonTy - b.pair.dungeonTy)[0];
+    const slotToReuse = shallowestEntry ? this._findSlotById(shallowestEntry.pair.gateSlotId) : null;
+    if (shallowestEntry) this._removeSkyPortal(shallowestEntry.key);
+    return slotToReuse || levelSlots[0] || null;
   }
 
   _createPairData(tile, slot) {
@@ -216,6 +296,7 @@ export class SpecialTileSystem {
       dungeonTy: tile.ty,
       gateSlotId: slot.id,
       gateObjectId: slot.objectId,
+      levelId: slot.levelId,
       skyTx: slot.interactionTx,
       skyTy: slot.interactionTy,
       skyLandingTx: slot.landingTile.tx,
@@ -308,11 +389,19 @@ export class SpecialTileSystem {
 
     const orderIndex = this.portalOrder.indexOf(dungeonKey);
     if (orderIndex !== -1) this.portalOrder.splice(orderIndex, 1);
+    this._syncGroundPortalVisuals();
   }
 
   _enforceSkyPortalCapacity() {
-    while (this.portalOrder.length > TELEPORT_PORTAL_CONFIG.maxActiveSkyPortals) {
-      this._removeSkyPortal(this.portalOrder[0]);
+    for (const levelId of [1, 2]) {
+      let levelEntries = this.portalOrder
+        .map((key) => ({ key, pair: this.pairedTeleporters.get(key) }))
+        .filter(({ pair }) => pair?.levelId === levelId);
+      while (levelEntries.length > TELEPORT_PORTAL_CONFIG.maxActiveSkyPortalsPerLevel) {
+        levelEntries.sort((a, b) => a.pair.dungeonTy - b.pair.dungeonTy);
+        this._removeSkyPortal(levelEntries[0].key);
+        levelEntries = levelEntries.slice(1);
+      }
     }
   }
 
@@ -321,6 +410,7 @@ export class SpecialTileSystem {
     if (!this.portalOrder.includes(dungeonKey)) this.portalOrder.push(dungeonKey);
     this._registerSkyTeleporterTiles(pairData, dungeonKey);
     this._enforceSkyPortalCapacity();
+    this._syncGroundPortalVisuals();
   }
 
   _findSafeAdjacentTile(baseTx, baseTy, maxRadius = TELEPORT_PORTAL_CONFIG.safeReturnRadius) {
@@ -385,6 +475,21 @@ export class SpecialTileSystem {
     return null;
   }
 
+  _findSafeStandingTile(baseTx, baseTy, maxRadius = TELEPORT_PORTAL_CONFIG.safeReturnRadius) {
+    for (let radius = 0; radius <= maxRadius; radius += 1) {
+      for (let dy = -radius; dy <= radius; dy += 1) {
+        for (let dx = -radius; dx <= radius; dx += 1) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== radius) continue;
+          const tx = baseTx + dx;
+          const ty = baseTy + dy;
+          if (!this.worldModel.inBounds(tx, ty) || !this.worldModel.inBounds(tx, ty + 1)) continue;
+          if (!this.worldModel.isSolid(tx, ty) && this.worldModel.isSolid(tx, ty + 1)) return { tx, ty };
+        }
+      }
+    }
+    return null;
+  }
+
   _activateTeleport() {
     const tile = this.promptTile;
     const tileKey = `${tile.tx},${tile.ty}`;
@@ -393,7 +498,7 @@ export class SpecialTileSystem {
       return this._teleportToSky(this.pairedTeleporters.get(tileKey), false);
     }
 
-    const slot = this._reserveGateSlotForNewPortal();
+    const slot = this._reserveGateSlotForNewPortal(tile);
     if (!slot) {
       console.warn("[SpecialTileSystem] No authored eclipse gate slots available for teleport activation.");
       return { success: false, reason: "no-sky-portal-slot" };
@@ -414,6 +519,8 @@ export class SpecialTileSystem {
     }
 
     this.playerController.teleportToTile(target.tx, target.ty);
+    this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+    this.scene.earthquakeHazardOverlay?.clear?.();
     this._playSound("teleport");
 
     if (this.floatingTextSystem) {
@@ -426,6 +533,33 @@ export class SpecialTileSystem {
     }
 
     return { success: true, type: "teleport", target: "skyIsland", pairData };
+  }
+
+  _activateGroundTeleport() {
+    const levelId = Number(this.promptTile?.levelId);
+    const level = V11_SKY_ISLAND_LAYOUT.levels.find((entry) => entry.levelId === levelId);
+    if (!level?.groundPortal || !this._hasUnlockedPortalForLevel(levelId)) {
+      return { success: false, reason: "ground-portal-locked" };
+    }
+
+    const arrival = level.groundPortal.skyArrivalTile;
+    const target = this._findSafeStandingTile(arrival.tx, arrival.ty);
+    if (!target) return { success: false, reason: "no-safe-sky-arrival" };
+
+    this.playerController.teleportToTile(target.tx, target.ty);
+    this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+    this.scene.earthquakeHazardOverlay?.clear?.();
+    this._playSound("teleport");
+    if (this.floatingTextSystem) {
+      const worldPos = this.worldModel.tileToWorld(target.tx, target.ty);
+      this.floatingTextSystem.showFloatingText(
+        worldPos.x,
+        worldPos.y,
+        `Teleported to ${level.groundPortal.arrivalLabel}!`,
+        "#00ffff"
+      );
+    }
+    return { success: true, type: "teleport", target: "skyIslandGroundPortal", levelId };
   }
 
   _activateSkyTeleportReturn() {
@@ -506,6 +640,7 @@ export class SpecialTileSystem {
     this.pairedTeleporters.clear();
     this.skyToDungeonMap.clear();
     this.portalOrder = [];
+    this._syncGroundPortalVisuals();
   }
 
   getSaveData() {

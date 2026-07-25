@@ -1,0 +1,51 @@
+{
+  "version": "superman-flight-idle-prone-review-v2-20260718",
+  "productionChanged": false,
+  "source": {
+    "blend": "testing/blender-animation-lab-v1/review-drafts/superman-flight-idle-prone-v1/superman-flight-idle-prone-v1.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "idleAction": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V1",
+    "idleFrame": 1,
+    "root": "DG_PRONE_FLIGHT_IDLE_ROOT"
+  },
+  "output": {
+    "root": "testing/blender-animation-lab-v1/review-drafts/superman-flight-idle-prone-v2",
+    "blend": "superman-flight-idle-prone-v2.blend",
+    "manifest": "prone-flight-idle-v2-manifest.json",
+    "preview": "prone-flight-idle-v2-preview.png"
+  },
+  "pose": {
+    "action": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V2",
+    "rootName": "DG_PRONE_FLIGHT_IDLE_V2_ROOT",
+    "rootDisplaySize": 0.001,
+    "frameStart": 1,
+    "frameEnd": 1,
+    "torsoLift": {
+      "bone": "spine_03",
+      "rotationEulerDegrees": [0, 0, 6]
+    },
+    "leadFist": {
+      "bone": "hand_l",
+      "targetName": "DG_PRONE_FLIGHT_V2_LEAD_FIST",
+      "targetWorld": [1.16, -0.48, 0.8],
+      "chainCount": 3,
+      "iterations": 128,
+      "useTail": true,
+      "twistEulerDegrees": [0, 180, 0]
+    },
+    "fist": {
+      "axis": "Z",
+      "digits": ["index", "middle", "ring", "pinky"],
+      "segments": ["01", "02", "03"],
+      "segmentDegrees": [65, 70, 50],
+      "thumbSegments": ["01", "02", "03"],
+      "thumbDegrees": [35, 45, 30],
+      "side": "l"
+    }
+  },
+  "preview": {
+    "sizePx": 512,
+    "transparent": false
+  }
+}

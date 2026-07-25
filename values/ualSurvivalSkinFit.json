@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "id": "approved-survival-character-on-ual-v1",
+  "enabled_by_default": false,
+  "source": {
+    "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+    "rig_object": "SurvivalPolishRig",
+    "mesh_object": "SurvivalPolishBody",
+    "approval_reference": "sprites/character/survival-miner-poc-v1/reference/approved-action-proof.png",
+    "rejected_mesh_policy": "legacy-miner-meshy-not-used"
+  },
+  "fit": {
+    "reference_mesh": "Mannequin",
+    "height_mode": "match-normalized-ual-visible-mesh",
+    "skin_yaw_offset_degrees": -90.0,
+    "source_position_yaw_offset_degrees": 0.0,
+    "horizontal_center_axes": [
+      "x",
+      "y"
+    ],
+    "vertical_anchor": "feet",
+    "pelvis_translation_axes": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "ik": {
+    "enabled": true,
+    "debug_print_first_pose": true,
+    "pole_distance_world": 0.28,
+    "iterations": 64,
+    "chains": [
+      { "id": "arm_l", "target_bone": "lowerarm_l", "source_start": "upperarm_l", "source_joint": "lowerarm_l", "source_target": "hand_l", "chain_count": 2, "pole_angle_degrees": 0.0 },
+      { "id": "arm_r", "target_bone": "lowerarm_r", "source_start": "upperarm_r", "source_joint": "lowerarm_r", "source_target": "hand_r", "chain_count": 2, "pole_angle_degrees": 0.0 },
+      { "id": "leg_l", "target_bone": "calf_l", "source_start": "thigh_l", "source_joint": "calf_l", "source_target": "foot_l", "chain_count": 2, "pole_angle_degrees": 0.0 },
+      { "id": "leg_r", "target_bone": "calf_r", "source_start": "thigh_r", "source_joint": "calf_r", "source_target": "foot_r", "chain_count": 2, "pole_angle_degrees": 0.0 }
+    ]
+  },
+  "render": {
+    "source_size": 512,
+    "proof_actions": [
+      "idle",
+      "walk",
+      "punch-jab",
+      "melee-kick",
+      "fly",
+      "dig-up"
+    ],
+    "review_angles_degrees": [
+      180.0,
+      195.0
+    ],
+    "preferred_angle_degrees": 180.0
+  },
+  "bone_transfers": [
+    { "source": "pelvis", "targets": [{ "bone": "pelvis", "weight": 1.0 }] },
+    { "source": "spine_01", "targets": [{ "bone": "spine_01", "weight": 1.0 }] },
+    { "source": "spine_02", "targets": [{ "bone": "spine_02", "weight": 0.5 }, { "bone": "spine_03", "weight": 0.5 }] },
+    { "source": "spine_03", "targets": [{ "bone": "spine_04", "weight": 0.5 }, { "bone": "spine_05", "weight": 0.5 }] },
+    { "source": "neck_01", "targets": [{ "bone": "neck_01", "weight": 0.5 }, { "bone": "neck_02", "weight": 0.5 }] },
+    { "source": "Head", "targets": [{ "bone": "head", "weight": 1.0 }] },
+    { "source": "clavicle_l", "targets": [{ "bone": "clavicle_l", "weight": 1.0 }] },
+    { "source": "upperarm_l", "targets": [{ "bone": "upperarm_l", "weight": 1.0 }] },
+    { "source": "lowerarm_l", "targets": [{ "bone": "lowerarm_l", "weight": 1.0 }] },
+    { "source": "hand_l", "targets": [{ "bone": "hand_l", "weight": 1.0 }] },
+    { "source": "clavicle_r", "targets": [{ "bone": "clavicle_r", "weight": 1.0 }] },
+    { "source": "upperarm_r", "targets": [{ "bone": "upperarm_r", "weight": 1.0 }] },
+    { "source": "lowerarm_r", "targets": [{ "bone": "lowerarm_r", "weight": 1.0 }] },
+    { "source": "hand_r", "targets": [{ "bone": "hand_r", "weight": 1.0 }] },
+    { "source": "thigh_l", "targets": [{ "bone": "thigh_l", "weight": 1.0 }] },
+    { "source": "calf_l", "targets": [{ "bone": "calf_l", "weight": 1.0 }] },
+    { "source": "foot_l", "targets": [{ "bone": "foot_l", "weight": 1.0 }] },
+    { "source": "ball_l", "targets": [{ "bone": "ball_l", "weight": 1.0 }] },
+    { "source": "thigh_r", "targets": [{ "bone": "thigh_r", "weight": 1.0 }] },
+    { "source": "calf_r", "targets": [{ "bone": "calf_r", "weight": 1.0 }] },
+    { "source": "foot_r", "targets": [{ "bone": "foot_r", "weight": 1.0 }] },
+    { "source": "ball_r", "targets": [{ "bone": "ball_r", "weight": 1.0 }] },
+    { "source": "index_01_l", "targets": [{ "bone": "index_01_l", "weight": 1.0 }] },
+    { "source": "index_02_l", "targets": [{ "bone": "index_02_l", "weight": 1.0 }] },
+    { "source": "index_03_l", "targets": [{ "bone": "index_03_l", "weight": 1.0 }] },
+    { "source": "middle_01_l", "targets": [{ "bone": "middle_01_l", "weight": 1.0 }] },
+    { "source": "middle_02_l", "targets": [{ "bone": "middle_02_l", "weight": 1.0 }] },
+    { "source": "middle_03_l", "targets": [{ "bone": "middle_03_l", "weight": 1.0 }] },
+    { "source": "pinky_01_l", "targets": [{ "bone": "pinky_01_l", "weight": 1.0 }] },
+    { "source": "pinky_02_l", "targets": [{ "bone": "pinky_02_l", "weight": 1.0 }] },
+    { "source": "pinky_03_l", "targets": [{ "bone": "pinky_03_l", "weight": 1.0 }] },
+    { "source": "ring_01_l", "targets": [{ "bone": "ring_01_l", "weight": 1.0 }] },
+    { "source": "ring_02_l", "targets": [{ "bone": "ring_02_l", "weight": 1.0 }] },
+    { "source": "ring_03_l", "targets": [{ "bone": "ring_03_l", "weight": 1.0 }] },
+    { "source": "thumb_01_l", "targets": [{ "bone": "thumb_01_l", "weight": 1.0 }] },
+    { "source": "thumb_02_l", "targets": [{ "bone": "thumb_02_l", "weight": 1.0 }] },
+    { "source": "thumb_03_l", "targets": [{ "bone": "thumb_03_l", "weight": 1.0 }] },
+    { "source": "index_01_r", "targets": [{ "bone": "index_01_r", "weight": 1.0 }] },
+    { "source": "index_02_r", "targets": [{ "bone": "index_02_r", "weight": 1.0 }] },
+    { "source": "index_03_r", "targets": [{ "bone": "index_03_r", "weight": 1.0 }] },
+    { "source": "middle_01_r", "targets": [{ "bone": "middle_01_r", "weight": 1.0 }] },
+    { "source": "middle_02_r", "targets": [{ "bone": "middle_02_r", "weight": 1.0 }] },
+    { "source": "middle_03_r", "targets": [{ "bone": "middle_03_r", "weight": 1.0 }] },
+    { "source": "pinky_01_r", "targets": [{ "bone": "pinky_01_r", "weight": 1.0 }] },
+    { "source": "pinky_02_r", "targets": [{ "bone": "pinky_02_r", "weight": 1.0 }] },
+    { "source": "pinky_03_r", "targets": [{ "bone": "pinky_03_r", "weight": 1.0 }] },
+    { "source": "ring_01_r", "targets": [{ "bone": "ring_01_r", "weight": 1.0 }] },
+    { "source": "ring_02_r", "targets": [{ "bone": "ring_02_r", "weight": 1.0 }] },
+    { "source": "ring_03_r", "targets": [{ "bone": "ring_03_r", "weight": 1.0 }] },
+    { "source": "thumb_01_r", "targets": [{ "bone": "thumb_01_r", "weight": 1.0 }] },
+    { "source": "thumb_02_r", "targets": [{ "bone": "thumb_02_r", "weight": 1.0 }] },
+    { "source": "thumb_03_r", "targets": [{ "bone": "thumb_03_r", "weight": 1.0 }] }
+  ]
+}

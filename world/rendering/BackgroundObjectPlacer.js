@@ -1,4 +1,5 @@
 import { applyAuthoredBackgroundTextureFilter } from "./authoredBackgroundTextureFilters.js";
+import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 
 /**
  * Consumes the authored background object data from TILED_BACKGROUND_OBJECTS.
@@ -69,6 +70,10 @@ export class BackgroundObjectPlacer {
       for (const obj of objects) {
         const rawGid = Number(obj.gidRaw ?? obj.gid) || 0;
         if (!rawGid || rawGid === 0) continue;
+        const authoredFilename = String(
+          obj.resolvedFilename || obj.sourcePath || obj.properties?.sourcePath || obj.name || ""
+        ).toLowerCase();
+        if (V11_SKY_ISLAND_LAYOUT.enabled && authoredFilename.includes("prop_048_eclipse_gate.webp")) continue;
 
         const rect = this.getObjectRect(obj, tilePx, offsetX, offsetY);
         if (!this.rectOverlapsWorld(rect, worldBounds)) {

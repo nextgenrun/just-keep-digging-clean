@@ -1,6 +1,6 @@
 # Dig Game Dev Environment — README
 
-**Last updated:** 2026-06-25
+**Last updated:** 2026-07-12
 
 ## Table of Contents
 1. [Directory Structure Overview](#directory-structure-overview)
@@ -98,6 +98,8 @@ dig-game-dev-env/
 │   ├── visual/
 │   │   ├── HUDSystem.js            ← HP/GP bars, depth, interact prompts
 │   │   ├── FloatingTextSystem.js   ← Floating damage/collect numbers
+│   │   ├── EarthquakeFeedbackUI.js ← Seismic phase/intensity and escape HUD
+│   │   ├── EarthquakeHazardOverlay.js ← Cave-in, rock-lane, and rubble telegraphs
 │   │   ├── ScreenFlashSystem.js    ← Screen flash effects
 │   │   ├── CameraShakeSystem.js    ← Camera shake on dig/hit
 │   │   ├── PickaxeTrailSystem.js   ← Pickaxe swing trail particles
@@ -112,7 +114,7 @@ dig-game-dev-env/
 │   │   ├── DayNightCycle.js        ← Day/night transitions
 │   │   ├── WeatherSystem.js        ← Weather effects (rain, fog)
 │   │   ├── AtmosphereSystem.js     ← Atmospheric effects (fog layers)
-│   │   ├── EarthquakeSystem.js     ← Screen shake events
+│   │   ├── EarthquakeSystem.js     ← World-space seismic events and cave-ins
 │   │   ├── AboveGroundDecorationSystem.js ← Trees, grass, clouds
 │   │   ├── CampfireSystem.js       ← Campfire visuals & mechanics
 │   │   ├── SurfaceTunnelDoorSystem.js ← Town exit tunnel door
@@ -120,11 +122,17 @@ dig-game-dev-env/
 │   ├── lighting/
 │   │   ├── LightSystem.js          ← Runtime point light management
 │   │   └── ShaderSystem.js         ← Pipeline shader management
+│   ├── health/
+│   │   ├── RuntimeCanarySystem.js  ← Runtime lifecycle/error/invariant monitor
+│   │   ├── RuntimeCanaryReporter.js ← Local critical report + optional endpoint
+│   │   └── runtimeCanaryChecks.js  ← Deterministic canvas/scene/loop checks
 │   └── combo/
 │       ├── ComboSystem.js          ← Dig combo multiplier
 │       └── HitstopSystem.js        ← Hit pause on tile break
 │
 ├── ui/                             ← UI components & scenes
+│   ├── admin/
+│   │   └── AdminHealthPanel.js     ← Opt-in admin canary status panel
 │   ├── scenes/                     ← Phaser scene classes
 │   │   ├── BootScene.js            ← Asset preloading + splash
 │   │   ├── MenuAudioScene.js       ← Audio manager scene (runs alongside menus)

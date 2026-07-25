@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Epic GASP Action Review · Dig Game</title>
+  <link rel="stylesheet" href="../ual-walk-review-v1/review.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Dig Game · Epic Game Animation Sample coverage</p>
+      <h1>50 animation candidates on the real Survival character</h1>
+      <p class="intro">This review catalog puts the strongest locally available traversal, mining, pickaxe-placeholder, airborne, combat, and recovery roles side by side on the current character. Nothing here replaces the selected Compact UAL jog, the legacy sideways digging, or any active gameplay profile.</p>
+    </div>
+    <div class="truth-card" aria-label="Runtime truth">
+      <span>Current Survival body</span>
+      <span>Unreal IK retargeted</span>
+      <span>50 candidate roles</span>
+      <span>Review-only pack</span>
+    </div>
+  </header>
+
+  <section class="control-deck" aria-label="GASP action review controls">
+    <div class="button-cluster">
+      <button id="play-toggle" type="button">Pause</button>
+      <button id="step-back" type="button">− 1/30s</button>
+      <button id="step-forward" type="button">+ 1/30s</button>
+      <button id="restart" type="button">Restart</button>
+    </div>
+
+    <label class="field">
+      <span>Cadence</span>
+      <select id="cadence-mode">
+        <option value="native">Native 30 FPS</option>
+        <option value="game-matched">Live game matched</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Camera zoom</span>
+      <select id="view-scale">
+        <option value="1">1× live scale</option>
+        <option value="2">2× inspection</option>
+      </select>
+    </label>
+
+    <label class="check-field">
+      <input id="flip-facing" type="checkbox">
+      <span>Face left</span>
+    </label>
+    <label class="check-field">
+      <input id="show-guides" type="checkbox" checked>
+      <span>Collider + tile guides</span>
+    </label>
+
+    <label class="timeline-field">
+      <span>Shared review time</span>
+      <input id="timeline" type="range" min="0" max="6000" step="1" value="0">
+    </label>
+  </section>
+
+  <section class="review-note">
+    <strong>What this proves:</strong>
+    the source is not being shown as an isolated mannequin demo. Each card uses the approved Survival mesh, fixed in-place preview sampling, and the packed runtime frame format. Pickaxe-placeholder cards reuse the closest real current-character body motion and are clearly marked; they are review candidates, not gameplay wiring.
+  </section>
+
+  <main id="candidate-grid" class="candidate-grid" aria-label="Epic GASP actions"></main>
+
+  <footer class="selection-dock">
+    <div>
+      <span class="selection-label">Review focus</span>
+      <strong id="selection-summary">Epic GASP forward jog · compare 50 traversal, mining, combat, and response candidates</strong>
+    </div>
+    <a class="tuning-lab-link" href="../ual-run-review-v1/">Back to five run candidates →</a>
+    <span id="load-status" role="status">Loading 50 current-character animation candidates…</span>
+  </footer>
+
+  <noscript>This GASP review needs JavaScript enabled.</noscript>
+  <script type="module" src="actionReview.js"></script>
+</body>
+</html>

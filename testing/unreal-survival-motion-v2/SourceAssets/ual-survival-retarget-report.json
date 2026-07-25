@@ -1,0 +1,141 @@
+{
+  "engine": "5.8.0-55116800+++UE5+Release-5.8",
+  "source_fbx": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-active-source\\UAL_Active_Source.fbx",
+  "source_mesh": "/Game/SurvivalMotion/UALSource/UAL_Active_Source.UAL_Active_Source",
+  "target_mesh": "/Game/SurvivalMotion/Character/SK_SurvivalCharacter_Fab_v1.SK_SurvivalCharacter_Fab_v1",
+  "source_auto_definition": false,
+  "source_ik_rig": "/Game/SurvivalMotion/Retarget/IK_UAL_Active_Source.IK_UAL_Active_Source",
+  "target_ik_rig": "/Game/SurvivalMotion/Retarget/IK_SurvivalCharacter_Fab_v1.IK_SurvivalCharacter_Fab_v1",
+  "retargeter": "/Game/SurvivalMotion/Retarget/RTG_UAL_To_SurvivalCharacter_v1.RTG_UAL_To_SurvivalCharacter_v1",
+  "imported_object_paths": [
+    "/Game/SurvivalMotion/UALSource/UAL_Active_Source_Skeleton.UAL_Active_Source_Skeleton",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_Source.UAL_Active_Source",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_ClimbUp_1m.UAL_Active_SourceSK_UAL_Active_Source_ClimbUp_1m",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Crouch_Idle_Loop.UAL_Active_SourceSK_UAL_Active_Source_Crouch_Idle_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Death01.UAL_Active_SourceSK_UAL_Active_Source_Death01",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Hit_Chest.UAL_Active_SourceSK_UAL_Active_Source_Hit_Chest",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Idle_Loop.UAL_Active_SourceSK_UAL_Active_Source_Idle_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Idle_Talking_Loop.UAL_Active_SourceSK_UAL_Active_Source_Idle_Talking_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jog_Fwd_Loop.UAL_Active_SourceSK_UAL_Active_Source_Jog_Fwd_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jump_Land.UAL_Active_SourceSK_UAL_Active_Source_Jump_Land",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jump_Loop.UAL_Active_SourceSK_UAL_Active_Source_Jump_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jump_Start.UAL_Active_SourceSK_UAL_Active_Source_Jump_Start",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook.UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook_Rec.UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook_Rec",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_OverhandThrow.UAL_Active_SourceSK_UAL_Active_Source_OverhandThrow",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Punch_Cross.UAL_Active_SourceSK_UAL_Active_Source_Punch_Cross",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Punch_Jab.UAL_Active_SourceSK_UAL_Active_Source_Punch_Jab",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Push_Loop.UAL_Active_SourceSK_UAL_Active_Source_Push_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Roll.UAL_Active_SourceSK_UAL_Active_Source_Roll",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Shield_Dash.UAL_Active_SourceSK_UAL_Active_Source_Shield_Dash",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Spell_Simple_Idle_Loop.UAL_Active_SourceSK_UAL_Active_Source_Spell_Simple_Idle_Loop",
+    "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_TreeChopping_Loop.UAL_Active_SourceSK_UAL_Active_Source_TreeChopping_Loop"
+  ],
+  "rejected_sources_excluded": [
+    "Authored_Grounded_Side_Kick_v1",
+    "Sword_Regular_C"
+  ],
+  "clips": {
+    "Idle_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Idle_Loop.UAL_Active_SourceSK_UAL_Active_Source_Idle_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Idle_Loop.Survival_UAL_Idle_Loop",
+      "seconds": 2.5
+    },
+    "Idle_Talking_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Idle_Talking_Loop.UAL_Active_SourceSK_UAL_Active_Source_Idle_Talking_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Idle_Talking_Loop.Survival_UAL_Idle_Talking_Loop",
+      "seconds": 2.9166667461395264
+    },
+    "Jog_Fwd_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jog_Fwd_Loop.UAL_Active_SourceSK_UAL_Active_Source_Jog_Fwd_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jog_Fwd_Loop.Survival_UAL_Jog_Fwd_Loop",
+      "seconds": 0.9166666865348816
+    },
+    "Jump_Start": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jump_Start.UAL_Active_SourceSK_UAL_Active_Source_Jump_Start",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jump_Start.Survival_UAL_Jump_Start",
+      "seconds": 1.3333333730697632
+    },
+    "Jump_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jump_Loop.UAL_Active_SourceSK_UAL_Active_Source_Jump_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jump_Loop.Survival_UAL_Jump_Loop",
+      "seconds": 2.5
+    },
+    "Jump_Land": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Jump_Land.UAL_Active_SourceSK_UAL_Active_Source_Jump_Land",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Jump_Land.Survival_UAL_Jump_Land",
+      "seconds": 1.25
+    },
+    "Crouch_Idle_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Crouch_Idle_Loop.UAL_Active_SourceSK_UAL_Active_Source_Crouch_Idle_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Crouch_Idle_Loop.Survival_UAL_Crouch_Idle_Loop",
+      "seconds": 2.9166667461395264
+    },
+    "Shield_Dash": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Shield_Dash.UAL_Active_SourceSK_UAL_Active_Source_Shield_Dash",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Shield_Dash.Survival_UAL_Shield_Dash",
+      "seconds": 1.0833333730697632
+    },
+    "ClimbUp_1m": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_ClimbUp_1m.UAL_Active_SourceSK_UAL_Active_Source_ClimbUp_1m",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_ClimbUp_1m.Survival_UAL_ClimbUp_1m",
+      "seconds": 0.6666666865348816
+    },
+    "Punch_Jab": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Punch_Jab.UAL_Active_SourceSK_UAL_Active_Source_Punch_Jab",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Punch_Jab.Survival_UAL_Punch_Jab",
+      "seconds": 0.875
+    },
+    "Punch_Cross": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Punch_Cross.UAL_Active_SourceSK_UAL_Active_Source_Punch_Cross",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Punch_Cross.Survival_UAL_Punch_Cross",
+      "seconds": 1.0
+    },
+    "TreeChopping_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_TreeChopping_Loop.UAL_Active_SourceSK_UAL_Active_Source_TreeChopping_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_TreeChopping_Loop.Survival_UAL_TreeChopping_Loop",
+      "seconds": 0.9583333134651184
+    },
+    "Melee_Hook": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook.UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Melee_Hook.Survival_UAL_Melee_Hook",
+      "seconds": 0.4583333432674408
+    },
+    "Melee_Hook_Rec": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook_Rec.UAL_Active_SourceSK_UAL_Active_Source_Melee_Hook_Rec",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Melee_Hook_Rec.Survival_UAL_Melee_Hook_Rec",
+      "seconds": 0.5833333134651184
+    },
+    "OverhandThrow": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_OverhandThrow.UAL_Active_SourceSK_UAL_Active_Source_OverhandThrow",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_OverhandThrow.Survival_UAL_OverhandThrow",
+      "seconds": 1.3333333730697632
+    },
+    "Push_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Push_Loop.UAL_Active_SourceSK_UAL_Active_Source_Push_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Push_Loop.Survival_UAL_Push_Loop",
+      "seconds": 2.6666667461395264
+    },
+    "Roll": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Roll.UAL_Active_SourceSK_UAL_Active_Source_Roll",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Roll.Survival_UAL_Roll",
+      "seconds": 1.4583333730697632
+    },
+    "Spell_Simple_Idle_Loop": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Spell_Simple_Idle_Loop.UAL_Active_SourceSK_UAL_Active_Source_Spell_Simple_Idle_Loop",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Spell_Simple_Idle_Loop.Survival_UAL_Spell_Simple_Idle_Loop",
+      "seconds": 2.0833332538604736
+    },
+    "Hit_Chest": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Hit_Chest.UAL_Active_SourceSK_UAL_Active_Source_Hit_Chest",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Hit_Chest.Survival_UAL_Hit_Chest",
+      "seconds": 0.3333333432674408
+    },
+    "Death01": {
+      "source": "/Game/SurvivalMotion/UALSource/UAL_Active_SourceSK_UAL_Active_Source_Death01.UAL_Active_SourceSK_UAL_Active_Source_Death01",
+      "output": "/Game/SurvivalMotion/UALAnimations/Survival_UAL_Death01.Survival_UAL_Death01",
+      "seconds": 2.4166667461395264
+    }
+  },
+  "retargeted_in_unreal": true
+}

@@ -29,76 +29,9 @@
  */
 
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
+import { CAMPFIRE_CONFIG, CAMPFIRE_TIERS } from "../../values/campfireConfig.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../UserSettings.js";
-
-function parseColorHex(value, fallback = 0x666666) {
-  if (typeof value === "number" && Number.isInteger(value)) return value;
-  if (typeof value !== "string") return fallback;
-
-  const normalized = value.startsWith("#") ? value.slice(1) : value;
-  const fullHex = normalized.length === 3
-    ? normalized.split("").map((ch) => ch + ch).join("")
-    : normalized;
-  const parsed = Number.parseInt(fullHex, 16);
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-function createButton(scene, {
-  x = 0,
-  y = 0,
-  width = 120,
-  height = 30,
-  label = "BUTTON",
-  hint = "",
-  accent = UI_COLORS.borderDim,
-  labelColor = "#ffffff",
-  depth = 0,
-  fontSize = "10px",
-  onClick = () => {},
-}) {
-  const fg = parseColorHex(accent, 0x666666);
-  const hover = Math.max(0x000000, fg - 0x0f0f0f);
-
-  const root = scene.add.container(x, y).setScrollFactor(0).setDepth(depth);
-
-  const bg = scene.add.rectangle(0, 0, width, height, 0x1b1b1f, 0.95)
-    .setInteractive({ useHandCursor: true })
-    .setStrokeStyle(2, fg, 0.95);
-
-  const labelText = scene.add.text(-width / 2 + 10, -1, label, {
-    fontFamily: "Consolas, monospace",
-    fontSize,
-    fontStyle: "bold",
-    color: labelColor,
-    stroke: "#ffffff",
-    strokeThickness: 2,
-  }).setOrigin(0);
-
-  const hintText = hint
-    ? scene.add.text(width / 2 - 10, 0, hint, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "8px",
-      color: UI_COLORS.hint,
-      stroke: "#ffffff",
-      strokeThickness: 1,
-    }).setOrigin(1, 0.5)
-    : null;
-
-  bg.on("pointerdown", () => {
-    onClick();
-  });
-  bg.on("pointerover", () => {
-    try { bg.setFillStyle(hover, 0.98); } catch (e) {}
-  });
-  bg.on("pointerout", () => {
-    try { bg.setFillStyle(0x1b1b1f, 0.95); } catch (e) {}
-  });
-
-  root.add([bg, labelText]);
-  if (hintText) root.add(hintText);
-
-  return { root, bg, labelText, hintText };
-}
 
 // ── Main Menu Theme Palette (matches ShopOverlay / MainMenuScene) ──────────
 const COL = {
@@ -122,128 +55,13 @@ const COL = {
   poor:      0x4a2a2a,
 };
 
-// ── Campfire Upgrade Tiers (10 levels) ─────────────────────────────────────
-// Nerfed early game: level 1 is very cheap, levels 5-10 scale sensibly
-// against other upgrade prices (agility=3g, strength=18g, critChance=60g)
-const CAMPFIRE_TIERS = [
-  {
-    level: 1,
-    label: 'Tier I',
-    cost: 0,
-    durationMs: 60000,       // 1 min
-    miningSpeedBonus: 0.05,
-    xpBonus: 0.10,
-    critBonus: 0.02,
-    desc: 'Basic warmth (60s)',
-  },
-  {
-    level: 2,
-    label: 'Tier II',
-    cost: 5,
-    durationMs: 75000,       // 1.25 min
-    miningSpeedBonus: 0.08,
-    xpBonus: 0.15,
-    critBonus: 0.03,
-    desc: 'Cozy fire (75s)',
-  },
-  {
-    level: 3,
-    label: 'Tier III',
-    cost: 10,
-    durationMs: 90000,       // 1.5 min
-    miningSpeedBonus: 0.10,
-    xpBonus: 0.20,
-    critBonus: 0.05,
-    desc: 'Warm glow (90s)',
-  },
-  {
-    level: 4,
-    label: 'Tier IV',
-    cost: 20,
-    durationMs: 120000,      // 2 min
-    miningSpeedBonus: 0.12,
-    xpBonus: 0.25,
-    critBonus: 0.06,
-    desc: 'Steady flame (120s)',
-  },
-  {
-    level: 5,
-    label: 'Tier V',
-    cost: 50,
-    durationMs: 150000,      // 2.5 min
-    miningSpeedBonus: 0.15,
-    xpBonus: 0.30,
-    critBonus: 0.08,
-    desc: 'Bright blaze (150s)',
-  },
-  {
-    level: 6,
-    label: 'Tier VI',
-    cost: 75,
-    durationMs: 180000,      // 3 min
-    miningSpeedBonus: 0.18,
-    xpBonus: 0.40,
-    critBonus: 0.10,
-    desc: 'Roaring fire (180s)',
-  },
-  {
-    level: 7,
-    label: 'Tier VII',
-    cost: 100,
-    durationMs: 210000,      // 3.5 min
-    miningSpeedBonus: 0.20,
-    xpBonus: 0.50,
-    critBonus: 0.12,
-    desc: 'Intense heat (210s)',
-  },
-  {
-    level: 8,
-    label: 'Tier VIII',
-    cost: 150,
-    durationMs: 240000,      // 4 min
-    miningSpeedBonus: 0.25,
-    xpBonus: 0.60,
-    critBonus: 0.15,
-    desc: 'Inferno (240s)',
-  },
-  {
-    level: 9,
-    label: 'Tier IX',
-    cost: 200,
-    durationMs: 270000,      // 4.5 min
-    miningSpeedBonus: 0.30,
-    xpBonus: 0.75,
-    critBonus: 0.18,
-    desc: 'Volcanic (270s)',
-  },
-  {
-    level: 10,
-    label: 'Tier X',
-    cost: 300,
-    durationMs: 360000,      // 6 min
-    miningSpeedBonus: 0.35,
-    xpBonus: 0.90,
-    critBonus: 0.20,
-    desc: 'Eternal flame (360s)',
-  },
-];
-
-// ── Campfire Sprite Layout ─────────────────────────────────────────────────
-const CAMPFIRE_SPRITE_KEYS = [
-  'campfire-tier-01', 'campfire-tier-02', 'campfire-tier-03', 'campfire-tier-04', 'campfire-tier-05',
-  'campfire-tier-06', 'campfire-tier-07', 'campfire-tier-08', 'campfire-tier-09', 'campfire-tier-10',
-];
-const CAMPFIRE_GROUND_OVERLAP_PX = 1;
-const CAMPFIRE_HEIGHT_BY_LEVEL_TILES = [
-  1.06, 1.10, 1.14, 1.18, 1.22,
-  1.26, 1.30, 1.34, 1.38, 1.42,
-];
-
 export class CampfireSystem {
-  constructor(scene, config, worldModel) {
+  constructor(scene, config, worldModel, ui, saveSlot = 1) {
     this.scene = scene;
     this.config = config;
     this.worldModel = worldModel;
+    this.ui = ui;
+    this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
 
     // Campfire visual objects
     this._campfireGfx = null;
@@ -307,12 +125,8 @@ export class CampfireSystem {
     this._campY = campTileY * ts + ts / 2;
     this._campGroundY = (campTileY + 1) * ts;
 
-    // Register own keyboard keys (independent from game input)
+    // Register own keyboard keys so selection input stays live while gameplay is paused.
     this.refreshKeybinds();
-    this._keyW = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this._keyS = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this._keyEsc = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-    this._keyEnter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
     // Campfire graphics
     this._campfireGfx = this.scene.add.graphics();
@@ -320,7 +134,7 @@ export class CampfireSystem {
     this._drawCampfire();
 
     // Campfire sprite: bottom-center anchored so the brazier feet sit on the tile surface.
-    this._campfireSprite = this.scene.add.image(this._campX, this._campGroundY + CAMPFIRE_GROUND_OVERLAP_PX, this._getCampfireSpriteKey());
+    this._campfireSprite = this.scene.add.image(this._campX, this._campGroundY + CAMPFIRE_CONFIG.groundOverlapPx, this._getCampfireSpriteKey());
     this._campfireSprite.setDepth(5);
     this._campfireSprite.setOrigin(0.5, 1);
     this._applyCampfireVisualLayout();
@@ -363,10 +177,21 @@ export class CampfireSystem {
   }
 
   refreshKeybinds() {
-    if (this._keyInteract) this._keyInteract.destroy?.();
-    this._keyInteract = this.scene.input.keyboard.addKey(keyToPhaserKey(USER_SETTINGS.getKey("interact")));
+    [this._keyInteract, this._keyW, this._keyS, this._keyEsc, this._keyEnter]
+      .forEach(key => key?.destroy?.());
+    const actions = CAMPFIRE_CONFIG.inputActions;
+    const addBoundKey = actionId => this.scene.input.keyboard.addKey(keyToPhaserKey(USER_SETTINGS.getKey(actionId)));
+    this._keyInteract = addBoundKey(actions.interact);
+    this._keyW = addBoundKey(actions.previousBlessing);
+    this._keyS = addBoundKey(actions.nextBlessing);
+    this._keyEsc = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    this._keyEnter = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this._prevW = false;
+    this._prevS = false;
+    this._prevEsc = false;
     this._prevInteract = false;
-    this._ePrompt?.setText(`Press ${USER_SETTINGS.getKeyLabel("interact")}`);
+    this._prevEnter = false;
+    this._ePrompt?.setText(`Press ${USER_SETTINGS.getKeyLabel(actions.interact)}`);
   }
 
   /**
@@ -506,6 +331,9 @@ export class CampfireSystem {
 
     // Update campfire sprite to match new level
     this._updateCampfireSprite();
+    this._syncMoneyUi();
+    this.scene.queueDugTilesSave?.();
+    this.scene.hudSystem?.flashStatus?.(`🔥 Campfire upgraded to ${nextTier.label}!`, COL.cssSuccess, 1800);
 
     return {
       success: true,
@@ -533,7 +361,12 @@ export class CampfireSystem {
 
   _loadCampfireLevel() {
     try {
-      const saved = localStorage.getItem('jkd-campfire-level');
+      const storageKey = `jkd-campfire-level-slot-${this.saveSlot}`;
+      let saved = localStorage.getItem(storageKey);
+      if (!saved && this.saveSlot === 1) {
+        saved = localStorage.getItem('jkd-campfire-level');
+        if (saved) localStorage.setItem(storageKey, saved);
+      }
       if (saved) {
         const level = parseInt(saved, 10);
         if (level >= 1 && level <= 10) {
@@ -547,7 +380,7 @@ export class CampfireSystem {
 
   _saveCampfireLevel() {
     try {
-      localStorage.setItem('jkd-campfire-level', String(this._campfireLevel));
+      localStorage.setItem(`jkd-campfire-level-slot-${this.saveSlot}`, String(this._campfireLevel));
     } catch (e) {
       // ignore
     }
@@ -563,18 +396,24 @@ export class CampfireSystem {
     }
   }
 
+  _syncMoneyUi() {
+    const money = this.scene.upgradeSystem?.getMoney?.() ?? 0;
+    this.scene.uiResourceBar?.setMoney?.(money);
+    this.scene.uiInventoryPopup?.setMoney?.(money);
+  }
+
   _getCampfireSpriteKey() {
-    const idx = Phaser.Math.Clamp(this._campfireLevel - 1, 0, CAMPFIRE_SPRITE_KEYS.length - 1);
-    return CAMPFIRE_SPRITE_KEYS[idx];
+    const idx = Phaser.Math.Clamp(this._campfireLevel - 1, 0, CAMPFIRE_CONFIG.spriteKeys.length - 1);
+    return CAMPFIRE_CONFIG.spriteKeys[idx];
   }
 
   _getCampfireDisplayHeightPx() {
-    const idx = Phaser.Math.Clamp(this._campfireLevel - 1, 0, CAMPFIRE_HEIGHT_BY_LEVEL_TILES.length - 1);
-    return Math.round(this.config.tileSize * CAMPFIRE_HEIGHT_BY_LEVEL_TILES[idx]);
+    const idx = Phaser.Math.Clamp(this._campfireLevel - 1, 0, CAMPFIRE_CONFIG.heightByLevelTiles.length - 1);
+    return Math.round(this.config.tileSize * CAMPFIRE_CONFIG.heightByLevelTiles[idx]);
   }
 
   _getCampfireTopY() {
-    return this._campGroundY + CAMPFIRE_GROUND_OVERLAP_PX - (this._campfireDisplayHeightPx || this._getCampfireDisplayHeightPx());
+    return this._campGroundY + CAMPFIRE_CONFIG.groundOverlapPx - (this._campfireDisplayHeightPx || this._getCampfireDisplayHeightPx());
   }
 
   _applyCampfireVisualLayout() {
@@ -589,7 +428,7 @@ export class CampfireSystem {
     this._campfireDisplayHeightPx = displayHeight;
     this._campfireSprite
       .setOrigin(0.5, 1)
-      .setPosition(this._campX, this._campGroundY + CAMPFIRE_GROUND_OVERLAP_PX)
+      .setPosition(this._campX, this._campGroundY + CAMPFIRE_CONFIG.groundOverlapPx)
       .setDisplaySize(displayWidth, displayHeight);
 
     const topY = this._getCampfireTopY();
@@ -628,261 +467,214 @@ export class CampfireSystem {
   _openBuffSelection(options = {}) {
     if (this._isSelecting) return;
     this._isSelecting = true;
-    if (options.preserveSelection) {
-      this._selectedIndex = Phaser.Math.Clamp(this._selectedIndex, 0, this._buffs.length - 1);
-    } else {
-      this._selectedIndex = 0;
-    }
-    this._justOpenedFrame = !options.preserveSelection;
+    this._justOpenedFrame = true;
+    if (!options.preserveSelection) this._selectedIndex = 0;
+    this.scene.setShopOpen?.(true);
 
-    // Stop player movement (like ShopOverlay does)
-    if (this.scene.setShopOpen) {
-      this.scene.setShopOpen(true);
-    }
-
-    const cx = this.scene.cameras.main.width / 2;
-    const cy = this.scene.cameras.main.height / 2;
-    const W = 450;
-    const H = 380;
-    const DEPTH = 2600;
-
-    // Dark overlay — make interactive to capture clicks and prevent them
-    // from passing through to game world
-    this._selectionOverlay = this.scene.add.rectangle(cx, cy, 1280, 720, 0x000000, 0.7)
-      .setScrollFactor(0).setDepth(DEPTH).setInteractive();
-    this._selectionObjects.push(this._selectionOverlay);
-
-    // Panel (main menu theme)
-    const panelG = this.scene.add.graphics().setScrollFactor(0).setDepth(DEPTH + 1);
-    panelG.fillStyle(COL.bg, 1);
-    panelG.fillRoundedRect(cx - W / 2, cy - H / 2, W, H, 8);
-    panelG.lineStyle(2, COL.accent, 0.8);
-    panelG.strokeRoundedRect(cx - W / 2, cy - H / 2, W, H, 8);
-    this._selectionObjects.push(panelG);
-
-    // Title
-    const title = this.scene.add.text(cx, cy - H / 2 + 22, '🔥  Campfire Buffs', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: '18px',
-      fontStyle: 'bold',
-      color: COL.cssAccent,
-      stroke: '#000000',
-      strokeThickness: 3,
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2);
-    this._selectionObjects.push(title);
-
-    const closeBtn = createButton(this.scene, {
-      x: cx + W / 2 - 58,
-      y: cy - H / 2 + 24,
-      width: 92,
-      height: 30,
-      label: 'CLOSE',
-      hint: 'ESC',
-      accent: UI_COLORS.borderBad,
-      labelColor: UI_COLORS.danger,
-      depth: DEPTH + 3,
-      fontSize: '10px',
-      onClick: () => this._closeBuffSelection(),
-    });
-    this._selectionObjects.push(closeBtn.root);
-
-    // Subtitle + Tier info
     const tier = this._getTierConfig();
-    const subtitle = this.scene.add.text(cx, cy - H / 2 + 46,
-      `Choose a buff  •  ${tier.label} (${Math.floor(tier.durationMs / 1000)}s duration)`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '11px',
-      color: COL.hint,
-      stroke: '#000000',
-      strokeThickness: 2,
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2);
-    this._selectionObjects.push(subtitle);
+    const values = this._getBuffValues();
+    const durationSeconds = Math.round(values.durationMs / 1000);
+    const actions = CAMPFIRE_CONFIG.inputActions;
+    const nextTier = CAMPFIRE_TIERS[this._campfireLevel];
+    const upgradeCost = nextTier?.cost ?? 0;
+    const currentMoney = this.scene.upgradeSystem?.getMoney?.() ?? 0;
+    const canUpgrade = currentMoney >= upgradeCost;
+    const shell = this.ui.createModalShell(this.scene, {
+      title: "CAMPFIRE RITUAL",
+      subtitle: "Tier " + this._campfireLevel + "  |  " + durationSeconds + " seconds  |  "
+        + USER_SETTINGS.getKeyLabel(actions.previousBlessing) + "/" + USER_SETTINGS.getKeyLabel(actions.nextBlessing)
+        + " select  |  " + USER_SETTINGS.getKeyLabel(actions.interact) + " activate",
+      icon: "torch",
+      maxWidth: 860,
+      maxHeight: 600,
+      depth: 3200,
+      onClose: () => this._closeBuffSelection(),
+    });
+    const content = shell.content;
+    const rect = shell.getContentRect();
+    const gap = 16;
+    const leftWidth = Math.min(330, rect.width * 0.41);
+    const rightX = rect.left + leftWidth + gap;
+    const rightWidth = rect.width - leftWidth - gap;
+    const selected = this._buffs[this._selectedIndex] || this._buffs[0];
+    const iconKeys = ["torch", "journal", "focus"];
 
-    // Divider
-    const divY = cy - H / 2 + 60;
-    const divG = this.scene.add.graphics().setScrollFactor(0).setDepth(DEPTH + 1);
-    divG.lineStyle(1, COL.borderDim, 0.6);
-    divG.lineBetween(cx - W / 2 + 15, divY, cx + W / 2 - 15, divY);
-    this._selectionObjects.push(divG);
+    const leftPanel = this.scene.add.rectangle(
+      rect.left + leftWidth / 2,
+      rect.top + rect.height / 2,
+      leftWidth,
+      rect.height,
+      UI_COLORS.bg,
+      0.82
+    ).setStrokeStyle(1, UI_COLORS.borderDim);
+    const rightPanel = this.scene.add.rectangle(
+      rightX + rightWidth / 2,
+      rect.top + rect.height / 2,
+      rightWidth,
+      rect.height,
+      UI_COLORS.cardBase,
+      0.98
+    ).setStrokeStyle(2, UI_COLORS.borderSel);
+    content.add([leftPanel, rightPanel]);
 
-    // Active buff indicator
-    if (this._activeBuff && this._activeBuff.remainingMs > 0) {
-      const remaining = Math.ceil(this._activeBuff.remainingMs / 1000);
-      const activeText = this.scene.add.text(cx, divY + 12,
-        `Active: ${this._activeBuff.name} (${remaining}s remaining)`, {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '10px',
-        color: COL.cssSuccess,
-        stroke: '#000000',
-        strokeThickness: 2,
-      }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2);
-      this._selectionObjects.push(activeText);
-    }
+    const sectionTitle = this.scene.add.text(rect.left + 16, rect.top + 14, "AVAILABLE BLESSINGS", {
+      fontFamily: UI_FONTS.display,
+      fontSize: "15px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+    content.add(sectionTitle);
 
-    // Buff options
-    const buffValues = this._getBuffValues();
-    const startY = cy - H / 2 + 82;
-    this._buffs.forEach((buff, i) => {
-      const y = startY + i * 60;
-      const isSelected = i === this._selectedIndex;
-      const isActive = this._activeBuff?.remainingMs > 0 && this._activeBuff.type === buff.type;
-
-      // Build tier-scaled description
-      let descParts = [];
-      if (buff.miningSpeedBonus) descParts.push(`+${Math.round(buffValues.miningSpeedBonus * 100)}% Mining Speed`);
-      if (buff.xpBonus) descParts.push(`+${Math.round(buffValues.xpBonus * 100)}% XP Gain`);
-      if (buff.critBonus) descParts.push(`+${Math.round(buffValues.critBonus * 100)}% Crit Chance`);
-      const scaledDesc = descParts.join(', ') + ` (${Math.floor(buffValues.durationMs / 1000)}s)`;
-
-      // Card background — make interactive for clicks
-      const bgColor = isSelected ? COL.cardHover : isActive ? COL.good : COL.cardBase;
-      const bg = this.scene.add.rectangle(cx, y + 22, W - 24, 50, bgColor, isSelected || isActive ? 1 : 0.7)
-        .setScrollFactor(0).setDepth(DEPTH + 1)
-        .setInteractive({ useHandCursor: true })
-        .on('pointerdown', () => {
-          this._confirmBuffSelection(i);
-        })
-        .on('pointerover', () => {
-          if (this._selectedIndex === i) return;
-          this.scene.soundSystem?.playUiSelect?.();
-          this._selectedIndex = i;
-          this._rebuffSelection();
-        });
-      if (isSelected) {
-        bg.setStrokeStyle(2, COL.accent, 1);
-      } else if (isActive) {
-        bg.setStrokeStyle(2, COL.success, 0.85);
-      }
-      this._selectionObjects.push(bg);
-
-      // Accent bar (left side of card)
-      const accentBar = this.scene.add.graphics().setScrollFactor(0).setDepth(DEPTH + 2);
-      accentBar.fillStyle(buff.miningSpeedBonus ? 0xFF6633 : buff.xpBonus ? 0x66AAFF : 0xDD66FF, 1);
-      accentBar.fillRect(cx - W / 2 + 8, y + 6, 4, 32);
-      this._selectionObjects.push(accentBar);
-
-      // Buff name
-      const nameText = this.scene.add.text(cx - W / 2 + 22, y + 5, buff.name, {
-        fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-        fontSize: '14px',
-        fontStyle: 'bold',
-        color: buff.color,
-        stroke: '#000000',
-        strokeThickness: 2,
-      }).setScrollFactor(0).setDepth(DEPTH + 2);
-      this._selectionObjects.push(nameText);
-
-      // Buff description (scaled)
-      const descText = this.scene.add.text(cx - W / 2 + 22, y + 24, scaledDesc, {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '10px',
-        color: COL.body,
-        stroke: '#000000',
-        strokeThickness: 1,
-      }).setScrollFactor(0).setDepth(DEPTH + 2);
-      this._selectionObjects.push(descText);
-
-      if (isActive) {
-        const activeBadge = this.scene.add.text(cx + W / 2 - 56, y + 14, 'ACTIVE', {
-          fontFamily: 'Consolas, monospace',
-          fontSize: '10px',
-          color: COL.cssSuccess,
-          fontStyle: 'bold',
-          stroke: '#000000',
-          strokeThickness: 2,
-        }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2);
-        this._selectionObjects.push(activeBadge);
-      }
-
-      // Selector arrow
-      if (isSelected) {
-        const arrow = this.scene.add.text(cx + W / 2 - 20, y + 14, '►', {
-          fontFamily: 'Consolas, monospace',
-          fontSize: '18px',
-          color: COL.cssAccent,
-          stroke: '#000000',
-          strokeThickness: 2,
-        }).setScrollFactor(0).setDepth(DEPTH + 2);
-        this._selectionObjects.push(arrow);
-      }
+    this._buffs.forEach((buff, index) => {
+      const isSelected = index === this._selectedIndex;
+      const rowY = rect.top + 48 + index * 76;
+      const row = this.scene.add.rectangle(
+        rect.left + leftWidth / 2,
+        rowY + 31,
+        leftWidth - 18,
+        64,
+        isSelected ? UI_COLORS.cardSel : UI_COLORS.cardBase,
+        0.98
+      ).setStrokeStyle(isSelected ? 2 : 1, isSelected ? UI_COLORS.borderSel : UI_COLORS.borderDim)
+        .setInteractive({ useHandCursor: true });
+      row.on("pointerover", () => {
+        if (!isSelected) row.setStrokeStyle(1, UI_COLORS.borderHov);
+      });
+      row.on("pointerout", () => {
+        if (!isSelected) row.setStrokeStyle(1, UI_COLORS.borderDim);
+      });
+      row.on("pointerdown", () => {
+        if (index === this._selectedIndex) return;
+        this._selectedIndex = index;
+        this.scene.soundSystem?.playUiSelect?.();
+        this._rebuffSelection();
+      });
+      content.add(row);
+      this.ui.createIconBadge(this.scene, iconKeys[index], {
+        x: rect.left + 42,
+        y: rowY + 31,
+        size: 46,
+        iconSize: 38,
+        selected: isSelected,
+        parent: content,
+      });
+      const name = this.scene.add.text(rect.left + 74, rowY + 18, buff.name, {
+        fontFamily: UI_FONTS.display,
+        fontSize: "16px",
+        fontStyle: "bold",
+        color: isSelected ? UI_COLORS.title : UI_COLORS.body,
+      });
+      const summary = index === 0
+        ? "+" + Math.round(values.miningSpeedBonus * 100) + "% mining speed"
+        : index === 1
+          ? "+" + Math.round(values.xpBonus * 100) + "% XP gain"
+          : "+" + Math.round(values.critBonus * 100) + "% critical chance";
+      const effect = this.scene.add.text(rect.left + 74, rowY + 42, summary, {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "11px",
+        color: isSelected ? UI_COLORS.gold : UI_COLORS.dim,
+      });
+      content.add([name, effect]);
     });
 
-    // ── Upgrade section ──────────────────────────────────────────────────
-    const upgradeDivY = cy - H / 2 + 248;
-    const upgG = this.scene.add.graphics().setScrollFactor(0).setDepth(DEPTH + 1);
-    upgG.lineStyle(1, COL.borderDim, 0.6);
-    upgG.lineBetween(cx - W / 2 + 15, upgradeDivY, cx + W / 2 - 15, upgradeDivY);
-    this._selectionObjects.push(upgG);
+    this.ui.createIconBadge(this.scene, iconKeys[this._selectedIndex], {
+      x: rightX + 64,
+      y: rect.top + 68,
+      size: 82,
+      iconSize: 68,
+      selected: true,
+      parent: content,
+    });
+    const detailTitle = this.scene.add.text(rightX + 120, rect.top + 31, selected.name.toUpperCase(), {
+      fontFamily: UI_FONTS.display,
+      fontSize: "24px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    });
+    const detailSub = this.scene.add.text(rightX + 120, rect.top + 67, selected.desc, {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "12px",
+      color: UI_COLORS.gold,
+    });
+    const detailBody = this.scene.add.text(rightX + 22, rect.top + 132,
+      "A focused campfire blessing. The effect starts immediately and remains visible in the HUD until it expires.", {
+        fontFamily: UI_FONTS.body,
+        fontSize: "14px",
+        color: UI_COLORS.body,
+        lineSpacing: 3,
+        wordWrap: { width: rightWidth - 44, useAdvancedWrap: true },
+      }
+    );
+    content.add([detailTitle, detailSub, detailBody]);
 
-    if (this._campfireLevel < 10) {
-      const nextTier = CAMPFIRE_TIERS[this._campfireLevel]; // index = current level (1-based → 0-based)
-      const money = this.scene.upgradeSystem ? this.scene.upgradeSystem.getMoney() : 0;
-      const canAfford = money >= nextTier.cost;
+    const statTop = rect.top + 212;
+    const stat = this.scene.add.rectangle(
+      rightX + rightWidth / 2,
+      statTop + 45,
+      rightWidth - 36,
+      90,
+      UI_COLORS.bg,
+      0.95
+    ).setStrokeStyle(1, UI_COLORS.borderDim);
+    content.add(stat);
+    const effectValue = this.scene.add.text(rightX + 34, statTop + 21,
+      selected.type === "warmth"
+        ? "+" + Math.round(values.miningSpeedBonus * 100) + "% MINING SPEED"
+        : selected.type === "inspiration"
+          ? "+" + Math.round(values.xpBonus * 100) + "% XP GAIN"
+          : "+" + Math.round(values.critBonus * 100) + "% CRITICAL CHANCE", {
+        fontFamily: UI_FONTS.display,
+        fontSize: "18px",
+        fontStyle: "bold",
+        color: UI_COLORS.gold,
+      }
+    );
+    const duration = this.scene.add.text(rightX + 34, statTop + 57,
+      "DURATION  " + durationSeconds + " SECONDS", {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "12px",
+        color: UI_COLORS.body,
+      }
+    );
+    content.add([effectValue, duration]);
 
-      const upgY = upgradeDivY + 18;
-      const upgLabel = this.scene.add.text(cx - 100, upgY,
-        `Upgrade: ${nextTier.label} (${nextTier.cost} gold)`, {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '11px',
-        color: COL.body,
-        stroke: '#000000',
-        strokeThickness: 2,
-      }).setScrollFactor(0).setDepth(DEPTH + 2);
-      this._selectionObjects.push(upgLabel);
-
-      const upgBtnColor = canAfford ? COL.good : COL.poor;
-      const upgBtn = this.scene.add.rectangle(cx + 100, upgY, 70, 20, upgBtnColor, 0.9)
-        .setScrollFactor(0).setDepth(DEPTH + 2)
-        .setStrokeStyle(1, canAfford ? 0x4a8a4a : 0x5a3a3a)
-        .setInteractive({ useHandCursor: true })
-        .on('pointerdown', () => {
+    if (nextTier) {
+      this.ui.createButton(this.scene, {
+        x: rightX + rightWidth / 2,
+        y: rect.bottom - 88,
+        width: rightWidth - 36,
+        height: 40,
+        label: "UPGRADE TO TIER " + (this._campfireLevel + 1) + (upgradeCost > 0 ? "  -  " + upgradeCost.toLocaleString() + " M" : ""),
+        icon: "upgrade",
+        accent: UI_COLORS.borderDim,
+        parent: content,
+        fontSize: "11px",
+        enabled: canUpgrade,
+        disabledReason: "NEED " + upgradeCost.toLocaleString() + " GOLD",
+        onClick: () => {
           const result = this.upgradeCampfire();
-          if (this.scene.hudSystem) {
-            this.scene.hudSystem.flashStatus(result.message, result.success ? COL.cssAccent : '#ff4444', 2000);
-          }
-          // Re-open with new tier
-          if (result.success) {
-            this._rebuffSelection();
-          }
-        })
-        .on('pointerover', () => {
-          try { upgBtn.setFillStyle(canAfford ? 0x3a6a3a : 0x6a3a3a, 0.9); } catch (e) {}
-        })
-        .on('pointerout', () => {
-          try { upgBtn.setFillStyle(upgBtnColor, 0.9); } catch (e) {}
-        });
-      this._selectionObjects.push(upgBtn);
-
-      const upgBtnLabel = this.scene.add.text(cx + 100, upgY, canAfford ? 'BUY' : 'LOCKED', {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '10px',
-        color: canAfford ? '#4ecb71' : '#aa4444',
-        fontStyle: 'bold',
-        stroke: '#000000',
-        strokeThickness: 1,
-      }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 3);
-      this._selectionObjects.push(upgBtnLabel);
-    } else {
-      const maxText = this.scene.add.text(cx, upgradeDivY + 18, '✦  MAX TIER  ✦', {
-        fontFamily: 'Consolas, monospace',
-        fontSize: '12px',
-        color: COL.gold,
-        stroke: '#000000',
-        strokeThickness: 2,
-      }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2);
-      this._selectionObjects.push(maxText);
+          if (result.success) this._rebuffSelection();
+        },
+      });
     }
 
-    // Controls hint
-    const hintText = this.scene.add.text(cx, cy + H / 2 - 14,
-      `W/S Navigate  •  ${USER_SETTINGS.getKeyLabel("interact")}/Enter Select  •  ESC Cancel  •  Click Buff`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '11px',
-      color: COL.dim,
-      stroke: '#000000',
-      strokeThickness: 2,
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(DEPTH + 2);
-    this._selectionObjects.push(hintText);
+      this.ui.createButton(this.scene, {
+      x: rightX + rightWidth / 2,
+      y: rect.bottom - 34,
+      width: rightWidth - 36,
+      height: 48,
+      label: "ACTIVATE " + selected.name.toUpperCase(),
+      hint: USER_SETTINGS.getKeyLabel("interact"),
+      icon: iconKeys[this._selectedIndex],
+      accent: UI_COLORS.borderSel,
+      parent: content,
+      fontSize: "13px",
+      onClick: () => this._confirmBuffSelection(this._selectedIndex),
+    });
+
+    this._selectionOverlay = shell.backdrop;
+    this._selectionObjects = [shell];
+    shell.show();
   }
 
   _handleSelectionInput(justW, justS, justE, justEnter) {
@@ -1000,3 +792,5 @@ export class CampfireSystem {
     this._flameEmbers.forEach(e => e.destroy());
   }
 }
+
+

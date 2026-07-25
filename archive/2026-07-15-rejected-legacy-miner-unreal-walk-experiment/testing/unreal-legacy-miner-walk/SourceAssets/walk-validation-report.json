@@ -1,0 +1,27 @@
+{
+  "scope": "walk-only",
+  "status": "pass",
+  "raw_frame_count": 51,
+  "ported_frame_count": 51,
+  "unique_raw_frames": 51,
+  "unique_ported_frames": 51,
+  "transparent_frames": 51,
+  "visible_frames": 51,
+  "sheet_size": [
+    5456,
+    1364
+  ],
+  "preview_frames": 51,
+  "playback_fps": 14,
+  "camera_angle_degrees": 120,
+  "source_walk": "/Game/Characters/Mannequins/Anims/Unarmed/Walk/MF_Unarmed_Walk_Fwd.MF_Unarmed_Walk_Fwd",
+  "retargeter": "/Game/LegacyMinerWalk/Retarget/RTG_MannyUnarmedWalk_To_LegacyMiner_v2.RTG_MannyUnarmedWalk_To_LegacyMiner_v2",
+  "retarget_operation_count": 5,
+  "unreal_output": "/Game/LegacyMinerWalk/Animations/LegacyMiner_Unreal_Unarmed_Walk.LegacyMiner_Unreal_Unarmed_Walk",
+  "animation_authored_in_blender": false,
+  "unreal_material": "/Game/LegacyMinerWalk/Meshy/M_LegacyMiner_Unreal",
+  "enabled_animation_plugins": [
+    "AnimationLocomotionLibrary",
+    "IKRig"
+  ]
+}

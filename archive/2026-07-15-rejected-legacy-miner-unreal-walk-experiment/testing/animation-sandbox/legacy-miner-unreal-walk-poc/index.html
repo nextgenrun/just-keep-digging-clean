@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Legacy Miner walk — old vs genuine UE retarget</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <p class="eyebrow">WALK-ONLY ACCEPTANCE REVIEW</p>
+    <h1>Legacy Miner walk — old vs genuine Unreal 2D port</h1>
+    <p class="subtitle">Same 51-frame timeline, 341px cell, bottom anchor, and 14 fps playback. The new side is rendered from the native UE 5.8 IK-retargeted walk.</p>
+  </header>
+
+  <section class="pipeline" aria-label="new animation pipeline">
+    <span>Meshy rig</span><b>→</b><span>Blender cleanup only</span><b>→</b><span>UE IK Rig + Retargeter</span><b>→</b><span>150° side-biased camera</span><b>→</b><span>transparent 2D</span>
+  </section>
+
+  <nav class="controls" aria-label="walk playback controls">
+    <button id="play" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <button id="previous" type="button">Step −</button>
+    <button id="next" type="button">Step +</button>
+    <button id="checker" type="button" aria-pressed="false">Checker</button>
+    <label>Speed <input id="speed" type="range" min="0.25" max="2" step="0.25" value="1"></label>
+    <label>Frame <input id="frame" type="range" min="0" max="50" step="1" value="0"></label>
+    <output id="status">frame 01/51 · 14 fps</output>
+  </nav>
+
+  <main>
+    <article>
+      <div class="label"><span>Old</span><strong>Legacy runtime walk</strong></div>
+      <p class="note">Existing `legacy-walk-clean-sheet.webp`</p>
+      <div class="stage"><canvas id="old-canvas" width="341" height="341"></canvas></div>
+    </article>
+
+    <article class="candidate">
+      <div class="label"><span>New</span><strong>Meshy character + genuine UE retarget</strong></div>
+      <p class="note">`LegacyMiner_Unreal_Unarmed_Walk` · Manny unarmed walk · 120° right-facing camera</p>
+      <div class="stage"><canvas id="new-canvas" width="341" height="341"></canvas></div>
+    </article>
+  </main>
+
+  <footer>Scope locked: walk only. No idle, dig, combat, gameplay, or runtime promotion.</footer>
+  <script src="app.js"></script>
+</body>
+</html>

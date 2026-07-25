@@ -1,5 +1,6 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
 
 const MENU_BACKGROUND_BASE_PATH = "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/";
 
@@ -41,13 +42,13 @@ const COL = Object.freeze({
   panelHi: 0xffffff,
   borderDim: UI_COLORS.borderDim,
   borderBright: UI_COLORS.borderSel,
-  gold: 0xc9a227,
-  fill: 0x9de3a1,
+  gold: UI_COLORS.gold,
+  fill: UI_COLORS.gold,
   title: UI_COLORS.title,
   shadow: UI_COLORS.dim,
   dim: "#8899aa",
   hint: "#4a5a6a",
-  pct: "#9de3a1",
+  pct: UI_COLORS.gold,
 });
 
 export function getSelectedMenuBackgroundKey() {
@@ -119,14 +120,14 @@ function addLogoOrTitle(scene, objects, W, options) {
 
   const title = options.title ?? "Just Keep Digging";
   const titleShadow = scene.add.text(W / 2 + 3, 183, title, {
-    fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
+    fontFamily: UI_FONTS.display,
     fontSize: "76px",
     fontStyle: "bold",
     color: COL.shadow,
   }).setOrigin(0.5).setAlpha(0.42);
 
   const titleText = scene.add.text(W / 2, 180, title, {
-    fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
+    fontFamily: UI_FONTS.display,
     fontSize: "76px",
     fontStyle: "bold",
     color: COL.title,
@@ -199,7 +200,7 @@ export function createMenuLoadingScreen(scene, options = {}) {
   addLogoOrTitle(scene, objects, W, options);
 
   const subtitle = scene.add.text(W / 2, options.preferLogo ? 258 : 268, options.subtitle ?? "A L P H A", {
-    fontFamily: "Consolas, monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "18px",
     color: "#c9a227",
     letterSpacing: 5,
@@ -226,14 +227,14 @@ export function createMenuLoadingScreen(scene, options = {}) {
   objects.push(panel);
 
   const labelText = scene.add.text(W / 2, barY - 36, options.label ?? "Loading...", {
-    fontFamily: "Consolas, 'Courier New', monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "16px",
     color: "#c8dae8",
   }).setOrigin(0.5);
   objects.push(labelText);
 
   const barBg = scene.add.graphics();
-  barBg.fillStyle(0x1e2a36, 1);
+  barBg.fillStyle(UI_COLORS.cardBase, 1);
   barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
   barBg.lineStyle(1, COL.borderBright, 0.75);
   barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
@@ -263,21 +264,21 @@ export function createMenuLoadingScreen(scene, options = {}) {
   tweens.push(glowTween);
 
   const pctText = scene.add.text(W / 2, barY + barH + 18, "0%", {
-    fontFamily: "Consolas, 'Courier New', monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "15px",
     color: COL.pct,
   }).setOrigin(0.5);
   objects.push(pctText);
 
   const detailText = scene.add.text(W / 2, barY + 76, options.detail ?? "", {
-    fontFamily: "Consolas, 'Courier New', monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "14px",
     color: "#7a9ab4",
   }).setOrigin(0.5);
   objects.push(detailText);
 
   const failureText = scene.add.text(W / 2, barY + 118, "", {
-    fontFamily: "Consolas, 'Courier New', monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "14px",
     color: "#ff8f72",
     align: "center",
@@ -287,13 +288,13 @@ export function createMenuLoadingScreen(scene, options = {}) {
 
   const retryButton = scene.add.rectangle(W / 2, barY + 156, 150, 36, 0xe07030, 0.98);
   const retryButtonText = scene.add.text(W / 2, barY + 156, "RETRY", {
-    fontFamily: "Consolas, 'Courier New', monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "14px",
     fontStyle: "bold",
     color: "#ffffff",
   }).setOrigin(0.5);
   const retryHintText = scene.add.text(W / 2, barY + 182, "Press RETRY only when loading has stopped due to an error.", {
-    fontFamily: "Consolas, 'Courier New', monospace",
+    fontFamily: UI_FONTS.mono,
     fontSize: "11px",
     color: "#5a6f80",
   }).setOrigin(0.5);
@@ -363,7 +364,7 @@ export function createMenuLoadingScreen(scene, options = {}) {
 
   // Subtle pulsing overlay rectangle behind the bar area for extra depth
   const barAreaGlow = scene.add.graphics();
-  barAreaGlow.fillStyle(0x1a2a3a, 0.15);
+  barAreaGlow.fillStyle(UI_COLORS.cardSel, 0.15);
   barAreaGlow.fillRoundedRect(barX - 20, barY - 60, barW + 40, barH + 100, 12);
   objects.unshift(barAreaGlow); // behind everything else
 
@@ -377,7 +378,7 @@ export function createMenuLoadingScreen(scene, options = {}) {
     barFill.fillRoundedRect(barX, barY, fillWidth, barH, 4);
 
     // Bright leading edge highlight
-    barFill.fillStyle(0xc0f0d0, 0.6);
+    barFill.fillStyle(0xf0dfc2, 0.6);
     barFill.fillRoundedRect(barX + fillWidth - 4, barY + 2, Math.min(4, fillWidth), barH - 4, 2);
 
     pctText.setText(`${Math.floor(clamped * 100)}%`);
@@ -416,3 +417,4 @@ export function createMenuLoadingScreen(scene, options = {}) {
     },
   };
 }
+

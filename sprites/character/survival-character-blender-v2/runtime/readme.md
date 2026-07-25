@@ -1,0 +1,3 @@
+# Runtime Sheets
+
+Production-authoritative v2 animation sheets and `manifest.json` live here. The selectable `survivalUal` profile game-loads idle, idle-talk, walk, and the approved 36-frame Superman flight sheet from this directory. Its run remains the selected UAL `Jog_Fwd_Loop`; unreviewed directional/combat actions use the compatible UAL-retarget fallback. The older `survival-character-blender-v2-fly-sheet.png` and Blender run sheet remain source evidence but are not selected by the active profile. Regenerate the Blender-authored base package with `ai-tools/2026-07-15-export-survival-blender-v2-runtime.py`; the promoted Superman copy comes from `testing/blender-animation-lab-v1/review-drafts/superman-flight-push-layer-v1/runtime/`.

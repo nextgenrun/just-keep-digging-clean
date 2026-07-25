@@ -1,4 +1,4 @@
-import { SPECIAL_BLOCKS_CONFIG, getBlockEffect } from "../../values/specialBlocks.js";
+import { getBlockEffect } from "../../values/specialBlocks.js";
 
 /**
  * SpecialBlockEffectsManager

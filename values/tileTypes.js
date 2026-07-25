@@ -51,4 +51,7 @@ export const TILE_TYPES = Object.freeze({
   OBSIDIAN: 32,
   EMBER_ORE: 33,
   MAGMA_CRYSTAL: 34,
+
+  // Ancient Relic Cache — rare deep-world treasure chest (mineable)
+  ANCIENT_RELIC_CACHE: 35,
 });

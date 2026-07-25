@@ -1,0 +1,74 @@
+{
+  "previewOnly": true,
+  "runtimeWired": false,
+  "animations": {
+    "money-monster": {
+      "kind": "supplied-polish",
+      "source": "C:\\Users\\Mila\\Downloads\\money_monster_idle_alpha(1).webm",
+      "sourceFrames": 120,
+      "groundMedian": 931,
+      "maxCorrection": 1,
+      "seamDistanceBefore": 0.1518,
+      "seamDistanceAfter": 0.1518,
+      "alphaWebm": "visual-approval-previews\\npc-idle-polish-v1\\money-monster-idle-alpha.webm",
+      "inlinePreview": "visual-approval-previews\\npc-idle-polish-v1\\money-monster-idle-preview.webp"
+    },
+    "bobo-merchant": {
+      "kind": "supplied-polish",
+      "source": "C:\\Users\\Mila\\Downloads\\dog_adventurer_idle_alpha.webm",
+      "sourceFrames": 120,
+      "groundMedian": 962,
+      "maxCorrection": 0,
+      "seamDistanceBefore": 0.1275,
+      "seamDistanceAfter": 0.1275,
+      "alphaWebm": "visual-approval-previews\\npc-idle-polish-v1\\bobo-merchant-idle-alpha.webm",
+      "inlinePreview": "visual-approval-previews\\npc-idle-polish-v1\\bobo-merchant-idle-preview.webp"
+    },
+    "player-upgrades": {
+      "kind": "identity-locked-local-motion",
+      "source": "sprites\\npc\\npc-v5-generated\\singles\\merchant-idle\\player-upgrades.png",
+      "profile": {
+        "motion": [
+          3.8,
+          2.2,
+          0.006
+        ],
+        "pulse": "purple",
+        "event": 0.67
+      },
+      "alphaWebm": "visual-approval-previews\\npc-idle-polish-v1\\player-upgrades-idle-alpha.webm",
+      "inlinePreview": "visual-approval-previews\\npc-idle-polish-v1\\player-upgrades-idle-preview.webp"
+    },
+    "gear-merchant": {
+      "kind": "identity-locked-local-motion",
+      "source": "sprites\\npc\\npc-v5-generated\\singles\\merchant-idle\\gear-merchant.png",
+      "profile": {
+        "motion": [
+          2.7,
+          1.4,
+          0.004
+        ],
+        "pulse": "lamp",
+        "event": 0.58
+      },
+      "alphaWebm": "visual-approval-previews\\npc-idle-polish-v1\\gear-merchant-idle-alpha.webm",
+      "inlinePreview": "visual-approval-previews\\npc-idle-polish-v1\\gear-merchant-idle-preview.webp"
+    },
+    "gem-power-merchant": {
+      "kind": "identity-locked-local-motion",
+      "source": "sprites\\npc\\npc-v5-generated\\singles\\merchant-idle\\gem-power-merchant.png",
+      "profile": {
+        "motion": [
+          2.1,
+          1.0,
+          0.003
+        ],
+        "pulse": "purple",
+        "event": 0.48
+      },
+      "alphaWebm": "visual-approval-previews\\npc-idle-polish-v1\\gem-power-merchant-idle-alpha.webm",
+      "inlinePreview": "visual-approval-previews\\npc-idle-polish-v1\\gem-power-merchant-idle-preview.webp"
+    }
+  },
+  "contactSheet": "visual-approval-previews\\npc-idle-polish-v1\\npc-idle-polish-v1-contact-sheet.png"
+}

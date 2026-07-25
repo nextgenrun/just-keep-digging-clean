@@ -348,6 +348,56 @@
       "orientation": "front"
     },
     {
+      "id": "quickslash-v2",
+      "displayName": "Quickslash V2 Review",
+      "fps": 30,
+      "frameSize": [
+        341,
+        341
+      ],
+      "frameCount": 39,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/character-v8/piskel/quickslash-v2.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v8/runtime/quickslash-v2-clean-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/character-v8/runtime/quickslash-v2-metadata.json",
+      "previewPath": "sprites/character/character-v8/previews/quickslash-v2-slowmo.gif",
+      "contactSheetPath": "sprites/character/character-v8/previews/quickslash-v2-runtime-contact.png",
+      "phaserKey": "audit-quickslash-v2",
+      "orientation": "right",
+      "centeringPolicy": {
+        "strictBounds": false,
+        "maxAnchorDriftPx": 90
+      }
+    },
+    {
+      "id": "teleport-in",
+      "displayName": "Teleport In Review",
+      "fps": 30,
+      "frameSize": [
+        341,
+        341
+      ],
+      "frameCount": 38,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/character-v8/piskel/teleport-in.piskel",
+      "runtimeOutputs": [
+        "sprites/character/character-v8/runtime/teleport-in-clean-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/character-v8/runtime/teleport-in-metadata.json",
+      "previewPath": "sprites/character/character-v8/previews/teleport-in-slowmo.gif",
+      "contactSheetPath": "sprites/character/character-v8/previews/teleport-in-runtime-contact.png",
+      "phaserKey": "audit-teleport-in",
+      "orientation": "front-action",
+      "centeringPolicy": {
+        "strictBounds": false,
+        "maxAnchorDriftPx": 110
+      }
+    },
+    {
       "id": "thunder-charge",
       "displayName": "Thunder Strike Charge",
       "fps": 6,

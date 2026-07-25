@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "label": "Survival Character proof-of-concept",
+  "scope": "testing/animation-sandbox/tanktest-v1 only",
+  "source": "sprites/character/survival-miner-poc-v1/reference/approved-action-proof.png",
+  "assets": {
+    "idle": {
+      "path": "sprites/character/survival-miner-poc-v1/runtime/survival-miner-poc-v1-idle.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        85,
+        5,
+        480,
+        440
+      ]
+    },
+    "run": {
+      "path": "sprites/character/survival-miner-poc-v1/runtime/survival-miner-poc-v1-run.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        535,
+        0,
+        1000,
+        450
+      ]
+    },
+    "dig-side": {
+      "path": "sprites/character/survival-miner-poc-v1/runtime/survival-miner-poc-v1-dig-side.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        1030,
+        0,
+        1670,
+        450
+      ]
+    },
+    "dig-vertical": {
+      "path": "sprites/character/survival-miner-poc-v1/runtime/survival-miner-poc-v1-dig-vertical.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        25,
+        465,
+        520,
+        930
+      ]
+    },
+    "fly": {
+      "path": "sprites/character/survival-miner-poc-v1/runtime/survival-miner-poc-v1-fly.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        550,
+        465,
+        1010,
+        930
+      ]
+    },
+    "quickslash": {
+      "path": "sprites/character/survival-miner-poc-v1/runtime/survival-miner-poc-v1-quickslash.png",
+      "canvas": [
+        512,
+        512
+      ],
+      "crop": [
+        1035,
+        470,
+        1670,
+        930
+      ]
+    }
+  }
+}

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dig Game Animation Inventory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Read-only project audit</p>
+        <h1>Dig Game animation inventory</h1>
+        <p id="generated" class="muted"></p>
+      </div>
+      <div class="legend" aria-label="Inventory status legend">
+        <span><i class="dot current"></i>Current default</span>
+        <span><i class="dot global"></i>Global runtime</span>
+        <span><i class="dot alternate"></i>Alternate profile</span>
+      </div>
+    </header>
+
+    <section class="stats" aria-label="Inventory summary">
+      <article><strong id="currentCount">0</strong><span>default character animations</span></article>
+      <article><strong id="runtimeCount">0</strong><span>runtime animation keys</span></article>
+      <article><strong id="assetCount">0</strong><span>project animation files</span></article>
+      <article><strong id="setCount">0</strong><span>asset directories</span></article>
+    </section>
+
+    <section class="controls" aria-label="Inventory filters">
+      <label>Search
+        <input id="search" type="search" placeholder="Animation key, sheet, profile, path…" autocomplete="off">
+      </label>
+      <label>Runtime scope
+        <select id="runtimeScope">
+          <option value="all">All runtime profiles</option>
+          <option value="current-default">Current default only</option>
+          <option value="global-runtime">Global runtime only</option>
+          <option value="alternate-profile">Alternate profiles only</option>
+        </select>
+      </label>
+      <label>Asset scope
+        <select id="assetScope">
+          <option value="all">Whole project</option>
+          <option value="production-runtime-assets">Production runtime assets</option>
+          <option value="production-source-assets">Production source assets</option>
+          <option value="testing-review">Testing and review</option>
+          <option value="archived">Archived</option>
+          <option value="documentation-reference">Documentation references</option>
+          <option value="supporting-assets">Supporting assets</option>
+        </select>
+      </label>
+    </section>
+
+    <section id="groundStrikeReview" class="ground-strike-review rejected section-block" aria-labelledby="groundStrikeReviewHeading">
+      <div class="section-heading ground-strike-review-heading">
+        <div>
+          <p class="eyebrow">Rejected Blender decision evidence · not runtime</p>
+          <h2 id="groundStrikeReviewHeading">Rejected ground-strike body-follow drafts</h2>
+          <p class="muted">All five approaches are complete rejects and cannot be wired. The current <code>OverhandThrow</code> down strike stays active; <code>Jog_Fwd_Loop</code> remains the approved run clip only.</p>
+        </div>
+        <span class="review-only-badge rejected">COMPLETE REJECT</span>
+      </div>
+      <div class="ground-strike-review-toolbar" aria-label="Ground-strike review playback controls">
+        <button id="groundStrikeReviewPlayPause" type="button" disabled>Loading…</button>
+        <button id="groundStrikeReviewRestart" type="button" disabled>Restart together</button>
+        <label>Frame
+          <input id="groundStrikeReviewScrub" type="range" min="1" max="34" step="1" value="1" disabled>
+        </label>
+        <label>Speed
+          <input id="groundStrikeReviewSpeed" type="range" min="0.5" max="1.5" step="0.25" value="1" disabled>
+        </label>
+        <output id="groundStrikeReviewReadout">Frame 1/34</output>
+        <span id="groundStrikeReviewStatus" class="ground-strike-review-status">Preparing review…</span>
+      </div>
+      <div id="groundStrikeReviewGrid" class="ground-strike-review-grid"></div>
+    </section>
+
+    <section class="viewer" aria-labelledby="viewerTitle">
+      <div class="viewer-stage">
+        <canvas id="animationCanvas" width="540" height="540" aria-label="Selected spritesheet animation playback"></canvas>
+        <span id="viewerStatus" class="viewer-status">Loading sheet…</span>
+      </div>
+      <div class="viewer-copy">
+        <p class="eyebrow">Live spritesheet playback</p>
+        <h2 id="viewerTitle">Select a runtime animation</h2>
+        <p id="viewerProfile" class="muted"></p>
+        <code id="viewerPath"></code>
+        <div class="viewer-controls" aria-label="Animation playback controls">
+          <button id="previousFrame" type="button" aria-label="Previous animation frame">◀ Frame</button>
+          <button id="playPause" type="button">Pause</button>
+          <button id="nextFrame" type="button" aria-label="Next animation frame">Frame ▶</button>
+          <label>Speed <input id="playbackSpeed" type="range" min="0.25" max="2" step="0.25" value="1"></label>
+        </div>
+        <output id="frameReadout" class="frame-readout">Frame —</output>
+        <p class="viewer-help">Click any runtime row below to play that exact animation. All clips loop here for visual review; their real runtime mode remains listed in the table.</p>
+      </div>
+    </section>
+
+    <section class="section-block" aria-labelledby="runtimeHeading">
+      <div class="section-heading">
+        <div><p class="eyebrow">What the game can register</p><h2 id="runtimeHeading">Runtime animations</h2></div>
+        <output id="runtimeResultCount"></output>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Status</th><th>Profile</th><th>Animation key</th><th>Frames</th><th>FPS</th><th>Mode</th><th>Sheet / source</th></tr></thead>
+          <tbody id="runtimeRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-block" aria-labelledby="assetsHeading">
+      <div class="section-heading">
+        <div><p class="eyebrow">Every animation-related directory discovered</p><h2 id="assetsHeading">Project animation assets</h2></div>
+        <output id="assetResultCount"></output>
+      </div>
+      <div class="asset-layout">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Scope</th><th>Directory</th><th>Files</th><th>Sheets</th><th>3D</th><th>Size</th></tr></thead>
+            <tbody id="assetRows"></tbody>
+          </table>
+        </div>
+        <aside id="assetDetail" class="detail" aria-live="polite">
+          <p class="muted">Select an asset directory to inspect its files.</p>
+        </aside>
+      </div>
+    </section>
+
+    <details class="source-sites">
+      <summary>Runtime registration source locations <span id="sourceCount"></span></summary>
+      <ul id="sourceSites"></ul>
+    </details>
+  </main>
+  <script src="../../../values/groundStrikeReview.js"></script>
+  <script src="inventory-data.js"></script>
+  <script src="groundStrikeReviewPlayer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

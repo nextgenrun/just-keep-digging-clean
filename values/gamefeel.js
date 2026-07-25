@@ -46,9 +46,10 @@ export const GAMEFEEL_CONFIG = Object.freeze({
 
   // ── CLIMB STATE ─────────────────────────────────────────────────────────────
   climb: {
-    alpha:       0.58,
+    alpha:       0.22,
     tint:        0xccaaff,  // subtle purple trail during flying/climbing
-    fadeMs:      990,
+    fadeMs:      320,
+    spawnEveryFrames: 4,
     depth:       18,        // just below playerDepth:20
   },
 

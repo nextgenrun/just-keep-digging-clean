@@ -29,6 +29,12 @@
       .panel { border: 1px solid #343a42; border-radius: 10px; background: #1b1f24; padding: 13px; }
       .preview-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; } .preview-box { min-width: 0; }
       .preview-box p { margin: 0 0 5px; color: #b8c1ca; font-size: 12px; min-height: 30px; } .preview-box canvas { width: 100%; aspect-ratio: 1; background: #000; border: 1px solid #373d44; }
+      .quality-heading { margin-top: 14px; display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+      .quality-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin-top: 8px; }
+      .quality-box { min-width: 0; padding: 8px; border: 1px solid #343a42; border-radius: 8px; background: #15191d; }
+      .quality-box p { margin: 0 0 6px; min-height: 30px; color: #b8c1ca; font-size: 12px; }
+      .quality-box canvas { display: block; max-width: 100%; background: #000; border: 1px solid #373d44; }
+      .actual-size-row { display: flex; gap: 10px; align-items: center; margin-top: 10px; color: #b8c1ca; font-size: 12px; }
       .player-row, .issue-row, .export-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
       .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 11px 0 0; font-size: 12px; color: #b8c1ca; } .metrics strong { color: #f4f0e7; font-weight: 600; }
       label { display: grid; gap: 5px; font-size: 12px; color: #b8c1ca; } textarea { min-height: 82px; resize: vertical; border: 1px solid #565b61; border-radius: 7px; background: #14171b; color: #f4f0e7; padding: 8px; }
@@ -49,6 +55,7 @@
       <label class="control">Animation <select id="animation-select"></select></label>
       <label class="control">Runtime view <select id="view-select"></select></label>
       <label class="control">Matte <select id="matte-select"><option value="checker">Checker</option><option value="black">Black</option><option value="white">White</option></select></label>
+      <label class="control">Sampling <select id="sampling-select"><option value="linear">LINEAR · game fix</option><option value="nearest">NEAREST · old blocky result</option></select></label>
       <div class="player-row"><button id="previous-frame" type="button">Previous</button><button id="play-toggle" type="button" class="primary">Play</button><button id="next-frame" type="button">Next</button></div>
       <span class="status" id="load-status" role="status">Loading runtime frame desk…</span>
     </section>
@@ -69,6 +76,12 @@
             <div class="preview-box"><p id="current-preview-label">Current runtime view</p><canvas id="detail-canvas" width="360" height="360"></canvas></div>
             <div class="preview-box"><p id="opposite-preview-label">Opposite horizontal mirror</p><canvas id="mirror-canvas" width="360" height="360"></canvas></div>
           </div>
+          <div class="quality-heading"><h3>Resolution match</h3><span class="muted" id="quality-summary"></span></div>
+          <div class="quality-grid">
+            <div class="quality-box"><p>Native source · 341×341</p><canvas id="native-quality-canvas" width="341" height="341"></canvas></div>
+            <div class="quality-box"><p id="game-loupe-label">Game sample · 89×89 · 3× audit loupe</p><canvas id="game-loupe-canvas" width="267" height="267"></canvas></div>
+          </div>
+          <div class="actual-size-row"><canvas id="game-actual-canvas" width="89" height="89"></canvas><span id="game-actual-label">Actual game footprint · 89×89</span></div>
           <div class="metrics" id="metrics"></div>
           <p class="muted" id="piskel-source" style="margin: 11px 0 0;"></p>
         </section>

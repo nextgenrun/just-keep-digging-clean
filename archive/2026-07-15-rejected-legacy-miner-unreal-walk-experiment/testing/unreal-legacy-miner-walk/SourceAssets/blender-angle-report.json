@@ -1,0 +1,27 @@
+{
+  "source": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\SourceAssets\\legacy-miner-unreal-walk-retargeted.fbx",
+  "texture": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-legacy-miner-walk\\SourceAssets\\Textures\\T_LegacyMiner_texture_0.png",
+  "animation": "SK_LegacyMiner_Meshy_v2_Armature|Unreal Take|Base Layer",
+  "action_frame_range": [
+    1.0,
+    47.0
+  ],
+  "scene_fps": 30,
+  "pose_frame": 14.8,
+  "angles": [
+    0,
+    30,
+    60,
+    90,
+    120,
+    150,
+    180,
+    210,
+    240,
+    270,
+    300,
+    330
+  ],
+  "animation_authored_in_blender": false,
+  "source_animation": "Unreal-retargeted LegacyMiner_Unreal_Walk"
+}

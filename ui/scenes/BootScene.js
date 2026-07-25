@@ -1,7 +1,23 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { AUTHORED_BACKGROUND_ASSET_OVERRIDES } from "../../values/authoredBackgroundAssetOverrides.js";
-import { PLAYER_ASSET_PROFILES } from "../../values/playerAssetProfiles.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
+import {
+  WORLD_BACKGROUND_MASTER_TEST,
+  resolveWorldBackgroundMasterEnabled,
+} from "../../values/worldBackgroundMasterTest.js";
+import { START_ZONE_SCENIC_BACKGROUND } from "../../values/startZoneScenicBackground.js";
+import { LEVEL_ONE_GROUND_FACADE } from "../../values/levelOneGroundFacade.js";
+import {
+  getWorldVisualPreloadAssets,
+  isScenicWorldVisualRuntime,
+} from "../../values/worldVisualRuntime.js";
+import { getWorldVisualStartupMaterialAssets } from "../../values/worldVisualMaterials.js";
+import { getWorldVisualDepthBackdropPreloadAssets } from "../../values/worldVisualDepthBackdrops.js";
+import { getWorldVisualFeedbackPreloadAssets } from "../../values/worldVisualFeedback.js";
+import { getWorldVisualSemanticPreloadAssets } from "../../values/worldVisualSemanticAssets.js";
+import { getWorldVisualLandmarkPreloadAssets } from "../../values/worldVisualLandmarks.js";
+import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
@@ -271,8 +287,13 @@ export class BootScene extends Phaser.Scene {
       this.loadingUi?.setProgress(value);
     };
     const onLoadError = (file) => {
-      hasLoadFailure = true;
       const target = file?.key || file?.src || file?.url || file || "unknown asset";
+      const optionalAudio = file?.type === "audio";
+      if (optionalAudio || String(target).startsWith("authored-bg-") || String(target).startsWith(APPROVED_HUD_SKIN.assetPrefix)) {
+        console.warn('[BootScene] Optional asset unavailable; runtime fallback will be used:', target);
+        return;
+      }
+      hasLoadFailure = true;
       if (!failedKeys.includes(target)) failedKeys.push(target);
       const failLabel = failedKeys.length > 1 ? `${failedKeys.length} assets failed` : `Asset failed: ${target}`;
       console.warn('[BootScene] Failed to load asset:', target);
@@ -310,7 +331,6 @@ export class BootScene extends Phaser.Scene {
       this.preloadBackgrounds();
       this.preloadConstellationSprites();
       this.preloadNPCs();
-      this.preloadPlayerSprites();
       this.preloadTileSprites();
       this.preloadFxSprites();
       this.preloadUiSprites();
@@ -330,8 +350,33 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadBackgrounds() {
+    if (isScenicWorldVisualRuntime()) {
+      this.preloadScenicWorldRuntime();
+      MENU_BACKGROUND_ASSETS.forEach(({ key, path }) => this.queueImage(key, path));
+      return;
+    }
+
     this.queueImage(ASSET_KEYS.background.world1, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/base-background-world-1.webp`);
-    
+    this.queueImage(ASSET_KEYS.background.startZoneScenic, START_ZONE_SCENIC_BACKGROUND.assetPath);
+    this.queueImage(
+      ASSET_KEYS.background.startZoneGroundFacade,
+      START_ZONE_SCENIC_BACKGROUND.groundFacade.assetPath
+    );
+    const preloadFacadeIndex = LEVEL_ONE_GROUND_FACADE.streaming.preloadChunkIndex;
+    const preloadFacadeChunk = LEVEL_ONE_GROUND_FACADE.chunks[preloadFacadeIndex];
+    this.queueImage(
+      ASSET_KEYS.background.levelOneGroundFacade.chunks[preloadFacadeIndex],
+      preloadFacadeChunk.assetPath
+    );
+    this.queueImage(
+      ASSET_KEYS.background.levelOneGroundFacade.recognitionAtlas,
+      LEVEL_ONE_GROUND_FACADE.recognitionAtlas.assetPath
+    );
+    this.queueImage(
+      ASSET_KEYS.background.secondWorldTown,
+      "sprites/backgrounds/second-world/industrial-town-alcove-33x20-v2.png"
+    );
+
     // Load town houses
     this.queueImage(ASSET_KEYS.background.houseMoneyMonster, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/money-monster-npc-house.webp`);
     this.queueImage(ASSET_KEYS.background.housePlayerUpgrade, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/player-upgrade-npc-house.webp`);
@@ -362,7 +407,35 @@ export class BootScene extends Phaser.Scene {
     this.load.image(sky.planet1, skyBase + "sky-v3-planet-1.webp");
     this.load.image(sky.planet2, skyBase + "sky-v3-planet-2.webp");
 
-    this.preloadAuthoredBackgroundObjects();
+    const weatherVfx = ASSET_KEYS.environment.skylineWeatherVfx;
+    const weatherVfxBase = "sprites/environment/v11-skyline-weather-vfx-v1/";
+    this.load.image(weatherVfx.clouds, weatherVfxBase + "clouds-screen.webp");
+    this.load.image(weatherVfx.rain, weatherVfxBase + "rain-alpha.webp");
+    this.load.image(weatherVfx.snow, weatherVfxBase + "snow-alpha.webp");
+    this.load.image(weatherVfx.water, weatherVfxBase + "water-alpha.webp");
+    this.load.image(weatherVfx.atmosphere, weatherVfxBase + "atmosphere-screen.webp");
+    this.load.image(weatherVfx.lightning, weatherVfxBase + "lightning-screen.webp");
+
+    if (resolveWorldBackgroundMasterEnabled(WORLD_BACKGROUND_MASTER_TEST)) {
+      console.info("[BootScene] v11 master active; legacy v7 background assets are rollback-only");
+    } else {
+      this.preloadAuthoredBackgroundObjects();
+    }
+  }
+
+  preloadScenicWorldRuntime() {
+    const assets = [
+      ...getWorldVisualPreloadAssets(),
+      ...getWorldVisualStartupMaterialAssets(),
+      ...getWorldVisualDepthBackdropPreloadAssets(),
+      ...getWorldVisualFeedbackPreloadAssets(),
+      ...getWorldVisualSemanticPreloadAssets(),
+      ...getWorldVisualLandmarkPreloadAssets(),
+    ];
+    for (const asset of assets) this.queueImage(asset.key, asset.path);
+    console.info(
+      `[BootScene] Queued ${assets.length} scenic-v2 startup textures; depth materials stream on demand and legacy Tiled visuals were skipped`
+    );
   }
 
   preloadAuthoredBackgroundObjects() {
@@ -413,7 +486,9 @@ export class BootScene extends Phaser.Scene {
   preloadNPCs() {
     const base = "sprites/npc/npc-v3/sheets";
     const generatedMerchantBase = "sprites/npc/npc-v5-generated/singles/merchant-idle";
+    const animatedMerchantBase = "sprites/npc/npc-v6-animated/merchant-idle";
     const generatedMerchantVersion = "solid-generated-v2-20260623";
+    const animatedMerchantVersion = "approved-v1-20260711";
     const frame1024 = { frameWidth: 1024, frameHeight: 1024 };
     const frame1280 = { frameWidth: 1280, frameHeight: 1280 };
 
@@ -422,10 +497,24 @@ export class BootScene extends Phaser.Scene {
     this.load.spritesheet(ASSET_KEYS.shadowMiner.idleSheet, `${base}/shadow-miner-idle-sheet.webp`, frame1280);
 
     this.load.image(ASSET_KEYS.npcs.merchantSprites.moneyMonster, `${generatedMerchantBase}/money-monster.webp?v=${generatedMerchantVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.magmaMoneyMonster, "sprites/npc/npc-v7-level-two/magma-money-monster.png?v=approved-v1-20260713");
     this.load.image(ASSET_KEYS.npcs.merchantSprites.playerUpgrades, `${generatedMerchantBase}/player-upgrades.webp?v=${generatedMerchantVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gearMerchant, `${generatedMerchantBase}/gear-merchant.webp?v=${generatedMerchantVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.boboMerchant, `${generatedMerchantBase}/bobo-merchant.webp?v=${generatedMerchantVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gemPowerMerchant, `${generatedMerchantBase}/gem-power-merchant.webp?v=${generatedMerchantVersion}`);
+
+    const supportsAnimatedMerchants = this.sys.game.device.video.webm && this.sys.game.device.video.vp9;
+    if (supportsAnimatedMerchants) {
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.moneyMonster, `${animatedMerchantBase}/money-monster-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.playerUpgrades, `${animatedMerchantBase}/player-upgrades-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.gearMerchant, `${animatedMerchantBase}/gear-merchant-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.boboMerchant, `${animatedMerchantBase}/bobo-merchant-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.gemPowerMerchant, `${animatedMerchantBase}/gem-power-merchant-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
+    } else {
+      console.warn('[BootScene] VP9 WebM is unavailable; merchant NPCs will use static fallback sprites.');
+    }
+
+    this.load.image(ASSET_KEYS.vehicles.arcCore, "sprites/vehicles/arc-core-v1/arc-core.png?v=approved-v1-20260713");
 
     // Campfire sprites - grounded bottom-anchor textures for each upgrade tier.
     const campfireBase = "sprites/npc/campfire";
@@ -438,7 +527,7 @@ export class BootScene extends Phaser.Scene {
   finishBoot() {
     try {
       this.createAnimations();
-      console.log('[BootScene] Animations created successfully');
+      console.log('[BootScene] Menu and NPC animations created successfully');
       this.ensureMenuAudioScene();
       // Start music IMMEDIATELY during BootScene splash — if AudioContext is
       // locked (browser policy), the MenuAudioScene gesture listeners will
@@ -539,7 +628,7 @@ export class BootScene extends Phaser.Scene {
     const player = ASSET_KEYS.player;
     const frame341 = { frameWidth: 341, frameHeight: 341 };
     const runtimeV8Base = "sprites/character/character-v8/runtime";
-    const legacyRuntimeVersion = "legacy-v8-polish-approved-20260703";
+    const legacyRuntimeVersion = "legacy-v8-feedback-polish-20260713";
     const loadRuntimeSheet = (key, filename, frames) => {
       if (!key || !frames?.length) return;
       this.load.spritesheet(key, `${runtimeV8Base}/${filename}?v=${legacyRuntimeVersion}`, {
@@ -566,6 +655,8 @@ export class BootScene extends Phaser.Scene {
     loadRuntimeSheet(player.walkRunSheet, "walk-run-sheet.webp", player.walkRunFrames);
     loadRuntimeSheet(player.combatIdleRecoverSheet, "combat-idle-recover-sheet.webp", player.combatIdleRecoverFrames);
     loadRuntimeSheet(player.combatIdleToNormalIdleSheet, "combat-idle-to-normal-idle-sheet.webp", player.combatIdleToNormalIdleFrames);
+    loadRuntimeSheet(player.quickslashSheet, "quickslash-v2-clean-sheet.webp", player.quickslashFrames);
+    loadRuntimeSheet(player.teleportInSheet, "teleport-in-clean-sheet.webp", player.teleportInFrames);
     const movementBase = `${baseV2}/character-movement/movement-bare-hands`;
     this.load.image('char-v2-airborne-1', `${movementBase}/jump/jump-1.webp`);
     this.load.image('char-v2-duck-1', `${movementBase}/duck/duck-1.webp`);
@@ -581,47 +672,60 @@ export class BootScene extends Phaser.Scene {
     this.load.image('char-v2-thunder-charge', `${thunderBase}/charging.webp`);
     this.load.image('char-v2-thunder-strike', `${thunderBase}/thunder-strike.webp`);
 
-    // ── Robot spritesheets ─────────────────────────────────────────────────
-    // Preload here so textures exist when PlayScene creates animations.
-    // ~20MB heap cost at boot rather than mid-game jank.
-    const robot = PLAYER_ASSET_PROFILES.robot;
-    const robotBase = robot.basePath;
-    const robotVersion = robot.version;
-    const loadRobotSheet = (sheetKey, fileName, frames) => {
-      if (!sheetKey || !frames?.length) return;
-      if (this.textures.exists(sheetKey)) return;
-      this.load.spritesheet(sheetKey, `${robotBase}/${fileName}?v=${robotVersion}`, {
-        frameWidth: 341, frameHeight: 341, endFrame: frames.length - 1,
-      });
+  }
+
+  applyPlayerTextureQuality() {
+    const requestedFilter = String(ASSET_KEYS.player.textureFilter || "NEAREST").toUpperCase();
+    const filterMode = Phaser.Textures.FilterMode[requestedFilter];
+    if (typeof filterMode !== "number") {
+      console.warn(`[BootScene] Unknown player texture filter: ${requestedFilter}`);
+      return;
+    }
+
+    const textureKeys = new Set([
+      "char-v2-airborne-1",
+      "char-v2-duck-1",
+      "char-v2-dig-down-1",
+      "char-v2-quickslash-1",
+      "char-v2-quickslash-2",
+      "char-v2-thunder-charge",
+      "char-v2-thunder-strike",
+    ]);
+    const collectLoadedTextureKeys = (value) => {
+      if (typeof value === "string") {
+        if (this.textures.exists(value)) textureKeys.add(value);
+        return;
+      }
+      if (Array.isArray(value)) {
+        value.forEach(collectLoadedTextureKeys);
+        return;
+      }
+      if (value && typeof value === "object") {
+        Object.values(value).forEach(collectLoadedTextureKeys);
+      }
     };
-    loadRobotSheet(robot.idleSheet, "idle-sheet.webp", robot.idleFrames);
-    loadRobotSheet(robot.walkStartSheet, "walk-start-sheet.webp", robot.walkStartFrames);
-    loadRobotSheet(robot.walkLoopSheet, "walk-loop-sheet.webp", robot.walkLoopFrames);
-    loadRobotSheet(robot.walkRunSheet, "walk-run-sheet.webp", robot.walkRunFrames);
-    loadRobotSheet(robot.walkStopSheet, "walk-stop-sheet.webp", robot.walkStopFrames);
-    loadRobotSheet(robot.airborneSheet, "jump-sheet.webp", robot.airborneFrames);
-    loadRobotSheet(robot.fallingSheet, "falling-sheet.webp", robot.fallingFrames);
-    loadRobotSheet(robot.duckSheet, "duck-sheet.webp", robot.duckFrames);
-    loadRobotSheet(robot.digDownSheet, "dig-down-sheet.webp", robot.digDownFrames);
-    loadRobotSheet(robot.digSidewaysSheet, "dig-sideways-sheet.webp", robot.digSidewaysFrames);
-    loadRobotSheet(robot.digUpSheet, "dig-up-sheet.webp", robot.digUpFrames);
-    loadRobotSheet(robot.digUpSidewaysSheet, "dig-up-sideways-sheet.webp", robot.digUpSidewaysFrames);
-    loadRobotSheet(robot.digUpLookSheet, "dig-up-look-sheet.webp", robot.digUpLookFrames);
-    loadRobotSheet(robot.wallPushSheet, "wall-push-sheet.webp", robot.wallPushFrames);
-    loadRobotSheet(robot.combatIdleRecoverSheet, "combat-idle-recover-sheet.webp", robot.combatIdleRecoverFrames);
-    loadRobotSheet(robot.climbSheet, "climb-sheet.webp", robot.climbFrames);
-    loadRobotSheet(robot.flySheet, "fly-sheet.webp", robot.flyFrames);
-    loadRobotSheet(robot.quickslashSheet, "quickslash-sheet.webp", robot.quickslashFrames);
-    loadRobotSheet(robot.thunderStrikeChargeSheet, "thunder-charge-sheet.webp", robot.thunderStrikeChargeFrames);
-    loadRobotSheet(robot.thunderStrikeStrikeSheet, "thunder-strike-sheet.webp", robot.thunderStrikeStrikeFrames);
-    loadRobotSheet(robot.attackDownSheet, "attack-down-sheet.webp", robot.attackDownFrames);
-    loadRobotSheet(robot.earthquakeReactSheet, "earthquake-react-sheet.webp", robot.earthquakeReactFrames);
+    collectLoadedTextureKeys(ASSET_KEYS.player);
+
+    let applied = 0;
+    textureKeys.forEach((key) => {
+      if (!this.textures.exists(key)) return;
+      this.textures.get(key).setFilter(filterMode);
+      applied += 1;
+    });
+    console.log(`[BootScene] Player texture sampling: ${requestedFilter} (${applied} textures)`);
   }
 
   preloadTileSprites() {
     const approvedWorldBase = "sprites/tiles/approved-world";
+    const caveEntrance = CAVE_SCENE_CONFIG.overworldEntrance;
+    const v11SkyIslandBase = "sprites/backgrounds/world-v11-sky-islands-v1";
+    this.load.image(ASSET_KEYS.background.skyIslands.level1Platform, `${v11SkyIslandBase}/level1-platform.webp`);
+    this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
+    this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
+    this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
     this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-wall.webp`);
-    this.load.image(ASSET_KEYS.tiles.caveWall, `${approvedWorldBase}/cave-wall.webp`);
+    this.load.image(caveEntrance.legacy.textureKey, caveEntrance.legacy.assetPath);
+    this.load.image(caveEntrance.scenic.textureKey, caveEntrance.scenic.assetPath);
     this.load.image(ASSET_KEYS.tiles.caveEdge, `${approvedWorldBase}/cave-edge.webp`);
     this.load.image(ASSET_KEYS.tiles.caveCeiling, `${approvedWorldBase}/cave-ceiling.webp`);
     this.load.image(ASSET_KEYS.tiles.caveCeilingChains, `${approvedWorldBase}/cave-ceiling-chains.webp`);
@@ -768,6 +872,10 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.resources.emberOre, "sprites/UI/second-world/ember-ore-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.magmaCrystal, "sprites/UI/second-world/magma-crystal-icon.webp");
     this.load.image(ASSET_KEYS.ui.lootBag, "sprites/UI/loot-pickups/inventory-bag.png");
+    Object.entries(ASSET_KEYS.ui.approvedHud).forEach(([name, key]) => {
+      const path = APPROVED_HUD_SKIN.paths[name];
+      if (path) this.queueImage(key, path);
+    });
     this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.stone, "sprites/UI/loot-pickups/stone.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.copper, "sprites/UI/loot-pickups/copper.png");
@@ -785,10 +893,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   createAnimations() {
-    if (this.anims.exists(ASSET_KEYS.player.idleAnim)) {
-      return;
-    }
-
+    const legacyPlayerAvailable = this.textures.exists(ASSET_KEYS.player.idleSheet);
     const sheetFrames = (sheetKey, frames) => frames.map((frame) => ({ key: sheetKey, frame }));
     const createSheetAnim = (key, sheetKey, frames, frameRate, repeat = -1, options = {}) => {
       if (!this.textures.exists(sheetKey) || this.anims.exists(key)) return;
@@ -819,6 +924,7 @@ export class BootScene extends Phaser.Scene {
       });
     };
 
+    if (legacyPlayerAvailable && !this.anims.exists(ASSET_KEYS.player.idleAnim)) {
     this.anims.create({
       key: ASSET_KEYS.player.idleAnim,
       frames: sheetFrames(ASSET_KEYS.player.idleSheet, ASSET_KEYS.player.idleFrames),
@@ -932,7 +1038,13 @@ export class BootScene extends Phaser.Scene {
     );
 
     if (this.textures.exists(ASSET_KEYS.player.quickslashSheet)) {
-      createSheetAnim(ASSET_KEYS.player.quickslashAnim, ASSET_KEYS.player.quickslashSheet, ASSET_KEYS.player.quickslashFrames, 12, 0);
+      createSheetAnim(
+        ASSET_KEYS.player.quickslashAnim,
+        ASSET_KEYS.player.quickslashSheet,
+        ASSET_KEYS.player.quickslashFrames,
+        ASSET_KEYS.player.quickslashAnimationFps,
+        0
+      );
     } else {
       this.anims.create({
         key: ASSET_KEYS.player.quickslashAnim,
@@ -941,6 +1053,14 @@ export class BootScene extends Phaser.Scene {
         repeat: 0,
       });
     }
+
+    createSheetAnim(
+      ASSET_KEYS.player.teleportInAnim,
+      ASSET_KEYS.player.teleportInSheet,
+      ASSET_KEYS.player.teleportInFrames,
+      ASSET_KEYS.player.teleportInAnimationFps,
+      0
+    );
 
     if (this.textures.exists(ASSET_KEYS.player.thunderStrikeChargeSheet)) {
       createSheetAnim(ASSET_KEYS.player.thunderStrikeChargeAnim, ASSET_KEYS.player.thunderStrikeChargeSheet, ASSET_KEYS.player.thunderStrikeChargeFrames, ASSET_KEYS.player.thunderStrikeChargeAnimationFps, -1);
@@ -953,13 +1073,9 @@ export class BootScene extends Phaser.Scene {
     } else {
       createImageAnim(ASSET_KEYS.player.thunderStrikeStrikeAnim, "char-v2-thunder-strike", 12, 0);
     }
+    }
 
-    this.anims.create({
-      key: ASSET_KEYS.npcs.boboIdleAnim,
-      frames: sheetFrames(ASSET_KEYS.npcs.boboIdleSheet, ASSET_KEYS.npcs.boboIdleFrames),
-      frameRate: 5,
-      repeat: -1,
-    });
+    createSheetAnim(ASSET_KEYS.npcs.boboIdleAnim, ASSET_KEYS.npcs.boboIdleSheet, ASSET_KEYS.npcs.boboIdleFrames, 5, -1);
 
     createSheetAnim(
       ASSET_KEYS.shadowMiner.idleAnim,
@@ -969,13 +1085,7 @@ export class BootScene extends Phaser.Scene {
       -1
     );
 
-    // Shadow Miner run animation (single frame, will loop for floating effect)
-    this.anims.create({
-      key: ASSET_KEYS.shadowMiner.runAnim,
-      frames: sheetFrames(ASSET_KEYS.shadowMiner.sheet, [ASSET_KEYS.shadowMiner.runFrame]),
-      frameRate: 8,
-      repeat: -1,
-    });
+    createSheetAnim(ASSET_KEYS.shadowMiner.runAnim, ASSET_KEYS.shadowMiner.sheet, [ASSET_KEYS.shadowMiner.runFrame], 8, -1);
 
     // ── Robot animations are created on-demand in PlaySceneSetup ──────────
   }

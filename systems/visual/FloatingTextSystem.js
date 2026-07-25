@@ -2,6 +2,7 @@ import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
+import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
 const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
@@ -12,11 +13,13 @@ const CONSTELLATION_LINE_COLORS = STAR_CONSTELLATION_CONFIG.lineColors;
 const SKY_STAR_TEXTURE_PREFIX = STAR_CONSTELLATION_CONFIG.skyStarTexturePrefix;
 const SKY_STAR_DISPLAY_SIZES = STAR_CONSTELLATION_CONFIG.skyStarDisplaySizesPx;
 const SKY_RARITY_FALLBACKS = STAR_CONSTELLATION_CONFIG.rarityFallbacks;
+const COLLECTED_STAR_RELEASE_FX = STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx;
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class FloatingTextSystem {
-  constructor(scene) {
+  constructor(scene, saveSlot = 1) {
     this.scene = scene;
+    this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
     this.activeFloatingTexts = [];
     this._townStars = [];
     this._constellationLines = [];
@@ -31,6 +34,20 @@ export class FloatingTextSystem {
     this._loadPersistedStarRarityCounts();
   }
 
+  _getPersistenceKey(baseKey) {
+    return `${baseKey}-slot-${this.saveSlot}`;
+  }
+
+  _readPersistedValue(baseKey, fallback) {
+    const scopedKey = this._getPersistenceKey(baseKey);
+    let raw = localStorage.getItem(scopedKey);
+    if (!raw && this.saveSlot === 1) {
+      raw = localStorage.getItem(baseKey);
+      if (raw) localStorage.setItem(scopedKey, raw);
+    }
+    return raw || fallback;
+  }
+
   /** Wire a callback to be called when a constellation unlocks. */
   setConstellationUnlockedCallback(fn) {
     this._onConstellationUnlocked = fn;
@@ -39,7 +56,7 @@ export class FloatingTextSystem {
   /** Return array of resource types whose constellations are unlocked (from localStorage). */
   getUnlockedConstellations() {
     try {
-      return JSON.parse(localStorage.getItem('dig-game-constellations') || '[]');
+      return JSON.parse(this._readPersistedValue('dig-game-constellations', '[]'));
     } catch (e) { return []; }
   }
 
@@ -49,17 +66,36 @@ export class FloatingTextSystem {
     return this._constellationCounts || {};
   }
 
+  getAncientRelicCount() {
+    return this.scene?.ancientRelicSystem?.getCount?.() || 0;
+  }
+
+  tryUnlockEligibleConstellations() {
+    const counts = this.getConstellationCounts();
+    const unlocked = new Set(this.getUnlockedConstellations());
+    const relicCount = this.getAncientRelicCount();
+
+    for (const resourceType of Object.keys(CONSTELLATION_THRESHOLDS)) {
+      const threshold = CONSTELLATION_THRESHOLDS[resourceType] ?? 5;
+      const relicRequirement = getConstellationRelicRequirement(resourceType);
+      if (unlocked.has(resourceType)) continue;
+      if ((counts[resourceType] || 0) < threshold || relicCount < relicRequirement) continue;
+      this._unlockConstellation(resourceType);
+      unlocked.add(resourceType);
+    }
+  }
+
   /** Return collected-star counts per sky tile rarity tier. */
   getStarRarityCounts() {
     this._loadPersistedStarRarityCounts();
     return [...(this._starRarityCounts || [])];
   }
 
-  /** Ensure saved constellations are restored into the upper-sky pillar region. */
+  /** Ensure saved star progress is available to the constellation UI. */
   ensureConstellationsLoaded() {
     if (this._constellationsLoaded) return;
     this._constellationsLoaded = true;
-    this._restorePersistedConstellations();
+    this._restorePersistedConstellationProgress();
   }
 
   /** Public anchor helper used by StarPillarSystem so every view uses the same sky math. */
@@ -587,8 +623,6 @@ export class FloatingTextSystem {
 
   /**
    * Show sky tile destruction reward text and sparkle burst.
-   * The persistent star is spawned by spawnSkyTownStar(), so collected stars have
-   * exactly one visual lifecycle: tile -> sky -> constellation.
    * @param {number} worldX - World X position
    * @param {number} worldY - World Y position
    * @param {string} resourceType - Resource name (e.g., "dirt", "copper", "stone")
@@ -680,79 +714,6 @@ export class FloatingTextSystem {
     });
   }
 
-  /**
-   * Animate the visual effect star toward its constellation position (or screen top as fallback).
-   * Arcs gracefully in both X and Y with a sparkle trail. Trail density scales with rarity.
-   * @private
-   */
-  _animateStarToSky(star, startX, startY, rarityColor, rarity = 0, resourceType = null) {
-    const target = resourceType ? this._getConstellationCenter(resourceType) : null;
-
-    let targetX, targetY;
-    if (target) {
-      targetX = target.x;
-      targetY = target.y;
-    } else {
-      // Fallback: fly straight up off the top of the camera view
-      targetX = startX;
-      targetY = this.scene.cameras.main.worldView.top - 20;
-    }
-
-    const durations   = [1800, 2400, 3200];
-    const duration    = durations[rarity] || 1800;
-    const trailGaps   = [90, 60, 40]; // ms between trail dots, denser for higher rarity
-    const trailGap    = trailGaps[rarity] || 90;
-    const dotRadius   = rarity >= 2 ? 5 : rarity >= 1 ? 3 : 2;
-    const trailAlpha  = rarity >= 2 ? 0.9 : 0.7;
-
-    let lastTrailTime = 0;
-
-    this.scene.tweens.add({
-      targets: star,
-      x: targetX,
-      y: targetY,
-      duration,
-      ease: 'Power3.out',
-      onUpdate: () => {
-        const t = Date.now();
-        // Twinkle alpha during flight
-        star.setAlpha(Math.sin(t / 140) * 0.15 + 0.85);
-
-        // Sparkle trail
-        if (t - lastTrailTime > trailGap) {
-          lastTrailTime = t;
-          const trailColor = target ? (CONSTELLATION_LINE_COLORS[resourceType] || rarityColor) : rarityColor;
-          const dot = this.scene.add.circle(star.x, star.y, dotRadius, trailColor, trailAlpha);
-          dot.setDepth(HUD_LAYOUT.floatingTextDepth + 8);
-          this.scene.tweens.add({
-            targets: dot, alpha: 0, scale: 0,
-            duration: rarity >= 2 ? 600 : 400,
-            onComplete: () => dot.destroy(),
-          });
-        }
-      },
-      onComplete: () => {
-        // Small burst flash at destination
-        if (target) {
-          const flash = this.scene.add.circle(targetX, targetY, 30, rarityColor, 0.5);
-          flash.setDepth(HUD_LAYOUT.floatingTextDepth + 9);
-          this.scene.tweens.add({
-            targets: flash, alpha: 0, scale: 2.5, duration: 350, ease: 'Power2.out',
-            onComplete: () => flash.destroy(),
-          });
-        }
-        this.scene.tweens.add({
-          targets: star, alpha: 0, duration: 200,
-          onComplete: () => {
-            star.destroy();
-            const idx = this.activeFloatingTexts.indexOf(star);
-            if (idx !== -1) this.activeFloatingTexts.splice(idx, 1);
-          },
-        });
-      },
-    });
-  }
-
   // ─── Constellation system constants ──────────────────────────────────────
   // (defined inside the class scope so they're accessible to all methods below)
   // Threshold: how many stars of the same resource type unlock a constellation
@@ -761,21 +722,81 @@ export class FloatingTextSystem {
   // ──────────────────────────────────────────────────────────────────────────
 
   /**
-   * Spawn a persistent collected star at the mined sky tile and fly it into the
-   * upper-sky constellation formation. Stars are only created by sky tile breaks.
+   * Record a collected sky star for UI progression, then let its world-space
+   * visual drift upward slowly and fade away. No collected star remains in the world.
    * @param {number} rarity - 0=common, 1=rare, 2=legendary, ...
    * @param {number} startWorldX - Mined tile world X center
    * @param {number} startWorldY - Mined tile world Y center
    * @param {string} resourceType - Resource type string (e.g. 'copper', 'gold')
    */
-  spawnSkyTownStar(rarity, startWorldX, startWorldY, resourceType) {
+  releaseCollectedSkyStar(rarity, startWorldX, startWorldY, resourceType) {
     this.ensureConstellationsLoaded();
-    this._capTownStarPool();
+    this._recordCollectedStar(resourceType, rarity);
 
-    const target = this._getCollectedStarTarget(resourceType);
     const entry = this._createSkyStarEntry(startWorldX, startWorldY, rarity, resourceType);
-    this._townStars.push(entry);
-    this._animateCollectedStarToFormation(entry, target.x, target.y);
+    const star = entry.graphic;
+    const safeRarity = entry.rarity || 0;
+    const duration = COLLECTED_STAR_RELEASE_FX.durationMs
+      + Math.min(5, safeRarity) * COLLECTED_STAR_RELEASE_FX.rarityDurationBonusMs;
+    const riseDistance = Phaser.Math.FloatBetween(
+      COLLECTED_STAR_RELEASE_FX.riseMinPx,
+      COLLECTED_STAR_RELEASE_FX.riseMaxPx
+    );
+    const lateralDrift = Phaser.Math.FloatBetween(
+      -COLLECTED_STAR_RELEASE_FX.lateralDriftMaxPx,
+      COLLECTED_STAR_RELEASE_FX.lateralDriftMaxPx
+    );
+    const rotation = Phaser.Math.FloatBetween(
+      -COLLECTED_STAR_RELEASE_FX.maxRotationDeg,
+      COLLECTED_STAR_RELEASE_FX.maxRotationDeg
+    );
+    const fadeDuration = Math.max(
+      1,
+      duration - COLLECTED_STAR_RELEASE_FX.fadeInMs - COLLECTED_STAR_RELEASE_FX.fadeHoldMs
+    );
+
+    star.setAlpha(0);
+    star.setScale(
+      entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.startScale,
+      entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.startScale
+    );
+    this.activeFloatingTexts.push(star);
+
+    const destroyReleasedStar = () => {
+      if (star.active) star.destroy();
+      const index = this.activeFloatingTexts.indexOf(star);
+      if (index !== -1) this.activeFloatingTexts.splice(index, 1);
+    };
+
+    this.scene.tweens.add({
+      targets: star,
+      x: startWorldX + lateralDrift,
+      y: startWorldY - riseDistance,
+      angle: rotation,
+      duration,
+      ease: 'Sine.out',
+    });
+
+    this.scene.tweens.add({
+      targets: star,
+      alpha: 1,
+      scaleX: entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.peakScale,
+      scaleY: entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.peakScale,
+      duration: COLLECTED_STAR_RELEASE_FX.fadeInMs,
+      ease: 'Sine.out',
+      onComplete: () => {
+        this.scene.tweens.add({
+          targets: star,
+          alpha: 0,
+          scaleX: entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.endScale,
+          scaleY: entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.endScale,
+          delay: COLLECTED_STAR_RELEASE_FX.fadeHoldMs,
+          duration: fadeDuration,
+          ease: 'Sine.in',
+          onComplete: destroyReleasedStar,
+        });
+      },
+    });
   }
 
   _capTownStarPool(maxStars = 220) {
@@ -977,7 +998,7 @@ export class FloatingTextSystem {
     this._saveStarCounts();
 
     if (!wasUnlocked && this._constellationCounts[resourceType] >= threshold) {
-      this._unlockConstellation(resourceType);
+      this.tryUnlockEligibleConstellations();
     }
   }
 
@@ -1059,106 +1080,11 @@ export class FloatingTextSystem {
     this._saveStarRarityCounts();
   }
 
-  /**
-   * Animate 5 stars of the given resource type into their constellation positions
-   * and draw connecting glow lines. Saves the unlock to localStorage.
-   * @private
-   */
+  /** Persist an unlock and notify the UI without creating world-space stars. */
   _unlockConstellation(resourceType) {
     const def = CONSTELLATION_DEFS[resourceType];
-    const center = this._getConstellationCenter(resourceType);
-    if (!def || !center) return;
+    if (!def) return;
     if (this.getUnlockedConstellations().includes(resourceType)) return;
-
-    const centerX = center.x;
-    const centerY = center.y;
-    const sp = CONSTELLATION_SPACING;
-    this._addConstellationSignBackdrop(resourceType, centerX, centerY, CONSTELLATION_LINE_COLORS[resourceType] || 0xFFFFFF, true);
-
-    // Grab the most recent active stars of this resource type, then conjure
-    // harmless echo-stars if the constellation has a low collection threshold.
-    let typeStars = this._townStars
-      .filter(s => s.resourceType === resourceType && s.graphic && s.graphic.active)
-      .slice(-def.points.length);
-
-    while (typeStars.length < def.points.length) {
-      const entry = this._createSkyStarEntry(
-        centerX + (Math.random() * 80 - 40),
-        centerY + (Math.random() * 80 - 40),
-        0,
-        resourceType
-      );
-      entry.graphic.setAlpha(0.72);
-      entry.graphic.setScale(entry.baseScaleX * 0.72, entry.baseScaleY * 0.72);
-      this._townStars.push(entry);
-      typeStars.push(entry);
-    }
-
-    const lineColor = CONSTELLATION_LINE_COLORS[resourceType] || 0xFFFFFF;
-    const STAR_FLIGHT_DUR  = 1000; // ms each star takes to fly
-    const STAR_STAGGER_GAP = 180;  // ms between each star launch
-
-    // Animate each star to its fixed position with staggered launch
-    typeStars.forEach((entry, i) => {
-      const [dx, dy] = def.points[i];
-      const targetX = centerX + dx * sp;
-      const targetY = centerY + dy * sp;
-
-      const starId = entry.graphic?.uuid || entry.graphic?.id;
-      if (starId) this._constellationStarsBeingAnimated.add(starId);
-      entry.isConstellationAnimating = true;
-      if (entry.tween) { entry.tween.stop(); entry.tween = null; }
-      this.scene.tweens.killTweensOf(entry.graphic);
-
-      this.scene.time.delayedCall(i * STAR_STAGGER_GAP, () => {
-        if (!entry.graphic || !entry.graphic.active) return;
-
-        // Flash the star white before it flies
-        this.scene.tweens.add({
-          targets: entry.graphic,
-          alpha: { from: 1, to: 0.3 },
-          duration: 120, yoyo: true,
-        });
-
-        this.scene.tweens.add({
-          targets: entry.graphic,
-          x: targetX, y: targetY,
-          duration: STAR_FLIGHT_DUR,
-          ease: 'Cubic.out',
-          onComplete: () => {
-            if (starId) this._constellationStarsBeingAnimated.delete(starId);
-            entry.isConstellationAnimating = false;
-            const baseScaleX = entry.baseScaleX || entry.graphic.scaleX || 1;
-            const baseScaleY = entry.baseScaleY || entry.graphic.scaleY || 1;
-
-            // Pop-scale on landing
-            this.scene.tweens.add({
-              targets: entry.graphic,
-              scaleX: { from: baseScaleX * 1.6, to: baseScaleX },
-              scaleY: { from: baseScaleY * 1.6, to: baseScaleY },
-              duration: 300, ease: 'Back.out',
-            });
-
-            // Small burst at landing point
-            const burst = this.scene.add.circle(targetX, targetY, 8, lineColor, 0.8);
-            burst.setDepth(HUD_LAYOUT.hudDepth - 4);
-            this.scene.tweens.add({
-              targets: burst, radius: 40, alpha: 0, duration: 500, ease: 'Power2.out',
-              onComplete: () => burst.destroy(),
-            });
-
-            // Resume twinkle
-            entry.tween = this._startSkyStarTwinkle(entry);
-          },
-        });
-      });
-    });
-
-    // Lines draw segment by segment after all stars land
-    const allLandedDelay = typeStars.length * STAR_STAGGER_GAP + STAR_FLIGHT_DUR + 100;
-    this.scene.time.delayedCall(allLandedDelay, () => {
-      this._drawConstellationLinesAnimated(def, centerX, centerY, sp, resourceType);
-    });
 
     this._saveConstellationUnlock(resourceType);
     if (this._onConstellationUnlocked) this._onConstellationUnlocked(resourceType);
@@ -1267,7 +1193,7 @@ export class FloatingTextSystem {
   _saveStarCounts() {
     try {
       if (this._constellationCounts) {
-        localStorage.setItem('dig-game-star-counts', JSON.stringify(this._constellationCounts));
+        localStorage.setItem(this._getPersistenceKey('dig-game-star-counts'), JSON.stringify(this._constellationCounts));
       }
     } catch (e) { /* storage unavailable */ }
   }
@@ -1278,7 +1204,7 @@ export class FloatingTextSystem {
    */
   _loadPersistedStarCounts() {
     try {
-      const saved = JSON.parse(localStorage.getItem('dig-game-star-counts') || '{}');
+      const saved = JSON.parse(this._readPersistedValue('dig-game-star-counts', '{}'));
       if (!this._constellationCounts) this._constellationCounts = {};
       for (const [k, v] of Object.entries(saved)) {
         if (!this._constellationCounts[k]) this._constellationCounts[k] = v;
@@ -1289,14 +1215,14 @@ export class FloatingTextSystem {
   _saveStarRarityCounts() {
     try {
       if (this._starRarityCounts) {
-        localStorage.setItem('dig-game-star-rarity-counts', JSON.stringify(this._starRarityCounts));
+        localStorage.setItem(this._getPersistenceKey('dig-game-star-rarity-counts'), JSON.stringify(this._starRarityCounts));
       }
     } catch (e) { /* storage unavailable */ }
   }
 
   _loadPersistedStarRarityCounts() {
     try {
-      const saved = JSON.parse(localStorage.getItem('dig-game-star-rarity-counts') || '[]');
+      const saved = JSON.parse(this._readPersistedValue('dig-game-star-rarity-counts', '[]'));
       const targetLen = Math.max(SKY_RARITY_FALLBACKS.length, Array.isArray(saved) ? saved.length : 0);
       if (!this._starRarityCounts || this._starRarityCounts.length < targetLen) {
         this._starRarityCounts = new Array(targetLen).fill(0);
@@ -1315,59 +1241,19 @@ export class FloatingTextSystem {
    */
   _saveConstellationUnlock(resourceType) {
     try {
-      const arr = JSON.parse(localStorage.getItem('dig-game-constellations') || '[]');
+      const arr = JSON.parse(this._readPersistedValue('dig-game-constellations', '[]'));
       if (!arr.includes(resourceType)) {
         arr.push(resourceType);
-        localStorage.setItem('dig-game-constellations', JSON.stringify(arr));
+        localStorage.setItem(this._getPersistenceKey('dig-game-constellations'), JSON.stringify(arr));
       }
     } catch (e) { /* storage unavailable */ }
   }
 
-  /**
-   * Restore previously-unlocked constellations from localStorage on scene start.
-   * Spawns stars directly at their fixed positions and draws lines immediately.
-   * @private
-   */
-  _restorePersistedConstellations() {
-    // Always load persisted counts first (even if no constellations are unlocked yet,
-    // so the progress panel shows correct partial counts from previous sessions)
+  /** Load saved counts for the UI without restoring any world-space stars. */
+  _restorePersistedConstellationProgress() {
     if (!this._constellationCounts) this._constellationCounts = {};
     this._loadPersistedStarCounts();
     this._loadPersistedStarRarityCounts();
-
-    let unlocked;
-    try {
-      unlocked = JSON.parse(localStorage.getItem('dig-game-constellations') || '[]');
-    } catch (e) { return; }
-    if (!unlocked.length) return;
-
-    unlocked.forEach(resourceType => {
-      const def = CONSTELLATION_DEFS[resourceType];
-      const center = this._getConstellationCenter(resourceType);
-      if (!def || !center) return;
-
-      const centerX = center.x;
-      const centerY = center.y;
-      const sp = CONSTELLATION_SPACING;
-      this._addConstellationSignBackdrop(resourceType, centerX, centerY, CONSTELLATION_LINE_COLORS[resourceType] || 0xFFFFFF, false);
-
-      // Mark as already unlocked so threshold won't fire again
-      this._constellationCounts[resourceType] = CONSTELLATION_THRESHOLDS[resourceType] ?? 5;
-
-      // Spawn 5 stars directly at their positions
-      def.points.forEach(([dx, dy]) => {
-        const x = centerX + dx * sp;
-        const y = centerY + dy * sp;
-        const entry = this._createSkyStarEntry(x, y, 0, resourceType);
-        entry.graphic.setAlpha(1);
-        entry.graphic.setScale(entry.baseScaleX, entry.baseScaleY);
-        entry.tween = this._startSkyStarTwinkle(entry);
-        this._townStars.push(entry);
-      });
-
-      // Draw lines immediately
-      this._drawConstellationLines(def, centerX, centerY, sp, resourceType);
-    });
   }
 
   /**

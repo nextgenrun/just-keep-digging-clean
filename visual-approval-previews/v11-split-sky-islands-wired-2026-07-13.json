@@ -1,0 +1,19 @@
+{
+  "tmx": "exports\\dig-game-world-edit-v-11-08-07-2026-;1-img-test-saved-before-runtime-wire.tmx",
+  "backup": "exports\\dig-game-world-edit-v-11-08-07-2026-;1-img-test-before-split-sky-island-wire-2026-07-13.tmx",
+  "tmxSha256": "76e8e0e697e6cb78f038377ab21a5aa5f79c0dc310acbbd1d622aed50c5ac97d",
+  "backupSha256": "4914f32f39e0ec5dab707a436820abc720d827eac10a65e7fdcf2938db7a8d53",
+  "group": "V11_SPLIT_SKY_ISLAND_PORTALS_V1",
+  "platforms": 2,
+  "portalSlots": 8,
+  "portalSlotsPerLevel": 4,
+  "retentionPolicy": "deepest-four-per-level",
+  "platformTopRow": 58,
+  "dividerX": 159,
+  "skyBedrockTiles": 65,
+  "runtimeWired": false,
+  "preview": "visual-approval-previews\\v11-split-sky-islands-wired-2026-07-13.png",
+  "removedSkyBedrockTiles": 65,
+  "dividerBedrockTiles": 65,
+  "platformFloorTiles": 32
+}

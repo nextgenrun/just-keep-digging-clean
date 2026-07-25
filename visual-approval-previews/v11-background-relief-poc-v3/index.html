@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>V11 high-detail background — flat vs 3D relief</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: #eef4f8;
+      background: radial-gradient(circle at 50% -20%, #23313b 0, #10171c 43%, #080c0f 100%);
+    }
+    main { width: min(1560px, calc(100% - 32px)); margin: 0 auto; padding: 25px 0 30px; }
+    header { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 14px; }
+    h1 { margin: 0; font-size: clamp(19px, 2vw, 30px); letter-spacing: -.02em; }
+    p { margin: 6px 0 0; color: #9eacb5; font-size: 13px; }
+    .truth { color: #94d7ff; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    figure { position: relative; margin: 0; aspect-ratio: 1; overflow: hidden; background: #050708; border: 1px solid #33424b; border-radius: 10px; box-shadow: 0 22px 55px #0009; }
+    figure::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 70px #0005; }
+    img, canvas { display: block; width: 100%; height: 100%; object-fit: cover; }
+    figcaption { position: absolute; z-index: 2; top: 12px; left: 12px; padding: 7px 10px; border: 1px solid #ffffff25; border-radius: 6px; background: #091014d9; backdrop-filter: blur(8px); font-size: 11px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    .relief figcaption { color: #a9e3ff; border-color: #71ceff58; }
+    .hint { position: absolute; z-index: 2; right: 12px; bottom: 12px; padding: 7px 9px; border-radius: 5px; background: #071015c7; color: #b7c7d0; font-size: 11px; pointer-events: none; }
+    .controls { display: grid; grid-template-columns: minmax(280px, 1fr) auto; align-items: center; gap: 24px; margin-top: 13px; padding: 13px 15px; border: 1px solid #2a3942; border-radius: 9px; background: #10181de8; }
+    .range { display: grid; grid-template-columns: auto 1fr 52px; align-items: center; gap: 12px; font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    input[type="range"] { width: 100%; accent-color: #6bcdf8; }
+    output { text-align: right; color: #9bdfff; font-variant-numeric: tabular-nums; }
+    label.toggle { display: flex; align-items: center; gap: 8px; color: #c9d5db; font-size: 12px; white-space: nowrap; }
+    .notes { display: flex; gap: 18px; margin-top: 12px; color: #82929b; font-size: 11px; }
+    .notes strong { color: #b9c8cf; }
+    #error { display: none; position: absolute; inset: 0; place-items: center; z-index: 4; padding: 30px; background: #12090a; color: #ffb4b4; text-align: center; }
+    @media (max-width: 850px) {
+      header { align-items: start; flex-direction: column; gap: 8px; }
+      .compare { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: 1fr; gap: 12px; }
+      .notes { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>High-detail V11 background: flat vs GPU relief</h1>
+        <p>One identical production source. The right side adds only depth displacement and surface normals.</p>
+      </div>
+      <div class="truth">Background test only · no tiles · no Meshy model</div>
+    </header>
+
+    <section class="compare" aria-label="Background comparison">
+      <figure>
+        <img src="../../sprites/backgrounds/world-v11-runtime-polished-v4/sources/level1-silver-core-detail.png" alt="Untouched V11 silver core background">
+        <figcaption>A · Original flat V11</figcaption>
+      </figure>
+      <figure class="relief" id="reliefFrame">
+        <canvas id="relief" aria-label="Interactive 3D relief version of the V11 background"></canvas>
+        <figcaption>B · Same art + 3D relief</figcaption>
+        <div class="hint">Move over image to shift camera</div>
+        <div id="error"></div>
+      </figure>
+    </section>
+
+    <section class="controls" aria-label="Relief controls">
+      <label class="range" for="depth">Depth strength
+        <input id="depth" type="range" min="0" max="100" value="68">
+        <output id="depthValue" for="depth">68%</output>
+      </label>
+      <label class="toggle"><input id="autoOrbit" type="checkbox" checked> Slow automatic camera drift</label>
+    </section>
+    <div class="notes">
+      <span><strong>Source:</strong> V11 level1-silver-core-detail.png</span>
+      <span><strong>POC:</strong> aligned height map + parallax displacement + restrained dynamic light</span>
+      <span><strong>Status:</strong> review-only; nothing game-loaded</span>
+    </div>
+  </main>
+
+  <script>
+    const sourceUrl = '../../sprites/backgrounds/world-v11-runtime-polished-v4/sources/level1-silver-core-detail.png';
+    const depthUrl = './silver-core-depth-map.png';
+    const canvas = document.querySelector('#relief');
+    const frame = document.querySelector('#reliefFrame');
+    const errorBox = document.querySelector('#error');
+    const depthInput = document.querySelector('#depth');
+    const depthValue = document.querySelector('#depthValue');
+    const autoOrbit = document.querySelector('#autoOrbit');
+    const gl = canvas.getContext('webgl', { antialias: true, alpha: false });
+
+    const fail = (message) => {
+      errorBox.style.display = 'grid';
+      errorBox.textContent = message;
+      throw new Error(message);
+    };
+    if (!gl) fail('WebGL is unavailable. The untouched V11 source remains visible on the left.');
+
+    const vertexSource = `
+      attribute vec2 aPosition;
+      attribute vec2 aUv;
+      varying vec2 vUv;
+      void main() {
+        vUv = aUv;
+        gl_Position = vec4(aPosition, 0.0, 1.0);
+      }
+    `;
+    const fragmentSource = `
+      precision highp float;
+      varying vec2 vUv;
+      uniform sampler2D uColor;
+      uniform sampler2D uHeight;
+      uniform vec2 uView;
+      uniform vec2 uTexel;
+      uniform float uDepth;
+      uniform float uRelief;
+
+      float heightAt(vec2 uv) { return texture2D(uHeight, clamp(uv, 0.001, 0.999)).r; }
+
+      void main() {
+        vec2 baseUv = (vUv - 0.5) * 0.94 + 0.5;
+        vec2 shift = uView * uDepth;
+        vec2 uv = baseUv;
+        for (int i = 0; i < 7; i++) {
+          float h = heightAt(uv) - 0.48;
+          uv = baseUv + shift * h;
+        }
+        uv = clamp(uv, 0.002, 0.998);
+
+        float left = heightAt(uv - vec2(uTexel.x, 0.0));
+        float right = heightAt(uv + vec2(uTexel.x, 0.0));
+        float down = heightAt(uv - vec2(0.0, uTexel.y));
+        float up = heightAt(uv + vec2(0.0, uTexel.y));
+        vec3 normal = normalize(vec3((left - right) * 10.0, (down - up) * 10.0, 0.72));
+        vec3 lightDirection = normalize(vec3(-0.45 + uView.x * 0.2, 0.55 - uView.y * 0.2, 0.85));
+        float diffuse = max(dot(normal, lightDirection), 0.0);
+        float light = mix(1.0, 0.87 + diffuse * 0.22, uRelief);
+        vec3 color = texture2D(uColor, uv).rgb;
+        color *= light;
+        color += pow(max(diffuse - 0.76, 0.0), 3.0) * 0.08 * uRelief;
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    function shader(type, source) {
+      const item = gl.createShader(type);
+      gl.shaderSource(item, source);
+      gl.compileShader(item);
+      if (!gl.getShaderParameter(item, gl.COMPILE_STATUS)) fail(gl.getShaderInfoLog(item));
+      return item;
+    }
+
+    const program = gl.createProgram();
+    gl.attachShader(program, shader(gl.VERTEX_SHADER, vertexSource));
+    gl.attachShader(program, shader(gl.FRAGMENT_SHADER, fragmentSource));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) fail(gl.getProgramInfoLog(program));
+    gl.useProgram(program);
+
+    const quad = new Float32Array([
+      -1, -1, 0, 0,  1, -1, 1, 0,  -1, 1, 0, 1,
+      -1, 1, 0, 1,   1, -1, 1, 0,   1, 1, 1, 1
+    ]);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'aPosition');
+    const uv = gl.getAttribLocation(program, 'aUv');
+    gl.enableVertexAttribArray(position);
+    gl.enableVertexAttribArray(uv);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 16, 0);
+    gl.vertexAttribPointer(uv, 2, gl.FLOAT, false, 16, 8);
+
+    function loadImage(url) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error(`Could not load ${url}`));
+        image.src = url;
+      });
+    }
+
+    function texture(image, unit) {
+      const item = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, item);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      return item;
+    }
+
+    let targetView = [0, 0];
+    let view = [0, 0];
+    let hovering = false;
+    frame.addEventListener('pointermove', (event) => {
+      const bounds = frame.getBoundingClientRect();
+      targetView = [
+        ((event.clientX - bounds.left) / bounds.width - 0.5) * 2,
+        -((event.clientY - bounds.top) / bounds.height - 0.5) * 2
+      ];
+    });
+    frame.addEventListener('pointerenter', () => { hovering = true; });
+    frame.addEventListener('pointerleave', () => { hovering = false; });
+    depthInput.addEventListener('input', () => { depthValue.value = `${depthInput.value}%`; });
+
+    Promise.all([loadImage(sourceUrl), loadImage(depthUrl)]).then(([color, height]) => {
+      texture(color, 0);
+      texture(height, 1);
+      gl.uniform1i(gl.getUniformLocation(program, 'uColor'), 0);
+      gl.uniform1i(gl.getUniformLocation(program, 'uHeight'), 1);
+      gl.uniform2f(gl.getUniformLocation(program, 'uTexel'), 1 / height.width, 1 / height.height);
+      const viewUniform = gl.getUniformLocation(program, 'uView');
+      const depthUniform = gl.getUniformLocation(program, 'uDepth');
+      const reliefUniform = gl.getUniformLocation(program, 'uRelief');
+
+      function render(time) {
+        const dpr = Math.min(devicePixelRatio || 1, 1.5);
+        const width = Math.max(1, Math.round(canvas.clientWidth * dpr));
+        const heightPx = Math.max(1, Math.round(canvas.clientHeight * dpr));
+        if (canvas.width !== width || canvas.height !== heightPx) {
+          canvas.width = width;
+          canvas.height = heightPx;
+          gl.viewport(0, 0, width, heightPx);
+        }
+        if (autoOrbit.checked && !hovering) {
+          targetView = [Math.sin(time * 0.00043) * 0.74, Math.cos(time * 0.00031) * 0.52];
+        }
+        view[0] += (targetView[0] - view[0]) * 0.045;
+        view[1] += (targetView[1] - view[1]) * 0.045;
+        const relief = Number(depthInput.value) / 100;
+        gl.uniform2f(viewUniform, view[0], view[1]);
+        gl.uniform1f(depthUniform, relief * 0.078);
+        gl.uniform1f(reliefUniform, relief);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        requestAnimationFrame(render);
+      }
+      requestAnimationFrame(render);
+    }).catch((error) => fail(error.message));
+  </script>
+</body>
+</html>
