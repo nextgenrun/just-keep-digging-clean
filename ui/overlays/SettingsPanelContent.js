@@ -1,6 +1,7 @@
 import { KEYBIND_ACTIONS } from "../../values/keybindActions.js";
 import { CAMERA_SHAKE_SETTINGS_GROUPS } from "../../values/cameraShake.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { USER_SETTINGS, formatKey, normalizeKeyboardEvent } from "../../systems/UserSettings.js";
 import {
   createButton,
@@ -79,11 +80,11 @@ export function createSettingsPanelContent(scene, options = {}) {
   const tabs = createTabBar(scene, {
     x: 0,
     y: -height / 2 + 24,
-    tabs: ["AUDIO", "CONTROLS", "DISPLAY"],
+    tabs: ["AUDIO", "CONTROLS", "DISPLAY", "GAMEPLAY"],
     activeIndex: 0,
     parent: root,
     depth,
-    spacing: compact ? 104 : 128,
+    spacing: compact ? 94 : 116,
     onChange: index => buildTab(index),
   });
 
@@ -463,13 +464,74 @@ export function createSettingsPanelContent(scene, options = {}) {
     state.controls.push(resetControls, resetAll);
   }
 
+  function buildGameplay() {
+    const display = USER_SETTINGS.getDisplay();
+    const copy = RETENTION_CONFIG.settings;
+    const rows = [
+      {
+        key: "showExpeditionSummaries",
+        label: copy.expeditionLabel,
+        hint: copy.expeditionHint,
+      },
+      {
+        key: "showMaterialDiscoveryCards",
+        label: copy.discoveryLabel,
+        hint: copy.discoveryHint,
+      },
+      {
+        key: "showSessionObjective",
+        label: copy.objectiveLabel,
+        hint: copy.objectiveHint,
+      },
+    ];
+
+    state.objects.push(addText(scene, root, 0, -height / 2 + 65, "Gameplay Feedback", {
+      fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
+      fontSize: "18px",
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+    }, [0.5, 0]));
+
+    rows.forEach((row, index) => {
+      const rowY = -92 + index * 92;
+      const toggle = createTogglePair(scene, {
+        x: 55,
+        y: rowY,
+        label: row.label,
+        value: display[row.key] !== false,
+        parent: root,
+        depth,
+        onChange: value => USER_SETTINGS.updateDisplay({ [row.key]: value }),
+      });
+      const hint = addText(scene, root, 0, rowY + 28, row.hint, {
+        fontSize: "11px",
+        color: UI_COLORS.hint,
+        align: "center",
+      }, [0.5, 0]);
+      hint.setWordWrapWidth(Math.max(320, width - 120));
+      state.objects.push(toggle.root, hint);
+      state.controls.push(toggle.onBtn, toggle.offBtn);
+    });
+
+    state.objects.push(addText(
+      scene,
+      root,
+      0,
+      height / 2 - 44,
+      "These options hide presentation only. Progress and rewards remain unchanged.",
+      { fontSize: "11px", color: UI_COLORS.hint, align: "center" },
+      [0.5, 0]
+    ));
+  }
+
   function buildTab(index, preserveFocus = false) {
     clearContent();
     state.activeTab = index;
     tabs.setActive(index, true);
     if (index === 0) buildAudio();
     else if (index === 1) buildControls();
-    else buildDisplay();
+    else if (index === 2) buildDisplay();
+    else buildGameplay();
     setFocusItems(preserveFocus ? tabs.buttons.length : index);
   }
 
@@ -491,7 +553,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     },
     setTab(index) {
       const nextIndex = typeof index === "string"
-        ? { audio: 0, controls: 1, display: 2 }[index] ?? 0
+        ? { audio: 0, controls: 1, display: 2, gameplay: 3 }[index] ?? 0
         : index;
       buildTab(nextIndex, true);
     },

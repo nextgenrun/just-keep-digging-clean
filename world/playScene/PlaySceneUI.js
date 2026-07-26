@@ -219,8 +219,22 @@ export function setupUIMethods(prototype) {
         color: UI_COLORS.title,
       });
 
+      const currentTile = this.playerController?.getPlayerTile?.();
+      const atTown = currentTile
+        && currentTile.ty >= this.config.topAirRows - 4
+        && currentTile.ty <= this.config.topAirRows;
+      const deepestPortal = atTown ? this.specialTileSystem?.getDeepestPortal?.() : null;
       const definitions = [
         { label: "RESUME GAME", icon: "play", accent: UI_COLORS.borderSel, action: () => this.resumeGame() },
+        ...(deepestPortal ? [{
+          label: `QUICK RESUME  •  L${deepestPortal.levelId} ${deepestPortal.depth}m`,
+          icon: "next",
+          accent: UI_COLORS.borderGood,
+          action: () => {
+            const result = this.specialTileSystem?.quickResumeDeepestPortal?.();
+            if (result?.success) this.resumeGame();
+          },
+        }] : []),
         { label: "SAVE GAME", icon: "journal", accent: UI_COLORS.borderGood, action: null },
         { label: "RETURN TO SAFETY", icon: "prev", accent: UI_COLORS.borderHov, action: () => this.unstuckPlayer() },
         { label: "MAIN MENU", icon: "close", accent: UI_COLORS.borderBad, action: () => this.returnToMainMenu() },
@@ -663,6 +677,22 @@ export function setupUIMethods(prototype) {
       this.specialTileSystem.loadSaveData(savedData.specialTileData);
     }
 
+    if (this.retentionProgressSystem) {
+      this.retentionProgressSystem.loadSaveData(savedData.retentionData);
+      this.retentionProgressSystem.seedLegacyProgress({
+        dugTileKeys: savedData.dugTiles,
+        resources: savedData.resources,
+        level: savedData.levelData?.level,
+        relics: savedData.ancientRelicData?.count,
+        stars: Object.values(this.floatingTextSystem?.getConstellationCounts?.() || {})
+          .reduce((total, value) => total + Math.max(0, Number(value) || 0), 0),
+        portals: this.specialTileSystem?.getActivatedPortals?.().map(portal => portal.label)
+          || savedData.specialTileData?.portalOrder
+          || [],
+        topAirRows: savedData.world?.topAirRows ?? this.config.topAirRows,
+      });
+    }
+
     if (this.depthGateSystem) {
       this.depthGateSystem.loadSaveData(savedData.depthGateData);
     }
@@ -735,7 +765,21 @@ export function setupUIMethods(prototype) {
       const specialTileData = this.specialTileSystem ? this.specialTileSystem.getSaveData() : null;
       const depthGateData = this.depthGateSystem ? this.depthGateSystem.getSaveData() : null;
       const dayNightData = this.dayNightCycle?.toJSON?.() ?? null;
-      const saveResult = await this.dugTileSaveStore.save(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, this.playerCharacterId, this.caveEntryController?.getSaveData(), this.ancientRelicSystem?.getSaveData());
+      const saveResult = await this.dugTileSaveStore.save(
+        worldIdentity,
+        dugTileKeys,
+        resources,
+        upgrades,
+        levelData,
+        specialTileData,
+        depthGateData,
+        dayNightData,
+        rubbleTiles,
+        this.playerCharacterId,
+        this.caveEntryController?.getSaveData(),
+        this.ancientRelicSystem?.getSaveData(),
+        this.retentionProgressSystem?.getSaveData(),
+      );
       if (saveResult === false) saved = false;
     } catch (error) {
       saved = false;
@@ -751,5 +795,12 @@ export function setupUIMethods(prototype) {
     resolveInFlight(saved);
     this._dugTileSavePromise = null;
     return saved;
+  };
+
+  prototype.resize = function() {
+    this.xpProgressBar?.resize?.();
+    this.levelUpPopup?.resize?.();
+    this.uiInventoryPopup?.resize?.();
+    this.nextPromiseHudSystem?.resize?.();
   };
 }

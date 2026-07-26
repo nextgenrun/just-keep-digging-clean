@@ -11,6 +11,7 @@ export class EarthquakeHazardOverlay {
     this.source = earthquakeSystem;
     this.config = config;
     this.recentRubble = new Map();
+    this.recentOpenings = new Map();
     this.destroyed = false;
     this._create();
   }
@@ -54,11 +55,19 @@ export class EarthquakeHazardOverlay {
     this.recentRubble.set(tileKey(tx, ty), { tx, ty, expiresAt });
   }
 
+  markOpenedPassage(tx, ty) {
+    if (!Number.isInteger(tx) || !Number.isInteger(ty)) return;
+    const expiresAt = (this.scene.time?.now || 0)
+      + this.config.hazards.openedPassageHighlightMs;
+    this.recentOpenings.set(tileKey(tx, ty), { tx, ty, expiresAt });
+  }
+
   update() {
     if (this.destroyed || !this.config.enabled) return;
     this.worldGraphics.clear();
     this._drawRockLanes();
     this._drawRecentRubble();
+    this._drawRecentOpenings();
     this._updateMarkers();
     this._updateEdgeIndicator();
   }
@@ -91,6 +100,35 @@ export class EarthquakeHazardOverlay {
       const alpha = clamp((rubble.expiresAt - now) / cfg.restoredOutlineMs, 0.2, 1);
       this.worldGraphics.lineStyle(cfg.restoredOutlineWidth, this.config.colors.warning, alpha);
       this.worldGraphics.strokeRect(rubble.tx * ts, rubble.ty * ts, ts, ts);
+    }
+  }
+
+  _drawRecentOpenings() {
+    const now = this.scene.time?.now || 0;
+    const ts = this.scene.config.tileSize;
+    const cfg = this.config.hazards;
+    for (const [key, opening] of this.recentOpenings) {
+      if (now >= opening.expiresAt) {
+        this.recentOpenings.delete(key);
+        continue;
+      }
+      const alpha = clamp(
+        (opening.expiresAt - now) / cfg.openedPassageHighlightMs,
+        0.18,
+        0.9
+      );
+      this.worldGraphics.lineStyle(
+        cfg.openedPassageOutlineWidth,
+        this.config.colors.cyan,
+        alpha
+      );
+      this.worldGraphics.strokeRoundedRect(
+        opening.tx * ts + 4,
+        opening.ty * ts + 4,
+        ts - 8,
+        ts - 8,
+        8
+      );
     }
   }
 
@@ -199,6 +237,7 @@ export class EarthquakeHazardOverlay {
 
   clear() {
     this.recentRubble.clear();
+    this.recentOpenings.clear();
     this.worldGraphics?.clear();
     this.markerPool?.forEach(marker => marker.root.setVisible(false));
     this.edgeRoot?.setVisible(false);

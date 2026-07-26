@@ -40,6 +40,13 @@ export class CaveInteriorOcclusionSystem {
       if (this.revealed.has(zone.id)) continue;
       if (this.isPlayerInside(zone, playerTile) || this.isBreached(zone)) {
         this.revealed.add(zone.id);
+        const label = {
+          cave: "Integrated Cave",
+          hiddenCave: "Hidden Cave",
+          hiddenTreasure: "Hidden Treasure Room",
+          geode: "Crystal Geode",
+        }[zone.type] || "Underground Discovery";
+        this.scene.retentionProgressSystem?.discoverJournal?.(zone.id, label);
       }
     }
 

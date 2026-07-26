@@ -157,7 +157,21 @@ export class EarthquakeFeedbackUI {
 
     this._drawObjectivePanel(width, height, accent);
     this.objectiveTitle.setVisible(escape).setText(labels.escapeTitle).setPosition(0, -height * 0.3);
-    this.objectiveDetail.setVisible(escape).setText(labels.escapeDetail).setPosition(0, height * 0.3);
+    let escapeDetail = labels.escapeDetail;
+    if (escape) {
+      const player = this.scene.playerController?.getPlayerTile?.();
+      const nearest = this.scene.specialTileSystem?.getNearestPortal?.(player);
+      if (nearest && player) {
+        const dx = nearest.tx - player.tx;
+        const dy = nearest.ty - player.ty;
+        const glyph = Math.abs(dx) > Math.abs(dy)
+          ? (dx < 0 ? "◀" : "▶")
+          : (dy < 0 ? "▲" : "▼");
+        escapeDetail = `${glyph} NEAREST SAFE PORTAL  •  ${nearest.label}`
+          + `  •  ${nearest.distance} tiles`;
+      }
+    }
+    this.objectiveDetail.setVisible(escape).setText(escapeDetail).setPosition(0, height * 0.3);
     this.objectiveAction.setText(escape ? labels.escapeAction : action)
       .setFontSize(escape ? cfg.escapeActionFontSize : cfg.actionFontSize)
       .setPosition(0, escape ? 0 : 0);

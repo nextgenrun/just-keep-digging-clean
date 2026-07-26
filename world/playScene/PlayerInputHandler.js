@@ -11,6 +11,8 @@ export class PlayerInputHandler {
     this.scene = scene;
     this.aimBox = null;
     this.lastAimTileKey = "";
+    this.stableMineTarget = null;
+    this.stableMineAim = "";
     
     // Register all keys
     this.keys = this._registerKeys();
@@ -180,6 +182,26 @@ export class PlayerInputHandler {
     return this.scene.worldModel.isSolid(targetTile.tx, targetTile.ty);
   }
 
+  resolveStableMineTarget(rawTarget, mineHeld, aimLabel) {
+    const normalizedAim = String(aimLabel || "");
+    if (!mineHeld) {
+      this.stableMineTarget = null;
+      this.stableMineAim = "";
+      return rawTarget;
+    }
+
+    const latched = this.stableMineTarget;
+    const latchStillValid = latched
+      && this.stableMineAim === normalizedAim
+      && this.scene.worldModel.inBounds(latched.tx, latched.ty)
+      && this.scene.worldModel.isSolid(latched.tx, latched.ty);
+    if (latchStillValid) return latched;
+
+    this.stableMineTarget = rawTarget ? { tx: rawTarget.tx, ty: rawTarget.ty } : null;
+    this.stableMineAim = normalizedAim;
+    return rawTarget;
+  }
+
   updateAimBox(targetTile, shouldShow) {
     if (!shouldShow) {
       this.lastAimTileKey = "";
@@ -203,6 +225,8 @@ export class PlayerInputHandler {
   }
 
   destroy() {
+    this.stableMineTarget = null;
+    this.stableMineAim = "";
     if (this.aimBox) {
       this.aimBox.destroy();
     }

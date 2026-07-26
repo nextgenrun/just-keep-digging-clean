@@ -45,6 +45,8 @@ export const EARTHQUAKE_FEEDBACK_CONFIG = Object.freeze({
     rockLaneBorderAlpha: 0.9,
     restoredOutlineMs: 6000,
     restoredOutlineWidth: 3,
+    openedPassageHighlightMs: 9000,
+    openedPassageOutlineWidth: 4,
     edgeInset: 24,
     edgePillWidth: 126,
     edgePillHeight: 36,

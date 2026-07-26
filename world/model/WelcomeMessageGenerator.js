@@ -28,36 +28,38 @@ export class WelcomeMessageGenerator {
     // Calculate total progress
     const tilesDug = saveData.dugTiles?.length || 0;
     const resources = sanitizeResourceTotals(saveData.resources || defaultResources);
+    const stats = saveData.retentionData?.stats || {};
+    const level = saveData.levelData?.level || 1;
+    const wallet = saveData.upgrades?.money || 0;
+    const bestDepth = stats.bestDepth || 0;
+    const currentDepth = stats.currentDepth || 0;
+    const cargoUnits = RESOURCE_KEYS.reduce(
+      (total, key) => total + Math.max(0, Number(resources[key]) || 0),
+      0
+    );
+    const deepestPortal = (saveData.specialTileData?.pairedTeleporters || [])
+      .map(pair => Math.max(0, (pair.dungeonTy || 0) - (saveData.world?.topAirRows || 0)))
+      .sort((a, b) => b - a)[0] || 0;
+    const suggestedAction = cargoUnits > 0
+      ? `Sell ${Math.floor(cargoUnits)} cargo, then choose your next upgrade.`
+      : deepestPortal > 0
+        ? `Use quick resume to return to your ${deepestPortal}m portal.`
+        : `Push beyond your ${bestDepth}m depth record.`;
 
-    // Generate message based on progress tier
-    let title = "";
-    let body = "";
-    let status = "";
-    let statusColor = "#9de3a1";
-
-    // Compact resource display format
-    const resourceDisplay = `gold:${resources.gold} silver:${resources.silver} iron:${resources.iron} lava:${resources.lavaDirt} obsidian:${resources.obsidian} ember:${resources.emberOre} magma:${resources.magmaCrystal} Copper:${resources.copper} Stone:${resources.stone} Dirt:${resources.dirt}`;
-
-    if (tilesDug < 100) {
-      // Early game - just starting out
-      title = "";
-      body = `Your progress has been saved.\n\nStats: ${tilesDug} tiles dug\n\n${resourceDisplay}\n\nPress ENTER or click to continue your journey.`;
-      status = "Continue digging - the depths await!";
-    } else if (tilesDug < 500) {
-      // Mid game - experienced digger
-      title = "";
-      body = `You've dug ${tilesDug} tiles and collected:\n\n${resourceDisplay}\n\nContinue your descent - riches await below!\n\nPress ENTER to resume.`;
-      status = "Keep going - you're making great progress!";
-      statusColor = "#4ecb71";
-    } else {
-      // Late game - master miner
-      title = "";
-      body = `Impressive progress: ${tilesDug} tiles excavated\n\n${resourceDisplay}\n\nThe depths hold even greater treasures. Keep digging!\n\nPress ENTER to continue.`;
-      status = "Legendary progress - the depths tremble at your name!";
-      statusColor = "#ffd700";
-    }
-
-    return { title, body, status, statusColor };
+    return {
+      title: "",
+      body: [
+        `WELCOME BACK  •  LEVEL ${level}`,
+        `Last depth ${currentDepth}m  •  Best ${bestDepth}m  •  Wallet ${Number(wallet).toLocaleString()} M`,
+        `Journey: ${tilesDug.toLocaleString()} tiles dug  •  ${stats.starsCollected || 0} stars`,
+        "",
+        `NEXT: ${suggestedAction}`,
+        "",
+        "Press ENTER or click to continue.",
+      ].join("\n"),
+      status: bestDepth > 0 ? `One more dig: beat ${bestDepth}m.` : "The first layer is waiting.",
+      statusColor: "#9de3a1",
+    };
   }
 
   /**

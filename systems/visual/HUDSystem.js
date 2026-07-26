@@ -1,5 +1,5 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
-import { COMBO_CONFIG } from "../../values/comboConfig.js";
+import { COMBO_CONFIG, getNextComboGpCheckpoint } from "../../values/comboConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
@@ -716,9 +716,11 @@ export class HUDSystem {
     
     const multiplier = this.comboSystem.getMultiplier();
     const multiplierStr = multiplier.toFixed(2);
+    const nextGp = getNextComboGpCheckpoint(comboCount);
+    const nextGpText = nextGp ? `  ·  GP +${nextGp.gpRestore} @ ${nextGp.milestone}` : "";
     setTextIfChanged(this.comboText, this.approvedSkin?.active
-      ? `COMBO ${comboCount}  ·  ${multiplierStr}x`
-      : `🔥 COMBO ${comboCount}  ${multiplierStr}x`);
+      ? `COMBO ${comboCount}  ·  ${multiplierStr}x${nextGpText}`
+      : `🔥 COMBO ${comboCount}  ${multiplierStr}x${nextGpText}`);
 
     // Combo pop — quick scale punch when combo count increases
     if (HUD_JUICE_CONFIG.enabled && HUD_JUICE_CONFIG.comboPop.enabled && comboCount > this._lastComboCount) {

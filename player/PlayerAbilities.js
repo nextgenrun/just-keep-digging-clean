@@ -5,6 +5,7 @@ import { computeAbilityStats, getDefaultAbilityStats } from "../values/constella
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { HARD_RESOURCE_TILE_TYPES, tileTypeToResource } from "../values/resourceTypes.js";
 import { isProtectedSecondWorldDividerTile } from "../values/secondWorldConfig.js";
+import { getPlayerBodyTileSpan } from "./playerDirectionalTargets.js";
 
 export class PlayerAbilities {
   constructor(sprite, worldModel, config, upgradeSystem = null, physicsBody = null, playerLevelSystem = null, comboSystem = null) {
@@ -182,11 +183,19 @@ export class PlayerAbilities {
     return (effects.unlockQuickslash || 0) > 0;
   }
 
+  isQuickslashUnlocked() {
+    return this._isQuickslashUnlocked();
+  }
+
   _isThunderStrikeUnlocked() {
     if (this._godMode) return true;
     if (this.upgradeSystem?.isThunderStrikeUnlocked) return this.upgradeSystem.isThunderStrikeUnlocked();
     const effects = this.upgradeSystem?.getUpgradeEffects?.() ?? {};
     return (effects.unlockThunderStrike || 0) > 0;
+  }
+
+  isThunderStrikeUnlocked() {
+    return this._isThunderStrikeUnlocked();
   }
 
   _refreshConstellationStats() {
@@ -260,8 +269,13 @@ export class PlayerAbilities {
     if (!this._godMode && this.gemPower < cost) return { success: false, reason: 'no-gp' };
     if (!this._godMode) this.gemPower -= cost;
 
-    const playerTile = { tx: Math.floor((this.body.x + this.body.w / 2) / this.config.tileSize),
-                         ty: Math.floor((this.body.y + this.body.h) / this.config.tileSize) };
+    const bodyTileSpan = getPlayerBodyTileSpan(this.body, this.config.tileSize);
+    const strikeOrigin = bodyTileSpan
+      ? { tx: bodyTileSpan.centerX, ty: bodyTileSpan.bottom + 1 }
+      : {
+          tx: Math.floor((this.body.x + this.body.w / 2) / this.config.tileSize),
+          ty: Math.floor((this.body.y + this.body.h) / this.config.tileSize),
+        };
     const results = [];
     const stats = this.getConstellationStats();
     const strikeRange = Math.max(
@@ -279,30 +293,73 @@ export class PlayerAbilities {
     );
     let bedrockBreachesLeft = Math.max(0, stats.thunderstrikeBedrockBreach || 0);
 
-    for (let i = 1; i <= strikeRange; i++) {
-      const checkTy = playerTile.ty + i;
+    for (let distance = 0; distance < strikeRange; distance++) {
+      const checkTy = strikeOrigin.ty + distance;
       if (checkTy >= this.worldModel.depth) break;
-      if (this.worldModel.isDiggable(playerTile.tx, checkTy)) {
-        const tileType = this.worldModel.getTileType(playerTile.tx, checkTy);
+      if (this.worldModel.isDiggable(strikeOrigin.tx, checkTy)) {
+        const tileType = this.worldModel.getTileType(strikeOrigin.tx, checkTy);
         const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
         const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;
-        const dmg = Math.max(1, Math.round(tileDamage * Math.max(0.2, 1 - falloff * (i - 1))));
-        const dmgResult = this.worldModel.damageTile(playerTile.tx, checkTy, dmg);
-        results.push({ tx: playerTile.tx, ty: checkTy, damage: dmg, destroyed: dmgResult.destroyed, tileType: dmgResult.typeBeforeDamage, wasRubble: dmgResult.wasRubble });
+        const dmg = Math.max(1, Math.round(tileDamage * Math.max(0.2, 1 - falloff * distance)));
+        const dmgResult = this.worldModel.damageTile(strikeOrigin.tx, checkTy, dmg);
+        results.push({
+          tx: strikeOrigin.tx,
+          ty: checkTy,
+          damage: dmg,
+          destroyed: dmgResult.destroyed,
+          tileType: dmgResult.typeBeforeDamage,
+          wasRubble: dmgResult.wasRubble,
+          hpBefore: dmgResult.hpBefore,
+          maxHp: dmgResult.maxHp,
+          overkillDamage: dmgResult.overkillDamage || 0,
+        });
       } else if (
         bedrockBreachesLeft > 0
-        && this.worldModel.getTileType(playerTile.tx, checkTy) === TILE_TYPES.BEDROCK
-        && !isProtectedSecondWorldDividerTile(playerTile.tx, checkTy)
+        && this.worldModel.getTileType(strikeOrigin.tx, checkTy) === TILE_TYPES.BEDROCK
+        && !isProtectedSecondWorldDividerTile(strikeOrigin.tx, checkTy)
       ) {
-        const tileType = this.worldModel.getTileType(playerTile.tx, checkTy);
+        const tileType = this.worldModel.getTileType(strikeOrigin.tx, checkTy);
         const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
         const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;
         bedrockBreachesLeft -= 1;
-        this.worldModel.setTile(playerTile.tx, checkTy, TILE_TYPES.AIR, 0);
-        results.push({ tx: playerTile.tx, ty: checkTy, damage: Math.max(1, Math.round(tileDamage)), destroyed: true, tileType: TILE_TYPES.BEDROCK, wasRubble: false, breachedBedrock: true });
+        this.worldModel.setTile(strikeOrigin.tx, checkTy, TILE_TYPES.AIR, 0);
+        results.push({ tx: strikeOrigin.tx, ty: checkTy, damage: Math.max(1, Math.round(tileDamage)), destroyed: true, tileType: TILE_TYPES.BEDROCK, wasRubble: false, breachedBedrock: true });
       }
     }
     return { success: true, results };
+  }
+
+  getThunderStrikePreview() {
+    if (!this._isThunderStrikeUnlocked() || !this.body) return null;
+    const bodyTileSpan = getPlayerBodyTileSpan(this.body, this.config.tileSize);
+    const origin = bodyTileSpan
+      ? { tx: bodyTileSpan.centerX, ty: bodyTileSpan.bottom + 1 }
+      : {
+          tx: Math.floor((this.body.x + this.body.w / 2) / this.config.tileSize),
+          ty: Math.floor((this.body.y + this.body.h) / this.config.tileSize),
+        };
+    const stats = this.getConstellationStats();
+    const range = Math.max(
+      1,
+      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel("thunderStrike") + 5 : 5)
+        + (stats.thunderstrikeRange || 0)
+    );
+    const entries = [];
+    for (let distance = 0; distance < range; distance += 1) {
+      const ty = origin.ty + distance;
+      if (!this.worldModel.inBounds(origin.tx, ty)) break;
+      entries.push({
+        tx: origin.tx,
+        ty,
+        solid: this.worldModel.isSolid(origin.tx, ty),
+      });
+    }
+    return {
+      origin,
+      entries,
+      range: entries.length,
+      cost: this.getThunderStrikeCost(),
+    };
   }
 
   _getBaseDamageForTile(tileType) {
@@ -394,6 +451,12 @@ export class PlayerAbilities {
   }
 
   hasGemPower() { return this.gemPower > 0; }
+  restoreGemPower(amount) {
+    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
+    const previous = this.gemPower;
+    this.gemPower = Math.min(this.getGemPowerMax(), this.gemPower + requested);
+    return Math.max(0, this.gemPower - previous);
+  }
   consumeGemPower(amount) {
     if (this._godMode) return Math.max(0, Number.isFinite(amount) ? amount : 0);
     const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);

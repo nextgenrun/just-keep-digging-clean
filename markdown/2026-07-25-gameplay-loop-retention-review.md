@@ -1,7 +1,7 @@
 # Gameplay Loop and Retention Review
 
 **Date:** 2026-07-25
-**Status:** Review complete. The approved candidates may be wired after the requested pre-implementation Git checkpoint.
+**Status:** Implemented and contract-tested on 2026-07-26 after the requested pre-implementation Git checkpoint.
 
 ## Goal
 
@@ -167,6 +167,26 @@ These are not part of the 50 feature candidates. Verify or repair them before re
 1. Confirm milestone choice rewards survive every later bonus recalculation.
 2. Confirm level-gated shop upgrades read the real `PlayerLevelSystem` level.
 3. Confirm XP requirements and rewards use one authoritative level configuration rather than a fallback formula.
+
+## Implementation outcome
+
+The approved scope is now wired through the existing persistent mine rather than a new game mode or parallel progression layer.
+
+- Routine level-ups stay non-blocking; every fifth-level authored choice remains interactive and now persists through later bonus recalculation.
+- Combo duration remains the original `6000ms`. Only the small GP checkpoints and subtle “next GP” HUD copy were added.
+- The next-promise HUD prioritizes temporary chest power, the first-run loop, personal-depth-record chase, the optional session objective, quick resume, and the nearest depth milestone.
+- Existing authored chest tiles now open once, persist as opened, pay money, have a deterministic occasional-star roll, and grant exactly `20000ms` of ultra critical-damage power.
+- Rich, packed, and ancient blocks expose their deterministic rarity identity in mining feedback.
+- Final-hit, crit, lucky-drop, overkill, Heavy Punch, Thunder Strike, Quickslash, buffered-input, and stable-target feedback are presentation/input affordances only; overkill does not grant extra rewards.
+- Expedition summaries, positive previous-run comparisons, the welcome-back snapshot, cargo value, save-card snapshots, and first-discovery cards reuse existing save/economy state. The requested summaries and discovery cards have gameplay-setting toggles.
+- Activated Level 1 and Level 2 portals participate in deepest-safe quick resume, meaningful labels, first-activation celebration, and trapped-state guidance.
+- Stars and relics now report exact constellation progress. Relic caches are present in both levels, persist through the existing save payload, and gate the configured constellations.
+- The Milestone Pillar now owns the nearest-milestone highlight plus Miner Statistics and Discovery Journal tabs.
+- Earthquake aftermath records and highlights newly opened passages, shows a no-reward recap, and points to the nearest activated portal only during the existing trapped state.
+- Campfire blessings warn at ten seconds and finish with a clear visual/audio fade.
+- One session objective is offered without streaks, failure punishment, offline pressure, or another permanent currency.
+
+Validation is anchored by `testing/2026-07-26-retention-systems-contract.mjs`, alongside the existing core-state and save/world contracts.
 
 ## Review workflow
 

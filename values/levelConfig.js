@@ -31,6 +31,7 @@ export const LEVEL_CONFIG = Object.freeze({
   },
 
   // Every 5 levels: Choose ONE of these two options
+  CHOICE_INTERVAL: 5,
   CHOICE_REWARDS: {
     miningPower: {
       name: "Mining Power",
@@ -216,6 +217,6 @@ export const LEVEL_CONFIG = Object.freeze({
 
   // Check if a level has a choice reward
   hasChoiceReward(level) {
-    return level % 5 === 0 && level > 0 && !this.hasMilestoneReward(level);
+    return level % this.CHOICE_INTERVAL === 0 && level > 0;
   }
 });

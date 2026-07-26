@@ -731,7 +731,17 @@ export class FloatingTextSystem {
    */
   releaseCollectedSkyStar(rarity, startWorldX, startWorldY, resourceType) {
     this.ensureConstellationsLoaded();
-    this._recordCollectedStar(resourceType, rarity);
+    const progress = this._recordCollectedStar(resourceType, rarity);
+    if (progress) {
+      const relicGate = progress.relicRequired > progress.relicCurrent
+        ? `  •  Relics ${progress.relicCurrent}/${progress.relicRequired}`
+        : "";
+      this.scene.uiNotifications?.success?.(
+        `${progress.constellationName} STAR  •  ${progress.count}/${progress.threshold}${relicGate}`,
+        { key: `star-progress-${resourceType}`, durationMs: 2600 }
+      );
+      this.scene.retentionProgressSystem?.recordStar?.(1);
+    }
 
     const entry = this._createSkyStarEntry(startWorldX, startWorldY, rarity, resourceType);
     const star = entry.graphic;
@@ -797,6 +807,31 @@ export class FloatingTextSystem {
         });
       },
     });
+    return progress;
+  }
+
+  grantCollectedStar(rarity, worldX, worldY, resourceType) {
+    return this.releaseCollectedSkyStar(rarity, worldX, worldY, resourceType);
+  }
+
+  getRelicPurposeSummary(relicCount = this.getAncientRelicCount()) {
+    const currentRelics = Math.max(0, Math.floor(Number(relicCount) || 0));
+    const counts = this.getConstellationCounts();
+    const unlocked = new Set(this.getUnlockedConstellations());
+    const next = Object.keys(CONSTELLATION_DEFS)
+      .filter(resourceType => !unlocked.has(resourceType))
+      .map(resourceType => ({
+        resourceType,
+        name: CONSTELLATION_DEFS[resourceType]?.name || resourceType,
+        stars: counts[resourceType] || 0,
+        threshold: CONSTELLATION_THRESHOLDS[resourceType] || 1,
+        relics: getConstellationRelicRequirement(resourceType),
+      }))
+      .filter(entry => entry.relics > currentRelics)
+      .sort((a, b) => (a.relics - b.relics)
+        || ((b.stars / b.threshold) - (a.stars / a.threshold)))[0];
+    if (!next) return `All known constellation relic gates met (${currentRelics} relics)`;
+    return `${next.name}: relics ${currentRelics}/${next.relics}, stars ${next.stars}/${next.threshold}`;
   }
 
   _capTownStarPool(maxStars = 220) {
@@ -988,7 +1023,7 @@ export class FloatingTextSystem {
 
   _recordCollectedStar(resourceType, rarity = 0) {
     this._recordStarRarity(rarity);
-    if (!resourceType || !CONSTELLATION_DEFS[resourceType]) return;
+    if (!resourceType || !CONSTELLATION_DEFS[resourceType]) return null;
 
     if (!this._constellationCounts) this._constellationCounts = {};
     const threshold = CONSTELLATION_THRESHOLDS[resourceType] ?? 5;
@@ -1000,6 +1035,14 @@ export class FloatingTextSystem {
     if (!wasUnlocked && this._constellationCounts[resourceType] >= threshold) {
       this.tryUnlockEligibleConstellations();
     }
+    return {
+      resourceType,
+      constellationName: CONSTELLATION_DEFS[resourceType].name,
+      count: this._constellationCounts[resourceType],
+      threshold,
+      relicCurrent: this.getAncientRelicCount(),
+      relicRequired: getConstellationRelicRequirement(resourceType),
+    };
   }
 
   _ensureSkyStarTextures() {

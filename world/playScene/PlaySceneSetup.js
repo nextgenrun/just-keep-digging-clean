@@ -50,6 +50,7 @@ import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
+import { RetentionProgressSystem } from "../../systems/progression/RetentionProgressSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
@@ -64,6 +65,8 @@ import { AtmosphereSystem } from "../../systems/environment/AtmosphereSystem.js"
 import { HitstopSystem } from "../../systems/combo/HitstopSystem.js";
 import { ScreenFlashSystem } from "../../systems/visual/ScreenFlashSystem.js";
 import { ScreenRecordSystem } from "../../systems/visual/ScreenRecordSystem.js";
+import { NextPromiseHudSystem } from "../../systems/visual/NextPromiseHudSystem.js";
+import { MiningIntentPreviewSystem } from "../../systems/visual/MiningIntentPreviewSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
@@ -629,11 +632,16 @@ async function _setupSceneSafe(data = {}) {
   this.comboSystem = new ComboSystem();
   this.specialBlockEffectsManager = new SpecialBlockEffectsManager(this);
   this.digSystem = new DigSystem(this.worldModel, this.worldRenderer, this.config, null, null, null, this.comboSystem, this.specialBlockEffectsManager);
+  this.retentionProgressSystem = new RetentionProgressSystem({ saveSlot: this.saveSlot });
+  this.digSystem.setRetentionProgressSystem(this.retentionProgressSystem);
   this.ancientRelicSystem = new AncientRelicSystem();
   this.digSystem.setAncientRelicSystem(this.ancientRelicSystem);
   this.playerLevelSystem = new PlayerLevelSystem();
   this.playerLevelSystem.setComboSystem(this.comboSystem);
-  this.upgradeSystem = new UpgradeSystem(this.digSystem);
+  this.playerLevelSystem.setTemporaryCriticalDamageBonusProvider(
+    () => this.retentionProgressSystem.getChestCritDamageBonus(this.time?.now || 0)
+  );
+  this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
   this.digSystem.setUpgradeSystem(this.upgradeSystem);
   this.digSystem.setPlayerLevelSystem(this.playerLevelSystem);
   // Create tile-based collision system (replaces Phaser Arcade Physics)
@@ -649,7 +657,9 @@ async function _setupSceneSafe(data = {}) {
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
     const message = reward?.message || "Combo";
-    this.hudSystem.flashStatus(`${message} ${milestone}!`, "#ffdd44", 1500);
+    const restored = this.playerController?.abilities?.restoreGemPower?.(reward?.gpRestore || 0) || 0;
+    const gpText = restored > 0 ? `  +${Math.floor(restored)} GP` : "";
+    this.hudSystem.flashStatus(`${message} ${milestone}!${gpText}`, "#ffdd44", 1500);
     if (this.shakeSystem) {
       this.shakeSystem.shake(comboShakeSignatureFor(milestone));
     }
@@ -660,7 +670,14 @@ async function _setupSceneSafe(data = {}) {
     }
   });
 
-  this.milestoneBoardSystem = new MilestoneBoardSystem(this, this.config, this.worldModel, PLAY_SCENE_UI_FACTORIES, this.saveSlot);
+  this.milestoneBoardSystem = new MilestoneBoardSystem(
+    this,
+    this.config,
+    this.worldModel,
+    PLAY_SCENE_UI_FACTORIES,
+    this.saveSlot,
+    this.retentionProgressSystem
+  );
   this.milestoneBoardSystem.create();
   this.biomeSystem = new BiomeSystem(this, this.config, this.worldModel);
   this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel, PLAY_SCENE_UI_FACTORIES, this.saveSlot);
@@ -783,6 +800,8 @@ async function _setupSceneSafe(data = {}) {
   this.soundSystem.printStats();
 
   this.createSceneUI();
+  this.nextPromiseHudSystem = new NextPromiseHudSystem(this);
+  this.miningIntentPreviewSystem = new MiningIntentPreviewSystem(this);
 
   const keys = this.inputHandler.getKeys();
   this.interactKey = keys.interact;
@@ -837,6 +856,8 @@ async function _setupSceneSafe(data = {}) {
     this.biomeSystem?.destroy();
     this.campfireSystem?.destroy();
     this.specialTileSystem?.destroy();
+    this.nextPromiseHudSystem?.destroy();
+    this.miningIntentPreviewSystem?.destroy();
     this._gpLabelText?.destroy();
     this.hitstopSystem?.destroy();
     this.screenFlashSystem?.destroy();

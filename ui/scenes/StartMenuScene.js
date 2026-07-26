@@ -156,6 +156,11 @@ export class StartMenuScene extends Phaser.Scene {
             resources: saveData.resources || { dirt: 0, stone: 0, copper: 0 },
             updatedAt: saveData.updatedAt,
             playerCharacterId: saveData.playerCharacterId,
+            level: saveData.levelData?.level || 1,
+            currentDepth: saveData.retentionData?.stats?.currentDepth || 0,
+            bestDepth: saveData.retentionData?.stats?.bestDepth || 0,
+            wallet: saveData.upgrades?.money || 0,
+            stars: saveData.retentionData?.stats?.starsCollected || 0,
           });
         } else {
           slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null, playerCharacterId: null });
@@ -214,11 +219,19 @@ export class StartMenuScene extends Phaser.Scene {
         objs.push(statusTxt);
 
         // Tiles dug
-        const tilesTxt = this.add.text(cx, cy - 30, `${slot.dugTiles}  tiles dug`, {
+        const tilesTxt = this.add.text(
+          cx,
+          cy - 34,
+          `LV ${slot.level}  •  DEPTH ${slot.currentDepth}m / BEST ${slot.bestDepth}m`
+            + `\n${Number(slot.wallet).toLocaleString()} M  •  ${slot.stars} stars`
+            + `\n${slot.dugTiles.toLocaleString()} tiles dug`,
+          {
           fontFamily: UI_FONTS.mono,
-          fontSize: '20px',
+          fontSize: '13px',
           fontStyle: 'bold',
           color: COL.white,
+          align: 'center',
+          lineSpacing: 7,
         }).setOrigin(0.5, 0.5);
         objs.push(tilesTxt);
 

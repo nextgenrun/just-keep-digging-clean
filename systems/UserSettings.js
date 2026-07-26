@@ -72,6 +72,9 @@ const DEFAULT_SETTINGS = Object.freeze({
   },
   display: {
     showControlHints: true,
+    showExpeditionSummaries: true,
+    showMaterialDiscoveryCards: true,
+    showSessionObjective: true,
     cameraShakeEnabled: true,
     cameraShakeIntensity: CAMERA_SHAKE_DEFAULT_INTENSITY,
     cameraShakeFlashEnabled: CAMERA_SHAKE_DEFAULT_FLASH_ENABLED,
@@ -193,6 +196,9 @@ function sanitizeSettings(input) {
     },
     display: {
       showControlHints: display.showControlHints !== false,
+      showExpeditionSummaries: display.showExpeditionSummaries !== false,
+      showMaterialDiscoveryCards: display.showMaterialDiscoveryCards !== false,
+      showSessionObjective: display.showSessionObjective !== false,
       cameraShakeEnabled: display.cameraShakeEnabled !== false,
       cameraShakeIntensity: clampRange(display.cameraShakeIntensity, defaults.cameraShakeIntensity, 0, 1),
       cameraShakeFlashEnabled: display.cameraShakeFlashEnabled !== false,
@@ -311,6 +317,15 @@ class UserSettingsStore {
     const display = this.load().display;
     if (Object.prototype.hasOwnProperty.call(partial, "showControlHints")) {
       display.showControlHints = Boolean(partial.showControlHints);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "showExpeditionSummaries")) {
+      display.showExpeditionSummaries = Boolean(partial.showExpeditionSummaries);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "showMaterialDiscoveryCards")) {
+      display.showMaterialDiscoveryCards = Boolean(partial.showMaterialDiscoveryCards);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "showSessionObjective")) {
+      display.showSessionObjective = Boolean(partial.showSessionObjective);
     }
     if (Object.prototype.hasOwnProperty.call(partial, "cameraShakeEnabled")) {
       display.cameraShakeEnabled = Boolean(partial.cameraShakeEnabled);

@@ -371,6 +371,44 @@ export class WorldModel {
       this.setTile(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE, this.getTileMaxHp(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE));
       positions.push({ tx, ty });
     }
+
+    const levelTwoCfg = ANCIENT_RELIC_CONFIG.levelTwoWorldCaches;
+    const levelTwoMinY = Math.max(
+      this.topAirRows + levelTwoCfg.minDepthTiles,
+      this.topAirRows + 1
+    );
+    const levelTwoMaxY = Math.min(
+      this.depthTiles - 2,
+      this.topAirRows + levelTwoCfg.maxDepthTiles
+    );
+    const levelTwoMaxX = this.widthTiles - 2;
+    if (levelTwoMinY > levelTwoMaxY || levelTwoCfg.minTileX > levelTwoMaxX) return;
+
+    const levelTwoPositions = [];
+    const levelTwoAttempts = levelTwoCfg.count * levelTwoCfg.placementAttemptsPerCache;
+    for (
+      let attempt = 0;
+      attempt < levelTwoAttempts && levelTwoPositions.length < levelTwoCfg.count;
+      attempt += 1
+    ) {
+      const tx = this.rng.nextInt(levelTwoCfg.minTileX, levelTwoMaxX);
+      const ty = this.rng.nextInt(levelTwoMinY, levelTwoMaxY);
+      if (!RESOURCE_TILE_TYPES.has(this.getType(tx, ty))) continue;
+      const isTooClose = levelTwoPositions.some(position => {
+        const dx = position.tx - tx;
+        const dy = position.ty - ty;
+        return dx * dx + dy * dy
+          < levelTwoCfg.minimumSpacingTiles * levelTwoCfg.minimumSpacingTiles;
+      });
+      if (isTooClose) continue;
+      this.setTile(
+        tx,
+        ty,
+        TILE_TYPES.ANCIENT_RELIC_CACHE,
+        this.getTileMaxHp(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE)
+      );
+      levelTwoPositions.push({ tx, ty });
+    }
   }
 
   generateSkyTiles() {
@@ -686,7 +724,11 @@ export class WorldModel {
     const key = makeTileKey(tileX, tileY);
     const wasRubble = this.rubbleTiles.has(key);
     const typeBeforeDamage = this._types[idx];
-    const nextHp = Math.max(0, this._hp[idx] - Math.max(1, damage));
+    const hpBefore = this._hp[idx];
+    const maxHp = this.getTileMaxHp(tileX, tileY, typeBeforeDamage);
+    const appliedDamage = Math.max(1, damage);
+    const overkillDamage = Math.max(0, appliedDamage - hpBefore);
+    const nextHp = Math.max(0, hpBefore - appliedDamage);
     this._hp[idx] = nextHp;
 
     if (nextHp <= 0) {
@@ -700,14 +742,32 @@ export class WorldModel {
       this._hp[idx] = 0;
       this.dugTiles.set(key, { tileX, tileY, dugAt: Date.now() });
       this.rubbleTiles.delete(key);
-      return { success: true, destroyed: true, hp: 0, typeBeforeDamage, wasRubble };
+      return {
+        success: true,
+        destroyed: true,
+        hp: 0,
+        hpBefore,
+        maxHp,
+        overkillDamage,
+        typeBeforeDamage,
+        wasRubble,
+      };
     }
 
     if (wasRubble) {
       const rubble = this.rubbleTiles.get(key);
       this.rubbleTiles.set(key, { ...rubble, hp: nextHp });
     }
-    return { success: true, destroyed: false, hp: nextHp, typeBeforeDamage, wasRubble };
+    return {
+      success: true,
+      destroyed: false,
+      hp: nextHp,
+      hpBefore,
+      maxHp,
+      overkillDamage: 0,
+      typeBeforeDamage,
+      wasRubble,
+    };
   }
 
   getGlowCrystalZonesInRange(playerTile, rangeTiles) {

@@ -150,69 +150,51 @@ export class UIInventoryPopup {
       }, 1, 0.5
     );
 
-    const held = Object.entries(UI_RESOURCE_PRESENTATION)
-      .filter(([key]) => Number(this.items[key]) > 0);
+    const entries = Object.entries(UI_RESOURCE_PRESENTATION);
     const gridTop = rect.top + summaryHeight + 14;
     const gridHeight = rect.bottom - gridTop;
-    if (!held.length) {
-      createIconBadge(this.scene, "inventory", {
-        x: rect.left + rect.width / 2,
-        y: gridTop + gridHeight / 2 - 34,
-        size: 86,
-        iconSize: 72,
-        parent: this.shell.content,
-      });
-      this._text(rect.left + rect.width / 2, gridTop + gridHeight / 2 + 38,
-        "YOUR BAG IS EMPTY", {
-          fontFamily: UI_FONTS.display,
-          fontSize: "18px",
-          fontStyle: "bold",
-          color: UI_COLORS.title,
-        }, 0.5, 0.5
-      );
-      this._text(rect.left + rect.width / 2, gridTop + gridHeight / 2 + 64,
-        "Dig and collect materials to fill it.", {
-          fontFamily: UI_FONTS.mono,
-          fontSize: "12px",
-          color: UI_COLORS.body,
-        }, 0.5, 0.5
-      );
-    } else {
+    {
       const columns = rect.width >= 700 ? 2 : 1;
       const gap = 12;
-      const rows = Math.ceil(held.length / columns);
+      const rows = Math.ceil(entries.length / columns);
       const cardWidth = (rect.width - gap * (columns - 1)) / columns;
       const cardHeight = Math.max(54, Math.min(72, (gridHeight - gap * (rows - 1)) / rows));
-      held.forEach(([key, config], index) => {
+      entries.forEach(([key, config], index) => {
+        const discovered = Number(this.items[key]) > 0
+          || this.scene.retentionProgressSystem?.hasDiscoveredMaterial?.(key) === true;
         const row = Math.floor(index / columns);
         const column = index % columns;
         const x = rect.left + column * (cardWidth + gap);
         const y = gridTop + row * (cardHeight + gap);
         this._surface(x, y, cardWidth, cardHeight, false);
-        createIconBadge(this.scene, config.icon, {
+        createIconBadge(this.scene, discovered ? config.icon : "lock", {
           x: x + 38,
           y: y + cardHeight / 2,
           size: Math.min(48, cardHeight - 10),
           iconSize: Math.min(40, cardHeight - 18),
           parent: this.shell.content,
         });
-        this._text(x + 70, y + cardHeight / 2 - 10, config.name.toUpperCase(), {
+        this._text(
+          x + 70,
+          y + cardHeight / 2 - 10,
+          discovered ? config.name.toUpperCase() : "UNDISCOVERED",
+          {
           fontFamily: UI_FONTS.display,
           fontSize: "14px",
           fontStyle: "bold",
-          color: UI_COLORS.title,
+          color: discovered ? UI_COLORS.title : UI_COLORS.dim,
         }, 0, 0.5);
-        this._text(x + 70, y + cardHeight / 2 + 12, "MINED MATERIAL", {
+        this._text(x + 70, y + cardHeight / 2 + 12, discovered ? "MINED MATERIAL" : "??? MATERIAL", {
           fontFamily: UI_FONTS.mono,
           fontSize: "9px",
           color: UI_COLORS.dim,
         }, 0, 0.5);
         this._text(x + cardWidth - 18, y + cardHeight / 2,
-          Math.floor(this.items[key]).toLocaleString(), {
+          discovered ? Math.floor(this.items[key]).toLocaleString() : "—", {
             fontFamily: UI_FONTS.display,
             fontSize: "20px",
             fontStyle: "bold",
-            color: config.color,
+            color: discovered ? config.color : UI_COLORS.dim,
           }, 1, 0.5
         );
       });

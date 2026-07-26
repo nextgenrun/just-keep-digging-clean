@@ -8,6 +8,9 @@ import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
+import { RESOURCE_PRICES_CONFIG, getCargoSellValue } from "../../values/resourcePrices.js";
+import { RETENTION_CONFIG, RETENTION_EVENT_TYPES } from "../../values/retentionConfig.js";
+import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import {
   resolveUalActionContact,
   UAL_NATIVE_ACTION_TUNING,
@@ -49,6 +52,19 @@ function _handleLevelUpResult(scene, result) {
     : scene.playerLevelSystem?.level;
   const hasChoice = Boolean(result.hasChoice);
 
+  syncProgressionGemPowerMax(scene);
+  scene.queueDugTilesSave?.();
+  if (!hasChoice) {
+    scene.uiNotifications?.success?.(
+      `LEVEL ${level}  •  Mining power and Gem Power increased`,
+      {
+        key: "routine-level-up",
+        durationMs: RETENTION_CONFIG.notifications.routineLevelMs,
+      }
+    );
+    return;
+  }
+
   if (scene.levelUpPopup.visible) {
     scene._pendingLevelUp = {
       level,
@@ -61,16 +77,211 @@ function _handleLevelUpResult(scene, result) {
   scene.levelUpPopup.show(level, hasChoice, rewards);
 }
 
+function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
+  if (!result?.success || !targetTile || !scene.floatingTextSystem) return;
+  const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+  const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+  const feedback = RETENTION_CONFIG.miningFeedback;
+
+  if (result.isCriticalHit) {
+    const multiplier = Number.isFinite(result.critMultiplier)
+      ? result.critMultiplier
+      : scene.playerLevelSystem?.getCriticalHitDamageMultiplier?.() || 1;
+    scene.floatingTextSystem.showCriticalHit(worldX, worldY, result.damage || 0, multiplier);
+    scene.screenFlashSystem?.flashCrit?.();
+  }
+
+  if (result.destroyed) {
+    scene.floatingTextSystem.showFloatingText(
+      worldX,
+      worldY - 18,
+      feedback.finalHitText,
+      feedback.finalHitColor,
+      feedback.finalHitDurationMs,
+      feedback.finalHitFontSize
+    );
+  }
+
+  const rarity = feedback.rarity[result.rarityId];
+  if (result.destroyed && rarity) {
+    scene.floatingTextSystem.showFloatingText(
+      worldX,
+      worldY - 34,
+      `${rarity.label}  ${Number(result.rarityMultiplier || 1).toFixed(1)}x`,
+      rarity.color,
+      feedback.rarityDurationMs,
+      19
+    );
+  }
+
+  if (result.isLuckyDrop) {
+    scene.floatingTextSystem.showResourceLuckBonus(
+      worldX,
+      worldY,
+      result.resourceType || "Resource",
+      feedback.luckyColor,
+      1
+    );
+  }
+
+  const overkill = Math.max(0, Number(result.overkillDamage) || 0);
+  const maxHp = Math.max(1, Number(result.maxHp) || 1);
+  if (result.destroyed && overkill >= maxHp * feedback.overkillMinHpRatio) {
+    scene.floatingTextSystem.showFloatingText(
+      worldX,
+      worldY - 52,
+      `${feedback.overkillPrefix} +${Math.floor(overkill)}`,
+      feedback.overkillColor,
+      feedback.overkillDurationMs,
+      feedback.overkillFontSize
+    );
+    scene._applyDestroyParticles?.(worldX, worldY, result.tileType);
+    scene.shakeSystem?.shake?.("mining.crit", 0.7);
+  }
+
+  if (options.consumeUpgradePayoff !== false) {
+    const payoff = scene.retentionProgressSystem?.consumeUpgradePayoff?.();
+    if (payoff && (
+      payoff.afterDamage > payoff.beforeDamage
+      || (payoff.beforeHits > 0 && payoff.afterHits < payoff.beforeHits)
+    )) {
+      const breakpoint = payoff.beforeHits > 0 && payoff.afterHits < payoff.beforeHits
+        ? `  •  ${payoff.beforeHits} hits → ${payoff.afterHits}`
+        : "";
+      scene.uiNotifications?.success?.(
+        `${payoff.upgradeName.toUpperCase()} FEELS STRONGER${breakpoint}`,
+        {
+          key: "upgrade-payoff",
+          durationMs: RETENTION_CONFIG.notifications.upgradePayoffMs,
+        }
+      );
+    }
+  }
+}
+
+function formatExpeditionSummary(scene, event) {
+  const summary = event.summary || {};
+  const previous = event.previous || {};
+  const cargoValue = getCargoSellValue(
+    scene.digSystem?.getResourceTotals?.() || {},
+    scene.upgradeSystem?.getUpgradeEffects?.() || {}
+  );
+  const parts = [
+    `RETURNED  •  ${summary.maxDepth || 0}m`,
+    `${summary.tilesBroken || 0} tiles`,
+    `${cargoValue.toLocaleString()} M cargo`,
+  ];
+  if (summary.bestMaterial) parts.push(`best: ${getResourceDisplayName(summary.bestMaterial)}`);
+  if (summary.stars > 0) parts.push(`${summary.stars} star${summary.stars === 1 ? "" : "s"}`);
+  if (summary.chests > 0) parts.push(`${summary.chests} chest${summary.chests === 1 ? "" : "s"}`);
+  const gains = [];
+  if ((summary.maxDepth || 0) > (previous.maxDepth || 0) && previous.maxDepth > 0) {
+    gains.push(`+${summary.maxDepth - previous.maxDepth}m deeper`);
+  }
+  if ((summary.resourceUnits || 0) > (previous.resourceUnits || 0) && previous.resourceUnits > 0) {
+    const percent = Math.round(
+      ((summary.resourceUnits - previous.resourceUnits) / previous.resourceUnits) * 100
+    );
+    if (percent > 0) gains.push(`+${percent}% more cargo`);
+  }
+  return `${parts.join("  •  ")}${gains.length ? `\nNEW HIGH: ${gains[0]}` : ""}`;
+}
+
+function handleRetentionEvents(scene) {
+  const retention = scene.retentionProgressSystem;
+  if (!retention) return;
+  const display = USER_SETTINGS.getDisplay();
+  retention.drainEvents().forEach(event => {
+    switch (event.type) {
+      case RETENTION_EVENT_TYPES.DISCOVERY: {
+        if (display.showMaterialDiscoveryCards === false) break;
+        const price = RESOURCE_PRICES_CONFIG.basePrices[event.key] || 0;
+        scene.uiNotifications?.success?.(
+          `NEW MATERIAL  •  ${getResourceDisplayName(event.key)}`
+            + (price > 0 ? `  •  Base value ${price} M each` : ""),
+          {
+            durationMs: RETENTION_CONFIG.notifications.discoveryMs,
+            noDedupe: true,
+          }
+        );
+        break;
+      }
+      case RETENTION_EVENT_TYPES.TUTORIAL:
+        scene.uiNotifications?.info?.(event.message, {
+          key: "first-run-contract",
+          durationMs: RETENTION_CONFIG.notifications.tutorialMs,
+        });
+        break;
+      case RETENTION_EVENT_TYPES.OBJECTIVE_COMPLETE: {
+        const reward = Math.max(0, Number(event.objective?.rewardMoney) || 0);
+        scene.upgradeSystem?.addMoney?.(reward);
+        retention.recordMoneyEarned(reward);
+        scene.uiNotifications?.success?.(
+          `SESSION GOAL COMPLETE  •  +${reward} M  •  No streak, no reset penalty`,
+          {
+            key: "session-objective",
+            durationMs: RETENTION_CONFIG.notifications.objectiveMs,
+          }
+        );
+        scene.queueDugTilesSave?.();
+        break;
+      }
+      case RETENTION_EVENT_TYPES.PERSONAL_BEST:
+        scene.uiNotifications?.success?.(`NEW DEPTH RECORD  •  ${event.depth}m`, {
+          key: "personal-best",
+          durationMs: RETENTION_CONFIG.notifications.personalBestMs,
+        });
+        scene.screenFlashSystem?.flashLucky?.();
+        break;
+      case RETENTION_EVENT_TYPES.EXPEDITION_SUMMARY:
+        if (display.showExpeditionSummaries !== false) {
+          scene.uiNotifications?.info?.(formatExpeditionSummary(scene, event), {
+            key: "expedition-summary",
+            durationMs: RETENTION_CONFIG.notifications.summaryMs,
+          });
+        }
+        scene.queueDugTilesSave?.();
+        break;
+      case RETENTION_EVENT_TYPES.EARTHQUAKE_RECAP:
+        scene.uiNotifications?.info?.(
+          `EARTHQUAKE CLEARED  •  ${String(event.intensity).toUpperCase()}`
+            + `  •  endured ${event.distanceEndured || 0} tiles from the epicenter`
+            + `  •  ${event.passagesOpened} new passage${event.passagesOpened === 1 ? "" : "s"}`,
+          {
+            key: "earthquake-recap",
+            durationMs: RETENTION_CONFIG.notifications.earthquakeRecapMs,
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  });
+}
+
 function handleQuickslashMineResult(scene, result, targetTile, tileType) {
   if (!result || result.reason === "cooldown" || !targetTile) return;
   scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
   scene.flushPendingDigImpactFeedback?.();
   if (!result.success) return;
+  showMiningRetentionFeedback(scene, result, targetTile);
 
   if (result.heavyPunchHit && result.heavyPunchTile && scene.floatingTextSystem) {
     const worldX = result.heavyPunchTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
     const worldY = result.heavyPunchTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
     scene.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
+    showMiningRetentionFeedback(scene, {
+      success: true,
+      destroyed: result.behindDestroyed,
+      tileType: scene.worldModel.getTileType(result.heavyPunchTile.tx, result.heavyPunchTile.ty),
+      damage: result.behindDamage,
+      maxHp: result.behindMaxHp,
+      overkillDamage: result.behindOverkillDamage,
+      rarityId: result.behindRarityId,
+      rarityMultiplier: result.behindRarityMultiplier,
+      isLuckyDrop: result.behindIsLuckyDrop,
+      resourceType: result.behindResourceType,
+    }, result.heavyPunchTile, { consumeUpgradePayoff: false });
   }
   if (result.behindDestroyed) scene.queueDugTilesSave?.();
   if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
@@ -96,6 +307,7 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
   }
 
   if (result.success) {
+    showMiningRetentionFeedback(scene, result, targetTile);
     if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
       const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
       const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
@@ -105,6 +317,17 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
       const worldX = result.heavyPunchTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
       const worldY = result.heavyPunchTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
       scene.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.behindDamage);
+      showMiningRetentionFeedback(scene, {
+        success: true,
+        destroyed: result.behindDestroyed,
+        damage: result.behindDamage,
+        maxHp: result.behindMaxHp,
+        overkillDamage: result.behindOverkillDamage,
+        rarityId: result.behindRarityId,
+        rarityMultiplier: result.behindRarityMultiplier,
+        isLuckyDrop: result.behindIsLuckyDrop,
+        resourceType: result.behindResourceType,
+      }, result.heavyPunchTile, { consumeUpgradePayoff: false });
     }
     if (result.destroyed) {
       scene.queueDugTilesSave?.();
@@ -114,17 +337,6 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
         const resourceLabel = getResourceDisplayName(result.resourceType);
         const resourceColor = RESOURCE_COLORS[result.resourceType] || "#8B4513";
         scene.floatingTextSystem.showResource(worldX, worldY, resourceLabel, resourceColor, result.resourceAmount);
-      }
-      if (result.isCriticalHit && scene.floatingTextSystem) {
-        const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-        const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-        const damage = scene.digSystem._getDamage(5, tileType) * scene.playerLevelSystem.getCriticalHitDamageMultiplier();
-        scene.floatingTextSystem.showCriticalHit(worldX, worldY, damage, 1.5);
-      }
-      if (result.isLuckyDrop && scene.floatingTextSystem) {
-        const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-        const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-        scene.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
       }
     }
     if (result.behindDestroyed) scene.queueDugTilesSave?.();
@@ -204,6 +416,15 @@ function handleThunderStrikeResult(scene, strikeResult, now) {
       false,
       result.wasRubble,
     );
+    showMiningRetentionFeedback(scene, {
+      ...result,
+      ...reward,
+      success: true,
+      damage: result.damage,
+      overkillDamage: result.overkillDamage,
+      maxHp: result.maxHp,
+      tileType: result.tileType,
+    }, { tx: result.tx, ty: result.ty });
     scene.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
     if (reward.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, reward);
     scene.queueDugTilesSave?.();
@@ -305,8 +526,16 @@ export function updateScene(time, delta) {
     const choice = this.levelUpPopup.handleInput();
       if (choice) {
         if (choice !== "continue") {
-          this.playerLevelSystem.applyChoiceReward(choice);
+          const applied = this.playerLevelSystem.applyChoiceReward(choice);
+          if (applied) {
+            this.uiNotifications?.success?.(
+              `${applied.reward?.name || choice} chosen  •  permanent bonus saved`,
+              { durationMs: RETENTION_CONFIG.notifications.routineLevelMs }
+            );
+            this.queueDugTilesSave?.();
+          }
         }
+        syncProgressionGemPowerMax(this);
         // Check if there's a pending level up after closing current popup
         if (this._pendingLevelUp && !this.levelUpPopup.visible) {
           console.log('[LEVEL UP] Showing pending level up - Level:', this._pendingLevelUp.level);
@@ -371,6 +600,8 @@ export function updateScene(time, delta) {
 function _updateSystems(time, delta, keys) {
   // HUD updates
   this.hudSystem.update(time);
+  this.nextPromiseHudSystem?.update(time);
+  handleRetentionEvents(this);
   this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
   this.uiResourceBar?.setMoney(this.upgradeSystem.getMoney());
 
@@ -402,6 +633,9 @@ function _updateSystems(time, delta, keys) {
   // Update combo system timer (always active — checks expiry)
   if (this.comboSystem) {
     this.comboSystem.update(this.time.now);
+    this.retentionProgressSystem?.recordComboCount?.(
+      this.comboSystem.getComboCount?.() || 0
+    );
   }
 
   // Update special block effects (always active — checks expiry)
@@ -533,8 +767,14 @@ function _updatePlayingState(time, delta, keys) {
 
 
   // Aim handling
-  const aimTargetTile = this.inputHandler.resolveAimTargetTile();
+  const rawAimTargetTile = this.inputHandler.resolveAimTargetTile();
+  const aimTargetTile = this.inputHandler.resolveStableMineTarget(
+    rawAimTargetTile,
+    keys.mine?.isDown === true,
+    this.playerController.getAimLabel()
+  );
   this.inputHandler.updateAimBox(aimTargetTile, this.inputHandler.isSolidAimTarget(aimTargetTile));
+  this.miningIntentPreviewSystem?.update(aimTargetTile, keys);
 
   // Mining
   const abilities = this.playerController.abilities;
@@ -686,10 +926,21 @@ function _updatePlayingState(time, delta, keys) {
   const playerAbilities = this.playerController.abilities;
   const playerProfile = this.playerAssetProfile || ASSET_KEYS.player;
   const cInput = this.playerController.input.getThunderStrikeInput();
-
-  if (cInput && !this.isDigAnimating && !this._thunderStrikeAnimating && !this._teleportInAnimating) {
+  if (cInput) {
+    this._thunderStrikeInputBufferedUntil =
+      time + RETENTION_CONFIG.intentPreview.abilityInputBufferMs;
+  }
+  const bufferedThunderInput = Number.isFinite(this._thunderStrikeInputBufferedUntil)
+    && time <= this._thunderStrikeInputBufferedUntil;
+  if (
+    bufferedThunderInput
+    && !this.isDigAnimating
+    && !this._thunderStrikeAnimating
+    && !this._teleportInAnimating
+  ) {
     const started = playerAbilities.startThunderStrikeCharge(time);
     if (started) {
+      this._thunderStrikeInputBufferedUntil = -Infinity;
       this.isDigAnimating = true;
       this._thunderStrikeAnimating = true;
       this._thunderStrikePhase = "charge";
@@ -700,6 +951,12 @@ function _updatePlayingState(time, delta, keys) {
         true,
       );
     }
+  }
+  if (
+    Number.isFinite(this._thunderStrikeInputBufferedUntil)
+    && time > this._thunderStrikeInputBufferedUntil
+  ) {
+    this._thunderStrikeInputBufferedUntil = -Infinity;
   }
 
   if (this._thunderStrikeAnimating && this._thunderStrikePhase === "charge") {
@@ -772,6 +1029,9 @@ function _updatePlayingState(time, delta, keys) {
   }
   
   const depth = Math.max(0, playerTile.ty - this.config.topAirRows + 1);
+  const inTown = playerTile.ty >= this.config.topAirRows - 4
+    && playerTile.ty <= this.config.topAirRows;
+  this.retentionProgressSystem?.updateDepth?.(depth, { isTown: inTown });
 
   // Update biome system with current depth
   if (this.biomeSystem) {

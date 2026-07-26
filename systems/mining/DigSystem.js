@@ -3,7 +3,10 @@ import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { getGemPowerBlockRestoreAmount } from "../../values/specialBlocks.js";
-import { getResourceYieldMultiplier } from "../../values/dynamicSoil.js";
+import {
+  getResourceRarityDescriptor,
+  getResourceYieldMultiplier,
+} from "../../values/dynamicSoil.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import {
   HARD_RESOURCE_TILE_TYPES,
@@ -23,6 +26,7 @@ export class DigSystem {
     this.comboSystem = comboSystem;
     this.specialBlockEffectsManager = specialBlockEffectsManager;
     this.ancientRelicSystem = null;
+    this.retentionProgressSystem = null;
 
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
@@ -45,9 +49,18 @@ export class DigSystem {
     this.ancientRelicSystem = ancientRelicSystem;
   }
 
+  setRetentionProgressSystem(retentionProgressSystem) {
+    this.retentionProgressSystem = retentionProgressSystem;
+  }
+
   _getNativeYield(tileType, tx, ty) {
     const depthTiles = ty - this.config.topAirRows;
     return getResourceYieldMultiplier(tileType, tx, ty, depthTiles, this.config.seed);
+  }
+
+  _getNativeRarity(tileType, tx, ty) {
+    const depthTiles = ty - this.config.topAirRows;
+    return getResourceRarityDescriptor(tileType, tx, ty, depthTiles, this.config.seed);
   }
 
   _rollLuckyDrop() {
@@ -101,8 +114,11 @@ export class DigSystem {
       ANCIENT_RELIC_CONFIG.cache.floatingTextFontSizePx
     );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
+    const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(
+      this.ancientRelicSystem.getCount()
+    );
     this.worldRenderer?.scene?.hudSystem?.flashStatus?.(
-      `${ANCIENT_RELIC_CONFIG.displayName} found: ${this.ancientRelicSystem.getCount()}`,
+      `${ANCIENT_RELIC_CONFIG.displayName} found  •  ${purpose || `${this.ancientRelicSystem.getCount()} total`}`,
       ANCIENT_RELIC_CONFIG.color,
       ANCIENT_RELIC_CONFIG.cache.statusDurationMs
     );
@@ -153,11 +169,11 @@ export class DigSystem {
     return cooldown;
   }
 
-  _getDamage(baseDamage, tileType) {
+  _getDamage(baseDamage, tileType, effectsOverride = null) {
     let damage = baseDamage;
     
     if (this.upgradeSystem) {
-      const effects = this.upgradeSystem.getUpgradeEffects();
+      const effects = effectsOverride || this.upgradeSystem.getUpgradeEffects();
       
       const pickaxeDamage = effects.pickaxeDamage || 0;
       const pickaxeMultipliers = effects.pickaxeMultipliers || {};
@@ -205,6 +221,47 @@ export class DigSystem {
     return Math.max(1, Math.round(damage));
   }
 
+  getDamagePreview(tileType, effectsOverride = null) {
+    return this._getDamage(this._getBaseDamageForTile(tileType), tileType, effectsOverride);
+  }
+
+  getHitsToBreakPreview(tileType, tx, ty, effectsOverride = null) {
+    const damage = this.getDamagePreview(tileType, effectsOverride);
+    const hp = this.worldModel.getTileMaxHp(tx, ty, tileType);
+    return {
+      damage,
+      hp,
+      hits: Math.max(1, Math.ceil(hp / Math.max(1, damage))),
+    };
+  }
+
+  getHeavyPunchPreview(targetTile, aimDirection) {
+    const fraction = this._getHeavyPunchFraction();
+    if (!targetTile || fraction <= 0) return null;
+    const direction = {
+      LEFT: [-1, 0],
+      RIGHT: [1, 0],
+      UP: [0, -1],
+      DOWN: [0, 1],
+    }[aimDirection];
+    if (!direction) return null;
+    const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
+    const damage = this.getDamagePreview(tileType);
+    let tx = targetTile.tx + direction[0];
+    let ty = targetTile.ty + direction[1];
+    if (this.worldModel.getTileType(tx, ty) === TILE_TYPES.GEODE_WALL) {
+      tx += direction[0];
+      ty += direction[1];
+    }
+    if (!this.worldModel.inBounds(tx, ty) || !this.worldModel.isDiggable(tx, ty)) return null;
+    return {
+      tx,
+      ty,
+      damage: Math.max(1, Math.floor(damage * fraction)),
+      fraction,
+    };
+  }
+
   _getBaseDamageForTile(tileType) {
     return HARD_RESOURCE_TILE_TYPES.has(tileType)
       ? (MINING_CONFIG.baseDamageHard || 4)
@@ -229,6 +286,10 @@ export class DigSystem {
       behindIsLuckyDrop: false,
       behindAncientRelics: 0,
       behindDamage: 0,
+      behindMaxHp: 0,
+      behindOverkillDamage: 0,
+      behindRarityId: "normal",
+      behindRarityMultiplier: 1,
     };
 
     if (!targetTile || !aimDirection) return heavyPunchResult;
@@ -263,6 +324,8 @@ export class DigSystem {
     heavyPunchResult.heavyPunchHit = true;
     heavyPunchResult.heavyPunchTile = { tx: bx, ty: by };
     heavyPunchResult.behindDestroyed = behindResult.destroyed;
+    heavyPunchResult.behindMaxHp = behindResult.maxHp || 0;
+    heavyPunchResult.behindOverkillDamage = behindResult.overkillDamage || 0;
 
     if (behindResult.destroyed) {
       this.tilesBroken += 1;
@@ -270,6 +333,9 @@ export class DigSystem {
         heavyPunchResult.behindAncientRelics = this._awardAncientRelics(behindResult.typeBeforeDamage, bx, by);
         heavyPunchResult.behindResourceType = tileTypeToResource(behindResult.typeBeforeDamage);
         if (heavyPunchResult.behindResourceType) {
+          const rarity = this._getNativeRarity(behindResult.typeBeforeDamage, bx, by);
+          heavyPunchResult.behindRarityId = rarity.id;
+          heavyPunchResult.behindRarityMultiplier = rarity.multiplier;
           heavyPunchResult.behindResourceAmount = this._getNativeYield(behindResult.typeBeforeDamage, bx, by);
           if (this._rollLuckyDrop()) {
             heavyPunchResult.behindResourceAmount += 1;
@@ -287,6 +353,16 @@ export class DigSystem {
           heavyPunchResult.heavyPunchTile
         );
       }
+      this.retentionProgressSystem?.recordMiningResult?.({
+        success: true,
+        destroyed: true,
+        resourceType: heavyPunchResult.behindResourceType,
+        resourceAmount: heavyPunchResult.behindResourceAmount,
+        isLuckyDrop: heavyPunchResult.behindIsLuckyDrop,
+        maxHp: heavyPunchResult.behindMaxHp,
+        overkillDamage: heavyPunchResult.behindOverkillDamage,
+        ancientRelics: heavyPunchResult.behindAncientRelics,
+      });
     }
 
     return heavyPunchResult;
@@ -391,6 +467,7 @@ export class DigSystem {
         reason: "blocked",
         tileType,
         typeBeforeDamage: tileType,
+        damage: 0,
         blockedByBedrock: tileType === TILE_TYPES.BEDROCK || tileType === TILE_TYPES.CAVE_WALL,
       };
     }
@@ -411,6 +488,7 @@ export class DigSystem {
     let specialBlockDestroyed = false;
     let gemPowerRestored = 0;
     let levelsGained = 0;
+    let forcedLevelResult = null;
 
     let isCriticalHit = false;
     {
@@ -446,8 +524,9 @@ export class DigSystem {
       }
     }
     
+    let critMultiplier = 1;
     if (isCriticalHit) {
-      const critMultiplier = this.playerLevelSystem
+      critMultiplier = this.playerLevelSystem
         ? this.playerLevelSystem.getCriticalHitDamageMultiplier()
         : 2;
       if (Number.isFinite(critMultiplier) && critMultiplier > 0) {
@@ -474,7 +553,13 @@ export class DigSystem {
     // Handle special block effects and apply returned values to outer scope
     if (!result.wasRubble) {
       const specialBlockResult = this._handleSpecialBlockEffects(result, targetTile);
-      ({ specialBlockEffect, specialBlockDestroyed, gemPowerRestored, levelsGained } = specialBlockResult);
+      ({
+        specialBlockEffect,
+        specialBlockDestroyed,
+        gemPowerRestored,
+        levelsGained,
+        forcedLevelResult,
+      } = specialBlockResult);
     }
 
     // Increment combo only on tile destruction
@@ -494,12 +579,15 @@ export class DigSystem {
     let levelUp = false;
     let newLevel = null;
     let hasChoice = false;
+    let choiceLevel = null;
     let rewards = null;
     let isLuckyDrop = false;
     let isSkyTileBonus = false;
     let skyTileMultiplier = 1;
     let skyTilePassiveBonus = false;
     let ancientRelics = 0;
+    let rarityId = "normal";
+    let rarityMultiplier = 1;
 
     if (result.destroyed) {
       this.tilesBroken += 1;
@@ -519,6 +607,13 @@ export class DigSystem {
         }
 
         if (resourceType) {
+          const rarity = this._getNativeRarity(
+            rewardTileType,
+            targetTile.tx,
+            targetTile.ty
+          );
+          rarityId = rarity.id;
+          rarityMultiplier = rarity.multiplier;
           resourceAmount = this._getNativeYield(rewardTileType, targetTile.tx, targetTile.ty);
 
           if (isSkyTileBonus) {
@@ -542,14 +637,8 @@ export class DigSystem {
             levelUp = xpResult.levelUp;
             newLevel = xpResult.newLevel;
             hasChoice = xpResult.hasChoice;
+            choiceLevel = xpResult.choiceLevel;
             rewards = xpResult.rewards;
-          }
-
-          if (levelsGained > 0 && this.playerLevelSystem) {
-            levelUp = true;
-            newLevel = this.playerLevelSystem.level;
-            hasChoice = false;
-            rewards = [];
           }
 
           if (isSkyTileBonus && this.floatingTextSystem) {
@@ -574,11 +663,23 @@ export class DigSystem {
       }
     }
 
-    return {
+    if (levelsGained > 0 && this.playerLevelSystem) {
+      levelUp = true;
+      newLevel = this.playerLevelSystem.level;
+      hasChoice = Boolean(forcedLevelResult?.hasChoice);
+      choiceLevel = forcedLevelResult?.choiceLevel ?? null;
+      rewards = forcedLevelResult?.rewards || [];
+    }
+
+    const miningResult = {
       success: true,
       tileType,
       destroyed: result.destroyed,
       hp: result.hp,
+      hpBefore: result.hpBefore,
+      maxHp: result.maxHp,
+      overkillDamage: result.overkillDamage || 0,
+      isFinalHit: result.destroyed,
       damage,
       resourceType,
       resourceAmount,
@@ -587,8 +688,10 @@ export class DigSystem {
       levelUp,
       newLevel,
       hasChoice,
+      choiceLevel,
       rewards,
       isCriticalHit,
+      critMultiplier,
       isLuckyDrop,
       heavyPunchHit,
       heavyPunchTile,
@@ -597,6 +700,10 @@ export class DigSystem {
       behindResourceAmount,
       behindIsLuckyDrop,
       behindDamage,
+      behindMaxHp: heavyPunchResult.behindMaxHp,
+      behindOverkillDamage: heavyPunchResult.behindOverkillDamage,
+      behindRarityId: heavyPunchResult.behindRarityId,
+      behindRarityMultiplier: heavyPunchResult.behindRarityMultiplier,
       specialBlockEffect,
       specialBlockDestroyed,
       gemPowerRestored,
@@ -604,7 +711,11 @@ export class DigSystem {
       skyTileMultiplier,
       skyTilePassiveBonus,
       ancientRelics,
+      rarityId,
+      rarityMultiplier,
     };
+    this.retentionProgressSystem?.recordMiningResult?.(miningResult);
+    return miningResult;
   }
 
   tryMineArea(targetEntries, nowMs, aimDirection = null, playerAbilities = null) {
@@ -698,6 +809,8 @@ export class DigSystem {
    */
   processDestroyedTile(tx, ty, tileType, nowMs, addComboPoints = false, wasRubble = false) {
     const result = {
+      success: true,
+      destroyed: true,
       resourceType: null,
       resourceAmount: 0,
       xpGained: 0,
@@ -708,11 +821,14 @@ export class DigSystem {
       levelsGained: 0,
       specialBlockEffect: null,
       ancientRelics: 0,
+      rarityId: "normal",
+      rarityMultiplier: 1,
     };
 
     this.tilesBroken += 1;
 
     if (wasRubble) {
+      this.retentionProgressSystem?.recordMiningResult?.(result);
       return result;
     }
 
@@ -733,6 +849,9 @@ export class DigSystem {
       skyTilePassiveBonus = skyReward.passiveBonus;
     }
     if (resourceType) {
+      const rarity = this._getNativeRarity(rewardTileType, tx, ty);
+      result.rarityId = rarity.id;
+      result.rarityMultiplier = rarity.multiplier;
       result.resourceType = resourceType;
       result.resourceAmount = this._getNativeYield(rewardTileType, tx, ty) * skyMultiplier;
       if (this._rollLuckyDrop()) {
@@ -765,6 +884,7 @@ export class DigSystem {
       result.levelUp = xpResult.levelUp;
       result.newLevel = xpResult.newLevel;
       result.hasChoice = xpResult.hasChoice || false;
+      result.choiceLevel = xpResult.choiceLevel ?? null;
       result.rewards = xpResult.rewards || [];
     }
 
@@ -779,8 +899,9 @@ export class DigSystem {
         result.levelUp = true;
         result.newLevel = this.playerLevelSystem ? this.playerLevelSystem.level : null;
         result.levelsGained = specialResult.levelsGained;
-        result.hasChoice = false;
-        result.rewards = [];
+        result.hasChoice = Boolean(specialResult.forcedLevelResult?.hasChoice);
+        result.choiceLevel = specialResult.forcedLevelResult?.choiceLevel ?? null;
+        result.rewards = specialResult.forcedLevelResult?.rewards || [];
       }
     }
 
@@ -790,6 +911,7 @@ export class DigSystem {
       this.comboSystem.addCombo(nowMs);
     }
 
+    this.retentionProgressSystem?.recordMiningResult?.(result);
     return result;
   }
 
@@ -806,7 +928,8 @@ export class DigSystem {
       specialBlockEffect: null,
       specialBlockDestroyed: false,
       gemPowerRestored: 0,
-      levelsGained: 0
+      levelsGained: 0,
+      forcedLevelResult: null,
     };
 
     const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
@@ -817,6 +940,7 @@ export class DigSystem {
     let specialBlockDestroyed = false;
     let gemPowerRestored = 0;
     let levelsGained = 0;
+    let forcedLevelResult = null;
     
     // Hoist scene reference so all cases share it
     const scene = this.scene || (this.worldRenderer?.scene);
@@ -862,8 +986,10 @@ export class DigSystem {
 
       case TILE_TYPES.XP_BLOCK:
         if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevel === 'function') {
-          const levelResult = this.playerLevelSystem.gainLevel(1) || {};
-          levelsGained = Number.isFinite(levelResult.levelsGained) ? levelResult.levelsGained : 1;
+          forcedLevelResult = this.playerLevelSystem.gainLevel(1) || {};
+          levelsGained = Number.isFinite(forcedLevelResult.levelsGained)
+            ? forcedLevelResult.levelsGained
+            : 1;
           specialBlockEffect = 'levelUp';
         } else {
           console.warn('[DigSystem] XP_BLOCK effect requires playerLevelSystem with gainLevel method');
@@ -916,9 +1042,10 @@ export class DigSystem {
 
       case TILE_TYPES.LEGEND_BLOCK:
         if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevel === 'function') {
-          // Skip level-up choice dialog — auto-apply +5 levels with no prompts
-          const levelResult = this.playerLevelSystem.gainLevel(5) || {};
-          levelsGained = Number.isFinite(levelResult.levelsGained) ? levelResult.levelsGained : 5;
+          forcedLevelResult = this.playerLevelSystem.gainLevel(5) || {};
+          levelsGained = Number.isFinite(forcedLevelResult.levelsGained)
+            ? forcedLevelResult.levelsGained
+            : 5;
           specialBlockEffect = 'legendLevelUp';
         } else {
           console.warn('[DigSystem] LEGEND_BLOCK effect requires playerLevelSystem with gainLevel method');
@@ -961,7 +1088,8 @@ export class DigSystem {
       specialBlockEffect,
       specialBlockDestroyed,
       gemPowerRestored,
-      levelsGained
+      levelsGained,
+      forcedLevelResult,
     };
   }
 }

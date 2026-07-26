@@ -12,6 +12,14 @@ export const ANCIENT_RELIC_CONFIG = Object.freeze({
     placementAttemptsPerCache: 220,
     minimumSpacingTiles: 14,
   }),
+  levelTwoWorldCaches: Object.freeze({
+    count: 16,
+    minDepthTiles: 2050,
+    maxDepthTiles: 4750,
+    minTileX: 121,
+    placementAttemptsPerCache: 240,
+    minimumSpacingTiles: 16,
+  }),
   cache: Object.freeze({
     relicsPerCache: 1,
     floatingTextDurationMs: 2600,

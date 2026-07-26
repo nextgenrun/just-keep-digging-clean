@@ -121,6 +121,16 @@ export function getResourceYieldMultiplier(tileType, tx, ty, depthTiles, seed) {
   return getResourceMultiplier(tileType, tx, ty, depthTiles, seed);
 }
 
+export function getResourceRarityDescriptor(tileType, tx, ty, depthTiles, seed) {
+  const index = getResourceRarityIndex(tileType, tx, ty, depthTiles, seed);
+  const rarity = RESOURCE_RARITIES[index] || RESOURCE_RARITIES[0];
+  return Object.freeze({
+    index,
+    id: rarity.id,
+    multiplier: rarity.multiplier,
+  });
+}
+
 export function getSoilRarityIndex(tileType, tx, ty, depthTiles, seed) {
   if (!isSoilType(tileType)) return 0;
   return getResourceRarityIndex(tileType, tx, ty, depthTiles, seed);

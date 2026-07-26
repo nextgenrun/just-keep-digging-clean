@@ -318,6 +318,24 @@ export class UpgradeSystem {
     return effects;
   }
 
+  getProjectedUpgradeEffects(upgradeId) {
+    const upgrade = UPGRADES[upgradeId];
+    if (!upgrade) return this.getUpgradeEffects();
+    const currentLevel = this.getUpgradeLevel(upgradeId);
+    if (upgrade.oneTimePurchase && currentLevel > 0) return this.getUpgradeEffects();
+    if (upgrade.maxLevel && currentLevel >= upgrade.maxLevel) return this.getUpgradeEffects();
+
+    const projected = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
+    projected.setUpgradeLevels({
+      ...this.upgradeLevels,
+      [upgradeId]: currentLevel + 1,
+    });
+    projected.ownedPickaxe = upgrade.category === "pickaxes"
+      ? upgradeId
+      : this.ownedPickaxe;
+    return projected.getUpgradeEffects();
+  }
+
   // Invalidate cache when upgrades change (call after purchasing)
   invalidateEffectsCache() {
     this._cachedEffects = null;

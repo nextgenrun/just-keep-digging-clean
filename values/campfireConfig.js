@@ -27,4 +27,11 @@ export const CAMPFIRE_CONFIG = Object.freeze({
     1.06, 1.10, 1.14, 1.18, 1.22,
     1.26, 1.30, 1.34, 1.38, 1.42,
   ]),
+  expirationFeedback: Object.freeze({
+    warningMs: 10000,
+    warningText: "Campfire blessing fades in 10 seconds",
+    warningDurationMs: 1800,
+    expiredText: "Campfire blessing faded",
+    expiredDurationMs: 1800,
+  }),
 });

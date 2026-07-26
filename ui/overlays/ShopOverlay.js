@@ -1,17 +1,20 @@
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
 import { getUpgradeCost } from "../../values/upgradeFormulas.js";
-import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
+import {
+  RESOURCE_PRICES_CONFIG,
+  getAdjustedResourceUnitPrice,
+} from "../../values/resourcePrices.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS, SHOP_MERCHANT_PROFILES } from "../../values/uiLayout.js";
 import { UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import {
   MONEY_MONSTER_RESOURCE_KEYS,
-  NEXT_RESOURCE_KEYS,
   SECOND_WORLD_RESOURCE_KEYS,
-  START_RESOURCE_KEYS,
   getResourceDisplayName,
+  tileTypeToResource,
 } from "../../values/resourceTypes.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
 import { createButton } from "../PhaserUiKit.js";
 import {
   isSellCapableMerchant,
@@ -482,12 +485,13 @@ export class ShopOverlay {
       lineSpacing: 3,
     });
 
+    const miningPreview = this._buildMiningPreview(upgrade);
     const statY = y + Math.min(195, height * 0.43);
     const stat = this.scene.add.graphics();
     stat.fillStyle(UI_COLORS.bg, 0.95);
-    stat.fillRoundedRect(x + 18, statY, width - 36, 62, 6);
+    stat.fillRoundedRect(x + 18, statY, width - 36, 84, 6);
     stat.lineStyle(1, UI_COLORS.borderDim, 0.95);
-    stat.strokeRoundedRect(x + 18, statY, width - 36, 62, 6);
+    stat.strokeRoundedRect(x + 18, statY, width - 36, 84, 6);
     this.upgradesContainer.add(stat);
     this._text(x + 36, statY + 13, owned ? "OWNERSHIP" : "CURRENT LEVEL", {
       fontFamily: UI_FONTS.mono,
@@ -506,8 +510,23 @@ export class ShopOverlay {
       fontStyle: "bold",
       color: maxed ? UI_COLORS.dim : UI_COLORS.gold,
     }, 0.5, 0.5);
+    if (miningPreview) {
+      const breakpoint = miningPreview.afterHits < miningPreview.beforeHits;
+      this._text(
+        x + 36,
+        statY + 67,
+        `${miningPreview.material.toUpperCase()}  ${miningPreview.beforeHits} → ${miningPreview.afterHits} HITS`
+          + (breakpoint ? "  •  BREAKPOINT!" : ""),
+        {
+          fontFamily: UI_FONTS.mono,
+          fontSize: "11px",
+          fontStyle: "bold",
+          color: breakpoint ? UI_COLORS.success : UI_COLORS.body,
+        }
+      );
+    }
 
-    const requirementsY = statY + 78;
+    const requirementsY = statY + 100;
     this._text(x + 20, requirementsY, "REQUIREMENTS", {
       fontFamily: UI_FONTS.display,
       fontSize: "14px",
@@ -569,6 +588,40 @@ export class ShopOverlay {
       lines.push({ text: "Player level  " + current + " / " + upgrade.requiresLevel, met: current >= upgrade.requiresLevel });
     }
     return lines;
+  }
+
+  _buildMiningPreview(upgrade) {
+    const digSystem = this.scene.digSystem;
+    const worldModel = this.scene.worldModel;
+    if (!digSystem?.getHitsToBreakPreview || !worldModel || !upgrade?.id) return null;
+
+    const bestDepth = this.scene.retentionProgressSystem?.getBestDepth?.() || 1;
+    const ty = Math.max(
+      this.scene.config.topAirRows + 1,
+      Math.min(worldModel.depthTiles - 2, this.scene.config.topAirRows + bestDepth)
+    );
+    let tx = Math.max(1, Math.min(worldModel.widthTiles - 2, this.scene.config.spawnTileX || 1));
+    let tileType = TILE_TYPES.DIRT;
+    for (let offset = 0; offset < Math.min(40, worldModel.widthTiles - 2); offset += 1) {
+      const candidateX = Math.max(1, Math.min(worldModel.widthTiles - 2, tx + offset));
+      const candidateType = worldModel.getTileType(candidateX, ty);
+      if (worldModel.isDiggable(candidateX, ty) && tileTypeToResource(candidateType)) {
+        tx = candidateX;
+        tileType = candidateType;
+        break;
+      }
+    }
+
+    const current = digSystem.getHitsToBreakPreview(tileType, tx, ty);
+    const projectedEffects = this.upgradeSystem.getProjectedUpgradeEffects?.(upgrade.id);
+    const projected = digSystem.getHitsToBreakPreview(tileType, tx, ty, projectedEffects);
+    return {
+      material: getResourceDisplayName(tileTypeToResource(tileType) || "dirt"),
+      beforeHits: current.hits,
+      afterHits: projected.hits,
+      beforeDamage: current.damage,
+      afterDamage: projected.damage,
+    };
   }
 
   _renderSellDetail(item, x, y, width, height) {
@@ -684,15 +737,7 @@ export class ShopOverlay {
 
   _adjustedUnitPrice(resource, basePrice) {
     const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
-    let price = basePrice || 0;
-    if (START_RESOURCE_KEYS.includes(resource) && effects.startResourceBonus > 0) {
-      price = Math.floor(price * (1 + effects.startResourceBonus));
-    }
-    if (NEXT_RESOURCE_KEYS.includes(resource) && effects.nextResourceBonus > 0) {
-      price = Math.floor(price * (1 + effects.nextResourceBonus));
-    }
-    if (effects.marketBonus > 0) price = Math.floor(price * (1 + effects.marketBonus));
-    return price;
+    return getAdjustedResourceUnitPrice(resource, effects, basePrice);
   }
 
   getItemsOnCurrentPage() {
@@ -789,6 +834,7 @@ export class ShopOverlay {
   purchaseUpgrade(upgradeId) {
     if (!this.isVisible || !upgradeId) return;
     const upgrade = UPGRADES[upgradeId];
+    const miningPreview = upgrade ? this._buildMiningPreview({ ...upgrade, id: upgradeId }) : null;
     const result = this.upgradeSystem?.purchaseUpgrade?.(upgradeId);
     if (!upgrade || !result) {
       this._notify("Upgrade unavailable", UI_COLORS.danger);
@@ -812,6 +858,8 @@ export class ShopOverlay {
       if (upgradeId === "worldTwoTunnelAccess") this.scene.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
       if (upgradeId === "arcCoreVehicle") this.scene.arcCoreVehicleSystem?.syncOwnership?.();
     this._notify("Purchased " + upgrade.name + ".", UI_COLORS.success);
+    this.scene.retentionProgressSystem?.recordUpgrade?.(upgrade.name, miningPreview);
+    this.scene.queueDugTilesSave?.();
 
     if (upgradeId === "boboWisdom") {
       this.hide();
@@ -858,12 +906,14 @@ export class ShopOverlay {
     resources[resource] = available - count;
     digSystem.setResourceTotals(resources);
     this.upgradeSystem.addMoney(total);
+    this.scene.retentionProgressSystem?.recordSale?.(total, count);
     this.soundSystem?.playUiConfirm?.();
     this._notify(
       "Sold " + count.toLocaleString() + " " + getResourceDisplayName(resource) + " for " + formatMoney(total) + ".",
       UI_COLORS.success
     );
     this.scene.uiResourceBar?.setResources?.(digSystem.getResourceTotals());
+    this.scene.queueDugTilesSave?.();
     this._render();
   }
 
@@ -887,9 +937,11 @@ export class ShopOverlay {
     }
     digSystem.setResourceTotals(resources);
     this.upgradeSystem.addMoney(totalMoney);
+    this.scene.retentionProgressSystem?.recordSale?.(totalMoney, totalSold);
     this.soundSystem?.playUiConfirm?.();
     this._notify("Sold " + totalSold.toLocaleString() + " resources for " + formatMoney(totalMoney) + ".", UI_COLORS.success);
     this.scene.uiResourceBar?.setResources?.(resources);
+    this.scene.queueDugTilesSave?.();
     this._render();
   }
 

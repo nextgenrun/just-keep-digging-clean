@@ -22,14 +22,18 @@ export class PlayerLevelSystem {
     };
     this.comboSystem = null;
     this.campfireSystem = null;
-    this._choiceRewards = {
-      miningPower: { miningDamageMultiplier: 0.1, miningSpeedBonus: 0.01 },
-      resourceLuck: { resourceLuck: 0.05, criticalHitChance: 0.01 },
+    this.temporaryCriticalDamageBonusProvider = null;
+    this.choiceSelections = {
+      miningPower: 0,
+      resourceLuck: 0,
     };
   }
 
   setComboSystem(comboSystem) { this.comboSystem = comboSystem; }
   setCampfireSystem(campfireSystem) { this.campfireSystem = campfireSystem; }
+  setTemporaryCriticalDamageBonusProvider(provider) {
+    this.temporaryCriticalDamageBonusProvider = typeof provider === "function" ? provider : null;
+  }
 
   getBonusesSummary() {
     return {
@@ -60,7 +64,8 @@ export class PlayerLevelSystem {
     return this.calculatedBonuses.xpMultiplier + campfireBonus;
   }
   getCriticalHitDamageMultiplier() {
-    return 1.5 + (this.calculatedBonuses.criticalHitDamage || 0) / 100;
+    const temporaryBonus = Number(this.temporaryCriticalDamageBonusProvider?.()) || 0;
+    return 1.5 + (this.calculatedBonuses.criticalHitDamage || 0) / 100 + Math.max(0, temporaryBonus);
   }
   checkResourceLuck() {
     return this.calculatedBonuses.resourceLuck > 0 && Math.random() < this.calculatedBonuses.resourceLuck;
@@ -100,10 +105,17 @@ export class PlayerLevelSystem {
       newLevel = this.level;
       this._recalculateBonuses();
       levelUp = true;
-      hasChoice = this.level % 5 === 0;
-      if (hasChoice) rewards = Object.keys(this._choiceRewards);
+      hasChoice = LEVEL_CONFIG.hasChoiceReward(this.level);
+      if (hasChoice) rewards = Object.keys(LEVEL_CONFIG.CHOICE_REWARDS);
     }
-    return { xpGained, levelUp, newLevel, hasChoice, rewards };
+    return {
+      xpGained,
+      levelUp,
+      newLevel,
+      hasChoice,
+      choiceLevel: hasChoice ? newLevel : null,
+      rewards,
+    };
   }
 
   gainLevel() {
@@ -112,45 +124,66 @@ export class PlayerLevelSystem {
     const startLevel = this.level;
     this.level += gainCount;
     this._recalculateBonuses();
+    const choiceLevels = [];
+    for (let level = startLevel + 1; level <= this.level; level += 1) {
+      if (LEVEL_CONFIG.hasChoiceReward(level)) choiceLevels.push(level);
+    }
     return {
       levelUp: true,
       newLevel: this.level,
       levelsGained: this.level - startLevel,
-      hasChoice: false,
-      rewards: [],
+      hasChoice: choiceLevels.length > 0,
+      choiceLevel: choiceLevels[0] ?? null,
+      choiceLevels,
+      rewards: choiceLevels.length > 0 ? Object.keys(LEVEL_CONFIG.CHOICE_REWARDS) : [],
     };
   }
 
   getXPRequiredForNextLevel() {
-    return LEVEL_CONFIG.xpFormula ? LEVEL_CONFIG.xpFormula(this.level) : 100 * Math.pow(1.15, this.level - 1);
+    return LEVEL_CONFIG.getXPRequiredForLevel(this.level + 1);
   }
 
   applyChoiceReward(choice) {
-    const reward = this._choiceRewards[choice];
-    if (!reward) return;
-    for (const [key, val] of Object.entries(reward)) {
-      if (this.calculatedBonuses[key] !== undefined) this.calculatedBonuses[key] += val;
-    }
+    const reward = LEVEL_CONFIG.CHOICE_REWARDS[choice];
+    if (!reward || !Object.hasOwn(this.choiceSelections, choice)) return null;
+    this.choiceSelections[choice] += 1;
+    this._recalculateBonuses();
+    return { choice, count: this.choiceSelections[choice], reward };
   }
 
   _recalculateBonuses() {
     const config = LEVEL_CONFIG;
     this.calculatedBonuses.level = this.level;
-    this.calculatedBonuses.miningDamageMultiplier = 1 + (this.level - 1) * (config.damagePerLevel || 0.05);
+    const miningChoiceBonus = this.choiceSelections.miningPower
+      * (config.CHOICE_REWARDS.miningPower.damageBonus || 0);
+    const luckChoiceBonus = this.choiceSelections.resourceLuck
+      * (config.CHOICE_REWARDS.resourceLuck.luckBonus || 0);
+    this.calculatedBonuses.miningDamageMultiplier = 1
+      + (this.level - 1) * (config.damagePerLevel || 0.05)
+      + miningChoiceBonus;
     this.calculatedBonuses.miningFlatDamageBonus = Math.floor((this.level - 1) * (config.flatDamagePerLevel || 0.25));
     this.calculatedBonuses.miningSpeedBonus = Math.min((this.level - 1) * 0.005, 0.5);
     this.calculatedBonuses.criticalHitChance = Math.min((this.level - 1) * 0.002, 0.15);
     this.calculatedBonuses.criticalHitDamage = Math.floor((this.level - 1) * 0.5);
     this.calculatedBonuses.maxHpBonus = (this.level - 1) * 5;
     this.calculatedBonuses.xpMultiplier = (this.level - 1) * 0.02;
-    this.calculatedBonuses.resourceLuck = Math.min((this.level - 1) * 0.002, 0.08);
+    this.calculatedBonuses.resourceLuck = Math.min(
+      (this.level - 1) * 0.002 + luckChoiceBonus,
+      0.95
+    );
     this.calculatedBonuses.globalMiningSpeed = Math.min((this.level - 1) * 0.005, 0.5);
     this.calculatedBonuses.perLevelSpeed = 0;
     this.calculatedBonuses.hardcapMiningSpeed = 0.75;
   }
 
   toJSON() {
-    return { level: this.level, currentXP: this.currentXP, totalXP: this.totalXP, calculatedBonuses: { ...this.calculatedBonuses } };
+    return {
+      level: this.level,
+      currentXP: this.currentXP,
+      totalXP: this.totalXP,
+      calculatedBonuses: { ...this.calculatedBonuses },
+      choiceSelections: { ...this.choiceSelections },
+    };
   }
 
   fromJSON(data) {
@@ -158,6 +191,34 @@ export class PlayerLevelSystem {
     this.level = data.level || 1;
     this.currentXP = data.currentXP || 0;
     this.totalXP = data.totalXP || 0;
-    if (data.calculatedBonuses) this.calculatedBonuses = { ...this.calculatedBonuses, ...data.calculatedBonuses };
+    if (data.choiceSelections && typeof data.choiceSelections === "object") {
+      for (const key of Object.keys(this.choiceSelections)) {
+        const count = Number(data.choiceSelections[key]);
+        this.choiceSelections[key] = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
+      }
+      this._recalculateBonuses();
+      return;
+    }
+
+    // Legacy saves did not persist choices separately. Preserve any positive
+    // excess that was still present in their calculated snapshot.
+    this._recalculateBonuses();
+    if (data.calculatedBonuses) {
+      const legacyDamage = Number(data.calculatedBonuses.miningDamageMultiplier);
+      const legacyLuck = Number(data.calculatedBonuses.resourceLuck);
+      const damageExcess = Number.isFinite(legacyDamage)
+        ? Math.max(0, legacyDamage - this.calculatedBonuses.miningDamageMultiplier)
+        : 0;
+      const luckExcess = Number.isFinite(legacyLuck)
+        ? Math.max(0, legacyLuck - this.calculatedBonuses.resourceLuck)
+        : 0;
+      this.choiceSelections.miningPower = Math.round(
+        damageExcess / Math.max(0.0001, LEVEL_CONFIG.CHOICE_REWARDS.miningPower.damageBonus)
+      );
+      this.choiceSelections.resourceLuck = Math.round(
+        luckExcess / Math.max(0.0001, LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.luckBonus)
+      );
+      this._recalculateBonuses();
+    }
   }
 }

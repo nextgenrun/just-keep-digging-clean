@@ -2,6 +2,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { DEPTH_MILESTONES, getMilestoneAtDepth, computeMilestoneBonuses } from "../../values/depthMilestones.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { openMilestonePillarModal } from "./MilestonePillarModal.js";
 
 /**
  * MilestoneBoardSystem
@@ -11,12 +12,13 @@ import { USER_SETTINGS } from "../UserSettings.js";
  * Milestones persist per save slot via localStorage.
  */
 export class MilestoneBoardSystem {
-  constructor(scene, config, worldModel, ui, saveSlot = 1) {
+  constructor(scene, config, worldModel, ui, saveSlot = 1, retentionProgressSystem = null) {
     this.scene = scene;
     this.config = config;
     this.worldModel = worldModel;
     this.ui = ui;
     this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
+    this.retentionProgressSystem = retentionProgressSystem;
 
     // Persisted milestone state
     this._reachedDepths = []; // array of depths reached (e.g. [100, 200, 300])
@@ -197,6 +199,14 @@ export class MilestoneBoardSystem {
     return [...this._reachedDepths];
   }
 
+  getNextMilestone() {
+    const bestDepth = Math.max(
+      this.retentionProgressSystem?.getBestDepth?.() || 0,
+      this._reachedDepths.length ? Math.max(...this._reachedDepths) : 0
+    );
+    return DEPTH_MILESTONES.find(milestone => milestone.depth > bestDepth) || null;
+  }
+
   /**
    * Open full milestone board view (scrollable list)
    */
@@ -204,75 +214,8 @@ export class MilestoneBoardSystem {
     if (this._isBoardOpen) return;
     this._isBoardOpen = true;
     this.scene.setShopOpen?.(true);
-
-    const shell = this.ui.createModalShell(this.scene, {
-      title: "DEPTH MILESTONES",
-      subtitle: this._reachedDepths.length + " / " + DEPTH_MILESTONES.length + " discovered  |  Permanent bonuses",
-      icon: "journal",
-      maxWidth: 900,
-      maxHeight: 650,
-      depth: 3150,
-      onClose: () => this._closeBoardView(),
-    });
-    const content = shell.content;
-    const rect = shell.getContentRect();
-    const columns = rect.width >= 720 ? 2 : 1;
-    const gap = 14;
-    const columnWidth = (rect.width - gap * (columns - 1)) / columns;
-    const rows = Math.ceil(DEPTH_MILESTONES.length / columns);
-    const rowHeight = Math.max(52, Math.min(76, (rect.height - 16) / rows));
-
-    DEPTH_MILESTONES.forEach((milestone, index) => {
-      const col = index % columns;
-      const row = Math.floor(index / columns);
-      const x = rect.left + col * (columnWidth + gap);
-      const y = rect.top + row * rowHeight;
-      const reached = this._reachedDepths.includes(milestone.depth);
-      const card = this.scene.add.rectangle(
-        x + columnWidth / 2,
-        y + rowHeight / 2 - 3,
-        columnWidth,
-        rowHeight - 8,
-        reached ? UI_COLORS.cardSel : UI_COLORS.cardBase,
-        reached ? 1 : 0.84
-      ).setStrokeStyle(reached ? 2 : 1, reached ? UI_COLORS.borderSel : UI_COLORS.borderDim);
-      content.add(card);
-      this.ui.createIconBadge(this.scene, reached ? "journal" : "lock", {
-        x: x + 36,
-        y: y + rowHeight / 2 - 3,
-        size: Math.min(46, rowHeight - 18),
-        iconSize: Math.min(38, rowHeight - 24),
-        selected: reached,
-        parent: content,
-      });
-      const title = this.scene.add.text(x + 66, y + rowHeight / 2 - 15,
-        (milestone.depth || 0) + "M  " + (milestone.name || milestone.title || "Depth Milestone"), {
-          fontFamily: UI_FONTS.display,
-          fontSize: "14px",
-          fontStyle: "bold",
-          color: reached ? UI_COLORS.title : UI_COLORS.dim,
-        }
-      ).setOrigin(0, 0.5);
-      const status = this.scene.add.text(x + columnWidth - 16, y + rowHeight / 2 - 15,
-        reached ? "DISCOVERED" : "LOCKED", {
-          fontFamily: UI_FONTS.mono,
-          fontSize: "10px",
-          color: reached ? UI_COLORS.success : UI_COLORS.dim,
-        }
-      ).setOrigin(1, 0.5);
-      const description = this.scene.add.text(x + 66, y + rowHeight / 2 + 10,
-        milestone.description || milestone.rewardDescription || "Permanent depth reward", {
-          fontFamily: UI_FONTS.mono,
-          fontSize: "10px",
-          color: reached ? UI_COLORS.body : UI_COLORS.dim,
-          wordWrap: { width: columnWidth - 150, useAdvancedWrap: true },
-        }
-      ).setOrigin(0, 0.5);
-      content.add([title, status, description]);
-    });
-
+    const shell = openMilestonePillarModal(this);
     this._boardObjects = [shell];
-    shell.show();
   }
 
   _closeBoardView() {

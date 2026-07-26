@@ -1,3 +1,5 @@
+import { NEXT_RESOURCE_KEYS, START_RESOURCE_KEYS } from "./resourceTypes.js";
+
 // ==================== RESOURCE PRICES CONFIG ====================
 export const RESOURCE_PRICES_CONFIG = Object.freeze({
   // Base prices for selling resources
@@ -36,3 +38,26 @@ export const RESOURCE_PRICES_CONFIG = Object.freeze({
     magmaCrystal: "Magma Crystal",
   },
 });
+
+export function getAdjustedResourceUnitPrice(resource, effects = {}, basePriceOverride = null) {
+  let price = Number.isFinite(basePriceOverride)
+    ? Math.max(0, basePriceOverride)
+    : RESOURCE_PRICES_CONFIG.basePrices[resource] || 0;
+  if (START_RESOURCE_KEYS.includes(resource) && effects.startResourceBonus > 0) {
+    price = Math.floor(price * (1 + effects.startResourceBonus));
+  }
+  if (NEXT_RESOURCE_KEYS.includes(resource) && effects.nextResourceBonus > 0) {
+    price = Math.floor(price * (1 + effects.nextResourceBonus));
+  }
+  if (effects.marketBonus > 0) price = Math.floor(price * (1 + effects.marketBonus));
+  return price;
+}
+
+export function getCargoSellValue(resources, effects = {}, resourceKeys = null) {
+  const allowed = Array.isArray(resourceKeys) ? new Set(resourceKeys) : null;
+  return Object.entries(resources || {}).reduce((total, [resource, amount]) => {
+    if (allowed && !allowed.has(resource)) return total;
+    const count = Number.isFinite(Number(amount)) ? Math.max(0, Math.floor(Number(amount))) : 0;
+    return total + count * getAdjustedResourceUnitPrice(resource, effects);
+  }, 0);
+}

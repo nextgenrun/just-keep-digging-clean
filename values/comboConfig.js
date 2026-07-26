@@ -14,14 +14,14 @@ export const COMBO_CONFIG = Object.freeze({
 
   // Milestone flash messages (PlaySceneSetup milestone callback)
   milestoneRewards: Object.freeze({
-    10: Object.freeze({ message: "Combo" }),
-    25: Object.freeze({ message: "Nice Combo" }),
-    50: Object.freeze({ message: "Great Combo" }),
-    100: Object.freeze({ message: "AMAZING Combo" }),
-    200: Object.freeze({ message: "INCREDIBLE Combo" }),
-    500: Object.freeze({ message: "LEGENDARY Combo" }),
-    1000: Object.freeze({ message: "GODLIKE Combo" }),
-    5000: Object.freeze({ message: "ETERNAL Combo" }),
+    10: Object.freeze({ message: "Combo", gpRestore: 2 }),
+    25: Object.freeze({ message: "Nice Combo", gpRestore: 3 }),
+    50: Object.freeze({ message: "Great Combo", gpRestore: 4 }),
+    100: Object.freeze({ message: "AMAZING Combo", gpRestore: 5 }),
+    200: Object.freeze({ message: "INCREDIBLE Combo", gpRestore: 6 }),
+    500: Object.freeze({ message: "LEGENDARY Combo", gpRestore: 8 }),
+    1000: Object.freeze({ message: "GODLIKE Combo", gpRestore: 10 }),
+    5000: Object.freeze({ message: "ETERNAL Combo", gpRestore: 15 }),
   }),
 
   // ── COMBO MOMENTUM ──────────────────────────────────────────────────────
@@ -34,3 +34,11 @@ export const COMBO_CONFIG = Object.freeze({
     maxCooldownReduction: 0.08, // 8% faster digging at full momentum (mild)
   }),
 });
+
+export function getNextComboGpCheckpoint(comboCount = 0) {
+  const current = Number.isFinite(comboCount) ? comboCount : 0;
+  return Object.entries(COMBO_CONFIG.milestoneRewards)
+    .map(([milestone, reward]) => ({ milestone: Number(milestone), gpRestore: reward.gpRestore || 0 }))
+    .filter(entry => entry.milestone > current && entry.gpRestore > 0)
+    .sort((a, b) => a.milestone - b.milestone)[0] || null;
+}

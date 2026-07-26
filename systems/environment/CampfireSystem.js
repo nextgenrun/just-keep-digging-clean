@@ -72,6 +72,7 @@ export class CampfireSystem {
 
     // Buff state
     this._activeBuff = null;
+    this._expiryWarningShown = false;
 
     // Buff selection UI state
     this._isSelecting = false;
@@ -736,6 +737,7 @@ export class CampfireSystem {
       durationMs: tier.durationMs,
       remainingMs: tier.durationMs,
     };
+    this._expiryWarningShown = false;
 
     // Show persistent HUD timer
     if (this.scene.hudSystem) {
@@ -747,22 +749,63 @@ export class CampfireSystem {
   _updateBuffTimer(delta) {
     if (!this._activeBuff || this._activeBuff.remainingMs <= 0) {
       if (this._activeBuff && this._activeBuff.remainingMs <= 0) {
-        this._activeBuff = null;
-        if (this.scene.hudSystem) {
-          this.scene.hudSystem.flashStatus('🔥 Campfire buff expired', COL.cssAccent, 1500);
-        }
+        this._expireActiveBuff();
       }
       return;
     }
 
     const frameDelta = delta || this.scene?.game?.loop?.delta || 16;
     this._activeBuff.remainingMs -= frameDelta;
-    if (this._activeBuff.remainingMs <= 0) {
-      this._activeBuff = null;
-      if (this.scene.hudSystem) {
-        this.scene.hudSystem.flashStatus('🔥 Campfire buff expired', COL.cssAccent, 1500);
-      }
+    const feedback = CAMPFIRE_CONFIG.expirationFeedback;
+    if (
+      feedback
+      && !this._expiryWarningShown
+      && this._activeBuff.remainingMs > 0
+      && this._activeBuff.remainingMs <= feedback.warningMs
+    ) {
+      this._expiryWarningShown = true;
+      this.scene.hudSystem?.flashStatus?.(
+        `🔥 ${feedback.warningText}`,
+        this._activeBuff.color || COL.cssAccent,
+        feedback.warningDurationMs
+      );
+      this.scene.soundSystem?.playUiSelect?.();
+      this._pulseCampfire(0.7, 220);
     }
+    if (this._activeBuff.remainingMs <= 0) {
+      this._expireActiveBuff();
+    }
+  }
+
+  _expireActiveBuff() {
+    if (!this._activeBuff) return;
+    const feedback = CAMPFIRE_CONFIG.expirationFeedback;
+    this._activeBuff = null;
+    this._expiryWarningShown = false;
+    this.scene.hudSystem?.flashStatus?.(
+      `🔥 ${feedback?.expiredText || "Campfire blessing faded"}`,
+      COL.cssAccent,
+      feedback?.expiredDurationMs || 1800
+    );
+    this.scene.soundSystem?.playFirstAvailableSfx?.(
+      ["sfx-ui-select", "tileHit-0", "footsteps-0"],
+      0.25
+    );
+    this._pulseCampfire(0.4, 320);
+  }
+
+  _pulseCampfire(minAlpha, duration) {
+    if (!this._campfireSprite || !this.scene.tweens) return;
+    this.scene.tweens.killTweensOf(this._campfireSprite);
+    this._campfireSprite.setAlpha(1);
+    this.scene.tweens.add({
+      targets: this._campfireSprite,
+      alpha: minAlpha,
+      duration,
+      yoyo: true,
+      ease: "Sine.InOut",
+      onComplete: () => this._campfireSprite?.setAlpha?.(1),
+    });
   }
 
   _closeBuffSelection() {

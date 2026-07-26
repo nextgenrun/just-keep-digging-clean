@@ -19,4 +19,33 @@ export const TELEPORT_PORTAL_CONFIG = Object.freeze({
   glowTextureKey: "sky-portal-aperture-glow",
   glowTextureSize: 128,
   safeReturnRadius: 2,
+  activation: Object.freeze({
+    pulseRadiusPx: 132,
+    durationMs: 760,
+    color: 0x7bdcff,
+    statusDurationMs: 3000,
+  }),
+  depthBands: Object.freeze({
+    1: Object.freeze([
+      Object.freeze({ maxDepth: 249, region: "Upper Earth", material: "Dirt / Stone" }),
+      Object.freeze({ maxDepth: 699, region: "Iron Strata", material: "Copper / Iron" }),
+      Object.freeze({ maxDepth: 1299, region: "Gilded Fault", material: "Silver / Gold" }),
+      Object.freeze({ maxDepth: Infinity, region: "Ancient Deep", material: "Relic Caches" }),
+    ]),
+    2: Object.freeze([
+      Object.freeze({ maxDepth: 899, region: "Ember Shelf", material: "Lava Dirt" }),
+      Object.freeze({ maxDepth: 1899, region: "Obsidian Reach", material: "Obsidian" }),
+      Object.freeze({ maxDepth: 3299, region: "Magma Veins", material: "Ember Ore" }),
+      Object.freeze({ maxDepth: Infinity, region: "Core Expanse", material: "Magma Crystal" }),
+    ]),
+  }),
 });
+
+export function getTeleportPortalLabel(levelId, depth) {
+  const safeLevelId = Number(levelId) === 2 ? 2 : 1;
+  const safeDepth = Math.max(0, Math.floor(Number(depth) || 0));
+  const band = TELEPORT_PORTAL_CONFIG.depthBands[safeLevelId]
+    .find(entry => safeDepth <= entry.maxDepth)
+    || TELEPORT_PORTAL_CONFIG.depthBands[safeLevelId][0];
+  return `L${safeLevelId} ${band.region}  •  ${safeDepth}m  •  ${band.material}`;
+}

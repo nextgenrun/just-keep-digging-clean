@@ -2,7 +2,13 @@ import { TILE_TYPES } from "../../values/tileTypes.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
-import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
+import {
+  TELEPORT_PORTAL_CONFIG,
+  getTeleportPortalLabel,
+} from "../../values/teleportPortalConfig.js";
+import { TREASURE_CHEST_CONFIG } from "../../values/treasureChestConfig.js";
+import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
+import { hash01 } from "../../values/deterministicMath.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { createZeroResourceTotals } from "../../values/resourceTypes.js";
@@ -15,6 +21,7 @@ export class SpecialTileSystem {
     this.floatingTextSystem = floatingTextSystem;
 
     this.usedGambleTiles = new Set();
+    this.openedChestKeys = new Set();
     this.pairedTeleporters = new Map();
     this.skyToDungeonMap = new Map();
     this.portalOrder = [];
@@ -56,8 +63,11 @@ export class SpecialTileSystem {
       if (dungeonKeyFromSky) {
         const pair = this.pairedTeleporters.get(dungeonKeyFromSky);
         if (pair) {
-          const depthTiles = pair.dungeonTy - this.worldModel.config.topAirRows;
-          this._showPrompt(tile.tx, tile.ty, `Press ${USER_SETTINGS.getKeyLabel("interact")} to Teleport to Depth ${depthTiles}m`);
+          this._showPrompt(
+            tile.tx,
+            tile.ty,
+            `Press ${USER_SETTINGS.getKeyLabel("interact")} to Return via ${this._getPairLabel(pair)}`
+          );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleportSkyReturn", key: tileKey, dungeonKey: dungeonKeyFromSky };
           foundSpecialTile = true;
           break;
@@ -82,18 +92,37 @@ export class SpecialTileSystem {
       }
 
       const tileType = this.worldModel.getTileType(tile.tx, tile.ty);
+      if (tileType === TILE_TYPES.CHEST) {
+        this._showPrompt(
+          tile.tx,
+          tile.ty,
+          `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${TREASURE_CHEST_CONFIG.interaction.prompt}`
+        );
+        this.promptTile = { tx: tile.tx, ty: tile.ty, type: "chest", key: tileKey };
+        foundSpecialTile = true;
+        break;
+      }
+
       if (tileType === TILE_TYPES.TELEPORT_TILE) {
         const pair = this.pairedTeleporters.get(tileKey);
+        const fallbackLevel = tile.tx <= V11_SKY_ISLAND_LAYOUT.dividerTileX ? 1 : 2;
+        const depthTiles = Math.max(0, tile.ty - this.worldModel.config.topAirRows);
+        const label = pair
+          ? this._getPairLabel(pair)
+          : getTeleportPortalLabel(fallbackLevel, depthTiles);
         if (pair) {
-          const depthTiles = pair.dungeonTy - this.worldModel.config.topAirRows;
           this._showPrompt(
             tile.tx,
             tile.ty,
-            `Press ${USER_SETTINGS.getKeyLabel("interact")} to Teleport to Sky Island (depth ${depthTiles}m)`
+            `Press ${USER_SETTINGS.getKeyLabel("interact")} to Use ${label}`
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleportPaired", key: tileKey };
         } else {
-          this._showPrompt(tile.tx, tile.ty, `Press ${USER_SETTINGS.getKeyLabel("interact")} to Teleport to Sky Island`);
+          this._showPrompt(
+            tile.tx,
+            tile.ty,
+            `Press ${USER_SETTINGS.getKeyLabel("interact")} to Activate ${label}`
+          );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleport", key: tileKey };
         }
         foundSpecialTile = true;
@@ -138,9 +167,93 @@ export class SpecialTileSystem {
     if (this.promptTile.type === "teleport" || this.promptTile.type === "teleportPaired") return this._activateTeleport();
     if (this.promptTile.type === "teleportSkyReturn") return this._activateSkyTeleportReturn();
     if (this.promptTile.type === "teleportGroundToSky") return this._activateGroundTeleport();
+    if (this.promptTile.type === "chest") return this._activateChest();
     if (this.promptTile.type === "gamble") return this._activateGamble();
     if (this.promptTile.type === "gambleUsed") return { success: false, reason: "already-used" };
     return { success: false, reason: "unknown-type" };
+  }
+
+  _getPairLabel(pairData) {
+    const depth = Math.max(0, pairData.dungeonTy - this.worldModel.config.topAirRows);
+    return getTeleportPortalLabel(pairData.levelId, depth);
+  }
+
+  _activateChest() {
+    const tile = this.promptTile;
+    const key = tile?.key || `${tile?.tx},${tile?.ty}`;
+    if (!tile || this.openedChestKeys.has(key)) {
+      return { success: false, reason: "chest-already-opened" };
+    }
+    if (this.worldModel.getTileType(tile.tx, tile.ty) !== TILE_TYPES.CHEST) {
+      return { success: false, reason: "chest-missing" };
+    }
+
+    const depth = Math.max(0, tile.ty - this.worldModel.config.topAirRows);
+    const moneyRoll = hash01(
+      tile.tx,
+      tile.ty,
+      this.worldModel.config.seed,
+      TREASURE_CHEST_CONFIG.deterministicSalt.money
+    );
+    const variance = 1 + (moneyRoll * 2 - 1) * TREASURE_CHEST_CONFIG.money.variance;
+    const depthBonus = Math.min(
+      TREASURE_CHEST_CONFIG.money.maxDepthBonus,
+      depth * TREASURE_CHEST_CONFIG.money.perDepthMeter
+    );
+    const money = Math.max(
+      1,
+      Math.floor((TREASURE_CHEST_CONFIG.money.base + depthBonus) * variance)
+    );
+    const starRoll = hash01(
+      tile.tx,
+      tile.ty,
+      this.worldModel.config.seed,
+      TREASURE_CHEST_CONFIG.deterministicSalt.star
+    );
+    const hasStar = starRoll < TREASURE_CHEST_CONFIG.star.chance;
+
+    this.openedChestKeys.add(key);
+    this.worldModel.applyDugTileKeys([key]);
+    this.scene.worldRenderer?.applyTileUpdate?.(tile.tx, tile.ty);
+    this.scene.upgradeSystem?.addMoney?.(money);
+    const now = this.scene.time?.now || 0;
+    this.scene.retentionProgressSystem?.activateChestCritBuff?.(now);
+
+    const worldPos = this.worldModel.tileToWorld(tile.tx, tile.ty);
+    let starType = null;
+    if (hasStar) {
+      const starTypes = Object.keys(STAR_CONSTELLATION_CONFIG.thresholds);
+      starType = starTypes[Math.floor(starRoll * 100000) % starTypes.length] || "dirt";
+      this.floatingTextSystem?.grantCollectedStar?.(
+        TREASURE_CHEST_CONFIG.star.rarity,
+        worldPos.x,
+        worldPos.y,
+        starType
+      );
+    }
+    this.scene.retentionProgressSystem?.recordChest?.({ money, star: hasStar });
+    this.floatingTextSystem?.showFloatingText?.(
+      worldPos.x,
+      worldPos.y - 18,
+      `+${money} M${hasStar ? "  +1 STAR" : ""}`,
+      TREASURE_CHEST_CONFIG.feedback.moneyColor,
+      TREASURE_CHEST_CONFIG.feedback.floatingDurationMs,
+      TREASURE_CHEST_CONFIG.feedback.floatingFontSizePx
+    );
+    this.scene.uiNotifications?.success?.(
+      `${TREASURE_CHEST_CONFIG.critBuff.name}  •  20s ultra critical damage`
+        + `  •  +${money} M${hasStar ? `  •  ${starType} star` : ""}`,
+      {
+        key: "treasure-fury",
+        durationMs: TREASURE_CHEST_CONFIG.feedback.statusDurationMs,
+      }
+    );
+    this.scene.screenFlashSystem?.flashLucky?.();
+    this.scene.soundSystem?.playSfx?.("reward");
+    this.scene.queueDugTilesSave?.();
+    this.promptText.setVisible(false);
+    this.promptTile = null;
+    return { success: true, type: "chest", money, star: hasStar, starType };
   }
 
   _buildSkyPortalSlots() {
@@ -522,12 +635,12 @@ export class SpecialTileSystem {
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this.scene.earthquakeHazardOverlay?.clear?.();
     this._playSound("teleport");
+    if (firstActivation) this._celebratePortalActivation(pairData, target);
 
     if (this.floatingTextSystem) {
       const worldPos = this.worldModel.tileToWorld(target.tx, target.ty);
-      const depthTiles = pairData.dungeonTy - this.worldModel.config.topAirRows;
       const text = firstActivation
-        ? `Teleported to Sky Island! (from depth ${depthTiles}m)`
+        ? `RETURN ROUTE UNLOCKED  •  ${this._getPairLabel(pairData)}`
         : "Teleported to Sky Island!";
       this.floatingTextSystem.showFloatingText(worldPos.x, worldPos.y, text, "#00ffff");
     }
@@ -568,23 +681,102 @@ export class SpecialTileSystem {
     const pair = dungeonKey ? this.pairedTeleporters.get(dungeonKey) : null;
     if (!pair) return { success: false, reason: "no-paired-teleporter" };
 
+    return this._teleportToDungeonPair(pair);
+  }
+
+  _teleportToDungeonPair(pair) {
     const fallbackTy = pair.dungeonTy - 1;
     const safeTile = this._findSafeReturnTile(pair.dungeonTx, fallbackTy);
     const target = safeTile || { tx: pair.dungeonTx, ty: fallbackTy };
     if (!safeTile) {
-      console.warn("[SpecialTileSystem] No safe return tile found near portal, using fallback destination.", dungeonKey);
+      console.warn(
+        "[SpecialTileSystem] No safe return tile found near portal, using fallback destination.",
+        `${pair.dungeonTx},${pair.dungeonTy}`
+      );
     }
 
     this.playerController.teleportToTile(target.tx, target.ty);
+    this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this._playSound("teleport");
 
     if (this.floatingTextSystem) {
       const worldPos = this.worldModel.tileToWorld(target.tx, target.ty);
-      const depthTiles = pair.dungeonTy - this.worldModel.config.topAirRows;
-      this.floatingTextSystem.showFloatingText(worldPos.x, worldPos.y, `Returned to Depth ${depthTiles}m!`, "#00ffff");
+      this.floatingTextSystem.showFloatingText(
+        worldPos.x,
+        worldPos.y,
+        `Returned via ${this._getPairLabel(pair)}`,
+        "#00ffff"
+      );
     }
 
-    return { success: true, type: "teleport", target: "dungeon" };
+    return { success: true, type: "teleport", target: "dungeon", pairData: pair };
+  }
+
+  _celebratePortalActivation(pairData, targetTile) {
+    const label = this._getPairLabel(pairData);
+    const cfg = TELEPORT_PORTAL_CONFIG.activation;
+    const worldPos = this.worldModel.tileToWorld(targetTile.tx, targetTile.ty);
+    const ring = this.scene.add.circle(worldPos.x, worldPos.y, 18, cfg.color, 0.12)
+      .setStrokeStyle(4, cfg.color, 0.95)
+      .setDepth(TELEPORT_PORTAL_CONFIG.glowDepth + 1);
+    this.scene.tweens.add({
+      targets: ring,
+      radius: cfg.pulseRadiusPx,
+      alpha: 0,
+      duration: cfg.durationMs,
+      ease: "Power2.out",
+      onComplete: () => ring.destroy(),
+    });
+    this.scene.retentionProgressSystem?.recordPortalActivated?.(label);
+    this.scene.uiNotifications?.success?.(
+      `NEW RETURN ROUTE UNLOCKED  •  ${label}`,
+      { key: "portal-activation", durationMs: cfg.statusDurationMs }
+    );
+    this.scene.screenFlashSystem?.flashLucky?.();
+    this.scene.shakeSystem?.shake?.("misc.depthMilestone", 0.55);
+    this.scene.soundSystem?.playSfx?.("reward");
+    this.scene.queueDugTilesSave?.();
+  }
+
+  getActivatedPortals() {
+    return this.portalOrder
+      .map(key => {
+        const pairData = this.pairedTeleporters.get(key);
+        if (!pairData) return null;
+        return {
+          key,
+          pairData,
+          levelId: pairData.levelId,
+          depth: Math.max(0, pairData.dungeonTy - this.worldModel.config.topAirRows),
+          label: this._getPairLabel(pairData),
+          tx: pairData.dungeonTx,
+          ty: pairData.dungeonTy,
+        };
+      })
+      .filter(Boolean);
+  }
+
+  getDeepestPortal() {
+    return this.getActivatedPortals()
+      .sort((a, b) => (b.depth - a.depth) || (b.levelId - a.levelId))[0]
+      || null;
+  }
+
+  getNearestPortal(playerTile = this.playerController?.getPlayerTile?.()) {
+    if (!playerTile) return null;
+    return this.getActivatedPortals()
+      .map(portal => ({
+        ...portal,
+        distance: Math.abs(portal.tx - playerTile.tx) + Math.abs(portal.ty - playerTile.ty),
+      }))
+      .sort((a, b) => a.distance - b.distance)[0]
+      || null;
+  }
+
+  quickResumeDeepestPortal() {
+    const deepest = this.getDeepestPortal();
+    if (!deepest) return { success: false, reason: "no-activated-portal" };
+    return this._teleportToDungeonPair(deepest.pairData);
   }
 
   _activateGamble() {
@@ -646,6 +838,7 @@ export class SpecialTileSystem {
   getSaveData() {
     return {
       usedGambleTiles: Array.from(this.usedGambleTiles),
+      openedChestKeys: Array.from(this.openedChestKeys),
       pairedTeleporters: this.portalOrder
         .filter((key) => this.pairedTeleporters.has(key))
         .map((key) => {
@@ -670,6 +863,13 @@ export class SpecialTileSystem {
     if (!data) return;
 
     this.usedGambleTiles = new Set(Array.isArray(data.usedGambleTiles) ? data.usedGambleTiles : []);
+    this.openedChestKeys = new Set(
+      (Array.isArray(data.openedChestKeys) ? data.openedChestKeys : [])
+        .filter(key => typeof key === "string")
+        .slice(0, 10000)
+    );
+    const reopened = this.worldModel.applyDugTileKeys(Array.from(this.openedChestKeys));
+    reopened.forEach(tile => this.scene.worldRenderer?.applyTileUpdate?.(tile.tx, tile.ty));
     this._clearSkyPortals();
     if (!Array.isArray(data.pairedTeleporters)) return;
 

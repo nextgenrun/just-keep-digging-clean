@@ -58,6 +58,8 @@ export class EarthquakeSystem {
     this._restoreQueue = [];
     this._rubbleTimer = 0;
     this._trapGuidanceShown = false;
+    this._openedPassageKeys = new Set();
+    this._openedPassageTiles = [];
 
     // ===== NEW: Warning text state =====
     this._warningText = null; // floating "⚠ EARTHQUAKE!" text
@@ -139,6 +141,8 @@ export class EarthquakeSystem {
   start(forcedIntensity = null) {
     if (this.state !== "idle") this.cancelActiveHazards();
     this._trapGuidanceShown = false;
+    this._openedPassageKeys.clear();
+    this._openedPassageTiles = [];
     this.scene.earthquakeHazardOverlay?.clear?.();
     this.epicenter = this._selectWorldEpicenter();
     const depth = this.epicenter?.depth ?? this.config.minimumDepth;
@@ -291,6 +295,9 @@ export class EarthquakeSystem {
       this._log("chain reaction scheduled", { delayMs: Math.round(this.chainTimer) });
     }
     this._playTone("settle");
+    this._openedPassageTiles.forEach(tile => {
+      this.scene.earthquakeHazardOverlay?.markOpenedPassage?.(tile.tx, tile.ty);
+    });
 
     // ===== NEW: Hide warning text after quake =====
     if (this._warningText) {
@@ -312,6 +319,13 @@ export class EarthquakeSystem {
   }
 
   _finishEvent() {
+    const completedIntensity = this.intensity || "unknown";
+    const distanceEndured = Math.max(0, Math.round(this._getPlayerDistanceToEpicenter() || 0));
+    this.scene.retentionProgressSystem?.recordEarthquake?.({
+      passagesOpened: this._openedPassageKeys.size,
+      intensity: completedIntensity,
+      distanceEndured,
+    });
     this.state = "idle";
     this.intensity = null;
     this.stateRemaining = 0;
@@ -606,6 +620,7 @@ export class EarthquakeSystem {
       const result = this.scene.worldModel.damageTile(tile.tx, tile.ty, Math.max(1, damage));
       this.scene.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
       if (result.destroyed) {
+        this._recordOpenedPassage(tile.tx, tile.ty);
         this._emitDust(tile.tx, tile.ty, 7);
         if (this._isTileNearPlayer(tile.tx, tile.ty, this.config.playerFeedback?.rewardRadiusTiles)) {
           const reward = this.scene.digSystem?.processDestroyedTile(tile.tx, tile.ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
@@ -739,6 +754,7 @@ export class EarthquakeSystem {
       const hp = this.scene.worldModel.getTileHp(tx, ty);
       const result = this.scene.worldModel.damageTile(tx, ty, Math.max(1, hp));
       if (!result.destroyed) continue;
+      this._recordOpenedPassage(tx, ty);
 
       if (this._isTileNearPlayer(tx, ty, this.config.playerFeedback?.rewardRadiusTiles)) {
         const reward = this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
@@ -780,6 +796,14 @@ export class EarthquakeSystem {
 
     this.scene.queueDugTilesSave?.();
     this._log("cave-in collapsed", caveIn);
+  }
+
+  _recordOpenedPassage(tx, ty) {
+    const key = tileKey(tx, ty);
+    if (this._openedPassageKeys.has(key)) return;
+    this._openedPassageKeys.add(key);
+    this._openedPassageTiles.push({ tx, ty });
+    this.scene.earthquakeHazardOverlay?.markOpenedPassage?.(tx, ty);
   }
 
   _spawnFallingRock(tx, ty, type) {
