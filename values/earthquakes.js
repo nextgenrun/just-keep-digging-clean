@@ -41,6 +41,9 @@ export const EARTHQUAKE_CONFIG = Object.freeze({
     awarenessRadiusTiles: 42,
     shakeRadiusTiles: 24,
     flashRadiusTiles: 18,
+    flashColor: 0xd98c45,
+    flashAlpha: 0.025,
+    flashDurationMs: 180,
     audioRadiusTiles: 32,
     collapseShakeRadiusTiles: 18,
     trapGuidanceRadiusTiles: 5,
@@ -54,13 +57,6 @@ export const EARTHQUAKE_CONFIG = Object.freeze({
   rubbleRestoresPerFrame: 24,
   rubbleHpRatio: 0.25,
   rubbleRespawnRadiusTiles: 12,
-  trapGuidance: Object.freeze({
-    key: "earthquake-trap-guidance",
-    message: "YOU'RE STUCK!\nKeep digging down to find a teleport back up.",
-    durationMs: 8000,
-    color: "#ffcc66",
-    fontSizePx: 18,
-  }),
   rubbleRespawnCounts: Object.freeze({
     minor: 8,
     medium: 18,

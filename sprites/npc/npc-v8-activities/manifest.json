@@ -1,0 +1,442 @@
+{
+  "created": "2026-07-26",
+  "runtimeApproved": true,
+  "reviewOnly": false,
+  "productionChanged": true,
+  "generator": "ai-tools/2026-07-26-promote-npc-activity-assets.py",
+  "approvedReviewManifest": "visual-approval-previews/npc-idle-activities-v3/manifest.json",
+  "canvas": [
+    512,
+    512
+  ],
+  "activities": [
+    "quiet",
+    "work",
+    "rare",
+    "player"
+  ],
+  "assets": {
+    "player-upgrades": {
+      "quiet": {
+        "path": "sprites/npc/npc-v8-activities/singles/player-upgrades-quiet.webp",
+        "sha256": "7e4444a9dad758a0d0f3e941fda867bff03bce7a3b04c95e059b7c43defb6718",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          108,
+          38,
+          385,
+          512
+        ],
+        "alphaCoverage": 0.30261,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-quiet.webp",
+        "sourceReviewSha256": "881a366e48b5997b965e6ad8fe56ec42fbae213517c25fa25407d0a07b1ed94c"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v8-activities/singles/player-upgrades-work.webp",
+        "sha256": "df98b39e4a44848a383d5883fdcb87cc2cbd76dca8487e3a2e46f55a3b57c3bc",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          88,
+          39,
+          371,
+          512
+        ],
+        "alphaCoverage": 0.312,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-work.webp",
+        "sourceReviewSha256": "1e41f3edd9bf78207d4c1e68d89084ee2c880d34535185b7bbf91562ae0cf2ed"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v8-activities/singles/player-upgrades-rare.webp",
+        "sha256": "f03e822a2b81cd7fc489e1915354593683f4406bbbe5d7e853602ae8dd925d18",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          82,
+          35,
+          398,
+          512
+        ],
+        "alphaCoverage": 0.37922,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-rare.webp",
+        "sourceReviewSha256": "13251c7564d56cbf9c56821d567450bae095f43b46f87560640989d23005fdf9"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v8-activities/singles/player-upgrades-player.webp",
+        "sha256": "63883d51043bc5eb7a54a0f414629c7482ee59d2f286c915a114184dfa177529",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          39,
+          41,
+          418,
+          512
+        ],
+        "alphaCoverage": 0.32775,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-player.webp",
+        "sourceReviewSha256": "1682017187b1be3f8e107d002e4661e12ca18829b45775c73960d6cc27bc30ff"
+      }
+    },
+    "gear-merchant": {
+      "quiet": {
+        "path": "sprites/npc/npc-v8-activities/singles/gear-merchant-quiet.webp",
+        "sha256": "ff190d6608e00ff53e3e3fb1da40a8fbdaf96ed9e31e42e52f7d98a727d0e7c4",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          109,
+          21,
+          414,
+          472
+        ],
+        "alphaCoverage": 0.33587,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-quiet.webp",
+        "sourceReviewSha256": "5186618573ffc53bd68f0b5f84078fa2a82270cde639ab40d7904b5e4bfd0c9c"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v8-activities/singles/gear-merchant-work.webp",
+        "sha256": "400d563c4e02e7a2ae30f5d89559fe9e6fd603aee828c5d60c5515b06d69d5eb",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          87,
+          19,
+          394,
+          477
+        ],
+        "alphaCoverage": 0.35938,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-work.webp",
+        "sourceReviewSha256": "3afabd1c4bfaaac5003e0f6d5c6bac2d4fec56554a724fc317c16297e78aaf27"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v8-activities/singles/gear-merchant-rare.webp",
+        "sha256": "69f2e25763ca7b71fb6ba84ce13e5cf36071057c3a2a39ea69d45930dab1b793",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          60,
+          25,
+          415,
+          474
+        ],
+        "alphaCoverage": 0.35809,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-rare.webp",
+        "sourceReviewSha256": "4a13b67852c2021f52cbca7ffceeabc3411c4a604994b28cf9167e83e6635b97"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v8-activities/singles/gear-merchant-player.webp",
+        "sha256": "981b87427385275b74e7b40184121b3d01ced0b2f644a834f47a2b5a7bb0a5ee",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          28,
+          21,
+          456,
+          483
+        ],
+        "alphaCoverage": 0.35475,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-player.webp",
+        "sourceReviewSha256": "71fad46d7c0c443dd0a8447bc64bdb49e9efb0224a3f52d0015a78bd8154587f"
+      }
+    },
+    "bobo-merchant": {
+      "quiet": {
+        "path": "sprites/npc/npc-v8-activities/singles/bobo-merchant-quiet.webp",
+        "sha256": "ca6cda213b667f9398fb10f8a0267d1a171c24a7fdbe35cd2b0668a3e2344bcb",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          96,
+          17,
+          411,
+          452
+        ],
+        "alphaCoverage": 0.36362,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-quiet.webp",
+        "sourceReviewSha256": "0036014dcc2269fdc5d2c94a8191d3a7e63b36aae3daf8ddba0e854bf480e1db"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v8-activities/singles/bobo-merchant-work.webp",
+        "sha256": "6bc0ef2748abbcb77209360a5f2dd004ab522d3c3f125216ca4a563b45ffad1a",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          67,
+          19,
+          437,
+          458
+        ],
+        "alphaCoverage": 0.42062,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-work.webp",
+        "sourceReviewSha256": "226949a0c61e03b8cd3ace6e795ffb19b824900edb0726c5459a915d2bdef770"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v8-activities/singles/bobo-merchant-rare.webp",
+        "sha256": "b26b24cc2321f31e0fbeab8b3429d59fea296838aede10ffe08e3affbb277e09",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          47,
+          29,
+          463,
+          431
+        ],
+        "alphaCoverage": 0.37505,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-rare.webp",
+        "sourceReviewSha256": "cbae69982ca7e6aa42b8eebaa44189c07b51f33192e24dfc13c12b0b7b8a7d82"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v8-activities/singles/bobo-merchant-player.webp",
+        "sha256": "9be95e66d97f845d59d004894a8ef10ee4d3b0ea9a9461b180b8639a9164bb3e",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          73,
+          16,
+          415,
+          465
+        ],
+        "alphaCoverage": 0.43441,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-player.webp",
+        "sourceReviewSha256": "f545a69e132b4b03dc00c96203bd53251c378e0d1ba48ab10b4e142aa9cb31bc"
+      }
+    },
+    "money-monster": {
+      "quiet": {
+        "path": "sprites/npc/npc-v8-activities/singles/money-monster-quiet.webp",
+        "sha256": "3022c6ca671968d77c988c464248d3d7d2a292105988a4db3819039f6c659b57",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          98,
+          44,
+          453,
+          494
+        ],
+        "alphaCoverage": 0.43243,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-quiet.webp",
+        "sourceReviewSha256": "e99832c5fd5118b2ac22265122917d7611c4cf04b8300f086ce71adf7d252a08"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v8-activities/singles/money-monster-work.webp",
+        "sha256": "0d2ad44b8dbc9cc00234fcba6f5c3de6d9e6ac25816c77ea73b39aec70656b31",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          68,
+          45,
+          430,
+          484
+        ],
+        "alphaCoverage": 0.41392,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-work.webp",
+        "sourceReviewSha256": "f814d275d0690f6882cbc37f7ad2366b773a106a1e82266feac8d6cd407696b5"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v8-activities/singles/money-monster-rare.webp",
+        "sha256": "cdcc00a000100b6b14634c6c566e1ce9f66fc43e8fede78f0c34855124d7fba1",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          58,
+          41,
+          426,
+          479
+        ],
+        "alphaCoverage": 0.42203,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-rare.webp",
+        "sourceReviewSha256": "3abf059945092c287d2a5c2d84e02f29c28893533468d7c7744fea0dafece34e"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v8-activities/singles/money-monster-player.webp",
+        "sha256": "4a841d6aa2c4bdbd0bb7017f6f843993997bd9b760e6e78de388b942e1ce647b",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          39,
+          44,
+          428,
+          472
+        ],
+        "alphaCoverage": 0.37453,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-player.webp",
+        "sourceReviewSha256": "687976972f6082c2eacbddc01c0b41fb83ac91c329ab9de131cc007026fa2315"
+      }
+    },
+    "gem-power-merchant": {
+      "quiet": {
+        "path": "sprites/npc/npc-v8-activities/singles/gem-power-merchant-quiet.webp",
+        "sha256": "90fca0f944d3f83ea334c85ac7afb4a7734425bb1b4772e2a2693b2d8e431a9b",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          69,
+          61,
+          397,
+          437
+        ],
+        "alphaCoverage": 0.2865,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-quiet.webp",
+        "sourceReviewSha256": "d850ccc0dfc96c7a65f20aa83f3e40a8f8961a83821737342532e6dcc283fd09"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v8-activities/singles/gem-power-merchant-work.webp",
+        "sha256": "4423faa137b1b3183baf088476d4cf1ea51fda67de76b1d955620437778ce675",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          39,
+          60,
+          453,
+          441
+        ],
+        "alphaCoverage": 0.32882,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-work.webp",
+        "sourceReviewSha256": "ad3e60622484a357fff2996eadd0ef62383a7cb64fc9b952d956bac6b0ab47f1"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v8-activities/singles/gem-power-merchant-rare.webp",
+        "sha256": "28f112eee86acebfc9c7d24d0f727c43ae20a8bd29a070a91983eb7082f741c2",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          51,
+          58,
+          443,
+          447
+        ],
+        "alphaCoverage": 0.35801,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-rare.webp",
+        "sourceReviewSha256": "5451cc97ee71776f00022e64ee67bec5b24ebc0c4416c63e4c0c8ffbe8bd02ef"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v8-activities/singles/gem-power-merchant-player.webp",
+        "sha256": "1ad344ca1e7b09c8b44e9e9a8b4c24932a3227fa756661b515e0efdce0e9ff52",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          38,
+          63,
+          461,
+          453
+        ],
+        "alphaCoverage": 0.3724,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-player.webp",
+        "sourceReviewSha256": "f28d615a9d1e2c26aef38196ebe41bec3aa65e0267b38ed97e33c401665e9e5c"
+      }
+    },
+    "magma-money-monster": {
+      "quiet": {
+        "path": "sprites/npc/npc-v8-activities/singles/magma-money-monster-quiet.webp",
+        "sha256": "2de50b77719b08a7928469c494c19cebcb51813ff2b8c6be06aa1f94ffda5a76",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          36,
+          18,
+          456,
+          455
+        ],
+        "alphaCoverage": 0.43639,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-quiet.webp",
+        "sourceReviewSha256": "d5a8d74a395746e96993328e289c227599b2f4599827bf9c8a9cd5a6cd0f21c5"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v8-activities/singles/magma-money-monster-work.webp",
+        "sha256": "aaec2cbfd20ba6c46771388f684887569079f0fbbfcbc655d02826f0db546394",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          11,
+          27,
+          448,
+          464
+        ],
+        "alphaCoverage": 0.43222,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-work.webp",
+        "sourceReviewSha256": "f496331de210c5748e3f14c461607131d1a3b9053e8921c35f4eb31830adf425"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v8-activities/singles/magma-money-monster-rare.webp",
+        "sha256": "11e91f4e6770456d0e23cc746f682956bb02efb1a816274ba33393d5b881fb51",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          19,
+          21,
+          480,
+          461
+        ],
+        "alphaCoverage": 0.47936,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-rare.webp",
+        "sourceReviewSha256": "9b403c8fca97bbf141a640655025e99a2c86d053169a10f94fd5c4eb56fc53af"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v8-activities/singles/magma-money-monster-player.webp",
+        "sha256": "47efd6ba526a2c45950e4db9838601c69be1f64fa76366d33f5ab7b337b6e86b",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          5,
+          19,
+          452,
+          464
+        ],
+        "alphaCoverage": 0.47224,
+        "sourceReviewPose": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-player.webp",
+        "sourceReviewSha256": "411f633512c775fa119b78240fda9d1043600838c0ce6cb19beb99f18e8a46d8"
+      }
+    }
+  },
+  "qaSheet": "sprites/npc/npc-v8-activities/npc-v8-activity-alpha-qa.png",
+  "qaSheetSha256": "2cd858a53bd27d45c1b59e7e8031feaa505395e5d0a98553664f4bb6cc70e1c5"
+}

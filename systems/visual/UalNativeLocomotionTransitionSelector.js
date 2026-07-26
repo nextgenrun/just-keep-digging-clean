@@ -39,6 +39,7 @@ export class UalNativeLocomotionTransitionSelector {
   constructor(profile, config = UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG) {
     this.keys = requireAnimationKeys(profile);
     this.config = config;
+    this.continuousFlightLoop = profile?.continuousFlightLoop === true;
     this.reset();
   }
   reset({ grounded = true, flying = false, facingFlipX = false } = {}) {
@@ -49,6 +50,7 @@ export class UalNativeLocomotionTransitionSelector {
     this._airbornePhase = PHASE.AIRBORNE_RISE;
     this._airborneIntervalActive = !this._wasGrounded || this._wasFlying;
     this._landingConsumed = false;
+    this._maxAirborneDownwardSpeed = 0;
     this._facingFlipX = facingFlipX === true;
     this._transition = null;
     return this;
@@ -65,7 +67,17 @@ export class UalNativeLocomotionTransitionSelector {
       groundMovementActive: typeof snapshot.groundMovementActive === "boolean"
         ? snapshot.groundMovementActive
         : null,
+      currentFrameIndex: Number.isFinite(snapshot.currentFrameIndex)
+        ? Math.max(0, Math.floor(snapshot.currentFrameIndex))
+        : 0,
     };
+    if (!state.grounded || state.flying) {
+      this._markAirborneInterval();
+      this._maxAirborneDownwardSpeed = Math.max(
+        this._maxAirborneDownwardSpeed,
+        state.verticalVelocity,
+      );
+    }
     if (state.grounded && !state.flying && state.facingFlipX !== null) {
       // Ground facing follows current input instead of smoothed displacement.
       // This makes low-speed reversals visible on the same frame.
@@ -82,11 +94,11 @@ export class UalNativeLocomotionTransitionSelector {
     this._wasGrounded = state.grounded;
     this._wasFlying = state.flying;
 
-    if (enteredFlight) {
+    if (enteredFlight && !this.continuousFlightLoop) {
       this._beginTransition(PHASE.FLIGHT_ENTER, this.keys.flightEnter, this._facingFlipX);
       this._markAirborneInterval();
       this._flightTraveling = false;
-    } else if (exitedFlight) {
+    } else if (exitedFlight && !this.continuousFlightLoop) {
       this._beginTransition(PHASE.FLIGHT_EXIT, this.keys.flightExit, this._facingFlipX);
       this._markAirborneInterval();
       this._flightTraveling = false;
@@ -111,6 +123,15 @@ export class UalNativeLocomotionTransitionSelector {
     const wantsTravel = speed >= (this._flightTraveling
       ? flight.travelExitSpeedPxPerSec
       : flight.travelEnterSpeedPxPerSec);
+
+    if (this.continuousFlightLoop) {
+      this._flightTraveling = wantsTravel;
+      return this._loop(
+        this.keys.flightTravelLoop,
+        wantsTravel ? PHASE.FLIGHT_TRAVEL_LOOP : PHASE.FLIGHT_HOVER,
+        state,
+      );
+    }
 
     if (this._transition?.phase === PHASE.FLIGHT_TRAVEL_ENTER) {
       if (!wantsTravel) this._transition = null;
@@ -168,12 +189,30 @@ export class UalNativeLocomotionTransitionSelector {
 
     if (this._airborneIntervalActive && !this._landingConsumed) {
       this._landingConsumed = true;
-      this._beginTransition(PHASE.LANDING, this.keys.landing, this._facingFlipX);
+      const landing = this.config.landing;
+      const impactSpeed = this._maxAirborneDownwardSpeed;
+      if (impactSpeed >= landing.minImpactSpeedPxPerSec) {
+        const timeScale = impactSpeed >= landing.hardImpactSpeedPxPerSec
+          ? landing.hardTimeScale
+          : landing.mediumTimeScale;
+        this._beginTransition(PHASE.LANDING, this.keys.landing, this._facingFlipX, timeScale);
+      } else {
+        this._finishAirborneInterval();
+      }
     }
     if (this._transition?.phase === PHASE.LANDING) {
+      const landing = this.config.landing;
+      const movementCanCancel = moving
+        && state.currentAnimationKey === this.keys.landing
+        && state.isPlaying
+        && state.currentFrameIndex >= landing.moveCancelAfterFrameIndex;
+      if (movementCanCancel) {
+        this._transition = null;
+        this._finishAirborneInterval();
+      }
       const pending = this._advanceTransition(state);
       if (pending) return pending;
-      this._airborneIntervalActive = false;
+      this._finishAirborneInterval();
     }
     if (this._transition && this._transition.phase !== PHASE.LANDING) this._transition = null;
     if (moving) {
@@ -183,8 +222,16 @@ export class UalNativeLocomotionTransitionSelector {
     return this._loop(this.keys.idle, PHASE.IDLE, state);
   }
   _markAirborneInterval() {
+    if (this._airborneIntervalActive) return;
     this._airborneIntervalActive = true;
     this._landingConsumed = false;
+    this._maxAirborneDownwardSpeed = 0;
+  }
+
+  _finishAirborneInterval() {
+    this._airborneIntervalActive = false;
+    this._landingConsumed = true;
+    this._maxAirborneDownwardSpeed = 0;
   }
 
   _directionOf(velocity) {
@@ -204,8 +251,14 @@ export class UalNativeLocomotionTransitionSelector {
     if (direction !== 0) this._facingFlipX = this._flipForDirection(direction);
   }
 
-  _beginTransition(phase, animationKey, facingFlipX) {
-    this._transition = { phase, animationKey, facingFlipX, observedPlaying: false };
+  _beginTransition(phase, animationKey, facingFlipX, timeScale = null) {
+    this._transition = {
+      phase,
+      animationKey,
+      facingFlipX,
+      timeScale,
+      observedPlaying: false,
+    };
   }
 
   _advanceTransition(state) {
@@ -224,6 +277,7 @@ export class UalNativeLocomotionTransitionSelector {
       animationKey: transition.animationKey,
       phase: transition.phase,
       facingFlipX: transition.facingFlipX,
+      timeScale: transition.timeScale,
       restart: !transition.observedPlaying,
       loop: false,
     };

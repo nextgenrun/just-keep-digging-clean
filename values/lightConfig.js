@@ -155,6 +155,78 @@ export const LIGHT_CONFIG = Object.freeze({
     maxRevealRadiusTiles: 2.25,
   }),
 
+  caveLights: Object.freeze({
+    enabled: true,
+    maxSourcesPerFrame: 16,
+    cameraPaddingTiles: 4,
+    verticalScale: 0.68,
+    revealAlpha: 0.42,
+    undergroundRevealBoost: 0.12,
+    flickerSpeed: 0.0007,
+    flickerAmount: 0.018,
+    minActiveRatio: 0.08,
+    playerRevealLeashTiles: 0.9,
+    maxRevealRadiusTiles: 5.5,
+    interiorTransitionResponsePerSecond: 4.2,
+    defaultProfile: Object.freeze({
+      minimumRatio: 0.32,
+      maximumRatio: 0.78,
+      pulseRadiansPerMs: 0.0008,
+      pulsePower: 1,
+      darknessBoost: 0.14,
+    }),
+    archetypeProfiles: Object.freeze({
+      "echo-gallery": Object.freeze({
+        minimumRatio: 0.22,
+        maximumRatio: 0.84,
+        pulseRadiansPerMs: 0.0010,
+        pulsePower: 1.35,
+        darknessBoost: 0.14,
+      }),
+      "rootbound-hollow": Object.freeze({
+        minimumRatio: 0.30,
+        maximumRatio: 0.68,
+        pulseRadiansPerMs: 0.00055,
+        pulsePower: 1.1,
+        darknessBoost: 0.17,
+      }),
+      "prism-nursery": Object.freeze({
+        minimumRatio: 0.42,
+        maximumRatio: 0.92,
+        pulseRadiansPerMs: 0.0013,
+        pulsePower: 0.82,
+        darknessBoost: 0.10,
+      }),
+      "storm-scar": Object.freeze({
+        minimumRatio: 0.16,
+        maximumRatio: 1,
+        pulseRadiansPerMs: 0.0018,
+        pulsePower: 1.6,
+        darknessBoost: 0.18,
+      }),
+      "gilded-burrow": Object.freeze({
+        minimumRatio: 0.18,
+        maximumRatio: 0.72,
+        pulseRadiansPerMs: 0.00045,
+        pulsePower: 1.45,
+        darknessBoost: 0.20,
+      }),
+      "ember-fault": Object.freeze({
+        minimumRatio: 0.36,
+        maximumRatio: 0.94,
+        pulseRadiansPerMs: 0.0021,
+        pulsePower: 0.9,
+        darknessBoost: 0.16,
+      }),
+    }),
+    hazardLight: Object.freeze({
+      idleRatio: 0.08,
+      telegraphRatio: 0.68,
+      activeRatio: 1,
+      staticRatio: 0.82,
+    }),
+  }),
+
   skyTileLights: Object.freeze({
     enabled: true,
     // Star Blocks are navigation beacons: every in-view source keeps its own

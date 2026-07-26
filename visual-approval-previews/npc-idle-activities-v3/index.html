@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPC Activity Pass v3 — Review Only</title>
+  <link rel="stylesheet" href="style.css?v=20260726-activity3">
+  <link rel="stylesheet" href="motion.css?v=20260726-activity3">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">REVIEW ONLY · PRODUCTION UNCHANGED</p>
+      <h1>NPC Activity Pass <span>v3</span></h1>
+      <p class="lede">
+        Quiet planted idles interrupted by short job business, rare personality
+        beats, and player-facing reactions. The scheduler keeps most of town calm.
+      </p>
+    </div>
+    <div class="principle">
+      <strong>Town rhythm</strong>
+      <span>≈70% quiet</span>
+      <span>maximum 2 large activities</span>
+      <span>every action returns to anchor</span>
+    </div>
+  </header>
+
+  <section class="toolbar" aria-label="Preview controls">
+    <button id="togglePlay" type="button">Pause town</button>
+    <button id="nextEvent" type="button">Trigger next activity</button>
+    <button id="resetTown" type="button">Reset</button>
+    <label>
+      Town energy
+      <input id="energy" type="range" min="0.65" max="1.8" step="0.05" value="1">
+      <output id="energyValue">1.00×</output>
+    </label>
+    <label class="check">
+      <input id="gameScale" type="checkbox">
+      exact 138 px actors
+    </label>
+    <div class="status">
+      <span><b id="quietCount">6</b> quiet</span>
+      <span><b id="activeCount">0</b> active</span>
+    </div>
+  </section>
+
+  <main>
+    <section id="npcGrid" class="npc-grid" aria-label="NPC activity previews"></section>
+
+    <section class="evidence">
+      <article>
+        <h2>Character board</h2>
+        <img src="npc-activity-director-board-character-v3.png" alt="Activity poses for Player Upgrades, Gear Merchant, and Bobo Merchant">
+      </article>
+      <article>
+        <h2>Creature board</h2>
+        <img src="npc-activity-director-board-creature-v3.png" alt="Activity poses for Money Monster, Gem Power Merchant, and Magma Money Monster">
+      </article>
+    </section>
+
+    <aside class="event-panel">
+      <h2>Town event log</h2>
+      <ol id="eventLog"></ol>
+    </aside>
+  </main>
+
+  <footer>
+    Directional animatic only. These generated key poses are not production
+    frames and no Phaser loader, animation registry, or NPC behavior was changed.
+  </footer>
+
+  <script type="module" src="app.js?v=20260726-activity3"></script>
+</body>
+</html>

@@ -46,15 +46,22 @@ assert.equal(UPGRADES[ARC_CORE_UPGRADE_ID].merchant, LEVEL_TWO_MERCHANT_ID);
 assert.deepEqual(Object.keys(UPGRADES[ARC_CORE_UPGRADE_ID].resources).sort(), ["gold", "silver"]);
 assert.equal(UPGRADES[ARC_CORE_UPGRADE_ID].requires, "worldTwoTunnelAccess");
 assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].merchant, LEVEL_TWO_MERCHANT_ID);
-assert.deepEqual(Object.keys(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].resources).sort(), ["gold", "silver"]);
+assert.deepEqual(
+  Object.keys(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].resources).sort(),
+  ["emberOre", "gold", "magmaCrystal", "obsidian", "silver"],
+);
 assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].requires, ARC_CORE_UPGRADE_ID);
 assert.deepEqual(UPGRADES[ARC_CORE_UPGRADE_ID].resources, ARC_CORE_PURCHASE_COST);
 assert.deepEqual(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].resources, OMEGA_ARC_CORE_PURCHASE_COST);
 
-const baseMaterialValue = ARC_CORE_PURCHASE_COST.silver * RESOURCE_PRICES_CONFIG.basePrices.silver
-  + ARC_CORE_PURCHASE_COST.gold * RESOURCE_PRICES_CONFIG.basePrices.gold;
-const omegaMaterialValue = OMEGA_ARC_CORE_PURCHASE_COST.silver * RESOURCE_PRICES_CONFIG.basePrices.silver
-  + OMEGA_ARC_CORE_PURCHASE_COST.gold * RESOURCE_PRICES_CONFIG.basePrices.gold;
+const getMaterialValue = cost => Object.entries(cost).reduce(
+  (total, [resourceType, amount]) => (
+    total + amount * RESOURCE_PRICES_CONFIG.basePrices[resourceType]
+  ),
+  0,
+);
+const baseMaterialValue = getMaterialValue(ARC_CORE_PURCHASE_COST);
+const omegaMaterialValue = getMaterialValue(OMEGA_ARC_CORE_PURCHASE_COST);
 assert.equal(baseMaterialValue, 60000);
 assert.equal(omegaMaterialValue, 300000);
 assert.equal(omegaMaterialValue, baseMaterialValue * 5);

@@ -85,9 +85,14 @@ export const CAMERA_SHAKE_SIGNATURES = Object.freeze({
   },
 
   // ─── Player Thunder Strike (ability) ────────────────────────────────────
-  // Fixed every time so the ability feels reliable and learnable.
+  // Escalates with each earned slam while keeping the original key as fallback.
   thunderStrike: {
     ability: { duration: 140, intensity: 4.0, freqX: 0.155, freqY: 0.085, decay: 'exp', priority: 55 },
+    slam1:   { duration: 140, intensity: 4.0, freqX: 0.155, freqY: 0.085, decay: 'exp', priority: 55 },
+    slam2:   { duration: 190, intensity: 6.4, freqX: 0.145, freqY: 0.075, decay: 'exp', priority: 58,
+               color: 0xA982FF, flashAlpha: 0.028 },
+    slam3:   { duration: 280, intensity: 10.0, freqX: 0.125, freqY: 0.060, decay: 'exp', priority: 64,
+               color: 0xFFE29A, flashAlpha: 0.05 },
   },
 
   // ─── Weather Thunder (storms) ────────────────────────────────────────────

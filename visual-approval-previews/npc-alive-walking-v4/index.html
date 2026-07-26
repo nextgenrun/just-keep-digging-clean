@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPC Alive Walking v4 — Review Only</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <p class="eyebrow">POST-WIRING REVIEW · V4</p>
+      <h1>NPCs that take a real step</h1>
+      <p class="lede">
+        The profession activities and anchored pacing are already live. This
+        review explores full leg, torso, and prop cycles for the next art pass.
+      </p>
+      <div class="status-row">
+        <span class="status live">WIRED NOW · v8 activities</span>
+        <span class="status review">REVIEW ONLY · walk frames</span>
+        <span class="status safe">SHOP ANCHORS UNCHANGED</span>
+      </div>
+    </header>
+
+    <section class="controls" aria-label="Animation controls">
+      <button id="pauseButton" type="button">Pause</button>
+      <label for="speedSelect">Playback</label>
+      <select id="speedSelect">
+        <option value="0.6">0.6x</option>
+        <option value="1" selected>1x</option>
+        <option value="1.4">1.4x</option>
+      </select>
+      <p>Gold line = authored shop anchor · blue band = maximum safe pacing area</p>
+    </section>
+
+    <section>
+      <div id="npcGrid" class="npc-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="boards">
+      <article>
+        <h2>Character walk board</h2>
+        <img src="npc-alive-walking-character-v4.png" alt="Three character merchants in five anchored walk poses">
+      </article>
+      <article>
+        <h2>Creature walk board</h2>
+        <img src="npc-alive-walking-creature-v4.png" alt="Three creature merchants in five anchored walk poses">
+      </article>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

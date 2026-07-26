@@ -65,9 +65,9 @@ PlayScene (game runs here, MenuAudioScene stopped)
 |----------|-----------|---------|
 | Mining | `/systems/mining/` | DigSystem, TileCollisionSystem, SpecialTileSystem, SpecialBlockEffectsManager |
 | Progression | `/systems/progression/` | PlayerLevelSystem, UpgradeSystem, DepthGateSystem |
-| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
+| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, GraveborerWurmVisualSystem, GraveborerWurmHudSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
 | Audio | `/systems/audio/` | SoundSystem, SoundLibraryManager, VoiceLineManager |
-| Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
+| Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, GraveborerWurmSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
 | Lighting | `/systems/lighting/` | LightSystem, ShaderSystem |
 | Combo | `/systems/combo/` | ComboSystem, HitstopSystem |
 | Health | `/systems/health/` | RuntimeCanarySystem, RuntimeCanaryReporter, deterministic runtime checks |

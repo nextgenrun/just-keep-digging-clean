@@ -15,8 +15,8 @@ export const HEAVENBLOCK_REGION_IDS = Object.freeze({
 });
 
 export const HEAVENBLOCK_PART_IDS = Object.freeze({
-  CLOUDHEART_DYNAMO: 'cloudheart-dynamo',
-  HALO_LENS: 'halo-lens',
+  AETHER_TURBINE: 'aether-turbine',
+  HALO_REGULATOR: 'halo-regulator',
   ECLIPSE_CRUCIBLE: 'eclipse-crucible',
 });
 
@@ -41,7 +41,7 @@ export const HEAVENBLOCKS_PROGRESSION_CONFIG = deepFreeze({
   regions: [
     {
       id: HEAVENBLOCK_REGION_IDS.LOWER_SKY,
-      uniquePartId: HEAVENBLOCK_PART_IDS.CLOUDHEART_DYNAMO,
+      uniquePartId: HEAVENBLOCK_PART_IDS.AETHER_TURBINE,
       completionUnlocksRegionIds: [
         HEAVENBLOCK_REGION_IDS.ANGEL,
         HEAVENBLOCK_REGION_IDS.DEVIL,
@@ -49,7 +49,7 @@ export const HEAVENBLOCKS_PROGRESSION_CONFIG = deepFreeze({
     },
     {
       id: HEAVENBLOCK_REGION_IDS.ANGEL,
-      uniquePartId: HEAVENBLOCK_PART_IDS.HALO_LENS,
+      uniquePartId: HEAVENBLOCK_PART_IDS.HALO_REGULATOR,
       completionUnlocksRegionIds: [],
     },
     {
@@ -65,8 +65,8 @@ export const HEAVENBLOCKS_PROGRESSION_CONFIG = deepFreeze({
       HEAVENBLOCK_REGION_IDS.DEVIL,
     ],
     requiredPartIds: [
-      HEAVENBLOCK_PART_IDS.CLOUDHEART_DYNAMO,
-      HEAVENBLOCK_PART_IDS.HALO_LENS,
+      HEAVENBLOCK_PART_IDS.AETHER_TURBINE,
+      HEAVENBLOCK_PART_IDS.HALO_REGULATOR,
       HEAVENBLOCK_PART_IDS.ECLIPSE_CRUCIBLE,
     ],
   },

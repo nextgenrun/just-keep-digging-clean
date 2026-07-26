@@ -143,6 +143,7 @@ for (const token of [
   "2026-07-22-deep-game-logic-health.py",
   "2026-07-25-production-http-canary.py",
   "2026-07-26-celestial-engines-contract.mjs",
+  "2026-07-26-heavenblocks-progression-integration-contract.mjs",
 ]) {
   assert.ok(qualityWorkflow.includes(token), `quality workflow missing ${token}`);
 }

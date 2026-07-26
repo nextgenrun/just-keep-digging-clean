@@ -51,6 +51,8 @@ export class LightSystem {
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
     this._darknessHasSolidFill = false;
+    this._caveInteriorDarknessBoost = 0;
+    this._activeCaveArchetypeId = null;
 
     const lightTextures = ensurePlayerLightTextures(
       scene,
@@ -110,6 +112,7 @@ export class LightSystem {
     if (this._currentRadiusTiles === null) this._currentRadiusTiles = targetRadius;
     this._currentRadiusTiles = Phaser.Math.Linear(this._currentRadiusTiles, targetRadius, response);
     this._currentGlowStrength = Phaser.Math.Linear(this._currentGlowStrength, targetGlow, response);
+    this._updateCaveInteriorDarkness(dt);
 
     const facingSign = this.playerController?.isFacingRight?.() === false ? -1 : 1;
     const targetFacingOffset = facingSign
@@ -201,11 +204,17 @@ export class LightSystem {
     this.scene.hudSystem?.setTorchState(this._torchActive, torchDrainRate);
   }
 
-  forceTorchOff() {
-    if (!this._torchActive) return;
+  forceTorchOff(options = {}) {
+    if (options.manual === true) this._manualTorchOff = true;
+    if (!this._torchActive) {
+      this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
+      return;
+    }
     this._torchActive = false;
     this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
-    this.scene.hudSystem?.flashStatus("Torch extinguished - no GP", "#ff9a55", 1800);
+    if (options.showStatus !== false) {
+      this.scene.hudSystem?.flashStatus("Torch extinguished - no GP", "#ff9a55", 1800);
+    }
   }
 
   destroy() {
@@ -221,6 +230,8 @@ export class LightSystem {
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
     this._darknessHasSolidFill = false;
+    this._caveInteriorDarknessBoost = 0;
+    this._activeCaveArchetypeId = null;
     this._torchHalo = null;
     this._torchCoreGlow = null;
     this._torchFlameGlow = null;
@@ -521,6 +532,14 @@ export class LightSystem {
         playerTile,
         radiusTiles
       );
+      this._eraseCaveLights(
+        time,
+        lighting,
+        camera,
+        darkness,
+        playerTile,
+        radiusTiles
+      );
       this._eraseSkyAndGeodeLights(
         time,
         lighting,
@@ -580,10 +599,46 @@ export class LightSystem {
     });
   }
 
-  _eraseCrystalLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
-    const cfg = this.config.crystalLights;
+  _eraseCrystalLights(
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0
+  ) {
+    this._eraseZoneLights(
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
+      playerVisionRadiusTiles,
+      {
+        config: this.config.crystalLights,
+        getZones: (worldModel, center, range) => (
+          worldModel.getGlowCrystalZonesInRange?.(center, range) || []
+        ),
+        getActiveRatio: (worldModel, zone) => (
+          worldModel.getGlowCrystalActiveRatio?.(zone) ?? 1
+        ),
+      }
+    );
+  }
+
+  _eraseZoneLights(
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0,
+    options = null
+  ) {
+    const cfg = options?.config;
     const worldModel = this.scene.worldModel;
-    if (!cfg?.enabled || !this._crystalEraser || !worldModel?.getGlowCrystalZonesInRange) {
+    const getZones = options?.getZones;
+    if (!cfg?.enabled || !this._crystalEraser || !worldModel || !getZones) {
       return;
     }
 
@@ -605,7 +660,7 @@ export class LightSystem {
       + (cfg.cameraPaddingTiles || 0)
       + 8;
 
-    const zones = worldModel.getGlowCrystalZonesInRange(centerTile, rangeTiles)
+    const zones = (getZones(worldModel, centerTile, rangeTiles) || [])
       .sort((a, b) => {
         const adx = a.cx - centerTile.tx;
         const ady = a.cy - centerTile.ty;
@@ -619,7 +674,7 @@ export class LightSystem {
     for (const zone of zones) {
       if (sourcesDrawn >= maxSources) break;
 
-      const activeRatio = worldModel.getGlowCrystalActiveRatio?.(zone) ?? 1;
+      const activeRatio = options?.getActiveRatio?.(worldModel, zone) ?? 1;
       if (activeRatio < (cfg.minActiveRatio || 0)) continue;
 
       if (playerTile && Number.isFinite(playerVisionRadiusTiles)) {
@@ -661,6 +716,76 @@ export class LightSystem {
       darkness.erase(this._crystalEraser, screenX, screenY);
       sourcesDrawn += 1;
     }
+  }
+
+  _eraseCaveLights(
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0
+  ) {
+    this._eraseZoneLights(
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
+      playerVisionRadiusTiles,
+      {
+        config: this.config.caveLights,
+        getZones: (worldModel, center, range) => (
+          worldModel.getCaveLightZonesInRange?.(center, range) || []
+        ),
+        getActiveRatio: (worldModel, zone) => this._resolveCaveLightRatio(time, zone),
+      }
+    );
+  }
+
+  _resolveCaveLightRatio(time, zone) {
+    const config = this.config.caveLights;
+    if (zone.isHazardLight) {
+      const hazard = config.hazardLight;
+      if (zone.static) return hazard.staticRatio;
+      const period = Math.max(1, zone.periodMs || 1);
+      const cycle = ((time + (zone.phaseMs || 0)) % period + period) % period;
+      if (cycle < (zone.activeMs || 0)) return hazard.activeRatio;
+      if (cycle >= period - (zone.telegraphMs || 0)) return hazard.telegraphRatio;
+      return hazard.idleRatio;
+    }
+    const profile = config.archetypeProfiles?.[zone.archetypeId]
+      || config.defaultProfile;
+    const wave = (Math.sin(
+      time * profile.pulseRadiansPerMs
+      + (zone.phase || 0)
+    ) + 1) * 0.5;
+    const shaped = Math.pow(wave, profile.pulsePower);
+    const caveRatio = Phaser.Math.Linear(
+      profile.minimumRatio,
+      profile.maximumRatio,
+      shaped
+    );
+    return caveRatio * (1 - (profile.darknessBoost || 0));
+  }
+
+  _updateCaveInteriorDarkness(dt) {
+    const config = this.config.caveLights;
+    const playerTile = this.playerController?.getPlayerTile?.();
+    const cave = this.scene.worldModel?.getCaveZoneAtTile?.(playerTile);
+    const profile = cave
+      ? config.archetypeProfiles?.[cave.archetypeId] || config.defaultProfile
+      : null;
+    const target = profile?.darknessBoost || 0;
+    const response = 1 - Math.exp(
+      -config.interiorTransitionResponsePerSecond * Math.max(0, dt)
+    );
+    this._caveInteriorDarknessBoost = Phaser.Math.Linear(
+      this._caveInteriorDarknessBoost,
+      target,
+      response
+    );
+    this._activeCaveArchetypeId = cave?.archetypeId || null;
   }
 
   _eraseSkyAndGeodeLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
@@ -1006,7 +1131,15 @@ export class LightSystem {
       * surfaceCfg.lightningRevealStrength;
     const caveReveal = lighting.stormCavePulse * caveCfg.lightningRevealStrength;
 
-    return clamp01(Math.max(minimumCaveAlpha, surfaceDim + scaledCaveBase + caveWeatherBoost + torchOffBoost) - surfaceReveal - caveReveal);
+    return clamp01(
+      Math.max(
+        minimumCaveAlpha,
+        surfaceDim + scaledCaveBase + caveWeatherBoost + torchOffBoost
+      )
+      + this._caveInteriorDarknessBoost
+      - surfaceReveal
+      - caveReveal
+    );
   }
 
   _getFireMotion(time, lighting) {

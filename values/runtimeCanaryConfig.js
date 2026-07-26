@@ -9,6 +9,7 @@ const PLAY_SCENE_REQUIRED_PATHS = Object.freeze([
   "heavenblocksProgressionSystem",
   "heavenblocksAccessSystem",
   "craftingSystem",
+  "openingFlightArtifactSystem",
 ]);
 
 const CAVE_SCENE_REQUIRED_PATHS = Object.freeze([

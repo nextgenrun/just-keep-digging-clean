@@ -139,7 +139,7 @@ function carveGapCave(worldModel, protectedMask, zone) {
   applyCaveFeatures(worldModel, zone);
 }
 
-function makeCandidate(worldModel, band, attempt, config) {
+function makeCandidate(worldModel, band, attempt, config, featuredChallenge = false) {
   const minY = Math.max(
     worldModel.topAirRows + band.minDepth,
     worldModel.topAirRows + 2,
@@ -149,8 +149,12 @@ function makeCandidate(worldModel, band, attempt, config) {
     worldModel.depthTiles - 4,
   );
   const radiusRoll = hash01(worldModel.config.seed, attempt, band.minDepth, GAP_SALT);
-  const rx = config.radiusXMin + Math.floor(
-    radiusRoll * radiusRoll * (config.radiusXMax - config.radiusXMin + 1),
+  const radiusMin = featuredChallenge
+    ? Math.max(config.radiusXMin, config.featuredRadiusXMin || config.radiusXMin)
+    : config.radiusXMin;
+  const radiusCurve = featuredChallenge ? radiusRoll : radiusRoll * radiusRoll;
+  const rx = radiusMin + Math.floor(
+    radiusCurve * (config.radiusXMax - radiusMin + 1),
   );
   const ry = config.radiusY;
   const wallRx = rx + config.wallThickness;
@@ -178,6 +182,7 @@ function makeCandidate(worldModel, band, attempt, config) {
     ry,
     wallThickness: config.wallThickness,
     standaloneScene: false,
+    featuredChallenge,
     entranceSides: [
       firstSide,
       ...(hasSecondSide ? [firstSide === "left" ? "right" : "left"] : []),
@@ -210,17 +215,21 @@ export function supplementAuthoredCaveGaps(
     }).length;
     const needed = Math.max(0, band.targetCaves - existingInBand);
     let addedInBand = 0;
+    let featuredPlaced = false;
 
     for (
       let attempt = 0;
       attempt < config.placementAttemptsPerBand && addedInBand < needed;
       attempt += 1
     ) {
+      const featuredAttempt = !featuredPlaced
+        && attempt < config.featuredPlacementAttemptsPerBand;
       const candidate = makeCandidate(
         worldModel,
         band,
         attempt + totalAdded * config.placementAttemptsPerBand,
         config,
+        featuredAttempt,
       );
       if (!isSpacedFromCaves(candidate, liveCaves, config)) continue;
       if (!travelLaneIsAvailable(worldModel, protectedMask, candidate)) continue;
@@ -236,6 +245,7 @@ export function supplementAuthoredCaveGaps(
       worldModel.caveZones.push(candidate);
       carveGapCave(worldModel, protectedMask, candidate);
       liveCaves.push(candidate);
+      featuredPlaced ||= featuredAttempt;
       addedInBand += 1;
       totalAdded += 1;
     }

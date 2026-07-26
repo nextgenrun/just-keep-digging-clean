@@ -77,6 +77,20 @@ const resolvedRunScale = system.resolveLocomotionTimeScale(profile.walkRunAnim, 
 assert.ok(Math.abs(resolvedRunScale - directRunScale) < 0.01);
 assert.ok(Math.abs(resolvedRunScale - resolvedWalkScale) < 0.01);
 
+system.reset();
+const immediateRunScale = system.resolveLocomotionTimeScale(
+  profile.walkRunAnim,
+  {
+    frames: Array.from({ length: profile.walkRunFrames.length }),
+    frameRate: 30,
+  },
+  200,
+);
+assert.ok(
+  Math.abs(immediateRunScale - directRunScale) < 0.001,
+  "body-velocity override retained the smoothed start/reversal cadence sag",
+);
+
 for (let frame = 0; frame < 10; frame += 1) {
   body.y += 5;
   system.samplePhysics(50);
@@ -126,6 +140,7 @@ assert.match(playGameplaySource, /ualLocomotionTransitionSelector\.resolve/);
 assert.match(playGameplaySource, /getResolvedVelocityX/);
 assert.match(playGameplaySource, /getResolvedVelocityY/);
 assert.match(playGameplaySource, /groundMovementActive/);
+assert.match(playGameplaySource, /Math\.abs\(body\?\.vx \|\| 0\)/);
 assert.match(caveGameplaySource, /new PlayerKinematicMotionSystem/);
 assert.match(caveGameplaySource, /playerKinematicMotion\?\.samplePhysics\(delta\)/);
 assert.match(caveActionSource, /UalNativeLocomotionTransitionSelector/);
@@ -134,6 +149,7 @@ assert.match(caveActionSource, /getTravelSpeedPxPerSec/);
 assert.match(caveActionSource, /getResolvedVelocityX/);
 assert.match(caveActionSource, /getResolvedVelocityY/);
 assert.match(caveActionSource, /groundMovementActive/);
+assert.match(caveActionSource, /Math\.abs\(body\?\.vx \|\| 0\)/);
 
 console.log(JSON.stringify({
   result: "UAL_GAME_PHYSICS_MOTION_CONTRACT_OK",
@@ -142,5 +158,6 @@ console.log(JSON.stringify({
   groundedGaitAnimationRole: UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG.ground.gaitAnimationRole,
   directWalkScale: Number(directWalkScale.toFixed(3)),
   directRunScale: Number(directRunScale.toFixed(3)),
+  immediateRunScale: Number(immediateRunScale.toFixed(3)),
   climbScale: Number(climbScale.toFixed(3)),
 }, null, 2));

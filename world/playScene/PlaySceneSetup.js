@@ -52,10 +52,13 @@ import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.j
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
 import { HeavenblocksProgressionSystem } from "../../systems/progression/HeavenblocksProgressionSystem.js";
 import { RetentionProgressSystem } from "../../systems/progression/RetentionProgressSystem.js";
+import { CraftingSystem } from "../../systems/crafting/CraftingSystem.js";
 import { StarHeartProgressionSystem } from "../../systems/celestial/StarHeartProgressionSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
+import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
+import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js";
 import { CelestialEngineController } from "./CelestialEngineController.js";
 import { OverlayManager } from "./OverlayManager.js";
 import { NPCManager } from "./NPCManager.js";
@@ -92,12 +95,14 @@ import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
 import { StarHeartOverlay } from "../../ui/overlays/StarHeartOverlay.js";
 import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
 import { CaveAtmosphereSystem } from "../../systems/visual/CaveAtmosphereSystem.js";
+import { CaveHazardView } from "../../systems/visual/CaveHazardView.js";
 import { CaveInteriorOcclusionSystem } from "../../systems/visual/CaveInteriorOcclusionSystem.js";
 import { SpecialBlockEffectsManager } from "../../systems/mining/SpecialBlockEffectsManager.js";
 import { MilestoneBoardSystem } from "../../systems/visual/MilestoneBoardSystem.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import BiomeSystem from "../../systems/environment/BiomeSystem.js";
 import { CampfireSystem } from "../../systems/environment/CampfireSystem.js";
+import { CaveHazardSystem } from "../../systems/environment/CaveHazardSystem.js";
 import { EarthquakeSystem } from "../../systems/environment/EarthquakeSystem.js";
 import { EarthquakeFeedbackUI } from "../../systems/visual/EarthquakeFeedbackUI.js";
 import { EarthquakeHazardOverlay } from "../../systems/visual/EarthquakeHazardOverlay.js";
@@ -108,6 +113,10 @@ import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIsland
 import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
+import {
+  OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
+  shouldUseOpeningFlightGoldenSpawn,
+} from "../../values/openingFlightArtifact.js";
 
 const PLAY_SCENE_UI_FACTORIES = Object.freeze({
   createButton,
@@ -119,6 +128,10 @@ import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js";
 import { CaveEntryController } from "./CaveEntryController.js";
+import {
+  createGraveborerWurmRuntime,
+  destroyGraveborerWurmRuntime,
+} from "./GraveborerWurmBridge.js";
 
 function comboShakeSignatureFor(milestone) {
   if (milestone >= 5000) return "combo.godlike";
@@ -369,7 +382,7 @@ async function _ensureUalNativePlayer(scene, profile) {
     playerDisplaySizePx: profile.displaySizePx,
     playerVisualOriginCenter: false,
   });
-  console.log('[PlaySceneSetup] UAL native 30 fps animations and measured hitbox ready');
+  console.log('[PlaySceneSetup] UAL profile-timed animations and measured hitbox ready');
 }
 
 async function _setupSceneSafe(data = {}) {
@@ -380,6 +393,27 @@ async function _setupSceneSafe(data = {}) {
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
   this._cachedSaveData = initialCachedSave;
+  this.hardcoreModeData = sanitizeHardcoreModeData(initialCachedSave?.hardcoreModeData);
+  this._openingFlightGoldenFiveSpawn = shouldUseOpeningFlightGoldenSpawn(
+    initialCachedSave,
+    OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
+  );
+  if (this._openingFlightGoldenFiveSpawn) {
+    const openingState = initialCachedSave?.openingFlightArtifactData;
+    const resumeProtectedEscape = openingState?.artifactCollected === true
+      && openingState?.surfaceReturnCelebrated !== true;
+    this.config = Object.freeze({
+      ...this.config,
+      playerSpawnTileX: this.config.spawnTileX
+        + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.tileXOffsetFromTownAnchor,
+      playerSpawnTileY: resumeProtectedEscape
+        ? this.config.topAirRows
+          + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.surfaceRowOffset
+          + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.artifactDepthTiles
+        : this.config.topAirRows - 1
+          + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.surfaceRowOffset,
+    });
+  }
   const cachedPlayerCharacterId = resolvePersistedPlayerCharacterId(initialCachedSave?.playerCharacterId);
   this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? cachedPlayerCharacterId);
   this.playerAssetProfile = getPlayerAssetProfile(this.playerCharacterId);
@@ -490,6 +524,9 @@ async function _setupSceneSafe(data = {}) {
   // both the production scenic renderer and the explicit legacy rollback.
   this.caveAtmosphereSystem = new CaveAtmosphereSystem(this);
   this.caveAtmosphereSystem.create(this.worldModel);
+  this.caveHazardView = new CaveHazardView(this);
+  this.caveHazardSystem = new CaveHazardSystem(this, this.caveHazardView);
+  this.caveHazardSystem.create(this.worldModel);
   this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
   this.caveInteriorOcclusionSystem.create(this.worldModel);
 
@@ -552,7 +589,12 @@ async function _setupSceneSafe(data = {}) {
   this._onAnimComplete = (animation) => {
     const profile = this.playerAssetProfile || ASSET_KEYS.player;
     const now = this.time?.now || 0;
-    if (this._teleportInAnimating && animation.key === profile.teleportInAnim) {
+    if (
+      this.thunderStrikeActionRuntime?.isAnimating
+      && animation.key === profile.thunderStrikeStrikeAnim
+    ) {
+      return;
+    } else if (this._teleportInAnimating && animation.key === profile.teleportInAnim) {
       this._teleportInAnimating = false;
       this.player.anims.timeScale = 1;
       this.updatePlayerVisualState(true);
@@ -662,6 +704,16 @@ async function _setupSceneSafe(data = {}) {
   this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
   this.digSystem.setUpgradeSystem(this.upgradeSystem);
   this.digSystem.setPlayerLevelSystem(this.playerLevelSystem);
+  this.craftingSystem = new CraftingSystem({
+    digSystem: this.digSystem,
+    upgradeSystem: this.upgradeSystem,
+    ancientRelicSystem: this.ancientRelicSystem,
+    heavenblocksProgressionSystem: this.heavenblocksProgressionSystem,
+  });
+  const craftingHealth = this.craftingSystem.getHealthSnapshot();
+  if (!craftingHealth.ready) {
+    throw new Error("[PlaySceneSetup] Arc Forge dependencies failed their startup health check.");
+  }
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
@@ -873,6 +925,7 @@ async function _setupSceneSafe(data = {}) {
   );
   this.nextPromiseHudSystem = new NextPromiseHudSystem(this);
   this.miningIntentPreviewSystem = new MiningIntentPreviewSystem(this);
+  this.thunderStrikeActionRuntime = new ThunderStrikeActionRuntime(this);
   this.openingFlightArtifactSystem = new OpeningFlightArtifactSystem(this);
 
   const keys = this.inputHandler.getKeys();
@@ -891,6 +944,7 @@ async function _setupSceneSafe(data = {}) {
   this.surfaceTunnelDoorSystem.create();
   this.arcCoreVehicleSystem = new ArcCoreVehicleSystem(this);
   this.arcCoreVehicleSystem.create();
+  createGraveborerWurmRuntime(this);
   installDebugUiSmokeHooks(this);
   installJkdE2EHarness(this);
 
@@ -904,6 +958,7 @@ async function _setupSceneSafe(data = {}) {
       this.player.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
       this.player.off(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
     }
+    this.thunderStrikeActionRuntime?.destroy();
     this.ualActionContactTimeline?.destroy();
     if (this._debugKey) { this._debugKey.off('down', this._debugKeyHandler); }
     if (this._debugUiSmokeKeyHandler) { this.input.keyboard.off('keydown', this._debugUiSmokeKeyHandler); this._debugUiSmokeKeyHandler = null; }
@@ -923,6 +978,7 @@ async function _setupSceneSafe(data = {}) {
     this.bgObjectPlacer?.destroy();
     this.caveTemplateVisualSystem?.destroy();
     this.caveAtmosphereSystem?.destroy();
+    this.caveHazardSystem?.destroy();
     this.caveInteriorOcclusionSystem?.destroy();
     this.specialBlockEffectsManager?.destroy();
     this.milestoneBoardSystem?.destroy();
@@ -974,6 +1030,7 @@ async function _setupSceneSafe(data = {}) {
     this.surfaceTunnelDoorSystem?.destroy();
     this.openingFlightArtifactSystem?.destroy();
     this.arcCoreVehicleSystem?.destroy();
+    destroyGraveborerWurmRuntime(this);
     this.earthquakeSystem?.destroy();
     this.earthquakeFeedbackUI?.destroy();
     this.earthquakeHazardOverlay?.destroy();

@@ -1,0 +1,66 @@
+{
+  "created": "2026-07-26",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "generator": "ai-tools/2026-07-26-build-npc-activity-review.py",
+  "activitySpec": "visual-approval-previews/npc-idle-activities-v3/activity-spec.json",
+  "boards": {
+    "character": {
+      "path": "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-character-v3.png",
+      "sha256": "1789874bcfef7b88981dcb6148175c49c194637a64a56a9db826287510b43c6f",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    "creature": {
+      "path": "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-creature-v3.png",
+      "sha256": "10a14b96452768ee5c77fee49e617ad3fbd60eafbf62e0218ee134522b063168",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    }
+  },
+  "poses": {
+    "player-upgrades": {
+      "quiet": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-quiet.webp",
+      "work": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-work.webp",
+      "rare": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-rare.webp",
+      "player": "visual-approval-previews/npc-idle-activities-v3/poses/player-upgrades-player.webp"
+    },
+    "gear-merchant": {
+      "quiet": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-quiet.webp",
+      "work": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-work.webp",
+      "rare": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-rare.webp",
+      "player": "visual-approval-previews/npc-idle-activities-v3/poses/gear-merchant-player.webp"
+    },
+    "bobo-merchant": {
+      "quiet": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-quiet.webp",
+      "work": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-work.webp",
+      "rare": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-rare.webp",
+      "player": "visual-approval-previews/npc-idle-activities-v3/poses/bobo-merchant-player.webp"
+    },
+    "money-monster": {
+      "quiet": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-quiet.webp",
+      "work": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-work.webp",
+      "rare": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-rare.webp",
+      "player": "visual-approval-previews/npc-idle-activities-v3/poses/money-monster-player.webp"
+    },
+    "gem-power-merchant": {
+      "quiet": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-quiet.webp",
+      "work": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-work.webp",
+      "rare": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-rare.webp",
+      "player": "visual-approval-previews/npc-idle-activities-v3/poses/gem-power-merchant-player.webp"
+    },
+    "magma-money-monster": {
+      "quiet": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-quiet.webp",
+      "work": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-work.webp",
+      "rare": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-rare.webp",
+      "player": "visual-approval-previews/npc-idle-activities-v3/poses/magma-money-monster-player.webp"
+    }
+  },
+  "contactSheet": "visual-approval-previews/npc-idle-activities-v3/npc-idle-activities-v3-contact-sheet.png",
+  "runtimeFilesChanged": [],
+  "note": "Direction-board crops and a timing simulator only; not production animation frames."
+}

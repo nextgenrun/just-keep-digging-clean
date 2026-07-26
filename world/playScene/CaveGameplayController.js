@@ -120,7 +120,7 @@ export class CaveGameplayController {
     this.inputHandler.updateAimBox(targetTile, this.inputHandler.isSolidAimTarget(targetTile));
     this._updateMining(time, playerTile, targetTile);
     this._updateThunderStrike(time);
-    this._updateLocomotionVisual(time);
+    this._updateLocomotionVisual(time, delta);
     this.flightFootParticleSystem?.update(
       delta,
       !this.actionAnimationRuntime.isUalActionLocked
@@ -150,7 +150,10 @@ export class CaveGameplayController {
 
   _updateMining(time, playerTile, targetTile) {
     const abilities = this.playerController.abilities;
-    if (this.actionAnimationRuntime.isUalActionLocked) return;
+    if (
+      this.actionAnimationRuntime.isUalActionLocked
+      && !this.actionAnimationRuntime.canReplaceMiningRecovery(time, abilities)
+    ) return;
     if (abilities.isQuickslashActive()) {
       const direction = abilities.getQuickslashDirection();
       const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
@@ -362,7 +365,7 @@ export class CaveGameplayController {
     this.scene.player.setDisplaySize(displaySize, displaySize);
   }
 
-  _updateLocomotionVisual(time) {
-    this.actionAnimationRuntime.updateLocomotionVisual(time);
+  _updateLocomotionVisual(time, deltaMs) {
+    this.actionAnimationRuntime.updateLocomotionVisual(time, deltaMs);
   }
 }

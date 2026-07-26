@@ -135,6 +135,7 @@ for (const animationKey of [profile.digUpAnim, profile.digUpSidewaysAnim]) {
   const actionContact = resolveUalActionContact(profile, animationKey);
   assert.equal(variant.sheet, profile.uppercutSheet);
   assert.ok(actionContact.sequenceIndex >= 0 && actionContact.sequenceIndex < variant.frames.length);
+  assert.equal(actionContact.sequenceIndex, 6);
 }
 const downContact = resolveUalActionContact(profile, profile.digDownAnim);
 assert.equal(profile.digDownSheet, profile.groundStrikeSheet);
@@ -145,7 +146,9 @@ assert.deepEqual(
   UAL_NATIVE_ACTION_TUNING.contact.thunderStrike,
 );
 
-assert.deepEqual(profile.digUpFrames, Array.from({ length: 15 }, (_, index) => index));
+assert.deepEqual(profile.digUpFrames, profile.uppercutPlaybackFrames);
+assert.equal(profile.digUpFrames.length, 24);
+assert.deepEqual(profile.uppercutFrames, Array.from({ length: 15 }, (_, index) => index));
 assert.deepEqual(profile.digDownFrames, Array.from({ length: 37 }, (_, index) => index + 4));
 assert.deepEqual(profile.thunderStrikeStrikeFrames, Array.from({ length: 34 }, (_, index) => index + 7));
 assert.equal(profile.thunderStrikeStrikeAnimationFps, 42);

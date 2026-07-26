@@ -12,6 +12,7 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
       minDurationMs: 360,
       minTimeScale: 0.65,
       maxTimeScale: 2.25,
+      recoveryCancelDelayMs: 100,
     }),
     quickslash: Object.freeze({
       minDurationMs: 220,
@@ -31,8 +32,8 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
     punchCross: contact(9, 9, "punch-cross", "hands"),
     meleeHook: contact(8, 8, "melee-hook", "hands"),
     meleeKick: contact(10, 10, "melee-kick", "feet"),
-    digUp: contact(4, 4, "punch-uppercut", "hands"),
-    digUpSide: contact(4, 4, "punch-uppercut", "hands"),
+    digUp: contact(4, 6, "punch-uppercut", "hands"),
+    digUpSide: contact(4, 6, "punch-uppercut", "hands"),
     digDown: contact(18, 14, "ground-strike", "hands"),
     quickslash: contact(7, 4, "punch-jab", "hands"),
     thunderStrike: contact(18, 11, "ground-strike", "hands"),
@@ -57,6 +58,9 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
     horizontalDominanceRatio: 0.8,
     travelBankDegrees: 10,
     hoverBankDegrees: 3,
+    bankResponsePerSecond: 20,
+    bankMaxDeltaMs: 100,
+    bankFallbackDeltaMs: 1000 / 60,
   }),
 });
 
@@ -95,6 +99,14 @@ export function resolveUalFlightTimeScale(speedPxPerSec, travel = false) {
   const base = travel ? flight.travelBaseTimeScale : flight.hoverBaseTimeScale;
   const scaled = base * Math.pow(speedRatio, flight.speedExponent);
   return Math.min(flight.maxTimeScale, Math.max(flight.minTimeScale, scaled));
+}
+
+export function resolveUalFlightBankAlpha(deltaMs) {
+  const flight = UAL_NATIVE_ACTION_TUNING.flight;
+  const resolvedDeltaMs = Number.isFinite(deltaMs)
+    ? Math.max(0, Math.min(flight.bankMaxDeltaMs, deltaMs))
+    : flight.bankFallbackDeltaMs;
+  return 1 - Math.exp(-flight.bankResponsePerSecond * resolvedDeltaMs / 1000);
 }
 
 export function resolveUalFlightTravel({

@@ -163,6 +163,24 @@ export function finalizeCaveIdentities(
     if (!zone.identity) attachCaveIdentity(zone, seed, worldModel.topAirRows, config);
     applyCaveFeatures(worldModel, zone);
   }
+  worldModel.caveLightZones = worldModel.caveZones
+    .filter(zone => zone.standaloneScene !== true)
+    .map(zone => ({
+      id: `cave-light:${zone.id}`,
+      caveId: zone.id,
+      archetypeId: zone.archetypeId,
+      cx: zone.cx,
+      cy: zone.cy,
+      rx: zone.rx,
+      ry: zone.ry,
+      color: zone.identity.palette.glow,
+      alpha: 0.7,
+      phase: (zone.visualSeed % 628) / 100,
+      lightRadiusTiles: Math.min(
+        5.5,
+        Math.max(2.5, Math.sqrt(zone.rx + zone.ry) * 1.22),
+      ),
+    }));
   return rebuildCaveFeatureIndexes(worldModel);
 }
 

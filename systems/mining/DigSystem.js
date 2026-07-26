@@ -8,6 +8,7 @@ import {
   getResourceYieldMultiplier,
 } from "../../values/dynamicSoil.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
 import {
   HARD_RESOURCE_TILE_TYPES,
@@ -30,6 +31,7 @@ export class DigSystem {
     this.comboSystem = comboSystem;
     this.specialBlockEffectsManager = specialBlockEffectsManager;
     this.ancientRelicSystem = null;
+    this.relicDiscoveryFxSystem = null;
     this.retentionProgressSystem = null;
 
     this.lastMineTime = -Infinity;
@@ -52,6 +54,10 @@ export class DigSystem {
 
   setAncientRelicSystem(ancientRelicSystem) {
     this.ancientRelicSystem = ancientRelicSystem;
+  }
+
+  setRelicDiscoveryFxSystem(relicDiscoveryFxSystem) {
+    this.relicDiscoveryFxSystem = relicDiscoveryFxSystem;
   }
 
   setRetentionProgressSystem(retentionProgressSystem) {
@@ -204,6 +210,16 @@ export class DigSystem {
 
     const worldX = tx * this.config.tileSize + this.config.tileSize / 2;
     const worldY = ty * this.config.tileSize + this.config.tileSize / 2;
+    const finalRelicCount = this.ancientRelicSystem.getCount();
+    try {
+      this.relicDiscoveryFxSystem?.playDiscovery?.({
+        anchor: { x: worldX, y: worldY },
+        iconAsset: ASSET_KEYS.ui.heavenblocks.ancientRelicToken,
+        relicCount: finalRelicCount,
+      });
+    } catch {
+      // Presentation is deliberately unable to fail or roll back the award.
+    }
     const plural = gained === 1 ? "" : "S";
     this.floatingTextSystem?.showFloatingText(
       worldX,
@@ -215,10 +231,10 @@ export class DigSystem {
     );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
     const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(
-      this.ancientRelicSystem.getCount()
+      finalRelicCount
     );
     this.worldRenderer?.scene?.hudSystem?.flashStatus?.(
-      `${ANCIENT_RELIC_CONFIG.displayName} found  •  ${purpose || `${this.ancientRelicSystem.getCount()} total`}`,
+      `${ANCIENT_RELIC_CONFIG.displayName} found  •  ${purpose || `${finalRelicCount} total`}`,
       ANCIENT_RELIC_CONFIG.color,
       ANCIENT_RELIC_CONFIG.cache.statusDurationMs
     );
@@ -472,7 +488,7 @@ export class DigSystem {
     const cooldownTimeMs = Number.isFinite(options.actionStartedAtMs)
       ? options.actionStartedAtMs
       : nowMs;
-    if (!options.ignoreCooldown && cooldownTimeMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
+    if (!options.ignoreCooldown && !this.isMineCooldownReady(cooldownTimeMs, playerAbilities)) {
       return {
         success: false,
         reason: "cooldown",
@@ -879,6 +895,11 @@ export class DigSystem {
 
   getEffectiveCooldownMs(playerAbilities = null) {
     return this._getCooldown(playerAbilities);
+  }
+
+  isMineCooldownReady(nowMs, playerAbilities = null) {
+    return Number.isFinite(nowMs)
+      && nowMs - this.lastMineTime >= this._getCooldown(playerAbilities);
   }
 
   getTilesBroken() {

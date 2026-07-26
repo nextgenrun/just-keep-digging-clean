@@ -53,21 +53,33 @@ def _pack_board(source_path: Path, output_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--small-alpha", type=Path, required=True)
-    parser.add_argument("--omega-alpha", type=Path, required=True)
+    parser.add_argument("--small-alpha", type=Path)
+    parser.add_argument("--omega-alpha", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--small-output-name",
+        default="2026-07-26-small-arc-runtime-sheet-v1.png",
+    )
+    parser.add_argument(
+        "--omega-output-name",
+        default="2026-07-26-omega-arc-runtime-sheet-v1.png",
+    )
     args = parser.parse_args()
 
-    outputs = (
-        (
+    if not args.small_alpha and not args.omega_alpha:
+        parser.error("provide --small-alpha, --omega-alpha, or both")
+
+    outputs = []
+    if args.small_alpha:
+        outputs.append((
             args.small_alpha,
-            args.output_dir / "2026-07-26-small-arc-runtime-sheet-v1.png",
-        ),
-        (
+            args.output_dir / args.small_output_name,
+        ))
+    if args.omega_alpha:
+        outputs.append((
             args.omega_alpha,
-            args.output_dir / "2026-07-26-omega-arc-runtime-sheet-v1.png",
-        ),
-    )
+            args.output_dir / args.omega_output_name,
+        ))
     for source_path, output_path in outputs:
         if output_path.exists():
             raise FileExistsError(f"Refusing to overwrite {output_path}")

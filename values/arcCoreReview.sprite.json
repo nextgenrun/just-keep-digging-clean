@@ -1,0 +1,154 @@
+{
+  "arcCoreReviewV2": {
+    "path": "../../../sprites/character/arc-core-review-v2/runtime/",
+    "files": [
+      {
+        "type": "image",
+        "key": "arc-core-review-v2-small-body",
+        "url": "small-arc-master-v3.png",
+        "role": "small.body",
+        "sha256": "22055d196d2e03a255afcfd3b48fa00bf88d529db4d266c0ef626f0ab13d4fab"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v2-small-ring",
+        "url": "small-arc-gyro-ring-v2.png",
+        "role": "small.ring",
+        "sha256": "eacc9ba0357fc21568d4f10b222f7b93eb7287fc7a44af1254ec03d3767eaa36"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v2-small-cloud",
+        "url": "small-arc-cloud-v2.png",
+        "role": "small.cloud",
+        "sha256": "dbcf6063ae6892c961478eeafa793287f19889e5fc018c743fa00cb7a2818eb6"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v2-omega-body",
+        "url": "omega-arc-master-v2.png",
+        "role": "omega.body",
+        "sha256": "5cd6a27ff1dd267a7b6378461566bf70919ee1cc3bc513cf38b75c753edf0615"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v2-omega-sigil",
+        "url": "omega-arc-lattice-sigil-v2.png",
+        "role": "omega.sigil",
+        "sha256": "c6fea13b87687c6d32d12da0555d1fd4ff74ed0d187f7783ae5185ceacc3070c"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v2-omega-cloud",
+        "url": "omega-arc-cloud-v2.png",
+        "role": "omega.cloud",
+        "sha256": "1d9ac94c4ab5329d9546ba34818b227760bc6d1297a11c94945641078ddb4706"
+      }
+    ]
+  },
+  "spriteMeta": {
+    "schemaVersion": 2,
+    "packageId": "arc-core-review-v2",
+    "reviewOnly": true,
+    "productionChanged": false,
+    "canvasSizePx": 512,
+    "modes": {
+      "arcCoreSmall": {
+        "bodyRole": "small.body",
+        "energyRole": "small.ring",
+        "cloudRole": "small.cloud",
+        "bodyDisplaySizePx": 114,
+        "originX": 0.5,
+        "originY": 0.5,
+        "depths": {
+          "cloudBack": 10.08,
+          "body": 10.12,
+          "energyPrimary": 10.16,
+          "energySecondary": 10.17,
+          "cloudFront": 12.18
+        },
+        "idle": {
+          "bobPx": 2.2,
+          "bobPeriodMs": 1540,
+          "bodyBreathRatio": 0.006,
+          "bodyBreathPeriodMs": 1360,
+          "primaryEnergySizeRatio": 0.52,
+          "secondaryEnergySizeRatio": 0.35,
+          "primaryRotationDegPerSecond": 42,
+          "secondaryRotationDegPerSecond": -68,
+          "primaryAlpha": 0.48,
+          "secondaryAlpha": 0.2
+        },
+        "dig": {
+          "recoilPx": 4,
+          "squashWidthRatio": 0.022,
+          "squashHeightRatio": -0.014,
+          "energyScaleBoostRatio": 0.15,
+          "energyAlphaBoost": 0.26,
+          "rotationBoostDeg": 150,
+          "auraRadiusRatio": 0.43,
+          "beamStartRatio": 0.16,
+          "beamSpreadPx": 15,
+          "beamGlowWidthPx": 11,
+          "beamCoreWidthPx": 2.5
+        },
+        "cloud": {
+          "displaySizePx": 178,
+          "backScale": 0.92,
+          "frontScale": 1.12,
+          "backAlpha": 0.72,
+          "frontAlpha": 0.48,
+          "rotationDegPerSecond": 34
+        }
+      },
+      "arcCoreOmega": {
+        "bodyRole": "omega.body",
+        "energyRole": "omega.sigil",
+        "cloudRole": "omega.cloud",
+        "bodyDisplaySizePx": 452,
+        "originX": 0.5,
+        "originY": 0.5,
+        "depths": {
+          "cloudBack": 10.08,
+          "body": 10.12,
+          "energyPrimary": 10.16,
+          "energySecondary": 10.17,
+          "cloudFront": 12.18
+        },
+        "idle": {
+          "bobPx": 5,
+          "bobPeriodMs": 4320,
+          "bodyBreathRatio": 0.0035,
+          "bodyBreathPeriodMs": 3180,
+          "primaryEnergySizeRatio": 0.31,
+          "secondaryEnergySizeRatio": 0.2,
+          "primaryRotationDegPerSecond": 6,
+          "secondaryRotationDegPerSecond": -11,
+          "primaryAlpha": 0.42,
+          "secondaryAlpha": 0.16
+        },
+        "dig": {
+          "recoilPx": 10,
+          "squashWidthRatio": 0.012,
+          "squashHeightRatio": -0.008,
+          "energyScaleBoostRatio": 0.21,
+          "energyAlphaBoost": 0.34,
+          "rotationBoostDeg": 48,
+          "auraRadiusRatio": 0.44,
+          "beamStartRatio": 0.28,
+          "beamSpreadPx": 31,
+          "beamGlowWidthPx": 17,
+          "beamCoreWidthPx": 3.5
+        },
+        "cloud": {
+          "displaySizePx": 584,
+          "backScale": 0.94,
+          "frontScale": 1.14,
+          "backAlpha": 0.68,
+          "frontAlpha": 0.42,
+          "rotationDegPerSecond": 9
+        }
+      }
+    }
+  }
+}

@@ -28,14 +28,14 @@ const IDLE_FIDGETS = Object.freeze([
     // Continue through the settle tail so the one-shot ends beside idle frame 0
     // instead of snapping from frame 27 back to the start of the base loop.
     frames: segment(8, 48),
-    frameRate: 24,
+    frameRate: 18,
     repeat: 0,
   }),
   Object.freeze({
     key: "survival-blender-v2-idle-settle-fidget-anim",
     profileSheetKey: "idleTalkSheet",
     frames: segment(28, 48),
-    frameRate: 24,
+    frameRate: 18,
     repeat: 0,
   }),
 ]);

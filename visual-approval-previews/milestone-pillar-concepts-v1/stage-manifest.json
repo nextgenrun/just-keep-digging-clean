@@ -1,0 +1,373 @@
+{
+  "reviewOnly": true,
+  "productionChanged": false,
+  "stageDepths": [
+    0,
+    400,
+    800,
+    1200,
+    1600
+  ],
+  "options": [
+    {
+      "id": "a",
+      "label": "Carved Slate Depth Chronicle",
+      "sheet": "option-a-carved-slate-depth-chronicle.png",
+      "stages": [
+        {
+          "stage": 1,
+          "depth": 0,
+          "path": "option-a-stage-1.png",
+          "width": 296,
+          "height": 390,
+          "sourceCrop": [
+            7,
+            483,
+            303,
+            873
+          ]
+        },
+        {
+          "stage": 2,
+          "depth": 400,
+          "path": "option-a-stage-2.png",
+          "width": 316,
+          "height": 525,
+          "sourceCrop": [
+            319,
+            348,
+            635,
+            873
+          ]
+        },
+        {
+          "stage": 3,
+          "depth": 800,
+          "path": "option-a-stage-3.png",
+          "width": 342,
+          "height": 636,
+          "sourceCrop": [
+            657,
+            237,
+            999,
+            873
+          ]
+        },
+        {
+          "stage": 4,
+          "depth": 1200,
+          "path": "option-a-stage-4.png",
+          "width": 363,
+          "height": 709,
+          "sourceCrop": [
+            1000,
+            165,
+            1363,
+            874
+          ]
+        },
+        {
+          "stage": 5,
+          "depth": 1600,
+          "path": "option-a-stage-5.png",
+          "width": 385,
+          "height": 874,
+          "sourceCrop": [
+            1359,
+            0,
+            1744,
+            874
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Living Crystal Strata",
+      "sheet": "option-b-living-crystal-strata.png",
+      "stages": [
+        {
+          "stage": 1,
+          "depth": 0,
+          "path": "option-b-stage-1.png",
+          "width": 253,
+          "height": 346,
+          "sourceCrop": [
+            38,
+            523,
+            291,
+            869
+          ]
+        },
+        {
+          "stage": 2,
+          "depth": 400,
+          "path": "option-b-stage-2.png",
+          "width": 300,
+          "height": 501,
+          "sourceCrop": [
+            337,
+            369,
+            637,
+            870
+          ]
+        },
+        {
+          "stage": 3,
+          "depth": 800,
+          "path": "option-b-stage-3.png",
+          "width": 305,
+          "height": 611,
+          "sourceCrop": [
+            690,
+            259,
+            995,
+            870
+          ]
+        },
+        {
+          "stage": 4,
+          "depth": 1200,
+          "path": "option-b-stage-4.png",
+          "width": 315,
+          "height": 748,
+          "sourceCrop": [
+            1051,
+            125,
+            1366,
+            873
+          ]
+        },
+        {
+          "stage": 5,
+          "depth": 1600,
+          "path": "option-b-stage-5.png",
+          "width": 323,
+          "height": 867,
+          "sourceCrop": [
+            1411,
+            9,
+            1734,
+            876
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "label": "Dwarven Depth Engine",
+      "sheet": "option-c-dwarven-depth-engine.png",
+      "stages": [
+        {
+          "stage": 1,
+          "depth": 0,
+          "path": "option-c-stage-1.png",
+          "width": 256,
+          "height": 338,
+          "sourceCrop": [
+            0,
+            553,
+            256,
+            891
+          ]
+        },
+        {
+          "stage": 2,
+          "depth": 400,
+          "path": "option-c-stage-2.png",
+          "width": 291,
+          "height": 445,
+          "sourceCrop": [
+            268,
+            446,
+            559,
+            891
+          ]
+        },
+        {
+          "stage": 3,
+          "depth": 800,
+          "path": "option-c-stage-3.png",
+          "width": 309,
+          "height": 574,
+          "sourceCrop": [
+            573,
+            319,
+            882,
+            893
+          ]
+        },
+        {
+          "stage": 4,
+          "depth": 1200,
+          "path": "option-c-stage-4.png",
+          "width": 382,
+          "height": 693,
+          "sourceCrop": [
+            896,
+            201,
+            1278,
+            894
+          ]
+        },
+        {
+          "stage": 5,
+          "depth": 1600,
+          "path": "option-c-stage-5.png",
+          "width": 455,
+          "height": 896,
+          "sourceCrop": [
+            1262,
+            0,
+            1717,
+            896
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d",
+      "label": "Ancient Root Rune Cairn",
+      "sheet": "option-d-ancient-root-rune-cairn.png",
+      "stages": [
+        {
+          "stage": 1,
+          "depth": 0,
+          "path": "option-d-stage-1.png",
+          "width": 231,
+          "height": 266,
+          "sourceCrop": [
+            21,
+            599,
+            252,
+            865
+          ]
+        },
+        {
+          "stage": 2,
+          "depth": 400,
+          "path": "option-d-stage-2.png",
+          "width": 299,
+          "height": 434,
+          "sourceCrop": [
+            286,
+            431,
+            585,
+            865
+          ]
+        },
+        {
+          "stage": 3,
+          "depth": 800,
+          "path": "option-d-stage-3.png",
+          "width": 361,
+          "height": 593,
+          "sourceCrop": [
+            617,
+            272,
+            978,
+            865
+          ]
+        },
+        {
+          "stage": 4,
+          "depth": 1200,
+          "path": "option-d-stage-4.png",
+          "width": 389,
+          "height": 668,
+          "sourceCrop": [
+            983,
+            197,
+            1372,
+            865
+          ]
+        },
+        {
+          "stage": 5,
+          "depth": 1600,
+          "path": "option-d-stage-5.png",
+          "width": 412,
+          "height": 861,
+          "sourceCrop": [
+            1351,
+            4,
+            1763,
+            865
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e",
+      "label": "Starforge Abyss Obelisk",
+      "sheet": "option-e-starforge-abyss-obelisk.png",
+      "stages": [
+        {
+          "stage": 1,
+          "depth": 0,
+          "path": "option-e-stage-1.png",
+          "width": 259,
+          "height": 294,
+          "sourceCrop": [
+            53,
+            582,
+            312,
+            876
+          ]
+        },
+        {
+          "stage": 2,
+          "depth": 400,
+          "path": "option-e-stage-2.png",
+          "width": 299,
+          "height": 447,
+          "sourceCrop": [
+            352,
+            430,
+            651,
+            877
+          ]
+        },
+        {
+          "stage": 3,
+          "depth": 800,
+          "path": "option-e-stage-3.png",
+          "width": 319,
+          "height": 596,
+          "sourceCrop": [
+            683,
+            281,
+            1002,
+            877
+          ]
+        },
+        {
+          "stage": 4,
+          "depth": 1200,
+          "path": "option-e-stage-4.png",
+          "width": 328,
+          "height": 686,
+          "sourceCrop": [
+            1019,
+            191,
+            1347,
+            877
+          ]
+        },
+        {
+          "stage": 5,
+          "depth": 1600,
+          "path": "option-e-stage-5.png",
+          "width": 375,
+          "height": 877,
+          "sourceCrop": [
+            1361,
+            0,
+            1736,
+            877
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 from pathlib import Path
+import hashlib
 import re
 
 from PIL import Image
@@ -71,7 +72,35 @@ def build():
                 method=WEBP_METHOD,
             )
         written.append(output_path)
-    print(f"Built {len(written)} biome background cards in {OUTPUT_DIR}")
+
+    expected_paths = set(written)
+    actual_paths = set(OUTPUT_DIR.glob("*-v2.webp"))
+    if actual_paths != expected_paths:
+        missing = sorted(path.name for path in expected_paths - actual_paths)
+        extra = sorted(path.name for path in actual_paths - expected_paths)
+        raise RuntimeError(f"Runtime output mismatch: missing={missing}, extra={extra}")
+
+    hashes = set()
+    total_bytes = 0
+    for output_path in written:
+        payload = output_path.read_bytes()
+        hashes.add(hashlib.sha256(payload).hexdigest())
+        total_bytes += len(payload)
+        with Image.open(output_path) as image:
+            if image.format != "WEBP" or image.size != EXPECTED_SIZE:
+                raise RuntimeError(
+                    f"Invalid runtime card {output_path.name}: "
+                    f"format={image.format}, size={image.size}"
+                )
+    if len(hashes) != len(written):
+        raise RuntimeError(
+            f"Expected {len(written)} unique runtime cards, found {len(hashes)} hashes"
+        )
+    print(
+        f"Built and verified {len(written)} unique {EXPECTED_SIZE[0]}x"
+        f"{EXPECTED_SIZE[1]} WebP cards ({total_bytes / 1024 / 1024:.2f} MiB) "
+        f"in {OUTPUT_DIR}"
+    )
 
 
 if __name__ == "__main__":

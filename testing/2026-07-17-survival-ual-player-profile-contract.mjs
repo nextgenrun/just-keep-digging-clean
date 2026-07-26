@@ -74,6 +74,12 @@ assert.equal(survival.sourceClips.walk, "Blender MINER_walk");
 assert.equal(survival.sourceClips.run, "UAL Jog_Fwd_Loop");
 assert.match(survival.sourceClips.fly, /DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3/);
 assert.match(survival.sourceClips.flyHover, /DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3/);
+assert.equal(survival.continuousFlightLoop, true);
+assert.equal(survival.idleAnimationFps, 12);
+assert.equal(survival.digUpLookAnimationFps, 30);
+assert.equal(survival.landingAnimationFps, 40);
+assert.equal(survival.landingFrames.length, 14);
+assert.deepEqual(survival.footstepFrameIndices[survival.walkRunAnim], [13, 27]);
 assert.equal(survival.digSidewaysAnim, survival.quickslashAnim);
 assert.deepEqual(survival.digSidewaysFrames, survival.quickslashFrames);
 assert.deepEqual(survival.digSidewaysHitAnims, [
@@ -86,6 +92,7 @@ assert.deepEqual(survival.rejectedAnimationKeys, [`${prefix}-dig-side-jab-anim`]
 assert.deepEqual(survival.walkFrames, blender.frames.walk);
 assert.deepEqual(survival.walkRunFrames, ual.walkRunFrames);
 assert.deepEqual(survival.flySourceFrames, blender.frames.fly);
+assert.deepEqual(survival.flightTravelLoopFrames, blender.frames.fly);
 assert.equal(survival.sheetFiles.length, ual.sheetFiles.length);
 assert.equal(new Set(survival.requiredSheets).size, survival.requiredSheets.length);
 assert.equal(survival.requiredSheets.length, 19);
@@ -165,6 +172,10 @@ assert.deepEqual(
   resolveUalActionContact(survival, survival.digDownAnim),
   resolveUalActionContact(ual, ual.digDownAnim),
 );
+assert.equal(
+  resolveUalActionContact(survival, survival.digUpHitAnims[0]).sequenceIndex,
+  6,
+);
 
 const queuedSheets = [];
 const queuedJson = [];
@@ -209,6 +220,11 @@ assert.ok(survival.idleFidgets.every((fidget) => createdAnimations.has(fidget.ke
 assert.ok(PLAYER_MOTION_POLISH_CONFIG.idle.fidgets.every((fidget) => !createdAnimations.has(fidget.key)));
 assert.equal(createdAnimations.has(`${prefix}-dig-side-jab-anim`), false);
 assert.equal(createdAnimations.get(survival.quickslashAnim)?.frames.length, 15);
+assert.equal(createdAnimations.get(survival.idleAnim)?.frameRate, 12);
+assert.equal(createdAnimations.get(survival.digUpLookAnim)?.frameRate, 30);
+assert.equal(createdAnimations.get(survival.landingAnim)?.frameRate, 40);
+assert.equal(createdAnimations.get(survival.landingAnim)?.frames.length, 14);
+assert.equal(createdAnimations.get(survival.digUpHitAnims[0])?.frames.length, 24);
 for (const key of [
   survival.flyAnim,
   survival.flyClimbAnim,
@@ -219,6 +235,7 @@ for (const key of [
   survival.flightExitAnim,
 ]) {
   assert.equal(createdAnimations.get(key)?.frameRate, 16, `${key} lost authored Superman cadence`);
+  assert.equal(createdAnimations.get(key)?.frames.length, 36, `${key} restarted a sliced flight phase`);
 }
 
 const motionPolish = new PlayerMotionPolishSystem(survival);
@@ -227,6 +244,7 @@ assert.ok(PLAYER_MOTION_POLISH_CONFIG.idle.fidgets.every(
   (fidget) => !motionPolish.oneShotAnimationKeys.includes(fidget.key),
 ));
 assert.deepEqual(survival.idleFidgets, blender.idleFidgets);
+assert.ok(survival.idleFidgets.every((fidget) => fidget.frameRate === 18));
 assert.deepEqual(
   survival.idleFidgets.find(({ key }) => key.includes("breath"))?.frames,
   Array.from({ length: 40 }, (_, index) => index + 8),

@@ -19,9 +19,16 @@ import { getWorldVisualFeedbackPreloadAssets } from "../../values/worldVisualFee
 import { getWorldVisualSemanticPreloadAssets } from "../../values/worldVisualSemanticAssets.js";
 import { getWorldVisualLandmarkPreloadAssets } from "../../values/worldVisualLandmarks.js";
 import { getTitanDiscoveryPreloadAssets } from "../../values/titanDiscoveries.js";
+import {
+  getNpcActivityPreloadAssets,
+  resolveNpcActivitiesEnabled,
+} from "../../values/npcActivityConfig.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
+import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
+import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
+import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
 import {
   MENU_BACKGROUND_ASSETS,
@@ -331,9 +338,12 @@ export class BootScene extends Phaser.Scene {
       this.preloadBranding();
       this.preloadBackgrounds();
       this.preloadConstellationSprites();
+      this.preloadPillarSprites();
+      this.preloadOpeningFlightSprites();
       this.preloadNPCs();
       this.preloadTileSprites();
       this.preloadFxSprites();
+      this.preloadGraveborerWurmSprites();
       this.preloadUiSprites();
       await this.preloadAudio();
       this.load.start();
@@ -491,6 +501,26 @@ export class BootScene extends Phaser.Scene {
     this.queueImage(celestial.cometEngine, `${celestialBase}comet-engine-core-v1.png`);
   }
 
+  preloadPillarSprites() {
+    const keys = ASSET_KEYS.environment.pillars;
+    const base = PILLAR_VISUAL_CONFIG.assetBasePath;
+    keys.milestoneStages.forEach((key, index) => {
+      this.queueImage(key, `${base}${PILLAR_VISUAL_CONFIG.milestone.filenames[index]}`);
+    });
+    keys.starStages.forEach((key, index) => {
+      this.queueImage(key, `${base}${PILLAR_VISUAL_CONFIG.star.filenames[index]}`);
+    });
+  }
+
+    preloadOpeningFlightSprites() {
+    const opening = ASSET_KEYS.onboarding.openingFlightV2;
+    this.queueImage(opening.artifact, opening.paths.artifact);
+    this.queueImage(opening.shaftMarker, opening.paths.shaftMarker);
+    this.queueImage(opening.flightRing, opening.paths.flightRing);
+    this.queueImage(opening.ascentCache, opening.paths.ascentCache);
+    this.queueImage(opening.objectiveHudFrame, opening.paths.objectiveHudFrame);
+  }
+
   preloadNPCs() {
     const base = "sprites/npc/npc-v3/sheets";
     const generatedMerchantBase = "sprites/npc/npc-v5-generated/singles/merchant-idle";
@@ -510,6 +540,12 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gearMerchant, `${generatedMerchantBase}/gear-merchant.webp?v=${generatedMerchantVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.boboMerchant, `${generatedMerchantBase}/bobo-merchant.webp?v=${generatedMerchantVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gemPowerMerchant, `${generatedMerchantBase}/gem-power-merchant.webp?v=${generatedMerchantVersion}`);
+
+    if (resolveNpcActivitiesEnabled()) {
+      for (const asset of getNpcActivityPreloadAssets(ASSET_KEYS.npcs.merchantActivities)) {
+        this.load.image(asset.key, asset.path);
+      }
+    }
 
     const supportsAnimatedMerchants = this.sys.game.device.video.webm && this.sys.game.device.video.vp9;
     if (supportsAnimatedMerchants) {
@@ -868,6 +904,17 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.fx.break2, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp");
   }
 
+  preloadGraveborerWurmSprites() {
+    const basePath = GRAVEBORER_WURM_CONFIG.assets.basePath;
+    const files = GRAVEBORER_WURM_CONFIG.assets;
+    const keys = ASSET_KEYS.environment.graveborerWurm;
+    this.queueImage(keys.head, `${basePath}/${files.headFile}`);
+    this.queueImage(keys.body, `${basePath}/${files.bodyFile}`);
+    this.queueImage(keys.tail, `${basePath}/${files.tailFile}`);
+    this.queueImage(keys.medallion, `${basePath}/${files.medallionFile}`);
+    this.queueImage(keys.warning, `${basePath}/${files.warningFile}`);
+  }
+
   preloadUiSprites() {
     this.load.spritesheet(UI_ICON_ATLAS.key, UI_ICON_ATLAS.path, {
       frameWidth: UI_ICON_ATLAS.frameWidth,
@@ -885,6 +932,9 @@ export class BootScene extends Phaser.Scene {
       const path = APPROVED_HUD_SKIN.paths[name];
       if (path) this.queueImage(key, path);
     });
+    for (const asset of getEarthquakeFeedbackPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
     this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.stone, "sprites/UI/loot-pickups/stone.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.copper, "sprites/UI/loot-pickups/copper.png");

@@ -7,6 +7,15 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 2. **Archive outdated tools:** Move to `/archive/` with date prefix when superseded
 3. **Keep readme updated:** Document what each active tool does
 
+## Generated asset sources
+
+The five `2026-07-26-graveborer-wurm-*-source-chroma-v1.png` files are the
+full-resolution ImageGen extraction sources for the Hardcore Wurm head, body,
+tail, threat medallion, and burrow-warning seam. The matching
+`2026-07-26-hardcore-graveborer-wurm-gameplay-mockup-v1.png` records their
+approved in-game scale and readability direction. Runtime alpha masters and
+WebPs live under `sprites/environment/graveborer-wurm-v1/`.
+
 ## Active Tools
 
 | Tool | Purpose |
@@ -91,7 +100,13 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 | `2026-07-18-render-directional-side-punch-review.py` | Render the approved Punch Cross unchanged plus isolated upward and downward torso layers into review-only browser candidates |
 | `2026-07-26-render-superman-flight-prone-v3-runtime.py` | Render the exact approved prone-v3 Blender pose as a mirrored, source-facing-right 36-frame production flight loop while retaining the old Push Loop sheet for rollback |
 | `2026-07-26-build-npc-idle-director-review.py` | Crop the two ImageGen NPC director boards into synchronized review poses, build the current-versus-proposed contact sheet, and record active runtime hashes without changing production assets |
+| `2026-07-26-build-npc-activity-review.py` | Crop the two v3 NPC activity boards into inspectable poses, build the labeled activity contact sheet, and record review-only hashes without changing production assets |
 | `2026-07-26-build-titan-sprites.py` | Split the approved 5x5 chroma-cleaned titan atlas into 25 normalized transparent runtime silhouettes and a dark-background QA sheet |
+| `2026-07-26-build-underground-biome-backgrounds-v2.py` | Convert mockups 51-100 into 50 unique exact-1536x1024 WebP scenic cards, allowing only a two-pixel source normalization and verifying dimensions, format, hashes, and output inventory |
+| `2026-07-26-build-opening-flight-v2-assets.py` | Crop and losslessly pack the five chroma-cleaned Golden Five onboarding sprites, including the premium objective-HUD frame, into compact alpha-safe runtime WebPs |
+| `2026-07-26-build-milestone-pillar-review-assets.py` | Split the five transparent ImageGen milestone-pillar progression sheets into 25 baseline-aligned Phaser review stages and emit their review-only manifest |
+| `2026-07-26-build-milestone-pillar-runtime-contact-sheet.py` | Assemble the five stage-5 Phaser review captures into one labeled visual-approval contact sheet |
+| `2026-07-26-build-earthquake-feedback-ui-v2.py` | Pack the chroma-cleaned ImageGen seismic status master into a 2x Phaser status plate and reusable hazard medallion with alpha and size validation |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

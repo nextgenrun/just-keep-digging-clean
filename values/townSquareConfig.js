@@ -1,6 +1,13 @@
 export const TOWN_SQUARE_CONFIG = Object.freeze({
   layoutId: "town-square-option-a-v1",
   merchantSurfaceTileOffset: -1,
+  merchantInteractionRangeTiles: 3,
+  milestonePillar: Object.freeze({
+    tileX: 3,
+    displayTileYOffset: -3,
+    interactionTileYOffset: -1,
+    interactionRangeTiles: 2,
+  }),
   surfaceMerchantOrder: Object.freeze([
     "boboMerchant",
     "playerUpgrades",

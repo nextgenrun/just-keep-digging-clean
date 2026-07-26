@@ -243,6 +243,11 @@ assert.equal(
 );
 assert.ok(productionWorld.treasureRoomZones.length > 0, "live Gilded caves index functional chests");
 assert.ok(productionWorld.glowCrystalZones.length > 0, "live luminous caves index crystal lighting");
+assert.equal(
+  productionWorld.caveLightZones.filter(zone => zone.isHazardLight !== true).length,
+  productionWorld.caveZones.filter(zone => zone.standaloneScene !== true).length,
+  "every integrated cave receives a local darkness-mask light pool",
+);
 for (const zone of productionLevelOneCaves) {
   assert.equal(
     productionWorld.getTileType(zone.cx, zone.cy),

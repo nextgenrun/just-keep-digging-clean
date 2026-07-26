@@ -20,11 +20,12 @@ import {
 } from "./arcCoreReviewRenderer.js";
 import { drawArcCoreAnimationReviewDamage } from "./arcCoreReviewDamageRenderer.js";
 import {
-  createArcCoreImagegenArtwork,
-  drawArcCoreImagegenArtwork,
-  hideArcCoreImagegenArtwork,
-  preloadArcCoreImagegenArtwork,
-} from "./arcCoreImagegenArtwork.js";
+  createArcCoreSpriteArtwork,
+  drawArcCoreSpriteArtwork,
+  drawArcCoreSpriteCloudTransition,
+  hideArcCoreSpriteArtwork,
+  preloadArcCoreSpriteArtwork,
+} from "./arcCoreSpriteArtwork.js";
 import {
   beginArcCloudTransition,
   drawArcCloudTransition,
@@ -338,7 +339,7 @@ const TankScene = new Phaser.Class({
     robotSheet("robot_sphere_dig_side", "dig-side");
     robotSheet("robot_sphere_dig_up", "dig-up");
     robotSheet("robot_sphere_dig_down", "dig-down");
-    preloadArcCoreImagegenArtwork(this);
+    preloadArcCoreSpriteArtwork(this);
   },
 
   create: function () {
@@ -362,7 +363,7 @@ const TankScene = new Phaser.Class({
     this.survivalInspection2x = false;
     this.previewFlyMode = false;
     this.reviewStageMode = "normal";
-    this.useImagegenArcArt = true;
+    this.useSpriteArcArt = true;
     this.lastArcMode = CHARACTER_MODES.arcCoreSmall;
     this.arcCloudTransition = null;
 
@@ -395,7 +396,7 @@ const TankScene = new Phaser.Class({
       .setVisible(false);
     this.robotSphereSprite = this.add.sprite(this.body.x + BODY_SIZE * 0.5, this.body.y + BODY_SIZE * 0.5, "robot_sphere_idle", 0);
     this.robotSphereSprite.setOrigin(0.5, 0.5).setDepth(10).setVisible(false);
-    this.arcImagegenArtwork = createArcCoreImagegenArtwork(this);
+    this.arcSpriteArtwork = createArcCoreSpriteArtwork(this);
     this.playerGfx = this.add.graphics().setDepth(10);
     this.drillGfx = this.add.graphics().setDepth(10.5);
     this.occluderGfx = this.add.graphics().setDepth(11);
@@ -511,18 +512,18 @@ const TankScene = new Phaser.Class({
     addButton("Robot Sphere", () => {
       this.setCharacterMode(CHARACTER_MODES.robotSphere);
     });
-    this.smallArcButton = addButton("Small Arc — Needle", () => {
+    this.smallArcButton = addButton("Small Arc — Round Gyro", () => {
       this.setCharacterMode(CHARACTER_MODES.arcCoreSmall);
     });
     this.omegaArcButton = addButton("Omega — Array", () => {
       this.setCharacterMode(CHARACTER_MODES.arcCoreOmega);
     });
-    this.arcArtworkButton = addButton("Arc Art: ImageGen", () => {
-      this.useImagegenArcArt = !this.useImagegenArcArt;
-      this.arcArtworkButton.textContent = this.useImagegenArcArt
-        ? "Arc Art: ImageGen"
+    this.arcArtworkButton = addButton("Arc Art: Layered .sprite", () => {
+      this.useSpriteArcArt = !this.useSpriteArcArt;
+      this.arcArtworkButton.textContent = this.useSpriteArcArt
+        ? "Arc Art: Layered .sprite"
         : "Arc Art: Procedural";
-      this.arcArtworkButton.classList.toggle("active", this.useImagegenArcArt);
+      this.arcArtworkButton.classList.toggle("active", this.useSpriteArcArt);
       this.drawAll();
     }, true);
     this.arcArtworkButton.classList.add("active");
@@ -570,11 +571,49 @@ const TankScene = new Phaser.Class({
   setCharacterMode: function (mode) {
     this.syncArcCoreReviewStage(mode);
     this.characterMode = mode;
+    if (isArcCoreAnimationReviewMode(mode)) this.lastArcMode = mode;
     this.body.vx = 0;
     this.body.vy = 0;
     this.smallArcButton?.classList.toggle("active", mode === CHARACTER_MODES.arcCoreSmall);
     this.omegaArcButton?.classList.toggle("active", mode === CHARACTER_MODES.arcCoreOmega);
     this.drawAll();
+  },
+
+  toggleArcCloudTransition: function () {
+    if (this.arcCloudTransition) return;
+    this.activeDig = null;
+    this.recoilX = 0;
+    this.recoilY = 0;
+    this.body.vx = 0;
+    this.body.vy = 0;
+
+    if (isArcCoreAnimationReviewMode(this.characterMode)) {
+      this.arcCloudTransition = beginArcCloudTransition(
+        "exit",
+        this.characterMode,
+        this.time.now,
+      );
+      this.drawAll();
+      return;
+    }
+
+    const arcMode = this.lastArcMode || CHARACTER_MODES.arcCoreSmall;
+    this.arcCloudTransition = beginArcCloudTransition(
+      "enter",
+      arcMode,
+      this.time.now,
+    );
+    this.setCharacterMode(arcMode);
+  },
+
+  updateArcCloudTransition: function () {
+    if (!isArcCloudTransitionComplete(this.arcCloudTransition, this.time.now)) return;
+    const completed = this.arcCloudTransition;
+    this.arcCloudTransition = null;
+    this.arcCloudGfx.clear();
+    if (completed.kind === "exit") {
+      this.setCharacterMode(CHARACTER_MODES.survivalMiner);
+    }
   },
 
   syncArcCoreReviewStage: function (mode, force = false) {
@@ -620,6 +659,8 @@ const TankScene = new Phaser.Class({
     this.survivalUseWalk = false;
     if (this.survivalLocomotionButton) this.survivalLocomotionButton.textContent = "Use Walk";
     this.previewFlyMode = false;
+    this.arcCloudTransition = null;
+    this.arcCloudGfx?.clear();
     this.chassis.play("tank-idle", true);
     this.drawAll();
   },
@@ -630,6 +671,8 @@ const TankScene = new Phaser.Class({
     if (Phaser.Input.Keyboard.JustDown(this.keyPeriod)) this.stepOnce = true;
     if (Phaser.Input.Keyboard.JustDown(this.keyR)) this.resetWorld();
     if (Phaser.Input.Keyboard.JustDown(this.keyQ)) this.triggerSurvivalAttack();
+    if (Phaser.Input.Keyboard.JustDown(this.keyB)) this.toggleArcCloudTransition();
+    this.updateArcCloudTransition();
     if (this.debug.paused) {
       if (!this.stepOnce) dt = 0;
       else dt = 1 / 30;
@@ -638,7 +681,7 @@ const TankScene = new Phaser.Class({
     if (this.debug.slowMotion) dt *= 0.25;
 
     if (dt > 0) {
-      this.handleMovement(dt);
+      if (!this.arcCloudTransition) this.handleMovement(dt);
       this.updateDig(dt);
       this.updateParticles(dt);
     }
@@ -840,8 +883,16 @@ const TankScene = new Phaser.Class({
   },
 
   getTargetInDirection: function (direction) {
-    const tx = this.body.tileX + direction.x;
-    const ty = this.body.tileY + direction.y;
+    const omegaStageTarget = (
+      this.characterMode === CHARACTER_MODES.arcCoreOmega
+      && direction.x > 0
+    );
+    const tx = omegaStageTarget
+      ? ARC_CORE_ANIMATION_REVIEW.stage.omegaWallTileX
+      : this.body.tileX + direction.x;
+    const ty = omegaStageTarget
+      ? ARC_CORE_ANIMATION_REVIEW.stage.omegaWallTileY
+      : this.body.tileY + direction.y;
     if (tx < 0 || tx >= WORLD_COLS || ty < 0 || ty >= WORLD_ROWS) return null;
     return { tx, ty, type: this.world[ty][tx] };
   },
@@ -1382,10 +1433,16 @@ const TankScene = new Phaser.Class({
   drawPlayer: function () {
     const g = this.playerGfx;
     g.clear();
+    this.arcCloudGfx.clear();
+    hideArcCoreSpriteArtwork(this.arcSpriteArtwork);
     this.livingDrillSprite.setVisible(false);
     this.pickaxeMinerSprite.setVisible(false);
     this.survivalMinerSprite.setVisible(false);
     this.robotSphereSprite.setVisible(false);
+    if (this.arcCloudTransition) {
+      this.drawArcCloudTransitionPlayer(g);
+      return;
+    }
     if (this.characterMode === CHARACTER_MODES.tank) {
       return;
     }
@@ -1446,6 +1503,61 @@ const TankScene = new Phaser.Class({
     this.drillSpinFrame = (this.drillSpinFrame + (this.activeDig ? 1.35 : 0.22)) % 4;
   },
 
+  drawArcCloudTransitionPlayer: function (g) {
+    const transition = this.arcCloudTransition;
+    const visual = resolveArcCloudTransitionVisuals(transition, this.time.now);
+    const direction = this.getCurrentDigDirection();
+    const cx = this.body.x + BODY_SIZE * 0.5;
+    const cy = this.body.y + BODY_SIZE * 0.5;
+    const playerRestY = this.body.y + BODY_SIZE;
+    const playerY = lerp(playerRestY, cy + 20, visual.playerToCore);
+    const playerSize = getSurvivalVisualSize(false) * visual.playerScale;
+
+    this.survivalMinerSprite
+      .setVisible(visual.playerAlpha > 0.002)
+      .setPosition(cx, playerY)
+      .setDisplaySize(playerSize, playerSize)
+      .setOrigin(
+        SURVIVAL_PLAYER_ASSET_PROFILE.visualOriginX,
+        SURVIVAL_PLAYER_ASSET_PROFILE.visualOriginY,
+      )
+      .setFlipX(this.facing < 0)
+      .setAngle(0)
+      .setAlpha(visual.playerAlpha)
+      .play("survival-miner-idle", true);
+
+    drawArcCoreSpriteArtwork(this.arcSpriteArtwork, g, {
+      mode: transition.arcMode,
+      cx,
+      cy,
+      timeMs: this.time.now,
+      progress: 0,
+      active: false,
+      direction,
+      targets: [],
+      tileSize: TILE_SIZE,
+      alpha: visual.arcAlpha,
+      scaleMultiplier: visual.arcScale,
+    });
+    drawArcCoreSpriteCloudTransition(this.arcSpriteArtwork, {
+      mode: transition.arcMode,
+      kind: transition.kind,
+      cx,
+      cy,
+      timeMs: this.time.now,
+      progress: visual.progress,
+      cloudEnvelope: visual.cloudEnvelope,
+      direction,
+    });
+    drawArcCloudTransition(this.arcCloudGfx, {
+      transition,
+      timeMs: this.time.now,
+      cx,
+      cy,
+      direction,
+    });
+  },
+
   drawPickaxeMinerPlayer: function (g) {
     this.livingDrillSprite.setVisible(false);
     const direction = this.getCurrentDigDirection();
@@ -1498,6 +1610,7 @@ const TankScene = new Phaser.Class({
       .setDisplaySize(visualSize, visualSize)
       .setFlipX(this.facing < 0)
       .setAngle(0)
+      .setAlpha(1)
       .play(animation, true);
 
     if (this.flyMode && !this.activeDig && !attacking) {
@@ -1601,7 +1714,7 @@ const TankScene = new Phaser.Class({
     const direction = this.getCurrentDigDirection();
     const cx = this.body.x + BODY_SIZE * 0.5 + this.recoilX * 0.35;
     const cy = this.body.y + BODY_SIZE * 0.5 + this.recoilY * 0.35;
-    drawArcCoreAnimationReview(g, {
+    const options = {
       mode: this.characterMode,
       cx,
       cy,
@@ -1611,7 +1724,12 @@ const TankScene = new Phaser.Class({
       direction,
       targets: this.activeDig?.targets || [],
       tileSize: TILE_SIZE,
-    });
+    };
+    if (this.useSpriteArcArt) {
+      drawArcCoreSpriteArtwork(this.arcSpriteArtwork, g, options);
+    } else {
+      drawArcCoreAnimationReview(g, options);
+    }
   },
 
   drawWormholePlayer: function (g) {
@@ -2168,9 +2286,11 @@ const TankScene = new Phaser.Class({
     if (!this.infoEl) return;
     const digProgress = this.getActiveDigProgress();
     const reviewMode = getArcCoreAnimationReviewMode(this.characterMode);
-    const phase = this.activeDig
-      ? resolveArcCoreAnimationReviewPhase(this.characterMode, digProgress) || phaseFor(digProgress)
-      : "idle";
+    const phase = this.arcCloudTransition
+      ? resolveArcCloudTransitionPhase(this.arcCloudTransition, this.time.now)
+      : this.activeDig
+        ? resolveArcCoreAnimationReviewPhase(this.characterMode, digProgress) || phaseFor(digProgress)
+        : "idle";
     const target = this.activeDig ? this.activeDig.target : this.getFacingTarget();
     const direction = this.getCurrentDigDirection();
     const aim = directionName(direction);
@@ -2185,7 +2305,7 @@ const TankScene = new Phaser.Class({
       ? (this.activeDig?.targets?.length || footprintDig.widthTiles * footprintDig.depthTiles)
       : 1;
     this.infoEl.innerHTML = [
-      "Small + Omega Arc Core Animation Review",
+      "Layered .sprite Small + Omega Arc Animation Review",
       `Hitbox: ${collisionProfile.label}`,
       `Hitbox size: ${Math.round(collisionBounds.right - collisionBounds.left)}x${Math.round(collisionBounds.bottom - collisionBounds.top)} (${collisionRects.length} ${collisionRects.length === 1 ? "rect" : "rects"})`,
       `Tile: (${this.body.tileX}, ${this.body.tileY})`,
@@ -2201,11 +2321,15 @@ const TankScene = new Phaser.Class({
           `Arc form: ${reviewMode.displayName}`,
           `Idle language: ${reviewMode.idleSignature}`,
           `Dig language: ${reviewMode.digSignature}`,
+          `Artwork: ${this.useSpriteArcArt
+            ? `${this.arcSpriteArtwork.activeProfileId} layered body + VFX`
+            : "procedural comparison"}`,
           "Review only: production visuals unchanged",
         ]
         : []),
       `Mining footprint: ${footprintDig ? `${footprintDig.widthTiles}x${footprintDig.depthTiles} (${footprintTargetCount} blocks)` : "1 block"}`,
       `Press ${ARC_CORE_ANIMATION_REVIEW.controls.digKey} to dig`,
+      `Press ${ARC_CORE_ANIMATION_REVIEW.controls.cloudKey} for cloud enter / exit`,
       "Press Q for UAL unarmed attack",
       `Fly: ${this.flyMode}`,
       `Dig phase: ${phase}`,

@@ -16,6 +16,11 @@ This directory owns non-visual runtime canary logic.
 - PlayScene checks also validate Star Heart charge, permanent-choice accounting,
   one-active-Engine state, activation caps, and bounded reward transaction
   memory.
+- Heavenblocks checks require the progression, access, and crafting
+  collaborators and validate protected platform collision, interaction-prompt
+  readiness, and serializable progression state.
+- PlayScene readiness also requires `openingFlightArtifactSystem`, so the admin
+  health panel fails closed if the first-run flight facade is missing.
 
 The system never mutates gameplay state. Admin presentation belongs in
 `ui/admin/`, and all thresholds, labels, event codes, and styles live in

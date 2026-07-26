@@ -1,16 +1,33 @@
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
-import { getCraftingRecipe } from "../../values/craftingRecipes.js";
+import {
+  CRAFTING_RECIPES,
+  getCraftingRecipe,
+} from "../../values/craftingRecipes.js";
+import { getResourceDisplayName } from "../../values/resourceTypes.js";
+
+const prettyId = (value) => String(value || "")
+  .replace(/[-_]+/g, " ")
+  .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+const check = (id, label, met, details = {}) => ({
+  id,
+  label,
+  met: met === true,
+  ...details,
+});
 
 export class CraftingSystem {
   constructor({
     digSystem = null,
     upgradeSystem = null,
     ancientRelicSystem = null,
+    heavenblocksProgressionSystem = null,
     progressionStateProvider = null,
   } = {}) {
     this.digSystem = digSystem;
     this.upgradeSystem = upgradeSystem;
     this.ancientRelicSystem = ancientRelicSystem;
+    this.heavenblocksProgressionSystem = heavenblocksProgressionSystem;
     this.progressionStateProvider = typeof progressionStateProvider === "function"
       ? progressionStateProvider
       : null;
@@ -21,99 +38,107 @@ export class CraftingSystem {
     this.progressionStateProvider = typeof provider === "function" ? provider : null;
   }
 
+  getRecipes() {
+    return Object.values(CRAFTING_RECIPES);
+  }
+
   getRecipeStatus(recipeId) {
     const recipe = getCraftingRecipe(recipeId);
-    if (!recipe) {
-      return { canCraft: false, reason: "invalid_recipe", recipeId };
-    }
-    if (!this.digSystem?.getResourceTotals || !this.digSystem?.trySpendResources) {
-      return { canCraft: false, reason: "resource_system_unavailable", recipeId };
-    }
-    if (
-      !this.upgradeSystem?.getUpgradeLevel
-      || !this.upgradeSystem?.grantUpgrade
-      || !this.upgradeSystem?.getUpgradeLevels
-      || !this.upgradeSystem?.setUpgradeLevels
-    ) {
-      return { canCraft: false, reason: "upgrade_system_unavailable", recipeId };
-    }
+    if (!recipe) return { canCraft: false, reason: "invalid_recipe", recipeId, checks: [] };
+    const systemsFailure = this._getSystemsFailure(recipeId);
+    if (systemsFailure) return systemsFailure;
 
-    const output = recipe.output;
-    const outputUpgrade = output?.type === "upgrade" ? UPGRADES[output.upgradeId] : null;
+    const outputUpgrade = recipe.output?.type === "upgrade"
+      ? UPGRADES[recipe.output.upgradeId]
+      : null;
     if (!outputUpgrade) {
-      return { canCraft: false, reason: "invalid_output", recipeId };
+      return { canCraft: false, reason: "invalid_output", recipeId, recipe, checks: [] };
     }
 
-    const outputLevel = this.upgradeSystem.getUpgradeLevel(output.upgradeId);
+    const outputLevel = this.upgradeSystem.getUpgradeLevel(recipe.output.upgradeId);
     if (outputUpgrade.oneTimePurchase && outputLevel > 0) {
       return {
         canCraft: false,
         reason: "already_owned",
         recipeId,
-        outputUpgradeId: output.upgradeId,
+        recipe,
+        checks: [check("ownership", "Already forged", true)],
+        outputUpgradeId: recipe.output.upgradeId,
       };
     }
 
-    if (outputUpgrade.requires) {
-      const requiredLevel = this.upgradeSystem.getUpgradeLevel(outputUpgrade.requires);
-      if (requiredLevel <= 0) {
-        return {
-          canCraft: false,
-          reason: "requires_upgrade",
-          recipeId,
-          requiredUpgradeId: outputUpgrade.requires,
-        };
-      }
-    }
-
-    const minimumRelics = recipe.requirements?.minimumAncientRelics || 0;
+    const requirements = recipe.requirements || {};
+    const progression = this._getProgressionSystem();
     const relicCount = this._getAncientRelicCount();
-    if (relicCount < minimumRelics) {
-      return {
-        canCraft: false,
-        reason: "not_enough_relics",
-        recipeId,
-        requiredRelics: minimumRelics,
-        currentRelics: relicCount,
-      };
+    const checks = [];
+
+    const relicRequired = requirements.minimumAncientRelics || 0;
+    checks.push(check(
+      "ancient-relics",
+      `Ancient Relics  ${relicCount} / ${relicRequired}`,
+      relicCount >= relicRequired,
+      { current: relicCount, required: relicRequired },
+    ));
+
+    for (const upgradeId of requirements.requiredUpgradeIds || []) {
+      const level = this.upgradeSystem.getUpgradeLevel(upgradeId);
+      checks.push(check(
+        `upgrade:${upgradeId}`,
+        `${UPGRADES[upgradeId]?.name || prettyId(upgradeId)}  ${level > 0 ? "OWNED" : "REQUIRED"}`,
+        level > 0,
+        { upgradeId, current: level, required: 1 },
+      ));
     }
 
-    const missingProgressFlags = (recipe.requirements?.progressFlags || [])
-      .filter(flag => !this._hasProgressFlag(flag));
-    if (missingProgressFlags.length > 0) {
-      return {
-        canCraft: false,
-        reason: "requires_progress",
-        recipeId,
-        missingProgressFlags,
-      };
+    if (requirements.requireArcCoreBlueprint) {
+      const met = progression?.isArcCoreBlueprintEligible?.() === true;
+      checks.push(check(
+        "arc-core-blueprint",
+        `Heavenblock blueprint  ${met ? "COMPLETE" : "INCOMPLETE"}`,
+        met,
+      ));
+    }
+
+    for (const partId of requirements.requiredInstalledPartIds || []) {
+      const installed = progression?.isPartInstalled?.(partId) === true;
+      checks.push(check(
+        `part:${partId}`,
+        `${prettyId(partId)}  ${installed ? "INSTALLED" : "MISSING"}`,
+        installed,
+        { partId },
+      ));
+    }
+
+    if (requirements.requireZenithKeystone) {
+      const met = progression?.hasZenithKeystone?.() === true;
+      checks.push(check(
+        "zenith-keystone",
+        `Zenith Keystone  ${met ? "FORGED" : "REQUIRED"}`,
+        met,
+      ));
     }
 
     const resources = this.digSystem.getResourceTotals();
-    const missingResources = Object.entries(recipe.ingredients || {})
-      .filter(([resourceType, amount]) => (resources[resourceType] || 0) < amount)
-      .map(([resourceType, amount]) => ({
-        resourceType,
-        required: amount,
-        have: resources[resourceType] || 0,
-        needed: Math.max(0, amount - (resources[resourceType] || 0)),
-      }));
-    if (missingResources.length > 0) {
-      return {
-        canCraft: false,
-        reason: "not_enough_resources",
-        recipeId,
-        missingResources,
-      };
+    for (const [resourceType, amount] of Object.entries(recipe.ingredients || {})) {
+      const have = resources[resourceType] || 0;
+      checks.push(check(
+        `resource:${resourceType}`,
+        `${getResourceDisplayName(resourceType)}  ${have.toLocaleString()} / ${amount.toLocaleString()}`,
+        have >= amount,
+        { resourceType, current: have, required: amount, needed: Math.max(0, amount - have) },
+      ));
     }
 
+    const failure = this._resolveFailure(recipe, checks, progression);
     return {
-      canCraft: true,
-      reason: null,
+      canCraft: !failure,
+      reason: failure?.reason || null,
       recipeId,
       recipe,
-      outputUpgradeId: output.upgradeId,
+      checks,
       relicCount,
+      outputUpgradeId: recipe.output.upgradeId,
+      ...(failure?.details || {}),
     };
   }
 
@@ -121,34 +146,29 @@ export class CraftingSystem {
     if (this._craftInProgress) {
       return { success: false, reason: "craft_in_progress", recipeId };
     }
-
     const status = this.getRecipeStatus(recipeId);
-    if (!status.canCraft) {
-      return { success: false, ...status };
-    }
+    if (!status.canCraft) return { success: false, ...status };
 
-    const { recipe } = status;
     const resourceSnapshot = this.digSystem.getResourceTotals();
     const upgradeSnapshot = this.upgradeSystem.getUpgradeLevels();
     this._craftInProgress = true;
-
     try {
-      const spendResult = this.digSystem.trySpendResources(recipe.ingredients);
-      if (!spendResult.success) {
+      const spendResult = this.digSystem.trySpendResources(status.recipe.ingredients);
+      if (!spendResult?.success) {
+        this._restoreSnapshots(resourceSnapshot, upgradeSnapshot);
         return {
           success: false,
-          reason: spendResult.reason || "resource_transaction_failed",
+          reason: spendResult?.reason || "resource_transaction_failed",
           recipeId,
-          ...spendResult,
+          ...(spendResult || {}),
         };
       }
-
       const grantResult = this.upgradeSystem.grantUpgrade(
-        recipe.output.upgradeId,
-        recipe.output.level
+        status.recipe.output.upgradeId,
+        status.recipe.output.level,
       );
-      const grantedLevel = this.upgradeSystem.getUpgradeLevel(recipe.output.upgradeId);
-      if (!grantResult?.success || grantedLevel < recipe.output.level) {
+      const grantedLevel = this.upgradeSystem.getUpgradeLevel(status.recipe.output.upgradeId);
+      if (!grantResult?.success || grantedLevel < status.recipe.output.level) {
         this._restoreSnapshots(resourceSnapshot, upgradeSnapshot);
         return {
           success: false,
@@ -156,14 +176,15 @@ export class CraftingSystem {
           recipeId,
         };
       }
-
       return {
         success: true,
         recipeId,
-        outputUpgradeId: recipe.output.upgradeId,
+        recipe: status.recipe,
+        outputUpgradeId: status.recipe.output.upgradeId,
         level: grantedLevel,
         spent: spendResult.spent,
         relicsConsumed: 0,
+        progressionItemsConsumed: 0,
       };
     } catch (error) {
       this._restoreSnapshots(resourceSnapshot, upgradeSnapshot);
@@ -178,21 +199,105 @@ export class CraftingSystem {
     }
   }
 
+  getRecipeIngredientConflicts(resourceKeys = []) {
+    const requested = new Set(Array.isArray(resourceKeys) ? resourceKeys : []);
+    const conflicts = new Map();
+    for (const recipe of this.getRecipes()) {
+      if ((this.upgradeSystem?.getUpgradeLevel?.(recipe.output.upgradeId) || 0) > 0) continue;
+      for (const [resourceKey, required] of Object.entries(recipe.ingredients || {})) {
+        if (!requested.has(resourceKey)) continue;
+        const entry = conflicts.get(resourceKey) || {
+          resourceKey,
+          recipeIds: [],
+          recipeNames: [],
+          requiredByRecipe: {},
+        };
+        entry.recipeIds.push(recipe.id);
+        entry.recipeNames.push(recipe.name);
+        entry.requiredByRecipe[recipe.id] = required;
+        conflicts.set(resourceKey, entry);
+      }
+    }
+    return [...conflicts.values()];
+  }
+
+  getHealthSnapshot() {
+    return {
+      ready: this._getSystemsFailure(null) === null,
+      recipeCount: this.getRecipes().length,
+      craftInProgress: this._craftInProgress,
+    };
+  }
+
+  _getSystemsFailure(recipeId) {
+    if (
+      !this.digSystem?.getResourceTotals
+      || !this.digSystem?.setResourceTotals
+      || !this.digSystem?.trySpendResources
+    ) {
+      return { canCraft: false, reason: "resource_system_unavailable", recipeId, checks: [] };
+    }
+    if (
+      !this.upgradeSystem?.getUpgradeLevel
+      || !this.upgradeSystem?.grantUpgrade
+      || !this.upgradeSystem?.getUpgradeLevels
+      || !this.upgradeSystem?.setUpgradeLevels
+    ) {
+      return { canCraft: false, reason: "upgrade_system_unavailable", recipeId, checks: [] };
+    }
+    return null;
+  }
+
+  _getProgressionSystem() {
+    return this.progressionStateProvider?.() || this.heavenblocksProgressionSystem || null;
+  }
+
   _getAncientRelicCount() {
     const count = this.ancientRelicSystem?.getCount?.();
     return Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
   }
 
-  _hasProgressFlag(flag) {
-    const state = this.progressionStateProvider?.();
-    if (!state) return false;
-    if (typeof state.hasProgressFlag === "function") {
-      return state.hasProgressFlag(flag) === true;
+  _resolveFailure(recipe, checks, progression) {
+    const requirements = recipe.requirements || {};
+    if (
+      (requirements.requireArcCoreBlueprint
+        || requirements.requireZenithKeystone
+        || (requirements.requiredInstalledPartIds || []).length > 0)
+      && !progression
+    ) {
+      return { reason: "progression_system_unavailable" };
     }
-    const flags = state.progressFlags ?? state.flags;
-    if (flags instanceof Set) return flags.has(flag);
-    if (Array.isArray(flags)) return flags.includes(flag);
-    return state[flag] === true;
+    const failed = checks.find((entry) => !entry.met);
+    if (!failed) return null;
+    if (failed.id === "ancient-relics") {
+      return {
+        reason: "not_enough_relics",
+        details: { requiredRelics: failed.required, currentRelics: failed.current },
+      };
+    }
+    if (failed.id.startsWith("upgrade:")) {
+      return {
+        reason: "requires_upgrade",
+        details: { requiredUpgradeId: failed.upgradeId },
+      };
+    }
+    if (failed.id === "arc-core-blueprint") return { reason: "requires_blueprint" };
+    if (failed.id.startsWith("part:")) {
+      return { reason: "requires_installed_parts", details: { missingPartId: failed.partId } };
+    }
+    if (failed.id === "zenith-keystone") return { reason: "requires_zenith_keystone" };
+    if (failed.id.startsWith("resource:")) {
+      const missingResources = checks
+        .filter((entry) => entry.id.startsWith("resource:") && !entry.met)
+        .map((entry) => ({
+          resourceType: entry.resourceType,
+          required: entry.required,
+          have: entry.current,
+          needed: entry.needed,
+        }));
+      return { reason: "not_enough_resources", details: { missingResources } };
+    }
+    return { reason: "requirements_not_met" };
   }
 
   _restoreSnapshots(resources, upgradeLevels) {

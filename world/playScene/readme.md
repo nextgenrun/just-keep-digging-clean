@@ -4,9 +4,27 @@ World layer module — playScene.
 
 `PlayerInputHandler` resolves mining targets through the actual player body AABB. The shared resolver is used unchanged by main-world and compact-cave gameplay, so directional aim never selects a tile occupied by the taller UAL collider.
 
-UAL main-world and compact-cave actions share contact-synchronised damage: the punch-only Jab/Cross/Jab/Cross side combo, alternating Jab/Cross UP and UP-SIDE variants, same-facing floor DOWN strike, Quickslash, and ground-directed Thunder stay locked through visible recovery and cannot apply repeated invisible hits. The former fifth power cross, authored kick, and `Sword_Regular_C` up strike are rejected. Both runtimes route every grounded moving speed through the UAL Jog run slot, preserve the jog cycle while flipping immediately from controller-facing input, and share takeoff, tucked hover, Shield Dash travel-enter/loop, flight-exit, rise/fall, and Jump Land transitions with signed-velocity banking. Camera behaviour remains intentionally independent of this animation pass.
+UAL main-world and compact-cave actions share contact-synchronised damage: SIDE keeps Jab/Cross/Jab/Cross, UP and UP-SIDE use the recovered uppercut, DOWN uses the same-facing ground strike, and Quickslash/Thunder remain one-contact actions. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use body velocity for first-step/reversal cadence, apply frame-rate-independent flight banking, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Survivor flight uses one continuous loop; the explicit native rollback retains its authored phase chain.
 
 UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles, release and reversal react on the current frame, upgraded or weather-adjusted speed remains stride-matched, and climb/flight timing stays consistent across both world implementations. The base idle/action presentation is 109px, while the UAL Jog uses 123px to preserve the same approximately 0.8-tile visible height.
+
+## Hardcore Graveborer Wurm
+
+`GraveborerWurmBridge.js` is the sole Phaser/world adapter for the Wurm. Normal
+production activation requires an armed Hardcore save, unlocked Flight, and
+depth 120 or deeper. Once a warning begins, leaving that depth cannot freeze or
+erase the committed encounter. Mining adds source-weighted noise; the Wurm
+carves only ordinary resource terrain, gives no rewards, and cannot damage
+special blocks, town foundations, bedrock, cave walls, relics, or sky tiles.
+There is no jump counterplay: the telegraphed line is avoided with lateral
+flight, retreat, or existing terrain geometry.
+
+There are exactly two developer query flags: `?wurm=0` disables the feature
+(`?wurm=1` explicitly enables it), and `?wurm10x=1` bypasses the unfinished
+Hardcore/Flight/depth gate while multiplying noise and encounter frequency by
+10 for interaction testing. Runtime inspection is available at
+`window.__jkdGraveborerWurm`; `snapshot()`, `forceEncounter()`, `addNoise()`,
+`setEnabled()`, and `setDevTest10x()` never persist developer flag state.
 
 Mining cooldown admission uses the action-start timestamp, while damage and
 feedback remain deferred to the authored visual-contact frame. Contact first
@@ -25,7 +43,17 @@ feedback. Neither path changes damage, collision, or tile state.
 `NPCManager` reads the five surface-merchant slots from `townSquareConfig.js`.
 They now occupy absolute door-aligned positions across approved Option A instead
 of old `spawnTileX` offsets, while the Level 2 Magma Money Monster continues to
-use `arcCoreConfig.js` unchanged.
+use `arcCoreConfig.js` unchanged. The surface Milestone Pillar and nearby
+merchant compare Manhattan distance before showing prompts or consuming the
+interact key: the closer target wins, and an exact tie remains with the
+merchant.
+
+`NPCManager` also delegates presentation to `NPCActivitySystem`: v6 idle videos
+remain the calm baseline, approved v8 work/signature/player poses cross-fade in,
+and at most two merchants perform activity at once. Pacing is visual-only,
+bounded per merchant, returns to the exact shop anchor, and settles before
+interaction. `?npcActivities=0` restores the prior baseline;
+`?npcWalking=0` keeps poses while disabling pacing.
 
 Game Rig v2 projects hand/foot markers and action hitboxes across the intended
 tile-face band as diagnostic evidence. A small capped `visualOffset` can bring
@@ -64,3 +92,23 @@ mastery and newly collected sky stars, creates the choice overlay and
 the bound `X` action, enforces every configured activation cap, routes tile
 damage through `DigSystem.applyCelestialDamage`, updates the fixed HUD and
 runtime canary snapshot, and supports the independent `?starHearts=0` rollback.
+
+## Thunderstrike chain
+
+`ThunderStrikeActionRuntime.js` and `ThunderStrikeChainState.js` are shared by
+the main mine and compact caves. They keep the player action-locked from the
+paid charge through every earned continuation, execute each slam on the
+authored UAL contact, accept follow-up input only while the timing bar is live,
+and cancel immediately on an early, late, or expired press. Only the initial
+cast uses the normal bounded ability-input buffer; follow-up presses are exact
+and unbuffered.
+
+## Heavenblocks progression
+
+`PlaySceneSetup` restores permanent relic, island, component, Arc Vault, and
+Zenith state; constructs the access/presentation pair; and injects the atomic
+`CraftingSystem` into the existing Molten Money Monster overlay. Three
+guaranteed pre-1000m relic caches make the first sky route reachable. Island
+floors are re-applied after dug-tile restoration, component and Keystone
+requirements are never consumed, and `?heavenblocksGameplay=0` disables access
+while preserving save-compatible progression data.

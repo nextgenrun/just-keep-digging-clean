@@ -49,6 +49,23 @@ jobs:
       - name: Validate release-safety wiring
         run: node testing/2026-07-25-release-safety-contract.mjs
 
+      - name: Validate the Golden Five opening
+        run: |
+          node testing/2026-07-26-opening-flight-artifact-contract.mjs
+          node testing/2026-07-26-opening-flight-golden-five-contract.mjs
+
+      - name: Validate Town Square NPC activity and interaction anchors
+        run: |
+          node testing/2026-07-26-town-square-runtime-contract.mjs
+          node testing/2026-07-26-npc-activity-runtime-contract.mjs
+
+      - name: Validate Heavenblocks progression, VFX, Forge, assets, and saves
+        run: |
+          node testing/2026-07-26-heavenblocks-progression-core-contract.mjs
+          node testing/2026-07-26-relic-discovery-fx-contract.mjs
+          node testing/2026-07-26-crafting-system-contract.mjs
+          node testing/2026-07-26-heavenblocks-progression-integration-contract.mjs
+
   deep-regression:
     name: Deep gameplay regression
     needs: structural-health

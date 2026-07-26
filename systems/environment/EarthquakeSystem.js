@@ -61,10 +61,6 @@ export class EarthquakeSystem {
     this._openedPassageKeys = new Set();
     this._openedPassageTiles = [];
 
-    // ===== NEW: Warning text state =====
-    this._warningText = null; // floating "⚠ EARTHQUAKE!" text
-    this._warningTextTimer = 0;
-
     this.fx = scene.add.graphics().setDepth(34);
     this.stressFx = scene.add.graphics().setDepth(18);
     this._stressTimer = 0;
@@ -79,9 +75,6 @@ export class EarthquakeSystem {
     this.impactCooldown = Math.max(0, this.impactCooldown - dt);
     this._updateFallingRocks(dt);
     this._updateCaveIns(dt);
-
-    // ===== NEW: Update warning text =====
-    this._updateWarningText(dt);
 
     // ===== NEW: Update rubble restoration =====
     this._updateRubbleRestoration(dt);
@@ -124,7 +117,6 @@ export class EarthquakeSystem {
       if (this.mutationTimer <= 0) {
         this.mutationTimer += this.config.mutationPulseMs;
         this._mutateNearbyTiles();
-        this._redFlash();
       }
       if (this.stateRemaining <= 0) this._beginAftermath();
       return;
@@ -157,11 +149,8 @@ export class EarthquakeSystem {
     this.state = "warning";
     this.stateRemaining = rand(...cfg.warningMs);
     this.stateTotalMs = this.stateRemaining;
+    this.scene.earthquakeFeedbackUI?.beginEvent?.();
     this._playTone("rumble");
-
-    // ===== NEW: Show warning text + red flash =====
-    this._showWarningText();
-    this._redFlash();
 
     this._log("warning started", {
       intensity: this.intensity,
@@ -189,12 +178,6 @@ export class EarthquakeSystem {
 
     // ===== NEW: Clear restore queue =====
     this._restoreQueue.length = 0;
-
-    // ===== NEW: Destroy warning text =====
-    if (this._warningText) {
-      this._warningText.destroy();
-      this._warningText = null;
-    }
 
     for (const rock of this.fallingRocks) rock.object?.destroy();
     this.fallingRocks.length = 0;
@@ -230,7 +213,7 @@ export class EarthquakeSystem {
       chainPending: this.chainPending,
       rubbleQueue: this._restoreQueue.length,
       rubbleTiles: this.scene.worldModel?.getRubbleTiles?.().length ?? 0,
-      warningTextActive: !!this._warningText,
+      warningTextActive: false,
       debug: this._debugEnabled(),
     };
   }
@@ -239,11 +222,6 @@ export class EarthquakeSystem {
     this.cancelActiveHazards();
     this.fx?.destroy();
     this.stressFx?.destroy();
-    // NEW: Destroy warning text
-    if (this._warningText) {
-      this._warningText.destroy();
-      this._warningText = null;
-    }
     if (typeof window !== "undefined" && window.earthquakeDebug?.system === this) {
       delete window.earthquakeDebug;
     }
@@ -274,9 +252,7 @@ export class EarthquakeSystem {
 
     this._playTone("crack");
 
-    // ===== NEW: Red flash at quake start =====
-    this._redFlash();
-    this._showWarningText();
+    this._seismicFlash();
 
     this._log("earthquake started", {
       intensity: this.intensity,
@@ -304,21 +280,6 @@ export class EarthquakeSystem {
       this.scene.earthquakeHazardOverlay?.markOpenedPassage?.(tile.tx, tile.ty);
     });
 
-    // ===== NEW: Hide warning text after quake =====
-    if (this._warningText) {
-      this.scene.tweens.add({
-        targets: this._warningText,
-        alpha: 0,
-        duration: 500,
-        onComplete: () => {
-          if (this._warningText) {
-            this._warningText.destroy();
-            this._warningText = null;
-          }
-        },
-      });
-    }
-
     this.scene.queueDugTilesSave?.();
     this._log("aftermath started");
   }
@@ -326,8 +287,11 @@ export class EarthquakeSystem {
   _finishEvent() {
     const completedIntensity = this.intensity || "unknown";
     const distanceEndured = Math.max(0, Math.round(this._getPlayerDistanceToEpicenter() || 0));
+    const passagesOpened = this._openedPassageKeys.size;
+    const playerAware = this.isPlayerAware();
+    const aftershockWatch = this.chainPending;
     this.scene.retentionProgressSystem?.recordEarthquake?.({
-      passagesOpened: this._openedPassageKeys.size,
+      passagesOpened,
       intensity: completedIntensity,
       distanceEndured,
     });
@@ -337,6 +301,12 @@ export class EarthquakeSystem {
     this.stateTotalMs = 0;
     this.fx.clear();
     this._scheduleNext();
+    this.scene.earthquakeFeedbackUI?.completeEvent?.({
+      intensity: completedIntensity,
+      passagesOpened,
+      playerAware,
+      aftershockWatch,
+    });
     this._log("event complete", { nextEventMs: Math.round(this.nextEventMs) });
   }
 
@@ -449,153 +419,21 @@ export class EarthquakeSystem {
 
   _showTrapGuidance() {
     if (this._trapGuidanceShown) return;
-
-    const guidance = this.config.trapGuidance;
-    if (!guidance?.message) return;
     this._trapGuidanceShown = true;
     this.scene.earthquakeFeedbackUI?.activateEscapeObjective?.();
-
-    if (this.scene.uiNotifications?.warning) {
-      this.scene.uiNotifications.warning(guidance.message, {
-        key: guidance.key,
-        durationMs: guidance.durationMs,
-        color: guidance.color,
-        fontSize: `${guidance.fontSizePx}px`,
-      });
-      return;
-    }
-
-    const player = this.scene.playerController?.getPlayerTile();
-    if (!player || !this.scene.floatingTextSystem) return;
-
-    const ts = this.scene.config.tileSize;
-    this.scene.floatingTextSystem.showFloatingText(
-      player.tx * ts + ts / 2,
-      (player.ty - 2) * ts + ts / 2,
-      guidance.message,
-      guidance.color,
-      guidance.durationMs,
-      guidance.fontSizePx
-    );
   }
 
-  // ── Warning / Flash / Text helpers ──────────────────────────────
+  // ── Restrained screen feedback ─────────────────────────────────
 
-  /**
-   * Show a red flash across the entire screen (120ms duration).
-   * Uses ScreenFlashSystem if available, or falls back to a direct
-   * screen-space rectangle.
-   * @private
-   */
-  _redFlash() {
+  _seismicFlash() {
     const proximity = this._getPlayerProximity(this.config.playerFeedback?.flashRadiusTiles);
     if (proximity <= 0) return;
-    const alpha = 0.06 * proximity;
-
-    // Use ScreenFlashSystem if available (clean, reparentable)
-    if (this.scene.screenFlashSystem) {
-      this.scene.screenFlashSystem._flash(0xff0000, alpha, 120);
-      return;
-    }
-
-    // Fallback: direct red flash rectangle
-    try {
-      const { width, height } = this.scene.scale;
-      const flash = this.scene.add.rectangle(0, 0, width, height, 0xff0000, alpha)
-        .setOrigin(0, 0)
-        .setScrollFactor(0)
-        .setDepth(1001);
-
-      this.scene.tweens.add({
-        targets: flash,
-        alpha: 0,
-        duration: 120,
-        ease: 'Power2.out',
-        onComplete: () => flash.destroy(),
-      });
-    } catch (e) {
-      // ignore if scene is shutting down
-    }
-  }
-
-  /**
-   * Show "⚠ EARTHQUAKE!" warning text that floats up and fades.
-   * Uses FloatingTextSystem if available, or fallback text.
-   * @private
-   */
-  _showWarningText() {
-    // Only show one warning text at a time
-    if (this._warningText) return;
-
-    const epicenter = this.epicenter;
-    if (!epicenter) return;
-
-    const ts = this.scene.config.tileSize;
-    const worldX = epicenter.tx * ts + ts / 2;
-    const worldY = (epicenter.ty - 2) * ts + ts / 2;
-
-    // Use FloatingTextSystem if available (manages its own life cycle)
-    if (this.scene.floatingTextSystem) {
-      this.scene.floatingTextSystem.showFloatingText(
-        worldX, worldY,
-        "⚠  EARTHQUAKE!",
-        "#ff3333",
-        2000, // duration before fade
-        28   // font size
-      );
-      return;
-    }
-
-    // Fallback: direct text
-    const warningText = this.scene.add.text(worldX, worldY, "⚠  EARTHQUAKE!", {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '28px',
-      color: '#ff3333',
-      fontStyle: 'bold',
-      stroke: '#000000',
-      strokeThickness: 4,
-      shadow: {
-        offsetX: 2, offsetY: 2,
-        color: '#ff0000',
-        blur: 8,
-        stroke: true, fill: true,
-      },
-    }).setOrigin(0.5).setDepth(50).setAlpha(0);
-
-    this._warningText = warningText;
-
-    // Pop up and fade out
-    this.scene.tweens.add({
-      targets: warningText,
-      alpha: 1,
-      y: warningText.y - 60,
-      duration: 1200,
-      ease: 'Power2.out',
-      onComplete: () => {
-        this.scene.tweens.add({
-          targets: warningText,
-          alpha: 0,
-          duration: 800,
-          onComplete: () => {
-            warningText.destroy();
-            this._warningText = null;
-          },
-        });
-      },
-    });
-  }
-
-  /**
-   * Update the floating warning text timer (re-issue it if quake persists).
-   * @param {number} dt - delta
-   * @private
-   */
-  _updateWarningText(dt) {
-    this._warningTextTimer -= dt;
-    if (this._warningTextTimer <= 0 && (this.state === "warning" || this.state === "earthquake")) {
-      this._warningTextTimer = 3000; // re-display every 3s during active quake
-      this._showWarningText();
-    }
+    const feedback = this.config.playerFeedback || {};
+    this.scene.screenFlashSystem?._flash?.(
+      feedback.flashColor,
+      feedback.flashAlpha * proximity,
+      feedback.flashDurationMs,
+    );
   }
 
   // ── Original cave-in logic (modified for rubble tracking) ──────
@@ -785,19 +623,6 @@ export class EarthquakeSystem {
       this.scene.shakeSystem?.shake("earthquake.caveIn", collapseProximity);
     }
     this._playTone("collapse");
-
-    if (this.scene.floatingTextSystem) {
-      const ts = this.scene.config.tileSize;
-      const worldX = caveIn.tx * ts + ts / 2;
-      const worldY = (caveIn.ty - 1) * ts + ts / 2;
-      this.scene.floatingTextSystem.showFloatingText(
-        worldX, worldY,
-        "💥 CAVE IN! Rubble blocking path",
-        "#ff8800",
-        2500,
-        24
-      );
-    }
 
     this.scene.queueDugTilesSave?.();
     this._log("cave-in collapsed", caveIn);

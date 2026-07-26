@@ -204,6 +204,8 @@ export class CaveAtmosphereSystem {
         graphics.fillCircle(px, py, 1.5 + baseY * 2.4);
       }
 
+      this._drawResourceSeamGlints(graphics, zone, identity, now, tileSize);
+
       const revealStart = this.revealStartedAt.get(zone.id);
       if (revealStart === undefined) continue;
       const progress = (now - revealStart) / render.revealDurationMs;
@@ -223,5 +225,29 @@ export class CaveAtmosphereSystem {
         tileSize * (0.35 + progress * 1.15),
       );
     }
+  }
+
+  _drawResourceSeamGlints(graphics, zone, identity, now, tileSize) {
+    const render = this.config.render;
+    const seams = (zone.resourceSeams || [])
+      .filter(seam => this.worldModel.getTileType(seam.tx, seam.ty) === seam.tileType)
+      .slice(0, render.seamGlintMaxPerZone);
+
+    seams.forEach((seam, index) => {
+      const phase = now * render.seamGlintPulseSpeed
+        + hash01(identity.seed, seam.tx, seam.ty, index) * Math.PI * 2;
+      const pulse = 0.5 + Math.sin(phase) * 0.5;
+      const radius = tileSize * render.seamGlintRadiusTiles * (0.72 + pulse * 0.38);
+      const x = (seam.tx + 0.5) * tileSize;
+      const y = (seam.ty + 0.5) * tileSize;
+      graphics.fillStyle(identity.palette.glow, render.seamGlintAlpha * (0.4 + pulse * 0.6));
+      graphics.fillCircle(x, y, radius);
+      graphics.lineStyle(
+        Math.max(1, radius * 0.22),
+        identity.palette.accent,
+        render.seamGlintAlpha * (1 - pulse) * 0.55,
+      );
+      graphics.strokeCircle(x, y, radius * render.seamGlintRingScale);
+    });
   }
 }

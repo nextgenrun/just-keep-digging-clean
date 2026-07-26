@@ -1,482 +1,488 @@
-# 200 High-Impact, Low-Effort Gameplay Improvements
+# 200 Low-Clutter AAA Moving-Visual Polish Candidates
 
 **Date:** 2026-07-26  
 **Status:** Review list only. Nothing in this document is wired yet.
 
 ## Goal
 
-Find another 200 practical improvements that make the existing persistent digging game more satisfying, readable, responsive, and difficult to put down without adding a second game on top of it.
+Make the existing persistent digging game feel expensive, alive, physical, and satisfying through motion and visual choreography rather than more HUD, labels, panels, badges, trackers, or notification text.
 
-Every candidate names the current runtime path it should use. The intent is to reuse existing events, counters, UI, effects, saves, and authored world content rather than introduce broad new architecture.
+The strongest direction is not “more effects everywhere.” It is better timing, better silhouettes, better material response, stronger world-space feedback, and deliberate quiet between important moments.
 
-## Guardrails
+## Hard visual guardrails
 
-- Do not change combo duration, combo decay, or combo timing.
-- Do not add daily streaks, login punishment, energy timers, offline-income pressure, loot boxes, battle passes, or another permanent currency.
-- Do not turn the game into a roguelite, co-op game, town builder, contract board, or separate expedition mode.
-- Do not repeat the 33 systems implemented in the previous retention pass.
-- Do not reintroduce the 17 rejected ideas: hollow-wall audio, hidden ore echo, durability pips, GP action pips, remembered portal selection, destination-preview prompts, portal hums, cave-breach moments, geode resonance, depth-band forecasts, automatic constellation focus, seller arrows, ability-teacher markers, merchant affordability markers, shop affordability sorting, material sound ladders, or reactive NPC dialogue.
-- Prefer presentation and read-only calculations before new persistent state.
-- All tunable numbers and copy belong in `/values/`; systems should expose events and UI should present them.
+- Add no new persistent HUD elements.
+- Add no new task trackers, floating instructions, screen banners, route lines, tile boxes, or diagnostic-looking labels.
+- Keep GP cost and ability state in the existing HUD; world-space effects only communicate direction, force, contact, and validity.
+- Prefer character-attached, tile-attached, and environment-attached motion over screen-space overlays.
+- Preserve all gameplay, economy, combo decay, collision, save, and input behavior unless a candidate explicitly says otherwise.
+- Do not reveal hidden caves, geodes, resources, or destinations through effects.
+- Use short-lived, pooled effects with strict particle and additive-blend budgets.
+- Background motion must yield to mining, abilities, discoveries, and danger so the screen never becomes visual noise.
+- Put every tunable color, duration, scale, count, alpha, and quality threshold in `/values/`.
+- Treat this as an approval list. Wire only explicitly selected candidates.
 
 ## Rating key
 
-- **Effort:** XS = a small existing hook or polish pass; S = a focused UI/system change; M = limited save state or multi-file wiring.
-- **Risk:** Very low = presentation/read-only; Low = bounded input or state behavior; Medium = economy, save, or collision-sensitive.
-- **Impact:** Expected player-facing improvement when polished.
+- **Effort:** XS = tune or reuse an existing hook; S = one focused visual behavior; M = a limited multi-system choreography.
+- **Risk:** Very low = presentation only; Low = presentation tied to gameplay timing; Medium = camera, collision-derived, or asset-sensitive.
+- **Impact:** Expected improvement to perceived production quality.
 
-## A. Mining feel and immediate clarity
+## A. Player locomotion and body language
 
-1. **First-contact target snap** — When the first hit lands on a newly aimed tile, briefly expand and settle the existing aim outline so the player instantly knows the correct block received the hit. **Wire:** `PlayerInputHandler.resolveStableMineTarget()` → `MiningIntentPreviewSystem`; tune in `values/materialFeedback.js`. **Effort: XS · Risk: Very low · Impact: High**
+1. **Idle weight transfer** — Add a barely visible two-step weight shift after the player has stood still, then return to a quiet breathing loop. **Wire:** idle state from `PlayerController` → sprite scale/offset in `PlayerBodyLanguageSystem`; tune in `values/playerMotionPolish.js`. **Effort: XS · Risk: Very low · Impact: High**
 
-2. **Break follow-through trail** — Let the pickaxe trail continue through the former tile position for a fraction of a second after destruction instead of stopping on the empty cell. **Wire:** `DigSystem` destroyed result → `PickaxeTrailSystem`; timing in `values/gamefeel.js`. **Effort: XS · Risk: Very low · Impact: High**
+2. **Breathing that respects danger** — Slow the idle breathing amplitude underground and tighten it during earthquakes instead of playing one universal idle motion. **Wire:** `PlayerBodyLanguageSystem` reads `EarthquakeSystem` intensity and depth band; presentation only. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-3. **Ability multi-break badge** — When Quickslash, Thunder Strike, or Heavy Punch destroys several tiles in one action, show one compact “6 BLOCKS” result instead of a pile of overlapping labels. No bonus reward. **Wire:** aggregate results in `PlaySceneUpdate` → `FloatingTextSystem`. **Effort: S · Risk: Very low · Impact: High**
+3. **Movement-start anticipation** — Lean the sprite two or three pixels into the first movement frame before full travel speed visually settles. Physics remains immediate. **Wire:** movement-state edge in `PlayerMovement` → `PlayerMotionPolishSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-4. **Blocked-hit reason label** — Replace ambiguous failed impacts with a tiny reason such as `BEDROCK`, `PROTECTED`, or `NO TARGET`, shown at the reticle and rate-limited. **Wire:** failed `DigSystem.tryMine()` result → `MiningIntentPreviewSystem`; copy in `values/miningConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
+4. **Stop overshoot and settle** — On releasing movement, let the visual body travel one tiny extra offset and ease back while the physics body stops normally. **Wire:** velocity-to-zero transition → `PlayerKinematicMotionSystem`; values in `values/playerKinematicMotion.js`. **Effort: XS · Risk: Very low · Impact: High**
 
-5. **Miss and blocked-hit separation** — A swing into air should feel light; a swing into an unbreakable surface should feel firm. Reuse existing effects but select different intensity, without creating a material sound ladder. **Wire:** `PlaySceneUpdate` mining result → `HitstopSystem`, `CameraShakeSystem`, and `SoundSystem`. **Effort: XS · Risk: Very low · Impact: High**
+5. **Turnaround shoulder lead** — During a fast direction reversal, rotate or offset the upper silhouette before the feet visually catch up. **Wire:** sign change in horizontal input → `PlayerBodyLanguageSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-6. **Rapid-yield roll-up** — Combine repeated gains of the same resource within roughly a quarter-second into one increasing `+1 → +4 → +9` label. **Wire:** resource events from `DigSystem` → a short accumulator in `FloatingTextSystem`; window in `values/materialFeedback.js`. **Effort: S · Risk: Very low · Impact: High**
+6. **Run cadence speed matching** — Slightly retime animation playback to actual horizontal speed so acceleration and slow movement stop looking like foot sliding. **Wire:** `PlayerMovement` speed ratio → `UalNativePlayerAnimations`; clamp in `values/ualNativePlayerAssetProfile.js`. **Effort: XS · Risk: Low · Impact: High**
 
-7. **Jackpot count-up** — Rich, packed, and ancient yields should count rapidly to their final amount rather than appearing as a static large number. **Wire:** existing `rarityMultiplier` and `resourceAmount` → `FloatingTextSystem`; tween via Phaser. **Effort: XS · Risk: Very low · Impact: High**
+7. **Foot-contact dust timing** — Spawn town or cave dust only on authored foot-contact frames instead of a generic timer. **Wire:** animation-frame contacts from `UalActionContactTimeline` → `GroundEffectsAtmosphere`. **Effort: S · Risk: Very low · Impact: High**
 
-8. **Yield-scaled pickup arc** — A large yield gets a slightly wider, weightier flight into the inventory while a normal pickup stays quick. Keep total duration short. **Wire:** `DigSystem` result → `LootPickupFxSystem`; bounds in `values/materialFeedback.js`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+8. **Footstep side alternation** — Alternate left/right dust offsets and pebble kicks so repeated walking does not look like one central particle emitter. **Wire:** locomotion contact counter → `GroundEffectsAtmosphere`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-9. **Changed-resource HUD pulse** — Pulse only the resource slot that changed, not the whole inventory bar. Larger yields get one stronger pulse rather than repeated pulses. **Wire:** `DigSystem` totals update → `UIInventoryPopup` and the resource HUD component. **Effort: XS · Risk: Very low · Impact: High**
+9. **Jump crouch compression** — Add a short pre-launch visual squash when a grounded jump begins without delaying the physics impulse. **Wire:** jump state edge → `PlayerMotionPolishSystem`; scale caps in `values/playerMotionPolish.js`. **Effort: XS · Risk: Very low · Impact: High**
 
-10. **Rarity aim tag** — When the aimed block is already visibly rich, packed, or ancient, put its short rarity label under the reticle before the hit. Do not reveal hidden blocks. **Wire:** `getResourceRarityDescriptor()` → `MiningIntentPreviewSystem`. **Effort: XS · Risk: Very low · Impact: High**
+10. **Takeoff dust cone** — Emit a narrow downward cone based on horizontal launch speed rather than one circular puff. **Wire:** jump impulse and velocity → `GroundEffectsAtmosphere`. **Effort: XS · Risk: Very low · Impact: High**
 
-11. **Damage-change micro label** — If a temporary buff or recent upgrade changes the current hit damage, show `32 DAMAGE` once on the next valid strike, then stay quiet. **Wire:** `DigSystem.getDamagePreview()` plus `RetentionProgressSystem.consumeUpgradePayoff()` → `FloatingTextSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+11. **Apex silhouette hold** — Ease the sprite pitch and trail intensity near vertical velocity zero so the jump apex reads cleanly for a few frames. **Wire:** `PlayerPhysicsBody.vy` → `PlayerKinematicMotionSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-12. **Critical multiplier roll-up** — During a burst of rapid crits, show the multiplier identity once and let subsequent crit damage numbers inherit its color rather than repeating `CRITICAL` every hit. **Wire:** crit events in `PlaySceneUpdate` → a short display lock in `FloatingTextSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+12. **Fall posture progression** — Blend from neutral fall to a more committed downward silhouette as fall speed grows. **Wire:** fall-speed bands → `UalNativeLocomotionTransitionSelector` and sprite presentation. **Effort: S · Risk: Low · Impact: High**
 
-13. **Rubble identity** — Label the first rubble break in a session as `RUBBLE • NO ORE` so players understand why it behaves differently; never repeat after comprehension. **Wire:** `wasRubble` from `WorldModel.damageTile()` → `RetentionProgressSystem` tutorial event → `UINotificationSystem`. **Effort: XS · Risk: Very low · Impact: High**
+13. **Velocity-scaled landing squash** — Scale the existing landing compression and dust from gentle to heavy while leaving collision untouched. **Wire:** `PlayerRigContactSystem` landing velocity → `PlayerMotionPolishSystem` and `GroundEffectsAtmosphere`. **Effort: XS · Risk: Very low · Impact: High**
 
-14. **Environmental-break identity** — When earthquakes or scripted effects destroy a tile, distinguish `OPENED BY QUAKE` from a player-mined reward so no missing payout feels like a bug. **Wire:** source metadata from `EarthquakeSystem`/`DigSystem.processDestroyedTile()` → `FloatingTextSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
+14. **Hard-landing recovery step** — Add a brief visual foot or body recovery offset after large falls instead of instantly returning to idle. **Wire:** hard-landing tier → `PlayerBodyLanguageSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-15. **Adaptive aim-outline contrast** — Automatically switch the existing aim outline between light and dark variants based on the sampled tile/background brightness. **Wire:** `MiningIntentPreviewSystem` → current tile presentation from `WorldRenderer`; colors in `values/uiColors.js`. **Effort: S · Risk: Very low · Impact: High**
+15. **Wall-contact body alignment** — Nudge the visual body toward the contacted wall and restore it smoothly on release. **Wire:** contact normal from `PlayerRigContactSystem` → `PlayerSolidOcclusionSystem`/body transform. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-16. **Screen-edge text clamping** — Keep damage, rarity, and pickup text inside the visible camera bounds so high or edge mining never loses feedback. **Wire:** `FloatingTextSystem` spawn positions → camera viewport clamp helper. **Effort: XS · Risk: Very low · Impact: High**
+16. **Climb hand-contact grit** — Emit two or three particles from alternating upper contact points on climb animation contacts, not continuously. **Wire:** climb frames → `ClimbTrailSystem`; pool and offsets in `values/playerMotionPolish.js`. **Effort: S · Risk: Very low · Impact: High**
 
-17. **Density descriptor after first hit** — On the first hit of unusually durable blocks, briefly show a plain descriptor such as `DENSE` or `EXTREME`, without health bars or pips. **Wire:** `getHitsToBreakPreview()` → `MiningIntentPreviewSystem`; thresholds in `values/tileHealth.js`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+17. **Climb reversal follow-through** — Let old grit continue briefly in its original direction when climb input reverses so the trail does not snap. **Wire:** climb direction edge → `ClimbTrailSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-18. **Existing-impact variation** — Apply restrained pitch and volume variation to repeated uses of the same approved impact sound so rapid mining does not sound machine-gunned. Do not split sounds by material. **Wire:** mining playback call → `SoundLibraryManager`; ranges in `values/audioConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
+18. **Flight pitch from velocity** — Pitch the flight silhouette subtly upward on ascent and downward on descent, preserving the approved animation. **Wire:** normalized velocity → `PlayerKinematicMotionSystem`; bounds in `values/playerFlightFootFx.js`. **Effort: XS · Risk: Very low · Impact: High**
 
-19. **Fast-mining debris budget** — When destruction is extremely rapid, merge or shorten old debris before spawning new debris so the newest break remains visually readable. **Wire:** `DigSystem` break rate → `SpecialBlockEffectsManager`/particle pools; cap in `values/gamefeel.js`. **Effort: S · Risk: Very low · Impact: Medium-high**
+19. **Flight trail pressure response** — Narrow and lengthen the existing foot trail at speed; widen and soften it while hovering. **Wire:** speed ratio → `FlightFootParticleSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-20. **Visible-resource tally** — When aiming at a resource, optionally show how many matching resource tiles are currently visible on screen. It must never scan hidden tiles. **Wire:** visible tile set from `WorldRenderer` → read-only query in `MiningIntentPreviewSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
+20. **Teleport footing settle** — After arrival, compress the silhouette for a few frames and release a small floor-hugging energy ripple instead of popping directly to idle. **Wire:** teleport arrival completion → `PlayerMotionPolishSystem` and `WorldVisualGameplayEffectLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-## B. Movement, camera, and control responsiveness
+## B. Mining, tool motion, and contact
 
-21. **Jump input buffer** — Remember one jump press for a very short window before landing so near-perfect inputs feel intentional. **Wire:** `PlayerInput` → `PlayerController` grounded transition; duration in `values/playerStats.js`. **Effort: S · Risk: Low · Impact: High**
+21. **Swing anticipation frame** — Give the pickaxe trail a short backward wind-up before the forward arc without delaying damage contact. **Wire:** mining animation start → `PickaxeTrailSystem`; contact remains owned by `UalActionContactTimeline`. **Effort: XS · Risk: Low · Impact: High**
 
-22. **Coyote-time authority audit** — The controller already references coyote time; make its duration explicit in one value and add a contract so it cannot silently become zero. **Wire:** `PlayerController`/`PlayerPhysicsBody` → `values/playerStats.js` plus a focused test. **Effort: XS · Risk: Low · Impact: High**
+22. **Speed-shaped pickaxe trail** — Make the trail thin at startup, widest just before contact, and tapered after contact rather than one constant ribbon. **Wire:** normalized action time → `PickaxeTrailSystem`; curve in `values/playerMotionPolish.js`. **Effort: S · Risk: Very low · Impact: High**
 
-23. **Portal-arrival input buffer** — Preserve one movement direction held during the final frames of teleport and apply it immediately after the arrival lock ends. **Wire:** `SpecialTileSystem` arrival completion → `PlayerInput` snapshot. **Effort: S · Risk: Low · Impact: High**
+23. **Surface-normal spark fan** — Launch impact sparks away from the struck face rather than radially from the tile center. **Wire:** committed contact direction from `PlaySceneUpdate` → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-24. **Resume key-release guard** — After unpausing or regaining browser focus, require mine/ability keys to be released once before they can activate. **Wire:** `GameInputHandler` pause/focus transitions → `PlayerInputHandler`. **Effort: XS · Risk: Low · Impact: High**
+24. **Contact-point accuracy** — Anchor sparks, dust, and chips to the actual pickaxe/tile contact point instead of the target tile center. **Wire:** `PlayerRigContactSystem` contact geometry → `PickaxeTrailSystem` and break FX. **Effort: S · Risk: Low · Impact: High**
 
-25. **Fall-speed landing dust** — Scale existing landing dust by downward velocity so small drops stay quiet and big landings feel heavy. **Wire:** `PlayerRigContactSystem` landing event → `GroundEffectsAtmosphere`; curve in `values/playerMotionPolish.js`. **Effort: XS · Risk: Very low · Impact: High**
+25. **Tiny contact freeze** — Freeze only the player visual and pickaxe trail for a few milliseconds on a solid hit; keep simulation and input running. **Wire:** successful `DigSystem.tryMine()` result → `PlayerMotionPolishSystem`; duration in `/values/`. **Effort: XS · Risk: Low · Impact: High**
 
-26. **Fall-speed landing squash** — Use a tiny velocity-scaled body squash on landing, capped low enough that collision and animation timing remain untouched. **Wire:** landing event → `PlayerMotionPolishSystem`; presentation values in `values/playerMotionPolish.js`. **Effort: XS · Risk: Very low · Impact: High**
+26. **Recoil direction match** — Push the visual torso and tool opposite the struck face, then ease back before the next swing. **Wire:** hit direction → `PlayerBodyLanguageSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-27. **Predicted landing shadow** — During a fast fall, extend the existing ground contact shadow toward the likely landing row when that row is visible. **Wire:** `PlayerPhysicsBody.vy` plus `TileCollisionSystem` ray query → `PlayerSolidOcclusionSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
+27. **Dust sheet before debris** — Emit one fast, thin contact sheet first, then slower chips a frame later to improve impact layering. **Wire:** tile-damage event → `WorldVisualFeedbackLayer`; two-phase timing in `values/worldVisualFeedback.js`. **Effort: S · Risk: Very low · Impact: High**
 
-28. **Dangerous-fall vignette** — Add a restrained edge treatment only when fall speed exceeds the existing safe visual threshold; remove it instantly on landing. **Wire:** `PlayerController` motion state → `PostFxSystem`; threshold in `values/playerMotionPolish.js`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+28. **Debris foreground split** — Send a small percentage of chips in front of the player and the rest behind, creating depth without increasing total count. **Wire:** break FX container depths → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-29. **Downward camera look** — While descending quickly or holding down in flight, bias the camera slightly downward to reveal landing space. **Wire:** player vertical intent/velocity → PlayScene camera follow offset; bounds in `values/playerStats.js`. **Effort: S · Risk: Low · Impact: High**
+29. **Chip rotation from launch force** — Give fast fragments stronger spin and slow fragments a heavy tumble. **Wire:** particle velocity → angular velocity in `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-30. **Horizontal look-ahead** — Give a small camera lead in the sustained movement direction and ease it back when input stops. Disable while precise mining is held. **Wire:** `PlayerMovement` intent → camera offset in `PlaySceneUpdate`; tune in `values/playerStats.js`. **Effort: S · Risk: Low · Impact: High**
+30. **Gravity-varied debris** — Use two or three restrained gravity bands so every chip does not trace the same arc. **Wire:** seeded fragment variants → `WorldVisualFeedbackLayer`; values in `values/worldVisualFeedback.js`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-31. **Camera recenter grace** — Wait briefly after the final movement input before returning the look-ahead to center, preventing constant camera wobble from small corrections. **Wire:** camera offset state in `PlaySceneUpdate`; delay in `values/playerStats.js`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+31. **Fresh fracture dust leak** — Let a damaged tile release a faint dust wisp from its newest crack for a moment, then go quiet. **Wire:** damage state change → `WorldVisualDamagePainter` and `AmbientParticleSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-32. **Moving-only climb dust** — Emit wall-contact dust only when the player is actually moving vertically, not merely touching and holding a wall. **Wire:** `PlayerAbilities.isClimbing()` plus velocity → `ClimbTrailSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+32. **Crack propagation animation** — Reveal the next damage decal along a short directional wipe from the contact point instead of swapping instantly. **Wire:** tile HP tier change → `WorldVisualDamagePainter`. **Effort: S · Risk: Very low · Impact: High**
 
-33. **Climb direction-flip smoothing** — When the player reverses climb direction, blend trail direction for a few frames rather than snapping the particles. Physics remains immediate. **Wire:** climb input change → `ClimbTrailSystem`; tween only. **Effort: XS · Risk: Very low · Impact: Medium**
+33. **Final-hit material inhale** — On the breaking hit, pull nearby loose dust a few pixels toward the contact point immediately before the outward shatter. No tile box or label. **Wire:** existing final-hit result → `WorldVisualFeedbackLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-34. **Low-GP flight edge cue** — During active flight only, let the GP bar border and screen edge share one restrained low-GP color pulse. **Wire:** `PlayerAbilities` flight state and GP ratio → `HUDSystem` plus `PostFxSystem`. **Effort: XS · Risk: Very low · Impact: High**
+34. **Break-hole darkness bloom** — As a tile disappears, briefly deepen the new opening before the normal background is revealed. **Wire:** destroyed tile event → `WorldVisualRuntime`/`CaveInteriorOcclusionSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-35. **GP-depleted descent explanation** — If flight ends because GP reaches zero, show `GP EMPTY • DESCENDING` once at the player, not as repeated HUD spam. **Wire:** flight state transition in `PlayerAbilities` → `UINotificationSystem`/`FloatingTextSystem`. **Effort: XS · Risk: Very low · Impact: High**
+35. **Overkill forward cone** — Keep the same debris budget but bias more fragments through the far side when damage greatly exceeds remaining HP. **Wire:** overkill ratio from `DigSystem` → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-36. **Flight-ready pulse** — When GP regenerates past the exact flight-start cost, pulse the GP frame once. **Wire:** threshold crossing in `PlayerAbilities` → `HUDSystem`; no new state beyond the previous ratio. **Effort: XS · Risk: Very low · Impact: High**
+36. **Critical strike white core** — Give crit impacts one one-frame white-hot core surrounded by the existing crit color, then immediately return to normal. **Wire:** crit result → `ScreenFlashSystem` local/world effect and `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-37. **Sky-boundary feedback** — At an authored ceiling or protected sky boundary, compress the flight trail and show a brief boundary ripple rather than letting upward motion appear broken. **Wire:** protected collision result → `FlightFootParticleSystem` and `PlayerLightShaderBridge`. **Effort: S · Risk: Very low · Impact: Medium-high**
+37. **Critical trail interruption** — Replace the final section of the pickaxe trail with a sharper luminous slice on crit instead of adding more text. **Wire:** crit flag known at contact → `PickaxeTrailSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-38. **One-tile step assist** — When walking into a single-tile lip with clear headroom, allow a tightly bounded automatic step rather than requiring a full jump. **Wire:** `PlayerPhysicsBody` collision query → `TileCollisionSystem`; guardrails in `values/playerCollision.js`. **Effort: S · Risk: Medium · Impact: High**
+38. **Rapid-mining dust wake** — During sustained fast mining, accumulate one directional dust stream behind the active face rather than spawning full bursts every hit. **Wire:** recent-hit cadence from `DigSystem` → `AmbientParticleSystem`; hard cap in `/values/`. **Effort: S · Risk: Very low · Impact: High**
 
-39. **Stationary-stuck prompt** — If movement input remains held against unchanged collision for a short period, show the existing recovery control once; never auto-teleport. **Wire:** `PlayerController` position delta + input → `UINotificationSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
+39. **Mining-stop dust settle** — When sustained mining ends, let the accumulated wake collapse and settle instead of vanishing. **Wire:** cadence timeout → `AmbientParticleSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-40. **Live input-glyph refresh** — Update interaction and ability hints immediately when the active keyboard/controller input source changes instead of waiting for the panel to reopen. **Wire:** `GameInputHandler` input-source event → `HUDSystem` and `SettingsPanelContent`. **Effort: S · Risk: Very low · Impact: High**
+40. **Unbreakable scrape identity** — Use a short tangential spark scrape and tool recoil for bedrock/protected hits, with no warning label. **Wire:** blocked mining result → `PickaxeTrailSystem` and `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-## C. Ability confidence and power readability
+## C. Quickslash, Heavy Punch, Thunder, and temporary power
 
-41. **Ability-ready frame flash** — When an ability becomes usable again, flash its existing key/icon frame once rather than showing another toast. **Wire:** ability validity transition in `PlayerAbilities` → `HUDSystem`; flash in `values/hudJuiceConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
+41. **Quickslash anticipation shimmer** — Replace the debug tile square, route line, and `Q ROUTE` label with a short violet blade shimmer attached to the player’s facing side. It points only toward the real horizontal target and disappears instantly on release. Existing GP HUD remains the only cost display. **Wire:** held Quickslash state and committed direction → `MiningIntentPreviewSystem` rendered as character-attached world FX; tune in `values/retentionConfig.js`. **Effort: S · Risk: Very low · Impact: High**
 
-42. **Exact GP shortfall** — A failed ability press should say `NEED 7 MORE GP`, not only `NO GP`. Rate-limit by ability. **Wire:** ability failure result and cost getter → `MiningIntentPreviewSystem` or `FloatingTextSystem`. **Effort: XS · Risk: Very low · Impact: High**
+42. **Quickslash tapered contact crescent** — Draw a fast crescent that narrows at both ends and peaks exactly on the authored contact frame. **Wire:** Quickslash contact from `UalActionContactTimeline` → `PickaxeTrailSystem` or a focused world-FX path. **Effort: S · Risk: Low · Impact: High**
 
-43. **Invalid-target reason at reticle** — Show `BLOCKED`, `OUT OF RANGE`, or `NO SOLID TILE` beside the footprint preview, then fade quickly. **Wire:** Quickslash/Thunder/Heavy preview validation → `MiningIntentPreviewSystem`; copy in `values/playerAbilities.js`. **Effort: S · Risk: Very low · Impact: High**
+43. **Quickslash directional afterimage** — Leave one or two low-alpha player silhouettes behind the burst, spaced by actual movement speed and destroyed quickly. **Wire:** active Quickslash movement → `PlayerMotionPolishSystem`; pooled texture references only. **Effort: S · Risk: Very low · Impact: High**
 
-44. **No-target no-spend contract** — Add a focused test proving an invalid ability activation cannot consume GP. Repair only if the test exposes a real leak. **Wire:** public ability activation methods in `PlayerAbilities` → contract test. **Effort: XS · Risk: Low · Impact: High**
+44. **Quickslash floor pressure streak** — Add a thin floor-hugging streak beneath the burst when grounded; omit it in air. **Wire:** Quickslash state plus `PlayerRigContactSystem` grounded result → `GroundEffectsAtmosphere`. **Effort: XS · Risk: Very low · Impact: High**
 
-45. **Heavy Punch rear-value label** — The existing rear-tile preview should include the visible resource name or `RUBBLE` when known. **Wire:** `DigSystem.getHeavyPunchPreview()` → `MiningIntentPreviewSystem`; use `tileTypeToResource()`. **Effort: XS · Risk: Very low · Impact: High**
+45. **Quickslash target compression** — Briefly compress the struck tile’s visual material inward before damage resolution reveals the normal result. **Wire:** committed Quickslash contact → `WorldVisualMaterialField`/feedback layer; presentation does not alter HP. **Effort: S · Risk: Very low · Impact: High**
 
-46. **Thunder solid-count forecast** — Add `5 SOLID TILES` to the existing Thunder footprint so the player can judge whether the cast is worthwhile. **Wire:** `PlayerAbilities.getThunderStrikePreview().entries` → `MiningIntentPreviewSystem`. **Effort: XS · Risk: Very low · Impact: High**
+46. **Quickslash spark continuation** — Let the brightest slash spark travel slightly beyond the contact face so the motion reads through the target. **Wire:** Quickslash direction → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-47. **Quickslash landing safety tint** — Color the final slash destination green when open and safe, amber when tight, and red when invalid. Do not alter the route. **Wire:** Quickslash preview destination → `TileCollisionSystem` read-only query → `MiningIntentPreviewSystem`. **Effort: S · Risk: Low · Impact: High**
+47. **Quickslash insufficient-GP sputter** — On a failed cast, show a very short broken blade glint at the player’s hand and nothing else—no label, route, or screen flash. **Wire:** failed `canPayQuickslashCost()` transition → `PickaxeTrailSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-48. **Validity-driven preview opacity** — Keep valid ability footprints crisp and invalid footprints faint, using the same shapes already implemented. **Wire:** preview result validity → `MiningIntentPreviewSystem`; alpha in `values/playerAbilities.js`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+48. **Quickslash repeat variation** — Alternate between two mirrored crescent curvatures so rapid use does not look stamped while direction remains clear. **Wire:** successful Quickslash action counter → seeded variant in `PickaxeTrailSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-49. **Buffered-input acknowledgement** — When the bounded Thunder input buffer accepts a press, briefly close a tiny ring around the ability icon so the player knows it was heard. **Wire:** `_thunderStrikeInputBufferedUntil` assignment → `HUDSystem`. **Effort: XS · Risk: Very low · Impact: High**
+49. **Heavy Punch forearm pressure arc** — Build a compact orange pressure arc around the striking side before contact rather than highlighting tiles with boxes. **Wire:** Heavy Punch preview/contact → `PlayerBodyLanguageSystem` and world-space graphics. **Effort: S · Risk: Very low · Impact: High**
 
-50. **Buffered-input cancel cue** — If that single buffered action expires or is cancelled by teleport/pause, fade the ring cleanly rather than silently dropping it. **Wire:** buffer expiry/reset branches in `PlaySceneUpdate` → `HUDSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+50. **Heavy Punch rear-tile refraction** — Distort or brighten the actual affected rear tile for a fraction of a second without text or a permanent footprint. **Wire:** `DigSystem.getHeavyPunchPreview()` → `WorldVisualGameplayEffectLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-51. **Repeated-failure coalescing** — Several invalid presses of the same ability should refresh one short label instead of stacking sounds and text. **Wire:** ability failure key → dedupe support in `UINotificationSystem`/`FloatingTextSystem`. **Effort: XS · Risk: Very low · Impact: High**
+51. **Heavy Punch compression wave** — Send a narrow ring through the target and rear tile on contact, synchronized to destruction. **Wire:** Heavy Punch result → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-52. **One-time ability practice card** — Immediately after an ability unlock, show its key, GP cost, and one sentence describing its best use. This is direct UI, not an NPC breadcrumb. **Wire:** unlock transition from `UpgradeSystem`/`PlayerLevelSystem` → `RetentionProgressSystem` tutorial event. **Effort: S · Risk: Very low · Impact: High**
+52. **Heavy Punch heavy debris bias** — Use fewer but larger fragments for the rear-tile hit while keeping the total particle budget unchanged. **Wire:** source action metadata → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-53. **First-success acknowledgement** — On the first successful use of each ability, show a small `QUICKSLASH MASTERED`-style confirmation and never repeat it for that save. No reward. **Wire:** successful ability results → a tiny discovered flag in `retentionProgressState.js` → `UINotificationSystem`. **Effort: S · Risk: Low · Impact: Medium-high**
+53. **Thunder charge particle draw-in** — Pull existing dust and tiny sparks from nearby visible tiles toward the player during charge instead of drawing a footprint grid. **Wire:** Thunder charge progress → `AmbientParticleSystem`; only sample visible tiles. **Effort: S · Risk: Very low · Impact: High**
 
-54. **Pause-menu ability reference** — Add a compact page listing unlocked abilities, current keys, GP costs, and exact effects so forgotten controls never require leaving the game. **Wire:** pause overlay in `PlaySceneUI` → public getters in `PlayerAbilities` and `USER_SETTINGS`. **Effort: S · Risk: Very low · Impact: High**
+54. **Thunder pre-strike silence frame** — Visually dim background particles for one short beat immediately before the strike so the bolt owns the frame. **Wire:** Thunder contact timeline → global effect-intensity governor in `PlaySceneUpdate`. **Effort: XS · Risk: Very low · Impact: High**
 
-55. **Contextual key-and-cost prompt** — When an ability footprint is visible, append its current key and GP cost directly to that footprint’s label. **Wire:** `USER_SETTINGS.getKeyLabel()` and ability cost getters → `MiningIntentPreviewSystem`. **Effort: XS · Risk: Very low · Impact: High**
+55. **Thunder branched bolt silhouette** — Use one dominant bolt plus two restrained branches aimed through the real affected column. **Wire:** `getThunderStrikePreview()` geometry → `WorldVisualGameplayEffectLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-56. **Ability damage summary** — The pause ability reference should show current calculated damage/range, not only base copy. **Wire:** `DigSystem.getDamagePreview()`, `PlayerAbilities.getConstellationStats()`, and upgrade effects → read-only UI rows. **Effort: S · Risk: Very low · Impact: High**
+56. **Thunder contact light propagation** — Flash nearby visible material edges from nearest to farthest over a few frames. **Wire:** Thunder entries → `WorldVisualLightingBridge`; no hidden-tile reveal. **Effort: S · Risk: Very low · Impact: High**
 
-57. **Power-source breakdown** — Let the player expand an ability row to see `BASE + UPGRADE + CONSTELLATION + TEMPORARY` contributions. **Wire:** existing upgrade/constellation/temp-buff getters → pause ability reference. **Effort: S · Risk: Very low · Impact: Medium-high**
+57. **Thunder debris levitation beat** — Lift loose dust and existing debris slightly before slamming it down after contact. **Wire:** charge/contact/end phases → `AmbientParticleSystem` and feedback pools. **Effort: S · Risk: Very low · Impact: High**
 
-58. **Temporary-power color separation** — In all calculated ability summaries, color temporary chest/campfire power differently from permanent upgrades so expiration never resembles lost progression. **Wire:** temporary providers in `PlayerLevelSystem`/`CampfireSystem` → UI presentation only. **Effort: XS · Risk: Very low · Impact: High**
+58. **Thunder ground-crawl filaments** — Let two or three thin energy filaments crawl along exposed visible surfaces after the strike and fade quickly. **Wire:** destroyed/visible tile edges → `WorldVisualGameplayEffectLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-59. **Chest-buff final-three pulse** — The existing 20-second chest buff gets a faster but restrained meter pulse for only its final three seconds. Duration and power remain unchanged. **Wire:** `RetentionProgressSystem.getChestCritDamageBonus()` remaining time → `NextPromiseHudSystem`/`HUDSystem`; values in `values/treasureChestConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
+59. **Chest ultra-buff speed wake** — While the 20-second buff is active, make mining motion leave a restrained gold-violet wake that grows only on critical contacts. No timer or new icon. **Wire:** existing chest-buff state → `PickaxeTrailSystem` and `PlayerBodyLanguageSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-60. **Ability-readiness hint toggle** — Add one gameplay setting for ready flashes, shortfall text, and buffered-input rings while leaving footprints and controls intact. **Wire:** `UserSettings.display` → `SettingsPanelContent` → the related HUD presentation calls. **Effort: S · Risk: Very low · Impact: Medium-high**
+60. **Buff expiration dissolve** — Fade the speed wake into a few upward motes during the final second so power loss feels intentional without another warning panel. **Wire:** remaining chest-buff duration → `AmbientParticleSystem`; gameplay duration unchanged. **Effort: XS · Risk: Very low · Impact: High**
 
-## D. Selling, upgrading, and town turnaround
+## D. Tile materials, cracks, and destruction motion
 
-61. **Post-sale wallet preview** — Before confirming a quantity sale, show `WALLET 240 → 410` beside the action button. **Wire:** selected quantity and `_adjustedUnitPrice()` in `ShopOverlay` → detail panel text. **Effort: XS · Risk: Very low · Impact: High**
+61. **Directional edge sheen** — Give exposed tile edges a subtle light-facing sheen so the mine reads as carved volume instead of a flat grid. **Wire:** visible neighbor mask → `WorldVisualMaterialField` and `WorldVisualLightingBridge`. **Effort: S · Risk: Very low · Impact: High**
 
-62. **Per-resource total value** — Every sellable inventory row should show unit price and total stack value together. **Wire:** resource totals + `getAdjustedResourceUnitPrice()` → `ShopOverlay._renderSellDetail()`. **Effort: XS · Risk: Very low · Impact: High**
+62. **Ore inclusion parallax** — Offset embedded ore flecks by a tiny fraction of camera motion while the base tile remains fixed. **Wire:** resource material layer → `WorldVisualMaterialBandView`; bounds in `values/worldVisualMaterials.js`. **Effort: S · Risk: Very low · Impact: High**
 
-63. **Sale composition receipt** — After Sell All, show the three resources that contributed the most value plus the total, then fade. **Wire:** existing `sellAllResources()` loop → one structured receipt passed to `UINotificationSystem`. **Effort: S · Risk: Very low · Impact: High**
+63. **Rare-block internal glint** — Animate one restrained internal glint across rich, packed, and ancient blocks on a long, seeded interval. No outline or label. **Wire:** rarity descriptor → `WorldVisualMaterialField`; seed from tile coordinates. **Effort: S · Risk: Very low · Impact: High**
 
-64. **After-sale purchase callout** — Inside the shop only, indicate the single currently selected upgrade that becomes affordable if the proposed sale completes. Do not reorder cards or mark the NPC. **Wire:** sale preview total + `UpgradeSystem.canPurchase()` → current detail panel. **Effort: S · Risk: Very low · Impact: High**
+64. **Rarity-specific glint cadence** — Make rich glints quick, packed glints broad, and ancient glints slow and deep while keeping brightness similar. **Wire:** existing rarity type → material animation values. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-65. **Remaining-wallet purchase preview** — The buy button should show the money left after purchase, especially for expensive upgrades. **Wire:** wallet and `getUpgradeCost()` → `ShopOverlay` action label. **Effort: XS · Risk: Very low · Impact: High**
+65. **Damage darkening under cracks** — Darken material directly beneath crack decals so damage looks cut into the surface rather than printed on top. **Wire:** HP tier → `WorldVisualDamagePainter`. **Effort: XS · Risk: Very low · Impact: High**
 
-66. **Current-versus-next stat row** — Alongside hits-to-break, show the one most relevant direct stat as `24 → 28 DAMAGE` or `110 → 120 GP`. **Wire:** `UpgradeSystem.getProjectedUpgradeEffects()` → `ShopOverlay`. **Effort: S · Risk: Very low · Impact: High**
+66. **Seeded crack origin** — Begin fracture growth at the actual contact quadrant while keeping deterministic decal variants for saves and re-entry. **Wire:** last contact direction → `WorldVisualDamagePainter`; stable seed in `values/worldVisualDamage.js`. **Effort: S · Risk: Very low · Impact: High**
 
-67. **Exact locked requirement** — Replace generic `LOCKED` copy with the actual missing level, prerequisite, world access, or money difference. **Wire:** structured failure reasons from `UpgradeSystem.canPurchase()` → `ShopOverlay`. **Effort: S · Risk: Very low · Impact: High**
+67. **Crack dust direction memory** — Emit the next dust leak from the most recently extended crack endpoint. **Wire:** damage-painter geometry → `AmbientParticleSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-68. **Compact maxed-card mode** — Let players collapse already maxed upgrades within their existing category without changing the category order. **Wire:** local `ShopOverlay` view state → render height/filter; no save needed. **Effort: S · Risk: Very low · Impact: Medium-high**
+68. **Fracture micro-displacement** — Shift damaged material fragments inward by one or two pixels at high damage tiers without changing collision. **Wire:** HP tier → render-only offsets in `WorldVisualDamagePainter`. **Effort: S · Risk: Very low · Impact: High**
 
-69. **Selection survives redraw** — After buying or selling, keep keyboard/controller focus on the same logical card when it still exists. **Wire:** selected upgrade/resource ID → `ShopOverlay._render()` focus restoration. **Effort: XS · Risk: Very low · Impact: High**
+69. **Break fragment color inheritance** — Sample debris colors from the exact rendered material variant instead of one generic stone palette. **Wire:** `WorldVisualMaterialField` material identity → break FX palette. **Effort: S · Risk: Very low · Impact: High**
 
-70. **Session-only shop tab memory** — Reopen a merchant on the tab used moments ago, resetting naturally when the game session ends. This does not affect portals or saves. **Wire:** ephemeral field in `ShopOverlay`/`OverlayManager`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+70. **Break fragment brightness falloff** — Let front-facing chips catch light briefly while rear chips remain dark, improving depth at the same count. **Wire:** launch direction and `WorldVisualLightingBridge` → debris tint. **Effort: XS · Risk: Very low · Impact: High**
 
-71. **Quantity shortcuts** — Add clear keyboard/controller actions for sell `1`, `10`, `HALF`, and `ALL` on the focused resource. **Wire:** `GameInputHandler` overlay actions → `ShopOverlay` quantity state; labels from `USER_SETTINGS`. **Effort: S · Risk: Low · Impact: High**
+71. **Fresh cavity edge crumbs** — After a tile breaks, release two or three delayed crumbs from the newly unsupported upper edge. **Wire:** visible neighbor change → `WorldVisualFeedbackLayer`; strict delayed-spawn cap. **Effort: S · Risk: Very low · Impact: High**
 
-72. **Page-position preservation** — Returning from an upgrade detail or purchase should retain the current category page and scroll position. **Wire:** stable card/page IDs in `ShopOverlay`. **Effort: XS · Risk: Very low · Impact: High**
+72. **Loose ledge pebble drops** — Occasionally drop one tiny pebble from an exposed damaged ledge after nearby movement, with no gameplay effect. **Wire:** visible damaged edge plus nearby player movement → `AmbientParticleSystem`; seeded cooldown. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-73. **Price-bonus explanation** — If a market or regional bonus changes a resource price, show the base price and bonus source rather than only the final number. **Wire:** `getAdjustedResourceUnitPrice()` inputs → resource detail breakdown. **Effort: S · Risk: Very low · Impact: High**
+73. **Rubble layered collapse** — Make rubble fold inward and settle instead of exploding like solid ore-bearing stone. **Wire:** `wasRubble` result → dedicated variant in `WorldVisualFeedbackLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-74. **Bonus-value highlight** — On a sale receipt, color only the money added by market bonuses so the upgrade’s value is visible. **Wire:** compute base and adjusted totals in `ShopOverlay`; presentation through `UINotificationSystem`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+74. **Bedrock scrape heat** — Let repeated blocked hits build a tiny warm scrape glow that cools quickly after mining stops. No progress implication. **Wire:** bedrock hit cadence → `WorldVisualBedrockMaterialLayer`; capped alpha. **Effort: S · Risk: Very low · Impact: High**
 
-75. **Skippable wallet count-up** — Large sales can count the wallet up quickly, but any input should immediately finish the tween at the correct total. **Wire:** actual money changes remain immediate in `UpgradeSystem`; animate display value only in `HUDSystem`/`ShopOverlay`. **Effort: S · Risk: Very low · Impact: High**
+75. **Crystal facet light travel** — Move a narrow highlight across visible crystal facets based on camera/light angle rather than a timer-only pulse. **Wire:** crystal semantic assets → `WorldVisualSemanticAssetLayer` and lighting bridge. **Effort: S · Risk: Very low · Impact: High**
 
-76. **Optional expensive-buy hold** — For purchases consuming most of the wallet, require a short hold only when the player enables purchase protection. Normal purchases remain instant. **Wire:** percentage check in `ShopOverlay` + toggle in `UserSettings`. **Effort: S · Risk: Low · Impact: Medium**
+76. **Geode interior depth shimmer** — Give already-visible geode interiors layered facet shimmer without adding proximity hints or hidden-location cues. **Wire:** visible geode templates → `CaveTemplateVisualSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-77. **Double-activation purchase guard** — Lock the purchase action until the current result and redraw finish so one key press cannot buy twice. **Wire:** short transaction lock around `ShopOverlay.purchaseUpgrade()`. **Effort: XS · Risk: Low · Impact: High**
+77. **Ancient material dust behavior** — Ancient tiles shed slower, heavier motes on damage while normal material uses faster dust. Keep audio and rewards unchanged. **Wire:** rarity/material metadata → break FX particle preset. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-78. **Newly unlocked card treatment** — The first time a previously locked upgrade becomes available, give its card a one-time border sweep when the player opens that category. No NPC or world marker. **Wire:** unlock transitions derived from `UpgradeSystem` → ephemeral/shop-view flags. **Effort: S · Risk: Very low · Impact: High**
+78. **Earthquake loosened-tile jitter** — Apply one or two pixels of seeded render jitter to visible affected tiles before they break; collision remains fixed. **Wire:** `EarthquakeSystem` affected set → `WorldVisualMaterialField`. **Effort: S · Risk: Low · Impact: High**
 
-79. **Unlock-to-action handoff** — Buying an ability unlock should end with its actual bound key and a `TRY IT UNDERGROUND` line in the purchase result. **Wire:** purchased upgrade ID + `USER_SETTINGS.getKeyLabel()` → `UINotificationSystem`. **Effort: XS · Risk: Very low · Impact: High**
+79. **Earthquake passage settling** — Let newly opened edges release a short layered dust fall after the quake rather than relying on UI highlights. **Wire:** earthquake opened-passage records → `WorldVisualFeedbackLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-80. **Town turnaround summary** — After a sell-and-buy sequence, show one compact line such as `SOLD 840 M • BOUGHT POWER III • 126 M LEFT`. This is a transaction recap, not another expedition summary. **Wire:** recent sale/purchase events in `RetentionProgressSystem` → shop-close event in `OverlayManager`. **Effort: S · Risk: Very low · Impact: Medium-high**
+80. **Material-band crossfade** — Blend color, particulate density, and backdrop tint over several rows at depth boundaries instead of changing abruptly. **Wire:** `WorldVisualMaterialBandView` + `WorldVisualDepthBackdropStage`; values in `values/worldVisualRegions.js`. **Effort: M · Risk: Very low · Impact: High**
 
-## E. Persistent-mine exploration and orientation
+## E. Underground atmosphere and living depth
 
-81. **Previous-expedition turnaround marker** — Place a small, non-colliding marker at the deepest tile reached before the last return to town. **Wire:** expedition summary depth from `RetentionProgressSystem` → a marker view owned by `PlaySceneSetup`; position saved in retention data. **Effort: M · Risk: Low · Impact: High**
+81. **Three-depth dust field** — Split underground motes into far, middle, and near layers with different parallax and blur-like scale. Keep the total count unchanged. **Wire:** `AmbientParticleSystem` containers and camera movement. **Effort: S · Risk: Very low · Impact: High**
 
-82. **Physical best-depth pennant** — At the exact personal-record row, draw a subtle side-wall pennant that moves only when the record improves. **Wire:** best-depth event → `WorldRenderer` overlay; save uses existing best-depth stat. **Effort: S · Risk: Very low · Impact: High**
+82. **Vertical-shaft air pull** — Bias existing dust slowly up or down inside visible open shafts, derived only from local open-tile geometry. **Wire:** visible air-column query → `AmbientParticleSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-83. **Mine-entrance progress sign** — Let the surface entrance sign show best depth and the next authored milestone requirement. **Wire:** `RetentionProgressSystem.getBestDepth()` + `MilestoneBoardSystem.getNextMilestone()` → `SurfaceTunnelDoorSystem` prompt/view. **Effort: S · Risk: Very low · Impact: High**
+83. **Player wake through motes** — Push nearby ambient particles slightly aside as the player moves through them, then ease them back. **Wire:** player velocity/position → `AmbientParticleSystem`; near-field only. **Effort: S · Risk: Very low · Impact: High**
 
-84. **Discovered-landmark nameplate** — Once an authored landmark is discovered, show its name when the player is nearby; undiscovered landmarks remain unnamed. **Wire:** discovery keys in `RetentionProgressSystem` + `WORLD_VISUAL_LANDMARKS` → a restrained world label. **Effort: S · Risk: Very low · Impact: High**
+84. **Mining pressure wake** — Push nearby dust away from the active mining face before fragments appear. **Wire:** mining contact direction → `AmbientParticleSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-85. **Region-entry title** — On first entry into an existing biome/visual region, show its authored name and depth range for two seconds without stopping play. **Wire:** `BiomeSystem` region change → `UINotificationSystem`; names in `values/worldVisualRegions.js`. **Effort: S · Risk: Very low · Impact: High**
+85. **Ceiling grit after impact** — Heavy nearby hits knock a few particles from visible ceilings above, with distance falloff. **Wire:** impact magnitude → visible ceiling samples in `GroundEffectsAtmosphere`. **Effort: S · Risk: Very low · Impact: High**
 
-86. **Quiet region re-entry** — After a long absence, re-entry gets only the small region name in a corner, while repeated border crossing stays silent. **Wire:** `BiomeSystem` region ID + last-shown timestamp → HUD presentation. **Effort: XS · Risk: Very low · Impact: Medium-high**
+86. **Cave fog layer breathing** — Move cave fog in slow opposing layers instead of uniform alpha pulsing. **Wire:** `CaveAtmosphereSystem`; tune in `values/caveSceneConfig.js`. **Effort: S · Risk: Very low · Impact: High**
 
-87. **Visible-chest edge cue** — If an unopened authored chest is already inside the camera’s visible tile set but near the edge, show a tiny edge glint. Never reveal an offscreen or hidden chest. **Wire:** visible tile query + `SpecialTileSystem` unopened state → `HUDSystem`. **Effort: S · Risk: Very low · Impact: High**
+87. **Cave-entry fog displacement** — Part local fog around the player silhouette on entry and let it close behind. **Wire:** `CaveEntryController` transition → `CaveAtmosphereSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-88. **Spent-chest world mark** — An opened chest site should retain a subtle open/empty visual so revisiting old tunnels communicates permanent history. **Wire:** persisted opened-chest keys in `SpecialTileSystem` → chest renderer state. **Effort: XS · Risk: Very low · Impact: High**
+88. **Foreground silhouette drift** — Give near cave foreground shapes a tiny camera-relative drift so tunnels feel enclosed and deep. **Wire:** `CaveInteriorOcclusionSystem` foreground layer → camera delta. **Effort: XS · Risk: Very low · Impact: High**
 
-89. **Chest depth in journal** — Add the level and broad depth band to each discovered chest entry without exposing unopened locations. **Wire:** `recordChestOpened()` payload → `retentionProgressState` journal label → `MilestonePillarModal`. **Effort: S · Risk: Low · Impact: Medium-high**
+89. **Occluder edge softness motion** — Let fog and dust soften hard occlusion edges without changing the authoritative visibility mask. **Wire:** `CaveInteriorOcclusionSystem` mask → `CaveAtmosphereSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-90. **Per-level completion strip** — At the Milestone Pillar, summarize found stars, relics, opened chests, activated portals, and reached milestones separately for Level 1 and Level 2. **Wire:** existing counters/keys from `RetentionProgressSystem`, `AncientRelicSystem`, and `SpecialTileSystem` → `MilestonePillarModal`. **Effort: S · Risk: Very low · Impact: High**
+90. **Light-ray particulate travel** — Move sparse particles through existing light rays so shafts read as volume rather than static gradients. **Wire:** `LightRayAtmosphere` ray geometry → `AmbientParticleSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-91. **Unknown collectible slots** — Show `?` slots for the authored number of stars/relic caches/chests per level, without revealing coordinates or exact content. **Wire:** counts from `values/starConstellations.js`, `values/ancientRelics.js`, and `values/treasureChestConfig.js` → pillar completion strip. **Effort: S · Risk: Very low · Impact: High**
+91. **Ray response to camera angle** — Shift ray endpoints slightly with camera motion while their world anchors stay fixed. **Wire:** camera delta → `LightRayAtmosphere`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-92. **Nearest-portal distance in pause** — The pause screen can state the tile distance to the nearest activated portal without drawing a normal-play arrow. **Wire:** `SpecialTileSystem.getNearestActivatedPortal()` → `PlaySceneUI` pause context. **Effort: XS · Risk: Very low · Impact: High**
+92. **Distant backdrop slow life** — Animate only one subtle element per backdrop region—fog bank, suspended dust, crystal glow, or machinery pulse. **Wire:** `WorldVisualDepthBackdropRegionView`; per-region motion in `values/worldVisualDepthBackdrops.js`. **Effort: S · Risk: Very low · Impact: High**
 
-93. **Portal depth difference** — Portal rows should show `+420m deeper` or `-180m shallower` relative to the current player depth. **Wire:** activated portal list + current player tile → portal selection UI. **Effort: XS · Risk: Very low · Impact: High**
+93. **Backdrop motion desynchronization** — Seed phase offsets per region so repeated background elements never pulse together. **Wire:** region ID seed → `WorldVisualDepthBackdropStage`. **Effort: XS · Risk: Very low · Impact: High**
 
-94. **Portal landing-status badge** — Mark a destination `SAFE`, `TIGHT`, or `FALLBACK` using the same safe-landing query the teleport code already uses. **Wire:** expose read-only landing resolution from `SpecialTileSystem` → portal list. **Effort: S · Risk: Low · Impact: High**
+94. **Foreground/background counter-motion** — During fast vertical travel, move the nearest atmospheric layer slightly opposite the far layer to sell speed and depth. **Wire:** camera velocity → `WorldVisualRuntime` layer offsets. **Effort: S · Risk: Very low · Impact: High**
 
-95. **Arrival destination label** — After teleport completes, briefly show the meaningful portal label and current region. This happens after arrival, not as the rejected preview prompt. **Wire:** successful teleport result → `UINotificationSystem`; reuse `getTeleportPortalLabel()`. **Effort: XS · Risk: Very low · Impact: High**
+95. **Old-route calmness** — Reduce fresh dust and settling motion in long-cleared saved routes while preserving ambient life. **Wire:** existing dug-tile age/session knowledge → `AmbientParticleSystem`; no new reward state. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-96. **Fresh-tunnel edge contrast** — Newly broken tile edges remain slightly brighter for a few seconds, helping the player read the route they just created. No persistence required. **Wire:** recent destroyed-tile timestamps in `WorldRenderer`; color/timing in `values/worldVisualDamage.js`. **Effort: S · Risk: Very low · Impact: High**
+96. **Fresh-route settling** — Newly opened routes keep light crumbs and dust for a few seconds, visually distinguishing active excavation from old tunnels. **Wire:** recent destroyed-tile ring buffer → `WorldVisualFeedbackLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-97. **Recent-footstep trail** — Keep a very short-lived set of floor scuffs behind the player in confusing caves; fade them fully and never save them. **Wire:** grounded movement contacts → `GroundEffectsAtmosphere`; cap in `values/playerMotionPolish.js`. **Effort: S · Risk: Very low · Impact: Medium-high**
+97. **Depth-pressure particle change** — Gradually make motes slower, larger, and sparser at extreme depth instead of simply tinting the screen darker. **Wire:** normalized depth → `AmbientParticleSystem`; values in `values/ambientParticleConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
 
-98. **Darkness eye adaptation** — Ease underground darkness over a short transition when moving from the bright surface into existing cave lighting, without changing final visibility radius. **Wire:** surface/cave transition → `LightSystem`/`ShaderSystem`; duration in `values/lightConfig.js`. **Effort: S · Risk: Very low · Impact: High**
+98. **Level 2 motion dialect** — Give Level 2 distinct ambient drift directions, crystal timing, and backdrop movement without adding a new mechanic. **Wire:** level ID → `BiomeSystem`, `AmbientParticleSystem`, and depth backdrops. **Effort: S · Risk: Very low · Impact: High**
 
-99. **Interaction prompt priority** — When mine, portal, chest, pillar, campfire, and shop prompts overlap, choose one deterministic priority and show the others as small secondary icons. **Wire:** candidate prompts in `HUDSystem`/`OverlayManager` → one priority resolver in `PlaySceneGameplay`. **Effort: S · Risk: Low · Impact: High**
+99. **Quiet-frame governor** — Automatically reduce ambient particle alpha during rapid mining, Thunder, portal travel, and discoveries, then restore it smoothly. **Wire:** major-effect activity flags → `AtmosphereSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-100. **Pause “You are here” line** — Show level, depth, region, nearest activated portal distance, and current cargo value in one compact pause-screen context row. **Wire:** `PlayerController`, `BiomeSystem`, `SpecialTileSystem`, and `getCargoSellValue()` → `PlaySceneUI`. **Effort: S · Risk: Very low · Impact: High**
+100. **Underground stillness pockets** — Author rare short stretches with almost no motion so the next animated cave or material region feels more impressive. **Wire:** depth/backdrop region config → `WorldVisualDepthBackdropStage`; no gameplay change. **Effort: XS · Risk: Very low · Impact: High**
 
-## F. Levels, milestones, stars, and relic progression
+## F. Surface, town, NPC, and skyline life
 
-101. **XP remaining toggle** — Let the XP bar optionally show `84 XP TO LEVEL 12` instead of only a percentage. **Wire:** `PlayerLevelSystem` current XP/requirement → `XPProgressBar`; toggle in `UserSettings`. **Effort: XS · Risk: Very low · Impact: High**
+101. **Campfire flame shape variation** — Alternate between a few restrained flame silhouettes while preserving light radius and buff behavior. **Wire:** `CampfireSystem` visual layer; variants in `/values/`. **Effort: XS · Risk: Very low · Impact: High**
 
-102. **XP overflow sweep** — When one reward crosses a level boundary, fill the old bar, flash the level, then immediately continue at the correct overflow amount. Logic remains immediate. **Wire:** XP gain result → presentation queue in `XPProgressBar`. **Effort: S · Risk: Very low · Impact: High**
+102. **Campfire smoke wind bend** — Curve smoke based on current weather wind and player movement disturbance. **Wire:** `CampfireSystem` + `WeatherWorldState` → `AmbientParticleSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-103. **Multi-level compression** — A +5 level block should show one `+5 LEVELS` banner and then only the required milestone choices, not five routine banners. **Wire:** `PlayerLevelSystem.gainLevel()` result → `_handleLevelUpResult()` notification aggregation. **Effort: XS · Risk: Low · Impact: High**
+103. **Campfire ember lift** — Release sparse embers that accelerate upward through the warm light and fade before the HUD. **Wire:** campfire position → `GroundEffectsAtmosphere`; pooled preset. **Effort: XS · Risk: Very low · Impact: High**
 
-104. **Next-choice-level marker** — Put a small diamond on the XP bar and ability reference showing exactly how many levels remain until the next interactive choice. **Wire:** milestone interval from `values/levelConfig.js` + current level → `XPProgressBar`. **Effort: XS · Risk: Very low · Impact: High**
+104. **Lantern micro-sway** — Add slow, seeded sway to hanging lights and signs rather than synchronized movement. **Wire:** semantic props in `WorldVisualSemanticAssetLayer`; wind factor from weather. **Effort: S · Risk: Very low · Impact: High**
 
-105. **Choice current-bonus comparison** — Every milestone choice card should state the current value and value after choosing it. **Wire:** `PlayerLevelSystem` reward definitions/effects → `LevelUpPopup`. **Effort: S · Risk: Very low · Impact: High**
+105. **Lantern light lag** — Let the light pool trail the lantern sprite by a tiny amount during sway. **Wire:** prop transform → `WorldVisualLightingBridge`. **Effort: S · Risk: Very low · Impact: High**
 
-106. **Choice hits-to-break impact** — If a choice changes mining damage, show one current-depth material result such as `STONE 3 → 2 HITS`. **Wire:** temporary projected reward effects → `DigSystem.getHitsToBreakPreview()` → `LevelUpPopup`. **Effort: S · Risk: Very low · Impact: High**
+106. **Stall-cloth wind response** — Bend or offset market cloth and banners in two or three wind states. **Wire:** town semantic assets + `WeatherWorldState` → `WorldVisualSurfaceStage`. **Effort: S · Risk: Very low · Impact: High**
 
-107. **Permanent-choice tag** — Add an unmistakable `PERMANENT • SAVED` tag to milestone choices so they cannot be confused with the 20-second chest buff. **Wire:** `LevelUpPopup` copy/style; no new state. **Effort: XS · Risk: Very low · Impact: High**
+107. **Sign-chain secondary motion** — Let hanging signs overshoot slightly after wind changes instead of matching cloth exactly. **Wire:** prop motion state → `WorldVisualSemanticAssetLayer`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-108. **Choice navigation hints** — Show the actual bound left/right/confirm/back controls in the choice popup footer. **Wire:** `USER_SETTINGS` key labels → `LevelUpPopup`. **Effort: XS · Risk: Very low · Impact: Medium-high**
+108. **Merchant idle phase offsets** — Start NPC idle loops at stable different phases so the town never breathes in unison. **Wire:** NPC ID seed → `NPCManager` animation start frame. **Effort: XS · Risk: Very low · Impact: High**
 
-109. **Choice preview highlight** — Focusing a choice should temporarily highlight only the affected stat row in the popup; nothing changes until confirmation. **Wire:** focus events in `LevelUpPopup` → local preview state. **Effort: XS · Risk: Very low · Impact: Medium-high**
+109. **Merchant player-facing glance** — Add a restrained head/body facing adjustment when the player enters interaction range, with no marker or dialogue. **Wire:** `NPCManager` proximity state → existing sprite orientation. **Effort: S · Risk: Very low · Impact: High**
 
-110. **Choice result receipt** — After confirmation, show the exact applied delta and new total in one compact result line. **Wire:** `PlayerLevelSystem.applyChoiceReward()` structured result → `UINotificationSystem`. **Effort: XS · Risk: Very low · Impact: High**
+110. **Merchant return-to-work motion** — When the player leaves, let the NPC settle back into its idle pose rather than snapping orientation. **Wire:** interaction-range exit → `NPCManager` visual tween. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-111. **Level-source label** — Distinguish normal mining XP, XP blocks, legend blocks, and authored milestone gains in the level-up banner. **Wire:** source metadata from `DigSystem._handleSpecialBlockEffects()` → level result → `_handleLevelUpResult()`. **Effort: S · Risk: Low · Impact: Medium-high**
+111. **Town footstep material response** — Use the existing ground-contact particles with town-floor colors and smaller counts. **Wire:** surface floor semantic from `WorldVisualTownFloorView` → `GroundEffectsAtmosphere`. **Effort: S · Risk: Very low · Impact: High**
 
-112. **Level-authority contract** — Add a test proving shops, unlock gates, save cards, and HUD all read the same `PlayerLevelSystem.level`. **Wire:** existing modules → focused pure contract; repair only exposed divergence. **Effort: XS · Risk: Very low · Impact: High**
+112. **Town floor scuff fade** — Leave very faint short-lived scuffs after fast stops and landings; never persist or accumulate heavily. **Wire:** landing/stop events → `WorldVisualTownFloorView`. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-113. **Milestone-reward proof row** — After claiming/reaching a milestone, show the exact reward as applied to the current stat total, not only its description. **Wire:** `MilestoneBoardSystem` reached event + authoritative stat getter → `MilestonePillarModal`. **Effort: S · Risk: Very low · Impact: High**
+113. **Rooftop dust gusts** — Spawn occasional low-density dust ribbons across roof lines during wind, behind characters. **Wire:** skyline weather state → `SkylineWeatherVfxSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-114. **Pillar progress header** — Opening the Milestone Pillar should immediately show `3/8 MILESTONES • NEXT IN 42m`. **Wire:** `MilestoneBoardSystem.getReachedDepths()`/`getNextMilestone()` → modal header. **Effort: XS · Risk: Very low · Impact: High**
+114. **Cloud-layer speed separation** — Move far clouds slowly and near wisps faster, with weather controlling both rather than one flat layer. **Wire:** `SkylineWeatherVfxSystem`/`SkylineWeatherVfxWorldWisps`. **Effort: XS · Risk: Very low · Impact: High**
 
-115. **Milestone reward history** — Completed milestone rows should show when reached and the reward already applied, preventing uncertainty about missed rewards. **Wire:** add reached timestamp only if absent in `MilestoneBoardSystem` save data → `MilestonePillarModal`. **Effort: M · Risk: Low · Impact: Medium-high**
+115. **Distant silhouette crossings** — Rarely move tiny non-interactive silhouettes across the far skyline to imply a larger world. **Wire:** `WorldVisualSurfaceStage`; long seeded cooldown and strict depth placement. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-116. **Newest personal-stat highlight** — In Miner Statistics, softly mark any record improved during the current session. **Wire:** session baseline snapshot in `RetentionProgressSystem` → `MilestonePillarModal`; no persistent state needed. **Effort: S · Risk: Very low · Impact: High**
+116. **Sky-island weight drift** — Give distant sky islands an extremely slow vertical drift with different phases, keeping teleport collision and destinations fixed. **Wire:** `V11SkyIslandVisualSystem`; render transform only. **Effort: S · Risk: Very low · Impact: High**
 
-117. **Session-record ribbon** — If the player sets two or more personal records in one session, show a small ribbon on the Pillar’s statistics tab until viewed. **Wire:** improved-stat set in `RetentionProgressSystem` → modal tab badge. **Effort: S · Risk: Very low · Impact: Medium-high**
+117. **Sky-island underside motes** — Let a few particles fall or float from island undersides to sell altitude and scale. **Wire:** island visual bounds → `SkylineWeatherVfxWorldWisps`. **Effort: XS · Risk: Very low · Impact: High**
 
-118. **Recent-upgrade history** — Keep the last five purchased upgrades with their practical deltas in the Miner Statistics view. **Wire:** existing `recordUpgrade()` event → bounded list in retention save state → `MilestonePillarModal`. **Effort: M · Risk: Low · Impact: Medium-high**
+118. **Surface depth parallax** — Increase separation between town foreground, skyline, clouds, and sky islands during horizontal travel. **Wire:** camera delta → `WorldVisualSurfaceStage`. **Effort: S · Risk: Very low · Impact: High**
 
-119. **Exact constellation remainder** — At the pillar, every incomplete constellation should say exactly how many stars and relics remain, without automatically selecting one. **Wire:** `FloatingTextSystem.getConstellationCounts()` + relic count → `StarPillarSystem`/pillar UI. **Effort: S · Risk: Very low · Impact: High**
+119. **Town night-light awakening** — Fade lanterns on in a staggered spatial sequence as daylight drops rather than switching all at once. **Wire:** `DayNightCycle` → `WorldVisualLightingBridge`; seeded per prop. **Effort: S · Risk: Very low · Impact: High**
 
-120. **Constellation reward preview** — Show the exact current and unlocked bonus values before completion. **Wire:** `values/constellationBuffs.js` + current unlock state → constellation detail UI. **Effort: S · Risk: Very low · Impact: High**
+120. **Dawn atmosphere reset** — Let night motes fade, smoke regain daylight color, and distant layers brighten at different speeds. **Wire:** `DayNightCycle` → atmosphere, campfire, and surface stage. **Effort: S · Risk: Very low · Impact: High**
 
-121. **Broad source categories** — Tell players whether missing constellation progress comes from `SKY STARS`, `ANCIENT RELICS`, or `BOTH`, without revealing locations. **Wire:** configured requirements in `values/starConstellations.js`/`values/ancientRelics.js` → detail copy. **Effort: XS · Risk: Very low · Impact: High**
+## G. Weather, lighting, shadows, and post-processing
 
-122. **Relic contribution breakdown** — Relic collection should show which locked constellations currently accept relic progress and how much each still needs. **Wire:** `AncientRelicSystem.getCount()` + constellation requirement data → pillar detail panel. **Effort: S · Risk: Very low · Impact: High**
+121. **Rain depth layers** — Split rain into far thin streaks, gameplay-plane streaks, and sparse near-camera streaks without increasing the total particle cap. **Wire:** `WeatherParticleController`; values in `values/weatherConfig.js`. **Effort: S · Risk: Very low · Impact: High**
 
-123. **Rapid-star pickup roll-up** — Several stars collected in quick succession should produce one growing constellation-progress display rather than overlapping messages. **Wire:** star pickup events → short accumulator in `FloatingTextSystem`; final counts remain authoritative. **Effort: S · Risk: Very low · Impact: High**
+122. **Collision-aware rain splashes** — Place small splashes on the real visible surface hit by each sampled rain streak. **Wire:** `WeatherImpactRainController` + `WeatherOcclusionSampler`. **Effort: S · Risk: Low · Impact: High**
 
-124. **New-journal tab badge** — When a material, portal, chest, depth band, or event is first recorded, mark the Journal tab `NEW` until opened. **Wire:** `_discover()` event in `RetentionProgressSystem` → `MilestonePillarModal` tab badge. **Effort: S · Risk: Very low · Impact: High**
+123. **Splash normal alignment** — Flatten or rotate rain impact shapes to match the contacted surface instead of using one horizontal sprite. **Wire:** collision normal → `WeatherImpactRainController`. **Effort: XS · Risk: Very low · Impact: High**
 
-125. **Viewed-state precision** — Clear only the journal entries actually displayed, not all unseen entries when the pillar opens. **Wire:** visible journal keys → bounded viewed-key set in `retentionProgressState.js`. **Effort: M · Risk: Low · Impact: Medium-high**
+124. **Wind-driven rain curvature** — Curve long rain streaks slightly as gust strength changes rather than snapping angle. **Wire:** `WeatherWorldState` wind → `WeatherParticleController`. **Effort: XS · Risk: Very low · Impact: High**
 
-## G. HUD, overlays, and accessibility
+125. **Player rain wake** — Briefly displace nearby rain and mist around fast player movement on the surface. **Wire:** player velocity → near-field weather particles. **Effort: S · Risk: Very low · Impact: Medium-high**
 
-126. **Notification priority lanes** — Critical danger, permanent progression, temporary power, and routine resource messages should have explicit priorities so low-value toasts cannot hide important ones. **Wire:** priority field in `UINotificationSystem`; callers use constants from `values/uiConfig.js`. **Effort: S · Risk: Very low · Impact: High**
+126. **Cloud pre-lightning bloom** — Brighten the responsible cloud region a fraction before the main lightning flash. **Wire:** `WeatherLightningController` telegraph phase → `SkylineWeatherVfxSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-127. **Duplicate notification roll-up** — Repeated identical notices should become `STONE +1 ×8` or refresh one timer rather than occupying multiple slots. **Wire:** existing notification keys → count/merge behavior in `UINotificationSystem`. **Effort: S · Risk: Very low · Impact: High**
+127. **Lightning silhouette rim** — During the brightest flash, add a one-frame rim to the player, NPCs, and foreground props. **Wire:** lightning flash uniform → `PlayerLightShaderBridge` and surface semantic assets. **Effort: S · Risk: Very low · Impact: High**
 
-128. **Hard notification cap** — Limit simultaneous routine notifications and keep critical notifications exempt, preventing visual flooding during rapid mining. **Wire:** queue capacity in `UINotificationSystem`; values in `values/uiConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
+128. **Lightning depth delay** — Flash far skyline layers a few milliseconds before near reflective edges to create spatial depth. **Wire:** lightning phase → surface-stage layer uniforms. **Effort: S · Risk: Very low · Impact: High**
 
-129. **Pinned danger state** — Earthquake escape, trapped-state recovery, and save corruption warnings remain pinned until resolved; ordinary messages continue beneath them. **Wire:** persistent notification mode in `UINotificationSystem` → existing danger callers. **Effort: S · Risk: Very low · Impact: High**
+129. **Storm particle suppression at impact** — Momentarily lower ordinary rain/mist alpha during a major lightning hit so the strike stays readable. **Wire:** `WeatherLightningController` → `WeatherParticleController`. **Effort: XS · Risk: Very low · Impact: High**
 
-130. **Instant routine-dismiss input** — A single configured dismiss action should remove routine summaries/cards without also closing the pause menu or firing gameplay. **Wire:** overlay input capture in `GameInputHandler` → `UINotificationSystem`. **Effort: S · Risk: Low · Impact: High**
+130. **Moving torch flicker** — Tighten and lean the player light slightly opposite travel direction, then restore it when stationary. **Wire:** player velocity → `PlayerLightAnchor`/`PlayerLightShaderBridge`; bounds in `values/lightConfig.js`. **Effort: S · Risk: Very low · Impact: High**
 
-131. **Player-overlap HUD fade** — If the player moves directly behind a large HUD element, reduce that element’s background opacity briefly while keeping text readable. **Wire:** player screen position + HUD rectangles → `HUDSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
+131. **Mining light kick** — Let strong impacts briefly brighten only nearby exposed edges, not the entire screen. **Wire:** impact world position → `WorldVisualLightingBridge`. **Effort: S · Risk: Very low · Impact: High**
 
-132. **Adaptive HUD backing** — Increase HUD backing opacity against bright sky and reduce it underground using existing scene luminance/region state. **Wire:** `BiomeSystem`/light state → `ApprovedHudSkin` presentation. **Effort: S · Risk: Very low · Impact: High**
+132. **Material-aware light response** — Keep stone diffuse, metal-rich seams sharp, and crystals broad under the same light without changing gameplay identity. **Wire:** material type → `WorldVisualMaterialField` lighting parameters. **Effort: M · Risk: Very low · Impact: High**
 
-133. **Safe-zone anchoring** — Anchor HUD groups to configurable safe margins so different resolutions never clip promise text, GP, or resources. **Wire:** scale resize event → `HUDSystem`, `NextPromiseHudSystem`, `XPProgressBar`; margins in `values/hudLayout.js`. **Effort: S · Risk: Very low · Impact: High**
+133. **Campfire bounce movement** — Add a slow secondary warm-light movement on nearby surfaces while preserving the authoritative campfire radius. **Wire:** `CampfireSystem` visual phase → `WorldVisualLightingBridge`. **Effort: S · Risk: Very low · Impact: High**
 
-134. **Ultrawide layout contract** — Add a deterministic layout test for 16:9, 16:10, ultrawide, and small-window sizes. **Wire:** HUD resize functions → pure geometry contract. **Effort: S · Risk: Very low · Impact: High**
+134. **Crystal secondary bounce** — Let already-visible crystal props cast a faint colored response onto adjacent exposed surfaces. **Wire:** semantic crystal positions → `WorldVisualLightingBridge`; no hidden illumination. **Effort: S · Risk: Very low · Impact: High**
 
-135. **HUD text-scale setting** — Offer small, default, and large UI text scales without changing world zoom. **Wire:** `UserSettings.display` → font-scale multiplier consumed by UI factories and HUD. **Effort: M · Risk: Low · Impact: High**
+135. **Dust catches light** — Tint only particles that cross player, campfire, or lightning light volumes rather than globally tinting all dust. **Wire:** particle position → simplified light-volume query in `AmbientParticleSystem`. **Effort: M · Risk: Very low · Impact: High**
 
-136. **Reduced-motion setting** — Provide one setting that shortens UI tweens, removes decorative bobbing, and reduces nonessential particles while leaving gameplay timing unchanged. **Wire:** `UserSettings.display` → `PostFxSystem`, UI tween helpers, particle systems. **Effort: M · Risk: Low · Impact: High**
+136. **Darkness-edge softness motion** — Add a slow, tiny noise drift at the boundary of the visibility light so it feels atmospheric rather than geometrically static. **Wire:** `darknessLightShader.js`; values in `values/lightConfig.js`. **Effort: S · Risk: Very low · Impact: High**
 
-137. **Screen-flash intensity setting** — Separate screen-flash strength from camera shake so players can keep impact motion but reduce bright flashes. **Wire:** new display field → `ScreenFlashSystem`; slider in `SettingsPanelContent`. **Effort: S · Risk: Very low · Impact: High**
+137. **Depth color-grade crossfade** — Blend existing color grade and saturation by depth region instead of hard switching. **Wire:** depth band → `PostFxSystem`/shader uniforms. **Effort: S · Risk: Very low · Impact: High**
 
-138. **Rarity shape coding** — Pair rich, packed, and ancient colors with one, two, and three small geometric marks so rarity is readable without color alone. **Wire:** rarity feedback in `MiningIntentPreviewSystem`/`FloatingTextSystem`; glyphs from `UiIconAtlas`. **Effort: S · Risk: Very low · Impact: High**
+138. **Impact exposure pulse** — Use a very small localized brightness lift on major crit, Thunder, and portal contacts, never a full white screen. **Wire:** major-effect events → `PostFxSystem` with world-position falloff. **Effort: S · Risk: Very low · Impact: High**
 
-139. **Currency-shape distinction** — Always pair money, GP, XP, stars, and relics with their icon, not color alone, in mixed summaries. **Wire:** `UI_RESOURCE_PRESENTATION`/`UiIconAtlas` → notifications, shop, pillar, and pause context. **Effort: S · Risk: Very low · Impact: High**
+139. **Earthquake dust-light occlusion** — Reduce local light clarity as quake dust density rises, then restore it with the settling cloud. **Wire:** `EarthquakeSystem` intensity → `LightSystem`/`PostFxSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-140. **Controller focus halo** — Use one consistent halo for the currently focused interactive element across shops, settings, pause, pillar, and level choices. **Wire:** shared focus state in `PhaserUiKit.createButton()`/modal helpers. **Effort: S · Risk: Very low · Impact: High**
+140. **Weather clear-out choreography** — End storms by thinning near rain first, then far rain, then clouds, instead of switching the entire weather stack off. **Wire:** `WeatherDirector` state transition → particle and skyline systems. **Effort: S · Risk: Very low · Impact: High**
 
-141. **Disabled-button reason** — Hovering or focusing a disabled action should always reveal the exact blocker in the same location. **Wire:** disabled reason field added to `PhaserUiKit` controls → existing overlays. **Effort: S · Risk: Very low · Impact: High**
+## H. Camera motion, transitions, and cinematic flow
 
-142. **One universal back action** — Every modal and overlay should consume the same configured back action and close only the topmost layer. **Wire:** `OverlayManager` stack → `GameInputHandler`; key from `USER_SETTINGS`. **Effort: S · Risk: Low · Impact: High**
+141. **Acceleration-based look-ahead** — Ease the camera slightly toward sustained movement and return it slowly, with no offset during precise mining. **Wire:** movement intent/velocity → PlayScene camera controller; values in `/values/`. **Effort: S · Risk: Low · Impact: High**
 
-143. **Overlay gameplay-input lock** — Add a contract proving mine, jump, and abilities cannot fire behind shops, settings, the pillar, or level choices. **Wire:** `OverlayManager` visibility → `GameInputHandler`/`PlayerInputHandler` gate plus test. **Effort: XS · Risk: Low · Impact: High**
+142. **Fall-aware vertical lead** — Reveal more landing space as fall speed grows, then settle back on contact. **Wire:** `PlayerPhysicsBody.vy` → camera follow offset. **Effort: S · Risk: Low · Impact: High**
 
-144. **Overlay-close release guard** — Require held gameplay keys to return up once after closing an overlay, preventing an accidental swing or ability. **Wire:** overlay close event → same input-release guard used after pause. **Effort: XS · Risk: Low · Impact: High**
+143. **Landing camera compression** — Add a tiny downward camera settle on hard landing, proportional to velocity and separate from shake. **Wire:** landing tier → camera tween in `PlaySceneUpdate`. **Effort: XS · Risk: Very low · Impact: High**
 
-145. **Controller hides pointer** — Hide the mouse pointer after controller navigation starts and restore it on mouse movement, avoiding two competing focus signals. **Wire:** active input-source state → scene canvas cursor style. **Effort: XS · Risk: Very low · Impact: Medium-high**
+144. **Mining contact nudge** — Nudge the camera one or two pixels toward the struck face on strong contacts and ease back immediately. **Wire:** impact direction/magnitude → camera presentation. **Effort: XS · Risk: Very low · Impact: High**
 
-146. **Mouse preserves focus** — Moving the mouse should focus only the hovered control, not reset the entire keyboard/controller selection history. **Wire:** pointerover handling in `PhaserUiKit` → overlay focus manager. **Effort: XS · Risk: Very low · Impact: Medium-high**
+145. **Crit directional punch** — Give crits a sharper, shorter directional camera impulse rather than a larger generic shake. **Wire:** crit event → `CameraShakeSystem`; tune frequency in `values/cameraShake.js`. **Effort: XS · Risk: Very low · Impact: High**
 
-147. **Instant controller tooltips** — Controller focus shows explanatory tooltips immediately; mouse hover can retain a short delay to avoid flicker. **Wire:** input source → tooltip delay in shared UI kit. **Effort: XS · Risk: Very low · Impact: Medium-high**
+146. **Quickslash camera lead** — Move the camera slightly into the slash direction during the action, then recover before the next input. **Wire:** Quickslash action phase → camera offset; collision and target unchanged. **Effort: XS · Risk: Very low · Impact: High**
 
-148. **Reset hints only** — Add a settings action that resets first-run cards and contextual hints without resetting progress, controls, or display options. **Wire:** tutorial/discovery viewed flags in retention/UserSettings data → `SettingsPanelContent`. **Effort: S · Risk: Low · Impact: High**
+147. **Thunder charge framing** — Ease outward a tiny amount during charge and snap smoothly back through the contact, keeping HUD scale unchanged. **Wire:** Thunder charge progress → camera zoom; strict cap in `/values/`. **Effort: S · Risk: Low · Impact: High**
 
-149. **UI sound deduplication** — Focus changes caused by redraw should not replay navigation sounds; only genuine user navigation should. **Wire:** focus origin metadata → `SoundSystem` UI calls. **Effort: XS · Risk: Very low · Impact: Medium-high**
+148. **Earthquake layered sway** — Move background, world, and foreground at slightly different amplitudes instead of shaking the whole frame identically. **Wire:** `EarthquakeSystem` wave → `WorldVisualRuntime` layer transforms and `CameraShakeSystem`. **Effort: M · Risk: Low · Impact: High**
 
-150. **Compact active-effects row** — Show chest and campfire effects in one small row with icon, remaining time, and exact benefit; hide the row when empty. **Wire:** `RetentionProgressSystem` chest timer + `CampfireSystem` blessing state → `HUDSystem`; presentation values in `/values/`. **Effort: S · Risk: Very low · Impact: High**
+149. **Shake source falloff** — Reduce quake and impact shake by world distance while preserving local particle response. **Wire:** event position → `CameraShakeSystem`; falloff in `values/cameraShake.js`. **Effort: S · Risk: Very low · Impact: High**
 
-## H. Audio, VFX, and atmosphere hierarchy
+150. **Frequency-specific shake** — Use low-frequency motion for quake weight, high-frequency motion for sharp impacts, and one directional impulse for abilities. **Wire:** effect group → `CameraShakeSystem` profiles. **Effort: XS · Risk: Very low · Impact: High**
 
-151. **Impact stereo positioning** — Pan existing mining impacts slightly toward their world position so left/right digging reads before the player looks at text. **Wire:** tile world X and camera center → `SoundSystem` playback pan. **Effort: XS · Risk: Very low · Impact: High**
+151. **Portal entry pull** — Ease the camera a few pixels toward the portal as the player enters, then transition before it becomes uncomfortable. **Wire:** teleport entry phase → camera tween. **Effort: S · Risk: Very low · Impact: High**
 
-152. **Impact concurrency cap** — During extremely fast mining, preserve the newest and strongest impact while fading redundant old instances instead of stacking volume. **Wire:** mining sound group in `SoundLibraryManager`; cap in `values/audioConfig.js`. **Effort: XS · Risk: Very low · Impact: High**
+152. **Portal tunnel parallax** — Move existing portal particles in opposing depth layers during travel instead of adding a loading overlay. **Wire:** teleport transition → `WorldVisualGameplayEffectLayer`. **Effort: S · Risk: Very low · Impact: High**
 
-153. **Big-event ambience duck** — Briefly duck ambience under chest openings, constellation completion, portal activation, and major milestones, then restore smoothly. **Wire:** existing event callbacks → `SoundSystem` category ducking; curve in `values/audioConfig.js`. **Effort: S · Risk: Very low · Impact: High**
+153. **Portal arrival reverse pull** — Reverse particle flow and camera bias during arrival so exit feels physically connected to entry. **Wire:** arrival phase → the same portal effect pool. **Effort: XS · Risk: Very low · Impact: High**
 
-154. **Signature-stinger priority** — If two major stingers collide, play the higher-priority one and delay or suppress the other rather than creating noise. **Wire:** small priority queue in `SoundSystem`; event priorities in `values/audioConfig.js`. **Effort: S · Risk: Very low · Impact: High**
+154. **Cave-entry depth peel** — Slide foreground occlusion, mid fog, and background at separate speeds as the cave scene becomes authoritative. **Wire:** `CaveEntryController` → `CaveInteriorOcclusionSystem` and `CaveAtmosphereSystem`. **Effort: M · Risk: Low · Impact: High**
 
-155. **Pause low-pass transition** — Ease music and ambience into the paused mix over a short tween, then restore on resume. **Wire:** pause/resume event → `SoundSystem`; use Phaser tween support. **Effort: XS · Risk: Very low · Impact: High**
+155. **Cave-exit eye adaptation** — Restore surface brightness in two short stages while the character remains fully controllable. **Wire:** cave exit transition → `PostFxSystem`/lighting. **Effort: S · Risk: Very low · Impact: High**
 
-156. **Focus-loss audio fade** — Fade master output down when the browser loses focus and restore to the saved volume on focus, avoiding abrupt loops. **Wire:** window focus events in `GameInputHandler`/scene → `SoundSystem`. **Effort: XS · Risk: Very low · Impact: High**
+156. **Town-return camera settle** — Arrive slightly wider, then ease to normal framing while the player regains control. No summary panel is required for the visual beat. **Wire:** return-to-town completion → camera controller. **Effort: S · Risk: Very low · Impact: High**
 
-157. **Weather crossfade smoothing** — Ensure rain, wind, and clear ambience crossfade from the actual current volume, even when weather changes mid-transition. **Wire:** `WeatherAudioController` transition state → one cancellable tween. **Effort: S · Risk: Very low · Impact: Medium-high**
+157. **Discovery camera restraint** — Use a tiny world-position bias toward chests, stars, relics, or titans rather than interrupting control with a hard pan. **Wire:** discovery events → camera offset with immediate input cancellation. **Effort: S · Risk: Low · Impact: High**
 
-158. **Portal-tail continuity** — Let the departure sound tail carry into the arrival sound instead of hard-cutting during scene/camera relocation. **Wire:** teleport timeline in `SpecialTileSystem` → `SoundSystem` scheduled playback. **Effort: XS · Risk: Very low · Impact: High**
+158. **Cinematic input cancellation** — Any player movement immediately cancels optional camera flourishes while leaving core effect particles intact. **Wire:** `GameInputHandler` → optional camera tween owner. **Effort: XS · Risk: Low · Impact: High**
 
-159. **One-shot low-GP warning** — Play the existing low-GP warning once per threshold crossing, not continuously while below the threshold. **Wire:** GP ratio crossing in `PlayerAbilities` → `SoundSystem`; reset only after recovery margin. **Effort: XS · Risk: Very low · Impact: High**
+159. **Low-FPS motion simplification** — Reduce secondary camera layers before reducing core impact motion, preserving feel under load. **Wire:** measured FPS → `CameraShakeSystem` quality tier. **Effort: S · Risk: Very low · Impact: High**
 
-160. **Optional ability-ready chime** — Pair the ready-frame flash with one restrained common chime, controlled by the ability-readiness hint toggle. **Wire:** readiness transition → `SoundSystem`; no new asset required if an approved UI sound fits. **Effort: XS · Risk: Very low · Impact: Medium-high**
+160. **Reduced-motion coherence** — Existing reduced-motion settings should shorten or remove camera travel while retaining contact flashes and clear silhouettes. **Wire:** `USER_SETTINGS` display values → camera/effect profiles. **Effort: S · Risk: Very low · Impact: High**
 
-161. **Disabled-action sound** — Use one quiet, consistent rejection click for every disabled UI action and pair it with the visible blocker reason. **Wire:** shared disabled path in `PhaserUiKit` → `SoundSystem`. **Effort: XS · Risk: Very low · Impact: High**
+## I. Chests, stars, relics, portals, pillars, and discoveries
 
-162. **Transaction sound scaling** — Small sales/purchases use the normal confirm; very large transactions add a short low layer without becoming louder than milestone stingers. **Wire:** transaction value ratio → existing approved sound layers in `ShopOverlay`/`SoundSystem`. **Effort: S · Risk: Very low · Impact: Medium-high**
+161. **Chest lid weight** — Add a short anticipation, fast opening rotation, and small rebound instead of an instant state swap. **Wire:** authored chest open event → chest visual object in the world renderer. **Effort: S · Risk: Very low · Impact: High**
 
-163. **Directional earthquake rumble** — Pan the existing rumble slightly toward the epicenter and reduce directionality as intensity grows. **Wire:** player-to-epicenter vector from `EarthquakeSystem` → `SoundSystem` pan. **Effort: S · Risk: Very low · Impact: High**
+162. **Chest dust seal break** — Release a thin ring of dust from the lid seam just before rewards launch. **Wire:** chest opening phase → `WorldVisualFeedbackLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-164. **Campfire distance mix** — Smoothly fade the existing fire loop by distance and occlusion rather than toggling it at a hard radius. **Wire:** player/campfire distance + `WeatherOcclusionSampler`-style line query → `CampfireSystem` audio. **Effort: S · Risk: Very low · Impact: High**
+163. **Chest money fountain discipline** — Launch fewer representative coins in three readable arcs while awarding the same money instantly. **Wire:** chest reward result → `LootPickupFxSystem`; visual count capped independently of amount. **Effort: S · Risk: Very low · Impact: High**
 
-165. **Chest-power mix lift** — For the first half-second of the 20-second buff, slightly lift high-frequency impact layers, then return to the normal mix; stats remain unchanged. **Wire:** chest buff start event → temporary mix tween in `SoundSystem`. **Effort: XS · Risk: Very low · Impact: High**
+164. **Chest-star contrast beat** — If a star is present, briefly suppress coin brightness and let the star own the center of the opening. **Wire:** chest reward contents → `LootPickupFxSystem` choreography. **Effort: XS · Risk: Very low · Impact: High**
 
-166. **Directional impact shake** — Bias mining shake a few pixels opposite the struck face instead of always shaking uniformly. **Wire:** aim direction in mining result → `CameraShakeSystem`; magnitude remains within existing settings. **Effort: S · Risk: Very low · Impact: High**
+165. **Star pickup spiral** — Orbit the visible star once around the player before it dissolves upward, without delaying collection. **Wire:** star pickup event → `LootPickupFxSystem`/`FloatingTextSystem` visual layer only. **Effort: S · Risk: Very low · Impact: High**
 
-167. **Single multi-break hitstop** — An ability destroying many blocks should trigger one capped hitstop based on the strongest result, never one hitstop per tile. **Wire:** aggregated ability result → `HitstopSystem`; add a contract. **Effort: S · Risk: Low · Impact: High**
+166. **Star trail taper** — Use a bright head and rapidly thinning tail that curves toward the sky rather than a straight line into UI. **Wire:** star collection FX → `LootPickupFxSystem`. **Effort: XS · Risk: Very low · Impact: High**
 
-168. **Tile-tinted debris** — Tint existing generic debris toward the destroyed tile’s current visual palette so breaks feel connected without requiring new sprites. **Wire:** tile presentation color from `WorldRenderer` → `SpecialBlockEffectsManager`. **Effort: S · Risk: Very low · Impact: High**
+167. **Star world-light response** — Let nearby exposed edges catch a brief cool highlight as the star rises. **Wire:** star FX world position → `WorldVisualLightingBridge`. **Effort: S · Risk: Very low · Impact: High**
 
-169. **Open-space debris direction** — Bias debris toward neighboring air cells, making breaks look like material bursts into the tunnel rather than through solid walls. **Wire:** four-neighbor `WorldModel` query → particle velocity selection. **Effort: S · Risk: Very low · Impact: Medium-high**
+168. **Relic pedestal wake-up** — Animate dust lifting and tiny runes or facets brightening only after the relic is already visible. No proximity locator. **Wire:** visible relic state → `RelicDiscoveryFxSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-170. **Yield-weight icon scale** — Large pickup yields briefly scale the resource icon more than normal yields, with a strict cap to keep the HUD stable. **Wire:** `resourceAmount` → `LootPickupFxSystem` and changed-slot pulse. **Effort: XS · Risk: Very low · Impact: High**
+169. **Relic pickup orbit layers** — Rotate two differently sized world-space rings around the relic before they collapse into the player. **Wire:** relic collection event → `RelicDiscoveryFxSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-171. **Reticle visibility protection** — Keep the aim outline and ability footprints above darkness, fog, weather, and post-processing while still respecting UI opacity settings. **Wire:** rendering depth/pipeline placement in `MiningIntentPreviewSystem` and `PostFxSystem`. **Effort: S · Risk: Very low · Impact: High**
+170. **Relic residual floor mark** — Leave a faint short-lived light pattern where the relic was collected, then dissolve it. **Wire:** relic removal position → `WorldVisualGameplayEffectLayer`. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-172. **HUD flash isolation** — Screen flashes should affect the world more than text and critical HUD information so numbers remain readable. **Wire:** separate camera/pipeline layers in `ScreenFlashSystem` and HUD setup. **Effort: S · Risk: Very low · Impact: High**
+171. **Portal idle depth distortion** — Animate a restrained internal parallax swirl inside active portals while keeping their outer silhouette quiet. **Wire:** portal visual state → `SpecialTileSystem` visual or semantic layer. **Effort: S · Risk: Very low · Impact: High**
 
-173. **Weather readability bubble** — Reduce only decorative rain/fog opacity in a small radius around the player and current target during intense weather. Gameplay weather remains unchanged. **Wire:** player/target positions → `WeatherParticleController`; radius in `values/weatherConfig.js`. **Effort: S · Risk: Very low · Impact: High**
+172. **Portal activation wave** — Send one clean ring through nearby visible surfaces on first activation rather than adding more text. **Wire:** existing first-activation event → `WorldVisualGameplayEffectLayer`. **Effort: XS · Risk: Very low · Impact: High**
 
-174. **Surface light continuity** — Smoothly blend player light, sky light, and underground darkness across the entrance rows so repeated town returns never produce a hard lighting pop. **Wire:** depth transition → `LightSystem`, `ShaderSystem`, and `PlayerLightShaderBridge`. **Effort: S · Risk: Very low · Impact: High**
+173. **Portal particle suction** — Pull existing motes toward the portal only during entry and reverse them at arrival. **Wire:** teleport phase → `AmbientParticleSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-175. **Hold-to-hide HUD capture** — Add a non-persistent hold action that temporarily hides only HUD/notifications for clean screenshots and restores them on release. It is not a photo mode. **Wire:** new rebindable action in `values/keybindActions.js` → HUD visibility group in `PlaySceneUI`. **Effort: S · Risk: Low · Impact: Medium-high**
+174. **Portal silhouette stretch** — Stretch the player visual slightly toward the portal center before disappearance; physics and safe landing remain unchanged. **Wire:** teleport entry timeline → `PlayerMotionPolishSystem`. **Effort: S · Risk: Very low · Impact: High**
 
-## I. Save confidence, onboarding, and optional platform wins
+175. **Level 2 portal motion identity** — Give Level 2 portals a deeper, slower internal rotation and different particle fall direction, not another label. **Wire:** portal level metadata → portal visual preset. **Effort: XS · Risk: Very low · Impact: High**
 
-176. **Save-in-progress icon** — Show a tiny animated save icon while `_dugTileSavePromise` is active and hide it only after success or failure. **Wire:** `PlaySceneUI` save promise lifecycle → `HUDSystem`. **Effort: XS · Risk: Very low · Impact: High**
+176. **Milestone Pillar ambient orbit** — Keep two or three sparse motes orbiting the pillar at different radii, speeding up only when a milestone is actually completed. **Wire:** `MilestoneBoardSystem` state → `StarPillarSystem` world visuals. **Effort: S · Risk: Very low · Impact: High**
 
-177. **Last-saved timestamp** — The pause screen should state `SAVED 12s AGO`, updating from the last confirmed successful save rather than the request time. **Wire:** successful `DugTilesSaveStore.save()` result → ephemeral timestamp in `PlaySceneUI`. **Effort: XS · Risk: Very low · Impact: High**
+177. **Pillar completion pulse** — Send a vertical light pulse through the pillar and into nearby floor seams on completion. **Wire:** milestone-complete event → `StarPillarSystem` and lighting bridge. **Effort: S · Risk: Very low · Impact: High**
 
-178. **Slot-specific save confirmation** — Manual save feedback should name the slot and current depth: `SLOT 2 SAVED • 684m`. **Wire:** save slot + current retention depth → existing save notification. **Effort: XS · Risk: Very low · Impact: High**
+178. **Titan scale reveal** — Use foreground dust displacement and a slow silhouette light pass to reveal a titan’s size without a large banner. **Wire:** `TitanDiscoverySystem` → `titanDiscoveryFx.js` and atmosphere suppression. **Effort: M · Risk: Very low · Impact: High**
 
-179. **Save-request coalescing** — Multiple rapid save requests should merge into the active promise plus one final follow-up save, not produce overlapping writes. **Wire:** `queueDugTilesSave()`/`_dugTileSavePromise` → dirty-after-save flag; add contract. **Effort: S · Risk: Medium · Impact: High**
+179. **Celestial Engine layered aura** — Separate the engine aura into slow mass, medium rotation, and fast spark layers so it feels powered rather than simply glowing. **Wire:** `CelestialEngineController` → world visual layers; values in `values/celestialEngines.js`. **Effort: S · Risk: Very low · Impact: High**
 
-180. **Retryable save failure** — A failed manual save should expose one `RETRY` action and leave gameplay available; automatic saves retry with bounded backoff. **Wire:** save failure result → `UINotificationSystem` action callback; retry limits in `/values/`. **Effort: S · Risk: Medium · Impact: High**
+180. **Heavenblocks threshold transition** — Change particle direction, light softness, and backdrop drift progressively at the threshold instead of presenting a new screen. **Wire:** `HeavenblocksAccessSystem` → `HeavenblocksPresentationSystem`, atmosphere, and lighting. **Effort: M · Risk: Very low · Impact: High**
 
-181. **Automatic pre-import backup** — Before importing over a slot, create a backup of the current payload and say where it can be restored. **Wire:** import path in `StartMenuScene` → `SaveBackupManager.createBackup()` before write. **Effort: S · Risk: Low · Impact: High**
+## J. Visual hierarchy, choreography, variation, and performance
 
-182. **Import preview card** — Before overwrite, show imported version, level, best depth, wallet, stars, timestamp, and compatibility status. **Wire:** `DugTilesSaveStore.normalizePayload()` read-only result → `StartMenuScene` import modal. **Effort: S · Risk: Very low · Impact: High**
+181. **One hero effect at a time** — Give Quickslash, Thunder, portal travel, discoveries, and quakes a shared priority system that temporarily quiets lower-priority particles. **Wire:** effect activity flags → `AtmosphereSystem` and visual managers. **Effort: S · Risk: Very low · Impact: High**
 
-183. **Human-readable export filename** — Export files as `understar-slot-2-level-18-depth-684m-2026-07-26.json`. **Wire:** export handler in `StartMenuScene` + normalized save summary. **Effort: XS · Risk: Very low · Impact: High**
+182. **Contact-synchronized effect clock** — Drive trail peak, spark birth, camera impulse, light kick, and debris release from the same authored contact timestamp. **Wire:** `UalActionContactTimeline` → visual event payload consumed by current systems. **Effort: M · Risk: Low · Impact: High**
 
-184. **Backup restore preview** — Selecting a backup should compare its level, depth, wallet, stars, and date against the current slot before confirmation. **Wire:** `SaveBackupManager` summaries → backup modal in `StartMenuScene`. **Effort: S · Risk: Very low · Impact: High**
+183. **Seeded impact variants** — Select among a few debris angles, dust shapes, and trail curves using action/tile seeds so repetition varies but recordings remain reproducible. **Wire:** tile coordinates plus action counter → visual variant helper. **Effort: S · Risk: Very low · Impact: High**
 
-185. **Duplicate save slot** — Allow copying one slot into an empty slot for safe experimentation, preserving the source and assigning the target slot identity. **Wire:** normalized payload read/write through `DugTilesSaveStore`; create backup first. **Effort: M · Risk: Medium · Impact: High**
+184. **No-repeat variant guard** — Prevent the same impact or idle variant from playing more than twice consecutively. **Wire:** small recent-choice state in visual systems only. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-186. **Hold-to-delete slot** — Replace easy accidental deletion with a short visible hold meter; keyboard/controller and pointer share the same confirmation. **Wire:** delete action in `StartMenuScene` → shared hold button in `PhaserUiKit`. **Effort: S · Risk: Low · Impact: High**
+185. **Motion amplitude hierarchy** — Reserve the largest movement for discoveries and abilities, medium movement for destruction, and small movement for ambience. **Wire:** shared amplitude tiers in `/values/` consumed by camera, particles, and lighting. **Effort: S · Risk: Very low · Impact: High**
 
-187. **Main-menu quick continue** — If a valid last-played slot exists, add `CONTINUE SLOT 2` above Play while preserving the normal slot screen. **Wire:** latest valid summary from `DugTilesSaveStore` → `MainMenuScene`; preference is inferred, not a new save dependency. **Effort: S · Risk: Low · Impact: High**
+186. **Color hierarchy discipline** — Reserve white cores for exceptional contact, violet for Quickslash, cyan for Thunder, warm gold for chest power, and muted material colors for normal mining. **Wire:** consolidate effect colors in existing values files; no mechanics change. **Effort: XS · Risk: Very low · Impact: High**
 
-188. **Continue snapshot subtitle** — The quick-continue button should include level and best depth so the target is never ambiguous. **Wire:** existing save-card summary → `MainMenuScene` button subtitle. **Effort: XS · Risk: Very low · Impact: High**
+187. **Additive-blend budget** — Cap simultaneous additive sprites and replace the oldest low-priority glow before spawning a new hero effect. **Wire:** effect pools in `WorldVisualFeedbackLayer`, weather, and discovery FX. **Effort: S · Risk: Very low · Impact: High**
 
-189. **Save-aware loading messages** — During load, rotate short messages relevant to the selected save’s nearest milestone, unlocked abilities, or deepest level rather than generic tips only. **Wire:** selected save summary → `WorldLoadScene`/`LoadingScreenView`; templates in `values/loadingMessages.js`. **Effort: S · Risk: Very low · Impact: Medium-high**
+188. **Per-zone particle budget** — Allocate particles to the player vicinity and current hero event rather than distributing them evenly across the whole camera. **Wire:** `AmbientParticleSystem` spawn budget by camera zone. **Effort: S · Risk: Very low · Impact: High**
 
-190. **First-run progress strip** — The three-step mine/sell/upgrade contract should show `1/3`, allow skipping, and disappear permanently when completed. **Wire:** existing first-run state in `RetentionProgressSystem` → `NextPromiseHudSystem` and pause help. **Effort: XS · Risk: Very low · Impact: High**
+189. **Offscreen effect culling** — Do not create break, weather-impact, or ambient visual objects outside a padded camera rectangle. Gameplay events still run. **Wire:** shared camera-bounds test → visual spawn call sites. **Effort: XS · Risk: Very low · Impact: High**
 
-191. **Replay tutorial topics** — Add a help page where players can replay controls, mining, selling, portals, stars/relics, and earthquakes individually without resetting discoveries. **Wire:** tutorial event emitters → pause ability/help reference; viewed state stays untouched. **Effort: S · Risk: Very low · Impact: High**
+190. **Distance-based motion LOD** — Keep near props fully animated, far props on simplified cycles, and very far props static between camera moves. **Wire:** distance bands → semantic asset, skyline, and backdrop systems. **Effort: S · Risk: Very low · Impact: High**
 
-192. **Live controls cheat sheet** — The help page must display current bindings from `USER_SETTINGS`, including any rebinding, rather than hardcoded keys. **Wire:** `KEYBIND_ACTIONS` + `USER_SETTINGS.getKeyLabel()` → help page. **Effort: XS · Risk: Very low · Impact: High**
+191. **Fast-action particle reuse** — Reposition and retint pooled particles during rapid mining instead of allocating new objects for every hit. **Wire:** `WorldVisualFeedbackLayer`/particle managers. **Effort: S · Risk: Very low · Impact: High**
 
-193. **Binding-conflict explanation** — When rebinding fails, identify the action already using that key and offer swap/cancel rather than only rejecting it. **Wire:** `UserSettings.setKeybind()` structured conflict result → `SettingsPanelContent`. **Effort: S · Risk: Low · Impact: High**
+192. **Effect lifetime compression under load** — Shorten low-priority dust and motes before reducing core contact sparks, preserving responsiveness on weak hardware. **Wire:** measured FPS → visual quality governor. **Effort: S · Risk: Very low · Impact: High**
 
-194. **Focus-loss auto-pause setting** — Allow players to choose whether browser focus loss pauses gameplay, while always preventing stuck held inputs on return. **Wire:** focus events → `GameInputHandler`; toggle in `UserSettings`. **Effort: S · Risk: Low · Impact: High**
+193. **Background pause during menus** — Freeze world ambient motion cleanly when blocking overlays are open so the composition does not distract behind them. **Wire:** overlay visibility from `OverlayManager` → atmosphere and backdrop systems. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-195. **Exit waits for active save** — Main-menu/quit transitions should wait for the current save promise, show `FINISHING SAVE`, then continue or expose a failure choice. **Wire:** return actions in `PlaySceneUI` → `_dugTileSavePromise`. **Effort: S · Risk: Medium · Impact: High**
+194. **Motion resumes with phase continuity** — Resume paused loops from their former phase instead of restarting all props together. **Wire:** visual-system pause/resume clocks. **Effort: XS · Risk: Very low · Impact: Medium-high**
 
-196. **Crash-recovery notice** — If the newest payload fails validation and a backup is loaded, tell the player exactly which backup was used and preserve the corrupt payload for inspection. **Wire:** load fallback in `DugTilesSaveStore`/`SaveBackupManager` → `StartMenuScene` notice. **Effort: M · Risk: Medium · Impact: High**
+195. **Camera-relative pixel snapping audit** — Keep world art stable while allowing particles and soft lighting to move subpixel, preventing shimmer without making motion rigid. **Wire:** `RenderDensitySystem`, camera transforms, and selected effect containers. **Effort: S · Risk: Low · Impact: High**
 
-197. **Save-migration summary** — After a version migration, show one non-alarming line such as `SAVE UPDATED TO V9 • BACKUP KEPT`, once. **Wire:** `normalizePayload()` migration metadata → start/load notification; viewed flag in payload metadata only if needed. **Effort: S · Risk: Low · Impact: High**
+196. **Native-density VFX scaling** — Scale particle size, line width, and glow softness consistently under native-density and legacy render modes. **Wire:** `RenderDensitySystem` → visual preset multiplier; preserve `?nativeDensity=0`. **Effort: S · Risk: Very low · Impact: High**
 
-198. **Local achievement mirror** — Convert a restrained subset of existing milestones and personal statistics into cosmetic local badges with no currency or gameplay reward. **Wire:** `RetentionProgressSystem` stats/milestones → a badge tab in `MilestonePillarModal`; definitions in `/values/`. **Effort: M · Risk: Low · Impact: Medium-high**
+197. **World-space contrast check** — Automatically lower an effect’s glow when it would wash out the player or target silhouette against the local backdrop. **Wire:** simplified backdrop luminance sample → hero FX alpha clamp. **Effort: M · Risk: Very low · Impact: High**
 
-199. **Steam stats and achievement bridge** — If the Steam wrapper is present, mirror already-authoritative local counters and selected local badges; never make Steam availability affect gameplay. **Wire:** `RetentionProgressSystem` snapshot → optional adapter around Steam `ISteamUserStats`; local state remains authoritative. **Effort: M · Risk: Medium · Impact: High**
+198. **Effect isolation review mode** — Add a developer-only query flag that plays one effect family at a time against the real scene for fast quality review; never ship visible controls. **Wire:** query config → visual managers and existing recording tools. **Effort: S · Risk: Very low · Impact: High**
 
-200. **Steam Auto-Cloud save sync** — Configure the existing save files for Steam Auto-Cloud so the persistent mine follows the player between computers without changing save code. Test developer-only before release. **Wire:** Steamworks Auto-Cloud path configuration → current `DugTilesSaveStore` file location; no gameplay-system dependency. **Effort: XS configuration · Risk: Medium · Impact: High**
+199. **Automated visual-budget contract** — Add tests for maximum simultaneous particles, additive objects, retained tweens, and offscreen spawns so polish cannot become clutter later. **Wire:** visual-system debug counters → focused contract under `testing/`. **Effort: S · Risk: Very low · Impact: High**
 
-## Recommended first wiring wave
+200. **AAA vertical-slice polish pass** — Tune one complete sequence—run, jump, land, aim, mine, crit, Quickslash, tile break, pickup, and atmosphere recovery—before spreading effects across the game. Use that sequence as the quality bar for every later candidate. **Wire:** existing systems above plus a deterministic local test route and `ScreenRecordSystem`. **Effort: M · Risk: Very low · Impact: Very high**
 
-The best low-risk first wave is deliberately presentation-heavy:
+## Best first implementation wave: maximum polish, minimum clutter
 
-1. First-contact target snap (#1)
-2. Ability multi-break badge (#3)
-3. Blocked-hit reason label (#4)
-4. Rapid-yield roll-up (#6)
-5. Changed-resource HUD pulse (#9)
-6. Adaptive aim-outline contrast (#15)
-7. Screen-edge text clamping (#16)
-8. Jump input buffer (#21)
-9. Resume key-release guard (#24)
-10. Flight-ready pulse (#36)
-11. Exact GP shortfall (#42)
-12. Thunder solid-count forecast (#46)
-13. Repeated-failure coalescing (#51)
-14. Post-sale wallet preview (#61)
-15. Remaining-wallet purchase preview (#65)
-16. Selection survives redraw (#69)
-17. Mine-entrance progress sign (#83)
-18. Nearest-portal distance in pause (#92)
-19. Pause “You are here” line (#100)
-20. Next-choice-level marker (#104)
-21. Choice current-bonus comparison (#105)
-22. Notification priority lanes (#126)
-23. Duplicate notification roll-up (#127)
-24. Ability-readiness hint toggle (#60)
-25. Save-in-progress icon and timestamp (#176–177)
+These are the strongest low-risk candidates to review first:
 
-## Suggested review workflow
+1. **#41 Quickslash anticipation shimmer** — directly replaces the dev-tool-looking square, route line, and label.
+2. **#42 Quickslash tapered contact crescent**
+3. **#22 Speed-shaped pickaxe trail**
+4. **#24 Contact-point accuracy**
+5. **#27 Dust sheet before debris**
+6. **#28 Debris foreground split**
+7. **#32 Crack propagation animation**
+8. **#33 Final-hit material inhale**
+9. **#34 Break-hole darkness bloom**
+10. **#36 Critical strike white core**
+11. **#38 Rapid-mining dust wake**
+12. **#6 Run cadence speed matching**
+13. **#7 Foot-contact dust timing**
+14. **#13 Velocity-scaled landing squash**
+15. **#18 Flight pitch from velocity**
+16. **#19 Flight trail pressure response**
+17. **#61 Directional edge sheen**
+18. **#63 Rare-block internal glint**
+19. **#81 Three-depth dust field**
+20. **#83 Player wake through motes**
+21. **#99 Quiet-frame governor**
+22. **#114 Cloud-layer speed separation**
+23. **#127 Lightning silhouette rim**
+24. **#145 Crit directional punch**
+25. **#150 Frequency-specific shake**
+26. **#161 Chest lid weight**
+27. **#165 Star pickup spiral**
+28. **#171 Portal idle depth distortion**
+29. **#181 One hero effect at a time**
+30. **#200 AAA vertical-slice polish pass**
 
-- Reply with `1 yes`, `2 no`, and so on; ranges are fine.
-- Treat every item as rejected until explicitly approved.
-- After review, wire only the smallest coherent group.
-- Start with presentation/read-only hooks, then bounded input changes, then save/economy changes.
-- Add new persistent fields only when an approved feature cannot derive its state from existing counters.
+## Recommended approval method
+
+Approve candidates by number. For the first pass, choose roughly 10–20 from the shortlist rather than wiring all 200. Start with the complete vertical slice in #200, compare it in the real game, then use its motion, color, particle, and timing limits as the production standard.

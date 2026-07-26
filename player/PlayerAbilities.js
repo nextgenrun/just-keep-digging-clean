@@ -5,6 +5,10 @@ import { computeAbilityStats, getDefaultAbilityStats } from "../values/constella
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { HARD_RESOURCE_TILE_TYPES, tileTypeToResource } from "../values/resourceTypes.js";
 import { isProtectedSecondWorldDividerTile } from "../values/secondWorldConfig.js";
+import {
+  THUNDER_STRIKE_CHAIN_CONFIG,
+  getThunderStrikeStage,
+} from "../values/thunderStrikeChain.js";
 import { getPlayerBodyTileSpan } from "./playerDirectionalTargets.js";
 
 export class PlayerAbilities {
@@ -44,6 +48,7 @@ export class PlayerAbilities {
     // Thunder strike
     this._thunderStrikeCharging = false;
     this._thunderStrikeChargeStart = 0;
+    this._thunderStrikeFollowUpStageIndex = null;
 
     // God mode
     this._godMode = false;
@@ -257,8 +262,8 @@ export class PlayerAbilities {
   }
 
   startThunderStrikeCharge(nowMs = this.sprite?.scene?.time?.now ?? Date.now()) {
+    this.cancelThunderStrikeChain();
     if (!this._isThunderStrikeUnlocked()) {
-      this._thunderStrikeCharging = false;
       return false;
     }
     if (this.gemPower >= this.getThunderStrikeCost() || this._godMode) {
@@ -284,12 +289,37 @@ export class PlayerAbilities {
     return { complete: false };
   }
 
-  executeThunderStrike() {
-    if (!this._thunderStrikeCharging) return { success: false, reason: 'not-charging' };
+  armThunderStrikeFollowUp(stageIndex) {
+    const normalizedStageIndex = Math.trunc(stageIndex);
+    if (normalizedStageIndex <= 0 || normalizedStageIndex >= THUNDER_STRIKE_CHAIN_CONFIG.stages.length) {
+      return false;
+    }
     this._thunderStrikeCharging = false;
-    const cost = this.getThunderStrikeCost();
-    if (!this._godMode && this.gemPower < cost) return { success: false, reason: 'no-gp' };
-    if (!this._godMode) this.gemPower -= cost;
+    this._thunderStrikeFollowUpStageIndex = normalizedStageIndex;
+    return true;
+  }
+
+  cancelThunderStrikeChain() {
+    this._thunderStrikeCharging = false;
+    this._thunderStrikeFollowUpStageIndex = null;
+  }
+
+  executeThunderStrike(stageIndex = 0) {
+    const normalizedStageIndex = Math.trunc(stageIndex);
+    const initialSlam = normalizedStageIndex === 0;
+    if (initialSlam) {
+      if (!this._thunderStrikeCharging) return { success: false, reason: "not-charging" };
+      this._thunderStrikeCharging = false;
+      const cost = this.getThunderStrikeCost();
+      if (!this._godMode && this.gemPower < cost) return { success: false, reason: "no-gp" };
+      if (!this._godMode) this.gemPower -= cost;
+    } else {
+      if (this._thunderStrikeFollowUpStageIndex !== normalizedStageIndex) {
+        return { success: false, reason: "follow-up-not-armed" };
+      }
+      this._thunderStrikeFollowUpStageIndex = null;
+    }
+    const chainStage = getThunderStrikeStage(normalizedStageIndex);
 
     const bodyTileSpan = getPlayerBodyTileSpan(this.body, this.config.tileSize);
     const strikeOrigin = bodyTileSpan
@@ -302,7 +332,7 @@ export class PlayerAbilities {
     const stats = this.getConstellationStats();
     const strikeRange = Math.max(
       1,
-      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel('thunderStrike') + 5 : 5)
+      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel("thunderStrikeAbility") + 5 : 5)
         + (stats.thunderstrikeRange || 0)
     );
     const normalDamageMultiplier = Number.isFinite(PLAYER_ABILITIES_CONFIG.thunderStrikeNormalDamageMultiplier)
@@ -321,7 +351,10 @@ export class PlayerAbilities {
       if (this.worldModel.isDiggable(strikeOrigin.tx, checkTy)) {
         const tileType = this.worldModel.getTileType(strikeOrigin.tx, checkTy);
         const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
-        const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;
+        const tileDamage = tileBaseDamage
+          * normalDamageMultiplier
+          * thunderStrikeBonusMultiplier
+          * chainStage.damageMultiplier;
         const dmg = Math.max(1, Math.round(tileDamage * Math.max(0.2, 1 - falloff * distance)));
         const dmgResult = this.worldModel.damageTile(strikeOrigin.tx, checkTy, dmg);
         results.push({
@@ -342,13 +375,23 @@ export class PlayerAbilities {
       ) {
         const tileType = this.worldModel.getTileType(strikeOrigin.tx, checkTy);
         const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
-        const tileDamage = tileBaseDamage * normalDamageMultiplier * thunderStrikeBonusMultiplier;
+        const tileDamage = tileBaseDamage
+          * normalDamageMultiplier
+          * thunderStrikeBonusMultiplier
+          * chainStage.damageMultiplier;
         bedrockBreachesLeft -= 1;
         this.worldModel.setTile(strikeOrigin.tx, checkTy, TILE_TYPES.AIR, 0);
         results.push({ tx: strikeOrigin.tx, ty: checkTy, damage: Math.max(1, Math.round(tileDamage)), destroyed: true, tileType: TILE_TYPES.BEDROCK, wasRubble: false, breachedBedrock: true });
       }
     }
-    return { success: true, results };
+    return {
+      success: true,
+      results,
+      chainStageIndex: normalizedStageIndex,
+      chainStageNumber: chainStage.number,
+      chainDamageMultiplier: chainStage.damageMultiplier,
+      followUpCost: THUNDER_STRIKE_CHAIN_CONFIG.followUpCost,
+    };
   }
 
   getThunderStrikePreview() {
@@ -363,7 +406,7 @@ export class PlayerAbilities {
     const stats = this.getConstellationStats();
     const range = Math.max(
       1,
-      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel("thunderStrike") + 5 : 5)
+      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel("thunderStrikeAbility") + 5 : 5)
         + (stats.thunderstrikeRange || 0)
     );
     const entries = [];
@@ -445,7 +488,12 @@ export class PlayerAbilities {
 
   getThunderStrikeCost() {
     const stats = this.getConstellationStats();
-    return Math.max(0, (PLAYER_ABILITIES_CONFIG.thunderStrikeCost || 100) - (stats.thunderstrikeCostReduction || 0));
+    return Math.max(
+      0,
+      (PLAYER_ABILITIES_CONFIG.thunderStrikeCost || 100)
+        * THUNDER_STRIKE_CHAIN_CONFIG.upfrontCostMultiplier
+        - (stats.thunderstrikeCostReduction || 0),
+    );
   }
 
   getGemPowerPercent() {

@@ -1,38 +1,52 @@
 # Arc Core ImageGen Animation V1
 
+> Superseded for live review by the drift-locked Layered `.sprite` v2 package
+> under `sprites/character/arc-core-review-v2`. These whole-body boards remain
+> comparison and rejection evidence only and are no longer loaded by the
+> sandbox.
+
 **Updated:** 2026-07-26
 
-Review-only ImageGen artwork and engine-ready pose sheets for the Small Arc and
-Omega Arc animation sandbox.
+Historical review-only ImageGen boards and retired pose sheets for the Small
+Arc and Omega Arc animation sandbox.
 
 ## Status
 
 - `reviewOnly: true`
 - `productionChanged: false`
 - Production Arc Core textures are not replaced.
-- Approval is required before any generated frame is promoted outside the
+- Pointed Small Arc `v1` is explicitly rejected and no longer loaded.
+- The current layered package is `sprites/character/arc-core-review-v2`.
+- Approval is required before any generated art is promoted outside the
   sandbox.
 
 ## Direction
 
-- Small Arc: compact three-fin gyroscope miner with a directional needle
-  aperture, quick idle counter-precession, and a four-pose snap dig.
-- Omega Arc: four-bastion cathedral array with slow tidal suspension and a
-  heavy four-pose lattice deployment.
-- Enter and exit: generated sprites are combined with an in-engine luminous
-  cloud transition. The cloud itself stays procedural so it can scale, animate,
-  and reverse cleanly.
+- Small Arc round `v2` and Omega `v1` are retained as identity references for
+  the fixed-body masters in the current package.
+- Current motion uses separate gyro/sigil layers rather than four whole-body
+  idle and dig poses.
+- Current enter/exit uses generated cyan and violet cloud sprites with
+  procedural rings, sparks, and filaments.
 
 ## Files
 
-- `2026-07-26-small-arc-imagegen-pose-sheet-v1.png`: untouched ImageGen board.
-- `2026-07-26-omega-arc-imagegen-pose-sheet-v1.png`: untouched ImageGen board.
-- `2026-07-26-small-arc-runtime-sheet-v1.png`: alpha-keyed 8-frame runtime
-  sheet, 512 px per frame.
-- `2026-07-26-omega-arc-runtime-sheet-v1.png`: alpha-keyed 8-frame runtime
-  sheet, 512 px per frame.
-- `2026-07-26-arc-cloud-transition-contact-sheet-v1.png`: captured in-engine
-  enter and exit review board.
+- `2026-07-26-small-arc-imagegen-pose-sheet-v1.png`: rejected pointed Small
+  Arc board, retained only as review evidence.
+- `2026-07-26-small-arc-imagegen-pose-sheet-v2-round.png`: superseded round
+  identity-reference board.
+- `2026-07-26-omega-arc-imagegen-pose-sheet-v1.png`: superseded Omega
+  identity-reference board.
+- `2026-07-26-small-arc-runtime-sheet-v1.png`: rejected pointed runtime sheet,
+  no longer loaded.
+- `2026-07-26-small-arc-runtime-sheet-v2-round.png`: retired 8-frame Small Arc
+  sheet, no longer loaded.
+- `2026-07-26-omega-arc-runtime-sheet-v1.png`: retired 8-frame Omega sheet, no
+  longer loaded.
+- `2026-07-26-arc-cloud-transition-contact-sheet-v1.png`: superseded board
+  containing the rejected pointed Small Arc.
+- `2026-07-26-arc-cloud-transition-contact-sheet-v2-round.png`: superseded
+  captured in-engine review board.
 - `2026-07-26-imagegen-prompt-manifest.md`: generation intent and source roles.
 
 ## Engine Review

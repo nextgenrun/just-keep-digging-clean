@@ -24,18 +24,32 @@ export class EarthquakeHazardOverlay {
     );
     this.edgeRoot = this.scene.add.container(0, 0)
       .setScrollFactor(0).setDepth(this.config.hudDepth).setVisible(false);
-    this.edgeBg = this.scene.add.graphics();
-    this.edgeText = this.scene.add.text(0, 0, "", {
+    this.edgeIcon = this.scene.add.image(
+      this.config.hazards.edgeIconX,
+      0,
+      this.config.assets.medallion.key,
+    ).setDisplaySize(
+      this.config.hazards.edgeIconSize,
+      this.config.hazards.edgeIconSize,
+    );
+    this.edgeText = this.scene.add.text(this.config.hazards.edgeTextX, 0, "", {
       fontFamily: UI_FONTS.mono,
       fontSize: this.config.hazards.edgeFontSize,
       fontStyle: "bold",
       color: UI_COLORS.white,
-    }).setOrigin(0.5);
-    this.edgeRoot.add([this.edgeBg, this.edgeText]);
+      stroke: "#06090c",
+      strokeThickness: 3,
+    }).setOrigin(0, 0.5);
+    this.edgeRoot.add([this.edgeIcon, this.edgeText]);
   }
 
   _createMarker() {
     const root = this.scene.add.container(0, 0).setDepth(this.config.worldDepth).setVisible(false);
+    const icon = this.scene.add.image(0, 0, this.config.assets.medallion.key)
+      .setDisplaySize(
+        this.config.hazards.markerDisplaySize,
+        this.config.hazards.markerDisplaySize,
+      );
     const graphics = this.scene.add.graphics();
     const text = this.scene.add.text(0, 0, "", {
       fontFamily: UI_FONTS.mono,
@@ -45,8 +59,8 @@ export class EarthquakeHazardOverlay {
       stroke: "#0b1015",
       strokeThickness: this.config.hazards.markerStrokeWidth,
     }).setOrigin(0.5, 0);
-    root.add([graphics, text]);
-    return { root, graphics, text };
+    root.add([icon, graphics, text]);
+    return { root, icon, graphics, text };
   }
 
   markRestoredRubble(tx, ty) {
@@ -78,12 +92,18 @@ export class EarthquakeHazardOverlay {
     const laneWidth = ts * cfg.rockLaneWidthTiles;
     const rocks = (this.source?.fallingRocks || []).slice(0, cfg.maxRockLanes);
     for (const rock of rocks) {
-      const height = Math.max(ts, rock.endY - rock.y);
-      const left = rock.x - laneWidth / 2;
-      this.worldGraphics.fillStyle(this.config.colors.danger, cfg.rockLaneAlpha);
-      this.worldGraphics.fillRect(left, rock.y, laneWidth, height);
-      this.worldGraphics.lineStyle(2, this.config.colors.danger, cfg.rockLaneBorderAlpha);
-      this.worldGraphics.strokeRect(left, rock.y, laneWidth, height);
+      const halfWidth = laneWidth / 2;
+      this.worldGraphics.lineStyle(2, this.config.colors.danger, cfg.rockLaneAlpha);
+      this.worldGraphics.lineBetween(rock.x - halfWidth, rock.y, rock.x - halfWidth, rock.endY);
+      this.worldGraphics.lineBetween(rock.x + halfWidth, rock.y, rock.x + halfWidth, rock.endY);
+      const landingHalfWidth = ts * cfg.rockLandingWidthTiles / 2;
+      this.worldGraphics.lineStyle(3, this.config.colors.danger, cfg.rockLaneAlpha * 1.4);
+      this.worldGraphics.lineBetween(
+        rock.x - landingHalfWidth,
+        rock.endY,
+        rock.x + landingHalfWidth,
+        rock.endY,
+      );
     }
   }
 
@@ -158,21 +178,15 @@ export class EarthquakeHazardOverlay {
       caveIn.ty * ts + ts / 2 + cfg.markerOffsetY
     ).setVisible(true);
     marker.text.setText(`${label} ${Math.max(0, caveIn.remaining / 1000).toFixed(1)}s`)
-      .setPosition(0, radius + cfg.markerStrokeWidth);
+      .setPosition(0, cfg.markerLabelOffsetY);
+    marker.icon.setAlpha?.(0.88 + (1 - remainingRatio) * 0.12);
     marker.graphics.clear();
-    marker.graphics.fillStyle(0x0b1015, 0.82);
-    marker.graphics.fillCircle(0, 0, radius);
-    marker.graphics.lineStyle(cfg.markerStrokeWidth, this.config.colors.danger, 0.35);
+    marker.graphics.lineStyle(cfg.markerStrokeWidth, this.config.colors.calm, 0.28);
     marker.graphics.strokeCircle(0, 0, radius);
     marker.graphics.lineStyle(cfg.markerStrokeWidth, this.config.colors.danger, 1);
     marker.graphics.beginPath();
     marker.graphics.arc(0, 0, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * remainingRatio);
     marker.graphics.strokePath();
-    marker.graphics.fillStyle(this.config.colors.danger, 1);
-    marker.graphics.fillTriangle(0, -radius * 0.46, radius * 0.42, radius * 0.34, -radius * 0.42, radius * 0.34);
-    marker.graphics.fillStyle(0x0b1015, 1);
-    marker.graphics.fillRect(-2, -radius * 0.2, 4, radius * 0.24);
-    marker.graphics.fillCircle(0, radius * 0.21, 2);
   }
 
   _updateEdgeIndicator() {
@@ -194,18 +208,18 @@ export class EarthquakeHazardOverlay {
     const view = camera.worldView;
     const rawX = ((candidate.x - view.x) / view.width) * vw;
     const rawY = ((candidate.y - view.y) / view.height) * vh;
-    const halfW = cfg.edgePillWidth / 2;
-    const halfH = cfg.edgePillHeight / 2;
+    const halfW = cfg.edgeWidth / 2;
+    const halfH = cfg.edgeHeight / 2;
     const x = clamp(rawX, cfg.edgeInset + halfW, vw - cfg.edgeInset - halfW);
     const y = clamp(rawY, cfg.edgeInset + halfH, vh - cfg.edgeInset - halfH);
     const glyph = rawX < 0 ? "◀" : rawX > vw ? "▶" : rawY < 0 ? "▲" : "▼";
     this.edgeRoot.setPosition(x, y).setVisible(true);
     this.edgeText.setText(`${glyph} ${this.config.labels.danger}`);
-    this.edgeBg.clear();
-    this.edgeBg.fillStyle(0x0b1015, this.config.colors.panelAlpha);
-    this.edgeBg.fillRoundedRect(-halfW, -halfH, cfg.edgePillWidth, cfg.edgePillHeight, halfH);
-    this.edgeBg.lineStyle(2, this.config.colors.danger, 1);
-    this.edgeBg.strokeRoundedRect(-halfW, -halfH, cfg.edgePillWidth, cfg.edgePillHeight, halfH);
+    const pulse = 0.92 + Math.sin((this.scene.time?.now || 0) / 220) * 0.06;
+    this.edgeIcon.setDisplaySize?.(
+      cfg.edgeIconSize * pulse,
+      cfg.edgeIconSize * pulse,
+    );
   }
 
   _offscreenHazards(view) {

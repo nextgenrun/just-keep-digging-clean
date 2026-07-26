@@ -28,6 +28,13 @@ manifest and `index.html`. The hash covers reachable modules, collected runtime
 media, the page shell, Phaser, CSS, and the builder itself, allowing the runtime
 panel, CI artifact, and rollback candidate to identify the exact same build.
 
+## Graveborer Wurm sprite package
+
+`build_graveborer_wurm_sprite_package.py` validates the five transparent
+ImageGen masters in `sprites/environment/graveborer-wurm-v1/`, applies bounded
+high-quality downsampling, writes lossless alpha WebPs, and reports dimensions,
+byte sizes, and SHA-256 hashes. It never generates substitute artwork.
+
 ## Character V8 review pipeline
 
 Use the targeted builder to normalize selected frame folders without rebuilding unrelated character animations:

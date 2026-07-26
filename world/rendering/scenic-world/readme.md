@@ -31,19 +31,24 @@ the cavern through otherwise-solid cells. This keeps high-resolution regional
 packs bounded instead of decoding the complete 5,000-tile-deep art library at
 startup.
 
-`WorldVisualDepthBackdropStage` covers the complete Level 1 scenic field from
-row 65 through row 2064 with surface-entry, blue, amber, silver, and magma
-packs. It keeps only intersecting regions and their visible 1536x1024 logical
-cards plus one neighbor alive, streams non-surface packs through `WorldVisualAssetCache`,
-and releases departed textures. Boundary views may coexist, while partial last
-cards are cropped exactly to the configured band. Those dimensions match the
-current source plates one-to-one, eliminating the former 46.9% pre-render
-upscale. The existing cloud veil adds aspect-preserving, restrained world-space
-mist, and a low-alpha SCREEN duplicate of the backwall
-lets authored highlights breathe without another decoded texture. Generic
-material backdrops remain until every required texture for a region is ready.
-Use `?levelOneBackdrops=0` or compatibility alias `?shallowCavern=0` to restore
-generic material backdrops without changing the hidden tile state.
+`WorldVisualDepthBackdropStage` covers all ten material bands from row 65
+through row 5064. Each biome owns five background-only 1536x1024 logical cards;
+the stage keeps only intersecting regions and their visible cards plus one
+neighbor alive, streams their pool through `WorldVisualAssetCache`, and releases
+departed textures. Boundary views may coexist, while partial last cards are
+cropped exactly to the configured ground-band boundary. Negative render depths
+place the backwall, its low-alpha SCREEN breathing pass, aspect-preserving mist,
+and `WorldVisualDepthAmbientLayer` behind the opaque terrain facade at depth
+`0.1`. Consequently, depicted bridges and architecture never become ground or
+collision. The ambient layer draws deterministic pooled dust, drips, embers,
+steam, ash, and stars into one Graphics object, reduces its update/count budget
+below 44 FPS, and clears below 32 FPS. Generic material backdrops remain until
+every required card for a selected region is ready.
+
+Use `?biomeBackdropVariants=0` to restore the old Level 1 plates,
+`?biomeBackdropMotion=0` to freeze mist/emissive/ambient movement, or
+`?levelOneBackdrops=0` / `?shallowCavern=0` to disable the whole scenic stage.
+All three controls are presentation-only and leave hidden tile state unchanged.
 
 Use `?worldVisualRuntime=legacy` for the temporary rollback assembly. Legacy Tiled-derived visuals must not be mixed into scenic mode.
 

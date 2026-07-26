@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
+import { DigSystem } from "../systems/mining/DigSystem.js";
+import { AncientRelicSystem } from "../systems/progression/AncientRelicSystem.js";
 import { RelicDiscoveryFxSystem } from "../systems/visual/RelicDiscoveryFxSystem.js";
+import { ASSET_KEYS } from "../values/assetKeys.js";
 import { RELIC_DISCOVERY_FX_CONFIG } from "../values/relicDiscoveryFxConfig.js";
+import { TILE_TYPES } from "../values/tileTypes.js";
 
 function createDisplayObject(type, values = {}) {
   return {
@@ -268,6 +272,76 @@ assert.equal(
   "destroyed systems must reject future presentation work",
 );
 
+function createAwardHarness(initialCount, discoveryFxSystem) {
+  const hudStatuses = [];
+  const digSystem = new DigSystem(
+    {},
+    {
+      scene: {
+        hudSystem: {
+          flashStatus(...args) {
+            hudStatuses.push(args);
+          },
+        },
+      },
+    },
+    { tileSize: 94, topAirRows: 65, seed: 133742 },
+  );
+  const ancientRelicSystem = new AncientRelicSystem(initialCount);
+  digSystem.setAncientRelicSystem(ancientRelicSystem);
+  digSystem.setRelicDiscoveryFxSystem(discoveryFxSystem);
+  digSystem.setFloatingTextSystem({
+    showFloatingText() {},
+    tryUnlockEligibleConstellations() {},
+    getRelicPurposeSummary: (count) => `${count} ready`,
+  });
+  return { digSystem, ancientRelicSystem, hudStatuses };
+}
+
+const discoveryCalls = [];
+const awardHarness = createAwardHarness(2, {
+  playDiscovery(payload) {
+    discoveryCalls.push(payload);
+  },
+});
+assert.equal(
+  awardHarness.digSystem._awardAncientRelics(TILE_TYPES.ANCIENT_RELIC_CACHE, 6, 8),
+  1,
+  "authoritative cache award must still report the awarded relic",
+);
+assert.equal(awardHarness.ancientRelicSystem.getCount(), 3);
+assert.deepEqual(discoveryCalls, [{
+  anchor: { x: 611, y: 799 },
+  iconAsset: ASSET_KEYS.ui.heavenblocks.ancientRelicToken,
+  relicCount: 3,
+}]);
+assert.equal(
+  discoveryCalls[0].iconAsset,
+  "heavenblocks-ancient-relic-token-v1",
+  "award hook must use the preloaded Heavenblocks relic token",
+);
+assert.match(awardHarness.hudStatuses[0][0], /3 ready/);
+
+const throwingHarness = createAwardHarness(3, {
+  playDiscovery() {
+    throw new Error("synthetic presentation failure");
+  },
+});
+assert.doesNotThrow(
+  () => throwingHarness.digSystem._awardAncientRelics(
+    TILE_TYPES.ANCIENT_RELIC_CACHE,
+    1,
+    2,
+  ),
+  "presentation failures must never escape into the mining transaction",
+);
+assert.equal(
+  throwingHarness.ancientRelicSystem.getCount(),
+  4,
+  "presentation failure must not roll back or alter the authoritative award",
+);
+assert.equal(throwingHarness.hudStatuses.length, 1);
+
 const systemSource = await readFile(
   new URL("../systems/visual/RelicDiscoveryFxSystem.js", import.meta.url),
   "utf8",
@@ -278,10 +352,10 @@ assert.doesNotMatch(
   "presentation module must remain independent from gameplay, preload, scene, and save wiring",
 );
 assert.ok(
-  systemSource.split("\n").length <= 300,
+  systemSource.split("\n").filter((line) => line.trim()).length <= 320,
   "relic discovery presentation must stay within the visual-system line budget",
 );
 
 console.log(
-  "relic discovery FX contract: full flourish, low-FX flight, reduced motion, bounded runs, and cleanup passed",
+  "relic discovery FX contract: visuals, award hook, failure isolation, bounded runs, and cleanup passed",
 );

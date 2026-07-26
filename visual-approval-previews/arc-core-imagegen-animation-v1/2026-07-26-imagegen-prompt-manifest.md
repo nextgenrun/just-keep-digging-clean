@@ -11,13 +11,22 @@ round badge body.
 
 ## Small Arc
 
-Generated as a regular four-column by two-row pose sheet on a flat green
-chroma-key background.
+### V1 pointed — rejected
 
-- Top row: four consecutive quick idle poses.
-- Bottom row: brace, charge, needle contact, and recoil.
-- Silhouette: compact asymmetric three-fin gyroscope with a right-facing needle
-  aperture.
+The original asymmetric three-fin/needle sheet was rejected on 2026-07-26
+because rotating its arrow-like outline caused ship-like and inconsistent
+directional visuals. It is retained only as review evidence and is not loaded.
+
+### V2 round — current review
+
+Regenerated as a regular four-column by two-row pose sheet on a flat green
+chroma-key background with one fixed circular outer boundary in all frames.
+
+- Top row: four internal gyro-ring counter-precession poses.
+- Bottom row: internal shutter brace, compression charge, twin-channel
+  ignition, and recoil.
+- Silhouette: compact round gyro core with no nose, fins, wings, baked beam, or
+  directional protrusions.
 - Palette: dark gunmetal, restrained brass, cyan lens and energy seams.
 
 ## Omega Arc
@@ -35,5 +44,6 @@ green chroma-key background.
 
 The generated boards are background-keyed locally, divided into eight fixed
 cells, normalized to 512 px frames, and loaded only by the tanktest review
-scene. Phaser adds cadence, directional rotation, energy lanes, and reversible
-cloud boarding effects.
+scene. Phaser adds cadence, energy lanes, and reversible cloud boarding
+effects. Small Arc `v2` stays visually safe under directional rotation because
+its exterior is circular.

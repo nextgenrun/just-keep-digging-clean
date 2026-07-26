@@ -11,11 +11,11 @@ import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTy
 import { RESOURCE_PRICES_CONFIG, getCargoSellValue } from "../../values/resourcePrices.js";
 import { RETENTION_CONFIG, RETENTION_EVENT_TYPES } from "../../values/retentionConfig.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import {
-  resolveUalActionContact,
-  UAL_NATIVE_ACTION_TUNING,
-} from "../../values/ualNativeActionTuning.js";
 import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
+import {
+  recordGraveborerWurmMiningNoise,
+  updateGraveborerWurmRuntime,
+} from "./GraveborerWurmBridge.js";
 
 function hasEscapeClosableOverlay(scene) {
   return Boolean(
@@ -265,6 +265,10 @@ function handleQuickslashMineResult(scene, result, targetTile, tileType) {
   scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
   scene.flushPendingDigImpactFeedback?.();
   if (!result.success) return;
+  recordGraveborerWurmMiningNoise(scene, "quickslash", targetTile);
+  if (result.heavyPunchHit) {
+    recordGraveborerWurmMiningNoise(scene, "heavyPunch", result.heavyPunchTile || targetTile);
+  }
   showMiningRetentionFeedback(scene, result, targetTile);
 
   if (result.heavyPunchHit && result.heavyPunchTile && scene.floatingTextSystem) {
@@ -308,6 +312,10 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
   }
 
   if (result.success) {
+    recordGraveborerWurmMiningNoise(scene, "normal", targetTile);
+    if (result.heavyPunchHit) {
+      recordGraveborerWurmMiningNoise(scene, "heavyPunch", result.heavyPunchTile || targetTile);
+    }
     showMiningRetentionFeedback(scene, result, targetTile);
     if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
       const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
@@ -355,46 +363,14 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
   if (result.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, result);
 }
 
-function finishThunderStrikeVisual(scene) {
-  scene.ualActionContactTimeline?.cancel();
-  scene.playerRigContact?.endAction();
-  scene._thunderStrikeAnimating = false;
-  scene._thunderStrikePhase = null;
-  scene._thunderStrikeHoldUntil = null;
-  scene.player.anims.timeScale = 1;
-  scene.player.setFlipX(
-    typeof scene._thunderStrikeFacingFlipX === "boolean"
-      ? scene._thunderStrikeFacingFlipX
-      : !scene.playerController.isFacingRight(),
-  );
-  scene._thunderStrikeFacingFlipX = null;
-  scene.pickaxeTrailSystem?.stop();
-  scene.isDigAnimating = false;
-  scene.updatePlayerVisualState(true);
-}
-
 function handleThunderStrikeResult(scene, strikeResult, now) {
   if (!strikeResult?.success) return false;
-
-  const playerTile = scene.playerController.getPlayerTile();
-  if (!playerTile || playerTile.tx === undefined || playerTile.ty === undefined) {
-    scene.soundSystem?.playTileBreak();
-    return true;
-  }
   if (!Array.isArray(strikeResult.results) || strikeResult.results.length === 0) return true;
-
-  const startX = playerTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-  const startY = playerTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-  const bottomResult = strikeResult.results[strikeResult.results.length - 1];
-  const endY = bottomResult.ty * scene.config.tileSize + scene.config.tileSize / 2;
-  scene.floatingTextSystem?.showThunderStrikeLightning(
-    scene.player.x,
-    scene.player.y,
-    startX,
-    startY,
-    endY,
-    scene.config.tileSize,
-  );
+  const firstStrikeTile = strikeResult.results[0];
+  recordGraveborerWurmMiningNoise(scene, "thunderStrike", {
+    tx: firstStrikeTile.tx,
+    ty: firstStrikeTile.ty,
+  });
 
   strikeResult.results.forEach((result) => {
     scene.worldRenderer.applyTileUpdate(result.tx, result.ty);
@@ -487,6 +463,9 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
     scene.applyMineFeedback(result, targetTile);
   }
 
+  if (areaResult.hits.some(hit => hit.result?.success)) {
+    recordGraveborerWurmMiningNoise(scene, "arcCore", aimTargetTile);
+  }
   if (shouldSave) scene.queueDugTilesSave?.();
   if (areaResult.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, areaResult);
   const refreshedAim = scene.inputHandler.resolveAimTargetTile();
@@ -702,6 +681,10 @@ function _updateSystems(time, delta, keys) {
       this.caveAtmosphereSystem.update(playerTile, time);
     }
 
+    if (this.caveHazardSystem && playerTile) {
+      this.caveHazardSystem.update(time, playerTile, this.gameState === "playing");
+    }
+
     if (this.caveInteriorOcclusionSystem && playerTile) {
       this.caveInteriorOcclusionSystem.update(playerTile);
     }
@@ -751,13 +734,27 @@ function _updatePlayingState(time, delta, keys) {
   this.playerRigContact?.update(delta);
 
   playerTile = this.playerController.getPlayerTile();
+  updateGraveborerWurmRuntime(this, time, delta, playerTile);
+  this.npcManager?.updateActivities?.(time, delta, playerTile);
   const arcCoreConsumedInteraction = this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
-  
+
+  const milestoneDistance = this.milestoneBoardSystem?.getInteractionDistance?.(playerTile)
+    ?? Number.POSITIVE_INFINITY;
+  const nearestNpcDistance = this.npcManager?.getNearestInteractionDistance?.(playerTile)
+    ?? Number.POSITIVE_INFINITY;
+  const milestoneConsumedInteraction = this.milestoneBoardSystem?.update?.(
+    playerTile,
+    this.inputHandler?.getKeys?.(),
+    { allowOpen: milestoneDistance < nearestNpcDistance },
+  ) === true;
+
   // NPC interaction
-  if (!arcCoreConsumedInteraction) this.npcManager.checkNPCInteraction();
+  if (!arcCoreConsumedInteraction && !milestoneConsumedInteraction) {
+    this.npcManager.checkNPCInteraction();
+  }
   
   // Update NPC interact prompts (floating "Press E" text visibility)
-  this.npcManager.updateInteractPrompts(playerTile);
+  this.npcManager.updateInteractPrompts(playerTile, milestoneDistance);
 
   // Integrated caves stay in PlayScene. Only explicit compact review mouths
   // open CaveScene; geodes always remain in the authoritative world.
@@ -766,13 +763,6 @@ function _updatePlayingState(time, delta, keys) {
     // Special tile system (gamble and teleport tiles)
     this.specialTileSystem.update();
     this.heavenblocksAccessSystem?.update?.(playerTile);
-
-    // Milestone board system (left side town board)
-    if (this.milestoneBoardSystem && this.inputHandler) {
-      const mKeys = this.inputHandler.getKeys();
-      this.milestoneBoardSystem.update(playerTile, mKeys);
-    }
-
 
   // Aim handling
   const rawAimTargetTile = this.inputHandler.resolveAimTargetTile();
@@ -810,7 +800,7 @@ function _updatePlayingState(time, delta, keys) {
     if (arcCoreActive) {
       handleArcCoreMine(this, quickslashTarget, time, abilities, quickslashAim);
     } else if (
-      !this.isDigAnimating
+      (!this.isDigAnimating || this.canReplaceUalDigRecovery?.(time, abilities))
       && quickslashTarget
     ) {
       const profile = this.playerAssetProfile || ASSET_KEYS.player;
@@ -870,7 +860,7 @@ function _updatePlayingState(time, delta, keys) {
 
         if (profile.isUalNative) {
           if (
-            !this.isDigAnimating
+            (!this.isDigAnimating || this.canReplaceUalDigRecovery?.(time, abilities))
             && mineTargetTile
           ) {
             this.startDigAnimation({
@@ -935,94 +925,17 @@ function _updatePlayingState(time, delta, keys) {
     }
   }
 
-  // Thunder Strike (C key): charge and strike are separate authored phases.
-  // Tile mutation, rewards, sound and lightning all occur on the strike contact.
-  const playerAbilities = this.playerController.abilities;
-  const playerProfile = this.playerAssetProfile || ASSET_KEYS.player;
+  // Thunder Strike: one paid charge, then two exact-timing free follow-up slams.
   const cInput = this.playerController.input.getThunderStrikeInput();
-  if (cInput) {
-    this._thunderStrikeInputBufferedUntil =
-      time + RETENTION_CONFIG.intentPreview.abilityInputBufferMs;
-  }
-  const bufferedThunderInput = Number.isFinite(this._thunderStrikeInputBufferedUntil)
-    && time <= this._thunderStrikeInputBufferedUntil;
-  if (
-    bufferedThunderInput
-    && !this.isDigAnimating
-    && !this._thunderStrikeAnimating
-    && !this._teleportInAnimating
-  ) {
-    const started = playerAbilities.startThunderStrikeCharge(time);
-    if (started) {
-      this._thunderStrikeInputBufferedUntil = -Infinity;
-      this.isDigAnimating = true;
-      this._thunderStrikeAnimating = true;
-      this._thunderStrikePhase = "charge";
-      this._thunderStrikeFacingFlipX = this.player.flipX;
-      this.player.anims.timeScale = 1;
-      this.player.play(
-        playerProfile.thunderStrikeChargeAnim || ASSET_KEYS.player.thunderStrikeChargeAnim,
-        true,
-      );
-    }
-  }
-  if (
-    Number.isFinite(this._thunderStrikeInputBufferedUntil)
-    && time > this._thunderStrikeInputBufferedUntil
-  ) {
-    this._thunderStrikeInputBufferedUntil = -Infinity;
-  }
-
-  if (this._thunderStrikeAnimating && this._thunderStrikePhase === "charge") {
-    const chargeResult = playerAbilities.updateThunderStrikeCharge(time);
-    if (chargeResult.complete) {
-      const strikeAnimationKey = playerProfile.thunderStrikeStrikeAnim
-        || ASSET_KEYS.player.thunderStrikeStrikeAnim;
-      const contactSpec = resolveUalActionContact(
-        playerProfile,
-        strikeAnimationKey,
-        "thunderstrike",
-      );
-      const executeAtContact = () => {
-        const strikeResult = playerAbilities.executeThunderStrike();
-        const applied = handleThunderStrikeResult(this, strikeResult, this.time?.now || time);
-        if (!applied) {
-          finishThunderStrikeVisual(this);
-        }
-        return applied;
-      };
-
-      this._thunderStrikePhase = "strike";
-      let shouldPlayStrike = true;
-      if (playerProfile.isUalNative && this.ualActionContactTimeline) {
-        this.ualActionContactTimeline.begin({
-          animationKey: strikeAnimationKey,
-          contactFrame: contactSpec.textureFrame,
-          contactSequenceIndex: contactSpec.sequenceIndex,
-          onContact: executeAtContact,
-          onComplete: () => finishThunderStrikeVisual(this),
-        });
-      } else {
-        shouldPlayStrike = executeAtContact();
-        if (shouldPlayStrike) {
-          this._thunderStrikeHoldUntil = time + UAL_NATIVE_ACTION_TUNING.thunderStrike.holdMs;
-        }
-      }
-      if (shouldPlayStrike) {
-        this.player.play(strikeAnimationKey, true);
-        const thunderDisplaySize = playerProfile.displaySizePx || this.config.playerDisplaySizePx;
-        this.player.setDisplaySize(thunderDisplaySize, thunderDisplaySize);
-        this.player.anims.timeScale = 1;
-      }
-    }
-  } else if (
-    this._thunderStrikeAnimating
-    && this._thunderStrikePhase === "strike"
-    && this._thunderStrikeHoldUntil
-    && time >= this._thunderStrikeHoldUntil
-  ) {
-    finishThunderStrikeVisual(this);
-  }
+  this.thunderStrikeActionRuntime?.update(
+    time,
+    cInput,
+    (strikeResult, contactTime) => handleThunderStrikeResult(
+      this,
+      strikeResult,
+      contactTime,
+    ),
+  );
 
   // Visual state
   this.updateLivingDrillEngagementTimeout?.(time);

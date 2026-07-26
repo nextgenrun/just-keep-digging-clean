@@ -14,6 +14,7 @@ import {
   LEVEL_TWO_MERCHANT_ID,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "../values/arcCoreConfig.js";
+import { CRAFTING_RECIPE_IDS } from "../values/craftingRecipes.js";
 import {
   MONEY_MONSTER_RESOURCE_KEYS,
   SECOND_WORLD_RESOURCE_KEYS,
@@ -271,17 +272,18 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   assert.equal(openedMerchant, "magmaMoneyMonster");
 }
 
-// Both Arc purchases appear in the Level 2 Money Monster's upgrade catalog.
+// Both Arc schematics appear in the Forge and are absent from the money-purchase catalog.
 {
   const catalog = { _render() {} };
   ShopOverlay.prototype.populateUpgrades.call(catalog, LEVEL_TWO_MERCHANT_ID);
+  assert.deepEqual(catalog.allUpgrades, []);
   assert.deepEqual(
-    catalog.allUpgrades.map(upgrade => upgrade.id),
-    [ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID],
+    catalog.forgeRecipes.map(recipe => recipe.id),
+    [CRAFTING_RECIPE_IDS.ARC_CORE, CRAFTING_RECIPE_IDS.OMEGA_ARC_CORE],
   );
 }
 
-// Level 2 merchant opens on SELL; E acts; F sells the selected stack.
+// Level 2 merchant opens on FORGE; E acts; SELL mode still supports F stack sales.
 {
   const shown = {
     _destroyed: false,
@@ -293,7 +295,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     _layoutChrome() {},
   };
   ShopOverlay.prototype.show.call(shown, "magmaMoneyMonster");
-  assert.equal(shown.moneyMonsterMode, "sell");
+  assert.equal(shown.moneyMonsterMode, "craft");
   assert.equal(shown.populatedMerchant, "magmaMoneyMonster");
   assert.equal(shown.scene.open, true);
 

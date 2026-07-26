@@ -3,7 +3,9 @@
  * Handles merchant placement and player interaction
  */
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { NPCActivitySystem } from "../../systems/visual/NPCActivitySystem.js";
 import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
+import { NPC_ACTIVITY_CONFIG } from "../../values/npcActivityConfig.js";
 import { TOWN_SQUARE_CONFIG } from "../../values/townSquareConfig.js";
 
 export class NPCManager {
@@ -14,6 +16,7 @@ export class NPCManager {
     this.npcSprites = new Map(); // Store NPC sprite references
     this.decorationSystem = decorationSystem; // Reference to decoration system for debug mode
     this._interactPrompts = []; // Array of "Press E" floating text objects
+    this.activitySystem = new NPCActivitySystem(scene, ASSET_KEYS);
     
     // Merchant display names for the prompt
     this._merchantNames = {
@@ -31,6 +34,7 @@ export class NPCManager {
       + TOWN_SQUARE_CONFIG.merchantSurfaceTileOffset;
     const merchantSprites = this.ASSET_KEYS.npcs.merchantSprites;
     const merchantIdleVideos = this.ASSET_KEYS.npcs.merchantIdleVideos;
+    const merchantActivities = this.ASSET_KEYS.npcs.merchantActivities;
 
     const surfaceMerchants = TOWN_SQUARE_CONFIG.surfaceMerchantOrder.map((merchantId) => {
       const slot = TOWN_SQUARE_CONFIG.merchantSlots[merchantId];
@@ -38,6 +42,7 @@ export class NPCManager {
       return {
         assetKey: merchantSprites[merchantId],
         videoKey: merchantIdleVideos[merchantId],
+        activityKeys: merchantActivities[merchantId],
         merchantId,
         tx: slot.tileX,
         ty: surfaceTileY,
@@ -46,27 +51,28 @@ export class NPCManager {
 
     return [
       ...surfaceMerchants,
-      { assetKey: merchantSprites.magmaMoneyMonster, videoKey: null, merchantId: 'magmaMoneyMonster', tx: ARC_CORE_CONFIG.merchant.tileX, ty: ARC_CORE_CONFIG.merchant.tileY },
+      {
+        assetKey: merchantSprites.magmaMoneyMonster,
+        videoKey: null,
+        activityKeys: merchantActivities.magmaMoneyMonster,
+        merchantId: 'magmaMoneyMonster',
+        tx: ARC_CORE_CONFIG.merchant.tileX,
+        ty: ARC_CORE_CONFIG.merchant.tileY,
+      },
     ];
   }
 
   createNPCs() {
     const npcSize = this.scene.config.playerDisplaySizePx;
     
-    // Per-NPC ground offsets compensate for transparent bottom padding in the generated single sprites.
-    const npcGroundOffsets = {
-      'moneyMonster': 12,
-      'magmaMoneyMonster': 8,
-      'playerUpgrades': 8,
-      'gearMerchant': 9,
-      'boboMerchant': 9,
-      'gemPowerMerchant': 11,
-    };
-    
     for (const npc of this.npcDefs) {
       const hasIdleVideo = Boolean(npc.videoKey) && this.scene.cache.video.exists(npc.videoKey);
       const hasFallbackTexture = this.scene.textures.exists(npc.assetKey);
-      if (!hasIdleVideo && !hasFallbackTexture) {
+      const quietActivityKey = npc.activityKeys?.quiet;
+      const hasActivityQuiet = this.activitySystem.enabled
+        && Boolean(quietActivityKey)
+        && this.scene.textures.exists(quietActivityKey);
+      if (!hasIdleVideo && !hasFallbackTexture && !hasActivityQuiet) {
         console.warn(`NPC visual not found: ${npc.videoKey} / ${npc.assetKey} - skipping`);
         
         // Create placeholder sprite as fallback
@@ -89,18 +95,21 @@ export class NPCManager {
       // Place visual bottom at the top surface of the tile below (the ground/platform the NPC stands on).
       // NPCs are placed at ty = surfaceTileY - 1, so (ty+1)*tileSize is the platform surface.
       const ts = this.scene.config.tileSize;
-      const groundOffset = npcGroundOffsets[npc.merchantId] ?? 10; // Default to +10px if not specified
+      const merchantPresentation = NPC_ACTIVITY_CONFIG.merchants[npc.merchantId];
+      const groundOffset = merchantPresentation?.groundOffsetPx
+        ?? NPC_ACTIVITY_CONFIG.render.defaultGroundOffsetPx;
       const pos = {
         x: npc.tx * ts + ts / 2,                    // tile center X
         y: (npc.ty + 1) * ts + groundOffset,       // platform surface + NPC-specific offset
       };
       // Generated single merchant sprites share one town scale so monsters feel creepy, not gigantic.
-      const spriteSize = npcSize * 1.55;
+      const spriteSize = npcSize * NPC_ACTIVITY_CONFIG.render.displayScale;
+      const fallbackTextureKey = hasActivityQuiet ? quietActivityKey : npc.assetKey;
       const sprite = hasIdleVideo
         ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
-        : this.scene.add.sprite(pos.x, pos.y, npc.assetKey);
+        : this.scene.add.sprite(pos.x, pos.y, fallbackTextureKey);
       sprite.setOrigin(0.5, 1);
-      sprite.setDepth(15);
+      sprite.setDepth(NPC_ACTIVITY_CONFIG.render.depth);
       sprite.setDisplaySize(spriteSize, spriteSize);
       if (hasIdleVideo) {
         sprite.once('created', () => sprite.setDisplaySize(spriteSize, spriteSize));
@@ -109,9 +118,16 @@ export class NPCManager {
       
       // Store NPC sprite reference
       this.npcSprites.set(npc.merchantId, sprite);
+      this.activitySystem.registerNPC(npc, sprite, {
+        ...pos,
+        displaySize: spriteSize,
+        depth: NPC_ACTIVITY_CONFIG.render.depth,
+      });
       
       // Create "Press E" interact prompt above each NPC (hidden by default)
-      const promptText = this.scene.add.text(pos.x, pos.y - spriteSize - 20,
+      const promptText = this.scene.add.text(
+        pos.x,
+        pos.y - spriteSize - NPC_ACTIVITY_CONFIG.render.promptGapPx,
         `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[npc.merchantId] || 'Shop'}`, {
           fontFamily: 'Consolas, monospace',
           fontSize: '14px',
@@ -138,12 +154,13 @@ export class NPCManager {
    * Update interact prompt visibility based on player proximity to each NPC
    * Called from PlaySceneUpdate each frame
    */
-  updateInteractPrompts(playerTile) {
+  updateInteractPrompts(playerTile, competingDistance = Number.POSITIVE_INFINITY) {
     if (!playerTile || !this._interactPrompts) return;
     
     for (const prompt of this._interactPrompts) {
       const dist = Math.abs(playerTile.tx - prompt.npc.tx) + Math.abs(playerTile.ty - prompt.npc.ty);
-      const inRange = dist <= 3;
+      const inRange = dist <= TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles
+        && dist <= competingDistance;
       
       if (inRange && !prompt.text.visible) {
         prompt.text.setVisible(true);
@@ -168,6 +185,10 @@ export class NPCManager {
     }
   }
 
+  updateActivities(time, delta, playerTile) {
+    this.activitySystem.update(time, delta, playerTile);
+  }
+
   refreshInteractPromptLabels() {
     for (const prompt of this._interactPrompts) {
       prompt.text?.setText(`[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[prompt.npc.merchantId] || 'Shop'}`);
@@ -176,7 +197,7 @@ export class NPCManager {
 
   checkNPCInteraction() {
     const playerTile = this.scene.playerController.state.getPlayerTile();
-    const interactionRange = 3;
+    const interactionRange = TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles;
 
     let nearestNPC = null;
     let nearestDistance = interactionRange + 1;
@@ -191,6 +212,7 @@ export class NPCManager {
     }
 
     if (nearestNPC && this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
+      this.activitySystem.settleMerchant(nearestNPC.merchantId);
       // Play NPC voice line before showing shop
       if (this.scene.soundSystem) {
         this.scene.soundSystem.playNPCVoiceLine(nearestNPC.merchantId);
@@ -199,6 +221,17 @@ export class NPCManager {
       // Show shop overlay
       this.scene.shopOverlay.show(nearestNPC.merchantId);
     }
+  }
+
+  getNearestInteractionDistance(playerTile) {
+    if (!playerTile) return Number.POSITIVE_INFINITY;
+    const range = TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+    for (const npc of this.npcDefs) {
+      const distance = Math.abs(playerTile.tx - npc.tx) + Math.abs(playerTile.ty - npc.ty);
+      if (distance <= range && distance < nearestDistance) nearestDistance = distance;
+    }
+    return nearestDistance;
   }
 
   getNPCDefs() {
@@ -212,7 +245,12 @@ export class NPCManager {
     return this.npcSprites.get(merchantId);
   }
 
+  getActivityHealthSnapshot() {
+    return this.activitySystem.getHealthSnapshot();
+  }
+
   destroy() {
+    this.activitySystem.destroy();
     for (const sprite of this.npcSprites.values()) {
       sprite.stop?.();
       sprite.destroy?.();

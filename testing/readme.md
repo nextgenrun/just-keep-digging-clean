@@ -8,6 +8,11 @@ promotion blocking, non-color data passes, and manual-only community fallback.
 
 testing directory.
 
+`2026-07-26-graveborer-wurm-contract.mjs` guards the two exact query flags,
+Casual isolation, 10x developer self-trigger, committed non-homing warning
+path, bounded terrain-carve events, one GP hit per encounter, cooldown, safe
+reload telegraph, and Hardcore/Wurm save sanitization.
+
 `2026-07-16-scenic-world-runtime-foundation.mjs` verifies the default scenic/legacy selector, complete depth-material coverage, renderer compatibility surface, absence of tilemap construction in scenic mode, and versioned gameplay-layout save identity.
 
 `2026-07-16-scenic-shallow-cavern-smoke.mjs` keeps its pilot-era filename while
@@ -32,6 +37,21 @@ suppression, production asset dimensions, and zero gameplay mutation.
 promotion: a 1.75 m midpoint player reference, 2.10 m door calibration, five
 unique absolute surface-merchant slots inside the opaque scenic square, and an
 unchanged Level 2 Arc Core merchant.
+
+`2026-07-26-npc-activity-runtime-contract.mjs` guards the promoted v8 merchant
+pose pack, transparent alpha provenance, default/rollback selectors,
+two-at-a-time scheduling, bounded anchored pacing, approach-to-home behavior,
+player reactions, fixed shop coordinates, and runtime health publication.
+
+`2026-07-26-npc-alive-walking-review-contract.mjs` guards the post-wiring v4
+five-pose walk boards, six animated review lanes, exact anchor return, bounded
+safe-zone offsets, prompt provenance, and explicit isolation from production
+preload/runtime files.
+
+`2026-07-26-milestone-pillar-review-contract.mjs` guards the five-option,
+five-stage ImageGen review set, monotonic physical growth, transparent PNG
+integrity, review-only isolation, readable paginated production modal, and
+nearest-target Town Square interaction arbitration.
 
 `2026-07-16-scenic-resource-veins-smoke.mjs` keeps its compatibility filename while verifying generated raster resources and reward blocks as the default, independent damage cracks and non-reward markers, suppression of procedural ore geometry plus the legacy 94 px reward emblems, `?terrainSemantics=0` restoration of deterministic veins/nodules and reward emblems, and the combined `?terrainSemantics=0&resourceVeins=0` rollback to the older resource-emblem atlas.
 
@@ -147,8 +167,9 @@ footprints; review-only isolation; bounded Omega collision; F-key sandbox
 digging; and the separate rebindable B action for production boarding/exiting.
 
 `level-two-arc-core-contract.mjs` verifies the exact four-cell 2x2 footprint,
-gold/silver-only purchase, seller resource separation, and 5,000-meter depth
-contract. `level-two-world-generation-smoke.mjs` builds the full runtime world,
+gold/silver Arc recipe, expanded deep-resource Omega recipe, seller resource
+separation, and 5,000-meter depth contract.
+`level-two-world-generation-smoke.mjs` builds the full runtime world,
 checks the old Level 1 bottom seal, and samples deep Level 2 resource rendering.
 With `?jkd_e2e`, F9 centers the scenic mine-entrance pilot on the deterministic
 shallowest traversable integrated cave mouth below the surface plate,
@@ -277,3 +298,15 @@ absence of erase, cavity, square-fill, material-ID, or texture-key coupling.
 `2026-07-26-ground-damage-visual-harness.html` renders the production painter
 over every current material in one continuous-row comparison, with intact plus
 states 1 through 9 and a small readiness contract for browser visual QA.
+
+`2026-07-26-thunderstrike-three-slam-contract.mjs` guards the 3x upfront cost,
+zero-cost authorized follow-ups, 1x/3x/10x damage, sequential stage admission,
+hard and near-frame-perfect timing windows, miss/timeout cancellation, direct
+floor contact, and shared main-world/cave timing-HUD and impact-FX wiring.
+
+`2026-07-26-opening-flight-golden-five-contract.mjs` guards the complete
+first-five-minutes opening: query rollback, fresh/mid-ascent/cache-pending spawn
+routing, deterministic 14-cell seam, three-wide escape, reward ledge, calm
+weather window, protected ascent, surface-gated and pauseable 30-second flight
+bank, idempotent permanent cache rewards, generated runtime assets, preloads,
+save flags, and non-blocking starter choice integration.

@@ -88,8 +88,10 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     authoredGapSupplement: Object.freeze({
       enabled: true,
       placementAttemptsPerBand: 2200,
+      featuredPlacementAttemptsPerBand: 500,
       radiusXMin: 2,
       radiusXMax: 18,
+      featuredRadiusXMin: 6,
       radiusY: 1,
       wallThickness: 1,
       horizontalSpacingTiles: 5,

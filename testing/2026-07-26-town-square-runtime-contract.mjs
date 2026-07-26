@@ -49,6 +49,10 @@ for (const definition of surfaceMerchants) {
   );
   assert.equal(definition.assetKey, ASSET_KEYS.npcs.merchantSprites[definition.merchantId]);
   assert.equal(definition.videoKey, ASSET_KEYS.npcs.merchantIdleVideos[definition.merchantId]);
+  assert.deepEqual(
+    definition.activityKeys,
+    ASSET_KEYS.npcs.merchantActivities[definition.merchantId],
+  );
 }
 
 const pack = resolveWorldVisualSurfacePack(WORLD_VISUAL_SURFACE_PACKS, "");
@@ -74,6 +78,11 @@ assert.deepEqual(
     ty: ARC_CORE_CONFIG.merchant.tileY,
   },
   "the Level 2 Arc Core merchant must remain untouched",
+);
+assert.deepEqual(
+  magmaMerchant.activityKeys,
+  ASSET_KEYS.npcs.merchantActivities.magmaMoneyMonster,
+  "the Level 2 merchant receives presentation poses without moving its shop",
 );
 
 assert.equal(UAL_NATIVE_PLAYER_ASSET_PROFILE.physicalHeightMeters, 1.75);

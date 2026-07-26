@@ -7,3 +7,8 @@ Player-character sprite sources, processed sheets, and runtime animation assets 
 `survival-ual-player-v1/` remains the compatible UAL-motion fallback for the approved higher-detail Survivor route. The selectable `survivalUal` profile promotes Blender v2 idle, idle-talk, walk, run, and flight sheets first, while unreviewed combat/directional actions continue to use this compatible 18-sheet fallback with the same collider, action-start cooldown, visual-contact damage, and diagnostic-only rig-marker rules.
 
 `survival-character-blender-v2/` is the approved high-quality PBR Survivor core. Its idle, locomotion, and flight sheets are game-routed for `?character=survivalUal`; its unarmed `MINER_attack` and `MINER_dig_side` sheets remain review candidates until a side-combo choice is explicitly promoted.
+
+`arc-core-review-v2/` is the review-only layered Arc package. One fixed master
+body per tier prevents pose-sheet geometry drift; separate ring, sigil, and
+cloud sprites provide the animation surface. The tanktest sandbox loads the
+package through `values/arcCoreReview.sprite.json`.

@@ -243,11 +243,18 @@ assert.equal(
   "missing onboarding data must remain distinguishable for legacy unlock migration",
 );
 
-const [setupSource, updateSource, uiSource, artifactSystemSource] = await Promise.all([
+const [
+  setupSource,
+  updateSource,
+  uiSource,
+  artifactSystemSource,
+  legacyRuntimeSource,
+] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/onboarding/OpeningFlightArtifactSystem.js", import.meta.url), "utf8"),
+  readFile(new URL("../systems/onboarding/OpeningFlightLegacyRuntime.js", import.meta.url), "utf8"),
 ]);
 assert.match(setupSource, /new OpeningFlightArtifactSystem\(this\)/);
 assert.match(setupSource, /openingFlightArtifactSystem\?\.create\(\)/);
@@ -256,12 +263,13 @@ assert.match(updateSource, /openingFlightArtifactSystem\?\.update\(delta\)/);
 assert.match(updateSource, /openingFlightArtifactSystem\?\.handleStarterLevelUp/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.loadSaveData/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.getSaveData/);
+assert.match(artifactSystemSource, /new OpeningFlightLegacyRuntime/);
 assert.match(
-  artifactSystemSource,
+  legacyRuntimeSource,
   /earthquakeSystem\?\.\s*setPaused\(this\.isOpeningGraceActive\(\)\)/,
 );
 assert.match(
-  artifactSystemSource,
+  legacyRuntimeSource,
   /surfaceReturnCelebrated = true;[\s\S]*?earthquakeSystem\?\.\s*setPaused\(false\)/,
 );
 

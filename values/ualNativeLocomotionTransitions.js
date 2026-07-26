@@ -36,6 +36,13 @@ export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
     riseEnterVelocityPxPerSec: -18,
     fallEnterVelocityPxPerSec: 28,
   }),
+  landing: Object.freeze({
+    minImpactSpeedPxPerSec: 260,
+    hardImpactSpeedPxPerSec: 600,
+    mediumTimeScale: 1.4,
+    hardTimeScale: 1,
+    moveCancelAfterFrameIndex: 5,
+  }),
   facing: Object.freeze({
     directionEpsilonPxPerSec: 1,
     sourceFacesRight: true,
