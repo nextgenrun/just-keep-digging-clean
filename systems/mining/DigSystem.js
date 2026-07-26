@@ -8,12 +8,16 @@ import {
   getResourceYieldMultiplier,
 } from "../../values/dynamicSoil.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
   HARD_RESOURCE_TILE_TYPES,
+  RESOURCE_KEYS,
   createZeroResourceTotals,
   sanitizeResourceTotals,
   tileTypeToResource,
 } from "../../values/resourceTypes.js";
+
+const RESOURCE_KEY_SET = new Set(RESOURCE_KEYS);
 
 export class DigSystem {
   constructor(worldModel, worldRenderer, config, upgradeSystem = null, playerLevelSystem = null, floatingTextSystem = null, comboSystem = null, specialBlockEffectsManager = null) {
@@ -26,6 +30,7 @@ export class DigSystem {
     this.comboSystem = comboSystem;
     this.specialBlockEffectsManager = specialBlockEffectsManager;
     this.ancientRelicSystem = null;
+    this.relicDiscoveryFxSystem = null;
     this.retentionProgressSystem = null;
 
     this.lastMineTime = -Infinity;
@@ -47,6 +52,10 @@ export class DigSystem {
 
   setAncientRelicSystem(ancientRelicSystem) {
     this.ancientRelicSystem = ancientRelicSystem;
+  }
+
+  setRelicDiscoveryFxSystem(relicDiscoveryFxSystem) {
+    this.relicDiscoveryFxSystem = relicDiscoveryFxSystem;
   }
 
   setRetentionProgressSystem(retentionProgressSystem) {
@@ -104,6 +113,16 @@ export class DigSystem {
 
     const worldX = tx * this.config.tileSize + this.config.tileSize / 2;
     const worldY = ty * this.config.tileSize + this.config.tileSize / 2;
+    const finalRelicCount = this.ancientRelicSystem.getCount();
+    try {
+      this.relicDiscoveryFxSystem?.playDiscovery?.({
+        anchor: { x: worldX, y: worldY },
+        iconAsset: ASSET_KEYS.ui.heavenblocks.ancientRelicToken,
+        relicCount: finalRelicCount,
+      });
+    } catch {
+      // Presentation is deliberately unable to fail or roll back the award.
+    }
     const plural = gained === 1 ? "" : "S";
     this.floatingTextSystem?.showFloatingText(
       worldX,
@@ -115,10 +134,10 @@ export class DigSystem {
     );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
     const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(
-      this.ancientRelicSystem.getCount()
+      finalRelicCount
     );
     this.worldRenderer?.scene?.hudSystem?.flashStatus?.(
-      `${ANCIENT_RELIC_CONFIG.displayName} found  •  ${purpose || `${this.ancientRelicSystem.getCount()} total`}`,
+      `${ANCIENT_RELIC_CONFIG.displayName} found  •  ${purpose || `${finalRelicCount} total`}`,
       ANCIENT_RELIC_CONFIG.color,
       ANCIENT_RELIC_CONFIG.cache.statusDurationMs
     );
@@ -372,7 +391,7 @@ export class DigSystem {
     const cooldownTimeMs = Number.isFinite(options.actionStartedAtMs)
       ? options.actionStartedAtMs
       : nowMs;
-    if (!options.ignoreCooldown && cooldownTimeMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
+    if (!options.ignoreCooldown && !this.isMineCooldownReady(cooldownTimeMs, playerAbilities)) {
       return {
         success: false,
         reason: "cooldown",
@@ -781,6 +800,11 @@ export class DigSystem {
     return this._getCooldown(playerAbilities);
   }
 
+  isMineCooldownReady(nowMs, playerAbilities = null) {
+    return Number.isFinite(nowMs)
+      && nowMs - this.lastMineTime >= this._getCooldown(playerAbilities);
+  }
+
   getTilesBroken() {
     return this.tilesBroken;
   }
@@ -915,12 +939,68 @@ export class DigSystem {
     return result;
   }
 
-  spendResource(resourceType, amount) {
-    if (!this.resources[resourceType] || this.resources[resourceType] < amount) {
-      return false;
+  trySpendResources(costs = {}) {
+    if (!costs || typeof costs !== "object" || Array.isArray(costs)) {
+      return { success: false, reason: "invalid_costs" };
     }
-    this.resources[resourceType] -= amount;
-    return true;
+
+    const entries = Object.entries(costs);
+    const currentResources = this.getResourceTotals();
+    const normalizedCosts = {};
+    const missingResources = [];
+
+    for (const [resourceType, amount] of entries) {
+      if (!RESOURCE_KEY_SET.has(resourceType)) {
+        return {
+          success: false,
+          reason: "invalid_resource",
+          resourceType,
+        };
+      }
+      if (!Number.isFinite(amount) || !Number.isInteger(amount) || amount <= 0) {
+        return {
+          success: false,
+          reason: "invalid_amount",
+          resourceType,
+          amount,
+        };
+      }
+
+      normalizedCosts[resourceType] = amount;
+      const have = currentResources[resourceType] || 0;
+      if (have < amount) {
+        missingResources.push({
+          resourceType,
+          required: amount,
+          have,
+          needed: amount - have,
+        });
+      }
+    }
+
+    if (missingResources.length > 0) {
+      return {
+        success: false,
+        reason: "not_enough_resources",
+        missingResources,
+      };
+    }
+
+    const nextResources = { ...currentResources };
+    for (const [resourceType, amount] of Object.entries(normalizedCosts)) {
+      nextResources[resourceType] -= amount;
+    }
+    this.setResourceTotals(nextResources);
+
+    return {
+      success: true,
+      spent: normalizedCosts,
+      resources: this.getResourceTotals(),
+    };
+  }
+
+  spendResource(resourceType, amount) {
+    return this.trySpendResources({ [resourceType]: amount }).success;
   }
 
   _handleSpecialBlockEffects(result, targetTile) {
