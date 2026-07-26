@@ -220,13 +220,28 @@ assert.deepEqual(
 );
 
 const firstView = system.zoneViews[0];
-for (const cell of firstView.zone.cells) {
+system.update(0, 16, {
+  playerTile: { tx: 0, ty: firstView.zone.centerYTile },
+});
+for (const cell of firstView.zone.cells.slice(0, firstView.requiredReveal)) {
   const key = `${cell.tx},${cell.ty}`;
   world.solid.add(key);
   world.dugTiles.set(key, { tileX: cell.tx, tileY: cell.ty });
 }
 system.refresh();
 system.update(1000, 16, {
+  playerTile: {
+    tx: 0,
+    ty: firstView.zone.centerYTile,
+  },
+});
+assert.equal(
+  runtimeRetention.hasDiscoveredTitan(firstView.definition.id),
+  false,
+  "revealing a chamber from far away must not award its Titan",
+);
+assert.ok(firstView.remaining > 0, "entry discovery must not require a full clear");
+system.update(1100, 16, {
   playerTile: {
     tx: firstView.zone.centerXTile,
     ty: firstView.zone.centerYTile,

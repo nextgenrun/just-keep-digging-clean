@@ -39,10 +39,23 @@ export function resolvePlayerLightAnchor(
   const body = playerController?.physicsBody;
   const anchor = profileConfig?.anchor || {};
   if (hasFiniteBody(body)) {
+    const bodyCenterX = body.x + body.w * 0.5;
+    const bodyCenterY = body.y + body.h * 0.5;
+    const spriteUsesCenterOrigin = playerController?.config?.playerVisualOriginCenter === true;
+    const nominalSpriteY = spriteUsesCenterOrigin
+      ? bodyCenterY
+      : body.y + body.h;
+    const visualOffsetX = Number.isFinite(player?.x)
+      ? player.x - bodyCenterX
+      : 0;
+    const visualOffsetY = Number.isFinite(player?.y)
+      ? player.y - nominalSpriteY
+      : 0;
+
     return {
-      x: body.x + body.w * anchor.bodyXRatio,
-      y: body.y + body.h * anchor.bodyYRatio,
-      source: "physics-upper-body",
+      x: body.x + body.w * anchor.bodyXRatio + visualOffsetX,
+      y: body.y + body.h * anchor.bodyYRatio + visualOffsetY,
+      source: "physics-visible-center",
     };
   }
 
@@ -62,6 +75,7 @@ export function resolvePlayerLightEnvironment(lighting, profileConfig, profileId
       warmth: 1,
       coolEdge: 0,
       flickerScale: 1,
+      positionFlutterScale: 1,
       verticalScale: 1,
     };
   }
@@ -115,6 +129,10 @@ export function resolvePlayerLightEnvironment(lighting, profileConfig, profileId
     warmth: clamp01(warmth),
     coolEdge: clamp01(coolEdge),
     flickerScale: Math.max(environment.minimumFlickerScale, flickerScale),
+    positionFlutterScale: Math.max(
+      0,
+      Number(profileConfig?.reveal?.positionFlutterScale) || 0
+    ),
     verticalScale: profileConfig.reveal.verticalScale,
   };
 }

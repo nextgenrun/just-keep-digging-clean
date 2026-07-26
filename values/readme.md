@@ -2,8 +2,15 @@
 
 Single Source of Truth — ALL numeric/string/config values.
 
-- `lightConfig.js -> playerLightV2` owns the upper-body anchor, surface/day,
-  night, rain, storm, deep-cave response, world-glow shaping, and
+- `titanDiscoveryExperience.js` owns the partial-reveal plus chamber-entry
+  encounter threshold, 72-metre approved-HUD resonance range and cadence,
+  locked-safe direction copy, discovery announcement, `?titanGuidance=0`, and
+  `?titanEncounter=legacy`. Terrain, rewards, collision, and persistence remain
+  outside this presentation contract.
+
+- `lightConfig.js -> playerLightV2` owns the visible-player center anchor,
+  positional-flutter lock, surface/day, night, rain, storm, deep-cave
+  response, world-glow shaping, and
   `?playerLight=legacy` rollback. `shaderConfig.js -> darknessLight` owns the
   v2 penumbra, falloff, core, warmth, and alpha ceiling.
 

@@ -9,6 +9,7 @@ Transparent frame assets derived from the player-approved 2026-07-13 HUD mockup.
   skin switches the complete frame and no longer draws a yellow status dot.
 - The OFF state is reproducibly built by
   `ai-tools/2026-07-26-build-hud-torch-states.py` from the alpha-clean
-  ImageGen source `ai-tools/2026-07-26-hud-torch-off-source.png`.
+  ImageGen source `ai-tools/2026-07-26-hud-torch-off-source-v2.png`. Its
+  compact diagonal placement follows the supplied screenshot-1 reference.
 - The source approval image and review sheet are under `visual-approval-previews/approved-player-hud-v1/`.
 - Missing textures are intentionally non-fatal so the legacy HUD remains an automatic fallback.

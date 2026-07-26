@@ -143,7 +143,6 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     worldEdgeMarginTiles: 2,
     overlapPaddingTiles: 5,
     minimumTrackedTiles: 64,
-    triggerRangeTiles: 16,
   }),
   backdrop: Object.freeze({
     spriteDepth: -5.98,

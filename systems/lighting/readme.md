@@ -6,9 +6,11 @@ Game system — lighting.
 combines the `DayNightCycle` sun position/alpha with smooth weather
 transmittance, exposure, cloud cover, fog, and tint for atmosphere and shaders.
 
-Player light v2 is the production default. It anchors the reveal and warm
-falloff to the authoritative upper-body collider instead of the sprite's feet,
-uses a compact inverse-style penumbra without a visible world torch, and
+Player light v2 is the production default. It anchors every reveal/glow layer
+to the authoritative collider center plus the sprite's live rig/animation
+displacement, so the visible character stays in the exact middle. Positional
+flutter is disabled while radius and brightness retain restrained fire
+variation. The compact inverse-style penumbra has no visible world torch and
 responds as one profile across daylight, night, rain, storms, lightning, and
 weather-insulated deep caves. `?playerLight=legacy` restores the earlier
 player-origin glow and shader math for direct comparison.

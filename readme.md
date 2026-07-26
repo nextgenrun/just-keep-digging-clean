@@ -163,3 +163,4 @@ This project uses a 3-tier version control system:
 | `/markdown/2026-07-12-v11-polished-runtime-backgrounds.md` | V11 polished surface/depth streaming package and rollback |
 | `/markdown/2026-07-13-v11-split-sky-islands-tmx.md` | V11 open-sky bedrock cleanup and two four-portal sky-island banks |
 | `/markdown/2026-07-26-titan-chambers-production-v2.md` | 25 high-resolution Titan chambers, streaming, archive pinning, health, validation, and rollback |
+| `/markdown/2026-07-26-titan-discovery-player-path-correction.md` | Player-reliable Titan resonance guidance, partial-entry discovery, 700 m regression coverage, and rollback |

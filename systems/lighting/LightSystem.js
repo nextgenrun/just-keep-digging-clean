@@ -7,6 +7,7 @@ import {
   resolvePlayerLightEnvironment,
   resolvePlayerLightProfile,
 } from "./playerLightProfile.js";
+import { resolveLightCoordinateSpaces } from "./lightCoordinateSpace.js";
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const smoothstep = (value) => {
@@ -505,16 +506,21 @@ export class LightSystem {
       * fire.radiusScale
       * playerLight.radiusScale;
 
-    camera.matrix.transformPoint(anchor.x, anchor.y, this._screenPoint);
-    const screenX = this._screenPoint.x - camera.scrollX * camera.zoomX + fire.screenOffsetX * camera.zoomX;
-    const screenY = this._screenPoint.y - camera.scrollY * camera.zoomY + fire.screenOffsetY * camera.zoomY;
+    const lightPoint = resolveLightCoordinateSpaces(
+      camera,
+      anchor.x + fire.worldOffsetX,
+      anchor.y + fire.worldOffsetY,
+      this._screenPoint
+    );
+    const screenX = lightPoint.x;
+    const screenY = lightPoint.y;
 
     if (darknessActive) {
       this._eraser.setDisplaySize(
-        radiusWorld * 2 * camera.zoomX,
-        radiusWorld * 2 * camera.zoomY * playerLight.verticalScale
+        radiusWorld * 2,
+        radiusWorld * 2 * playerLight.verticalScale
       );
-      darkness.erase(this._eraser, screenX, screenY);
+      darkness.erase(this._eraser, lightPoint.textureX, lightPoint.textureY);
       this._darknessHasSolidFill = false;
       this._eraseCrystalLights(
         time,
@@ -766,14 +772,21 @@ export class LightSystem {
       );
       if (revealAlpha <= 0.01) continue;
 
-      camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
-      const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
-      const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
+      const lightPoint = resolveLightCoordinateSpaces(
+        camera,
+        worldX,
+        worldY,
+        this._crystalScreenPoint
+      );
 
       this._crystalEraser
-        .setDisplaySize(radiusX * 2 * zoomX, radiusY * 2 * zoomY)
+        .setDisplaySize(radiusX * 2, radiusY * 2)
         .setAlpha(revealAlpha);
-      darkness.erase(this._crystalEraser, screenX, screenY);
+      darkness.erase(
+        this._crystalEraser,
+        lightPoint.textureX,
+        lightPoint.textureY
+      );
       sourcesDrawn += 1;
     }
   }
@@ -1028,16 +1041,23 @@ export class LightSystem {
       const scaledRadiusTiles = Math.max(0.65, Math.min(maxRadiusTiles, radiusTiles + (flicker - 1) * 0.3));
       const verticalScale = Number.isFinite(cfg.verticalScale) ? cfg.verticalScale : 1;
 
-      camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
+      const lightPoint = resolveLightCoordinateSpaces(
+        camera,
+        worldX,
+        worldY,
+        this._crystalScreenPoint
+      );
       this._crystalEraser
         .setDisplaySize(
-          scaledRadiusTiles * tileSize * 2 * zoomX,
-          scaledRadiusTiles * tileSize * 2 * zoomY * verticalScale
+          scaledRadiusTiles * tileSize * 2,
+          scaledRadiusTiles * tileSize * 2 * verticalScale
         )
         .setAlpha(revealAlpha);
-      const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
-      const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
-      darkness.erase(this._crystalEraser, screenX, screenY);
+      darkness.erase(
+        this._crystalEraser,
+        lightPoint.textureX,
+        lightPoint.textureY
+      );
 
       if (pulseSourcesDrawn >= maxConcurrentPulses) continue;
       const pulse = this._resolveTileBeaconPulse(time, source.tx, source.ty, pulseCfg);
@@ -1055,11 +1075,15 @@ export class LightSystem {
 
       this._crystalEraser
         .setDisplaySize(
-          pulseRadiusTiles * tileSize * 2 * zoomX,
-          pulseRadiusTiles * tileSize * 2 * zoomY * verticalScale
+          pulseRadiusTiles * tileSize * 2,
+          pulseRadiusTiles * tileSize * 2 * verticalScale
         )
         .setAlpha(pulseAlpha);
-      darkness.erase(this._crystalEraser, screenX, screenY);
+      darkness.erase(
+        this._crystalEraser,
+        lightPoint.textureX,
+        lightPoint.textureY
+      );
       this._drawSkyBeaconPulse(
         worldX,
         worldY,
@@ -1147,8 +1171,19 @@ export class LightSystem {
     const fireNoise = Phaser.Math.Clamp((slow * 0.50 + lick * 0.34 + spark * 0.16), -1, 1);
     const heat = clamp01(0.58 + fireNoise * 0.08 + this._currentGlowStrength * 0.10);
     const tileSize = this.scene.config.tileSize;
-    const worldOffsetX = sway * cfg.positionFlutterTiles * tileSize * flickerBoost;
-    const worldOffsetY = -Math.abs(lick) * cfg.verticalFlutterTiles * tileSize * flickerBoost;
+    const positionFlutterScale = Number.isFinite(playerLight?.positionFlutterScale)
+      ? Math.max(0, playerLight.positionFlutterScale)
+      : 1;
+    const worldOffsetX = sway
+      * cfg.positionFlutterTiles
+      * tileSize
+      * flickerBoost
+      * positionFlutterScale;
+    const worldOffsetY = -Math.abs(lick)
+      * cfg.verticalFlutterTiles
+      * tileSize
+      * flickerBoost
+      * positionFlutterScale;
     const haloTint = this._lerpColor(cfg.heatColorLow, cfg.heatColorHigh, heat * 0.72);
     const coreTint = this._lerpColor(this.config.torchCoreColor, 0xffffff, heat * 0.22);
     const flameTint = this._lerpColor(cfg.coolSmokeColor, this.config.torchFlameColor, heat);

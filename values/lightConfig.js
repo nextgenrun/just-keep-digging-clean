@@ -97,12 +97,13 @@ export const LIGHT_CONFIG = Object.freeze({
     }),
     anchor: Object.freeze({
       bodyXRatio: 0.5,
-      bodyYRatio: 0.42,
+      bodyYRatio: 0.5,
       fallbackYOffsetTiles: -0.46,
       facingInfluenceRatio: 0,
     }),
     reveal: Object.freeze({
       verticalScale: 0.90,
+      positionFlutterScale: 0,
     }),
     environment: Object.freeze({
       minimumIntensity: 0.16,

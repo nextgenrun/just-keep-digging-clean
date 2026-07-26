@@ -39,18 +39,20 @@ palette changes.
 1. Boot loads only the 25 compact Titan sprites and one Titan Walk plinth.
 2. `TitanDiscoverySystem` builds 25 deterministic large clear-area zones from
    originally diggable cells.
-3. `TitanChamberStream` requests only the nearest cards within 24 tiles and
+3. `TitanDiscoveryGuidance` maintains an approved-HUD direction/depth cue when
+   an undiscovered chamber is within 72 vertical metres.
+4. `TitanChamberStream` requests only the nearest cards within 24 tiles and
    keeps at most two world cards resident.
-4. When a card is ready, it replaces the compact underground fallback without
+5. When a card is ready, it replaces the compact underground fallback without
    changing zone progress or save state.
-5. Authoritative solid terrain stays above the image, so unmined cells mask it
+6. Authoritative solid terrain stays above the image, so unmined cells mask it
    naturally. Dug air reveals the painted chamber.
-6. Clearing the final original zone cell triggers the existing ring, grit,
-   glow, crossing, collection echo, canonical retention write, save request,
-   archive entry, and surface Titan Walk miniature.
-7. A discovered archive selection pins only that card long enough to show its
+7. Exposing a small readable slice and entering the chamber triggers the
+   existing ring, grit, glow, crossing, collection echo, canonical retention
+   write, save request, archive entry, and surface Titan Walk miniature.
+8. A discovered archive selection pins only that card long enough to show its
    high-resolution vignette. Selection change or archive close releases it.
-8. Leaving the chamber's release range destroys its world images and removes
+9. Leaving the chamber's release range destroys its world images and removes
    stream-owned texture memory.
 
 The high-resolution card remains spatially anchored; only a restrained additive
@@ -82,8 +84,12 @@ Load failure keeps the compact v1 presentation active and publishes
 - `values/titanDiscoveries.js` owns identities, large zone dimensions, asset
   routes, stream limits, reveal values, archive values, queries, and health
   labels.
+- `values/titanDiscoveryExperience.js` owns encounter admission, resonance
+  guidance, player-facing copy, and narrow rollback queries.
 - `systems/visual/TitanChamberStream.js` owns dynamic texture residency and the
   compact-to-chamber visual swap.
+- `systems/visual/TitanDiscoveryGuidance.js` owns the approved-HUD direction
+  and depth cue without revealing locked identities.
 - `systems/visual/TitanDiscoverySystem.js` owns discovery progress, unlock
   presentation, health aggregation, and surface-gallery coordination.
 - `RetentionProgressSystem` remains the only Titan discovery save authority.
@@ -95,6 +101,8 @@ Load failure keeps the compact v1 presentation active and publishes
 - `?titanChambers=0` disables all high-resolution requests and restores the
   compact underground sprites while keeping Titan discoveries, archive,
   surface collection, and saves active.
+- `?titanGuidance=0` disables the resonance cue only.
+- `?titanEncounter=legacy` restores the former full-chamber-clear requirement.
 - `?titans=0` disables and de-queues the complete Titan presentation without
   altering terrain, rewards, collision, or saved ids.
 
@@ -113,8 +121,13 @@ No legacy asset was overwritten or deleted.
 - `testing/2026-07-26-titan-discovery-contract.mjs`
   - canonical retention
   - all zones and surface slots
-  - final-cell unlock
+  - partial reveal plus player-entry unlock
   - save request
   - archive states
   - both renderer lifecycles
   - cleanup and health
+- `testing/2026-07-26-titan-discovery-experience-contract.mjs`
+  - first-seven depth guidance
+  - explicit 700 m coverage
+  - locked-name protection
+  - entry/full-clear rollback parity

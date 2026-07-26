@@ -2,30 +2,39 @@ import {
   TITAN_DISCOVERY_CONFIG,
   resolveTitanDiscoveriesEnabled,
 } from "../../values/titanDiscoveries.js";
+import {
+  TITAN_DISCOVERY_EXPERIENCE,
+  resolveTitanEncounterMode,
+} from "../../values/titanDiscoveryExperience.js";
 import { playTitanUnlockFx } from "./titanDiscoveryFx.js";
 import { buildTitanDiscoveryZones } from "./titanDiscoveryZones.js";
+import {
+  isTitanEncounterReady,
+} from "./titanDiscoveryEncounter.js";
+import {
+  createTitanDiscoveryView,
+  syncTitanDiscoveryViews,
+} from "./titanDiscoveryView.js";
 import { TitanChamberStream } from "./TitanChamberStream.js";
+import { TitanDiscoveryGuidance } from "./TitanDiscoveryGuidance.js";
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js";
 import { publishTitanDiscoveryHealth } from "./titanDiscoveryHealth.js";
-function fitScale(image, maximumWidth, maximumHeight) {
-  return Math.min(
-    maximumWidth / Math.max(1, image.width || image.displayWidth || 1),
-    maximumHeight / Math.max(1, image.height || image.displayHeight || 1)
-  );
-}
-function isNearZone(playerTile, zone, rangeTiles) {
-  if (!playerTile) return false;
-  return Math.abs(playerTile.tx - zone.centerXTile) <= rangeTiles
-    && Math.abs(playerTile.ty - zone.centerYTile) <= rangeTiles;
-}
 
 export class TitanDiscoverySystem {
-  constructor(scene, worldModel, config = TITAN_DISCOVERY_CONFIG) {
+  constructor(
+    scene,
+    worldModel,
+    config = TITAN_DISCOVERY_CONFIG,
+    experienceConfig = TITAN_DISCOVERY_EXPERIENCE
+  ) {
     this.scene = scene;
     this.worldModel = worldModel;
     this.config = config;
+    this.experienceConfig = experienceConfig;
+    this.encounterMode = resolveTitanEncounterMode(experienceConfig);
     this.zoneViews = [];
     this.surfaceGallery = new TitanSurfaceGallery(scene, worldModel, config);
+    this.guidance = new TitanDiscoveryGuidance(scene, experienceConfig);
     this.chamberStream = new TitanChamberStream(
       scene,
       worldModel,
@@ -52,7 +61,13 @@ export class TitanDiscoverySystem {
     const zones = buildTitanDiscoveryZones(this.worldModel, this.config);
     this.zoneViews = zones
       .filter(zone => this._textureExists(zone.definition.asset.key))
-      .map(zone => this._createBackdropView(zone));
+      .map(zone => createTitanDiscoveryView(
+        this.scene,
+        this.worldModel,
+        zone,
+        this.config,
+        this.experienceConfig
+      ));
     this.chamberStream.create(this.zoneViews);
     this.surfaceGallery.sync(new Set(), true);
     this.created = this.zoneViews.length > 0;
@@ -62,51 +77,6 @@ export class TitanDiscoverySystem {
   _textureExists(key) {
     return typeof this.scene.textures?.exists !== "function"
       || this.scene.textures.exists(key);
-  }
-  _createBackdropView(zone) {
-    const definition = zone.definition;
-    const tileSize = this.worldModel.tileSize;
-    const baseX = zone.centerXTile * tileSize;
-    const baseY = zone.centerYTile * tileSize;
-    const widthPx = (zone.rightExclusive - zone.left) * tileSize;
-    const heightPx = (zone.bottomExclusive - zone.top) * tileSize;
-    const sprite = this.scene.add.image(baseX, baseY, definition.asset.key);
-    const glowSprite = this.scene.add.image(baseX, baseY, definition.asset.key);
-    const baseScale = fitScale(
-      sprite,
-      widthPx * this.config.backdrop.fitFraction,
-      heightPx * this.config.backdrop.fitFraction
-    );
-    sprite
-      .setDepth(this.config.backdrop.spriteDepth)
-      .setScale(baseScale)
-      .setAlpha(this.config.backdrop.hiddenAlpha);
-    glowSprite
-      .setDepth(this.config.backdrop.glowDepth)
-      .setScale(baseScale)
-      .setTint(definition.glowTint)
-      .setBlendMode("ADD")
-      .setAlpha(0);
-    return {
-      zone,
-      definition,
-      sprite,
-      glowSprite,
-      baseX,
-      baseY,
-      settledX: baseX,
-      baseScale,
-      tileSize,
-      leftPx: zone.left * tileSize,
-      topPx: zone.top * tileSize,
-      widthPx,
-      heightPx,
-      remaining: zone.cells.length,
-      progress: 0,
-      ready: false,
-      discovered: false,
-      animating: false,
-    };
   }
   update(time, _delta, context = {}) {
     if (!this.created) return;
@@ -121,9 +91,15 @@ export class TitanDiscoverySystem {
       || dugCount !== this.lastDugCount
       || discoverySignature !== this.lastDiscoverySignature;
 
+    const discovered = new Set(discoveredIds);
     if (needsSync) {
-      const discovered = new Set(discoveredIds);
-      this._syncZoneProgress(discovered);
+      syncTitanDiscoveryViews(
+        this.worldModel,
+        this.zoneViews,
+        discovered,
+        this.encounterMode,
+        this.config
+      );
       this._syncSurfaceGallery(discovered, !this.galleryInitialized);
       this.galleryInitialized = true;
       this.lastDugCount = dugCount;
@@ -131,47 +107,26 @@ export class TitanDiscoverySystem {
       this.forceProgressSync = false;
       this._publishHealth(true);
     }
+    this.guidance.update(
+      Number.isFinite(time) ? time : 0,
+      context.playerTile,
+      this.zoneViews,
+      discovered
+    );
     this._tryUnlockReady(context.playerTile, retention);
     this._updateAmbientMotion(Number.isFinite(time) ? time : 0);
-  }
-  _syncZoneProgress(discovered) {
-    for (const view of this.zoneViews) {
-      view.remaining = view.zone.cells.reduce(
-        (total, cell) => total + (this.worldModel.isSolid(cell.tx, cell.ty) ? 1 : 0),
-        0
-      );
-      view.progress = 1 - view.remaining / Math.max(1, view.zone.cells.length);
-      view.ready = view.remaining === 0 && !discovered.has(view.definition.id);
-      view.discovered = discovered.has(view.definition.id);
-
-      if (view.animating) continue;
-      if (view.discovered) {
-        view.settledX = view.baseX + view.definition.travelDirection
-          * view.definition.travelTiles
-          * view.tileSize;
-        view.sprite
-          .setX(view.settledX)
-          .setAlpha(this.config.backdrop.discoveredAlpha);
-        view.glowSprite.setX(view.settledX).setAlpha(0);
-      } else {
-        view.settledX = view.baseX;
-        view.sprite
-          .setX(view.baseX)
-          .setAlpha(
-            this.config.backdrop.hiddenAlpha
-            + this.config.backdrop.progressAlpha * view.progress
-          );
-        view.glowSprite.setX(view.baseX).setAlpha(0);
-      }
-    }
   }
   _tryUnlockReady(playerTile, retention) {
     if (!retention?.discoverTitan) return;
     for (const view of this.zoneViews) {
       if (
         !view.ready
-        || view.discovered
-        || !isNearZone(playerTile, view.zone, this.config.zoneSearch.triggerRangeTiles)
+        || !isTitanEncounterReady(
+          view,
+          playerTile,
+          this.encounterMode,
+          this.experienceConfig
+        )
       ) {
         continue;
       }
@@ -187,6 +142,7 @@ export class TitanDiscoverySystem {
         object => this.transients.delete(object)
       );
       this.surfaceGallery.unlock(view.definition);
+      this.guidance.announceDiscovery(view.definition);
       this.scene.queueDugTilesSave?.();
       this.forceProgressSync = true;
     }
@@ -240,6 +196,8 @@ export class TitanDiscoverySystem {
     return {
       total: this.config.definitions.length,
       discovered: surface.discovered,
+      encounterMode: this.encounterMode,
+      guidance: this.guidance.getSnapshot(),
       surface,
       chambers,
       zones: this.zoneViews.map(view => ({
@@ -250,6 +208,8 @@ export class TitanDiscoverySystem {
         height: view.zone.bottomExclusive - view.zone.top,
         tracked: view.zone.cells.length,
         remaining: view.remaining,
+        revealed: view.revealed,
+        requiredReveal: view.requiredReveal,
         progress: view.progress,
         ready: view.ready,
         discovered: view.discovered,
@@ -271,6 +231,7 @@ export class TitanDiscoverySystem {
       object?.destroy?.();
     });
     this.transients.clear();
+    this.guidance.destroy();
     this.surfaceGallery.destroy();
     this.zoneViews = [];
     this.created = false;

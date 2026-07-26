@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = Path(__file__).resolve().parents[1]
 HUD_DIR = ROOT / "sprites" / "UI" / "hud-approved-v1"
 ON_FRAME = HUD_DIR / "player-core.png"
-OFF_SOURCE = ROOT / "ai-tools" / "2026-07-26-hud-torch-off-source.png"
+OFF_SOURCE = ROOT / "ai-tools" / "2026-07-26-hud-torch-off-source-v2.png"
 OFF_FRAME = HUD_DIR / "player-core-torch-off.png"
 
 TORCH_CLEAN_POLYGON = (
@@ -27,9 +27,9 @@ TORCH_CLEAN_POLYGON = (
 KEY_BADGE_PRESERVE_BOX = (382, 53, 417, 93)
 BACKGROUND_SAMPLE_BOX = (299, 4, 350, 84)
 BACKGROUND_TARGET_BOX = (350, 4, 401, 84)
-OFF_ICON_HEIGHT_PX = 70
-OFF_ICON_LEFT_PX = 353
-OFF_ICON_TOP_PX = 7
+OFF_ICON_HEIGHT_PX = 54
+OFF_ICON_LEFT_PX = 359
+OFF_ICON_TOP_PX = 24
 
 
 def crop_alpha(image: Image.Image) -> Image.Image:

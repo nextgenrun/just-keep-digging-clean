@@ -9,8 +9,10 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 
 ## Generated asset sources
 
-`2026-07-26-hud-torch-off-source.png` is the alpha-clean ImageGen source for
-the approved HUD's extinguished torch state.
+`2026-07-26-hud-torch-off-source-v2.png` is the current alpha-clean ImageGen
+source for the approved HUD's compact diagonal extinguished torch state.
+`2026-07-26-hud-torch-off-source.png` remains the superseded first-pass source
+for reproducibility.
 
 The five `2026-07-26-graveborer-wurm-*-source-chroma-v1.png` files are the
 full-resolution ImageGen extraction sources for the Hardcore Wurm head, body,

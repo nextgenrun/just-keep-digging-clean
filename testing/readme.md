@@ -9,10 +9,10 @@ promotion blocking, non-color data passes, and manual-only community fallback.
 testing directory.
 
 `2026-07-26-player-light-v2-and-torch-ui-contract.mjs` guards the default/legacy
-selector, stable upper-body collider anchor, coherent day/night/rain/storm and
-weather-insulated cave response, matched RGBA HUD frame geometry, generated
-OFF-state source, removal of the approved-skin status dot, and the shader's
-legacy comparison branch.
+selector, collider-center anchor plus live sprite displacement, locked light
+center, coherent day/night/rain/storm and weather-insulated cave response,
+matched RGBA HUD frame geometry, generated OFF-state source, removal of the
+approved-skin status dot, and the shader's legacy comparison branch.
 
 `2026-07-26-graveborer-wurm-contract.mjs` guards the two exact query flags,
 Casual isolation, 10x developer self-trigger, committed non-homing warning
@@ -167,9 +167,14 @@ long-range flattened geometry, quiet-frame hiding, and complete cleanup.
 `2026-07-26-titan-discovery-contract.mjs` verifies all 25 unique alpha sprites,
 the 512x320 generated plinth, deterministic non-overlapping clear-area zones,
 `?titans=0`, canonical persistence without duplicate or unknown ids, journal
-exposure, final-cell visual unlock, all 25 surface slots, real-art archive
-wiring, production-health publication, save requesting, scenic-runtime lifecycle
-wiring, matching legacy-renderer lifecycle ownership, and complete cleanup.
+exposure, partial-reveal plus player-entry visual unlock, remote-award rejection,
+all 25 surface slots, real-art archive wiring, production-health publication,
+save requesting, scenic-runtime lifecycle wiring, matching legacy-renderer
+lifecycle ownership, and complete cleanup.
+`2026-07-26-titan-discovery-experience-contract.mjs` instantiates the production
+world and verifies first-seven depth guidance, explicit 700 m coverage,
+locked-name protection, partial-entry admission, remote reveal rejection,
+discovery copy, `?titanGuidance=0`, and `?titanEncounter=legacy`.
 `2026-07-26-titan-chamber-production-contract.mjs` verifies the complete 25-card
 1536x848 WebP art inventory and unique hashes, colossal 15-22 by 8-13 tile
 zones, Boot de-queuing, `?titanChambers=0`, near-zone stream/load/release,
