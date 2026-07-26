@@ -941,7 +941,11 @@ export class StarPillarSystem {
       fontSize: "11px",
       color: selectedStatus.color,
     }, 1, 0);
-    addText(focusX + 22, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
+    const relicIconKey = ASSET_KEYS.ui.heavenblocks?.ancientRelicIcon;
+    if (relicIconKey && this.scene.textures?.exists?.(relicIconKey)) {
+      track(this.scene.add.image(focusX + 31, focusY + 49, relicIconKey).setDisplaySize(24, 24));
+    }
+    addText(focusX + 48, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: "10px",
       color: UI_COLORS.gold,

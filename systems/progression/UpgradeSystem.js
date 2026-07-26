@@ -1,4 +1,5 @@
 import { UPGRADES, getUpgradeCost, getUpgradeEffect, calculateHeavyPunchEffect } from "../../values/upgradeFormulas.js";
+import { isCraftOnlyUpgrade } from "../../values/craftingRecipes.js";
 
 export class UpgradeSystem {
   constructor(digSystem = null, playerLevelSystem = null) {
@@ -116,8 +117,15 @@ export class UpgradeSystem {
   }
 
   canPurchaseUpgrade(upgradeId) {
-    const currentLevel = this.getUpgradeLevel(upgradeId);
     const upgrade = UPGRADES[upgradeId];
+    if (!upgrade) {
+      return { canPurchase: false, reason: "invalid_upgrade" };
+    }
+    if (isCraftOnlyUpgrade(upgradeId)) {
+      return { canPurchase: false, reason: "craft_only" };
+    }
+
+    const currentLevel = this.getUpgradeLevel(upgradeId);
     
     // Check if already maxed out
     if (upgrade.oneTimePurchase && currentLevel > 0) {
@@ -158,8 +166,11 @@ export class UpgradeSystem {
       return { canPurchase: false, reason: "not_enough_money", needed: goldCost - this.money };
     }
     
-    // Check resource costs (only for pickaxes)
-    if (upgrade.resources && this.digSystem) {
+    // Check resource costs.
+    if (upgrade.resources) {
+      if (!this.digSystem?.getResourceTotals) {
+        return { canPurchase: false, reason: "resource_system_unavailable" };
+      }
       const resources = this.digSystem.getResourceTotals();
       for (const [resourceType, amount] of Object.entries(upgrade.resources)) {
         if (!resources[resourceType] || resources[resourceType] < amount) {
@@ -192,15 +203,22 @@ export class UpgradeSystem {
     }
     
     const cost = canPurchase.cost;
+    const moneyBeforePurchase = this.money;
     if (!this.spendMoney(cost)) {
       return { success: false, reason: "not_enough_money" };
     }
     
-    // Spend resources for pickaxes
+    // Spend every required resource as one transaction.
     const upgrade = UPGRADES[upgradeId];
-    if (upgrade.resources && this.digSystem) {
-      for (const [resourceType, amount] of Object.entries(upgrade.resources)) {
-        this.digSystem.spendResource(resourceType, amount);
+    if (upgrade.resources) {
+      const resourceResult = this.digSystem?.trySpendResources?.(upgrade.resources);
+      if (!resourceResult?.success) {
+        this.setMoney(moneyBeforePurchase);
+        return {
+          success: false,
+          reason: resourceResult?.reason || "resource_transaction_unavailable",
+          ...(resourceResult || {}),
+        };
       }
     }
     

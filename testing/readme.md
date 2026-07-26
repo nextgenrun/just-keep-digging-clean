@@ -124,8 +124,9 @@ remain local to that epicenter.
 feedback classes in isolated warning, earthquake, and escape review states.
 
 `level-two-arc-core-contract.mjs` verifies the exact four-cell 2x2 footprint,
-gold/silver-only purchase, seller resource separation, and 5,000-meter depth
-contract. `level-two-world-generation-smoke.mjs` builds the full runtime world,
+gold/silver Arc recipe, expanded deep-resource Omega recipe, seller resource
+separation, and 5,000-meter depth contract.
+`level-two-world-generation-smoke.mjs` builds the full runtime world,
 checks the old Level 1 bottom seal, and samples deep Level 2 resource rendering.
 With `?jkd_e2e`, F9 centers the scenic mine-entrance pilot on the deterministic
 shallowest traversable integrated cave mouth below the surface plate,
@@ -235,3 +236,8 @@ starting Phaser. `2026-07-25-production-http-canary.py` probes a built snapshot
 or configured remote canary URL for manifest/build identity, reachable health
 wiring, MIME/cache/range/compression/security headers, and local read-only
 behavior.
+
+`2026-07-26-heavenblocks-visual-layout-contract.mjs` guards the three
+non-overlapping sky regions, complete background/facade loading and cleanup,
+visual rollback, gate/prompt drawing, relic projection, transit, component and
+vault animation lifecycles, and presentation health publication.

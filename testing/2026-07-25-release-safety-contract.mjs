@@ -103,6 +103,14 @@ const mainSource = readFileSync(path.join(ROOT, "main.js"), "utf8");
 const playSetupSource = readFileSync(path.join(ROOT, "world/playScene/PlaySceneSetup.js"), "utf8");
 const qualityWorkflow = readFileSync(path.join(ROOT, ".github/workflows/quality-gates.yml"), "utf8");
 const rollbackWorkflow = readFileSync(path.join(ROOT, ".github/workflows/rollback-candidate.yml"), "utf8");
+const heavenblocksRelease = JSON.parse(readFileSync(
+  path.join(ROOT, "tools/version-control/2026-07-26-heavenblocks-release.json"),
+  "utf8",
+));
+const heavenblocksGate = readFileSync(
+  path.join(ROOT, "tools/version-control/2026-07-26-run-heavenblocks-health-gate.ps1"),
+  "utf8",
+);
 
 for (const token of [
   "installRuntimeCanarySystem",
@@ -124,11 +132,36 @@ for (const token of [
   "2026-07-22-all-game-systems-health-check.mjs",
   "2026-07-22-deep-game-logic-health.py",
   "2026-07-25-production-http-canary.py",
+  "2026-07-26-heavenblocks-progression-integration-contract.mjs",
 ]) {
   assert.ok(qualityWorkflow.includes(token), `quality workflow missing ${token}`);
 }
 assert.ok(rollbackWorkflow.includes("workflow_dispatch:"));
 assert.ok(rollbackWorkflow.includes("2026-07-25-production-http-canary.py"));
 assert.ok(rollbackWorkflow.includes("rollback-candidate-"));
+
+assert.equal(heavenblocksRelease.schemaVersion, 1);
+assert.match(heavenblocksRelease.deepHealthBaseline.commit, /^[0-9a-f]{40}$/);
+assert.ok(heavenblocksRelease.deepHealthBaseline.knownFailures.length > 0);
+assert.equal(
+  new Set(heavenblocksRelease.deepHealthBaseline.knownFailures.map(entry => entry.name)).size,
+  heavenblocksRelease.deepHealthBaseline.knownFailures.length,
+);
+assert.ok(heavenblocksRelease.deepHealthBaseline.knownFailures.every(
+  entry => entry.name && entry.detailIncludes,
+));
+assert.ok(heavenblocksRelease.requiredContracts.includes(
+  "testing/level-two-arc-core-contract.mjs",
+));
+for (const token of [
+  "Invoke-DeepHealthStep",
+  "deepHealthBaseline.commit",
+  "detailIncludes",
+  "ForceFailureForRollbackProof",
+  "git revert --no-edit",
+  "$rollbackTree -ne $baseTree",
+]) {
+  assert.ok(heavenblocksGate.includes(token), `Heavenblocks health gate missing ${token}`);
+}
 
 console.log("release safety contract: ok");
