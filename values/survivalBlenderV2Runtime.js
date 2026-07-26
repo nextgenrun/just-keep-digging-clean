@@ -59,7 +59,7 @@ export const SURVIVAL_BLENDER_V2_RUNTIME = Object.freeze({
     }),
     fly: Object.freeze({
       key: "survival-blender-v2-fly-sheet",
-      fileName: "survival-character-blender-v2-superman-flight-sheet.png",
+      fileName: "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
     }),
   }),
   frames: Object.freeze({

@@ -40,10 +40,7 @@ assert.ok(system.getHorizontalSpeedPxPerSec() <= 200);
 assert.ok(system.getResolvedVelocityX() > 199 && system.getResolvedVelocityX() <= 200);
 
 assert.equal(profile.walkAnimation.baseSpeedPxPerSec, PLAYER_STATS_CONFIG.walkSpeedPxPerSec);
-assert.equal(
-  profile.walkAnimation.baseSpeedPxPerSec * profile.walkAnimation.runSpeedRatioThreshold,
-  UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG.ground.runEnterSpeedPxPerSec,
-);
+assert.equal(UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG.ground.gaitAnimationRole, "run");
 assert.equal(profile.sourceClips.walk, profile.sourceClips.run);
 assert.equal(
   PLAYER_KINEMATIC_MOTION_CONFIG.locomotion.walk.strideTilesPerCycle,
@@ -128,6 +125,7 @@ assert.match(playGameplaySource, /getTravelSpeedPxPerSec/);
 assert.match(playGameplaySource, /ualLocomotionTransitionSelector\.resolve/);
 assert.match(playGameplaySource, /getResolvedVelocityX/);
 assert.match(playGameplaySource, /getResolvedVelocityY/);
+assert.match(playGameplaySource, /groundMovementActive/);
 assert.match(caveGameplaySource, /new PlayerKinematicMotionSystem/);
 assert.match(caveGameplaySource, /playerKinematicMotion\?\.samplePhysics\(delta\)/);
 assert.match(caveActionSource, /UalNativeLocomotionTransitionSelector/);
@@ -135,11 +133,13 @@ assert.match(caveActionSource, /resolveLocomotionTimeScale/);
 assert.match(caveActionSource, /getTravelSpeedPxPerSec/);
 assert.match(caveActionSource, /getResolvedVelocityX/);
 assert.match(caveActionSource, /getResolvedVelocityY/);
+assert.match(caveActionSource, /groundMovementActive/);
 
 console.log(JSON.stringify({
   result: "UAL_GAME_PHYSICS_MOTION_CONTRACT_OK",
   tileSize,
   colliderAnchorOffsetPx: system.getGroundedVisualYOffset(),
+  groundedGaitAnimationRole: UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG.ground.gaitAnimationRole,
   directWalkScale: Number(directWalkScale.toFixed(3)),
   directRunScale: Number(directRunScale.toFixed(3)),
   climbScale: Number(climbScale.toFixed(3)),

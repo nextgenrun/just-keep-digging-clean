@@ -89,6 +89,9 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 | `2026-07-18-build-superman-pose-editor.py` | Build the simple upright-idle Survivor Blender workbook with large body, hand, and foot controls for review-only Superman pose editing |
 | `2026-07-18-build-superman-horizontal-idle.py` | Strip the rejected pose-editor controls from the approved idle snapshot, rotate it flat by 90 degrees, and save a clean review-only horizontal idle preset |
 | `2026-07-18-render-directional-side-punch-review.py` | Render the approved Punch Cross unchanged plus isolated upward and downward torso layers into review-only browser candidates |
+| `2026-07-26-render-superman-flight-prone-v3-runtime.py` | Render the exact approved prone-v3 Blender pose as a mirrored, source-facing-right 36-frame production flight loop while retaining the old Push Loop sheet for rollback |
+| `2026-07-26-build-npc-idle-director-review.py` | Crop the two ImageGen NPC director boards into synchronized review poses, build the current-versus-proposed contact sheet, and record active runtime hashes without changing production assets |
+| `2026-07-26-build-titan-sprites.py` | Split the approved 5x5 chroma-cleaned titan atlas into 25 normalized transparent runtime silhouettes and a dark-background QA sheet |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

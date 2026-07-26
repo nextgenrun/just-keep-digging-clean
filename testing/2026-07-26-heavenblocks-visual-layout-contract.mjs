@@ -113,10 +113,10 @@ assert.equal(disabledHarness.queuedAssets.length, 0, "rollback must not load Hea
 assert.equal(disabledHarness.images.length, 0, "rollback must not render Heavenblock art");
 delete globalThis.location;
 
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.visualOnly, true);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.collisionWired, false);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.accessWired, false);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.craftingWired, false);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.visualOnly, false);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.collisionWired, true);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.accessWired, true);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.craftingWired, true);
 assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.regions.length, 3);
 
 const lane = HEAVENBLOCKS_VISUAL_CONFIG.reservedLane;

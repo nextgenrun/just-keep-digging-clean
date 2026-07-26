@@ -48,7 +48,7 @@ function closeTransientUi(scene) {
   scene.campfireSystem?._closeBuffSelection?.();
   scene.milestoneBoardSystem?._closeBoardView?.();
   if (scene.depthGateSystem?.isOpen?.()) scene.depthGateSystem._decline?.();
-  if (scene._pillarViewActive && scene.starPillarSystem?._isViewOpen) {
+  if (scene._pillarViewActive && scene.starPillarSystem) {
     scene.starPillarSystem.closeConstellationView?.();
   }
   scene.hidePauseMenu?.();
@@ -151,6 +151,8 @@ function getState(scene) {
     campfireOpen: Boolean(scene.campfireSystem?.isSelecting?.()),
     milestoneOpen: Boolean(scene.milestoneBoardSystem?._isBoardOpen),
     starChartOpen: Boolean(scene._pillarViewActive || scene.starPillarSystem?._isViewOpen),
+    starHeart: scene.starHeartProgressionSystem?.getSnapshot?.() || null,
+    celestialEngine: scene.celestialEngineController?.getHealthSnapshot?.() || null,
     depthGateOpen: Boolean(scene.depthGateSystem?.isOpen?.()),
     depthGateThreshold: scene.depthGateSystem?.activeGate?.threshold || null,
     dialogVisible: Boolean(scene.overlayManager?.overlayBackdrop?.visible),

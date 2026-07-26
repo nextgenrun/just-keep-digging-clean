@@ -13,6 +13,7 @@ import {
 } from "./systems/visual/RenderDensitySystem.js";
 import { installRuntimeCanarySystem } from "./systems/health/RuntimeCanarySystem.js";
 import { installAdminHealthPanel } from "./ui/admin/AdminHealthPanel.js";
+import { USER_SETTINGS, normalizeKeyboardEvent } from "./systems/UserSettings.js";
 
 const runtimeCanarySystem = installRuntimeCanarySystem({
   globalRef: window,
@@ -29,6 +30,17 @@ window.addEventListener("error", event => {
 
 window.addEventListener("unhandledrejection", event => {
   captureUiError("unhandledrejection", event.reason || "Unhandled promise rejection");
+});
+
+document.addEventListener("keydown", event => {
+  if (event.repeat || normalizeKeyboardEvent(event) !== USER_SETTINGS.getKey("fullscreen")) return;
+  if (typeof window.__toggleGameFullscreen !== "function") return;
+
+  event.preventDefault();
+  window.__fullscreenToggleHandledAt = Date.now();
+  window.__toggleGameFullscreen().catch(error => {
+    console.warn("[Fullscreen] Toggle failed:", error);
+  });
 });
 
 const renderDensityProfile = resolveRenderDensityProfile(globalThis.window?.location?.search || "");

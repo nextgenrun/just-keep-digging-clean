@@ -13,11 +13,21 @@ import { getTileHealth } from "../../values/tileHealth.js";
 import { getResourceHpMultiplier } from "../../values/dynamicSoil.js";
 import { TILED_WORLD_OVERRIDE } from "../../values/tiledWorldOverrideData.js";
 import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
+import {
+  HEAVENBLOCKS_ACCESS_CONFIG,
+  resolveHeavenblocksGameplayEnabled,
+} from "../../values/heavenblocksAccessConfig.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
 import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
 import { isInsideEllipse } from "../../values/deterministicMath.js";
 import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
+import {
+  applyCaveFeatures,
+  attachCaveIdentity,
+  finalizeCaveIdentities,
+} from "./CaveIdentityPlanner.js";
+import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
@@ -180,6 +190,10 @@ export class WorldModel {
     this.generateRootOverlays();
     this.prepareSpawnZone();
     this.applyTiledWorldOverride();
+    const caveSupplement = supplementAuthoredCaveGaps(this, TILED_WORLD_OVERRIDE);
+    if (caveSupplement.added > 0) {
+      console.log(`[WorldModel] Added ${caveSupplement.added} caves in unauthored Level One gaps`);
+    }
     this.applySecondWorldArea();
     this.applySecondWorldTown();
     this.buildLeftBedrockStaircase();
@@ -188,6 +202,8 @@ export class WorldModel {
     this.reapplyStandaloneCaveMouths();
     this.generateAncientRelicCaches();
     this.applyTiledSurfaceAuthority();
+    finalizeCaveIdentities(this);
+    this.applyHeavenblocksLayout();
   }
 
   generateBaseTerrain() {
@@ -258,6 +274,7 @@ export class WorldModel {
       const normalPresets = sceneSelection.normalPresetKeys;
       const zone = {
         id: `cave-${caveNumber}`,
+        source: "level-one-procedural",
         cx,
         cy,
         rx,
@@ -274,6 +291,7 @@ export class WorldModel {
           ? sceneSelection.treasurePresetKey
           : normalPresets[(caveNumber - 1) % normalPresets.length],
       };
+      attachCaveIdentity(zone, this.config.seed || 133742, this.topAirRows);
       this.caveZones.push(zone);
       this.applyCaveZone(zone);
     }
@@ -299,6 +317,7 @@ export class WorldModel {
       }
     }
     this._openIntegratedCaveEntrances(zone, wallRx);
+    applyCaveFeatures(this, zone);
   }
 
   _openIntegratedCaveEntrances(zone, wallRx) {
@@ -355,6 +374,43 @@ export class WorldModel {
     if (minY > maxY) return;
 
     const positions = [];
+    const early = cfg.guaranteedEarly;
+    for (const band of early?.depthBands || []) {
+      const bandMinY = Math.max(minY, this.topAirRows + band.minDepthTiles);
+      const bandMaxY = Math.min(maxY, this.topAirRows + band.maxDepthTiles);
+      const minX = Math.max(1, early.minTileX);
+      const maxX = Math.min(this.widthTiles - 2, early.maxTileX);
+      let placed = false;
+      for (
+        let attempt = 0;
+        attempt < early.placementAttemptsPerBand && !placed;
+        attempt += 1
+      ) {
+        const tx = this.rng.nextInt(minX, maxX);
+        const ty = this.rng.nextInt(bandMinY, bandMaxY);
+        if (!RESOURCE_TILE_TYPES.has(this.getType(tx, ty))) continue;
+        const spaced = positions.every(position => {
+          const dx = position.tx - tx;
+          const dy = position.ty - ty;
+          return dx * dx + dy * dy >= cfg.minimumSpacingTiles * cfg.minimumSpacingTiles;
+        });
+        if (!spaced) continue;
+        this.setTile(
+          tx,
+          ty,
+          TILE_TYPES.ANCIENT_RELIC_CACHE,
+          this.getTileMaxHp(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE),
+        );
+        positions.push({ tx, ty });
+        placed = true;
+      }
+      if (!placed) {
+        throw new Error(
+          `[WorldModel] Failed to place guaranteed Ancient Relic in depth band `
+          + `${band.minDepthTiles}-${band.maxDepthTiles}`,
+        );
+      }
+    }
     const maxAttempts = cfg.count * cfg.placementAttemptsPerCache;
     for (let attempt = 0; attempt < maxAttempts && positions.length < cfg.count; attempt += 1) {
       const tx = this.rng.nextInt(1, this.widthTiles - 2);
@@ -527,6 +583,56 @@ export class WorldModel {
         `through row ${authority.throughRow}`
       );
     }
+  }
+
+  applyHeavenblocksLayout(config = HEAVENBLOCKS_ACCESS_CONFIG) {
+    if (!resolveHeavenblocksGameplayEnabled(config)) return 0;
+    let applied = 0;
+
+    for (const gate of config.surfaceGates) {
+      for (let ty = gate.ty - 1; ty <= gate.ty; ty += 1) {
+        if (!this.inBounds(gate.tx, ty)) continue;
+        this.setTile(gate.tx, ty, TILE_TYPES.AIR, 0);
+        applied += 1;
+      }
+    }
+
+    for (const region of config.regions) {
+      const platform = region.platform;
+      for (let tx = platform.leftTx; tx < platform.rightTxExclusive; tx += 1) {
+        for (let ty = platform.floorTy - 2; ty < platform.floorTy; ty += 1) {
+          if (!this.inBounds(tx, ty)) continue;
+          this.setTile(tx, ty, TILE_TYPES.AIR, 0);
+          applied += 1;
+        }
+        if (!this.inBounds(tx, platform.floorTy)) continue;
+        this.setTile(tx, platform.floorTy, TILE_TYPES.BEDROCK, 0);
+        applied += 1;
+      }
+    }
+
+    console.log(`[WorldModel] Applied ${applied} protected Heavenblock access cells`);
+    return applied;
+  }
+
+  getHeavenblocksLayoutHealth(config = HEAVENBLOCKS_ACCESS_CONFIG) {
+    if (!resolveHeavenblocksGameplayEnabled(config)) {
+      return { enabled: false, platformsReady: true, missingFloorCells: [] };
+    }
+    const missingFloorCells = [];
+    for (const region of config.regions) {
+      const { leftTx, rightTxExclusive, floorTy } = region.platform;
+      for (let tx = leftTx; tx < rightTxExclusive; tx += 1) {
+        if (this.getType(tx, floorTy) !== TILE_TYPES.BEDROCK) {
+          missingFloorCells.push(`${tx},${floorTy}`);
+        }
+      }
+    }
+    return {
+      enabled: true,
+      platformsReady: missingFloorCells.length === 0,
+      missingFloorCells,
+    };
   }
 
   applyTiledRuns(sourceRuns) {

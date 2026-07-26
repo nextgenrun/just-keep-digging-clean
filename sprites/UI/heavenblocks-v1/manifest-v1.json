@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "relicSemanticFrame": 7,
+  "outputs": {
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v2.png": {
+      "sha256": "22facf59ef4e4e42b085012ddc0e6c18b8c9683ee4698829fab88d6586aab6dd",
+      "bytes": 728836
+    },
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-emissive-v2.png": {
+      "sha256": "a8c847f9d6903346622bbc3e9a03aca28fc0cff3f32ccffa73a6612b8e6db4ca",
+      "bytes": 232960
+    },
+    "sprites/tiles/approved-world/ancient-relic-cache-v1.webp": {
+      "sha256": "e96ff24aa07313e8a36fcaa2eb930d53b0ab2bff07a2613f1ee397b57cc6d6eb",
+      "bytes": 16136
+    },
+    "sprites/UI/heavenblocks-v1/ancient-relic-token-v1.png": {
+      "sha256": "288988aab8bb5ee0928bc31b548826ea35a26be54f76dce1b398588533bcd789",
+      "bytes": 4708
+    },
+    "sprites/UI/heavenblocks-v1/ancient-relic-icon-v1.png": {
+      "sha256": "38359273f2027d7803fb6b0443cd4b2d59340a5e768957a1cfc27a2fc3988f48",
+      "bytes": 1495
+    },
+    "sprites/UI/heavenblocks-v1/aether-turbine-v1.png": {
+      "sha256": "d58fb54d6c350b97ef73a4e9815a03cfdc24b297c3467990702e7b3915fce823",
+      "bytes": 9020
+    },
+    "sprites/UI/heavenblocks-v1/halo-regulator-v1.png": {
+      "sha256": "a3271ae953767cd71254bd044e6717538960749b8a93bedfb14e971250fc1c0a",
+      "bytes": 8210
+    },
+    "sprites/UI/heavenblocks-v1/eclipse-crucible-v1.png": {
+      "sha256": "f02a61aa6e34cf8153c698c05d731e390b6b4ba9fdafe31cbb49991a73c7438c",
+      "bytes": 8654
+    }
+  }
+}

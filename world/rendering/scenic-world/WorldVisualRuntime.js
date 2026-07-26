@@ -1,5 +1,6 @@
 import { WORLD_VISUAL_RUNTIME } from "../../../values/worldVisualRuntime.js";
 import { validateWorldVisualMaterialCoverage } from "../../../values/worldVisualMaterials.js";
+import { TitanDiscoverySystem } from "../../../systems/visual/TitanDiscoverySystem.js";
 import {
   WORLD_VISUAL_LANDMARKS,
   resolveWorldVisualLandmarksEnabled,
@@ -21,6 +22,7 @@ export class WorldVisualRuntime {
     this.runtimeConfig = runtimeConfig;
     this.surfaceStage = null;
     this.depthBackdropStage = null;
+    this.titanDiscoverySystem = null;
     this.materialField = null;
     this.semanticAssetLayer = null;
     this.feedbackLayer = null;
@@ -43,6 +45,8 @@ export class WorldVisualRuntime {
     this.surfaceStage.create();
     this.depthBackdropStage = new WorldVisualDepthBackdropStage(this.scene);
     this.depthBackdropStage.create();
+    this.titanDiscoverySystem = new TitanDiscoverySystem(this.scene, this.worldModel);
+    this.titanDiscoverySystem.create();
     if (resolveWorldVisualLandmarksEnabled()) {
       this.landmarkLayer = new WorldVisualLandmarkLayer(
         this.scene,
@@ -90,7 +94,7 @@ export class WorldVisualRuntime {
     return true;
   }
 
-  update(time, _delta, context = {}) {
+  update(time, delta, context = {}) {
     if (!this.created) return;
     const now = Number.isFinite(time) ? time : (this.scene.time?.now || 0);
     const lighting = this.lightingBridge.sample();
@@ -98,6 +102,7 @@ export class WorldVisualRuntime {
     this.depthBackdropStage?.update(now, lighting);
     this.landmarkLayer?.update(now, lighting);
     this.semanticAssetLayer?.update(now, lighting);
+    this.titanDiscoverySystem?.update(now, delta, context);
     if (now < this.nextUpdateAt) return;
     this.nextUpdateAt = now + this.runtimeConfig.streaming.updateIntervalMs;
     const bounds = this._getVisibleBounds(context.playerTile);
@@ -162,10 +167,18 @@ export class WorldVisualRuntime {
     this.semanticAssetLayer?.invalidateCell(tx, ty);
     if (this.lastBounds) this.feedbackLayer.sync(this.lastBounds, false);
     this.gameplayEffectLayer.invalidateCell(tx, ty);
+    this.titanDiscoverySystem?.invalidateTile(tx, ty);
   }
 
   refreshAllTiles() {
-    if (this.created) this._sync(null, true);
+    if (this.created) {
+      this._sync(null, true);
+      this.titanDiscoverySystem?.refresh();
+    }
+  }
+
+  getTitanDiscoverySnapshot() {
+    return this.titanDiscoverySystem?.getSnapshot() || null;
   }
 
   setEmissiveRenderDepth(depth) {
@@ -210,6 +223,7 @@ export class WorldVisualRuntime {
     this.created = false;
     this.scene.scale?.off?.("resize", this._onResize);
     this.gameplayEffectLayer?.destroy();
+    this.titanDiscoverySystem?.destroy();
     this.feedbackLayer?.destroy();
     this.semanticAssetLayer?.destroy();
     // Surface-pack ground cards share the material field's geometry mask. They
@@ -223,6 +237,7 @@ export class WorldVisualRuntime {
     this.gameplayEffectLayer = null;
     this.materialField = null;
     this.depthBackdropStage = null;
+    this.titanDiscoverySystem = null;
     this.landmarkLayer = null;
     this.surfaceStage = null;
     this.lightingBridge = null;

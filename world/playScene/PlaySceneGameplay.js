@@ -282,10 +282,21 @@ export function setupGameplayMethods(prototype) {
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
     this._applyMineShake?.(result);
     if (!result.success && result.blockedByBedrock) {
-      this.uiNotifications?.warning(MINING_CONFIG.blockedUi.bedrockMessage, {
-        key: MINING_CONFIG.blockedUi.notificationKey,
-        durationMs: MINING_CONFIG.blockedUi.durationMs,
+      const feedback = MINING_CONFIG.blockedUi;
+      this.uiNotifications?.warning(feedback.bedrockMessage, {
+        key: feedback.notificationKey,
+        durationMs: feedback.durationMs,
       });
+      const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+      const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+      this.floatingTextSystem?.showFloatingText(
+        worldX,
+        worldY,
+        feedback.zeroDamageText,
+        feedback.zeroDamageColor,
+        feedback.zeroDamageDurationMs,
+        feedback.zeroDamageFontSize,
+      );
     }
     if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
     if (result.destroyed) {
@@ -891,6 +902,8 @@ export function setupGameplayMethods(prototype) {
         currentAnimationKey: currentAnimKey,
         isPlaying: this.player.anims.isPlaying,
         facingFlipX: !this.playerController.isFacingRight(),
+        groundMovementActive: isWalkMotionState(motionState)
+          && Math.abs(body?.vx || 0) > 0,
       });
       targetAnim = locomotionSelection.animationKey;
       flipX = locomotionSelection.facingFlipX;

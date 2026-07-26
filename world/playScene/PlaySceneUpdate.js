@@ -45,6 +45,7 @@ function resolveLiveContactDirection(scene, targetTile) {
 
 function _handleLevelUpResult(scene, result) {
   if (!result?.levelUp || !scene.levelUpPopup) return;
+  if (scene.openingFlightArtifactSystem?.handleStarterLevelUp?.(result) === true) return;
 
   const rewards = Array.isArray(result.rewards) ? result.rewards : [];
   const level = Number.isFinite(result.newLevel)
@@ -697,6 +698,10 @@ function _updateSystems(time, delta, keys) {
       this.worldRenderer.updateGlowCrystals(playerTile, 25);
     }
 
+    if (this.caveAtmosphereSystem && playerTile) {
+      this.caveAtmosphereSystem.update(playerTile, time);
+    }
+
     if (this.caveInteriorOcclusionSystem && playerTile) {
       this.caveInteriorOcclusionSystem.update(playerTile);
     }
@@ -740,6 +745,8 @@ function _updatePlayingState(time, delta, keys) {
 
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
+  this.celestialEngineController?.update(time, delta, keys);
+  this.openingFlightArtifactSystem?.update(delta);
   this.playerKinematicMotion?.samplePhysics(delta);
   this.playerRigContact?.update(delta);
 
@@ -758,6 +765,7 @@ function _updatePlayingState(time, delta, keys) {
 
     // Special tile system (gamble and teleport tiles)
     this.specialTileSystem.update();
+    this.heavenblocksAccessSystem?.update?.(playerTile);
 
     // Milestone board system (left side town board)
     if (this.milestoneBoardSystem && this.inputHandler) {
@@ -904,6 +912,12 @@ function _updatePlayingState(time, delta, keys) {
 
   // Special tile interaction (E key for gamble/teleport tiles)
   if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
+    const heavenblocksResult = this.heavenblocksAccessSystem?.handleInteract?.()
+      || { success: false };
+    if (heavenblocksResult.success) {
+      console.log("[HEAVENBLOCKS] Interaction successful:", heavenblocksResult.type, heavenblocksResult);
+      return;
+    }
     const interactResult = this.specialTileSystem?.handleInteract?.() || { success: false };
     if (interactResult.success) {
       console.log('[SPECIAL TILE] Interaction successful:', interactResult.type, interactResult);

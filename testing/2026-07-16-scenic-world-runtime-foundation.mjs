@@ -46,7 +46,7 @@ const payload = saveStore.createPayload({
   layoutId: WORLD_GAMEPLAY_LAYOUT.id,
   layoutRevision: WORLD_GAMEPLAY_LAYOUT.revision,
 }, []);
-assert.equal(payload.version, 9);
+assert.equal(payload.version, 10);
 assert.equal(payload.world.layoutId, WORLD_GAMEPLAY_LAYOUT.id);
 assert.equal(payload.world.layoutRevision, WORLD_GAMEPLAY_LAYOUT.revision);
 assert.deepEqual(saveStore.normalizePayload(payload).world, payload.world);

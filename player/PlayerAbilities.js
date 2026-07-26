@@ -32,6 +32,7 @@ export class PlayerAbilities {
     this._flyToggleCooldown = 0;
     this._groundLevelY = this.body ? this.body.y + this.body.h : 0;
     this._warnedLowGemPower = false;
+    this._freeFlightProvider = null;
 
     // Quickslash
     this._quickslashActive = false;
@@ -49,6 +50,9 @@ export class PlayerAbilities {
   }
 
   setGodMode(enabled) { this._godMode = enabled; }
+  setFreeFlightProvider(provider) {
+    this._freeFlightProvider = typeof provider === "function" ? provider : null;
+  }
 
   update(dt, input, isGrounded, facingRight) {
     this._refreshConstellationStats();
@@ -64,19 +68,22 @@ export class PlayerAbilities {
     let usingGemPowerMovement = false;
     this._climbing = false;
 
+    const freeFlightActive = this._isFreeFlightActive();
     const flightAvailable = this._godMode
       || this._flying
-      || this.gemPower > 0
+      || freeFlightActive
       || this.upgradeSystem?.isGemPowerUnlocked?.();
     const flyHeld = input.getFlyInput();
     const flyDownHeld = input.getFlyDownInput?.() === true;
 
     if (flightAvailable && flyHeld && this.body) {
-      const canStartFlying = !this._flying && (this._godMode || this.gemPower >= this._getFlyStartCost());
-      const canContinueFlying = this._flying && this.gemPower > 0;
+      const canStartFlying = !this._flying
+        && (this._godMode || freeFlightActive || this.gemPower >= this._getFlyStartCost());
+      const canContinueFlying = this._flying
+        && (this._godMode || freeFlightActive || this.gemPower > 0);
 
       if (canStartFlying || canContinueFlying) {
-        if (canStartFlying && !this._godMode) {
+        if (canStartFlying && !this._godMode && !freeFlightActive) {
           this.consumeGemPower(this._getFlyStartCost());
         }
         const flightDirection = (!isGrounded && flyDownHeld) ? 1 : -1;
@@ -84,9 +91,17 @@ export class PlayerAbilities {
         this._flying = true;
         this._climbing = true;
         usingGemPowerMovement = true;
-        this.consumeGemPower(this._getGemPowerDrain() * dt);
+        if (!freeFlightActive) {
+          this.consumeGemPower(this._getGemPowerDrain() * dt);
+        } else {
+          this._warnedLowGemPower = false;
+        }
 
-        if (this.gemPower < GEM_POWER_CONFIG.lowGpWarningThreshold && !this._warnedLowGemPower) {
+        if (
+          !freeFlightActive
+          && this.gemPower < GEM_POWER_CONFIG.lowGpWarningThreshold
+          && !this._warnedLowGemPower
+        ) {
           this.sprite?.scene?.hudSystem?.flashStatus?.(
             "Low Gem Power!",
             "#ff6600",
@@ -164,6 +179,13 @@ export class PlayerAbilities {
   }
 
   _updateGemPower(dt) {
+    if (
+      !this._godMode
+      && !this._isFreeFlightActive()
+      && this.upgradeSystem?.isGemPowerUnlocked?.() !== true
+    ) {
+      return;
+    }
     const maxGP = this.getGemPowerMax();
     if (maxGP <= 0) return;
     this.gemPower = Math.min(maxGP, this.gemPower + this._getGemPowerRegen() * dt);
@@ -451,6 +473,11 @@ export class PlayerAbilities {
   }
 
   hasGemPower() { return this.gemPower > 0; }
+  fillGemPower() {
+    const previous = this.gemPower;
+    this.gemPower = this.getGemPowerMax();
+    return Math.max(0, this.gemPower - previous);
+  }
   restoreGemPower(amount) {
     const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
     const previous = this.gemPower;
@@ -504,6 +531,10 @@ export class PlayerAbilities {
   _getFlyStartCost() {
     const startCost = GEM_POWER_CONFIG.flightStartCost;
     return Number.isFinite(startCost) ? Math.max(0, startCost) : 0;
+  }
+
+  _isFreeFlightActive() {
+    return this._freeFlightProvider?.() === true;
   }
 
   getDashCooldownMs() { return 0; }

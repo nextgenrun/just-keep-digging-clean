@@ -1,7 +1,7 @@
 # Blender Animation Lab v1
 
 Native Blender 5.1 review and authoring lab for the Dig Game player animation
-set. The lab edits duplicated actions and imported review objects only. It does
+set. The lab itself edits duplicated actions and imported review objects only. It does
 not write production sprites, manifests, player profiles, hitboxes, or source
 character files.
 
@@ -9,6 +9,8 @@ character files.
 
 - `addon/dig_game_animation_lab/` is the installable Blender add-on.
 - `review-drafts/<session>/` is the only supported save/render/export target.
+- `production-builds/<promotion>/` may be written only by a separate, explicit
+  versioned promotion tool after approval; it is never an add-on export target.
 - Runtime values and manifests are read as review input; exported JSON remains
   a draft until a separate, backed-up promotion step is explicitly approved.
 
@@ -126,3 +128,5 @@ the Meshy rig, renders matched Punch Jab frames, and saves an isolated proof at
 - Review bundles declare `productionChanged: false`.
 - Save and render operators reject destinations outside this lab's
   `review-drafts/` directory.
+- Explicit promotion evidence declares `productionChanged: true`, names its
+  exact source action, and keeps the former runtime asset available for rollback.

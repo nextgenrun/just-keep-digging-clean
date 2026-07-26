@@ -1,4 +1,4 @@
-import { TILE_TYPES } from "../../values/tileTypes.js";
+import { TILE_TYPES, isUnbreakableMiningSurface } from "../../values/tileTypes.js";
 import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
@@ -8,12 +8,16 @@ import {
   getResourceYieldMultiplier,
 } from "../../values/dynamicSoil.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
+import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
 import {
   HARD_RESOURCE_TILE_TYPES,
+  RESOURCE_KEYS,
   createZeroResourceTotals,
   sanitizeResourceTotals,
   tileTypeToResource,
 } from "../../values/resourceTypes.js";
+
+const RESOURCE_KEY_SET = new Set(RESOURCE_KEYS);
 
 export class DigSystem {
   constructor(worldModel, worldRenderer, config, upgradeSystem = null, playerLevelSystem = null, floatingTextSystem = null, comboSystem = null, specialBlockEffectsManager = null) {
@@ -31,6 +35,7 @@ export class DigSystem {
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
     this.resources = createZeroResourceTotals();
+    this._celestialTransactions = new Map();
   }
 
   setPlayerLevelSystem(playerLevelSystem) {
@@ -94,6 +99,101 @@ export class DigSystem {
 
   setCampfireSystem(campfireSystem) {
     this.campfireSystem = campfireSystem;
+  }
+
+  /**
+   * Authoritative Celestial Engine tile transaction.
+   * Visual engines can request damage, but only this bridge may mutate and reward.
+   */
+  applyCelestialDamage({
+    activationId,
+    engineId,
+    hitId,
+    tx,
+    ty,
+    nowMs = Date.now(),
+  } = {}) {
+    const safeActivationId = typeof activationId === "string" ? activationId : "";
+    const safeHitId = typeof hitId === "string" ? hitId : "";
+    if (
+      !safeActivationId
+      || !safeHitId
+      || safeActivationId.length > CELESTIAL_ENGINE_CONFIG.damage.maxActivationIdLength
+      || !Number.isInteger(tx)
+      || !Number.isInteger(ty)
+    ) {
+      return { success: false, reason: "invalid-celestial-transaction" };
+    }
+
+    const transactionKey = `${safeActivationId}|${safeHitId}`;
+    if (this._celestialTransactions.has(transactionKey)) {
+      return { success: false, reason: "duplicate-celestial-transaction", duplicate: true };
+    }
+    this._rememberCelestialTransaction(transactionKey, { engineId, tx, ty, nowMs });
+
+    if (!this.worldModel.inBounds(tx, ty)) {
+      return { success: false, reason: "out-of-bounds", blocked: true };
+    }
+
+    const tile = this.worldModel.getTile(tx, ty);
+    if (!tile.solid) return { success: false, reason: "air" };
+    if (!tile.diggable) {
+      return {
+        success: false,
+        reason: "protected",
+        blocked: true,
+        protected: true,
+        tileType: tile.type,
+      };
+    }
+
+    const damage = Math.min(
+      CELESTIAL_ENGINE_CONFIG.damage.maxPerHit,
+      Math.max(1, Math.ceil(tile.hp)),
+    );
+    const damageResult = this.worldModel.damageTile(tx, ty, damage);
+    if (!damageResult.success) {
+      return { success: false, reason: damageResult.reason || "damage-rejected" };
+    }
+
+    this.worldRenderer.applyTileUpdate(tx, ty);
+    const reward = damageResult.destroyed
+      ? this.processDestroyedTile(
+          tx,
+          ty,
+          damageResult.typeBeforeDamage,
+          nowMs,
+          false,
+          damageResult.wasRubble,
+        )
+      : null;
+
+    return {
+      success: true,
+      engineId,
+      tx,
+      ty,
+      damage,
+      destroyed: Boolean(damageResult.destroyed),
+      hp: damageResult.hp,
+      hpBefore: damageResult.hpBefore,
+      maxHp: damageResult.maxHp,
+      overkillDamage: damageResult.overkillDamage || 0,
+      tileType: damageResult.typeBeforeDamage,
+      wasRubble: Boolean(damageResult.wasRubble),
+      reward,
+    };
+  }
+
+  _rememberCelestialTransaction(key, detail) {
+    this._celestialTransactions.set(key, detail);
+    while (
+      this._celestialTransactions.size
+      > CELESTIAL_ENGINE_CONFIG.damage.rememberedTransactions
+    ) {
+      const oldest = this._celestialTransactions.keys().next().value;
+      this._celestialTransactions.delete(oldest);
+    }
   }
 
   _awardAncientRelics(tileType, tx, ty) {
@@ -468,7 +568,7 @@ export class DigSystem {
         tileType,
         typeBeforeDamage: tileType,
         damage: 0,
-        blockedByBedrock: tileType === TILE_TYPES.BEDROCK || tileType === TILE_TYPES.CAVE_WALL,
+        blockedByBedrock: isUnbreakableMiningSurface(tileType),
       };
     }
 
@@ -915,12 +1015,68 @@ export class DigSystem {
     return result;
   }
 
-  spendResource(resourceType, amount) {
-    if (!this.resources[resourceType] || this.resources[resourceType] < amount) {
-      return false;
+  trySpendResources(costs = {}) {
+    if (!costs || typeof costs !== "object" || Array.isArray(costs)) {
+      return { success: false, reason: "invalid_costs" };
     }
-    this.resources[resourceType] -= amount;
-    return true;
+
+    const entries = Object.entries(costs);
+    const currentResources = this.getResourceTotals();
+    const normalizedCosts = {};
+    const missingResources = [];
+
+    for (const [resourceType, amount] of entries) {
+      if (!RESOURCE_KEY_SET.has(resourceType)) {
+        return {
+          success: false,
+          reason: "invalid_resource",
+          resourceType,
+        };
+      }
+      if (!Number.isFinite(amount) || !Number.isInteger(amount) || amount <= 0) {
+        return {
+          success: false,
+          reason: "invalid_amount",
+          resourceType,
+          amount,
+        };
+      }
+
+      normalizedCosts[resourceType] = amount;
+      const have = currentResources[resourceType] || 0;
+      if (have < amount) {
+        missingResources.push({
+          resourceType,
+          required: amount,
+          have,
+          needed: amount - have,
+        });
+      }
+    }
+
+    if (missingResources.length > 0) {
+      return {
+        success: false,
+        reason: "not_enough_resources",
+        missingResources,
+      };
+    }
+
+    const nextResources = { ...currentResources };
+    for (const [resourceType, amount] of Object.entries(normalizedCosts)) {
+      nextResources[resourceType] -= amount;
+    }
+    this.setResourceTotals(nextResources);
+
+    return {
+      success: true,
+      spent: normalizedCosts,
+      resources: this.getResourceTotals(),
+    };
+  }
+
+  spendResource(resourceType, amount) {
+    return this.trySpendResources({ [resourceType]: amount }).success;
   }
 
   _handleSpecialBlockEffects(result, targetTile) {

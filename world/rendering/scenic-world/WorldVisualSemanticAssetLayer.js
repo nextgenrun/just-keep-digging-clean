@@ -1,5 +1,5 @@
 import { RESOURCE_BY_TILE_TYPE } from "../../../values/resourceTypes.js";
-import { TILE_TYPES } from "../../../values/tileTypes.js";
+import { TILE_TYPES, isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
 import {
   WORLD_VISUAL_SEMANTIC_ASSETS,
   resolveWorldVisualSemanticAssetsEnabled,
@@ -88,7 +88,7 @@ export class WorldVisualSemanticAssetLayer {
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
         const tileType = this.worldModel.getTileType(tx, ty);
-        if (tileType === TILE_TYPES.BEDROCK || tileType === TILE_TYPES.CAVE_WALL) {
+        if (isUnbreakableMiningSurface(tileType)) {
           bedrockCells += 1;
           continue;
         }

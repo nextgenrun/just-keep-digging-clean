@@ -97,7 +97,8 @@ export class ArcCoreVehicleSystem {
     const inRange = distance <= ARC_CORE_CONFIG.interactRangeTiles;
 
     if (this.active) {
-      const interactPressed = keys?.interact && Phaser.Input.Keyboard.JustDown(keys.interact);
+      const vehiclePressed = keys?.arcCoreVehicle
+        && Phaser.Input.Keyboard.JustDown(keys.arcCoreVehicle);
       const body = this.scene.playerController?.physicsBody;
       if (body) {
         this.sprite.setPosition(body.x + body.w / 2, body.y + body.h);
@@ -106,11 +107,11 @@ export class ArcCoreVehicleSystem {
       }
       this.prompt
         .setPosition(this.sprite.x, this.sprite.y - tileSize * 1.05)
-        .setText(`[${USER_SETTINGS.getKeyLabel("interact")}] Exit Arc Core`)
+        .setText(`[${USER_SETTINGS.getKeyLabel("arcCoreVehicle")}] Exit Arc Core`)
         .setVisible(true);
       this.scene.player?.setVisible(false);
 
-      if (interactPressed) {
+      if (vehiclePressed) {
         this._interactConsumed = true;
         this.setActive(false);
       }
@@ -125,16 +126,17 @@ export class ArcCoreVehicleSystem {
       return false;
     }
 
-    const interactPressed = keys?.interact && Phaser.Input.Keyboard.JustDown(keys.interact);
+    const vehiclePressed = keys?.arcCoreVehicle
+      && Phaser.Input.Keyboard.JustDown(keys.arcCoreVehicle);
     const unlocked = this.syncOwnership();
     const profile = this.getActiveProfile();
     this.prompt
       .setText(unlocked
-        ? `[${USER_SETTINGS.getKeyLabel("interact")}] Pilot ${profile.displayName || "Arc Core"}`
+        ? `[${USER_SETTINGS.getKeyLabel("arcCoreVehicle")}] Pilot ${profile.displayName || "Arc Core"}`
         : "Arc Core locked\nBuy from Molten Money Monster")
       .setVisible(true);
 
-    if (interactPressed) {
+    if (vehiclePressed) {
       this._interactConsumed = true;
       if (unlocked) this.setActive(true);
       else this.scene.hudSystem?.flashStatus?.("The Molten Money Monster sells this Arc Core.", "#FFB347", 1800);

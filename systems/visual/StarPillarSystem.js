@@ -70,11 +70,12 @@ const STAR_CHART_GRID_COLUMNS = 3;
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class StarPillarSystem {
-  constructor(scene, config, floatingTextSystem, ui) {
+  constructor(scene, config, floatingTextSystem, ui, starHeartOverlay = null) {
     this.scene  = scene;
     this.config = config;
     this.fts    = floatingTextSystem;
     this.ui     = ui;
+    this.starHeartOverlay = starHeartOverlay;
 
     // Pillar world coords (computed in create())
     this._pillarCenterX = 0;
@@ -138,7 +139,10 @@ export class StarPillarSystem {
   update(time, delta, playerTile, keys) {
     if (!playerTile) return;
 
-    if (this._isViewOpen) {
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.starHeartOverlay.handleInput(keys);
+      this.starHeartOverlay.update(time);
+    } else if (this._isViewOpen) {
       this._handleChartInput(keys);
     }
 
@@ -150,7 +154,11 @@ export class StarPillarSystem {
 
     // ── E prompt visibility ──
     if (this._ePrompt) {
-      this._ePrompt.setVisible(this._playerInRange && !this._isViewOpen);
+      this._ePrompt.setVisible(
+        this._playerInRange
+        && !this._isViewOpen
+        && !this.starHeartOverlay?.isOpen?.(),
+      );
     }
 
     // ── Rune twinkle ──
@@ -213,6 +221,10 @@ export class StarPillarSystem {
    * Returns true if the E key was consumed.
    */
   handleInteract() {
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.closeConstellationView();
+      return true;
+    }
     if (this._isViewOpen) {
       this.closeConstellationView();
       return true;
@@ -322,6 +334,8 @@ export class StarPillarSystem {
     this._chartTitle?.destroy();
     this._chartHint?.destroy();
     this._zoomTween?.stop();
+    this.starHeartOverlay?.destroy?.();
+    this.starHeartOverlay = null;
   }
 
   // ── Pillar visual ──────────────────────────────────────────────────────────
@@ -606,6 +620,18 @@ export class StarPillarSystem {
   // ── Star Chart zoom view ───────────────────────────────────────────────────
 
   openConstellationView() {
+    if (this.starHeartOverlay?.enabled) {
+      if (this.scene.celestialEngineController?.activeEffect) {
+        this.scene.hudSystem?.flashStatus?.(
+          "CELESTIAL ENGINE ACTIVE",
+          "#65E8FF",
+          1200,
+        );
+        return;
+      }
+      this.starHeartOverlay.open();
+      return;
+    }
     if (this._isViewOpen) return;
 
     this._isViewOpen = true;
@@ -636,6 +662,10 @@ export class StarPillarSystem {
   }
 
   closeConstellationView() {
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.starHeartOverlay.close();
+      return;
+    }
     if (!this._isViewOpen) return;
 
     this._isChartUiReady = false;
@@ -941,7 +971,11 @@ export class StarPillarSystem {
       fontSize: "11px",
       color: selectedStatus.color,
     }, 1, 0);
-    addText(focusX + 22, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
+    const relicIconKey = ASSET_KEYS.ui.heavenblocks?.ancientRelicIcon;
+    if (relicIconKey && this.scene.textures?.exists?.(relicIconKey)) {
+      track(this.scene.add.image(focusX + 31, focusY + 49, relicIconKey).setDisplaySize(24, 24));
+    }
+    addText(focusX + 48, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: "10px",
       color: UI_COLORS.gold,

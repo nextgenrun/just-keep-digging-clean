@@ -67,6 +67,13 @@ export const ASSET_KEYS = Object.freeze({
       emberOre: "loot-pickup-ember-ore",
       magmaCrystal: "loot-pickup-magma-crystal",
     },
+    heavenblocks: {
+      ancientRelicToken: "heavenblocks-ancient-relic-token-v1",
+      ancientRelicIcon: "heavenblocks-ancient-relic-icon-v1",
+      aetherTurbine: "heavenblocks-aether-turbine-v1",
+      haloRegulator: "heavenblocks-halo-regulator-v1",
+      eclipseCrucible: "heavenblocks-eclipse-crucible-v1",
+    },
   },
   constellations: {
     signs: {
@@ -81,6 +88,12 @@ export const ASSET_KEYS = Object.freeze({
       silver: "constellation-sign-silver-crescent",
       gold: "constellation-sign-gold-crown",
     },
+  },
+  celestialEngines: {
+    starHeart: "celestial-star-heart-core-v1",
+    waywardStar: "celestial-wayward-star-core-v1",
+    hollowSun: "celestial-hollow-sun-core-v1",
+    cometEngine: "celestial-comet-engine-core-v1",
   },
   background: {
     world1: "bg-world-1",
@@ -362,6 +375,7 @@ export const ASSET_KEYS = Object.freeze({
     skyIslandTop: "tile-approved-sky-island-top",
     chestNormal: "tile-approved-chest-normal",
     chestRare: "tile-approved-chest-rare",
+    ancientRelicCache: "tile-approved-ancient-relic-cache-v1",
     townExit: "tile-approved-town-exit",
     darkDirtNormal: "tile-dark-dirt-normal",
     darkDirtNormalHp1: "tile-dark-dirt-normal-hp1",

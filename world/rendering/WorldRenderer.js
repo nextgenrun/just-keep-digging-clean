@@ -712,6 +712,7 @@ export class WorldRenderer {
     for (const zone of treasureRooms) {
       const tx = zone.chestTx;
       const ty = zone.chestTy;
+      if (this.worldModel.getTileType(tx, ty) !== TILE_TYPES.CHEST) continue;
       
       // Only render if within view range
       if (Math.abs(tx - playerTile.tx) > viewRange || Math.abs(ty - playerTile.ty) > viewRange) continue;
@@ -744,6 +745,7 @@ export class WorldRenderer {
       // Hidden cave treasure room — render a golden glow at the center
       const cx = zone.cx;
       const cy = zone.cy;
+      if (this.worldModel.getTileType(cx, cy) !== TILE_TYPES.CHEST) continue;
       
       if (Math.abs(cx - playerTile.tx) > viewRange || Math.abs(cy - playerTile.ty) > viewRange) continue;
       

@@ -12,6 +12,10 @@ import {
   createTogglePair,
 } from "../PhaserUiKit.js";
 
+const REBINDABLE_KEYBIND_ACTIONS = Object.freeze(
+  KEYBIND_ACTIONS.filter(action => action.rebindable !== false)
+);
+
 function addText(scene, parent, x, y, text, style = {}, origin = [0, 0]) {
   const obj = scene.add.text(x, y, text, {
     fontFamily: style.fontFamily || "Consolas, monospace",
@@ -183,7 +187,7 @@ export function createSettingsPanelContent(scene, options = {}) {
   }
 
   function refreshRows() {
-    for (const action of KEYBIND_ACTIONS) {
+    for (const action of REBINDABLE_KEYBIND_ACTIONS) {
       state.rows.get(action.id)?.setLabel(USER_SETTINGS.getKeyLabel(action.id));
     }
   }
@@ -257,15 +261,17 @@ export function createSettingsPanelContent(scene, options = {}) {
     const rowGap = compact ? 31 : 37;
     const startY = compact ? -116 : -124;
 
+    const fullscreenKey = USER_SETTINGS.getKeyLabel("fullscreen");
     state.objects.push(addText(scene, root, 0, startY - 26,
-      "Click a binding, then press a new key. ESC always exits binding mode. Navigation keys remain fixed on arrows/WASD, Enter, Space.",
+      `${fullscreenKey} is reserved for fullscreen. Click a binding, then press a new key. ESC exits binding mode.`,
       { fontSize: compact ? "10px" : "11px", color: UI_COLORS.hint, align: "center" },
       [0.5, 0]
     ));
 
-    KEYBIND_ACTIONS.forEach((action, index) => {
-      const col = cols[index < Math.ceil(KEYBIND_ACTIONS.length / 2) ? 0 : 1];
-      const rowIndex = index % Math.ceil(KEYBIND_ACTIONS.length / 2);
+    REBINDABLE_KEYBIND_ACTIONS.forEach((action, index) => {
+      const rowsPerColumn = Math.ceil(REBINDABLE_KEYBIND_ACTIONS.length / 2);
+      const col = cols[index < rowsPerColumn ? 0 : 1];
+      const rowIndex = index % rowsPerColumn;
       const row = createKeybindRow(scene, {
         x: col.x,
         y: startY + rowIndex * rowGap,

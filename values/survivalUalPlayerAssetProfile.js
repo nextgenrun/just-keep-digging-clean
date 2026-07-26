@@ -1,5 +1,5 @@
 import { PLAYER_CHARACTER_IDS } from "./playerCharacters.js";
-import { SURVIVAL_BLENDER_V2_RUNTIME } from "./survivalBlenderV2Runtime.js?rev=20260724-fidget-exit";
+import { SURVIVAL_BLENDER_V2_RUNTIME } from "./survivalBlenderV2Runtime.js?rev=20260726-superman-prone-v3";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
 
 const UAL_RUNTIME_KEY_PREFIX = "ual-native-v1";
@@ -75,11 +75,11 @@ const blenderCoreOriginBySheet = Object.freeze({
 export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   ...remappedProfile,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
-  renderPipeline: "survival-blender-v2-superman-flight-ual-jog-four-hit-jab-cross-v1",
+  renderPipeline: "survival-blender-v2-superman-prone-v3-flight-ual-jog-four-hit-jab-cross-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",
-  version: "survival-blender-v2-superman-flight-ual-four-hit-jab-cross-20260724",
+  version: "survival-blender-v2-superman-prone-v3-flight-ual-four-hit-jab-cross-20260726",
   visualSkin: blenderV2.visualId,
-  coreAnimationPolicy: "blender-v2-idle-walk-superman-flight; ual-jog-jab-cross-jab-cross-ground-strike-actions-v1",
+  coreAnimationPolicy: "blender-v2-idle-walk-superman-prone-v3-flight; ual-jog-jab-cross-jab-cross-ground-strike-actions-v1",
   idleSheet: blenderV2.sheets.idle.key,
   idleTalkSheet: blenderV2.sheets.idle.idleTalkKey,
   walkSheet: blenderV2.sheets.walk.key,
@@ -130,8 +130,8 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     idleTalk: "Blender MINER_idle",
     walk: "Blender MINER_walk",
     run: "UAL Jog_Fwd_Loop",
-    fly: "Push_Loop + Superman pose layer",
-    flyHover: "Push_Loop + Superman pose layer",
+    fly: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
+    flyHover: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
   }),
   requiredSheets,
   sheetFiles,

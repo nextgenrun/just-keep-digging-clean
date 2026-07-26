@@ -35,10 +35,12 @@ function resolveSegmentGeometry(segment, tileSize) {
 }
 
 export class WorldVisualDepthBackdropRegionView {
-  constructor(scene, region, config) {
+  constructor(scene, region, config, backwalls = region.backwalls, motionEnabled = true) {
     this.scene = scene;
     this.region = region;
     this.config = config;
+    this.backwalls = backwalls;
+    this.motionEnabled = motionEnabled;
     this.segments = new Map();
   }
 
@@ -102,7 +104,7 @@ export class WorldVisualDepthBackdropRegionView {
     const baseY = Math.round(startTileY * tileSize);
     const flipX = (column + row) % 2 === 1;
     const flipY = row % 2 === 1;
-    const backwallAsset = region.backwalls[(column + row * 3) % region.backwalls.length];
+    const backwallAsset = this.backwalls[(column + row * 3) % this.backwalls.length];
     const cropRatioX = contentWidthPx / geometry.widthPx;
     const cropRatioY = contentHeightPx / geometry.heightPx;
     const makeCard = (key, depth, name, blendMode = null, fitMode = "fill") => {
@@ -151,6 +153,10 @@ export class WorldVisualDepthBackdropRegionView {
     );
     return {
       backwall, emissive, mist, baseX, baseY, column, row,
+      widthPx: fullWidth,
+      heightPx: fullHeight,
+      emissiveBaseScaleX: emissive.scaleX,
+      emissiveBaseScaleY: emissive.scaleY,
       mistBaseX: baseX,
       mistBaseY: baseY + Math.max(0, (fullHeight - mist.displayHeight) * 0.5),
       centerTileY: startTileY + heightTiles / 2,
@@ -165,7 +171,8 @@ export class WorldVisualDepthBackdropRegionView {
     const { motion } = config;
     const tileSize = this.scene.config.tileSize;
     const depthSpan = region.bottomTileExclusive - region.topTile;
-    const phase = (Number(time) || 0) / motion.periodMs * Math.PI * 2;
+    const animationTime = this.motionEnabled ? (Number(time) || 0) : 0;
+    const phase = animationTime / motion.periodMs * Math.PI * 2;
     for (const segment of this.segments.values()) {
       const depthRatio = clamp01((segment.centerTileY - region.topTile) / depthSpan);
       const tintMix = grade.surfaceTintMix + (grade.deepTintMix - grade.surfaceTintMix) * depthRatio;
@@ -175,18 +182,35 @@ export class WorldVisualDepthBackdropRegionView {
         ? mixColor(gradedTint, grade.lightningTint, lightningMix)
         : gradedTint);
 
-      const glowPhase = (Number(time) || 0) / glow.periodMs * Math.PI * 2 + segment.phase;
-      const glowAlpha = glow.baseAlpha + (Math.sin(glowPhase) * 0.5 + 0.5) * glow.pulseAlpha
+      const glowPhase = animationTime / glow.periodMs * Math.PI * 2 + segment.phase;
+      const glowPulse = this.motionEnabled ? (Math.sin(glowPhase) * 0.5 + 0.5) * glow.pulseAlpha : 0;
+      const glowAlpha = glow.baseAlpha + glowPulse
         + lighting.lightning * glow.lightningAlpha;
+      const glowMotion = this.motionEnabled ? Math.sin(glowPhase) : 0;
+      const glowScale = 1 + glowMotion * motion.emissiveScalePulse;
+      const glowShiftX = glowMotion * motion.emissiveShiftPx;
+      const glowShiftY = Math.cos(glowPhase * motion.secondaryPeriodScale) * motion.emissiveShiftPx * 0.5;
       segment.emissive
+        .setPosition(
+          segment.baseX + glowShiftX - segment.widthPx * (glowScale - 1) * 0.5,
+          segment.baseY + glowShiftY - segment.heightPx * (glowScale - 1) * 0.5
+        )
+        .setScale(
+          segment.emissiveBaseScaleX * glowScale,
+          segment.emissiveBaseScaleY * glowScale
+        )
         .setTint(mixColor(glow.tint, grade.lightningTint, lighting.lightning * grade.lightningTintMix))
         .setAlpha(Math.min(glow.maxAlpha, clamp01(glowAlpha)));
 
       const mistAlpha = mistConfig.baseAlpha + lighting.wet * mistConfig.wetAlpha
         + lighting.fog * mistConfig.fogAlpha + lighting.lightning * mistConfig.lightningAlpha;
-      let driftX = Math.sin(phase + segment.phase) * motion.driftTiles * tileSize;
-      let driftY = Math.cos(phase * motion.secondaryPeriodScale + segment.phase)
-        * motion.verticalDriftTiles * tileSize;
+      let driftX = this.motionEnabled
+        ? Math.sin(phase + segment.phase) * motion.driftTiles * tileSize
+        : 0;
+      let driftY = this.motionEnabled
+        ? Math.cos(phase * motion.secondaryPeriodScale + segment.phase)
+          * motion.verticalDriftTiles * tileSize
+        : 0;
       if (segment.column === 0) driftX = Math.max(0, driftX);
       if (segment.row === 0) driftY = Math.max(0, driftY);
       segment.mist

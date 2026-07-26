@@ -2,6 +2,49 @@
 
 Review-only visual assets live here before runtime wiring. Each subfolder must identify its source art, intended review scope, and whether anything is game-loaded.
 
+## NPC idle polish v2 — 2026-07-26
+
+- `npc-idle-polish-v2/` audits the exact five live merchant WebMs plus the static Magma Money Monster and presents character-specific four-pose idle direction.
+- The synchronized browser review includes play/pause, restart, scrub, speed, and a true 138 px gameplay-scale check.
+- `reviewOnly: true`; `productionChanged: false`. No runtime asset, loader, animation registry, or NPC behavior is changed.
+
+## Village floor concepts v1 — 2026-07-26
+
+- `village-floor-concepts-v1/` compares three gameplay-screen replacements for
+  the flat Town Square block band: mountain slate, a timber/stone miner
+  boardwalk, and star-forged basalt.
+- Option A is approved. Its full-screen image stays review evidence, while the
+  clean 2172x139 derivative is game-loaded from
+  `sprites/backgrounds/start-zone-scenic-v1/town-square-slate-facade-v1.png`.
+- Runtime now uses the 1.75 m midpoint player / 2.10 m doorway calibration.
+  Options B and C remain review-only and are not wired into Phaser.
+
+## Underground biome variation library v1 — 2026-07-26
+
+- `underground-biome-variation-library-v1/` contains 50 gameplay-screen
+  mockups: five composition roles for each of the ten live material bands from
+  Weathered Roots through Starfire Rift.
+- The library includes a complete ImageGen prompt manifest and an exact
+  placement map for far wall, proposed mid silhouettes, emissive, atmosphere,
+  authoritative terrain, and darkness layers.
+- Every image is review-only. Nothing in the folder is game-loaded, registered,
+  or wired into Phaser.
+
+## Underground layer differentiation v1 — 2026-07-26
+
+- `underground-layer-differentiation-v1/` compares Blue Caverns, Amber Depths,
+  and Level 2 Pressure Foundry as matching gameplay-screen layer mockups.
+- The current torchlit runtime capture preserves the HUD, player scale, dug
+  silhouette, hard-black exploration, and authoritative gameplay-plane shape.
+- All three images are review-only. Nothing in the folder is game-loaded,
+  registered, or wired into Phaser.
+
+## UNDERSTAR floating logo redesign v1 — 2026-07-26
+
+- `understar-floating-logo-redesign-v1/` compares three new-name treatments sized for the current floating main-menu logo slot.
+- The approved UNDERSTAR cover establishes the new brand language; the legacy Just Keep Digging asset is used only as a compact-silhouette reference.
+- Rift Monolith was approved on 2026-07-26 and promoted as a separate transparent runtime asset; nothing in the preview folder itself is game-loaded.
+
 ## V11 background relief POC v3 — 2026-07-15
 
 - `v11-background-relief-poc-v3/` compares one untouched high-detail V11 detail plate against the same art with an aligned height map and live WebGL relief/parallax.

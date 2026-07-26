@@ -70,28 +70,28 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   arc.sprite = chainedVisual();
   arc.prompt = chainedVisual();
   const parking = { tx: ARC_CORE_CONFIG.parking.tileX, ty: ARC_CORE_CONFIG.parking.tileY };
-  const interact = { interact: { justDown: true } };
+  const vehicleInput = { arcCoreVehicle: { justDown: true } };
 
-  assert.equal(arc.update(parking, interact), true);
+  assert.equal(arc.update(parking, vehicleInput), true);
   assert.equal(arc.isActive(), true);
   assert.equal(scene.player.visible, false);
   assert.equal(scene.playerBodyLanguage.enabled, false);
 
-  assert.equal(arc.update(parking, { interact: { justDown: false } }), false);
+  assert.equal(arc.update(parking, { arcCoreVehicle: { justDown: false } }), false);
   assert.deepEqual([arc.sprite.x, arc.sprite.y], [110, 240]);
   assert.match(arc.prompt.text, /Exit Arc Core/);
 
-  assert.equal(arc.update(parking, interact), true);
+  assert.equal(arc.update(parking, vehicleInput), true);
   assert.equal(arc.isActive(), false);
   assert.equal(scene.player.visible, true);
   assert.equal(scene.playerBodyLanguage.enabled, true);
 
-  arc.update(parking, { interact: { justDown: false } });
+  arc.update(parking, { arcCoreVehicle: { justDown: false } });
   assert.deepEqual(
     [arc.sprite.x, arc.sprite.y],
     [(ARC_CORE_CONFIG.parking.tileX + 0.5) * 64, (ARC_CORE_CONFIG.parking.tileY + 1) * 64],
   );
-  assert.equal(arc.update(parking, interact), true);
+  assert.equal(arc.update(parking, vehicleInput), true);
   assert.equal(arc.isActive(), true, "Arc must support immediate re-entry after a clean exit");
   assert.equal(arc.resolveDigTargets({ tx: 20, ty: 30 }, "RIGHT").length, 4);
 }
@@ -114,7 +114,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   lockedArc.sprite = chainedVisual();
   lockedArc.prompt = chainedVisual();
   const parking = { tx: ARC_CORE_CONFIG.parking.tileX, ty: ARC_CORE_CONFIG.parking.tileY };
-  assert.equal(lockedArc.update(parking, { interact: { justDown: true } }), true);
+  assert.equal(lockedArc.update(parking, { arcCoreVehicle: { justDown: true } }), true);
   assert.equal(lockedArc.isActive(), false);
   assert.match(lockedScene.messages.at(-1), /sells this Arc Core/);
 
@@ -122,7 +122,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   const godArc = new ArcCoreVehicleSystem(godScene);
   godArc.sprite = chainedVisual();
   godArc.prompt = chainedVisual();
-  assert.equal(godArc.update(parking, { interact: { justDown: true } }), true);
+  assert.equal(godArc.update(parking, { arcCoreVehicle: { justDown: true } }), true);
   assert.equal(godArc.isActive(), true, "godmode must grant immediate Arc access");
   assert.equal(godArc.isOmegaUnlocked(), true, "godmode must grant immediate Omega Arc access");
   assert.equal(godArc.resolveDigTargets({ tx: 20, ty: 30 }, "RIGHT").length, 64);
@@ -203,7 +203,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   }
 }
 
-// Purchase cost, ownership, and save/load persistence.
+// Arc upgrades are craft-only, while granted ownership remains save/load persistent.
 {
   const resources = { silver: 360, gold: 540 };
   const digSystem = {
@@ -212,14 +212,13 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   };
   const upgrades = new UpgradeSystem(digSystem);
   upgrades.grantUpgrade("worldTwoTunnelAccess");
-  assert.equal(upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).reason, "requires_upgrade");
-  const purchase = upgrades.purchaseUpgrade(ARC_CORE_UPGRADE_ID);
-  assert.equal(purchase.success, true);
-  assert.deepEqual(resources, { silver: 240, gold: 480 });
+  assert.equal(upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).reason, "craft_only");
+  assert.equal(upgrades.purchaseUpgrade(ARC_CORE_UPGRADE_ID).reason, "craft_only");
+  assert.deepEqual(resources, { silver: 360, gold: 540 });
+  assert.equal(upgrades.grantUpgrade(ARC_CORE_UPGRADE_ID).success, true);
   assert.equal(upgrades.getUpgradeLevel(ARC_CORE_UPGRADE_ID), 1);
-  const omegaPurchase = upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID);
-  assert.equal(omegaPurchase.success, true);
-  assert.deepEqual(resources, { silver: 0, gold: 0 });
+  assert.equal(upgrades.grantUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).success, true);
+  assert.deepEqual(resources, { silver: 360, gold: 540 });
   assert.equal(upgrades.getUpgradeLevel(OMEGA_ARC_CORE_UPGRADE_ID), 1);
 
   const restored = new UpgradeSystem(digSystem);

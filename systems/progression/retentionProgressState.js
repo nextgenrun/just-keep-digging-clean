@@ -1,4 +1,5 @@
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
 
 const TUTORIAL_STAGES = RETENTION_CONFIG.tutorial.stages;
 
@@ -90,6 +91,7 @@ export function sanitizeRetentionProgressData(value) {
       materials: sanitizeStringArray(rawDiscoveries.materials, 64),
       portals: sanitizeStringArray(rawDiscoveries.portals, 32),
       journal: sanitizeStringArray(rawDiscoveries.journal, 128),
+      titans: sanitizeStringArray(rawDiscoveries.titans, TITAN_DEFINITIONS.length),
     },
     tutorialStage,
     lastExpedition: sanitizeRetentionExpedition(source.lastExpedition),

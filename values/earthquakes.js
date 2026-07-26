@@ -24,6 +24,8 @@ export const EARTHQUAKE_CONFIG = Object.freeze({
   worldSpawn: Object.freeze({
     horizontalMarginTiles: 8,
     bottomMarginTiles: 3,
+    playerEncounterDistanceTiles: Object.freeze([6, 10]),
+    playerEncounterCandidateAttempts: 24,
     randomCandidateAttempts: 24,
     cavitySearchRadiusTiles: 14,
     cavitySearchAttempts: 56,

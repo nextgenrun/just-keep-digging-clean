@@ -152,6 +152,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   frameWidth: 256,
   frameHeight: 256,
   textureFilter: "LINEAR",
+  physicalHeightMeters: 1.75,
   targetVisibleHeightTiles: 0.8,
   referenceIdleVisibleWidthPx: 72,
   referenceIdleVisibleHeightPx: 177,

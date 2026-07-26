@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,6 +31,14 @@ const runtimePath = resolve(root, survival.basePath);
 const blenderRuntimePath = resolve(root, blender.basePath);
 const runtimeManifest = JSON.parse(readFileSync(resolve(runtimePath, "manifest.json"), "utf8"));
 const blenderManifest = JSON.parse(readFileSync(resolve(blenderRuntimePath, "manifest.json"), "utf8"));
+const proneV3Config = JSON.parse(readFileSync(
+  resolve(root, "values/supermanFlightProneV3Runtime.json"),
+  "utf8",
+));
+const proneV3Promotion = JSON.parse(readFileSync(
+  resolve(root, proneV3Config.output.buildRoot, proneV3Config.output.promotionManifest),
+  "utf8",
+));
 const expectedRuntimeActions = [
   "airborne", "climb", "crouch", "death", "falling", "fly",
   "ground-strike", "hit-react", "idle", "idle-talk", "landing",
@@ -50,7 +59,7 @@ assert.equal(resolvePlayerCharacterIdFromSearch(""), null);
 assert.equal(survival.characterId, PLAYER_CHARACTER_IDS.survivalUal);
 assert.equal(survival.isUalNative, true);
 assert.equal(survival.basePath, "sprites/character/survival-ual-player-v1/runtime");
-assert.equal(survival.renderPipeline, "survival-blender-v2-superman-flight-ual-jog-four-hit-jab-cross-v1");
+assert.equal(survival.renderPipeline, "survival-blender-v2-superman-prone-v3-flight-ual-jog-four-hit-jab-cross-v1");
 assert.equal(survival.visualSkin, blender.visualId);
 assert.equal(survival.weaponPolicy, "none");
 assert.equal(survival.sourceClips.pickaxeMining, undefined);
@@ -63,8 +72,8 @@ assert.equal(survival.targetVisibleHeightTiles, ual.targetVisibleHeightTiles);
 assert.equal(survival.sourceClips.idle, "Blender MINER_idle");
 assert.equal(survival.sourceClips.walk, "Blender MINER_walk");
 assert.equal(survival.sourceClips.run, "UAL Jog_Fwd_Loop");
-assert.equal(survival.sourceClips.fly, "Push_Loop + Superman pose layer");
-assert.equal(survival.sourceClips.flyHover, "Push_Loop + Superman pose layer");
+assert.match(survival.sourceClips.fly, /DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3/);
+assert.match(survival.sourceClips.flyHover, /DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3/);
 assert.equal(survival.digSidewaysAnim, survival.quickslashAnim);
 assert.deepEqual(survival.digSidewaysFrames, survival.quickslashFrames);
 assert.deepEqual(survival.digSidewaysHitAnims, [
@@ -96,11 +105,26 @@ assert.ok(survival.sheetFiles.every(([, fileName, , sourceBasePath]) => existsSy
   fileName,
 ))));
 assert.ok(existsSync(blenderRuntimePath));
-assert.equal(blender.sheets.fly.fileName, "survival-character-blender-v2-superman-flight-sheet.png");
+assert.equal(
+  blender.sheets.fly.fileName,
+  "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
+);
 assert.equal(blenderManifest.clips.fly.file, blender.sheets.fly.fileName);
 assert.equal(blenderManifest.clips.fly.columns, 12);
 assert.equal(blenderManifest.clips.fly.frames, 36);
 assert.equal(blenderManifest.clips.fly.fps, 16);
+assert.equal(proneV3Config.productionChanged, true);
+assert.equal(proneV3Promotion.productionChanged, true);
+assert.equal(proneV3Promotion.source.action, "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3");
+assert.equal(proneV3Promotion.runtime.file, blender.sheets.fly.fileName);
+assert.equal(proneV3Promotion.runtime.sourceFacesRight, true);
+const proneV3Sheet = readFileSync(resolve(blenderRuntimePath, blender.sheets.fly.fileName));
+assert.equal(proneV3Sheet.readUInt32BE(16), 12 * 256);
+assert.equal(proneV3Sheet.readUInt32BE(20), 3 * 256);
+assert.equal(
+  createHash("sha256").update(proneV3Sheet).digest("hex"),
+  proneV3Promotion.runtime.sha256,
+);
 Object.values(runtimeManifest.actions).forEach((action) => {
   assert.equal(Object.keys(action.rig_markers.frames).length, action.frame_count);
   assert.deepEqual(

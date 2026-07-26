@@ -4,6 +4,7 @@
  */
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
+import { TOWN_SQUARE_CONFIG } from "../../values/townSquareConfig.js";
 
 export class NPCManager {
   constructor(scene, ASSET_KEYS, decorationSystem = null) {
@@ -26,22 +27,26 @@ export class NPCManager {
   }
 
   _getNPCDefs() {
-    const sx = this.scene.config.spawnTileX;
-    const ay = this.scene.config.topAirRows - 1;
+    const surfaceTileY = this.scene.config.topAirRows
+      + TOWN_SQUARE_CONFIG.merchantSurfaceTileOffset;
     const merchantSprites = this.ASSET_KEYS.npcs.merchantSprites;
     const merchantIdleVideos = this.ASSET_KEYS.npcs.merchantIdleVideos;
-    
+
+    const surfaceMerchants = TOWN_SQUARE_CONFIG.surfaceMerchantOrder.map((merchantId) => {
+      const slot = TOWN_SQUARE_CONFIG.merchantSlots[merchantId];
+      if (!slot) throw new Error(`[NPCManager] Missing Town Square slot: ${merchantId}`);
+      return {
+        assetKey: merchantSprites[merchantId],
+        videoKey: merchantIdleVideos[merchantId],
+        merchantId,
+        tx: slot.tileX,
+        ty: surfaceTileY,
+      };
+    });
+
     return [
-      // Swapped: boboMerchant (was sx+35) ↔ moneyMonster (was sx+5)
-      // Swapped: gemPowerMerchant (was sx+39) ↔ campfire (was at sx+50, now at sx+39)
-      // Campfire is now at gemPowerMerchant's old position (sx+39)
-      // gemPowerMerchant is now at campfire's old position (sx+50)
-      { assetKey: merchantSprites.moneyMonster, videoKey: merchantIdleVideos.moneyMonster, merchantId: 'moneyMonster', tx: sx + 35, ty: ay },
+      ...surfaceMerchants,
       { assetKey: merchantSprites.magmaMoneyMonster, videoKey: null, merchantId: 'magmaMoneyMonster', tx: ARC_CORE_CONFIG.merchant.tileX, ty: ARC_CORE_CONFIG.merchant.tileY },
-      { assetKey: merchantSprites.playerUpgrades, videoKey: merchantIdleVideos.playerUpgrades, merchantId: 'playerUpgrades', tx: sx + 15, ty: ay },
-      { assetKey: merchantSprites.gearMerchant, videoKey: merchantIdleVideos.gearMerchant, merchantId: 'gearMerchant', tx: sx + 25, ty: ay },
-      { assetKey: merchantSprites.boboMerchant, videoKey: merchantIdleVideos.boboMerchant, merchantId: 'boboMerchant', tx: sx + 5, ty: ay },
-      { assetKey: merchantSprites.gemPowerMerchant, videoKey: merchantIdleVideos.gemPowerMerchant, merchantId: 'gemPowerMerchant', tx: sx + 22, ty: ay },
     ];
   }
 

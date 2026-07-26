@@ -1,5 +1,10 @@
 import { CAVE_OCCLUSION_CONFIG } from "../../values/caveOcclusionConfig.js";
+import { CAVE_ARCHETYPE_CONFIG } from "../../values/caveArchetypes.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+
+function colorToCss(color) {
+  return `#${Math.max(0, Number(color) || 0).toString(16).padStart(6, "0").slice(-6)}`;
+}
 
 /**
  * Draws visual-only cover over cave and geode interiors until discovered.
@@ -39,14 +44,7 @@ export class CaveInteriorOcclusionSystem {
     for (const zone of this.zones) {
       if (this.revealed.has(zone.id)) continue;
       if (this.isPlayerInside(zone, playerTile) || this.isBreached(zone)) {
-        this.revealed.add(zone.id);
-        const label = {
-          cave: "Integrated Cave",
-          hiddenCave: "Hidden Cave",
-          hiddenTreasure: "Hidden Treasure Room",
-          geode: "Crystal Geode",
-        }[zone.type] || "Underground Discovery";
-        this.scene.retentionProgressSystem?.discoverJournal?.(zone.id, label);
+        this._revealZone(zone);
       }
     }
 
@@ -64,8 +62,15 @@ export class CaveInteriorOcclusionSystem {
 
   addEllipseZones(out, type, sourceZones) {
     sourceZones.forEach((zone, index) => {
+      const fallbackLabel = {
+        cave: "Integrated Cave",
+        hiddenCave: "Hidden Cave",
+        geode: "Crystal Geode",
+      }[type] || "Underground Discovery";
+      const sourceId = zone.id || `${type}-${index}-${zone.cx}-${zone.cy}`;
       out.push({
-        id: `${type}-${index}-${zone.cx}-${zone.cy}`,
+        id: `${type}:${sourceId}`,
+        sourceId,
         type,
         shape: "ellipse",
         cx: zone.cx,
@@ -73,6 +78,11 @@ export class CaveInteriorOcclusionSystem {
         rx: Math.max(1, Number(zone.rx) || 1),
         ry: Math.max(1, Number(zone.ry) || 1),
         wallThickness: Math.max(0, Number(zone.wallThickness) || 0),
+        displayName: zone.displayName || fallbackLabel,
+        journalLabel: zone.identity?.journalLabel || fallbackLabel,
+        journalKey: zone.identity?.journalKey || sourceId,
+        hint: zone.discoveryHint || "",
+        glowColor: zone.identity?.palette?.glow || 0x8fe8ff,
       });
     });
   }
@@ -82,6 +92,7 @@ export class CaveInteriorOcclusionSystem {
       if (!zone?.hasTreasureRoom) return;
       out.push({
         id: `hiddenTreasure-${index}-${zone.cx}-${zone.cy}`,
+        sourceId: `hiddenTreasure-${index}-${zone.cx}-${zone.cy}`,
         type: "hiddenTreasure",
         shape: "rect",
         cx: zone.treasureRoomCx || zone.cx,
@@ -89,8 +100,38 @@ export class CaveInteriorOcclusionSystem {
         halfW: Math.max(1, Math.ceil((zone.treasureRoomW || 3) / 2)),
         halfH: Math.max(1, Math.ceil((zone.treasureRoomH || 2) / 2)),
         wallThickness: 0,
+        displayName: "Hidden Treasure Room",
+        journalLabel: "Hidden Treasure Room",
+        journalKey: "hidden-treasure-room",
+        hint: "A sealed cache was concealed inside the cavern.",
+        glowColor: 0xffd35a,
       });
     });
+  }
+
+  _revealZone(zone) {
+    this.revealed.add(zone.id);
+    this.scene.retentionProgressSystem?.discoverJournal?.(
+      zone.journalKey || zone.sourceId || zone.id,
+      zone.journalLabel || zone.displayName,
+    );
+    this.scene.caveAtmosphereSystem?.celebrateDiscovery?.(zone.sourceId);
+
+    const discovery = CAVE_ARCHETYPE_CONFIG.discovery;
+    this.scene.uiNotifications?.info?.(
+      `CAVE DISCOVERED  •  ${String(zone.displayName || "Underground Discovery").toUpperCase()}`,
+      {
+        key: `cave-discovery:${zone.sourceId || zone.id}`,
+        durationMs: discovery.notificationDurationMs,
+      },
+    );
+    if (zone.hint) {
+      this.scene.hudSystem?.flashStatus?.(
+        zone.hint,
+        colorToCss(zone.glowColor),
+        discovery.hintDurationMs,
+      );
+    }
   }
 
   redraw(playerTile) {
@@ -162,6 +203,10 @@ export class CaveInteriorOcclusionSystem {
 
   isBreached(zone) {
     if (zone.shape !== "ellipse" || zone.wallThickness <= 0) return false;
+    // Integrated caves intentionally have permanent AIR entrances. Treating
+    // those authored mouths as damage would reveal every cave on the first
+    // update; normal caves reveal only when the player crosses the shell.
+    if (zone.type === "cave") return false;
 
     const wallRx = zone.rx + zone.wallThickness;
     const wallRy = zone.ry + zone.wallThickness;
@@ -173,7 +218,6 @@ export class CaveInteriorOcclusionSystem {
         if (!outer || inner) continue;
         const tileType = this.worldModel.getTileType(tx, ty);
         if (zone.type === "geode" && tileType !== TILE_TYPES.GEODE_WALL) return true;
-        if (zone.type === "cave" && tileType === TILE_TYPES.AIR) return true;
       }
     }
     return false;

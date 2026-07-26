@@ -18,6 +18,10 @@ export const UAL_NATIVE_LOCOMOTION_PHASES = Object.freeze({
 
 export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
   ground: Object.freeze({
+    // The production run slot is the approved UAL Jog_Fwd_Loop. Grounded
+    // movement always uses that gait; the walk thresholds remain available to
+    // the isolated tuning lab and as a velocity fallback for non-runtime users.
+    gaitAnimationRole: "run",
     moveEnterSpeedPxPerSec: 24,
     moveExitSpeedPxPerSec: 10,
     runEnterSpeedPxPerSec: 270,

@@ -4,7 +4,12 @@ import {
   CAMERA_SHAKE_DEFAULT_FLASH_ENABLED,
   CAMERA_SHAKE_DEFAULT_INTENSITY,
 } from "../values/cameraShake.js";
-import { KEYBIND_ACTIONS, KEYBIND_ACTION_BY_ID, createDefaultKeybinds } from "../values/keybindActions.js";
+import {
+  KEYBIND_ACTIONS,
+  KEYBIND_ACTION_BY_ID,
+  KEYBIND_STORAGE_VERSION,
+  createDefaultKeybinds,
+} from "../values/keybindActions.js";
 
 const STORAGE_KEY = "jkd-settings-v2";
 
@@ -61,7 +66,7 @@ const KEY_ALIASES = Object.freeze({
 });
 
 const DEFAULT_SETTINGS = Object.freeze({
-  version: 2,
+  version: KEYBIND_STORAGE_VERSION,
   audio: {
     masterVolume: AUDIO_CONFIG.masterVolume,
     musicVolume: AUDIO_CONFIG.musicVolume,
@@ -183,6 +188,11 @@ function sanitizeSettings(input) {
   const audio = candidate.audio && typeof candidate.audio === "object" ? candidate.audio : {};
   const display = candidate.display && typeof candidate.display === "object" ? candidate.display : {};
   const keybinds = candidate.keybinds && typeof candidate.keybinds === "object" ? candidate.keybinds : {};
+  const fixedKeyOwners = new Map(
+    KEYBIND_ACTIONS
+      .filter(action => action.rebindable === false)
+      .map(action => [normalizeKey(action.defaultKey), action.id])
+  );
 
   const sanitized = {
     version: DEFAULT_SETTINGS.version,
@@ -208,8 +218,14 @@ function sanitizeSettings(input) {
   };
 
   for (const action of KEYBIND_ACTIONS) {
-    const next = normalizeKey(keybinds[action.id] || action.defaultKey);
-    sanitized.keybinds[action.id] = next || action.defaultKey;
+    const requestedKey = action.rebindable === false
+      ? action.defaultKey
+      : keybinds[action.id] || action.defaultKey;
+    const next = normalizeKey(requestedKey) || action.defaultKey;
+    const fixedOwner = fixedKeyOwners.get(next);
+    sanitized.keybinds[action.id] = fixedOwner && fixedOwner !== action.id
+      ? action.defaultKey
+      : next;
   }
 
   return sanitized;
@@ -357,6 +373,12 @@ class UserSettingsStore {
   setKeybind(actionId, key) {
     const action = KEYBIND_ACTION_BY_ID[actionId];
     if (!action) return { ok: false, error: "Unknown action." };
+    if (action.rebindable === false) {
+      return {
+        ok: false,
+        error: `${action.label} is fixed to ${formatKey(action.defaultKey)}.`,
+      };
+    }
     const normalized = normalizeKey(key);
     if (!normalized) return { ok: false, error: "That key cannot be used." };
 

@@ -1,0 +1,82 @@
+{
+  "npcs": [
+    {
+      "slug": "player-upgrades",
+      "label": "Player Upgrades",
+      "runtimeId": "playerUpgrades",
+      "board": "character",
+      "row": 0,
+      "durationSeconds": 5.6,
+      "currentKind": "identity-locked still warp",
+      "issue": "The torso, coat, hands, and tool drift together; the cylinder never becomes the idea.",
+      "proposal": "Inspect cylinder, catch a goggle glint, adjust, then return through a clean settle.",
+      "secondary": "Coat hem and belt tools trail the hand by two to three frames.",
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/player-upgrades.png"
+    },
+    {
+      "slug": "gear-merchant",
+      "label": "Gear Merchant",
+      "runtimeId": "gearMerchant",
+      "board": "character",
+      "row": 1,
+      "durationSeconds": 6.4,
+      "currentKind": "identity-locked still warp",
+      "issue": "The pack and miner move as one rigid card; the lamp pulse has no physical cause.",
+      "proposal": "Shift the heavy pack through the shoulder strap, check the lamp, then replant the weight.",
+      "secondary": "Beard, pickaxe, bottles, and hanging tools settle in descending weight order.",
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/gear-merchant.png"
+    },
+    {
+      "slug": "bobo-merchant",
+      "label": "Bobo Merchant",
+      "runtimeId": "boboMerchant",
+      "board": "character",
+      "row": 2,
+      "durationSeconds": 5.9,
+      "currentKind": "supplied character loop",
+      "issue": "Pleasant motion, but the silhouette stays generic and the dog personality is quiet at game scale.",
+      "proposal": "Curious sniff and head tilt, ear response, two tail beats, then a soft relaxed return.",
+      "secondary": "Backpack bottle and paw medallion answer the tail with a short delayed swing.",
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/bobo-merchant.png"
+    },
+    {
+      "slug": "money-monster",
+      "label": "Money Monster",
+      "runtimeId": "moneyMonster",
+      "board": "creature",
+      "row": 0,
+      "durationSeconds": 6.1,
+      "currentKind": "supplied character loop",
+      "issue": "The loop is technically smooth, but the coin, eye, and pouch do not form a readable greedy beat.",
+      "proposal": "Track and roll the coin, give one sly squint, let the pouch and loose coins answer, then settle.",
+      "secondary": "Coin glint leads; necklace and purse land later without moving the planted feet.",
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/money-monster.png"
+    },
+    {
+      "slug": "gem-power-merchant",
+      "label": "Gem Power Merchant",
+      "runtimeId": "gemPowerMerchant",
+      "board": "creature",
+      "row": 1,
+      "durationSeconds": 6.7,
+      "currentKind": "identity-locked still warp",
+      "issue": "A global purple pulse makes every crystal react together, flattening scale and hierarchy.",
+      "proposal": "Charge the staff first; move light through eyes, chest, shoulder cluster, and satchel in sequence.",
+      "secondary": "A heavy stone-body compression and delayed crystal shimmer close the loop.",
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/gem-power-merchant.png"
+    },
+    {
+      "slug": "magma-money-monster",
+      "label": "Magma Money Monster",
+      "runtimeId": "magmaMoneyMonster",
+      "board": "creature",
+      "row": 2,
+      "durationSeconds": 7.1,
+      "currentKind": "static fallback only",
+      "issue": "This active merchant has no idle video key, so it is the only fully motionless merchant.",
+      "proposal": "Dip the gold scale pan, flare the furnace cracks and eye, then let chest and coins absorb the weight.",
+      "secondary": "Ember intensity decays before the hanging metal finishes its settle.",
+      "source": "sprites/npc/npc-v7-level-two/magma-money-monster.png"
+    }
+  ]
+}

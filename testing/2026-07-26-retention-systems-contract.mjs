@@ -134,7 +134,7 @@ assert.match(getTeleportPortalLabel(2, 3500), /^L2 .*3500m/);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.count > 0);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.minTileX >= 121);
 
-// Retention state is present in version 9 payloads and legacy payloads default
+// Retention state is present in version 10 payloads and legacy payloads default
 // safely without changing world compatibility.
 const saveStore = new DugTilesSaveStore();
 const payload = saveStore.createPayload(
@@ -150,9 +150,11 @@ const payload = saveStore.createPayload(
   null,
   null,
   null,
+  null,
+  null,
   retention.getSaveData(),
 );
-assert.equal(payload.version, 9);
+assert.equal(payload.version, 10);
 assert.equal(payload.retentionData.stats.bestDepth, 101);
 assert.equal(payload.retentionData.stats.chestsOpened, 1);
 const legacyPayload = { ...payload };

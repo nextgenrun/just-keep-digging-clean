@@ -124,9 +124,6 @@ export class EarthquakeSystem {
       if (this.mutationTimer <= 0) {
         this.mutationTimer += this.config.mutationPulseMs;
         this._mutateNearbyTiles();
-      }
-      // ===== NEW: Red flash on each mutation pulse =====
-      if (this.mutationTimer === 0) {
         this._redFlash();
       }
       if (this.stateRemaining <= 0) this._beginAftermath();
@@ -145,6 +142,13 @@ export class EarthquakeSystem {
     this._openedPassageTiles = [];
     this.scene.earthquakeHazardOverlay?.clear?.();
     this.epicenter = this._selectWorldEpicenter();
+    if (!this.epicenter) {
+      this._scheduleNext();
+      this._log("start deferred: no valid epicenter", {
+        nextEventMs: Math.round(this.nextEventMs),
+      });
+      return false;
+    }
     const depth = this.epicenter?.depth ?? this.config.minimumDepth;
     this.intensity = forcedIntensity && this.config.intensities[forcedIntensity]
       ? forcedIntensity
@@ -165,6 +169,7 @@ export class EarthquakeSystem {
       depth,
       durationMs: Math.round(this.stateRemaining),
     });
+    return true;
   }
 
   setPaused(paused) {
@@ -917,6 +922,17 @@ export class EarthquakeSystem {
       Math.max(model.topAirRows, model.topAirRows + this.config.minimumDepth - 1)
     );
     const maxTy = Math.max(minTy, model.depthTiles - 1 - bottomMargin);
+    const player = this.scene.playerController?.getPlayerTile?.();
+    if (player) {
+      const encounter = this._selectPlayerEncounterEpicenter(player, {
+        minTx,
+        maxTx,
+        minTy,
+        maxTy,
+      });
+      if (encounter) return this._makeEpicenter(encounter.tx, encounter.ty);
+    }
+
     const attempts = Math.max(1, Math.floor(spawn.randomCandidateAttempts ?? 1));
     let fallback = null;
 
@@ -928,6 +944,33 @@ export class EarthquakeSystem {
     }
 
     return fallback ? this._makeEpicenter(fallback.tx, fallback.ty) : null;
+  }
+
+  _selectPlayerEncounterEpicenter(player, bounds) {
+    const model = this.scene.worldModel;
+    const spawn = this.config.worldSpawn || {};
+    const distanceRange = spawn.playerEncounterDistanceTiles;
+    const minDistance = Math.max(0, Math.floor(distanceRange?.[0] ?? 0));
+    const maxDistance = Math.max(minDistance, Math.floor(distanceRange?.[1] ?? minDistance));
+    const attempts = Math.max(1, Math.floor(spawn.playerEncounterCandidateAttempts ?? 1));
+    let fallback = null;
+
+    for (let attempt = 0; attempt < attempts; attempt += 1) {
+      const tx = Math.max(bounds.minTx, Math.min(bounds.maxTx, player.tx + randInt(-maxDistance, maxDistance)));
+      const ty = Math.max(bounds.minTy, Math.min(bounds.maxTy, player.ty + randInt(-maxDistance, maxDistance)));
+      const distance = Math.hypot(tx - player.tx, ty - player.ty);
+      if (distance < minDistance || distance > maxDistance || !model.inBounds(tx, ty)) continue;
+
+      const origin = { tx, ty };
+      fallback ||= origin;
+      const cavity = this._findCavityAnchorNear(origin);
+      if (!cavity) continue;
+
+      const cavityDistance = Math.hypot(cavity.tx - player.tx, cavity.ty - player.ty);
+      if (cavityDistance >= minDistance && cavityDistance <= maxDistance) return cavity;
+    }
+
+    return fallback;
   }
 
   _findCavityAnchorNear(origin) {
@@ -1058,8 +1101,12 @@ export class EarthquakeSystem {
 
   _scheduleNext() {
     const multiplier = this._debugEnabled() ? this.config.debugFrequencyMultiplier : 1;
-    const cooldown = this.config.worldSpawn?.cooldownMultiplier ?? 1;
-    this.nextEventMs = rand(...this.config.baseIntervalMs) * cooldown / multiplier;
+    const worldCooldown = this.config.worldSpawn?.cooldownMultiplier ?? 1;
+    const depthCooldown = this._getBand(this._getDepth())?.cooldown ?? 1;
+    this.nextEventMs = rand(...this.config.baseIntervalMs)
+      * worldCooldown
+      * depthCooldown
+      / multiplier;
   }
 
   _rollIntensity(depth) {

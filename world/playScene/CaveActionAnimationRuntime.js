@@ -180,6 +180,7 @@ export class CaveActionAnimationRuntime {
         currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
         isPlaying: scene.player.anims.isPlaying === true,
         facingFlipX: !controller.playerController.isFacingRight(),
+        groundMovementActive: walking && Math.abs(body?.vx || 0) > 0,
       });
       key = selection.animationKey;
       flightTravel = selection.phase === "flight-travel-enter"

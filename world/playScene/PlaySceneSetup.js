@@ -50,10 +50,13 @@ import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
+import { HeavenblocksProgressionSystem } from "../../systems/progression/HeavenblocksProgressionSystem.js";
 import { RetentionProgressSystem } from "../../systems/progression/RetentionProgressSystem.js";
+import { StarHeartProgressionSystem } from "../../systems/celestial/StarHeartProgressionSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
+import { CelestialEngineController } from "./CelestialEngineController.js";
 import { OverlayManager } from "./OverlayManager.js";
 import { NPCManager } from "./NPCManager.js";
 import { BackgroundRenderer } from "./BackgroundRenderer.js";
@@ -68,6 +71,7 @@ import { ScreenRecordSystem } from "../../systems/visual/ScreenRecordSystem.js";
 import { NextPromiseHudSystem } from "../../systems/visual/NextPromiseHudSystem.js";
 import { MiningIntentPreviewSystem } from "../../systems/visual/MiningIntentPreviewSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
+import { RelicDiscoveryFxSystem } from "../../systems/visual/RelicDiscoveryFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
@@ -85,7 +89,9 @@ import { DepthMilestoneCinematic } from "../../systems/visual/DepthMilestoneCine
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
+import { StarHeartOverlay } from "../../ui/overlays/StarHeartOverlay.js";
 import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
+import { CaveAtmosphereSystem } from "../../systems/visual/CaveAtmosphereSystem.js";
 import { CaveInteriorOcclusionSystem } from "../../systems/visual/CaveInteriorOcclusionSystem.js";
 import { SpecialBlockEffectsManager } from "../../systems/mining/SpecialBlockEffectsManager.js";
 import { MilestoneBoardSystem } from "../../systems/visual/MilestoneBoardSystem.js";
@@ -99,6 +105,9 @@ import { DepthGateSystem } from "../../systems/progression/DepthGateSystem.js";
 import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnelDoorSystem.js";
 import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSystem.js";
 import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
+import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
+import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
+import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 
 const PLAY_SCENE_UI_FACTORIES = Object.freeze({
   createButton,
@@ -471,13 +480,18 @@ async function _setupSceneSafe(data = {}) {
     this.secondWorldTownRenderer.create();
     this.caveTemplateVisualSystem = new CaveTemplateVisualSystem(this);
     this.caveTemplateVisualSystem.create(this.worldModel);
-    this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
-    this.caveInteriorOcclusionSystem.create(this.worldModel);
   } else {
     this._authoredBackgroundMode = "scenic-v2";
     this.worldRenderer.create();
     console.info("[PlaySceneSetup] Scenic-v2 owns the complete visible world; legacy visual stack was not constructed");
   }
+
+  // Cave identity is part of gameplay presentation, so it remains active in
+  // both the production scenic renderer and the explicit legacy rollback.
+  this.caveAtmosphereSystem = new CaveAtmosphereSystem(this);
+  this.caveAtmosphereSystem.create(this.worldModel);
+  this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
+  this.caveInteriorOcclusionSystem.create(this.worldModel);
 
   // Sky Island platforms and eclipse gates are gameplay landmarks, not part of
   // either terrain renderer. Construct them for both the legacy rollback and
@@ -636,6 +650,10 @@ async function _setupSceneSafe(data = {}) {
   this.digSystem.setRetentionProgressSystem(this.retentionProgressSystem);
   this.ancientRelicSystem = new AncientRelicSystem();
   this.digSystem.setAncientRelicSystem(this.ancientRelicSystem);
+  this.heavenblocksProgressionSystem = new HeavenblocksProgressionSystem({
+    relicCountProvider: () => this.ancientRelicSystem?.getCount?.() || 0,
+    initialData: this._cachedSaveData?.heavenblocksData,
+  });
   this.playerLevelSystem = new PlayerLevelSystem();
   this.playerLevelSystem.setComboSystem(this.comboSystem);
   this.playerLevelSystem.setTemporaryCriticalDamageBonusProvider(
@@ -653,7 +671,35 @@ async function _setupSceneSafe(data = {}) {
   this.hudSystem.setSpecialBlockEffectsManager(this.specialBlockEffectsManager);
   this.floatingTextSystem = new FloatingTextSystem(this, this.saveSlot);
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
+  this.starHeartProgressionSystem = new StarHeartProgressionSystem({
+    onChanged: (_snapshot, event) => {
+      this.queueDugTilesSave?.();
+      if (event === "heart-earned") {
+        this.uiNotifications?.success?.(
+          "STAR HEART FORGED  •  Return to the Star Pillar",
+          { key: "star-heart-forged", durationMs: 3600 },
+        );
+      }
+    },
+  });
+  this.starHeartProgressionSystem.loadSaveData(
+    this._cachedSaveData?.starHeartData,
+    this.floatingTextSystem.getUnlockedConstellations().length,
+  );
+  this.floatingTextSystem.setCollectedSkyStarCallback(({ rarity }) => {
+    const gained = this.starHeartProgressionSystem.recordCollectedSkyStar(rarity);
+    if (gained > 0) {
+      const snapshot = this.starHeartProgressionSystem.getSnapshot();
+      this.hudSystem?.flashStatus?.(
+        `STAR HEART +${gained}  •  ${snapshot.charge}/${snapshot.chargeCapacity}`,
+        "#65E8FF",
+        1500,
+      );
+    }
+  });
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
+  this.relicDiscoveryFxSystem = new RelicDiscoveryFxSystem(this);
+  this.digSystem.setRelicDiscoveryFxSystem?.(this.relicDiscoveryFxSystem);
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
     const message = reward?.message || "Combo";
@@ -684,10 +730,20 @@ async function _setupSceneSafe(data = {}) {
   this.campfireSystem.create();
   this.digSystem.setCampfireSystem(this.campfireSystem);
   this.playerLevelSystem.setCampfireSystem(this.campfireSystem);
-  this.starPillarSystem = new StarPillarSystem(this, this.config, this.floatingTextSystem, PLAY_SCENE_UI_FACTORIES);
+  this.starHeartOverlay = new StarHeartOverlay(this, this.starHeartProgressionSystem);
+  this.starPillarSystem = new StarPillarSystem(
+    this,
+    this.config,
+    this.floatingTextSystem,
+    PLAY_SCENE_UI_FACTORIES,
+    this.starHeartOverlay,
+  );
   this.starPillarSystem.create();
   this.floatingTextSystem.setConstellationUnlockedCallback((type) => {
     this.starPillarSystem.onConstellationUnlocked(type);
+    this.starHeartProgressionSystem.syncConstellationCount(
+      this.floatingTextSystem.getUnlockedConstellations().length,
+    );
     const resourceNames = { dirt: 'Dirt', stone: 'Stone', copper: 'Copper', darkDirtNormal: 'Dark Dirt', darkDirtStrong: 'Hard Dirt', steel: 'Steel', iron: 'Iron', bronze: 'Bronze', silver: 'Silver', gold: 'Gold' };
     const passiveBuffText = `${resourceNames[type] || type} sky tiles +1x`;
     if (this.hudSystem) {
@@ -777,6 +833,17 @@ async function _setupSceneSafe(data = {}) {
   _gfx.destroy();
 
   this.specialTileSystem = new SpecialTileSystem(this, this.worldModel, this.playerController, this.floatingTextSystem);
+  this.heavenblocksPresentationSystem = new HeavenblocksPresentationSystem(this, this.worldModel);
+  this.heavenblocksAccessSystem = new HeavenblocksAccessSystem(this, {
+    worldModel: this.worldModel,
+    playerController: this.playerController,
+    progressionSystem: this.heavenblocksProgressionSystem,
+    ancientRelicSystem: this.ancientRelicSystem,
+    upgradeSystem: this.upgradeSystem,
+    presentationSystem: this.heavenblocksPresentationSystem,
+    onChanged: () => this.queueDugTilesSave?.(),
+  });
+  this.heavenblocksAccessSystem.create();
   this.dayNightCycle = new DayNightCycle(this, this.config);
   this.weatherSystem = new WeatherSystem(this, this.config, this.config.weather);
   this.lightSystem = new LightSystem(this, this.playerController, this.dayNightCycle, this.weatherSystem);
@@ -800,8 +867,13 @@ async function _setupSceneSafe(data = {}) {
   this.soundSystem.printStats();
 
   this.createSceneUI();
+  this.celestialEngineController = new CelestialEngineController(
+    this,
+    this.starHeartProgressionSystem,
+  );
   this.nextPromiseHudSystem = new NextPromiseHudSystem(this);
   this.miningIntentPreviewSystem = new MiningIntentPreviewSystem(this);
+  this.openingFlightArtifactSystem = new OpeningFlightArtifactSystem(this);
 
   const keys = this.inputHandler.getKeys();
   this.interactKey = keys.interact;
@@ -850,12 +922,15 @@ async function _setupSceneSafe(data = {}) {
     this.worldRenderer?.destroy();
     this.bgObjectPlacer?.destroy();
     this.caveTemplateVisualSystem?.destroy();
+    this.caveAtmosphereSystem?.destroy();
     this.caveInteriorOcclusionSystem?.destroy();
     this.specialBlockEffectsManager?.destroy();
     this.milestoneBoardSystem?.destroy();
     this.biomeSystem?.destroy();
     this.campfireSystem?.destroy();
     this.specialTileSystem?.destroy();
+    this.heavenblocksAccessSystem?.destroy();
+    this.heavenblocksPresentationSystem?.destroy();
     this.nextPromiseHudSystem?.destroy();
     this.miningIntentPreviewSystem?.destroy();
     this._gpLabelText?.destroy();
@@ -880,8 +955,11 @@ async function _setupSceneSafe(data = {}) {
     this.depthMilestoneCinematic?.destroy();
     this._livingDrillTween?.stop();
     this._livingDrillOccluder?.destroy();
+    this.celestialEngineController?.destroy();
     this.starPillarSystem?.destroy();
+    this.starHeartProgressionSystem?.destroy();
     this.lootPickupFxSystem?.destroy();
+    this.relicDiscoveryFxSystem?.destroy();
     this.floatingTextSystem?.destroy();
     this.weatherSystem?.destroy();
     this.shaderSystem?.destroy();
@@ -894,6 +972,7 @@ async function _setupSceneSafe(data = {}) {
     this.voiceLineManager?.destroy();
     this.depthGateSystem?.destroy();
     this.surfaceTunnelDoorSystem?.destroy();
+    this.openingFlightArtifactSystem?.destroy();
     this.arcCoreVehicleSystem?.destroy();
     this.earthquakeSystem?.destroy();
     this.earthquakeFeedbackUI?.destroy();
@@ -910,6 +989,7 @@ async function _setupSceneSafe(data = {}) {
   if (cachedSave && cachedSave.levelData) { this.playerLevelSystem.fromJSON(cachedSave.levelData); }
   if (cachedSave && cachedSave.comboData) { this.comboSystem.fromJSON(cachedSave.comboData); }
   this.applyPersistentState(cachedSave, false);
+  this.openingFlightArtifactSystem?.create();
   this.surfaceTunnelDoorSystem?.syncFromUpgrade();
   this.arcCoreVehicleSystem?.syncOwnership();
   this.updatePlayerVisualState(true);

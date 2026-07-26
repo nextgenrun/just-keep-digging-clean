@@ -8,6 +8,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS, SHOP_MERCHANT_PROFILES } from "../../values/uiLayout.js";
 import { UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { OPENING_FLIGHT_ARTIFACT_CONFIG } from "../../values/openingFlightArtifact.js";
 import {
   MONEY_MONSTER_RESOURCE_KEYS,
   SECOND_WORLD_RESOURCE_KEYS,
@@ -867,7 +868,7 @@ export class ShopOverlay {
         "Bobo's Wisdom",
         "Flight, Quickslash, and Thunder Strike all draw from Gem Power.\n\n" +
         "Build capacity, efficiency, regeneration, and movement before attempting the highest sky routes.\n\n" +
-        "The Gem of Great Power waits above the island."
+        OPENING_FLIGHT_ARTIFACT_CONFIG.copy.merchantHint
       );
       return;
     }

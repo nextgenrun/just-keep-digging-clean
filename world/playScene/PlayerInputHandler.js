@@ -41,10 +41,12 @@ export class PlayerInputHandler {
     const fly = addBoundKey("fly");
     const mine = addBoundKey("dig");
     const interact = addBoundKey("interact");
+    const arcCoreVehicle = addBoundKey("arcCoreVehicle");
     const gemDashAlt = addBoundKey("gemDash");
     const quickslash = addBoundKey("quickslash");
     const thunderStrike = addBoundKey("thunderStrike");
     const torch = addBoundKey("torch");
+    const celestialEngine = addBoundKey("celestialEngine");
 
     // Register system keys
     const restart = addBoundKey("restart");
@@ -58,9 +60,6 @@ export class PlayerInputHandler {
     const mainMenuKey = addBoundKey("mainMenu");
     const fullscreen = addBoundKey("fullscreen");
     const screenRecord = addBoundKey("screenRecord");
-    // Keep the default recorder shortcut available even if an older saved
-    // keybind profile failed to migrate the new action.
-    const screenRecordF10 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F10);
 
     // Prevent browser default behavior for captured keys
     const captureKeys = new Set([
@@ -89,10 +88,12 @@ export class PlayerInputHandler {
       fly,
       mine,
       interact,
+      arcCoreVehicle,
       g: gemDashAlt,
       q: quickslash,
       c: thunderStrike,
       torch,
+      celestialEngine,
       
       // System
       restart,
@@ -108,7 +109,6 @@ export class PlayerInputHandler {
       mainMenuKey,
       fullscreen,
       screenRecord,
-      screenRecordF10,
 
       // Legacy compatibility (expose individual keys)
       left: moveLeft,

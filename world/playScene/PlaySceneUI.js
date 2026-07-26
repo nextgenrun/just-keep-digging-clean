@@ -657,6 +657,7 @@ export function setupUIMethods(prototype) {
     }
 
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
+    this.worldModel.applyHeavenblocksLayout?.();
     for (const tile of appliedTiles) {
       this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
     }
@@ -670,6 +671,13 @@ export function setupUIMethods(prototype) {
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);
+    this.heavenblocksProgressionSystem?.loadSaveData?.(savedData.heavenblocksData, {
+      relicCount: this.ancientRelicSystem?.getCount?.() || 0,
+    });
+    this.starHeartProgressionSystem?.loadSaveData(
+      savedData.starHeartData,
+      this.floatingTextSystem?.getUnlockedConstellations?.().length || 0,
+    );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)
@@ -700,6 +708,7 @@ export function setupUIMethods(prototype) {
     if (savedData.upgrades) {
       this.upgradeSystem.fromJSON(savedData.upgrades);
     }
+    this.openingFlightArtifactSystem?.loadSaveData(savedData.openingFlightArtifactData);
     this.surfaceTunnelDoorSystem?.syncFromUpgrade();
 
     // Restore day/night cycle state
@@ -778,7 +787,10 @@ export function setupUIMethods(prototype) {
         this.playerCharacterId,
         this.caveEntryController?.getSaveData(),
         this.ancientRelicSystem?.getSaveData(),
+        this.openingFlightArtifactSystem?.getSaveData(),
+        this.starHeartProgressionSystem?.getSaveData(),
         this.retentionProgressSystem?.getSaveData(),
+        this.heavenblocksProgressionSystem?.getSaveData(),
       );
       if (saveResult === false) saved = false;
     } catch (error) {
@@ -802,5 +814,7 @@ export function setupUIMethods(prototype) {
     this.levelUpPopup?.resize?.();
     this.uiInventoryPopup?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
+    this.celestialEngineController?.resize?.();
+    this.starHeartOverlay?.resize?.();
   };
 }

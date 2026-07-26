@@ -23,7 +23,11 @@ const setupSource = fs.readFileSync(new URL("../world/playScene/PlaySceneSetup.j
 const keybindSource = fs.readFileSync(new URL("../values/keybindActions.js", import.meta.url), "utf8");
 const serverSource = fs.readFileSync(new URL("../serve.py", import.meta.url), "utf8");
 
-assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F10"/);
+assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F9"/);
+assert.match(
+  keybindSource,
+  /id: "fullscreen"[\s\S]*defaultKey: "F10"[\s\S]*rebindable: false/,
+);
 assert.match(inputSource, /addBoundKey\("screenRecord"\)/);
 assert.match(globalInputSource, /justDown\(keys\.screenRecord\)/);
 assert.match(globalInputSource, /screenRecordSystem\?\.toggle\(\)/);

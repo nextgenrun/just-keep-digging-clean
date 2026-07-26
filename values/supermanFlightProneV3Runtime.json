@@ -1,0 +1,51 @@
+{
+  "version": "survival-superman-flight-prone-v3-production-20260726",
+  "productionChanged": true,
+  "source": {
+    "blend": "testing/blender-animation-lab-v1/review-drafts/superman-flight-idle-prone-v3/superman-flight-idle-prone-v3.blend",
+    "rig": "SurvivalPolishRig",
+    "camera": "SurvivalPolishCamera",
+    "root": "DG_PRONE_FLIGHT_IDLE_V3_ROOT",
+    "action": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3",
+    "frame": 1,
+    "pickaxe": "SurvivalMinerPickaxe",
+    "hiddenObjectPrefixes": [
+      "ACC_"
+    ]
+  },
+  "animation": {
+    "frameCount": 36,
+    "columns": 12,
+    "fps": 16,
+    "loop": true,
+    "sourceRenderSizePx": 512,
+    "packedFrameSizePx": 256,
+    "previewFrameSizePx": 128,
+    "motionStripSamples": 6,
+    "verticalBobWorld": 0.015,
+    "horizontalDriftWorld": 0.003,
+    "mirrorForSourceFacingRight": true
+  },
+  "output": {
+    "buildRoot": "testing/blender-animation-lab-v1/production-builds/superman-flight-prone-v3",
+    "frameDirectory": "frames",
+    "previewDirectory": "previews",
+    "previewGif": "superman-flight-prone-v3.gif",
+    "motionStrip": "superman-flight-prone-v3-motion-strip.png",
+    "renderMetadata": "render-metadata.json",
+    "promotionManifest": "promotion-manifest.json",
+    "runtimeDirectory": "sprites/character/survival-character-blender-v2/runtime",
+    "runtimeSheet": "survival-character-blender-v2-superman-flight-prone-v3-sheet.png"
+  },
+  "runtime": {
+    "displaySizePx": 109,
+    "visualOrigin": [
+      0.5,
+      0.96484375
+    ],
+    "visualHullWidthPx": 75,
+    "visualHullHeightPx": 31,
+    "physicsAabbWidthPx": 70,
+    "physicsAabbHeightPx": 34
+  }
+}

@@ -201,7 +201,7 @@ export class CaveGameplayController {
           { actionStartedAtMs: time },
         );
         if (result.success) this._applyMineResult(result, targetTile);
-        else this._showBlockedMineFeedback(result);
+        else this._showBlockedMineFeedback(result, targetTile);
       }, targetTile, targetDirection);
       return;
     }
@@ -209,13 +209,25 @@ export class CaveGameplayController {
     const result = this.digSystem.tryMine(targetTile, time, resolvedAim, abilities);
     if (result.reason !== "cooldown") this._playMiningAnimation(action, resolvedAim, time);
     if (result.success) this._applyMineResult(result, targetTile);
-    else this._showBlockedMineFeedback(result);
+    else this._showBlockedMineFeedback(result, targetTile);
   }
 
-  _showBlockedMineFeedback(result) {
+  _showBlockedMineFeedback(result, targetTile = null) {
     if (!result?.blockedByBedrock) return;
     const feedback = MINING_CONFIG.blockedUi;
     this.scene.flashStatus?.(feedback.bedrockMessage, feedback.color, feedback.durationMs);
+    if (!targetTile) return;
+    const tileSize = this.scene.config.tileSize;
+    const worldX = targetTile.tx * tileSize + tileSize / 2;
+    const worldY = targetTile.ty * tileSize + tileSize / 2;
+    this.floatingTextSystem?.showFloatingText(
+      worldX,
+      worldY,
+      feedback.zeroDamageText,
+      feedback.zeroDamageColor,
+      feedback.zeroDamageDurationMs,
+      feedback.zeroDamageFontSize,
+    );
   }
 
   _applyMineResult(result, targetTile) {

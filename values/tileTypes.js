@@ -55,3 +55,10 @@ export const TILE_TYPES = Object.freeze({
   // Ancient Relic Cache — rare deep-world treasure chest (mineable)
   ANCIENT_RELIC_CACHE: 35,
 });
+
+export function isUnbreakableMiningSurface(tileType) {
+  return tileType === TILE_TYPES.BEDROCK
+    || tileType === TILE_TYPES.CAVE_WALL
+    || tileType === TILE_TYPES.FLOOR_TOWN_1
+    || tileType === TILE_TYPES.FLOOR_TOWN_2;
+}
