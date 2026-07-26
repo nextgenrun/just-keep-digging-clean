@@ -98,17 +98,14 @@ export class NPCActivitySystem {
         actor.playerNear
         && !actor.reactedDuringVisit
         && time >= actor.reactionReadyAt
-        && (
-          actor.state !== "quiet"
-          || activeCount < this.config.schedule.maxSimultaneousActivities
-        )
+        && actor.state === "quiet"
+        && activeCount < this.config.schedule.maxSimultaneousActivities
       ) {
-        const wasQuiet = actor.state === "quiet";
         this._startActivity(actor, "player", time);
         actor.reactedDuringVisit = true;
         actor.reactionReadyAt = time
           + this.config.schedule.playerReactionCooldownMs;
-        if (wasQuiet) activeCount += 1;
+        activeCount += 1;
       }
     }
     const dueActors = this.actors
@@ -134,13 +131,7 @@ export class NPCActivitySystem {
   settleMerchant(merchantId, time = this.scene.time?.now || 0) {
     const actor = this.actorById.get(merchantId);
     if (!actor) return false;
-    finishNpcActor(actor, time, this.config, this.random, true);
-    updateNpcActorVisual(
-      actor,
-      time,
-      this.config.render.crossfadeOutMs,
-      this.config,
-    );
+    finishNpcActor(actor, time, this.config, this.random);
     return true;
   }
 

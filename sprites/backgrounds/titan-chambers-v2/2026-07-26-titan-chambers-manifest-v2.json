@@ -6,7 +6,7 @@
   ],
   "webpQuality": 92,
   "complete": false,
-  "count": 5,
+  "count": 15,
   "cards": [
     {
       "index": 1,
@@ -87,6 +87,166 @@
       ],
       "sha256": "975c56eb43caf03932bdb196ea8613539b87601b6342a381c05c16c3c2cc6beb",
       "bytes": 409248
+    },
+    {
+      "index": 6,
+      "id": "ribbon-wyrm",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-06-ribbon-wyrm-imagegen-v2.png",
+      "sourceSize": [
+        1915,
+        821
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/06-ribbon-wyrm-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "c7e934b75719af42281fe7ab06ffc39d2ef1483e0a05fe48b373ca0f8eb5c2c4",
+      "bytes": 355518
+    },
+    {
+      "index": 7,
+      "id": "crowned-mole",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-07-crowned-mole-imagegen-v2.png",
+      "sourceSize": [
+        1695,
+        928
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/07-crowned-mole-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "d519f3c5de831f39f5b2f0ef620075c8925d765d9d44cf8399b6bd63f6ca7fd3",
+      "bytes": 431978
+    },
+    {
+      "index": 8,
+      "id": "hammerhead-pilgrim",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-08-hammerhead-pilgrim-imagegen-v2.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/08-hammerhead-pilgrim-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "58089a87cadd08241bfce476672b98d6b2e6de90b6e41abf8a56fb1ba712038e",
+      "bytes": 307126
+    },
+    {
+      "index": 9,
+      "id": "cathedral-stag",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-09-cathedral-stag-imagegen-v2.png",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/09-cathedral-stag-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "8e11b895ae7b1437ea60aab1cec0b24249ae59a05eb8cac01c626bf91f93100c",
+      "bytes": 505380
+    },
+    {
+      "index": 10,
+      "id": "hollowback-bear",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-10-hollowback-bear-imagegen-v2.png",
+      "sourceSize": [
+        1724,
+        912
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/10-hollowback-bear-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "373d34505b4ca2dd0c045843a6e85d4c184a9e33d222dc5476a14a87cdd7bd82",
+      "bytes": 377588
+    },
+    {
+      "index": 11,
+      "id": "silver-strider",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-11-silver-strider-imagegen-v2.png",
+      "sourceSize": [
+        1402,
+        1122
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/11-silver-strider-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "5274aebe162ca2c1ba66e4916c94b27130a8d7754f011bbfc42af33ce8340028",
+      "bytes": 311378
+    },
+    {
+      "index": 12,
+      "id": "mirror-ray",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-12-mirror-ray-imagegen-v2.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/12-mirror-ray-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "2a165f3719be52374fb5596a801d353e0ba745cfe8b2dadd3d946d8703e5e3aa",
+      "bytes": 409248
+    },
+    {
+      "index": 13,
+      "id": "needlecrown",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-13-needlecrown-imagegen-v2.png",
+      "sourceSize": [
+        1718,
+        916
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/13-needlecrown-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "8173df4e3eddd1afaf12d73d5a405b92f30f4f26c6b2825f5d89974d403f2107",
+      "bytes": 383616
+    },
+    {
+      "index": 14,
+      "id": "moon-shell",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-14-moon-shell-imagegen-v2.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/14-moon-shell-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "a22950c225e2c44726e70763068c6bae6da8f0ffb873f5431fa61fc5e6b51892",
+      "bytes": 412214
+    },
+    {
+      "index": 15,
+      "id": "veilwing",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-15-veilwing-imagegen-v2.png",
+      "sourceSize": [
+        1619,
+        972
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/15-veilwing-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "ada416999ef6efe96422635b820ae3912cc85da66fc69c0c89f5f99d3b190bee",
+      "bytes": 300928
     }
   ]
 }

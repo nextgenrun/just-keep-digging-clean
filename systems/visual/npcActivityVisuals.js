@@ -61,7 +61,7 @@ export function startNpcPose(actor, state, time) {
   actor.overlay.setTexture(actor.keys[state]).setVisible(true);
 }
 
-export function finishNpcActor(actor, time, config, random, snap = false) {
+export function finishNpcActor(actor, time, config, random) {
   actor.state = "quiet";
   actor.stateEndsAt = Number.POSITIVE_INFINITY;
   actor.nextEventAt = time + randomRange(
@@ -69,10 +69,6 @@ export function finishNpcActor(actor, time, config, random, snap = false) {
     config.schedule.eventGapMinMs,
     config.schedule.eventGapMaxMs,
   );
-  if (!snap) return;
-  actor.poseBlend = 0;
-  actor.overlay.setAlpha(0).setVisible(false);
-  actor.baseVisual.setAlpha?.(1).setVisible?.(true);
 }
 
 export function updateNpcActorVisual(actor, _time, delta, config) {

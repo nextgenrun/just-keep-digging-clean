@@ -271,14 +271,26 @@ assert.equal(
   "activity wiring must never replace the original idle video texture",
 );
 
-system.update(1100, 16, { tx: npcs[0].tx, ty: npcs[0].ty });
+system.update(110, 16, { tx: npcs[0].tx, ty: npcs[0].ty });
 snapshot = system.getHealthSnapshot();
-assert.equal(snapshot.actors[0].state, "player");
+assert.equal(
+  snapshot.actors[0].state,
+  "inspect",
+  "player proximity must not snap-swap a visible activity texture",
+);
 assert.equal(snapshot.actors[0].anchorErrorPx, 0);
 assert.equal(npcs[0].tx, 0, "visual activity cannot mutate shop tiles");
 
-assert.equal(system.settleMerchant(npcs[0].merchantId, 1200), true);
+assert.equal(system.settleMerchant(npcs[0].merchantId, 120), true);
 assert.equal(system.getHealthSnapshot().actors[0].state, "quiet");
+system.update(130, 16, { tx: npcs[1].tx, ty: npcs[1].ty });
+snapshot = system.getHealthSnapshot();
+assert.equal(
+  snapshot.actors[1].state,
+  "player",
+  "a quiet merchant may ease into the player reaction",
+);
+assert.equal(system.settleMerchant(npcs[1].merchantId, 140), true);
 system.update(5000, 16, null);
 assert.equal(
   system.getHealthSnapshot().activeCount,
