@@ -447,8 +447,6 @@ export const UPGRADES = Object.freeze({
     requires: "worldTwoTunnelAccess",
     effectType: "arcCoreVehicle",
     merchant: LEVEL_TWO_MERCHANT_ID,
-    acquisitionMode: "craft",
-    hiddenFromShop: true,
     oneTimePurchase: true
   },
   [OMEGA_ARC_CORE_UPGRADE_ID]: {
@@ -462,8 +460,6 @@ export const UPGRADES = Object.freeze({
     requires: ARC_CORE_UPGRADE_ID,
     effectType: "omegaArcCoreVehicle",
     merchant: LEVEL_TWO_MERCHANT_ID,
-    acquisitionMode: "craft",
-    hiddenFromShop: true,
     oneTimePurchase: true
   },
 

@@ -733,7 +733,6 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.tiles.skyIslandTop, `${approvedWorldBase}/sky-island-top.webp`);
     this.load.image(ASSET_KEYS.tiles.chestNormal, `${approvedWorldBase}/chest-normal.webp`);
     this.load.image(ASSET_KEYS.tiles.chestRare, `${approvedWorldBase}/chest-rare.webp`);
-    this.load.image(ASSET_KEYS.tiles.ancientRelicCache, `${approvedWorldBase}/ancient-relic-cache-v1.webp`);
     this.load.image(ASSET_KEYS.tiles.townExit, `${approvedWorldBase}/town-exit.webp`);
 
     const soil = ASSET_KEYS.tiles.dynamicSoil;
@@ -891,12 +890,6 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.lootPickups.obsidian, "sprites/UI/second-world/obsidian-icon.webp");
     this.load.image(ASSET_KEYS.ui.lootPickups.emberOre, "sprites/UI/second-world/ember-ore-icon.webp");
     this.load.image(ASSET_KEYS.ui.lootPickups.magmaCrystal, "sprites/UI/second-world/magma-crystal-icon.webp");
-    const heavenblocksUiBase = "sprites/UI/heavenblocks-v1";
-    this.load.image(ASSET_KEYS.ui.heavenblocks.ancientRelicToken, `${heavenblocksUiBase}/ancient-relic-token-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.ancientRelicIcon, `${heavenblocksUiBase}/ancient-relic-icon-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.aetherTurbine, `${heavenblocksUiBase}/aether-turbine-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.haloRegulator, `${heavenblocksUiBase}/halo-regulator-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.eclipseCrucible, `${heavenblocksUiBase}/eclipse-crucible-v1.png`);
   }
 
   createAnimations() {

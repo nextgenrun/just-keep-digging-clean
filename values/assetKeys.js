@@ -67,13 +67,6 @@ export const ASSET_KEYS = Object.freeze({
       emberOre: "loot-pickup-ember-ore",
       magmaCrystal: "loot-pickup-magma-crystal",
     },
-    heavenblocks: {
-      ancientRelicToken: "heavenblocks-ancient-relic-token-v1",
-      ancientRelicIcon: "heavenblocks-ancient-relic-icon-v1",
-      aetherTurbine: "heavenblocks-aether-turbine-v1",
-      haloRegulator: "heavenblocks-halo-regulator-v1",
-      eclipseCrucible: "heavenblocks-eclipse-crucible-v1",
-    },
   },
   constellations: {
     signs: {
@@ -369,7 +362,6 @@ export const ASSET_KEYS = Object.freeze({
     skyIslandTop: "tile-approved-sky-island-top",
     chestNormal: "tile-approved-chest-normal",
     chestRare: "tile-approved-chest-rare",
-    ancientRelicCache: "tile-approved-ancient-relic-cache-v1",
     townExit: "tile-approved-town-exit",
     darkDirtNormal: "tile-dark-dirt-normal",
     darkDirtNormalHp1: "tile-dark-dirt-normal-hp1",

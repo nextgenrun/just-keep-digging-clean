@@ -4,9 +4,6 @@ const PLAY_SCENE_REQUIRED_PATHS = Object.freeze([
   "digSystem",
   "playerController",
   "hudSystem",
-  "heavenblocksProgressionSystem",
-  "heavenblocksAccessSystem",
-  "craftingSystem",
 ]);
 
 const CAVE_SCENE_REQUIRED_PATHS = Object.freeze([
@@ -168,7 +165,6 @@ export const RUNTIME_CANARY_CONFIG = Object.freeze({
     frozenFrame: "game-loop-frozen",
     sceneStalled: "scene-stalled",
     sceneInvariant: "scene-invariant-missing",
-    heavenblocksInvariant: "heavenblocks-progression-invariant",
   }),
   messages: Object.freeze({
     lifecycle: "Runtime lifecycle",
@@ -181,7 +177,6 @@ export const RUNTIME_CANARY_CONFIG = Object.freeze({
     frozenFrame: "The game loop stopped advancing while the page was active",
     sceneStalled: "Scene exceeded its expected active time",
     sceneInvariant: "Active scene is missing required collaborators",
-    heavenblocksInvariant: "Heavenblocks progression safety invariant failed",
     noRecentEvents: "No failures recorded in this session.",
     copySuccess: "Health report copied.",
     copyFailure: "Copy failed; use window.__jkdHealth.snapshot().",

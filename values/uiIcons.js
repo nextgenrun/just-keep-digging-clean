@@ -40,7 +40,7 @@ export const SELL_CAPABLE_MERCHANT_IDS = Object.freeze([
 
 export const UI_MERCHANT_ICONS = Object.freeze({
   moneyMonster: "moneyMonster",
-  magmaMoneyMonster: "power",
+  magmaMoneyMonster: "sell",
   playerUpgrades: "upgrade",
   gearMerchant: "pickaxe",
   boboMerchant: "bobo",

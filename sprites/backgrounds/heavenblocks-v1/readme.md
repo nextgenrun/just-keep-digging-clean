@@ -1,8 +1,8 @@
 # Heavenblocks v1 Runtime Art
 
 **Date:** 2026-07-26
-**Status:** Runtime progression integration
-**Gameplay systems changed:** Access, protected collision, rewards, and crafting
+**Status:** Runtime visual integration
+**Gameplay systems changed:** No
 
 This folder contains the production visual split derived from the three
 approved upward-progression mockups:
@@ -23,11 +23,9 @@ the transparent façade stays at the exact 1920 by 1080 composition size.
 `values/heavenblocksVisualConfig.js` owns those presentation values and each
 region position.
 
-The images remain presentation-only, while `values/heavenblocksAccessConfig.js`
-owns the aligned protected floors, altars, arrivals, and interaction anchors.
-`HeavenblocksProgressionSystem` owns permanent unlock and component state.
-Relics are cumulative and never consumed. Use `?heavenblocksVisuals=0` for an
-art comparison or `?heavenblocksGameplay=0` to disable the gameplay layer.
+The integration is visual-only. These assets do not define collision, mining
+tiles, access requirements, relic consumption, crafting recipes, or save data.
+Use `?heavenblocksVisuals=0` for a reversible comparison.
 
 The `sources/` folder retains the chroma-key façade intermediates used to
 produce the transparent PNGs.

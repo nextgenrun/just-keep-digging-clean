@@ -142,7 +142,6 @@ const STATIC_SOURCE_KEYS = Object.freeze([
   ASSET_KEYS.tiles.rootOverlay,
   ASSET_KEYS.tiles.rootOverlayDeep,
   ASSET_KEYS.tiles.geodeInterior,
-  ASSET_KEYS.tiles.ancientRelicCache,
 ]);
 
 export const TILESET_SOURCE_KEYS = Object.freeze([
@@ -182,7 +181,6 @@ export const TILE_RENDER_INDEX = Object.freeze({
   ROOT_OVERLAY_DEEP: STATIC_INDEX_START + 22,
   GLOW_CRYSTAL: -1,
   GEODE_INTERIOR: STATIC_INDEX_START + 23,
-  ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 24,
 });
 
 function visualHash(tx, ty, seed, salt = 0) {
@@ -330,7 +328,7 @@ export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTi
   }
 
   if (type === TILE_TYPES.ANCIENT_RELIC_CACHE) {
-    return TILE_RENDER_INDEX.ANCIENT_RELIC_CACHE;
+    return TILE_RENDER_INDEX.CHEST_RARE;
   }
 
   if (type === TILE_TYPES.GLOW_CRYSTAL) {
