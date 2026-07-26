@@ -50,7 +50,7 @@ const productionValues = fs.readFileSync(
   "utf8"
 );
 
-assert.match(html, /REVIEW ONLY/);
+assert.match(html, /APPROVED REFERENCE/);
 assert.match(html, /60 fps/);
 assert.match(html, /<video/);
 assert.doesNotMatch(html, /<canvas|requestAnimationFrame/);

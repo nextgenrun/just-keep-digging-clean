@@ -3,23 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NPC Planted Idle Library v5</title>
-  <link rel="stylesheet" href="style.css?v=20260726-v11-motion">
-  <link rel="stylesheet" href="motion.css?v=20260726-v11-motion">
+  <title>NPC Approved Activity Library v6</title>
+  <link rel="stylesheet" href="style.css?v=20260726-v12-approved">
+  <link rel="stylesheet" href="motion.css?v=20260726-v12-approved">
 </head>
 <body>
   <header class="hero">
-    <p class="eyebrow">PRODUCTION DIRECTION · WALKING REMOVED</p>
-    <h1>NPC Planted Idle Library v5</h1>
-    <p class="lede">Every merchant now has a slow four-frame quiet loop plus
-      seven larger stand-still activities. Hands, eyes, ears, tails, props,
-      glow, chains, and embers move while the body root remains fixed.</p>
+    <p class="eyebrow">PRODUCTION · ACCEPTED ACTIVITIES ONLY</p>
+    <h1>NPC Approved Activity Library v6</h1>
+    <p class="lede">Each merchant keeps the original calm idle as their living
+      baseline, then occasionally eases into one of seven approved stand-still
+      activities. No walking, roaming, sway, body-scale wobble, or rejected
+      quiet replacement is active.</p>
     <div class="facts" aria-label="Runtime facts">
       <strong>Town rhythm</strong>
-      <span>≈86% quiet</span>
+      <span>≈88% original idle</span>
       <span>maximum 1 large activity</span>
-      <span>66 Piskel-locked frames</span>
-      <span>4-frame rooted quiet loops</span>
+      <span>42 approved Piskel frames</span>
+      <span>6 rejected concepts excluded</span>
       <span>0.00 px transform drift</span>
     </div>
   </header>
@@ -38,42 +39,56 @@
       exact 138 px actors
     </label>
     <div class="status">
-      <span><b id="quietCount">6</b> quiet</span>
+      <span><b id="quietCount">6</b> original idle</span>
       <span><b id="activeCount">0</b> active</span>
       <span><b id="anchorError">0.00</b> px anchor error</span>
     </div>
   </section>
 
   <main>
-    <section id="npcGrid" class="npc-grid" aria-label="NPC planted idle previews"></section>
+    <section id="npcGrid" class="npc-grid"
+      aria-label="NPC approved planted activity previews"></section>
 
-    <section class="evidence" aria-label="Generated rooted idle-loop boards">
+    <section class="evidence" aria-label="Approved activity source boards">
       <article>
-        <h2>Character quiet-loop frames</h2>
-        <img src="npc-idle-loop-character-v11.png?v=20260726-v11"
-          alt="Four chronological rooted idle frames for Player Upgrades, Gear Merchant, and Bobo">
+        <h2>Character activities · set A</h2>
+        <img
+          src="../npc-idle-activities-v3/npc-activity-director-board-character-v3.png?v=20260726-v12"
+          alt="Approved activities for Player Upgrades, Gear Merchant, and Bobo">
       </article>
       <article>
-        <h2>Creature quiet-loop frames</h2>
-        <img src="npc-idle-loop-creature-v11.png?v=20260726-v11"
-          alt="Four chronological rooted idle frames for Money, Gem, and Magma merchants">
+        <h2>Creature activities · set A</h2>
+        <img
+          src="../npc-idle-activities-v3/npc-activity-director-board-creature-v3.png?v=20260726-v12"
+          alt="Approved activities for Money, Gem, and Magma merchants">
+      </article>
+      <article>
+        <h2>Character activities · set B</h2>
+        <img src="npc-planted-idles-character-extension-v5.png?v=20260726-v12"
+          alt="Additional approved activities for the three character merchants">
+      </article>
+      <article>
+        <h2>Creature activities · set B</h2>
+        <img src="npc-planted-idles-creature-extension-v5.png?v=20260726-v12"
+          alt="Additional approved activities for the three creature merchants">
       </article>
     </section>
 
     <aside class="event-panel">
       <div>
-        <p class="eyebrow">ANCHOR-LOCKED DIRECTOR</p>
+        <p class="eyebrow">CALM ANCHOR-LOCKED DIRECTOR</p>
         <h2>Town event log</h2>
-        <p>Quiet frames dissolve over 520 ms and rest between cycles. Larger
-          activities retain the deliberate 1.2-second blend. Piskel locks the
-          root center and foot baseline for every frame.</p>
+        <p>Activities ease in over 1.4 seconds and return over 1.65 seconds,
+          followed by a 22–38 second individual rest. Piskel locks every
+          accepted pose while the original idle supplies natural baseline
+          motion.</p>
       </div>
       <ol id="eventLog"></ol>
     </aside>
   </main>
 
-  <footer>Built-in ImageGen motion frames, Piskel round-trip alignment, and
-    production v11 alpha derivatives. Runtime rollback: <code>?npcActivities=0</code>.</footer>
-  <script type="module" src="app.js?v=20260726-v11-motion"></script>
+  <footer>Original v6 idle baselines plus accepted-only v12 Piskel activities.
+    Runtime rollback: <code>?npcActivities=0</code>.</footer>
+  <script type="module" src="app.js?v=20260726-v12-approved"></script>
 </body>
 </html>

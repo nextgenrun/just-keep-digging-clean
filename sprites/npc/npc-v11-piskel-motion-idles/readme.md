@@ -1,7 +1,8 @@
-# NPC v11 rooted motion idles
+# NPC v11 rooted motion idles — rejected archive
 
-Production pack for all six town merchants. Each merchant has four chronological
-quiet-loop frames plus seven larger planted activities: 66 lossless WebPs total.
+Review archive for all six town merchants. Its four generated quiet-loop frames
+were rejected and this pack is no longer loaded by production. The seven
+accepted activities were isolated into `npc-v12-piskel-approved-activities/`.
 
 Every frame is stored in an editable per-merchant `.piskel` document. The build
 calibrates generated quiet frames once, then locks the lower-body root to X 256,
@@ -14,4 +15,4 @@ Regenerate with:
 python pipelines/piskel/2026-07-26-build-npc-motion-idle-piskel-package.py
 ```
 
-The previous `npc-v10-piskel-idles/` static pack remains intact for comparison.
+Keep this folder intact only for provenance and comparison.

@@ -25,6 +25,7 @@ assert not any("underground-biome-smooth-motion-v3" in path.parts for path in as
 for relative_directory in (
     "sprites/npc/campfire/generated",
     "sprites/tiles/dynamic-soil",
+    "sprites/backgrounds/world-visual-v2/depth/biome-motion-v3",
 ):
     expected = {
         path.resolve()
@@ -86,6 +87,7 @@ for contract in (
     '".wasm": "application/wasm"',
     '".webp": "image/webp"',
     '".webm": "video/webm"',
+    '".mp4": "video/mp4"',
     '".ktx2": "image/ktx2"',
 ):
     assert contract in server_source, f"missing production HTTP contract: {contract}"

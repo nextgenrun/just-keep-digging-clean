@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "runtimeSize": [
+    1536,
+    848
+  ],
+  "webpQuality": 92,
+  "complete": false,
+  "count": 5,
+  "cards": [
+    {
+      "index": 1,
+      "id": "mossback-wanderer",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-01-mossback-wanderer-imagegen-v2.png",
+      "sourceSize": [
+        1691,
+        930
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/01-mossback-wanderer-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "9768ec7f8478076f7965a4787bd0ec49e00659f88fc1cfb622e523279cf1c3d2",
+      "bytes": 390896
+    },
+    {
+      "index": 2,
+      "id": "bellhorn-grazer",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-02-bellhorn-grazer-imagegen-v2.png",
+      "sourceSize": [
+        1635,
+        962
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/02-bellhorn-grazer-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "58cc0cd1e7df0462b0aa0f0113b9771220f8cdac204d760ec684ba1732bc017b",
+      "bytes": 514114
+    },
+    {
+      "index": 3,
+      "id": "lantern-jaw",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-03-lantern-jaw-imagegen-v2.png",
+      "sourceSize": [
+        1870,
+        841
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/03-lantern-jaw-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "cb527daf39517d07df229b3a105e65b5d17b504c7b3c32d2c6328697e6c502fc",
+      "bytes": 228202
+    },
+    {
+      "index": 4,
+      "id": "archwalker",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-04-archwalker-imagegen-v2.png",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/04-archwalker-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "955132f11df9dc354dcb304de068bafba61e82a9fc20a22f5b5d25c6687a31a8",
+      "bytes": 260666
+    },
+    {
+      "index": 5,
+      "id": "shale-mother",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-05-shale-mother-imagegen-v2.png",
+      "sourceSize": [
+        1729,
+        910
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/05-shale-mother-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "975c56eb43caf03932bdb196ea8613539b87601b6342a381c05c16c3c2cc6beb",
+      "bytes": 409248
+    }
+  ]
+}

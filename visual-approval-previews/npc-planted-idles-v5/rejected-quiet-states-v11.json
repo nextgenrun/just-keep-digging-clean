@@ -1,0 +1,39 @@
+{
+  "created": "2026-07-26",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeApproved": false,
+  "reason": "Rejected by user; excluded from preload, runtime keys, preview controls, and active Piskel sources.",
+  "supersededBy": "sprites/npc/npc-v12-piskel-approved-activities/manifest.json",
+  "states": [
+    {
+      "merchant": "Player Upgrades",
+      "label": "Quiet ready"
+    },
+    {
+      "merchant": "Gear Merchant",
+      "label": "Heavy rest"
+    },
+    {
+      "merchant": "Bobo Merchant",
+      "label": "Friendly wait"
+    },
+    {
+      "merchant": "Money Monster",
+      "label": "Guard the coin"
+    },
+    {
+      "merchant": "Gem Power Merchant",
+      "label": "Grounded charge"
+    },
+    {
+      "merchant": "Magma Money Monster",
+      "label": "Balanced guard"
+    }
+  ],
+  "archivedSources": [
+    "sprites/npc/npc-v11-piskel-motion-idles",
+    "visual-approval-previews/npc-planted-idles-v5/npc-idle-loop-character-v11.png",
+    "visual-approval-previews/npc-planted-idles-v5/npc-idle-loop-creature-v11.png"
+  ]
+}

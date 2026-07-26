@@ -23,17 +23,17 @@ reload telegraph, and Hardcore/Wurm save sanitization.
 
 `2026-07-16-scenic-shallow-cavern-smoke.mjs` keeps its pilot-era filename while
 verifying complete row 65..5064 ten-biome scenic coverage, exact region/boundary
-resolution, surface-only startup residency, deterministic five-card variants,
-current/intersecting-region streaming and release, exact final-card crops,
-native-size 1536x1024 image cards, camera-response and legacy-pool rollback,
+resolution, surface-only startup residency, deterministic six-card variants,
+one smooth V3 card per biome, current/intersecting-region mixed-media streaming
+and release, exact final-card crops, native-size 1536x1024 cards, 60 fps video
+playback, FPS-floor pause/resume, camera-response and legacy-pool rollback,
 ready-only generic-backdrop suppression, production asset headers/dimensions,
 absence of procedural background drawings, and zero gameplay mutation.
 
 `2026-07-26-underground-baked-motion-runtime-contract.mjs` verifies the ten V2
 WebMs are marked rejected and review-only, their evidence hashes remain intact,
-all production pools contain exactly five approved images and zero videos, the
-underground stage has no video playback branch, and gameplay mutation APIs
-remain absent.
+all production pools exclude V2 while containing only five approved images and
+one approved V3 MP4, and gameplay mutation APIs remain absent.
 
 `2026-07-26-underground-motion-review.mjs` verifies that the rejected gallery
 uses one native `<video>` evidence player, has no Canvas renderer, is isolated
@@ -42,8 +42,12 @@ from production registration, and preserves its source/keyframe/biome mapping.
 `2026-07-26-underground-smooth-motion-v3-review.mjs` verifies the single
 Weathered Roots replacement candidate is an eight-second 60 fps H.264 file
 built from the exact source through subpixel affine sampling, has no optical
-flow or overlay renderer, stays review-only, and is absent from production
-registration.
+flow or overlay renderer, and remains byte-hashed as the approved reference.
+
+`2026-07-26-underground-smooth-motion-v3-runtime-contract.mjs` verifies the ten
+production H.264 loops, exact 1536x1024 dimensions, 480-frame/eight-second
+timing, hashes, source mappings, complete-image motion method, and one-to-one
+registration across the live biome pools.
 
 `2026-07-26-underground-baked-camera-motion-contract.mjs` verifies ten bounded
 camera-response profiles, three deliberately anchored industrial/material
@@ -73,19 +77,19 @@ correction: the v2 PNG and approved source hashes, exact 1672x139 Option A crop,
 foundation (including shader depth rebinding), and unchanged town beauty plus
 diggable underground facade.
 
-`2026-07-26-npc-activity-runtime-contract.mjs` guards the promoted v11 Piskel
-merchant pack: 66 unique exports, six editable timelines, four distinct quiet
+`2026-07-26-npc-activity-runtime-contract.mjs` guards the promoted v12
+accepted-only Piskel merchant pack: 42 unique exports, seven editable activity
 frames per merchant, sub-pixel lower-body root drift, zero bottom/edge drift,
-measured Gem/Magma panel separation, real quiet-texture advancement,
+measured Gem/Magma panel separation, original video/static idle baselines,
 one-at-a-time scheduling, player reactions, fixed X/Y/rotation/display size,
-shop coordinates, and runtime health publication. It rejects every walking or
-whole-body wobble hook.
+shop coordinates, and runtime health publication. It rejects every archived
+quiet frame, walking path, and whole-body wobble hook.
 
-`2026-07-26-npc-planted-idle-review-contract.mjs` guards both v5 activity
-boards and the two v11 ImageGen quiet-loop boards, 66 review exports, eleven
-Piskel frames per merchant, 520 ms quiet dissolves, 1.2-second activity
-cross-fades, at least 85% quiet time, no CSS transform animation, and strict
-preview-versus-runtime separation.
+`2026-07-26-npc-planted-idle-review-contract.mjs` guards the four approved
+activity boards, 42 review exports, seven Piskel frames per merchant,
+1.4/1.65-second activity cross-fades, at least 88% original-idle time, explicit
+rejection metadata for the six removed quiet concepts, no CSS transform
+animation, and strict preview-versus-runtime separation.
 
 `2026-07-26-npc-alive-walking-review-contract.mjs` retains the rejected v4
 walk art only as provenance. It requires rejection metadata, a non-animated

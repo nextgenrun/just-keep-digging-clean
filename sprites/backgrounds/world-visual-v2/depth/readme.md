@@ -1,19 +1,23 @@
 # Scenic-v2 Underground Depth Backdrops
 
-The active production package is `biome-variation-v2/`: 50 background-only
-1536x1024 WebP cards covering all ten material bands from row 65 through 5064.
-Each band receives five deterministic compositions. The renderer streams the
-active band plus its world-space neighbor envelope and places every plate,
-building, bridge, ruin, root, rail, and machine behind the solid terrain facade.
+The active production package combines `biome-variation-v2/` and
+`biome-motion-v3/`: 50 background-only 1536x1024 WebP cards plus ten approved
+1536x1024 H.264 loops covering all ten material bands from row 65 through 5064.
+Each band receives five deterministic static compositions and one smooth
+whole-image loop. The renderer streams the active band plus its world-space
+neighbor envelope and places every plate, building, bridge, ruin, root, rail,
+and machine behind the solid terrain facade.
 
-Production motion is limited to restrained movement of the complete finished
-image card. The rejected optical-flow WebMs, pooled particles, drifting mist,
-and emissive breathing are not registered by this renderer. The old V2 WebMs
-remain immutable review evidence under `biome-motion-v2/`, not runtime assets.
+Production V3 motion is an eight-second, 60 fps subpixel affine drift of the
+complete finished image. The rejected optical-flow WebMs, pooled particles,
+drifting mist, and emissive breathing are not registered by this renderer. The
+old V2 WebMs remain immutable review evidence under `biome-motion-v2/`, not
+runtime assets.
 
 - `?biomeBackdropVariants=0` restores the legacy Level 1 pool and leaves deeper
   bands on the generic material backdrop.
-- `?biomeBackdropMotion=0` disables complete-image camera response.
+- `?biomeBackdropMotion=0` freezes V3 playback and disables complete-image
+  camera response.
 - `?levelOneBackdrops=0` or `?shallowCavern=0` disables the depth-backdrop stage.
 
 ## Legacy Level 1 plates

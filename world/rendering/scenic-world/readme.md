@@ -32,22 +32,25 @@ packs bounded instead of decoding the complete 5,000-tile-deep art library at
 startup.
 
 `WorldVisualDepthBackdropStage` covers all ten material bands from row 65
-through row 5064. Each biome owns five background-only 1536x1024 WebP cards.
+through row 5064. Each biome owns five background-only 1536x1024 WebP cards
+plus one approved 1536x1024, eight-second, 60 fps H.264 V3 loop.
 The stage keeps only intersecting regions and their visible cards plus one
-neighbor alive, streams their image pool through `WorldVisualAssetCache`, and
+neighbor alive, streams their mixed media pool through `WorldVisualAssetCache`, and
 releases departed media. Boundary views may coexist, while partial last cards
 are cropped exactly to the configured ground-band boundary.
 
 The rejected V2 optical-flow WebMs are not registered, loaded, or played. Their
 source paintings remain review evidence, but the warped/choppy files cannot
 enter a production biome pool. The previous Graphics-based signature,
-duplicate-emissive, and drifting-mist paths are likewise absent. Each current
-plate remains one finished-image card.
+duplicate-emissive, and drifting-mist paths are likewise absent. Each V3 loop
+uses a seamless subpixel affine transform of the complete finished painting:
+no optical flow, morphing, generated in-between art, or object overlay. Video
+automatically pauses below the configured FPS floor and resumes after recovery.
 
 All backdrop layers remain at negative render depth behind the opaque terrain
 facade at depth `0.1`. Consequently, depicted bridges, roots, buildings and
 architecture never become ground or collision. Generic material backdrops
-remain until every image required by the selected region is resident.
+remain until every image and video required by the selected region is resident.
 
 `WorldVisualDepthCameraMotion` changes only the position of the complete media
 cards. It applies one shared seam-safe offset to every active card, so every
@@ -59,7 +62,8 @@ element, Canvas drawing, Phaser Graphics, tweened primitive or per-object
 overlay.
 
 Use `?biomeBackdropVariants=0` to restore the old Level 1 plates,
-`?biomeBackdropMotion=0` to disable complete-card camera response, or
+`?biomeBackdropMotion=0` to freeze V3 playback and disable complete-card camera
+response, or
 `?levelOneBackdrops=0` / `?shallowCavern=0` to disable the whole scenic stage.
 All three controls are presentation-only and leave hidden tile state unchanged.
 

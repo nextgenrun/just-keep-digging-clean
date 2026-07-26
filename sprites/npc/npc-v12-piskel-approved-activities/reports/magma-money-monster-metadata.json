@@ -1,0 +1,355 @@
+{
+  "sourcePiskel": "sprites/npc/npc-v12-piskel-approved-activities/piskel/magma-money-monster.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 7,
+  "frameSize": [
+    512,
+    512
+  ],
+  "sheetGrid": [
+    7,
+    1
+  ],
+  "sheetSize": [
+    3584,
+    512
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 6,
+  "runtimeFps": 1,
+  "phaserKey": null,
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.42,
+    "anchorAlphaThreshold": 32,
+    "anchorSmoothingWindow": 1,
+    "targetAnchorX": 256,
+    "bottomY": 496,
+    "minUniformScale": 1.0,
+    "maxUniformScale": 1.0,
+    "runtimeBaselineY": 496,
+    "sizePolicy": "one fixed 1.0 Piskel scale for all accepted activity frames"
+  },
+  "runtimeOutputs": [
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-work.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-rare.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-player.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-inspect.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-habit.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-signature.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/magma-money-monster-showcase.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        13,
+        60,
+        449,
+        496
+      ],
+      "bboxWidth": 436,
+      "bboxHeight": 436,
+      "centerX": 231.0,
+      "rootAnchorX": 255.66,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 68570,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        9,
+        60,
+        466,
+        496
+      ],
+      "bboxWidth": 457,
+      "bboxHeight": 436,
+      "centerX": 237.5,
+      "rootAnchorX": 255.57,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 74044,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        30,
+        60,
+        469,
+        496
+      ],
+      "bboxWidth": 439,
+      "bboxHeight": 436,
+      "centerX": 249.5,
+      "rootAnchorX": 256.07,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 72650,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        55,
+        60,
+        447,
+        496
+      ],
+      "bboxWidth": 392,
+      "bboxHeight": 436,
+      "centerX": 251.0,
+      "rootAnchorX": 255.7,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 67484,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        26,
+        60,
+        444,
+        496
+      ],
+      "bboxWidth": 418,
+      "bboxHeight": 436,
+      "centerX": 235.0,
+      "rootAnchorX": 256.36,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 63745,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        73,
+        60,
+        432,
+        496
+      ],
+      "bboxWidth": 359,
+      "bboxHeight": 436,
+      "centerX": 252.5,
+      "rootAnchorX": 255.66,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 62718,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        14,
+        50,
+        467,
+        496
+      ],
+      "bboxWidth": 453,
+      "bboxHeight": 446,
+      "centerX": 240.5,
+      "rootAnchorX": 255.51,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 73272,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polish": {
+    "skipped": false,
+    "anchorMode": "alpha-lower-body",
+    "targetAnchor": [
+      256.0,
+      496.0
+    ],
+    "uniformScale": 1.0,
+    "before": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 12.0,
+      "maxRootAnchorDriftPx": 0.7,
+      "maxAnchorDriftPx": 0.7,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 436.0
+    },
+    "after": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 12.0,
+      "maxRootAnchorDriftPx": 0.7,
+      "maxAnchorDriftPx": 0.7,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 436.0
+    },
+    "shifts": [
+      {
+        "frame": 0,
+        "sourceAnchor": [
+          255.66,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.66,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceAnchor": [
+          255.57,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.57,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceAnchor": [
+          256.07,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.07,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceAnchor": [
+          255.7,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.7,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceAnchor": [
+          256.36,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.36,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceAnchor": [
+          255.66,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.66,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceAnchor": [
+          255.51,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.51,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      }
+    ]
+  },
+  "alignmentOverlayPath": "sprites/npc/npc-v12-piskel-approved-activities/reports/magma-money-monster-alignment-overlay.png",
+  "driftReportPath": "sprites/npc/npc-v12-piskel-approved-activities/reports/magma-money-monster-drift-report.json"
+}
