@@ -37,11 +37,17 @@ try {
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 
     $timestamp = Get-Date
-    $statusLines = (Invoke-GitText @("status", "--porcelain=v1", "-uall")).Lines
-    $untrackedFiles = (Invoke-GitText @("ls-files", "--others", "--exclude-standard")).Lines |
-        Where-Object { $_ }
-    $candidateFiles = (Invoke-GitText @("ls-files", "--cached", "--others", "--exclude-standard")).Lines |
-        Where-Object { $_ }
+    # Keep zero-, one-, and many-line Git results as arrays. PowerShell otherwise
+    # unwraps pipeline output, and StrictMode makes `.Count` fail for `$null`.
+    $statusLines = @((Invoke-GitText @("status", "--porcelain=v1", "-uall")).Lines)
+    $untrackedFiles = @(
+        (Invoke-GitText @("ls-files", "--others", "--exclude-standard")).Lines |
+            Where-Object { $_ }
+    )
+    $candidateFiles = @(
+        (Invoke-GitText @("ls-files", "--cached", "--others", "--exclude-standard")).Lines |
+            Where-Object { $_ }
+    )
     $upstreamResult = Invoke-GitText @("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}") -AllowFailure
     $upstream = if ($upstreamResult.ExitCode -eq 0) { $upstreamResult.Lines[0].Trim() } else { $null }
 
@@ -62,7 +68,7 @@ try {
             $item = Get-Item -LiteralPath $candidateFile
             if ($item.Length -ge 25MB) {
                 $attributeResult = Invoke-GitText @("check-attr", "filter", "--", $candidateFile) -AllowFailure
-                $filter = if ($attributeResult.Lines.Count) {
+                $filter = if (@($attributeResult.Lines).Count -gt 0) {
                     ($attributeResult.Lines[0] -split ":\s*", 3)[-1]
                 } else {
                     "unspecified"
