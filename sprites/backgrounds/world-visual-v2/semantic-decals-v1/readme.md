@@ -10,10 +10,10 @@ collision, rewards, and saves.
 - `sky-stars-beauty-v1.png` contains six visible physical rarity states.
 - `sky-stars-emissive-v1.png` is derived from the beauty atlas so its glow stays
   pixel-aligned.
-- `special-reward-insets-beauty-v2.png` replaces the legacy `+5`, `+50`,
+- `special-reward-insets-beauty-v1.png` replaces the legacy `+5`, `+50`,
   speed, crit, berserk, combo, and legend emblems with seven physical 256 px
-  ore/rune formations and adds the Ancient Relic Cache in frame 7.
-- `special-reward-insets-emissive-v2.png` supplies their aligned, softly
+  ore/rune formations derived from the same image-generated sources.
+- `special-reward-insets-emissive-v1.png` supplies their aligned, softly
   pulsing light response without HTML or Phaser-drawn semantic glyphs.
 - `bedrock-seamless-v1.webp` is the continuous bedrock-only material.
 - `semantic-decals-preview-v1.webp` is review-only.
@@ -26,7 +26,6 @@ Rebuild with:
 
 ```powershell
 python ai-tools/2026-07-17-build-scenic-semantic-assets.py
-python ai-tools/2026-07-26-build-heavenblocks-progression-assets.py
 ```
 
 Runtime rollback is controlled by the query parameter documented in

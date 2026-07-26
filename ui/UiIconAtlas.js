@@ -12,14 +12,12 @@ export function getUiIconFrame(iconName) {
 }
 
 export function createUiIcon(scene, iconName, options = {}) {
-  if (!scene?.add) return null;
-  const directTexture = scene.textures?.exists(iconName) === true;
-  if (!directTexture && !scene.textures?.exists(UI_ICON_ATLAS.key)) return null;
+  if (!scene?.add || !scene?.textures?.exists(UI_ICON_ATLAS.key)) return null;
   const image = scene.add.image(
     options.x ?? 0,
     options.y ?? 0,
-    directTexture ? iconName : UI_ICON_ATLAS.key,
-    directTexture ? undefined : getUiIconFrame(iconName)
+    UI_ICON_ATLAS.key,
+    getUiIconFrame(iconName)
   );
   const size = options.size ?? UI_ICON_ATLAS.displaySize;
   image.setDisplaySize(size, size).setOrigin(0.5);

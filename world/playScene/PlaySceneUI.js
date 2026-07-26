@@ -657,7 +657,6 @@ export function setupUIMethods(prototype) {
     }
 
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
-    this.worldModel.applyHeavenblocksLayout?.();
     for (const tile of appliedTiles) {
       this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
     }
@@ -671,15 +670,6 @@ export function setupUIMethods(prototype) {
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);
-    const recoveredRelicTiles = this.worldModel.ensureAncientRelicMilestoneReachable?.(
-      this.ancientRelicSystem?.getCount?.() || 0,
-    ) || [];
-    for (const tile of recoveredRelicTiles) {
-      this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
-    }
-    this.heavenblocksProgressionSystem?.loadSaveData?.(savedData.heavenblocksData, {
-      relicCount: this.ancientRelicSystem?.getCount?.() || 0,
-    });
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)
@@ -789,7 +779,6 @@ export function setupUIMethods(prototype) {
         this.caveEntryController?.getSaveData(),
         this.ancientRelicSystem?.getSaveData(),
         this.retentionProgressSystem?.getSaveData(),
-        this.heavenblocksProgressionSystem?.getSaveData(),
       );
       if (saveResult === false) saved = false;
     } catch (error) {

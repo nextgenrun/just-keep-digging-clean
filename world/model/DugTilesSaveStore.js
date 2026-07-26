@@ -8,7 +8,6 @@ import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
 import { RESOURCE_ZERO_TOTALS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
-import { sanitizeHeavenblocksProgressionData } from "../../values/heavenblocksProgressionConfig.js";
 import { sanitizeRetentionProgressData } from "../../systems/progression/retentionProgressState.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
@@ -197,8 +196,8 @@ export class DugTilesSaveStore {
     return null;
   }
 
-  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null, heavenblocksData = null) {
-    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId, caveSceneData, ancientRelicData, retentionData, heavenblocksData);
+  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null) {
+    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId, caveSceneData, ancientRelicData, retentionData);
     const localSaved = this.saveToLocalStorage(payload);
     if (!localSaved) return false;
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
@@ -206,9 +205,9 @@ export class DugTilesSaveStore {
     return this.saveToEndpoint(payload);
   }
 
-  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null, heavenblocksData = null) {
+  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null) {
     return {
-      version: 10,
+      version: 9,
       updatedAt: new Date().toISOString(),
       playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
@@ -230,7 +229,6 @@ export class DugTilesSaveStore {
       caveSceneData: sanitizeCaveSceneData(caveSceneData),
       ancientRelicData: sanitizeAncientRelicData(ancientRelicData),
       retentionData: sanitizeRetentionProgressData(retentionData),
-      heavenblocksData: sanitizeHeavenblocksProgressionData(heavenblocksData),
     };
   }
 
@@ -263,7 +261,6 @@ export class DugTilesSaveStore {
       caveSceneData: sanitizeCaveSceneData(payload.caveSceneData),
       ancientRelicData: sanitizeAncientRelicData(payload.ancientRelicData),
       retentionData: sanitizeRetentionProgressData(payload.retentionData),
-      heavenblocksData: sanitizeHeavenblocksProgressionData(payload.heavenblocksData),
       playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }

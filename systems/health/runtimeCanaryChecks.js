@@ -31,21 +31,6 @@ function finding(config, code, severity, message, context = {}) {
   };
 }
 
-function heavenblocksFindings(scene, config) {
-  const findings = [];
-  const health = scene?.heavenblocksAccessSystem?.getHealthSnapshot?.();
-  if (!health || health.enabled === false) return findings;
-  if (!health.promptReady || !health.layoutReady || !health.progressionReady) {
-    findings.push(finding(
-      config,
-      config.events.heavenblocksInvariant,
-      config.severity.error,
-      config.messages.heavenblocksInvariant,
-      { sceneKey: "PlayScene", health },
-    ));
-  }
-  return findings;
-}
 export function evaluateRuntimeCanaries(
   game,
   sampleState,
@@ -112,9 +97,6 @@ export function evaluateRuntimeCanaries(
         `${config.messages.sceneInvariant}: ${key}`,
         { sceneKey: key, missingPaths },
       ));
-    }
-    if (key === "PlayScene") {
-      findings.push(...heavenblocksFindings(scene, config));
     }
   }
 

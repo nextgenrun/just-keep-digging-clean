@@ -131,13 +131,13 @@ export class ArcCoreVehicleSystem {
     this.prompt
       .setText(unlocked
         ? `[${USER_SETTINGS.getKeyLabel("interact")}] Pilot ${profile.displayName || "Arc Core"}`
-        : "Arc Core locked\nForge it with the Molten Money Monster")
+        : "Arc Core locked\nBuy from Molten Money Monster")
       .setVisible(true);
 
     if (interactPressed) {
       this._interactConsumed = true;
       if (unlocked) this.setActive(true);
-      else this.scene.hudSystem?.flashStatus?.("Complete the Heavenblocks, then forge this Arc Core with the Molten Money Monster.", "#FFB347", 2200);
+      else this.scene.hudSystem?.flashStatus?.("The Molten Money Monster sells this Arc Core.", "#FFB347", 1800);
     }
     return this._interactConsumed;
   }

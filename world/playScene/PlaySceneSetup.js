@@ -50,9 +50,7 @@ import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
-import { HeavenblocksProgressionSystem } from "../../systems/progression/HeavenblocksProgressionSystem.js";
 import { RetentionProgressSystem } from "../../systems/progression/RetentionProgressSystem.js";
-import { CraftingSystem } from "../../systems/crafting/CraftingSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
@@ -70,7 +68,6 @@ import { ScreenRecordSystem } from "../../systems/visual/ScreenRecordSystem.js";
 import { NextPromiseHudSystem } from "../../systems/visual/NextPromiseHudSystem.js";
 import { MiningIntentPreviewSystem } from "../../systems/visual/MiningIntentPreviewSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
-import { RelicDiscoveryFxSystem } from "../../systems/visual/RelicDiscoveryFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
@@ -102,8 +99,6 @@ import { DepthGateSystem } from "../../systems/progression/DepthGateSystem.js";
 import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnelDoorSystem.js";
 import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSystem.js";
 import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
-import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
-import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 
 const PLAY_SCENE_UI_FACTORIES = Object.freeze({
   createButton,
@@ -641,10 +636,6 @@ async function _setupSceneSafe(data = {}) {
   this.digSystem.setRetentionProgressSystem(this.retentionProgressSystem);
   this.ancientRelicSystem = new AncientRelicSystem();
   this.digSystem.setAncientRelicSystem(this.ancientRelicSystem);
-  this.heavenblocksProgressionSystem = new HeavenblocksProgressionSystem({
-    relicCountProvider: () => this.ancientRelicSystem?.getCount?.() || 0,
-    initialData: this._cachedSaveData?.heavenblocksData,
-  });
   this.playerLevelSystem = new PlayerLevelSystem();
   this.playerLevelSystem.setComboSystem(this.comboSystem);
   this.playerLevelSystem.setTemporaryCriticalDamageBonusProvider(
@@ -653,16 +644,6 @@ async function _setupSceneSafe(data = {}) {
   this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
   this.digSystem.setUpgradeSystem(this.upgradeSystem);
   this.digSystem.setPlayerLevelSystem(this.playerLevelSystem);
-  this.craftingSystem = new CraftingSystem({
-    digSystem: this.digSystem,
-    upgradeSystem: this.upgradeSystem,
-    ancientRelicSystem: this.ancientRelicSystem,
-    heavenblocksProgressionSystem: this.heavenblocksProgressionSystem,
-  });
-  const craftingHealth = this.craftingSystem.getHealthSnapshot();
-  if (!craftingHealth.ready) {
-    throw new Error("[PlaySceneSetup] Arc Forge dependencies failed their startup health check.");
-  }
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
@@ -673,8 +654,6 @@ async function _setupSceneSafe(data = {}) {
   this.floatingTextSystem = new FloatingTextSystem(this, this.saveSlot);
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
-  this.relicDiscoveryFxSystem = new RelicDiscoveryFxSystem(this);
-  this.digSystem.setRelicDiscoveryFxSystem?.(this.relicDiscoveryFxSystem);
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
     const message = reward?.message || "Combo";
@@ -798,17 +777,6 @@ async function _setupSceneSafe(data = {}) {
   _gfx.destroy();
 
   this.specialTileSystem = new SpecialTileSystem(this, this.worldModel, this.playerController, this.floatingTextSystem);
-  this.heavenblocksPresentationSystem = new HeavenblocksPresentationSystem(this, this.worldModel);
-  this.heavenblocksAccessSystem = new HeavenblocksAccessSystem(this, {
-    worldModel: this.worldModel,
-    playerController: this.playerController,
-    progressionSystem: this.heavenblocksProgressionSystem,
-    ancientRelicSystem: this.ancientRelicSystem,
-    upgradeSystem: this.upgradeSystem,
-    presentationSystem: this.heavenblocksPresentationSystem,
-    onChanged: () => this.queueDugTilesSave?.(),
-  });
-  this.heavenblocksAccessSystem.create();
   this.dayNightCycle = new DayNightCycle(this, this.config);
   this.weatherSystem = new WeatherSystem(this, this.config, this.config.weather);
   this.lightSystem = new LightSystem(this, this.playerController, this.dayNightCycle, this.weatherSystem);
@@ -888,8 +856,6 @@ async function _setupSceneSafe(data = {}) {
     this.biomeSystem?.destroy();
     this.campfireSystem?.destroy();
     this.specialTileSystem?.destroy();
-    this.heavenblocksAccessSystem?.destroy();
-    this.heavenblocksPresentationSystem?.destroy();
     this.nextPromiseHudSystem?.destroy();
     this.miningIntentPreviewSystem?.destroy();
     this._gpLabelText?.destroy();
@@ -916,7 +882,6 @@ async function _setupSceneSafe(data = {}) {
     this._livingDrillOccluder?.destroy();
     this.starPillarSystem?.destroy();
     this.lootPickupFxSystem?.destroy();
-    this.relicDiscoveryFxSystem?.destroy();
     this.floatingTextSystem?.destroy();
     this.weatherSystem?.destroy();
     this.shaderSystem?.destroy();
