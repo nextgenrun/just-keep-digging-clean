@@ -67,6 +67,7 @@ assert.match(workflow, /2026-07-26-version-control-safety-contract\.mjs --tracke
 const runtimeMediaPaths = [
   "sprites/backgrounds/world-v11-runtime-polished-v4/depth-chunks/level1-r001-c01.webp",
   "sprites/character/ual-native-player-v1/runtime/ual-native-player-v1-idle-sheet.webp",
+  "testing/blender-animation-lab-v1/review-drafts/superman-flight-push-layer-v1/runtime/superman-flight-sheet.png",
   "visual-approval-previews/npc-idle-polish-v1/bobo-merchant-idle-alpha.webm",
 ];
 const runtimeAttributes = runGit([

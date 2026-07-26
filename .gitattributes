@@ -68,6 +68,14 @@
 /testing/blender-animation-lab-v1/review-drafts/**/*.png filter=lfs diff=lfs merge=lfs -text
 /testing/blender-animation-lab-v1/review-drafts/**/*.webm filter=lfs diff=lfs merge=lfs -text
 /testing/blender-animation-lab-v1/review-drafts/**/*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Review-draft runtime sheets are CI inputs. Actions intentionally checks out
+# without LFS downloads, so runtime subtrees override the source-review rules.
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.gif -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.jpg -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.png -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.webm -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.webp -filter -diff -merge -text
 /testing/unreal-survival-motion-v2/SourceAssets/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 /testing/unreal-survival-motion-v2/SourceAssets/**/*.png filter=lfs diff=lfs merge=lfs -text
 /testing/unreal-survival-motion-v2/SourceAssets/**/*.webp filter=lfs diff=lfs merge=lfs -text
