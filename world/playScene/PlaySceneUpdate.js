@@ -758,6 +758,7 @@ function _updatePlayingState(time, delta, keys) {
 
     // Special tile system (gamble and teleport tiles)
     this.specialTileSystem.update();
+    this.heavenblocksAccessSystem?.update?.(playerTile);
 
     // Milestone board system (left side town board)
     if (this.milestoneBoardSystem && this.inputHandler) {
@@ -904,6 +905,12 @@ function _updatePlayingState(time, delta, keys) {
 
   // Special tile interaction (E key for gamble/teleport tiles)
   if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
+    const heavenblocksResult = this.heavenblocksAccessSystem?.handleInteract?.()
+      || { success: false };
+    if (heavenblocksResult.success) {
+      console.log("[HEAVENBLOCKS] Interaction successful:", heavenblocksResult.type, heavenblocksResult);
+      return;
+    }
     const interactResult = this.specialTileSystem?.handleInteract?.() || { success: false };
     if (interactResult.success) {
       console.log('[SPECIAL TILE] Interaction successful:', interactResult.type, interactResult);

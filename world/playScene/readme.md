@@ -49,3 +49,11 @@ extends the continuous-material treatment from row 75 through the full 5,065-row
 model. `DeepWorldLivingBackdropSystem` then adds the separately pooled Level Two
 motion pass. Use `?worldFacade=0` for the deep static-material rollback and
 `?deepWorldLiving=0` for only the deep motion rollback.
+
+## Heavenblocks progression
+
+`PlaySceneSetup` wires the permanent relic milestone, three Heavenblock access
+routes, component installation, Arc Forge recipes, discovery VFX, and save
+state. `PlaySceneUpdate` gives the Heavenblocks first refusal on nearby
+interaction before ordinary special tiles. `?heavenblocksGameplay=0` disables
+the gameplay layer without changing saved progression.

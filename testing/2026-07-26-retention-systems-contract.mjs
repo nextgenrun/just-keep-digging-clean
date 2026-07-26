@@ -152,7 +152,7 @@ const payload = saveStore.createPayload(
   null,
   retention.getSaveData(),
 );
-assert.equal(payload.version, 9);
+assert.equal(payload.version, 10);
 assert.equal(payload.retentionData.stats.bestDepth, 101);
 assert.equal(payload.retentionData.stats.chestsOpened, 1);
 const legacyPayload = { ...payload };
