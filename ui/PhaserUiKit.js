@@ -107,6 +107,7 @@ export function createPanel(scene, options = {}) {
 export function createButton(scene, options = {}) {
   const state = {
     hovered: false,
+    focused: false,
     selected: Boolean(options.selected),
     enabled: options.enabled !== false,
     disabledReason: options.disabledReason || "",
@@ -126,6 +127,8 @@ export function createButton(scene, options = {}) {
     accent = UI_COLORS.borderSel,
     fill = UI_COLORS.cardBase,
     hoverFill = UI_COLORS.cardHover,
+    selectedFill = hoverFill,
+    focusFill = hoverFill,
     disabledFill = 0x101820,
     labelColor = UI_COLORS.white,
     disabledColor = UI_COLORS.dim,
@@ -176,23 +179,33 @@ export function createButton(scene, options = {}) {
 
   function draw() {
     if (!root?.active || !bg?.active || !accentBar?.active || !text?.active) return;
+    const highlighted = state.selected || state.focused || state.hovered;
     const currentFill = !state.enabled
       ? disabledFill
-      : state.selected || state.hovered
-        ? hoverFill
-        : fill;
-    const currentBorder = state.selected ? accent : (state.hovered ? UI_COLORS.borderHov : UI_COLORS.borderDim);
+      : state.selected
+        ? selectedFill
+        : state.focused || state.hovered
+          ? focusFill
+          : fill;
+    const currentBorder = state.selected
+      ? accent
+      : state.focused || state.hovered
+        ? UI_COLORS.borderHov
+        : UI_COLORS.borderDim;
     const alpha = state.enabled ? 1 : 0.62;
 
     bg.clear();
-    bg.fillStyle(currentFill, state.selected || state.hovered ? 1 : 0.94);
+    bg.fillStyle(currentFill, highlighted ? 1 : 0.94);
     bg.fillRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
-    bg.lineStyle(state.selected ? 2 : 1, currentBorder, state.enabled ? 1 : 0.55);
+    bg.lineStyle(state.selected || state.focused ? 2 : 1, currentBorder, state.enabled ? 1 : 0.55);
     bg.strokeRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
 
     accentBar.clear();
     if (accent) {
-      accentBar.fillStyle(accent, state.enabled ? (state.selected ? 1 : 0.82) : 0.35);
+      accentBar.fillStyle(
+        accent,
+        state.enabled ? (state.selected ? 1 : state.focused ? 0.94 : 0.82) : 0.35
+      );
       accentBar.fillRoundedRect(-width / 2, -height / 2, 4, height, UI_THEME.radiusSmall);
     }
 
@@ -276,12 +289,13 @@ export function createButton(scene, options = {}) {
       draw();
     },
     setFocused(value) {
-      state.selected = Boolean(value);
+      state.focused = Boolean(value);
       draw();
     },
     setEnabled(value, reason = null) {
       state.enabled = Boolean(value);
       state.pressing = false;
+      if (!state.enabled) state.focused = false;
       if (state.enabled) {
         state.disabledReason = "";
       } else {
@@ -327,39 +341,59 @@ export function createTogglePair(scene, options = {}) {
     parent = null,
     depth = UI_THEME.depthOverlay + 1,
     scrollFactor = 0,
+    layout = "inline",
+    labelX = null,
+    labelY = null,
+    labelFontSize = null,
+    buttonWidth = null,
+    buttonHeight = null,
+    buttonGap = 16,
+    buttonY = null,
+    buttonFontSize = null,
   } = options;
+  const stacked = layout === "stacked";
+  const resolvedLabelX = Number.isFinite(labelX) ? labelX : (stacked ? 0 : -190);
+  const resolvedLabelY = Number.isFinite(labelY) ? labelY : (stacked ? -12 : 0);
+  const resolvedButtonWidth = Number.isFinite(buttonWidth) ? buttonWidth : (stacked ? 64 : 78);
+  const resolvedButtonHeight = Number.isFinite(buttonHeight) ? buttonHeight : (stacked ? 28 : 34);
+  const resolvedButtonY = Number.isFinite(buttonY) ? buttonY : (stacked ? 11 : 0);
+  const pairedButtonOffset = (resolvedButtonWidth + buttonGap) / 2;
+  const resolvedOnX = stacked ? -pairedButtonOffset : -28;
+  const resolvedOffX = stacked ? pairedButtonOffset : 66;
 
   const root = scene.add.container(x, y);
   setTreeDepth(root, depth);
   setTreeScroll(root, scrollFactor);
 
-  const labelText = scene.add.text(-190, 0, label, {
+  const labelText = scene.add.text(resolvedLabelX, resolvedLabelY, label, {
     fontFamily: UI_THEME.fontBody,
-    fontSize: "15px",
+    fontSize: labelFontSize || (stacked ? "11px" : "15px"),
     color: UI_COLORS.white,
-  }).setOrigin(0, 0.5);
+  }).setOrigin(stacked ? 0.5 : 0, 0.5);
   root.add(labelText);
 
   let current = Boolean(value);
   const onBtn = createButton(scene, {
-    x: -28,
-    y: 0,
-    width: 78,
-    height: 34,
+    x: resolvedOnX,
+    y: resolvedButtonY,
+    width: resolvedButtonWidth,
+    height: resolvedButtonHeight,
     label: "ON",
     accent: UI_COLORS.borderGood,
     labelColor: UI_COLORS.success,
+    fontSize: buttonFontSize || (stacked ? "10px" : "14px"),
     parent: root,
     onClick: () => setValue(true),
   });
   const offBtn = createButton(scene, {
-    x: 66,
-    y: 0,
-    width: 78,
-    height: 34,
+    x: resolvedOffX,
+    y: resolvedButtonY,
+    width: resolvedButtonWidth,
+    height: resolvedButtonHeight,
     label: "OFF",
     accent: UI_COLORS.borderBad,
     labelColor: UI_COLORS.danger,
+    fontSize: buttonFontSize || (stacked ? "10px" : "14px"),
     parent: root,
     onClick: () => setValue(false),
   });
@@ -570,6 +604,9 @@ export function createTabBar(scene, options = {}) {
     parent = null,
     depth = UI_THEME.depthOverlay + 1,
     spacing = 126,
+    buttonWidth = 112,
+    buttonHeight = 32,
+    fontSize = "12px",
     onChange = null,
   } = options;
 
@@ -585,11 +622,11 @@ export function createTabBar(scene, options = {}) {
     return createButton(scene, {
       x: startX + index * spacing,
       y: 0,
-      width: 112,
-      height: 32,
+      width: buttonWidth,
+      height: buttonHeight,
       label,
       icon,
-      fontSize: "12px",
+      fontSize,
       accent: UI_COLORS.borderSel,
       parent: root,
       onClick: () => setActive(index),
@@ -632,15 +669,16 @@ export function createKeybindRow(scene, options = {}) {
     depth = UI_THEME.depthOverlay + 1,
     onCapture = null,
     onReset = null,
+    compact = false,
   } = options;
 
   const root = scene.add.container(x, y);
   setTreeDepth(root, depth);
   setTreeScroll(root, 0);
 
-  const labelText = scene.add.text(-width / 2, -8, label, {
+  const labelText = scene.add.text(-width / 2, compact ? 0 : -8, label, {
     fontFamily: UI_THEME.fontBody,
-    fontSize: "12px",
+    fontSize: compact ? "11px" : "12px",
     fontStyle: "bold",
     color: UI_COLORS.white,
   }).setOrigin(0, 0.5);
@@ -657,7 +695,7 @@ export function createKeybindRow(scene, options = {}) {
     x: width / 2 - 72,
     y: 0,
     width: 92,
-    height: 30,
+    height: compact ? 26 : 30,
     label: keyLabel,
     accent: UI_COLORS.borderSel,
     fontSize: "11px",
@@ -669,7 +707,7 @@ export function createKeybindRow(scene, options = {}) {
     x: width / 2 - 14,
     y: 0,
     width: 28,
-    height: 30,
+    height: compact ? 26 : 30,
     label: "R",
     accent: UI_COLORS.borderHov,
     fontSize: "10px",
@@ -677,9 +715,9 @@ export function createKeybindRow(scene, options = {}) {
     onClick: () => onReset?.(api),
   });
 
-  const statusText = scene.add.text(width / 2, 18, "", {
+  const statusText = scene.add.text(width / 2, compact ? 15 : 18, "", {
     fontFamily: UI_THEME.fontBody,
-    fontSize: "9px",
+    fontSize: compact ? "8px" : "9px",
     color: UI_COLORS.danger,
   }).setOrigin(1, 0.5);
 

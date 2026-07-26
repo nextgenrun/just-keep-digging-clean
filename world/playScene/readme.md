@@ -4,9 +4,27 @@ World layer module — playScene.
 
 `PlayerInputHandler` resolves mining targets through the actual player body AABB. The shared resolver is used unchanged by main-world and compact-cave gameplay, so directional aim never selects a tile occupied by the taller UAL collider.
 
-UAL main-world and compact-cave actions share contact-synchronised damage: the punch-only Jab/Cross/Jab/Cross side combo, alternating Jab/Cross UP and UP-SIDE variants, same-facing floor DOWN strike, Quickslash, and ground-directed Thunder stay locked through visible recovery and cannot apply repeated invisible hits. The former fifth power cross, authored kick, and `Sword_Regular_C` up strike are rejected. Both runtimes also share walk/start/run/stop/pivot, takeoff, tucked hover, Shield Dash travel-enter/loop, flight-exit, rise/fall, and Jump Land transitions with signed-velocity banking. Camera behaviour remains intentionally independent of this animation pass.
+UAL main-world and compact-cave actions share contact-synchronised damage: SIDE keeps Jab/Cross/Jab/Cross, default-Survivor UP and UP-SIDE use the complete 24-frame Piskel-stabilized Blender dig-up, DOWN uses the same-facing ground strike, and Quickslash/Thunder remain one-contact actions. The explicit native rollback keeps its recovered uppercut. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use body velocity for first-step/reversal cadence, apply frame-rate-independent flight banking, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Survivor flight uses one continuous loop; the explicit native rollback retains its authored phase chain.
 
-UAL locomotion cadence is measured from resolved body displacement, not requested input velocity. A blocked body therefore stops producing fake walk cycles, upgraded or weather-adjusted speed remains stride-matched, and climb/flight timing stays consistent across both world implementations. The base idle/action presentation is 109px, while walk start/loop/run/stop use 123px to preserve the same approximately 0.8-tile visible height.
+UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles, release and reversal react on the current frame, upgraded or weather-adjusted speed remains stride-matched, and climb/flight timing stays consistent across both world implementations. The base idle/action presentation is 109px, while the UAL Jog uses 123px to preserve the same approximately 0.8-tile visible height.
+
+## Hardcore Graveborer Wurm
+
+`GraveborerWurmBridge.js` is the sole Phaser/world adapter for the Wurm. Normal
+production activation requires an armed Hardcore save, unlocked Flight, and
+depth 120 or deeper. Once a warning begins, leaving that depth cannot freeze or
+erase the committed encounter. Mining adds source-weighted noise; the Wurm
+carves only ordinary resource terrain, gives no rewards, and cannot damage
+special blocks, town foundations, bedrock, cave walls, relics, or sky tiles.
+There is no jump counterplay: the telegraphed line is avoided with lateral
+flight, retreat, or existing terrain geometry.
+
+There are exactly two developer query flags: `?wurm=0` disables the feature
+(`?wurm=1` explicitly enables it), and `?wurm10x=1` bypasses the unfinished
+Hardcore/Flight/depth gate while multiplying noise and encounter frequency by
+10 for interaction testing. Runtime inspection is available at
+`window.__jkdGraveborerWurm`; `snapshot()`, `forceEncounter()`, `addNoise()`,
+`setEnabled()`, and `setDevTest10x()` never persist developer flag state.
 
 Mining cooldown admission uses the action-start timestamp, while damage and
 feedback remain deferred to the authored visual-contact frame. Contact first
@@ -15,12 +33,29 @@ direction if animation alignment moved the body; out-of-bounds fallback cells
 are never selected. This keeps all four visual combo actions at exactly one hit
 each despite their different contact offsets.
 
-Blocked `BEDROCK` and `CAVE_WALL` contacts use the shared mining result contract.
-Normal, native-contact, Quickslash, Living Drill, and Arc Core attempts in the
-main world send one keyed `Cannot dig` warning through the notification UI, so
-repeated or area contacts do not stack duplicate messages. Compact caves show
-the same copy through their existing status line. Neither path changes damage,
-collision, or tile state.
+Blocked `BEDROCK`, `CAVE_WALL`, and both town-floor contacts use the shared
+mining result contract. Normal, native-contact, Quickslash, Living Drill, and
+Arc Core attempts in the main world send one keyed `You cannot break this`
+warning plus one `0 damage` hit float, so repeated or area contacts do not stack
+duplicate messages. Compact caves show the same warning and zero-damage hit
+feedback. Neither path changes damage, collision, or tile state.
+
+`NPCManager` reads the five surface-merchant slots from `townSquareConfig.js`.
+They now occupy absolute door-aligned positions across approved Option A instead
+of old `spawnTileX` offsets, while the Level 2 Magma Money Monster continues to
+use `arcCoreConfig.js` unchanged. The surface Milestone Pillar and nearby
+merchant compare Manhattan distance before showing prompts or consuming the
+interact key: the closer target wins, and an exact tie remains with the
+merchant.
+
+`NPCManager` also delegates presentation to `NPCActivitySystem`: four approved
+v11 Piskel quiet frames now form a slow rooted loop, seven planted activity
+poses cross-fade in, and at most one merchant performs a large activity at
+once. The runtime rewrites all three visual layers to the exact shop anchor,
+zero rotation, and fixed display size every frame, so localized sprite motion
+cannot translate the merchant. Walking, pacing, roam radii, whole-body bob, and
+the former walking query are absent. `?npcActivities=0` restores the prior
+baseline.
 
 Game Rig v2 projects hand/foot markers and action hitboxes across the intended
 tile-face band as diagnostic evidence. A small capped `visualOffset` can bring
@@ -49,3 +84,55 @@ extends the continuous-material treatment from row 75 through the full 5,065-row
 model. `DeepWorldLivingBackdropSystem` then adds the separately pooled Level Two
 motion pass. Use `?worldFacade=0` for the deep static-material rollback and
 `?deepWorldLiving=0` for only the deep motion rollback.
+
+## Star Heart runtime
+
+`PlaySceneSetup` restores `StarHeartProgressionSystem`, connects constellation
+mastery and newly collected sky stars, creates the choice overlay and
+`CelestialEngineController`, and includes the result in the current save schema.
+`PlaySceneUpdate` advances one active Engine at a time. The controller consumes
+the bound `X` action, enforces every configured activation cap, routes tile
+damage through `DigSystem.applyCelestialDamage`, updates the fixed HUD and
+runtime canary snapshot, and supports the independent `?starHearts=0` rollback.
+The debug `V` God Mode refreshes this same progression object: all three Engines
+become freely switchable at the pillar and charge-free, while the permanent
+attunement save remains untouched and each activation keeps its normal caps.
+
+## Thunderstrike chain
+
+`ThunderStrikeActionRuntime.js` and `ThunderStrikeChainState.js` are shared by
+the main mine and compact caves. They keep the player action-locked from the
+paid charge through every earned continuation, execute each slam on the
+authored UAL contact, accept follow-up input only while the timing bar is live,
+and cancel immediately on an early, late, or expired press. Only the initial
+cast uses the normal bounded ability-input buffer; follow-up presses are exact
+and unbuffered.
+
+## Heavenblocks progression
+
+`PlaySceneSetup` restores permanent relic, island, component, Arc Vault, and
+Zenith state; constructs the access/presentation pair; and injects the atomic
+`CraftingSystem` into the existing Molten Money Monster overlay. Three
+guaranteed pre-1000m relic caches make the first sky route reachable. Island
+floors are re-applied after dug-tile restoration, component and Keystone
+requirements are never consumed, and `?heavenblocksGameplay=0` disables access
+while preserving save-compatible progression data.
+
+## Relic and Titan collection integration
+
+`PlaySceneSetup` injects the live player center into the state-independent
+Ancient Relic discovery view, so an awarded token stays in world space and
+collects into the real character rather than a fabricated HUD point.
+`PlaySceneUI` exposes authoritative Relic/Titan counts and conditionally adds
+the real-art 5x5 `TITANS` pause archive. Both world renderers own the same Titan
+discovery lifecycle, while retention data remains the only discovery authority.
+`?titans=0` hides the archive and disables/de-queues all Titan presentation
+without deleting saved ids.
+
+## Integrated cave gameplay
+
+`PlaySceneSetup` constructs `CaveAtmosphereSystem`, `CaveHazardView`,
+`CaveHazardSystem`, and `CaveInteriorOcclusionSystem` in that order for both
+renderer modes. `PlaySceneUpdate` advances visual rhythm and collision only
+while normal gameplay is active; occlusion remains above the hazards until the
+cave is discovered.

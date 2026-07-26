@@ -28,6 +28,13 @@ manifest and `index.html`. The hash covers reachable modules, collected runtime
 media, the page shell, Phaser, CSS, and the builder itself, allowing the runtime
 panel, CI artifact, and rollback candidate to identify the exact same build.
 
+## Graveborer Wurm sprite package
+
+`build_graveborer_wurm_sprite_package.py` validates the five transparent
+ImageGen masters in `sprites/environment/graveborer-wurm-v1/`, applies bounded
+high-quality downsampling, writes lossless alpha WebPs, and reports dimensions,
+byte sizes, and SHA-256 hashes. It never generates substitute artwork.
+
 ## Character V8 review pipeline
 
 Use the targeted builder to normalize selected frame folders without rebuilding unrelated character animations:
@@ -40,6 +47,26 @@ python tools/piskel-mcp/character_piskel_pipeline.py preview --ids quickslash-v2
 ```
 
 The imported video captures use a stable center-square crop and checker-matte/neutral-fringe cleanup. Their loose PNG selection is authoritative; numbering gaps are preserved as intentional curated cuts.
+
+The shared Piskel bridge is split into focused document, analysis, artifact,
+pack, and command modules. Run `polish` for manifest-enabled animation sources:
+
+```powershell
+python tools/piskel-mcp/character_piskel_pipeline.py polish --ids survival-blender-v2-dig-up
+```
+
+The manifest chooses a pose-resistant body anchor and baseline. One uniform
+scale is allowed for the whole animation; individual frames are never resized.
+This keeps deliberate limb extension while removing body/root and ground-line
+drift.
+
+The approved Arc v3 uses the stricter fixed-canvas Piskel pipeline under
+`pipelines/piskel/`.
+`pipelines/piskel/2026-07-26-build-arc-core-piskel-package.py` validates two
+editable projects, exports ten production roles plus one sandbox background,
+and refreshes their SHA-256 entries in `values/arcCoreVisuals.sprite.json`.
+The obsolete tile-based mockup compositor is archived with the rejected tile
+art.
 
 Generate Blender motion-envelope references with:
 

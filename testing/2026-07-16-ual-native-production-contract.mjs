@@ -10,6 +10,7 @@ import {
 } from "../player/PlayerAssetLoader.js";
 import { createUalNativePlayerAnimations } from "../player/UalNativePlayerAnimations.js";
 import { PlayerMotionPolishSystem } from "../systems/visual/PlayerMotionPolishSystem.js";
+import { setupGameplayMethods } from "../world/playScene/PlaySceneGameplay.js";
 import {
   PLAYER_ASSET_PROFILES,
   resolvePlayerDisplaySizePx,
@@ -70,8 +71,8 @@ assert.equal(profile.walkFrames.length, 28);
 assert.equal(manifestFrameTotal, 987);
 assert.deepEqual(profile.walkStartFrames, [3, 4, 5]);
 assert.deepEqual(profile.walkStopFrames, [5, 4, 3]);
-assert.deepEqual(profile.footstepFrameIndices[profile.walkLoopAnim], [4, 18]);
-assert.deepEqual(profile.footstepFrameIndices[profile.walkRunAnim], [4, 18]);
+assert.deepEqual(profile.footstepFrameIndices[profile.walkLoopAnim], [13, 27]);
+assert.deepEqual(profile.footstepFrameIndices[profile.walkRunAnim], [13, 27]);
 assert.notEqual(profile.walkLoopAnim, profile.walkRunAnim);
 const locomotionFrameCounts = new Map([
   [profile.walkStartAnim, profile.walkStartFrames.length],
@@ -210,7 +211,12 @@ const requiredAnimationKeys = [
 for (const key of requiredAnimationKeys) {
   assert.ok(animationSpecs.has(key), `missing UAL production animation: ${key}`);
   assert.ok(animationSpecs.get(key).frames.length > 1, `single-frame UAL animation: ${key}`);
-  const expectedFps = key === profile.thunderStrikeStrikeAnim ? 42 : 30;
+  const fidget = PLAYER_MOTION_POLISH_CONFIG.idle.fidgets.find((entry) => entry.key === key);
+  const expectedFps = key === profile.thunderStrikeStrikeAnim
+    ? 42
+    : key === profile.landingAnim
+      ? 40
+      : fidget?.frameRate ?? 30;
   assert.equal(animationSpecs.get(key).frameRate, expectedFps, `unexpected authored cadence: ${key}`);
 }
 for (const [animationKey, animation] of animationSpecs) {
@@ -229,8 +235,10 @@ for (const variant of profile.digAnimationVariants) {
     `dig variant is not an approved zero-weapon source action: ${variant.key}`,
   );
 }
-assert.deepEqual(profile.digUpFrames, range(15));
-assert.equal(profile.digUpFrames.length, 15);
+assert.deepEqual(profile.digUpFrames, profile.uppercutPlaybackFrames);
+assert.equal(profile.digUpFrames.length, 24);
+assert.equal(profile.uppercutFrames.length, 15);
+assert.equal(profile.digUpFrames.at(-1), 0);
 assert.deepEqual(profile.digDownFrames, range(37).map((frame) => frame + 4));
 assert.deepEqual(profile.digSidewaysFrames, range(15).map((frame) => frame + 3));
 assert.deepEqual(profile.quickslashFrames, range(15).map((frame) => frame + 3));
@@ -242,7 +250,9 @@ assert.equal(profile.flySourceFrames.length, 14);
 assert.equal(profile.flyClimbFrames.length, 14);
 assert.equal(profile.flightHoverFrames.length, 14);
 assert.deepEqual(profile.flightHoverFrames, profile.flyClimbFrames);
-assert.deepEqual(profile.landingFrames, range(39));
+assert.equal(profile.landingFrames.length, 14);
+assert.equal(profile.landingFrames.at(-1), 38);
+assert.deepEqual(profile.landingSourceFrames, range(39));
 assert.equal(profile.groundStrikeSourceFrames.length, 41);
 assert.equal(profile.meleeHookFrames.length, 33);
 assert.equal(profile.meleeKickFrames.length, 26);
@@ -251,6 +261,7 @@ assert.equal(profile.thunderChargeSourceFrames.length, 63);
 for (const animationKey of [profile.digUpAnim, profile.digUpSidewaysAnim]) {
   const contact = resolveUalActionContact(profile, animationKey);
   assert.ok(contact.sequenceIndex >= 0 && contact.sequenceIndex < profile.digUpFrames.length);
+  assert.equal(contact.sequenceIndex, 6);
 }
 const downContact = resolveUalActionContact(profile, profile.digDownAnim);
 assert.ok(downContact.sequenceIndex >= 0 && downContact.sequenceIndex < profile.digDownFrames.length);
@@ -280,11 +291,13 @@ assert.equal(resolveUalFlightTravel({
   verticalSpeedPxPerSec: 0,
   wasTraveling: true,
 }), true);
+assert.equal(UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs, 100);
+assert.ok(UAL_NATIVE_ACTION_TUNING.flight.bankResponsePerSecond > 0);
 for (const fidget of PLAYER_MOTION_POLISH_CONFIG.idle.fidgets) {
   const animation = animationSpecs.get(fidget.key);
   assert.ok(animation, `missing idle fidget: ${fidget.key}`);
   assert.equal(animation.repeat, 0, `idle fidget must be one-shot: ${fidget.key}`);
-  assert.equal(animation.frameRate, 30, `idle fidget lost native cadence: ${fidget.key}`);
+  assert.equal(animation.frameRate, 18, `idle fidget lost polished cadence: ${fidget.key}`);
   assert.equal(animation.frames[0].key, profile.idleTalkSheet);
   assert.deepEqual(animation.frames.map((frame) => frame.frame), fidget.frames);
 }
@@ -303,12 +316,12 @@ const idleContext = {
 };
 motionPolish.reset(1000);
 assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 1000 }), null);
-assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 5499 }), null);
-const firstFidget = motionPolish.resolveOverride({ ...idleContext, now: 5500 });
+assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 7999 }), null);
+const firstFidget = motionPolish.resolveOverride({ ...idleContext, now: 8000 });
 assert.equal(firstFidget.animationKey, PLAYER_MOTION_POLISH_CONFIG.idle.fidgets[0].key);
-assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 5516 }).animationKey, firstFidget.animationKey);
-assert.equal(motionPolish.onAnimationComplete(firstFidget.animationKey, 6300), true);
-assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 6301 }), null);
+assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 8016 }).animationKey, firstFidget.animationKey);
+assert.equal(motionPolish.onAnimationComplete(firstFidget.animationKey, 8800), true);
+assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 8801 }), null);
 
 motionPolish.reset(0);
 const wallContext = {
@@ -332,6 +345,40 @@ assert.equal(motionPolish.queueImpactReaction(500), false);
 assert.equal(motionPolish.queueImpactReaction(800), true);
 assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 800, actionLocked: true }), null);
 assert.equal(motionPolish.resolveOverride({ ...idleContext, now: 900 }).animationKey, profile.earthquakeReactAnim);
+
+const recoveryPrototype = {};
+setupGameplayMethods(recoveryPrototype);
+let recoveryCancelled = 0;
+let recoveryRigEnded = 0;
+const recoveryScene = {
+  playerAssetProfile: profile,
+  isDigAnimating: true,
+  _ualActionContactAtMs: 200,
+  time: { now: 750 },
+  playerController: { abilities: {} },
+  digSystem: {
+    lastMineTime: 0,
+    getEffectiveCooldownMs: () => 750,
+    isMineCooldownReady: (nowMs) => nowMs >= 750,
+  },
+  ualActionContactTimeline: {
+    contactFired: true,
+    cancel() { recoveryCancelled += 1; },
+  },
+  playerRigContact: {
+    endAction() { recoveryRigEnded += 1; },
+  },
+  player: { anims: { timeScale: 2 } },
+};
+Object.setPrototypeOf(recoveryScene, recoveryPrototype);
+assert.equal(recoveryPrototype.canReplaceUalDigRecovery.call(recoveryScene, 299), false);
+assert.equal(recoveryPrototype.canReplaceUalDigRecovery.call(recoveryScene, 749), false);
+assert.equal(recoveryPrototype.canReplaceUalDigRecovery.call(recoveryScene, 750), true);
+assert.equal(recoveryPrototype.cancelUalDigRecovery.call(recoveryScene, 750), true);
+assert.equal(recoveryCancelled, 1);
+assert.equal(recoveryRigEnded, 1);
+assert.equal(recoveryScene.isDigAnimating, false);
+assert.equal(recoveryScene.player.anims.timeScale, 1);
 
 const { CaveGameplayController } = await import("../world/playScene/CaveGameplayController.js");
 const caveFlips = [];
@@ -461,6 +508,10 @@ const bootSource = readFileSync(resolve(root, "ui/scenes/BootScene.js"), "utf8")
 const playSetupSource = readFileSync(resolve(root, "world/playScene/PlaySceneSetup.js"), "utf8");
 const playGameplaySource = readFileSync(resolve(root, "world/playScene/PlaySceneGameplay.js"), "utf8");
 const playUpdateSource = readFileSync(resolve(root, "world/playScene/PlaySceneUpdate.js"), "utf8");
+const thunderRuntimeSource = readFileSync(
+  resolve(root, "world/playScene/ThunderStrikeActionRuntime.js"),
+  "utf8",
+);
 const playerControllerSource = readFileSync(resolve(root, "player/PlayerController.js"), "utf8");
 const caveGameplaySource = readFileSync(resolve(root, "world/playScene/CaveGameplayController.js"), "utf8");
 const caveActionSource = readFileSync(resolve(root, "world/playScene/CaveActionAnimationRuntime.js"), "utf8");
@@ -481,6 +532,9 @@ assert.match(playSetupSource, /new PlayerRigContactSystem/);
 assert.match(playGameplaySource, /nativePunchInProgress[\s\S]{0,220}return/);
 assert.match(playGameplaySource, /ualActionContactTimeline\.begin\([\s\S]{0,260}onContact/);
 assert.match(playGameplaySource, /resolveUalActionTimeScale/);
+assert.match(playGameplaySource, /canReplaceUalDigRecovery/);
+assert.match(playGameplaySource, /cancelUalDigRecovery/);
+assert.match(playGameplaySource, /resolveUalFlightBankAlpha/);
 assert.match(playGameplaySource, /resolveUalFlightTimeScale/);
 assert.match(playGameplaySource, /ualLocomotionTransitionSelector\.resolve/);
 assert.match(playGameplaySource, /getResolvedVelocityX/);
@@ -498,9 +552,10 @@ assert.match(playUpdateSource, /playerRigContact\?\.validateContact/);
 assert.match(playUpdateSource, /onContact:[\s\S]{0,700}digSystem\.tryMine/);
 assert.doesNotMatch(playUpdateSource, /if \(rigContact[^\n]*!rigContact\.valid\) return/);
 assert.match(playUpdateSource, /const contactDirection = committedDirection[\s\S]{0,80}\|\| resolveLiveContactDirection/);
-assert.match(playUpdateSource, /startThunderStrikeCharge\(time\)/);
-assert.match(playUpdateSource, /updateThunderStrikeCharge\(time\)/);
-assert.match(playUpdateSource, /onContact: executeAtContact/);
+assert.match(playUpdateSource, /thunderStrikeActionRuntime\?\.update/);
+assert.match(thunderRuntimeSource, /startThunderStrikeCharge/);
+assert.match(thunderRuntimeSource, /updateThunderStrikeCharge\(nowMs\)/);
+assert.match(thunderRuntimeSource, /onContact: executeAtContact/);
 assert.doesNotMatch(playUpdateSource, /_thunderStrikeHoldUntil = time \+ 350/);
 assert.match(playerControllerSource, /playPlayerImpactReaction/);
 assert.match(caveGameplaySource, /new PlayerKinematicMotionSystem/);
@@ -514,6 +569,8 @@ assert.match(caveActionSource, /UalNativeLocomotionTransitionSelector/);
 assert.match(caveActionSource, /getResolvedVelocityX/);
 assert.match(caveActionSource, /getResolvedVelocityY/);
 assert.match(caveActionSource, /UalMiningComboSelector/);
+assert.match(caveActionSource, /canReplaceMiningRecovery/);
+assert.match(caveActionSource, /resolveUalFlightBankAlpha/);
 assert.match(motionSystemSource, /body\.x - this\._lastX/);
 assert.match(motionSystemSource, /strideTilesPerCycle \* tileSize/);
 assert.match(rendererSource, /SOURCE_FPS,\s*FRAME_SIZE\s*=\s*24\.0,\s*512/);

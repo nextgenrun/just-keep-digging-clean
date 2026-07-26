@@ -97,10 +97,6 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   miningFeedback: Object.freeze({
-    finalHitText: "BREAK!",
-    finalHitColor: "#f6df80",
-    finalHitDurationMs: 720,
-    finalHitFontSize: 18,
     overkillPrefix: "OVERKILL",
     overkillColor: "#ff9a52",
     overkillDurationMs: 900,
@@ -114,6 +110,38 @@ export const RETENTION_CONFIG = Object.freeze({
       rich: Object.freeze({ label: "RICH", color: "#6be7ff" }),
       packed: Object.freeze({ label: "PACKED", color: "#d68cff" }),
       ancient: Object.freeze({ label: "ANCIENT", color: "#ffd35a" }),
+    }),
+  }),
+
+  floatingText: Object.freeze({
+    preferenceVersion: 1,
+    legacyDefaultMode: "reduced",
+    defaultMode: "full",
+    modes: Object.freeze({
+      off: Object.freeze({
+        label: "OFF",
+        summary: "No floating combat or reward text.",
+        maxActive: 0,
+        minIntervalMs: 0,
+        maxBurstParticles: 0,
+        hiddenCategories: Object.freeze(["*"]),
+      }),
+      reduced: Object.freeze({
+        label: "REDUCED",
+        summary: "Status text only; routine damage and resources stay hidden.",
+        maxActive: 4,
+        minIntervalMs: 180,
+        maxBurstParticles: 3,
+        hiddenCategories: Object.freeze(["damage", "resource"]),
+      }),
+      full: Object.freeze({
+        label: "FULL",
+        summary: "Damage, resources, and status text are visible.",
+        maxActive: 8,
+        minIntervalMs: 60,
+        maxBurstParticles: 7,
+        hiddenCategories: Object.freeze([]),
+      }),
     }),
   }),
 
@@ -136,6 +164,8 @@ export const RETENTION_CONFIG = Object.freeze({
     discoveryHint: "Show a card the first time a material is found.",
     objectiveLabel: "Session Objective",
     objectiveHint: "Show an optional goal with no streak or failure penalty.",
+    floatingTextLabel: "Floating Damage / Reward Text",
+    floatingTextHint: "Full is enabled automatically. Reduced hides routine damage and resource numbers.",
   }),
 });
 

@@ -50,7 +50,8 @@ assert.match(valuesSource, /ual-native-player-v1\/runtime\/manifest\.json/, "val
 assert.match(config, /UAL_ANIMATION_TUNING_LAB_CONFIG/, "sandbox must consume the lab values SSOT");
 assert.match(assetsSource, /fetch\(LAB_PATHS\.manifest/, "must load the configured production manifest");
 assert.match(assetsSource, /UAL_NATIVE_PLAYER_ASSET_PROFILE/, "must import the production profile");
-assert.match(assetsSource, /\["walk", clip\("walk", "walk"/, "Option C must load from the promoted walk action");
+assert.match(valuesSource, /productionAction:\s*"run"/, "live gait draft must point at the run-slot Jog");
+assert.match(assetsSource, /"punch-uppercut", PROFILE\.digUpFrames/, "UP lane must use the recovered uppercut sequence");
 
 const renderer = await readFile(path.join(lab, "labRenderer.js"), "utf8");
 assert.match(renderer, /RIG MARKERS MISSING/, "missing marker evidence must be explicit on stage");
@@ -61,6 +62,7 @@ assert.match(renderer, /resolveTileFaceAlignmentOffset/, "mining preview must us
 assert.match(renderer, /alignment\.responsePerSecond/, "mining preview must use production alignment response timing");
 
 const scenarios = await readFile(path.join(lab, "labScenarios.js"), "utf8");
+assert.match(scenarios, /const jog = clips\.get\("run"\)/, "locomotion lane must use the live run-slot Jog");
 assert.match(scenarios, /calculateStrideMatchedTimeScale/, "locomotion must use production cadence math");
 assert.match(scenarios, /resolveUalActionTimeScale/, "actions must use production timing math");
 assert.match(scenarios, /resolveUalFlightTimeScale/, "flight must use production timing math");

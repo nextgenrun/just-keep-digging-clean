@@ -1,6 +1,6 @@
 # Dig Game Dev Environment — README
 
-**Last updated:** 2026-07-12
+**Last updated:** 2026-07-26
 
 ## Table of Contents
 1. [Directory Structure Overview](#directory-structure-overview)
@@ -300,6 +300,10 @@ See `markdown/archive-policy.md` for full details.
 | `naming-policy.md` | Full naming convention reference |
 | `values-system.md` | How to use the /values/ system |
 | `archive-policy.md` | What to archive & when to delete |
+| `2026-07-26-underground-biome-background-runtime-wiring.md` | Sixty-card ten-biome background, ground-depth, streaming, motion, and rollback contract |
+| `2026-07-26-underground-biome-motion-runtime-v1.md` | Rejected Graphics-overlay motion history and V2 supersession pointer |
+| `2026-07-26-underground-biome-baked-motion-runtime-v2.md` | Ten actual moving-image backgrounds, painted keyframes, VP9 pipeline, ground separation, streaming, performance, and rollback contract |
+| `2026-07-26-modular-surface-props-runtime-v1.md` | Approved modular Level 1/Level 2 surface props, physical scale, terrain contact, coverage, streaming, testing, and rollback contract |
 | `2026-06-25-phase3-roadmap.md` | Current phase roadmap |
 | `2026-06-25-next-steps.md` | Immediate next steps |
 </content-file>

@@ -1,200 +1,281 @@
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
-import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
-
-const clamp01 = value => Math.max(0, Math.min(1, value));
-
+import {
+  resolveEarthquakeFeedbackMode,
+  resolveEarthquakeFeedbackPresentation,
+} from "./earthquakeFeedbackPresentation.js";
+const hexColor = value => `#${Number(value).toString(16).padStart(6, "0")}`;
 export class EarthquakeFeedbackUI {
   constructor(scene, earthquakeSystem, config = EARTHQUAKE_FEEDBACK_CONFIG) {
     this.scene = scene;
     this.source = earthquakeSystem;
     this.config = config;
     this.escapeActive = false;
+    this.escapeExpiresAt = 0;
+    this.recap = null;
+    this.mode = null;
+    this.hiding = false;
+    this.modeExpiresAt = 0;
+    this.hideDeadline = 0;
+    this.suppressedSourceState = null;
+    this._lastSourceState = this.source?.state || "idle";
     this.destroyed = false;
+    this._transitionToken = 0;
     this._notificationsShifted = false;
     this._notificationBaseY = scene.uiNotifications?.baseY;
     this._create();
   }
 
   _create() {
-    const top = this.config.top;
-    const objective = this.config.objective;
-
-    this.topRoot = this.scene.add.container(0, top.marginY)
-      .setScrollFactor(0).setDepth(this.config.hudDepth).setVisible(false);
-    this.topBg = this.scene.add.graphics();
-    this.topTitle = this.scene.add.text(0, top.titleY, "", {
-      fontFamily: UI_FONTS.mono, fontSize: top.titleFontSize,
-      fontStyle: "bold", color: UI_COLORS.white,
-    }).setOrigin(0.5, 0);
-    this.topSubtitle = this.scene.add.text(0, top.subtitleY, "", {
-      fontFamily: UI_FONTS.mono, fontSize: top.subtitleFontSize,
-      fontStyle: "bold", color: UI_COLORS.body,
-    }).setOrigin(0.5, 0);
-    this.topPhase = this.scene.add.text(0, top.phaseY, "", {
-      fontFamily: UI_FONTS.mono, fontSize: top.phaseFontSize,
-      color: UI_COLORS.dim,
-    }).setOrigin(0.5, 0);
-    this.topProgress = this.scene.add.graphics();
-    this.topRoot.add([this.topBg, this.topProgress, this.topTitle, this.topSubtitle, this.topPhase]);
-
-    this.objectiveRoot = this.scene.add.container(0, 0)
-      .setScrollFactor(0).setDepth(this.config.hudDepth).setVisible(false);
-    this.objectiveBg = this.scene.add.graphics();
-    this.objectiveTitle = this.scene.add.text(0, 0, "", {
-      fontFamily: UI_FONTS.mono, fontSize: objective.escapeTitleFontSize,
-      fontStyle: "bold", color: UI_COLORS.danger,
-    }).setOrigin(0.5);
-    this.objectiveAction = this.scene.add.text(0, 0, "", {
-      fontFamily: UI_FONTS.mono, fontSize: objective.actionFontSize,
-      fontStyle: "bold", color: UI_COLORS.white,
-    }).setOrigin(0.5);
-    this.objectiveDetail = this.scene.add.text(0, 0, "", {
-      fontFamily: UI_FONTS.mono, fontSize: objective.escapeDetailFontSize,
-      color: UI_COLORS.body,
-    }).setOrigin(0.5);
-    this.objectiveRoot.add([
-      this.objectiveBg, this.objectiveTitle, this.objectiveAction, this.objectiveDetail,
-    ]);
+    const card = this.config.card;
+    const font = APPROVED_HUD_SKIN.font;
+    this.root = this.scene.add.container(0, 0)
+      .setScrollFactor(0)
+      .setDepth(this.config.hudDepth)
+      .setVisible(false);
+    this.panelArt = this.scene.add.image(
+      0,
+      0,
+      this.config.assets.statusFrame.key,
+    ).setDisplaySize(card.width, card.height);
+    this.iconArt = this.scene.add.image(
+      card.iconX,
+      0,
+      this.config.assets.medallion.key,
+    ).setDisplaySize(card.iconSize, card.iconSize);
+    this._iconBaseScaleX = this.iconArt.scaleX;
+    this._iconBaseScaleY = this.iconArt.scaleY;
+    this.progress = this.scene.add.graphics();
+    this.title = this.scene.add.text(card.textX, card.titleY, "", {
+      fontFamily: font.family,
+      fontSize: card.titleFontSize,
+      fontStyle: "bold",
+      color: font.gold,
+      stroke: font.shadow,
+      strokeThickness: font.strokeThickness,
+    }).setOrigin(0, 0.5);
+    this.detail = this.scene.add.text(card.textX, card.detailY, "", {
+      fontFamily: font.family,
+      fontSize: card.detailFontSize,
+      color: font.secondary,
+      stroke: font.shadow,
+      strokeThickness: 1,
+      wordWrap: { width: card.textWidth, useAdvancedWrap: false },
+    }).setOrigin(0, 0.5);
+    this.root.add([this.panelArt, this.iconArt, this.progress, this.title, this.detail]);
 
     this._onResize = () => this._layout();
     this.scene.scale?.on?.("resize", this._onResize);
     this._layout();
   }
 
+  beginEvent() {
+    this.escapeActive = false;
+    this.escapeExpiresAt = 0;
+    this.recap = null;
+    this.suppressedSourceState = null;
+  }
+
   activateEscapeObjective() {
+    const sourceState = this.source?.state || "idle";
+    if (sourceState !== "idle") this.suppressedSourceState = sourceState;
     this.escapeActive = true;
+    this.escapeExpiresAt = this._now() + this.config.timing.escapeVisibleMs;
+    this.recap = null;
     this.update();
   }
 
   clearEscapeObjective() {
     this.escapeActive = false;
+    this.escapeExpiresAt = 0;
+    this.update();
+  }
+
+  completeEvent({
+    intensity = "minor",
+    passagesOpened = 0,
+    playerAware = true,
+    aftershockWatch = false,
+  } = {}) {
+    this.escapeActive = false;
+    this.escapeExpiresAt = 0;
+    this.suppressedSourceState = null;
+    this.recap = playerAware ? {
+      intensity,
+      passagesOpened: Math.max(0, Math.floor(passagesOpened)),
+      aftershockWatch: Boolean(aftershockWatch),
+      expiresAt: this._now() + this.config.timing.recapVisibleMs,
+    } : null;
     this.update();
   }
 
   reset() {
     this.escapeActive = false;
+    this.escapeExpiresAt = 0;
+    this.recap = null;
+    this.mode = null;
+    this.hiding = false;
+    this.modeExpiresAt = 0;
+    this.hideDeadline = 0;
+    this.suppressedSourceState = null;
+    this._lastSourceState = this.source?.state || "idle";
+    this._transitionToken += 1;
+    this.scene.tweens?.killTweensOf?.([this.root, this.iconArt]);
     this._setVisible(false);
   }
 
   update() {
     if (this.destroyed || !this.config.enabled) return;
-    const state = this.source?.state || "idle";
-    const mode = this.escapeActive ? "escape" : state;
-    const awarenessKnown = typeof this.source?.isPlayerAware === "function";
-    const playerAware = awarenessKnown ? this.source.isPlayerAware() : true;
-    if (mode === "idle" || (mode !== "escape" && !playerAware)) {
-      this._setVisible(false);
+    const now = this._now();
+    if (this.hiding && now >= this.hideDeadline) this._setVisible(false);
+    const sourceState = this.source?.state || "idle";
+    if (sourceState !== this._lastSourceState) {
+      this._lastSourceState = sourceState;
+      this.suppressedSourceState = null;
+    }
+    if (this.escapeActive && now >= this.escapeExpiresAt) {
+      this.escapeActive = false;
+      this.escapeExpiresAt = 0;
+    }
+    if (this.recap && now >= this.recap.expiresAt) this.recap = null;
+    if (
+      this.mode === sourceState
+      && Number.isFinite(this.modeExpiresAt)
+      && now >= this.modeExpiresAt
+    ) {
+      this.suppressedSourceState = sourceState;
+      this._hide();
       return;
     }
 
+    const nextMode = resolveEarthquakeFeedbackMode({
+      escapeActive: this.escapeActive,
+      state: sourceState,
+      suppressedSourceState: this.suppressedSourceState,
+      source: this.source,
+      recap: this.recap,
+    });
+    if (!nextMode) {
+      this._hide();
+      return;
+    }
+    if (nextMode !== this.mode) this._enterMode(nextMode);
+    this._render(nextMode, now);
+  }
+
+  _enterMode(mode) {
+    this.mode = mode;
+    this.hiding = false;
+    const visibleMs = this.config.timing.phaseVisibleMs?.[mode];
+    this.modeExpiresAt = Number.isFinite(visibleMs)
+      ? this._now() + visibleMs
+      : Number.POSITIVE_INFINITY;
+    const token = ++this._transitionToken;
+    this.scene.tweens?.killTweensOf?.([this.root, this.iconArt]);
+    this._layout();
     this._setVisible(true);
-    this._renderTop(mode);
-    this._renderObjective(mode);
-  }
-
-  _renderTop(mode) {
-    const labels = this.config.labels;
-    const intensity = labels.intensity[this.source?.intensity] || labels.intensity.minor;
-    const seconds = Math.max(0, (this.source?.stateRemaining || 0) / 1000);
-    let title = labels.aftermathTitle;
-    let subtitle = `${labels.groundSettling} • ${seconds.toFixed(1)}s`;
-    let phase = labels.aftermathPhase;
-    let accent = this.config.colors.gold;
-
-    if (mode === "warning") {
-      title = labels.warningTitle;
-      subtitle = `${intensity} • ${labels.impactIn} ${seconds.toFixed(1)}s`;
-      phase = labels.warningPhase;
-      accent = this.config.colors.warning;
-    } else if (mode === "earthquake") {
-      title = labels.quakeTitle;
-      subtitle = `${intensity} • ${String(Math.ceil(seconds)).padStart(2, "0")}s ${labels.remaining}`;
-      phase = labels.quakePhase;
-      accent = this.config.colors.danger;
-    } else if (mode === "aftermath" && this.source?.chainPending) {
-      subtitle = `${labels.aftershockPossible} • ${seconds.toFixed(1)}s`;
-    } else if (mode === "escape") {
-      title = labels.collapsedTitle;
-      subtitle = labels.escapeRoute;
-      phase = labels.escapePhase;
-      accent = this.config.colors.gold;
+    this.root.setAlpha?.(0);
+    this.root.y += this.config.card.enterOffsetY;
+    if (!this.scene.tweens?.add) {
+      this.root.setAlpha?.(1);
+      this._restoreIconScale();
+      return;
     }
-
-    this.topTitle.setText(title).setColor(mode === "escape" ? UI_COLORS.title : UI_COLORS.danger);
-    this.topSubtitle.setText(subtitle);
-    this.topPhase.setText(phase);
-    this._drawTopPanel(accent, mode === "escape" ? 1 : this._remainingRatio());
+    const finalY = this._modeY(mode);
+    this.scene.tweens.add({
+      targets: this.root,
+      alpha: 1,
+      y: finalY,
+      duration: this.config.timing.enterMs,
+      ease: "Sine.easeOut",
+      onComplete: () => {
+        if (token === this._transitionToken) this.root.setPosition(this._viewportWidth() / 2, finalY);
+      },
+    });
   }
 
-  _drawTopPanel(accent, progress) {
-    const top = this.config.top;
-    const width = this._topWidth();
-    const left = -width / 2;
-    this.topBg.clear();
-    this.topBg.fillStyle(UI_COLORS.bg, this.config.colors.panelAlpha);
-    this.topBg.fillRoundedRect(left, 0, width, top.height, top.cornerRadius);
-    this.topBg.lineStyle(top.borderWidth, accent, this.config.colors.panelBorderAlpha);
-    this.topBg.strokeRoundedRect(left, 0, width, top.height, top.cornerRadius);
-    this.topProgress.clear();
-    this.topProgress.fillStyle(this.config.colors.inactive, 0.75);
-    this.topProgress.fillRect(left, top.progressY, width, top.progressHeight);
-    this.topProgress.fillStyle(accent, 1);
-    this.topProgress.fillRect(left, top.progressY, width * clamp01(progress), top.progressHeight);
-  }
-
-  _renderObjective(mode) {
-    const cfg = this.config.objective;
-    const labels = this.config.labels;
-    const escape = mode === "escape";
-    const width = escape ? Math.min(cfg.escapeWidth, this._viewportWidth() - cfg.sideMargin * 2)
-      : Math.min(cfg.maxWidth, this._viewportWidth() - cfg.sideMargin * 2);
-    const height = escape ? cfg.escapeHeight : cfg.normalHeight;
-    const accent = escape ? this.config.colors.gold
-      : mode === "earthquake" ? this.config.colors.danger : this.config.colors.cyan;
-    const action = mode === "warning" ? labels.warningAction
-      : mode === "earthquake" ? labels.quakeAction : labels.aftermathAction;
-
-    this._drawObjectivePanel(width, height, accent);
-    this.objectiveTitle.setVisible(escape).setText(labels.escapeTitle).setPosition(0, -height * 0.3);
-    let escapeDetail = labels.escapeDetail;
-    if (escape) {
-      const player = this.scene.playerController?.getPlayerTile?.();
-      const nearest = this.scene.specialTileSystem?.getNearestPortal?.(player);
-      if (nearest && player) {
-        const dx = nearest.tx - player.tx;
-        const dy = nearest.ty - player.ty;
-        const glyph = Math.abs(dx) > Math.abs(dy)
-          ? (dx < 0 ? "◀" : "▶")
-          : (dy < 0 ? "▲" : "▼");
-        escapeDetail = `${glyph} NEAREST SAFE PORTAL  •  ${nearest.label}`
-          + `  •  ${nearest.distance} tiles`;
-      }
+  _hide() {
+    if (this.hiding || (!this.mode && !this.root?.visible)) return;
+    this.mode = null;
+    this.hiding = true;
+    this.hideDeadline = this._now()
+      + this.config.timing.exitMs
+      + this.config.timing.hideFailsafePaddingMs;
+    const token = ++this._transitionToken;
+    this.scene.tweens?.killTweensOf?.([this.root, this.iconArt]);
+    if (!this.scene.tweens?.add || !this.root?.visible) {
+      this._setVisible(false);
+      return;
     }
-    this.objectiveDetail.setVisible(escape).setText(escapeDetail).setPosition(0, height * 0.3);
-    this.objectiveAction.setText(escape ? labels.escapeAction : action)
-      .setFontSize(escape ? cfg.escapeActionFontSize : cfg.actionFontSize)
-      .setPosition(0, escape ? 0 : 0);
-    this.objectiveRoot.setPosition(this._viewportWidth() / 2, this._viewportHeight() - cfg.bottomMargin - height / 2);
+    this.scene.tweens.add({
+      targets: this.root,
+      alpha: 0,
+      y: this.root.y + this.config.card.exitOffsetY,
+      duration: this.config.timing.exitMs,
+      ease: "Sine.easeIn",
+      onComplete: () => {
+        if (token === this._transitionToken) {
+          this.hiding = false;
+          this._setVisible(false);
+        }
+      },
+    });
   }
 
-  _drawObjectivePanel(width, height, accent) {
-    const cfg = this.config.objective;
-    this.objectiveBg.clear();
-    this.objectiveBg.fillStyle(UI_COLORS.bg, this.config.colors.panelAlpha);
-    this.objectiveBg.fillRoundedRect(-width / 2, -height / 2, width, height, cfg.cornerRadius);
-    this.objectiveBg.lineStyle(2, accent, this.config.colors.panelBorderAlpha);
-    this.objectiveBg.strokeRoundedRect(-width / 2, -height / 2, width, height, cfg.cornerRadius);
+  _render(mode, now) {
+    const presentation = resolveEarthquakeFeedbackPresentation({
+      mode,
+      source: this.source,
+      recap: this.recap,
+      escapeExpiresAt: this.escapeExpiresAt,
+      now,
+      scene: this.scene,
+      config: this.config,
+    });
+    this.title.setText(presentation.title).setColor(hexColor(presentation.accent));
+    this.detail.setText(presentation.detail);
+    this._drawProgress(presentation.accent, presentation.progress);
+    const pulse = 1 + Math.sin(now / this.config.timing.iconPulsePeriodMs * Math.PI * 2)
+      * this.config.card.iconPulseScale;
+    this.iconArt.setScale?.(
+      this._iconBaseScaleX * pulse,
+      this._iconBaseScaleY * pulse,
+    );
   }
 
-  _remainingRatio() {
-    const total = this.source?.stateTotalMs || this.source?.stateRemaining || 1;
-    return (this.source?.stateRemaining || 0) / total;
+  _drawProgress(accent, progress) {
+    const card = this.config.card;
+    this.progress.clear();
+    if (progress <= 0) return;
+    this.progress.fillStyle(accent, 0.95);
+    this.progress.fillRoundedRect(
+      card.progressX,
+      card.progressY,
+      card.progressWidth * progress,
+      card.progressHeight,
+      card.progressRadius,
+    );
+  }
+
+  _layout() {
+    if (!this.root) return;
+    this.root.setPosition(this._viewportWidth() / 2, this._modeY(this.mode));
+  }
+
+  _modeY(mode) {
+    return mode === "escape" ? this._viewportHeight() - this.config.card.bottomMargin
+      : this.config.card.topY;
   }
 
   _setVisible(visible) {
-    this.topRoot?.setVisible(visible);
-    this.objectiveRoot?.setVisible(visible);
+    this.root?.setVisible(visible);
+    if (!visible) {
+      this.hiding = false;
+      this.hideDeadline = 0;
+      this.modeExpiresAt = 0;
+      this.root?.setAlpha?.(0);
+      this._restoreIconScale();
+    }
     if (visible !== this._notificationsShifted) {
       this._notificationsShifted = visible;
       const y = visible ? this.config.notificationActiveBaseY : this._notificationBaseY;
@@ -202,28 +283,17 @@ export class EarthquakeFeedbackUI {
     }
   }
 
-  _layout() {
-    this.topRoot?.setPosition(this._viewportWidth() / 2, this.config.top.marginY);
-    if (this.topRoot?.visible) this.update();
-  }
-
-  _topWidth() {
-    const cfg = this.config.top;
-    const available = this._viewportWidth() - cfg.sideMargin * 2;
-    const viewportFit = this._viewportWidth() - cfg.marginY * 2;
-    return Math.min(cfg.maxWidth, Math.max(cfg.minWidth, available), viewportFit);
-  }
-
+  _restoreIconScale() { this.iconArt?.setScale?.(this._iconBaseScaleX, this._iconBaseScaleY); }
+  _now() { return Number.isFinite(this.scene?.time?.now) ? this.scene.time.now : 0; }
   _viewportWidth() { return this.scene.scale?.width || this.scene.config?.viewportWidth; }
   _viewportHeight() { return this.scene.scale?.height || this.scene.config?.viewportHeight; }
 
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
-    this._setVisible(false);
+    this.reset();
     this.scene.scale?.off?.("resize", this._onResize);
-    this.topRoot?.destroy(true);
-    this.objectiveRoot?.destroy(true);
+    this.root?.destroy(true);
     this.scene = null;
     this.source = null;
   }

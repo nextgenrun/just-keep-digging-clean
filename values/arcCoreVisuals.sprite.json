@@ -1,0 +1,273 @@
+{
+  "spriteMeta": {
+    "schemaVersion": 3,
+    "packageId": "arc-core-v3",
+    "approved": true,
+    "reviewOnly": false,
+    "productionChanged": true,
+    "canvasSizePx": 512,
+    "modes": {
+      "arcCoreSmall": {
+        "bodyRole": "small.body",
+        "energyRole": "small.ring",
+        "cloudRole": "small.cloud",
+        "bodyDisplaySizePx": 114,
+        "originX": 0.5,
+        "originY": 0.5,
+        "depths": {
+          "cloudBack": 17.8,
+          "body": 18,
+          "energyGhost": 18.05,
+          "energyPrimary": 18.1,
+          "energySecondary": 18.12,
+          "beam": 20.8,
+          "impactEcho": 20.9,
+          "impact": 21,
+          "transitionGlyph": 21.8,
+          "cloudFront": 22.1
+        },
+        "idle": {
+          "bobPx": 2.2,
+          "bobPeriodMs": 1540,
+          "bodyBreathRatio": 0.006,
+          "bodyBreathPeriodMs": 1360,
+          "primaryEnergySizeRatio": 0.52,
+          "secondaryEnergySizeRatio": 0.35,
+          "primaryRotationDegPerSecond": 42,
+          "secondaryRotationDegPerSecond": -68,
+          "primaryAlpha": 0.48,
+          "secondaryAlpha": 0.2,
+          "ghostEnergySizeRatio": 0.7,
+          "ghostRotationDegPerSecond": 18,
+          "ghostAlpha": 0.1,
+          "ghostPulseRatio": 0.055
+        },
+        "dig": {
+          "recoilPx": 4,
+          "energyScaleBoostRatio": 0.15,
+          "energyAlphaBoost": 0.26,
+          "rotationBoostDeg": 150,
+          "beamStartRatio": 0.16,
+          "beamHeightPx": 138,
+          "beamLengthPaddingPx": 42,
+          "beamAlpha": 0.9,
+          "beamPulseRatio": 0.045,
+          "impactPaddingPx": 14,
+          "impactAlpha": 0.88,
+          "impactEchoAlpha": 0.24,
+          "impactEchoScale": 1.16,
+          "impactRotationDegPerSecond": 22,
+          "timeline": {
+            "chargeStart": 0.04,
+            "chargePeak": 0.24,
+            "beamStart": 0.16,
+            "beamPeak": 0.34,
+            "beamEnd": 0.82,
+            "impactStart": 0.28,
+            "impactPeak": 0.58,
+            "impactEnd": 0.8,
+            "recoilStart": 0.72
+          }
+        },
+        "cloud": {
+          "displaySizePx": 178,
+          "backScale": 0.92,
+          "frontScale": 1.12,
+          "backAlpha": 0.72,
+          "frontAlpha": 0.48,
+          "rotationDegPerSecond": 34,
+          "glyphSizeRatio": 0.68,
+          "glyphAlpha": 0.72,
+          "glyphRotationDegPerSecond": -48,
+          "pulseScaleRatio": 0.12,
+          "forwardRatio": 0.035
+        },
+        "beamRole": "small.beam",
+        "impactRole": "small.impact"
+      },
+      "arcCoreOmega": {
+        "bodyRole": "omega.body",
+        "energyRole": "omega.sigil",
+        "cloudRole": "omega.cloud",
+        "bodyDisplaySizePx": 452,
+        "originX": 0.5,
+        "originY": 0.5,
+        "depths": {
+          "cloudBack": 17.8,
+          "body": 18,
+          "energyGhost": 18.05,
+          "energyPrimary": 18.1,
+          "energySecondary": 18.12,
+          "beam": 20.8,
+          "impactEcho": 20.9,
+          "impact": 21,
+          "transitionGlyph": 21.8,
+          "cloudFront": 22.1
+        },
+        "idle": {
+          "bobPx": 5,
+          "bobPeriodMs": 4320,
+          "bodyBreathRatio": 0.0035,
+          "bodyBreathPeriodMs": 3180,
+          "primaryEnergySizeRatio": 0.31,
+          "secondaryEnergySizeRatio": 0.2,
+          "primaryRotationDegPerSecond": 6,
+          "secondaryRotationDegPerSecond": -11,
+          "primaryAlpha": 0.42,
+          "secondaryAlpha": 0.16,
+          "ghostEnergySizeRatio": 0.48,
+          "ghostRotationDegPerSecond": 3,
+          "ghostAlpha": 0.12,
+          "ghostPulseRatio": 0.035
+        },
+        "dig": {
+          "recoilPx": 10,
+          "energyScaleBoostRatio": 0.21,
+          "energyAlphaBoost": 0.34,
+          "rotationBoostDeg": 48,
+          "beamStartRatio": 0.28,
+          "beamHeightPx": 620,
+          "beamLengthPaddingPx": 88,
+          "beamAlpha": 0.84,
+          "beamPulseRatio": 0.025,
+          "impactPaddingPx": 44,
+          "impactAlpha": 0.82,
+          "impactEchoAlpha": 0.2,
+          "impactEchoScale": 1.12,
+          "impactRotationDegPerSecond": 5,
+          "timeline": {
+            "chargeStart": 0.08,
+            "chargePeak": 0.36,
+            "beamStart": 0.32,
+            "beamPeak": 0.54,
+            "beamEnd": 0.88,
+            "impactStart": 0.5,
+            "impactPeak": 0.72,
+            "impactEnd": 0.9,
+            "recoilStart": 0.82
+          }
+        },
+        "cloud": {
+          "displaySizePx": 584,
+          "backScale": 0.94,
+          "frontScale": 1.14,
+          "backAlpha": 0.68,
+          "frontAlpha": 0.42,
+          "rotationDegPerSecond": 9,
+          "glyphSizeRatio": 0.62,
+          "glyphAlpha": 0.68,
+          "glyphRotationDegPerSecond": -12,
+          "pulseScaleRatio": 0.08,
+          "forwardRatio": 0.025
+        },
+        "beamRole": "omega.beam",
+        "impactRole": "omega.impact"
+      }
+    },
+    "pipeline": "piskel-roundtrip",
+    "piskelSources": [
+      "sprites/vehicles/arc-core-v3/piskel/arc-core-body-and-fx-v3.piskel",
+      "sprites/vehicles/arc-core-v3/piskel/arc-core-stage-background-v3.piskel"
+    ],
+    "anchorPx": [
+      256,
+      256
+    ],
+    "reviewStage": {
+      "type": "image",
+      "key": "arc-core-v3-stage-background",
+      "url": "arc-stage-background-v3.png",
+      "role": "stage.background",
+      "sha256": "99cca3c58ec888b6fc49ca634e7688dbe91ad42f0384daebdd1beddacd921464",
+      "piskelSource": "sprites/vehicles/arc-core-v3/piskel/arc-core-stage-background-v3.piskel",
+      "depth": -2
+    },
+    "renderTuning": {
+      "idleGhostPhaseRatio": 0.72,
+      "chargeGhostAlpha": 0.16,
+      "secondaryRotationBoostRatio": 0.72,
+      "secondaryChargeBoostRatio": 0.72,
+      "cloudEmergenceMin": 0.28,
+      "cloudEmergenceRange": 0.72,
+      "cloudFrontCounterRotationRatio": 0.62,
+      "visibleAlphaThreshold": 0.002,
+      "beamPulseTimeScale": 0.035,
+      "impactRotationRatio": 0.18
+    }
+  },
+  "arcCoreV3": {
+    "path": "/sprites/vehicles/arc-core-v3/runtime/",
+    "files": [
+      {
+        "type": "image",
+        "key": "arc-core-v3-small-body",
+        "url": "small-arc-master-v3.png",
+        "role": "small.body",
+        "sha256": "9610c669c8a872d126e71837770a5efeb64a631a18ecc8c60644d51c8c993124"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-small-ring",
+        "url": "small-arc-gyro-ring-v2.png",
+        "role": "small.ring",
+        "sha256": "d4701c4361688521f6e43f87c3399b453d8be55b8aea8bcacb0df38e7b1f0e8e"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-small-cloud",
+        "url": "small-arc-cloud-v2.png",
+        "role": "small.cloud",
+        "sha256": "bd638425998f39788b878c7e45693aa93f8b4f78f5ffba6a19e7640379e8f0ab"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-small-beam",
+        "url": "small-arc-twin-beam-v3.png",
+        "role": "small.beam",
+        "sha256": "3dce116a4ad162b850c7cbd4a73a94ce0562e208f6dd3c5a0b04bd33863e024c"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-small-impact",
+        "url": "small-arc-impact-v3.png",
+        "role": "small.impact",
+        "sha256": "e8b5f5bd27dc8ac60d4213f26a89f19a2e88ea98bed573a325a9e4a020d58c58"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-omega-body",
+        "url": "omega-arc-master-v2.png",
+        "role": "omega.body",
+        "sha256": "143802fc23d6c1cc756fd5476fb52001b3be2545d165b2ec2ca36d3657c67e5a"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-omega-sigil",
+        "url": "omega-arc-lattice-sigil-v2.png",
+        "role": "omega.sigil",
+        "sha256": "cacbe6294d4703cc2098e08a0c843eed32dd6c006d6f53b9d6a081d755be1642"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-omega-cloud",
+        "url": "omega-arc-cloud-v2.png",
+        "role": "omega.cloud",
+        "sha256": "959c43960eebd1a156605489d21c514068b307c8e43ee98848c5e2129f206379"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-omega-beam",
+        "url": "omega-arc-lattice-beam-v3.png",
+        "role": "omega.beam",
+        "sha256": "50fe08aac578c27f7bd3af5b5ece322a24422a9dfe900ab43f99e9713747438f"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-v3-omega-impact",
+        "url": "omega-arc-impact-v3.png",
+        "role": "omega.impact",
+        "sha256": "ab72998bcd3ecd675f9dc95f59cac36ef5a82a60d72ec20ac7652127721202ef"
+      }
+    ]
+  }
+}

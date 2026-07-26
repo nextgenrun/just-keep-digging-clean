@@ -1,6 +1,13 @@
 # Tank Test V1
 
-Standalone Phaser sandbox for testing the tank character and the redesigned drill feel.
+**Updated:** 2026-07-26
+
+Standalone Phaser sandbox for testing character concepts, Arc Core motion language, and redesigned dig feel.
+
+The Small/Omega Arc direction is approved: `reviewOnly: false` and
+`productionChanged: true`. This sandbox now consumes the same production
+machine/VFX package as gameplay, while keeping its foundry background isolated
+as review-stage presentation.
 
 The sandbox includes the native UAL mannequin using zero-retarget 30 FPS source motion: idle, walk/run, fly, unarmed attack, the punch-only SIDE/UP set, and same-facing DOWN. The active side chain is Jab/Cross/Jab/Cross; the former fifth power cross, kick, and `Sword_Regular_C` up strike are rejected. `Robot Sphere` remains an optional articulated concept with idle, roll, fly, and directional drill strips.
 
@@ -34,31 +41,68 @@ Do not open `index.html` directly with `file://`; Phaser loads the PNG sheets th
 - The drill is a separate elastic tool layer, not part of the physics size.
 - The target tile stays solid until the configured break frame.
 - Occlusion hides the drill inside the block so it reads as penetration instead of clipping.
-- Cracks, entry gouge, sparks, dust, and break fragments are generated in engine.
+- Legacy character concepts retain their older diagnostics; the active Arc
+  presentation uses authored raster effects only.
 - Up/down digging uses center bore mode: the drill deploys from the tank center after the top hatch opens or the rubber tread retracts into the body.
 - `Drill Head` mode tests the alternate concept where the whole one-tile character is the drill, with no separate arm or extension.
+- `Small Arc — Round Gyro` is the compact 2x2 miner: its exterior stays
+  circular in every direction while inset gyro rings counter-precess quickly
+  and brace into a focused two-lane energy bore.
+- `Omega — Array` is the 8x8 miner: four separated bastions form a reactor gate, idle on a slow tidal suspension, then deploy an eight-lane compression lattice. It is a different silhouette and cadence, not the small Arc enlarged.
+- Both Arc modes use the Piskel-round-tripped `.sprite` v3 package. Each form
+  has one fixed master body plus independently animated authored energy, beam,
+  impact, cloud, and glyph layers. No whole-body frame change or procedural
+  shape renderer can alter its silhouette, pivot, scale, or lighting.
+- `Cloud Enter / Exit` uses ImageGen cloud and glyph sprites only. The former
+  code-drawn sparks, lines, rings, HTML panels, and flat Arc-stage tiles are
+  absent from the active Arc presentation.
 
 ## Controls
 
 | Input | Action |
 | --- | --- |
+| 1 | Select Small Arc |
+| 2 | Select Omega Arc |
 | A / D or left / right | Drive and set side drill aim |
 | W / up | Set drill aim up |
 | S / down | Set drill aim down |
-| E | Drill with the current aim |
+| F | Dig with the current aim |
+| B | Enter or exit the selected Arc through the cloud transition |
 | Q | Trigger the UAL character unarmed attack |
 | Shift + W / S or up / down | Fly movement |
-| Fly Mode panel button | Toggle a hands-free fly pose preview |
-| UAL View panel button | Toggle between `1x Production (109px)` truth view and `2x Inspect (218px)` |
 | R | Reset world |
 | Space | Toggle pause/step mode |
 | . | Step one frame while paused |
 
-The panel also exposes animation buttons and debug toggles for body box, anchor, chassis bounds, drill pivot, drill tip, target tile, occluder mask, slow motion, and frame stepping.
-
-Use `Dig Up` and `Dig Down` in the panel to compare vertical drilling. `Drill` uses the current aim shown in the overlay. Side aim uses front drill mode; up/down aim uses center bore mode.
+The HTML control and information nodes remain only as invisible automation and
+accessibility plumbing. The visible Arc review is a clean Phaser canvas with
+no DOM panels, ornamental HUD frame, target grid, or debug guides. Use W/S to
+aim vertically, then F to compare the directional dig.
 
 Use `Tank Rig` and `Drill Head` to compare character concepts. In `Drill Head`, the whole player is the boring head and the dig read comes from body vibration plus target-tile grinding effects. Drill Head now loads anchored `living-drill-v1` runtime sheets for idle, dig, and fly from `sprites/character/living-drill-v1/runtime`.
+
+Use `Small Arc — Round Gyro` and `Omega — Array` to compare the two Arc Core tiers.
+The small form breaks its real 2x2 footprint in a fast `0.74s` snap. Omega
+switches to a zoomed 8x8 review wall, takes `1.68s` to anchor and charge, then
+ruptures all 64 cells with a sequential compression sweep. `Idle` cancels the
+current dig so each resting loop can be judged cleanly.
+
+The canonical generated artwork lives under
+`sprites/vehicles/arc-core-v3`. The Piskel pipeline writes two editable
+projects and round-trips ten production roles plus one sandbox background
+through fixed canvases before runtime export. Phaser loads the hashed outputs
+through `values/arcCoreVisuals.sprite.json`, which centralizes roles, paths,
+pivots, display sizes, depths, timelines, stage art, and the zero-drift
+contract.
+The older boards under
+`visual-approval-previews/arc-core-imagegen-animation-v1` remain rejection and
+comparison evidence only. The rejected ornamental frame, four random tiles,
+and tile-based captures live only under
+`archive/2026-07-26-rejected-arc-review-random-art/`.
+
+In the production game, boarding and leaving the Arc Core uses the separately
+rebindable `B` action. `E` remains the general world-interact action and `F`
+remains dig. `?arcCoreVisualsV3=0` restores the legacy Arc body renderer.
 
 Use `UAL Native 30 FPS` to inspect the zero-retarget mannequin, native motion, and weapon-free punch mining at the 109px base scale. Production locomotion now uses 123px and should be judged in the tuning lab or game. Marker/contact overlays are diagnostic only; gameplay cooldown begins at action start and damage remains on the visual contact. Use `Robot Sphere` to inspect the rendered shell roll, articulated hover, directional drill deployment, and single-robot split bore against the four-cell footprint. Camera-entry tuning is intentionally deferred until the character direction is final.
 

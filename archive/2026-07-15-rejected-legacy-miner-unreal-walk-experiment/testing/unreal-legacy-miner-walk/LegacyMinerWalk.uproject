@@ -1,0 +1,12 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.8",
+  "Category": "Animation Sandbox",
+  "Description": "Walk-only Legacy Miner Unreal retarget and 2D render proof.",
+  "Plugins": [
+    { "Name": "AnimationLocomotionLibrary", "Enabled": true },
+    { "Name": "IKRig", "Enabled": true },
+    { "Name": "PythonScriptPlugin", "Enabled": true },
+    { "Name": "EditorScriptingUtilities", "Enabled": true }
+  ]
+}

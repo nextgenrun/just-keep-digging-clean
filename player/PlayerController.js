@@ -254,6 +254,10 @@ import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=
     return this.abilities?.consumeGemPower?.(amount) ?? 0;
   }
 
+  fillGemPower() {
+    return this.abilities?.fillGemPower?.() ?? 0;
+  }
+
   drainAllGemPower() {
     return this.abilities?.drainAllGemPower?.() ?? 0;
   }

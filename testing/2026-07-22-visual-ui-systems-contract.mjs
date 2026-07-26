@@ -29,6 +29,7 @@ const { PostFxSystem } = await import("../systems/visual/PostFxSystem.js");
 const { ScreenFlashSystem } = await import("../systems/visual/ScreenFlashSystem.js");
 const { StarPillarSystem } = await import("../systems/visual/StarPillarSystem.js");
 const { UINotificationSystem } = await import("../ui/UINotificationSystem.js");
+const { ASSET_KEYS } = await import("../values/assetKeys.js");
 const { DEPTH_MILESTONES } = await import("../values/depthMilestones.js");
 const { TILE_TYPES } = await import("../values/tileTypes.js");
 
@@ -120,7 +121,10 @@ assert.equal(skin.active, true);
 skin.setBuffLines(["Haste", "Luck"]); skin.setComboVisible(true); skin.setTorchState(false);
 assert.equal(skin.buffTexts[0].text, "Haste");
 assert.equal(skin.comboFrame.visible, true);
-assert.equal(hudActors.torchStatusText.text, "○");
+assert.equal(hudActors.torchStatusText.visible, false);
+assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCoreTorchOff);
+skin.setTorchState(true);
+assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCore);
 skin.destroy();
 assert.equal(skinScene.actors.filter((actor) => actor.destroyed).length > 0, true);
 

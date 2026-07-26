@@ -7,6 +7,7 @@ import { WORLD_VISUAL_RUNTIME } from "../../../values/worldVisualRuntime.js";
 import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
   isWorldVisualDepthBackdropRegionReady,
+  resolveWorldVisualDepthBackdropRegionAssets,
   resolveWorldVisualDepthBackdropRegions,
 } from "../../../values/worldVisualDepthBackdrops.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
@@ -17,10 +18,16 @@ function isAir(model, tx, ty) {
 }
 
 export class WorldVisualMaterialField {
-  constructor(scene, worldModel, config = WORLD_VISUAL_RUNTIME) {
+  constructor(
+    scene,
+    worldModel,
+    config = WORLD_VISUAL_RUNTIME,
+    search = globalThis.location?.search || ""
+  ) {
     this.scene = scene;
     this.worldModel = worldModel;
     this.config = config;
+    this.search = search;
     this.maskGraphics = null;
     this.geometryMask = null;
     this.backdropMaskGraphics = null;
@@ -157,7 +164,8 @@ export class WorldVisualMaterialField {
     const regions = resolveWorldVisualDepthBackdropRegions(
       bounds.top,
       bounds.bottom,
-      WORLD_VISUAL_DEPTH_BACKDROPS
+      WORLD_VISUAL_DEPTH_BACKDROPS,
+      this.search
     );
     let cursor = bounds.top;
     for (const region of regions) {
@@ -166,7 +174,14 @@ export class WorldVisualMaterialField {
       fillTiles(bounds.left, cursor, bounds.right, top);
       const ready = isWorldVisualDepthBackdropRegionReady(
         region,
-        key => this.scene.textures.exists(key)
+        asset => asset?.type === "video"
+          ? Boolean(this.scene.cache?.video?.exists(asset.key))
+          : this.scene.textures.exists(asset.key),
+        resolveWorldVisualDepthBackdropRegionAssets(
+          region,
+          WORLD_VISUAL_DEPTH_BACKDROPS,
+          this.search
+        )
       );
       if (!ready) {
         fillTiles(bounds.left, top, bounds.right, bottom);

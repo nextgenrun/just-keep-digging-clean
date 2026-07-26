@@ -1,0 +1,396 @@
+{
+  "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/money-monster.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 8,
+  "frameSize": [
+    512,
+    512
+  ],
+  "sheetGrid": [
+    8,
+    1
+  ],
+  "sheetSize": [
+    4096,
+    512
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 7,
+  "runtimeFps": 1,
+  "phaserKey": null,
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.42,
+    "anchorAlphaThreshold": 32,
+    "anchorSmoothingWindow": 1,
+    "targetAnchorX": 256,
+    "bottomY": 496,
+    "minUniformScale": 1.0,
+    "maxUniformScale": 1.0,
+    "runtimeBaselineY": 496,
+    "sizePolicy": "one uniform scale for all eight frames"
+  },
+  "runtimeOutputs": [
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-quiet.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-work.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-rare.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-player.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-inspect.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-habit.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-signature.webp",
+    "sprites/npc/npc-v10-piskel-idles/singles/money-monster-showcase.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        86,
+        63,
+        427,
+        496
+      ],
+      "bboxWidth": 341,
+      "bboxHeight": 433,
+      "centerX": 256.5,
+      "rootAnchorX": 256.36,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 67318,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        67,
+        63,
+        424,
+        496
+      ],
+      "bboxWidth": 357,
+      "bboxHeight": 433,
+      "centerX": 245.5,
+      "rootAnchorX": 256.28,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 68332,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        72,
+        63,
+        437,
+        496
+      ],
+      "bboxWidth": 365,
+      "bboxHeight": 433,
+      "centerX": 254.5,
+      "rootAnchorX": 255.96,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 69426,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        42,
+        63,
+        433,
+        496
+      ],
+      "bboxWidth": 391,
+      "bboxHeight": 433,
+      "centerX": 237.5,
+      "rootAnchorX": 255.66,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 61500,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        46,
+        63,
+        437,
+        496
+      ],
+      "bboxWidth": 391,
+      "bboxHeight": 433,
+      "centerX": 241.5,
+      "rootAnchorX": 256.08,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 70629,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        64,
+        63,
+        429,
+        496
+      ],
+      "bboxWidth": 365,
+      "bboxHeight": 433,
+      "centerX": 246.5,
+      "rootAnchorX": 256.07,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 69526,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        66,
+        63,
+        428,
+        496
+      ],
+      "bboxWidth": 362,
+      "bboxHeight": 433,
+      "centerX": 247.0,
+      "rootAnchorX": 255.88,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 68722,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 7,
+      "sourceFrame": null,
+      "bbox": [
+        54,
+        63,
+        433,
+        496
+      ],
+      "bboxWidth": 379,
+      "bboxHeight": 433,
+      "centerX": 243.5,
+      "rootAnchorX": 256.04,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 65966,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polish": {
+    "skipped": false,
+    "anchorMode": "alpha-lower-body",
+    "targetAnchor": [
+      256.0,
+      496.0
+    ],
+    "uniformScale": 1.0,
+    "before": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 0.75,
+      "maxRootAnchorDriftPx": 11.31,
+      "maxAnchorDriftPx": 11.31,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 433.0
+    },
+    "after": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 10.5,
+      "maxRootAnchorDriftPx": 0.4,
+      "maxAnchorDriftPx": 0.4,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 433.0
+    },
+    "shifts": [
+      {
+        "frame": 0,
+        "sourceAnchor": [
+          255.36,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.36,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceAnchor": [
+          267.28,
+          496.0
+        ],
+        "smoothedAnchor": [
+          267.28,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceAnchor": [
+          257.96,
+          496.0
+        ],
+        "smoothedAnchor": [
+          257.96,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceAnchor": [
+          273.66,
+          496.0
+        ],
+        "smoothedAnchor": [
+          273.66,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceAnchor": [
+          271.08,
+          496.0
+        ],
+        "smoothedAnchor": [
+          271.08,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceAnchor": [
+          266.07,
+          496.0
+        ],
+        "smoothedAnchor": [
+          266.07,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceAnchor": [
+          264.88,
+          496.0
+        ],
+        "smoothedAnchor": [
+          264.88,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 7,
+        "sourceAnchor": [
+          268.04,
+          496.0
+        ],
+        "smoothedAnchor": [
+          268.04,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      }
+    ]
+  },
+  "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-alignment-overlay.png",
+  "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-drift-report.json"
+}

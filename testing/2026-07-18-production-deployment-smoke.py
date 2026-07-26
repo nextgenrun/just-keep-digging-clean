@@ -19,6 +19,8 @@ assert len(modules) >= 200, "the production graph must include the complete game
 assert len(assets) >= 1000, "the production graph must include runtime media, not source only"
 assert all(path.is_file() and ROOT in path.parents for path in modules)
 assert all(path.is_file() and ROOT in path.parents for path in assets)
+assert not any("biome-motion-v2" in path.parts for path in assets)
+assert not any("underground-biome-smooth-motion-v3" in path.parts for path in assets)
 
 for relative_directory in (
     "sprites/npc/campfire/generated",
@@ -30,6 +32,25 @@ for relative_directory in (
         if path.is_file() and path.suffix.lower() in builder["ASSET_SUFFIXES"]
     }
     assert expected <= assets, f"collector missed dynamic runtime directory: {relative_directory}"
+
+arc_pack_path = ROOT / "values" / "arcCoreVisuals.sprite.json"
+arc_pack = json.loads(arc_pack_path.read_text(encoding="utf-8"))
+arc_section = arc_pack["arcCoreV3"]
+arc_runtime_root = ROOT / arc_section["path"].lstrip("/")
+arc_runtime_assets = {
+    (arc_runtime_root / entry["url"]).resolve()
+    for entry in arc_section["files"]
+}
+assert arc_pack_path.resolve() in assets, "collector missed the Arc .sprite manifest"
+assert arc_runtime_assets <= assets, "collector missed approved Arc runtime layers"
+
+rejected_arc_archive = ROOT / "archive" / "2026-07-26-rejected-arc-review-random-art"
+rejected_arc_assets = {
+    path.resolve()
+    for path in rejected_arc_archive.rglob("*")
+    if path.is_file() and path.suffix.lower() in builder["ASSET_SUFFIXES"]
+}
+assert assets.isdisjoint(rejected_arc_assets), "rejected Arc review art entered production"
 
 build_id = builder["production_build_id"](modules, assets)
 assert len(build_id) == 12
@@ -64,6 +85,7 @@ for contract in (
     'self.send_error(405, "Production server is read-only")',
     '".wasm": "application/wasm"',
     '".webp": "image/webp"',
+    '".webm": "video/webm"',
     '".ktx2": "image/ktx2"',
 ):
     assert contract in server_source, f"missing production HTTP contract: {contract}"

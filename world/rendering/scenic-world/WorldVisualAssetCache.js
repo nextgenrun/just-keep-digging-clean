@@ -1,9 +1,11 @@
 export class WorldVisualAssetCache {
-  constructor(scene, { retainKeys = [] } = {}) {
+  constructor(scene, { retainKeys = [], videoNoAudio = true } = {}) {
     this.scene = scene;
     this.retainKeys = new Set(retainKeys);
+    this.videoNoAudio = videoNoAudio;
     this.pending = new Map();
     this.loadedByCache = new Set();
+    this.assetsByKey = new Map();
     this.destroyed = false;
     this._handleLoadError = this._handleLoadError.bind(this);
     this.scene.load.on("loaderror", this._handleLoadError);
@@ -11,7 +13,8 @@ export class WorldVisualAssetCache {
 
   ensure(asset, { onReady = null, onError = null } = {}) {
     if (this.destroyed || !asset?.key || !asset?.path) return false;
-    if (this.scene.textures.exists(asset.key)) {
+    this.assetsByKey.set(asset.key, asset);
+    if (this._exists(asset)) {
       onReady?.(asset);
       return true;
     }
@@ -23,7 +26,8 @@ export class WorldVisualAssetCache {
       return false;
     }
 
-    const eventName = `filecomplete-image-${asset.key}`;
+    const type = asset.type === "video" ? "video" : "image";
+    const eventName = `filecomplete-${type}-${asset.key}`;
     const record = {
       asset,
       eventName,
@@ -34,17 +38,33 @@ export class WorldVisualAssetCache {
     record.complete = () => this._finish(asset.key);
     this.pending.set(asset.key, record);
     this.scene.load.once(eventName, record.complete);
-    this.scene.load.image(asset.key, asset.path);
+    if (type === "video") {
+      this.scene.load.video(asset.key, asset.path, this.videoNoAudio);
+    } else {
+      this.scene.load.image(asset.key, asset.path);
+    }
     if (!this.scene.load.isLoading()) this.scene.load.start();
     console.info(`[WorldVisualAssetCache] Streaming ${asset.key}`);
     return false;
   }
 
-  release(key) {
+  _exists(asset, key = asset?.key) {
+    if (!key) return false;
+    return asset?.type === "video"
+      ? Boolean(this.scene.cache?.video?.exists(key))
+      : this.scene.textures.exists(key);
+  }
+
+  release(key, asset = this.assetsByKey.get(key)) {
     if (!key || this.retainKeys.has(key) || this.pending.has(key)) return false;
-    if (!this.scene.textures.exists(key)) return false;
-    this.scene.textures.remove(key);
+    if (!this._exists(asset, key)) return false;
+    if (asset?.type === "video") {
+      this.scene.cache.video.remove(key);
+    } else {
+      this.scene.textures.remove(key);
+    }
     this.loadedByCache.delete(key);
+    this.assetsByKey.delete(key);
     return true;
   }
 
@@ -76,5 +96,6 @@ export class WorldVisualAssetCache {
     this.pending.clear();
     for (const key of this.loadedByCache) this.release(key);
     this.loadedByCache.clear();
+    this.assetsByKey.clear();
   }
 }

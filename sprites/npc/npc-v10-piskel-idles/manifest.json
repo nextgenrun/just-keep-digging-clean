@@ -1,0 +1,1152 @@
+{
+  "created": "2026-07-26",
+  "runtimeApproved": true,
+  "reviewOnly": false,
+  "productionChanged": true,
+  "walkingRemoved": true,
+  "piskelRoundTripped": true,
+  "sourcePack": "sprites/npc/npc-v9-planted-idles",
+  "generator": "pipelines/piskel/2026-07-26-build-npc-idle-piskel-package.py",
+  "canvas": [
+    512,
+    512
+  ],
+  "baselineY": 496,
+  "activityOrder": [
+    "quiet",
+    "work",
+    "rare",
+    "player",
+    "inspect",
+    "habit",
+    "signature",
+    "showcase"
+  ],
+  "frameCount": 48,
+  "scalePolicy": "one uniform 1.0 scale per merchant; no per-frame scaling",
+  "transformPolicy": "position only; rotation 0; fixed display size",
+  "merchants": {
+    "player-upgrades": {
+      "label": "Player Upgrades",
+      "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/player-upgrades.piskel",
+      "sourcePiskelSha256": "af8915808594c4020436a8d248d10027cc3ebea436fffd820afab835c7356c6b",
+      "uniformScale": 1.0,
+      "targetAnchor": [
+        256.0,
+        496.0
+      ],
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 12.5,
+        "maxRootAnchorDriftPx": 0.51,
+        "maxAnchorDriftPx": 0.51,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 484.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v10-piskel-idles/reports/player-upgrades-metadata.json",
+        "previewPath": "sprites/npc/npc-v10-piskel-idles/reports/player-upgrades-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v10-piskel-idles/reports/player-upgrades-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/player-upgrades-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/player-upgrades-drift-report.json"
+      },
+      "assets": {
+        "quiet": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-quiet.webp",
+          "sha256": "a3c0e0f9cb47435280b5fd9c36f9d4928ab0bf4e33f12b9b87f43ff265f53f19",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            103,
+            12,
+            385,
+            496
+          ],
+          "rootAnchor": [
+            256.38,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "work": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-work.webp",
+          "sha256": "c44587dd02d9b6a09fc23075ccc63604ab128c0db4d17b2a12ebb229f31e98da",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            82,
+            13,
+            370,
+            496
+          ],
+          "rootAnchor": [
+            255.77,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-rare.webp",
+          "sha256": "6eb3c8c80856af59f8351a5d553170aba2c41c1fe90b5da07ddf7f79d9b1e650",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            85,
+            12,
+            406,
+            496
+          ],
+          "rootAnchor": [
+            256.37,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-player.webp",
+          "sha256": "e7c5ec0c65e316d078371ddd5952ef57cd1d3d3b0583ce79b5d6c6f71ef52d6f",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            36,
+            12,
+            425,
+            496
+          ],
+          "rootAnchor": [
+            255.59,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-inspect.webp",
+          "sha256": "a196616af923e07b653fdd6bf361434592e719a7910c76bac27e4802b3dad13d",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            106,
+            12,
+            386,
+            496
+          ],
+          "rootAnchor": [
+            256.33,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-habit.webp",
+          "sha256": "2f47382711b384948762dbd7ed176dff735570492e4e7e79605e04caade90654",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            94,
+            12,
+            372,
+            496
+          ],
+          "rootAnchor": [
+            256.43,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-signature.webp",
+          "sha256": "2396ba25f46a9bbf5f28220c1f54c18acff622124ad8433726b80c7da8541115",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            81,
+            12,
+            376,
+            496
+          ],
+          "rootAnchor": [
+            255.87,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/player-upgrades-showcase.webp",
+          "sha256": "1bc628f301e78c65ba0a87c43129f7cbf9f82d6c1507839aefd417443dad2580",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            121,
+            12,
+            376,
+            496
+          ],
+          "rootAnchor": [
+            255.7,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        }
+      }
+    },
+    "gear-merchant": {
+      "label": "Gear Merchant",
+      "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/gear-merchant.piskel",
+      "sourcePiskelSha256": "9728b8c55abbc86f4b6d051d4ea4c19b13c433d978cf6ff005447a223c4ed4f1",
+      "uniformScale": 1.0,
+      "targetAnchor": [
+        256.0,
+        496.0
+      ],
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 14.5,
+        "maxRootAnchorDriftPx": 0.51,
+        "maxAnchorDriftPx": 0.51,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 458.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v10-piskel-idles/reports/gear-merchant-metadata.json",
+        "previewPath": "sprites/npc/npc-v10-piskel-idles/reports/gear-merchant-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v10-piskel-idles/reports/gear-merchant-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/gear-merchant-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/gear-merchant-drift-report.json"
+      },
+      "assets": {
+        "quiet": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-quiet.webp",
+          "sha256": "c8e85d81d1305fa27a0b44442edb36adaa1001907db2d2f606d8602e7171003c",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            111,
+            38,
+            421,
+            496
+          ],
+          "rootAnchor": [
+            256.45,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "work": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-work.webp",
+          "sha256": "5dff9b752cee15348ec1b345b3fcf34e7e45ef7fd9ca979792d71a0d0805dde8",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            85,
+            38,
+            392,
+            496
+          ],
+          "rootAnchor": [
+            256.44,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-rare.webp",
+          "sha256": "777f85987a475b0146407609ada36ab4374999c5992fb3f31557c31d9e48112c",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            72,
+            38,
+            435,
+            496
+          ],
+          "rootAnchor": [
+            255.67,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-player.webp",
+          "sha256": "50ca6774c012cd89be08914dd07f87e6514a02464e4b95da2636538c045efe8a",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            36,
+            38,
+            463,
+            496
+          ],
+          "rootAnchor": [
+            255.5,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-inspect.webp",
+          "sha256": "4dfeb7e9baa1222f53e4fe3e7c80e4263ec92e09f78bb57638945bb7fa646710",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            111,
+            38,
+            403,
+            496
+          ],
+          "rootAnchor": [
+            255.9,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-habit.webp",
+          "sha256": "5d6b2d41feed39ff42fe493206e2bd761c353a8c1107d1a5e6bc9d108340023b",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            83,
+            38,
+            397,
+            496
+          ],
+          "rootAnchor": [
+            256.13,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-signature.webp",
+          "sha256": "a573824f601d354742118551d066a4093933edbc4fba3032fab7d3d82697aa57",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            116,
+            38,
+            413,
+            496
+          ],
+          "rootAnchor": [
+            256.27,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gear-merchant-showcase.webp",
+          "sha256": "42926741a3a2c9df0a658c1658a3c43c29802a6ac096f76577776311467a00e3",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            101,
+            38,
+            387,
+            496
+          ],
+          "rootAnchor": [
+            255.82,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        }
+      }
+    },
+    "bobo-merchant": {
+      "label": "Bobo Merchant",
+      "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/bobo-merchant.piskel",
+      "sourcePiskelSha256": "d8c33828251fb7761e2fef356fa284a2f7ed54f0363cf45b8f2473def449698d",
+      "uniformScale": 1.0,
+      "targetAnchor": [
+        256.0,
+        496.0
+      ],
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 17.25,
+        "maxRootAnchorDriftPx": 0.62,
+        "maxAnchorDriftPx": 0.62,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 444.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v10-piskel-idles/reports/bobo-merchant-metadata.json",
+        "previewPath": "sprites/npc/npc-v10-piskel-idles/reports/bobo-merchant-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v10-piskel-idles/reports/bobo-merchant-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/bobo-merchant-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/bobo-merchant-drift-report.json"
+      },
+      "assets": {
+        "quiet": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-quiet.webp",
+          "sha256": "4af318385d52e766fc09aabdb1d60a5dff9269f3b9759fef35652218cfdfc1b1",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            100,
+            52,
+            422,
+            496
+          ],
+          "rootAnchor": [
+            256.41,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "work": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-work.webp",
+          "sha256": "7582e1ce53f4190eb2d2838a89dac7e33fd33d4f2f075d1038fd56eb2fb6cac5",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            60,
+            52,
+            434,
+            496
+          ],
+          "rootAnchor": [
+            255.51,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-rare.webp",
+          "sha256": "23c1f346b1f1b006dae4dae1e24bb1ff8ed5217b1252306310ed795f6feece2a",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            19,
+            50,
+            489,
+            496
+          ],
+          "rootAnchor": [
+            256.22,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-player.webp",
+          "sha256": "adf267450827fd299d8df611e9c47dae2f43a1c8e905abb604cc0cfb9794d5fd",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            80,
+            52,
+            418,
+            496
+          ],
+          "rootAnchor": [
+            255.64,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-inspect.webp",
+          "sha256": "210bdc99326ed4efcf97cf568ff262a715e2ebf7568ef986a4593d18a2a2e9bf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            97,
+            52,
+            421,
+            496
+          ],
+          "rootAnchor": [
+            255.83,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-habit.webp",
+          "sha256": "a93830032ebfba2018ce43fae3cd89ea667fc73a2b7f85c44547040e29d46791",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            89,
+            52,
+            423,
+            496
+          ],
+          "rootAnchor": [
+            256.13,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-signature.webp",
+          "sha256": "1d463bfbb3766a717408270f1f6fcc672beb4bffe4549b88006aec0c6fc6aebf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            85,
+            52,
+            460,
+            496
+          ],
+          "rootAnchor": [
+            256.14,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/bobo-merchant-showcase.webp",
+          "sha256": "c6b30dd76502f73ff32be125b892867370dcaf13c9e27bf56609911c5a4a409e",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            73,
+            52,
+            436,
+            496
+          ],
+          "rootAnchor": [
+            256.47,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        }
+      }
+    },
+    "money-monster": {
+      "label": "Money Monster",
+      "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/money-monster.piskel",
+      "sourcePiskelSha256": "b22dd9ec93b873b15dc036e39e5a5102e5f5d7741b9a00485b9fc8e6668b906b",
+      "uniformScale": 1.0,
+      "targetAnchor": [
+        256.0,
+        496.0
+      ],
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 10.5,
+        "maxRootAnchorDriftPx": 0.4,
+        "maxAnchorDriftPx": 0.4,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 433.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-metadata.json",
+        "previewPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/money-monster-drift-report.json"
+      },
+      "assets": {
+        "quiet": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-quiet.webp",
+          "sha256": "37f908ec3932bc1cdb9d91cfe8dd939337621b03188eaace5e33ebcdc61d9a97",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            86,
+            63,
+            427,
+            496
+          ],
+          "rootAnchor": [
+            256.36,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "work": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-work.webp",
+          "sha256": "1418f0f3d9cacdbeeb41f12d7448b6d55484cce8acb4646d351269fe781eea39",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            67,
+            63,
+            424,
+            496
+          ],
+          "rootAnchor": [
+            256.28,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-rare.webp",
+          "sha256": "65c53d68b434abe8eea39d7d07c0d794ec4b876041822fdd459a93afee3130c6",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            72,
+            63,
+            437,
+            496
+          ],
+          "rootAnchor": [
+            255.96,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-player.webp",
+          "sha256": "3b6ba94f23b3149eebf3cfe1dd4001f0c98709423373b16a13b5a4fce8f57180",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            42,
+            63,
+            433,
+            496
+          ],
+          "rootAnchor": [
+            255.66,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-inspect.webp",
+          "sha256": "87dc2b7b09a3864cd5aa72c06246faa3a857fdcbafaac79f96a322e27e4c7643",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            46,
+            63,
+            437,
+            496
+          ],
+          "rootAnchor": [
+            256.08,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-habit.webp",
+          "sha256": "9f9baa35512cd8a8f9ae1edad353a242a5d273a55170c0519e11a962dfa8bf79",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            64,
+            63,
+            429,
+            496
+          ],
+          "rootAnchor": [
+            256.07,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-signature.webp",
+          "sha256": "8c15cc6386a8987addbd45b68cd0fa3fa159954787c1b75efafe7f18ab1b6ed5",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            66,
+            63,
+            428,
+            496
+          ],
+          "rootAnchor": [
+            255.88,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/money-monster-showcase.webp",
+          "sha256": "36996653172f5b74c92ebcfb222544846a7b1ee61baaf3abfb00e801beb9e424",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            54,
+            63,
+            433,
+            496
+          ],
+          "rootAnchor": [
+            256.04,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        }
+      }
+    },
+    "gem-power-merchant": {
+      "label": "Gem Power Merchant",
+      "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/gem-power-merchant.piskel",
+      "sourcePiskelSha256": "8b4490249311c3fd3f24d5870a1315c821ee52eeaa714502b5477ebe14330f4b",
+      "uniformScale": 1.0,
+      "targetAnchor": [
+        256.0,
+        496.0
+      ],
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 15.25,
+        "maxRootAnchorDriftPx": 0.41,
+        "maxAnchorDriftPx": 0.41,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 383.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v10-piskel-idles/reports/gem-power-merchant-metadata.json",
+        "previewPath": "sprites/npc/npc-v10-piskel-idles/reports/gem-power-merchant-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v10-piskel-idles/reports/gem-power-merchant-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/gem-power-merchant-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/gem-power-merchant-drift-report.json"
+      },
+      "assets": {
+        "quiet": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-quiet.webp",
+          "sha256": "abbeae206c03a61ca22cc25af270e6b91383e49f1725887cf9d6ed9b99ebdf61",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            78,
+            113,
+            411,
+            496
+          ],
+          "rootAnchor": [
+            256.01,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "work": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-work.webp",
+          "sha256": "8c77ea7a554e944018888a8b9f2b1f7493bb5f89759cdccb3aebe3a54bc35be1",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            51,
+            113,
+            466,
+            496
+          ],
+          "rootAnchor": [
+            256.42,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-rare.webp",
+          "sha256": "dfa60066a43e1fc465adc17b88e2bcaf566fbe733e52f392215fbb01d3c812e4",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            59,
+            113,
+            446,
+            496
+          ],
+          "rootAnchor": [
+            256.35,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-player.webp",
+          "sha256": "b23f9461f84382f7e40bf1f066f20e2ac3412255028e37cff8c353caed2846b8",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            27,
+            113,
+            441,
+            496
+          ],
+          "rootAnchor": [
+            256.11,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-inspect.webp",
+          "sha256": "63c2178bac79e3e1ebec6c5a1fbb00a0d7f8bc8e0cb67bef326f919c53875531",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            70,
+            113,
+            410,
+            496
+          ],
+          "rootAnchor": [
+            255.89,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-habit.webp",
+          "sha256": "df49a0823e1145a35e7458f33744afa0bd6513cbe6b40349d32b6f6d4ec30867",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            74,
+            97,
+            414,
+            496
+          ],
+          "rootAnchor": [
+            256.02,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-signature.webp",
+          "sha256": "264535df206e8a6848e7e036d61ed828bb05951de3fea3b8b77b0b03031295d0",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            98,
+            105,
+            421,
+            496
+          ],
+          "rootAnchor": [
+            255.72,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/gem-power-merchant-showcase.webp",
+          "sha256": "da02b0f9f35d51f587c09f9e60e4dfbe8157a7ba6d08bd15d76e5c96110bb7b5",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            40,
+            113,
+            448,
+            496
+          ],
+          "rootAnchor": [
+            255.6,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        }
+      }
+    },
+    "magma-money-monster": {
+      "label": "Magma Money Monster",
+      "sourcePiskel": "sprites/npc/npc-v10-piskel-idles/piskel/magma-money-monster.piskel",
+      "sourcePiskelSha256": "7c020ec6e319c220f8ef5346a177626b90ef2e775ce72ceff4d74ec8d12783fc",
+      "uniformScale": 1.0,
+      "targetAnchor": [
+        256.0,
+        496.0
+      ],
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 13.5,
+        "maxRootAnchorDriftPx": 0.68,
+        "maxAnchorDriftPx": 0.68,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 436.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v10-piskel-idles/reports/magma-money-monster-metadata.json",
+        "previewPath": "sprites/npc/npc-v10-piskel-idles/reports/magma-money-monster-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v10-piskel-idles/reports/magma-money-monster-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v10-piskel-idles/reports/magma-money-monster-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v10-piskel-idles/reports/magma-money-monster-drift-report.json"
+      },
+      "assets": {
+        "quiet": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-quiet.webp",
+          "sha256": "6bac3a76d53324a0195e1830522e8e91cf91052cae9b807557de885591e10e5c",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            38,
+            60,
+            459,
+            496
+          ],
+          "rootAnchor": [
+            255.93,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "work": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-work.webp",
+          "sha256": "b445797c609999bacf8738ac3ca61520c06fd176b4e47755bccf292958d0b5fc",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            13,
+            60,
+            449,
+            496
+          ],
+          "rootAnchor": [
+            255.66,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-rare.webp",
+          "sha256": "dc5f93e4ab65db0e8fc0770adba3aa98e6147a10efda663ad81a66d774f5db4d",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            9,
+            60,
+            466,
+            496
+          ],
+          "rootAnchor": [
+            255.57,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-player.webp",
+          "sha256": "ed6690ec187abb3457aa256e2197b9610451ceb8731e1c31e5432341d7288c89",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            30,
+            60,
+            469,
+            496
+          ],
+          "rootAnchor": [
+            256.07,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-inspect.webp",
+          "sha256": "ec86ceda934b8aabc080516d15d0f5acac49799de44d6c82b9e80eaf2510d9b8",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            55,
+            60,
+            447,
+            496
+          ],
+          "rootAnchor": [
+            255.7,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-habit.webp",
+          "sha256": "9446825aba411ae30c37ebe22f36c85f54055b21d4dc289dd02f6ce58b399377",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            26,
+            60,
+            444,
+            496
+          ],
+          "rootAnchor": [
+            256.36,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-signature.webp",
+          "sha256": "181cc18fbf78afa76c275641a3cbb00ecc5d31b486a57ab9d2881091840d98d4",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            73,
+            60,
+            432,
+            496
+          ],
+          "rootAnchor": [
+            255.66,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v10-piskel-idles/singles/magma-money-monster-showcase.webp",
+          "sha256": "9bccd56d9264cfc481bcbd5fc1028903bf8b3749b5f61a1f69eca53fcda23653",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            14,
+            50,
+            467,
+            496
+          ],
+          "rootAnchor": [
+            255.51,
+            496.0
+          ],
+          "bottom": 496,
+          "edgeOpaquePixels": 0
+        }
+      }
+    }
+  }
+}

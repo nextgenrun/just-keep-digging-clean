@@ -20,6 +20,8 @@ function randomForInt(target, min, max) {
 
 function makeBareSystem(overrides = {}) {
   const system = Object.create(EarthquakeSystem.prototype);
+  system._openedPassageKeys = new Set();
+  system._openedPassageTiles = [];
   system.config = {
     ...EARTHQUAKE_CONFIG,
     worldSpawn: { ...EARTHQUAKE_CONFIG.worldSpawn },
@@ -35,14 +37,57 @@ function makeBareSystem(overrides = {}) {
       ...EARTHQUAKE_CONFIG.worldSpawn,
       horizontalMarginTiles: 0,
       bottomMarginTiles: 1,
+      playerEncounterDistanceTiles: [6, 10],
+      playerEncounterCandidateAttempts: 1,
+      cavitySearchAttempts: 0,
+    },
+  });
+  const player = { tx: 50, ty: 50 };
+  system.scene = {
+    config: { topAirRows: 10 },
+    playerController: { getPlayerTile: () => player },
+    worldModel: {
+      widthTiles: 100,
+      depthTiles: 100,
+      topAirRows: 10,
+      inBounds: (tx, ty) => tx >= 0 && tx < 100 && ty >= 0 && ty < 100,
+      getTileType: (tx, ty) => (
+        tx === 58 && (ty === 50 || ty === 51) ? TILE_TYPES.AIR : TILE_TYPES.DIRT
+      ),
+    },
+  };
+
+  const epicenter = withRandom([
+    randomForInt(8, -10, 10),
+    randomForInt(0, -10, 10),
+  ], () => system._selectWorldEpicenter());
+
+  assert.deepEqual(epicenter, { tx: 58, ty: 50, depth: 41 });
+  assert.notDeepEqual(
+    { tx: epicenter.tx, ty: epicenter.ty },
+    player,
+    "encounter epicenter must remain a distinct world position"
+  );
+  assert.ok(
+    Math.hypot(epicenter.tx - player.tx, epicenter.ty - player.ty)
+      <= EARTHQUAKE_CONFIG.playerFeedback.awarenessRadiusTiles,
+    "scheduled earthquakes must be player-readable"
+  );
+}
+
+{
+  const system = makeBareSystem({
+    worldSpawn: {
+      ...EARTHQUAKE_CONFIG.worldSpawn,
+      horizontalMarginTiles: 0,
+      bottomMarginTiles: 1,
       randomCandidateAttempts: 1,
       cavitySearchAttempts: 0,
     },
   });
-  const player = { tx: 4, ty: 12 };
   system.scene = {
     config: { topAirRows: 10 },
-    playerController: { getPlayerTile: () => player },
+    playerController: { getPlayerTile: () => null },
     worldModel: {
       widthTiles: 100,
       depthTiles: 100,
@@ -59,11 +104,10 @@ function makeBareSystem(overrides = {}) {
     randomForInt(60, 10, 98),
   ], () => system._selectWorldEpicenter());
 
-  assert.deepEqual(epicenter, { tx: 70, ty: 60, depth: 51 });
-  assert.notDeepEqual(
-    { tx: epicenter.tx, ty: epicenter.ty },
-    player,
-    "world epicenter must be selected without using the player tile"
+  assert.deepEqual(
+    epicenter,
+    { tx: 70, ty: 60, depth: 51 },
+    "world selection must remain available before a player position exists"
   );
 }
 
@@ -174,6 +218,48 @@ function makeBareSystem(overrides = {}) {
   system._quakeFx(0);
   assert.equal(shakes[0][0], "earthquake.moderate");
   assert.ok(shakes[0][1] > 0 && shakes[0][1] <= 1);
+}
+
+{
+  let flashes = 0;
+  let mutations = 0;
+  const system = makeBareSystem();
+  Object.assign(system, {
+    state: "earthquake",
+    intensity: "minor",
+    stateRemaining: 1000,
+    stateTotalMs: 1000,
+    mutationTimer: 0,
+    impactCooldown: 0,
+    caveIns: [],
+    fallingRocks: [],
+    chainPending: false,
+    paused: false,
+    _stressTimer: 1000,
+  });
+  system._updateFallingRocks = () => {};
+  system._updateCaveIns = () => {};
+  system._updateRubbleRestoration = () => {};
+  system._quakeFx = () => {};
+  system._mutateNearbyTiles = () => { mutations += 1; };
+  system._seismicFlash = () => { flashes += 1; };
+
+  system.update(16);
+  assert.equal(mutations, 1, "a due mutation pulse must execute");
+  assert.equal(flashes, 0, "mutation pulses must not spam full-screen flashes");
+}
+
+{
+  const system = makeBareSystem();
+  system._debugEnabled = () => false;
+  system._getDepth = () => 700;
+
+  withRandom([0], () => system._scheduleNext());
+  assert.equal(
+    system.nextEventMs,
+    EARTHQUAKE_CONFIG.baseIntervalMs[0] * 0.6,
+    "the active depth band's cooldown multiplier must affect scheduling"
+  );
 }
 
 {

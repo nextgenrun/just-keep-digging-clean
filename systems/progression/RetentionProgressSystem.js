@@ -2,6 +2,7 @@ import {
   RETENTION_CONFIG,
   RETENTION_EVENT_TYPES,
 } from "../../values/retentionConfig.js";
+import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
 import { TREASURE_CHEST_CONFIG } from "../../values/treasureChestConfig.js";
 import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
 import {
@@ -13,6 +14,7 @@ import {
 } from "./retentionProgressState.js";
 
 const TUTORIAL_STAGES = RETENTION_CONFIG.tutorial.stages;
+const TITAN_IDS = new Set(TITAN_DEFINITIONS.map(definition => definition.id));
 
 export class RetentionProgressSystem {
   constructor(options = {}) {
@@ -256,6 +258,19 @@ export class RetentionProgressSystem {
     return this._discover("journal", key, label, false);
   }
 
+  discoverTitan(key) {
+    if (!TITAN_IDS.has(key)) return false;
+    return this._discover("titans", key, null, false);
+  }
+
+  hasDiscoveredTitan(key) {
+    return this.data.discoveries.titans.includes(key);
+  }
+
+  getDiscoveredTitans() {
+    return [...this.data.discoveries.titans];
+  }
+
   activateChestCritBuff(nowMs) {
     const now = Number.isFinite(nowMs) ? nowMs : 0;
     this.chestCritBuffUntil = Math.max(
@@ -358,6 +373,7 @@ export class RetentionProgressSystem {
         materials: [...this.data.discoveries.materials],
         portals: [...this.data.discoveries.portals],
         journal: [...this.data.discoveries.journal],
+        titans: [...this.data.discoveries.titans],
       },
       tutorialStage: this.data.tutorialStage,
       objective: this.getObjective(),

@@ -1,13 +1,13 @@
 const scenario = (id, label, title, description) => Object.freeze({ id, label, title, description });
 
 export const UAL_ANIMATION_TUNING_LAB_CONFIG = Object.freeze({
-  version: "ual-animation-tuning-lab-v3-20260716",
+  version: "ual-animation-tuning-lab-v3-20260726-animation-polish",
   productionAssetRoot: "../../../sprites/character/ual-native-player-v1/runtime",
   productionManifestPath: "../../../sprites/character/ual-native-player-v1/runtime/manifest.json",
   selectedWalkDraft: Object.freeze({
     option: "C",
     sourceClip: "Jog_Fwd_Loop",
-    productionAction: "walk",
+    productionAction: "run",
   }),
   defaults: Object.freeze({
     scenarioId: "locomotion",
@@ -26,11 +26,11 @@ export const UAL_ANIMATION_TUNING_LAB_CONFIG = Object.freeze({
     showProductionGhost: true,
   }),
   scenarios: Object.freeze([
-    scenario("locomotion", "Locomotion", "Start · walk · stop · pivot", "Hard input changes at the live walk-speed baseline."),
-    scenario("ladder", "Walk / run", "Walk-to-run speed ladder", "Tests Option C across upgrade and hysteresis speeds."),
-    scenario("air", "Air / landing", "Rise · fall · landing", "Reviews long one-shots and landing recovery."),
-    scenario("flight", "Flight", "Enter · hover · travel · exit", "Tests flight transitions, loops and release timing."),
-    scenario("mining", "Mining / combo", "Directional contact and four-hit combo", "Shows real marker, hitbox and tile-face evidence."),
+    scenario("locomotion", "Locomotion", "Immediate jog · stop · flip", "Every grounded movement speed uses the run-slot Jog and preserves its cycle through reversals."),
+    scenario("ladder", "Jog speeds", "Single-gait speed ladder", "Tests the same Jog from low-speed input through upgraded movement speeds."),
+    scenario("air", "Air / landing", "Soft skip · impact · move cancel", "Reviews impact-gated landing and its short movement-cancellable recovery."),
+    scenario("flight", "Flight", "Native rollback flight phases", "Reviews the UAL rollback phases; Survivor uses one continuous production flight loop."),
+    scenario("mining", "Mining / combo", "Cooldown-paced contact and recovery", "Shows contact truth, neutral uppercut recovery and cancellable post-contact recovery."),
     scenario("library", "Full library", "All production actions", "Raw source review with honest metadata coverage."),
   ]),
   view: Object.freeze({
@@ -104,11 +104,11 @@ export const UAL_ANIMATION_TUNING_LAB_CONFIG = Object.freeze({
     historyLimit: 80,
   }),
   timeline: Object.freeze({
-    locomotion: Object.freeze({ idleLeadSeconds: 0.8, walkLoopSeconds: 2.2, idleMiddleSeconds: 0.55, pivotLoopSeconds: 1.3 }),
+    locomotion: Object.freeze({ idleLeadSeconds: 0.8, jogLoopSeconds: 2.2, idleMiddleSeconds: 0.35, reversalLoopSeconds: 1.3 }),
     ladder: Object.freeze({ idleLeadSeconds: 0.5, phaseSeconds: Object.freeze([1.15, 1.35, 1.35, 1.35, 1.35, 1.15]), speedsPxPerSec: Object.freeze([100, 200, 270, 320, 504, 230]) }),
     air: Object.freeze({ fallSeconds: 1.25, idleRecoverSeconds: 0.8 }),
     flight: Object.freeze({ hoverSeconds: 1.1, travelSeconds: 1.6, fallSeconds: 0.72 }),
-    mining: Object.freeze({ recoveryGapSeconds: 0.09 }),
+    mining: Object.freeze({ recoveryGapSeconds: 0 }),
     libraryLoopSeconds: 3,
   }),
   mining: Object.freeze({

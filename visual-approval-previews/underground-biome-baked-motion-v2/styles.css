@@ -1,0 +1,249 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #07090e;
+  color: #f1f4f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(90, 111, 146, 0.18), transparent 35rem),
+    #07090e;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+.review-shell {
+  width: min(1480px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 42px 0 30px;
+}
+
+.review-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 30px;
+  align-items: end;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #91abc5;
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+}
+
+h1 {
+  max-width: 900px;
+  font-size: clamp(2.4rem, 6vw, 5.7rem);
+  line-height: 0.94;
+}
+
+.lede {
+  max-width: 880px;
+  margin: 22px 0 0;
+  color: #aeb8c3;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.65;
+}
+
+.status {
+  min-width: 230px;
+  padding: 16px 18px;
+  border: 1px solid #263443;
+  border-radius: 12px;
+  background: #0d1219;
+}
+
+.status-rejected {
+  border-color: #8f3e45;
+  background: #241014;
+}
+
+.status-rejected span,
+.status-rejected strong {
+  color: #ffb0b7;
+}
+
+.status span,
+.status strong {
+  display: block;
+}
+
+.status span {
+  color: #7f93a7;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.status strong {
+  margin-top: 5px;
+  font-size: 0.92rem;
+}
+
+.player-panel {
+  overflow: hidden;
+  border: 1px solid #263443;
+  border-radius: 18px;
+  background: #0a0e14;
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.42);
+}
+
+.media-frame {
+  aspect-ratio: 3 / 2;
+  background: #020305;
+}
+
+#motion-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-copy {
+  padding: clamp(22px, 4vw, 38px);
+}
+
+.player-copy h2 {
+  font-size: clamp(2rem, 4vw, 4rem);
+}
+
+#selected-description {
+  max-width: 780px;
+  margin: 14px 0 0;
+  color: #b8c0c9;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.motion-note {
+  margin: 14px 0 0;
+  color: #d3ad73;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.actions button,
+.actions a {
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid #33475a;
+  border-radius: 8px;
+  background: #111a24;
+  color: #edf4fb;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.actions button:hover,
+.actions a:hover,
+.actions button:focus-visible,
+.actions a:focus-visible {
+  border-color: #93b7d7;
+  background: #172433;
+  outline: none;
+}
+
+.chooser {
+  margin-top: 20px;
+}
+
+.biome-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.biome-button {
+  min-height: 76px;
+  padding: 12px 14px;
+  border: 1px solid #23303d;
+  border-radius: 10px;
+  background: #0c1117;
+  color: #9eaab6;
+  cursor: pointer;
+  text-align: left;
+}
+
+.biome-button span,
+.biome-button strong {
+  display: block;
+}
+
+.biome-button span {
+  color: #728396;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.biome-button strong {
+  margin-top: 5px;
+  color: inherit;
+}
+
+.biome-button[aria-pressed="true"] {
+  border-color: #769aba;
+  background: #14202c;
+  color: #f4f8fb;
+}
+
+footer {
+  margin-top: 24px;
+  color: #748394;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .review-header {
+    grid-template-columns: 1fr;
+  }
+
+  .status {
+    width: fit-content;
+  }
+
+  .biome-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .review-shell {
+    width: min(100% - 20px, 1480px);
+    padding-top: 24px;
+  }
+
+  .biome-buttons {
+    grid-template-columns: 1fr;
+  }
+}

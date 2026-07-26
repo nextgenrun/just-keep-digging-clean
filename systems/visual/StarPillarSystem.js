@@ -15,19 +15,14 @@
 import { CONSTELLATION_BUFFS } from "../../values/constellationBuffs.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { StarPillarWorldVisual } from "./StarPillarWorldVisual.js";
 
 // ─── Module-level constants ───────────────────────────────────────────────────
-
-const RARITY_BADGES = STAR_CONSTELLATION_CONFIG.rarityFallbacks.map((rarity) => ({
-  color: rarity.glowColor,
-  cssColor: `#${rarity.glowColor.toString(16).padStart(6, "0").toUpperCase()}`,
-  label: rarity.label,
-  name: rarity.name.charAt(0).toUpperCase() + rarity.name.slice(1),
-}));
 
 // Resource slot order — matches CONSTELLATION_DEFS order in FloatingTextSystem
 const PILLAR_SLOT_ORDER = [
@@ -70,24 +65,20 @@ const STAR_CHART_GRID_COLUMNS = 3;
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class StarPillarSystem {
-  constructor(scene, config, floatingTextSystem, ui) {
+  constructor(scene, config, floatingTextSystem, ui, starHeartOverlay = null) {
     this.scene  = scene;
     this.config = config;
     this.fts    = floatingTextSystem;
     this.ui     = ui;
+    this.starHeartOverlay = starHeartOverlay;
 
     // Pillar world coords (computed in create())
     this._pillarCenterX = 0;
     this._pillarBaseY   = 0;
 
-    // Visual objects
-    this._pillarGfx    = null;   // main stone pillar graphics
-    this._runeTexts    = [];     // 3 rune text objects
-    this._slots        = [];     // 10 slot circle GameObjects
-    this._badges       = [];     // 6 rarity badge circle GameObjects
-    this._badgeLabels  = [];     // 6 badge label texts
-    this._pillarLabel  = null;   // "✦ Star Pillar ✦" text
-    this._ePrompt      = null;   // "Press E" world-space prompt
+    // Approved production world visual
+    this._worldVisual  = null;
+    this._ePrompt      = null;
 
     // Star chart view state
     this._isViewOpen   = false;
@@ -109,7 +100,6 @@ export class StarPillarSystem {
     // Proximity & dirty-flag
     this._playerInRange     = false;
     this._lastUnlockedCount = -1;
-    this._lastRaritySig     = '';
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────
@@ -120,15 +110,11 @@ export class StarPillarSystem {
     this._pillarCenterX = this.config.starPillarTileX * ts + ts / 2;
     this._pillarBaseY   = (this.config.starPillarTileY + 1) * ts; // bottom of tile row 34
 
-    this._buildPillarVisual();
-    this._buildEPrompt();
-
-    // Load saved UI progression, then sync pillar slots and rarity badges.
     this.fts.ensureConstellationsLoaded?.();
     const initialUnlocked = this.fts.getUnlockedConstellations();
-    this._refreshPillarSlots(true, initialUnlocked);
+    this._buildPillarVisual(initialUnlocked.length);
+    this._buildEPrompt();
     this._lastUnlockedCount = initialUnlocked.length;
-    this._refreshRarityBadges(true);
   }
 
   /**
@@ -138,7 +124,10 @@ export class StarPillarSystem {
   update(time, delta, playerTile, keys) {
     if (!playerTile) return;
 
-    if (this._isViewOpen) {
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.starHeartOverlay.handleInput(keys);
+      this.starHeartOverlay.update(time);
+    } else if (this._isViewOpen) {
       this._handleChartInput(keys);
     }
 
@@ -150,27 +139,19 @@ export class StarPillarSystem {
 
     // ── E prompt visibility ──
     if (this._ePrompt) {
-      this._ePrompt.setVisible(this._playerInRange && !this._isViewOpen);
+      this._ePrompt.setVisible(
+        this._playerInRange
+        && !this._isViewOpen
+        && !this.starHeartOverlay?.isOpen?.(),
+      );
     }
 
-    // ── Rune twinkle ──
-    const runeAlpha = Math.sin(time / 800) * 0.2 + 0.8;
-    for (const r of this._runeTexts) {
-      if (r && r.active) r.setAlpha(runeAlpha);
-    }
-
-    // ── Pillar slot dirty-check ──
+    // ── Approved pillar progression dirty-check ──
     const unlocked = this.fts.getUnlockedConstellations();
     if (unlocked.length !== this._lastUnlockedCount) {
-      this._refreshPillarSlots(false, unlocked);
+      this._worldVisual?.syncUnlocked(unlocked.length, true);
       this._lastUnlockedCount = unlocked.length;
-    }
-
-    const rarityCounts = this.fts.getStarRarityCounts?.() || [];
-    const raritySig = rarityCounts.join(',');
-    if (raritySig !== this._lastRaritySig) {
-      this._refreshRarityBadges(false, rarityCounts);
-      this._lastRaritySig = raritySig;
+      this._syncPromptY();
     }
 
     // NOTE: E key is handled by GameInputHandler + PlaySceneUpdate
@@ -213,6 +194,10 @@ export class StarPillarSystem {
    * Returns true if the E key was consumed.
    */
   handleInteract() {
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.closeConstellationView();
+      return true;
+    }
     if (this._isViewOpen) {
       this.closeConstellationView();
       return true;
@@ -224,83 +209,26 @@ export class StarPillarSystem {
     return false;
   }
 
+  /** Save-safe visual QA hook used only by the query-gated E2E harness. */
+  previewWorldProgress(unlockedCount) {
+    const changed = this._worldVisual?.syncUnlocked(unlockedCount, true) || false;
+    this._syncPromptY();
+    return {
+      changed,
+      stageIndex: this._worldVisual?.pillar?.stageIndex ?? -1,
+      socketCount: this._worldVisual?.socketStars?.length ?? 0,
+    };
+  }
+
   /** Called by FloatingTextSystem callback when a new constellation unlocks. */
   onConstellationUnlocked(resourceType) {
     const idx = PILLAR_SLOT_ORDER.indexOf(resourceType);
     if (idx === -1) return;
 
-    const slot = this._slots[idx];
-    if (!slot || !slot.active) return;
-
-    const color    = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
-    const cssColor = RESOURCE_CSS_COLORS[resourceType]  || '#87CEEB';
-
-    // Destroy old slot and recreate in resource colour
-    const x = slot.x;
-    const y = slot.y;
-    slot.destroy();
-    const newSlot = this.scene.add.circle(x, y, 9, color, 1);
-    newSlot.setDepth(13);
-    this._slots[idx] = newSlot;
-
-    // Bounce-scale pop on the slot
-    this.scene.tweens.add({
-      targets: newSlot,
-      scaleX: { from: 1, to: 2.2 },
-      scaleY: { from: 1, to: 2.2 },
-      duration: 350,
-      ease: 'Back.out',
-      yoyo: true,
-    });
-
-    // ── Light beam shooting up from pillar cap ──────────────────────────────
-    const cx = this._pillarCenterX;
-    const by = this._pillarBaseY;
-    const shaftH = 360;
-    const capH   = 28;
-    const baseH  = 18;
-    const capTopY = by - baseH - shaftH - capH;
-
-    // Tall narrow beam rising from pillar
-    const beamH = 900;
-    const beam  = this.scene.add.rectangle(cx, capTopY - beamH / 2, 8, beamH, color, 0.75);
-    beam.setDepth(11);
-    beam.setAlpha(0);
-    this.scene.tweens.add({
-      targets: beam,
-      alpha: { from: 0, to: 0.75 },
-      duration: 200,
-      onComplete: () => {
-        this.scene.tweens.add({
-          targets: beam,
-          scaleX: 14,
-          alpha: 0,
-          duration: 1400,
-          ease: 'Power2.out',
-          onComplete: () => beam.destroy(),
-        });
-      },
-    });
-
-    // Glow halo around pillar cap
-    const halo = this.scene.add.ellipse(cx, capTopY, 200, 50, color, 0.22);
-    halo.setDepth(11);
-    this.scene.tweens.add({
-      targets: halo, scaleX: 4, scaleY: 3, alpha: 0,
-      duration: 1200, ease: 'Power3.out',
-      onComplete: () => halo.destroy(),
-    });
-
-    // Pillar label flash
-    if (this._pillarLabel) {
-      this.scene.tweens.add({
-        targets: this._pillarLabel,
-        alpha: { from: 1, to: 0.2 },
-        duration: 180, yoyo: true, repeat: 3,
-      });
-    }
-
-    this._refreshRarityBadges(false);
+    const unlockedCount = this.fts.getUnlockedConstellations().length;
+    this._worldVisual?.syncUnlocked(unlockedCount, true);
+    this._lastUnlockedCount = unlockedCount;
+    this._syncPromptY();
 
     if (this.scene.soundSystem?.playUiConfirm) {
       this.scene.soundSystem.playUiConfirm();
@@ -309,12 +237,8 @@ export class StarPillarSystem {
 
   /** Clean up all created objects (called on scene shutdown). */
   destroy() {
-    this._pillarGfx?.destroy();
-    this._runeTexts.forEach(r => r?.destroy());
-    this._slots.forEach(s => s?.destroy());
-    this._badges.forEach(b => b?.destroy());
-    this._badgeLabels.forEach(l => l?.destroy());
-    this._pillarLabel?.destroy();
+    this._worldVisual?.destroy();
+    this._worldVisual = null;
     this._ePrompt?.destroy();
     this._viewObjects.forEach(o => o?.destroy());
     this._chartUiObjects = [];
@@ -322,142 +246,56 @@ export class StarPillarSystem {
     this._chartTitle?.destroy();
     this._chartHint?.destroy();
     this._zoomTween?.stop();
+    this.starHeartOverlay?.destroy?.();
+    this.starHeartOverlay = null;
   }
 
   // ── Pillar visual ──────────────────────────────────────────────────────────
 
-  _buildPillarVisual() {
-    const cx = this._pillarCenterX;
-    const by = this._pillarBaseY;
-    const gfx = this.scene.add.graphics();
-    gfx.setDepth(12);
-    this._pillarGfx = gfx;
-
-    const shaftW  = 160;
-    const shaftH  = 360;
-    const capW    = 180;
-    const capH    = 28;
-    const baseW   = 190;
-    const baseH   = 18;
-
-    // Base slab
-    gfx.fillStyle(0x1A1A2E, 1);
-    gfx.fillRect(cx - baseW / 2, by - baseH, baseW, baseH);
-    gfx.lineStyle(2, 0x3344AA, 0.6);
-    gfx.strokeRect(cx - baseW / 2, by - baseH, baseW, baseH);
-
-    // Stone shaft — dark stone with subtle highlight on right edge
-    gfx.fillStyle(0x222233, 1);
-    gfx.fillRect(cx - shaftW / 2, by - baseH - shaftH, shaftW, shaftH);
-
-    // Shaft bevel (lighter left edge, darker right)
-    gfx.fillStyle(0x334455, 0.4);
-    gfx.fillRect(cx - shaftW / 2, by - baseH - shaftH, 10, shaftH);
-    gfx.fillStyle(0x000011, 0.35);
-    gfx.fillRect(cx + shaftW / 2 - 10, by - baseH - shaftH, 10, shaftH);
-
-    // Horizontal detail bands
-    gfx.lineStyle(1, 0x445566, 0.5);
-    for (let i = 1; i <= 4; i++) {
-      const bandY = by - baseH - (shaftH * i / 5);
-      gfx.lineBetween(cx - shaftW / 2 + 4, bandY, cx + shaftW / 2 - 4, bandY);
-    }
-
-    // Cap
-    gfx.fillStyle(0x2A2A44, 1);
-    gfx.fillRect(cx - capW / 2, by - baseH - shaftH - capH, capW, capH);
-    gfx.lineStyle(2, 0x6677BB, 0.7);
-    gfx.strokeRect(cx - capW / 2, by - baseH - shaftH - capH, capW, capH);
-
-    // Central glowing line running up the shaft
-    gfx.lineStyle(2, 0x4466CC, 0.35);
-    gfx.lineBetween(cx, by - baseH - 10, cx, by - baseH - shaftH + 10);
-
-    // Pillar label
-    this._pillarLabel = this.scene.add.text(cx, by - baseH - shaftH - capH - 18, '✦  Star Pillar  ✦', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: '18px',
-      color: '#AABBEE',
-      stroke: '#000022',
-      strokeThickness: 4,
-      shadow: { offsetX: 0, offsetY: 0, color: '#4466FF', blur: 10, fill: true },
-    }).setOrigin(0.5, 1).setDepth(14);
-
-    // ── 3 Rune glyphs centered on shaft ──
-    const runeSymbols = ['⬡', '✦', '⊕'];
-    const runeYOffsets = [-shaftH * 0.75, -shaftH * 0.5, -shaftH * 0.28];
-    for (let i = 0; i < 3; i++) {
-      const r = this.scene.add.text(cx, by - baseH + runeYOffsets[i], runeSymbols[i], {
-        fontFamily: 'Segoe UI Symbol, sans-serif',
-        fontSize: '22px',
-        color: '#8899BB',
-        stroke: '#000022',
-        strokeThickness: 3,
-      }).setOrigin(0.5).setDepth(14);
-      this._runeTexts.push(r);
-    }
-
-    // ── 10 Constellation star slots (right face of pillar) ──
-    const slotX    = cx + shaftW / 2 + 22;
-    const slotTopY = by - baseH - shaftH + 20;
-    const slotStep = (shaftH - 40) / 9;
-
-    for (let i = 0; i < 10; i++) {
-      const sy = slotTopY + i * slotStep;
-      // Slot background circle (dim, locked state)
-      const slot = this.scene.add.circle(slotX, sy, 9, 0x222244, 1);
-      slot.setDepth(13);
-      // Dim outline ring using graphics
-      gfx.lineStyle(1, 0x334466, 0.7);
-      gfx.strokeCircle(slotX, sy, 11);
-      this._slots.push(slot);
-    }
-
-    // ── 6 Rarity badge circles (left face of pillar) ──
-    const badgeX    = cx - shaftW / 2 - 24;
-    const badgeTopY = by - baseH - shaftH + 30;
-    const badgeStep = (shaftH - 40) / 5;
-
-    for (let i = 0; i < 6; i++) {
-      const badgeY = badgeTopY + i * badgeStep;
-      const badgeDef = RARITY_BADGES[i];
-
-      // Badge circle (dim until earned)
-      const badge = this.scene.add.circle(badgeX, badgeY, 14, badgeDef.color, 0.2);
-      badge.setDepth(13);
-      this._badges.push(badge);
-
-      // Badge outline
-      gfx.lineStyle(1, badgeDef.color, 0.5);
-      gfx.strokeCircle(badgeX, badgeY, 15);
-
-      // Badge label
-      const bl = this.scene.add.text(badgeX, badgeY, badgeDef.label, {
-        fontFamily: 'Segoe UI Symbol, sans-serif',
-        fontSize: '11px',
-        color: badgeDef.cssColor,
-        alpha: 0.4,
-      }).setOrigin(0.5).setDepth(14);
-      this._badgeLabels.push(bl);
-    }
+  _buildPillarVisual(unlockedCount) {
+    this._worldVisual = new StarPillarWorldVisual(
+      this.scene,
+      this._pillarCenterX,
+      this._pillarBaseY,
+      ASSET_KEYS.environment.pillars.starStages,
+      ASSET_KEYS.celestialEngines.waywardStar,
+      ASSET_KEYS.celestialEngines.starHeart,
+      PILLAR_VISUAL_CONFIG.star,
+    ).create(unlockedCount);
   }
 
   _buildEPrompt() {
-    const cx = this._pillarCenterX;
-    const by = this._pillarBaseY;
-    this._ePrompt = this.scene.add.text(cx, by - 420, `[${USER_SETTINGS.getKeyLabel("interact")}] View Star Chart`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '16px',
-      color: '#AACCFF',
-      stroke: '#000022',
+    const visualConfig = PILLAR_VISUAL_CONFIG.star;
+    this._ePrompt = this.scene.add.text(
+      this._pillarCenterX,
+      this._getPromptY(),
+      this._getInteractPromptText(),
+      {
+      fontFamily: UI_FONTS.mono,
+      fontSize: `${visualConfig.promptFontSizePx}px`,
+      color: UI_COLORS.info,
+      stroke: "#000022",
       strokeThickness: 4,
-      shadow: { offsetX: 0, offsetY: 0, color: '#4488FF', blur: 8, fill: true },
-    }).setOrigin(0.5, 1).setDepth(20).setVisible(false);
+      shadow: { offsetX: 0, offsetY: 0, color: "#4488FF", blur: 8, fill: true },
+      },
+    ).setOrigin(0.5, 1).setDepth(visualConfig.promptDepth).setVisible(false);
   }
 
   refreshInteractPromptLabels() {
-    this._ePrompt?.setText(`[${USER_SETTINGS.getKeyLabel("interact")}] View Star Chart`);
+    this._ePrompt?.setText(this._getInteractPromptText());
     this._chartHint?.setText(this._getChartHintText());
+  }
+
+  _getInteractPromptText() {
+    return `[${USER_SETTINGS.getKeyLabel("interact")}] ${PILLAR_VISUAL_CONFIG.star.promptText}`;
+  }
+
+  _getPromptY() {
+    return this._worldVisual?.getTopY() - PILLAR_VISUAL_CONFIG.star.promptOffsetPx;
+  }
+
+  _syncPromptY() {
+    this._ePrompt?.setY(this._getPromptY());
   }
 
   _getChartHintText() {
@@ -467,72 +305,6 @@ export class StarPillarSystem {
     const down = USER_SETTINGS.getKeyLabel("aimDown");
     const interact = USER_SETTINGS.getKeyLabel("interact");
     return `${left}/${right}/${up}/${down} or arrows: select sign   ${interact}/Enter: close`;
-  }
-
-  _refreshPillarSlots(init = false, unlocked = null) {
-    if (!unlocked) unlocked = this.fts.getUnlockedConstellations();
-
-    for (let i = 0; i < PILLAR_SLOT_ORDER.length; i++) {
-      const resourceType = PILLAR_SLOT_ORDER[i];
-      const isUnlocked = unlocked.includes(resourceType);
-      const slot = this._slots[i];
-      if (!slot || !slot.active) continue;
-
-      if (isUnlocked) {
-        const color = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
-        // Rebuild slot in resource colour
-        const x = slot.x;
-        const y = slot.y;
-        slot.destroy();
-        const newSlot = this.scene.add.circle(x, y, 9, color, 1);
-        newSlot.setDepth(13);
-        this._slots[i] = newSlot;
-
-        if (!init) {
-          this.scene.tweens.add({
-            targets: newSlot,
-            scaleX: { from: 1, to: 1.6 },
-            scaleY: { from: 1, to: 1.6 },
-            duration: 250, ease: 'Back.out', yoyo: true,
-          });
-        }
-      }
-    }
-  }
-
-  _refreshRarityBadges(init = false, counts = null) {
-    const rarityCounts = counts || this.fts.getStarRarityCounts?.() || [];
-    this._lastRaritySig = rarityCounts.join(',');
-
-    for (let i = 0; i < RARITY_BADGES.length; i++) {
-      const badge = this._badges[i];
-      const label = this._badgeLabels[i];
-      const def = RARITY_BADGES[i];
-      if (!badge || !badge.active) continue;
-
-      const collected = rarityCounts[i] || 0;
-      const earned = collected > 0;
-      const wasEarned = !!badge._earned;
-      badge._earned = earned;
-      badge.setFillStyle(def.color, earned ? 0.88 : 0.2);
-      badge.setAlpha(earned ? 1 : 0.75);
-
-      if (label && label.active) {
-        label.setAlpha(earned ? 1 : 0.4);
-        label.setText(earned && collected > 1 ? `${def.label}` : def.label);
-      }
-
-      if (!init && earned && !wasEarned) {
-        this.scene.tweens.add({
-          targets: [badge, label].filter(Boolean),
-          scaleX: { from: 1, to: 1.65 },
-          scaleY: { from: 1, to: 1.65 },
-          duration: 260,
-          ease: 'Back.out',
-          yoyo: true,
-        });
-      }
-    }
   }
 
   _getChartCenterWorld() {
@@ -606,6 +378,18 @@ export class StarPillarSystem {
   // ── Star Chart zoom view ───────────────────────────────────────────────────
 
   openConstellationView() {
+    if (this.starHeartOverlay?.enabled) {
+      if (this.scene.celestialEngineController?.activeEffect) {
+        this.scene.hudSystem?.flashStatus?.(
+          "CELESTIAL ENGINE ACTIVE",
+          "#65E8FF",
+          1200,
+        );
+        return;
+      }
+      this.starHeartOverlay.open();
+      return;
+    }
     if (this._isViewOpen) return;
 
     this._isViewOpen = true;
@@ -636,6 +420,10 @@ export class StarPillarSystem {
   }
 
   closeConstellationView() {
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.starHeartOverlay.close();
+      return;
+    }
     if (!this._isViewOpen) return;
 
     this._isChartUiReady = false;
@@ -941,7 +729,11 @@ export class StarPillarSystem {
       fontSize: "11px",
       color: selectedStatus.color,
     }, 1, 0);
-    addText(focusX + 22, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
+    const relicIconKey = ASSET_KEYS.ui.heavenblocks?.ancientRelicIcon;
+    if (relicIconKey && this.scene.textures?.exists?.(relicIconKey)) {
+      track(this.scene.add.image(focusX + 31, focusY + 49, relicIconKey).setDisplaySize(24, 24));
+    }
+    addText(focusX + 48, focusY + 43, `ANCIENT RELICS: ${relicCount}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: "10px",
       color: UI_COLORS.gold,

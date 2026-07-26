@@ -7,7 +7,11 @@ import { WelcomeMessageGenerator } from "../model/WelcomeMessageGenerator.js";
 import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
+import {
+  PAUSE_MENU_LAYOUT,
+  SETTINGS_PANEL_LAYOUT,
+  UI_FONTS,
+} from "../../values/uiLayout.js";
 import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import {
   createButton,
@@ -17,6 +21,8 @@ import {
   createTabBar,
 } from "../../ui/PhaserUiKit.js";
 import { createSettingsPanelContent } from "../../ui/overlays/SettingsPanelContent.js";
+import { TitanArchiveView } from "../../ui/overlays/TitanArchiveView.js";
+import { WorldMapOverlay } from "../../ui/overlays/WorldMapOverlay.js";
 import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
 import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
 import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
@@ -24,6 +30,12 @@ import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
 import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
+import {
+  getGraveborerWurmSaveData,
+  loadGraveborerWurmSaveData,
+} from "./GraveborerWurmBridge.js";
 
 /**
  * Mix in UI methods to PlayScene prototype
@@ -79,16 +91,21 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.drawStatusBars = function(gemPowerPct, gpRaw, gpMax) {
+    const flightLocked = this.openingFlightArtifactSystem
+      ?.isArtifactCollected?.() !== true
+      && this.upgradeSystem?.isGemPowerUnlocked?.() !== true;
     if (
       gemPowerPct === this._lastGemPowerBarPct &&
       gpRaw === this._lastGemPowerBarRaw &&
-      gpMax === this._lastGemPowerBarMax
+      gpMax === this._lastGemPowerBarMax &&
+      flightLocked === this._lastGemPowerBarLocked
     ) {
       return;
     }
     this._lastGemPowerBarPct = gemPowerPct;
     this._lastGemPowerBarRaw = gpRaw;
     this._lastGemPowerBarMax = gpMax;
+    this._lastGemPowerBarLocked = flightLocked;
 
     const gpNorm = gemPowerPct / 100;
     const gpColor = gpNorm > HUD_LAYOUT.gpThresholdHigh ? HUD_LAYOUT.gpColorHigh
@@ -110,7 +127,13 @@ export function setupUIMethods(prototype) {
     this._gemPowerBarFill.fillRoundedRect(barX, barY, Math.max(barW * gpNorm, 0.1), barH, barRadius);
 
     if (this._gpLabelText) {
-      this._gpLabelText.setText(approvedLayout ? `GP  ${gpRaw} / ${gpMax}` : `GP: ${gpRaw}/${gpMax}`);
+      this._gpLabelText.setText(
+        flightLocked
+          ? "FLIGHT LOCKED  •  DIG BELOW"
+          : approvedLayout
+            ? `GP  ${gpRaw} / ${gpMax}`
+            : `GP: ${gpRaw}/${gpMax}`,
+      );
     }
   };
 
@@ -152,8 +175,8 @@ export function setupUIMethods(prototype) {
       title: "PAUSED",
       subtitle: "Run controls, progression, and settings",
       icon: "pause",
-      maxWidth: 940,
-      maxHeight: 640,
+      maxWidth: PAUSE_MENU_LAYOUT.maxWidth,
+      maxHeight: PAUSE_MENU_LAYOUT.maxHeight,
       depth: 2500,
       onClose: () => this.resumeGame(),
     });
@@ -167,13 +190,25 @@ export function setupUIMethods(prototype) {
       tabs: null,
       hint: null,
       settings: null,
+      titanArchive: null,
       tabContent,
     };
     this._currentPauseTab = 0;
+    const pauseTabs = [
+      { key: "general", label: "GENERAL", icon: "journal" },
+      { key: "stats", label: "STATS", icon: "stats" },
+      ...(resolveTitanDiscoveriesEnabled()
+        ? [{ key: "titans", label: "TITANS", icon: "journal" }]
+        : []),
+      { key: "settings", label: "SETTINGS", icon: "settings" },
+    ];
+    const settingsTabIndex = pauseTabs.findIndex(tab => tab.key === "settings");
 
     const clearContent = () => {
       state.settings?.destroy?.();
+      state.titanArchive?.destroy?.();
       state.settings = null;
+      state.titanArchive = null;
       state.controls = [];
       tabContent.removeAll(true);
     };
@@ -202,7 +237,7 @@ export function setupUIMethods(prototype) {
       return gfx;
     };
 
-    const bodyTop = rect.top + 56;
+    const bodyTop = rect.top + PAUSE_MENU_LAYOUT.bodyTopOffset;
     const bodyHeight = rect.bottom - bodyTop;
     const buildGeneral = () => {
       const gap = 16;
@@ -294,6 +329,8 @@ export function setupUIMethods(prototype) {
       const resources = this.digSystem?.getResourceTotals?.() || {};
       const materials = Object.values(resources).reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0);
       const buff = this.campfireSystem?.getActiveBuff?.();
+      const relicCount = this.ancientRelicSystem?.getCount?.() || 0;
+      const titanCount = this.retentionProgressSystem?.getDiscoveredTitans?.().length || 0;
 
       const snapshot = [
         ["DEPTH", depth + "m"],
@@ -301,6 +338,8 @@ export function setupUIMethods(prototype) {
         ["WALLET", Number(wallet).toLocaleString() + " M"],
         ["GEM POWER", Math.floor(gp) + " / " + Math.floor(gpMax)],
         ["MATERIALS", Math.floor(materials).toLocaleString()],
+        ["ANCIENT RELICS", relicCount],
+        ["TITANS", titanCount + " / 25"],
         ["CAMPFIRE", buff ? buff.name.toUpperCase() : "NO ACTIVE BUFF"],
       ];
       const snapshotTop = bodyTop + 118;
@@ -420,9 +459,25 @@ export function setupUIMethods(prototype) {
         inputHandler: this.inputHandler,
         uiMuteToggle: this.uiMuteToggle,
         manageFocus: true,
-        compact: rect.width < 760,
+        compact: (
+          rect.width < SETTINGS_PANEL_LAYOUT.compactWidth
+          || bodyHeight < SETTINGS_PANEL_LAYOUT.compactHeight
+        ),
         onCancel: () => this.resumeGame(),
       });
+    };
+
+    const buildTitans = () => {
+      state.titanArchive = new TitanArchiveView(this, {
+        x: rect.left,
+        y: bodyTop,
+        width: rect.width,
+        height: bodyHeight,
+        parent: tabContent,
+        retention: this.retentionProgressSystem,
+        onFocus: index => state.focus?.setIndex?.(index),
+      });
+      state.controls = state.titanArchive.getControls();
     };
 
     const buildContent = tabIndex => {
@@ -430,20 +485,21 @@ export function setupUIMethods(prototype) {
       state.activeTab = tabIndex;
       this._currentPauseTab = tabIndex;
       state.tabs?.setActive?.(tabIndex, true);
-      if (tabIndex === 0) buildGeneral();
-      else if (tabIndex === 1) buildStats();
+      const tabKey = pauseTabs[tabIndex]?.key;
+      if (tabKey === "general") buildGeneral();
+      else if (tabKey === "stats") buildStats();
+      else if (tabKey === "titans") buildTitans();
       else buildSettings();
-      state.focus?.setItems?.(state.controls, 0);
+      state.focus?.setItems?.(
+        state.controls,
+        state.titanArchive?.selectedIndex || 0
+      );
     };
 
     state.tabs = createTabBar(this, {
       x: rect.left + 235,
-      y: rect.top + 20,
-      tabs: [
-        { label: "GENERAL", icon: "journal" },
-        { label: "STATS", icon: "stats" },
-        { label: "SETTINGS", icon: "settings" },
-      ],
+      y: rect.top + PAUSE_MENU_LAYOUT.tabRowOffsetY,
+      tabs: pauseTabs,
       activeIndex: 0,
       parent: shell.content,
       onChange: buildContent,
@@ -458,9 +514,12 @@ export function setupUIMethods(prototype) {
       items: [],
       enabled: () => Boolean(this._pausePanel) && !this._settingsKeyCaptureActive,
       onCancel: () => this.resumeGame(),
+      onFocus: index => state.titanArchive?.select?.(index),
       onHorizontal: direction => {
-        if (state.activeTab === 2) return;
-        const next = (state.activeTab + direction + 3) % 3;
+        if (state.activeTab === settingsTabIndex) return;
+        const next = (
+          state.activeTab + direction + pauseTabs.length
+        ) % pauseTabs.length;
         state.tabs.setActive(next);
       },
     });
@@ -476,13 +535,40 @@ export function setupUIMethods(prototype) {
     this._pausePanel = null;
     pause.state?.focus?.destroy?.();
     pause.state?.settings?.destroy?.();
+    pause.state?.titanArchive?.destroy?.();
     pause.state?.tabs?.destroy?.();
     pause.state?.hint?.destroy?.();
     pause.shell?.hide?.(() => pause.shell?.destroy?.());
   };
 
+  prototype.showWorldMap = function() {
+    if (this.worldMapOverlay?.isOpen || this.gameState !== "playing") return false;
+    if (!this.worldMapOverlay) {
+      this.worldMapOverlay = new WorldMapOverlay(this, {
+        discoverySystem: this.worldMapDiscoverySystem,
+        activityRegistry: this.worldMapActivityRegistry,
+      });
+    }
+    return this.worldMapOverlay.open();
+  };
+
+  prototype.hideWorldMap = function() {
+    return this.worldMapOverlay?.close?.() || false;
+  };
+
+  prototype.toggleWorldMap = function() {
+    return this.worldMapOverlay?.isOpen
+      ? this.hideWorldMap()
+      : this.showWorldMap();
+  };
+
   prototype.closeTopOverlay = function(reason = "escape") {
     if (this._settingsKeyCaptureActive) return false;
+
+    if (this.worldMapOverlay?.isOpen) {
+      this.hideWorldMap();
+      return true;
+    }
 
     if (this.depthGateSystem?.isOpen?.()) {
       this.depthGateSystem._decline?.();
@@ -656,7 +742,11 @@ export function setupUIMethods(prototype) {
       return;
     }
 
+    this.hardcoreModeData = sanitizeHardcoreModeData(savedData.hardcoreModeData);
+    loadGraveborerWurmSaveData(this, savedData.graveborerWurmData);
+
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
+    this.worldModel.applyHeavenblocksLayout?.();
     for (const tile of appliedTiles) {
       this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
     }
@@ -670,6 +760,19 @@ export function setupUIMethods(prototype) {
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);
+    const recoveredRelicTiles = this.worldModel.ensureAncientRelicMilestoneReachable?.(
+      this.ancientRelicSystem?.getCount?.() || 0,
+    ) || [];
+    for (const tile of recoveredRelicTiles) {
+      this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
+    }
+    this.heavenblocksProgressionSystem?.loadSaveData?.(savedData.heavenblocksData, {
+      relicCount: this.ancientRelicSystem?.getCount?.() || 0,
+    });
+    this.starHeartProgressionSystem?.loadSaveData(
+      savedData.starHeartData,
+      this.floatingTextSystem?.getUnlockedConstellations?.().length || 0,
+    );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)
@@ -700,6 +803,7 @@ export function setupUIMethods(prototype) {
     if (savedData.upgrades) {
       this.upgradeSystem.fromJSON(savedData.upgrades);
     }
+    this.openingFlightArtifactSystem?.loadSaveData(savedData.openingFlightArtifactData);
     this.surfaceTunnelDoorSystem?.syncFromUpgrade();
 
     // Restore day/night cycle state
@@ -778,7 +882,12 @@ export function setupUIMethods(prototype) {
         this.playerCharacterId,
         this.caveEntryController?.getSaveData(),
         this.ancientRelicSystem?.getSaveData(),
+        this.openingFlightArtifactSystem?.getSaveData(),
+        this.starHeartProgressionSystem?.getSaveData(),
         this.retentionProgressSystem?.getSaveData(),
+        this.heavenblocksProgressionSystem?.getSaveData(),
+        this.hardcoreModeData,
+        getGraveborerWurmSaveData(this),
       );
       if (saveResult === false) saved = false;
     } catch (error) {
@@ -802,5 +911,7 @@ export function setupUIMethods(prototype) {
     this.levelUpPopup?.resize?.();
     this.uiInventoryPopup?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
+    this.celestialEngineController?.resize?.();
+    this.starHeartOverlay?.resize?.();
   };
 }

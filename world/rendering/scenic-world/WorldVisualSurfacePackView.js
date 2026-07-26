@@ -1,3 +1,6 @@
+import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "../../../values/ualNativePlayerAssetProfile.js";
+import { WorldVisualTownFloorView } from "./WorldVisualTownFloorView.js";
+
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
   const source = texture?.getSourceImage?.() || texture?.source?.[0]?.image || texture?.source?.[0];
@@ -15,6 +18,14 @@ function splitRange(start, length, count) {
   return Array.from({ length: count }, (_, index) => {
     const left = start + Math.floor(length * index / count);
     const right = start + Math.floor(length * (index + 1) / count);
+    return { left, width: right - left };
+  });
+}
+
+function splitContinuousRange(start, length, count) {
+  return Array.from({ length: count }, (_, index) => {
+    const left = start + length * index / count;
+    const right = start + length * (index + 1) / count;
     return { left, width: right - left };
   });
 }
@@ -51,6 +62,54 @@ export function resolveSurfacePackBeautyVisibility(edgeScreenY, viewportHeight, 
   return 1 - smoothstep01(progress);
 }
 
+export function resolveSurfacePackBeautyGeometry(
+  pack,
+  tileSize,
+  playerProfile = UAL_NATIVE_PLAYER_ASSET_PROFILE,
+) {
+  const cfg = pack.beauty;
+  const scaleReference = cfg.scaleReference;
+  if (!scaleReference) {
+    const width = pack.worldAnchor.widthTiles * tileSize;
+    return {
+      width,
+      height: cfg.sourceGroundY * width / cfg.expectedSource.width,
+      widthTiles: pack.worldAnchor.widthTiles,
+      sourcePixelsPerWorldPixel: cfg.expectedSource.width / width,
+      targetDoorHeightWorldPx: null,
+    };
+  }
+
+  const playerHeightMeters = playerProfile.physicalHeightMeters;
+  const playerVisibleHeightTiles = playerProfile.targetVisibleHeightTiles;
+  const sourceDoorHeightPx = scaleReference.sourceDoorHeightPx;
+  const targetDoorHeightMeters = scaleReference.targetDoorHeightMeters;
+  const requiredValues = [
+    tileSize,
+    playerHeightMeters,
+    playerVisibleHeightTiles,
+    sourceDoorHeightPx,
+    targetDoorHeightMeters,
+  ];
+  if (requiredValues.some(value => !Number.isFinite(value) || value <= 0)) {
+    throw new Error(`[WorldVisualSurfacePackView] ${pack.id} has an invalid physical-scale reference`);
+  }
+
+  const playerVisibleHeightWorldPx = playerVisibleHeightTiles * tileSize;
+  const targetDoorHeightWorldPx = playerVisibleHeightWorldPx
+    * targetDoorHeightMeters
+    / playerHeightMeters;
+  const worldPixelsPerSourcePixel = targetDoorHeightWorldPx / sourceDoorHeightPx;
+  const width = cfg.expectedSource.width * worldPixelsPerSourcePixel;
+  return {
+    width,
+    height: cfg.sourceGroundY * worldPixelsPerSourcePixel,
+    widthTiles: width / tileSize,
+    sourcePixelsPerWorldPixel: 1 / worldPixelsPerSourcePixel,
+    targetDoorHeightWorldPx,
+  };
+}
+
 export class WorldVisualSurfacePackView {
   constructor(scene, pack) {
     this.scene = scene;
@@ -69,6 +128,8 @@ export class WorldVisualSurfacePackView {
     this.groundWetPasses = [];
     this.groundLightningPasses = [];
     this.beautyTopWorldY = null;
+    this.beautyGeometry = null;
+    this.townFloorView = null;
   }
 
   create() {
@@ -81,24 +142,35 @@ export class WorldVisualSurfacePackView {
       );
     }
     const tileSize = this.scene.config.tileSize;
-    const width = this.pack.worldAnchor.widthTiles * tileSize;
-    const sourcePixelsPerWorldPixel = source.width / width;
+    const geometry = resolveSurfacePackBeautyGeometry(this.pack, tileSize);
+    this.beautyGeometry = geometry;
+    const {
+      width,
+      height,
+      widthTiles,
+      sourcePixelsPerWorldPixel,
+      targetDoorHeightWorldPx,
+    } = geometry;
     if (sourcePixelsPerWorldPixel < cfg.minSourcePixelsPerWorldPixel) {
       throw new Error(
         `[WorldVisualSurfacePackView] ${this.pack.id} would upscale below its density contract`
       );
     }
-    const height = cfg.sourceGroundY * width / source.width;
     const x = this.pack.worldAnchor.leftTile * tileSize;
     const y = this.scene.config.topAirRows * tileSize;
-    const fadeTiles = this.pack.transition.fadeTiles;
     const strips = this.pack.transition.strips;
-    const coreTiles = this.pack.worldAnchor.widthTiles - fadeTiles;
-    const coreWorldWidth = coreTiles * tileSize;
-    const fadeWorldWidth = fadeTiles * tileSize;
-    const coreSourceWidth = Math.floor(source.width * coreTiles / this.pack.worldAnchor.widthTiles);
+    const configuredBeautyFadeSourceWidth = this.pack.transition.beautyFadeSourceWidthPx;
+    const beautyFadeSourceWidth = Number.isFinite(configuredBeautyFadeSourceWidth)
+      ? configuredBeautyFadeSourceWidth
+      : source.width * this.pack.transition.fadeTiles / widthTiles;
+    if (beautyFadeSourceWidth <= 0 || beautyFadeSourceWidth >= source.width) {
+      throw new Error(`[WorldVisualSurfacePackView] ${this.pack.id} has an invalid beauty transition`);
+    }
+    const coreSourceWidth = source.width - beautyFadeSourceWidth;
+    const fadeWorldWidth = beautyFadeSourceWidth / sourcePixelsPerWorldPixel;
+    const coreWorldWidth = width - fadeWorldWidth;
     const sourceSlices = splitRange(coreSourceWidth, source.width - coreSourceWidth, strips);
-    const worldSlices = splitRange(0, fadeWorldWidth, strips);
+    const worldSlices = splitContinuousRange(0, fadeWorldWidth, strips);
     const frameSpecs = [
       {
         name: `${cfg.frameName}-core`,
@@ -156,7 +228,10 @@ export class WorldVisualSurfacePackView {
     this.beautyLightning.name = `world-visual-surface-pack-${this.pack.id}-lightning`;
     console.info(
       `[WorldVisualSurfacePackView] ${this.pack.id} active at `
-      + `${sourcePixelsPerWorldPixel.toFixed(3)} source px/world px; use ?surfacePack=current-v2 to roll back`
+      + `${sourcePixelsPerWorldPixel.toFixed(3)} source px/world px across `
+      + `${widthTiles.toFixed(2)} tiles`
+      + `${Number.isFinite(targetDoorHeightWorldPx) ? `; ${targetDoorHeightWorldPx.toFixed(2)} px door` : ""}; `
+      + "use ?surfacePack=current-v2 to roll back"
     );
     return true;
   }
@@ -181,7 +256,7 @@ export class WorldVisualSurfacePackView {
     const coreColumns = cfg.columns - fadeTiles;
     const coreSourceWidth = coreColumns * cfg.sourceCellPx;
     const sourceSlices = splitRange(coreSourceWidth, width - coreSourceWidth, strips);
-    const worldSlices = splitRange(0, fadeTiles * tileSize, strips);
+    const worldSlices = splitContinuousRange(0, fadeTiles * tileSize, strips);
     const frameSpecs = [
       {
         name: `${cfg.frameName}-core`,
@@ -223,6 +298,12 @@ export class WorldVisualSurfacePackView {
     this.groundLightningPasses = makeGroundLane(cfg.depth + 0.02, Phaser.BlendModes.SCREEN);
     this.groundLightningPasses.forEach(image => image.setAlpha(0));
     this.groundLightning = this.groundLightningPasses[0];
+    this.townFloorView = new WorldVisualTownFloorView(
+      this.scene,
+      this.pack,
+      this.beautyGeometry,
+    );
+    this.townFloorView.create(terrainMask);
     return true;
   }
 
@@ -263,9 +344,11 @@ export class WorldVisualSurfacePackView {
       image.clearTint()
         .setAlpha(image._surfacePackBaseAlpha * lighting.lightning * effects.lightningGroundAlpha);
     });
+    this.townFloorView?.update(lighting);
   }
 
   destroy() {
+    this.townFloorView?.destroy();
     const groundImages = [
       ...this.groundPasses,
       ...this.groundWetPasses,
@@ -295,5 +378,7 @@ export class WorldVisualSurfacePackView {
     this.groundWetPasses = [];
     this.groundLightningPasses = [];
     this.beautyTopWorldY = null;
+    this.beautyGeometry = null;
+    this.townFloorView = null;
   }
 }

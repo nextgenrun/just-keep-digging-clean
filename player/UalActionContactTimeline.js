@@ -50,6 +50,10 @@ export class UalActionContactTimeline {
     return this._activeAction?.animationKey ?? null;
   }
 
+  get contactFired() {
+    return this._activeAction?.contactFired === true;
+  }
+
   begin({
     animationKey,
     contactFrame,

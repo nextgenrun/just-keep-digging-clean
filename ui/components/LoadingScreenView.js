@@ -1,4 +1,5 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 
@@ -118,7 +119,7 @@ function addLogoOrTitle(scene, objects, W, options) {
     return;
   }
 
-  const title = options.title ?? "Just Keep Digging";
+  const title = options.title ?? BRAND_CONFIG.name;
   const titleShadow = scene.add.text(W / 2 + 3, 183, title, {
     fontFamily: UI_FONTS.display,
     fontSize: "76px",

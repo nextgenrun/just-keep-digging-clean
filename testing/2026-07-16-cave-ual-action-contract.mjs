@@ -112,6 +112,9 @@ const abilities = {
   charging: false,
   chargeStart: null,
   executeCalls: 0,
+  executeStages: [],
+  armedStages: [],
+  armedStage: null,
   flying: false,
   startThunderStrikeCharge(now) {
     this.charging = true;
@@ -122,10 +125,28 @@ const abilities = {
     return { complete: this.charging && now - this.chargeStart >= 1000 };
   },
   isThunderStrikeCharging() { return this.charging; },
-  executeThunderStrike() {
-    this.executeCalls += 1;
+  armThunderStrikeFollowUp(stageIndex) {
+    this.armedStage = stageIndex;
+    this.armedStages.push(stageIndex);
+    return true;
+  },
+  cancelThunderStrikeChain() {
     this.charging = false;
-    return { success: true, results: [{ tx: 10, ty: 12, destroyed: false }] };
+    this.armedStage = null;
+  },
+  executeThunderStrike(stageIndex = 0) {
+    if (stageIndex > 0 && this.armedStage !== stageIndex) {
+      return { success: false, reason: "follow-up-not-armed" };
+    }
+    this.executeCalls += 1;
+    this.executeStages.push(stageIndex);
+    this.charging = false;
+    this.armedStage = null;
+    return {
+      success: true,
+      chainStageIndex: stageIndex,
+      results: [{ tx: 10, ty: 12, destroyed: false }],
+    };
   },
   isFlying() { return this.flying; },
 };
@@ -135,7 +156,13 @@ let motionState = "climb";
 const controller = {
   scene,
   worldModel,
-  digSystem: { getEffectiveCooldownMs: () => 750 },
+  digSystem: {
+    lastMineTime: -Infinity,
+    getEffectiveCooldownMs: () => 750,
+    isMineCooldownReady(nowMs) {
+      return nowMs - this.lastMineTime >= this.getEffectiveCooldownMs();
+    },
+  },
   playerController: {
     abilities,
     physicsBody: body,
@@ -241,6 +268,54 @@ sprite.emit("animationcomplete", animation(profile.digDownAnim), frame(
 ), sprite);
 facingRight = true;
 
+// Held mining may replace only the post-contact recovery once cooldown is ready.
+let recoveryContacts = 0;
+const recoveryStartedAt = 2000;
+scene.time.now = 2150;
+assert.equal(runtime.playMiningAnimation(
+  "mine",
+  "RIGHT",
+  recoveryStartedAt,
+  abilities,
+  () => {
+    recoveryContacts += 1;
+    controller.digSystem.lastMineTime = recoveryStartedAt;
+  },
+), true);
+const recoveryKey = sprite.anims.currentAnim.key;
+const recoveryContact = resolveUalActionContact(profile, recoveryKey, "normal");
+sprite.emit(
+  "animationupdate",
+  animation(recoveryKey),
+  frame(recoveryContact.textureFrame, recoveryContact.sequenceIndex),
+  sprite,
+);
+assert.equal(recoveryContacts, 1);
+assert.equal(runtime.canReplaceMiningRecovery(2249, abilities), false);
+assert.equal(runtime.canReplaceMiningRecovery(2749, abilities), false);
+assert.equal(runtime.canReplaceMiningRecovery(2750, abilities), true);
+scene.time.now = 2750;
+assert.equal(runtime.playMiningAnimation("mine", "RIGHT", 2750, abilities), true);
+const replacementKey = sprite.anims.currentAnim.key;
+assert.equal(runtime.isUalActionLocked, true);
+sprite.emit("animationcomplete", animation(recoveryKey), frame(0, 0), sprite);
+assert.equal(runtime.isUalActionLocked, true, "cancelled recovery completion unlocked its replacement");
+const replacementContact = resolveUalActionContact(profile, replacementKey, "normal");
+sprite.emit(
+  "animationupdate",
+  animation(replacementKey),
+  frame(replacementContact.textureFrame, replacementContact.sequenceIndex),
+  sprite,
+);
+sprite.emit(
+  "animationcomplete",
+  animation(replacementKey),
+  frame(0, animationFrameCounts.get(replacementKey) - 1),
+  sprite,
+);
+assert.equal(runtime.isUalActionLocked, false);
+controller.digSystem.lastMineTime = -Infinity;
+
 // A committed target still resolves if animation alignment moves the body before contact.
 let delayedContact = null;
 let delayedMineCalls = 0;
@@ -272,7 +347,7 @@ contactController._tryMine(downTarget, 0, "DOWN", abilities, "mine");
 delayedContact();
 assert.equal(delayedMineCalls, 2);
 
-// Thunder: scene-time charge, contact-only execute/apply, completion-only unlock.
+// Thunder: one charged contact plus two exact-timing, free follow-up contacts.
 runtime.updateThunderStrike(0, true);
 assert.equal(abilities.chargeStart, 0);
 assert.equal(abilities.executeCalls, 0);
@@ -303,7 +378,38 @@ assert.equal(controller.thunderApplyCalls, 1);
 assert.equal(controller.lastStrike.time, 1000);
 assert.equal(runtime.isUalActionLocked, true);
 sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
+assert.equal(runtime.isUalActionLocked, true, "the chain remains locked for Slam II timing");
+
+const slamTwoTime = runtime.thunderStrikeRuntime.state.challengeTargetMs;
+scene.time.now = slamTwoTime;
+runtime.updateThunderStrike(slamTwoTime, true);
+assert.equal(sprite.played.at(-1), profile.thunderStrikeStrikeAnim);
+sprite.emit(
+  "animationupdate",
+  animation(profile.thunderStrikeStrikeAnim),
+  frame(strikeContact.textureFrame, strikeContact.sequenceIndex),
+  sprite,
+);
+assert.equal(abilities.executeCalls, 2);
+assert.equal(controller.thunderApplyCalls, 2);
+sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
+assert.equal(runtime.isUalActionLocked, true, "the chain remains locked for Slam III timing");
+
+const slamThreeTime = runtime.thunderStrikeRuntime.state.challengeTargetMs;
+scene.time.now = slamThreeTime;
+runtime.updateThunderStrike(slamThreeTime, true);
+sprite.emit(
+  "animationupdate",
+  animation(profile.thunderStrikeStrikeAnim),
+  frame(strikeContact.textureFrame, strikeContact.sequenceIndex),
+  sprite,
+);
+assert.equal(abilities.executeCalls, 3);
+assert.equal(controller.thunderApplyCalls, 3);
+sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
 assert.equal(runtime.isUalActionLocked, false);
+assert.deepEqual(abilities.executeStages, [0, 1, 2]);
+assert.deepEqual(abilities.armedStages, [1, 2]);
 
 // Powered flight: authored enter -> Shield Dash travel -> Jump hover -> exit -> land.
 assert.equal(profile.sourceClips.fly, "Shield_Dash");
@@ -341,6 +447,7 @@ assert.equal(sprite.anims.timeScale, resolveUalFlightTimeScale(Math.hypot(30, 16
 abilities.flying = false;
 motionState = "airborne";
 flightHorizontalSpeed = 0;
+flightVerticalSpeed = 400;
 runtime.updateLocomotionVisual(1210);
 assert.equal(sprite.played.at(-1), profile.flightExitAnim);
 runtime.updateLocomotionVisual(1220);
@@ -353,6 +460,7 @@ motionState = "idle";
 flightVerticalSpeed = 0;
 runtime.updateLocomotionVisual(1240);
 assert.equal(sprite.played.at(-1), profile.landingAnim);
+assert.equal(sprite.anims.timeScale, 1.4);
 runtime.updateLocomotionVisual(1250);
 sprite.anims.isPlaying = false;
 runtime.updateLocomotionVisual(1260);

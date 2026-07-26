@@ -9,6 +9,7 @@ export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps
   const addChest = (tx, ty) => {
     const key = `${tx}:${ty}`;
     if (!Number.isFinite(tx) || !Number.isFinite(ty)) return;
+    if (worldModel.getTileType(tx, ty) !== TILE_TYPES.CHEST) return;
     if (chestKeys.has(key) || chestTiles.length >= caps.maxChestTiles) return;
     if (tx < bounds.left || tx >= bounds.right || ty < bounds.top || ty >= bounds.bottom) return;
     chestKeys.add(key);

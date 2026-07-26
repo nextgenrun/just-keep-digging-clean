@@ -14,6 +14,7 @@ import {
   LEVEL_TWO_MERCHANT_ID,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "../values/arcCoreConfig.js";
+import { CRAFTING_RECIPE_IDS } from "../values/craftingRecipes.js";
 import {
   MONEY_MONSTER_RESOURCE_KEYS,
   SECOND_WORLD_RESOURCE_KEYS,
@@ -39,6 +40,14 @@ function chainedVisual(extra = {}) {
     setTint(value) { this.tint = value; return this; },
     setDisplaySize(width, height) { this.displayWidth = width; this.displayHeight = height; return this; },
   };
+}
+
+function attachLegacyArcVisualFixture(arc) {
+  const sprite = chainedVisual();
+  arc.sprite = sprite;
+  arc.visuals.enabled = false;
+  arc.visuals.legacySprite = sprite;
+  return sprite;
 }
 
 function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = false } = {}) {
@@ -67,31 +76,31 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
 {
   const scene = createArcScene();
   const arc = new ArcCoreVehicleSystem(scene);
-  arc.sprite = chainedVisual();
+  attachLegacyArcVisualFixture(arc);
   arc.prompt = chainedVisual();
   const parking = { tx: ARC_CORE_CONFIG.parking.tileX, ty: ARC_CORE_CONFIG.parking.tileY };
-  const interact = { interact: { justDown: true } };
+  const vehicleInput = { arcCoreVehicle: { justDown: true } };
 
-  assert.equal(arc.update(parking, interact), true);
+  assert.equal(arc.update(parking, vehicleInput), true);
   assert.equal(arc.isActive(), true);
   assert.equal(scene.player.visible, false);
   assert.equal(scene.playerBodyLanguage.enabled, false);
 
-  assert.equal(arc.update(parking, { interact: { justDown: false } }), false);
+  assert.equal(arc.update(parking, { arcCoreVehicle: { justDown: false } }), false);
   assert.deepEqual([arc.sprite.x, arc.sprite.y], [110, 240]);
   assert.match(arc.prompt.text, /Exit Arc Core/);
 
-  assert.equal(arc.update(parking, interact), true);
+  assert.equal(arc.update(parking, vehicleInput), true);
   assert.equal(arc.isActive(), false);
   assert.equal(scene.player.visible, true);
   assert.equal(scene.playerBodyLanguage.enabled, true);
 
-  arc.update(parking, { interact: { justDown: false } });
+  arc.update(parking, { arcCoreVehicle: { justDown: false } });
   assert.deepEqual(
     [arc.sprite.x, arc.sprite.y],
     [(ARC_CORE_CONFIG.parking.tileX + 0.5) * 64, (ARC_CORE_CONFIG.parking.tileY + 1) * 64],
   );
-  assert.equal(arc.update(parking, interact), true);
+  assert.equal(arc.update(parking, vehicleInput), true);
   assert.equal(arc.isActive(), true, "Arc must support immediate re-entry after a clean exit");
   assert.equal(arc.resolveDigTargets({ tx: 20, ty: 30 }, "RIGHT").length, 4);
 }
@@ -99,9 +108,10 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
 {
   const omegaScene = createArcScene({ unlocked: false, omegaUnlocked: true });
   const omegaArc = new ArcCoreVehicleSystem(omegaScene);
-  omegaArc.sprite = chainedVisual();
+  attachLegacyArcVisualFixture(omegaArc);
   omegaArc.prompt = chainedVisual();
   omegaArc.syncOwnership();
+  omegaArc.updateVisualPresentation();
   assert.equal(omegaArc.isUnlocked(), true, "Omega ownership must imply base vehicle access");
   assert.equal(omegaArc.isOmegaUnlocked(), true);
   assert.equal(omegaArc.sprite.displayWidth, 64 * ARC_CORE_CONFIG.omega.displaySizeTiles);
@@ -111,18 +121,18 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
 {
   const lockedScene = createArcScene({ unlocked: false });
   const lockedArc = new ArcCoreVehicleSystem(lockedScene);
-  lockedArc.sprite = chainedVisual();
+  attachLegacyArcVisualFixture(lockedArc);
   lockedArc.prompt = chainedVisual();
   const parking = { tx: ARC_CORE_CONFIG.parking.tileX, ty: ARC_CORE_CONFIG.parking.tileY };
-  assert.equal(lockedArc.update(parking, { interact: { justDown: true } }), true);
+  assert.equal(lockedArc.update(parking, { arcCoreVehicle: { justDown: true } }), true);
   assert.equal(lockedArc.isActive(), false);
-  assert.match(lockedScene.messages.at(-1), /sells this Arc Core/);
+  assert.match(lockedScene.messages.at(-1), /forge this Arc Core with the Molten Money Monster/);
 
   const godScene = createArcScene({ unlocked: false, godMode: true });
   const godArc = new ArcCoreVehicleSystem(godScene);
-  godArc.sprite = chainedVisual();
+  attachLegacyArcVisualFixture(godArc);
   godArc.prompt = chainedVisual();
-  assert.equal(godArc.update(parking, { interact: { justDown: true } }), true);
+  assert.equal(godArc.update(parking, { arcCoreVehicle: { justDown: true } }), true);
   assert.equal(godArc.isActive(), true, "godmode must grant immediate Arc access");
   assert.equal(godArc.isOmegaUnlocked(), true, "godmode must grant immediate Omega Arc access");
   assert.equal(godArc.resolveDigTargets({ tx: 20, ty: 30 }, "RIGHT").length, 64);
@@ -203,7 +213,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   }
 }
 
-// Purchase cost, ownership, and save/load persistence.
+// Arc upgrades are craft-only, while granted ownership remains save/load persistent.
 {
   const resources = { silver: 360, gold: 540 };
   const digSystem = {
@@ -212,14 +222,13 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   };
   const upgrades = new UpgradeSystem(digSystem);
   upgrades.grantUpgrade("worldTwoTunnelAccess");
-  assert.equal(upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).reason, "requires_upgrade");
-  const purchase = upgrades.purchaseUpgrade(ARC_CORE_UPGRADE_ID);
-  assert.equal(purchase.success, true);
-  assert.deepEqual(resources, { silver: 240, gold: 480 });
+  assert.equal(upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).reason, "craft_only");
+  assert.equal(upgrades.purchaseUpgrade(ARC_CORE_UPGRADE_ID).reason, "craft_only");
+  assert.deepEqual(resources, { silver: 360, gold: 540 });
+  assert.equal(upgrades.grantUpgrade(ARC_CORE_UPGRADE_ID).success, true);
   assert.equal(upgrades.getUpgradeLevel(ARC_CORE_UPGRADE_ID), 1);
-  const omegaPurchase = upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID);
-  assert.equal(omegaPurchase.success, true);
-  assert.deepEqual(resources, { silver: 0, gold: 0 });
+  assert.equal(upgrades.grantUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).success, true);
+  assert.deepEqual(resources, { silver: 360, gold: 540 });
   assert.equal(upgrades.getUpgradeLevel(OMEGA_ARC_CORE_UPGRADE_ID), 1);
 
   const restored = new UpgradeSystem(digSystem);
@@ -262,6 +271,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   let openedMerchant = null;
   const manager = Object.create(NPCManager.prototype);
   manager.npcDefs = [{ merchantId: "magmaMoneyMonster", tx: 10, ty: 20 }];
+  manager.activitySystem = { settleMerchant() {} };
   manager.scene = {
     playerController: { state: { getPlayerTile: () => ({ tx: 13, ty: 20 }) } },
     interactKey: { justDown: true },
@@ -272,17 +282,18 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   assert.equal(openedMerchant, "magmaMoneyMonster");
 }
 
-// Both Arc purchases appear in the Level 2 Money Monster's upgrade catalog.
+// Both Arc schematics appear in the Forge and are absent from the money-purchase catalog.
 {
   const catalog = { _render() {} };
   ShopOverlay.prototype.populateUpgrades.call(catalog, LEVEL_TWO_MERCHANT_ID);
+  assert.deepEqual(catalog.allUpgrades, []);
   assert.deepEqual(
-    catalog.allUpgrades.map(upgrade => upgrade.id),
-    [ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID],
+    catalog.forgeRecipes.map(recipe => recipe.id),
+    [CRAFTING_RECIPE_IDS.ARC_CORE, CRAFTING_RECIPE_IDS.OMEGA_ARC_CORE],
   );
 }
 
-// Level 2 merchant opens on SELL; E acts; F sells the selected stack.
+// Level 2 merchant opens on FORGE; E acts; SELL mode still supports F stack sales.
 {
   const shown = {
     _destroyed: false,
@@ -294,7 +305,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     _layoutChrome() {},
   };
   ShopOverlay.prototype.show.call(shown, "magmaMoneyMonster");
-  assert.equal(shown.moneyMonsterMode, "sell");
+  assert.equal(shown.moneyMonsterMode, "craft");
   assert.equal(shown.populatedMerchant, "magmaMoneyMonster");
   assert.equal(shown.scene.open, true);
 

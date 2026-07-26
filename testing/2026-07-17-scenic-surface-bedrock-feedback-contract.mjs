@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { MINING_CONFIG } from "../values/miningConfig.js";
-import { TILE_TYPES } from "../values/tileTypes.js";
+import { TILE_TYPES, isUnbreakableMiningSurface } from "../values/tileTypes.js";
 import { WORLD_VISUAL_RUNTIME, getWorldVisualPreloadAssets, resolveWorldVisualSurfaceEdgeEnabled } from "../values/worldVisualRuntime.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
 import { DigSystem } from "../systems/mining/DigSystem.js";
@@ -187,25 +187,41 @@ function createBlockedDigResult(tileType) {
   return digSystem.tryMine({ tx: 4, ty: 7 }, 1000, null, null, { ignoreCooldown: true });
 }
 
-for (const tileType of [TILE_TYPES.BEDROCK, TILE_TYPES.CAVE_WALL]) {
+const unbreakableMiningSurfaces = [
+  TILE_TYPES.BEDROCK,
+  TILE_TYPES.CAVE_WALL,
+  TILE_TYPES.FLOOR_TOWN_1,
+  TILE_TYPES.FLOOR_TOWN_2,
+];
+for (const tileType of unbreakableMiningSurfaces) {
   const result = createBlockedDigResult(tileType);
   assert.equal(result.success, false);
   assert.equal(result.reason, "blocked");
   assert.equal(result.tileType, tileType);
   assert.equal(result.typeBeforeDamage, tileType);
+  assert.equal(result.damage, 0);
   assert.equal(result.blockedByBedrock, true, `${tileType} must be identified as an unbreakable bedrock surface`);
+  assert.equal(isUnbreakableMiningSurface(tileType), true);
 }
 
-assert.equal(MINING_CONFIG.blockedUi.bedrockMessage, "Cannot dig");
+assert.equal(MINING_CONFIG.blockedUi.bedrockMessage, "You cannot break this");
+assert.equal(MINING_CONFIG.blockedUi.zeroDamageText, "0 damage");
 assert.ok(MINING_CONFIG.blockedUi.notificationKey.length > 0);
 assert.ok(MINING_CONFIG.blockedUi.durationMs > 0);
+assert.ok(MINING_CONFIG.blockedUi.zeroDamageDurationMs > 0);
+assert.ok(MINING_CONFIG.blockedUi.zeroDamageFontSize > 0);
 const gameplay = {};
 setupGameplayMethods(gameplay);
 const warnings = [];
+const floatingTexts = [];
 const gameplayScene = {
+  config: { tileSize: 94 },
   _applyMineShake() {},
   uiNotifications: {
     warning(message, options) { warnings.push({ message, options }); },
+  },
+  floatingTextSystem: {
+    showFloatingText(...args) { floatingTexts.push(args); },
   },
 };
 gameplay.applyMineFeedback.call(
@@ -219,13 +235,22 @@ assert.deepEqual(warnings, [{
     key: MINING_CONFIG.blockedUi.notificationKey,
     durationMs: MINING_CONFIG.blockedUi.durationMs,
   },
-}], "PlayScene must route Cannot dig through the keyed warning notification API");
+}], "PlayScene must route the unbreakable warning through the keyed notification API");
+assert.deepEqual(floatingTexts, [[
+  4 * 94 + 47,
+  7 * 94 + 47,
+  MINING_CONFIG.blockedUi.zeroDamageText,
+  MINING_CONFIG.blockedUi.zeroDamageColor,
+  MINING_CONFIG.blockedUi.zeroDamageDurationMs,
+  MINING_CONFIG.blockedUi.zeroDamageFontSize,
+]], "PlayScene must show one explicit zero-damage float at the blocked tile");
 gameplay.applyMineFeedback.call(
   gameplayScene,
   { success: false, reason: "blocked", blockedByBedrock: false },
   { tx: 5, ty: 7 },
 );
 assert.equal(warnings.length, 1, "ordinary blocked attempts must not impersonate bedrock feedback");
+assert.equal(floatingTexts.length, 1, "ordinary blocked attempts must not impersonate zero-damage bedrock feedback");
 
 function mixColor(from, to, amount) {
   const t = Math.max(0, Math.min(1, Number(amount) || 0));
@@ -235,6 +260,7 @@ function mixColor(from, to, amount) {
 
 const bedrockConfig = WORLD_VISUAL_SEMANTIC_ASSETS.bedrock;
 assert.equal(bedrockConfig.includesCaveWall, true);
+assert.equal(bedrockConfig.includesTownFloors, true);
 assert.ok(bedrockConfig.lightingLift > 0, "generated bedrock needs a positive visibility lift");
 assert.ok(bedrockConfig.coolTintStrength > 0, "generated bedrock needs a visible cool-color separation");
 assert.notEqual(bedrockConfig.coolTint, 0xffffff);
@@ -265,18 +291,18 @@ const bedrockScene = {
 const bedrockWorld = {
   getTileType(tx, ty) {
     if (ty !== 0) return TILE_TYPES.AIR;
-    return tx === 0 ? TILE_TYPES.BEDROCK : TILE_TYPES.CAVE_WALL;
+    return unbreakableMiningSurfaces[tx] ?? TILE_TYPES.AIR;
   },
 };
 const bedrockLayer = new WorldVisualBedrockMaterialLayer(bedrockScene, bedrockWorld);
 bedrockLayer.create();
 const terrainTint = 0x20242a;
-bedrockLayer.sync({ left: 0, right: 2, top: 0, bottom: 1 }, { terrainTint });
+bedrockLayer.sync({ left: 0, right: 4, top: 0, bottom: 1 }, { terrainTint });
 assert.ok(bedrockImages.length > 0, "visible bedrock must allocate the generated material plane");
 assert.equal(
   bedrockGraphics[0].calls.filter(([method]) => method === "fillRect").length,
-  2,
-  "both BEDROCK and CAVE_WALL must reveal the generated bedrock material",
+  4,
+  "bedrock, cave walls, and both town floors must reveal the generated bedrock material",
 );
 const liftedTint = mixColor(terrainTint, 0xffffff, bedrockConfig.lightingLift);
 const expectedBedrockTint = mixColor(liftedTint, bedrockConfig.coolTint, bedrockConfig.coolTintStrength);
@@ -297,5 +323,5 @@ assert.ok(
 bedrockLayer.destroy();
 
 console.log(
-  "Scenic surface and bedrock feedback contract passed: far art is source-scale capped, duplicate floor is opt-in, and visible bedrock returns keyed Cannot dig feedback",
+  "Scenic surface and bedrock feedback contract passed: Town Square ground is visibly reinforced and blocked hits show You cannot break this with 0 damage",
 );

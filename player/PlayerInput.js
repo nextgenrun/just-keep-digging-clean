@@ -54,7 +54,6 @@ export class PlayerInput {
       mine: Phaser.Input.Keyboard.KeyCodes.F,
       reset: Phaser.Input.Keyboard.KeyCodes.R,
       shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
-      g: "G",
       z: "Z",
       q: "Q",
       c: Phaser.Input.Keyboard.KeyCodes.C,

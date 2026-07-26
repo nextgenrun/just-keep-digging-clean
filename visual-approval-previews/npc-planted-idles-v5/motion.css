@@ -1,0 +1,10 @@
+.actor,
+.actor[data-state],
+.actor img {
+  animation: none;
+  transform: none;
+}
+
+.actor {
+  transform-origin: 50% 100%;
+}

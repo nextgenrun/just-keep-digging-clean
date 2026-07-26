@@ -1,0 +1,1336 @@
+{
+  "created": "2026-07-26",
+  "runtimeApproved": true,
+  "reviewOnly": false,
+  "productionChanged": true,
+  "walkingRemoved": true,
+  "generator": "ai-tools/2026-07-26-build-npc-planted-idles-v9.py",
+  "sourceReviewManifest": "visual-approval-previews/npc-planted-idles-v5/manifest.json",
+  "canvas": [
+    512,
+    512
+  ],
+  "baselineY": 496,
+  "activities": [
+    "quiet",
+    "work",
+    "rare",
+    "player",
+    "inspect",
+    "habit",
+    "signature",
+    "showcase"
+  ],
+  "assets": {
+    "player-upgrades": {
+      "quiet": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-quiet.webp",
+        "sha256": "f1b12d4547a25d4b25d534a2be2974090dae4c8e3263a632a769c3f65de00390",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          115,
+          12,
+          397,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 1.00311,
+        "alphaCoverage": 0.31395,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          16,
+          21,
+          358,
+          361
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-quiet.webp",
+        "reviewPoseSha256": "89f2a741a6fcb117f72e0deb0dc087a0262fff1257d21026762a58435c28b3dd"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-work.webp",
+        "sha256": "b308eac3dfd0cec81f9eefe8c3231a8ee7610c63e2b8f15c331fde29f6db1a62",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          112,
+          13,
+          400,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 1.00104,
+        "alphaCoverage": 0.32371,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          374,
+          21,
+          715,
+          361
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-work.webp",
+        "reviewPoseSha256": "0d63ea444367ae249e50f01ff17dcf5a97aa2feabb5c1604ad4c296d56c45f56"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-rare.webp",
+        "sha256": "4f16d8bb915bfcfa7b2a7febf6573be24916d6b44a7ce80b84ecfc81a3c933bc",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          94,
+          12,
+          415,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 0.99486,
+        "alphaCoverage": 0.38745,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          732,
+          21,
+          1073,
+          361
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-rare.webp",
+        "reviewPoseSha256": "2dad9e52755e24e6487f9912b3f4856d69827cb2804d02c94419f20dd2a69993"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-player.webp",
+        "sha256": "0183ddf33f68c7fa9f20891d335f8e48c309ea1c2fe037ad71a7c57a7a2f7a16",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          61,
+          12,
+          450,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 1.01151,
+        "alphaCoverage": 0.35046,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          1089,
+          21,
+          1431,
+          361
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-player.webp",
+        "reviewPoseSha256": "59b48b9586e96ab741607eed1422909f7135d7b7046df2d7f1c1d1ba4e92cf35"
+      },
+      "inspect": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-inspect.webp",
+        "sha256": "2b3039d08c32653626af1eb285305e5ef8c6de8c962b544956018b4cf4621404",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          116,
+          12,
+          396,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 0.99486,
+        "alphaCoverage": 0.33199,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          13,
+          15,
+          356,
+          357
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-inspect.webp",
+        "reviewPoseSha256": "c761ce30c50060164d605fe8d4ed877db7ed110b19ed256a678f183cf44d4514"
+      },
+      "habit": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-habit.webp",
+        "sha256": "7082c5d54fbe9bb2559e7a0df5b881f7d0578502ba40fe103a37538c0ce0eae3",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          117,
+          12,
+          395,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 1.02004,
+        "alphaCoverage": 0.31968,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          371,
+          15,
+          715,
+          357
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-habit.webp",
+        "reviewPoseSha256": "6a2c90c825b0ca7b5c8c3f63cc848442e43f7a8701c1703655630720ed29208a"
+      },
+      "signature": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-signature.webp",
+        "sha256": "59fa456b5f0169622bf65e1fa137f315cbcea6c5e4e93f4fd9de4a81608a43b9",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          108,
+          12,
+          403,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 0.99691,
+        "alphaCoverage": 0.31932,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          730,
+          15,
+          1072,
+          357
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-signature.webp",
+        "reviewPoseSha256": "097410a2f6f237feaba2d35f64e0321cc9d1bc1fffede7a312036a3764c337e7"
+      },
+      "showcase": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/player-upgrades-showcase.webp",
+        "sha256": "017e838dc6934bbb770e14fcaaf89af49be30e58526b60b76d0c5c8c01e4f7a5",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          129,
+          12,
+          384,
+          496
+        ],
+        "mainHeightTarget": 483.5,
+        "scale": 0.99897,
+        "alphaCoverage": 0.30925,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          1087,
+          15,
+          1430,
+          357
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/player-upgrades-showcase.webp",
+        "reviewPoseSha256": "467704bfcc74c09e643f6ce510b8ea43309865f85ba58638ad4d0d4a405e5f5b"
+      }
+    },
+    "gear-merchant": {
+      "quiet": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-quiet.webp",
+        "sha256": "c4be53baccbba152ca8962bdf33bce9ba195f38ee0f8003abf453dd7a4a5207e",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          101,
+          38,
+          411,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 0.99891,
+        "alphaCoverage": 0.34335,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          16,
+          377,
+          358,
+          717
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-quiet.webp",
+        "reviewPoseSha256": "2772e4f3ffad31f04c474a4b8fcb314fb230b15eeaa453de2236818a5b4c6552"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-work.webp",
+        "sha256": "5cec6f65eff08dff15a3bccacd39a838bda483684b256e65387192bfe788b94d",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          102,
+          38,
+          409,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 0.9818,
+        "alphaCoverage": 0.35833,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          374,
+          377,
+          715,
+          717
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-work.webp",
+        "reviewPoseSha256": "73d27a61eaf0a30831ef83de33456f86397a1a194e47546bff07948a5243ba7a"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-rare.webp",
+        "sha256": "aa142266a694bf2a63caef9e41cddb3af460a1f621ce50328eb9256e9a8bdba8",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          74,
+          38,
+          437,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 1.00109,
+        "alphaCoverage": 0.3695,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          732,
+          377,
+          1073,
+          717
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-rare.webp",
+        "reviewPoseSha256": "0bd5cb6ce42be313bb33475fe7686c8d60f1938e7b894b9e5d430091f0eb2367"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-player.webp",
+        "sha256": "4c3dae4398dc80499ff0df73f6773c6ec9d82fa37d85c6128b6702efba2f9cc9",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          42,
+          38,
+          469,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 0.97761,
+        "alphaCoverage": 0.34771,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          1089,
+          377,
+          1431,
+          717
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-player.webp",
+        "reviewPoseSha256": "0f22842e703aa314d025ffb7b9d1f4b5a2f9aa46c2ce78ef8659b1734e426310"
+      },
+      "inspect": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-inspect.webp",
+        "sha256": "16bd1479662f8747a6cf831587d92449cec1ee82b0cfa125fc5bee8bdaf81715",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          110,
+          38,
+          402,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 1.00769,
+        "alphaCoverage": 0.33664,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          13,
+          372,
+          356,
+          711
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-inspect.webp",
+        "reviewPoseSha256": "a3f62731fa9846a9c98d2b78e0799320fb687d9650818368cf8ceed171fb79aa"
+      },
+      "habit": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-habit.webp",
+        "sha256": "7d294e976ccd8334b947117975ae0a2d1eb0d1cc87c92af879320ebfca07dd58",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          99,
+          38,
+          413,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 1.00548,
+        "alphaCoverage": 0.34395,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          371,
+          372,
+          715,
+          711
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-habit.webp",
+        "reviewPoseSha256": "1069b74751c90bd7b124d74cef4abc7763882c23de31bc10368f7770e18987e6"
+      },
+      "signature": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-signature.webp",
+        "sha256": "02c3373885e0629bf1a0b75165d0f12f0fecfcb769ae7fffa1a019b8e7cecbeb",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          107,
+          38,
+          404,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 0.99458,
+        "alphaCoverage": 0.34575,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          730,
+          372,
+          1072,
+          711
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-signature.webp",
+        "reviewPoseSha256": "67ca087b2d0765566cccf6c96aa0c2ad057ebbf1f7a7fb0e963518293f9e8c80"
+      },
+      "showcase": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gear-merchant-showcase.webp",
+        "sha256": "661720ea9fc61576cea0df983ef3fed6dcc8f29a7d7ac416b75e484739d8de32",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          113,
+          38,
+          399,
+          496
+        ],
+        "mainHeightTarget": 458.5,
+        "scale": 1.00109,
+        "alphaCoverage": 0.29658,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          1087,
+          372,
+          1430,
+          711
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gear-merchant-showcase.webp",
+        "reviewPoseSha256": "f18dac7d3519a83a8d860f141c5ae7701461175be7af7fc55e60c8f4abf3c617"
+      }
+    },
+    "bobo-merchant": {
+      "quiet": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-quiet.webp",
+        "sha256": "348b0b08f8398ce26fa85a9382c63ee2d4eb12c0584dcf43368edb5a045a270a",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          95,
+          52,
+          417,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 1.00566,
+        "alphaCoverage": 0.38005,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          16,
+          733,
+          358,
+          1073
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-quiet.webp",
+        "reviewPoseSha256": "e1b106525e43d1aeadf02483765d72b27a70b783ab9a0e2a43fd5aa70c341196"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-work.webp",
+        "sha256": "451a1631f8f2a0b0ac62e0b0a205a23486db6c5c5f7579fc766a43c5c534bf5c",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          69,
+          52,
+          443,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 0.98998,
+        "alphaCoverage": 0.42772,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          374,
+          733,
+          715,
+          1073
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-work.webp",
+        "reviewPoseSha256": "62c1f60fbc846febf5849ba110d9a772d365fac9078d5d36a9ccbc18f9d65c19"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-rare.webp",
+        "sha256": "cdea22e01f9378fce266a6e811ac018bb6a6607ac9028e375a490a1afff25b43",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          23,
+          50,
+          493,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 1.08305,
+        "alphaCoverage": 0.45902,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          732,
+          733,
+          1073,
+          1073
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-rare.webp",
+        "reviewPoseSha256": "d6c71feffab6890754f782505014c5899f44b1311a5897d8a8a1476057bbc164"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-player.webp",
+        "sha256": "98a4482709a41bd68ad5d5174e5a7187fc356702d27e88d3c85b60dfdb0b7218",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          87,
+          52,
+          425,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 0.97265,
+        "alphaCoverage": 0.42292,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-base",
+        "sourcePanel": [
+          1089,
+          733,
+          1431,
+          1073
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-player.webp",
+        "reviewPoseSha256": "55bae5e873129a0ef7d0188d9c2dd4d6d18fcdb5b89a8b54c559f5519ba82867"
+      },
+      "inspect": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-inspect.webp",
+        "sha256": "afc20a2aadb4690770ca76a3382e846176911bdb6bb7de2e52755e20d6313054",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          94,
+          52,
+          418,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 1.00339,
+        "alphaCoverage": 0.39672,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          13,
+          728,
+          356,
+          1066
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-inspect.webp",
+        "reviewPoseSha256": "1191757f2028c0a0236c0c8e30efcc5091332cd600dbb4ce8a11a3e7110b7302"
+      },
+      "habit": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-habit.webp",
+        "sha256": "0071e5f2ceb505e396cd4f3ed182cc46498cda29562c81a37ca2c797b417b9f0",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          89,
+          52,
+          423,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 0.99441,
+        "alphaCoverage": 0.39006,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          371,
+          728,
+          715,
+          1066
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-habit.webp",
+        "reviewPoseSha256": "f4b265b0893e4c96f8aee5f7a56ce3f7a83df29802bf68c9bf08f62e42df4944"
+      },
+      "signature": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-signature.webp",
+        "sha256": "b57b3a4da55955a833ce76848c4bc173dffa232921927eea0ecc7995986f4382",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          78,
+          52,
+          453,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 1.02656,
+        "alphaCoverage": 0.40324,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          730,
+          728,
+          1072,
+          1066
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-signature.webp",
+        "reviewPoseSha256": "91ba7535a7514917e41e27476219e79dfd6255227a526c236cceead59ce114e4"
+      },
+      "showcase": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/bobo-merchant-showcase.webp",
+        "sha256": "697b1288f1f8c121b6372c3c88ca2e8bf4dd76a9de87464f7f8f5a295645fe94",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          75,
+          52,
+          438,
+          496
+        ],
+        "mainHeightTarget": 444.5,
+        "scale": 0.99664,
+        "alphaCoverage": 0.41523,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "character-extension",
+        "sourcePanel": [
+          1087,
+          728,
+          1430,
+          1066
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/bobo-merchant-showcase.webp",
+        "reviewPoseSha256": "0325ec54fae5d2294c146c79cc02b84b0eadbeec31cc921db1b3e17537def4e8"
+      }
+    },
+    "money-monster": {
+      "quiet": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-quiet.webp",
+        "sha256": "43f898b755a3807149da26ce842dc7ab0fe79a5295e16a67cd1801ddfca81d59",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          85,
+          63,
+          426,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 0.94748,
+        "alphaCoverage": 0.39911,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          20,
+          11,
+          383,
+          358
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-quiet.webp",
+        "reviewPoseSha256": "e9e8bb0ec0b1fcfbcbc049958a9575aa7daadccb90ad3293aa71578840c4a330"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-work.webp",
+        "sha256": "79470ec70e6c19d49adba6f5e60f32c7a299423aca61c02ae9b42836ba42fe80",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          78,
+          63,
+          435,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 0.98858,
+        "alphaCoverage": 0.40007,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          393,
+          11,
+          763,
+          358
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-work.webp",
+        "reviewPoseSha256": "10c613070c843fbdb2c173ad56105f4825532c48d866ed917d64d0a2a8e78595"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-rare.webp",
+        "sha256": "da10fbdb78fbc281a10dd01df2413c91963488682b4066d09747bb676e154c5a",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          74,
+          63,
+          439,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 0.98858,
+        "alphaCoverage": 0.41302,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          774,
+          11,
+          1142,
+          358
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-rare.webp",
+        "reviewPoseSha256": "f88b69807b171b8fc509787977bc1fb364670c3aaf22ebbc3e5d750820baf986"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-player.webp",
+        "sha256": "b3bb634c6462c0d6d9c843e47c669162d4438a8f25dd4599713b71b5f970fa40",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          60,
+          63,
+          451,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 0.99085,
+        "alphaCoverage": 0.37856,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          1153,
+          11,
+          1515,
+          358
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-player.webp",
+        "reviewPoseSha256": "b635cab0df908d3a0faa794981a334e4025acf851035eb7ff37b0401cff2d814"
+      },
+      "inspect": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-inspect.webp",
+        "sha256": "7bdb7ae61d636167ea738a135fd68007282de1eaf189fb5ce67768051a0406fb",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          61,
+          63,
+          452,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 1.00932,
+        "alphaCoverage": 0.44651,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          20,
+          11,
+          383,
+          347
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-inspect.webp",
+        "reviewPoseSha256": "e177905b07a1eb1c2e11a785082ea8409fb09823288e93ba18e82d49ed56103b"
+      },
+      "habit": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-habit.webp",
+        "sha256": "825231bf98d569818519af670c6efefc2c82d7b5ebb121bc64b67857650b9dfd",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          74,
+          63,
+          439,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 1.03589,
+        "alphaCoverage": 0.4082,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          393,
+          11,
+          763,
+          347
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-habit.webp",
+        "reviewPoseSha256": "e67196ae399fd788e3a5cdd2c4291cabd694de663edb7349d7898d8be692140e"
+      },
+      "signature": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-signature.webp",
+        "sha256": "dc6175da4a66382b1393433c4dde2227ab5aa55364c99f5e8e2039a89f4eaddf",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          75,
+          63,
+          437,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 1.04087,
+        "alphaCoverage": 0.42398,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          774,
+          11,
+          1142,
+          347
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-signature.webp",
+        "reviewPoseSha256": "6d5080bb5c18e57ed4a99d92331c2e820a88524ddcdcfca2248b95eac1abc2bb"
+      },
+      "showcase": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/money-monster-showcase.webp",
+        "sha256": "8e099d1a670d8b40b66e680418a4fca91c9a4236a19a0ffaae797f0b61b7b645",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          66,
+          63,
+          445,
+          496
+        ],
+        "mainHeightTarget": 433.0,
+        "scale": 1.01643,
+        "alphaCoverage": 0.42423,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          1153,
+          11,
+          1516,
+          347
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/money-monster-showcase.webp",
+        "reviewPoseSha256": "38a0180689cae8ec8824af03c87f577d90958ddb93ed31d856b48fcf93caeb98"
+      }
+    },
+    "gem-power-merchant": {
+      "quiet": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-quiet.webp",
+        "sha256": "a9336e8b73716bf83b8a1d080f7846d53169edb8eaaaf88c087d68155e268e86",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          90,
+          113,
+          423,
+          496
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 1.0,
+        "alphaCoverage": 0.29282,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          20,
+          365,
+          383,
+          660
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-quiet.webp",
+        "reviewPoseSha256": "2a668a2a4f40ed18676e67560f9a8b5d417022d18717c51b9e98dfef7a616a74"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-work.webp",
+        "sha256": "01dcb6c56e068ef9dae83008bd1d7d1156c5bcfd7423666266391cbdb2873d0e",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          48,
+          113,
+          463,
+          496
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 1.00789,
+        "alphaCoverage": 0.32576,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          393,
+          365,
+          763,
+          660
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-work.webp",
+        "reviewPoseSha256": "c9a399ec98a10aed3192bf6b790ccfcd72fad9fa77c8ca27d311540200e44b97"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-rare.webp",
+        "sha256": "ceafa2d9c3597c750479a6f321b0d635ab9a51029d7633e5c7dc569922577e0e",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          52,
+          113,
+          439,
+          496
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 0.98205,
+        "alphaCoverage": 0.33584,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          774,
+          365,
+          1142,
+          660
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-rare.webp",
+        "reviewPoseSha256": "5b1186286e2c3fd7fcf3cfcfaef7f91b6ae2a6a4f313e45f74ddd93d3cf91225"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-player.webp",
+        "sha256": "735b4871b7822e7a18bc4a13df414a570e38de376e362f0e7c0491022c3b4db2",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          49,
+          113,
+          463,
+          496
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 0.96231,
+        "alphaCoverage": 0.35332,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          1153,
+          365,
+          1515,
+          660
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-player.webp",
+        "reviewPoseSha256": "32bfbfd2fdc1b290fa63f96831b9f6e2d5a260079b5bcd7c10cf7f21bdf80e7f"
+      },
+      "inspect": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-inspect.webp",
+        "sha256": "e5a6dd5c4d1ccad0a14f5912c603d06d8420e8d6101a288c0e61b8b036cca0a1",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          86,
+          113,
+          426,
+          496
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 1.0,
+        "alphaCoverage": 0.31603,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          20,
+          355,
+          383,
+          655
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-inspect.webp",
+        "reviewPoseSha256": "7be8453da6b5a9c8f59798fccdae5b36d2d55f7d0ce7b23511875cfdc64c917c"
+      },
+      "habit": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-habit.webp",
+        "sha256": "9aab1c66abaefb42ad292be99f704a988661640c03a016b46ccb137ed126615c",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          86,
+          103,
+          426,
+          502
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 1.04932,
+        "alphaCoverage": 0.32226,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          393,
+          355,
+          763,
+          655
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-habit.webp",
+        "reviewPoseSha256": "046af1972741f72304478f4e385df7ab17e467b66b528c67b8c579a51dec3c57"
+      },
+      "signature": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-signature.webp",
+        "sha256": "42ecd3bfd78d8d82106f55a2fdc77167b6271ea83e8d8ca6d66f2a62ec14f051",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          95,
+          111,
+          418,
+          502
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 1.02406,
+        "alphaCoverage": 0.31805,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          774,
+          355,
+          1142,
+          655
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-signature.webp",
+        "reviewPoseSha256": "d23d2180f82d6354422f241b39ace4b3de8cc9c400462091104ea25f19b68ef4"
+      },
+      "showcase": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/gem-power-merchant-showcase.webp",
+        "sha256": "2f23e173bd4180ee08a820e56f4ab4c22f7f160fea7c0c6ca645fecb41bd3eab",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          33,
+          113,
+          441,
+          496
+        ],
+        "mainHeightTarget": 383.0,
+        "scale": 0.97455,
+        "alphaCoverage": 0.33019,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          1153,
+          355,
+          1516,
+          655
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/gem-power-merchant-showcase.webp",
+        "reviewPoseSha256": "123f48d7bc9ff2087056bd263e25869505ef70f33a2b95327f49c2908f37e3e1"
+      }
+    },
+    "magma-money-monster": {
+      "quiet": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-quiet.webp",
+        "sha256": "2df5972d6eaa05d4e6c623dda2e68e4c74de8e5e66b342630e934d1568418dfc",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          46,
+          60,
+          467,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 0.98533,
+        "alphaCoverage": 0.42452,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          20,
+          667,
+          383,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-quiet.webp",
+        "reviewPoseSha256": "18688a5b70772d06849f4599407d753e2ed17ad854d5f690550a1f3211e405c8"
+      },
+      "work": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-work.webp",
+        "sha256": "30875032c5db22c05eca8038411b5b27e3b5b713485aa7c06d8f48e90421fcb0",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          38,
+          60,
+          474,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 1.00115,
+        "alphaCoverage": 0.41739,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          393,
+          667,
+          763,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-work.webp",
+        "reviewPoseSha256": "c2deab99bba684dfb219cb00397a2306a662a4a101a3420940d588b052841c6b"
+      },
+      "rare": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-rare.webp",
+        "sha256": "47a996ea41e9bef398792f4125c95ec3840ab2e474e294a03393f8ea5902de7a",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          27,
+          60,
+          484,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 0.9898,
+        "alphaCoverage": 0.4583,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          774,
+          667,
+          1142,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-rare.webp",
+        "reviewPoseSha256": "96fe8968ec02fbfd8d0351793eec27ce2bdc3d43f807644574390340c4c642a1"
+      },
+      "player": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-player.webp",
+        "sha256": "367a2920af2b57648247a385f2a0a87d78971bdca5a99e3c63b6ec4f5cf8f5a4",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          36,
+          60,
+          475,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 0.96358,
+        "alphaCoverage": 0.43861,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-base",
+        "sourcePanel": [
+          1153,
+          667,
+          1515,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-player.webp",
+        "reviewPoseSha256": "2155040bb91f68069650da3bfb9ede36c97ae689da3235e25674ea126f776923"
+      },
+      "inspect": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-inspect.webp",
+        "sha256": "d18b2699a2734b547b72b7e3d47982e15f6238c4a887611f4b985c2caed94b97",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          60,
+          60,
+          452,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 0.99886,
+        "alphaCoverage": 0.42318,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          20,
+          663,
+          383,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-inspect.webp",
+        "reviewPoseSha256": "91826a926d6789520ee7cab869e7b98bd3c6e7904a8adcf2491ba2447f6c0fa0"
+      },
+      "habit": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-habit.webp",
+        "sha256": "27ef05463ee9cda10a82f0aae99fb7d40b0a06c6f234500a1a82eb84e89bfc50",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          47,
+          60,
+          465,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 1.00576,
+        "alphaCoverage": 0.40622,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          393,
+          663,
+          763,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-habit.webp",
+        "reviewPoseSha256": "cfd0f2413f82430575a1aa38265eb09a534b5ca7cc547ffe540e38b03ed62e8c"
+      },
+      "signature": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-signature.webp",
+        "sha256": "b4d6ea0f7c5a6ce7c200f6ad27d3047e70e133a803dd6a01f7d5bac929cc2ffa",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          77,
+          60,
+          436,
+          496
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 1.00808,
+        "alphaCoverage": 0.38598,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          774,
+          663,
+          1142,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-signature.webp",
+        "reviewPoseSha256": "8d860500e760e12256ceb1e6839fd927b0c5c2b1a14716553ae70dc05d324a64"
+      },
+      "showcase": {
+        "path": "sprites/npc/npc-v9-planted-idles/singles/magma-money-monster-showcase.webp",
+        "sha256": "00a5b12d864b8aef5f69ca6e591fb17d8e1951024323b69abe7318ce1976b1ef",
+        "dimensions": [
+          512,
+          512
+        ],
+        "alphaBounds": [
+          30,
+          56,
+          483,
+          502
+        ],
+        "mainHeightTarget": 436.5,
+        "scale": 1.00576,
+        "alphaCoverage": 0.45745,
+        "edgeOpaquePixels": 0,
+        "sourceBoard": "creature-extension",
+        "sourcePanel": [
+          1153,
+          663,
+          1516,
+          1001
+        ],
+        "reviewPose": "visual-approval-previews/npc-planted-idles-v5/poses/magma-money-monster-showcase.webp",
+        "reviewPoseSha256": "008606aeb890105f5f7c9b105de668535257a4a321947285583f3a63c9f21b2e"
+      }
+    }
+  },
+  "qaSheet": "sprites/npc/npc-v9-planted-idles/npc-v9-planted-idles-alpha-qa.png",
+  "qaSheetSha256": "ed081279861facbe46e2aa79743d404ba7392352a220098bb56482176e4ec565"
+}

@@ -1,0 +1,80 @@
+{
+  "created": "2026-07-26",
+  "reviewOnly": true,
+  "productionChangedByThisMockup": false,
+  "status": "rejected",
+  "historicalArtifact": true,
+  "replacement": "visual-approval-previews/npc-planted-idles-v5/",
+  "runtimeBaseline": {
+    "alreadyWired": true,
+    "pack": "sprites/npc/npc-v9-planted-idles",
+    "behavior": "Eight planted visual states with exact per-frame anchor locking and no locomotion state",
+    "walkingRemoved": true,
+    "rollback": [
+      "?npcActivities=0"
+    ]
+  },
+  "presentation": {
+    "grid": [5, 3],
+    "gameplayHeightPx": 138,
+    "safeRadiusTiles": 0.34,
+    "anchorRule": "Every five-pose cycle finishes on the exact authored shop anchor.",
+    "reviewRule": "Full walk frames remain review-only until separately approved."
+  },
+  "npcs": [
+    {
+      "slug": "player-upgrades",
+      "label": "Player Upgrades",
+      "board": "character",
+      "row": 0,
+      "gait": "Precise half-step; blueprint and tool belt lag behind the torso.",
+      "frameDurationsMs": [300, 170, 150, 190, 580],
+      "offsetTiles": [0, 0.05, 0.12, 0.05, 0]
+    },
+    {
+      "slug": "gear-merchant",
+      "label": "Gear Merchant",
+      "board": "character",
+      "row": 1,
+      "gait": "Heavy pack-led stomp; beard and pickaxe settle late.",
+      "frameDurationsMs": [340, 210, 190, 230, 660],
+      "offsetTiles": [0, 0.04, 0.1, 0.04, 0]
+    },
+    {
+      "slug": "bobo-merchant",
+      "label": "Bobo Merchant",
+      "board": "character",
+      "row": 2,
+      "gait": "Friendly springy two-step; ears, tail, bottle, and medallion overlap.",
+      "frameDurationsMs": [260, 150, 135, 165, 520],
+      "offsetTiles": [0, 0.06, 0.14, 0.06, 0]
+    },
+    {
+      "slug": "money-monster",
+      "label": "Money Monster",
+      "board": "creature",
+      "row": 0,
+      "gait": "Sly protective shuffle; eye leads and loose coins land last.",
+      "frameDurationsMs": [300, 175, 155, 190, 600],
+      "offsetTiles": [0, 0.05, 0.12, 0.05, 0]
+    },
+    {
+      "slug": "gem-power-merchant",
+      "label": "Gem Power Merchant",
+      "board": "creature",
+      "row": 1,
+      "gait": "Crystal-heavy two-step; staff and shoulder cluster counterbalance.",
+      "frameDurationsMs": [360, 220, 195, 235, 700],
+      "offsetTiles": [0, 0.04, 0.09, 0.04, 0]
+    },
+    {
+      "slug": "magma-money-monster",
+      "label": "Magma Money Monster",
+      "board": "creature",
+      "row": 2,
+      "gait": "Furnace-heavy stomp; scale pans, chains, chest, and embers absorb the weight.",
+      "frameDurationsMs": [390, 235, 210, 250, 760],
+      "offsetTiles": [0, 0.035, 0.08, 0.035, 0]
+    }
+  ]
+}

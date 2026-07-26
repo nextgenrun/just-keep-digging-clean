@@ -7,12 +7,12 @@ export const ARC_CORE_PURCHASE_COST = Object.freeze({
   gold: 60,
 });
 
-// Level Two generates Gold but no Silver. The final tier therefore doubles
-// the backtrack-heavy Silver cost and scales the locally mineable Gold by 8x.
-// At sell values this is 300,000 M: exactly 5x the first Arc Core investment.
 export const OMEGA_ARC_CORE_PURCHASE_COST = Object.freeze({
   silver: 240,
-  gold: 480,
+  gold: 240,
+  obsidian: 40,
+  emberOre: 15,
+  magmaCrystal: 3,
 });
 
 export const ARC_CORE_CONFIG = Object.freeze({
@@ -28,6 +28,31 @@ export const ARC_CORE_CONFIG = Object.freeze({
   }),
   interactRangeTiles: 2,
   displaySizeTiles: 0.92,
+  visual: Object.freeze({
+    legacyDepth: 18,
+    promptDepth: 22,
+    promptGapTiles: 0.18,
+    unlockedTint: 0xffffff,
+    lockedTint: 0x59636d,
+    lockedBodyAlpha: 0.78,
+    unlockedBodyAlpha: 1,
+    lockedEnergyAlpha: 0.08,
+    unlockedEnergyAlpha: 1,
+    onlineStatusDurationMs: 1800,
+    lockedStatusDurationMs: 2200,
+    smallOnlineColor: "#63F5FF",
+    omegaOnlineColor: "#D96CFF",
+    parkedColor: "#D6E2E8",
+    lockedColor: "#FFB347",
+    prompt: Object.freeze({
+      fontFamily: "Consolas, monospace",
+      fontSizePx: 14,
+      color: "#77F7FF",
+      stroke: "#06121A",
+      strokeThickness: 4,
+      align: "center",
+    }),
+  }),
   upgradeId: ARC_CORE_UPGRADE_ID,
   dig: Object.freeze({
     depthTiles: 2,

@@ -1,6 +1,7 @@
 import { KEYBIND_ACTIONS } from "../../values/keybindActions.js";
 import { CAMERA_SHAKE_SETTINGS_GROUPS } from "../../values/cameraShake.js";
 import { UI_COLORS } from "../../values/uiColors.js";
+import { SETTINGS_PANEL_LAYOUT } from "../../values/uiLayout.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { USER_SETTINGS, formatKey, normalizeKeyboardEvent } from "../../systems/UserSettings.js";
 import {
@@ -11,6 +12,46 @@ import {
   createTabBar,
   createTogglePair,
 } from "../PhaserUiKit.js";
+
+const REBINDABLE_KEYBIND_ACTIONS = Object.freeze(
+  KEYBIND_ACTIONS.filter(action => action.rebindable !== false)
+);
+
+export function getSettingsPanelLayoutMetrics(width = 700, height = 380, compact = false) {
+  const layout = SETTINGS_PANEL_LAYOUT;
+  const safeWidth = Math.max(1, Number(width) || 700);
+  const safeHeight = Math.max(1, Number(height) || 380);
+  const isCompact = Boolean(compact)
+    || safeWidth < layout.compactWidth
+    || safeHeight < layout.compactHeight;
+  const tabCount = 4;
+  const targetTabWidth = isCompact
+    ? layout.compactTabButtonWidth
+    : layout.tabButtonWidth;
+  const maxTabWidth = Math.floor(
+    (
+      safeWidth
+      - layout.tabHorizontalInset * 2
+      - layout.tabGap * (tabCount - 1)
+    ) / tabCount
+  );
+  const tabButtonWidth = Math.max(48, Math.min(targetTabWidth, maxTabWidth));
+  const panelTop = -safeHeight / 2;
+  const panelBottom = safeHeight / 2;
+
+  return Object.freeze({
+    width: safeWidth,
+    height: safeHeight,
+    compact: isCompact,
+    panelTop,
+    panelBottom,
+    tabY: panelTop + layout.tabCenterInsetY,
+    tabButtonWidth,
+    tabSpacing: tabButtonWidth + layout.tabGap,
+    contentTop: panelTop + layout.contentTopInsetY,
+    contentBottom: panelBottom - layout.contentBottomInsetY,
+  });
+}
 
 function addText(scene, parent, x, y, text, style = {}, origin = [0, 0]) {
   const obj = scene.add.text(x, y, text, {
@@ -71,6 +112,8 @@ export function createSettingsPanelContent(scene, options = {}) {
     manageFocus = true,
     compact = false,
   } = options;
+  const metrics = getSettingsPanelLayoutMetrics(width, height, compact);
+  const isCompact = metrics.compact;
 
   const root = scene.add.container(x, y);
   root.setDepth(depth);
@@ -79,12 +122,15 @@ export function createSettingsPanelContent(scene, options = {}) {
 
   const tabs = createTabBar(scene, {
     x: 0,
-    y: -height / 2 + 24,
+    y: metrics.tabY,
     tabs: ["AUDIO", "CONTROLS", "DISPLAY", "GAMEPLAY"],
     activeIndex: 0,
     parent: root,
     depth,
-    spacing: compact ? 94 : 116,
+    spacing: metrics.tabSpacing,
+    buttonWidth: metrics.tabButtonWidth,
+    buttonHeight: SETTINGS_PANEL_LAYOUT.tabButtonHeight,
+    fontSize: isCompact ? "10px" : "12px",
     onChange: index => buildTab(index),
   });
 
@@ -108,12 +154,17 @@ export function createSettingsPanelContent(scene, options = {}) {
   }
 
   function flashMessage(message, color = UI_COLORS.danger) {
-    const msg = scene.add.text(0, height / 2 - 22, message, {
+    const msg = scene.add.text(
+      0,
+      metrics.contentBottom - SETTINGS_PANEL_LAYOUT.flashBottomInsetY,
+      message,
+      {
       fontFamily: "Consolas, monospace",
       fontSize: "12px",
       color,
       align: "center",
-    }).setOrigin(0.5);
+      }
+    ).setOrigin(0.5);
     root.add(msg);
     state.objects.push(msg);
     scene.tweens.add({
@@ -128,8 +179,17 @@ export function createSettingsPanelContent(scene, options = {}) {
 
   function buildAudio() {
     const audio = USER_SETTINGS.getAudio();
-    const startY = compact ? -118 : -128;
-    const sliderWidth = compact ? 470 : 520;
+    const audioLayout = SETTINGS_PANEL_LAYOUT.audio;
+    const startY = metrics.contentTop + (
+      isCompact
+        ? audioLayout.compactFirstRowOffsetY
+        : audioLayout.firstRowOffsetY
+    );
+    const rowGap = isCompact ? audioLayout.compactRowGap : audioLayout.rowGap;
+    const sliderMaxWidth = isCompact
+      ? audioLayout.compactSliderMaxWidth
+      : audioLayout.sliderMaxWidth;
+    const sliderWidth = Math.max(180, Math.min(metrics.width - 80, sliderMaxWidth));
     const rows = [
       ["Master", "masterVolume"],
       ["Music", "musicVolume"],
@@ -140,7 +200,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     rows.forEach(([label, key], index) => {
       const slider = createSlider(scene, {
         x: 0,
-        y: startY + index * 48,
+        y: startY + index * rowGap,
         width: sliderWidth,
         label,
         value: audio[key],
@@ -154,16 +214,21 @@ export function createSettingsPanelContent(scene, options = {}) {
       state.controls.push(slider);
     });
 
-    const toggleY = startY + rows.length * 48 + 10;
+    const toggleY = startY + rows.length * rowGap + audioLayout.toggleGapY;
+    const toggleOffsetX = Math.max(82, Math.min(155, metrics.width / 4));
     [
       ["Music Enabled", "musicEnabled"],
       ["SFX Enabled", "sfxEnabled"],
     ].forEach(([label, key], index) => {
       const toggle = createTogglePair(scene, {
-        x: index === 0 ? -150 : 190,
+        x: index === 0 ? -toggleOffsetX : toggleOffsetX,
         y: toggleY,
         label,
         value: audio[key],
+        layout: "stacked",
+        buttonWidth: isCompact ? 58 : 66,
+        buttonHeight: isCompact ? 26 : 28,
+        buttonGap: 8,
         parent: root,
         depth,
         onChange: value => {
@@ -175,15 +240,23 @@ export function createSettingsPanelContent(scene, options = {}) {
       state.controls.push(toggle.onBtn, toggle.offBtn);
     });
 
-    state.objects.push(addText(scene, root, 0, height / 2 - 52, "Audio settings save instantly.", {
+    state.objects.push(addText(
+      scene,
+      root,
+      0,
+      metrics.contentBottom - audioLayout.footerBottomInsetY,
+      "Audio settings save instantly.",
+      {
       fontSize: "12px",
       color: UI_COLORS.hint,
       align: "center",
-    }, [0.5, 0]));
+      },
+      [0.5, 0]
+    ));
   }
 
   function refreshRows() {
-    for (const action of KEYBIND_ACTIONS) {
+    for (const action of REBINDABLE_KEYBIND_ACTIONS) {
       state.rows.get(action.id)?.setLabel(USER_SETTINGS.getKeyLabel(action.id));
     }
   }
@@ -251,27 +324,57 @@ export function createSettingsPanelContent(scene, options = {}) {
   }
 
   function buildControls() {
-    const cols = compact
-      ? [{ x: -164, width: 300 }, { x: 164, width: 300 }]
-      : [{ x: -180, width: 330 }, { x: 180, width: 330 }];
-    const rowGap = compact ? 31 : 37;
-    const startY = compact ? -116 : -124;
+    const controlsLayout = SETTINGS_PANEL_LAYOUT.controls;
+    const startY = metrics.contentTop + controlsLayout.firstRowOffsetY;
+    const availableRowsHeight = Math.max(
+      1,
+      metrics.contentBottom - startY - (isCompact ? 16 : 20)
+    );
+    const twoColumnRows = Math.ceil(REBINDABLE_KEYBIND_ACTIONS.length / 2);
+    const twoColumnGap = availableRowsHeight / Math.max(1, twoColumnRows - 1);
+    const columnCount = (
+      twoColumnGap < controlsLayout.minRowGap
+      && metrics.width >= controlsLayout.threeColumnMinWidth
+    ) ? 3 : 2;
+    const rowsPerColumn = Math.ceil(REBINDABLE_KEYBIND_ACTIONS.length / columnCount);
+    const targetRowGap = isCompact
+      ? controlsLayout.compactRowGap
+      : controlsLayout.rowGap;
+    const rowGap = Math.min(
+      targetRowGap,
+      availableRowsHeight / Math.max(1, rowsPerColumn - 1)
+    );
+    const maxColumnWidth = isCompact ? 300 : 330;
+    const usableWidth = Math.min(
+      metrics.width - 36,
+      columnCount * maxColumnWidth + (columnCount - 1) * controlsLayout.columnGutter
+    );
+    const columnWidth = (
+      usableWidth - (columnCount - 1) * controlsLayout.columnGutter
+    ) / columnCount;
+    const firstColumnX = -usableWidth / 2 + columnWidth / 2;
+    const cols = Array.from({ length: columnCount }, (_, index) => ({
+      x: firstColumnX + index * (columnWidth + controlsLayout.columnGutter),
+      width: columnWidth,
+    }));
 
-    state.objects.push(addText(scene, root, 0, startY - 26,
-      "Click a binding, then press a new key. ESC always exits binding mode. Navigation keys remain fixed on arrows/WASD, Enter, Space.",
-      { fontSize: compact ? "10px" : "11px", color: UI_COLORS.hint, align: "center" },
+    const fullscreenKey = USER_SETTINGS.getKeyLabel("fullscreen");
+    state.objects.push(addText(scene, root, 0, metrics.contentTop + controlsLayout.instructionOffsetY,
+      `${fullscreenKey} is reserved for fullscreen. Click a binding, then press a new key. ESC exits binding mode.`,
+      { fontSize: isCompact ? "10px" : "11px", color: UI_COLORS.hint, align: "center" },
       [0.5, 0]
     ));
 
-    KEYBIND_ACTIONS.forEach((action, index) => {
-      const col = cols[index < Math.ceil(KEYBIND_ACTIONS.length / 2) ? 0 : 1];
-      const rowIndex = index % Math.ceil(KEYBIND_ACTIONS.length / 2);
+    REBINDABLE_KEYBIND_ACTIONS.forEach((action, index) => {
+      const col = cols[Math.floor(index / rowsPerColumn)];
+      const rowIndex = index % rowsPerColumn;
       const row = createKeybindRow(scene, {
         x: col.x,
         y: startY + rowIndex * rowGap,
         width: col.width,
         label: action.label,
-        description: compact ? "" : action.description,
+        description: isCompact ? "" : action.description,
+        compact: isCompact,
         keyLabel: USER_SETTINGS.getKeyLabel(action.id),
         parent: root,
         depth,
@@ -294,44 +397,94 @@ export function createSettingsPanelContent(scene, options = {}) {
 
   function buildDisplay() {
     const display = USER_SETTINGS.getDisplay();
-    const headerY = compact
-      ? -Math.min(height / 2 - 20, 160)
-      : -Math.min(height / 2 - 20, 140);
-    const sectionGap = compact ? 44 : 50;
-    const sliderWidth = compact ? Math.min(width - 120, 470) : Math.min(width - 90, 540);
-    const masterY = headerY + sectionGap;
-    const intensityY = masterY + (compact ? 50 : 56);
-    const flashY = intensityY + (compact ? 42 : 48);
-    const groupHeaderY = flashY + 36;
-    const groupStartY = groupHeaderY + 14;
-    const groupColumns = compact
-      ? (width >= 700 ? 3 : (width >= 520 ? 2 : 1))
-      : (width >= 760 ? 3 : (width >= 560 ? 2 : 1));
-    const groupRows = Math.ceil(CAMERA_SHAKE_SETTINGS_GROUPS.length / groupColumns);
-    const groupGap = compact ? 20 : 24;
-    const maxOffsetByPanel = Math.max(0, Math.floor(width / 2 - 215));
-    const groupOffset = groupColumns === 3
-      ? Math.max(70, Math.min(maxOffsetByPanel, 150))
-      : groupColumns === 2
-        ? Math.max(64, Math.min(maxOffsetByPanel, 130))
-        : 0;
-    const groupX = groupColumns === 3 ? [-groupOffset, 0, groupOffset]
-      : groupColumns === 2 ? [-groupOffset, groupOffset]
-      : [0];
-    const resetY = Math.min(height / 2 - 30, groupStartY + groupRows * groupGap + 18);
+    const displayLayout = SETTINGS_PANEL_LAYOUT.display;
+    const availableHeight = metrics.contentBottom - metrics.contentTop;
+    const useShortLayout = availableHeight < displayLayout.compactReferenceHeight;
+    const atOffset = offset => metrics.contentTop + offset;
+    const headerY = atOffset(displayLayout.headerOffsetY);
+    const fullscreenY = atOffset(
+      useShortLayout ? displayLayout.shortFullscreenOffsetY : displayLayout.fullscreenOffsetY
+    );
+    const controlHintsY = atOffset(
+      useShortLayout ? displayLayout.shortControlHintsOffsetY : displayLayout.controlHintsOffsetY
+    );
+    const cameraShakeY = atOffset(
+      useShortLayout ? displayLayout.shortCameraShakeOffsetY : displayLayout.cameraShakeOffsetY
+    );
+    const intensityY = atOffset(
+      useShortLayout ? displayLayout.shortIntensityOffsetY : displayLayout.intensityOffsetY
+    );
+    const flashY = atOffset(
+      useShortLayout ? displayLayout.shortFlashOffsetY : displayLayout.flashOffsetY
+    );
+    const groupHeaderY = atOffset(
+      useShortLayout ? displayLayout.shortGroupHeaderOffsetY : displayLayout.groupHeaderOffsetY
+    );
+    const groupStartY = atOffset(
+      useShortLayout ? displayLayout.shortGroupStartOffsetY : displayLayout.groupStartOffsetY
+    );
+    const fullscreenButtonHeight = useShortLayout
+      ? displayLayout.shortFullscreenButtonHeight
+      : displayLayout.fullscreenButtonHeight;
+    const primaryButtonHeight = useShortLayout
+      ? displayLayout.shortPrimaryButtonHeight
+      : 34;
+    const groupButtonHeight = useShortLayout
+      ? displayLayout.shortGroupButtonHeight
+      : displayLayout.groupButtonHeight;
+    const resetButtonHeight = useShortLayout
+      ? displayLayout.shortResetButtonHeight
+      : displayLayout.resetButtonHeight;
+    const resetBottomInsetY = useShortLayout
+      ? displayLayout.shortResetBottomInsetY
+      : displayLayout.resetBottomInsetY;
+    const sliderWidth = Math.max(
+      180,
+      Math.min(metrics.width - 90, isCompact ? 470 : 540)
+    );
+    const groupColumns = metrics.width >= displayLayout.fiveColumnMinWidth
+      ? 5
+      : metrics.width >= displayLayout.threeColumnMinWidth
+        ? 3
+        : 2;
+    const groupGap = displayLayout.groupRowGap;
+    const groupUsableWidth = metrics.width - displayLayout.groupHorizontalInset * 2;
+    const groupCellWidth = groupUsableWidth / groupColumns;
+    const groupFirstX = -groupUsableWidth / 2 + groupCellWidth / 2;
+    const groupButtonWidth = Math.max(
+      displayLayout.groupButtonMinWidth,
+      Math.min(
+        displayLayout.groupButtonMaxWidth,
+        (groupCellWidth - displayLayout.groupButtonGap - 8) / 2
+      )
+    );
+    const resetY = metrics.contentBottom - resetBottomInsetY;
+    const resetButtonWidth = Math.max(
+      100,
+      Math.min(
+        displayLayout.resetButtonMaxWidth,
+        (
+          metrics.width
+          - displayLayout.resetButtonGap
+          - displayLayout.groupHorizontalInset * 2
+        ) / 2
+      )
+    );
+    const resetOffsetX = (resetButtonWidth + displayLayout.resetButtonGap) / 2;
 
     state.objects.push(addText(scene, root, 0, headerY, "Display", {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
       color: UI_COLORS.title,
-    }));
+      align: "center",
+    }, [0.5, 0.5]));
 
     const fullscreenButton = createButton(scene, {
       x: 0,
-      y: masterY - (compact ? 78 : 84),
-      width: Math.min(width - 100, 420),
-      height: 44,
+      y: fullscreenY,
+      width: Math.min(metrics.width - 80, 420),
+      height: fullscreenButtonHeight,
       label: "TOGGLE FULLSCREEN",
       hint: USER_SETTINGS.getKeyLabel("fullscreen"),
       parent: root,
@@ -349,9 +502,10 @@ export function createSettingsPanelContent(scene, options = {}) {
 
     const hints = createTogglePair(scene, {
       x: 40,
-      y: masterY - (compact ? 38 : 40),
+      y: controlHintsY,
       label: "Control Hints",
       value: display.showControlHints,
+      buttonHeight: primaryButtonHeight,
       parent: root,
       depth,
       onChange: value => {
@@ -364,9 +518,10 @@ export function createSettingsPanelContent(scene, options = {}) {
 
     const cameraShakeMaster = createTogglePair(scene, {
       x: 40,
-      y: masterY,
+      y: cameraShakeY,
       label: "Camera Shake",
       value: display.cameraShakeEnabled,
+      buttonHeight: primaryButtonHeight,
       parent: root,
       depth,
       onChange: value => {
@@ -395,6 +550,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       y: flashY,
       label: "Shake Flash",
       value: display.cameraShakeFlashEnabled !== false,
+      buttonHeight: primaryButtonHeight,
       parent: root,
       depth,
       onChange: value => {
@@ -406,7 +562,7 @@ export function createSettingsPanelContent(scene, options = {}) {
 
     state.objects.push(addText(scene, root, 0, groupHeaderY, "Camera Shake Events", {
       fontFamily: "Consolas, monospace",
-      fontSize: compact ? "10px" : "11px",
+      fontSize: isCompact ? "10px" : "11px",
       color: UI_COLORS.hint,
     }, [0.5, 0.5]));
 
@@ -415,10 +571,15 @@ export function createSettingsPanelContent(scene, options = {}) {
       const col = index % groupColumns;
       const gy = groupStartY + row * groupGap;
       const toggle = createTogglePair(scene, {
-        x: groupX[col],
+        x: groupFirstX + col * groupCellWidth,
         y: gy,
         label: group.label,
         value: Boolean(display.cameraShakeGroups?.[group.key]),
+        layout: "stacked",
+        labelFontSize: groupColumns === 5 ? "10px" : "11px",
+        buttonWidth: groupButtonWidth,
+        buttonHeight: groupButtonHeight,
+        buttonGap: displayLayout.groupButtonGap,
         parent: root,
         depth,
         onChange: value => {
@@ -430,10 +591,10 @@ export function createSettingsPanelContent(scene, options = {}) {
     });
 
     const resetControls = createButton(scene, {
-      x: -120,
+      x: -resetOffsetX,
       y: resetY,
-      width: 240,
-      height: 42,
+      width: resetButtonWidth,
+      height: resetButtonHeight,
       label: "RESET KEYBINDS",
       parent: root,
       depth,
@@ -445,10 +606,10 @@ export function createSettingsPanelContent(scene, options = {}) {
       },
     });
     const resetAll = createButton(scene, {
-      x: 150,
+      x: resetOffsetX,
       y: resetY,
-      width: 240,
-      height: 42,
+      width: resetButtonWidth,
+      height: resetButtonHeight,
       label: "RESET SETTINGS",
       parent: root,
       depth,
@@ -467,6 +628,32 @@ export function createSettingsPanelContent(scene, options = {}) {
   function buildGameplay() {
     const display = USER_SETTINGS.getDisplay();
     const copy = RETENTION_CONFIG.settings;
+    const floatingTextConfig = RETENTION_CONFIG.floatingText;
+    const gameplayLayout = SETTINGS_PANEL_LAYOUT.gameplay;
+    const availableHeight = metrics.contentBottom - metrics.contentTop;
+    const useShortLayout = availableHeight < gameplayLayout.compactReferenceHeight;
+    const atOffset = offset => metrics.contentTop + offset;
+    const floatingLabelOffsetY = useShortLayout
+      ? gameplayLayout.shortFloatingLabelOffsetY
+      : gameplayLayout.floatingLabelOffsetY;
+    const modeButtonOffsetY = useShortLayout
+      ? gameplayLayout.shortModeButtonOffsetY
+      : gameplayLayout.modeButtonOffsetY;
+    const modeButtonHeight = useShortLayout
+      ? gameplayLayout.shortModeButtonHeight
+      : gameplayLayout.modeButtonHeight;
+    const selectedSummaryOffsetY = useShortLayout
+      ? gameplayLayout.shortSelectedSummaryOffsetY
+      : gameplayLayout.selectedSummaryOffsetY;
+    const floatingHintOffsetY = useShortLayout
+      ? gameplayLayout.shortFloatingHintOffsetY
+      : gameplayLayout.floatingHintOffsetY;
+    const feedbackStartOffsetY = useShortLayout
+      ? gameplayLayout.shortFeedbackStartOffsetY
+      : gameplayLayout.feedbackStartOffsetY;
+    const feedbackRowGap = useShortLayout
+      ? gameplayLayout.shortFeedbackRowGap
+      : gameplayLayout.feedbackRowGap;
     const rows = [
       {
         key: "showExpeditionSummaries",
@@ -485,15 +672,100 @@ export function createSettingsPanelContent(scene, options = {}) {
       },
     ];
 
-    state.objects.push(addText(scene, root, 0, -height / 2 + 65, "Gameplay Feedback", {
+    state.objects.push(addText(scene, root, 0, atOffset(gameplayLayout.headerOffsetY), "Gameplay Feedback", {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
       color: UI_COLORS.title,
+    }, [0.5, 0.5]));
+
+    state.objects.push(addText(scene, root, 0, atOffset(floatingLabelOffsetY), copy.floatingTextLabel, {
+      fontSize: "12px",
+      fontStyle: "bold",
+      color: UI_COLORS.body,
+      align: "center",
     }, [0.5, 0]));
 
+    const modeEntries = Object.entries(floatingTextConfig.modes);
+    const modeButtonWidth = Math.max(
+      64,
+      Math.min(
+        gameplayLayout.modeButtonMaxWidth,
+        Math.floor(
+          (
+            metrics.width
+            - gameplayLayout.modeHorizontalInset * 2
+            - gameplayLayout.modeButtonGap * (modeEntries.length - 1)
+          ) / modeEntries.length
+        )
+      )
+    );
+    const modeSpacing = modeButtonWidth + gameplayLayout.modeButtonGap;
+    modeEntries.forEach(([mode, modeConfig], index) => {
+      const active = display.floatingTextMode === mode;
+      const button = createButton(scene, {
+        x: (index - (modeEntries.length - 1) / 2) * modeSpacing,
+        y: atOffset(modeButtonOffsetY),
+        width: modeButtonWidth,
+        height: modeButtonHeight,
+        label: active
+          ? `${modeConfig.label}  ${isCompact ? "✓" : "SELECTED"}`
+          : modeConfig.label,
+        fontSize: isCompact ? "10px" : "12px",
+        selected: active,
+        selectedFill: UI_COLORS.cardSel,
+        labelColor: active ? UI_COLORS.gold : UI_COLORS.white,
+        parent: root,
+        depth,
+        accent: active ? UI_COLORS.borderSel : UI_COLORS.borderDim,
+        onClick: () => {
+          USER_SETTINGS.updateDisplay({ floatingTextMode: mode });
+          scene.floatingTextSystem?.applyDisplaySettings?.();
+          buildTab(state.activeTab, true);
+        },
+      });
+      state.controls.push(button);
+    });
+
+    const activeMode = floatingTextConfig.modes[display.floatingTextMode]
+      || floatingTextConfig.modes[floatingTextConfig.defaultMode];
+    const selectedSummary = addText(
+      scene,
+      root,
+      0,
+      atOffset(selectedSummaryOffsetY),
+      `SELECTED: ${activeMode.label} — ${activeMode.summary}`,
+      {
+        fontSize: isCompact ? "9px" : "10px",
+        fontStyle: "bold",
+        color: UI_COLORS.gold,
+        align: "center",
+      },
+      [0.5, 0]
+    );
+    selectedSummary.setWordWrapWidth(Math.max(180, metrics.width - 70));
+    state.objects.push(selectedSummary);
+
+    const floatingTextHint = addText(
+      scene,
+      root,
+      0,
+      atOffset(floatingHintOffsetY),
+      copy.floatingTextHint,
+      {
+      fontSize: "10px",
+      color: UI_COLORS.hint,
+      align: "center",
+      },
+      [0.5, 0]
+    );
+    floatingTextHint.setWordWrapWidth(Math.max(180, metrics.width - 70));
+    state.objects.push(floatingTextHint);
+
     rows.forEach((row, index) => {
-      const rowY = -92 + index * 92;
+      const rowY = atOffset(
+        feedbackStartOffsetY + index * feedbackRowGap
+      );
       const toggle = createTogglePair(scene, {
         x: 55,
         y: rowY,
@@ -503,13 +775,16 @@ export function createSettingsPanelContent(scene, options = {}) {
         depth,
         onChange: value => USER_SETTINGS.updateDisplay({ [row.key]: value }),
       });
-      const hint = addText(scene, root, 0, rowY + 28, row.hint, {
-        fontSize: "11px",
-        color: UI_COLORS.hint,
-        align: "center",
-      }, [0.5, 0]);
-      hint.setWordWrapWidth(Math.max(320, width - 120));
-      state.objects.push(toggle.root, hint);
+      state.objects.push(toggle.root);
+      if (!useShortLayout) {
+        const hint = addText(scene, root, 0, rowY + gameplayLayout.feedbackHintOffsetY, row.hint, {
+          fontSize: "10px",
+          color: UI_COLORS.hint,
+          align: "center",
+        }, [0.5, 0]);
+        hint.setWordWrapWidth(Math.max(180, metrics.width - 70));
+        state.objects.push(hint);
+      }
       state.controls.push(toggle.onBtn, toggle.offBtn);
     });
 
@@ -517,7 +792,11 @@ export function createSettingsPanelContent(scene, options = {}) {
       scene,
       root,
       0,
-      height / 2 - 44,
+      metrics.contentBottom - (
+        useShortLayout
+          ? gameplayLayout.shortFooterBottomInsetY
+          : gameplayLayout.footerBottomInsetY
+      ),
       "These options hide presentation only. Progress and rewards remain unchanged.",
       { fontSize: "11px", color: UI_COLORS.hint, align: "center" },
       [0.5, 0]

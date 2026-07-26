@@ -1,5 +1,6 @@
 import { RUNTIME_CANARY_CONFIG } from "../../values/runtimeCanaryConfig.js";
 import { RuntimeCanaryReporter } from "./RuntimeCanaryReporter.js";
+import { RuntimeHealthWorkerBridge } from "./RuntimeHealthWorkerBridge.js";
 import { evaluateRuntimeCanaries } from "./runtimeCanaryChecks.js";
 
 let activeMonitor = null;
@@ -17,6 +18,7 @@ export class RuntimeCanarySystem {
     setIntervalFn = globalThis.setInterval?.bind(globalThis),
     clearIntervalFn = globalThis.clearInterval?.bind(globalThis),
     reporter = null,
+    workerBridge = null,
   } = {}) {
     this.globalRef = globalRef;
     this.documentRef = documentRef;
@@ -25,6 +27,12 @@ export class RuntimeCanarySystem {
     this.setIntervalFn = setIntervalFn;
     this.clearIntervalFn = clearIntervalFn;
     this.reporter = reporter || new RuntimeCanaryReporter({ globalRef, config });
+    this.workerBridge = workerBridge || new RuntimeHealthWorkerBridge({
+      globalRef,
+      documentRef,
+      config,
+      onFinding: finding => this.captureSystemFinding(finding, true),
+    });
     this.startedAtMs = this.now();
     this.game = null;
     this.timer = null;
@@ -65,6 +73,7 @@ export class RuntimeCanarySystem {
     this.sampleState.lastFrame = Number.isFinite(game?.loop?.frame) ? game.loop.frame : null;
     this.sampleState.lastFrameChangedAtMs = this.now();
     this.markLifecycle("phaser-postboot");
+    this.workerBridge?.start?.();
     this.sample();
     if (this.setIntervalFn) {
       this.timer = this.setIntervalFn(
@@ -110,6 +119,13 @@ export class RuntimeCanarySystem {
     }, true);
   }
 
+  captureSystemFinding(finding, sticky = true) {
+    if (!finding?.key || !finding?.code) return false;
+    this._activateFinding(finding, sticky);
+    this._notify();
+    return true;
+  }
+
   markLifecycle(stage, context = {}) {
     this._pushEvent({
       code: this.config.events.lifecycle,
@@ -121,6 +137,7 @@ export class RuntimeCanarySystem {
 
   sample() {
     if (!this.game) return this.snapshot();
+    this.workerBridge?.heartbeat?.();
     this._instrumentScenes();
     const result = evaluateRuntimeCanaries(
       this.game,
@@ -178,6 +195,7 @@ export class RuntimeCanarySystem {
     if (this.timer !== null && this.clearIntervalFn) this.clearIntervalFn(this.timer);
     this.timer = null;
     this.sceneCleanups.splice(0).forEach(cleanup => cleanup());
+    this.workerBridge?.destroy?.();
     this.subscribers.clear();
     if (this.globalRef[this.config.globals.monitor] === this) {
       delete this.globalRef[this.config.globals.monitor];

@@ -1,5 +1,6 @@
 import { WORLD_VISUAL_RUNTIME } from "../../../values/worldVisualRuntime.js";
 import { validateWorldVisualMaterialCoverage } from "../../../values/worldVisualMaterials.js";
+import { TitanDiscoverySystem } from "../../../systems/visual/TitanDiscoverySystem.js";
 import {
   WORLD_VISUAL_LANDMARKS,
   resolveWorldVisualLandmarksEnabled,
@@ -12,6 +13,7 @@ import { WorldVisualMaterialField } from "./WorldVisualMaterialField.js";
 import { WorldVisualSemanticAssetLayer } from "./WorldVisualSemanticAssetLayer.js";
 import { WorldVisualDepthBackdropStage } from "./WorldVisualDepthBackdropStage.js";
 import { WorldVisualSurfaceStage } from "./WorldVisualSurfaceStage.js";
+import { WorldVisualSurfacePropLayer } from "./WorldVisualSurfacePropLayer.js";
 
 export class WorldVisualRuntime {
   constructor(scene, worldModel, config, runtimeConfig = WORLD_VISUAL_RUNTIME) {
@@ -20,7 +22,9 @@ export class WorldVisualRuntime {
     this.config = config;
     this.runtimeConfig = runtimeConfig;
     this.surfaceStage = null;
+    this.surfacePropLayer = null;
     this.depthBackdropStage = null;
+    this.titanDiscoverySystem = null;
     this.materialField = null;
     this.semanticAssetLayer = null;
     this.feedbackLayer = null;
@@ -41,8 +45,12 @@ export class WorldVisualRuntime {
     this.lightingBridge = new WorldVisualLightingBridge(this.scene);
     this.surfaceStage = new WorldVisualSurfaceStage(this.scene, this.runtimeConfig);
     this.surfaceStage.create();
+    this.surfacePropLayer = new WorldVisualSurfacePropLayer(this.scene, this.worldModel);
+    this.surfacePropLayer.create();
     this.depthBackdropStage = new WorldVisualDepthBackdropStage(this.scene);
     this.depthBackdropStage.create();
+    this.titanDiscoverySystem = new TitanDiscoverySystem(this.scene, this.worldModel);
+    this.titanDiscoverySystem.create();
     if (resolveWorldVisualLandmarksEnabled()) {
       this.landmarkLayer = new WorldVisualLandmarkLayer(
         this.scene,
@@ -90,14 +98,16 @@ export class WorldVisualRuntime {
     return true;
   }
 
-  update(time, _delta, context = {}) {
+  update(time, delta, context = {}) {
     if (!this.created) return;
     const now = Number.isFinite(time) ? time : (this.scene.time?.now || 0);
     const lighting = this.lightingBridge.sample();
     this.surfaceStage.update(now, lighting);
+    this.surfacePropLayer?.update(now, lighting);
     this.depthBackdropStage?.update(now, lighting);
     this.landmarkLayer?.update(now, lighting);
     this.semanticAssetLayer?.update(now, lighting);
+    this.titanDiscoverySystem?.update(now, delta, context);
     if (now < this.nextUpdateAt) return;
     this.nextUpdateAt = now + this.runtimeConfig.streaming.updateIntervalMs;
     const bounds = this._getVisibleBounds(context.playerTile);
@@ -111,6 +121,7 @@ export class WorldVisualRuntime {
     const signature = suppliedSignature || this._boundsSignature(bounds);
     const lighting = this.lightingBridge.sample();
     this.depthBackdropStage?.sync(bounds, lighting, force);
+    this.surfacePropLayer?.sync(bounds, lighting, force);
     this.materialField.sync(bounds, lighting, force);
     this.semanticAssetLayer?.sync(bounds, lighting, reduced);
     this.feedbackLayer.sync(bounds, reduced);
@@ -162,10 +173,18 @@ export class WorldVisualRuntime {
     this.semanticAssetLayer?.invalidateCell(tx, ty);
     if (this.lastBounds) this.feedbackLayer.sync(this.lastBounds, false);
     this.gameplayEffectLayer.invalidateCell(tx, ty);
+    this.titanDiscoverySystem?.invalidateTile(tx, ty);
   }
 
   refreshAllTiles() {
-    if (this.created) this._sync(null, true);
+    if (this.created) {
+      this._sync(null, true);
+      this.titanDiscoverySystem?.refresh();
+    }
+  }
+
+  getTitanDiscoverySnapshot() {
+    return this.titanDiscoverySystem?.getSnapshot() || null;
   }
 
   setEmissiveRenderDepth(depth) {
@@ -210,11 +229,13 @@ export class WorldVisualRuntime {
     this.created = false;
     this.scene.scale?.off?.("resize", this._onResize);
     this.gameplayEffectLayer?.destroy();
+    this.titanDiscoverySystem?.destroy();
     this.feedbackLayer?.destroy();
     this.semanticAssetLayer?.destroy();
     // Surface-pack ground cards share the material field's geometry mask. They
     // must detach before that mask is destroyed during hot restart/shutdown.
     this.surfaceStage?.destroy();
+    this.surfacePropLayer?.destroy();
     this.materialField?.destroy();
     this.depthBackdropStage?.destroy();
     this.landmarkLayer?.destroy();
@@ -223,8 +244,10 @@ export class WorldVisualRuntime {
     this.gameplayEffectLayer = null;
     this.materialField = null;
     this.depthBackdropStage = null;
+    this.titanDiscoverySystem = null;
     this.landmarkLayer = null;
     this.surfaceStage = null;
+    this.surfacePropLayer = null;
     this.lightingBridge = null;
   }
 }

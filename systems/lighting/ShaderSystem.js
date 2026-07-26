@@ -280,6 +280,17 @@ export class ShaderSystem {
     shader.setUniform("uTorchPosition.value.y", torchPosition.y);
     shader.setUniform("uTorchRadius.value", torchRadius);
     shader.setUniform("uTorchGlow.value", clamp01(light.torchGlowStrength));
+    shader.setUniform("uPlayerLightV2.value", light.playerLightProfileId === "legacy" ? 0 : 1);
+    shader.setUniform("uTorchWarmth.value", clamp01(light.torchWarmth ?? 1));
+    shader.setUniform("uTorchCoolEdge.value", clamp01(light.torchCoolEdge ?? 0));
+    shader.setUniform("uTorchVerticalScale.value", Math.max(0.01, Number(light.torchVerticalScale) || 1));
+    shader.setUniform("uTorchFlickerScale.value", Math.max(0, Number(light.torchFlickerScale) || 0));
+    const darknessLight = this.config.layers.darknessLight;
+    shader.setUniform("uTorchFalloffPower.value", Math.max(0.01, Number(darknessLight.torchFalloffPower) || 1));
+    shader.setUniform("uTorchWarmthStrength.value", clamp01(darknessLight.torchWarmthStrength));
+    shader.setUniform("uTorchCoreRadiusRatio.value", clamp01(darknessLight.torchCoreRadiusRatio));
+    shader.setUniform("uTorchPenumbraWidth.value", clamp01(darknessLight.torchPenumbraWidth));
+    shader.setUniform("uTorchMaximumAlpha.value", clamp01(darknessLight.torchMaximumAlpha));
     shader.setUniform("uSurfaceLightInfluence.value", clamp01(light.surfaceLightInfluence));
     shader.setUniform("uUndergroundDarknessInfluence.value", clamp01(light.undergroundDarknessInfluence));
     shader.setUniform("uStormCavePulse.value", clamp01(light.stormCavePulse));
@@ -382,6 +393,11 @@ export class ShaderSystem {
       torchScreenPosition: { x: width * 0.5, y: height * 0.5 },
       torchRadiusPx: 0,
       torchGlowStrength: 0,
+      playerLightProfileId: "legacy",
+      torchWarmth: 1,
+      torchCoolEdge: 0,
+      torchVerticalScale: 1,
+      torchFlickerScale: 1,
       surfaceLightInfluence: 1,
       undergroundDarknessInfluence: 0,
       nightAmount: 0,

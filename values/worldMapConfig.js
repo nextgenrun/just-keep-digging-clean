@@ -1,0 +1,71 @@
+export const WORLD_MAP_CONFIG = Object.freeze({
+  schemaVersion: 1,
+  worldRevision: "foundation-v1",
+  storageKey: "jkd-world-map-discovery",
+  assetPath: "sprites/UI/map/world-map-frame-foundation-v1.png",
+  depth: 2800,
+
+  discovery: Object.freeze({
+    cellSizeTiles: 4,
+    revealRadiusTiles: 7,
+    persistDelayMs: 1200,
+    maxPersistedCells: 250000,
+  }),
+
+  view: Object.freeze({
+    defaultZoom: 1,
+    minZoom: 1,
+    maxZoom: 8,
+    zoomStep: 0.25,
+    maxDugTilesPerDraw: 12000,
+    fogHatchGapPx: 18,
+    fogHatchLengthPx: 28,
+  }),
+
+  layout: Object.freeze({
+    viewport: Object.freeze({ x: 0.117, y: 0.082, width: 0.643, height: 0.832 }),
+    depthPanel: Object.freeze({ x: 0.012, y: 0.08, width: 0.095, height: 0.82 }),
+    rightPanel: Object.freeze({ x: 0.772, y: 0.09, width: 0.205, height: 0.79 }),
+    zoomControl: Object.freeze({ x: 0.719, y: 0.36, width: 0.035, height: 0.33 }),
+    footerY: 0.955,
+    titleY: 0.047,
+    closeX: 0.968,
+    closeY: 0.055,
+  }),
+
+  colors: Object.freeze({
+    shade: 0x000000,
+    fog: 0x071018,
+    fogHatch: 0x23333f,
+    grid: 0x2f4350,
+    discoveredOutline: 0xc79a48,
+    tunnel: 0xe2bd68,
+    player: 0x65d8f2,
+    marker: 0xf0c765,
+    title: "#f0c765",
+    body: "#d5dde2",
+    hint: "#8297a5",
+    active: "#65d8f2",
+    inactive: "#6e7a82",
+    depthBands: Object.freeze([
+      0x4b4434,
+      0x304451,
+      0x263c46,
+      0x3f3b35,
+      0x4c3028,
+    ]),
+  }),
+
+  copy: Object.freeze({
+    title: "WORLD MAP",
+    discovered: "DISCOVERED",
+    activityLayers: "ACTIVITY LAYERS",
+    worldStatus: "WORLD STATUS",
+    noActivityLayers: "NO ACTIVITY MODULES",
+    noActivityHint: "Systems can register live markers",
+    dragPan: "DRAG PAN",
+    wheelZoom: "WHEEL ZOOM",
+    center: "F CENTER",
+    close: "M CLOSE",
+  }),
+});

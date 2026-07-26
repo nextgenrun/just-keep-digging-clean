@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rejected Underground Optical-Flow Motion V2</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="review-shell">
+    <header class="review-header">
+      <div>
+        <p class="eyebrow">Rejected review evidence · 26 July 2026</p>
+        <h1>Rejected: optical-flow motion V2</h1>
+        <p class="lede">
+          The source paintings remain approved, but all ten interpolated loops
+          are rejected for choppy movement and visible deformation. This page
+          preserves evidence only; none of these WebMs is selected by the game.
+        </p>
+      </div>
+      <div class="status status-rejected">
+        <span>Do not ship</span>
+        <strong>REJECTED · review only</strong>
+      </div>
+    </header>
+
+    <section class="player-panel" aria-labelledby="selected-title">
+      <div class="media-frame">
+        <video id="motion-video" autoplay muted loop playsinline preload="metadata"></video>
+      </div>
+      <div class="player-copy">
+        <p id="selected-biome" class="eyebrow"></p>
+        <h2 id="selected-title"></h2>
+        <p id="selected-description"></p>
+        <p id="selected-motion" class="motion-note"></p>
+        <div class="actions">
+          <button id="play-toggle" type="button">Pause rejected loop</button>
+          <a id="source-link" target="_blank" rel="noreferrer">Open original plate</a>
+          <a id="keyframe-link" target="_blank" rel="noreferrer">Open painted keyframe B</a>
+          <a id="video-link" target="_blank" rel="noreferrer">Open rejected WebM</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="chooser" aria-label="Select a biome loop">
+      <div id="biome-buttons" class="biome-buttons"></div>
+    </section>
+
+    <footer>
+      Production keeps the fifty approved static biome images. Only the
+      complete image card may receive restrained camera response; these
+      optical-flow files are not game-loaded.
+    </footer>
+  </main>
+  <script type="module" src="./baked-motion-gallery.js"></script>
+</body>
+</html>

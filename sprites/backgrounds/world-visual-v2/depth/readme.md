@@ -1,4 +1,22 @@
-# Scenic-v2 Level 1 Depth Backdrops
+# Scenic-v2 Underground Depth Backdrops
+
+The active production package is `biome-variation-v2/`: 50 background-only
+1536x1024 WebP cards covering all ten material bands from row 65 through 5064.
+Each band receives five deterministic compositions. The renderer streams the
+active band plus its world-space neighbor envelope and places every plate,
+building, bridge, ruin, root, rail, and machine behind the solid terrain facade.
+
+Production motion is limited to restrained movement of the complete finished
+image card. The rejected optical-flow WebMs, pooled particles, drifting mist,
+and emissive breathing are not registered by this renderer. The old V2 WebMs
+remain immutable review evidence under `biome-motion-v2/`, not runtime assets.
+
+- `?biomeBackdropVariants=0` restores the legacy Level 1 pool and leaves deeper
+  bands on the generic material backdrop.
+- `?biomeBackdropMotion=0` disables complete-image camera response.
+- `?levelOneBackdrops=0` or `?shallowCavern=0` disables the depth-backdrop stage.
+
+## Legacy Level 1 plates
 
 `shallow-cavern-backwall-v1.png` is the opaque production backwall for runtime
 rows `65..159`. It was generated with the built-in image-generation workflow at

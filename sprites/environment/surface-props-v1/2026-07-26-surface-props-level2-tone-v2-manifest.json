@@ -1,0 +1,94 @@
+{
+  "version": "surface-props-level2-tone-v2",
+  "generator": "2026-07-26-lift-surface-prop-midtone-v1.py",
+  "transform": {
+    "gamma": 0.82,
+    "color": 1.05,
+    "contrast": 1.03,
+    "alphaPreserved": true,
+    "resized": false
+  },
+  "assets": [
+    {
+      "id": "well",
+      "source": "sprites/environment/surface-props-v1/level2-well-v1.webp",
+      "sourceSha256": "51fab487936bf81018d05a0b2e39b0392b34981092dbecd0eab34a29f8c25aad",
+      "output": "sprites/environment/surface-props-v1/level2-well-v2.webp",
+      "outputSha256": "d3bb26a934d2641b14a40b5eb63d3e567b06c9e8800e5bcdc0ce11411b9ce385",
+      "width": 323,
+      "height": 343
+    },
+    {
+      "id": "wagon",
+      "source": "sprites/environment/surface-props-v1/level2-wagon-v1.webp",
+      "sourceSha256": "56c128cf8dfb073e0961ed1b5718763283e3dd917340af5c0030937022c23533",
+      "output": "sprites/environment/surface-props-v1/level2-wagon-v2.webp",
+      "outputSha256": "ae21cdbb8ab1a96dda154aaca461bd2f0c76c1548557bac1d6d2e91605676a90",
+      "width": 463,
+      "height": 311
+    },
+    {
+      "id": "pergola",
+      "source": "sprites/environment/surface-props-v1/level2-pergola-v1.webp",
+      "sourceSha256": "4fadf7be1ddf381a8937ec314932dc83ef47504d4e7f725270709989b21aca8c",
+      "output": "sprites/environment/surface-props-v1/level2-pergola-v2.webp",
+      "outputSha256": "89788a43e682569562be139bbc1e79d06daf388b662a8d9787acd59a155dad10",
+      "width": 385,
+      "height": 310
+    },
+    {
+      "id": "bench",
+      "source": "sprites/environment/surface-props-v1/level2-bench-v1.webp",
+      "sourceSha256": "11d52a323bbb9b617538169d4a741e8b4cf4540acc24655a36053e54b6e4db03",
+      "output": "sprites/environment/surface-props-v1/level2-bench-v2.webp",
+      "outputSha256": "ac850cc292c1ec74301200a8476d60bae04561cd2ccf1bd9f95f6a1d2d80f02a",
+      "width": 368,
+      "height": 211
+    },
+    {
+      "id": "handcart",
+      "source": "sprites/environment/surface-props-v1/level2-handcart-v1.webp",
+      "sourceSha256": "f1a2d960204c2a99ad1b7b71a293d649c147b63216c05887578bc9b38f846c4b",
+      "output": "sprites/environment/surface-props-v1/level2-handcart-v2.webp",
+      "outputSha256": "05b0534e66a7f28a2db46d69709d621192f90bb25d276584c6d7da5db6c95341",
+      "width": 418,
+      "height": 182
+    },
+    {
+      "id": "supplies",
+      "source": "sprites/environment/surface-props-v1/level2-supplies-v1.webp",
+      "sourceSha256": "0453ffe23e5490f43888ec81399ec1b645612adfac578d3faa7c5af7bf1dc101",
+      "output": "sprites/environment/surface-props-v1/level2-supplies-v2.webp",
+      "outputSha256": "18f3fe726bb319aad6e47d13a348befd9025bbbaefdbeca7e64880c1d08a533c",
+      "width": 427,
+      "height": 179
+    },
+    {
+      "id": "fence",
+      "source": "sprites/environment/surface-props-v1/level2-fence-v1.webp",
+      "sourceSha256": "4bdcefc54e1d2452801a4af5ca0e55738004d3d1cb07fbc4ef26d6d6ca8792e4",
+      "output": "sprites/environment/surface-props-v1/level2-fence-v2.webp",
+      "outputSha256": "91fc6c72f7f27057d344c12239edc3fba70d7ee0076eceee971ec25167c504b2",
+      "width": 392,
+      "height": 210
+    },
+    {
+      "id": "plants",
+      "source": "sprites/environment/surface-props-v1/level2-plants-v1.webp",
+      "sourceSha256": "298381f008830a07f03f2f1f63f26b7e3ba4196d59fb235435db524d3824ba5f",
+      "output": "sprites/environment/surface-props-v1/level2-plants-v2.webp",
+      "outputSha256": "c409c4e79027d22525fcda61a99b3129ddcbe18479bf2c6029d7ad8887bce5eb",
+      "width": 367,
+      "height": 215
+    },
+    {
+      "id": "lantern",
+      "source": "sprites/environment/surface-props-v1/level2-lantern-v1.webp",
+      "sourceSha256": "5c7988071b5fa1016e998cf9c625689f5c5972569dabbb865028be2495234317",
+      "output": "sprites/environment/surface-props-v1/level2-lantern-v2.webp",
+      "outputSha256": "93ddbcbeabba5d12b1dccb6d906af93a667302bd6c18108b77f7b7a8d17f44cb",
+      "width": 131,
+      "height": 313
+    }
+  ]
+}

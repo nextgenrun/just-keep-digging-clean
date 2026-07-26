@@ -78,18 +78,16 @@ function makeSegment(phase, clip, state, options = {}) {
 
 function locomotion(state, clips) {
   const timing = LAB_TIMELINE.locomotion;
-  const walk = clips.get("walk");
-  const start = trimmedWalk(walk, "walk-start", state.startTrimFrames);
-  const stop = trimmedWalk(walk, "walk-stop", state.stopTrimFrames, true);
+  const jog = clips.get("run");
   return [
     makeSegment("idle", clips.get("idle"), state, { holdSeconds: timing.idleLeadSeconds }),
-    makeSegment("walk-start", start, state),
-    makeSegment("walk-loop", walk, state, { holdSeconds: timing.walkLoopSeconds }),
-    makeSegment("walk-stop", stop, state, { speed: 0 }),
+    makeSegment("jog", jog, state, { holdSeconds: timing.jogLoopSeconds }),
     makeSegment("idle", clips.get("idle"), state, { holdSeconds: timing.idleMiddleSeconds }),
-    makeSegment("pivot-start", start, state),
-    makeSegment("pivot-loop", walk, state, { holdSeconds: timing.pivotLoopSeconds, note: "Facing flips at the pivot boundary." }),
-    makeSegment("pivot-stop", stop, state, { speed: 0 }),
+    makeSegment("jog-reversal", jog, state, {
+      holdSeconds: timing.reversalLoopSeconds,
+      note: "Input facing flips immediately without restarting the live Jog cycle.",
+    }),
+    makeSegment("idle", clips.get("idle"), state, { holdSeconds: timing.idleMiddleSeconds }),
   ];
 }
 
@@ -99,16 +97,15 @@ function ladder(state, clips) {
   const runEnter = state.runEnterSpeedPxPerSec;
   const runExit = state.runExitSpeedPxPerSec;
   const [slowHold, liveHold, enterHold, fastHold, upgradeHold, exitHold] = timing.phaseSeconds;
-  const walk = clips.get("walk");
   const run = clips.get("run");
   return [
     makeSegment("idle", clips.get("idle"), state, { holdSeconds: timing.idleLeadSeconds, speed: 0 }),
-    makeSegment(`walk-${walkSlow}`, walk, state, { holdSeconds: slowHold, speed: walkSlow }),
-    makeSegment(`walk-${walkLive}`, walk, state, { holdSeconds: liveHold, speed: walkLive }),
-    makeSegment(`run-enter-${runEnter}`, run, state, { holdSeconds: enterHold, speed: runEnter }),
-    makeSegment(`run-${runFast}`, run, state, { holdSeconds: fastHold, speed: runFast }),
+    makeSegment(`jog-${walkSlow}`, run, state, { holdSeconds: slowHold, speed: walkSlow }),
+    makeSegment(`jog-${walkLive}`, run, state, { holdSeconds: liveHold, speed: walkLive }),
+    makeSegment(`jog-${runEnter}`, run, state, { holdSeconds: enterHold, speed: runEnter }),
+    makeSegment(`jog-${runFast}`, run, state, { holdSeconds: fastHold, speed: runFast }),
     makeSegment(`upgrade-${upgrade}`, run, state, { holdSeconds: upgradeHold, speed: upgrade }),
-    makeSegment(`run-exit-${runExit}`, walk, state, { holdSeconds: exitHold, speed: runExit }),
+    makeSegment(`jog-${runExit}`, run, state, { holdSeconds: exitHold, speed: runExit }),
   ];
 }
 

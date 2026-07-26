@@ -14,7 +14,7 @@ export const SCREEN_RECORD_CONFIG = Object.freeze({
     "video/webm",
   ]),
   notices: Object.freeze({
-    started: "Portrait recording started with game audio (F10 stops)",
+    started: "Portrait recording started with game audio",
     stopping: "Saving screen recording...",
     saved: "Screen recording saved: {file}",
     unsupported: "Screen recording is not supported by this browser",

@@ -34,6 +34,7 @@ const timeline = new UalActionContactTimeline(sprite);
 
 assert.equal(sprite.listenerCount("animationupdate"), 1);
 assert.equal(sprite.listenerCount("animationcomplete"), 1);
+assert.equal(timeline.contactFired, false);
 
 const contacts = [];
 const completions = [];
@@ -56,11 +57,13 @@ assert.equal(contacts.length, 1);
 assert.equal(contacts[0].actionId, firstActionId);
 assert.equal(contacts[0].textureFrame, 6);
 assert.equal(contacts[0].trigger, "animationupdate");
+assert.equal(timeline.contactFired, true);
 
 sprite.emit("animationcomplete", animation("ual-punch"), frame(8), sprite);
 sprite.emit("animationcomplete", animation("ual-punch"), frame(8), sprite);
 assert.equal(completions.length, 1);
 assert.equal(timeline.isActive, false);
+assert.equal(timeline.contactFired, false);
 
 // Reversed texture arrays use Phaser's 1-based animation sequence index.
 let reversedContact = null;

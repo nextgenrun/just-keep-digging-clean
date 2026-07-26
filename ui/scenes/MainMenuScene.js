@@ -1,4 +1,5 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton } from "../PhaserUiKit.js";
@@ -378,7 +379,7 @@ export class MainMenuScene extends Phaser.Scene {
     const { cx, cy, PH } = base;
 
     const body = this.add.text(cx, cy - PH / 2 + 88, [
-      'Just Keep Digging',
+      BRAND_CONFIG.name,
       '',
       'Game Design & Development',
       'Solo Project',

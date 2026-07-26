@@ -7,10 +7,10 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
     widthTiles: 14,
   }),
   transition: Object.freeze({
-    // The approved v1 composition occupies the first 13 tiles. The v2 asset's
-    // mirrored fourteenth tile exists only to hand that composition back to the
-    // continuous scenic world without exposing a vertical card edge.
+    // Ground hands back over its final tile. The beauty plate preserves all
+    // 1,672 approved source pixels, then fades only its 129 px mirrored edge.
     fadeTiles: 1,
+    beautyFadeSourceWidthPx: 129,
     strips: 16,
   }),
   beauty: Object.freeze({
@@ -22,7 +22,11 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
     sourceGroundY: 534,
     frameName: "world-visual-surface-pack-town-benchmark-v1-upper",
     depth: -4.2,
-    minSourcePixelsPerWorldPixel: 1,
+    minSourcePixelsPerWorldPixel: 0.83,
+    scaleReference: Object.freeze({
+      sourceDoorHeightPx: 75,
+      targetDoorHeightMeters: 2.1,
+    }),
     verticalReveal: Object.freeze({
       // Feather only the otherwise-visible top edge into the continuous sky.
       // The authored town and its ground alignment remain fully opaque.
@@ -30,6 +34,21 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
       fullAlphaEdgeViewportFraction: 0.12,
       zeroAlphaEdgeViewportFraction: 0.52,
     }),
+  }),
+  floor: Object.freeze({
+    asset: asset(
+      "world-visual-surface-pack-town-square-slate-v2",
+      "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-facade-v2.png"
+    ),
+    expectedSource: Object.freeze({ width: 1801, height: 139 }),
+    sourceRect: Object.freeze({ x: 0, y: 0, width: 1801, height: 139 }),
+    approvedCoreSourceWidthPx: 1672,
+    handoffSourceWidthPx: 129,
+    surfaceOffsetSourcePx: 2,
+    frameName: "world-visual-surface-pack-town-square-slate-v2-floor",
+    depth: 2.445,
+    effectDepthStep: 0.001,
+    minSourcePixelsPerWorldPixel: 0.83,
   }),
   ground: Object.freeze({
     asset: asset(
@@ -80,5 +99,5 @@ export function resolveWorldVisualSurfacePack(
 
 export function getWorldVisualSurfacePackPreloadAssets(config, search) {
   const pack = resolveWorldVisualSurfacePack(config, search);
-  return pack ? [pack.beauty.asset, pack.ground.asset] : [];
+  return pack ? [pack.beauty.asset, pack.floor.asset, pack.ground.asset] : [];
 }

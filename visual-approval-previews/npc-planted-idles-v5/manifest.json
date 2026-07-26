@@ -1,0 +1,263 @@
+{
+  "created": "2026-07-26",
+  "reviewOnly": false,
+  "productionChanged": true,
+  "runtimeLoadedFromPreview": false,
+  "generator": "pipelines/piskel/2026-07-26-build-npc-motion-idle-piskel-package.py",
+  "sourceCropGenerator": "ai-tools/2026-07-26-build-npc-planted-idles-v9.py",
+  "activitySpec": "visual-approval-previews/npc-planted-idles-v5/activity-spec.json",
+  "promptManifest": "visual-approval-previews/npc-planted-idles-v5/prompt-manifest.json",
+  "motionPromptManifest": "visual-approval-previews/npc-planted-idles-v5/idle-loop-prompt-manifest-v11.json",
+  "boards": {
+    "character-base": {
+      "path": "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-character-v3.png",
+      "sha256": "1789874bcfef7b88981dcb6148175c49c194637a64a56a9db826287510b43c6f",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "columns": [
+        [
+          16,
+          358
+        ],
+        [
+          374,
+          715
+        ],
+        [
+          732,
+          1073
+        ],
+        [
+          1089,
+          1431
+        ]
+      ],
+      "rows": [
+        [
+          21,
+          361
+        ],
+        [
+          377,
+          717
+        ],
+        [
+          733,
+          1073
+        ]
+      ]
+    },
+    "creature-base": {
+      "path": "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-creature-v3.png",
+      "sha256": "10a14b96452768ee5c77fee49e617ad3fbd60eafbf62e0218ee134522b063168",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "columns": [
+        [
+          20,
+          383
+        ],
+        [
+          393,
+          763
+        ],
+        [
+          774,
+          1142
+        ],
+        [
+          1153,
+          1515
+        ]
+      ],
+      "rows": [
+        [
+          11,
+          358
+        ],
+        [
+          365,
+          660
+        ],
+        [
+          667,
+          1001
+        ]
+      ]
+    },
+    "character-extension": {
+      "path": "visual-approval-previews/npc-planted-idles-v5/npc-planted-idles-character-extension-v5.png",
+      "sha256": "d7352c6836d35507a46806ce5613a876d1648001a5d8a429a98f327cb8f5ad28",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "columns": [
+        [
+          13,
+          356
+        ],
+        [
+          371,
+          715
+        ],
+        [
+          730,
+          1072
+        ],
+        [
+          1087,
+          1430
+        ]
+      ],
+      "rows": [
+        [
+          15,
+          357
+        ],
+        [
+          372,
+          711
+        ],
+        [
+          728,
+          1066
+        ]
+      ]
+    },
+    "creature-extension": {
+      "path": "visual-approval-previews/npc-planted-idles-v5/npc-planted-idles-creature-extension-v5.png",
+      "sha256": "1d9c03134cb17d24e39c08cf0f8413c5c89a88a44a5afc98cbdc48743595dea7",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "columns": [
+        [
+          20,
+          383
+        ],
+        [
+          393,
+          763
+        ],
+        [
+          774,
+          1142
+        ],
+        [
+          1153,
+          1516
+        ]
+      ],
+      "rows": [
+        [
+          11,
+          347
+        ],
+        [
+          355,
+          655
+        ],
+        [
+          663,
+          1001
+        ]
+      ]
+    }
+  },
+  "poseCount": 66,
+  "runtimeManifest": "sprites/npc/npc-v11-piskel-motion-idles/manifest.json",
+  "cropSafety": "Detected 4x3 black-gutter boards; fixed 512px canvas; generated quiet frames height-calibrated once; Piskel lower-body root 256; baseline 496; zero opaque edge pixels.",
+  "runtimePack": "npc-v11-piskel-motion-idles",
+  "piskelNormalized": true,
+  "piskelSourceDirectory": "sprites/npc/npc-v11-piskel-motion-idles/piskel",
+  "motionPolicy": "slow localized frame animation only; no runtime translation, rotation, body scaling, walking, or roaming",
+  "quietLoopBoards": {
+    "character": {
+      "path": "visual-approval-previews/npc-planted-idles-v5/npc-idle-loop-character-v11.png",
+      "sha256": "a2e7b2776b25d763cf6c28720c1d7ea8e1576b66eddd4ede274bf15e672f8085",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "columns": [
+        [
+          83,
+          274
+        ],
+        [
+          432,
+          621
+        ],
+        [
+          799,
+          984
+        ],
+        [
+          1154,
+          1344
+        ]
+      ],
+      "rows": [
+        [
+          78,
+          318
+        ],
+        [
+          390,
+          640
+        ],
+        [
+          730,
+          1025
+        ]
+      ]
+    },
+    "creature": {
+      "path": "visual-approval-previews/npc-planted-idles-v5/npc-idle-loop-creature-v11.png",
+      "sha256": "8778634f80207a7a449784a699f797fe04587eea8e2514aae3cbf68781cd39a8",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "columns": [
+        [
+          72,
+          327
+        ],
+        [
+          440,
+          694
+        ],
+        [
+          826,
+          1068
+        ],
+        [
+          1203,
+          1458
+        ]
+      ],
+      "rows": [
+        [
+          42,
+          320
+        ],
+        [
+          376,
+          633
+        ],
+        [
+          684,
+          980
+        ]
+      ]
+    }
+  },
+  "quietLoopFrameCount": 24
+}

@@ -38,14 +38,14 @@
       "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
     },
     "fly": {
-      "file": "survival-character-blender-v2-superman-flight-sheet.png",
+      "file": "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
       "frames": 36,
       "columns": 12,
       "rows": 3,
       "fps": 16,
       "loop": true,
-      "motionAuthority": "Local UAL Push_Loop retarget plus Blender Superman pose layer",
-      "renderVariant": "approved horizontal Superman flight; high-quality Survivor body; no weapon"
+      "motionAuthority": "Exact Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 pose with restrained whole-body hover motion",
+      "renderVariant": "approved face-down Superman prone v3 with corrected closed forward fist; source-facing right; no weapon"
     },
     "attack": {
       "file": "survival-character-blender-v2-attack-sheet.png",

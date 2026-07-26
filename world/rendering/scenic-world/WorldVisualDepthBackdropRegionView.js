@@ -8,11 +8,14 @@ function mixColor(from, to, amount) {
   return (channel(16) << 16) | (channel(8) << 8) | channel(0);
 }
 
-function sourceSize(scene, key) {
-  const texture = scene.textures.get(key);
+function sourceSize(scene, asset, videoConfig) {
+  if (asset.type === "video") {
+    return { width: videoConfig.widthPx, height: videoConfig.heightPx };
+  }
+  const texture = scene.textures.get(asset.key);
   const source = texture?.getSourceImage?.() || texture?.source?.[0]?.image || texture?.source?.[0];
   if (!source?.width || !source?.height) {
-    throw new Error(`[WorldVisualDepthBackdropRegionView] Missing source: ${key}`);
+    throw new Error(`[WorldVisualDepthBackdropRegionView] Missing source: ${asset.key}`);
   }
   return { width: source.width, height: source.height };
 }
@@ -35,14 +38,16 @@ function resolveSegmentGeometry(segment, tileSize) {
 }
 
 export class WorldVisualDepthBackdropRegionView {
-  constructor(scene, region, config) {
+  constructor(scene, region, config, backwalls = region.backwalls, motionEnabled = true) {
     this.scene = scene;
     this.region = region;
     this.config = config;
+    this.backwalls = backwalls;
+    this.motionEnabled = motionEnabled;
     this.segments = new Map();
   }
 
-  sync(bounds, lighting, force = false) {
+  sync(bounds, lighting, force = false, cameraOffset = null) {
     if (force) this._destroySegments();
     const range = this._resolveSegmentRange(bounds);
     if (!range) {
@@ -59,7 +64,7 @@ export class WorldVisualDepthBackdropRegionView {
       }
     }
     this._prune(needed);
-    this.update(this.scene.time?.now || 0, lighting);
+    this.update(this.scene.time?.now || 0, lighting, cameraOffset);
     return true;
   }
 
@@ -85,7 +90,7 @@ export class WorldVisualDepthBackdropRegionView {
 
   _createSegment(column, row) {
     const { region, config } = this;
-    const { segment, render, motion } = config;
+    const { segment, render } = config;
     const tileSize = this.scene.config.tileSize;
     const geometry = resolveSegmentGeometry(segment, tileSize);
     const startTileX = region.leftTile + column * geometry.widthTiles;
@@ -102,71 +107,81 @@ export class WorldVisualDepthBackdropRegionView {
     const baseY = Math.round(startTileY * tileSize);
     const flipX = (column + row) % 2 === 1;
     const flipY = row % 2 === 1;
-    const backwallAsset = region.backwalls[(column + row * 3) % region.backwalls.length];
+    const backwallAsset = this.backwalls[(column + row * 3) % this.backwalls.length];
     const cropRatioX = contentWidthPx / geometry.widthPx;
     const cropRatioY = contentHeightPx / geometry.heightPx;
-    const makeCard = (key, depth, name, blendMode = null, fitMode = "fill") => {
-      const source = sourceSize(this.scene, key);
+    const resolveCardGeometry = asset => {
+      const source = sourceSize(this.scene, asset, config.motion.smoothVideo);
       const cropWidth = Math.round(source.width * cropRatioX);
       const cropHeight = Math.round(source.height * cropRatioY);
       const cropX = flipX ? source.width - cropWidth : 0;
       const cropY = flipY ? source.height - cropHeight : 0;
-      const widthScale = fullWidth / Math.max(1, cropWidth);
-      const displayHeight = fitMode === "fit-width"
-        ? Math.min(fullHeight, cropHeight * widthScale)
-        : fullHeight;
-      const cardY = fitMode === "fit-width"
-        ? baseY + Math.max(0, (fullHeight - displayHeight) * 0.5)
-        : baseY;
-      const card = this.scene.add.image(baseX, cardY, key)
+      return { cropX, cropY, cropWidth, cropHeight };
+    };
+    const applyCardGeometry = (card, cardGeometry) => card
+      .setCrop(
+        cardGeometry.cropX,
+        cardGeometry.cropY,
+        cardGeometry.cropWidth,
+        cardGeometry.cropHeight
+      )
+      .setDisplaySize(fullWidth, fullHeight)
+      .setFlipX(flipX)
+      .setFlipY(flipY);
+    const makeImageCard = (asset, depth, name) => {
+      const cardGeometry = resolveCardGeometry(asset);
+      const card = this.scene.add.image(baseX, baseY, asset.key)
         .setOrigin(0)
-        .setDepth(depth)
-        .setCrop(cropX, cropY, cropWidth, cropHeight)
-        .setDisplaySize(fullWidth, displayHeight)
-        .setFlipX(flipX)
-        .setFlipY(flipY);
-      if (blendMode) card.setBlendMode(blendMode);
+        .setDepth(depth);
+      applyCardGeometry(card, cardGeometry);
       card.name = name;
       return card;
     };
-
-    const backwall = makeCard(
-      backwallAsset.key,
-      render.backwallDepth,
-      `world-visual-depth-${region.id}-${column}-${row}`
-    );
-    const blendMode = Phaser.BlendModes[region.emissive.blendMode] || Phaser.BlendModes.SCREEN;
-    const emissive = makeCard(
-      backwallAsset.key,
-      render.emissiveDepth,
-      `world-visual-depth-emissive-${region.id}-${column}-${row}`,
-      blendMode
-    );
-    const mist = makeCard(
-      config.assets.mist.key,
-      render.mistDepth,
-      `world-visual-depth-mist-${region.id}-${column}-${row}`,
-      Phaser.BlendModes.SCREEN,
-      "fit-width"
-    );
+    const makeVideoCard = (asset, depth, name) => {
+      const cardGeometry = resolveCardGeometry(asset);
+      const card = this.scene.add.video(baseX, baseY, asset.key)
+        .setOrigin(0)
+        .setDepth(depth)
+        .setVisible(false);
+      card.name = name;
+      card.once("created", () => {
+        applyCardGeometry(card, cardGeometry);
+        card.setVisible(true);
+        card.setPaused(!this.motionEnabled);
+      });
+      card.play(config.motion.smoothVideo.loop);
+      return card;
+    };
+    const name = `world-visual-depth-${region.id}-${column}-${row}`;
+    const isSmoothVideo = backwallAsset.type === "video";
+    const backwall = isSmoothVideo
+      ? makeVideoCard(backwallAsset, render.backwallDepth, name)
+      : makeImageCard(backwallAsset, render.backwallDepth, name);
     return {
-      backwall, emissive, mist, baseX, baseY, column, row,
-      mistBaseX: baseX,
-      mistBaseY: baseY + Math.max(0, (fullHeight - mist.displayHeight) * 0.5),
+      backwall, baseX, baseY, column, row,
+      isSmoothVideo,
+      videoPaused: !this.motionEnabled,
+      widthPx: fullWidth,
+      heightPx: fullHeight,
       centerTileY: startTileY + heightTiles / 2,
-      phase: (column + row * motion.rowPhaseMultiplier) * motion.phaseStep,
     };
   }
 
-  update(time, lighting) {
+  update(time, lighting, cameraOffset = null) {
     if (!lighting) return;
-    const { region, config } = this;
-    const { lighting: grade, mist: mistConfig, emissive: glow } = region;
-    const { motion } = config;
-    const tileSize = this.scene.config.tileSize;
+    const { region } = this;
+    const { lighting: grade } = region;
     const depthSpan = region.bottomTileExclusive - region.topTile;
-    const phase = (Number(time) || 0) / motion.periodMs * Math.PI * 2;
+    const cameraX = Number(cameraOffset?.x) || 0;
+    const cameraY = Number(cameraOffset?.y) || 0;
+    const pauseVideo = !this.motionEnabled
+      || Number(this.scene.game?.loop?.actualFps) < this.config.motion.smoothVideo.pauseBelowFps;
     for (const segment of this.segments.values()) {
+      segment.backwall.setPosition(segment.baseX + cameraX, segment.baseY + cameraY);
+      if (segment.isSmoothVideo && segment.videoPaused !== pauseVideo) {
+        segment.backwall.setPaused(pauseVideo);
+        segment.videoPaused = pauseVideo;
+      }
       const depthRatio = clamp01((segment.centerTileY - region.topTile) / depthSpan);
       const tintMix = grade.surfaceTintMix + (grade.deepTintMix - grade.surfaceTintMix) * depthRatio;
       const gradedTint = mixColor(lighting.farTint, grade.deepTint, tintMix);
@@ -174,34 +189,14 @@ export class WorldVisualDepthBackdropRegionView {
       segment.backwall.setTint(lightningMix > 0
         ? mixColor(gradedTint, grade.lightningTint, lightningMix)
         : gradedTint);
-
-      const glowPhase = (Number(time) || 0) / glow.periodMs * Math.PI * 2 + segment.phase;
-      const glowAlpha = glow.baseAlpha + (Math.sin(glowPhase) * 0.5 + 0.5) * glow.pulseAlpha
-        + lighting.lightning * glow.lightningAlpha;
-      segment.emissive
-        .setTint(mixColor(glow.tint, grade.lightningTint, lighting.lightning * grade.lightningTintMix))
-        .setAlpha(Math.min(glow.maxAlpha, clamp01(glowAlpha)));
-
-      const mistAlpha = mistConfig.baseAlpha + lighting.wet * mistConfig.wetAlpha
-        + lighting.fog * mistConfig.fogAlpha + lighting.lightning * mistConfig.lightningAlpha;
-      let driftX = Math.sin(phase + segment.phase) * motion.driftTiles * tileSize;
-      let driftY = Math.cos(phase * motion.secondaryPeriodScale + segment.phase)
-        * motion.verticalDriftTiles * tileSize;
-      if (segment.column === 0) driftX = Math.max(0, driftX);
-      if (segment.row === 0) driftY = Math.max(0, driftY);
-      segment.mist
-        .setPosition(segment.mistBaseX + driftX, segment.mistBaseY + driftY)
-        .setTint(mistConfig.tint)
-        .setAlpha(Math.min(mistConfig.maxAlpha, clamp01(mistAlpha)));
     }
   }
 
   _prune(needed) {
     for (const [id, segment] of this.segments) {
       if (needed.has(id)) continue;
+      if (segment.isSmoothVideo) segment.backwall.stop();
       segment.backwall.destroy();
-      segment.emissive.destroy();
-      segment.mist.destroy();
       this.segments.delete(id);
     }
   }

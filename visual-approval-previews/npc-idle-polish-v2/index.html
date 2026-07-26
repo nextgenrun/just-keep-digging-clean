@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPC Idle Polish v2 — Review Only</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">REVIEW ONLY · PRODUCTION UNCHANGED</p>
+      <h1>NPC Idle Polish v2</h1>
+      <p class="lede">Current runtime motion beside character-specific, pose-timed idle direction.</p>
+    </div>
+    <div class="status">
+      <span>5 animated</span>
+      <span>1 static gap</span>
+      <span>≈138 px in game</span>
+    </div>
+  </header>
+
+  <section class="controls" aria-label="Shared review controls">
+    <button id="play-toggle" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <label>Timeline <input id="scrub" type="range" min="0" max="1000" value="0"></label>
+    <label>Speed
+      <select id="speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.5">1.5×</option>
+      </select>
+    </label>
+    <button id="scale-toggle" type="button">Show 138 px scale</button>
+    <output id="phase">0%</output>
+  </section>
+
+  <aside>
+    <strong>How to judge:</strong> toggle to 138 px, scrub through the character beat, and check that the feet stay planted while one prop or facial idea reads before the secondary motion settles.
+  </aside>
+
+  <main id="cards" aria-live="polite"></main>
+
+  <footer>
+    The proposed side is a four-pose acting animatic, not a runtime candidate. Approve motion direction first; production animation, packing, performance checks, and fallback parity are a separate pass.
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

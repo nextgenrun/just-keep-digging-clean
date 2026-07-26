@@ -105,6 +105,7 @@ export class ApprovedHudSkin {
     hud.hudBg?.setVisible(false);
     hud.statusBg?.setVisible(false);
     hud.torchIcon?.setVisible(false);
+    hud.torchStatusText?.setVisible(false);
     hud.buffTimerText?.setVisible(false);
     hud.clockPanel?.setVisible(false);
     hud.weatherPanel?.setVisible(false);
@@ -116,9 +117,6 @@ export class ApprovedHudSkin {
     const comboX = width / 2;
     hud.comboText?.setPosition(comboX, (layout.combo.y + layout.combo.textY) * s).setOrigin(0.5, 0);
     setHudTextStyle(hud.comboText, layout.combo.fontSize * s);
-
-    hud.torchStatusText?.setPosition(layout.torch.x * s, layout.torch.y * s).setOrigin(0.5);
-    setHudTextStyle(hud.torchStatusText, layout.torch.fontSize * s);
 
     hud.clockTimeText?.setPosition(worldX + layout.worldState.timeX * s, (layout.worldState.y + layout.worldState.topY) * s);
     hud.clockDayText?.setPosition(worldX + layout.worldState.dayX * s, (layout.worldState.y + layout.worldState.topY) * s);
@@ -183,7 +181,12 @@ export class ApprovedHudSkin {
 
   setTorchState(active) {
     if (!this.active) return;
-    this.hud.torchStatusText?.setText(active ? "●" : "○").setColor(active ? "#ffd36b" : "#71808b");
+    this.playerFrame?.setTexture(
+      active
+        ? ASSET_KEYS.ui.approvedHud.playerCore
+        : ASSET_KEYS.ui.approvedHud.playerCoreTorchOff
+    );
+    this.hud.torchStatusText?.setVisible(false);
   }
 
   destroy() {

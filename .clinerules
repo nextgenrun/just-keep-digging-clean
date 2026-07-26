@@ -41,6 +41,17 @@ Active debugging only. Once resolved, document fix in /markdown/ and clean up. P
 ### 7. Archive Policy
 See /markdown/archive-policy.md. Archive unused with date prefix. Delete if >180d AND no references. Never delete active game code.
 
+### 8. Production HUD / UI Art Quality
+- Every player-facing HUD, popup, warning, mode badge, icon, panel, and overlay added to the game must use high-quality, project-matched artwork produced or approved through the image-generation pipeline.
+- NEVER ship low-quality HTML/CSS UI, flat debug rectangles, emoji, generic primitives, temporary icons, procedural stand-ins, or placeholder art as the final runtime presentation.
+- HTML/DOM may only provide invisible input/accessibility plumbing when necessary. Final visible UI belongs in the Phaser game and uses approved image-generated art assets; dynamic Phaser text may be layered over those assets using the approved typography.
+- If approved final art is unavailable, keep the feature review-only or disabled. Do not wire a placeholder into production.
+
+### 9. Player Locomotion Canon
+- The current player has NO jump mechanic. Do not add jump input, jump prompts, jump animation requirements, or jump-only counterplay.
+- Vertical traversal and airborne evasion use Flight. Walking, lateral movement, digging, cover, and Flight reserve are the valid movement tools.
+- Hazards must remain avoidable without jumping. This rule remains authoritative until the user explicitly changes it later.
+
 ---
 
 ## Naming Quick Ref (see naming-policy.md for full)

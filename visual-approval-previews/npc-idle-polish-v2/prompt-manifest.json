@@ -1,0 +1,25 @@
+{
+  "mode": "built-in image generation",
+  "useCase": "stylized-concept",
+  "projectUse": "review-only NPC idle animation key-pose direction",
+  "prompts": [
+    {
+      "output": "npc-idle-director-board-character-v2.png",
+      "inputs": [
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/player-upgrades.png",
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/gear-merchant.png",
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/bobo-merchant.png"
+      ],
+      "prompt": "Create a landscape professional animation-director board with three rows and four equal columns. Preserve the exact Player Upgrades, Gear Merchant, and Bobo identities from the three references. Each row shows neutral, anticipation, readable character-action apex, and seamless settle. Player Upgrades inspects the cylinder and catches a goggle glint; Gear Merchant shifts his heavy pack through the strap while lamp, beard, and pickaxe follow; Bobo performs a curious sniff and head tilt with ears, two tail beats, and backpack-vial follow-through. Keep feet planted, motion restrained and readable at small gameplay scale, original painterly fantasy rendering and lighting, dark charcoal studio background, no text, no extra props, no identity or costume drift."
+    },
+    {
+      "output": "npc-idle-director-board-creature-v2.png",
+      "inputs": [
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/money-monster.png",
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/gem-power-merchant.png",
+        "sprites/npc/npc-v7-level-two/magma-money-monster.png"
+      ],
+      "prompt": "Create a landscape professional animation-director board with three rows and four equal columns. Preserve the exact Money Monster, Gem Power Merchant, and Magma Money Monster identities from the three references. Each row shows neutral, anticipation, readable character-action apex, and seamless settle. Money Monster tracks and rolls the coin, squints, and lets pouch and coins react; Gem Power Merchant charges the staff so light travels through eyes, chest, shoulder crystals, and satchel before a heavy stone settle; Magma Money Monster dips the gold scale pan, flares furnace cracks and eye, and lets chest and hanging coins answer with delayed weight. Keep feet planted, motion restrained and readable at small gameplay scale, original painterly fantasy rendering and lighting, dark charcoal studio background, no text, no extra props, no identity or costume drift."
+    }
+  ]
+}

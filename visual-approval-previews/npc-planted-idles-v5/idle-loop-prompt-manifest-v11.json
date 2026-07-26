@@ -1,0 +1,25 @@
+{
+  "created": "2026-07-26",
+  "mode": "built-in image_gen",
+  "useCase": "rooted-sprite-animation-frames",
+  "reviewOnly": false,
+  "productionChanged": true,
+  "prompts": [
+    {
+      "id": "character-rooted-idle-loop-v11",
+      "output": "npc-idle-loop-character-v11.png",
+      "inputs": [
+        "visual-approval-previews/npc-planted-idles-v5/npc-planted-idles-character-extension-v5.png"
+      ],
+      "spec": "Create a polished 2D game-sprite animation contact sheet preserving the reference's exact three character identities, outfits, props, proportions, front-facing three-quarter camera, warm painterly rendering, and black-background presentation. Layout exactly 4 equal columns by 3 equal rows, no text, labels, or borders, pure flat black background, wide clean gutters, full bodies safely contained. Rows: Player Upgrades, Gear Merchant, Bobo dog merchant. Within every row, left to right: neutral planted idle, tiny anticipation, localized motion peak, soft settle almost matching frame 1. Use an identical fixed camera, apparent scale, lighting, and placement; both boot soles or paws remain on the same baseline and horizontal coordinates; pelvis, torso centerline, shoulders, and overall silhouette stay fixed. No walking, stepping, body bob, bounce, squash/stretch, zoom, lateral sway, lean, turn, or whole-body rotation. Player: slow blink, small goggle/finger movement, faint cylinder pulse, tiny tool or coat-tail settle. Gear: slow blink, beard settle, helmet-lamp pulse, restrained strap hand, pouch or pickaxe follow-through. Bobo: slow blink, ear perk and recovery, small tail swish, tiny bottle or medallion follow-through, scarf or fur breathing. Adjacent frames must read clearly at game scale but remain subtle and natural."
+    },
+    {
+      "id": "creature-rooted-idle-loop-v11",
+      "output": "npc-idle-loop-creature-v11.png",
+      "inputs": [
+        "visual-approval-previews/npc-planted-idles-v5/npc-planted-idles-creature-extension-v5.png"
+      ],
+      "spec": "Create a polished 2D game-sprite animation contact sheet preserving the reference's exact three creature identities, materials, outfits, props, proportions, front-facing three-quarter camera, painterly rendering, and black-background presentation. Layout exactly 4 equal columns by 3 equal rows, no text, labels, or borders, pure flat black background, wide clean gutters, full bodies and effects safely contained. Rows: Money Monster, Gem Power Merchant, Magma Money Monster. Within every row, left to right: neutral planted idle, tiny anticipation, localized motion peak, soft settle almost matching frame 1. Use an identical fixed camera, apparent scale, lighting, and placement; both feet or paws remain on the same baseline and horizontal coordinates; pelvis, torso centerline, shoulders, horns, and overall body silhouette stay fixed. No walking, stepping, stomping, body bob, bounce, squash/stretch, zoom, lateral sway, lean, turn, or whole-body rotation. Money: single-eye blink or squint, fingers roll one coin, necklace and pouch cord settle. Gem: blink, staff-crystal glow, two tiny crystal motes rise and return, fingers tighten, satchel crystals pulse. Magma: blink, furnace cracks brighten and dim, one scale chain or pan settles, one coin turns, a few contained embers rise and fade. Adjacent frames must read clearly at game scale but remain subtle and natural."
+    }
+  ]
+}

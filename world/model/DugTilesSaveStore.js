@@ -8,6 +8,11 @@ import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
 import { RESOURCE_ZERO_TOTALS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
+import { sanitizeOpeningFlightArtifactData } from "../../values/openingFlightArtifact.js";
+import { sanitizeStarHeartData } from "../../values/celestialEngines.js";
+import { sanitizeHeavenblocksProgressionData } from "../../values/heavenblocksProgressionConfig.js";
+import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import { sanitizeGraveborerWurmData } from "../../values/graveborerWurm.js";
 import { sanitizeRetentionProgressData } from "../../systems/progression/retentionProgressState.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
@@ -196,8 +201,46 @@ export class DugTilesSaveStore {
     return null;
   }
 
-  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null) {
-    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId, caveSceneData, ancientRelicData, retentionData);
+  async save(
+    worldIdentity,
+    dugTileKeys,
+    resources = RESOURCE_ZERO_TOTALS,
+    upgrades = null,
+    levelData = null,
+    specialTileData = null,
+    depthGateData = null,
+    dayNightData = null,
+    rubbleTiles = [],
+    playerCharacterId = null,
+    caveSceneData = null,
+    ancientRelicData = null,
+    openingFlightArtifactData = null,
+    starHeartData = null,
+    retentionData = null,
+    heavenblocksData = null,
+    hardcoreModeData = null,
+    graveborerWurmData = null,
+  ) {
+    const payload = this.createPayload(
+      worldIdentity,
+      dugTileKeys,
+      resources,
+      upgrades,
+      levelData,
+      specialTileData,
+      depthGateData,
+      dayNightData,
+      rubbleTiles,
+      playerCharacterId,
+      caveSceneData,
+      ancientRelicData,
+      openingFlightArtifactData,
+      starHeartData,
+      retentionData,
+      heavenblocksData,
+      hardcoreModeData,
+      graveborerWurmData,
+    );
     const localSaved = this.saveToLocalStorage(payload);
     if (!localSaved) return false;
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
@@ -205,9 +248,28 @@ export class DugTilesSaveStore {
     return this.saveToEndpoint(payload);
   }
 
-  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null) {
+  createPayload(
+    worldIdentity,
+    dugTileKeys,
+    resources,
+    upgrades = null,
+    levelData = null,
+    specialTileData = null,
+    depthGateData = null,
+    dayNightData = null,
+    rubbleTiles = [],
+    playerCharacterId = null,
+    caveSceneData = null,
+    ancientRelicData = null,
+    openingFlightArtifactData = null,
+    starHeartData = null,
+    retentionData = null,
+    heavenblocksData = null,
+    hardcoreModeData = null,
+    graveborerWurmData = null,
+  ) {
     return {
-      version: 9,
+      version: 12,
       updatedAt: new Date().toISOString(),
       playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
@@ -228,7 +290,12 @@ export class DugTilesSaveStore {
       dayNightData: dayNightData || null,
       caveSceneData: sanitizeCaveSceneData(caveSceneData),
       ancientRelicData: sanitizeAncientRelicData(ancientRelicData),
+      openingFlightArtifactData: sanitizeOpeningFlightArtifactData(openingFlightArtifactData),
+      starHeartData: sanitizeStarHeartData(starHeartData),
       retentionData: sanitizeRetentionProgressData(retentionData),
+      heavenblocksData: sanitizeHeavenblocksProgressionData(heavenblocksData),
+      hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData),
+      graveborerWurmData: sanitizeGraveborerWurmData(graveborerWurmData),
     };
   }
 
@@ -260,7 +327,16 @@ export class DugTilesSaveStore {
       dayNightData: payload.dayNightData || null,
       caveSceneData: sanitizeCaveSceneData(payload.caveSceneData),
       ancientRelicData: sanitizeAncientRelicData(payload.ancientRelicData),
+      openingFlightArtifactData: payload.openingFlightArtifactData
+        ? sanitizeOpeningFlightArtifactData(payload.openingFlightArtifactData)
+        : null,
+      starHeartData: payload.starHeartData
+        ? sanitizeStarHeartData(payload.starHeartData)
+        : null,
       retentionData: sanitizeRetentionProgressData(payload.retentionData),
+      heavenblocksData: sanitizeHeavenblocksProgressionData(payload.heavenblocksData),
+      hardcoreModeData: sanitizeHardcoreModeData(payload.hardcoreModeData),
+      graveborerWurmData: sanitizeGraveborerWurmData(payload.graveborerWurmData),
       playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }

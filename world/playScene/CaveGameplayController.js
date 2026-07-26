@@ -120,7 +120,7 @@ export class CaveGameplayController {
     this.inputHandler.updateAimBox(targetTile, this.inputHandler.isSolidAimTarget(targetTile));
     this._updateMining(time, playerTile, targetTile);
     this._updateThunderStrike(time);
-    this._updateLocomotionVisual(time);
+    this._updateLocomotionVisual(time, delta);
     this.flightFootParticleSystem?.update(
       delta,
       !this.actionAnimationRuntime.isUalActionLocked
@@ -150,7 +150,10 @@ export class CaveGameplayController {
 
   _updateMining(time, playerTile, targetTile) {
     const abilities = this.playerController.abilities;
-    if (this.actionAnimationRuntime.isUalActionLocked) return;
+    if (
+      this.actionAnimationRuntime.isUalActionLocked
+      && !this.actionAnimationRuntime.canReplaceMiningRecovery(time, abilities)
+    ) return;
     if (abilities.isQuickslashActive()) {
       const direction = abilities.getQuickslashDirection();
       const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
@@ -201,7 +204,7 @@ export class CaveGameplayController {
           { actionStartedAtMs: time },
         );
         if (result.success) this._applyMineResult(result, targetTile);
-        else this._showBlockedMineFeedback(result);
+        else this._showBlockedMineFeedback(result, targetTile);
       }, targetTile, targetDirection);
       return;
     }
@@ -209,13 +212,25 @@ export class CaveGameplayController {
     const result = this.digSystem.tryMine(targetTile, time, resolvedAim, abilities);
     if (result.reason !== "cooldown") this._playMiningAnimation(action, resolvedAim, time);
     if (result.success) this._applyMineResult(result, targetTile);
-    else this._showBlockedMineFeedback(result);
+    else this._showBlockedMineFeedback(result, targetTile);
   }
 
-  _showBlockedMineFeedback(result) {
+  _showBlockedMineFeedback(result, targetTile = null) {
     if (!result?.blockedByBedrock) return;
     const feedback = MINING_CONFIG.blockedUi;
     this.scene.flashStatus?.(feedback.bedrockMessage, feedback.color, feedback.durationMs);
+    if (!targetTile) return;
+    const tileSize = this.scene.config.tileSize;
+    const worldX = targetTile.tx * tileSize + tileSize / 2;
+    const worldY = targetTile.ty * tileSize + tileSize / 2;
+    this.floatingTextSystem?.showFloatingText(
+      worldX,
+      worldY,
+      feedback.zeroDamageText,
+      feedback.zeroDamageColor,
+      feedback.zeroDamageDurationMs,
+      feedback.zeroDamageFontSize,
+    );
   }
 
   _applyMineResult(result, targetTile) {
@@ -350,7 +365,7 @@ export class CaveGameplayController {
     this.scene.player.setDisplaySize(displaySize, displaySize);
   }
 
-  _updateLocomotionVisual(time) {
-    this.actionAnimationRuntime.updateLocomotionVisual(time);
+  _updateLocomotionVisual(time, deltaMs) {
+    this.actionAnimationRuntime.updateLocomotionVisual(time, deltaMs);
   }
 }

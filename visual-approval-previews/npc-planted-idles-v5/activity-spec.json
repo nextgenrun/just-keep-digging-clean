@@ -1,0 +1,146 @@
+{
+  "created": "2026-07-26",
+  "title": "NPC Planted Idle Library v5",
+  "runtimePack": "npc-v11-piskel-motion-idles",
+  "activityIds": [
+    "quiet",
+    "work",
+    "rare",
+    "player",
+    "inspect",
+    "habit",
+    "signature",
+    "showcase"
+  ],
+  "quietLoop": {
+    "frameIds": ["quiet0", "quiet1", "quiet2", "quiet3"],
+    "sequence": ["quiet0", "quiet1", "quiet2", "quiet3", "quiet2", "quiet1"],
+    "frameDurationsMs": [2200, 900, 900, 1100, 900, 900],
+    "transitionMs": 520,
+    "initialHoldMs": [900, 2400],
+    "loopGapMs": [1600, 3600]
+  },
+  "townRhythm": {
+    "quietShare": 0.86,
+    "maxSimultaneousActivities": 1,
+    "normalEventGapMs": [11000, 18000],
+    "activityWeights": {
+      "work": 0.24,
+      "rare": 0.04,
+      "inspect": 0.22,
+      "habit": 0.20,
+      "signature": 0.17,
+      "showcase": 0.13
+    }
+  },
+  "npcs": [
+    {
+      "slug": "player-upgrades",
+      "merchantId": "playerUpgrades",
+      "label": "Player Upgrades",
+      "board": "character",
+      "row": 0,
+      "rhythm": "Precise hand business around goggles, cylinder, tools, and plans; both boots remain planted.",
+      "activities": [
+        {"id": "quiet", "label": "Quiet ready", "description": "Calm planted breath with the cylinder held near the chest.", "durationMs": 12000},
+        {"id": "work", "label": "Blueprint calibration", "description": "Unroll and inspect the plan with a precise hand movement.", "durationMs": 6000},
+        {"id": "rare", "label": "Spark catch", "description": "A harmless gadget spark surprises him before a controlled recovery.", "durationMs": 5000},
+        {"id": "player", "label": "Present the plan", "description": "Acknowledge the player and proudly present the plan.", "durationMs": 5400},
+        {"id": "inspect", "label": "Adjust goggles", "description": "Check the lens while the cylinder stays secure.", "durationMs": 5700},
+        {"id": "habit", "label": "Tune the cylinder", "description": "Use a small belt tool for a careful adjustment.", "durationMs": 6400},
+        {"id": "signature", "label": "Mark the notes", "description": "Review and mark the existing blueprint notes.", "durationMs": 6500},
+        {"id": "showcase", "label": "Brace the device", "description": "Re-seat the cylinder and hold it with quiet pride.", "durationMs": 6100}
+      ]
+    },
+    {
+      "slug": "gear-merchant",
+      "merchantId": "gearMerchant",
+      "label": "Gear Merchant",
+      "board": "character",
+      "row": 1,
+      "rhythm": "Heavy grounded gear checks led by strap, lamp, pouch, pickaxe, and beard.",
+      "activities": [
+        {"id": "quiet", "label": "Heavy rest", "description": "A planted rest with the backpack weight carried through the strap.", "durationMs": 13000},
+        {"id": "work", "label": "Inspect the edge", "description": "Bring forward and inspect the existing pickaxe edge.", "durationMs": 6600},
+        {"id": "rare", "label": "Tool catch", "description": "Catch a slipping tool and recover with sturdy satisfaction.", "durationMs": 5400},
+        {"id": "player", "label": "Present the gear", "description": "Offer the pickaxe with an open merchant gesture.", "durationMs": 5800},
+        {"id": "inspect", "label": "Tighten the strap", "description": "Settle the backpack weight without shifting his boots.", "durationMs": 6200},
+        {"id": "habit", "label": "Polish the lamp", "description": "Clean the helmet lamp with a practiced hand.", "durationMs": 6500},
+        {"id": "signature", "label": "Check the pouch", "description": "Inspect a familiar bottle and tool pouch.", "durationMs": 6800},
+        {"id": "showcase", "label": "Beard and pickaxe", "description": "Lean on the planted pickaxe and scratch his beard.", "durationMs": 6700}
+      ]
+    },
+    {
+      "slug": "bobo-merchant",
+      "merchantId": "boboMerchant",
+      "label": "Bobo Merchant",
+      "board": "character",
+      "row": 2,
+      "rhythm": "Friendly nose, ears, scarf, medallion, tail, and potion overlap while paws stay home.",
+      "activities": [
+        {"id": "quiet", "label": "Friendly wait", "description": "Relaxed planted breathing with a soft tail response.", "durationMs": 11500},
+        {"id": "work", "label": "Potion rummage", "description": "Rummage in the backpack and pull forward an existing bottle.", "durationMs": 6000},
+        {"id": "rare", "label": "Dog shake", "description": "A playful in-place shake with delayed ears, tail, bottle, and medallion.", "durationMs": 5200},
+        {"id": "player", "label": "Potion wave", "description": "Notice the player, wave warmly, and offer the bottle.", "durationMs": 5400},
+        {"id": "inspect", "label": "Potion sniff", "description": "Sniff the familiar potion and consider the result.", "durationMs": 5600},
+        {"id": "habit", "label": "Straighten scarf", "description": "Neaten the scarf and medallion with both paws planted.", "durationMs": 6100},
+        {"id": "signature", "label": "Curious listen", "description": "Tilt the head as ears and tail answer a distant sound.", "durationMs": 6300},
+        {"id": "showcase", "label": "Proud potion", "description": "Present the potion with an inviting open paw.", "durationMs": 5800}
+      ]
+    },
+    {
+      "slug": "money-monster",
+      "merchantId": "moneyMonster",
+      "label": "Money Monster",
+      "board": "creature",
+      "row": 0,
+      "rhythm": "Coin, pouch, necklace, and eye acting create variety without a single roaming step.",
+      "activities": [
+        {"id": "quiet", "label": "Guard the coin", "description": "A sly planted hold with one coin visible and the pouch close.", "durationMs": 12500},
+        {"id": "work", "label": "Count and roll", "description": "Count loose coins while the eye tracks them.", "durationMs": 6300},
+        {"id": "rare", "label": "Test and protect", "description": "Bite-test the coin, hug the pouch, and squint suspiciously.", "durationMs": 5600},
+        {"id": "player", "label": "Hide and tempt", "description": "Guard the pouch while tempting the player with one coin.", "durationMs": 5400},
+        {"id": "inspect", "label": "Stack the coins", "description": "Balance a neat stack on one broad hand.", "durationMs": 6000},
+        {"id": "habit", "label": "Polish a coin", "description": "Buff one favorite coin against the robe.", "durationMs": 6100},
+        {"id": "signature", "label": "Listen to the pouch", "description": "Rattle the pouch gently and judge its sound.", "durationMs": 6500},
+        {"id": "showcase", "label": "Fan the fortune", "description": "Display a proud fan of coins while guarding the pouch.", "durationMs": 6200}
+      ]
+    },
+    {
+      "slug": "gem-power-merchant",
+      "merchantId": "gemPowerMerchant",
+      "label": "Gem Power Merchant",
+      "board": "creature",
+      "row": 1,
+      "rhythm": "Staff and crystal business stays weighty, deliberate, and exactly bottom-anchored.",
+      "activities": [
+        {"id": "quiet", "label": "Grounded charge", "description": "A heavy planted breath with a restrained staff glow.", "durationMs": 14000},
+        {"id": "work", "label": "Crystal orbit", "description": "Levitate two or three crystals in a readable arc.", "durationMs": 7000},
+        {"id": "rare", "label": "Controlled overload", "description": "Brace through a short crystal flare and dust release.", "durationMs": 5800},
+        {"id": "player", "label": "Open the display", "description": "Present the staff and crystal satchel to the player.", "durationMs": 5900},
+        {"id": "inspect", "label": "Examine a gem", "description": "Bring one gem close to the eye for inspection.", "durationMs": 6400},
+        {"id": "habit", "label": "Tune the staff", "description": "Touch a gem to the planted staff and listen for resonance.", "durationMs": 6800},
+        {"id": "signature", "label": "Arrange the cluster", "description": "Re-seat the crystal cluster in the satchel.", "durationMs": 6900},
+        {"id": "showcase", "label": "Resonance pulse", "description": "Send a restrained pulse around the planted staff.", "durationMs": 6700}
+      ]
+    },
+    {
+      "slug": "magma-money-monster",
+      "merchantId": "magmaMoneyMonster",
+      "label": "Magma Money Monster",
+      "board": "creature",
+      "row": 2,
+      "rhythm": "Scale, chest, coin, chain, and furnace heat move while the massive feet stay locked.",
+      "activities": [
+        {"id": "quiet", "label": "Balanced guard", "description": "A planted hold with scale, chest, and furnace heat contained.", "durationMs": 15000},
+        {"id": "work", "label": "Weigh a coin", "description": "Add one coin and lean in to judge the scale.", "durationMs": 6800},
+        {"id": "rare", "label": "Ember sneeze", "description": "A heat surge jolts the pans before a firm recovery.", "durationMs": 5700},
+        {"id": "player", "label": "Make the deal", "description": "Level the scales and offer a confident deal gesture.", "durationMs": 5800},
+        {"id": "inspect", "label": "Inspect the coin", "description": "Study one warm coin close to the furnace eye.", "durationMs": 6300},
+        {"id": "habit", "label": "Rebalance scales", "description": "Correct the two scale pans with careful weight.", "durationMs": 6700},
+        {"id": "signature", "label": "Lock the chest", "description": "Check and secure the heavy chest clasp.", "durationMs": 7000},
+        {"id": "showcase", "label": "Vent the furnace", "description": "Release a controlled heat flare while holding every prop firm.", "durationMs": 6600}
+      ]
+    }
+  ]
+}

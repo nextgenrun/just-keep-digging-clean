@@ -5,12 +5,14 @@ import {
   PLAYER_TARGET_VARIANTS,
   PLAYER_TILE_CONTACT_CONFIG,
 } from "../values/playerTileContact.js";
+import { TILE_TYPES } from "../values/tileTypes.js";
 import {
   getAabbAdjacentAimCandidates,
   getPlayerBodyTileSpan,
   isTargetTileAdjacentToPlayerBody,
   resolvePlayerTargetDirection,
 } from "../player/playerDirectionalTargets.js";
+import { PlayerAbilities } from "../player/PlayerAbilities.js";
 import { PlayerSolidOcclusionSystem } from "../systems/visual/PlayerSolidOcclusionSystem.js";
 
 const TILE_SIZE = 94;
@@ -102,6 +104,54 @@ assert.deepEqual(
   resolvePlayerTargetDirection(straddledBody, TILE_SIZE, { tx: 10, ty: 9 }),
   { aimLabel: "UP-LEFT", variant: PLAYER_TARGET_VARIANTS.upSide, x: -1, y: -1 },
 );
+
+// Thunder Strike starts on the first cell outside the body, including when the
+// player's feet sit exactly on the floor tile boundary.
+{
+  const visitedTiles = [];
+  const damagedTiles = [];
+  const abilities = Object.create(PlayerAbilities.prototype);
+  Object.assign(abilities, {
+    _thunderStrikeCharging: true,
+    _godMode: true,
+    gemPower: 0,
+    body,
+    config: { tileSize: TILE_SIZE },
+    worldModel: {
+      depth: 50,
+      isDiggable(tx, ty) {
+        visitedTiles.push({ tx, ty });
+        return tx === 10 && ty === 11;
+      },
+      getTileType: () => TILE_TYPES.DIRT,
+      damageTile(tx, ty, damage) {
+        damagedTiles.push({ tx, ty, damage });
+        return {
+          destroyed: false,
+          typeBeforeDamage: TILE_TYPES.DIRT,
+          wasRubble: false,
+        };
+      },
+    },
+    upgradeSystem: { getUpgradeLevel: () => 0 },
+    getThunderStrikeCost: () => 0,
+    getConstellationStats: () => ({}),
+    _getNormalMiningDamageForTile: () => 10,
+  });
+
+  const strike = abilities.executeThunderStrike();
+  assert.equal(strike.success, true);
+  assert.deepEqual(visitedTiles, [
+    { tx: 10, ty: 11 },
+    { tx: 10, ty: 12 },
+    { tx: 10, ty: 13 },
+    { tx: 10, ty: 14 },
+    { tx: 10, ty: 15 },
+  ]);
+  assert.deepEqual(damagedTiles.map(({ tx, ty }) => ({ tx, ty })), [{ tx: 10, ty: 11 }]);
+  assert.ok(damagedTiles[0].damage > 0);
+  assert.equal(strike.results[0].ty, 11);
+}
 
 function createMaskHarness(rendererType, isUalNative = true) {
   const listeners = new Map();

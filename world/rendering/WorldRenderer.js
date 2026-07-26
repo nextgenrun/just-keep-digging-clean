@@ -22,6 +22,7 @@ import {
   SOIL_DAMAGE_STAGE_COUNT,
   getSoilAtlasOffset,
 } from "../../values/dynamicSoil.js";
+import { TitanDiscoverySystem } from "../../systems/visual/TitanDiscoverySystem.js";
 
 // Resource colors used for brief "what's inside" flashes on sky tiles.
 const RESOURCE_GLOW_COLORS = Object.freeze(
@@ -175,6 +176,7 @@ export class WorldRenderer {
     // Glow crystal — pretty colored crystal clusters
     this._glowCrystalGfx = null;
     this._glowCrystalShardGfx = null;
+    this.titanDiscoverySystem = null;
   }
 
   create() {
@@ -204,6 +206,12 @@ export class WorldRenderer {
     this._glowCrystalGfx.setDepth(1).setBlendMode(Phaser.BlendModes.ADD);
     this._glowCrystalShardGfx = this.scene.add.graphics();
     this._glowCrystalShardGfx.setDepth(2); // Physical shards stay under darkness reveal.
+    this.titanDiscoverySystem = new TitanDiscoverySystem(this.scene, this.worldModel);
+    this.titanDiscoverySystem.create();
+  }
+
+  update(time, delta, context = {}) {
+    this.titanDiscoverySystem?.update(time, delta, context);
   }
 
   /**
@@ -449,6 +457,7 @@ export class WorldRenderer {
   applyTileUpdate(tx, ty) {
     this.scene.levelOneGroundFacadeSystem?.invalidateCell(tx, ty);
     this.scene.worldScenicFacadeSystem?.invalidateCell(tx, ty);
+    this.titanDiscoverySystem?.invalidateTile(tx, ty);
     const localTy = this._toLocalTileY(ty);
     if (localTy === null) return;
     const renderIndex = this.worldModel.getRenderIndex(tx, ty);
@@ -513,6 +522,11 @@ export class WorldRenderer {
         }
       }
     }
+    this.titanDiscoverySystem?.refresh();
+  }
+
+  getTitanDiscoverySnapshot() {
+    return this.titanDiscoverySystem?.getSnapshot() || null;
   }
 
   /**
@@ -712,6 +726,7 @@ export class WorldRenderer {
     for (const zone of treasureRooms) {
       const tx = zone.chestTx;
       const ty = zone.chestTy;
+      if (this.worldModel.getTileType(tx, ty) !== TILE_TYPES.CHEST) continue;
       
       // Only render if within view range
       if (Math.abs(tx - playerTile.tx) > viewRange || Math.abs(ty - playerTile.ty) > viewRange) continue;
@@ -744,6 +759,7 @@ export class WorldRenderer {
       // Hidden cave treasure room — render a golden glow at the center
       const cx = zone.cx;
       const cy = zone.cy;
+      if (this.worldModel.getTileType(cx, cy) !== TILE_TYPES.CHEST) continue;
       
       if (Math.abs(cx - playerTile.tx) > viewRange || Math.abs(cy - playerTile.ty) > viewRange) continue;
       
@@ -907,6 +923,8 @@ export class WorldRenderer {
    * Clean up graphics objects created by this renderer
    */
   destroy() {
+    this.titanDiscoverySystem?.destroy();
+    this.titanDiscoverySystem = null;
     this._skyTileGraphics?.destroy();
     this._specialBlockGraphics?.destroy();
     this.rootOverlayLayer?.destroy();

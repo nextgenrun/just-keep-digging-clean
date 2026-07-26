@@ -7,10 +7,25 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 2. **Archive outdated tools:** Move to `/archive/` with date prefix when superseded
 3. **Keep readme updated:** Document what each active tool does
 
+## Generated asset sources
+
+`2026-07-26-hud-torch-off-source.png` is the alpha-clean ImageGen source for
+the approved HUD's extinguished torch state.
+
+The five `2026-07-26-graveborer-wurm-*-source-chroma-v1.png` files are the
+full-resolution ImageGen extraction sources for the Hardcore Wurm head, body,
+tail, threat medallion, and burrow-warning seam. The matching
+`2026-07-26-hardcore-graveborer-wurm-gameplay-mockup-v1.png` records their
+approved in-game scale and readability direction. Runtime alpha masters and
+WebPs live under `sprites/environment/graveborer-wurm-v1/`.
+
 ## Active Tools
 
 | Tool | Purpose |
 |------|---------|
+| `2026-07-26-build-surface-prop-scale-sheet-v1.py` | Render the live Level 1 and Level 2 cutouts from their values/asset-key SSOT at one player-relative physical scale for review |
+| `2026-07-26-lift-surface-prop-midtone-v1.py` | Build non-resized, alpha-preserving Level 2 v2 prop variants from the retained ImageGen v1 cutouts, lifting only dark midtones for forest readability and emitting a hash manifest |
+| `2026-07-26-build-hud-torch-states.py` | Composite the generated extinguished torch onto the locked approved HUD core while preserving its exact 417x93 geometry |
 | `2026-06-25-bulk-migrate.py` | Bulk file migration/restructuring |
 | `2026-06-25-check-404s.ps1` | Check for 404 resource errors |
 | `2026-06-25-fix-404s.py` | Fix 404 resource paths |
@@ -89,6 +104,20 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 | `2026-07-18-build-superman-pose-editor.py` | Build the simple upright-idle Survivor Blender workbook with large body, hand, and foot controls for review-only Superman pose editing |
 | `2026-07-18-build-superman-horizontal-idle.py` | Strip the rejected pose-editor controls from the approved idle snapshot, rotate it flat by 90 degrees, and save a clean review-only horizontal idle preset |
 | `2026-07-18-render-directional-side-punch-review.py` | Render the approved Punch Cross unchanged plus isolated upward and downward torso layers into review-only browser candidates |
+| `2026-07-26-render-superman-flight-prone-v3-runtime.py` | Render the exact approved prone-v3 Blender pose as a mirrored, source-facing-right 36-frame production flight loop while retaining the old Push Loop sheet for rollback |
+| `2026-07-26-build-npc-idle-director-review.py` | Crop the two ImageGen NPC director boards into synchronized review poses, build the current-versus-proposed contact sheet, and record active runtime hashes without changing production assets |
+| `2026-07-26-build-npc-activity-review.py` | Crop the two v3 NPC activity boards into inspectable poses, build the labeled activity contact sheet, and record review-only hashes without changing production assets |
+| `2026-07-26-build-npc-planted-idles-v9.py` | Detect isolated 4x3 panels across the approved v3 and planted v5 boards, rebuild 48 cache-safe review crops, extract/align transparent v9 runtime cutouts to one per-merchant baseline, reject edge contamination, and emit the checkerboard QA and provenance manifests |
+| `2026-07-26-build-titan-sprites.py` | Split the approved 5x5 chroma-cleaned titan atlas into 25 normalized transparent runtime silhouettes, build the dark-background QA sheet, and normalize the ImageGen-approved Titan Walk plinth alpha master into its bounded runtime sprite |
+| `2026-07-26-build-underground-biome-backgrounds-v2.py` | Convert mockups 51-100 into 50 unique exact-1536x1024 WebP scenic cards, allowing only a two-pixel source normalization and verifying dimensions, format, hashes, and output inventory |
+| `2026-07-26-build-underground-biome-motion-runtime-v1.py` | Preserve the ten original motion-ready paintings as exact-1536x1024 static WebP derivatives; these are no longer the active motion implementation |
+| `2026-07-26-build-underground-biome-baked-motion-v2.py` | Build ten silent four-second VP9 moving images from composition-locked painted keyframe pairs, bake the restrained whole-image float into the encoded frames, verify codec/dimensions/fps/duration/hash/inventory, and emit the runtime manifest |
+| `2026-07-26-build-opening-flight-v2-assets.py` | Crop and losslessly pack the five chroma-cleaned Golden Five onboarding sprites, including the premium objective-HUD frame, into compact alpha-safe runtime WebPs |
+| `2026-07-26-build-milestone-pillar-review-assets.py` | Split the five transparent ImageGen milestone-pillar progression sheets into 25 baseline-aligned Phaser review stages and emit their review-only manifest |
+| `2026-07-26-build-milestone-pillar-runtime-contact-sheet.py` | Assemble the five stage-5 Phaser review captures into one labeled visual-approval contact sheet |
+| `2026-07-26-build-approved-pillar-assets.py` | Pixel-verify the user's two approved screenshots against their reviewed sheets, promote screenshot 1/C and screenshot 2/A into ten RGBA production stages, and emit hashes/provenance under `sprites/environment/approved-pillars-v1/` |
+| `2026-07-26-build-earthquake-feedback-ui-v2.py` | Pack the chroma-cleaned ImageGen seismic status master into a 2x Phaser status plate and reusable hazard medallion with alpha and size validation |
+| `2026-07-26-build-exact-town-square-ground.py` | Crop the approved Option A ground band pixel-exactly, append only a 129 px mirrored alpha handoff, and emit the ground-only v2 runtime asset plus hash provenance |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

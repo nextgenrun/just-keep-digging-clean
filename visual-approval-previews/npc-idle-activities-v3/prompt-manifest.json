@@ -1,0 +1,29 @@
+{
+  "created": "2026-07-26",
+  "mode": "built-in image_gen",
+  "useCase": "stylized-concept",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "prompts": [
+    {
+      "id": "character-activity-board-v3",
+      "output": "npc-activity-director-board-character-v3.png",
+      "inputs": [
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/player-upgrades.png",
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/gear-merchant.png",
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/bobo-merchant.png"
+      ],
+      "spec": "Create a clean 3-row by 4-column review-only motion-acting board for the exact three reference characters. Match their polished fantasy-game render style and preserve face, species, proportions, costume, colors, accessories, backpack, tools, and identity. Use twelve separate charcoal cells with large gutters, one centered full-body character per cell, consistent scale, planted feet, no text, and no overlap. Row 1 Player Upgrades: quiet cylinder hold; blueprint calibration; harmless spark catch; player-facing plan presentation. Row 2 Gear Merchant: heavy pack rest; inspect/polish existing pickaxe; tool slip and catch; player-facing gear presentation. Row 3 Bobo: friendly wait; backpack potion rummage; playful dog shake with delayed ears/tail/bottle; player-facing wave and potion offer. Use only existing props, prioritize silhouette and prop arcs at 138 px, return to anchor, and avoid roaming, combat, cropping, invented props, extra characters, UI, watermark, and green background."
+    },
+    {
+      "id": "creature-activity-board-v3",
+      "output": "npc-activity-director-board-creature-v3.png",
+      "inputs": [
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/money-monster.png",
+        "sprites/npc/npc-v5-generated/singles/merchant-idle/gem-power-merchant.png",
+        "sprites/npc/npc-v7-level-two/magma-money-monster.png"
+      ],
+      "spec": "Create a clean 3-row by 4-column review-only motion-acting board for the exact three reference creatures. Match their polished fantasy-game render style and preserve species, eye design, proportions, materials, costume, jewelry, staff, pouch, scale, chest, and identity. Use twelve separate charcoal cells with large gutters, one centered full-body creature per cell, consistent scale, planted feet, no text, and no overlap. Row 1 Money Monster: sly coin guard; count or knuckle-roll coins; bite-test coin and protect pouch; hide pouch while tempting player with one coin. Row 2 Gem Merchant: grounded staff charge; orbit two or three existing crystals; controlled crystal overload and dust; player-facing gem display. Row 3 Magma Monster: balanced scale/chest guard; weigh one coin; ember sneeze and catch swinging pans; player-facing deal gesture. Use only existing props or tiny loose versions of existing coins/crystals, prioritize silhouette and prop arcs at 138 px, return to anchor, and avoid roaming, combat, cropping, extra limbs or eyes, invented props, UI, watermark, and green background."
+    }
+  ]
+}

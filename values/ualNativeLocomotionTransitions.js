@@ -18,6 +18,10 @@ export const UAL_NATIVE_LOCOMOTION_PHASES = Object.freeze({
 
 export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
   ground: Object.freeze({
+    // The production run slot is the approved UAL Jog_Fwd_Loop. Grounded
+    // movement always uses that gait; the walk thresholds remain available to
+    // the isolated tuning lab and as a velocity fallback for non-runtime users.
+    gaitAnimationRole: "run",
     moveEnterSpeedPxPerSec: 24,
     moveExitSpeedPxPerSec: 10,
     runEnterSpeedPxPerSec: 270,
@@ -31,6 +35,13 @@ export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
   airborne: Object.freeze({
     riseEnterVelocityPxPerSec: -18,
     fallEnterVelocityPxPerSec: 28,
+  }),
+  landing: Object.freeze({
+    minImpactSpeedPxPerSec: 260,
+    hardImpactSpeedPxPerSec: 600,
+    mediumTimeScale: 1.4,
+    hardTimeScale: 1,
+    moveCancelAfterFrameIndex: 5,
   }),
   facing: Object.freeze({
     directionEpsilonPxPerSec: 1,

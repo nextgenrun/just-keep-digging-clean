@@ -57,21 +57,21 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
     beautyAtlas: Object.freeze({
       ...asset(
         "world-visual-v2-semantic-special-rewards-beauty",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v1.png?v=20260717b"
+        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v2.png?v=20260726a"
       ),
       columns: 4,
       frameSizePx: 256,
-      frameCount: 7,
+      frameCount: 8,
       framePrefix: "world-visual-v2-semantic-special-reward-beauty-",
     }),
     emissiveAtlas: Object.freeze({
       ...asset(
         "world-visual-v2-semantic-special-rewards-emissive",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-emissive-v1.png?v=20260717b"
+        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-emissive-v2.png?v=20260726a"
       ),
       columns: 4,
       frameSizePx: 256,
-      frameCount: 7,
+      frameCount: 8,
       framePrefix: "world-visual-v2-semantic-special-reward-emissive-",
     }),
     frameByTileType: Object.freeze({
@@ -82,6 +82,7 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
       [TILE_TYPES.BERSERK_BLOCK]: 4,
       [TILE_TYPES.COMBO_BLOCK]: 5,
       [TILE_TYPES.LEGEND_BLOCK]: 6,
+      [TILE_TYPES.ANCIENT_RELIC_CACHE]: 7,
     }),
     scale: 0.84,
     beautyAlpha: 0.94,
@@ -96,6 +97,7 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
     ),
     semantic: "bedrock",
     includesCaveWall: true,
+    includesTownFloors: true,
     alpha: 1,
     lightingLift: 0.38,
     coolTint: 0xbddcff,
@@ -134,6 +136,7 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
     starBeautyDepth: 2.43,
     specialBeautyDepth: 2.44,
     starEmissiveDepth: 898,
+    townFloorOccludedEmissiveDepth: 2.44,
     emissiveBlendMode: "ADD",
   }),
   performance: Object.freeze({

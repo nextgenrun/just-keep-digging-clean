@@ -52,13 +52,27 @@ export function createUalNativePlayerAnimations(scene, profile) {
   createAnimation(scene, profile.flightTravelLoopAnim, profile.flightTravelLoopSheet, profile.flightTravelLoopFrames, profile.flightTravelLoopAnimationFps || profile.flyClimbAnimationFps, -1);
   createAnimation(scene, profile.flightHoverAnim, profile.flightHoverSheet, profile.flightHoverFrames, profile.flightHoverAnimationFps || profile.flyClimbAnimationFps, -1);
   createAnimation(scene, profile.flightExitAnim, profile.flightExitSheet, profile.flightExitFrames, profile.flightExitAnimationFps || profile.airborneAnimationFps, 0);
-  createAnimation(scene, profile.landingAnim, profile.landingSheet, profile.landingFrames, profile.airborneAnimationFps, 0);
+  createAnimation(
+    scene,
+    profile.landingAnim,
+    profile.landingSheet,
+    profile.landingFrames,
+    profile.landingAnimationFps || profile.airborneAnimationFps,
+    0,
+  );
   createAnimation(scene, profile.duckAnim, profile.duckSheet, profile.duckFrames, profile.duckAnimationFps, -1);
 
   createAnimation(scene, profile.digDownAnim, profile.digDownSheet, profile.digDownFrames, profile.digDownAnimationFps, 0);
   createConfiguredAnimations(scene, profile.digAnimationVariants);
 
-  createAnimation(scene, profile.digUpLookAnim, profile.digUpLookSheet, profile.digUpLookFrames, profile.idleAnimationFps, -1);
+  createAnimation(
+    scene,
+    profile.digUpLookAnim,
+    profile.digUpLookSheet,
+    profile.digUpLookFrames,
+    profile.digUpLookAnimationFps || profile.idleAnimationFps,
+    -1,
+  );
   createAnimation(scene, profile.wallPushAnim, profile.wallPushSheet, profile.wallPushFrames, profile.wallPushAnimationFps, -1);
   createAnimation(scene, profile.leanAgainstWallAnim, profile.leanAgainstWallSheet, profile.leanAgainstWallFrames, profile.leanAgainstWallAnimationFps, -1);
   createAnimation(scene, profile.combatIdleRecoverAnim, profile.combatIdleRecoverSheet, profile.combatIdleRecoverFrames, profile.combatIdleRecoverAnimationFps, -1);

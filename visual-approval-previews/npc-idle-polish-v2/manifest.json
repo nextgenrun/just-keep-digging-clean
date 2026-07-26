@@ -1,0 +1,351 @@
+{
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeAssetsChanged": false,
+  "generatedOn": "2026-07-26",
+  "currentRuntimeContract": {
+    "animatedMerchants": 5,
+    "staticMerchants": 1,
+    "format": "transparent VP9 WebM",
+    "frameSizePx": 1024,
+    "frames": 120,
+    "fps": 30,
+    "durationSeconds": 4,
+    "gameDisplaySizePx": 137.95,
+    "fallback": "static v5 merchant singles when VP9 WebM is unavailable"
+  },
+  "technicalFindings": [
+    "The five loaded WebMs are byte-identical to the approved v1 review masters.",
+    "Three animated merchants are still-image deformation loops rather than articulated performances.",
+    "All five videos share the same four-second rhythm and are started together during NPC creation.",
+    "Magma Money Monster is active but has no videoKey and therefore remains static.",
+    "No proximity, greeting, shop-open, or voice-line animation state is selected; every video loops continuously.",
+    "Five 1024x1024 alpha videos are decoded for an approximately 138px display, so a future production pass should benchmark smaller masters."
+  ],
+  "boards": {
+    "character": "visual-approval-previews/npc-idle-polish-v2/npc-idle-director-board-character-v2.png",
+    "creature": "visual-approval-previews/npc-idle-polish-v2/npc-idle-director-board-creature-v2.png"
+  },
+  "contactSheet": "visual-approval-previews/npc-idle-polish-v2/npc-idle-polish-v2-contact-sheet.png",
+  "reviewSpec": "visual-approval-previews/npc-idle-polish-v2/review-spec.json",
+  "npcs": [
+    {
+      "slug": "player-upgrades",
+      "label": "Player Upgrades",
+      "runtimeId": "playerUpgrades",
+      "durationSeconds": 5.6,
+      "currentKind": "identity-locked still warp",
+      "issue": "The torso, coat, hands, and tool drift together; the cylinder never becomes the idea.",
+      "proposal": "Inspect cylinder, catch a goggle glint, adjust, then return through a clean settle.",
+      "secondary": "Coat hem and belt tools trail the hand by two to three frames.",
+      "currentAsset": "sprites/npc/npc-v6-animated/merchant-idle/player-upgrades-idle-alpha.webm",
+      "currentSha256": "6346c36697df5e985417ec64c5c8ab4ebd101fbc06f10efe792381e9afa737db",
+      "identityReference": "sprites/npc/npc-v5-generated/singles/merchant-idle/player-upgrades.png",
+      "currentPosePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-00.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-01.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-02.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-03.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-04.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-05.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-06.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-07.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-08.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-09.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-10.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/player-upgrades-sample-11.webp"
+      ],
+      "currentPoseLabels": [
+        "runtime 0%",
+        "runtime 8%",
+        "runtime 17%",
+        "runtime 25%",
+        "runtime 33%",
+        "runtime 42%",
+        "runtime 50%",
+        "runtime 58%",
+        "runtime 67%",
+        "runtime 75%",
+        "runtime 83%",
+        "runtime 92%"
+      ],
+      "posePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/poses/player-upgrades-pose-0.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/player-upgrades-pose-1.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/player-upgrades-pose-2.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/player-upgrades-pose-3.webp"
+      ],
+      "poseLabels": [
+        "neutral",
+        "anticipation",
+        "character beat",
+        "settle"
+      ]
+    },
+    {
+      "slug": "gear-merchant",
+      "label": "Gear Merchant",
+      "runtimeId": "gearMerchant",
+      "durationSeconds": 6.4,
+      "currentKind": "identity-locked still warp",
+      "issue": "The pack and miner move as one rigid card; the lamp pulse has no physical cause.",
+      "proposal": "Shift the heavy pack through the shoulder strap, check the lamp, then replant the weight.",
+      "secondary": "Beard, pickaxe, bottles, and hanging tools settle in descending weight order.",
+      "currentAsset": "sprites/npc/npc-v6-animated/merchant-idle/gear-merchant-idle-alpha.webm",
+      "currentSha256": "19cbca6cb74af40f44de7a4fad87e68086082a26279d0fde9a6f07266f4a1bc1",
+      "identityReference": "sprites/npc/npc-v5-generated/singles/merchant-idle/gear-merchant.png",
+      "currentPosePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-00.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-01.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-02.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-03.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-04.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-05.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-06.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-07.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-08.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-09.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-10.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gear-merchant-sample-11.webp"
+      ],
+      "currentPoseLabels": [
+        "runtime 0%",
+        "runtime 8%",
+        "runtime 17%",
+        "runtime 25%",
+        "runtime 33%",
+        "runtime 42%",
+        "runtime 50%",
+        "runtime 58%",
+        "runtime 67%",
+        "runtime 75%",
+        "runtime 83%",
+        "runtime 92%"
+      ],
+      "posePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/poses/gear-merchant-pose-0.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/gear-merchant-pose-1.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/gear-merchant-pose-2.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/gear-merchant-pose-3.webp"
+      ],
+      "poseLabels": [
+        "neutral",
+        "anticipation",
+        "character beat",
+        "settle"
+      ]
+    },
+    {
+      "slug": "bobo-merchant",
+      "label": "Bobo Merchant",
+      "runtimeId": "boboMerchant",
+      "durationSeconds": 5.9,
+      "currentKind": "supplied character loop",
+      "issue": "Pleasant motion, but the silhouette stays generic and the dog personality is quiet at game scale.",
+      "proposal": "Curious sniff and head tilt, ear response, two tail beats, then a soft relaxed return.",
+      "secondary": "Backpack bottle and paw medallion answer the tail with a short delayed swing.",
+      "currentAsset": "sprites/npc/npc-v6-animated/merchant-idle/bobo-merchant-idle-alpha.webm",
+      "currentSha256": "02964aa4b1a32813b06d4e882e64d8ecb0738b3772aad03ba2ea667706fb4d42",
+      "identityReference": "sprites/npc/npc-v5-generated/singles/merchant-idle/bobo-merchant.png",
+      "currentPosePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-00.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-01.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-02.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-03.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-04.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-05.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-06.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-07.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-08.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-09.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-10.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/bobo-merchant-sample-11.webp"
+      ],
+      "currentPoseLabels": [
+        "runtime 0%",
+        "runtime 8%",
+        "runtime 17%",
+        "runtime 25%",
+        "runtime 33%",
+        "runtime 42%",
+        "runtime 50%",
+        "runtime 58%",
+        "runtime 67%",
+        "runtime 75%",
+        "runtime 83%",
+        "runtime 92%"
+      ],
+      "posePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/poses/bobo-merchant-pose-0.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/bobo-merchant-pose-1.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/bobo-merchant-pose-2.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/bobo-merchant-pose-3.webp"
+      ],
+      "poseLabels": [
+        "neutral",
+        "anticipation",
+        "character beat",
+        "settle"
+      ]
+    },
+    {
+      "slug": "money-monster",
+      "label": "Money Monster",
+      "runtimeId": "moneyMonster",
+      "durationSeconds": 6.1,
+      "currentKind": "supplied character loop",
+      "issue": "The loop is technically smooth, but the coin, eye, and pouch do not form a readable greedy beat.",
+      "proposal": "Track and roll the coin, give one sly squint, let the pouch and loose coins answer, then settle.",
+      "secondary": "Coin glint leads; necklace and purse land later without moving the planted feet.",
+      "currentAsset": "sprites/npc/npc-v6-animated/merchant-idle/money-monster-idle-alpha.webm",
+      "currentSha256": "e332b091b02da2f11c7813ecef7d4bfba0140e5119633bab366c76862fb1fb28",
+      "identityReference": "sprites/npc/npc-v5-generated/singles/merchant-idle/money-monster.png",
+      "currentPosePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-00.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-01.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-02.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-03.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-04.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-05.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-06.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-07.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-08.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-09.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-10.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/money-monster-sample-11.webp"
+      ],
+      "currentPoseLabels": [
+        "runtime 0%",
+        "runtime 8%",
+        "runtime 17%",
+        "runtime 25%",
+        "runtime 33%",
+        "runtime 42%",
+        "runtime 50%",
+        "runtime 58%",
+        "runtime 67%",
+        "runtime 75%",
+        "runtime 83%",
+        "runtime 92%"
+      ],
+      "posePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/poses/money-monster-pose-0.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/money-monster-pose-1.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/money-monster-pose-2.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/money-monster-pose-3.webp"
+      ],
+      "poseLabels": [
+        "neutral",
+        "anticipation",
+        "character beat",
+        "settle"
+      ]
+    },
+    {
+      "slug": "gem-power-merchant",
+      "label": "Gem Power Merchant",
+      "runtimeId": "gemPowerMerchant",
+      "durationSeconds": 6.7,
+      "currentKind": "identity-locked still warp",
+      "issue": "A global purple pulse makes every crystal react together, flattening scale and hierarchy.",
+      "proposal": "Charge the staff first; move light through eyes, chest, shoulder cluster, and satchel in sequence.",
+      "secondary": "A heavy stone-body compression and delayed crystal shimmer close the loop.",
+      "currentAsset": "sprites/npc/npc-v6-animated/merchant-idle/gem-power-merchant-idle-alpha.webm",
+      "currentSha256": "c05cc607c880bf195c3b6fb34d1fa90e95012313f4360aa970ef355590266b49",
+      "identityReference": "sprites/npc/npc-v5-generated/singles/merchant-idle/gem-power-merchant.png",
+      "currentPosePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-00.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-01.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-02.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-03.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-04.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-05.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-06.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-07.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-08.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-09.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-10.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/gem-power-merchant-sample-11.webp"
+      ],
+      "currentPoseLabels": [
+        "runtime 0%",
+        "runtime 8%",
+        "runtime 17%",
+        "runtime 25%",
+        "runtime 33%",
+        "runtime 42%",
+        "runtime 50%",
+        "runtime 58%",
+        "runtime 67%",
+        "runtime 75%",
+        "runtime 83%",
+        "runtime 92%"
+      ],
+      "posePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/poses/gem-power-merchant-pose-0.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/gem-power-merchant-pose-1.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/gem-power-merchant-pose-2.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/gem-power-merchant-pose-3.webp"
+      ],
+      "poseLabels": [
+        "neutral",
+        "anticipation",
+        "character beat",
+        "settle"
+      ]
+    },
+    {
+      "slug": "magma-money-monster",
+      "label": "Magma Money Monster",
+      "runtimeId": "magmaMoneyMonster",
+      "durationSeconds": 7.1,
+      "currentKind": "static fallback only",
+      "issue": "This active merchant has no idle video key, so it is the only fully motionless merchant.",
+      "proposal": "Dip the gold scale pan, flare the furnace cracks and eye, then let chest and coins absorb the weight.",
+      "secondary": "Ember intensity decays before the hanging metal finishes its settle.",
+      "currentAsset": "sprites/npc/npc-v7-level-two/magma-money-monster.png",
+      "currentSha256": "c93ae4b3fa82556ceefb11671f71f8ed5bc2fa698ef8a5976e5e4357076061ea",
+      "identityReference": "sprites/npc/npc-v7-level-two/magma-money-monster.png",
+      "currentPosePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp",
+        "visual-approval-previews/npc-idle-polish-v2/current-poses/magma-money-monster-static.webp"
+      ],
+      "currentPoseLabels": [
+        "runtime 0%",
+        "runtime 8%",
+        "runtime 17%",
+        "runtime 25%",
+        "runtime 33%",
+        "runtime 42%",
+        "runtime 50%",
+        "runtime 58%",
+        "runtime 67%",
+        "runtime 75%",
+        "runtime 83%",
+        "runtime 92%"
+      ],
+      "posePaths": [
+        "visual-approval-previews/npc-idle-polish-v2/poses/magma-money-monster-pose-0.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/magma-money-monster-pose-1.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/magma-money-monster-pose-2.webp",
+        "visual-approval-previews/npc-idle-polish-v2/poses/magma-money-monster-pose-3.webp"
+      ],
+      "poseLabels": [
+        "neutral",
+        "anticipation",
+        "character beat",
+        "settle"
+      ]
+    }
+  ]
+}

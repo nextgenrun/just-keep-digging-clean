@@ -3,16 +3,17 @@ import {
   ARC_CORE_UPGRADE_ID,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "../../values/arcCoreConfig.js";
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { ArcCoreVisualSystem } from "./ArcCoreVisualSystem.js";
 import { resolveArcCoreDigFootprint } from "./arcCoreDigFootprint.js";
 
 export class ArcCoreVehicleSystem {
-  constructor(scene) {
+  constructor(scene, options = {}) {
     this.scene = scene;
+    this.visuals = options.visualSystem
+      || new ArcCoreVisualSystem(scene, options);
     this.sprite = null;
     this.prompt = null;
-    this.digFx = null;
     this.active = false;
     this._interactConsumed = false;
   }
@@ -20,23 +21,27 @@ export class ArcCoreVehicleSystem {
   create() {
     const tileSize = this.scene.config.tileSize;
     const parking = ARC_CORE_CONFIG.parking;
-    this.sprite = this.scene.add
-      .image((parking.tileX + 0.5) * tileSize, (parking.tileY + 1) * tileSize, ASSET_KEYS.vehicles.arcCore)
-      .setOrigin(0.5, 1)
-      .setDepth(18)
-      .setDisplaySize(tileSize * ARC_CORE_CONFIG.displaySizeTiles, tileSize * ARC_CORE_CONFIG.displaySizeTiles);
+    const promptStyle = ARC_CORE_CONFIG.visual.prompt;
+    this.visuals
+      .create()
+      .setAnchor(
+        (parking.tileX + 0.5) * tileSize,
+        (parking.tileY + 1) * tileSize,
+      );
+    this.sprite = this.visuals.legacySprite;
+    this.prompt = this.scene.add.text(0, 0, "", {
+      fontFamily: promptStyle.fontFamily,
+      fontSize: `${promptStyle.fontSizePx}px`,
+      color: promptStyle.color,
+      stroke: promptStyle.stroke,
+      strokeThickness: promptStyle.strokeThickness,
+      align: promptStyle.align,
+    }).setOrigin(0.5, 1)
+      .setDepth(ARC_CORE_CONFIG.visual.promptDepth)
+      .setVisible(false);
 
-    this.prompt = this.scene.add.text(this.sprite.x, this.sprite.y - tileSize * 1.05, "", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "14px",
-      color: "#77F7FF",
-      stroke: "#06121A",
-      strokeThickness: 4,
-      align: "center",
-    }).setOrigin(0.5, 1).setDepth(22).setVisible(false);
-
-    this.digFx = this.scene.add.graphics().setDepth(21);
     this.syncOwnership();
+    this.visuals.update(this.scene.time?.now || 0);
   }
 
   isUnlocked() {
@@ -60,10 +65,7 @@ export class ArcCoreVehicleSystem {
 
   syncOwnership() {
     const unlocked = this.isUnlocked();
-    const profile = this.getActiveProfile();
-    const displaySize = this.scene.config.tileSize * profile.displaySizeTiles;
-    this.sprite?.setDisplaySize(displaySize, displaySize)
-      .setTint(unlocked ? (this.isOmegaUnlocked() ? 0xd9b3ff : 0xffffff) : 0x59636d);
+    this.visuals?.setProfile(this.isOmegaUnlocked(), unlocked);
     if (!unlocked && this.active) this.setActive(false, { silent: true });
     return unlocked;
   }
@@ -71,73 +73,128 @@ export class ArcCoreVehicleSystem {
   setActive(active, options = {}) {
     const next = Boolean(active) && this.isUnlocked();
     if (next === this.active) return this.active;
+    const transitionStarted = !options.silent
+      && this.visuals?.beginTransition(
+        next ? "enter" : "exit",
+        this.scene.time?.now || 0,
+      );
     this.active = next;
-    this.scene.player?.setVisible(!next);
+    this.scene.player?.setAlpha?.(1);
+    this.scene.player?.setVisible?.(transitionStarted ? true : !next);
     this.scene.playerBodyLanguage?.setEnabled?.(!next);
     if (!options.silent) {
       const profile = this.getActiveProfile();
+      const visual = ARC_CORE_CONFIG.visual;
       this.scene.hudSystem?.flashStatus?.(
         next
           ? `${profile.displayName || "Arc Core"} online — ${profile.dig.widthTiles} wide × ${profile.dig.depthTiles} deep mining`
           : `${profile.displayName || "Arc Core"} parked`,
-        next ? (this.isOmegaUnlocked() ? "#D96CFF" : "#63F5FF") : "#D6E2E8",
-        1800
+        next
+          ? (this.isOmegaUnlocked()
+            ? visual.omegaOnlineColor
+            : visual.smallOnlineColor)
+          : visual.parkedColor,
+        visual.onlineStatusDurationMs,
       );
     }
     return this.active;
+  }
+
+  resolveBottomAnchor() {
+    const tileSize = this.scene.config.tileSize;
+    if (this.active) {
+      const body = this.scene.playerController?.physicsBody;
+      if (body) {
+        return { x: body.x + body.w / 2, y: body.y + body.h };
+      }
+      return { x: this.scene.player.x, y: this.scene.player.y };
+    }
+    const parking = ARC_CORE_CONFIG.parking;
+    return {
+      x: (parking.tileX + 0.5) * tileSize,
+      y: (parking.tileY + 1) * tileSize,
+    };
+  }
+
+  updateVisualPresentation() {
+    const anchor = this.resolveBottomAnchor();
+    const aimDirection = this.scene.playerController?.getAimLabel?.() || "RIGHT";
+    this.visuals
+      .setAnchor(anchor.x, anchor.y)
+      .setDirection(aimDirection)
+      .setProfile(this.isOmegaUnlocked(), this.isUnlocked());
+    const state = this.visuals.update(this.scene.time?.now || 0);
+    if (state.transitionActive) {
+      this.scene.player?.setVisible?.(true);
+      this.scene.player?.setAlpha?.(state.playerAlpha);
+    } else {
+      this.scene.player?.setAlpha?.(1);
+      this.scene.player?.setVisible?.(!this.active);
+    }
+    return anchor;
+  }
+
+  positionPrompt(anchor) {
+    const tileSize = this.scene.config.tileSize;
+    const top = anchor.y - this.visuals.getDisplaySizePx();
+    this.prompt.setPosition(
+      anchor.x,
+      top - tileSize * ARC_CORE_CONFIG.visual.promptGapTiles,
+    );
   }
 
   update(playerTile, keys) {
     this._interactConsumed = false;
     if (!this.sprite || !playerTile) return false;
 
-    const tileSize = this.scene.config.tileSize;
     const parking = ARC_CORE_CONFIG.parking;
     const distance = Math.abs(playerTile.tx - parking.tileX) + Math.abs(playerTile.ty - parking.tileY);
     const inRange = distance <= ARC_CORE_CONFIG.interactRangeTiles;
+    const anchor = this.updateVisualPresentation();
+    this.positionPrompt(anchor);
+
+    if (this.visuals.isTransitioning()) {
+      this.prompt.setVisible(false);
+      return false;
+    }
 
     if (this.active) {
-      const interactPressed = keys?.interact && Phaser.Input.Keyboard.JustDown(keys.interact);
-      const body = this.scene.playerController?.physicsBody;
-      if (body) {
-        this.sprite.setPosition(body.x + body.w / 2, body.y + body.h);
-      } else {
-        this.sprite.setPosition(this.scene.player.x, this.scene.player.y);
-      }
+      const vehiclePressed = keys?.arcCoreVehicle
+        && Phaser.Input.Keyboard.JustDown(keys.arcCoreVehicle);
       this.prompt
-        .setPosition(this.sprite.x, this.sprite.y - tileSize * 1.05)
-        .setText(`[${USER_SETTINGS.getKeyLabel("interact")}] Exit Arc Core`)
+        .setText(`[${USER_SETTINGS.getKeyLabel("arcCoreVehicle")}] Exit Arc Core`)
         .setVisible(true);
-      this.scene.player?.setVisible(false);
 
-      if (interactPressed) {
+      if (vehiclePressed) {
         this._interactConsumed = true;
         this.setActive(false);
       }
       return this._interactConsumed;
     }
 
-    this.sprite.setPosition((parking.tileX + 0.5) * tileSize, (parking.tileY + 1) * tileSize);
-    this.prompt.setPosition(this.sprite.x, this.sprite.y - tileSize * 1.05);
-
     if (!inRange) {
       this.prompt.setVisible(false);
       return false;
     }
 
-    const interactPressed = keys?.interact && Phaser.Input.Keyboard.JustDown(keys.interact);
+    const vehiclePressed = keys?.arcCoreVehicle
+      && Phaser.Input.Keyboard.JustDown(keys.arcCoreVehicle);
     const unlocked = this.syncOwnership();
     const profile = this.getActiveProfile();
     this.prompt
       .setText(unlocked
-        ? `[${USER_SETTINGS.getKeyLabel("interact")}] Pilot ${profile.displayName || "Arc Core"}`
-        : "Arc Core locked\nBuy from Molten Money Monster")
+        ? `[${USER_SETTINGS.getKeyLabel("arcCoreVehicle")}] Pilot ${profile.displayName || "Arc Core"}`
+        : "Arc Core locked\nForge it with the Molten Money Monster")
       .setVisible(true);
 
-    if (interactPressed) {
+    if (vehiclePressed) {
       this._interactConsumed = true;
       if (unlocked) this.setActive(true);
-      else this.scene.hudSystem?.flashStatus?.("The Molten Money Monster sells this Arc Core.", "#FFB347", 1800);
+      else this.scene.hudSystem?.flashStatus?.(
+        "Complete the Heavenblocks, then forge this Arc Core with the Molten Money Monster.",
+        ARC_CORE_CONFIG.visual.lockedColor,
+        ARC_CORE_CONFIG.visual.lockedStatusDurationMs,
+      );
     }
     return this._interactConsumed;
   }
@@ -146,42 +203,17 @@ export class ArcCoreVehicleSystem {
     return resolveArcCoreDigFootprint(primaryTarget, aimDirection, this.getActiveProfile().dig);
   }
 
-  playDigPulse(targets) {
-    if (!this.digFx || !Array.isArray(targets) || targets.length === 0) return;
-    const tileSize = this.scene.config.tileSize;
-    this.digFx.clear();
-    const digConfig = this.getActiveProfile().dig;
-    this.digFx.lineStyle(3, digConfig.targetColor, 0.95);
-    for (const target of targets) {
-      this.digFx.strokeRect(target.tx * tileSize + 4, target.ty * tileSize + 4, tileSize - 8, tileSize - 8);
-    }
-    this.digFx.lineStyle(5, digConfig.beamColor, 0.8);
-    const first = targets[0];
-    this.digFx.lineBetween(
-      this.sprite.x,
-      this.sprite.y - tileSize * 0.48,
-      (first.tx + 0.5) * tileSize,
-      (first.ty + 0.5) * tileSize
-    );
-    this.digFx.setAlpha(1);
-    this.scene.tweens.killTweensOf(this.digFx);
-    this.scene.tweens.add({
-      targets: this.digFx,
-      alpha: 0,
-      duration: 180,
-      ease: "Quad.easeOut",
-      onComplete: () => this.digFx?.clear(),
-    });
+  playDigAnimation(targets, aimDirection, timeMs) {
+    return this.visuals.startDig(targets, aimDirection, timeMs);
   }
 
   destroy() {
     this.scene.player?.setVisible(true);
-    this.scene.tweens?.killTweensOf?.(this.digFx);
-    this.sprite?.destroy();
+    this.scene.player?.setAlpha?.(1);
     this.prompt?.destroy();
-    this.digFx?.destroy();
+    this.visuals?.destroy();
     this.sprite = null;
     this.prompt = null;
-    this.digFx = null;
+    this.visuals = null;
   }
 }

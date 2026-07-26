@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "generatedOn": "2026-07-26",
+  "productionChanged": true,
+  "scope": "Town Square ground only",
+  "source": "visual-approval-previews/village-floor-concepts-v1/01-worn-mountain-slate-street.png",
+  "sourceSize": [
+    1672,
+    941
+  ],
+  "sourceCrop": {
+    "x": 0,
+    "y": 468,
+    "width": 1672,
+    "height": 139
+  },
+  "approvedCorePixelExact": true,
+  "approvedCoreWidth": 1672,
+  "handoffWidth": 129,
+  "output": "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-facade-v2.png",
+  "outputSize": [
+    1801,
+    139
+  ],
+  "sourceFileSha256": "b7b0bdefa23e4bfc5d1bb7301939f06ea9a1fbd4bfde33dda0b4b923ba12c1d7",
+  "sourcePixelSha256": "76a0b7930b656c644aa41a9a5b905311a9ab8eb5fa9fbf4e0b172f0022fb402e",
+  "approvedCorePixelSha256": "46c259e1468d0e216040eb3799d14bf074794803a3f85716122ab096022644d6",
+  "outputFileSha256": "39748f66ec5d834d3467782359996d3b15abf91cdae6d114875fafbae4a20535",
+  "outputPixelSha256": "8a2e9d2835bc34072b4b56fa15edb70ca5bd4c5914323338b09c7541325bf3f5",
+  "invariants": {
+    "resizedApprovedPixels": false,
+    "repaintedApprovedPixels": false,
+    "includesUnderground": false,
+    "changesGameplayState": false
+  }
+}

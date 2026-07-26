@@ -7,6 +7,10 @@ import { FlightFootParticleSystem } from "../systems/visual/FlightFootParticleSy
 import { PLAYER_FLIGHT_FOOT_FX_CONFIG as config } from "../values/playerFlightFootFx.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const promotion = JSON.parse(readFileSync(resolve(
+  root,
+  "testing/blender-animation-lab-v1/production-builds/superman-flight-prone-v3/promotion-manifest.json",
+), "utf8"));
 const spawned = [];
 const tweenConfigs = [];
 const player = {
@@ -45,6 +49,16 @@ const profile = {
   visualSkin: config.requiredVisualSkin,
   flySheet: "survival-blender-v2-fly-sheet",
 };
+const markerNames = ["foot_l", "foot_r"];
+markerNames.forEach((markerName, index) => {
+  const points = Object.values(promotion.runtime.rigMarkers).map((markers) => markers[markerName]);
+  const meanX = points.reduce((total, point) => total + point[0], 0) / points.length / 256
+    - promotion.runtime.visualOrigin[0];
+  const meanY = points.reduce((total, point) => total + point[1], 0) / points.length / 256
+    - promotion.runtime.visualOrigin[1];
+  assert.ok(Math.abs(config.footOffsets[index].x - meanX) < 0.001);
+  assert.ok(Math.abs(config.footOffsets[index].y - meanY) < 0.001);
+});
 const system = new FlightFootParticleSystem(scene, player, profile);
 const originalRandom = Math.random;
 

@@ -1,5 +1,5 @@
 import { RESOURCE_BY_TILE_TYPE } from "../../../values/resourceTypes.js";
-import { TILE_TYPES } from "../../../values/tileTypes.js";
+import { TILE_TYPES, isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
 import {
   WORLD_VISUAL_SEMANTIC_ASSETS,
   resolveWorldVisualSemanticAssetsEnabled,
@@ -8,6 +8,10 @@ import {
   resolveWorldVisualSemanticStarFrame,
 } from "../../../values/worldVisualSemanticAssets.js";
 import { WorldVisualBedrockMaterialLayer } from "./WorldVisualBedrockMaterialLayer.js";
+import {
+  cellIntersectsTownFloorOcclusion,
+  resolveTownFloorOcclusionBounds,
+} from "./WorldVisualTownFloorOcclusion.js";
 
 function hashUnit(tx, ty, salt = 0) {
   let value = Math.imul(tx + 31, 73856093) ^ Math.imul(ty + 47, 19349663) ^ Math.imul(salt + 7, 83492791);
@@ -36,6 +40,7 @@ export class WorldVisualSemanticAssetLayer {
     this.activeSignature = null;
     this.dirty = true;
     this.currentEmissiveDepth = this.config.render.starEmissiveDepth;
+    this.townFloorOcclusion = resolveTownFloorOcclusionBounds(scene);
   }
 
   create() {
@@ -88,7 +93,7 @@ export class WorldVisualSemanticAssetLayer {
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
         const tileType = this.worldModel.getTileType(tx, ty);
-        if (tileType === TILE_TYPES.BEDROCK || tileType === TILE_TYPES.CAVE_WALL) {
+        if (isUnbreakableMiningSurface(tileType)) {
           bedrockCells += 1;
           continue;
         }
@@ -172,6 +177,9 @@ export class WorldVisualSemanticAssetLayer {
     const x = (tx + 0.5) * size;
     const y = (ty + 0.5) * size;
     const displaySize = size * this.config.skyTile.scale;
+    const townFloorOccluded = cellIntersectsTownFloorOcclusion(
+      this.townFloorOcclusion, tx, ty, size
+    );
     beauty.setPosition(x, y)
       .setTexture(beautyAtlas.key, `${beautyAtlas.framePrefix}${frame}`)
       .setDisplaySize(displaySize, displaySize)
@@ -179,11 +187,16 @@ export class WorldVisualSemanticAssetLayer {
       .setTint(lighting?.terrainTint || 0xffffff)
       .setVisible(true);
     emissive.setPosition(x, y)
+      .setDepth(townFloorOccluded
+        ? this.config.render.townFloorOccludedEmissiveDepth
+        : this.currentEmissiveDepth)
       .setTexture(emissiveAtlas.key, `${emissiveAtlas.framePrefix}${frame}`)
       .setDisplaySize(displaySize, displaySize)
       .setAlpha(this.config.skyTile.emissiveAlpha)
       .setVisible(true);
-    this.activeStars.push({ beauty, emissive, phase: hashUnit(tx, ty, 19) * Math.PI * 2 });
+    this.activeStars.push({
+      beauty, emissive, townFloorOccluded, phase: hashUnit(tx, ty, 19) * Math.PI * 2,
+    });
   }
 
   _showSpecial(index, tx, ty, frame, size, lighting) {
@@ -202,6 +215,9 @@ export class WorldVisualSemanticAssetLayer {
     const x = (tx + 0.5) * size;
     const y = (ty + 0.5) * size;
     const displaySize = size * config.scale;
+    const townFloorOccluded = cellIntersectsTownFloorOcclusion(
+      this.townFloorOcclusion, tx, ty, size
+    );
     beauty.setPosition(x, y)
       .setTexture(config.beautyAtlas.key, `${config.beautyAtlas.framePrefix}${frame}`)
       .setDisplaySize(displaySize, displaySize)
@@ -209,11 +225,16 @@ export class WorldVisualSemanticAssetLayer {
       .setTint(lighting?.terrainTint || 0xffffff)
       .setVisible(true);
     emissive.setPosition(x, y)
+      .setDepth(townFloorOccluded
+        ? this.config.render.townFloorOccludedEmissiveDepth
+        : this.currentEmissiveDepth)
       .setTexture(config.emissiveAtlas.key, `${config.emissiveAtlas.framePrefix}${frame}`)
       .setDisplaySize(displaySize, displaySize)
       .setAlpha(config.emissiveAlpha)
       .setVisible(true);
-    this.activeSpecials.push({ emissive, phase: hashUnit(tx, ty, 53) * Math.PI * 2 });
+    this.activeSpecials.push({
+      emissive, townFloorOccluded, phase: hashUnit(tx, ty, 53) * Math.PI * 2,
+    });
   }
 
   _createImage(pool, key, depth, blendMode = null) {
@@ -275,8 +296,13 @@ export class WorldVisualSemanticAssetLayer {
   setEmissiveDepth(depth) {
     const resolved = Number.isFinite(depth) ? depth : this.config.render.starEmissiveDepth;
     this.currentEmissiveDepth = resolved;
-    this.starEmissivePool.forEach(image => image.setDepth(resolved));
-    this.specialEmissivePool.forEach(image => image.setDepth(resolved));
+    const occludedDepth = this.config.render.townFloorOccludedEmissiveDepth;
+    this.starEmissivePool.forEach((image, index) => (
+      image.setDepth(this.activeStars[index]?.townFloorOccluded ? occludedDepth : resolved)
+    ));
+    this.specialEmissivePool.forEach((image, index) => (
+      image.setDepth(this.activeSpecials[index]?.townFloorOccluded ? occludedDepth : resolved)
+    ));
   }
 
   invalidateCell(tx, ty) {
@@ -303,5 +329,6 @@ export class WorldVisualSemanticAssetLayer {
     this.activeSpecials = [];
     this.activeBounds = null;
     this.activeSignature = null;
+    this.townFloorOcclusion = null;
   }
 }

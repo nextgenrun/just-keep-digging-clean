@@ -24,16 +24,6 @@ export class ScreenRecordSystem {
     this.audioCapture = null;
     this.lastToggleAt = 0;
     this.indicator = null;
-    this._onKeydown = event => {
-      const isF10 = event?.code === "F10" || event?.key === "F10" || event?.keyCode === 121 || event?.which === 121;
-      if (!isF10 || event.repeat) return;
-      event.preventDefault?.();
-      this.toggle();
-    };
-    if (typeof window !== "undefined") {
-      window.addEventListener("keydown", this._onKeydown, true);
-      globalThis.document?.addEventListener?.("keydown", this._onKeydown, true);
-    }
   }
 
   toggle() {
@@ -55,10 +45,6 @@ export class ScreenRecordSystem {
     this.discardOnStop = true;
     if (this.recorder?.state === "recording") this.recorder.stop();
     this._releaseStream();
-    if (typeof window !== "undefined" && this._onKeydown) {
-      window.removeEventListener("keydown", this._onKeydown, true);
-      globalThis.document?.removeEventListener?.("keydown", this._onKeydown, true);
-    }
     this.indicator?.remove?.();
     this.indicator = null;
     this.recorder = null;
@@ -93,7 +79,7 @@ export class ScreenRecordSystem {
       });
       this.recorder.addEventListener("stop", () => this._finish());
       this.recorder.start();
-      this._setIndicator("REC • F10 TO STOP", true);
+      this._setIndicator("REC • USE RECORDING HOTKEY TO STOP", true);
       this._notify(this.config.notices.started, "success");
       return true;
     } catch (error) {

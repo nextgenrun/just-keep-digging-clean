@@ -1,0 +1,26 @@
+{
+  "created": "2026-07-26",
+  "mode": "built-in image_gen",
+  "useCase": "stylized-concept",
+  "reviewOnly": false,
+  "productionChanged": true,
+  "prompts": [
+    {
+      "id": "character-planted-extension-v5",
+      "output": "npc-planted-idles-character-extension-v5.png",
+      "inputs": [
+        "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-character-v3.png"
+      ],
+      "spec": "Create four new stand-still idle/activity poses for each exact approved character in a clean 3-row by 4-column charcoal board. Player Upgrades adjusts goggles, tunes the cylinder, marks blueprint notes, and braces the device. Gear Merchant tightens the backpack strap, polishes the helmet lamp, checks a pouch, and rests on the pickaxe while scratching his beard. Bobo sniffs a potion, straightens scarf and medallion, listens with a head tilt, and proudly presents a potion. Preserve exact identity, costume, proportions, props, camera, and style. Both feet remain fully visible and planted on one baseline. Wide empty gutters; no crop, overlap, walking, stepping, raised foot, travel, new props, text, UI, or watermark."
+    },
+    {
+      "id": "creature-planted-extension-v5",
+      "output": "npc-planted-idles-creature-extension-v5.png",
+      "inputs": [
+        "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-creature-v3.png",
+        "C:/Users/Mila/AppData/Local/Temp/codex-clipboard-123329d6-57a3-41e6-8239-5776276f1f8d.png"
+      ],
+      "spec": "Create four new stand-still idle/activity poses for each exact approved creature in a clean 3-row by 4-column charcoal board. Money Monster stacks coins, polishes one, listens to the pouch, and fans a fortune. Gem Power Merchant examines a gem, tunes the planted staff, arranges the satchel cluster, and performs a restrained resonance pulse. Magma Money Monster inspects a warm coin, rebalances scales, locks the chest, and vents controlled furnace heat. Preserve exact identity, single eye, costume, materials, props, camera, and style. Every foot remains fully visible and planted on one baseline. Wide empty gutters; no head, horn, prop, particle, or shadow may enter another cell. No walking, stepping, raised foot, travel, extra limbs or eyes, new props, text, UI, or watermark."
+    }
+  ]
+}

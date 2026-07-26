@@ -1,11 +1,28 @@
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";
+import {
+  resolvePlayerLightAnchor,
+  resolvePlayerLightEnvironment,
+  resolvePlayerLightProfile,
+} from "./playerLightProfile.js";
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const smoothstep = (value) => {
   const t = clamp01(value);
   return t * t * (3 - 2 * t);
+};
+const smootherstep = (value) => {
+  const t = clamp01(value);
+  return t * t * t * (t * (t * 6 - 15) + 10);
+};
+const hashTileCycle = (tx, ty, cycle) => {
+  let hash = Math.imul((tx | 0) + 1, 0x9e3779b1);
+  hash ^= Math.imul((ty | 0) + 1, 0x85ebca77);
+  hash ^= Math.imul((cycle | 0) + 1, 0xc2b2ae3d);
+  hash = Math.imul(hash ^ (hash >>> 16), 0x27d4eb2d);
+  return ((hash ^ (hash >>> 15)) >>> 0) / 0x100000000;
 };
 const SKY_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.SKY_TILE]));
 const GEODE_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.GEODE_INTERIOR, TILE_TYPES.GEODE_WALL]));
@@ -22,6 +39,7 @@ export class LightSystem {
     this.dayNightCycle = dayNightCycle;
     this.weatherSystem = weatherSystem;
     this.config = config;
+    this._playerLightProfileId = resolvePlayerLightProfile(config);
 
     this._torchActive = false;
     this._currentRadiusTiles = null;
@@ -37,12 +55,18 @@ export class LightSystem {
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
     this._darknessHasSolidFill = false;
+    this._caveInteriorDarknessBoost = 0;
+    this._activeCaveArchetypeId = null;
 
     this._ensureGeneratedTextures();
     this._eraser = scene.make.image({ key: config.visibilityMaskTextureKey, add: false })
       .setOrigin(0.5);
     this._crystalEraser = scene.make.image({ key: config.visibilityMaskTextureKey, add: false })
       .setOrigin(0.5);
+    this._skyBeaconPulseRenderer = new SkyBeaconPulseRenderer(
+      scene,
+      config.skyTileLights?.beaconPulse?.visuals
+    );
 
     this._torchHalo = this._createGlowImage(config.torchHaloColor);
     this._torchCoreGlow = this._createGlowImage(config.torchCoreColor);
@@ -88,9 +112,16 @@ export class LightSystem {
     if (this._currentRadiusTiles === null) this._currentRadiusTiles = targetRadius;
     this._currentRadiusTiles = Phaser.Math.Linear(this._currentRadiusTiles, targetRadius, response);
     this._currentGlowStrength = Phaser.Math.Linear(this._currentGlowStrength, targetGlow, response);
+    this._updateCaveInteriorDarkness(dt);
 
     const facingSign = this.playerController?.isFacingRight?.() === false ? -1 : 1;
-    const targetFacingOffset = facingSign * this.config.facingOffsetTiles * this.scene.config.tileSize;
+    const facingInfluence = this._playerLightProfileId === "legacy"
+      ? 1
+      : this.config.playerLightV2.anchor.facingInfluenceRatio;
+    const targetFacingOffset = facingSign
+      * this.config.facingOffsetTiles
+      * this.scene.config.tileSize
+      * facingInfluence;
     this._currentFacingOffsetWorld = Phaser.Math.Linear(
       this._currentFacingOffsetWorld,
       targetFacingOffset,
@@ -174,11 +205,17 @@ export class LightSystem {
     this.scene.hudSystem?.setTorchState(this._torchActive, torchDrainRate);
   }
 
-  forceTorchOff() {
-    if (!this._torchActive) return;
+  forceTorchOff(options = {}) {
+    if (options.manual === true) this._manualTorchOff = true;
+    if (!this._torchActive) {
+      this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
+      return;
+    }
     this._torchActive = false;
     this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
-    this.scene.hudSystem?.flashStatus("Torch extinguished - no GP", "#ff9a55", 1800);
+    if (options.showStatus !== false) {
+      this.scene.hudSystem?.flashStatus("Torch extinguished - no GP", "#ff9a55", 1800);
+    }
   }
 
   destroy() {
@@ -189,15 +226,19 @@ export class LightSystem {
     this._torchFlameGlow?.destroy();
     this._eraser?.destroy();
     this._crystalEraser?.destroy();
+    this._skyBeaconPulseRenderer?.destroy();
     this._darknessTexture = null;
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
     this._darknessHasSolidFill = false;
+    this._caveInteriorDarknessBoost = 0;
+    this._activeCaveArchetypeId = null;
     this._torchHalo = null;
     this._torchCoreGlow = null;
     this._torchFlameGlow = null;
     this._eraser = null;
     this._crystalEraser = null;
+    this._skyBeaconPulseRenderer = null;
     this._torchKey = null;
     this._torchKeyHandler = null;
   }
@@ -247,7 +288,7 @@ export class LightSystem {
       ? "transition"
       : "undergroundDarkness";
 
-    return {
+    const lighting = {
       state: this._lightingState,
       depth,
       torchBonusRadius: this._getTorchBonusRadius(),
@@ -263,6 +304,12 @@ export class LightSystem {
       weather,
       sunlight,
     };
+    lighting.playerLight = resolvePlayerLightEnvironment(
+      lighting,
+      this.config.playerLightV2,
+      this._playerLightProfileId
+    );
+    return lighting;
   }
 
   _getFallbackWeatherSnapshot() {
@@ -378,6 +425,9 @@ export class LightSystem {
 
   _computeTargetGlow(lighting) {
     if (!this._torchActive) return 0;
+    if (this._playerLightProfileId !== "legacy") {
+      return clamp01(lighting.playerLight?.intensity);
+    }
 
     const surfaceCfg = this.config.surfaceSunlight;
     const surfaceGlow = lighting.surfaceLightInfluence * clamp01(
@@ -396,6 +446,7 @@ export class LightSystem {
     const camera = this.scene.cameras.main;
     const player = this.scene.player;
     const playerTile = this.playerController?.getPlayerTile?.() || null;
+    this._skyBeaconPulseRenderer?.beginFrame();
 
     const darknessAlpha = this._computeDarknessAlpha(lighting);
     const inactiveThreshold = Math.max(
@@ -436,18 +487,44 @@ export class LightSystem {
       return;
     }
 
-    const fire = this._getFireMotion(time, lighting);
-    const radiusWorld = radiusTiles * this.scene.config.tileSize * fire.radiusScale;
+    const playerLight = lighting.playerLight || resolvePlayerLightEnvironment(
+      lighting,
+      this.config.playerLightV2,
+      this._playerLightProfileId
+    );
+    const anchor = resolvePlayerLightAnchor(
+      player,
+      this.playerController,
+      this.config.playerLightV2,
+      this.scene.config.tileSize,
+      this._playerLightProfileId
+    );
+    const fire = this._getFireMotion(time, lighting, playerLight);
+    const radiusWorld = radiusTiles
+      * this.scene.config.tileSize
+      * fire.radiusScale
+      * playerLight.radiusScale;
 
-    camera.matrix.transformPoint(player.x, player.y, this._screenPoint);
+    camera.matrix.transformPoint(anchor.x, anchor.y, this._screenPoint);
     const screenX = this._screenPoint.x - camera.scrollX * camera.zoomX + fire.screenOffsetX * camera.zoomX;
     const screenY = this._screenPoint.y - camera.scrollY * camera.zoomY + fire.screenOffsetY * camera.zoomY;
 
     if (darknessActive) {
-      this._eraser.setDisplaySize(radiusWorld * 2 * camera.zoomX, radiusWorld * 2 * camera.zoomY);
+      this._eraser.setDisplaySize(
+        radiusWorld * 2 * camera.zoomX,
+        radiusWorld * 2 * camera.zoomY * playerLight.verticalScale
+      );
       darkness.erase(this._eraser, screenX, screenY);
       this._darknessHasSolidFill = false;
       this._eraseCrystalLights(
+        time,
+        lighting,
+        camera,
+        darkness,
+        playerTile,
+        radiusTiles
+      );
+      this._eraseCaveLights(
         time,
         lighting,
         camera,
@@ -465,12 +542,43 @@ export class LightSystem {
       );
     }
 
-    const glowX = player.x + this._currentFacingOffsetWorld + fire.worldOffsetX;
-    const glowY = player.y + this.config.glowVerticalOffsetTiles * this.scene.config.tileSize + fire.worldOffsetY;
-    const nightBoost = 1 + lighting.nightAmount * lighting.surfaceLightInfluence * 0.10;
-    const caveBoost = 1 + lighting.undergroundDarknessInfluence * 0.06;
+    const glowX = anchor.x + this._currentFacingOffsetWorld + fire.worldOffsetX;
+    const glowY = anchor.y + (
+      this._playerLightProfileId === "legacy"
+        ? this.config.glowVerticalOffsetTiles * this.scene.config.tileSize
+        : 0
+    ) + fire.worldOffsetY;
+    const nightBoost = this._playerLightProfileId === "legacy"
+      ? 1 + lighting.nightAmount * lighting.surfaceLightInfluence * 0.10
+      : 1;
+    const caveBoost = this._playerLightProfileId === "legacy"
+      ? 1 + lighting.undergroundDarknessInfluence * 0.06
+      : 1;
     const glowStrength = this._currentGlowStrength * nightBoost * caveBoost;
 
+    if (this._playerLightProfileId === "legacy") {
+      this._drawLegacyPlayerGlow(glowX, glowY, radiusWorld, glowStrength, fire);
+    } else {
+      this._drawV2PlayerGlow(
+        glowX,
+        glowY,
+        radiusWorld,
+        glowStrength,
+        fire,
+        playerLight
+      );
+    }
+
+    this._setShaderSnapshot(lighting, {
+      darknessAlpha,
+      torchScreenPosition: { x: screenX, y: screenY },
+      torchRadiusPx: radiusWorld * (camera.zoomX || camera.zoom || 1),
+      torchGlowStrength: glowStrength,
+      torchAnchorSource: anchor.source,
+    });
+  }
+
+  _drawLegacyPlayerGlow(glowX, glowY, radiusWorld, glowStrength, fire) {
     this._setGlowState(
       this._torchHalo,
       glowX,
@@ -495,19 +603,102 @@ export class LightSystem {
       this.config.torchFlameGlowAlpha * glowStrength * fire.flameAlpha,
       fire.flameTint
     );
-
-    this._setShaderSnapshot(lighting, {
-      darknessAlpha,
-      torchScreenPosition: { x: screenX, y: screenY },
-      torchRadiusPx: radiusWorld * (camera.zoomX || camera.zoom || 1),
-      torchGlowStrength: glowStrength,
-    });
   }
 
-  _eraseCrystalLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
-    const cfg = this.config.crystalLights;
+  _drawV2PlayerGlow(
+    glowX,
+    glowY,
+    radiusWorld,
+    glowStrength,
+    fire,
+    playerLight
+  ) {
+    const glow = this.config.playerLightV2.glow;
+    const coolMix = playerLight.coolEdge * glow.coolEdgeTintInfluence;
+    const haloTint = this._lerpColor(fire.haloTint, glow.coolEdgeColor, coolMix);
+    const coreTint = this._lerpColor(
+      glow.neutralCoreColor,
+      fire.coreTint,
+      playerLight.warmth
+    );
+    const innerTint = this._lerpColor(
+      glow.neutralCoreColor,
+      this.config.torchCoreColor,
+      playerLight.warmth
+    );
+    const haloDiameter = radiusWorld * glow.haloDiameterScale * fire.haloScale;
+    const coreDiameter = radiusWorld * glow.coreDiameterScale * fire.coreScale;
+    const innerDiameter = radiusWorld * glow.innerDiameterScale * fire.flameScale;
+
+    this._setGlowState(
+      this._torchHalo,
+      glowX,
+      glowY,
+      haloDiameter,
+      glow.haloAlpha * glowStrength * fire.haloAlpha,
+      haloTint,
+      haloDiameter * glow.haloVerticalScale
+    );
+    this._setGlowState(
+      this._torchCoreGlow,
+      glowX + fire.worldOffsetX * 0.24,
+      glowY + fire.worldOffsetY * 0.18,
+      coreDiameter,
+      glow.coreAlpha * glowStrength * fire.coreAlpha,
+      coreTint,
+      coreDiameter * glow.coreVerticalScale
+    );
+    this._setGlowState(
+      this._torchFlameGlow,
+      glowX,
+      glowY,
+      innerDiameter,
+      glow.innerAlpha * glowStrength * fire.flameAlpha,
+      innerTint,
+      innerDiameter * glow.innerVerticalScale
+    );
+  }
+
+  _eraseCrystalLights(
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0
+  ) {
+    this._eraseZoneLights(
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
+      playerVisionRadiusTiles,
+      {
+        config: this.config.crystalLights,
+        getZones: (worldModel, center, range) => (
+          worldModel.getGlowCrystalZonesInRange?.(center, range) || []
+        ),
+        getActiveRatio: (worldModel, zone) => (
+          worldModel.getGlowCrystalActiveRatio?.(zone) ?? 1
+        ),
+      }
+    );
+  }
+
+  _eraseZoneLights(
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0,
+    options = null
+  ) {
+    const cfg = options?.config;
     const worldModel = this.scene.worldModel;
-    if (!cfg?.enabled || !this._crystalEraser || !worldModel?.getGlowCrystalZonesInRange) {
+    const getZones = options?.getZones;
+    if (!cfg?.enabled || !this._crystalEraser || !worldModel || !getZones) {
       return;
     }
 
@@ -529,7 +720,7 @@ export class LightSystem {
       + (cfg.cameraPaddingTiles || 0)
       + 8;
 
-    const zones = worldModel.getGlowCrystalZonesInRange(centerTile, rangeTiles)
+    const zones = (getZones(worldModel, centerTile, rangeTiles) || [])
       .sort((a, b) => {
         const adx = a.cx - centerTile.tx;
         const ady = a.cy - centerTile.ty;
@@ -543,7 +734,7 @@ export class LightSystem {
     for (const zone of zones) {
       if (sourcesDrawn >= maxSources) break;
 
-      const activeRatio = worldModel.getGlowCrystalActiveRatio?.(zone) ?? 1;
+      const activeRatio = options?.getActiveRatio?.(worldModel, zone) ?? 1;
       if (activeRatio < (cfg.minActiveRatio || 0)) continue;
 
       if (playerTile && Number.isFinite(playerVisionRadiusTiles)) {
@@ -587,6 +778,76 @@ export class LightSystem {
     }
   }
 
+  _eraseCaveLights(
+    time,
+    lighting,
+    camera,
+    darkness,
+    playerTile = null,
+    playerVisionRadiusTiles = 0
+  ) {
+    this._eraseZoneLights(
+      time,
+      lighting,
+      camera,
+      darkness,
+      playerTile,
+      playerVisionRadiusTiles,
+      {
+        config: this.config.caveLights,
+        getZones: (worldModel, center, range) => (
+          worldModel.getCaveLightZonesInRange?.(center, range) || []
+        ),
+        getActiveRatio: (worldModel, zone) => this._resolveCaveLightRatio(time, zone),
+      }
+    );
+  }
+
+  _resolveCaveLightRatio(time, zone) {
+    const config = this.config.caveLights;
+    if (zone.isHazardLight) {
+      const hazard = config.hazardLight;
+      if (zone.static) return hazard.staticRatio;
+      const period = Math.max(1, zone.periodMs || 1);
+      const cycle = ((time + (zone.phaseMs || 0)) % period + period) % period;
+      if (cycle < (zone.activeMs || 0)) return hazard.activeRatio;
+      if (cycle >= period - (zone.telegraphMs || 0)) return hazard.telegraphRatio;
+      return hazard.idleRatio;
+    }
+    const profile = config.archetypeProfiles?.[zone.archetypeId]
+      || config.defaultProfile;
+    const wave = (Math.sin(
+      time * profile.pulseRadiansPerMs
+      + (zone.phase || 0)
+    ) + 1) * 0.5;
+    const shaped = Math.pow(wave, profile.pulsePower);
+    const caveRatio = Phaser.Math.Linear(
+      profile.minimumRatio,
+      profile.maximumRatio,
+      shaped
+    );
+    return caveRatio * (1 - (profile.darknessBoost || 0));
+  }
+
+  _updateCaveInteriorDarkness(dt) {
+    const config = this.config.caveLights;
+    const playerTile = this.playerController?.getPlayerTile?.();
+    const cave = this.scene.worldModel?.getCaveZoneAtTile?.(playerTile);
+    const profile = cave
+      ? config.archetypeProfiles?.[cave.archetypeId] || config.defaultProfile
+      : null;
+    const target = profile?.darknessBoost || 0;
+    const response = 1 - Math.exp(
+      -config.interiorTransitionResponsePerSecond * Math.max(0, dt)
+    );
+    this._caveInteriorDarknessBoost = Phaser.Math.Linear(
+      this._caveInteriorDarknessBoost,
+      target,
+      response
+    );
+    this._activeCaveArchetypeId = cave?.archetypeId || null;
+  }
+
   _eraseSkyAndGeodeLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
     this._eraseTileTypeLightSources({
       time,
@@ -608,6 +869,70 @@ export class LightSystem {
       playerVisionRadiusTiles,
       cfg: this.config.geodeTileLights,
       tileTypes: GEODE_LIGHT_TILE_TYPES,
+    });
+  }
+
+  _resolveTileBeaconPulse(time, tx, ty, pulseCfg) {
+    if (!pulseCfg?.enabled || !Number.isFinite(time)) return null;
+
+    const durationMs = Math.max(1, pulseCfg.durationMs || 1);
+    const edgePaddingMs = Math.max(0, pulseCfg.edgePaddingMs || 0);
+    const windowMs = Math.max(
+      durationMs + edgePaddingMs * 2 + 1,
+      pulseCfg.windowMs || durationMs + edgePaddingMs * 2 + 1
+    );
+    const elapsed = Math.max(0, time);
+    const cycle = Math.floor(elapsed / windowMs);
+    const activationChance = clamp01(pulseCfg.chancePerWindow ?? 1);
+    if (hashTileCycle(tx, ty, cycle) >= activationChance) return null;
+
+    const cycleStart = cycle * windowMs;
+    const availableJitterMs = Math.max(0, windowMs - durationMs - edgePaddingMs * 2);
+    const pulseStart = cycleStart
+      + edgePaddingMs
+      + hashTileCycle(ty, tx, cycle) * availableJitterMs;
+    const progress = (elapsed - pulseStart) / durationMs;
+
+    if (progress < 0 || progress >= 1) return null;
+
+    const waveEnvelopePower = Math.max(0.01, pulseCfg.waveEnvelopePower || 1);
+    const waveStrength = Math.pow(
+      Math.max(0, Math.sin(Math.PI * progress)),
+      waveEnvelopePower
+    );
+
+    if (waveStrength <= 0.001) return null;
+    return {
+      cycle,
+      progress: clamp01(progress),
+      waveStrength: clamp01(waveStrength),
+    };
+  }
+
+  _drawSkyBeaconPulse(
+    worldX,
+    worldY,
+    tileSize,
+    verticalScale,
+    pulseRadiusTiles,
+    pulse,
+    pulseCfg,
+    source
+  ) {
+    if (!pulseCfg?.visuals?.enabled || !pulse || !source) return;
+
+    this._skyBeaconPulseRenderer?.draw({
+      worldX,
+      worldY,
+      tileSize,
+      verticalScale,
+      pulseRadiusTiles,
+      pulse,
+      angleOffset: hashTileCycle(
+        source.tx,
+        source.ty,
+        pulse.cycle
+      ) * Math.PI * 2,
     });
   }
 
@@ -649,7 +974,9 @@ export class LightSystem {
     if (endTileX < startTileX || endTileY < startTileY) return;
 
     const sources = [];
-    const revealLeash = Number.isFinite(playerVisionRadiusTiles)
+    const revealLeash = cfg.persistThroughDarkness === true
+      ? Number.POSITIVE_INFINITY
+      : Number.isFinite(playerVisionRadiusTiles)
       ? playerVisionRadiusTiles + (cfg.playerRevealLeashTiles || 0)
       : Number.POSITIVE_INFINITY;
 
@@ -682,6 +1009,12 @@ export class LightSystem {
     const flickerAmount = cfg.flickerAmount || 0;
     const maxRadiusTiles = cfg.maxRadiusTiles || radiusTiles;
     const baseReveal = revealBase * (1 + lighting.undergroundDarknessInfluence * (cfg.undergroundRevealBoost || 0));
+    const pulseCfg = cfg.beaconPulse;
+    const maxConcurrentPulses = Math.max(
+      0,
+      Math.floor(pulseCfg?.maxConcurrentPulses ?? 1)
+    );
+    let pulseSourcesDrawn = 0;
 
     for (let i = 0; i < sources.length && i < maxSources; i += 1) {
       const source = sources[i];
@@ -693,14 +1026,51 @@ export class LightSystem {
       const worldX = source.tx * tileSize + tileSize * 0.5;
       const worldY = source.ty * tileSize + tileSize * 0.5;
       const scaledRadiusTiles = Math.max(0.65, Math.min(maxRadiusTiles, radiusTiles + (flicker - 1) * 0.3));
+      const verticalScale = Number.isFinite(cfg.verticalScale) ? cfg.verticalScale : 1;
 
       camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
       this._crystalEraser
-        .setDisplaySize(scaledRadiusTiles * tileSize * 2 * zoomX, scaledRadiusTiles * tileSize * 2 * zoomY)
+        .setDisplaySize(
+          scaledRadiusTiles * tileSize * 2 * zoomX,
+          scaledRadiusTiles * tileSize * 2 * zoomY * verticalScale
+        )
         .setAlpha(revealAlpha);
       const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
       const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
       darkness.erase(this._crystalEraser, screenX, screenY);
+
+      if (pulseSourcesDrawn >= maxConcurrentPulses) continue;
+      const pulse = this._resolveTileBeaconPulse(time, source.tx, source.ty, pulseCfg);
+      if (!pulse) continue;
+
+      const fullRadiusProgress = Math.max(
+        0.05,
+        Math.min(1, pulseCfg.fullRadiusProgress || 0.55)
+      );
+      const radiusProgress = smootherstep(pulse.progress / fullRadiusProgress);
+      const pulseRadiusTiles = scaledRadiusTiles
+        + Math.max(0, pulseCfg.radiusBoostTiles || 0) * radiusProgress;
+      const pulseAlpha = clamp01((pulseCfg.revealAlpha || 0) * pulse.waveStrength);
+      if (pulseAlpha <= 0.01) continue;
+
+      this._crystalEraser
+        .setDisplaySize(
+          pulseRadiusTiles * tileSize * 2 * zoomX,
+          pulseRadiusTiles * tileSize * 2 * zoomY * verticalScale
+        )
+        .setAlpha(pulseAlpha);
+      darkness.erase(this._crystalEraser, screenX, screenY);
+      this._drawSkyBeaconPulse(
+        worldX,
+        worldY,
+        tileSize,
+        verticalScale,
+        pulseRadiusTiles,
+        pulse,
+        pulseCfg,
+        source
+      );
+      pulseSourcesDrawn += 1;
     }
   }
 
@@ -744,18 +1114,31 @@ export class LightSystem {
       * surfaceCfg.lightningRevealStrength;
     const caveReveal = lighting.stormCavePulse * caveCfg.lightningRevealStrength;
 
-    return clamp01(Math.max(minimumCaveAlpha, surfaceDim + scaledCaveBase + caveWeatherBoost + torchOffBoost) - surfaceReveal - caveReveal);
+    return clamp01(
+      Math.max(
+        minimumCaveAlpha,
+        surfaceDim + scaledCaveBase + caveWeatherBoost + torchOffBoost
+      )
+      + this._caveInteriorDarknessBoost
+      - surfaceReveal
+      - caveReveal
+    );
   }
 
-  _getFireMotion(time, lighting) {
+  _getFireMotion(time, lighting, playerLight = null) {
     const cfg = this.config.torchFire;
     const t = time * this.config.torchFlickerSpeed;
     const windAmount = clamp01(Math.abs(lighting.weather.wind || 0) / 190) * lighting.surfaceLightInfluence;
     const stormAmount = lighting.weather.stormAmount * lighting.surfaceLightInfluence;
-    const flickerBoost = 1
+    const environmentFlicker = Number.isFinite(playerLight?.flickerScale)
+      ? playerLight.flickerScale
+      : 1;
+    const flickerBoost = (
+      1
       + windAmount * cfg.windFlickerAmount
       + stormAmount * cfg.stormFlickerAmount
-      + lighting.stormCavePulse * 0.25;
+      + lighting.stormCavePulse * 0.25
+    ) * environmentFlicker;
 
     const slow = Math.sin(t * 1.13 + 0.2);
     const lick = Math.sin(t * 2.91 + 1.4);
@@ -788,7 +1171,7 @@ export class LightSystem {
     };
   }
 
-  _setGlowState(image, x, y, diameter, alpha, tint = null) {
+  _setGlowState(image, x, y, diameter, alpha, tint = null, height = diameter) {
     const clampedAlpha = Phaser.Math.Clamp(alpha, 0, 1);
     const visible = clampedAlpha > 0;
     if (image.visible !== visible) image.setVisible(visible);
@@ -799,7 +1182,7 @@ export class LightSystem {
 
     image
       .setPosition(x, y)
-      .setDisplaySize(diameter, diameter)
+      .setDisplaySize(diameter, height)
       .setAlpha(clampedAlpha);
     if (tint !== null) image.setTint(tint);
   }
@@ -906,6 +1289,17 @@ export class LightSystem {
 
   _createDefaultShaderSnapshot() {
     const cam = this.scene.cameras?.main;
+    const playerLight = resolvePlayerLightEnvironment(
+      {
+        surfaceLightInfluence: 1,
+        undergroundDarknessInfluence: 0,
+        nightAmount: 0,
+        sunStrength: 1,
+        weather: this._getFallbackWeatherSnapshot(),
+      },
+      this.config.playerLightV2,
+      this._playerLightProfileId
+    );
     return {
       state: "surfaceSunlight",
       depth: 0,
@@ -918,6 +1312,12 @@ export class LightSystem {
       },
       torchRadiusPx: 0,
       torchGlowStrength: 0,
+      playerLightProfileId: this._playerLightProfileId,
+      torchAnchorSource: "unavailable",
+      torchWarmth: playerLight.warmth,
+      torchCoolEdge: playerLight.coolEdge,
+      torchVerticalScale: playerLight.verticalScale,
+      torchFlickerScale: playerLight.flickerScale,
       surfaceLightInfluence: 1,
       undergroundDarknessInfluence: 0,
       nightAmount: 0,
@@ -931,6 +1331,11 @@ export class LightSystem {
   }
 
   _setShaderSnapshot(lighting, values = {}) {
+    const playerLight = lighting.playerLight || resolvePlayerLightEnvironment(
+      lighting,
+      this.config.playerLightV2,
+      this._playerLightProfileId
+    );
     this._shaderSnapshot = {
       state: lighting.state,
       depth: lighting.depth,
@@ -940,6 +1345,12 @@ export class LightSystem {
       torchScreenPosition: values.torchScreenPosition ?? this._shaderSnapshot.torchScreenPosition,
       torchRadiusPx: values.torchRadiusPx ?? 0,
       torchGlowStrength: values.torchGlowStrength ?? 0,
+      playerLightProfileId: this._playerLightProfileId,
+      torchAnchorSource: values.torchAnchorSource ?? this._shaderSnapshot.torchAnchorSource,
+      torchWarmth: playerLight.warmth,
+      torchCoolEdge: playerLight.coolEdge,
+      torchVerticalScale: playerLight.verticalScale,
+      torchFlickerScale: playerLight.flickerScale,
       surfaceLightInfluence: lighting.surfaceLightInfluence,
       undergroundDarknessInfluence: lighting.undergroundDarknessInfluence,
       nightAmount: lighting.nightAmount,
@@ -977,6 +1388,7 @@ export class LightSystem {
   }
 
   _getTorchDrainPerSecond(depth = 0) {
+    if (this.scene.upgradeSystem?.godModeActive === true) return 0;
     const cfg = this.config;
     const base = cfg.torchDrainGpPerSecond;
     const effects = this._getUpgradeEffects();

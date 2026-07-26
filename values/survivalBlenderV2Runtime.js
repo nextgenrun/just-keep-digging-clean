@@ -28,14 +28,14 @@ const IDLE_FIDGETS = Object.freeze([
     // Continue through the settle tail so the one-shot ends beside idle frame 0
     // instead of snapping from frame 27 back to the start of the base loop.
     frames: segment(8, 48),
-    frameRate: 24,
+    frameRate: 18,
     repeat: 0,
   }),
   Object.freeze({
     key: "survival-blender-v2-idle-settle-fidget-anim",
     profileSheetKey: "idleTalkSheet",
     frames: segment(28, 48),
-    frameRate: 24,
+    frameRate: 18,
     repeat: 0,
   }),
 ]);
@@ -59,7 +59,18 @@ export const SURVIVAL_BLENDER_V2_RUNTIME = Object.freeze({
     }),
     fly: Object.freeze({
       key: "survival-blender-v2-fly-sheet",
-      fileName: "survival-character-blender-v2-superman-flight-sheet.png",
+      fileName: "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
+    }),
+    digUp: Object.freeze({
+      key: "survival-blender-v2-dig-up-polished-sheet",
+      fileName: "survival-character-blender-v2-dig-up-piskel-polished-sheet.png",
+      frameRate: 27,
+      contactFrame: 11,
+      contactSequenceIndex: 11,
+      displaySizePx: 109,
+      originX: 0.5,
+      originY: 247 / 256,
+      sourceAction: "survival-blender-v2-dig-up-polished",
     }),
   }),
   frames: Object.freeze({
@@ -73,6 +84,7 @@ export const SURVIVAL_BLENDER_V2_RUNTIME = Object.freeze({
     flyTravel: segment(8, 28),
     flyHover: segment(18, 32),
     flyExit: segment(26, 36),
+    digUp: range(24),
   }),
   idleFidgets: IDLE_FIDGETS,
   groundedVisualCalibration: GROUNDED_VISUAL_CALIBRATION,

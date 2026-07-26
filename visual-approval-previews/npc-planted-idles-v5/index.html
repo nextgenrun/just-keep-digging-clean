@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPC Planted Idle Library v5</title>
+  <link rel="stylesheet" href="style.css?v=20260726-v11-motion">
+  <link rel="stylesheet" href="motion.css?v=20260726-v11-motion">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">PRODUCTION DIRECTION · WALKING REMOVED</p>
+    <h1>NPC Planted Idle Library v5</h1>
+    <p class="lede">Every merchant now has a slow four-frame quiet loop plus
+      seven larger stand-still activities. Hands, eyes, ears, tails, props,
+      glow, chains, and embers move while the body root remains fixed.</p>
+    <div class="facts" aria-label="Runtime facts">
+      <strong>Town rhythm</strong>
+      <span>≈86% quiet</span>
+      <span>maximum 1 large activity</span>
+      <span>66 Piskel-locked frames</span>
+      <span>4-frame rooted quiet loops</span>
+      <span>0.00 px transform drift</span>
+    </div>
+  </header>
+
+  <section class="controls" aria-label="Preview controls">
+    <button id="togglePlay" type="button">Pause town</button>
+    <button id="nextEvent" type="button">Trigger next activity</button>
+    <button id="resetTown" type="button">Reset</button>
+    <label>
+      Town energy
+      <input id="energy" type="range" min=".65" max="1.25" step=".05" value="1">
+      <output id="energyValue">1.00×</output>
+    </label>
+    <label class="check">
+      <input id="gameScale" type="checkbox">
+      exact 138 px actors
+    </label>
+    <div class="status">
+      <span><b id="quietCount">6</b> quiet</span>
+      <span><b id="activeCount">0</b> active</span>
+      <span><b id="anchorError">0.00</b> px anchor error</span>
+    </div>
+  </section>
+
+  <main>
+    <section id="npcGrid" class="npc-grid" aria-label="NPC planted idle previews"></section>
+
+    <section class="evidence" aria-label="Generated rooted idle-loop boards">
+      <article>
+        <h2>Character quiet-loop frames</h2>
+        <img src="npc-idle-loop-character-v11.png?v=20260726-v11"
+          alt="Four chronological rooted idle frames for Player Upgrades, Gear Merchant, and Bobo">
+      </article>
+      <article>
+        <h2>Creature quiet-loop frames</h2>
+        <img src="npc-idle-loop-creature-v11.png?v=20260726-v11"
+          alt="Four chronological rooted idle frames for Money, Gem, and Magma merchants">
+      </article>
+    </section>
+
+    <aside class="event-panel">
+      <div>
+        <p class="eyebrow">ANCHOR-LOCKED DIRECTOR</p>
+        <h2>Town event log</h2>
+        <p>Quiet frames dissolve over 520 ms and rest between cycles. Larger
+          activities retain the deliberate 1.2-second blend. Piskel locks the
+          root center and foot baseline for every frame.</p>
+      </div>
+      <ol id="eventLog"></ol>
+    </aside>
+  </main>
+
+  <footer>Built-in ImageGen motion frames, Piskel round-trip alignment, and
+    production v11 alpha derivatives. Runtime rollback: <code>?npcActivities=0</code>.</footer>
+  <script type="module" src="app.js?v=20260726-v11-motion"></script>
+</body>
+</html>

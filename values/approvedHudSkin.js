@@ -4,6 +4,7 @@ export const APPROVED_HUD_SKIN = Object.freeze({
   referenceViewport: Object.freeze({ width: 1280, height: 720 }),
   paths: Object.freeze({
     playerCore: "sprites/UI/hud-approved-v1/player-core.png",
+    playerCoreTorchOff: "sprites/UI/hud-approved-v1/player-core-torch-off.png",
     buffChip: "sprites/UI/hud-approved-v1/buff-chip.png",
     combo: "sprites/UI/hud-approved-v1/combo-frame.png",
     notification: "sprites/UI/hud-approved-v1/notification-frame.png",
@@ -26,7 +27,6 @@ export const APPROVED_HUD_SKIN = Object.freeze({
     playerCore: Object.freeze({ x: 12, y: 14, width: 320, height: 71 }),
     depth: Object.freeze({ x: 95, y: 29, fontSize: 18 }),
     gemPower: Object.freeze({ x: 109, y: 57, width: 169, height: 17, radius: 2, labelX: 112, labelY: 56, fontSize: 14 }),
-    torch: Object.freeze({ x: 310, y: 63, fontSize: 11 }),
     buffs: Object.freeze({ x: 14, y: 91, width: 131, height: 30, gap: 6, maxVisible: 3, fontSize: 12 }),
     combo: Object.freeze({ y: 20, width: 221, height: 55, textY: 14, fontSize: 17, timerX: 12, timerY: 42, timerWidth: 197, timerHeight: 4 }),
     notification: Object.freeze({ y: 102, width: 250, minHeight: 48, iconInset: 55, rightInset: 14, verticalPadding: 22, fontSize: 14, gap: 8 }),

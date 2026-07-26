@@ -49,8 +49,13 @@ export class GameInputHandler {
       return true;
     }
 
-    if (justDown(keys.screenRecord) || justDown(keys.screenRecordF10)) {
+    if (justDown(keys.screenRecord)) {
       this.scene.screenRecordSystem?.toggle();
+      return true;
+    }
+
+    if (justDown(keys.map)) {
+      this.scene.toggleWorldMap?.();
       return true;
     }
 
@@ -137,6 +142,7 @@ export class GameInputHandler {
   handlePlayingStateInput() {
     if (this.scene._settingsKeyCaptureActive) return false;
 
+    this.scene.worldMapDiscoverySystem?.updatePlayerDiscovery?.();
     const keys = this.inputHandler.getKeys();
     if (justDown(keys.escape) || justDown(keys.hardEscape)) {
       if (this.scene.closeTopOverlay?.("escape")) {

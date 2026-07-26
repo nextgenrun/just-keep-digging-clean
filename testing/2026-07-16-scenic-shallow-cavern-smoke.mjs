@@ -3,27 +3,47 @@ import { EventEmitter } from "node:events";
 import fs from "node:fs";
 import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
+  getWorldVisualDepthBackdropAllAssets,
   getWorldVisualDepthBackdropPreloadAssets,
   isWorldVisualDepthBackdropCoveredTile,
   isWorldVisualDepthBackdropRegionReady,
+  resolveWorldVisualDepthBackdropMotionEnabled,
+  resolveWorldVisualDepthBackdropRegionAssets,
   resolveWorldVisualDepthBackdropRegions,
+  resolveWorldVisualDepthBackdropVariantsEnabled,
   resolveWorldVisualDepthBackdropsEnabled,
 } from "../values/worldVisualDepthBackdrops.js";
 import { resolveWorldVisualMaterialBands } from "../values/worldVisualMaterials.js";
+import { WORLD_VISUAL_RUNTIME } from "../values/worldVisualRuntime.js";
 import { WorldVisualDepthBackdropStage } from "../world/rendering/scenic-world/WorldVisualDepthBackdropStage.js";
 import { WorldVisualMaterialField } from "../world/rendering/scenic-world/WorldVisualMaterialField.js";
+
+const LEGACY_QUERY = "?biomeBackdropVariants=0";
+const regionAssets = (region, search = "") => (
+  resolveWorldVisualDepthBackdropRegionAssets(region, WORLD_VISUAL_DEPTH_BACKDROPS, search)
+);
 
 assert.equal(resolveWorldVisualDepthBackdropsEnabled(undefined, ""), true);
 assert.equal(resolveWorldVisualDepthBackdropsEnabled(undefined, "?levelOneBackdrops=0"), false);
 assert.equal(resolveWorldVisualDepthBackdropsEnabled(undefined, "?shallowCavern=off"), false);
+assert.equal(resolveWorldVisualDepthBackdropVariantsEnabled(undefined, ""), true);
+assert.equal(resolveWorldVisualDepthBackdropVariantsEnabled(undefined, LEGACY_QUERY), false);
+assert.equal(resolveWorldVisualDepthBackdropMotionEnabled(undefined, ""), true);
+assert.equal(resolveWorldVisualDepthBackdropMotionEnabled(undefined, "?biomeBackdropMotion=0"), false);
+assert.equal(resolveWorldVisualDepthBackdropMotionEnabled(undefined, "?worldMotion=off"), false);
 assert.deepEqual(
-  getWorldVisualDepthBackdropPreloadAssets().map(assetEntry => assetEntry.key),
-  ["world-visual-v2-shallow-cavern-backwall", "bg-sky-v3-clouds-near"],
-  "surface backwall and the shared mist veil start resident",
+  getWorldVisualDepthBackdropPreloadAssets().map(entry => entry.key),
+  ["world-visual-biome-weathered-roots-root-canyon"],
+  "only the first finished roots plate starts resident"
+);
+assert.deepEqual(
+  getWorldVisualDepthBackdropPreloadAssets(undefined, LEGACY_QUERY).map(entry => entry.key),
+  ["world-visual-v2-shallow-cavern-backwall"],
+  "the variant rollback restores the original startup plate"
 );
 assert.equal(getWorldVisualDepthBackdropPreloadAssets(undefined, "?levelOneBackdrops=0").length, 0);
 
-const { regions, segment, assets } = WORLD_VISUAL_DEPTH_BACKDROPS;
+const { regions, segment, render, motion } = WORLD_VISUAL_DEPTH_BACKDROPS;
 assert.deepEqual(regions.map(({ id, topTile, bottomTileExclusive }) => (
   { id, topTile, bottomTileExclusive }
 )), [
@@ -32,62 +52,113 @@ assert.deepEqual(regions.map(({ id, topTile, bottomTileExclusive }) => (
   { id: "level1-amber", topTile: 520, bottomTileExclusive: 1040 },
   { id: "level1-silver", topTile: 1040, bottomTileExclusive: 1600 },
   { id: "level1-magma", topTile: 1600, bottomTileExclusive: 2065 },
+  { id: "level2-slagworks", topTile: 2065, bottomTileExclusive: 2665 },
+  { id: "level2-obsidian", topTile: 2665, bottomTileExclusive: 3265 },
+  { id: "level2-foundry", topTile: 3265, bottomTileExclusive: 3865 },
+  { id: "level2-blackglass", topTile: 3865, bottomTileExclusive: 4465 },
+  { id: "level2-starfire", topTile: 4465, bottomTileExclusive: 5065 },
 ]);
 assert.equal(segment.logicalWidthPx, 1536);
 assert.equal(segment.logicalHeightPx, 1024);
 assert.equal(segment.neighborSegments, 1);
+assert.deepEqual(motion.smoothVideo, {
+  widthPx: 1536,
+  heightPx: 1024,
+  durationMs: 8000,
+  frameRate: 60,
+  codec: "h264",
+  noAudio: true,
+  loop: true,
+  pauseBelowFps: 36,
+});
+assert.ok(
+  render.backwallDepth < WORLD_VISUAL_RUNTIME.render.terrainDepth,
+  "the finished scenic media renders behind authoritative terrain"
+);
+assert.ok(regions.every(region => regionAssets(region).length === 6), "every biome has six approved plates");
+assert.ok(regions.every(region => (
+  regionAssets(region).slice(0, 5).every(entry => entry.type === "image")
+  && regionAssets(region)[5].type === "video"
+  && regionAssets(region)[5].path.includes("/biome-motion-v3/")
+)), "each biome has five static images and one approved smooth V3 loop");
+assert.ok(regions.slice(0, 5).every(region => regionAssets(region, LEGACY_QUERY).length > 0));
+assert.ok(regions.slice(5).every(region => regionAssets(region, LEGACY_QUERY).length === 0));
+
+const configuredAssets = getWorldVisualDepthBackdropAllAssets();
+assert.equal(configuredAssets.length, 60);
+assert.equal(configuredAssets.filter(entry => entry.type === "image").length, 50);
+assert.equal(configuredAssets.filter(entry => entry.type === "video").length, 10);
 
 const boundaryContracts = [
-  [160, ["surface-entry", "level1-blue"], ["surface-earth", "level1-shallow"], ["level1-blue"], ["level1-shallow"]],
-  [520, ["level1-blue", "level1-amber"], ["level1-shallow", "level1-amber"], ["level1-amber"], ["level1-amber"]],
-  [1040, ["level1-amber", "level1-silver"], ["level1-amber", "level1-silver"], ["level1-silver"], ["level1-silver"]],
-  [1600, ["level1-silver", "level1-magma"], ["level1-silver", "level1-deep-magma"], ["level1-magma"], ["level1-deep-magma"]],
-  [2065, ["level1-magma"], ["level1-deep-magma", "level2-magma"], [], ["level2-magma"]],
+  [160, "surface-entry", "level1-blue", "surface-earth", "level1-shallow"],
+  [520, "level1-blue", "level1-amber", "level1-shallow", "level1-amber"],
+  [1040, "level1-amber", "level1-silver", "level1-amber", "level1-silver"],
+  [1600, "level1-silver", "level1-magma", "level1-silver", "level1-deep-magma"],
+  [2065, "level1-magma", "level2-slagworks", "level1-deep-magma", "level2-magma"],
+  [2665, "level2-slagworks", "level2-obsidian", "level2-magma", "level2-obsidian"],
+  [3265, "level2-obsidian", "level2-foundry", "level2-obsidian", "level2-foundry"],
+  [3865, "level2-foundry", "level2-blackglass", "level2-foundry", "level2-blackglass"],
+  [4465, "level2-blackglass", "level2-starfire", "level2-blackglass", "level2-starfire"],
 ];
-
-for (const [row, straddledBackdrops, straddledMaterials, incomingBackdrops, incomingMaterials] of boundaryContracts) {
+for (const [row, outgoingBackdrop, incomingBackdrop, outgoingMaterial, incomingMaterial] of boundaryContracts) {
   assert.deepEqual(
     resolveWorldVisualDepthBackdropRegions(row - 1, row + 1).map(entry => entry.id),
-    straddledBackdrops,
+    [outgoingBackdrop, incomingBackdrop],
     `row ${row} backdrop transition pair`
   );
   assert.deepEqual(
     resolveWorldVisualMaterialBands(row - 1, row + 1).map(entry => entry.id),
-    straddledMaterials,
-    `row ${row} material transition pair`
+    [outgoingMaterial, incomingMaterial],
+    `row ${row} ground transition pair`
   );
   assert.deepEqual(
     resolveWorldVisualDepthBackdropRegions(row, row + 1).map(entry => entry.id),
-    incomingBackdrops,
-    `row ${row} backdrop owner`
-  );
-  assert.deepEqual(
-    resolveWorldVisualMaterialBands(row, row + 1).map(entry => entry.id),
-    incomingMaterials,
-    `row ${row} material owner`
+    [incomingBackdrop],
+    `row ${row} incoming backdrop`
   );
 }
-
-assert.deepEqual(resolveWorldVisualDepthBackdropRegions(2100, 2101), []);
-assert.deepEqual(
-  resolveWorldVisualMaterialBands(2100, 2101).map(entry => entry.id),
-  ["level2-magma"],
-  "Level 2 retains its material without inheriting a Level 1 scenic backdrop"
-);
+assert.deepEqual(resolveWorldVisualDepthBackdropRegions(2100, 2101, undefined, LEGACY_QUERY), []);
 assert.equal(isWorldVisualDepthBackdropCoveredTile(0, 65), true);
-assert.equal(isWorldVisualDepthBackdropCoveredTile(279, 2064), true);
-assert.equal(isWorldVisualDepthBackdropCoveredTile(0, 2065), false);
-assert.equal(isWorldVisualDepthBackdropCoveredTile(0, 2100), false);
+assert.equal(isWorldVisualDepthBackdropCoveredTile(279, 5064), true);
+assert.equal(isWorldVisualDepthBackdropCoveredTile(0, 5065), false);
 assert.equal(isWorldVisualDepthBackdropCoveredTile(280, 100), false);
+assert.equal(isWorldVisualDepthBackdropCoveredTile(0, 2100, undefined, LEGACY_QUERY), false);
 
-for (const region of regions) {
-  for (const backwall of region.backwalls) {
-    const png = fs.readFileSync(new URL(`../${backwall.path}`, import.meta.url));
-    assert.equal(png.toString("ascii", 1, 4), "PNG", `${backwall.key} is PNG`);
-    assert.equal(png.readUInt32BE(16), 1536, `${backwall.key} width`);
-    assert.equal(png.readUInt32BE(20), 1024, `${backwall.key} height`);
+function webpDimensions(buffer) {
+  assert.equal(buffer.toString("ascii", 0, 4), "RIFF");
+  assert.equal(buffer.toString("ascii", 8, 12), "WEBP");
+  const chunk = buffer.toString("ascii", 12, 16);
+  if (chunk === "VP8X") {
+    return [buffer.readUIntLE(24, 3) + 1, buffer.readUIntLE(27, 3) + 1];
   }
+  if (chunk === "VP8L") {
+    const bits = buffer.readUInt32LE(21);
+    return [(bits & 0x3fff) + 1, ((bits >>> 14) & 0x3fff) + 1];
+  }
+  const signature = buffer.indexOf(Buffer.from([0x9d, 0x01, 0x2a]), 20);
+  assert.ok(signature >= 0, `unsupported WebP chunk ${chunk}`);
+  return [
+    buffer.readUInt16LE(signature + 3) & 0x3fff,
+    buffer.readUInt16LE(signature + 5) & 0x3fff,
+  ];
 }
+
+const assetKeys = new Set();
+const assetPaths = new Set();
+for (const entry of configuredAssets) {
+  const contents = fs.readFileSync(new URL(`../${entry.path}`, import.meta.url));
+  if (entry.type === "video") {
+    assert.equal(contents.toString("ascii", 4, 8), "ftyp", `${entry.key} is an MP4`);
+    assert.ok(contents.length > 1_000_000, `${entry.key} is not an empty video placeholder`);
+  } else {
+    assert.deepEqual(webpDimensions(contents), [1536, 1024], `${entry.key} exact production dimensions`);
+    assert.ok(contents.length > 4096, `${entry.key} is not an empty image placeholder`);
+  }
+  assetKeys.add(entry.key);
+  assetPaths.add(entry.path);
+}
+assert.equal(assetKeys.size, 60);
+assert.equal(assetPaths.size, 60);
 
 class FakeLoader extends EventEmitter {
   constructor() {
@@ -96,12 +167,19 @@ class FakeLoader extends EventEmitter {
     this.queued = [];
   }
   isLoading() { return this.loading; }
-  image(key, path) { this.queued.push({ key, path }); }
+  image(key, path) { this.queued.push({ type: "image", key, path }); }
+  video(key, path, noAudio) { this.queued.push({ type: "video", key, path, noAudio }); }
   start() { this.loading = true; }
 }
 
 class FakeImage {
-  constructor(x, y, key) { this.x = x; this.y = y; this.key = key; }
+  constructor(x, y, key) {
+    this.x = x;
+    this.y = y;
+    this.key = key;
+    this.scaleX = 1;
+    this.scaleY = 1;
+  }
   setOrigin() { return this; }
   setDepth(value) { this.depth = value; return this; }
   setCrop(x, y, width, height) { this.crop = { x, y, width, height }; return this; }
@@ -112,51 +190,117 @@ class FakeImage {
   setTint(value) { this.tint = value; return this; }
   setAlpha(value) { this.alpha = value; return this; }
   setPosition(x, y) { this.x = x; this.y = y; return this; }
+  setScale(x, y = x) { this.scaleX = x; this.scaleY = y; return this; }
+  setVisible(value) { this.visible = value; return this; }
   destroy() { this.destroyed = true; }
 }
 
-function fakeMaskGraphics() {
+class FakeVideo extends FakeImage {
+  once(event, callback) {
+    this.listeners ||= new Map();
+    this.listeners.set(event, callback);
+    return this;
+  }
+  play(loop) {
+    this.played = true;
+    this.loop = loop;
+    this.listeners?.get("created")?.();
+    this.listeners?.delete("created");
+    return this;
+  }
+  setPaused(value) { this.paused = value; return this; }
+  stop() { this.stopped = true; return this; }
+}
+
+function fakeGraphics() {
   return {
     fills: [],
-    clear() { this.fills = []; return this; },
-    fillStyle() { return this; },
+    strokes: [],
+    clear() { this.fills = []; this.strokes = []; return this; },
+    fillStyle(tint, alpha) { this.style = { tint, alpha }; return this; },
     fillRect(x, y, width, height) {
-      this.fills.push({ x, y, width, height });
+      this.fills.push({ shape: "rect", x, y, width, height });
       return this;
     },
-    destroy() {},
+    lineStyle(width, tint, alpha) {
+      this.line = { width, tint, alpha };
+      return this;
+    },
+    beginPath() { this.path = []; return this; },
+    moveTo(x, y) { this.path.push({ x, y }); return this; },
+    lineTo(x, y) { this.path.push({ x, y }); return this; },
+    strokePath() {
+      this.strokes.push({ line: this.line, path: this.path });
+      return this;
+    },
+    setDepth(value) { this.depth = value; return this; },
+    setBlendMode(value) { this.blendMode = value; return this; },
+    destroy() { this.destroyed = true; },
   };
 }
 
 globalThis.Phaser = { BlendModes: { SCREEN: "screen", ADD: "add" } };
 const loader = new FakeLoader();
-const surfaceKey = regions[0].backwall.key;
-const textureKeys = new Set([surfaceKey, assets.mist.key]);
+const surfaceAssets = regionAssets(regions[0]);
+const surfaceKey = surfaceAssets[0].key;
+const textureKeys = new Set([surfaceKey]);
+const videoKeys = new Set();
 const removedKeys = [];
-const images = [];
+const removedVideoKeys = [];
 const fakeScene = {
   config: { tileSize: 94 },
   time: { now: 0 },
+  game: { loop: { actualFps: 60 } },
+  cameras: {
+    main: { scrollX: 0, scrollY: 0, width: 1280, height: 720 },
+  },
   load: loader,
+  cache: {
+    video: {
+      exists: key => videoKeys.has(key),
+      remove: key => { removedVideoKeys.push(key); videoKeys.delete(key); },
+    },
+  },
   textures: {
     exists: key => textureKeys.has(key),
-    get: key => ({
-      getSourceImage: () => key === assets.mist.key
-        ? { width: 2048, height: 768 }
-        : { width: 1536, height: 1024 },
-    }),
+    get: () => ({ getSourceImage: () => ({ width: 1536, height: 1024 }) }),
     remove: key => { removedKeys.push(key); textureKeys.delete(key); },
   },
-  add: { image: (x, y, key) => { const image = new FakeImage(x, y, key); images.push(image); return image; } },
+  add: {
+    image: (x, y, key) => new FakeImage(x, y, key),
+    video: (x, y, key) => new FakeVideo(x, y, key),
+    graphics: () => fakeGraphics(),
+  },
 };
-const complete = key => {
-  textureKeys.add(key);
-  loader.emit(`filecomplete-image-${key}`);
+const completeAsset = entry => {
+  if (entry.type === "video") {
+    videoKeys.add(entry.key);
+    loader.emit(`filecomplete-video-${entry.key}`);
+  } else {
+    textureKeys.add(entry.key);
+    loader.emit(`filecomplete-image-${entry.key}`);
+  }
 };
+const completeRegion = region => regionAssets(region).forEach(completeAsset);
+const assetReady = entry => entry.type === "video"
+  ? videoKeys.has(entry.key)
+  : textureKeys.has(entry.key);
+const neutralLighting = { farTint: 0xffffff, lightning: 0, wet: 0, fog: 0 };
 
 const stage = new WorldVisualDepthBackdropStage(fakeScene);
 assert.equal(stage.create(), true);
-const neutralLighting = { farTint: 0xffffff, lightning: 0, wet: 0, fog: 0 };
+assert.equal(stage.assetCache.release("not-loaded"), false, "unknown media releases are harmless");
+assert.equal("ambientLayer" in stage, false, "no procedural ambient overlay is attached");
+assert.equal("signatureLayer" in stage, false, "the rejected signature overlay is removed");
+assert.equal(stage.sync({ left: 73, right: 84, top: 150, bottom: 160 }, neutralLighting), true);
+assert.equal(stage.segments.size, 0, "surface waits for all six production plates");
+assert.deepEqual(
+  loader.queued.map(entry => entry.key),
+  surfaceAssets.slice(1).map(entry => entry.key)
+);
+surfaceAssets.slice(1).forEach(completeAsset);
+loader.queued = [];
+
 const assertNear = (actual, expected, message) => assert.ok(
   Math.abs(actual - expected) < 0.000001,
   `${message}: expected ${expected}, got ${actual}`
@@ -170,127 +314,139 @@ const assertRegionTailCrop = (region, expectedRow, expectedTiles, expectedSource
   const tail = [...stage.segments.entries()].find(([key, entry]) => (
     key.startsWith(`${region.id}:`) && entry.row === expectedRow
   ))?.[1];
-  assert.ok(tail, `${region.id} final ${expectedTiles}-tile card is visible`);
-  for (const layerName of ["backwall", "emissive"]) {
-    const card = tail[layerName];
-    assertNear(card.displayHeight, expectedTiles * 94, `${region.id} ${layerName} display tail`);
-    assert.equal(card.crop.height, expectedSourceHeight, `${region.id} ${layerName} source crop height`);
-    assert.equal(
-      card.crop.y,
-      card.flipY ? 1024 - expectedSourceHeight : 0,
-      `${region.id} ${layerName} source crop edge follows vertical flip`
-    );
-  }
-  const mistCropHeight = Math.round(768 * (expectedTiles * 94) / segment.logicalHeightPx);
-  const mistWidthScale = (segment.logicalWidthPx + segment.overlapPx) / 2048;
-  assert.equal(tail.mist.crop.height, mistCropHeight, `${region.id} mist proportional source crop`);
-  assert.equal(
-    tail.mist.crop.y,
-    tail.mist.flipY ? 768 - mistCropHeight : 0,
-    `${region.id} mist crop edge follows vertical flip`
-  );
-  assertNear(
-    tail.mist.displayHeight,
-    Math.min(expectedTiles * 94, mistCropHeight * mistWidthScale),
-    `${region.id} mist keeps its source aspect instead of stretching to card height`
-  );
+  assert.ok(tail, `${region.id} final card is visible`);
+  assertNear(tail.backwall.displayHeight, expectedTiles * 94, `${region.id} backwall display tail`);
+  assert.equal(tail.backwall.crop.height, expectedSourceHeight, `${region.id} backwall source crop`);
+  assert.equal(tail.backwall.crop.y, tail.backwall.flipY ? 1024 - expectedSourceHeight : 0);
+  assert.equal("emissive" in tail, false, `${region.id} has no duplicate light overlay`);
+  assert.equal("mist" in tail, false, `${region.id} has no drifting atmosphere overlay`);
   return tail;
 };
 
-const finalSurfaceSegment = assertRegionTailCrop(regions[0], 8, 738 / 94, 738);
-assert.equal(finalSurfaceSegment.emissive.blendMode, "screen");
-assert.ok(finalSurfaceSegment.emissive.alpha > 0 && finalSurfaceSegment.emissive.alpha < 0.08);
-const fullNativeSegment = [...stage.segments.values()].find(entry => (
-  entry.backwall.crop.width === segment.logicalWidthPx
-  && entry.backwall.crop.height === segment.logicalHeightPx
-));
-assert.ok(fullNativeSegment, "surface streaming retains a full native-density plate");
-assert.equal(fullNativeSegment.backwall.displayWidth, segment.logicalWidthPx + segment.overlapPx);
-assert.equal(fullNativeSegment.backwall.displayHeight, segment.logicalHeightPx + segment.overlapPx);
-assert.ok(fullNativeSegment.mist.displayHeight < fullNativeSegment.backwall.displayHeight * 0.6);
+const surfaceTail = assertRegionTailCrop(regions[0], 8, 738 / 94, 738);
+assert.ok(surfaceTail.backwall.depth < WORLD_VISUAL_RUNTIME.render.terrainDepth);
 
 const blue = regions[1];
-assert.equal(stage.sync(
-  { left: 0, right: 50, top: 200, bottom: 210 },
-  { farTint: 0xffffff, lightning: 0, wet: 0, fog: 0 }
-), true);
-assert.equal(stage.segments.size, 0, "generic material remains while both blue plates stream");
-assert.deepEqual(loader.queued.map(entry => entry.key), blue.backwalls.map(entry => entry.key));
-complete(blue.backwalls[0].key);
-assert.equal(stage.segments.size, 0, "one of two variants is not considered region-ready");
-assert.equal(isWorldVisualDepthBackdropRegionReady(blue, key => textureKeys.has(key)), false);
+assert.equal(stage.sync({ left: 0, right: 50, top: 200, bottom: 210 }, neutralLighting), true);
+assert.equal(stage.segments.size, 0, "generic material remains while blue plates stream");
+assert.deepEqual(loader.queued.map(entry => entry.key), regionAssets(blue).map(entry => entry.key));
+completeAsset(regionAssets(blue)[0]);
+assert.equal(isWorldVisualDepthBackdropRegionReady(
+  blue,
+  assetReady,
+  regionAssets(blue)
+), false);
 const fallbackField = new WorldVisualMaterialField(fakeScene, { getTileType: () => 1 });
-fallbackField.backdropMaskGraphics = fakeMaskGraphics();
+fallbackField.backdropMaskGraphics = fakeGraphics();
 fallbackField._drawBackdropMask({ left: 0, right: 50, top: 200, bottom: 210 }, 94);
-assert.deepEqual(fallbackField.backdropMaskGraphics.fills, [{
-  x: 0,
-  y: 200 * 94,
-  width: 50 * 94,
-  height: 10 * 94,
-}], "generic material backdrop remains fully visible while one blue plate is missing");
-complete(blue.backwalls[1].key);
-assert.equal(isWorldVisualDepthBackdropRegionReady(blue, key => textureKeys.has(key)), true);
+assert.equal(fallbackField.backdropMaskGraphics.fills.length, 1);
+regionAssets(blue).slice(1).forEach(completeAsset);
 fallbackField._drawBackdropMask({ left: 0, right: 50, top: 200, bottom: 210 }, 94);
-assert.deepEqual(
-  fallbackField.backdropMaskGraphics.fills,
-  [],
-  "generic material backdrop is suppressed only after every blue plate is ready"
+assert.equal(
+  fallbackField.backdropMaskGraphics.fills.length,
+  0,
+  "generic cave fill disappears only when every selected plate is resident"
 );
-assert.ok(stage.segments.size > 0);
+stage.sync({ left: 0, right: 100, top: 200, bottom: 240 }, neutralLighting, true);
 assert.deepEqual(
   new Set([...stage.segments.values()].map(entry => entry.backwall.key)),
-  new Set(blue.backwalls.map(entry => entry.key)),
-  "blue A/B plates alternate deterministically"
+  new Set(regionAssets(blue).map(entry => entry.key)),
+  "five images and the smooth V3 loop participate in deterministic card variation"
 );
+const staticBlue = [...stage.segments.values()].find(entry => !entry.isSmoothVideo);
+const videoBlue = [...stage.segments.values()].find(entry => entry.isSmoothVideo);
+assert.ok(staticBlue, "the blue biome creates finished static image cards");
+assert.ok(videoBlue, "the blue biome creates a finished smooth-video card");
+assert.equal("emissive" in staticBlue, false, "light is not duplicated by an overlay");
+assert.equal("mist" in staticBlue, false, "atmosphere is not duplicated by an overlay");
+assert.equal(videoBlue.backwall.played, true);
+assert.equal(videoBlue.backwall.loop, true);
+assert.equal(videoBlue.backwall.visible, true);
+fakeScene.cameras.main.scrollX = 50;
+fakeScene.cameras.main.scrollY = 50;
+stage.update(1016, neutralLighting);
+assert.equal(stage.cameraMotion.current.mode, "distant-lag");
+assert.ok(stage.cameraMotion.current.x > 0 && stage.cameraMotion.current.y > 0);
+assertNear(
+  staticBlue.backwall.x,
+  staticBlue.baseX + stage.cameraMotion.current.x,
+  "camera response transforms the actual static image"
+);
+assertNear(
+  videoBlue.backwall.x,
+  videoBlue.baseX + stage.cameraMotion.current.x,
+  "camera response transforms the complete finished video image"
+);
+fakeScene.game.loop.actualFps = 20;
+stage.update(1032, neutralLighting);
+assert.equal(videoBlue.backwall.paused, true, "smooth video pauses below its FPS floor");
+fakeScene.game.loop.actualFps = 60;
+stage.update(1048, neutralLighting);
+assert.equal(videoBlue.backwall.paused, false, "smooth video resumes after FPS recovers");
 assertRegionTailCrop(blue, 33, 48 / 94, 48);
 
-const amber = regions[2];
-stage.sync(
-  { left: 10, right: 20, top: 515, bottom: 525 },
-  { farTint: 0xffffff, lightning: 0.1, wet: 0, fog: 0.2 }
+const tailContracts = [
+  [regions[2], 47, 752],
+  [regions[3], 51, 416],
+  [regions[4], 42, 702],
+  ...regions.slice(5).map(region => [region, 55, 80]),
+];
+for (const [region, row, pixels] of tailContracts) {
+  stage.sync(
+    { left: 10, right: 20, top: region.topTile + 1, bottom: region.topTile + 8 },
+    neutralLighting
+  );
+  assert.equal(stage.segments.size, 0, `${region.id} waits for its full pool`);
+  completeRegion(region);
+  assert.ok([...stage.segments.keys()].some(key => key.startsWith(`${region.id}:`)));
+  assertRegionTailCrop(region, row, pixels / 94, pixels);
+}
+assert.ok(
+  removedKeys.includes(regionAssets(blue)[0].key),
+  "departed biome plates are released"
 );
-assert.deepEqual(stage.activeRegionIds, new Set([blue.id, amber.id]));
-complete(amber.backwall.key);
-assert.ok([...stage.segments.keys()].some(key => key.startsWith(`${blue.id}:`)));
-assert.ok([...stage.segments.keys()].some(key => key.startsWith(`${amber.id}:`)));
-assertRegionTailCrop(amber, 47, 752 / 94, 752);
-
-const silver = regions[3];
-stage.sync(
-  { left: 10, right: 20, top: 1100, bottom: 1110 },
-  { farTint: 0xffffff, lightning: 0, wet: 0, fog: 0 }
+assert.ok(
+  removedVideoKeys.includes(regionAssets(blue)[5].key),
+  "departed biome videos are stopped and released"
 );
-assert.ok(removedKeys.includes(blue.backwalls[0].key));
-assert.ok(removedKeys.includes(blue.backwalls[1].key));
-assert.ok(removedKeys.includes(amber.backwall.key));
-assert.equal(textureKeys.has(surfaceKey), true, "surface startup plate stays retained");
-complete(silver.backwall.key);
-assert.ok([...stage.segments.keys()].every(key => key.startsWith(`${silver.id}:`)));
-assert.equal(isWorldVisualDepthBackdropRegionReady(silver, key => textureKeys.has(key)), true);
-assert.equal(isWorldVisualDepthBackdropRegionReady(blue, key => textureKeys.has(key)), false);
-assertRegionTailCrop(silver, 51, 416 / 94, 416);
-
-const magma = regions[4];
-assert.equal(stage.sync(
-  { left: 10, right: 20, top: 2060, bottom: 2065 },
-  neutralLighting
-), true);
-assert.equal(stage.segments.size, 0, "magma waits for its streamed plate");
-complete(magma.backwall.key);
-assertRegionTailCrop(magma, 42, 702 / 94, 702);
-assert.equal(stage.sync(
-  { left: 10, right: 20, top: 2100, bottom: 2101 },
-  neutralLighting
-), false, "Level 1 scenic backdrops stop exactly before Level 2");
+assert.equal(textureKeys.has(surfaceKey), true, "startup plate stays retained");
+assert.equal(
+  stage.sync({ left: 10, right: 20, top: 5065, bottom: 5066 }, neutralLighting),
+  false,
+  "scenic bands stop at the authored world boundary"
+);
 assert.equal(stage.segments.size, 0);
 fallbackField.destroy();
 stage.destroy();
 
+completeRegion(regions[0]);
+const staticStage = new WorldVisualDepthBackdropStage(fakeScene, undefined, "?biomeBackdropMotion=0");
+assert.equal(staticStage.create(), true);
+assert.equal(staticStage.motionEnabled, false);
+staticStage.sync({ left: 0, right: 100, top: 80, bottom: 130 }, neutralLighting, true);
+assert.ok(
+  [...staticStage.segments.values()]
+    .filter(entry => entry.isSmoothVideo)
+    .every(entry => entry.backwall.paused),
+  "motion rollback freezes every smooth-video card"
+);
+fakeScene.cameras.main.scrollX += 100;
+staticStage.update(2200, neutralLighting);
+assert.deepEqual(
+  staticStage.cameraMotion.current,
+  { x: 0, y: 0, mode: "anchored", regionId: "surface-entry" },
+  "motion rollback disables complete-image camera response"
+);
+staticStage.destroy();
 const disabledStage = new WorldVisualDepthBackdropStage(fakeScene, undefined, "?shallowCavern=0");
 assert.equal(disabledStage.create(), false);
 
-const stageSource = fs.readFileSync(
+const viewSource = fs.readFileSync(
   new URL("../world/rendering/scenic-world/WorldVisualDepthBackdropRegionView.js", import.meta.url),
+  "utf8"
+);
+const stageSource = fs.readFileSync(
+  new URL("../world/rendering/scenic-world/WorldVisualDepthBackdropStage.js", import.meta.url),
   "utf8"
 );
 const runtimeSource = fs.readFileSync(
@@ -302,14 +458,21 @@ const materialSource = fs.readFileSync(
   "utf8"
 );
 const bootSource = fs.readFileSync(new URL("../ui/scenes/BootScene.js", import.meta.url), "utf8");
-assert.match(stageSource, /setCrop/);
-assert.match(stageSource, /region\.backwalls/);
-assert.match(stageSource, /emissive/);
-assert.match(stageSource, /Phaser\.BlendModes\.SCREEN/);
-assert.doesNotMatch(stageSource, /setTile|damageTile|digTile|createTilemap|WorldModel/);
+assert.match(viewSource, /scene\.add\.video/);
+assert.match(viewSource, /setPaused/);
+assert.doesNotMatch(viewSource, /bakedVideo|opticalFlow|minterpolate/);
+assert.match(viewSource, /setCrop/);
+assert.doesNotMatch(`${viewSource}\n${stageSource}`, /lineStyle|fillCircle|SignatureLayer|AmbientLayer/);
+assert.doesNotMatch(
+  `${viewSource}\n${stageSource}`,
+  /setTile|damageTile|digTile|createTilemap|WorldModel/
+);
 assert.match(runtimeSource, /new WorldVisualDepthBackdropStage/);
-assert.match(runtimeSource, /depthBackdropStage\?\.sync/);
-assert.match(materialSource, /isWorldVisualDepthBackdropRegionReady/);
+assert.match(materialSource, /resolveWorldVisualDepthBackdropRegionAssets/);
 assert.match(bootSource, /getWorldVisualDepthBackdropPreloadAssets/);
+assert.equal(
+  fs.existsSync(new URL("../world/rendering/scenic-world/WorldVisualDepthSignatureLayer.js", import.meta.url)),
+  false
+);
 
-console.log("Scenic Level 1 depth-backdrop contract passed");
+console.log("Scenic ten-biome smooth-video and ground-layer contract passed");
