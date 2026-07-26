@@ -5,8 +5,8 @@
     848
   ],
   "webpQuality": 92,
-  "complete": false,
-  "count": 20,
+  "complete": true,
+  "count": 25,
   "cards": [
     {
       "index": 1,
@@ -327,6 +327,86 @@
       ],
       "sha256": "aa63a450782f8a1f1e17f5dd10e511dfeed760563964e5d1e9cd7b57f9ae6938",
       "bytes": 346562
+    },
+    {
+      "index": 21,
+      "id": "obsidian-sleeper",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-21-obsidian-sleeper-imagegen-v2.png",
+      "sourceSize": [
+        1727,
+        911
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/21-obsidian-sleeper-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "4eb08a044ab36f11d116b12a35c3231b7058e3844a001bed21396120cff7ef0f",
+      "bytes": 237316
+    },
+    {
+      "index": 22,
+      "id": "rift-heron",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-22-rift-heron-imagegen-v2.png",
+      "sourceSize": [
+        1597,
+        985
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/22-rift-heron-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "d2434bd38eba95bd50a04851936a7a5d0dd1ab34415ad616f779beff2f498679",
+      "bytes": 206106
+    },
+    {
+      "index": 23,
+      "id": "star-eater",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-23-star-eater-imagegen-v2.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/23-star-eater-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "2e2288ed2bb89261b3f10f97a44c24cb83f8f33cd61d3876f7f24c79f43961de",
+      "bytes": 328840
+    },
+    {
+      "index": 24,
+      "id": "deep-crown",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-24-deep-crown-imagegen-v2.png",
+      "sourceSize": [
+        1692,
+        929
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/24-deep-crown-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "0c602163d4d1450616230de6b75426192e0cc48842ba1ce138319c113e22d397",
+      "bytes": 254028
+    },
+    {
+      "index": 25,
+      "id": "worldroot-titan",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-25-worldroot-titan-imagegen-v2.png",
+      "sourceSize": [
+        1606,
+        979
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v2/25-worldroot-titan-chamber-v2.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "sha256": "9e2891db8430db36a75d06567a30469fd860f528ef1cacc3aaa332e37df9c9f8",
+      "bytes": 384106
     }
   ]
 }
