@@ -67,6 +67,12 @@ promotion: a 1.75 m midpoint player reference, 2.10 m door calibration, five
 unique absolute surface-merchant slots inside the opaque scenic square, and an
 unchanged Level 2 Arc Core merchant.
 
+`2026-07-26-shop-ui-uptime-contract.mjs` reproduces the overlapping Bobo and
+Milestone Pillar input path with Phaser's consumptive `JustDown`: a blocked
+pillar cannot discard `E`, Bobo must open `boboMerchant`, the live prompt,
+visual, key, and shop collaborators must report ready, and the pillar still
+opens normally when it is the selected target.
+
 `2026-07-26-town-square-ground-fidelity-contract.mjs` guards the ground-only
 correction: the v2 PNG and approved source hashes, exact 1672x139 Option A crop,
 129 px handoff, shared town/floor scale, semantic occlusion only inside the

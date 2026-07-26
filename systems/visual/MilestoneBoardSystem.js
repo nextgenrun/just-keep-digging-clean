@@ -90,7 +90,13 @@ export class MilestoneBoardSystem {
     const allowOpen = options.allowOpen !== false;
     this._ePrompt?.setVisible(inRange && (allowOpen || this._isBoardOpen));
 
-    if (keys && inRange && keys.interact && Phaser.Input.Keyboard.JustDown(keys.interact)) {
+    if (
+      keys
+      && inRange
+      && (allowOpen || this._isBoardOpen)
+      && keys.interact
+      && Phaser.Input.Keyboard.JustDown(keys.interact)
+    ) {
       if (this._isBoardOpen) {
         this._closeBoardView();
         return true;

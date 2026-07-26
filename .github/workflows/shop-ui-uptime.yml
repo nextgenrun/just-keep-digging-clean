@@ -1,0 +1,144 @@
+name: Shop UI Uptime Guard
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: shop-ui-uptime-main
+  cancel-in-progress: false
+
+env:
+  FORCE_COLOR: "0"
+  NO_COLOR: "1"
+  PYTHONUTF8: "1"
+
+jobs:
+  validate-shop-ui:
+    name: Validate Bobo shop and production UI
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Use Python 3.13
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Prove Bobo interaction and runtime health routing
+        run: |
+          node testing/2026-07-26-shop-ui-uptime-contract.mjs
+          node testing/2026-07-26-town-square-runtime-contract.mjs
+          node testing/2026-07-25-release-safety-contract.mjs
+
+      - name: Build isolated production package
+        run: python tools/2026-07-17-build-production.py --out-dir dist
+
+      - name: Probe packaged shop modules and HTTP behavior
+        run: python testing/2026-07-25-production-http-canary.py --directory dist
+
+  rollback-source:
+    name: Revert failed shop UI change
+    needs: validate-shop-ui
+    if: >-
+      always() &&
+      github.event_name == 'push' &&
+      needs.validate-shop-ui.result == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      rollback_sha: ${{ steps.revert.outputs.rollback_sha }}
+    steps:
+      - name: Check out current main with push credentials
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Refuse to roll back a stale run
+        shell: bash
+        run: |
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test "${{ github.event.before }}" != "0000000000000000000000000000000000000000"
+          git merge-base --is-ancestor "${{ github.event.before }}" "$GITHUB_SHA"
+
+      - name: Revert only the failing tip commit
+        id: revert
+        shell: bash
+        run: |
+          git config user.name "dig-game-shop-uptime[bot]"
+          git config user.email "dig-game-shop-uptime[bot]@users.noreply.github.com"
+          git revert --no-edit "$GITHUB_SHA"
+          echo "rollback_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          git push origin HEAD:main
+
+  incident-alert:
+    name: Report shop UI rollback
+    needs:
+      - validate-shop-ui
+      - rollback-source
+    if: >-
+      always() &&
+      github.event_name == 'push' &&
+      needs.validate-shop-ui.result == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Open or update the shop UI incident
+        uses: actions/github-script@v8
+        env:
+          VALIDATION_RESULT: ${{ needs.validate-shop-ui.result }}
+          ROLLBACK_RESULT: ${{ needs.rollback-source.result }}
+          ROLLBACK_SHA: ${{ needs.rollback-source.outputs.rollback_sha }}
+        with:
+          script: |
+            const title = "[Automated] Bobo shop/UI rollback";
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `The shop/UI guard failed for commit \`${context.sha}\`.`,
+              "",
+              `- Validation: ${process.env.VALIDATION_RESULT}`,
+              `- Source rollback: ${process.env.ROLLBACK_RESULT}`,
+              `- Rollback commit: \`${process.env.ROLLBACK_SHA || "not created"}\``,
+              "",
+              `[Open workflow run](${runUrl})`,
+            ].join("\n");
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100,
+            });
+            const existing = issues.find(issue => issue.title === title && !issue.pull_request);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+              });
+            }

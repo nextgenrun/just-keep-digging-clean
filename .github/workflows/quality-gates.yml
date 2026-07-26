@@ -63,6 +63,7 @@ jobs:
       - name: Validate Town Square NPC activity and interaction anchors
         run: |
           node testing/2026-07-26-town-square-runtime-contract.mjs
+          node testing/2026-07-26-shop-ui-uptime-contract.mjs
           node testing/2026-07-26-npc-activity-runtime-contract.mjs
           node testing/2026-07-26-npc-planted-idle-review-contract.mjs
           node testing/2026-07-26-npc-alive-walking-review-contract.mjs

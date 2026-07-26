@@ -115,6 +115,10 @@ const mainSource = readFileSync(path.join(ROOT, "main.js"), "utf8");
 const playSetupSource = readFileSync(path.join(ROOT, "world/playScene/PlaySceneSetup.js"), "utf8");
 const qualityWorkflow = readFileSync(path.join(ROOT, ".github/workflows/quality-gates.yml"), "utf8");
 const rollbackWorkflow = readFileSync(path.join(ROOT, ".github/workflows/rollback-candidate.yml"), "utf8");
+const shopUptimeWorkflow = readFileSync(
+  path.join(ROOT, ".github/workflows/shop-ui-uptime.yml"),
+  "utf8",
+);
 const workerSource = readFileSync(
   path.join(ROOT, "systems/health/RuntimeHealthWorkerSource.js"),
   "utf8",
@@ -161,6 +165,18 @@ for (const token of [
 assert.ok(rollbackWorkflow.includes("workflow_dispatch:"));
 assert.ok(rollbackWorkflow.includes("2026-07-25-production-http-canary.py"));
 assert.ok(rollbackWorkflow.includes("rollback-candidate-"));
+for (const token of [
+  "2026-07-26-shop-ui-uptime-contract.mjs",
+  "2026-07-25-production-http-canary.py",
+  "needs.validate-shop-ui.result == 'failure'",
+  'test "$(git rev-parse origin/main)" = "$GITHUB_SHA"',
+  'git revert --no-edit "$GITHUB_SHA"',
+  "git push origin HEAD:main",
+  "Bobo shop/UI rollback",
+]) {
+  assert.ok(shopUptimeWorkflow.includes(token), `shop uptime workflow missing ${token}`);
+}
+assert.ok(!shopUptimeWorkflow.includes("deploy-pages"));
 assert.equal(heavenblocksRelease.schemaVersion, 1);
 assert.match(heavenblocksRelease.deepHealthBaseline.commit, /^[0-9a-f]{40}$/);
 assert.ok(heavenblocksRelease.deepHealthBaseline.knownFailures.length > 0);

@@ -46,6 +46,23 @@ def require_header(response: Response, name: str, expected: str) -> None:
     assert expected.lower() in actual.lower(), f"{name} expected {expected!r}, received {actual!r}"
 
 
+def require_javascript_contract(
+    base_url: str,
+    build_id: str,
+    relative: str,
+    required_tokens: tuple[str, ...],
+) -> None:
+    response = request(
+        endpoint(base_url, f"{relative}?v={build_id}"),
+        headers={"Accept-Encoding": "identity"},
+    )
+    assert response.status == 200, f"{relative} returned {response.status}"
+    require_header(response, "Content-Type", "application/javascript")
+    source = response.body.decode("utf-8")
+    for token in required_tokens:
+        assert token in source, f"{relative} missing deployed contract token {token!r}"
+
+
 def probe(base_url: str, include_write_guard: bool) -> dict:
     parsed = urlparse(base_url)
     assert parsed.scheme in {"http", "https"}, "canary URL must use http or https"
@@ -83,6 +100,36 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
     main_source = main_response.body.decode("utf-8")
     assert "installRuntimeCanarySystem" in main_source
     assert "installAdminHealthPanel" in main_source
+
+    require_javascript_contract(
+        base_url,
+        build_id,
+        "world/playScene/NPCManager.js",
+        (
+            '"boboMerchant"',
+            "checkNPCInteraction()",
+            "this.scene.shopOverlay.show(nearestNPC.merchantId)",
+            "getInteractionHealthSnapshot()",
+        ),
+    )
+    require_javascript_contract(
+        base_url,
+        build_id,
+        "systems/visual/MilestoneBoardSystem.js",
+        (
+            "allowOpen || this._isBoardOpen",
+            "Phaser.Input.Keyboard.JustDown(keys.interact)",
+        ),
+    )
+    require_javascript_contract(
+        base_url,
+        build_id,
+        "ui/overlays/ShopOverlay.js",
+        (
+            "show(merchantId)",
+            "this.currentMerchant = merchantId",
+        ),
+    )
 
     range_response = request(
         endpoint(base_url, f"libs/phaser.js?v={build_id}"),

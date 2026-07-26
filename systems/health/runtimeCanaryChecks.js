@@ -101,6 +101,18 @@ function heavenblocksFindings(scene, config) {
   return findings;
 }
 
+function shopUiFindings(scene, config) {
+  const health = scene?.npcManager?.getInteractionHealthSnapshot?.();
+  if (!health || health.ready) return [];
+  return [finding(
+    config,
+    config.events.shopUiInvariant,
+    config.severity.error,
+    config.messages.shopUiInvariant,
+    { sceneKey: "PlayScene", health },
+  )];
+}
+
 function arcCoreVisualFindings(scene, config) {
   const health = scene?.arcCoreVehicleSystem?.visuals?.getHealthSnapshot?.();
   if (!health) return [];
@@ -191,6 +203,7 @@ export function evaluateRuntimeCanaries(
       ));
     }
     if (key === "PlayScene") {
+      findings.push(...shopUiFindings(scene, config));
       findings.push(...celestialFindings(scene, nowMs, config));
       findings.push(...heavenblocksFindings(scene, config));
       findings.push(...arcCoreVisualFindings(scene, config));
