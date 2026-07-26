@@ -326,10 +326,16 @@ save flags, and non-blocking starter choice integration.
 `openingFlightGoldenFiveFixture.mjs` keeps its deterministic world, scene, and
 view doubles reusable without inflating the executable contract.
 
+`2026-07-26-heavenblocks-visual-layout-contract.mjs` guards the three
+non-overlapping sky regions, complete background/facade loading and cleanup,
+visual rollback, gate/prompt drawing, relic projection, transit, component and
+vault animation lifecycles, and presentation health publication.
+
 `2026-07-26-cave-resource-hazard-darkness-contract.mjs` guards deterministic
 real-resource seams, authored-cell protection, live mining HP, challenge
 density and checkpoint safety, all three hazard grammars, all-GP failure
 recovery, synchronized hazard lights, and distinct cave darkness rhythms.
 `?jkd_e2e=1` disables all save writes; F2 (or Ctrl+Alt+C) cycles live cave
 hazards and F3 (or Ctrl+Alt+V) enters the selected hazard for consequence
-validation.
+validation. F4 cycles directly through one timed gate, spike run, and ember
+vent for visual comparison.

@@ -125,6 +125,54 @@ function makeScene() {
 {
   const { scene } = makeScene();
   const source = {
+    state: "warning",
+    intensity: "minor",
+    stateRemaining: 9000,
+    stateTotalMs: 9000,
+  };
+  const ui = new EarthquakeFeedbackUI(scene, source);
+  ui.update();
+  scene.time.now += 4801;
+  ui.update();
+  assert.equal(
+    ui.root.visible,
+    false,
+    "warning copy must fade even if the underlying phase lasts longer",
+  );
+  ui.destroy();
+}
+
+{
+  const { scene } = makeScene();
+  scene.tweens = {
+    add(config) { this.last = config; return config; },
+    killTweensOf() {},
+  };
+  const source = {
+    state: "warning",
+    intensity: "minor",
+    stateRemaining: 3000,
+    stateTotalMs: 3000,
+  };
+  const ui = new EarthquakeFeedbackUI(scene, source);
+  ui.update();
+  source.state = "idle";
+  scene.time.now += 1;
+  ui.update();
+  assert.equal(ui.hiding, true, "idle transition should begin a fade");
+  scene.time.now += 421;
+  ui.update();
+  assert.equal(
+    ui.root.visible,
+    false,
+    "the hard deadline must hide a card even if its exit tween never completes",
+  );
+  ui.destroy();
+}
+
+{
+  const { scene } = makeScene();
+  const source = {
     state: "idle",
     intensity: null,
     stateRemaining: 0,

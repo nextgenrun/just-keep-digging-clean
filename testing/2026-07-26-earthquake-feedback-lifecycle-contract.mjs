@@ -42,6 +42,11 @@ for (const [asset, expectedSize] of [
 
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.escapeVisibleMs <= 6500);
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.recapVisibleMs <= 3200);
+assert.deepEqual(
+  EARTHQUAKE_FEEDBACK_CONFIG.timing.phaseVisibleMs,
+  { warning: 4800, earthquake: 5200, aftermath: 3200 },
+);
+assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.hideFailsafePaddingMs > 0);
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.width <= 480);
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.hazards.maxMarkers <= 2);
 
@@ -66,6 +71,8 @@ assert.ok(!systemSource.includes("💥 CAVE IN"));
 
 assert.ok(uiSource.includes("now >= this.escapeExpiresAt"));
 assert.ok(uiSource.includes("now >= this.recap.expiresAt"));
+assert.ok(uiSource.includes("now >= this.modeExpiresAt"));
+assert.ok(uiSource.includes("now >= this.hideDeadline"));
 assert.ok(uiSource.includes("if (this.hiding ||"));
 assert.ok(uiSource.includes("this._setVisible(false)"));
 assert.ok(hazardSource.includes("this.scene.add.image("));

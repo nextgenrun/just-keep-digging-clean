@@ -356,23 +356,51 @@ export function installJkdE2EHarness(scene) {
   let surfaceBenchmarkPreviewIndex = -1;
   let heavenblockPreviewIndex = -1;
   let caveHazardPreviewIndex = -1;
+  let caveHazardKindPreviewIndex = -1;
   let currentCaveHazard = null;
-  const previewCaveHazard = () => {
-    const hazards = scene.worldModel?.caveHazardZones || [];
-    if (!hazards.length) {
-      console.warn("[JkdE2EHarness] No cave hazards are available");
-      return;
+  const activateCaveHazardPreview = (hazards, index) => {
+    caveHazardPreviewIndex = index;
+    currentCaveHazard = hazards[index];
+    const openingView = scene.openingFlightArtifactSystem?.view;
+    openingView?.hideHud?.();
+    if (openingView && openingView.__jkdHudSuppressed !== true) {
+      openingView.__jkdHudSuppressed = true;
+      openingView.showHud = () => openingView.hideHud();
     }
-    caveHazardPreviewIndex = (caveHazardPreviewIndex + 1) % hazards.length;
-    currentCaveHazard = hazards[caveHazardPreviewIndex];
     closeTransientUi(scene);
     scene.playerController?.fillGemPower?.();
     forcePlayerState(scene, currentCaveHazard.leftCheckpoint);
     console.info(
-      `[JkdE2EHarness] Cave hazard ${caveHazardPreviewIndex + 1}/${hazards.length}: `
+      `[JkdE2EHarness] Cave hazard ${index + 1}/${hazards.length}: `
       + `${currentCaveHazard.label} (${currentCaveHazard.kind}) at `
       + `${currentCaveHazard.centerTx},${currentCaveHazard.floorY}`
     );
+  };
+  const getCaveHazards = () => {
+    const hazards = scene.worldModel?.caveHazardZones || [];
+    if (!hazards.length) {
+      console.warn("[JkdE2EHarness] No cave hazards are available");
+      return null;
+    }
+    return hazards;
+  };
+  const previewCaveHazard = () => {
+    const hazards = getCaveHazards();
+    if (!hazards) return;
+    activateCaveHazardPreview(
+      hazards,
+      (caveHazardPreviewIndex + 1) % hazards.length,
+    );
+  };
+  const previewCaveHazardKind = () => {
+    const hazards = getCaveHazards();
+    if (!hazards) return;
+    const kinds = ["timed-gate", "spike-run", "ember-vent"];
+    caveHazardKindPreviewIndex = (caveHazardKindPreviewIndex + 1) % kinds.length;
+    const index = hazards.findIndex(hazard => (
+      hazard.kind === kinds[caveHazardKindPreviewIndex]
+    ));
+    if (index >= 0) activateCaveHazardPreview(hazards, index);
   };
   const enterCaveHazard = () => {
     if (!currentCaveHazard) {
@@ -451,6 +479,11 @@ export function installJkdE2EHarness(scene) {
     if (event.code === "F3") {
       event.preventDefault?.();
       enterCaveHazard();
+      return;
+    }
+    if (event.code === "F4") {
+      event.preventDefault?.();
+      previewCaveHazardKind();
       return;
     }
     if (!event.ctrlKey || !event.altKey) return;
@@ -553,7 +586,7 @@ export function installJkdE2EHarness(scene) {
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

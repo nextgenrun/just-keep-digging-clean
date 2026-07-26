@@ -1,9 +1,10 @@
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
-import { resolveEarthquakeFeedbackPresentation } from "./earthquakeFeedbackPresentation.js";
-
+import {
+  resolveEarthquakeFeedbackMode,
+  resolveEarthquakeFeedbackPresentation,
+} from "./earthquakeFeedbackPresentation.js";
 const hexColor = value => `#${Number(value).toString(16).padStart(6, "0")}`;
-
 export class EarthquakeFeedbackUI {
   constructor(scene, earthquakeSystem, config = EARTHQUAKE_FEEDBACK_CONFIG) {
     this.scene = scene;
@@ -147,28 +148,19 @@ export class EarthquakeFeedbackUI {
       return;
     }
 
-    const nextMode = this._resolveMode(sourceState);
+    const nextMode = resolveEarthquakeFeedbackMode({
+      escapeActive: this.escapeActive,
+      state: sourceState,
+      suppressedSourceState: this.suppressedSourceState,
+      source: this.source,
+      recap: this.recap,
+    });
     if (!nextMode) {
       this._hide();
       return;
     }
     if (nextMode !== this.mode) this._enterMode(nextMode);
     this._render(nextMode, now);
-  }
-
-  _resolveMode(state = this.source?.state || "idle") {
-    if (this.escapeActive) return "escape";
-    const awarenessKnown = typeof this.source?.isPlayerAware === "function";
-    const playerAware = awarenessKnown ? this.source.isPlayerAware() : true;
-    if (
-      state !== "idle"
-      && state !== this.suppressedSourceState
-      && playerAware
-    ) {
-      return state;
-    }
-    if (this.recap) return "recap";
-    return null;
   }
 
   _enterMode(mode) {
@@ -271,8 +263,7 @@ export class EarthquakeFeedbackUI {
   }
 
   _modeY(mode) {
-    return mode === "escape"
-      ? this._viewportHeight() - this.config.card.bottomMargin
+    return mode === "escape" ? this._viewportHeight() - this.config.card.bottomMargin
       : this.config.card.topY;
   }
 
@@ -292,21 +283,10 @@ export class EarthquakeFeedbackUI {
     }
   }
 
-  _restoreIconScale() {
-    this.iconArt?.setScale?.(this._iconBaseScaleX, this._iconBaseScaleY);
-  }
-
-  _now() {
-    return Number.isFinite(this.scene?.time?.now) ? this.scene.time.now : 0;
-  }
-
-  _viewportWidth() {
-    return this.scene.scale?.width || this.scene.config?.viewportWidth;
-  }
-
-  _viewportHeight() {
-    return this.scene.scale?.height || this.scene.config?.viewportHeight;
-  }
+  _restoreIconScale() { this.iconArt?.setScale?.(this._iconBaseScaleX, this._iconBaseScaleY); }
+  _now() { return Number.isFinite(this.scene?.time?.now) ? this.scene.time.now : 0; }
+  _viewportWidth() { return this.scene.scale?.width || this.scene.config?.viewportWidth; }
+  _viewportHeight() { return this.scene.scale?.height || this.scene.config?.viewportHeight; }
 
   destroy() {
     if (this.destroyed) return;

@@ -10,7 +10,7 @@ approximately 0.8-tile visible height instead of shrinking against idle.
 
 `UalActionContactTimeline.js` turns Phaser animation updates into one deterministic gameplay contact per visible action and exposes whether that contact has fired. Mining, Quickslash, and Thunder mutate tiles only at authored contact; skipped frames and animation-complete fallback still fire exactly once. Once contact plus the configured recovery delay have passed and `DigSystem` confirms the action-start cooldown is ready, held mining may replace only the visible recovery with the next action without replaying the old contact.
 
-`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. Repeated side hits advance through the approved punch-only Jab, Cross, Jab, Cross sequence; UP and UP-SIDE use alternating Jab/Cross variants. Changing direction or pausing beyond the configured combo window returns to the first swing in both the main world and compact caves.
+`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. Repeated side hits advance through the approved punch-only Jab, Cross, Jab, Cross sequence; UP and UP-SIDE retain alternating action keys while the default Survivor maps both to its complete Piskel-stabilized Blender dig-up clip. Changing direction or pausing beyond the configured combo window returns to the first swing in both the main world and compact caves.
 
 `PlayerAssetLoader.js` also queues the generated UAL runtime manifest. Game Rig
 v2 consumes its packed-frame hand/foot/pelvis/head markers while preserving the

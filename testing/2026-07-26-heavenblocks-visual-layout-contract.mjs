@@ -7,8 +7,12 @@ import {
   resolveHeavenblocksVisualsEnabled,
 } from "../values/heavenblocksVisualConfig.js";
 import { V11SkyIslandVisualSystem } from "../systems/environment/V11SkyIslandVisualSystem.js";
+import { HeavenblocksPresentationSystem } from "../systems/visual/HeavenblocksPresentationSystem.js";
 
 globalThis.Phaser = {
+  BlendModes: {
+    ADD: "ADD",
+  },
   Loader: {
     Events: {
       COMPLETE: "complete",
@@ -195,5 +199,138 @@ for (const region of HEAVENBLOCKS_VISUAL_CONFIG.regions) {
 
 system.destroy();
 assert.equal(harness.images.every((image) => image.destroyed), true);
+
+const presentationObjects = [];
+const tweenConfigs = [];
+const graphics = {
+  destroyed: false,
+  circleCount: 0,
+  setDepth() { return this; },
+  clear() { return this; },
+  lineStyle() { return this; },
+  strokeCircle() {
+    this.circleCount += 1;
+    return this;
+  },
+  fillStyle() { return this; },
+  fillCircle() { return this; },
+  destroy() { this.destroyed = true; },
+};
+const promptText = {
+  destroyed: false,
+  visible: false,
+  text: "",
+  setOrigin() { return this; },
+  setDepth() { return this; },
+  setPosition(x, y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  },
+  setText(text) {
+    this.text = text;
+    return this;
+  },
+  setVisible(visible) {
+    this.visible = visible;
+    return this;
+  },
+  destroy() { this.destroyed = true; },
+};
+function createFxObject(x, y, key = "") {
+  const object = {
+    x,
+    y,
+    key,
+    destroyed: false,
+    setStrokeStyle() { return this; },
+    setDepth() { return this; },
+    setScale() { return this; },
+    setAlpha() { return this; },
+    setBlendMode() { return this; },
+    destroy() { this.destroyed = true; },
+  };
+  presentationObjects.push(object);
+  return object;
+}
+
+const presentationConfig = {
+  presentation: {
+    depth: 12,
+    promptOffsetPx: 20,
+    altarRadiusPx: 30,
+    relicProjectionRadiusPx: 80,
+    relicProjectionScale: 0.6,
+  },
+  surfaceGates: [
+    { regionId: "sky", tx: 2, ty: 3, color: 0x99ddff },
+  ],
+  regions: [
+    {
+      id: "sky",
+      color: 0x99ddff,
+      componentAssetKey: "component-key",
+      returnAltar: { tx: 4, ty: 5 },
+      rewardShrine: { tx: 6, ty: 7 },
+    },
+  ],
+};
+const presentationScene = {
+  add: {
+    graphics: () => graphics,
+    text: () => promptText,
+    circle: (x, y) => createFxObject(x, y),
+    image: (x, y, key) => createFxObject(x, y, key),
+  },
+  textures: {
+    exists: () => true,
+  },
+  tweens: {
+    add(config) {
+      tweenConfigs.push(config);
+      config.onComplete?.();
+      return config;
+    },
+  },
+};
+const presentationWorld = {
+  tileToWorld: (tx, ty) => ({ x: tx * 94 + 47, y: ty * 94 + 47 }),
+};
+const presentationProgression = {
+  getSaveData: () => ({ unlockedRegionIds: ["sky"] }),
+  isRegionUnlocked: regionId => regionId === "sky",
+};
+const presentation = new HeavenblocksPresentationSystem(
+  presentationScene,
+  presentationWorld,
+  presentationConfig,
+);
+presentation.create();
+assert.deepEqual(presentation.getHealthSnapshot(), {
+  promptReady: true,
+  altarGraphicsReady: true,
+  activeFxCount: 0,
+});
+presentation.setPrompt({ tx: 2, ty: 3 }, "Enter Sky Island");
+assert.equal(promptText.visible, true);
+assert.match(promptText.text, /Enter Sky Island/);
+presentation.redrawAltars(presentationProgression, true);
+assert.equal(graphics.circleCount, 3);
+presentation.playTransit({ x: 100, y: 200 }, 0x99ddff, true, 900);
+presentation.playComponentClaim(presentationConfig.regions[0]);
+presentation.playVault(presentationConfig.regions[0], true);
+assert.ok(tweenConfigs.length >= 9);
+assert.equal(presentation.getHealthSnapshot().activeFxCount, 0);
+assert.equal(presentationObjects.every(object => object.destroyed), true);
+presentation.hidePrompt();
+assert.equal(promptText.visible, false);
+presentation.destroy();
+assert.equal(promptText.destroyed, true);
+assert.equal(graphics.destroyed, true);
+assert.deepEqual(presentation.getHealthSnapshot(), {
+  promptReady: false,
+  altarGraphicsReady: false,
+  activeFxCount: 0,
+});
 
 console.log("heavenblocks visual layout contract passed");

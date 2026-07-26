@@ -24,6 +24,20 @@ function escapeDetail(scene, labels) {
   return `${labels.escapeAction}  •  ${labels.safePortal} ${glyph} ${nearest.distance}`;
 }
 
+export function resolveEarthquakeFeedbackMode({
+  escapeActive,
+  state,
+  suppressedSourceState,
+  source,
+  recap,
+}) {
+  if (escapeActive) return "escape";
+  const awarenessKnown = typeof source?.isPlayerAware === "function";
+  const playerAware = awarenessKnown ? source.isPlayerAware() : true;
+  if (state !== "idle" && state !== suppressedSourceState && playerAware) return state;
+  return recap ? "recap" : null;
+}
+
 export function resolveEarthquakeFeedbackPresentation({
   mode,
   source,

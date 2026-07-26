@@ -53,7 +53,6 @@ class EarthquakeFeedbackReviewScene extends Phaser.Scene {
     }
     this.earthquakeFeedbackUI.update();
     this.earthquakeHazardOverlay.update();
-    this.reviewFramesRemaining = 3;
   }
 
   _drawCave() {
@@ -90,8 +89,6 @@ class EarthquakeFeedbackReviewScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.reviewFramesRemaining <= 0) return;
-    this.reviewFramesRemaining -= 1;
     this.earthquakeFeedbackUI?.update();
     this.earthquakeHazardOverlay?.update();
   }
