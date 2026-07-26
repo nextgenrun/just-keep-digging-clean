@@ -215,7 +215,9 @@ export class NPCManager {
       
       // Show shop overlay
       this.scene.shopOverlay.show(nearestNPC.merchantId);
+      return true;
     }
+    return false;
   }
 
   getNearestInteractionDistance(playerTile) {
@@ -242,6 +244,24 @@ export class NPCManager {
 
   getActivityHealthSnapshot() {
     return this.activitySystem.getHealthSnapshot();
+  }
+
+  getInteractionHealthSnapshot() {
+    const bobo = this.npcDefs.find(npc => npc.merchantId === "boboMerchant");
+    const promptReady = this._interactPrompts.some(
+      prompt => prompt.npc?.merchantId === "boboMerchant" && prompt.text,
+    );
+    const visualReady = this.npcSprites.has("boboMerchant");
+    const shopReady = typeof this.scene.shopOverlay?.show === "function";
+    const interactKeyReady = Boolean(this.scene.interactKey);
+    return {
+      ready: Boolean(bobo && promptReady && visualReady && shopReady && interactKeyReady),
+      boboDefined: Boolean(bobo),
+      promptReady,
+      visualReady,
+      shopReady,
+      interactKeyReady,
+    };
   }
 
   destroy() {
