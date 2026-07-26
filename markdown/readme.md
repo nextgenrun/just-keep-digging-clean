@@ -304,6 +304,7 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-26-underground-biome-motion-runtime-v1.md` | Rejected Graphics-overlay motion history and V2 supersession pointer |
 | `2026-07-26-underground-biome-baked-motion-runtime-v2.md` | Ten actual moving-image backgrounds, painted keyframes, VP9 pipeline, ground separation, streaming, performance, and rollback contract |
 | `2026-07-26-modular-surface-props-runtime-v1.md` | Approved modular Level 1/Level 2 surface props, physical scale, terrain contact, coverage, streaming, testing, and rollback contract |
+| `2026-07-26-titan-chambers-production-v2.md` | 25 unique high-resolution Titan chambers, colossal discovery zones, streamed runtime/archive wiring, health, and rollback |
 | `2026-06-25-phase3-roadmap.md` | Current phase roadmap |
 | `2026-06-25-next-steps.md` | Immediate next steps |
 </content-file>

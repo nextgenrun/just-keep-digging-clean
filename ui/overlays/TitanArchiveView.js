@@ -233,6 +233,7 @@ export class TitanArchiveView {
   }
 
   _setPortrait(textureKey, discovered) {
+    this.scene.tweens?.killTweensOf?.(this.portrait);
     this.portrait.setTexture(textureKey);
     fitImage(
       this.portrait,
@@ -244,6 +245,18 @@ export class TitanArchiveView {
     );
     if (discovered) this.portrait.clearTint();
     else this.portrait.setTint(0x4a5c66);
+    if (discovered && this.scene.tweens?.add) {
+      const pulseScale = this.config.archive.vignettePulseScale;
+      this.scene.tweens.add({
+        targets: this.portrait,
+        scaleX: this.portrait.scaleX * pulseScale,
+        scaleY: this.portrait.scaleY * pulseScale,
+        duration: this.config.archive.vignettePulseMs,
+        ease: "Sine.InOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    }
   }
 
   _releasePortrait() {

@@ -72,15 +72,17 @@ Use `?worldVisualRuntime=legacy` for the temporary rollback assembly. Legacy Til
 The mine-entrance landmark is the first scenic asset-pipeline pilot. It resolves against the deterministic shallowest standalone cave mouth after complete world generation, validates that the mouth is air with a solid row beneath it, and anchors its measured alpha-crop bottom exactly to that floor. The beauty card sits above scenic terrain but below resource/damage feedback and never mutates the cave mouth, collision, or tile state. It responds to day/night, rain, and lightning and can be removed independently with `?mineEntrancePilot=0`.
 
 `TitanDiscoverySystem` adds a visual collection layer between the streamed cave
-backwall and authoritative terrain. Each of its 25 deterministic windows records
-only cells that were originally diggable; solid scenic terrain hides the titan
-sprite, dug air reveals it, and clearing the final tracked cell plays a localized
-glow, dust, crossing, and collection-echo flourish. Saved discovery ids only
-control visual restoration, the 5x5 ESC archive, and which of the 25 generated
-Titan Walk plinths holds a living miniature. Locked plinths remain visible so
-the collection has a physical completion shape. The system never changes tile
-type, HP, collision, rewards, player stats, or world generation, and
-`?titans=0` removes and de-queues it independently.
+backwall and authoritative terrain. Each of its 25 deterministic 15-22 by 8-13
+tile windows records only cells that were originally diggable. The dedicated
+`TitanChamberStream` loads at most two nearby 1536x848 authored cards, swaps
+them over the compact fallback, and removes stream-owned texture memory outside
+the release range. Solid scenic terrain hides the card, dug air reveals it, and
+clearing the final tracked cell plays the localized glow, dust, crossing, and
+collection-echo flourish. A discovered ESC entry can pin one card for its large
+vignette. Saved ids only control visual restoration, the 5x5 archive, and which
+Titan Walk plinth holds a living miniature. The system never changes tile type,
+HP, collision, rewards, player stats, or world generation.
+`?titanChambers=0` restores compact art; `?titans=0` removes the complete layer.
 
 `WorldVisualSurfacePropLayer` streams the approved Variant C prop language
 across both complete surface ranges. Every object is an independent alpha

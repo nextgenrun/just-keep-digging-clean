@@ -4,10 +4,11 @@
 `productionChanged: true`  
 `generationMode: built-in ImageGen`
 
-The four full-screen PNGs remain visual reference. Production promotion is
-bounded to the compact creature derivatives, the archive/retention/runtime
-wiring, and the generated Titan Walk plinth documented below. Bespoke
-high-resolution chamber paintings remain unpromoted.
+The four full-screen PNGs remain visual reference. Their compact-creature,
+archive, retention, Titan Walk, and plinth promotion is documented below. The
+separate completed 25-card high-resolution chamber promotion and exact prompt
+set are recorded in
+`sprites/backgrounds/titan-chambers-v2/2026-07-26-imagegen-prompt-manifest-v2.md`.
 
 ## Shared Direction
 

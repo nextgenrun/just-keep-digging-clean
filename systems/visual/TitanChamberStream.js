@@ -2,28 +2,10 @@ import {
   TITAN_DISCOVERY_CONFIG,
   resolveTitanChambersEnabled,
 } from "../../values/titanDiscoveries.js";
-
-function distanceToZone(playerTile, zone) {
-  if (!playerTile) return Number.POSITIVE_INFINITY;
-  const dx = playerTile.tx < zone.left
-    ? zone.left - playerTile.tx
-    : playerTile.tx >= zone.rightExclusive
-      ? playerTile.tx - zone.rightExclusive + 1
-      : 0;
-  const dy = playerTile.ty < zone.top
-    ? zone.top - playerTile.ty
-    : playerTile.ty >= zone.bottomExclusive
-      ? playerTile.ty - zone.bottomExclusive + 1
-      : 0;
-  return Math.max(dx, dy);
-}
-
-function fitScale(image, maximumWidth, maximumHeight) {
-  return Math.min(
-    maximumWidth / Math.max(1, image.width || image.displayWidth || 1),
-    maximumHeight / Math.max(1, image.height || image.displayHeight || 1)
-  );
-}
+import {
+  distanceToTitanZone,
+  fitTitanChamberScale,
+} from "./titanChamberGeometry.js";
 
 export class TitanChamberStream {
   constructor(
@@ -70,7 +52,7 @@ export class TitanChamberStream {
     const candidates = [...this.records.values()]
       .map(record => ({
         record,
-        distance: distanceToZone(playerTile, record.view.zone),
+        distance: distanceToTitanZone(playerTile, record.view.zone),
       }))
       .filter(candidate => (
         candidate.distance <= stream.preloadRangeTiles
@@ -203,7 +185,7 @@ export class TitanChamberStream {
     if (!this._textureExists(asset.key)) return false;
     const card = this.scene.add.image(view.settledX, view.baseY, asset.key);
     const glow = this.scene.add.image(view.settledX, view.baseY, asset.key);
-    const baseScale = fitScale(
+    const baseScale = fitTitanChamberScale(
       card,
       view.widthPx * this.config.backdrop.fitFraction,
       view.heightPx * this.config.backdrop.fitFraction

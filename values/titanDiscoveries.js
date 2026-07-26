@@ -99,32 +99,27 @@ export const TITAN_DEFINITIONS = Object.freeze([
   titan(3, "lantern-jaw", "Lantern Jaw", 235, 158, 0x62f3d2, 22, 12, 2.1),
   titan(4, "archwalker", "Archwalker", 315, 228, 0x62f3d2, 17, 9, 1.5),
   titan(5, "shale-mother", "Shale Mother", 410, 52, 0x62f3d2, 19, 10, 1.1),
-
   titan(6, "ribbon-wyrm", "Ribbon Wyrm", 510, 120, 0xffbe52, 22, 12, 2.2),
   titan(7, "crowned-mole", "Crowned Mole", 620, 205, 0xffbe52, 17, 9, 1.1),
   titan(8, "hammerhead-pilgrim", "Hammerhead Pilgrim", 735, 246, 0xffbe52, 17, 9, 1.5),
   titan(9, "cathedral-stag", "Cathedral Stag", 850, 65, 0xffbe52, 19, 10, 1.4),
   titan(10, "hollowback-bear", "Hollowback Bear", 980, 175, 0xffbe52, 19, 10, 1.2),
-
   titan(11, "silver-strider", "Silver Strider", 1120, 250, 0xa7e7ff, 17, 9, 1.7),
   titan(12, "mirror-ray", "Mirror Ray", 1260, 95, 0xa7e7ff, 22, 12, 2.4),
   titan(13, "needlecrown", "Needlecrown", 1400, 210, 0xa7e7ff, 18, 10, 1.2),
   titan(14, "moon-shell", "Moon Shell", 1545, 42, 0xa7e7ff, 19, 10, 1.0),
   titan(15, "veilwing", "Veilwing", 1685, 148, 0xa7e7ff, 21, 12, 1.8),
-
   titan(16, "ember-tusk", "Ember Tusk", 1825, 235, 0xff6d32, 19, 10, 1.3),
   titan(17, "furnace-drake", "Furnace Drake", 1960, 188, 0xff6d32, 20, 11, 1.8),
   titan(18, "ash-colossus", "Ash Colossus", 2160, 165, 0xff6d32, 18, 10, 1.4),
   titan(19, "magma-whale", "Magma Whale", 2420, 225, 0xff6d32, 22, 12, 2.5),
   titan(20, "cinder-centipede", "Cinder Centipede", 2730, 148, 0xff6d32, 22, 12, 2.3),
-
   titan(21, "obsidian-sleeper", "Obsidian Sleeper", 3090, 260, 0xc878ff, 19, 10, 1.0),
   titan(22, "rift-heron", "Rift Heron", 3490, 190, 0xc878ff, 17, 9, 1.8),
   titan(23, "star-eater", "Star Eater", 3910, 240, 0xc878ff, 22, 12, 2.4),
   titan(24, "deep-crown", "Deep Crown", 4380, 155, 0xc878ff, 20, 11, 1.5),
   titan(25, "worldroot-titan", "Worldroot Titan", 4860, 215, 0xc878ff, 22, 12, 1.2),
 ]);
-
 export const TITAN_DISCOVERY_CONFIG = Object.freeze({
   enabledByDefault: true,
   queryParam: "titans",
@@ -171,6 +166,7 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     maxResidentCards: 2,
     nativeWidthPx: 1536,
     nativeHeightPx: 848,
+    ambientGlowAlpha: 0.055,
   }),
   unlockFx: Object.freeze({
     ringDepth: -5.94,
@@ -246,6 +242,8 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     regionFontSize: 13,
     loreFontSize: 14,
     slotIndexFontSize: 10,
+    vignettePulseScale: 1.008,
+    vignettePulseMs: 5200,
   }),
 });
 
@@ -271,7 +269,6 @@ export function resolveTitanChambersEnabled(
   if (value && chamberConfig.disabledValues.includes(value)) return false;
   return chamberConfig.enabledByDefault;
 }
-
 export function getTitanDiscoveryPreloadAssets(
   config = TITAN_DISCOVERY_CONFIG,
   search
@@ -282,7 +279,6 @@ export function getTitanDiscoveryPreloadAssets(
     config.assets.walkPlinth,
   ];
 }
-
 export function getTitanChamberAssets(
   config = TITAN_DISCOVERY_CONFIG,
   search

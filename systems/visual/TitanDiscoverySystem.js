@@ -6,6 +6,7 @@ import { playTitanUnlockFx } from "./titanDiscoveryFx.js";
 import { buildTitanDiscoveryZones } from "./titanDiscoveryZones.js";
 import { TitanChamberStream } from "./TitanChamberStream.js";
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js";
+import { publishTitanDiscoveryHealth } from "./titanDiscoveryHealth.js";
 function fitScale(image, maximumWidth, maximumHeight) {
   return Math.min(
     maximumWidth / Math.max(1, image.width || image.displayWidth || 1),
@@ -199,6 +200,18 @@ export class TitanDiscoverySystem {
       if (view.animating) continue;
       const phase = time / backdrop.idlePeriodMs
         + view.definition.index * backdrop.phaseStep;
+      if (view.visualMode === "chamber") {
+        const wave = (Math.sin(phase) + 1) / 2;
+        view.sprite.setX(view.settledX);
+        view.glowSprite
+          .setX(view.settledX)
+          .setAlpha(
+            this.config.chambers.ambientGlowAlpha
+            * wave
+            * (view.discovered ? 1 : view.progress)
+          );
+        continue;
+      }
       const x = view.settledX + Math.sin(phase) * backdrop.idleDriftPixels;
       view.sprite.setX(x);
       view.glowSprite.setX(x);
@@ -219,45 +232,7 @@ export class TitanDiscoverySystem {
     this.forceProgressSync = true;
   }
   _publishHealth(enabled) {
-    const snapshot = this.getSnapshot();
-    const complete = snapshot.zones.length === snapshot.total
-      && snapshot.surface.ready
-      && snapshot.chambers.ready
-      && snapshot.chambers.registered === snapshot.total;
-    const status = !enabled ? "disabled" : complete ? "healthy" : "degraded";
-    const health = { status, enabled, ...snapshot };
-    globalThis[this.config.health.globalKey] = health;
-    if (status === "healthy" && !this.healthReadyReported) {
-      this.healthReadyReported = true;
-      globalThis.__jkdHealth?.markLifecycle?.(
-        this.config.health.readyStage,
-        {
-          zones: snapshot.zones.length,
-          surfaceSlots: snapshot.surface.slots,
-        }
-      );
-    } else if (status === "degraded" && !this.healthFailureReported) {
-      this.healthFailureReported = true;
-      const missing = [
-        ...snapshot.surface.missingAssets,
-        ...snapshot.chambers.failedAssets,
-      ];
-      const code = snapshot.chambers.failedAssets.length
-        ? this.config.health.chamberAssetCode
-        : missing.length
-          ? this.config.health.missingAssetCode
-          : this.config.health.incompleteRuntimeCode;
-      globalThis.__jkdHealth?.captureSystemFinding?.({
-        key: code,
-        code,
-        severity: this.config.health.severity,
-        message: missing.length
-          ? `Titan discovery assets missing: ${missing.join(", ")}`
-          : `Titan discovery runtime incomplete: ${snapshot.zones.length}/${snapshot.total} zones`,
-        context: health,
-      });
-    }
-    return health;
+    return publishTitanDiscoveryHealth(this, enabled);
   }
   getSnapshot() {
     const surface = this.surfaceGallery.getSnapshot();
