@@ -239,15 +239,14 @@ function makeBareSystem(overrides = {}) {
   });
   system._updateFallingRocks = () => {};
   system._updateCaveIns = () => {};
-  system._updateWarningText = () => {};
   system._updateRubbleRestoration = () => {};
   system._quakeFx = () => {};
   system._mutateNearbyTiles = () => { mutations += 1; };
-  system._redFlash = () => { flashes += 1; };
+  system._seismicFlash = () => { flashes += 1; };
 
   system.update(16);
   assert.equal(mutations, 1, "a due mutation pulse must execute");
-  assert.equal(flashes, 1, "each mutation pulse must produce its intended flash");
+  assert.equal(flashes, 0, "mutation pulses must not spam full-screen flashes");
 }
 
 {

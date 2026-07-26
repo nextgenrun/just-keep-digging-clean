@@ -23,7 +23,14 @@ so the structure grows instead of being normalized back to one size.
 comparison. `runtime-production-milestone-ui.png` records the production modal
 after its pagination, typography, bounds, and foreground-layer fixes.
 
-`reviewOnly: true`; `productionChanged: false` for pillar artwork. No candidate
-is loaded by the game BootScene or selected by `MilestoneBoardSystem`. The
-production Milestone Pillar modal is improved independently with bounded pages,
-larger typography, and a responsive journal layout.
+This folder itself remains review-only evidence. The user approved screenshot 1
+(Option C, Dwarven Depth Engine) for the production Milestone Pillar and
+screenshot 2 (Option A, carved blue slate) for the production Sky Island Star
+Pillar on 2026-07-26. The exact transparent stages were copied under new runtime
+names to `sprites/environment/approved-pillars-v1/`; BootScene never loads
+assets from this preview folder. Options B, D, and E remain unselected.
+
+The Star Pillar keeps the round sockets authored into Option A. Phaser fills
+them with the existing approved Star Heart texture, a staggered glow pulse, and
+a pop/beam celebration as saved constellation pairs are completed. This display
+does not recreate collected stars in the persistent world.

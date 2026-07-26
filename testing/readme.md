@@ -53,6 +53,12 @@ five-stage ImageGen review set, monotonic physical growth, transparent PNG
 integrity, review-only isolation, readable paginated production modal, and
 nearest-target Town Square interaction arbitration.
 
+`2026-07-26-approved-pillar-runtime-contract.mjs` guards the explicit
+screenshot-1/screenshot-2 promotion: ten hashed RGBA production stages,
+best-depth growth, readable world prompts, five constellation-pair socket
+states, Star Heart additive/screen pulses and unlock beams, Boot preload wiring,
+and the absence of persistent collected world stars.
+
 `2026-07-16-scenic-resource-veins-smoke.mjs` keeps its compatibility filename while verifying generated raster resources and reward blocks as the default, independent damage cracks and non-reward markers, suppression of procedural ore geometry plus the legacy 94 px reward emblems, `?terrainSemantics=0` restoration of deterministic veins/nodules and reward emblems, and the combined `?terrainSemantics=0&resourceVeins=0` rollback to the older resource-emblem atlas.
 
 `2026-07-16-scenic-cave-mouth-smoke.mjs` verifies that recurring standalone
@@ -93,10 +99,9 @@ uniform churn, and that the darkness compositor skips clear/fill/erase plus
 local-light scans until its exact active-frame path is needed again.
 `2026-07-26-star-block-light-persistence-contract.mjs` verifies that every
 in-view `SKY_TILE` keeps a strong, softly shaped light pool outside the player's
-torch/vision radius, opens its independently staggered beacon with a Northstar
-flare, carries constellation sparks on a slow ring spanning more than ten tiles,
-never drops the steady core, and leaves geode and other local lights proximity
-limited.
+torch/vision radius, emits only a rare faint cross-free ring, never stacks more
+than one traveling pulse, spans more than ten tiles, never drops the steady
+core, and leaves geode and other local lights proximity limited.
 `2026-07-26-titan-discovery-contract.mjs` verifies all 25 unique alpha sprites,
 deterministic non-overlapping clear-area zones, `?titans=0`, persistence without
 duplicate or unknown ids, final-cell visual unlock, surface-echo creation, save
@@ -148,9 +153,17 @@ impact ring and paced sparkle trail, sway slowly upward through the configured
 fade, clean every transient element up, and never enter or restore a persistent
 world pool.
 
-`2026-07-13-earthquake-feedback-ui-smoke.mjs` verifies the seismic phase banner,
-toast offset, persistent escape objective, cave-in markers, offscreen danger,
-falling-rock lanes, restored-rubble outlines, trap dedupe, and medium shake key.
+`2026-07-13-earthquake-feedback-ui-smoke.mjs` verifies the compact generated-art
+phase card, notification offset, auto-expiring escape guidance, short completion
+recap, image-backed cave-in markers, offscreen danger, restrained fall guides,
+restored-rubble outlines, trap dedupe, and medium shake key.
+
+`2026-07-26-earthquake-feedback-lifecycle-contract.mjs` guards the v2 restrained
+seismic presentation: generated RGBA runtime assets, Boot preload wiring,
+compact phase/recap timing, auto-expiring escape guidance, one quake-start flash,
+no repeated warning/toast/emoji path, image-backed hazard markers, non-filled
+fall lanes, event-completion teardown, and protection against a restarted hide
+tween that could leave the card visible forever.
 
 `2026-07-13-earthquake-world-epicenter-smoke.mjs` verifies that epicenters are
 selected from world coordinates instead of the player, and that mutations,
@@ -310,3 +323,10 @@ routing, deterministic 14-cell seam, three-wide escape, reward ledge, calm
 weather window, protected ascent, surface-gated and pauseable 30-second flight
 bank, idempotent permanent cache rewards, generated runtime assets, preloads,
 save flags, and non-blocking starter choice integration.
+
+`2026-07-26-cave-resource-hazard-darkness-contract.mjs` guards deterministic
+real-resource seams, authored-cell protection, live mining HP, challenge
+density and checkpoint safety, all three hazard grammars, all-GP failure
+recovery, synchronized hazard lights, and distinct cave darkness rhythms.
+`?jkd_e2e=1` disables all save writes; Ctrl+Alt+C cycles live cave hazards and
+Ctrl+Alt+V enters the selected hazard for consequence validation.

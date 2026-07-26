@@ -1,6 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "runtimeRoot": "sprites/character/piskel/runtime-active",
+  "pipelinePolicy": {
+    "normalizationCommand": "polish",
+    "anchorAuthority": "per-animation centeringPolicy",
+    "scaleAuthority": "one uniform scale per animation",
+    "timelineAuthority": "authored Piskel frame order"
+  },
   "animations": [
     {
       "id": "idle",
@@ -47,6 +53,7 @@
       "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/walk-review-contact-sheet.png",
       "phaserKey": "char-v5-walk-sheet",
       "orientation": "right",
+      "autoAlign": true,
       "centeringPolicy": {
         "runtimeBaselineY": 338,
         "bottomY": 339,
@@ -75,6 +82,7 @@
       "contactSheetPath": "sprites/character/character-v5-walk/dig/dig-sideways-review-contact-sheet.png",
       "phaserKey": "char-v5-dig-sideways-sheet",
       "orientation": "left",
+      "autoAlign": true,
       "hitFrameGroups": [
         [
           0,
@@ -132,6 +140,7 @@
       "contactSheetPath": "sprites/character/character-v5-walk/dig/dig-up-review-contact-sheet.png",
       "phaserKey": "char-v5-dig-up-sheet",
       "orientation": "front-up",
+      "autoAlign": true,
       "hitFrameGroups": [
         [
           0,
@@ -176,6 +185,7 @@
       "contactSheetPath": "sprites/character/character-v5-walk/dig/dig-up-sideways-review-contact-sheet.png",
       "phaserKey": "char-v5-dig-up-sideways-sheet",
       "orientation": "right-up",
+      "autoAlign": true,
       "hitFrameGroups": [
         [
           0,
@@ -257,9 +267,68 @@
       "contactSheetPath": "sprites/character/character-v5-walk/fly-climb/fly-climb-review-contact-sheet.png",
       "phaserKey": "char-v5-fly-climb-sheet",
       "orientation": "front",
+      "autoAlign": true,
       "centeringPolicy": {
         "runtimeBaselineY": 338,
         "maxAnchorDriftPx": 5
+      }
+    },
+    {
+      "id": "survival-blender-v2-dig-up",
+      "displayName": "Survival Blender V2 Dig Up",
+      "fps": 27,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 24,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/survival-character-blender-v2/piskel-polish/dig-up.piskel",
+      "importRuntimeOutputs": [
+        "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-sheet.png"
+      ],
+      "runtimeOutputs": [
+        "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png"
+      ],
+      "metadataPath": "sprites/character/survival-character-blender-v2/reports/piskel-polish/dig-up-metadata.json",
+      "previewPath": "sprites/character/survival-character-blender-v2/reports/piskel-polish/dig-up-preview-27fps.gif",
+      "contactSheetPath": "sprites/character/survival-character-blender-v2/reports/piskel-polish/dig-up-review-contact-sheet.png",
+      "phaserKey": "survival-blender-v2-dig-up-polished-sheet",
+      "orientation": "right-up",
+      "autoAlign": true,
+      "contactFrame": 11,
+      "contactSequenceIndex": 11,
+      "displaySizePx": 109,
+      "centeringPolicy": {
+        "normalize": true,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.35,
+        "anchorAlphaThreshold": 32,
+        "anchorSmoothingWindow": 3,
+        "targetAnchorX": 128,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 1,
+        "referenceFrames": [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "targetReferenceHeightPx": 178,
+        "minUniformScale": 0.98,
+        "maxUniformScale": 1.02,
+        "maxAnchorDriftPx": 3,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
       }
     },
     {

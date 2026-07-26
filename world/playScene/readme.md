@@ -112,3 +112,11 @@ guaranteed pre-1000m relic caches make the first sky route reachable. Island
 floors are re-applied after dug-tile restoration, component and Keystone
 requirements are never consumed, and `?heavenblocksGameplay=0` disables access
 while preserving save-compatible progression data.
+
+## Integrated cave gameplay
+
+`PlaySceneSetup` constructs `CaveAtmosphereSystem`, `CaveHazardView`,
+`CaveHazardSystem`, and `CaveInteriorOcclusionSystem` in that order for both
+renderer modes. `PlaySceneUpdate` advances visual rhythm and collision only
+while normal gameplay is active; occlusion remains above the hazards until the
+cave is discovered.

@@ -41,14 +41,12 @@ export class StarPillarWorldVisual {
 
     const previousCount = this.unlockedCount;
     const nextStage = this._resolveStage(nextCount);
-    const stageChanged = this.pillar.setStage(nextStage, animate);
+    this.pillar.setStage(nextStage, animate);
     this.unlockedCount = nextCount;
     this._syncSocketStars(animate, previousCount);
 
     if (animate && nextCount > previousCount) {
       this._playUnlockBeam();
-    } else if (stageChanged) {
-      this._layoutExistingStars();
     }
     return true;
   }
@@ -67,6 +65,9 @@ export class StarPillarWorldVisual {
   _syncSocketStars(animate, previousCount) {
     const progress = resolveStarSocketProgress(this.unlockedCount);
     const anchors = this.config.socketStages[this.pillar.stageIndex] || [];
+    const newestIndex = animate && this.unlockedCount > previousCount
+      ? progress.newestSocketIndex
+      : -1;
 
     while (this.socketStars.length > Math.min(progress.filledSockets, anchors.length)) {
       this._destroySocketStar(this.socketStars.pop());
@@ -82,10 +83,11 @@ export class StarPillarWorldVisual {
       socket.strength = strength;
       this._layoutSocketStar(socket, anchors[index]);
       this._setSocketStrength(socket, strength);
+      if (index !== newestIndex) this._startPulse(socket);
     }
 
-    if (animate && this.unlockedCount > previousCount) {
-      const newest = this.socketStars[progress.newestSocketIndex];
+    if (newestIndex >= 0) {
+      const newest = this.socketStars[newestIndex];
       if (newest) this._popSocketStar(newest, progress.newestSocketStrength);
     }
   }
@@ -106,25 +108,22 @@ export class StarPillarWorldVisual {
     }
 
     const socket = { index, strength, halo, core, pulseTween: null };
-    this._startPulse(socket);
     return socket;
-  }
-
-  _layoutExistingStars() {
-    const anchors = this.config.socketStages[this.pillar.stageIndex] || [];
-    this.socketStars.forEach((socket, index) => {
-      if (anchors[index]) this._layoutSocketStar(socket, anchors[index]);
-    });
   }
 
   _layoutSocketStar(socket, anchor) {
     const image = this.pillar.getImage();
     if (!image?.active) return;
-    const left = image.x - image.displayWidth * 0.5;
-    const top = image.y - image.displayHeight;
-    const x = left + image.displayWidth * anchor.x;
-    const y = top + image.displayHeight * anchor.y;
-    const diameter = image.displayWidth * anchor.diameter;
+    socket.pulseTween?.stop();
+    this.scene.tweens.killTweensOf([socket.core, socket.halo]);
+
+    const finalWidth = image.width * this.pillar.displayScale;
+    const finalHeight = image.height * this.pillar.displayScale;
+    const left = image.x - finalWidth * 0.5;
+    const top = image.y - finalHeight;
+    const x = left + finalWidth * anchor.x;
+    const y = top + finalHeight * anchor.y;
+    const diameter = finalWidth * anchor.diameter;
     const coreSize = diameter * this.config.starCoreScale;
     const haloSize = diameter * this.config.starHaloScale;
 
@@ -151,7 +150,6 @@ export class StarPillarWorldVisual {
       targets: [socket.core, socket.halo],
       scaleX: `*=${this.config.starPulseScale}`,
       scaleY: `*=${this.config.starPulseScale}`,
-      alpha: `+=${this.config.starHaloAlpha * 0.24}`,
       duration: this.config.starPulseDurationMs,
       delay: socket.index * this.config.starPulseStaggerMs,
       ease: "Sine.inOut",
@@ -182,11 +180,6 @@ export class StarPillarWorldVisual {
       duration: this.config.starPopDurationMs * 0.58,
       ease: "Back.out",
       yoyo: true,
-      onComplete: () => {
-        socket.core.setScale(targetCoreX, targetCoreY);
-        socket.halo.setScale(targetHaloX, targetHaloY);
-        this._startPulse(socket);
-      },
     });
     this.scene.tweens.add({
       targets: socket.halo,
@@ -195,7 +188,12 @@ export class StarPillarWorldVisual {
       alpha: { from: this.config.starBurstAlpha, to: 0 },
       duration: this.config.starBurstDurationMs,
       ease: "Power2.out",
-      onComplete: () => this._setSocketStrength(socket, strength),
+      onComplete: () => {
+        socket.core.setScale(targetCoreX, targetCoreY);
+        socket.halo.setScale(targetHaloX, targetHaloY);
+        this._setSocketStrength(socket, strength);
+        this._startPulse(socket);
+      },
     });
   }
 

@@ -28,7 +28,7 @@ export function resolveGraveborerWurmFeatureFlags(search = globalThis.location?.
   };
 }
 
-function resolveActivation(scene, playerTile, system) {
+export function resolveGraveborerWurmActivation(scene, playerTile, system) {
   const config = GRAVEBORER_WURM_CONFIG;
   const hardcoreArmed = isHardcoreModeArmed(scene.hardcoreModeData);
   const flightUnlocked = scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -252,7 +252,11 @@ export function createGraveborerWurmRuntime(scene) {
 export function updateGraveborerWurmRuntime(scene, time, delta, playerTile) {
   const runtime = scene.graveborerWurmRuntime;
   if (!runtime) return null;
-  runtime.lastGate = resolveActivation(scene, playerTile, runtime.system);
+  runtime.lastGate = resolveGraveborerWurmActivation(
+    scene,
+    playerTile,
+    runtime.system,
+  );
   const snapshot = runtime.system.update(delta, {
     active: runtime.lastGate.active,
     playerTile,

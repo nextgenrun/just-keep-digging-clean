@@ -823,49 +823,29 @@ export class LightSystem {
     );
     const elapsed = Math.max(0, time);
     const cycle = Math.floor(elapsed / windowMs);
+    const activationChance = clamp01(pulseCfg.chancePerWindow ?? 1);
+    if (hashTileCycle(tx, ty, cycle) >= activationChance) return null;
+
     const cycleStart = cycle * windowMs;
     const availableJitterMs = Math.max(0, windowMs - durationMs - edgePaddingMs * 2);
     const pulseStart = cycleStart
       + edgePaddingMs
-      + hashTileCycle(tx, ty, cycle) * availableJitterMs;
+      + hashTileCycle(ty, tx, cycle) * availableJitterMs;
     const progress = (elapsed - pulseStart) / durationMs;
 
     if (progress < 0 || progress >= 1) return null;
 
-    const attackRatio = Math.max(0.01, Math.min(0.95, pulseCfg.attackRatio || 0.12));
-    const strength = progress <= attackRatio
-      ? smoothstep(progress / attackRatio)
-      : 1 - smoothstep((progress - attackRatio) / (1 - attackRatio));
     const waveEnvelopePower = Math.max(0.01, pulseCfg.waveEnvelopePower || 1);
     const waveStrength = Math.pow(
       Math.max(0, Math.sin(Math.PI * progress)),
       waveEnvelopePower
     );
-    const flarePeakProgress = Math.max(
-      0.01,
-      Math.min(0.9, pulseCfg.flarePeakProgress || attackRatio)
-    );
-    const flareEndProgress = Math.max(
-      flarePeakProgress + 0.01,
-      Math.min(1, pulseCfg.flareEndProgress || flarePeakProgress + attackRatio)
-    );
-    const flareStrength = progress <= flarePeakProgress
-      ? smoothstep(progress / flarePeakProgress)
-      : progress < flareEndProgress
-      ? 1 - smoothstep(
-        (progress - flarePeakProgress) / (flareEndProgress - flarePeakProgress)
-      )
-      : 0;
 
-    if (strength <= 0.001 && waveStrength <= 0.001 && flareStrength <= 0.001) {
-      return null;
-    }
+    if (waveStrength <= 0.001) return null;
     return {
       cycle,
       progress: clamp01(progress),
-      strength: clamp01(strength),
       waveStrength: clamp01(waveStrength),
-      flareStrength: clamp01(flareStrength),
     };
   }
 
@@ -925,39 +905,6 @@ export class LightSystem {
         );
       }
     }
-
-    const flareStrength = pulse.flareStrength || 0;
-    if (flareStrength <= minimumAlpha) return;
-
-    const flareRadiusX = visuals.flareHorizontalRadiusTiles * tileSize;
-    const flareRadiusY = visuals.flareVerticalRadiusTiles * tileSize * verticalScale;
-    graphics.lineStyle(
-      visuals.flareGlowWidthPx,
-      visuals.flareColor,
-      visuals.flareGlowAlpha * flareStrength
-    );
-    graphics.beginPath();
-    graphics.moveTo(worldX - flareRadiusX, worldY);
-    graphics.lineTo(worldX + flareRadiusX, worldY);
-    graphics.moveTo(worldX, worldY - flareRadiusY);
-    graphics.lineTo(worldX, worldY + flareRadiusY);
-    graphics.strokePath();
-    graphics.lineStyle(
-      visuals.flareCoreWidthPx,
-      visuals.flareCoreColor,
-      visuals.flareCoreAlpha * flareStrength
-    );
-    graphics.beginPath();
-    graphics.moveTo(worldX - flareRadiusX, worldY);
-    graphics.lineTo(worldX + flareRadiusX, worldY);
-    graphics.moveTo(worldX, worldY - flareRadiusY);
-    graphics.lineTo(worldX, worldY + flareRadiusY);
-    graphics.strokePath();
-    graphics.fillStyle(
-      visuals.flareCoreColor,
-      visuals.flareCoreAlpha * flareStrength
-    );
-    graphics.fillCircle(worldX, worldY, visuals.flareCoreRadiusPx);
   }
 
   _eraseTileTypeLightSources({
@@ -1033,6 +980,12 @@ export class LightSystem {
     const flickerAmount = cfg.flickerAmount || 0;
     const maxRadiusTiles = cfg.maxRadiusTiles || radiusTiles;
     const baseReveal = revealBase * (1 + lighting.undergroundDarknessInfluence * (cfg.undergroundRevealBoost || 0));
+    const pulseCfg = cfg.beaconPulse;
+    const maxConcurrentPulses = Math.max(
+      0,
+      Math.floor(pulseCfg?.maxConcurrentPulses ?? 1)
+    );
+    let pulseSourcesDrawn = 0;
 
     for (let i = 0; i < sources.length && i < maxSources; i += 1) {
       const source = sources[i];
@@ -1057,7 +1010,7 @@ export class LightSystem {
       const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
       darkness.erase(this._crystalEraser, screenX, screenY);
 
-      const pulseCfg = cfg.beaconPulse;
+      if (pulseSourcesDrawn >= maxConcurrentPulses) continue;
       const pulse = this._resolveTileBeaconPulse(time, source.tx, source.ty, pulseCfg);
       if (!pulse) continue;
 
@@ -1088,6 +1041,7 @@ export class LightSystem {
         pulseCfg,
         source
       );
+      pulseSourcesDrawn += 1;
     }
   }
 

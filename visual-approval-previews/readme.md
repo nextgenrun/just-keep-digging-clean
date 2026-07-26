@@ -19,9 +19,12 @@ Review-only visual assets live here before runtime wiring. Each subfolder must i
 - The Phaser review scene places each candidate in the approved Town Square,
   includes a 1.75 m player reference, and can open the exact production
   Milestone Pillar modal with `U` or Enter.
-- `reviewOnly: true`; `productionChanged: false` for pillar artwork. Production
-  UI pagination, larger text, bounded panels, and interaction priority are
-  improved independently.
+- The gallery remains review evidence. On 2026-07-26, screenshot 1 / Option C
+  was explicitly approved for the production Milestone Pillar and screenshot 2 /
+  Option A was explicitly approved for the production Sky Island Star Pillar.
+  Renamed RGBA copies are loaded only from
+  `sprites/environment/approved-pillars-v1/`; the other three options remain
+  review-only.
 
 ## Underground biome background production v2 — 2026-07-26
 

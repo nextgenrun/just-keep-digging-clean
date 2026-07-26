@@ -16,6 +16,12 @@ Single Source of Truth — ALL numeric/string/config values.
   timing thresholds, required scene collaborators, event copy, severity/status
   names, reporting endpoint hook, and panel presentation values.
 
+- `earthquakeFeedback.js` owns the generated seismic frame/medallion preload
+  contract, compact card geometry, entrance/exit/recap timing, auto-expiring
+  route guidance, hazard-marker limits, restrained fall guides, and all
+  player-facing seismic copy. Earthquake state and mutations remain owned by
+  `earthquakes.js` and `EarthquakeSystem`.
+
 - `gameConfig.js -> rendererQuality` owns the painterly WebGL sampling contract: antialiasing stays enabled, pixel rounding stays disabled, High 1.5x is the default backing density, Ultra is 2x, and all rollback query names/presets are centralized there. Logical gameplay coordinates remain 1280x720.
 
 - `worldVisualDepthBackdrops.js` owns 50 streamed background-only plates across the ten row 65..5064 material bands, with five deterministic 1536x1024 cards per biome. It also owns the negative render depths that keep all scenic architecture behind `terrainDepth: 0.1`, shared mist, biome-specific pooled ambient profiles, emissive breathing, low-FPS shedding, `?biomeBackdropVariants=0` legacy-pool rollback, and `?biomeBackdropMotion=0` animation rollback. `?levelOneBackdrops=0` and `?shallowCavern=0` still disable the complete presentation without touching simulation state.
@@ -33,11 +39,11 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - `miningConfig.js` owns the shared `You cannot break this` and `0 damage` blocked-bedrock UI copy, styling, dedupe key, duration, and compact-cave status color. `DigSystem` identifies authoritative bedrock, cave-wall, and town-floor failures; presentation remains in the active world UI.
 - `caveArchetypes.js` owns the six cave identities, four width forms, palettes, motifs, discovery copy, feature chances, depth gates, and streaming values. `worldGen.js -> caves.authoredGapSupplement` owns the five-band Level One refill targets and spacing; the generator may carve only non-authored resources or reuse authored AIR.
-- `lightConfig.js -> caveLights` owns restrained local cave illumination that reveals identity art only while the player is at the cavern. `skyTileLights` separately owns Star Block beacon lighting: in-view `SKY_TILE` cells keep a strong, softly flattened pool of light through hard underground darkness even beyond player vision, then open with a brief Northstar flare and send an independently staggered five-second constellation ring more than ten tiles across. Geode and crystal lights remain proximity-limited.
+- `lightConfig.js -> caveLights` owns restrained local cave illumination that reveals identity art only while the player is at the cavern. `skyTileLights` separately owns Star Block beacon lighting: in-view `SKY_TILE` cells keep a strong, softly flattened pool of light through hard underground darkness beyond player vision. A coordinate-seeded 18% chance per 45-second window may send one faint 6.4-second ring across the area; cross flares are disabled and concurrent rings are capped at one. Geode and crystal lights remain proximity-limited.
 - `starConstellations.js -> collectedStarReleaseFx` owns the UI-only mined Star Block presentation: source flash, expanding impact ring, bounded sparkle trail, slow swaying ascent, rarity duration, scale beats, and final fade. It never restores collected stars to the persistent world.
 
 - uiLayout.js centralizes modal spacing, UI typography, depth ordering, and merchant presentation copy for the unified interface.
-- `milestonePillarUi.js` owns the responsive Milestone Pillar modal geometry, pagination density, and readable type floor; `milestonePillarReview.js` owns only the five-option, five-stage Phaser review lab and explicitly cannot promote art into production.
+- `pillarVisuals.js` owns both approved five-stage production asset lists, player-readable world scale, transition/glow timing, Milestone depth thresholds, Star Pillar constellation thresholds, and normalized socket centers. `milestonePillarUi.js` owns the responsive modal geometry, pagination density, and readable type floor; `milestonePillarReview.js` remains the isolated five-option review-lab contract.
 - `townSquareConfig.js` owns the approved Option A square layout id, surface-row offset, and five absolute door-aligned merchant slots. The Level 2 Arc Core merchant remains owned by `arcCoreConfig.js`.
 - `branding.js` owns the approved UNDERSTAR product name and Rift Monolith
   runtime-logo path shared by the boot and menu scenes.
@@ -91,3 +97,9 @@ Single Source of Truth — ALL numeric/string/config values.
 upfront GP payment, free earned follow-ups, 1x/3x/10x stage damage, the hard
 Slam II window, the near-frame-perfect 30 ms Slam III window, timing-HUD
 presentation, and escalating impact/shake signatures.
+
+`caveGameplay.js` owns deterministic cave-wall resource seams, challenge-room
+density, safe checkpoints, all-GP failure consequences, hazard timing, and
+hazard rendering values. `caveArchetypes.js` owns cave identity art and seam
+glints; `lightConfig.js` owns each identity's darkness rhythm and synchronized
+hazard-light phases.

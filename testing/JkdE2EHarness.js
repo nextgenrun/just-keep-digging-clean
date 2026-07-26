@@ -356,6 +356,35 @@ export function installJkdE2EHarness(scene) {
   let heavenblockPreviewIndex = -1;
   let caveHazardPreviewIndex = -1;
   let currentCaveHazard = null;
+  const previewCaveHazard = () => {
+    const hazards = scene.worldModel?.caveHazardZones || [];
+    if (!hazards.length) {
+      console.warn("[JkdE2EHarness] No cave hazards are available");
+      return;
+    }
+    caveHazardPreviewIndex = (caveHazardPreviewIndex + 1) % hazards.length;
+    currentCaveHazard = hazards[caveHazardPreviewIndex];
+    closeTransientUi(scene);
+    scene.playerController?.fillGemPower?.();
+    forcePlayerState(scene, currentCaveHazard.leftCheckpoint);
+    console.info(
+      `[JkdE2EHarness] Cave hazard ${caveHazardPreviewIndex + 1}/${hazards.length}: `
+      + `${currentCaveHazard.label} (${currentCaveHazard.kind}) at `
+      + `${currentCaveHazard.centerTx},${currentCaveHazard.floorY}`
+    );
+  };
+  const enterCaveHazard = () => {
+    if (!currentCaveHazard) {
+      console.warn("[JkdE2EHarness] Preview a cave hazard with F2 or Ctrl+Alt+C first");
+      return;
+    }
+    scene.playerController?.fillGemPower?.();
+    forcePlayerState(scene, {
+      tx: Math.round(currentCaveHazard.centerTx),
+      ty: currentCaveHazard.floorY - 1,
+    });
+    console.info(`[JkdE2EHarness] Entered cave hazard ${currentCaveHazard.id} for failure validation`);
+  };
   const handleBackgroundPreviewKey = event => {
     const semanticPredicate = event.code === "F6"
       ? type => type === TILE_TYPES.SKY_TILE
@@ -411,6 +440,16 @@ export function installJkdE2EHarness(scene) {
         `[JkdE2EHarness] Scenic mine-entrance pilot preview at ${entrance.zoneId} `
         + `${entrance.tileX},${entrance.floorTileY}`
       );
+      return;
+    }
+    if (event.code === "F2") {
+      event.preventDefault?.();
+      previewCaveHazard();
+      return;
+    }
+    if (event.code === "F3") {
+      event.preventDefault?.();
+      enterCaveHazard();
       return;
     }
     if (!event.ctrlKey || !event.altKey) return;
@@ -477,35 +516,12 @@ export function installJkdE2EHarness(scene) {
     }
     if (event.code === "KeyC") {
       event.preventDefault?.();
-      const hazards = scene.worldModel?.caveHazardZones || [];
-      if (!hazards.length) {
-        console.warn("[JkdE2EHarness] No cave hazards are available");
-        return;
-      }
-      caveHazardPreviewIndex = (caveHazardPreviewIndex + 1) % hazards.length;
-      currentCaveHazard = hazards[caveHazardPreviewIndex];
-      closeTransientUi(scene);
-      scene.playerController?.fillGemPower?.();
-      forcePlayerState(scene, currentCaveHazard.leftCheckpoint);
-      console.info(
-        `[JkdE2EHarness] Cave hazard ${caveHazardPreviewIndex + 1}/${hazards.length}: `
-        + `${currentCaveHazard.label} (${currentCaveHazard.kind}) at `
-        + `${currentCaveHazard.centerTx},${currentCaveHazard.floorY}`
-      );
+      previewCaveHazard();
       return;
     }
     if (event.code === "KeyV") {
       event.preventDefault?.();
-      if (!currentCaveHazard) {
-        console.warn("[JkdE2EHarness] Preview a cave hazard with Ctrl+Alt+C first");
-        return;
-      }
-      scene.playerController?.fillGemPower?.();
-      forcePlayerState(scene, {
-        tx: Math.round(currentCaveHazard.centerTx),
-        ty: currentCaveHazard.floorY - 1,
-      });
-      console.info(`[JkdE2EHarness] Entered cave hazard ${currentCaveHazard.id} for failure validation`);
+      enterCaveHazard();
       return;
     }
     const level = event.code === "PageDown" ? "level1" : (event.code === "PageUp" ? "level2" : null);
@@ -536,7 +552,7 @@ export function installJkdE2EHarness(scene) {
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C cycles cave hazards; Ctrl+Alt+V enters the selected hazard");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

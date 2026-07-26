@@ -12,6 +12,7 @@ import {
   sanitizeHardcoreModeData,
 } from "../values/hardcoreMode.js";
 import {
+  resolveGraveborerWurmActivation,
   resolveGraveborerWurmFeatureFlags,
 } from "../world/playScene/GraveborerWurmBridge.js";
 
@@ -40,6 +41,53 @@ assert.deepEqual(
 assert.deepEqual(
   resolveGraveborerWurmFeatureFlags("?wurm=1&wurm10x=0"),
   { enabled: true, devTest10x: false },
+);
+const disabledByFlag = new GraveborerWurmSystem(
+  resolveGraveborerWurmFeatureFlags("?wurm=0&wurm10x=1"),
+);
+advance(disabledByFlag, 30000, {
+  active: true,
+  playerTile: { tx: 50, ty: 184 },
+  worldWidthTiles: 320,
+});
+assert.equal(disabledByFlag.getSnapshot().active, false);
+assert.equal(disabledByFlag.encounterCount, 0);
+
+const gateSystem = new GraveborerWurmSystem();
+const gateScene = {
+  config: { topAirRows: 65 },
+  hardcoreModeData: { mode: "casual", armed: false },
+  upgradeSystem: { isGemPowerUnlocked: () => true },
+};
+assert.equal(
+  resolveGraveborerWurmActivation(gateScene, { tx: 50, ty: 184 }, gateSystem).active,
+  false,
+  "The production Wurm must be absent from Casual play",
+);
+gateScene.hardcoreModeData = { mode: "hardcore", armed: true };
+gateScene.upgradeSystem.isGemPowerUnlocked = () => false;
+assert.equal(
+  resolveGraveborerWurmActivation(gateScene, { tx: 50, ty: 184 }, gateSystem).active,
+  false,
+  "Hardcore Wurm must wait for Flight unlock",
+);
+gateScene.upgradeSystem.isGemPowerUnlocked = () => true;
+assert.equal(
+  resolveGraveborerWurmActivation(gateScene, { tx: 50, ty: 183 }, gateSystem).active,
+  false,
+  "Hardcore Wurm must wait until the configured minimum depth",
+);
+assert.equal(
+  resolveGraveborerWurmActivation(gateScene, { tx: 50, ty: 184 }, gateSystem).active,
+  true,
+);
+gateSystem.setDevTest10x(true);
+gateScene.hardcoreModeData = { mode: "casual", armed: false };
+gateScene.upgradeSystem.isGemPowerUnlocked = () => false;
+assert.equal(
+  resolveGraveborerWurmActivation(gateScene, { tx: 50, ty: 65 }, gateSystem).active,
+  true,
+  "The explicit 10x developer flag must bypass mode, Flight, and depth gates",
 );
 
 const casual = new GraveborerWurmSystem();

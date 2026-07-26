@@ -8,12 +8,22 @@ function displayObject() {
   return {
     active: true,
     visible: true,
+    alpha: 1,
+    scaleX: 1,
+    scaleY: 1,
     x: 0,
     y: 0,
     text: "",
     setScrollFactor() { return this; },
     setDepth() { return this; },
     setVisible(value) { this.visible = value; return this; },
+    setAlpha(value) { this.alpha = value; return this; },
+    setScale(x, y = x) { this.scaleX = x; this.scaleY = y; return this; },
+    setDisplaySize(width, height) {
+      this.displayWidth = width;
+      this.displayHeight = height;
+      return this;
+    },
     setOrigin() { return this; },
     setPosition(x, y) { this.x = x; this.y = y; return this; },
     setText(value) { this.text = value; return this; },
@@ -30,7 +40,7 @@ function graphics() {
   for (const method of [
     "clear", "fillStyle", "fillRoundedRect", "lineStyle", "strokeRoundedRect",
     "fillRect", "strokeRect", "fillCircle", "strokeCircle", "beginPath", "arc",
-    "strokePath", "fillTriangle",
+    "strokePath", "fillTriangle", "lineBetween",
   ]) {
     object[method] = function(...args) { this.calls.push([method, ...args]); return this; };
   }
@@ -57,6 +67,7 @@ function makeScene() {
     add: {
       container: () => displayObject(),
       graphics,
+      image: () => displayObject(),
       text: () => displayObject(),
     },
   };
@@ -74,20 +85,19 @@ function makeScene() {
   const ui = new EarthquakeFeedbackUI(scene, source);
   ui.update();
 
-  assert.equal(ui.topRoot.visible, true, "warning banner should be visible");
-  assert.equal(ui.topTitle.text, "SEISMIC WARNING");
-  assert.match(ui.topSubtitle.text, /MAJOR.*3\.2s/);
-  assert.equal(scene.uiNotifications.baseY, 116, "toasts should move below the hazard banner");
+  assert.equal(ui.root.visible, true, "warning card should be visible");
+  assert.equal(ui.title.text, "TREMOR NEARBY");
+  assert.match(ui.detail.text, /MAJOR.*3\.2s/);
+  assert.equal(scene.uiNotifications.baseY, 188, "toasts should move below the compact hazard card");
 
   ui.activateEscapeObjective();
-  assert.equal(ui.topTitle.text, "TUNNEL COLLAPSED");
-  assert.equal(ui.objectiveAction.text, "DIG DOWN ↓");
-  assert.equal(ui.objectiveDetail.text, "Find a Teleport Gate to get back up");
+  assert.equal(ui.title.text, "ROUTE BLOCKED");
+  assert.equal(ui.detail.text, "DIG THROUGH FRESH RUBBLE");
 
   source.state = "idle";
   ui.clearEscapeObjective();
-  assert.equal(ui.topRoot.visible, false, "idle feedback should hide after escape recovery");
-  assert.deepEqual(notificationY, [116, 58]);
+  assert.equal(ui.root.visible, false, "idle feedback should hide after escape recovery");
+  assert.deepEqual(notificationY, [188, 58]);
   ui.destroy();
 }
 
@@ -102,9 +112,33 @@ function makeScene() {
   };
   const ui = new EarthquakeFeedbackUI(scene, source);
   ui.update();
-  assert.equal(ui.topRoot.visible, false, "a remote world quake should not take over the player HUD");
+  assert.equal(ui.root.visible, false, "a remote world quake should not take over the player HUD");
   ui.activateEscapeObjective();
-  assert.equal(ui.topRoot.visible, true, "an existing escape objective must remain visible during remote quakes");
+  assert.equal(ui.root.visible, true, "an existing escape objective must remain visible during remote quakes");
+  scene.time.now += 6501;
+  source.state = "idle";
+  ui.update();
+  assert.equal(ui.root.visible, false, "escape guidance must auto-dismiss instead of sticking forever");
+  ui.destroy();
+}
+
+{
+  const { scene } = makeScene();
+  const source = {
+    state: "idle",
+    intensity: null,
+    stateRemaining: 0,
+    stateTotalMs: 0,
+    isPlayerAware: () => false,
+  };
+  const ui = new EarthquakeFeedbackUI(scene, source);
+  ui.completeEvent({ intensity: "major", passagesOpened: 2, playerAware: true });
+  assert.equal(ui.root.visible, true, "event completion should show one short recap");
+  assert.equal(ui.title.text, "TREMOR PASSED");
+  assert.match(ui.detail.text, /2 PASSAGES OPENED/);
+  scene.time.now += 3201;
+  ui.update();
+  assert.equal(ui.root.visible, false, "completion recap must remove itself");
   ui.destroy();
 }
 
@@ -128,27 +162,24 @@ function makeScene() {
   assert.equal(overlay.edgeRoot.visible, true, "offscreen aftershock should get an edge warning");
   assert.equal(overlay.recentRubble.has("9,8"), true);
   assert.equal(
-    overlay.worldGraphics.calls.some(([method]) => method === "fillRect"),
+    overlay.worldGraphics.calls.some(([method]) => method === "lineBetween"),
     true,
-    "falling rock lane should be drawn"
+    "falling rock lane should use restrained guide lines"
   );
   overlay.destroy();
 }
 
 {
-  const guidanceCalls = [];
   const feedbackCalls = [];
   const system = Object.create(EarthquakeSystem.prototype);
   system._trapGuidanceShown = false;
   system.config = EARTHQUAKE_CONFIG;
   system.scene = {
     earthquakeFeedbackUI: { activateEscapeObjective: () => feedbackCalls.push("escape") },
-    uiNotifications: { warning: (...args) => guidanceCalls.push(args) },
   };
   system._showTrapGuidance();
   system._showTrapGuidance();
   assert.equal(feedbackCalls.length, 1, "escape objective should activate once per earthquake");
-  assert.equal(guidanceCalls.length, 1, "trap toast should remain deduplicated");
 }
 
 {

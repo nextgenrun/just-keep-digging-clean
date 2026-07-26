@@ -114,7 +114,9 @@ export class ProgressivePillarSprite {
   }
 
   getTopY() {
-    return this.image?.active ? this.baseY - this.image.displayHeight : this.baseY;
+    return this.image?.active
+      ? this.baseY - this.image.height * this.displayScale
+      : this.baseY;
   }
 
   getImage() {

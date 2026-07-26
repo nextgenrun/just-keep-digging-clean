@@ -174,7 +174,10 @@ function createViewStub() {
     passed: [],
     cachesShown: 0,
     cacheCelebrations: 0,
+    createBuriedGuidance() {},
     setBuriedProximity() {},
+    revealArtifact() {},
+    settleArtifact() {},
     showHud(payload) { this.hud.push(payload); },
     showEscapeRings() {},
     passRing(index) { this.passed.push(index); },
@@ -276,6 +279,20 @@ runtime.view = createViewStub();
 
 runtime.state = sanitizeOpeningFlightArtifactData(null);
 assert.equal(runtime.isFreeFlightActive(), false);
+runtime.flight.collectArtifact();
+assert.equal(runtime.state.artifactCollected, true);
+assert.equal(runtime.state.stage, OPENING_FLIGHT_STAGES.ESCAPE);
+assert.equal(runtime.state.trialRemainingMs, 30000);
+assert.deepEqual(
+  runtimeFixture.rewards.upgrades.at(-1),
+  [OPENING_FLIGHT_ARTIFACT_CONFIG.upgradeId, 1],
+  "the obvious artifact must grant the permanent production flight upgrade",
+);
+assert.equal(
+  runtime.isFreeFlightActive(),
+  true,
+  "the first ascent must be protected immediately after artifact collection",
+);
 runtime.state = {
   ...runtime.state,
   artifactCollected: true,

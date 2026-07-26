@@ -6,13 +6,22 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 
 const tileSize = 94;
 const starTile = Object.freeze({ tx: 8, ty: 5 });
+const neighboringStarTile = Object.freeze({ tx: 7, ty: 5 });
 const geodeTile = Object.freeze({ tx: 9, ty: 5 });
 const playerTile = Object.freeze({ tx: 0, ty: 0 });
+let includeNeighboringStar = false;
 const worldModel = {
   width: 12,
   depth: 10,
   getTileType(tx, ty) {
     if (tx === starTile.tx && ty === starTile.ty) return TILE_TYPES.SKY_TILE;
+    if (
+      includeNeighboringStar
+      && tx === neighboringStarTile.tx
+      && ty === neighboringStarTile.ty
+    ) {
+      return TILE_TYPES.SKY_TILE;
+    }
     if (tx === geodeTile.tx && ty === geodeTile.ty) return TILE_TYPES.GEODE_INTERIOR;
     return TILE_TYPES.AIR;
   },
@@ -121,56 +130,117 @@ assert.ok(
   "the beacon wave must travel slowly enough for a distant player to notice it"
 );
 assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.windowMs >= 40000,
+  "beacon windows must leave long quiet gaps"
+);
+assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.chancePerWindow <= 0.2,
+  "only a small random share of beacon windows may emit"
+);
+assert.equal(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.maxConcurrentPulses,
+  1,
+  "multiple Star Block pulses must never stack on-screen"
+);
+assert.ok(
   LIGHT_CONFIG.skyTileLights.beaconPulse.radiusBoostTiles >= 5.5,
   "the beacon wave must travel far beyond the permanent core glow"
 );
 assert.equal(
   LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.enabled,
   true,
-  "the darkness reveal must be paired with a visible constellation ring and source flare"
+  "the darkness reveal must retain a visible traveling ring"
+);
+assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.revealAlpha <= 0.1,
+  "the expanding darkness reveal must remain restrained"
+);
+assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringCoreAlpha <= 0.2,
+  "the visible ring must remain faint rather than dominating the scene"
+);
+assert.equal(
+  Object.keys(LIGHT_CONFIG.skyTileLights.beaconPulse.visuals)
+    .some((key) => key.startsWith("flare")),
+  false,
+  "Northstar cross-flare configuration must be removed entirely"
 );
 
 const pulseConfig = LIGHT_CONFIG.skyTileLights.beaconPulse;
-const pulseSearchEnd = pulseConfig.windowMs * 2;
-let quietTime = null;
+const sampledWindowCount = 160;
+const activeWindowIndices = [];
+const neighboringActiveWindowIndices = [];
+const quietTime = 0;
 let peakPulse = null;
 let expandingPulse = null;
-let flarePulse = null;
-for (let time = 0; time <= pulseSearchEnd; time += 10) {
-  const pulse = lightSystem._resolveTileBeaconPulse(
-    time,
+for (let cycle = 0; cycle < sampledWindowCount; cycle += 1) {
+  let activeInWindow = false;
+  let neighboringActiveInWindow = false;
+  for (let offset = 0; offset < pulseConfig.windowMs; offset += 50) {
+    const time = cycle * pulseConfig.windowMs + offset;
+    const pulse = lightSystem._resolveTileBeaconPulse(
+      time,
+      starTile.tx,
+      starTile.ty,
+      pulseConfig
+    );
+    const neighboringPulse = lightSystem._resolveTileBeaconPulse(
+      time,
+      neighboringStarTile.tx,
+      neighboringStarTile.ty,
+      pulseConfig
+    );
+    if (pulse) {
+      activeInWindow = true;
+      if (!peakPulse || pulse.waveStrength > peakPulse.pulse.waveStrength) {
+        peakPulse = { time, pulse };
+      }
+      if (
+        !expandingPulse
+        || Math.abs(pulse.progress - 0.55)
+          < Math.abs(expandingPulse.pulse.progress - 0.55)
+      ) {
+        expandingPulse = { time, pulse };
+      }
+    }
+    if (neighboringPulse) neighboringActiveInWindow = true;
+  }
+  if (activeInWindow) activeWindowIndices.push(cycle);
+  if (neighboringActiveInWindow) neighboringActiveWindowIndices.push(cycle);
+}
+
+assert.equal(
+  lightSystem._resolveTileBeaconPulse(
+    quietTime,
     starTile.tx,
     starTile.ty,
     pulseConfig
-  );
-  if (!pulse && quietTime === null) quietTime = time;
-  if (pulse && (!peakPulse || pulse.strength > peakPulse.pulse.strength)) {
-    peakPulse = { time, pulse };
-  }
-  if (pulse && (!expandingPulse || Math.abs(pulse.progress - 0.55) < Math.abs(expandingPulse.pulse.progress - 0.55))) {
-    expandingPulse = { time, pulse };
-  }
-  if (
-    pulse
-    && (
-      !flarePulse
-      || Math.abs(pulse.progress - pulseConfig.flarePeakProgress)
-        < Math.abs(flarePulse.pulse.progress - pulseConfig.flarePeakProgress)
-    )
-  ) {
-    flarePulse = { time, pulse };
-  }
-}
-
-assert.notEqual(quietTime, null, "the beacon must retain a quiet interval between pulses");
-assert.ok(peakPulse?.pulse.strength > 0.98, "the beacon pulse must reach a clear visual peak");
+  ),
+  null,
+  "every beacon window must begin with a quiet interval"
+);
+assert.ok(activeWindowIndices.length > 0, "the rare pulse must still occur sometimes");
+assert.ok(
+  activeWindowIndices.length < sampledWindowCount * 0.25,
+  "the deterministic random schedule must leave most windows completely quiet"
+);
+assert.notDeepEqual(
+  activeWindowIndices,
+  neighboringActiveWindowIndices,
+  "nearby Star Blocks must use different random emission windows"
+);
+assert.ok(
+  peakPulse?.pulse.waveStrength > 0.98,
+  "the faint ring envelope must still reach its configured peak"
+);
 assert.ok(
   expandingPulse?.pulse.progress > 0.5 && expandingPulse.pulse.progress < 0.6,
   "the pulse contract must expose a useful expanding-wave phase"
 );
-assert.ok(
-  flarePulse?.pulse.flareStrength > 0.98,
-  "the Northstar source flare must reach a clear peak before the ring travels outward"
+assert.equal(
+  Object.hasOwn(peakPulse.pulse, "flareStrength"),
+  false,
+  "resolved pulses must not expose the removed cross-flare animation"
 );
 
 lightSystem._eraseTileTypeLightSources({
@@ -227,8 +297,8 @@ assert.ok(
   "the beacon halo must expand far enough to identify the Star Block from a distance"
 );
 assert.ok(
-  eraseCalls[1].alpha >= 0.12,
-  "the distant beacon halo must remain readable while it expands"
+  eraseCalls[1].alpha >= 0.04 && eraseCalls[1].alpha <= 0.1,
+  "the distant beacon halo must be readable but deliberately faint"
 );
 const ringStroke = graphicsCalls.find((call) => call.type === "strokeEllipse");
 assert.ok(ringStroke, "an active beacon must draw a visible constellation ring");
@@ -242,10 +312,45 @@ assert.ok(
   "the traveling ring must carry its configured constellation spark points"
 );
 
+assert.equal(
+  graphicsCalls.filter((call) => call.type === "strokePath").length,
+  0,
+  "the traveling pulse must never draw cross-shaped flare paths"
+);
+
+let overlappingPulseTime = null;
+for (let cycle = 0; cycle < 1600 && overlappingPulseTime === null; cycle += 1) {
+  for (let offset = 0; offset < pulseConfig.windowMs; offset += 100) {
+    const time = cycle * pulseConfig.windowMs + offset;
+    const pulse = lightSystem._resolveTileBeaconPulse(
+      time,
+      starTile.tx,
+      starTile.ty,
+      pulseConfig
+    );
+    const neighboringPulse = lightSystem._resolveTileBeaconPulse(
+      time,
+      neighboringStarTile.tx,
+      neighboringStarTile.ty,
+      pulseConfig
+    );
+    if (pulse?.waveStrength > 0.5 && neighboringPulse?.waveStrength > 0.5) {
+      overlappingPulseTime = time;
+      break;
+    }
+  }
+}
+assert.notEqual(
+  overlappingPulseTime,
+  null,
+  "the test schedule must contain a deterministic overlapping-pulse opportunity"
+);
+
+includeNeighboringStar = true;
 eraseCalls.length = 0;
 graphicsCalls.length = 0;
 lightSystem._eraseTileTypeLightSources({
-  time: flarePulse.time,
+  time: overlappingPulseTime,
   lighting: { undergroundDarknessInfluence: 1 },
   camera,
   darkness,
@@ -254,26 +359,17 @@ lightSystem._eraseTileTypeLightSources({
   cfg: LIGHT_CONFIG.skyTileLights,
   tileTypes: new Set([TILE_TYPES.SKY_TILE]),
 });
-assert.ok(
-  graphicsCalls.filter((call) => call.type === "strokePath").length >= 2,
-  "the pulse opening must draw soft and crisp Northstar flare rays at the real source"
+assert.equal(
+  eraseCalls.length,
+  3,
+  "two steady cores may render, but only one expanding darkness halo may be active"
 );
-
-const neighboringPulseTimes = [];
-for (let time = 0; time <= pulseConfig.windowMs; time += 10) {
-  const pulse = lightSystem._resolveTileBeaconPulse(
-    time,
-    starTile.tx + 1,
-    starTile.ty,
-    pulseConfig
-  );
-  if (pulse && pulse.strength > 0.98) neighboringPulseTimes.push(time);
-}
-assert.ok(
-  neighboringPulseTimes.length > 0
-    && Math.abs(neighboringPulseTimes[0] - peakPulse.time) > 250,
-  "coordinate-seeded pulse timing must keep nearby Star Blocks from flashing in sync"
+assert.equal(
+  graphicsCalls.filter((call) => call.type === "strokeEllipse").length,
+  2,
+  "only one soft/core ring pair may render even when two schedules overlap"
 );
+includeNeighboringStar = false;
 
 eraseCalls.length = 0;
 lightSystem._eraseTileTypeLightSources({
@@ -292,4 +388,4 @@ assert.equal(
   "the Star Block exception must not make every geological light source reveal the whole viewport"
 );
 
-console.log("Star Block light persistence contract passed: steady hard-darkness light plus staggered long-range beacon pulses");
+console.log("Star Block light persistence contract passed: steady hard-darkness light plus rare non-stacking ring-only pulses");

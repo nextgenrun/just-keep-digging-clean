@@ -12,6 +12,13 @@ default; `?playerLight=legacy` restores the former feet-centered mask and glow
 profile for direct visual comparison without changing visibility or gameplay.
 
 Star Blocks remain independent hard-darkness light sources. Their staggered
-beacon opens with an additive Northstar flare, then carries constellation
-points on a slow long-range ring while the darkness mask reveals a restrained
-area beneath the wave.
+beacon is a faint, slow long-range ring with a low coordinate-seeded chance
+per 45-second window. Cross flares are intentionally absent, and the renderer
+allows only one visible Star Block ring at a time while the darkness mask
+reveals a restrained area beneath the wave.
+
+Integrated caves use identity-specific darkness profiles rather than one
+constant reveal: Echo and Storm pulse sharply, Root and Gilded stay heavier,
+Prism is clearer, and Ember flickers. Hazard lights share the same darkness
+mask and switch between idle, telegraph, and active ratios using the collision
+system's exact timing.

@@ -18,6 +18,8 @@ $featureBaseSha = ""
 $rollbackEligible = $false
 $rollbackSha = ""
 $buildDirectory = ""
+$deepHealthSnapshot = $null
+$knownBaselineFailures = @()
 $reportLines = [System.Collections.Generic.List[string]]::new()
 
 function Add-ReportLine {
@@ -79,6 +81,99 @@ function Invoke-HealthStep {
     Add-ReportLine "[PASS] $Name (${elapsed}s)"
 }
 
+function Invoke-DeepHealthStep {
+    param(
+        [string]$Python,
+        [string]$ScriptPath,
+        [int]$TimeoutSeconds,
+        [object[]]$KnownFailures
+    )
+    $started = Get-Date
+    Add-ReportLine "[RUN] full deep game-logic health"
+    $rawOutput = & $Python $ScriptPath "--timeout" "$TimeoutSeconds" 2>&1
+    $exitCode = $LASTEXITCODE
+    $outputLines = @($rawOutput | ForEach-Object { "$_" })
+    foreach ($line in $outputLines) {
+        Write-Host $line
+    }
+
+    $summaryPrefix = "DEEP_GAME_LOGIC_SUMMARY "
+    $summaryLine = $outputLines |
+        Where-Object { $_.StartsWith($summaryPrefix, [StringComparison]::Ordinal) } |
+        Select-Object -Last 1
+    if (-not $summaryLine) {
+        throw "Full deep game-logic health produced no machine-readable summary (exit $exitCode)."
+    }
+
+    try {
+        $summary = $summaryLine.Substring($summaryPrefix.Length) | ConvertFrom-Json
+    }
+    catch {
+        throw "Full deep game-logic health summary was invalid JSON: $($_.Exception.Message)"
+    }
+
+    $actualFailures = @($summary.failures)
+    $duplicateKnownNames = @(
+        $KnownFailures |
+            Group-Object -Property name |
+            Where-Object { $_.Count -gt 1 } |
+            ForEach-Object { $_.Name }
+    )
+    if ($duplicateKnownNames.Count -gt 0) {
+        throw "Release manifest contains duplicate deep-health baseline names: $($duplicateKnownNames -join ', ')"
+    }
+
+    $unexpectedFailures = [System.Collections.Generic.List[string]]::new()
+    foreach ($failure in $actualFailures) {
+        $failureName = [string]$failure.name
+        $knownFailure = $KnownFailures |
+            Where-Object { [string]$_.name -eq $failureName } |
+            Select-Object -First 1
+        if (-not $knownFailure) {
+            $unexpectedFailures.Add($failureName)
+            continue
+        }
+
+        $expectedDetail = [string]$knownFailure.detailIncludes
+        $actualDetail = [string]$failure.detail
+        if (-not $expectedDetail -or -not $actualDetail.Contains($expectedDetail)) {
+            $unexpectedFailures.Add("$failureName (baseline failure signature changed)")
+        }
+    }
+
+    $actualFailureNames = @($actualFailures | ForEach-Object { [string]$_.name })
+    $resolvedKnownFailures = @(
+        $KnownFailures |
+            Where-Object { $actualFailureNames -notcontains [string]$_.name } |
+            ForEach-Object { [string]$_.name }
+    )
+    $elapsed = [Math]::Round(((Get-Date) - $started).TotalSeconds, 2)
+    $expectedExitCode = if ($actualFailures.Count -eq 0) { 0 } else { 1 }
+    if ($exitCode -notin @(0, 1) -or $exitCode -ne $expectedExitCode) {
+        throw "Full deep game-logic health exit code $exitCode disagreed with its summary after ${elapsed}s."
+    }
+    if ([int]$summary.failed -ne $actualFailures.Count) {
+        throw "Full deep game-logic health failure count disagreed with its summary after ${elapsed}s."
+    }
+    if ($unexpectedFailures.Count -gt 0) {
+        throw "Full deep game-logic health introduced unexpected failures after ${elapsed}s: $($unexpectedFailures -join ', ')"
+    }
+
+    Add-ReportLine (
+        "[BASELINE] deep health retained $($actualFailures.Count) pinned legacy failures; " +
+        "$($resolvedKnownFailures.Count) baseline failures are now resolved"
+    )
+    Add-ReportLine "[PASS] full deep game-logic health (0 new regressions, ${elapsed}s)"
+    return [ordered]@{
+        checks = [int]$summary.checks
+        passed = [int]$summary.passed
+        acceptedBaselineFailures = $actualFailureNames
+        resolvedBaselineFailures = $resolvedKnownFailures
+        unexpectedFailures = @()
+        coverage = $summary.coverage
+    }
+}
+
 function Assert-SafeBuildDirectory {
     param([string]$Path)
     $resolved = [IO.Path]::GetFullPath($Path)
@@ -110,11 +205,12 @@ function Write-GateReport {
         rollbackCommit = $rollbackSha
         rollbackEnabled = -not $NoRollback.IsPresent
         rollbackEligible = $rollbackEligible
+        deepHealth = $deepHealthSnapshot
         failure = $Failure
         timestampUtc = (Get-Date).ToUniversalTime().ToString("o")
         steps = @($reportLines)
     }
-    $report | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $reportPath -Encoding utf8
+    $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $reportPath -Encoding utf8
     Write-Host "Health-gate report: $reportPath"
 }
 
@@ -172,6 +268,27 @@ try {
     }
     $rollbackEligible = $true
 
+    if ($release.PSObject.Properties.Name -notcontains "deepHealthBaseline") {
+        throw "Fail-closed: release manifest has no pinned deep-health baseline."
+    }
+    $baselineSha = Invoke-GitText @(
+        "rev-parse",
+        "--verify",
+        "$($release.deepHealthBaseline.commit)^{commit}"
+    )
+    if ($featureBaseSha -ne $baselineSha) {
+        throw "Fail-closed: feature parent does not match the pinned deep-health baseline commit."
+    }
+    $knownBaselineFailures = @($release.deepHealthBaseline.knownFailures)
+    if ($knownBaselineFailures.Count -eq 0) {
+        throw "Fail-closed: release manifest has no reviewed deep-health baseline failures."
+    }
+    foreach ($knownFailure in $knownBaselineFailures) {
+        if (-not [string]$knownFailure.name -or -not [string]$knownFailure.detailIncludes) {
+            throw "Fail-closed: each deep-health baseline entry needs a name and detailIncludes signature."
+        }
+    }
+
     $userProfile = [Environment]::GetFolderPath("UserProfile")
     $node = Resolve-RequiredExecutable `
         -ExplicitPath $NodePath `
@@ -188,6 +305,7 @@ try {
 
     Add-ReportLine "[SAFE] clean single-parent feature commit $featureSha"
     Add-ReportLine "[SAFE] $($changedPaths.Count) commit paths are inside the release manifest"
+    Add-ReportLine "[SAFE] feature parent matches deep-health baseline $baselineSha"
 
     foreach ($contract in $release.requiredContracts) {
         $contractPath = Join-Path $repoRoot $contract
@@ -199,14 +317,11 @@ try {
         Invoke-HealthStep -Name "contract $contract" -Executable $runner -Arguments @($contractPath)
     }
 
-    Invoke-HealthStep `
-        -Name "full deep game-logic health" `
-        -Executable $python `
-        -Arguments @(
-            (Join-Path $repoRoot "testing/2026-07-22-deep-game-logic-health.py"),
-            "--timeout",
-            "$ContractTimeoutSeconds"
-        )
+    $deepHealthSnapshot = Invoke-DeepHealthStep `
+        -Python $python `
+        -ScriptPath (Join-Path $repoRoot "testing/2026-07-22-deep-game-logic-health.py") `
+        -TimeoutSeconds $ContractTimeoutSeconds `
+        -KnownFailures $knownBaselineFailures
     Invoke-HealthStep `
         -Name "production deployment smoke" `
         -Executable $python `

@@ -2,7 +2,9 @@
 
 UI module — scenes.
 
-`BootScene.js` preloads only the Level 1 facade recognition atlas and start chunk;
+`BootScene.js` preloads the ten approved Milestone/Star Pillar stage sprites,
+the constellation Star Heart used inside Star Pillar sockets, and only the Level
+1 facade recognition atlas and start chunk;
 `LevelOneGroundFacadeSystem` streams the remaining eight chunks from their pure
 values manifest as the surface camera moves.
 

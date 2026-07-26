@@ -106,6 +106,7 @@ WebPs live under `sprites/environment/graveborer-wurm-v1/`.
 | `2026-07-26-build-opening-flight-v2-assets.py` | Crop and losslessly pack the five chroma-cleaned Golden Five onboarding sprites, including the premium objective-HUD frame, into compact alpha-safe runtime WebPs |
 | `2026-07-26-build-milestone-pillar-review-assets.py` | Split the five transparent ImageGen milestone-pillar progression sheets into 25 baseline-aligned Phaser review stages and emit their review-only manifest |
 | `2026-07-26-build-milestone-pillar-runtime-contact-sheet.py` | Assemble the five stage-5 Phaser review captures into one labeled visual-approval contact sheet |
+| `2026-07-26-build-approved-pillar-assets.py` | Pixel-verify the user's two approved screenshots against their reviewed sheets, promote screenshot 1/C and screenshot 2/A into ten RGBA production stages, and emit hashes/provenance under `sprites/environment/approved-pillars-v1/` |
 | `2026-07-26-build-earthquake-feedback-ui-v2.py` | Pack the chroma-cleaned ImageGen seismic status master into a 2x Phaser status plate and reusable hazard medallion with alpha and size validation |
 
 ## Archive

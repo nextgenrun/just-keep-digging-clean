@@ -4,11 +4,9 @@
  * Manages seismic hazards: earthquakes, cave-ins, falling rocks.
  * Uses a state machine: idle → warning → earthquake → aftermath → idle.
  *
- * WARNING TEXT: Uses the existing FloatingTextSystem ("⚠ EARTHQUAKE!")
- * which appears during the warning phase and persists through the quake.
- *
- * RED FLASH: Uses ScreenFlashSystem.flashCrit() to tint the screen red
- * at the start of each earthquake event (brief, 120ms).
+ * PLAYER FEEDBACK: EarthquakeFeedbackUI owns one compact generated-art status
+ * card. The world system requests one restrained amber flash at quake start;
+ * mutation pulses never recreate warning text or full-screen flashes.
  *
  * CAVE-IN RESTORATION: After collapse, each destroyed tile is queued
  * for re-spawn as rubble (partial HP, same type as the original).
@@ -429,6 +427,13 @@ export class EarthquakeSystem {
     const proximity = this._getPlayerProximity(this.config.playerFeedback?.flashRadiusTiles);
     if (proximity <= 0) return;
     const feedback = this.config.playerFeedback || {};
+    if (
+      !Number.isFinite(feedback.flashColor)
+      || !Number.isFinite(feedback.flashAlpha)
+      || !Number.isFinite(feedback.flashDurationMs)
+    ) {
+      return;
+    }
     this.scene.screenFlashSystem?._flash?.(
       feedback.flashColor,
       feedback.flashAlpha * proximity,

@@ -27,14 +27,22 @@ Notable systems:
   rings, sparks, flash, labels, and 1x/3x/10x shake escalation. They render the
   shared chain state but never authorize a follow-up or mutate a tile.
 - `ScreenRecordSystem.js` — F10 game-canvas WebM capture; uploads timestamped local files through `serve.py` to `/systems/screenrecord/`
-- `EarthquakeFeedbackUI.js` / `EarthquakeHazardOverlay.js` — phase/intensity HUD, escape objective, cave-in countdowns, rock lanes, offscreen danger, and fresh-rubble outlines (`values/earthquakeFeedback.js`)
+- `EarthquakeFeedbackUI.js` / `earthquakeFeedbackPresentation.js` /
+  `EarthquakeHazardOverlay.js` — generated-art compact seismic status/recap,
+  auto-expiring route guidance, image-backed cave-in countdowns, restrained
+  fall guides, offscreen danger, and short-lived fresh-rubble outlines
+  (`values/earthquakeFeedback.js`)
 - `GraveborerWurmVisualSystem.js` / `GraveborerWurmHudSystem.js` — ImageGen-authored head/body/tail animation, committed-path pressure seams, and the fixed-camera threat medallion. Missing production art hides the presentation; no primitive or HTML placeholder is allowed.
 - `CaveAtmosphereSystem.js` / `CaveInteriorOcclusionSystem.js` — stream identity-specific cave backwalls and motes in both renderer modes, retain opaque interiors until the player crosses the shell, then publish the named discovery and gameplay hint (`values/caveArchetypes.js`)
+- `CaveHazardView.js` — renders cave-only resonance gates, real spike silhouettes, vent telegraphs, and erupting columns below the existing cave occlusion; `CaveAtmosphereSystem` adds restrained glints only while its underlying resource seam tile still exists
 - `TitanDiscoverySystem.js` — tracks 25 deterministic clear-area windows without mutating tiles, reveals enormous silhouettes behind scenic terrain, plays a visual-only glow/echo unlock, persists discovered ids through retention data, and adds their non-interactive miniature echoes to the surface procession (`values/titanDiscoveries.js`, rollback `?titans=0`)
 - `CelestialEngineHudSystem.js` — lower-right Star Heart icon, bounded charge bar, selected-Engine label, active impact budget, and context-sensitive `X` prompt.
-- `StarPillarSystem.js` — retains the constellation chart and routes the mastered state into the Star Heart choice overlay when Celestial Engines are enabled.
+- `ProgressivePillarSprite.js` — shared bottom-anchored renderer for approved five-stage pillar art; it preserves the source sheets' natural height growth and adds only restrained in-engine transition light.
+- `StarPillarWorldVisual.js` / `StarPillarSystem.js` — screenshot-2 blue stone monument on the Level 1 Sky Island. The world visual grows across five constellation thresholds, places the approved Star Heart image inside its authored sockets, intensifies paired unlocks, and owns staggered glow/pop/beam animation. `StarPillarSystem` retains the constellation chart and Star Heart choice routing; no collected sky star is restored to the persistent world.
 - `MilestoneBoardSystem.js` / `MilestonePillarModal.js` — Town Square depth
-  journal with nearest-interaction arbitration, eight bounded milestone cards
+  pillar and journal. The world object uses the approved screenshot-1 Dwarven
+  Depth Engine and advances at 0/500/1000/1500/2000 m while preserving
+  nearest-interaction arbitration. The modal keeps eight bounded milestone cards
   per page, a large next-depth summary rail, and a responsive two-panel journal.
   The modal delegates its two views to `MilestonePillarMilestonesView.js` and
   `MilestonePillarJournalView.js`; sizing lives in
