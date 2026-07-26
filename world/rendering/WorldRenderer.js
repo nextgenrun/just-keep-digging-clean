@@ -11,6 +11,7 @@ import {
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { RESOURCE_BY_TILE_TYPE, RESOURCE_COLOR_INTS } from "../../values/resourceTypes.js";
+import { resolveHeavenblocksVisualsEnabled } from "../../values/heavenblocksVisualConfig.js";
 import {
   SOIL_ATLAS_FRAME_COUNT,
   SOIL_BAND_COUNT,
@@ -164,6 +165,7 @@ export class WorldRenderer {
     this._streamTopTile = 0;
     this._streamMarginTiles = 48;
     this._streamStepTiles = 128;
+    this._hideDuplicateHeavenblockTiles = resolveHeavenblocksVisualsEnabled();
     
     // Sky tile highlighting
     this._skyTileGraphics = null; // Graphics object for sky tile glow effects
@@ -388,7 +390,24 @@ export class WorldRenderer {
 
       this.layer.putTilesAt(row, 0, localTy);
       this.rootOverlayLayer?.putTilesAt(rootRow, 0, localTy);
+      if (this._hideDuplicateHeavenblockTiles) {
+        for (let tx = 0; tx < this.worldModel.width; tx += 1) {
+          this._syncDedicatedHeavenblockTileAlpha(
+            this.layer.getTileAt(tx, localTy, false),
+            tx,
+            ty,
+          );
+        }
+      }
     }
+  }
+
+  _syncDedicatedHeavenblockTileAlpha(tile, tx, ty) {
+    if (!tile) return;
+    tile.alpha = (
+      this._hideDuplicateHeavenblockTiles
+      && this.worldModel.getHeavenblockRegionAt?.(tx, ty)
+    ) ? 0 : 1;
   }
 
   updateRenderWindow(playerTile) {
@@ -449,6 +468,7 @@ export class WorldRenderer {
   applyTileUpdate(tx, ty) {
     this.scene.levelOneGroundFacadeSystem?.invalidateCell(tx, ty);
     this.scene.worldScenicFacadeSystem?.invalidateCell(tx, ty);
+    this.scene.heavenblockWorldVisualSystem?.invalidateCell(tx, ty);
     const localTy = this._toLocalTileY(ty);
     if (localTy === null) return;
     const renderIndex = this.worldModel.getRenderIndex(tx, ty);
@@ -463,12 +483,14 @@ export class WorldRenderer {
 
     const existing = this.layer.getTileAt(tx, localTy, false);
     if (existing && existing.index === renderIndex) {
+      this._syncDedicatedHeavenblockTileAlpha(existing, tx, ty);
       return;
     }
 
     const tile = this.layer.putTileAt(renderIndex, tx, localTy, true);
     if (tile) {
       tile.setCollision(true, true, true, true);
+      this._syncDedicatedHeavenblockTileAlpha(tile, tx, ty);
     }
     this.applyRootOverlayUpdate(tx, ty);
   }
@@ -503,12 +525,14 @@ export class WorldRenderer {
         } else {
           // Solid tile - update or create
           const existing = this.layer.getTileAt(tx, localTy, false);
+          let tile = existing;
           if (!existing || existing.index !== renderIndex) {
-            const tile = this.layer.putTileAt(renderIndex, tx, localTy, true);
+            tile = this.layer.putTileAt(renderIndex, tx, localTy, true);
             if (tile) {
               tile.setCollision(true, true, true, true);
             }
           }
+          this._syncDedicatedHeavenblockTileAlpha(tile, tx, ty);
           this.applyRootOverlayUpdate(tx, ty);
         }
       }

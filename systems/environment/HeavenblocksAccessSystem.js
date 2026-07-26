@@ -1,4 +1,5 @@
 import { ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
 import {
   HEAVENBLOCKS_ACCESS_CONFIG,
   resolveHeavenblocksGameplayEnabled,
@@ -38,7 +39,9 @@ export class HeavenblocksAccessSystem {
   }
 
   update(playerTile) {
-    if (!this.enabled || !playerTile || this.inTransit) return;
+    if (!this.enabled || !playerTile) return;
+    this.presentationSystem?.updateObjective?.(playerTile, this.progressionSystem);
+    if (this.inTransit) return;
     const eligibility = this.progressionSystem?.syncRelicEligibility?.(
       this.ancientRelicSystem?.getCount?.() || 0,
     );
@@ -62,7 +65,7 @@ export class HeavenblocksAccessSystem {
     const interaction = this.currentInteraction;
     if (interaction.type === "surface-gate") return this._useSurfaceGate(interaction);
     if (interaction.type === "return-altar") return this._transitToSurface(interaction.region);
-    if (interaction.type === "reward-shrine") return this._useRewardShrine(interaction.region);
+    if (interaction.type === "arc-vault") return this._useArcVault(interaction.region);
     return { success: false, reason: "unknown-interaction" };
   }
 
@@ -87,34 +90,27 @@ export class HeavenblocksAccessSystem {
       );
       return { success: true, type: "heavenblock-region-locked", regionId: region.id };
     }
-    return this._transitToRegion(region, !wasActivated);
+    if (
+      region.requiredUpgradeId
+      && (this.upgradeSystem?.getUpgradeLevel?.(region.requiredUpgradeId) || 0) <= 0
+    ) {
+      this.scene.hudSystem?.flashStatus?.(
+        this.config.copy.levelLocked.replace("{level}", region.levelId),
+        "#aeb7c6",
+        1800,
+      );
+      return { success: true, type: "heavenblock-level-locked", regionId: region.id };
+    }
+    return this._transitToRegion(
+      region,
+      !wasActivated || !this.progressionSystem.isRegionVisited(region.id),
+    );
   }
 
-  _useRewardShrine(region) {
+  _useArcVault(region) {
     if (!this.progressionSystem.isRegionCompleted(region.id)) {
-      const discovered = this.progressionSystem.discoverPart(region.partId);
-      const installed = this.progressionSystem.installPart(region.partId);
-      const completed = this.progressionSystem.completeRegion(region.id);
-      if (!discovered.success || !installed.success || !completed.success) {
-        return { success: false, reason: "component-progression-failed", regionId: region.id };
-      }
-      this._playComponentClaimFx(region);
-      this.scene.hudSystem?.flashStatus?.(
-        `${region.partLabel.toUpperCase()} ATTUNED  •  ${region.label} complete`,
-        `#${region.color.toString(16).padStart(6, "0")}`,
-        3000,
-      );
-      this.onChanged?.("region-completed");
-      this._redrawAltars(true);
-      return {
-        success: true,
-        type: "heavenblock-component",
-        regionId: region.id,
-        partId: region.partId,
-        newlyUnlockedRegionIds: completed.newlyUnlockedRegionIds || [],
-      };
+      return { success: false, reason: "region-incomplete", regionId: region.id };
     }
-
     const ownsArcCore = (this.upgradeSystem?.getUpgradeLevel?.(ARC_CORE_UPGRADE_ID) || 0) > 0;
     if (!ownsArcCore) {
       this.scene.hudSystem?.flashStatus?.(this.config.copy.vaultLocked, "#aeb7c6", 1600);
@@ -138,19 +134,23 @@ export class HeavenblocksAccessSystem {
     const delay = this._transitionDelay(firstUnlock);
     this.presentationSystem?.playTransit?.(
       this._interactionWorldPoint(),
-      region.color,
+      region,
       firstUnlock,
       delay,
     );
-    this._scheduleTeleport(delay, region.arrival, () => {
+    const scheduled = this._scheduleTeleport(delay, region.arrival, () => {
       const visited = this.progressionSystem.visitRegion(region.id);
       if (visited.changed) this.onChanged?.("region-visited");
       this.scene.hudSystem?.flashStatus?.(
-        region.label.toUpperCase(),
+        this.config.copy.arrival
+          .replace("{label}", region.label.toUpperCase())
+          .replace("{direction}", region.entryDirection)
+          .replace("{part}", region.partLabel),
         `#${region.color.toString(16).padStart(6, "0")}`,
         1800,
       );
     });
+    if (!scheduled) return { success: false, reason: "no-safe-landing", regionId: region.id };
     return { success: true, type: "heavenblock-ascent", regionId: region.id, firstUnlock };
   }
 
@@ -158,22 +158,32 @@ export class HeavenblocksAccessSystem {
     const delay = this._transitionDelay(false);
     this.presentationSystem?.playTransit?.(
       this._interactionWorldPoint(),
-      region.color,
+      region,
       false,
       delay,
     );
-    this._scheduleTeleport(delay, this.config.surfaceReturn, () => {
+    const scheduled = this._scheduleTeleport(delay, region.surfaceReturn, () => {
       this.scene.hudSystem?.flashStatus?.("SKY ALTAR  •  Routes stabilized", "#f3c969", 1400);
     });
+    if (!scheduled) return { success: false, reason: "no-safe-landing", regionId: region.id };
     return { success: true, type: "heavenblock-return", regionId: region.id };
   }
 
   _scheduleTeleport(delay, target, afterTeleport) {
+    const safeTarget = this._findSafeStandingTile(
+      target?.tx,
+      target?.ty,
+      this.config.safeLandingRadiusTiles,
+    );
+    if (!safeTarget) {
+      this.scene.hudSystem?.flashStatus?.("ROUTE BLOCKED  •  No safe landing", "#ff8b8b", 1800);
+      return false;
+    }
     this.inTransit = true;
     this.presentationSystem?.hidePrompt?.();
     this.playerController?.setControlsEnabled?.(false);
     this.scene.time.delayedCall(delay, () => {
-      this.playerController?.teleportToTile?.(target.tx, target.ty);
+      this.playerController?.teleportToTile?.(safeTarget.tx, safeTarget.ty);
       this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
       this.scene.earthquakeHazardOverlay?.clear?.();
       this.scene.cameras?.main?.flash?.(
@@ -186,10 +196,68 @@ export class HeavenblocksAccessSystem {
       this.inTransit = false;
       afterTeleport?.();
     });
+    return true;
   }
 
-  _playComponentClaimFx(region) {
-    this.presentationSystem?.playComponentClaim?.(region);
+  _findSafeStandingTile(baseTx, baseTy, maxRadius) {
+    if (!Number.isInteger(baseTx) || !Number.isInteger(baseTy)) return null;
+    for (let radius = 0; radius <= maxRadius; radius += 1) {
+      for (let dy = -radius; dy <= radius; dy += 1) {
+        for (let dx = -radius; dx <= radius; dx += 1) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== radius) continue;
+          const tileX = baseTx + dx;
+          const tileY = baseTy + dy;
+          if (
+            !this.worldModel.inBounds(tileX, tileY)
+            || !this.worldModel.inBounds(tileX, tileY + 1)
+          ) continue;
+          if (!this.worldModel.isSolid(tileX, tileY) && this.worldModel.isSolid(tileX, tileY + 1)) {
+            return { tx: tileX, ty: tileY };
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  handleArtifactMined(artifact) {
+    if (!artifact?.success || !artifact.regionId) return false;
+    const region = this.config.regions.find((entry) => entry.id === artifact.regionId);
+    if (!region) return false;
+    if (artifact.changed) {
+      this.presentationSystem?.playComponentClaim?.(region);
+      this.scene.hudSystem?.flashStatus?.(
+        `${region.partLabel.toUpperCase()} ATTUNED  •  ${region.label} complete`,
+        `#${region.color.toString(16).padStart(6, "0")}`,
+        3000,
+      );
+      this.onChanged?.("region-completed");
+      this._redrawAltars(true);
+    }
+    return true;
+  }
+
+  reconcileMinedArtifacts() {
+    const reconciled = [];
+    for (const region of this.config.regions) {
+      if (this.progressionSystem.isRegionCompleted(region.id)) continue;
+      const key = `${region.core.tx},${region.core.ty}`;
+      if (
+        this.worldModel.getType(region.core.tx, region.core.ty) !== TILE_TYPES.AIR
+        || !this.worldModel.dugTiles?.has?.(key)
+      ) continue;
+      const discovered = this.progressionSystem.discoverPart(region.partId);
+      const installed = this.progressionSystem.installPart(region.partId);
+      const completed = this.progressionSystem.completeRegion(region.id);
+      if (discovered.success && installed.success && completed.success) {
+        reconciled.push(region.id);
+      }
+    }
+    if (reconciled.length > 0) {
+      this._redrawAltars(true);
+      this.onChanged?.("mined-artifacts-reconciled");
+    }
+    return reconciled;
   }
 
   _playVaultFx(region, keystoneGranted) {
@@ -210,11 +278,14 @@ export class HeavenblocksAccessSystem {
     }
     for (const region of this.config.regions) {
       if (!this.progressionSystem.isRegionUnlocked(region.id)) continue;
-      if (distanceTiles(playerTile, region.rewardShrine) <= radius) {
-        return { type: "reward-shrine", region };
-      }
       if (distanceTiles(playerTile, region.returnAltar) <= radius) {
         return { type: "return-altar", region };
+      }
+      if (
+        this.progressionSystem.isRegionCompleted(region.id)
+        && distanceTiles(playerTile, region.arcVault) <= radius
+      ) {
+        return { type: "arc-vault", region };
       }
     }
     return null;
@@ -245,10 +316,8 @@ export class HeavenblocksAccessSystem {
     } else if (interaction.type === "return-altar") {
       label = this.config.copy.return;
     } else {
-      anchor = interaction.region.rewardShrine;
-      if (!this.progressionSystem.isRegionCompleted(interaction.region.id)) {
-        label = this.config.copy.claimPart.replace("{part}", interaction.region.partLabel);
-      } else if (this.progressionSystem.isOmegaVaultOpened(interaction.region.vaultId)) {
+      anchor = interaction.region.arcVault;
+      if (this.progressionSystem.isOmegaVaultOpened(interaction.region.vaultId)) {
         label = "Arc Vault opened";
       } else {
         label = (this.upgradeSystem?.getUpgradeLevel?.(ARC_CORE_UPGRADE_ID) || 0) > 0
@@ -275,7 +344,7 @@ export class HeavenblocksAccessSystem {
   _interactionWorldPoint() {
     const anchor = this.currentInteraction?.gate
       || this.currentInteraction?.region?.returnAltar
-      || this.currentInteraction?.region?.rewardShrine;
+      || this.currentInteraction?.region?.arcVault;
     return anchor ? this.worldModel.tileToWorld(anchor.tx, anchor.ty) : null;
   }
 
@@ -294,13 +363,24 @@ export class HeavenblocksAccessSystem {
       enabled: this.enabled,
       promptReady: !this.enabled
         || this.presentationSystem?.getHealthSnapshot?.()?.promptReady === true,
-      layoutReady: !this.enabled || layout?.platformsReady === true,
+      objectiveReady: !this.enabled
+        || this.presentationSystem?.getHealthSnapshot?.()?.objectiveReady === true,
+      shaftBeaconsReady: !this.enabled
+        || this.presentationSystem?.getHealthSnapshot?.()?.shaftBeaconCount
+          === this.config.regions.length,
+      layoutReady: !this.enabled || (
+        layout?.nativeTilesReady === true
+        && layout?.levelDistributionReady === true
+      ),
+      visualReady: !this.enabled
+        || this.presentationSystem?.getHealthSnapshot?.()?.worldVisualReady === true,
       progressionReady: !this.enabled || (
         saveData?.version === this.progressionSystem?.config?.version
         && Array.isArray(saveData?.unlockedRegionIds)
         && Array.isArray(saveData?.installedPartIds)
       ),
       inTransit: this.inTransit,
+      missingCells: layout?.missingCells || [],
       missingFloorCells: layout?.missingFloorCells || [],
     };
   }

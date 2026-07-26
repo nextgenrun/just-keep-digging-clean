@@ -7,7 +7,10 @@ const smoothstep = (value) => {
   const t = clamp01(value);
   return t * t * (3 - 2 * t);
 };
-const SKY_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.SKY_TILE]));
+const SKY_LIGHT_TILE_TYPES = Object.freeze(new Set([
+  TILE_TYPES.SKY_TILE,
+  TILE_TYPES.HEAVENBLOCK_CORE,
+]));
 const GEODE_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.GEODE_INTERIOR, TILE_TYPES.GEODE_WALL]));
 
 /**

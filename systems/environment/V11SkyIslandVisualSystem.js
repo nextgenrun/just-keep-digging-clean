@@ -1,25 +1,11 @@
 import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
-import {
-  HEAVENBLOCKS_VISUAL_CONFIG,
-  resolveHeavenblocksVisualsEnabled,
-} from "../../values/heavenblocksVisualConfig.js";
 
 export class V11SkyIslandVisualSystem {
-  constructor(
-    scene,
-    layout = V11_SKY_ISLAND_LAYOUT,
-    heavenblocksConfig = HEAVENBLOCKS_VISUAL_CONFIG
-  ) {
+  constructor(scene, layout = V11_SKY_ISLAND_LAYOUT) {
     this.scene = scene;
     this.layout = layout;
-    this.heavenblocksConfig = heavenblocksConfig;
     this.sprites = [];
     this.groundPortalSprites = new Map();
-    this.heavenblockSprites = new Map();
-    this.heavenblocksRequested = false;
-    this.heavenblocksCreated = false;
-    this.heavenblocksLoadHandler = null;
-    this.destroyed = false;
   }
 
   create() {
@@ -49,7 +35,6 @@ export class V11SkyIslandVisualSystem {
       }
     }
 
-    this.createHeavenblocks();
   }
 
   addAuthoredImage({ key, left, bottom, width, height, depth }) {
@@ -63,65 +48,6 @@ export class V11SkyIslandVisualSystem {
       .setDisplaySize(width, height);
     this.sprites.push(image);
     return image;
-  }
-
-  createHeavenblocks() {
-    if (this.heavenblocksRequested) return;
-    if (!resolveHeavenblocksVisualsEnabled(this.heavenblocksConfig)) return;
-
-    this.heavenblocksRequested = true;
-    const assets = this.heavenblocksConfig.regions.flatMap((region) => region.layers);
-    const missingAssets = assets.filter((asset) => !this.scene.textures.exists(asset.key));
-
-    if (missingAssets.length === 0) {
-      this.addHeavenblockImages();
-      return;
-    }
-
-    for (const asset of missingAssets) {
-      this.scene.load.image(asset.key, asset.path);
-    }
-
-    this.heavenblocksLoadHandler = () => {
-      this.heavenblocksLoadHandler = null;
-      if (!this.destroyed) this.addHeavenblockImages();
-    };
-    this.scene.load.once(Phaser.Loader.Events.COMPLETE, this.heavenblocksLoadHandler);
-    if (!this.scene.load.isLoading()) this.scene.load.start();
-  }
-
-  addHeavenblockImages() {
-    if (this.heavenblocksCreated || this.destroyed) return;
-    this.heavenblocksCreated = true;
-    const tileSize = this.scene.config.tileSize;
-
-    for (const region of this.heavenblocksConfig.regions) {
-      const regionSprites = [];
-      for (const layer of region.layers) {
-        if (!this.scene.textures.exists(layer.key)) {
-          console.warn(`[V11SkyIslandVisualSystem] Missing Heavenblock texture: ${layer.key}`);
-          continue;
-        }
-
-        const displayWidth = region.displayWidthPx * layer.overscan;
-        const displayHeight = region.displayHeightPx * layer.overscan;
-        const offsetX = (region.displayWidthPx - displayWidth) / 2;
-        const offsetY = (region.displayHeightPx - displayHeight) / 2;
-        const image = this.scene.add.image(
-          region.leftTile * tileSize + offsetX,
-          region.topTile * tileSize + offsetY,
-          layer.key
-        )
-          .setOrigin(0, 0)
-          .setDepth(layer.depth)
-          .setAlpha(layer.alpha)
-          .setDisplaySize(displayWidth, displayHeight);
-        image.name = `${region.id}:${layer.key}`;
-        this.sprites.push(image);
-        regionSprites.push(image);
-      }
-      this.heavenblockSprites.set(region.id, regionSprites);
-    }
   }
 
   setGroundPortalUnlocked(levelId, unlocked) {
@@ -154,14 +80,8 @@ export class V11SkyIslandVisualSystem {
   }
 
   destroy() {
-    this.destroyed = true;
-    if (this.heavenblocksLoadHandler) {
-      this.scene.load.off(Phaser.Loader.Events.COMPLETE, this.heavenblocksLoadHandler);
-      this.heavenblocksLoadHandler = null;
-    }
     this.sprites.forEach((sprite) => sprite.destroy());
     this.sprites = [];
     this.groundPortalSprites.clear();
-    this.heavenblockSprites.clear();
   }
 }

@@ -71,6 +71,7 @@ import { NextPromiseHudSystem } from "../../systems/visual/NextPromiseHudSystem.
 import { MiningIntentPreviewSystem } from "../../systems/visual/MiningIntentPreviewSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
 import { RelicDiscoveryFxSystem } from "../../systems/visual/RelicDiscoveryFxSystem.js";
+import { AncientRelicBeaconSystem } from "../../systems/visual/AncientRelicBeaconSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
@@ -104,6 +105,7 @@ import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSyste
 import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
 import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
+import { HeavenblockWorldVisualSystem } from "../../systems/visual/HeavenblockWorldVisualSystem.js";
 
 const PLAY_SCENE_UI_FACTORIES = Object.freeze({
   createButton,
@@ -490,6 +492,8 @@ async function _setupSceneSafe(data = {}) {
   // invisible, still-functional interaction layer.
   this.v11SkyIslandVisualSystem = new V11SkyIslandVisualSystem(this);
   this.v11SkyIslandVisualSystem.create();
+  this.heavenblockWorldVisualSystem = new HeavenblockWorldVisualSystem(this, this.worldModel);
+  this.heavenblockWorldVisualSystem.create();
   this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
 
   this._safeReturnGfx = this.add.graphics();
@@ -645,6 +649,7 @@ async function _setupSceneSafe(data = {}) {
     relicCountProvider: () => this.ancientRelicSystem?.getCount?.() || 0,
     initialData: this._cachedSaveData?.heavenblocksData,
   });
+  this.digSystem.setHeavenblocksProgressionSystem?.(this.heavenblocksProgressionSystem);
   this.playerLevelSystem = new PlayerLevelSystem();
   this.playerLevelSystem.setComboSystem(this.comboSystem);
   this.playerLevelSystem.setTemporaryCriticalDamageBonusProvider(
@@ -675,6 +680,13 @@ async function _setupSceneSafe(data = {}) {
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
   this.relicDiscoveryFxSystem = new RelicDiscoveryFxSystem(this);
   this.digSystem.setRelicDiscoveryFxSystem?.(this.relicDiscoveryFxSystem);
+  this.ancientRelicBeaconSystem = new AncientRelicBeaconSystem(
+    this,
+    this.worldModel,
+    this.ancientRelicSystem,
+    this.heavenblocksProgressionSystem,
+  );
+  this.ancientRelicBeaconSystem.create();
   this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
     const message = reward?.message || "Combo";
@@ -798,7 +810,11 @@ async function _setupSceneSafe(data = {}) {
   _gfx.destroy();
 
   this.specialTileSystem = new SpecialTileSystem(this, this.worldModel, this.playerController, this.floatingTextSystem);
-  this.heavenblocksPresentationSystem = new HeavenblocksPresentationSystem(this, this.worldModel);
+  this.heavenblocksPresentationSystem = new HeavenblocksPresentationSystem(
+    this,
+    this.worldModel,
+    this.heavenblockWorldVisualSystem,
+  );
   this.heavenblocksAccessSystem = new HeavenblocksAccessSystem(this, {
     worldModel: this.worldModel,
     playerController: this.playerController,
@@ -809,6 +825,9 @@ async function _setupSceneSafe(data = {}) {
     onChanged: () => this.queueDugTilesSave?.(),
   });
   this.heavenblocksAccessSystem.create();
+  this.digSystem.setHeavenblockArtifactHandler?.(
+    (artifact) => this.heavenblocksAccessSystem?.handleArtifactMined?.(artifact),
+  );
   this.dayNightCycle = new DayNightCycle(this, this.config);
   this.weatherSystem = new WeatherSystem(this, this.config, this.config.weather);
   this.lightSystem = new LightSystem(this, this.playerController, this.dayNightCycle, this.weatherSystem);
@@ -879,6 +898,7 @@ async function _setupSceneSafe(data = {}) {
     this.worldBackgroundAmbientMotionSystem?.destroy();
     this.levelOneLivingBackdropSystem?.destroy();
     this.v11SkyIslandVisualSystem?.destroy();
+    this.heavenblockWorldVisualSystem?.destroy();
     this.worldRenderer?.destroy();
     this.bgObjectPlacer?.destroy();
     this.caveTemplateVisualSystem?.destroy();
@@ -917,6 +937,7 @@ async function _setupSceneSafe(data = {}) {
     this.starPillarSystem?.destroy();
     this.lootPickupFxSystem?.destroy();
     this.relicDiscoveryFxSystem?.destroy();
+    this.ancientRelicBeaconSystem?.destroy();
     this.floatingTextSystem?.destroy();
     this.weatherSystem?.destroy();
     this.shaderSystem?.destroy();

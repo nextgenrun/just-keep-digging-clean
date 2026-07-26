@@ -143,6 +143,9 @@ const STATIC_SOURCE_KEYS = Object.freeze([
   ASSET_KEYS.tiles.rootOverlayDeep,
   ASSET_KEYS.tiles.geodeInterior,
   ASSET_KEYS.tiles.ancientRelicCache,
+  ASSET_KEYS.ui.heavenblocks.aetherTurbineHeart,
+  ASSET_KEYS.ui.heavenblocks.haloRegulatorHeart,
+  ASSET_KEYS.ui.heavenblocks.eclipseCrucibleHeart,
 ]);
 
 export const TILESET_SOURCE_KEYS = Object.freeze([
@@ -183,6 +186,9 @@ export const TILE_RENDER_INDEX = Object.freeze({
   GLOW_CRYSTAL: -1,
   GEODE_INTERIOR: STATIC_INDEX_START + 23,
   ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 24,
+  HEAVENBLOCK_CORE_LOWER_SKY: STATIC_INDEX_START + 25,
+  HEAVENBLOCK_CORE_ANGEL: STATIC_INDEX_START + 26,
+  HEAVENBLOCK_CORE_DEVIL: STATIC_INDEX_START + 27,
 });
 
 function visualHash(tx, ty, seed, salt = 0) {
@@ -331,6 +337,16 @@ export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTi
 
   if (type === TILE_TYPES.ANCIENT_RELIC_CACHE) {
     return TILE_RENDER_INDEX.ANCIENT_RELIC_CACHE;
+  }
+
+  if (type === TILE_TYPES.HEAVENBLOCK_CORE) {
+    if (visualHint === "heavenblockCore:angel-heavenblock") {
+      return TILE_RENDER_INDEX.HEAVENBLOCK_CORE_ANGEL;
+    }
+    if (visualHint === "heavenblockCore:devil-eclipse-scar") {
+      return TILE_RENDER_INDEX.HEAVENBLOCK_CORE_DEVIL;
+    }
+    return TILE_RENDER_INDEX.HEAVENBLOCK_CORE_LOWER_SKY;
   }
 
   if (type === TILE_TYPES.GLOW_CRYSTAL) {

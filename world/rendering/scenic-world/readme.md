@@ -20,6 +20,12 @@ The runtime owns the surface stage, camera-windowed material mask, generated sem
 
 These layers only read `WorldModel`; the grid still owns digging, tile HP and damage states, resource identity and rewards, collision, cave walls, and save data. Cell invalidation resynchronizes the raster view after gameplay changes instead of replacing the tile, while damage cracks remain independent in `WorldVisualFeedbackLayer`. Non-reward markers such as portals, chests, geodes, and glow crystals keep their existing gameplay cues. Use `?terrainSemantics=0` to restore procedural resource veins, the former faceted star cue, and legacy reward emblems for direct comparison; combine it with `?resourceVeins=0` to restore the older resource-emblem atlas. The landmark layer is anchored in world coordinates and only renders beauty/emissive cards; it cannot mutate the hidden gameplay grid. Scenic mode never creates a Phaser Tilemap, never exposes fallback square tiles, and keeps the compatibility methods used by mining and world systems.
 
+Heavenblock cells are owned by their dedicated native tile renderer. The
+generic material mask, semantic/bedrock cards, and exposed-terrain edge strokes
+skip those bounds so the approved island art is never boxed in or covered by a
+second terrain treatment. The hidden native tiles remain authoritative for HP,
+collision, drops, lighting occlusion, and persistent dug tunnels.
+
 Boot only loads the surface pack. `WorldVisualAssetCache` streams the active
 depth materials when a camera window intersects their bands and releases
 non-surface textures after their last intersecting band leaves the window.

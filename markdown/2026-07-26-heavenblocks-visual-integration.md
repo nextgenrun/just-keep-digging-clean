@@ -1,59 +1,43 @@
-# Heavenblocks Visual Integration
+# Heavenblocks Native World Integration
 
 **Date:** 2026-07-26
-**Scope:** Visual production placement only
+**Corrected:** 2026-07-28
+**Scope:** Three playable upward regions, relic access, component progression,
+and tile-native presentation
 
-The approved Cloud Reef, Angel Heavenblock, and Devil Eclipse Scar concepts
-are now present in the existing world sky band. No world dimensions, surface
-row, save-depth identity, mining tiles, collision, portals, relic rules, or
-crafting rules were changed.
+Cloud Reef and Angel Heavenblock live in Level 1; Devil Eclipse Scar lives in
+Level 2. Their 21x12 masks are inserted into the authoritative `WorldModel`.
+Every solid cell owns a real type, HP, collision, reward, save identity, and
+digging lifecycle.
 
-## Placement
+## Runtime ownership
 
-All three regions use the open far-right sky lane beginning at tile x 220:
+- `values/heavenblocksWorldConfig.js` owns region positions, collision masks,
+  material palettes, safe arrivals, relic/core cells, and biome tile styling.
+- `HeavenblockTileVisualLayer` renders one real 94x94 image per live cell.
+  Material cells use the same stone, ore, and five-stage damage assets as the
+  main mine. Exposed island geometry uses the approved sky-island top, corner,
+  and underside tiles.
+- `HeavenblockArtifactVisualLayer` renders the three visible relic caches,
+  component hearts, and vault markers over their mineable backing cells.
+- `HeavenblockWorldVisualSystem` owns distant atmosphere and the existing
+  portal art. Painted façade concepts are never loaded or sliced at runtime.
 
-| Region | Top-left tile | Native display size |
-| --- | --- | --- |
-| Devil Eclipse Scar | 220, 11 | 1920 x 1080 px |
-| Angel Heavenblock | 220, 29 | 1920 x 1080 px |
-| Lower Sky Cloud Reef | 220, 47 | 1920 x 1080 px |
+Destroying a cell immediately hides that tile and recomputes the four adjacent
+surface/edge roles. `WorldModel` remains authoritative for collision and save
+restoration; presentation never creates substitute collision.
 
-The source PNGs are 1672 by 941 and each backdrop/façade pair is scaled
-together to the full 1920 by 1080 world viewport. Backdrops receive 12 percent
-centered overscan so camera tracking cannot reveal a rectangular edge, while
-the transparent façades retain the exact composition size. The lane remains
-inside the existing 280-tile-wide world and 65-row sky band.
-It does not cover the existing V11 Level 1 island, Level 2 island, divider, or
-surface portal landmarks.
+## Progression
 
-## Runtime seam
+Three permanent relic discoveries activate the Sky Altar. Cloud Reef is the
+first route. Completing its component heart unlocks the later region routes;
+Devil Eclipse Scar additionally respects Level 2 access. Installed components
+are then checked by the existing Arc/Omega Core crafting recipes.
 
-`values/heavenblocksVisualConfig.js` owns the region positions, asset paths,
-render depths, and explicit visual-only boundary. The already-created
-`V11SkyIslandVisualSystem` loads and renders each region as:
+## Reversible comparison and QA
 
-1. an opaque environmental backdrop at depth -9.8;
-2. a transparent island/structure façade at depth -0.55.
-
-This path is created independently of the scenic or legacy world renderer, so
-both render modes receive the same sky art without altering dirty scene setup
-or frame-update paths.
-
-## Reversible comparison
-
-The visuals are enabled by default. Add `?heavenblocksVisuals=0` to the URL to
-hide the three new regions without changing any persistent state.
-
-For visual QA only, run with `?jkd_e2e=1` and press `Ctrl+Alt+H` to cycle the
-camera through Devil, Angel, and Lower Sky. It moves only the debug camera, is
-unavailable in normal play, and does not create progression or save state.
-
-## Deferred by design
-
-The following remain planning-only:
-
-- relic-based access and consumption;
-- traversable/minable Heavenblock tilemaps and collision;
-- portals or ascent travel;
-- biome completion state;
-- Arc Core recipe, station, costs, and save migration.
+- `?heavenblocksVisuals=0` restores the ordinary WorldRenderer tile view.
+- `?heavenblocksGameplay=0` disables the feature without rewriting save data.
+- `?relicGuidance=0` disables relic guidance presentation only.
+- With `?jkd_e2e=1`, `Ctrl+Alt+H` cycles through the three live regions for
+  visual QA without changing progression.

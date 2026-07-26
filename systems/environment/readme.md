@@ -11,3 +11,4 @@ Notable systems:
 - `CampfireSystem.js` — campfire buffs
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
 - `EarthquakeSystem.js` — world-space seismic events with independent epicenters, local cave-ins/rubble, and distance-attenuated player feedback
+- `HeavenblocksAccessSystem.js` — relic-gated travel for the three native upward regions. Three permanent relics activate the Lower Sky route; completing its mined component unlocks the Level 1 Angel route and the Level 2 Devil route, with the latter also requiring World Two tunnel access. Every teleport searches for a collision-safe landing, preserves the paired return anchor, reconciles mined cores with save progression, and publishes an access health snapshot.

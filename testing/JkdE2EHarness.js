@@ -4,7 +4,7 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_VISUAL_LANDMARKS } from "../values/worldVisualLandmarks.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
-import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
+import { HEAVENBLOCKS_WORLD_CONFIG } from "../values/heavenblocksWorldConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
@@ -347,6 +347,129 @@ export function installJkdE2EHarness(scene) {
   let backgroundPreviewIndex = -1;
   let surfaceBenchmarkPreviewIndex = -1;
   let heavenblockPreviewIndex = -1;
+  let ancientRelicPreviewIndex = -1;
+  const previewHeavenblock = (index) => {
+    const normalizedIndex = (
+      Math.max(0, Math.floor(Number(index) || 0))
+      % HEAVENBLOCKS_WORLD_CONFIG.regions.length
+    );
+    const region = HEAVENBLOCKS_WORLD_CONFIG.regions[normalizedIndex];
+    closeTransientUi(scene);
+    scene.activateDevCheat?.();
+    const progression = scene.heavenblocksProgressionSystem;
+    progression?.syncRelicEligibility?.(3);
+    progression?.activateSkyGate?.(3);
+    progression?.unlockRegion?.(region.id);
+    scene.heavenblockWorldVisualSystem?.syncProgression?.(progression, true);
+    forcePlayerState(scene, region.arrival);
+    return {
+      regionId: region.id,
+      label: region.label,
+      levelId: region.levelId,
+      arrival: region.arrival,
+      entryShaft: region.entryShaft,
+      layoutHealth: scene.worldModel?.getHeavenblocksLayoutHealth?.(),
+      visualHealth: scene.heavenblockWorldVisualSystem?.getHealthSnapshot?.(),
+    };
+  };
+  const previewAncientRelic = (index) => {
+    const caches = scene.worldModel?.getAncientRelicCachePositions?.({
+      includeHeavenblocks: false,
+    }) || [];
+    if (caches.length === 0) return { success: false, reason: "no-relic-caches" };
+    const normalizedIndex = Math.max(0, Math.floor(Number(index) || 0)) % caches.length;
+    const cache = caches[normalizedIndex];
+    let preview = findOpenAdjacentTile(scene, cache.tx, cache.ty);
+    if (!preview) {
+      preview = { tx: cache.tx, ty: Math.max(0, cache.ty - 1) };
+      if (scene.worldModel?.isDiggable?.(preview.tx, preview.ty)) {
+        scene.worldModel.damageTile(
+          preview.tx,
+          preview.ty,
+          scene.worldModel.getTileMaxHp(preview.tx, preview.ty) * 2,
+        );
+        scene.worldRenderer?.applyTileUpdate?.(preview.tx, preview.ty);
+      }
+    }
+    closeTransientUi(scene);
+    scene.activateDevCheat?.();
+    forcePlayerState(scene, preview);
+    if (scene.ancientRelicBeaconSystem) {
+      scene.ancientRelicBeaconSystem._nextTargetRefreshMs = 0;
+    }
+    scene.ancientRelicBeaconSystem?.update?.(preview, scene.time?.now || performance.now());
+    return {
+      success: true,
+      cache,
+      preview,
+      guidanceHealth: scene.ancientRelicBeaconSystem?.getHealthSnapshot?.(),
+    };
+  };
+  const mineAncientRelic = (index = ancientRelicPreviewIndex) => {
+    const preview = previewAncientRelic(Math.max(0, index));
+    if (!preview.success) return preview;
+    const result = scene.digSystem?.tryMine?.(
+      preview.cache,
+      scene.time?.now || performance.now(),
+      "DOWN",
+      null,
+      { ignoreCooldown: true, skipHeavyPunch: true, damageMultiplier: 1000 },
+    );
+    return {
+      success: result?.destroyed === true,
+      preview,
+      result,
+      relicCount: scene.ancientRelicSystem?.getCount?.() || 0,
+      cacheType: scene.worldModel?.getType?.(preview.cache.tx, preview.cache.ty),
+    };
+  };
+  const mineHeavenblockEntry = (regionId) => {
+    const region = HEAVENBLOCKS_WORLD_CONFIG.regions.find((entry) => entry.id === regionId);
+    if (!region) return { success: false, reason: "unknown-region" };
+    const preview = previewHeavenblock(
+      HEAVENBLOCKS_WORLD_CONFIG.regions.findIndex((entry) => entry.id === regionId),
+    );
+    const target = {
+      tx: region.entryShaft.tx,
+      ty: region.entryShaft.ty + 1,
+    };
+    const typeBefore = scene.worldModel?.getType?.(target.tx, target.ty);
+    const result = scene.digSystem?.tryMine?.(
+      target,
+      scene.time?.now || performance.now(),
+      "DOWN",
+      null,
+      { ignoreCooldown: true, skipHeavyPunch: true, damageMultiplier: 1000 },
+    );
+    return {
+      success: result?.destroyed === true,
+      preview,
+      target,
+      typeBefore,
+      typeAfter: scene.worldModel?.getType?.(target.tx, target.ty),
+      result,
+    };
+  };
+  const mineHeavenblockCore = (regionId) => {
+    const region = HEAVENBLOCKS_WORLD_CONFIG.regions.find((entry) => entry.id === regionId);
+    if (!region) return { success: false, reason: "unknown-region" };
+    const preview = previewHeavenblock(
+      HEAVENBLOCKS_WORLD_CONFIG.regions.findIndex((entry) => entry.id === regionId),
+    );
+    const result = scene.digSystem?.tryMine?.(
+      region.core,
+      scene.time?.now || performance.now(),
+      "DOWN",
+      null,
+      { ignoreCooldown: true, skipHeavyPunch: true, damageMultiplier: 1000 },
+    );
+    return {
+      preview,
+      result,
+      progression: scene.heavenblocksProgressionSystem?.getSaveData?.(),
+      coreType: scene.worldModel?.getType?.(region.core.tx, region.core.ty),
+    };
+  };
   const handleBackgroundPreviewKey = event => {
     const semanticPredicate = event.code === "F6"
       ? type => type === TILE_TYPES.SKY_TILE
@@ -454,16 +577,73 @@ export function installJkdE2EHarness(scene) {
       event.preventDefault?.();
       heavenblockPreviewIndex = (
         heavenblockPreviewIndex + 1
-      ) % HEAVENBLOCKS_VISUAL_CONFIG.regions.length;
-      const region = HEAVENBLOCKS_VISUAL_CONFIG.regions[heavenblockPreviewIndex];
-      const tileSize = scene.config?.tileSize || HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-      const camera = scene.cameras?.main;
-      camera?.stopFollow?.();
-      camera?.centerOn?.(
-        region.leftTile * tileSize + region.displayWidthPx / 2,
-        region.topTile * tileSize + region.displayHeightPx / 2
+      ) % HEAVENBLOCKS_WORLD_CONFIG.regions.length;
+      const preview = previewHeavenblock(heavenblockPreviewIndex);
+      console.info(
+        `[JkdE2EHarness] Native Heavenblock preview: ${preview.label} `
+        + `(Level ${preview.levelId}, ${preview.arrival.tx},${preview.arrival.ty})`
       );
-      console.info(`[JkdE2EHarness] Heavenblock preview: ${region.label}`);
+      return;
+    }
+    if (event.code === "KeyJ") {
+      event.preventDefault?.();
+      const cacheCount = scene.worldModel?.getAncientRelicCachePositions?.({
+        includeHeavenblocks: false,
+      }).length || 1;
+      ancientRelicPreviewIndex = (ancientRelicPreviewIndex + 1) % cacheCount;
+      const preview = previewAncientRelic(ancientRelicPreviewIndex);
+      console.info(
+        `[JkdE2EHarness] Ancient Relic preview: ${JSON.stringify(preview)}`,
+      );
+      return;
+    }
+    if (event.code === "KeyK") {
+      event.preventDefault?.();
+      const mined = mineAncientRelic();
+      console.info(
+        `[JkdE2EHarness] Ancient Relic mine: ${JSON.stringify({
+          destroyed: mined.result?.destroyed === true,
+          relicCount: mined.relicCount,
+          cacheType: mined.cacheType,
+          cache: mined.preview?.cache,
+        })}`,
+      );
+      return;
+    }
+    if (event.code === "KeyN") {
+      event.preventDefault?.();
+      const region = HEAVENBLOCKS_WORLD_CONFIG.regions[
+        Math.max(0, heavenblockPreviewIndex)
+      ];
+      const mined = mineHeavenblockEntry(region.id);
+      console.info(
+        `[JkdE2EHarness] Native Heavenblock entry mine: ${JSON.stringify({
+          regionId: region.id,
+          target: mined.target,
+          destroyed: mined.result?.destroyed === true,
+          typeBefore: mined.typeBefore,
+          typeAfter: mined.typeAfter,
+        })}`,
+      );
+      return;
+    }
+    if (event.code === "KeyM") {
+      event.preventDefault?.();
+      const region = HEAVENBLOCKS_WORLD_CONFIG.regions[
+        Math.max(0, heavenblockPreviewIndex)
+      ];
+      const mined = mineHeavenblockCore(region.id);
+      console.info(
+        `[JkdE2EHarness] Native Heavenblock core mine: ${JSON.stringify({
+          regionId: region.id,
+          destroyed: mined.result?.destroyed === true,
+          coreType: mined.coreType,
+          completed:
+            mined.progression?.completedRegionIds?.includes?.(region.id) === true,
+          installed:
+            mined.progression?.installedPartIds?.includes?.(region.partId) === true,
+        })}`,
+      );
       return;
     }
     const level = event.code === "PageDown" ? "level1" : (event.code === "PageUp" ? "level2" : null);
@@ -481,7 +661,7 @@ export function installJkdE2EHarness(scene) {
   window.addEventListener("keydown", handleBackgroundPreviewKey);
 
   const harness = {
-    version: 1,
+    version: 2,
     getState: () => getState(scene),
     getTargets: () => getTargets(scene),
     open: (surface, options = {}) => openSurface(scene, surface, options),
@@ -491,10 +671,22 @@ export function installJkdE2EHarness(scene) {
     },
     resetTestSave,
     forcePlayerState: (options = {}) => forcePlayerState(scene, options),
+    previewHeavenblock,
+    previewAncientRelic,
+    mineAncientRelic,
+    mineHeavenblockEntry,
+    getHeavenblocksState: () => ({
+      layoutHealth: scene.worldModel?.getHeavenblocksLayoutHealth?.(),
+      visualHealth: scene.heavenblockWorldVisualSystem?.getHealthSnapshot?.(),
+      accessHealth: scene.heavenblocksAccessSystem?.getHealthSnapshot?.(),
+      relicGuidanceHealth: scene.ancientRelicBeaconSystem?.getHealthSnapshot?.(),
+      progression: scene.heavenblocksProgressionSystem?.getSaveData?.(),
+    }),
+    mineHeavenblockCore,
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks");
+  console.info("[JkdE2EHarness] Installed; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles Heavenblocks; Ctrl+Alt+J previews underground relics; Ctrl+Alt+K mines the selected relic; Ctrl+Alt+N mines the selected island entry; Ctrl+Alt+M mines the selected native core");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

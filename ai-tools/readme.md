@@ -89,6 +89,7 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 | `2026-07-18-build-superman-pose-editor.py` | Build the simple upright-idle Survivor Blender workbook with large body, hand, and foot controls for review-only Superman pose editing |
 | `2026-07-18-build-superman-horizontal-idle.py` | Strip the rejected pose-editor controls from the approved idle snapshot, rotate it flat by 90 degrees, and save a clean review-only horizontal idle preset |
 | `2026-07-18-render-directional-side-punch-review.py` | Render the approved Punch Cross unchanged plus isolated upward and downward torso layers into review-only browser candidates |
+| `2026-07-26-build-heavenblocks-progression-assets.py` | Rebuild relic atlases, UI tokens/components, and the three alpha-safe 512px native Heavenblock component hearts from retained masters |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

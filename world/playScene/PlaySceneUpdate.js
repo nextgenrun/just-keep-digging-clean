@@ -759,6 +759,7 @@ function _updatePlayingState(time, delta, keys) {
     // Special tile system (gamble and teleport tiles)
     this.specialTileSystem.update();
     this.heavenblocksAccessSystem?.update?.(playerTile);
+    this.ancientRelicBeaconSystem?.update?.(playerTile, time);
 
     // Milestone board system (left side town board)
     if (this.milestoneBoardSystem && this.inputHandler) {

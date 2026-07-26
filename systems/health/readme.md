@@ -9,9 +9,10 @@ This directory owns non-visual runtime canary logic.
 - `RuntimeCanaryReporter.js` persists the latest critical report locally and
   optionally posts reports when `globalThis.__JKD_CANARY_REPORT_ENDPOINT__` is
   configured by the hosting environment.
-- Heavenblocks checks require the progression, access, and crafting
-  collaborators and validate protected platform collision, interaction-prompt
-  readiness, and serializable progression state.
+- Heavenblocks checks require the progression, access, crafting, relic locator,
+  native artifact visuals, entry-shaft beacons, and component objective
+  collaborators. They validate protected landing collision, interaction/HUD
+  readiness, guaranteed relic targets, and serializable progression state.
 
 The system never mutates gameplay state. Admin presentation belongs in
 `ui/admin/`, and all thresholds, labels, event codes, and styles live in

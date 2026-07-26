@@ -53,7 +53,19 @@ motion pass. Use `?worldFacade=0` for the deep static-material rollback and
 ## Heavenblocks progression
 
 `PlaySceneSetup` wires the permanent relic milestone, three Heavenblock access
-routes, component installation, Arc Forge recipes, discovery VFX, and save
-state. `PlaySceneUpdate` gives the Heavenblocks first refusal on nearby
-interaction before ordinary special tiles. `?heavenblocksGameplay=0` disables
-the gameplay layer without changing saved progression.
+routes, component installation, Arc Forge recipes, discovery VFX, persistent
+relic guidance/altar sockets, and save state. `PlaySceneUpdate` advances the
+underground locator and in-island heart objective, then gives Heavenblocks first
+refusal on nearby interaction before ordinary special tiles.
+`?heavenblocksGameplay=0` disables the gameplay layer without changing saved
+progression; `?relicGuidance=0` disables only the added relic locator UI.
+
+The world renderer and the Heavenblock facade/artifact systems share cell
+invalidation, so every mining path updates the native tile, facade hole, damage
+crack, relic cache/token, heart, lighting, progression, and save state in one
+frame. Every arrival has a protected standing cell, an adjacent open shaft,
+and a pulsing component marker over that shaft. The query-gated
+`?jkd_e2e=1` harness can move the real player and normal camera among all three
+islands or beside a guaranteed underground relic; it reports layout, visual,
+access, relic-guidance, and progression health and can mine an entry tile or
+component heart through the production `DigSystem` for runtime validation.

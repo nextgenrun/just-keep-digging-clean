@@ -57,6 +57,7 @@ export class WorldVisualBedrockMaterialLayer {
     this.maskGraphics.clear().fillStyle(0xffffff, 1);
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
+        if (this.worldModel.getHeavenblockRegionAt?.(tx, ty)) continue;
         if (!isBedrock(this.worldModel.getTileType(tx, ty))) continue;
         this.maskGraphics.fillRect(tx * tileSize, ty * tileSize, tileSize + 0.5, tileSize + 0.5);
         visibleCells += 1;

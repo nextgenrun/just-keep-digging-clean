@@ -133,6 +133,7 @@ export class WorldVisualMaterialField {
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
         if (isAir(this.worldModel, tx, ty)) continue;
+        if (this.worldModel.getHeavenblockRegionAt?.(tx, ty)) continue;
         const x = tx * tileSize;
         const y = ty * tileSize;
         this.maskGraphics.fillRect(x, y, tileSize + 0.5, tileSize + 0.5);

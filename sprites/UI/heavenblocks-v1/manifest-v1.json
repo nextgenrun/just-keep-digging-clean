@@ -1,6 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "relicSemanticFrame": 7,
+  "nativeWorldHearts": true,
   "outputs": {
     "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v2.png": {
       "sha256": "22facf59ef4e4e42b085012ddc0e6c18b8c9683ee4698829fab88d6586aab6dd",
@@ -33,6 +34,18 @@
     "sprites/UI/heavenblocks-v1/eclipse-crucible-v1.png": {
       "sha256": "f02a61aa6e34cf8153c698c05d731e390b6b4ba9fdafe31cbb49991a73c7438c",
       "bytes": 8654
+    },
+    "sprites/backgrounds/heavenblocks-v1/aether-turbine-heart-v2.png": {
+      "sha256": "5971eee7eee073354eb1158bf291a00b7962fefa581af4b057b5498057957b4f",
+      "bytes": 528268
+    },
+    "sprites/backgrounds/heavenblocks-v1/halo-regulator-heart-v2.png": {
+      "sha256": "dc3cb731d1b1aa81282d946c5cef5d5455547abfb02620ae766ef3acadebce34",
+      "bytes": 475323
+    },
+    "sprites/backgrounds/heavenblocks-v1/eclipse-crucible-heart-v2.png": {
+      "sha256": "9d0ee5bf60531615a3431cd018e1c3690a92f90e9a4bde2f545b9b9b968630de",
+      "bytes": 441085
     }
   }
 }

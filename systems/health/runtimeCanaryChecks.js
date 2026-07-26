@@ -34,14 +34,23 @@ function finding(config, code, severity, message, context = {}) {
 function heavenblocksFindings(scene, config) {
   const findings = [];
   const health = scene?.heavenblocksAccessSystem?.getHealthSnapshot?.();
+  const relicGuidanceHealth = scene?.ancientRelicBeaconSystem?.getHealthSnapshot?.();
   if (!health || health.enabled === false) return findings;
-  if (!health.promptReady || !health.layoutReady || !health.progressionReady) {
+  if (
+    !health.promptReady
+    || !health.objectiveReady
+    || !health.shaftBeaconsReady
+    || !health.layoutReady
+    || !health.visualReady
+    || !health.progressionReady
+    || relicGuidanceHealth?.ready !== true
+  ) {
     findings.push(finding(
       config,
       config.events.heavenblocksInvariant,
       config.severity.error,
       config.messages.heavenblocksInvariant,
-      { sceneKey: "PlayScene", health },
+      { sceneKey: "PlayScene", health, relicGuidanceHealth },
     ));
   }
   return findings;

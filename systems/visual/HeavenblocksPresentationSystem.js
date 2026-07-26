@@ -3,19 +3,24 @@ import { HEAVENBLOCKS_ACCESS_CONFIG } from "../../values/heavenblocksAccessConfi
 import { USER_SETTINGS } from "../UserSettings.js";
 
 export class HeavenblocksPresentationSystem {
-  constructor(scene, worldModel, config = HEAVENBLOCKS_ACCESS_CONFIG) {
+  constructor(
+    scene,
+    worldModel,
+    worldVisualSystem = null,
+    config = HEAVENBLOCKS_ACCESS_CONFIG,
+  ) {
     this.scene = scene;
     this.worldModel = worldModel;
+    this.worldVisualSystem = worldVisualSystem;
     this.config = config;
     this.fxObjects = new Set();
-    this._lastGateSignature = "";
+    this.shaftBeacons = new Map();
   }
 
   create() {
     const depth = this.config.presentation.depth;
-    this.altarGraphics = this.scene.add.graphics().setDepth(depth);
     this.promptText = this.scene.add.text(0, 0, "", {
-      fontFamily: "Consolas, monospace",
+      fontFamily: "Arial, sans-serif",
       fontSize: "15px",
       fontStyle: "bold",
       color: "#ffffff",
@@ -23,6 +28,67 @@ export class HeavenblocksPresentationSystem {
       stroke: "#07111b",
       strokeThickness: 5,
     }).setOrigin(0.5, 1).setDepth(depth + 0.2).setVisible(false);
+
+    for (const region of this.config.regions) this._createShaftBeacon(region);
+    const firstRegion = this.config.regions[0];
+    if (firstRegion && this.scene.textures?.exists?.(firstRegion.heartAssetKey)) {
+      this.objectiveIcon = this.scene.add.image(
+        this.config.presentation.objectiveIconX,
+        this.config.presentation.objectiveY,
+        firstRegion.heartAssetKey,
+      )
+        .setScrollFactor(0)
+        .setDepth(depth + 0.45)
+        .setDisplaySize(
+          this.config.presentation.objectiveIconSizePx,
+          this.config.presentation.objectiveIconSizePx,
+        )
+        .setVisible(false);
+    }
+    this.objectiveText = this.scene.add.text(
+      this.config.presentation.objectiveX,
+      this.config.presentation.objectiveY,
+      "",
+      {
+        fontFamily: this.config.presentation.objectiveFontFamily,
+        fontSize: `${this.config.presentation.objectiveFontSizePx}px`,
+        fontStyle: "bold",
+        color: this.config.presentation.objectiveTextColor,
+        align: "center",
+        stroke: this.config.presentation.objectiveStrokeColor,
+        strokeThickness: this.config.presentation.objectiveStrokeThicknessPx,
+      },
+    )
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(depth + 0.45)
+      .setVisible(false);
+  }
+
+  _createShaftBeacon(region) {
+    if (
+      !region.entryShaft
+      || !this.scene.textures?.exists?.(region.heartAssetKey)
+    ) return;
+    const point = this.worldModel.tileToWorld(region.entryShaft.tx, region.entryShaft.ty);
+    const size = this.config.presentation.shaftBeaconDisplayTiles * this.worldModel.tileSize;
+    const beacon = this.scene.add.image(point.x, point.y, region.heartAssetKey)
+      .setDepth(this.config.presentation.depth + 0.18)
+      .setDisplaySize(size, size)
+      .setTint(region.color)
+      .setAlpha(this.config.presentation.shaftBeaconAlpha)
+      .setBlendMode(Phaser.BlendModes.ADD)
+      .setVisible(false);
+    beacon.name = `${region.id}:entry-shaft-beacon`;
+    this.scene.tweens.add({
+      targets: beacon,
+      y: point.y - this.config.presentation.shaftBeaconBobPx,
+      duration: this.config.presentation.shaftBeaconBobDurationMs,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      repeat: -1,
+    });
+    this.shaftBeacons.set(region.id, beacon);
   }
 
   setPrompt(anchor, label) {
@@ -42,43 +108,76 @@ export class HeavenblocksPresentationSystem {
   }
 
   redrawAltars(progressionSystem, force = false) {
-    if (!this.altarGraphics) return;
-    const signature = JSON.stringify(progressionSystem?.getSaveData?.() || {});
-    if (!force && signature === this._lastGateSignature) return;
-    this._lastGateSignature = signature;
-    this.altarGraphics.clear();
-
-    for (const gate of this.config.surfaceGates) {
-      const unlocked = progressionSystem.isRegionUnlocked(gate.regionId);
-      const point = this.worldModel.tileToWorld(gate.tx, gate.ty);
-      this.altarGraphics.lineStyle(3, gate.color, unlocked ? 0.95 : 0.28);
-      this.altarGraphics.strokeCircle(point.x, point.y, this.config.presentation.altarRadiusPx);
-      this.altarGraphics.fillStyle(gate.color, unlocked ? 0.2 : 0.06);
-      this.altarGraphics.fillCircle(point.x, point.y, this.config.presentation.altarRadiusPx - 6);
-    }
+    this.worldVisualSystem?.syncProgression?.(progressionSystem, force);
     for (const region of this.config.regions) {
-      if (!progressionSystem.isRegionUnlocked(region.id)) continue;
-      for (const anchor of [region.returnAltar, region.rewardShrine]) {
-        const point = this.worldModel.tileToWorld(anchor.tx, anchor.ty);
-        this.altarGraphics.lineStyle(2, region.color, 0.78);
-        this.altarGraphics.strokeCircle(point.x, point.y, 22);
-      }
+      const unlocked = progressionSystem?.isRegionUnlocked?.(region.id) === true;
+      const completed = progressionSystem?.isRegionCompleted?.(region.id) === true;
+      this.shaftBeacons.get(region.id)?.setVisible(unlocked && !completed);
     }
   }
 
-  playTransit(point, color, firstUnlock, delay) {
-    if (!point || !this.scene.add) return;
-    const ring = this.scene.add.circle(point.x, point.y, 26, color, 0.12)
-      .setStrokeStyle(4, color, 0.9)
-      .setDepth(this.config.presentation.depth + 0.3);
-    this.fxObjects.add(ring);
+  updateObjective(playerTile, progressionSystem) {
+    const region = playerTile
+      ? this.worldModel.getHeavenblockRegionAt?.(playerTile.tx, playerTile.ty)
+      : null;
+    if (
+      !region
+      || progressionSystem?.isRegionCompleted?.(region.id) === true
+      || !this.objectiveIcon
+      || !this.objectiveText
+    ) {
+      this._hideObjective();
+      return;
+    }
+    const dx = region.core.tx - playerTile.tx;
+    const dy = region.core.ty - playerTile.ty;
+    const direction = this._directionLabel(dx, dy);
+    const text = this.config.copy.coreSignal
+      .replace("{part}", region.partLabel.toUpperCase())
+      .replace("{distance}", Math.ceil(Math.hypot(dx, dy)))
+      .replace("{direction}", direction);
+    this.objectiveIcon
+      .setTexture(region.heartAssetKey)
+      .setTint(region.color)
+      .setVisible(true);
+    this.objectiveText.setText(text).setVisible(true);
+  }
+
+  _directionLabel(dx, dy) {
+    if (Math.abs(dx) > Math.abs(dy)) {
+      return dx < 0 ? this.config.copy.directionLeft : this.config.copy.directionRight;
+    }
+    return dy < 0 ? this.config.copy.directionUp : this.config.copy.directionDown;
+  }
+
+  _hideObjective() {
+    this.objectiveIcon?.setVisible(false);
+    this.objectiveText?.setVisible(false);
+  }
+
+  playTransit(point, region, firstUnlock, delay) {
+    if (
+      !point
+      || !region
+      || !this.scene.textures?.exists?.(region.portalAssetKey)
+    ) return;
+    const tileSize = this.worldModel.tileSize;
+    const portalEcho = this.scene.add.image(point.x, point.y, region.portalAssetKey)
+      .setDepth(this.config.presentation.depth + 0.3)
+      .setDisplaySize(tileSize * 2, tileSize * 2)
+      .setTint(region.color)
+      .setAlpha(0.95);
+    this.fxObjects.add(portalEcho);
+    const startScaleX = portalEcho.scaleX;
+    const startScaleY = portalEcho.scaleY;
     this.scene.tweens.add({
-      targets: ring,
-      scale: firstUnlock ? 4.2 : 2.4,
+      targets: portalEcho,
+      scaleX: startScaleX * (firstUnlock ? this.config.presentation.portalEchoScale : 1.7),
+      scaleY: startScaleY * (firstUnlock ? this.config.presentation.portalEchoScale : 1.7),
       alpha: 0,
       duration: delay,
       ease: "Cubic.easeOut",
-      onComplete: () => this._destroyFx(ring),
+      onComplete: () => this._destroyFx(portalEcho),
     });
     const relicKey = ASSET_KEYS.ui.heavenblocks.ancientRelicToken;
     if (!firstUnlock || !this.scene.textures?.exists?.(relicKey)) return;
@@ -108,17 +207,23 @@ export class HeavenblocksPresentationSystem {
   }
 
   playComponentClaim(region) {
-    const point = this.worldModel.tileToWorld(region.rewardShrine.tx, region.rewardShrine.ty);
-    if (!this.scene.textures?.exists?.(region.componentAssetKey)) return;
-    const icon = this.scene.add.image(point.x, point.y - 8, region.componentAssetKey)
+    const point = this.worldModel.tileToWorld(region.core.tx, region.core.ty);
+    const assetKey = this.scene.textures?.exists?.(region.heartAssetKey)
+      ? region.heartAssetKey
+      : region.componentAssetKey;
+    if (!this.scene.textures?.exists?.(assetKey)) return;
+    const icon = this.scene.add.image(point.x, point.y, assetKey)
       .setDepth(this.config.presentation.depth + 0.6)
-      .setScale(0.35)
       .setBlendMode(Phaser.BlendModes.ADD);
+    icon.setDisplaySize(this.worldModel.tileSize * 1.7, this.worldModel.tileSize * 1.7);
+    const startScaleX = icon.scaleX;
+    const startScaleY = icon.scaleY;
     this.fxObjects.add(icon);
     this.scene.tweens.add({
       targets: icon,
       y: point.y - 150,
-      scale: 1.1,
+      scaleX: startScaleX * 1.4,
+      scaleY: startScaleY * 1.4,
       angle: 18,
       alpha: { from: 1, to: 0 },
       duration: 1500,
@@ -128,14 +233,17 @@ export class HeavenblocksPresentationSystem {
   }
 
   playVault(region, keystoneGranted) {
-    const point = this.worldModel.tileToWorld(region.rewardShrine.tx, region.rewardShrine.ty);
-    this.playTransit(point, keystoneGranted ? 0xffffff : region.color, true, 1200);
+    const point = this.worldModel.tileToWorld(region.arcVault.tx, region.arcVault.ty);
+    const fxRegion = keystoneGranted ? { ...region, color: 0xffffff } : region;
+    this.playTransit(point, fxRegion, true, 1200);
   }
 
   getHealthSnapshot() {
     return {
       promptReady: Boolean(this.promptText),
-      altarGraphicsReady: Boolean(this.altarGraphics),
+      worldVisualReady: this.worldVisualSystem?.getHealthSnapshot?.()?.ready === true,
+      objectiveReady: Boolean(this.objectiveIcon && this.objectiveText),
+      shaftBeaconCount: this.shaftBeacons.size,
       activeFxCount: this.fxObjects.size,
     };
   }
@@ -148,9 +256,16 @@ export class HeavenblocksPresentationSystem {
 
   destroy() {
     this.promptText?.destroy();
-    this.altarGraphics?.destroy();
     this.promptText = null;
-    this.altarGraphics = null;
+    this.objectiveIcon?.destroy();
+    this.objectiveIcon = null;
+    this.objectiveText?.destroy();
+    this.objectiveText = null;
+    for (const beacon of this.shaftBeacons.values()) {
+      this.scene.tweens?.killTweensOf?.(beacon);
+      beacon.destroy?.();
+    }
+    this.shaftBeacons.clear();
     for (const object of this.fxObjects) object.destroy?.();
     this.fxObjects.clear();
   }

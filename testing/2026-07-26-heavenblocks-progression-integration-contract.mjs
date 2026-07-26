@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { CraftingSystem } from "../systems/crafting/CraftingSystem.js";
 import { HeavenblocksAccessSystem } from "../systems/environment/HeavenblocksAccessSystem.js";
 import { evaluateRuntimeCanaries } from "../systems/health/runtimeCanaryChecks.js";
+import { DigSystem } from "../systems/mining/DigSystem.js";
 import { HeavenblocksProgressionSystem } from "../systems/progression/HeavenblocksProgressionSystem.js";
 import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
 import { ShopOverlay } from "../ui/overlays/ShopOverlay.js";
@@ -44,8 +45,9 @@ function pngInfo(file) {
 
 const manifestPath = fromRoot("sprites/UI/heavenblocks-v1/manifest-v1.json");
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-assert.equal(manifest.version, 1);
+assert.equal(manifest.version, 2);
 assert.equal(manifest.relicSemanticFrame, 7);
+assert.equal(manifest.nativeWorldHearts, true);
 for (const [relativePath, expected] of Object.entries(manifest.outputs)) {
   const file = fromRoot(relativePath);
   assert.equal(existsSync(file), true, `missing generated asset: ${relativePath}`);
@@ -68,6 +70,16 @@ for (const [filename, size] of [
 ]) {
   const info = pngInfo(fromRoot(`sprites/UI/heavenblocks-v1/${filename}`));
   assert.deepEqual(info, { width: size, height: size, colorType: 6 });
+}
+for (const filename of [
+  "aether-turbine-heart-v2.png",
+  "halo-regulator-heart-v2.png",
+  "eclipse-crucible-heart-v2.png",
+]) {
+  assert.deepEqual(
+    pngInfo(fromRoot(`sprites/backgrounds/heavenblocks-v1/${filename}`)),
+    { width: 512, height: 512, colorType: 6 },
+  );
 }
 assert.equal(
   WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.beautyAtlas.frameCount,
@@ -131,18 +143,20 @@ assert.ok(
   recoveredCaches.every(({ tx, ty }) => !removedLegacyCacheKeys.has(`${tx},${ty}`)),
   "legacy recovery must use still-solid cells instead of regenerating dug coordinates",
 );
-assert.equal(world.getHeavenblocksLayoutHealth().platformsReady, true);
+assert.equal(world.getHeavenblocksLayoutHealth().nativeTilesReady, true);
 for (const region of HEAVENBLOCKS_ACCESS_CONFIG.regions) {
   assert.equal(world.getType(region.arrival.tx, region.arrival.ty), TILE_TYPES.AIR);
-  assert.equal(world.getType(region.arrival.tx, region.platform.floorTy), TILE_TYPES.BEDROCK);
+  assert.equal(world.getType(region.arrival.tx, region.arrival.ty + 1), TILE_TYPES.BEDROCK);
+  assert.equal(world.getType(region.core.tx, region.core.ty), TILE_TYPES.HEAVENBLOCK_CORE);
+  assert.equal(world.isDiggable(region.core.tx, region.core.ty), true);
 }
 const protectedRegion = HEAVENBLOCKS_ACCESS_CONFIG.regions[0];
-world.setTile(protectedRegion.arrival.tx, protectedRegion.platform.floorTy, TILE_TYPES.AIR, 0);
-world.applyHeavenblocksLayout();
+world.setTile(protectedRegion.arrival.tx, protectedRegion.arrival.ty + 1, TILE_TYPES.AIR, 0);
+world.restoreHeavenblockProtectedCells();
 assert.equal(
-  world.getType(protectedRegion.arrival.tx, protectedRegion.platform.floorTy),
+  world.getType(protectedRegion.arrival.tx, protectedRegion.arrival.ty + 1),
   TILE_TYPES.BEDROCK,
-  "save restoration must not leave a Heavenblock platform dug out",
+  "save restoration must not leave a Heavenblock arrival shelf dug out",
 );
 
 let relicCount = 3;
@@ -157,11 +171,12 @@ const presentation = {
   hidePrompt: () => presentationEvents.push("hide"),
   playTransit: () => presentationEvents.push("transit"),
   playComponentClaim: () => presentationEvents.push("component"),
-  getHealthSnapshot: () => ({ promptReady: true }),
+  getHealthSnapshot: () => ({ promptReady: true, worldVisualReady: true }),
 };
 const teleports = [];
 const controlStates = [];
 const changedEvents = [];
+let levelTwoAccess = 0;
 const accessScene = {
   time: { delayedCall: (_delay, callback) => callback() },
   cameras: { main: { flash() {} } },
@@ -177,19 +192,32 @@ const access = new HeavenblocksAccessSystem(accessScene, {
   },
   progressionSystem: progression,
   ancientRelicSystem: { getCount: () => relicCount },
-  upgradeSystem: new UpgradeSystem(),
+  upgradeSystem: {
+    getUpgradeLevel: (upgradeId) => (
+      upgradeId === "worldTwoTunnelAccess" ? levelTwoAccess : 0
+    ),
+  },
   presentationSystem: presentation,
   onChanged: (event) => changedEvents.push(event),
 });
 access.create();
-access.update({ tx: 105, ty: 64 });
+access.update(protectedRegion.surfaceGate);
 assert.equal(access.handleInteract().type, "heavenblock-ascent");
 assert.equal(progression.isSkyGateActivated(), true);
 assert.equal(progression.isRegionVisited(protectedRegion.id), true);
 assert.deepEqual(teleports.at(-1), protectedRegion.arrival);
 assert.deepEqual(controlStates.slice(-2), [false, true]);
-access.update(protectedRegion.rewardShrine);
-assert.equal(access.handleInteract().type, "heavenblock-component");
+const integrationDig = new DigSystem(world, { applyTileUpdate() {}, scene: accessScene }, GAME_CONFIG);
+integrationDig.setHeavenblocksProgressionSystem(progression);
+integrationDig.setHeavenblockArtifactHandler((artifact) => access.handleArtifactMined(artifact));
+const componentResult = integrationDig.tryMine(
+  protectedRegion.core,
+  1,
+  null,
+  null,
+  { ignoreCooldown: true, skipHeavyPunch: true, damageMultiplier: 1000 },
+);
+assert.equal(componentResult.heavenblockArtifact.success, true);
 assert.equal(progression.isRegionCompleted(protectedRegion.id), true);
 assert.equal(progression.isPartInstalled(protectedRegion.partId), true);
 for (const regionId of protectedRegion.id === HEAVENBLOCKS_PROGRESSION_CONFIG.skyGate.initialRegionId
@@ -199,13 +227,23 @@ for (const regionId of protectedRegion.id === HEAVENBLOCKS_PROGRESSION_CONFIG.sk
 }
 assert.ok(changedEvents.includes("sky-gate-activated"));
 assert.ok(changedEvents.includes("region-completed"));
+const devilRegion = HEAVENBLOCKS_ACCESS_CONFIG.regions.find(
+  ({ id }) => id === "devil-eclipse-scar",
+);
+access.update(devilRegion.surfaceGate);
+assert.equal(access.handleInteract().type, "heavenblock-level-locked");
+levelTwoAccess = 1;
+access.update(devilRegion.surfaceGate);
+assert.equal(access.handleInteract().type, "heavenblock-ascent");
+assert.equal(progression.isRegionVisited(devilRegion.id), true);
 assert.deepEqual(
   {
     promptReady: access.getHealthSnapshot().promptReady,
     layoutReady: access.getHealthSnapshot().layoutReady,
+    visualReady: access.getHealthSnapshot().visualReady,
     progressionReady: access.getHealthSnapshot().progressionReady,
   },
-  { promptReady: true, layoutReady: true, progressionReady: true },
+  { promptReady: true, layoutReady: true, visualReady: true, progressionReady: true },
 );
 
 const saveStore = new DugTilesSaveStore();
@@ -290,7 +328,15 @@ assert.equal(
   true,
 );
 
-const healthyHeavenblocks = { enabled: true, promptReady: true, layoutReady: true, progressionReady: true };
+const healthyHeavenblocks = {
+  enabled: true,
+  promptReady: true,
+  objectiveReady: true,
+  shaftBeaconsReady: true,
+  layoutReady: true,
+  visualReady: true,
+  progressionReady: true,
+};
 const playScene = {
   sys: { settings: { key: "PlayScene" } },
   worldModel: {},
@@ -312,6 +358,7 @@ const playScene = {
   },
   heavenblocksProgressionSystem: {},
   heavenblocksAccessSystem: { getHealthSnapshot: () => healthyHeavenblocks },
+  ancientRelicBeaconSystem: { getHealthSnapshot: () => ({ ready: true }) },
   craftingSystem: crafting,
 };
 const game = {

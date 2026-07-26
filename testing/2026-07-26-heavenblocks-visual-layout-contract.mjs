@@ -1,336 +1,326 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 
+import { HeavenblocksPresentationSystem } from "../systems/visual/HeavenblocksPresentationSystem.js";
+import { HeavenblockWorldVisualSystem } from "../systems/visual/HeavenblockWorldVisualSystem.js";
+import { ASSET_KEYS } from "../values/assetKeys.js";
+import { GAME_CONFIG } from "../values/gameConfig.js";
+import { HEAVENBLOCKS_ACCESS_CONFIG } from "../values/heavenblocksAccessConfig.js";
+import {
+  HEAVENBLOCK_CELL_MARKERS,
+  HEAVENBLOCKS_WORLD_CONFIG,
+} from "../values/heavenblocksWorldConfig.js";
 import {
   HEAVENBLOCKS_VISUAL_CONFIG,
   resolveHeavenblocksVisualsEnabled,
 } from "../values/heavenblocksVisualConfig.js";
-import { V11SkyIslandVisualSystem } from "../systems/environment/V11SkyIslandVisualSystem.js";
-import { HeavenblocksPresentationSystem } from "../systems/visual/HeavenblocksPresentationSystem.js";
+import { WorldModel } from "../world/model/WorldModel.js";
 
 globalThis.Phaser = {
-  BlendModes: {
-    ADD: "ADD",
-  },
-  Loader: {
-    Events: {
-      COMPLETE: "complete",
-    },
-  },
+  BlendModes: { ADD: "ADD" },
 };
 
-function createImage(x, y, key) {
+function expectedCellCount() {
+  return HEAVENBLOCKS_WORLD_CONFIG.regions.reduce(
+    (total, region) => total + region.layoutRows.reduce(
+      (rowTotal, row) => rowTotal + Array.from(row)
+        .filter((marker) => marker !== HEAVENBLOCK_CELL_MARKERS.AIR).length,
+      0,
+    ),
+    0,
+  );
+}
+
+function expectedProtectedCount() {
+  return HEAVENBLOCKS_WORLD_CONFIG.regions.reduce(
+    (total, region) => total + region.layoutRows.reduce(
+      (rowTotal, row) => rowTotal + Array.from(row)
+        .filter((marker) => marker === HEAVENBLOCK_CELL_MARKERS.PROTECTED).length,
+      0,
+    ),
+    0,
+  );
+}
+
+function createDisplayObject(x, y, key = "", sourceSize = 512) {
   return {
     x,
     y,
     key,
-    name: "",
+    width: sourceSize,
+    height: sourceSize,
+    scaleX: 1,
+    scaleY: 1,
+    visible: true,
     destroyed: false,
-    setOrigin(originX, originY) {
-      this.originX = originX;
-      this.originY = originY;
+    setOrigin(xValue, yValue = xValue) {
+      this.originX = xValue;
+      this.originY = yValue;
       return this;
     },
-    setDepth(depth) {
-      this.depth = depth;
+    setDepth(value) { this.depth = value; return this; },
+    setScrollFactor(value) { this.scrollFactor = value; return this; },
+    setAlpha(value) { this.alpha = value; return this; },
+    setTint(value) { this.tint = value; return this; },
+    setFlipX(value) { this.flipX = value; return this; },
+    setVisible(value) { this.visible = value; return this; },
+    setBlendMode(value) { this.blendMode = value; return this; },
+    setScale(xValue, yValue = xValue) {
+      this.scaleX = xValue;
+      this.scaleY = yValue;
       return this;
     },
-    setAlpha(alpha) {
-      this.alpha = alpha;
+    setCrop(left, top, width, height) {
+      this.crop = { left, top, width, height };
       return this;
     },
     setDisplaySize(width, height) {
       this.displayWidth = width;
       this.displayHeight = height;
+      this.scaleX = width / this.width;
+      this.scaleY = height / this.height;
       return this;
     },
-    destroy() {
-      this.destroyed = true;
-    },
+    setTexture(value) { this.key = value; return this; },
+    setPosition(nextX, nextY) { this.x = nextX; this.y = nextY; return this; },
+    setText(value) { this.text = value; return this; },
+    destroy() { this.destroyed = true; },
   };
 }
 
 function createHarness() {
-  const textureKeys = new Set();
-  const queuedAssets = [];
-  const images = [];
-  let completeHandler = null;
-
+  const textureKeys = new Set(ASSET_KEYS.tiles.dynamicSoil.cracks);
+  for (const key of Object.values(ASSET_KEYS.tiles)) {
+    if (typeof key === "string") textureKeys.add(key);
+  }
+  for (const region of HEAVENBLOCKS_WORLD_CONFIG.regions) {
+    textureKeys.add(region.backdropKey);
+    textureKeys.add(region.heartAssetKey);
+    textureKeys.add(region.componentAssetKey);
+    textureKeys.add(region.portalAssetKey);
+  }
+  textureKeys.add(ASSET_KEYS.ui.heavenblocks.ancientRelicToken);
+  textureKeys.add(ASSET_KEYS.tiles.ancientRelicCache);
+  const objects = [];
+  const tweens = [];
   const scene = {
-    config: { tileSize: 94 },
     textures: {
-      exists(key) {
-        return textureKeys.has(key);
-      },
-    },
-    load: {
-      image(key, path) {
-        queuedAssets.push({ key, path });
-      },
-      once(event, handler) {
-        assert.equal(event, "complete");
-        completeHandler = handler;
-      },
-      off(event, handler) {
-        if (event === "complete" && handler === completeHandler) completeHandler = null;
-      },
-      isLoading() {
-        return false;
-      },
-      start() {
-        for (const asset of queuedAssets) textureKeys.add(asset.key);
-        completeHandler?.();
-      },
+      exists: (key) => textureKeys.has(key),
     },
     add: {
       image(x, y, key) {
-        const image = createImage(x, y, key);
-        images.push(image);
-        return image;
+        const object = createDisplayObject(x, y, key);
+        objects.push(object);
+        return object;
+      },
+      text(x, y) {
+        const object = createDisplayObject(x, y);
+        objects.push(object);
+        return object;
       },
     },
+    tweens: {
+      add(config) {
+        tweens.push(config);
+        return config;
+      },
+      killTweensOf() {},
+    },
   };
-
-  return { scene, images, queuedAssets };
+  return { scene, objects, tweens };
 }
 
 assert.equal(resolveHeavenblocksVisualsEnabled(HEAVENBLOCKS_VISUAL_CONFIG, ""), true);
 assert.equal(
   resolveHeavenblocksVisualsEnabled(HEAVENBLOCKS_VISUAL_CONFIG, "?heavenblocksVisuals=0"),
-  false
+  false,
 );
-assert.equal(
-  resolveHeavenblocksVisualsEnabled(HEAVENBLOCKS_VISUAL_CONFIG, "?heavenblocksVisuals=1"),
-  true
-);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.nativeTileMaskWired, true);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.nativeTileRenderer, true);
+assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.bakedFacadeRuntime, false);
 
-globalThis.location = { search: "?heavenblocksVisuals=0" };
-const disabledHarness = createHarness();
-const disabledSystem = new V11SkyIslandVisualSystem(
-  disabledHarness.scene,
-  { enabled: false, levels: [] },
-  HEAVENBLOCKS_VISUAL_CONFIG
-);
-disabledSystem.create();
-assert.equal(disabledHarness.queuedAssets.length, 0, "rollback must not load Heavenblock art");
-assert.equal(disabledHarness.images.length, 0, "rollback must not render Heavenblock art");
-delete globalThis.location;
-
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.visualOnly, false);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.collisionWired, true);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.accessWired, true);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.craftingWired, true);
-assert.equal(HEAVENBLOCKS_VISUAL_CONFIG.regions.length, 3);
-
-const lane = HEAVENBLOCKS_VISUAL_CONFIG.reservedLane;
-for (const region of HEAVENBLOCKS_VISUAL_CONFIG.regions) {
-  const maxOverscan = Math.max(...region.layers.map((layer) => layer.overscan));
-  const widthTiles = region.displayWidthPx * maxOverscan
-    / HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-  const heightTiles = region.displayHeightPx * maxOverscan
-    / HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-  const leftTile = region.leftTile
-    - (region.displayWidthPx * maxOverscan - region.displayWidthPx)
-      / 2 / HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-  const topTile = region.topTile
-    - (region.displayHeightPx * maxOverscan - region.displayHeightPx)
-      / 2 / HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-  assert.ok(leftTile >= lane.leftTile);
-  assert.ok(leftTile + widthTiles <= lane.rightTileExclusive);
-  assert.ok(topTile >= lane.topTile);
-  assert.ok(topTile + heightTiles <= lane.bottomTileExclusive);
-  assert.equal(region.layers.length, 2);
-
-  for (const layer of region.layers) {
-    const assetPath = fileURLToPath(new URL(`../${layer.path}`, import.meta.url));
-    assert.equal(existsSync(assetPath), true, `missing visual asset ${layer.path}`);
-  }
-}
-
-const sortedRegions = [...HEAVENBLOCKS_VISUAL_CONFIG.regions]
-  .sort((left, right) => left.topTile - right.topTile);
-for (let index = 1; index < sortedRegions.length; index += 1) {
-  const previous = sortedRegions[index - 1];
-  const previousBottom = previous.topTile
-    + previous.displayHeightPx
-      * Math.max(...previous.layers.map((layer) => layer.overscan))
-      / HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-  assert.ok(previousBottom < sortedRegions[index].topTile, "Heavenblock regions must not overlap");
+const originalLog = console.log;
+let world;
+try {
+  console.log = () => {};
+  world = new WorldModel(GAME_CONFIG);
+} finally {
+  console.log = originalLog;
 }
 
 const harness = createHarness();
-const system = new V11SkyIslandVisualSystem(
-  harness.scene,
-  { enabled: false, levels: [] },
-  HEAVENBLOCKS_VISUAL_CONFIG
+const visuals = new HeavenblockWorldVisualSystem(harness.scene, world);
+visuals.create();
+const visualHealth = visuals.getHealthSnapshot();
+assert.equal(visualHealth.enabled, true);
+assert.equal(visualHealth.ready, true);
+assert.equal(visualHealth.expectedCells, expectedCellCount());
+assert.equal(visualHealth.tileCellCount, expectedCellCount());
+assert.equal(visualHealth.crackCellCount, expectedCellCount() - expectedProtectedCount());
+assert.equal(visualHealth.bakedFacadeCellCount, 0);
+assert.equal(
+  Object.values(visualHealth.topologyCounts).reduce((sum, count) => sum + count, 0),
+  expectedCellCount(),
 );
-system.create();
+assert.equal(visualHealth.heartCount, 3);
+assert.equal(visualHealth.relicCacheCount, 3);
+assert.equal(visualHealth.vaultMarkerCount, 3);
+assert.deepEqual(visualHealth.missingTextures, []);
+assert.equal(visuals.backdrops.length, 3);
+assert.equal(visuals.surfacePortals.size, 3);
+assert.equal(visuals.islandPortals.size, 3);
 
-assert.equal(harness.queuedAssets.length, 6, "all backdrops and facades must be loaded");
-assert.equal(harness.images.length, 6, "all backdrops and facades must be rendered");
-assert.equal(system.heavenblockSprites.size, 3);
+const firstRegion = HEAVENBLOCKS_WORLD_CONFIG.regions[0];
+let damageCell = null;
+firstRegion.layoutRows.some((row, localY) => Array.from(row).some((marker, localX) => {
+  if (marker !== HEAVENBLOCK_CELL_MARKERS.MATERIAL) return false;
+  damageCell = { tx: firstRegion.leftTile + localX, ty: firstRegion.topTile + localY };
+  return true;
+}));
+const damageKey = `${damageCell.tx},${damageCell.ty}`;
+const originalTextureKey = visuals.tileCells.get(damageKey).textureKey;
+const maxHp = world.getTileMaxHp(damageCell.tx, damageCell.ty);
+world.damageTile(damageCell.tx, damageCell.ty, Math.max(1, Math.floor(maxHp / 2)));
+visuals.invalidateCell(damageCell.tx, damageCell.ty);
+assert.equal(
+  visuals.tileCells.get(damageKey).textureKey !== originalTextureKey
+    || visuals.crackCells.get(damageKey).visible,
+  true,
+  "damage must change the native HP texture or reveal a crack overlay",
+);
+world.damageTile(damageCell.tx, damageCell.ty, maxHp * 2);
+visuals.invalidateCell(damageCell.tx, damageCell.ty);
+assert.equal(visuals.tileCells.get(damageKey).image.visible, false);
+const exposedNeighbor = visuals.tileCells.get(`${damageCell.tx},${damageCell.ty + 1}`);
+assert.equal(exposedNeighbor.image.visible, true);
+assert.equal(exposedNeighbor.role, "surface");
 
-for (const region of HEAVENBLOCKS_VISUAL_CONFIG.regions) {
-  const sprites = system.heavenblockSprites.get(region.id);
-  assert.equal(sprites.length, 2);
-  for (let index = 0; index < sprites.length; index += 1) {
-    const sprite = sprites[index];
-    const layer = region.layers[index];
-    const displayWidth = region.displayWidthPx * layer.overscan;
-    const displayHeight = region.displayHeightPx * layer.overscan;
-    assert.equal(
-      sprite.x,
-      region.leftTile * harness.scene.config.tileSize
-        + (region.displayWidthPx - displayWidth) / 2
-    );
-    assert.equal(
-      sprite.y,
-      region.topTile * harness.scene.config.tileSize
-        + (region.displayHeightPx - displayHeight) / 2
-    );
-    assert.equal(sprite.originX, 0);
-    assert.equal(sprite.originY, 0);
-    assert.equal(sprite.displayWidth, displayWidth);
-    assert.equal(sprite.displayHeight, displayHeight);
-    assert.equal(sprite.depth, layer.depth);
+const relicDescriptor = (() => {
+  for (const region of HEAVENBLOCKS_WORLD_CONFIG.regions) {
+    for (let localY = 0; localY < region.heightTiles; localY += 1) {
+      const localX = region.layoutRows[localY]
+        .indexOf(HEAVENBLOCK_CELL_MARKERS.RELIC_CACHE);
+      if (localX >= 0) {
+        return { tx: region.leftTile + localX, ty: region.topTile + localY };
+      }
+    }
   }
-}
+  return null;
+})();
+const relicVisual = visuals.relicCacheSprites.get(
+  `${relicDescriptor.tx},${relicDescriptor.ty}`,
+);
+assert.equal(relicVisual.plate.visible, true);
+assert.equal(relicVisual.token.visible, true);
+world.damageTile(
+  relicDescriptor.tx,
+  relicDescriptor.ty,
+  world.getTileMaxHp(relicDescriptor.tx, relicDescriptor.ty) * 2,
+);
+visuals.invalidateCell(relicDescriptor.tx, relicDescriptor.ty);
+assert.equal(relicVisual.plate.visible, false);
+assert.equal(relicVisual.token.visible, false);
 
-system.destroy();
-assert.equal(harness.images.every((image) => image.destroyed), true);
+const progression = {
+  state: "locked",
+  getSaveData() { return { state: this.state }; },
+  isRegionUnlocked: (id) => id === firstRegion.id,
+  isRegionCompleted: (id) => id === firstRegion.id,
+  isOmegaVaultOpened: () => false,
+};
+visuals.syncProgression(progression, true);
+assert.equal(visuals.surfacePortals.get(firstRegion.id).alpha, 1);
+assert.equal(visuals.islandPortals.get(firstRegion.id).visible, true);
+assert.equal(visuals.vaultMarkers.get(firstRegion.id).visible, true);
+assert.equal(visuals.islandPortals.get(HEAVENBLOCKS_WORLD_CONFIG.regions[1].id).visible, false);
 
-const presentationObjects = [];
-const tweenConfigs = [];
-const graphics = {
-  destroyed: false,
-  circleCount: 0,
-  setDepth() { return this; },
-  clear() { return this; },
-  lineStyle() { return this; },
-  strokeCircle() {
-    this.circleCount += 1;
-    return this;
-  },
-  fillStyle() { return this; },
-  fillCircle() { return this; },
-  destroy() { this.destroyed = true; },
-};
-const promptText = {
-  destroyed: false,
-  visible: false,
-  text: "",
-  setOrigin() { return this; },
-  setDepth() { return this; },
-  setPosition(x, y) {
-    this.x = x;
-    this.y = y;
-    return this;
-  },
-  setText(text) {
-    this.text = text;
-    return this;
-  },
-  setVisible(visible) {
-    this.visible = visible;
-    return this;
-  },
-  destroy() { this.destroyed = true; },
-};
-function createFxObject(x, y, key = "") {
-  const object = {
-    x,
-    y,
-    key,
-    destroyed: false,
-    setStrokeStyle() { return this; },
-    setDepth() { return this; },
-    setScale() { return this; },
-    setAlpha() { return this; },
-    setBlendMode() { return this; },
-    destroy() { this.destroyed = true; },
-  };
-  presentationObjects.push(object);
-  return object;
-}
-
-const presentationConfig = {
-  presentation: {
-    depth: 12,
-    promptOffsetPx: 20,
-    altarRadiusPx: 30,
-    relicProjectionRadiusPx: 80,
-    relicProjectionScale: 0.6,
-  },
-  surfaceGates: [
-    { regionId: "sky", tx: 2, ty: 3, color: 0x99ddff },
-  ],
-  regions: [
-    {
-      id: "sky",
-      color: 0x99ddff,
-      componentAssetKey: "component-key",
-      returnAltar: { tx: 4, ty: 5 },
-      rewardShrine: { tx: 6, ty: 7 },
-    },
-  ],
-};
-const presentationScene = {
-  add: {
-    graphics: () => graphics,
-    text: () => promptText,
-    circle: (x, y) => createFxObject(x, y),
-    image: (x, y, key) => createFxObject(x, y, key),
-  },
-  textures: {
-    exists: () => true,
-  },
-  tweens: {
-    add(config) {
-      tweenConfigs.push(config);
-      config.onComplete?.();
-      return config;
-    },
-  },
-};
-const presentationWorld = {
-  tileToWorld: (tx, ty) => ({ x: tx * 94 + 47, y: ty * 94 + 47 }),
-};
-const presentationProgression = {
-  getSaveData: () => ({ unlockedRegionIds: ["sky"] }),
-  isRegionUnlocked: regionId => regionId === "sky",
-};
 const presentation = new HeavenblocksPresentationSystem(
-  presentationScene,
-  presentationWorld,
-  presentationConfig,
+  harness.scene,
+  world,
+  visuals,
+  HEAVENBLOCKS_ACCESS_CONFIG,
 );
 presentation.create();
-assert.deepEqual(presentation.getHealthSnapshot(), {
-  promptReady: true,
-  altarGraphicsReady: true,
-  activeFxCount: 0,
-});
-presentation.setPrompt({ tx: 2, ty: 3 }, "Enter Sky Island");
-assert.equal(promptText.visible, true);
-assert.match(promptText.text, /Enter Sky Island/);
-presentation.redrawAltars(presentationProgression, true);
-assert.equal(graphics.circleCount, 3);
-presentation.playTransit({ x: 100, y: 200 }, 0x99ddff, true, 900);
-presentation.playComponentClaim(presentationConfig.regions[0]);
-presentation.playVault(presentationConfig.regions[0], true);
-assert.ok(tweenConfigs.length >= 9);
-assert.equal(presentation.getHealthSnapshot().activeFxCount, 0);
-assert.equal(presentationObjects.every(object => object.destroyed), true);
-presentation.hidePrompt();
-assert.equal(promptText.visible, false);
-presentation.destroy();
-assert.equal(promptText.destroyed, true);
-assert.equal(graphics.destroyed, true);
-assert.deepEqual(presentation.getHealthSnapshot(), {
-  promptReady: false,
-  altarGraphicsReady: false,
-  activeFxCount: 0,
-});
+const objectiveProgression = {
+  isRegionUnlocked: () => true,
+  isRegionCompleted: () => false,
+};
+presentation.redrawAltars(objectiveProgression, true);
+presentation.updateObjective(firstRegion.arrival, objectiveProgression);
+presentation.setPrompt(firstRegion.surfaceGate, "Ascend to the Cloud Reef");
+assert.match(presentation.promptText.text, /Ascend to the Cloud Reef/);
+assert.match(presentation.objectiveText.text, /AETHER TURBINE HEART/);
+assert.equal(presentation.objectiveIcon.visible, true);
+presentation.playTransit(
+  world.tileToWorld(firstRegion.surfaceGate.tx, firstRegion.surfaceGate.ty),
+  firstRegion,
+  true,
+  900,
+);
+presentation.playComponentClaim(firstRegion);
+assert.equal(presentation.getHealthSnapshot().promptReady, true);
+assert.equal(presentation.getHealthSnapshot().worldVisualReady, true);
+assert.equal(presentation.getHealthSnapshot().objectiveReady, true);
+assert.equal(presentation.getHealthSnapshot().shaftBeaconCount, 3);
+assert.equal(presentation.shaftBeacons.get(firstRegion.id).visible, true);
+assert.ok(harness.tweens.length >= 6);
 
-console.log("heavenblocks visual layout contract passed");
+const presentationSource = readFileSync(
+  new URL("../systems/visual/HeavenblocksPresentationSystem.js", import.meta.url),
+  "utf8",
+);
+assert.doesNotMatch(presentationSource, /\.add\.(graphics|circle|rectangle)\s*\(/);
+const v11Source = readFileSync(
+  new URL("../systems/environment/V11SkyIslandVisualSystem.js", import.meta.url),
+  "utf8",
+);
+assert.doesNotMatch(v11Source, /Heavenblock|heavenblock/);
+const rendererSource = readFileSync(
+  new URL("../world/rendering/WorldRenderer.js", import.meta.url),
+  "utf8",
+);
+assert.match(rendererSource, /resolveHeavenblocksVisualsEnabled/);
+assert.match(rendererSource, /tile\.alpha\s*=/);
+assert.match(rendererSource, /getHeavenblockRegionAt/);
+assert.match(rendererSource, /_syncDedicatedHeavenblockTileAlpha/);
+const worldVisualSource = readFileSync(
+  new URL("../systems/visual/HeavenblockWorldVisualSystem.js", import.meta.url),
+  "utf8",
+);
+const tileVisualSource = readFileSync(
+  new URL("../systems/visual/HeavenblockTileVisualLayer.js", import.meta.url),
+  "utf8",
+);
+assert.doesNotMatch(worldVisualSource, /facadeKey|texture\.add|getSourceImage|cropLeft/);
+assert.doesNotMatch(tileVisualSource, /facadeKey|texture\.add|getSourceImage|cropLeft/);
+const configuredTileSlots = HEAVENBLOCKS_WORLD_CONFIG.regions.flatMap(
+  (region) => Object.entries(region.tileStyle)
+    .filter(([key]) => key.endsWith("AssetSlots"))
+    .flatMap(([, slots]) => slots),
+);
+assert.ok(configuredTileSlots.includes("skyIslandCorner"));
+assert.ok(configuredTileSlots.includes("skyIslandUnder"));
+for (const relativePath of [
+  "../world/rendering/scenic-world/WorldVisualMaterialField.js",
+  "../world/rendering/scenic-world/WorldVisualSemanticAssetLayer.js",
+  "../world/rendering/scenic-world/WorldVisualBedrockMaterialLayer.js",
+]) {
+  const source = readFileSync(new URL(relativePath, import.meta.url), "utf8");
+  assert.match(source, /getHeavenblockRegionAt/);
+}
+
+presentation.destroy();
+visuals.destroy();
+assert.equal(harness.objects.every((object) => object.destroyed), true);
+
+globalThis.location = { search: "?heavenblocksVisuals=0" };
+const disabledHarness = createHarness();
+const disabled = new HeavenblockWorldVisualSystem(disabledHarness.scene, world);
+disabled.create();
+assert.equal(disabledHarness.objects.length, 0);
+assert.equal(disabled.getHealthSnapshot().ready, true);
+delete globalThis.location;
+
+console.log(
+  "Heavenblocks visual layout contract passed: live native tiles, topology edges, HP stages, relic caches, entry beacons, hearts, portals, and zero baked facade cells.",
+);

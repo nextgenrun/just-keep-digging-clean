@@ -657,7 +657,7 @@ export function setupUIMethods(prototype) {
     }
 
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
-    this.worldModel.applyHeavenblocksLayout?.();
+    this.worldModel.restoreHeavenblockProtectedCells?.();
     for (const tile of appliedTiles) {
       this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
     }
@@ -680,6 +680,12 @@ export function setupUIMethods(prototype) {
     this.heavenblocksProgressionSystem?.loadSaveData?.(savedData.heavenblocksData, {
       relicCount: this.ancientRelicSystem?.getCount?.() || 0,
     });
+    this.heavenblocksAccessSystem?.reconcileMinedArtifacts?.();
+    this.heavenblockWorldVisualSystem?.refreshAll?.();
+    this.heavenblockWorldVisualSystem?.syncProgression?.(
+      this.heavenblocksProgressionSystem,
+      true,
+    );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)

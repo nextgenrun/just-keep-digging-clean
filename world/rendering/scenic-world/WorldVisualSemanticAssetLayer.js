@@ -88,6 +88,7 @@ export class WorldVisualSemanticAssetLayer {
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
         const tileType = this.worldModel.getTileType(tx, ty);
+        if (this.worldModel.getHeavenblockRegionAt?.(tx, ty)) continue;
         if (tileType === TILE_TYPES.BEDROCK || tileType === TILE_TYPES.CAVE_WALL) {
           bedrockCells += 1;
           continue;

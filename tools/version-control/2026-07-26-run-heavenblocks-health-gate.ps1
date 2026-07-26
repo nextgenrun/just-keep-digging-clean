@@ -188,6 +188,40 @@ function Assert-SafeBuildDirectory {
     return $resolved
 }
 
+function Remove-SafeBuildDirectory {
+    param([string]$Path)
+    $resolved = Assert-SafeBuildDirectory -Path $Path
+    $lastError = $null
+    for ($attempt = 1; $attempt -le 3; $attempt += 1) {
+        if (-not (Test-Path -LiteralPath $resolved)) {
+            return
+        }
+        try {
+            Remove-Item -LiteralPath $resolved -Recurse -Force -ErrorAction Stop
+        }
+        catch {
+            $lastError = $_
+            try {
+                $extendedPath = if ($resolved.StartsWith("\\", [StringComparison]::Ordinal)) {
+                    "\\?\UNC\$($resolved.TrimStart('\'))"
+                }
+                else {
+                    "\\?\$resolved"
+                }
+                [IO.Directory]::Delete($extendedPath, $true)
+            }
+            catch {
+                $lastError = $_
+            }
+        }
+        if (-not (Test-Path -LiteralPath $resolved)) {
+            return
+        }
+        Start-Sleep -Milliseconds 150
+    }
+    throw "Dedicated build cleanup failed after 3 attempts: $($lastError.Exception.Message)"
+}
+
 function Write-GateReport {
     param(
         [string]$Status,
@@ -198,7 +232,7 @@ function Write-GateReport {
     $stamp = Get-Date -Format "yyyyMMdd-HHmmss-fff"
     $reportPath = Join-Path $reportDirectory "heavenblocks-$stamp.json"
     $report = [ordered]@{
-        feature = "heavenblocks-progression-v1"
+        feature = [string]$release.featureId
         status = $Status
         featureCommit = $featureSha
         featureBase = $featureBaseSha
@@ -403,7 +437,6 @@ catch {
 }
 finally {
     if ($buildDirectory -and (Test-Path -LiteralPath $buildDirectory)) {
-        $safeBuildDirectory = Assert-SafeBuildDirectory -Path $buildDirectory
-        Remove-Item -LiteralPath $safeBuildDirectory -Recurse -Force
+        Remove-SafeBuildDirectory -Path $buildDirectory
     }
 }

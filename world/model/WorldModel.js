@@ -17,10 +17,15 @@ import {
   HEAVENBLOCKS_ACCESS_CONFIG,
   resolveHeavenblocksGameplayEnabled,
 } from "../../values/heavenblocksAccessConfig.js";
+import {
+  HEAVENBLOCK_CELL_MARKERS,
+  HEAVENBLOCKS_WORLD_CONFIG,
+  getHeavenblockCellDescriptor as resolveHeavenblockCellDescriptor,
+} from "../../values/heavenblocksWorldConfig.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
 import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
-import { isInsideEllipse } from "../../values/deterministicMath.js";
+import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
 import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
 import { SeededRandom } from "./SeededRandom.js";
 
@@ -37,6 +42,7 @@ const DIGGABLE_TYPES = new Set([
   TILE_TYPES.LEGEND_BLOCK,
   TILE_TYPES.GEODE_INTERIOR,
   TILE_TYPES.ANCIENT_RELIC_CACHE,
+  TILE_TYPES.HEAVENBLOCK_CORE,
 ]);
 const RUBBLE_HP_RATIO = 0.25;
 
@@ -71,6 +77,7 @@ export class WorldModel {
     this.dugTiles = new Map();
     this.dugTileSource = new Map();
     this.rubbleTiles = new Map();
+    this.ancientRelicCacheKeys = new Set();
     this.caveZones = [];
     this.hiddenCaveZones = [];
     this.treasureRoomZones = [];
@@ -115,8 +122,15 @@ export class WorldModel {
     if (!this.inBounds(tileX, tileY)) return;
     const idx = this.index(tileX, tileY);
     const key = makeTileKey(tileX, tileY);
+    const previousType = this._types[idx];
     this._types[idx] = type;
     this._hp[idx] = hp;
+    if (previousType === TILE_TYPES.ANCIENT_RELIC_CACHE && type !== previousType) {
+      this.ancientRelicCacheKeys.delete(key);
+    }
+    if (type === TILE_TYPES.ANCIENT_RELIC_CACHE) {
+      this.ancientRelicCacheKeys.add(key);
+    }
     this.rubbleTiles.delete(key);
     if (type !== TILE_TYPES.AIR) this.dugTiles.delete(key);
   }
@@ -154,6 +168,41 @@ export class WorldModel {
 
   getDugTileKeys() { return Array.from(this.dugTiles.keys()); }
   getRubbleTiles() { return Array.from(this.rubbleTiles.values()).map((entry) => ({ ...entry })); }
+  getAncientRelicCachePositions({ includeHeavenblocks = true } = {}) {
+    const positions = [];
+    for (const key of this.ancientRelicCacheKeys) {
+      const [tileXText, tileYText] = key.split(",");
+      const tx = Number.parseInt(tileXText, 10);
+      const ty = Number.parseInt(tileYText, 10);
+      if (this.getType(tx, ty) !== TILE_TYPES.ANCIENT_RELIC_CACHE) continue;
+      if (!includeHeavenblocks && this.getHeavenblockRegionAt(tx, ty)) continue;
+      positions.push({ tx, ty });
+    }
+    return positions;
+  }
+
+  getNearestAncientRelicCache(
+    tileX,
+    tileY,
+    { includeHeavenblocks = true } = {},
+  ) {
+    if (!Number.isFinite(tileX) || !Number.isFinite(tileY)) return null;
+    let nearest = null;
+    let nearestDistanceSquared = Infinity;
+    for (const position of this.getAncientRelicCachePositions({ includeHeavenblocks })) {
+      const dx = position.tx - tileX;
+      const dy = position.ty - tileY;
+      const distanceSquared = dx * dx + dy * dy;
+      if (distanceSquared >= nearestDistanceSquared) continue;
+      nearestDistanceSquared = distanceSquared;
+      nearest = {
+        ...position,
+        distanceTiles: Math.sqrt(distanceSquared),
+      };
+    }
+    return nearest;
+  }
+
   getDugTileSource(tileX, tileY) {
     return this.dugTileSource.get(makeTileKey(tileX, tileY)) || null;
   }
@@ -171,6 +220,7 @@ export class WorldModel {
     this.dugTiles.clear();
     this.dugTileSource.clear();
     this.rubbleTiles.clear();
+    this.ancientRelicCacheKeys.clear();
     this.caveZones = [];
     this.hiddenCaveZones = [];
     this.treasureRoomZones = [];
@@ -664,53 +714,176 @@ export class WorldModel {
     }
   }
 
-  applyHeavenblocksLayout(config = HEAVENBLOCKS_ACCESS_CONFIG) {
-    if (!resolveHeavenblocksGameplayEnabled(config)) return 0;
+  _resolveHeavenblockMaterialType(region, tileX, tileY) {
+    const palette = Array.isArray(region?.materialPalette) ? region.materialPalette : [];
+    const totalWeight = palette.reduce((sum, entry) => sum + Math.max(0, entry.weight || 0), 0);
+    if (totalWeight <= 0) return TILE_TYPES.STONE;
+    let roll = hash01(
+      tileX,
+      tileY,
+      this.config.seed || 133742,
+      (region.levelId || 1) * 1009
+    ) * totalWeight;
+    for (const entry of palette) {
+      roll -= Math.max(0, entry.weight || 0);
+      if (roll <= 0) return TILE_TYPES[entry.tileTypeKey] ?? TILE_TYPES.STONE;
+    }
+    return TILE_TYPES[palette[palette.length - 1]?.tileTypeKey] ?? TILE_TYPES.STONE;
+  }
+
+  _setHeavenblockTile(tileX, tileY, type) {
+    if (!this.inBounds(tileX, tileY)) return false;
+    const idx = this.index(tileX, tileY);
+    this.skyTileOriginalType[idx] = 0;
+    this.skyTileRarity[idx] = 0;
+    this.rootOverlay[idx] = 0;
+    this.setTile(tileX, tileY, type, type === TILE_TYPES.AIR ? 0 : this.getTileMaxHp(tileX, tileY, type));
+    return true;
+  }
+
+  applyHeavenblocksLayout(
+    accessConfig = HEAVENBLOCKS_ACCESS_CONFIG,
+    worldConfig = HEAVENBLOCKS_WORLD_CONFIG
+  ) {
+    if (!resolveHeavenblocksGameplayEnabled(accessConfig)) return 0;
     let applied = 0;
-
-    for (const gate of config.surfaceGates) {
-      for (let ty = gate.ty - 1; ty <= gate.ty; ty += 1) {
-        if (!this.inBounds(gate.tx, ty)) continue;
-        this.setTile(gate.tx, ty, TILE_TYPES.AIR, 0);
-        applied += 1;
+    for (const gate of accessConfig.surfaceGates || []) {
+      for (let tileY = gate.ty - 1; tileY <= gate.ty; tileY += 1) {
+        if (this._setHeavenblockTile(gate.tx, tileY, TILE_TYPES.AIR)) applied += 1;
       }
     }
-
-    for (const region of config.regions) {
-      const platform = region.platform;
-      for (let tx = platform.leftTx; tx < platform.rightTxExclusive; tx += 1) {
-        for (let ty = platform.floorTy - 2; ty < platform.floorTy; ty += 1) {
-          if (!this.inBounds(tx, ty)) continue;
-          this.setTile(tx, ty, TILE_TYPES.AIR, 0);
-          applied += 1;
-        }
-        if (!this.inBounds(tx, platform.floorTy)) continue;
-        this.setTile(tx, platform.floorTy, TILE_TYPES.BEDROCK, 0);
-        applied += 1;
-      }
+    for (const region of worldConfig.regions || []) {
+      region.layoutRows.forEach((row, localY) => {
+        Array.from(row).forEach((marker, localX) => {
+          const tileX = region.leftTile + localX;
+          const tileY = region.topTile + localY;
+          let type = TILE_TYPES.AIR;
+          if (marker === HEAVENBLOCK_CELL_MARKERS.PROTECTED) type = TILE_TYPES.BEDROCK;
+          if (marker === HEAVENBLOCK_CELL_MARKERS.RELIC_CACHE) type = TILE_TYPES.ANCIENT_RELIC_CACHE;
+          if (marker === HEAVENBLOCK_CELL_MARKERS.COMPONENT_HEART) type = TILE_TYPES.HEAVENBLOCK_CORE;
+          if (marker === HEAVENBLOCK_CELL_MARKERS.MATERIAL) {
+            type = this._resolveHeavenblockMaterialType(region, tileX, tileY);
+          }
+          if (this._setHeavenblockTile(tileX, tileY, type)) applied += 1;
+        });
+      });
     }
-
-    console.log(`[WorldModel] Applied ${applied} protected Heavenblock access cells`);
+    console.log(
+      `[WorldModel] Applied ${applied} native Heavenblock cells across `
+      + `${worldConfig.regions.length} diggable islands`
+    );
     return applied;
   }
 
-  getHeavenblocksLayoutHealth(config = HEAVENBLOCKS_ACCESS_CONFIG) {
-    if (!resolveHeavenblocksGameplayEnabled(config)) {
-      return { enabled: false, platformsReady: true, missingFloorCells: [] };
+  restoreHeavenblockProtectedCells(worldConfig = HEAVENBLOCKS_WORLD_CONFIG) {
+    let restored = 0;
+    for (const region of worldConfig.regions || []) {
+      region.layoutRows.forEach((row, localY) => {
+        Array.from(row).forEach((marker, localX) => {
+          if (marker !== HEAVENBLOCK_CELL_MARKERS.PROTECTED) return;
+          const tileX = region.leftTile + localX;
+          const tileY = region.topTile + localY;
+          if (this.getType(tileX, tileY) === TILE_TYPES.BEDROCK) return;
+          if (this._setHeavenblockTile(tileX, tileY, TILE_TYPES.BEDROCK)) restored += 1;
+        });
+      });
     }
-    const missingFloorCells = [];
-    for (const region of config.regions) {
-      const { leftTx, rightTxExclusive, floorTy } = region.platform;
-      for (let tx = leftTx; tx < rightTxExclusive; tx += 1) {
-        if (this.getType(tx, floorTy) !== TILE_TYPES.BEDROCK) {
-          missingFloorCells.push(`${tx},${floorTy}`);
-        }
-      }
+    return restored;
+  }
+
+  getHeavenblockCellDescriptor(tileX, tileY) {
+    return resolveHeavenblockCellDescriptor(tileX, tileY);
+  }
+
+  getHeavenblockRegionAt(tileX, tileY) {
+    return this.getHeavenblockCellDescriptor(tileX, tileY)?.region || null;
+  }
+
+  getHeavenblockArtifactAt(tileX, tileY) {
+    const descriptor = this.getHeavenblockCellDescriptor(tileX, tileY);
+    if (descriptor?.marker !== HEAVENBLOCK_CELL_MARKERS.COMPONENT_HEART) return null;
+    const { region } = descriptor;
+    return {
+      regionId: region.id,
+      regionLabel: region.label,
+      partId: region.partId,
+      partLabel: region.partLabel,
+      vaultId: region.vaultId,
+      tileX,
+      tileY,
+    };
+  }
+
+  getHeavenblocksLayoutHealth(
+    accessConfig = HEAVENBLOCKS_ACCESS_CONFIG,
+    worldConfig = HEAVENBLOCKS_WORLD_CONFIG
+  ) {
+    if (!resolveHeavenblocksGameplayEnabled(accessConfig)) {
+      return {
+        enabled: false,
+        nativeTilesReady: true,
+        levelDistributionReady: true,
+        platformsReady: true,
+        missingCells: [],
+        missingFloorCells: [],
+      };
     }
+    const missingCells = [];
+    const missingCoreCells = [];
+    const counts = { material: 0, protected: 0, relic: 0, core: 0 };
+    const regionsReady = {};
+    for (const region of worldConfig.regions || []) {
+      const regionMissing = [];
+      region.layoutRows.forEach((row, localY) => {
+        Array.from(row).forEach((marker, localX) => {
+          if (marker === HEAVENBLOCK_CELL_MARKERS.AIR) return;
+          const tileX = region.leftTile + localX;
+          const tileY = region.topTile + localY;
+          const key = makeTileKey(tileX, tileY);
+          const type = this.getType(tileX, tileY);
+          const wasMined = this.dugTiles.has(key) && type === TILE_TYPES.AIR;
+          let ready = false;
+          if (marker === HEAVENBLOCK_CELL_MARKERS.PROTECTED) {
+            counts.protected += 1;
+            ready = type === TILE_TYPES.BEDROCK;
+          } else if (marker === HEAVENBLOCK_CELL_MARKERS.RELIC_CACHE) {
+            counts.relic += 1;
+            ready = type === TILE_TYPES.ANCIENT_RELIC_CACHE || wasMined;
+          } else if (marker === HEAVENBLOCK_CELL_MARKERS.COMPONENT_HEART) {
+            counts.core += 1;
+            ready = type === TILE_TYPES.HEAVENBLOCK_CORE || wasMined;
+            if (!ready) missingCoreCells.push(key);
+          } else {
+            counts.material += 1;
+            const nativeTypes = new Set(
+              region.materialPalette.map((entry) => TILE_TYPES[entry.tileTypeKey])
+            );
+            ready = nativeTypes.has(type) || wasMined;
+          }
+          if (!ready) {
+            missingCells.push(key);
+            regionMissing.push(key);
+          }
+        });
+      });
+      regionsReady[region.id] = regionMissing.length === 0;
+    }
+    const levelIds = (worldConfig.regions || []).map((region) => region.levelId);
+    const levelDistributionReady = (
+      levelIds.filter((levelId) => levelId === 1).length >= 2
+      && levelIds.some((levelId) => levelId === 2)
+    );
+    const nativeTilesReady = missingCells.length === 0 && missingCoreCells.length === 0;
     return {
       enabled: true,
-      platformsReady: missingFloorCells.length === 0,
-      missingFloorCells,
+      nativeTilesReady,
+      levelDistributionReady,
+      platformsReady: nativeTilesReady,
+      regionsReady,
+      counts,
+      missingCells,
+      missingCoreCells,
+      missingFloorCells: missingCells,
     };
   }
 
@@ -784,10 +957,21 @@ export class WorldModel {
 
   getTileMaxHp(tileX, tileY, type = this.getType(tileX, tileY)) {
     if (!this.inBounds(tileX, tileY)) return 0;
+    const heavenblock = this.getHeavenblockCellDescriptor(tileX, tileY);
+    if (
+      heavenblock?.marker === HEAVENBLOCK_CELL_MARKERS.COMPONENT_HEART
+      && type === TILE_TYPES.HEAVENBLOCK_CORE
+    ) {
+      return heavenblock.region.coreHealth;
+    }
     const renderType = type === TILE_TYPES.SKY_TILE ? this.getSkyTileOriginalType(tileX, tileY) : type;
     const depthTiles = tileY - this.topAirRows;
     const hpMult = getResourceHpMultiplier(renderType, tileX, tileY, depthTiles, this.config.seed);
-    return getTileHealth(renderType, depthTiles, hpMult);
+    const baseHealth = getTileHealth(renderType, depthTiles, hpMult);
+    if (heavenblock?.marker === HEAVENBLOCK_CELL_MARKERS.MATERIAL) {
+      return Math.max(1, Math.round(baseHealth * heavenblock.region.materialHealthScale));
+    }
+    return baseHealth;
   }
 
   getRenderIndex(tileX, tileY) {
@@ -809,6 +993,10 @@ export class WorldModel {
   }
 
   getVisualHint(tileX, tileY, type) {
+    if (type === TILE_TYPES.HEAVENBLOCK_CORE) {
+      const regionId = this.getHeavenblockRegionAt(tileX, tileY)?.id;
+      return regionId ? `heavenblockCore:${regionId}` : "heavenblockCore";
+    }
     if (type === TILE_TYPES.BEDROCK) {
       const ix = this.config.skyIslandTileX || 23;
       const iy = this.config.skyIslandTileY || 35;
@@ -923,10 +1111,8 @@ export class WorldModel {
         type: typeBeforeDamage,
         maxHp: this.getTileMaxHp(tileX, tileY, typeBeforeDamage),
       });
-      this._types[idx] = TILE_TYPES.AIR;
-      this._hp[idx] = 0;
+      this.setTile(tileX, tileY, TILE_TYPES.AIR, 0);
       this.dugTiles.set(key, { tileX, tileY, dugAt: Date.now() });
-      this.rubbleTiles.delete(key);
       return {
         success: true,
         destroyed: true,

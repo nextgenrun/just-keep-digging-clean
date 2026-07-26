@@ -15,6 +15,8 @@ SEMANTIC_SOURCE = SEMANTIC_ROOT / "sources"
 UI_ROOT = ROOT / "sprites" / "UI" / "heavenblocks-v1"
 UI_SOURCE = UI_ROOT / "sources"
 TILE_ROOT = ROOT / "sprites" / "tiles" / "approved-world"
+WORLD_HEAVEN_ROOT = ROOT / "sprites" / "backgrounds" / "heavenblocks-v1"
+WORLD_HEAVEN_SOURCE = WORLD_HEAVEN_ROOT / "sources"
 
 FRAME_SIZE = 256
 SPECIAL_COLUMNS = 4
@@ -129,6 +131,22 @@ def build_ui_assets() -> list[Path]:
     return outputs
 
 
+def build_world_heart_assets() -> list[Path]:
+    outputs: list[Path] = []
+    WORLD_HEAVEN_ROOT.mkdir(parents=True, exist_ok=True)
+    heart_names = (
+        ("aether-turbine-heart-alpha-v2.png", "aether-turbine-heart-v2.png"),
+        ("halo-regulator-heart-alpha-v2.png", "halo-regulator-heart-v2.png"),
+        ("eclipse-crucible-heart-alpha-v2.png", "eclipse-crucible-heart-v2.png"),
+    )
+    for source_name, output_name in heart_names:
+        with Image.open(require(WORLD_HEAVEN_SOURCE / source_name)) as raw:
+            output = WORLD_HEAVEN_ROOT / output_name
+            normalize_cutout(raw, 512, 18).save(output, "PNG", optimize=True)
+            outputs.append(output)
+    return outputs
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -139,11 +157,12 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     UI_ROOT.mkdir(parents=True, exist_ok=True)
-    outputs = [*build_relic_assets(), *build_ui_assets()]
+    outputs = [*build_relic_assets(), *build_ui_assets(), *build_world_heart_assets()]
     manifest_path = UI_ROOT / "manifest-v1.json"
     manifest = {
-        "version": 1,
+        "version": 2,
         "relicSemanticFrame": RELIC_FRAME_INDEX,
+        "nativeWorldHearts": True,
         "outputs": {
             path.relative_to(ROOT).as_posix(): {
                 "sha256": sha256(path),

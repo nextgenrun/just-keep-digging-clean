@@ -54,4 +54,7 @@ export const TILE_TYPES = Object.freeze({
 
   // Ancient Relic Cache — rare deep-world treasure chest (mineable)
   ANCIENT_RELIC_CACHE: 35,
+
+  // Heavenblock component heart — mineable authored objective inside each island
+  HEAVENBLOCK_CORE: 36,
 });

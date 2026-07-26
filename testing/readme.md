@@ -238,6 +238,29 @@ wiring, MIME/cache/range/compression/security headers, and local read-only
 behavior.
 
 `2026-07-26-heavenblocks-visual-layout-contract.mjs` guards the three
-non-overlapping sky regions, complete background/facade loading and cleanup,
-visual rollback, gate/prompt drawing, relic projection, transit, component and
-vault animation lifecycles, and presentation health publication.
+non-overlapping sky regions, live tile topology, native HP stages and cracks,
+visible mineable relic-cache plates/tokens, open-shaft beacons, component-heart
+direction guidance, approved portal/vault art, visual rollback, and
+presentation health without primitive mockup graphics.
+
+`2026-07-26-heavenblocks-native-world-contract.mjs` proves that two islands are
+in Level 1 and one in Level 2, all 342 material cells are native resource tiles,
+all three relic caches and component hearts are mineable, heart destruction
+drives part installation and region completion through normal and ability
+reward paths, protected arrival shelves remain safe, and mined tunnels never
+regenerate on save restoration. It also verifies every landing has an adjacent
+open shaft with a diggable route into the island.
+
+`2026-07-28-ancient-relic-guidance-contract.mjs` verifies the three guaranteed
+underground targets, exclusion of island bonus caches, close-range world marker,
+persistent 0/3 HUD, three altar sockets, automatic retargeting after mining,
+scene lifecycle, runtime-canary wiring, and `?relicGuidance=0` rollback.
+
+With `?jkd_e2e=1`, `window.__jkdE2E.previewHeavenblock(index)` moves the real
+player and camera to a playable island, `getHeavenblocksState()` exposes all
+layout/visual/access/guidance health, `previewAncientRelic(index)` moves beside
+a live underground cache, and the mining helpers exercise the real DigSystem.
+The keyboard harness mirrors those paths: `Ctrl+Alt+H` cycles the three playable
+islands, `Ctrl+Alt+J` cycles underground relics, `Ctrl+Alt+K` mines the selected
+relic through the production discovery/reward path, `Ctrl+Alt+N` mines the
+selected island entry tile, and `Ctrl+Alt+M` mines its native component heart.

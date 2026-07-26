@@ -21,6 +21,7 @@ import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
+import { HEAVENBLOCKS_WORLD_CONFIG } from "../../values/heavenblocksWorldConfig.js";
 import {
   MENU_BACKGROUND_ASSETS,
   createMenuLoadingScreen,
@@ -731,6 +732,8 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.tiles.caveCeilingChains, `${approvedWorldBase}/cave-ceiling-chains.webp`);
     this.load.image(ASSET_KEYS.tiles.treasureStone, `${approvedWorldBase}/treasure-stone.webp`);
     this.load.image(ASSET_KEYS.tiles.skyIslandTop, `${approvedWorldBase}/sky-island-top.webp`);
+    this.load.image(ASSET_KEYS.tiles.skyIslandCorner, `${approvedWorldBase}/sky-island-corner.webp`);
+    this.load.image(ASSET_KEYS.tiles.skyIslandUnder, `${approvedWorldBase}/sky-island-under.webp`);
     this.load.image(ASSET_KEYS.tiles.chestNormal, `${approvedWorldBase}/chest-normal.webp`);
     this.load.image(ASSET_KEYS.tiles.chestRare, `${approvedWorldBase}/chest-rare.webp`);
     this.load.image(ASSET_KEYS.tiles.ancientRelicCache, `${approvedWorldBase}/ancient-relic-cache-v1.webp`);
@@ -897,6 +900,10 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.heavenblocks.aetherTurbine, `${heavenblocksUiBase}/aether-turbine-v1.png`);
     this.load.image(ASSET_KEYS.ui.heavenblocks.haloRegulator, `${heavenblocksUiBase}/halo-regulator-v1.png`);
     this.load.image(ASSET_KEYS.ui.heavenblocks.eclipseCrucible, `${heavenblocksUiBase}/eclipse-crucible-v1.png`);
+    for (const region of HEAVENBLOCKS_WORLD_CONFIG.regions) {
+      this.queueImage(region.heartAssetKey, region.heartAssetPath);
+      this.queueImage(region.backdropKey, region.backdropPath);
+    }
   }
 
   createAnimations() {

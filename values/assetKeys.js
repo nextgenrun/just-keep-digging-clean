@@ -73,6 +73,9 @@ export const ASSET_KEYS = Object.freeze({
       aetherTurbine: "heavenblocks-aether-turbine-v1",
       haloRegulator: "heavenblocks-halo-regulator-v1",
       eclipseCrucible: "heavenblocks-eclipse-crucible-v1",
+      aetherTurbineHeart: "heavenblocks-aether-turbine-heart-v2",
+      haloRegulatorHeart: "heavenblocks-halo-regulator-heart-v2",
+      eclipseCrucibleHeart: "heavenblocks-eclipse-crucible-heart-v2",
     },
   },
   constellations: {
@@ -367,6 +370,8 @@ export const ASSET_KEYS = Object.freeze({
     caveCeilingChains: "tile-approved-cave-ceiling-chains",
     treasureStone: "tile-approved-treasure-stone",
     skyIslandTop: "tile-approved-sky-island-top",
+    skyIslandCorner: "tile-approved-sky-island-corner",
+    skyIslandUnder: "tile-approved-sky-island-under",
     chestNormal: "tile-approved-chest-normal",
     chestRare: "tile-approved-chest-rare",
     ancientRelicCache: "tile-approved-ancient-relic-cache-v1",

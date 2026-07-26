@@ -32,6 +32,8 @@ export class DigSystem {
     this.ancientRelicSystem = null;
     this.relicDiscoveryFxSystem = null;
     this.retentionProgressSystem = null;
+    this.heavenblocksProgressionSystem = null;
+    this.heavenblockArtifactHandler = null;
 
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
@@ -60,6 +62,59 @@ export class DigSystem {
 
   setRetentionProgressSystem(retentionProgressSystem) {
     this.retentionProgressSystem = retentionProgressSystem;
+  }
+
+  setHeavenblocksProgressionSystem(heavenblocksProgressionSystem) {
+    this.heavenblocksProgressionSystem = heavenblocksProgressionSystem;
+  }
+
+  setHeavenblockArtifactHandler(handler) {
+    this.heavenblockArtifactHandler = typeof handler === "function" ? handler : null;
+  }
+
+  _isHeavenblockCoreLocked(tileType, tx, ty) {
+    if (tileType !== TILE_TYPES.HEAVENBLOCK_CORE) return false;
+    const artifact = this.worldModel.getHeavenblockArtifactAt?.(tx, ty);
+    return Boolean(
+      artifact
+      && this.heavenblocksProgressionSystem
+      && !this.heavenblocksProgressionSystem.isRegionUnlocked(artifact.regionId)
+    );
+  }
+
+  _awardHeavenblockArtifact(tileType, tx, ty) {
+    if (tileType !== TILE_TYPES.HEAVENBLOCK_CORE) return null;
+    const artifact = this.worldModel.getHeavenblockArtifactAt?.(tx, ty);
+    if (!artifact || !this.heavenblocksProgressionSystem) {
+      return { success: false, changed: false, reason: "progression-unavailable", ...artifact };
+    }
+    if (!this.heavenblocksProgressionSystem.isRegionUnlocked(artifact.regionId)) {
+      return { success: false, changed: false, reason: "region-locked", ...artifact };
+    }
+    const discovered = this.heavenblocksProgressionSystem.discoverPart(artifact.partId);
+    const installed = this.heavenblocksProgressionSystem.installPart(artifact.partId);
+    const completed = this.heavenblocksProgressionSystem.completeRegion(artifact.regionId);
+    const success = discovered.success && installed.success && completed.success;
+    const result = {
+      success,
+      changed: success && (discovered.changed || installed.changed || completed.changed),
+      reason: success ? null : (
+        discovered.reason
+        || installed.reason
+        || completed.reason
+        || "component-progression-failed"
+      ),
+      newlyUnlockedRegionIds: completed.newlyUnlockedRegionIds || [],
+      ...artifact,
+    };
+    if (result.success) {
+      try {
+        this.heavenblockArtifactHandler?.(result);
+      } catch {
+        // Presentation/save callbacks cannot roll back a mined component award.
+      }
+    }
+    return result;
   }
 
   _getNativeYield(tileType, tx, ty) {
@@ -304,6 +359,7 @@ export class DigSystem {
       behindResourceAmount: 0,
       behindIsLuckyDrop: false,
       behindAncientRelics: 0,
+      behindHeavenblockArtifact: null,
       behindDamage: 0,
       behindMaxHp: 0,
       behindOverkillDamage: 0,
@@ -334,6 +390,8 @@ export class DigSystem {
     if (!this.worldModel.inBounds(bx, by) || !this.worldModel.isDiggable(bx, by)) {
       return heavyPunchResult;
     }
+    const behindType = this.worldModel.getTileType(bx, by);
+    if (this._isHeavenblockCoreLocked(behindType, bx, by)) return heavyPunchResult;
 
     heavyPunchResult.behindDamage = Math.max(1, Math.floor(damage * heavyPunchFraction));
     const behindResult = this.worldModel.damageTile(bx, by, heavyPunchResult.behindDamage);
@@ -350,6 +408,11 @@ export class DigSystem {
       this.tilesBroken += 1;
       if (!behindResult.wasRubble) {
         heavyPunchResult.behindAncientRelics = this._awardAncientRelics(behindResult.typeBeforeDamage, bx, by);
+        heavyPunchResult.behindHeavenblockArtifact = this._awardHeavenblockArtifact(
+          behindResult.typeBeforeDamage,
+          bx,
+          by,
+        );
         heavyPunchResult.behindResourceType = tileTypeToResource(behindResult.typeBeforeDamage);
         if (heavyPunchResult.behindResourceType) {
           const rarity = this._getNativeRarity(behindResult.typeBeforeDamage, bx, by);
@@ -414,6 +477,14 @@ export class DigSystem {
     }
 
     const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
+    if (this._isHeavenblockCoreLocked(tileType, targetTile.tx, targetTile.ty)) {
+      return {
+        success: false,
+        reason: "heavenblock-region-locked",
+        tileType,
+        typeBeforeDamage: tileType,
+      };
+    }
 
     if (!this.worldModel.isDiggable(targetTile.tx, targetTile.ty)) {
       // Show hint for GEODE_WALL (requires Heavy Punch upgrade)
@@ -605,6 +676,7 @@ export class DigSystem {
     let skyTileMultiplier = 1;
     let skyTilePassiveBonus = false;
     let ancientRelics = 0;
+    let heavenblockArtifact = null;
     let rarityId = "normal";
     let rarityMultiplier = 1;
 
@@ -613,6 +685,11 @@ export class DigSystem {
 
       if (!result.wasRubble) {
         ancientRelics = this._awardAncientRelics(result.typeBeforeDamage, targetTile.tx, targetTile.ty);
+        heavenblockArtifact = this._awardHeavenblockArtifact(
+          result.typeBeforeDamage,
+          targetTile.tx,
+          targetTile.ty,
+        );
         let skyTileRarity = 0;
         let rewardTileType = result.typeBeforeDamage;
         if (result.typeBeforeDamage === TILE_TYPES.SKY_TILE) {
@@ -730,6 +807,8 @@ export class DigSystem {
       skyTileMultiplier,
       skyTilePassiveBonus,
       ancientRelics,
+      heavenblockArtifact,
+      behindHeavenblockArtifact: heavyPunchResult.behindHeavenblockArtifact,
       rarityId,
       rarityMultiplier,
     };
@@ -845,6 +924,7 @@ export class DigSystem {
       levelsGained: 0,
       specialBlockEffect: null,
       ancientRelics: 0,
+      heavenblockArtifact: null,
       rarityId: "normal",
       rarityMultiplier: 1,
     };
@@ -857,6 +937,7 @@ export class DigSystem {
     }
 
     result.ancientRelics = this._awardAncientRelics(tileType, tx, ty);
+    result.heavenblockArtifact = this._awardHeavenblockArtifact(tileType, tx, ty);
 
     // Grant resource
     let rewardTileType = tileType;

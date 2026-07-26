@@ -28,3 +28,11 @@ its deterministic teleport anchors after procedural world generation. Pair data
 and the resulting surface unlock state survive saves. The shared Sky Island
 visual system is created in both scenic and legacy render modes so these routes
 cannot remain functional but invisible.
+
+Heavenblock relic caches and component hearts use the same `DigSystem` result
+path as ordinary resources. Normal mining, Heavy Punch, Quickslash/area mining,
+Thunder Strike, and Arc Core area damage all call the shared destroyed-tile
+artifact handler. A destroyed `R` cell awards the permanent relic through the
+progression system; a destroyed `C` cell installs that island's Arc component,
+marks the island complete, refreshes access, and saves. Locked-region hearts
+reject damage, and no decorative shrine can bypass the mining requirement.
