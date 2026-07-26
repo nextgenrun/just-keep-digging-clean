@@ -20,3 +20,4 @@ Notable systems:
 - `CameraShakeSystem.js` — signature-based screen shake
 - `ScreenRecordSystem.js` — F10 game-canvas WebM capture; uploads timestamped local files through `serve.py` to `/systems/screenrecord/`
 - `EarthquakeFeedbackUI.js` / `EarthquakeHazardOverlay.js` — phase/intensity HUD, escape objective, cave-in countdowns, rock lanes, offscreen danger, and fresh-rubble outlines (`values/earthquakeFeedback.js`)
+- `HeavenblocksPresentationSystem.js` — relic projection, arrival/return rings, component claims, gate altars, interaction prompts, lifecycle cleanup, and health publication for the three upward regions.

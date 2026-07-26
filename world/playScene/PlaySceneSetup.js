@@ -659,6 +659,10 @@ async function _setupSceneSafe(data = {}) {
     ancientRelicSystem: this.ancientRelicSystem,
     heavenblocksProgressionSystem: this.heavenblocksProgressionSystem,
   });
+  const craftingHealth = this.craftingSystem.getHealthSnapshot();
+  if (!craftingHealth.ready) {
+    throw new Error("[PlaySceneSetup] Arc Forge dependencies failed their startup health check.");
+  }
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
