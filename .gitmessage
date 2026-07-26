@@ -1,0 +1,16 @@
+<type>: <short outcome>
+
+Why:
+- <reason this change is needed>
+
+What:
+- <important behavior, code, or asset changes>
+
+Validation:
+- <commands, checks, or manual verification>
+
+Rollback:
+- <revert command, safety tag, or feature switch>
+
+Refs:
+- <issue, task, build ID, or none>

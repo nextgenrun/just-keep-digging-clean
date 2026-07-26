@@ -1,0 +1,42 @@
+name: Repository Integrity
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-integrity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-integrity:
+    name: Repository integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate without credentials or LFS downloads
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          lfs: false
+          persist-credentials: false
+
+      - name: Use Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Verify repository policy, Git blobs, and LFS routing
+        run: node testing/2026-07-26-version-control-safety-contract.mjs --tracked-only
+
+      - name: Verify Git object connectivity
+        run: git fsck --strict --no-dangling
+
+      - name: Verify LFS pointers without downloading source binaries
+        run: git lfs fsck --pointers HEAD

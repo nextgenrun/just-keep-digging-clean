@@ -36,7 +36,18 @@ testing/unreal-survival-motion-v2/Saved/
 systems/screenrecord/*.webm
 
 dist/
+dist-*/
 .canary-dist/
 .production-stage-*/
 archive/sprites/external-reference/  
 archive/sprites/character-old-versions/ 
+
+# Repository-local safety reports and temporary recovery metadata
+.git-safety/
+
+# Blender creates a numbered autosave beside the canonical editable .blend.
+# Canonical .blend sources are preserved with Git LFS; paired autosaves stay local.
+*.blend[0-9]*
+
+# Third-party tool checkout; reinstall from its own upstream repository.
+tools/video-audio-mcp/
