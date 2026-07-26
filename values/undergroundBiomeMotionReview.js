@@ -1,25 +1,5 @@
 const MOTION_ART_ROOT = "./";
 
-const motion = (
-  kind,
-  periodMs,
-  particleCount,
-  particleSpeed,
-  particleDrift,
-  parallaxPx,
-  glowStrength,
-  bandCount = 3
-) => Object.freeze({
-  kind,
-  periodMs,
-  particleCount,
-  particleSpeed,
-  particleDrift,
-  parallaxPx,
-  glowStrength,
-  bandCount,
-});
-
 const card = ({
   id,
   regionId,
@@ -29,10 +9,6 @@ const card = ({
   art,
   motionLabel,
   description,
-  accent,
-  secondary,
-  direction,
-  motionProfile,
 }) => Object.freeze({
   id,
   regionId,
@@ -42,15 +18,11 @@ const card = ({
   art: `${MOTION_ART_ROOT}${art}`,
   motionLabel,
   description,
-  accent,
-  secondary,
-  direction,
-  motion: motionProfile,
 });
 
 export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
-  reviewOnly: true,
-  productionChanged: false,
+  reviewOnly: false,
+  productionChanged: true,
   canvas: Object.freeze({ width: 1536, height: 1024 }),
   cards: Object.freeze([
     card({
@@ -62,10 +34,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-weathered-roots-root-tide-lantern-hollow.png",
       motionLabel: "Root flex / sap pulse / lantern sway / spores",
       description: "A slow organic breath that makes the entry layers feel alive without stealing focus.",
-      accent: "#f2ad52",
-      secondary: "#77c6cc",
-      direction: "up",
-      motionProfile: motion("organic", 12400, 54, 0.055, 0.12, 8, 0.52, 4),
     }),
     card({
       id: "crystal-rain",
@@ -76,10 +44,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-blue-caverns-resonant-crystal-rain.png",
       motionLabel: "Crystal resonance / droplets / refracted sweep",
       description: "Cold pulses travel through three crystal depths while sparse rain gives scale.",
-      accent: "#47c7ff",
-      secondary: "#5174ff",
-      direction: "down",
-      motionProfile: motion("rain", 9800, 62, 0.13, 0.035, 7, 0.6, 3),
     }),
     card({
       id: "golden-dust",
@@ -90,10 +54,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-amber-depths-golden-dust-cathedral.png",
       motionLabel: "Dust shafts / resin breath / chain sway",
       description: "Layered golden dustfall turns the cavern into a warm, ancient procession.",
-      accent: "#ffc35a",
-      secondary: "#ff7e2f",
-      direction: "down",
-      motionProfile: motion("dust", 15200, 78, 0.075, 0.16, 6, 0.48, 5),
     }),
     card({
       id: "mercury-fall",
@@ -104,10 +64,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-silver-core-mercury-shimmerfall.png",
       motionLabel: "Silver curtains / travelling glints / reflection wave",
       description: "Thin metallic falls and travelling highlights create elegance rather than noise.",
-      accent: "#d9f4ff",
-      secondary: "#78aeea",
-      direction: "down",
-      motionProfile: motion("shimmer", 13100, 48, 0.09, 0.04, 5, 0.56, 6),
     }),
     card({
       id: "basalt-heart",
@@ -118,10 +74,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-core-magma-basalt-heartbeat.png",
       motionLabel: "Lava pulse / embers / ash / heat roll",
       description: "A restrained volcanic heartbeat signals pressure through the distant rock.",
-      accent: "#ff7138",
-      secondary: "#ffb04a",
-      direction: "up",
-      motionProfile: motion("heat", 8200, 68, 0.12, 0.12, 5, 0.7, 3),
     }),
     card({
       id: "pressure-breath",
@@ -132,10 +84,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-slagworks-pressure-breath-foundry.png",
       motionLabel: "Steam cycle / furnace breath / chain sway",
       description: "Alternating exhaust beats make the buried industry feel heavy and functional.",
-      accent: "#ff8848",
-      secondary: "#d9d1c4",
-      direction: "up",
-      motionProfile: motion("steam", 11200, 34, 0.07, 0.21, 7, 0.5, 4),
     }),
     card({
       id: "violet-ash",
@@ -146,10 +94,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-obsidian-catacombs-violet-ash-procession.png",
       motionLabel: "Ash curtains / crack procession / glass ripple",
       description: "Violet light moves like a ritual through falling ash and mirrored stone.",
-      accent: "#bd73ff",
-      secondary: "#6e62a8",
-      direction: "down",
-      motionProfile: motion("ash", 14600, 70, 0.085, 0.18, 5, 0.56, 4),
     }),
     card({
       id: "condenser-surge",
@@ -160,10 +104,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-pressure-foundry-condenser-surge.png",
       motionLabel: "Cyan pressure wave / pistons / staggered vents",
       description: "A readable energy route gives the foundry a mechanical cause-and-effect loop.",
-      accent: "#54dcff",
-      secondary: "#ffab5c",
-      direction: "side",
-      motionProfile: motion("surge", 9400, 40, 0.08, 0.14, 7, 0.7, 5),
     }),
     card({
       id: "prismatic-drift",
@@ -174,10 +114,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-blackglass-abyss-prismatic-star-drift.png",
       motionLabel: "Orbiting motes / prism sweep / eclipse breath",
       description: "Sparse orbital motion preserves the abyss while adding uncanny cosmic scale.",
-      accent: "#a77dff",
-      secondary: "#58c9ff",
-      direction: "orbit",
-      motionProfile: motion("prism", 16800, 52, 0.045, 0.11, 4, 0.62, 3),
     }),
     card({
       id: "celestial-current",
@@ -188,10 +124,6 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
       art: "2026-07-26-starfire-rift-celestial-current.png",
       motionLabel: "Energy ribbons / starfall / ring rotation / nebula pulse",
       description: "Opposing cosmic currents deliver the strongest finale while keeping a dark play lane.",
-      accent: "#ff62d4",
-      secondary: "#4ddcff",
-      direction: "down",
-      motionProfile: motion("cosmic", 11800, 86, 0.075, 0.2, 6, 0.72, 5),
     }),
   ]),
 });

@@ -39,7 +39,7 @@ Notable systems:
 - `HeavenblocksPresentationSystem.js` — relic projection, arrival/return rings, component claims, gate altars, interaction prompts, lifecycle cleanup, and health publication for the three upward regions.
 - `CelestialEngineHudSystem.js` — lower-right Star Heart icon, bounded charge bar, selected-Engine label, active impact budget, and context-sensitive `X` prompt.
 - `ProgressivePillarSprite.js` — shared bottom-anchored renderer for approved five-stage pillar art; it preserves the source sheets' natural height growth and adds only restrained in-engine transition light.
-- `StarPillarWorldVisual.js` / `StarPillarSystem.js` — screenshot-2 blue stone monument on the Level 1 Sky Island. The world visual grows across five constellation thresholds, places the approved Star Heart image inside its authored sockets, intensifies paired unlocks, and owns staggered glow/pop/beam animation. `StarPillarSystem` retains the constellation chart and Star Heart choice routing; no collected sky star is restored to the persistent world.
+- `StarPillarWorldVisual.js` / `StarPillarSystem.js` — screenshot-2 blue stone monument on the Level 1 Sky Island. The world visual grows across five constellation thresholds, layers the sharper Wayward Star core over a Star Heart halo inside its authored sockets, intensifies paired unlocks, and owns staggered glow/pop/beam animation. `StarPillarSystem` retains the constellation chart and Star Heart choice routing; no collected sky star is restored to the persistent world.
 - `MilestoneBoardSystem.js` / `MilestonePillarModal.js` — Town Square depth
   pillar and journal. The world object uses the approved screenshot-1 Dwarven
   Depth Engine and advances at 0/500/1000/1500/2000 m while preserving

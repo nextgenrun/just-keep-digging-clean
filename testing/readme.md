@@ -57,7 +57,11 @@ nearest-target Town Square interaction arbitration.
 screenshot-1/screenshot-2 promotion: ten hashed RGBA production stages,
 best-depth growth, readable world prompts, five constellation-pair socket
 states, Star Heart additive/screen pulses and unlock beams, Boot preload wiring,
-and the absence of persistent collected world stars.
+and the absence of persistent collected world stars. With `?jkd_e2e=1`, `9`
+and `0` provide browser-safe Level 1/Level 2 Sky Island visual anchors; the
+existing Ctrl+Alt+Insert/Delete aliases remain available outside browsers that
+reserve native clipboard chords. `8` cycles save-safe Star Pillar visual states
+at 0/1/3/5/7/10 unlocked constellations without changing progression.
 
 `2026-07-16-scenic-resource-veins-smoke.mjs` keeps its compatibility filename while verifying generated raster resources and reward blocks as the default, independent damage cracks and non-reward markers, suppression of procedural ore geometry plus the legacy 94 px reward emblems, `?terrainSemantics=0` restoration of deterministic veins/nodules and reward emblems, and the combined `?terrainSemantics=0&resourceVeins=0` rollback to the older resource-emblem atlas.
 
@@ -102,6 +106,10 @@ in-view `SKY_TILE` keeps a strong, softly shaped light pool outside the player's
 torch/vision radius, emits only a rare faint cross-free ring, never stacks more
 than one traveling pulse, spans more than ten tiles, never drops the steady
 core, and leaves geode and other local lights proximity limited.
+`2026-07-26-star-block-pulse-quality-contract.mjs` verifies the upgraded pulse
+uses 1024 px linearly filtered radial artwork, all feather/bloom gradient bands,
+one pooled ring plus soft constellation-node images, restrained additive alpha,
+long-range flattened geometry, quiet-frame hiding, and complete cleanup.
 `2026-07-26-titan-discovery-contract.mjs` verifies all 25 unique alpha sprites,
 deterministic non-overlapping clear-area zones, `?titans=0`, persistence without
 duplicate or unknown ids, final-cell visual unlock, surface-echo creation, save

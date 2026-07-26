@@ -15,6 +15,7 @@ const BACKGROUND_PREVIEW_RANGES = Object.freeze({
   level2: Object.freeze({ minX: 113, maxX: 278 }),
 });
 const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 33, 63]);
+const STAR_PILLAR_PREVIEW_COUNTS = Object.freeze([0, 1, 3, 5, 7, 10]);
 
 function e2eEnabled() {
   if (!GAME_CONFIG.debugMode || typeof window === "undefined") return false;
@@ -351,10 +352,14 @@ export function installJkdE2EHarness(scene) {
   scene.pendingDugTileSave = false;
   scene.queueDugTilesSave = () => undefined;
   scene.flushDugTilesSave = async () => true;
+  for (const threshold of [100, 300, 1000]) {
+    scene.depthGateSystem?.accepted?.add?.(threshold);
+  }
 
   let backgroundPreviewIndex = -1;
   let surfaceBenchmarkPreviewIndex = -1;
   let heavenblockPreviewIndex = -1;
+  let starPillarPreviewIndex = -1;
   let caveHazardPreviewIndex = -1;
   let caveHazardKindPreviewIndex = -1;
   let currentCaveHazard = null;
@@ -368,6 +373,9 @@ export function installJkdE2EHarness(scene) {
       openingView.showHud = () => openingView.hideHud();
     }
     closeTransientUi(scene);
+    for (const threshold of [100, 300, 1000]) {
+      scene.depthGateSystem?.accepted?.add?.(threshold);
+    }
     scene.playerController?.fillGemPower?.();
     forcePlayerState(scene, currentCaveHazard.leftCheckpoint);
     console.info(
@@ -486,6 +494,27 @@ export function installJkdE2EHarness(scene) {
       previewCaveHazardKind();
       return;
     }
+    if (event.code === "Digit9" || event.code === "Digit0") {
+      event.preventDefault?.();
+      const levelId = event.code === "Digit9" ? 1 : 2;
+      const level = V11_SKY_ISLAND_LAYOUT.levels.find((entry) => entry.levelId === levelId);
+      forcePlayerState(scene, level.groundPortal.skyArrivalTile);
+      console.info(`[JkdE2EHarness] Level ${levelId} Sky Island preview`);
+      return;
+    }
+    if (event.code === "Digit8") {
+      event.preventDefault?.();
+      starPillarPreviewIndex = (
+        starPillarPreviewIndex + 1
+      ) % STAR_PILLAR_PREVIEW_COUNTS.length;
+      const unlockedCount = STAR_PILLAR_PREVIEW_COUNTS[starPillarPreviewIndex];
+      const preview = scene.starPillarSystem?.previewWorldProgress?.(unlockedCount);
+      console.info(
+        `[JkdE2EHarness] Star Pillar visual preview: ${unlockedCount}/10 `
+        + `(stage=${preview?.stageIndex ?? "unavailable"}, sockets=${preview?.socketCount ?? 0})`
+      );
+      return;
+    }
     if (!event.ctrlKey || !event.altKey) return;
     if (event.code === "Home") {
       event.preventDefault?.();
@@ -586,7 +615,7 @@ export function installJkdE2EHarness(scene) {
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

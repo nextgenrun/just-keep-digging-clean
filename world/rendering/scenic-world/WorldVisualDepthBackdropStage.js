@@ -11,6 +11,7 @@ import {
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualDepthAmbientLayer } from "./WorldVisualDepthAmbientLayer.js";
 import { WorldVisualDepthBackdropRegionView } from "./WorldVisualDepthBackdropRegionView.js";
+import { WorldVisualDepthSignatureLayer } from "./WorldVisualDepthSignatureLayer.js";
 
 export class WorldVisualDepthBackdropStage {
   constructor(
@@ -31,6 +32,7 @@ export class WorldVisualDepthBackdropStage {
     this.lastLighting = null;
     this.assetCache = null;
     this.ambientLayer = null;
+    this.signatureLayer = null;
   }
 
   get segments() {
@@ -58,6 +60,8 @@ export class WorldVisualDepthBackdropStage {
       retainKeys: [...startupAssets.map(asset => asset.key), this.config.assets.mist.key],
     });
     if (this.motionEnabled) {
+      this.signatureLayer = new WorldVisualDepthSignatureLayer(this.scene, this.config);
+      this.signatureLayer.create();
       this.ambientLayer = new WorldVisualDepthAmbientLayer(this.scene, this.config);
       this.ambientLayer.create();
     }
@@ -163,6 +167,7 @@ export class WorldVisualDepthBackdropStage {
   update(time, lighting) {
     if (!this.enabled || !lighting) return;
     this.regionViews.forEach(view => view.update(time, lighting));
+    this.signatureLayer?.update(time, this.regionViews.values(), lighting);
     this.ambientLayer?.update(time, this.regionViews.values(), lighting);
   }
 
@@ -173,6 +178,8 @@ export class WorldVisualDepthBackdropStage {
 
   destroy() {
     this._destroyRegionViews();
+    this.signatureLayer?.destroy();
+    this.signatureLayer = null;
     this.ambientLayer?.destroy();
     this.ambientLayer = null;
     this.assetCache?.destroy();

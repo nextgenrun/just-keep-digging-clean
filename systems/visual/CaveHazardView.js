@@ -161,6 +161,21 @@ export class CaveHazardView {
         )
       );
       this.baseGraphics.fillTriangle(x, floorY, x + width, floorY, tipX, tipY);
+      const innerHalfWidth = width * render.spikeInnerWidthRatio * 0.5;
+      const innerTipY = floorY
+        - (floorY - tipY) * render.spikeInnerHeightRatio;
+      this.glowGraphics.fillStyle(
+        hazard.glowColor,
+        render.glowAlpha * render.spikeInnerAlpha * pulse,
+      );
+      this.glowGraphics.fillTriangle(
+        tipX - innerHalfWidth,
+        floorY,
+        tipX + innerHalfWidth,
+        floorY,
+        tipX,
+        innerTipY,
+      );
       this.glowGraphics.fillStyle(hazard.glowColor, render.glowAlpha * pulse);
       this.glowGraphics.fillCircle(
         tipX,
@@ -193,11 +208,11 @@ export class CaveHazardView {
       : state.telegraph ? render.telegraphAlpha * pulse : render.inactiveAlpha;
 
     this.baseGraphics.fillStyle(hazard.color, markAlpha);
-    this.baseGraphics.fillRect(
-      x - width * 0.5,
-      floorY - render.floorMarkHeightTiles * tileSize,
+    this.baseGraphics.fillEllipse(
+      x,
+      floorY,
       width,
-      render.floorMarkHeightTiles * tileSize,
+      render.floorMarkHeightTiles * tileSize * 2,
     );
     if (!state.active) {
       this.glowGraphics.lineStyle(
@@ -214,14 +229,49 @@ export class CaveHazardView {
       return;
     }
 
-    this.glowGraphics.fillStyle(hazard.glowColor, render.glowAlpha * pulse);
+    const tipSway = Math.sin(
+      time * render.motionRadiansPerMs + phase,
+    ) * width * render.ventTipSwayRatio;
+    this.glowGraphics.fillStyle(
+      hazard.glowColor,
+      render.glowAlpha * render.ventBoundsGlowAlphaScale * pulse,
+    );
     this.glowGraphics.fillRect(x - width * 0.5, floorY - height, width, height);
-    this.baseGraphics.fillStyle(hazard.color, render.activeAlpha * pulse);
-    this.baseGraphics.fillRect(
-      x - width * render.ventCoreWidthRatio * 0.5,
+    this.glowGraphics.fillStyle(hazard.glowColor, render.glowAlpha * pulse);
+    this.glowGraphics.fillTriangle(
+      x - width * 0.5,
+      floorY,
+      x + width * 0.5,
+      floorY,
+      x + tipSway,
       floorY - height,
-      width * render.ventCoreWidthRatio,
-      height,
+    );
+    const sideWidth = width * render.ventSideTongueWidthRatio;
+    const sideHeight = height * render.ventSideTongueHeightRatio;
+    this.glowGraphics.fillTriangle(
+      x - width * 0.5,
+      floorY,
+      x - width * 0.5 + sideWidth,
+      floorY,
+      x - width * 0.18 - tipSway * 0.25,
+      floorY - sideHeight,
+    );
+    this.glowGraphics.fillTriangle(
+      x + width * 0.5 - sideWidth,
+      floorY,
+      x + width * 0.5,
+      floorY,
+      x + width * 0.18 - tipSway * 0.25,
+      floorY - sideHeight * 0.82,
+    );
+    this.baseGraphics.fillStyle(hazard.color, render.activeAlpha * pulse);
+    this.baseGraphics.fillTriangle(
+      x - width * render.ventCoreWidthRatio * 0.5,
+      floorY,
+      x + width * render.ventCoreWidthRatio * 0.5,
+      floorY,
+      x + tipSway * 0.35,
+      floorY - height * render.ventCoreHeightRatio,
     );
     for (let index = 0; index < render.ventParticleCount; index += 1) {
       const ratio = (index + 1) / (render.ventParticleCount + 1);

@@ -9,12 +9,21 @@ import { ProgressivePillarSprite } from "./ProgressivePillarSprite.js";
  * It only visualizes saved constellation state; it does not create world collectibles.
  */
 export class StarPillarWorldVisual {
-  constructor(scene, x, baseY, stageKeys, starTextureKey, visualConfig) {
+  constructor(
+    scene,
+    x,
+    baseY,
+    stageKeys,
+    starCoreTextureKey,
+    starHaloTextureKey,
+    visualConfig,
+  ) {
     this.scene = scene;
     this.x = x;
     this.baseY = baseY;
     this.stageKeys = stageKeys;
-    this.starTextureKey = starTextureKey;
+    this.starCoreTextureKey = starCoreTextureKey;
+    this.starHaloTextureKey = starHaloTextureKey;
     this.config = visualConfig;
     this.pillar = new ProgressivePillarSprite(
       scene,
@@ -94,11 +103,11 @@ export class StarPillarWorldVisual {
 
   _createSocketStar(index, strength) {
     const depth = this.config.depth + this.config.starDepthOffset;
-    const halo = this.scene.add.image(this.x, this.baseY, this.starTextureKey)
+    const halo = this.scene.add.image(this.x, this.baseY, this.starHaloTextureKey)
       .setOrigin(0.5)
       .setDepth(depth)
       .setAlpha(this.config.starHaloAlpha);
-    const core = this.scene.add.image(this.x, this.baseY, this.starTextureKey)
+    const core = this.scene.add.image(this.x, this.baseY, this.starCoreTextureKey)
       .setOrigin(0.5)
       .setDepth(depth + 1);
 

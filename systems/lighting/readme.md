@@ -11,11 +11,13 @@ cutout, additive halo/core, and shader falloff. The natural profile is the
 default; `?playerLight=legacy` restores the former feet-centered mask and glow
 profile for direct visual comparison without changing visibility or gameplay.
 
-Star Blocks remain independent hard-darkness light sources. Their staggered
-beacon is a faint, slow long-range ring with a low coordinate-seeded chance
-per 45-second window. Cross flares are intentionally absent, and the renderer
-allows only one visible Star Block ring at a time while the darkness mask
-reveals a restrained area beneath the wave.
+Star Blocks remain independent hard-darkness light sources.
+`SkyBeaconPulseRenderer` presents their staggered beacon as a linearly filtered
+1024 px feathered bloom with a fine pearl filament and small soft-textured
+constellation nodes. It remains a faint, slow long-range ring with a low
+coordinate-seeded chance per 45-second window. Cross flares are intentionally
+absent, and only one visible Star Block ring may exist at a time while the
+darkness mask reveals a restrained area beneath the wave.
 
 Integrated caves use identity-specific darkness profiles rather than one
 constant reveal: Echo and Storm pulse sharply, Root and Gilded stay heavier,

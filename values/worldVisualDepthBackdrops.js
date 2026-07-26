@@ -3,7 +3,14 @@ const BIOME_ROOT = "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2
 
 const asset = (key, path) => Object.freeze({ key, path });
 const biomeAsset = stem => asset(`world-visual-biome-${stem}`, `${BIOME_ROOT}/${stem}-v2.webp`);
-const biomeAssets = stems => Object.freeze(stems.map(biomeAsset));
+const biomeMotionAsset = stem => asset(
+  `world-visual-biome-motion-${stem}`,
+  `${BIOME_ROOT}/${stem}-motion-v1.webp`
+);
+const biomeAssets = (stems, motionStem) => Object.freeze([
+  ...stems.map(biomeAsset),
+  biomeMotionAsset(motionStem),
+]);
 
 const SHARED_MIST = asset(
   "bg-sky-v3-clouds-near",
@@ -38,52 +45,52 @@ const VARIANTS = Object.freeze({
     "weathered-roots-root-canyon", "weathered-roots-drowned-timber-bridge",
     "weathered-roots-fungal-lantern-hollow", "weathered-roots-collapsed-cistern",
     "weathered-roots-quiet-loam-pocket",
-  ]),
+  ], "weathered-roots-root-tide-lantern-hollow"),
   blue: biomeAssets([
     "blue-caverns-crystal-ravine", "blue-caverns-suspended-ice-bridge",
     "blue-caverns-water-veil-chamber", "blue-caverns-cobalt-ruins",
     "blue-caverns-quiet-sapphire-pocket",
-  ]),
+  ], "blue-caverns-resonant-crystal-rain"),
   amber: biomeAssets([
     "amber-depths-amber-canyon", "amber-depths-chain-bridge-gallery",
     "amber-depths-dustfall-chamber", "amber-depths-resin-archive-ruins",
     "amber-depths-quiet-honey-pocket",
-  ]),
+  ], "amber-depths-golden-dust-cathedral"),
   silver: biomeAssets([
     "silver-core-cleaved-silver-canyon", "silver-core-suspended-rib-bridge",
     "silver-core-shimmerfall-curtain", "silver-core-forgotten-mint-ruins",
     "silver-core-quiet-mirror-pocket",
-  ]),
+  ], "silver-core-mercury-shimmerfall"),
   core: biomeAssets([
     "core-magma-lava-ravine", "core-magma-basalt-bridgeworks",
     "core-magma-ashfall-chamber", "core-magma-volcanic-watchtower-ruins",
     "core-magma-quiet-ember-pocket",
-  ]),
+  ], "core-magma-basalt-heartbeat"),
   slagworks: biomeAssets([
     "slagworks-slag-trench", "slagworks-gantry-bridge-maze",
     "slagworks-steamfall-condenser", "slagworks-smelter-barracks-ruins",
     "slagworks-quiet-cooling-chamber",
-  ]),
+  ], "slagworks-pressure-breath-foundry"),
   obsidian: biomeAssets([
     "obsidian-catacombs-glass-ravine", "obsidian-catacombs-black-arch-bridge",
     "obsidian-catacombs-ashfall-curtain", "obsidian-catacombs-shattered-crypt-city",
     "obsidian-catacombs-quiet-void-pocket",
-  ]),
+  ], "obsidian-catacombs-violet-ash-procession"),
   foundry: biomeAssets([
     "pressure-foundry-pressure-trench", "pressure-foundry-pipe-bridge-network",
     "pressure-foundry-steam-curtain", "pressure-foundry-control-citadel",
     "pressure-foundry-quiet-maintenance-bay",
-  ]),
+  ], "pressure-foundry-condenser-surge"),
   blackglass: biomeAssets([
     "blackglass-abyss-mirror-chasm", "blackglass-abyss-prism-bridge",
     "blackglass-abyss-stardust-fall", "blackglass-abyss-eclipse-city-ruins",
     "blackglass-abyss-quiet-void-gallery",
-  ]),
+  ], "blackglass-abyss-prismatic-star-drift"),
   starfire: biomeAssets([
     "starfire-rift-cosmic-ravine", "starfire-rift-ring-bridge",
     "starfire-rift-starfall-curtain", "starfire-rift-celestial-citadel",
     "starfire-rift-silent-core-pocket",
-  ]),
+  ], "starfire-rift-celestial-current"),
 });
 
 const profile = (kind, tint, count, alpha, periodMs, travel, drift, size) => (
@@ -182,6 +189,7 @@ export const WORLD_VISUAL_DEPTH_BACKDROPS = Object.freeze({
     backwallDepth: -6.4,
     emissiveDepth: -6.1,
     mistDepth: -5.8,
+    signatureDepth: -5.66,
     ambientDepth: -5.55,
   }),
   motion: Object.freeze({

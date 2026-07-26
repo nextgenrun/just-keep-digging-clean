@@ -90,12 +90,16 @@ assert.doesNotMatch(milestoneSource, /fillRoundedRect|fillRect|_boardGfx/);
 
 const starSystemSource = read("systems/visual/StarPillarSystem.js");
 const worldVisualSource = read("systems/visual/StarPillarWorldVisual.js");
+const e2eHarnessSource = read("testing/JkdE2EHarness.js");
 assert.match(starSystemSource, /StarPillarWorldVisual/);
 assert.match(starSystemSource, /environment\.pillars\.starStages/);
-assert.match(worldVisualSource, /ASSET_KEYS|starTextureKey|resolveStarSocketProgress/);
+assert.match(worldVisualSource, /starCoreTextureKey|starHaloTextureKey|resolveStarSocketProgress/);
 assert.match(worldVisualSource, /BlendModes\?\.(?:ADD|SCREEN)/);
 assert.match(worldVisualSource, /repeat:\s*-1/);
 assert.doesNotMatch(worldVisualSource, /localStorage|releaseCollectedSkyStar|_townStars/);
+assert.match(starSystemSource, /previewWorldProgress\(unlockedCount\)/);
+assert.match(e2eHarnessSource, /STAR_PILLAR_PREVIEW_COUNTS/);
+assert.match(e2eHarnessSource, /previewWorldProgress/);
 
 globalThis.Phaser = {
   BlendModes: { ADD: "ADD", SCREEN: "SCREEN" },
@@ -112,6 +116,7 @@ ASSET_KEYS.environment.pillars.starStages.forEach((key, index) => {
   stageDimensions.set(key, { width: stage.width, height: stage.height });
 });
 stageDimensions.set(ASSET_KEYS.celestialEngines.starHeart, { width: 512, height: 512 });
+stageDimensions.set(ASSET_KEYS.celestialEngines.waywardStar, { width: 512, height: 512 });
 
 function makeDisplayObject(x, y, width = 1, height = 1) {
   return {
@@ -197,6 +202,7 @@ const visual = new StarPillarWorldVisual(
   1000,
   2000,
   ASSET_KEYS.environment.pillars.starStages,
+  ASSET_KEYS.celestialEngines.waywardStar,
   ASSET_KEYS.celestialEngines.starHeart,
   PILLAR_VISUAL_CONFIG.star,
 ).create(0);
@@ -218,6 +224,16 @@ for (const [unlockedCount, expectedStage, expectedFilled] of [
 assert.equal(visual.socketStars.at(-1).strength, 2);
 assert.ok(visual.socketStars.every((socket) => socket.core.blendMode === "SCREEN"));
 assert.ok(visual.socketStars.every((socket) => socket.halo.blendMode === "ADD"));
+assert.ok(
+  visual.socketStars.every(
+    (socket) => socket.core.textureKey === ASSET_KEYS.celestialEngines.waywardStar,
+  ),
+);
+assert.ok(
+  visual.socketStars.every(
+    (socket) => socket.halo.textureKey === ASSET_KEYS.celestialEngines.starHeart,
+  ),
+);
 assert.ok(tweens.some((tween) => tween.repeat === -1), "socket stars must pulse");
 assert.ok(
   tweens.some((tween) => tween.targets?.height === PILLAR_VISUAL_CONFIG.star.unlockBeamHeightPx),

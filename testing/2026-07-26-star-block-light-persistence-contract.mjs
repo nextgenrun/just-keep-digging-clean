@@ -59,7 +59,7 @@ const eraser = {
   },
 };
 const eraseCalls = [];
-const graphicsCalls = [];
+const pulseRenderCalls = [];
 const darkness = {
   erase(image, x, y) {
     eraseCalls.push({
@@ -71,38 +71,10 @@ const darkness = {
     });
   },
 };
-const beaconGraphics = {
-  lineStyle(width, color, alpha) {
-    graphicsCalls.push({ type: "lineStyle", width, color, alpha });
-    return this;
-  },
-  strokeEllipse(x, y, width, height) {
-    graphicsCalls.push({ type: "strokeEllipse", x, y, width, height });
-    return this;
-  },
-  fillStyle(color, alpha) {
-    graphicsCalls.push({ type: "fillStyle", color, alpha });
-    return this;
-  },
-  fillCircle(x, y, radius) {
-    graphicsCalls.push({ type: "fillCircle", x, y, radius });
-    return this;
-  },
-  beginPath() {
-    graphicsCalls.push({ type: "beginPath" });
-    return this;
-  },
-  moveTo(x, y) {
-    graphicsCalls.push({ type: "moveTo", x, y });
-    return this;
-  },
-  lineTo(x, y) {
-    graphicsCalls.push({ type: "lineTo", x, y });
-    return this;
-  },
-  strokePath() {
-    graphicsCalls.push({ type: "strokePath" });
-    return this;
+const beaconPulseRenderer = {
+  draw(payload) {
+    pulseRenderCalls.push(payload);
+    return true;
   },
 };
 const lightSystem = Object.create(LightSystem.prototype);
@@ -113,7 +85,7 @@ lightSystem.scene = {
 };
 lightSystem._crystalEraser = eraser;
 lightSystem._crystalScreenPoint = { x: 0, y: 0 };
-lightSystem._skyBeaconGraphics = beaconGraphics;
+lightSystem._skyBeaconPulseRenderer = beaconPulseRenderer;
 
 assert.equal(
   LIGHT_CONFIG.skyTileLights.persistThroughDarkness,
@@ -156,8 +128,20 @@ assert.ok(
   "the expanding darkness reveal must remain restrained"
 );
 assert.ok(
-  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringCoreAlpha <= 0.2,
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringOpacity <= 0.2,
   "the visible ring must remain faint rather than dominating the scene"
+);
+assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringTextureSizePx >= 1024,
+  "the traveling ring must use a high-resolution filtered source texture"
+);
+assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringGradientStops.length >= 8,
+  "the traveling ring must include enough feathered bands for a smooth bloom and filament"
+);
+assert.ok(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.nodeTextureSizePx >= 128,
+  "constellation nodes must use soft high-resolution textures rather than hard circles"
 );
 assert.equal(
   Object.keys(LIGHT_CONFIG.skyTileLights.beaconPulse.visuals)
@@ -300,22 +284,21 @@ assert.ok(
   eraseCalls[1].alpha >= 0.04 && eraseCalls[1].alpha <= 0.1,
   "the distant beacon halo must be readable but deliberately faint"
 );
-const ringStroke = graphicsCalls.find((call) => call.type === "strokeEllipse");
-assert.ok(ringStroke, "an active beacon must draw a visible constellation ring");
+const renderedPulse = pulseRenderCalls[0];
+assert.ok(renderedPulse, "an active beacon must request a visible constellation ring");
 assert.ok(
-  ringStroke.width > tileSize * 10,
+  renderedPulse.pulseRadiusTiles * tileSize * 2 > tileSize * 10,
   "the visible ring must already span more than ten tiles midway through its slow journey"
 );
-assert.ok(
-  graphicsCalls.filter((call) => call.type === "fillCircle").length
-    >= pulseConfig.visuals.sparkCount,
-  "the traveling ring must carry its configured constellation spark points"
-);
-
 assert.equal(
-  graphicsCalls.filter((call) => call.type === "strokePath").length,
-  0,
-  "the traveling pulse must never draw cross-shaped flare paths"
+  Number.isFinite(renderedPulse.angleOffset),
+  true,
+  "the traveling wave must receive a deterministic node orientation"
+);
+assert.equal(
+  Object.hasOwn(renderedPulse, "flareStrength"),
+  false,
+  "the traveling pulse render request must never carry a cross-flare path"
 );
 
 let overlappingPulseTime = null;
@@ -348,7 +331,7 @@ assert.notEqual(
 
 includeNeighboringStar = true;
 eraseCalls.length = 0;
-graphicsCalls.length = 0;
+pulseRenderCalls.length = 0;
 lightSystem._eraseTileTypeLightSources({
   time: overlappingPulseTime,
   lighting: { undergroundDarknessInfluence: 1 },
@@ -365,9 +348,9 @@ assert.equal(
   "two steady cores may render, but only one expanding darkness halo may be active"
 );
 assert.equal(
-  graphicsCalls.filter((call) => call.type === "strokeEllipse").length,
-  2,
-  "only one soft/core ring pair may render even when two schedules overlap"
+  pulseRenderCalls.length,
+  1,
+  "only one textured ring may render even when two schedules overlap"
 );
 includeNeighboringStar = false;
 

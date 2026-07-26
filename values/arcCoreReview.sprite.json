@@ -1,54 +1,7 @@
 {
-  "arcCoreReviewV2": {
-    "path": "../../../sprites/character/arc-core-review-v2/runtime/",
-    "files": [
-      {
-        "type": "image",
-        "key": "arc-core-review-v2-small-body",
-        "url": "small-arc-master-v3.png",
-        "role": "small.body",
-        "sha256": "22055d196d2e03a255afcfd3b48fa00bf88d529db4d266c0ef626f0ab13d4fab"
-      },
-      {
-        "type": "image",
-        "key": "arc-core-review-v2-small-ring",
-        "url": "small-arc-gyro-ring-v2.png",
-        "role": "small.ring",
-        "sha256": "eacc9ba0357fc21568d4f10b222f7b93eb7287fc7a44af1254ec03d3767eaa36"
-      },
-      {
-        "type": "image",
-        "key": "arc-core-review-v2-small-cloud",
-        "url": "small-arc-cloud-v2.png",
-        "role": "small.cloud",
-        "sha256": "dbcf6063ae6892c961478eeafa793287f19889e5fc018c743fa00cb7a2818eb6"
-      },
-      {
-        "type": "image",
-        "key": "arc-core-review-v2-omega-body",
-        "url": "omega-arc-master-v2.png",
-        "role": "omega.body",
-        "sha256": "5cd6a27ff1dd267a7b6378461566bf70919ee1cc3bc513cf38b75c753edf0615"
-      },
-      {
-        "type": "image",
-        "key": "arc-core-review-v2-omega-sigil",
-        "url": "omega-arc-lattice-sigil-v2.png",
-        "role": "omega.sigil",
-        "sha256": "c6fea13b87687c6d32d12da0555d1fd4ff74ed0d187f7783ae5185ceacc3070c"
-      },
-      {
-        "type": "image",
-        "key": "arc-core-review-v2-omega-cloud",
-        "url": "omega-arc-cloud-v2.png",
-        "role": "omega.cloud",
-        "sha256": "1d9ac94c4ab5329d9546ba34818b227760bc6d1297a11c94945641078ddb4706"
-      }
-    ]
-  },
   "spriteMeta": {
-    "schemaVersion": 2,
-    "packageId": "arc-core-review-v2",
+    "schemaVersion": 3,
+    "packageId": "arc-core-review-v3",
     "reviewOnly": true,
     "productionChanged": false,
     "canvasSizePx": 512,
@@ -63,8 +16,13 @@
         "depths": {
           "cloudBack": 10.08,
           "body": 10.12,
+          "energyGhost": 10.14,
           "energyPrimary": 10.16,
           "energySecondary": 10.17,
+          "beam": 10.2,
+          "impactEcho": 10.22,
+          "impact": 10.24,
+          "transitionGlyph": 12.16,
           "cloudFront": 12.18
         },
         "idle": {
@@ -77,20 +35,38 @@
           "primaryRotationDegPerSecond": 42,
           "secondaryRotationDegPerSecond": -68,
           "primaryAlpha": 0.48,
-          "secondaryAlpha": 0.2
+          "secondaryAlpha": 0.2,
+          "ghostEnergySizeRatio": 0.7,
+          "ghostRotationDegPerSecond": 18,
+          "ghostAlpha": 0.1,
+          "ghostPulseRatio": 0.055
         },
         "dig": {
           "recoilPx": 4,
-          "squashWidthRatio": 0.022,
-          "squashHeightRatio": -0.014,
           "energyScaleBoostRatio": 0.15,
           "energyAlphaBoost": 0.26,
           "rotationBoostDeg": 150,
-          "auraRadiusRatio": 0.43,
           "beamStartRatio": 0.16,
-          "beamSpreadPx": 15,
-          "beamGlowWidthPx": 11,
-          "beamCoreWidthPx": 2.5
+          "beamHeightPx": 138,
+          "beamLengthPaddingPx": 42,
+          "beamAlpha": 0.9,
+          "beamPulseRatio": 0.045,
+          "impactPaddingPx": 14,
+          "impactAlpha": 0.88,
+          "impactEchoAlpha": 0.24,
+          "impactEchoScale": 1.16,
+          "impactRotationDegPerSecond": 22,
+          "timeline": {
+            "chargeStart": 0.04,
+            "chargePeak": 0.24,
+            "beamStart": 0.16,
+            "beamPeak": 0.34,
+            "beamEnd": 0.82,
+            "impactStart": 0.28,
+            "impactPeak": 0.58,
+            "impactEnd": 0.8,
+            "recoilStart": 0.72
+          }
         },
         "cloud": {
           "displaySizePx": 178,
@@ -98,8 +74,15 @@
           "frontScale": 1.12,
           "backAlpha": 0.72,
           "frontAlpha": 0.48,
-          "rotationDegPerSecond": 34
-        }
+          "rotationDegPerSecond": 34,
+          "glyphSizeRatio": 0.68,
+          "glyphAlpha": 0.72,
+          "glyphRotationDegPerSecond": -48,
+          "pulseScaleRatio": 0.12,
+          "forwardRatio": 0.035
+        },
+        "beamRole": "small.beam",
+        "impactRole": "small.impact"
       },
       "arcCoreOmega": {
         "bodyRole": "omega.body",
@@ -111,8 +94,13 @@
         "depths": {
           "cloudBack": 10.08,
           "body": 10.12,
+          "energyGhost": 10.14,
           "energyPrimary": 10.16,
           "energySecondary": 10.17,
+          "beam": 10.2,
+          "impactEcho": 10.22,
+          "impact": 10.24,
+          "transitionGlyph": 12.16,
           "cloudFront": 12.18
         },
         "idle": {
@@ -125,20 +113,38 @@
           "primaryRotationDegPerSecond": 6,
           "secondaryRotationDegPerSecond": -11,
           "primaryAlpha": 0.42,
-          "secondaryAlpha": 0.16
+          "secondaryAlpha": 0.16,
+          "ghostEnergySizeRatio": 0.48,
+          "ghostRotationDegPerSecond": 3,
+          "ghostAlpha": 0.12,
+          "ghostPulseRatio": 0.035
         },
         "dig": {
           "recoilPx": 10,
-          "squashWidthRatio": 0.012,
-          "squashHeightRatio": -0.008,
           "energyScaleBoostRatio": 0.21,
           "energyAlphaBoost": 0.34,
           "rotationBoostDeg": 48,
-          "auraRadiusRatio": 0.44,
           "beamStartRatio": 0.28,
-          "beamSpreadPx": 31,
-          "beamGlowWidthPx": 17,
-          "beamCoreWidthPx": 3.5
+          "beamHeightPx": 620,
+          "beamLengthPaddingPx": 88,
+          "beamAlpha": 0.84,
+          "beamPulseRatio": 0.025,
+          "impactPaddingPx": 44,
+          "impactAlpha": 0.82,
+          "impactEchoAlpha": 0.2,
+          "impactEchoScale": 1.12,
+          "impactRotationDegPerSecond": 5,
+          "timeline": {
+            "chargeStart": 0.08,
+            "chargePeak": 0.36,
+            "beamStart": 0.32,
+            "beamPeak": 0.54,
+            "beamEnd": 0.88,
+            "impactStart": 0.5,
+            "impactPeak": 0.72,
+            "impactEnd": 0.9,
+            "recoilStart": 0.82
+          }
         },
         "cloud": {
           "displaySizePx": 584,
@@ -146,9 +152,158 @@
           "frontScale": 1.14,
           "backAlpha": 0.68,
           "frontAlpha": 0.42,
-          "rotationDegPerSecond": 9
-        }
+          "rotationDegPerSecond": 9,
+          "glyphSizeRatio": 0.62,
+          "glyphAlpha": 0.68,
+          "glyphRotationDegPerSecond": -12,
+          "pulseScaleRatio": 0.08,
+          "forwardRatio": 0.025
+        },
+        "beamRole": "omega.beam",
+        "impactRole": "omega.impact"
       }
+    },
+    "pipeline": "piskel-roundtrip",
+    "piskelSources": [
+      "sprites/character/arc-core-review-v3/piskel/arc-core-body-and-fx-v3.piskel",
+      "sprites/character/arc-core-review-v3/piskel/arc-core-stage-tiles-v3.piskel",
+      "sprites/character/arc-core-review-v3/piskel/arc-core-stage-background-v3.piskel"
+    ],
+    "anchorPx": [
+      256,
+      256
+    ],
+    "stageRoles": {
+      "background": "stage.background",
+      "dirt": "stage.dirt",
+      "stone": "stage.stone",
+      "floor": "stage.floor",
+      "bedrock": "stage.bedrock"
+    },
+    "stage": {
+      "backgroundDepth": -4,
+      "tileDepth": 0.4,
+      "tileAlpha": 0.98,
+      "tileOverlapPx": 1,
+      "roleByTileType": {
+        "1": "stage.dirt",
+        "2": "stage.stone",
+        "3": "stage.floor",
+        "4": "stage.bedrock"
+      },
+      "presentation": "clean-canvas",
+      "htmlVisible": false,
+      "debugVisible": false
     }
+  },
+  "arcCoreReviewV3": {
+    "path": "../../../sprites/character/arc-core-review-v3/runtime/",
+    "files": [
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-small-body",
+        "url": "small-arc-master-v3.png",
+        "role": "small.body",
+        "sha256": "9610c669c8a872d126e71837770a5efeb64a631a18ecc8c60644d51c8c993124"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-small-ring",
+        "url": "small-arc-gyro-ring-v2.png",
+        "role": "small.ring",
+        "sha256": "d4701c4361688521f6e43f87c3399b453d8be55b8aea8bcacb0df38e7b1f0e8e"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-small-cloud",
+        "url": "small-arc-cloud-v2.png",
+        "role": "small.cloud",
+        "sha256": "bd638425998f39788b878c7e45693aa93f8b4f78f5ffba6a19e7640379e8f0ab"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-small-beam",
+        "url": "small-arc-twin-beam-v3.png",
+        "role": "small.beam",
+        "sha256": "3dce116a4ad162b850c7cbd4a73a94ce0562e208f6dd3c5a0b04bd33863e024c"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-small-impact",
+        "url": "small-arc-impact-v3.png",
+        "role": "small.impact",
+        "sha256": "e8b5f5bd27dc8ac60d4213f26a89f19a2e88ea98bed573a325a9e4a020d58c58"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-omega-body",
+        "url": "omega-arc-master-v2.png",
+        "role": "omega.body",
+        "sha256": "143802fc23d6c1cc756fd5476fb52001b3be2545d165b2ec2ca36d3657c67e5a"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-omega-sigil",
+        "url": "omega-arc-lattice-sigil-v2.png",
+        "role": "omega.sigil",
+        "sha256": "cacbe6294d4703cc2098e08a0c843eed32dd6c006d6f53b9d6a081d755be1642"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-omega-cloud",
+        "url": "omega-arc-cloud-v2.png",
+        "role": "omega.cloud",
+        "sha256": "959c43960eebd1a156605489d21c514068b307c8e43ee98848c5e2129f206379"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-omega-beam",
+        "url": "omega-arc-lattice-beam-v3.png",
+        "role": "omega.beam",
+        "sha256": "50fe08aac578c27f7bd3af5b5ece322a24422a9dfe900ab43f99e9713747438f"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-omega-impact",
+        "url": "omega-arc-impact-v3.png",
+        "role": "omega.impact",
+        "sha256": "ab72998bcd3ecd675f9dc95f59cac36ef5a82a60d72ec20ac7652127721202ef"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-stage-dirt",
+        "url": "arc-stage-dirt-v3.png",
+        "role": "stage.dirt",
+        "sha256": "0198ddd8693131d3bcb1627fda0c3c221909777820288783de63c399d2c02dfc"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-stage-stone",
+        "url": "arc-stage-stone-v3.png",
+        "role": "stage.stone",
+        "sha256": "347b4858f1777845cfdff2c33b799b4c45c83642296f0a52710c4b73d7196693"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-stage-floor",
+        "url": "arc-stage-floor-v3.png",
+        "role": "stage.floor",
+        "sha256": "7c38602b439a359f76385eaabca3c3e772bdabc03b283f0961cf7f7122eb6d10"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-stage-bedrock",
+        "url": "arc-stage-bedrock-v3.png",
+        "role": "stage.bedrock",
+        "sha256": "dac86aef490a27edb83e7e0ee3ca94cd902c6c16c7bb2204b3935a44e9a43fde"
+      },
+      {
+        "type": "image",
+        "key": "arc-core-review-v3-stage-background",
+        "url": "arc-stage-background-v3.png",
+        "role": "stage.background",
+        "sha256": "99cca3c58ec888b6fc49ca634e7688dbe91ad42f0384daebdd1beddacd921464"
+      }
+    ]
   }
 }

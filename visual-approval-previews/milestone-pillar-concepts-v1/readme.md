@@ -31,6 +31,7 @@ names to `sprites/environment/approved-pillars-v1/`; BootScene never loads
 assets from this preview folder. Options B, D, and E remain unselected.
 
 The Star Pillar keeps the round sockets authored into Option A. Phaser fills
-them with the existing approved Star Heart texture, a staggered glow pulse, and
-a pop/beam celebration as saved constellation pairs are completed. This display
-does not recreate collected stars in the persistent world.
+them with a sharp approved Wayward Star core over a Star Heart halo, a staggered
+glow pulse, and a pop/beam celebration as saved constellation pairs are
+completed. This display does not recreate collected stars in the persistent
+world.

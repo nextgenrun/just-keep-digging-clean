@@ -6,11 +6,16 @@ import {
 import { USER_SETTINGS } from "../UserSettings.js";
 import { resolvePlayerLightWorldCenter } from "./PlayerLightAnchor.js";
 import { ensurePlayerLightTextures } from "./PlayerLightTextureFactory.js";
+import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const smoothstep = (value) => {
   const t = clamp01(value);
   return t * t * (3 - 2 * t);
+};
+const smootherstep = (value) => {
+  const t = clamp01(value);
+  return t * t * t * (t * (t * 6 - 15) + 10);
 };
 const hashTileCycle = (tx, ty, cycle) => {
   let hash = Math.imul((tx | 0) + 1, 0x9e3779b1);
@@ -65,7 +70,10 @@ export class LightSystem {
       .setOrigin(0.5);
     this._crystalEraser = scene.make.image({ key: this._visibilityMaskTextureKey, add: false })
       .setOrigin(0.5);
-    this._skyBeaconGraphics = this._createSkyBeaconGraphics();
+    this._skyBeaconPulseRenderer = new SkyBeaconPulseRenderer(
+      scene,
+      config.skyTileLights?.beaconPulse?.visuals
+    );
 
     const torchVisual = this._getTorchVisualConfig();
     this._torchHalo = this._createGlowImage(torchVisual.torchHaloColor);
@@ -225,7 +233,7 @@ export class LightSystem {
     this._torchFlameGlow?.destroy();
     this._eraser?.destroy();
     this._crystalEraser?.destroy();
-    this._skyBeaconGraphics?.destroy();
+    this._skyBeaconPulseRenderer?.destroy();
     this._darknessTexture = null;
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
@@ -237,7 +245,7 @@ export class LightSystem {
     this._torchFlameGlow = null;
     this._eraser = null;
     this._crystalEraser = null;
-    this._skyBeaconGraphics = null;
+    this._skyBeaconPulseRenderer = null;
     this._playerLightWorldPoint = null;
     this._torchKey = null;
     this._torchKeyHandler = null;
@@ -437,7 +445,7 @@ export class LightSystem {
     const camera = this.scene.cameras.main;
     const player = this.scene.player;
     const playerTile = this.playerController?.getPlayerTile?.() || null;
-    this._skyBeaconGraphics?.clear();
+    this._skyBeaconPulseRenderer?.beginFrame();
 
     const darknessAlpha = this._computeDarknessAlpha(lighting);
     const inactiveThreshold = Math.max(
@@ -859,52 +867,21 @@ export class LightSystem {
     pulseCfg,
     source
   ) {
-    const graphics = this._skyBeaconGraphics;
-    const visuals = pulseCfg?.visuals;
-    if (!graphics || !visuals?.enabled || !pulse || !source) return;
+    if (!pulseCfg?.visuals?.enabled || !pulse || !source) return;
 
-    const minimumAlpha = Math.max(0, visuals.minimumAlpha || 0);
-    const ringStrength = pulse.waveStrength || 0;
-    if (ringStrength > minimumAlpha) {
-      const radiusX = pulseRadiusTiles * tileSize;
-      const radiusY = radiusX * verticalScale;
-      const ringWidth = radiusX * 2;
-      const ringHeight = radiusY * 2;
-
-      graphics.lineStyle(
-        visuals.ringGlowWidthPx,
-        visuals.ringColor,
-        visuals.ringGlowAlpha * ringStrength
-      );
-      graphics.strokeEllipse(worldX, worldY, ringWidth, ringHeight);
-      graphics.lineStyle(
-        visuals.ringCoreWidthPx,
-        visuals.ringCoreColor,
-        visuals.ringCoreAlpha * ringStrength
-      );
-      graphics.strokeEllipse(worldX, worldY, ringWidth, ringHeight);
-
-      const sparkCount = Math.max(0, Math.floor(visuals.sparkCount || 0));
-      const angleOffset = hashTileCycle(source.tx, source.ty, pulse.cycle) * Math.PI * 2;
-      for (let index = 0; index < sparkCount; index += 1) {
-        const jitter = (
-          hashTileCycle(source.tx + index + 1, source.ty - index - 1, pulse.cycle)
-          - 0.5
-        ) * visuals.sparkAngleJitterRad;
-        const angle = angleOffset + (index / sparkCount) * Math.PI * 2 + jitter;
-        const sparkX = worldX + Math.cos(angle) * radiusX;
-        const sparkY = worldY + Math.sin(angle) * radiusY;
-        graphics.fillStyle(
-          visuals.ringCoreColor,
-          visuals.sparkAlpha * ringStrength
-        );
-        graphics.fillCircle(
-          sparkX,
-          sparkY,
-          visuals.sparkRadiusPx
-        );
-      }
-    }
+    this._skyBeaconPulseRenderer?.draw({
+      worldX,
+      worldY,
+      tileSize,
+      verticalScale,
+      pulseRadiusTiles,
+      pulse,
+      angleOffset: hashTileCycle(
+        source.tx,
+        source.ty,
+        pulse.cycle
+      ) * Math.PI * 2,
+    });
   }
 
   _eraseTileTypeLightSources({
@@ -1018,7 +995,7 @@ export class LightSystem {
         0.05,
         Math.min(1, pulseCfg.fullRadiusProgress || 0.55)
       );
-      const radiusProgress = smoothstep(pulse.progress / fullRadiusProgress);
+      const radiusProgress = smootherstep(pulse.progress / fullRadiusProgress);
       const pulseRadiusTiles = scaledRadiusTiles
         + Math.max(0, pulseCfg.radiusBoostTiles || 0) * radiusProgress;
       const pulseAlpha = clamp01((pulseCfg.revealAlpha || 0) * pulse.waveStrength);
@@ -1281,16 +1258,6 @@ export class LightSystem {
     const rg = Math.round(ag + (bg - ag) * amount);
     const rb = Math.round(ab + (bb - ab) * amount);
     return (rr << 16) | (rg << 8) | rb;
-  }
-
-  _createSkyBeaconGraphics() {
-    const visuals = this.config.skyTileLights?.beaconPulse?.visuals;
-    if (!visuals?.enabled || !this.scene.add?.graphics) return null;
-
-    const graphics = this.scene.add.graphics();
-    graphics.setDepth(visuals.renderDepth);
-    graphics.setBlendMode(Phaser.BlendModes.ADD);
-    return graphics;
   }
 
   _getUpgradeEffects() {

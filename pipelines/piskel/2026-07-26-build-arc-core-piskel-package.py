@@ -41,10 +41,7 @@ STAGE_TILES = [
     ("stage.floor", "arc-stage-floor-v3.png"),
     ("stage.bedrock", "arc-stage-bedrock-v3.png"),
 ]
-SINGLE_FRAMES = [
-    ("stage.background", "arc-stage-background-v3.png"),
-    ("ui.hud", "arc-review-hud-v3.png"),
-]
+SINGLE_FRAMES = [("stage.background", "arc-stage-background-v3.png")]
 
 
 def digest(image: Image.Image) -> str:
@@ -257,8 +254,8 @@ def update_pack(files: list[dict], sources: list[str]) -> None:
             "floor": "stage.floor",
             "bedrock": "stage.bedrock",
         },
-        "hudRole": "ui.hud",
     })
+    meta.pop("hudRole", None)
     for mode_id, prefix in (
         ("arcCoreSmall", "small"),
         ("arcCoreOmega", "omega"),
@@ -281,15 +278,10 @@ def main() -> None:
         VIEWPORT,
         Image.Resampling.LANCZOS,
     )
-    hud = Image.open(
-        SOURCE / "2026-07-26-arc-review-hud-v3-alpha.png"
-    ).convert("RGBA").resize(VIEWPORT, Image.Resampling.LANCZOS)
-
     projects = [
         ("arc-core-body-and-fx-v3.piskel", body_fx, BODY_AND_FX),
         ("arc-core-stage-tiles-v3.piskel", tiles, STAGE_TILES),
         ("arc-core-stage-background-v3.piskel", [background], [SINGLE_FRAMES[0]]),
-        ("arc-core-review-hud-v3.piskel", [hud], [SINGLE_FRAMES[1]]),
     ]
     files: list[dict] = []
     sources: list[str] = []

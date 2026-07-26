@@ -10,6 +10,8 @@ export const ARC_CORE_ANIMATION_REVIEW = Object.freeze({
   controls: Object.freeze({
     digKey: "F",
     cloudKey: "B",
+    smallArcKey: "1",
+    omegaArcKey: "2",
   }),
   stage: Object.freeze({
     worldCols: 19,
@@ -44,6 +46,17 @@ export const ARC_CORE_ANIMATION_REVIEW = Object.freeze({
     cloudDurationMs: 1250,
     cloudRadiusPx: 112,
     cloudSparkCount: 18,
+    transition: Object.freeze({
+      envelopeExponent: 0.62,
+      playerFadeOutStart: 0.08,
+      playerFadeOutEnd: 0.46,
+      arcFadeInStart: 0.32,
+      arcFadeInEnd: 0.7,
+      playerReturnStart: 0.34,
+      playerReturnEnd: 0.78,
+      playerScaleLoss: 0.2,
+      arcInitialScale: 0.72,
+    }),
   }),
   omega: Object.freeze({
     id: "arcCoreOmega",
@@ -67,6 +80,17 @@ export const ARC_CORE_ANIMATION_REVIEW = Object.freeze({
     cloudDurationMs: 2100,
     cloudRadiusPx: 260,
     cloudSparkCount: 32,
+    transition: Object.freeze({
+      envelopeExponent: 0.54,
+      playerFadeOutStart: 0.06,
+      playerFadeOutEnd: 0.5,
+      arcFadeInStart: 0.28,
+      arcFadeInEnd: 0.74,
+      playerReturnStart: 0.38,
+      playerReturnEnd: 0.82,
+      playerScaleLoss: 0.28,
+      arcInitialScale: 0.64,
+    }),
   }),
 });
 
@@ -82,21 +106,25 @@ export function isArcCoreAnimationReviewMode(modeId) {
 
 export function resolveArcCoreAnimationReviewPhase(modeId, progress) {
   if (modeId === ARC_CORE_ANIMATION_REVIEW.small.id) {
-    if (progress < 0.12) return "gimbal brace";
-    if (progress < 0.28) return "needle charge";
-    if (progress < 0.5) return "two-lane contact";
-    if (progress < ARC_CORE_ANIMATION_REVIEW.small.breakProgress) return "focused fracture";
-    if (progress < 0.8) return "snap break";
-    return "gyro recovery";
+    if (progress < 0.08) return "gimbal wake";
+    if (progress < 0.18) return "shutter brace";
+    if (progress < 0.32) return "twin ignition";
+    if (progress < 0.48) return "bore lock";
+    if (progress < ARC_CORE_ANIMATION_REVIEW.small.breakProgress) return "fracture seal";
+    if (progress < 0.76) return "snap rupture";
+    if (progress < 0.9) return "gyro recoil";
+    return "ring settle";
   }
 
   if (modeId === ARC_CORE_ANIMATION_REVIEW.omega.id) {
-    if (progress < 0.18) return "bastion deploy";
-    if (progress < 0.36) return "reactor collapse";
-    if (progress < 0.58) return "eight-lane ignition";
-    if (progress < ARC_CORE_ANIMATION_REVIEW.omega.breakProgress) return "compression sweep";
-    if (progress < 0.86) return "grid rupture";
-    return "mass recovery";
+    if (progress < 0.1) return "bastion wake";
+    if (progress < 0.22) return "cathedral brace";
+    if (progress < 0.36) return "reactor inversion";
+    if (progress < 0.52) return "lattice ignition";
+    if (progress < ARC_CORE_ANIMATION_REVIEW.omega.breakProgress) return "compression advance";
+    if (progress < 0.84) return "grid rupture";
+    if (progress < 0.94) return "mass recoil";
+    return "tidal settle";
   }
 
   return null;

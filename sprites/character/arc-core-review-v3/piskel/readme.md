@@ -6,7 +6,6 @@ Editable Piskel documents generated from the approved Arc artwork.
   and impact frames.
 - `arc-core-stage-tiles-v3.piskel`: four fixed 512 x 512 world tile frames.
 - `arc-core-stage-background-v3.piskel`: the 1280 x 720 background plate.
-- `arc-core-review-hud-v3.piskel`: the 1280 x 720 transparent HUD chrome.
 
 Each project contains `jkdAlignment` metadata with role order, anchor pixels,
 alpha bounds, and a zero-drift policy. The build fails if a role changes

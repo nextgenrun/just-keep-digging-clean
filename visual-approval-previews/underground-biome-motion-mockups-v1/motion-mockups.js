@@ -1,5 +1,6 @@
 import { UNDERGROUND_BIOME_MOTION_REVIEW } from "../../values/undergroundBiomeMotionReview.js";
 import { WORLD_VISUAL_DEPTH_BACKDROPS } from "../../values/worldVisualDepthBackdrops.js";
+import { WORLD_VISUAL_DEPTH_MOTION } from "../../values/worldVisualDepthMotion.js";
 import { WORLD_VISUAL_MATERIALS } from "../../values/worldVisualMaterials.js";
 import { BiomeMotionRenderer } from "./BiomeMotionRenderer.js";
 
@@ -21,7 +22,17 @@ const elements = {
   canvas: document.querySelector("#motionCanvas"),
 };
 
-const cards = UNDERGROUND_BIOME_MOTION_REVIEW.cards;
+const cssColor = color => `#${color.toString(16).padStart(6, "0")}`;
+const cards = UNDERGROUND_BIOME_MOTION_REVIEW.cards.map(card => {
+  const motion = WORLD_VISUAL_DEPTH_MOTION.profiles[card.regionId];
+  return Object.freeze({
+    ...card,
+    accent: cssColor(motion.accent),
+    secondary: cssColor(motion.secondary),
+    direction: motion.direction,
+    motion,
+  });
+});
 const regions = new Map(
   WORLD_VISUAL_DEPTH_BACKDROPS.regions.map(region => [region.id, region])
 );

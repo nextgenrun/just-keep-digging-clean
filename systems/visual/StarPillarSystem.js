@@ -209,6 +209,17 @@ export class StarPillarSystem {
     return false;
   }
 
+  /** Save-safe visual QA hook used only by the query-gated E2E harness. */
+  previewWorldProgress(unlockedCount) {
+    const changed = this._worldVisual?.syncUnlocked(unlockedCount, true) || false;
+    this._syncPromptY();
+    return {
+      changed,
+      stageIndex: this._worldVisual?.pillar?.stageIndex ?? -1,
+      socketCount: this._worldVisual?.socketStars?.length ?? 0,
+    };
+  }
+
   /** Called by FloatingTextSystem callback when a new constellation unlocks. */
   onConstellationUnlocked(resourceType) {
     const idx = PILLAR_SLOT_ORDER.indexOf(resourceType);
@@ -247,6 +258,7 @@ export class StarPillarSystem {
       this._pillarCenterX,
       this._pillarBaseY,
       ASSET_KEYS.environment.pillars.starStages,
+      ASSET_KEYS.celestialEngines.waywardStar,
       ASSET_KEYS.celestialEngines.starHeart,
       PILLAR_VISUAL_CONFIG.star,
     ).create(unlockedCount);
