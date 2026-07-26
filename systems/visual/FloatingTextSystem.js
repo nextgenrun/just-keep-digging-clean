@@ -30,6 +30,7 @@ export class FloatingTextSystem {
     this._starTexturesReady = false;
     this._constellationStarsBeingAnimated = new Set(); // Track stars being animated
     this._onConstellationUnlocked = null; // callback(resourceType) wired by StarPillarSystem
+    this._onCollectedSkyStar = null; // callback(detail) wired by Star Heart progression
     this._loadPersistedStarCounts();
     this._loadPersistedStarRarityCounts();
   }
@@ -51,6 +52,10 @@ export class FloatingTextSystem {
   /** Wire a callback to be called when a constellation unlocks. */
   setConstellationUnlockedCallback(fn) {
     this._onConstellationUnlocked = fn;
+  }
+
+  setCollectedSkyStarCallback(fn) {
+    this._onCollectedSkyStar = typeof fn === "function" ? fn : null;
   }
 
   /** Return array of resource types whose constellations are unlocked (from localStorage). */
@@ -746,6 +751,7 @@ export class FloatingTextSystem {
     const entry = this._createSkyStarEntry(startWorldX, startWorldY, rarity, resourceType);
     const star = entry.graphic;
     const safeRarity = entry.rarity || 0;
+    const rarityColor = this._getSkyRarityConfig(safeRarity).glowColor || 0x87CEEB;
     const duration = COLLECTED_STAR_RELEASE_FX.durationMs
       + Math.min(5, safeRarity) * COLLECTED_STAR_RELEASE_FX.rarityDurationBonusMs;
     const riseDistance = Phaser.Math.FloatBetween(
@@ -760,9 +766,20 @@ export class FloatingTextSystem {
       -COLLECTED_STAR_RELEASE_FX.maxRotationDeg,
       COLLECTED_STAR_RELEASE_FX.maxRotationDeg
     );
+    const swayAmplitude = Phaser.Math.FloatBetween(
+      COLLECTED_STAR_RELEASE_FX.swayAmplitudeMinPx,
+      COLLECTED_STAR_RELEASE_FX.swayAmplitudeMaxPx
+    );
+    const swayCycles = Phaser.Math.FloatBetween(
+      COLLECTED_STAR_RELEASE_FX.swayCyclesMin,
+      COLLECTED_STAR_RELEASE_FX.swayCyclesMax
+    );
     const fadeDuration = Math.max(
       1,
-      duration - COLLECTED_STAR_RELEASE_FX.fadeInMs - COLLECTED_STAR_RELEASE_FX.fadeHoldMs
+      duration
+        + COLLECTED_STAR_RELEASE_FX.liftDelayMs
+        - COLLECTED_STAR_RELEASE_FX.flashInMs
+        - COLLECTED_STAR_RELEASE_FX.fadeHoldMs
     );
 
     star.setAlpha(0);
@@ -770,6 +787,7 @@ export class FloatingTextSystem {
       entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.startScale,
       entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.startScale
     );
+    star.setBlendMode?.(Phaser.BlendModes.SCREEN);
     this.activeFloatingTexts.push(star);
 
     const destroyReleasedStar = () => {
@@ -778,23 +796,133 @@ export class FloatingTextSystem {
       if (index !== -1) this.activeFloatingTexts.splice(index, 1);
     };
 
+    const impactFlash = this.scene.add.image(
+      startWorldX,
+      startWorldY,
+      entry.textureKey
+    );
+    impactFlash
+      .setDepth(HUD_LAYOUT.hudDepth - 6)
+      .setDisplaySize(entry.displaySize, entry.displaySize)
+      .setAlpha(COLLECTED_STAR_RELEASE_FX.impactFlashAlpha)
+      .setScale(
+        entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.impactFlashStartScale,
+        entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.impactFlashStartScale
+      );
+    impactFlash.setTint?.(rarityColor);
+    impactFlash.setBlendMode?.(Phaser.BlendModes.ADD);
+    this.scene.tweens.add({
+      targets: impactFlash,
+      alpha: 0,
+      scaleX: entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.impactFlashEndScale,
+      scaleY: entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.impactFlashEndScale,
+      angle: rotation,
+      duration: COLLECTED_STAR_RELEASE_FX.impactFlashDurationMs,
+      ease: 'Power2.out',
+      onComplete: () => impactFlash.destroy(),
+    });
+
+    const impactRing = this.scene.add.circle?.(
+      startWorldX,
+      startWorldY,
+      COLLECTED_STAR_RELEASE_FX.impactRingRadiusPx,
+      rarityColor,
+      0
+    );
+    if (impactRing) {
+      impactRing
+        .setDepth(HUD_LAYOUT.hudDepth - 7)
+        .setStrokeStyle(
+          COLLECTED_STAR_RELEASE_FX.impactRingStrokePx,
+          rarityColor,
+          COLLECTED_STAR_RELEASE_FX.impactRingAlpha
+        )
+        .setBlendMode(Phaser.BlendModes.ADD);
+      this.scene.tweens.add({
+        targets: impactRing,
+        alpha: 0,
+        scaleX: COLLECTED_STAR_RELEASE_FX.impactRingEndScale,
+        scaleY: COLLECTED_STAR_RELEASE_FX.impactRingEndScale,
+        duration: COLLECTED_STAR_RELEASE_FX.impactRingDurationMs,
+        ease: 'Sine.out',
+        onComplete: () => impactRing.destroy(),
+      });
+    }
+
+    for (let index = 0; index < COLLECTED_STAR_RELEASE_FX.trailCount; index += 1) {
+      const trail = this.scene.add.circle?.(
+        startWorldX + Phaser.Math.FloatBetween(
+          -COLLECTED_STAR_RELEASE_FX.trailDriftMaxPx,
+          COLLECTED_STAR_RELEASE_FX.trailDriftMaxPx
+        ),
+        startWorldY - index * COLLECTED_STAR_RELEASE_FX.trailOriginStepPx,
+        Phaser.Math.FloatBetween(
+          COLLECTED_STAR_RELEASE_FX.trailRadiusMinPx,
+          COLLECTED_STAR_RELEASE_FX.trailRadiusMaxPx
+        ),
+        rarityColor,
+        0
+      );
+      if (!trail) continue;
+
+      trail
+        .setDepth(HUD_LAYOUT.hudDepth - 6)
+        .setBlendMode(Phaser.BlendModes.ADD);
+      this.scene.tweens.add({
+        targets: trail,
+        x: trail.x + Phaser.Math.FloatBetween(
+          -COLLECTED_STAR_RELEASE_FX.trailDriftMaxPx,
+          COLLECTED_STAR_RELEASE_FX.trailDriftMaxPx
+        ),
+        y: trail.y - Phaser.Math.FloatBetween(
+          COLLECTED_STAR_RELEASE_FX.trailRiseMinPx,
+          COLLECTED_STAR_RELEASE_FX.trailRiseMaxPx
+        ),
+        alpha: { from: COLLECTED_STAR_RELEASE_FX.trailAlpha, to: 0 },
+        scale: {
+          from: COLLECTED_STAR_RELEASE_FX.trailScaleFrom,
+          to: COLLECTED_STAR_RELEASE_FX.trailScaleTo,
+        },
+        delay: COLLECTED_STAR_RELEASE_FX.liftDelayMs
+          + index * COLLECTED_STAR_RELEASE_FX.trailStepDelayMs,
+        duration: COLLECTED_STAR_RELEASE_FX.trailDurationMs,
+        ease: 'Sine.out',
+        onComplete: () => trail.destroy(),
+      });
+    }
+
     this.scene.tweens.add({
       targets: star,
       x: startWorldX + lateralDrift,
       y: startWorldY - riseDistance,
       angle: rotation,
+      delay: COLLECTED_STAR_RELEASE_FX.liftDelayMs,
       duration,
-      ease: 'Sine.out',
+      ease: 'Sine.inOut',
+      onUpdate: (tween) => {
+        const travelProgress = Math.max(0, Math.min(1, tween.progress || 0));
+        const baseX = startWorldX + lateralDrift * travelProgress;
+        star.x = baseX + Math.sin(travelProgress * Math.PI * swayCycles)
+          * swayAmplitude
+          * (1 - travelProgress);
+      },
     });
 
     this.scene.tweens.add({
       targets: star,
       alpha: 1,
-      scaleX: entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.peakScale,
-      scaleY: entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.peakScale,
-      duration: COLLECTED_STAR_RELEASE_FX.fadeInMs,
-      ease: 'Sine.out',
+      scaleX: entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.flashScale,
+      scaleY: entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.flashScale,
+      duration: COLLECTED_STAR_RELEASE_FX.flashInMs,
+      ease: 'Back.out',
       onComplete: () => {
+        this.scene.tweens.add({
+          targets: star,
+          scaleX: entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.peakScale,
+          scaleY: entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.peakScale,
+          duration: COLLECTED_STAR_RELEASE_FX.settleMs,
+          ease: 'Sine.out',
+        });
         this.scene.tweens.add({
           targets: star,
           alpha: 0,
@@ -891,6 +1019,8 @@ export class FloatingTextSystem {
     const entry = {
       graphic: star,
       tween: null,
+      textureKey,
+      displaySize,
       resourceType: resourceType || null,
       rarity: safeRarity,
       baseScaleX: star.scaleX,
@@ -1035,7 +1165,7 @@ export class FloatingTextSystem {
     if (!wasUnlocked && this._constellationCounts[resourceType] >= threshold) {
       this.tryUnlockEligibleConstellations();
     }
-    return {
+    const progress = {
       resourceType,
       constellationName: CONSTELLATION_DEFS[resourceType].name,
       count: this._constellationCounts[resourceType],
@@ -1043,6 +1173,12 @@ export class FloatingTextSystem {
       relicCurrent: this.getAncientRelicCount(),
       relicRequired: getConstellationRelicRequirement(resourceType),
     };
+    this._onCollectedSkyStar?.({
+      ...progress,
+      rarity: Math.max(0, Math.floor(Number(rarity) || 0)),
+      unlocked: this.getUnlockedConstellations().includes(resourceType),
+    });
+    return progress;
   }
 
   _ensureSkyStarTextures() {

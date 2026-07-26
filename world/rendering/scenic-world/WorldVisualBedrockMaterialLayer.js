@@ -1,4 +1,4 @@
-import { TILE_TYPES } from "../../../values/tileTypes.js";
+import { isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../../../values/worldVisualSemanticAssets.js";
 
 function sourceSize(scene, key) {
@@ -8,10 +8,6 @@ function sourceSize(scene, key) {
     throw new Error(`[WorldVisualBedrockMaterialLayer] Missing source: ${key}`);
   }
   return { width: source.width, height: source.height };
-}
-
-function isBedrock(type) {
-  return type === TILE_TYPES.BEDROCK || type === TILE_TYPES.CAVE_WALL;
 }
 
 function mixColor(from, to, amount) {
@@ -57,7 +53,7 @@ export class WorldVisualBedrockMaterialLayer {
     this.maskGraphics.clear().fillStyle(0xffffff, 1);
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
-        if (!isBedrock(this.worldModel.getTileType(tx, ty))) continue;
+        if (!isUnbreakableMiningSurface(this.worldModel.getTileType(tx, ty))) continue;
         this.maskGraphics.fillRect(tx * tileSize, ty * tileSize, tileSize + 0.5, tileSize + 0.5);
         visibleCells += 1;
       }

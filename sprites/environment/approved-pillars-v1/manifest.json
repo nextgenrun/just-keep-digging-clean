@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "generatedOn": "2026-07-26",
+  "productionChanged": true,
+  "pillars": {
+    "milestone": {
+      "approval": "user screenshot 1",
+      "approvedOn": "2026-07-26",
+      "reviewSheet": "visual-approval-previews/milestone-pillar-concepts-v1/option-c-dwarven-depth-engine-chroma.png",
+      "attachmentPixelMatchVerified": true,
+      "stages": [
+        {
+          "stage": 1,
+          "file": "milestone-pillar-stage-1.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-c-stage-1.png",
+          "width": 256,
+          "height": 338,
+          "sha256": "7985caef8c60857068416b0b73efeb26a1139c40ae114a71d2529b5cc2a98145"
+        },
+        {
+          "stage": 2,
+          "file": "milestone-pillar-stage-2.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-c-stage-2.png",
+          "width": 291,
+          "height": 445,
+          "sha256": "c822bf202ae6798aee3b48b64313d1b8bdfb01e5610c36df9909e10002c5102e"
+        },
+        {
+          "stage": 3,
+          "file": "milestone-pillar-stage-3.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-c-stage-3.png",
+          "width": 309,
+          "height": 574,
+          "sha256": "53d39e7dc23413ff7fe3ebc431db7fcbab4ce1251812534d5742ab328d823b60"
+        },
+        {
+          "stage": 4,
+          "file": "milestone-pillar-stage-4.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-c-stage-4.png",
+          "width": 382,
+          "height": 693,
+          "sha256": "8ac6c86c4163b4369826e0994625895aa27ab095f41a69bc245b188899725642"
+        },
+        {
+          "stage": 5,
+          "file": "milestone-pillar-stage-5.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-c-stage-5.png",
+          "width": 455,
+          "height": 896,
+          "sha256": "091661e100848621d7bbdc261f1ae43e5efbaa1bbcf81071f649662488cdb361"
+        }
+      ]
+    },
+    "star": {
+      "approval": "user screenshot 2",
+      "approvedOn": "2026-07-26",
+      "reviewSheet": "visual-approval-previews/milestone-pillar-concepts-v1/option-a-carved-slate-depth-chronicle-chroma.png",
+      "attachmentPixelMatchVerified": true,
+      "stages": [
+        {
+          "stage": 1,
+          "file": "star-pillar-stage-1.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-a-stage-1.png",
+          "width": 296,
+          "height": 390,
+          "sha256": "9f5554a3312eb4f2ae8ca7bdd1cca3b552cc76a54609b71e554f8f7dec21c49a"
+        },
+        {
+          "stage": 2,
+          "file": "star-pillar-stage-2.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-a-stage-2.png",
+          "width": 316,
+          "height": 525,
+          "sha256": "40d1dc990a5a2d13fb93f934ee02a015e86663644cbcde5feb9cd91df73cc35a"
+        },
+        {
+          "stage": 3,
+          "file": "star-pillar-stage-3.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-a-stage-3.png",
+          "width": 342,
+          "height": 636,
+          "sha256": "cdbaa9e16c5aef6a32db5a0091ae7c7ba7b40d10a0d242337ff6020ea170a1b2"
+        },
+        {
+          "stage": 4,
+          "file": "star-pillar-stage-4.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-a-stage-4.png",
+          "width": 363,
+          "height": 709,
+          "sha256": "80adb8a6cc3c43ccf5877d45509927092ffdaa7f9323ce27d7f819e384dae61b"
+        },
+        {
+          "stage": 5,
+          "file": "star-pillar-stage-5.png",
+          "source": "visual-approval-previews/milestone-pillar-concepts-v1/option-a-stage-5.png",
+          "width": 385,
+          "height": 874,
+          "sha256": "c2d2739fe783c4cd2446902de3f85e491dec80b01fcce1b2b4e672188dde450f"
+        }
+      ]
+    }
+  }
+}

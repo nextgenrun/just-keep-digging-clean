@@ -7,6 +7,7 @@ Generated bitmap plates staged for the benchmark-driven world visual port.
 - `level1-ground-town-transition-preview-v2.webp`, `level1-ground-facade-overview-v2.webp`, and `level1-ground-facade-manifest-v2.json` are the active QA/provenance outputs.
 - `level1-ground-recognition-atlas-v2.png` contains 44 transparent stone/mineral/emblem frames. Geode interior, geode wall, ancient relic, and glow crystal use distinct source art; a missing required source stops the build instead of creating a forbidden fallback star.
 - `surface-approach-01-v1.png` and `surface-approach-02-v1.png` are staged surface-continuation plates. They are intentionally not promoted until the town ground facade, damage cracks, and resource-recognition treatment are approved in live gameplay.
+- `2026-07-26-universal-ground-damage-10-state-reference-v6.png` is the ImageGen review reference for one intact state plus nine cumulative, no-hole damage states across soil, cool rock, hot rock, and blackglass. It is design evidence only; production draws material-neutral layers through `WorldVisualDamagePainter`.
 
 The art never owns collision, HP, drops, resource identity, or persistence. Those remain in `WorldModel`.
 Rebuild the deterministic assets with `ai-tools/2026-07-15-build-level1-ground-facade.py`.

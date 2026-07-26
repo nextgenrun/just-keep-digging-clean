@@ -70,6 +70,13 @@ const DIG_UP_RISING_FRAMES = concatFrames(
 const GROUND_STRIKE_DOWN_FRAMES = segment(4, 41);
 const THUNDER_GROUND_STRIKE_FRAMES = segment(7, 41);
 const QUICKSLASH_NATIVE_FRAMES = segment(3, 18);
+const UPPERCUT_RECOVERY_FRAMES = Object.freeze([
+  0, 1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9,
+  10, 11, 12, 13, 14, 12, 10, 8, 6, 4, 2, 0,
+]);
+const LANDING_RECOVERY_FRAMES = Object.freeze([
+  0, 2, 4, 6, 8, 10, 12, 15, 18, 21, 24, 28, 33, 38,
+]);
 const FLIGHT_HOVER_FRAMES = concatFrames(segment(8, 16), reversed(segment(9, 15)));
 const FLIGHT_TRAVEL_LOOP_FRAMES = concatFrames(segment(8, 14), reversed(segment(9, 13)));
 const FLIGHT_ENTER_FRAMES = segment(0, 17);
@@ -115,7 +122,7 @@ function nativeVariant(key, sheet, frames) {
 }
 
 function uppercutVariant(key) {
-  return nativeVariant(key, SHEETS.uppercut, FRAMES.uppercut);
+  return nativeVariant(key, SHEETS.uppercut, UPPERCUT_RECOVERY_FRAMES);
 }
 
 const DIG_ANIMATION_VARIANTS = Object.freeze([
@@ -152,6 +159,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   frameWidth: 256,
   frameHeight: 256,
   textureFilter: "LINEAR",
+  physicalHeightMeters: 1.75,
   targetVisibleHeightTiles: 0.8,
   referenceIdleVisibleWidthPx: 72,
   referenceIdleVisibleHeightPx: 177,
@@ -256,8 +264,8 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   duckFrames: FRAMES.crouch,
   digDownFrames: GROUND_STRIKE_DOWN_FRAMES,
   digSidewaysFrames: QUICKSLASH_NATIVE_FRAMES,
-  digUpFrames: FRAMES.uppercut,
-  digUpSidewaysFrames: FRAMES.uppercut,
+  digUpFrames: UPPERCUT_RECOVERY_FRAMES,
+  digUpSidewaysFrames: UPPERCUT_RECOVERY_FRAMES,
   digUpLookFrames: FRAMES.thunderCharge,
   wallPushFrames: FRAMES.wallPush,
   leanAgainstWallFrames: segment(64, 88),
@@ -271,7 +279,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   flightTravelLoopFrames: FLIGHT_TRAVEL_LOOP_FRAMES,
   flightHoverFrames: FLIGHT_HOVER_FRAMES,
   flightExitFrames: FLIGHT_EXIT_FRAMES,
-  landingFrames: FRAMES.landing,
+  landingFrames: LANDING_RECOVERY_FRAMES,
   quickslashFrames: QUICKSLASH_NATIVE_FRAMES,
   teleportInFrames: FRAMES.teleport,
   thunderStrikeChargeFrames: segment(0, 30),
@@ -283,9 +291,11 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   punchCrossFrames: FRAMES.punchCross,
   pickaxeMiningFrames: FRAMES.pickaxeMining,
   uppercutFrames: FRAMES.uppercut,
+  uppercutPlaybackFrames: UPPERCUT_RECOVERY_FRAMES,
   meleeHookFrames: FRAMES.meleeHook,
   meleeKickFrames: FRAMES.meleeKick,
   groundStrikeSourceFrames: FRAMES.groundStrike,
+  landingSourceFrames: FRAMES.landing,
   flySourceFrames: FRAMES.fly,
   thunderChargeSourceFrames: FRAMES.thunderCharge,
 
@@ -340,8 +350,8 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   walkMovingAnims: Object.freeze(["ual-native-v1-walk-start-anim", "ual-native-v1-walk-loop-anim", "ual-native-v1-run-anim"]),
   footstepFrameIndices: Object.freeze({
     "ual-native-v1-walk-start-anim": Object.freeze([1]),
-    "ual-native-v1-walk-loop-anim": Object.freeze([4, 18]),
-    "ual-native-v1-run-anim": Object.freeze([4, 18]),
+    "ual-native-v1-walk-loop-anim": Object.freeze([13, 27]),
+    "ual-native-v1-run-anim": Object.freeze([13, 27]),
     "ual-native-v1-walk-stop-anim": Object.freeze([3]),
   }),
   locomotionTransitionAnims: Object.freeze([
@@ -368,7 +378,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
     ["punchCrossSheet", "ual-native-player-v1-punch-cross-sheet.webp", "punchCrossFrames"],
     ["uppercutSheet", "ual-native-player-v1-punch-uppercut-sheet.webp", "uppercutFrames"],
     ["groundStrikeSheet", "ual-native-player-v1-ground-strike-sheet.webp", "groundStrikeSourceFrames"],
-    ["landingSheet", "ual-native-player-v1-landing-sheet.webp", "landingFrames"],
+    ["landingSheet", "ual-native-player-v1-landing-sheet.webp", "landingSourceFrames"],
     ["wallPushSheet", "ual-native-player-v1-wall-push-sheet.webp", "wallPushFrames"],
     ["teleportInSheet", "ual-native-player-v1-teleport-sheet.webp", "teleportInFrames"],
     ["thunderStrikeChargeSheet", "ual-native-player-v1-thunder-charge-sheet.webp", "thunderChargeSourceFrames"],
@@ -383,6 +393,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   duckSourceFacesRight: true,
   quickslashSourceFacesRight: true,
   idleAnimationFps: 30,
+  digUpLookAnimationFps: 30,
   walkAnimationFps: 30,
   walkRunAnimationFps: 30,
   airborneAnimationFps: 30,
@@ -399,6 +410,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   flightTravelLoopAnimationFps: 30,
   flightHoverAnimationFps: 30,
   flightExitAnimationFps: 30,
+  landingAnimationFps: 40,
   quickslashAnimationFps: 30,
   teleportInAnimationFps: 30,
   thunderStrikeChargeAnimationFps: 30,

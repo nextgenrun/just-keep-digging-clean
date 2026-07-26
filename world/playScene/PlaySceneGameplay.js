@@ -14,6 +14,7 @@ import {
   UAL_NATIVE_ACTION_TUNING,
   resolveUalActionContact,
   resolveUalActionTimeScale,
+  resolveUalFlightBankAlpha,
   resolveUalFlightTravel,
   resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
@@ -240,11 +241,18 @@ export function setupGameplayMethods(prototype) {
     }
   };
 
-  prototype._getWalkAnimationTimeScale = function(animationKey = null) {
+  prototype._getWalkAnimationTimeScale = function(
+    animationKey = null,
+    speedOverridePxPerSec = null,
+  ) {
     const profile = getP(this);
     const resolvedKey = animationKey || this._getMovingWalkLoopAnim();
     const animation = resolvedKey ? this.anims.get(resolvedKey) : null;
-    const matched = this.playerKinematicMotion?.resolveLocomotionTimeScale?.(resolvedKey, animation);
+    const matched = this.playerKinematicMotion?.resolveLocomotionTimeScale?.(
+      resolvedKey,
+      animation,
+      speedOverridePxPerSec,
+    );
     if (Number.isFinite(matched)) return matched;
     const cfg = profile.walkAnimation || ASSET_KEYS.player.walkAnimation;
     const ratio = this.playerController?.getWalkSpeedRatio?.() ?? 1;
@@ -264,9 +272,45 @@ export function setupGameplayMethods(prototype) {
       : profile.walkLoopAnim || ASSET_KEYS.player.walkLoopAnim;
   };
 
-  prototype._applyWalkAnimationTimeScale = function(animationKey = null) {
+  prototype._applyWalkAnimationTimeScale = function(
+    animationKey = null,
+    speedOverridePxPerSec = null,
+  ) {
     if (!this.player?.anims) return;
-    this.player.anims.timeScale = this._getWalkAnimationTimeScale(animationKey);
+    this.player.anims.timeScale = this._getWalkAnimationTimeScale(
+      animationKey,
+      speedOverridePxPerSec,
+    );
+  };
+
+  prototype.canReplaceUalDigRecovery = function(
+    now = this.time?.now || 0,
+    abilities = this.playerController?.abilities,
+  ) {
+    const profile = getP(this);
+    if (!profile.isUalNative || !this.isDigAnimating) return false;
+    if (this.ualActionContactTimeline?.contactFired !== true) return false;
+    const contactAtMs = this._ualActionContactAtMs;
+    const recoveryDelayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
+    if (!Number.isFinite(contactAtMs) || now - contactAtMs < recoveryDelayMs) return false;
+    if (typeof this.digSystem?.isMineCooldownReady === "function") {
+      return this.digSystem.isMineCooldownReady(now, abilities);
+    }
+    const lastMineTime = Number.isFinite(this.digSystem?.lastMineTime)
+      ? this.digSystem.lastMineTime
+      : -Infinity;
+    const cooldownMs = this.digSystem?.getEffectiveCooldownMs?.(abilities) || 0;
+    return now - lastMineTime >= cooldownMs;
+  };
+
+  prototype.cancelUalDigRecovery = function(now, abilities) {
+    if (!this.canReplaceUalDigRecovery(now, abilities)) return false;
+    this.ualActionContactTimeline?.cancel();
+    this.playerRigContact?.endAction();
+    this.isDigAnimating = false;
+    this._ualActionContactAtMs = -Infinity;
+    if (this.player?.anims) this.player.anims.timeScale = 1;
+    return true;
   };
 
   prototype.playMineImpactFx = function(targetTile, destroyed) {
@@ -282,10 +326,21 @@ export function setupGameplayMethods(prototype) {
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
     this._applyMineShake?.(result);
     if (!result.success && result.blockedByBedrock) {
-      this.uiNotifications?.warning(MINING_CONFIG.blockedUi.bedrockMessage, {
-        key: MINING_CONFIG.blockedUi.notificationKey,
-        durationMs: MINING_CONFIG.blockedUi.durationMs,
+      const feedback = MINING_CONFIG.blockedUi;
+      this.uiNotifications?.warning(feedback.bedrockMessage, {
+        key: feedback.notificationKey,
+        durationMs: feedback.durationMs,
       });
+      const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+      const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+      this.floatingTextSystem?.showFloatingText(
+        worldX,
+        worldY,
+        feedback.zeroDamageText,
+        feedback.zeroDamageColor,
+        feedback.zeroDamageDurationMs,
+        feedback.zeroDamageFontSize,
+      );
     }
     if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
     if (result.destroyed) {
@@ -370,7 +425,10 @@ export function setupGameplayMethods(prototype) {
       && this.isDigAnimating
       && this.player.anims.isPlaying
       && (profile.punchActionAnims || profile.digAnims || []).includes(activeActionKey);
-    if (nativePunchInProgress) return false;
+    if (nativePunchInProgress && !this.cancelUalDigRecovery(
+      this.time?.now || 0,
+      this.playerController?.abilities,
+    )) return false;
 
     let animKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
     let flipX = false;
@@ -430,6 +488,7 @@ export function setupGameplayMethods(prototype) {
       : null;
 
     this.isDigAnimating = true;
+    this._ualActionContactAtMs = -Infinity;
     this._actionFlipX = flipX;
     this._postActionFacingFlipX = postActionFacingFlipX;
     if (!profile.immediateDigImpactFeedback && mineFeedback?.result) this.queueDigImpactFeedback(mineFeedback);
@@ -450,12 +509,16 @@ export function setupGameplayMethods(prototype) {
         animationKey: animKey,
         contactFrame: contactSpec.textureFrame,
         contactSequenceIndex: contactSpec.sequenceIndex,
-        onContact: (event) => mineFeedback?.onContact?.({
-          ...event,
-          now: this.time?.now || 0,
-          aim,
-          targetTile: mineFeedback?.targetTile || null,
-        }),
+        onContact: (event) => {
+          const contactNow = this.time?.now || 0;
+          this._ualActionContactAtMs = contactNow;
+          mineFeedback?.onContact?.({
+            ...event,
+            now: contactNow,
+            aim,
+            targetTile: mineFeedback?.targetTile || null,
+          });
+        },
         onComplete: () => this.playerRigContact?.endAction(),
       });
     } else {
@@ -834,10 +897,26 @@ export function setupGameplayMethods(prototype) {
     if (!poweredFlight) this._ualFlightTravelVisual = false;
     const verticalAim = this.playerController.getVerticalAim?.() || { up: false, down: false };
     const wallBlocked = isWalkingIntoBlockedSide(this, motionState);
-    const combatRecoverUntil = this._combatIdleRecoverUntilMs || 0;
-    const combatRecoverActive = combatRecoverUntil > now;
-    const combatReturnActive = this._combatIdleReturnActive === true;
-    const combatReturnDue = combatRecoverUntil > 0 && !combatRecoverActive && this._combatIdleReturnPlayed !== true;
+    let combatRecoverUntil = this._combatIdleRecoverUntilMs || 0;
+    let combatRecoverActive = combatRecoverUntil > now;
+    let combatReturnActive = this._combatIdleReturnActive === true;
+    let combatReturnDue = combatRecoverUntil > 0
+      && !combatRecoverActive
+      && this._combatIdleReturnPlayed !== true;
+    const idleAnimationKey = profile.idleAnim || ASSET_KEYS.player.idleAnim;
+    const combatReturnAnimationKey = profile.combatIdleToNormalIdleAnim
+      || ASSET_KEYS.player.combatIdleToNormalIdleAnim
+      || idleAnimationKey;
+    if (combatReturnDue && combatReturnAnimationKey === idleAnimationKey) {
+      this._combatIdleRecoverUntilMs = 0;
+      this._combatIdleReturnActive = false;
+      this._combatIdleReturnPlayed = true;
+      this._combatIdleFlipX = null;
+      combatRecoverUntil = 0;
+      combatRecoverActive = false;
+      combatReturnActive = false;
+      combatReturnDue = false;
+    }
     const specialIdleVisual = motionState === "idle" && (
       verticalAim.down
       || (verticalAim.up && isUpAim(aimLabel))
@@ -880,9 +959,13 @@ export function setupGameplayMethods(prototype) {
       const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()
         ?? body?.vx
         ?? 0;
-      const verticalVelocity = this.playerKinematicMotion?.getResolvedVelocityY?.()
+      const resolvedVerticalVelocity = this.playerKinematicMotion?.getResolvedVelocityY?.()
         ?? body?.vy
         ?? 0;
+      const bodyVerticalVelocity = body?.vy || 0;
+      const verticalVelocity = Math.abs(bodyVerticalVelocity) > Math.abs(resolvedVerticalVelocity)
+        ? bodyVerticalVelocity
+        : resolvedVerticalVelocity;
       locomotionSelection = this.ualLocomotionTransitionSelector.resolve({
         grounded: this.playerController.isGrounded(),
         flying: poweredFlight || motionState === "climb",
@@ -890,7 +973,10 @@ export function setupGameplayMethods(prototype) {
         verticalVelocity,
         currentAnimationKey: currentAnimKey,
         isPlaying: this.player.anims.isPlaying,
+        currentFrameIndex: this.player.anims.currentFrame?.index ?? 0,
         facingFlipX: !this.playerController.isFacingRight(),
+        groundMovementActive: isWalkMotionState(motionState)
+          && Math.abs(body?.vx || 0) > 0,
       });
       targetAnim = locomotionSelection.animationKey;
       flipX = locomotionSelection.facingFlipX;
@@ -961,8 +1047,11 @@ export function setupGameplayMethods(prototype) {
     if (motionOverride) {
       this.player.anims.timeScale = 1.0;
     } else if (locomotionSelection) {
-      if (isWalking) {
-        this._applyWalkAnimationTimeScale(targetAnim);
+      if (Number.isFinite(locomotionSelection.timeScale)) {
+        this.player.anims.timeScale = locomotionSelection.timeScale;
+      } else if (isWalking) {
+        const body = this.playerController?.physicsBody;
+        this._applyWalkAnimationTimeScale(targetAnim, Math.abs(body?.vx || 0));
       } else {
         const body = this.playerController?.physicsBody;
         const flightActive = poweredFlight || motionState === "climb";
@@ -1029,7 +1118,8 @@ export function setupGameplayMethods(prototype) {
           : flight.hoverBankDegrees * hoverRatio)
         : 0;
       const currentAngle = Number(this.player.angle) || 0;
-      this.player.setAngle(currentAngle + (targetAngle - currentAngle) * 0.28);
+      const bankAlpha = resolveUalFlightBankAlpha(this.game?.loop?.delta);
+      this.player.setAngle(currentAngle + (targetAngle - currentAngle) * bankAlpha);
     }
     const oneShotHoldAnims = [
       duckAnim,

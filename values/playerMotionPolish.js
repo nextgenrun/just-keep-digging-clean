@@ -6,7 +6,7 @@ const idleFidget = (key, start, endExclusive) => Object.freeze({
   key,
   profileSheetKey: "idleTalkSheet",
   frames: frameSegment(start, endExclusive),
-  frameRate: 30,
+  frameRate: 18,
   repeat: 0,
 });
 
@@ -16,7 +16,7 @@ export const PLAYER_MOTION_POLISH_CONFIG = Object.freeze({
   postActionRecoverMs: 900,
 
   idle: Object.freeze({
-    firstFidgetDelayMs: 4500,
+    firstFidgetDelayMs: 7000,
     repeatDelaysMs: Object.freeze([8500, 11000, 9500]),
     breathTimeScaleMin: 0.97,
     breathTimeScaleMax: 1.03,

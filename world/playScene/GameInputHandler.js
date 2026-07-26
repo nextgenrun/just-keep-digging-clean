@@ -49,7 +49,7 @@ export class GameInputHandler {
       return true;
     }
 
-    if (justDown(keys.screenRecord) || justDown(keys.screenRecordF10)) {
+    if (justDown(keys.screenRecord)) {
       this.scene.screenRecordSystem?.toggle();
       return true;
     }

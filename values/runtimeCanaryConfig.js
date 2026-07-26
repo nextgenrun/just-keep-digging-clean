@@ -4,6 +4,12 @@ const PLAY_SCENE_REQUIRED_PATHS = Object.freeze([
   "digSystem",
   "playerController",
   "hudSystem",
+  "starHeartProgressionSystem",
+  "celestialEngineController",
+  "heavenblocksProgressionSystem",
+  "heavenblocksAccessSystem",
+  "craftingSystem",
+  "openingFlightArtifactSystem",
 ]);
 
 const CAVE_SCENE_REQUIRED_PATHS = Object.freeze([
@@ -133,6 +139,8 @@ export const RUNTIME_CANARY_CONFIG = Object.freeze({
     sampleIntervalMs: 1000,
     noActiveSceneGraceMs: 5000,
     frozenFrameMs: 8000,
+    workerHeartbeatMs: 1000,
+    workerFrozenMs: 9000,
   }),
   limits: Object.freeze({
     eventHistory: 100,
@@ -165,6 +173,9 @@ export const RUNTIME_CANARY_CONFIG = Object.freeze({
     frozenFrame: "game-loop-frozen",
     sceneStalled: "scene-stalled",
     sceneInvariant: "scene-invariant-missing",
+    celestialInvariant: "celestial-engine-invariant",
+    heavenblocksInvariant: "heavenblocks-progression-invariant",
+    workerFrozen: "health-worker-main-thread-frozen",
   }),
   messages: Object.freeze({
     lifecycle: "Runtime lifecycle",
@@ -177,6 +188,9 @@ export const RUNTIME_CANARY_CONFIG = Object.freeze({
     frozenFrame: "The game loop stopped advancing while the page was active",
     sceneStalled: "Scene exceeded its expected active time",
     sceneInvariant: "Active scene is missing required collaborators",
+    celestialInvariant: "Celestial Engine safety invariant failed",
+    heavenblocksInvariant: "Heavenblocks progression safety invariant failed",
+    workerFrozen: "Health Worker detected a frozen main thread",
     noRecentEvents: "No failures recorded in this session.",
     copySuccess: "Health report copied.",
     copyFailure: "Copy failed; use window.__jkdHealth.snapshot().",

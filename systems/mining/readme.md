@@ -13,11 +13,12 @@ critical, luck, combo, XP, resource, special-block, player-level, and upgrade
 calculation paths. Heavy Punch benefits the second depth row without creating a
 fifth target.
 
-When a target is authoritative `BEDROCK` or `CAVE_WALL`, `DigSystem.tryMine()`
-returns the normal blocked result with `blockedByBedrock: true` and preserves the
-tile type for presentation. `MINING_CONFIG.blockedUi` owns the shared `Cannot
-dig` copy, duration, notification dedupe key, and compact-cave status color; the
-mining system does not create UI directly.
+When a target is authoritative `BEDROCK`, `CAVE_WALL`, `FLOOR_TOWN_1`, or
+`FLOOR_TOWN_2`, `DigSystem.tryMine()` returns the normal blocked result with
+`blockedByBedrock: true`, authoritative `damage: 0`, and the original tile type
+for presentation. `MINING_CONFIG.blockedUi` owns the shared `You cannot break
+this` warning, `0 damage` hit text, duration, notification dedupe key, and
+compact-cave status color; the mining system does not create UI directly.
 
 `SpecialTileSystem` owns the v11 two-level teleport route. Each level has four
 authored sky-island gate slots; activating that level's first underground

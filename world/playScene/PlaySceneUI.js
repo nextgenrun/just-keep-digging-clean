@@ -24,6 +24,11 @@ import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
 import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import {
+  getGraveborerWurmSaveData,
+  loadGraveborerWurmSaveData,
+} from "./GraveborerWurmBridge.js";
 
 /**
  * Mix in UI methods to PlayScene prototype
@@ -79,16 +84,21 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.drawStatusBars = function(gemPowerPct, gpRaw, gpMax) {
+    const flightLocked = this.openingFlightArtifactSystem
+      ?.isArtifactCollected?.() !== true
+      && this.upgradeSystem?.isGemPowerUnlocked?.() !== true;
     if (
       gemPowerPct === this._lastGemPowerBarPct &&
       gpRaw === this._lastGemPowerBarRaw &&
-      gpMax === this._lastGemPowerBarMax
+      gpMax === this._lastGemPowerBarMax &&
+      flightLocked === this._lastGemPowerBarLocked
     ) {
       return;
     }
     this._lastGemPowerBarPct = gemPowerPct;
     this._lastGemPowerBarRaw = gpRaw;
     this._lastGemPowerBarMax = gpMax;
+    this._lastGemPowerBarLocked = flightLocked;
 
     const gpNorm = gemPowerPct / 100;
     const gpColor = gpNorm > HUD_LAYOUT.gpThresholdHigh ? HUD_LAYOUT.gpColorHigh
@@ -110,7 +120,13 @@ export function setupUIMethods(prototype) {
     this._gemPowerBarFill.fillRoundedRect(barX, barY, Math.max(barW * gpNorm, 0.1), barH, barRadius);
 
     if (this._gpLabelText) {
-      this._gpLabelText.setText(approvedLayout ? `GP  ${gpRaw} / ${gpMax}` : `GP: ${gpRaw}/${gpMax}`);
+      this._gpLabelText.setText(
+        flightLocked
+          ? "FLIGHT LOCKED  •  DIG BELOW"
+          : approvedLayout
+            ? `GP  ${gpRaw} / ${gpMax}`
+            : `GP: ${gpRaw}/${gpMax}`,
+      );
     }
   };
 
@@ -656,7 +672,11 @@ export function setupUIMethods(prototype) {
       return;
     }
 
+    this.hardcoreModeData = sanitizeHardcoreModeData(savedData.hardcoreModeData);
+    loadGraveborerWurmSaveData(this, savedData.graveborerWurmData);
+
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
+    this.worldModel.applyHeavenblocksLayout?.();
     for (const tile of appliedTiles) {
       this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
     }
@@ -670,6 +690,19 @@ export function setupUIMethods(prototype) {
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);
+    const recoveredRelicTiles = this.worldModel.ensureAncientRelicMilestoneReachable?.(
+      this.ancientRelicSystem?.getCount?.() || 0,
+    ) || [];
+    for (const tile of recoveredRelicTiles) {
+      this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
+    }
+    this.heavenblocksProgressionSystem?.loadSaveData?.(savedData.heavenblocksData, {
+      relicCount: this.ancientRelicSystem?.getCount?.() || 0,
+    });
+    this.starHeartProgressionSystem?.loadSaveData(
+      savedData.starHeartData,
+      this.floatingTextSystem?.getUnlockedConstellations?.().length || 0,
+    );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)
@@ -700,6 +733,7 @@ export function setupUIMethods(prototype) {
     if (savedData.upgrades) {
       this.upgradeSystem.fromJSON(savedData.upgrades);
     }
+    this.openingFlightArtifactSystem?.loadSaveData(savedData.openingFlightArtifactData);
     this.surfaceTunnelDoorSystem?.syncFromUpgrade();
 
     // Restore day/night cycle state
@@ -778,7 +812,12 @@ export function setupUIMethods(prototype) {
         this.playerCharacterId,
         this.caveEntryController?.getSaveData(),
         this.ancientRelicSystem?.getSaveData(),
+        this.openingFlightArtifactSystem?.getSaveData(),
+        this.starHeartProgressionSystem?.getSaveData(),
         this.retentionProgressSystem?.getSaveData(),
+        this.heavenblocksProgressionSystem?.getSaveData(),
+        this.hardcoreModeData,
+        getGraveborerWurmSaveData(this),
       );
       if (saveResult === false) saved = false;
     } catch (error) {
@@ -802,5 +841,7 @@ export function setupUIMethods(prototype) {
     this.levelUpPopup?.resize?.();
     this.uiInventoryPopup?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
+    this.celestialEngineController?.resize?.();
+    this.starHeartOverlay?.resize?.();
   };
 }

@@ -11,3 +11,5 @@ Notable systems:
 - `CampfireSystem.js` — campfire buffs
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
 - `EarthquakeSystem.js` — world-space seismic events with independent epicenters, local cave-ins/rubble, and distance-attenuated player feedback
+- `CaveHazardSystem.js` — cave-only timed gates, Flight-over spike runs, and ember vents; active contact drains all GP, manually extinguishes the torch, and returns the player to the safe approach checkpoint
+- `GraveborerWurmSystem.js` — Hardcore-only noise predator state machine; it commits a readable two-curve breach path, emits bounded carve/hit events, never homes after the warning begins, and persists through `graveborerWurmPersistence.js`. Pure path sampling and collision live in `graveborerWurmPath.js`.

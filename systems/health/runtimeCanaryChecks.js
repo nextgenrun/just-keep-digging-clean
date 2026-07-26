@@ -1,4 +1,5 @@
 import { RUNTIME_CANARY_CONFIG } from "../../values/runtimeCanaryConfig.js";
+import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
 
 function sceneKey(scene) {
   return scene?.sys?.settings?.key || scene?.scene?.key || scene?.constructor?.name || "UnknownScene";
@@ -29,6 +30,73 @@ function finding(config, code, severity, message, context = {}) {
     message,
     context,
   };
+}
+
+function celestialFindings(scene, nowMs, config) {
+  const findings = [];
+  const progression = scene?.starHeartProgressionSystem?.getSnapshot?.();
+  const health = scene?.celestialEngineController?.getHealthSnapshot?.(nowMs);
+  if (!progression || !health) return findings;
+
+  const invalidProgression = progression.charge < 0
+    || progression.charge > progression.chargeCapacity
+    || progression.heartsSpent > progression.heartsEarned
+    || (progression.selectedEngine && progression.heartsSpent !== 1);
+  if (invalidProgression) {
+    findings.push(finding(
+      config,
+      config.events.celestialInvariant,
+      config.severity.error,
+      `${config.messages.celestialInvariant}: progression bounds`,
+      { sceneKey: "PlayScene", progression },
+    ));
+  }
+
+  const activation = health.activation;
+  const invalidActivation = health.activeCount > 1
+    || (activation && (
+      activation.impacts > activation.maxImpacts
+      || activation.bounces > activation.maxBounces
+      || activation.redirects > activation.maxRedirects
+      || activation.ageMs > activation.lifetimeMs + config.timing.sampleIntervalMs * 2
+    ));
+  if (invalidActivation) {
+    findings.push(finding(
+      config,
+      config.events.celestialInvariant,
+      config.severity.error,
+      `${config.messages.celestialInvariant}: activation cap`,
+      { sceneKey: "PlayScene", health },
+    ));
+  }
+
+  const transactionCount = scene?.digSystem?._celestialTransactions?.size || 0;
+  if (transactionCount > CELESTIAL_ENGINE_CONFIG.damage.rememberedTransactions) {
+    findings.push(finding(
+      config,
+      config.events.celestialInvariant,
+      config.severity.error,
+      `${config.messages.celestialInvariant}: transaction memory cap`,
+      { sceneKey: "PlayScene", transactionCount },
+    ));
+  }
+  return findings;
+}
+
+function heavenblocksFindings(scene, config) {
+  const findings = [];
+  const health = scene?.heavenblocksAccessSystem?.getHealthSnapshot?.();
+  if (!health || health.enabled === false) return findings;
+  if (!health.promptReady || !health.layoutReady || !health.progressionReady) {
+    findings.push(finding(
+      config,
+      config.events.heavenblocksInvariant,
+      config.severity.error,
+      config.messages.heavenblocksInvariant,
+      { sceneKey: "PlayScene", health },
+    ));
+  }
+  return findings;
 }
 
 export function evaluateRuntimeCanaries(
@@ -97,6 +165,10 @@ export function evaluateRuntimeCanaries(
         `${config.messages.sceneInvariant}: ${key}`,
         { sceneKey: key, missingPaths },
       ));
+    }
+    if (key === "PlayScene") {
+      findings.push(...celestialFindings(scene, nowMs, config));
+      findings.push(...heavenblocksFindings(scene, config));
     }
   }
 

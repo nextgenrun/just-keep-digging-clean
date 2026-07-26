@@ -9,6 +9,11 @@ import {
   LIGHTNING_FLASH_SHADER_KEY,
   LIGHTNING_FLASH_FRAGMENT,
 } from "./shaderIndex.js";
+import {
+  applyPlayerLightShaderUniforms,
+  resolvePlayerLightLayerDepth,
+  resolvePlayerLightShaderState,
+} from "./PlayerLightShaderBridge.js";
 
 function hexToVec3(hex, fallback = 0xffffff) {
   const color = Number.isFinite(hex) ? hex : fallback;
@@ -212,7 +217,7 @@ export class ShaderSystem {
     const image = this.scene.add.image(width / 2, height / 2, textureKey)
       .setOrigin(0.5)
       .setScrollFactor(0)
-      .setDepth(layerConfig.depth)
+      .setDepth(resolvePlayerLightLayerDepth(this.scene, name, layerConfig))
       .setDisplaySize(width, height)
       .setBlendMode(Phaser.BlendModes.ADD)
       .setVisible(false);
@@ -236,10 +241,12 @@ export class ShaderSystem {
     const moonPosition = normalizedScreenPoint(dayNight.moonScreenPosition, width, height, 0.5, 0.2);
     const skyColor = hexToVec3(dayNight.skyColor, 0x5a7a9a);
     const horizonColor = hexToVec3(dayNight.horizonColor, 0xb0c0d0);
-    const maxTorchScreenRadius = this.config.layers.darknessLight?.maxTorchScreenRadius ?? 1;
-    const torchRadius = Math.min(
-      clamp01(maxTorchScreenRadius),
-      clamp01((light.torchRadiusPx || 0) / Math.max(width, height))
+    const darknessLightConfig = this.config.layers.darknessLight || {};
+    const playerLightShaderState = resolvePlayerLightShaderState(
+      light,
+      width,
+      height,
+      darknessLightConfig
     );
 
     shader.setUniform("uGameTime.value", time);
@@ -278,8 +285,9 @@ export class ShaderSystem {
     shader.setUniform("uTorchActive.value", light.torchActive ? 1 : 0);
     shader.setUniform("uTorchPosition.value.x", torchPosition.x);
     shader.setUniform("uTorchPosition.value.y", torchPosition.y);
-    shader.setUniform("uTorchRadius.value", torchRadius);
+    shader.setUniform("uTorchRadius.value", playerLightShaderState.radius);
     shader.setUniform("uTorchGlow.value", clamp01(light.torchGlowStrength));
+    applyPlayerLightShaderUniforms(shader, playerLightShaderState);
     shader.setUniform("uSurfaceLightInfluence.value", clamp01(light.surfaceLightInfluence));
     shader.setUniform("uUndergroundDarknessInfluence.value", clamp01(light.undergroundDarknessInfluence));
     shader.setUniform("uStormCavePulse.value", clamp01(light.stormCavePulse));
@@ -382,6 +390,7 @@ export class ShaderSystem {
       torchScreenPosition: { x: width * 0.5, y: height * 0.5 },
       torchRadiusPx: 0,
       torchGlowStrength: 0,
+      playerLightVisualUpgrade: true,
       surfaceLightInfluence: 1,
       undergroundDarknessInfluence: 0,
       nightAmount: 0,

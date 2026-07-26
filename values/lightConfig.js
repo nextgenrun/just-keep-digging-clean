@@ -4,6 +4,59 @@ export const LIGHT_CONFIG = Object.freeze({
     // rebuilt immediately when darkness becomes visible again.
     inactiveDarknessAlphaThreshold: 0.001,
   }),
+  playerLightVisual: Object.freeze({
+    defaultMode: "natural",
+    naturalMode: "natural",
+    legacyMode: "legacy",
+    queryParam: "playerLight",
+    naturalValues: Object.freeze(["natural", "centered", "new", "v2"]),
+    legacyValues: Object.freeze(["legacy", "old", "feet", "v1"]),
+    natural: Object.freeze({
+      visibilityMaskTextureKey: "__player-centered-light-visibility-mask-v4",
+      warmGlowTextureKey: "__player-centered-light-warm-glow-v4",
+      glowRenderDepth: 19,
+      shaderRenderDepth: 19.1,
+      facingOffsetTiles: 0.045,
+      verticalOffsetTiles: -0.03,
+      flameVerticalOffsetTiles: -0.045,
+      torchCoreColor: 0xffdda0,
+      torchCoreGlowAlpha: 0.10,
+      torchCoreDiameterScale: 0.78,
+      torchHaloColor: 0xff8a38,
+      torchHaloGlowAlpha: 0.055,
+      torchHaloDiameterScale: 1.45,
+      torchFlameColor: 0xffffd2,
+      torchFlameGlowAlpha: 0.045,
+      torchFlameDiameterScale: 0.28,
+      maskShape: Object.freeze({
+        horizontalScale: 1,
+        verticalScale: 1.02,
+        minimumEdgeScale: 0.94,
+        primaryNoiseFrequency: 3,
+        primaryNoisePhase: 0.35,
+        primaryNoiseStrength: 0.014,
+        secondaryNoiseFrequency: 7,
+        secondaryNoisePhase: -1.1,
+        secondaryNoiseStrength: 0.006,
+      }),
+      maskGradientStops: Object.freeze([
+        Object.freeze([0.00, 1.00]),
+        Object.freeze([0.38, 1.00]),
+        Object.freeze([0.58, 0.90]),
+        Object.freeze([0.76, 0.58]),
+        Object.freeze([0.90, 0.18]),
+        Object.freeze([1.00, 0.00]),
+      ]),
+      glowGradientStops: Object.freeze([
+        Object.freeze([0.00, 1.00]),
+        Object.freeze([0.10, 0.94]),
+        Object.freeze([0.30, 0.52]),
+        Object.freeze([0.58, 0.18]),
+        Object.freeze([0.82, 0.045]),
+        Object.freeze([1.00, 0.00]),
+      ]),
+    }),
+  }),
   depthStartTiles: 3,
   depthMaxTiles: 2000,
   maxDepthDarkness: 1.0,
@@ -102,17 +155,144 @@ export const LIGHT_CONFIG = Object.freeze({
     maxRevealRadiusTiles: 2.25,
   }),
 
+  caveLights: Object.freeze({
+    enabled: true,
+    maxSourcesPerFrame: 16,
+    cameraPaddingTiles: 4,
+    verticalScale: 0.68,
+    revealAlpha: 0.42,
+    undergroundRevealBoost: 0.12,
+    flickerSpeed: 0.0007,
+    flickerAmount: 0.018,
+    minActiveRatio: 0.08,
+    playerRevealLeashTiles: 0.9,
+    maxRevealRadiusTiles: 5.5,
+    interiorTransitionResponsePerSecond: 4.2,
+    defaultProfile: Object.freeze({
+      minimumRatio: 0.32,
+      maximumRatio: 0.78,
+      pulseRadiansPerMs: 0.0008,
+      pulsePower: 1,
+      darknessBoost: 0.14,
+    }),
+    archetypeProfiles: Object.freeze({
+      "echo-gallery": Object.freeze({
+        minimumRatio: 0.22,
+        maximumRatio: 0.84,
+        pulseRadiansPerMs: 0.0010,
+        pulsePower: 1.35,
+        darknessBoost: 0.14,
+      }),
+      "rootbound-hollow": Object.freeze({
+        minimumRatio: 0.30,
+        maximumRatio: 0.68,
+        pulseRadiansPerMs: 0.00055,
+        pulsePower: 1.1,
+        darknessBoost: 0.17,
+      }),
+      "prism-nursery": Object.freeze({
+        minimumRatio: 0.42,
+        maximumRatio: 0.92,
+        pulseRadiansPerMs: 0.0013,
+        pulsePower: 0.82,
+        darknessBoost: 0.10,
+      }),
+      "storm-scar": Object.freeze({
+        minimumRatio: 0.16,
+        maximumRatio: 1,
+        pulseRadiansPerMs: 0.0018,
+        pulsePower: 1.6,
+        darknessBoost: 0.18,
+      }),
+      "gilded-burrow": Object.freeze({
+        minimumRatio: 0.18,
+        maximumRatio: 0.72,
+        pulseRadiansPerMs: 0.00045,
+        pulsePower: 1.45,
+        darknessBoost: 0.20,
+      }),
+      "ember-fault": Object.freeze({
+        minimumRatio: 0.36,
+        maximumRatio: 0.94,
+        pulseRadiansPerMs: 0.0021,
+        pulsePower: 0.9,
+        darknessBoost: 0.16,
+      }),
+    }),
+    hazardLight: Object.freeze({
+      idleRatio: 0.08,
+      telegraphRatio: 0.68,
+      activeRatio: 1,
+      staticRatio: 0.82,
+    }),
+  }),
+
   skyTileLights: Object.freeze({
     enabled: true,
-    maxSourcesPerFrame: 18,
-    cameraPaddingTiles: 5,
-    revealAlpha: 0.08,
-    undergroundRevealBoost: 0.10,
-    flickerSpeed: 0.0014,
-    flickerAmount: 0.05,
-    playerRevealLeashTiles: 2.4,
-    radiusTiles: 1.2,
-    maxRadiusTiles: 1.6,
+    // Star Blocks are navigation beacons: every in-view source keeps its own
+    // soft pool of light even when it sits outside the player's torch radius.
+    persistThroughDarkness: true,
+    maxSourcesPerFrame: 24,
+    cameraPaddingTiles: 9,
+    revealAlpha: 0.58,
+    undergroundRevealBoost: 0.18,
+    flickerSpeed: 0.0009,
+    flickerAmount: 0.025,
+    radiusTiles: 1.55,
+    maxRadiusTiles: 1.72,
+    verticalScale: 0.88,
+    beaconPulse: Object.freeze({
+      enabled: true,
+      // Each coordinate-seeded window only has a small chance to emit. Nearby
+      // Star Blocks may stay quiet for several windows and never stack pulses.
+      windowMs: 45000,
+      chancePerWindow: 0.18,
+      maxConcurrentPulses: 1,
+      durationMs: 6400,
+      edgePaddingMs: 5000,
+      revealAlpha: 0.085,
+      radiusBoostTiles: 5.75,
+      fullRadiusProgress: 0.96,
+      waveEnvelopePower: 1.25,
+      visuals: Object.freeze({
+        enabled: true,
+        renderDepth: 901,
+        blendMode: "ADD",
+        ringTextureKey: "__sky-beacon-pulse-ring-v2",
+        ringTextureSizePx: 1024,
+        textureScaleCompensation: 1.055,
+        ringOpacity: 0.20,
+        ringGradientStops: Object.freeze([
+          Object.freeze([0.000, 0x55dfff, 0.000]),
+          Object.freeze([0.860, 0x55dfff, 0.000]),
+          Object.freeze([0.900, 0x55dfff, 0.015]),
+          Object.freeze([0.925, 0x6deaff, 0.045]),
+          Object.freeze([0.944, 0xaef8ff, 0.140]),
+          Object.freeze([0.951, 0xf5ffff, 0.820]),
+          Object.freeze([0.957, 0xcdfcff, 0.300]),
+          Object.freeze([0.968, 0x72e8ff, 0.065]),
+          Object.freeze([0.992, 0x55dfff, 0.000]),
+          Object.freeze([1.000, 0x55dfff, 0.000]),
+        ]),
+        nodeTextureKey: "__sky-beacon-pulse-node-v2",
+        nodeTextureSizePx: 128,
+        nodeGradientStops: Object.freeze([
+          Object.freeze([0.00, 0xffffff, 0.95]),
+          Object.freeze([0.08, 0xf2ffff, 0.90]),
+          Object.freeze([0.24, 0xc8fbff, 0.48]),
+          Object.freeze([0.52, 0x68e7ff, 0.12]),
+          Object.freeze([1.00, 0x55dfff, 0.00]),
+        ]),
+        nodeCount: 4,
+        nodeSizePx: 17,
+        nodeOpacity: 0.24,
+        nodeDepthOffset: 0.01,
+        nodeTwinkleAmount: 0.10,
+        nodeTwinkleCycles: 0.65,
+        nodeTwinklePhaseStepRad: 1.5708,
+        minimumAlpha: 0.004,
+      }),
+    }),
   }),
 
   geodeTileLights: Object.freeze({
@@ -160,3 +340,18 @@ export const LIGHT_CONFIG = Object.freeze({
     Object.freeze([1.00, 0.00]),
   ]),
 });
+
+export function resolvePlayerLightVisualMode(
+  config = LIGHT_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  const visual = config.playerLightVisual;
+  const requested = new URLSearchParams(search)
+    .get(visual.queryParam)
+    ?.trim()
+    .toLowerCase();
+
+  if (requested && visual.legacyValues.includes(requested)) return visual.legacyMode;
+  if (requested && visual.naturalValues.includes(requested)) return visual.naturalMode;
+  return visual.defaultMode;
+}

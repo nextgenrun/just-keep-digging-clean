@@ -1,0 +1,109 @@
+{
+  "created": "2026-07-26",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "purpose": "Explore more interesting profession, personality, and player-reactive NPC activity without replacing the approved-looking v2 idle direction.",
+  "presentation": {
+    "gameplayHeightPx": 138,
+    "anchorRule": "Feet return to the exact authored standing anchor after every activity.",
+    "readabilityRule": "At gameplay scale, prioritize head, torso, hand, and prop arcs over tiny facial motion.",
+    "roamingRule": "No free roaming. A future half-step may use a tiny authored safe zone and must return to anchor."
+  },
+  "townRhythm": {
+    "quietShareTarget": 0.7,
+    "maxSimultaneousActivities": 2,
+    "normalEventGapMs": [2100, 4200],
+    "activityWeights": {
+      "work": 0.65,
+      "rare": 0.2,
+      "player": 0.15
+    },
+    "productionIntent": "Player reactions should be proximity-driven; the review simulator also samples them so every pose is inspectable."
+  },
+  "npcs": [
+    {
+      "slug": "player-upgrades",
+      "label": "Player Upgrades",
+      "board": "character",
+      "row": 0,
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/player-upgrades.png",
+      "rhythm": "Precise hands lead; goggles, coat hem, and belt tools answer later.",
+      "activities": [
+        {"id": "quiet", "label": "Quiet ready", "description": "Calm planted breath with the cylinder held near the chest.", "durationMs": 5200},
+        {"id": "work", "label": "Blueprint calibration", "description": "Raise or unroll the cylinder and tune it with a precise hand movement.", "durationMs": 2500},
+        {"id": "rare", "label": "Spark catch", "description": "A harmless gadget spark surprises him; goggles flash as he steadies it.", "durationMs": 2300},
+        {"id": "player", "label": "Present the plan", "description": "Turn toward the player, beckon, and proudly show the plan.", "durationMs": 2200}
+      ]
+    },
+    {
+      "slug": "gear-merchant",
+      "label": "Gear Merchant",
+      "board": "character",
+      "row": 1,
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/gear-merchant.png",
+      "rhythm": "Pack weight starts the shift; beard, pickaxe, bottles, and tools settle by weight.",
+      "activities": [
+        {"id": "quiet", "label": "Heavy rest", "description": "A planted rest with the backpack weight carried through the strap.", "durationMs": 6100},
+        {"id": "work", "label": "Inspect the edge", "description": "Bring forward and inspect or polish the existing pickaxe edge.", "durationMs": 2900},
+        {"id": "rare", "label": "Tool catch", "description": "The tool slips briefly; he catches it and recovers with sturdy satisfaction.", "durationMs": 2400},
+        {"id": "player", "label": "Present the gear", "description": "Face the player and offer the pickaxe with an open merchant gesture.", "durationMs": 2400}
+      ]
+    },
+    {
+      "slug": "bobo-merchant",
+      "label": "Bobo Merchant",
+      "board": "character",
+      "row": 2,
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/bobo-merchant.png",
+      "rhythm": "Nose and head lead; ears, tail, backpack bottle, and medallion overlap.",
+      "activities": [
+        {"id": "quiet", "label": "Friendly wait", "description": "Relaxed planted breathing with a soft tail response.", "durationMs": 4700},
+        {"id": "work", "label": "Potion rummage", "description": "Rummage in the backpack and pull forward an existing bottle.", "durationMs": 2700},
+        {"id": "rare", "label": "Dog shake", "description": "A playful full-body shake with ears, tail, bottle, and medallion lag.", "durationMs": 2100},
+        {"id": "player", "label": "Potion wave", "description": "Notice the player, wave warmly, and offer the bottle.", "durationMs": 2200}
+      ]
+    },
+    {
+      "slug": "money-monster",
+      "label": "Money Monster",
+      "board": "creature",
+      "row": 0,
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/money-monster.png",
+      "rhythm": "Eye tracks first; coin glint leads while necklace, pouch, and loose coins land late.",
+      "activities": [
+        {"id": "quiet", "label": "Guard the coin", "description": "A sly planted hold with one coin visible and the pouch close.", "durationMs": 5600},
+        {"id": "work", "label": "Count and roll", "description": "Count loose coins or roll one across the knuckles while the eye tracks it.", "durationMs": 2700},
+        {"id": "rare", "label": "Test and protect", "description": "Bite-test the coin, hug the pouch, and give a suspicious squint.", "durationMs": 2500},
+        {"id": "player", "label": "Hide and tempt", "description": "Hide the pouch behind the body while tempting the player with one coin.", "durationMs": 2300}
+      ]
+    },
+    {
+      "slug": "gem-power-merchant",
+      "label": "Gem Power Merchant",
+      "board": "creature",
+      "row": 1,
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/gem-power-merchant.png",
+      "rhythm": "Staff starts the energy path; eyes, chest, shoulder cluster, and stone weight answer.",
+      "activities": [
+        {"id": "quiet", "label": "Grounded charge", "description": "A heavy planted breath with a restrained staff glow.", "durationMs": 6300},
+        {"id": "work", "label": "Crystal orbit", "description": "Levitate two or three small crystals in a readable arc around the staff.", "durationMs": 3100},
+        {"id": "rare", "label": "Controlled overload", "description": "Brace through a short crystal flare, body shake, and dust release.", "durationMs": 2500},
+        {"id": "player", "label": "Open the display", "description": "Turn toward the player and present the staff and crystal satchel.", "durationMs": 2500}
+      ]
+    },
+    {
+      "slug": "magma-money-monster",
+      "label": "Magma Money Monster",
+      "board": "creature",
+      "row": 2,
+      "source": "sprites/npc/npc-v7-level-two/magma-money-monster.png",
+      "rhythm": "Scale pan leads; furnace cracks flare, then chains, chest, and coins absorb the motion.",
+      "activities": [
+        {"id": "quiet", "label": "Balanced guard", "description": "A planted hold with scale, chest, and furnace heat contained.", "durationMs": 6800},
+        {"id": "work", "label": "Weigh a coin", "description": "Add or remove one coin and lean in to judge the scale.", "durationMs": 3000},
+        {"id": "rare", "label": "Ember sneeze", "description": "A heat surge jolts the pans; he catches the swinging scale.", "durationMs": 2500},
+        {"id": "player", "label": "Make the deal", "description": "The scales snap level as he offers a confident deal-making gesture.", "durationMs": 2400}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR — Underground Motion Review</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">UNDERSTAR / VISUAL DEVELOPMENT</p>
+      <h1>Underground motion atlas</h1>
+    </div>
+    <div class="review-stamp">
+      <strong>Review only</strong>
+      <span>Production unchanged</span>
+    </div>
+  </header>
+
+  <main class="review-shell">
+    <aside class="biome-panel" aria-label="Underground biome mockups">
+      <div class="panel-heading">
+        <span>10 live depth bands</span>
+        <small>Choose a motion direction</small>
+      </div>
+      <nav id="biomeList" class="biome-list"></nav>
+    </aside>
+
+    <section class="stage-panel">
+      <div class="stage-heading">
+        <div>
+          <p id="biomeName" class="eyebrow">Weathered Roots</p>
+          <h2 id="conceptTitle">Root-Tide Lantern Hollow</h2>
+        </div>
+        <div class="depth-chip">
+          <span>Live rows</span>
+          <strong id="depthRange">65–159</strong>
+        </div>
+      </div>
+
+      <div id="stageShell" class="stage-shell" data-state="loading">
+        <canvas id="motionCanvas" width="1536" height="1024">
+          Your browser does not support the Canvas motion preview.
+        </canvas>
+        <div class="stage-badges" aria-hidden="true">
+          <span>Background scenery −6.4</span>
+          <span>Motion light −6.1</span>
+          <span>Ground mask +0.1</span>
+        </div>
+        <div id="stageStatus" class="stage-status" role="status">Loading biome plate…</div>
+        <div class="pointer-hint">Move over scene to test the torch reveal</div>
+      </div>
+
+      <div class="controls" aria-label="Motion review controls">
+        <label class="toggle-control">
+          <input id="motionToggle" type="checkbox" checked>
+          <span class="toggle-track"></span>
+          <span>Motion</span>
+        </label>
+        <label class="toggle-control">
+          <input id="darknessToggle" type="checkbox" checked>
+          <span class="toggle-track"></span>
+          <span>Darkness test</span>
+        </label>
+        <label class="toggle-control">
+          <input id="groundToggle" type="checkbox" checked>
+          <span class="toggle-track"></span>
+          <span>Ground mask</span>
+        </label>
+        <label class="range-control">
+          <span>Motion strength</span>
+          <input id="intensityRange" type="range" min="0" max="100" value="72">
+          <output id="intensityValue">72%</output>
+        </label>
+      </div>
+    </section>
+
+    <aside class="details-panel">
+      <div class="motion-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <p class="eyebrow">Motion signature</p>
+      <h3 id="motionLabel">Root flex / sap pulse / lantern sway / spores</h3>
+      <p id="conceptDescription" class="concept-description"></p>
+
+      <dl class="implementation-list">
+        <div>
+          <dt>Backdrop</dt>
+          <dd>ImageGen key art</dd>
+        </div>
+        <div>
+          <dt>Animation</dt>
+          <dd>Real-time Canvas loop</dd>
+        </div>
+        <div>
+          <dt>Terrain</dt>
+          <dd id="materialName">Production material</dd>
+        </div>
+        <div>
+          <dt>Collision</dt>
+          <dd>WorldModel remains authoritative</dd>
+        </div>
+      </dl>
+
+      <div class="boundary-note">
+        <strong>Layer boundary</strong>
+        <p>Buildings, bridges, roots, pipes, and ruins stay behind the playable terrain. The textured lower mask is the only ground in this review.</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <span>← / → changes biome</span>
+    <span>Space toggles motion</span>
+    <span>Generated 2026-07-26</span>
+  </footer>
+
+  <script type="module" src="./motion-mockups.js"></script>
+</body>
+</html>

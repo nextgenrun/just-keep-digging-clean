@@ -9,9 +9,13 @@ export const MINING_CONFIG = Object.freeze({
   baseDamageHard: 8, // base dig damage for hard tiles (stone, copper)
 
   blockedUi: Object.freeze({
-    bedrockMessage: "Cannot dig",
+    bedrockMessage: "You cannot break this",
     notificationKey: "mining-cannot-dig-bedrock",
     durationMs: 1600,
     color: "#f6d36c",
+    zeroDamageText: "0 damage",
+    zeroDamageColor: "#9ed8ff",
+    zeroDamageDurationMs: 900,
+    zeroDamageFontSize: 20,
   }),
 });

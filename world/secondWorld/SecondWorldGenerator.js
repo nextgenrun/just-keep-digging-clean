@@ -166,6 +166,21 @@ function paintCaves(worldModel, mask, bounds, config) {
         setGeneratedTile(worldModel, tx, ty, TILE_TYPES.OBSIDIAN);
       }
     });
+
+    if (worldModel.getTileType(cx, cy) === TILE_TYPES.AIR) {
+      worldModel.caveZones.push({
+        id: `second-world-cave-${i + 1}`,
+        source: "second-world",
+        cx,
+        cy,
+        rx,
+        ry,
+        wallThickness: 1,
+        shellTileType: TILE_TYPES.OBSIDIAN,
+        standaloneScene: false,
+        entranceSides: [],
+      });
+    }
   }
 
   return carved;

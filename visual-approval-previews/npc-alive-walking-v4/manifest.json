@@ -1,0 +1,342 @@
+{
+  "created": "2026-07-26",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeAlreadyWired": true,
+  "generator": "ai-tools/2026-07-26-build-npc-alive-walking-review.py",
+  "spec": "visual-approval-previews/npc-alive-walking-v4/walking-spec.json",
+  "promptManifest": "visual-approval-previews/npc-alive-walking-v4/prompt-manifest.json",
+  "boards": {
+    "character": {
+      "path": "visual-approval-previews/npc-alive-walking-v4/npc-alive-walking-character-v4.png",
+      "sha256": "e198754b11109a215a0643d1818625ddc3919ef885aa148faa07b8422d0f569c",
+      "dimensions": [
+        1619,
+        971
+      ]
+    },
+    "creature": {
+      "path": "visual-approval-previews/npc-alive-walking-v4/npc-alive-walking-creature-v4.png",
+      "sha256": "6ceb016d029bf7b5c24b3ba56b2f85c3600bac1c129cbba4c1ddd3334a24fe87",
+      "dimensions": [
+        1717,
+        916
+      ]
+    }
+  },
+  "frames": {
+    "player-upgrades": [
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/player-upgrades/frame-01.webp",
+        "sha256": "c324f03f01688fc3f7c26f165469d932bff2b4689694816cd2ea0e317da22453",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 300,
+        "offsetTiles": 0
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/player-upgrades/frame-02.webp",
+        "sha256": "85894cd7418d3537f90e43b4b00a8d5f643c53ed8a31c330f074b279f9a3b596",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 170,
+        "offsetTiles": 0.05
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/player-upgrades/frame-03.webp",
+        "sha256": "e4db6a66ff95637cc758642b4fb625c8c82208268114986285cb3a619e76725c",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 150,
+        "offsetTiles": 0.12
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/player-upgrades/frame-04.webp",
+        "sha256": "c331f60a3ac6a5e6e5bbc3c0a221813312f6cd97c51fe8122ead4c68860cd3e0",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 190,
+        "offsetTiles": 0.05
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/player-upgrades/frame-05.webp",
+        "sha256": "a6bf79ee864bbfa835c2c68402ae58c7904c4d6466d33f2f5e9f359dd3308de4",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 580,
+        "offsetTiles": 0
+      }
+    ],
+    "gear-merchant": [
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gear-merchant/frame-01.webp",
+        "sha256": "ca7f2efcb20be9cc58bae995720c6792e246e8ba13e92b66fec90bd08f877c1b",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 340,
+        "offsetTiles": 0
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gear-merchant/frame-02.webp",
+        "sha256": "5c1bfe6c36f0a9799de6a40a2463aeecf58e963156e9d267df1c7aa9b25bc9d8",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 210,
+        "offsetTiles": 0.04
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gear-merchant/frame-03.webp",
+        "sha256": "ccfc5a0cc54bea2e6ecc48bc2802bd841bfae20d5b5ac779b5d60eefb0bc3f14",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 190,
+        "offsetTiles": 0.1
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gear-merchant/frame-04.webp",
+        "sha256": "c0f6569ec66ad18d34a3e8eddc79274d0e554b20c769956eed51e4dd740b2c21",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 230,
+        "offsetTiles": 0.04
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gear-merchant/frame-05.webp",
+        "sha256": "845f567ac7a6046b748c47174af925eeaf7eacb88b990cc08afe37b9f6bab8fe",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 660,
+        "offsetTiles": 0
+      }
+    ],
+    "bobo-merchant": [
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/bobo-merchant/frame-01.webp",
+        "sha256": "3f5a37c12d40b7b4ac34b725db1ebd6e46a75e9d1bf4486873cce5ad13ef243f",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 260,
+        "offsetTiles": 0
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/bobo-merchant/frame-02.webp",
+        "sha256": "ebab00ade79db5e170546c9b71501f4113e99d888bcacb17ba9487290f01e40f",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 150,
+        "offsetTiles": 0.06
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/bobo-merchant/frame-03.webp",
+        "sha256": "e08adee963ef653543b05ceb68b568b2d59aa41bf43fbe8a37ad4be51f3f8369",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 135,
+        "offsetTiles": 0.14
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/bobo-merchant/frame-04.webp",
+        "sha256": "c5d6d790e11139a909656e3ee5377d43c1cefce4c75e6d73dda2add0c30d059b",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 165,
+        "offsetTiles": 0.06
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/bobo-merchant/frame-05.webp",
+        "sha256": "9c8df2ab95e6c6348e773b98436e69f9f852c5670a21fe3493ba7d250a60ffb6",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 520,
+        "offsetTiles": 0
+      }
+    ],
+    "money-monster": [
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/money-monster/frame-01.webp",
+        "sha256": "7b49d15800c0856c26d972f4cabf85d839d291872cead70d8869f81a0abf8739",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 300,
+        "offsetTiles": 0
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/money-monster/frame-02.webp",
+        "sha256": "999dcdf6bc37a6f9914c494fce3312c3c19ee9b5293234ab7dae82c27d927b69",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 175,
+        "offsetTiles": 0.05
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/money-monster/frame-03.webp",
+        "sha256": "e8b96968a4b027890b722c2e027c5d1f0dc3e0244a59479caaf61b904973673e",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 155,
+        "offsetTiles": 0.12
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/money-monster/frame-04.webp",
+        "sha256": "67108c5ba0046968514be1818e9f920e90d5e3e7c46b145a776e7d6f7767790b",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 190,
+        "offsetTiles": 0.05
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/money-monster/frame-05.webp",
+        "sha256": "68c925d757c7920899de06beeac1ce96184b81ab535e4f1c3525f5dbd1088768",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 600,
+        "offsetTiles": 0
+      }
+    ],
+    "gem-power-merchant": [
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gem-power-merchant/frame-01.webp",
+        "sha256": "33a7cf8e6c82b68914c9a418d6e543a329a4294fefbf5fc5b23286f3e87f8023",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 360,
+        "offsetTiles": 0
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gem-power-merchant/frame-02.webp",
+        "sha256": "2fedc9c34deb00ab1fcd55e966f4ce258b86a3810525c55662250edb465e2b07",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 220,
+        "offsetTiles": 0.04
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gem-power-merchant/frame-03.webp",
+        "sha256": "ce99399d11128e2056dc38ce19c2ae114d42fe97adfcdd3412c38b26a4e36799",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 195,
+        "offsetTiles": 0.09
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gem-power-merchant/frame-04.webp",
+        "sha256": "d5994e2a7fc9137a7d71ffe8cc4c21fd4d4a29c4f288dde7e01c509d3f6a8842",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 235,
+        "offsetTiles": 0.04
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/gem-power-merchant/frame-05.webp",
+        "sha256": "83c1faee756d990d50ec6dc618bec6d62ae6f3006b3e088925469a05c5dbe56c",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 700,
+        "offsetTiles": 0
+      }
+    ],
+    "magma-money-monster": [
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/magma-money-monster/frame-01.webp",
+        "sha256": "fff6ea71a731bd38ee52d5f3f6d4813b5ac8062ad04f9d475222195a81c008b8",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 390,
+        "offsetTiles": 0
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/magma-money-monster/frame-02.webp",
+        "sha256": "d7150a07fb911b92b76cb3bcde58f8eba45902e7d2ad9d1fbcf43a1f1f5f1a5f",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 235,
+        "offsetTiles": 0.035
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/magma-money-monster/frame-03.webp",
+        "sha256": "03fc0b3ed8933b896032bcfa185bb24733e9a609e14e1068fa3cddbe600ed99f",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 210,
+        "offsetTiles": 0.08
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/magma-money-monster/frame-04.webp",
+        "sha256": "8ca23f2ba385fb570d89d3084053de1797026ed180d1d92d413c6b7705846273",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 250,
+        "offsetTiles": 0.035
+      },
+      {
+        "path": "visual-approval-previews/npc-alive-walking-v4/frames/magma-money-monster/frame-05.webp",
+        "sha256": "cca685e19fbe25c9eca301ec2faa8163c3fbb64f89198e65a5df437b40c0b74a",
+        "dimensions": [
+          512,
+          512
+        ],
+        "durationMs": 760,
+        "offsetTiles": 0
+      }
+    ]
+  },
+  "runtimeFilesChangedByMockup": []
+}

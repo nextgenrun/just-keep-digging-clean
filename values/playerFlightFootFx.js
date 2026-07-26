@@ -7,8 +7,8 @@ export const PLAYER_FLIGHT_FOOT_FX_CONFIG = Object.freeze({
   maxDeltaMs: 80,
   maxBurstsPerUpdate: 2,
   footOffsets: Object.freeze([
-    footOffset(-0.47, -0.46),
-    footOffset(-0.46, -0.28),
+    footOffset(-0.306, -0.436),
+    footOffset(-0.321, -0.453),
   ]),
   radiusPx: Object.freeze({ min: 2.2, max: 3.8 }),
   trailDistancePx: Object.freeze({ min: 24, max: 42 }),

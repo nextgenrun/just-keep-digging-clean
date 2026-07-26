@@ -1,5 +1,5 @@
 import { PLAYER_CHARACTER_IDS } from "./playerCharacters.js";
-import { SURVIVAL_BLENDER_V2_RUNTIME } from "./survivalBlenderV2Runtime.js?rev=20260724-fidget-exit";
+import { SURVIVAL_BLENDER_V2_RUNTIME } from "./survivalBlenderV2Runtime.js?rev=20260726-superman-prone-v3";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
 
 const UAL_RUNTIME_KEY_PREFIX = "ual-native-v1";
@@ -25,6 +25,27 @@ function remapUalRuntimeValue(value) {
 const remappedProfile = remapUalRuntimeValue(UAL_NATIVE_PLAYER_ASSET_PROFILE);
 const blenderV2 = SURVIVAL_BLENDER_V2_RUNTIME;
 const groundedVisual = blenderV2.groundedVisualCalibration;
+const digUpSheet = blenderV2.sheets.digUp;
+const digUpAnimationKeys = Object.freeze(Array.from(new Set([
+  ...remappedProfile.digUpHitAnims,
+  ...remappedProfile.digUpSidewaysHitAnims,
+])));
+const digUpContact = Object.freeze({
+  textureFrame: digUpSheet.contactFrame,
+  sequenceIndex: digUpSheet.contactSequenceIndex,
+  sourceAction: digUpSheet.sourceAction,
+  markerGroup: "hands",
+});
+const digUpContactByAnimation = Object.freeze(Object.fromEntries(
+  digUpAnimationKeys.map((key) => [key, digUpContact]),
+));
+const digUpVariants = Object.freeze(digUpAnimationKeys.map((key) => Object.freeze({
+  key,
+  sheet: digUpSheet.key,
+  frames: blenderV2.frames.digUp,
+  frameRate: digUpSheet.frameRate,
+  repeat: 0,
+})));
 const blenderOverrides = Object.freeze({
   idleSheet: Object.freeze({ key: blenderV2.sheets.idle.key, fileName: blenderV2.sheets.idle.fileName }),
   idleTalkSheet: Object.freeze({ key: blenderV2.sheets.idle.idleTalkKey, fileName: blenderV2.sheets.idle.fileName }),
@@ -33,6 +54,11 @@ const blenderOverrides = Object.freeze({
     key: blenderV2.sheets.fly.key,
     fileName: blenderV2.sheets.fly.fileName,
     framesKey: "flySourceFrames",
+  }),
+  uppercutSheet: Object.freeze({
+    key: digUpSheet.key,
+    fileName: digUpSheet.fileName,
+    framesKey: "digUpFrames",
   }),
 });
 
@@ -43,10 +69,17 @@ const sheetFiles = Object.freeze(remappedProfile.sheetFiles.map(([profileKey, fi
     : [profileKey, fileName.replace(UAL_RUNTIME_FILE_PREFIX, `${SURVIVAL_UAL_RUNTIME_PREFIX}-`), framesKey]);
 }));
 
-const requiredSheets = Object.freeze(remappedProfile.requiredSheets.map((sheetKey) => {
-  const profileKey = Object.entries(remappedProfile).find(([, value]) => value === sheetKey)?.[0];
-  return blenderOverrides[profileKey]?.key || sheetKey;
-}));
+const sheetOverrideByOriginalKey = Object.freeze(Object.fromEntries(
+  Object.entries(blenderOverrides).map(([profileKey, override]) => [
+    remappedProfile[profileKey],
+    override,
+  ]),
+));
+const requiredSheets = Object.freeze(Array.from(new Set(
+  remappedProfile.requiredSheets.map((sheetKey) => (
+    sheetOverrideByOriginalKey[sheetKey]?.key || sheetKey
+  )),
+)));
 
 const blenderCoreDisplaySizeByAnimation = Object.freeze({
   [remappedProfile.idleAnim]: groundedVisual.idle.displaySizePx,
@@ -56,6 +89,7 @@ const blenderCoreDisplaySizeByAnimation = Object.freeze({
   [remappedProfile.walkLoopAnim]: groundedVisual.walk.displaySizePx,
   [remappedProfile.walkStopAnim]: groundedVisual.walk.displaySizePx,
   [remappedProfile.walkRunAnim]: remappedProfile.displaySizePxByAnimation[remappedProfile.walkRunAnim],
+  ...Object.fromEntries(digUpAnimationKeys.map((key) => [key, digUpSheet.displaySizePx])),
   ...Object.fromEntries(blenderV2.idleFidgets.map((fidget) => [
     fidget.key,
     groundedVisual.idle.displaySizePx,
@@ -70,16 +104,17 @@ const blenderCoreOriginBySheet = Object.freeze({
     x: remappedProfile.visualOriginX,
     y: remappedProfile.visualOriginY,
   }),
+  [digUpSheet.key]: Object.freeze({ x: digUpSheet.originX, y: digUpSheet.originY }),
 });
 
 export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   ...remappedProfile,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
-  renderPipeline: "survival-blender-v2-superman-flight-ual-jog-four-hit-jab-cross-v1",
+  renderPipeline: "survival-blender-v2-piskel-stabilized-dig-up-superman-prone-v3-flight-ual-jog-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",
-  version: "survival-blender-v2-superman-flight-ual-four-hit-jab-cross-20260724",
+  version: "survival-blender-v2-piskel-stabilized-dig-up-20260726",
   visualSkin: blenderV2.visualId,
-  coreAnimationPolicy: "blender-v2-idle-walk-superman-flight; ual-jog-jab-cross-jab-cross-ground-strike-actions-v1",
+  coreAnimationPolicy: "blender-v2 idle-flight and Piskel-stabilized dig-up; UAL jog-side-down compatibility actions",
   idleSheet: blenderV2.sheets.idle.key,
   idleTalkSheet: blenderV2.sheets.idle.idleTalkKey,
   walkSheet: blenderV2.sheets.walk.key,
@@ -94,6 +129,10 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   flightTravelLoopSheet: blenderV2.sheets.fly.key,
   flightHoverSheet: blenderV2.sheets.fly.key,
   flightExitSheet: blenderV2.sheets.fly.key,
+  digUpSheet: digUpSheet.key,
+  digUpSidewaysSheet: digUpSheet.key,
+  uppercutSheet: digUpSheet.key,
+  continuousFlightLoop: true,
   leanAgainstWallSheet: blenderV2.sheets.idle.idleTalkKey,
   combatIdleRecoverSheet: blenderV2.sheets.idle.key,
   combatIdleToNormalIdleSheet: blenderV2.sheets.idle.key,
@@ -104,14 +143,21 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   walkLoopFrames: blenderV2.frames.walk,
   walkRunFrames: remappedProfile.walkRunFrames,
   walkStopFrames: blenderV2.frames.walkStop,
-  flyFrames: blenderV2.frames.flyTravel,
+  flyFrames: blenderV2.frames.fly,
   flySourceFrames: blenderV2.frames.fly,
-  flyClimbFrames: blenderV2.frames.flyHover,
-  flightEnterFrames: blenderV2.frames.flyEnter,
-  flightTravelEnterFrames: blenderV2.frames.flyEnter,
-  flightTravelLoopFrames: blenderV2.frames.flyTravel,
-  flightHoverFrames: blenderV2.frames.flyHover,
-  flightExitFrames: blenderV2.frames.flyExit,
+  flyClimbFrames: blenderV2.frames.fly,
+  flightEnterFrames: blenderV2.frames.fly,
+  flightTravelEnterFrames: blenderV2.frames.fly,
+  flightTravelLoopFrames: blenderV2.frames.fly,
+  flightHoverFrames: blenderV2.frames.fly,
+  flightExitFrames: blenderV2.frames.fly,
+  digUpFrames: blenderV2.frames.digUp,
+  digUpSidewaysFrames: blenderV2.frames.digUp,
+  uppercutFrames: blenderV2.frames.digUp,
+  uppercutPlaybackFrames: blenderV2.frames.digUp,
+  idleAnimationFps: 12,
+  digUpAnimationFps: digUpSheet.frameRate,
+  digUpLookAnimationFps: 30,
   flyClimbAnimationFps: 16,
   flyAnimationFps: 16,
   flightEnterAnimationFps: 16,
@@ -130,11 +176,19 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     idleTalk: "Blender MINER_idle",
     walk: "Blender MINER_walk",
     run: "UAL Jog_Fwd_Loop",
-    fly: "Push_Loop + Superman pose layer",
-    flyHover: "Push_Loop + Superman pose layer",
+    uppercut: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
+    digUpPrimary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
+    digUpSecondary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
+    fly: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
+    flyHover: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
   }),
   requiredSheets,
   sheetFiles,
+  digAnimationVariants: Object.freeze([
+    ...remappedProfile.digAnimationVariants.filter((variant) => !digUpAnimationKeys.includes(variant.key)),
+    ...digUpVariants,
+  ]),
+  actionContactByAnimation: digUpContactByAnimation,
   idleFidgets: blenderV2.idleFidgets,
   displaySizePxByAnimation: Object.freeze({
     ...remappedProfile.displaySizePxByAnimation,

@@ -67,6 +67,13 @@ export const ASSET_KEYS = Object.freeze({
       emberOre: "loot-pickup-ember-ore",
       magmaCrystal: "loot-pickup-magma-crystal",
     },
+    heavenblocks: {
+      ancientRelicToken: "heavenblocks-ancient-relic-token-v1",
+      ancientRelicIcon: "heavenblocks-ancient-relic-icon-v1",
+      aetherTurbine: "heavenblocks-aether-turbine-v1",
+      haloRegulator: "heavenblocks-halo-regulator-v1",
+      eclipseCrucible: "heavenblocks-eclipse-crucible-v1",
+    },
   },
   constellations: {
     signs: {
@@ -80,6 +87,28 @@ export const ASSET_KEYS = Object.freeze({
       iron: "constellation-sign-iron-hammer",
       silver: "constellation-sign-silver-crescent",
       gold: "constellation-sign-gold-crown",
+    },
+  },
+  celestialEngines: {
+    starHeart: "celestial-star-heart-core-v1",
+    waywardStar: "celestial-wayward-star-core-v1",
+    hollowSun: "celestial-hollow-sun-core-v1",
+    cometEngine: "celestial-comet-engine-core-v1",
+  },
+  onboarding: {
+    openingFlightV2: {
+      artifact: "opening-flight-v2-artifact",
+      shaftMarker: "opening-flight-v2-shaft-marker",
+      flightRing: "opening-flight-v2-flight-ring",
+      ascentCache: "opening-flight-v2-ascent-cache",
+      objectiveHudFrame: "opening-flight-v2-objective-hud-frame",
+      paths: {
+        artifact: "sprites/onboarding/opening-flight-v2/runtime/flight-artifact-v2.webp",
+        shaftMarker: "sprites/onboarding/opening-flight-v2/runtime/shaft-marker-v2.webp",
+        flightRing: "sprites/onboarding/opening-flight-v2/runtime/flight-ring-v2.webp",
+        ascentCache: "sprites/onboarding/opening-flight-v2/runtime/first-ascent-cache-v2.webp",
+        objectiveHudFrame: "sprites/onboarding/opening-flight-v2/runtime/objective-hud-frame-v2.webp",
+      },
     },
   },
   background: {
@@ -167,6 +196,44 @@ export const ASSET_KEYS = Object.freeze({
       gearMerchant: "npc-v6-gear-merchant-idle-video",
       boboMerchant: "npc-v6-bobo-merchant-idle-video",
       gemPowerMerchant: "npc-v6-gem-power-merchant-idle-video",
+    },
+    merchantActivities: {
+      moneyMonster: {
+        quiet: "npc-v8-money-monster-quiet",
+        work: "npc-v8-money-monster-work",
+        rare: "npc-v8-money-monster-rare",
+        player: "npc-v8-money-monster-player",
+      },
+      magmaMoneyMonster: {
+        quiet: "npc-v8-magma-money-monster-quiet",
+        work: "npc-v8-magma-money-monster-work",
+        rare: "npc-v8-magma-money-monster-rare",
+        player: "npc-v8-magma-money-monster-player",
+      },
+      playerUpgrades: {
+        quiet: "npc-v8-player-upgrades-quiet",
+        work: "npc-v8-player-upgrades-work",
+        rare: "npc-v8-player-upgrades-rare",
+        player: "npc-v8-player-upgrades-player",
+      },
+      gearMerchant: {
+        quiet: "npc-v8-gear-merchant-quiet",
+        work: "npc-v8-gear-merchant-work",
+        rare: "npc-v8-gear-merchant-rare",
+        player: "npc-v8-gear-merchant-player",
+      },
+      boboMerchant: {
+        quiet: "npc-v8-bobo-merchant-quiet",
+        work: "npc-v8-bobo-merchant-work",
+        rare: "npc-v8-bobo-merchant-rare",
+        player: "npc-v8-bobo-merchant-player",
+      },
+      gemPowerMerchant: {
+        quiet: "npc-v8-gem-power-merchant-quiet",
+        work: "npc-v8-gem-power-merchant-work",
+        rare: "npc-v8-gem-power-merchant-rare",
+        player: "npc-v8-gem-power-merchant-player",
+      },
     },
     boboIdleSheet: "npc-v3-bobo-idle-sheet",
     boboIdleFrames: [0,1,2,3,4,5,6,7],
@@ -362,6 +429,7 @@ export const ASSET_KEYS = Object.freeze({
     skyIslandTop: "tile-approved-sky-island-top",
     chestNormal: "tile-approved-chest-normal",
     chestRare: "tile-approved-chest-rare",
+    ancientRelicCache: "tile-approved-ancient-relic-cache-v1",
     townExit: "tile-approved-town-exit",
     darkDirtNormal: "tile-dark-dirt-normal",
     darkDirtNormalHp1: "tile-dark-dirt-normal-hp1",
@@ -453,6 +521,29 @@ export const ASSET_KEYS = Object.freeze({
     break2: "fx-break-2",
   },
   environment: {
+    pillars: {
+      milestoneStages: Object.freeze([
+        "environment-milestone-pillar-stage-1-v1",
+        "environment-milestone-pillar-stage-2-v1",
+        "environment-milestone-pillar-stage-3-v1",
+        "environment-milestone-pillar-stage-4-v1",
+        "environment-milestone-pillar-stage-5-v1",
+      ]),
+      starStages: Object.freeze([
+        "environment-star-pillar-stage-1-v1",
+        "environment-star-pillar-stage-2-v1",
+        "environment-star-pillar-stage-3-v1",
+        "environment-star-pillar-stage-4-v1",
+        "environment-star-pillar-stage-5-v1",
+      ]),
+    },
+    graveborerWurm: {
+      head: "graveborer-wurm-head-v1",
+      body: "graveborer-wurm-body-v1",
+      tail: "graveborer-wurm-tail-v1",
+      medallion: "graveborer-wurm-medallion-v1",
+      warning: "graveborer-wurm-warning-v1",
+    },
     skylineWeatherVfx: {
       clouds: "weather-v11-clouds",
       rain: "weather-v11-rain",

@@ -4,25 +4,35 @@ import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
 import { UalNativeLocomotionTransitionSelector } from "../../systems/visual/UalNativeLocomotionTransitionSelector.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
+import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js";
 import {
-  UAL_NATIVE_ACTION_TUNING,
-  resolveUalActionContact,
-  resolveUalActionTimeScale,
-  resolveUalFlightTimeScale,
+  UAL_NATIVE_ACTION_TUNING, resolveUalActionContact, resolveUalActionTimeScale,
+  resolveUalFlightBankAlpha, resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 
 export class CaveActionAnimationRuntime {
   constructor(controller) {
     this.controller = controller;
     this.timeline = null;
-    this.thunderAnimating = false;
-    this.thunderHoldUntil = 0;
-    this.thunderPhase = null;
+    this.thunderStrikeRuntime = new ThunderStrikeActionRuntime(controller.scene, {
+      getAbilities: () => this.controller.playerController?.abilities,
+      getProfile: () => this.controller.scene.playerAssetProfile || ASSET_KEYS.player,
+      getTimeline: () => this.timeline,
+      canStart: (nowMs) => !this.timeline?.isActive
+        && !(this.controller._actionUntilMs > nowMs),
+      setLocked: (locked) => {
+        this.controller._actionUntilMs = locked ? Infinity : 0;
+      },
+      afterPlayAnimation: (key) => this.controller._applyPlayerDisplaySize(key),
+      resetVisuals: () => this.controller._applyPlayerDisplaySize(),
+      holdMs: CAVE_SCENE_CONFIG.feedback.thunderStrikeHoldMs,
+    });
     this.miningCombo = new UalMiningComboSelector();
     this.flightTravel = false;
     this.locomotion = null;
+    this._activeMiningActionKind = null;
+    this._contactAtMs = -Infinity;
   }
-
   create() {
     const { scene } = this.controller;
     if (scene.playerAssetProfile?.isUalNative && !this.timeline) {
@@ -35,21 +45,37 @@ export class CaveActionAnimationRuntime {
       });
     }
   }
-
   destroy() {
+    this.thunderStrikeRuntime.destroy();
     this.timeline?.destroy();
     this.timeline = null;
     this.miningCombo.reset();
     this.flightTravel = false;
+    this._activeMiningActionKind = null;
+    this._contactAtMs = -Infinity;
     this.locomotion?.reset();
     this.locomotion = null;
   }
-
   get isUalActionLocked() {
-    return this.controller.scene.playerAssetProfile?.isUalNative
-      && (this.thunderAnimating || this.timeline?.isActive);
+    return this.thunderStrikeRuntime.isAnimating
+      || (
+        this.controller.scene.playerAssetProfile?.isUalNative
+        && this.timeline?.isActive
+      );
   }
-
+  canReplaceMiningRecovery(nowMs, abilities = null) {
+    if (!this._activeMiningActionKind || this.timeline?.contactFired !== true) return false;
+    const delayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
+    if (!Number.isFinite(this._contactAtMs) || nowMs - this._contactAtMs < delayMs) return false;
+    const { digSystem } = this.controller;
+    if (typeof digSystem?.isMineCooldownReady === "function") {
+      return digSystem.isMineCooldownReady(nowMs, abilities);
+    }
+    const lastMineTime = Number.isFinite(digSystem?.lastMineTime)
+      ? digSystem.lastMineTime
+      : -Infinity;
+    return nowMs - lastMineTime >= (digSystem?.getEffectiveCooldownMs?.(abilities) || 0);
+  }
   playMiningAnimation(
     action,
     aim,
@@ -61,6 +87,11 @@ export class CaveActionAnimationRuntime {
   ) {
     const { scene } = this.controller;
     const profile = scene.playerAssetProfile || ASSET_KEYS.player;
+    if (
+      profile.isUalNative
+      && this.timeline?.isActive
+      && !this._cancelMiningRecovery(time, abilities)
+    ) return false;
     let key;
     let sourceFacesRight;
     if (action === "quickslash") {
@@ -122,42 +153,16 @@ export class CaveActionAnimationRuntime {
     this.controller._playAnim(key, time, CAVE_SCENE_CONFIG.feedback.actionHoldMs);
     return true;
   }
-
   updateThunderStrike(time, thunderPressed = false) {
-    const controller = this.controller;
-    const abilities = controller.playerController.abilities;
-    const profile = controller.scene.playerAssetProfile || ASSET_KEYS.player;
-    const timelineBusy = profile.isUalNative && this.timeline?.isActive;
-    if (thunderPressed && !this.thunderAnimating && !timelineBusy) {
-      if (abilities.startThunderStrikeCharge(time)) {
-        this.thunderAnimating = true;
-        this.thunderPhase = "charge";
-        controller._playAnim(profile.thunderStrikeChargeAnim, time, Infinity);
-      }
-    }
-    if (!this.thunderAnimating) return;
-    if (profile.isUalNative) {
-      this._updateUalThunderStrike(time, abilities, profile);
-      return;
-    }
-    if (abilities.isThunderStrikeCharging()) {
-      if (!abilities.updateThunderStrikeCharge(time).complete) return;
-      const strike = abilities.executeThunderStrike();
-      if (!strike.success) {
-        this._finishThunderStrike();
-        return;
-      }
-      controller._playAnim(profile.thunderStrikeStrikeAnim, time, CAVE_SCENE_CONFIG.feedback.thunderStrikeHoldMs);
-      controller._applyThunderStrikeResult(strike, time);
-      this.thunderHoldUntil = time + CAVE_SCENE_CONFIG.feedback.thunderStrikeHoldMs;
-      return;
-    }
-    if (time >= this.thunderHoldUntil) this._finishThunderStrike();
+    this.thunderStrikeRuntime.update(time, thunderPressed, (strike, contactTime) => {
+      this.controller._applyThunderStrikeResult(strike, contactTime);
+      return true;
+    });
   }
 
-  updateLocomotionVisual(time) {
+  updateLocomotionVisual(time, deltaMs) {
     const controller = this.controller;
-    if (this.thunderAnimating || this.timeline?.isActive || time < controller._actionUntilMs) return;
+    if (this.thunderStrikeRuntime.isAnimating || this.timeline?.isActive || time < controller._actionUntilMs) return;
     const { scene } = controller;
     const profile = scene.playerAssetProfile || ASSET_KEYS.player;
     const motion = controller.playerController.getMotionState();
@@ -168,18 +173,22 @@ export class CaveActionAnimationRuntime {
     let key;
     let selection = null;
     if (profile.isUalNative && this.locomotion) {
+      const resolvedVerticalVelocity = scene.playerKinematicMotion?.getResolvedVelocityY?.() ?? body?.vy ?? 0;
+      const bodyVerticalVelocity = body?.vy || 0;
       selection = this.locomotion.resolve({
         grounded: controller.playerController.isGrounded(),
         flying: poweredFlight || motion === "climb",
         horizontalVelocity: scene.playerKinematicMotion?.getResolvedVelocityX?.()
           ?? body?.vx
           ?? 0,
-        verticalVelocity: scene.playerKinematicMotion?.getResolvedVelocityY?.()
-          ?? body?.vy
-          ?? 0,
+        verticalVelocity: Math.abs(bodyVerticalVelocity) > Math.abs(resolvedVerticalVelocity)
+          ? bodyVerticalVelocity
+          : resolvedVerticalVelocity,
         currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
         isPlaying: scene.player.anims.isPlaying === true,
+        currentFrameIndex: scene.player.anims.currentFrame?.index ?? 0,
         facingFlipX: !controller.playerController.isFacingRight(),
+        groundMovementActive: walking && Math.abs(body?.vx || 0) > 0,
       });
       key = selection.animationKey;
       flightTravel = selection.phase === "flight-travel-enter"
@@ -200,15 +209,21 @@ export class CaveActionAnimationRuntime {
       controller._applyPlayerDisplaySize();
     }
     const kinematicScale = profile.isUalNative && (profile.walkAnims || []).includes(key)
-      ? scene.playerKinematicMotion?.resolveLocomotionTimeScale?.(key, scene.anims.get(key))
+      ? scene.playerKinematicMotion?.resolveLocomotionTimeScale?.(
+        key,
+        scene.anims.get(key),
+        Math.abs(body?.vx || 0),
+      )
       : null;
     const travelSpeed = scene.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
-    scene.player.anims.timeScale = profile.isUalNative && (poweredFlight || motion === "climb")
-      ? resolveUalFlightTimeScale(
-        Number.isFinite(travelSpeed) ? travelSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
-        flightTravel,
-      )
-      : (Number.isFinite(kinematicScale) ? kinematicScale : 1);
+    scene.player.anims.timeScale = Number.isFinite(selection?.timeScale)
+      ? selection.timeScale
+      : profile.isUalNative && (poweredFlight || motion === "climb")
+        ? resolveUalFlightTimeScale(
+          Number.isFinite(travelSpeed) ? travelSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
+          flightTravel,
+        )
+        : (Number.isFinite(kinematicScale) ? kinematicScale : 1);
     if (profile.isUalNative) {
       const velocityX = scene.playerKinematicMotion?.getResolvedVelocityX?.()
         ?? body?.vx
@@ -223,7 +238,8 @@ export class CaveActionAnimationRuntime {
           : flight.hoverBankDegrees * hoverRatio)
         : 0;
       const currentAngle = Number(scene.player.angle) || 0;
-      scene.player.setAngle?.(currentAngle + (targetAngle - currentAngle) * 0.28);
+      const bankAlpha = resolveUalFlightBankAlpha(deltaMs);
+      scene.player.setAngle?.(currentAngle + (targetAngle - currentAngle) * bankAlpha);
     }
   }
 
@@ -240,6 +256,8 @@ export class CaveActionAnimationRuntime {
       effectiveCooldownMs: controller.digSystem.getEffectiveCooldownMs(abilities),
       kind,
     });
+    this._activeMiningActionKind = kind;
+    this._contactAtMs = -Infinity;
     controller._actionUntilMs = Infinity;
     scene.playerRigContact?.beginAction({
       animationKey: key,
@@ -251,9 +269,14 @@ export class CaveActionAnimationRuntime {
       animationKey: key,
       contactFrame: contact.textureFrame,
       contactSequenceIndex: contact.sequenceIndex,
-      onContact,
+      onContact: (event) => {
+        this._contactAtMs = scene.time?.now ?? 0;
+        onContact?.(event);
+      },
       onComplete: () => {
         controller._actionUntilMs = 0;
+        this._activeMiningActionKind = null;
+        this._contactAtMs = -Infinity;
         scene.player.anims.timeScale = 1;
         scene.playerRigContact?.endAction();
       },
@@ -264,43 +287,14 @@ export class CaveActionAnimationRuntime {
     controller._applyPlayerDisplaySize();
     return true;
   }
-
-  _updateUalThunderStrike(time, abilities, profile) {
-    if (this.thunderPhase !== "charge" || !abilities.isThunderStrikeCharging()) return;
-    if (!abilities.updateThunderStrikeCharge(time).complete) return;
-    const controller = this.controller;
-    const key = profile.thunderStrikeStrikeAnim;
-    const contact = resolveUalActionContact(profile, key, "thunderstrike");
-    if (!key || !contact || !this.timeline || !controller.scene.anims.exists(key)) {
-      this._finishThunderStrike();
-      return;
-    }
-    this.thunderPhase = "strike";
-    controller._actionUntilMs = Infinity;
-    this.timeline.begin({
-      animationKey: key,
-      contactFrame: contact.textureFrame,
-      contactSequenceIndex: contact.sequenceIndex,
-      onContact: () => {
-        const strike = abilities.executeThunderStrike();
-        if (strike.success) {
-          controller._applyThunderStrikeResult(strike, controller.scene.time?.now ?? time);
-        }
-      },
-      onComplete: () => this._finishThunderStrike(),
-    });
-    controller.scene.player.play(key, true);
-    controller.scene.player.anims.timeScale = 1;
-    controller._applyPlayerDisplaySize();
-  }
-
-  _finishThunderStrike() {
-    const { scene } = this.controller;
-    this.thunderAnimating = false;
-    this.thunderPhase = null;
-    this.thunderHoldUntil = 0;
+  _cancelMiningRecovery(nowMs, abilities) {
+    if (!this.canReplaceMiningRecovery(nowMs, abilities)) return false;
+    this.timeline?.cancel();
     this.controller._actionUntilMs = 0;
-    if (scene.player?.anims) scene.player.anims.timeScale = 1;
+    this._activeMiningActionKind = null;
+    this._contactAtMs = -Infinity;
+    this.controller.scene.player.anims.timeScale = 1;
+    this.controller.scene.playerRigContact?.endAction();
+    return true;
   }
-
 }

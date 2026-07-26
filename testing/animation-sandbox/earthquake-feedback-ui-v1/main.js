@@ -1,5 +1,6 @@
 import { EarthquakeFeedbackUI } from "../../../systems/visual/EarthquakeFeedbackUI.js";
 import { EarthquakeHazardOverlay } from "../../../systems/visual/EarthquakeHazardOverlay.js";
+import { getEarthquakeFeedbackPreloadAssets } from "../../../values/earthquakeFeedback.js";
 
 const VIEWPORT_WIDTH = 1280;
 const VIEWPORT_HEIGHT = 720;
@@ -8,6 +9,12 @@ const PHASE = new URLSearchParams(window.location.search).get("phase") || "warni
 
 class EarthquakeFeedbackReviewScene extends Phaser.Scene {
   constructor() { super("EarthquakeFeedbackReviewScene"); }
+
+  preload() {
+    for (const asset of getEarthquakeFeedbackPreloadAssets()) {
+      this.load.image(asset.key, `../../../${asset.path}`);
+    }
+  }
 
   create() {
     this.config = {
@@ -46,7 +53,6 @@ class EarthquakeFeedbackReviewScene extends Phaser.Scene {
     }
     this.earthquakeFeedbackUI.update();
     this.earthquakeHazardOverlay.update();
-    this.reviewFramesRemaining = 3;
   }
 
   _drawCave() {
@@ -83,8 +89,6 @@ class EarthquakeFeedbackReviewScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.reviewFramesRemaining <= 0) return;
-    this.reviewFramesRemaining -= 1;
     this.earthquakeFeedbackUI?.update();
     this.earthquakeHazardOverlay?.update();
   }

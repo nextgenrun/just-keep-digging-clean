@@ -15,6 +15,7 @@ import {
   resolveWorldVisualSemanticAssetsEnabled,
   resolveWorldVisualSemanticSpecialFrame,
 } from "../../../values/worldVisualSemanticAssets.js";
+import { WorldVisualDamagePainter } from "./WorldVisualDamagePainter.js";
 
 function hashUnit(tx, ty, salt = 0) {
   let value = Math.imul(tx + 31, 73856093) ^ Math.imul(ty + 47, 19349663) ^ Math.imul(salt + 7, 83492791);
@@ -53,6 +54,7 @@ export class WorldVisualFeedbackLayer {
     this.semanticAssetsEnabled = resolveWorldVisualSemanticAssetsEnabled();
     this.resourceVeinsEnabled = resolveWorldVisualResourceVeinsEnabled(feedbackConfig);
     this.decals = null;
+    this.damagePainter = null;
     this.markerPool = [];
     this.activeBounds = null;
   }
@@ -62,11 +64,18 @@ export class WorldVisualFeedbackLayer {
     this.decals = this.scene.add.graphics()
       .setDepth(this.config.render.feedbackDepth)
       .setMask(this.geometryMask);
+    this.damagePainter = new WorldVisualDamagePainter(
+      this.scene,
+      this.geometryMask,
+      this.config.render.feedbackDepth
+    );
+    this.damagePainter.create();
   }
 
   sync(bounds, reduced = false) {
     this.activeBounds = bounds;
     this.decals.clear();
+    this.damagePainter?.clear();
     this.markerPool.forEach(image => image.setVisible(false));
     const tileSize = this.scene.config.tileSize;
     let markerIndex = 0;
@@ -123,7 +132,6 @@ export class WorldVisualFeedbackLayer {
       }
     }
   }
-
   _showMarker(index, tx, ty, type, marker, size) {
     const frameIndex = resolveWorldVisualFeedbackFrame(tx, ty, type, marker);
     const frame = `${this.feedbackConfig.atlas.framePrefix}${frameIndex}`;
@@ -271,32 +279,21 @@ export class WorldVisualFeedbackLayer {
       );
     }
   }
-
   _drawDamage(tx, ty, damage, size) {
-    const cx = (tx + 0.5) * size;
-    const cy = (ty + 0.5) * size;
-    const branches = 2 + Math.floor(damage * 5);
-    this.decals.lineStyle(Math.max(2, size * (0.018 + damage * 0.018)), 0x17110e, 0.72 + damage * 0.2);
-    for (let branch = 0; branch < branches; branch += 1) {
-      const angle = hashUnit(tx, ty, branch + 71) * Math.PI * 2;
-      const length = size * (0.18 + damage * 0.32) * (0.72 + hashUnit(tx, ty, branch + 91) * 0.28);
-      const midX = cx + Math.cos(angle) * length * 0.54;
-      const midY = cy + Math.sin(angle) * length * 0.54;
-      const endX = cx + Math.cos(angle + (hashUnit(tx, ty, branch + 101) - 0.5) * 0.32) * length;
-      const endY = cy + Math.sin(angle + (hashUnit(tx, ty, branch + 111) - 0.5) * 0.32) * length;
-      this.decals.beginPath().moveTo(cx, cy).lineTo(midX, midY).lineTo(endX, endY).strokePath();
-    }
+    this.damagePainter?.draw(tx, ty, damage, size);
   }
-
   setDepth(depth) {
     this.decals?.setDepth(depth);
+    this.damagePainter?.setDepth(depth);
     this.markerPool.forEach(image => image.setDepth(depth));
   }
 
   destroy() {
     this.decals?.destroy();
+    this.damagePainter?.destroy();
     this.markerPool.forEach(image => image.destroy());
     this.decals = null;
+    this.damagePainter = null;
     this.markerPool = [];
   }
 }

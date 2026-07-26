@@ -173,7 +173,11 @@ assert.equal(
 assert.match(semanticSource, /getTileType\s*\(/, "semantic layer must scan the authoritative WorldModel");
 assert.match(semanticSource, /RESOURCE_BY_TILE_TYPE/, "semantic layer must recognize resource tile identity");
 assert.match(semanticSource, /TILE_TYPES\.SKY_TILE/, "semantic layer must recognize star/sky tiles");
-assert.match(semanticSource, /TILE_TYPES\.BEDROCK/, "semantic layer must recognize bedrock");
+assert.match(
+  semanticSource,
+  /isUnbreakableMiningSurface/,
+  "semantic layer must recognize the shared bedrock, cave-wall, and town-floor contract",
+);
 assert.match(semanticSource, /\.add\.(?:image|sprite)\s*\(/, "semantic identity must render with raster images");
 assert.match(semanticSource, /\.setMask\s*\(/, "semantic images must remain clipped to solid terrain");
 assert.match(semanticSource, /\.set(?:DisplaySize|Scale)\s*\(/, "high-resolution semantics must be fitted to gameplay cells");

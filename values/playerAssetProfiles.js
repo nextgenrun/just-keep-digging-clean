@@ -1,8 +1,8 @@
 import { PLAYER_CHARACTER_IDS, normalizePlayerCharacterId } from "./playerCharacters.js";
-import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260723-superman-old-jab";
+import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260726-superman-prone-v3";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
 
-export { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260723-superman-old-jab";
+export { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260726-superman-prone-v3";
 
 const range = (length) => Array.from({ length }, (_, index) => index);
 

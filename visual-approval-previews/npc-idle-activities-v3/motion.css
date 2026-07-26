@@ -1,0 +1,48 @@
+.actor[data-state="quiet"] {
+  animation: quiet-breathe 4.6s ease-in-out infinite;
+}
+
+.actor[data-state="work"] {
+  animation: work-focus 1.35s ease-in-out infinite;
+}
+
+.actor[data-state="rare"] {
+  animation: rare-pop .86s ease-in-out infinite;
+}
+
+.actor[data-state="player"] {
+  animation: player-greet 1.45s ease-in-out infinite;
+}
+
+.is-paused .actor {
+  animation-play-state: paused;
+}
+
+.scale-game .actor-stage {
+  min-height: 176px;
+}
+
+.scale-game .actor {
+  width: 138px;
+  height: 138px;
+}
+
+@keyframes quiet-breathe {
+  0%, 100% { transform: translateY(1px) scale(1); }
+  50% { transform: translateY(-2px) scale(1.006); }
+}
+
+@keyframes work-focus {
+  0%, 100% { transform: rotate(-.25deg) translateY(0); }
+  50% { transform: rotate(.35deg) translateY(-2px); }
+}
+
+@keyframes rare-pop {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.018); filter: brightness(1.1); }
+}
+
+@keyframes player-greet {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  50% { transform: translateX(2px) rotate(.35deg); }
+}

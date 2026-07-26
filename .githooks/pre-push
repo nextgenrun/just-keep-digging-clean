@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+if ! command -v git-lfs >/dev/null 2>&1; then
+  echo "Git LFS is required for editable binary sources. Install Git LFS before pushing." >&2
+  exit 1
+fi
+
+git lfs pre-push "$@"
+
+NODE_BIN=""
+if command -v node >/dev/null 2>&1; then
+  NODE_BIN="$(command -v node)"
+elif command -v node.exe >/dev/null 2>&1; then
+  NODE_BIN="$(command -v node.exe)"
+elif [ -n "${USERPROFILE:-}" ] && command -v cygpath >/dev/null 2>&1; then
+  CODEX_NODE="$(cygpath -u "$USERPROFILE")/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe"
+  if [ -x "$CODEX_NODE" ]; then
+    NODE_BIN="$CODEX_NODE"
+  fi
+fi
+
+if [ -z "$NODE_BIN" ]; then
+  echo "Node.js is required for the repository safety hook." >&2
+  exit 1
+fi
+
+"$NODE_BIN" testing/2026-07-26-version-control-safety-contract.mjs --tracked-only
+
+if command -v pwsh >/dev/null 2>&1; then
+  pwsh -NoProfile -File tools/version-control/2026-07-26-write-safety-report.ps1 -Reason pre-push >/dev/null
+elif command -v powershell.exe >/dev/null 2>&1; then
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/version-control/2026-07-26-write-safety-report.ps1 -Reason pre-push >/dev/null
+fi

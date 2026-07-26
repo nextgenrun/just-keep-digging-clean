@@ -11,7 +11,8 @@ approved `Punch_Cross` in a Jab/Cross/Jab/Cross chain; the rejected standalone
 `dig-side-jab-anim` is not registered. DOWN mining uses the same
 `OverhandThrow` ground strike as the attack-down action. `TreeChopping_Loop`
 remains in the manifest as rejected review evidence and is not game-loaded.
-The added uppercut action uses `Melee_Hook`. All frames use one
+The retained rollback uppercut action uses `Melee_Hook`; the default Survivor
+profile now selects the sibling Blender v2 Piskel-polished dig-up instead. All frames use one
 fixed camera, orthographic scale, crop window, and ground baseline. Runtime
 display is 109 px for base/action states and 123 px for walk/run transitions,
 which equalizes the visible body at approximately 0.8 tile across idle and

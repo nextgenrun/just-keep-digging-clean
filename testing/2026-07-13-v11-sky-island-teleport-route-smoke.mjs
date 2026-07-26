@@ -20,6 +20,15 @@ function createPromptText() {
   };
 }
 
+function createDisplayObject() {
+  return {
+    destroyed: false,
+    setStrokeStyle() { return this; },
+    setDepth() { return this; },
+    destroy() { this.destroyed = true; },
+  };
+}
+
 function createHarness(worldModelOverride = null) {
   const groundPortalStates = new Map();
   const teleports = [];
@@ -36,12 +45,22 @@ function createHarness(worldModelOverride = null) {
       return (tx >= 80 && tx <= 95) || (tx >= 142 && tx <= 157);
     },
     getTileType() { return 0; },
+    applyDugTileKeys() { return []; },
     tileToWorld(tx, ty) { return { x: tx * 94, y: ty * 94 }; },
   };
   const worldModel = worldModelOverride || fallbackWorldModel;
 
   const scene = {
-    add: { text: () => promptText },
+    add: {
+      text: () => promptText,
+      circle: () => createDisplayObject(),
+    },
+    tweens: {
+      add(config) {
+        config?.onComplete?.();
+        return { stop() {} };
+      },
+    },
     v11SkyIslandVisualSystem: {
       setGroundPortalUnlocked(levelId, unlocked) {
         groundPortalStates.set(levelId, unlocked);

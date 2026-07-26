@@ -28,6 +28,9 @@ export class PlayScene extends Phaser.Scene {
     this.gameState = "title";
     this.isDigAnimating = false;
     this.dugTileSaveStore = null;
+    this.openingFlightArtifactSystem = null;
+    this.starHeartProgressionSystem = null;
+    this.celestialEngineController = null;
     this.tileHitOriginStrength = 0;
     this.crouching = false;
     this.climbing = false;

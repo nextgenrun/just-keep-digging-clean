@@ -13,9 +13,13 @@ import { WorldVisualLightingBridge } from "../world/rendering/scenic-world/World
 import { WorldVisualMaterialField } from "../world/rendering/scenic-world/WorldVisualMaterialField.js";
 import { WorldVisualRuntime } from "../world/rendering/scenic-world/WorldVisualRuntime.js";
 import {
+  resolveSurfacePackBeautyGeometry,
   resolveSurfacePackBeautyVisibility,
   WorldVisualSurfacePackView,
 } from "../world/rendering/scenic-world/WorldVisualSurfacePackView.js";
+import {
+  resolveTownFloorGeometry,
+} from "../world/rendering/scenic-world/WorldVisualTownFloorView.js";
 
 class ImageStub {
   constructor(x, y, key, frame) {
@@ -196,6 +200,10 @@ try {
     pack.ground.columns * pack.ground.sourceCellPx,
     pack.ground.rows * pack.ground.sourceCellPx,
   );
+  const floorTexture = textureStub(
+    pack.floor.expectedSource.width,
+    pack.floor.expectedSource.height,
+  );
   const images = [];
   const createdTextures = new Map();
   const featherObjects = [];
@@ -222,6 +230,7 @@ try {
       },
       get(key) {
         if (key === pack.beauty.asset.key) return beautyTexture;
+        if (key === pack.floor.asset.key) return floorTexture;
         if (key === pack.ground.asset.key) return groundTexture;
         throw new Error(`Unexpected texture: ${key}`);
       },
@@ -252,13 +261,28 @@ try {
   assert.equal(view.bindTerrainMask(authoritativeTerrainMask), true);
   assert.equal(view.bindTerrainMask({ id: "replacement-mask" }), false);
   const tileSize = scene.config.tileSize;
+  const beautyGeometry = resolveSurfacePackBeautyGeometry(pack, tileSize);
+  const floorGeometry = resolveTownFloorGeometry(
+    pack,
+    beautyGeometry,
+    tileSize,
+    scene.config.topAirRows,
+  );
   const packLeft = pack.worldAnchor.leftTile * tileSize;
-  const packRight = packLeft + pack.worldAnchor.widthTiles * tileSize;
-  const transitionStart = packRight - pack.transition.fadeTiles * tileSize;
-  const transitionGeometry = {
+  const beautyRight = packLeft + beautyGeometry.width;
+  const beautyFadeWorldWidth = pack.transition.beautyFadeSourceWidthPx
+    / beautyGeometry.sourcePixelsPerWorldPixel;
+  const beautyTransitionGeometry = {
     left: packLeft,
-    right: packRight,
-    transitionStart,
+    right: beautyRight,
+    transitionStart: beautyRight - beautyFadeWorldWidth,
+    strips: pack.transition.strips,
+  };
+  const groundRight = packLeft + pack.ground.columns * tileSize;
+  const groundTransitionGeometry = {
+    left: packLeft,
+    right: groundRight,
+    transitionStart: groundRight - pack.transition.fadeTiles * tileSize,
     strips: pack.transition.strips,
   };
   const beautyLane = laneAtDepth(images, pack.beauty.asset.key, pack.beauty.depth);
@@ -278,14 +302,47 @@ try {
     pack.ground.asset.key,
     pack.ground.depth + 0.02,
   );
+  const floorLane = laneAtDepth(images, pack.floor.asset.key, pack.floor.depth);
+  const floorWetLane = laneAtDepth(
+    images,
+    pack.floor.asset.key,
+    pack.floor.depth + pack.floor.effectDepthStep,
+  );
+  const floorLightningLane = laneAtDepth(
+    images,
+    pack.floor.asset.key,
+    pack.floor.depth + pack.floor.effectDepthStep * 2,
+  );
   assert.equal(
     images.length,
-    (pack.transition.strips + 1) * 5,
-    "beauty, lightning, ground, wet, and ground-lightning passes need matching core/strip geometry",
+    (pack.transition.strips + 1) * 5 + 3,
+    "benchmark lanes plus the three-pass approved floor must all be present",
   );
-  assertTransitionLane(beautyLane, transitionGeometry, "beauty");
-  assertTransitionLane(groundLane, transitionGeometry, "ground");
-  for (const image of [...groundLane, ...groundWetLane, ...groundLightningLane]) {
+  assertTransitionLane(beautyLane, beautyTransitionGeometry, "beauty");
+  assertTransitionLane(groundLane, groundTransitionGeometry, "ground");
+  assertNear(
+    beautyLane[0].displayHeight,
+    beautyGeometry.height,
+    "beauty height must use the physical door calibration",
+  );
+  assert.equal(floorLane.length, 1);
+  assert.equal(floorWetLane.length, 1);
+  assert.equal(floorLightningLane.length, 1);
+  assertNear(floorLane[0].displayWidth, beautyGeometry.width, "floor/village width alignment");
+  assertNear(floorLane[0].displayHeight, floorGeometry.height, "floor aspect ratio");
+  assertNear(
+    floorLane[0].y,
+    floorGeometry.y,
+    "floor alpha top must align to the authoritative walking surface",
+  );
+  for (const image of [
+    ...groundLane,
+    ...groundWetLane,
+    ...groundLightningLane,
+    ...floorLane,
+    ...floorWetLane,
+    ...floorLightningLane,
+  ]) {
     assert.equal(
       image.mask,
       authoritativeTerrainMask,
@@ -299,20 +356,29 @@ try {
     "every beauty pass must share the non-terrain vertical feather mask",
   );
 
-  const opaqueTiles = pack.worldAnchor.widthTiles - pack.transition.fadeTiles;
-  const beautyCoreSourceWidth = Math.floor(
-    pack.beauty.expectedSource.width * opaqueTiles / pack.worldAnchor.widthTiles,
-  );
+  const beautyCoreSourceWidth = pack.beauty.expectedSource.width
+    - pack.transition.beautyFadeSourceWidthPx;
   assertSourceFrameLane(beautyTexture, beautyLane, {
     coreWidth: beautyCoreSourceWidth,
     height: pack.beauty.sourceGroundY,
     width: pack.beauty.expectedSource.width,
   }, "beauty");
   assertSourceFrameLane(groundTexture, groundLane, {
-    coreWidth: opaqueTiles * pack.ground.sourceCellPx,
+    coreWidth: (pack.ground.columns - pack.transition.fadeTiles)
+      * pack.ground.sourceCellPx,
     height: pack.ground.rows * pack.ground.sourceCellPx,
     width: pack.ground.columns * pack.ground.sourceCellPx,
   }, "ground");
+  assert.deepEqual(
+    floorTexture.frames.get(pack.floor.frameName),
+    {
+      sourceIndex: 0,
+      x: pack.floor.sourceRect.x,
+      y: pack.floor.sourceRect.y,
+      width: pack.floor.sourceRect.width,
+      height: pack.floor.sourceRect.height,
+    },
+  );
 
   const weatherLighting = { wet: 0.8, lightning: 0.5 };
   view.update(weatherLighting);
@@ -334,19 +400,44 @@ try {
     weatherLighting.lightning * pack.effects.lightningGroundAlpha,
     "ground lightning",
   );
+  assertEffectLane(
+    floorWetLane,
+    floorLane,
+    weatherLighting.wet * pack.effects.wetGroundAlpha,
+    "wet approved floor",
+  );
+  assertEffectLane(
+    floorLightningLane,
+    floorLane,
+    weatherLighting.lightning * pack.effects.lightningGroundAlpha,
+    "approved floor lightning",
+  );
   assert.ok(
     groundWetLane.every(image => image.tint === pack.effects.wetGroundTint),
     "wet tint must cover the core and every transition strip",
   );
   view.update({ wet: 0, lightning: 0 });
   assert.ok(
-    [...beautyLightningLane, ...groundWetLane, ...groundLightningLane]
+    [
+      ...beautyLightningLane,
+      ...groundWetLane,
+      ...groundLightningLane,
+      ...floorWetLane,
+      ...floorLightningLane,
+    ]
       .every(image => image.alpha === 0),
     "cleared weather must reset every transition overlay without touching base fade opacity",
   );
-  assertTransitionLane(beautyLane, transitionGeometry, "beauty after weather reset");
-  assertTransitionLane(groundLane, transitionGeometry, "ground after weather reset");
-  const maskedGroundPasses = [...groundLane, ...groundWetLane, ...groundLightningLane];
+  assertTransitionLane(beautyLane, beautyTransitionGeometry, "beauty after weather reset");
+  assertTransitionLane(groundLane, groundTransitionGeometry, "ground after weather reset");
+  const maskedGroundPasses = [
+    ...groundLane,
+    ...groundWetLane,
+    ...groundLightningLane,
+    ...floorLane,
+    ...floorWetLane,
+    ...floorLightningLane,
+  ];
   const maskedBeautyPasses = [...beautyLane, ...beautyLightningLane];
   const beautyFeatherMask = view.beautyFeatherMask;
   view.destroy();
@@ -379,6 +470,7 @@ try {
   assert.equal(view.ground, null);
   assert.equal(view.groundWet, null);
   assert.equal(view.groundLightning, null);
+  assert.equal(view.townFloorView, null);
   assert.equal(view.terrainMask, null);
   assert.doesNotThrow(() => view.destroy(), "destroy must remain idempotent after all strips are released");
 } finally {
@@ -396,10 +488,12 @@ assert.equal(
 const benchmarkPreloads = getWorldVisualPreloadAssets(WORLD_VISUAL_RUNTIME, "");
 const rollbackPreloads = getWorldVisualPreloadAssets(WORLD_VISUAL_RUNTIME, "?surfacePack=current-v2");
 assert.ok(benchmarkPreloads.some(asset => asset.key === pack.beauty.asset.key));
+assert.ok(benchmarkPreloads.some(asset => asset.key === pack.floor.asset.key));
 assert.ok(benchmarkPreloads.some(asset => asset.key === pack.ground.asset.key));
 assert.ok(!benchmarkPreloads.some(asset => asset.key === WORLD_VISUAL_RUNTIME.assets.town.key));
 assert.ok(rollbackPreloads.some(asset => asset.key === WORLD_VISUAL_RUNTIME.assets.town.key));
 assert.ok(!rollbackPreloads.some(asset => asset.key === pack.beauty.asset.key));
+assert.ok(!rollbackPreloads.some(asset => asset.key === pack.floor.asset.key));
 
 const lighting = new WorldVisualLightingBridge({
   dayNightCycle: { getNightAmount: () => 0.4 },

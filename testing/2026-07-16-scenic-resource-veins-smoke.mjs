@@ -6,6 +6,7 @@ import {
   WORLD_VISUAL_FEEDBACK,
   resolveWorldVisualResourceVeinsEnabled,
 } from "../values/worldVisualFeedback.js";
+import { WORLD_VISUAL_DAMAGE } from "../values/worldVisualDamage.js";
 import { WORLD_VISUAL_RUNTIME } from "../values/worldVisualRuntime.js";
 import { WorldVisualFeedbackLayer } from "../world/rendering/scenic-world/WorldVisualFeedbackLayer.js";
 
@@ -21,6 +22,7 @@ class GraphicsStub {
 
   setDepth(value) { return this._call("setDepth", value); }
   setMask(value) { return this._call("setMask", value); }
+  setBlendMode(value) { return this._call("setBlendMode", value); }
   clear() { return this._call("clear"); }
   lineStyle(...args) { return this._call("lineStyle", ...args); }
   beginPath() { return this._call("beginPath"); }
@@ -29,6 +31,7 @@ class GraphicsStub {
   strokePath() { return this._call("strokePath"); }
   fillStyle(...args) { return this._call("fillStyle", ...args); }
   fillCircle(...args) { return this._call("fillCircle", ...args); }
+  fillEllipse(...args) { return this._call("fillEllipse", ...args); }
   fillTriangle(...args) { return this._call("fillTriangle", ...args); }
   destroy() { return this._call("destroy"); }
 }
@@ -89,7 +92,7 @@ function createHarness(search = "") {
   layer.sync({ left: 0, right: 3, top: 0, bottom: 1 });
   if (originalLocation === undefined) delete globalThis.location;
   else globalThis.location = originalLocation;
-  return { layer, decals: graphics[0] };
+  return { layer, decals: graphics[0], graphics };
 }
 
 assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, ""), true);
@@ -118,9 +121,9 @@ assert.equal(
   false,
   "generated raster semantics must suppress procedural ore geometry by default"
 );
-assert.ok(embedded.decals.calls.some(([method, _width, color]) => (
-  method === "lineStyle" && color === 0x17110e
-)), "damage cracks must remain visible above generated mineral art");
+assert.ok(embedded.graphics.some(graphic => graphic.calls.some(([method, _width, color]) => (
+  method === "lineStyle" && color === WORLD_VISUAL_DAMAGE.layers.fracture.coreColor
+))), "modular damage fractures must remain visible above generated mineral art");
 
 const proceduralRollback = createHarness("?terrainSemantics=0");
 assert.equal(proceduralRollback.layer.markerPool.length, 1, "procedural rollback keeps special atlas art separate");

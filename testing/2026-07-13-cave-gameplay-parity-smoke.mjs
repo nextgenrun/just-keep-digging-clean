@@ -112,11 +112,11 @@ const farTile = {
   tx: ARC_CORE_CONFIG.parking.tileX + ARC_CORE_CONFIG.interactRangeTiles + 10,
   ty: ARC_CORE_CONFIG.parking.tileY,
 };
-assert.equal(arcCore.update(farTile, { interact: {} }), false, "distant Arc Core must not consume E");
+assert.equal(arcCore.update(farTile, { arcCoreVehicle: {} }), false, "distant Arc Core must not consume B");
 assert.equal(justDownCalls, 0, "distant Arc Core must not read JustDown before shops or caves");
 const parkedTile = { tx: ARC_CORE_CONFIG.parking.tileX, ty: ARC_CORE_CONFIG.parking.tileY };
-assert.equal(arcCore.update(parkedTile, { interact: {} }), true, "nearby Arc Core may consume E");
-assert.equal(justDownCalls, 1, "nearby Arc Core must read E exactly once");
+assert.equal(arcCore.update(parkedTile, { arcCoreVehicle: {} }), true, "nearby Arc Core may consume B");
+assert.equal(justDownCalls, 1, "nearby Arc Core must read B exactly once");
 
 let caveLaunch = null;
 const entranceImage = {

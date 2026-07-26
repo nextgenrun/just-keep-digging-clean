@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dig Game Alpha 1</title>
+  <title>UNDERSTAR Alpha 1</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -13,7 +13,7 @@
   </div>
 
   <script src="./libs/phaser.js"></script>
-  <script type="module" src="./main.js?rev=20260718-mesh-grounded"></script>
+  <script type="module" src="./main.js?rev=20260726-f10-fullscreen"></script>
   <script>
     (function() {
       'use strict';
@@ -134,16 +134,6 @@
       document.addEventListener('fullscreenchange', onFullscreenChange);
       document.addEventListener('webkitfullscreenchange', onFullscreenChange);
       document.addEventListener('MSFullscreenChange', onFullscreenChange);
-      document.addEventListener('keydown', function(event) {
-        if (event.key === 'Tab' && isGameFullscreen()) {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          window.__fullscreenToggleHandledAt = Date.now();
-          window.__toggleGameFullscreen().catch(function(error) {
-            console.warn('[Fullscreen] Toggle failed:', error);
-          });
-        }
-      });
       syncFullscreenButton();
     })();
   </script>

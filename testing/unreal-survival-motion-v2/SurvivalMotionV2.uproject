@@ -1,0 +1,12 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.8",
+  "Category": "Animation Sandbox",
+  "Description": "Approved Survival Character proof of concept using genuine Unreal Engine 5 template motion clips.",
+  "Plugins": [
+    { "Name": "AnimationLocomotionLibrary", "Enabled": true },
+    { "Name": "IKRig", "Enabled": true },
+    { "Name": "PythonScriptPlugin", "Enabled": true },
+    { "Name": "EditorScriptingUtilities", "Enabled": true }
+  ]
+}

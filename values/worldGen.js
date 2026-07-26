@@ -81,6 +81,29 @@ export const WORLD_GEN_CONFIG = Object.freeze({
       mouthHeightTiles: 1,
       shellThicknessTiles: 1,
     }),
+
+    // Authored Level One terrain intentionally overrides procedural cells.
+    // Refill only untouched gaps so the live world retains a useful number of
+    // low caves without ever carving through an authored Tiled cell.
+    authoredGapSupplement: Object.freeze({
+      enabled: true,
+      placementAttemptsPerBand: 2200,
+      featuredPlacementAttemptsPerBand: 500,
+      radiusXMin: 2,
+      radiusXMax: 18,
+      featuredRadiusXMin: 6,
+      radiusY: 1,
+      wallThickness: 1,
+      horizontalSpacingTiles: 5,
+      verticalSpacingTiles: 4,
+      bands: Object.freeze([
+        Object.freeze({ id: "upper", minDepth: 45, maxDepth: 360, targetCaves: 5, featuredArchetypeId: "rootbound-hollow" }),
+        Object.freeze({ id: "copper", minDepth: 361, maxDepth: 720, targetCaves: 5, featuredArchetypeId: "prism-nursery" }),
+        Object.freeze({ id: "iron", minDepth: 721, maxDepth: 1080, targetCaves: 5, featuredArchetypeId: "storm-scar" }),
+        Object.freeze({ id: "silver", minDepth: 1081, maxDepth: 1440, targetCaves: 5, featuredArchetypeId: "gilded-burrow" }),
+        Object.freeze({ id: "deep", minDepth: 1441, maxDepth: 1880, targetCaves: 5, featuredArchetypeId: "ember-fault" }),
+      ]),
+    }),
     
     // === HIDDEN CAVERNS ===
     // 25% of caves become "hidden" — walls are normal diggable terrain,

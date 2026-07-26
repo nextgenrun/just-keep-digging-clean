@@ -49,6 +49,23 @@ jobs:
       - name: Validate release-safety wiring
         run: node testing/2026-07-25-release-safety-contract.mjs
 
+      - name: Validate the Golden Five opening
+        run: |
+          node testing/2026-07-26-opening-flight-artifact-contract.mjs
+          node testing/2026-07-26-opening-flight-golden-five-contract.mjs
+
+      - name: Validate Town Square NPC activity and interaction anchors
+        run: |
+          node testing/2026-07-26-town-square-runtime-contract.mjs
+          node testing/2026-07-26-npc-activity-runtime-contract.mjs
+
+      - name: Validate Heavenblocks progression, VFX, Forge, assets, and saves
+        run: |
+          node testing/2026-07-26-heavenblocks-progression-core-contract.mjs
+          node testing/2026-07-26-relic-discovery-fx-contract.mjs
+          node testing/2026-07-26-crafting-system-contract.mjs
+          node testing/2026-07-26-heavenblocks-progression-integration-contract.mjs
+
   deep-regression:
     name: Deep gameplay regression
     needs: structural-health
@@ -70,8 +87,30 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Install pinned image-contract dependency
+        run: python -m pip install --disable-pip-version-check Pillow==12.3.0
+
       - name: Run fail-closed gameplay contracts
         run: python testing/2026-07-22-deep-game-logic-health.py --timeout 90
+
+  celestial-engine-contracts:
+    name: Celestial Engine contracts
+    needs: structural-health
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Validate Star Heart choice, caps, rewards, saves, and protected tiles
+        run: node testing/2026-07-26-celestial-engines-contract.mjs
 
   production-canary:
     name: Production package canary
@@ -132,12 +171,84 @@ jobs:
       - name: Probe deployed canary without writes
         run: python testing/2026-07-25-production-http-canary.py --url "$CANARY_URL"
 
+  incident-alert:
+    name: Safety incident alert
+    if: >-
+      always() &&
+      github.event_name != 'pull_request' &&
+      github.event_name != 'merge_group' &&
+      (
+        needs.structural-health.result != 'success' ||
+        needs.deep-regression.result != 'success' ||
+        needs.celestial-engine-contracts.result != 'success' ||
+        needs.production-canary.result != 'success' ||
+        (needs.remote-canary.result != 'success' && needs.remote-canary.result != 'skipped')
+      )
+    needs:
+      - structural-health
+      - deep-regression
+      - celestial-engine-contracts
+      - production-canary
+      - remote-canary
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Open or update the safety incident
+        uses: actions/github-script@v8
+        env:
+          STRUCTURAL_RESULT: ${{ needs.structural-health.result }}
+          DEEP_RESULT: ${{ needs.deep-regression.result }}
+          CELESTIAL_RESULT: ${{ needs.celestial-engine-contracts.result }}
+          PRODUCTION_RESULT: ${{ needs.production-canary.result }}
+          REMOTE_RESULT: ${{ needs.remote-canary.result }}
+        with:
+          script: |
+            const title = "[Automated] Dig Game safety gate failure";
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `Safety workers failed for commit \`${context.sha}\`.`,
+              "",
+              `- Structural: ${process.env.STRUCTURAL_RESULT}`,
+              `- Deep regression: ${process.env.DEEP_RESULT}`,
+              `- Celestial Engine: ${process.env.CELESTIAL_RESULT}`,
+              `- Production package: ${process.env.PRODUCTION_RESULT}`,
+              `- Remote canary: ${process.env.REMOTE_RESULT}`,
+              "",
+              `[Open workflow run](${runUrl})`,
+            ].join("\n");
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100,
+            });
+            const existing = issues.find(issue => issue.title === title && !issue.pull_request);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+              });
+            }
+
   safety-gate:
     name: Safety gate
     if: always()
     needs:
       - structural-health
       - deep-regression
+      - celestial-engine-contracts
       - production-canary
       - remote-canary
     runs-on: ubuntu-latest
@@ -147,10 +258,12 @@ jobs:
         env:
           STRUCTURAL_RESULT: ${{ needs.structural-health.result }}
           DEEP_RESULT: ${{ needs.deep-regression.result }}
+          CELESTIAL_RESULT: ${{ needs.celestial-engine-contracts.result }}
           PRODUCTION_RESULT: ${{ needs.production-canary.result }}
           REMOTE_RESULT: ${{ needs.remote-canary.result }}
         run: |
           test "$STRUCTURAL_RESULT" = "success"
           test "$DEEP_RESULT" = "success"
+          test "$CELESTIAL_RESULT" = "success"
           test "$PRODUCTION_RESULT" = "success"
           test "$REMOTE_RESULT" = "success" || test "$REMOTE_RESULT" = "skipped"

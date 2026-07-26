@@ -28,16 +28,30 @@ const profile = Object.freeze({
 const selector = new UalNativeLocomotionTransitionSelector(profile);
 let currentAnimationKey = null;
 let isPlaying = false;
-let state = { grounded: true, flying: false, horizontalVelocity: 0, verticalVelocity: 0 };
+let currentFrameIndex = 0;
+let state = {
+  grounded: true,
+  flying: false,
+  horizontalVelocity: 0,
+  verticalVelocity: 0,
+  groundMovementActive: false,
+  facingFlipX: false,
+};
 
 function resolveState(overrides = {}) {
   state = { ...state, ...overrides };
-  return selector.resolve({ ...state, currentAnimationKey, isPlaying });
+  return selector.resolve({
+    ...state,
+    currentAnimationKey,
+    isPlaying,
+    currentFrameIndex,
+  });
 }
 
 function observePlaying(expectedKey, expectedPhase, expectedFacing) {
   currentAnimationKey = expectedKey;
   isPlaying = true;
+  currentFrameIndex = 1;
   const result = resolveState();
   assert.equal(result.animationKey, expectedKey);
   assert.equal(result.phase, expectedPhase);
@@ -56,55 +70,44 @@ assert.deepEqual(
   { key: profile.idleAnim, phase: PHASE.IDLE, loop: true },
 );
 
-result = resolveState({ horizontalVelocity: 80 });
-assert.equal(result.animationKey, profile.walkStartAnim);
-assert.equal(result.phase, PHASE.WALK_START);
-assert.equal(result.facingFlipX, false);
-observePlaying(profile.walkStartAnim, PHASE.WALK_START, false);
-result = completeOneShot();
-assert.equal(result.animationKey, profile.walkLoopAnim);
-assert.equal(result.phase, PHASE.WALK_LOOP);
-
-currentAnimationKey = profile.walkLoopAnim;
-isPlaying = true;
-result = resolveState({ horizontalVelocity: 300 });
+result = resolveState({ horizontalVelocity: 6, groundMovementActive: true });
 assert.equal(result.animationKey, profile.walkRunAnim);
 assert.equal(result.phase, PHASE.RUN);
-
+assert.equal(result.facingFlipX, false);
+assert.notEqual(result.animationKey, profile.walkLoopAnim, "low-speed motion selected slow walk");
 currentAnimationKey = profile.walkRunAnim;
-result = resolveState({ horizontalVelocity: -90 });
-assert.equal(result.animationKey, profile.walkStopAnim);
-assert.equal(result.phase, PHASE.PIVOT_STOP);
-assert.equal(result.facingFlipX, false, "pivot stop flipped before the old stride had settled");
-observePlaying(profile.walkStopAnim, PHASE.PIVOT_STOP, false);
-result = completeOneShot();
-assert.equal(result.animationKey, profile.walkStartAnim);
-assert.equal(result.phase, PHASE.PIVOT_START);
-assert.equal(result.facingFlipX, true, "pivot start did not adopt the new left-facing direction");
-observePlaying(profile.walkStartAnim, PHASE.PIVOT_START, true);
-result = completeOneShot();
-assert.equal(result.animationKey, profile.walkLoopAnim);
-assert.equal(result.facingFlipX, true);
-
-currentAnimationKey = profile.walkLoopAnim;
 isPlaying = true;
-result = resolveState({ horizontalVelocity: 0 });
-assert.equal(result.phase, PHASE.WALK_STOP);
-assert.equal(result.facingFlipX, true);
-observePlaying(profile.walkStopAnim, PHASE.WALK_STOP, true);
-result = completeOneShot();
+result = resolveState({
+  horizontalVelocity: 80,
+  groundMovementActive: true,
+  facingFlipX: true,
+});
+assert.equal(result.animationKey, profile.walkRunAnim);
+assert.equal(result.phase, PHASE.RUN);
+assert.equal(result.facingFlipX, true, "input-facing did not flip on the reversal frame");
+assert.equal(result.restart, false, "direction reversal restarted the active jog cycle");
+
+result = resolveState({ horizontalVelocity: -80, groundMovementActive: false });
+assert.equal(result.animationKey, profile.idleAnim);
 assert.equal(result.phase, PHASE.IDLE);
+assert.equal(result.facingFlipX, true);
 
 currentAnimationKey = profile.idleAnim;
 isPlaying = true;
 result = resolveState({ grounded: false, verticalVelocity: -120 });
 assert.equal(result.phase, PHASE.AIRBORNE_RISE);
-result = resolveState({ verticalVelocity: 60 });
+result = resolveState({ verticalVelocity: 400 });
 assert.equal(result.phase, PHASE.AIRBORNE_FALL);
 
 currentAnimationKey = profile.airborneFallAnim;
-result = resolveState({ grounded: true, verticalVelocity: 0 });
+result = resolveState({
+  grounded: true,
+  verticalVelocity: 0,
+  horizontalVelocity: 0,
+  groundMovementActive: false,
+});
 assert.equal(result.phase, PHASE.LANDING);
+assert.equal(result.timeScale, CONFIG.landing.mediumTimeScale);
 observePlaying(profile.landingAnim, PHASE.LANDING, true);
 result = completeOneShot();
 assert.equal(result.phase, PHASE.IDLE);
@@ -112,6 +115,29 @@ currentAnimationKey = profile.idleAnim;
 isPlaying = true;
 assert.equal(resolveState().phase, PHASE.IDLE, "landing repeated without a new airborne interval");
 
+currentAnimationKey = profile.idleAnim;
+isPlaying = true;
+result = resolveState({ grounded: false, verticalVelocity: 120 });
+assert.equal(result.phase, PHASE.AIRBORNE_FALL);
+result = resolveState({ grounded: true, verticalVelocity: 0 });
+assert.equal(result.phase, PHASE.IDLE, "soft touchdown unnecessarily played the landing one-shot");
+
+result = resolveState({ grounded: false, verticalVelocity: 700 });
+assert.equal(result.phase, PHASE.AIRBORNE_FALL);
+currentAnimationKey = profile.airborneFallAnim;
+result = resolveState({ grounded: true, verticalVelocity: 0, groundMovementActive: false });
+assert.equal(result.phase, PHASE.LANDING);
+assert.equal(result.timeScale, CONFIG.landing.hardTimeScale);
+currentAnimationKey = profile.landingAnim;
+isPlaying = true;
+currentFrameIndex = CONFIG.landing.moveCancelAfterFrameIndex;
+result = resolveState({ horizontalVelocity: 80, groundMovementActive: true });
+assert.equal(result.phase, PHASE.RUN, "held movement did not cancel the readable landing prefix");
+assert.equal(result.animationKey, profile.walkRunAnim);
+
+currentAnimationKey = profile.idleAnim;
+isPlaying = true;
+currentFrameIndex = 0;
 result = resolveState({ flying: true, horizontalVelocity: 0 });
 assert.equal(result.phase, PHASE.FLIGHT_ENTER);
 observePlaying(profile.flightEnterAnim, PHASE.FLIGHT_ENTER, true);
@@ -120,7 +146,7 @@ assert.equal(result.phase, PHASE.FLIGHT_HOVER);
 
 currentAnimationKey = profile.flightHoverAnim;
 isPlaying = true;
-result = resolveState({ horizontalVelocity: 100 });
+result = resolveState({ horizontalVelocity: 100, facingFlipX: false });
 assert.equal(result.phase, PHASE.FLIGHT_TRAVEL_ENTER);
 assert.equal(result.facingFlipX, false);
 observePlaying(profile.flightTravelEnterAnim, PHASE.FLIGHT_TRAVEL_ENTER, false);
@@ -133,7 +159,7 @@ assert.equal(resolveState({ horizontalVelocity: 50 }).phase, PHASE.FLIGHT_TRAVEL
 assert.equal(resolveState({ horizontalVelocity: 20 }).phase, PHASE.FLIGHT_HOVER);
 
 currentAnimationKey = profile.flightHoverAnim;
-result = resolveState({ flying: false, grounded: false, verticalVelocity: 70 });
+result = resolveState({ flying: false, grounded: false, verticalVelocity: 400 });
 assert.equal(result.phase, PHASE.FLIGHT_EXIT);
 observePlaying(profile.flightExitAnim, PHASE.FLIGHT_EXIT, false);
 result = completeOneShot();
@@ -141,22 +167,82 @@ assert.equal(result.phase, PHASE.AIRBORNE_FALL);
 
 currentAnimationKey = profile.airborneFallAnim;
 isPlaying = true;
-result = resolveState({ grounded: true, verticalVelocity: 0 });
+result = resolveState({
+  grounded: true,
+  verticalVelocity: 0,
+  horizontalVelocity: 0,
+  groundMovementActive: false,
+});
 assert.equal(result.phase, PHASE.LANDING);
 observePlaying(profile.landingAnim, PHASE.LANDING, false);
 result = completeOneShot();
 assert.equal(result.phase, PHASE.IDLE);
 
+const continuousSelector = new UalNativeLocomotionTransitionSelector(Object.freeze({
+  ...profile,
+  continuousFlightLoop: true,
+}));
+let continuousResult = continuousSelector.resolve({
+  grounded: true,
+  flying: true,
+  horizontalVelocity: 0,
+  verticalVelocity: 0,
+  currentAnimationKey: profile.idleAnim,
+  isPlaying: true,
+});
+assert.equal(continuousResult.animationKey, profile.flightTravelLoopAnim);
+assert.equal(continuousResult.phase, PHASE.FLIGHT_HOVER);
+continuousResult = continuousSelector.resolve({
+  grounded: false,
+  flying: true,
+  horizontalVelocity: 100,
+  verticalVelocity: 0,
+  currentAnimationKey: profile.flightTravelLoopAnim,
+  isPlaying: true,
+});
+assert.equal(continuousResult.animationKey, profile.flightTravelLoopAnim);
+assert.equal(continuousResult.phase, PHASE.FLIGHT_TRAVEL_LOOP);
+assert.equal(continuousResult.restart, false, "travel transition restarted the continuous pose loop");
+continuousResult = continuousSelector.resolve({
+  grounded: false,
+  flying: true,
+  horizontalVelocity: 20,
+  verticalVelocity: 0,
+  currentAnimationKey: profile.flightTravelLoopAnim,
+  isPlaying: true,
+});
+assert.equal(continuousResult.animationKey, profile.flightTravelLoopAnim);
+assert.equal(continuousResult.phase, PHASE.FLIGHT_HOVER);
+assert.equal(continuousResult.restart, false, "hover transition restarted the continuous pose loop");
+continuousResult = continuousSelector.resolve({
+  grounded: false,
+  flying: false,
+  horizontalVelocity: 20,
+  verticalVelocity: 400,
+  currentAnimationKey: profile.flightTravelLoopAnim,
+  isPlaying: true,
+});
+assert.equal(continuousResult.phase, PHASE.AIRBORNE_FALL);
+assert.notEqual(continuousResult.phase, PHASE.FLIGHT_EXIT);
+
 selector.reset({ facingFlipX: true });
 currentAnimationKey = null;
 isPlaying = false;
-result = resolveState({ grounded: true, flying: false, horizontalVelocity: 0 });
+result = resolveState({
+  grounded: true,
+  flying: false,
+  horizontalVelocity: 0,
+  verticalVelocity: 0,
+  groundMovementActive: false,
+  facingFlipX: true,
+});
 assert.equal(result.phase, PHASE.IDLE);
 assert.equal(result.facingFlipX, true);
 
+assert.equal(CONFIG.ground.gaitAnimationRole, "run");
 assert.ok(CONFIG.ground.moveEnterSpeedPxPerSec > CONFIG.ground.moveExitSpeedPxPerSec);
-assert.ok(CONFIG.ground.runEnterSpeedPxPerSec > CONFIG.ground.runExitSpeedPxPerSec);
 assert.ok(CONFIG.flight.travelEnterSpeedPxPerSec > CONFIG.flight.travelExitSpeedPxPerSec);
+assert.ok(CONFIG.landing.hardImpactSpeedPxPerSec > CONFIG.landing.minImpactSpeedPxPerSec);
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const source = readFileSync(
@@ -168,6 +254,7 @@ assert.ok(source.split(/\r?\n/).length < 300, "selector exceeded the one-respons
 
 console.log(JSON.stringify({
   result: "UAL_LOCOMOTION_TRANSITION_SELECTOR_CONTRACT_OK",
-  phasesCovered: Object.keys(PHASE).length,
+  phasesAvailable: Object.keys(PHASE).length,
+  groundedGaitAnimationRole: CONFIG.ground.gaitAnimationRole,
   selectorLines: source.split(/\r?\n/).length,
 }, null, 2));

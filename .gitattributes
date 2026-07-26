@@ -1,0 +1,105 @@
+# Keep source and policy files deterministic across Windows and GitHub runners.
+* text=auto
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf whitespace=-blank-at-eol,-blank-at-eof
+*.mjs text eol=lf
+*.ps1 text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.tmx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Runtime media stays in normal Git so CI and packaged canaries do not consume
+# Git LFS download bandwidth.
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.ogg binary
+*.png binary
+*.webm binary
+*.webp binary
+
+# New heavyweight authoring trees use Git LFS. These path-scoped rules avoid
+# silently migrating established WAV, video, Piskel, ZIP, and Blender history.
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/*.fbx filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/*.glb filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/*.uasset filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/*.umap filter=lfs diff=lfs merge=lfs -text
+/sprites/character/character-v8/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/sprites/character/character-v8/**/*.zip filter=lfs diff=lfs merge=lfs -text
+/sprites/character/robot-sphere-v2/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-blender-v2/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-fab-v1/source/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-fab-v1/source/**/*.fbx filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-unreal-v1/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/**/*.glb filter=lfs diff=lfs merge=lfs -text
+/testing/unreal-survival-motion-v2/**/*.fbx filter=lfs diff=lfs merge=lfs -text
+/testing/unreal-survival-motion-v2/**/*.glb filter=lfs diff=lfs merge=lfs -text
+/testing/unreal-survival-motion-v2/**/*.uasset filter=lfs diff=lfs merge=lfs -text
+/testing/unreal-survival-motion-v2/**/*.umap filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/**/*.blend filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/**/*.glb filter=lfs diff=lfs merge=lfs -text
+
+# Source/reference rasters are valuable authoring inputs but are not loaded by
+# the browser runtime. Route only these bounded trees through LFS.
+/sprites/character/survival-character-fab-v1/source/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-fab-v1/source/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-fab-v1/source/**/*.png filter=lfs diff=lfs merge=lfs -text
+/sprites/character/survival-character-fab-v1/source/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-test/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-test/**/*.png filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-test/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-scale-correct-0-20m-v3/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-scale-correct-0-20m-v3/**/*.png filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-scale-correct-0-20m-v3/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-runtime-polished-v4/sources/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-runtime-polished-v4/sources/**/*.png filter=lfs diff=lfs merge=lfs -text
+/sprites/backgrounds/world-v11-runtime-polished-v4/sources/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/review-drafts/**/*.gif filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/review-drafts/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/review-drafts/**/*.png filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/review-drafts/**/*.webm filter=lfs diff=lfs merge=lfs -text
+/testing/blender-animation-lab-v1/review-drafts/**/*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Review-draft runtime sheets are CI inputs. Actions intentionally checks out
+# without LFS downloads, so runtime subtrees override the source-review rules.
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.gif -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.jpg -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.png -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.webm -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.webp -filter -diff -merge -text
+/testing/unreal-survival-motion-v2/SourceAssets/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/testing/unreal-survival-motion-v2/SourceAssets/**/*.png filter=lfs diff=lfs merge=lfs -text
+/testing/unreal-survival-motion-v2/SourceAssets/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/Renders/**/*.gif filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/Renders/**/*.png filter=lfs diff=lfs merge=lfs -text
+/archive/2026-07-15-rejected-legacy-miner-unreal-walk-experiment/**/Renders/**/*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Heavy, untracked visual-review source packages use LFS. Runtime-linked NPC
+# previews and previously committed Heavenblocks reviews remain normal Git.
+/visual-approval-previews/meshy-background-render-poc-v2/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/meshy-background-render-poc-v2/**/*.png filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/meshy-background-render-poc-v2/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/mining-world-3d-bake-poc-v1/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/mining-world-3d-bake-poc-v1/**/*.png filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/mining-world-3d-bake-poc-v1/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-biome-background-production-v2/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-biome-background-production-v2/**/*.png filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-biome-background-production-v2/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-biome-variation-library-v1/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-biome-variation-library-v1/**/*.png filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-biome-variation-library-v1/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-layer-differentiation-v1/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-layer-differentiation-v1/**/*.png filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/underground-layer-differentiation-v1/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/understar-floating-logo-redesign-v1/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/understar-floating-logo-redesign-v1/**/*.png filter=lfs diff=lfs merge=lfs -text
+/visual-approval-previews/understar-floating-logo-redesign-v1/**/*.webp filter=lfs diff=lfs merge=lfs -text

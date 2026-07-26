@@ -16,7 +16,7 @@ const clip = (id, actionId, frames, animationKey, options = {}) => Object.freeze
 function configuredClips() {
   return new Map([
     ["idle", clip("idle", "idle", PROFILE.idleFrames, PROFILE.idleAnim, { loop: true, label: "Idle" })],
-    ["walk", clip("walk", "walk", PROFILE.walkLoopFrames, PROFILE.walkLoopAnim, { loop: true, label: "Option C · Jog walk", footstepIndices: PROFILE.footstepFrameIndices[PROFILE.walkLoopAnim] })],
+    ["walk", clip("walk", "walk", PROFILE.walkLoopFrames, PROFILE.walkLoopAnim, { loop: true, label: "Jog source review", footstepIndices: PROFILE.footstepFrameIndices[PROFILE.walkLoopAnim] })],
     ["run", clip("run", "run", PROFILE.walkRunFrames, PROFILE.walkRunAnim, { loop: true, label: "Production jog run", footstepIndices: PROFILE.footstepFrameIndices[PROFILE.walkRunAnim] })],
     ["airborne", clip("airborne", "airborne", PROFILE.airborneFrames, PROFILE.airborneRiseAnim, { label: "Jump start / rise" })],
     ["falling", clip("falling", "falling", PROFILE.airborneFallAnim ? PROFILE.fallingFrames : [], PROFILE.airborneFallAnim, { loop: true, label: "Falling" })],
@@ -26,12 +26,12 @@ function configuredClips() {
     ["flight-travel-enter", clip("flight-travel-enter", "fly", PROFILE.flightTravelEnterFrames, PROFILE.flightTravelEnterAnim, { label: "Flight travel enter", flightTravel: true })],
     ["flight-travel", clip("flight-travel", "fly", PROFILE.flightTravelLoopFrames, PROFILE.flightTravelLoopAnim, { loop: true, label: "Flight travel", flightTravel: true })],
     ["flight-exit", clip("flight-exit", "airborne", PROFILE.flightExitFrames, PROFILE.flightExitAnim, { label: "Flight exit" })],
-    ["jab", clip("jab", "punch-jab", PROFILE.quickslashFrames, PROFILE.digSidewaysHitAnims[0], { label: "Old punch jab", kind: "action" })],
+    ["jab", clip("jab", "punch-jab", PROFILE.quickslashFrames, PROFILE.digSidewaysHitAnims[0], { label: "Punch jab", kind: "action" })],
     ["cross", clip("cross", "punch-cross", PROFILE.punchCrossFrames, PROFILE.digSidewaysHitAnims[1], { label: "Cross", kind: "action" })],
-    ["up-jab", clip("up-jab", "punch-jab", PROFILE.punchJabFrames, PROFILE.digUpHitAnims[0], { label: "Up jab", kind: "action" })],
-    ["up-cross", clip("up-cross", "punch-cross", PROFILE.punchCrossFrames, PROFILE.digUpHitAnims[1], { label: "Up cross", kind: "action" })],
-    ["up-side-jab", clip("up-side-jab", "punch-jab", PROFILE.punchJabFrames, PROFILE.digUpSidewaysHitAnims[0], { label: "Up-side jab", kind: "action" })],
-    ["up-side-cross", clip("up-side-cross", "punch-cross", PROFILE.punchCrossFrames, PROFILE.digUpSidewaysHitAnims[1], { label: "Up-side cross", kind: "action" })],
+    ["up-jab", clip("up-jab", "punch-uppercut", PROFILE.digUpFrames, PROFILE.digUpHitAnims[0], { label: "Uppercut A · neutral recovery", kind: "action" })],
+    ["up-cross", clip("up-cross", "punch-uppercut", PROFILE.digUpFrames, PROFILE.digUpHitAnims[1], { label: "Uppercut B · neutral recovery", kind: "action" })],
+    ["up-side-jab", clip("up-side-jab", "punch-uppercut", PROFILE.digUpSidewaysFrames, PROFILE.digUpSidewaysHitAnims[0], { label: "Up-side A · neutral recovery", kind: "action" })],
+    ["up-side-cross", clip("up-side-cross", "punch-uppercut", PROFILE.digUpSidewaysFrames, PROFILE.digUpSidewaysHitAnims[1], { label: "Up-side B · neutral recovery", kind: "action" })],
     ["dig-down", clip("dig-down", "ground-strike", PROFILE.digDownFrames, PROFILE.digDownAnim, { label: "Dig down", kind: "action" })],
   ]);
 }

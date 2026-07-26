@@ -79,12 +79,18 @@ export class OverlayManager {
     if (!USER_SETTINGS.getDisplay().showControlHints) {
       return "Press ENTER, click, or any movement key to start";
     }
+    const flightUnlocked = this.scene.openingFlightArtifactSystem
+      ?.isArtifactCollected?.() === true;
+    const flightCopy = flightUnlocked
+      ? USER_SETTINGS.getKeyLabel("fly") + " fly"
+      : "flight is buried below the huge arrows";
     return [
       "Press ENTER, click, or any movement key to start",
       "",
       USER_SETTINGS.getKeyLabel("moveLeft") + "/" + USER_SETTINGS.getKeyLabel("moveRight") +
-        " move and aim    " + USER_SETTINGS.getKeyLabel("fly") + " fly    " +
+        " move    " + USER_SETTINGS.getKeyLabel("aimDown") + " aim down    " +
         USER_SETTINGS.getKeyLabel("dig") + " dig",
+      flightCopy,
       USER_SETTINGS.getKeyLabel("inventory") + " inventory    " +
         USER_SETTINGS.getKeyLabel("interact") + " interact    " +
         USER_SETTINGS.getKeyLabel("pause") + " pause",

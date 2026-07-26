@@ -1,8 +1,12 @@
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { DEPTH_MILESTONES, getMilestoneAtDepth, computeMilestoneBonuses } from "../../values/depthMilestones.js";
+import { TOWN_SQUARE_CONFIG } from "../../values/townSquareConfig.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { PILLAR_VISUAL_CONFIG, resolvePillarStageIndex } from "../../values/pillarVisuals.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { openMilestonePillarModal } from "./MilestonePillarModal.js";
+import { ProgressivePillarSprite } from "./ProgressivePillarSprite.js";
 
 /**
  * MilestoneBoardSystem
@@ -24,10 +28,8 @@ export class MilestoneBoardSystem {
     this._reachedDepths = []; // array of depths reached (e.g. [100, 200, 300])
     this._loadMilestones();
 
-    // Board visual objects
-    this._boardGfx = null;
-    this._boardTexts = [];
-    this._boardTitle = null;
+    // Approved production pillar visual
+    this._pillarVisual = null;
     this._ePrompt = null;
     this._isBoardOpen = false;
     this._boardObjects = [];
@@ -37,115 +39,65 @@ export class MilestoneBoardSystem {
     this._pendingMilestoneCheck = false;
   }
 
-  /**
-   * Create the milestone board in the world (left side of town)
-   */
+  /** Create the approved Milestone Pillar in the town square. */
   create() {
     const ts = this.config.tileSize;
-    // Place board at tile x=3, y=topAirRows-3 (left side, above ground)
-    const boardX = 3 * ts + ts / 2;
-    const boardY = (this.config.topAirRows - 3) * ts + ts / 2;
-    const boardWidth = 110;
-    const boardHeight = 80;
-    const boardLeft = boardX - boardWidth / 2;
-    const boardTop = boardY - boardHeight / 2;
-    const boardBottom = boardY + boardHeight / 2;
-    const groundY = this.config.topAirRows * ts;
-    const postBottom = groundY + Math.max(6, Math.round(ts * 0.08));
-    const postHeight = Math.max(20, postBottom - boardBottom);
+    const pillar = TOWN_SQUARE_CONFIG.milestonePillar;
+    const visualConfig = PILLAR_VISUAL_CONFIG.milestone;
+    const pillarX = pillar.tileX * ts + ts / 2;
+    const baseY = this.config.topAirRows * ts + visualConfig.baseYOffsetPx;
+    const bestDepth = this._getBestDepth();
+    const stageIndex = resolvePillarStageIndex(bestDepth, visualConfig.stageDepths);
 
-    // Wooden post and board face
-    this._boardGfx = this.scene.add.graphics();
-    this._boardGfx.setDepth(4);
+    this._pillarVisual = new ProgressivePillarSprite(
+      this.scene,
+      pillarX,
+      baseY,
+      ASSET_KEYS.environment.pillars.milestoneStages,
+      visualConfig,
+    ).create(stageIndex);
 
-    // Post first so the sign face sits cleanly on top.
-    this._boardGfx.fillStyle(0x4A3020, 1);
-    this._boardGfx.fillRect(boardX - 6, boardBottom, 12, postHeight);
-    this._boardGfx.fillStyle(0x3A2610, 1);
-    this._boardGfx.fillRect(boardX - 3, boardBottom, 6, postHeight);
-    this._boardGfx.fillStyle(0x4A3020, 1);
-    this._boardGfx.fillRoundedRect(boardX - 18, groundY - 3, 36, 10, 2);
-    this._boardGfx.lineStyle(1, 0x6B4226, 0.8);
-    this._boardGfx.strokeRoundedRect(boardX - 18, groundY - 3, 36, 10, 2);
-
-    // Board background (dark wood rectangle)
-    this._boardGfx.fillStyle(0x3A2610, 1);
-    this._boardGfx.fillRoundedRect(boardLeft, boardTop, boardWidth, boardHeight, 4);
-    this._boardGfx.lineStyle(2, 0x6B4226, 1);
-    this._boardGfx.strokeRoundedRect(boardLeft, boardTop, boardWidth, boardHeight, 4);
-
-    // Title
-    this._boardTitle = this.scene.add.text(boardX, boardY - 25, 'MILESTONES', {
-      fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
-      fontSize: '10px',
-      fontStyle: 'bold',
-      color: '#C9A227',
-      stroke: '#000000',
-      strokeThickness: 2,
-    }).setOrigin(0.5).setDepth(5);
-
-    // Milestone counter
-    const reached = this._reachedDepths.length;
-    const total = DEPTH_MILESTONES.length;
-    this._boardCounter = this.scene.add.text(boardX, boardY + 5, `${reached} / ${total}`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '14px',
-      color: '#88AACC',
-      stroke: '#000000',
-      strokeThickness: 2,
-    }).setOrigin(0.5).setDepth(5);
-
-    // Small "latest: Xm" text
-    const latest = this._reachedDepths.length > 0 ? Math.max(...this._reachedDepths) : 0;
-    this._boardLatest = this.scene.add.text(boardX, boardY + 22, latest > 0 ? `Best: ${latest}m` : '', {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '9px',
-      color: '#667788',
-      stroke: '#000000',
-      strokeThickness: 1,
-    }).setOrigin(0.5).setDepth(5);
-
-    // E prompt
-    this._ePrompt = this.scene.add.text(boardX, boardY + 50, `Press ${USER_SETTINGS.getKeyLabel("interact")}`, {
-      fontFamily: 'Consolas, monospace',
-      fontSize: '8px',
-      color: '#ffffff',
-      stroke: '#000000',
-      strokeThickness: 2,
-      alpha: 0,
-    }).setOrigin(0.5).setDepth(5);
+    this._ePrompt = this.scene.add.text(pillarX, this._getPromptY(), this._getPromptText(), {
+      fontFamily: UI_FONTS.mono,
+      fontSize: `${visualConfig.promptFontSizePx}px`,
+      color: UI_COLORS.white,
+      stroke: "#000000",
+      strokeThickness: 3,
+      alpha: visualConfig.promptPulseMinAlpha,
+    }).setOrigin(0.5, 1).setDepth(visualConfig.promptDepth).setVisible(false);
     this.scene.tweens.add({
       targets: this._ePrompt,
-      alpha: { from: 0, to: 0.8 },
-      duration: 1000,
+      alpha: {
+        from: visualConfig.promptPulseMinAlpha,
+        to: visualConfig.promptPulseMaxAlpha,
+      },
+      duration: visualConfig.promptPulseDurationMs,
       yoyo: true,
       repeat: -1,
-      ease: 'Sine.inOut',
+      ease: "Sine.inOut",
     });
 
-    this._boardX = boardX;
-    this._boardY = boardY;
+    this._boardX = pillarX;
+    this._boardY = baseY;
   }
 
   /**
    * Called every frame - check player proximity to board
    */
-  update(playerTile, keys) {
-    if (!playerTile) return;
-
-    // Check proximity to board (tile x=3, y=topAirRows-3 area)
-    const boardTileX = 3;
-    const boardTileY = this.config.topAirRows - 3;
-    const dx = Math.abs(playerTile.tx - boardTileX);
-    const dy = Math.abs(playerTile.ty - boardTileY);
-
-    const inRange = dx <= 2 && dy <= 3;
+  update(playerTile, keys, options = {}) {
+    if (!playerTile) return false;
+    const inRange = this.isPlayerInRange(playerTile);
+    const allowOpen = options.allowOpen !== false;
+    this._ePrompt?.setVisible(inRange && (allowOpen || this._isBoardOpen));
 
     if (keys && inRange && keys.interact && Phaser.Input.Keyboard.JustDown(keys.interact)) {
-      if (!this._isBoardOpen) {
-        this._openBoardView();
-      } else {
+      if (this._isBoardOpen) {
         this._closeBoardView();
+        return true;
+      }
+      if (allowOpen) {
+        this._openBoardView();
+        return true;
       }
     }
 
@@ -155,11 +107,25 @@ export class MilestoneBoardSystem {
       (keys.hardEscape && Phaser.Input.Keyboard.JustDown(keys.hardEscape))
     )) {
       this._closeBoardView();
+      return true;
     }
+    return false;
+  }
+
+  getInteractionDistance(playerTile) {
+    if (!playerTile) return Number.POSITIVE_INFINITY;
+    const pillar = TOWN_SQUARE_CONFIG.milestonePillar;
+    const interactionTileY = this.config.topAirRows + pillar.interactionTileYOffset;
+    return Math.abs(playerTile.tx - pillar.tileX) + Math.abs(playerTile.ty - interactionTileY);
+  }
+
+  isPlayerInRange(playerTile) {
+    return this.getInteractionDistance(playerTile)
+      <= TOWN_SQUARE_CONFIG.milestonePillar.interactionRangeTiles;
   }
 
   refreshKeybinds() {
-    this._ePrompt?.setText(`Press ${USER_SETTINGS.getKeyLabel("interact")}`);
+    this._ePrompt?.setText(this._getPromptText());
   }
 
   /**
@@ -231,12 +197,31 @@ export class MilestoneBoardSystem {
   }
 
   _updateBoardDisplay() {
-    const reached = this._reachedDepths.length;
-    const total = DEPTH_MILESTONES.length;
-    this._boardCounter.setText(`${reached} / ${total}`);
+    const visualConfig = PILLAR_VISUAL_CONFIG.milestone;
+    const stageIndex = resolvePillarStageIndex(
+      this._getBestDepth(),
+      visualConfig.stageDepths,
+    );
+    this._pillarVisual?.setStage(stageIndex, true);
+    this._ePrompt?.setText(this._getPromptText()).setY(this._getPromptY());
+  }
 
-    const latest = reached > 0 ? Math.max(...this._reachedDepths) : 0;
-    this._boardLatest.setText(latest > 0 ? `Best: ${latest}m` : '');
+  _getBestDepth() {
+    return Math.max(
+      this.retentionProgressSystem?.getBestDepth?.() || 0,
+      this._maxDepthThisRun || 0,
+      this._reachedDepths.length ? Math.max(...this._reachedDepths) : 0,
+    );
+  }
+
+  _getPromptText() {
+    const visualConfig = PILLAR_VISUAL_CONFIG.milestone;
+    return `[${USER_SETTINGS.getKeyLabel("interact")}] ${visualConfig.promptText}`
+      + `  ${this._reachedDepths.length}/${DEPTH_MILESTONES.length}`;
+  }
+
+  _getPromptY() {
+    return this._pillarVisual?.getTopY() - PILLAR_VISUAL_CONFIG.milestone.promptOffsetPx;
   }
 
   _saveMilestones() {
@@ -264,10 +249,8 @@ export class MilestoneBoardSystem {
 
   destroy() {
     this._closeBoardView();
-    this._boardGfx?.destroy();
-    this._boardTitle?.destroy();
-    this._boardCounter?.destroy();
-    this._boardLatest?.destroy();
+    this._pillarVisual?.destroy();
+    this._pillarVisual = null;
     this._ePrompt?.destroy();
   }
 }

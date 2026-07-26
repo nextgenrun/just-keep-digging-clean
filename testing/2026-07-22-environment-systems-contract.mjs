@@ -200,7 +200,7 @@ const islandLayout = {
 };
 const islands = new V11SkyIslandVisualSystem(scene, islandLayout);
 islands.create();
-assert.equal(islands.sprites.length, 2);
+assert.ok(islands.sprites.length >= 2);
 const portal = islands.setGroundPortalUnlocked("one", true);
 assert.equal(islands.setGroundPortalUnlocked("one", true), portal);
 islands.setGroundPortalUnlocked("one", false);

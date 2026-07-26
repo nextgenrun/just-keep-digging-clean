@@ -76,7 +76,18 @@ const tools = [
   },
   {
     name: "auto_align_character_sources",
-    description: "Shift selected v5 animation frames inside their canvases to reduce center drift and rebuild runtime assets.",
+    description: "Compatibility alias for manifest-driven character frame polishing.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        ids: { type: "array", items: { type: "string" } },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "polish_character_sources",
+    description: "Apply each animation's body-anchor, baseline, uniform-scale, and authored-timeline policy, then rebuild runtime assets and audits.",
     inputSchema: {
       type: "object",
       properties: {
@@ -95,6 +106,7 @@ const commandByTool = {
   build_character_previews: "preview",
   validate_character_piskel_sources: "validate",
   auto_align_character_sources: "align",
+  polish_character_sources: "polish",
 };
 
 let input = Buffer.alloc(0);
@@ -151,7 +163,7 @@ async function handleMessage(request) {
     sendResult(request.id, {
       protocolVersion: request.params?.protocolVersion || "2024-11-05",
       capabilities: { tools: {} },
-      serverInfo: { name: "jkd-piskel-bridge", version: "1.0.0" },
+      serverInfo: { name: "jkd-piskel-bridge", version: "1.1.0" },
     });
     return;
   }
