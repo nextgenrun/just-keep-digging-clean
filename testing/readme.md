@@ -164,6 +164,11 @@ the 512x320 generated plinth, deterministic non-overlapping clear-area zones,
 exposure, final-cell visual unlock, all 25 surface slots, real-art archive
 wiring, production-health publication, save requesting, scenic-runtime lifecycle
 wiring, matching legacy-renderer lifecycle ownership, and complete cleanup.
+`2026-07-26-titan-chamber-production-contract.mjs` verifies the complete 25-card
+1536x848 WebP art inventory and unique hashes, colossal 15-22 by 8-13 tile
+zones, Boot de-queuing, `?titanChambers=0`, near-zone stream/load/release,
+compact fallback restoration, archive pinning, renderer parity, and production
+manifest completeness.
 `2026-07-26-relic-discovery-fx-contract.mjs` verifies that Ancient Relic awards
 remain authoritative and failure-isolated while visible discoveries use a
 world-space pedestal wake, residual floor mark, live-player orbit, bounded

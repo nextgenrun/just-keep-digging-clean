@@ -31,6 +31,9 @@ export class TitanArchiveView {
     this.width = options.width || 900;
     this.height = options.height || 430;
     this.onFocus = options.onFocus || null;
+    this.chamberProvider = options.chamberProvider || null;
+    this.releasePortraitAsset = null;
+    this.selectionToken = 0;
     this.controls = [];
     this.root = scene.add.container(0, 0);
     this.parent?.add?.(this.root);
@@ -201,17 +204,21 @@ export class TitanArchiveView {
     this.controls.forEach((button, buttonIndex) => {
       button.setSelected(buttonIndex === safeIndex);
     });
-    this.portrait.setTexture(definition.asset.key);
-    fitImage(
-      this.portrait,
-      this.detailPanel.width * this.config.archive.portraitMaxWidthFraction,
-      this.height * this.config.archive.portraitMaxHeightFraction
-    );
-    this.portrait.setAlpha(
-      discovered ? 1 : this.config.archive.portraitLockedAlpha
-    );
-    if (discovered) this.portrait.clearTint();
-    else this.portrait.setTint(0x4a5c66);
+    this._releasePortrait();
+    const selectionToken = ++this.selectionToken;
+    this._setPortrait(definition.asset.key, discovered);
+    if (discovered && this.chamberProvider?.pinArchive) {
+      this.releasePortraitAsset = this.chamberProvider.pinArchive(definition, {
+        onReady: asset => {
+          if (
+            selectionToken === this.selectionToken
+            && this.definitions[this.selectedIndex]?.id === definition.id
+          ) {
+            this._setPortrait(asset.key, true);
+          }
+        },
+      });
+    }
     this.nameText.setText(discovered ? definition.name.toUpperCase() : "UNDISCOVERED TITAN");
     this.regionText.setText(
       discovered
@@ -225,11 +232,32 @@ export class TitanArchiveView {
     );
   }
 
+  _setPortrait(textureKey, discovered) {
+    this.portrait.setTexture(textureKey);
+    fitImage(
+      this.portrait,
+      this.detailPanel.width * this.config.archive.portraitMaxWidthFraction,
+      this.height * this.config.archive.portraitMaxHeightFraction
+    );
+    this.portrait.setAlpha(
+      discovered ? 1 : this.config.archive.portraitLockedAlpha
+    );
+    if (discovered) this.portrait.clearTint();
+    else this.portrait.setTint(0x4a5c66);
+  }
+
+  _releasePortrait() {
+    this.releasePortraitAsset?.();
+    this.releasePortraitAsset = null;
+  }
+
   getControls() {
     return [...this.controls];
   }
 
   destroy() {
+    this.selectionToken += 1;
+    this._releasePortrait();
     this.root?.destroy?.(true);
     this.controls = [];
   }

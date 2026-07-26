@@ -1,4 +1,5 @@
 const TITAN_ASSET_ROOT = "sprites/backgrounds/titan-discoveries-v1";
+const TITAN_CHAMBER_ASSET_ROOT = "sprites/backgrounds/titan-chambers-v2";
 const DISABLED_QUERY_VALUES = Object.freeze(["0", "false", "off", "disabled"]);
 const TITAN_WALK_PLINTH_ASSET = Object.freeze({
   key: "titan-discovery-walk-plinth-v1",
@@ -86,38 +87,42 @@ const titan = (
     key: `titan-discovery-${id}`,
     path: `${TITAN_ASSET_ROOT}/${String(index).padStart(2, "0")}-${id}.png`,
   }),
+  chamberAsset: Object.freeze({
+    key: `titan-discovery-chamber-${id}-v2`,
+    path: `${TITAN_CHAMBER_ASSET_ROOT}/${String(index).padStart(2, "0")}-${id}-chamber-v2.webp`,
+  }),
 });
 
 export const TITAN_DEFINITIONS = Object.freeze([
-  titan(1, "mossback-wanderer", "Mossback Wanderer", 90, 32, 0x62f3d2, 7, 5, 1.4),
-  titan(2, "bellhorn-grazer", "Bellhorn Grazer", 155, 82, 0x62f3d2, 7, 5, 1.2),
-  titan(3, "lantern-jaw", "Lantern Jaw", 235, 158, 0x62f3d2, 8, 4, 2.1),
-  titan(4, "archwalker", "Archwalker", 315, 228, 0x62f3d2, 7, 5, 1.5),
-  titan(5, "shale-mother", "Shale Mother", 410, 52, 0x62f3d2, 8, 5, 1.1),
+  titan(1, "mossback-wanderer", "Mossback Wanderer", 90, 32, 0x62f3d2, 18, 10, 1.4),
+  titan(2, "bellhorn-grazer", "Bellhorn Grazer", 155, 82, 0x62f3d2, 17, 9, 1.2),
+  titan(3, "lantern-jaw", "Lantern Jaw", 235, 158, 0x62f3d2, 22, 12, 2.1),
+  titan(4, "archwalker", "Archwalker", 315, 228, 0x62f3d2, 17, 9, 1.5),
+  titan(5, "shale-mother", "Shale Mother", 410, 52, 0x62f3d2, 19, 10, 1.1),
 
-  titan(6, "ribbon-wyrm", "Ribbon Wyrm", 510, 120, 0xffbe52, 7, 5, 2.2),
-  titan(7, "crowned-mole", "Crowned Mole", 620, 205, 0xffbe52, 7, 4, 1.1),
-  titan(8, "hammerhead-pilgrim", "Hammerhead Pilgrim", 735, 246, 0xffbe52, 7, 5, 1.5),
-  titan(9, "cathedral-stag", "Cathedral Stag", 850, 65, 0xffbe52, 7, 5, 1.4),
-  titan(10, "hollowback-bear", "Hollowback Bear", 980, 175, 0xffbe52, 8, 5, 1.2),
+  titan(6, "ribbon-wyrm", "Ribbon Wyrm", 510, 120, 0xffbe52, 22, 12, 2.2),
+  titan(7, "crowned-mole", "Crowned Mole", 620, 205, 0xffbe52, 17, 9, 1.1),
+  titan(8, "hammerhead-pilgrim", "Hammerhead Pilgrim", 735, 246, 0xffbe52, 17, 9, 1.5),
+  titan(9, "cathedral-stag", "Cathedral Stag", 850, 65, 0xffbe52, 19, 10, 1.4),
+  titan(10, "hollowback-bear", "Hollowback Bear", 980, 175, 0xffbe52, 19, 10, 1.2),
 
-  titan(11, "silver-strider", "Silver Strider", 1120, 250, 0xa7e7ff, 7, 5, 1.7),
-  titan(12, "mirror-ray", "Mirror Ray", 1260, 95, 0xa7e7ff, 8, 4, 2.4),
-  titan(13, "needlecrown", "Needlecrown", 1400, 210, 0xa7e7ff, 7, 5, 1.2),
-  titan(14, "moon-shell", "Moon Shell", 1545, 42, 0xa7e7ff, 7, 5, 1.0),
-  titan(15, "veilwing", "Veilwing", 1685, 148, 0xa7e7ff, 8, 5, 1.8),
+  titan(11, "silver-strider", "Silver Strider", 1120, 250, 0xa7e7ff, 17, 9, 1.7),
+  titan(12, "mirror-ray", "Mirror Ray", 1260, 95, 0xa7e7ff, 22, 12, 2.4),
+  titan(13, "needlecrown", "Needlecrown", 1400, 210, 0xa7e7ff, 18, 10, 1.2),
+  titan(14, "moon-shell", "Moon Shell", 1545, 42, 0xa7e7ff, 19, 10, 1.0),
+  titan(15, "veilwing", "Veilwing", 1685, 148, 0xa7e7ff, 21, 12, 1.8),
 
-  titan(16, "ember-tusk", "Ember Tusk", 1825, 235, 0xff6d32, 8, 5, 1.3),
-  titan(17, "furnace-drake", "Furnace Drake", 1960, 188, 0xff6d32, 8, 5, 1.8),
-  titan(18, "ash-colossus", "Ash Colossus", 2160, 165, 0xff6d32, 7, 5, 1.4),
-  titan(19, "magma-whale", "Magma Whale", 2420, 225, 0xff6d32, 8, 4, 2.5),
-  titan(20, "cinder-centipede", "Cinder Centipede", 2730, 148, 0xff6d32, 8, 4, 2.3),
+  titan(16, "ember-tusk", "Ember Tusk", 1825, 235, 0xff6d32, 19, 10, 1.3),
+  titan(17, "furnace-drake", "Furnace Drake", 1960, 188, 0xff6d32, 20, 11, 1.8),
+  titan(18, "ash-colossus", "Ash Colossus", 2160, 165, 0xff6d32, 18, 10, 1.4),
+  titan(19, "magma-whale", "Magma Whale", 2420, 225, 0xff6d32, 22, 12, 2.5),
+  titan(20, "cinder-centipede", "Cinder Centipede", 2730, 148, 0xff6d32, 22, 12, 2.3),
 
-  titan(21, "obsidian-sleeper", "Obsidian Sleeper", 3090, 260, 0xc878ff, 8, 5, 1.0),
-  titan(22, "rift-heron", "Rift Heron", 3490, 190, 0xc878ff, 7, 5, 1.8),
-  titan(23, "star-eater", "Star Eater", 3910, 240, 0xc878ff, 8, 5, 2.4),
-  titan(24, "deep-crown", "Deep Crown", 4380, 155, 0xc878ff, 8, 5, 1.5),
-  titan(25, "worldroot-titan", "Worldroot Titan", 4860, 215, 0xc878ff, 8, 5, 1.2),
+  titan(21, "obsidian-sleeper", "Obsidian Sleeper", 3090, 260, 0xc878ff, 19, 10, 1.0),
+  titan(22, "rift-heron", "Rift Heron", 3490, 190, 0xc878ff, 17, 9, 1.8),
+  titan(23, "star-eater", "Star Eater", 3910, 240, 0xc878ff, 22, 12, 2.4),
+  titan(24, "deep-crown", "Deep Crown", 4380, 155, 0xc878ff, 20, 11, 1.5),
+  titan(25, "worldroot-titan", "Worldroot Titan", 4860, 215, 0xc878ff, 22, 12, 1.2),
 ]);
 
 export const TITAN_DISCOVERY_CONFIG = Object.freeze({
@@ -132,29 +137,40 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     globalKey: "__jkdTitanDiscoveries",
     readyStage: "titan-discoveries-ready",
     missingAssetCode: "titan-discovery-asset-missing",
+    chamberAssetCode: "titan-chamber-stream-failed",
     incompleteRuntimeCode: "titan-discovery-runtime-incomplete",
     severity: "error",
   }),
   zoneSearch: Object.freeze({
-    horizontalRadiusTiles: 24,
-    verticalRadiusTiles: 14,
+    horizontalRadiusTiles: 40,
+    verticalRadiusTiles: 20,
     stepTiles: 2,
     worldEdgeMarginTiles: 2,
-    overlapPaddingTiles: 3,
-    minimumTrackedTiles: 14,
-    triggerRangeTiles: 12,
+    overlapPaddingTiles: 5,
+    minimumTrackedTiles: 64,
+    triggerRangeTiles: 16,
   }),
   backdrop: Object.freeze({
     spriteDepth: -5.98,
     glowDepth: -5.96,
-    fitFraction: 0.9,
-    hiddenAlpha: 0.08,
-    progressAlpha: 0.28,
-    discoveredAlpha: 0.16,
-    peakAlpha: 0.92,
+    fitFraction: 0.98,
+    hiddenAlpha: 0.04,
+    progressAlpha: 0.46,
+    discoveredAlpha: 0.82,
+    peakAlpha: 0.98,
     idleDriftPixels: 7,
     idlePeriodMs: 9200,
     phaseStep: 0.73,
+  }),
+  chambers: Object.freeze({
+    enabledByDefault: true,
+    queryParam: "titanChambers",
+    disabledValues: DISABLED_QUERY_VALUES,
+    preloadRangeTiles: 24,
+    releaseRangeTiles: 36,
+    maxResidentCards: 2,
+    nativeWidthPx: 1536,
+    nativeHeightPx: 848,
   }),
   unlockFx: Object.freeze({
     ringDepth: -5.94,
@@ -166,12 +182,12 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     peakScale: 1.06,
     ringCount: 3,
     ringStartRadiusTiles: 0.42,
-    ringEndScale: 4.8,
+    ringEndScale: 16,
     ringLineWidth: 3,
     ringAlpha: 0.82,
     ringStaggerMs: 130,
-    ringDurationMs: 1450,
-    dustCount: 18,
+    ringDurationMs: 1900,
+    dustCount: 30,
     dustRadiusMinPx: 2,
     dustRadiusStepPx: 1,
     dustFallMinTiles: 0.8,
@@ -242,6 +258,20 @@ export function resolveTitanDiscoveriesEnabled(
   return config.enabledByDefault;
 }
 
+export function resolveTitanChambersEnabled(
+  config = TITAN_DISCOVERY_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  if (!resolveTitanDiscoveriesEnabled(config, search)) return false;
+  const chamberConfig = config.chambers;
+  const value = new URLSearchParams(search)
+    .get(chamberConfig.queryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && chamberConfig.disabledValues.includes(value)) return false;
+  return chamberConfig.enabledByDefault;
+}
+
 export function getTitanDiscoveryPreloadAssets(
   config = TITAN_DISCOVERY_CONFIG,
   search
@@ -251,6 +281,14 @@ export function getTitanDiscoveryPreloadAssets(
     ...config.definitions.map(definition => definition.asset),
     config.assets.walkPlinth,
   ];
+}
+
+export function getTitanChamberAssets(
+  config = TITAN_DISCOVERY_CONFIG,
+  search
+) {
+  if (!resolveTitanChambersEnabled(config, search)) return [];
+  return config.definitions.map(definition => definition.chamberAsset);
 }
 
 export function getTitanDefinition(id, config = TITAN_DISCOVERY_CONFIG) {

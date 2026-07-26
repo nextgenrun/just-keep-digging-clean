@@ -4,6 +4,7 @@ import {
 } from "../../values/titanDiscoveries.js";
 import { playTitanUnlockFx } from "./titanDiscoveryFx.js";
 import { buildTitanDiscoveryZones } from "./titanDiscoveryZones.js";
+import { TitanChamberStream } from "./TitanChamberStream.js";
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js";
 function fitScale(image, maximumWidth, maximumHeight) {
   return Math.min(
@@ -24,6 +25,15 @@ export class TitanDiscoverySystem {
     this.config = config;
     this.zoneViews = [];
     this.surfaceGallery = new TitanSurfaceGallery(scene, worldModel, config);
+    this.chamberStream = new TitanChamberStream(
+      scene,
+      worldModel,
+      config,
+      () => {
+        this.forceProgressSync = true;
+        if (this.created) this._publishHealth(true);
+      }
+    );
     this.transients = new Set();
     this.lastDugCount = -1;
     this.lastDiscoverySignature = "";
@@ -42,6 +52,7 @@ export class TitanDiscoverySystem {
     this.zoneViews = zones
       .filter(zone => this._textureExists(zone.definition.asset.key))
       .map(zone => this._createBackdropView(zone));
+    this.chamberStream.create(this.zoneViews);
     this.surfaceGallery.sync(new Set(), true);
     this.created = this.zoneViews.length > 0;
     this._publishHealth(true);
@@ -98,6 +109,7 @@ export class TitanDiscoverySystem {
   }
   update(time, _delta, context = {}) {
     if (!this.created) return;
+    this.chamberStream.sync(context.playerTile);
     const retention = this.scene.retentionProgressSystem;
     const discoveredIds = retention?.getDiscoveredTitans?.() || [];
     const discoverySignature = [...discoveredIds].sort().join("|");
@@ -209,7 +221,9 @@ export class TitanDiscoverySystem {
   _publishHealth(enabled) {
     const snapshot = this.getSnapshot();
     const complete = snapshot.zones.length === snapshot.total
-      && snapshot.surface.ready;
+      && snapshot.surface.ready
+      && snapshot.chambers.ready
+      && snapshot.chambers.registered === snapshot.total;
     const status = !enabled ? "disabled" : complete ? "healthy" : "degraded";
     const health = { status, enabled, ...snapshot };
     globalThis[this.config.health.globalKey] = health;
@@ -224,10 +238,15 @@ export class TitanDiscoverySystem {
       );
     } else if (status === "degraded" && !this.healthFailureReported) {
       this.healthFailureReported = true;
-      const missing = snapshot.surface.missingAssets;
-      const code = missing.length
-        ? this.config.health.missingAssetCode
-        : this.config.health.incompleteRuntimeCode;
+      const missing = [
+        ...snapshot.surface.missingAssets,
+        ...snapshot.chambers.failedAssets,
+      ];
+      const code = snapshot.chambers.failedAssets.length
+        ? this.config.health.chamberAssetCode
+        : missing.length
+          ? this.config.health.missingAssetCode
+          : this.config.health.incompleteRuntimeCode;
       globalThis.__jkdHealth?.captureSystemFinding?.({
         key: code,
         code,
@@ -242,10 +261,12 @@ export class TitanDiscoverySystem {
   }
   getSnapshot() {
     const surface = this.surfaceGallery.getSnapshot();
+    const chambers = this.chamberStream.getSnapshot();
     return {
       total: this.config.definitions.length,
       discovered: surface.discovered,
       surface,
+      chambers,
       zones: this.zoneViews.map(view => ({
         id: view.definition.id,
         left: view.zone.left,
@@ -257,10 +278,15 @@ export class TitanDiscoverySystem {
         progress: view.progress,
         ready: view.ready,
         discovered: view.discovered,
+        visualMode: view.visualMode,
       })),
     };
   }
+  getArchiveAssetProvider() {
+    return this.chamberStream;
+  }
   destroy() {
+    this.chamberStream.destroy();
     const objects = [
       ...this.transients,
       ...this.zoneViews.flatMap(view => [view.sprite, view.glowSprite]),

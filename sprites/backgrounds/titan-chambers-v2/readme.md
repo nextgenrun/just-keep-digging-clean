@@ -15,4 +15,6 @@ Titans.
 
 ImageGen source PNGs and provenance live in `sources/`. The dated promotion tool
 normalizes sources, writes runtime WebP cards, validates dimensions, and builds
-the visual-QA contact sheet.
+the visual-QA contact sheet. Exact prompt provenance is recorded in
+`2026-07-26-imagegen-prompt-manifest-v2.md`; runtime hashes and encoded sizes
+are recorded in `2026-07-26-titan-chambers-production-manifest-v2.json`.

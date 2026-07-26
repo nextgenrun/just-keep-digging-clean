@@ -187,6 +187,10 @@ export class WorldVisualRuntime {
     return this.titanDiscoverySystem?.getSnapshot() || null;
   }
 
+  getTitanArchiveAssetProvider() {
+    return this.titanDiscoverySystem?.getArchiveAssetProvider() || null;
+  }
+
   setEmissiveRenderDepth(depth) {
     // Terrain feedback stays at terrain depth; only luminous semantic cues move
     // beneath LightSystem's darkness compositor.

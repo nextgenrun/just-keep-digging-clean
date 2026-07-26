@@ -475,6 +475,7 @@ export function setupUIMethods(prototype) {
         height: bodyHeight,
         parent: tabContent,
         retention: this.retentionProgressSystem,
+        chamberProvider: this.worldRenderer?.getTitanArchiveAssetProvider?.(),
         onFocus: index => state.focus?.setIndex?.(index),
       });
       state.controls = state.titanArchive.getControls();
