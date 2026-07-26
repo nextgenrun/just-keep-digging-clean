@@ -14,6 +14,10 @@ export class EarthquakeFeedbackUI {
     this.recap = null;
     this.mode = null;
     this.hiding = false;
+    this.modeExpiresAt = 0;
+    this.hideDeadline = 0;
+    this.suppressedSourceState = null;
+    this._lastSourceState = this.source?.state || "idle";
     this.destroyed = false;
     this._transitionToken = 0;
     this._notificationsShifted = false;
@@ -68,9 +72,12 @@ export class EarthquakeFeedbackUI {
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
     this.recap = null;
+    this.suppressedSourceState = null;
   }
 
   activateEscapeObjective() {
+    const sourceState = this.source?.state || "idle";
+    if (sourceState !== "idle") this.suppressedSourceState = sourceState;
     this.escapeActive = true;
     this.escapeExpiresAt = this._now() + this.config.timing.escapeVisibleMs;
     this.recap = null;
@@ -91,6 +98,7 @@ export class EarthquakeFeedbackUI {
   } = {}) {
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
+    this.suppressedSourceState = null;
     this.recap = playerAware ? {
       intensity,
       passagesOpened: Math.max(0, Math.floor(passagesOpened)),
@@ -106,6 +114,10 @@ export class EarthquakeFeedbackUI {
     this.recap = null;
     this.mode = null;
     this.hiding = false;
+    this.modeExpiresAt = 0;
+    this.hideDeadline = 0;
+    this.suppressedSourceState = null;
+    this._lastSourceState = this.source?.state || "idle";
     this._transitionToken += 1;
     this.scene.tweens?.killTweensOf?.([this.root, this.iconArt]);
     this._setVisible(false);
@@ -114,13 +126,28 @@ export class EarthquakeFeedbackUI {
   update() {
     if (this.destroyed || !this.config.enabled) return;
     const now = this._now();
+    if (this.hiding && now >= this.hideDeadline) this._setVisible(false);
+    const sourceState = this.source?.state || "idle";
+    if (sourceState !== this._lastSourceState) {
+      this._lastSourceState = sourceState;
+      this.suppressedSourceState = null;
+    }
     if (this.escapeActive && now >= this.escapeExpiresAt) {
       this.escapeActive = false;
       this.escapeExpiresAt = 0;
     }
     if (this.recap && now >= this.recap.expiresAt) this.recap = null;
+    if (
+      this.mode === sourceState
+      && Number.isFinite(this.modeExpiresAt)
+      && now >= this.modeExpiresAt
+    ) {
+      this.suppressedSourceState = sourceState;
+      this._hide();
+      return;
+    }
 
-    const nextMode = this._resolveMode();
+    const nextMode = this._resolveMode(sourceState);
     if (!nextMode) {
       this._hide();
       return;
@@ -129,12 +156,17 @@ export class EarthquakeFeedbackUI {
     this._render(nextMode, now);
   }
 
-  _resolveMode() {
+  _resolveMode(state = this.source?.state || "idle") {
     if (this.escapeActive) return "escape";
-    const state = this.source?.state || "idle";
     const awarenessKnown = typeof this.source?.isPlayerAware === "function";
     const playerAware = awarenessKnown ? this.source.isPlayerAware() : true;
-    if (state !== "idle" && playerAware) return state;
+    if (
+      state !== "idle"
+      && state !== this.suppressedSourceState
+      && playerAware
+    ) {
+      return state;
+    }
     if (this.recap) return "recap";
     return null;
   }
@@ -142,6 +174,10 @@ export class EarthquakeFeedbackUI {
   _enterMode(mode) {
     this.mode = mode;
     this.hiding = false;
+    const visibleMs = this.config.timing.phaseVisibleMs?.[mode];
+    this.modeExpiresAt = Number.isFinite(visibleMs)
+      ? this._now() + visibleMs
+      : Number.POSITIVE_INFINITY;
     const token = ++this._transitionToken;
     this.scene.tweens?.killTweensOf?.([this.root, this.iconArt]);
     this._layout();
@@ -170,6 +206,9 @@ export class EarthquakeFeedbackUI {
     if (this.hiding || (!this.mode && !this.root?.visible)) return;
     this.mode = null;
     this.hiding = true;
+    this.hideDeadline = this._now()
+      + this.config.timing.exitMs
+      + this.config.timing.hideFailsafePaddingMs;
     const token = ++this._transitionToken;
     this.scene.tweens?.killTweensOf?.([this.root, this.iconArt]);
     if (!this.scene.tweens?.add || !this.root?.visible) {
@@ -241,6 +280,8 @@ export class EarthquakeFeedbackUI {
     this.root?.setVisible(visible);
     if (!visible) {
       this.hiding = false;
+      this.hideDeadline = 0;
+      this.modeExpiresAt = 0;
       this.root?.setAlpha?.(0);
       this._restoreIconScale();
     }

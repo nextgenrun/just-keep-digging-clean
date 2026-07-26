@@ -323,10 +323,13 @@ routing, deterministic 14-cell seam, three-wide escape, reward ledge, calm
 weather window, protected ascent, surface-gated and pauseable 30-second flight
 bank, idempotent permanent cache rewards, generated runtime assets, preloads,
 save flags, and non-blocking starter choice integration.
+`openingFlightGoldenFiveFixture.mjs` keeps its deterministic world, scene, and
+view doubles reusable without inflating the executable contract.
 
 `2026-07-26-cave-resource-hazard-darkness-contract.mjs` guards deterministic
 real-resource seams, authored-cell protection, live mining HP, challenge
 density and checkpoint safety, all three hazard grammars, all-GP failure
 recovery, synchronized hazard lights, and distinct cave darkness rhythms.
-`?jkd_e2e=1` disables all save writes; Ctrl+Alt+C cycles live cave hazards and
-Ctrl+Alt+V enters the selected hazard for consequence validation.
+`?jkd_e2e=1` disables all save writes; F2 (or Ctrl+Alt+C) cycles live cave
+hazards and F3 (or Ctrl+Alt+V) enters the selected hazard for consequence
+validation.

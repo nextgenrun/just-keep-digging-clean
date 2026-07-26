@@ -16,28 +16,36 @@ function collectOpenColumns(worldModel, zone, config) {
   const maxX = Math.floor(zone.cx + zone.rx - config.placementEdgeMarginTiles);
   for (let tx = minX; tx <= maxX; tx += 1) {
     if (isNearEntrance(zone, tx, config.entranceClearanceTiles)) continue;
-    const airRows = [];
-    for (let ty = Math.floor(zone.cy - zone.ry); ty <= Math.ceil(zone.cy + zone.ry); ty += 1) {
-      if (worldModel.getTileType(tx, ty) === TILE_TYPES.AIR) airRows.push(ty);
+    const minY = Math.floor(zone.cy - zone.ry);
+    const maxY = Math.ceil(zone.cy + zone.ry);
+    let ceilingY = null;
+    for (let ty = minY; ty <= maxY + 1; ty += 1) {
+      const isAir = ty <= maxY && worldModel.getTileType(tx, ty) === TILE_TYPES.AIR;
+      if (isAir && ceilingY === null) {
+        ceilingY = ty;
+        continue;
+      }
+      if (isAir || ceilingY === null) continue;
+      const floorY = ty;
+      const openHeightTiles = floorY - ceilingY;
+      if (
+        worldModel.isSolid(tx, floorY)
+        && openHeightTiles >= config.minimumOpenHeightTiles
+      ) {
+        columns.push({ tx, ceilingY, floorY, openHeightTiles });
+      }
+      ceilingY = null;
     }
-    if (!airRows.length) continue;
-    const ceilingY = Math.min(...airRows);
-    const floorY = Math.max(...airRows) + 1;
-    if (!worldModel.isSolid(tx, floorY)) continue;
-    if (floorY - ceilingY < config.minimumOpenHeightTiles) continue;
-    columns.push({ tx, ceilingY, floorY, openHeightTiles: floorY - ceilingY });
   }
   return columns;
 }
 
-function findCheckpoint(columns, startTx, direction, config) {
-  return columns
-    .filter(column => {
-      const distance = (column.tx - startTx) * direction;
-      return distance > 0 && distance <= config.checkpointSearchTiles;
-    })
-    .sort((a, b) => Math.abs(a.tx - startTx) - Math.abs(b.tx - startTx))
-    .map(column => ({ tx: column.tx, ty: column.floorY - 1 }))[0] || null;
+function findCheckpoint(columns, startTx, direction, floorY, config) {
+  const checkpointTx = startTx + direction * config.checkpointOffsetTiles;
+  const column = columns.find(entry => (
+    entry.tx === checkpointTx && entry.floorY === floorY
+  ));
+  return column ? { tx: column.tx, ty: column.floorY - 1 } : null;
 }
 
 function resolveHazardKind(profile, column, zone, hazardIndex, config, salts) {
@@ -69,11 +77,17 @@ function buildHazard(zone, columns, column, kind, hazardIndex, gameplayConfig) {
         * widthRange,
     );
     endTx = startTx + width - 1;
-    const span = columns.filter(entry => entry.tx >= startTx && entry.tx <= endTx);
+    const span = [];
+    for (let tx = startTx; tx <= endTx; tx += 1) {
+      const matching = columns.find(entry => (
+        entry.tx === tx && entry.floorY === column.floorY
+      ));
+      if (matching) span.push(matching);
+    }
     if (span.length !== width) return null;
   }
-  const leftCheckpoint = findCheckpoint(columns, startTx, -1, config);
-  const rightCheckpoint = findCheckpoint(columns, endTx, 1, config);
+  const leftCheckpoint = findCheckpoint(columns, startTx, -1, column.floorY, config);
+  const rightCheckpoint = findCheckpoint(columns, endTx, 1, column.floorY, config);
   if (!leftCheckpoint || !rightCheckpoint) return null;
   const phaseMs = Math.floor(
     hash01(zone.visualSeed, hazardIndex, zone.cy, gameplayConfig.salts.hazardPhase)

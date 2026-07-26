@@ -18,6 +18,12 @@ export const EARTHQUAKE_FEEDBACK_CONFIG = Object.freeze({
   timing: Object.freeze({
     enterMs: 180,
     exitMs: 240,
+    hideFailsafePaddingMs: 180,
+    phaseVisibleMs: Object.freeze({
+      warning: 4800,
+      earthquake: 5200,
+      aftermath: 3200,
+    }),
     recapVisibleMs: 3200,
     escapeVisibleMs: 6500,
     iconPulsePeriodMs: 520,

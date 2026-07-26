@@ -48,9 +48,16 @@ for (const seam of worldA.caveResourceSeams) {
 }
 
 for (const hazard of worldA.caveHazardZones) {
+  assert.equal(hazard.leftCheckpoint.tx, hazard.startTx - 1);
+  assert.equal(hazard.rightCheckpoint.tx, hazard.endTx + 1);
   for (const checkpoint of [hazard.leftCheckpoint, hazard.rightCheckpoint]) {
+    assert.equal(checkpoint.ty, hazard.floorY - 1);
     assert.equal(worldA.getTileType(checkpoint.tx, checkpoint.ty), TILE_TYPES.AIR);
     assert.equal(worldA.isSolid(checkpoint.tx, checkpoint.ty + 1), true);
+  }
+  for (let tx = hazard.startTx; tx <= hazard.endTx; tx += 1) {
+    assert.equal(worldA.getTileType(tx, hazard.floorY - 1), TILE_TYPES.AIR);
+    assert.equal(worldA.isSolid(tx, hazard.floorY), true);
   }
 }
 assert.equal(

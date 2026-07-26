@@ -48,6 +48,18 @@ python tools/piskel-mcp/character_piskel_pipeline.py preview --ids quickslash-v2
 
 The imported video captures use a stable center-square crop and checker-matte/neutral-fringe cleanup. Their loose PNG selection is authoritative; numbering gaps are preserved as intentional curated cuts.
 
+The shared Piskel bridge is split into focused document, analysis, artifact,
+pack, and command modules. Run `polish` for manifest-enabled animation sources:
+
+```powershell
+python tools/piskel-mcp/character_piskel_pipeline.py polish --ids survival-blender-v2-dig-up
+```
+
+The manifest chooses a pose-resistant body anchor and baseline. One uniform
+scale is allowed for the whole animation; individual frames are never resized.
+This keeps deliberate limb extension while removing body/root and ground-line
+drift.
+
 Generate Blender motion-envelope references with:
 
 ```powershell

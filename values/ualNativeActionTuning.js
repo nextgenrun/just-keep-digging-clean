@@ -68,6 +68,8 @@ export function resolveUalActionContact(profile, animationKey, kind = "normal") 
   const contacts = UAL_NATIVE_ACTION_TUNING.contact;
   if (kind === "quickslash" || animationKey === profile?.quickslashAnim) return contacts.quickslash;
   if (kind === "thunderstrike" || animationKey === profile?.thunderStrikeStrikeAnim) return contacts.thunderStrike;
+  const profileContact = profile?.actionContactByAnimation?.[animationKey];
+  if (profileContact) return profileContact;
   if (animationKey === profile?.digDownAnim || animationKey === profile?.attackDownAnim) return contacts.digDown;
 
   const variant = profile?.digAnimationVariants?.find((entry) => entry.key === animationKey);

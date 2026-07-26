@@ -45,6 +45,7 @@ function closeTransientUi(scene) {
   scene.shopOverlay?.hide?.();
   scene.uiInventoryPopup?.close?.();
   scene.levelUpPopup?.hide?.();
+  scene.openingFlightArtifactSystem?.view?.hideHud?.();
   scene.campfireSystem?._closeBuffSelection?.();
   scene.milestoneBoardSystem?._closeBoardView?.();
   if (scene.depthGateSystem?.isOpen?.()) scene.depthGateSystem._decline?.();

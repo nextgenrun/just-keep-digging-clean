@@ -10,6 +10,7 @@ import { PlayerMotionPolishSystem } from "../systems/visual/PlayerMotionPolishSy
 import {
   PLAYER_ASSET_PROFILES,
   resolvePlayerDisplaySizePx,
+  resolvePlayerVisualOrigin,
 } from "../values/playerAssetProfiles.js";
 import {
   DEFAULT_PLAYER_CHARACTER_ID,
@@ -31,6 +32,12 @@ const runtimePath = resolve(root, survival.basePath);
 const blenderRuntimePath = resolve(root, blender.basePath);
 const runtimeManifest = JSON.parse(readFileSync(resolve(runtimePath, "manifest.json"), "utf8"));
 const blenderManifest = JSON.parse(readFileSync(resolve(blenderRuntimePath, "manifest.json"), "utf8"));
+const piskelManifest = JSON.parse(readFileSync(
+  resolve(root, "sprites/character/piskel/character-animation-manifest.json"),
+  "utf8",
+));
+const polishedDigUp = piskelManifest.animations.find(({ id }) => id === "survival-blender-v2-dig-up");
+const polishedDigUpReport = JSON.parse(readFileSync(resolve(root, polishedDigUp.metadataPath), "utf8"));
 const proneV3Config = JSON.parse(readFileSync(
   resolve(root, "values/supermanFlightProneV3Runtime.json"),
   "utf8",
@@ -59,12 +66,15 @@ assert.equal(resolvePlayerCharacterIdFromSearch(""), null);
 assert.equal(survival.characterId, PLAYER_CHARACTER_IDS.survivalUal);
 assert.equal(survival.isUalNative, true);
 assert.equal(survival.basePath, "sprites/character/survival-ual-player-v1/runtime");
-assert.equal(survival.renderPipeline, "survival-blender-v2-superman-prone-v3-flight-ual-jog-four-hit-jab-cross-v1");
+assert.equal(
+  survival.renderPipeline,
+  "survival-blender-v2-piskel-stabilized-dig-up-superman-prone-v3-flight-ual-jog-v1",
+);
 assert.equal(survival.visualSkin, blender.visualId);
 assert.equal(survival.weaponPolicy, "none");
 assert.equal(survival.sourceClips.pickaxeMining, undefined);
 assert.equal(survival.rejectedSourceClips.sideMining, "TreeChopping_Loop");
-assert.equal(survival.sourceClips.uppercut, "Melee_Hook");
+assert.match(survival.sourceClips.uppercut, /Piskel body-anchor polish/);
 assert.equal(survival.playerBodyWidthPx, ual.playerBodyWidthPx);
 assert.equal(survival.playerBodyHeightPx, ual.playerBodyHeightPx);
 assert.equal(survival.displaySizePx, ual.displaySizePx);
@@ -91,6 +101,12 @@ assert.deepEqual(survival.digSidewaysHitAnims, [
 assert.deepEqual(survival.rejectedAnimationKeys, [`${prefix}-dig-side-jab-anim`]);
 assert.deepEqual(survival.walkFrames, blender.frames.walk);
 assert.deepEqual(survival.walkRunFrames, ual.walkRunFrames);
+assert.equal(survival.digUpSheet, blender.sheets.digUp.key);
+assert.equal(survival.digUpSidewaysSheet, blender.sheets.digUp.key);
+assert.equal(survival.uppercutSheet, blender.sheets.digUp.key);
+assert.deepEqual(survival.digUpFrames, blender.frames.digUp);
+assert.deepEqual(survival.digUpSidewaysFrames, blender.frames.digUp);
+assert.equal(survival.digUpAnimationFps, blender.sheets.digUp.frameRate);
 assert.deepEqual(survival.flySourceFrames, blender.frames.fly);
 assert.deepEqual(survival.flightTravelLoopFrames, blender.frames.fly);
 assert.equal(survival.sheetFiles.length, ual.sheetFiles.length);
@@ -120,6 +136,13 @@ assert.equal(blenderManifest.clips.fly.file, blender.sheets.fly.fileName);
 assert.equal(blenderManifest.clips.fly.columns, 12);
 assert.equal(blenderManifest.clips.fly.frames, 36);
 assert.equal(blenderManifest.clips.fly.fps, 16);
+assert.equal(polishedDigUp.autoAlign, true);
+assert.equal(polishedDigUp.centeringPolicy.anchorMode, "alpha-lower-body");
+assert.equal(polishedDigUp.centeringPolicy.targetAnchorX, 128);
+assert.equal(polishedDigUp.centeringPolicy.bottomY, 248);
+assert.equal(polishedDigUpReport.polish.uniformScale, 1);
+assert.ok(polishedDigUpReport.polish.after.maxAnchorDriftPx <= 1);
+assert.equal(polishedDigUpReport.polish.after.maxBottomDriftPx, 0);
 assert.equal(proneV3Config.productionChanged, true);
 assert.equal(proneV3Promotion.productionChanged, true);
 assert.equal(proneV3Promotion.source.action, "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3");
@@ -160,6 +183,14 @@ assert.ok(survivalKeys.every((key) => (
 assert.ok(survivalKeys.every((key) => !ualKeys.has(key)));
 assert.ok(survivalKeys.some((key) => key.startsWith("survival-blender-v2-")));
 assert.equal(resolvePlayerDisplaySizePx(survival, survival.displaySizePx, survival.walkRunAnim), 123);
+assert.equal(
+  resolvePlayerDisplaySizePx(survival, survival.displaySizePx, survival.digUpHitAnims[0]),
+  blender.sheets.digUp.displaySizePx,
+);
+assert.deepEqual(
+  resolvePlayerVisualOrigin(survival, survival.digUpHitAnims[0], survival.digUpSheet),
+  { x: blender.sheets.digUp.originX, y: blender.sheets.digUp.originY },
+);
 assert.deepEqual(
   resolveUalActionContact(survival, survival.digSidewaysHitAnims[0]),
   resolveUalActionContact(ual, ual.digSidewaysHitAnims[0]),
@@ -174,7 +205,15 @@ assert.deepEqual(
 );
 assert.equal(
   resolveUalActionContact(survival, survival.digUpHitAnims[0]).sequenceIndex,
-  6,
+  blender.sheets.digUp.contactSequenceIndex,
+);
+assert.equal(
+  resolveUalActionContact(survival, survival.digUpHitAnims[0]).textureFrame,
+  blender.sheets.digUp.contactFrame,
+);
+assert.equal(
+  resolveUalActionContact(survival, survival.digUpHitAnims[0]).sourceAction,
+  blender.sheets.digUp.sourceAction,
 );
 
 const queuedSheets = [];
@@ -190,11 +229,15 @@ const loaderScene = {
 assert.equal(queuePlayerProfileSheets(loaderScene, survival), true);
 assert.equal(queuedSheets.length, survival.sheetFiles.length);
 const blenderQueued = queuedSheets.filter(({ key }) => key.startsWith("survival-blender-v2-"));
-assert.equal(blenderQueued.length, 4);
+assert.equal(blenderQueued.length, 5);
 assert.ok(blenderQueued.every(({ url }) => url.startsWith(`${blender.basePath}/`)));
 assert.equal(
   blenderQueued.find(({ key }) => key === blender.sheets.fly.key)?.options.endFrame,
   blender.frames.fly.at(-1),
+);
+assert.equal(
+  blenderQueued.find(({ key }) => key === blender.sheets.digUp.key)?.options.endFrame,
+  blender.frames.digUp.at(-1),
 );
 assert.ok(queuedSheets.some(({ key, url }) => (
   key === survival.punchJabSheet && url.startsWith(`${survival.basePath}/${prefix}-punch-jab-sheet.webp`)
@@ -225,6 +268,13 @@ assert.equal(createdAnimations.get(survival.digUpLookAnim)?.frameRate, 30);
 assert.equal(createdAnimations.get(survival.landingAnim)?.frameRate, 40);
 assert.equal(createdAnimations.get(survival.landingAnim)?.frames.length, 14);
 assert.equal(createdAnimations.get(survival.digUpHitAnims[0])?.frames.length, 24);
+assert.equal(
+  createdAnimations.get(survival.digUpHitAnims[0])?.frameRate,
+  blender.sheets.digUp.frameRate,
+);
+assert.ok(createdAnimations.get(survival.digUpHitAnims[0])?.frames.every(
+  ({ key }) => key === blender.sheets.digUp.key,
+));
 for (const key of [
   survival.flyAnim,
   survival.flyClimbAnim,

@@ -99,7 +99,7 @@ export const CAVE_GAMEPLAY_CONFIG = Object.freeze({
     entranceClearanceTiles: 3,
     placementEdgeMarginTiles: 3,
     minimumHazardSpacingTiles: 5,
-    checkpointSearchTiles: 6,
+    checkpointOffsetTiles: 1,
     minimumOpenHeightTiles: 1,
     tallHazardMinimumOpenHeightTiles: 2,
     spikeRunMinimumWidthTiles: 2,
