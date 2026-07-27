@@ -2,6 +2,7 @@ import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";
+import { SkySteadyLightRenderer } from "./SkySteadyLightRenderer.js";
 import {
   resolvePlayerLightAnchor,
   resolvePlayerLightEnvironment,
@@ -68,6 +69,10 @@ export class LightSystem {
     this._skyBeaconPulseRenderer = new SkyBeaconPulseRenderer(
       scene,
       config.skyTileLights?.beaconPulse?.visuals
+    );
+    this._skySteadyLightRenderer = new SkySteadyLightRenderer(
+      scene,
+      config.skyTileLights?.steadyAura
     );
 
     this._torchHalo = this._createGlowImage(config.torchHaloColor);
@@ -250,6 +255,7 @@ export class LightSystem {
     this._eraser?.destroy();
     this._crystalEraser?.destroy();
     this._skyBeaconPulseRenderer?.destroy();
+    this._skySteadyLightRenderer?.destroy();
     this._darknessTexture = null;
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
@@ -263,6 +269,7 @@ export class LightSystem {
     this._eraser = null;
     this._crystalEraser = null;
     this._skyBeaconPulseRenderer = null;
+    this._skySteadyLightRenderer = null;
     this._torchKey = null;
     this._torchKeyHandler = null;
   }
@@ -471,6 +478,7 @@ export class LightSystem {
     const player = this.scene.player;
     const playerTile = this.playerController?.getPlayerTile?.() || null;
     this._skyBeaconPulseRenderer?.beginFrame();
+    this._skySteadyLightRenderer?.beginFrame();
 
     const darknessAlpha = this._computeDarknessAlpha(lighting);
     const inactiveThreshold = Math.max(
@@ -1084,6 +1092,17 @@ export class LightSystem {
         lightPoint.textureX,
         lightPoint.textureY
       );
+      if (cfg.steadyAura?.enabled) {
+        this._skySteadyLightRenderer?.draw({
+          worldX,
+          worldY,
+          tileSize,
+          verticalScale,
+          radiusTiles: scaledRadiusTiles,
+          rarity: worldModel.getSkyTileRarity?.(source.tx, source.ty) ?? 0,
+          intensity: flicker,
+        });
+      }
 
       if (pulseSourcesDrawn >= maxConcurrentPulses) continue;
       const pulse = this._resolveTileBeaconPulse(time, source.tx, source.ty, pulseCfg);

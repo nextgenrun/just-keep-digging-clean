@@ -262,6 +262,53 @@ export const LIGHT_CONFIG = Object.freeze({
     radiusTiles: 1.55,
     maxRadiusTiles: 1.72,
     verticalScale: 0.88,
+    steadyAura: Object.freeze({
+      enabled: true,
+      renderDepth: 900.5,
+      blendMode: "ADD",
+      artSource: "ImageGen",
+      artRevision: "star-block-steady-light-v1-20260727",
+      artLightDiameterRatio: 0.78,
+      radiusMultiplier: 1,
+      opacity: 0.22,
+      minimumAlpha: 0.004,
+      maxImages: 24,
+      fallbackRarityIndex: 0,
+      rarityOpacityMultipliers: Object.freeze([
+        0.86,
+        0.90,
+        0.94,
+        0.96,
+        0.94,
+        1,
+      ]),
+      rarityAssets: Object.freeze([
+        Object.freeze({
+          key: "star-block-steady-light-cyan-v1",
+          path: "sprites/environment/star-block-steady-light-v1/star-block-steady-light-cyan-v1.png?v=20260727",
+        }),
+        Object.freeze({
+          key: "star-block-steady-light-lavender-v1",
+          path: "sprites/environment/star-block-steady-light-v1/star-block-steady-light-lavender-v1.png?v=20260727",
+        }),
+        Object.freeze({
+          key: "star-block-steady-light-gold-v1",
+          path: "sprites/environment/star-block-steady-light-v1/star-block-steady-light-gold-v1.png?v=20260727",
+        }),
+        Object.freeze({
+          key: "star-block-steady-light-orange-v1",
+          path: "sprites/environment/star-block-steady-light-v1/star-block-steady-light-orange-v1.png?v=20260727",
+        }),
+        Object.freeze({
+          key: "star-block-steady-light-turquoise-v1",
+          path: "sprites/environment/star-block-steady-light-v1/star-block-steady-light-turquoise-v1.png?v=20260727",
+        }),
+        Object.freeze({
+          key: "star-block-steady-light-violet-v1",
+          path: "sprites/environment/star-block-steady-light-v1/star-block-steady-light-violet-v1.png?v=20260727",
+        }),
+      ]),
+    }),
     beaconPulse: Object.freeze({
       enabled: true,
       // Each coordinate-seeded window only has a small chance to emit. Nearby
@@ -364,5 +411,10 @@ export const LIGHT_CONFIG = Object.freeze({
 
 export function getStarBlockPulsePreloadAssets(config = LIGHT_CONFIG) {
   const assets = config.skyTileLights?.beaconPulse?.visuals?.rarityAssets;
+  return Array.isArray(assets) ? assets : [];
+}
+
+export function getStarBlockSteadyLightPreloadAssets(config = LIGHT_CONFIG) {
+  const assets = config.skyTileLights?.steadyAura?.rarityAssets;
   return Array.isArray(assets) ? assets : [];
 }

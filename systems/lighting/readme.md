@@ -22,14 +22,20 @@ The Survival UAL prone-flight sheet also supplies an alpha-audited visible
 center, while other character sheets retain the collider-center fallback.
 
 Star Blocks remain independent hard-darkness light sources.
-`SkyBeaconPulseRenderer` presents their staggered beacon with six preloaded
-1254 px ImageGen sprites whose cyan, lavender, gold, orange, turquoise, and
-violet artwork matches the source Star Block rarity. Phaser only positions,
-scales, alpha-fades, and additively composites the art; it draws no pulse
-geometry. The ring travels outward for 8.8 seconds while continuously fading,
-with a low coordinate-seeded chance per 45-second window. Cross flares are
-intentionally absent, and only one visible Star Block ring may exist at a time
-while the darkness mask reveals a restrained area beneath the wave.
+`SkySteadyLightRenderer` pools six preloaded 1254 px ImageGen atmosphere
+textures above the darkness mask. Every in-view Star Block selects its live
+rarity texture, so cyan, lavender, gold, orange, turquoise, and violet stars
+stain nearby darkness with their own color instead of inheriting the generic
+torch light. Phaser only positions, scales, alpha-fades, and additively
+composites those images; it neither tints one generic texture nor draws
+replacement geometry.
+
+`SkyBeaconPulseRenderer` separately presents the rare staggered beacon with six
+matching ImageGen sprites. The ring travels outward for 8.8 seconds while
+continuously fading, with a low coordinate-seeded chance per 45-second window.
+Cross flares are intentionally absent, and only one visible Star Block ring may
+exist at a time while the darkness mask reveals a restrained area beneath the
+wave.
 
 Integrated caves use identity-specific darkness profiles rather than one
 constant reveal: Echo and Storm pulse sharply, Root and Gilded stay heavier,

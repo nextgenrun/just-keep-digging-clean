@@ -173,6 +173,11 @@ limited.
 ImageGen colour sprites, lossless production paths, rarity-to-colour selection,
 one pooled additive image, long-range flattened geometry, quiet-frame hiding,
 complete cleanup, and the absence of Canvas, tint, or Phaser primitive drawing.
+`2026-07-27-star-block-steady-colour-light-contract.mjs` verifies six unique
+1254 px ImageGen atmosphere textures in production rarity order, Boot preload,
+live rarity selection, a bounded pooled renderer above hard darkness and below
+the rare pulse, restrained additive opacity, softly flattened reach beyond the
+tile, cleanup, and the absence of Canvas, tint, or Phaser primitive drawing.
 `2026-07-26-titan-discovery-contract.mjs` verifies all 25 unique alpha sprites,
 the 512x320 generated plinth, deterministic non-overlapping clear-area zones,
 `?titans=0`, canonical persistence without duplicate or unknown ids, journal
