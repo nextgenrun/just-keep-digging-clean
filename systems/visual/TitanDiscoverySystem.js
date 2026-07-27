@@ -15,6 +15,7 @@ import {
   createTitanDiscoveryView,
   syncTitanDiscoveryViews,
 } from "./titanDiscoveryView.js";
+import { describeTitanDirection } from "./titanDirection.js";
 import { TitanChamberStream } from "./TitanChamberStream.js";
 import { TitanDiscoveryGuidance } from "./TitanDiscoveryGuidance.js";
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js";
@@ -133,6 +134,7 @@ export class TitanDiscoverySystem {
       if (!retention.discoverTitan(view.definition.id)) continue;
       view.ready = false;
       view.discovered = true;
+      this.scene.titanClueSystem?.completeClue?.(view.definition.id);
       playTitanUnlockFx(
         this.scene,
         view,
@@ -219,6 +221,31 @@ export class TitanDiscoverySystem {
   }
   getArchiveAssetProvider() {
     return this.chamberStream;
+  }
+  getClueDirection(titanId, playerTile) {
+    const view = this.zoneViews.find(
+      candidate => candidate.definition.id === titanId
+    );
+    if (!view) return null;
+    const description = describeTitanDirection(
+      playerTile,
+      view.zone,
+      this.experienceConfig.guidance.clueCopy,
+      this.experienceConfig
+    );
+    return description
+      ? {
+        titanId,
+        ...description,
+      }
+      : null;
+  }
+  getClueDirectionProvider() {
+    return {
+      getDirection: (titanId, playerTile) => (
+        this.getClueDirection(titanId, playerTile)
+      ),
+    };
   }
   destroy() {
     this.chamberStream.destroy();

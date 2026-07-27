@@ -6,9 +6,10 @@ import {
   resolvePlayerCharacterIdFromSearch,
 } from "../../values/playerCharacters.js?rev=20260718";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
+import { SAVE_TRANSFER_UI, UI_FONTS } from "../../values/uiLayout.js?rev=20260727-save-transfer-v1";
 import { createButton } from "../PhaserUiKit.js";
-import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js";
+import { createManualSaveFilePicker } from "../components/manualSaveFilePicker.js";
+import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
 
 const CARD_W = 290;
@@ -49,6 +50,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._confirmListening = false;
     this._backupPanel = null;
     this._importPanel = null;
+    this._saveTransferControls = [];
     this._pulseTween = null;
     this._isStartingGame = false;
   }
@@ -90,9 +92,10 @@ export class StartMenuScene extends Phaser.Scene {
     this.saveSlots = await this.loadSaveSlots();
     this._buildCards();
     this._animateCardEntry();
+    this._buildSaveTransferControls(W);
 
     // --- Start prompt (shown below cards once a slot is selected) ---
-    this._startPrompt = this.add.text(W / 2, 590, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
+    this._startPrompt = this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
       fontFamily: UI_FONTS.mono,
       fontSize: '16px',
       color: COL.dim,
@@ -101,10 +104,10 @@ export class StartMenuScene extends Phaser.Scene {
     // Separator above controls
     const sepLine2 = this.add.graphics();
     sepLine2.lineStyle(1, 0x1e2a36, 1);
-    sepLine2.lineBetween(80, 640, W - 80, 640);
+    sepLine2.lineBetween(80, SAVE_TRANSFER_UI.startMenu.dividerY, W - 80, SAVE_TRANSFER_UI.startMenu.dividerY);
 
     // --- Hint bar ---
-    this.add.text(W / 2, 656, '1 / 2 / 3: choose save     SPACE: start     DEL / BACKSPACE: clear     B: backups     E: export     I: import     ESC: menu', {
+    this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.hintY, '1 / 2 / 3: choose     SPACE: start     DEL: clear     B: backups     E: export     I: import     ESC: menu', {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.hint,
@@ -130,6 +133,7 @@ export class StartMenuScene extends Phaser.Scene {
       this.input.keyboard.off('keydown-E');
       this.input.keyboard.off('keydown-I');
       this.input.keyboard.off('keydown-ESC');
+      this._closeImportPanel();
     });
   }
 
@@ -350,6 +354,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._startPrompt.setColor(COL.green);
     this.tweens.killTweensOf(this._startPrompt);
     this.tweens.add({ targets: this._startPrompt, alpha: { from: 0.3, to: 1.0 }, duration: 260, ease: 'Power2.out' });
+    this._syncSaveTransferControls();
   }
 
   _animateCardEntry() {
@@ -363,6 +368,45 @@ export class StartMenuScene extends Phaser.Scene {
         ease: 'Power2.out',
       });
     });
+  }
+
+  _buildSaveTransferControls(width) {
+    const layout = SAVE_TRANSFER_UI.startMenu;
+    const offsetX = layout.buttonWidth / 2 + layout.buttonGap / 2;
+    const exportButton = createButton(this, {
+      x: width / 2 - offsetX,
+      y: layout.buttonRowY,
+      width: layout.buttonWidth,
+      height: layout.buttonHeight,
+      label: SAVE_TRANSFER_UI.copy.startExport,
+      hint: "E",
+      icon: "journal",
+      accent: UI_COLORS.borderGood,
+      onClick: () => {
+        if (this.selectedSlot !== null) this._exportSave(this.selectedSlot);
+      },
+    });
+    const importButton = createButton(this, {
+      x: width / 2 + offsetX,
+      y: layout.buttonRowY,
+      width: layout.buttonWidth,
+      height: layout.buttonHeight,
+      label: SAVE_TRANSFER_UI.copy.startImport,
+      hint: "I",
+      icon: "next",
+      accent: UI_COLORS.borderSel,
+      onClick: () => this._showImportPanel(),
+    });
+    this._saveTransferControls = [exportButton, importButton];
+    this._syncSaveTransferControls();
+  }
+
+  _syncSaveTransferControls() {
+    const [exportButton, importButton] = this._saveTransferControls;
+    if (!exportButton || !importButton) return;
+    const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
+    exportButton.setEnabled(Boolean(selectedSave?.hasData));
+    importButton.setEnabled(Boolean(this.selectedSlot));
   }
 
   // ─── Input ───────────────────────────────────────────────────────────────
@@ -389,12 +433,13 @@ export class StartMenuScene extends Phaser.Scene {
 
     this.input.keyboard.on('keydown-E', () => {
       if (this._confirmPanel || this._backupPanel || this._importPanel) return;
-      if (this.selectedSlot !== null) this._exportSave(this.selectedSlot);
+      const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
+      if (selectedSave?.hasData) this._exportSave(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-I', () => {
       if (this._confirmPanel || this._backupPanel || this._importPanel) return;
-      this._showImportPanel();
+      if (this.selectedSlot !== null) this._showImportPanel();
     });
 
     this.input.keyboard.on('keydown-ESC', () => {
@@ -525,6 +570,7 @@ export class StartMenuScene extends Phaser.Scene {
         this.selectedSlot = null;
         this._startPrompt.setText('SELECT A SLOT TO BEGIN');
         this._startPrompt.setColor(COL.dim);
+        this._syncSaveTransferControls();
       } else if (this.selectedSlot !== null) {
         this._selectSlot(this.selectedSlot);
       }
@@ -646,6 +692,11 @@ export class StartMenuScene extends Phaser.Scene {
       const result = store.restoreFromBackup(backupIndex);
       
       if (result.success) {
+        const restored = store.saveToLocalStorage(result.saveData);
+        if (!restored) {
+          console.error('[StartMenuScene] Failed to persist restored backup');
+          return;
+        }
         this._closeBackupPanel();
         this.saveSlots = await this.loadSaveSlots();
         this._destroyCards();
@@ -680,11 +731,13 @@ export class StartMenuScene extends Phaser.Scene {
   }
 
   _showImportPanel() {
-    if (this._importPanel) return;
+    if (this._importPanel || this.selectedSlot === null) return;
     
     const W = this.scale.width;
     const H = this.scale.height;
-    const pw = 500, ph = 200;
+    const layout = SAVE_TRANSFER_UI.startMenu;
+    const pw = layout.importPanelWidth;
+    const ph = layout.importPanelHeight;
     const px = W / 2, py = H / 2;
 
     const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
@@ -694,45 +747,44 @@ export class StartMenuScene extends Phaser.Scene {
     panelG.fillRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
     panelG.strokeRoundedRect(px - pw / 2, py - ph / 2, pw, ph, 8);
 
-    const title = this.add.text(px, py - ph / 2 + 40, 'Import Save File', {
+    const title = this.add.text(px, py - ph / 2 + layout.importPanelTitleInsetY, 'Import Save File', {
       fontFamily: UI_FONTS.display,
       fontSize: '20px',
       fontStyle: 'bold',
       color: UI_COLORS.gold,
     }).setOrigin(0.5);
 
-    const hintText = this.add.text(px, py - 10, 
+    const hintText = this.add.text(px, py + layout.importPanelDescriptionOffsetY,
       'Click the button below to select a save file to import.\n' +
-      'The save will be imported into the currently selected slot.', {
+      'The current slot is backed up before the imported save replaces it.', {
       fontFamily: UI_FONTS.mono,
       fontSize: '13px',
       color: COL.dim,
       align: 'center',
+      wordWrap: { width: pw - layout.importPanelTextInsetX * 2 },
     }).setOrigin(0.5);
 
-    // Create file input
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.json';
-    fileInput.style.display = 'none';
-    document.body.appendChild(fileInput);
+    const filePicker = createManualSaveFilePicker({
+      onSelect: async file => {
+        await this._importSave(file);
+        this._closeImportPanel();
+      },
+    });
 
     const importBtn = createButton(this, {
       x: px - 88,
-      y: py + 58,
+      y: py + layout.importPanelButtonOffsetY,
       width: 160,
       height: 38,
       label: 'SELECT FILE',
       accent: UI_COLORS.borderGood,
       labelColor: UI_COLORS.success,
       depth: 10,
-      onClick: () => {
-        fileInput.click();
-      },
+      onClick: () => filePicker.open(),
     });
     const cancelBtn = createButton(this, {
       x: px + 98,
-      y: py + 58,
+      y: py + layout.importPanelButtonOffsetY,
       width: 140,
       height: 38,
       label: 'CANCEL',
@@ -742,16 +794,7 @@ export class StartMenuScene extends Phaser.Scene {
       onClick: () => this._closeImportPanel(),
     });
 
-    fileInput.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        await this._importSave(file);
-      }
-      document.body.removeChild(fileInput);
-      this._closeImportPanel();
-    };
-
-    const closeHint = this.add.text(px, py + ph / 2 - 24, 'JSON save files only', {
+    const closeHint = this.add.text(px, py + ph / 2 - layout.importPanelFooterInsetY, 'JSON save files only', {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.dim,
@@ -760,7 +803,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._importPanel = { 
       objects: [shade, panelG, title, hintText, closeHint],
       controls: [importBtn, cancelBtn],
-      fileInput
+      filePicker,
     };
   }
 
@@ -768,9 +811,7 @@ export class StartMenuScene extends Phaser.Scene {
     if (!this._importPanel) return;
     this._importPanel.objects.forEach(o => o.destroy());
     this._importPanel.controls?.forEach(control => control.destroy());
-    if (this._importPanel.fileInput && this._importPanel.fileInput.parentNode) {
-      document.body.removeChild(this._importPanel.fileInput);
-    }
+    this._importPanel.filePicker?.destroy();
     this._importPanel = null;
   }
 

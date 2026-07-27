@@ -7,6 +7,8 @@ World layer module — model.
 payload field. A Wurm pass saves its committed target/direction, noise,
 cooldown, and encounter count; loading an unspent mid-breach pass restores it
 as a fresh readable warning instead of an instant offscreen hit.
+Manual JSON imports validate the payload and create a rotating backup of the
+current slot before the replacement is written.
 
 `CaveIdentityPlanner.js` assigns deterministic depth-gated cave identities and
 ceiling/floor feature plans without consuming `WorldModel`'s shared RNG. It

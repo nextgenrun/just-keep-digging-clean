@@ -161,6 +161,7 @@ assert.deepEqual(guidance.getSnapshot(), {
   enabled: true,
   target: "",
   message: "",
+  source: "",
 });
 
 console.log(

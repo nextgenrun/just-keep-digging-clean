@@ -19,7 +19,10 @@ const [entry] = WORLD_VISUAL_LANDMARKS.entries;
 const worldModel = new WorldModel(GAME_CONFIG);
 const anchor = resolveWorldVisualLandmarkAnchor({ config: GAME_CONFIG }, worldModel, entry);
 assert.equal(entry.anchor.kind, "shallowestSafeCaveMouth");
-assert.ok(/^cave-\d+$/.test(anchor.zoneId));
+assert.ok(
+  worldModel.caveZones.some(zone => zone.id === anchor.zoneId),
+  "the landmark must resolve to an authoritative cave zone",
+);
 assert.ok(Number.isFinite(anchor.tileX));
 assert.ok(Number.isFinite(anchor.floorTileY));
 assert.equal(worldModel.isSolid(Math.ceil(anchor.tileX), anchor.floorTileY - 1), false);

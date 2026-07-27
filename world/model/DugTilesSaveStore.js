@@ -451,8 +451,16 @@ export class DugTilesSaveStore {
       if (!importData.saveData || typeof importData.saveData !== 'object') return { success: false, error: 'Invalid save file structure' };
       const saveData = this.normalizePayload(importData.saveData);
       if (!saveData) return { success: false, error: 'Invalid save data' };
-      this.saveToLocalStorage(saveData);
-      if (this.slotId) this.backupManager.createBackup(this.slotId, saveData);
+      const currentSave = this.loadFromLocalStorage();
+      if (currentSave && this.slotId) {
+        const backup = this.backupManager.createBackup(this.slotId, currentSave);
+        if (!backup.success) {
+          return { success: false, error: 'Could not create a safety backup for the current slot' };
+        }
+      }
+      if (!this.saveToLocalStorage(saveData)) {
+        return { success: false, error: 'Could not write the imported save' };
+      }
       return { success: true, saveData, importedFrom: importData.exportedAt, originalSlot: importData.slotId };
     } catch (error) { return { success: false, error: error.message }; }
   }

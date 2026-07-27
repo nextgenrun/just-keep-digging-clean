@@ -533,6 +533,10 @@ export class WorldRenderer {
     return this.titanDiscoverySystem?.getArchiveAssetProvider() || null;
   }
 
+  getTitanClueDirectionProvider() {
+    return this.titanDiscoverySystem?.getClueDirectionProvider() || null;
+  }
+
   /**
    * Update sky tile glow effects — rarity-aware colours, resource flash hint
    * Should be called every frame to animate the glow

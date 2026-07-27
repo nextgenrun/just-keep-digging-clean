@@ -70,6 +70,12 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
       Object.freeze({ tx: 264, ty: 4231 }),
       Object.freeze({ tx: 205, ty: 4700 }),
     ]),
+    teleportAccessOffsets: Object.freeze([
+      Object.freeze({ tx: 1, ty: 0 }),
+      Object.freeze({ tx: -1, ty: 0 }),
+      Object.freeze({ tx: 0, ty: 1 }),
+      Object.freeze({ tx: 0, ty: -1 }),
+    ]),
   }),
 });
 

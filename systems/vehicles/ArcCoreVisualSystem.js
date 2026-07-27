@@ -158,7 +158,10 @@ export class ArcCoreVisualSystem {
       this.updateLegacy();
       return { transitionActive: false, playerAlpha: this.unlocked ? 0 : 1 };
     }
-    this.legacySprite.setVisible(false);
+    this.legacySprite?.setVisible(false);
+    if (!this.layers) {
+      return { transitionActive: false, playerAlpha: 1 };
+    }
     if (this.transition) return this.updateTransition(timeMs);
     const center = this.getCenter();
     const action = this.digAction;
@@ -189,6 +192,7 @@ export class ArcCoreVisualSystem {
   }
 
   updateLegacy() {
+    if (!this.legacySprite) return;
     const profile = this.modeId === ARC_CORE_VISUAL_CONFIG.omega.id
       ? ARC_CORE_CONFIG.omega
       : ARC_CORE_CONFIG;

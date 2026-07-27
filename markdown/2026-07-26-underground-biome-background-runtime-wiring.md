@@ -1,14 +1,16 @@
 # Underground biome background runtime wiring
 
 Date: 2026-07-26  
-Status: fifty static images plus ten approved smooth V3 loops live
+Status: sixty static images plus ten approved smooth V3 loops live
 
 ## Production outcome
 
-Fifty background-only WebPs and ten approved V3 MP4s are active across the ten
-underground material bands. Each band has five deterministic 1536x1024 static
-compositions and one 1536x1024, eight-second, 60 fps whole-image loop. The
-rejected V2 WebMs are not part of any production pool.
+All fifty previously approved background-only WebPs, ten static derivatives of
+the named ImageGen concept paintings, and ten approved V3 MP4s are active across
+the ten underground material bands. Each band has five older deterministic
+1536x1024 static compositions, one concept-static composition, and one
+1536x1024, eight-second, 60 fps whole-image loop. The rejected V2 WebMs are not
+part of any production pool.
 
 | Layer | Phaser depth | Ownership |
 |---|---:|---|
@@ -21,7 +23,8 @@ They never become ground or collision.
 
 ## Variation and streaming
 
-- Five approved WebPs and one approved V3 MP4 per biome; sixty total.
+- Five older approved WebPs, one concept-static WebP, and one approved V3 MP4
+  per biome; seventy total.
 - Deterministic selection from world-space card column and row.
 - Only intersecting regions and neighbor cards remain active.
 - Exact bottom-card crops align every family with its material boundary.

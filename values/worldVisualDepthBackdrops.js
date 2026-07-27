@@ -4,14 +4,19 @@ const BIOME_MOTION_ROOT = "sprites/backgrounds/world-visual-v2/depth/biome-motio
 
 const asset = (key, path, type = "image") => Object.freeze({ key, path, type });
 const biomeAsset = stem => asset(`world-visual-biome-${stem}`, `${BIOME_ROOT}/${stem}-v2.webp`);
+const conceptStaticAsset = stem => asset(
+  `world-visual-biome-concept-${stem}`,
+  `${BIOME_ROOT}/${stem}-motion-v1.webp`
+);
 const smoothMotionAsset = stem => asset(
   `world-visual-biome-motion-v3-${stem}`,
   `${BIOME_MOTION_ROOT}/${stem}-loop-v3.mp4`,
   "video"
 );
-const biomeAssets = (stems, motionStem) => Object.freeze([
+const biomeAssets = (stems, conceptStem) => Object.freeze([
   ...stems.map(biomeAsset),
-  smoothMotionAsset(motionStem),
+  conceptStaticAsset(conceptStem),
+  smoothMotionAsset(conceptStem),
 ]);
 
 const LEGACY = Object.freeze({

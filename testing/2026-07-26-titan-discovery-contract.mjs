@@ -9,6 +9,7 @@ import {
   getTitanDiscoveryPreloadAssets,
   resolveTitanDiscoveriesEnabled,
 } from "../values/titanDiscoveries.js";
+import { TITAN_CLUE_CATALOG_CONFIG } from "../values/titanClueCatalog.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { RetentionProgressSystem } from "../systems/progression/RetentionProgressSystem.js";
 import { TitanDiscoverySystem } from "../systems/visual/TitanDiscoverySystem.js";
@@ -266,7 +267,11 @@ const archiveView = new TitanArchiveView(archiveScene, {
   parent: archiveHost,
   retention: runtimeRetention,
 });
-assert.equal(archiveView.getControls().length, 25);
+assert.equal(
+  archiveView.getControls().length,
+  TITAN_DEFINITIONS.length + 1,
+  "the archive exposes every Titan slot plus the clue action",
+);
 assert.equal(
   archiveView.nameText.text,
   TITAN_DEFINITIONS[0].name.toUpperCase(),
@@ -280,14 +285,19 @@ assert.ok(
 );
 const gridRight = -450 + 900 * TITAN_DISCOVERY_CONFIG.archive.gridWidthFraction;
 assert.ok(
-  archiveView.controls.every(control => (
+  archiveView.controls
+    .slice(0, TITAN_DEFINITIONS.length)
+    .every(control => (
     control.root.x + control.root.width / 2 < gridRight
   )),
   "all 25 archive slots must stay inside the grid panel",
 );
 archiveView.select(1);
 assert.equal(archiveView.nameText.text, "UNDISCOVERED TITAN");
-assert.match(archiveView.loreText.text, /Clear every original block/);
+assert.equal(
+  archiveView.loreText.text,
+  TITAN_CLUE_CATALOG_CONFIG.copy.lockedLore,
+);
 archiveView.destroy();
 assert.equal(archiveView.root.destroyed, true);
 

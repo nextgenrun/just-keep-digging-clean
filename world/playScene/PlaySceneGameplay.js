@@ -874,6 +874,9 @@ export function setupGameplayMethods(prototype) {
   };
 
   prototype.updatePlayerVisualState = function(force = false) {
+    if (this._isShuttingDown || !this.player?.anims || !this.playerController) {
+      return false;
+    }
     if (this.isDigAnimating || this._teleportInAnimating) {
       this.playerMotionPolish?.interruptForAction?.(this.time?.now || 0);
       return;

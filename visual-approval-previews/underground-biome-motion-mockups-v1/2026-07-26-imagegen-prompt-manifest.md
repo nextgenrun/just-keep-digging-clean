@@ -59,5 +59,8 @@ Shared prompt contract:
     - Motion cues: opposing cyan and magenta currents, layered starfall, slow
       ring rotation, long low-amplitude nebula pulse.
 
-The output plates are source-quality review assets. They are not registered in
-Phaser and are not production runtime dependencies.
+The source PNGs remain the lossless approval record. Their exact 1536x1024
+`*-motion-v1.webp` derivatives are now registered as one independent static
+variant per biome, alongside all fifty older static backgrounds and the ten V3
+moving cards. Buildings, bridges, roots, machinery, rings, and ruins remain
+background scenery; production terrain is still the only ground mask.

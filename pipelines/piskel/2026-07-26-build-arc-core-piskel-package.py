@@ -98,7 +98,7 @@ def update_pack(files: list[dict], background: dict) -> None:
     pack = json.loads(PACK_PATH.read_text(encoding="utf-8"))
     pack.pop("arcCoreReviewV3", None)
     pack["arcCoreV3"] = {
-        "path": "/sprites/vehicles/arc-core-v3/runtime/",
+        "path": "sprites/vehicles/arc-core-v3/runtime/",
         "files": files,
     }
     meta = pack["spriteMeta"]

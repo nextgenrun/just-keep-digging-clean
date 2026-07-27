@@ -163,10 +163,18 @@ assert.equal(saveStore.normalizePayload(legacyPayload).retentionData.stats.bestD
 
 // Keep the broad runtime wiring visible to this pure contract without needing
 // to boot Phaser.
-const [setupSource, updateSource, specialTileSource, pillarSource, settingsSource] =
+const [
+  setupSource,
+  updateSource,
+  thunderStrikeSource,
+  specialTileSource,
+  pillarSource,
+  settingsSource,
+] =
   await Promise.all([
     readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
     readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
+    readFile(new URL("../world/playScene/ThunderStrikeActionRuntime.js", import.meta.url), "utf8"),
     readFile(new URL("../systems/mining/SpecialTileSystem.js", import.meta.url), "utf8"),
     readFile(new URL("../systems/visual/MilestonePillarModal.js", import.meta.url), "utf8"),
     readFile(new URL("../ui/overlays/SettingsPanelContent.js", import.meta.url), "utf8"),
@@ -174,7 +182,7 @@ const [setupSource, updateSource, specialTileSource, pillarSource, settingsSourc
 assert.match(setupSource, /new RetentionProgressSystem/);
 assert.match(setupSource, /restoreGemPower/);
 assert.match(updateSource, /resolveStableMineTarget/);
-assert.match(updateSource, /abilityInputBufferMs/);
+assert.match(thunderStrikeSource, /abilityInputBufferMs/);
 assert.match(specialTileSource, /quickResumeDeepestPortal/);
 assert.match(specialTileSource, /TREASURE_CHEST_CONFIG/);
 assert.match(pillarSource, /MINER JOURNAL/);

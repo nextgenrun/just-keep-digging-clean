@@ -26,7 +26,7 @@ import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { WorldModel } from "../WorldModel.js";
-import { createWorldRenderer } from "../rendering/WorldRenderFactory.js";
+import { createWorldRenderer } from "../rendering/WorldRenderFactory.js?rev=20260727-restart-lifecycle-v1";
 import { WORLD_VISUAL_RUNTIME_MODES } from "../../values/worldVisualRuntime.js";
 import { WorldBackgroundMasterSystem } from "../rendering/WorldBackgroundMasterSystem.js";
 import { WorldBackgroundAmbientMotionSystem } from "../rendering/WorldBackgroundAmbientMotionSystem.js";
@@ -54,13 +54,14 @@ import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.j
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
 import { HeavenblocksProgressionSystem } from "../../systems/progression/HeavenblocksProgressionSystem.js";
 import { RetentionProgressSystem } from "../../systems/progression/RetentionProgressSystem.js";
+import { TitanClueSystem } from "../../systems/progression/TitanClueSystem.js";
 import { CraftingSystem } from "../../systems/crafting/CraftingSystem.js";
 import { StarHeartProgressionSystem } from "../../systems/celestial/StarHeartProgressionSystem.js";
-import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js";
+import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
 import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
-import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js";
+import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js?rev=20260727-restart-lifecycle-v1";
 import { CelestialEngineController } from "./CelestialEngineController.js";
 import { OverlayManager } from "./OverlayManager.js";
 import { NPCManager } from "./NPCManager.js";
@@ -79,6 +80,7 @@ import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
 import { RelicDiscoveryFxSystem } from "../../systems/visual/RelicDiscoveryFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
+import { LightFrameSync } from "../../systems/lighting/LightFrameSync.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
 import { ClimbTrailSystem } from "../../systems/visual/ClimbTrailSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
@@ -388,6 +390,7 @@ async function _ensureUalNativePlayer(scene, profile) {
 }
 
 async function _setupSceneSafe(data = {}) {
+  this._isShuttingDown = false;
   this.saveSlot = data.saveSlot || 1;
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
   this.dugTileSaveStore = new DugTilesSaveStore({ slotId: this.saveSlot });
@@ -704,6 +707,11 @@ async function _setupSceneSafe(data = {}) {
     () => this.retentionProgressSystem.getChestCritDamageBonus(this.time?.now || 0)
   );
   this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
+  this.titanClueSystem = new TitanClueSystem({
+    retention: this.retentionProgressSystem,
+    wallet: this.upgradeSystem,
+    onStateChanged: () => this.queueDugTilesSave?.(),
+  });
   this.digSystem.setUpgradeSystem(this.upgradeSystem);
   this.digSystem.setPlayerLevelSystem(this.playerLevelSystem);
   this.craftingSystem = new CraftingSystem({
@@ -915,6 +923,7 @@ async function _setupSceneSafe(data = {}) {
   this.worldRenderer.setEmissiveRenderDepth(this.lightSystem.config.emissiveRenderDepth);
   this.shaderSystem = new ShaderSystem(this);
   this.shaderSystem.create();
+  this.lightFrameSync = new LightFrameSync(this);
   this.atmosphereSystem = new AtmosphereSystem(this, this.config);
   this.gameInputHandler = new GameInputHandler(this, this.inputHandler, this.playerController.input);
   this.screenRecordSystem = new ScreenRecordSystem(this);
@@ -964,6 +973,7 @@ async function _setupSceneSafe(data = {}) {
   this._autosaveInterval = setInterval(() => this.queueDugTilesSave(), 60000);
 
   this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    this._isShuttingDown = true;
     this.caveEntryController?.destroy();
     clearInterval(this._autosaveInterval);
     this.queueDugTilesSave();
@@ -979,6 +989,7 @@ async function _setupSceneSafe(data = {}) {
     this.worldMapOverlay?.destroy?.();
     this.worldMapOverlay = null;
     this.destroySceneUI();
+    this.titanClueSystem?.destroy();
     this.npcManager?.destroy();
     this.overlayManager?.destroy();
     this.startZoneScenicBackgroundSystem?.destroy();
@@ -1035,6 +1046,7 @@ async function _setupSceneSafe(data = {}) {
     this.worldMapDiscoverySystem?.destroy();
     this.worldMapActivityRegistry?.destroy();
     this.weatherSystem?.destroy();
+    this.lightFrameSync?.destroy();
     this.shaderSystem?.destroy();
     this.atmosphereSystem?.destroy();
     this.soundSystem?.destroy();

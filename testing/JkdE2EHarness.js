@@ -425,6 +425,39 @@ export function installJkdE2EHarness(scene) {
     console.info(`[JkdE2EHarness] Entered cave hazard ${currentCaveHazard.id} for failure validation`);
   };
   const handleBackgroundPreviewKey = event => {
+    if (event.code === "F5") {
+      event.preventDefault?.();
+      const preview = findSemanticPreview(
+        scene,
+        type => type === TILE_TYPES.SKY_TILE
+      );
+      if (!preview) {
+        console.warn("[JkdE2EHarness] No Star Block release preview target is available");
+        return;
+      }
+      forcePlayerState(scene, { tx: preview.playerTx, ty: preview.playerTy });
+      const tileSize = scene.config?.tileSize || GAME_CONFIG.tileSize;
+      const rarity = scene.worldModel?.getSkyTileRarity?.(
+        preview.targetTx,
+        preview.targetTy
+      ) || 0;
+      const originalType = scene.worldModel?.getSkyTileOriginalType?.(
+        preview.targetTx,
+        preview.targetTy
+      );
+      const resourceType = RESOURCE_BY_TILE_TYPE[originalType] || "dirt";
+      scene.floatingTextSystem?.showCollectedSkyStarRelease?.(
+        rarity,
+        preview.targetTx * tileSize + tileSize / 2,
+        preview.targetTy * tileSize + tileSize / 2,
+        resourceType
+      );
+      console.info(
+        `[JkdE2EHarness] F5 ImageGen Star Block release preview at `
+        + `${preview.targetTx},${preview.targetTy} rarity=${rarity}`
+      );
+      return;
+    }
     const semanticPredicate = event.code === "F6"
       ? type => type === TILE_TYPES.SKY_TILE
       : event.code === "F7"
@@ -629,7 +662,7 @@ export function installJkdE2EHarness(scene) {
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; F11 forces clear-weather benchmark lighting; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; F11 forces clear-weather benchmark lighting; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

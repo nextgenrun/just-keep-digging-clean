@@ -6,7 +6,8 @@ Notable systems:
 - `RenderDensitySystem.js` — keeps gameplay, cameras, UI, and pointer input in the existing 1280x720 logical coordinate space while WebGL renders to a denser backing canvas. Its CameraManager resize guard prevents browser-panel, fullscreen, and parent resizes from promoting a logical camera to the High/Ultra backing dimensions. `high` is the default 1.5x profile (1920x1080), `?renderQuality=ultra` selects 2x (2560x1440), and `?nativeDensity=0`, `?renderQuality=legacy`, or `?renderer=auto` restores the 1x compatibility path. Current runtime diagnostics are published as `window.__jkdRenderDensity`.
 - `HUDSystem.js` — main HUD (depth, stats, status flashes)
 - `ApprovedHudSkin.js` — optional approved image-frame presentation layer that preserves HUDSystem runtime data and legacy fallback; its player core switches between matched illustrated torch ON/OFF frames instead of drawing a status dot
-- `FloatingTextSystem.js` — floating world text + constellation UI progress + UI-only mined Star Block release: impact flash/ring, paced sparkle trail, and slow swaying upward fade
+- `FloatingTextSystem.js` — floating world text + constellation UI progress; mined Star Blocks remain UI-only and delegate their transient presentation to `SkyStarReleaseView.js`
+- `SkyStarReleaseView.js` — ImageGen-only mined Star Block release: matching rarity fracture bloom, authored pulse, faceted core, restrained image echoes, and slow swaying upward fade; it never draws circles/graphics, tints art, or generates textures
 - `PostFxSystem.js` — camera vignette + depth-based color grading (values/postFxConfig.js)
 - `PlayerBodyLanguageSystem.js` — landing squash, fall stretch, dig impact pop (values/gamefeel.js → bodyLanguage)
 - `PlayerMotionPolishSystem.js` — contextual calm idle fidgets, delayed wall bracing, native hit reactions, and action-safe animation priority (`values/playerMotionPolish.js`)

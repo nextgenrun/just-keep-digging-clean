@@ -23,6 +23,53 @@ export const PAUSE_MENU_LAYOUT = Object.freeze({
   tabRowHeight: 32,
   tabRowOffsetY: 20,
   bodyTopOffset: 56,
+  tabGap: 8,
+  tabButtonMaxWidth: 112,
+  tabButtonMinWidth: 48,
+});
+
+export const SAVE_TRANSFER_UI = Object.freeze({
+  fileAccept: ".json,application/json",
+  startMenu: Object.freeze({
+    buttonRowY: 548,
+    buttonWidth: 220,
+    buttonHeight: 42,
+    buttonGap: 18,
+    startPromptY: 604,
+    dividerY: 638,
+    hintY: 660,
+    importPanelWidth: 500,
+    importPanelHeight: 260,
+    importPanelTextInsetX: 30,
+    importPanelTitleInsetY: 38,
+    importPanelDescriptionOffsetY: -16,
+    importPanelButtonOffsetY: 50,
+    importPanelFooterInsetY: 24,
+  }),
+  pause: Object.freeze({
+    compactBodyHeight: 300,
+    horizontalInset: 18,
+    standardActionTop: 112,
+    compactActionTop: 68,
+    standardBottomInset: 18,
+    compactBottomInset: 12,
+    statusReserve: 24,
+    standardButtonGap: 10,
+    compactButtonGap: 6,
+    minButtonHeight: 34,
+    maxButtonHeight: 52,
+    maxButtonWidth: 560,
+  }),
+  copy: Object.freeze({
+    startExport: "EXPORT SAVE",
+    startImport: "IMPORT SAVE",
+    pauseTitle: "MANUAL SAVE TOOLS",
+    pauseDescription: "Export a portable copy or import one into this slot.",
+    pauseSafety: "Imports create a safety backup, then reload the selected slot.",
+    saveNow: "SAVE NOW",
+    saveAndExport: "SAVE + EXPORT FILE",
+    importAndReload: "IMPORT FILE + RELOAD",
+  }),
 });
 
 export const SETTINGS_PANEL_LAYOUT = Object.freeze({

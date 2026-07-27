@@ -207,6 +207,7 @@ function reinforceBounds(worldModel, mask, bounds, config) {
 
 function paintTeleportAnchors(worldModel, mask, config) {
   const anchors = config.generation.teleportAnchors || [];
+  const accessOffsets = config.generation.teleportAccessOffsets || [];
   let teleportTiles = 0;
 
   for (const anchor of anchors) {
@@ -215,6 +216,25 @@ function paintTeleportAnchors(worldModel, mask, config) {
     if (!Number.isInteger(tx) || !Number.isInteger(ty)) continue;
     if (!worldModel.inBounds(tx, ty) || !mask[worldModel.index(tx, ty)]) continue;
     setGeneratedTile(worldModel, tx, ty, TILE_TYPES.TELEPORT_TILE);
+    const accessCells = accessOffsets
+      .map(offset => ({ tx: tx + offset.tx, ty: ty + offset.ty }))
+      .filter(cell => (
+        worldModel.inBounds(cell.tx, cell.ty)
+        && mask[worldModel.index(cell.tx, cell.ty)]
+      ));
+    if (
+      accessCells.length > 0
+      && !accessCells.some(cell => !worldModel.isSolid(cell.tx, cell.ty))
+    ) {
+      const accessCell = accessCells[0];
+      setGeneratedTile(
+        worldModel,
+        accessCell.tx,
+        accessCell.ty,
+        TILE_TYPES.AIR,
+        0,
+      );
+    }
     teleportTiles += 1;
   }
 

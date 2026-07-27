@@ -5,9 +5,12 @@ Status: explicitly approved and production-wired
 
 ## Outcome
 
-Each of the ten underground biome pools now contains five static 1536x1024
-WebPs and one approved 1536x1024 H.264 MP4. The V3 files are eight-second,
-60 fps seamless loops generated from the exact approved paintings.
+Each of the ten underground biome pools now contains five older static
+1536x1024 WebPs, one static WebP of its named concept painting, and one approved
+1536x1024 H.264 MP4 of that concept. The complete library therefore contains
+all fifty older statics, all ten concept statics, and all ten V3 moving cards.
+The V3 files are eight-second, 60 fps seamless loops generated from the exact
+approved paintings.
 
 The animation is a restrained subpixel affine drift of the complete finished
 image. It does not use optical flow, keyframe morphing, generated in-between

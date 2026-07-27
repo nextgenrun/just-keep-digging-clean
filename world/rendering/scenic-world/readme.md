@@ -32,8 +32,9 @@ packs bounded instead of decoding the complete 5,000-tile-deep art library at
 startup.
 
 `WorldVisualDepthBackdropStage` covers all ten material bands from row 65
-through row 5064. Each biome owns five background-only 1536x1024 WebP cards
-plus one approved 1536x1024, eight-second, 60 fps H.264 V3 loop.
+through row 5064. Each biome owns five previously approved background-only
+1536x1024 WebPs, one static WebP of its named motion-concept painting, and one
+approved 1536x1024, eight-second, 60 fps H.264 V3 loop.
 The stage keeps only intersecting regions and their visible cards plus one
 neighbor alive, streams their mixed media pool through `WorldVisualAssetCache`, and
 releases departed media. Boundary views may coexist, while partial last cards

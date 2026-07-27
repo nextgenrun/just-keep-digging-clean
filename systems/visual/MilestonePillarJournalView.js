@@ -3,6 +3,7 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import { MILESTONE_PILLAR_UI } from "../../values/milestonePillarUi.js";
 import { RESOURCE_KEYS, getResourceDisplayName } from "../../values/resourceTypes.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import { TITAN_CLUE_CATALOG_CONFIG } from "../../values/titanClueCatalog.js";
 import {
   addMilestonePanel,
   addMilestoneText,
@@ -13,6 +14,12 @@ function formatJournalEntry(key) {
   if (key === "sky-star") return "Constellation Star";
   if (key === "ancient-relic") return "Ancient Relic Cache";
   if (key === "earthquake") return "Earthquake Aftermath";
+  if (key.startsWith(TITAN_CLUE_CATALOG_CONFIG.persistence.journalKeyPrefix)) {
+    const index = key.slice(
+      TITAN_CLUE_CATALOG_CONFIG.persistence.journalKeyPrefix.length
+    );
+    return `${TITAN_CLUE_CATALOG_CONFIG.copy.journalEntryPrefix} #${index}`;
+  }
   if (key.startsWith("portal:")) return key.slice("portal:".length);
   if (key.startsWith("depth:")) {
     const depth = Number(key.slice("depth:".length));

@@ -607,6 +607,21 @@ assert.ok(
   "the benchmark pack must not become a second gameplay or digging authority",
 );
 
+const detachedCameraRuntime = new WorldVisualRuntime(
+  { cameras: {}, scale: {} },
+  { width: 100, depth: 100 },
+  { tileSize: 94 },
+);
+detachedCameraRuntime.created = true;
+let detachedSyncCalls = 0;
+detachedCameraRuntime._sync = () => {
+  detachedSyncCalls += 1;
+  throw new Error("resize must not sync without an active camera");
+};
+assert.equal(detachedCameraRuntime._getVisibleBounds(), null);
+assert.equal(detachedCameraRuntime.resize(), false);
+assert.equal(detachedSyncCalls, 0);
+
 const destroyOrder = [];
 const borrowedMask = {
   destroyed: false,

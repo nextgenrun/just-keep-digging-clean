@@ -5,6 +5,20 @@ import {
 import { hash01, hashUint } from "../../values/deterministicMath.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 
+const CARDINAL_NEIGHBORS = Object.freeze([
+  Object.freeze({ tx: 1, ty: 0 }),
+  Object.freeze({ tx: -1, ty: 0 }),
+  Object.freeze({ tx: 0, ty: 1 }),
+  Object.freeze({ tx: 0, ty: -1 }),
+]);
+
+function touchesTeleportTile(worldModel, tx, ty) {
+  return CARDINAL_NEIGHBORS.some(offset => (
+    worldModel.getTileType(tx + offset.tx, ty + offset.ty)
+      === TILE_TYPES.TELEPORT_TILE
+  ));
+}
+
 const FEATURE_SOURCE = "cave-archetype";
 
 function getEligibleArchetypes(depth, config) {
@@ -124,6 +138,12 @@ export function applyCaveFeatures(worldModel, zone) {
     if (!worldModel.inBounds(anchor.tx, anchor.ty)) continue;
     const currentType = worldModel.getTileType(anchor.tx, anchor.ty);
     if (currentType !== TILE_TYPES.AIR && currentType !== plan.tileType) continue;
+    if (
+      currentType === TILE_TYPES.AIR
+      && touchesTeleportTile(worldModel, anchor.tx, anchor.ty)
+    ) {
+      continue;
+    }
 
     if (currentType === TILE_TYPES.AIR) {
       const hp = worldModel.getTileMaxHp(anchor.tx, anchor.ty, plan.tileType);

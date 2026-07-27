@@ -92,6 +92,7 @@ export class WorldVisualRuntime {
   updateRenderWindow(playerTile) {
     if (!this.created) return false;
     const bounds = this._getVisibleBounds(playerTile);
+    if (!bounds) return false;
     const signature = this._boundsSignature(bounds);
     if (signature === this.lastSignature) return false;
     this._sync(playerTile, false, bounds, signature);
@@ -99,7 +100,7 @@ export class WorldVisualRuntime {
   }
 
   update(time, delta, context = {}) {
-    if (!this.created) return;
+    if (!this.created || this.scene?._isShuttingDown || !this.scene?.cameras?.main) return;
     const now = Number.isFinite(time) ? time : (this.scene.time?.now || 0);
     const lighting = this.lightingBridge.sample();
     this.surfaceStage.update(now, lighting);
@@ -111,13 +112,16 @@ export class WorldVisualRuntime {
     if (now < this.nextUpdateAt) return;
     this.nextUpdateAt = now + this.runtimeConfig.streaming.updateIntervalMs;
     const bounds = this._getVisibleBounds(context.playerTile);
+    if (!bounds) return;
     const signature = this._boundsSignature(bounds);
     const fps = this.scene.game?.loop?.actualFps || 60;
     this._sync(context.playerTile, false, bounds, signature, fps < this.runtimeConfig.streaming.reduceBelowFps);
   }
 
   _sync(playerTile, force = false, suppliedBounds = null, suppliedSignature = "", reduced = false) {
+    if (!this.created || this.scene?._isShuttingDown) return false;
     const bounds = suppliedBounds || this._getVisibleBounds(playerTile);
+    if (!bounds) return false;
     const signature = suppliedSignature || this._boundsSignature(bounds);
     const lighting = this.lightingBridge.sample();
     this.depthBackdropStage?.sync(bounds, lighting, force);
@@ -131,10 +135,12 @@ export class WorldVisualRuntime {
     this.landmarkLayer?.update(this.scene.time?.now || 0, lighting);
     this.lastBounds = bounds;
     this.lastSignature = signature;
+    return true;
   }
 
   _getVisibleBounds(playerTile = null) {
-    const camera = this.scene.cameras.main;
+    const camera = this.scene?.cameras?.main;
+    if (!camera) return null;
     const view = camera.worldView;
     const tileSize = this.config.tileSize;
     const margin = this.runtimeConfig.streaming.maskMarginTiles;
@@ -191,6 +197,10 @@ export class WorldVisualRuntime {
     return this.titanDiscoverySystem?.getArchiveAssetProvider() || null;
   }
 
+  getTitanClueDirectionProvider() {
+    return this.titanDiscoverySystem?.getClueDirectionProvider() || null;
+  }
+
   setEmissiveRenderDepth(depth) {
     // Terrain feedback stays at terrain depth; only luminous semantic cues move
     // beneath LightSystem's darkness compositor.
@@ -223,15 +233,16 @@ export class WorldVisualRuntime {
   }
 
   resize() {
-    if (!this.created) return false;
+    if (!this.created || this.scene?._isShuttingDown || !this.scene?.cameras?.main) {
+      return false;
+    }
     this.lastSignature = "";
-    this._sync(null, true);
-    return true;
+    return this._sync(null, true);
   }
 
   destroy() {
     this.created = false;
-    this.scene.scale?.off?.("resize", this._onResize);
+    this.scene?.scale?.off?.("resize", this._onResize);
     this.gameplayEffectLayer?.destroy();
     this.titanDiscoverySystem?.destroy();
     this.feedbackLayer?.destroy();

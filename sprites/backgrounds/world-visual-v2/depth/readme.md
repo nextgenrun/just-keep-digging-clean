@@ -1,12 +1,13 @@
 # Scenic-v2 Underground Depth Backdrops
 
 The active production package combines `biome-variation-v2/` and
-`biome-motion-v3/`: 50 background-only 1536x1024 WebP cards plus ten approved
+`biome-motion-v3/`: all fifty previously approved background-only 1536x1024
+WebPs, ten static WebPs of the named motion-concept paintings, and ten approved
 1536x1024 H.264 loops covering all ten material bands from row 65 through 5064.
-Each band receives five deterministic static compositions and one smooth
-whole-image loop. The renderer streams the active band plus its world-space
-neighbor envelope and places every plate, building, bridge, ruin, root, rail,
-and machine behind the solid terrain facade.
+Each band receives five older static compositions, one concept-static
+composition, and one smooth whole-image loop. The renderer streams the active
+band plus its world-space neighbor envelope and places every plate, building,
+bridge, ruin, root, rail, and machine behind the solid terrain facade.
 
 Production V3 motion is an eight-second, 60 fps subpixel affine drift of the
 complete finished image. The rejected optical-flow WebMs, pooled particles,

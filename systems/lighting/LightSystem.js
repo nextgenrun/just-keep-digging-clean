@@ -58,6 +58,7 @@ export class LightSystem {
     this._darknessHasSolidFill = false;
     this._caveInteriorDarknessBoost = 0;
     this._activeCaveArchetypeId = null;
+    this._preparedFrame = null;
 
     this._ensureGeneratedTextures();
     this._eraser = scene.make.image({ key: config.visibilityMaskTextureKey, add: false })
@@ -84,7 +85,12 @@ export class LightSystem {
   }
 
   update(time, delta, depth, gameplayActive) {
-    if (!this._darknessTexture?.active) return;
+    if (!this.prepareFrame(time, delta, depth, gameplayActive)) return;
+    this.renderPreparedFrame(time);
+  }
+
+  prepareFrame(time, delta, depth, gameplayActive) {
+    if (!this._darknessTexture?.active) return false;
 
     const deltaMs = Math.max(0, Number.isFinite(delta) ? delta : 0);
     const dt = deltaMs / 1000;
@@ -129,7 +135,23 @@ export class LightSystem {
       response
     );
 
-    this._redraw(time, this._currentRadiusTiles, lighting);
+    this._preparedFrame = {
+      time: Number.isFinite(time) ? time : 0,
+      radiusTiles: this._currentRadiusTiles,
+      lighting,
+    };
+    return true;
+  }
+
+  renderPreparedFrame(time = this._preparedFrame?.time) {
+    const frame = this._preparedFrame;
+    if (!frame || !this._darknessTexture?.active) return false;
+    this._redraw(
+      Number.isFinite(time) ? time : frame.time,
+      frame.radiusTiles,
+      frame.lighting
+    );
+    return true;
   }
 
   resize() {
@@ -234,6 +256,7 @@ export class LightSystem {
     this._darknessHasSolidFill = false;
     this._caveInteriorDarknessBoost = 0;
     this._activeCaveArchetypeId = null;
+    this._preparedFrame = null;
     this._torchHalo = null;
     this._torchCoreGlow = null;
     this._torchFlameGlow = null;
@@ -498,7 +521,8 @@ export class LightSystem {
       this.playerController,
       this.config.playerLightV2,
       this.scene.config.tileSize,
-      this._playerLightProfileId
+      this._playerLightProfileId,
+      this.scene.playerAssetProfile
     );
     const fire = this._getFireMotion(time, lighting, playerLight);
     const radiusWorld = radiusTiles
@@ -908,11 +932,14 @@ export class LightSystem {
 
     if (progress < 0 || progress >= 1) return null;
 
-    const waveEnvelopePower = Math.max(0.01, pulseCfg.waveEnvelopePower || 1);
-    const waveStrength = Math.pow(
-      Math.max(0, Math.sin(Math.PI * progress)),
-      waveEnvelopePower
+    const fadeInProgress = Math.max(
+      0.01,
+      Math.min(0.5, pulseCfg.fadeInProgress || 0.1)
     );
+    const fadeIn = smootherstep(progress / fadeInProgress);
+    const travelFadePower = Math.max(0.01, pulseCfg.travelFadePower || 1);
+    const travelFade = Math.pow(1 - clamp01(progress), travelFadePower);
+    const waveStrength = fadeIn * travelFade;
 
     if (waveStrength <= 0.001) return null;
     return {
@@ -941,11 +968,10 @@ export class LightSystem {
       verticalScale,
       pulseRadiusTiles,
       pulse,
-      angleOffset: hashTileCycle(
+      rarity: this.scene.worldModel?.getSkyTileRarity?.(
         source.tx,
-        source.ty,
-        pulse.cycle
-      ) * Math.PI * 2,
+        source.ty
+      ) || 0,
     });
   }
 

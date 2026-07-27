@@ -1,5 +1,5 @@
 import { ASSET_KEYS, getSurfacePropPreloadAssets } from "../../values/assetKeys.js";
-import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js";
+import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260727-arc-core-subdir-v1";
 import { THUNDER_STRIKE_CHAIN_CONFIG } from "../../values/thunderStrikeChain.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
@@ -21,6 +21,8 @@ import { getWorldVisualDepthBackdropPreloadAssets } from "../../values/worldVisu
 import { getWorldVisualFeedbackPreloadAssets } from "../../values/worldVisualFeedback.js";
 import { getWorldVisualSemanticPreloadAssets } from "../../values/worldVisualSemanticAssets.js";
 import { getWorldVisualLandmarkPreloadAssets } from "../../values/worldVisualLandmarks.js";
+import { getStarBlockPulsePreloadAssets } from "../../values/lightConfig.js";
+import { getCollectedStarReleasePreloadAssets } from "../../values/starConstellations.js";
 import { getTitanDiscoveryPreloadAssets } from "../../values/titanDiscoveries.js";
 import {
   getNpcActivityPreloadAssets,
@@ -566,7 +568,7 @@ export class BootScene extends Phaser.Scene {
     );
     this.load.pack(
       ASSET_KEYS.vehicles.arcCore.pack,
-      ARC_CORE_VISUAL_PACK.path,
+      `${ARC_CORE_VISUAL_PACK.path}?rev=${ARC_CORE_VISUAL_PACK.revision}`,
     );
 
     // Campfire sprites - grounded bottom-anchor textures for each upgrade tier.
@@ -911,6 +913,12 @@ export class BootScene extends Phaser.Scene {
   preloadFxSprites() {
     this.load.image(ASSET_KEYS.fx.break1, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-1.webp");
     this.load.image(ASSET_KEYS.fx.break2, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp");
+    for (const asset of getStarBlockPulsePreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getCollectedStarReleasePreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
   }
 
   preloadGraveborerWurmSprites() {

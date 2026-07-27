@@ -11,7 +11,7 @@ import {
   PAUSE_MENU_LAYOUT,
   SETTINGS_PANEL_LAYOUT,
   UI_FONTS,
-} from "../../values/uiLayout.js";
+} from "../../values/uiLayout.js?rev=20260727-save-transfer-v1";
 import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import {
   createButton,
@@ -21,6 +21,7 @@ import {
   createTabBar,
 } from "../../ui/PhaserUiKit.js";
 import { createSettingsPanelContent } from "../../ui/overlays/SettingsPanelContent.js";
+import { createSaveTransferPanelContent } from "../../ui/overlays/SaveTransferPanelContent.js";
 import { TitanArchiveView } from "../../ui/overlays/TitanArchiveView.js";
 import { WorldMapOverlay } from "../../ui/overlays/WorldMapOverlay.js";
 import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
@@ -190,12 +191,14 @@ export function setupUIMethods(prototype) {
       tabs: null,
       hint: null,
       settings: null,
+      saveTransfer: null,
       titanArchive: null,
       tabContent,
     };
     this._currentPauseTab = 0;
     const pauseTabs = [
       { key: "general", label: "GENERAL", icon: "journal" },
+      { key: "saves", label: "SAVES", icon: "journal" },
       { key: "stats", label: "STATS", icon: "stats" },
       ...(resolveTitanDiscoveriesEnabled()
         ? [{ key: "titans", label: "TITANS", icon: "journal" }]
@@ -206,8 +209,10 @@ export function setupUIMethods(prototype) {
 
     const clearContent = () => {
       state.settings?.destroy?.();
+      state.saveTransfer?.destroy?.();
       state.titanArchive?.destroy?.();
       state.settings = null;
+      state.saveTransfer = null;
       state.titanArchive = null;
       state.controls = [];
       tabContent.removeAll(true);
@@ -370,6 +375,60 @@ export function setupUIMethods(prototype) {
       });
     };
 
+    const buildSaves = () => {
+      state.saveTransfer = createSaveTransferPanelContent(this, {
+        x: rect.left,
+        y: bodyTop,
+        width: rect.width,
+        height: bodyHeight,
+        parent: tabContent,
+        slotId: this.saveSlot,
+        onFocus: index => state.focus?.setIndex?.(index),
+        onSave: async () => {
+          const saved = await this.saveGame();
+          return {
+            success: saved,
+            message: saved ? "Current progress saved." : "Save failed. Nothing was exported.",
+          };
+        },
+        onExport: async () => {
+          const saved = await this.saveGame();
+          if (!saved) {
+            return { success: false, message: "Save failed. Export was cancelled." };
+          }
+          const exported = this.dugTileSaveStore?.exportSave();
+          return {
+            success: Boolean(exported),
+            message: exported
+              ? `Save slot ${this.saveSlot} downloaded as JSON.`
+              : "No save data was available to export.",
+          };
+        },
+        onImport: async file => {
+          const saved = await this.saveGame();
+          if (!saved) {
+            return { success: false, message: "Current progress could not be secured. Import cancelled." };
+          }
+          const result = await this.dugTileSaveStore?.importSave(file);
+          if (!result?.success) {
+            return { success: false, message: result?.error || "The selected file is not a valid save." };
+          }
+
+          const saveSlot = this.saveSlot || 1;
+          const playerCharacterId = result.saveData?.playerCharacterId || this.playerCharacterId;
+          this.hidePauseMenu();
+          this.gameState = "transitioning";
+          this.scene.start("WorldLoadScene", {
+            saveSlot,
+            worldIdentity: `save-slot-${saveSlot}`,
+            playerCharacterId,
+          });
+          return { success: true, message: "Import complete. Reloading the selected slot..." };
+        },
+      });
+      state.controls = state.saveTransfer.getControls();
+    };
+
     const buildStats = () => {
       const bonuses = this.playerLevelSystem?.getBonusesSummary?.() || {};
       const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
@@ -476,6 +535,9 @@ export function setupUIMethods(prototype) {
         parent: tabContent,
         retention: this.retentionProgressSystem,
         chamberProvider: this.worldRenderer?.getTitanArchiveAssetProvider?.(),
+        clueSystem: this.titanClueSystem,
+        clueDirectionProvider: this.worldRenderer?.getTitanClueDirectionProvider?.(),
+        getPlayerTile: () => this.playerController?.getPlayerTile?.(),
         onFocus: index => state.focus?.setIndex?.(index),
       });
       state.controls = state.titanArchive.getControls();
@@ -488,6 +550,7 @@ export function setupUIMethods(prototype) {
       state.tabs?.setActive?.(tabIndex, true);
       const tabKey = pauseTabs[tabIndex]?.key;
       if (tabKey === "general") buildGeneral();
+      else if (tabKey === "saves") buildSaves();
       else if (tabKey === "stats") buildStats();
       else if (tabKey === "titans") buildTitans();
       else buildSettings();
@@ -497,11 +560,24 @@ export function setupUIMethods(prototype) {
       );
     };
 
+    const pauseTabButtonWidth = Math.max(
+      PAUSE_MENU_LAYOUT.tabButtonMinWidth,
+      Math.min(
+        PAUSE_MENU_LAYOUT.tabButtonMaxWidth,
+        (
+          rect.width
+          - PAUSE_MENU_LAYOUT.tabGap * (pauseTabs.length - 1)
+        ) / pauseTabs.length,
+      ),
+    );
     state.tabs = createTabBar(this, {
-      x: rect.left + 235,
+      x: 0,
       y: rect.top + PAUSE_MENU_LAYOUT.tabRowOffsetY,
       tabs: pauseTabs,
       activeIndex: 0,
+      spacing: pauseTabButtonWidth + PAUSE_MENU_LAYOUT.tabGap,
+      buttonWidth: pauseTabButtonWidth,
+      fontSize: pauseTabButtonWidth < 72 ? "10px" : "12px",
       parent: shell.content,
       onChange: buildContent,
     });
@@ -515,7 +591,7 @@ export function setupUIMethods(prototype) {
       items: [],
       enabled: () => Boolean(this._pausePanel) && !this._settingsKeyCaptureActive,
       onCancel: () => this.resumeGame(),
-      onFocus: index => state.titanArchive?.select?.(index),
+      onFocus: index => state.titanArchive?.selectControl?.(index),
       onHorizontal: direction => {
         if (state.activeTab === settingsTabIndex) return;
         const next = (
@@ -536,6 +612,7 @@ export function setupUIMethods(prototype) {
     this._pausePanel = null;
     pause.state?.focus?.destroy?.();
     pause.state?.settings?.destroy?.();
+    pause.state?.saveTransfer?.destroy?.();
     pause.state?.titanArchive?.destroy?.();
     pause.state?.tabs?.destroy?.();
     pause.state?.hint?.destroy?.();
@@ -624,8 +701,9 @@ export function setupUIMethods(prototype) {
   prototype.saveGame = async function(labelObj) {
     if (labelObj) labelObj.setText('SAVING...');
     this.queueDugTilesSave();
+    let saved = false;
     try {
-      const saved = await this.flushDugTilesSave();
+      saved = await this.flushDugTilesSave();
       this.hudSystem?.flashStatus(
         saved === false ? 'Save failed!' : 'Game saved!',
         saved === false ? '#ff6b6b' : '#2ecc71',
@@ -636,6 +714,7 @@ export function setupUIMethods(prototype) {
     } finally {
       if (labelObj) labelObj.setText('SAVE GAME');
     }
+    return saved !== false;
   };
 
   prototype.resumeGame = function() {
