@@ -28,7 +28,7 @@ MODULE_RE = re.compile(
 LITERAL_RE = re.compile(r"[\"'`]([^\"'`\r\n]{1,512})[\"'`]")
 ASSET_SUFFIXES = frozenset({
     ".avif", ".gif", ".jpeg", ".jpg", ".json", ".m4a", ".mp3",
-    ".ogg", ".png", ".svg", ".wav", ".webm", ".webp", ".woff",
+    ".ogg", ".mp4", ".png", ".svg", ".wav", ".webm", ".webp", ".woff",
     ".woff2",
 })
 COMPRESS_SUFFIXES = frozenset({".css", ".html", ".js", ".json", ".mjs", ".svg", ".txt"})

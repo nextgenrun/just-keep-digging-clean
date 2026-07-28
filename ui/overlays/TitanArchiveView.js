@@ -2,20 +2,12 @@ import {
   TITAN_DEFINITIONS,
   TITAN_DISCOVERY_CONFIG,
 } from "../../values/titanDiscoveries.js";
+import { TITAN_CLUE_CATALOG_CONFIG } from "../../values/titanClueCatalog.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton, createPanel } from "../PhaserUiKit.js";
-
-function fitImage(image, maximumWidth, maximumHeight) {
-  const width = Math.max(1, image.width || image.displayWidth || 1);
-  const height = Math.max(1, image.height || image.displayHeight || 1);
-  const scale = Math.min(maximumWidth / width, maximumHeight / height);
-  image.setScale(scale);
-}
-
-function padIndex(index) {
-  return String(index).padStart(2, "0");
-}
+import { TitanArchiveClueControl } from "./TitanArchiveClueControl.js";
+import { fitTitanArchiveImage, formatTitanArchiveIndex } from "./titanArchivePresentation.js";
 
 export class TitanArchiveView {
   constructor(scene, options = {}) {
@@ -31,6 +23,14 @@ export class TitanArchiveView {
     this.width = options.width || 900;
     this.height = options.height || 430;
     this.onFocus = options.onFocus || null;
+    this.chamberProvider = options.chamberProvider || null;
+    this.clueSystem = options.clueSystem || null;
+    this.clueDirectionProvider = options.clueDirectionProvider || null;
+    this.getPlayerTile = options.getPlayerTile || null;
+    this.clueConfig = options.clueConfig || TITAN_CLUE_CATALOG_CONFIG;
+    this.releasePortraitAsset = null;
+    this.clueControl = null;
+    this.selectionToken = 0;
     this.controls = [];
     this.root = scene.add.container(0, 0);
     this.parent?.add?.(this.root);
@@ -113,7 +113,7 @@ export class TitanArchiveView {
         onClick: () => this.select(index),
       });
       const thumbnail = this.scene.add.image(0, -2, definition.asset.key);
-      fitImage(
+      fitTitanArchiveImage(
         thumbnail,
         slotSize - archive.thumbnailInset * 2,
         slotSize - archive.thumbnailInset * 2
@@ -127,7 +127,7 @@ export class TitanArchiveView {
       const indexText = this.scene.add.text(
         slotSize / 2 - 5,
         slotSize / 2 - 4,
-        padIndex(definition.index),
+        formatTitanArchiveIndex(definition.index),
         {
           fontFamily: UI_FONTS.mono,
           fontSize: `${archive.slotIndexFontSize}px`,
@@ -151,6 +151,7 @@ export class TitanArchiveView {
     );
     this.root.add(this.portrait);
     const textTop = portraitTop + portraitHeight;
+    this.detailTextTop = textTop;
     this.nameText = this.scene.add.text(
       detailX + detailWidth / 2,
       textTop + archive.titleOffsetY,
@@ -191,6 +192,18 @@ export class TitanArchiveView {
       }
     ).setOrigin(0, 0);
     this.root.add([this.nameText, this.regionText, this.loreText]);
+    const clueLayout = this.clueConfig.layout;
+    this.clueControl = new TitanArchiveClueControl(this.scene, {
+      x: detailX + detailWidth / 2,
+      y: this.y + this.height - clueLayout.bottomInsetPx,
+      width: detailWidth - clueLayout.sideInsetPx * 2,
+      parent: this.root,
+      clueSystem: this.clueSystem,
+      directionProvider: this.clueDirectionProvider,
+      getPlayerTile: this.getPlayerTile,
+      onFocus: () => this.onFocus?.(this.controls.length - 1),
+    }, this.clueConfig);
+    this.controls.push(this.clueControl.getControl());
   }
 
   select(index) {
@@ -201,8 +214,46 @@ export class TitanArchiveView {
     this.controls.forEach((button, buttonIndex) => {
       button.setSelected(buttonIndex === safeIndex);
     });
-    this.portrait.setTexture(definition.asset.key);
-    fitImage(
+    this._releasePortrait();
+    const selectionToken = ++this.selectionToken;
+    this._setPortrait(definition.asset.key, discovered);
+    if (discovered && this.chamberProvider?.pinArchive) {
+      this.releasePortraitAsset = this.chamberProvider.pinArchive(definition, {
+        onReady: asset => {
+          if (
+            selectionToken === this.selectionToken
+            && this.definitions[this.selectedIndex]?.id === definition.id
+          ) {
+            this._setPortrait(asset.key, true);
+          }
+        },
+      });
+    }
+    this.nameText.setText(discovered ? definition.name.toUpperCase() : "UNDISCOVERED TITAN");
+    this.regionText.setText(
+      discovered
+        ? `#${formatTitanArchiveIndex(definition.index)}  •  ${definition.regionLabel.toUpperCase()}`
+        : `#${formatTitanArchiveIndex(definition.index)}  •  SEALED ENTRY`
+    );
+    this.loreText.setText(
+      discovered
+        ? definition.lore
+        : this.clueConfig.copy.lockedLore
+    );
+    this.loreText.setY(
+      this.detailTextTop + (
+        discovered
+          ? this.config.archive.loreOffsetY
+          : this.clueConfig.layout.lockedLoreOffsetY
+      )
+    );
+    this.clueControl?.setDefinition(definition, discovered);
+  }
+
+  _setPortrait(textureKey, discovered) {
+    this.scene.tweens?.killTweensOf?.(this.portrait);
+    this.portrait.setTexture(textureKey);
+    fitTitanArchiveImage(
       this.portrait,
       this.detailPanel.width * this.config.archive.portraitMaxWidthFraction,
       this.height * this.config.archive.portraitMaxHeightFraction
@@ -212,24 +263,36 @@ export class TitanArchiveView {
     );
     if (discovered) this.portrait.clearTint();
     else this.portrait.setTint(0x4a5c66);
-    this.nameText.setText(discovered ? definition.name.toUpperCase() : "UNDISCOVERED TITAN");
-    this.regionText.setText(
-      discovered
-        ? `#${padIndex(definition.index)}  •  ${definition.regionLabel.toUpperCase()}`
-        : `#${padIndex(definition.index)}  •  SEALED ENTRY`
-    );
-    this.loreText.setText(
-      discovered
-        ? definition.lore
-        : "Clear every original block in this Titan's hidden chamber to restore its archive entry."
-    );
+    if (discovered && this.scene.tweens?.add) {
+      const pulseScale = this.config.archive.vignettePulseScale;
+      this.scene.tweens.add({
+        targets: this.portrait,
+        scaleX: this.portrait.scaleX * pulseScale,
+        scaleY: this.portrait.scaleY * pulseScale,
+        duration: this.config.archive.vignettePulseMs,
+        ease: "Sine.InOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+  }
+
+  _releasePortrait() {
+    this.releasePortraitAsset?.();
+    this.releasePortraitAsset = null;
   }
 
   getControls() {
     return [...this.controls];
   }
 
+  selectControl(index) { if (index >= 0 && index < this.definitions.length) this.select(index); }
+
   destroy() {
+    this.selectionToken += 1;
+    this._releasePortrait();
+    this.clueControl?.destroy?.();
+    this.clueControl = null;
     this.root?.destroy?.(true);
     this.controls = [];
   }

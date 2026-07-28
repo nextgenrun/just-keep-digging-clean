@@ -2,11 +2,13 @@ import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";
+import { SkySteadyLightRenderer } from "./SkySteadyLightRenderer.js";
 import {
   resolvePlayerLightAnchor,
   resolvePlayerLightEnvironment,
   resolvePlayerLightProfile,
 } from "./playerLightProfile.js";
+import { resolveLightCoordinateSpaces } from "./lightCoordinateSpace.js";
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const smoothstep = (value) => {
@@ -57,6 +59,7 @@ export class LightSystem {
     this._darknessHasSolidFill = false;
     this._caveInteriorDarknessBoost = 0;
     this._activeCaveArchetypeId = null;
+    this._preparedFrame = null;
 
     this._ensureGeneratedTextures();
     this._eraser = scene.make.image({ key: config.visibilityMaskTextureKey, add: false })
@@ -66,6 +69,10 @@ export class LightSystem {
     this._skyBeaconPulseRenderer = new SkyBeaconPulseRenderer(
       scene,
       config.skyTileLights?.beaconPulse?.visuals
+    );
+    this._skySteadyLightRenderer = new SkySteadyLightRenderer(
+      scene,
+      config.skyTileLights?.steadyAura
     );
 
     this._torchHalo = this._createGlowImage(config.torchHaloColor);
@@ -83,7 +90,12 @@ export class LightSystem {
   }
 
   update(time, delta, depth, gameplayActive) {
-    if (!this._darknessTexture?.active) return;
+    if (!this.prepareFrame(time, delta, depth, gameplayActive)) return;
+    this.renderPreparedFrame(time);
+  }
+
+  prepareFrame(time, delta, depth, gameplayActive) {
+    if (!this._darknessTexture?.active) return false;
 
     const deltaMs = Math.max(0, Number.isFinite(delta) ? delta : 0);
     const dt = deltaMs / 1000;
@@ -128,7 +140,23 @@ export class LightSystem {
       response
     );
 
-    this._redraw(time, this._currentRadiusTiles, lighting);
+    this._preparedFrame = {
+      time: Number.isFinite(time) ? time : 0,
+      radiusTiles: this._currentRadiusTiles,
+      lighting,
+    };
+    return true;
+  }
+
+  renderPreparedFrame(time = this._preparedFrame?.time) {
+    const frame = this._preparedFrame;
+    if (!frame || !this._darknessTexture?.active) return false;
+    this._redraw(
+      Number.isFinite(time) ? time : frame.time,
+      frame.radiusTiles,
+      frame.lighting
+    );
+    return true;
   }
 
   resize() {
@@ -227,18 +255,21 @@ export class LightSystem {
     this._eraser?.destroy();
     this._crystalEraser?.destroy();
     this._skyBeaconPulseRenderer?.destroy();
+    this._skySteadyLightRenderer?.destroy();
     this._darknessTexture = null;
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
     this._darknessHasSolidFill = false;
     this._caveInteriorDarknessBoost = 0;
     this._activeCaveArchetypeId = null;
+    this._preparedFrame = null;
     this._torchHalo = null;
     this._torchCoreGlow = null;
     this._torchFlameGlow = null;
     this._eraser = null;
     this._crystalEraser = null;
     this._skyBeaconPulseRenderer = null;
+    this._skySteadyLightRenderer = null;
     this._torchKey = null;
     this._torchKeyHandler = null;
   }
@@ -447,6 +478,7 @@ export class LightSystem {
     const player = this.scene.player;
     const playerTile = this.playerController?.getPlayerTile?.() || null;
     this._skyBeaconPulseRenderer?.beginFrame();
+    this._skySteadyLightRenderer?.beginFrame();
 
     const darknessAlpha = this._computeDarknessAlpha(lighting);
     const inactiveThreshold = Math.max(
@@ -497,7 +529,8 @@ export class LightSystem {
       this.playerController,
       this.config.playerLightV2,
       this.scene.config.tileSize,
-      this._playerLightProfileId
+      this._playerLightProfileId,
+      this.scene.playerAssetProfile
     );
     const fire = this._getFireMotion(time, lighting, playerLight);
     const radiusWorld = radiusTiles
@@ -505,16 +538,21 @@ export class LightSystem {
       * fire.radiusScale
       * playerLight.radiusScale;
 
-    camera.matrix.transformPoint(anchor.x, anchor.y, this._screenPoint);
-    const screenX = this._screenPoint.x - camera.scrollX * camera.zoomX + fire.screenOffsetX * camera.zoomX;
-    const screenY = this._screenPoint.y - camera.scrollY * camera.zoomY + fire.screenOffsetY * camera.zoomY;
+    const lightPoint = resolveLightCoordinateSpaces(
+      camera,
+      anchor.x + fire.worldOffsetX,
+      anchor.y + fire.worldOffsetY,
+      this._screenPoint
+    );
+    const screenX = lightPoint.x;
+    const screenY = lightPoint.y;
 
     if (darknessActive) {
       this._eraser.setDisplaySize(
-        radiusWorld * 2 * camera.zoomX,
-        radiusWorld * 2 * camera.zoomY * playerLight.verticalScale
+        radiusWorld * 2,
+        radiusWorld * 2 * playerLight.verticalScale
       );
-      darkness.erase(this._eraser, screenX, screenY);
+      darkness.erase(this._eraser, lightPoint.textureX, lightPoint.textureY);
       this._darknessHasSolidFill = false;
       this._eraseCrystalLights(
         time,
@@ -766,14 +804,21 @@ export class LightSystem {
       );
       if (revealAlpha <= 0.01) continue;
 
-      camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
-      const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
-      const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
+      const lightPoint = resolveLightCoordinateSpaces(
+        camera,
+        worldX,
+        worldY,
+        this._crystalScreenPoint
+      );
 
       this._crystalEraser
-        .setDisplaySize(radiusX * 2 * zoomX, radiusY * 2 * zoomY)
+        .setDisplaySize(radiusX * 2, radiusY * 2)
         .setAlpha(revealAlpha);
-      darkness.erase(this._crystalEraser, screenX, screenY);
+      darkness.erase(
+        this._crystalEraser,
+        lightPoint.textureX,
+        lightPoint.textureY
+      );
       sourcesDrawn += 1;
     }
   }
@@ -895,11 +940,14 @@ export class LightSystem {
 
     if (progress < 0 || progress >= 1) return null;
 
-    const waveEnvelopePower = Math.max(0.01, pulseCfg.waveEnvelopePower || 1);
-    const waveStrength = Math.pow(
-      Math.max(0, Math.sin(Math.PI * progress)),
-      waveEnvelopePower
+    const fadeInProgress = Math.max(
+      0.01,
+      Math.min(0.5, pulseCfg.fadeInProgress || 0.1)
     );
+    const fadeIn = smootherstep(progress / fadeInProgress);
+    const travelFadePower = Math.max(0.01, pulseCfg.travelFadePower || 1);
+    const travelFade = Math.pow(1 - clamp01(progress), travelFadePower);
+    const waveStrength = fadeIn * travelFade;
 
     if (waveStrength <= 0.001) return null;
     return {
@@ -928,11 +976,10 @@ export class LightSystem {
       verticalScale,
       pulseRadiusTiles,
       pulse,
-      angleOffset: hashTileCycle(
+      rarity: this.scene.worldModel?.getSkyTileRarity?.(
         source.tx,
-        source.ty,
-        pulse.cycle
-      ) * Math.PI * 2,
+        source.ty
+      ) || 0,
     });
   }
 
@@ -1028,16 +1075,34 @@ export class LightSystem {
       const scaledRadiusTiles = Math.max(0.65, Math.min(maxRadiusTiles, radiusTiles + (flicker - 1) * 0.3));
       const verticalScale = Number.isFinite(cfg.verticalScale) ? cfg.verticalScale : 1;
 
-      camera.matrix.transformPoint(worldX, worldY, this._crystalScreenPoint);
+      const lightPoint = resolveLightCoordinateSpaces(
+        camera,
+        worldX,
+        worldY,
+        this._crystalScreenPoint
+      );
       this._crystalEraser
         .setDisplaySize(
-          scaledRadiusTiles * tileSize * 2 * zoomX,
-          scaledRadiusTiles * tileSize * 2 * zoomY * verticalScale
+          scaledRadiusTiles * tileSize * 2,
+          scaledRadiusTiles * tileSize * 2 * verticalScale
         )
         .setAlpha(revealAlpha);
-      const screenX = this._crystalScreenPoint.x - camera.scrollX * zoomX;
-      const screenY = this._crystalScreenPoint.y - camera.scrollY * zoomY;
-      darkness.erase(this._crystalEraser, screenX, screenY);
+      darkness.erase(
+        this._crystalEraser,
+        lightPoint.textureX,
+        lightPoint.textureY
+      );
+      if (cfg.steadyAura?.enabled) {
+        this._skySteadyLightRenderer?.draw({
+          worldX,
+          worldY,
+          tileSize,
+          verticalScale,
+          radiusTiles: scaledRadiusTiles,
+          rarity: worldModel.getSkyTileRarity?.(source.tx, source.ty) ?? 0,
+          intensity: flicker,
+        });
+      }
 
       if (pulseSourcesDrawn >= maxConcurrentPulses) continue;
       const pulse = this._resolveTileBeaconPulse(time, source.tx, source.ty, pulseCfg);
@@ -1055,11 +1120,15 @@ export class LightSystem {
 
       this._crystalEraser
         .setDisplaySize(
-          pulseRadiusTiles * tileSize * 2 * zoomX,
-          pulseRadiusTiles * tileSize * 2 * zoomY * verticalScale
+          pulseRadiusTiles * tileSize * 2,
+          pulseRadiusTiles * tileSize * 2 * verticalScale
         )
         .setAlpha(pulseAlpha);
-      darkness.erase(this._crystalEraser, screenX, screenY);
+      darkness.erase(
+        this._crystalEraser,
+        lightPoint.textureX,
+        lightPoint.textureY
+      );
       this._drawSkyBeaconPulse(
         worldX,
         worldY,
@@ -1147,8 +1216,19 @@ export class LightSystem {
     const fireNoise = Phaser.Math.Clamp((slow * 0.50 + lick * 0.34 + spark * 0.16), -1, 1);
     const heat = clamp01(0.58 + fireNoise * 0.08 + this._currentGlowStrength * 0.10);
     const tileSize = this.scene.config.tileSize;
-    const worldOffsetX = sway * cfg.positionFlutterTiles * tileSize * flickerBoost;
-    const worldOffsetY = -Math.abs(lick) * cfg.verticalFlutterTiles * tileSize * flickerBoost;
+    const positionFlutterScale = Number.isFinite(playerLight?.positionFlutterScale)
+      ? Math.max(0, playerLight.positionFlutterScale)
+      : 1;
+    const worldOffsetX = sway
+      * cfg.positionFlutterTiles
+      * tileSize
+      * flickerBoost
+      * positionFlutterScale;
+    const worldOffsetY = -Math.abs(lick)
+      * cfg.verticalFlutterTiles
+      * tileSize
+      * flickerBoost
+      * positionFlutterScale;
     const haloTint = this._lerpColor(cfg.heatColorLow, cfg.heatColorHigh, heat * 0.72);
     const coreTint = this._lerpColor(this.config.torchCoreColor, 0xffffff, heat * 0.22);
     const flameTint = this._lerpColor(cfg.coolSmokeColor, this.config.torchFlameColor, heat);

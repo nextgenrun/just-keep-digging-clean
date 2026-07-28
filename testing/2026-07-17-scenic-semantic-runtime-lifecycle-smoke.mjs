@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
+import { GAME_CONFIG } from "../values/gameConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_VISUAL_FEEDBACK } from "../values/worldVisualFeedback.js";
 import { WORLD_VISUAL_RUNTIME } from "../values/worldVisualRuntime.js";
@@ -113,7 +114,10 @@ function createSceneStub() {
     };
   };
   return {
-    config: { tileSize: 94 },
+    config: {
+      tileSize: GAME_CONFIG.tileSize,
+      topAirRows: GAME_CONFIG.topAirRows,
+    },
     images,
     graphics,
     madeGraphics,

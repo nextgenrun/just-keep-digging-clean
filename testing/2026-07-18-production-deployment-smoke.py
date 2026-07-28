@@ -25,6 +25,7 @@ assert not any("underground-biome-smooth-motion-v3" in path.parts for path in as
 for relative_directory in (
     "sprites/npc/campfire/generated",
     "sprites/tiles/dynamic-soil",
+    "sprites/backgrounds/world-visual-v2/depth/biome-motion-v3",
 ):
     expected = {
         path.resolve()
@@ -36,7 +37,10 @@ for relative_directory in (
 arc_pack_path = ROOT / "values" / "arcCoreVisuals.sprite.json"
 arc_pack = json.loads(arc_pack_path.read_text(encoding="utf-8"))
 arc_section = arc_pack["arcCoreV3"]
-arc_runtime_root = ROOT / arc_section["path"].lstrip("/")
+assert not arc_section["path"].startswith(("/", "\\")), (
+    "Arc runtime pack path must resolve inside a subdirectory deployment"
+)
+arc_runtime_root = ROOT / arc_section["path"]
 arc_runtime_assets = {
     (arc_runtime_root / entry["url"]).resolve()
     for entry in arc_section["files"]
@@ -86,6 +90,7 @@ for contract in (
     '".wasm": "application/wasm"',
     '".webp": "image/webp"',
     '".webm": "video/webm"',
+    '".mp4": "video/mp4"',
     '".ktx2": "image/ktx2"',
 ):
     assert contract in server_source, f"missing production HTTP contract: {contract}"
@@ -100,5 +105,17 @@ if dist_manifest.is_file():
     assert "globalThis.__DIG_GAME_PRODUCTION__ = true" in production_html
     if "globalThis.__DIG_GAME_BUILD_ID__" in production_html:
         assert f'globalThis.__DIG_GAME_BUILD_ID__ = "{manifest["buildId"]}"' in production_html
+    dist_arc_pack = json.loads(
+        (ROOT / "dist" / "values" / "arcCoreVisuals.sprite.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    dist_arc_section = dist_arc_pack["arcCoreV3"]
+    assert not dist_arc_section["path"].startswith(("/", "\\"))
+    dist_arc_root = ROOT / "dist" / dist_arc_section["path"]
+    assert all(
+        (dist_arc_root / entry["url"]).is_file()
+        for entry in dist_arc_section["files"]
+    ), "production snapshot is missing Arc runtime layers"
 
 print("production deployment smoke: ok")

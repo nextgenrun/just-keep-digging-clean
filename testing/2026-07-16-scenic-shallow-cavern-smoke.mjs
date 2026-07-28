@@ -75,18 +75,19 @@ assert.ok(
   render.backwallDepth < WORLD_VISUAL_RUNTIME.render.terrainDepth,
   "the finished scenic media renders behind authoritative terrain"
 );
-assert.ok(regions.every(region => regionAssets(region).length === 6), "every biome has six approved plates");
+assert.ok(regions.every(region => regionAssets(region).length === 7), "every biome has seven approved plates");
 assert.ok(regions.every(region => (
-  regionAssets(region).slice(0, 5).every(entry => entry.type === "image")
-  && regionAssets(region)[5].type === "video"
-  && regionAssets(region)[5].path.includes("/biome-motion-v3/")
-)), "each biome has five static images and one approved smooth V3 loop");
+  regionAssets(region).slice(0, 6).every(entry => entry.type === "image")
+  && regionAssets(region)[5].path.endsWith("-motion-v1.webp")
+  && regionAssets(region)[6].type === "video"
+  && regionAssets(region)[6].path.includes("/biome-motion-v3/")
+)), "each biome has five older images, one concept static, and one smooth V3 loop");
 assert.ok(regions.slice(0, 5).every(region => regionAssets(region, LEGACY_QUERY).length > 0));
 assert.ok(regions.slice(5).every(region => regionAssets(region, LEGACY_QUERY).length === 0));
 
 const configuredAssets = getWorldVisualDepthBackdropAllAssets();
-assert.equal(configuredAssets.length, 60);
-assert.equal(configuredAssets.filter(entry => entry.type === "image").length, 50);
+assert.equal(configuredAssets.length, 70);
+assert.equal(configuredAssets.filter(entry => entry.type === "image").length, 60);
 assert.equal(configuredAssets.filter(entry => entry.type === "video").length, 10);
 
 const boundaryContracts = [
@@ -157,8 +158,8 @@ for (const entry of configuredAssets) {
   assetKeys.add(entry.key);
   assetPaths.add(entry.path);
 }
-assert.equal(assetKeys.size, 60);
-assert.equal(assetPaths.size, 60);
+assert.equal(assetKeys.size, 70);
+assert.equal(assetPaths.size, 70);
 
 class FakeLoader extends EventEmitter {
   constructor() {
@@ -293,7 +294,7 @@ assert.equal(stage.assetCache.release("not-loaded"), false, "unknown media relea
 assert.equal("ambientLayer" in stage, false, "no procedural ambient overlay is attached");
 assert.equal("signatureLayer" in stage, false, "the rejected signature overlay is removed");
 assert.equal(stage.sync({ left: 73, right: 84, top: 150, bottom: 160 }, neutralLighting), true);
-assert.equal(stage.segments.size, 0, "surface waits for all six production plates");
+assert.equal(stage.segments.size, 0, "surface waits for all seven production plates");
 assert.deepEqual(
   loader.queued.map(entry => entry.key),
   surfaceAssets.slice(1).map(entry => entry.key)
@@ -351,7 +352,7 @@ stage.sync({ left: 0, right: 100, top: 200, bottom: 240 }, neutralLighting, true
 assert.deepEqual(
   new Set([...stage.segments.values()].map(entry => entry.backwall.key)),
   new Set(regionAssets(blue).map(entry => entry.key)),
-  "five images and the smooth V3 loop participate in deterministic card variation"
+  "older images, concept static, and smooth V3 loop all participate in card variation"
 );
 const staticBlue = [...stage.segments.values()].find(entry => !entry.isSmoothVideo);
 const videoBlue = [...stage.segments.values()].find(entry => entry.isSmoothVideo);
@@ -406,7 +407,7 @@ assert.ok(
   "departed biome plates are released"
 );
 assert.ok(
-  removedVideoKeys.includes(regionAssets(blue)[5].key),
+  removedVideoKeys.includes(regionAssets(blue)[6].key),
   "departed biome videos are stopped and released"
 );
 assert.equal(textureKeys.has(surfaceKey), true, "startup plate stays retained");

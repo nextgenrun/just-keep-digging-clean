@@ -6,4 +6,6 @@ Runtime ownership, control, and mining-footprint behavior for player-controlled 
 distinct Small/Omega idle motion, dig beams and impacts, and cloud board/exit
 transitions. `ArcCoreVehicleSystem.js` owns gameplay state and uses the
 remappable `arcCoreVehicle` action, which defaults to `B`; `F` remains digging.
+The visual owner tolerates pre-create and post-destroy update calls so a scene
+restart cannot dereference a released legacy sprite or layer package.
 Use `?arcCoreVisualsV3=0` to retain the legacy body-only rollback.

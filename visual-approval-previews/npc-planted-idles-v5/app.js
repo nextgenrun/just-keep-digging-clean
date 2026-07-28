@@ -1,8 +1,12 @@
-const CACHE_VERSION = "20260726-v11-rooted-motion";
-const spec = await fetch(`activity-spec.json?v=${CACHE_VERSION}`).then((response) => {
-  if (!response.ok) throw new Error(`Activity spec failed: ${response.status}`);
-  return response.json();
-});
+const CACHE_VERSION = "20260726-v12-approved";
+const spec = await fetch(`activity-spec.json?v=${CACHE_VERSION}`).then(
+  (response) => {
+    if (!response.ok) {
+      throw new Error(`Activity spec failed: ${response.status}`);
+    }
+    return response.json();
+  },
+);
 
 const grid = document.querySelector("#npcGrid");
 const log = document.querySelector("#eventLog");
@@ -16,7 +20,7 @@ const simulation = {
   running: true,
   time: 0,
   lastReal: performance.now(),
-  nextEvent: 4800,
+  nextEvent: 7000,
   energy: 1,
 };
 
@@ -25,23 +29,27 @@ function posePath(npc, poseId) {
 }
 
 function activityFor(record, activityId) {
-  return record.npc.activities.find(item => item.id === activityId);
+  if (activityId === "quiet") return spec.baselinePolicy;
+  return record.npc.activities.find((item) => item.id === activityId);
+}
+
+function baselineMarkup(npc) {
+  if (npc.baseline.type === "video") {
+    return `<video class="baseline-visual" src="${npc.baseline.path}"
+      autoplay muted loop playsinline aria-label="${npc.label} original idle"></video>`;
+  }
+  return `<img class="baseline-visual" src="${npc.baseline.path}"
+    alt="${npc.label} original idle">`;
 }
 
 function preloadPoses(npc) {
-  const poseIds = [
-    ...spec.quietLoop.frameIds,
-    ...npc.activities
-      .filter(activity => activity.id !== "quiet")
-      .map(activity => activity.id),
-  ];
-  for (const poseId of poseIds) {
+  for (const activity of npc.activities) {
     const image = new Image();
-    image.src = posePath(npc, poseId);
+    image.src = posePath(npc, activity.id);
   }
 }
 
-function createCard(npc, index) {
+function createCard(npc) {
   preloadPoses(npc);
   const card = document.createElement("article");
   card.className = "npc-card";
@@ -51,12 +59,13 @@ function createCard(npc, index) {
         <h2>${npc.label}</h2>
         <p class="rhythm">${npc.rhythm}</p>
       </div>
-      <span class="state-chip">quiet</span>
+      <span class="state-chip">original idle</span>
     </header>
     <div class="actor-stage">
-      <div class="actor" data-state="quiet">
-        <img class="pose-a visible" alt="${npc.label} activity pose">
-        <img class="pose-b" alt="">
+      <div class="actor" data-state="quiet" data-pose="baseline">
+        ${baselineMarkup(npc)}
+        <img class="activity-layer pose-a" alt="${npc.label} activity pose">
+        <img class="activity-layer pose-b" alt="">
       </div>
     </div>
     <div class="activity-copy"><strong></strong><span></span></div>
@@ -70,14 +79,11 @@ function createCard(npc, index) {
     title: card.querySelector(".activity-copy strong"),
     description: card.querySelector(".activity-copy span"),
     buttons: card.querySelector(".activity-buttons"),
-    layers: [...card.querySelectorAll(".actor img")],
+    layers: [...card.querySelectorAll(".activity-layer")],
     visibleLayer: 0,
     activityId: "quiet",
     poseId: null,
     endsAt: Number.POSITIVE_INFINITY,
-    quietFrameId: spec.quietLoop.sequence[0],
-    quietSequenceIndex: 0,
-    nextQuietFrameAt: 0,
   };
   npc.activities.forEach((activity) => {
     const button = document.createElement("button");
@@ -95,15 +101,11 @@ function createCard(npc, index) {
   setActivity(record, "quiet", "initial", false);
 }
 
-function updatePose(record, poseId, transitionKind = "activity") {
-  if (record.poseId === poseId) return;
+function updatePose(record, poseId) {
   const nextLayer = 1 - record.visibleLayer;
   const incoming = record.layers[nextLayer];
   const outgoing = record.layers[record.visibleLayer];
-  const source = posePath(record.npc, poseId);
-  record.actor.dataset.transition = transitionKind;
-  incoming.src = source;
-  if (!outgoing.getAttribute("src")) outgoing.src = source;
+  incoming.src = posePath(record.npc, poseId);
   incoming.classList.add("visible");
   outgoing.classList.remove("visible");
   record.visibleLayer = nextLayer;
@@ -111,34 +113,10 @@ function updatePose(record, poseId, transitionKind = "activity") {
   record.actor.dataset.pose = poseId;
 }
 
-function resetQuietLoop(record) {
-  record.quietSequenceIndex = 0;
-  record.quietFrameId = spec.quietLoop.sequence[0];
-  record.nextQuietFrameAt = simulation.time
-    + randomBetween(spec.quietLoop.initialHoldMs) / simulation.energy;
-  updatePose(record, record.quietFrameId, "quiet");
-}
-
-function advanceQuietLoop(record) {
-  if (record.activityId !== "quiet") return;
-  let advanced = 0;
-  while (simulation.time >= record.nextQuietFrameAt && advanced < 8) {
-    record.quietSequenceIndex = (
-      record.quietSequenceIndex + 1
-    ) % spec.quietLoop.sequence.length;
-    record.quietFrameId = spec.quietLoop.sequence[
-      record.quietSequenceIndex
-    ];
-    updatePose(record, record.quietFrameId, "quiet");
-    let holdMs = spec.quietLoop.frameDurationsMs[
-      record.quietSequenceIndex
-    ];
-    if (record.quietSequenceIndex === 0) {
-      holdMs += randomBetween(spec.quietLoop.loopGapMs);
-    }
-    record.nextQuietFrameAt += holdMs / simulation.energy;
-    advanced += 1;
-  }
+function showBaseline(record) {
+  record.layers.forEach((layer) => layer.classList.remove("visible"));
+  record.poseId = null;
+  record.actor.dataset.pose = "baseline";
 }
 
 function setActivity(record, activityId, source = "scheduler", writeLog = true) {
@@ -147,16 +125,21 @@ function setActivity(record, activityId, source = "scheduler", writeLog = true) 
   record.activityId = activityId;
   record.actor.dataset.state = activityId;
   record.card.dataset.state = activityId;
-  record.chip.textContent = activityId === "player" ? "player reaction" : activityId;
+  record.chip.textContent = activityId === "quiet"
+    ? "original idle"
+    : activityId === "player" ? "player reaction" : activityId;
   record.title.textContent = activity.label;
   record.description.textContent = activity.description;
   record.endsAt = activityId === "quiet"
     ? Number.POSITIVE_INFINITY
     : simulation.time + activity.durationMs / simulation.energy;
-  if (activityId === "quiet") resetQuietLoop(record);
-  else updatePose(record, activityId, "activity");
+  if (activityId === "quiet") showBaseline(record);
+  else updatePose(record, activityId);
   [...record.buttons.children].forEach((button, index) => {
-    button.classList.toggle("active", record.npc.activities[index].id === activityId);
+    button.classList.toggle(
+      "active",
+      record.npc.activities[index].id === activityId,
+    );
   });
   if (writeLog && activityId !== "quiet") {
     const suffix = source === "manual" ? " (manual)" : "";
@@ -173,13 +156,11 @@ function addLog(message) {
 }
 
 function setManualActivity(record, activityId) {
-  if (activityId !== "quiet") {
-    cards.forEach((other) => {
-      if (other !== record && other.activityId !== "quiet") {
-        setActivity(other, "quiet", "manual-settle", false);
-      }
-    });
-  }
+  cards.forEach((other) => {
+    if (other !== record && other.activityId !== "quiet") {
+      setActivity(other, "quiet", "manual-settle", false);
+    }
+  });
   setActivity(record, activityId, "manual");
   scheduleNext();
 }
@@ -189,8 +170,7 @@ function randomBetween([minimum, maximum]) {
 }
 
 function weightedActivity() {
-  const weights = spec.townRhythm.activityWeights;
-  const entries = Object.entries(weights);
+  const entries = Object.entries(spec.townRhythm.activityWeights);
   const total = entries.reduce((sum, entry) => sum + entry[1], 0);
   const roll = Math.random() * total;
   let cumulative = 0;
@@ -202,7 +182,9 @@ function weightedActivity() {
 }
 
 function triggerScheduled() {
-  const quiet = [...cards.values()].filter(record => record.activityId === "quiet");
+  const quiet = [...cards.values()].filter(
+    (record) => record.activityId === "quiet",
+  );
   const active = cards.size - quiet.length;
   if (!quiet.length || active >= spec.townRhythm.maxSimultaneousActivities) {
     return false;
@@ -213,23 +195,24 @@ function triggerScheduled() {
 }
 
 function scheduleNext() {
-  const gap = randomBetween(spec.townRhythm.normalEventGapMs) / simulation.energy;
-  simulation.nextEvent = simulation.time + gap;
+  const gap = randomBetween(spec.townRhythm.normalEventGapMs);
+  simulation.nextEvent = simulation.time + gap / simulation.energy;
 }
 
 function updateCounts() {
-  const active = [...cards.values()]
-    .filter(record => record.activityId !== "quiet").length;
+  const active = [...cards.values()].filter(
+    (record) => record.activityId !== "quiet",
+  ).length;
   activeCount.textContent = active;
   quietCount.textContent = cards.size - active;
 }
 
 function resetTown() {
   simulation.time = 0;
-  simulation.nextEvent = 4800;
-  cards.forEach(record => setActivity(record, "quiet", "reset", false));
+  simulation.nextEvent = 7000;
+  cards.forEach((record) => setActivity(record, "quiet", "reset", false));
   log.replaceChildren();
-  addLog("Town reset. Every merchant is still on the exact anchor.");
+  addLog("Town reset to the original calm idle baselines.");
 }
 
 function tick(realNow) {
@@ -241,7 +224,6 @@ function tick(realNow) {
       if (record.activityId !== "quiet" && simulation.time >= record.endsAt) {
         setActivity(record, "quiet", "settle", false);
       }
-      advanceQuietLoop(record);
     });
     if (simulation.time >= simulation.nextEvent) {
       triggerScheduled();
@@ -252,7 +234,7 @@ function tick(realNow) {
 }
 
 spec.npcs.forEach(createCard);
-addLog("Rooted idle loops started: visible frame motion, no walking or sway.");
+addLog("Original idles running; seven accepted activities are wired.");
 requestAnimationFrame(tick);
 
 playButton.addEventListener("click", () => {
@@ -262,7 +244,7 @@ playButton.addEventListener("click", () => {
 });
 
 document.querySelector("#nextEvent").addEventListener("click", () => {
-  if (!triggerScheduled()) addLog("The town is holding a quiet beat.");
+  if (!triggerScheduled()) addLog("The town is holding a calm idle beat.");
   scheduleNext();
 });
 

@@ -22,6 +22,7 @@ import {
 import { RESOURCE_PRICES_CONFIG } from "../values/resourcePrices.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
+import { SURFACE_TUNNEL_DOOR_CONFIG } from "../values/surfaceTunnelDoorConfig.js";
 
 globalThis.Phaser = {
   Input: { Keyboard: { JustDown: key => key?.justDown === true } },
@@ -154,30 +155,36 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     },
     worldRenderer: { applyTileUpdate() {} },
   };
-  const door = new SurfaceTunnelDoorSystem(scene, { tx: 12, topTy: 20, heightTiles: 3 });
+  const divider = SECOND_WORLD_CONFIG.levelDivider;
+  const door = new SurfaceTunnelDoorSystem(scene);
 
+  assert.equal(door.tx, divider.tileX);
+  assert.equal(door.tx, SURFACE_TUNNEL_DOOR_CONFIG.tileX);
+  assert.equal(door.topTy, divider.gateTopTileY);
+  assert.equal(door.heightTiles, divider.gateHeightTiles);
   assert.equal(door.isUnlocked(), false);
   door.syncFromUpgrade();
-  assert.deepEqual([...tiles.values()], [TILE_TYPES.BEDROCK, TILE_TYPES.BEDROCK, TILE_TYPES.BEDROCK]);
+  assert.equal(tiles.get(`${divider.tileX},${divider.gateTopTileY}`), TILE_TYPES.BEDROCK);
 
   tunnelAccessLevel = 1;
   assert.equal(door.isUnlocked(), true);
   door.syncFromUpgrade();
-  assert.deepEqual([...tiles.values()], [TILE_TYPES.AIR, TILE_TYPES.AIR, TILE_TYPES.AIR]);
+  assert.equal(tiles.get(`${divider.tileX},${divider.gateTopTileY}`), TILE_TYPES.AIR);
 
   tunnelAccessLevel = 0;
   godModeActive = true;
   assert.equal(door.isUnlocked(), true);
   door.syncFromUpgrade();
-  assert.deepEqual([...tiles.values()], [TILE_TYPES.AIR, TILE_TYPES.AIR, TILE_TYPES.AIR]);
+  assert.equal(tiles.get(`${divider.tileX},${divider.gateTopTileY}`), TILE_TYPES.AIR);
 }
 
-// Thunder Strike can breach ordinary bedrock, but never the gate-controlled Level 1/2 divider.
+// Thunder Strike can breach ordinary bedrock, but never the full-height Level 1/2 divider.
 {
-  const divider = SECOND_WORLD_CONFIG.undergroundDivider;
+  const divider = SECOND_WORLD_CONFIG.levelDivider;
+  const protectedStartTileY = divider.floorTileY + 1;
   const tileSize = 64;
   const tiles = new Map();
-  for (let ty = divider.startTileY; ty < divider.startTileY + 4; ty += 1) {
+  for (let ty = protectedStartTileY; ty < protectedStartTileY + 4; ty += 1) {
     tiles.set(`${divider.tileX},${ty}`, TILE_TYPES.BEDROCK);
   }
   const worldModel = {
@@ -193,7 +200,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     gemPower: 0,
     body: {
       x: divider.tileX * tileSize,
-      y: (divider.startTileY - 1) * tileSize,
+      y: (protectedStartTileY - 1) * tileSize,
       w: tileSize,
       h: 0,
     },
@@ -201,14 +208,14 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     worldModel,
     upgradeSystem: { getUpgradeLevel: () => 0 },
     getThunderStrikeCost: () => 0,
-    getConstellationStats: () => ({ thunderstrikeBedrockBreach: 4 }),
+    getConstellationStats: () => ({ thunderstrikeSideColumns: 1 }),
     _getNormalMiningDamageForTile: () => 1,
   });
 
   const strike = abilities.executeThunderStrike();
   assert.equal(strike.success, true);
-  assert.equal(strike.results.some(result => result.breachedBedrock), false);
-  for (let ty = divider.startTileY; ty < divider.startTileY + 4; ty += 1) {
+  assert.equal(strike.results.length, 0);
+  for (let ty = protectedStartTileY; ty < protectedStartTileY + 4; ty += 1) {
     assert.equal(tiles.get(`${divider.tileX},${ty}`), TILE_TYPES.BEDROCK);
   }
 }

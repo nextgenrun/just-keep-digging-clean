@@ -10,6 +10,8 @@ import {
   resolveThunderStrikeTimingBarScale,
 } from "../values/thunderStrikeChain.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import { setupGameplayMethods } from "../world/playScene/PlaySceneGameplay.js";
+import { ThunderStrikeActionRuntime } from "../world/playScene/ThunderStrikeActionRuntime.js";
 import { ThunderStrikeChainState } from "../world/playScene/ThunderStrikeChainState.js";
 
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.upfrontCostMultiplier, 3);
@@ -230,6 +232,10 @@ const setupSource = readFileSync(
   new URL("../world/playScene/PlaySceneSetup.js", import.meta.url),
   "utf8",
 );
+const gameplaySource = readFileSync(
+  new URL("../world/playScene/PlaySceneGameplay.js", import.meta.url),
+  "utf8",
+);
 const updateSource = readFileSync(
   new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url),
   "utf8",
@@ -270,6 +276,12 @@ const frameAsset = readFileSync(
 );
 
 assert.match(setupSource, /new ThunderStrikeActionRuntime\(this\)/);
+assert.match(setupSource, /this\._isShuttingDown = false/);
+assert.match(setupSource, /SHUTDOWN[\s\S]{0,120}this\._isShuttingDown = true/);
+assert.match(
+  gameplaySource,
+  /this\._isShuttingDown \|\| !this\.player\?\.anims \|\| !this\.playerController/,
+);
 assert.match(
   setupSource,
   /thunderStrikeActionRuntime\?\.isAnimating[\s\S]{0,120}thunderStrikeStrikeAnim/,
@@ -292,5 +304,67 @@ assert.match(impactSource, /stage\.visual\.shakeSignature/);
 assert.match(impactSource, /stage\.visual\.sparkCount/);
 assert.match(impactSource, /chainEffectiveDamageMultiplier/);
 assert.equal(frameAsset.subarray(0, 4).toString("ascii"), "RIFF");
+
+{
+  const gameplayPrototype = {};
+  setupGameplayMethods(gameplayPrototype);
+  assert.equal(
+    gameplayPrototype.updatePlayerVisualState.call({ _isShuttingDown: true }),
+    false,
+  );
+  assert.equal(
+    gameplayPrototype.updatePlayerVisualState.call({
+      _isShuttingDown: false,
+      player: {},
+      playerController: {},
+    }),
+    false,
+  );
+}
+
+// Phaser removes Sprite.anims before PlayScene's shutdown callback runs. The
+// Thunder Strike teardown must cancel gameplay state without restoring visuals.
+{
+  let cancelledTimeline = 0;
+  let cancelledAbility = 0;
+  let resetVisuals = 0;
+  let timingBarDestroyed = 0;
+  let impactFxDestroyed = 0;
+  const runtime = Object.assign(
+    Object.create(ThunderStrikeActionRuntime.prototype),
+    {
+      scene: {
+        _isShuttingDown: true,
+        player: {},
+        playerRigContact: { endAction() {} },
+        pickaxeTrailSystem: { stop() {} },
+      },
+      adapter: {
+        getTimeline: () => ({ cancel: () => { cancelledTimeline += 1; } }),
+        getAbilities: () => ({
+          cancelThunderStrikeChain: () => { cancelledAbility += 1; },
+        }),
+        setLocked() {},
+        resetVisuals: () => { resetVisuals += 1; },
+      },
+      state: { reset() {} },
+      timingBar: { destroy: () => { timingBarDestroyed += 1; } },
+      impactFx: { destroy: () => { impactFxDestroyed += 1; } },
+      animating: true,
+      holdUntilMs: 100,
+      facingFlipX: null,
+      destroyed: false,
+    },
+  );
+
+  assert.doesNotThrow(() => runtime.destroy());
+  assert.doesNotThrow(() => runtime.destroy(), "Thunder Strike teardown must be idempotent");
+  assert.equal(cancelledTimeline, 1);
+  assert.equal(cancelledAbility, 1);
+  assert.equal(resetVisuals, 0);
+  assert.equal(timingBarDestroyed, 1);
+  assert.equal(impactFxDestroyed, 1);
+  assert.equal(runtime.scene, null);
+}
 
 console.log("THUNDERSTRIKE_THREE_SLAM_CONTRACT_OK");

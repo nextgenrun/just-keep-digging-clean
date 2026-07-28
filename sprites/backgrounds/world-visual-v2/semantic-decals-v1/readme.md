@@ -15,7 +15,9 @@ collision, rewards, and saves.
   ore/rune formations and adds the Ancient Relic Cache in frame 7.
 - `special-reward-insets-emissive-v2.png` supplies their aligned, softly
   pulsing light response without HTML or Phaser-drawn semantic glyphs.
-- `bedrock-seamless-v1.webp` is the continuous bedrock-only material.
+- `bedrock-megalith-lock-v1.png` is the approved continuous bedrock material,
+  mirrored byte-for-byte from the user-selected 1254 x 1254 source.
+- `bedrock-seamless-v1.webp` is retained as the previous rollback material.
 - `semantic-decals-preview-v1.webp` is review-only.
 - `sources/` preserves the built-in image-generation results plus the locally
   chroma-keyed intermediates used by the deterministic build script. The

@@ -2,8 +2,15 @@
 
 Single Source of Truth — ALL numeric/string/config values.
 
-- `lightConfig.js -> playerLightV2` owns the upper-body anchor, surface/day,
-  night, rain, storm, deep-cave response, world-glow shaping, and
+- `titanDiscoveryExperience.js` owns the partial-reveal plus chamber-entry
+  encounter threshold, 72-metre approved-HUD resonance range and cadence,
+  locked-safe direction copy, discovery announcement, `?titanGuidance=0`, and
+  `?titanEncounter=legacy`. Terrain, rewards, collision, and persistence remain
+  outside this presentation contract.
+
+- `lightConfig.js -> playerLightV2` owns the visible-player center anchor,
+  positional-flutter lock, surface/day, night, rain, storm, deep-cave
+  response, world-glow shaping, and
   `?playerLight=legacy` rollback. `shaderConfig.js -> darknessLight` owns the
   v2 penumbra, falloff, core, warmth, and alpha ceiling.
 
@@ -33,7 +40,7 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - `gameConfig.js -> rendererQuality` owns the painterly WebGL sampling contract: antialiasing stays enabled, pixel rounding stays disabled, High 1.5x is the default backing density, Ultra is 2x, and all rollback query names/presets are centralized there. Logical gameplay coordinates remain 1280x720.
 
-- `worldVisualDepthBackdrops.js` owns 50 streamed background-only plates across the ten row 65..5064 material bands, with five deterministic 1536x1024 WebP cards per biome. It also owns the negative render depth that keeps all scenic architecture behind `terrainDepth: 0.1`, `?biomeBackdropVariants=0` legacy-pool rollback, and `?biomeBackdropMotion=0` camera-response rollback. The rejected Graphics, duplicate-emissive, drifting-mist, and choppy optical-flow video paths are absent from production selection. Motion is limited to the complete finished image card until a new moving-image candidate is explicitly approved. `?levelOneBackdrops=0` and `?shallowCavern=0` still disable the complete presentation without touching simulation state.
+- `worldVisualDepthBackdrops.js` owns 70 streamed background-only plates across the ten row 65..5064 material bands: all fifty previously approved 1536x1024 WebPs, ten static WebP derivatives of the named motion-concept paintings, and ten approved 1536x1024, eight-second, 60 fps H.264 V3 loops. Every biome therefore has five older static cards, one concept-static card, and one moving card. It also owns the negative render depth that keeps all scenic architecture behind `terrainDepth: 0.1`, `?biomeBackdropVariants=0` legacy-pool rollback, and `?biomeBackdropMotion=0` whole-card motion rollback. The rejected Graphics, duplicate-emissive, drifting-mist, and choppy optical-flow V2 paths remain absent from production selection. V3 moves only the complete finished media card and automatically pauses video below its configured FPS floor. `?levelOneBackdrops=0` and `?shallowCavern=0` still disable the complete presentation without touching simulation state.
 
 - `worldVisualDepthCameraMotion.js` owns the ten restrained relationships
   between camera movement and the finished backdrop media. Amber, Slagworks and
@@ -47,7 +54,7 @@ Single Source of Truth — ALL numeric/string/config values.
   routing stays in `worldVisualDepthBackdrops.js`, so Phaser does not import
   review UI metadata.
 
-- `titanDiscoveries.js` owns the 25 visual-only titan identities, canonical save order, archive lore/regions, transparent creature and generated-plinth paths, deterministic depth/x search anchors, clear-area thresholds, backdrop reveal/glow timing, 5x5 archive geometry, production-health labels, and the complete 25-position non-interactive Titan Walk. `?titans=0` disables and de-queues the complete presentation without changing terrain, rewards, collision, or saves.
+- `titanDiscoveries.js` owns the 25 visual-only Titan identities, canonical save order, archive lore/regions, compact creature/plinth paths, 25 individually authored 1536x848 chamber paths, colossal 15-22 by 8-13 tile search windows, bounded two-card world streaming, archive pinning values, reveal/glow timing, 5x5 archive geometry, production-health labels, and the complete non-interactive Titan Walk. `?titanChambers=0` restores compact underground art; `?titans=0` disables and de-queues the complete presentation. Neither changes terrain, rewards, collision, or saves.
 - `ancientRelics.js` remains the authority for cache placement, count limits, and progression gates. `relicDiscoveryFxConfig.js` owns only the bounded visible-world pedestal wake, short residual floor mark, world-space player-collection orbit, reduced-motion modes, presentation depths, and warning-only health code; it never awards or persists a relic.
 
 - `worldVisualSurfacePacks.js` owns the reversible scenic-surface composition. `town-benchmark-v1` is the default: its approved 1801x941 beauty plate is cropped at the authored ground line and uniformly calibrated from the shared 1.75 m midpoint player reference so its measured 75 px lintel-to-threshold opening renders as a 2.10 m door. This produces a roughly 23.05-tile beauty span with a bounded 20.3% enlargement and no aspect distortion. Approved Option A now adds an 1801x139 Town Square facade whose 1672 px core is an unscaled pixel-exact mockup crop followed only by the matching 129 px alpha handoff. It shares the beauty scale and authoritative solid-terrain mask, renders above overlapping terrain semantics, and remains below damage feedback. The legacy 14x10 underground facade remains unchanged underneath for exact digging holes and rollback continuity. The pack also owns restrained SCREEN lightning plus cool, low-alpha wet-ground response. Use `?surfacePack=current-v2` to roll back to the previous split scenic surface assembly without changing gameplay state.
@@ -57,10 +64,10 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - `miningConfig.js` owns the shared `You cannot break this` and `0 damage` blocked-bedrock UI copy, styling, dedupe key, duration, and compact-cave status color. `DigSystem` identifies authoritative bedrock, cave-wall, and town-floor failures; presentation remains in the active world UI.
 - `caveArchetypes.js` owns the six cave identities, four width forms, palettes, motifs, discovery copy, feature chances, depth gates, and streaming values. `worldGen.js -> caves.authoredGapSupplement` owns the five-band Level One refill targets and spacing; the generator may carve only non-authored resources or reuse authored AIR.
-- `lightConfig.js -> caveLights` owns restrained local cave illumination that reveals identity art only while the player is at the cavern. `skyTileLights` separately owns Star Block beacon lighting: in-view `SKY_TILE` cells keep a strong, softly flattened pool of light through hard underground darkness beyond player vision. A coordinate-seeded 18% chance per 45-second window may send one faint 6.4-second ring across the area; its 1024 px linear-filtered gradient, feathered bloom, pearl filament, and soft node textures replace primitive ellipse/circle drawing. Cross flares are disabled and concurrent rings are capped at one. Geode and crystal lights remain proximity-limited.
-- `starConstellations.js -> collectedStarReleaseFx` owns the UI-only mined Star Block presentation: source flash, expanding impact ring, bounded sparkle trail, slow swaying ascent, rarity duration, scale beats, and final fade. It never restores collected stars to the persistent world.
+- `lightConfig.js -> caveLights` owns restrained local cave illumination that reveals identity art only while the player is at the cavern. `skyTileLights` separately owns Star Block beacon lighting: in-view `SKY_TILE` cells keep a strong, softly flattened reveal through hard underground darkness beyond player vision. Six 1254 px ImageGen steady-aura textures stain that darkness cyan, lavender, gold, orange, turquoise, or violet according to the live Star Block rarity; they composite above the black mask and never reuse or tint the generic torch glow. A separate coordinate-seeded 18% chance per 45-second window may send one faint 8.8-second ImageGen wave more than eight tiles outward while it continuously fades. Phaser may position, scale, fade, and additively composite these authored images but may not draw or tint replacement light geometry. Cross flares are disabled and concurrent rings are capped at one. Geode and crystal lights remain proximity-limited.
+- `starConstellations.js -> collectedStarReleaseFx` owns the UI-only mined Star Block presentation: twelve ImageGen core/fracture asset identities in the six production colours, quiet reuse of the ImageGen pulse ring, three authored-image echoes, long swaying ascent, scale beats, and final fade. Phaser may move/scale/fade/composite those images but may not draw, tint, or generate substitute destruction art. It never restores collected stars to the persistent world.
 
-- uiLayout.js centralizes modal spacing, UI typography, depth ordering, and merchant presentation copy for the unified interface.
+- uiLayout.js centralizes modal spacing, UI typography, depth ordering, merchant presentation copy, and responsive manual save-transfer geometry for the unified interface.
 - `pillarVisuals.js` owns both approved five-stage production asset lists, player-readable world scale, transition/glow timing, Milestone depth thresholds, Star Pillar constellation thresholds, and normalized socket centers. `milestonePillarUi.js` owns the responsive modal geometry, pagination density, and readable type floor; `milestonePillarReview.js` remains the isolated five-option review-lab contract.
 - `townSquareConfig.js` owns the approved Option A square layout id, surface-row offset, and five absolute door-aligned merchant slots. The Level 2 Arc Core merchant remains owned by `arcCoreConfig.js`.
 - `branding.js` owns the approved UNDERSTAR product name and Rift Monolith

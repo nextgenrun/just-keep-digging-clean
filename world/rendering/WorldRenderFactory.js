@@ -3,7 +3,7 @@ import {
   resolveWorldVisualRuntimeMode,
 } from "../../values/worldVisualRuntime.js";
 import { WorldRenderer } from "./WorldRenderer.js";
-import { WorldVisualRuntime } from "./scenic-world/WorldVisualRuntime.js";
+import { WorldVisualRuntime } from "./scenic-world/WorldVisualRuntime.js?rev=20260727-restart-lifecycle-v1";
 
 export function createWorldRenderer(scene, worldModel, gameConfig, search = globalThis.location?.search || "") {
   const mode = resolveWorldVisualRuntimeMode(undefined, search);

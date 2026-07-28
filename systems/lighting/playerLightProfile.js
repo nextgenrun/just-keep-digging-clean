@@ -11,6 +11,44 @@ function hasFiniteBody(body) {
   );
 }
 
+function resolveProfileVisibleCenter(player, playerAssetProfile) {
+  const textureKey = player?.texture?.key || player?.frame?.texture?.key;
+  const center = textureKey
+    ? playerAssetProfile?.lightVisibleCenterBySheet?.[textureKey]
+    : null;
+  const displayWidth = Math.abs(Number(player?.displayWidth));
+  const displayHeight = Math.abs(Number(player?.displayHeight));
+  const originX = Number(player?.originX);
+  const originY = Number(player?.originY);
+  if (
+    !center
+    || !Number.isFinite(center.x)
+    || !Number.isFinite(center.y)
+    || !Number.isFinite(displayWidth)
+    || !Number.isFinite(displayHeight)
+    || !Number.isFinite(originX)
+    || !Number.isFinite(originY)
+    || !Number.isFinite(player?.x)
+    || !Number.isFinite(player?.y)
+  ) {
+    return null;
+  }
+
+  const flipX = player.flipX === true ? -1 : 1;
+  const flipY = player.flipY === true ? -1 : 1;
+  const localX = (center.x - originX) * displayWidth * flipX;
+  const localY = (center.y - originY) * displayHeight * flipY;
+  const rotation = Number.isFinite(player.rotation) ? player.rotation : 0;
+  const cosine = Math.cos(rotation);
+  const sine = Math.sin(rotation);
+
+  return {
+    x: player.x + localX * cosine - localY * sine,
+    y: player.y + localX * sine + localY * cosine,
+    source: "profile-visible-center",
+  };
+}
+
 export function resolvePlayerLightProfile(config, search = globalThis.location?.search || "") {
   const profile = config?.playerLightV2;
   const rollback = profile?.rollbackQuery;
@@ -26,7 +64,8 @@ export function resolvePlayerLightAnchor(
   playerController,
   profileConfig,
   tileSize,
-  profileId
+  profileId,
+  playerAssetProfile = null
 ) {
   if (profileId === "legacy") {
     return {
@@ -36,13 +75,29 @@ export function resolvePlayerLightAnchor(
     };
   }
 
+  const profileVisibleCenter = resolveProfileVisibleCenter(player, playerAssetProfile);
+  if (profileVisibleCenter) return profileVisibleCenter;
+
   const body = playerController?.physicsBody;
   const anchor = profileConfig?.anchor || {};
   if (hasFiniteBody(body)) {
+    const bodyCenterX = body.x + body.w * 0.5;
+    const bodyCenterY = body.y + body.h * 0.5;
+    const spriteUsesCenterOrigin = playerController?.config?.playerVisualOriginCenter === true;
+    const nominalSpriteY = spriteUsesCenterOrigin
+      ? bodyCenterY
+      : body.y + body.h;
+    const visualOffsetX = Number.isFinite(player?.x)
+      ? player.x - bodyCenterX
+      : 0;
+    const visualOffsetY = Number.isFinite(player?.y)
+      ? player.y - nominalSpriteY
+      : 0;
+
     return {
-      x: body.x + body.w * anchor.bodyXRatio,
-      y: body.y + body.h * anchor.bodyYRatio,
-      source: "physics-upper-body",
+      x: body.x + body.w * anchor.bodyXRatio + visualOffsetX,
+      y: body.y + body.h * anchor.bodyYRatio + visualOffsetY,
+      source: "physics-visible-center",
     };
   }
 
@@ -62,6 +117,7 @@ export function resolvePlayerLightEnvironment(lighting, profileConfig, profileId
       warmth: 1,
       coolEdge: 0,
       flickerScale: 1,
+      positionFlutterScale: 1,
       verticalScale: 1,
     };
   }
@@ -115,6 +171,10 @@ export function resolvePlayerLightEnvironment(lighting, profileConfig, profileId
     warmth: clamp01(warmth),
     coolEdge: clamp01(coolEdge),
     flickerScale: Math.max(environment.minimumFlickerScale, flickerScale),
+    positionFlutterScale: Math.max(
+      0,
+      Number(profileConfig?.reveal?.positionFlutterScale) || 0
+    ),
     verticalScale: profileConfig.reveal.verticalScale,
   };
 }

@@ -60,6 +60,11 @@ export const SURVIVAL_BLENDER_V2_RUNTIME = Object.freeze({
     fly: Object.freeze({
       key: "survival-blender-v2-fly-sheet",
       fileName: "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
+      // Mean alpha-bounds center across all 36 frames in the 256px source cells.
+      visibleCenterNormalized: Object.freeze({
+        x: 137.72222222222223 / 256,
+        y: 134.76388888888889 / 256,
+      }),
     }),
     digUp: Object.freeze({
       key: "survival-blender-v2-dig-up-polished-sheet",

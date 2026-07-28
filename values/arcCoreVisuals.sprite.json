@@ -196,7 +196,7 @@
     }
   },
   "arcCoreV3": {
-    "path": "/sprites/vehicles/arc-core-v3/runtime/",
+    "path": "sprites/vehicles/arc-core-v3/runtime/",
     "files": [
       {
         "type": "image",

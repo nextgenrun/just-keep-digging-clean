@@ -132,16 +132,18 @@ assert.ok(
   "the visible ring must remain faint rather than dominating the scene"
 );
 assert.ok(
-  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringTextureSizePx >= 1024,
-  "the traveling ring must use a high-resolution filtered source texture"
+  LIGHT_CONFIG.skyTileLights.beaconPulse.durationMs >= 8000,
+  "the beacon wave must travel slowly enough for its long-distance fade to read"
 );
-assert.ok(
-  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.ringGradientStops.length >= 8,
-  "the traveling ring must include enough feathered bands for a smooth bloom and filament"
+assert.equal(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.artSource,
+  "ImageGen",
+  "the visible pulse must use approved ImageGen artwork rather than procedural geometry"
 );
-assert.ok(
-  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.nodeTextureSizePx >= 128,
-  "constellation nodes must use soft high-resolution textures rather than hard circles"
+assert.equal(
+  LIGHT_CONFIG.skyTileLights.beaconPulse.visuals.rarityAssets.length,
+  6,
+  "every production Star Block colour must own an ImageGen pulse sprite"
 );
 assert.equal(
   Object.keys(LIGHT_CONFIG.skyTileLights.beaconPulse.visuals)
@@ -157,6 +159,8 @@ const neighboringActiveWindowIndices = [];
 const quietTime = 0;
 let peakPulse = null;
 let expandingPulse = null;
+let nearTravelPulse = null;
+let farTravelPulse = null;
 for (let cycle = 0; cycle < sampledWindowCount; cycle += 1) {
   let activeInWindow = false;
   let neighboringActiveInWindow = false;
@@ -186,6 +190,20 @@ for (let cycle = 0; cycle < sampledWindowCount; cycle += 1) {
       ) {
         expandingPulse = { time, pulse };
       }
+      if (
+        !nearTravelPulse
+        || Math.abs(pulse.progress - 0.25)
+          < Math.abs(nearTravelPulse.pulse.progress - 0.25)
+      ) {
+        nearTravelPulse = { time, pulse };
+      }
+      if (
+        !farTravelPulse
+        || Math.abs(pulse.progress - 0.75)
+          < Math.abs(farTravelPulse.pulse.progress - 0.75)
+      ) {
+        farTravelPulse = { time, pulse };
+      }
     }
     if (neighboringPulse) neighboringActiveInWindow = true;
   }
@@ -214,12 +232,16 @@ assert.notDeepEqual(
   "nearby Star Blocks must use different random emission windows"
 );
 assert.ok(
-  peakPulse?.pulse.waveStrength > 0.98,
-  "the faint ring envelope must still reach its configured peak"
+  peakPulse?.pulse.waveStrength > 0.85,
+  "the fading travel envelope must still become readable near the Star Block"
 );
 assert.ok(
   expandingPulse?.pulse.progress > 0.5 && expandingPulse.pulse.progress < 0.6,
   "the pulse contract must expose a useful expanding-wave phase"
+);
+assert.ok(
+  nearTravelPulse?.pulse.waveStrength > farTravelPulse?.pulse.waveStrength,
+  "the wave must fade as it travels farther from its Star Block"
 );
 assert.equal(
   Object.hasOwn(peakPulse.pulse, "flareStrength"),
@@ -281,8 +303,8 @@ assert.ok(
   "the beacon halo must expand far enough to identify the Star Block from a distance"
 );
 assert.ok(
-  eraseCalls[1].alpha >= 0.04 && eraseCalls[1].alpha <= 0.1,
-  "the distant beacon halo must be readable but deliberately faint"
+  eraseCalls[1].alpha >= 0.025 && eraseCalls[1].alpha <= 0.07,
+  "the distant beacon halo must fade while remaining deliberately readable"
 );
 const renderedPulse = pulseRenderCalls[0];
 assert.ok(renderedPulse, "an active beacon must request a visible constellation ring");
@@ -291,9 +313,9 @@ assert.ok(
   "the visible ring must already span more than ten tiles midway through its slow journey"
 );
 assert.equal(
-  Number.isFinite(renderedPulse.angleOffset),
-  true,
-  "the traveling wave must receive a deterministic node orientation"
+  renderedPulse.rarity,
+  0,
+  "the traveling wave must receive the source Star Block rarity colour"
 );
 assert.equal(
   Object.hasOwn(renderedPulse, "flareStrength"),
@@ -371,4 +393,4 @@ assert.equal(
   "the Star Block exception must not make every geological light source reveal the whole viewport"
 );
 
-console.log("Star Block light persistence contract passed: steady hard-darkness light plus rare non-stacking ring-only pulses");
+console.log("Star Block light persistence contract passed: steady hard-darkness light plus rare non-stacking outward-fading ImageGen pulses");

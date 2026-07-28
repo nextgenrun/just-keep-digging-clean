@@ -32,22 +32,26 @@ packs bounded instead of decoding the complete 5,000-tile-deep art library at
 startup.
 
 `WorldVisualDepthBackdropStage` covers all ten material bands from row 65
-through row 5064. Each biome owns five background-only 1536x1024 WebP cards.
+through row 5064. Each biome owns five previously approved background-only
+1536x1024 WebPs, one static WebP of its named motion-concept painting, and one
+approved 1536x1024, eight-second, 60 fps H.264 V3 loop.
 The stage keeps only intersecting regions and their visible cards plus one
-neighbor alive, streams their image pool through `WorldVisualAssetCache`, and
+neighbor alive, streams their mixed media pool through `WorldVisualAssetCache`, and
 releases departed media. Boundary views may coexist, while partial last cards
 are cropped exactly to the configured ground-band boundary.
 
 The rejected V2 optical-flow WebMs are not registered, loaded, or played. Their
 source paintings remain review evidence, but the warped/choppy files cannot
 enter a production biome pool. The previous Graphics-based signature,
-duplicate-emissive, and drifting-mist paths are likewise absent. Each current
-plate remains one finished-image card.
+duplicate-emissive, and drifting-mist paths are likewise absent. Each V3 loop
+uses a seamless subpixel affine transform of the complete finished painting:
+no optical flow, morphing, generated in-between art, or object overlay. Video
+automatically pauses below the configured FPS floor and resumes after recovery.
 
 All backdrop layers remain at negative render depth behind the opaque terrain
 facade at depth `0.1`. Consequently, depicted bridges, roots, buildings and
 architecture never become ground or collision. Generic material backdrops
-remain until every image required by the selected region is resident.
+remain until every image and video required by the selected region is resident.
 
 `WorldVisualDepthCameraMotion` changes only the position of the complete media
 cards. It applies one shared seam-safe offset to every active card, so every
@@ -59,7 +63,8 @@ element, Canvas drawing, Phaser Graphics, tweened primitive or per-object
 overlay.
 
 Use `?biomeBackdropVariants=0` to restore the old Level 1 plates,
-`?biomeBackdropMotion=0` to disable complete-card camera response, or
+`?biomeBackdropMotion=0` to freeze V3 playback and disable complete-card camera
+response, or
 `?levelOneBackdrops=0` / `?shallowCavern=0` to disable the whole scenic stage.
 All three controls are presentation-only and leave hidden tile state unchanged.
 
@@ -68,15 +73,17 @@ Use `?worldVisualRuntime=legacy` for the temporary rollback assembly. Legacy Til
 The mine-entrance landmark is the first scenic asset-pipeline pilot. It resolves against the deterministic shallowest standalone cave mouth after complete world generation, validates that the mouth is air with a solid row beneath it, and anchors its measured alpha-crop bottom exactly to that floor. The beauty card sits above scenic terrain but below resource/damage feedback and never mutates the cave mouth, collision, or tile state. It responds to day/night, rain, and lightning and can be removed independently with `?mineEntrancePilot=0`.
 
 `TitanDiscoverySystem` adds a visual collection layer between the streamed cave
-backwall and authoritative terrain. Each of its 25 deterministic windows records
-only cells that were originally diggable; solid scenic terrain hides the titan
-sprite, dug air reveals it, and clearing the final tracked cell plays a localized
-glow, dust, crossing, and collection-echo flourish. Saved discovery ids only
-control visual restoration, the 5x5 ESC archive, and which of the 25 generated
-Titan Walk plinths holds a living miniature. Locked plinths remain visible so
-the collection has a physical completion shape. The system never changes tile
-type, HP, collision, rewards, player stats, or world generation, and
-`?titans=0` removes and de-queues it independently.
+backwall and authoritative terrain. Each of its 25 deterministic 15-22 by 8-13
+tile windows records only cells that were originally diggable. The dedicated
+`TitanChamberStream` loads at most two nearby 1536x848 authored cards, swaps
+them over the compact fallback, and removes stream-owned texture memory outside
+the release range. Solid scenic terrain hides the card, dug air reveals it, and
+clearing the final tracked cell plays the localized glow, dust, crossing, and
+collection-echo flourish. A discovered ESC entry can pin one card for its large
+vignette. Saved ids only control visual restoration, the 5x5 archive, and which
+Titan Walk plinth holds a living miniature. The system never changes tile type,
+HP, collision, rewards, player stats, or world generation.
+`?titanChambers=0` restores compact art; `?titans=0` removes the complete layer.
 
 `WorldVisualSurfacePropLayer` streams the approved Variant C prop language
 across both complete surface ranges. Every object is an independent alpha

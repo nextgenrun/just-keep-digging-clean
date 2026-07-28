@@ -1,4 +1,6 @@
 const MOTION_ART_ROOT = "./";
+const APPROVED_STATIC_ROOT =
+  "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2";
 const REJECTED_VIDEO_ROOT =
   "sprites/backgrounds/world-visual-v2/depth/biome-motion-v2";
 
@@ -20,6 +22,7 @@ const card = ({
     title,
     materialId,
     art: `${MOTION_ART_ROOT}${art}`,
+    approvedStatic: `${APPROVED_STATIC_ROOT}/${stem}-motion-v1.webp`,
     rejectedVideo: `${REJECTED_VIDEO_ROOT}/${stem}-loop-v2.webm`,
     motionLabel,
     description,
@@ -31,6 +34,10 @@ export const UNDERGROUND_BIOME_MOTION_REVIEW = Object.freeze({
   productionChanged: false,
   status: "rejected",
   rejectionReason: "Choppy optical-flow deformation and low temporal quality",
+  staticPromotion: Object.freeze({
+    status: "approved",
+    productionChanged: true,
+  }),
   frame: Object.freeze({ width: 1536, height: 1024 }),
   cards: Object.freeze([
     card({

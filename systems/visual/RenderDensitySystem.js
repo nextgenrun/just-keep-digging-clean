@@ -26,6 +26,17 @@ function getProfile(target) {
   return getGame(target)?.__jkdRenderDensityProfile || null;
 }
 
+export function shouldApplyRenderDensityToCamera(camera) {
+  const game = getGame(camera);
+  const systemScene = game?.scene?.systemScene;
+
+  // DynamicTexture and RenderTexture own an internal camera attached to
+  // Phaser's system scene. Its target already uses texture-local pixels, not
+  // the game's physical backing canvas. Scaling this camera pushes every
+  // stamp/erase toward the bottom-right of the texture.
+  return !systemScene || camera?.scene !== systemScene;
+}
+
 function installLogicalScaleAccessors(game, profile) {
   if (!game?.scale || profile.density <= 1) return;
 
@@ -78,7 +89,13 @@ function installCameraMatrixPatch() {
   cameraPrototype.preRender = function nativeDensityCameraPreRender(...args) {
     const result = originalPreRender.apply(this, args);
     const density = getProfile(this)?.density || 1;
-    if (density <= 1 || !this.matrix) return result;
+    if (
+      density <= 1
+      || !this.matrix
+      || !shouldApplyRenderDensityToCamera(this)
+    ) {
+      return result;
+    }
 
     applyRenderDensityToMatrix(this.matrix, density);
     this[CAMERA_MATRIX_DENSITY] = density;

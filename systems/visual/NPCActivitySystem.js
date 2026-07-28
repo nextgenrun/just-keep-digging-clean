@@ -8,7 +8,6 @@ import {
   restoreNpcBase,
   startNpcPose,
   updateNpcActorVisual,
-  updateNpcQuietLoop,
 } from "./npcActivityVisuals.js";
 
 function tileDistance(playerTile, npc) {
@@ -17,7 +16,7 @@ function tileDistance(playerTile, npc) {
 }
 
 function visualAnchorError(actor) {
-  const visuals = [actor.baseVisual, actor.quietOverlay, actor.overlay];
+  const visuals = [actor.baseVisual, actor.overlay];
   return visuals.reduce((maximum, visual) => Math.max(
     maximum,
     Math.abs((visual?.x ?? actor.anchorX) - actor.anchorX),
@@ -55,7 +54,7 @@ export class NPCActivitySystem {
       this._recordMissing(npc.merchantId, ["configuration"]);
       return null;
     }
-    const missing = this.config.poseAssetIds.filter(poseId => (
+    const missing = this.config.activityIds.filter(poseId => (
       !keys[poseId] || !this.scene.textures.exists(keys[poseId])
     ));
     if (missing.length > 0) {
@@ -99,17 +98,14 @@ export class NPCActivitySystem {
         actor.playerNear
         && !actor.reactedDuringVisit
         && time >= actor.reactionReadyAt
-        && (
-          actor.state !== "quiet"
-          || activeCount < this.config.schedule.maxSimultaneousActivities
-        )
+        && actor.state === "quiet"
+        && activeCount < this.config.schedule.maxSimultaneousActivities
       ) {
-        const wasQuiet = actor.state === "quiet";
         this._startActivity(actor, "player", time);
         actor.reactedDuringVisit = true;
         actor.reactionReadyAt = time
           + this.config.schedule.playerReactionCooldownMs;
-        if (wasQuiet) activeCount += 1;
+        activeCount += 1;
       }
     }
     const dueActors = this.actors
@@ -127,7 +123,6 @@ export class NPCActivitySystem {
       }
     }
     for (const actor of this.actors) {
-      updateNpcQuietLoop(actor, time, this.config, this.random);
       updateNpcActorVisual(actor, time, safeDelta, this.config);
     }
     this._publishHealth(time);
@@ -136,13 +131,7 @@ export class NPCActivitySystem {
   settleMerchant(merchantId, time = this.scene.time?.now || 0) {
     const actor = this.actorById.get(merchantId);
     if (!actor) return false;
-    finishNpcActor(actor, time, this.config, this.random, true);
-    updateNpcActorVisual(
-      actor,
-      time,
-      this.config.render.crossfadeOutMs,
-      this.config,
-    );
+    finishNpcActor(actor, time, this.config, this.random);
     return true;
   }
 
@@ -172,7 +161,6 @@ export class NPCActivitySystem {
       actors: this.actors.map(actor => ({
         merchantId: actor.npc.merchantId,
         state: actor.state,
-        quietFrameId: actor.quietFrameId,
         anchorErrorPx: Number(visualAnchorError(actor).toFixed(4)),
       })),
     };
@@ -181,7 +169,6 @@ export class NPCActivitySystem {
   destroy() {
     for (const actor of this.actors) {
       actor.overlay?.destroy?.();
-      actor.quietOverlay?.destroy?.();
       restoreNpcBase(actor);
     }
     this.actors = [];

@@ -24,6 +24,7 @@ export class ThunderStrikeActionRuntime {
     this.inputBufferedUntilMs = -Infinity;
     this.holdUntilMs = 0;
     this.facingFlipX = null;
+    this.destroyed = false;
   }
 
   get isAnimating() {
@@ -31,6 +32,7 @@ export class ThunderStrikeActionRuntime {
   }
 
   update(time, thunderPressed = false, onStrikeResult = null) {
+    if (this.destroyed) return;
     const nowMs = Number.isFinite(time) ? time : 0;
     if (this.animating) {
       this._updateActive(nowMs, thunderPressed, onStrikeResult);
@@ -226,7 +228,14 @@ export class ThunderStrikeActionRuntime {
     this._finish();
   }
 
-  _finish() {
+  _finish({ restoreVisuals = true } = {}) {
+    if (!this.scene || !this.adapter) {
+      this.animating = false;
+      this.holdUntilMs = 0;
+      this.facingFlipX = null;
+      this.state?.reset?.();
+      return;
+    }
     this._timeline()?.cancel?.();
     this._abilities()?.cancelThunderStrikeChain?.();
     this.scene.playerRigContact?.endAction?.();
@@ -238,8 +247,10 @@ export class ThunderStrikeActionRuntime {
     if (typeof this.facingFlipX === "boolean") this.scene.player?.setFlipX?.(this.facingFlipX);
     this.facingFlipX = null;
     this.scene.pickaxeTrailSystem?.stop?.();
-    if (this.adapter.resetVisuals) this.adapter.resetVisuals();
-    else this.scene.updatePlayerVisualState?.(true);
+    if (restoreVisuals && !this.scene._isShuttingDown && this.scene.player?.anims) {
+      if (this.adapter.resetVisuals) this.adapter.resetVisuals();
+      else this.scene.updatePlayerVisualState?.(true);
+    }
     this.state.reset();
   }
 
@@ -291,9 +302,11 @@ export class ThunderStrikeActionRuntime {
   }
 
   destroy() {
-    this._finish();
-    this.timingBar.destroy();
-    this.impactFx.destroy();
+    if (this.destroyed) return;
+    this.destroyed = true;
+    this._finish({ restoreVisuals: false });
+    this.timingBar?.destroy?.();
+    this.impactFx?.destroy?.();
     this.scene = null;
     this.adapter = null;
   }

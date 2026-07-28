@@ -1,4 +1,4 @@
-# Runtime frame exports
+# Archived frame exports
 
-Sixty-six lossless WebPs exported from the six v11 Piskel documents. Phaser
-preloads these exact files through `values/npcActivityConfig.js`.
+Sixty-six lossless WebPs exported from the six v11 Piskel documents. Production
+does not preload this folder after the quiet concepts were rejected.

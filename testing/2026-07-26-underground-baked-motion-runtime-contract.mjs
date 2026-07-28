@@ -18,15 +18,16 @@ const manifestUrl = new URL(
 const manifest = JSON.parse(fs.readFileSync(manifestUrl, "utf8"));
 const productionAssets = getWorldVisualDepthBackdropAllAssets();
 
-assert.equal(productionAssets.length, 60, "production exposes fifty static and ten smooth V3 cards");
-assert.equal(productionAssets.filter(entry => entry.type === "image").length, 50);
+assert.equal(productionAssets.length, 70, "production exposes sixty static and ten smooth V3 cards");
+assert.equal(productionAssets.filter(entry => entry.type === "image").length, 60);
 assert.equal(productionAssets.filter(entry => entry.type === "video").length, 10);
 assert.ok(WORLD_VISUAL_DEPTH_BACKDROPS.regions.every(region => (
-  region.variantBackwalls.length === 6
-  && region.variantBackwalls.slice(0, 5).every(asset => asset.type === "image")
-  && region.variantBackwalls[5].type === "video"
-  && region.variantBackwalls[5].path.includes("/biome-motion-v3/")
-)), "every biome excludes rejected optical flow and includes only the approved V3 video");
+  region.variantBackwalls.length === 7
+  && region.variantBackwalls.slice(0, 6).every(asset => asset.type === "image")
+  && region.variantBackwalls[5].path.endsWith("-motion-v1.webp")
+  && region.variantBackwalls[6].type === "video"
+  && region.variantBackwalls[6].path.includes("/biome-motion-v3/")
+)), "every biome includes its concept static and V3 video while excluding rejected optical flow");
 
 assert.equal(UNDERGROUND_BIOME_MOTION_REVIEW.reviewOnly, true);
 assert.equal(UNDERGROUND_BIOME_MOTION_REVIEW.productionChanged, false);

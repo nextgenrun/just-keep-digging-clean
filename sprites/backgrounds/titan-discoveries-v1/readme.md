@@ -14,6 +14,7 @@ alpha master for provenance. These assets never define collision, rewards,
 stats, or tile state.
 
 The current creature masters are 256x256 compact silhouettes. They are
-production-ready for the archive, surface miniatures, and the existing bounded
-clear-area windows, but they are not high-resolution enough to support the
-mockup's proposed 15-22-block full-chamber scale without a separate art pass.
+production assets for archive-grid thumbnails, surface miniatures, and
+`?titanChambers=0` underground rollback. The separate promoted 15-22-block
+full-chamber art lives in `../titan-chambers-v2/`; these compact sources remain
+untouched so Boot and rollback stay lightweight.

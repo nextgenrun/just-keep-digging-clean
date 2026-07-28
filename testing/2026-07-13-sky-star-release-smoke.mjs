@@ -26,7 +26,6 @@ globalThis.Phaser = {
 
 function createSceneHarness() {
   const images = [];
-  const circles = [];
   const tweens = [];
 
   const scene = {
@@ -44,9 +43,12 @@ function createSceneHarness() {
           scaleY: 1,
           textureKey,
           setDepth() { return this; },
-          setDisplaySize() { return this; },
+          setDisplaySize(width, height) {
+            this.displayWidth = width;
+            this.displayHeight = height;
+            return this;
+          },
           setAlpha(alpha) { this.alpha = alpha; return this; },
-          setTint(tint) { this.tint = tint; return this; },
           setBlendMode(blendMode) { this.blendMode = blendMode; return this; },
           setScale(scaleX, scaleY = scaleX) {
             this.scaleX = scaleX;
@@ -58,28 +60,8 @@ function createSceneHarness() {
         images.push(image);
         return image;
       },
-      circle(x, y, radius, color, alpha) {
-        const circle = {
-          active: true,
-          x,
-          y,
-          radius,
-          color,
-          alpha,
-          scaleX: 1,
-          scaleY: 1,
-          setDepth() { return this; },
-          setStrokeStyle(width, strokeColor, strokeAlpha) {
-            this.strokeWidth = width;
-            this.strokeColor = strokeColor;
-            this.strokeAlpha = strokeAlpha;
-            return this;
-          },
-          setBlendMode(blendMode) { this.blendMode = blendMode; return this; },
-          destroy() { this.active = false; },
-        };
-        circles.push(circle);
-        return circle;
+      circle() {
+        throw new Error("Star Block release must not create Phaser circles");
       },
     },
     tweens: {
@@ -91,10 +73,10 @@ function createSceneHarness() {
     },
   };
 
-  return { scene, images, circles, tweens };
+  return { scene, images, tweens };
 }
 
-const { scene, images, circles, tweens } = createSceneHarness();
+const { scene, images, tweens } = createSceneHarness();
 const system = new FloatingTextSystem(scene, 1);
 system.releaseCollectedSkyStar(0, 500, 700, "dirt");
 
@@ -109,67 +91,80 @@ assert.equal(
   "rarity badge progress should update immediately"
 );
 assert.equal(system._townStars.length, 0, "a collected star must not enter the persistent world pool");
-assert.equal(images.length, 2, "the release should pair its collected star with one transient impact flash");
 assert.equal(
-  circles.length,
-  1 + STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.trailCount,
-  "the release should add one impact ring plus a bounded trail-mote sequence"
+  images.length,
+  3 + STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.echoCount,
+  "the release should use one core, one authored fracture, one authored pulse, and bounded image echoes"
 );
 assert.equal(system.activeFloatingTexts.length, 1);
 
+const releaseFx = STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx;
 const releasedStar = images[0];
-const impactFlash = images[1];
+const sourceFracture = images[1];
+const sourcePulse = images[2];
+const echoes = images.slice(3);
+assert.equal(releaseFx.artSource, "ImageGen");
+assert.equal(releasedStar.textureKey, releaseFx.coreAssets[0].key);
+assert.equal(sourceFracture.textureKey, releaseFx.fractureAssets[0].key);
+assert.equal(sourcePulse.textureKey, "star-block-pulse-cyan-v1");
+assert.ok(echoes.every(image => image.textureKey === releaseFx.coreAssets[0].key));
+assert.ok(images.every(image => !Object.hasOwn(image, "tint")));
+
 const motionTween = tweens.find((config) =>
   config.targets === releasedStar && Number.isFinite(config.y)
 );
 const flashInTween = tweens.find((config) =>
   config.targets === releasedStar && config.alpha === 1
 );
-const impactFlashTween = tweens.find((config) => config.targets === impactFlash);
-const impactRingTween = tweens.find((config) => config.targets === circles[0]);
+const fractureTween = tweens.find((config) => config.targets === sourceFracture);
+const pulseTween = tweens.find((config) => config.targets === sourcePulse);
 assert.ok(motionTween);
 assert.ok(flashInTween);
-assert.ok(impactFlashTween);
-assert.ok(impactRingTween);
-assert.equal(motionTween.duration, STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.durationMs);
-assert.equal(
-  motionTween.delay,
-  STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.liftDelayMs
-);
+assert.ok(fractureTween);
+assert.ok(pulseTween);
+assert.equal(motionTween.duration, releaseFx.durationMs);
+assert.equal(motionTween.delay, releaseFx.liftDelayMs);
 assert.ok(
-  motionTween.y <= 700 - STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.riseMinPx,
+  motionTween.y <= 700 - releaseFx.riseMinPx,
   "the release visual should travel clearly and slowly upward"
 );
 assert.equal(motionTween.ease, "Sine.inOut");
 assert.equal(typeof motionTween.onUpdate, "function", "the ascent should carry a gentle lateral sway");
 assert.equal(
-  impactFlashTween.duration,
-  STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.impactFlashDurationMs
+  fractureTween.duration,
+  releaseFx.sourceFractureDurationMs
 );
 assert.ok(
-  impactFlashTween.scaleX
-    > releasedStar.scaleX,
-  "the mined block should flash outward before the collected star rises"
+  fractureTween.scaleX > sourceFracture.scaleX,
+  "the authored fracture bloom should expand out of the mined block"
+);
+assert.equal(pulseTween.duration, releaseFx.sourcePulseDurationMs);
+assert.ok(
+  pulseTween.scaleX > sourcePulse.scaleX,
+  "the authored pulse should expand smoothly behind the release"
+);
+
+const echoMotionTweens = echoes.map(echo =>
+  tweens.find(config => config.targets === echo && Number.isFinite(config.y))
 );
 assert.equal(
-  impactRingTween.duration,
-  STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.impactRingDurationMs
+  echoMotionTweens.filter(Boolean).length,
+  releaseFx.echoCount
 );
 assert.ok(
-  impactRingTween.scaleX >= STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.impactRingEndScale
-);
-const trailTweens = tweens.filter((config) => circles.slice(1).includes(config.targets));
-assert.equal(
-  trailTweens.length,
-  STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.trailCount
-);
-assert.ok(
-  trailTweens.every((config, index) =>
+  echoMotionTweens.every((config, index) =>
     config.delay
-      === STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.liftDelayMs
-        + index * STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.trailStepDelayMs
+      === releaseFx.liftDelayMs
+        + releaseFx.echoLeadDelayMs
+        + index * releaseFx.echoStepDelayMs
   ),
-  "trail motes should release in a paced upward sequence"
+  "authored star echoes should follow in a paced upward sequence"
+);
+assert.ok(
+  echoMotionTweens.every((config, index) =>
+    config.delay + config.duration === releaseFx.liftDelayMs + releaseFx.durationMs
+  ),
+  "all delayed echoes should resolve with the primary ascent"
 );
 
 flashInTween.onComplete();
@@ -179,8 +174,9 @@ const fadeOutTween = tweens.find((config) =>
 assert.ok(fadeOutTween);
 assert.equal(fadeOutTween.ease, "Sine.in");
 fadeOutTween.onComplete();
-assert.equal(images[0].active, false, "the release visual should be destroyed after fading");
+assert.ok(images.every(image => image.active === false), "all release images should be destroyed after fading");
 assert.equal(system.activeFloatingTexts.length, 0);
+assert.equal(system._activeSkyStarReleaseViews.size, 0);
 
 const imageCountBeforeUnlock = images.length;
 let unlockedResource = null;

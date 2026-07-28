@@ -9,8 +9,10 @@ All scripts created by LLMs to audit, fix, or edit the codebase.
 
 ## Generated asset sources
 
-`2026-07-26-hud-torch-off-source.png` is the alpha-clean ImageGen source for
-the approved HUD's extinguished torch state.
+`2026-07-26-hud-torch-off-source-v2.png` is the current alpha-clean ImageGen
+source for the approved HUD's compact diagonal extinguished torch state.
+`2026-07-26-hud-torch-off-source.png` remains the superseded first-pass source
+for reproducibility.
 
 The five `2026-07-26-graveborer-wurm-*-source-chroma-v1.png` files are the
 full-resolution ImageGen extraction sources for the Hardcore Wurm head, body,
@@ -109,9 +111,11 @@ WebPs live under `sprites/environment/graveborer-wurm-v1/`.
 | `2026-07-26-build-npc-activity-review.py` | Crop the two v3 NPC activity boards into inspectable poses, build the labeled activity contact sheet, and record review-only hashes without changing production assets |
 | `2026-07-26-build-npc-planted-idles-v9.py` | Detect isolated 4x3 panels across the approved v3 and planted v5 boards, rebuild 48 cache-safe review crops, extract/align transparent v9 runtime cutouts to one per-merchant baseline, reject edge contamination, and emit the checkerboard QA and provenance manifests |
 | `2026-07-26-build-titan-sprites.py` | Split the approved 5x5 chroma-cleaned titan atlas into 25 normalized transparent runtime silhouettes, build the dark-background QA sheet, and normalize the ImageGen-approved Titan Walk plinth alpha master into its bounded runtime sprite |
+| `2026-07-26-build-titan-chambers-v2.py` | Normalize the 25 individually authored ImageGen Titan chamber masters into exact 1536x848 streamed WebP cards, verify their inventory and hashes, and build the production visual-QA contact sheet |
 | `2026-07-26-build-underground-biome-backgrounds-v2.py` | Convert mockups 51-100 into 50 unique exact-1536x1024 WebP scenic cards, allowing only a two-pixel source normalization and verifying dimensions, format, hashes, and output inventory |
 | `2026-07-26-build-underground-biome-motion-runtime-v1.py` | Preserve the ten original motion-ready paintings as exact-1536x1024 static WebP derivatives; these are no longer the active motion implementation |
 | `2026-07-26-build-underground-biome-baked-motion-v2.py` | Build ten silent four-second VP9 moving images from composition-locked painted keyframe pairs, bake the restrained whole-image float into the encoded frames, verify codec/dimensions/fps/duration/hash/inventory, and emit the runtime manifest |
+| `2026-07-26-build-underground-biome-smooth-motion-v3.py` | Preserve the approved Weathered Roots 60 fps H.264 reference and, with `--production`, build and verify one eight-second subpixel whole-image loop for each of the ten biome paintings without optical flow or overlays |
 | `2026-07-26-build-opening-flight-v2-assets.py` | Crop and losslessly pack the five chroma-cleaned Golden Five onboarding sprites, including the premium objective-HUD frame, into compact alpha-safe runtime WebPs |
 | `2026-07-26-build-milestone-pillar-review-assets.py` | Split the five transparent ImageGen milestone-pillar progression sheets into 25 baseline-aligned Phaser review stages and emit their review-only manifest |
 | `2026-07-26-build-milestone-pillar-runtime-contact-sheet.py` | Assemble the five stage-5 Phaser review captures into one labeled visual-approval contact sheet |

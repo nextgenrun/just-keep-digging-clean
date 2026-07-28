@@ -9,10 +9,15 @@ promotion blocking, non-color data passes, and manual-only community fallback.
 testing directory.
 
 `2026-07-26-player-light-v2-and-torch-ui-contract.mjs` guards the default/legacy
-selector, stable upper-body collider anchor, coherent day/night/rain/storm and
-weather-insulated cave response, matched RGBA HUD frame geometry, generated
-OFF-state source, removal of the approved-skin status dot, and the shader's
-legacy comparison branch.
+selector, collider-center anchor plus live sprite displacement, locked light
+center, coherent day/night/rain/storm and weather-insulated cave response,
+matched RGBA HUD frame geometry, generated OFF-state source, removal of the
+approved-skin status dot, and the shader's legacy comparison branch.
+
+`2026-07-27-player-light-dynamic-centering-contract.mjs` verifies the
+alpha-audited prone-flight visual center (including horizontal flip), deferred
+camera-follow render timing, shared darkness/shader commit order, teardown, and
+the late PlayScene movement-camera-light sequence.
 
 `2026-07-26-graveborer-wurm-contract.mjs` guards the two exact query flags,
 Casual isolation, 10x developer self-trigger, committed non-homing warning
@@ -23,27 +28,34 @@ reload telegraph, and Hardcore/Wurm save sanitization.
 
 `2026-07-16-scenic-shallow-cavern-smoke.mjs` keeps its pilot-era filename while
 verifying complete row 65..5064 ten-biome scenic coverage, exact region/boundary
-resolution, surface-only startup residency, deterministic five-card variants,
-current/intersecting-region streaming and release, exact final-card crops,
-native-size 1536x1024 image cards, camera-response and legacy-pool rollback,
+resolution, surface-only startup residency, deterministic seven-card variants,
+one concept-static and one smooth V3 card per biome, current/intersecting-region mixed-media streaming
+and release, exact final-card crops, native-size 1536x1024 cards, 60 fps video
+playback, FPS-floor pause/resume, camera-response and legacy-pool rollback,
 ready-only generic-backdrop suppression, production asset headers/dimensions,
 absence of procedural background drawings, and zero gameplay mutation.
 
 `2026-07-26-underground-baked-motion-runtime-contract.mjs` verifies the ten V2
 WebMs are marked rejected and review-only, their evidence hashes remain intact,
-all production pools contain exactly five approved images and zero videos, the
-underground stage has no video playback branch, and gameplay mutation APIs
-remain absent.
+all production pools exclude V2 while containing all five older approved
+images, the approved concept static, and one approved V3 MP4, and gameplay
+mutation APIs remain absent.
 
 `2026-07-26-underground-motion-review.mjs` verifies that the rejected gallery
 uses one native `<video>` evidence player, has no Canvas renderer, is isolated
-from production registration, and preserves its source/keyframe/biome mapping.
+from V2 production registration, and proves every approved source maps to the
+matching production concept-static card and biome.
 
 `2026-07-26-underground-smooth-motion-v3-review.mjs` verifies the single
 Weathered Roots replacement candidate is an eight-second 60 fps H.264 file
 built from the exact source through subpixel affine sampling, has no optical
-flow or overlay renderer, stays review-only, and is absent from production
-registration.
+flow or overlay renderer, and remains byte-hashed as the approved reference.
+
+`2026-07-26-underground-smooth-motion-v3-runtime-contract.mjs` verifies the ten
+production H.264 loops, exact 1536x1024 dimensions, 480-frame/eight-second
+timing, hashes, source mappings, complete-image motion method, all fifty older
+static registrations, all ten concept-static registrations, and one-to-one V3
+registration across the live biome pools.
 
 `2026-07-26-underground-baked-camera-motion-contract.mjs` verifies ten bounded
 camera-response profiles, three deliberately anchored industrial/material
@@ -79,19 +91,19 @@ correction: the v2 PNG and approved source hashes, exact 1672x139 Option A crop,
 foundation (including shader depth rebinding), and unchanged town beauty plus
 diggable underground facade.
 
-`2026-07-26-npc-activity-runtime-contract.mjs` guards the promoted v11 Piskel
-merchant pack: 66 unique exports, six editable timelines, four distinct quiet
+`2026-07-26-npc-activity-runtime-contract.mjs` guards the promoted v12
+accepted-only Piskel merchant pack: 42 unique exports, seven editable activity
 frames per merchant, sub-pixel lower-body root drift, zero bottom/edge drift,
-measured Gem/Magma panel separation, real quiet-texture advancement,
+measured Gem/Magma panel separation, original video/static idle baselines,
 one-at-a-time scheduling, player reactions, fixed X/Y/rotation/display size,
-shop coordinates, and runtime health publication. It rejects every walking or
-whole-body wobble hook.
+shop coordinates, and runtime health publication. It rejects every archived
+quiet frame, walking path, and whole-body wobble hook.
 
-`2026-07-26-npc-planted-idle-review-contract.mjs` guards both v5 activity
-boards and the two v11 ImageGen quiet-loop boards, 66 review exports, eleven
-Piskel frames per merchant, 520 ms quiet dissolves, 1.2-second activity
-cross-fades, at least 85% quiet time, no CSS transform animation, and strict
-preview-versus-runtime separation.
+`2026-07-26-npc-planted-idle-review-contract.mjs` guards the four approved
+activity boards, 42 review exports, seven Piskel frames per merchant,
+1.4/1.65-second activity cross-fades, at least 88% original-idle time, explicit
+rejection metadata for the six removed quiet concepts, no CSS transform
+animation, and strict preview-versus-runtime separation.
 
 `2026-07-26-npc-alive-walking-review-contract.mjs` retains the rejected v4
 walk art only as provenance. It requires rejection metadata, a non-animated
@@ -154,18 +166,35 @@ local-light scans until its exact active-frame path is needed again.
 `2026-07-26-star-block-light-persistence-contract.mjs` verifies that every
 in-view `SKY_TILE` keeps a strong, softly shaped light pool outside the player's
 torch/vision radius, emits only a rare faint cross-free ring, never stacks more
-than one traveling pulse, spans more than ten tiles, never drops the steady
-core, and leaves geode and other local lights proximity limited.
-`2026-07-26-star-block-pulse-quality-contract.mjs` verifies the upgraded pulse
-uses 1024 px linearly filtered radial artwork, all feather/bloom gradient bands,
-one pooled ring plus soft constellation-node images, restrained additive alpha,
-long-range flattened geometry, quiet-frame hiding, and complete cleanup.
+than one traveling pulse, fades as it travels, spans more than ten tiles, never
+drops the steady core, and leaves geode and other local lights proximity
+limited.
+`2026-07-27-star-block-pulse-quality-contract.mjs` verifies all six 1254 px
+ImageGen colour sprites, lossless production paths, rarity-to-colour selection,
+one pooled additive image, long-range flattened geometry, quiet-frame hiding,
+complete cleanup, and the absence of Canvas, tint, or Phaser primitive drawing.
+`2026-07-27-star-block-steady-colour-light-contract.mjs` verifies six unique
+1254 px ImageGen atmosphere textures in production rarity order, Boot preload,
+live rarity selection, a bounded pooled renderer above hard darkness and below
+the rare pulse, restrained additive opacity, softly flattened reach beyond the
+tile, cleanup, and the absence of Canvas, tint, or Phaser primitive drawing.
 `2026-07-26-titan-discovery-contract.mjs` verifies all 25 unique alpha sprites,
 the 512x320 generated plinth, deterministic non-overlapping clear-area zones,
 `?titans=0`, canonical persistence without duplicate or unknown ids, journal
-exposure, final-cell visual unlock, all 25 surface slots, real-art archive
-wiring, production-health publication, save requesting, scenic-runtime lifecycle
-wiring, matching legacy-renderer lifecycle ownership, and complete cleanup.
+exposure, partial-reveal plus player-entry visual unlock, remote-award rejection,
+all 25 surface slots, real-art archive wiring, production-health publication,
+the keyboard/controller-visible clue action, save requesting, scenic-runtime
+lifecycle wiring, matching legacy-renderer lifecycle ownership, and complete
+cleanup.
+`2026-07-26-titan-discovery-experience-contract.mjs` instantiates the production
+world and verifies first-seven depth guidance, explicit 700 m coverage,
+locked-name protection, partial-entry admission, remote reveal rejection,
+discovery copy, `?titanGuidance=0`, and `?titanEncounter=legacy`.
+`2026-07-26-titan-chamber-production-contract.mjs` verifies the complete 25-card
+1536x848 WebP art inventory and unique hashes, colossal 15-22 by 8-13 tile
+zones, Boot de-queuing, `?titanChambers=0`, near-zone stream/load/release,
+compact fallback restoration, archive pinning, renderer parity, and production
+manifest completeness.
 `2026-07-26-relic-discovery-fx-contract.mjs` verifies that Ancient Relic awards
 remain authoritative and failure-isolated while visible discoveries use a
 world-space pedestal wake, residual floor mark, live-player orbit, bounded
@@ -213,10 +242,10 @@ stay cropped to the playable deep world, reuse existing source textures, inherit
 facade-band grading, and disappear with the depth-master rollback.
 
 `2026-07-13-sky-star-release-smoke.mjs` verifies that mined sky stars update
-constellation UI progress immediately, flash at the mined tile, add one bounded
-impact ring and paced sparkle trail, sway slowly upward through the configured
-fade, clean every transient element up, and never enter or restore a persistent
-world pool.
+constellation UI progress immediately, play the matching ImageGen rarity core,
+fracture bloom, quiet pulse, and three delayed image echoes, sway slowly upward
+through the configured fade, clean every transient image up, and never enter or
+restore a persistent world pool.
 
 `2026-07-13-earthquake-feedback-ui-smoke.mjs` verifies the compact generated-art
 phase card, notification offset, auto-expiring escape guidance, short completion
@@ -251,7 +280,9 @@ the separate rebindable B boarding/exiting action; and
 gold/silver Arc recipe, expanded deep-resource Omega recipe, seller resource
 separation, and 5,000-meter depth contract.
 `level-two-world-generation-smoke.mjs` builds the full runtime world,
-checks the old Level 1 bottom seal, and samples deep Level 2 resource rendering.
+checks the ceiling-to-bottom one-tile Level 1/2 divider and locked gate cell,
+rejects every stray underground bedrock cell, and samples deep Level 2 resource
+rendering.
 With `?jkd_e2e`, F9 centers the scenic mine-entrance pilot on the deterministic
 shallowest traversable integrated cave mouth below the surface plate,
 Ctrl+Alt+Home opens the godmode Level 2 surface/Arc Core preview, and
@@ -428,6 +459,10 @@ settings tabs, camera-event controls, and the full-height ESC modal layout.
 modal shell, tab bars, controls, persistence path, and Gameplay selection in an
 isolated Phaser scene so UI review is not blocked by unrelated game assets.
 
+`2026-07-27-manual-save-transfer-ui-contract.mjs` guards the visible Start Menu
+export/import row, the responsive Esc-menu `SAVES` tab, five-tab safe width,
+backup-before-overwrite import semantics, and the reload-after-import path.
+
 `2026-07-26-cave-resource-hazard-darkness-contract.mjs` guards deterministic
 real-resource seams, authored-cell protection, live mining HP, challenge
 density and checkpoint safety, all three hazard grammars, all-GP failure
@@ -445,3 +480,10 @@ support under all 68 footprints, camera cleanup, runtime lifecycle, and all
 rollback queries. With
 `?jkd_e2e=1`, `Ctrl+Alt+F10` cycles representative modular prop clusters across
 both levels; plain `F10` retains its existing surface benchmark sequence.
+
+`2026-07-27-star-block-destruction-quality-contract.mjs` requires all twelve
+1254px ImageGen core/fracture PNGs, unique rarity keys, slow long-distance
+ascent, restrained source alpha, and the complete absence of Phaser
+circles/graphics/tints/generated textures in the Star Block destruction path.
+With `?jkd_e2e=1`, F5 plays that exact image-only release without awarding or
+persisting a star; F6 retains the non-destructive semantic target preview.

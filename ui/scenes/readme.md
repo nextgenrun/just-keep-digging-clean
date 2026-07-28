@@ -2,6 +2,10 @@
 
 UI module — scenes.
 
+`StartMenuScene.js` exposes visible, slot-aware Export Save and Import Save
+buttons in the 1280x720 safe area. Empty slots can receive an import, while
+export remains disabled until the selected slot contains save data.
+
 `BootScene.js` preloads the ten approved Milestone/Star Pillar stage sprites,
 the constellation Star Heart used inside Star Pillar sockets, and only the Level
 1 facade recognition atlas and start chunk;

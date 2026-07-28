@@ -92,8 +92,8 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
   }),
   bedrock: Object.freeze({
     material: asset(
-      "world-visual-v2-semantic-bedrock",
-      "sprites/backgrounds/world-visual-v2/semantic-decals-v1/bedrock-seamless-v1.webp?v=20260717b"
+      "world-visual-v2-semantic-bedrock-megalith-lock-v1",
+      "sprites/backgrounds/world-visual-v2/semantic-decals-v1/bedrock-megalith-lock-v1.png?v=20260728a"
     ),
     semantic: "bedrock",
     includesCaveWall: true,

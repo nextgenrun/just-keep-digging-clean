@@ -177,7 +177,7 @@ const SandboxScene = new Phaser.Class({
     this.load.image('tile_dirt',    'sprites/tiles/tiles-under-1000/dirt-tiles/5-of-5-hp.webp');
     this.load.image('tile_stone',   'sprites/tiles/tiles-under-1000/resource-stone-tile/5-of-5-hp.webp');
     this.load.image('tile_floor',   'sprites/tiles/base-tiles/floor-town-1.webp');
-    this.load.image('tile_bedrock', 'sprites/tiles/approved-world/bedrock-wall.webp');
+    this.load.image('tile_bedrock', 'sprites/tiles/approved-world/bedrock-megalith-lock-v1.png');
     this.load.image('tile_copper',  'sprites/tiles/tiles-under-1000/resource-copper-tile/5-of-5-hp.webp');
   },
 

@@ -48,12 +48,13 @@ promotion for the 25 Cave Titans.
 
 ## Production Boundary
 
-The runtime now uses the 25 compact transparent creature derivatives, canonical
-retention ids, the 5x5 `TITANS` pause archive, and a generated-art 25-position
-surface walk with dormant plinths. The mockup PNGs in this folder are never
-loaded by Phaser.
+The complete direction is now promoted. Production uses 25 unique opaque
+1536x848 chamber cards at 15-22 by 8-13 tile discovery scale, the compact alpha
+creatures for Boot-safe grid thumbnails/surface miniatures/rollback, canonical
+retention ids, an on-demand high-resolution archive vignette, and the generated
+25-position surface walk. Cards stream near the player instead of entering Boot.
 
-The proposed bespoke 15-22-block creature masters and 25 individually painted
-environmental chambers remain outside production. The current 256x256 creature
-masters cannot be enlarged to that scale without visible quality loss, so that
-scope requires a separate high-resolution art approval pass.
+The mockup PNGs in this folder remain reference-only and are never loaded by
+Phaser. Exact promoted sources, prompts, hashes, runtime WebPs, rollback, and
+tests are documented in
+`markdown/2026-07-26-titan-chambers-production-v2.md`.

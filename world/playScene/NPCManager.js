@@ -68,11 +68,7 @@ export class NPCManager {
     for (const npc of this.npcDefs) {
       const hasIdleVideo = Boolean(npc.videoKey) && this.scene.cache.video.exists(npc.videoKey);
       const hasFallbackTexture = this.scene.textures.exists(npc.assetKey);
-      const quietFrameKey = npc.activityKeys?.quiet0;
-      const hasActivityQuiet = this.activitySystem.enabled
-        && Boolean(quietFrameKey)
-        && this.scene.textures.exists(quietFrameKey);
-      if (!hasIdleVideo && !hasFallbackTexture && !hasActivityQuiet) {
+      if (!hasIdleVideo && !hasFallbackTexture) {
         console.warn(`NPC visual not found: ${npc.videoKey} / ${npc.assetKey} - skipping`);
         
         // Create placeholder sprite as fallback
@@ -104,16 +100,13 @@ export class NPCManager {
       };
       // Generated single merchant sprites share one town scale so monsters feel creepy, not gigantic.
       const spriteSize = npcSize * NPC_ACTIVITY_CONFIG.render.displayScale;
-      const fallbackTextureKey = hasActivityQuiet ? quietFrameKey : npc.assetKey;
-      const sprite = hasActivityQuiet
-        ? this.scene.add.sprite(pos.x, pos.y, quietFrameKey)
-        : hasIdleVideo
-          ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
-          : this.scene.add.sprite(pos.x, pos.y, fallbackTextureKey);
+      const sprite = hasIdleVideo
+        ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
+        : this.scene.add.sprite(pos.x, pos.y, npc.assetKey);
       sprite.setOrigin(0.5, 1);
       sprite.setDepth(NPC_ACTIVITY_CONFIG.render.depth);
       sprite.setDisplaySize(spriteSize, spriteSize);
-      if (!hasActivityQuiet && hasIdleVideo) {
+      if (hasIdleVideo) {
         sprite.once('created', () => sprite.setDisplaySize(spriteSize, spriteSize));
         sprite.play(true);
       }

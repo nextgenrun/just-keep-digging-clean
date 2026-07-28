@@ -1,0 +1,355 @@
+{
+  "sourcePiskel": "sprites/npc/npc-v12-piskel-approved-activities/piskel/player-upgrades.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 7,
+  "frameSize": [
+    512,
+    512
+  ],
+  "sheetGrid": [
+    7,
+    1
+  ],
+  "sheetSize": [
+    3584,
+    512
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 6,
+  "runtimeFps": 1,
+  "phaserKey": null,
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.42,
+    "anchorAlphaThreshold": 32,
+    "anchorSmoothingWindow": 1,
+    "targetAnchorX": 256,
+    "bottomY": 496,
+    "minUniformScale": 1.0,
+    "maxUniformScale": 1.0,
+    "runtimeBaselineY": 496,
+    "sizePolicy": "one fixed 1.0 Piskel scale for all accepted activity frames"
+  },
+  "runtimeOutputs": [
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-work.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-rare.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-player.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-inspect.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-habit.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-signature.webp",
+    "sprites/npc/npc-v12-piskel-approved-activities/singles/player-upgrades-showcase.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        82,
+        13,
+        370,
+        496
+      ],
+      "bboxWidth": 288,
+      "bboxHeight": 483,
+      "centerX": 226.0,
+      "rootAnchorX": 255.77,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 49644,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        85,
+        12,
+        406,
+        496
+      ],
+      "bboxWidth": 321,
+      "bboxHeight": 484,
+      "centerX": 245.5,
+      "rootAnchorX": 256.37,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 62884,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        36,
+        12,
+        425,
+        496
+      ],
+      "bboxWidth": 389,
+      "bboxHeight": 484,
+      "centerX": 230.5,
+      "rootAnchorX": 255.59,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 54574,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        106,
+        12,
+        386,
+        496
+      ],
+      "bboxWidth": 280,
+      "bboxHeight": 484,
+      "centerX": 246.0,
+      "rootAnchorX": 256.33,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 52761,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        94,
+        12,
+        372,
+        496
+      ],
+      "bboxWidth": 278,
+      "bboxHeight": 484,
+      "centerX": 233.0,
+      "rootAnchorX": 256.43,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 49519,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        81,
+        12,
+        376,
+        496
+      ],
+      "bboxWidth": 295,
+      "bboxHeight": 484,
+      "centerX": 228.5,
+      "rootAnchorX": 255.87,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 52038,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        121,
+        12,
+        376,
+        496
+      ],
+      "bboxWidth": 255,
+      "bboxHeight": 484,
+      "centerX": 248.5,
+      "rootAnchorX": 255.7,
+      "rootAnchorY": 496.0,
+      "rootAnchorPixels": 52188,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 496,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polish": {
+    "skipped": false,
+    "anchorMode": "alpha-lower-body",
+    "targetAnchor": [
+      256.0,
+      496.0
+    ],
+    "uniformScale": 1.0,
+    "before": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 15.5,
+      "maxRootAnchorDriftPx": 0.56,
+      "maxAnchorDriftPx": 0.56,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 484.0
+    },
+    "after": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 15.5,
+      "maxRootAnchorDriftPx": 0.56,
+      "maxAnchorDriftPx": 0.56,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 484.0
+    },
+    "shifts": [
+      {
+        "frame": 0,
+        "sourceAnchor": [
+          255.77,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.77,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceAnchor": [
+          256.37,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.37,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceAnchor": [
+          255.59,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.59,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceAnchor": [
+          256.33,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.33,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceAnchor": [
+          256.43,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.43,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceAnchor": [
+          255.87,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.87,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceAnchor": [
+          255.7,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.7,
+          496.0
+        ],
+        "requestedTarget": [
+          256.0,
+          496.0
+        ]
+      }
+    ]
+  },
+  "alignmentOverlayPath": "sprites/npc/npc-v12-piskel-approved-activities/reports/player-upgrades-alignment-overlay.png",
+  "driftReportPath": "sprites/npc/npc-v12-piskel-approved-activities/reports/player-upgrades-drift-report.json"
+}

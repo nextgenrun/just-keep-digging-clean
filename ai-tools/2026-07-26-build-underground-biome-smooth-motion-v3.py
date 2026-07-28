@@ -12,29 +12,12 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_DIR = (
-    ROOT / "visual-approval-previews" / "underground-biome-motion-mockups-v1"
-)
-REVIEW_OUTPUT_DIR = (
-    ROOT
-    / "visual-approval-previews"
-    / "underground-biome-smooth-motion-v3"
-)
-REVIEW_OUTPUT = (
-    REVIEW_OUTPUT_DIR / "2026-07-26-weathered-roots-smooth-plate-float-v3.mp4"
-)
+SOURCE_DIR = ROOT / "visual-approval-previews" / "underground-biome-motion-mockups-v1"
+REVIEW_OUTPUT_DIR = ROOT / "visual-approval-previews" / "underground-biome-smooth-motion-v3"
+REVIEW_OUTPUT = REVIEW_OUTPUT_DIR / "2026-07-26-weathered-roots-smooth-plate-float-v3.mp4"
 REVIEW_MANIFEST = REVIEW_OUTPUT_DIR / "2026-07-26-smooth-motion-v3-manifest.json"
-PRODUCTION_OUTPUT_DIR = (
-    ROOT
-    / "sprites"
-    / "backgrounds"
-    / "world-visual-v2"
-    / "depth"
-    / "biome-motion-v3"
-)
-PRODUCTION_MANIFEST = (
-    PRODUCTION_OUTPUT_DIR / "2026-07-26-smooth-motion-runtime-manifest-v3.json"
-)
+PRODUCTION_OUTPUT_DIR = ROOT / "sprites" / "backgrounds" / "world-visual-v2" / "depth" / "biome-motion-v3"
+PRODUCTION_MANIFEST = PRODUCTION_OUTPUT_DIR / "2026-07-26-smooth-motion-runtime-manifest-v3.json"
 
 LOOPS = (
     ("weathered-roots-root-tide-lantern-hollow", "roots"),
@@ -63,18 +46,14 @@ CRF = 14
 def run(command: list[str]) -> str:
     completed = subprocess.run(command, capture_output=True, text=True, check=False)
     if completed.returncode:
-        raise RuntimeError(
-            f"Command failed ({completed.returncode}): {' '.join(command)}\n"
-            f"{completed.stderr}"
-        )
+        message = f"Command failed ({completed.returncode}): {' '.join(command)}"
+        raise RuntimeError(f"{message}\n{completed.stderr}")
     return completed.stdout
 
 
 def position(frame_index: int) -> tuple[float, float]:
     theta = math.tau * frame_index / FRAME_COUNT
-    x = X_AMPLITUDE_PX * math.sin(theta)
-    y = Y_AMPLITUDE_PX * math.cos(theta)
-    return x, y
+    return X_AMPLITUDE_PX * math.sin(theta), Y_AMPLITUDE_PX * math.cos(theta)
 
 
 def max_frame_step() -> float:
@@ -94,36 +73,12 @@ def build(ffmpeg: str, source_path: Path, output_path: Path) -> None:
         source = opened.convert("RGB")
 
     command = [
-        ffmpeg,
-        "-y",
-        "-hide_banner",
-        "-loglevel",
-        "error",
-        "-f",
-        "rawvideo",
-        "-pixel_format",
-        "rgb24",
-        "-video_size",
-        f"{WIDTH}x{HEIGHT}",
-        "-framerate",
-        str(FRAME_RATE),
-        "-i",
-        "-",
-        "-an",
-        "-c:v",
-        "libx264",
-        "-preset",
-        "medium",
-        "-crf",
-        str(CRF),
-        "-pix_fmt",
-        "yuv420p",
-        "-profile:v",
-        "high",
-        "-level",
-        "5.1",
-        "-movflags",
-        "+faststart",
+        ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+        "-f", "rawvideo", "-pixel_format", "rgb24",
+        "-video_size", f"{WIDTH}x{HEIGHT}", "-framerate", str(FRAME_RATE),
+        "-i", "-", "-an", "-c:v", "libx264", "-preset", "medium",
+        "-crf", str(CRF), "-pix_fmt", "yuv420p", "-profile:v", "high",
+        "-level", "5.1", "-movflags", "+faststart",
         str(output_path),
     ]
     process = subprocess.Popen(command, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -247,10 +202,7 @@ def build_review(ffmpeg: str, ffprobe: str, temporal_step: float) -> None:
         "scope": "one-biome-temporal-quality-gate",
         **record,
     }
-    REVIEW_MANIFEST.write_text(
-        json.dumps(manifest, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    REVIEW_MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(
         f"Built approved smooth-motion reference: {REVIEW_OUTPUT.name} "
         f"({record['bytes'] / 1024 / 1024:.2f} MiB)",
@@ -284,10 +236,7 @@ def build_production(ffmpeg: str, ffprobe: str, temporal_step: float) -> None:
         "loopCount": len(records),
         "loops": records,
     }
-    PRODUCTION_MANIFEST.write_text(
-        json.dumps(manifest, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    PRODUCTION_MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     total_bytes = sum(record["bytes"] for record in records)
     print(
         f"Built {len(records)} production loops "

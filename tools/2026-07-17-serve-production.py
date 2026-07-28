@@ -27,6 +27,7 @@ MIME_TYPES = {
     ".ogg": "audio/ogg",
     ".wasm": "application/wasm",
     ".webm": "video/webm",
+    ".mp4": "video/mp4",
     ".webp": "image/webp",
 }
 

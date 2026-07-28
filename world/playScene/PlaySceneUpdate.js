@@ -564,6 +564,7 @@ export function updateScene(time, delta) {
 
   // Per-frame camera shake / look-ahead / depth-band zoom / UI zoom compensation
   updateCameraSystems(this, time, delta);
+  updateLightingSystems(this, time, delta);
 }
 
 /**
@@ -632,18 +633,6 @@ function _updateSystems(time, delta, keys) {
   this.levelOneGroundFacadeSystem?.update(time);
   this.startZoneGroundFacadeSystem?.update(time);
   this.worldScenicFacadeSystem?.update(time, delta);
-
-  if (this.lightSystem && playerTile) {
-    const lightDepth = Math.max(0, playerTile.ty - this.config.topAirRows + 1)
-    const gameplayActive = this.gameState === "playing"
-      && !this._pillarViewActive
-      && !this.campfireSystem?.isSelecting?.();
-    this.lightSystem.update(time, delta, lightDepth, gameplayActive);
-  }
-
-  if (this.shaderSystem) {
-    this.shaderSystem.update(time, delta);
-  }
 
   // Update atmosphere system (clouds, horizon glow, mist, fireflies, wind particles)
   if (this.atmosphereSystem) {
@@ -1060,4 +1049,22 @@ export function updateCameraSystems(scene, time, delta) {
   //     zoom 1.0) which is a follow-up improvement.
   //   - The character size was bumped (48px -> 64px display) so the hero
   //     already feels substantially larger without any zoom.
+}
+
+export function updateLightingSystems(scene, time, delta) {
+  const playerTile = scene.playerController?.getPlayerTile?.() ?? null;
+  const lightDepth = playerTile
+    ? Math.max(0, playerTile.ty - scene.config.topAirRows + 1)
+    : undefined;
+  const gameplayActive = scene.gameState === "playing"
+    && !scene._pillarViewActive
+    && !scene.campfireSystem?.isSelecting?.();
+
+  if (scene.lightFrameSync) {
+    scene.lightFrameSync.queue(time, delta, lightDepth, gameplayActive);
+    return;
+  }
+
+  scene.lightSystem?.update?.(time, delta, lightDepth, gameplayActive);
+  scene.shaderSystem?.update?.(time, delta);
 }

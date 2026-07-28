@@ -9,6 +9,7 @@ import {
   getTitanDiscoveryPreloadAssets,
   resolveTitanDiscoveriesEnabled,
 } from "../values/titanDiscoveries.js";
+import { TITAN_CLUE_CATALOG_CONFIG } from "../values/titanClueCatalog.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { RetentionProgressSystem } from "../systems/progression/RetentionProgressSystem.js";
 import { TitanDiscoverySystem } from "../systems/visual/TitanDiscoverySystem.js";
@@ -220,13 +221,28 @@ assert.deepEqual(
 );
 
 const firstView = system.zoneViews[0];
-for (const cell of firstView.zone.cells) {
+system.update(0, 16, {
+  playerTile: { tx: 0, ty: firstView.zone.centerYTile },
+});
+for (const cell of firstView.zone.cells.slice(0, firstView.requiredReveal)) {
   const key = `${cell.tx},${cell.ty}`;
   world.solid.add(key);
   world.dugTiles.set(key, { tileX: cell.tx, tileY: cell.ty });
 }
 system.refresh();
 system.update(1000, 16, {
+  playerTile: {
+    tx: 0,
+    ty: firstView.zone.centerYTile,
+  },
+});
+assert.equal(
+  runtimeRetention.hasDiscoveredTitan(firstView.definition.id),
+  false,
+  "revealing a chamber from far away must not award its Titan",
+);
+assert.ok(firstView.remaining > 0, "entry discovery must not require a full clear");
+system.update(1100, 16, {
   playerTile: {
     tx: firstView.zone.centerXTile,
     ty: firstView.zone.centerYTile,
@@ -251,7 +267,11 @@ const archiveView = new TitanArchiveView(archiveScene, {
   parent: archiveHost,
   retention: runtimeRetention,
 });
-assert.equal(archiveView.getControls().length, 25);
+assert.equal(
+  archiveView.getControls().length,
+  TITAN_DEFINITIONS.length + 1,
+  "the archive exposes every Titan slot plus the clue action",
+);
 assert.equal(
   archiveView.nameText.text,
   TITAN_DEFINITIONS[0].name.toUpperCase(),
@@ -265,14 +285,19 @@ assert.ok(
 );
 const gridRight = -450 + 900 * TITAN_DISCOVERY_CONFIG.archive.gridWidthFraction;
 assert.ok(
-  archiveView.controls.every(control => (
+  archiveView.controls
+    .slice(0, TITAN_DEFINITIONS.length)
+    .every(control => (
     control.root.x + control.root.width / 2 < gridRight
   )),
   "all 25 archive slots must stay inside the grid panel",
 );
 archiveView.select(1);
 assert.equal(archiveView.nameText.text, "UNDISCOVERED TITAN");
-assert.match(archiveView.loreText.text, /Clear every original block/);
+assert.equal(
+  archiveView.loreText.text,
+  TITAN_CLUE_CATALOG_CONFIG.copy.lockedLore,
+);
 archiveView.destroy();
 assert.equal(archiveView.root.destroyed, true);
 

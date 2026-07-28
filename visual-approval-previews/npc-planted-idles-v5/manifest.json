@@ -3,11 +3,11 @@
   "reviewOnly": false,
   "productionChanged": true,
   "runtimeLoadedFromPreview": false,
-  "generator": "pipelines/piskel/2026-07-26-build-npc-motion-idle-piskel-package.py",
+  "generator": "pipelines/piskel/2026-07-26-build-npc-approved-activity-piskel-package.py",
   "sourceCropGenerator": "ai-tools/2026-07-26-build-npc-planted-idles-v9.py",
   "activitySpec": "visual-approval-previews/npc-planted-idles-v5/activity-spec.json",
   "promptManifest": "visual-approval-previews/npc-planted-idles-v5/prompt-manifest.json",
-  "motionPromptManifest": "visual-approval-previews/npc-planted-idles-v5/idle-loop-prompt-manifest-v11.json",
+  "rejectedMotionPromptManifest": "visual-approval-previews/npc-planted-idles-v5/idle-loop-prompt-manifest-v11.json",
   "boards": {
     "character-base": {
       "path": "visual-approval-previews/npc-idle-activities-v3/npc-activity-director-board-character-v3.png",
@@ -170,14 +170,16 @@
       ]
     }
   },
-  "poseCount": 66,
-  "runtimeManifest": "sprites/npc/npc-v11-piskel-motion-idles/manifest.json",
-  "cropSafety": "Detected 4x3 black-gutter boards; fixed 512px canvas; generated quiet frames height-calibrated once; Piskel lower-body root 256; baseline 496; zero opaque edge pixels.",
-  "runtimePack": "npc-v11-piskel-motion-idles",
+  "poseCount": 42,
+  "runtimeManifest": "sprites/npc/npc-v12-piskel-approved-activities/manifest.json",
+  "cropSafety": "Accepted frames use a fixed 512px canvas, Piskel lower-body root 256, baseline 496, and zero opaque edge pixels.",
+  "runtimePack": "npc-v12-piskel-approved-activities",
   "piskelNormalized": true,
-  "piskelSourceDirectory": "sprites/npc/npc-v11-piskel-motion-idles/piskel",
-  "motionPolicy": "slow localized frame animation only; no runtime translation, rotation, body scaling, walking, or roaming",
-  "quietLoopBoards": {
+  "piskelSourceDirectory": "sprites/npc/npc-v12-piskel-approved-activities/piskel",
+  "motionPolicy": "original calm idle baseline with slow activity opacity crossfades; no runtime translation, rotation, body scaling, walking, or roaming",
+  "baselinePolicy": "original v6 alpha idle video where available; original static merchant sprite otherwise",
+  "rejectedQuietConceptsExcluded": true,
+  "rejectedQuietLoopBoards": {
     "character": {
       "path": "visual-approval-previews/npc-planted-idles-v5/npc-idle-loop-character-v11.png",
       "sha256": "a2e7b2776b25d763cf6c28720c1d7ea8e1576b66eddd4ede274bf15e672f8085",
@@ -259,5 +261,5 @@
       ]
     }
   },
-  "quietLoopFrameCount": 24
+  "rejectedQuietLoopFrameCount": 24
 }

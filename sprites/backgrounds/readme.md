@@ -10,3 +10,9 @@ is documented in `world-scenic-regions-v1/readme.md`.
 their contact-sheet/build provenance, and the generated transparent Titan Walk
 plinth used by both renderer modes, the 5x5 pause archive, and the 25-position
 surface collection. `?titans=0` is the complete asset/presentation rollback.
+
+`titan-chambers-v2/` contains 25 unique opaque 1536x848 high-resolution
+ImageGen chamber cards, lossless dated sources, exact prompt provenance, hashes,
+and the normalization pipeline. The cards stream only near their large
+discovery zones or for one selected discovered archive entry.
+`?titanChambers=0` keeps the compact v1 collection and saves intact.

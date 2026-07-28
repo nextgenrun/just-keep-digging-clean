@@ -3,6 +3,16 @@ import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
 
 const SECOND_WORLD_ENTRY_FLOOR_Y = 65;
 const SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR = 1;
+const LEVEL_DIVIDER_CONFIG = Object.freeze({
+  tileX: WORLD_DEPTH_CONFIG.levelTwoLeftTile,
+  topTileY: 0,
+  gateTopTileY: SECOND_WORLD_ENTRY_FLOOR_Y - 1,
+  gateHeightTiles: 1,
+  floorTileY: SECOND_WORLD_ENTRY_FLOOR_Y,
+  legacyGateTileX: 119,
+  // Compatibility alias for older consumers while the divider is now full-height.
+  startTileY: 0,
+});
 
 export const SECOND_WORLD_CONFIG = Object.freeze({
   markerGid: 3094,
@@ -14,16 +24,13 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
     airRowsAboveFloor: 4,
     airRowsBelowFloor: SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR,
   }),
-  undergroundDivider: Object.freeze({
-    tileX: WORLD_DEPTH_CONFIG.levelTwoLeftTile,
-    startTileY: SECOND_WORLD_ENTRY_FLOOR_Y + SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR + 1,
-  }),
+  levelDivider: LEVEL_DIVIDER_CONFIG,
+  undergroundDivider: LEVEL_DIVIDER_CONFIG,
   runtimeArea: Object.freeze({
     leftTile: WORLD_DEPTH_CONFIG.levelTwoLeftTile,
     rightTile: WORLD_DEPTH_CONFIG.levelTwoRightTile,
     extensionStartTileY: 133,
     depthMeters: WORLD_DEPTH_CONFIG.levelTwoDepthMeters,
-    levelOneBottomTileY: WORLD_DEPTH_CONFIG.levelOneRuntimeDepthTiles - 1,
   }),
   generation: Object.freeze({
     caveCountMin: 180,
@@ -70,10 +77,16 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
       Object.freeze({ tx: 264, ty: 4231 }),
       Object.freeze({ tx: 205, ty: 4700 }),
     ]),
+    teleportAccessOffsets: Object.freeze([
+      Object.freeze({ tx: 1, ty: 0 }),
+      Object.freeze({ tx: -1, ty: 0 }),
+      Object.freeze({ tx: 0, ty: 1 }),
+      Object.freeze({ tx: 0, ty: -1 }),
+    ]),
   }),
 });
 
 export function isProtectedSecondWorldDividerTile(tileX, tileY) {
-  const divider = SECOND_WORLD_CONFIG.undergroundDivider;
-  return tileX === divider.tileX && tileY >= divider.startTileY;
+  const divider = SECOND_WORLD_CONFIG.levelDivider;
+  return tileX === divider.tileX && tileY >= divider.topTileY;
 }

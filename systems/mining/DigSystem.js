@@ -774,14 +774,6 @@ export class DigSystem {
           if (isSkyTileBonus && this.floatingTextSystem) {
             const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
             const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-            this.floatingTextSystem.showSkyTileDestruction(
-              worldX,
-              worldY,
-              resourceType,
-              skyTileRarity,
-              skyTileMultiplier,
-              skyTilePassiveBonus
-            );
             this.floatingTextSystem.releaseCollectedSkyStar(
               skyTileRarity,
               worldX,
@@ -999,14 +991,6 @@ export class DigSystem {
     if (tileType === TILE_TYPES.SKY_TILE && resourceType && this.floatingTextSystem) {
       const worldX = tx * this.config.tileSize + this.config.tileSize / 2;
       const worldY = ty * this.config.tileSize + this.config.tileSize / 2;
-      this.floatingTextSystem.showSkyTileDestruction(
-        worldX,
-        worldY,
-        resourceType,
-        skyTileRarity,
-        skyMultiplier,
-        skyTilePassiveBonus
-      );
       this.floatingTextSystem.releaseCollectedSkyStar(skyTileRarity, worldX, worldY, resourceType);
       result.skyTileMultiplier = skyMultiplier;
       result.skyTilePassiveBonus = skyTilePassiveBonus;

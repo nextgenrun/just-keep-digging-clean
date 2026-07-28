@@ -1,6 +1,7 @@
 .actor,
 .actor[data-state],
-.actor img {
+.actor img,
+.actor video {
   animation: none;
   transform: none;
 }

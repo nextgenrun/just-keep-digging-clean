@@ -1,5 +1,5 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js";
+import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260727-arc-core-subdir-v1";
 import { getArcCoreVisualMode } from "../../values/arcCoreVisualConfig.js";
 import {
   drawArcCoreActionVisuals,
@@ -27,7 +27,7 @@ function buildRoleMap(manifest) {
 export function preloadArcCoreVisualAssets(scene, rootPrefix = "") {
   scene.load.pack(
     ASSET_KEYS.vehicles.arcCore.pack,
-    `${rootPrefix}${ARC_CORE_VISUAL_PACK.path}`,
+    `${rootPrefix}${ARC_CORE_VISUAL_PACK.path}?rev=${ARC_CORE_VISUAL_PACK.revision}`,
   );
   scene.load.image(
     ASSET_KEYS.vehicles.arcCore.reviewStage,

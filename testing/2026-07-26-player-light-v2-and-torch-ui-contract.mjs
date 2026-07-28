@@ -47,9 +47,19 @@ const controller = { physicsBody: { x: 184, y: 225, w: 32, h: 75 } };
 const anchor = resolvePlayerLightAnchor(player, controller, v2, 94, "v2");
 assert.deepEqual(anchor, {
   x: 200,
-  y: 256.5,
-  source: "physics-upper-body",
+  y: 262.5,
+  source: "physics-visible-center",
 });
+assert.deepEqual(
+  resolvePlayerLightAnchor(
+    { x: 207, y: 296 },
+    controller,
+    v2,
+    94,
+    "v2"
+  ),
+  { x: 207, y: 258.5, source: "physics-visible-center" }
+);
 assert.deepEqual(
   resolvePlayerLightAnchor(player, controller, v2, 94, "legacy"),
   { x: 200, y: 300, source: "legacy-player-origin" }
@@ -107,11 +117,12 @@ assert.ok(rainyNight.warmth < night.warmth);
 assert.ok(stormNight.coolEdge > rainyNight.coolEdge);
 assert.ok(stormNight.flickerScale > rainyNight.flickerScale);
 assert.ok(stormNight.radiusScale < night.radiusScale);
+assert.equal(day.positionFlutterScale, 0);
 assert.deepEqual(caveStorm, caveClear);
 
 const offFrame = resolve(root, "sprites/UI/hud-approved-v1/player-core-torch-off.png");
 const onFrame = resolve(root, "sprites/UI/hud-approved-v1/player-core.png");
-const source = resolve(root, "ai-tools/2026-07-26-hud-torch-off-source.png");
+const source = resolve(root, "ai-tools/2026-07-26-hud-torch-off-source-v2.png");
 assert.ok(existsSync(offFrame));
 assert.ok(existsSync(source));
 assert.deepEqual(pngGeometry(offFrame), pngGeometry(onFrame));
@@ -127,10 +138,10 @@ assert.ok(!skinSource.includes("\"●\""));
 assert.ok(!skinSource.includes("\"○\""));
 assert.ok(assetSource.includes("player-core-torch-off.png"));
 assert.ok(lightSource.includes("resolvePlayerLightAnchor"));
-assert.ok(lightSource.includes("physics-upper-body") || readFileSync(
+assert.ok(lightSource.includes("physics-visible-center") || readFileSync(
   resolve(root, "systems/lighting/playerLightProfile.js"),
   "utf8"
-).includes("physics-upper-body"));
+).includes("physics-visible-center"));
 assert.ok(shaderSource.includes("uPlayerLightV2 < 0.5"));
 assert.ok(shaderSource.includes("uTorchFalloffPower"));
 

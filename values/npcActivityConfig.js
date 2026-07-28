@@ -13,13 +13,6 @@ const sharedDurations = Object.freeze({
   showcase: 6500,
 });
 
-const QUIET_FRAME_IDS = Object.freeze([
-  "quiet0",
-  "quiet1",
-  "quiet2",
-  "quiet3",
-]);
-
 const ACTIVITY_POSE_IDS = Object.freeze([
   "work",
   "rare",
@@ -116,17 +109,9 @@ const MERCHANTS = Object.freeze({
 
 export const NPC_ACTIVITY_CONFIG = Object.freeze({
   enabled: true,
-  assetBasePath: "sprites/npc/npc-v11-piskel-motion-idles/singles",
-  assetVersion: "piskel-rooted-motion-v1-20260726",
-  activityIds: Object.freeze([
-    "quiet",
-    ...ACTIVITY_POSE_IDS,
-  ]),
-  poseAssetIds: Object.freeze([
-    ...QUIET_FRAME_IDS,
-    ...ACTIVITY_POSE_IDS,
-  ]),
-  quietFrameIds: QUIET_FRAME_IDS,
+  assetBasePath: "sprites/npc/npc-v12-piskel-approved-activities/singles",
+  assetVersion: "piskel-approved-activities-v1-20260726",
+  activityIds: ACTIVITY_POSE_IDS,
   ambientActivityIds: Object.freeze(
     ACTIVITY_POSE_IDS.filter(activityId => activityId !== "player"),
   ),
@@ -141,42 +126,18 @@ export const NPC_ACTIVITY_CONFIG = Object.freeze({
     activityDepthOffset: 0.01,
     defaultGroundOffsetPx: 10,
     promptGapPx: 20,
-    crossfadeInMs: 1150,
-    crossfadeOutMs: 1350,
+    crossfadeInMs: 1400,
+    crossfadeOutMs: 1650,
     visibleAlphaThreshold: 0.005,
-  }),
-  quietLoop: Object.freeze({
-    sequence: Object.freeze([
-      "quiet0",
-      "quiet1",
-      "quiet2",
-      "quiet3",
-      "quiet2",
-      "quiet1",
-    ]),
-    frameDurationsMs: Object.freeze([
-      2200,
-      900,
-      900,
-      1100,
-      900,
-      900,
-    ]),
-    transitionMs: 520,
-    initialHoldMinMs: 900,
-    initialHoldMaxMs: 2400,
-    loopGapMinMs: 1600,
-    loopGapMaxMs: 3600,
-    maxFramesPerUpdate: 8,
   }),
   schedule: Object.freeze({
     maxSimultaneousActivities: 1,
-    initialBaseDelayMs: 4800,
-    initialStaggerMs: 1600,
-    eventGapMinMs: 18000,
-    eventGapMaxMs: 32000,
-    townQuietGapMinMs: 5000,
-    townQuietGapMaxMs: 9000,
+    initialBaseDelayMs: 7000,
+    initialStaggerMs: 2200,
+    eventGapMinMs: 22000,
+    eventGapMaxMs: 38000,
+    townQuietGapMinMs: 7000,
+    townQuietGapMaxMs: 12000,
     playerReactionRangeTiles: 4,
     playerReactionCooldownMs: 18000,
     weights: Object.freeze({
@@ -223,7 +184,7 @@ export function getNpcActivityPreloadAssets(
 ) {
   const assets = [];
   for (const [merchantId, merchant] of Object.entries(config.merchants)) {
-    for (const poseId of config.poseAssetIds) {
+    for (const poseId of config.activityIds) {
       const key = activityKeys?.[merchantId]?.[poseId];
       if (!key) continue;
       assets.push(Object.freeze({

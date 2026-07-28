@@ -198,4 +198,8 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     ...(remappedProfile.visualOriginBySheet || {}),
     ...blenderCoreOriginBySheet,
   }),
+  lightVisibleCenterBySheet: Object.freeze({
+    ...(remappedProfile.lightVisibleCenterBySheet || {}),
+    [blenderV2.sheets.fly.key]: blenderV2.sheets.fly.visibleCenterNormalized,
+  }),
 });

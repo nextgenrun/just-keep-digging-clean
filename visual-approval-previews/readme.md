@@ -66,24 +66,28 @@ Review-only visual assets live here before runtime wiring. Each subfolder must i
 ## Underground biome baked moving images v2 — rejected 2026-07-26
 
 - `underground-biome-motion-mockups-v1/` now preserves only the ten approved
-  Keyframe A source paintings. Its rejected Canvas/Phaser-shape animation was
-  removed and its old review URL redirects to V2.
+  Keyframe A source paintings. Their exact WebP derivatives are now active
+  static variants alongside the older fifty-card library; the rejected
+  Canvas/Phaser-shape animation was removed and its old review URL redirects
+  to V2.
 - `underground-biome-baked-motion-v2/` contains ten composition-locked painted
   Keyframe B edits and the rejected optical-flow WebMs. The gallery preserves
   them one at a time as evidence and labels them rejected.
 - `reviewOnly: true`; `productionChanged: false`. The WebMs were rejected for
-  choppy movement and deformation. Production uses the fifty approved static
-  WebPs; no V2 video path is registered or loaded by Phaser.
+  choppy movement and deformation. Production uses all fifty older static
+  WebPs plus the ten source-painting static derivatives; no V2 video path is
+  registered or loaded by Phaser.
 
 ## Underground biome smooth motion v3 — 2026-07-26
 
-- `underground-biome-smooth-motion-v3/` is a one-biome temporal-quality gate
-  using the exact Weathered Roots painting.
-- The candidate uses an eight-second 60 fps H.264 encode of a subpixel
+- `underground-biome-smooth-motion-v3/` preserves the explicitly approved
+  one-biome temporal-quality reference using the exact Weathered Roots painting.
+- The approved method uses an eight-second 60 fps H.264 encode of a subpixel
   whole-image transform. It has no optical flow, generated in-between art,
   Canvas/Graphics animation, effect overlay, or CSS motion.
-- `reviewOnly: true`; `productionChanged: false`. Do not build the other nine
-  candidates or register video playback until this one is explicitly approved.
+- The reference remains `reviewOnly: true`; `productionChanged: false`, while
+  ten separately verified runtime files are production-selected from
+  `sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/`.
 
 ## NPC idle activities v3 — 2026-07-26
 

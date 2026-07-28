@@ -43,6 +43,7 @@ const builder = read("pipelines/piskel/2026-07-26-build-arc-core-piskel-package.
 assert.equal(ARC_CORE_VISUAL_CONFIG.approved, true);
 assert.equal(ARC_CORE_VISUAL_CONFIG.reviewOnly, false);
 assert.equal(ARC_CORE_VISUAL_CONFIG.productionChanged, true);
+assert.equal(ARC_CORE_VISUAL_PACK.revision, "20260727-arc-core-subdir-v1");
 assert.deepEqual(ARC_CORE_VISUAL_CONFIG.controls, {
   digKey: "F",
   cloudKey: "B",
@@ -83,7 +84,12 @@ assert.deepEqual(meta.anchorPx, [256, 256]);
 assert.equal(section.files.length, ARC_CORE_VISUAL_CONFIG.health.productionRoleCount);
 assert.equal(new Set(section.files.map(file => file.role)).size, section.files.length);
 assert.equal(new Set(section.files.map(file => file.key)).size, section.files.length);
-assert.equal(section.path, "/sprites/vehicles/arc-core-v3/runtime/");
+assert.equal(section.path, "sprites/vehicles/arc-core-v3/runtime/");
+assert.equal(
+  section.path.startsWith("/"),
+  false,
+  "production pack paths must remain relative to the deployed game subdirectory",
+);
 assert.equal(meta.reviewStage.role, "stage.background");
 assert.equal(section.files.some(file => file.role === meta.reviewStage.role), false);
 assert.equal(Object.values(meta.renderTuning).every(Number.isFinite), true);
@@ -185,6 +191,8 @@ assert.match(sandbox, /KeyCodes\.B/);
 assert.doesNotMatch(sandbox, /keyE\b/);
 assert.match(boot, /ASSET_KEYS\.vehicles\.arcCore\.pack/);
 assert.match(boot, /ARC_CORE_VISUAL_PACK\.path/);
+assert.match(boot, /ARC_CORE_VISUAL_PACK\.revision/);
+assert.match(renderer, /ARC_CORE_VISUAL_PACK\.revision/);
 assert.match(vehicleSystem, /new ArcCoreVisualSystem/);
 assert.match(vehicleSystem, /playDigAnimation/);
 assert.match(playUpdate, /arcCoreVehicleSystem\.playDigAnimation/);
