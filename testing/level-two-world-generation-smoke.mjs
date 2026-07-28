@@ -12,7 +12,11 @@ const secondWorldResourceTypes = new Set([
   TILE_TYPES.MAGMA_CRYSTAL,
 ]);
 assert.equal(world.depthTiles, 5065);
-assert.equal(world.getTileType(20, 3000), TILE_TYPES.BEDROCK, "Level One must end at its existing boundary");
+assert.notEqual(
+  world.getTileType(20, 3000),
+  TILE_TYPES.BEDROCK,
+  "Deep Level One terrain must remain mineable instead of becoming a bedrock seal",
+);
 
 const levelTwoSurfaceY = SECOND_WORLD_CONFIG.entry.floorY;
 for (const tx of [151, 200, 279]) {
@@ -30,12 +34,15 @@ assert.equal(
   "Level Two entry bridge must remain a safe floor",
 );
 
-const divider = SECOND_WORLD_CONFIG.undergroundDivider;
-for (const ty of [divider.startTileY, 100, 500, 1000, 1999, 2000, 3000, world.depthTiles - 1]) {
+const divider = SECOND_WORLD_CONFIG.levelDivider;
+for (let ty = divider.topTileY; ty < world.depthTiles; ty += 1) {
+  const expectedType = ty === divider.floorTileY
+    ? TILE_TYPES.FLOOR_TOWN_2
+    : TILE_TYPES.BEDROCK;
   assert.equal(
     world.getTileType(divider.tileX, ty),
-    TILE_TYPES.BEDROCK,
-    `Level 1/2 divider tile ${divider.tileX},${ty} must be bedrock`,
+    expectedType,
+    `Level 1/2 divider tile ${divider.tileX},${ty} must remain unbreakable`,
   );
   assert.equal(
     world.isDiggable(divider.tileX, ty),
@@ -44,14 +51,43 @@ for (const ty of [divider.startTileY, 100, 500, 1000, 1999, 2000, 3000, world.de
   );
 }
 assert.equal(
-  world.getTileType(divider.tileX, divider.startTileY - 1),
+  world.getTileType(divider.tileX, divider.gateTopTileY),
+  TILE_TYPES.BEDROCK,
+  "The Level 2 gate cell must start locked",
+);
+assert.equal(
+  world.getTileType(divider.legacyGateTileX, divider.gateTopTileY),
   TILE_TYPES.AIR,
-  "The divider must leave the surface bridge passage open for the upgrade-controlled door",
+  "The obsolete x119 gate cell must be open after the gate moves onto the divider",
+);
+assert.equal(
+  world.getTileType(divider.tileX, divider.floorTileY + 1),
+  TILE_TYPES.BEDROCK,
+  "The divider must continue immediately beneath the bridge floor",
+);
+assert.equal(
+  world.getTileType(divider.tileX, divider.topTileY),
+  TILE_TYPES.BEDROCK,
+  "The divider must reach the very top of the map",
 );
 assert.notEqual(
-  world.getTileType(divider.tileX + 1, divider.startTileY),
+  world.getTileType(divider.tileX + 1, divider.floorTileY + 1),
   TILE_TYPES.BEDROCK,
   "The divider must remain one tile wide so Level Two terrain stays playable",
+);
+
+let strayUndergroundBedrock = 0;
+for (let ty = world.topAirRows + 1; ty < world.depthTiles; ty += 1) {
+  for (let tx = 0; tx < world.widthTiles; tx += 1) {
+    if (world.getTileType(tx, ty) !== TILE_TYPES.BEDROCK) continue;
+    if (tx === divider.tileX && ty >= divider.topTileY) continue;
+    strayUndergroundBedrock += 1;
+  }
+}
+assert.equal(
+  strayUndergroundBedrock,
+  0,
+  "The Level 1/2 divider must be the only underground bedrock on the map",
 );
 
 let secondWorldResources = 0;

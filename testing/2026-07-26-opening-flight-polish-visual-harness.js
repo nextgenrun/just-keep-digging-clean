@@ -5,7 +5,7 @@ import { OpeningFlightGoldenFiveRouteView } from "../systems/onboarding/OpeningF
 
 const VIEWPORT = Object.freeze({ width: 1280, height: 720 });
 const BEDROCK_KEY = "opening-flight-polish-bedrock";
-const BEDROCK_PATH = "../sprites/tiles/approved-world/bedrock-wall.webp";
+const BEDROCK_PATH = "../sprites/tiles/approved-world/bedrock-megalith-lock-v1.png";
 
 class OpeningFlightPolishVisualScene extends Phaser.Scene {
   constructor() {

@@ -781,7 +781,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
     this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
     this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
-    this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-wall.webp`);
+    this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-megalith-lock-v1.png`);
     this.load.image(caveEntrance.legacy.textureKey, caveEntrance.legacy.assetPath);
     this.load.image(caveEntrance.scenic.textureKey, caveEntrance.scenic.assetPath);
     this.load.image(ASSET_KEYS.tiles.caveEdge, `${approvedWorldBase}/cave-edge.webp`);

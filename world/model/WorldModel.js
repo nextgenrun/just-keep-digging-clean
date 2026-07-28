@@ -30,6 +30,7 @@ import {
 import { finalizeCaveGameplay } from "./CaveGameplayPlanner.js";
 import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
+import { enforceUndergroundBedrockLayout } from "./UndergroundBedrockLayout.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 const DIGGABLE_TYPES = new Set([
@@ -205,7 +206,6 @@ export class WorldModel {
     }
     this.applySecondWorldArea();
     this.applySecondWorldTown();
-    this.buildLeftBedrockStaircase();
     // Authored Tiled terrain remains authoritative. Only explicit compact
     // rollback mouths are re-applied after the authored import.
     this.reapplyStandaloneCaveMouths();
@@ -214,6 +214,13 @@ export class WorldModel {
     finalizeCaveIdentities(this);
     finalizeCaveGameplay(this);
     this.applyHeavenblocksLayout();
+    const bedrockLayout = enforceUndergroundBedrockLayout(this);
+    console.log(
+      `[WorldModel] Enforced full-height Level 1/2 separator: `
+      + `${bedrockLayout.retainedDivider} divider tiles retained, `
+      + `${bedrockLayout.repairedDivider} divider gaps repaired, `
+      + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced`,
+    );
   }
 
   generateBaseTerrain() {
@@ -257,10 +264,6 @@ export class WorldModel {
 
         this.setTile(tx, ty, type, this.getTileMaxHp(tx, ty, type));
       }
-    }
-
-    for (let tx = 0; tx < this.widthTiles; tx += 1) {
-      this.setTile(tx, this.depthTiles - 1, TILE_TYPES.BEDROCK, 0);
     }
   }
 
@@ -647,16 +650,6 @@ export class WorldModel {
       for (let tx = shaftX - geometry.shaftHalfWidthTiles; tx <= shaftX + geometry.shaftHalfWidthTiles; tx += 1) {
         this.setTile(tx, ty, TILE_TYPES.AIR, 0);
       }
-    }
-  }
-
-  buildLeftBedrockStaircase() {
-    const geometry = WORLD_GEN_CONFIG.spawnGeometry;
-    for (let depth = 0; depth <= geometry.leftStaircaseDepthTiles; depth += 1) {
-      const tx = geometry.leftStaircaseStartX + depth;
-      const ty = this.topAirRows + depth;
-      if (!this.inBounds(tx, ty)) break;
-      this.setTile(tx, ty, TILE_TYPES.BEDROCK, 0);
     }
   }
 

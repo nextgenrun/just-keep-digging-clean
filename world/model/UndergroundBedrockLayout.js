@@ -1,0 +1,102 @@
+import { SECOND_WORLD_CONFIG } from "../../values/secondWorldConfig.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
+
+function replacementType(tileX, dividerTileX) {
+  return tileX < dividerTileX ? TILE_TYPES.DIRT : TILE_TYPES.LAVA_DIRT;
+}
+
+function isBridgeUndercroft(config, tileX, tileY) {
+  const entry = config.entry;
+  return tileX >= entry.bridgeStartX
+    && tileX <= entry.bridgeEndX
+    && tileY > entry.floorY
+    && tileY <= entry.floorY + entry.airRowsBelowFloor;
+}
+
+/**
+ * Makes one full-height, gate-controlled Level 1/Level 2 divider and removes
+ * every unrelated underground BEDROCK cell.
+ */
+export function enforceUndergroundBedrockLayout(
+  worldModel,
+  config = SECOND_WORLD_CONFIG,
+) {
+  const divider = config.levelDivider || config.undergroundDivider;
+  const firstUndergroundTileY = worldModel.topAirRows + 1;
+  const report = {
+    removedLevelOne: 0,
+    removedLevelTwo: 0,
+    clearedBridgeUndercroft: 0,
+    clearedLegacyGate: 0,
+    repairedDivider: 0,
+    retainedDivider: 0,
+  };
+
+  for (let tileY = divider.topTileY; tileY < worldModel.depthTiles; tileY += 1) {
+    const dividerType = tileY === divider.floorTileY
+      ? TILE_TYPES.FLOOR_TOWN_2
+      : TILE_TYPES.BEDROCK;
+    if (worldModel.getTileType(divider.tileX, tileY) !== dividerType) {
+      report.repairedDivider += 1;
+    }
+    const index = worldModel.index(divider.tileX, tileY);
+    worldModel.setTile(divider.tileX, tileY, dividerType, 0);
+    worldModel.skyTileOriginalType[index] = 0;
+    worldModel.skyTileRarity[index] = 0;
+    worldModel.rootOverlay[index] = 0;
+    report.retainedDivider += 1;
+  }
+
+  for (let offset = 0; offset < divider.gateHeightTiles; offset += 1) {
+    const tileY = divider.gateTopTileY + offset;
+    if (worldModel.getTileType(divider.legacyGateTileX, tileY) !== TILE_TYPES.AIR) {
+      report.clearedLegacyGate += 1;
+    }
+    const index = worldModel.index(divider.legacyGateTileX, tileY);
+    worldModel.setTile(divider.legacyGateTileX, tileY, TILE_TYPES.AIR, 0);
+    worldModel.skyTileOriginalType[index] = 0;
+    worldModel.skyTileRarity[index] = 0;
+    worldModel.rootOverlay[index] = 0;
+  }
+
+  for (let tileY = firstUndergroundTileY; tileY < worldModel.depthTiles; tileY += 1) {
+    for (let tileX = 0; tileX < worldModel.widthTiles; tileX += 1) {
+      if (worldModel.getTileType(tileX, tileY) !== TILE_TYPES.BEDROCK) continue;
+
+      if (tileX === divider.tileX && tileY >= divider.topTileY) {
+        continue;
+      }
+
+      const nextType = isBridgeUndercroft(config, tileX, tileY)
+        ? TILE_TYPES.AIR
+        : replacementType(tileX, divider.tileX);
+      const nextHp = nextType === TILE_TYPES.AIR
+        ? 0
+        : worldModel.getTileMaxHp(tileX, tileY, nextType);
+      const index = worldModel.index(tileX, tileY);
+
+      worldModel.setTile(tileX, tileY, nextType, nextHp);
+      worldModel.skyTileOriginalType[index] = 0;
+      worldModel.skyTileRarity[index] = 0;
+      worldModel.rootOverlay[index] = 0;
+
+      if (nextType === TILE_TYPES.AIR) {
+        report.clearedBridgeUndercroft += 1;
+      } else if (tileX < divider.tileX) {
+        report.removedLevelOne += 1;
+      } else {
+        report.removedLevelTwo += 1;
+      }
+    }
+  }
+
+  const expectedDividerTiles = worldModel.depthTiles - divider.topTileY;
+  if (report.retainedDivider !== expectedDividerTiles) {
+    throw new Error(
+      `[UndergroundBedrockLayout] Divider gap detected: expected ${expectedDividerTiles} tiles, `
+      + `retained ${report.retainedDivider}`,
+    );
+  }
+
+  return report;
+}

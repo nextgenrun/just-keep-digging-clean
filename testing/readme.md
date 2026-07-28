@@ -280,7 +280,9 @@ the separate rebindable B boarding/exiting action; and
 gold/silver Arc recipe, expanded deep-resource Omega recipe, seller resource
 separation, and 5,000-meter depth contract.
 `level-two-world-generation-smoke.mjs` builds the full runtime world,
-checks the old Level 1 bottom seal, and samples deep Level 2 resource rendering.
+checks the ceiling-to-bottom one-tile Level 1/2 divider and locked gate cell,
+rejects every stray underground bedrock cell, and samples deep Level 2 resource
+rendering.
 With `?jkd_e2e`, F9 centers the scenic mine-entrance pilot on the deterministic
 shallowest traversable integrated cave mouth below the surface plate,
 Ctrl+Alt+Home opens the godmode Level 2 surface/Arc Core preview, and

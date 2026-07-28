@@ -25,3 +25,9 @@ indexes after all world authority has settled. `CaveResourceSeamPlanner.js`
 embeds genuine mineable resource tiles only in un-authored exposed shell cells;
 `CaveHazardPlanner.js` finds traversable challenge spans with safe checkpoints
 on both sides. Touching cave shells use one authoritative seam owner.
+
+`UndergroundBedrockLayout.js` is the final world-authority guard for the
+Level 1/Level 2 split. It rebuilds the configured one-tile divider from the map
+ceiling to the bottom, keeps its bridge floor unbreakable, and leaves exactly
+one gate-controlled passage cell. Every stale authored or generated underground
+bedrock cell outside that divider becomes mineable regional terrain.

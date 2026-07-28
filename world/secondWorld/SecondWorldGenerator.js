@@ -258,14 +258,15 @@ function carveEntry(worldModel, config) {
   return floorTiles;
 }
 
-function paintUndergroundDivider(worldModel, config) {
-  const divider = config.undergroundDivider;
-  if (!divider || !Number.isInteger(divider.tileX) || !Number.isInteger(divider.startTileY)) return 0;
+function paintLevelDivider(worldModel, config) {
+  const divider = config.levelDivider || config.undergroundDivider;
+  if (!divider || !Number.isInteger(divider.tileX) || !Number.isInteger(divider.topTileY)) return 0;
 
   let dividerTiles = 0;
-  for (let ty = divider.startTileY; ty < worldModel.depthTiles; ty += 1) {
+  for (let ty = divider.topTileY; ty < worldModel.depthTiles; ty += 1) {
     if (!worldModel.inBounds(divider.tileX, ty)) continue;
-    setGeneratedTile(worldModel, divider.tileX, ty, TILE_TYPES.BEDROCK, 0);
+    const type = ty === divider.floorTileY ? TILE_TYPES.FLOOR_TOWN_2 : TILE_TYPES.BEDROCK;
+    setGeneratedTile(worldModel, divider.tileX, ty, type, 0);
     dividerTiles += 1;
   }
   return dividerTiles;
@@ -306,16 +307,9 @@ export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CON
   const teleportTiles = paintTeleportAnchors(worldModel, mask, config);
   floorTiles += carveEntry(worldModel, config);
 
-  const levelOneSealStartY = config.runtimeArea.levelOneBottomTileY + 1;
-  for (let ty = levelOneSealStartY; ty < worldModel.depthTiles; ty += 1) {
-    for (let tx = 0; tx < config.runtimeArea.leftTile; tx += 1) {
-      setGeneratedTile(worldModel, tx, ty, TILE_TYPES.BEDROCK, 0);
-    }
-  }
-
-  // The surface bridge is the only Level 1 -> Level 2 route. Its door controls access;
-  // this unbreakable column prevents players from entering through either mine wall.
-  const dividerTiles = paintUndergroundDivider(worldModel, config);
+  // The door is the only Level 1 -> Level 2 route. This full-height column
+  // prevents flying over the gate or tunneling beneath it.
+  const dividerTiles = paintLevelDivider(worldModel, config);
 
   return {
     applied: true,
