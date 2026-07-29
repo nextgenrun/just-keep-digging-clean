@@ -12,11 +12,12 @@ Single Source of Truth — ALL numeric/string/config values.
   including viewport insets and grab cursors. Player-selected position data is
   normalized separately by `UserSettings`.
 
-- `worldVisualSkyCohesion.js` owns the twenty additive sky assets, five fixed
-  world chapters, four fixed air bands, 0.88 source-density scale, render
-  depth, and `?skyCohesion=0` rollback. Every complete plate occupies one
-  deterministic world anchor; none are cropped, enlarged, positioned from the
-  viewport, or repeated elsewhere.
+- `worldVisualSkyCohesion.js` owns the twenty additive sky assets, five semantic
+  world chapters, four air bands, native source scale, 12.5% overlap, balanced
+  deterministic reuse, render order, and `?skyCohesion=0` rollback. Complete
+  uncropped plates form a continuous 280x65-tile field: retained cards stay
+  opaque while only each incoming card's left/top edges feather, so no join can
+  expose clear color or form a double-fade crease.
 - `worldVisualTerrainVariation.js -> cohesion` registers one approved alpha
   foreground painting per biome as a 0.88 source-density, world-anchored,
   terrain-mask-bound image while retaining the original five material plates
@@ -25,8 +26,10 @@ Single Source of Truth — ALL numeric/string/config values.
   `?undergroundForegroundCohesion=0` removes only those ten paintings.
 - `worldVisualDepthBackdrops.js -> wholeWorldExpansion` adds fifty V5 scenic
   cards beside the retained 120-card V2/V3/motion pool and selects the V5
-  irregular edge-mask atlas. `?biomeBackdropExpansionV5=0` restores the exact
-  prior pool and V4 mask.
+  irregular edge-mask atlas. Its incoming-only edge policy and deterministic
+  segment/region depth order keep one opaque card below every horizontal,
+  vertical, and cross-biome transition. `?biomeBackdropExpansionV5=0` restores
+  the exact prior pool and V4 mask.
 - `worldVisualTerrainVariation.js -> expansionV5` allocates forty additional
   material plates plus ten second-generation cap atlases without changing the
   stored V4 inventory API. `?undergroundTerrainExpansionV5=0` removes only
@@ -34,8 +37,9 @@ Single Source of Truth — ALL numeric/string/config values.
 - `worldVisualRuntime.js -> surface.surfaceGroundVariation` owns the ten
   default-on additive surface paintings, 24-tile width, three-tile overlap,
   non-mirrored placement, and `?surfaceGroundVariation=0` rollback. The same
-  surface contract gives repeated far-landscape cards a 256 px raster-feather
-  overlap without replacing the retained Town Square or mountain paintings.
+  surface contract gives repeated far-landscape cards a 256 px incoming-edge
+  raster crossfade without replacing the retained Town Square or mountain
+  paintings.
 
 - `uiIcons.js -> UI_RESOURCE_PRESENTATION`, `UI_INVENTORY_COPY`, and
   `UI_INVENTORY_LAYOUT` own the permanent `I`-menu resource identity key:
@@ -166,8 +170,9 @@ Single Source of Truth — ALL numeric/string/config values.
 - `starlightTalentTree.js` owns the shared ESC/Star Pillar tree layout,
   ten-node branch order, first-star reveal persistence, Bobo prerequisite-lock
   copy, the 29-entry V3 ImageGen asset inventory, native foundation aspect,
-  three-card carousel geometry, generated-shell placement, text contrast,
-  motion values, and health expectations. `constellationBuffs.js` owns the
+  click-only three-card carousel geometry, quiet flank hierarchy,
+  generated-shell placement, readable typography floors, the one-loop
+  steady-motion budget, and health expectations. `constellationBuffs.js` owns the
   auditable ten stat modifiers, both Bobo ability prerequisites, and the shared
   +1x matching Star Block yield. Citadel Storm grants +10% Thunderstrike damage
   while its protected-tile-safe footprint remains one vertical lane and cannot

@@ -177,7 +177,9 @@ pillar cannot discard `E`, Bobo must open `boboMerchant`, the live prompt,
 visual, key, and shop collaborators must report ready, and the pillar still
 opens normally when it is the selected target. It also proves the shop's
 full-row mouse target matches the visible row, sits above its icon, labels,
-status, and price, and synchronizes the same selection state as keyboard input.
+status, and price, synchronizes the same selection state as keyboard input,
+and routes every tab, row, page, action, and sell control through one
+modal-depth-aware shared button primitive.
 
 `2026-07-26-town-square-ground-fidelity-contract.mjs` guards the ground-only
 correction: the v3 Town Square and v2 full-width PNG hashes, exact 1672x48
@@ -561,8 +563,9 @@ ESC page navigation, exactly one visible page, all 29 hash-pinned V3 texture
 mappings, the dedicated three-bay Engine presentation, transparent
 Engine/Heart/glyph/plaque assets, the generated Star Pillar shell, crest, close
 rune, bespoke Bobo lock, authored controls, deterministic God Mode review
-state, and the absence of procedural tree panels or leaked black-core Engine
-textures.
+state, click-only horizontal selection, a one-loop steady-motion budget,
+readable typography floors, quiet flank cards, center-first Engine activation,
+and the absence of procedural tree panels or leaked black-core Engine textures.
 
 `2026-07-28-constellation-upgrade-audit-contract.mjs` executes every permanent
 constellation reward against its live gameplay consumer: matching Star Block
@@ -770,9 +773,9 @@ world-space wall impacts without spawning a horizontal ground ripple. With
 F11 retains the clear-weather benchmark.
 `2026-07-28-backdrop-mask-coverage-contract.mjs` locks the cropped blend-mask
 frame to the complete scenic backdrop card, including tail cards, and cancels
-its Phaser atlas offset at the display origin. It also proves the next biome
-begins 128 px early with the irregular top-feather bit rather than a straight
-horizontal cut.
+its Phaser atlas offset at the display origin. It also proves horizontal and
+cross-biome joins keep the retained card opaque, feather only the incoming
+left/top edge, and use deterministic depth order rather than a double-fade cut.
 
 `2026-07-28-whole-world-visual-expansion-v5-contract.mjs` guards all 100
 pixel-distinct ImageGen masters, 111 built runtime files, exact biome
@@ -781,10 +784,10 @@ terrain-mask ownership, non-mirrored surface placement, and the 128 px
 cross-biome material overlap.
 
 `2026-07-28-sky-underground-cohesion-runtime-contract.mjs` guards all thirty
-unique additive assets, twenty fixed native-density sky cards, ten dedicated
-native-density terrain-masked biome placements, immutable world coordinates,
-retained base libraries, complete source frames, and four-edge sky feather
-masks.
+unique additive assets, the gap-free 18x8 native-density sky field, balanced
+use of all twenty sky images, ten dedicated native-density terrain-masked biome
+placements, immutable world coordinates, complete source frames, opaque world
+edges, and incoming-only sky transition masks.
 
 `2026-07-29-surface-backdrop-fallback-contract.mjs` guards an opaque scenic
 fallback from the first underground row while the requested biome card streams,

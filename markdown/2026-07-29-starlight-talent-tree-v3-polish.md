@@ -40,9 +40,11 @@ the generated art is never independently stretched on one axis.
 Each five-item ability branch uses a cyclic three-card window:
 
 - the focused card occupies the large center alcove;
-- the previous and next cards occupy the separated side alcoves;
-- arrows, star steps, ribbons, status, and progress all use authored images;
-- selecting a side card recenters it with restrained tweened motion;
+- the previous and next cards occupy smaller, dimmer side alcoves;
+- arrows, ribbons, status, and progress all use authored images;
+- hover never changes selection or rebuilds the dossier;
+- clicking a side card or arrow recenters it with one horizontal tween;
+- an Engine side card centers on the first click and acts on the second;
 - first-star routing still selects the exact newly discovered material.
 
 The Engine page follows the same proportions and always exposes all three
@@ -56,9 +58,12 @@ alpha, scale, and motion. It does not draw visible cards, panels, plaques,
 arrows, status seals, progress plates, or connectors.
 
 Live text is confined to authored surfaces and uses the hierarchy defined in
-`values/starlightTalentTree.js`. Ambient drift is subtle and bounded. Hover,
-focus, press, page change, and carousel recentering provide feedback without
-moving the surrounding modal shell.
+`values/starlightTalentTree.js`. The flank cards hide secondary status, the
+redundant five-step row is omitted, dossier copy is shortened, and body/meta
+type has enforced readability floors. The only steady loop is the tracked Star
+Heart pulse; card, lock, Engine, and hidden-page loops are removed. Arrow hover
+nudges sideways, while actual card movement occurs only after click, arrow, or
+keyboard input.
 
 ## God Mode and locks
 
@@ -82,6 +87,7 @@ The talent-tree snapshot requires:
 - three visible branch cards on each initialized ability page;
 - a live ability provider and zero locked branches in God Mode;
 - every one of the 29 textures present;
+- no more than one tracked steady-motion loop;
 - no missing textures or black-core V1 celestial assets.
 
 The same snapshot feeds `starlight-talent-tree-invariant`, the runtime canary

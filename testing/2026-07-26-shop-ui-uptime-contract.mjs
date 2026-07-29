@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { TOWN_SQUARE_CONFIG } from "../values/townSquareConfig.js";
@@ -280,6 +281,16 @@ try {
   assert.equal(rowOverlay.topButtonSelected, null);
   assert.equal(rowSelectSounds, 1);
   assert.equal(rowRenders, 1);
+
+  const shopSource = readFileSync(
+    new URL("../ui/overlays/ShopOverlay.js", import.meta.url),
+    "utf8",
+  );
+  assert.equal(
+    (shopSource.match(/createButton\(this\.scene/g) || []).length,
+    1,
+    "all shop controls must route through the modal-depth click wrapper",
+  );
 
   console.log("Shop UI uptime contract passed");
 } finally {

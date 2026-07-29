@@ -11,11 +11,12 @@ four flight altitudes:
   overlook.
 
 `values/worldVisualSkyCohesion.js` owns the exact file inventory and selection
-grid. `WorldVisualSkyCohesionLayer` assigns each complete image to one fixed
-world anchor at 0.88 source density. It does not crop or enlarge the art. A
-four-edge irregular feather merges every card into the original
-moonlit-mountain plate underneath, so gaps are continuous scenery rather than
-stretched filler. The twenty images are each used once and never follow the
+grid. `WorldVisualSkyCohesionLayer` builds a complete native-scale 18x8 overlap
+field without cropping or enlarging the art. All twenty images are used, with
+balanced seven/eight-use repetition being the minimum needed to cover the full
+world at source density. Only incoming left/top edges feather over an opaque
+retained card; outer world edges remain opaque, so no join or sky boundary can
+reveal clear color. Cards remain fixed in world space and never follow the
 camera.
 
 These files are additive production copies of the visually approved assets in

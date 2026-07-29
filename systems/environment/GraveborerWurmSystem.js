@@ -6,9 +6,11 @@ import {
   copyGraveborerTile,
   createGraveborerWurmPath,
   createGraveborerWurmRenderState,
-  resolveGraveborerWurmSweptCollision,
   sampleGraveborerWurmPath,
 } from "./graveborerWurmPath.js";
+import {
+  resolveGraveborerWurmSweptCollision,
+} from "./graveborerWurmCollision.js";
 import {
   createGraveborerWurmSaveData,
   resolveGraveborerWurmRestoredState,

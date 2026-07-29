@@ -39,5 +39,6 @@ Notable systems:
   lane remains safe. Depth and pass difficulty are frozen by
   `graveborerWurmDifficulty.js`; lifecycle/snapshot state lives in
   `graveborerWurmState.js`, persistence and safe mid-hunt reloads live in
-  `graveborerWurmPersistence.js`, and pure path/collision math lives in
-  `graveborerWurmPath.js`.
+  `graveborerWurmPersistence.js`, pure path/render sampling lives in
+  `graveborerWurmPath.js`, and static plus swept hit math lives in
+  `graveborerWurmCollision.js`.

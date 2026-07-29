@@ -14,15 +14,16 @@ cannot overlap the surface camera, but prevents both authored island platforms
 and their eclipse gates from falling back to an empty clear-color backdrop.
 Day/night and weather tinting remains shared with the surface far layer.
 
-`WorldVisualSkyCohesionLayer` now streams a separate approved twenty-frame
-library above that retained far base. Five horizontal world chapters and four
-air bands provide twenty fixed world anchors. Each complete approved plate is
-used exactly once at 0.88 source density, with no cover crop or enlargement,
-and an irregular four-edge feather merges it into the continuous far stage.
-Frame updates change tint and alpha but never reposition the cards around the
-camera. The original far stage remains continuously visible beneath every
-join and between authored cards. Use `?skyCohesion=0` to remove only this
-additive layer.
+`WorldVisualSkyCohesionLayer` streams the separate approved twenty-frame library
+above the retained far base as a continuous native-scale overlap grid. Five
+semantic world chapters and four altitude bands distribute all twenty assets
+evenly; the minimum required 18x8 field repeats them only seven or eight times
+each to cover every one of the 280x65 sky tiles. Complete frames are never
+cropped or enlarged. Deterministic depth ordering keeps the retained card
+opaque while only the incoming card feathers on its left and/or top edge, which
+removes double-fade folds and clear-color gaps. Frame updates change tint but
+never reposition cards around the camera. Use `?skyCohesion=0` to remove only
+this additive layer.
 
 Approved floor Option A is the separate `town-square-slate-strip-v3.png` production layer. Its first 1672x48 pixels are copied directly from the approved mockup floor band without resizing or repainting; only a 129 px mirrored alpha handoff is appended beyond that exact frame. `WorldVisualTownFloorView` aligns the resulting 1801x48 strip with the same uniform source scale as the enlarged beauty, keeping the cap near 0.61 tile tall so the first underground row remains visible. The matching `town-surface-edge-thin-v2.png` core repeats at that same physical scale across all 280 surface columns with mirrored overlapping joins. The Town Square strip shares the authoritative solid-terrain mask, renders above overlapping terrain semantics, and stays below damage feedback; the repeating cap remains visual-only so open shafts still use the separate S/down release rule. `WorldVisualTownFloorOcclusion` demotes only emissive sprites overlapping the thin surface rectangle, so first-row stars and reward glows are no longer hidden by a deep masonry facade. The original 14x10 high-resolution underground facade remains unchanged underneath, so dug cells still reveal air immediately and no presentation layer replaces tile type, HP, collision, resource identity, drops, or saves. Weather integration is additive and reversible: lightning drives restrained SCREEN duplicates of the beauty, floor, and ground, while wet weather applies a subtle cool SCREEN response to the floor and ground. Use `?surfacePack=current-v2` to disable the benchmark pack and `?surfaceEdge=0` to disable the full-width cap; both selectors change rendering only.
 
@@ -203,7 +204,7 @@ the former eager full-region residency for comparison.
 Continuous layers keep the exact authored density, tint, alpha, position,
 scale, animation, and blend math. Their Phaser state setters now no-op only
 when the requested value already equals the live Game Object value. The
-twenty-card sky field streams only native-density cards intersecting the
+continuous sky field streams only native-density cards intersecting the
 expanded world window and keeps their world coordinates immutable. A scenic
 sync no longer repeats the continuous update already completed earlier in the
 same frame.

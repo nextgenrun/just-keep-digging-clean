@@ -337,7 +337,7 @@ def build_mining_reversal(
     )
     retimed_cross = retime_contact(cross_left, contact, 19)
     after = [dict(value) for value in jab[:event]] + pivot + retimed_cross
-    after = after[:44]
+    before = before[:len(after)]
     for value in after[event:]:
         value["target"] = "side-left"
         value["flipX"] = True

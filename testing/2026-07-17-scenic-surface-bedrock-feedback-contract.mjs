@@ -245,6 +245,16 @@ try {
     defaultStage.far.length,
     "every repeated far-background image receives a raster feather mask",
   );
+  for (const mask of defaultStage.farBlendMasks) {
+    const expectedBits = mask.image.x < 0
+      ? 0
+      : WORLD_VISUAL_DEPTH_BACKDROPS.blend.edgeBits.left;
+    assert.equal(
+      mask.image.frame.name,
+      `${farBlendAsset.key}-blend-${expectedBits}`,
+      "surface far joins keep the retained card opaque and feather only the incoming left edge",
+    );
+  }
   assert.ok(
     WORLD_VISUAL_RUNTIME.surface.farSegmentOverlapPx >= 256,
     "far-background cards retain a broad overlap instead of a hairline join",

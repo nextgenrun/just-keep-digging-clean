@@ -165,7 +165,7 @@ This project uses a 3-tier version control system:
 | `/markdown/2026-07-12-v11-polished-runtime-backgrounds.md` | V11 polished surface/depth streaming package and rollback |
 | `/markdown/2026-07-28-underground-visual-expansion-v3.md` | 100 additive underground ImageGen assets: 50 full backgrounds plus 50 terrain-masked ground structures |
 | `/markdown/2026-07-28-underground-terrain-blend-v4.md` | 250 effective ground visuals, 50 feathered structure derivatives, native overlap blending, retained older layouts, rollback, and regression evidence |
-| `/markdown/2026-07-28-sky-underground-cohesion-runtime.md` | Additive 20-card native-density sky field and 10 native-density terrain-masked underground cohesion placements, retained bases, rollback, and validation |
+| `/markdown/2026-07-28-sky-underground-cohesion-runtime.md` | Gap-free native-density sky overlap field using all 20 assets plus 10 terrain-masked underground cohesion placements, incoming-edge blends, rollback, and validation |
 | `/markdown/2026-07-29-background-rendering-regression-restoration.md` | World-space sky/depth restoration, mask-origin fix, seamless retained backdrops, live QA, and regression tests |
 | `/markdown/2026-07-29-expanded-cave-level-visual-overhaul.md` | 60x20 camera-traversed entered caves, three ImageGen panorama families, safe painted-floor collision, persistence migration, and rollback |
 | `/markdown/2026-07-13-v11-split-sky-islands-tmx.md` | V11 open-sky bedrock cleanup and two four-portal sky-island banks |

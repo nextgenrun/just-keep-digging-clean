@@ -20,7 +20,7 @@ import {
 import {
   resolveGraveborerWurmCollision,
   resolveGraveborerWurmSweptCollision,
-} from "../systems/environment/graveborerWurmPath.js";
+} from "../systems/environment/graveborerWurmCollision.js";
 import {
   resolveGraveborerWurmDifficulty,
 } from "../systems/environment/graveborerWurmDifficulty.js";

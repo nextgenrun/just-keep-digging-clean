@@ -52,6 +52,16 @@ assert.ok(
   "carousel cards must retain their large authored treatment",
 );
 assert.ok(
+  STARLIGHT_TALENT_TREE_CONFIG.layout.carouselFlankScale <= 0.8
+    && STARLIGHT_TALENT_TREE_CONFIG.layout.carouselFlankAlpha <= 0.6,
+  "side choices must read as quiet previews instead of competing focal cards",
+);
+assert.ok(
+  STARLIGHT_TALENT_TREE_CONFIG.layout.detailBodyMinimumFontSizePx >= 10
+    && STARLIGHT_TALENT_TREE_CONFIG.layout.detailMetaMinimumFontSizePx >= 9,
+  "the detail dossier must retain readable minimum typography",
+);
+assert.ok(
   STARLIGHT_TALENT_TREE_CONFIG.layout.engineArtMaxPx >= 110,
   "the dedicated Engine page must not regress to footer-sized medallions",
 );
@@ -302,6 +312,8 @@ assert.doesNotMatch(nodeSource, /repeat:\s*-1/);
 assert.doesNotMatch(engineCardSource, /repeat:\s*-1/);
 assert.match(treeSource, /steadyMotionLoopCount/);
 assert.match(treeSource, /clearSummary/);
+assert.match(enginePageSource, /const wasCentered/);
+assert.match(enginePageSource, /if \(wasCentered\) view\.onEngineAction/);
 assert.match(engineDetailSource, /definition\.description/);
 assert.match(engineDetailSource, /definition\.capLabel/);
 assert.match(layoutSource, /foundationAspectRatio/);

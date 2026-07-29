@@ -24,19 +24,21 @@ between the Town Square cap and the first roots backdrop; at depth it made
 loaded scenic cards appear black, faded, or missing. Sky cover crops had the
 same offset risk.
 
-The depth renderer now cancels each crop offset with the matching display
-origin before scaling. Its alpha frame begins at the exact card coordinate,
-including partial tail cards and cross-biome transitions. The sky follow-up
-removes source cropping entirely and displays complete frames below native
-density.
+The depth renderer now registers a real mask frame before scaling, so its alpha
+begins at the exact card coordinate, including partial tail cards and
+cross-biome transitions. A second transition correction removes the
+double-feather composition: the retained card stays opaque and only the
+incoming left/top edge fades over it. Sky uses the same policy on complete,
+uncropped native-scale frames.
 
 ## Layer ownership
 
-The twenty sky assets occupy five horizontal chapters by four altitude
-anchors, each once. They render complete at 0.88 source density, preserve
-aspect ratio, use four-edge feather masks, retain the original far plate under
-every join and between cards, and never use `setScrollFactor(0)` or
-viewport-centered placement.
+The twenty sky assets form a complete 18x8 native-density overlap field
+organized by five semantic chapters and four altitude bands. Balanced
+seven/eight-use repetition is the minimum required to cover the 280x65-tile
+sky without enlargement. Incoming-only left/top feathers, opaque outer edges,
+and deterministic micro-depth order keep every join covered; cards never use
+`setScrollFactor(0)` or viewport-centered placement.
 
 The ten underground cohesion assets use one dedicated, complete 0.88
 source-density masked placement per biome. Their ten distinct horizontal
@@ -57,5 +59,5 @@ biome card streams.
   without viewport attachment or hard rectangular borders.
 - Live surface comparison at the western card edge showed the feather merging
   into the retained far base without a visible rectangular cut.
-- The crop-origin, fallback, thirty-asset, native-density placement, and
-  whole-world V5 contracts pass.
+- The crop-origin, incoming-edge composition, fallback, thirty-asset,
+  gap-free native-density placement, and whole-world V5 contracts pass.

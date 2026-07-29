@@ -39,4 +39,6 @@ retains those 18 approved assets and adds eleven ImageGen-authored pieces: a
 native 2.39:1 three-alcove foundation, navigation plaques, card ribbons,
 status/progress plaques, carousel arrows, and star-step markers. Its 29-entry
 manifest pins every runtime filename, size, color mode, alpha range, and hash;
-`starlight-talent-tree-v2/` remains intact as the visual rollback source.
+the step markers remain in the approved pack but are intentionally omitted
+from the cleaner click-only runtime layout. `starlight-talent-tree-v2/`
+remains intact as the visual rollback source.

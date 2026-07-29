@@ -311,7 +311,7 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-26-underground-biome-baked-motion-runtime-v2.md` | Ten actual moving-image backgrounds, painted keyframes, VP9 pipeline, ground separation, streaming, performance, and rollback contract |
 | `2026-07-28-underground-visual-expansion-v3.md` | Fifty additive full backgrounds plus fifty terrain-masked ImageGen ground structures, production wiring, alpha pipeline, streaming, validation, and independent rollback |
 | `2026-07-28-underground-terrain-blend-v4.md` | Fifty bolder feathered terrain plates, 200 painted dug-top cuts, seamless backdrop and structure joins, retained V3 assets, layer authority, rollback, and validation |
-| `2026-07-28-sky-underground-cohesion-runtime.md` | Twenty unique native-density sky cards plus ten native-density terrain-masked biome foregrounds, all additive over retained libraries with independent rollback |
+| `2026-07-28-sky-underground-cohesion-runtime.md` | Gap-free native-density overlap field using all twenty sky assets plus ten terrain-masked biome foregrounds, all additive over retained libraries with independent rollback |
 | `2026-07-29-background-rendering-regression-restoration.md` | Restored world-anchored sky and opaque underground backdrops, corrected Phaser crop-origin masks, live QA, and regression coverage |
 | `2026-07-29-expanded-cave-level-visual-overhaul.md` | Expanded entered caves into 60x20 camera-traversed levels with three ImageGen panorama families, safe painted-floor collision, save migration, and rollback |
 | `2026-07-26-modular-surface-props-runtime-v1.md` | Approved modular Level 1/Level 2 surface props, physical scale, terrain contact, coverage, streaming, testing, and rollback contract |

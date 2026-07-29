@@ -25,9 +25,13 @@ UI module — overlays.
   a bespoke ImageGen Bobo seal until Quick Slash or Thunder Strike is owned,
   banked star progress, separate matching Star Block yield and
   ability-mutation states, three alpha-safe Engine medallions, authored
-  plaques/arrows/steps, ambient motion, click feedback, and first-star reveal
-  routing remain live. Phaser supplies responsive placement, dynamic text,
-  invisible hit targets, and tweens; it does not draw visible tree chrome.
+  plaques/arrows, one tracked Heart pulse, click feedback, and first-star
+  reveal routing remain live. Hover never changes page or selection: side-card
+  clicks, arrows, and keyboard input alone move the carousel horizontally.
+  Flank cards suppress secondary status, and an Engine side card must first
+  move to center before a second click attunes or equips it. Phaser supplies
+  responsive placement, dynamic text, invisible hit targets, and bounded
+  tweens; it does not draw visible tree chrome.
 - `StarHeartOverlay.js` — the tall three-choice Star Heart modal with ambient constellation motion, keyboard/mouse selection, owned/equipped/available states, and a timed two-step permanent unlock. Three Hearts let a late-game save own all three Engines while only one remains equipped.
 - `StarHeartEngineCard.js` — image-backed Wayward Star, Hollow Sun, and Comet Engine cards with fixed-screen hit areas plus hover, focus, press, and selection tweens.
 - `ShopOverlay.js` — shared merchant modal. The Molten Money Monster opens on the Arc Forge tab, renders the two canonical crafting recipes, and retains its Sell tab with a timed repeat-confirmation before any uncrafted-core ingredient is sold.
