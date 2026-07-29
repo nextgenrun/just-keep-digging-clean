@@ -76,16 +76,27 @@ export class SpecialTileSystem {
 
       const groundPortalLevel = this._findUnlockedGroundPortalAt(tile.tx, tile.ty);
       if (groundPortalLevel) {
+        const access = this.scene.heavenblocksProgressionSystem?.getLevelAccessState?.(
+          groundPortalLevel.levelId
+        ) || { allowed: true };
+        const prompt = access.allowed
+          ? `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${groundPortalLevel.groundPortal.promptLabel}`
+          : access.reason === "relics"
+            ? `Sky Seal: ${access.have}/${access.required} Ancient Relics`
+            : `Sky Seal: Attune ${String(access.requiredRegionId || "prior").replaceAll("-", " ")} Heart`;
         this._showPrompt(
           tile.tx,
           tile.ty,
-          `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${groundPortalLevel.groundPortal.promptLabel}`
+          prompt,
+          !access.allowed
         );
         this.promptTile = {
           tx: tile.tx,
           ty: tile.ty,
-          type: "teleportGroundToSky",
+          type: access.allowed ? "teleportGroundToSky" : "teleportGroundLocked",
           levelId: groundPortalLevel.levelId,
+          regionId: access.regionId,
+          access,
         };
         foundSpecialTile = true;
         break;
@@ -144,6 +155,20 @@ export class SpecialTileSystem {
     }
 
     if (!foundSpecialTile) {
+      const interaction = this.scene.heavenblocksArtifactSystem?.getInteraction?.(playerTile);
+      if (interaction) {
+        this._showPrompt(
+          interaction.tx,
+          interaction.ty,
+          interaction.text,
+          interaction.used === true
+        );
+        this.promptTile = interaction;
+        foundSpecialTile = true;
+      }
+    }
+
+    if (!foundSpecialTile) {
       this.promptText.setVisible(false);
       this.promptTile = null;
     }
@@ -167,6 +192,17 @@ export class SpecialTileSystem {
     if (this.promptTile.type === "teleport" || this.promptTile.type === "teleportPaired") return this._activateTeleport();
     if (this.promptTile.type === "teleportSkyReturn") return this._activateSkyTeleportReturn();
     if (this.promptTile.type === "teleportGroundToSky") return this._activateGroundTeleport();
+    if (this.promptTile.type === "teleportGroundLocked") {
+      this.scene.heavenblocksArtifactSystem?.playLockedPortalFeedback?.(
+        this.promptTile.regionId,
+        this.promptTile.access
+      );
+      return { success: true, type: "heavenblocksPortalLocked" };
+    }
+    if (String(this.promptTile.type).startsWith("heavenblocks")) {
+      return this.scene.heavenblocksArtifactSystem?.handleInteraction?.(this.promptTile)
+        || { success: false, reason: "heavenblocks-unavailable" };
+    }
     if (this.promptTile.type === "chest") return this._activateChest();
     if (this.promptTile.type === "gamble") return this._activateGamble();
     if (this.promptTile.type === "gambleUsed") return { success: false, reason: "already-used" };
@@ -281,6 +317,7 @@ export class SpecialTileSystem {
             id: authoredSlot.id,
             objectId: null,
             levelId: level.levelId,
+            regionId: authoredSlot.regionId,
             slotIndex: authoredSlot.slotIndex,
             layerKey: "V11_SPLIT_SKY_ISLAND_PORTALS_V1",
             rect,
@@ -378,7 +415,7 @@ export class SpecialTileSystem {
 
   _syncGroundPortalVisuals() {
     for (const level of V11_SKY_ISLAND_LAYOUT.levels) {
-      this.scene.v11SkyIslandVisualSystem?.setGroundPortalUnlocked(
+      this.scene.heavenblocksArtifactSystem?.setGroundPortalUnlocked(
         level.levelId,
         this._hasUnlockedPortalForLevel(level.levelId)
       );
@@ -410,6 +447,7 @@ export class SpecialTileSystem {
       gateSlotId: slot.id,
       gateObjectId: slot.objectId,
       levelId: slot.levelId,
+      regionId: slot.regionId,
       skyTx: slot.interactionTx,
       skyTy: slot.interactionTy,
       skyLandingTx: slot.landingTile.tx,
@@ -486,6 +524,10 @@ export class SpecialTileSystem {
 
   _destroySkyPortalVisual(pairData) {
     const visual = pairData?.skyPortalVisual;
+    this.scene.heavenblocksArtifactSystem?.setSkyPortalSlotActive?.(
+      pairData?.gateSlotId,
+      false
+    );
     if (!visual) return;
     if (visual.glowTween?.remove) visual.glowTween.remove();
     if (visual.glow?.destroy) visual.glow.destroy();
@@ -522,6 +564,10 @@ export class SpecialTileSystem {
     this.pairedTeleporters.set(dungeonKey, pairData);
     if (!this.portalOrder.includes(dungeonKey)) this.portalOrder.push(dungeonKey);
     this._registerSkyTeleporterTiles(pairData, dungeonKey);
+    this.scene.heavenblocksArtifactSystem?.setSkyPortalSlotActive?.(
+      pairData.gateSlotId,
+      true
+    );
     this._enforceSkyPortalCapacity();
     this._syncGroundPortalVisuals();
   }
@@ -624,6 +670,27 @@ export class SpecialTileSystem {
   }
 
   _teleportToSky(pairData, firstActivation) {
+    const access = this.scene.heavenblocksProgressionSystem?.getRegionAccessState?.(
+      pairData.regionId
+    ) || { allowed: true };
+    if (!access.allowed) {
+      this.scene.heavenblocksArtifactSystem?.playLockedPortalFeedback?.(
+        pairData.regionId,
+        access
+      );
+      if (firstActivation) {
+        this.scene.uiNotifications?.info?.(
+          `${this._getPairLabel(pairData)} attuned  •  Access remains sealed.`
+        );
+      }
+      return {
+        success: true,
+        type: "teleportRouteAttunedLocked",
+        target: "sealed",
+        pairData,
+        access,
+      };
+    }
     const safeTile = this._findSafeAdjacentTile(pairData.skyTx, pairData.skyTy)
       || this._findSafeReturnTile(pairData.skyLandingTx, pairData.skyLandingTy);
     const target = safeTile || { tx: pairData.skyLandingTx, ty: pairData.skyLandingTy };
@@ -653,6 +720,16 @@ export class SpecialTileSystem {
     const level = V11_SKY_ISLAND_LAYOUT.levels.find((entry) => entry.levelId === levelId);
     if (!level?.groundPortal || !this._hasUnlockedPortalForLevel(levelId)) {
       return { success: false, reason: "ground-portal-locked" };
+    }
+    const access = this.scene.heavenblocksProgressionSystem?.getLevelAccessState?.(
+      levelId
+    ) || { allowed: true };
+    if (!access.allowed) {
+      this.scene.heavenblocksArtifactSystem?.playLockedPortalFeedback?.(
+        access.regionId,
+        access
+      );
+      return { success: true, type: "heavenblocksPortalLocked", access };
     }
 
     const arrival = level.groundPortal.skyArrivalTile;
@@ -849,6 +926,7 @@ export class SpecialTileSystem {
             dungeonTy: data.dungeonTy,
             gateSlotId: data.gateSlotId,
             gateObjectId: data.gateObjectId,
+            regionId: data.regionId,
             skyTx: data.skyTx,
             skyTy: data.skyTy,
             skyLandingTx: data.skyLandingTx,

@@ -54,4 +54,13 @@ export const TILE_TYPES = Object.freeze({
 
   // Ancient Relic Cache — rare deep-world treasure chest (mineable)
   ANCIENT_RELIC_CACHE: 35,
+
+  // Heavenblocks v2 — authoritative mineable sky-world materials
+  CLOUDSTONE: 36,
+  STORMGLASS: 37,
+  HALOSTONE: 38,
+  LUMENITE: 39,
+  CINDERSTONE: 40,
+  HELLGLASS: 41,
+  HEAVEN_BARRIER: 42,
 });

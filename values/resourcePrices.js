@@ -18,6 +18,12 @@ export const RESOURCE_PRICES_CONFIG = Object.freeze({
     obsidian: 1200,
     emberOre: 3200,
     magmaCrystal: 8000,
+    cloudstone: 900,
+    stormglass: 4200,
+    halostone: 1500,
+    lumenite: 6800,
+    cinderstone: 2600,
+    hellglass: 12000,
   },
   
   // Resource name mapping for UI
@@ -36,6 +42,12 @@ export const RESOURCE_PRICES_CONFIG = Object.freeze({
     obsidian: "Obsidian",
     emberOre: "Ember Ore",
     magmaCrystal: "Magma Crystal",
+    cloudstone: "Cloudstone",
+    stormglass: "Stormglass",
+    halostone: "Halostone",
+    lumenite: "Lumenite",
+    cinderstone: "Cinderstone",
+    hellglass: "Hellglass",
   },
 });
 

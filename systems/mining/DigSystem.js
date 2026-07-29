@@ -26,6 +26,7 @@ export class DigSystem {
     this.comboSystem = comboSystem;
     this.specialBlockEffectsManager = specialBlockEffectsManager;
     this.ancientRelicSystem = null;
+    this.relicDiscoveryHandler = null;
     this.retentionProgressSystem = null;
 
     this.lastMineTime = -Infinity;
@@ -47,6 +48,10 @@ export class DigSystem {
 
   setAncientRelicSystem(ancientRelicSystem) {
     this.ancientRelicSystem = ancientRelicSystem;
+  }
+
+  setRelicDiscoveryHandler(handler) {
+    this.relicDiscoveryHandler = typeof handler === "function" ? handler : null;
   }
 
   setRetentionProgressSystem(retentionProgressSystem) {
@@ -122,6 +127,12 @@ export class DigSystem {
       ANCIENT_RELIC_CONFIG.color,
       ANCIENT_RELIC_CONFIG.cache.statusDurationMs
     );
+    this.relicDiscoveryHandler?.({
+      tx,
+      ty,
+      gained,
+      total: this.ancientRelicSystem.getCount(),
+    });
     return gained;
   }
 

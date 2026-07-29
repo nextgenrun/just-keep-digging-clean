@@ -1,6 +1,11 @@
 name: Build Verified Rollback Candidate
 
 on:
+  workflow_run:
+    workflows:
+      - Dig Game Safety Gates
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       ref:
@@ -16,7 +21,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dig-game-rollback-${{ inputs.ref }}
+  group: dig-game-rollback-${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.event.workflow_run.head_sha }}
   cancel-in-progress: false
 
 env:
@@ -27,20 +32,34 @@ env:
 jobs:
   rollback-candidate:
     name: Verified rollback candidate
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.workflow_run.conclusion == 'failure' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main'
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - name: Check out requested rollback ref
         uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.ref }}
-          fetch-depth: 1
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.event.workflow_run.head_sha }}
+          fetch-depth: 2
           persist-credentials: false
 
       - name: Resolve immutable commit identity
         id: resolved
         shell: bash
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            rollback_sha="$(git rev-parse HEAD^)"
+            git checkout --detach "$rollback_sha"
+          else
+            rollback_sha="$(git rev-parse HEAD)"
+          fi
+          echo "sha=$rollback_sha" >> "$GITHUB_OUTPUT"
 
       - name: Use Node 24
         uses: actions/setup-node@v6

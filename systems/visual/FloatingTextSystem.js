@@ -3,6 +3,7 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
 import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
+import { HEAVENBLOCKS_PROGRESSION_CONFIG } from "../../values/heavenblocksProgressionConfig.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
 const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
@@ -816,6 +817,17 @@ export class FloatingTextSystem {
 
   getRelicPurposeSummary(relicCount = this.getAncientRelicCount()) {
     const currentRelics = Math.max(0, Math.floor(Number(relicCount) || 0));
+    const heavenblocks = this.scene.heavenblocksProgressionSystem;
+    const requiredRelics = HEAVENBLOCKS_PROGRESSION_CONFIG.relicUnlockCount;
+    if (currentRelics < requiredRelics) {
+      return `Cloud Reef access: relics ${currentRelics}/${requiredRelics}`;
+    }
+    if (heavenblocks && !heavenblocks.isHeartAttuned?.("cloud-reef")) {
+      return "Cloud Reef unlocked — find its Heart Shrine";
+    }
+    if (heavenblocks && !heavenblocks.isHeartAttuned?.("halo-bastion")) {
+      return "Halo Bastion awaits the Cloud Reef Heart";
+    }
     const counts = this.getConstellationCounts();
     const unlocked = new Set(this.getUnlockedConstellations());
     const next = Object.keys(CONSTELLATION_DEFS)

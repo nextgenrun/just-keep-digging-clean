@@ -2,19 +2,6 @@ export const LEVEL_TWO_MERCHANT_ID = "magmaMoneyMonster";
 export const ARC_CORE_UPGRADE_ID = "arcCoreVehicle";
 export const OMEGA_ARC_CORE_UPGRADE_ID = "omegaArcCoreVehicle";
 
-export const ARC_CORE_PURCHASE_COST = Object.freeze({
-  silver: 120,
-  gold: 60,
-});
-
-// Level Two generates Gold but no Silver. The final tier therefore doubles
-// the backtrack-heavy Silver cost and scales the locally mineable Gold by 8x.
-// At sell values this is 300,000 M: exactly 5x the first Arc Core investment.
-export const OMEGA_ARC_CORE_PURCHASE_COST = Object.freeze({
-  silver: 240,
-  gold: 480,
-});
-
 export const ARC_CORE_CONFIG = Object.freeze({
   merchant: Object.freeze({
     id: LEVEL_TWO_MERCHANT_ID,

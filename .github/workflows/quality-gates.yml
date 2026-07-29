@@ -49,6 +49,9 @@ jobs:
       - name: Validate release-safety wiring
         run: node testing/2026-07-25-release-safety-contract.mjs
 
+      - name: Validate native Heavenblocks world and progression
+        run: node testing/2026-07-29-heavenblocks-native-world-contract.mjs
+
   deep-regression:
     name: Deep gameplay regression
     needs: structural-health

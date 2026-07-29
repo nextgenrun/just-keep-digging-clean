@@ -59,6 +59,13 @@ const game = {
     getScenes: () => [playScene],
   },
 };
+function setPath(root, path, value) {
+  const segments = path.split(".");
+  const leaf = segments.pop();
+  let cursor = root;
+  for (const segment of segments) cursor = cursor[segment] ||= {};
+  cursor[leaf] = value;
+}
 const monitor = new RuntimeCanarySystem({
   globalRef,
   documentRef: { hidden: false },
@@ -82,7 +89,7 @@ assert.equal(snapshot.status, RUNTIME_CANARY_CONFIG.status.critical);
 assert.ok(snapshot.findings.some(item => item.code === RUNTIME_CANARY_CONFIG.events.sceneInvariant));
 
 for (const requiredPath of RUNTIME_CANARY_CONFIG.scenes.PlayScene.requiredPaths) {
-  playScene[requiredPath] = {};
+  setPath(playScene, requiredPath, {});
 }
 nowMs += RUNTIME_CANARY_CONFIG.timing.sampleIntervalMs;
 game.loop.frame += 1;
@@ -128,6 +135,9 @@ for (const token of [
   assert.ok(qualityWorkflow.includes(token), `quality workflow missing ${token}`);
 }
 assert.ok(rollbackWorkflow.includes("workflow_dispatch:"));
+assert.ok(rollbackWorkflow.includes("workflow_run:"));
+assert.ok(rollbackWorkflow.includes("github.event.workflow_run.head_sha"));
+assert.ok(rollbackWorkflow.includes("git rev-parse HEAD^"));
 assert.ok(rollbackWorkflow.includes("2026-07-25-production-http-canary.py"));
 assert.ok(rollbackWorkflow.includes("rollback-candidate-"));
 

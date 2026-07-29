@@ -9,6 +9,7 @@ import { RESOURCE_ZERO_TOTALS, sanitizeResourceTotals } from "../../values/resou
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { sanitizeRetentionProgressData } from "../../systems/progression/retentionProgressState.js";
+import { HEAVENBLOCKS_PROGRESSION_CONFIG } from "../../values/heavenblocksProgressionConfig.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
 const LOCAL_STORAGE_KEY = "dig-game-dug-tiles-admin";
@@ -87,6 +88,42 @@ function sanitizeAncientRelicData(data) {
   const count = Number.isFinite(data?.count) ? Math.floor(data.count) : 0;
   return {
     count: Math.max(0, Math.min(ANCIENT_RELIC_CONFIG.persistence.maxRelics, count)),
+  };
+}
+
+function sanitizeHeavenblocksData(data) {
+  const regionIds = new Set(
+    HEAVENBLOCKS_PROGRESSION_CONFIG.regionSequence.map((entry) => entry.id)
+  );
+  const recipeIds = new Set(Object.keys(HEAVENBLOCKS_PROGRESSION_CONFIG.recipes));
+  const uniqueAllowed = (values, allowed, max) => [
+    ...new Set((Array.isArray(values) ? values : []).filter((value) => allowed.has(value))),
+  ].slice(0, max);
+  return {
+    progression: {
+      unlockedRegions: uniqueAllowed(
+        data?.progression?.unlockedRegions,
+        regionIds,
+        HEAVENBLOCKS_PROGRESSION_CONFIG.persistence.maxRegionIds
+      ),
+      attunedHearts: uniqueAllowed(
+        data?.progression?.attunedHearts,
+        regionIds,
+        HEAVENBLOCKS_PROGRESSION_CONFIG.persistence.maxRegionIds
+      ),
+      discoveredRegions: uniqueAllowed(
+        data?.progression?.discoveredRegions,
+        regionIds,
+        HEAVENBLOCKS_PROGRESSION_CONFIG.persistence.maxRegionIds
+      ),
+    },
+    crafting: {
+      craftedRecipes: uniqueAllowed(
+        data?.crafting?.craftedRecipes,
+        recipeIds,
+        HEAVENBLOCKS_PROGRESSION_CONFIG.persistence.maxRecipeIds
+      ),
+    },
   };
 }
 
@@ -196,8 +233,8 @@ export class DugTilesSaveStore {
     return null;
   }
 
-  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null) {
-    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId, caveSceneData, ancientRelicData, retentionData);
+  async save(worldIdentity, dugTileKeys, resources = RESOURCE_ZERO_TOTALS, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null, heavenblocksData = null) {
+    const payload = this.createPayload(worldIdentity, dugTileKeys, resources, upgrades, levelData, specialTileData, depthGateData, dayNightData, rubbleTiles, playerCharacterId, caveSceneData, ancientRelicData, retentionData, heavenblocksData);
     const localSaved = this.saveToLocalStorage(payload);
     if (!localSaved) return false;
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
@@ -205,9 +242,9 @@ export class DugTilesSaveStore {
     return this.saveToEndpoint(payload);
   }
 
-  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null) {
+  createPayload(worldIdentity, dugTileKeys, resources, upgrades = null, levelData = null, specialTileData = null, depthGateData = null, dayNightData = null, rubbleTiles = [], playerCharacterId = null, caveSceneData = null, ancientRelicData = null, retentionData = null, heavenblocksData = null) {
     return {
-      version: 9,
+      version: 10,
       updatedAt: new Date().toISOString(),
       playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
@@ -229,6 +266,7 @@ export class DugTilesSaveStore {
       caveSceneData: sanitizeCaveSceneData(caveSceneData),
       ancientRelicData: sanitizeAncientRelicData(ancientRelicData),
       retentionData: sanitizeRetentionProgressData(retentionData),
+      heavenblocksData: sanitizeHeavenblocksData(heavenblocksData),
     };
   }
 
@@ -261,6 +299,7 @@ export class DugTilesSaveStore {
       caveSceneData: sanitizeCaveSceneData(payload.caveSceneData),
       ancientRelicData: sanitizeAncientRelicData(payload.ancientRelicData),
       retentionData: sanitizeRetentionProgressData(payload.retentionData),
+      heavenblocksData: sanitizeHeavenblocksData(payload.heavenblocksData),
       playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }

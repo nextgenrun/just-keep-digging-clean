@@ -4,7 +4,11 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_VISUAL_LANDMARKS } from "../values/worldVisualLandmarks.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
-import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
+import {
+  HEAVENBLOCKS_WORLD_CONFIG,
+  getHeavenblocksRegionById,
+} from "../values/heavenblocksWorldConfig.js";
+import { HEAVENBLOCKS_PROGRESSION_CONFIG } from "../values/heavenblocksProgressionConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
@@ -43,6 +47,7 @@ function center(scene) {
 function closeTransientUi(scene) {
   if (!scene) return;
   scene.shopOverlay?.hide?.();
+  scene.arcForgeOverlay?.hide?.();
   scene.uiInventoryPopup?.close?.();
   scene.levelUpPopup?.hide?.();
   scene.campfireSystem?._closeBuffSelection?.();
@@ -346,7 +351,7 @@ export function installJkdE2EHarness(scene) {
 
   let backgroundPreviewIndex = -1;
   let surfaceBenchmarkPreviewIndex = -1;
-  let heavenblockPreviewIndex = -1;
+  let focusedHeavenblocksTarget = null;
   const handleBackgroundPreviewKey = event => {
     const semanticPredicate = event.code === "F6"
       ? type => type === TILE_TYPES.SKY_TILE
@@ -450,22 +455,6 @@ export function installJkdE2EHarness(scene) {
       console.info("[JkdE2EHarness] Level 2 Sky Island preview");
       return;
     }
-    if (event.code === "KeyH") {
-      event.preventDefault?.();
-      heavenblockPreviewIndex = (
-        heavenblockPreviewIndex + 1
-      ) % HEAVENBLOCKS_VISUAL_CONFIG.regions.length;
-      const region = HEAVENBLOCKS_VISUAL_CONFIG.regions[heavenblockPreviewIndex];
-      const tileSize = scene.config?.tileSize || HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-      const camera = scene.cameras?.main;
-      camera?.stopFollow?.();
-      camera?.centerOn?.(
-        region.leftTile * tileSize + region.displayWidthPx / 2,
-        region.topTile * tileSize + region.displayHeightPx / 2
-      );
-      console.info(`[JkdE2EHarness] Heavenblock preview: ${region.label}`);
-      return;
-    }
     const level = event.code === "PageDown" ? "level1" : (event.code === "PageUp" ? "level2" : null);
     if (!level) return;
     event.preventDefault?.();
@@ -481,7 +470,7 @@ export function installJkdE2EHarness(scene) {
   window.addEventListener("keydown", handleBackgroundPreviewKey);
 
   const harness = {
-    version: 1,
+    version: 2,
     getState: () => getState(scene),
     getTargets: () => getTargets(scene),
     open: (surface, options = {}) => openSurface(scene, surface, options),
@@ -491,10 +480,104 @@ export function installJkdE2EHarness(scene) {
     },
     resetTestSave,
     forcePlayerState: (options = {}) => forcePlayerState(scene, options),
+    heavenblocks: {
+      snapshot: () => ({
+        progression: scene.heavenblocksProgressionSystem?.getSnapshot?.() || null,
+        crafting: Object.fromEntries(
+          Object.keys(HEAVENBLOCKS_PROGRESSION_CONFIG.recipes).map((recipeId) => [
+            recipeId,
+            scene.arcCoreCraftingSystem?.getRecipeState?.(recipeId) || null,
+          ])
+        ),
+        access: scene.heavenblocksAccessSystem?.getHealthSnapshot?.() || null,
+        artifacts: scene.heavenblocksArtifactSystem?.getHealthSnapshot?.() || null,
+        atmosphere: scene.heavenblocksAtmosphereSystem?.getHealthSnapshot?.() || null,
+        terrain: scene.worldRenderer?.heavenblocksTerrain?.getHealthSnapshot?.() || null,
+        forgeVisible: scene.arcForgeOverlay?.isVisible === true,
+        focusedTarget: focusedHeavenblocksTarget,
+      }),
+      teleport: (regionId) => {
+        const region = getHeavenblocksRegionById(regionId);
+        if (!region) return { ok: false, reason: "unknown-region" };
+        forcePlayerState(scene, region.arrivalTile);
+        return { ok: true, regionId, state: getState(scene) };
+      },
+      focusRelic: (regionId = null) => {
+        let target = null;
+        if (regionId) {
+          const region = getHeavenblocksRegionById(regionId);
+          if (region) target = { ...region.relicCache, regionId };
+        } else {
+          for (
+            let ty = GAME_CONFIG.topAirRows + 1;
+            ty < scene.worldModel.depth && !target;
+            ty += 1
+          ) {
+            for (let tx = 0; tx < scene.worldModel.width; tx += 1) {
+              if (scene.worldModel.getTileType(tx, ty) !== TILE_TYPES.ANCIENT_RELIC_CACHE) continue;
+              target = { tx, ty, regionId: null };
+              break;
+            }
+          }
+        }
+        if (!target || scene.worldModel.getTileType(target.tx, target.ty) !== TILE_TYPES.ANCIENT_RELIC_CACHE) {
+          return { ok: false, reason: "no-relic-cache" };
+        }
+        const preview = findOpenAdjacentTile(scene, target.tx, target.ty)
+          || { tx: target.tx, ty: target.ty - 1 };
+        focusedHeavenblocksTarget = target;
+        forcePlayerState(scene, preview);
+        return { ok: true, target, preview };
+      },
+      mineFocusedRelic: () => {
+        const target = focusedHeavenblocksTarget;
+        if (!target) return { ok: false, reason: "no-focused-relic" };
+        const result = scene.digSystem?.tryMine?.(
+          target,
+          scene.time?.now || performance.now(),
+          null,
+          null,
+          {
+            ignoreCooldown: true,
+            damageMultiplier: 100000,
+            skipHeavyPunch: true,
+          }
+        ) || { success: false, reason: "dig-system-unavailable" };
+        focusedHeavenblocksTarget = null;
+        return {
+          ok: result.success === true,
+          result,
+          progression: scene.heavenblocksProgressionSystem?.getSnapshot?.() || null,
+        };
+      },
+      attune: (regionId) => scene.heavenblocksArtifactSystem?.handleInteraction?.({
+        type: "heavenblocksShrine",
+        regionId,
+      }) || { success: false, reason: "artifact-system-unavailable" },
+      grantRecipeResources: (recipeId) => {
+        const recipe = HEAVENBLOCKS_PROGRESSION_CONFIG.recipes[recipeId];
+        if (!recipe) return { ok: false, reason: "unknown-recipe" };
+        scene.digSystem?.setResourceTotals?.({
+          ...(scene.digSystem?.getResourceTotals?.() || {}),
+          ...recipe.resources,
+        });
+        return {
+          ok: true,
+          state: scene.arcCoreCraftingSystem?.getRecipeState?.(recipeId) || null,
+        };
+      },
+      openForge: () => {
+        scene.arcForgeOverlay?.show?.();
+        return { ok: scene.arcForgeOverlay?.isVisible === true };
+      },
+      craft: (recipeId) => scene.arcCoreCraftingSystem?.craft?.(recipeId)
+        || { success: false, reason: "crafting-system-unavailable" },
+      regionIds: HEAVENBLOCKS_WORLD_CONFIG.regions.map((region) => region.id),
+    },
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks");
+  console.info("[JkdE2EHarness] Installed v2 with native Heavenblocks relic, access, heart, forge, and craft controls");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

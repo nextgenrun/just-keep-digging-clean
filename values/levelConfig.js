@@ -28,6 +28,12 @@ export const LEVEL_CONFIG = Object.freeze({
     obsidian: 1300,
     emberOre: 1900,
     magmaCrystal: 2800,
+    cloudstone: 520,
+    stormglass: 1100,
+    halostone: 760,
+    lumenite: 1450,
+    cinderstone: 1200,
+    hellglass: 2200,
   },
 
   // Every 5 levels: Choose ONE of these two options

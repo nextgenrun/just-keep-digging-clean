@@ -12,6 +12,7 @@ import { WorldVisualMaterialField } from "./WorldVisualMaterialField.js";
 import { WorldVisualSemanticAssetLayer } from "./WorldVisualSemanticAssetLayer.js";
 import { WorldVisualDepthBackdropStage } from "./WorldVisualDepthBackdropStage.js";
 import { WorldVisualSurfaceStage } from "./WorldVisualSurfaceStage.js";
+import { HeavenblocksTerrainRenderer } from "../HeavenblocksTerrainRenderer.js";
 
 export class WorldVisualRuntime {
   constructor(scene, worldModel, config, runtimeConfig = WORLD_VISUAL_RUNTIME) {
@@ -27,6 +28,7 @@ export class WorldVisualRuntime {
     this.gameplayEffectLayer = null;
     this.landmarkLayer = null;
     this.lightingBridge = null;
+    this.heavenblocksTerrain = null;
     this.lastBounds = null;
     this.lastSignature = "";
     this.nextUpdateAt = 0;
@@ -53,6 +55,8 @@ export class WorldVisualRuntime {
     }
     this.materialField = new WorldVisualMaterialField(this.scene, this.worldModel, this.runtimeConfig);
     this.materialField.create();
+    this.heavenblocksTerrain = new HeavenblocksTerrainRenderer(this.scene, this.worldModel);
+    this.heavenblocksTerrain.create();
     this.surfaceStage.bindTerrainMask(this.materialField.geometryMask);
     this.semanticAssetLayer = new WorldVisualSemanticAssetLayer(
       this.scene,
@@ -98,6 +102,7 @@ export class WorldVisualRuntime {
     this.depthBackdropStage?.update(now, lighting);
     this.landmarkLayer?.update(now, lighting);
     this.semanticAssetLayer?.update(now, lighting);
+    this.heavenblocksTerrain?.update();
     if (now < this.nextUpdateAt) return;
     this.nextUpdateAt = now + this.runtimeConfig.streaming.updateIntervalMs;
     const bounds = this._getVisibleBounds(context.playerTile);
@@ -112,6 +117,7 @@ export class WorldVisualRuntime {
     const lighting = this.lightingBridge.sample();
     this.depthBackdropStage?.sync(bounds, lighting, force);
     this.materialField.sync(bounds, lighting, force);
+    this.heavenblocksTerrain?.sync(bounds, force);
     this.semanticAssetLayer?.sync(bounds, lighting, reduced);
     this.feedbackLayer.sync(bounds, reduced);
     this.gameplayEffectLayer.sync(bounds);
@@ -159,6 +165,7 @@ export class WorldVisualRuntime {
     if (!this.created) return;
     const lighting = this.lightingBridge.sample();
     this.materialField.invalidateCell(tx, ty, lighting);
+    this.heavenblocksTerrain?.invalidateCell(tx, ty);
     this.semanticAssetLayer?.invalidateCell(tx, ty);
     if (this.lastBounds) this.feedbackLayer.sync(this.lastBounds, false);
     this.gameplayEffectLayer.invalidateCell(tx, ty);
@@ -210,6 +217,7 @@ export class WorldVisualRuntime {
     this.created = false;
     this.scene.scale?.off?.("resize", this._onResize);
     this.gameplayEffectLayer?.destroy();
+    this.heavenblocksTerrain?.destroy();
     this.feedbackLayer?.destroy();
     this.semanticAssetLayer?.destroy();
     // Surface-pack ground cards share the material field's geometry mask. They
@@ -222,6 +230,7 @@ export class WorldVisualRuntime {
     this.semanticAssetLayer = null;
     this.gameplayEffectLayer = null;
     this.materialField = null;
+    this.heavenblocksTerrain = null;
     this.depthBackdropStage = null;
     this.landmarkLayer = null;
     this.surfaceStage = null;

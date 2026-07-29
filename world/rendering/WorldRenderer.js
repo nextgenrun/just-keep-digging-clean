@@ -22,6 +22,7 @@ import {
   SOIL_DAMAGE_STAGE_COUNT,
   getSoilAtlasOffset,
 } from "../../values/dynamicSoil.js";
+import { HeavenblocksTerrainRenderer } from "./HeavenblocksTerrainRenderer.js";
 
 // Resource colors used for brief "what's inside" flashes on sky tiles.
 const RESOURCE_GLOW_COLORS = Object.freeze(
@@ -175,6 +176,7 @@ export class WorldRenderer {
     // Glow crystal — pretty colored crystal clusters
     this._glowCrystalGfx = null;
     this._glowCrystalShardGfx = null;
+    this.heavenblocksTerrain = null;
   }
 
   create() {
@@ -204,6 +206,8 @@ export class WorldRenderer {
     this._glowCrystalGfx.setDepth(1).setBlendMode(Phaser.BlendModes.ADD);
     this._glowCrystalShardGfx = this.scene.add.graphics();
     this._glowCrystalShardGfx.setDepth(2); // Physical shards stay under darkness reveal.
+    this.heavenblocksTerrain = new HeavenblocksTerrainRenderer(this.scene, this.worldModel);
+    this.heavenblocksTerrain.create();
   }
 
   /**
@@ -392,6 +396,7 @@ export class WorldRenderer {
   }
 
   updateRenderWindow(playerTile) {
+    this.heavenblocksTerrain?.update(playerTile);
     if (!playerTile || !Number.isFinite(playerTile.ty)) return false;
     const minSafeY = this._streamTopTile + this._streamMarginTiles;
     const maxSafeY = this._streamTopTile + this._streamHeightTiles - this._streamMarginTiles - 1;
@@ -447,6 +452,7 @@ export class WorldRenderer {
   }
 
   applyTileUpdate(tx, ty) {
+    this.heavenblocksTerrain?.invalidateCell(tx, ty);
     this.scene.levelOneGroundFacadeSystem?.invalidateCell(tx, ty);
     this.scene.worldScenicFacadeSystem?.invalidateCell(tx, ty);
     const localTy = this._toLocalTileY(ty);
@@ -489,6 +495,7 @@ export class WorldRenderer {
    * Repaints entire world to reflect reset state
    */
   refreshAllTiles() {
+    this.heavenblocksTerrain?.sync(this.heavenblocksTerrain._getCameraBounds(), true);
     for (let localTy = 0; localTy < this._streamHeightTiles; localTy += 1) {
       const ty = this._streamTopTile + localTy;
       for (let tx = 0; tx < this.worldModel.width; tx += 1) {
@@ -907,6 +914,7 @@ export class WorldRenderer {
    * Clean up graphics objects created by this renderer
    */
   destroy() {
+    this.heavenblocksTerrain?.destroy();
     this._skyTileGraphics?.destroy();
     this._specialBlockGraphics?.destroy();
     this.rootOverlayLayer?.destroy();

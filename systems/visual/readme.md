@@ -2,6 +2,10 @@
 
 Game system — visual.
 
+`HeavenblocksArtifactSystem.js` renders modular props, heart shrines, portal
+sockets, relic/unlock cinematics, and region-arrival feedback above the
+authoritative Heavenblocks terrain.
+
 Notable systems:
 - `RenderDensitySystem.js` — keeps gameplay, cameras, UI, and pointer input in the existing 1280x720 logical coordinate space while WebGL renders to a denser backing canvas. Its CameraManager resize guard prevents browser-panel, fullscreen, and parent resizes from promoting a logical camera to the High/Ultra backing dimensions. `high` is the default 1.5x profile (1920x1080), `?renderQuality=ultra` selects 2x (2560x1440), and `?nativeDensity=0`, `?renderQuality=legacy`, or `?renderer=auto` restores the 1x compatibility path. Current runtime diagnostics are published as `window.__jkdRenderDensity`.
 - `HUDSystem.js` — main HUD (depth, stats, status flashes)

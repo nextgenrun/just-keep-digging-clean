@@ -22,6 +22,7 @@ import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
 import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
 import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
 import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
+import { ArcForgeOverlay } from "../../ui/overlays/ArcForgeOverlay.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 
@@ -43,6 +44,9 @@ export function setupUIMethods(prototype) {
     this.shopOverlay = new ShopOverlay(this, this.upgradeSystem, this.soundSystem);
     this.xpProgressBar = new XPProgressBar(this);
     this.levelUpPopup = new LevelUpPopup(this);
+    this.arcForgeOverlay = this.arcCoreCraftingSystem
+      ? new ArcForgeOverlay(this, this.arcCoreCraftingSystem)
+      : null;
   };
 
   prototype.destroySceneUI = function() {
@@ -55,6 +59,7 @@ export function setupUIMethods(prototype) {
     this.shopOverlay?.destroy();
     this.xpProgressBar?.destroy();
     this.levelUpPopup?.destroy();
+    this.arcForgeOverlay?.destroy();
 
     this.uiNotifications = null;
     this.uiMuteToggle = null;
@@ -62,6 +67,7 @@ export function setupUIMethods(prototype) {
     this.shopOverlay = null;
     this.xpProgressBar = null;
     this.levelUpPopup = null;
+    this.arcForgeOverlay = null;
   };
 
   prototype.showOverlay = function(title, body) {
@@ -489,6 +495,11 @@ export function setupUIMethods(prototype) {
       return true;
     }
 
+    if (this.arcForgeOverlay?.isVisible) {
+      this.arcForgeOverlay.hide();
+      return true;
+    }
+
     if (this.levelUpPopup?.visible) {
       if (this.levelUpPopup.pendingChoice) {
         this.hudSystem?.flashStatus?.("Choose a reward to continue", "#e4ba78", 1400);
@@ -670,6 +681,13 @@ export function setupUIMethods(prototype) {
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);
+    this.heavenblocksProgressionSystem?.loadSaveData(
+      savedData.heavenblocksData?.progression
+    );
+    this.arcCoreCraftingSystem?.loadSaveData(
+      savedData.heavenblocksData?.crafting
+    );
+    this.heavenblocksArtifactSystem?.refreshProgressionVisuals?.();
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)
@@ -779,6 +797,10 @@ export function setupUIMethods(prototype) {
         this.caveEntryController?.getSaveData(),
         this.ancientRelicSystem?.getSaveData(),
         this.retentionProgressSystem?.getSaveData(),
+        {
+          progression: this.heavenblocksProgressionSystem?.getSaveData(),
+          crafting: this.arcCoreCraftingSystem?.getSaveData(),
+        },
       );
       if (saveResult === false) saved = false;
     } catch (error) {
@@ -801,6 +823,7 @@ export function setupUIMethods(prototype) {
     this.xpProgressBar?.resize?.();
     this.levelUpPopup?.resize?.();
     this.uiInventoryPopup?.resize?.();
+    this.arcForgeOverlay?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
   };
 }

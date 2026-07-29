@@ -1,9 +1,40 @@
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { getCargoSellValue } from "../../values/resourcePrices.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { HEAVENBLOCKS_PROGRESSION_CONFIG } from "../../values/heavenblocksProgressionConfig.js";
+import { getHeavenblocksRegionById } from "../../values/heavenblocksWorldConfig.js";
 
 function formatMoney(value) {
   return `${Math.max(0, Math.floor(Number(value) || 0)).toLocaleString()} M`;
+}
+
+function getHeavenblocksPromise(scene) {
+  const progression = scene.heavenblocksProgressionSystem;
+  if (!progression) return null;
+  const snapshot = progression.getSnapshot();
+  const sequence = HEAVENBLOCKS_PROGRESSION_CONFIG.regionSequence;
+  const cloud = sequence[0];
+  if (!progression.isRegionUnlocked(cloud.id)) {
+    return `SKY SEAL  •  Find Ancient Relics  ${snapshot.relics}/${cloud.unlockValue}`;
+  }
+  for (const entry of sequence) {
+    if (!progression.isRegionUnlocked(entry.id)) {
+      const required = getHeavenblocksRegionById(entry.unlockValue)?.displayName
+        || entry.unlockValue;
+      return `SKY SEAL  •  Attune the ${required} Heart`;
+    }
+    if (!progression.isHeartAttuned(entry.id)) {
+      const region = getHeavenblocksRegionById(entry.id);
+      return `${region?.displayName?.toUpperCase() || entry.id}  •  Find and attune its Heart Shrine`;
+    }
+  }
+  if (!scene.arcCoreCraftingSystem?.isRecipeCrafted?.("smallArcCore")) {
+    return "ARC FORGE  •  Craft the Small Arc Core in Halo Bastion";
+  }
+  if (!scene.arcCoreCraftingSystem?.isRecipeCrafted?.("omegaArcCore")) {
+    return "ARC FORGE  •  Craft the Omega Arc Core";
+  }
+  return null;
 }
 
 export class NextPromiseHudSystem {
@@ -61,6 +92,7 @@ export class NextPromiseHudSystem {
       || this.scene.levelUpPopup?.visible
       || this.scene.milestoneBoardSystem?._isBoardOpen
       || this.scene.campfireSystem?.isSelecting?.()
+      || this.scene.arcForgeOverlay?.isVisible
       || this.scene._pillarViewActive;
     this.root.setVisible(!hidden);
     if (hidden) return;
@@ -83,12 +115,15 @@ export class NextPromiseHudSystem {
     const atTown = playerTile
       && playerTile.ty >= this.scene.config.topAirRows - 4
       && playerTile.ty <= this.scene.config.topAirRows;
+    const heavenblocksPromise = getHeavenblocksPromise(this.scene);
 
     let promise = "";
     if (chestSeconds > 0) {
       promise = `TREASURE FURY  •  ${chestSeconds}s ultra crit damage`;
     } else if (tutorialStage !== "complete") {
       promise = retention.getTutorialPromise();
+    } else if (heavenblocksPromise) {
+      promise = heavenblocksPromise;
     } else if (!atTown && depthChase?.state === "approaching") {
       promise = `DEPTH RECORD  •  ${depthChase.remaining}m to match ${depthChase.target}m`;
     } else if (!atTown && depthChase?.state === "matching") {
@@ -110,7 +145,12 @@ export class NextPromiseHudSystem {
     const resources = this.scene.digSystem?.getResourceTotals?.() || {};
     const effects = this.scene.upgradeSystem?.getUpgradeEffects?.() || {};
     const cargoValue = getCargoSellValue(resources, effects);
+    const heavenblocksSnapshot = this.scene.heavenblocksProgressionSystem?.getSnapshot?.();
+    const heartCount = heavenblocksSnapshot?.attunedHearts?.length || 0;
     const detail = `${this.config.cargoPrefix}  ${formatMoney(cargoValue)}`
+      + (heavenblocksSnapshot
+        ? `  •  RELICS ${heavenblocksSnapshot.relics}/${heavenblocksSnapshot.relicsRequired}  •  HEARTS ${heartCount}/${HEAVENBLOCKS_PROGRESSION_CONFIG.regionSequence.length}`
+        : "")
       + (deepestPortal ? `  •  DEEPEST ${deepestPortal.depth}m` : "");
     const signature = `${promise}|${detail}`;
     if (signature !== this.lastSignature) {

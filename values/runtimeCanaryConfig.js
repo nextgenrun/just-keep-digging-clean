@@ -4,6 +4,13 @@ const PLAY_SCENE_REQUIRED_PATHS = Object.freeze([
   "digSystem",
   "playerController",
   "hudSystem",
+  "worldRenderer.heavenblocksTerrain",
+  "heavenblocksProgressionSystem",
+  "heavenblocksAccessSystem",
+  "arcCoreCraftingSystem",
+  "heavenblocksArtifactSystem",
+  "heavenblocksAtmosphereSystem",
+  "arcForgeOverlay",
 ]);
 
 const CAVE_SCENE_REQUIRED_PATHS = Object.freeze([

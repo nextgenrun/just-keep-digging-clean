@@ -21,6 +21,7 @@ function hasEscapeClosableOverlay(scene) {
   return Boolean(
     scene.depthGateSystem?.isOpen?.() ||
     scene.levelUpPopup?.visible ||
+    scene.arcForgeOverlay?.isVisible ||
     scene.shopOverlay?.isVisible ||
     scene.campfireSystem?.isSelecting?.() ||
     scene.milestoneBoardSystem?._isBoardOpen ||
@@ -625,6 +626,8 @@ function _updateSystems(time, delta, keys) {
     return;
   }
 
+  if (this.arcForgeOverlay?.isVisible) return;
+
   // Playing state specific updates
   if (this.gameState === "playing") {
     _updatePlayingState.call(this, time, delta, keys);
@@ -676,6 +679,7 @@ function _updateSystems(time, delta, keys) {
   if (this.atmosphereSystem) {
     this.atmosphereSystem.update(time, delta);
   }
+  this.heavenblocksAtmosphereSystem?.update(time, delta);
 
   this.worldBackgroundAmbientMotionSystem?.update(time, delta);
   this.levelOneLivingBackdropSystem?.update(time, delta);
@@ -744,6 +748,11 @@ function _updatePlayingState(time, delta, keys) {
   this.playerRigContact?.update(delta);
 
   playerTile = this.playerController.getPlayerTile();
+  const heavenblocksAccess = this.heavenblocksAccessSystem?.update(playerTile, time);
+  if (heavenblocksAccess?.repelled) {
+    playerTile = this.playerController.getPlayerTile();
+  }
+  this.heavenblocksArtifactSystem?.update(playerTile);
   const arcCoreConsumedInteraction = this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
   
   // NPC interaction

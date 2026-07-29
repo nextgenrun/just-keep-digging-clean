@@ -131,13 +131,17 @@ export class ArcCoreVehicleSystem {
     this.prompt
       .setText(unlocked
         ? `[${USER_SETTINGS.getKeyLabel("interact")}] Pilot ${profile.displayName || "Arc Core"}`
-        : "Arc Core locked\nBuy from Molten Money Monster")
+        : "Arc Core locked\nForge in Halo Bastion")
       .setVisible(true);
 
     if (interactPressed) {
       this._interactConsumed = true;
       if (unlocked) this.setActive(true);
-      else this.scene.hudSystem?.flashStatus?.("The Molten Money Monster sells this Arc Core.", "#FFB347", 1800);
+      else this.scene.hudSystem?.flashStatus?.(
+        "Attune Cloud Reef and Halo Bastion hearts, then forge the Arc Core.",
+        "#FFB347",
+        2600
+      );
     }
     return this._interactConsumed;
   }

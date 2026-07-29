@@ -235,3 +235,12 @@ starting Phaser. `2026-07-25-production-http-canary.py` probes a built snapshot
 or configured remote canary URL for manifest/build identity, reachable health
 wiring, MIME/cache/range/compression/security headers, and local read-only
 behavior.
+
+`2026-07-29-heavenblocks-native-world-contract.mjs` fails closed unless Cloud
+Reef and Halo Bastion are full native Level 1 worlds, Eclipse Scar is a full
+native Level 2 world, all three use real mineable/collidable cells with safe
+arrivals and visible relic vault ownership, three mined relics unlock Cloud
+Reef, heart attunements remove barriers in order, both Arc Cores craft
+atomically through existing upgrades, save v10 round-trips the progression,
+all 51 runtime assets match their manifest hashes, both renderers own native
+terrain, and no baked v1 facade runtime remains.

@@ -19,6 +19,7 @@ import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWo
 import { isInsideEllipse } from "../../values/deterministicMath.js";
 import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
 import { SeededRandom } from "./SeededRandom.js";
+import { applyHeavenblocksWorld } from "../generation/HeavenblocksWorldGenerator.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 const DIGGABLE_TYPES = new Set([
@@ -73,6 +74,7 @@ export class WorldModel {
     this.geodeZones = [];
     this.glowCrystalZones = [];
     this.rng = new SeededRandom(config.seed || 133742);
+    this.damageGuard = null;
 
     this.generate();
   }
@@ -115,6 +117,10 @@ export class WorldModel {
     this._hp[idx] = hp;
     this.rubbleTiles.delete(key);
     if (type !== TILE_TYPES.AIR) this.dugTiles.delete(key);
+  }
+
+  setDamageGuard(guard) {
+    this.damageGuard = typeof guard === "function" ? guard : null;
   }
 
   isSolid(tileX, tileY) { return this.getType(tileX, tileY) !== TILE_TYPES.AIR; }
@@ -188,6 +194,13 @@ export class WorldModel {
     this.reapplyStandaloneCaveMouths();
     this.generateAncientRelicCaches();
     this.applyTiledSurfaceAuthority();
+    const heavenblocks = applyHeavenblocksWorld(this);
+    if (heavenblocks.applied) {
+      console.log(
+        `[WorldModel] Built ${heavenblocks.regions} native Heavenblocks regions `
+        + `with ${heavenblocks.solidTiles} authoritative solid cells`
+      );
+    }
   }
 
   generateBaseTerrain() {
@@ -703,7 +716,12 @@ export class WorldModel {
       const ty = Number.parseInt(tyText, 10);
       if (!Number.isInteger(tx) || !Number.isInteger(ty) || !this.inBounds(tx, ty)) continue;
       const type = this.getType(tx, ty);
-      if (type === TILE_TYPES.BEDROCK || type === TILE_TYPES.CAVE_WALL || type === TILE_TYPES.GEODE_WALL) continue;
+      if (
+        type === TILE_TYPES.BEDROCK
+        || type === TILE_TYPES.CAVE_WALL
+        || type === TILE_TYPES.GEODE_WALL
+        || type === TILE_TYPES.HEAVEN_BARRIER
+      ) continue;
       const keyStr = makeTileKey(tx, ty);
       this.setTile(tx, ty, TILE_TYPES.AIR, 0);
       this.dugTiles.set(keyStr, { tileX: tx, tileY: ty, dugAt: Date.now() });
@@ -715,6 +733,14 @@ export class WorldModel {
 
   damageTile(tileX, tileY, damage) {
     if (!this.inBounds(tileX, tileY)) return { success: false, reason: "out-of-bounds" };
+    if (this.damageGuard && this.damageGuard({ tx: tileX, ty: tileY }) === false) {
+      return {
+        success: false,
+        reason: "region-locked",
+        hp: this.getHp(tileX, tileY),
+        typeBeforeDamage: this.getType(tileX, tileY),
+      };
+    }
     if (!this.isSolid(tileX, tileY)) return { success: false, reason: "air", hp: 0, typeBeforeDamage: TILE_TYPES.AIR };
     if (!this.isDiggable(tileX, tileY)) {
       return { success: false, reason: "blocked", hp: this.getHp(tileX, tileY), typeBeforeDamage: this.getType(tileX, tileY) };

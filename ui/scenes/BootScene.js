@@ -21,6 +21,7 @@ import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
+import { HEAVENBLOCKS_VISUAL_CONFIG } from "../../values/heavenblocksVisualConfig.js";
 import {
   MENU_BACKGROUND_ASSETS,
   createMenuLoadingScreen,
@@ -718,11 +719,18 @@ export class BootScene extends Phaser.Scene {
   preloadTileSprites() {
     const approvedWorldBase = "sprites/tiles/approved-world";
     const caveEntrance = CAVE_SCENE_CONFIG.overworldEntrance;
-    const v11SkyIslandBase = "sprites/backgrounds/world-v11-sky-islands-v1";
-    this.load.image(ASSET_KEYS.background.skyIslands.level1Platform, `${v11SkyIslandBase}/level1-platform.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
+    for (const [regionId, biome] of Object.entries(HEAVENBLOCKS_VISUAL_CONFIG.biomes)) {
+      for (const [assetName, filename] of Object.entries(biome.names)) {
+        this.load.image(
+          biome.keys[assetName],
+          `${HEAVENBLOCKS_VISUAL_CONFIG.assetBasePath}/${biome.folder}/${filename}`
+        );
+      }
+      this.load.image(
+        biome.backgroundKey,
+        `${HEAVENBLOCKS_VISUAL_CONFIG.backgroundBasePath}/${HEAVENBLOCKS_VISUAL_CONFIG.backgroundFiles[regionId]}`
+      );
+    }
     this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-wall.webp`);
     this.load.image(caveEntrance.legacy.textureKey, caveEntrance.legacy.assetPath);
     this.load.image(caveEntrance.scenic.textureKey, caveEntrance.scenic.assetPath);

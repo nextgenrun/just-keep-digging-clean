@@ -116,7 +116,10 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   const parking = { tx: ARC_CORE_CONFIG.parking.tileX, ty: ARC_CORE_CONFIG.parking.tileY };
   assert.equal(lockedArc.update(parking, { interact: { justDown: true } }), true);
   assert.equal(lockedArc.isActive(), false);
-  assert.match(lockedScene.messages.at(-1), /sells this Arc Core/);
+  assert.match(
+    lockedScene.messages.at(-1),
+    /Attune Cloud Reef and Halo Bastion hearts, then forge the Arc Core/
+  );
 
   const godScene = createArcScene({ unlocked: false, godMode: true });
   const godArc = new ArcCoreVehicleSystem(godScene);
@@ -203,7 +206,8 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   }
 }
 
-// Purchase cost, ownership, and save/load persistence.
+// Craft-only ownership cannot be bypassed through the purchase API; forge
+// grants still use the existing upgrade persistence path.
 {
   const resources = { silver: 360, gold: 540 };
   const digSystem = {
@@ -212,15 +216,17 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   };
   const upgrades = new UpgradeSystem(digSystem);
   upgrades.grantUpgrade("worldTwoTunnelAccess");
-  assert.equal(upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).reason, "requires_upgrade");
-  const purchase = upgrades.purchaseUpgrade(ARC_CORE_UPGRADE_ID);
-  assert.equal(purchase.success, true);
-  assert.deepEqual(resources, { silver: 240, gold: 480 });
+  assert.equal(upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).reason, "craft_only");
+  assert.equal(upgrades.purchaseUpgrade(ARC_CORE_UPGRADE_ID).reason, "craft_only");
+  assert.deepEqual(resources, { silver: 360, gold: 540 });
+  assert.equal(upgrades.getUpgradeLevel(ARC_CORE_UPGRADE_ID), 0);
+  assert.equal(upgrades.getUpgradeLevel(OMEGA_ARC_CORE_UPGRADE_ID), 0);
+
+  assert.equal(upgrades.grantUpgrade(ARC_CORE_UPGRADE_ID).success, true);
   assert.equal(upgrades.getUpgradeLevel(ARC_CORE_UPGRADE_ID), 1);
-  const omegaPurchase = upgrades.purchaseUpgrade(OMEGA_ARC_CORE_UPGRADE_ID);
-  assert.equal(omegaPurchase.success, true);
-  assert.deepEqual(resources, { silver: 0, gold: 0 });
+  assert.equal(upgrades.grantUpgrade(OMEGA_ARC_CORE_UPGRADE_ID).success, true);
   assert.equal(upgrades.getUpgradeLevel(OMEGA_ARC_CORE_UPGRADE_ID), 1);
+  assert.deepEqual(resources, { silver: 360, gold: 540 });
 
   const restored = new UpgradeSystem(digSystem);
   restored.fromJSON(upgrades.toJSON());
@@ -272,14 +278,11 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   assert.equal(openedMerchant, "magmaMoneyMonster");
 }
 
-// Both Arc purchases appear in the Level 2 Money Monster's upgrade catalog.
+// Craft-only Arc Cores never leak back into the Level 2 merchant catalog.
 {
   const catalog = { _render() {} };
   ShopOverlay.prototype.populateUpgrades.call(catalog, LEVEL_TWO_MERCHANT_ID);
-  assert.deepEqual(
-    catalog.allUpgrades.map(upgrade => upgrade.id),
-    [ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID],
-  );
+  assert.deepEqual(catalog.allUpgrades.map(upgrade => upgrade.id), []);
 }
 
 // Level 2 merchant opens on SELL; E acts; F sells the selected stack.

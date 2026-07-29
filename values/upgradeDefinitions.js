@@ -1,9 +1,7 @@
 import { UPGRADE_CATEGORIES } from "./upgradeCategories.js";
 import {
-  ARC_CORE_PURCHASE_COST,
   ARC_CORE_UPGRADE_ID,
   LEVEL_TWO_MERCHANT_ID,
-  OMEGA_ARC_CORE_PURCHASE_COST,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "./arcCoreConfig.js";
 
@@ -440,26 +438,27 @@ export const UPGRADES = Object.freeze({
     id: ARC_CORE_UPGRADE_ID,
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Arc Core",
-    description: "Pilot the Arc Core. It inherits player movement, upgrades, and abilities; normal digs strike exactly 2 tiles wide by 2 tiles deep.",
+    description: "Crafted at the Halo Bastion Arc Forge after attuning the Cloud Reef and Halo Bastion hearts. Digs 2 tiles wide by 2 tiles deep.",
     baseCost: 0,
     goldCost: 0,
-    resources: ARC_CORE_PURCHASE_COST,
-    requires: "worldTwoTunnelAccess",
     effectType: "arcCoreVehicle",
     merchant: LEVEL_TWO_MERCHANT_ID,
+    hiddenFromShop: true,
+    craftOnly: true,
     oneTimePurchase: true
   },
   [OMEGA_ARC_CORE_UPGRADE_ID]: {
     id: OMEGA_ARC_CORE_UPGRADE_ID,
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Omega Arc Core",
-    description: "Final Arc Core evolution. Four times the chassis scale and an 8-wide by 8-deep mining footprint, while retaining every player upgrade and ability.",
+    description: "Final Arc Forge evolution after attuning the Eclipse Scar heart. Four times the chassis scale with an 8-wide by 8-deep footprint.",
     baseCost: 0,
     goldCost: 0,
-    resources: OMEGA_ARC_CORE_PURCHASE_COST,
     requires: ARC_CORE_UPGRADE_ID,
     effectType: "omegaArcCoreVehicle",
     merchant: LEVEL_TWO_MERCHANT_ID,
+    hiddenFromShop: true,
+    craftOnly: true,
     oneTimePurchase: true
   },
 

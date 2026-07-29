@@ -8,12 +8,15 @@ function sanitizeRelicCount(value) {
 export class AncientRelicSystem {
   constructor(initialCount = 0) {
     this.count = sanitizeRelicCount(initialCount);
+    this.listeners = new Set();
   }
 
   add(amount = 1) {
     const previous = this.count;
     this.count = sanitizeRelicCount(this.count + amount);
-    return this.count - previous;
+    const gained = this.count - previous;
+    if (gained !== 0) this._emit(previous, "add");
+    return gained;
   }
 
   getCount() {
@@ -25,6 +28,19 @@ export class AncientRelicSystem {
   }
 
   loadSaveData(data) {
+    const previous = this.count;
     this.count = sanitizeRelicCount(data?.count);
+    if (previous !== this.count) this._emit(previous, "load");
+  }
+
+  subscribe(listener) {
+    if (typeof listener !== "function") return () => {};
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  _emit(previous, source) {
+    const snapshot = Object.freeze({ count: this.count, previous, source });
+    for (const listener of this.listeners) listener(snapshot);
   }
 }

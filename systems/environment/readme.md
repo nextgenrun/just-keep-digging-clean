@@ -11,3 +11,4 @@ Notable systems:
 - `CampfireSystem.js` — campfire buffs
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
 - `EarthquakeSystem.js` — world-space seismic events with independent epicenters, local cave-ins/rubble, and distance-attenuated player feedback
+- `HeavenblocksAtmosphereSystem.js` — atmosphere-only generated backplates behind the three native upward-progression regions

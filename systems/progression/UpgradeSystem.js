@@ -118,6 +118,12 @@ export class UpgradeSystem {
   canPurchaseUpgrade(upgradeId) {
     const currentLevel = this.getUpgradeLevel(upgradeId);
     const upgrade = UPGRADES[upgradeId];
+    if (!upgrade) {
+      return { canPurchase: false, reason: "invalid_upgrade" };
+    }
+    if (upgrade.craftOnly === true) {
+      return { canPurchase: false, reason: "craft_only" };
+    }
     
     // Check if already maxed out
     if (upgrade.oneTimePurchase && currentLevel > 0) {
