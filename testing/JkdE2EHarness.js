@@ -4,7 +4,6 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_VISUAL_LANDMARKS } from "../values/worldVisualLandmarks.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
-import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
@@ -346,7 +345,6 @@ export function installJkdE2EHarness(scene) {
 
   let backgroundPreviewIndex = -1;
   let surfaceBenchmarkPreviewIndex = -1;
-  let heavenblockPreviewIndex = -1;
   const handleBackgroundPreviewKey = event => {
     const semanticPredicate = event.code === "F6"
       ? type => type === TILE_TYPES.SKY_TILE
@@ -450,22 +448,6 @@ export function installJkdE2EHarness(scene) {
       console.info("[JkdE2EHarness] Level 2 Sky Island preview");
       return;
     }
-    if (event.code === "KeyH") {
-      event.preventDefault?.();
-      heavenblockPreviewIndex = (
-        heavenblockPreviewIndex + 1
-      ) % HEAVENBLOCKS_VISUAL_CONFIG.regions.length;
-      const region = HEAVENBLOCKS_VISUAL_CONFIG.regions[heavenblockPreviewIndex];
-      const tileSize = scene.config?.tileSize || HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-      const camera = scene.cameras?.main;
-      camera?.stopFollow?.();
-      camera?.centerOn?.(
-        region.leftTile * tileSize + region.displayWidthPx / 2,
-        region.topTile * tileSize + region.displayHeightPx / 2
-      );
-      console.info(`[JkdE2EHarness] Heavenblock preview: ${region.label}`);
-      return;
-    }
     const level = event.code === "PageDown" ? "level1" : (event.code === "PageUp" ? "level2" : null);
     if (!level) return;
     event.preventDefault?.();
@@ -494,7 +476,7 @@ export function installJkdE2EHarness(scene) {
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands; Ctrl+Alt+H cycles the three Heavenblocks");
+  console.info("[JkdE2EHarness] Installed; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; F11 forces clear-weather benchmark lighting; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+Insert/Delete preview the two Sky Islands");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {
