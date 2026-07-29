@@ -1,0 +1,91 @@
+import {
+  ARC_CORE_UPGRADE_ID,
+  OMEGA_ARC_CORE_UPGRADE_ID,
+} from "./arcCoreConfig.js";
+
+export const HEAVENBLOCKS_PROGRESSION_CONFIG = Object.freeze({
+  version: 2,
+  relicUnlockCount: 3,
+  initialRegionId: "cloud-reef",
+  regionSequence: Object.freeze([
+    Object.freeze({
+      id: "cloud-reef",
+      unlockKind: "relics",
+      unlockValue: 3,
+      shrineName: "Aether Turbine",
+      componentName: "Aether Turbine",
+      unlocksRegionId: "halo-bastion",
+    }),
+    Object.freeze({
+      id: "halo-bastion",
+      unlockKind: "heart",
+      unlockValue: "cloud-reef",
+      shrineName: "Halo Regulator",
+      componentName: "Halo Regulator",
+      unlocksRegionId: "eclipse-scar",
+    }),
+    Object.freeze({
+      id: "eclipse-scar",
+      unlockKind: "heart",
+      unlockValue: "halo-bastion",
+      shrineName: "Eclipse Crucible",
+      componentName: "Eclipse Crucible",
+      unlocksRegionId: null,
+    }),
+  ]),
+  recipes: Object.freeze({
+    smallArcCore: Object.freeze({
+      id: "smallArcCore",
+      displayName: "Small Arc Core",
+      upgradeId: ARC_CORE_UPGRADE_ID,
+      requiredHearts: Object.freeze(["cloud-reef", "halo-bastion"]),
+      resources: Object.freeze({
+        cloudstone: 36,
+        stormglass: 12,
+        halostone: 36,
+        lumenite: 12,
+        silver: 60,
+        gold: 20,
+      }),
+      componentRegionIds: Object.freeze(["cloud-reef", "halo-bastion"]),
+    }),
+    omegaArcCore: Object.freeze({
+      id: "omegaArcCore",
+      displayName: "Omega Arc Core",
+      upgradeId: OMEGA_ARC_CORE_UPGRADE_ID,
+      requiresRecipeId: "smallArcCore",
+      requiredHearts: Object.freeze(["cloud-reef", "halo-bastion", "eclipse-scar"]),
+      resources: Object.freeze({
+        stormglass: 18,
+        lumenite: 18,
+        cinderstone: 72,
+        hellglass: 24,
+        silver: 120,
+        gold: 240,
+      }),
+      componentRegionIds: Object.freeze(["cloud-reef", "halo-bastion", "eclipse-scar"]),
+    }),
+  }),
+  interaction: Object.freeze({
+    shrinePromptRangeTiles: 3,
+    blockedStatusMs: 2600,
+    successStatusMs: 3600,
+    forgeRegionId: "halo-bastion",
+    accessDeniedCooldownMs: 1200,
+  }),
+  persistence: Object.freeze({
+    maxRegionIds: 3,
+    maxRecipeIds: 2,
+  }),
+  forgeUi: Object.freeze({
+    maxWidth: 920,
+    maxHeight: 650,
+    recipeCardHeight: 196,
+    recipeCardGap: 14,
+    componentSize: 118,
+    actionWidth: 190,
+    actionHeight: 46,
+    bodyFontSize: 13,
+    statusFontSize: 12,
+  }),
+});
