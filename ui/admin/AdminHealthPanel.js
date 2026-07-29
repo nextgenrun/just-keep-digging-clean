@@ -1,4 +1,6 @@
 import { RUNTIME_CANARY_CONFIG } from "../../values/runtimeCanaryConfig.js";
+import { PERFORMANCE_TELEMETRY_CONFIG } from "../../values/performanceTelemetryConfig.js";
+import { WORLD_VISUAL_RUNTIME_MODES } from "../../values/worldVisualRuntime.js";
 
 function assignStyle(element, style) {
   if (element?.style) Object.assign(element.style, style);
@@ -108,6 +110,9 @@ export class AdminHealthPanel {
     const summary = makeElement(this.documentRef, "div", styles.row);
     const build = makeElement(this.documentRef, "div", styles.row);
     const scenes = makeElement(this.documentRef, "div", styles.row);
+    const performance = makeElement(this.documentRef, "div", styles.row);
+    const hotPaths = makeElement(this.documentRef, "div", styles.row);
+    const streaming = makeElement(this.documentRef, "div", styles.row);
     const findings = makeElement(this.documentRef, "div", styles.row);
     const previous = makeElement(this.documentRef, "div", styles.row);
     const eventsTitle = makeElement(this.documentRef, "div", styles.row);
@@ -123,10 +128,34 @@ export class AdminHealthPanel {
     copy.addEventListener("click", () => this._copyReport(copy));
     close.addEventListener("click", () => this.hide());
     actions.append(copy, close);
-    details.append(summary, build, scenes, findings, previous, eventsTitle, events, actions);
+    details.append(
+      summary,
+      build,
+      scenes,
+      performance,
+      hotPaths,
+      streaming,
+      findings,
+      previous,
+      eventsTitle,
+      events,
+      actions,
+    );
     this.root.append(toggle, details);
     this.documentRef.body?.appendChild?.(this.root);
-    this.nodes = { toggle, details, summary, build, scenes, findings, previous, events };
+    this.nodes = {
+      toggle,
+      details,
+      summary,
+      build,
+      scenes,
+      performance,
+      hotPaths,
+      streaming,
+      findings,
+      previous,
+      events,
+    };
     this.unsubscribe = this.monitor.subscribe(snapshot => this._render(snapshot));
   }
 
@@ -141,6 +170,64 @@ export class AdminHealthPanel {
     this.nodes.build.textContent = `${labels.build}: ${snapshot.buildId} (${snapshot.mode})`;
     const sceneText = snapshot.telemetry.activeScenes.join(", ") || "none";
     this.nodes.scenes.textContent = `${labels.scenes}: ${sceneText} · ${labels.fps}: ${snapshot.telemetry.fps ?? "n/a"}`;
+    const performance = snapshot.telemetry.performance;
+    const performanceLabels = PERFORMANCE_TELEMETRY_CONFIG.ui.labels;
+    const separator = PERFORMANCE_TELEMETRY_CONFIG.ui.separator;
+    const unavailable = performanceLabels.unavailable;
+    const formatMilliseconds = value => Number.isFinite(value)
+      ? `${value}${performanceLabels.milliseconds}`
+      : unavailable;
+    this.nodes.performance.textContent = [
+      `${performanceLabels.performance}: ${performanceLabels.p95} ${formatMilliseconds(performance?.frameMs?.p95)}`,
+      `${performanceLabels.p99} ${formatMilliseconds(performance?.frameMs?.p99)}`,
+      `${performanceLabels.worst} ${formatMilliseconds(performance?.frameMs?.max)}`,
+      `${performanceLabels.onePercentLow} ${performance?.onePercentLowFps ?? unavailable} ${performanceLabels.framesPerSecond}`,
+      `${performanceLabels.longFrames} ${performance?.longFramesInWindow ?? 0}`,
+    ].join(separator);
+    const phaseOrder = PERFORMANCE_TELEMETRY_CONFIG.ui.phaseOrder;
+    const phaseLabels = PERFORMANCE_TELEMETRY_CONFIG.ui.phaseLabels;
+    this.nodes.hotPaths.textContent = [
+      `${performanceLabels.hotPaths}:`,
+      ...phaseOrder.map(name => (
+        `${phaseLabels[name]} ${formatMilliseconds(performance?.spans?.[name]?.p95)}`
+      )),
+    ].join(separator);
+    const backgrounds = performance?.streaming?.backgrounds;
+    const tileWindow = performance?.streaming?.tileWindow;
+    const worldRenderer = performance?.streaming?.worldRenderer || tileWindow;
+    if (worldRenderer?.mode === WORLD_VISUAL_RUNTIME_MODES.scenic) {
+      const digits = PERFORMANCE_TELEMETRY_CONFIG.formatting.precisionDigits;
+      const lastSync = Number.isFinite(worldRenderer.lastSyncMs)
+        ? Number(worldRenderer.lastSyncMs.toFixed(digits))
+        : null;
+      this.nodes.streaming.textContent = [
+        `${performanceLabels.streaming}: ${performanceLabels.scenicSyncs} ${worldRenderer.syncs ?? unavailable}`,
+        `${performanceLabels.scenicSkipped} ${worldRenderer.skippedSyncs ?? unavailable}`,
+        `${performanceLabels.scenicLastSync} ${formatMilliseconds(lastSync)}`,
+        `${performanceLabels.assetsPending} ${worldRenderer.assetsPending ?? unavailable}`,
+        `${performanceLabels.assetsResident} ${worldRenderer.assetsResident ?? unavailable}`,
+        `${performanceLabels.assetsCancelled} ${worldRenderer.assetsCancelled ?? unavailable}`,
+        `${performanceLabels.demandedAssets} ${worldRenderer.demandedAssets ?? unavailable}`,
+        `${performanceLabels.demandStreaming} ${
+          worldRenderer.demandStreamingEnabled
+            ? performanceLabels.enabled
+            : performanceLabels.disabled
+        }`,
+        `${performanceLabels.scheduler} ${
+          worldRenderer.schedulerEnabled ? performanceLabels.enabled : performanceLabels.disabled
+        }`,
+      ].join(separator);
+    } else {
+      this.nodes.streaming.textContent = [
+        `${performanceLabels.streaming}: ${performanceLabels.backgroundUpdates} ${backgrounds?.updates ?? unavailable}`,
+        `${performanceLabels.backgroundSkipped} ${backgrounds?.skippedUpdates ?? unavailable}`,
+        `${performanceLabels.backgroundCandidates} ${backgrounds?.lastCandidateCount ?? unavailable}/${backgrounds?.activeObjects ?? unavailable}`,
+        `${performanceLabels.texturesQueued} ${backgrounds?.queuedTextures ?? unavailable}`,
+        `${performanceLabels.tileBatches} ${tileWindow?.batches ?? unavailable}`,
+        `${performanceLabels.tileCommits} ${tileWindow?.commits ?? unavailable}`,
+        `${performanceLabels.tilePending} ${tileWindow?.pendingTargetTop ?? unavailable}`,
+      ].join(separator);
+    }
     this.nodes.findings.textContent = snapshot.findings.map(item => item.message).join(" | ");
     this.nodes.findings.style.color = color;
     this.nodes.previous.textContent = snapshot.previousCritical ? labels.previousCritical : "";

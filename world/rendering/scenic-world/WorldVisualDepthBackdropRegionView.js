@@ -1,12 +1,15 @@
-function clamp01(value) {
-  return Math.max(0, Math.min(1, Number(value) || 0));
-}
-
-function mixColor(from, to, amount) {
-  const t = clamp01(amount);
-  const channel = shift => Math.round(((from >> shift) & 255) * (1 - t) + ((to >> shift) & 255) * t);
-  return (channel(16) << 16) | (channel(8) << 8) | channel(0);
-}
+import {
+  resolveWorldVisualDepthBackdropTint,
+} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import {
+  setPositionIfChanged,
+  setTintIfChanged,
+} from "./worldVisualRenderState.js";
+import {
+  createWorldVisualBlendMask,
+  resolveWorldVisualBlendBits,
+} from
+  "./worldVisualBlendMaskFrame.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 
 function sourceSize(scene, asset, videoConfig) {
   if (asset.type === "video") {
@@ -29,21 +32,87 @@ function resolveSegmentGeometry(segment, tileSize) {
     1,
     Number(segment.logicalHeightPx) || Number(segment.heightTiles) * tileSize || tileSize
   );
+  const strideXPx = Math.max(
+    1,
+    Number(segment.strideXPx) || widthPx - (Number(segment.overlapXPx) || 0)
+  );
+  const strideYPx = Math.max(
+    1,
+    Number(segment.strideYPx) || heightPx - (Number(segment.overlapYPx) || 0)
+  );
   return {
     widthPx,
     heightPx,
     widthTiles: widthPx / tileSize,
     heightTiles: heightPx / tileSize,
+    strideXPx,
+    strideYPx,
+    strideXTiles: strideXPx / tileSize,
+    strideYTiles: strideYPx / tileSize,
+  };
+}
+
+function resolveRegionSpan(region, config, tileSize) {
+  const hasPreviousRegion = config.regions?.some(entry => (
+    entry.id !== region.id
+    && entry.bottomTileExclusive === region.topTile
+  )) || false;
+  const crossBiomeOverlapYPx = hasPreviousRegion
+    ? Math.max(0, Number(config.blend?.crossBiomeOverlapYPx) || 0)
+    : 0;
+  const topPx = region.topTile * tileSize - crossBiomeOverlapYPx;
+  const bottomPx = region.bottomTileExclusive * tileSize;
+  return {
+    hasPreviousRegion,
+    crossBiomeOverlapYPx,
+    topPx,
+    bottomPx,
+    topTile: topPx / tileSize,
+  };
+}
+
+function segmentCount(regionSpanPx, cardSizePx, stridePx) {
+  if (regionSpanPx <= cardSizePx) return 1;
+  return Math.ceil((regionSpanPx - cardSizePx) / stridePx) + 1;
+}
+
+function visibleCardRange(
+  visibleStartPx,
+  visibleEndPx,
+  cardSizePx,
+  stridePx,
+  count,
+  margin
+) {
+  return {
+    first: Math.max(
+      0,
+      Math.floor((visibleStartPx - cardSizePx) / stridePx) + 1 - margin
+    ),
+    last: Math.min(
+      count - 1,
+      Math.floor(Math.max(0, visibleEndPx - 1) / stridePx) + margin
+    ),
   };
 }
 
 export class WorldVisualDepthBackdropRegionView {
-  constructor(scene, region, config, backwalls = region.backwalls, motionEnabled = true) {
+  constructor(
+    scene,
+    region,
+    config,
+    backwalls = region.backwalls,
+    motionEnabled = true,
+    blendMaskAsset = config.blend?.maskAtlas,
+    fallbackAsset = null
+  ) {
     this.scene = scene;
     this.region = region;
     this.config = config;
     this.backwalls = backwalls;
     this.motionEnabled = motionEnabled;
+    this.blendMaskAsset = blendMaskAsset;
+    this.fallbackAsset = fallbackAsset;
     this.segments = new Map();
   }
 
@@ -60,7 +129,26 @@ export class WorldVisualDepthBackdropRegionView {
       for (let column = range.firstColumn; column <= range.lastColumn; column += 1) {
         const id = `${column}:${row}`;
         needed.add(id);
-        if (!this.segments.has(id)) this.segments.set(id, this._createSegment(column, row));
+        const requestedAsset = this._resolveSegmentAsset(column, row);
+        const renderAsset = this._resolveRenderableSegmentAsset(requestedAsset);
+        const existing = this.segments.get(id);
+        if (!renderAsset) {
+          if (existing) {
+            this._destroySegment(existing);
+            this.segments.delete(id);
+          }
+          continue;
+        }
+        if (existing
+          && existing.asset?.key === renderAsset.key
+          && existing.requestedAssetKey === requestedAsset?.key) {
+          continue;
+        }
+        if (existing) this._destroySegment(existing);
+        this.segments.set(
+          id,
+          this._createSegment(column, row, renderAsset, requestedAsset)
+        );
       }
     }
     this._prune(needed);
@@ -68,55 +156,134 @@ export class WorldVisualDepthBackdropRegionView {
     return true;
   }
 
-  _resolveSegmentRange(bounds) {
+  resolveRequiredAssets(
+    bounds,
+    neighborSegments = this.config.segment.neighborSegments
+  ) {
+    const range = this._resolveSegmentRange(bounds, neighborSegments);
+    if (!range || this.backwalls.length === 0) return [];
+    const assets = new Map();
+    for (let row = range.firstRow; row <= range.lastRow; row += 1) {
+      for (let column = range.firstColumn; column <= range.lastColumn; column += 1) {
+        const asset = this._resolveSegmentAsset(column, row);
+        assets.set(asset.key, asset);
+      }
+    }
+    return [...assets.values()];
+  }
+
+  getActiveAssets() {
+    const assets = new Map();
+    for (const segment of this.segments.values()) {
+      if (segment.asset) assets.set(segment.asset.key, segment.asset);
+    }
+    return [...assets.values()];
+  }
+
+  _resolveSegmentRange(
+    bounds,
+    neighborSegments = this.config.segment.neighborSegments
+  ) {
     const { region } = this;
     const { segment } = this.config;
-    const geometry = resolveSegmentGeometry(segment, this.scene.config.tileSize);
+    const tileSize = this.scene.config.tileSize;
+    const geometry = resolveSegmentGeometry(segment, tileSize);
+    const regionSpan = resolveRegionSpan(region, this.config, tileSize);
     if (bounds.right <= region.leftTile || bounds.left >= region.rightTileExclusive
-      || bounds.bottom <= region.topTile || bounds.top >= region.bottomTileExclusive) return null;
-    const columns = Math.ceil((region.rightTileExclusive - region.leftTile) / geometry.widthTiles);
-    const rows = Math.ceil((region.bottomTileExclusive - region.topTile) / geometry.heightTiles);
-    const visibleLeft = Math.max(bounds.left, region.leftTile) - region.leftTile;
-    const visibleRight = Math.min(bounds.right - 1, region.rightTileExclusive - 1) - region.leftTile;
-    const visibleTop = Math.max(bounds.top, region.topTile) - region.topTile;
-    const visibleBottom = Math.min(bounds.bottom - 1, region.bottomTileExclusive - 1) - region.topTile;
+      || bounds.bottom <= regionSpan.topTile
+      || bounds.top >= region.bottomTileExclusive) return null;
+    const regionWidthPx = (region.rightTileExclusive - region.leftTile) * tileSize;
+    const regionHeightPx = regionSpan.bottomPx - regionSpan.topPx;
+    const columns = segmentCount(regionWidthPx, geometry.widthPx, geometry.strideXPx);
+    const rows = segmentCount(regionHeightPx, geometry.heightPx, geometry.strideYPx);
+    const visibleLeftPx = (
+      Math.max(bounds.left, region.leftTile) - region.leftTile
+    ) * tileSize;
+    const visibleRightPx = (
+      Math.min(bounds.right, region.rightTileExclusive) - region.leftTile
+    ) * tileSize;
+    const visibleTopPx = (
+      Math.max(bounds.top, regionSpan.topTile) * tileSize
+      - regionSpan.topPx
+    );
+    const visibleBottomPx = (
+      Math.min(bounds.bottom, region.bottomTileExclusive) * tileSize
+      - regionSpan.topPx
+    );
+    const columnRange = visibleCardRange(
+      visibleLeftPx,
+      visibleRightPx,
+      geometry.widthPx,
+      geometry.strideXPx,
+      columns,
+      neighborSegments
+    );
+    const rowRange = visibleCardRange(
+      visibleTopPx,
+      visibleBottomPx,
+      geometry.heightPx,
+      geometry.strideYPx,
+      rows,
+      neighborSegments
+    );
     return {
-      firstColumn: Math.max(0, Math.floor(visibleLeft / geometry.widthTiles) - segment.neighborSegments),
-      lastColumn: Math.min(columns - 1, Math.floor(visibleRight / geometry.widthTiles) + segment.neighborSegments),
-      firstRow: Math.max(0, Math.floor(visibleTop / geometry.heightTiles) - segment.neighborSegments),
-      lastRow: Math.min(rows - 1, Math.floor(visibleBottom / geometry.heightTiles) + segment.neighborSegments),
+      firstColumn: columnRange.first,
+      lastColumn: columnRange.last,
+      firstRow: rowRange.first,
+      lastRow: rowRange.last,
+      columns,
+      rows,
     };
   }
 
-  _createSegment(column, row) {
+  _resolveSegmentAsset(column, row) {
+    return this.backwalls[(column + row * 3) % this.backwalls.length];
+  }
+
+  _resolveRenderableSegmentAsset(requestedAsset) {
+    if (this._isAssetReady(requestedAsset)) return requestedAsset;
+    const readyRegionalAsset = this.backwalls.find(asset => this._isAssetReady(asset));
+    if (readyRegionalAsset) return readyRegionalAsset;
+    return this._isAssetReady(this.fallbackAsset) ? this.fallbackAsset : null;
+  }
+
+  _isAssetReady(asset) {
+    if (!asset) return false;
+    return asset.type === "video"
+      ? Boolean(this.scene.cache?.video?.exists(asset.key))
+      : this.scene.textures.exists(asset.key);
+  }
+
+  _createSegment(column, row, backwallAsset, requestedAsset = backwallAsset) {
     const { region, config } = this;
     const { segment, render } = config;
     const tileSize = this.scene.config.tileSize;
     const geometry = resolveSegmentGeometry(segment, tileSize);
-    const startTileX = region.leftTile + column * geometry.widthTiles;
-    const startTileY = region.topTile + row * geometry.heightTiles;
-    const widthTiles = Math.min(geometry.widthTiles, region.rightTileExclusive - startTileX);
-    const heightTiles = Math.min(geometry.heightTiles, region.bottomTileExclusive - startTileY);
-    const continuesX = startTileX + widthTiles < region.rightTileExclusive;
-    const continuesY = startTileY + heightTiles < region.bottomTileExclusive;
-    const contentWidthPx = Math.round(widthTiles * tileSize);
-    const contentHeightPx = Math.round(heightTiles * tileSize);
-    const fullWidth = contentWidthPx + (continuesX ? segment.overlapPx : 0);
-    const fullHeight = contentHeightPx + (continuesY ? segment.overlapPx : 0);
-    const baseX = Math.round(startTileX * tileSize);
-    const baseY = Math.round(startTileY * tileSize);
-    const flipX = (column + row) % 2 === 1;
-    const flipY = row % 2 === 1;
-    const backwallAsset = this.backwalls[(column + row * 3) % this.backwalls.length];
+    const regionSpan = resolveRegionSpan(region, config, tileSize);
+    const regionWidthPx = (region.rightTileExclusive - region.leftTile) * tileSize;
+    const regionHeightPx = regionSpan.bottomPx - regionSpan.topPx;
+    const columns = segmentCount(regionWidthPx, geometry.widthPx, geometry.strideXPx);
+    const rows = segmentCount(regionHeightPx, geometry.heightPx, geometry.strideYPx);
+    const regionIndex = Math.max(0, config.regions?.indexOf(region) ?? 0);
+    const cardDepth = (
+      render.backwallDepth
+      + regionIndex * (Number(render.regionDepthStride) || 0)
+      + (row * columns + column)
+        * (Number(render.segmentDepthStep) || 0)
+    );
+    const baseX = Math.round(region.leftTile * tileSize + column * geometry.strideXPx);
+    const baseY = Math.round(regionSpan.topPx + row * geometry.strideYPx);
+    const regionRightPx = region.rightTileExclusive * tileSize;
+    const regionBottomPx = region.bottomTileExclusive * tileSize;
+    const contentWidthPx = Math.min(geometry.widthPx, regionRightPx - baseX);
+    const contentHeightPx = Math.min(geometry.heightPx, regionBottomPx - baseY);
     const cropRatioX = contentWidthPx / geometry.widthPx;
     const cropRatioY = contentHeightPx / geometry.heightPx;
     const resolveCardGeometry = asset => {
       const source = sourceSize(this.scene, asset, config.motion.smoothVideo);
       const cropWidth = Math.round(source.width * cropRatioX);
       const cropHeight = Math.round(source.height * cropRatioY);
-      const cropX = flipX ? source.width - cropWidth : 0;
-      const cropY = flipY ? source.height - cropHeight : 0;
-      return { cropX, cropY, cropWidth, cropHeight };
+      return { cropX: 0, cropY: 0, cropWidth, cropHeight };
     };
     const applyCardGeometry = (card, cardGeometry) => card
       .setCrop(
@@ -125,15 +292,36 @@ export class WorldVisualDepthBackdropRegionView {
         cardGeometry.cropWidth,
         cardGeometry.cropHeight
       )
-      .setDisplaySize(fullWidth, fullHeight)
-      .setFlipX(flipX)
-      .setFlipY(flipY);
+      // Tail cards are cropped frames. Scale from that cropped frame rather
+      // than the complete source texture so the right/bottom world boundary
+      // remains covered without a black sliver.
+      .setScale(
+        contentWidthPx / cardGeometry.cropWidth,
+        contentHeightPx / cardGeometry.cropHeight
+      );
+    const blend = this._createBlendMask(
+      baseX,
+      baseY,
+      contentWidthPx,
+      contentHeightPx,
+      {
+        left: column > 0,
+        top: row > 0 || regionSpan.hasPreviousRegion,
+      }
+    );
+    const applyBlendMask = card => {
+      if (blend?.bitmapMask && typeof card.setMask === "function") {
+        card.setMask(blend.bitmapMask);
+      }
+      return card;
+    };
     const makeImageCard = (asset, depth, name) => {
       const cardGeometry = resolveCardGeometry(asset);
       const card = this.scene.add.image(baseX, baseY, asset.key)
         .setOrigin(0)
         .setDepth(depth);
       applyCardGeometry(card, cardGeometry);
+      applyBlendMask(card);
       card.name = name;
       return card;
     };
@@ -144,6 +332,7 @@ export class WorldVisualDepthBackdropRegionView {
         .setDepth(depth)
         .setVisible(false);
       card.name = name;
+      applyBlendMask(card);
       card.once("created", () => {
         applyCardGeometry(card, cardGeometry);
         card.setVisible(true);
@@ -155,50 +344,89 @@ export class WorldVisualDepthBackdropRegionView {
     const name = `world-visual-depth-${region.id}-${column}-${row}`;
     const isSmoothVideo = backwallAsset.type === "video";
     const backwall = isSmoothVideo
-      ? makeVideoCard(backwallAsset, render.backwallDepth, name)
-      : makeImageCard(backwallAsset, render.backwallDepth, name);
+      ? makeVideoCard(backwallAsset, cardDepth, name)
+      : makeImageCard(backwallAsset, cardDepth, name);
     return {
       backwall, baseX, baseY, column, row,
+      asset: backwallAsset,
+      requestedAssetKey: requestedAsset?.key || null,
+      blendMaskImage: blend?.maskImage || null,
+      bitmapMask: blend?.bitmapMask || null,
       isSmoothVideo,
       videoPaused: !this.motionEnabled,
-      widthPx: fullWidth,
-      heightPx: fullHeight,
-      centerTileY: startTileY + heightTiles / 2,
+      widthPx: contentWidthPx,
+      heightPx: contentHeightPx,
+      centerTileY: (baseY + contentHeightPx / 2) / tileSize,
+    };
+  }
+
+  _createBlendMask(x, y, width, height, edges) {
+    const blend = this.config.blend;
+    const maskAtlas = this.blendMaskAsset || blend?.maskAtlas;
+    if (!blend?.enabled || !maskAtlas || !this.scene.textures.exists(maskAtlas.key)) {
+      return null;
+    }
+    const bits = resolveWorldVisualBlendBits(blend, edges);
+    const mask = createWorldVisualBlendMask(
+      this.scene,
+      maskAtlas,
+      blend,
+      bits,
+      x,
+      y,
+      width,
+      height
+    );
+    if (!mask) return null;
+    return {
+      maskImage: mask.image,
+      bitmapMask: mask.bitmap,
     };
   }
 
   update(time, lighting, cameraOffset = null) {
     if (!lighting) return;
     const { region } = this;
-    const { lighting: grade } = region;
-    const depthSpan = region.bottomTileExclusive - region.topTile;
     const cameraX = Number(cameraOffset?.x) || 0;
     const cameraY = Number(cameraOffset?.y) || 0;
     const pauseVideo = !this.motionEnabled
       || Number(this.scene.game?.loop?.actualFps) < this.config.motion.smoothVideo.pauseBelowFps;
     for (const segment of this.segments.values()) {
-      segment.backwall.setPosition(segment.baseX + cameraX, segment.baseY + cameraY);
+      const x = segment.baseX + cameraX;
+      const y = segment.baseY + cameraY;
+      setPositionIfChanged(segment.backwall, x, y);
+      setPositionIfChanged(segment.blendMaskImage, x, y);
       if (segment.isSmoothVideo && segment.videoPaused !== pauseVideo) {
         segment.backwall.setPaused(pauseVideo);
         segment.videoPaused = pauseVideo;
       }
-      const depthRatio = clamp01((segment.centerTileY - region.topTile) / depthSpan);
-      const tintMix = grade.surfaceTintMix + (grade.deepTintMix - grade.surfaceTintMix) * depthRatio;
-      const gradedTint = mixColor(lighting.farTint, grade.deepTint, tintMix);
-      const lightningMix = lighting.lightning * grade.lightningTintMix;
-      segment.backwall.setTint(lightningMix > 0
-        ? mixColor(gradedTint, grade.lightningTint, lightningMix)
-        : gradedTint);
+      setTintIfChanged(
+        segment.backwall,
+        resolveWorldVisualDepthBackdropTint(
+          segment.centerTileY,
+          lighting,
+          this.config,
+          region
+        )
+      );
     }
   }
 
   _prune(needed) {
     for (const [id, segment] of this.segments) {
       if (needed.has(id)) continue;
-      if (segment.isSmoothVideo) segment.backwall.stop();
-      segment.backwall.destroy();
+      this._destroySegment(segment);
       this.segments.delete(id);
     }
+  }
+
+  _destroySegment(segment) {
+    if (!segment) return;
+    if (segment.isSmoothVideo) segment.backwall.stop();
+    segment.backwall.clearMask?.(false);
+    segment.backwall.destroy();
+    segment.bitmapMask?.destroy?.();
+    segment.blendMaskImage?.destroy?.();
   }
 
   _destroySegments() {

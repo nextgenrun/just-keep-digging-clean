@@ -21,10 +21,53 @@ tail, threat medallion, and burrow-warning seam. The matching
 approved in-game scale and readability direction. Runtime alpha masters and
 WebPs live under `sprites/environment/graveborer-wurm-v1/`.
 
+`2026-07-28-demon-mist-three-layer-background-mockup-v1.png` is the review-only
+surface-background concept with a far mountain plate, forward high-resolution
+mist flowing around the mountain demon maw, and contrast-separated foreground
+pine silhouettes. It is not wired into runtime.
+
+`2026-07-28-demon-mist-three-layer-background-mockup-v2.png` keeps that
+composition while pushing the near pines forward with darker cores, brighter
+icy edge light, clearer mist separation, and a restrained breathing-cavern pose
+for the demon maw. It is also review-only and not wired into runtime.
+
+`2026-07-28-demon-mist-baked-motion-variant-v3.mp4` is the review-only,
+eight-second first-pass baked-motion proof for V2. It remains retained as a
+rejected comparison because its subpixel movement was not visibly perceptible.
+
+`2026-07-28-demon-mist-baked-motion-variant-v4.mp4` is the corrected review
+master: six seconds at 60 FPS with visible-but-gentle whole-plate travel. Its
+three finished raster plates still use no individual mouth/eye/tree animation,
+optical flow, deformation, HTML, or runtime wiring. The adjacent manifest pins
+the motion amplitudes, output contract, and SHA-256; the matching GIF is the
+lower-resolution autoplay review copy.
+
+`2026-07-28-ui-notification-carousel-mockup-v1.png` is the first review-only
+uncluttered notification direction. `2026-07-28-ui-notification-carousel-mockup-v2.png`
+is the cleaner revision: one persistent message at a time, only the popup's
+clickable side arrows and upper-right X, a queue counter, and no duplicated
+control strip or redundant floating reward text. Neither is wired into runtime.
+
 ## Active Tools
 
 | Tool | Purpose |
 |------|---------|
+| `2026-07-28-build-star-block-crystal-v2.py` | Normalize the six approved ImageGen crystal-star masters into exact-family 512 px release cores, paired 3x2 beauty/emissive Star Block atlases, a hash-pinned manifest, and the exact 94 px one-to-one pop / 136 px ascent proof |
+| `2026-07-28-build-titan-creature-footprints-v2.py` | Project the 25 high-resolution 768px Titan stance alpha silhouettes into their authoritative underground tile grids, then emit the values module and hash-pinned footprint manifest |
+| `2026-07-28-build-thunderstrike-indicator-v3.py` | Crop, alpha-validate, and losslessly export the approved ImageGen milestone rings, storm check, Roman numerals, and dynamic-copy backplates used by the Thunderstrike timing minigame |
+| `2026-07-28-build-pickaxe-hud-overlays-v1.py` | Composite the seven approved pickaxe icons into exact 417x93 transparent HUD medallion, tier-rivet, GP-engraving, and end-cap overlays; emit hashes and a 320x71 readability sheet |
+| `2026-07-28-build-pickaxe-icons-v1.py` | Normalize the seven transparent ImageGen pickaxe masters into consistent 256 px RGBA runtime icons, validate alpha/coverage, hash the exact inventory, and build the all-tier review sheet with 64 px UI proofs |
+| `2026-07-28-build-starlight-talent-tree-v2.py` | Slice, chroma-clean, alpha-trim, validate, and hash the 18 ImageGen-authored Starlight panels, dedicated three-bay Engine page, modal shell/glyphs, talent frames, bespoke Bobo lock, branch filaments, and UI-safe celestial medallions |
+| `2026-07-28-build-additive-surface-props-v2.py` | Trim, scale, alpha-validate, losslessly encode, hash, and assemble a physical-scale review sheet for seven moon-free ImageGen surface chapter anchors without replacing the existing prop kit |
+| `2026-07-28-build-underground-visual-expansion-v3.py` | Validate and package 50 full underground ImageGen backgrounds plus 50 chroma-isolated terrain structures, extract edge-decontaminated alpha, emit optimized WebPs, hashes, coverage metrics, prompt provenance, and two QA contact sheets |
+| `2026-07-28-build-underground-terrain-blend-v4.py` | Validate 50 approved ImageGen terrain masters, build alpha-feathered additive WebPs, derive 200 irregular painted exposed-top cap frames, emit the 16-state backdrop blend-mask atlas, hashes, prompt provenance, and visual QA sheets |
+| `2026-07-28-build-ground-structure-blend-v4.py` | Preserve the 50 approved V3 ground-structure compositions as separate V4 WebPs with real 192x128 edge alpha, hashes, coverage evidence, manifest, and checkerboard QA sheet |
+| `2026-07-28-build-thin-surface-ground.py` | Crop the approved Option A slate pixels into a 48px Town Square strip plus matching mirrored-repeat full-width surface cap, preserving RGB/RGBA pixels and emitting hash provenance |
+| `2026-07-28-build-titan-surface-stances-v1.py` | Normalize the 25 independently generated Titan Walk alpha masters into baseline-aligned 768px transparent WebPs, validate alpha/coverage/inventory, and emit hashes plus a complete visual-QA contact sheet |
+| `2026-07-28-build-titan-chambers-v3.py` | Derive transparent organic-edge WebPs from the 25 approved ImageGen chamber masters without repainting them, validate edge/center alpha plus hashes, resume partial builds, and emit biome-composited seam QA |
+| `2026-07-28-build-surface-landscape-library-overviews.mjs` | Validate the fourteen review-only full-surface ImageGen panels, emit SHA-256 provenance, and assemble exact labeled Level 1, Level 2, and complete-library PNG overview sheets without repainting the source artwork |
+| `2026-07-28-build-demon-mist-baked-motion-variant-v4.py` | Apply the corrected visible-motion profile to the shared V3 three-plate renderer and emit a versioned review-only V4 proof |
+| `2026-07-28-build-demon-mist-baked-motion-variant-v3.py` | Shared three-baked-plate renderer that produces seamless high-quality H.264 proofs and hash-pinned review-only manifests |
 | `2026-07-26-build-surface-prop-scale-sheet-v1.py` | Render the live Level 1 and Level 2 cutouts from their values/asset-key SSOT at one player-relative physical scale for review |
 | `2026-07-26-lift-surface-prop-midtone-v1.py` | Build non-resized, alpha-preserving Level 2 v2 prop variants from the retained ImageGen v1 cutouts, lifting only dark midtones for forest readability and emitting a hash manifest |
 | `2026-07-26-build-hud-torch-states.py` | Composite the generated extinguished torch onto the locked approved HUD core while preserving its exact 417x93 geometry |
@@ -121,7 +164,17 @@ WebPs live under `sprites/environment/graveborer-wurm-v1/`.
 | `2026-07-26-build-milestone-pillar-runtime-contact-sheet.py` | Assemble the five stage-5 Phaser review captures into one labeled visual-approval contact sheet |
 | `2026-07-26-build-approved-pillar-assets.py` | Pixel-verify the user's two approved screenshots against their reviewed sheets, promote screenshot 1/C and screenshot 2/A into ten RGBA production stages, and emit hashes/provenance under `sprites/environment/approved-pillars-v1/` |
 | `2026-07-26-build-earthquake-feedback-ui-v2.py` | Pack the chroma-cleaned ImageGen seismic status master into a 2x Phaser status plate and reusable hazard medallion with alpha and size validation |
+| `2026-07-28-build-earthquake-tile-feedback-v1.py` | Split the chroma-cleaned three-effect ImageGen atlas into validated 512px fracture, collapse, and rubble-return Phaser sprites |
+| `2026-07-28-build-earthquake-dodge-review-assets.py` | Split the approved 2x2 ImageGen dodge atlas into four validated transparent landing-footprint, boulder, ceiling-fracture, and impact-debris review sprites |
+| `2026-07-28-build-earthquake-dodge-review-assets.py` | Split the approved 2x2 ImageGen dodge atlas into four validated transparent landing-footprint, boulder, ceiling-fracture, and impact-debris review sprites |
 | `2026-07-26-build-exact-town-square-ground.py` | Crop the approved Option A ground band pixel-exactly, append only a 129 px mirrored alpha handoff, and emit the ground-only v2 runtime asset plus hash provenance |
+| `2026-07-28-build-overground-texture-clarity-assets.py` | Historical rejected comparison builder for the earlier resource/reward audit; its Teleport rollback and output atlases are not production |
+| `2026-07-28-build-opaque-imagegen-tile-atlases.py` | Historical rejected opaque-block builder retained only to reproduce audit evidence; none of its resource outputs are production |
+| `2026-07-28-build-approved-2d-resource-overlays-v5.py` | Validate six approved front-facing ImageGen alpha sheets, retain four accepted overlays, pack the RGBA 188 px semantic atlas and 94 px v6 recognition atlas, export per-resource WebPs, and emit deterministic hashes plus four-ground runtime QA |
+| `2026-07-28-build-wide-embedded-resource-overlays-v6.py` | Pack ten checked-in ImageGen ground-formation sheets into 60 unique transparent semantic frames and a v7 recognition atlas, preserve the 18 approved special frames, export six-variant WebPs, and emit three-ground QA plus deterministic hashes |
+| `2026-07-28-build-weather-particles-v2.py` | Re-extract the approved clean ImageGen rain, snow, water, and atmosphere sources, isolate usable particles, pack a transparent 32-frame production sheet, and reject residual chroma-green pixels |
+| `2026-07-28-build-whole-world-visual-expansion-v5.py` | Pin exactly 100 approved ImageGen masters, build 50 scenic cards, 40 irregular terrain plates, ten 20-frame cap atlases, ten alpha surface-ground cards, a 16-state backdrop mask, contact sheets, hashes, and the additive V5 manifest |
+| `2026-07-29-build-starlight-talent-tree-v3.py` | Preserve the V2 Starlight pack and build the native-ultrawide three-card foundation, authored live-copy plaques, carousel controls, alpha validation, and the V3 hash manifest |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

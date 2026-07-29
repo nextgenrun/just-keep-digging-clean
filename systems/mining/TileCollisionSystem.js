@@ -1,4 +1,22 @@
-import { PLAYER_COLLISION_CONFIG } from "../../values/playerCollision.js";
+import {
+  PLAYER_COLLISION_CONFIG,
+  resolveSurfaceDropThroughEnabled,
+} from "../../values/playerCollision.js";
+import {
+  canBeginSurfaceDrop,
+  crossesSurfacePlatform,
+  ignoresSurfaceTile,
+  isAtSurfacePlatform,
+  refreshSurfaceDropState,
+  surfacePlatformCoversBody,
+} from "./surfaceDropCollision.js";
+import {
+  circleAxisReach,
+  circleIntersectsRect,
+  distanceToInterval,
+  getCircleCollisionGeometry,
+  isCircleCollisionBody,
+} from "./collisionShapeMath.js";
 
 /**
  * Custom tile-based collision system for Phaser
@@ -14,10 +32,13 @@ export class TileCollisionSystem {
     this.skinPx = collisionConfig.skinPx;
     this.groundProbePx = collisionConfig.groundProbePx;
     this.maxStepPx = this.tileSize * collisionConfig.maxStepTiles;
+    this.surfaceDropThroughEnabled = resolveSurfaceDropThroughEnabled(collisionConfig);
   }
 
   _bodyTileBounds(entity, offsetX = 0, offsetY = 0) {
-    const skin = Math.min(this.skinPx, entity.w * 0.25, entity.h * 0.25);
+    const skin = isCircleCollisionBody(entity)
+      ? 0
+      : Math.min(this.skinPx, entity.w * 0.25, entity.h * 0.25);
     const left = entity.x + offsetX;
     const top = entity.y + offsetY;
     return {
@@ -28,6 +49,23 @@ export class TileCollisionSystem {
     };
   }
 
+  _intersectsEntityTile(entity, tx, ty, offsetX = 0, offsetY = 0) {
+    const circle = getCircleCollisionGeometry(entity, offsetX, offsetY);
+    if (!circle) return true;
+    const left = tx * this.tileSize;
+    const top = ty * this.tileSize;
+    return circleIntersectsRect(
+      circle.x,
+      circle.y,
+      circle.radius,
+      left,
+      top,
+      left + this.tileSize,
+      top + this.tileSize,
+      this.skinPx * 0.05,
+    );
+  }
+
   getOverlappingSolidTiles(entity) {
     if (!entity || !Number.isFinite(entity.x) || !Number.isFinite(entity.y)) return [];
     if (!(entity.w > 0) || !(entity.h > 0)) return [];
@@ -35,7 +73,12 @@ export class TileCollisionSystem {
     const overlaps = [];
     for (let ty = bounds.top; ty <= bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
-        if (this.isSolidAtTile(tx, ty)) overlaps.push({ tx, ty });
+        if (
+          this._isSolidForEntity(entity, tx, ty)
+          && this._intersectsEntityTile(entity, tx, ty)
+        ) {
+          overlaps.push({ tx, ty });
+        }
       }
     }
     return overlaps;
@@ -116,6 +159,44 @@ export class TileCollisionSystem {
     return this.worldModel.isSolid(tx, ty);
   }
 
+  _isSolidForEntity(entity, tx, ty, movementY = 0) {
+    if (typeof this.worldModel.getTileType === "function"
+      && ignoresSurfaceTile(
+        entity,
+        ty,
+        this.worldModel.getTileType(tx, ty),
+        this.config.topAirRows,
+        this.tileSize,
+        movementY,
+        this.collisionConfig.surfaceDropThrough.contactTolerancePx,
+      )) return false;
+    return this.worldModel.isSolid(tx, ty);
+  }
+
+  tryBeginSurfaceDropThrough(entity, surfaceRow = this.config.topAirRows) {
+    const drop = this.collisionConfig.surfaceDropThrough;
+    if (!this.surfaceDropThroughEnabled || !entity || !Number.isInteger(surfaceRow)) return false;
+    if (!canBeginSurfaceDrop(
+      this.worldModel,
+      entity,
+      this.tileSize,
+      this.skinPx,
+      surfaceRow,
+      drop,
+    )) return false;
+    entity.surfaceDropThroughRow = surfaceRow;
+    entity.onGround = false;
+    entity.vy = Math.max(
+      entity.vy,
+      drop.minimumDownVelocityTilesPerSecond * this.tileSize,
+    );
+    return true;
+  }
+
+  cancelSurfaceDropThrough(entity) {
+    entity?.clearSurfaceDropThrough?.();
+  }
+
   /**
    * Move entity horizontally and resolve collisions
    * @param {Object} entity - Entity with x, y, w, h, vx properties
@@ -126,11 +207,40 @@ export class TileCollisionSystem {
       entity.x += step;
       const bounds = this._bodyTileBounds(entity);
       const leadingColumn = step > 0 ? bounds.right : bounds.left;
+      const circle = getCircleCollisionGeometry(entity);
+      let circleResolvedX = null;
       for (let ty = bounds.top; ty <= bounds.bottom; ty += 1) {
-        if (!this.isSolidAtTile(leadingColumn, ty)) continue;
+        if (
+          !this._isSolidForEntity(entity, leadingColumn, ty)
+          || !this._intersectsEntityTile(entity, leadingColumn, ty)
+        ) continue;
+        if (circle) {
+          const tileLeft = leadingColumn * this.tileSize;
+          const tileTop = ty * this.tileSize;
+          const distanceY = distanceToInterval(
+            circle.y,
+            tileTop,
+            tileTop + this.tileSize,
+          );
+          const reach = circleAxisReach(circle.radius, distanceY);
+          const candidateX = step > 0
+            ? tileLeft - reach - circle.radius
+            : tileLeft + this.tileSize + reach - circle.radius;
+          circleResolvedX = circleResolvedX === null
+            ? candidateX
+            : (step > 0
+              ? Math.min(circleResolvedX, candidateX)
+              : Math.max(circleResolvedX, candidateX));
+          continue;
+        }
         entity.x = step > 0
           ? leadingColumn * this.tileSize - entity.w
           : (leadingColumn + 1) * this.tileSize;
+        entity.vx = 0;
+        return true;
+      }
+      if (circleResolvedX !== null) {
+        entity.x = circleResolvedX;
         entity.vx = 0;
         return true;
       }
@@ -146,14 +256,67 @@ export class TileCollisionSystem {
   moveAndCollideY(entity, amount) {
     entity.onGround = false;
     return this._moveInSteps(amount, (step) => {
+      refreshSurfaceDropState(
+        entity,
+        this.tileSize,
+        this.collisionConfig.surfaceDropThrough.releaseMarginPx,
+      );
+      const surfaceRow = this.config.topAirRows;
+      if (this.surfaceDropThroughEnabled
+        && Number.isInteger(surfaceRow)
+        && typeof this.worldModel.inBounds === "function"
+        && !Number.isInteger(entity.surfaceDropThroughRow)
+        && surfacePlatformCoversBody(
+          this.worldModel,
+          entity,
+          this.tileSize,
+          this.skinPx,
+          surfaceRow,
+        )
+        && crossesSurfacePlatform(entity, step, this.tileSize, surfaceRow)) {
+        entity.y = surfaceRow * this.tileSize - entity.h;
+        entity.vy = 0;
+        entity.onGround = true;
+        return true;
+      }
       entity.y += step;
       const bounds = this._bodyTileBounds(entity);
       const leadingRow = step > 0 ? bounds.bottom : bounds.top;
+      const circle = getCircleCollisionGeometry(entity);
+      let circleResolvedY = null;
       for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
-        if (!this.isSolidAtTile(tx, leadingRow)) continue;
+        if (
+          !this._isSolidForEntity(entity, tx, leadingRow, step)
+          || !this._intersectsEntityTile(entity, tx, leadingRow)
+        ) continue;
+        if (circle) {
+          const tileLeft = tx * this.tileSize;
+          const tileTop = leadingRow * this.tileSize;
+          const distanceX = distanceToInterval(
+            circle.x,
+            tileLeft,
+            tileLeft + this.tileSize,
+          );
+          const reach = circleAxisReach(circle.radius, distanceX);
+          const candidateY = step > 0
+            ? tileTop - reach - circle.radius
+            : tileTop + this.tileSize + reach - circle.radius;
+          circleResolvedY = circleResolvedY === null
+            ? candidateY
+            : (step > 0
+              ? Math.min(circleResolvedY, candidateY)
+              : Math.max(circleResolvedY, candidateY));
+          continue;
+        }
         entity.y = step > 0
           ? leadingRow * this.tileSize - entity.h
           : (leadingRow + 1) * this.tileSize;
+        entity.vy = 0;
+        entity.onGround = step > 0;
+        return true;
+      }
+      if (circleResolvedY !== null) {
+        entity.y = circleResolvedY;
         entity.vy = 0;
         entity.onGround = step > 0;
         return true;
@@ -168,10 +331,39 @@ export class TileCollisionSystem {
    * @returns {boolean} True if entity is on solid ground
    */
   isOnGround(entity) {
+    const surfaceRow = this.config.topAirRows;
+    if (this.surfaceDropThroughEnabled
+      && Number.isInteger(surfaceRow)
+      && typeof this.worldModel.inBounds === "function"
+      && !Number.isInteger(entity.surfaceDropThroughRow)
+      && surfacePlatformCoversBody(
+        this.worldModel,
+        entity,
+        this.tileSize,
+        this.skinPx,
+        surfaceRow,
+      )
+      && isAtSurfacePlatform(
+        entity,
+        this.tileSize,
+        surfaceRow,
+        this.collisionConfig.surfaceDropThrough.contactTolerancePx,
+      )) {
+      return true;
+    }
     const bounds = this._bodyTileBounds(entity, 0, this.groundProbePx);
 
     for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
-      if (this.isSolidAtTile(tx, bounds.bottom)) {
+      if (
+        this._isSolidForEntity(entity, tx, bounds.bottom)
+        && this._intersectsEntityTile(
+          entity,
+          tx,
+          bounds.bottom,
+          0,
+          this.groundProbePx,
+        )
+      ) {
         return true;
       }
     }
@@ -188,7 +380,16 @@ export class TileCollisionSystem {
     const bounds = this._bodyTileBounds(entity, 0, -this.groundProbePx);
 
     for (let tx = bounds.left; tx <= bounds.right; tx += 1) {
-      if (this.isSolidAtTile(tx, bounds.top)) {
+      if (
+        this._isSolidForEntity(entity, tx, bounds.top, -this.groundProbePx)
+        && this._intersectsEntityTile(
+          entity,
+          tx,
+          bounds.top,
+          0,
+          -this.groundProbePx,
+        )
+      ) {
         return true;
       }
     }

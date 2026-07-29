@@ -12,18 +12,18 @@ scenic surface runtime.
   without stretching doors, buildings, or atmospheric detail.
 - `npc-town-far-background-v1.webp` is retained as the clean far-distance source
   variant for a future independently parallaxed layer pass.
-- `town-square-slate-facade-v2.png` is the corrected production promotion of
-  approved village floor Option A. Its 1672x139 opaque core is cropped
-  pixel-exactly from the approved mockup, preserving the original paving and
-  three compact masonry courses. A 129 px mirrored alpha handoff extends the
-  asset to 1801x139 after the approved core. The separately generated v1
-  approximation remains unloaded.
+- `town-square-slate-strip-v3.png` is the current production promotion of
+  approved village floor Option A. Its 1672x48 opaque core is cropped
+  pixel-exactly from the approved mockup, preserving the wet paving and only
+  the restrained upper stone lip. A 129 px mirrored alpha handoff extends the
+  asset to 1801x48 after the approved core. The deeper v2 facade and separately
+  generated v1 approximation remain unloaded.
 - `town-benchmark-v1` is the default scenic surface pack. Runtime validates the v2
   plate at 1801x941, crops it at source Y 534, and uniformly scales it from the
   shared 1.75 m midpoint player reference so the measured 75 px lintel-to-threshold
   opening reads as 2.10 m. The beauty and approved floor align across roughly 23.05
-  world tiles; the floor stays at essentially native density and only about 1.48
-  tiles tall.
+  world tiles; the floor stays at essentially native density and only about 0.61
+  tile tall.
 - Earth is rendered separately from the upper beauty crop. The pack samples the
   approved 14x10 Level 1 ground facade and clips it through the authoritative solid
   terrain mask, so mining opens exact cell-shaped holes without falling back to a

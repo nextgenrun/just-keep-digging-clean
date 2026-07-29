@@ -1,0 +1,282 @@
+{
+  "version": 3,
+  "generator": "built-in ImageGen plus remove_chroma_key.py",
+  "inherits": "starlight-talent-tree-v2/manifest-v2.json",
+  "assets": {
+    "starlight-tree-panel-v2.png": {
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "alphaExtrema": null,
+      "sha256": "0f9ec4b416f1a1664668d2598f5a4960ba4371e780ab314a019f860a8db00a3a"
+    },
+    "starlight-detail-panel-v2.png": {
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "alphaExtrema": null,
+      "sha256": "a2b9a76715c280ef8539a399ad6d177e41dda3b4cc65a899337b85075cb3dfc8"
+    },
+    "starlight-engine-page-v2.png": {
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "alphaExtrema": null,
+      "sha256": "6b48f9bc12b8cdaf00e23b54e57684c179aa6db4734c0447e5c776c81520ce74"
+    },
+    "starlight-modal-shell-v2.png": {
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "alphaExtrema": null,
+      "sha256": "c5dcd043661e82f61dd43cdc31efe398e6718e69df0003eff0e0e9efd8de97c3"
+    },
+    "node-frame-quickslash-v2.png": {
+      "width": 453,
+      "height": 792,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "c8d1b4e3ac949a5eea2fb37912a9217bff00fb9d47422f59934e08825d3a1422"
+    },
+    "node-frame-thunderstrike-v2.png": {
+      "width": 313,
+      "height": 516,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "694c7032dcd4cd9d7907d38debae9aa8da861bd005d4b91027e0209df9ca0e3f"
+    },
+    "node-frame-bobo-locked-v2.png": {
+      "width": 317,
+      "height": 516,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "abc713ef682fd559c251cbbf0acb3076869525f2e0626f38c8e1716d954131c2"
+    },
+    "node-selection-halo-v2.png": {
+      "width": 316,
+      "height": 455,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "5b11193edfad91e1adc17b72c347953cb3826fb7a934c0e6c23370c52517ae62"
+    },
+    "bobo-lock-seal-v2.png": {
+      "width": 315,
+      "height": 445,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "4eb274a365da85f40b0a2106fd9daf038c996aa88050ebdea1fbee9816111409"
+    },
+    "star-heart-socket-v2.png": {
+      "width": 412,
+      "height": 440,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "6a02aaa0a868adc6b64169575489daef8636ecf0435140d9e8237f32caeaf3b5"
+    },
+    "star-heart-ui-v2.png": {
+      "width": 574,
+      "height": 575,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "75cc3d39f143290b8d2db00658d809115b95f47ad027b98e5cc02ad45d538543"
+    },
+    "wayward-star-ui-v2.png": {
+      "width": 572,
+      "height": 572,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "7d227a3ccd7113fab062f7648e65f0dd344d9349a407cc67fee28b35688351ac"
+    },
+    "hollow-sun-ui-v2.png": {
+      "width": 574,
+      "height": 573,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "8ae8d88395e5cb405cde60d7272fcb00f4dccb88435cd1375ec5cba612ce1478"
+    },
+    "comet-engine-ui-v2.png": {
+      "width": 572,
+      "height": 573,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "ad7a9c2eb252be7f794f9a160593f8f4e74f5b4f4a0ce8830e765f2316611f72"
+    },
+    "connector-quickslash-v2.png": {
+      "width": 1560,
+      "height": 172,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "dd3a193695b025d9fdbba7345989b539a178dbffe45347996d46a0651817c812"
+    },
+    "connector-thunderstrike-v2.png": {
+      "width": 1560,
+      "height": 243,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "5f599c3c431c89cad949053039e3e600f6547f107ff92cdcf891cdb832f42e17"
+    },
+    "constellation-crest-v2.png": {
+      "width": 566,
+      "height": 556,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "402bb3ab48d273e17720512ad193440cc1f6a23088afcfb5ae444f9bdcfab526"
+    },
+    "celestial-close-v2.png": {
+      "width": 352,
+      "height": 350,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "b243d1ebcd80650d7c5268dacae0d0fc11d64a9a5235b88e5dede633a14109f3"
+    },
+    "starlight-ultrawide-foundation-v3.png": {
+      "width": 1939,
+      "height": 811,
+      "mode": "RGB",
+      "alphaExtrema": null,
+      "sha256": "e08ccf1ff31515665fbd46908a62139352b5eef9cfd4dae3522441f9f20ed634"
+    },
+    "navigation-plaque-idle-v3.png": {
+      "width": 733,
+      "height": 249,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "52147ee81792aac90d3ac794498567fbfe6629db728809b511c9f9e160b0f102"
+    },
+    "navigation-plaque-selected-v3.png": {
+      "width": 729,
+      "height": 253,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "7f4cae75c5ba487a48c1888a9635e7b31b8fd6c76f07a7145b94cfdb485b0940"
+    },
+    "talent-ribbon-idle-v3.png": {
+      "width": 580,
+      "height": 233,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "374689410c99b8c652f37f9afe38bc4ffe2ec26e3677c2adc758a05d81678f58"
+    },
+    "talent-ribbon-selected-v3.png": {
+      "width": 584,
+      "height": 238,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "683aa77180238cc1ffe4f04303d28a786b6efd333cf955f4b97dac4788baf2a9"
+    },
+    "status-seal-v3.png": {
+      "width": 385,
+      "height": 229,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "d140d118b52e5c809cfc72b1ebea1c155e218575b1a3621452e81d955a7bef53"
+    },
+    "progress-plaque-v3.png": {
+      "width": 725,
+      "height": 98,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "16c2ce42c6e28a02e037823cc10d1edeb7b5349de14bd9cfe6b01e73003c80dd"
+    },
+    "carousel-left-v3.png": {
+      "width": 408,
+      "height": 406,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "3ee748c12c77029ef5d6d8bfc04f2b00b3ec31da75b7a5c2c88949aee073c748"
+    },
+    "carousel-right-v3.png": {
+      "width": 376,
+      "height": 406,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "c6401b03b3499cd86e6b620808c66e84a0ca26effa4cc478e510ccb1af94925f"
+    },
+    "carousel-step-idle-v3.png": {
+      "width": 258,
+      "height": 254,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "f6388685c178002ce3ccf40bebb362febfd08841cd242e637eb6150b75a4db24"
+    },
+    "carousel-step-active-v3.png": {
+      "width": 258,
+      "height": 254,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "3eb24c91c14c03e48041bac7a62e6849a7ce7cc4ffe800f4e07da5e52a4b6b24"
+    }
+  }
+}

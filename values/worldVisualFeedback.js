@@ -1,4 +1,5 @@
 import { TILE_TYPES } from "./tileTypes.js";
+import { GEM_POWER_BLOCK_TIERS } from "./specialBlocks.js";
 
 const marker = (frame, variants = 1, scale = 1, alpha = 1) => Object.freeze({
   frame,
@@ -9,27 +10,29 @@ const marker = (frame, variants = 1, scale = 1, alpha = 1) => Object.freeze({
 
 export const WORLD_VISUAL_FEEDBACK = Object.freeze({
   atlas: Object.freeze({
-    key: "world-visual-v2-feedback-atlas",
-    path: "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v2.png?v=scenic-v2-20260716",
+    key: "world-visual-v2-feedback-atlas-v7",
+    path: "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v7.png?v=imagegen-ground-veins-20260728e",
     columns: 8,
     frameSizePx: 94,
-    frameCount: 44,
+    frameCount: 78,
     framePrefix: "world-visual-v2-feedback-",
   }),
   resourceMarkers: Object.freeze({
-    copper: marker(0, 3, 0.92, 0.88),
-    bronze: marker(3, 3, 0.92, 0.88),
-    steel: marker(6, 3, 0.92, 0.86),
-    iron: marker(9, 3, 0.92, 0.86),
-    silver: marker(12, 3, 0.92, 0.88),
-    gold: marker(15, 3, 0.94, 0.92),
-    obsidian: marker(18, 3, 0.92, 0.86),
-    emberOre: marker(21, 3, 0.94, 0.90),
-    magmaCrystal: marker(24, 3, 0.94, 0.90),
-    stone: marker(27, 3, 0.90, 0.48),
+    copper: marker(0, 6, 1, 1),
+    bronze: marker(6, 6, 1, 1),
+    steel: marker(12, 6, 1, 1),
+    iron: marker(18, 6, 1, 1),
+    silver: marker(24, 6, 1, 1),
+    gold: marker(30, 6, 1, 1),
+    obsidian: marker(36, 6, 1, 1),
+    emberOre: marker(42, 6, 1, 1),
+    magmaCrystal: marker(48, 6, 1, 1),
+    stone: marker(54, 6, 1, 1),
   }),
   embeddedResourceVeins: Object.freeze({
-    enabled: true,
+    // The approved default is the ImageGen atlas. This procedural path remains
+    // available only through ?resourceVeins=1 for explicit comparison.
+    enabled: false,
     queryParam: "resourceVeins",
     queryEnableValues: Object.freeze(["1", "on", "true", "embedded"]),
     queryDisableValues: Object.freeze(["0", "off", "false", "atlas", "legacy"]),
@@ -87,20 +90,26 @@ export const WORLD_VISUAL_FEEDBACK = Object.freeze({
     }),
   }),
   specialMarkers: Object.freeze({
-    teleport: marker(30, 1, 0.78, 0.94),
-    gamble: marker(31, 1, 0.78, 0.94),
-    gemPower: marker(32, 1, 0.78, 0.94),
-    speed: marker(33, 1, 0.78, 0.94),
-    xp: marker(34, 1, 0.78, 0.94),
-    crit: marker(35, 1, 0.78, 0.94),
-    berserk: marker(36, 1, 0.78, 0.94),
-    combo: marker(37, 1, 0.78, 0.94),
-    legend: marker(38, 1, 0.78, 0.94),
-    geodeInterior: marker(39, 1, 0.84, 0.96),
-    geodeWall: marker(40, 1, 0.82, 0.92),
-    chest: marker(41, 1, 0.82, 0.98),
-    ancientRelic: marker(42, 1, 0.80, 0.96),
-    glowCrystal: marker(43, 1, 0.86, 0.98),
+    teleport: marker(60, 1, 1, 1),
+    gamble: marker(61, 1, 1, 1),
+    gemPower: marker(62, 1, 1, 1),
+    gemPowerTiers: Object.freeze(Object.fromEntries(
+      GEM_POWER_BLOCK_TIERS.map(tier => [
+        tier.id,
+        marker(tier.recognitionFrame, 1, 1, 1),
+      ])
+    )),
+    speed: marker(67, 1, 1, 1),
+    xp: marker(68, 1, 1, 1),
+    crit: marker(69, 1, 1, 1),
+    berserk: marker(70, 1, 1, 1),
+    combo: marker(71, 1, 1, 1),
+    legend: marker(72, 1, 1, 1),
+    geodeInterior: marker(73, 1, 0.8, 0.94),
+    geodeWall: marker(74, 1, 0.78, 0.9),
+    chest: marker(75, 1, 0.78, 0.96),
+    ancientRelic: marker(76, 1, 0.74, 0.94),
+    glowCrystal: marker(77, 1, 0.82, 0.96),
   }),
 });
 

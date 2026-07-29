@@ -30,10 +30,7 @@ export class ScreenRecordSystem {
     const now = Date.now();
     if (now - this.lastToggleAt < 250) return false;
     this.lastToggleAt = now;
-    if (this.saving) {
-      this._notify(this.config.notices.stopping, "info");
-      return false;
-    }
+    if (this.saving) return false;
     if (this.recorder?.state === "recording") {
       this._stop();
       return true;
@@ -80,7 +77,6 @@ export class ScreenRecordSystem {
       this.recorder.addEventListener("stop", () => this._finish());
       this.recorder.start();
       this._setIndicator("REC • USE RECORDING HOTKEY TO STOP", true);
-      this._notify(this.config.notices.started, "success");
       return true;
     } catch (error) {
       console.warn("[ScreenRecord] Could not start recording:", error);
@@ -94,7 +90,6 @@ export class ScreenRecordSystem {
   _stop() {
     if (this.recorder?.state !== "recording") return;
     this._setIndicator("SAVING RECORDING…", false);
-    this._notify(this.config.notices.stopping, "info");
     this.recorder.stop();
   }
 
@@ -181,7 +176,7 @@ export class ScreenRecordSystem {
   }
 
   _notify(message, kind) {
-    this.scene?.notificationSystem?.[kind]?.(message, { key: "screen-record" });
+    this.scene?.uiNotifications?.[kind]?.(message, { key: "screen-record" });
   }
 
   _setIndicator(label, recording) {

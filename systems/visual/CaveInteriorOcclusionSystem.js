@@ -1,10 +1,5 @@
 import { CAVE_OCCLUSION_CONFIG } from "../../values/caveOcclusionConfig.js";
-import { CAVE_ARCHETYPE_CONFIG } from "../../values/caveArchetypes.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
-
-function colorToCss(color) {
-  return `#${Math.max(0, Number(color) || 0).toString(16).padStart(6, "0").slice(-6)}`;
-}
 
 /**
  * Draws visual-only cover over cave and geode interiors until discovered.
@@ -116,22 +111,6 @@ export class CaveInteriorOcclusionSystem {
       zone.journalLabel || zone.displayName,
     );
     this.scene.caveAtmosphereSystem?.celebrateDiscovery?.(zone.sourceId);
-
-    const discovery = CAVE_ARCHETYPE_CONFIG.discovery;
-    this.scene.uiNotifications?.info?.(
-      `CAVE DISCOVERED  •  ${String(zone.displayName || "Underground Discovery").toUpperCase()}`,
-      {
-        key: `cave-discovery:${zone.sourceId || zone.id}`,
-        durationMs: discovery.notificationDurationMs,
-      },
-    );
-    if (zone.hint) {
-      this.scene.hudSystem?.flashStatus?.(
-        zone.hint,
-        colorToCss(zone.glowColor),
-        discovery.hintDurationMs,
-      );
-    }
   }
 
   redraw(playerTile) {

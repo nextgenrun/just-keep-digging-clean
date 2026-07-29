@@ -25,7 +25,7 @@ export class WelcomeMessageGenerator {
             + `${USER_SETTINGS.getKeyLabel("aimDown")} aim down  •  `
             + `${USER_SETTINGS.getKeyLabel("dig")} dig`,
           "",
-          "FLIGHT IS BURIED BELOW THE HUGE ARROWS",
+          "LEARN THE TOWN LOOP TO UNLOCK FLIGHT",
         ].join("\n"),
         status: "Press ENTER to start",
         statusColor: "#9bc9ff"

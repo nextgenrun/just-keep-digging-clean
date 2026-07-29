@@ -18,3 +18,11 @@ magenta chroma background.
 
 Runtime crops are rebuilt by
 `ai-tools/2026-07-26-build-earthquake-feedback-ui-v2.py`.
+
+`2026-07-28-imagegen-seismic-tile-fx-atlas-source.png` is the untouched
+built-in ImageGen result for three isolated world-space effects: pressure
+fracture, tile collapse, and rubble return. The approved player HUD and seismic
+medallion were style references only. The flat-magenta source was processed by
+the installed ImageGen chroma-removal helper into
+`2026-07-28-seismic-tile-fx-atlas-transparent-master.png`; the date-stamped
+tile-feedback builder splits that master into the three production sprites.

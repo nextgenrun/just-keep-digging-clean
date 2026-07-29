@@ -1,0 +1,227 @@
+:root {
+  color-scheme: dark;
+  --gold: #f0c765;
+  --gold-dim: #80652f;
+  --cyan: #65e8ff;
+  --violet: #b985ff;
+  --comet: #ffd27a;
+  --ink: #02070d;
+  --panel: rgba(4, 12, 21, 0.96);
+  --body: #b9c8d3;
+  --display: "Bahnschrift SemiCondensed", "Trebuchet MS", sans-serif;
+  --mono: "Cascadia Mono", Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #010307;
+}
+
+button {
+  font: inherit;
+}
+
+.stage {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  font-family: var(--display);
+  color: #f4e8c8;
+  background: #02060a;
+}
+
+.gameplay-reference {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 82%, rgba(38, 112, 158, 0.12), transparent 26%),
+    linear-gradient(180deg, transparent 64%, rgba(0, 3, 8, 0.16));
+}
+
+.review-chip {
+  position: absolute;
+  left: 18px;
+  bottom: 17px;
+  padding: 7px 10px 6px;
+  border: 1px solid rgba(101, 216, 242, 0.38);
+  border-radius: 4px;
+  color: #7e9bad;
+  background: rgba(2, 8, 14, 0.84);
+  font: 700 10px/1 var(--mono);
+  letter-spacing: 0.08em;
+}
+
+.review-chip span {
+  margin-left: 7px;
+  color: var(--cyan);
+}
+
+.action-bar,
+.loadout-drawer {
+  position: absolute;
+  left: 50%;
+  width: 486px;
+  transform: translateX(-50%);
+  border: 12px solid transparent;
+  border-image: url("../../sprites/UI/hud-approved-v1/xp-frame.png") 12 14 fill stretch;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.78));
+}
+
+.action-bar {
+  bottom: 58px;
+  height: 142px;
+}
+
+.bar-surface {
+  position: absolute;
+  inset: -4px -3px;
+  display: grid;
+  grid-template-rows: 34px 72px 18px;
+  padding: 5px 11px 4px;
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(52, 111, 151, 0.18), transparent 48%),
+    linear-gradient(180deg, rgba(9, 22, 34, 0.97), rgba(2, 8, 14, 0.98));
+  box-shadow:
+    inset 0 0 18px rgba(82, 197, 233, 0.05),
+    0 0 26px rgba(30, 126, 171, 0.12);
+}
+
+.bar-header {
+  display: grid;
+  grid-template-columns: 31px 1fr 55px;
+  gap: 8px;
+  align-items: center;
+}
+
+.heart-icon,
+.engine-art,
+.owned-art {
+  mix-blend-mode: screen;
+  user-select: none;
+  pointer-events: none;
+}
+
+.heart-icon {
+  width: 29px;
+  height: 29px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(101, 232, 255, 0.52));
+  animation: heart-breathe 2.2s ease-in-out infinite;
+}
+
+.bar-identity {
+  min-width: 0;
+}
+
+.title-line,
+.charge-row,
+.bar-footer,
+.drawer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-line strong {
+  color: #f5e7c8;
+  font-size: 12px;
+  letter-spacing: 0.09em;
+}
+
+.title-line span {
+  color: var(--cyan);
+  font: 700 8px/1 var(--mono);
+}
+
+.charge-row {
+  gap: 8px;
+  margin-top: 3px;
+}
+
+.charge-track {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(101, 216, 242, 0.38);
+  border-radius: 4px;
+  background: #06101a;
+}
+
+.charge-fill {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4779ff, var(--cyan), #f6fbff);
+  box-shadow: 0 0 9px rgba(101, 232, 255, 0.82);
+  transition: width 260ms ease;
+}
+
+.charge-shimmer {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 30px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.76), transparent);
+  animation: charge-shimmer 2.4s linear infinite;
+}
+
+.charge-row > span {
+  width: 49px;
+  color: #d8f7ff;
+  font: 700 8px/1 var(--mono);
+  text-align: right;
+}
+
+.edit-button,
+#resetLoadout {
+  border: 1px solid rgba(240, 199, 101, 0.48);
+  border-radius: 3px;
+  color: #d9c18a;
+  background: linear-gradient(180deg, #19232c, #091017);
+  font: 700 9px/1 var(--mono);
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, transform 120ms ease;
+}
+
+.edit-button {
+  height: 24px;
+}
+
+.edit-button:hover,
+.edit-button.is-open,
+#resetLoadout:hover {
+  border-color: var(--gold);
+  color: #fff2ca;
+}
+
+.edit-button:active,
+#resetLoadout:active {
+  transform: translateY(1px) scale(0.98);
+}

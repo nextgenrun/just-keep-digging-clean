@@ -1,0 +1,463 @@
+{
+  "version": 2,
+  "method": "approved-imagegen-chroma-reextract-and-pack",
+  "sheet": "weather-particles-v2.png",
+  "width": 2048,
+  "height": 1024,
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "contentSafeAreaPx": 224,
+  "columns": 8,
+  "rows": 4,
+  "frames": {
+    "0": "rain-streak-1",
+    "1": "rain-streak-2",
+    "2": "rain-streak-3",
+    "3": "rain-streak-4",
+    "4": "snow-flake-1",
+    "5": "snow-flake-2",
+    "6": "snow-flake-3",
+    "7": "snow-flake-4",
+    "8": "snow-flake-5",
+    "9": "snow-flake-6",
+    "10": "snow-flake-7",
+    "11": "snow-flake-8",
+    "12": "rain-splash-1",
+    "13": "rain-splash-2",
+    "14": "rain-splash-3",
+    "15": "rain-splash-4",
+    "16": "rain-ripple-1",
+    "17": "rain-ripple-2",
+    "18": "rain-ripple-3",
+    "19": "rain-ripple-4",
+    "20": "water-drop-1",
+    "21": "water-drop-2",
+    "22": "rain-spray-1",
+    "23": "rain-spray-2",
+    "24": "snow-powder-1",
+    "25": "snow-powder-2",
+    "26": "snow-powder-3",
+    "27": "steam-1",
+    "28": "steam-2",
+    "29": "smoke-1",
+    "30": "smoke-2",
+    "31": "ground-mist-1"
+  },
+  "frameMetrics": {
+    "0": {
+      "name": "rain-streak-1",
+      "visibleAlphaPixels": 2296,
+      "visibleBounds": {
+        "x": 76,
+        "y": 16,
+        "width": 103,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "1": {
+      "name": "rain-streak-2",
+      "visibleAlphaPixels": 2567,
+      "visibleBounds": {
+        "x": 80,
+        "y": 16,
+        "width": 96,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "2": {
+      "name": "rain-streak-3",
+      "visibleAlphaPixels": 2405,
+      "visibleBounds": {
+        "x": 78,
+        "y": 16,
+        "width": 100,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "3": {
+      "name": "rain-streak-4",
+      "visibleAlphaPixels": 2180,
+      "visibleBounds": {
+        "x": 80,
+        "y": 16,
+        "width": 96,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "4": {
+      "name": "snow-flake-1",
+      "visibleAlphaPixels": 17201,
+      "visibleBounds": {
+        "x": 30,
+        "y": 16,
+        "width": 195,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "5": {
+      "name": "snow-flake-2",
+      "visibleAlphaPixels": 12793,
+      "visibleBounds": {
+        "x": 22,
+        "y": 16,
+        "width": 211,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "6": {
+      "name": "snow-flake-3",
+      "visibleAlphaPixels": 14605,
+      "visibleBounds": {
+        "x": 27,
+        "y": 16,
+        "width": 202,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "7": {
+      "name": "snow-flake-4",
+      "visibleAlphaPixels": 11937,
+      "visibleBounds": {
+        "x": 19,
+        "y": 16,
+        "width": 218,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "8": {
+      "name": "snow-flake-5",
+      "visibleAlphaPixels": 16098,
+      "visibleBounds": {
+        "x": 26,
+        "y": 16,
+        "width": 204,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "9": {
+      "name": "snow-flake-6",
+      "visibleAlphaPixels": 19609,
+      "visibleBounds": {
+        "x": 26,
+        "y": 16,
+        "width": 204,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "10": {
+      "name": "snow-flake-7",
+      "visibleAlphaPixels": 13266,
+      "visibleBounds": {
+        "x": 27,
+        "y": 16,
+        "width": 202,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "11": {
+      "name": "snow-flake-8",
+      "visibleAlphaPixels": 19971,
+      "visibleBounds": {
+        "x": 23,
+        "y": 16,
+        "width": 209,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "12": {
+      "name": "rain-splash-1",
+      "visibleAlphaPixels": 7951,
+      "visibleBounds": {
+        "x": 16,
+        "y": 36,
+        "width": 224,
+        "height": 184
+      },
+      "clearBorderPx": 16
+    },
+    "13": {
+      "name": "rain-splash-2",
+      "visibleAlphaPixels": 11247,
+      "visibleBounds": {
+        "x": 16,
+        "y": 42,
+        "width": 224,
+        "height": 172
+      },
+      "clearBorderPx": 16
+    },
+    "14": {
+      "name": "rain-splash-3",
+      "visibleAlphaPixels": 9564,
+      "visibleBounds": {
+        "x": 16,
+        "y": 55,
+        "width": 224,
+        "height": 145
+      },
+      "clearBorderPx": 16
+    },
+    "15": {
+      "name": "rain-splash-4",
+      "visibleAlphaPixels": 5826,
+      "visibleBounds": {
+        "x": 16,
+        "y": 62,
+        "width": 224,
+        "height": 131
+      },
+      "clearBorderPx": 16
+    },
+    "16": {
+      "name": "rain-ripple-1",
+      "visibleAlphaPixels": 12354,
+      "visibleBounds": {
+        "x": 16,
+        "y": 92,
+        "width": 224,
+        "height": 72
+      },
+      "clearBorderPx": 16
+    },
+    "17": {
+      "name": "rain-ripple-2",
+      "visibleAlphaPixels": 13238,
+      "visibleBounds": {
+        "x": 16,
+        "y": 90,
+        "width": 224,
+        "height": 76
+      },
+      "clearBorderPx": 16
+    },
+    "18": {
+      "name": "rain-ripple-3",
+      "visibleAlphaPixels": 10632,
+      "visibleBounds": {
+        "x": 16,
+        "y": 95,
+        "width": 224,
+        "height": 66
+      },
+      "clearBorderPx": 16
+    },
+    "19": {
+      "name": "rain-ripple-4",
+      "visibleAlphaPixels": 5408,
+      "visibleBounds": {
+        "x": 34,
+        "y": 16,
+        "width": 188,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "20": {
+      "name": "water-drop-1",
+      "visibleAlphaPixels": 6166,
+      "visibleBounds": {
+        "x": 16,
+        "y": 29,
+        "width": 224,
+        "height": 198
+      },
+      "clearBorderPx": 16
+    },
+    "21": {
+      "name": "water-drop-2",
+      "visibleAlphaPixels": 5022,
+      "visibleBounds": {
+        "x": 16,
+        "y": 38,
+        "width": 224,
+        "height": 180
+      },
+      "clearBorderPx": 16
+    },
+    "22": {
+      "name": "rain-spray-1",
+      "visibleAlphaPixels": 3570,
+      "visibleBounds": {
+        "x": 23,
+        "y": 16,
+        "width": 209,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "23": {
+      "name": "rain-spray-2",
+      "visibleAlphaPixels": 3323,
+      "visibleBounds": {
+        "x": 16,
+        "y": 16,
+        "width": 223,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "24": {
+      "name": "snow-powder-1",
+      "visibleAlphaPixels": 8399,
+      "visibleBounds": {
+        "x": 16,
+        "y": 54,
+        "width": 224,
+        "height": 147
+      },
+      "clearBorderPx": 16
+    },
+    "25": {
+      "name": "snow-powder-2",
+      "visibleAlphaPixels": 6681,
+      "visibleBounds": {
+        "x": 16,
+        "y": 53,
+        "width": 224,
+        "height": 149
+      },
+      "clearBorderPx": 16
+    },
+    "26": {
+      "name": "snow-powder-3",
+      "visibleAlphaPixels": 13566,
+      "visibleBounds": {
+        "x": 24,
+        "y": 16,
+        "width": 208,
+        "height": 224
+      },
+      "clearBorderPx": 16
+    },
+    "27": {
+      "name": "steam-1",
+      "visibleAlphaPixels": 12904,
+      "visibleBounds": {
+        "x": 16,
+        "y": 77,
+        "width": 224,
+        "height": 101
+      },
+      "clearBorderPx": 16
+    },
+    "28": {
+      "name": "steam-2",
+      "visibleAlphaPixels": 11479,
+      "visibleBounds": {
+        "x": 16,
+        "y": 84,
+        "width": 224,
+        "height": 88
+      },
+      "clearBorderPx": 16
+    },
+    "29": {
+      "name": "smoke-1",
+      "visibleAlphaPixels": 17377,
+      "visibleBounds": {
+        "x": 16,
+        "y": 64,
+        "width": 224,
+        "height": 128
+      },
+      "clearBorderPx": 16
+    },
+    "30": {
+      "name": "smoke-2",
+      "visibleAlphaPixels": 18991,
+      "visibleBounds": {
+        "x": 16,
+        "y": 42,
+        "width": 224,
+        "height": 171
+      },
+      "clearBorderPx": 16
+    },
+    "31": {
+      "name": "ground-mist-1",
+      "visibleAlphaPixels": 8119,
+      "visibleBounds": {
+        "x": 16,
+        "y": 95,
+        "width": 224,
+        "height": 65
+      },
+      "clearBorderPx": 16
+    }
+  },
+  "groups": {
+    "rainStreaks": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "snowFlakes": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "rainSplashes": [
+      12,
+      13,
+      14,
+      15
+    ],
+    "rainRipples": [
+      16,
+      17,
+      18,
+      19
+    ],
+    "waterDrops": [
+      20,
+      21
+    ],
+    "rainSpray": [
+      22,
+      23
+    ],
+    "snowPowder": [
+      24,
+      25,
+      26
+    ],
+    "steam": [
+      27,
+      28
+    ],
+    "smoke": [
+      29,
+      30
+    ],
+    "groundMist": [
+      31
+    ]
+  },
+  "visibleAlphaPixels": 326745,
+  "residualChromaGreenPixels": 0,
+  "sources": {
+    "rain-source.png": "fe36c60345408b22bb10d9ac0500ca321707b5775470bebffb123a53071521fa",
+    "snow-source.png": "49fb004021d894a2fee17372f0deb2b855fc20fd060fb10329e41b0a5285deb1",
+    "water-source.png": "df933f7a12dabc5020ebbb934c77676e1a3bd38b03e3698db29289f618ffb922",
+    "atmosphere-screen.webp": "980ff8b968dd9e61c2d1cb7dc210960b9105d851684e433eee03cef37f015352"
+  },
+  "outputSha256": "318a43301b3af7921b0269f12d1cdee37d47d6615867f93eb0790689b471f85f"
+}

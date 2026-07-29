@@ -6,10 +6,15 @@ import {
 import { WORLD_VISUAL_RUNTIME } from "../../../values/worldVisualRuntime.js";
 import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
-  isWorldVisualDepthBackdropRegionReady,
+  getWorldVisualDepthBackdropFallbackAsset,
+  isWorldVisualDepthBackdropRegionRenderable,
   resolveWorldVisualDepthBackdropRegionAssets,
   resolveWorldVisualDepthBackdropRegions,
 } from "../../../values/worldVisualDepthBackdrops.js";
+import {
+  isWorldVisualTerrainCapTileType,
+  resolveWorldVisualTerrainVariationEnabled,
+} from "../../../values/worldVisualTerrainVariation.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualMaterialBandView } from "./WorldVisualMaterialBandView.js";
 
@@ -28,6 +33,10 @@ export class WorldVisualMaterialField {
     this.worldModel = worldModel;
     this.config = config;
     this.search = search;
+    this.authoredTopCapsEnabled = resolveWorldVisualTerrainVariationEnabled(
+      undefined,
+      search
+    );
     this.maskGraphics = null;
     this.geometryMask = null;
     this.backdropMaskGraphics = null;
@@ -167,23 +176,29 @@ export class WorldVisualMaterialField {
       WORLD_VISUAL_DEPTH_BACKDROPS,
       this.search
     );
+    const fallbackAsset = getWorldVisualDepthBackdropFallbackAsset(
+      WORLD_VISUAL_DEPTH_BACKDROPS,
+      this.search
+    );
+    const assetExists = asset => asset?.type === "video"
+      ? Boolean(this.scene.cache?.video?.exists(asset.key))
+      : this.scene.textures.exists(asset.key);
     let cursor = bounds.top;
     for (const region of regions) {
       const top = Math.max(cursor, bounds.top, region.topTile);
       const bottom = Math.min(bounds.bottom, region.bottomTileExclusive);
       fillTiles(bounds.left, cursor, bounds.right, top);
-      const ready = isWorldVisualDepthBackdropRegionReady(
+      const renderable = isWorldVisualDepthBackdropRegionRenderable(
         region,
-        asset => asset?.type === "video"
-          ? Boolean(this.scene.cache?.video?.exists(asset.key))
-          : this.scene.textures.exists(asset.key),
+        assetExists,
         resolveWorldVisualDepthBackdropRegionAssets(
           region,
           WORLD_VISUAL_DEPTH_BACKDROPS,
           this.search
-        )
+        ),
+        fallbackAsset
       );
-      if (!ready) {
+      if (!renderable) {
         fillTiles(bounds.left, top, bounds.right, bottom);
       } else {
         fillTiles(bounds.left, top, Math.min(bounds.right, region.leftTile), bottom);
@@ -196,7 +211,11 @@ export class WorldVisualMaterialField {
 
   _drawExposedEdges(tx, ty, x, y, size) {
     const jitter = ((Math.imul(tx + 11, 73856093) ^ Math.imul(ty + 17, 19349663)) >>> 0) % 7 - 3;
-    if (isAir(this.worldModel, tx, ty - 1)) {
+    const usesAuthoredTopCap = (
+      this.authoredTopCapsEnabled
+      && isWorldVisualTerrainCapTileType(this.worldModel.getTileType(tx, ty))
+    );
+    if (isAir(this.worldModel, tx, ty - 1) && !usesAuthoredTopCap) {
       this.edgeGraphics.beginPath().moveTo(x, y + jitter).lineTo(x + size, y - jitter).strokePath();
     }
     if (isAir(this.worldModel, tx, ty + 1)) {

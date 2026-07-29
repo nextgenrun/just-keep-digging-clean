@@ -173,11 +173,18 @@ hazardSystem.update(100, { tx: 10, ty: 19 }, true);
 assert.equal(calls.drain, 1);
 assert.deepEqual(calls.teleports, [{ tx: 8, ty: 19 }]);
 assert.deepEqual(calls.torch, [{ manual: true, showStatus: false }]);
-assert.equal(calls.warnings.length, 1);
+assert.equal(
+  calls.warnings.length,
+  0,
+  "visual hazard telegraphs must not add a routine cave-entry card",
+);
 assert.equal(calls.danger.length, 1);
 assert.equal(calls.shake.length, 1);
 assert.equal(calls.sound, 1);
-assert.match(calls.floating[0][2], /-73 GP/);
+assert.match(calls.danger[0][0], /ALL GP LOST/);
+assert.match(calls.danger[0][0], /Recover on safe ground/);
+assert.equal(calls.status.length, 0);
+assert.equal(calls.floating.length, 0);
 assert.equal(hazardSystem.getSnapshot().failureCount, 1);
 hazardSystem.destroy();
 
@@ -224,7 +231,7 @@ const updateSource = await readFile(
   "utf8",
 );
 assert.match(setupSource, /new CaveHazardSystem\(this, this\.caveHazardView\)/);
-assert.match(updateSource, /caveHazardSystem\.update\(time, playerTile/);
+assert.match(updateSource, /caveHazardSystem\.update\(time, activePlayerTile/);
 assert.equal(CAVE_GAMEPLAY_CONFIG.hazards.hit.notification.includes("ALL GP LOST"), true);
 
 console.log("cave resource, hazard, and darkness contract passed");

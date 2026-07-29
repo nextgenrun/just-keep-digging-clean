@@ -70,6 +70,11 @@ const controllerSource = await readFile(new URL("../world/playScene/CaveGameplay
 const caveEntrySource = await readFile(new URL("../world/playScene/CaveEntryController.js", import.meta.url), "utf8");
 assert.match(caveSceneSource, /new CaveWorldModel\(/, "CaveScene must use a real tile model");
 assert.match(caveSceneSource, /new CaveGameplayController\(/, "CaveScene must use the shared gameplay adapter");
+assert.match(
+  caveSceneSource,
+  /createTilesheetTexture\(\)/,
+  "CaveScene must build its tile atlas when the scenic main world did not create one",
+);
 assert.doesNotMatch(caveSceneSource, /_tryCollectReward|add\.circle\([\s\S]*nodeRadius/, "collectible-circle cave rewards must not return");
 assert.match(controllerSource, /new PlayerController\(/, "caves must use the normal player controller");
 assert.match(controllerSource, /new DigSystem\(/, "caves must use the normal dig system");
@@ -86,7 +91,7 @@ globalThis.Phaser = {
   Input: { Keyboard: { JustDown: () => { justDownCalls += 1; return true; } } },
 };
 await import("../world/playScene/CaveGameplayController.js");
-await import("../ui/scenes/CaveScene.js");
+const { CaveScene } = await import("../ui/scenes/CaveScene.js");
 const { ArcCoreVehicleSystem } = await import("../systems/vehicles/ArcCoreVehicleSystem.js");
 const { CaveEntryController } = await import("../world/playScene/CaveEntryController.js");
 
@@ -171,6 +176,17 @@ assert.equal(entranceImage.textureKey, CAVE_SCENE_CONFIG.overworldEntrance.sceni
 assert.ok(entranceImage.displayWidth > GAME_CONFIG.tileSize, "cave mouth sprite must span the two-tile opening");
 assert.equal(caveEntry.update(entranceZone.entry, { interact: {} }), true, "E near a cave must be consumed by CaveEntryController");
 assert.equal(caveLaunch?.key, CAVE_SCENE_CONFIG.sceneKey, "E near a cave must launch CaveScene");
+
+let caveExitCalls = 0;
+const exitScene = new CaveScene();
+exitScene.gameplay = {
+  playerController: { getPlayerTile: () => ({ tx: CAVE_SCENE_CONFIG.exit.tileX, ty: 7 }) },
+  inputHandler: { getKeys: () => ({ interact: {} }) },
+};
+exitScene.exitLabel = { ...positionStub };
+exitScene._returnToWorld = () => { caveExitCalls += 1; };
+exitScene._tryExit();
+assert.equal(caveExitCalls, 1, "E at the approved cave mouth must return to PlayScene");
 delete globalThis.Phaser;
 
 console.log("cave gameplay parity smoke test passed");

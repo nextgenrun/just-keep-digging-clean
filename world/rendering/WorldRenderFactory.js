@@ -1,9 +1,10 @@
 import {
   WORLD_VISUAL_RUNTIME_MODES,
   resolveWorldVisualRuntimeMode,
-} from "../../values/worldVisualRuntime.js";
+} from "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { WorldRenderer } from "./WorldRenderer.js";
-import { WorldVisualRuntime } from "./scenic-world/WorldVisualRuntime.js?rev=20260727-restart-lifecycle-v1";
+import { WorldVisualRuntime } from
+  "./scenic-world/WorldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 
 export function createWorldRenderer(scene, worldModel, gameConfig, search = globalThis.location?.search || "") {
   const mode = resolveWorldVisualRuntimeMode(undefined, search);

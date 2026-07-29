@@ -18,6 +18,7 @@ import {
   resolveHeavenblocksGameplayEnabled,
 } from "../../values/heavenblocksAccessConfig.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
+import { isSurfaceTraversalReservedTileY } from "../../values/worldDepthConfig.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
 import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
 import { isInsideEllipse } from "../../values/deterministicMath.js";
@@ -31,6 +32,7 @@ import { finalizeCaveGameplay } from "./CaveGameplayPlanner.js";
 import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
 import { enforceUndergroundBedrockLayout } from "./UndergroundBedrockLayout.js";
+import { enforceSurfaceTraversalLayout } from "./surfaceTraversalLayout.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 const DIGGABLE_TYPES = new Set([
@@ -214,9 +216,15 @@ export class WorldModel {
     finalizeCaveIdentities(this);
     finalizeCaveGameplay(this);
     this.applyHeavenblocksLayout();
+    const surfaceTraversal = enforceSurfaceTraversalLayout(this);
+    console.log(
+      `[WorldModel] Enforced one-way surface traversal: `
+      + `${surfaceTraversal.normalizedSurfaceTiles} surface cells normalized, `
+      + `${surfaceTraversal.clearedClearanceTiles} overlap cells cleared`,
+    );
     const bedrockLayout = enforceUndergroundBedrockLayout(this);
     console.log(
-      `[WorldModel] Enforced full-height Level 1/2 separator: `
+      `[WorldModel] Enforced Level 1/2 separator outside surface clearance: `
       + `${bedrockLayout.retainedDivider} divider tiles retained, `
       + `${bedrockLayout.repairedDivider} divider gaps repaired, `
       + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced`,
@@ -871,6 +879,9 @@ export class WorldModel {
 
   setRubbleTile(tileX, tileY, type, hp = null, maxHp = null) {
     if (!this.inBounds(tileX, tileY)) return null;
+    if (isSurfaceTraversalReservedTileY(tileY, this.topAirRows, this.config)) {
+      return null;
+    }
     const rubbleType = this._getRestorableRubbleType(tileX, tileY, type);
     if (!rubbleType) return null;
     const sourceMaxHp = Math.max(1, Math.floor(Number.isFinite(maxHp) && maxHp > 0 ? maxHp : this.getTileMaxHp(tileX, tileY, rubbleType)));
@@ -905,8 +916,13 @@ export class WorldModel {
       const tx = Number.parseInt(txText, 10);
       const ty = Number.parseInt(tyText, 10);
       if (!Number.isInteger(tx) || !Number.isInteger(ty) || !this.inBounds(tx, ty)) continue;
+      if (isSurfaceTraversalReservedTileY(ty, this.topAirRows, this.config)) continue;
       const type = this.getType(tx, ty);
-      if (type === TILE_TYPES.BEDROCK || type === TILE_TYPES.CAVE_WALL || type === TILE_TYPES.GEODE_WALL) continue;
+      if (type === TILE_TYPES.BEDROCK
+        || type === TILE_TYPES.CAVE_WALL
+        || type === TILE_TYPES.GEODE_WALL
+        || type === TILE_TYPES.FLOOR_TOWN_1
+        || type === TILE_TYPES.FLOOR_TOWN_2) continue;
       const keyStr = makeTileKey(tx, ty);
       this.setTile(tx, ty, TILE_TYPES.AIR, 0);
       this.dugTiles.set(keyStr, { tileX: tx, tileY: ty, dugAt: Date.now() });

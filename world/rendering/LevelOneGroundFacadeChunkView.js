@@ -2,32 +2,13 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RESOURCE_BY_TILE_TYPE } from "../../values/resourceTypes.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { getDamageStage } from "./tileRenderMap.js";
-
-const SPECIAL_MARKER_KEY_BY_TYPE = Object.freeze({
-  [TILE_TYPES.TELEPORT_TILE]: "teleport",
-  [TILE_TYPES.GAMBLE_TILE]: "gamble",
-  [TILE_TYPES.GEM_POWER_BLOCK]: "gemPower",
-  [TILE_TYPES.SPEED_BLOCK]: "speed",
-  [TILE_TYPES.XP_BLOCK]: "xp",
-  [TILE_TYPES.CRIT_BLOCK]: "crit",
-  [TILE_TYPES.BERSERK_BLOCK]: "berserk",
-  [TILE_TYPES.COMBO_BLOCK]: "combo",
-  [TILE_TYPES.LEGEND_BLOCK]: "legend",
-  [TILE_TYPES.GEODE_INTERIOR]: "geodeInterior",
-  [TILE_TYPES.GEODE_WALL]: "geodeWall",
-  [TILE_TYPES.CHEST]: "chest",
-  [TILE_TYPES.ANCIENT_RELIC_CACHE]: "ancientRelic",
-  [TILE_TYPES.GLOW_CRYSTAL]: "glowCrystal",
-});
+import {
+  resolveScenicFacadeMarker,
+  scenicMarkerVariant,
+} from "./worldScenicFacadeHelpers.js";
 
 function cellKey(tx, ty) {
   return `${tx},${ty}`;
-}
-
-function markerVariant(tx, ty, type, variants) {
-  let hash = Math.imul(tx + 17, 374761393) ^ Math.imul(ty + 31, 668265263) ^ Math.imul(type + 7, 2246822519);
-  hash = Math.imul(hash ^ (hash >>> 13), 1274126177);
-  return ((hash ^ (hash >>> 16)) >>> 0) % variants;
 }
 
 export class LevelOneGroundFacadeChunkView {
@@ -111,8 +92,16 @@ export class LevelOneGroundFacadeChunkView {
     const maxHp = this.worldModel.getTileMaxHp(cell.tx, cell.ty, type);
     const damageStage = getDamageStage(hp, maxHp);
     const resourceKey = RESOURCE_BY_TILE_TYPE[type];
-    const specialKey = SPECIAL_MARKER_KEY_BY_TYPE[type];
-    const marker = this.config.resourceMarkers[resourceKey] || this.config.specialMarkers[specialKey];
+    const marker = resolveScenicFacadeMarker(
+      this.config,
+      type,
+      resourceKey,
+      cell.ty,
+      this.worldModel.topAirRows
+        ?? this.worldModel.config?.topAirRows
+        ?? this.scene.config.topAirRows
+        ?? 0
+    );
     cell.base.setAlpha(this.config.damage.baseAlphaByStage[damageStage] ?? 1);
     this._syncRecognition(cell, type, marker, damageStage);
     this._syncCrack(cell, hp, maxHp, damageStage);
@@ -124,7 +113,7 @@ export class LevelOneGroundFacadeChunkView {
       cell.lastMarkerFrame = null;
       return;
     }
-    const variant = markerVariant(cell.tx, cell.ty, type, marker.variants);
+    const variant = scenicMarkerVariant(cell.tx, cell.ty, type, marker.variants);
     const frameName = this._recognitionFrameName(marker.frame + variant);
     const tileSize = this.scene.config.tileSize;
     if (!cell.recognition) {

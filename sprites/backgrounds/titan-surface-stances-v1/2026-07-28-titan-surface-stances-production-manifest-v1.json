@@ -1,0 +1,588 @@
+{
+  "schemaVersion": 1,
+  "generationMode": "built-in ImageGen",
+  "count": 25,
+  "complete": true,
+  "runtimeSize": [
+    768,
+    768
+  ],
+  "webpQuality": 94,
+  "stances": [
+    {
+      "index": 1,
+      "id": "mossback-wanderer",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-01-mossback-wanderer-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1576,
+        998
+      ],
+      "sourceAlphaBounds": [
+        172,
+        27,
+        1339,
+        908
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/01-mossback-wanderer-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.376177,
+      "sha256": "fe90592edafb220d5ffada96a284e45e0632fa9e55b8cc21c107c4b184ff8c95",
+      "bytes": 182312
+    },
+    {
+      "index": 2,
+      "id": "bellhorn-grazer",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-02-bellhorn-grazer-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1635,
+        962
+      ],
+      "sourceAlphaBounds": [
+        352,
+        34,
+        1299,
+        921
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/02-bellhorn-grazer-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.474884,
+      "sha256": "c9407b24bed380f844d35c7d56037e2d3e77aba72454e8aeddcb27405fa24b3d",
+      "bytes": 199754
+    },
+    {
+      "index": 3,
+      "id": "lantern-jaw",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-03-lantern-jaw-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1695,
+        928
+      ],
+      "sourceAlphaBounds": [
+        169,
+        93,
+        1496,
+        844
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/03-lantern-jaw-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.278754,
+      "sha256": "3fd131d767554f0995fdfbfbd1d1b63efbef374f34096263f9205704ed3b2df0",
+      "bytes": 122004
+    },
+    {
+      "index": 4,
+      "id": "archwalker",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-04-archwalker-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "sourceAlphaBounds": [
+        150,
+        84,
+        1270,
+        968
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/04-archwalker-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.381671,
+      "sha256": "1d75cde57c56c568fff92dfd34c3e41944fc460410918b807e6b006e66760596",
+      "bytes": 147640
+    },
+    {
+      "index": 5,
+      "id": "shale-mother",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-05-shale-mother-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1408,
+        1117
+      ],
+      "sourceAlphaBounds": [
+        154,
+        122,
+        1298,
+        1003
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/05-shale-mother-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.36057,
+      "sha256": "35f1800a1cf45d145ce2ff191557881632fbdaa702e941ffdfe29cacfca749d2",
+      "bytes": 161794
+    },
+    {
+      "index": 6,
+      "id": "ribbon-wyrm",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-06-ribbon-wyrm-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1354,
+        1162
+      ],
+      "sourceAlphaBounds": [
+        129,
+        54,
+        1201,
+        1117
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/06-ribbon-wyrm-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.409556,
+      "sha256": "1deb3e219460347adf486a628c4f58c43896fb509b9df2b3e2c00e0825ca50e9",
+      "bytes": 207382
+    },
+    {
+      "index": 7,
+      "id": "crowned-mole",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-07-crowned-mole-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1417,
+        1110
+      ],
+      "sourceAlphaBounds": [
+        79,
+        67,
+        1364,
+        1026
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/07-crowned-mole-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.340468,
+      "sha256": "452e75ac58f5b3efec808ea273aa39baedd98b84996db746c246a3ab14df66a5",
+      "bytes": 150034
+    },
+    {
+      "index": 8,
+      "id": "hammerhead-pilgrim",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-08-hammerhead-pilgrim-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlphaBounds": [
+        135,
+        90,
+        1108,
+        1150
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/08-hammerhead-pilgrim-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.336823,
+      "sha256": "e26f89c6db2ef98c56abfd69c2b6f86a5001270d7be5c4a17d5ce7f373f843bf",
+      "bytes": 136340
+    },
+    {
+      "index": 9,
+      "id": "cathedral-stag",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-09-cathedral-stag-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1195,
+        1316
+      ],
+      "sourceAlphaBounds": [
+        168,
+        58,
+        1026,
+        1251
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/09-cathedral-stag-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.216241,
+      "sha256": "249a9eedbe12059ce4c533d2c45697b5548a7c1f3cf6f0447ed9ba2662048158",
+      "bytes": 173702
+    },
+    {
+      "index": 10,
+      "id": "hollowback-bear",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-10-hollowback-bear-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1687,
+        932
+      ],
+      "sourceAlphaBounds": [
+        241,
+        63,
+        1389,
+        862
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/10-hollowback-bear-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.412059,
+      "sha256": "c9ecf98d5a54d968b2d1b03bb8550576db2d351082467ede492c81a9d25adf1f",
+      "bytes": 153476
+    },
+    {
+      "index": 11,
+      "id": "silver-strider",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-11-silver-strider-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlphaBounds": [
+        250,
+        25,
+        1115,
+        1222
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/11-silver-strider-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.204937,
+      "sha256": "b1a497bfb19ab8162d36b966f8c4891215190590715c441f2b3d298c38b5f98a",
+      "bytes": 112094
+    },
+    {
+      "index": 12,
+      "id": "mirror-ray",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-12-mirror-ray-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "sourceAlphaBounds": [
+        180,
+        41,
+        1260,
+        1004
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/12-mirror-ray-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.228733,
+      "sha256": "35356e94aa5cc6f350b18cac7e8c30a97a9d956cce8784a9ae67ec876ddc4a4f",
+      "bytes": 115030
+    },
+    {
+      "index": 13,
+      "id": "needlecrown",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-13-needlecrown-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1687,
+        932
+      ],
+      "sourceAlphaBounds": [
+        272,
+        21,
+        1496,
+        916
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/13-needlecrown-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.297594,
+      "sha256": "7606a94f9323e5ccea361c3a98219764858938595e6753958e03c66eb49b0faf",
+      "bytes": 144512
+    },
+    {
+      "index": 14,
+      "id": "moon-shell",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-14-moon-shell-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1550,
+        1014
+      ],
+      "sourceAlphaBounds": [
+        105,
+        38,
+        1450,
+        914
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/14-moon-shell-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.353722,
+      "sha256": "e07a35a5574a953e2f6b4b0e82dcac587538a8e9b0a159d29686c9c5f618f1be",
+      "bytes": 152084
+    },
+    {
+      "index": 15,
+      "id": "veilwing",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-15-veilwing-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "sourceAlphaBounds": [
+        206,
+        11,
+        1296,
+        1014
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/15-veilwing-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.297652,
+      "sha256": "780ea4812c58e6ca705c17c7076550872393287f6443e3796816dac1e78cde83",
+      "bytes": 176100
+    },
+    {
+      "index": 16,
+      "id": "ember-tusk",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-16-ember-tusk-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1686,
+        933
+      ],
+      "sourceAlphaBounds": [
+        131,
+        21,
+        1430,
+        869
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/16-ember-tusk-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.296285,
+      "sha256": "818565ca64dca26f2b2ceb8150e4c32fd5d6a30703b149a3d67e937dd882e4f2",
+      "bytes": 132958
+    },
+    {
+      "index": 17,
+      "id": "furnace-drake",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-17-furnace-drake-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1688,
+        932
+      ],
+      "sourceAlphaBounds": [
+        159,
+        84,
+        1555,
+        874
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/17-furnace-drake-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.228124,
+      "sha256": "ce46736b06c2f7d36823ecdcf1998cee1779b365ca6c87434951cdb58a65f2a6",
+      "bytes": 118606
+    },
+    {
+      "index": 18,
+      "id": "ash-colossus",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-18-ash-colossus-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1396,
+        1127
+      ],
+      "sourceAlphaBounds": [
+        138,
+        53,
+        1221,
+        1016
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/18-ash-colossus-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.491514,
+      "sha256": "453544036b83c2f3c8505f1dad3c7995d7f958fff4a7a8fe49fc7826c8d222b2",
+      "bytes": 196906
+    },
+    {
+      "index": 19,
+      "id": "magma-whale",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-19-magma-whale-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1688,
+        932
+      ],
+      "sourceAlphaBounds": [
+        89,
+        21,
+        1630,
+        893
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/19-magma-whale-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.207689,
+      "sha256": "35f78ef12a5cca0dec0e0071116807c59c65813fdc41fb15e715d05b62b49f97",
+      "bytes": 97696
+    },
+    {
+      "index": 20,
+      "id": "cinder-centipede",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-20-cinder-centipede-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1537,
+        1023
+      ],
+      "sourceAlphaBounds": [
+        129,
+        45,
+        1453,
+        999
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/20-cinder-centipede-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.207301,
+      "sha256": "2c759cbe0ace2339e772156a0a38431fa3663a81ed5e3dd2db9591ab357fba2f",
+      "bytes": 122246
+    },
+    {
+      "index": 21,
+      "id": "obsidian-sleeper",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-21-obsidian-sleeper-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1688,
+        932
+      ],
+      "sourceAlphaBounds": [
+        185,
+        64,
+        1533,
+        877
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/21-obsidian-sleeper-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.269462,
+      "sha256": "a921c387cbcb7522395985fc27e852bd7975bb53acd978e82d0a2ed9a47f5071",
+      "bytes": 98046
+    },
+    {
+      "index": 22,
+      "id": "rift-heron",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-22-rift-heron-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1194,
+        1317
+      ],
+      "sourceAlphaBounds": [
+        235,
+        45,
+        923,
+        1275
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/22-rift-heron-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.200399,
+      "sha256": "934ec9cf703115b0a9de88d686e4c5ab20b010479b7d7466a0179def36cc72ca",
+      "bytes": 116164
+    },
+    {
+      "index": 23,
+      "id": "star-eater",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-23-star-eater-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceAlphaBounds": [
+        149,
+        37,
+        1112,
+        1211
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/23-star-eater-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.379686,
+      "sha256": "211de8977e9a4a883d3b7c258c7842397da0386b94cd3fea65904296374e84e4",
+      "bytes": 207240
+    },
+    {
+      "index": 24,
+      "id": "deep-crown",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-24-deep-crown-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1525,
+        1031
+      ],
+      "sourceAlphaBounds": [
+        203,
+        32,
+        1428,
+        977
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/24-deep-crown-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.350896,
+      "sha256": "875cc71e022e9425c9b758999f3e96710bc82d2c2764d1db2cbeae0c8cca828a",
+      "bytes": 161580
+    },
+    {
+      "index": 25,
+      "id": "worldroot-titan",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/sources/2026-07-28-25-worldroot-titan-surface-stance-alpha-v1.png",
+      "sourceSize": [
+        1528,
+        1029
+      ],
+      "sourceAlphaBounds": [
+        227,
+        11,
+        1244,
+        1010
+      ],
+      "runtime": "sprites/backgrounds/titan-surface-stances-v1/25-worldroot-titan-surface-stance-v1.webp",
+      "runtimeSize": [
+        768,
+        768
+      ],
+      "alphaCoverage": 0.413579,
+      "sha256": "440aab7d16393c472fc134bdf3f88128a1dcd78cc05ca88ad8ff0e436a2dd217",
+      "bytes": 287054
+    }
+  ]
+}

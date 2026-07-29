@@ -1,5 +1,10 @@
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "../../../values/ualNativePlayerAssetProfile.js";
 import { WorldVisualTownFloorView } from "./WorldVisualTownFloorView.js";
+import {
+  clearTintIfChanged,
+  setAlphaIfChanged,
+  setTintIfChanged,
+} from "./worldVisualRenderState.js";
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -325,24 +330,32 @@ export class WorldVisualSurfacePackView {
     // range. Global day/night and weather systems own the scene grade; this
     // pack owns aligned wetness and lightning response only.
     this.beautyPasses.forEach(image => {
-      image.clearTint().setAlpha(image._surfacePackBaseAlpha * beautyVisibility);
+      clearTintIfChanged(image);
+      setAlphaIfChanged(image, image._surfacePackBaseAlpha * beautyVisibility);
     });
     this.beautyLightningPasses.forEach(image => {
-      image.setAlpha(
+      setAlphaIfChanged(
+        image,
         image._surfacePackBaseAlpha
         * beautyVisibility
         * lighting.lightning
         * effects.lightningBeautyAlpha
       );
     });
-    this.groundPasses.forEach(image => image.clearTint());
+    this.groundPasses.forEach(image => clearTintIfChanged(image));
     this.groundWetPasses.forEach(image => {
-      image.setTint(effects.wetGroundTint)
-        .setAlpha(image._surfacePackBaseAlpha * lighting.wet * effects.wetGroundAlpha);
+      setTintIfChanged(image, effects.wetGroundTint);
+      setAlphaIfChanged(
+        image,
+        image._surfacePackBaseAlpha * lighting.wet * effects.wetGroundAlpha
+      );
     });
     this.groundLightningPasses.forEach(image => {
-      image.clearTint()
-        .setAlpha(image._surfacePackBaseAlpha * lighting.lightning * effects.lightningGroundAlpha);
+      clearTintIfChanged(image);
+      setAlphaIfChanged(
+        image,
+        image._surfacePackBaseAlpha * lighting.lightning * effects.lightningGroundAlpha
+      );
     });
     this.townFloorView?.update(lighting);
   }

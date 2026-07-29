@@ -38,6 +38,19 @@ class ThunderStrikeChainReviewScene extends Phaser.Scene {
       ASSET_KEYS.ui.thunderStrikeChainFrame,
       `../${THUNDER_STRIKE_CHAIN_CONFIG.timingBar.assetPath}`,
     );
+    this.load.image(
+      ASSET_KEYS.ui.thunderStrikeTargetGate,
+      `../${THUNDER_STRIKE_CHAIN_CONFIG.timingBar.targetAssetPath}`,
+    );
+    this.load.image(
+      ASSET_KEYS.ui.thunderStrikeNeedle,
+      `../${THUNDER_STRIKE_CHAIN_CONFIG.timingBar.needleAssetPath}`,
+    );
+    Object.entries(
+      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt.assetPaths,
+    ).forEach(([name, path]) => {
+      this.load.image(ASSET_KEYS.ui.thunderStrikeIndicator[name], `../${path}`);
+    });
   }
 
   create() {
@@ -57,12 +70,18 @@ class ThunderStrikeChainReviewScene extends Phaser.Scene {
       this.running = false;
       this._renderReview();
     });
-    this.input.keyboard.on("keydown-TWO", () => this._setStage(1));
-    this.input.keyboard.on("keydown-THREE", () => this._setStage(2));
+    const stageKeys = ["TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "ZERO"];
+    stageKeys.forEach((key, index) => {
+      this.input.keyboard.on(`keydown-${key}`, () => this._setStage(index + 1));
+    });
+    this.input.keyboard.on("keydown-RIGHT", () => this._setStage(this.stageIndex + 1));
+    this.input.keyboard.on("keydown-LEFT", () => this._setStage(this.stageIndex - 1));
+    this.input.keyboard.on("keydown-M", () => this._showFailure());
 
     globalThis.__thunderStrikeChainReview = {
       ready: true,
       setStage: (stageNumber) => this._setStage(Math.max(1, stageNumber) - 1),
+      showFailure: () => this._showFailure(),
       setProgress: (progress) => {
         this.progress = clamp01(progress);
         this.running = false;
@@ -86,11 +105,29 @@ class ThunderStrikeChainReviewScene extends Phaser.Scene {
   }
 
   _setStage(stageIndex) {
-    this.stageIndex = Math.max(1, Math.min(2, Math.trunc(stageIndex)));
+    this.stageIndex = Math.max(
+      1,
+      Math.min(THUNDER_STRIKE_CHAIN_CONFIG.stages.length - 1, Math.trunc(stageIndex)),
+    );
     this.progress = getThunderStrikeStage(this.stageIndex).timing.targetProgress;
     this.running = false;
     this._renderReview();
     return this.stageIndex + 1;
+  }
+
+  _showFailure() {
+    this.running = false;
+    const snapshot = {
+      ...createTimingSnapshot(this.stageIndex, this.progress),
+      phase: THUNDER_STRIKE_CHAIN_PHASES.FAILED,
+    };
+    this.timingBar.showFeedback(
+      THUNDER_STRIKE_CHAIN_CONFIG.feedback.chainBrokenText,
+      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.dangerColor,
+      this.time.now,
+      THUNDER_STRIKE_CHAIN_CONFIG.feedback.failureLingerMs,
+      snapshot,
+    );
   }
 
   _renderReview() {

@@ -10,6 +10,30 @@ const REVIEW_SURFACES = Object.freeze([
   ["notification", "Notification"],
 ]);
 
+const NOTIFICATION_REVIEW_CASES = Object.freeze([
+  Object.freeze({
+    method: "success",
+    message: "UI review update: one readable card at a time.",
+  }),
+  Object.freeze({
+    method: "info",
+    message: "UI review notice: arrows browse the queued cards.",
+  }),
+  Object.freeze({
+    method: "warning",
+    message: "UI review warning: X removes only this card.",
+  }),
+]);
+let notificationReviewIndex = 0;
+
+function showReviewNotification(scene) {
+  const sample = NOTIFICATION_REVIEW_CASES[
+    notificationReviewIndex % NOTIFICATION_REVIEW_CASES.length
+  ];
+  notificationReviewIndex += 1;
+  scene.uiNotifications?.[sample.method]?.(sample.message, { noDedupe: true });
+}
+
 function closeReviewSurface(scene) {
   if (scene._pausePanel) scene.hidePauseMenu?.();
   scene.shopOverlay?.hide?.();
@@ -55,7 +79,7 @@ function openReviewSurface(scene, surface) {
       );
       break;
     case "notification":
-      scene.uiNotifications?.success?.("UI review notification: spacing and contrast check.");
+      showReviewNotification(scene);
       break;
   }
 }

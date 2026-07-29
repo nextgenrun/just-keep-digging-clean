@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase Handoff Review</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">SURVIVAL CHARACTER • ANIMATION LAB</p>
+        <h1>Phase handoff review</h1>
+        <p id="scenario-summary">Loading measured Jog handoffs…</p>
+      </div>
+      <span class="review-badge">REVIEW ONLY • PRODUCTION UNCHANGED</span>
+    </header>
+
+    <nav id="scenario-buttons" aria-label="Handoff scenarios"></nav>
+
+    <section class="preview-shell" aria-live="polite">
+      <img id="preview" alt="Current and proposed animation handoff comparison">
+      <div class="preview-controls">
+        <span id="scenario-label">Loading…</span>
+        <button id="replay" type="button">Replay comparison</button>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Measured comparison">
+      <article>
+        <span>Current planted-foot jump</span>
+        <strong id="current-delta">—</strong>
+      </article>
+      <article class="recommended">
+        <span>Proposed planted-foot jump</span>
+        <strong id="proposed-delta">—</strong>
+      </article>
+      <article>
+        <span>Input delay</span>
+        <strong id="input-delay">0 frames</strong>
+      </article>
+      <article>
+        <span>Action/contact timing</span>
+        <strong id="timing">Unchanged</strong>
+      </article>
+    </section>
+
+    <section class="keyframes">
+      <div>
+        <p class="eyebrow">BOUNDARY FRAMES</p>
+        <h2>Look at the feet at DIG START, DIG RELEASE, and TURN INPUT</h2>
+      </div>
+      <img src="generated/phase-handoff-keyframes.png" alt="Key phase-handoff frames">
+    </section>
+  </main>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "date": "2026-07-28",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWired": false,
+  "sourceTileRange": {
+    "left": 0,
+    "rightInclusive": 279
+  },
+  "panelCount": 14,
+  "contactSheets": [
+    "2026-07-28-overview-all-14-surface-segments-v1.png",
+    "2026-07-28-overview-level1-segments-01-07-v1.png",
+    "2026-07-28-overview-level2-segments-08-14-v1.png"
+  ],
+  "files": [
+    {
+      "panel": 1,
+      "tileRange": "000-019",
+      "title": "Merchant Hearth",
+      "file": "2026-07-28-01-x000-019-merchant-hearth-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2753590,
+      "sha256": "34ff4748e20ac07c1df2493df249d3997a4dc8ede1b05f498e2809b55672e7f5"
+    },
+    {
+      "panel": 2,
+      "tileRange": "020-039",
+      "title": "Titan Walk West",
+      "file": "2026-07-28-02-x020-039-titan-walk-west-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2718408,
+      "sha256": "9a70b9ea6e0d9283b8960a244d6b1da94fef375a28ba8fbbf7c2c272e9c4ad7d"
+    },
+    {
+      "panel": 3,
+      "tileRange": "040-059",
+      "title": "Titan Walk East",
+      "file": "2026-07-28-03-x040-059-titan-walk-east-v2.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2578416,
+      "sha256": "675330d6b9e9acac849dd7aa26932ec39176af8502763d06c409b7c2478df3dc"
+    },
+    {
+      "panel": 4,
+      "tileRange": "060-079",
+      "title": "Craftsmen Commons",
+      "file": "2026-07-28-04-x060-079-craftsmen-commons-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2669912,
+      "sha256": "29125eac8160b89b7ca6baa25002730d4ea5aebc8d4ef425c026786d603e4902"
+    },
+    {
+      "panel": 5,
+      "tileRange": "080-099",
+      "title": "Skywell Market",
+      "file": "2026-07-28-05-x080-099-skywell-market-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2747138,
+      "sha256": "b183c838aaec40904214caa79075734c3ccddc154897e82c2bc8c4517d0683b9"
+    },
+    {
+      "panel": 6,
+      "tileRange": "100-119",
+      "title": "Three-Relic Gate Grove",
+      "file": "2026-07-28-06-x100-119-three-relic-gate-grove-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2821554,
+      "sha256": "e2fdf5db83d535ab20e34c1a94f3665201eff17a7ebba2e864b0da7fba96c7cb"
+    },
+    {
+      "panel": 7,
+      "tileRange": "120-139",
+      "title": "Mine Threshold",
+      "file": "2026-07-28-07-x120-139-mine-threshold-drop-seam-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2703156,
+      "sha256": "4d358293a600a3cc63a555e3b6e8b79e8934eb3f9e8c79dcd02eaa7544855e6d"
+    },
+    {
+      "panel": 8,
+      "tileRange": "140-159",
+      "title": "Level 2 Arrival Forge",
+      "file": "2026-07-28-08-x140-159-level2-arrival-forge-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2677989,
+      "sha256": "426500355ad62a6e6c8d8a9e6036b08bf474523694a49cec02974abeb46af5f5"
+    },
+    {
+      "panel": 9,
+      "tileRange": "160-179",
+      "title": "Caravan Rest",
+      "file": "2026-07-28-09-x160-179-caravan-rest-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2676733,
+      "sha256": "dae079b65e3388786ba2db613bf2758739bf951bf49ebb8ce1bec02e9f917b27"
+    },
+    {
+      "panel": 10,
+      "tileRange": "180-199",
+      "title": "Starwell Herb Court",
+      "file": "2026-07-28-10-x180-199-starwell-herb-court-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2827107,
+      "sha256": "f4fd4dfc86bad36c0fe624d168b767478d32f931fbf902fc6d50e9b29d3db864"
+    },
+    {
+      "panel": 11,
+      "tileRange": "200-219",
+      "title": "Timberwright Yard",
+      "file": "2026-07-28-11-x200-219-timberwright-yard-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2817758,
+      "sha256": "0bcfa71e2547663b2485c7a7d57ca39f403fbebcdec988f744a0c76331d4ca7c"
+    },
+    {
+      "panel": 12,
+      "tileRange": "220-239",
+      "title": "Heavenblocks Observatory",
+      "file": "2026-07-28-12-x220-239-heavenblocks-observatory-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2714725,
+      "sha256": "de9266497fffb85b3bdc6f54a0f2d5b0a681584f6a32493353412c3fc26fdd7b"
+    },
+    {
+      "panel": 13,
+      "tileRange": "240-259",
+      "title": "Frontier Survey Garden",
+      "file": "2026-07-28-13-x240-259-frontier-survey-garden-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2735528,
+      "sha256": "1d5679dd7048b1c306aa06b74932a7ddbd317427bf0ccb021c426020a4304701"
+    },
+    {
+      "panel": 14,
+      "tileRange": "260-279",
+      "title": "Far-East Expedition Overlook",
+      "file": "2026-07-28-14-x260-279-far-east-expedition-overlook-v1.png",
+      "width": 1983,
+      "height": 793,
+      "bytes": 2810447,
+      "sha256": "f303cdd076fe3e686874dbb67705c4a297be89c18883f8a01f45348121aae452"
+    }
+  ]
+}

@@ -5,6 +5,13 @@ This directory owns non-visual runtime canary logic.
 - `RuntimeCanarySystem.js` records browser failures, Phaser lifecycle events,
   asset-load failures, frozen frames, stalled loading scenes, and missing
   PlayScene/CaveScene collaborators.
+- `PerformanceTelemetrySystem.js` records rolling Phaser frame, update, render,
+  and named hot-path timings without changing game state. Its snapshot is
+  published at `window.__jkdPerformance` and included in canary reports.
+- `performanceTelemetryBridge.js` is the narrow timing bridge used by
+  PlayScene and world renderers. Its weakly held cadence state samples named
+  phases once every thirty frames, so unsampled frames avoid clock reads; it
+  reports spans without owning health policy.
 - `runtimeCanaryChecks.js` contains the deterministic runtime invariant checks.
 - `RuntimeCanaryReporter.js` persists the latest critical report locally and
   optionally posts reports when `globalThis.__JKD_CANARY_REPORT_ENDPOINT__` is
@@ -13,9 +20,14 @@ This directory owns non-visual runtime canary logic.
   `RuntimeHealthWorkerSource.js`. It receives main-thread heartbeats, pauses
   while the page is hidden, and reports a frozen game thread through both the
   canary and the optional endpoint.
-- PlayScene checks also validate Star Heart charge, permanent-choice accounting,
-  one-active-Engine state, activation caps, and bounded reward transaction
-  memory.
+- PlayScene checks also validate Star Heart charge, three-Heart ownership
+  accounting, one-equipped/one-active-Engine state, activation caps, and bounded
+  reward transaction memory.
+- The `starlight-talent-tree-invariant` requires ten constellation nodes, all
+  sign textures, three Engine textures/options, three page/navigation states,
+  exactly one visible active page, a valid shared view factory, bounded reveal
+  state, and a healthy active view. Failures enter the same
+  runtime-canary report and optional endpoint used by the health worker.
 - Heavenblocks checks require the progression, access, and crafting
   collaborators and validate protected platform collision, interaction-prompt
   readiness, and serializable progression state.
@@ -28,4 +40,4 @@ This directory owns non-visual runtime canary logic.
 
 The system never mutates gameplay state. Admin presentation belongs in
 `ui/admin/`, and all thresholds, labels, event codes, and styles live in
-`values/runtimeCanaryConfig.js`.
+`values/runtimeCanaryConfig.js` or `values/performanceTelemetryConfig.js`.

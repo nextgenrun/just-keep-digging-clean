@@ -5,6 +5,10 @@ import {
 } from "../../values/arcCoreConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ArcCoreVisualSystem } from "./ArcCoreVisualSystem.js";
+import {
+  applyBodyCollisionProfile,
+  captureBodyCollisionProfile,
+} from "./arcCoreCollisionProfile.js";
 import { resolveArcCoreDigFootprint } from "./arcCoreDigFootprint.js";
 
 export class ArcCoreVehicleSystem {
@@ -16,6 +20,8 @@ export class ArcCoreVehicleSystem {
     this.prompt = null;
     this.active = false;
     this._interactConsumed = false;
+    this._defaultCollisionProfile = null;
+    this._activeCollisionSignature = null;
   }
 
   create() {
@@ -29,6 +35,7 @@ export class ArcCoreVehicleSystem {
         (parking.tileY + 1) * tileSize,
       );
     this.sprite = this.visuals.legacySprite;
+    this.captureDefaultCollisionProfile();
     this.prompt = this.scene.add.text(0, 0, "", {
       fontFamily: promptStyle.fontFamily,
       fontSize: `${promptStyle.fontSizePx}px`,
@@ -63,9 +70,53 @@ export class ArcCoreVehicleSystem {
     return this.active;
   }
 
+  captureDefaultCollisionProfile() {
+    if (!this._defaultCollisionProfile) {
+      this._defaultCollisionProfile = captureBodyCollisionProfile(
+        this.scene.playerController?.physicsBody,
+      );
+    }
+    return this._defaultCollisionProfile;
+  }
+
+  applyActiveCollisionProfile() {
+    const body = this.scene.playerController?.physicsBody;
+    const profile = this.visuals?.getCollisionProfile?.();
+    if (!body || !profile) return true;
+    const signature = `${profile.kind}:${profile.diameterPx}`;
+    if (signature === this._activeCollisionSignature) return true;
+    this.captureDefaultCollisionProfile();
+    const previous = captureBodyCollisionProfile(body);
+    if (!applyBodyCollisionProfile(body, profile)) return false;
+    const collisionSystem = this.scene.tileCollisionSystem;
+    if (collisionSystem && !collisionSystem.resolveBodyOverlap(body)) {
+      applyBodyCollisionProfile(body, previous);
+      return false;
+    }
+    body.resetVelocity?.();
+    this._activeCollisionSignature = signature;
+    this.scene.playerController?._syncSpriteWithPhysics?.();
+    return true;
+  }
+
+  restoreDefaultCollisionProfile() {
+    const body = this.scene.playerController?.physicsBody;
+    const profile = this._defaultCollisionProfile;
+    if (!body || !profile || !this._activeCollisionSignature) return true;
+    const restored = applyBodyCollisionProfile(body, profile);
+    if (restored) {
+      this.scene.tileCollisionSystem?.resolveBodyOverlap?.(body);
+      body.resetVelocity?.();
+      this.scene.playerController?._syncSpriteWithPhysics?.();
+      this._activeCollisionSignature = null;
+    }
+    return restored;
+  }
+
   syncOwnership() {
     const unlocked = this.isUnlocked();
     this.visuals?.setProfile(this.isOmegaUnlocked(), unlocked);
+    if (unlocked && this.active) this.applyActiveCollisionProfile();
     if (!unlocked && this.active) this.setActive(false, { silent: true });
     return unlocked;
   }
@@ -73,12 +124,14 @@ export class ArcCoreVehicleSystem {
   setActive(active, options = {}) {
     const next = Boolean(active) && this.isUnlocked();
     if (next === this.active) return this.active;
+    if (next && !this.applyActiveCollisionProfile()) return this.active;
     const transitionStarted = !options.silent
       && this.visuals?.beginTransition(
         next ? "enter" : "exit",
         this.scene.time?.now || 0,
       );
     this.active = next;
+    if (!next) this.restoreDefaultCollisionProfile();
     this.scene.player?.setAlpha?.(1);
     this.scene.player?.setVisible?.(transitionStarted ? true : !next);
     this.scene.playerBodyLanguage?.setEnabled?.(!next);
@@ -123,6 +176,7 @@ export class ArcCoreVehicleSystem {
       .setAnchor(anchor.x, anchor.y)
       .setDirection(aimDirection)
       .setProfile(this.isOmegaUnlocked(), this.isUnlocked());
+    if (this.active) this.applyActiveCollisionProfile();
     const state = this.visuals.update(this.scene.time?.now || 0);
     if (state.transitionActive) {
       this.scene.player?.setVisible?.(true);
@@ -208,6 +262,7 @@ export class ArcCoreVehicleSystem {
   }
 
   destroy() {
+    this.restoreDefaultCollisionProfile();
     this.scene.player?.setVisible(true);
     this.scene.player?.setAlpha?.(1);
     this.prompt?.destroy();
@@ -215,5 +270,7 @@ export class ArcCoreVehicleSystem {
     this.sprite = null;
     this.prompt = null;
     this.visuals = null;
+    this._defaultCollisionProfile = null;
+    this._activeCollisionSignature = null;
   }
 }

@@ -70,8 +70,6 @@ export class SpecialBlockEffectsManager {
         this.effects.guaranteedCrit.endTime = endTime;
         break;
     }
-
-    this.showEffectToast(effect.effect, effect.duration);
   }
 
   /**
@@ -136,40 +134,6 @@ export class SpecialBlockEffectsManager {
       return Math.max(0, Math.floor(remaining / 1000));
     }
     return 0;
-  }
-
-  /**
-   * Show effect toast notification
-   */
-  showEffectToast(effectName, duration) {
-    if (!this.scene.floatingTextSystem) return;
-
-    const messages = {
-      miningSpeedBoost: `⚡ SPEED BOOST! ${Math.floor(duration / 1000)}s`,
-      damageBoost: `💪 DAMAGE BOOST! ${Math.floor(duration / 1000)}s`,
-      guaranteedCrit: `💥 CRITICAL HITS! ${Math.floor(duration / 1000)}s`,
-    };
-
-    const colors = {
-      miningSpeedBoost: '#FFD700',
-      damageBoost: '#DC143C',
-      guaranteedCrit: '#FF0000',
-    };
-
-    const message = messages[effectName];
-    const color = colors[effectName] || '#FFFFFF';
-
-    // Show floating text at player position
-    if (this.scene.playerController) {
-      const playerPos = this.scene.playerController.getPlayerPosition();
-      this.scene.floatingTextSystem.showFloatingText(
-        playerPos.x,
-        playerPos.y - 50,
-        message,
-        color,
-        2000
-      );
-    }
   }
 
   /**

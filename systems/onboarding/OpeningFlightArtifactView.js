@@ -6,8 +6,7 @@ export class OpeningFlightArtifactView {
     this.config = config;
     this.artifactRoot = null;
     this.worldArrowRoot = null;
-    this.objectiveRoot = null;
-    this.objectiveBody = null;
+    this.objectiveMode = null;
     this.pointerRoot = null;
     this.trialView = new OpeningFlightTrialView(scene, config);
     this._destroyed = false;
@@ -130,28 +129,16 @@ export class OpeningFlightArtifactView {
   }
 
   _createObjective() {
-    const scene = this.scene;
     const cfg = this.config.screenView;
-    const colors = this.config.colors;
-    const fonts = this.config.typography;
-    const centerX = (scene.scale?.width || scene.config.viewportWidth) / 2;
-    const panel = scene.add.rectangle(
-      0, 0, cfg.objectiveWidthPx, cfg.objectiveHeightPx, colors.panel, cfg.panelAlpha,
-    ).setStrokeStyle(cfg.panelStrokeWidthPx, colors.panelStroke, cfg.panelStrokeAlpha);
-    const title = scene.add.text(0, cfg.objectiveTitleOffsetYPx, this.config.copy.objectiveTitle, {
-      fontFamily: fonts.titleFontFamily,
-      fontSize: cfg.objectiveTitleFontSize,
-      fontStyle: fonts.titleFontStyle,
-      color: colors.objectiveTitle,
-    }).setOrigin(0.5);
-    this.objectiveBody = scene.add.text(0, cfg.objectiveBodyOffsetYPx, this.config.copy.objectiveSurface, {
-      fontFamily: fonts.bodyFontFamily,
-      fontSize: cfg.objectiveBodyFontSize,
-      color: colors.objectiveBody,
-    }).setOrigin(0.5);
-    this.objectiveRoot = scene.add.container(centerX, cfg.objectiveY, [panel, title, this.objectiveBody])
-      .setScrollFactor(0)
-      .setDepth(cfg.depth);
+    this.objectiveMode = "surface";
+    this.scene.uiNotifications?.info?.(
+      this.config.copy.objectiveSurface,
+      {
+        key: cfg.objectiveNotificationKey,
+        title: this.config.copy.objectiveTitle,
+        noDedupe: true,
+      },
+    );
   }
 
   _createPointer() {
@@ -183,8 +170,16 @@ export class OpeningFlightArtifactView {
   }
 
   setMiningObjective(isMining) {
-    this.objectiveBody?.setText(
+    const mode = isMining ? "mine" : "surface";
+    if (mode === this.objectiveMode) return;
+    this.objectiveMode = mode;
+    this.scene.uiNotifications?.info?.(
       isMining ? this.config.copy.objectiveMine : this.config.copy.objectiveSurface,
+      {
+        key: this.config.screenView.objectiveNotificationKey,
+        title: this.config.copy.objectiveTitle,
+        noDedupe: true,
+      },
     );
   }
 
@@ -267,15 +262,17 @@ export class OpeningFlightArtifactView {
   }
 
   hideGuidance() {
-    [this.artifactRoot, this.worldArrowRoot, this.objectiveRoot, this.pointerRoot]
+    this.scene.uiNotifications?.closeByKey?.(
+      this.config.screenView.objectiveNotificationKey,
+    );
+    [this.artifactRoot, this.worldArrowRoot, this.pointerRoot]
       .forEach(target => {
         this.scene.tweens?.killTweensOf(target);
         target?.destroy(true);
       });
     this.artifactRoot = null;
     this.worldArrowRoot = null;
-    this.objectiveRoot = null;
-    this.objectiveBody = null;
+    this.objectiveMode = null;
     this.pointerRoot = null;
   }
 

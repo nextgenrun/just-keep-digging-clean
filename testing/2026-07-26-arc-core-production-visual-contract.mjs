@@ -9,11 +9,17 @@ import { ARC_CORE_VISUAL_PACK } from "../values/arcCoreVisualAssets.js";
 import {
   ARC_CORE_VISUAL_CONFIG,
   getArcCoreVisualMode,
+  resolveArcCoreReviewCapture,
   resolveArcCoreVisualPhase,
   resolveArcCoreVisualsEnabled,
 } from "../values/arcCoreVisualConfig.js";
 import { RUNTIME_CANARY_CONFIG } from "../values/runtimeCanaryConfig.js";
 import { resolveArcCoreDigFootprint } from "../systems/vehicles/arcCoreDigFootprint.js";
+import {
+  applyArcCoreLayer,
+  hideArcCoreLayers,
+} from "../systems/vehicles/arcCoreLayerPlacement.js";
+import { preloadArcCoreVisualAssets } from "../systems/vehicles/arcCoreVisualRenderer.js";
 import { ArcCoreVehicleSystem } from "../systems/vehicles/ArcCoreVehicleSystem.js";
 import { evaluateRuntimeCanaries } from "../systems/health/runtimeCanaryChecks.js";
 
@@ -43,15 +49,35 @@ const builder = read("pipelines/piskel/2026-07-26-build-arc-core-piskel-package.
 assert.equal(ARC_CORE_VISUAL_CONFIG.approved, true);
 assert.equal(ARC_CORE_VISUAL_CONFIG.reviewOnly, false);
 assert.equal(ARC_CORE_VISUAL_CONFIG.productionChanged, true);
-assert.equal(ARC_CORE_VISUAL_PACK.revision, "20260727-arc-core-subdir-v1");
+assert.equal(
+  ARC_CORE_VISUAL_PACK.revision,
+  "20260728-arc-core-dig-repair-v4",
+);
 assert.deepEqual(ARC_CORE_VISUAL_CONFIG.controls, {
   digKey: "F",
   cloudKey: "B",
   smallArcKey: "1",
   omegaArcKey: "2",
+  refillMineKey: "R",
 });
 assert.equal(resolveArcCoreVisualsEnabled(""), true);
 assert.equal(resolveArcCoreVisualsEnabled("?arcCoreVisualsV3=0"), false);
+assert.deepEqual(
+  resolveArcCoreReviewCapture("?arcMode=omega&arcAction=dig&arcProgress=0.62"),
+  {
+    mode: "arcCoreOmega",
+    action: "dig",
+    progress: 0.62,
+    showHitbox: false,
+  },
+);
+assert.equal(
+  resolveArcCoreReviewCapture(
+    "?arcMode=small&arcAction=idle&arcHitbox=1",
+  ).showHitbox,
+  true,
+);
+assert.equal(resolveArcCoreReviewCapture("?arcMode=small"), null);
 
 const small = getArcCoreVisualMode(ARC_CORE_VISUAL_CONFIG.small.id);
 const omega = getArcCoreVisualMode(ARC_CORE_VISUAL_CONFIG.omega.id);
@@ -74,7 +100,7 @@ assert.equal(
   64,
 );
 
-assert.equal(meta.schemaVersion, 3);
+assert.equal(meta.schemaVersion, 4);
 assert.equal(meta.packageId, ARC_CORE_VISUAL_CONFIG.health.packageId);
 assert.equal(meta.pipeline, ARC_CORE_VISUAL_CONFIG.health.pipeline);
 assert.equal(meta.approved, true);
@@ -90,6 +116,37 @@ assert.equal(
   false,
   "production pack paths must remain relative to the deployed game subdirectory",
 );
+
+let packCompleteEvent = null;
+let packCompleteHandler = null;
+let packJsonRequest = null;
+const queuedImages = [];
+preloadArcCoreVisualAssets({
+  load: {
+    once(event, handler) {
+      packCompleteEvent = event;
+      packCompleteHandler = handler;
+    },
+    json(key, url) {
+      packJsonRequest = { key, url };
+    },
+    image(key, url) {
+      queuedImages.push({ key, url });
+    },
+  },
+}, "../../../");
+assert.match(packCompleteEvent, /^filecomplete-json-/);
+assert.match(packJsonRequest.url, /^\.\.\/\.\.\/\.\.\/values\//);
+packCompleteHandler(packJsonRequest.key, "json", pack);
+const roleImageRequests = queuedImages.filter(
+  request => request.key !== "arc-core-v3-stage-background",
+);
+assert.equal(roleImageRequests.length, section.files.length);
+assert.ok(roleImageRequests.every(
+  request => request.url.startsWith(
+    "../../../sprites/vehicles/arc-core-v3/runtime/",
+  ),
+));
 assert.equal(meta.reviewStage.role, "stage.background");
 assert.equal(section.files.some(file => file.role === meta.reviewStage.role), false);
 assert.equal(Object.values(meta.renderTuning).every(Number.isFinite), true);
@@ -97,6 +154,54 @@ assert.ok(
   meta.modes.arcCoreSmall.bodyDisplaySizePx
     < meta.modes.arcCoreOmega.bodyDisplaySizePx,
 );
+assert.deepEqual(meta.modes.arcCoreSmall.collision, {
+  kind: "circle",
+  label: "Small Arc round shell",
+  diameterPx: 104,
+  centerPx: [256, 256],
+});
+assert.deepEqual(meta.modes.arcCoreOmega.collision, {
+  kind: "circle",
+  label: "Omega Arc round array hull",
+  diameterPx: 416,
+  centerPx: [256, 256],
+});
+assert.equal(
+  meta.modes.arcCoreOmega.collision.diameterPx
+    / meta.modes.arcCoreSmall.collision.diameterPx,
+  4,
+);
+const smallProfile = meta.modes.arcCoreSmall;
+const omegaProfile = meta.modes.arcCoreOmega;
+assert.equal(
+  section.files.find(file => file.role === "small.impact").url,
+  "small-arc-impact-v4.png",
+);
+assert.equal(
+  section.files.find(file => file.role === "omega.impact").url,
+  "omega-arc-impact-v4.png",
+);
+assert.match(meta.piskelSources[0], /arc-core-body-and-fx-v4\.piskel$/);
+for (const [profile, mode] of [
+  [smallProfile, small],
+  [omegaProfile, omega],
+]) {
+  assert.ok(profile.dig.bodyMotion.bracePullbackPx > 0);
+  assert.ok(profile.dig.bodyMotion.contactDrivePx > 0);
+  assert.ok(profile.dig.bodyMotion.breakScaleRatio > 0);
+  assert.ok(profile.dig.impactStartScale < 1);
+  assert.ok(profile.dig.impactEndScale >= 1);
+  assert.ok(
+    Math.abs(profile.dig.timeline.impactPeak - mode.breakProgress) <= 0.02,
+    `${mode.label} impact must peak on the real tile-break frame`,
+  );
+}
+assert.notDeepEqual(smallProfile.dig.bodyMotion, omegaProfile.dig.bodyMotion);
+for (const texture of Object.values(
+  ARC_CORE_VISUAL_CONFIG.reviewStage.targetTextures,
+)) {
+  assert.equal(exists(texture.path), true, `${texture.path} must exist`);
+}
 
 const piskelRoles = new Set();
 assert.equal(meta.piskelSources.length, 2);
@@ -119,6 +224,7 @@ assert.deepEqual(
   [...section.files.map(file => file.role), meta.reviewStage.role].sort(),
 );
 assert.match(builder, /Piskel round-trip pixel mismatch/);
+assert.match(builder, /COLLISION_PROFILES/);
 assert.doesNotMatch(builder, /stage-tiles|review-hud|ui\.hud/);
 
 const runtimeRoot = path.join(ROOT, section.path.replace(/^[/\\]+/, ""));
@@ -184,8 +290,18 @@ assert.doesNotMatch(
 );
 assert.match(renderer, /meta\.pipeline !== "piskel-roundtrip"/);
 assert.match(renderer, /drawArcCoreActionVisuals/);
+assert.match(renderer, /bodyMotion/);
+assert.match(renderer, /alongScale/);
+assert.match(actionVisuals, /const reach =/);
+assert.match(actionVisuals, /impactScale/);
 assert.match(sandboxStage, /reviewStage/);
+assert.match(sandboxStage, /targetTextures/);
+assert.match(sandboxStage, /\.setTexture\(style\.texture\.key\)/);
 assert.doesNotMatch(sandboxStage, /roleByTileType|ensureTilePool|stageRoles/);
+assert.match(
+  sandbox,
+  /capture\.progress >= mode\.breakProgress[\s\S]*TILE\.AIR/,
+);
 assert.match(sandbox, /KeyCodes\.F/);
 assert.match(sandbox, /KeyCodes\.B/);
 assert.doesNotMatch(sandbox, /keyE\b/);
@@ -195,6 +311,7 @@ assert.match(boot, /ARC_CORE_VISUAL_PACK\.revision/);
 assert.match(renderer, /ARC_CORE_VISUAL_PACK\.revision/);
 assert.match(vehicleSystem, /new ArcCoreVisualSystem/);
 assert.match(vehicleSystem, /playDigAnimation/);
+assert.match(vehicleSystem, /applyActiveCollisionProfile/);
 assert.match(playUpdate, /arcCoreVehicleSystem\.playDigAnimation/);
 assert.doesNotMatch(`${vehicleSystem}\n${playUpdate}`, /playDigPulse/);
 assert.match(keybinds, /id: "interact"[\s\S]*defaultKey: "E"/);
@@ -203,6 +320,49 @@ assert.match(userSettings, /action\.id === "arcCoreVehicle"[\s\S]*savedInteractK
 assert.match(input, /addBoundKey\("arcCoreVehicle"\)/);
 assert.match(visualSystem, /getHealthSnapshot/);
 assert.match(canaries, /arcCoreVisualFindings/);
+
+const layerCalls = [];
+const cachedLayer = {
+  visible: false,
+  setVisible(value) {
+    this.visible = value;
+    layerCalls.push(["visible", value]);
+    return this;
+  },
+  setTexture(value) { layerCalls.push(["texture", value]); return this; },
+  setOrigin(x, y) { layerCalls.push(["origin", x, y]); return this; },
+  setDepth(value) { layerCalls.push(["depth", value]); return this; },
+  setTint(value) { layerCalls.push(["tint", value]); return this; },
+  setPosition(x, y) { layerCalls.push(["position", x, y]); return this; },
+  setDisplaySize(w, h) { layerCalls.push(["size", w, h]); return this; },
+  setAngle(value) { layerCalls.push(["angle", value]); return this; },
+  setAlpha(value) { layerCalls.push(["alpha", value]); return this; },
+};
+const layerOptions = {
+  texture: "arc-core-v3-small-body",
+  x: 100,
+  y: 200,
+  width: 114,
+  height: 114,
+  depth: 20,
+  alpha: 1,
+  visibleAlphaThreshold: 0.001,
+};
+applyArcCoreLayer(cachedLayer, layerOptions);
+assert.equal(cachedLayer.visible, true);
+hideArcCoreLayers({ body: cachedLayer }, ["body"]);
+assert.equal(cachedLayer.visible, false);
+applyArcCoreLayer(cachedLayer, layerOptions);
+assert.equal(
+  cachedLayer.visible,
+  true,
+  "a hidden cached layer must become visible when its animation resumes",
+);
+assert.equal(
+  layerCalls.filter(call => call[0] === "texture").length,
+  1,
+  "static texture assignment should stay cached across animation frames",
+);
 
 globalThis.Phaser = {
   Input: { Keyboard: { JustDown: key => key?.justDown === true } },
@@ -226,8 +386,25 @@ const fakeVisuals = {
   isTransitioning() { return false; },
   beginTransition() { return false; },
   getDisplaySizePx() { return 128; },
+  getCollisionProfile() {
+    return {
+      kind: "circle",
+      label: "Small Arc round shell",
+      diameterPx: 104,
+      radiusPx: 52,
+    };
+  },
   startDig(...args) { digRequest = args; return true; },
   destroy() {},
+};
+const fakeBody = {
+  x: 100,
+  y: 200,
+  w: 32,
+  h: 48,
+  collisionKind: "rect",
+  collisionRadiusPx: null,
+  resetVelocity() {},
 };
 const vehicle = new ArcCoreVehicleSystem({
   config: { tileSize: 64 },
@@ -237,6 +414,11 @@ const vehicle = new ArcCoreVehicleSystem({
     getUpgradeLevel: id => id === ARC_CORE_CONFIG.upgradeId ? 1 : 0,
   },
   player: chainedVisual(),
+  playerController: {
+    physicsBody: fakeBody,
+    _syncSpriteWithPhysics() {},
+  },
+  tileCollisionSystem: { resolveBodyOverlap: () => true },
   playerBodyLanguage: { setEnabled() {} },
   hudSystem: { flashStatus() {} },
 }, { visualSystem: fakeVisuals });
@@ -249,8 +431,31 @@ const parking = {
 assert.equal(vehicle.update(parking, { interact: { justDown: true } }), false);
 assert.equal(vehicle.update(parking, { arcCoreVehicle: { justDown: true } }), true);
 assert.equal(vehicle.isActive(), true);
+assert.deepEqual(
+  {
+    x: fakeBody.x,
+    y: fakeBody.y,
+    w: fakeBody.w,
+    h: fakeBody.h,
+    kind: fakeBody.collisionKind,
+    radius: fakeBody.collisionRadiusPx,
+  },
+  { x: 64, y: 144, w: 104, h: 104, kind: "circle", radius: 52 },
+);
 assert.equal(vehicle.playDigAnimation([{ tx: 1, ty: 2 }], "RIGHT", 200), true);
 assert.deepEqual(digRequest, [[{ tx: 1, ty: 2 }], "RIGHT", 200]);
+assert.equal(vehicle.update(parking, { arcCoreVehicle: { justDown: true } }), true);
+assert.equal(vehicle.isActive(), false);
+assert.deepEqual(
+  {
+    x: fakeBody.x,
+    y: fakeBody.y,
+    w: fakeBody.w,
+    h: fakeBody.h,
+    kind: fakeBody.collisionKind,
+  },
+  { x: 100, y: 200, w: 32, h: 48, kind: "rect" },
+);
 
 const activeSinceByScene = new Map([["PlayScene", 0]]);
 const unhealthyScene = {

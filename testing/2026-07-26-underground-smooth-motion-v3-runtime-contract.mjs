@@ -16,7 +16,16 @@ const manifest = JSON.parse(fs.readFileSync(new URL(
 const allAssets = getWorldVisualDepthBackdropAllAssets();
 const imageAssets = allAssets.filter(asset => asset.type === "image");
 const conceptStaticAssets = imageAssets.filter(asset => asset.path.endsWith("-motion-v1.webp"));
-const olderStaticAssets = imageAssets.filter(asset => !asset.path.endsWith("-motion-v1.webp"));
+const expansionStaticAssets = imageAssets.filter(asset => (
+  asset.path.includes("/biome-expansion-v3/")
+));
+const expansionV5StaticAssets = imageAssets.filter(asset => (
+  asset.path.includes("/biome-expansion-v5/")
+));
+const olderStaticAssets = imageAssets.filter(asset => (
+  asset.path.includes("/biome-variation-v2/")
+  && !asset.path.endsWith("-motion-v1.webp")
+));
 const videoAssets = allAssets.filter(asset => asset.type === "video");
 
 function webpDimensions(buffer) {
@@ -47,8 +56,10 @@ assert.equal(manifest.opticalFlow, false);
 assert.equal(manifest.overlayGraphics, false);
 assert.equal(manifest.loopCount, 10);
 assert.equal(manifest.loops.length, 10);
-assert.equal(allAssets.length, 70);
+assert.equal(allAssets.length, 170);
 assert.equal(olderStaticAssets.length, 50);
+assert.equal(expansionStaticAssets.length, 50);
+assert.equal(expansionV5StaticAssets.length, 50);
 assert.equal(conceptStaticAssets.length, 10);
 assert.equal(videoAssets.length, 10);
 assert.equal(WORLD_VISUAL_DEPTH_BACKDROPS.motion.smoothVideo.frameRate, 60);

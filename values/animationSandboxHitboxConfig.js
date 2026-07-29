@@ -5,9 +5,10 @@ const SANDBOX_HARNESS_SIZE = 94;
 /**
  * Physics hulls for the tanktest-v1 character comparison sandbox.
  *
- * Rect coordinates are relative to the 94px harness anchor. Sprite-backed
- * hulls were measured from their stable body silhouettes; carried tools,
- * drill beams, exhaust, and attack trails are intentionally excluded.
+ * Rect coordinates are relative to the 94px harness anchor. Arc Core circles
+ * intentionally live in the production .sprite manifest instead, so sandbox
+ * and gameplay cannot drift. Carried tools, beams, exhaust, and attack trails
+ * are excluded from every physical hull.
  */
 export const ANIMATION_SANDBOX_HITBOX_CONFIG = Object.freeze({
   tank: Object.freeze({
@@ -50,30 +51,6 @@ export const ANIMATION_SANDBOX_HITBOX_CONFIG = Object.freeze({
     width: 78,
     height: 78,
     renderSize: 172,
-  }),
-  arcCore: Object.freeze({
-    label: "legacy arc core body",
-    kind: "rect",
-    x: 25,
-    y: 25,
-    width: 44,
-    height: 44,
-  }),
-  arcCoreSmall: Object.freeze({
-    label: "small Arc Core gyro",
-    kind: "rect",
-    x: 25,
-    y: 25,
-    width: 44,
-    height: 44,
-  }),
-  arcCoreOmega: Object.freeze({
-    label: "Omega Arc pilot core",
-    kind: "rect",
-    x: 16,
-    y: 16,
-    width: 62,
-    height: 62,
   }),
   wormholeMaw: Object.freeze({
     label: "wormhole body",

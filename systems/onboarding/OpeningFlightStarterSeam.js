@@ -1,4 +1,13 @@
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { isSurfaceTraversalReservedTileY } from "../../values/worldDepthConfig.js";
+
+function isReservedSurfaceTraversalRow(scene, tileY) {
+  return isSurfaceTraversalReservedTileY(
+    tileY,
+    scene.config.topAirRows,
+    scene.config,
+  );
+}
 
 export function prepareOpeningFlightStarterSeam(scene, config) {
   const world = scene.worldModel;
@@ -9,6 +18,7 @@ export function prepareOpeningFlightStarterSeam(scene, config) {
   const tileX = scene.config.spawnTileX + seam.tileXOffsetFromLegacySpawn;
   const surfaceRow = scene.config.topAirRows + seam.surfaceRowOffset;
   const setTile = (ty, type, hp) => {
+    if (isReservedSurfaceTraversalRow(scene, ty)) return;
     const key = `${tileX},${ty}`;
     if (world.dugTiles?.has?.(key)) return;
     world.setTile(tileX, ty, type, hp);
@@ -27,6 +37,7 @@ export function prepareOpeningFlightStarterSeam(scene, config) {
 function mutateTile(scene, tx, ty, type, hp, preserveDug = true) {
   const world = scene.worldModel;
   if (!world?.inBounds?.(tx, ty)) return false;
+  if (isReservedSurfaceTraversalRow(scene, ty)) return false;
   if (preserveDug && world.dugTiles?.has?.(`${tx},${ty}`)) return false;
   world.setTile(tx, ty, type, hp);
   scene.worldRenderer?.applyTileUpdate?.(tx, ty);

@@ -1,3 +1,9 @@
+import {
+  clearTintIfChanged,
+  setAlphaIfChanged,
+  setTintIfChanged,
+} from "./worldVisualRenderState.js";
+
 function getSource(scene, key) {
   const texture = scene.textures.get(key);
   const image = texture?.getSourceImage?.() || texture?.source?.[0]?.image || texture?.source?.[0];
@@ -124,11 +130,14 @@ export class WorldVisualTownFloorView {
   update(lighting) {
     if (!lighting || !this.base) return;
     const effects = this.pack.effects;
-    this.base.clearTint();
-    this.wet.setTint(effects.wetGroundTint)
-      .setAlpha(lighting.wet * effects.wetGroundAlpha);
-    this.lightning.clearTint()
-      .setAlpha(lighting.lightning * effects.lightningGroundAlpha);
+    clearTintIfChanged(this.base);
+    setTintIfChanged(this.wet, effects.wetGroundTint);
+    setAlphaIfChanged(this.wet, lighting.wet * effects.wetGroundAlpha);
+    clearTintIfChanged(this.lightning);
+    setAlphaIfChanged(
+      this.lightning,
+      lighting.lightning * effects.lightningGroundAlpha
+    );
   }
 
   destroy() {

@@ -50,7 +50,7 @@ export const V11_SKY_ISLAND_LAYOUT = Object.freeze({
       floorRow: 18,
       pillarTileX: 88,
       pillarTileY: 17,
-      groundPortal: freezeGroundPortal(1, 93, 83),
+      groundPortal: freezeGroundPortal(1, 0, 83),
       portalSlots: freezeSlots(1, [81, 85, 89, 93]),
     }),
     Object.freeze({

@@ -40,12 +40,12 @@ for (const card of cards) {
   const region = regions.get(card.regionId);
   assert.ok(region, `${card.id} maps to a live depth region`);
   assert.ok(WORLD_VISUAL_MATERIALS[card.materialId], `${card.id} uses a live material`);
-  assert.equal(region.variantBackwalls.length, 7);
-  assert.ok(region.variantBackwalls.slice(0, 6).every(asset => asset.type === "image"));
-  assert.equal(region.variantBackwalls[5].path, card.approvedStatic);
+  assert.equal(region.variantBackwalls.length, 12);
+  assert.ok(region.variantBackwalls.slice(0, 11).every(asset => asset.type === "image"));
+  assert.equal(region.variantBackwalls[10].path, card.approvedStatic);
   assert.match(card.approvedStatic, /\/biome-variation-v2\/.+-motion-v1\.webp$/);
-  assert.equal(region.variantBackwalls[6].type, "video");
-  assert.match(region.variantBackwalls[6].path, /\/biome-motion-v3\/.+-loop-v3\.mp4$/);
+  assert.equal(region.variantBackwalls[11].type, "video");
+  assert.match(region.variantBackwalls[11].path, /\/biome-motion-v3\/.+-loop-v3\.mp4$/);
   assert.match(card.art, /^\.\/2026-07-26-[a-z0-9-]+\.png$/);
   assert.match(card.rejectedVideo, /^sprites\/.+-loop-v2\.webm$/);
 

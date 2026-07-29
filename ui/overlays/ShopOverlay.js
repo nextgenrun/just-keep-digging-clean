@@ -14,9 +14,7 @@ import {
   MONEY_MONSTER_RESOURCE_KEYS,
   SECOND_WORLD_RESOURCE_KEYS,
   getResourceDisplayName,
-  tileTypeToResource,
 } from "../../values/resourceTypes.js";
-import { TILE_TYPES } from "../../values/tileTypes.js";
 import { createButton } from "../PhaserUiKit.js";
 import {
   isSellCapableMerchant,
@@ -24,6 +22,8 @@ import {
   resolveUpgradeUiIcon,
 } from "../UiIconAtlas.js";
 import { createIconBadge, createModalShell } from "../UiModalShell.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { HARDCORE_MODE_CONFIG } from "../../values/hardcoreMode.js";
 
 const LIST_ROW_HEIGHT = 62;
 const ARC_FORGE_MERCHANT_ID = "magmaMoneyMonster";
@@ -229,6 +229,18 @@ export class ShopOverlay {
         !upgrade.hiddenFromShop
       ))
       .map(([id, upgrade]) => ({ ...upgrade, id }));
+    if (
+      merchantId === HARDCORE_MODE_CONFIG.bobo.merchantId
+      && this.scene.canOfferHardcoreConversion?.()
+    ) {
+      this.allUpgrades.unshift({
+        id: HARDCORE_MODE_CONFIG.bobo.itemId,
+        isHardcoreConversion: true,
+        name: HARDCORE_MODE_CONFIG.copy.boboOfferName,
+        description: HARDCORE_MODE_CONFIG.copy.boboOfferSummary,
+        category: HARDCORE_MODE_CONFIG.bobo.category,
+      });
+    }
     this.forgeRecipes = isArcForgeMerchant(merchantId)
       ? Object.values(CRAFTING_RECIPES)
       : [];
@@ -261,7 +273,7 @@ export class ShopOverlay {
     if (seller) {
       const tabY = rect.top + 20;
       const primaryMode = isArcForgeMerchant(this.currentMerchant) ? "craft" : "buy";
-      createButton(this.scene, {
+      this._createShopButton({
         x: rect.left + 92,
         y: tabY,
         width: 176,
@@ -274,7 +286,7 @@ export class ShopOverlay {
         fontSize: "12px",
         onClick: () => this.setMerchantMode(primaryMode),
       });
-      createButton(this.scene, {
+      this._createShopButton({
         x: rect.left + 278,
         y: tabY,
         width: 176,
@@ -349,6 +361,14 @@ export class ShopOverlay {
     return text;
   }
 
+  _createShopButton(options = {}) {
+    return createButton(this.scene, {
+      depth: this.shell.depth + 2,
+      parent: this.upgradesContainer,
+      ...options,
+    });
+  }
+
   _renderList(items, x, y, width, height) {
     const title = this.moneyMonsterMode === "sell"
       ? "RESOURCE STOCK"
@@ -387,35 +407,33 @@ export class ShopOverlay {
         54,
         selected ? UI_COLORS.cardSel : UI_COLORS.cardBase,
         selected ? 1 : 0.82
-      ).setStrokeStyle(selected ? 2 : 1, selected ? UI_COLORS.borderSel : UI_COLORS.borderDim)
-        .setInteractive({ useHandCursor: true });
-      bg.on("pointerover", () => {
-        if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderHov);
-      });
-      bg.on("pointerout", () => {
-        if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderDim);
-      });
-      bg.on("pointerdown", () => {
-        this.selectedIndex = index;
-        this.selectedSellButton = index;
-        this.soundSystem?.playUiSelect?.();
-        this._render();
-      });
+      ).setStrokeStyle(selected ? 2 : 1, selected ? UI_COLORS.borderSel : UI_COLORS.borderDim);
       this.upgradesContainer.add(bg);
 
       const iconKey = this.moneyMonsterMode === "sell"
         ? resourceIconKey(item.resource)
         : this.moneyMonsterMode === "craft"
           ? item.ui?.iconAssetKey || "power"
-          : resolveUpgradeUiIcon(item);
-      createIconBadge(this.scene, iconKey, {
-        x: x + 42,
-        y: rowY + 27,
-        size: 42,
-        iconSize: 34,
-        selected,
-        parent: this.upgradesContainer,
-      });
+          : item.isHardcoreConversion
+            ? null
+            : resolveUpgradeUiIcon(item);
+      if (item.isHardcoreConversion) {
+        const crest = this.scene.add.image(
+          x + 42,
+          rowY + 27,
+          ASSET_KEYS.ui.hardcore.oathCrest,
+        ).setDisplaySize(42, 42).setAlpha(selected ? 1 : 0.78);
+        this.upgradesContainer.add(crest);
+      } else {
+        createIconBadge(this.scene, iconKey, {
+          x: x + 42,
+          y: rowY + 27,
+          size: 42,
+          iconSize: 34,
+          selected,
+          parent: this.upgradesContainer,
+        });
+      }
 
       const name = this.moneyMonsterMode === "sell" ? item.name : item.name;
       const sub = this.moneyMonsterMode === "sell"
@@ -441,6 +459,33 @@ export class ShopOverlay {
           color: UI_COLORS.gold,
         }, 1, 0.5);
       }
+
+      // Use the same shared interaction primitive as the shop tabs/actions.
+      // Its sole hit layer sits over the icon, labels, status, price, and gap.
+      const rowButton = this._createShopButton({
+        x: x + width / 2,
+        y: rowY + 27,
+        width: width - 18,
+        height: 54,
+        label: "",
+        autoIcon: false,
+        visibleChrome: false,
+        playSounds: false,
+        selected,
+        onFocus: () => {
+          if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderHov);
+        },
+        onClick: () => {
+          this.selectedIndex = index;
+          this.selectedSellButton = index;
+          this.topButtonSelected = null;
+          this.soundSystem?.playUiSelect?.();
+          this._render();
+        },
+      });
+      rowButton.hit.on("pointerout", () => {
+        if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderDim);
+      });
     });
 
     const pages = Math.max(1, Math.ceil(items.length / this.itemsPerPage));
@@ -451,7 +496,7 @@ export class ShopOverlay {
       color: UI_COLORS.body,
     }, 0.5, 0.5);
     if (pages > 1) {
-      createButton(this.scene, {
+      this._createShopButton({
         x: x + 55,
         y: footerY,
         width: 82,
@@ -463,7 +508,7 @@ export class ShopOverlay {
         fontSize: "10px",
         onClick: () => this.prevPage(),
       });
-      createButton(this.scene, {
+      this._createShopButton({
         x: x + width - 55,
         y: footerY,
         width: 82,
@@ -479,6 +524,7 @@ export class ShopOverlay {
   }
 
   _upgradeRowStatus(upgrade) {
+    if (upgrade?.isHardcoreConversion) return HARDCORE_MODE_CONFIG.bobo.rowStatus;
     const level = this.upgradeSystem?.getUpgradeLevel?.(upgrade.id) || 0;
     if (upgrade.oneTimePurchase) return level > 0 ? "OWNED" : "ONE-TIME PURCHASE";
     const max = upgrade.maxLevel ?? "MAX";
@@ -558,7 +604,7 @@ export class ShopOverlay {
       : status.canCraft
         ? "CRAFT " + recipe.name.toUpperCase()
         : "REQUIREMENTS NOT MET";
-    const action = createButton(this.scene, {
+    const action = this._createShopButton({
       x: x + width / 2,
       y: actionY,
       width: width - 36,
@@ -577,6 +623,10 @@ export class ShopOverlay {
   _renderUpgradeDetail(upgrade, x, y, width, height) {
     if (!upgrade) {
       this._renderEmptyDetail(x, y, width, height, "No upgrades available");
+      return;
+    }
+    if (upgrade.isHardcoreConversion) {
+      this._renderHardcoreConversionDetail(upgrade, x, y, width, height);
       return;
     }
     const level = this.upgradeSystem.getUpgradeLevel(upgrade.id);
@@ -612,7 +662,6 @@ export class ShopOverlay {
       lineSpacing: 3,
     });
 
-    const miningPreview = this._buildMiningPreview(upgrade);
     const statY = y + Math.min(195, height * 0.43);
     const stat = this.scene.add.graphics();
     stat.fillStyle(UI_COLORS.bg, 0.95);
@@ -637,22 +686,6 @@ export class ShopOverlay {
       fontStyle: "bold",
       color: maxed ? UI_COLORS.dim : UI_COLORS.gold,
     }, 0.5, 0.5);
-    if (miningPreview) {
-      const breakpoint = miningPreview.afterHits < miningPreview.beforeHits;
-      this._text(
-        x + 36,
-        statY + 67,
-        `${miningPreview.material.toUpperCase()}  ${miningPreview.beforeHits} → ${miningPreview.afterHits} HITS`
-          + (breakpoint ? "  •  BREAKPOINT!" : ""),
-        {
-          fontFamily: UI_FONTS.mono,
-          fontSize: "11px",
-          fontStyle: "bold",
-          color: breakpoint ? UI_COLORS.success : UI_COLORS.body,
-        }
-      );
-    }
-
     const requirementsY = statY + 100;
     this._text(x + 20, requirementsY, "REQUIREMENTS", {
       fontFamily: UI_FONTS.display,
@@ -675,7 +708,7 @@ export class ShopOverlay {
       : maxed
         ? "MAXIMUM LEVEL"
         : "BUY UPGRADE  -  " + formatMoney(cost);
-    const action = createButton(this.scene, {
+    const action = this._createShopButton({
       x: x + width / 2,
       y: actionY,
       width: width - 36,
@@ -696,6 +729,63 @@ export class ShopOverlay {
     action.setEnabled?.(!maxed || (owned && upgrade.id === "sellAllButton"));
   }
 
+  _renderHardcoreConversionDetail(upgrade, x, y, width, height) {
+    const crest = this.scene.add.image(
+      x + 60,
+      y + 62,
+      ASSET_KEYS.ui.hardcore.oathCrest,
+    ).setDisplaySize(88, 88);
+    this.upgradesContainer.add(crest);
+    this._text(x + 118, y + 25, upgrade.name, {
+      fontFamily: UI_FONTS.display,
+      fontSize: "23px",
+      fontStyle: "bold",
+      color: UI_COLORS.danger,
+      wordWrap: { width: width - 145 },
+    });
+    this._text(x + 118, y + 59, HARDCORE_MODE_CONFIG.bobo.category, {
+      fontFamily: UI_FONTS.mono,
+      fontSize: "11px",
+      color: UI_COLORS.gold,
+    });
+    this._text(x + 20, y + 125, upgrade.description, {
+      fontSize: "14px",
+      color: UI_COLORS.body,
+      wordWrap: { width: width - 40, useAdvancedWrap: true },
+      lineSpacing: 3,
+    });
+
+    const warningY = y + Math.min(220, height * 0.46);
+    this._drawSurface(x + 18, warningY, width - 36, 132, false);
+    [
+      "• Hardcore is armed immediately because Flight is unlocked.",
+      "• Darkness, pressure, hazards, abilities and the Wurm can drain GP.",
+      "• At 0 GP this save and every local backup are erased.",
+      "• This conversion can never be reversed.",
+    ].forEach((line, index) => {
+      this._text(x + 36, warningY + 18 + index * 27, line, {
+        fontFamily: UI_FONTS.mono,
+        fontSize: "11px",
+        color: index >= 2 ? UI_COLORS.danger : UI_COLORS.body,
+        wordWrap: { width: width - 72 },
+      });
+    });
+
+    this._createShopButton({
+      x: x + width / 2,
+      y: y + height - 37,
+      width: width - 36,
+      height: 48,
+      label: HARDCORE_MODE_CONFIG.bobo.actionLabel,
+      hint: USER_SETTINGS.getKeyLabel("interact"),
+      icon: "warning",
+      accent: UI_COLORS.borderBad,
+      parent: this.upgradesContainer,
+      fontSize: "12px",
+      onClick: () => this.scene.requestHardcoreConversion?.(),
+    });
+  }
+
   _buildRequirementLines(upgrade, cost) {
     const wallet = this.upgradeSystem?.getMoney?.() || 0;
     const resources = this.scene.digSystem?.getResourceTotals?.() || {};
@@ -714,41 +804,14 @@ export class ShopOverlay {
       const current = this.upgradeSystem?.playerLevelSystem?.getLevel?.() || 0;
       lines.push({ text: "Player level  " + current + " / " + upgrade.requiresLevel, met: current >= upgrade.requiresLevel });
     }
-    return lines;
-  }
-
-  _buildMiningPreview(upgrade) {
-    const digSystem = this.scene.digSystem;
-    const worldModel = this.scene.worldModel;
-    if (!digSystem?.getHitsToBreakPreview || !worldModel || !upgrade?.id) return null;
-
-    const bestDepth = this.scene.retentionProgressSystem?.getBestDepth?.() || 1;
-    const ty = Math.max(
-      this.scene.config.topAirRows + 1,
-      Math.min(worldModel.depthTiles - 2, this.scene.config.topAirRows + bestDepth)
-    );
-    let tx = Math.max(1, Math.min(worldModel.widthTiles - 2, this.scene.config.spawnTileX || 1));
-    let tileType = TILE_TYPES.DIRT;
-    for (let offset = 0; offset < Math.min(40, worldModel.widthTiles - 2); offset += 1) {
-      const candidateX = Math.max(1, Math.min(worldModel.widthTiles - 2, tx + offset));
-      const candidateType = worldModel.getTileType(candidateX, ty);
-      if (worldModel.isDiggable(candidateX, ty) && tileTypeToResource(candidateType)) {
-        tx = candidateX;
-        tileType = candidateType;
-        break;
-      }
+    if (upgrade.requiresDepthGateAccepted) {
+      const depth = upgrade.requiresDepthGateAccepted;
+      lines.push({
+        text: "Depth milestone  " + depth + " m",
+        met: this.upgradeSystem?.isDepthGateAccepted?.(depth) === true,
+      });
     }
-
-    const current = digSystem.getHitsToBreakPreview(tileType, tx, ty);
-    const projectedEffects = this.upgradeSystem.getProjectedUpgradeEffects?.(upgrade.id);
-    const projected = digSystem.getHitsToBreakPreview(tileType, tx, ty, projectedEffects);
-    return {
-      material: getResourceDisplayName(tileTypeToResource(tileType) || "dirt"),
-      beforeHits: current.hits,
-      afterHits: projected.hits,
-      beforeDamage: current.damage,
-      afterDamage: projected.damage,
-    };
+    return lines;
   }
 
   _renderSellDetail(item, x, y, width, height) {
@@ -811,7 +874,7 @@ export class ShopOverlay {
 
     const buttonsY = y + height - 39;
     const half = (width - 48) / 2;
-    const sellOne = createButton(this.scene, {
+    const sellOne = this._createShopButton({
       x: x + 18 + half / 2,
       y: buttonsY,
       width: half,
@@ -825,7 +888,7 @@ export class ShopOverlay {
       onClick: () => this.sellResource(item.resource, 1, item.basePrice),
     });
     sellOne.setEnabled?.(amount > 0);
-    const sellStack = createButton(this.scene, {
+    const sellStack = this._createShopButton({
       x: x + width - 18 - half / 2,
       y: buttonsY,
       width: half,
@@ -954,6 +1017,10 @@ export class ShopOverlay {
     }
     const upgrade = this.allUpgrades[this.selectedIndex];
     if (!upgrade) return;
+    if (upgrade.isHardcoreConversion) {
+      this.scene.requestHardcoreConversion?.();
+      return;
+    }
     const level = this.upgradeSystem.getUpgradeLevel(upgrade.id);
     if (upgrade.id === "sellAllButton" && level > 0) this.sellAllResources();
     else this.purchaseUpgrade(upgrade.id);
@@ -990,6 +1057,7 @@ export class ShopOverlay {
     this.soundSystem?.playUiConfirm?.();
     this.scene.arcCoreVehicleSystem?.syncOwnership?.();
     this.scene.uiResourceBar?.setResources?.(this.scene.digSystem?.getResourceTotals?.() || {});
+    this.scene.journeySystem?.recordCraft?.(result);
     this.scene.queueDugTilesSave?.();
     this._notify(
       result.recipe?.ui?.successCopy || `Forged ${result.recipe?.name || "Arc Core"}.`,
@@ -1001,7 +1069,8 @@ export class ShopOverlay {
   purchaseUpgrade(upgradeId) {
     if (!this.isVisible || !upgradeId) return;
     const upgrade = UPGRADES[upgradeId];
-    const miningPreview = upgrade ? this._buildMiningPreview({ ...upgrade, id: upgradeId }) : null;
+    const beforeLevel = this.upgradeSystem?.getUpgradeLevel?.(upgradeId) || 0;
+    const beforeJourneySnapshot = this.scene.journeySystem?.captureSnapshot?.();
     const result = this.upgradeSystem?.purchaseUpgrade?.(upgradeId);
     if (!upgrade || !result) {
       this._notify("Upgrade unavailable", UI_COLORS.danger);
@@ -1014,6 +1083,7 @@ export class ShopOverlay {
         not_enough_resources: "Required materials are missing.",
         requires_upgrade: "Another upgrade is required first.",
         requires_depth_gate: "A deeper milestone must be claimed first.",
+        requires_player_level: "A higher player level is required.",
       };
       this.soundSystem?.playUiSelect?.();
       this._notify(messages[result.reason] || "Purchase requirements are not met.", UI_COLORS.danger);
@@ -1022,10 +1092,24 @@ export class ShopOverlay {
     }
 
     this.soundSystem?.playUiConfirm?.();
-      if (upgradeId === "worldTwoTunnelAccess") this.scene.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
-      if (upgradeId === "arcCoreVehicle") this.scene.arcCoreVehicleSystem?.syncOwnership?.();
-    this._notify("Purchased " + upgrade.name + ".", UI_COLORS.success);
-    this.scene.retentionProgressSystem?.recordUpgrade?.(upgrade.name, miningPreview);
+    if (ASSET_KEYS.ui.pickaxeHud?.[upgradeId]) {
+      this.scene.hudSystem?.setCurrentPickaxe?.(upgradeId, {
+        animate: true,
+        force: true,
+      });
+    }
+    if (upgradeId === "worldTwoTunnelAccess") this.scene.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
+    if (upgradeId === "arcCoreVehicle") this.scene.arcCoreVehicleSystem?.syncOwnership?.();
+    this.scene.earthquakeSystem?.syncSuppression?.();
+    this._notify(upgrade.purchaseCopy || ("Purchased " + upgrade.name + "."), UI_COLORS.success);
+    this.scene.retentionProgressSystem?.recordUpgrade?.(upgrade.name);
+    this.scene.journeySystem?.recordUpgradePurchase?.({
+      upgrade,
+      beforeSnapshot: beforeJourneySnapshot,
+      afterSnapshot: this.scene.journeySystem?.captureSnapshot?.(),
+      beforeLevel,
+      afterLevel: result.level,
+    });
     this.scene.queueDugTilesSave?.();
 
     if (upgradeId === "boboWisdom") {
@@ -1039,6 +1123,8 @@ export class ShopOverlay {
       return;
     }
     if (upgradeId === "gemPowerUnlock") {
+      this.scene.playerController?.fillGemPower?.();
+      this.scene.armHardcoreAfterFlightUnlock?.("bobo-flight-purchase");
       this.hide();
       this.scene.showGameDialog?.(
         "Gem of Great Power",

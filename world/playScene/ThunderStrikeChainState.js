@@ -1,7 +1,6 @@
 import {
   THUNDER_STRIKE_CHAIN_CONFIG,
   THUNDER_STRIKE_CHAIN_PHASES,
-  getThunderStrikeStage,
 } from "../../values/thunderStrikeChain.js";
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
@@ -21,6 +20,7 @@ export class ThunderStrikeChainState {
     this.challengeTargetMs = 0;
     this.challengeEndMs = 0;
     this.lastTimingErrorMs = null;
+    this.lastFailureReason = null;
     this.successfulContinuations = 0;
   }
 
@@ -51,27 +51,36 @@ export class ThunderStrikeChainState {
       this.challengeStageIndex = null;
       return { complete: true, snapshot: this.getSnapshot(nowMs) };
     }
+    return this._startChallenge(nextStageIndex, nowMs);
+  }
 
-    const timing = getThunderStrikeStage(nextStageIndex).timing;
+  _startChallenge(nextStageIndex, nowMs) {
+    const timing = this.config.stages[nextStageIndex].timing;
     this.challengeStageIndex = nextStageIndex;
     this.challengeStartMs = nowMs;
     this.challengeTargetMs = nowMs + timing.durationMs * timing.targetProgress;
     this.challengeEndMs = nowMs + timing.durationMs;
     this.lastTimingErrorMs = null;
+    this.lastFailureReason = null;
     this.phase = THUNDER_STRIKE_CHAIN_PHASES.TIMING;
     return { complete: false, snapshot: this.getSnapshot(nowMs) };
+  }
+
+  _resolveFailure(nowMs, reason) {
+    this.lastFailureReason = reason;
+    this.phase = THUNDER_STRIKE_CHAIN_PHASES.FAILED;
+    return { success: false, failed: true, reason, snapshot: this.getSnapshot(nowMs) };
   }
 
   attemptContinuation(nowMs = 0) {
     if (this.phase !== THUNDER_STRIKE_CHAIN_PHASES.TIMING) {
       return { success: false, reason: "not-timing", snapshot: this.getSnapshot(nowMs) };
     }
-    const stage = getThunderStrikeStage(this.challengeStageIndex);
+    const stage = this.config.stages[this.challengeStageIndex];
     const errorMs = nowMs - this.challengeTargetMs;
     this.lastTimingErrorMs = errorMs;
     if (Math.abs(errorMs) > stage.timing.windowMs / 2) {
-      this.phase = THUNDER_STRIKE_CHAIN_PHASES.FAILED;
-      return { success: false, reason: "miss", errorMs, snapshot: this.getSnapshot(nowMs) };
+      return { ...this._resolveFailure(nowMs, "miss"), errorMs };
     }
     this.successfulContinuations = Math.min(
       this.config.stages.length - 1,
@@ -94,7 +103,7 @@ export class ThunderStrikeChainState {
         snapshot: this.getSnapshot(this.challengeStartMs),
       };
     }
-    const stage = getThunderStrikeStage(this.challengeStageIndex);
+    const stage = this.config.stages[this.challengeStageIndex];
     const presentedProgress = clamp01(Number(progress) || 0);
     const presentedAtMs = this.challengeStartMs
       + presentedProgress * stage.timing.durationMs;
@@ -106,9 +115,8 @@ export class ThunderStrikeChainState {
       this.phase === THUNDER_STRIKE_CHAIN_PHASES.TIMING
       && nowMs > this.challengeEndMs
     ) {
-      this.phase = THUNDER_STRIKE_CHAIN_PHASES.FAILED;
       this.lastTimingErrorMs = nowMs - this.challengeTargetMs;
-      return { failed: true, reason: "timeout", snapshot: this.getSnapshot(nowMs) };
+      return this._resolveFailure(nowMs, "timeout");
     }
     return { failed: false, snapshot: this.getSnapshot(nowMs) };
   }
@@ -116,7 +124,7 @@ export class ThunderStrikeChainState {
   getSnapshot(nowMs = 0) {
     const challengeStage = this.challengeStageIndex === null
       ? null
-      : getThunderStrikeStage(this.challengeStageIndex);
+      : this.config.stages[this.challengeStageIndex];
     const durationMs = challengeStage?.timing?.durationMs || 1;
     const progress = clamp01((nowMs - this.challengeStartMs) / durationMs);
     const halfWindowProgress = challengeStage
@@ -133,6 +141,7 @@ export class ThunderStrikeChainState {
       windowStartProgress: clamp01(targetProgress - halfWindowProgress),
       windowEndProgress: clamp01(targetProgress + halfWindowProgress),
       lastTimingErrorMs: this.lastTimingErrorMs,
+      lastFailureReason: this.lastFailureReason,
       successfulContinuations: this.successfulContinuations,
       stages: this.config.stages,
     };

@@ -1,4 +1,19 @@
-export function resolveSurfacePropDisplayGeometry(asset, tileSize, playerProfile) {
+export function resolveSurfacePropScaleMultiplier(item, config) {
+  const sizeScale = config?.scale?.sizeVariants?.[item?.sizeVariant];
+  const laneScale = config?.scale?.lanePerspective?.[item?.lane];
+  if (!Number.isFinite(sizeScale) || sizeScale <= 0
+    || !Number.isFinite(laneScale) || laneScale <= 0) {
+    throw new Error("[surfacePropGeometry] Invalid authored scale variant");
+  }
+  return sizeScale * laneScale;
+}
+
+export function resolveSurfacePropDisplayGeometry(
+  asset,
+  tileSize,
+  playerProfile,
+  scaleMultiplier = 1,
+) {
   const required = [
     asset?.heightMeters,
     asset?.expectedSource?.width,
@@ -6,6 +21,7 @@ export function resolveSurfacePropDisplayGeometry(asset, tileSize, playerProfile
     tileSize,
     playerProfile?.physicalHeightMeters,
     playerProfile?.targetVisibleHeightTiles,
+    scaleMultiplier,
   ];
   if (required.some(value => !Number.isFinite(value) || value <= 0)) {
     throw new Error("[surfacePropGeometry] Invalid physical-scale input");
@@ -13,7 +29,7 @@ export function resolveSurfacePropDisplayGeometry(asset, tileSize, playerProfile
 
   const playerVisibleHeightWorldPx = playerProfile.targetVisibleHeightTiles * tileSize;
   const worldPixelsPerMeter = playerVisibleHeightWorldPx / playerProfile.physicalHeightMeters;
-  const height = asset.heightMeters * worldPixelsPerMeter;
+  const height = asset.heightMeters * worldPixelsPerMeter * scaleMultiplier;
   const width = height * asset.expectedSource.width / asset.expectedSource.height;
   return Object.freeze({
     width,
@@ -81,7 +97,7 @@ function mergeIntervals(intervals) {
   return merged;
 }
 
-export function auditSurfacePropCoverage(layout, assets) {
+export function auditSurfacePropCoverage(layout, assets, config = null) {
   const reports = layout.requiredSurfaceRanges.map(range => {
     const intervals = layout.existingVisualCoverageBands.flatMap(band => {
       const leftTile = Math.max(range.leftTile, band.leftTile);
@@ -91,8 +107,9 @@ export function auditSurfacePropCoverage(layout, assets) {
     for (const item of layout.placements) {
       const radius = assets[item.level]?.[item.assetId]?.visualInfluenceRadiusTiles;
       if (!Number.isFinite(radius)) continue;
-      const leftTile = Math.max(range.leftTile, item.tileX - radius);
-      const rightTile = Math.min(range.rightTile, item.tileX + radius);
+      const scale = config ? resolveSurfacePropScaleMultiplier(item, config) : 1;
+      const leftTile = Math.max(range.leftTile, item.tileX - radius * scale);
+      const rightTile = Math.min(range.rightTile, item.tileX + radius * scale);
       if (rightTile > leftTile) intervals.push({ leftTile, rightTile });
     }
 

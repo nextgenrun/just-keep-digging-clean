@@ -26,7 +26,7 @@ const ACTIVITY_POSE_IDS = Object.freeze([
 const MERCHANTS = Object.freeze({
   playerUpgrades: freezeMerchant({
     assetSlug: "player-upgrades",
-    groundOffsetPx: 8,
+    footBottomYAtReferencePx: 485,
     durationsMs: {
       ...sharedDurations,
       work: 6000,
@@ -39,7 +39,7 @@ const MERCHANTS = Object.freeze({
   }),
   gearMerchant: freezeMerchant({
     assetSlug: "gear-merchant",
-    groundOffsetPx: 9,
+    footBottomYAtReferencePx: 478.5,
     durationsMs: {
       ...sharedDurations,
       work: 6600,
@@ -52,7 +52,7 @@ const MERCHANTS = Object.freeze({
   }),
   boboMerchant: freezeMerchant({
     assetSlug: "bobo-merchant",
-    groundOffsetPx: 9,
+    footBottomYAtReferencePx: 481,
     durationsMs: {
       ...sharedDurations,
       work: 6000,
@@ -66,7 +66,7 @@ const MERCHANTS = Object.freeze({
   }),
   moneyMonster: freezeMerchant({
     assetSlug: "money-monster",
-    groundOffsetPx: 12,
+    footBottomYAtReferencePx: 465.5,
     durationsMs: {
       ...sharedDurations,
       work: 6300,
@@ -79,7 +79,7 @@ const MERCHANTS = Object.freeze({
   }),
   gemPowerMerchant: freezeMerchant({
     assetSlug: "gem-power-merchant",
-    groundOffsetPx: 11,
+    footBottomYAtReferencePx: 471,
     durationsMs: {
       ...sharedDurations,
       work: 7000,
@@ -93,7 +93,7 @@ const MERCHANTS = Object.freeze({
   }),
   magmaMoneyMonster: freezeMerchant({
     assetSlug: "magma-money-monster",
-    groundOffsetPx: 8,
+    footBottomYAtReferencePx: 458.514,
     durationsMs: {
       ...sharedDurations,
       work: 6800,
@@ -109,8 +109,13 @@ const MERCHANTS = Object.freeze({
 
 export const NPC_ACTIVITY_CONFIG = Object.freeze({
   enabled: true,
-  assetBasePath: "sprites/npc/npc-v12-piskel-approved-activities/singles",
-  assetVersion: "piskel-approved-activities-v1-20260726",
+  assetBasePath: "sprites/npc/npc-v13-piskel-polished-activities/singles",
+  assetVersion: "piskel-polished-activities-v2-20260728",
+  baselineAssets: Object.freeze({
+    staticBasePath: "sprites/npc/npc-v13-polished-baselines/static",
+    videoBasePath: "sprites/npc/npc-v13-polished-baselines/video",
+    assetVersion: "silhouette-chroma-polish-v1-20260728",
+  }),
   activityIds: ACTIVITY_POSE_IDS,
   ambientActivityIds: Object.freeze(
     ACTIVITY_POSE_IDS.filter(activityId => activityId !== "player"),
@@ -124,6 +129,8 @@ export const NPC_ACTIVITY_CONFIG = Object.freeze({
     displayScale: 1.55,
     depth: 15,
     activityDepthOffset: 0.01,
+    referenceCanvasSizePx: 512,
+    groundContactSinkPx: 1.5,
     defaultGroundOffsetPx: 10,
     promptGapPx: 20,
     crossfadeInMs: 1400,
@@ -157,12 +164,51 @@ export const NPC_ACTIVITY_CONFIG = Object.freeze({
     globalKey: "__jkdNpcActivity",
     expectedActorCount: 6,
     anchorTolerancePx: 0.001,
+    groundContactTolerancePx: 0.05,
     readyStage: "npc-activity-ready",
     missingAssetCode: "npc-activity-asset-missing",
     missingAssetSeverity: "warning",
   }),
   merchants: MERCHANTS,
 });
+
+export function resolveNpcGroundContact(
+  merchantId,
+  displaySizePx,
+  config = NPC_ACTIVITY_CONFIG,
+) {
+  const merchant = config.merchants[merchantId];
+  const referenceCanvasSizePx = config.render.referenceCanvasSizePx;
+  const footBottomYAtReferencePx = merchant?.footBottomYAtReferencePx;
+  const contactSinkPx = merchant?.groundContactSinkPx
+    ?? config.render.groundContactSinkPx;
+  const calibrated = Number.isFinite(displaySizePx)
+    && displaySizePx > 0
+    && Number.isFinite(referenceCanvasSizePx)
+    && referenceCanvasSizePx > 0
+    && Number.isFinite(footBottomYAtReferencePx)
+    && footBottomYAtReferencePx >= 0
+    && footBottomYAtReferencePx <= referenceCanvasSizePx
+    && Number.isFinite(contactSinkPx);
+  if (!calibrated) {
+    const anchorOffsetPx = config.render.defaultGroundOffsetPx;
+    return Object.freeze({
+      calibrated: false,
+      anchorOffsetPx,
+      bottomPaddingPx: Math.max(0, anchorOffsetPx - (contactSinkPx || 0)),
+      contactSinkPx: Number.isFinite(contactSinkPx) ? contactSinkPx : 0,
+    });
+  }
+  const bottomPaddingPx = displaySizePx
+    * (referenceCanvasSizePx - footBottomYAtReferencePx)
+    / referenceCanvasSizePx;
+  return Object.freeze({
+    calibrated: true,
+    anchorOffsetPx: bottomPaddingPx + contactSinkPx,
+    bottomPaddingPx,
+    contactSinkPx,
+  });
+}
 
 function resolveFlag(defaultValue, queryParam, search, config) {
   const value = new URLSearchParams(search).get(queryParam)?.trim().toLowerCase();

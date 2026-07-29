@@ -11,9 +11,16 @@ import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { sanitizeOpeningFlightArtifactData } from "../../values/openingFlightArtifact.js";
 import { sanitizeStarHeartData } from "../../values/celestialEngines.js";
 import { sanitizeHeavenblocksProgressionData } from "../../values/heavenblocksProgressionConfig.js";
-import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import {
+  isHardcoreMode,
+  isHardcoreModeArmed,
+  sanitizeHardcoreModeData,
+} from "../../values/hardcoreMode.js";
 import { sanitizeGraveborerWurmData } from "../../values/graveborerWurm.js";
 import { sanitizeRetentionProgressData } from "../../systems/progression/retentionProgressState.js";
+import { sanitizePlayerPersistenceData } from "../../values/playerPersistence.js";
+import { sanitizeCampfireData } from "../../values/campfireConfig.js";
+import { sanitizeJourneySaveData } from "../../systems/progression/JourneyLedger.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
 const LOCAL_STORAGE_KEY = "dig-game-dug-tiles-admin";
@@ -21,6 +28,7 @@ const MAX_DUG_TILE_KEYS = 500000;
 const MAX_RUBBLE_TILES = 500000;
 const MAX_CAVE_SCENE_NODE_KEYS = 10000;
 const LEGACY_WORLD_WIDTH_TILES = 120;
+const PERMANENT_DEATH_TOMBSTONE_TOKEN = Symbol("permanent-death-tombstone");
 
 function sanitizeDugTileKeys(dugTileKeys) {
   if (!Array.isArray(dugTileKeys)) return [];
@@ -128,6 +136,11 @@ export class DugTilesSaveStore {
       ?? (options.slotId ? `dig-game-save-slot-${options.slotId}` : LOCAL_STORAGE_KEY);
     this.slotId = options.slotId || null;
     this.backupManager = new SaveBackupManager({ maxBackups: 5, backupPrefix: 'dig-game-backup' });
+    this.deathTombstoneKey = options.deathTombstoneKey
+      ?? `dig-game-permadeath-tombstone-${this.slotId || this.localStorageKey}`;
+    this.hardcoreCheckpointKey = options.hardcoreCheckpointKey
+      ?? `dig-game-hardcore-checkpoint-${this.slotId || this.localStorageKey}`;
+    this._deathTombstoned = false;
 
     // In-memory dug tile tracker (for runtime O(1) lookups)
     this._store = new Map();
@@ -177,26 +190,32 @@ export class DugTilesSaveStore {
   // ── Persistence layer ──
 
   loadCached(worldIdentity) {
+    if (this.isDeathTombstoned()) return null;
     const localPayload = this.loadFromLocalStorage();
     const localData = this.normalizePayload(localPayload);
-    if (localData && worldMatches(worldIdentity, localData.world)) return localData;
+    if (localData && worldMatches(worldIdentity, localData.world)) {
+      return this.applyHardcoreCheckpoint(localData, worldIdentity);
+    }
     return null;
   }
 
   loadForDisplay() {
+    if (this.isDeathTombstoned()) return null;
     const payload = this.loadFromLocalStorage();
     return this.normalizePayload(payload);
   }
 
   async load(worldIdentity) {
+    if (this.isDeathTombstoned()) return null;
     const cached = this.loadCached(worldIdentity);
     if (cached) return cached;
     if (!this.endpoint) return null;
     const remotePayload = await this.loadFromEndpoint();
+    if (this.isDeathTombstoned()) return null;
     const remoteData = this.normalizePayload(remotePayload);
     if (remoteData && worldMatches(worldIdentity, remoteData.world)) {
       this.saveToLocalStorage(remoteData);
-      return remoteData;
+      return this.applyHardcoreCheckpoint(remoteData, worldIdentity);
     }
     return null;
   }
@@ -220,7 +239,11 @@ export class DugTilesSaveStore {
     heavenblocksData = null,
     hardcoreModeData = null,
     graveborerWurmData = null,
+    playerStateData = null,
+    campfireData = null,
+    journeyData = null,
   ) {
+    if (this.isDeathTombstoned()) return false;
     const payload = this.createPayload(
       worldIdentity,
       dugTileKeys,
@@ -240,9 +263,17 @@ export class DugTilesSaveStore {
       heavenblocksData,
       hardcoreModeData,
       graveborerWurmData,
+      playerStateData,
+      campfireData,
+      journeyData,
     );
     const localSaved = this.saveToLocalStorage(payload);
     if (!localSaved) return false;
+    this.clearHardcoreCheckpoint();
+    if (this.isDeathTombstoned()) {
+      this.clearSave();
+      return false;
+    }
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
     if (!this.endpoint) return true;
     return this.saveToEndpoint(payload);
@@ -267,9 +298,12 @@ export class DugTilesSaveStore {
     heavenblocksData = null,
     hardcoreModeData = null,
     graveborerWurmData = null,
+    playerStateData = null,
+    campfireData = null,
+    journeyData = null,
   ) {
     return {
-      version: 12,
+      version: 13,
       updatedAt: new Date().toISOString(),
       playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
@@ -296,6 +330,9 @@ export class DugTilesSaveStore {
       heavenblocksData: sanitizeHeavenblocksProgressionData(heavenblocksData),
       hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData),
       graveborerWurmData: sanitizeGraveborerWurmData(graveborerWurmData),
+      playerStateData: sanitizePlayerPersistenceData(playerStateData),
+      campfireData: sanitizeCampfireData(campfireData),
+      journeyData: sanitizeJourneySaveData(journeyData),
     };
   }
 
@@ -337,6 +374,13 @@ export class DugTilesSaveStore {
       heavenblocksData: sanitizeHeavenblocksProgressionData(payload.heavenblocksData),
       hardcoreModeData: sanitizeHardcoreModeData(payload.hardcoreModeData),
       graveborerWurmData: sanitizeGraveborerWurmData(payload.graveborerWurmData),
+      playerStateData: sanitizePlayerPersistenceData(payload.playerStateData),
+      campfireData: payload.campfireData
+        ? sanitizeCampfireData(payload.campfireData)
+        : null,
+      journeyData: payload.journeyData
+        ? sanitizeJourneySaveData(payload.journeyData)
+        : null,
       playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }
@@ -349,6 +393,7 @@ export class DugTilesSaveStore {
   }
 
   saveToLocalStorage(payload) {
+    if (this.isDeathTombstoned()) return false;
     try {
       window.localStorage.setItem(this.localStorageKey, JSON.stringify(payload));
       return true;
@@ -358,7 +403,106 @@ export class DugTilesSaveStore {
     }
   }
 
+  saveHardcoreCheckpoint(
+    worldIdentity,
+    hardcoreModeData,
+    playerStateData,
+  ) {
+    if (this.isDeathTombstoned()) return false;
+    const mode = sanitizeHardcoreModeData(hardcoreModeData);
+    const player = sanitizePlayerPersistenceData(playerStateData);
+    const requiredWorldFields = ["seed", "width", "depth", "topAirRows"];
+    if (
+      !isHardcoreModeArmed(mode)
+      || !player
+      || !requiredWorldFields.every(field => Number.isInteger(worldIdentity?.[field]))
+    ) {
+      return false;
+    }
+    const checkpoint = {
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      world: {
+        seed: worldIdentity.seed,
+        width: worldIdentity.width,
+        depth: worldIdentity.depth,
+        topAirRows: worldIdentity.topAirRows,
+        layoutId: worldIdentity.layoutId || WORLD_GAMEPLAY_LAYOUT.id,
+        layoutRevision: Number.isInteger(worldIdentity.layoutRevision)
+          ? worldIdentity.layoutRevision
+          : WORLD_GAMEPLAY_LAYOUT.revision,
+      },
+      hardcoreModeData: mode,
+      playerStateData: player,
+    };
+    try {
+      window.localStorage.setItem(
+        this.hardcoreCheckpointKey,
+        JSON.stringify(checkpoint),
+      );
+      return true;
+    } catch (error) {
+      console.warn(
+        "[DugTilesSaveStore] Hardcore checkpoint failed:",
+        error?.message || error,
+      );
+      return false;
+    }
+  }
+
+  loadHardcoreCheckpoint(worldIdentity) {
+    if (this.isDeathTombstoned()) return null;
+    try {
+      const raw = window.localStorage.getItem(this.hardcoreCheckpointKey);
+      if (!raw) return null;
+      const checkpoint = JSON.parse(raw);
+      const mode = sanitizeHardcoreModeData(checkpoint?.hardcoreModeData);
+      const player = sanitizePlayerPersistenceData(checkpoint?.playerStateData);
+      if (
+        checkpoint?.version !== 1
+        || !worldMatches(worldIdentity, checkpoint?.world)
+        || !isHardcoreModeArmed(mode)
+        || !player
+      ) {
+        return null;
+      }
+      return {
+        version: 1,
+        updatedAt: typeof checkpoint.updatedAt === "string"
+          ? checkpoint.updatedAt
+          : null,
+        hardcoreModeData: mode,
+        playerStateData: player,
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  applyHardcoreCheckpoint(saveData, worldIdentity) {
+    if (!saveData || !isHardcoreModeArmed(saveData.hardcoreModeData)) {
+      return saveData;
+    }
+    const checkpoint = this.loadHardcoreCheckpoint(worldIdentity);
+    if (!checkpoint) return saveData;
+    return {
+      ...saveData,
+      hardcoreModeData: checkpoint.hardcoreModeData,
+      playerStateData: checkpoint.playerStateData,
+    };
+  }
+
+  clearHardcoreCheckpoint() {
+    try {
+      window.localStorage.removeItem(this.hardcoreCheckpointKey);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async loadFromEndpoint() {
+    if (this.isDeathTombstoned()) return null;
     try {
       const response = await fetch(this.endpoint, { method: "GET", headers: { Accept: "application/json" } });
       if (!response.ok) return null;
@@ -368,6 +512,7 @@ export class DugTilesSaveStore {
   }
 
   async saveToEndpoint(payload) {
+    if (this.isDeathTombstoned()) return false;
     try {
       const response = await fetch(this.endpoint, {
         method: "POST",
@@ -386,14 +531,72 @@ export class DugTilesSaveStore {
   }
 
   clearSave() {
-    try { window.localStorage.removeItem(this.localStorageKey); }
+    try {
+      window.localStorage.removeItem(this.localStorageKey);
+      window.localStorage.removeItem(this.hardcoreCheckpointKey);
+    }
     catch (e) { console.error("Failed to clear save:", e); }
   }
 
-  async clearRemoteSave(worldIdentity) {
-    if (!this.endpoint) return;
+  isDeathTombstoned() {
+    if (this._deathTombstoned) return true;
     try {
-      await fetch(this.endpoint, {
+      return window.localStorage.getItem(this.deathTombstoneKey) !== null;
+    } catch {
+      return false;
+    }
+  }
+
+  markDeathTombstone(metadata = {}, authorizationToken = null) {
+    if (
+      authorizationToken !== PERMANENT_DEATH_TOMBSTONE_TOKEN
+      || !isHardcoreModeArmed(metadata)
+    ) {
+      console.error(
+        "[DugTilesSaveStore] Refused unauthorized permadeath tombstone.",
+      );
+      return false;
+    }
+    try {
+      window.localStorage.setItem(this.deathTombstoneKey, JSON.stringify({
+        version: 2,
+        slotId: this.slotId,
+        erasedAt: new Date().toISOString(),
+        mode: "hardcore",
+        armed: true,
+        source: String(metadata?.source || "unknown"),
+        depth: Math.max(0, Number.isFinite(metadata?.depth) ? metadata.depth : 0),
+      }));
+      this._deathTombstoned = true;
+      return true;
+    } catch (error) {
+      this._deathTombstoned = false;
+      console.error("[DugTilesSaveStore] Could not write permadeath tombstone:", error);
+      return false;
+    }
+  }
+
+  clearDeathTombstone() {
+    this._deathTombstoned = false;
+    try {
+      window.localStorage.removeItem(this.deathTombstoneKey);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  beginNewSave() {
+    this.clearSave();
+    this.deleteAllBackups();
+    this.clear();
+    return this.clearDeathTombstone();
+  }
+
+  async clearRemoteSave(worldIdentity) {
+    if (!this.endpoint) return true;
+    try {
+      const response = await fetch(this.endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -405,20 +608,132 @@ export class DugTilesSaveStore {
           layoutRevision: worldIdentity.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision,
         }),
       });
-    } catch (error) { console.warn('Failed to clear remote save:', error.message); }
+      return response.ok;
+    } catch (error) {
+      console.warn('Failed to clear remote save:', error.message);
+      return false;
+    }
+  }
+
+  _hasAuthorizedDeathTombstone() {
+    try {
+      const raw = window.localStorage.getItem(this.deathTombstoneKey);
+      if (!raw) return false;
+      return isHardcoreModeArmed(JSON.parse(raw));
+    } catch {
+      return false;
+    }
+  }
+
+  _hasStoredArmedHardcoreRun() {
+    const current = this.normalizePayload(this.loadFromLocalStorage());
+    if (isHardcoreModeArmed(current?.hardcoreModeData)) return true;
+    try {
+      const checkpointRaw = window.localStorage.getItem(
+        this.hardcoreCheckpointKey,
+      );
+      const checkpoint = checkpointRaw ? JSON.parse(checkpointRaw) : null;
+      if (isHardcoreModeArmed(checkpoint?.hardcoreModeData)) return true;
+    } catch {
+      // A corrupt checkpoint is not valid deletion authorization.
+    }
+    if (!this.slotId) return false;
+    return this.backupManager.getBackups(this.slotId).some(entry => (
+      isHardcoreModeArmed(
+        this.normalizePayload(entry?.data)?.hardcoreModeData,
+      )
+    ));
+  }
+
+  preparePermanentDeath(metadata = {}) {
+    const authorized = isHardcoreModeArmed(metadata)
+      && (
+        this._hasAuthorizedDeathTombstone()
+        || this._hasStoredArmedHardcoreRun()
+      );
+    if (!authorized) {
+      console.error(
+        "[DugTilesSaveStore] Refused permanent death purge without stored armed-Hardcore evidence.",
+      );
+      return { success: false, backupsDeleted: 0, refused: true };
+    }
+    const backupsPresent = this.slotId
+      ? this.backupManager.getBackups(this.slotId).length
+      : 0;
+    if (!this.markDeathTombstone(
+      metadata,
+      PERMANENT_DEATH_TOMBSTONE_TOKEN,
+    )) {
+      return { success: false, backupsDeleted: 0, refused: true };
+    }
+    this.clearSave();
+    this.deleteAllBackups();
+    this.clear();
+    return {
+      success: this.isDeathTombstoned(),
+      backupsDeleted: backupsPresent,
+    };
+  }
+
+  async purgePermanentDeath(worldIdentity, metadata = {}) {
+    const prepared = this.preparePermanentDeath(metadata);
+    if (prepared.refused) {
+      return {
+        success: false,
+        remoteDeleted: false,
+        backupsDeleted: 0,
+        refused: true,
+      };
+    }
+    const previouslyDeleted = Math.max(
+      0,
+      Math.floor(Number(metadata?.backupsDeleted) || 0),
+    );
+    const remoteDeleted = await this.clearRemoteSave(worldIdentity);
+    return {
+      success: this.isDeathTombstoned(),
+      remoteDeleted,
+      backupsDeleted: Math.max(previouslyDeleted, prepared.backupsDeleted),
+    };
   }
 
   getBackups() {
+    if (this.isDeathTombstoned()) return [];
     return this.slotId ? this.backupManager.getBackups(this.slotId) : [];
   }
 
   getLatestBackup() {
-    return this.slotId ? this.backupManager.getLatestBackup(this.slotId) : null;
+    if (this.isDeathTombstoned()) return null;
+    if (!this.slotId) return null;
+    const backup = this.backupManager.getLatestBackup(this.slotId);
+    return isHardcoreMode(this.normalizePayload(backup)?.hardcoreModeData)
+      ? null
+      : backup;
   }
 
   restoreFromBackup(backupIndex) {
+    if (this.isDeathTombstoned()) {
+      return { success: false, error: "This Hardcore save was erased by permadeath" };
+    }
     if (!this.slotId) return { success: false, error: 'No slot ID' };
-    return this.backupManager.restoreBackup(this.slotId, backupIndex);
+    const current = this.normalizePayload(this.loadFromLocalStorage());
+    if (isHardcoreMode(current?.hardcoreModeData)) {
+      return {
+        success: false,
+        error: "Hardcore backups are purge-only and cannot rewind the current run",
+      };
+    }
+    const restored = this.backupManager.restoreBackup(this.slotId, backupIndex);
+    if (
+      restored.success
+      && isHardcoreMode(this.normalizePayload(restored.saveData)?.hardcoreModeData)
+    ) {
+      return {
+        success: false,
+        error: "Hardcore backups cannot be restored as rollback saves",
+      };
+    }
+    return restored;
   }
 
   deleteAllBackups() {
@@ -427,8 +742,14 @@ export class DugTilesSaveStore {
 
   exportSave(filename = null) {
     try {
+      if (this.isDeathTombstoned()) return false;
       const payload = this.loadFromLocalStorage();
       if (!payload) { console.warn('[DugTilesSaveStore] No save data to export'); return false; }
+      const normalized = this.normalizePayload(payload);
+      if (isHardcoreMode(normalized?.hardcoreModeData)) {
+        console.warn('[DugTilesSaveStore] Hardcore saves cannot be exported as rollback files');
+        return false;
+      }
       const exportData = { version: payload.version, exportedAt: new Date().toISOString(), slotId: this.slotId, saveData: payload };
       const json = JSON.stringify(exportData, null, 2);
       const blob = new Blob([json], { type: 'application/json' });
@@ -451,6 +772,15 @@ export class DugTilesSaveStore {
       if (!importData.saveData || typeof importData.saveData !== 'object') return { success: false, error: 'Invalid save file structure' };
       const saveData = this.normalizePayload(importData.saveData);
       if (!saveData) return { success: false, error: 'Invalid save data' };
+      if (isHardcoreMode(saveData.hardcoreModeData)) {
+        return {
+          success: false,
+          error: "Hardcore saves cannot be imported because external rollback files break permadeath",
+        };
+      }
+      if (this.isDeathTombstoned()) {
+        this.clearDeathTombstone();
+      }
       const currentSave = this.loadFromLocalStorage();
       if (currentSave && this.slotId) {
         const backup = this.backupManager.createBackup(this.slotId, currentSave);
@@ -461,6 +791,7 @@ export class DugTilesSaveStore {
       if (!this.saveToLocalStorage(saveData)) {
         return { success: false, error: 'Could not write the imported save' };
       }
+      this.clearHardcoreCheckpoint();
       return { success: true, saveData, importedFrom: importData.exportedAt, originalSlot: importData.slotId };
     } catch (error) { return { success: false, error: error.message }; }
   }

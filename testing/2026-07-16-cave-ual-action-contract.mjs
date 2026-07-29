@@ -7,6 +7,7 @@ import {
   resolveUalFlightTimeScale,
 } from "../values/ualNativeActionTuning.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE as profile } from "../values/ualNativePlayerAssetProfile.js";
+import { THUNDER_STRIKE_CHAIN_CONFIG } from "../values/thunderStrikeChain.js";
 
 class FakeSprite {
   constructor() {
@@ -122,7 +123,10 @@ const abilities = {
     return true;
   },
   updateThunderStrikeCharge(now) {
-    return { complete: this.charging && now - this.chargeStart >= 1000 };
+    return {
+      complete: this.charging
+        && now - this.chargeStart >= THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs,
+    };
   },
   isThunderStrikeCharging() { return this.charging; },
   armThunderStrikeFollowUp(stageIndex) {
@@ -347,16 +351,17 @@ contactController._tryMine(downTarget, 0, "DOWN", abilities, "mine");
 delayedContact();
 assert.equal(delayedMineCalls, 2);
 
-// Thunder: one charged contact plus two exact-timing, free follow-up contacts.
+// Thunder: one quick charged contact plus nine exact-timing, free follow-ups.
 runtime.updateThunderStrike(0, true);
 assert.equal(abilities.chargeStart, 0);
 assert.equal(abilities.executeCalls, 0);
 assert.equal(controller.thunderApplyCalls, 0);
 assert.equal(runtime.isUalActionLocked, true);
-runtime.updateThunderStrike(999, false);
+const openingChargeMs = THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs;
+runtime.updateThunderStrike(openingChargeMs - 1, false);
 assert.equal(abilities.executeCalls, 0);
-scene.time.now = 1000;
-runtime.updateThunderStrike(1000, false);
+scene.time.now = openingChargeMs;
+runtime.updateThunderStrike(openingChargeMs, false);
 assert.equal(sprite.played.at(-1), profile.thunderStrikeStrikeAnim);
 assert.equal(abilities.executeCalls, 0);
 
@@ -375,41 +380,55 @@ sprite.emit(
 );
 assert.equal(abilities.executeCalls, 1);
 assert.equal(controller.thunderApplyCalls, 1);
-assert.equal(controller.lastStrike.time, 1000);
+assert.equal(controller.lastStrike.time, openingChargeMs);
 assert.equal(runtime.isUalActionLocked, true);
 sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
 assert.equal(runtime.isUalActionLocked, true, "the chain remains locked for Slam II timing");
 
-const slamTwoTime = runtime.thunderStrikeRuntime.state.challengeTargetMs;
-scene.time.now = slamTwoTime;
-runtime.updateThunderStrike(slamTwoTime, true);
-assert.equal(sprite.played.at(-1), profile.thunderStrikeStrikeAnim);
-sprite.emit(
-  "animationupdate",
-  animation(profile.thunderStrikeStrikeAnim),
-  frame(strikeContact.textureFrame, strikeContact.sequenceIndex),
-  sprite,
-);
-assert.equal(abilities.executeCalls, 2);
-assert.equal(controller.thunderApplyCalls, 2);
-sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
-assert.equal(runtime.isUalActionLocked, true, "the chain remains locked for Slam III timing");
-
-const slamThreeTime = runtime.thunderStrikeRuntime.state.challengeTargetMs;
-scene.time.now = slamThreeTime;
-runtime.updateThunderStrike(slamThreeTime, true);
-sprite.emit(
-  "animationupdate",
-  animation(profile.thunderStrikeStrikeAnim),
-  frame(strikeContact.textureFrame, strikeContact.sequenceIndex),
-  sprite,
-);
-assert.equal(abilities.executeCalls, 3);
-assert.equal(controller.thunderApplyCalls, 3);
-sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
+for (let stageIndex = 1; stageIndex < THUNDER_STRIKE_CHAIN_CONFIG.stages.length; stageIndex += 1) {
+  const targetTime = runtime.thunderStrikeRuntime.state.challengeTargetMs;
+  scene.time.now = targetTime;
+  runtime.updateThunderStrike(targetTime, true);
+  assert.equal(sprite.played.at(-1), profile.thunderStrikeStrikeAnim);
+  sprite.emit(
+    "animationupdate",
+    animation(profile.thunderStrikeStrikeAnim),
+    frame(strikeContact.textureFrame, strikeContact.sequenceIndex),
+    sprite,
+  );
+  assert.equal(abilities.executeCalls, stageIndex + 1);
+  assert.equal(controller.thunderApplyCalls, stageIndex + 1);
+  sprite.emit("animationcomplete", animation(profile.thunderStrikeStrikeAnim), frame(40, 33), sprite);
+  assert.equal(
+    runtime.isUalActionLocked,
+    stageIndex < THUNDER_STRIKE_CHAIN_CONFIG.stages.length - 1,
+  );
+}
 assert.equal(runtime.isUalActionLocked, false);
-assert.deepEqual(abilities.executeStages, [0, 1, 2]);
-assert.deepEqual(abilities.armedStages, [1, 2]);
+assert.deepEqual(abilities.executeStages, Array.from({ length: 10 }, (_, index) => index));
+assert.deepEqual(abilities.armedStages, Array.from({ length: 9 }, (_, index) => index + 1));
+
+// Movement/Escape uses this same public cancellation path. Cancelling while
+// the downward strike is committed but still pre-contact must restore control
+// and remove the pending tile-damage callback.
+const cancelStartedAt = scene.time.now + 1000;
+runtime.updateThunderStrike(cancelStartedAt, true);
+scene.time.now = cancelStartedAt + openingChargeMs;
+runtime.updateThunderStrike(scene.time.now, false);
+assert.equal(runtime.isUalActionLocked, true);
+assert.equal(abilities.executeCalls, 10);
+assert.equal(runtime.cancelThunderStrike(scene.time.now + 1), true);
+assert.equal(runtime.isUalActionLocked, false);
+assert.equal(controller._actionUntilMs, 0);
+assert.equal(abilities.charging, false);
+sprite.emit(
+  "animationupdate",
+  animation(profile.thunderStrikeStrikeAnim),
+  frame(strikeContact.textureFrame, strikeContact.sequenceIndex),
+  sprite,
+);
+assert.equal(abilities.executeCalls, 10, "a cancelled pre-contact slam must deal no damage");
+assert.equal(runtime.cancelThunderStrike(scene.time.now + 2), false);
 
 // Powered flight: authored enter -> Shield Dash travel -> Jump hover -> exit -> land.
 assert.equal(profile.sourceClips.fly, "Shield_Dash");

@@ -260,7 +260,11 @@ export class HeavenblocksAccessSystem {
   }
 
   _redrawAltars(force = false) {
-    this.presentationSystem?.redrawAltars?.(this.progressionSystem, force);
+    this.presentationSystem?.redrawAltars?.(
+      this.progressionSystem,
+      this.ancientRelicSystem?.getCount?.() || 0,
+      force,
+    );
   }
 
   _notifyLockedRelics() {

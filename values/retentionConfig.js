@@ -2,8 +2,24 @@
 // Presentation and lightweight progression tuning for the approved
 // "one more dig" systems. These values never alter combo decay or core drops.
 
+export const TOWN_TUTORIAL_CHOICES = Object.freeze({
+  YES: "yes",
+  NO: "no",
+  LEGACY: "legacy",
+});
+
+export const TOWN_TUTORIAL_STAGES = Object.freeze({
+  UNSELECTED: "unselected",
+  MOVE: "move",
+  DIG: "dig",
+  SELL: "sell",
+  UPGRADE: "upgrade",
+  COMPLETE: "complete",
+  SKIPPED: "skipped",
+});
+
 export const RETENTION_CONFIG = Object.freeze({
-  saveVersion: 1,
+  saveVersion: 2,
 
   depth: Object.freeze({
     surfaceMaxMeters: 2,
@@ -21,12 +37,95 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   tutorial: Object.freeze({
-    stages: Object.freeze(["mine", "sell", "upgrade", "complete"]),
+    stages: Object.freeze(Object.values(TOWN_TUTORIAL_STAGES)),
+    activeStages: Object.freeze([
+      TOWN_TUTORIAL_STAGES.MOVE,
+      TOWN_TUTORIAL_STAGES.DIG,
+      TOWN_TUTORIAL_STAGES.SELL,
+      TOWN_TUTORIAL_STAGES.UPGRADE,
+    ]),
+    moveDistanceTiles: 2,
+    digSite: Object.freeze({
+      tileX: 24,
+      surfaceRowOffset: -1,
+      tileTypeName: "DIRT",
+      tileHp: 1,
+    }),
+    merchants: Object.freeze({
+      sell: "moneyMonster",
+      upgrade: "playerUpgrades",
+    }),
+    starterReward: Object.freeze({
+      money: 3,
+      resources: Object.freeze({ dirt: 6 }),
+    }),
+    completionReward: Object.freeze({
+      money: 40,
+      flightUpgradeId: "gemPowerUnlock",
+      freeFlightMs: 30000,
+    }),
+    choice: Object.freeze({
+      title: "DO YOU WANT TO PLAY THE TUTORIAL?",
+      body: "A short guided start through movement, digging, selling,\nand your first NPC upgrade.\n\nSkip it if you know the loop — Flight and rewards are still granted.",
+      yesLabel: "YES  •  TEACH ME",
+      noLabel: "NO  •  START PLAYING",
+      footer: "A / D OR ARROWS  CHOOSE     ENTER  CONFIRM     ESC  BACK",
+    }),
     copy: Object.freeze({
-      mine: "FIRST RUN  •  MINE a tile",
-      sell: "FIRST RUN  •  SELL your cargo in town",
-      upgrade: "FIRST RUN  •  BUY one upgrade",
-      complete: "CORE LOOP LEARNED  •  Mine → Sell → Upgrade → Dig deeper",
+      move: Object.freeze({
+        phase: "1 / 4  •  MOVE",
+        title: "GET COMFORTABLE IN TOWN",
+        body: "{left}/{right} move and aim  •  {interact} talks to people",
+      }),
+      dig: Object.freeze({
+        phase: "2 / 4  •  DIG",
+        title: "BREAK THE PRACTICE BLOCK",
+        body: "Walk to the mining marker  •  face the block  •  hold {mine} to dig",
+      }),
+      sell: Object.freeze({
+        phase: "3 / 4  •  SELL",
+        title: "TURN CARGO INTO MONEY",
+        body: "Return to the Money Monster  •  press {interact}  •  sell any stack",
+      }),
+      upgrade: Object.freeze({
+        phase: "4 / 4  •  UPGRADE",
+        title: "MAKE THE NEXT DIG EASIER",
+        body: "Visit Upgrades  •  press {interact}  •  buy Agility Training",
+      }),
+      complete: Object.freeze({
+        phase: "CORE LOOP LEARNED",
+        title: "MINE  →  SELL  →  UPGRADE  →  DIG DEEPER",
+        body: "Flight unlocked  •  30 seconds free  •  +40 M",
+      }),
+    }),
+    ui: Object.freeze({
+      guideNotificationKey: "town-tutorial-guide",
+      completionNotificationKey: "town-tutorial-complete",
+      markerHeightPx: 138,
+      markerDepth: 54,
+      markerPulseScale: 1.045,
+      markerPulseMs: 820,
+      digMarkerOffsetYPx: -8,
+      merchantMarkerGapPx: 10,
+      merchantMinimumHeightPx: 48,
+      rewardFlashDurationMs: 180,
+      rewardFlashRgb: Object.freeze([126, 225, 255]),
+      freeFlightSaveIntervalMs: 1000,
+      choiceDepth: 4250,
+      choicePanelWidthPx: 960,
+      choicePanelHeightPx: 640,
+      choiceTitleYPx: -170,
+      choiceBodyYPx: -91,
+      choiceButtonYPx: 68,
+      choiceButtonWidthPx: 286,
+      choiceButtonHeightPx: 52,
+      choiceButtonGapPx: 330,
+      choiceFooterYPx: 204,
+      choiceTitleFontSize: "30px",
+      choiceBodyFontSize: "16px",
+      choiceFooterFontSize: "12px",
+      choiceBackdropAlpha: 0.9,
+      choiceEnterDurationMs: 180,
     }),
   }),
 
@@ -97,11 +196,6 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   miningFeedback: Object.freeze({
-    overkillPrefix: "OVERKILL",
-    overkillColor: "#ff9a52",
-    overkillDurationMs: 900,
-    overkillFontSize: 20,
-    overkillMinHpRatio: 0.25,
     critPrefix: "CRIT",
     luckyText: "LUCKY +1",
     luckyColor: "#55ff9a",
@@ -116,7 +210,7 @@ export const RETENTION_CONFIG = Object.freeze({
   floatingText: Object.freeze({
     preferenceVersion: 1,
     legacyDefaultMode: "reduced",
-    defaultMode: "full",
+    defaultMode: "reduced",
     modes: Object.freeze({
       off: Object.freeze({
         label: "OFF",
@@ -151,21 +245,16 @@ export const RETENTION_CONFIG = Object.freeze({
     fillAlpha: 0.12,
     heavyColor: 0xff9a52,
     thunderColor: 0x65d8f2,
-    quickslashColor: 0xd68cff,
     labelFontSize: "13px",
     labelOffsetY: 18,
     abilityInputBufferMs: 220,
   }),
 
   settings: Object.freeze({
-    expeditionLabel: "Return Summaries",
-    expeditionHint: "Show a compact haul recap when you return to town.",
-    discoveryLabel: "Discovery Cards",
-    discoveryHint: "Show a card the first time a material is found.",
     objectiveLabel: "Session Objective",
     objectiveHint: "Show an optional goal with no streak or failure penalty.",
     floatingTextLabel: "Floating Damage / Reward Text",
-    floatingTextHint: "Full is enabled automatically. Reduced hides routine damage and resource numbers.",
+    floatingTextHint: "Reduced keeps critical and special feedback while hiding routine damage and resource numbers.",
   }),
 });
 

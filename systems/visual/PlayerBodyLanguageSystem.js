@@ -7,6 +7,10 @@
  */
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { clamp01Finite as clamp01 } from "../../values/mathUtils.js";
+import {
+  PLAYER_ANIMATION_POLISH,
+  isPlayerAnimationFeatureEnabled,
+} from "../../values/playerAnimationPolish.js";
 import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
 
 
@@ -31,6 +35,14 @@ export class PlayerBodyLanguageSystem {
       this.enabled = false;
       return;
     }
+    const profile = this.scene.playerAssetProfile;
+    const polish = profile?.animationPolishConfig || PLAYER_ANIMATION_POLISH;
+    this._authoredLandingCompression = profile?.landingCompressionOwner === "authored-animation"
+      && isPlayerAnimationFeatureEnabled(
+        polish.landing,
+        globalThis.location?.search || "",
+        polish,
+      );
     this._onPostUpdate = () => this._tick();
     this.scene.events.on(Phaser.Scenes.Events.POST_UPDATE, this._onPostUpdate);
   }
@@ -95,7 +107,12 @@ export class PlayerBodyLanguageSystem {
     const grounded = controller?.isGrounded?.() === true;
 
     // Landing detection — use last airborne downward velocity
-    if (grounded && !this._wasGrounded && this._lastVy > cfg.landSquashMinVy) {
+    if (
+      !this._authoredLandingCompression
+      && grounded
+      && !this._wasGrounded
+      && this._lastVy > cfg.landSquashMinVy
+    ) {
       this._onLanded(this._lastVy);
     }
     this._wasGrounded = grounded;

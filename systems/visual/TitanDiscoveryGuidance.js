@@ -6,6 +6,8 @@ import {
   describeTitanDirection,
   getTitanZoneDistances,
 } from "./titanDirection.js";
+import { GAME_CONFIG } from "../../values/gameConfig.js";
+import { TitanGuidanceIndicator } from "./TitanGuidanceIndicator.js";
 
 export class TitanDiscoveryGuidance {
   constructor(scene, config = TITAN_DISCOVERY_EXPERIENCE) {
@@ -16,25 +18,43 @@ export class TitanDiscoveryGuidance {
     this.lastTargetId = "";
     this.lastMessage = "";
     this.lastSource = "";
+    this.lastTargetView = null;
+    this.lastDirection = null;
+    this.indicator = new TitanGuidanceIndicator(scene, config);
     this.destroyed = false;
   }
 
   update(time, playerTile, zoneViews, discoveredIds) {
+    if (this.destroyed) return null;
     if (
       !this.enabled
-      || this.destroyed
       || !playerTile
-      || !this.scene?.uiNotifications
-      || time < this.nextUpdateAt
     ) {
+      this.indicator.hide();
       return null;
     }
-    const guidance = this.config.guidance;
-    this.nextUpdateAt = time + guidance.refreshIntervalMs;
     const discovered = discoveredIds instanceof Set
       ? discoveredIds
       : new Set(discoveredIds || []);
-    const activeClueId = this.scene.titanClueSystem?.getActiveClueId?.();
+    const guidance = this.config.guidance;
+    const activeClueId = this.scene.titanClueSystem?.getActiveClueId?.() || null;
+    const displayedClueId = this.lastSource === guidance.clueSourceId
+      ? this.lastTargetId
+      : null;
+    const trackingChanged = activeClueId !== displayedClueId
+      && Boolean(activeClueId || displayedClueId);
+    const shouldResolve = (
+      time >= this.nextUpdateAt
+      || !this.lastTargetView
+      || discovered.has(this.lastTargetId)
+      || trackingChanged
+    );
+    if (!shouldResolve) {
+      this._updateIndicator(time, playerTile);
+      return this.lastTargetView?.definition || null;
+    }
+
+    this.nextUpdateAt = time + guidance.refreshIntervalMs;
     const clueView = activeClueId
       ? zoneViews.find(view => (
         view.definition.id === activeClueId
@@ -54,18 +74,24 @@ export class TitanDiscoveryGuidance {
           distances: getTitanZoneDistances(playerTile, view.zone),
           source: guidance.resonanceSourceId,
         }))
+        .map(candidate => ({
+          ...candidate,
+          distanceTiles: Math.hypot(
+            candidate.distances.horizontal,
+            candidate.distances.vertical,
+          ),
+        }))
         .filter(candidate => (
-          candidate.distances.vertical <= guidance.verticalRangeTiles
+          candidate.distanceTiles <= guidance.proximityRangeTiles
         ))
         .sort((left, right) => (
-          left.distances.vertical - right.distances.vertical
+          left.distanceTiles - right.distanceTiles
+          || left.distances.vertical - right.distances.vertical
           || left.distances.horizontal - right.distances.horizontal
           || left.view.definition.index - right.view.definition.index
         ))[0];
     if (!target) {
-      this.lastTargetId = "";
-      this.lastMessage = "";
-      this.lastSource = "";
+      this._clearTarget();
       return null;
     }
 
@@ -75,29 +101,85 @@ export class TitanDiscoveryGuidance {
       target.source === guidance.clueSourceId ? guidance.clueCopy : null,
       this.config
     );
-    const message = direction.message;
     this.lastTargetId = target.view.definition.id;
-    this.lastMessage = message;
+    this.lastMessage = direction.message;
     this.lastSource = target.source;
-    this.scene.uiNotifications.info(message, {
-      key: guidance.notificationKey,
-      durationMs: guidance.messageDurationMs,
-      priority: guidance.notificationPriority,
-      noDedupe: true,
-    });
+    this.lastTargetView = target.view;
+    this.lastDirection = direction;
+    this._updateIndicator(time, playerTile);
     return target.view.definition;
+  }
+
+  _updateIndicator(time, playerTile) {
+    if (!this.lastTargetView) {
+      this.indicator.hide();
+      return;
+    }
+    const guidance = this.config.guidance;
+    const zone = this.lastTargetView.zone;
+    const direction = describeTitanDirection(
+      playerTile,
+      zone,
+      this.lastSource === guidance.clueSourceId
+        ? guidance.clueCopy
+        : null,
+      this.config
+    );
+    if (!direction) {
+      this._clearTarget();
+      return;
+    }
+    this.lastDirection = direction;
+    this.lastMessage = direction.message;
+    if (
+      this.lastSource === guidance.resonanceSourceId
+      && direction.distanceTiles > guidance.proximityRangeTiles
+    ) {
+      this._clearTarget();
+      return;
+    }
+    const tileSize = Number(this.scene?.config?.tileSize)
+      || GAME_CONFIG.tileSize;
+    const inside = (
+      direction.distances.horizontal === 0
+      && direction.distances.vertical === 0
+    );
+    if (inside) {
+      this.indicator.hide();
+      return;
+    }
+    const centerXTile = Number.isFinite(zone.centerXTile)
+      ? zone.centerXTile
+      : (zone.left + zone.rightExclusive) / 2;
+    const centerYTile = Number.isFinite(zone.centerYTile)
+      ? zone.centerYTile
+      : (zone.top + zone.bottomExclusive) / 2;
+    this.indicator.show({
+      time,
+      playerWorld: {
+        x: (playerTile.tx + 0.5) * tileSize,
+        y: (playerTile.ty + 0.5) * tileSize,
+      },
+      targetWorld: {
+        x: centerXTile * tileSize,
+        y: centerYTile * tileSize,
+      },
+      source: this.lastSource,
+    });
+  }
+
+  _clearTarget() {
+    this.lastTargetId = "";
+    this.lastMessage = "";
+    this.lastSource = "";
+    this.lastTargetView = null;
+    this.lastDirection = null;
+    this.indicator.hide();
   }
 
   announceDiscovery(definition) {
     if (!this.enabled || this.destroyed || !definition) return;
-    const guidance = this.config.guidance;
-    this.scene.uiNotifications?.success?.(
-      `${guidance.discoveredCopy}${guidance.separatorCopy}${definition.name.toUpperCase()}`,
-      {
-        key: `${guidance.discoveryKeyPrefix}${definition.id}`,
-        durationMs: guidance.discoveryDurationMs,
-      }
-    );
+    if (definition.id === this.lastTargetId) this._clearTarget();
   }
 
   getSnapshot() {
@@ -106,14 +188,14 @@ export class TitanDiscoveryGuidance {
       target: this.lastTargetId,
       message: this.lastMessage,
       source: this.lastSource,
+      indicator: this.indicator.getSnapshot(),
     };
   }
 
   destroy() {
     this.destroyed = true;
-    this.lastTargetId = "";
-    this.lastMessage = "";
-    this.lastSource = "";
+    this._clearTarget();
+    this.indicator.destroy();
     this.scene = null;
   }
 }

@@ -11,6 +11,13 @@ import { createButton } from "../PhaserUiKit.js";
 import { createManualSaveFilePicker } from "../components/manualSaveFilePicker.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
+import {
+  isHardcoreMode,
+  isHardcoreModeArmed,
+  sanitizeHardcoreModeData,
+} from "../../values/hardcoreMode.js";
+import { StartModeSelectionOverlay } from "./StartModeSelectionOverlay.js";
+import { StartTutorialChoiceOverlay } from "./StartTutorialChoiceOverlay.js";
 
 const CARD_W = 290;
 const CARD_H = 200;
@@ -48,11 +55,14 @@ export class StartMenuScene extends Phaser.Scene {
     this.selectedSlot = null;
     this._confirmPanel = null;
     this._confirmListening = false;
+    this._confirmKeyAttachTimer = null;
     this._backupPanel = null;
     this._importPanel = null;
     this._saveTransferControls = [];
     this._pulseTween = null;
     this._isStartingGame = false;
+    this._modeSelector = null;
+    this._tutorialSelector = null;
   }
 
   async create() {
@@ -93,6 +103,8 @@ export class StartMenuScene extends Phaser.Scene {
     this._buildCards();
     this._animateCardEntry();
     this._buildSaveTransferControls(W);
+    this._modeSelector = new StartModeSelectionOverlay(this);
+    this._tutorialSelector = new StartTutorialChoiceOverlay(this);
 
     // --- Start prompt (shown below cards once a slot is selected) ---
     this._startPrompt = this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
@@ -133,6 +145,11 @@ export class StartMenuScene extends Phaser.Scene {
       this.input.keyboard.off('keydown-E');
       this.input.keyboard.off('keydown-I');
       this.input.keyboard.off('keydown-ESC');
+      this._modeSelector?.destroy();
+      this._modeSelector = null;
+      this._tutorialSelector?.destroy();
+      this._tutorialSelector = null;
+      this._closeConfirm();
       this._closeImportPanel();
     });
   }
@@ -165,12 +182,29 @@ export class StartMenuScene extends Phaser.Scene {
             bestDepth: saveData.retentionData?.stats?.bestDepth || 0,
             wallet: saveData.upgrades?.money || 0,
             stars: saveData.retentionData?.stats?.starsCollected || 0,
+            hardcoreModeData: sanitizeHardcoreModeData(saveData.hardcoreModeData),
           });
         } else {
-          slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null, playerCharacterId: null });
+          slots.push({
+            id: i,
+            hasData: false,
+            dugTiles: 0,
+            resources: { dirt: 0, stone: 0, copper: 0 },
+            updatedAt: null,
+            playerCharacterId: null,
+            hardcoreModeData: sanitizeHardcoreModeData(null),
+          });
         }
       } catch (_) {
-        slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null, playerCharacterId: null });
+        slots.push({
+          id: i,
+          hasData: false,
+          dugTiles: 0,
+          resources: { dirt: 0, stone: 0, copper: 0 },
+          updatedAt: null,
+          playerCharacterId: null,
+          hardcoreModeData: sanitizeHardcoreModeData(null),
+        });
       }
     }
     return slots;
@@ -222,10 +256,27 @@ export class StartMenuScene extends Phaser.Scene {
         }).setOrigin(0.5, 0);
         objs.push(statusTxt);
 
+        const modeIsHardcore = isHardcoreMode(slot.hardcoreModeData);
+        const modeIsArmed = isHardcoreModeArmed(slot.hardcoreModeData);
+        const modeTxt = this.add.text(
+          cx,
+          cy - 52,
+          modeIsHardcore
+            ? (modeIsArmed ? 'HARDCORE  •  OATH ARMED' : 'HARDCORE  •  ARMS AT FLIGHT')
+            : 'CASUAL',
+          {
+            fontFamily: UI_FONTS.mono,
+            fontSize: '12px',
+            fontStyle: 'bold',
+            color: modeIsHardcore ? '#ff7566' : '#72b9e8',
+          },
+        ).setOrigin(0.5);
+        objs.push(modeTxt);
+
         // Tiles dug
         const tilesTxt = this.add.text(
           cx,
-          cy - 34,
+          cy + 7,
           `LV ${slot.level}  •  DEPTH ${slot.currentDepth}m / BEST ${slot.bestDepth}m`
             + `\n${Number(slot.wallet).toLocaleString()} M  •  ${slot.stars} stars`
             + `\n${slot.dugTiles.toLocaleString()} tiles dug`,
@@ -350,7 +401,12 @@ export class StartMenuScene extends Phaser.Scene {
     });
 
     // Animate the prompt text
-    this._startPrompt.setText('PRESS  SPACE  TO  START');
+    const selectedSave = this.saveSlots?.find((slot) => slot.id === slotId);
+    this._startPrompt.setText(
+      selectedSave?.hasData
+        ? 'PRESS  SPACE  TO  CONTINUE'
+        : 'PRESS  SPACE  TO  CHOOSE  SAVE  RULES',
+    );
     this._startPrompt.setColor(COL.green);
     this.tweens.killTweensOf(this._startPrompt);
     this.tweens.add({ targets: this._startPrompt, alpha: { from: 0.3, to: 1.0 }, duration: 260, ease: 'Power2.out' });
@@ -405,7 +461,11 @@ export class StartMenuScene extends Phaser.Scene {
     const [exportButton, importButton] = this._saveTransferControls;
     if (!exportButton || !importButton) return;
     const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
-    exportButton.setEnabled(Boolean(selectedSave?.hasData));
+    const hardcoreExportLocked = isHardcoreMode(selectedSave?.hardcoreModeData);
+    exportButton.setEnabled(
+      Boolean(selectedSave?.hasData) && !hardcoreExportLocked,
+      hardcoreExportLocked ? "OATH LOCKED" : "",
+    );
     importButton.setEnabled(Boolean(this.selectedSlot));
   }
 
@@ -417,32 +477,35 @@ export class StartMenuScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-THREE', () => this._selectSlot(3));
 
     this.input.keyboard.on('keydown-SPACE', () => {
-      if (this._confirmPanel) return;
+      if (this._confirmPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
       if (this.selectedSlot !== null) this._startGame();
     });
 
     this.input.keyboard.on('keydown-DELETE', () => {
-      if (this._confirmPanel) return;
+      if (this._confirmPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
       if (this.selectedSlot !== null) this._showConfirm(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-B', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
       if (this.selectedSlot !== null) this._showBackupPanel(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-E', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
       const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
-      if (selectedSave?.hasData) this._exportSave(this.selectedSlot);
+      if (selectedSave?.hasData && !isHardcoreMode(selectedSave.hardcoreModeData)) {
+        this._exportSave(this.selectedSlot);
+      }
     });
 
     this.input.keyboard.on('keydown-I', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
       if (this.selectedSlot !== null) this._showImportPanel();
     });
 
     this.input.keyboard.on('keydown-ESC', () => {
+      if (this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
       if (this._confirmPanel) { this._closeConfirm(); return; }
       if (this._backupPanel) { this._closeBackupPanel(); return; }
       if (this._importPanel) { this._closeImportPanel(); return; }
@@ -454,6 +517,38 @@ export class StartMenuScene extends Phaser.Scene {
   // ─── Start game ──────────────────────────────────────────────────────────
 
   _startGame() {
+    if (this._isStartingGame || this.selectedSlot === null) return;
+    const selectedSave = this.saveSlots.find((slot) => slot.id === this.selectedSlot);
+    if (!selectedSave?.hasData) {
+      this._modeSelector?.show({
+        onChoose: hardcoreModeData => this._showNewSaveTutorialChoice(
+          hardcoreModeData,
+        ),
+      });
+      return;
+    }
+
+    this._launchGame(
+      sanitizeHardcoreModeData(selectedSave.hardcoreModeData),
+      false,
+      null,
+    );
+  }
+
+  _showNewSaveTutorialChoice(hardcoreModeData) {
+    this._tutorialSelector?.show({
+      onChoose: tutorialChoice => this._launchGame(
+        hardcoreModeData,
+        true,
+        tutorialChoice,
+      ),
+      onCancel: () => this._modeSelector?.show({
+        onChoose: nextMode => this._showNewSaveTutorialChoice(nextMode),
+      }),
+    });
+  }
+
+  _launchGame(hardcoreModeData, isNewSave, tutorialChoice) {
     if (this._isStartingGame || this.selectedSlot === null) return;
     this._isStartingGame = true;
     this.soundSystem?.playUiConfirm?.();
@@ -472,6 +567,9 @@ export class StartMenuScene extends Phaser.Scene {
       saveSlot: this.selectedSlot,
       worldIdentity,
       playerCharacterId: queryCharacterId ?? savedCharacterId ?? DEFAULT_PLAYER_CHARACTER_ID,
+      hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData),
+      isNewSave: isNewSave === true,
+      tutorialChoice,
     });
   }
 
@@ -543,12 +641,21 @@ export class StartMenuScene extends Phaser.Scene {
         this._closeConfirm();
       }
     };
-    this.input.keyboard.once('keydown', onKey);
-    this._confirmKeyHandler = onKey;
+    // Defer one scene tick so the Delete key that opened the panel does not
+    // consume this one-shot Y / N confirmation listener.
+    this._confirmKeyAttachTimer?.remove?.(false);
+    this._confirmKeyAttachTimer = this.time.delayedCall(0, () => {
+      this._confirmKeyAttachTimer = null;
+      if (!this._confirmPanel) return;
+      this.input.keyboard.once('keydown', onKey);
+      this._confirmKeyHandler = onKey;
+    });
   }
 
   _closeConfirm() {
     if (!this._confirmPanel) return;
+    this._confirmKeyAttachTimer?.remove?.(false);
+    this._confirmKeyAttachTimer = null;
     if (this._confirmKeyHandler) {
       this.input.keyboard.off('keydown', this._confirmKeyHandler);
       this._confirmKeyHandler = null;
@@ -587,6 +694,9 @@ export class StartMenuScene extends Phaser.Scene {
     const store = new DugTilesSaveStore({ slotId });
     const backups = store.getBackups();
     const stats = store.getSaveStats();
+    const currentHardcore = isHardcoreMode(
+      store.loadForDisplay()?.hardcoreModeData,
+    );
     
     const W = this.scale.width;
     const H = this.scale.height;
@@ -608,7 +718,8 @@ export class StartMenuScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     const statsText = this.add.text(px, py - ph / 2 + 60, 
-      `${backups.length} backups available • ${stats.backupStats?.totalSizeBytes ? (stats.backupStats.totalSizeBytes / 1024).toFixed(1) + ' KB' : '0 KB'}`, {
+      `${backups.length} ${currentHardcore ? "purge-only backups" : "backups available"}`
+        + ` • ${stats.backupStats?.totalSizeBytes ? (stats.backupStats.totalSizeBytes / 1024).toFixed(1) + ' KB' : '0 KB'}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: '13px',
       color: COL.dim,
@@ -651,6 +762,13 @@ export class StartMenuScene extends Phaser.Scene {
             this._restoreBackup(slotId, backup.index);
           },
         });
+        const backupHardcore = isHardcoreMode(
+          store.normalizePayload(backup.data)?.hardcoreModeData,
+        );
+        restoreBtn.setEnabled(
+          !currentHardcore && !backupHardcore,
+          currentHardcore || backupHardcore ? "OATH LOCKED" : "",
+        );
         controls.push(restoreBtn);
       });
     }
@@ -669,11 +787,18 @@ export class StartMenuScene extends Phaser.Scene {
     });
     controls.push(closeBtn);
 
-    const hintText = this.add.text(px, py + ph / 2 - 68, 'Click restore on any backup', {
+    const hintText = this.add.text(
+      px,
+      py + ph / 2 - 68,
+      currentHardcore
+        ? "Hardcore backups are erased on death and cannot rewind the run"
+        : "Click restore on any Casual backup",
+      {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.dim,
-    }).setOrigin(0.5);
+      },
+    ).setOrigin(0.5);
     objects.push(hintText);
 
     this._backupPanel = { objects, controls, slotId };

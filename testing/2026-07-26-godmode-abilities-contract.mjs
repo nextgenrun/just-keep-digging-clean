@@ -82,7 +82,9 @@ assert.equal(Object.keys(CONSTELLATION_BUFFS).length, 10);
 assert.ok(stats.quickslashFlatDamage > 0);
 assert.ok(stats.quickslashBurstSpeed > 0);
 assert.ok(stats.thunderstrikeRange > 0);
-assert.ok(stats.thunderstrikeDamageMult > 0);
+assert.equal(stats.thunderstrikeDamageMult, 0.35);
+assert.equal(stats.thunderstrikeRecoveryBonus, undefined);
+assert.equal(stats.thunderstrikeBedrockBreach, undefined);
 
 const gpBeforeAbilities = abilities.gemPower;
 abilities.update(0.5, {
@@ -108,6 +110,11 @@ assert.equal(abilities.startThunderStrikeCharge(2000), true);
 const thunderResult = abilities.executeThunderStrike(0);
 assert.equal(thunderResult.success, true);
 assert.ok(thunderHits.length > 0);
+assert.equal(
+  new Set(thunderHits.map(hit => hit.tx)).size,
+  1,
+  "Thunderstrike must remain a single vertical lane even with Citadel Storm",
+);
 assert.equal(abilities.gemPower, gpBeforeAbilities, "God Mode Thunderstrike must be free");
 assert.equal(abilities.consumeGemPower(50), 50);
 assert.equal(abilities.gemPower, gpBeforeAbilities);
@@ -217,18 +224,27 @@ starHeart.refreshGodMode();
 assert.equal(starHeart.getSnapshot().godMode, false);
 assert.equal(starHeart.getSnapshot().selectedEngine, null);
 
-const [inputSource, setupSource, overlaySource, timingSystemSource, timingViewSource] = await Promise.all([
+const [
+  inputSource,
+  setupSource,
+  overlaySource,
+  overlayPresentationSource,
+  timingSystemSource,
+  timingViewSource,
+] = await Promise.all([
   readFile(new URL("../world/playScene/PlayerInputHandler.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/overlays/StarHeartOverlay.js", import.meta.url), "utf8"),
+  readFile(new URL("../ui/overlays/starHeartOverlayPresentation.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/ThunderStrikeTimingBarSystem.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/ThunderStrikeTimingBarView.js", import.meta.url), "utf8"),
 ]);
 assert.doesNotMatch(inputSource, /addBoundKey\("gemDash"\)/);
 assert.match(setupSource, /isGodModeActive:\s*\(\)\s*=>\s*this\.upgradeSystem/);
-assert.match(overlaySource, /godModeConfirm/);
+assert.match(overlaySource, /refreshStarHeartSelection/);
+assert.match(overlayPresentationSource, /godModeConfirm/);
 assert.match(timingSystemSource, /getThunderStrikeCost\?\.\(\)\s*===\s*0/);
-assert.match(timingViewSource, /const castFree = index > 0 \|\| initialCastFree/);
+assert.match(timingViewSource, /const castFree = milestone\.stageIndex > 0 \|\| initialCastFree/);
 assert.match(timingViewSource, /castFree\s*\?\s*"FREE"\s*:\s*"PAID"/);
 
 console.log("godmode abilities contract: flight, quickslash, thunderstrike, torch, and all Celestial Engines are free and save-safe");

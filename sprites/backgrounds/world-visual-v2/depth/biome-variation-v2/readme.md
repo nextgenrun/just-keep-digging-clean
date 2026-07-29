@@ -24,3 +24,7 @@ Rebuild the ten `*-motion-v1.webp` derivatives with
 `ai-tools/2026-07-26-build-underground-biome-motion-runtime-v1.py`.
 
 Do not use these plates for collision, tile ownership, resource state, or saves.
+
+The package remains immutable and fully live. `../biome-expansion-v3/` adds
+fifty new static choices without replacing these sixty images, while
+`../biome-ground-structures-v3/` adds a separate terrain-masked alpha layer.

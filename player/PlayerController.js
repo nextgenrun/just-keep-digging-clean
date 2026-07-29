@@ -3,6 +3,7 @@ import { PlayerMovement } from './PlayerMovement.js';
 import { PlayerAbilities } from './PlayerAbilities.js';
 import { PlayerState } from './PlayerState.js';
 import { PlayerPhysicsBody } from './PlayerPhysicsBody.js';
+import { PlayerSurfaceDropController } from './PlayerSurfaceDropController.js';
 import { GAME_CONFIG } from '../values/gameConfig.js';
 import { PLAYER_STATS_CONFIG } from '../values/playerStats.js';
 import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
@@ -10,6 +11,8 @@ import { PLAYER_MOTION_POLISH_CONFIG } from '../values/playerMotionPolish.js';
 import { PLAYER_KINEMATIC_MOTION_CONFIG } from '../values/playerKinematicMotion.js';
 import { PLAYER_COLLISION_CONFIG } from '../values/playerCollision.js';
 import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=20260718-mesh-grounded';
+import { sanitizePlayerPersistenceData } from '../values/playerPersistence.js';
+import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedPlayerStats.js';
 
   export class PlayerController {
   constructor(scene, sprite, worldModel, config, upgradeSystem = null, inputHandler = null, playerLevelSystem = null, comboSystem = null, collisionSystem = null) {
@@ -35,10 +38,15 @@ import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=
     this.input = new PlayerInput(scene, inputHandler);
     this.movement = new PlayerMovement(this.physicsBody, config);
     this.abilities = new PlayerAbilities(sprite, worldModel, config, upgradeSystem, this.physicsBody, playerLevelSystem, comboSystem);
+    this.abilities.setGemPowerChangeListener((event) => {
+      this.scene?.handlePlayerGemPowerChanged?.(event);
+    });
     this.state = new PlayerState(this.physicsBody, worldModel, config, upgradeSystem);
+    this.surfaceDrop = new PlayerSurfaceDropController(this.input, collisionSystem, this.physicsBody, config.topAirRows);
   }
 
   teleportToTile(tx, ty) {
+    this.surfaceDrop.reset();
     const bodyPos = this._bodyPositionForStandingTile(tx, ty);
     this.physicsBody.setPosition(bodyPos.x, bodyPos.y);
     this.physicsBody.resetVelocity();
@@ -59,6 +67,7 @@ import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=
     this.input.setControlsEnabled(enabled);
     
     if (!enabled && this.physicsBody) {
+      this.surfaceDrop.reset();
       this.physicsBody.resetVelocity();
       // Clear flying state to prevent getting stuck
       this.abilities.resetFlyingState();
@@ -68,30 +77,31 @@ import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=
     }
   }
 
-  _getWalkSpeed() {
-    let baseSpeed = this.config.walkSpeedPxPerSec;
-    
-    // Apply upgrade system bonuses
-    if (this.upgradeSystem) {
-      baseSpeed = this.upgradeSystem.getEffectiveWalkSpeed(baseSpeed);
-    }
-    
-    // Apply level-based movement speed bonus
-    if (this.playerLevelSystem) {
-      const speedMultiplier = this.playerLevelSystem.getMovementSpeedMultiplier();
-      baseSpeed = baseSpeed * speedMultiplier;
-    }
+  _resolveMovementStats(includeTemporary = true) {
+    const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
+    const levelMultiplier = this.playerLevelSystem?.getMovementSpeedMultiplier?.() ?? 1;
+    const actionBonus = includeTemporary && this.abilities?.isQuickslashActive?.()
+      ? this.abilities.getConstellationStats?.().quickslashBurstSpeed || 0
+      : 0;
+    return createResolvedMovementSnapshot({
+      baseSpeed: this.config.walkSpeedPxPerSec,
+      flatBonus: effects.walkSpeed || 0,
+      multiplier: levelMultiplier,
+      actionBonus,
+      override: this.upgradeSystem?.isGodModeActive?.() ? 2000 : null,
+    });
+  }
 
-    if (this.abilities?.isQuickslashActive?.()) {
-      const quickslashBurstSpeed = this.abilities.getConstellationStats?.().quickslashBurstSpeed || 0;
-      baseSpeed += quickslashBurstSpeed;
-    }
-    
-    return baseSpeed;
+  _getWalkSpeed(includeTemporary = true) {
+    return this._resolveMovementStats(includeTemporary).movementSpeedPxPerSec;
   }
 
   getEffectiveWalkSpeed() {
     return this._getWalkSpeed();
+  }
+
+  getResolvedStatsSnapshot({ includeTemporary = false } = {}) {
+    return this._resolveMovementStats(includeTemporary);
   }
 
   getWalkSpeedRatio() {
@@ -106,10 +116,11 @@ import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=
   update(delta = 16.67) {
     if (!this.physicsBody) return;
     const dt = Math.min(delta / 1000, PLAYER_COLLISION_CONFIG.maxDeltaSeconds);
+    this.surfaceDrop.update();
     this.externalKnockbackMs = Math.max(0, (this.externalKnockbackMs || 0) - delta);
     
     // Update state (ground detection, coyote time, etc.)
-    this.state.update(dt, this.input, this.abilities);
+    this.state.update(dt, this.input, this.abilities, this.collisionSystem);
     
     // Update abilities (climbing, gem power regen)
     this.abilities.update(dt, this.input, this.state.isGrounded(), this.movement.isFacingRight());
@@ -250,16 +261,65 @@ import { resolvePlayerVisualOrigin } from '../values/playerAssetProfiles.js?rev=
     return this.abilities?.hasGemPower?.() ?? false;
   }
 
-  consumeGemPower(amount) {
-    return this.abilities?.consumeGemPower?.(amount) ?? 0;
+  getGemPowerExact() {
+    return this.abilities?.getGemPowerExact?.() ?? 0;
+  }
+
+  setGemPowerExact(amount, options) {
+    return this.abilities?.setGemPowerExact?.(amount, options) ?? 0;
+  }
+
+  consumeGemPower(amount, context) {
+    return this.abilities?.consumeGemPower?.(amount, context) ?? 0;
   }
 
   fillGemPower() {
     return this.abilities?.fillGemPower?.() ?? 0;
   }
 
-  drainAllGemPower() {
-    return this.abilities?.drainAllGemPower?.() ?? 0;
+  drainAllGemPower(context) {
+    return this.abilities?.drainAllGemPower?.(context) ?? 0;
+  }
+
+  getPersistenceData() {
+    return sanitizePlayerPersistenceData({
+      bodyX: this.physicsBody?.x,
+      bodyY: this.physicsBody?.y,
+      gemPower: this.getGemPowerExact(),
+      facingRight: this.isFacingRight(),
+    });
+  }
+
+  restorePersistenceData(data) {
+    const normalized = sanitizePlayerPersistenceData(data);
+    const body = this.physicsBody;
+    if (!normalized || !body || !this.worldModel) return false;
+    const maxX = Math.max(0, this.worldModel.widthPx - body.w);
+    const maxY = Math.max(
+      0,
+      this.worldModel.depthTiles * this.config.tileSize - body.h,
+    );
+    if (
+      normalized.bodyX > maxX
+      || normalized.bodyY > maxY
+    ) {
+      return false;
+    }
+
+    const previous = { x: body.x, y: body.y };
+    this.surfaceDrop.reset();
+    body.setPosition(normalized.bodyX, normalized.bodyY);
+    body.resetVelocity();
+    if (this.collisionSystem && !this.collisionSystem.resolveBodyOverlap(body)) {
+      body.setPosition(previous.x, previous.y);
+      body.resetVelocity();
+      this._syncSpriteWithPhysics();
+      return false;
+    }
+    this.setFacingRight(normalized.facingRight);
+    this.setGemPowerExact(normalized.gemPower, { silent: true, source: "restore" });
+    this._syncSpriteWithPhysics();
+    return true;
   }
 
   applyExternalKnockback(vx, vy) {

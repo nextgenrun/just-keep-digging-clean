@@ -37,7 +37,7 @@ assert.ok(
   "the import button row must end above its footer",
 );
 
-const pauseTabs = 5;
+const pauseTabs = 6;
 const pauseContentWidth = 896;
 const pauseTabButtonWidth = Math.max(
   PAUSE_MENU_LAYOUT.tabButtonMinWidth,
@@ -107,6 +107,7 @@ assert.match(startMenuSource, /_buildSaveTransferControls\(W\)/);
 assert.match(startMenuSource, /SAVE_TRANSFER_UI\.copy\.startExport/);
 assert.match(startMenuSource, /SAVE_TRANSFER_UI\.copy\.startImport/);
 assert.match(pauseSource, /\{\s*key:\s*"saves",\s*label:\s*"SAVES"/);
+assert.match(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"TALENTS"/);
 assert.match(pauseSource, /createSaveTransferPanelContent/);
 assert.match(pauseSource, /saveGame\(\)[\s\S]*importSave\(file\)/);
 assert.match(pauseSource, /scene\.start\("WorldLoadScene"/);

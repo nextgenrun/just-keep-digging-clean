@@ -3,14 +3,14 @@
 Approved production direction created on 2026-07-26 after the roaming/walking
 pass was rejected.
 
-This package keeps the successful v3 profession and personality acting, adds
-four more planted activities per merchant, and now drives the versioned v11
-runtime pack under `sprites/npc/npc-v11-piskel-motion-idles/`.
+This package keeps the successful profession and personality acting and now
+drives the versioned v13 runtime pack under
+`sprites/npc/npc-v13-piskel-polished-activities/`.
 
-All 66 runtime frames round-trip through six editable `.piskel` timelines.
-Each merchant has four chronological quiet frames and seven larger activities.
-Quiet motion uses a slow 0-1-2-3-2-1 loop, 520 ms dissolves, and a long rest;
-activities use 1.2-second preview cross-fades and one-at-a-time scheduling.
+All 42 accepted activity frames round-trip through six editable `.piskel`
+timelines. Each merchant uses its chroma-clean approved calm baseline between
+seven larger activities. Activities use slow cross-fades and one-at-a-time
+scheduling.
 
 ## Non-negotiable motion contract
 
@@ -25,10 +25,10 @@ activities use 1.2-second preview cross-fades and one-at-a-time scheduling.
 
 ## Crop safety
 
-The builder detects all four panel columns and three panel rows from the
-source-board gutters. It refuses a board without twelve isolated panels, adds
-safe padding before extraction, aligns the main body to one shared per-merchant
-baseline, and rejects any alpha touching the canvas edge.
+The v13 builder matches each activity timeline to its real calm-baseline
+silhouette and lower-body root using one fixed scale per merchant. It removes
+large chroma components, forces zero RGB beneath transparent WebP pixels, and
+rejects any alpha touching a canvas edge.
 
 This specifically prevents a Money/Magma head or any other neighboring panel
 from entering the Gem merchant sprite. Versioned preview URLs also avoid the
@@ -53,7 +53,8 @@ stale cached crop visible in the earlier v3 browser session.
 Rebuild the review crops and production pack from the project root:
 
 ```powershell
-python pipelines/piskel/2026-07-26-build-npc-motion-idle-piskel-package.py
+python pipelines/piskel/2026-07-28-build-npc-polished-baselines.py
+python pipelines/piskel/2026-07-28-build-npc-polished-activity-piskel-package.py
 ```
 
 The sole runtime rollback is `?npcActivities=0`.

@@ -18,8 +18,8 @@ promotion for the 25 Cave Titans.
   environmental light response, and one slow creature movement.
 - The ESC menu gains a practical `TITANS` archive concept with 25 slots,
   discovered/locked states, one large living vignette, and short lore.
-- The town receives a physical 25-position Titan Walk with smaller,
-  non-collidable living miniatures and dormant future plinths.
+- The town receives a physical 25-position Titan Walk with non-collidable
+  living display creatures and dormant future plinths.
 - Ambient motion stays restrained: breathing, head turns, wing shimmer, tail
   sway, floating drift, localized motes, and gentle glow pulses.
 
@@ -49,10 +49,13 @@ promotion for the 25 Cave Titans.
 ## Production Boundary
 
 The complete direction is now promoted. Production uses 25 unique opaque
-1536x848 chamber cards at 15-22 by 8-13 tile discovery scale, the compact alpha
-creatures for Boot-safe grid thumbnails/surface miniatures/rollback, canonical
-retention ids, an on-demand high-resolution archive vignette, and the generated
-25-position surface walk. Cards stream near the player instead of entering Boot.
+1536x848 chamber cards at 15-22 by 8-13 tile discovery scale, compact alpha
+creatures for Boot-safe grid thumbnails/underground footprint authority and
+rollback, canonical retention ids, an on-demand high-resolution archive
+vignette, and the generated 25-position surface walk. The surface walk now uses
+the separate production library in
+`sprites/backgrounds/titan-surface-stances-v1/`: one 768x768 identity-matched
+stance per Titan. Cards stream near the player instead of entering Boot.
 
 The mockup PNGs in this folder remain reference-only and are never loaded by
 Phaser. Exact promoted sources, prompts, hashes, runtime WebPs, rollback, and

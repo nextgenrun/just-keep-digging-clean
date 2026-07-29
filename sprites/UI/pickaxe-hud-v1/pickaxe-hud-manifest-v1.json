@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "generatedDate": "2026-07-28",
+  "overlaySize": [
+    417,
+    93
+  ],
+  "approvedHudSource": "sprites/UI/hud-approved-v1/player-core.png",
+  "approvedHudSourceSha256": "fc2b9731926c38b1cc968cc5517c63925ef47c5c15f2fcb21c99e0b24f414795",
+  "assets": [
+    {
+      "upgradeId": "bronzePickaxe",
+      "label": "BRONZE I",
+      "tier": 1,
+      "accent": "#c47d42",
+      "icon": "sprites/UI/pickaxe-icons-v1/bronze-pickaxe-v1.png",
+      "iconSha256": "9c8010ef0aa49858984045008c827129bae41fdf3553b63fa5ec7a6f5bc8eaa5",
+      "overlay": "sprites/UI/pickaxe-hud-v1/bronze-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15304,
+      "sha256": "e188c12a800c87beef7a920f21e1717ff420dd32a1a0deaf6bef3ebb82c8f6c8"
+    },
+    {
+      "upgradeId": "ironPickaxe",
+      "label": "IRON II",
+      "tier": 2,
+      "accent": "#aeb8c1",
+      "icon": "sprites/UI/pickaxe-icons-v1/iron-pickaxe-v1.png",
+      "iconSha256": "29412e576599093ba254723395d4b15a230632f9776faaa59ae507a53d3f4e1d",
+      "overlay": "sprites/UI/pickaxe-hud-v1/iron-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15273,
+      "sha256": "6cb9275abcc0d02f609a8cbfd95277aa1ee514c531472e2cbd96cfe51574025a"
+    },
+    {
+      "upgradeId": "steelPickaxe",
+      "label": "STEEL III",
+      "tier": 3,
+      "accent": "#d6e0e8",
+      "icon": "sprites/UI/pickaxe-icons-v1/steel-pickaxe-v1.png",
+      "iconSha256": "0c7470515449708c66bf383d295289b6a6d290ca82c70683f4d78cbf6cb15ee9",
+      "overlay": "sprites/UI/pickaxe-hud-v1/steel-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15273,
+      "sha256": "3c9f955cd753ad4db06ff8d15ca00699f06330a73a0d29e0298375b2bfa2c6e6"
+    },
+    {
+      "upgradeId": "mithrilPickaxe",
+      "label": "MITHRIL IV",
+      "tier": 4,
+      "accent": "#63d7e8",
+      "icon": "sprites/UI/pickaxe-icons-v1/mithril-pickaxe-v1.png",
+      "iconSha256": "a5f7d2bed1aa31ce985e0233b0853fea4db2ff3fb72bb0441dc525d24087c135",
+      "overlay": "sprites/UI/pickaxe-hud-v1/mithril-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15255,
+      "sha256": "be892f115f63dfbcfa093801895811d2c19072407d3ab37edae53025415e8dbd"
+    },
+    {
+      "upgradeId": "adamantPickaxe",
+      "label": "ADAMANT V",
+      "tier": 5,
+      "accent": "#45cf83",
+      "icon": "sprites/UI/pickaxe-icons-v1/adamant-pickaxe-v1.png",
+      "iconSha256": "cb32f64daebdb519c5391de4bf952218d43c2b535c49b79c952ef921a2b70968",
+      "overlay": "sprites/UI/pickaxe-hud-v1/adamant-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15319,
+      "sha256": "be50076c88b79109a579c88f219d7db00bfa82f510d46faa4c563459a58a945d"
+    },
+    {
+      "upgradeId": "runePickaxe",
+      "label": "RUNE VI",
+      "tier": 6,
+      "accent": "#a873ff",
+      "icon": "sprites/UI/pickaxe-icons-v1/rune-pickaxe-v1.png",
+      "iconSha256": "44aacc0c2ab6e4e236f536d80ae3b9dc6d83b83bf457c35e17c4f6160e3eb9aa",
+      "overlay": "sprites/UI/pickaxe-hud-v1/rune-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15381,
+      "sha256": "3f3da66d1b2687e39ea698fda380874ed2b8827d84fa19bcabfb823295f02c51"
+    },
+    {
+      "upgradeId": "dragonPickaxe",
+      "label": "DRAGON VII",
+      "tier": 7,
+      "accent": "#f07b38",
+      "icon": "sprites/UI/pickaxe-icons-v1/dragon-pickaxe-v1.png",
+      "iconSha256": "47901d88d7e8c88551ff656205334d693baf5c03b58600a8d42a8be2ad96c70d",
+      "overlay": "sprites/UI/pickaxe-hud-v1/dragon-pickaxe-hud-overlay-v1.png",
+      "dimensions": [
+        417,
+        93
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        351,
+        86
+      ],
+      "coverage": 0.15237,
+      "sha256": "fea5057f8b69b0a071522b42d591367606e99c7ee3d90c14e4ad6ec440666381"
+    }
+  ],
+  "reviewSheet": "sprites/UI/pickaxe-hud-v1/pickaxe-hud-runtime-contact-sheet-v1.png",
+  "reviewSheetSha256": "3c47f7d7997a3cd66977f722346017eabb7970371c4ea5832810fec5ecb57d60"
+}

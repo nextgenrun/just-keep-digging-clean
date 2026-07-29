@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celestial Engine Action Bar — Review Mockup</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./action-bar-interactions.css">
+</head>
+<body>
+  <main class="stage" aria-label="Three Celestial Engine action-bar mockup">
+    <img
+      class="gameplay-reference"
+      src="../approved-player-hud-v1/approved-player-hud-v1.png"
+      alt=""
+      draggable="false"
+    >
+    <div class="review-chip">
+      REVIEW BUILD <span>THREE-ENGINE LOADOUT</span>
+    </div>
+
+    <section class="loadout-drawer" id="loadoutDrawer" aria-hidden="true">
+      <div class="drawer-heading">
+        <div>
+          <strong>OWNED CELESTIAL ENGINES</strong>
+          <span>Drag an Engine onto any numbered slot to swap its position.</span>
+        </div>
+        <button id="resetLoadout" type="button">RESET ORDER</button>
+      </div>
+      <div class="owned-engine-row" id="ownedEngineRow"></div>
+    </section>
+
+    <section class="action-bar" aria-label="Equipped Celestial Engines">
+      <div class="bar-surface">
+        <header class="bar-header">
+          <img
+            class="heart-icon"
+            src="../../sprites/celestial-engines/star-heart-core-v1.png"
+            alt=""
+            draggable="false"
+          >
+          <div class="bar-identity">
+            <div class="title-line">
+              <strong>CELESTIAL LOADOUT</strong>
+              <span id="equippedCount">3 / 3 EQUIPPED</span>
+            </div>
+            <div class="charge-row">
+              <div class="charge-track" aria-label="Shared Star Heart charge">
+                <div class="charge-fill" id="chargeFill"></div>
+                <div class="charge-shimmer"></div>
+              </div>
+              <span id="chargeValue">100 / 100</span>
+            </div>
+          </div>
+          <button class="edit-button" id="editLoadout" type="button">
+            EDIT
+          </button>
+        </header>
+
+        <div class="engine-row" id="engineSlots"></div>
+
+        <footer class="bar-footer">
+          <span id="barStatus">CLICK OR PRESS 1–3 TO RELEASE</span>
+          <span>ONE EFFECT ACTIVE • SHARED CHARGE</span>
+        </footer>
+      </div>
+    </section>
+
+    <aside class="engine-tooltip" id="engineTooltip" aria-hidden="true"></aside>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

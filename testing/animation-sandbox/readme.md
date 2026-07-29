@@ -40,6 +40,16 @@ grounded walk-source stress tests evaluated at run speed. It uses the live 94px
 tile grid, 31x75 collider, and 109px locomotion render. It never promotes a
 selection into gameplay.
 
+## Phase handoff review
+
+`phase-handoff-review-v1/` compares current frame-zero sheet switching with a
+measured phase-aware moving-dig handoff and two-frame planted reversal. It uses
+the promoted Survival Jog and moving-dig art, real Game Rig v2 foot markers,
+the central moving-dig compositor, the live 31x75 collider, and the unchanged
+14-frame/contact-frame action contract. Facing and movement reverse on the
+input frame in both rows; the proposed pivot changes visuals only. Production
+routing remains untouched until the comparison is approved.
+
 ## How to Run
 
 ```bash
@@ -97,6 +107,22 @@ Single-file Phaser scene (`sandbox.js`) with:
 - **Animation state machine** — Transitions based on grounded/air/flying states:
   - idle ↔ walk ↔ jump ↔ fall ↔ dig ↔ fly
 - **Spawn panel** — DOM buttons wired directly to animation playback
+
+## Production earthquake feedback harness
+
+`earthquake-feedback-ui-v1/` runs the production feedback, FallZone, grounded
+impact, and tile-feedback classes at the live 1280x720 viewport and 94px tile
+scale. Open `?phase=warning`, `earthquake`, or `escape`; it remains test-only
+and does not mutate a save or world model.
+
+## Earthquake dodge world review
+
+`earthquake-dodge-world-v1/` is the test-only in-engine review for one-to-one
+fall-zone warnings. It uses the current 94px tile, 31x75 player body, Survival
+idle art, earthquake HUD frame, and an approved cavern background. Bookmark
+`?shot=warning`, `dodge`, `impact`, `hit`, or `play`. The interactive state uses
+`A`/`D` and held Shift Flight; it has no jump action and never mutates production
+earthquake logic.
 
 ## Spritesheets Loaded
 

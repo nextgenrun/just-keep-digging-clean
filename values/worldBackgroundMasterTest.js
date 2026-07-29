@@ -38,6 +38,15 @@ export const WORLD_BACKGROUND_MASTER_TEST = Object.freeze({
   preloadMarginTilesY: 18,
   unloadMarginTilesX: 72,
   unloadMarginTilesY: 54,
+  streamScheduler: Object.freeze({
+    enabled: true,
+    queryParam: "worldStreamScheduler",
+    spatialBandHeightTiles: 64,
+    cameraStrideTilesX: 2,
+    cameraStrideTilesY: 2,
+    maxTexturesPerBatch: 1,
+    updateMetricName: "background-stream-update",
+  }),
   linearFiltering: true,
   surfaceArtAlignment: Object.freeze({
     enabled: true,

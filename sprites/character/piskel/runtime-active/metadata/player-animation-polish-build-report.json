@@ -1,0 +1,113 @@
+{
+  "version": "survival-player-animation-polish-v1-20260728",
+  "transitions": {
+    "frameCount": 61,
+    "bottomDriftPx": 3.0,
+    "rootAnchorDriftPx": 11.479
+  },
+  "diagonalDig": {
+    "frameCount": 120,
+    "bottomDriftPx": 1.0,
+    "rootAnchorDriftPx": 19.049
+  },
+  "reviewPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-runtime-review.png",
+  "transitionPiskel": {
+    "validation": {
+      "id": "survival-player-animation-polish-transitions",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/player-animation-polish-transitions.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 61,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 10.63,
+      "maxBBoxCenterDriftPx": 28.5,
+      "maxRootAnchorDriftPx": 10.63,
+      "maxBottomDriftPx": 1.0,
+      "medianBBoxHeightPx": 156.0
+    },
+    "runtime": {
+      "runtimeMode": "sheet",
+      "outputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-transitions-sheet.webp"
+      ],
+      "sheetGrid": [
+        16,
+        4
+      ],
+      "sheetSize": [
+        4096,
+        1024
+      ],
+      "unusedGridFrames": [
+        61,
+        62,
+        63
+      ]
+    },
+    "artifacts": {
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/player-animation-polish-transitions-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/player-animation-polish-transitions-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-transitions-review-contact-sheet.png",
+      "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-transitions-alignment-overlay.png",
+      "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-transitions-drift-report.json"
+    }
+  },
+  "diagonalPiskel": {
+    "validation": {
+      "id": "survival-player-animation-polish-diagonal-dig",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/player-animation-polish-diagonal-dig.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 120,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 11.19,
+      "maxBBoxCenterDriftPx": 38.5,
+      "maxRootAnchorDriftPx": 11.19,
+      "maxBottomDriftPx": 1.0,
+      "medianBBoxHeightPx": 153.5
+    },
+    "runtime": {
+      "runtimeMode": "sheet",
+      "outputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-diagonal-dig-sheet.webp"
+      ],
+      "sheetGrid": [
+        16,
+        8
+      ],
+      "sheetSize": [
+        4096,
+        2048
+      ],
+      "unusedGridFrames": [
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127
+      ]
+    },
+    "artifacts": {
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/player-animation-polish-diagonal-dig-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/player-animation-polish-diagonal-dig-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-diagonal-dig-review-contact-sheet.png",
+      "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-diagonal-dig-alignment-overlay.png",
+      "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-diagonal-dig-drift-report.json"
+    }
+  }
+}

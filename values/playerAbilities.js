@@ -20,7 +20,6 @@ export const PLAYER_ABILITIES_CONFIG = Object.freeze({
   // Thunder Strike ability
   thunderStrikeEnabled: true,
   thunderStrikeCost: 100,
-  thunderStrikeChargeTimeMs: 1000,
   thunderStrikeMaxTiles: 10,
   thunderStrikeNormalDamageMultiplier: 1.5,
   thunderStrikeBaseDamage: 50,

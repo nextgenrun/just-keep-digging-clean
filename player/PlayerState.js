@@ -28,13 +28,13 @@ export class PlayerState {
    * @param {Object} input - Player input instance
    * @param {Object} abilities - Player abilities instance
    */
-  update(dt, input, abilities) {
+  update(dt, input, abilities, collisionSystem = null) {
     if (!this.physicsBody) return;
     
     // Climbing state is managed by PlayerAbilities.update() - do NOT reset here
     
     // Update ground detection using custom collision system (authoritative source)
-    this._updateGroundDetection();
+    this._updateGroundDetection(collisionSystem);
     
     // Update motion state
     this._updateMotionState(input, abilities);
@@ -44,8 +44,13 @@ export class PlayerState {
    * Update ground detection using custom collision system
    * @private
    */
-  _updateGroundDetection() {
+  _updateGroundDetection(collisionSystem = null) {
     if (!this.physicsBody || !this.worldModel) return;
+    if (collisionSystem?.isOnGround) {
+      this.onGround = collisionSystem.isOnGround(this.physicsBody);
+      this.physicsBody.onGround = this.onGround;
+      return;
+    }
     
     // Check tile below player's feet using worldModel directly
     const ts = this.config.tileSize;
@@ -169,6 +174,7 @@ export class PlayerState {
     
     if (this.physicsBody) {
       this.physicsBody.resetVelocity();
+      this.physicsBody.clearSurfaceDropThrough();
       this.physicsBody.setClimbing(false);
     }
   }

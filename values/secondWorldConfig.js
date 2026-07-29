@@ -2,15 +2,22 @@ import { TILE_TYPES } from "./tileTypes.js";
 import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
 
 const SECOND_WORLD_ENTRY_FLOOR_Y = 65;
-const SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR = 1;
+const SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR = WORLD_DEPTH_CONFIG.surfaceClearanceRowsBelow;
 const LEVEL_DIVIDER_CONFIG = Object.freeze({
   tileX: WORLD_DEPTH_CONFIG.levelTwoLeftTile,
   topTileY: 0,
   gateTopTileY: SECOND_WORLD_ENTRY_FLOOR_Y - 1,
   gateHeightTiles: 1,
   floorTileY: SECOND_WORLD_ENTRY_FLOOR_Y,
+  clearanceBottomTileY: (
+    SECOND_WORLD_ENTRY_FLOOR_Y + SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR
+  ),
+  undergroundStartTileY: (
+    SECOND_WORLD_ENTRY_FLOOR_Y + SECOND_WORLD_ENTRY_AIR_ROWS_BELOW_FLOOR + 1
+  ),
   legacyGateTileX: 119,
-  // Compatibility alias for older consumers while the divider is now full-height.
+  // Compatibility alias for older consumers. The divider deliberately pauses
+  // only through the shared surface-clearance row.
   startTileY: 0,
 });
 
@@ -88,5 +95,10 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
 
 export function isProtectedSecondWorldDividerTile(tileX, tileY) {
   const divider = SECOND_WORLD_CONFIG.levelDivider;
-  return tileX === divider.tileX && tileY >= divider.topTileY;
+  return tileX === divider.tileX
+    && tileY >= divider.topTileY
+    && (
+      tileY <= divider.floorTileY
+      || tileY >= divider.undergroundStartTileY
+    );
 }

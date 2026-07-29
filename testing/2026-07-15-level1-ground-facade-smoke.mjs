@@ -79,7 +79,7 @@ function createFakeLoader(textures, loadHistory, autoComplete = true) {
 const atlasKey = ASSET_KEYS.background.levelOneGroundFacade.recognitionAtlas;
 const chunkKeys = ASSET_KEYS.background.levelOneGroundFacade.chunks;
 const textures = new Map([
-  [atlasKey, fakeTexture(8 * 94, 6 * 94)],
+  [atlasKey, fakeTexture(8 * 94, 10 * 94)],
   [chunkKeys[0], fakeTexture(32 * 94, 10 * 94)],
 ]);
 const removedTextureKeys = [];
@@ -146,9 +146,9 @@ assert.equal(walkableFloor.base.alpha, 1);
 assert.equal(walkableFloor.base.displayWidth, 94, "facade must end exactly at dug-cell boundaries");
 
 const copper = system.cellByKey.get("3,66");
-assert.match(copper.recognition.frameName, /level1-ground-recognition-[0-2]$/);
+assert.match(copper.recognition.frameName, /level1-ground-recognition-[0-5]$/);
 const crit = system.cellByKey.get("4,66");
-assert.equal(crit.recognition.frameName, "level1-ground-recognition-35");
+assert.equal(crit.recognition.frameName, "level1-ground-recognition-69");
 assert.notEqual(crit.recognition.textureKey, ASSET_KEYS.tiles.critBlock);
 assert.equal(system.cellByKey.get("5,66").base.visible, false);
 
@@ -159,12 +159,12 @@ assert.equal(damaged.crack.displayWidth, 94, "cracks must not bleed into adjacen
 assert.equal(system.cellByKey.get("7,66").recognition, null);
 
 const stone = system.cellByKey.get("8,66");
-assert.match(stone.recognition.frameName, /level1-ground-recognition-2[7-9]$/);
+assert.match(stone.recognition.frameName, /level1-ground-recognition-5[4-9]$/);
 const distinctFrames = ["9,66", "10,66", "11,66"].map(key => system.cellByKey.get(key).recognition.frameName);
 assert.deepEqual(distinctFrames, [
-  "level1-ground-recognition-39",
-  "level1-ground-recognition-42",
-  "level1-ground-recognition-43",
+  "level1-ground-recognition-73",
+  "level1-ground-recognition-76",
+  "level1-ground-recognition-77",
 ]);
 
 tileTypes.set("3,66", TILE_TYPES.AIR);
@@ -226,7 +226,7 @@ const validAtlas = textures.get(atlasKey);
 textures.set(atlasKey, fakeTexture(8 * 94, 5 * 94));
 assert.throws(
   () => new LevelOneGroundFacadeSystem(scene, worldModel).create(),
-  /Required marker 'geodeWall'.*atlas only has 40 frames/,
+  /Required marker 'obsidian'.*atlas only has 40 frames/,
   "an incomplete atlas must fail instead of selecting fallback art"
 );
 textures.set(atlasKey, validAtlas);

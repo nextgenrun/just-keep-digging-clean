@@ -160,8 +160,22 @@ const npcSource = read("world/playScene/NPCManager.js");
 const updateSource = read("world/playScene/PlaySceneUpdate.js");
 assert.match(npcSource, /updateInteractPrompts\(playerTile,\s*competingDistance/);
 assert.match(npcSource, /dist\s*<=\s*competingDistance/);
-assert.match(updateSource, /allowOpen:\s*milestoneDistance\s*<\s*nearestNpcDistance/);
-assert.match(updateSource, /updateInteractPrompts\(playerTile,\s*milestoneDistance\)/);
+assert.match(updateSource, /allowOpen:\s*!arcCoreConsumedInteraction/);
+assert.match(
+  updateSource,
+  /milestoneDistance\s*<\s*Math\.min\(nearestNpcDistance,\s*titanStatueDistance,\s*specialTileDistance\)/,
+);
+assert.match(
+  updateSource,
+  /updateInteractPrompts\(\s*playerTile,\s*Math\.min\(milestoneDistance,\s*titanStatueDistance,\s*specialTileDistance\)/,
+);
+assert.match(updateSource, /specialTileDistance\s*<=\s*Math\.min\(/);
+assert.match(updateSource, /&&\s*!specialTileHasPriority\s*\)\s*{\s*this\.npcManager\.checkNPCInteraction/);
+assert.ok(
+  updateSource.indexOf("specialTileSystem?.update")
+    < updateSource.indexOf("milestoneBoardSystem?.update"),
+  "special-tile proximity must be known before the Milestone Pillar can consume the keypress",
+);
 assert.ok(
   updateSource.indexOf("milestoneBoardSystem?.update")
     < updateSource.indexOf("npcManager.checkNPCInteraction"),

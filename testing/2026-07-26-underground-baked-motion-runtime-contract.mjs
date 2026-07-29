@@ -17,16 +17,24 @@ const manifestUrl = new URL(
 );
 const manifest = JSON.parse(fs.readFileSync(manifestUrl, "utf8"));
 const productionAssets = getWorldVisualDepthBackdropAllAssets();
+const previousPoolAssets = getWorldVisualDepthBackdropAllAssets(
+  undefined,
+  "?biomeBackdropExpansion=0"
+);
 
-assert.equal(productionAssets.length, 70, "production exposes sixty static and ten smooth V3 cards");
-assert.equal(productionAssets.filter(entry => entry.type === "image").length, 60);
+assert.equal(productionAssets.length, 120, "production exposes 110 static and ten smooth V3 cards");
+assert.equal(productionAssets.filter(entry => entry.type === "image").length, 110);
 assert.equal(productionAssets.filter(entry => entry.type === "video").length, 10);
+assert.equal(previousPoolAssets.length, 70, "expansion rollback restores the approved 70-card pool");
 assert.ok(WORLD_VISUAL_DEPTH_BACKDROPS.regions.every(region => (
-  region.variantBackwalls.length === 7
-  && region.variantBackwalls.slice(0, 6).every(asset => asset.type === "image")
-  && region.variantBackwalls[5].path.endsWith("-motion-v1.webp")
-  && region.variantBackwalls[6].type === "video"
-  && region.variantBackwalls[6].path.includes("/biome-motion-v3/")
+  region.variantBackwalls.length === 12
+  && region.variantBackwalls.slice(0, 10).every(asset => asset.type === "image")
+  && region.variantBackwalls.filter(asset => (
+    asset.path.includes("/biome-expansion-v3/")
+  )).length === 5
+  && region.variantBackwalls[10].path.endsWith("-motion-v1.webp")
+  && region.variantBackwalls[11].type === "video"
+  && region.variantBackwalls[11].path.includes("/biome-motion-v3/")
 )), "every biome includes its concept static and V3 video while excluding rejected optical flow");
 
 assert.equal(UNDERGROUND_BIOME_MOTION_REVIEW.reviewOnly, true);

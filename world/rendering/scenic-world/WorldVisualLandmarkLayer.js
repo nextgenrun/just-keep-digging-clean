@@ -1,4 +1,8 @@
 import { WORLD_VISUAL_LANDMARKS } from "../../../values/worldVisualLandmarks.js";
+import {
+  setAlphaIfChanged,
+  setTintIfChanged,
+} from "./worldVisualRenderState.js";
 
 function clamp01(value) {
   return Math.max(0, Math.min(1, Number(value) || 0));
@@ -121,8 +125,8 @@ export class WorldVisualLandmarkLayer {
         + clamp01(lighting.wet) * cfg.wetAlpha
         + clamp01(lighting.lightning) * cfg.lightningAlpha
       ) * pulse;
-      beauty.setTint(lighting.farTint);
-      emissive.setAlpha(clamp01(lightAlpha));
+      setTintIfChanged(beauty, lighting.farTint);
+      setAlphaIfChanged(emissive, clamp01(lightAlpha));
     }
   }
 

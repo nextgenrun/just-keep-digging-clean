@@ -6,9 +6,7 @@ import {
   computeAbilityStats,
   getDefaultAbilityStats,
 } from "../values/constellationBuffs.js";
-import { TILE_TYPES } from "../values/tileTypes.js";
 import { HARD_RESOURCE_TILE_TYPES, tileTypeToResource } from "../values/resourceTypes.js";
-import { isProtectedSecondWorldDividerTile } from "../values/secondWorldConfig.js";
 import {
   THUNDER_STRIKE_CHAIN_CONFIG,
   getThunderStrikeStage,
@@ -16,7 +14,10 @@ import {
   resolveThunderStrikeEffectiveDamageMultiplier,
   resolveThunderStrikeSuccessDamageMultiplier,
 } from "../values/thunderStrikeChain.js";
-import { getPlayerBodyTileSpan } from "./playerDirectionalTargets.js";
+import {
+  getPlayerBodyTileSpan,
+  resolveHorizontalInputDirection,
+} from "./playerDirectionalTargets.js";
 
 export class PlayerAbilities {
   constructor(sprite, worldModel, config, upgradeSystem = null, physicsBody = null, playerLevelSystem = null, comboSystem = null) {
@@ -34,6 +35,7 @@ export class PlayerAbilities {
     this._progressionGemPowerMaxBonus = 0;
     this._gemPowerMax = this._baseGemPowerMax;
     this._gemPowerRegenRate = GEM_POWER_CONFIG.baseRegen || 2;
+    this._gemPowerChangeListener = null;
 
     // Climbing
     this._climbing = false;
@@ -71,6 +73,9 @@ export class PlayerAbilities {
   setFreeFlightProvider(provider) {
     this._freeFlightProvider = typeof provider === "function" ? provider : null;
   }
+  setGemPowerChangeListener(listener) {
+    this._gemPowerChangeListener = typeof listener === "function" ? listener : null;
+  }
 
   update(dt, input, isGrounded, facingRight) {
     this._refreshConstellationStats();
@@ -102,7 +107,7 @@ export class PlayerAbilities {
 
       if (canStartFlying || canContinueFlying) {
         if (canStartFlying && !this._godMode && !freeFlightActive) {
-          this.consumeGemPower(this._getFlyStartCost());
+          this.consumeGemPower(this._getFlyStartCost(), { source: "flight" });
         }
         const flightDirection = (!isGrounded && flyDownHeld) ? 1 : -1;
         this.body.vy = this._getClimbSpeed() * flightDirection;
@@ -110,7 +115,7 @@ export class PlayerAbilities {
         this._climbing = true;
         usingGemPowerMovement = true;
         if (!freeFlightActive) {
-          this.consumeGemPower(this._getGemPowerDrain() * dt);
+          this.consumeGemPower(this._getGemPowerDrain() * dt, { source: "flight" });
         } else {
           this._warnedLowGemPower = false;
         }
@@ -166,7 +171,10 @@ export class PlayerAbilities {
     }
 
     if (!this._quickslashActive) {
-      this._quickslashDirection = facingRight ? 1 : -1;
+      this._quickslashDirection = resolveHorizontalInputDirection(
+        input?.getHorizontalMovement?.(),
+        facingRight,
+      );
     }
     this._quickslashActive = true;
     if (this.body) {
@@ -274,7 +282,7 @@ export class PlayerAbilities {
     if ((stats.quickslashFreeAbovePct || 0) > 0 && this.getGemPowerPercent() >= stats.quickslashFreeAbovePct * 100) {
       return 0;
     }
-    return this.consumeGemPower(this.getQuickslashCost());
+    return this.consumeGemPower(this.getQuickslashCost(), { source: "quickslash" });
   }
 
   startThunderStrikeCharge(nowMs = this.sprite?.scene?.time?.now ?? Date.now()) {
@@ -294,10 +302,7 @@ export class PlayerAbilities {
 
   updateThunderStrikeCharge(nowMs = this.sprite?.scene?.time?.now ?? Date.now()) {
     const chargeDuration = Math.max(0, (Number.isFinite(nowMs) ? nowMs : 0) - this._thunderStrikeChargeStart);
-    const configuredChargeTimeMs = Number.isFinite(PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs)
-      ? PLAYER_ABILITIES_CONFIG.thunderStrikeChargeTimeMs
-      : 1000;
-    const chargeTimeMs = Math.max(1000, configuredChargeTimeMs);
+    const chargeTimeMs = THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs;
 
     if (chargeDuration >= chargeTimeMs) {
       return { complete: true };
@@ -337,7 +342,7 @@ export class PlayerAbilities {
       this._thunderStrikeCharging = false;
       const cost = this.getThunderStrikeCost();
       if (!this._godMode && this.gemPower < cost) return { success: false, reason: "no-gp" };
-      if (!this._godMode) this.gemPower -= cost;
+      if (!this._godMode) this.consumeGemPower(cost, { source: "thunderStrike" });
     } else {
       if (this._thunderStrikeFollowUpStageIndex !== normalizedStageIndex) {
         return { success: false, reason: "follow-up-not-armed" };
@@ -373,55 +378,40 @@ export class PlayerAbilities {
       0,
       (PLAYER_ABILITIES_CONFIG.thunderStrikeDamageFalloff || 0) - (stats.thunderstrikeFalloffReduction || 0)
     );
-    let bedrockBreachesLeft = Math.max(0, stats.thunderstrikeBedrockBreach || 0);
-
     for (let distance = 0; distance < strikeRange; distance++) {
       const checkTy = strikeOrigin.ty + distance;
       if (checkTy >= this.worldModel.depth) break;
-      if (this.worldModel.isDiggable(strikeOrigin.tx, checkTy)) {
-        const tileType = this.worldModel.getTileType(strikeOrigin.tx, checkTy);
-        const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
-        const dmg = resolveThunderStrikeDamage({
-          baseDamage: tileBaseDamage,
-          normalDamageMultiplier,
-          bonusDamageMultiplier: thunderStrikeBonusMultiplier,
-          stageDamageMultiplier: chainStage.damageMultiplier,
-          successDamageMultiplier,
-          falloffPerTile: falloff,
-          distance,
-        });
-        const dmgResult = this.worldModel.damageTile(strikeOrigin.tx, checkTy, dmg);
-        results.push({
-          tx: strikeOrigin.tx,
-          ty: checkTy,
-          damage: dmg,
-          destroyed: dmgResult.destroyed,
-          tileType: dmgResult.typeBeforeDamage,
-          wasRubble: dmgResult.wasRubble,
-          hpBefore: dmgResult.hpBefore,
-          maxHp: dmgResult.maxHp,
-          overkillDamage: dmgResult.overkillDamage || 0,
-        });
-      } else if (
-        bedrockBreachesLeft > 0
-        && this.worldModel.getTileType(strikeOrigin.tx, checkTy) === TILE_TYPES.BEDROCK
-        && !isProtectedSecondWorldDividerTile(strikeOrigin.tx, checkTy)
+      const checkTx = strikeOrigin.tx;
+      if (
+        this.worldModel.inBounds
+        && !this.worldModel.inBounds(checkTx, checkTy)
       ) {
-        const tileType = this.worldModel.getTileType(strikeOrigin.tx, checkTy);
-        const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
-        const dmg = resolveThunderStrikeDamage({
-          baseDamage: tileBaseDamage,
-          normalDamageMultiplier,
-          bonusDamageMultiplier: thunderStrikeBonusMultiplier,
-          stageDamageMultiplier: chainStage.damageMultiplier,
-          successDamageMultiplier,
-          falloffPerTile: falloff,
-          distance,
-        });
-        bedrockBreachesLeft -= 1;
-        this.worldModel.setTile(strikeOrigin.tx, checkTy, TILE_TYPES.AIR, 0);
-        results.push({ tx: strikeOrigin.tx, ty: checkTy, damage: dmg, destroyed: true, tileType: TILE_TYPES.BEDROCK, wasRubble: false, breachedBedrock: true });
+        continue;
       }
+      if (!this.worldModel.isDiggable(checkTx, checkTy)) continue;
+      const tileType = this.worldModel.getTileType(checkTx, checkTy);
+      const tileBaseDamage = this._getNormalMiningDamageForTile(tileType);
+      const dmg = resolveThunderStrikeDamage({
+        baseDamage: tileBaseDamage,
+        normalDamageMultiplier,
+        bonusDamageMultiplier: thunderStrikeBonusMultiplier,
+        stageDamageMultiplier: chainStage.damageMultiplier,
+        successDamageMultiplier,
+        falloffPerTile: falloff,
+        distance,
+      });
+      const dmgResult = this.worldModel.damageTile(checkTx, checkTy, dmg);
+      results.push({
+        tx: checkTx,
+        ty: checkTy,
+        damage: dmg,
+        destroyed: dmgResult.destroyed,
+        tileType: dmgResult.typeBeforeDamage,
+        wasRubble: dmgResult.wasRubble,
+        hpBefore: dmgResult.hpBefore,
+        maxHp: dmgResult.maxHp,
+        overkillDamage: dmgResult.overkillDamage || 0,
+      });
     }
     return {
       success: true,
@@ -455,9 +445,11 @@ export class PlayerAbilities {
         + (stats.thunderstrikeRange || 0)
     );
     const entries = [];
+    let rows = 0;
     for (let distance = 0; distance < range; distance += 1) {
       const ty = origin.ty + distance;
       if (!this.worldModel.inBounds(origin.tx, ty)) break;
+      rows += 1;
       entries.push({
         tx: origin.tx,
         ty,
@@ -467,7 +459,8 @@ export class PlayerAbilities {
     return {
       origin,
       entries,
-      range: entries.length,
+      range: rows,
+      columns: 1,
       cost: this.getThunderStrikeCost(),
     };
   }
@@ -548,6 +541,7 @@ export class PlayerAbilities {
   }
 
   getGemPowerRaw() { return Math.floor(this.gemPower); }
+  getGemPowerExact() { return this.gemPower; }
 
   setProgressionGemPowerMaxBonus(bonus) {
     const nextBonus = Math.max(0, Math.floor(Number.isFinite(bonus) ? bonus : 0));
@@ -567,29 +561,54 @@ export class PlayerAbilities {
   }
 
   hasGemPower() { return this.gemPower > 0; }
-  fillGemPower() {
+  fillGemPower(context = { source: "fill" }) {
     const previous = this.gemPower;
     this.gemPower = this.getGemPowerMax();
-    return Math.max(0, this.gemPower - previous);
+    const restored = Math.max(0, this.gemPower - previous);
+    if (restored > 0) this._emitGemPowerChange(previous, context);
+    return restored;
   }
-  restoreGemPower(amount) {
+  restoreGemPower(amount, context = { source: "restore" }) {
     const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
     const previous = this.gemPower;
     this.gemPower = Math.min(this.getGemPowerMax(), this.gemPower + requested);
-    return Math.max(0, this.gemPower - previous);
+    const restored = Math.max(0, this.gemPower - previous);
+    if (restored > 0) this._emitGemPowerChange(previous, context);
+    return restored;
   }
-  consumeGemPower(amount) {
+  setGemPowerExact(amount, { silent = false, source = "restore" } = {}) {
+    const previous = this.gemPower;
+    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
+    this.gemPower = Math.min(this.getGemPowerMax(), requested);
+    if (!silent) this._emitGemPowerChange(previous, { source });
+    return this.gemPower;
+  }
+  consumeGemPower(amount, context = {}) {
     if (this._godMode) return Math.max(0, Number.isFinite(amount) ? amount : 0);
     const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
+    const previous = this.gemPower;
     const consumed = Math.min(this.gemPower, requested);
     this.gemPower = Math.max(0, this.gemPower - consumed);
+    if (consumed > 0) this._emitGemPowerChange(previous, context);
     return consumed;
   }
-  drainAllGemPower() {
+  drainAllGemPower(context = {}) {
     if (this._godMode) return 0;
     const drained = this.gemPower;
+    const previous = this.gemPower;
     this.gemPower = 0;
+    if (drained > 0) this._emitGemPowerChange(previous, context);
     return drained;
+  }
+
+  _emitGemPowerChange(previous, context = {}) {
+    this._gemPowerChangeListener?.({
+      previous,
+      current: this.gemPower,
+      delta: this.gemPower - previous,
+      source: String(context?.source || "unknown"),
+      context,
+    });
   }
 
   getFlightHeightTiles() {

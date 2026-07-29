@@ -2,6 +2,160 @@
 
 Review-only visual assets live here before runtime wiring. Each subfolder must identify its source art, intended review scope, and whether anything is game-loaded.
 
+## Wide embedded resource runtime QA V8 — 2026-07-28
+
+- `overground-texture-audit-v8-wide-embedded-runtime/` shows all 60 production
+  ImageGen formations: six variants for each of ten resources over representative
+  brown soil, cool rock, and volcanic ground at gameplay size.
+- Resource identities follow the natural ground-embedded reference boards while
+  silhouette and material cues remain clear at 94 px.
+- `reviewOnly: true`; `productionChanged: true`. The QA boards are not loaded;
+  their source frames are packed into the v6 semantic and v7 recognition atlases.
+
+## Superseded 2D resource runtime QA V7 — 2026-07-28
+
+- `overground-texture-audit-v7-approved-2d-runtime/` shows all ten transparent
+  production resource overlays on four actual ground families at gameplay size.
+- Copper, Iron, Silver, Gold, Ember Ore, and Obsidian use the newly approved
+  ImageGen identities; Stone, Bronze, Steel, and Magma Crystal are retained.
+- `reviewOnly: true`; `productionChanged: false`. These isolated-symbol boards
+  remain rollback evidence after the approved V8 embedded-vein promotion.
+
+## Sky and underground game-ready approval assets v1 — 2026-07-28
+
+- `sky-underground-game-ready-assets-v1/` now contains 30 additive final-size
+  candidates: 20 opaque `1672x941` upper-world far plates and ten
+  alpha-feathered `1536x1024` underground foreground-geology plates.
+- The retained two approved files remain unchanged. Nineteen sky and nine
+  underground plates fill the regional/biome gaps without deleting or
+  replacing the existing visual library.
+- All sky edges share a gradual 128 px deep-cobalt handoff; every underground
+  plate has a continuous 80 px transparent perimeter. Labeled contact sheets
+  expose the whole family, and a separate proof tests the four largest sky
+  palette jumps with overlap wider than both paired handoff bands.
+- `reviewOnly: true`; `productionChanged: false`. No file in this package is
+  registered, preloaded, referenced by values, or wired into Phaser.
+
+## Overground resource clarity revisions V6 — 2026-07-28
+
+- `overground-texture-audit-v6-clarity-revisions/` contains separate ImageGen
+  ground-context redesign boards for Copper, Iron, Silver, Gold, Ember Ore, and
+  a more expressive shattered-eclipse Obsidian.
+- Previously retained Stone, Bronze, Steel, Magma Crystal, and the approved GP
+  special-tile family are deliberately unchanged by this review pass.
+- `reviewOnly: true`; `productionChanged: false`. The V6 boards remain concept
+  evidence; runtime uses the isolated, true-2D V7 derivatives.
+
+## Additive surface props V2 runtime review — 2026-07-28
+
+- `surface-props-v2-additive-runtime/` compares all nine retained Level 2
+  production props with seven additive ImageGen chapter anchors at one
+  player-relative physical scale.
+- The generated cutouts contain no landscape, terrain strip, background, sky,
+  moon, celestial body, player, text, or UI.
+- `reviewOnly: false`; `productionChanged: true`. The comparison sheet itself
+  is never loaded; runtime loads only the seven alpha WebPs under
+  `sprites/environment/surface-props-v2/`.
+
+## Underground floating Star directions v2 — 2026-07-28
+
+- `underground-star-floating-directions-v2/` corrects the rejected container
+  concept and compares five literal free-floating star families: Pure Crystal
+  Star, Fallen Wish Star, Celestial Compass Star, Aurora-Woven Star, and Hollow
+  Nova Star.
+- Every board uses the current faceted floating `star-core` release art as its
+  quality anchor, preserves the six production rarity colors, and includes a
+  small gameplay-scale check.
+- Choice 1, Pure Crystal Star, is approved and promoted through the normalized
+  six-core production package. The four remaining boards are review-only.
+- `reviewOnly: mixed`; `productionChanged: true`. Phaser does not load the
+  boards themselves; it loads the derived exact-family tile/release assets.
+
+## Underground Star Tile redesign concepts v1 — rejected 2026-07-28
+
+- `underground-star-tile-redesign-v1/` compares five complete six-rarity
+  ImageGen directions for replacing the current underground Star Block atlas:
+  Starheart Geodes, Celestial Fossils, Astral Lockstones, Living Starseeds,
+  and Eclipse Prisms.
+- Every board preserves the production cyan/lavender/gold/orange/turquoise/
+  violet order and includes a small underground scale-check strip, while
+  replacing the current repeated five-point-star-on-rock language.
+- Rejected because all five directions trapped the star inside another physical
+  object. The authoritative correction is that the visual itself is a literal
+  free-floating star, with the current floating release icon as the quality
+  benchmark.
+- `reviewOnly: true`; `productionChanged: false`. No generated board is loaded,
+  registered, preloaded, or referenced by Phaser.
+
+## Three-Engine Celestial action bar mockup v1 — 2026-07-28
+
+- `celestial-engine-action-bar-v1/` proposes a WoW-style three-slot loadout
+  above the approved XP frame, with mouse drag/drop reordering, slot swapping,
+  click activation, and `1`/`2`/`3` shortcuts.
+- All three Engines remain equipped and visible while sharing one Star Heart
+  charge pool and allowing one active world effect at a time, preserving the
+  existing lifetime and impact caps.
+- The ready and edit boards use the exact existing Engine cores, Star Heart,
+  HUD frame, and gameplay reference.
+- `reviewOnly: true`; `productionChanged: false`. Nothing in the folder is
+  loaded, registered, preloaded, or referenced by Phaser.
+
+## Complete surface landscape library v1 — 2026-07-28
+
+- `surface-landscape-final-library-v1/` is the final-look proposal for all 280
+  Level 1 and Level 2 surface tiles, arranged as fourteen contiguous,
+  player-scale gameplay panoramas and three labeled overview sheets.
+- Every chapter has a unique landscape activity, ground/foundation identity,
+  natural prop scale and spacing, and explicit protection for Titans, portals,
+  gates, doors, the mine threshold, and the conditional drop seam.
+- `reviewOnly: true`; `productionChanged: false`. No mockup, overview, prompt
+  manifest, or source image is loaded, registered, preloaded, or wired into
+  Phaser.
+
+## Overworld resource and special-tile texture audit v1 — 2026-07-28
+
+- `overground-texture-audit-v1/` compares the former physical semantic ore and
+  reward formations against the earlier native-scale vein/emblem textures.
+- The audit keeps physical stone, Gamble, Ancient Cache, cave/chest/crystal
+  markers, and separately approved Star Tile art. It restores the earlier
+  colored vein language, clear reward emblems, and exact purple Teleport Up
+  rift.
+- `reviewOnly: false`; `productionChanged: true`. The sheets remain QA
+  evidence; runtime loads only the versioned production atlases.
+
+## ESC Starlight Talent Tree mockup v1 — 2026-07-28
+
+- `star-pillar-talent-tree-esc-v1/` established the approved permanent
+  `TALENTS` tab inside the existing ESC shell, restoring visibility for all ten
+  Star Pillar constellation unlocks.
+- The layout splits the live mutations into Quickslash and Thunderstrike
+  branches, demonstrates mastered/in-progress/locked states, and converges on
+  three permanent Hearts and three Celestial Engine choices.
+- `reviewOnly: true`; `productionChanged: true`. No preview PNG is loaded,
+  preloaded, or registered; the approved direction is now recreated in native
+  Phaser UI with production sign and Engine assets.
+
+## Whole upper-world sky mockups v1 — 2026-07-28
+
+- `sky-air-whole-world-mockups-v1/` contains three connected traversal boards
+  covering approved-town continuity, Level 1, the central divider, Level 2,
+  the eastern storm corridor, and all three Heavenblock altitudes.
+- The set uses no baked sun, moon, planet, eclipse disc, or distant complete
+  halo. The former Devil eclipse body is replaced by an angular atmospheric
+  scar, leaving celestial bodies to the runtime day/night system.
+- `reviewOnly: true`; `productionChanged: false`. No mockup is registered,
+  preloaded, or wired into Phaser.
+
+## Heavenblock surface gate concepts v1 — 2026-07-28
+
+- `heavenblock-surface-gate-concepts-v1/` compares three diegetic replacements
+  for the temporary Phaser ground circles: low relic daises, raised aether
+  wells, and one connected three-route sky altar.
+- Every board shows the exact post-relic state: Cloud Reef active, with Angel
+  and Devil still route-sealed until Cloud Reef is completed.
+- `reviewOnly: true`; `productionChanged: false`. No mockup is registered,
+  preloaded, or wired into Phaser.
+
 ## Player torch lighting current vs future v1 — 2026-07-26
 
 - `2026-07-26-player-torch-lighting-current-vs-future-v1.png` keeps the exact
@@ -38,6 +192,26 @@ Review-only visual assets live here before runtime wiring. Each subfolder must i
   plinth derivative are live. The mockup PNGs themselves remain reference-only;
   bespoke high-resolution 15-22-block chamber paintings remain an unpromoted
   future art pass.
+
+## Titan surface stances v1 — 2026-07-28
+
+- `titan-surface-stances-v1/` presents the exact 25 independently generated,
+  alpha-clean runtime stances used by the enlarged surface Titan Walk.
+- Every Titan keeps its own approved identity and receives a distinct
+  species-specific pose; the shared plinth remains a separate runtime layer.
+- `reviewOnly: false`; `productionChanged: true`. Phaser loads only the
+  transparent WebPs under `sprites/backgrounds/titan-surface-stances-v1/`.
+
+## Titan chamber seamless blend v3 — 2026-07-28
+
+- `titan-chambers-production-v3/` compares the opaque rectangular v2 card with
+  the production organic-feather derivative and shows all 25 cards composited
+  over representative live biome textures.
+- It preserves the approved built-in ImageGen paintings; only the outer alpha
+  boundary changes.
+- `reviewOnly: false`; `productionChanged: true`. Phaser streams the
+  transparent WebPs under `sprites/backgrounds/titan-chambers-v3/`, then applies
+  the shared live depth grade.
 
 ## Milestone Pillar concepts v1 — 2026-07-26
 
@@ -151,8 +325,9 @@ whole-body frames.
   the flat Town Square block band: mountain slate, a timber/stone miner
   boardwalk, and star-forged basalt.
 - Option A is approved. Its full-screen image stays review evidence, while an
-  exact 1672x139 crop plus 129 px alpha handoff is game-loaded from
-  `sprites/backgrounds/start-zone-scenic-v1/town-square-slate-facade-v2.png`.
+  exact 1672x48 thin crop plus 129 px alpha handoff is game-loaded from
+  `sprites/backgrounds/start-zone-scenic-v1/town-square-slate-strip-v3.png`;
+  the same 1672x48 core repeats across the complete surface.
 - Runtime now uses the 1.75 m midpoint player / 2.10 m doorway calibration.
   Options B and C remain review-only and are not wired into Phaser.
 
@@ -188,6 +363,14 @@ whole-body frames.
 - It tests 3D depth treatment for backgrounds only: no tiles, props, Meshy models, or replacement artwork.
 - Nothing in the folder is game-loaded; it is a review-only mockup.
 
+## Earthquake dodge layering v1 — 2026-07-28
+
+- `earthquake-dodge-layering-v1/` shows the proposed in-world warning footprint,
+  lateral dodge, and safe-impact layer sequence with the current Survival
+  character and earthquake HUD skin.
+- The captures come from a test-only Phaser scene. No production hazard logic,
+  collision, damage, timing, or terrain mutation is loaded from this folder.
+
 ## Meshy background render mockup v2 — 2026-07-15
 
 - **Rejected:** `meshy-background-render-poc-v2/` proved that a single generated cave prop/model is not a valid high-detail mining-background depth treatment.
@@ -212,3 +395,13 @@ whole-body frames.
 - The annotated and unannotated Level 1/Level 2 concept images are mockups only. None are loaded by Phaser or referenced by the TMX.
 - Rebuild annotations with `ai-tools/2026-07-12-annotate-v11-underground-depth-concepts.py`.
 - `v11-runtime-depth-v4-sample-contact-sheet-2026-07-12.png` shows the final streamed production chunk families after the anti-stretch and anti-repeat polish pass.
+
+## Whole-world visual expansion V5 — 2026-07-28
+
+- `whole-world-visual-expansion-v5/` preserves the 100 approved ImageGen
+  masters, three contact sheets, prompts, hashes, and the exact production
+  mapping for 50 background, 40 underground terrain, and ten surface-ground
+  additions.
+- Production files are derived into `biome-expansion-v5/`,
+  `terrain-variation-v5/`, and `surface-ground-variation-v5/`; every older
+  approved asset remains in its original directory and active pool.

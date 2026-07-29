@@ -53,7 +53,7 @@ const COLORS = Object.freeze({
 });
 
 export const OPENING_FLIGHT_ARTIFACT_CONFIG = Object.freeze({
-  enabled: true,
+  enabled: false,
   saveVersion: 2,
   upgradeId: "gemPowerUnlock",
   flyActionId: "fly",
@@ -120,13 +120,7 @@ export const OPENING_FLIGHT_ARTIFACT_CONFIG = Object.freeze({
   }),
   screenView: Object.freeze({
     depth: 3650,
-    objectiveY: 34,
-    objectiveWidthPx: 520,
-    objectiveHeightPx: 64,
-    objectiveTitleOffsetYPx: -12,
-    objectiveBodyOffsetYPx: 13,
-    objectiveTitleFontSize: "18px",
-    objectiveBodyFontSize: "14px",
+    objectiveNotificationKey: "opening-flight-objective",
     pointerRadiusPx: 42,
     pointerArrowLengthPx: 70,
     pointerArrowWidthPx: 44,
@@ -387,6 +381,7 @@ export const OPENING_FLIGHT_GOLDEN_FIVE_CONFIG = Object.freeze({
     unlockStatusDurationMs: 4200,
     surfaceToastDurationMs: 3600,
     cacheToastDurationMs: 5200,
+    cacheNotificationKey: "opening-flight-first-ascent-reward",
     completeStatusDurationMs: 4400,
   }),
   palette: Object.freeze({

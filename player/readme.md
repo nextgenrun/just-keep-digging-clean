@@ -18,17 +18,57 @@ same spritesheet and animation loading path.
 
 `playerDirectionalTargets.js` is the pure body-AABB resolver for mining aim. It returns only cells immediately outside the rows and columns occupied by the actual physics body, preserving up/down diagonal priority without selecting a floor cell or a cell intersecting the player. It also classifies the real selected tile into `SIDE`, `UP`, `DOWN`, `UP-SIDE`, or `DOWN-SIDE` for shared main-world and cave animation routing.
 
+`mouseMiningTarget.js` projects a pointer world position onto that same
+body-adjacent contract. It accepts only in-bounds solid cells beside the real
+collider, so click digging cannot reach through the player or mine at range.
+
 The promoted directional set stays on the native UAL skeleton: Jab/Cross supplies SIDE, UP, and UP-SIDE, while `OverhandThrow` is retained only for same-facing DOWN and ground-directed Thunder. Hook, the authored kick, and the `Sword_Regular_C` up strike are rejected review/rollback sources, alongside Swim, TreeChopping, Farm Harvest, spell-shot, and NinjaJump. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
 
 `SURVIVAL_UAL_PLAYER_ASSET_PROFILE` is the approved default player visual. It promotes the Blender Survivor v2 idle, idle-talk, and latest face-down prone-v3 Superman flight sheet; its separate Blender walk remains loaded as review/rollback evidence, while live grounded movement always selects the UAL `Jog_Fwd_Loop` run slot and the compatible UAL-retarget action set. Existing `ualNative` / `legacy` save selections migrate to Survivor, while `?character=ualNative` remains the explicit native-placeholder rollback. The 31x75 collider, contacts, action timing, and fist-only policy remain identical to native UAL.
 
 `PlayerAbilities.js` owns Thunderstrike economy and damage authority. Slam I
-consumes the single 3x upfront GP cost; Slams II and III cost zero and are
-rejected unless the timing runtime explicitly arms the next sequential stage.
-All three slams begin at the first tile below the player's body and scale the
-same column damage by 1x, 3x, then 10x.
+consumes the single 3x upfront GP cost; Slams II-X cost zero and are rejected
+unless the timing runtime explicitly arms the next sequential stage. All ten
+slams stay in one vertical lane beginning at the first tile below the player's
+body, use the configured base damage curve, and compound another +20%
+combo-local damage for each successful continuation. Any early, late, or
+expired follow-up ends the chain immediately. Citadel Storm adds +10%
+Thunderstrike damage without widening the damage footprint.
 
 The development God Mode path immediately fills and preserves GP, unlocks
 Flight, Quickslash, and Thunderstrike, reports their costs as zero, applies all
 constellation ability modifiers, and makes torch drain zero. The dormant legacy
 Gem Dash fields are not a bound or advertised player ability.
+
+`PlayerController.getPersistenceData()` snapshots the authoritative physics
+body position rather than a tile approximation. Restore bounds-checks the exact
+pixel coordinates, resolves any now-solid overlap safely, then restores facing
+and exact GP before the first playable frame.
+
+`PlayerSurfaceDropController` consumes a fresh DOWN/S press only while grounded
+on the full-width surface. It asks `TileCollisionSystem` to release the
+one-way surface only when the complete player footprint is on dedicated
+town-floor cells with the configured full AIR row immediately below. Ordinary
+mineable tiles begin beneath that clearance instead of intersecting the player
+or the surface art. The protected Level 1/Level 2 divider remains blocking.
+`?surfaceDrop=0` restores the former collision behavior.
+
+`UalMovingSideDigSelector` promotes only grounded, normal LEFT/RIGHT mining
+while movement intent points toward the target. It maps the Survival Jab/Cross
+combo to the phase-locked Jog composites even when collision has reduced
+resolved velocity to zero. Standing, diagonal, airborne, reverse-moving, and
+Quickslash actions keep their existing clips. `?movingSideDig=0` is the visual
+rollback. With phase handoff enabled, it selects the nearest of eight Jog-phase
+Jab/Cross variants. Each strike renders 22 smoothed upper-body poses over the
+same 14-frame Jog advance, reaches contact on visual frame 6 at the original
+planted-foot phase, and returns the exact next Jog phase on completion.
+`?phaseHandoff=0` keeps the approved moving-dig sheets but restores base-sheet
+entry and frame-zero resume.
+
+`UalMovingDiagonalDigSelector` applies the same lower-body ownership to grounded
+UP-SIDE and DOWN-SIDE mining while moving toward the target. It selects the
+nearest of four Jog phases for each aim family, preserves the existing
+directional action/contact timing, and publishes the exact Jog resume frame.
+Stationary, reverse-moving, airborne, and rollback paths retain their previous
+clips. `?movingDiagonalDig=0` disables only this promotion;
+`?animationPolish=0` disables the complete polish family.

@@ -114,6 +114,17 @@ export class WeatherDirector {
     const phase = this._phase(kind);
     const baseWeights = { ...(phase.next || this.weatherConfig.phases.clear.next) };
     const season = this.scene.dayNightCycle?.getSeason?.();
+    const temperature = this.scene.dayNightCycle?.getCurrentTemperature?.();
+    const snow = this.weatherConfig.snow;
+    if (baseWeights.snow !== undefined) {
+      const seasonAllowed = Boolean(season)
+        && (!snow?.allowedSeason || season === snow.allowedSeason);
+      const temperatureAllowed = Number.isFinite(temperature)
+        && temperature <= snow.maxTemperatureC;
+      if (!snow?.enabled || !seasonAllowed || !temperatureAllowed) {
+        baseWeights.snow = 0;
+      }
+    }
     const seasonal = season ? this.weatherConfig.director.seasonWeights?.[season] : null;
     Object.entries(seasonal || {}).forEach(([weatherKind, multiplier]) => {
       if (baseWeights[weatherKind] !== undefined) baseWeights[weatherKind] *= multiplier;

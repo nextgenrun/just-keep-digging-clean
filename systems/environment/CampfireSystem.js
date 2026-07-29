@@ -30,7 +30,11 @@
 
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import { CAMPFIRE_CONFIG, CAMPFIRE_TIERS } from "../../values/campfireConfig.js";
+import {
+  CAMPFIRE_CONFIG,
+  CAMPFIRE_TIERS,
+  sanitizeCampfireData,
+} from "../../values/campfireConfig.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../UserSettings.js";
 
 // ── Main Menu Theme Palette (matches ShopOverlay / MainMenuScene) ──────────
@@ -72,7 +76,6 @@ export class CampfireSystem {
 
     // Buff state
     this._activeBuff = null;
-    this._expiryWarningShown = false;
 
     // Buff selection UI state
     this._isSelecting = false;
@@ -120,7 +123,7 @@ export class CampfireSystem {
     this._loadCampfireLevel();
 
     const ts = this.config.tileSize;
-    const campTileX = this.config.spawnTileX + 38; // one tile left of the previous campfire station spot
+    const campTileX = CAMPFIRE_CONFIG.surfaceTileX;
     const campTileY = this.config.topAirRows - 1;
     this._campX = campTileX * ts + ts / 2;
     this._campY = campTileY * ts + ts / 2;
@@ -304,6 +307,19 @@ export class CampfireSystem {
   /** Get current campfire tier level (1-10) */
   getCampfireLevel() {
     return this._campfireLevel;
+  }
+
+  getSaveData() {
+    return sanitizeCampfireData({ level: this._campfireLevel });
+  }
+
+  loadSaveData(data) {
+    if (!data || typeof data !== "object") return this.getSaveData();
+    const normalized = sanitizeCampfireData(data);
+    this._campfireLevel = normalized.level;
+    this._saveCampfireLevel();
+    this._updateCampfireSprite();
+    return this.getSaveData();
   }
 
   /**
@@ -737,13 +753,6 @@ export class CampfireSystem {
       durationMs: tier.durationMs,
       remainingMs: tier.durationMs,
     };
-    this._expiryWarningShown = false;
-
-    // Show persistent HUD timer
-    if (this.scene.hudSystem) {
-      const durationSec = Math.floor(tier.durationMs / 1000);
-      this.scene.hudSystem.flashStatus(`🔥 ${buffDef.name} Active! (${durationSec}s)`, buffDef.color, 2000);
-    }
   }
 
   _updateBuffTimer(delta) {
@@ -756,22 +765,6 @@ export class CampfireSystem {
 
     const frameDelta = delta || this.scene?.game?.loop?.delta || 16;
     this._activeBuff.remainingMs -= frameDelta;
-    const feedback = CAMPFIRE_CONFIG.expirationFeedback;
-    if (
-      feedback
-      && !this._expiryWarningShown
-      && this._activeBuff.remainingMs > 0
-      && this._activeBuff.remainingMs <= feedback.warningMs
-    ) {
-      this._expiryWarningShown = true;
-      this.scene.hudSystem?.flashStatus?.(
-        `🔥 ${feedback.warningText}`,
-        this._activeBuff.color || COL.cssAccent,
-        feedback.warningDurationMs
-      );
-      this.scene.soundSystem?.playUiSelect?.();
-      this._pulseCampfire(0.7, 220);
-    }
     if (this._activeBuff.remainingMs <= 0) {
       this._expireActiveBuff();
     }
@@ -779,14 +772,7 @@ export class CampfireSystem {
 
   _expireActiveBuff() {
     if (!this._activeBuff) return;
-    const feedback = CAMPFIRE_CONFIG.expirationFeedback;
     this._activeBuff = null;
-    this._expiryWarningShown = false;
-    this.scene.hudSystem?.flashStatus?.(
-      `🔥 ${feedback?.expiredText || "Campfire blessing faded"}`,
-      COL.cssAccent,
-      feedback?.expiredDurationMs || 1800
-    );
     this.scene.soundSystem?.playFirstAvailableSfx?.(
       ["sfx-ui-select", "tileHit-0", "footsteps-0"],
       0.25

@@ -307,8 +307,9 @@ export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CON
   const teleportTiles = paintTeleportAnchors(worldModel, mask, config);
   floorTiles += carveEntry(worldModel, config);
 
-  // The door is the only Level 1 -> Level 2 route. This full-height column
-  // prevents flying over the gate or tunneling beneath it.
+  // The door remains the authored Level 1 -> Level 2 route. The final
+  // UndergroundBedrockLayout authority opens only the shared surface-clearance
+  // row and resumes this column immediately below it.
   const dividerTiles = paintLevelDivider(worldModel, config);
 
   return {

@@ -25,16 +25,30 @@ BODY_AND_FX = (
     ("small.ring", "small-arc-gyro-ring-v2.png"),
     ("small.cloud", "small-arc-cloud-v2.png"),
     ("small.beam", "small-arc-twin-beam-v3.png"),
-    ("small.impact", "small-arc-impact-v3.png"),
+    ("small.impact", "small-arc-impact-v4.png"),
     ("omega.body", "omega-arc-master-v2.png"),
     ("omega.sigil", "omega-arc-lattice-sigil-v2.png"),
     ("omega.cloud", "omega-arc-cloud-v2.png"),
     ("omega.beam", "omega-arc-lattice-beam-v3.png"),
-    ("omega.impact", "omega-arc-impact-v3.png"),
+    ("omega.impact", "omega-arc-impact-v4.png"),
 )
 BACKGROUND = ("stage.background", "arc-stage-background-v3.png")
-BODY_PROJECT = PISKEL / "arc-core-body-and-fx-v3.piskel"
+BODY_PROJECT = PISKEL / "arc-core-body-and-fx-v4.piskel"
 BACKGROUND_PROJECT = PISKEL / "arc-core-stage-background-v3.piskel"
+COLLISION_PROFILES = {
+    "arcCoreSmall": {
+        "kind": "circle",
+        "label": "Small Arc round shell",
+        "diameterPx": 104,
+        "centerPx": [256, 256],
+    },
+    "arcCoreOmega": {
+        "kind": "circle",
+        "label": "Omega Arc round array hull",
+        "diameterPx": 416,
+        "centerPx": [256, 256],
+    },
+}
 
 
 def pixel_digest(image: Image.Image) -> str:
@@ -103,7 +117,7 @@ def update_pack(files: list[dict], background: dict) -> None:
     }
     meta = pack["spriteMeta"]
     meta.update({
-        "schemaVersion": 3,
+        "schemaVersion": 4,
         "packageId": "arc-core-v3",
         "approved": True,
         "reviewOnly": False,
@@ -129,6 +143,7 @@ def update_pack(files: list[dict], background: dict) -> None:
             "cloudFrontCounterRotationRatio": 0.62,
             "visibleAlphaThreshold": 0.002,
             "beamPulseTimeScale": 0.035,
+            "beamCrossAxisFollowRatio": 0.12,
             "impactRotationRatio": 0.18,
         },
     })
@@ -141,6 +156,7 @@ def update_pack(files: list[dict], background: dict) -> None:
     ):
         meta["modes"][mode_id]["beamRole"] = f"{prefix}.beam"
         meta["modes"][mode_id]["impactRole"] = f"{prefix}.impact"
+        meta["modes"][mode_id]["collision"] = COLLISION_PROFILES[mode_id]
     PACK_PATH.write_text(json.dumps(pack, indent=2) + "\n", encoding="utf-8")
 
 

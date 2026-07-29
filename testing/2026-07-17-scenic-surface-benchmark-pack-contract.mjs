@@ -69,11 +69,11 @@ assert.ok(
   "the exact floor and approved town must use the same uniform source scale",
 );
 assert.ok(
-  floorGeometry.height / tileSize > 1.7 && floorGeometry.height / tileSize < 1.8,
-  "the exact three-course facade must retain the approved mockup proportions",
+  floorGeometry.height / tileSize > 0.6 && floorGeometry.height / tileSize < 0.62,
+  "the approved slate cap must stay near 0.61 tile so the first mine row remains visible",
 );
 assert.equal(pack.floor.expectedSource.width, pack.beauty.expectedSource.width);
-assert.equal(pack.floor.expectedSource.height, 139);
+assert.equal(pack.floor.expectedSource.height, 48);
 assert.equal(pack.floor.sourceRect.width, pack.floor.expectedSource.width);
 assert.equal(pack.floor.sourceRect.height, pack.floor.expectedSource.height);
 assert.equal(pack.floor.approvedCoreSourceWidthPx, 1672);

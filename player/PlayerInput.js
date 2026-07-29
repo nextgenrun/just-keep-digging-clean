@@ -110,6 +110,11 @@ export class PlayerInput {
     return this.getVerticalAim().up;
   }
 
+  consumeSurfaceDropInput() {
+    if (!this.controlsEnabled || this.keys.shift?.isDown) return false;
+    return Phaser.Input.Keyboard.JustDown(this.keys.aimDown) || false;
+  }
+
   /**
    * Get mine input
    * @returns {boolean}

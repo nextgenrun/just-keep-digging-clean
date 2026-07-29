@@ -42,8 +42,6 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     caveBottomPaddingTiles: 20,
     shaftHalfWidthTiles: 1,
     shaftDepthTiles: 6,
-    leftStaircaseStartX: 68,
-    leftStaircaseDepthTiles: 10,
   }),
 
   // Cave generation

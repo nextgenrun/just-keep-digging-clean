@@ -1,3 +1,29 @@
+const HEAVENBLOCKS_SKY_ALTAR_ASSET_ROOT =
+  "sprites/environment/heavenblocks-sky-altars-v1";
+
+const createSkyAltarAsset = (familyId, stageId) => Object.freeze({
+  key: `environment-sky-altar-${familyId}-${stageId}-v1`,
+  path: `${HEAVENBLOCKS_SKY_ALTAR_ASSET_ROOT}/${familyId}-${stageId}-v1.png`,
+});
+
+const HEAVENBLOCKS_SKY_ALTAR_ASSETS = Object.freeze({
+  cloudReef: Object.freeze([
+    createSkyAltarAsset("cloud-reef", "stage-1-dormant"),
+    createSkyAltarAsset("cloud-reef", "stage-2-attuning"),
+    createSkyAltarAsset("cloud-reef", "stage-3-awakened"),
+  ]),
+  angelHeavenblock: Object.freeze([
+    createSkyAltarAsset("angel-heavenblock", "stage-1-dormant"),
+    createSkyAltarAsset("angel-heavenblock", "stage-2-attuning"),
+    createSkyAltarAsset("angel-heavenblock", "stage-3-awakened"),
+  ]),
+  devilEclipse: Object.freeze([
+    createSkyAltarAsset("devil-eclipse", "stage-1-dormant"),
+    createSkyAltarAsset("devil-eclipse", "stage-2-attuning"),
+    createSkyAltarAsset("devil-eclipse", "stage-3-awakened"),
+  ]),
+});
+
 export const ASSET_KEYS = Object.freeze({
   branding: {
     logo: "brand-logo",
@@ -24,8 +50,82 @@ export const ASSET_KEYS = Object.freeze({
     iconsResources:   "ui-icons-resources",
     iconCoin:         "ui-icon-coin",
     iconPickaxe:      "ui-icon-pickaxe",
+    pickaxeIcons: Object.freeze({
+      bronzePickaxe: Object.freeze({
+        key: "ui-pickaxe-bronze-v1",
+        path: "sprites/UI/pickaxe-icons-v1/bronze-pickaxe-v1.png",
+      }),
+      ironPickaxe: Object.freeze({
+        key: "ui-pickaxe-iron-v1",
+        path: "sprites/UI/pickaxe-icons-v1/iron-pickaxe-v1.png",
+      }),
+      steelPickaxe: Object.freeze({
+        key: "ui-pickaxe-steel-v1",
+        path: "sprites/UI/pickaxe-icons-v1/steel-pickaxe-v1.png",
+      }),
+      mithrilPickaxe: Object.freeze({
+        key: "ui-pickaxe-mithril-v1",
+        path: "sprites/UI/pickaxe-icons-v1/mithril-pickaxe-v1.png",
+      }),
+      adamantPickaxe: Object.freeze({
+        key: "ui-pickaxe-adamant-v1",
+        path: "sprites/UI/pickaxe-icons-v1/adamant-pickaxe-v1.png",
+      }),
+      runePickaxe: Object.freeze({
+        key: "ui-pickaxe-rune-v1",
+        path: "sprites/UI/pickaxe-icons-v1/rune-pickaxe-v1.png",
+      }),
+      dragonPickaxe: Object.freeze({
+        key: "ui-pickaxe-dragon-v1",
+        path: "sprites/UI/pickaxe-icons-v1/dragon-pickaxe-v1.png",
+      }),
+    }),
+    pickaxeHud: Object.freeze({
+      bronzePickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-bronze-v1",
+        path: "sprites/UI/pickaxe-hud-v1/bronze-pickaxe-hud-overlay-v1.png",
+      }),
+      ironPickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-iron-v1",
+        path: "sprites/UI/pickaxe-hud-v1/iron-pickaxe-hud-overlay-v1.png",
+      }),
+      steelPickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-steel-v1",
+        path: "sprites/UI/pickaxe-hud-v1/steel-pickaxe-hud-overlay-v1.png",
+      }),
+      mithrilPickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-mithril-v1",
+        path: "sprites/UI/pickaxe-hud-v1/mithril-pickaxe-hud-overlay-v1.png",
+      }),
+      adamantPickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-adamant-v1",
+        path: "sprites/UI/pickaxe-hud-v1/adamant-pickaxe-hud-overlay-v1.png",
+      }),
+      runePickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-rune-v1",
+        path: "sprites/UI/pickaxe-hud-v1/rune-pickaxe-hud-overlay-v1.png",
+      }),
+      dragonPickaxe: Object.freeze({
+        key: "ui-pickaxe-hud-dragon-v1",
+        path: "sprites/UI/pickaxe-hud-v1/dragon-pickaxe-hud-overlay-v1.png",
+      }),
+    }),
     lootBag:          "ui-loot-inventory-bag",
     thunderStrikeChainFrame: "ui-thunderstrike-chain-frame-v1",
+    thunderStrikeTargetGate: "ui-thunderstrike-target-gate-v2",
+    thunderStrikeNeedle: "ui-thunderstrike-needle-v2",
+    thunderStrikeIndicator: Object.freeze({
+      milestoneDormant: "ui-thunderstrike-milestone-dormant-v3",
+      milestoneChallenge: "ui-thunderstrike-milestone-challenge-v3",
+      milestoneCompleted: "ui-thunderstrike-milestone-completed-v3",
+      milestoneCheck: "ui-thunderstrike-milestone-check-v3",
+      promptPlate: "ui-thunderstrike-prompt-plate-v3",
+      stagePlate: "ui-thunderstrike-stage-plate-v3",
+      badgePlate: "ui-thunderstrike-badge-plate-v3",
+      glyphI: "ui-thunderstrike-glyph-i-v3",
+      glyphV: "ui-thunderstrike-glyph-v-v3",
+      glyphX: "ui-thunderstrike-glyph-x-v3",
+    }),
     approvedHud: {
       playerCore: "ui-hud-approved-player-core",
       playerCoreTorchOff: "ui-hud-approved-player-core-torch-off",
@@ -37,6 +137,25 @@ export const ASSET_KEYS = Object.freeze({
       audioSfx: "ui-hud-approved-audio-sfx",
       xp: "ui-hud-approved-xp",
       inventory: "ui-hud-approved-inventory",
+    },
+    notificationControls: Object.freeze({
+      previous: Object.freeze({
+        key: "ui-notification-previous-v1",
+        path: "sprites/UI/notification-controls-v1/notification-previous-v1.png",
+      }),
+      next: Object.freeze({
+        key: "ui-notification-next-v1",
+        path: "sprites/UI/notification-controls-v1/notification-next-v1.png",
+      }),
+      clear: Object.freeze({
+        key: "ui-notification-clear-v1",
+        path: "sprites/UI/notification-controls-v1/notification-clear-v1.png",
+      }),
+    }),
+    hardcore: {
+      oathPanel: "ui-hardcore-oath-panel-v1",
+      oathCrest: "ui-hardcore-oath-crest-v1",
+      deathActionButton: "ui-hardcore-death-action-v1",
     },
     worldMapFrame: "ui-world-map-frame-foundation-v1",
     resources: {
@@ -76,6 +195,37 @@ export const ASSET_KEYS = Object.freeze({
       aetherTurbine: "heavenblocks-aether-turbine-v1",
       haloRegulator: "heavenblocks-halo-regulator-v1",
       eclipseCrucible: "heavenblocks-eclipse-crucible-v1",
+    },
+    starlightTalentTree: {
+      modalShell: "ui-starlight-modal-shell-v2",
+      modalCrest: "ui-starlight-modal-crest-v2",
+      modalClose: "ui-starlight-modal-close-v2",
+      treePanel: "ui-starlight-tree-panel-v2",
+      detailPanel: "ui-starlight-detail-panel-v2",
+      enginePage: "ui-starlight-engine-page-v2",
+      nodeQuickslash: "ui-starlight-node-quickslash-v2",
+      nodeThunderstrike: "ui-starlight-node-thunderstrike-v2",
+      nodeLocked: "ui-starlight-node-bobo-locked-v2",
+      nodeSelected: "ui-starlight-node-selected-v2",
+      boboLock: "ui-starlight-bobo-lock-v2",
+      starHeartSocket: "ui-starlight-heart-socket-v2",
+      connectorQuickslash: "ui-starlight-connector-quickslash-v2",
+      connectorThunderstrike: "ui-starlight-connector-thunderstrike-v2",
+      starHeart: "ui-starlight-star-heart-v2",
+      waywardStar: "ui-starlight-wayward-star-v2",
+      hollowSun: "ui-starlight-hollow-sun-v2",
+      cometEngine: "ui-starlight-comet-engine-v2",
+      ultrawideFoundation: "ui-starlight-ultrawide-foundation-v3",
+      navigationPlaqueIdle: "ui-starlight-navigation-plaque-idle-v3",
+      navigationPlaqueSelected: "ui-starlight-navigation-plaque-selected-v3",
+      talentRibbonIdle: "ui-starlight-talent-ribbon-idle-v3",
+      talentRibbonSelected: "ui-starlight-talent-ribbon-selected-v3",
+      statusSeal: "ui-starlight-status-seal-v3",
+      progressPlaque: "ui-starlight-progress-plaque-v3",
+      carouselLeft: "ui-starlight-carousel-left-v3",
+      carouselRight: "ui-starlight-carousel-right-v3",
+      carouselStepIdle: "ui-starlight-carousel-step-idle-v3",
+      carouselStepActive: "ui-starlight-carousel-step-active-v3",
     },
   },
   constellations: {
@@ -132,7 +282,7 @@ export const ASSET_KEYS = Object.freeze({
         "bg-level1-ground-facade-08-v2",
         "bg-level1-ground-facade-09-v2",
       ]),
-      recognitionAtlas: "bg-level1-ground-recognition-atlas-v2",
+      recognitionAtlas: "bg-level1-ground-recognition-atlas-v7",
     },
     skyIslands: {
       level1Platform: "v11-sky-island-level-1-platform",
@@ -186,74 +336,74 @@ export const ASSET_KEYS = Object.freeze({
   },
   npcs: {
     merchantSprites: {
-      moneyMonster: "npc-v5-money-monster-single",
-      magmaMoneyMonster: "npc-v7-magma-money-monster-single",
-      playerUpgrades: "npc-v5-player-upgrades-single",
-      gearMerchant: "npc-v5-gear-merchant-single",
-      boboMerchant: "npc-v5-bobo-merchant-single",
-      gemPowerMerchant: "npc-v5-gem-power-merchant-single",
+      moneyMonster: "npc-v13-money-monster-baseline",
+      magmaMoneyMonster: "npc-v13-magma-money-monster-baseline",
+      playerUpgrades: "npc-v13-player-upgrades-baseline",
+      gearMerchant: "npc-v13-gear-merchant-baseline",
+      boboMerchant: "npc-v13-bobo-merchant-baseline",
+      gemPowerMerchant: "npc-v13-gem-power-merchant-baseline",
     },
     merchantIdleVideos: {
-      moneyMonster: "npc-v6-money-monster-idle-video",
-      playerUpgrades: "npc-v6-player-upgrades-idle-video",
-      gearMerchant: "npc-v6-gear-merchant-idle-video",
-      boboMerchant: "npc-v6-bobo-merchant-idle-video",
-      gemPowerMerchant: "npc-v6-gem-power-merchant-idle-video",
+      moneyMonster: "npc-v13-money-monster-idle-video",
+      playerUpgrades: "npc-v13-player-upgrades-idle-video",
+      gearMerchant: "npc-v13-gear-merchant-idle-video",
+      boboMerchant: "npc-v13-bobo-merchant-idle-video",
+      gemPowerMerchant: "npc-v13-gem-power-merchant-idle-video",
     },
     merchantActivities: {
       moneyMonster: {
-        work: "npc-v12-money-monster-work",
-        rare: "npc-v12-money-monster-rare",
-        player: "npc-v12-money-monster-player",
-        inspect: "npc-v12-money-monster-inspect",
-        habit: "npc-v12-money-monster-habit",
-        signature: "npc-v12-money-monster-signature",
-        showcase: "npc-v12-money-monster-showcase",
+        work: "npc-v13-money-monster-work",
+        rare: "npc-v13-money-monster-rare",
+        player: "npc-v13-money-monster-player",
+        inspect: "npc-v13-money-monster-inspect",
+        habit: "npc-v13-money-monster-habit",
+        signature: "npc-v13-money-monster-signature",
+        showcase: "npc-v13-money-monster-showcase",
       },
       magmaMoneyMonster: {
-        work: "npc-v12-magma-money-monster-work",
-        rare: "npc-v12-magma-money-monster-rare",
-        player: "npc-v12-magma-money-monster-player",
-        inspect: "npc-v12-magma-money-monster-inspect",
-        habit: "npc-v12-magma-money-monster-habit",
-        signature: "npc-v12-magma-money-monster-signature",
-        showcase: "npc-v12-magma-money-monster-showcase",
+        work: "npc-v13-magma-money-monster-work",
+        rare: "npc-v13-magma-money-monster-rare",
+        player: "npc-v13-magma-money-monster-player",
+        inspect: "npc-v13-magma-money-monster-inspect",
+        habit: "npc-v13-magma-money-monster-habit",
+        signature: "npc-v13-magma-money-monster-signature",
+        showcase: "npc-v13-magma-money-monster-showcase",
       },
       playerUpgrades: {
-        work: "npc-v12-player-upgrades-work",
-        rare: "npc-v12-player-upgrades-rare",
-        player: "npc-v12-player-upgrades-player",
-        inspect: "npc-v12-player-upgrades-inspect",
-        habit: "npc-v12-player-upgrades-habit",
-        signature: "npc-v12-player-upgrades-signature",
-        showcase: "npc-v12-player-upgrades-showcase",
+        work: "npc-v13-player-upgrades-work",
+        rare: "npc-v13-player-upgrades-rare",
+        player: "npc-v13-player-upgrades-player",
+        inspect: "npc-v13-player-upgrades-inspect",
+        habit: "npc-v13-player-upgrades-habit",
+        signature: "npc-v13-player-upgrades-signature",
+        showcase: "npc-v13-player-upgrades-showcase",
       },
       gearMerchant: {
-        work: "npc-v12-gear-merchant-work",
-        rare: "npc-v12-gear-merchant-rare",
-        player: "npc-v12-gear-merchant-player",
-        inspect: "npc-v12-gear-merchant-inspect",
-        habit: "npc-v12-gear-merchant-habit",
-        signature: "npc-v12-gear-merchant-signature",
-        showcase: "npc-v12-gear-merchant-showcase",
+        work: "npc-v13-gear-merchant-work",
+        rare: "npc-v13-gear-merchant-rare",
+        player: "npc-v13-gear-merchant-player",
+        inspect: "npc-v13-gear-merchant-inspect",
+        habit: "npc-v13-gear-merchant-habit",
+        signature: "npc-v13-gear-merchant-signature",
+        showcase: "npc-v13-gear-merchant-showcase",
       },
       boboMerchant: {
-        work: "npc-v12-bobo-merchant-work",
-        rare: "npc-v12-bobo-merchant-rare",
-        player: "npc-v12-bobo-merchant-player",
-        inspect: "npc-v12-bobo-merchant-inspect",
-        habit: "npc-v12-bobo-merchant-habit",
-        signature: "npc-v12-bobo-merchant-signature",
-        showcase: "npc-v12-bobo-merchant-showcase",
+        work: "npc-v13-bobo-merchant-work",
+        rare: "npc-v13-bobo-merchant-rare",
+        player: "npc-v13-bobo-merchant-player",
+        inspect: "npc-v13-bobo-merchant-inspect",
+        habit: "npc-v13-bobo-merchant-habit",
+        signature: "npc-v13-bobo-merchant-signature",
+        showcase: "npc-v13-bobo-merchant-showcase",
       },
       gemPowerMerchant: {
-        work: "npc-v12-gem-power-merchant-work",
-        rare: "npc-v12-gem-power-merchant-rare",
-        player: "npc-v12-gem-power-merchant-player",
-        inspect: "npc-v12-gem-power-merchant-inspect",
-        habit: "npc-v12-gem-power-merchant-habit",
-        signature: "npc-v12-gem-power-merchant-signature",
-        showcase: "npc-v12-gem-power-merchant-showcase",
+        work: "npc-v13-gem-power-merchant-work",
+        rare: "npc-v13-gem-power-merchant-rare",
+        player: "npc-v13-gem-power-merchant-player",
+        inspect: "npc-v13-gem-power-merchant-inspect",
+        habit: "npc-v13-gem-power-merchant-habit",
+        signature: "npc-v13-gem-power-merchant-signature",
+        showcase: "npc-v13-gem-power-merchant-showcase",
       },
     },
     boboIdleSheet: "npc-v3-bobo-idle-sheet",
@@ -528,6 +678,13 @@ export const ASSET_KEYS = Object.freeze({
     floorTown2: "tile-floor-town-2",
     // Special Blocks
     gemPowerBlock: "gempower-block",
+    gemPowerBlockTiers: Object.freeze({
+      gp100: "gempower-block",
+      gp250: "gempower-block-250",
+      gp500: "gempower-block-500",
+      gp1000: "gempower-block-1000",
+      gp1700: "gempower-block-1700",
+    }),
     speedBlock: "speed-block",
     xpBlock: "xp-block",
     sellBlock: "sell-block",
@@ -546,6 +703,7 @@ export const ASSET_KEYS = Object.freeze({
     break2: "fx-break-2",
   },
   environment: {
+    heavenblocksSkyAltars: HEAVENBLOCKS_SKY_ALTAR_ASSETS,
     pillars: {
       milestoneStages: Object.freeze([
         "environment-milestone-pillar-stage-1-v1",
@@ -569,6 +727,7 @@ export const ASSET_KEYS = Object.freeze({
       medallion: "graveborer-wurm-medallion-v1",
       warning: "graveborer-wurm-warning-v1",
     },
+    hardcoreMemorial: "environment-hardcore-memorial-v1",
     surfaceProps: {
       level1: {
         well: { key: "surface-prop-level1-well-v1", path: "sprites/environment/surface-props-v1/level1-well-v1.webp" },
@@ -591,15 +750,20 @@ export const ASSET_KEYS = Object.freeze({
         fence: { key: "surface-prop-level2-fence-v2", path: "sprites/environment/surface-props-v1/level2-fence-v2.webp" },
         plants: { key: "surface-prop-level2-plants-v2", path: "sprites/environment/surface-props-v1/level2-plants-v2.webp" },
         lantern: { key: "surface-prop-level2-lantern-v2", path: "sprites/environment/surface-props-v1/level2-lantern-v2.webp" },
+        forgeShelter: { key: "surface-prop-level2-forge-shelter-v2", path: "sprites/environment/surface-props-v2/level2-forge-shelter-v2.webp" },
+        campKitchen: { key: "surface-prop-level2-camp-kitchen-v2", path: "sprites/environment/surface-props-v2/level2-camp-kitchen-v2.webp" },
+        herbStation: { key: "surface-prop-level2-herb-station-v2", path: "sprites/environment/surface-props-v2/level2-herb-station-v2.webp" },
+        timberGantry: { key: "surface-prop-level2-timber-gantry-v2", path: "sprites/environment/surface-props-v2/level2-timber-gantry-v2.webp" },
+        observatory: { key: "surface-prop-level2-observatory-v2", path: "sprites/environment/surface-props-v2/level2-observatory-v2.webp" },
+        surveyStation: { key: "surface-prop-level2-survey-station-v2", path: "sprites/environment/surface-props-v2/level2-survey-station-v2.webp" },
+        expeditionShelter: { key: "surface-prop-level2-expedition-shelter-v2", path: "sprites/environment/surface-props-v2/level2-expedition-shelter-v2.webp" },
       },
     },
     skylineWeatherVfx: {
       clouds: "weather-v11-clouds",
-      rain: "weather-v11-rain",
-      snow: "weather-v11-snow",
-      water: "weather-v11-water",
       atmosphere: "weather-v11-atmosphere",
       lightning: "weather-v11-lightning",
+      particles: "weather-v11-particles-v2",
     },
   },
   runtime: {
@@ -655,5 +819,21 @@ export const ASSET_KEYS = Object.freeze({
 export function getSurfacePropPreloadAssets(assetKeys = ASSET_KEYS) {
   return Object.values(assetKeys.environment.surfaceProps)
     .flatMap(level => Object.values(level))
+    .map(({ key, path }) => Object.freeze({ key, path }));
+}
+
+export function getPickaxeIconPreloadAssets(assetKeys = ASSET_KEYS) {
+  return Object.values(assetKeys.ui.pickaxeIcons)
+    .map(({ key, path }) => Object.freeze({ key, path }));
+}
+
+export function getPickaxeHudPreloadAssets(assetKeys = ASSET_KEYS) {
+  return Object.values(assetKeys.ui.pickaxeHud)
+    .map(({ key, path }) => Object.freeze({ key, path }));
+}
+
+export function getHeavenblocksSkyAltarPreloadAssets(assetKeys = ASSET_KEYS) {
+  return Object.values(assetKeys.environment.heavenblocksSkyAltars)
+    .flatMap(stageAssets => stageAssets)
     .map(({ key, path }) => Object.freeze({ key, path }));
 }

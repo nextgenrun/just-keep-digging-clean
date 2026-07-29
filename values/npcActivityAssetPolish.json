@@ -1,0 +1,8 @@
+{
+  "version": "npc-activity-asset-polish-v1-20260728",
+  "defaultMaxUniformActivityScale": 1.25,
+  "capLimitedRasterSafetyInset": 0.00025,
+  "merchantMaxUniformActivityScale": {
+    "gem-power-merchant": 1.12
+  }
+}

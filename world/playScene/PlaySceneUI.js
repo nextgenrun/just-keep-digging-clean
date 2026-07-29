@@ -22,6 +22,8 @@ import {
 } from "../../ui/PhaserUiKit.js";
 import { createSettingsPanelContent } from "../../ui/overlays/SettingsPanelContent.js";
 import { createSaveTransferPanelContent } from "../../ui/overlays/SaveTransferPanelContent.js";
+import { createJourneyPanelContent } from "../../ui/overlays/JourneyView.js";
+import { StarlightTalentTreeView } from "../../ui/overlays/StarlightTalentTreeView.js";
 import { TitanArchiveView } from "../../ui/overlays/TitanArchiveView.js";
 import { WorldMapOverlay } from "../../ui/overlays/WorldMapOverlay.js";
 import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
@@ -31,12 +33,22 @@ import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
 import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import {
+  isHardcoreMode,
+  isHardcoreModeArmed,
+} from "../../values/hardcoreMode.js";
 import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
+import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
+import { JOURNEY_CONFIG } from "../../values/journeyConfig.js";
 import {
   getGraveborerWurmSaveData,
   loadGraveborerWurmSaveData,
 } from "./GraveborerWurmBridge.js";
+import {
+  getHardcoreModeSaveData,
+  loadHardcoreModeSaveData,
+} from "./HardcoreModeBridge.js";
+import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 
 /**
  * Mix in UI methods to PlayScene prototype
@@ -50,7 +62,7 @@ export function setupUIMethods(prototype) {
     if (this._sceneUIInitialized) return;
     this._sceneUIInitialized = true;
 
-    this.uiNotifications = new UINotificationSystem(this);
+    this.uiNotifications ||= new UINotificationSystem(this);
     this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem, this.config.viewportWidth - 123, 20);
     this.uiInventoryPopup = new UIInventoryPopup(this);
     this.shopOverlay = new ShopOverlay(this, this.upgradeSystem, this.soundSystem);
@@ -130,7 +142,7 @@ export function setupUIMethods(prototype) {
     if (this._gpLabelText) {
       this._gpLabelText.setText(
         flightLocked
-          ? "FLIGHT LOCKED  •  DIG BELOW"
+          ? "FLIGHT UNLOCKS AFTER TRAINING"
           : approvedLayout
             ? `GP  ${gpRaw} / ${gpMax}`
             : `GP: ${gpRaw}/${gpMax}`,
@@ -167,10 +179,11 @@ export function setupUIMethods(prototype) {
   };
 
   // Unified pause menu implementation.
-  prototype.showPauseMenu = function() {
-    if (this._pausePanel) return;
+  prototype.showPauseMenu = function(options = {}) {
+    if (this._pausePanel) return false;
     this.gameState = "paused";
     this.playerController.setControlsEnabled(false);
+    this.openingFlightArtifactSystem?.view?.hideHud?.();
 
     const shell = createModalShell(this, {
       title: "PAUSED",
@@ -192,27 +205,42 @@ export function setupUIMethods(prototype) {
       hint: null,
       settings: null,
       saveTransfer: null,
+      journeyView: null,
+      talentTree: null,
       titanArchive: null,
       tabContent,
     };
-    this._currentPauseTab = 0;
     const pauseTabs = [
       { key: "general", label: "GENERAL", icon: "journal" },
       { key: "saves", label: "SAVES", icon: "journal" },
-      { key: "stats", label: "STATS", icon: "stats" },
+      { key: "journey", label: JOURNEY_CONFIG.copy.tabLabel, icon: "stats" },
+      { key: "talents", label: "TALENTS", icon: "constellation" },
       ...(resolveTitanDiscoveriesEnabled()
         ? [{ key: "titans", label: "TITANS", icon: "journal" }]
         : []),
       { key: "settings", label: "SETTINGS", icon: "settings" },
     ];
+    state.tabKeys = pauseTabs.map(tab => tab.key);
+    const requestedTabKey = options.initialTabKey === "stats"
+      ? "journey"
+      : options.initialTabKey;
+    const requestedInitialTab = pauseTabs.findIndex(
+      tab => tab.key === requestedTabKey,
+    );
+    const initialTabIndex = requestedInitialTab >= 0 ? requestedInitialTab : 0;
+    this._currentPauseTab = initialTabIndex;
     const settingsTabIndex = pauseTabs.findIndex(tab => tab.key === "settings");
 
     const clearContent = () => {
       state.settings?.destroy?.();
       state.saveTransfer?.destroy?.();
+      state.journeyView?.destroy?.();
+      state.talentTree?.destroy?.();
       state.titanArchive?.destroy?.();
       state.settings = null;
       state.saveTransfer = null;
+      state.journeyView = null;
+      state.talentTree = null;
       state.titanArchive = null;
       state.controls = [];
       tabContent.removeAll(true);
@@ -264,10 +292,17 @@ export function setupUIMethods(prototype) {
         && currentTile.ty >= this.config.topAirRows - 4
         && currentTile.ty <= this.config.topAirRows;
       const deepestPortal = atTown ? this.specialTileSystem?.getDeepestPortal?.() : null;
+      const quickResumeCost = deepestPortal
+        ? this.getHardcoreTeleportCost?.({
+            depth: deepestPortal.depth,
+            kind: "quickResume",
+          }) || 0
+        : 0;
       const definitions = [
         { label: "RESUME GAME", icon: "play", accent: UI_COLORS.borderSel, action: () => this.resumeGame() },
         ...(deepestPortal ? [{
-          label: `QUICK RESUME  •  L${deepestPortal.levelId} ${deepestPortal.depth}m`,
+          label: `QUICK RESUME  •  L${deepestPortal.levelId} ${deepestPortal.depth}m`
+            + (quickResumeCost > 0 ? `  •  ${quickResumeCost.toLocaleString()} M` : ""),
           icon: "next",
           accent: UI_COLORS.borderGood,
           action: () => {
@@ -383,6 +418,8 @@ export function setupUIMethods(prototype) {
         height: bodyHeight,
         parent: tabContent,
         slotId: this.saveSlot,
+        allowExport: !isHardcoreMode(getHardcoreModeSaveData(this)),
+        exportDisabledReason: "OATH LOCKED",
         onFocus: index => state.focus?.setIndex?.(index),
         onSave: async () => {
           const saved = await this.saveGame();
@@ -429,81 +466,42 @@ export function setupUIMethods(prototype) {
       state.controls = state.saveTransfer.getControls();
     };
 
-    const buildStats = () => {
-      const bonuses = this.playerLevelSystem?.getBonusesSummary?.() || {};
-      const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
-      const gp = this.playerController?.getGemPowerRaw?.() || 0;
-      const gpMax = this.playerController?.getGemPowerMax?.() || 0;
-      const groups = [
-        {
-          title: "MINING",
-          icon: "pickaxe",
-          rows: [
-            ["PLAYER LEVEL", bonuses.level || 1],
-            ["DIG DAMAGE BONUS", "+" + (effects.digDamageAdditive || 0)],
-            ["MINING SPEED", "+" + (bonuses.globalMiningSpeed || 0) + "%"],
-            ["CRIT CHANCE", (bonuses.criticalHitChance || 0) + "%"],
-          ],
-        },
-        {
-          title: "EXPLORATION",
-          icon: "boots",
-          rows: [
-            ["GEM POWER", Math.floor(gp) + " / " + Math.floor(gpMax)],
-            ["XP GAIN", "+" + (bonuses.xpMultiplier || 0) + "%"],
-            ["RESOURCE LUCK", "+" + (bonuses.resourceLuck || 0) + "%"],
-            ["MOVE SPEED", "+" + (bonuses.perLevelSpeed || 0) + "%"],
-          ],
-        },
-      ];
-      const gap = 16;
-      const width = (rect.width - gap) / 2;
-      groups.forEach((group, groupIndex) => {
-        const x = rect.left + groupIndex * (width + gap);
-        addSurface(x, bodyTop, width, bodyHeight, groupIndex === 0);
-        createIconBadge(this, group.icon, {
-          x: x + 54,
-          y: bodyTop + 54,
-          size: 66,
-          iconSize: 54,
-          selected: true,
-          parent: tabContent,
-        });
-        addText(x + 100, bodyTop + 37, group.title, {
-          fontFamily: UI_FONTS.display,
-          fontSize: "20px",
-          fontStyle: "bold",
-          color: UI_COLORS.title,
-        });
-        addText(x + 100, bodyTop + 65, "PERMANENT AND EQUIPPED BONUSES", {
-          fontFamily: UI_FONTS.mono,
-          fontSize: "9px",
-          color: UI_COLORS.gold,
-        });
-        group.rows.forEach((row, index) => {
-          const rowY = bodyTop + 118 + index * 58;
-          const card = this.add.rectangle(
-            x + width / 2,
-            rowY + 22,
-            width - 32,
-            46,
-            UI_COLORS.bg,
-            0.84
-          ).setStrokeStyle(1, UI_COLORS.borderDim);
-          tabContent.add(card);
-          addText(x + 28, rowY + 22, row[0], {
-            fontFamily: UI_FONTS.mono,
-            fontSize: "10px",
-            color: UI_COLORS.body,
-          }, 0, 0.5);
-          addText(x + width - 28, rowY + 22, String(row[1]), {
-            fontFamily: UI_FONTS.display,
-            fontSize: "17px",
-            fontStyle: "bold",
-            color: index === 0 ? UI_COLORS.gold : UI_COLORS.title,
-          }, 1, 0.5);
-        });
+    const buildJourney = () => {
+      state.journeyView = createJourneyPanelContent(this, {
+        x: rect.left,
+        y: bodyTop,
+        width: rect.width,
+        height: bodyHeight,
+        parent: tabContent,
+        journeySystem: this.journeySystem,
       });
+      state.controls = [];
+    };
+
+    const buildTalents = () => {
+      state.talentTree = new StarlightTalentTreeView(this, {
+        x: rect.left,
+        y: bodyTop,
+        width: rect.width,
+        height: bodyHeight,
+        parent: tabContent,
+        floatingTextSystem: this.floatingTextSystem,
+        progression: this.starHeartProgressionSystem,
+        abilities: this.playerController?.abilities,
+        mode: "pause",
+        focusResource: options.focusResource,
+        firstRevealResource: options.firstReveal ? options.focusResource : null,
+        onFocus: index => state.focus?.setIndex?.(index),
+        onEngineAction: () => {
+          this.hudSystem?.flashStatus?.(
+            STARLIGHT_TALENT_TREE_CONFIG.copy.pillarOnly,
+            "#D6A84A",
+            2200,
+          );
+          this.soundSystem?.playUiSelect?.();
+        },
+      });
+      state.controls = state.talentTree.getControls();
     };
 
     const buildSettings = () => {
@@ -551,12 +549,15 @@ export function setupUIMethods(prototype) {
       const tabKey = pauseTabs[tabIndex]?.key;
       if (tabKey === "general") buildGeneral();
       else if (tabKey === "saves") buildSaves();
-      else if (tabKey === "stats") buildStats();
+      else if (tabKey === "journey") buildJourney();
+      else if (tabKey === "talents") buildTalents();
       else if (tabKey === "titans") buildTitans();
       else buildSettings();
       state.focus?.setItems?.(
         state.controls,
-        state.titanArchive?.selectedIndex || 0
+        state.titanArchive?.selectedIndex
+          ?? state.talentTree?.selectedControlIndex
+          ?? 0
       );
     };
 
@@ -574,7 +575,7 @@ export function setupUIMethods(prototype) {
       x: 0,
       y: rect.top + PAUSE_MENU_LAYOUT.tabRowOffsetY,
       tabs: pauseTabs,
-      activeIndex: 0,
+      activeIndex: initialTabIndex,
       spacing: pauseTabButtonWidth + PAUSE_MENU_LAYOUT.tabGap,
       buttonWidth: pauseTabButtonWidth,
       fontSize: pauseTabButtonWidth < 72 ? "10px" : "12px",
@@ -591,9 +592,23 @@ export function setupUIMethods(prototype) {
       items: [],
       enabled: () => Boolean(this._pausePanel) && !this._settingsKeyCaptureActive,
       onCancel: () => this.resumeGame(),
-      onFocus: index => state.titanArchive?.selectControl?.(index),
+      onFocus: index => {
+        state.titanArchive?.selectControl?.(index);
+        state.talentTree?.selectControl?.(index);
+      },
+      onVertical: direction => {
+        if (pauseTabs[state.activeTab]?.key !== "talents") return false;
+        const next = state.talentTree?.moveSelection?.(0, direction);
+        if (Number.isFinite(next)) state.focus?.setIndex?.(next);
+        return true;
+      },
       onHorizontal: direction => {
         if (state.activeTab === settingsTabIndex) return;
+        if (pauseTabs[state.activeTab]?.key === "talents") {
+          const next = state.talentTree?.moveSelection?.(direction, 0);
+          if (Number.isFinite(next)) state.focus?.setIndex?.(next);
+          return;
+        }
         const next = (
           state.activeTab + direction + pauseTabs.length
         ) % pauseTabs.length;
@@ -602,8 +617,9 @@ export function setupUIMethods(prototype) {
     });
 
     this._pausePanel = { shell, state };
-    buildContent(0);
+    buildContent(initialTabIndex);
     shell.show();
+    return true;
   };
 
   prototype.hidePauseMenu = function() {
@@ -613,6 +629,8 @@ export function setupUIMethods(prototype) {
     pause.state?.focus?.destroy?.();
     pause.state?.settings?.destroy?.();
     pause.state?.saveTransfer?.destroy?.();
+    pause.state?.journeyView?.destroy?.();
+    pause.state?.talentTree?.destroy?.();
     pause.state?.titanArchive?.destroy?.();
     pause.state?.tabs?.destroy?.();
     pause.state?.hint?.destroy?.();
@@ -640,8 +658,17 @@ export function setupUIMethods(prototype) {
       : this.showWorldMap();
   };
 
+  prototype.hasEscapeClosableUi = function() {
+    return hasEscapeClosableUi(this);
+  };
+
   prototype.closeTopOverlay = function(reason = "escape") {
     if (this._settingsKeyCaptureActive) return false;
+
+    if (this._hardcoreRuntime?.modal?.isVisible) {
+      this._hardcoreRuntime.modal.close?.({ cancelled: reason === "escape" });
+      return true;
+    }
 
     if (this.worldMapOverlay?.isOpen) {
       this.hideWorldMap();
@@ -680,6 +707,11 @@ export function setupUIMethods(prototype) {
       return true;
     }
 
+    if (this.starHeartOverlay?.isOpen?.()) {
+      this.starHeartOverlay.close?.();
+      return true;
+    }
+
     if (this._pillarViewActive && this.starPillarSystem) {
       this.starPillarSystem.closeConstellationView?.();
       return true;
@@ -687,6 +719,16 @@ export function setupUIMethods(prototype) {
 
     if (this.uiInventoryPopup?.isOpen) {
       this.uiInventoryPopup.close?.();
+      return true;
+    }
+
+    if (
+      this.gameState === "dialog"
+      && this.overlayManager?.shell?.root?.visible
+    ) {
+      this.hideOverlay?.();
+      this.gameState = "playing";
+      this.playerController?.setControlsEnabled?.(true);
       return true;
     }
 
@@ -704,11 +746,9 @@ export function setupUIMethods(prototype) {
     let saved = false;
     try {
       saved = await this.flushDugTilesSave();
-      this.hudSystem?.flashStatus(
-        saved === false ? 'Save failed!' : 'Game saved!',
-        saved === false ? '#ff6b6b' : '#2ecc71',
-        2000
-      );
+      if (saved === false) {
+        this.hudSystem?.flashStatus('Save failed!', '#ff6b6b', 2000);
+      }
     } catch (_) {
       this.hudSystem?.flashStatus('Save failed!', '#ff6b6b', 2000);
     } finally {
@@ -748,11 +788,7 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.unstuckPlayer = function() {
-    this._resetPlayerToSpawn();
-    this.earthquakeFeedbackUI?.clearEscapeObjective?.();
-    this.earthquakeHazardOverlay?.clear?.();
-    this.resumeGame();
-    this.hudSystem.flashStatus("Unstuck — returned to spawn", "#9de3a1", UI_CONFIG.flashUnstuck);
+    return this.requestHardcoreUnstuck?.() ?? false;
   };
 
   prototype.enterTitleState = function() {
@@ -767,7 +803,6 @@ export function setupUIMethods(prototype) {
 
     const welcome = this._generateWelcomeMessage();
     this.showOverlay(welcome.title, welcome.body);
-    this.hudSystem.flashStatus(welcome.status, welcome.statusColor, UI_CONFIG.flashWelcome);
   };
 
   prototype.startRun = function() {
@@ -777,9 +812,11 @@ export function setupUIMethods(prototype) {
     this.activeImpactFx = 0;
     this.lastAimTileKey = "";
     this._lowGemPowerWarned = false;
-    this._resetPlayerToSpawn();
-    this.hudSystem.flashStatus("Run started", "#9de3a1", UI_CONFIG.flashRunStarted);
-
+    if (this._restoredPlayerPosition) {
+      this._restoredPlayerPosition = false;
+    } else {
+      this._resetPlayerToSpawn();
+    }
     // Show XP progress bar
     this.xpProgressBar?.show();
 
@@ -789,40 +826,39 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.enterDeathState = function(depth) {
-    this.hidePauseMenu?.();
-    if (this.gameState !== "playing") return;
-
-    this.lightSystem?.forceTorchOff();
-    this.gameState = "dead";
-    this.playerController.setControlsEnabled(false);
-    this.isDigAnimating = false;
-    this.player.anims.stop();
-    this.aimBox.setVisible(false);
-
-    const resources = this.digSystem.getResourceTotals();
-    const body = [
-      `You reached crush depth at ${depth} tiles.`,
-      `Broken: ${this.digSystem.getTilesBroken()}  Au:${resources.gold} Ag:${resources.silver} Fe:${resources.iron} Bn:${resources.bronze} St:${resources.steel} Cu:${resources.copper} Stn:${resources.stone} Dt:${resources.dirt}`,
-      `Press ${USER_SETTINGS.getKeyLabel("restart")} to restart instantly.`,
-    ].join("\n");
-
-    this.showOverlay("Run Over", body);
-    this.hudSystem.flashStatus("Run over", "#ff8a8a", UI_CONFIG.flashRunOver);
+    return this.handleCasualBoundaryRescue?.(depth) ?? false;
   };
 
-  prototype.restartRun = function() {
+  prototype.restartRun = async function() {
+    if (this._hardcoreDeathInProgress) return false;
+    this.gameState = "transitioning";
+    this.playerController?.setControlsEnabled?.(false);
     this.queueDugTilesSave();
-    this.scene.restart({ autoStart: true });
+    const saved = await this.flushDugTilesSave();
+    if (saved === false) {
+      this.gameState = "playing";
+      this.playerController?.setControlsEnabled?.(true);
+      this.hudSystem?.flashStatus?.("Restart blocked • current position was not saved", UI_COLORS.danger, UI_CONFIG.flashRunOver);
+      return false;
+    }
+    this.scene.restart({
+      autoStart: true,
+      saveSlot: this.saveSlot,
+      worldIdentity: this.worldIdentity,
+      playerCharacterId: this.playerCharacterId,
+      hardcoreModeData: getHardcoreModeSaveData(this),
+    });
+    return true;
   };
 
-  prototype.applyPersistentState = function(savedData, showStatus) {
+  prototype.applyPersistentState = function(savedData, _showStatus) {
     if (!savedData) return;
 
     if (savedData.updatedAt && savedData.updatedAt === this.lastAppliedSaveUpdatedAt) {
       return;
     }
 
-    this.hardcoreModeData = sanitizeHardcoreModeData(savedData.hardcoreModeData);
+    loadHardcoreModeSaveData(this, savedData.hardcoreModeData);
     loadGraveborerWurmSaveData(this, savedData.graveborerWurmData);
 
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
@@ -879,6 +915,9 @@ export function setupUIMethods(prototype) {
     if (this.depthGateSystem) {
       this.depthGateSystem.loadSaveData(savedData.depthGateData);
     }
+    if (savedData.campfireData) {
+      this.campfireSystem?.loadSaveData?.(savedData.campfireData);
+    }
 
     if (savedData.upgrades) {
       this.upgradeSystem.fromJSON(savedData.upgrades);
@@ -886,19 +925,27 @@ export function setupUIMethods(prototype) {
     this.openingFlightArtifactSystem?.loadSaveData(savedData.openingFlightArtifactData);
     this.surfaceTunnelDoorSystem?.syncFromUpgrade();
 
+    const levelGpBonus = this.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
+    const milestoneGpBonus = this.milestoneBoardSystem?.getBonuses?.()?.gpMaxBonus ?? 0;
+    this.playerController?.setProgressionGemPowerMaxBonus?.(
+      levelGpBonus + milestoneGpBonus,
+    );
+    if (savedData.playerStateData) {
+      this._restoredPlayerPosition = this.playerController?.restorePersistenceData?.(
+        savedData.playerStateData,
+      ) === true;
+    } else if (isHardcoreModeArmed(getHardcoreModeSaveData(this))) {
+      // Schema v12 and older never stored GP. Give an armed legacy save a safe,
+      // one-time full charge instead of interpreting missing data as 0 GP death.
+      this.playerController?.fillGemPower?.();
+    }
+
     // Restore day/night cycle state
     if (savedData.dayNightData && this.dayNightCycle) {
       this.dayNightCycle.fromJSON(savedData.dayNightData);
     }
-
-    const resources = this.digSystem.getResourceTotals();
-    if (showStatus && (appliedTiles.length > 0 || appliedRubbleTiles.length > 0 || resources.dirt > 0 || resources.stone > 0 || resources.copper > 0)) {
-      this.hudSystem.flashStatus(
-        `Loaded save: ${appliedTiles.length} dug, ${appliedRubbleTiles.length} rubble, Au:${resources.gold} Ag:${resources.silver} Fe:${resources.iron}`,
-        "#9bc9ff",
-        UI_CONFIG.flashLoadSave
-      );
-    }
+    this.journeySystem?.loadSaveData?.(savedData.journeyData);
+    this.journeySystem?.seedCurrentState?.();
 
     if (savedData.updatedAt) {
       this.lastAppliedSaveUpdatedAt = savedData.updatedAt;
@@ -916,6 +963,7 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.queueDugTilesSave = function() {
+    if (this._saveWritesBlocked || this._hardcoreDeathInProgress) return false;
     this.pendingDugTileSave = true;
 
     if (this.savingDugTiles) {
@@ -926,6 +974,10 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.flushDugTilesSave = async function() {
+    if (this._saveWritesBlocked || this._hardcoreDeathInProgress) {
+      this.pendingDugTileSave = false;
+      return false;
+    }
     if (!this.pendingDugTileSave) {
       return;
     }
@@ -966,8 +1018,11 @@ export function setupUIMethods(prototype) {
         this.starHeartProgressionSystem?.getSaveData(),
         this.retentionProgressSystem?.getSaveData(),
         this.heavenblocksProgressionSystem?.getSaveData(),
-        this.hardcoreModeData,
+        getHardcoreModeSaveData(this),
         getGraveborerWurmSaveData(this),
+        this.playerController?.getPersistenceData?.(),
+        this.campfireSystem?.getSaveData?.(),
+        this.journeySystem?.getSaveData?.(),
       );
       if (saveResult === false) saved = false;
     } catch (error) {
@@ -987,10 +1042,12 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.resize = function() {
+    this.uiNotifications?.resize?.();
     this.xpProgressBar?.resize?.();
     this.levelUpPopup?.resize?.();
     this.uiInventoryPopup?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
+    this.townSquareTutorialSystem?.resize?.();
     this.celestialEngineController?.resize?.();
     this.starHeartOverlay?.resize?.();
   };

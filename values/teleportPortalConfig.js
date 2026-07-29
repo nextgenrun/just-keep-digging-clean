@@ -25,6 +25,22 @@ export const TELEPORT_PORTAL_CONFIG = Object.freeze({
     color: 0x7bdcff,
     statusDurationMs: 3000,
   }),
+  feedback: Object.freeze({
+    key: "teleport-route-status",
+    color: "#71F5FF",
+    routeUnlockedPrefix: "RETURN ROUTE UNLOCKED",
+    skyArrival: "TELEPORTED TO SKY ISLAND",
+    groundArrivalPrefix: "TELEPORTED TO",
+    returnPrefix: "RETURNED VIA",
+  }),
+  feedback: Object.freeze({
+    key: "teleport-route-status",
+    color: "#71F5FF",
+    routeUnlockedPrefix: "RETURN ROUTE UNLOCKED",
+    skyArrival: "TELEPORTED TO SKY ISLAND",
+    groundArrivalPrefix: "TELEPORTED TO",
+    returnPrefix: "RETURNED VIA",
+  }),
   depthBands: Object.freeze({
     1: Object.freeze([
       Object.freeze({ maxDepth: 249, region: "Upper Earth", material: "Dirt / Stone" }),

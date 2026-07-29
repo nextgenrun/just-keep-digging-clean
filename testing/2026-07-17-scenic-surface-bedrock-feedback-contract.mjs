@@ -1,13 +1,24 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
-import { MINING_CONFIG } from "../values/miningConfig.js";
 import { TILE_TYPES, isUnbreakableMiningSurface } from "../values/tileTypes.js";
-import { WORLD_VISUAL_RUNTIME, getWorldVisualPreloadAssets, resolveWorldVisualSurfaceEdgeEnabled } from "../values/worldVisualRuntime.js";
+import {
+  WORLD_VISUAL_RUNTIME,
+  getWorldVisualPreloadAssets,
+  resolveWorldVisualSurfaceEdgeEnabled,
+  resolveWorldVisualSurfaceGroundVariationEnabled,
+} from "../values/worldVisualRuntime.js";
+import {
+  WORLD_VISUAL_DEPTH_BACKDROPS,
+  resolveWorldVisualDepthBackdropBlendMask,
+} from "../values/worldVisualDepthBackdrops.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
 import { DigSystem } from "../systems/mining/DigSystem.js";
 import { setupGameplayMethods } from "../world/playScene/PlaySceneGameplay.js";
-import { WorldVisualBedrockMaterialLayer } from "../world/rendering/scenic-world/WorldVisualBedrockMaterialLayer.js";
+import {
+  WorldVisualBedrockMaterialLayer,
+  isWorldVisualBedrockMaterialTileType,
+} from "../world/rendering/scenic-world/WorldVisualBedrockMaterialLayer.js";
 import { WorldVisualSurfaceStage } from "../world/rendering/scenic-world/WorldVisualSurfaceStage.js";
 
 function readPngDimensions(asset) {
@@ -23,10 +34,11 @@ function readPngDimensions(asset) {
 }
 
 class ImageStub {
-  constructor(x, y, textureKey) {
+  constructor(x, y, textureKey, frame = null) {
     this.x = x;
     this.y = y;
     this.textureKey = textureKey;
+    this.frame = frame;
     this.destroyed = false;
   }
 
@@ -37,8 +49,15 @@ class ImageStub {
   setAlpha(value) { this.alpha = value; return this; }
   setBlendMode(value) { this.blendMode = value; return this; }
   setMask(value) { this.mask = value; return this; }
+  clearMask() { this.mask = null; return this; }
   setTint(value) { this.tint = value; return this; }
   setX(value) { this.x = value; return this; }
+  createBitmapMask() {
+    return {
+      source: this,
+      destroy() { this.destroyed = true; },
+    };
+  }
   destroy() { this.destroyed = true; return this; }
 }
 
@@ -78,17 +97,53 @@ function createGraphicsStub() {
 
 function createSurfaceScene(sourceSizes) {
   const images = [];
+  const maskImages = [];
+  const textureFrames = new Map();
+  const getTextureFrames = (key) => {
+    if (!textureFrames.has(key)) textureFrames.set(key, new Map());
+    return textureFrames.get(key);
+  };
   return {
     config: { tileSize: 94, worldWidthPx: 280 * 94, topAirRows: 65 },
     images,
+    maskImages,
     textures: {
       exists: key => sourceSizes.has(key),
-      get: key => ({ getSourceImage: () => sourceSizes.get(key) }),
+      get: key => ({
+        getSourceImage: () => sourceSizes.get(key),
+        has: frameName => getTextureFrames(key).has(frameName),
+        add(frameName, sourceIndex, x, y, width, height) {
+          const frame = {
+            name: frameName,
+            sourceIndex,
+            cutX: x,
+            cutY: y,
+            width,
+            height,
+            realWidth: width,
+            realHeight: height,
+          };
+          getTextureFrames(key).set(frameName, frame);
+          return frame;
+        },
+      }),
     },
     add: {
-      image(x, y, key) {
-        const image = new ImageStub(x, y, key);
+      image(x, y, key, frame = null) {
+        const image = new ImageStub(x, y, key, frame);
         images.push(image);
+        return image;
+      },
+    },
+    make: {
+      image({ x, y, key, frame }) {
+        const image = new ImageStub(
+          x,
+          y,
+          key,
+          getTextureFrames(key).get(frame),
+        );
+        maskImages.push(image);
         return image;
       },
     },
@@ -96,13 +151,30 @@ function createSurfaceScene(sourceSizes) {
 }
 
 const farSource = readPngDimensions(WORLD_VISUAL_RUNTIME.assets.far);
+const surfaceEdgeSource = readPngDimensions(WORLD_VISUAL_RUNTIME.assets.surfaceEdge);
+const farBlendAsset = resolveWorldVisualDepthBackdropBlendMask(
+  WORLD_VISUAL_DEPTH_BACKDROPS,
+);
 const sourceSizes = new Map([
   [WORLD_VISUAL_RUNTIME.assets.far.key, farSource],
   [WORLD_VISUAL_RUNTIME.assets.town.key, { width: 1672, height: 941 }],
-  [WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key, { width: 1672, height: 941 }],
+  [WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key, surfaceEdgeSource],
+  [farBlendAsset.key, {
+    width: WORLD_VISUAL_DEPTH_BACKDROPS.blend.columns
+      * WORLD_VISUAL_DEPTH_BACKDROPS.blend.frameWidthPx,
+    height: Math.ceil(16 / WORLD_VISUAL_DEPTH_BACKDROPS.blend.columns)
+      * WORLD_VISUAL_DEPTH_BACKDROPS.blend.frameHeightPx,
+  }],
+  ...WORLD_VISUAL_RUNTIME.surface.surfaceGroundVariation.assets.map(asset => [
+    asset.key,
+    { width: 1536, height: 160 },
+  ]),
 ]);
 const currentSurfaceSearch = "?surfacePack=current-v2";
-const currentSurfaceEdgeSearch = "?surfacePack=current-v2&surfaceEdge=1";
+const surfaceEdgeRollbackSearch = "?surfacePack=current-v2&surfaceEdge=0";
+const surfaceVariationRollbackSearch = (
+  "?surfacePack=current-v2&surfaceGroundVariation=0"
+);
 const originalLocation = Object.getOwnPropertyDescriptor(globalThis, "location");
 const originalPhaser = Object.getOwnPropertyDescriptor(globalThis, "Phaser");
 Object.defineProperty(globalThis, "Phaser", {
@@ -112,6 +184,11 @@ Object.defineProperty(globalThis, "Phaser", {
 
 try {
   assert.equal(WORLD_VISUAL_RUNTIME.surface.farMaxSourceScale, 1);
+  assert.deepEqual(
+    surfaceEdgeSource,
+    { width: 1672, height: 48 },
+    "the approved ground cap must contain only the thin surface strip",
+  );
   assert.ok(
     WORLD_VISUAL_RUNTIME.surface.farSegmentWidthTiles * 94
       + WORLD_VISUAL_RUNTIME.surface.farSegmentOverlapPx > farSource.width,
@@ -123,11 +200,32 @@ try {
     value: { search: currentSurfaceSearch },
   });
   const defaultPreloads = getWorldVisualPreloadAssets(WORLD_VISUAL_RUNTIME, currentSurfaceSearch);
-  assert.equal(resolveWorldVisualSurfaceEdgeEnabled(WORLD_VISUAL_RUNTIME, currentSurfaceSearch), false);
+  assert.equal(resolveWorldVisualSurfaceEdgeEnabled(WORLD_VISUAL_RUNTIME, currentSurfaceSearch), true);
+  assert.equal(
+    resolveWorldVisualSurfaceGroundVariationEnabled(
+      WORLD_VISUAL_RUNTIME,
+      currentSurfaceSearch,
+    ),
+    true,
+    "approved V5 top-soil variation is additive and enabled by default",
+  );
+  assert.equal(
+    WORLD_VISUAL_RUNTIME.assets.surfaceEdge.path,
+    "sprites/backgrounds/world-visual-v2/surface/town-surface-edge-thin-v2.png",
+  );
+  assert.equal(
+    defaultPreloads.some(asset => (
+      WORLD_VISUAL_RUNTIME.surface.surfaceGroundVariation.assets.some(
+        variation => variation.key === asset.key,
+      )
+    )),
+    true,
+    "approved top-soil variants preload beside the retained Town Square slate",
+  );
   assert.equal(
     defaultPreloads.some(asset => asset.key === WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key),
-    false,
-    "the duplicate town-surface-edge floor must not preload by default",
+    true,
+    "the continuous approved surface edge must preload by default",
   );
 
   const defaultScene = createSurfaceScene(sourceSizes);
@@ -142,32 +240,116 @@ try {
     defaultStage.far.every(image => image.displayWidth === farSource.width),
     "an oversized requested segment must clamp exactly to the source width",
   );
-  assert.equal(defaultStage.surfaceEdges.length, 0, "the default scenic stage must omit the duplicate floor");
+  assert.equal(
+    defaultStage.farBlendMasks.length,
+    defaultStage.far.length,
+    "every repeated far-background image receives a raster feather mask",
+  );
+  assert.ok(
+    WORLD_VISUAL_RUNTIME.surface.farSegmentOverlapPx >= 256,
+    "far-background cards retain a broad overlap instead of a hairline join",
+  );
+  assert.ok(defaultStage.surfaceEdges.length > 0, "the default scenic stage must span the full surface");
+  const variationSurfaceEdges = defaultStage.surfaceEdges.filter(image => (
+    WORLD_VISUAL_RUNTIME.surface.surfaceGroundVariation.assets.some(
+      asset => asset.key === image.textureKey,
+    )
+  ));
+  const orderedSurfaceEdges = defaultStage.surfaceEdges
+    .filter(image => image.textureKey === WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key)
+    .sort((left, right) => left.x - right.x);
+  assert.equal(
+    variationSurfaceEdges.length > 0,
+    true,
+    "V5 top-soil cards render in addition to the exact Town Square slate",
+  );
+  assert.equal(orderedSurfaceEdges[0].x, 0, "surface coverage must start at world column zero");
+  for (let index = 1; index < orderedSurfaceEdges.length; index += 1) {
+    const previous = orderedSurfaceEdges[index - 1];
+    const current = orderedSurfaceEdges[index];
+    assert.ok(
+      current.x <= previous.x + previous.displayWidth,
+      `surface edge ${index} must meet or overlap its predecessor`,
+    );
+  }
+  assert.ok(
+    orderedSurfaceEdges.at(-1).x + orderedSurfaceEdges.at(-1).displayWidth
+      >= defaultScene.config.worldWidthPx,
+    "the approved strip must cover every surface column through the eastern world edge",
+  );
+  assert.ok(
+    orderedSurfaceEdges.every(image => image.displayHeight < defaultScene.config.tileSize * 0.65),
+    "the visual cap must remain thinner than one tile and leave the first underground row readable",
+  );
+  const authoritativeTerrainMask = { id: "production-solid-terrain" };
+  assert.equal(defaultStage.bindTerrainMask(authoritativeTerrainMask), true);
+  assert.ok(
+    defaultStage.surfaceEdges.every(image => image.mask === authoritativeTerrainMask),
+    "the retained Town Square surface art is clipped to the production ground mask",
+  );
   assert.equal(
     defaultScene.images.some(image => image.textureKey === WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key),
-    false,
-    "the duplicate floor texture must never be instantiated during default gameplay",
+    true,
+    "the continuous legacy ground edge remains in the additive composition",
   );
+  const defaultFarMasks = [...defaultStage.farBlendMasks];
   defaultStage.destroy();
+  assert.ok(
+    defaultFarMasks.every(mask => mask.image.destroyed && mask.bitmap.destroyed),
+    "far-background raster masks are released with their cards",
+  );
 
   Object.defineProperty(globalThis, "location", {
     configurable: true,
-    value: { search: currentSurfaceEdgeSearch },
+    value: { search: surfaceVariationRollbackSearch },
   });
-  const rollbackPreloads = getWorldVisualPreloadAssets(WORLD_VISUAL_RUNTIME, currentSurfaceEdgeSearch);
-  assert.equal(resolveWorldVisualSurfaceEdgeEnabled(WORLD_VISUAL_RUNTIME, currentSurfaceEdgeSearch), true);
+  const variationRollbackPreloads = getWorldVisualPreloadAssets(
+    WORLD_VISUAL_RUNTIME,
+    surfaceVariationRollbackSearch,
+  );
+  assert.equal(
+    resolveWorldVisualSurfaceGroundVariationEnabled(
+      WORLD_VISUAL_RUNTIME,
+      surfaceVariationRollbackSearch,
+    ),
+    false,
+  );
+  assert.ok(
+    WORLD_VISUAL_RUNTIME.surface.surfaceGroundVariation.assets.every(
+      asset => !variationRollbackPreloads.includes(asset),
+    ),
+    "?surfaceGroundVariation=0 removes only the additive V5 top-soil cards",
+  );
+  const variationRollbackScene = createSurfaceScene(sourceSizes);
+  const variationRollbackStage = new WorldVisualSurfaceStage(
+    variationRollbackScene,
+  );
+  variationRollbackStage.create();
+  assert.ok(
+    variationRollbackStage.surfaceEdges.every(image => (
+      !WORLD_VISUAL_RUNTIME.surface.surfaceGroundVariation.assets.some(
+        asset => asset.key === image.textureKey,
+      )
+    )),
+    "the surface-variation rollback retains the legacy surface composition",
+  );
+  variationRollbackStage.destroy();
+
+  Object.defineProperty(globalThis, "location", {
+    configurable: true,
+    value: { search: surfaceEdgeRollbackSearch },
+  });
+  const rollbackPreloads = getWorldVisualPreloadAssets(WORLD_VISUAL_RUNTIME, surfaceEdgeRollbackSearch);
+  assert.equal(resolveWorldVisualSurfaceEdgeEnabled(WORLD_VISUAL_RUNTIME, surfaceEdgeRollbackSearch), false);
   assert.equal(
     rollbackPreloads.some(asset => asset.key === WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key),
-    true,
-    "?surfaceEdge=1 must restore the legacy floor asset to preload",
+    false,
+    "?surfaceEdge=0 must remove the continuous strip from preload",
   );
   const rollbackScene = createSurfaceScene(sourceSizes);
   const rollbackStage = new WorldVisualSurfaceStage(rollbackScene);
   rollbackStage.create();
-  assert.ok(rollbackStage.surfaceEdges.length > 0, "?surfaceEdge=1 must restore legacy floor instances");
-  assert.ok(
-    rollbackStage.surfaceEdges.every(image => image.textureKey === WORLD_VISUAL_RUNTIME.assets.surfaceEdge.key),
-  );
+  assert.equal(rollbackStage.surfaceEdges.length, 0, "?surfaceEdge=0 must restore tile-only surface rendering");
   rollbackStage.destroy();
 } finally {
   if (originalLocation) Object.defineProperty(globalThis, "location", originalLocation);
@@ -204,12 +386,6 @@ for (const tileType of unbreakableMiningSurfaces) {
   assert.equal(isUnbreakableMiningSurface(tileType), true);
 }
 
-assert.equal(MINING_CONFIG.blockedUi.bedrockMessage, "You cannot break this");
-assert.equal(MINING_CONFIG.blockedUi.zeroDamageText, "0 damage");
-assert.ok(MINING_CONFIG.blockedUi.notificationKey.length > 0);
-assert.ok(MINING_CONFIG.blockedUi.durationMs > 0);
-assert.ok(MINING_CONFIG.blockedUi.zeroDamageDurationMs > 0);
-assert.ok(MINING_CONFIG.blockedUi.zeroDamageFontSize > 0);
 const gameplay = {};
 setupGameplayMethods(gameplay);
 const warnings = [];
@@ -229,28 +405,23 @@ gameplay.applyMineFeedback.call(
   createBlockedDigResult(TILE_TYPES.BEDROCK),
   { tx: 4, ty: 7 },
 );
-assert.deepEqual(warnings, [{
-  message: MINING_CONFIG.blockedUi.bedrockMessage,
-  options: {
-    key: MINING_CONFIG.blockedUi.notificationKey,
-    durationMs: MINING_CONFIG.blockedUi.durationMs,
-  },
-}], "PlayScene must route the unbreakable warning through the keyed notification API");
-assert.deepEqual(floatingTexts, [[
-  4 * 94 + 47,
-  7 * 94 + 47,
-  MINING_CONFIG.blockedUi.zeroDamageText,
-  MINING_CONFIG.blockedUi.zeroDamageColor,
-  MINING_CONFIG.blockedUi.zeroDamageDurationMs,
-  MINING_CONFIG.blockedUi.zeroDamageFontSize,
-]], "PlayScene must show one explicit zero-damage float at the blocked tile");
+assert.deepEqual(
+  warnings,
+  [],
+  "blocked terrain must not restore the removed low-quality warning indicator",
+);
+assert.deepEqual(
+  floatingTexts,
+  [],
+  "PlayScene must not duplicate the queued warning with floating text",
+);
 gameplay.applyMineFeedback.call(
   gameplayScene,
   { success: false, reason: "blocked", blockedByBedrock: false },
   { tx: 5, ty: 7 },
 );
-assert.equal(warnings.length, 1, "ordinary blocked attempts must not impersonate bedrock feedback");
-assert.equal(floatingTexts.length, 1, "ordinary blocked attempts must not impersonate zero-damage bedrock feedback");
+assert.equal(warnings.length, 0, "ordinary blocked attempts must remain indicator-free");
+assert.equal(floatingTexts.length, 0, "ordinary blocked attempts must not create floating popup text");
 
 function mixColor(from, to, amount) {
   const t = Math.max(0, Math.min(1, Number(amount) || 0));
@@ -260,7 +431,7 @@ function mixColor(from, to, amount) {
 
 const bedrockConfig = WORLD_VISUAL_SEMANTIC_ASSETS.bedrock;
 assert.equal(bedrockConfig.includesCaveWall, true);
-assert.equal(bedrockConfig.includesTownFloors, true);
+assert.equal(bedrockConfig.includesTownFloors, false);
 assert.ok(bedrockConfig.lightingLift > 0, "generated bedrock needs a positive visibility lift");
 assert.ok(bedrockConfig.coolTintStrength > 0, "generated bedrock needs a visible cool-color separation");
 assert.notEqual(bedrockConfig.coolTint, 0xffffff);
@@ -270,7 +441,10 @@ const bedrockGraphics = [];
 const bedrockScene = {
   config: { tileSize: 94 },
   textures: {
-    exists: key => key === bedrockConfig.material.key,
+    exists: key => (
+      key === bedrockConfig.seamMaterial.key
+      || key === bedrockConfig.material.key
+    ),
     get: () => ({ getSourceImage: () => ({ width: 512, height: 512 }) }),
   },
   add: {
@@ -298,17 +472,31 @@ const bedrockLayer = new WorldVisualBedrockMaterialLayer(bedrockScene, bedrockWo
 bedrockLayer.create();
 const terrainTint = 0x20242a;
 bedrockLayer.sync({ left: 0, right: 4, top: 0, bottom: 1 }, { terrainTint });
-assert.ok(bedrockImages.length > 0, "visible bedrock must allocate the generated material plane");
+assert.ok(
+  bedrockImages.some(image => image.textureKey === bedrockConfig.seamMaterial.key),
+  "visible bedrock keeps the seamless shale base",
+);
+assert.ok(
+  bedrockImages.some(image => image.textureKey === bedrockConfig.material.key),
+  "the prior megalith material remains as an additive accent",
+);
 assert.equal(
   bedrockGraphics[0].calls.filter(([method]) => method === "fillRect").length,
-  4,
-  "bedrock, cave walls, and both town floors must reveal the generated bedrock material",
+  2,
+  "only bedrock and cave walls may reveal the generated bedrock material",
 );
+assert.equal(isWorldVisualBedrockMaterialTileType(TILE_TYPES.FLOOR_TOWN_1), false);
+assert.equal(isWorldVisualBedrockMaterialTileType(TILE_TYPES.FLOOR_TOWN_2), false);
 const liftedTint = mixColor(terrainTint, 0xffffff, bedrockConfig.lightingLift);
 const expectedBedrockTint = mixColor(liftedTint, bedrockConfig.coolTint, bedrockConfig.coolTintStrength);
 for (const image of bedrockImages) {
   assert.equal(image.tint, expectedBedrockTint, "runtime must apply the configured visibility lift and cool tint");
-  assert.equal(image.alpha, bedrockConfig.alpha);
+  assert.equal(
+    image.alpha,
+    image.textureKey === bedrockConfig.seamMaterial.key
+      ? bedrockConfig.seamAlpha
+      : bedrockConfig.alpha,
+  );
   assert.notEqual(image.tint, terrainTint, "bedrock must remain visibly separate from ordinary terrain");
 }
 const channelTotal = color => ((color >> 16) & 0xff) + ((color >> 8) & 0xff) + (color & 0xff);
@@ -323,5 +511,5 @@ assert.ok(
 bedrockLayer.destroy();
 
 console.log(
-  "Scenic surface and bedrock feedback contract passed: Town Square ground is visibly reinforced and blocked hits show You cannot break this with 0 damage",
+  "Scenic surface and bedrock feedback contract passed: additive top soil and feathered far cards retain authoritative ground",
 );

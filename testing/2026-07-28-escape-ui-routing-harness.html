@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escape UI Routing Harness</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #081018;
+      color: #dcebf4;
+      font-family: Consolas, monospace;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+    }
+
+    #escape-routing-harness {
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+    }
+
+    #escape-routing-game {
+      border: 1px solid #355064;
+      box-shadow: 0 18px 55px rgb(0 0 0 / 45%);
+    }
+
+    #press-escape {
+      border: 1px solid #56809a;
+      border-radius: 4px;
+      padding: 9px 18px;
+      background: #132733;
+      color: #dcebf4;
+      font: inherit;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main id="escape-routing-harness" aria-label="Escape UI routing harness">
+    <div id="escape-routing-game"></div>
+    <button id="press-escape" type="button">DISPATCH ONE ESCAPE PRESS</button>
+  </main>
+  <script src="../libs/phaser.js"></script>
+  <script type="module" src="./2026-07-28-escape-ui-routing-harness.js"></script>
+</body>
+</html>

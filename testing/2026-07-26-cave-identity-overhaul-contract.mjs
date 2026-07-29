@@ -164,9 +164,6 @@ const fakeScene = {
   uiNotifications: {
     info: message => discoveryEvents.push(["notification", message]),
   },
-  hudSystem: {
-    flashStatus: message => discoveryEvents.push(["hint", message]),
-  },
 };
 const occlusion = new CaveInteriorOcclusionSystem(fakeScene);
 occlusion.worldModel = occlusionWorld;
@@ -179,8 +176,11 @@ assert.equal(
 assert.equal(occlusion.isPlayerInside(collectedZone, occlusionZone.entry), true);
 occlusion._revealZone(collectedZone);
 assert.ok(discoveryEvents.some(event => event[0] === "journal"));
-assert.ok(discoveryEvents.some(event => event[0] === "notification"));
-assert.ok(discoveryEvents.some(event => event[0] === "hint"));
+assert.equal(
+  discoveryEvents.some(event => event[0] === "notification"),
+  false,
+  "cave discovery stays in the Journey and world presentation without a popup",
+);
 assert.deepEqual(
   discoveryEvents.find(event => event[0] === "celebrate"),
   ["celebrate", occlusionZone.id],
@@ -261,7 +261,7 @@ const updateSource = await readFile(new URL("../world/playScene/PlaySceneUpdate.
 const modelSource = await readFile(new URL("../world/model/WorldModel.js", import.meta.url), "utf8");
 assert.match(setupSource, /new CaveAtmosphereSystem\(this\)/);
 assert.match(setupSource, /new CaveInteriorOcclusionSystem\(this\)/);
-assert.match(updateSource, /caveAtmosphereSystem\.update\(playerTile, time\)/);
+assert.match(updateSource, /caveAtmosphereSystem\.update\(activePlayerTile, time\)/);
 assert.match(modelSource, /attachCaveIdentity\(zone/);
 assert.match(modelSource, /supplementAuthoredCaveGaps\(this, TILED_WORLD_OVERRIDE\)/);
 assert.match(modelSource, /finalizeCaveIdentities\(this\)/);

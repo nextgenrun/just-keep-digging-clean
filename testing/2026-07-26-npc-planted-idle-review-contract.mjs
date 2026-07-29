@@ -19,7 +19,11 @@ const app = readText("app.js");
 const motion = readText("motion.css");
 const style = readText("style.css");
 const runtimeManifest = JSON.parse(readFileSync(
-  `${root}sprites/npc/npc-v12-piskel-approved-activities/manifest.json`,
+  `${root}sprites/npc/npc-v13-piskel-polished-activities/manifest.json`,
+  "utf8",
+));
+const baselineManifest = JSON.parse(readFileSync(
+  `${root}sprites/npc/npc-v13-polished-baselines/manifest.json`,
   "utf8",
 ));
 const archivedManifest = JSON.parse(readFileSync(
@@ -58,11 +62,14 @@ assert.deepEqual(
 );
 assert.equal(runtimeManifest.walkingRemoved, true);
 assert.equal(runtimeManifest.piskelRoundTripped, true);
+assert.equal(runtimeManifest.silhouetteMatched, true);
+assert.equal(runtimeManifest.chromaLeakRemoved, true);
 assert.equal(runtimeManifest.rejectedQuietConceptsExcluded, true);
 assert.equal(runtimeManifest.frameCount, 42);
 assert.equal(Object.keys(runtimeManifest.merchants).length, 6);
 assert.equal(archivedManifest.runtimeApproved, false);
 assert.equal(archivedManifest.reviewOnly, true);
+assert.equal(baselineManifest.chromaLeakRemoved, true);
 assert.equal(spec.townRhythm.maxSimultaneousActivities, 1);
 assert.ok(spec.townRhythm.quietShare >= 0.88);
 assert.ok(spec.townRhythm.normalEventGapMs[0] >= 22000);
@@ -78,6 +85,7 @@ for (const npc of spec.npcs) {
     spec.activityIds,
   );
   assert.ok(["video", "image"].includes(npc.baseline.type));
+  assert.match(npc.baseline.path, /npc-v13-polished-baselines/);
   const baselinePath = resolve(
     reviewRoot,
     npc.baseline.path.split("?")[0],
@@ -89,7 +97,12 @@ for (const npc of spec.npcs) {
     assert.ok(existsSync(pose), `missing ${pose}`);
   }
   const merchant = runtimeManifest.merchants[npc.slug];
-  assert.equal(merchant.uniformScale, 1);
+  assert.ok(merchant.uniformScale >= 0.85);
+  assert.ok(merchant.uniformScale <= 1.25);
+  assert.ok(merchant.silhouetteErrorPx <= 0.5);
+  assert.ok(merchant.maxBaselineRootErrorPx <= 1);
+  assert.ok(merchant.maxBaselineBottomErrorPx <= 0.5);
+  assert.equal(merchant.largeGreenLeakPixelsAfter, 0);
   assert.ok(merchant.drift.maxRootAnchorDriftPx <= 1);
   assert.equal(merchant.drift.maxBottomDriftPx, 0);
   const piskelPath = `${root}${merchant.sourcePiskel}`;
@@ -118,8 +131,10 @@ for (const board of Object.values(manifest.rejectedQuietLoopBoards)) {
   assert.ok(existsSync(`${root}${board.path}`), `missing ${board.path}`);
 }
 
-assert.match(html, /NPC Approved Activity Library v6/);
+assert.match(html, /NPC Approved Activity Library v7/);
 assert.match(html, /0\.00 px transform drift/);
+assert.match(html, /0 green\/matte leakage/);
+assert.match(html, /baseline-matched silhouettes/);
 assert.match(html, /42 approved Piskel frames/);
 assert.match(html, /6 rejected concepts excluded/);
 assert.match(html, /original calm idle/i);

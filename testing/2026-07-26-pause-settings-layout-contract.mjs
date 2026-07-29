@@ -14,15 +14,16 @@ import {
 } from "../ui/overlays/SettingsPanelContent.js";
 
 const floatingText = RETENTION_CONFIG.floatingText;
-assert.equal(floatingText.defaultMode, "full");
+assert.equal(floatingText.defaultMode, "reduced");
 assert.deepEqual(floatingText.modes.full.hiddenCategories, []);
+assert.deepEqual(floatingText.modes.reduced.hiddenCategories, ["damage", "resource"]);
 assert.deepEqual(
   resolveFloatingTextPreference({ floatingTextMode: "reduced" }),
   {
-    mode: "full",
+    mode: "reduced",
     preferenceVersion: floatingText.preferenceVersion,
   },
-  "the former REDUCED default must migrate to automatically enabled FULL",
+  "legacy saves must migrate to the uncluttered REDUCED default",
 );
 assert.equal(
   resolveFloatingTextPreference({ floatingTextMode: "off" }).mode,
@@ -31,11 +32,11 @@ assert.equal(
 );
 assert.equal(
   resolveFloatingTextPreference({
-    floatingTextMode: "reduced",
+    floatingTextMode: "full",
     floatingTextPreferenceVersion: floatingText.preferenceVersion,
   }).mode,
-  "reduced",
-  "a deliberate current-version REDUCED selection must persist",
+  "full",
+  "a deliberate current-version FULL selection must persist",
 );
 
 const fittedPause = fitUiModal(
@@ -252,6 +253,11 @@ assert.match(settingsSource, /layout:\s*"stacked"/);
 assert.match(settingsSource, /SELECTED:/);
 assert.match(pauseSource, /maxHeight:\s*PAUSE_MENU_LAYOUT\.maxHeight/);
 assert.match(pauseSource, /bodyHeight < SETTINGS_PANEL_LAYOUT\.compactHeight/);
+assert.match(
+  pauseSource,
+  /openingFlightArtifactSystem\?\.view\?\.hideHud\?\.\(\)/,
+  "the first-run HUD must not cover pause-menu controls",
+);
 assert.match(floatingTextSource, /USER_SETTINGS\.getDisplay\(\)\.floatingTextMode/);
 
-console.log("pause settings contract: default-on floating text, persistent selection, and non-overlapping layout passed");
+console.log("pause settings contract: reduced-by-default floating text, persistent selection, unobscured controls, and non-overlapping layout passed");

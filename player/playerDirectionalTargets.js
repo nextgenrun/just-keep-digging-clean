@@ -7,6 +7,23 @@ import {
 const isFinitePositive = (value) => Number.isFinite(value) && value > 0;
 const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
 
+export function normalizeHorizontalDirection(directionX, fallbackFacingRight = true) {
+  const normalized = Math.sign(Number(directionX) || 0);
+  return normalized || (fallbackFacingRight === false ? -1 : 1);
+}
+
+export function resolveHorizontalInputDirection(horizontalInput, fallbackFacingRight = true) {
+  // Match PlayerMovement's deterministic A-over-D priority when both are held.
+  if (horizontalInput?.left === true) return -1;
+  if (horizontalInput?.right === true) return 1;
+  return normalizeHorizontalDirection(0, fallbackFacingRight);
+}
+
+export function resolveAuthoredHorizontalFlipX(directionX, sourceFacesRight = true) {
+  const direction = normalizeHorizontalDirection(directionX);
+  return sourceFacesRight === true ? direction < 0 : direction > 0;
+}
+
 function orderedTileSpan(minimum, maximum, preferred) {
   const values = [];
   for (let value = minimum; value <= maximum; value += 1) values.push(value);

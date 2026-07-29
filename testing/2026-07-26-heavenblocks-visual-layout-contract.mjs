@@ -51,11 +51,18 @@ function createImage(x, y, key) {
   };
 }
 
-function createHarness() {
+function createHarness({ initiallyLoading = false } = {}) {
   const textureKeys = new Set();
   const queuedAssets = [];
   const images = [];
+  let loading = initiallyLoading;
   let completeHandler = null;
+  const finishLoad = () => {
+    loading = false;
+    const handler = completeHandler;
+    completeHandler = null;
+    handler?.();
+  };
 
   const scene = {
     config: { tileSize: 94 },
@@ -76,11 +83,12 @@ function createHarness() {
         if (event === "complete" && handler === completeHandler) completeHandler = null;
       },
       isLoading() {
-        return false;
+        return loading;
       },
       start() {
+        loading = true;
         for (const asset of queuedAssets) textureKeys.add(asset.key);
-        completeHandler?.();
+        finishLoad();
       },
     },
     add: {
@@ -92,7 +100,12 @@ function createHarness() {
     },
   };
 
-  return { scene, images, queuedAssets };
+  return {
+    scene,
+    images,
+    queuedAssets,
+    finishActiveLoad: finishLoad,
+  };
 }
 
 assert.equal(resolveHeavenblocksVisualsEnabled(HEAVENBLOCKS_VISUAL_CONFIG, ""), true);
@@ -200,6 +213,24 @@ for (const region of HEAVENBLOCKS_VISUAL_CONFIG.regions) {
 system.destroy();
 assert.equal(harness.images.every((image) => image.destroyed), true);
 
+const busyHarness = createHarness({ initiallyLoading: true });
+const busySystem = new V11SkyIslandVisualSystem(
+  busyHarness.scene,
+  { enabled: false, levels: [] },
+  HEAVENBLOCKS_VISUAL_CONFIG
+);
+busySystem.create();
+assert.equal(
+  busyHarness.queuedAssets.length,
+  0,
+  "Heavenblocks must not join an already active Phaser loader cycle"
+);
+busyHarness.finishActiveLoad();
+await Promise.resolve();
+assert.equal(busyHarness.queuedAssets.length, 6);
+assert.equal(busyHarness.images.length, 6);
+busySystem.destroy();
+
 const presentationObjects = [];
 const tweenConfigs = [];
 const graphics = {
@@ -243,11 +274,41 @@ function createFxObject(x, y, key = "") {
     y,
     key,
     destroyed: false,
+    visible: true,
+    setOrigin(originX, originY) {
+      this.originX = originX;
+      this.originY = originY;
+      return this;
+    },
     setStrokeStyle() { return this; },
-    setDepth() { return this; },
+    setDepth(depth) {
+      this.depth = depth;
+      return this;
+    },
     setScale() { return this; },
-    setAlpha() { return this; },
+    setAlpha(alpha) {
+      this.alpha = alpha;
+      return this;
+    },
     setBlendMode() { return this; },
+    setTexture(textureKey) {
+      this.key = textureKey;
+      return this;
+    },
+    setPosition(nextX, nextY) {
+      this.x = nextX;
+      this.y = nextY;
+      return this;
+    },
+    setDisplaySize(width, height) {
+      this.displayWidth = width;
+      this.displayHeight = height;
+      return this;
+    },
+    setVisible(visible) {
+      this.visible = visible;
+      return this;
+    },
     destroy() { this.destroyed = true; },
   };
   presentationObjects.push(object);
@@ -257,13 +318,26 @@ function createFxObject(x, y, key = "") {
 const presentationConfig = {
   presentation: {
     depth: 12,
+    surfaceAltarDepth: 19,
+    promptDepth: 20.6,
     promptOffsetPx: 20,
+    surfacePromptOffsetTiles: 4.75,
     altarRadiusPx: 30,
+    surfaceAltarDisplayWidthTiles: 4,
+    surfaceAltarDisplayHeightTiles: 4,
+    surfaceAltarBaselineOffsetTiles: -0.53,
     relicProjectionRadiusPx: 80,
     relicProjectionScale: 0.6,
   },
   surfaceGates: [
-    { regionId: "sky", tx: 2, ty: 3, color: 0x99ddff },
+    {
+      regionId: "sky",
+      tx: 2,
+      ty: 3,
+      color: 0x99ddff,
+      altarAssetId: "cloudReef",
+      relicGate: true,
+    },
   ],
   regions: [
     {
@@ -276,6 +350,7 @@ const presentationConfig = {
   ],
 };
 const presentationScene = {
+  config: { tileSize: 94 },
   add: {
     graphics: () => graphics,
     text: () => promptText,
@@ -294,11 +369,14 @@ const presentationScene = {
   },
 };
 const presentationWorld = {
+  tileSize: 94,
   tileToWorld: (tx, ty) => ({ x: tx * 94 + 47, y: ty * 94 + 47 }),
 };
 const presentationProgression = {
   getSaveData: () => ({ unlockedRegionIds: ["sky"] }),
   isRegionUnlocked: regionId => regionId === "sky",
+  isRegionCompleted: () => false,
+  isSkyGateEligible: () => true,
 };
 const presentation = new HeavenblocksPresentationSystem(
   presentationScene,
@@ -309,27 +387,47 @@ presentation.create();
 assert.deepEqual(presentation.getHealthSnapshot(), {
   promptReady: true,
   altarGraphicsReady: true,
+  surfaceAltarsReady: false,
+  surfaceAltarCount: 0,
+  missingSurfaceAltarAssets: [],
   activeFxCount: 0,
 });
 presentation.setPrompt({ tx: 2, ty: 3 }, "Enter Sky Island");
 assert.equal(promptText.visible, true);
 assert.match(promptText.text, /Enter Sky Island/);
 presentation.redrawAltars(presentationProgression, true);
-assert.equal(graphics.circleCount, 3);
+assert.equal(graphics.circleCount, 2);
+const surfaceAltar = presentation.surfaceAltarSprites.get("sky");
+assert.ok(surfaceAltar);
+assert.equal(surfaceAltar.originX, 0.5);
+assert.equal(surfaceAltar.originY, 1);
+assert.equal(surfaceAltar.displayWidth, 94 * 4);
+assert.equal(surfaceAltar.displayHeight, 94 * 4);
+assert.equal(presentation.surfaceAltarStages.get("sky"), 2);
+assert.equal(presentation.getHealthSnapshot().surfaceAltarsReady, true);
 presentation.playTransit({ x: 100, y: 200 }, 0x99ddff, true, 900);
 presentation.playComponentClaim(presentationConfig.regions[0]);
 presentation.playVault(presentationConfig.regions[0], true);
 assert.ok(tweenConfigs.length >= 9);
 assert.equal(presentation.getHealthSnapshot().activeFxCount, 0);
-assert.equal(presentationObjects.every(object => object.destroyed), true);
+assert.equal(
+  presentationObjects
+    .filter(object => object !== surfaceAltar)
+    .every(object => object.destroyed),
+  true,
+);
 presentation.hidePrompt();
 assert.equal(promptText.visible, false);
 presentation.destroy();
 assert.equal(promptText.destroyed, true);
 assert.equal(graphics.destroyed, true);
+assert.equal(presentationObjects.every(object => object.destroyed), true);
 assert.deepEqual(presentation.getHealthSnapshot(), {
   promptReady: false,
   altarGraphicsReady: false,
+  surfaceAltarsReady: false,
+  surfaceAltarCount: 0,
+  missingSurfaceAltarAssets: [],
   activeFxCount: 0,
 });
 

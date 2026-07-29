@@ -40,6 +40,7 @@ export class CaveWorldModel extends WorldModel {
     this._buildBoundary(runtime);
     this._buildFloor(runtime);
     this._placeRewardTiles(runtime);
+    this._placeSignatureTile(runtime);
     this._applyDugTiles(runtime);
   }
 
@@ -55,6 +56,16 @@ export class CaveWorldModel extends WorldModel {
   }
 
   _buildFloor(runtime) {
+    if (runtime.stablePaintedFloor) {
+      const thickness = Math.max(1, runtime.floorThicknessTiles || 1);
+      const lastRow = Math.min(this.depthTiles - 1, runtime.floorRow + thickness - 1);
+      for (let ty = runtime.floorRow; ty <= lastRow; ty += 1) {
+        for (let tx = 1; tx < this.widthTiles - 1; tx += 1) {
+          this.setTile(tx, ty, TILE_TYPES.CAVE_WALL, 0);
+        }
+      }
+      return;
+    }
     const floorTypes = runtime.floorResourceKeys
       .map(resourceKey => TILE_TYPE_BY_RESOURCE[resourceKey])
       .filter(Number.isInteger);
@@ -81,8 +92,16 @@ export class CaveWorldModel extends WorldModel {
     }
   }
 
+  _placeSignatureTile(runtime) {
+    const node = runtime.signatureNode;
+    const type = TILE_TYPES[runtime.signatureTileTypeKey];
+    if (!node || !Number.isInteger(type) || !this.inBounds(node.tx, node.ty)) return;
+    this.setTile(node.tx, node.ty, type, this.getTileMaxHp(node.tx, node.ty, type));
+  }
+
   _applyDugTiles(runtime) {
     const collected = new Set(runtime.collectedTileKeys || []);
+    this._applyLegacyCollectedAliases(runtime, collected);
     for (let ty = 1; ty < this.depthTiles - 1; ty += 1) {
       for (let tx = 1; tx < this.widthTiles - 1; tx += 1) {
         if (!collected.has(makeCaveTileSaveKey(runtime.caveId, tx, ty))) continue;
@@ -90,5 +109,22 @@ export class CaveWorldModel extends WorldModel {
         this.setTile(tx, ty, TILE_TYPES.AIR, 0);
       }
     }
+  }
+
+  _applyLegacyCollectedAliases(runtime, collected) {
+    const legacyNodes = runtime.legacyNodeLayout || [];
+    const currentNodes = runtime.nodeLayout || [];
+    const aliasCount = Math.min(legacyNodes.length, currentNodes.length);
+    for (let index = 0; index < aliasCount; index += 1) {
+      const legacy = legacyNodes[index];
+      const current = currentNodes[index];
+      if (!collected.has(makeCaveTileSaveKey(runtime.caveId, legacy.tx, legacy.ty))) continue;
+      collected.add(makeCaveTileSaveKey(runtime.caveId, current.tx, current.ty));
+    }
+    const legacySignature = runtime.legacySignatureNode;
+    const currentSignature = runtime.signatureNode;
+    if (!legacySignature || !currentSignature) return;
+    if (!collected.has(makeCaveTileSaveKey(runtime.caveId, legacySignature.tx, legacySignature.ty))) return;
+    collected.add(makeCaveTileSaveKey(runtime.caveId, currentSignature.tx, currentSignature.ty));
   }
 }

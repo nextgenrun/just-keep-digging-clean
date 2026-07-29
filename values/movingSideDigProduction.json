@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 3,
+  "version": "moving-side-dig-smoothed-v3-20260728",
+  "reviewCandidateId": "phase-locked-combo",
+  "enabledByDefault": true,
+  "rollbackQuery": "movingSideDig",
+  "disabledQueryValue": "0",
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "sheetColumns": 16,
+  "displaySizePx": 123,
+  "visualOriginX": 0.5,
+  "visualOriginY": 0.96484375,
+  "contactBackoffSourcePx": 8,
+  "contactBackoffFalloffFrames": 4,
+  "contactFaceClearanceSourcePx": 2,
+  "contactEnvelopePolicy": "shared-visible-silhouette",
+  "contactAlignmentMode": "immediate",
+  "frameRate": 30,
+  "contactFrame": 6,
+  "contactSequenceIndex": 6,
+  "movement": {
+    "requireGrounded": true,
+    "requireTowardTarget": true,
+    "minHorizontalSpeedPxPerSec": 8
+  },
+  "actions": {
+    "jab": {
+      "id": "survival-moving-side-dig-jab",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+      "fileName": "survival-ual-player-v1-moving-side-dig-jab-sheet.webp",
+      "animationKey": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "baseAnimationKey": "survival-ual-player-v1-punch-jab-anim",
+      "sourceAction": "moving-side-dig-jab",
+      "sourceClip": "Jog_Fwd_Loop + Punch_Jab upper body",
+      "runStartFrame": 9
+    },
+    "cross": {
+      "id": "survival-moving-side-dig-cross",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+      "fileName": "survival-ual-player-v1-moving-side-dig-cross-sheet.webp",
+      "animationKey": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "baseAnimationKey": "survival-ual-player-v1-dig-side-cross-anim",
+      "sourceAction": "moving-side-dig-cross",
+      "sourceClip": "Jog_Fwd_Loop + Punch_Cross upper body",
+      "runStartFrame": 23
+    }
+  },
+  "phaseHandoff": {
+    "version": "phase-aware-smoothed-entry-resume-v2-20260728",
+    "enabledByDefault": true,
+    "rollbackQuery": "phaseHandoff",
+    "disabledQueryValue": "0",
+    "runFrameCount": 28,
+    "actionFrameCount": 22,
+    "runPhaseAdvanceFrames": 14,
+    "runFrameOffsets": [
+      0,
+      1,
+      1,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      6,
+      6,
+      7,
+      8,
+      8,
+      9,
+      10,
+      10,
+      11,
+      11,
+      12,
+      13,
+      13
+    ],
+    "entryPhaseOffset": 1,
+    "fallbackOutgoingJogFrame": 8,
+    "maxEntryPhaseError": 2,
+    "actionBlendWeights": [
+      0.12,
+      0.26,
+      0.4,
+      0.54,
+      0.68,
+      0.84,
+      1.0
+    ],
+    "exitActionBlendWeights": [
+      0.94,
+      0.8,
+      0.66,
+      0.52,
+      0.38,
+      0.24,
+      0.1
+    ],
+    "atlas": {
+      "id": "survival-moving-side-dig-phase-handoff",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "fileName": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet.webp",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/moving-side-dig-phase-handoff.piskel",
+      "manifestActionPrefix": "moving-side-dig-phase"
+    },
+    "variants": [
+      {
+        "id": "jab-phase-01",
+        "action": "jab",
+        "runStartFrame": 1
+      },
+      {
+        "id": "cross-phase-15",
+        "action": "cross",
+        "runStartFrame": 15
+      },
+      {
+        "id": "jab-phase-05",
+        "action": "jab",
+        "runStartFrame": 5
+      },
+      {
+        "id": "cross-phase-19",
+        "action": "cross",
+        "runStartFrame": 19
+      },
+      {
+        "id": "jab-phase-09",
+        "action": "jab",
+        "runStartFrame": 9,
+        "base": true
+      },
+      {
+        "id": "cross-phase-23",
+        "action": "cross",
+        "runStartFrame": 23,
+        "base": true
+      },
+      {
+        "id": "cross-phase-10",
+        "action": "cross",
+        "runStartFrame": 10
+      },
+      {
+        "id": "jab-phase-24",
+        "action": "jab",
+        "runStartFrame": 24
+      }
+    ],
+    "pivot": {
+      "bridgeFrames": 2,
+      "verticalWeight": 2,
+      "minimumSpeedPxPerSec": 36
+    }
+  }
+}

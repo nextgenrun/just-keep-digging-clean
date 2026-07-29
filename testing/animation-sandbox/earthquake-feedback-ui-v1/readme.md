@@ -1,8 +1,13 @@
 # Earthquake Feedback UI V1
 
 Isolated Phaser visual review harness for the production
-`EarthquakeFeedbackUI` and `EarthquakeHazardOverlay` classes.
+`EarthquakeFeedbackUI`, `EarthquakeHazardOverlay`, and
+`EarthquakeTileFeedbackSystem` classes.
 
 Open `index.html?phase=warning`, `?phase=earthquake`, or `?phase=escape`.
-The harness preloads the production v2 generated status frame and seismic
-medallion, while remaining test-only and never entering the game runtime.
+The camera uses the live 1280x720 viewport and 94 px production tile size.
+The harness preloads the production generated status frame, seismic medallion,
+and all seven world-space seismic sprites. It shows the production one-to-one
+floor footprint, ceiling fracture, falling boulder, exact-ground impact, and
+offscreen edge signal. The wall loop separately cycles the final warning
+fracture, damage, collapse, and rubble-return effects while remaining test-only.

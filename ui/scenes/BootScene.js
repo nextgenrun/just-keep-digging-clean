@@ -1,5 +1,14 @@
-import { ASSET_KEYS, getSurfacePropPreloadAssets } from "../../values/assetKeys.js";
-import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260727-arc-core-subdir-v1";
+import {
+  ASSET_KEYS,
+  getHeavenblocksSkyAltarPreloadAssets,
+  getPickaxeHudPreloadAssets,
+  getPickaxeIconPreloadAssets,
+  getSurfacePropPreloadAssets,
+} from "../../values/assetKeys.js";
+import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
+import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
+import { GEM_POWER_BLOCK_TIERS } from "../../values/specialBlocks.js";
+import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260728-arc-core-dig-repair-v4";
 import { THUNDER_STRIKE_CHAIN_CONFIG } from "../../values/thunderStrikeChain.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
@@ -15,9 +24,10 @@ import { LEVEL_ONE_GROUND_FACADE } from "../../values/levelOneGroundFacade.js";
 import {
   getWorldVisualPreloadAssets,
   isScenicWorldVisualRuntime,
-} from "../../values/worldVisualRuntime.js";
+} from "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { getWorldVisualStartupMaterialAssets } from "../../values/worldVisualMaterials.js";
-import { getWorldVisualDepthBackdropPreloadAssets } from "../../values/worldVisualDepthBackdrops.js";
+import { getWorldVisualDepthBackdropPreloadAssets } from
+  "../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { getWorldVisualFeedbackPreloadAssets } from "../../values/worldVisualFeedback.js";
 import { getWorldVisualSemanticPreloadAssets } from "../../values/worldVisualSemanticAssets.js";
 import { getWorldVisualLandmarkPreloadAssets } from "../../values/worldVisualLandmarks.js";
@@ -28,6 +38,7 @@ import {
 import { getCollectedStarReleasePreloadAssets } from "../../values/starConstellations.js";
 import { getTitanDiscoveryPreloadAssets } from "../../values/titanDiscoveries.js";
 import {
+  NPC_ACTIVITY_CONFIG,
   getNpcActivityPreloadAssets,
   resolveNpcActivitiesEnabled,
 } from "../../values/npcActivityConfig.js";
@@ -35,8 +46,11 @@ import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
+import { getHardcoreModePreloadAssets } from "../../values/hardcoreMode.js";
+import { getHardcoreMemorialPreloadAssets } from "../../values/hardcoreMemorials.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
 import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
+import { getMiningTargetFeedbackPreloadAssets } from "../../values/miningTargetFeedback.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
 import {
   MENU_BACKGROUND_ASSETS,
@@ -345,12 +359,14 @@ export class BootScene extends Phaser.Scene {
     try {
       this.preloadBranding();
       this.preloadBackgrounds();
+      this.preloadWeatherVfx();
       this.preloadConstellationSprites();
       this.preloadPillarSprites();
       this.preloadOpeningFlightSprites();
       this.preloadNPCs();
       this.preloadTileSprites();
       this.preloadFxSprites();
+      this.preloadHeavenblocksSkyAltars();
       this.preloadGraveborerWurmSprites();
       this.preloadUiSprites();
       await this.preloadAudio();
@@ -426,20 +442,27 @@ export class BootScene extends Phaser.Scene {
     this.load.image(sky.planet1, skyBase + "sky-v3-planet-1.webp");
     this.load.image(sky.planet2, skyBase + "sky-v3-planet-2.webp");
 
-    const weatherVfx = ASSET_KEYS.environment.skylineWeatherVfx;
-    const weatherVfxBase = "sprites/environment/v11-skyline-weather-vfx-v1/";
-    this.load.image(weatherVfx.clouds, weatherVfxBase + "clouds-screen.webp");
-    this.load.image(weatherVfx.rain, weatherVfxBase + "rain-alpha.webp");
-    this.load.image(weatherVfx.snow, weatherVfxBase + "snow-alpha.webp");
-    this.load.image(weatherVfx.water, weatherVfxBase + "water-alpha.webp");
-    this.load.image(weatherVfx.atmosphere, weatherVfxBase + "atmosphere-screen.webp");
-    this.load.image(weatherVfx.lightning, weatherVfxBase + "lightning-screen.webp");
-
     if (resolveWorldBackgroundMasterEnabled(WORLD_BACKGROUND_MASTER_TEST)) {
       console.info("[BootScene] v11 master active; legacy v7 background assets are rollback-only");
     } else {
       this.preloadAuthoredBackgroundObjects();
     }
+  }
+
+  preloadWeatherVfx() {
+    const weatherVfx = ASSET_KEYS.environment.skylineWeatherVfx;
+    const weatherVfxBase = SKYLINE_WEATHER_VFX.assetBasePath;
+    Object.entries(SKYLINE_WEATHER_VFX.sheets).forEach(([name, sheet]) => {
+      this.load.image(weatherVfx[name], weatherVfxBase + sheet.file);
+    });
+    this.load.spritesheet(
+      weatherVfx.particles,
+      weatherVfxBase + SKYLINE_WEATHER_VFX.particleSheet.file,
+      {
+        frameWidth: SKYLINE_WEATHER_VFX.particleSheet.frameWidth,
+        frameHeight: SKYLINE_WEATHER_VFX.particleSheet.frameHeight,
+      },
+    );
   }
 
   preloadScenicWorldRuntime() {
@@ -507,6 +530,11 @@ export class BootScene extends Phaser.Scene {
     this.queueImage(celestial.waywardStar, `${celestialBase}wayward-star-core-v1.png`);
     this.queueImage(celestial.hollowSun, `${celestialBase}hollow-sun-core-v1.png`);
     this.queueImage(celestial.cometEngine, `${celestialBase}comet-engine-core-v1.png`);
+    const starlightKeys = ASSET_KEYS.ui.starlightTalentTree;
+    const starlightAssets = STARLIGHT_TALENT_TREE_CONFIG.assets;
+    Object.entries(starlightKeys).forEach(([name, key]) => {
+      this.queueImage(key, `${starlightAssets.basePath}${starlightAssets.files[name]}`);
+    });
   }
 
   preloadPillarSprites() {
@@ -531,22 +559,21 @@ export class BootScene extends Phaser.Scene {
 
   preloadNPCs() {
     const base = "sprites/npc/npc-v3/sheets";
-    const generatedMerchantBase = "sprites/npc/npc-v5-generated/singles/merchant-idle";
-    const animatedMerchantBase = "sprites/npc/npc-v6-animated/merchant-idle";
-    const generatedMerchantVersion = "solid-generated-v2-20260623";
-    const animatedMerchantVersion = "approved-v1-20260711";
+    const generatedMerchantBase = NPC_ACTIVITY_CONFIG.baselineAssets.staticBasePath;
+    const animatedMerchantBase = NPC_ACTIVITY_CONFIG.baselineAssets.videoBasePath;
+    const baselineVersion = NPC_ACTIVITY_CONFIG.baselineAssets.assetVersion;
     const frame1024 = { frameWidth: 1024, frameHeight: 1024 };
     const frame1280 = { frameWidth: 1280, frameHeight: 1280 };
 
     this.load.spritesheet(ASSET_KEYS.npcs.boboIdleSheet, `${base}/bobo-idle-sheet.webp`, frame1024);
     this.load.spritesheet(ASSET_KEYS.shadowMiner.sheet, `${base}/shadow-miner-sheet.webp`, frame1280);
 
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.moneyMonster, `${generatedMerchantBase}/money-monster.webp?v=${generatedMerchantVersion}`);
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.magmaMoneyMonster, "sprites/npc/npc-v7-level-two/magma-money-monster.png?v=approved-v1-20260713");
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.playerUpgrades, `${generatedMerchantBase}/player-upgrades.webp?v=${generatedMerchantVersion}`);
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.gearMerchant, `${generatedMerchantBase}/gear-merchant.webp?v=${generatedMerchantVersion}`);
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.boboMerchant, `${generatedMerchantBase}/bobo-merchant.webp?v=${generatedMerchantVersion}`);
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.gemPowerMerchant, `${generatedMerchantBase}/gem-power-merchant.webp?v=${generatedMerchantVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.moneyMonster, `${generatedMerchantBase}/money-monster.webp?v=${baselineVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.magmaMoneyMonster, `${generatedMerchantBase}/magma-money-monster.webp?v=${baselineVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.playerUpgrades, `${generatedMerchantBase}/player-upgrades.webp?v=${baselineVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.gearMerchant, `${generatedMerchantBase}/gear-merchant.webp?v=${baselineVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.boboMerchant, `${generatedMerchantBase}/bobo-merchant.webp?v=${baselineVersion}`);
+    this.load.image(ASSET_KEYS.npcs.merchantSprites.gemPowerMerchant, `${generatedMerchantBase}/gem-power-merchant.webp?v=${baselineVersion}`);
 
     if (resolveNpcActivitiesEnabled()) {
       for (const asset of getNpcActivityPreloadAssets(ASSET_KEYS.npcs.merchantActivities)) {
@@ -556,11 +583,11 @@ export class BootScene extends Phaser.Scene {
 
     const supportsAnimatedMerchants = this.sys.game.device.video.webm && this.sys.game.device.video.vp9;
     if (supportsAnimatedMerchants) {
-      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.moneyMonster, `${animatedMerchantBase}/money-monster-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
-      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.playerUpgrades, `${animatedMerchantBase}/player-upgrades-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
-      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.gearMerchant, `${animatedMerchantBase}/gear-merchant-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
-      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.boboMerchant, `${animatedMerchantBase}/bobo-merchant-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
-      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.gemPowerMerchant, `${animatedMerchantBase}/gem-power-merchant-idle-alpha.webm?v=${animatedMerchantVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.moneyMonster, `${animatedMerchantBase}/money-monster-idle-alpha.webm?v=${baselineVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.playerUpgrades, `${animatedMerchantBase}/player-upgrades-idle-alpha.webm?v=${baselineVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.gearMerchant, `${animatedMerchantBase}/gear-merchant-idle-alpha.webm?v=${baselineVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.boboMerchant, `${animatedMerchantBase}/bobo-merchant-idle-alpha.webm?v=${baselineVersion}`, true);
+      this.load.video(ASSET_KEYS.npcs.merchantIdleVideos.gemPowerMerchant, `${animatedMerchantBase}/gem-power-merchant-idle-alpha.webm?v=${baselineVersion}`, true);
     } else {
       console.warn('[BootScene] VP9 WebM is unavailable; merchant NPCs will use static fallback sprites.');
     }
@@ -827,20 +854,25 @@ export class BootScene extends Phaser.Scene {
         this.load.image(key, `${basePath}/${index + 1}-of-5-hp.webp`);
       });
     };
+    const loadOpaqueImageGenResource = (keys, fileName) => {
+      keys.forEach((key) => {
+        this.load.image(key, `sprites/tiles/resource-tiles-imagegen-v3/${fileName}.webp`);
+      });
+    };
 
     loadDamageStages(
       [ASSET_KEYS.tiles.dirtHp1, ASSET_KEYS.tiles.dirtHp2, ASSET_KEYS.tiles.dirtHp3, ASSET_KEYS.tiles.dirtHp4, ASSET_KEYS.tiles.dirtHp5],
       "sprites/tiles/tiles-under-1000/dirt-tiles"
     );
 
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.stoneHp1, ASSET_KEYS.tiles.stoneHp2, ASSET_KEYS.tiles.stoneHp3, ASSET_KEYS.tiles.stoneHp4, ASSET_KEYS.tiles.stoneHp5],
-      "sprites/tiles/tiles-under-1000/resource-stone-tile"
+      "stone"
     );
 
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.copperHp1, ASSET_KEYS.tiles.copperHp2, ASSET_KEYS.tiles.copperHp3, ASSET_KEYS.tiles.copperHp4, ASSET_KEYS.tiles.copperHp5],
-      "sprites/tiles/tiles-under-1000/resource-copper-tile"
+      "copper"
     );
 
     // Dark dirt variants
@@ -854,60 +886,65 @@ export class BootScene extends Phaser.Scene {
     );
 
     // Resource tiles
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.bronzeHp1, ASSET_KEYS.tiles.bronzeHp2, ASSET_KEYS.tiles.bronzeHp3, ASSET_KEYS.tiles.bronzeHp4, ASSET_KEYS.tiles.bronzeHp5],
-      "sprites/tiles/tiles-under-1000/resource-bronze-tile"
+      "bronze"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.steelHp1, ASSET_KEYS.tiles.steelHp2, ASSET_KEYS.tiles.steelHp3, ASSET_KEYS.tiles.steelHp4, ASSET_KEYS.tiles.steelHp5],
-      "sprites/tiles/tiles-under-1000/resource-steel-tile"
+      "steel"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.ironHp1, ASSET_KEYS.tiles.ironHp2, ASSET_KEYS.tiles.ironHp3, ASSET_KEYS.tiles.ironHp4, ASSET_KEYS.tiles.ironHp5],
-      "sprites/tiles/tiles-under-1000/resource-iron-tile"
+      "iron"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.silverHp1, ASSET_KEYS.tiles.silverHp2, ASSET_KEYS.tiles.silverHp3, ASSET_KEYS.tiles.silverHp4, ASSET_KEYS.tiles.silverHp5],
-      "sprites/tiles/tiles-under-1000/resource-silver-tile"
+      "silver"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.goldHp1, ASSET_KEYS.tiles.goldHp2, ASSET_KEYS.tiles.goldHp3, ASSET_KEYS.tiles.goldHp4, ASSET_KEYS.tiles.goldHp5],
-      "sprites/tiles/tiles-under-1000/resource-gold-tile"
+      "gold"
     );
     loadDamageStages(
       [ASSET_KEYS.tiles.lavaDirtHp1, ASSET_KEYS.tiles.lavaDirtHp2, ASSET_KEYS.tiles.lavaDirtHp3, ASSET_KEYS.tiles.lavaDirtHp4, ASSET_KEYS.tiles.lavaDirtHp5],
       "sprites/tiles/second-world/lava-dirt"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.obsidianHp1, ASSET_KEYS.tiles.obsidianHp2, ASSET_KEYS.tiles.obsidianHp3, ASSET_KEYS.tiles.obsidianHp4, ASSET_KEYS.tiles.obsidianHp5],
-      "sprites/tiles/second-world/obsidian"
+      "obsidian"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.emberOreHp1, ASSET_KEYS.tiles.emberOreHp2, ASSET_KEYS.tiles.emberOreHp3, ASSET_KEYS.tiles.emberOreHp4, ASSET_KEYS.tiles.emberOreHp5],
-      "sprites/tiles/second-world/ember-ore"
+      "ember-ore"
     );
-    loadDamageStages(
+    loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.magmaCrystalHp1, ASSET_KEYS.tiles.magmaCrystalHp2, ASSET_KEYS.tiles.magmaCrystalHp3, ASSET_KEYS.tiles.magmaCrystalHp4, ASSET_KEYS.tiles.magmaCrystalHp5],
-      "sprites/tiles/second-world/magma-crystal"
+      "magma-crystal"
     );
 
     // Special tiles
-    this.load.image(ASSET_KEYS.tiles.teleportTile, "sprites/tiles/special-tiles-v2/teleport-tile.webp");
-    this.load.image(ASSET_KEYS.tiles.gambleTile, "sprites/tiles/special-tiles-v2/gamble-tile.webp");
+    this.load.image(
+      ASSET_KEYS.tiles.teleportTile,
+      "sprites/tiles/special-tiles-v2/teleport-tile.webp"
+    );
+    this.load.image(ASSET_KEYS.tiles.gambleTile, "sprites/tiles/special-tiles-imagegen-v3/gamble.webp");
 
     // Town floor tiles
     this.load.image(ASSET_KEYS.tiles.floorTown1, "sprites/tiles/base-tiles/floor-town-1.webp");
     this.load.image(ASSET_KEYS.tiles.floorTown2, "sprites/tiles/base-tiles/floor-town-2.webp");
 
-    // Special Blocks - custom textures with glow effects added by renderer
-    this.load.image(ASSET_KEYS.tiles.gemPowerBlock, "sprites/tiles/special-tiles-v2/gempower-block.webp");
-    this.load.image(ASSET_KEYS.tiles.speedBlock, "sprites/tiles/special-tiles-v2/speed-block.webp");
-    this.load.image(ASSET_KEYS.tiles.xpBlock, "sprites/tiles/special-tiles-v2/xp-block.webp");
-    this.load.image(ASSET_KEYS.tiles.sellBlock, "sprites/tiles/special-tiles-v2/sell-block.webp");
-    this.load.image(ASSET_KEYS.tiles.critBlock, "sprites/tiles/special-tiles-v2/crit-block.webp");
-    this.load.image(ASSET_KEYS.tiles.berserkBlock, "sprites/tiles/special-tiles-v2/berserk-block.webp");
-    this.load.image(ASSET_KEYS.tiles.comboBlock, "sprites/tiles/special-tiles-v2/combo-block.webp");
-    this.load.image(ASSET_KEYS.tiles.legendBlock, "sprites/tiles/special-tiles-v2/crown-block.webp");
+    // Approved ImageGen special blocks. Teleport Up remains the exact approved v2 asset.
+    for (const tier of GEM_POWER_BLOCK_TIERS) {
+      this.load.image(ASSET_KEYS.tiles.gemPowerBlockTiers[tier.id], tier.assetPath);
+    }
+    this.load.image(ASSET_KEYS.tiles.speedBlock, "sprites/tiles/special-tiles-imagegen-v3/speed.webp");
+    this.load.image(ASSET_KEYS.tiles.xpBlock, "sprites/tiles/special-tiles-imagegen-v3/level-up.webp");
+    this.load.image(ASSET_KEYS.tiles.sellBlock, "sprites/tiles/special-tiles-imagegen-v3/sell.webp");
+    this.load.image(ASSET_KEYS.tiles.critBlock, "sprites/tiles/special-tiles-imagegen-v3/crit.webp");
+    this.load.image(ASSET_KEYS.tiles.berserkBlock, "sprites/tiles/special-tiles-imagegen-v3/berserk.webp");
+    this.load.image(ASSET_KEYS.tiles.comboBlock, "sprites/tiles/special-tiles-imagegen-v3/combo.webp");
+    this.load.image(ASSET_KEYS.tiles.legendBlock, "sprites/tiles/special-tiles-imagegen-v3/legend.webp");
 
     // Sky tile uses bedrock texture as base with graphics overlay effects
     // No separate texture file needed
@@ -923,6 +960,15 @@ export class BootScene extends Phaser.Scene {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getCollectedStarReleasePreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getMiningTargetFeedbackPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+  }
+
+  preloadHeavenblocksSkyAltars() {
+    for (const asset of getHeavenblocksSkyAltarPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
   }
@@ -943,6 +989,12 @@ export class BootScene extends Phaser.Scene {
       frameWidth: UI_ICON_ATLAS.frameWidth,
       frameHeight: UI_ICON_ATLAS.frameHeight,
     });
+    for (const asset of getPickaxeIconPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getPickaxeHudPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
     this.queueImage(ASSET_KEYS.ui.worldMapFrame, WORLD_MAP_CONFIG.assetPath);
     this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
@@ -956,14 +1008,36 @@ export class BootScene extends Phaser.Scene {
       const path = APPROVED_HUD_SKIN.paths[name];
       if (path) this.queueImage(key, path);
     });
+    Object.values(ASSET_KEYS.ui.notificationControls).forEach(asset => {
+      this.queueImage(asset.key, asset.path);
+    });
     this.queueImage(
       ASSET_KEYS.ui.thunderStrikeChainFrame,
       THUNDER_STRIKE_CHAIN_CONFIG.timingBar.assetPath,
     );
+    this.queueImage(
+      ASSET_KEYS.ui.thunderStrikeTargetGate,
+      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.targetAssetPath,
+    );
+    this.queueImage(
+      ASSET_KEYS.ui.thunderStrikeNeedle,
+      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.needleAssetPath,
+    );
+    Object.entries(
+      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt.assetPaths,
+    ).forEach(([name, path]) => {
+      this.queueImage(ASSET_KEYS.ui.thunderStrikeIndicator[name], path);
+    });
     for (const asset of getTitanDiscoveryPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getEarthquakeFeedbackPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getHardcoreModePreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getHardcoreMemorialPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
     this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");

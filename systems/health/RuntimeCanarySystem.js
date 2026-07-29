@@ -1,4 +1,5 @@
 import { RUNTIME_CANARY_CONFIG } from "../../values/runtimeCanaryConfig.js";
+import { PerformanceTelemetrySystem } from "./PerformanceTelemetrySystem.js";
 import { RuntimeCanaryReporter } from "./RuntimeCanaryReporter.js";
 import { RuntimeHealthWorkerBridge } from "./RuntimeHealthWorkerBridge.js";
 import { evaluateRuntimeCanaries } from "./runtimeCanaryChecks.js";
@@ -33,6 +34,7 @@ export class RuntimeCanarySystem {
       config,
       onFinding: finding => this.captureSystemFinding(finding, true),
     });
+    this.performanceTelemetry = new PerformanceTelemetrySystem({ globalRef }).install();
     this.startedAtMs = this.now();
     this.game = null;
     this.timer = null;
@@ -70,6 +72,7 @@ export class RuntimeCanarySystem {
   attachGame(game) {
     if (!game || this.game === game) return this;
     this.game = game;
+    this.performanceTelemetry.attachGame(game);
     this.sampleState.lastFrame = Number.isFinite(game?.loop?.frame) ? game.loop.frame : null;
     this.sampleState.lastFrameChangedAtMs = this.now();
     this.markLifecycle("phaser-postboot");
@@ -146,7 +149,10 @@ export class RuntimeCanarySystem {
       this.documentRef?.hidden === true,
       this.config,
     );
-    this.telemetry = result.telemetry;
+    this.telemetry = {
+      ...result.telemetry,
+      performance: this.performanceTelemetry.snapshot(),
+    };
     const sampledKeys = new Set(result.findings.map(item => item.key));
     for (const key of this.activeFindings.keys()) {
       if (!this.stickyFindingKeys.has(key) && !sampledKeys.has(key)) {
@@ -196,6 +202,7 @@ export class RuntimeCanarySystem {
     this.timer = null;
     this.sceneCleanups.splice(0).forEach(cleanup => cleanup());
     this.workerBridge?.destroy?.();
+    this.performanceTelemetry.destroy();
     this.subscribers.clear();
     if (this.globalRef[this.config.globals.monitor] === this) {
       delete this.globalRef[this.config.globals.monitor];

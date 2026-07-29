@@ -42,7 +42,14 @@ function celestialFindings(scene, nowMs, config) {
   const invalidProgression = progression.charge < 0
     || progression.charge > progression.chargeCapacity
     || progression.heartsSpent > progression.heartsEarned
-    || (progression.selectedEngine && !progression.godMode && progression.heartsSpent !== 1)
+    || progression.heartsEarned > CELESTIAL_ENGINE_CONFIG.unlock.maxHearts
+    || !Array.isArray(progression.unlockedEngines)
+    || progression.heartsSpent !== progression.unlockedEngines?.length
+    || (
+      progression.selectedEngine
+      && !progression.godMode
+      && !progression.unlockedEngines?.includes(progression.selectedEngine)
+    )
     || (progression.godMode && (!progression.selectedEngine || !progression.charged));
   if (invalidProgression) {
     findings.push(finding(
@@ -83,6 +90,18 @@ function celestialFindings(scene, nowMs, config) {
     ));
   }
   return findings;
+}
+
+function talentTreeFindings(scene, config) {
+  const health = scene?.starPillarSystem?.getTalentTreeHealthSnapshot?.();
+  if (!health || health.ready) return [];
+  return [finding(
+    config,
+    config.events.talentTreeInvariant,
+    config.severity.error,
+    config.messages.talentTreeInvariant,
+    { sceneKey: "PlayScene", health },
+  )];
 }
 
 function heavenblocksFindings(scene, config) {
@@ -205,6 +224,7 @@ export function evaluateRuntimeCanaries(
     if (key === "PlayScene") {
       findings.push(...shopUiFindings(scene, config));
       findings.push(...celestialFindings(scene, nowMs, config));
+      findings.push(...talentTreeFindings(scene, config));
       findings.push(...heavenblocksFindings(scene, config));
       findings.push(...arcCoreVisualFindings(scene, config));
     }

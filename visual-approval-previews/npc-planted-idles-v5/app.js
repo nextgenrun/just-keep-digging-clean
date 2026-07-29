@@ -1,4 +1,4 @@
-const CACHE_VERSION = "20260726-v12-approved";
+const CACHE_VERSION = "20260728-v13-silhouette-chroma";
 const spec = await fetch(`activity-spec.json?v=${CACHE_VERSION}`).then(
   (response) => {
     if (!response.ok) {

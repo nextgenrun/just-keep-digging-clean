@@ -17,3 +17,8 @@ original UAL mannequin while comparing them in game.
 
 - `runtime/` contains the Phaser-ready sheets, manifest, rig markers, and
   contact-aligned frame metadata.
+
+The active moving side-dig is a phase-locked Jog + Jab/Cross pair exported
+through the central Piskel pipeline. It is selected only while grounded and
+moving toward a LEFT/RIGHT mining target; standing and diagonal actions remain
+separate.

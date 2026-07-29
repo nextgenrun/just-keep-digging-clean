@@ -22,6 +22,8 @@ export class TitanArchiveClueControl {
       hint: config.copy.unavailableDirection,
       icon: "journal",
       accent: UI_COLORS.borderSel,
+      hintColor: UI_COLORS.info,
+      disabledHintColor: UI_COLORS.dim,
       fontSize: config.layout.buttonFontSize,
       align: "left",
       parent: options.parent,
@@ -56,8 +58,8 @@ export class TitanArchiveClueControl {
       const direction = this._getDirection(this.definition.id);
       this.button.setLabel(
         state.active
-          ? this.config.copy.trackingButton
-          : this.config.copy.trackButton
+          ? this.config.copy.disableButton
+          : this.config.copy.enableButton
       );
       this.button.setHint(
         direction?.directionText || this.config.copy.unavailableDirection
@@ -86,7 +88,7 @@ export class TitanArchiveClueControl {
     if (!this.definition || this.discovered) return;
     const state = this.clueSystem.getClueState(this.definition.id);
     const result = state.purchased
-      ? this.clueSystem.trackClue(this.definition.id)
+      ? this.clueSystem.toggleClueTracking(this.definition.id)
       : this.clueSystem.purchaseClue(this.definition.id);
     this.setDefinition(this.definition, this.discovered);
     this.onChanged?.(result);

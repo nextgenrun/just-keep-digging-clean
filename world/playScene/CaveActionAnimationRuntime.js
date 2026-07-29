@@ -1,13 +1,22 @@
 /** Owns cave-only character action timing, authored UAL contacts, and flight animation selection. */
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
+import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
+import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js";
+import { UalActionRecoverySelector } from "../../systems/visual/UalActionRecoverySelector.js";
 import { UalNativeLocomotionTransitionSelector } from "../../systems/visual/UalNativeLocomotionTransitionSelector.js";
+import { UalWallBraceSelector } from "../../systems/visual/UalWallBraceSelector.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
+import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
+import {
+  normalizeHorizontalDirection,
+  resolveAuthoredHorizontalFlipX,
+} from "../../player/playerDirectionalTargets.js";
+import { updateCaveLocomotionVisual } from "./CaveLocomotionAnimationRuntime.js";
 import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js";
 import {
   UAL_NATIVE_ACTION_TUNING, resolveUalActionContact, resolveUalActionTimeScale,
-  resolveUalFlightBankAlpha, resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 
 export class CaveActionAnimationRuntime {
@@ -32,6 +41,9 @@ export class CaveActionAnimationRuntime {
     this.locomotion = null;
     this._activeMiningActionKind = null;
     this._contactAtMs = -Infinity;
+    this._resumeJogFrame = null;
+    this.actionRecovery = null;
+    this.wallBrace = null;
   }
   create() {
     const { scene } = this.controller;
@@ -43,6 +55,11 @@ export class CaveActionAnimationRuntime {
         flying: this.controller.playerController?.abilities?.isFlying?.() === true,
         facingFlipX: !this.controller.playerController?.isFacingRight?.(),
       });
+      this.actionRecovery = new UalActionRecoverySelector(scene.playerAssetProfile);
+      this.wallBrace = new UalWallBraceSelector(
+        scene.playerAssetProfile,
+        PLAYER_MOTION_POLISH_CONFIG,
+      );
     }
   }
   destroy() {
@@ -53,6 +70,11 @@ export class CaveActionAnimationRuntime {
     this.flightTravel = false;
     this._activeMiningActionKind = null;
     this._contactAtMs = -Infinity;
+    this._resumeJogFrame = null;
+    this.actionRecovery?.reset();
+    this.actionRecovery = null;
+    this.wallBrace?.reset();
+    this.wallBrace = null;
     this.locomotion?.reset();
     this.locomotion = null;
   }
@@ -98,7 +120,12 @@ export class CaveActionAnimationRuntime {
       key = profile.quickslashAnim;
       sourceFacesRight = profile.quickslashSourceFacesRight
         ?? ASSET_KEYS.player.quickslashSourceFacesRight;
-      scene.player.setFlipX(sourceFacesRight ? aim.includes("LEFT") : aim.includes("RIGHT"));
+      const aimDirectionX = aim.includes("LEFT") ? -1 : aim.includes("RIGHT") ? 1 : 0;
+      const directionX = normalizeHorizontalDirection(
+        abilities?.getQuickslashDirection?.() ?? direction?.x ?? aimDirectionX,
+        this.controller.playerController.isFacingRight(),
+      );
+      scene.player.setFlipX(resolveAuthoredHorizontalFlipX(directionX, sourceFacesRight));
     } else if (profile.isUalNative) {
       const upSide = aim === "UP-LEFT" || aim === "UP-RIGHT";
       const downSide = aim === "DOWN-LEFT" || aim === "DOWN-RIGHT";
@@ -145,10 +172,43 @@ export class CaveActionAnimationRuntime {
       if (aim.includes("LEFT")) scene.player.setFlipX(sourceFacesRight);
       if (aim.includes("RIGHT")) scene.player.setFlipX(!sourceFacesRight);
     }
-
     if (profile.isUalNative) {
       const kind = action === "quickslash" ? "quickslash" : "normal";
-      return this._playUalAction(key, kind, abilities, onContact, { targetTile, direction });
+      const movingSideDig = resolveMovingSideDigAnimation({
+        profile,
+        animationKey: key,
+        aim,
+        actionKind: kind,
+        grounded: this.controller.playerController?.isGrounded?.() === true,
+        motionState: this.controller.playerController?.getMotionState?.(),
+        horizontalVelocity: this.controller.playerController?.physicsBody?.vx
+          ?? scene.player?.body?.velocity?.x
+          ?? 0,
+        currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
+        currentFrameIndex: scene.player.anims.currentFrame?.index ?? 0,
+        currentTextureFrame: Number(scene.player.anims.currentFrame?.textureFrame),
+      });
+      key = movingSideDig.animationKey;
+      const movingDiagonalDig = resolveMovingDiagonalDigAnimation({
+        profile,
+        animationKey: key,
+        aim,
+        actionKind: kind,
+        grounded: this.controller.playerController?.isGrounded?.() === true,
+        motionState: this.controller.playerController?.getMotionState?.(),
+        horizontalVelocity: this.controller.playerController?.physicsBody?.vx
+          ?? scene.player?.body?.velocity?.x
+          ?? 0,
+        currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
+        currentFrameIndex: scene.player.anims.currentFrame?.index ?? 0,
+        currentTextureFrame: Number(scene.player.anims.currentFrame?.textureFrame),
+      });
+      key = movingDiagonalDig.animationKey;
+      return this._playUalAction(key, kind, abilities, onContact, {
+        targetTile,
+        direction,
+        resumeJogFrame: movingDiagonalDig.resumeJogFrame ?? movingSideDig.resumeJogFrame,
+      });
     }
     this.controller._playAnim(key, time, CAVE_SCENE_CONFIG.feedback.actionHoldMs);
     return true;
@@ -159,88 +219,11 @@ export class CaveActionAnimationRuntime {
       return true;
     });
   }
-
+  cancelThunderStrike(time) {
+    return this.thunderStrikeRuntime.cancel(time);
+  }
   updateLocomotionVisual(time, deltaMs) {
-    const controller = this.controller;
-    if (this.thunderStrikeRuntime.isAnimating || this.timeline?.isActive || time < controller._actionUntilMs) return;
-    const { scene } = controller;
-    const profile = scene.playerAssetProfile || ASSET_KEYS.player;
-    const motion = controller.playerController.getMotionState();
-    const poweredFlight = controller.playerController.abilities.isFlying();
-    const walking = motion === "walk-left" || motion === "walk-right";
-    const body = controller.playerController.physicsBody;
-    let flightTravel = false;
-    let key;
-    let selection = null;
-    if (profile.isUalNative && this.locomotion) {
-      const resolvedVerticalVelocity = scene.playerKinematicMotion?.getResolvedVelocityY?.() ?? body?.vy ?? 0;
-      const bodyVerticalVelocity = body?.vy || 0;
-      selection = this.locomotion.resolve({
-        grounded: controller.playerController.isGrounded(),
-        flying: poweredFlight || motion === "climb",
-        horizontalVelocity: scene.playerKinematicMotion?.getResolvedVelocityX?.()
-          ?? body?.vx
-          ?? 0,
-        verticalVelocity: Math.abs(bodyVerticalVelocity) > Math.abs(resolvedVerticalVelocity)
-          ? bodyVerticalVelocity
-          : resolvedVerticalVelocity,
-        currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
-        isPlaying: scene.player.anims.isPlaying === true,
-        currentFrameIndex: scene.player.anims.currentFrame?.index ?? 0,
-        facingFlipX: !controller.playerController.isFacingRight(),
-        groundMovementActive: walking && Math.abs(body?.vx || 0) > 0,
-      });
-      key = selection.animationKey;
-      flightTravel = selection.phase === "flight-travel-enter"
-        || selection.phase === "flight-travel-loop";
-      this.flightTravel = flightTravel;
-      scene.player.setFlipX(selection.facingFlipX);
-    } else {
-      const flying = poweredFlight || motion === "climb" || motion === "airborne";
-      key = flying ? (profile.flyAnim || profile.climbAnim) : walking
-        ? (profile.walkLoopAnim || profile.walkAnim) : profile.idleAnim;
-      scene.player.setFlipX(!controller.playerController.isFacingRight());
-    }
-    if (profile.isUalNative && !key) {
-      key = walking ? (profile.walkLoopAnim || profile.walkAnim) : profile.idleAnim;
-    }
-    if (key && scene.anims.exists(key) && scene.player.anims.currentAnim?.key !== key) {
-      scene.player.play(key, true);
-      controller._applyPlayerDisplaySize();
-    }
-    const kinematicScale = profile.isUalNative && (profile.walkAnims || []).includes(key)
-      ? scene.playerKinematicMotion?.resolveLocomotionTimeScale?.(
-        key,
-        scene.anims.get(key),
-        Math.abs(body?.vx || 0),
-      )
-      : null;
-    const travelSpeed = scene.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
-    scene.player.anims.timeScale = Number.isFinite(selection?.timeScale)
-      ? selection.timeScale
-      : profile.isUalNative && (poweredFlight || motion === "climb")
-        ? resolveUalFlightTimeScale(
-          Number.isFinite(travelSpeed) ? travelSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
-          flightTravel,
-        )
-        : (Number.isFinite(kinematicScale) ? kinematicScale : 1);
-    if (profile.isUalNative) {
-      const velocityX = scene.playerKinematicMotion?.getResolvedVelocityX?.()
-        ?? body?.vx
-        ?? 0;
-      const flightActive = poweredFlight || motion === "climb";
-      const flight = UAL_NATIVE_ACTION_TUNING.flight;
-      const velocitySign = Math.sign(velocityX) || (selection?.facingFlipX ? -1 : 1);
-      const hoverRatio = Math.min(1, Math.abs(velocityX) / flight.referenceSpeedPxPerSec);
-      const targetAngle = flightActive
-        ? velocitySign * (flightTravel
-          ? flight.travelBankDegrees
-          : flight.hoverBankDegrees * hoverRatio)
-        : 0;
-      const currentAngle = Number(scene.player.angle) || 0;
-      const bankAlpha = resolveUalFlightBankAlpha(deltaMs);
-      scene.player.setAngle?.(currentAngle + (targetAngle - currentAngle) * bankAlpha);
-    }
+    updateCaveLocomotionVisual(this, time, deltaMs);
   }
 
   _playUalAction(key, kind, abilities, onContact, rigContext = null) {
@@ -250,6 +233,7 @@ export class CaveActionAnimationRuntime {
     const animation = key ? scene.anims.get(key) : null;
     const contact = resolveUalActionContact(profile, key, kind);
     if (!animation || !contact || !this.timeline) return false;
+    this.actionRecovery?.reset();
     const timeScale = resolveUalActionTimeScale({
       frameCount: animation.frames?.length || 1,
       frameRate: animation.frameRate || 30,
@@ -258,6 +242,9 @@ export class CaveActionAnimationRuntime {
     });
     this._activeMiningActionKind = kind;
     this._contactAtMs = -Infinity;
+    this._resumeJogFrame = Number.isFinite(rigContext?.resumeJogFrame)
+      ? rigContext.resumeJogFrame
+      : null;
     controller._actionUntilMs = Infinity;
     scene.playerRigContact?.beginAction({
       animationKey: key,
@@ -279,6 +266,15 @@ export class CaveActionAnimationRuntime {
         this._contactAtMs = -Infinity;
         scene.player.anims.timeScale = 1;
         scene.playerRigContact?.endAction();
+        const resumeJogFrame = this._resumeJogFrame;
+        this._resumeJogFrame = null;
+        const motion = controller.playerController?.getMotionState?.();
+        const moving = motion === "walk-left" || motion === "walk-right";
+        if (Number.isFinite(resumeJogFrame) && moving) {
+          this.locomotion?.requestRunResume(resumeJogFrame);
+        } else {
+          this.actionRecovery?.begin(key, scene.player.flipX === true);
+        }
       },
     });
     scene.player.play(key, true);
@@ -293,6 +289,8 @@ export class CaveActionAnimationRuntime {
     this.controller._actionUntilMs = 0;
     this._activeMiningActionKind = null;
     this._contactAtMs = -Infinity;
+    this._resumeJogFrame = null;
+    this.actionRecovery?.reset();
     this.controller.scene.player.anims.timeScale = 1;
     this.controller.scene.playerRigContact?.endAction();
     return true;

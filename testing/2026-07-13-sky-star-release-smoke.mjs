@@ -105,6 +105,17 @@ const sourcePulse = images[2];
 const echoes = images.slice(3);
 assert.equal(releaseFx.artSource, "ImageGen");
 assert.equal(releasedStar.textureKey, releaseFx.coreAssets[0].key);
+assert.equal(releaseFx.startScale, 0.9);
+assert.equal(releaseFx.flashScale, 1);
+assert.equal(releasedStar.displayWidth, releaseFx.tileDisplaySizePx);
+assert.equal(releasedStar.displayHeight, releaseFx.tileDisplaySizePx);
+assert.equal(releasedStar.scaleX, releaseFx.startScale);
+assert.equal(releasedStar.scaleY, releaseFx.startScale);
+assert.equal(
+  releaseFx.coreDisplaySizesPx[0],
+  releaseFx.tileDisplaySizePx,
+  "the release should derive from the same tile-calibrated source envelope"
+);
 assert.equal(sourceFracture.textureKey, releaseFx.fractureAssets[0].key);
 assert.equal(sourcePulse.textureKey, "star-block-pulse-cyan-v1");
 assert.ok(echoes.every(image => image.textureKey === releaseFx.coreAssets[0].key));
@@ -120,8 +131,16 @@ const fractureTween = tweens.find((config) => config.targets === sourceFracture)
 const pulseTween = tweens.find((config) => config.targets === sourcePulse);
 assert.ok(motionTween);
 assert.ok(flashInTween);
+assert.equal(flashInTween.scaleX, 1);
+assert.equal(flashInTween.scaleY, 1);
 assert.ok(fractureTween);
 assert.ok(pulseTween);
+assert.ok(releaseFx.durationMs >= 10_500, "the selected release should levitate more slowly");
+assert.ok(
+  releaseFx.peakScale >= 1.4 && releaseFx.peakScale <= 1.5,
+  "the selected release should grow while staying visually restrained"
+);
+assert.ok(releaseFx.echoCount >= 6, "the selected release should carry a heavy echo trail");
 assert.equal(motionTween.duration, releaseFx.durationMs);
 assert.equal(motionTween.delay, releaseFx.liftDelayMs);
 assert.ok(
@@ -168,6 +187,14 @@ assert.ok(
 );
 
 flashInTween.onComplete();
+const growthTween = tweens.find((config) =>
+  config.targets === releasedStar
+    && config.scaleX === releaseFx.peakScale
+    && config.scaleY === releaseFx.peakScale
+);
+assert.ok(growthTween, "the tile-matched star should grow only after it begins lifting free");
+assert.equal(growthTween.delay, releaseFx.growthDelayMs);
+assert.equal(growthTween.duration, releaseFx.settleMs);
 const fadeOutTween = tweens.find((config) =>
   config.targets === releasedStar && config.alpha === 0
 );

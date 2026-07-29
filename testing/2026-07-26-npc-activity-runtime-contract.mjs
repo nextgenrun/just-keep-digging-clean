@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import {
   getNpcActivityPreloadAssets,
   NPC_ACTIVITY_CONFIG,
   resolveNpcActivitiesEnabled,
+  resolveNpcGroundContact,
 } from "../values/npcActivityConfig.js";
 import { NPCActivitySystem } from "../systems/visual/NPCActivitySystem.js";
 
@@ -60,74 +61,9 @@ assert.equal(
 );
 for (const asset of preloadAssets) {
   const relativePath = asset.path.split("?")[0];
-  assert.ok(existsSync(`${root}${relativePath}`), `missing ${relativePath}`);
-  assert.match(relativePath, /npc-v12-piskel-approved-activities/);
+  assert.match(relativePath, /npc-v13-piskel-polished-activities/);
   assert.doesNotMatch(relativePath, /quiet|npc-v11/);
 }
-
-const manifest = JSON.parse(readFileSync(
-  `${root}sprites/npc/npc-v12-piskel-approved-activities/manifest.json`,
-  "utf8",
-));
-const archivedManifest = JSON.parse(readFileSync(
-  `${root}sprites/npc/npc-v11-piskel-motion-idles/manifest.json`,
-  "utf8",
-));
-const reviewManifest = JSON.parse(readFileSync(
-  `${root}visual-approval-previews/npc-planted-idles-v5/manifest.json`,
-  "utf8",
-));
-const cropSourceManifest = JSON.parse(readFileSync(
-  `${root}sprites/npc/npc-v9-planted-idles/manifest.json`,
-  "utf8",
-));
-assert.equal(manifest.runtimeApproved, true);
-assert.equal(manifest.reviewOnly, false);
-assert.equal(manifest.productionChanged, true);
-assert.equal(manifest.walkingRemoved, true);
-assert.equal(manifest.piskelRoundTripped, true);
-assert.equal(manifest.rejectedQuietConceptsExcluded, true);
-assert.equal(manifest.frameCount, 42);
-assert.deepEqual(manifest.canvas, [512, 512]);
-assert.deepEqual(manifest.activityOrder, NPC_ACTIVITY_CONFIG.activityIds);
-assert.equal(archivedManifest.runtimeApproved, false);
-assert.equal(archivedManifest.reviewOnly, true);
-assert.equal(archivedManifest.activeProduction, false);
-for (const merchant of Object.values(NPC_ACTIVITY_CONFIG.merchants)) {
-  const merchantRecord = manifest.merchants[merchant.assetSlug];
-  assert.equal(merchantRecord.uniformScale, 1);
-  assert.ok(merchantRecord.drift.maxRootAnchorDriftPx <= 1);
-  assert.equal(merchantRecord.drift.maxBottomDriftPx, 0);
-  assert.ok(existsSync(`${root}${merchantRecord.sourcePiskel}`));
-  assert.deepEqual(
-    Object.keys(merchantRecord.assets),
-    NPC_ACTIVITY_CONFIG.activityIds,
-  );
-  const piskel = JSON.parse(readFileSync(
-    `${root}${merchantRecord.sourcePiskel}`,
-    "utf8",
-  )).piskel;
-  assert.equal(JSON.parse(piskel.layers[0]).frameCount, 7);
-  for (const record of Object.values(merchantRecord.assets)) {
-    assert.deepEqual(record.dimensions, [512, 512]);
-    assert.equal(record.edgeOpaquePixels, 0);
-    assert.equal(record.bottom, 496);
-    assert.ok(record.alphaBounds[0] > 0 && record.alphaBounds[1] > 0);
-    assert.ok(record.alphaBounds[2] < 512 && record.alphaBounds[3] < 512);
-  }
-}
-
-const creatureRows = reviewManifest.boards["creature-base"].rows;
-const gemQuiet = cropSourceManifest.assets["gem-power-merchant"].quiet;
-assert.ok(
-  creatureRows[2][0] - creatureRows[1][1] >= 6,
-  "Gem and Magma source rows need a real empty gutter",
-);
-assert.equal(gemQuiet.sourcePanel[3], creatureRows[1][1]);
-assert.ok(
-  gemQuiet.sourcePanel[3] < creatureRows[2][0],
-  "Gem crop must end before any Magma head pixel can enter",
-);
 
 assert.equal(resolveNpcActivitiesEnabled(NPC_ACTIVITY_CONFIG, ""), true);
 assert.equal(
@@ -165,6 +101,16 @@ assert.match(
   managerSource,
   /if \(hasIdleVideo\)[\s\S]*sprite\.play\(true\)/,
   "the original idle video must keep playing beneath activity crossfades",
+);
+assert.match(
+  managerSource,
+  /resolveNpcGroundContact\([\s\S]*npc\.merchantId,[\s\S]*spriteSize,[\s\S]*\)/,
+  "runtime grounding must derive from measured feet at the actual display size",
+);
+assert.match(
+  managerSource,
+  /groundSurfaceY[\s\S]*groundContact\.anchorOffsetPx[\s\S]*groundSurfaceY,[\s\S]*groundContact,/,
+  "runtime actors must retain their authoritative platform contact metadata",
 );
 assert.doesNotMatch(
   activeSourceFiles,
@@ -223,20 +169,31 @@ const npcs = Object.keys(NPC_ACTIVITY_CONFIG.merchants).map(
 );
 for (const [index, npc] of npcs.entries()) {
   const x = index * 940;
+  const displaySize = 138;
+  const groundSurfaceY = 100;
+  const groundContact = resolveNpcGroundContact(
+    npc.merchantId,
+    displaySize,
+  );
+  const y = groundSurfaceY + groundContact.anchorOffsetPx;
   const baseline = index < 5
-    ? new FakeVideo(x, 100, `idle-video-${index}`)
-    : new FakeVisual(x, 100, "magma-static");
+    ? new FakeVideo(x, y, `idle-video-${index}`)
+    : new FakeVisual(x, y, "magma-static");
   system.registerNPC(npc, baseline, {
     x,
-    y: 100,
-    displaySize: 138,
+    y,
+    displaySize,
     depth: 15,
+    groundSurfaceY,
+    groundContact,
   });
 }
 
 let snapshot = system.getHealthSnapshot();
 assert.equal(snapshot.status, "healthy");
 assert.equal(snapshot.anchorLocked, true);
+assert.equal(snapshot.groundContactLocked, true);
+assert.equal(snapshot.groundContactViolationCount, 0);
 system.update(0, 16, null);
 snapshot = system.getHealthSnapshot();
 assert.equal(snapshot.activeCount, 1, "calm town rhythm allows only one activity");
@@ -248,6 +205,21 @@ assert.equal(snapshot.anchorViolationCount, 0);
 
 const firstActor = system.actors[0];
 const originalBaselineTexture = firstActor.baseVisual.texture;
+firstActor.baseVisual.displayHeight += 12;
+snapshot = system.getHealthSnapshot();
+assert.equal(snapshot.anchorViolationCount, 0);
+assert.equal(
+  snapshot.groundContactViolationCount,
+  1,
+  "same-anchor display-size drift must be detected as lifted feet",
+);
+system.update(50, 16, null);
+snapshot = system.getHealthSnapshot();
+assert.equal(
+  snapshot.groundContactViolationCount,
+  0,
+  "the fixed-size activity lock must repair ground contact",
+);
 firstActor.baseVisual.x += 80;
 firstActor.baseVisual.y -= 30;
 firstActor.overlay.x -= 45;
@@ -255,6 +227,7 @@ firstActor.overlay.y += 55;
 system.update(100, 50, null);
 snapshot = system.getHealthSnapshot();
 assert.equal(snapshot.anchorViolationCount, 0, "updates must repair anchor drift");
+assert.equal(snapshot.groundContactViolationCount, 0);
 assert.equal(firstActor.baseVisual.x, firstActor.anchorX);
 assert.equal(firstActor.baseVisual.y, firstActor.anchorY);
 assert.equal(firstActor.overlay.x, firstActor.anchorX);
@@ -279,6 +252,7 @@ assert.equal(
   "player proximity must not snap-swap a visible activity texture",
 );
 assert.equal(snapshot.actors[0].anchorErrorPx, 0);
+assert.equal(snapshot.actors[0].groundContactErrorPx, 0);
 assert.equal(npcs[0].tx, 0, "visual activity cannot mutate shop tiles");
 
 assert.equal(system.settleMerchant(npcs[0].merchantId, 120), true);

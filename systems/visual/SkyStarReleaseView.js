@@ -262,6 +262,7 @@ export class SkyStarReleaseView {
           targets: star,
           scaleX: motion.entry.baseScaleX * fx.peakScale,
           scaleY: motion.entry.baseScaleY * fx.peakScale,
+          delay: fx.growthDelayMs,
           duration: fx.settleMs,
           ease: "Sine.out",
         });

@@ -1,5 +1,9 @@
 import { PLAYER_CHARACTER_IDS } from "./playerCharacters.js";
+import { MOVING_SIDE_DIG_ANIMATION } from "./movingSideDigAnimation.js";
+import { PLAYER_ANIMATION_POLISH } from "./playerAnimationPolish.js";
 import { SURVIVAL_BLENDER_V2_RUNTIME } from "./survivalBlenderV2Runtime.js?rev=20260726-superman-prone-v3";
+import { buildSurvivalUalAnimationPolishProfile } from "./survivalUalAnimationPolishProfile.js";
+import { buildSurvivalUalMovingSideDigProfile } from "./survivalUalMovingSideDigProfile.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
 
 const UAL_RUNTIME_KEY_PREFIX = "ual-native-v1";
@@ -26,6 +30,12 @@ const remappedProfile = remapUalRuntimeValue(UAL_NATIVE_PLAYER_ASSET_PROFILE);
 const blenderV2 = SURVIVAL_BLENDER_V2_RUNTIME;
 const groundedVisual = blenderV2.groundedVisualCalibration;
 const digUpSheet = blenderV2.sheets.digUp;
+const movingSideDig = buildSurvivalUalMovingSideDigProfile(MOVING_SIDE_DIG_ANIMATION);
+const animationPolish = buildSurvivalUalAnimationPolishProfile({
+  profile: remappedProfile,
+  movingSideDig: MOVING_SIDE_DIG_ANIMATION,
+  polish: PLAYER_ANIMATION_POLISH,
+});
 const digUpAnimationKeys = Object.freeze(Array.from(new Set([
   ...remappedProfile.digUpHitAnims,
   ...remappedProfile.digUpSidewaysHitAnims,
@@ -62,12 +72,29 @@ const blenderOverrides = Object.freeze({
   }),
 });
 
-const sheetFiles = Object.freeze(remappedProfile.sheetFiles.map(([profileKey, fileName, framesKey]) => {
-  const override = blenderOverrides[profileKey];
-  return Object.freeze(override
-    ? [profileKey, override.fileName, override.framesKey || framesKey, blenderV2.basePath]
-    : [profileKey, fileName.replace(UAL_RUNTIME_FILE_PREFIX, `${SURVIVAL_UAL_RUNTIME_PREFIX}-`), framesKey]);
-}));
+const sheetFiles = Object.freeze([
+  ...remappedProfile.sheetFiles.map(([profileKey, fileName, framesKey]) => {
+    const override = blenderOverrides[profileKey];
+    return Object.freeze(override
+      ? [profileKey, override.fileName, override.framesKey || framesKey, blenderV2.basePath]
+      : [profileKey, fileName.replace(UAL_RUNTIME_FILE_PREFIX, `${SURVIVAL_UAL_RUNTIME_PREFIX}-`), framesKey]);
+  }),
+  ...movingSideDig.actions.map((action) => Object.freeze([
+    action.id === MOVING_SIDE_DIG_ANIMATION.actions.jab.id
+      ? "movingSideDigJabSheet"
+      : "movingSideDigCrossSheet",
+    action.fileName,
+    action.id === MOVING_SIDE_DIG_ANIMATION.actions.jab.id
+      ? "movingSideDigJabFrames"
+      : "movingSideDigCrossFrames",
+  ])),
+  Object.freeze([
+    "movingSideDigPhaseHandoffSheet",
+    movingSideDig.handoff.atlas.fileName,
+    "movingSideDigPhaseHandoffFrames",
+  ]),
+  ...animationPolish.animationPolishSheetFiles,
+]);
 
 const sheetOverrideByOriginalKey = Object.freeze(Object.fromEntries(
   Object.entries(blenderOverrides).map(([profileKey, override]) => [
@@ -76,9 +103,14 @@ const sheetOverrideByOriginalKey = Object.freeze(Object.fromEntries(
   ]),
 ));
 const requiredSheets = Object.freeze(Array.from(new Set(
-  remappedProfile.requiredSheets.map((sheetKey) => (
-    sheetOverrideByOriginalKey[sheetKey]?.key || sheetKey
-  )),
+  [
+    ...remappedProfile.requiredSheets.map((sheetKey) => (
+      sheetOverrideByOriginalKey[sheetKey]?.key || sheetKey
+    )),
+    ...movingSideDig.actions.map((action) => action.sheetKey),
+    movingSideDig.handoff.atlas.sheetKey,
+    ...animationPolish.animationPolishRequiredSheets,
+  ],
 )));
 
 const blenderCoreDisplaySizeByAnimation = Object.freeze({
@@ -90,10 +122,15 @@ const blenderCoreDisplaySizeByAnimation = Object.freeze({
   [remappedProfile.walkStopAnim]: groundedVisual.walk.displaySizePx,
   [remappedProfile.walkRunAnim]: remappedProfile.displaySizePxByAnimation[remappedProfile.walkRunAnim],
   ...Object.fromEntries(digUpAnimationKeys.map((key) => [key, digUpSheet.displaySizePx])),
+  ...Object.fromEntries(movingSideDig.phaseVariants.map((variant) => [
+    variant.animationKey,
+    MOVING_SIDE_DIG_ANIMATION.displaySizePx,
+  ])),
   ...Object.fromEntries(blenderV2.idleFidgets.map((fidget) => [
     fidget.key,
     groundedVisual.idle.displaySizePx,
   ])),
+  ...animationPolish.customDisplaySizes,
 });
 
 const blenderCoreOriginBySheet = Object.freeze({
@@ -105,16 +142,29 @@ const blenderCoreOriginBySheet = Object.freeze({
     y: remappedProfile.visualOriginY,
   }),
   [digUpSheet.key]: Object.freeze({ x: digUpSheet.originX, y: digUpSheet.originY }),
+  ...Object.fromEntries(movingSideDig.actions.map((action) => [action.sheetKey, Object.freeze({
+    x: MOVING_SIDE_DIG_ANIMATION.visualOriginX,
+    y: MOVING_SIDE_DIG_ANIMATION.visualOriginY,
+  })])),
+  [movingSideDig.handoff.atlas.sheetKey]: Object.freeze({
+    x: MOVING_SIDE_DIG_ANIMATION.visualOriginX,
+    y: MOVING_SIDE_DIG_ANIMATION.visualOriginY,
+  }),
+  ...animationPolish.customOriginBySheet,
 });
 
 export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   ...remappedProfile,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
-  renderPipeline: "survival-blender-v2-piskel-stabilized-dig-up-superman-prone-v3-flight-ual-jog-v1",
+  renderPipeline: "survival-blender-v2-piskel-central-animation-polish-v1-superman-prone-v3-flight-ual-jog-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",
-  version: "survival-blender-v2-piskel-stabilized-dig-up-20260726",
+  version: "survival-blender-v2-piskel-central-animation-polish-v1-20260728",
   visualSkin: blenderV2.visualId,
-  coreAnimationPolicy: "blender-v2 idle-flight and Piskel-stabilized dig-up; UAL jog-side-down compatibility actions",
+  coreAnimationPolicy: "Blender idle/flight plus Piskel-owned planted handoffs, moving digs, landing, and wall brace",
+  walkStartAnim: animationPolish.walkStartAnim,
+  walkStopAnim: animationPolish.walkStopAnim,
+  landingAnim: animationPolish.landingAnim,
+  softLandingAnim: animationPolish.softLandingAnim,
   idleSheet: blenderV2.sheets.idle.key,
   idleTalkSheet: blenderV2.sheets.idle.idleTalkKey,
   walkSheet: blenderV2.sheets.walk.key,
@@ -132,6 +182,10 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   digUpSheet: digUpSheet.key,
   digUpSidewaysSheet: digUpSheet.key,
   uppercutSheet: digUpSheet.key,
+  movingSideDigJabSheet: MOVING_SIDE_DIG_ANIMATION.actions.jab.sheetKey,
+  movingSideDigCrossSheet: MOVING_SIDE_DIG_ANIMATION.actions.cross.sheetKey,
+  movingSideDigPhaseHandoffSheet: movingSideDig.handoff.atlas.sheetKey,
+  ...animationPolish,
   continuousFlightLoop: true,
   leanAgainstWallSheet: blenderV2.sheets.idle.idleTalkKey,
   combatIdleRecoverSheet: blenderV2.sheets.idle.key,
@@ -155,6 +209,9 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   digUpSidewaysFrames: blenderV2.frames.digUp,
   uppercutFrames: blenderV2.frames.digUp,
   uppercutPlaybackFrames: blenderV2.frames.digUp,
+  movingSideDigJabFrames: MOVING_SIDE_DIG_ANIMATION.actions.jab.frames,
+  movingSideDigCrossFrames: MOVING_SIDE_DIG_ANIMATION.actions.cross.frames,
+  movingSideDigPhaseHandoffFrames: movingSideDig.handoff.atlas.frames,
   idleAnimationFps: 12,
   digUpAnimationFps: digUpSheet.frameRate,
   digUpLookAnimationFps: 30,
@@ -179,16 +236,52 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     uppercut: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
     digUpPrimary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
     digUpSecondary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
+    movingSideDigJab: MOVING_SIDE_DIG_ANIMATION.actions.jab.sourceClip,
+    movingSideDigCross: MOVING_SIDE_DIG_ANIMATION.actions.cross.sourceClip,
     fly: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
     flyHover: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
   }),
   requiredSheets,
   sheetFiles,
+  walkAnims: Object.freeze([
+    animationPolish.walkStartAnim,
+    remappedProfile.walkLoopAnim,
+    remappedProfile.walkRunAnim,
+    animationPolish.walkStopAnim,
+  ]),
+  walkMovingAnims: Object.freeze([
+    animationPolish.walkStartAnim,
+    remappedProfile.walkLoopAnim,
+    remappedProfile.walkRunAnim,
+  ]),
+  locomotionTransitionAnims: Object.freeze(Array.from(new Set([
+    ...remappedProfile.locomotionTransitionAnims,
+    ...animationPolish.customAnimationKeys,
+  ]))),
   digAnimationVariants: Object.freeze([
     ...remappedProfile.digAnimationVariants.filter((variant) => !digUpAnimationKeys.includes(variant.key)),
     ...digUpVariants,
+    ...movingSideDig.variants,
+    ...animationPolish.diagonalDigAnimationVariants,
   ]),
-  actionContactByAnimation: digUpContactByAnimation,
+  digAnims: Object.freeze(Array.from(new Set([
+    ...remappedProfile.digAnims,
+    ...movingSideDig.animationKeys,
+    ...animationPolish.movingDiagonalDigAnimationKeys,
+  ]))),
+  punchActionAnims: Object.freeze(Array.from(new Set([
+    ...remappedProfile.punchActionAnims,
+    ...movingSideDig.animationKeys,
+    ...animationPolish.movingDiagonalDigAnimationKeys,
+  ]))),
+  movingSideDigConfig: MOVING_SIDE_DIG_ANIMATION,
+  movingSideDigAnimationMap: movingSideDig.animationMap,
+  actionContactByAnimation: Object.freeze({
+    ...(remappedProfile.actionContactByAnimation || {}),
+    ...digUpContactByAnimation,
+    ...movingSideDig.contactByAnimation,
+    ...animationPolish.diagonalDigContactByAnimation,
+  }),
   idleFidgets: blenderV2.idleFidgets,
   displaySizePxByAnimation: Object.freeze({
     ...remappedProfile.displaySizePxByAnimation,

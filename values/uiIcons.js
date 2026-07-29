@@ -78,8 +78,32 @@ export const UI_RESOURCE_PRESENTATION = Object.freeze({
   magmaCrystal: { name: "Magma Crystal", icon: "gem", color: "#ff3e86" },
 });
 
+export const UI_INVENTORY_COPY = Object.freeze({
+  title: "FIELD INVENTORY",
+  subtitle: "Every resource icon is named • quantities unlock when mined",
+  iconKeyTitle: "RESOURCE ICON KEY",
+  discoveredStatus: "MINED MATERIAL",
+  undiscoveredStatus: "NOT YET MINED",
+  totalUnitsSuffix: "TOTAL UNITS",
+  walletSuffix: "M",
+  lockedAmount: "—",
+  returnLabel: "RETURN TO GAME",
+});
+
 export const UI_INVENTORY_LAYOUT = Object.freeze({
-  maxWidth: 860, maxHeight: 620, viewportMarginX: 48, viewportMarginY: 72,
-  minimumWidth: 360, minimumHeight: 420, contentInset: 28, headerHeight: 104,
-  columnGap: 12, rowGap: 10, columns: 2, itemHeight: 66, iconSize: 46,
+  maxWidth: 940,
+  maxHeight: 640,
+  summaryHeight: 58,
+  summaryGap: 14,
+  desktopColumnThreshold: 760,
+  desktopColumns: 3,
+  compactColumns: 2,
+  columnGap: 10,
+  rowGap: 8,
+  minItemHeight: 42,
+  maxItemHeight: 66,
+  itemIconInset: 30,
+  itemTextInset: 60,
+  itemQuantityInset: 14,
+  iconSize: 44,
 });

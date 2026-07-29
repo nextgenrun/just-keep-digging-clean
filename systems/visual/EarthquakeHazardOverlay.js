@@ -1,8 +1,8 @@
 import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { EarthquakeFallZoneView } from "./EarthquakeFallZoneView.js";
 
-const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const tileKey = (tx, ty) => `${tx},${ty}`;
 
 export class EarthquakeHazardOverlay {
@@ -13,180 +13,69 @@ export class EarthquakeHazardOverlay {
     this.recentRubble = new Map();
     this.recentOpenings = new Map();
     this.destroyed = false;
-    this._create();
+    this.fallZoneView = new EarthquakeFallZoneView(
+      scene,
+      earthquakeSystem,
+      config,
+    );
+    this._createEdgeIndicator();
   }
 
-  _create() {
-    this.worldGraphics = this.scene.add.graphics().setDepth(this.config.worldDepth);
-    this.markerPool = Array.from(
-      { length: this.config.hazards.maxMarkers },
-      () => this._createMarker()
-    );
+  get warningPool() {
+    return this.fallZoneView.warningPool;
+  }
+
+  get rockPool() {
+    return this.fallZoneView.rockPool;
+  }
+
+  _createEdgeIndicator() {
+    const cfg = this.config.hazards;
     this.edgeRoot = this.scene.add.container(0, 0)
-      .setScrollFactor(0).setDepth(this.config.hudDepth).setVisible(false);
+      .setScrollFactor(0)
+      .setDepth(this.config.hudDepth)
+      .setVisible(false);
     this.edgeIcon = this.scene.add.image(
-      this.config.hazards.edgeIconX,
+      cfg.edgeIconX,
       0,
       this.config.assets.medallion.key,
-    ).setDisplaySize(
-      this.config.hazards.edgeIconSize,
-      this.config.hazards.edgeIconSize,
-    );
-    this.edgeText = this.scene.add.text(this.config.hazards.edgeTextX, 0, "", {
+    ).setDisplaySize(cfg.edgeIconSize, cfg.edgeIconSize);
+    this.edgeText = this.scene.add.text(cfg.edgeTextX, 0, "", {
       fontFamily: UI_FONTS.mono,
-      fontSize: this.config.hazards.edgeFontSize,
+      fontSize: cfg.edgeFontSize,
       fontStyle: "bold",
       color: UI_COLORS.white,
-      stroke: "#06090c",
-      strokeThickness: 3,
+      stroke: cfg.edgeTextStroke,
+      strokeThickness: cfg.edgeTextStrokeWidth,
     }).setOrigin(0, 0.5);
     this.edgeRoot.add([this.edgeIcon, this.edgeText]);
   }
 
-  _createMarker() {
-    const root = this.scene.add.container(0, 0).setDepth(this.config.worldDepth).setVisible(false);
-    const icon = this.scene.add.image(0, 0, this.config.assets.medallion.key)
-      .setDisplaySize(
-        this.config.hazards.markerDisplaySize,
-        this.config.hazards.markerDisplaySize,
-      );
-    const graphics = this.scene.add.graphics();
-    const text = this.scene.add.text(0, 0, "", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: this.config.hazards.markerFontSize,
-      fontStyle: "bold",
-      color: UI_COLORS.white,
-      stroke: "#0b1015",
-      strokeThickness: this.config.hazards.markerStrokeWidth,
-    }).setOrigin(0.5, 0);
-    root.add([icon, graphics, text]);
-    return { root, icon, graphics, text };
+  update() {
+    if (this.destroyed || !this.config.enabled) return;
+    this.fallZoneView.update();
+    this._pruneRecent();
+    this._updateEdgeIndicator();
+  }
+
+  playRockImpact(rock) {
+    return this.fallZoneView.playRockImpact(rock);
   }
 
   markRestoredRubble(tx, ty) {
     if (!Number.isInteger(tx) || !Number.isInteger(ty)) return;
-    const expiresAt = (this.scene.time?.now || 0) + this.config.hazards.restoredOutlineMs;
-    this.recentRubble.set(tileKey(tx, ty), { tx, ty, expiresAt });
+    this.recentRubble.set(tileKey(tx, ty), {
+      expiresAt: (this.scene.time?.now || 0)
+        + this.config.hazards.restoredOutlineMs,
+    });
   }
 
   markOpenedPassage(tx, ty) {
     if (!Number.isInteger(tx) || !Number.isInteger(ty)) return;
-    const expiresAt = (this.scene.time?.now || 0)
-      + this.config.hazards.openedPassageHighlightMs;
-    this.recentOpenings.set(tileKey(tx, ty), { tx, ty, expiresAt });
-  }
-
-  update() {
-    if (this.destroyed || !this.config.enabled) return;
-    this.worldGraphics.clear();
-    this._drawRockLanes();
-    this._drawRecentRubble();
-    this._drawRecentOpenings();
-    this._updateMarkers();
-    this._updateEdgeIndicator();
-  }
-
-  _drawRockLanes() {
-    const cfg = this.config.hazards;
-    const ts = this.scene.config.tileSize;
-    const laneWidth = ts * cfg.rockLaneWidthTiles;
-    const rocks = (this.source?.fallingRocks || []).slice(0, cfg.maxRockLanes);
-    for (const rock of rocks) {
-      const halfWidth = laneWidth / 2;
-      this.worldGraphics.lineStyle(2, this.config.colors.danger, cfg.rockLaneAlpha);
-      this.worldGraphics.lineBetween(rock.x - halfWidth, rock.y, rock.x - halfWidth, rock.endY);
-      this.worldGraphics.lineBetween(rock.x + halfWidth, rock.y, rock.x + halfWidth, rock.endY);
-      const landingHalfWidth = ts * cfg.rockLandingWidthTiles / 2;
-      this.worldGraphics.lineStyle(3, this.config.colors.danger, cfg.rockLaneAlpha * 1.4);
-      this.worldGraphics.lineBetween(
-        rock.x - landingHalfWidth,
-        rock.endY,
-        rock.x + landingHalfWidth,
-        rock.endY,
-      );
-    }
-  }
-
-  _drawRecentRubble() {
-    const now = this.scene.time?.now || 0;
-    const ts = this.scene.config.tileSize;
-    const cfg = this.config.hazards;
-    this.worldGraphics.lineStyle(cfg.restoredOutlineWidth, this.config.colors.warning, 0.9);
-    for (const [key, rubble] of this.recentRubble) {
-      if (now >= rubble.expiresAt) {
-        this.recentRubble.delete(key);
-        continue;
-      }
-      const alpha = clamp((rubble.expiresAt - now) / cfg.restoredOutlineMs, 0.2, 1);
-      this.worldGraphics.lineStyle(cfg.restoredOutlineWidth, this.config.colors.warning, alpha);
-      this.worldGraphics.strokeRect(rubble.tx * ts, rubble.ty * ts, ts, ts);
-    }
-  }
-
-  _drawRecentOpenings() {
-    const now = this.scene.time?.now || 0;
-    const ts = this.scene.config.tileSize;
-    const cfg = this.config.hazards;
-    for (const [key, opening] of this.recentOpenings) {
-      if (now >= opening.expiresAt) {
-        this.recentOpenings.delete(key);
-        continue;
-      }
-      const alpha = clamp(
-        (opening.expiresAt - now) / cfg.openedPassageHighlightMs,
-        0.18,
-        0.9
-      );
-      this.worldGraphics.lineStyle(
-        cfg.openedPassageOutlineWidth,
-        this.config.colors.cyan,
-        alpha
-      );
-      this.worldGraphics.strokeRoundedRect(
-        opening.tx * ts + 4,
-        opening.ty * ts + 4,
-        ts - 8,
-        ts - 8,
-        8
-      );
-    }
-  }
-
-  _updateMarkers() {
-    const player = this.scene.playerController?.getPlayerTile?.();
-    const caveIns = [...(this.source?.caveIns || [])]
-      .filter(caveIn => this._isCaveInVisible(caveIn))
-      .sort((a, b) => this._tileDistance(a, player) - this._tileDistance(b, player));
-    this.markerPool.forEach((marker, index) => {
-      const caveIn = caveIns[index];
-      if (!caveIn) {
-        marker.root.setVisible(false);
-        return;
-      }
-      this._renderMarker(marker, caveIn);
+    this.recentOpenings.set(tileKey(tx, ty), {
+      expiresAt: (this.scene.time?.now || 0)
+        + this.config.hazards.openedPassageHighlightMs,
     });
-  }
-
-  _renderMarker(marker, caveIn) {
-    const cfg = this.config.hazards;
-    const ts = this.scene.config.tileSize;
-    const radius = cfg.markerRadius;
-    const remainingRatio = clamp(caveIn.remaining / this.source.config.caveInWarningMs, 0, 1);
-    const label = caveIn.chain ? this.config.labels.aftershock : this.config.labels.caveIn;
-    marker.root.setPosition(
-      caveIn.tx * ts + ts / 2,
-      caveIn.ty * ts + ts / 2 + cfg.markerOffsetY
-    ).setVisible(true);
-    marker.text.setText(`${label} ${Math.max(0, caveIn.remaining / 1000).toFixed(1)}s`)
-      .setPosition(0, cfg.markerLabelOffsetY);
-    marker.icon.setAlpha?.(0.88 + (1 - remainingRatio) * 0.12);
-    marker.graphics.clear();
-    marker.graphics.lineStyle(cfg.markerStrokeWidth, this.config.colors.calm, 0.28);
-    marker.graphics.strokeCircle(0, 0, radius);
-    marker.graphics.lineStyle(cfg.markerStrokeWidth, this.config.colors.danger, 1);
-    marker.graphics.beginPath();
-    marker.graphics.arc(0, 0, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * remainingRatio);
-    marker.graphics.strokePath();
   }
 
   _updateEdgeIndicator() {
@@ -210,50 +99,51 @@ export class EarthquakeHazardOverlay {
     const rawY = ((candidate.y - view.y) / view.height) * vh;
     const halfW = cfg.edgeWidth / 2;
     const halfH = cfg.edgeHeight / 2;
-    const x = clamp(rawX, cfg.edgeInset + halfW, vw - cfg.edgeInset - halfW);
-    const y = clamp(rawY, cfg.edgeInset + halfH, vh - cfg.edgeInset - halfH);
+    const x = Math.max(
+      cfg.edgeInset + halfW,
+      Math.min(vw - cfg.edgeInset - halfW, rawX),
+    );
+    const y = Math.max(
+      cfg.edgeInset + halfH,
+      Math.min(vh - cfg.edgeInset - halfH, rawY),
+    );
     const glyph = rawX < 0 ? "◀" : rawX > vw ? "▶" : rawY < 0 ? "▲" : "▼";
     this.edgeRoot.setPosition(x, y).setVisible(true);
     this.edgeText.setText(`${glyph} ${this.config.labels.danger}`);
-    const pulse = 0.92 + Math.sin((this.scene.time?.now || 0) / 220) * 0.06;
-    this.edgeIcon.setDisplaySize?.(
-      cfg.edgeIconSize * pulse,
-      cfg.edgeIconSize * pulse,
-    );
   }
 
   _offscreenHazards(view) {
     const ts = this.scene.config.tileSize;
     const margin = this.config.hazards.viewportMargin;
-    const hazards = (this.source?.caveIns || []).map(caveIn => ({
-      x: caveIn.tx * ts + ts / 2,
-      y: caveIn.ty * ts + ts / 2,
-    })).concat((this.source?.fallingRocks || []).map(rock => ({ x: rock.x, y: rock.endY })));
+    const right = view.right ?? view.x + view.width;
+    const bottom = view.bottom ?? view.y + view.height;
+    const hazards = (this.source?.caveIns || []).map(zone => ({
+      x: (zone.tx + 0.5) * ts,
+      y: zone.landingTy * ts,
+    })).concat((this.source?.fallingRocks || []).map(rock => ({
+      x: rock.x,
+      y: rock.endY,
+    })));
     return hazards.filter(point => point.x < view.x + margin
-      || point.x > view.right - margin
+      || point.x > right - margin
       || point.y < view.y + margin
-      || point.y > view.bottom - margin);
+      || point.y > bottom - margin);
   }
 
-  _tileDistance(tile, player) {
-    if (!player) return 0;
-    return Math.abs(tile.tx - player.tx) + Math.abs(tile.ty - player.ty);
-  }
-
-  _isCaveInVisible(caveIn) {
-    const view = this.scene.cameras?.main?.worldView;
-    if (!view) return true;
-    const ts = this.scene.config.tileSize;
-    const x = caveIn.tx * ts + ts / 2;
-    const y = caveIn.ty * ts + ts / 2 + this.config.hazards.markerOffsetY;
-    return x >= view.x && x <= view.right && y >= view.y && y <= view.bottom;
+  _pruneRecent() {
+    const now = this.scene.time?.now || 0;
+    for (const [key, value] of this.recentRubble) {
+      if (now >= value.expiresAt) this.recentRubble.delete(key);
+    }
+    for (const [key, value] of this.recentOpenings) {
+      if (now >= value.expiresAt) this.recentOpenings.delete(key);
+    }
   }
 
   clear() {
+    this.fallZoneView.clear();
     this.recentRubble.clear();
     this.recentOpenings.clear();
-    this.worldGraphics?.clear();
-    this.markerPool?.forEach(marker => marker.root.setVisible(false));
     this.edgeRoot?.setVisible(false);
   }
 
@@ -261,8 +151,7 @@ export class EarthquakeHazardOverlay {
     if (this.destroyed) return;
     this.destroyed = true;
     this.clear();
-    this.worldGraphics?.destroy();
-    this.markerPool?.forEach(marker => marker.root.destroy(true));
+    this.fallZoneView.destroy();
     this.edgeRoot?.destroy(true);
     this.scene = null;
     this.source = null;

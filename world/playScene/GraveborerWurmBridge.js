@@ -6,10 +6,9 @@ import {
   GRAVEBORER_WURM_PHASES,
   sanitizeGraveborerWurmData,
 } from "../../values/graveborerWurm.js";
+import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
-import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
-
-const CARVABLE_WURM_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
+import { handleGraveborerWurmEvents } from "./GraveborerWurmEventBridge.js";
 
 function readBooleanQuery(params, name, fallback) {
   if (!params.has(name)) return fallback;
@@ -19,7 +18,16 @@ function readBooleanQuery(params, name, fallback) {
   return fallback;
 }
 
-export function resolveGraveborerWurmFeatureFlags(search = globalThis.location?.search || "") {
+export function resolveGraveborerWurmFeatureFlags(
+  search = globalThis.location?.search || "",
+  debugMode = GAME_CONFIG.debugMode,
+) {
+  if (debugMode !== true) {
+    return {
+      enabled: GRAVEBORER_WURM_CONFIG.featureFlags.enabled,
+      devTest10x: false,
+    };
+  }
   const params = new URLSearchParams(search);
   const flags = GRAVEBORER_WURM_CONFIG.featureFlags;
   return {
@@ -28,7 +36,12 @@ export function resolveGraveborerWurmFeatureFlags(search = globalThis.location?.
   };
 }
 
-export function resolveGraveborerWurmActivation(scene, playerTile, system) {
+export function resolveGraveborerWurmActivation(
+  scene,
+  playerTile,
+  system,
+  devForceActive = false,
+) {
   const config = GRAVEBORER_WURM_CONFIG;
   const hardcoreArmed = isHardcoreModeArmed(scene.hardcoreModeData);
   const flightUnlocked = scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -38,164 +51,48 @@ export function resolveGraveborerWurmActivation(scene, playerTile, system) {
   const productionActive = hardcoreArmed
     && (!config.activation.requiresFlightUnlock || flightUnlocked)
     && (depth >= config.activation.minDepthTiles || encounterCommitted);
+  const devOverride = system.devTest10x === true || devForceActive === true;
   return {
-    active: system.devTest10x === true || productionActive,
+    active: devOverride || productionActive,
     productionActive,
     hardcoreArmed,
     flightUnlocked,
     depth,
     depthEligible: depth >= config.activation.minDepthTiles,
-    devOverride: system.devTest10x === true,
+    devOverride,
+    devForceActive: devForceActive === true,
   };
 }
 
-function carveNaturalTerrain(scene, runtime, event) {
-  const world = scene.worldModel;
-  if (!world || !event?.point || !event?.tangent) return;
-  const normal = { x: -event.tangent.y, y: event.tangent.x };
-  const offsets = [
-    0,
-    GRAVEBORER_WURM_CONFIG.path.carvePerpendicularTiles,
-    -GRAVEBORER_WURM_CONFIG.path.carvePerpendicularTiles,
-  ];
-  const candidates = new Map();
-  offsets.forEach(offset => {
-    const tx = Math.round(event.point.x + normal.x * offset);
-    const ty = Math.round(event.point.y + normal.y * offset);
-    candidates.set(`${tx},${ty}`, { tx, ty });
-  });
-
-  let firstDestroyed = null;
-  candidates.forEach(({ tx, ty }) => {
-    if (!world.inBounds(tx, ty) || ty <= scene.config.topAirRows) return;
-    const tileType = world.getTileType(tx, ty);
-    if (!CARVABLE_WURM_TILE_TYPES.has(tileType)) return;
-    const result = world.damageTile(tx, ty, Number.MAX_SAFE_INTEGER);
-    if (!result?.destroyed) return;
-    runtime.tilesCarved += 1;
-    firstDestroyed ||= { tx, ty, tileType };
-    scene.worldRenderer?.applyTileUpdate?.(tx, ty);
-  });
-
-  runtime.carveEventCount += 1;
-  if (firstDestroyed && runtime.carveEventCount % 4 === 0) {
-    const worldX = firstDestroyed.tx * scene.config.tileSize + scene.config.tileSize / 2;
-    const worldY = firstDestroyed.ty * scene.config.tileSize + scene.config.tileSize / 2;
-    scene._applyDestroyParticles?.(worldX, worldY, firstDestroyed.tileType);
-    scene.soundSystem?.playTileBreak?.({
-      volume: 0.5,
-      rate: 0.72 + (runtime.carveEventCount % 3) * 0.08,
-    });
-  }
-  if (firstDestroyed && runtime.carveEventCount % 9 === 0) {
-    scene.shakeSystem?.shake?.("earthquake.rockImpact", 0.35);
-  }
-}
-
-function applyWurmHit(scene, runtime, event) {
-  const controller = scene.playerController;
-  const maxGp = Math.max(1, controller?.getGemPowerMax?.() || 1);
-  const isHead = event.part === "head";
-  const ratio = isHead
-    ? GRAVEBORER_WURM_CONFIG.combat.headDamageMaxGpRatio
-    : GRAVEBORER_WURM_CONFIG.combat.bodyDamageMaxGpRatio;
-  const minimum = isHead
-    ? GRAVEBORER_WURM_CONFIG.combat.minimumHeadDamageGp
-    : GRAVEBORER_WURM_CONFIG.combat.minimumBodyDamageGp;
-  const requested = Math.max(minimum, Math.ceil(maxGp * ratio));
-  const consumed = controller?.consumeGemPower?.(requested) || 0;
-  const remaining = Math.max(0, controller?.getGemPowerRaw?.() || 0);
-  const playerTile = controller?.getPlayerTile?.();
-  if (playerTile && consumed > 0) {
-    const x = playerTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-    const y = playerTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-    scene.floatingTextSystem?.showFloatingText?.(
-      x,
-      y - scene.config.tileSize,
-      `-${Math.ceil(consumed)} GP`,
-      "#ff5548",
-      1500,
-      25,
+export function forceGraveborerWurmEncounter(scene) {
+  const runtime = scene.graveborerWurmRuntime;
+  if (!runtime?.devToolsEnabled) return false;
+  const controls = GRAVEBORER_WURM_CONFIG.devControls;
+  if (!runtime.system.enabled) {
+    scene.uiNotifications?.warning?.(
+      GRAVEBORER_WURM_CONFIG.labels.devDisabled,
+      { key: controls.disabledNoticeKey, durationMs: controls.noticeDurationMs },
     );
+    return false;
   }
-  scene.uiNotifications?.danger?.(
-    `${GRAVEBORER_WURM_CONFIG.labels.hitPrefix}  •  -${Math.ceil(consumed)} GP`
-      + `  •  ${remaining} GP LEFT`,
-    { key: "graveborer-wurm-hit", durationMs: 5200 },
+  runtime.forcedDevEncounter = true;
+  runtime.devSaveIsolation = true;
+  runtime.system.forceEncounter(scene.playerController?.getPlayerTile?.());
+  scene.uiNotifications?.warning?.(
+    GRAVEBORER_WURM_CONFIG.labels.devSummoned,
+    { key: controls.summonNoticeKey, durationMs: controls.noticeDurationMs },
   );
-  scene.hudSystem?.flashStatus?.(
-    remaining <= 1 && runtime.lastGate?.hardcoreArmed
-      ? `${remaining} GP — ONE TOUCH FROM PERMADEATH`
-      : remaining <= 1
-        ? `DEV WURM TEST — CASUAL SAVE SAFE AT ${remaining} GP`
-      : `GRAVEBORER IMPACT — ${remaining} GP REMAINING`,
-    "#ff5c50",
-    4200,
+  scene.soundSystem?.playTileHit?.();
+  scene.shakeSystem?.shake?.(
+    "earthquake.warning",
+    controls.summonShakeIntensity,
   );
-  scene.soundSystem?.playTileBreak?.({ volume: 0.95, rate: 0.62 });
-  scene.shakeSystem?.shake?.("earthquake.caveIn", 1.05);
-  runtime.lastHit = {
-    part: event.part,
-    requestedGp: requested,
-    consumedGp: consumed,
-    remainingGp: remaining,
-  };
-  scene.queueDugTilesSave?.();
-
-  if (remaining <= 0 && runtime.lastGate?.hardcoreArmed) {
-    const deathEvent = { source: "graveborer-wurm", part: event.part };
-    scene.events?.emit?.("hardcore-gp-depleted", deathEvent);
-    scene.handleHardcoreGpDepleted?.(deathEvent);
-  }
-}
-
-function handleWurmEvents(scene, runtime) {
-  runtime.system.drainEvents().forEach(event => {
-    if (event.type === "carve") {
-      carveNaturalTerrain(scene, runtime, event);
-      return;
-    }
-    if (event.type === "hit") {
-      applyWurmHit(scene, runtime, event);
-      return;
-    }
-    if (event.type === "phase" && event.phase === GRAVEBORER_WURM_PHASES.warning) {
-      scene.uiNotifications?.warning?.(
-        "GRAVEBORER WURM  •  PATH MARKED  •  MOVE BEFORE IT BREACHES",
-        { key: "graveborer-wurm-warning", durationMs: 4300 },
-      );
-      scene.soundSystem?.playTileHit?.();
-      scene.shakeSystem?.shake?.("earthquake.warning", 0.62);
-      scene.queueDugTilesSave?.();
-      return;
-    }
-    if (event.type === "phase" && event.phase === GRAVEBORER_WURM_PHASES.burrowing) {
-      scene.uiNotifications?.danger?.(
-        "GRAVEBORER BREACH  •  FLY OR CLEAR THE COMMITTED LINE",
-        { key: "graveborer-wurm-breach", durationMs: 3400 },
-      );
-      scene.soundSystem?.playTileBreak?.({ volume: 0.82, rate: 0.68 });
-      scene.shakeSystem?.shake?.("earthquake.caveIn", 0.72);
-      return;
-    }
-    if (event.type === "encounter-complete") {
-      runtime.encountersCompleted += 1;
-      if (!event.didHit) {
-        scene.hudSystem?.flashStatus?.(
-          GRAVEBORER_WURM_CONFIG.labels.missed,
-          "#e7be78",
-          2200,
-        );
-      }
-      if (runtime.tilesCarved > 0) scene.queueDugTilesSave?.();
-      runtime.tilesCarved = 0;
-    }
-  });
+  return true;
 }
 
 function installDiagnostics(scene, runtime) {
   const key = GRAVEBORER_WURM_CONFIG.diagnostics.globalKey;
-  if (typeof globalThis.window === "undefined") return;
+  if (!runtime.devToolsEnabled || typeof globalThis.window === "undefined") return;
   const api = {
     snapshot: () => ({
       ...runtime.system.getSnapshot(),
@@ -203,21 +100,26 @@ function installDiagnostics(scene, runtime) {
       flags: {
         enabled: runtime.system.enabled,
         devTest10x: runtime.system.devTest10x,
+        devToolsEnabled: runtime.devToolsEnabled,
+        forcedDevEncounter: runtime.forcedDevEncounter,
+        saveIsolated: runtime.devSaveIsolation,
       },
       tilesCarved: runtime.tilesCarved,
       carveEventCount: runtime.carveEventCount,
       encountersCompleted: runtime.encountersCompleted,
       lastHit: runtime.lastHit ? { ...runtime.lastHit } : null,
     }),
-    forceEncounter: () => runtime.system.forceEncounter(
-      scene.playerController?.getPlayerTile?.(),
-    ),
+    forceEncounter: () => forceGraveborerWurmEncounter(scene),
     addNoise: (source = "devForce") => runtime.system.recordNoise(
       source,
       scene.playerController?.getPlayerTile?.(),
     ),
     setEnabled: enabled => runtime.system.setEnabled(enabled === true),
-    setDevTest10x: enabled => runtime.system.setDevTest10x(enabled === true),
+    setDevTest10x: enabled => {
+      const resolved = runtime.system.setDevTest10x(enabled === true);
+      if (resolved) runtime.devSaveIsolation = true;
+      return resolved;
+    },
   };
   runtime.diagnosticsApi = api;
   globalThis.window[key] = api;
@@ -230,7 +132,10 @@ export function createGraveborerWurmRuntime(scene) {
   const runtime = {
     system,
     visual: new GraveborerWurmVisualSystem(scene),
-    hud: new GraveborerWurmHudSystem(scene),
+    hud: null,
+    devToolsEnabled: GAME_CONFIG.debugMode === true,
+    forcedDevEncounter: false,
+    devSaveIsolation: flags.devTest10x === true,
     lastGate: null,
     tilesCarved: 0,
     carveEventCount: 0,
@@ -238,13 +143,23 @@ export function createGraveborerWurmRuntime(scene) {
     lastHit: null,
     diagnosticsApi: null,
   };
+  runtime.hud = new GraveborerWurmHudSystem(
+    scene,
+    GRAVEBORER_WURM_CONFIG,
+    {
+      devToolsEnabled: runtime.devToolsEnabled,
+      onSummon: () => forceGraveborerWurmEncounter(scene),
+    },
+  );
   scene.graveborerWurmRuntime = runtime;
   scene.graveborerWurmSystem = system;
+  scene.graveborerWurmData = system.getSaveData();
   installDiagnostics(scene, runtime);
   console.info(
     `[GraveborerWurm] runtime ready`
       + ` enabled=${system.enabled}`
-      + ` devTest10x=${system.devTest10x}`,
+      + ` devTest10x=${system.devTest10x}`
+      + ` devTools=${runtime.devToolsEnabled}`,
   );
   return runtime;
 }
@@ -256,13 +171,26 @@ export function updateGraveborerWurmRuntime(scene, time, delta, playerTile) {
     scene,
     playerTile,
     runtime.system,
+    runtime.forcedDevEncounter,
   );
   const snapshot = runtime.system.update(delta, {
     active: runtime.lastGate.active,
     playerTile,
+    playerBounds: (() => {
+      const body = scene.playerController?.physicsBody;
+      const tileSize = scene.config?.tileSize;
+      if (!body || !(tileSize > 0)) return null;
+      return {
+        left: body.x / tileSize,
+        right: (body.x + body.w) / tileSize,
+        top: body.y / tileSize,
+        bottom: (body.y + body.h) / tileSize,
+      };
+    })(),
     worldWidthTiles: scene.config.worldWidthTiles,
+    depth: runtime.lastGate.depth,
   });
-  handleWurmEvents(scene, runtime);
+  handleGraveborerWurmEvents(scene, runtime);
   runtime.visual.update(runtime.system.getRenderState(time), time);
   runtime.hud.update(snapshot, time);
   return snapshot;
@@ -272,32 +200,54 @@ export function recordGraveborerWurmMiningNoise(scene, source, tile) {
   const runtime = scene.graveborerWurmRuntime;
   if (!runtime) return 0;
   const devOverride = runtime.system.devTest10x === true;
-  if (!devOverride && !isHardcoreModeArmed(scene.hardcoreModeData)) {
-    return runtime.system.noise;
+  if (!devOverride) {
+    const playerTile = scene.playerController?.getPlayerTile?.();
+    const depth = Math.max(
+      0,
+      (playerTile?.ty || 0) - scene.config.topAirRows + 1,
+    );
+    if (
+      !isHardcoreModeArmed(scene.hardcoreModeData)
+      || scene.upgradeSystem?.isGemPowerUnlocked?.() !== true
+      || depth < GRAVEBORER_WURM_CONFIG.activation.minDepthTiles
+    ) {
+      return runtime.system.noise;
+    }
   }
   return runtime.system.recordNoise(source, tile);
 }
 
 export function loadGraveborerWurmSaveData(scene, data) {
-  return scene.graveborerWurmRuntime?.system?.loadSaveData?.(data) || null;
+  const loaded = scene.graveborerWurmRuntime?.system?.loadSaveData?.(data)
+    || sanitizeGraveborerWurmData(data);
+  scene.graveborerWurmData = loaded;
+  return loaded;
 }
 
 export function getGraveborerWurmSaveData(scene) {
   const runtime = scene.graveborerWurmRuntime;
-  if (!runtime) return sanitizeGraveborerWurmData(null);
-  // Developer override encounters must never arm or contaminate a Casual save.
-  if (runtime.system.devTest10x && !isHardcoreModeArmed(scene.hardcoreModeData)) {
-    return sanitizeGraveborerWurmData({
-      encounterCount: runtime.system.encounterCount,
+  if (!runtime) return sanitizeGraveborerWurmData(scene.graveborerWurmData);
+  // The Wurm is Hardcore-only save data. Developer previews never contaminate
+  // Casual or pending-oath slots, regardless of how the encounter was forced.
+  if (
+    runtime.devSaveIsolation === true
+    || !isHardcoreModeArmed(scene.hardcoreModeData)
+  ) {
+    const cleanDevData = sanitizeGraveborerWurmData({
       cooldownMs: GRAVEBORER_WURM_CONFIG.timing.initialCooldownMs,
     });
+    scene.graveborerWurmData = cleanDevData;
+    return cleanDevData;
   }
-  return runtime.system.getSaveData();
+  const saveData = runtime.system.getSaveData();
+  scene.graveborerWurmData = saveData;
+  return saveData;
 }
 
 export function destroyGraveborerWurmRuntime(scene) {
   const runtime = scene.graveborerWurmRuntime;
   if (!runtime) return;
+  scene.graveborerWurmData = getGraveborerWurmSaveData(scene);
   const key = GRAVEBORER_WURM_CONFIG.diagnostics.globalKey;
   if (
     typeof globalThis.window !== "undefined"

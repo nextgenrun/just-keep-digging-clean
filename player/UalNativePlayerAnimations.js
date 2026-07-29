@@ -35,6 +35,9 @@ function applyTextureFilter(scene, profile) {
 export function createUalNativePlayerAnimations(scene, profile) {
   applyTextureFilter(scene, profile);
   const idleFidgets = profile.idleFidgets || PLAYER_MOTION_POLISH_CONFIG.idle.fidgets;
+  // Generated polish animations are registered first so shared public keys
+  // (start/stop/landing) resolve to their Piskel-authored atlas definitions.
+  createConfiguredAnimations(scene, profile.animationPolishAnimations);
 
   createAnimation(scene, profile.idleAnim, profile.idleSheet, profile.idleFrames, profile.idleAnimationFps, -1);
   createAnimation(scene, profile.walkStartAnim, profile.walkStartSheet, profile.walkStartFrames, profile.walkAnimationFps, 0);

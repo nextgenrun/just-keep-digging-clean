@@ -1,8 +1,9 @@
 /**
- * CaveEntryController — opens the fixed-size CaveScene from compact overworld cave mouths.
+ * CaveEntryController — exposes safe world cave mouths and opens their fixed-size interiors.
  */
 import {
   CAVE_SCENE_CONFIG,
+  resolveIntegratedCaveEntrancesEnabled,
   resolveScenicCaveMouthsEnabled,
 } from "../../values/caveSceneConfig.js";
 import { resolveWorldVisualLandmarksEnabled } from "../../values/worldVisualLandmarks.js";
@@ -20,6 +21,7 @@ export class CaveEntryController {
     this.entranceTweens = [];
     this.activeZone = null;
     this.isTransitioning = false;
+    this.entranceTextureReady = false;
   }
 
   create() {
@@ -31,7 +33,12 @@ export class CaveEntryController {
       backgroundColor: "#070814cc",
       padding: { x: 8, y: 5 },
     }).setDepth(31).setOrigin(0.5, 1).setVisible(false);
-    this._createEntranceSprites();
+    this.entranceTextureReady = this._createEntranceSprites();
+    const health = this.getHealthSnapshot();
+    console.info(
+      `[CaveEntryController] ${health.interactiveEntrances}/${health.entranceZones} `
+      + `${CAVE_SCENE_CONFIG.integratedEntrances.healthLabel} ready`,
+    );
     if (this._isReviewLaunchRequested()) {
       this.scene.time.delayedCall(CAVE_SCENE_CONFIG.reviewLaunchDelayMs, () => this._launchReviewCave());
     }
@@ -75,7 +82,7 @@ export class CaveEntryController {
     const visual = scenicEnabled ? entrance.scenic : entrance.legacy;
     if (!this.scene.textures?.exists?.(visual.textureKey)) {
       console.warn(`[CaveEntryController] Entrance texture unavailable: ${visual.textureKey}`);
-      return;
+      return false;
     }
     const tileSize = this.scene.config.tileSize;
     const zones = this.scene.worldModel?.caveZones || [];
@@ -83,13 +90,9 @@ export class CaveEntryController {
       ? this._resolveLandmarkOwnedZoneId(zones)
       : null;
     for (const [index, zone] of zones.entries()) {
-      // Integrated caves keep the same approved mouth as a world-space
-      // landmark; only explicit compact rollback caves consume interaction.
+      // Integrated and compact caves share the same approved world-space mouth.
       if (!zone?.entry) continue;
-      if (!zone.standaloneScene && (
-        this.scene.worldModel?.isSolid?.(zone.entry.tx, zone.entry.ty)
-        || !this.scene.worldModel?.isSolid?.(zone.entry.tx, zone.entry.ty + 1)
-      )) continue;
+      if (!this._hasUsableEntrance(zone)) continue;
       if (zone.id === landmarkOwnedZoneId) continue;
       const anchor = zone.mouthAnchor || zone.entry;
       const sprite = this.scene.add.image(
@@ -106,6 +109,7 @@ export class CaveEntryController {
       this._addEntrancePulse(sprite, visual, index);
       this.entranceSprites.push(sprite);
     }
+    return true;
   }
 
   _resolveLandmarkOwnedZoneId(zones) {
@@ -176,7 +180,7 @@ export class CaveEntryController {
     let nearest = null;
     let nearestDistance = Infinity;
     for (const zone of zones) {
-      if (!zone?.entry || zone.standaloneScene !== true) continue;
+      if (!this._isInteractiveZone(zone)) continue;
       const distance = getDistance(playerTile, zone.entry);
       if (distance <= CAVE_SCENE_CONFIG.interactionRangeTiles && distance < nearestDistance) {
         nearest = zone;
@@ -186,6 +190,47 @@ export class CaveEntryController {
     return nearest;
   }
 
+  _hasUsableEntrance(zone) {
+    if (!zone?.entry) return false;
+    const worldModel = this.scene.worldModel;
+    if (typeof worldModel?.isSolid !== "function") return true;
+    return !worldModel.isSolid(zone.entry.tx, zone.entry.ty)
+      && worldModel.isSolid(zone.entry.tx, zone.entry.ty + 1);
+  }
+
+  _isInteractiveZone(zone) {
+    if (!this._hasUsableEntrance(zone)) return false;
+    if (zone.standaloneScene === true) return true;
+    if (!resolveIntegratedCaveEntrancesEnabled()) return false;
+    return CAVE_SCENE_CONFIG.integratedEntrances.eligibleSources.includes(zone.source);
+  }
+
+  _resolveBackgroundPresetKey(zone) {
+    if (CAVE_SCENE_CONFIG.presets[zone?.backgroundPresetKey]) {
+      return zone.backgroundPresetKey;
+    }
+    return CAVE_SCENE_CONFIG.interiors[zone?.archetypeId]?.presetKey
+      || CAVE_SCENE_CONFIG.selection.normalPresetKeys[0];
+  }
+
+  getHealthSnapshot() {
+    const zones = this.scene.worldModel?.caveZones || [];
+    const entranceZones = zones.filter(zone => zone?.entry);
+    const usableEntrances = entranceZones.filter(zone => this._hasUsableEntrance(zone));
+    const interactiveEntrances = usableEntrances.filter(zone => this._isInteractiveZone(zone));
+    return {
+      enabled: CAVE_SCENE_CONFIG.enabled,
+      integratedEntrancesEnabled: resolveIntegratedCaveEntrancesEnabled(),
+      entranceTextureReady: this.entranceTextureReady,
+      entranceZones: entranceZones.length,
+      usableEntrances: usableEntrances.length,
+      interactiveEntrances: interactiveEntrances.length,
+      invalidEntranceIds: entranceZones
+        .filter(zone => !this._hasUsableEntrance(zone))
+        .map(zone => zone.id),
+    };
+  }
+
   _updatePrompt(zone) {
     if (!this.prompt) return;
     if (!zone) {
@@ -193,10 +238,13 @@ export class CaveEntryController {
       return;
     }
     const tileSize = this.scene.config.tileSize;
-    const preset = CAVE_SCENE_CONFIG.presets[zone.backgroundPresetKey];
+    const preset = CAVE_SCENE_CONFIG.presets[this._resolveBackgroundPresetKey(zone)];
+    const label = zone.displayName
+      ? `Enter ${zone.displayName}`
+      : (preset?.entryLabel || "Enter cave");
     this.prompt
       .setPosition((zone.entry.tx + 0.5) * tileSize, zone.entry.ty * tileSize)
-      .setText(`[${USER_SETTINGS.getKeyLabel("interact")}] ${preset?.entryLabel || "Enter cave"}`)
+      .setText(`[${USER_SETTINGS.getKeyLabel("interact")}] ${label}`)
       .setVisible(true);
   }
 
@@ -208,7 +256,10 @@ export class CaveEntryController {
     const launch = () => {
       this.scene.scene.launch(CAVE_SCENE_CONFIG.sceneKey, {
         caveId: zone.id,
-        backgroundPresetKey: zone.backgroundPresetKey,
+        backgroundPresetKey: this._resolveBackgroundPresetKey(zone),
+        archetypeId: zone.archetypeId,
+        displayName: zone.displayName,
+        discoveryHint: zone.discoveryHint,
         depthTiles: Math.max(0, zone.cy - this.scene.config.topAirRows),
         originTile: { tx: playerTile.tx, ty: playerTile.ty },
       });

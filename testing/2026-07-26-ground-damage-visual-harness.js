@@ -6,12 +6,12 @@ import { WORLD_VISUAL_MATERIALS } from "../values/worldVisualMaterials.js";
 import { WorldVisualDamagePainter } from "../world/rendering/scenic-world/WorldVisualDamagePainter.js";
 
 const HARNESS = Object.freeze({
-  width: 1024,
+  width: 1216,
   height: 672,
   tileSize: 64,
   firstTileX: 4,
   firstTileY: 1,
-  stateColumns: 10,
+  stateColumns: WORLD_VISUAL_DAMAGE.stateCount + 1,
   labelX: 20,
   labelWidth: 220,
   headerY: 13,
@@ -84,7 +84,9 @@ class GroundDamageVisualHarnessScene extends Phaser.Scene {
           HARNESS.firstTileX + stageIndex + 1,
           tileY,
           stageIndex === WORLD_VISUAL_DAMAGE.stages.length - 1 ? 1 : stage.minDamage,
-          HARNESS.tileSize
+          HARNESS.tileSize,
+          HARNESS.firstTileX,
+          tileY
         );
       });
     }
@@ -103,7 +105,7 @@ class GroundDamageVisualHarnessScene extends Phaser.Scene {
   }
 
   _drawHeader(startX) {
-    this.add.text(HARNESS.labelX, HARNESS.headerY, "MATERIAL-NEUTRAL DAMAGE", {
+    this.add.text(HARNESS.labelX, HARNESS.headerY, "DAMAGE PROGRESSION", {
       color: HARNESS.headerColor,
       fontFamily: HARNESS.fontFamily,
       fontSize: HARNESS.headerFontSize,

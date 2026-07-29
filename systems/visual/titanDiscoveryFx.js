@@ -72,13 +72,13 @@ function createCollectionEcho(scene, view, definition, config, registerTransient
   const fx = config.unlockFx;
   const echo = registerObject(
     registerTransient,
-    scene.add.image(view.baseX, view.baseY, definition.asset.key)
+    scene.add.image(view.baseX, view.baseY, view.renderAsset.key)
   );
   echo
     .setDepth(fx.echoDepth)
     .setBlendMode("ADD")
     .setTint(definition.glowTint)
-    .setAlpha(config.backdrop.peakAlpha)
+    .setAlpha(config.underground.peakAlpha)
     .setScale(view.baseScale * fx.echoStartScale);
   scene.tweens.add({
     targets: echo,
@@ -100,16 +100,16 @@ export function playTitanUnlockFx(
   registerTransient,
   releaseTransient
 ) {
-  const backdrop = config.backdrop;
+  const underground = config.underground;
   const fx = config.unlockFx;
   view.animating = true;
   view.glowSprite
-    .setAlpha(backdrop.peakAlpha)
+    .setAlpha(underground.peakAlpha)
     .setScale(view.baseScale);
 
   scene.tweens.add({
     targets: [view.sprite, view.glowSprite],
-    alpha: backdrop.peakAlpha,
+    alpha: underground.peakAlpha,
     scaleX: view.baseScale * fx.peakScale,
     scaleY: view.baseScale * fx.peakScale,
     duration: fx.glowInMs,
@@ -121,7 +121,7 @@ export function playTitanUnlockFx(
       scene.tweens.add({
         targets: view.sprite,
         x: view.settledX,
-        alpha: backdrop.discoveredAlpha,
+        alpha: underground.discoveredAlpha,
         scaleX: view.baseScale,
         scaleY: view.baseScale,
         duration: fx.crossingMs,

@@ -12,6 +12,12 @@ import {
 } from "../values/openingFlightArtifact.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 
+assert.equal(
+  OPENING_FLIGHT_ARTIFACT_CONFIG.enabled,
+  false,
+  "the rejected buried-artifact intro must remain disabled",
+);
+
 const freshUpgrades = new UpgradeSystem();
 assert.equal(
   freshUpgrades.isGemPowerUnlocked(),
@@ -56,10 +62,10 @@ assert.equal(
     newLevel: 2,
     hasChoice: false,
   }),
-  true,
-  "the automatic pre-artifact level-up must become a non-blocking toast",
+  false,
+  "the dormant intro must not intercept production level-up handling",
 );
-assert.match(starterLevelToasts[0], /LEVEL 2/);
+assert.equal(starterLevelToasts.length, 0);
 assert.equal(
   starterLevelSystem.handleStarterLevelUp({
     levelUp: true,
@@ -67,18 +73,12 @@ assert.equal(
     hasChoice: true,
   }),
   false,
-  "choice-based level-ups must keep their normal modal",
+  "choice-based level-ups must stay with the normal production flow",
 );
-assert.equal(
-  starterLevelSystem.isOpeningGraceActive(),
-  true,
-  "fresh onboarding should own a hazard-free opening window",
-);
-starterLevelSystem.state.surfaceReturnCelebrated = true;
 assert.equal(
   starterLevelSystem.isOpeningGraceActive(),
   false,
-  "flying home should release the opening hazard grace",
+  "the rejected intro must not keep a hidden hazard-grace runtime alive",
 );
 
 function makeAbilities(upgradeSystem) {
@@ -193,14 +193,12 @@ prepareOpeningFlightStarterSeam(seamScene, OPENING_FLIGHT_ARTIFACT_CONFIG);
 assert.deepEqual(
   mutations.map(({ ty, type, hp }) => ({ ty, type, hp })),
   [
-    { ty: 65, type: TILE_TYPES.AIR, hp: 0 },
-    { ty: 66, type: TILE_TYPES.DIRT, hp: 1 },
     { ty: 67, type: TILE_TYPES.DIRT, hp: 1 },
     { ty: 69, type: TILE_TYPES.DIRT, hp: 1 },
     { ty: 70, type: TILE_TYPES.DIRT, hp: 1 },
     { ty: 71, type: TILE_TYPES.BEDROCK, hp: 0 },
   ],
-  "the starter seam must be deterministic, one-hit, and preserve already-dug cells",
+  "the starter seam must preserve surface/clearance rows, remain one-hit, and preserve already-dug cells",
 );
 assert.equal(rendererUpdates.length, mutations.length);
 
@@ -264,6 +262,8 @@ assert.match(updateSource, /openingFlightArtifactSystem\?\.handleStarterLevelUp/
 assert.match(uiSource, /openingFlightArtifactSystem\?\.loadSaveData/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.getSaveData/);
 assert.match(artifactSystemSource, /new OpeningFlightLegacyRuntime/);
+assert.match(artifactSystemSource, /if \(!this\.enabled\) return false/);
+assert.match(artifactSystemSource, /this\.runtime = !this\.enabled/);
 assert.match(
   legacyRuntimeSource,
   /earthquakeSystem\?\.\s*setPaused\(this\.isOpeningGraceActive\(\)\)/,
@@ -273,4 +273,4 @@ assert.match(
   /surfaceReturnCelebrated = true;[\s\S]*?earthquakeSystem\?\.\s*setPaused\(false\)/,
 );
 
-console.log("opening flight artifact contract: PASS");
+console.log("dormant opening flight artifact compatibility contract: PASS");

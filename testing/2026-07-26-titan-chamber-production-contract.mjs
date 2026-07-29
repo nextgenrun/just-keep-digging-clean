@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import { EventEmitter } from "node:events";
 import fs from "node:fs";
 import path from "node:path";
@@ -9,8 +10,13 @@ import {
   TITAN_DISCOVERY_CONFIG,
   getTitanChamberAssets,
   getTitanDiscoveryPreloadAssets,
+  resolveTitanChamberAsset,
+  resolveTitanChamberBlendEnabled,
   resolveTitanChambersEnabled,
 } from "../values/titanDiscoveries.js";
+import {
+  resolveWorldVisualDepthBackdropTint,
+} from "../values/worldVisualDepthBackdrops.js";
 import { TitanChamberStream } from "../systems/visual/TitanChamberStream.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -24,6 +30,34 @@ function readLossyWebpSize(buffer) {
     width: buffer.readUInt16LE(26) & 0x3fff,
     height: buffer.readUInt16LE(28) & 0x3fff,
   };
+}
+
+function readExtendedWebp(buffer) {
+  assert.equal(buffer.toString("ascii", 0, 4), "RIFF");
+  assert.equal(buffer.toString("ascii", 8, 12), "WEBP");
+  assert.equal(buffer.toString("ascii", 12, 16), "VP8X");
+  const readUInt24LE = offset => (
+    buffer[offset]
+    | (buffer[offset + 1] << 8)
+    | (buffer[offset + 2] << 16)
+  );
+  const chunks = [];
+  for (let offset = 12; offset + 8 <= buffer.length;) {
+    const chunkName = buffer.toString("ascii", offset, offset + 4);
+    const chunkSize = buffer.readUInt32LE(offset + 4);
+    chunks.push(chunkName);
+    offset += 8 + chunkSize + (chunkSize % 2);
+  }
+  return {
+    width: readUInt24LE(24) + 1,
+    height: readUInt24LE(27) + 1,
+    hasAlphaFlag: Boolean(buffer[20] & 0x10),
+    hasAlphaChunk: chunks.includes("ALPH"),
+  };
+}
+
+function sha256(buffer) {
+  return crypto.createHash("sha256").update(buffer).digest("hex");
 }
 
 class FakeImage {
@@ -51,14 +85,23 @@ class FakeLoader extends EventEmitter {
 }
 
 const chamberAssets = getTitanChamberAssets();
+const rollbackChamberAssets = getTitanChamberAssets(
+  undefined,
+  "?titanChamberBlend=0",
+);
 const preloadAssets = getTitanDiscoveryPreloadAssets();
 assert.equal(chamberAssets.length, 25);
+assert.equal(rollbackChamberAssets.length, 25);
 assert.equal(new Set(chamberAssets.map(asset => asset.key)).size, 25);
+assert.ok(chamberAssets.every(asset => asset.key.endsWith("-v3")));
+assert.ok(rollbackChamberAssets.every(asset => asset.key.endsWith("-v2")));
 assert.equal(getTitanChamberAssets(undefined, "?titanChambers=0").length, 0);
 assert.equal(resolveTitanChambersEnabled(undefined, "?titanChambers=0"), false);
 assert.equal(resolveTitanChambersEnabled(undefined, "?titanChambers=1"), true);
 assert.equal(resolveTitanChambersEnabled(undefined, "?titans=0"), false);
-assert.equal(preloadAssets.length, 26);
+assert.equal(resolveTitanChamberBlendEnabled(undefined, ""), true);
+assert.equal(resolveTitanChamberBlendEnabled(undefined, "?titanChamberBlend=0"), false);
+assert.equal(preloadAssets.length, 54);
 assert.ok(chamberAssets.every(asset => (
   !preloadAssets.some(preload => preload.key === asset.key)
 )), "high-resolution cards must stream instead of entering Boot");
@@ -76,24 +119,73 @@ for (const definition of TITAN_DEFINITIONS) {
     `${definition.id} chamber dimensions`,
   );
   assert.ok(file.length > 100_000, `${definition.id} chamber is suspiciously small`);
+  const blendedFile = fs.readFileSync(
+    path.join(ROOT, definition.chamberBlendAsset.path),
+  );
+  assert.deepEqual(
+    readExtendedWebp(blendedFile),
+    {
+      width: TITAN_DISCOVERY_CONFIG.chambers.nativeWidthPx,
+      height: TITAN_DISCOVERY_CONFIG.chambers.nativeHeightPx,
+      hasAlphaFlag: true,
+      hasAlphaChunk: true,
+    },
+    `${definition.id} blended chamber dimensions and alpha`,
+  );
+  assert.ok(
+    blendedFile.length > 100_000,
+    `${definition.id} blended chamber is suspiciously small`,
+  );
+  assert.equal(resolveTitanChamberAsset(definition), definition.chamberBlendAsset);
+  assert.equal(
+    resolveTitanChamberAsset(
+      definition,
+      TITAN_DISCOVERY_CONFIG,
+      "?titanChamberBlend=0",
+    ),
+    definition.chamberAsset,
+  );
 }
 
-const manifest = JSON.parse(fs.readFileSync(
+const sourceManifest = JSON.parse(fs.readFileSync(
   path.join(
     ROOT,
     "sprites/backgrounds/titan-chambers-v2/2026-07-26-titan-chambers-production-manifest-v2.json",
   ),
   "utf8",
 ));
-assert.equal(manifest.complete, true);
-assert.equal(manifest.count, 25);
-assert.deepEqual(manifest.runtimeSize, [1536, 848]);
-assert.equal(new Set(manifest.cards.map(card => card.sha256)).size, 25);
+assert.equal(sourceManifest.complete, true);
+assert.equal(sourceManifest.count, 25);
+assert.deepEqual(sourceManifest.runtimeSize, [1536, 848]);
+assert.equal(new Set(sourceManifest.cards.map(card => card.sha256)).size, 25);
+
+const blendManifest = JSON.parse(fs.readFileSync(
+  path.join(
+    ROOT,
+    "sprites/backgrounds/titan-chambers-v3/2026-07-28-titan-chambers-production-manifest-v3.json",
+  ),
+  "utf8",
+));
+assert.equal(blendManifest.complete, true);
+assert.equal(blendManifest.count, 25);
+assert.equal(blendManifest.sourceGenerationMode, "built-in ImageGen");
+assert.deepEqual(blendManifest.runtimeSize, [1536, 848]);
+assert.equal(new Set(blendManifest.cards.map(card => card.sha256)).size, 25);
+for (const card of blendManifest.cards) {
+  const runtime = fs.readFileSync(path.join(ROOT, card.runtime));
+  assert.equal(runtime.length, card.bytes, `${card.id} manifest byte count`);
+  assert.equal(sha256(runtime), card.sha256, `${card.id} manifest hash`);
+  assert.equal(card.cornerAlphaMax, 0, `${card.id} transparent corners`);
+  assert.ok(card.edgeMeanAlpha < 72, `${card.id} feathered edge`);
+  assert.ok(card.centerMinAlpha >= 250, `${card.id} readable focal center`);
+}
 
 const loader = new FakeLoader();
 const textureKeys = new Set();
 const removedKeys = [];
+const gameEvents = new EventEmitter();
 const scene = {
+  game: { events: gameEvents },
   load: loader,
   textures: {
     exists: key => textureKeys.has(key),
@@ -106,14 +198,15 @@ const scene = {
   tweens: { killTweensOf() {} },
 };
 const definition = TITAN_DEFINITIONS[0];
-const compactSprite = new FakeImage(0, 0, definition.asset.key, 256, 256);
-const compactGlow = new FakeImage(0, 0, definition.asset.key, 256, 256);
+const compactSprite = new FakeImage(0, 0, definition.surfaceAsset.key, 768, 768);
+const compactGlow = new FakeImage(0, 0, definition.surfaceAsset.key, 768, 768);
 const view = {
   zone: {
     left: 20,
     top: 80,
     rightExclusive: 38,
     bottomExclusive: 90,
+    centerYTile: 85,
   },
   definition,
   sprite: compactSprite,
@@ -134,19 +227,34 @@ const stream = new TitanChamberStream(
   () => changeCount += 1,
 );
 stream.create([view]);
-stream.sync({ tx: 29, ty: 85 });
+const lighting = { farTint: 0xb8d2da, lightning: 0 };
+stream.sync({ tx: 29, ty: 85 }, lighting);
 assert.equal(loader.queued.length, 1);
+assert.equal(loader.queued[0].key, definition.chamberBlendAsset.key);
 assert.equal(stream.getSnapshot().pending, 1);
-textureKeys.add(definition.chamberAsset.key);
-loader.emit(`filecomplete-image-${definition.chamberAsset.key}`);
+textureKeys.add(definition.chamberBlendAsset.key);
+loader.emit(`filecomplete-image-${definition.chamberBlendAsset.key}`);
 assert.equal(view.visualMode, "chamber");
-assert.equal(compactSprite.visible, false);
+assert.equal(compactSprite.visible, true);
+assert.equal(view.sprite, compactSprite);
+assert.ok(view.chamberSprite);
+assert.ok(
+  view.chamberSprite.depth < TITAN_DISCOVERY_CONFIG.underground.spriteDepth,
+  "the streamed chamber must remain behind the high-resolution stance",
+);
 assert.equal(stream.getSnapshot().resident, 1);
+assert.equal(stream.getSnapshot().blendEnabled, true);
+assert.equal(stream.getSnapshot().assetVersion, "titan-chambers-v3");
+assert.equal(
+  view.chamberSprite.tint,
+  resolveWorldVisualDepthBackdropTint(85, lighting),
+);
+assert.notEqual(view.chamberSprite.tint, 0xffffff);
 
 let archiveReady = 0;
 const releaseArchive = stream.pinArchive(definition, {
   onReady: asset => {
-    assert.equal(asset.key, definition.chamberAsset.key);
+    assert.equal(asset.key, definition.chamberBlendAsset.key);
     archiveReady += 1;
   },
 });
@@ -154,9 +262,27 @@ assert.equal(archiveReady, 1);
 assert.equal(stream.getSnapshot().pinned, 1);
 releaseArchive();
 stream.sync({ tx: 200, ty: 200 });
-assert.equal(view.visualMode, "compact");
+assert.equal(view.visualMode, "stance");
 assert.equal(compactSprite.visible, true);
-assert.ok(removedKeys.includes(definition.chamberAsset.key));
+assert.equal(view.chamberSprite, null);
+assert.equal(stream.getSnapshot().releasePending, 1);
+assert.ok(
+  textureKeys.has(definition.chamberBlendAsset.key),
+  "a detached chamber texture must survive until the current render completes",
+);
+stream.sync({ tx: 29, ty: 85 }, lighting);
+assert.ok(view.chamberSprite);
+assert.equal(stream.getSnapshot().releasePending, 0);
+gameEvents.emit("postrender");
+assert.ok(
+  textureKeys.has(definition.chamberBlendAsset.key),
+  "returning to a chamber before post-render must cancel its texture eviction",
+);
+stream.sync({ tx: 200, ty: 200 });
+assert.equal(stream.getSnapshot().releasePending, 1);
+gameEvents.emit("postrender");
+assert.ok(removedKeys.includes(definition.chamberBlendAsset.key));
+assert.equal(stream.getSnapshot().releasePending, 0);
 assert.ok(changeCount > 0);
 stream.destroy();
 assert.equal(loader.listenerCount("loaderror"), 0);

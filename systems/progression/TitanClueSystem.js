@@ -52,11 +52,36 @@ export class TitanClueSystem {
     return this.retention?.hasDiscoveredTitan?.(titanId) === true;
   }
 
+  _getTrackingState() {
+    return this.retention?.getTitanClueTrackingState?.() || {
+      configured: false,
+      activeTitanId: null,
+    };
+  }
+
+  _setTrackingId(titanId) {
+    const previousId = this.activeTitanId;
+    this.activeTitanId = titanId;
+    const persisted = this.retention?.setTitanClueTrackingId?.(titanId);
+    const changed = typeof persisted === "boolean"
+      ? persisted
+      : previousId !== titanId;
+    if (changed) this.onStateChanged?.(this.getSnapshot());
+    return changed;
+  }
+
   getActiveClueId() {
     if (!this.enabled) return null;
     const available = this.getPurchasedClueIds().filter(
       titanId => !this._isDiscovered(titanId)
     );
+    const tracking = this._getTrackingState();
+    if (tracking.configured) {
+      this.activeTitanId = available.includes(tracking.activeTitanId)
+        ? tracking.activeTitanId
+        : null;
+      return this.activeTitanId;
+    }
     if (available.includes(this.activeTitanId)) return this.activeTitanId;
     this.activeTitanId = available[available.length - 1] || null;
     return this.activeTitanId;
@@ -104,13 +129,7 @@ export class TitanClueSystem {
       return { success: false, reason: results.alreadyDiscovered };
     }
     if (state.purchased) {
-      this.activeTitanId = titanId;
-      return {
-        success: true,
-        purchased: false,
-        reason: results.tracked,
-        titanId,
-      };
+      return this.setClueTracking(titanId, true);
     }
     if (!this.retention?.discoverJournal || !this.wallet?.spendMoney) {
       return { success: false, reason: results.unavailable };
@@ -136,8 +155,7 @@ export class TitanClueSystem {
       return { success: false, reason: results.unavailable };
     }
 
-    this.activeTitanId = titanId;
-    this.onStateChanged?.(this.getSnapshot());
+    this._setTrackingId(titanId);
     return {
       success: true,
       purchased: true,
@@ -148,7 +166,7 @@ export class TitanClueSystem {
     };
   }
 
-  trackClue(titanId) {
+  setClueTracking(titanId, enabled) {
     const results = this.config.results;
     if (
       !this.enabled
@@ -157,18 +175,40 @@ export class TitanClueSystem {
     ) {
       return { success: false, reason: results.unavailable };
     }
-    this.activeTitanId = titanId;
+    const shouldEnable = enabled === true;
+    if (!shouldEnable && this.getActiveClueId() !== titanId) {
+      return { success: false, reason: results.unavailable };
+    }
+    this._setTrackingId(shouldEnable ? titanId : null);
     return {
       success: true,
       purchased: false,
-      reason: results.tracked,
+      reason: shouldEnable
+        ? results.locatorEnabled
+        : results.locatorDisabled,
       titanId,
+      active: shouldEnable,
     };
   }
 
+  toggleClueTracking(titanId) {
+    return this.setClueTracking(
+      titanId,
+      this.getActiveClueId() !== titanId
+    );
+  }
+
+  trackClue(titanId) {
+    return this.setClueTracking(titanId, true);
+  }
+
   completeClue(titanId) {
-    if (this.activeTitanId !== titanId) return false;
-    this.activeTitanId = null;
+    const tracking = this._getTrackingState();
+    const activeId = tracking.configured
+      ? tracking.activeTitanId
+      : this.activeTitanId;
+    if (activeId !== titanId) return false;
+    this._setTrackingId(null);
     return true;
   }
 
@@ -177,6 +217,7 @@ export class TitanClueSystem {
       enabled: this.enabled,
       purchased: this.getPurchasedClueIds(),
       active: this.getActiveClueId(),
+      trackingConfigured: this._getTrackingState().configured,
     };
   }
 

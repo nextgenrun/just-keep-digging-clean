@@ -26,34 +26,46 @@ const pack = resolveWorldVisualSurfacePack(WORLD_VISUAL_SURFACE_PACKS, "");
 const floor = pack.floor;
 const assetUrl = new URL(`../${floor.asset.path}`, import.meta.url);
 const manifestUrl = new URL(
-  "../sprites/backgrounds/start-zone-scenic-v1/"
-    + "town-square-slate-facade-v2.manifest.json",
+  "../sprites/backgrounds/world-visual-v2/surface/"
+    + "town-surface-edge-thin-v2.manifest.json",
   import.meta.url,
 );
 const manifest = JSON.parse(fs.readFileSync(manifestUrl, "utf8"));
 const asset = fs.readFileSync(assetUrl);
+const surfaceAssetUrl = new URL(`../${manifest.surfaceOutput}`, import.meta.url);
+const surfaceAsset = fs.readFileSync(surfaceAssetUrl);
 const source = fs.readFileSync(new URL(`../${manifest.source}`, import.meta.url));
 const sha256 = value => crypto.createHash("sha256").update(value).digest("hex");
 
-assert.equal(floor.asset.key, "world-visual-surface-pack-town-square-slate-v2");
+assert.equal(floor.asset.key, "world-visual-surface-pack-town-square-slate-strip-v3");
 assert.equal(
   floor.asset.path,
-  "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-facade-v2.png",
+  "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-strip-v3.png",
 );
 assert.equal(asset.subarray(1, 4).toString("ascii"), "PNG");
 assert.equal(asset.readUInt32BE(16), 1801, "runtime ground width");
-assert.equal(asset.readUInt32BE(20), 139, "runtime ground height");
+assert.equal(asset.readUInt32BE(20), 48, "runtime ground height");
 assert.equal(asset[25], 6, "runtime ground must remain RGBA");
-assert.equal(sha256(asset), "39748f66ec5d834d3467782359996d3b15abf91cdae6d114875fafbae4a20535");
+assert.equal(sha256(asset), "ecd682e87520b3fdac08a3b35e3f6baa50210c127c3e57851eb1276ae46cd3ab");
+assert.equal(surfaceAsset.readUInt32BE(16), 1672, "full-width repeat source width");
+assert.equal(surfaceAsset.readUInt32BE(20), 48, "full-width repeat source height");
+assert.equal(
+  sha256(surfaceAsset),
+  "b357f2df6900c83bb395405dd8ad3764cd0ddacf9669bcde9b27c9710c2faf79",
+);
 assert.equal(sha256(source), "b7b0bdefa23e4bfc5d1bb7301939f06ea9a1fbd4bfde33dda0b4b923ba12c1d7");
 
-assert.equal(manifest.version, 2);
-assert.equal(manifest.scope, "Town Square ground only");
-assert.deepEqual(manifest.sourceCrop, { x: 0, y: 468, width: 1672, height: 139 });
+assert.equal(manifest.version, 3);
+assert.equal(manifest.scope, "Thin full-width surface ground and Town Square handoff");
+assert.deepEqual(manifest.sourceCrop, { x: 0, y: 468, width: 1672, height: 48 });
 assert.equal(manifest.approvedCorePixelExact, true);
 assert.equal(manifest.approvedCoreWidth, floor.approvedCoreSourceWidthPx);
 assert.equal(manifest.handoffWidth, floor.handoffSourceWidthPx);
-assert.deepEqual(manifest.outputSize, [floor.expectedSource.width, floor.expectedSource.height]);
+assert.deepEqual(
+  manifest.townOutputSize,
+  [floor.expectedSource.width, floor.expectedSource.height],
+);
+assert.deepEqual(manifest.surfaceOutputSize, [1672, 48]);
 assert.deepEqual(manifest.invariants, {
   resizedApprovedPixels: false,
   repaintedApprovedPixels: false,
@@ -85,11 +97,11 @@ assert.ok(
 
 const scene = { config: { tileSize: 94, topAirRows: 65 } };
 const occlusion = resolveTownFloorOcclusionBounds(scene, "");
-assert.ok(cellIntersectsTownFloorOcclusion(occlusion, 12, 66, 94));
+assert.ok(cellIntersectsTownFloorOcclusion(occlusion, 12, 65, 94));
 assert.equal(
-  cellIntersectsTownFloorOcclusion(occlusion, 12, 67, 94),
+  cellIntersectsTownFloorOcclusion(occlusion, 12, 66, 94),
   false,
-  "the next underground row must retain its normal visuals",
+  "the first underground row must retain its normal visuals",
 );
 assert.equal(
   cellIntersectsTownFloorOcclusion(occlusion, 30, 66, 94),
@@ -123,17 +135,17 @@ const semanticLayer = new WorldVisualSemanticAssetLayer(
   { getSkyTileRarity: () => 0 },
   { id: "solid-world-mask" },
 );
-semanticLayer._showStar(0, 12, 66, 94, { terrainTint: 0xffffff });
-semanticLayer._showStar(1, 12, 67, 94, { terrainTint: 0xffffff });
+semanticLayer._showStar(0, 12, 65, 94, { terrainTint: 0xffffff });
+semanticLayer._showStar(1, 12, 66, 94, { terrainTint: 0xffffff });
 assert.equal(
   semanticLayer.activeStars[0].emissive.depth,
   WORLD_VISUAL_SEMANTIC_ASSETS.render.townFloorOccludedEmissiveDepth,
-  "the first underground row glow must render behind the exact foundation",
+  "the surface-row glow must render behind the thin approved cap",
 );
 assert.equal(
   semanticLayer.activeStars[1].emissive.depth,
   WORLD_VISUAL_SEMANTIC_ASSETS.render.starEmissiveDepth,
-  "deeper underground glow must retain its normal emissive depth",
+  "the first underground row glow must retain its normal emissive depth",
 );
 semanticLayer.setEmissiveDepth(901);
 assert.equal(

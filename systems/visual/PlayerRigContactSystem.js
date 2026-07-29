@@ -81,7 +81,9 @@ export class PlayerRigContactSystem {
       config: this.config,
     });
     const dt = clamp(Number(deltaMs) || 0, 0, this.config.alignment.maxDeltaMs) / 1000;
-    const blend = 1 - Math.exp(-this.config.alignment.responsePerSecond * dt);
+    const blend = this._activeAction.contactSpec.visualAlignmentMode === "immediate"
+      ? 1
+      : 1 - Math.exp(-this.config.alignment.responsePerSecond * dt);
     this._setVisualOffset({
       x: currentOffset.x + (targetOffset.x - currentOffset.x) * blend,
       y: currentOffset.y + (targetOffset.y - currentOffset.y) * blend,

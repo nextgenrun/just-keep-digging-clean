@@ -11,6 +11,7 @@ import {
   queuePlayerProfileSheets,
   queueRobotSheets,
 } from "../../player/PlayerAssetLoader.js";
+import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 
 /**
  * Load robot spritesheets into Phaser's texture manager so they exist
@@ -32,6 +33,9 @@ export class WorldLoadScene extends Phaser.Scene {
     const queryCharacterId = resolvePlayerCharacterIdFromSearch(globalThis.window?.location?.search || "");
     const playerCharacterId = normalizePlayerCharacterId(queryCharacterId ?? data.playerCharacterId);
     const playerAssetProfile = getPlayerAssetProfile(playerCharacterId);
+    const hardcoreModeData = sanitizeHardcoreModeData(data.hardcoreModeData);
+    const isNewSave = data.isNewSave === true;
+    const tutorialChoice = data.tutorialChoice;
 
     this._startedPlayScene = false;
     this.loadingUi = createMenuLoadingScreen(this, {
@@ -85,7 +89,14 @@ export class WorldLoadScene extends Phaser.Scene {
         }
       },
       onComplete: () => {
-        this._startPlayScene(saveSlot, worldIdentity, playerCharacterId);
+        this._startPlayScene(
+          saveSlot,
+          worldIdentity,
+          playerCharacterId,
+          hardcoreModeData,
+          isNewSave,
+          tutorialChoice,
+        );
       },
     });
   }
@@ -97,7 +108,14 @@ export class WorldLoadScene extends Phaser.Scene {
     this.scene.get("MenuAudioScene")?.attachTo?.(this);
   }
 
-  _startPlayScene(saveSlot, worldIdentity, playerCharacterId) {
+  _startPlayScene(
+    saveSlot,
+    worldIdentity,
+    playerCharacterId,
+    hardcoreModeData,
+    isNewSave,
+    tutorialChoice,
+  ) {
     if (this._startedPlayScene) return;
     this._startedPlayScene = true;
     this.loadingUi?.setProgress(1);
@@ -109,17 +127,29 @@ export class WorldLoadScene extends Phaser.Scene {
     this.time.delayedCall(200, () => {
       try {
         this.scene.get("MenuAudioScene")?.stopForGameStart?.();
-        this.scene.start("PlayScene", { saveSlot, worldIdentity, autoStart: true, playerCharacterId });
+        this.scene.start("PlayScene", {
+          saveSlot,
+          worldIdentity,
+          autoStart: true,
+          playerCharacterId,
+          hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData),
+          isNewSave: isNewSave === true,
+          tutorialChoice,
+        });
       } catch (err) {
         console.error('[WorldLoadScene] Failed to start PlayScene:', err);
         // Last-resort fallback: show a static error screen with a retry button
-        this._showFatalError(err, saveSlot, worldIdentity, playerCharacterId);
+        this._showFatalError(err, saveSlot, worldIdentity, playerCharacterId, {
+          hardcoreModeData,
+          isNewSave,
+          tutorialChoice,
+        });
       }
     });
   }
 
   /** Last-resort fallback when PlayScene fails to start */
-  _showFatalError(err, saveSlot, worldIdentity, playerCharacterId) {
+  _showFatalError(err, saveSlot, worldIdentity, playerCharacterId, launchData = {}) {
     if (this.loadingUi) {
       this.loadingUi.destroy();
       this.loadingUi = null;
@@ -139,7 +169,12 @@ export class WorldLoadScene extends Phaser.Scene {
       padding: { x: 20, y: 10 },
     }).setOrigin(0.5).setInteractive({ useHandCursor: true });
     retryBtn.on("pointerdown", () => {
-      this.scene.start("MainMenuScene");
+      this.scene.start("WorldLoadScene", {
+        saveSlot,
+        worldIdentity,
+        playerCharacterId,
+        ...launchData,
+      });
     });
   }
 }

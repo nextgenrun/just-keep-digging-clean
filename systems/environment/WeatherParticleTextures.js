@@ -9,6 +9,24 @@ export function createWeatherParticleTextures(scene, keys) {
   createRippleTexture(scene, keys.ripple);
 }
 
+export function createWeatherSnowFallbackTexture(scene, key) {
+  if (scene.textures.exists(key)) return;
+  const gfx = scene.make.graphics({ add: false });
+  gfx.lineStyle(2, 0xe8f8ff, 0.92);
+  gfx.beginPath();
+  gfx.moveTo(8, 1);
+  gfx.lineTo(8, 15);
+  gfx.moveTo(1, 8);
+  gfx.lineTo(15, 8);
+  gfx.moveTo(3, 3);
+  gfx.lineTo(13, 13);
+  gfx.moveTo(13, 3);
+  gfx.lineTo(3, 13);
+  gfx.strokePath();
+  gfx.generateTexture(key, 16, 16);
+  gfx.destroy();
+}
+
 function createRainTexture(scene, key, width, height, color, alpha) {
   if (scene.textures.exists(key)) return;
   const gfx = scene.make.graphics({ add: false });

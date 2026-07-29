@@ -5,10 +5,11 @@ export const WEATHER_CONFIG = Object.freeze({
   // Random weather phases. Durations are intentionally short enough that the
   // world breathes during a normal play session.
   phases: {
-    clear:   { durationMs: [18000, 42000], intensity: [0.00, 0.05], wind: [-20, 35],  next: { clear: 3, drizzle: 4, rain: 2, storm: 1 } },
-    drizzle: { durationMs: [14000, 32000], intensity: [0.18, 0.38], wind: [-50, 70],  next: { clear: 3, drizzle: 3, rain: 4, storm: 1 } },
-    rain:    { durationMs: [18000, 46000], intensity: [0.45, 0.78], wind: [-95, 120], next: { clear: 2, drizzle: 3, rain: 3, storm: 2 } },
-    storm:   { durationMs: [16000, 36000], intensity: [0.76, 1.00], wind: [-170, 190], next: { clear: 1, drizzle: 2, rain: 3, storm: 2 } },
+    clear:   { durationMs: [18000, 42000], intensity: [0.00, 0.05], wind: [-20, 35],  next: { clear: 3, drizzle: 4, rain: 2, storm: 1, snow: 1 } },
+    drizzle: { durationMs: [14000, 32000], intensity: [0.18, 0.38], wind: [-50, 70],  next: { clear: 3, drizzle: 3, rain: 4, storm: 1, snow: 2 } },
+    rain:    { durationMs: [18000, 46000], intensity: [0.45, 0.78], wind: [-95, 120], next: { clear: 2, drizzle: 3, rain: 3, storm: 2, snow: 2 } },
+    storm:   { durationMs: [16000, 36000], intensity: [0.76, 1.00], wind: [-170, 190], next: { clear: 1, drizzle: 2, rain: 3, storm: 2, snow: 1 } },
+    snow:    { durationMs: [18000, 44000], intensity: [0.34, 0.82], wind: [-85, 105], next: { clear: 3, drizzle: 1, rain: 1, storm: 1, snow: 4 } },
   },
 
   intensityRetargetMs: [2200, 6200],
@@ -19,10 +20,10 @@ export const WEATHER_CONFIG = Object.freeze({
     recentHistorySize: 2,
     repeatPenalty: 0.55,
     seasonWeights: {
-      spring: { drizzle: 1.25, rain: 1.18, storm: 0.95 },
-      summer: { clear: 1.20, drizzle: 0.75, rain: 0.90, storm: 1.18 },
-      autumn: { drizzle: 1.15, rain: 1.30, storm: 1.10 },
-      winter: { clear: 1.05, drizzle: 0.90, rain: 0.85, storm: 0.92 },
+      spring: { drizzle: 1.25, rain: 1.18, storm: 0.95, snow: 0 },
+      summer: { clear: 1.20, drizzle: 0.75, rain: 0.90, storm: 1.18, snow: 0 },
+      autumn: { drizzle: 1.15, rain: 1.30, storm: 1.10, snow: 0 },
+      winter: { clear: 1.05, drizzle: 0.75, rain: 0.62, storm: 0.82, snow: 2.80 },
     },
   },
 
@@ -43,6 +44,7 @@ export const WEATHER_CONFIG = Object.freeze({
     tint: 56,
     mist: 57,
     rain: 58,
+    snow: 58.1,
     lightning: 995,
   },
 
@@ -53,6 +55,12 @@ export const WEATHER_CONFIG = Object.freeze({
     scanBelowViewportPx: 220,
     coverTopPaddingPx: 18,
     fallPastViewportPx: 96,
+  },
+
+  precipitationCollision: {
+    // Center plus both visual edges prevents drifting particles from crossing
+    // a solid tile between the coarser weather-occlusion sample columns.
+    rayFractions: Object.freeze([-1, 0, 1]),
   },
 
   surfaceLandingMask: {
@@ -98,6 +106,7 @@ export const WEATHER_CONFIG = Object.freeze({
     drizzleMax: 28,
     rainMax: 70,
     stormMax: 155,
+    snowMax: 82,
     retargetMs: [850, 2400],
     ratePerSecond: 1.35,
   },
@@ -144,7 +153,9 @@ export const WEATHER_CONFIG = Object.freeze({
     impact: {
       enabled: true,
       maxActiveDrops: 620,
+      maxEventsPerFrame: 48,
       hardStopPaddingPx: 2,
+      collisionHalfWidthScale: 0.50,
       minFallDistancePx: 28,
       maxNearestSampleDistancePx: 86,
       foregroundLengthPx: 36,
@@ -155,6 +166,12 @@ export const WEATHER_CONFIG = Object.freeze({
       impactAlpha: 0.68,
       ceilingImpactScale: 0.62,
       flashBoost: 0.32,
+      cullMarginPx: 180,
+      visualStyles: {
+        foreground: { widthPx: 6, lengthPx: 42, alphaScale: 1.00 },
+        midground: { widthPx: 4, lengthPx: 31, alphaScale: 0.62 },
+        sheet: { widthPx: 8, lengthPx: 58, alphaScale: 0.34 },
+      },
     },
     layers: {
       foreground: {
@@ -231,6 +248,56 @@ export const WEATHER_CONFIG = Object.freeze({
     jitterPx: 28,
     yJitterPx: 5,
     gustBoost: 0.55,
+    impactVfx: {
+      maxActive: 110,
+      splashDurationMs: 280,
+      rippleDurationMs: 560,
+      snowPowderDurationMs: 520,
+      splashWidthPx: 62,
+      splashHeightPx: 38,
+      rippleWidthPx: 88,
+      rippleHeightPx: 28,
+      snowPowderWidthPx: 76,
+      snowPowderHeightPx: 44,
+      groundOffsetPx: 3,
+      ceilingScale: 0.62,
+      rippleChance: 0.30,
+      snowPowderChance: 0.46,
+      startAlpha: 0.82,
+      startScale: 0.68,
+      endScale: 1.08,
+      splashDepthOffset: 0.02,
+      rippleDepthOffset: -0.02,
+      snowPowderDepthOffset: 0.02,
+    },
+  },
+
+  snow: {
+    enabled: true,
+    allowedSeason: "winter",
+    maxTemperatureC: 4,
+    ratePerSecond: 155,
+    maxBurst: 10,
+    maxActiveFlakes: 210,
+    spawnOffsetPx: -72,
+    minFallDistancePx: 24,
+    minSpeedY: 42,
+    maxSpeedY: 104,
+    speedVariance: [0.88, 1.12],
+    windScale: 0.28,
+    windSpread: 22,
+    driftAmplitudePx: [8, 28],
+    driftPeriodMs: [1200, 3200],
+    rotationSpeed: [-0.85, 0.85],
+    xJitterPx: 42,
+    sizePx: [11, 27],
+    alpha: 0.88,
+    hardStopPaddingPx: 1,
+    // Bounds every rotated visible pixel from the 224 px safe area inside each
+    // 256 px source frame while retaining passage through a one-tile AIR gap.
+    collisionRadiusScale: 0.62,
+    maxNearestSampleDistancePx: 86,
+    cullMarginPx: 180,
   },
 
   underground: {
@@ -257,10 +324,12 @@ export const WEATHER_CONFIG = Object.freeze({
     nightAlpha: 0.12,
     scenicNightAlpha: 0,
     rainAlpha: 0.07,
+    snowAlpha: 0.045,
     stormAlpha: 0.09,
     undergroundAlpha: 0.06,
     clearTint: 0x111820,
     rainTint: 0x1d3547,
+    snowTint: 0x365063,
     stormTint: 0x0b1830,
     nightTint: 0x0a0e1a,
     caveTint: 0x101a24,
@@ -299,6 +368,13 @@ export const WEATHER_CONFIG = Object.freeze({
         fogAmount: [0.15, 0.26],
         sunTint: [0x7f9fbd, 0x556f91],
         sunExposure: [0.82, 0.58],
+      },
+      snow: {
+        cloudCoverAmount: [0.58, 0.88],
+        sunTransmittance: [0.72, 0.46],
+        fogAmount: [0.08, 0.20],
+        sunTint: [0xdcecf4, 0xb7d2e3],
+        sunExposure: [0.92, 0.76],
       },
     },
   },

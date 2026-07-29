@@ -1,4 +1,6 @@
 import { WEATHER_CONFIG } from "../../values/weatherConfig.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { WeatherAudioController } from "./WeatherAudioController.js";
 import { WeatherDirector } from "./WeatherDirector.js";
 import { WeatherGameplayController } from "./WeatherGameplayController.js";
@@ -6,7 +8,9 @@ import { WeatherImpactRainController } from "./WeatherImpactRainController.js";
 import { WeatherLightningController } from "./WeatherLightningController.js";
 import { WeatherOcclusionSampler } from "./WeatherOcclusionSampler.js";
 import { WeatherParticleController } from "./WeatherParticleController.js";
+import { WeatherSnowController } from "./WeatherSnowController.js";
 import { WeatherWorldState } from "./WeatherWorldState.js";
+import { resolveSkylineWeatherVfxEnabled } from "./SkylineWeatherVfxSystem.js";
 
 import { clamp01, lerp } from "../../values/mathUtils.js";
 
@@ -33,8 +37,24 @@ export class WeatherSystem {
     this.occlusionSampler = new WeatherOcclusionSampler(scene, config, weatherConfig);
     this.worldState = new WeatherWorldState(scene, config, weatherConfig);
     this.gameplayController = new WeatherGameplayController(weatherConfig);
-    this.impactRainController = new WeatherImpactRainController(scene, config, weatherConfig);
-    this.particleController = new WeatherParticleController(scene, config, weatherConfig);
+    this.particleVisualAssets = this._resolveParticleVisualAssets();
+    this.impactRainController = new WeatherImpactRainController(
+      scene,
+      config,
+      weatherConfig,
+      this.particleVisualAssets,
+    );
+    this.snowController = new WeatherSnowController(
+      scene,
+      weatherConfig,
+      this.particleVisualAssets,
+    );
+    this.particleController = new WeatherParticleController(
+      scene,
+      config,
+      weatherConfig,
+      this.particleVisualAssets,
+    );
     this.audioController = new WeatherAudioController(scene, weatherConfig);
     this.lightningController = new WeatherLightningController(scene, weatherConfig, this.audioController);
 
@@ -97,6 +117,18 @@ export class WeatherSystem {
       occlusion,
       lightningFlashAmount: this.getLightningFlashAmount(),
     });
+    this.snowController.update(time, dt, {
+      kind: this.kind,
+      intensity: this.intensity,
+      wind: this.wind,
+      gust: this.gust,
+      depth,
+      occlusion,
+    });
+    const precipitationImpacts = [
+      ...this.impactRainController.drainImpactEvents(),
+      ...this.snowController.drainImpactEvents(),
+    ];
     this.particleController.update(time, dt, {
       kind: this.kind,
       intensity: this.intensity,
@@ -109,9 +141,14 @@ export class WeatherSystem {
       director,
       surfaceWetness: world.worldWetnessAmount,
       lightningFlashAmount: this.getLightningFlashAmount(),
+      precipitationImpacts,
     });
     this.audioController.update({
+      kind: this.kind,
+      isRainKind: this._isRainKind(),
       intensity: this.intensity,
+      wind: this.wind,
+      gust: this.gust,
       depth,
       occlusion,
       world,
@@ -124,6 +161,7 @@ export class WeatherSystem {
     this._tintOverlay?.setPosition(width / 2, height / 2).setSize(width, height);
     this.occlusionSampler.resize();
     this.impactRainController.resize();
+    this.snowController.resize();
     this.particleController.resize();
     this.lightningController.resize();
   }
@@ -166,6 +204,8 @@ export class WeatherSystem {
     const director = this.director.getSnapshot();
     const world = this.worldState.getSnapshot();
     const gameplay = this.gameplayController.getSnapshot();
+    const rainAmount = this._isRainKind() ? clamp01(this.intensity) : 0;
+    const snowAmount = this.kind === "snow" ? clamp01(this.intensity) : 0;
     return {
       kind: this.kind,
       intensity: this.intensity,
@@ -187,7 +227,13 @@ export class WeatherSystem {
       campfireExposure: gameplay.campfireExposure,
       worldWetnessAmount: world.worldWetnessAmount,
       surfaceWetness: world.worldWetnessAmount,
+      rainAmount,
+      snowAmount,
+      precipitationAmount: Math.max(rainAmount, snowAmount),
+      approvedParticleVisualsReady: Boolean(this.particleVisualAssets),
+      particleTextureKey: this.particleVisualAssets?.textureKey ?? null,
       isStorming: this.kind === "storm" && this.intensity > 0.55,
+      isSnowing: this.kind === "snow" && this.intensity > 0.05,
     };
   }
 
@@ -203,6 +249,7 @@ export class WeatherSystem {
     const gameplay = this.gameplayController.getSnapshot();
     const lightningFlashAmount = this.getLightningFlashAmount();
     const rainAmount = this._isRainKind() ? clamp01(this.intensity) : 0;
+    const snowAmount = this.kind === "snow" ? clamp01(this.intensity) : 0;
     const stormAmount = this.kind === "storm" ? clamp01(this.intensity) : 0;
     const sunlight = this._lightingSnapshot || this._getLightingTarget();
 
@@ -217,6 +264,8 @@ export class WeatherSystem {
       windGustAmount: this._getWindGustAmount(),
       gustAmount: this._getWindGustAmount(),
       rainAmount,
+      snowAmount,
+      precipitationAmount: Math.max(rainAmount, snowAmount),
       stormAmount,
       surfaceAmount: depth.surfaceAmount,
       undergroundAmount: depth.undergroundAmount,
@@ -231,6 +280,7 @@ export class WeatherSystem {
       surfaceWetness: world.worldWetnessAmount,
       lightningFlashAmount,
       isStorming: stormAmount > 0.55,
+      isSnowing: snowAmount > 0.05,
       tint: sunlight.sunTint,
       exposure: sunlight.sunExposure,
       ...sunlight,
@@ -241,6 +291,7 @@ export class WeatherSystem {
     this._destroyed = true;
     this.occlusionSampler.destroy();
     this.impactRainController.destroy();
+    this.snowController.destroy();
     this.particleController.destroy();
     this.lightningController.destroy();
     this.audioController.destroy();
@@ -273,7 +324,13 @@ export class WeatherSystem {
 
   _retargetGust() {
     const cfg = this.weatherConfig.gusts;
-    const max = this.kind === "storm" ? cfg.stormMax : this.kind === "rain" ? cfg.rainMax : cfg.drizzleMax;
+    const max = this.kind === "storm"
+      ? cfg.stormMax
+      : this.kind === "rain"
+        ? cfg.rainMax
+        : this.kind === "snow"
+          ? cfg.snowMax
+          : cfg.drizzleMax;
     this.targetGust = (Math.random() * 2 - 1) * max * this.intensity;
   }
 
@@ -288,15 +345,17 @@ export class WeatherSystem {
     const undergroundAmount = clamp01(depthTiles / cfg.undergroundFullTiles);
     const deepFade = 1 - clamp01((depthTiles - cfg.deepFadeStartTiles) / Math.max(1, cfg.deepFadeEndTiles - cfg.deepFadeStartTiles));
     const stormFloor = this.kind === "storm" ? cfg.stormMinimumSignal : 0;
-    const undergroundSignal = Math.max(stormFloor, this.intensity * undergroundAmount) * deepFade;
+    const rainSignal = this._isRainKind() ? this.intensity : 0;
+    const undergroundSignal = Math.max(stormFloor, rainSignal * undergroundAmount) * deepFade;
     return { depthTiles, surfaceAmount, undergroundAmount, deepFade, undergroundSignal: clamp01(undergroundSignal) };
   }
 
   _updateTintOverlay(depth) {
     const nightAmount = this.scene.dayNightCycle?.getNightAmount?.() ?? (this.scene.dayNightCycle?.isNightTime?.() ? 1 : 0);
     const lighting = this.weatherConfig.lighting;
-    const surfaceWeather = this.intensity * depth.surfaceAmount;
+    const surfaceWeather = (this._isRainKind() ? this.intensity : 0) * depth.surfaceAmount;
     const stormAmount = this.kind === "storm" ? this.intensity : 0;
+    const snowAmount = this.kind === "snow" ? this.intensity : 0;
     const visibilityPenalty = this.gameplayController.getSnapshot().visibilityPenalty || 0;
     const isScenic = String(this.scene.worldVisualRuntimeMode || "").startsWith("scenic");
     const nightAlpha = isScenic
@@ -305,13 +364,22 @@ export class WeatherSystem {
     const tintAlpha = clamp01(
       nightAmount * depth.surfaceAmount * nightAlpha +
       surfaceWeather * lighting.rainAlpha +
+      snowAmount * depth.surfaceAmount * lighting.snowAlpha +
       stormAmount * depth.surfaceAmount * lighting.stormAlpha +
       depth.undergroundSignal * lighting.undergroundAlpha +
       visibilityPenalty
     );
     const tintColor = depth.undergroundAmount > 0.45
       ? lighting.caveTint
-      : stormAmount > 0.6 ? lighting.stormTint : nightAmount > 0.45 ? lighting.nightTint : this.intensity > 0.2 ? lighting.rainTint : lighting.clearTint;
+      : stormAmount > 0.6
+        ? lighting.stormTint
+        : snowAmount > 0.2
+          ? lighting.snowTint
+          : nightAmount > 0.45
+            ? lighting.nightTint
+            : this.intensity > 0.2
+              ? lighting.rainTint
+              : lighting.clearTint;
     this._tintOverlay.setVisible(tintAlpha > 0.005);
     this._tintOverlay.setFillStyle(tintColor, tintAlpha);
   }
@@ -390,6 +458,20 @@ export class WeatherSystem {
 
   _isRainKind() {
     return this.kind === "drizzle" || this.kind === "rain" || this.kind === "storm";
+  }
+
+  _resolveParticleVisualAssets() {
+    const textureKey = ASSET_KEYS.environment.skylineWeatherVfx.particles;
+    if (!resolveSkylineWeatherVfxEnabled(SKYLINE_WEATHER_VFX)) return null;
+    if (!this.scene.textures?.exists?.(textureKey)) {
+      console.warn(`[WeatherSystem] Missing ImageGen particle sheet: ${textureKey}`);
+      return null;
+    }
+    return {
+      textureKey,
+      frames: SKYLINE_WEATHER_VFX.particleFrames,
+      presentation: SKYLINE_WEATHER_VFX.particlePresentation,
+    };
   }
 
   _getViewport() {

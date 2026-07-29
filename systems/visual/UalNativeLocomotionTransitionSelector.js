@@ -2,6 +2,18 @@ import {
   UAL_NATIVE_LOCOMOTION_PHASES as PHASE,
   UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG,
 } from "../../values/ualNativeLocomotionTransitions.js";
+import {
+  PLAYER_ANIMATION_POLISH,
+  isPlayerAnimationFeatureEnabled,
+} from "../../values/playerAnimationPolish.js";
+import { UalGroundPhaseHandoffSelector } from "./UalGroundPhaseHandoffSelector.js";
+import { requireUalLocomotionAnimationKeys } from "./requireUalLocomotionAnimationKeys.js";
+import {
+  advanceLocomotionTransition,
+  beginLocomotionTransition,
+  facingForVelocity,
+  loopLocomotionSelection,
+} from "./ualLocomotionSelections.js";
 
 const GROUND_TRANSITIONS = new Set([
   PHASE.WALK_START, PHASE.WALK_STOP, PHASE.PIVOT_STOP, PHASE.PIVOT_START, PHASE.LANDING,
@@ -10,36 +22,22 @@ const FLIGHT_TRANSITIONS = new Set([
   PHASE.FLIGHT_ENTER, PHASE.FLIGHT_TRAVEL_ENTER, PHASE.FLIGHT_EXIT,
 ]);
 
-function requireAnimationKeys(profile) {
-  const keys = {
-    idle: profile?.idleAnim,
-    walkStart: profile?.walkStartAnim,
-    walkLoop: profile?.walkLoopAnim,
-    run: profile?.walkRunAnim,
-    walkStop: profile?.walkStopAnim,
-    flightEnter: profile?.flightEnterAnim,
-    flightTravelEnter: profile?.flightTravelEnterAnim,
-    flightTravelLoop: profile?.flightTravelLoopAnim,
-    flightHover: profile?.flightHoverAnim,
-    flightExit: profile?.flightExitAnim,
-    airborneRise: profile?.airborneRiseAnim,
-    airborneFall: profile?.airborneFallAnim,
-    landing: profile?.landingAnim,
-  };
-  const missing = Object.entries(keys)
-    .filter(([, value]) => typeof value !== "string" || value.length === 0)
-    .map(([name]) => name);
-  if (missing.length > 0) {
-    throw new Error(`UAL locomotion profile is missing animation keys: ${missing.join(", ")}`);
-  }
-  return Object.freeze(keys);
-}
 const finite = (value) => (Number.isFinite(value) ? value : 0);
 export class UalNativeLocomotionTransitionSelector {
   constructor(profile, config = UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG) {
-    this.keys = requireAnimationKeys(profile);
+    this.keys = requireUalLocomotionAnimationKeys(profile);
     this.config = config;
     this.continuousFlightLoop = profile?.continuousFlightLoop === true;
+    this.animationPolish = profile?.animationPolishConfig || PLAYER_ANIMATION_POLISH;
+    this.landingConfig = this.animationPolish.landing;
+    this.landingEnabled = isPlayerAnimationFeatureEnabled(
+      this.landingConfig,
+      globalThis.location?.search || "",
+      this.animationPolish,
+    );
+    this.softLandingAnimationKey = profile?.softLandingAnim || this.keys.landing;
+    this.legacyLandingAnimationKey = profile?.legacyLandingAnim || this.keys.landing;
+    this.groundHandoff = new UalGroundPhaseHandoffSelector(profile);
     this.reset();
   }
   reset({ grounded = true, flying = false, facingFlipX = false } = {}) {
@@ -51,9 +49,14 @@ export class UalNativeLocomotionTransitionSelector {
     this._airborneIntervalActive = !this._wasGrounded || this._wasFlying;
     this._landingConsumed = false;
     this._maxAirborneDownwardSpeed = 0;
+    this._landingMoveCancelFrame = 0;
     this._facingFlipX = facingFlipX === true;
     this._transition = null;
+    this.groundHandoff.reset();
     return this;
+  }
+  requestRunResume(frame) {
+    return this.groundHandoff.requestRunResume(frame);
   }
   resolve(snapshot = {}) {
     const state = {
@@ -70,7 +73,11 @@ export class UalNativeLocomotionTransitionSelector {
       currentFrameIndex: Number.isFinite(snapshot.currentFrameIndex)
         ? Math.max(0, Math.floor(snapshot.currentFrameIndex))
         : 0,
+      currentTextureFrame: Number.isFinite(Number(snapshot.currentTextureFrame))
+        ? Math.max(0, Math.floor(Number(snapshot.currentTextureFrame)))
+        : null,
     };
+    state.previousFacingFlipX = this._facingFlipX;
     if (!state.grounded || state.flying) {
       this._markAirborneInterval();
       this._maxAirborneDownwardSpeed = Math.max(
@@ -114,6 +121,7 @@ export class UalNativeLocomotionTransitionSelector {
   }
   _resolveFlight(state) {
     if (this._transition && GROUND_TRANSITIONS.has(this._transition.phase)) this._transition = null;
+    this.groundHandoff.reset();
     this._groundMoving = false;
     this._markAirborneInterval();
     this._adoptVelocityFacing(state.horizontalVelocity);
@@ -159,6 +167,7 @@ export class UalNativeLocomotionTransitionSelector {
   _resolveAirborne(state) {
     if (this._transition && (GROUND_TRANSITIONS.has(this._transition.phase)
       || FLIGHT_TRANSITIONS.has(this._transition.phase))) this._transition = null;
+    this.groundHandoff.reset();
     this._groundMoving = false;
     this._flightTraveling = false;
     this._markAirborneInterval();
@@ -189,37 +198,66 @@ export class UalNativeLocomotionTransitionSelector {
 
     if (this._airborneIntervalActive && !this._landingConsumed) {
       this._landingConsumed = true;
-      const landing = this.config.landing;
+      const landing = this.landingEnabled ? this.landingConfig : this.config.landing;
       const impactSpeed = this._maxAirborneDownwardSpeed;
-      if (impactSpeed >= landing.minImpactSpeedPxPerSec) {
-        const timeScale = impactSpeed >= landing.hardImpactSpeedPxPerSec
-          ? landing.hardTimeScale
-          : landing.mediumTimeScale;
-        this._beginTransition(PHASE.LANDING, this.keys.landing, this._facingFlipX, timeScale);
+      const minimumImpact = landing.softMinImpactSpeedPxPerSec
+        ?? landing.minImpactSpeedPxPerSec;
+      if (impactSpeed >= minimumImpact) {
+        const hardMinimum = landing.hardMinImpactSpeedPxPerSec
+          ?? landing.minImpactSpeedPxPerSec;
+        const hard = impactSpeed >= hardMinimum;
+        const veryHard = landing.veryHardImpactSpeedPxPerSec
+          ?? landing.hardImpactSpeedPxPerSec;
+        const timeScale = hard
+          ? impactSpeed >= veryHard ? landing.hardTimeScale : landing.mediumTimeScale
+          : 1;
+        const key = this.landingEnabled
+          ? hard ? this.keys.landing : this.softLandingAnimationKey
+          : this.legacyLandingAnimationKey;
+        this._landingMoveCancelFrame = hard
+          ? (landing.hardMoveCancelAfterFrameIndex ?? landing.moveCancelAfterFrameIndex)
+          : (landing.softMoveCancelAfterFrameIndex ?? 0);
+        this._beginTransition(PHASE.LANDING, key, this._facingFlipX, timeScale);
       } else {
         this._finishAirborneInterval();
       }
     }
     if (this._transition?.phase === PHASE.LANDING) {
-      const landing = this.config.landing;
       const movementCanCancel = moving
-        && state.currentAnimationKey === this.keys.landing
+        && state.currentAnimationKey === this._transition.animationKey
         && state.isPlaying
-        && state.currentFrameIndex >= landing.moveCancelAfterFrameIndex;
+        && state.currentFrameIndex >= this._landingMoveCancelFrame;
       if (movementCanCancel) {
         this._transition = null;
+        if (this.landingEnabled) this.groundHandoff.requestRunResume(
+          this.landingConfig.resumeJogFrame ?? 13,
+        );
         this._finishAirborneInterval();
       }
       const pending = this._advanceTransition(state);
       if (pending) return pending;
+      if (moving) {
+        if (this.landingEnabled) this.groundHandoff.requestRunResume(
+          this.landingConfig.resumeJogFrame ?? 13,
+        );
+      }
       this._finishAirborneInterval();
     }
     if (this._transition && this._transition.phase !== PHASE.LANDING) this._transition = null;
-    if (moving) {
-      const gaitKey = this.keys[ground.gaitAnimationRole] || this.keys.run;
-      return this._loop(gaitKey, PHASE.RUN, state);
-    }
-    return this._loop(this.keys.idle, PHASE.IDLE, state);
+    const handoff = this.groundHandoff.resolve({
+      moving,
+      horizontalSpeed: speed,
+      currentAnimationKey: state.currentAnimationKey,
+      currentFrameIndex: state.currentFrameIndex,
+      isPlaying: state.isPlaying,
+      currentTextureFrame: state.currentTextureFrame,
+      previousFacingFlipX: state.previousFacingFlipX,
+      nextFacingFlipX: this._facingFlipX,
+    });
+    const base = moving
+      ? this._loop(this.keys[ground.gaitAnimationRole] || this.keys.run, PHASE.RUN, state)
+      : this._loop(this.keys.idle, PHASE.IDLE, state);
+    return { ...base, ...(handoff || {}) };
   }
   _markAirborneInterval() {
     if (this._airborneIntervalActive) return;
@@ -234,62 +272,26 @@ export class UalNativeLocomotionTransitionSelector {
     this._maxAirborneDownwardSpeed = 0;
   }
 
-  _directionOf(velocity) {
-    const epsilon = this.config.facing.directionEpsilonPxPerSec;
-    if (velocity > epsilon) return 1;
-    if (velocity < -epsilon) return -1;
-    return 0;
-  }
-
-  _flipForDirection(direction) {
-    if (direction === 0) return this._facingFlipX;
-    return this.config.facing.sourceFacesRight ? direction < 0 : direction > 0;
-  }
-
   _adoptVelocityFacing(velocity) {
-    const direction = this._directionOf(velocity);
-    if (direction !== 0) this._facingFlipX = this._flipForDirection(direction);
+    this._facingFlipX = facingForVelocity(velocity, this._facingFlipX, this.config);
   }
 
   _beginTransition(phase, animationKey, facingFlipX, timeScale = null) {
-    this._transition = {
+    this._transition = beginLocomotionTransition(
       phase,
       animationKey,
       facingFlipX,
       timeScale,
-      observedPlaying: false,
-    };
+    );
   }
 
   _advanceTransition(state) {
-    const transition = this._transition;
-    if (!transition) return null;
-    if (state.currentAnimationKey === transition.animationKey && state.isPlaying) {
-      transition.observedPlaying = true;
-    }
-    if (transition.observedPlaying
-      && state.currentAnimationKey === transition.animationKey
-      && !state.isPlaying) {
-      this._transition = null;
-      return null;
-    }
-    return {
-      animationKey: transition.animationKey,
-      phase: transition.phase,
-      facingFlipX: transition.facingFlipX,
-      timeScale: transition.timeScale,
-      restart: !transition.observedPlaying,
-      loop: false,
-    };
+    const advanced = advanceLocomotionTransition(this._transition, state);
+    if (advanced.completed) this._transition = null;
+    return advanced.selection;
   }
 
   _loop(animationKey, phase, state) {
-    return {
-      animationKey,
-      phase,
-      facingFlipX: this._facingFlipX,
-      restart: state.currentAnimationKey !== animationKey || !state.isPlaying,
-      loop: true,
-    };
+    return loopLocomotionSelection(animationKey, phase, this._facingFlipX, state);
   }
 }

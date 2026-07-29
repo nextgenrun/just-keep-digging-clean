@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "defaultScenarioId": "moving-dig",
+  "sources": {
+    "runtimeManifest": "sprites/character/survival-ual-player-v1/runtime/manifest.json",
+    "movingDigRecipe": "values/movingSideDigReview.json",
+    "runSheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-run-sheet.webp",
+    "currentJabSheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-jab-sheet.webp"
+  },
+  "build": {
+    "frameWidth": 256,
+    "frameHeight": 256,
+    "sourceColumns": 16,
+    "currentActionColumns": 14,
+    "fps": 30,
+    "previewFrameDurationMs": 46,
+    "displaySizePx": 123,
+    "reviewScale": 2,
+    "visualOriginX": 0.5,
+    "visualOriginY": 0.96484375,
+    "playerBodyWidthPx": 31,
+    "playerBodyHeightPx": 75,
+    "tileSizePx": 94,
+    "canvasWidth": 960,
+    "panelHeight": 270,
+    "actorRootX": 315,
+    "groundInsetPx": 20,
+    "tileFaceX": 380,
+    "actionBlendFrames": 2,
+    "actionBlendWeights": [
+      0.65,
+      0.85
+    ],
+    "pivotBridgeFrames": 2,
+    "pivotVerticalWeight": 2,
+    "fontFile": "C:/Windows/Fonts/segoeui.ttf",
+    "fontBoldFile": "C:/Windows/Fonts/seguisb.ttf"
+  },
+  "labels": {
+    "title": "PHASE HANDOFF REVIEW",
+    "current": "CURRENT  •  hard sheet / mirror cut",
+    "proposed": "PROPOSED  •  phase-aware + 2-frame plant",
+    "reviewOnly": "REVIEW ONLY  •  production unchanged",
+    "zeroDelay": "INPUT: IMMEDIATE  •  0 DELAY FRAMES"
+  },
+  "palette": {
+    "background": "#071116",
+    "panel": "#0b1b22",
+    "grid": "#25434b",
+    "ground": "#e9ba50",
+    "text": "#eaf8f7",
+    "muted": "#8eb0b3",
+    "cyan": "#55e5dc",
+    "green": "#75e69d",
+    "red": "#ff675f",
+    "amber": "#f3bd59",
+    "collider": "#ff5a55",
+    "tile": "#5d7773",
+    "tileEdge": "#a9d7d2",
+    "impact": "#ffc868"
+  },
+  "scenarios": [
+    {
+      "id": "moving-dig",
+      "label": "Moving dig: enter + release",
+      "summary": "Begins the punch on the next Jog phase, blends only the upper body for two existing action frames, then resumes the exact following Jog frame.",
+      "entryJogPhase": 23,
+      "preFrames": 4,
+      "action": "jab",
+      "contactFrame": 4,
+      "postFrames": 6,
+      "targetTile": true,
+      "output": "generated/moving-dig-phase-handoff.gif"
+    },
+    {
+      "id": "instant-turn",
+      "label": "Instant reversal: plant pivot",
+      "summary": "Facing and physical travel reverse on the input frame; two measured Jog phases keep the planted foot in place before the ordinary cycle continues.",
+      "outgoingJogPhase": 13,
+      "preFrames": 4,
+      "postFrames": 8,
+      "targetTile": false,
+      "output": "generated/instant-turn-plant-pivot.gif"
+    }
+  ],
+  "outputs": {
+    "keyframes": "generated/phase-handoff-keyframes.png",
+    "metrics": "generated/phase-handoff-metrics.json"
+  }
+}

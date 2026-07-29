@@ -193,18 +193,11 @@ export class OpeningFlightLegacyRuntime {
     };
     this.scene.upgradeSystem?.grantUpgrade?.(this.config.upgradeId);
     this.scene.playerController?.abilities?.fillGemPower?.();
+    this.scene.armHardcoreAfterFlightUnlock?.("opening-flight-legacy");
     this.view.showCollectionBurst(artifactWorld);
     this.view.transitionToTrial(this._getFlyKeyLabel());
     this.scene.soundSystem?.playUiConfirm?.();
     this.scene.uiNotifications?.success(this.config.copy.pickupToast);
-    this.scene.hudSystem?.flashStatus(
-      this.config.copy.trialReady.replace(
-        "{flyKey}",
-        this._getFlyKeyLabel(),
-      ),
-      this.config.colors.cyanText,
-      this.config.pickupStatusDurationMs,
-    );
     this.scene.queueDugTilesSave?.();
   }
 

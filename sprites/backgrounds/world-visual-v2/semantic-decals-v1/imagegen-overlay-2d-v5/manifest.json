@@ -1,0 +1,53 @@
+{
+  "version": 5,
+  "date": "2026-07-28",
+  "generator": "OpenAI built-in ImageGen plus local chroma removal",
+  "camera": "strict orthographic front-facing 2D",
+  "runtimeChanged": true,
+  "approvedNewResources": [
+    "copper",
+    "iron",
+    "silver",
+    "gold",
+    "obsidian",
+    "emberOre"
+  ],
+  "retainedResources": [
+    "bronze",
+    "magmaCrystal",
+    "steel",
+    "stone"
+  ],
+  "resourceFrameOrder": [
+    "copper",
+    "bronze",
+    "steel",
+    "iron",
+    "silver",
+    "gold",
+    "obsidian",
+    "emberOre",
+    "magmaCrystal",
+    "stone"
+  ],
+  "runtime": {
+    "semanticAtlas": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-overlays-imagegen-2d-v5.png",
+    "recognitionAtlas": "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v6.png",
+    "staticReferenceFolder": "sprites/tiles/resource-overlays-imagegen-v5-2d"
+  },
+  "sha256": {
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-overlays-imagegen-2d-v5.png": "6d255c3a89e66bdb3bc8cf6690666e07fba5321f91e9aab929091ccfe1f407e8",
+    "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v6.png": "cbbecb9de24fbf056742e10a080de0c44ee3e4cddc85441c278e025969e0b12c",
+    "visual-approval-previews/overground-texture-audit-v7-approved-2d-runtime/01-approved-2d-overlays-on-four-grounds.png": "ebf611874269b5642989eba1bd9f349af6bdb90ec3c4a2729199c839d68eb3ed",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/copper.webp": "557dacd59541e60ee92870b17ca3ab8a0e830d5cb372bf631b590c3aecd0b8c7",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/bronze.webp": "68342088bcb9aa7e0d04d5db740601050d1156c928fe9d5d50fa8f6b814a87ae",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/steel.webp": "0f12bc77153ac4c120227bc2ed9266c321e6f3e09aef5b67a00fd02b01c3dbc6",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/iron.webp": "e1fa86108393e238e24fe087c0008b668062d8f5c7cacc275a410d0b47b48ebf",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/silver.webp": "f8cb8699a0cb89598aadef7d6616fa4e37b8da0b460956908d600041b1387284",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/gold.webp": "5f9a9e78efd93c83e47b16a00cdd98f92c05136d241be1db152c5ff7e06ccbf4",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/obsidian.webp": "a13c9e634be58787b015960081cbe3352c6ea3766175d2131654b324d1383092",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/ember-ore.webp": "1fdcb50ba2f8fd4906039262fca3a470b68fa1d51fa58d3c317413300b35b1ef",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/magma-crystal.webp": "cf4a7fcdf8e5b17e41f01e954be5c2ea6a63afa7e8e30e83b785b0c496cd9e96",
+    "sprites/tiles/resource-overlays-imagegen-v5-2d/stone.webp": "0adb8252164e887241f16d91b20c4410dbf77308287644eed0f8446f87746a89"
+  }
+}

@@ -21,18 +21,68 @@ export const ARC_CORE_VISUAL_CONFIG = Object.freeze({
     cloudKey: "B",
     smallArcKey: "1",
     omegaArcKey: "2",
+    refillMineKey: "R",
   }),
   reviewStage: Object.freeze({
-    worldCols: 19,
-    worldRows: 10,
-    normalFloorRow: 7,
-    normalBedrockRow: 8,
+    worldCols: 60,
+    worldRows: 30,
     defaultCameraZoom: 1,
     omegaCameraZoom: 0.72,
-    omegaPlayerTileX: 8,
-    omegaPlayerTileY: 4,
-    omegaWallTileX: 11,
-    omegaWallTileY: 1,
+    cameraFollowLerpX: 0.14,
+    cameraFollowLerpY: 0.14,
+    maxTargetScanTiles: 4,
+    safeSwitchSearchRadiusTiles: 18,
+    mine: Object.freeze({
+      spawnTileX: 14,
+      spawnTileY: 14,
+      boundaryThicknessTiles: 2,
+      chamber: Object.freeze({
+        leftTile: 12,
+        rightTile: 16,
+        topTile: 12,
+        bottomTile: 16,
+      }),
+      stoneStartTileX: 34,
+      stoneStartTileY: 20,
+    }),
+    targetTileDepth: 2,
+    targetTileAlpha: 0.98,
+    tileCullPaddingTiles: 1,
+    targetTileTints: Object.freeze({
+      dirt: 0xffffff,
+      stone: 0xffffff,
+      floor: 0x727b86,
+      bedrock: 0x59636d,
+    }),
+    targetTextures: Object.freeze({
+      dirt: Object.freeze({
+        key: "arc-core-review-production-dirt",
+        path: "sprites/tiles/tiles-under-1000/dirt-tiles/1-of-5-hp.webp",
+      }),
+      stone: Object.freeze({
+        key: "arc-core-review-production-stone",
+        path: "sprites/tiles/resource-tiles-imagegen-v3/stone.webp",
+      }),
+    }),
+  }),
+  reviewCapture: Object.freeze({
+    query: Object.freeze({
+      mode: "arcMode",
+      action: "arcAction",
+      progress: "arcProgress",
+      hitbox: "arcHitbox",
+    }),
+    modes: Object.freeze({
+      small: "arcCoreSmall",
+      omega: "arcCoreOmega",
+    }),
+    actions: Object.freeze({
+      idle: "idle",
+      dig: "dig",
+      cloudEnter: "cloud-enter",
+      cloudExit: "cloud-exit",
+    }),
+    defaultProgress: 0.5,
   }),
   small: Object.freeze({
     id: "arcCoreSmall",
@@ -145,4 +195,21 @@ export function resolveArcCoreVisualsEnabled(
   const params = new URLSearchParams(search);
   return params.get(ARC_CORE_VISUAL_CONFIG.rollbackQueryParam)
     !== ARC_CORE_VISUAL_CONFIG.legacyRollbackValue;
+}
+
+export function resolveArcCoreReviewCapture(
+  search = globalThis.location?.search || "",
+) {
+  const capture = ARC_CORE_VISUAL_CONFIG.reviewCapture;
+  const params = new URLSearchParams(search);
+  const action = params.get(capture.query.action)?.trim().toLowerCase();
+  if (!Object.values(capture.actions).includes(action)) return null;
+  const requestedMode = params.get(capture.query.mode)?.trim().toLowerCase();
+  const mode = capture.modes[requestedMode] || capture.modes.small;
+  const rawProgress = Number.parseFloat(params.get(capture.query.progress));
+  const progress = Number.isFinite(rawProgress)
+    ? Math.max(0, Math.min(1, rawProgress))
+    : capture.defaultProgress;
+  const showHitbox = params.get(capture.query.hitbox) === "1";
+  return Object.freeze({ mode, action, progress, showHitbox });
 }

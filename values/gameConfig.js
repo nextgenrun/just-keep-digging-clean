@@ -50,6 +50,7 @@ export const GAME_CONFIG = Object.freeze({
   worldWidthPx: WORLD_WIDTH_TILES * TILE_SIZE,
   worldDepthPx: WORLD_DEPTH_TILES * TILE_SIZE,
   topAirRows: TOP_AIR_ROWS,
+  surfaceClearanceRowsBelow: WORLD_DEPTH_CONFIG.surfaceClearanceRowsBelow,
 
   // Physics
   gravityY: 1400,

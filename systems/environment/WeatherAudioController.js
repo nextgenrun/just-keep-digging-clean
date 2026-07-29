@@ -18,12 +18,18 @@ export class WeatherAudioController {
     }
 
     const cfg = this.weatherConfig.audio;
+    const isRainKind = state.isRainKind ?? (
+      state.kind
+        ? state.kind === "drizzle" || state.kind === "rain" || state.kind === "storm"
+        : true
+    );
+    const rainIntensity = isRainKind ? state.intensity : 0;
     const openRain = state.depth.surfaceAmount * state.occlusion.openSkyAmount;
     const roofRain = state.depth.surfaceAmount * state.occlusion.coveredAmount;
     const underground = state.depth.undergroundSignal;
     const amount = clamp01(
-      state.intensity * openRain +
-      state.intensity * roofRain * cfg.coverMuffle +
+      rainIntensity * openRain +
+      rainIntensity * roofRain * cfg.coverMuffle +
       underground * cfg.undergroundMuffle
     );
     const gustAmount = Math.max(0, 1 - (state.director?.stormDistance ?? 1));
@@ -33,8 +39,8 @@ export class WeatherAudioController {
       this._setRainNoiseVolume(0);
     } else {
       this._ensureRainNoise();
-      const openVolume = state.intensity * openRain * cfg.rainVolume;
-      const roofVolume = state.intensity * roofRain * cfg.roofRainVolume;
+      const openVolume = rainIntensity * openRain * cfg.rainVolume;
+      const roofVolume = rainIntensity * roofRain * cfg.roofRainVolume;
       const caveVolume = underground * cfg.caveDripVolume;
       this._setRainNoiseVolume((openVolume + roofVolume + caveVolume) * (soundSystem?.sfxVolume ?? 1));
       this._setRainLowpass(lerp(cfg.coverLowpassHz, cfg.openLowpassHz, state.occlusion.openSkyAmount));

@@ -24,6 +24,33 @@ function visualAnchorError(actor) {
   ), 0);
 }
 
+function visualGroundContactError(actor, visual) {
+  const contact = actor.groundContact;
+  if (
+    !Number.isFinite(actor.groundSurfaceY)
+    || !Number.isFinite(contact?.bottomPaddingPx)
+    || !Number.isFinite(contact?.contactSinkPx)
+  ) return Number.POSITIVE_INFINITY;
+  const displayHeight = visual?.displayHeight ?? actor.displaySize;
+  if (
+    !Number.isFinite(displayHeight)
+    || !Number.isFinite(actor.displaySize)
+    || actor.displaySize <= 0
+  ) return Number.POSITIVE_INFINITY;
+  const paddingScale = displayHeight / actor.displaySize;
+  const visibleFootY = (visual?.y ?? actor.anchorY)
+    - contact.bottomPaddingPx * paddingScale;
+  const expectedFootY = actor.groundSurfaceY + contact.contactSinkPx;
+  return Math.abs(visibleFootY - expectedFootY);
+}
+
+function groundContactError(actor) {
+  return Math.max(
+    visualGroundContactError(actor, actor.baseVisual),
+    visualGroundContactError(actor, actor.overlay),
+  );
+}
+
 export class NPCActivitySystem {
   constructor(
     scene,
@@ -145,23 +172,33 @@ export class NPCActivitySystem {
     const anchorViolationCount = this.actors.filter(actor => (
       visualAnchorError(actor) > this.config.health.anchorTolerancePx
     )).length;
+    const groundContactViolationCount = this.actors.filter(actor => (
+      groundContactError(actor) > this.config.health.groundContactTolerancePx
+    )).length;
+    const degraded = this.missingAssets.length > 0
+      || anchorViolationCount > 0
+      || groundContactViolationCount > 0;
+    const status = !this.enabled
+      ? "disabled"
+      : degraded
+        ? "degraded"
+        : this.actors.length >= expected ? "healthy" : "initializing";
     return {
       enabled: this.enabled,
       anchorLocked: true,
-      status: !this.enabled
-        ? "disabled"
-        : this.missingAssets.length > 0 || anchorViolationCount > 0
-        ? "degraded"
-        : this.actors.length >= expected ? "healthy" : "initializing",
+      groundContactLocked: true,
+      status,
       actorCount: this.actors.length,
       expectedActorCount: expected,
       activeCount: this._activeCount(),
       anchorViolationCount,
+      groundContactViolationCount,
       missingAssets: this.missingAssets.map(entry => ({ ...entry })),
       actors: this.actors.map(actor => ({
         merchantId: actor.npc.merchantId,
         state: actor.state,
         anchorErrorPx: Number(visualAnchorError(actor).toFixed(4)),
+        groundContactErrorPx: Number(groundContactError(actor).toFixed(4)),
       })),
     };
   }
@@ -253,6 +290,7 @@ export class NPCActivitySystem {
         {
           actorCount: snapshot.actorCount,
           anchorLocked: snapshot.anchorLocked,
+          groundContactLocked: snapshot.groundContactLocked,
         },
       );
     }

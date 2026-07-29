@@ -1,0 +1,128 @@
+import { MOVING_SIDE_DIG_ANIMATION } from "../values/movingSideDigAnimation.js";
+
+function isDisabledByQuery(search, config) {
+  if (typeof search !== "string" || search.length === 0) return false;
+  return new URLSearchParams(search).get(config.rollbackQuery) === config.disabledQueryValue;
+}
+
+function directionFromMotion(motionState, horizontalVelocity, minimumSpeed) {
+  if (motionState === "walk-left") return -1;
+  if (motionState === "walk-right") return 1;
+  const velocity = Number(horizontalVelocity) || 0;
+  return Math.abs(velocity) >= minimumSpeed ? Math.sign(velocity) : 0;
+}
+
+function directionFromAim(aim) {
+  if (aim === "LEFT") return -1;
+  if (aim === "RIGHT") return 1;
+  return 0;
+}
+
+function modulo(value, count) {
+  return ((Math.floor(value) % count) + count) % count;
+}
+
+function resolveOutgoingJogFrame({
+  profile,
+  config,
+  currentAnimationKey,
+  currentFrameIndex,
+  currentTextureFrame,
+  fallbackAnimationKey,
+}) {
+  const handoff = config.phaseHandoff;
+  const count = handoff.runFrameCount;
+  if (currentAnimationKey === profile?.walkRunAnim && Number.isFinite(currentTextureFrame)) {
+    return modulo(currentTextureFrame, count);
+  }
+  const activeVariant = handoff.variants.find(
+    (variant) => variant.animationKey === currentAnimationKey,
+  );
+  if (activeVariant && Number.isFinite(currentFrameIndex)) {
+    const sequenceIndex = Math.max(0, Math.floor(currentFrameIndex) - 1);
+    const authoredRunFrame = activeVariant.runFrames?.[sequenceIndex];
+    if (Number.isFinite(authoredRunFrame)) return modulo(authoredRunFrame, count);
+    return modulo(activeVariant.runStartFrame + sequenceIndex, count);
+  }
+  const fallbackVariant = handoff.variants.find(
+    (variant) => variant.base === true && variant.animationKey === fallbackAnimationKey,
+  );
+  if (fallbackVariant) {
+    return modulo(fallbackVariant.runStartFrame - handoff.entryPhaseOffset, count);
+  }
+  return modulo(handoff.fallbackOutgoingJogFrame, count);
+}
+
+export function resolveMovingSideDigAnimation({
+  profile,
+  animationKey,
+  aim,
+  actionKind = "normal",
+  grounded,
+  motionState,
+  horizontalVelocity = 0,
+  currentAnimationKey = null,
+  currentFrameIndex = 0,
+  currentTextureFrame = null,
+  search = globalThis.location?.search || "",
+} = {}) {
+  const config = profile?.movingSideDigConfig || MOVING_SIDE_DIG_ANIMATION;
+  const replacement = profile?.movingSideDigAnimationMap?.[animationKey];
+  const unchanged = Object.freeze({
+    animationKey,
+    outgoingJogFrame: null,
+    resumeJogFrame: null,
+    phaseVariantId: null,
+  });
+  if (
+    !replacement
+    || config.enabledByDefault !== true
+    || actionKind !== "normal"
+    || isDisabledByQuery(search, config)
+  ) return unchanged;
+
+  const targetDirection = directionFromAim(aim);
+  if (targetDirection === 0) return unchanged;
+  if (config.movement.requireGrounded && grounded !== true) return unchanged;
+  const movementDirection = directionFromMotion(
+    motionState,
+    horizontalVelocity,
+    config.movement.minHorizontalSpeedPxPerSec,
+  );
+  if (movementDirection === 0) return unchanged;
+  if (config.movement.requireTowardTarget && movementDirection !== targetDirection) {
+    return unchanged;
+  }
+
+  const handoff = config.phaseHandoff;
+  if (
+    handoff?.enabledByDefault !== true
+    || isDisabledByQuery(search, handoff)
+  ) {
+    return Object.freeze({
+      ...unchanged,
+      animationKey: replacement,
+    });
+  }
+  const outgoingJogFrame = resolveOutgoingJogFrame({
+    profile,
+    config,
+    currentAnimationKey,
+    currentFrameIndex,
+    currentTextureFrame,
+    fallbackAnimationKey: replacement,
+  });
+  const variantId = handoff.entryVariantIdByOutgoingJogFrame[outgoingJogFrame];
+  const variant = handoff.variants.find((entry) => entry.id === variantId);
+  if (!variant) return Object.freeze({ ...unchanged, animationKey: replacement });
+  return Object.freeze({
+    animationKey: variant.animationKey,
+    outgoingJogFrame,
+    resumeJogFrame: variant.resumeJogFrame,
+    phaseVariantId: variant.id,
+  });
+}
+
+export function resolveMovingSideDigAnimationKey(options = {}) {
+  return resolveMovingSideDigAnimation(options).animationKey;
+}

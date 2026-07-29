@@ -21,12 +21,18 @@ endpoint or a PHP save backend; browser/local-storage saves continue to work.
 The snapshot preserves the current raw ES modules because this checkout has no
 project bundler dependency; network transfer is still precompressed. Bundling
 and minification can be added later without changing this deployment contract.
-Production also strips the `jkd_e2e`, `ui-review`, and `cave-review` query
-switches before game modules load, while preserving gameplay/visual rollbacks.
+Production also strips the `jkd_e2e`, `ui-review`, `cave-review`, `wurm`, and
+`wurm10x` query switches before game modules load. The Wurm switches are
+development controls rather than player-facing rollbacks; other gameplay and
+visual rollback parameters remain available.
 Every snapshot receives a deterministic, content-derived build ID in both its
 manifest and `index.html`. The hash covers reachable modules, collected runtime
 media, the page shell, Phaser, CSS, and the builder itself, allowing the runtime
 panel, CI artifact, and rollback candidate to identify the exact same build.
+Dynamic runtime directories include the opaque ImageGen resource-tile pack
+because BootScene constructs those ten file paths from resource ids; production
+must copy the directory even though no complete path literal appears in the
+module graph.
 
 ## Graveborer Wurm sprite package
 
@@ -34,6 +40,13 @@ panel, CI artifact, and rollback candidate to identify the exact same build.
 ImageGen masters in `sprites/environment/graveborer-wurm-v1/`, applies bounded
 high-quality downsampling, writes lossless alpha WebPs, and reports dimensions,
 byte sizes, and SHA-256 hashes. It never generates substitute artwork.
+
+## Hardcore memorial assets
+
+`2026-07-28-build-hardcore-memorial-assets.py` validates the transparent
+ImageGen grave and death-action masters, crops only transparent padding, applies
+bounded Lanczos downsampling, writes lossless alpha WebPs, and reports hashes.
+It never creates fallback art.
 
 ## Character V8 review pipeline
 

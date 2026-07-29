@@ -1,0 +1,2954 @@
+{
+  "version": 4,
+  "generatedWith": "built-in ImageGen",
+  "sourceDimensions": [
+    1536,
+    1024
+  ],
+  "contracts": {
+    "mode": "additive; existing backgrounds and terrain remain underneath",
+    "ground": "authoritative terrain mask and collision remain unchanged",
+    "scenery": "buildings, bridges, machinery, roots, and ruins remain background",
+    "rollback": "?undergroundTerrainVariation=0"
+  },
+  "counts": {
+    "masterPlates": 50,
+    "runtimePlateFiles": 50,
+    "capAtlasFiles": 10,
+    "capFrames": 200,
+    "backgroundBlendMaskFrames": 16,
+    "effectiveTerrainVisuals": 250,
+    "runtimeFiles": 61
+  },
+  "plateGeometry": {
+    "width": 1536,
+    "height": 1024,
+    "featherPx": [
+      192,
+      128
+    ],
+    "stridePx": [
+      1344,
+      896
+    ]
+  },
+  "plates": [
+    {
+      "id": "weathered-roots-mycelial-clay",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-mycelial-clay-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/weathered-roots-mycelial-clay-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "cde4ffa86848482ce1d52cbf79acee282b47ee5ef5364c0d4a13da4aa042c387",
+      "runtimeSha256": "6e5455167cb8f7be5d1b11ff44f09718cd73c5d637632d2e8b133ba7f7dc20f2",
+      "runtimeBytes": 627684,
+      "biomeId": "weathered-roots"
+    },
+    {
+      "id": "weathered-roots-orchard-stone-earth",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-orchard-stone-earth-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/weathered-roots-orchard-stone-earth-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e79759af829185873a47d3a47f76d383fa305082793303e9f3396852b0e10675",
+      "runtimeSha256": "2613a216adb50ed90bf7457eeda9c9428b5b558451a6ac50dc09ccbaf2dcfa0f",
+      "runtimeBytes": 551122,
+      "biomeId": "weathered-roots"
+    },
+    {
+      "id": "weathered-roots-peat-rift-upheaval",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-peat-rift-upheaval-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/weathered-roots-peat-rift-upheaval-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e982310d41bdb9d853e0e5e4aa9c18301269cb2d22964ecd5c561e78eaf55ddd",
+      "runtimeSha256": "3efb2aefecdd428ebf85f049198cd643d02631fa40c22558f2d81ce5bffa6b64",
+      "runtimeBytes": 498988,
+      "biomeId": "weathered-roots"
+    },
+    {
+      "id": "weathered-roots-rain-compacted-loam",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-rain-compacted-loam-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/weathered-roots-rain-compacted-loam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "7deb061446bd0deaa79a4b9040cf1d9cc02fc537bcf74aafa52264dd5ca84212",
+      "runtimeSha256": "51cc465c04b978361d545d01f15439aa365a6c8b70626f8e8f5f21f471984cf2",
+      "runtimeBytes": 580536,
+      "biomeId": "weathered-roots"
+    },
+    {
+      "id": "weathered-roots-storm-root-torsion",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-storm-root-torsion-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/weathered-roots-storm-root-torsion-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "0842284cf2c59702a44851c9a66ef7fe9c715ef0c07c673df531fc18533c4994",
+      "runtimeSha256": "d8f1945b7b18533444cd465ad8a02f1f382a59cbecaaa0ac45ee6352a27da4e3",
+      "runtimeBytes": 546794,
+      "biomeId": "weathered-roots"
+    },
+    {
+      "id": "blue-caverns-cobalt-fossil-shale",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-cobalt-fossil-shale-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blue-caverns-cobalt-fossil-shale-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e08a1a1e6bac0873f08ccc79f10dc51297e348b21004cf2063a27959289dd71b",
+      "runtimeSha256": "1d37666a30d69259818432b3770a52e1dcda14ce8c8643f32b02d2e630de3b1a",
+      "runtimeBytes": 535374,
+      "biomeId": "blue-caverns"
+    },
+    {
+      "id": "blue-caverns-frozen-current-eddies",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-frozen-current-eddies-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blue-caverns-frozen-current-eddies-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "7a1b2fde021d9aef5fff694476f9f58a076c6258d7f48b3ebb117e686a3670a1",
+      "runtimeSha256": "eff36d06764b66c3370cc880eb03471ce95e05eed2ac26a9f74e73572e37d5a5",
+      "runtimeBytes": 606942,
+      "biomeId": "blue-caverns"
+    },
+    {
+      "id": "blue-caverns-glacial-aquifer-slate",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-glacial-aquifer-slate-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blue-caverns-glacial-aquifer-slate-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "38c2db836840b5e264694ff733d5bc1b37a8c1a6068323b7813ae3323c7f4640",
+      "runtimeSha256": "0777fbc7c0a6e948245e0977cd8169869d81f785bc65c53a2ce365e34db3b2f0",
+      "runtimeBytes": 574942,
+      "biomeId": "blue-caverns"
+    },
+    {
+      "id": "blue-caverns-sapphire-calcite-fractures",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-sapphire-calcite-fractures-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blue-caverns-sapphire-calcite-fractures-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "b85d0ab128d9dbd9ca5f5385fa765dadd2396428c38be1fbcef7caba000d8fd7",
+      "runtimeSha256": "489089a0ad4305b5447ae5d7fee63b9e9146f519d7e326fe0b275a648703f687",
+      "runtimeBytes": 661338,
+      "biomeId": "blue-caverns"
+    },
+    {
+      "id": "blue-caverns-tectonic-sapphire-shear",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-tectonic-sapphire-shear-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blue-caverns-tectonic-sapphire-shear-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "8f7794ce2cd9fb9de417bb3899d9b6aa18a33440bd31504e3311f59a7e28bb53",
+      "runtimeSha256": "506540cd348b3765256320cee39fd500d85548f2461f08f675ee0f85ff82be22",
+      "runtimeBytes": 750618,
+      "biomeId": "blue-caverns"
+    },
+    {
+      "id": "amber-depths-fossil-honeycomb-upheaval",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-fossil-honeycomb-upheaval-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/amber-depths-fossil-honeycomb-upheaval-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "8f534bc7b89b4a6b61e3ce7218e50d09dc01eb8f5afdbf4b6027286d7e40a674",
+      "runtimeSha256": "14caa1c800a033426a6355bb72879374bab60497288c9a6576ad24b3dbd1a8b1",
+      "runtimeBytes": 710846,
+      "biomeId": "amber-depths"
+    },
+    {
+      "id": "amber-depths-fossil-sunstone-clay",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-fossil-sunstone-clay-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/amber-depths-fossil-sunstone-clay-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "6a5282c155a7018f9c73ddad6a87709d731c8a3214731c5c4b5a8d276063a965",
+      "runtimeSha256": "7d0f4f2ce094fa647e1fadc8fb6dce468e20590dfb41b8562d8e5e9a994e17d5",
+      "runtimeBytes": 693218,
+      "biomeId": "amber-depths"
+    },
+    {
+      "id": "amber-depths-honeyglass-gravel",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-honeyglass-gravel-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/amber-depths-honeyglass-gravel-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "16f494e81aacc7e85cc4fa1f194671194644488c14c32aac6e9613880eba6722",
+      "runtimeSha256": "16b60cb2c72b85980576de34a355edee0ebdcb8b2caefde7f403a0c6aa89b022",
+      "runtimeBytes": 653648,
+      "biomeId": "amber-depths"
+    },
+    {
+      "id": "amber-depths-resin-fault-cascade",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-resin-fault-cascade-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/amber-depths-resin-fault-cascade-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e9384c5606fe264218c9c7ccb00d7966f9ecb3996acc9003c25c699d83b9c278",
+      "runtimeSha256": "da0e8bec95f532ccc2a5fcdbd67c5e60ac55da2ca91a4519a40c3716f223f038",
+      "runtimeBytes": 678386,
+      "biomeId": "amber-depths"
+    },
+    {
+      "id": "amber-depths-resin-ochre-strata",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-resin-ochre-strata-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/amber-depths-resin-ochre-strata-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e33a1533959d453a6ab5b5cd0301091c0d2a52abb7fcd70b7d248d22c4d5b21c",
+      "runtimeSha256": "4a772678218f5febaa660d127a775b87c36e767b9b43ed28fe0e17a8d3c11a6e",
+      "runtimeBytes": 620988,
+      "biomeId": "amber-depths"
+    },
+    {
+      "id": "silver-core-magnetic-needle-matrix",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-magnetic-needle-matrix-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/silver-core-magnetic-needle-matrix-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "96dba997bd4ef8a72005392a2352a736b0278854635c4e3fa6ef9eb244c93f97",
+      "runtimeSha256": "5a244e169aee7318f8c5b59b3ae22ab243bb2f149c204295ff92aa3be47a0e9d",
+      "runtimeBytes": 689952,
+      "biomeId": "silver-core"
+    },
+    {
+      "id": "silver-core-magnetic-spear-convergence",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-magnetic-spear-convergence-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/silver-core-magnetic-spear-convergence-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "47d3dc8332d6f574c314733cbf03fb397758395f5cd4ae77c0cd6c175ab56b29",
+      "runtimeSha256": "4bf05f721d0fd175c8f5bfb280c6502f5994a156bbec5a98f2bfebaf99fd73a7",
+      "runtimeBytes": 559348,
+      "biomeId": "silver-core"
+    },
+    {
+      "id": "silver-core-mercury-slate",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-mercury-slate-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/silver-core-mercury-slate-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e9c1ddf2f8bc0416d64b5aca43e28f62ae8fdbce9525cd5959a7d0ee0f415d67",
+      "runtimeSha256": "3bad4103979e210ae1a2499c8a8643555a9df2c83fd933f872ca9d02a1902517",
+      "runtimeBytes": 575178,
+      "biomeId": "silver-core"
+    },
+    {
+      "id": "silver-core-mercury-vortex-schist",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-mercury-vortex-schist-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/silver-core-mercury-vortex-schist-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "20d61fcf30d6a0037738e57aee74918680e768f5a99c45f432cf9e62402b9477",
+      "runtimeSha256": "a1acf4ed211572fb01417c015a2d574016fd9a3c2a989860077b059651472320",
+      "runtimeBytes": 652114,
+      "biomeId": "silver-core"
+    },
+    {
+      "id": "silver-core-moon-metal-carbonate",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-moon-metal-carbonate-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/silver-core-moon-metal-carbonate-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "44d3b536c91b903495addad2c5bb8afd863f4c023523a574a70d60128918daf4",
+      "runtimeSha256": "71793149175edea88fa177c00549f16d1ecf81a7d1f7c6d6f3a97e256d134ce9",
+      "runtimeBytes": 674454,
+      "biomeId": "silver-core"
+    },
+    {
+      "id": "core-magma-basalt-scoria",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-basalt-scoria-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/core-magma-basalt-scoria-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "76ce09af413d96a62c524d834de99f44bb018caac7a2975d835346fc99510683",
+      "runtimeSha256": "5395be9bc62401b3eab6b78070aec8ca329f780952582c663219d771617a8e4d",
+      "runtimeBytes": 418522,
+      "biomeId": "core-magma"
+    },
+    {
+      "id": "core-magma-ember-lava-breccia",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-ember-lava-breccia-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/core-magma-ember-lava-breccia-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "d988c3969c830147f292e9c9640a9bc35daa1df8462c37d341e005e6961a4a51",
+      "runtimeSha256": "2112c9f1c47dd5460022c15b7e91a5bff9751ab7c7b7280d734196b8f95258d9",
+      "runtimeBytes": 642502,
+      "biomeId": "core-magma"
+    },
+    {
+      "id": "core-magma-lava-delta-fault",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-lava-delta-fault-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/core-magma-lava-delta-fault-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "394a47bbe9181fa2fc7459d68ee622c10beb3e4839bcaec49b1bdba8f3b009b6",
+      "runtimeSha256": "373e9f82dabba87d22d77410f0921c2250752a1ae71cebbd64bf43ec456f31c5",
+      "runtimeBytes": 506548,
+      "biomeId": "core-magma"
+    },
+    {
+      "id": "core-magma-obsidian-clinker",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-obsidian-clinker-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/core-magma-obsidian-clinker-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "293897ff95334994573a9931a0cc4037bfe4a74eceaa429b53d623db5fffb917",
+      "runtimeSha256": "7b5cd5449d6bf7b85454d30e87271ec454698e196926546c3d012a1fac2661a9",
+      "runtimeBytes": 446490,
+      "biomeId": "core-magma"
+    },
+    {
+      "id": "core-magma-shattered-caldera-pressure",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-shattered-caldera-pressure-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/core-magma-shattered-caldera-pressure-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "6a4d7711a1b68aecfef4c7eb6b0a72e848b345b8846845b93e99d8ad11e8b350",
+      "runtimeSha256": "9dd93d8a47e9559bca1932f94052b0c3b4b966cc5a93bcd417e0af82ad6de2ea",
+      "runtimeBytes": 383630,
+      "biomeId": "core-magma"
+    },
+    {
+      "id": "slagworks-copper-oxidation-surge",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-copper-oxidation-surge-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/slagworks-copper-oxidation-surge-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "434b5e40d2a867e6ab080e268746ba90cb13c7d8d848c479f6b012a5a81a78e6",
+      "runtimeSha256": "92b2b5709b6b902aa3dbbadef91804e4edaad5f1a00afff43d34281e83bd781b",
+      "runtimeBytes": 683230,
+      "biomeId": "slagworks"
+    },
+    {
+      "id": "slagworks-iron-slag-clinker",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-iron-slag-clinker-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/slagworks-iron-slag-clinker-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "8a76c5b9bc57fa7dba31913a4c93bb1d06d84f007a786dcbc047be5bf88eb24b",
+      "runtimeSha256": "f6633f5adc500c2d2767172d4e6e5440db4f684502f0f65c249942f9307a4377",
+      "runtimeBytes": 676322,
+      "biomeId": "slagworks"
+    },
+    {
+      "id": "slagworks-refractory-brick-rubble",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-refractory-brick-rubble-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/slagworks-refractory-brick-rubble-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "c42891b0dcf0e97606b52d1a3bf31580ad7e782cbf955c980d32bc507599a4d9",
+      "runtimeSha256": "dab94552c2a54b873ece33c86bb1e98055e2fa3abf4a74c9a1aadb8974f3967c",
+      "runtimeBytes": 596560,
+      "biomeId": "slagworks"
+    },
+    {
+      "id": "slagworks-smelter-tectonic-churn",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-smelter-tectonic-churn-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/slagworks-smelter-tectonic-churn-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "312fe4893f07a17c53aed0b4b1a5ac549b2d4360b516a725d8ef107e23fe405b",
+      "runtimeSha256": "b3f81be81cfcb98baad37b9aa3d3f00a13fcb97de162534148b96b2b781b8f23",
+      "runtimeBytes": 649218,
+      "biomeId": "slagworks"
+    },
+    {
+      "id": "slagworks-soot-copper-sediment",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-soot-copper-sediment-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/slagworks-soot-copper-sediment-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "b11aae907cfb8c8e7a63e07e950ae73fdf92b43e05b3c05a58fe64e36ae01b86",
+      "runtimeSha256": "cf015d3af8a398778b4b43b9092c24db10f219bdb26ed777b97803165a82dd74",
+      "runtimeBytes": 638778,
+      "biomeId": "slagworks"
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-shard-earth",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-blackglass-shard-earth-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/obsidian-catacombs-blackglass-shard-earth-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "5b6e34562b59b4f659e7c2e9ac7079ad1d9a0d2f556c6717f45e629fc8e49274",
+      "runtimeSha256": "ce8ddfc784a0484ddb314291b6c8519969ef1b9cfbc3ad495eb5225c99eb3273",
+      "runtimeBytes": 575042,
+      "biomeId": "obsidian-catacombs"
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-wavebreak",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-blackglass-wavebreak-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/obsidian-catacombs-blackglass-wavebreak-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "9334d0eee2065f7b1ecaaeb3a1eb670cddec4cb32e7bc963efb351ac1551db80",
+      "runtimeSha256": "6ee5edda9e0bd2c66c9ae70da0dd374bf0d01fd893d17d87f2bf447e18d621e3",
+      "runtimeBytes": 540988,
+      "biomeId": "obsidian-catacombs"
+    },
+    {
+      "id": "obsidian-catacombs-crypt-stone-dust",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-crypt-stone-dust-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/obsidian-catacombs-crypt-stone-dust-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "af42c8a71a97e9902b763960e01ec1d41644a4f864a6268ce50b2817c2512d4c",
+      "runtimeSha256": "3b6aad82dd5874ef1674beab0e56b9f83dce400ed19313ad3eb4200dcf98dfda",
+      "runtimeBytes": 489604,
+      "biomeId": "obsidian-catacombs"
+    },
+    {
+      "id": "obsidian-catacombs-violet-ash-basalt",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-violet-ash-basalt-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/obsidian-catacombs-violet-ash-basalt-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "9d6a53e8502b5dd85dd2bb1adbf4545c459c8ee1de8bc4fdd4906a8cc12c1ee5",
+      "runtimeSha256": "ccf22f5e5be0fd2883d7da5c01dfc54d9c8db56d76c2ebed7cc22d20290412b5",
+      "runtimeBytes": 600432,
+      "biomeId": "obsidian-catacombs"
+    },
+    {
+      "id": "obsidian-catacombs-violet-crypt-fault",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-violet-crypt-fault-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/obsidian-catacombs-violet-crypt-fault-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "bbf0f0e44b7954a7506ee19604aa9738f3b5b1998dbca82ff663d62802fddb68",
+      "runtimeSha256": "d3ef8dea2c96adfd9181de53f2c80e1890d70b8434b7a32255c4d831a71ebf67",
+      "runtimeBytes": 489018,
+      "biomeId": "obsidian-catacombs"
+    },
+    {
+      "id": "pressure-foundry-boiler-scale-rock",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-boiler-scale-rock-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/pressure-foundry-boiler-scale-rock-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "eb441fac10f7b1c5c7011a429f00686078b07d550e79b748bd9a32dd14a264e3",
+      "runtimeSha256": "38ec45e1e9538085f33a4aee66f1cec732f2cb7b5f426b6b04b0a33487761295",
+      "runtimeBytes": 578644,
+      "biomeId": "pressure-foundry"
+    },
+    {
+      "id": "pressure-foundry-condenser-mineral-surge",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-condenser-mineral-surge-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/pressure-foundry-condenser-mineral-surge-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "e09685564fced2649885a8b2ce58e1481b0733d192e3fd9270605af239f1241b",
+      "runtimeSha256": "1490f7eb534016a922d09e546d74863e559be5ca8368b1ac0fb396c385304255",
+      "runtimeBytes": 718906,
+      "biomeId": "pressure-foundry"
+    },
+    {
+      "id": "pressure-foundry-cyan-condenser-crust",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-cyan-condenser-crust-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/pressure-foundry-cyan-condenser-crust-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "fda6784331224ec6cbf6506c38d9d46c27f517ebc3ac867cf343f0238c5ff3a4",
+      "runtimeSha256": "59d20177238f3bc183c45dc3e67431d317abfdc43c9ca277139d2f4b2fb817da",
+      "runtimeBytes": 611752,
+      "biomeId": "pressure-foundry"
+    },
+    {
+      "id": "pressure-foundry-pressure-fracture-fan",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-pressure-fracture-fan-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/pressure-foundry-pressure-fracture-fan-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "c196f3e9352a7d681f441c00e2c3a2383927ec5b6f17326820139e1922ddb168",
+      "runtimeSha256": "73444f18f5e7032d44a062a2574ff7d99cb466b9d244efce17b5a528d549e8e9",
+      "runtimeBytes": 625378,
+      "biomeId": "pressure-foundry"
+    },
+    {
+      "id": "pressure-foundry-riveted-slag-matrix",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-riveted-slag-matrix-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/pressure-foundry-riveted-slag-matrix-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "b2c1f5881bc8f6efb24c52f69f06114a11345aff3d27d03c708a79a9f3e5f0b3",
+      "runtimeSha256": "8498038cca51fc57261bb93cb4f5f06999f145ea3bb70ec4cfc63c3dcfe88b25",
+      "runtimeBytes": 567518,
+      "biomeId": "pressure-foundry"
+    },
+    {
+      "id": "blackglass-abyss-eclipse-impact-breccia",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-eclipse-impact-breccia-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blackglass-abyss-eclipse-impact-breccia-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "bd174e8f1732b15de6454be2552c6d99619a521d5d4aa5b8728a2f608a15038e",
+      "runtimeSha256": "84de65dff7c300dbe19e032ddb1227600dd08c9ebd188dd9452ef13a52ff6991",
+      "runtimeBytes": 421538,
+      "biomeId": "blackglass-abyss"
+    },
+    {
+      "id": "blackglass-abyss-eclipse-stone",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-eclipse-stone-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blackglass-abyss-eclipse-stone-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "f87e0ac235254923eb03a1c9eb41d397e3794cd204d0bc0e6d9303eddb203dd5",
+      "runtimeSha256": "a2481ac3ea5465c572226183171465859e3f5ac7e4f9e4be40f5daa4e571f71c",
+      "runtimeBytes": 494440,
+      "biomeId": "blackglass-abyss"
+    },
+    {
+      "id": "blackglass-abyss-prism-glass-shale",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-prism-glass-shale-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blackglass-abyss-prism-glass-shale-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "ab9ea5bea0351cb6cc795c80a05fe5e60781d47d5c03728aae271798cf958403",
+      "runtimeSha256": "9ceb36a492a795ed53a7cc7964ad144e7bc9a8cd8d2cb8435a7883402f54de3b",
+      "runtimeBytes": 482206,
+      "biomeId": "blackglass-abyss"
+    },
+    {
+      "id": "blackglass-abyss-prism-shear-storm",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-prism-shear-storm-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blackglass-abyss-prism-shear-storm-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "9f8ed5af0070362099f56d9d9f2c0d6016709e01a77fdb429601084cab22024f",
+      "runtimeSha256": "f57d56890b11beac445ab98b079b29789cbe53f7bccf272b856a57828b24f770",
+      "runtimeBytes": 420946,
+      "biomeId": "blackglass-abyss"
+    },
+    {
+      "id": "blackglass-abyss-stardust-obsidian",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-stardust-obsidian-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blackglass-abyss-stardust-obsidian-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "a826bb791a5ae04d84cb858af5def202484fa370a16e8aaf3266f646a007915c",
+      "runtimeSha256": "5e3ef6a304e610886ad2a29c957b955030c670d427902ea1c7da485e92361024",
+      "runtimeBytes": 514890,
+      "biomeId": "blackglass-abyss"
+    },
+    {
+      "id": "starfire-rift-comet-tail-quartz-shear",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-comet-tail-quartz-shear-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/starfire-rift-comet-tail-quartz-shear-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "48a1b2eb92e0464ef947bae6cf1466f3bd1f3c0858945720861d37d8ad7ac3bb",
+      "runtimeSha256": "6df90314d17ecd66cd529f72a782bb839262aefbfa013ebc00b221e3b9d9ff04",
+      "runtimeBytes": 674436,
+      "biomeId": "starfire-rift"
+    },
+    {
+      "id": "starfire-rift-cosmic-ash-quartz",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-cosmic-ash-quartz-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/starfire-rift-cosmic-ash-quartz-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "a388a20abecfa46ffdbb7a2ddda444133dc46d1a246373051514bfd9b3cde719",
+      "runtimeSha256": "4cc2db956716d40d3e3e84a82f1ee7abbfdaaad305dfa6482ce40137699733a7",
+      "runtimeBytes": 576184,
+      "biomeId": "starfire-rift"
+    },
+    {
+      "id": "starfire-rift-nebula-crystal-soil",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-nebula-crystal-soil-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/starfire-rift-nebula-crystal-soil-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "9e1d08492a16b0825ec02a0571fb161ea314fd7b264936bae490447a6cd3fece",
+      "runtimeSha256": "12bf5b89a634b1b502abfe35036978b2a2e9697e1357ab0c469cc4f8fb699d90",
+      "runtimeBytes": 547878,
+      "biomeId": "starfire-rift"
+    },
+    {
+      "id": "starfire-rift-nebula-fault-bloom",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-nebula-fault-bloom-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/starfire-rift-nebula-fault-bloom-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "f7e646c402bb4c55d54736ef074afac87f0a6bc9cdb45df96cc3072f2010ef0b",
+      "runtimeSha256": "b7540b17d4775a0efcf7b232d98cb6102ebcd4b01306ac5cbf6911f1be0ce742",
+      "runtimeBytes": 475892,
+      "biomeId": "starfire-rift"
+    },
+    {
+      "id": "starfire-rift-star-metal-meteorite-matrix",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-star-metal-meteorite-matrix-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/starfire-rift-star-metal-meteorite-matrix-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "sourceSha256": "50d37572510f062b7873db047fd49bddf7dfa38a30a4ce30b4b388db7d41c20f",
+      "runtimeSha256": "89ad092652be05d5c0ab58e62c3015b7bf69b80f62b741102533ab0c2d81b59d",
+      "runtimeBytes": 536060,
+      "biomeId": "starfire-rift"
+    }
+  ],
+  "capAtlases": [
+    {
+      "id": "weathered-roots-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/weathered-roots-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            288,
+            487,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            262,
+            560,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            56,
+            326,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            783,
+            530,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            766,
+            252,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            1227,
+            361,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            284,
+            598,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            1028,
+            402,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            319,
+            238,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            1236,
+            651,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            920,
+            655,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            3,
+            319,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            536,
+            218,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            479,
+            177,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            820,
+            412,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            1058,
+            134,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            355,
+            428,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            1203,
+            343,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            593,
+            678,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            1260,
+            312,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "3dda792e9cdf171e683b41abfafd745908512a342939e6a5b7839278a672ea3f",
+      "runtimeBytes": 183322,
+      "biomeId": "weathered-roots"
+    },
+    {
+      "id": "blue-caverns-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blue-caverns-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            516,
+            537,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            553,
+            399,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            834,
+            14,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            378,
+            186,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            333,
+            347,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            1187,
+            849,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            366,
+            704,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            558,
+            895,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            156,
+            497,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            504,
+            284,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            1080,
+            49,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            726,
+            514,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            954,
+            470,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            99,
+            317,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            117,
+            816,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            246,
+            807,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            947,
+            567,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            306,
+            180,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            1184,
+            560,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            88,
+            4,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "0116ad80342b326fe7f7bf627499e357bce5a6c3dd19bdc95c61c6852b720efe",
+      "runtimeBytes": 204592,
+      "biomeId": "blue-caverns"
+    },
+    {
+      "id": "amber-depths-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/amber-depths-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            429,
+            646,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            170,
+            94,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            486,
+            731,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            481,
+            755,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            1160,
+            532,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            1199,
+            641,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            1163,
+            26,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            590,
+            211,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            1211,
+            106,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            330,
+            351,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            378,
+            515,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            710,
+            433,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            678,
+            616,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            714,
+            509,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            673,
+            829,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            68,
+            752,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            72,
+            54,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            302,
+            668,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            14,
+            352,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            1158,
+            818,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "423681ccf900d00b4b005d55cd7efeaf85a008a42f554c85e733b072c432cd79",
+      "runtimeBytes": 212300,
+      "biomeId": "amber-depths"
+    },
+    {
+      "id": "silver-core-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/silver-core-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            202,
+            619,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            1251,
+            95,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            668,
+            637,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            458,
+            262,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            1259,
+            254,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            855,
+            636,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            1148,
+            169,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            1038,
+            197,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            120,
+            338,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            156,
+            226,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            509,
+            513,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            578,
+            844,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            725,
+            17,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            1155,
+            291,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            146,
+            739,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            533,
+            775,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            503,
+            906,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            570,
+            100,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            423,
+            87,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            661,
+            622,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "f1347cdf86b1b40771ac29192b2318d7f0220246f11bcae90bd01f1be08a609f",
+      "runtimeBytes": 194058,
+      "biomeId": "silver-core"
+    },
+    {
+      "id": "core-magma-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/core-magma-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            1124,
+            62,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            445,
+            921,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            47,
+            389,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            533,
+            207,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            1230,
+            140,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            960,
+            449,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            568,
+            904,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            512,
+            720,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            503,
+            247,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            196,
+            227,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            1041,
+            235,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            960,
+            768,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            864,
+            402,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            1208,
+            715,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            498,
+            713,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            517,
+            512,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            250,
+            903,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            688,
+            753,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            1217,
+            509,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            1089,
+            849,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "00ab7c4df7ea128fd1de9ce3c74faf35040e6ec88005ba173235cc10c2bc2819",
+      "runtimeBytes": 152710,
+      "biomeId": "core-magma"
+    },
+    {
+      "id": "slagworks-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/slagworks-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            5,
+            133,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            624,
+            851,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            739,
+            890,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            162,
+            243,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            1198,
+            621,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            255,
+            873,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            1234,
+            645,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            789,
+            915,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            776,
+            522,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            691,
+            790,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            552,
+            409,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            1066,
+            617,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            355,
+            681,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            862,
+            317,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            677,
+            106,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            652,
+            901,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            69,
+            180,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            320,
+            0,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            251,
+            527,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            996,
+            707,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "059bca619d9ae7c38bdd1392b4f1ab40c2efa73bf64a4cbfc67d5b0ba161305b",
+      "runtimeBytes": 193326,
+      "biomeId": "slagworks"
+    },
+    {
+      "id": "obsidian-catacombs-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/obsidian-catacombs-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            624,
+            780,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            1119,
+            501,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            320,
+            65,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            1247,
+            288,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            742,
+            742,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            1196,
+            807,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            847,
+            451,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            661,
+            326,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            247,
+            422,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            555,
+            20,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            335,
+            196,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            408,
+            654,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            1278,
+            648,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            1010,
+            619,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            1096,
+            543,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            36,
+            574,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            915,
+            359,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            363,
+            909,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            522,
+            450,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            260,
+            337,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "bbd0d40873781a25230d37945bc1806704e13c0128db03d5b2642fb731e0cdf2",
+      "runtimeBytes": 171244,
+      "biomeId": "obsidian-catacombs"
+    },
+    {
+      "id": "pressure-foundry-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/pressure-foundry-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            1149,
+            23,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            716,
+            626,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            674,
+            702,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            279,
+            734,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            266,
+            433,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            287,
+            450,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            360,
+            176,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            857,
+            397,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            454,
+            212,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            26,
+            796,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            677,
+            707,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            653,
+            811,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            575,
+            687,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            1086,
+            680,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            277,
+            513,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            769,
+            607,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            849,
+            417,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            350,
+            722,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            731,
+            70,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            838,
+            290,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "7e4050f6daa1f1a7b23efa99f8b874ba9ee8eea28cf96e143b86c045ac30f527",
+      "runtimeBytes": 197436,
+      "biomeId": "pressure-foundry"
+    },
+    {
+      "id": "blackglass-abyss-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/blackglass-abyss-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            94,
+            848,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            496,
+            209,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            729,
+            125,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            98,
+            926,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            309,
+            900,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            283,
+            805,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            743,
+            251,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            738,
+            606,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            644,
+            2,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            1189,
+            374,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            1274,
+            834,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            739,
+            93,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            967,
+            747,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            306,
+            616,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            388,
+            304,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            5,
+            125,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            430,
+            756,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            710,
+            633,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            986,
+            85,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            1060,
+            105,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "d87700f60acd0f2c9081a47668ae03147a74c8277fc82efde4bf2d6f140392c8",
+      "runtimeBytes": 159798,
+      "biomeId": "blackglass-abyss"
+    },
+    {
+      "id": "starfire-rift-exposed-top-caps",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/starfire-rift-exposed-top-caps-v4.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "crop": [
+            119,
+            509,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "crop": [
+            70,
+            314,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "crop": [
+            158,
+            479,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "crop": [
+            827,
+            293,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "crop": [
+            1255,
+            868,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "sourceIndex": 0,
+          "crop": [
+            786,
+            750,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "sourceIndex": 1,
+          "crop": [
+            746,
+            225,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "sourceIndex": 2,
+          "crop": [
+            837,
+            295,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "crop": [
+            1091,
+            415,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "sourceIndex": 4,
+          "crop": [
+            762,
+            451,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "sourceIndex": 0,
+          "crop": [
+            172,
+            379,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "sourceIndex": 1,
+          "crop": [
+            1092,
+            355,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "sourceIndex": 2,
+          "crop": [
+            77,
+            303,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "sourceIndex": 3,
+          "crop": [
+            755,
+            28,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "sourceIndex": 4,
+          "crop": [
+            221,
+            57,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "sourceIndex": 0,
+          "crop": [
+            696,
+            734,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "sourceIndex": 1,
+          "crop": [
+            300,
+            753,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "sourceIndex": 2,
+          "crop": [
+            356,
+            301,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "sourceIndex": 3,
+          "crop": [
+            541,
+            671,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "sourceIndex": 4,
+          "crop": [
+            1085,
+            84,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "5b14936a7c1b440a8e518f6cd1efc971620f2a46272e0f02f9e230ea344f8c0c",
+      "runtimeBytes": 182574,
+      "biomeId": "starfire-rift"
+    }
+  ],
+  "backgroundBlendMaskAtlas": {
+    "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/backdrop-card-blend-mask-atlas-v4.png",
+    "frameWidth": 384,
+    "frameHeight": 256,
+    "columns": 4,
+    "rows": 4,
+    "frameCount": 16,
+    "edgeBits": {
+      "left": 1,
+      "right": 2,
+      "top": 4,
+      "bottom": 8
+    },
+    "featherPxAtMaskScale": [
+      48,
+      32
+    ],
+    "runtimeSha256": "6873db8c8429f28c3090759be438c7a28d316c4f4032142d0344edc56dac9f6a",
+    "runtimeBytes": 14423
+  },
+  "contactSheets": [
+    "visual-approval-previews/underground-terrain-blend-v4/2026-07-28-terrain-plates-contact-sheet-v4.jpg",
+    "visual-approval-previews/underground-terrain-blend-v4/2026-07-28-exposed-top-caps-contact-sheet-v4.png"
+  ],
+  "promptManifest": "visual-approval-previews/underground-terrain-blend-v4/2026-07-28-imagegen-prompt-manifest.md"
+}

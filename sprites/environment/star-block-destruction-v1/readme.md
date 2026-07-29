@@ -1,19 +1,22 @@
 # Star Block Destruction V1
 
-Production ImageGen artwork for the mined Star Block release.
+Retained ImageGen masters and production fracture artwork for the mined Star
+Block release.
 
 The package contains two matching six-colour families in runtime rarity order:
 cyan, lavender, gold, orange, turquoise, and violet.
 
-- `star-core-*-v1.png` is the faceted celestial core that flashes in, rises
-  slowly, leaves restrained authored-image echoes, and fades.
+- `star-core-*-v1.png` is the high-resolution faceted celestial source family.
+  The active runtime cores are deterministic alpha-safe normalizations in
+  `../star-block-crystal-v2/`.
 - `star-fracture-*-v1.png` is the asymmetric crystalline source bloom shown
-  when the block breaks.
+  when the block breaks and remains active in production.
 
-All files are 1254x1254 lossless PNGs generated on uniform black so Phaser can
-use additive or screen blending without drawing, tinting, masking, or
-procedurally replacing the art. The long-range release ring reuses the matching
-ImageGen sprites from `../star-block-pulse-v1/`.
+All files are 1254x1254 lossless PNGs generated on uniform black. They remain
+the provenance masters for the V2 crystal family, while Phaser uses additive
+or screen blending without drawing, tinting, masking, or procedurally replacing
+the art. The long-range release ring reuses the matching ImageGen sprites from
+`../star-block-pulse-v1/`.
 
 ## ImageGen provenance
 

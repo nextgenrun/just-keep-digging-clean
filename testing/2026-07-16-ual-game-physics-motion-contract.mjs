@@ -131,6 +131,10 @@ const playUpdateSource = readFileSync(resolve(root, "world/playScene/PlaySceneUp
 const playGameplaySource = readFileSync(resolve(root, "world/playScene/PlaySceneGameplay.js"), "utf8");
 const caveGameplaySource = readFileSync(resolve(root, "world/playScene/CaveGameplayController.js"), "utf8");
 const caveActionSource = readFileSync(resolve(root, "world/playScene/CaveActionAnimationRuntime.js"), "utf8");
+const caveLocomotionSource = readFileSync(
+  resolve(root, "world/playScene/CaveLocomotionAnimationRuntime.js"),
+  "utf8",
+);
 assert.match(playSetupSource, /new PlayerKinematicMotionSystem/);
 assert.match(playSetupSource, /new UalNativeLocomotionTransitionSelector/);
 assert.match(playUpdateSource, /playerKinematicMotion\?\.samplePhysics\(delta\)/);
@@ -144,12 +148,12 @@ assert.match(playGameplaySource, /Math\.abs\(body\?\.vx \|\| 0\)/);
 assert.match(caveGameplaySource, /new PlayerKinematicMotionSystem/);
 assert.match(caveGameplaySource, /playerKinematicMotion\?\.samplePhysics\(delta\)/);
 assert.match(caveActionSource, /UalNativeLocomotionTransitionSelector/);
-assert.match(caveActionSource, /resolveLocomotionTimeScale/);
-assert.match(caveActionSource, /getTravelSpeedPxPerSec/);
-assert.match(caveActionSource, /getResolvedVelocityX/);
-assert.match(caveActionSource, /getResolvedVelocityY/);
-assert.match(caveActionSource, /groundMovementActive/);
-assert.match(caveActionSource, /Math\.abs\(body\?\.vx \|\| 0\)/);
+assert.match(caveLocomotionSource, /resolveLocomotionTimeScale/);
+assert.match(caveLocomotionSource, /getTravelSpeedPxPerSec/);
+assert.match(caveLocomotionSource, /getResolvedVelocityX/);
+assert.match(caveLocomotionSource, /getResolvedVelocityY/);
+assert.match(caveLocomotionSource, /groundMovementActive/);
+assert.match(caveLocomotionSource, /Math\.abs\(body\?\.vx \|\| 0\)/);
 
 console.log(JSON.stringify({
   result: "UAL_GAME_PHYSICS_MOTION_CONTRACT_OK",

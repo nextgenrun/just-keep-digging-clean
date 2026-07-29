@@ -12,6 +12,8 @@ export class PlayerPhysicsBody {
     // Profile-measured upright silhouette used as the authoritative body AABB.
     this.w = config.playerBodyWidthPx;
     this.h = config.playerBodyHeightPx;
+    this.collisionKind = "rect";
+    this.collisionRadiusPx = null;
     
     // Velocity
     this.vx = 0;
@@ -25,6 +27,7 @@ export class PlayerPhysicsBody {
     
     // Ground detection
     this.onGround = false;
+    this.surfaceDropThroughRow = null;
     
     // Climbing state
     this.isClimbing = false;
@@ -132,5 +135,9 @@ export class PlayerPhysicsBody {
   resetVelocity() {
     this.vx = 0;
     this.vy = 0;
+  }
+
+  clearSurfaceDropThrough() {
+    this.surfaceDropThroughRow = null;
   }
 }

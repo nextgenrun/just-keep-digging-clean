@@ -9,7 +9,9 @@ import {
   getTitanDiscoveryPreloadAssets,
   resolveTitanDiscoveriesEnabled,
 } from "../values/titanDiscoveries.js";
+import { TITAN_DISCOVERY_EXPERIENCE } from "../values/titanDiscoveryExperience.js";
 import { TITAN_CLUE_CATALOG_CONFIG } from "../values/titanClueCatalog.js";
+import { getTitanLoreEntry } from "../values/titanLore.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { RetentionProgressSystem } from "../systems/progression/RetentionProgressSystem.js";
 import { TitanDiscoverySystem } from "../systems/visual/TitanDiscoverySystem.js";
@@ -46,6 +48,8 @@ class FakeGameObject {
   }
   setX(value) { this.x = value; return this; }
   setY(value) { this.y = value; return this; }
+  setPosition(x, y) { this.x = x; this.y = y; return this; }
+  setRotation(value) { this.rotation = value; return this; }
   setDepth(value) { this.depth = value; return this; }
   setAlpha(value) { this.alpha = value; return this; }
   setTint(value) { this.tint = value; return this; }
@@ -96,6 +100,14 @@ function createFakeWorld() {
     isSolid(tx, ty) {
       return !solid.has(`${tx},${ty}`);
     },
+    applyDugTileKeys(keys) {
+      return keys.map(key => {
+        const [tx, ty] = key.split(",").map(Number);
+        solid.add(key);
+        this.dugTiles.set(key, { tileX: tx, tileY: ty });
+        return { tx, ty };
+      });
+    },
   };
 }
 
@@ -112,6 +124,7 @@ function applyTween(scene, config) {
 
 function createFakeScene(retentionProgressSystem) {
   const objects = [];
+  const updatedTiles = [];
   const add = (object) => {
     objects.push(object);
     return object;
@@ -120,6 +133,7 @@ function createFakeScene(retentionProgressSystem) {
     objects,
     retentionProgressSystem,
     saveRequests: 0,
+    updatedTiles,
     scale: { width: 1280, height: 720 },
     textures: { exists: () => true },
     add: {
@@ -128,7 +142,9 @@ function createFakeScene(retentionProgressSystem) {
       ellipse: (x, y) => add(new FakeGameObject(x, y, "ellipse")),
       rectangle: (x, y) => add(new FakeGameObject(x, y, "rectangle")),
       graphics: () => add(new FakeGameObject(0, 0, "graphics")),
-      container: (x = 0, y = 0) => add(new FakeGameObject(x, y, "container")),
+      container: (x = 0, y = 0, children = []) => add(
+        new FakeGameObject(x, y, "container").add(children),
+      ),
       text: (x, y, text) => add(Object.assign(
         new FakeGameObject(x, y, "text"),
         { text },
@@ -138,6 +154,11 @@ function createFakeScene(retentionProgressSystem) {
       add(config) { return applyTween(this, config); },
       killTweensOf() {},
     },
+    worldRenderer: {
+      applyTileUpdate(tx, ty) {
+        updatedTiles.push({ tx, ty });
+      },
+    },
     queueDugTilesSave() {
       this.saveRequests += 1;
     },
@@ -146,7 +167,7 @@ function createFakeScene(retentionProgressSystem) {
 
 assert.equal(TITAN_DEFINITIONS.length, 25);
 assert.equal(new Set(TITAN_DEFINITIONS.map(entry => entry.id)).size, 25);
-assert.equal(getTitanDiscoveryPreloadAssets().length, 26);
+assert.equal(getTitanDiscoveryPreloadAssets().length, 54);
 assert.equal(
   getTitanDiscoveryPreloadAssets(undefined, "?titans=0").length,
   0,
@@ -166,6 +187,15 @@ const plinthPng = fs.readFileSync(plinthPath);
 assert.equal(plinthPng.readUInt32BE(16), 512, "Titan Walk plinth width");
 assert.equal(plinthPng.readUInt32BE(20), 320, "Titan Walk plinth height");
 assert.equal(plinthPng[25], 6, "Titan Walk plinth must be RGBA");
+for (const [asset, width, height] of [
+  [TITAN_DISCOVERY_CONFIG.assets.undergroundDais, 1024, 384],
+  [TITAN_DISCOVERY_CONFIG.assets.coverResonance, 512, 512],
+]) {
+  const png = fs.readFileSync(path.join(ROOT, asset.path));
+  assert.equal(png.readUInt32BE(16), width, `${asset.key} width`);
+  assert.equal(png.readUInt32BE(20), height, `${asset.key} height`);
+  assert.equal(png[25], 6, `${asset.key} must be RGBA`);
+}
 
 const world = createFakeWorld();
 const zones = buildTitanDiscoveryZones(world);
@@ -224,7 +254,27 @@ const firstView = system.zoneViews[0];
 system.update(0, 16, {
   playerTile: { tx: 0, ty: firstView.zone.centerYTile },
 });
-for (const cell of firstView.zone.cells.slice(0, firstView.requiredReveal)) {
+assert.ok(firstView.coverageTotal > 0);
+assert.ok(firstView.coverageTotal < firstView.zone.cells.length);
+assert.equal(
+  firstView.coverageRequired,
+  Math.ceil(
+    firstView.coverageTotal
+      * TITAN_DISCOVERY_EXPERIENCE.encounter.requiredClearRatio
+  ),
+);
+assert.equal(firstView.sprite.key, firstView.definition.surfaceAsset.key);
+assert.equal(firstView.daisSprite.key, TITAN_DISCOVERY_CONFIG.assets.undergroundDais.key);
+assert.ok(
+  firstView.daisSprite.displayWidth
+    < firstView.sprite.width * firstView.baseScale,
+  "the underground dais must remain substantially smaller than its Titan",
+);
+const initialCreatureAlpha = firstView.sprite.alpha;
+for (const cell of firstView.coverageCells.slice(
+  0,
+  firstView.coverageRequired - 1
+)) {
   const key = `${cell.tx},${cell.ty}`;
   world.solid.add(key);
   world.dugTiles.set(key, { tileX: cell.tx, tileY: cell.ty });
@@ -232,23 +282,59 @@ for (const cell of firstView.zone.cells.slice(0, firstView.requiredReveal)) {
 system.refresh();
 system.update(1000, 16, {
   playerTile: {
-    tx: 0,
+    tx: firstView.zone.centerXTile,
     ty: firstView.zone.centerYTile,
   },
 });
 assert.equal(
   runtimeRetention.hasDiscoveredTitan(firstView.definition.id),
   false,
-  "revealing a chamber from far away must not award its Titan",
+  "the Titan must remain sealed until half its covering silhouette is dug",
 );
-assert.ok(firstView.remaining > 0, "entry discovery must not require a full clear");
+assert.equal(
+  firstView.coverageCleared,
+  firstView.coverageRequired - 1,
+);
+assert.ok(firstView.coverageProgress > 0);
+assert.ok(
+  firstView.sprite.alpha > initialCreatureAlpha,
+  "the creature texture must visibly strengthen as covering tiles are removed",
+);
+assert.equal(
+  system.getSnapshot().guidance.indicator.visible,
+  false,
+  "the location UI must disappear inside the chamber",
+);
+assert.equal(
+  system.getSnapshot().coverGlow.visibleTiles,
+  firstView.coverageRemaining,
+  "every remaining covering tile must carry the authored resonance glow",
+);
+const thresholdCell = firstView.coverageCells[firstView.coverageRequired - 1];
+const thresholdKey = `${thresholdCell.tx},${thresholdCell.ty}`;
+world.solid.add(thresholdKey);
+world.dugTiles.set(thresholdKey, {
+  tileX: thresholdCell.tx,
+  tileY: thresholdCell.ty,
+});
+system.refresh();
 system.update(1100, 16, {
   playerTile: {
-    tx: firstView.zone.centerXTile,
+    tx: 0,
     ty: firstView.zone.centerYTile,
   },
 });
 assert.equal(runtimeRetention.hasDiscoveredTitan(firstView.definition.id), true);
+assert.equal(firstView.coverageRemaining, 0);
+assert.equal(
+  scene.updatedTiles.length,
+  firstView.coverageTotal - firstView.coverageRequired,
+  "reaching 50% must destroy and redraw every remaining covering tile",
+);
+assert.ok(
+  firstView.zoneRemaining > 0,
+  "non-creature chamber tiles must not block a fully exposed Titan",
+);
 assert.equal(system.surfaceGallery.views.size, 25);
 assert.equal(
   system.surfaceGallery.views.get(firstView.definition.id).discovered,
@@ -277,6 +363,10 @@ assert.equal(
   TITAN_DEFINITIONS[0].name.toUpperCase(),
   "the first persisted discovery must open as a real archive entry",
 );
+const firstLore = getTitanLoreEntry(TITAN_DEFINITIONS[0].id);
+assert.equal(archiveView.epithetText.text, firstLore.epithet.toUpperCase());
+assert.equal(archiveView.loreText.text, firstLore.archiveLore);
+assert.ok(archiveView.inscriptionText.text.includes(firstLore.inscription));
 assert.equal(archiveView.portrait.key, TITAN_DEFINITIONS[0].asset.key);
 assert.ok(
   archiveView.controls[0].thumbnail.alpha
@@ -298,6 +388,8 @@ assert.equal(
   archiveView.loreText.text,
   TITAN_CLUE_CATALOG_CONFIG.copy.lockedLore,
 );
+assert.equal(archiveView.epithetText.visible, false);
+assert.equal(archiveView.inscriptionText.visible, false);
 archiveView.destroy();
 assert.equal(archiveView.root.destroyed, true);
 

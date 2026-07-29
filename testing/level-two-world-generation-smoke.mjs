@@ -20,10 +20,12 @@ assert.notEqual(
 
 const levelTwoSurfaceY = SECOND_WORLD_CONFIG.entry.floorY;
 for (const tx of [151, 200, 279]) {
-  assert.notEqual(world.getTileType(tx, levelTwoSurfaceY), TILE_TYPES.BEDROCK,
-    `Level Two surface tile ${tx},${levelTwoSurfaceY} must not be bedrock`);
-  assert.equal(world.isDiggable(tx, levelTwoSurfaceY), true,
-    `Level Two surface tile ${tx},${levelTwoSurfaceY} must be diggable`);
+  assert.equal(world.getTileType(tx, levelTwoSurfaceY), TILE_TYPES.FLOOR_TOWN_2,
+    `Level Two surface tile ${tx},${levelTwoSurfaceY} must remain one-way ground`);
+  assert.equal(world.isDiggable(tx, levelTwoSurfaceY), false,
+    `Level Two one-way ground ${tx},${levelTwoSurfaceY} must resist mining`);
+  assert.equal(world.getTileType(tx, levelTwoSurfaceY + 1), TILE_TYPES.AIR,
+    `Level Two surface tile ${tx},${levelTwoSurfaceY} needs a drop-through clearance row`);
 }
 assert.equal(
   world.getTileType(
@@ -36,7 +38,10 @@ assert.equal(
 
 const divider = SECOND_WORLD_CONFIG.levelDivider;
 for (let ty = divider.topTileY; ty < world.depthTiles; ty += 1) {
-  const expectedType = ty === divider.floorTileY
+  const expectedType = ty > divider.floorTileY
+    && ty < divider.undergroundStartTileY
+    ? TILE_TYPES.AIR
+    : ty === divider.floorTileY
     ? TILE_TYPES.FLOOR_TOWN_2
     : TILE_TYPES.BEDROCK;
   assert.equal(
@@ -61,9 +66,14 @@ assert.equal(
   "The obsolete x119 gate cell must be open after the gate moves onto the divider",
 );
 assert.equal(
-  world.getTileType(divider.tileX, divider.floorTileY + 1),
+    world.getTileType(divider.tileX, divider.floorTileY + 1),
+  TILE_TYPES.AIR,
+  "The divider must leave the shared surface-clearance row open",
+);
+assert.equal(
+  world.getTileType(divider.tileX, divider.undergroundStartTileY),
   TILE_TYPES.BEDROCK,
-  "The divider must continue immediately beneath the bridge floor",
+  "The divider must resume immediately beneath the shared clearance row",
 );
 assert.equal(
   world.getTileType(divider.tileX, divider.topTileY),

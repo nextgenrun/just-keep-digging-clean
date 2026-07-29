@@ -12,6 +12,7 @@ import {
   cellIntersectsTownFloorOcclusion,
   resolveTownFloorOcclusionBounds,
 } from "./WorldVisualTownFloorOcclusion.js";
+import { setTintIfChanged } from "./worldVisualRenderState.js";
 
 function hashUnit(tx, ty, salt = 0) {
   let value = Math.imul(tx + 31, 73856093) ^ Math.imul(ty + 47, 19349663) ^ Math.imul(salt + 7, 83492791);
@@ -49,7 +50,9 @@ export class WorldVisualSemanticAssetLayer {
     this._installFrames(this.config.skyTile.beautyAtlas);
     this._installFrames(this.config.skyTile.emissiveAtlas);
     this._installFrames(this.config.specialBlocks.beautyAtlas);
-    this._installFrames(this.config.specialBlocks.emissiveAtlas);
+    if (this.config.specialBlocks.emissiveAtlas) {
+      this._installFrames(this.config.specialBlocks.emissiveAtlas);
+    }
     this.bedrockLayer = new WorldVisualBedrockMaterialLayer(this.scene, this.worldModel, this.config);
     this.bedrockLayer.create();
     return true;
@@ -76,9 +79,16 @@ export class WorldVisualSemanticAssetLayer {
     this.activeStars = [];
     this.activeSpecials = [];
     const size = this.scene.config.tileSize;
-    const resourceCap = reduced
+    const nominalResourceCap = reduced
       ? Math.floor(this.config.performance.maxVisibleResources / 2)
       : this.config.performance.maxVisibleResources;
+    const activeWindowCellCount = Math.max(0, bounds.right - bounds.left)
+      * Math.max(0, bounds.bottom - bounds.top);
+    const preserveActiveWindowResources =
+      this.config.performance.preserveActiveWindowResources !== false;
+    const resourceCap = preserveActiveWindowResources
+      ? Math.max(nominalResourceCap, activeWindowCellCount)
+      : nominalResourceCap;
     const starCap = reduced
       ? Math.floor(this.config.performance.maxVisibleStars / 2)
       : this.config.performance.maxVisibleStars;
@@ -101,7 +111,20 @@ export class WorldVisualSemanticAssetLayer {
           if (stars < starCap) this._showStar(stars++, tx, ty, size, lighting);
           continue;
         }
-        const specialFrame = resolveWorldVisualSemanticSpecialFrame(tileType, this.config);
+        const depthTiles = Math.max(
+          0,
+          ty - (
+            this.worldModel.topAirRows
+            ?? this.worldModel.config?.topAirRows
+            ?? this.scene.config.topAirRows
+            ?? 0
+          )
+        );
+        const specialFrame = resolveWorldVisualSemanticSpecialFrame(
+          tileType,
+          depthTiles,
+          this.config
+        );
         if (Number.isInteger(specialFrame)) {
           if (specials < specialCap) this._showSpecial(specials++, tx, ty, specialFrame, size, lighting);
           continue;
@@ -123,10 +146,12 @@ export class WorldVisualSemanticAssetLayer {
       if (resources >= resourceCap) break;
       this._showResource(resources++, candidate.tx, candidate.ty, candidate.resourceKey, candidate.frame, size, lighting);
     }
-    const stoneCap = Math.min(
-      this.config.resources.maxVisibleStone,
-      Math.max(0, resourceCap - resources)
-    );
+    const stoneCap = preserveActiveWindowResources
+      ? stoneCandidates.length
+      : Math.min(
+        this.config.resources.maxVisibleStone,
+        Math.max(0, resourceCap - resources)
+      );
     for (let index = 0; index < Math.min(stoneCap, stoneCandidates.length); index += 1) {
       const candidate = stoneCandidates[index];
       this._showResource(resources++, candidate.tx, candidate.ty, candidate.resourceKey, candidate.frame, size, lighting);
@@ -166,7 +191,8 @@ export class WorldVisualSemanticAssetLayer {
     const beauty = this.starBeautyPool[index] || this._createImage(
       this.starBeautyPool,
       beautyAtlas.key,
-      this.config.render.starBeautyDepth
+      this.config.render.starBeautyDepth,
+      this.config.skyTile.beautyBlendMode
     );
     const emissive = this.starEmissivePool[index] || this._createImage(
       this.starEmissivePool,
@@ -184,7 +210,11 @@ export class WorldVisualSemanticAssetLayer {
       .setTexture(beautyAtlas.key, `${beautyAtlas.framePrefix}${frame}`)
       .setDisplaySize(displaySize, displaySize)
       .setAlpha(this.config.skyTile.beautyAlpha)
-      .setTint(lighting?.terrainTint || 0xffffff)
+      .setTint(
+        this.config.skyTile.beautyReceivesTerrainTint === false
+          ? 0xffffff
+          : (lighting?.terrainTint || 0xffffff)
+      )
       .setVisible(true);
     emissive.setPosition(x, y)
       .setDepth(townFloorOccluded
@@ -206,35 +236,15 @@ export class WorldVisualSemanticAssetLayer {
       config.beautyAtlas.key,
       this.config.render.specialBeautyDepth
     );
-    const emissive = this.specialEmissivePool[index] || this._createImage(
-      this.specialEmissivePool,
-      config.emissiveAtlas.key,
-      this.currentEmissiveDepth,
-      this.config.render.emissiveBlendMode
-    );
     const x = (tx + 0.5) * size;
     const y = (ty + 0.5) * size;
     const displaySize = size * config.scale;
-    const townFloorOccluded = cellIntersectsTownFloorOcclusion(
-      this.townFloorOcclusion, tx, ty, size
-    );
     beauty.setPosition(x, y)
       .setTexture(config.beautyAtlas.key, `${config.beautyAtlas.framePrefix}${frame}`)
       .setDisplaySize(displaySize, displaySize)
       .setAlpha(config.beautyAlpha)
       .setTint(lighting?.terrainTint || 0xffffff)
       .setVisible(true);
-    emissive.setPosition(x, y)
-      .setDepth(townFloorOccluded
-        ? this.config.render.townFloorOccludedEmissiveDepth
-        : this.currentEmissiveDepth)
-      .setTexture(config.emissiveAtlas.key, `${config.emissiveAtlas.framePrefix}${frame}`)
-      .setDisplaySize(displaySize, displaySize)
-      .setAlpha(config.emissiveAlpha)
-      .setVisible(true);
-    this.activeSpecials.push({
-      emissive, townFloorOccluded, phase: hashUnit(tx, ty, 53) * Math.PI * 2,
-    });
   }
 
   _createImage(pool, key, depth, blendMode = null) {
@@ -275,21 +285,17 @@ export class WorldVisualSemanticAssetLayer {
       star.beauty.setAlpha(this.config.skyTile.beautyAlpha * (1 - range * 0.25 + pulse * range * 0.25));
       star.emissive.setAlpha(this.config.skyTile.emissiveAlpha * (1 - range + pulse * range));
     }
-    const specialConfig = this.config.specialBlocks;
-    for (const special of this.activeSpecials) {
-      const pulse = Math.sin((now / specialConfig.pulsePeriodMs) * Math.PI * 2 + special.phase) * 0.5 + 0.5;
-      special.emissive.setAlpha(
-        specialConfig.emissiveAlpha * (1 - specialConfig.pulseAlphaRange + pulse * specialConfig.pulseAlphaRange)
-      );
-    }
   }
 
   setLighting(lighting) {
     this.lastLighting = lighting;
     const tint = lighting?.terrainTint || 0xffffff;
-    this.resourcePool.forEach(image => image.visible && image.setTint(tint));
-    this.starBeautyPool.forEach(image => image.visible && image.setTint(tint));
-    this.specialBeautyPool.forEach(image => image.visible && image.setTint(tint));
+    this.resourcePool.forEach(image => image.visible && setTintIfChanged(image, tint));
+    const starTint = this.config.skyTile.beautyReceivesTerrainTint === false
+      ? 0xffffff
+      : tint;
+    this.starBeautyPool.forEach(image => image.visible && setTintIfChanged(image, starTint));
+    this.specialBeautyPool.forEach(image => image.visible && setTintIfChanged(image, tint));
     this.bedrockLayer?.setLighting(lighting);
   }
 

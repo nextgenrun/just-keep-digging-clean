@@ -1,0 +1,2368 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "recommendedCandidateId": "phase-locked-combo",
+  "candidates": [
+    {
+      "id": "current-slide",
+      "mode": "control",
+      "lowerBodyPolicy": "standing-punch",
+      "contactBackoffPx": 0,
+      "contactFrames": [
+        6,
+        28
+      ],
+      "framesPerAction": 22,
+      "runPhaseAdvanceFrames": 14,
+      "frameCount": 44,
+      "bottomDriftPx": 0,
+      "contactEnvelopeRightSourcePx": 209,
+      "maxPelvisAlignmentErrorPx": 0.0,
+      "sourceFrames": [
+        {
+          "output": 0,
+          "run": 9,
+          "action": "jab",
+          "actionFrame": 0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 1,
+          "run": 10,
+          "action": "jab",
+          "actionFrame": 2,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 2,
+          "run": 10,
+          "action": "jab",
+          "actionFrame": 3,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 3,
+          "run": 11,
+          "action": "jab",
+          "actionFrame": 4,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 4,
+          "run": 12,
+          "action": "jab",
+          "actionFrame": 5,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 5,
+          "run": 12,
+          "action": "jab",
+          "actionFrame": 6,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 6,
+          "run": 13,
+          "action": "jab",
+          "actionFrame": 7,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 7,
+          "run": 13,
+          "action": "jab",
+          "actionFrame": 8,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 8,
+          "run": 14,
+          "action": "jab",
+          "actionFrame": 9,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 9,
+          "run": 15,
+          "action": "jab",
+          "actionFrame": 10,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 10,
+          "run": 15,
+          "action": "jab",
+          "actionFrame": 11,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 11,
+          "run": 16,
+          "action": "jab",
+          "actionFrame": 12,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 12,
+          "run": 17,
+          "action": "jab",
+          "actionFrame": 13,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 13,
+          "run": 17,
+          "action": "jab",
+          "actionFrame": 14,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 14,
+          "run": 18,
+          "action": "jab",
+          "actionFrame": 15,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 15,
+          "run": 19,
+          "action": "jab",
+          "actionFrame": 16,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 16,
+          "run": 19,
+          "action": "jab",
+          "actionFrame": 17,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 17,
+          "run": 20,
+          "action": "jab",
+          "actionFrame": 19,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 18,
+          "run": 20,
+          "action": "jab",
+          "actionFrame": 21,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 19,
+          "run": 21,
+          "action": "jab",
+          "actionFrame": 23,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 20,
+          "run": 22,
+          "action": "jab",
+          "actionFrame": 25,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 21,
+          "run": 22,
+          "action": "jab",
+          "actionFrame": 26,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 22,
+          "run": 23,
+          "action": "cross",
+          "actionFrame": 0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 23,
+          "run": 24,
+          "action": "cross",
+          "actionFrame": 2,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 24,
+          "run": 24,
+          "action": "cross",
+          "actionFrame": 4,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 25,
+          "run": 25,
+          "action": "cross",
+          "actionFrame": 5,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 26,
+          "run": 26,
+          "action": "cross",
+          "actionFrame": 6,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 27,
+          "run": 26,
+          "action": "cross",
+          "actionFrame": 8,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 28,
+          "run": 27,
+          "action": "cross",
+          "actionFrame": 9,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 29,
+          "run": 27,
+          "action": "cross",
+          "actionFrame": 10,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 30,
+          "run": 0,
+          "action": "cross",
+          "actionFrame": 11,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 31,
+          "run": 1,
+          "action": "cross",
+          "actionFrame": 12,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 32,
+          "run": 1,
+          "action": "cross",
+          "actionFrame": 13,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 33,
+          "run": 2,
+          "action": "cross",
+          "actionFrame": 14,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 34,
+          "run": 3,
+          "action": "cross",
+          "actionFrame": 15,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 35,
+          "run": 3,
+          "action": "cross",
+          "actionFrame": 16,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 36,
+          "run": 4,
+          "action": "cross",
+          "actionFrame": 17,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 37,
+          "run": 5,
+          "action": "cross",
+          "actionFrame": 18,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 38,
+          "run": 5,
+          "action": "cross",
+          "actionFrame": 20,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 39,
+          "run": 6,
+          "action": "cross",
+          "actionFrame": 22,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 40,
+          "run": 6,
+          "action": "cross",
+          "actionFrame": 24,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 41,
+          "run": 7,
+          "action": "cross",
+          "actionFrame": 26,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 42,
+          "run": 8,
+          "action": "cross",
+          "actionFrame": 28,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 43,
+          "run": 8,
+          "action": "cross",
+          "actionFrame": 30,
+          "actionBlendWeight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "running-jab",
+      "mode": "layered",
+      "lowerBodyPolicy": "continuous-run",
+      "contactBackoffPx": 0,
+      "contactFrames": [
+        6,
+        28
+      ],
+      "framesPerAction": 22,
+      "runPhaseAdvanceFrames": 14,
+      "frameCount": 44,
+      "bottomDriftPx": 1,
+      "contactEnvelopeRightSourcePx": 198,
+      "maxPelvisAlignmentErrorPx": 0.624,
+      "sourceFrames": [
+        {
+          "output": 0,
+          "run": 9,
+          "action": "jab",
+          "actionFrame": 0,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 37.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 1,
+          "run": 10,
+          "action": "jab",
+          "actionFrame": 2,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 2,
+          "run": 10,
+          "action": "jab",
+          "actionFrame": 3,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 3,
+          "run": 11,
+          "action": "jab",
+          "actionFrame": 4,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 41.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 4,
+          "run": 12,
+          "action": "jab",
+          "actionFrame": 5,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 5,
+          "run": 12,
+          "action": "jab",
+          "actionFrame": 6,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 6,
+          "run": 13,
+          "action": "jab",
+          "actionFrame": 7,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 33.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 1.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 7,
+          "run": 13,
+          "action": "jab",
+          "actionFrame": 8,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 33.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 8,
+          "run": 14,
+          "action": "jab",
+          "actionFrame": 9,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 26.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 9,
+          "run": 15,
+          "action": "jab",
+          "actionFrame": 10,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 25.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 10,
+          "run": 15,
+          "action": "jab",
+          "actionFrame": 11,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 25.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 11,
+          "run": 16,
+          "action": "jab",
+          "actionFrame": 12,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 25.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 12,
+          "run": 17,
+          "action": "jab",
+          "actionFrame": 13,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 13,
+          "run": 17,
+          "action": "jab",
+          "actionFrame": 14,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 14,
+          "run": 18,
+          "action": "jab",
+          "actionFrame": 15,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 15,
+          "run": 19,
+          "action": "jab",
+          "actionFrame": 16,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 16,
+          "run": 19,
+          "action": "jab",
+          "actionFrame": 17,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 17,
+          "run": 20,
+          "action": "jab",
+          "actionFrame": 19,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 18,
+          "run": 20,
+          "action": "jab",
+          "actionFrame": 21,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 19,
+          "run": 21,
+          "action": "jab",
+          "actionFrame": 23,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 33.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 20,
+          "run": 22,
+          "action": "jab",
+          "actionFrame": 25,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 21,
+          "run": 22,
+          "action": "jab",
+          "actionFrame": 26,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 22,
+          "run": 23,
+          "action": "jab",
+          "actionFrame": 0,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 37.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 23,
+          "run": 24,
+          "action": "jab",
+          "actionFrame": 2,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 24,
+          "run": 24,
+          "action": "jab",
+          "actionFrame": 3,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 25,
+          "run": 25,
+          "action": "jab",
+          "actionFrame": 4,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 41.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 26,
+          "run": 26,
+          "action": "jab",
+          "actionFrame": 5,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 27,
+          "run": 26,
+          "action": "jab",
+          "actionFrame": 6,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 28,
+          "run": 27,
+          "action": "jab",
+          "actionFrame": 7,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 1.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 29,
+          "run": 27,
+          "action": "jab",
+          "actionFrame": 8,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 30,
+          "run": 0,
+          "action": "jab",
+          "actionFrame": 9,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 26.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 31,
+          "run": 1,
+          "action": "jab",
+          "actionFrame": 10,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 32,
+          "run": 1,
+          "action": "jab",
+          "actionFrame": 11,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 33,
+          "run": 2,
+          "action": "jab",
+          "actionFrame": 12,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 24.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 34,
+          "run": 3,
+          "action": "jab",
+          "actionFrame": 13,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 22.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 35,
+          "run": 3,
+          "action": "jab",
+          "actionFrame": 14,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 22.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 36,
+          "run": 4,
+          "action": "jab",
+          "actionFrame": 15,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 37,
+          "run": 5,
+          "action": "jab",
+          "actionFrame": 16,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 38,
+          "run": 5,
+          "action": "jab",
+          "actionFrame": 17,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 39,
+          "run": 6,
+          "action": "jab",
+          "actionFrame": 19,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 28.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 40,
+          "run": 6,
+          "action": "jab",
+          "actionFrame": 21,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 29.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 41,
+          "run": 7,
+          "action": "jab",
+          "actionFrame": 23,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 33.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 42,
+          "run": 8,
+          "action": "jab",
+          "actionFrame": 25,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 43,
+          "run": 8,
+          "action": "jab",
+          "actionFrame": 26,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "phase-locked-combo",
+      "mode": "layered",
+      "lowerBodyPolicy": "continuous-run",
+      "contactBackoffPx": 8,
+      "contactFrames": [
+        6,
+        28
+      ],
+      "framesPerAction": 22,
+      "runPhaseAdvanceFrames": 14,
+      "frameCount": 44,
+      "bottomDriftPx": 1,
+      "contactEnvelopeRightSourcePx": 194,
+      "maxPelvisAlignmentErrorPx": 0.624,
+      "sourceFrames": [
+        {
+          "output": 0,
+          "run": 9,
+          "action": "jab",
+          "actionFrame": 0,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 37.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.12
+        },
+        {
+          "output": 1,
+          "run": 10,
+          "action": "jab",
+          "actionFrame": 2,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.26
+        },
+        {
+          "output": 2,
+          "run": 10,
+          "action": "jab",
+          "actionFrame": 3,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.4
+        },
+        {
+          "output": 3,
+          "run": 11,
+          "action": "jab",
+          "actionFrame": 4,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 10.0,
+            "finalY": 41.0,
+            "impulseX": -2.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 2.0,
+          "actionBlendWeight": 0.54
+        },
+        {
+          "output": 4,
+          "run": 12,
+          "action": "jab",
+          "actionFrame": 5,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 8.0,
+            "finalY": 39.0,
+            "impulseX": -4.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 4.0,
+          "actionBlendWeight": 0.68
+        },
+        {
+          "output": 5,
+          "run": 12,
+          "action": "jab",
+          "actionFrame": 6,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 6.0,
+            "finalY": 39.0,
+            "impulseX": -6.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 6.0,
+          "actionBlendWeight": 0.84
+        },
+        {
+          "output": 6,
+          "run": 13,
+          "action": "jab",
+          "actionFrame": 7,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 4.0,
+            "finalY": 33.0,
+            "impulseX": -8.0
+          },
+          "contactWeight": 1.0,
+          "contactMarkerLeadPx": 8.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 7,
+          "run": 13,
+          "action": "jab",
+          "actionFrame": 8,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 6.0,
+            "finalY": 33.0,
+            "impulseX": -6.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 6.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 8,
+          "run": 14,
+          "action": "jab",
+          "actionFrame": 9,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 8.0,
+            "finalY": 26.0,
+            "impulseX": -4.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 4.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 9,
+          "run": 15,
+          "action": "jab",
+          "actionFrame": 10,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 10.0,
+            "finalY": 25.0,
+            "impulseX": -2.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 2.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 10,
+          "run": 15,
+          "action": "jab",
+          "actionFrame": 11,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 25.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 11,
+          "run": 16,
+          "action": "jab",
+          "actionFrame": 12,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 25.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 12,
+          "run": 17,
+          "action": "jab",
+          "actionFrame": 13,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 13,
+          "run": 17,
+          "action": "jab",
+          "actionFrame": 14,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 14,
+          "run": 18,
+          "action": "jab",
+          "actionFrame": 15,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 15,
+          "run": 19,
+          "action": "jab",
+          "actionFrame": 16,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.94
+        },
+        {
+          "output": 16,
+          "run": 19,
+          "action": "jab",
+          "actionFrame": 17,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 23.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.8
+        },
+        {
+          "output": 17,
+          "run": 20,
+          "action": "jab",
+          "actionFrame": 19,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.66
+        },
+        {
+          "output": 18,
+          "run": 20,
+          "action": "jab",
+          "actionFrame": 21,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.52
+        },
+        {
+          "output": 19,
+          "run": 21,
+          "action": "jab",
+          "actionFrame": 23,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 33.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.38
+        },
+        {
+          "output": 20,
+          "run": 22,
+          "action": "jab",
+          "actionFrame": 25,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.24
+        },
+        {
+          "output": 21,
+          "run": 22,
+          "action": "jab",
+          "actionFrame": 26,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.1
+        },
+        {
+          "output": 22,
+          "run": 23,
+          "action": "cross",
+          "actionFrame": 0,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 37.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.12
+        },
+        {
+          "output": 23,
+          "run": 24,
+          "action": "cross",
+          "actionFrame": 2,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.26
+        },
+        {
+          "output": 24,
+          "run": 24,
+          "action": "cross",
+          "actionFrame": 4,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.4
+        },
+        {
+          "output": 25,
+          "run": 25,
+          "action": "cross",
+          "actionFrame": 5,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 9.0,
+            "finalY": 41.0,
+            "impulseX": -2.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 2.0,
+          "actionBlendWeight": 0.54
+        },
+        {
+          "output": 26,
+          "run": 26,
+          "action": "cross",
+          "actionFrame": 6,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 7.0,
+            "finalY": 36.0,
+            "impulseX": -4.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 4.0,
+          "actionBlendWeight": 0.68
+        },
+        {
+          "output": 27,
+          "run": 26,
+          "action": "cross",
+          "actionFrame": 8,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 5.0,
+            "finalY": 36.0,
+            "impulseX": -6.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 6.0,
+          "actionBlendWeight": 0.84
+        },
+        {
+          "output": 28,
+          "run": 27,
+          "action": "cross",
+          "actionFrame": 9,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 3.0,
+            "finalY": 30.0,
+            "impulseX": -8.0
+          },
+          "contactWeight": 1.0,
+          "contactMarkerLeadPx": 8.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 29,
+          "run": 27,
+          "action": "cross",
+          "actionFrame": 10,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 5.0,
+            "finalY": 30.0,
+            "impulseX": -6.0
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 6.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 30,
+          "run": 0,
+          "action": "cross",
+          "actionFrame": 11,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 7.0,
+            "finalY": 25.0,
+            "impulseX": -4.0
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 4.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 31,
+          "run": 1,
+          "action": "cross",
+          "actionFrame": 12,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 9.0,
+            "finalY": 22.0,
+            "impulseX": -2.0
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 2.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 32,
+          "run": 1,
+          "action": "cross",
+          "actionFrame": 13,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 22.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 33,
+          "run": 2,
+          "action": "cross",
+          "actionFrame": 14,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 22.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 34,
+          "run": 3,
+          "action": "cross",
+          "actionFrame": 15,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 35,
+          "run": 3,
+          "action": "cross",
+          "actionFrame": 16,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 36,
+          "run": 4,
+          "action": "cross",
+          "actionFrame": 17,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 19.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 37,
+          "run": 5,
+          "action": "cross",
+          "actionFrame": 18,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.94
+        },
+        {
+          "output": 38,
+          "run": 5,
+          "action": "cross",
+          "actionFrame": 20,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.8
+        },
+        {
+          "output": 39,
+          "run": 6,
+          "action": "cross",
+          "actionFrame": 22,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 27.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.66
+        },
+        {
+          "output": 40,
+          "run": 6,
+          "action": "cross",
+          "actionFrame": 24,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 28.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.52
+        },
+        {
+          "output": 41,
+          "run": 7,
+          "action": "cross",
+          "actionFrame": 26,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 32.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.38
+        },
+        {
+          "output": 42,
+          "run": 8,
+          "action": "cross",
+          "actionFrame": 28,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.24
+        },
+        {
+          "output": 43,
+          "run": 8,
+          "action": "cross",
+          "actionFrame": 30,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 0.1
+        }
+      ]
+    },
+    {
+      "id": "power-cross-stride",
+      "mode": "layered",
+      "lowerBodyPolicy": "continuous-run",
+      "contactBackoffPx": 0,
+      "contactFrames": [
+        6,
+        28
+      ],
+      "framesPerAction": 22,
+      "runPhaseAdvanceFrames": 14,
+      "frameCount": 44,
+      "bottomDriftPx": 1,
+      "contactEnvelopeRightSourcePx": 196,
+      "maxPelvisAlignmentErrorPx": 0.63,
+      "sourceFrames": [
+        {
+          "output": 0,
+          "run": 9,
+          "action": "cross",
+          "actionFrame": 0,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 37.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 1,
+          "run": 10,
+          "action": "cross",
+          "actionFrame": 2,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 2,
+          "run": 10,
+          "action": "cross",
+          "actionFrame": 4,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 38.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 3,
+          "run": 11,
+          "action": "cross",
+          "actionFrame": 5,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 13.0,
+            "finalY": 41.0,
+            "impulseX": 1.25
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 4,
+          "run": 12,
+          "action": "cross",
+          "actionFrame": 6,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 14.0,
+            "finalY": 37.0,
+            "impulseX": 2.5
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 5,
+          "run": 12,
+          "action": "cross",
+          "actionFrame": 8,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 15.0,
+            "finalY": 37.0,
+            "impulseX": 3.75
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 6,
+          "run": 13,
+          "action": "cross",
+          "actionFrame": 9,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 17.0,
+            "finalY": 31.0,
+            "impulseX": 5.0
+          },
+          "contactWeight": 1.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 7,
+          "run": 13,
+          "action": "cross",
+          "actionFrame": 10,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 15.0,
+            "finalY": 31.0,
+            "impulseX": 3.75
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 8,
+          "run": 14,
+          "action": "cross",
+          "actionFrame": 11,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 14.0,
+            "finalY": 24.0,
+            "impulseX": 2.5
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 9,
+          "run": 15,
+          "action": "cross",
+          "actionFrame": 12,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 13.0,
+            "finalY": 24.0,
+            "impulseX": 1.25
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 10,
+          "run": 15,
+          "action": "cross",
+          "actionFrame": 13,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 24.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 11,
+          "run": 16,
+          "action": "cross",
+          "actionFrame": 14,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 24.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 12,
+          "run": 17,
+          "action": "cross",
+          "actionFrame": 15,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 13,
+          "run": 17,
+          "action": "cross",
+          "actionFrame": 16,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 14,
+          "run": 18,
+          "action": "cross",
+          "actionFrame": 17,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 19.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 15,
+          "run": 19,
+          "action": "cross",
+          "actionFrame": 18,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 16,
+          "run": 19,
+          "action": "cross",
+          "actionFrame": 20,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 21.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 17,
+          "run": 20,
+          "action": "cross",
+          "actionFrame": 22,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 30.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 18,
+          "run": 20,
+          "action": "cross",
+          "actionFrame": 24,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 31.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 19,
+          "run": 21,
+          "action": "cross",
+          "actionFrame": 26,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 32.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 20,
+          "run": 22,
+          "action": "cross",
+          "actionFrame": 28,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 21,
+          "run": 22,
+          "action": "cross",
+          "actionFrame": 30,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 22,
+          "run": 23,
+          "action": "cross",
+          "actionFrame": 0,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 37.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 23,
+          "run": 24,
+          "action": "cross",
+          "actionFrame": 2,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 24,
+          "run": 24,
+          "action": "cross",
+          "actionFrame": 4,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 39.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 25,
+          "run": 25,
+          "action": "cross",
+          "actionFrame": 5,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 41.0,
+            "impulseX": 1.25
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 26,
+          "run": 26,
+          "action": "cross",
+          "actionFrame": 6,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 13.0,
+            "finalY": 36.0,
+            "impulseX": 2.5
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 27,
+          "run": 26,
+          "action": "cross",
+          "actionFrame": 8,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 14.0,
+            "finalY": 36.0,
+            "impulseX": 3.75
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 28,
+          "run": 27,
+          "action": "cross",
+          "actionFrame": 9,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 16.0,
+            "finalY": 30.0,
+            "impulseX": 5.0
+          },
+          "contactWeight": 1.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 29,
+          "run": 27,
+          "action": "cross",
+          "actionFrame": 10,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 14.0,
+            "finalY": 30.0,
+            "impulseX": 3.75
+          },
+          "contactWeight": 0.75,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 30,
+          "run": 0,
+          "action": "cross",
+          "actionFrame": 11,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 13.0,
+            "finalY": 25.0,
+            "impulseX": 2.5
+          },
+          "contactWeight": 0.5,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 31,
+          "run": 1,
+          "action": "cross",
+          "actionFrame": 12,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 22.0,
+            "impulseX": 1.25
+          },
+          "contactWeight": 0.25,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 32,
+          "run": 1,
+          "action": "cross",
+          "actionFrame": 13,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 22.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 33,
+          "run": 2,
+          "action": "cross",
+          "actionFrame": 14,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 22.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 34,
+          "run": 3,
+          "action": "cross",
+          "actionFrame": 15,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 35,
+          "run": 3,
+          "action": "cross",
+          "actionFrame": 16,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 36,
+          "run": 4,
+          "action": "cross",
+          "actionFrame": 17,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 19.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 37,
+          "run": 5,
+          "action": "cross",
+          "actionFrame": 18,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 38,
+          "run": 5,
+          "action": "cross",
+          "actionFrame": 20,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 20.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 39,
+          "run": 6,
+          "action": "cross",
+          "actionFrame": 22,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 27.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 40,
+          "run": 6,
+          "action": "cross",
+          "actionFrame": 24,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 11.0,
+            "finalY": 28.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 41,
+          "run": 7,
+          "action": "cross",
+          "actionFrame": 26,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 32.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 42,
+          "run": 8,
+          "action": "cross",
+          "actionFrame": 28,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        },
+        {
+          "output": 43,
+          "run": 8,
+          "action": "cross",
+          "actionFrame": 30,
+          "transform": {
+            "actionScale": 0.8861788617886179,
+            "finalX": 12.0,
+            "finalY": 35.0,
+            "impulseX": 0.0
+          },
+          "contactWeight": 0.0,
+          "contactMarkerLeadPx": 0.0,
+          "actionBlendWeight": 1.0
+        }
+      ]
+    }
+  ]
+}

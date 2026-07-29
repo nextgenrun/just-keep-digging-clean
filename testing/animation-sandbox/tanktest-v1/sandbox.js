@@ -10,10 +10,13 @@ import {
   ARC_CORE_VISUAL_CONFIG as ARC_CORE_ANIMATION_REVIEW,
   getArcCoreVisualMode as getArcCoreAnimationReviewMode,
   isArcCoreVisualMode as isArcCoreAnimationReviewMode,
+  resolveArcCoreReviewCapture,
   resolveArcCoreVisualPhase as resolveArcCoreAnimationReviewPhase,
 } from "../../../values/arcCoreVisualConfig.js";
 import { ANIMATION_SANDBOX_HITBOX_CONFIG } from "../../../values/animationSandboxHitboxConfig.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE as SURVIVAL_PLAYER_ASSET_PROFILE } from "../../../values/ualNativePlayerAssetProfile.js";
+import { circleIntersectsRect } from "../../../systems/mining/collisionShapeMath.js";
+import { resolveArcCoreCollisionProfile } from "../../../systems/vehicles/arcCoreCollisionProfile.js";
 import { resolveArcCoreDigFootprint } from "../../../systems/vehicles/arcCoreDigFootprint.js";
 import {
   createArcCoreVisualLayers as createArcCoreSpriteArtwork,
@@ -27,6 +30,10 @@ import {
   drawArcCorePiskelStage,
   hideArcCorePiskelStage,
 } from "./arcCorePiskelStage.js";
+import {
+  countArcCoreMineTiles,
+  createArcCoreTestMine,
+} from "./arcCoreTestMine.js";
 import {
   beginArcCloudTransition,
   isArcCloudTransitionComplete,
@@ -180,6 +187,25 @@ function isEnergyConceptMode(mode) {
     || mode === CHARACTER_MODES.wormholeMaw;
 }
 
+function isDiggableTileType(type) {
+  return type !== TILE.AIR && type !== TILE.BEDROCK;
+}
+
+function hasMixedDepthSlice(targets, depthTiles) {
+  const totalByDepth = Array.from({ length: depthTiles }, () => 0);
+  const diggableByDepth = Array.from({ length: depthTiles }, () => 0);
+  for (const target of targets) {
+    totalByDepth[target.depthIndex] += 1;
+    if (isDiggableTileType(target.type)) {
+      diggableByDepth[target.depthIndex] += 1;
+    }
+  }
+  return totalByDepth.some((total, depthIndex) => (
+    diggableByDepth[depthIndex] > 0
+    && diggableByDepth[depthIndex] < total
+  ));
+}
+
 function tileName(type) {
   switch (type) {
     case TILE.AIR: return "air";
@@ -191,44 +217,11 @@ function tileName(type) {
   }
 }
 
-function makeWorld() {
-  const grid = [];
-  for (let row = 0; row < WORLD_ROWS; row += 1) {
-    grid[row] = [];
-    for (let col = 0; col < WORLD_COLS; col += 1) {
-      if (row >= ARC_CORE_ANIMATION_REVIEW.reviewStage.normalBedrockRow) grid[row][col] = TILE.BEDROCK;
-      else if (row === ARC_CORE_ANIMATION_REVIEW.reviewStage.normalFloorRow) grid[row][col] = TILE.FLOOR;
-      else grid[row][col] = TILE.AIR;
-    }
-  }
-
-  for (let col = 6; col <= 10; col += 1) {
-    grid[6][col] = col % 2 === 0 ? TILE.DIRT : TILE.STONE;
-  }
-  grid[5][8] = TILE.DIRT;
-  grid[5][9] = TILE.STONE;
-  grid[5][5] = TILE.STONE;
-  grid[4][12] = TILE.DIRT;
-  grid[5][12] = TILE.DIRT;
-  grid[6][12] = TILE.STONE;
-  return grid;
-}
-
-function makeOmegaReviewWorld() {
-  const grid = Array.from(
-    { length: WORLD_ROWS },
-    () => Array.from({ length: WORLD_COLS }, () => TILE.AIR),
+function makeArcCoreTestWorld() {
+  return createArcCoreTestMine(
+    ARC_CORE_ANIMATION_REVIEW.reviewStage,
+    TILE,
   );
-  const stage = ARC_CORE_ANIMATION_REVIEW.reviewStage;
-  const dig = ARC_CORE_CONFIG.omega.dig;
-  for (let depthIndex = 0; depthIndex < dig.depthTiles; depthIndex += 1) {
-    for (let widthIndex = 0; widthIndex < dig.widthTiles; widthIndex += 1) {
-      const tx = stage.omegaWallTileX + depthIndex;
-      const ty = stage.omegaWallTileY + widthIndex;
-      grid[ty][tx] = (depthIndex + widthIndex) % 3 === 0 ? TILE.DIRT : TILE.STONE;
-    }
-  }
-  return grid;
 }
 
 class TankBody {
@@ -340,11 +333,23 @@ const TankScene = new Phaser.Class({
     robotSheet("robot_sphere_dig_up", "dig-up");
     robotSheet("robot_sphere_dig_down", "dig-down");
     preloadArcCoreSpriteArtwork(this, "../../../");
+    for (const texture of Object.values(
+      ARC_CORE_ANIMATION_REVIEW.reviewStage.targetTextures,
+    )) {
+      this.load.image(texture.key, `../../../${texture.path}`);
+    }
   },
 
   create: function () {
-    this.world = makeWorld();
-    this.body = new TankBody(5, 6);
+    const reviewStage = ARC_CORE_ANIMATION_REVIEW.reviewStage;
+    const mine = reviewStage.mine;
+    this.world = makeArcCoreTestWorld();
+    this.mineStats = countArcCoreMineTiles(this.world, TILE);
+    this.initialDiggableTiles = this.mineStats.diggable;
+    this.body = new TankBody(
+      mine.spawnTileX,
+      mine.spawnTileY,
+    );
     this.characterMode = CHARACTER_MODES.arcCoreSmall;
     this.facing = 1;
     this.digAim = DIG_DIRECTIONS.right;
@@ -362,9 +367,14 @@ const TankScene = new Phaser.Class({
     this.survivalUseWalk = false;
     this.survivalInspection2x = false;
     this.previewFlyMode = false;
-    this.reviewStageMode = "normal";
+    this.reviewStageMode = "shared-mine";
     this.lastArcMode = CHARACTER_MODES.arcCoreSmall;
+    this.lastOmegaSafePosition = {
+      x: this.body.x,
+      y: this.body.y,
+    };
     this.arcCloudTransition = null;
+    this.arcReviewCapture = resolveArcCoreReviewCapture();
 
     this.debug = {
       bodyBox: false,
@@ -406,11 +416,26 @@ const TankScene = new Phaser.Class({
     this.createAnimations();
     this.createInput();
     this.createPanel();
+    this.cameras.main.setBounds(0, 0, WORLD_COLS * TILE_SIZE, WORLD_ROWS * TILE_SIZE);
+    this.cameras.main.setBackgroundColor("#13191d");
+    this.cameras.main.setZoom(reviewStage.defaultCameraZoom);
+    this.cameraTarget = this.add.zone(
+      this.body.x + BODY_SIZE * 0.5,
+      this.body.y + BODY_SIZE * 0.5,
+      1,
+      1,
+    ).setVisible(false);
+    this.cameras.main.startFollow(
+      this.cameraTarget,
+      true,
+      reviewStage.cameraFollowLerpX,
+      reviewStage.cameraFollowLerpY,
+    );
+    this.syncArcCameraTarget(true);
+    this.configureArcReviewCapture();
     this.drawAll();
 
     this.infoEl = document.getElementById("info-overlay");
-    this.cameras.main.setBounds(0, 0, WORLD_COLS * TILE_SIZE, WORLD_ROWS * TILE_SIZE);
-    this.cameras.main.setBackgroundColor("#13191d");
   },
 
   createAnimations: function () {
@@ -537,7 +562,7 @@ const TankScene = new Phaser.Class({
       this.facing = 1;
       this.digAim = DIG_DIRECTIONS.right;
     });
-    addButton("Reset", () => this.resetWorld(), true);
+    addButton("Refill Mine (R)", () => this.resetWorld(), true);
 
     const toggle = (label, key) => {
       const btn = addButton(label, () => {
@@ -561,14 +586,113 @@ const TankScene = new Phaser.Class({
   },
 
   setCharacterMode: function (mode) {
-    this.syncArcCoreReviewStage(mode);
+    const previousMode = this.characterMode;
     this.characterMode = mode;
+    this.syncArcCoreReviewStage(mode, previousMode);
     if (isArcCoreAnimationReviewMode(mode)) this.lastArcMode = mode;
     this.body.vx = 0;
     this.body.vy = 0;
     this.smallArcButton?.classList.toggle("active", mode === CHARACTER_MODES.arcCoreSmall);
     this.omegaArcButton?.classList.toggle("active", mode === CHARACTER_MODES.arcCoreOmega);
     this.drawAll();
+  },
+
+  syncArcCameraTarget: function (snapCamera = false) {
+    if (!this.cameraTarget) return;
+    const centerX = this.body.x + BODY_SIZE * 0.5;
+    const centerY = this.body.y + BODY_SIZE * 0.5;
+    this.cameraTarget.setPosition(centerX, centerY);
+    if (snapCamera) this.cameras.main.centerOn(centerX, centerY);
+  },
+
+  findNearestSafeArcPosition: function () {
+    if (this.canOccupy(this.body.x, this.body.y)) {
+      return { x: this.body.x, y: this.body.y };
+    }
+
+    const stage = ARC_CORE_ANIMATION_REVIEW.reviewStage;
+    const maxRadius = stage.safeSwitchSearchRadiusTiles;
+    for (let radius = 1; radius <= maxRadius; radius += 1) {
+      for (let offsetY = -radius; offsetY <= radius; offsetY += 1) {
+        for (let offsetX = -radius; offsetX <= radius; offsetX += 1) {
+          if (Math.abs(offsetX) !== radius && Math.abs(offsetY) !== radius) continue;
+          const candidateX = this.body.x + offsetX * TILE_SIZE;
+          const candidateY = this.body.y + offsetY * TILE_SIZE;
+          if (this.canOccupy(candidateX, candidateY)) {
+            return { x: candidateX, y: candidateY };
+          }
+        }
+      }
+    }
+
+    const fallback = this.lastOmegaSafePosition || {
+      x: stage.mine.spawnTileX * TILE_SIZE,
+      y: stage.mine.spawnTileY * TILE_SIZE,
+    };
+    if (this.canOccupy(fallback.x, fallback.y)) return fallback;
+    return {
+      x: stage.mine.spawnTileX * TILE_SIZE,
+      y: stage.mine.spawnTileY * TILE_SIZE,
+    };
+  },
+
+  trackOmegaSafePosition: function () {
+    if (
+      this.characterMode !== CHARACTER_MODES.arcCoreOmega
+      || !this.canOccupy(this.body.x, this.body.y)
+    ) return;
+    this.lastOmegaSafePosition = {
+      x: this.body.x,
+      y: this.body.y,
+    };
+  },
+
+  refreshMineStats: function () {
+    this.mineStats = countArcCoreMineTiles(this.world, TILE);
+  },
+
+  configureArcReviewCapture: function () {
+    const capture = this.arcReviewCapture;
+    if (!capture) return;
+    this.setCharacterMode(capture.mode);
+    this.debug.paused = true;
+    this.debug.bodyBox = capture.showHitbox;
+    if (capture.action === ARC_CORE_ANIMATION_REVIEW.reviewCapture.actions.dig) {
+      this.startDig(DIG_DIRECTIONS.right);
+      if (this.activeDig) {
+        this.activeDig.elapsed = this.activeDig.duration * capture.progress;
+        const mode = getArcCoreAnimationReviewMode(capture.mode);
+        if (mode && capture.progress >= mode.breakProgress) {
+          this.activeDig.broken = true;
+          for (const target of this.activeDig.targets || []) {
+            if (this.world[target.ty]?.[target.tx] === TILE.BEDROCK) continue;
+            if (this.world[target.ty]) {
+              this.world[target.ty][target.tx] = TILE.AIR;
+            }
+          }
+          this.refreshMineStats();
+        }
+      }
+      return;
+    }
+    const cloudActions = ARC_CORE_ANIMATION_REVIEW.reviewCapture.actions;
+    if (capture.action === cloudActions.cloudEnter
+      || capture.action === cloudActions.cloudExit) {
+      const kind = capture.action === cloudActions.cloudEnter ? "enter" : "exit";
+      this.arcCloudTransition = beginArcCloudTransition(
+        kind,
+        capture.mode,
+        this.time.now,
+      );
+    }
+  },
+
+  syncArcReviewCaptureTime: function () {
+    const capture = this.arcReviewCapture;
+    if (!capture || !this.arcCloudTransition) return;
+    const mode = getArcCoreAnimationReviewMode(capture.mode);
+    this.arcCloudTransition.startedAtMs = this.time.now
+      - mode.cloudDurationMs * capture.progress;
   },
 
   toggleArcCloudTransition: function () {
@@ -607,27 +731,28 @@ const TankScene = new Phaser.Class({
     }
   },
 
-  syncArcCoreReviewStage: function (mode, force = false) {
-    const nextStage = mode === CHARACTER_MODES.arcCoreOmega ? "omega" : "normal";
-    if (!force && nextStage === this.reviewStageMode) return;
-    this.reviewStageMode = nextStage;
+  syncArcCoreReviewStage: function (mode, previousMode, snapCamera = false) {
+    this.reviewStageMode = "shared-mine";
     const stage = ARC_CORE_ANIMATION_REVIEW.reviewStage;
-    if (nextStage === "omega") {
-      this.world = makeOmegaReviewWorld();
-      this.body.reset(stage.omegaPlayerTileX, stage.omegaPlayerTileY);
-      this.cameras.main.setZoom(stage.omegaCameraZoom);
-    } else {
-      this.world = makeWorld();
-      this.body.reset(5, 6);
-      this.cameras.main.setZoom(stage.defaultCameraZoom);
+    const isOmega = mode === CHARACTER_MODES.arcCoreOmega;
+    this.cameras.main.setZoom(
+      isOmega ? stage.omegaCameraZoom : stage.defaultCameraZoom,
+    );
+
+    if (isArcCoreAnimationReviewMode(mode)) {
+      const safePosition = this.findNearestSafeArcPosition();
+      this.body.x = safePosition.x;
+      this.body.y = safePosition.y;
+      if (isOmega) this.trackOmegaSafePosition();
     }
-    this.cameras.main.setScroll(0, 0);
-    this.activeDig = null;
-    this.recoilX = 0;
-    this.recoilY = 0;
-    this.particles = [];
-    this.digAim = DIG_DIRECTIONS.right;
-    this.facing = 1;
+
+    if (previousMode !== mode) {
+      this.activeDig = null;
+      this.recoilX = 0;
+      this.recoilY = 0;
+      this.particles = [];
+    }
+    this.syncArcCameraTarget(snapCamera || previousMode !== mode);
   },
 
   cancelDigToIdle: function () {
@@ -640,7 +765,24 @@ const TankScene = new Phaser.Class({
 
   resetWorld: function () {
     this.characterMode = this.characterMode || CHARACTER_MODES.tank;
-    this.syncArcCoreReviewStage(this.characterMode, true);
+    const stage = ARC_CORE_ANIMATION_REVIEW.reviewStage;
+    this.world = makeArcCoreTestWorld();
+    this.refreshMineStats();
+    this.initialDiggableTiles = this.mineStats.diggable;
+    this.body.reset(stage.mine.spawnTileX, stage.mine.spawnTileY);
+    this.lastOmegaSafePosition = {
+      x: this.body.x,
+      y: this.body.y,
+    };
+    this.activeDig = null;
+    this.recoilX = 0;
+    this.recoilY = 0;
+    this.particles = [];
+    this.syncArcCoreReviewStage(
+      this.characterMode,
+      this.characterMode,
+      true,
+    );
     this.facing = 1;
     this.digAim = DIG_DIRECTIONS.right;
     this.livingDrillBiteVisual = 0;
@@ -668,7 +810,8 @@ const TankScene = new Phaser.Class({
     if (Phaser.Input.Keyboard.JustDown(this.keyTwo)) {
       this.setCharacterMode(CHARACTER_MODES.arcCoreOmega);
     }
-    this.updateArcCloudTransition();
+    this.syncArcReviewCaptureTime();
+    if (!this.arcReviewCapture) this.updateArcCloudTransition();
     if (this.debug.paused) {
       if (!this.stepOnce) dt = 0;
       else dt = 1 / 30;
@@ -682,6 +825,8 @@ const TankScene = new Phaser.Class({
       this.updateParticles(dt);
     }
 
+    this.trackOmegaSafePosition();
+    this.syncArcCameraTarget();
     this.updateChassisAnimation();
     this.drawAll();
     this.updateInfo(dt);
@@ -777,43 +922,61 @@ const TankScene = new Phaser.Class({
       return;
     }
 
-    if (dx !== 0) {
-      const bounds = this.getCollisionBoundsAt(nextX, nextY);
-      if (dx > 0) {
-        const rightTile = Math.floor((bounds.right - HIT_EPS) / TILE_SIZE);
-        this.body.x = nextX + rightTile * TILE_SIZE - bounds.right;
+    let safeRatio = 0;
+    let blockedRatio = 1;
+    for (let iteration = 0; iteration < 9; iteration += 1) {
+      const ratio = (safeRatio + blockedRatio) * 0.5;
+      if (this.canOccupy(
+        this.body.x + dx * ratio,
+        this.body.y + dy * ratio,
+      )) {
+        safeRatio = ratio;
       } else {
-        const leftTile = Math.floor((bounds.left + HIT_EPS) / TILE_SIZE);
-        this.body.x = nextX + (leftTile + 1) * TILE_SIZE - bounds.left;
+        blockedRatio = ratio;
       }
-      this.body.vx = 0;
     }
-    if (dy !== 0) {
-      const bounds = this.getCollisionBoundsAt(nextX, nextY);
-      if (dy > 0) {
-        const bottomTile = Math.floor((bounds.bottom - HIT_EPS) / TILE_SIZE);
-        this.body.y = nextY + bottomTile * TILE_SIZE - bounds.bottom;
-      } else {
-        const topTile = Math.floor((bounds.top + HIT_EPS) / TILE_SIZE);
-        this.body.y = nextY + (topTile + 1) * TILE_SIZE - bounds.top;
-      }
-      this.body.vy = 0;
-    }
+    this.body.x += dx * safeRatio;
+    this.body.y += dy * safeRatio;
+    if (dx !== 0) this.body.vx = 0;
+    if (dy !== 0) this.body.vy = 0;
   },
 
   getCollisionProfile: function () {
+    if (isArcCoreAnimationReviewMode(this.characterMode)) {
+      const meta = this.arcSpriteArtwork?.meta;
+      const profile = resolveArcCoreCollisionProfile(
+        meta?.modes?.[this.characterMode],
+        meta,
+      );
+      if (profile) {
+        return {
+          ...profile,
+          centerX: BODY_SIZE * 0.5,
+          centerY: BODY_SIZE * 0.5,
+        };
+      }
+    }
     return ANIMATION_SANDBOX_HITBOX_CONFIG[this.characterMode]
       || ANIMATION_SANDBOX_HITBOX_CONFIG.tank;
   },
 
-  getCollisionRectsAt: function (x, y) {
+  getCollisionShapesAt: function (x, y) {
     const profile = this.getCollisionProfile();
+    if (profile.kind === "circle") {
+      return [{
+        kind: "circle",
+        x: x + profile.centerX,
+        y: y + profile.centerY,
+        radius: profile.radiusPx,
+      }];
+    }
     if (profile.kind === "orientedRect") {
       const direction = this.getCurrentDigDirection();
       const vertical = isVerticalDirection(direction);
       const width = vertical ? profile.height : profile.width;
       const height = vertical ? profile.width : profile.height;
       return [{
+        kind: "rect",
         x: x + profile.centerX - width * 0.5,
         y: y + profile.centerY - height * 0.5,
         width,
@@ -822,6 +985,7 @@ const TankScene = new Phaser.Class({
     }
 
     return [{
+      kind: "rect",
       x: x + profile.x,
       y: y + profile.y,
       width: profile.width,
@@ -830,12 +994,24 @@ const TankScene = new Phaser.Class({
   },
 
   getCollisionBoundsAt: function (x, y) {
-    const rects = this.getCollisionRectsAt(x, y);
-    return rects.reduce((bounds, rect) => ({
-      left: Math.min(bounds.left, rect.x),
-      right: Math.max(bounds.right, rect.x + rect.width),
-      top: Math.min(bounds.top, rect.y),
-      bottom: Math.max(bounds.bottom, rect.y + rect.height),
+    const shapes = this.getCollisionShapesAt(x, y);
+    return shapes.reduce((bounds, shape) => ({
+      left: Math.min(
+        bounds.left,
+        shape.kind === "circle" ? shape.x - shape.radius : shape.x,
+      ),
+      right: Math.max(
+        bounds.right,
+        shape.kind === "circle" ? shape.x + shape.radius : shape.x + shape.width,
+      ),
+      top: Math.min(
+        bounds.top,
+        shape.kind === "circle" ? shape.y - shape.radius : shape.y,
+      ),
+      bottom: Math.max(
+        bounds.bottom,
+        shape.kind === "circle" ? shape.y + shape.radius : shape.y + shape.height,
+      ),
     }), {
       left: Number.POSITIVE_INFINITY,
       right: Number.NEGATIVE_INFINITY,
@@ -845,15 +1021,34 @@ const TankScene = new Phaser.Class({
   },
 
   canOccupy: function (x, y) {
-    const rects = this.getCollisionRectsAt(x, y);
-    for (const rect of rects) {
-      const left = Math.floor((rect.x + HIT_EPS) / TILE_SIZE);
-      const right = Math.floor((rect.x + rect.width - HIT_EPS) / TILE_SIZE);
-      const top = Math.floor((rect.y + HIT_EPS) / TILE_SIZE);
-      const bottom = Math.floor((rect.y + rect.height - HIT_EPS) / TILE_SIZE);
+    const shapes = this.getCollisionShapesAt(x, y);
+    for (const shape of shapes) {
+      const shapeLeft = shape.kind === "circle" ? shape.x - shape.radius : shape.x;
+      const shapeRight = shape.kind === "circle"
+        ? shape.x + shape.radius
+        : shape.x + shape.width;
+      const shapeTop = shape.kind === "circle" ? shape.y - shape.radius : shape.y;
+      const shapeBottom = shape.kind === "circle"
+        ? shape.y + shape.radius
+        : shape.y + shape.height;
+      const left = Math.floor((shapeLeft + HIT_EPS) / TILE_SIZE);
+      const right = Math.floor((shapeRight - HIT_EPS) / TILE_SIZE);
+      const top = Math.floor((shapeTop + HIT_EPS) / TILE_SIZE);
+      const bottom = Math.floor((shapeBottom - HIT_EPS) / TILE_SIZE);
       for (let row = top; row <= bottom; row += 1) {
         for (let col = left; col <= right; col += 1) {
-          if (this.isSolid(col, row)) return false;
+          if (!this.isSolid(col, row)) continue;
+          if (shape.kind !== "circle") return false;
+          if (circleIntersectsRect(
+            shape.x,
+            shape.y,
+            shape.radius,
+            col * TILE_SIZE,
+            row * TILE_SIZE,
+            (col + 1) * TILE_SIZE,
+            (row + 1) * TILE_SIZE,
+            HIT_EPS,
+          )) return false;
         }
       }
     }
@@ -878,17 +1073,57 @@ const TankScene = new Phaser.Class({
     return this.getTargetInDirection(this.getCurrentDigDirection());
   },
 
+  getArcCoreTargetInDirection: function (direction) {
+    const digConfig = this.getArcCoreReviewDigConfig();
+    if (!digConfig) return null;
+    const bounds = this.getCollisionBoundsAt(this.body.x, this.body.y);
+    const halfWidth = Math.floor((digConfig.widthTiles - 1) * 0.5);
+    const reverseHalfWidth = Math.ceil((digConfig.widthTiles - 1) * 0.5);
+    let startX = this.body.tileX;
+    let startY = this.body.tileY;
+
+    if (direction.x > 0) {
+      startX = Math.ceil((bounds.right - HIT_EPS) / TILE_SIZE);
+      startY -= halfWidth;
+    } else if (direction.x < 0) {
+      startX = Math.floor((bounds.left + HIT_EPS) / TILE_SIZE) - 1;
+      startY += reverseHalfWidth;
+    } else if (direction.y > 0) {
+      startY = Math.ceil((bounds.bottom - HIT_EPS) / TILE_SIZE);
+      startX -= halfWidth;
+    } else if (direction.y < 0) {
+      startY = Math.floor((bounds.top + HIT_EPS) / TILE_SIZE) - 1;
+      startX -= halfWidth;
+    }
+
+    const maxScan = ARC_CORE_ANIMATION_REVIEW.reviewStage.maxTargetScanTiles;
+    for (let scanIndex = 0; scanIndex < maxScan; scanIndex += 1) {
+      const tx = startX + direction.x * scanIndex;
+      const ty = startY + direction.y * scanIndex;
+      if (tx < 0 || tx >= WORLD_COLS || ty < 0 || ty >= WORLD_ROWS) return null;
+      const primaryTarget = { tx, ty, type: this.world[ty][tx] };
+      const footprint = this.getFootprintDigTargets(
+        primaryTarget,
+        direction,
+        digConfig,
+      );
+      let breakableCount = 0;
+      for (const target of footprint) {
+        if (isDiggableTileType(target.type)) breakableCount += 1;
+      }
+      if (breakableCount === footprint.length) return primaryTarget;
+      if (footprint.some(target => target.type === TILE.BEDROCK)) return null;
+      if (hasMixedDepthSlice(footprint, digConfig.depthTiles)) return null;
+    }
+    return null;
+  },
+
   getTargetInDirection: function (direction) {
-    const omegaStageTarget = (
-      this.characterMode === CHARACTER_MODES.arcCoreOmega
-      && direction.x > 0
-    );
-    const tx = omegaStageTarget
-      ? ARC_CORE_ANIMATION_REVIEW.reviewStage.omegaWallTileX
-      : this.body.tileX + direction.x;
-    const ty = omegaStageTarget
-      ? ARC_CORE_ANIMATION_REVIEW.reviewStage.omegaWallTileY
-      : this.body.tileY + direction.y;
+    if (isArcCoreAnimationReviewMode(this.characterMode)) {
+      return this.getArcCoreTargetInDirection(direction);
+    }
+    const tx = this.body.tileX + direction.x;
+    const ty = this.body.tileY + direction.y;
     if (tx < 0 || tx >= WORLD_COLS || ty < 0 || ty >= WORLD_ROWS) return null;
     return { tx, ty, type: this.world[ty][tx] };
   },
@@ -927,7 +1162,7 @@ const TankScene = new Phaser.Class({
     if (direction.x < 0) this.facing = -1;
     else if (direction.x > 0) this.facing = 1;
     const target = this.getTargetInDirection(direction);
-    if (!target || target.type === TILE.AIR || target.type === TILE.BEDROCK) {
+    if (!target) {
       this.pulseAirHit(direction);
       return;
     }
@@ -942,6 +1177,16 @@ const TankScene = new Phaser.Class({
         this.getArcCoreReviewDigConfig(this.characterMode),
       );
     }
+    const breakCandidates = Array.isArray(targets) && targets.length > 0
+      ? targets
+      : [target];
+    const breakableTargets = breakCandidates.filter(candidate => (
+      isDiggableTileType(candidate.type)
+    ));
+    if (breakableTargets.length === 0) {
+      this.pulseAirHit(direction);
+      return;
+    }
     this.activeDig = {
       target,
       targets,
@@ -950,7 +1195,7 @@ const TankScene = new Phaser.Class({
       duration: reviewMode?.digDurationSeconds || DIG_DURATION,
       breakProgress: reviewMode?.breakProgress || BREAK_PROGRESS,
       broken: false,
-      typeBeforeBreak: target.type,
+      typeBeforeBreak: breakableTargets[0].type,
       particleClock: 0,
       framePulse: 0,
     };
@@ -1042,6 +1287,7 @@ const TankScene = new Phaser.Class({
           if (!reviewMode) this.spawnBreakBurst({ ...dig, target: breakTarget });
         }
       }
+      this.refreshMineStats();
       if (reviewMode) this.spawnArcCoreBreakBurst(dig, breakTargets);
       if (this.characterMode === CHARACTER_MODES.drillHead) {
         this.livingDrillCommitPending = {
@@ -2223,12 +2469,17 @@ const TankScene = new Phaser.Class({
     const g = this.debugGfx;
     g.clear();
     if (this.debug.bodyBox) {
-      const collisionRects = this.getCollisionRectsAt(this.body.x, this.body.y);
-      for (const rect of collisionRects) {
+      const collisionShapes = this.getCollisionShapesAt(this.body.x, this.body.y);
+      for (const shape of collisionShapes) {
         g.fillStyle(0x4be0ff, 0.08);
-        g.fillRect(rect.x, rect.y, rect.width, rect.height);
         g.lineStyle(2, 0x4be0ff, 0.95);
-        g.strokeRect(rect.x, rect.y, rect.width, rect.height);
+        if (shape.kind === "circle") {
+          g.fillCircle(shape.x, shape.y, shape.radius);
+          g.strokeCircle(shape.x, shape.y, shape.radius);
+        } else {
+          g.fillRect(shape.x, shape.y, shape.width, shape.height);
+          g.strokeRect(shape.x, shape.y, shape.width, shape.height);
+        }
       }
     }
     if (this.debug.anchor) {
@@ -2285,7 +2536,7 @@ const TankScene = new Phaser.Class({
     const aim = directionName(direction);
     const mode = this.getDrillRig(direction).mode;
     const collisionProfile = this.getCollisionProfile();
-    const collisionRects = this.getCollisionRectsAt(this.body.x, this.body.y);
+    const collisionShapes = this.getCollisionShapesAt(this.body.x, this.body.y);
     const collisionBounds = this.getCollisionBoundsAt(this.body.x, this.body.y);
     const reviewDig = this.getArcCoreReviewDigConfig();
     const footprintDig = reviewDig
@@ -2296,9 +2547,10 @@ const TankScene = new Phaser.Class({
     this.infoEl.innerHTML = [
       "Layered .sprite Small + Omega Arc Animation Review",
       `Hitbox: ${collisionProfile.label}`,
-      `Hitbox size: ${Math.round(collisionBounds.right - collisionBounds.left)}x${Math.round(collisionBounds.bottom - collisionBounds.top)} (${collisionRects.length} ${collisionRects.length === 1 ? "rect" : "rects"})`,
+      `Hitbox size: ${Math.round(collisionBounds.right - collisionBounds.left)}x${Math.round(collisionBounds.bottom - collisionBounds.top)} (${collisionShapes.length} ${collisionShapes.length === 1 ? collisionShapes[0].kind : "shapes"})`,
       `Tile: (${this.body.tileX}, ${this.body.tileY})`,
       `Pos: (${this.body.x.toFixed(1)}, ${this.body.y.toFixed(1)})`,
+      `Camera: (${this.cameras.main.scrollX.toFixed(1)}, ${this.cameras.main.scrollY.toFixed(1)}) @ ${this.cameras.main.zoom.toFixed(2)}x`,
       `Facing: ${this.facing > 0 ? "right" : "left"}`,
       `Drill aim: ${aim}`,
       `Mode: ${mode}`,
@@ -2308,6 +2560,7 @@ const TankScene = new Phaser.Class({
       ...(reviewMode
         ? [
           `Arc form: ${reviewMode.displayName}`,
+          `Mine remaining: ${this.mineStats.diggable} / ${this.initialDiggableTiles} diggable tiles`,
           `Idle language: ${reviewMode.idleSignature}`,
           `Dig language: ${reviewMode.digSignature}`,
           `Artwork: ${this.arcSpriteArtwork.activeProfileId} Piskel-authored layers`,
@@ -2317,6 +2570,8 @@ const TankScene = new Phaser.Class({
       `Mining footprint: ${footprintDig ? `${footprintDig.widthTiles}x${footprintDig.depthTiles} (${footprintTargetCount} blocks)` : "1 block"}`,
       `Press ${ARC_CORE_ANIMATION_REVIEW.controls.digKey} to dig`,
       `Press ${ARC_CORE_ANIMATION_REVIEW.controls.cloudKey} for cloud enter / exit`,
+      `Switch Arc: ${ARC_CORE_ANIMATION_REVIEW.controls.smallArcKey} Small / ${ARC_CORE_ANIMATION_REVIEW.controls.omegaArcKey} Omega`,
+      `Press ${ARC_CORE_ANIMATION_REVIEW.controls.refillMineKey} to refill the shared mine`,
       "Press Q for UAL unarmed attack",
       `Fly: ${this.flyMode}`,
       `Dig phase: ${phase}`,

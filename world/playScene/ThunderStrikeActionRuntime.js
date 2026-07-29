@@ -228,6 +228,23 @@ export class ThunderStrikeActionRuntime {
     this._finish();
   }
 
+  cancel(nowMs = this.scene?.time?.now ?? 0) {
+    if (!this.animating) return false;
+    const snapshot = {
+      ...this.state.getSnapshot(nowMs),
+      phase: THUNDER_STRIKE_CHAIN_PHASES.FAILED,
+    };
+    this.timingBar.showFeedback(
+      THUNDER_STRIKE_CHAIN_CONFIG.feedback.cancelledText,
+      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.mutedColor,
+      nowMs,
+      THUNDER_STRIKE_CHAIN_CONFIG.feedback.cancelLingerMs,
+      snapshot,
+    );
+    this._finish();
+    return true;
+  }
+
   _finish({ restoreVisuals = true } = {}) {
     if (!this.scene || !this.adapter) {
       this.animating = false;

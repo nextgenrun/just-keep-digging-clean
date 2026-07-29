@@ -1,6 +1,6 @@
 # Dig Game Dev Environment — README
 
-**Last updated:** 2026-07-26
+**Last updated:** 2026-07-28
 
 ## Table of Contents
 1. [Directory Structure Overview](#directory-structure-overview)
@@ -155,7 +155,10 @@ dig-game-dev-env/
 │   │   └── SettingsPanelContent.js ← Settings panel content
 │   ├── PhaserUiKit.js              ← Button/UI component library
 │   ├── GeneratedHudTextures.js     ← Runtime HUD texture generation
-│   └── UINotificationSystem.js     ← Toast notification system
+│   ├── NotificationCarouselState.js ← Bounded transient-message queue
+│   ├── UINotificationCarouselPresenter.js ← Selection timing and fades
+│   ├── UINotificationCarouselView.js ← Approved one-card renderer/controls
+│   └── UINotificationSystem.js     ← Shared transient carousel API
 │
 ├── animations/                     ← Animation creation & frame definitions
 │   ├── PlayerAnims.js              ← Player animation setup
@@ -300,12 +303,29 @@ See `markdown/archive-policy.md` for full details.
 | `naming-policy.md` | Full naming convention reference |
 | `values-system.md` | How to use the /values/ system |
 | `archive-policy.md` | What to archive & when to delete |
+| `2026-07-28-star-block-crystal-popout-v2.md` | Approved Choice 1 Star Block art, exact one-to-one tile pop-out, delayed growth, calmer levitation, heavy echo trail, validation, and rollback |
+| `2026-07-28-overground-resource-special-tile-texture-audit.md` | Approved six-variant ground-embedded ImageGen resource overlays, retained special/GP tiles, runtime routes, rollback boundary, and regression contract |
+| `2026-07-28-complete-surface-landscape-mockup-library.md` | Review-only fourteen-panel final-look library for all Level 1 and Level 2 surface tiles, including unique ground identities, protected landmarks, modular extraction gates, and rollback boundary |
 | `2026-07-26-underground-biome-background-runtime-wiring.md` | Sixty-card ten-biome background, ground-depth, streaming, motion, and rollback contract |
 | `2026-07-26-underground-biome-motion-runtime-v1.md` | Rejected Graphics-overlay motion history and V2 supersession pointer |
 | `2026-07-26-underground-biome-baked-motion-runtime-v2.md` | Ten actual moving-image backgrounds, painted keyframes, VP9 pipeline, ground separation, streaming, performance, and rollback contract |
+| `2026-07-28-underground-visual-expansion-v3.md` | Fifty additive full backgrounds plus fifty terrain-masked ImageGen ground structures, production wiring, alpha pipeline, streaming, validation, and independent rollback |
+| `2026-07-28-underground-terrain-blend-v4.md` | Fifty bolder feathered terrain plates, 200 painted dug-top cuts, seamless backdrop and structure joins, retained V3 assets, layer authority, rollback, and validation |
+| `2026-07-28-sky-underground-cohesion-runtime.md` | Twenty unique native-density sky cards plus ten native-density terrain-masked biome foregrounds, all additive over retained libraries with independent rollback |
+| `2026-07-29-background-rendering-regression-restoration.md` | Restored world-anchored sky and opaque underground backdrops, corrected Phaser crop-origin masks, live QA, and regression coverage |
+| `2026-07-29-expanded-cave-level-visual-overhaul.md` | Expanded entered caves into 60x20 camera-traversed levels with three ImageGen panorama families, safe painted-floor collision, save migration, and rollback |
 | `2026-07-26-modular-surface-props-runtime-v1.md` | Approved modular Level 1/Level 2 surface props, physical scale, terrain contact, coverage, streaming, testing, and rollback contract |
-| `2026-07-26-titan-chambers-production-v2.md` | 25 unique high-resolution Titan chambers, colossal discovery zones, streamed runtime/archive wiring, health, and rollback |
-| `2026-07-26-titan-discovery-player-path-correction.md` | Corrects the 700 m no-discovery path with approved-HUD resonance guidance, partial-entry admission, and rollback |
+| `2026-07-28-natural-surface-composition-and-drop-through.md` | Natural Level 2 prop clusters, prop-free enlarged Level 1 Titan Walk, continuous two-level surface edge, conditional S drop-through, tests, and rollback |
+| `2026-07-28-additive-surface-landscape-runtime-v2.md` | Seven additive ImageGen Level 2 chapter anchors, retained original props, protected footprints, subtle approved-atlas atmosphere, untouched backgrounds, validation, and rollback |
+| `2026-07-28-earthquake-polish-seismic-suppression.md` | Compact seismic UI, authored tile-hit feedback, permanent Level 99 earthquake suppression, persistence, validation, and rollback |
+| `2026-07-28-earthquake-dodge-audit-and-layering.md` | Production FallZone behavior, measured dodge window, exact tile/ground feedback, world layer stack, and regression coverage |
+| `2026-07-28-starlight-talent-tree-runtime.md` | Shared ESC/Star Pillar talent tree, first-star reveals, three-Heart Engine mastery, safety caps, health checks, and rollback |
+| `2026-07-29-starlight-talent-tree-v3-polish.md` | Native ultra-wide ImageGen presentation, three-card carousels, proportional scaling, God Mode review, validation, and V2 rollback |
+| `2026-07-28-ui-notification-carousel.md` | Centered transient-card queue, seven-second per-selection timing, consumptive arrows, full-queue X, modal input isolation, and reduced floating-text default |
+| `2026-07-28-authored-mining-target-and-mouse-dig.md` | Image-backed corner targeting, adjacent primary-click digging, keyboard parity, final-hit removal, safety checks, and rollback |
+| `2026-07-26-titan-chambers-production-v2.md` | 25 unique high-resolution Titan chambers, v3 seamless-edge/depth-grade amendment, colossal discovery zones, streamed runtime/archive wiring, health, and rollback |
+| `2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
+| `2026-07-28-titan-clues-and-creature-footprint-unlock.md` | Catalog clues, exact directions, 25 sharp underground/surface stances, compact dais, colored cover-tile glow, 50% auto-clear authority, plinth inspection, ESC lore, and trophy/save wiring |
 | `2026-06-25-phase3-roadmap.md` | Current phase roadmap |
 | `2026-06-25-next-steps.md` | Immediate next steps |
 </content-file>

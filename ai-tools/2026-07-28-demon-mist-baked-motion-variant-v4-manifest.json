@@ -1,0 +1,43 @@
+{
+  "version": "demon-mist-baked-motion-variant-v4",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWired": false,
+  "source": "ai-tools/2026-07-28-demon-mist-three-layer-background-mockup-v2.png",
+  "motionSource": "three-baked-plates-with-subpixel-affine-transforms",
+  "individualObjectAnimation": false,
+  "opticalFlow": false,
+  "deformation": false,
+  "plates": [
+    "ai-tools/2026-07-28-demon-mist-baked-motion-variant-v4-far-plate.png",
+    "ai-tools/2026-07-28-demon-mist-baked-motion-variant-v4-mist-demon-plate.png",
+    "ai-tools/2026-07-28-demon-mist-baked-motion-variant-v4-foreground-trees-plate.png"
+  ],
+  "motion": {
+    "farXYAmplitudePx": [
+      1.2,
+      0.6
+    ],
+    "midXYAmplitudePx": [
+      9.0,
+      2.8
+    ],
+    "midZoomAmplitude": 0.004,
+    "foregroundXYAmplitudePx": [
+      1.4,
+      0.55
+    ],
+    "foregroundBottomAnchoredShear": 0.0032
+  },
+  "output": "ai-tools/2026-07-28-demon-mist-baked-motion-variant-v4.mp4",
+  "poster": "ai-tools/2026-07-28-demon-mist-baked-motion-variant-v4-poster.png",
+  "sha256": "38d5a2322fe6f7b2c1a7960cb5997515285b990a245129de3d42b505244c45d3",
+  "codec": "h264",
+  "width": 1936,
+  "height": 812,
+  "pixelFormat": "yuv420p",
+  "frameRate": "60/1",
+  "frames": 360,
+  "durationSeconds": 6.0,
+  "bytes": 12923803
+}

@@ -6,7 +6,6 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { LIVING_DRILL_CONFIG } from "../../values/livingDrillConfig.js";
-import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { getMaterialFeedback, GLINT_CONFIG } from "../../values/materialFeedback.js";
 import { ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
@@ -20,7 +19,13 @@ import {
   resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
-import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
+import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
+import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js";
+import {
+  normalizeHorizontalDirection,
+  resolveAuthoredHorizontalFlipX,
+  resolvePlayerTargetDirection,
+} from "../../player/playerDirectionalTargets.js";
 import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
 
 export function setupGameplayMethods(prototype) {
@@ -326,23 +331,6 @@ export function setupGameplayMethods(prototype) {
     if (!result || !targetTile) return;
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
     this._applyMineShake?.(result);
-    if (!result.success && result.blockedByBedrock) {
-      const feedback = MINING_CONFIG.blockedUi;
-      this.uiNotifications?.warning(feedback.bedrockMessage, {
-        key: feedback.notificationKey,
-        durationMs: feedback.durationMs,
-      });
-      const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-      const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-      this.floatingTextSystem?.showFloatingText(
-        worldX,
-        worldY,
-        feedback.zeroDamageText,
-        feedback.zeroDamageColor,
-        feedback.zeroDamageDurationMs,
-        feedback.zeroDamageFontSize,
-      );
-    }
     if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
     if (result.destroyed) {
       const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
@@ -434,9 +422,22 @@ export function setupGameplayMethods(prototype) {
     let animKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
     let flipX = false;
     let postActionFacingFlipX = !this.playerController.isFacingRight();
+    const actionKind = mineFeedback?.actionKind === "quickslash" ? "quickslash" : "normal";
 
     if (mineFeedback?.animationKeyOverride) {
       animKey = mineFeedback.animationKeyOverride;
+    }
+
+    if (actionKind === "quickslash") {
+      const aimDirectionX = aim.includes("LEFT") ? -1 : aim.includes("RIGHT") ? 1 : 0;
+      const quickslashDirectionX = normalizeHorizontalDirection(
+        mineFeedback?.actionDirectionX || aimDirectionX,
+        this.playerController.isFacingRight(),
+      );
+      const sourceFacesRight = profile.quickslashSourceFacesRight
+        ?? ASSET_KEYS.player.quickslashSourceFacesRight;
+      flipX = resolveAuthoredHorizontalFlipX(quickslashDirectionX, sourceFacesRight);
+      postActionFacingFlipX = quickslashDirectionX < 0;
     } else if (aim === "UP-LEFT") {
       animKey = selectComboAnim(this, "up-side", aim, profile.digUpSidewaysHitAnims || ASSET_KEYS.player.digUpSidewaysHitAnims, profile.digUpSidewaysAnim || ASSET_KEYS.player.digUpSidewaysAnim, mineFeedback?.targetTile);
       flipX = flipXForUpSidewaysDirectionX(this, -1);
@@ -474,7 +475,38 @@ export function setupGameplayMethods(prototype) {
       }
     }
 
-    const actionKind = mineFeedback?.actionKind === "quickslash" ? "quickslash" : "normal";
+    const movingSideDig = resolveMovingSideDigAnimation({
+      profile,
+      animationKey: animKey,
+      aim,
+      actionKind,
+      grounded: this.playerController?.isGrounded?.() === true,
+      motionState: this.playerController?.getMotionState?.(),
+      horizontalVelocity: this.playerController?.physicsBody?.vx
+        ?? this.player?.body?.velocity?.x
+        ?? 0,
+      currentAnimationKey: activeActionKey,
+      currentFrameIndex: this.player.anims.currentFrame?.index ?? 0,
+      currentTextureFrame: Number(this.player.anims.currentFrame?.textureFrame),
+    });
+    animKey = movingSideDig.animationKey;
+    const movingDiagonalDig = resolveMovingDiagonalDigAnimation({
+      profile,
+      animationKey: animKey,
+      aim,
+      actionKind,
+      grounded: this.playerController?.isGrounded?.() === true,
+      motionState: this.playerController?.getMotionState?.(),
+      horizontalVelocity: this.playerController?.physicsBody?.vx
+        ?? this.player?.body?.velocity?.x
+        ?? 0,
+      currentAnimationKey: activeActionKey,
+      currentFrameIndex: this.player.anims.currentFrame?.index ?? 0,
+      currentTextureFrame: Number(this.player.anims.currentFrame?.textureFrame),
+    });
+    animKey = movingDiagonalDig.animationKey;
+    this._ualMovingSideDigResumeJogFrame = movingDiagonalDig.resumeJogFrame
+      ?? movingSideDig.resumeJogFrame;
     const animation = this.anims.get(animKey);
     const frameCount = animation?.frames?.length || 1;
     const frameRate = animation?.frameRate || profile.digSidewaysAnimationFps || 30;
@@ -763,7 +795,7 @@ export function setupGameplayMethods(prototype) {
     });
   };
 
-  prototype.prepareLivingDrillMineAttempt = function(aimTargetTile) {
+  prototype.prepareLivingDrillMineAttempt = function(aimTargetTile, aimOverride = null) {
     if (!isLivingDrill(this)) {
       return { allow: true, targetTile: aimTargetTile };
     }
@@ -773,7 +805,7 @@ export function setupGameplayMethods(prototype) {
       return { allow: true, targetTile: aimTargetTile };
     }
 
-    const aim = this.playerController?.getAimLabel?.();
+    const aim = aimOverride || this.playerController?.getAimLabel?.();
     const direction = aimToDirection(aim, this.playerController?.isFacingRight?.() !== false);
     const directionKey = livingDrillDirectionKey(direction);
     if (directionKey !== engagement.directionKey) {
@@ -839,6 +871,7 @@ export function setupGameplayMethods(prototype) {
     this._thunderStrikeHoldUntil = null;
     this._thunderStrikeFacingFlipX = null;
     this._teleportInAnimating = true;
+    this._ualMovingSideDigResumeJogFrame = null;
     this._actionFlipX = null;
     this._postActionFacingFlipX = null;
     this._combatIdleFlipX = null;
@@ -943,7 +976,13 @@ export function setupGameplayMethods(prototype) {
       facingFlipX: !this.playerController.isFacingRight(),
       idleFidgetAllowed,
       actionLocked: false,
+      currentAnimationKey: currentAnimKey,
+      isPlaying: this.player.anims.isPlaying === true,
     }) || null;
+    const wallRunResumeFrame = this.playerMotionPolish?.consumeWallRunResumeFrame?.();
+    if (Number.isFinite(wallRunResumeFrame)) {
+      this.ualLocomotionTransitionSelector?.requestRunResume(wallRunResumeFrame);
+    }
 
     const wasClimbing = this._isClimbing || false;
     const isClimbingNow = poweredFlight || motionState === "climb";
@@ -979,6 +1018,7 @@ export function setupGameplayMethods(prototype) {
         currentAnimationKey: currentAnimKey,
         isPlaying: this.player.anims.isPlaying,
         currentFrameIndex: this.player.anims.currentFrame?.index ?? 0,
+        currentTextureFrame: Number(this.player.anims.currentFrame?.textureFrame),
         facingFlipX: !this.playerController.isFacingRight(),
         groundMovementActive: isWalkMotionState(motionState)
           && Math.abs(body?.vx || 0) > 0,
@@ -1138,7 +1178,13 @@ export function setupGameplayMethods(prototype) {
       && !this.player.anims.isPlaying
       && oneShotHoldAnims.includes(targetAnim);
     if (!shouldHoldCompletedOneShot) {
-      this.player.play(targetAnim, !force);
+      const startFrame = Number.isFinite(locomotionSelection?.startFrame)
+        ? locomotionSelection.startFrame
+        : 0;
+      const restartRequested = locomotionSelection?.restart === true
+        || motionOverride?.restart === true;
+      const ignoreIfPlaying = restartRequested ? false : !force;
+      this.player.play(targetAnim, ignoreIfPlaying, startFrame);
     }
     if (!motionOverride && targetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
       this.player.anims.timeScale = this.playerMotionPolish?.getIdleTimeScale?.(now) ?? 1.0;

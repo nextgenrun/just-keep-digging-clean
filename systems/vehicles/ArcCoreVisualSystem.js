@@ -16,6 +16,7 @@ import {
   drawArcCoreVisualCloudTransition,
   hideArcCoreVisualLayers,
 } from "./arcCoreVisualRenderer.js";
+import { resolveArcCoreCollisionProfile } from "./arcCoreCollisionProfile.js";
 
 const AIM_DIRECTIONS = Object.freeze({
   LEFT: Object.freeze({ x: -1, y: 0 }),
@@ -84,6 +85,22 @@ export class ArcCoreVisualSystem {
     return this.scene.config.tileSize * gameplayProfile.displaySizeTiles;
   }
 
+  getCollisionProfile() {
+    const profile = this.getProfile();
+    const meta = this.layers?.meta;
+    if (profile && meta) {
+      return resolveArcCoreCollisionProfile(profile, meta);
+    }
+    const manifest = this.scene.cache?.json?.get?.(
+      ASSET_KEYS.vehicles.arcCore.pack,
+    );
+    const fallbackMeta = manifest?.[ARC_CORE_VISUAL_PACK.metaSection];
+    return resolveArcCoreCollisionProfile(
+      fallbackMeta?.modes?.[this.modeId],
+      fallbackMeta,
+    );
+  }
+
   getCenter() {
     return {
       x: this.anchorBottom.x,
@@ -111,14 +128,18 @@ export class ArcCoreVisualSystem {
     const legacyReady = this.scene.textures?.exists?.(
       ASSET_KEYS.vehicles.arcCore.legacy,
     ) === true;
+    const collisionReady = Object.values(meta?.modes || {}).every(
+      profile => resolveArcCoreCollisionProfile(profile, meta) !== null,
+    ) && Object.keys(meta?.modes || {}).length === 2;
     return {
       enabled: this.enabled,
       ready: this.enabled
-        ? Boolean(this.layers) && missingTextures.length === 0
+        ? Boolean(this.layers) && missingTextures.length === 0 && collisionReady
         : Boolean(this.legacySprite) && legacyReady,
       packageId: meta?.packageId || null,
       pipeline: meta?.pipeline || null,
       fixedCenter,
+      collisionReady,
       productionRoleCount: files.length,
       missingTextures,
       activeMode: this.modeId,

@@ -27,7 +27,7 @@ export const TILE_TYPES = Object.freeze({
   COMBO_BLOCK: 22,
   LEGEND_BLOCK: 23,
 
-  // Cave wall — unbreakable decorative shell around caves (uses bedrock sprite as placeholder)
+  // Cave wall — unbreakable decorative shell using the shared unbreakable material.
   CAVE_WALL: 24,
 
   // Root overlay types — placed on top of base tiles as visual decoration

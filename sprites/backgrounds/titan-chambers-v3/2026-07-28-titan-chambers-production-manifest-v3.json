@@ -1,0 +1,572 @@
+{
+  "schemaVersion": 1,
+  "sourceGenerationMode": "built-in ImageGen",
+  "sourceVersion": "titan-chambers-v2",
+  "runtimeVersion": "titan-chambers-v3",
+  "transformation": "organic alpha feather over approved ImageGen chamber masters",
+  "runtimeSize": [
+    1536,
+    848
+  ],
+  "webpQuality": 94,
+  "feather": {
+    "horizontalFraction": 0.16,
+    "verticalFraction": 0.22,
+    "irregularity": 0.18,
+    "outerClearFraction": 0.025
+  },
+  "complete": true,
+  "count": 25,
+  "cards": [
+    {
+      "index": 1,
+      "id": "mossback-wanderer",
+      "biome": "weathered-roots",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-01-mossback-wanderer-imagegen-v2.png",
+      "sourceSize": [
+        1691,
+        930
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/01-mossback-wanderer-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.6625,
+      "centerMinAlpha": 255,
+      "meanAlpha": 167.3889,
+      "transparentPixelRatio": 0.035209,
+      "sha256": "c136eebaf01f8bee2ff856bd3c16bb770b08779181b7706fc41a67cdf37206a1",
+      "bytes": 497852
+    },
+    {
+      "index": 2,
+      "id": "bellhorn-grazer",
+      "biome": "blue-caverns",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-02-bellhorn-grazer-imagegen-v2.png",
+      "sourceSize": [
+        1635,
+        962
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/02-bellhorn-grazer-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.9879,
+      "centerMinAlpha": 255,
+      "meanAlpha": 170.4716,
+      "transparentPixelRatio": 0.034871,
+      "sha256": "5ce4d5d01a2f5a5de78d623690232abbbbcdd2d868d28f8b651be5f59778073d",
+      "bytes": 611350
+    },
+    {
+      "index": 3,
+      "id": "lantern-jaw",
+      "biome": "blue-caverns",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-03-lantern-jaw-imagegen-v2.png",
+      "sourceSize": [
+        1870,
+        841
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/03-lantern-jaw-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.1789,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.8114,
+      "transparentPixelRatio": 0.034845,
+      "sha256": "fb359f6072aaef1449df7e2383bc6770464124d88ee82c20650aaace8e3c7a9a",
+      "bytes": 325118
+    },
+    {
+      "index": 4,
+      "id": "archwalker",
+      "biome": "blue-caverns",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-04-archwalker-imagegen-v2.png",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/04-archwalker-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.5613,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.2904,
+      "transparentPixelRatio": 0.035272,
+      "sha256": "c0656bf875fddf2d9129da467da3f01e2191325d88bf8201a58b1b2a6a2e8114",
+      "bytes": 377394
+    },
+    {
+      "index": 5,
+      "id": "shale-mother",
+      "biome": "blue-caverns",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-05-shale-mother-imagegen-v2.png",
+      "sourceSize": [
+        1729,
+        910
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/05-shale-mother-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.362,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.4723,
+      "transparentPixelRatio": 0.035268,
+      "sha256": "c2124ec2a77d7973118394a603aafbd754221203d98da4afc53c18cd0a45da55",
+      "bytes": 528784
+    },
+    {
+      "index": 6,
+      "id": "ribbon-wyrm",
+      "biome": "amber-depths",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-06-ribbon-wyrm-imagegen-v2.png",
+      "sourceSize": [
+        1915,
+        821
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/06-ribbon-wyrm-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.1653,
+      "centerMinAlpha": 255,
+      "meanAlpha": 170.4441,
+      "transparentPixelRatio": 0.034805,
+      "sha256": "333605267afacc8272447f1f5b4fd328769841e3171cd808c510227654b392ac",
+      "bytes": 447600
+    },
+    {
+      "index": 7,
+      "id": "crowned-mole",
+      "biome": "amber-depths",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-07-crowned-mole-imagegen-v2.png",
+      "sourceSize": [
+        1695,
+        928
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/07-crowned-mole-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.4094,
+      "centerMinAlpha": 255,
+      "meanAlpha": 167.9417,
+      "transparentPixelRatio": 0.035367,
+      "sha256": "ca6f7033fa0b0387edcdda8c40ac42255e10c45103121bfa56a1dcbeca3bb6c0",
+      "bytes": 536438
+    },
+    {
+      "index": 8,
+      "id": "hammerhead-pilgrim",
+      "biome": "amber-depths",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-08-hammerhead-pilgrim-imagegen-v2.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/08-hammerhead-pilgrim-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.0096,
+      "centerMinAlpha": 255,
+      "meanAlpha": 170.1414,
+      "transparentPixelRatio": 0.034802,
+      "sha256": "bdce58f06ebeee751d022397c4cdc98d17bf75aa78a3f11d7e453a22de9a4419",
+      "bytes": 414184
+    },
+    {
+      "index": 9,
+      "id": "cathedral-stag",
+      "biome": "amber-depths",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-09-cathedral-stag-imagegen-v2.png",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/09-cathedral-stag-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.5106,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.241,
+      "transparentPixelRatio": 0.034971,
+      "sha256": "bd8133c0c9bbb668bcbbfbe6bfbc06d7508ce21c6e692e042957f634fa3b98db",
+      "bytes": 613414
+    },
+    {
+      "index": 10,
+      "id": "hollowback-bear",
+      "biome": "silver-core",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-10-hollowback-bear-imagegen-v2.png",
+      "sourceSize": [
+        1724,
+        912
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/10-hollowback-bear-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.9095,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.6524,
+      "transparentPixelRatio": 0.035293,
+      "sha256": "d2898ee7002d6a9bab6d8052b3b02afa4b16af40e7d5040ef4ac9c99cc98ea3d",
+      "bytes": 471550
+    },
+    {
+      "index": 11,
+      "id": "silver-strider",
+      "biome": "silver-core",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-11-silver-strider-imagegen-v2.png",
+      "sourceSize": [
+        1402,
+        1122
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/11-silver-strider-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.4934,
+      "centerMinAlpha": 255,
+      "meanAlpha": 166.7246,
+      "transparentPixelRatio": 0.035432,
+      "sha256": "860da0770dc2727d70b741cb0a83460dbb25a7d89c40eb14cbfd03ec0335bd46",
+      "bytes": 407864
+    },
+    {
+      "index": 12,
+      "id": "mirror-ray",
+      "biome": "silver-core",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-12-mirror-ray-imagegen-v2.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/12-mirror-ray-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.6837,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.6148,
+      "transparentPixelRatio": 0.03505,
+      "sha256": "b694c766144ff69bee24e7461cae9d7ee26735585ee37b61c4899afa36f65f24",
+      "bytes": 514566
+    },
+    {
+      "index": 13,
+      "id": "needlecrown",
+      "biome": "silver-core",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-13-needlecrown-imagegen-v2.png",
+      "sourceSize": [
+        1718,
+        916
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/13-needlecrown-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.369,
+      "centerMinAlpha": 255,
+      "meanAlpha": 167.1941,
+      "transparentPixelRatio": 0.035325,
+      "sha256": "c910279995f8dde026899b087c5cd8a24ba6084de5070e839be3c9d31de5c60a",
+      "bytes": 490398
+    },
+    {
+      "index": 14,
+      "id": "moon-shell",
+      "biome": "silver-core",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-14-moon-shell-imagegen-v2.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/14-moon-shell-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.1016,
+      "centerMinAlpha": 255,
+      "meanAlpha": 170.3292,
+      "transparentPixelRatio": 0.03491,
+      "sha256": "6757e51e325a5ad1c947837642c9cb28906035fe35e2db406359b62bb13f0c79",
+      "bytes": 524052
+    },
+    {
+      "index": 15,
+      "id": "veilwing",
+      "biome": "core-magma",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-15-veilwing-imagegen-v2.png",
+      "sourceSize": [
+        1619,
+        972
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/15-veilwing-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.9745,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.8488,
+      "transparentPixelRatio": 0.034873,
+      "sha256": "5cfa501e25a2633b5b60f03340312f2ed4e314f47f1ea63e56b0090c7a3122c3",
+      "bytes": 385256
+    },
+    {
+      "index": 16,
+      "id": "ember-tusk",
+      "biome": "core-magma",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-16-ember-tusk-imagegen-v2.png",
+      "sourceSize": [
+        1648,
+        954
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/16-ember-tusk-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.7822,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.0116,
+      "transparentPixelRatio": 0.035202,
+      "sha256": "9b87440d802ca483ad4415b7e4811f0e615389b7b36bc6a824a68c2f83f5fb74",
+      "bytes": 406790
+    },
+    {
+      "index": 17,
+      "id": "furnace-drake",
+      "biome": "core-magma",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-17-furnace-drake-imagegen-v2.png",
+      "sourceSize": [
+        1651,
+        953
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/17-furnace-drake-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.1907,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.9435,
+      "transparentPixelRatio": 0.034705,
+      "sha256": "8acd2f59770b6ad16607fd5dd6d233443793fa516f3a569d087be6de37c9256a",
+      "bytes": 451628
+    },
+    {
+      "index": 18,
+      "id": "ash-colossus",
+      "biome": "slagworks",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-18-ash-colossus-imagegen-v2.png",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/18-ash-colossus-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.5407,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.545,
+      "transparentPixelRatio": 0.034904,
+      "sha256": "fe15e393a1e9c24a30537eda72f3c02647f9bc9e0ebc805fe15bebf5fe16eb00",
+      "bytes": 398566
+    },
+    {
+      "index": 19,
+      "id": "magma-whale",
+      "biome": "slagworks",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-19-magma-whale-imagegen-v2.png",
+      "sourceSize": [
+        1881,
+        836
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/19-magma-whale-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.9685,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.1806,
+      "transparentPixelRatio": 0.034916,
+      "sha256": "ec6a1ecf9e6848baff1d4f4c484d2e71d589c50070bbb8f2d58a03f119544566",
+      "bytes": 438914
+    },
+    {
+      "index": 20,
+      "id": "cinder-centipede",
+      "biome": "obsidian-catacombs",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-20-cinder-centipede-imagegen-v2.png",
+      "sourceSize": [
+        1858,
+        846
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/20-cinder-centipede-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.1396,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.1863,
+      "transparentPixelRatio": 0.035043,
+      "sha256": "e4c2b444499db5f66f9b036332f92d48ec863d42a02d206ba7f1fe8a9951469e",
+      "bytes": 430582
+    },
+    {
+      "index": 21,
+      "id": "obsidian-sleeper",
+      "biome": "obsidian-catacombs",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-21-obsidian-sleeper-imagegen-v2.png",
+      "sourceSize": [
+        1727,
+        911
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/21-obsidian-sleeper-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.0332,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.3054,
+      "transparentPixelRatio": 0.034757,
+      "sha256": "3e749e8c2474391bf1377b229a4b48b194be8294040d1d0d6e3648516bd09240",
+      "bytes": 316200
+    },
+    {
+      "index": 22,
+      "id": "rift-heron",
+      "biome": "pressure-foundry",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-22-rift-heron-imagegen-v2.png",
+      "sourceSize": [
+        1597,
+        985
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/22-rift-heron-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.1759,
+      "centerMinAlpha": 255,
+      "meanAlpha": 170.7486,
+      "transparentPixelRatio": 0.034545,
+      "sha256": "43f745a3fc5e60f52f21c328ef481ac682b54394db08509c83bcadb488d7596a",
+      "bytes": 296374
+    },
+    {
+      "index": 23,
+      "id": "star-eater",
+      "biome": "blackglass-abyss",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-23-star-eater-imagegen-v2.png",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/23-star-eater-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.5681,
+      "centerMinAlpha": 255,
+      "meanAlpha": 167.0739,
+      "transparentPixelRatio": 0.035389,
+      "sha256": "ade8cf5d5555bca249193945d2d56f4c89851697b2d91238017801bc045abb98",
+      "bytes": 430036
+    },
+    {
+      "index": 24,
+      "id": "deep-crown",
+      "biome": "blackglass-abyss",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-24-deep-crown-imagegen-v2.png",
+      "sourceSize": [
+        1692,
+        929
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/24-deep-crown-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 15.2842,
+      "centerMinAlpha": 255,
+      "meanAlpha": 169.331,
+      "transparentPixelRatio": 0.035032,
+      "sha256": "93f9ec1a958312cb276bbf5aed5a443c4a3fe5befa5fe2178d7ef9472c7f1fcc",
+      "bytes": 357288
+    },
+    {
+      "index": 25,
+      "id": "worldroot-titan",
+      "biome": "starfire-rift",
+      "source": "sprites/backgrounds/titan-chambers-v2/sources/2026-07-26-25-worldroot-titan-imagegen-v2.png",
+      "sourceSize": [
+        1606,
+        979
+      ],
+      "runtime": "sprites/backgrounds/titan-chambers-v3/25-worldroot-titan-chamber-v3.webp",
+      "runtimeSize": [
+        1536,
+        848
+      ],
+      "cornerAlphaMax": 0,
+      "edgeMeanAlpha": 14.684,
+      "centerMinAlpha": 255,
+      "meanAlpha": 168.5173,
+      "transparentPixelRatio": 0.035471,
+      "sha256": "ec1832d7c432bdc351a12948d614bd094bdf0a39b1b49dd3b480045ac8b6b461",
+      "bytes": 497546
+    }
+  ]
+}

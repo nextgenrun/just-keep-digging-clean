@@ -1,10 +1,9 @@
 # Titan Discoveries v1
 
-Visual-only Titan art used in three places:
+Visual-only compact Titan art used for the archive plus one shared surface base:
 
-- distant cave-backdrop discoveries revealed through dug terrain;
 - the real-art 5x5 ESC archive;
-- a non-interactive 25-position surface walk with dormant and filled plinths.
+- the transparent plinth beneath dormant and filled surface-gallery slots.
 
 The 25 runtime PNGs are derived from the dated chroma-key atlas in `sources/`
 by `ai-tools/2026-07-26-build-titan-sprites.py`. The same tool normalizes
@@ -13,8 +12,11 @@ by `ai-tools/2026-07-26-build-titan-sprites.py`. The same tool normalizes
 alpha master for provenance. These assets never define collision, rewards,
 stats, or tile state.
 
-The current creature masters are 256x256 compact silhouettes. They are
-production assets for archive-grid thumbnails, surface miniatures, and
-`?titanChambers=0` underground rollback. The separate promoted 15-22-block
-full-chamber art lives in `../titan-chambers-v2/`; these compact sources remain
-untouched so Boot and rollback stay lightweight.
+The current creature masters are 256x256 compact silhouettes retained as
+production archive-grid thumbnails. They are no longer stretched across the
+underground chambers and no longer define the underground tile masks. Sharp
+768px underground/surface stances live in `../titan-surface-stances-v1/`; their
+underground dais, resonance overlay, and hash-pinned masks live in
+`../titan-underground-v2/`. The promoted 15-22-block contextual chamber art
+lives in `../titan-chambers-v2/` and `../titan-chambers-v3/`. These compact
+sources remain untouched.

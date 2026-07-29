@@ -1,0 +1,976 @@
+{
+  "version": 4,
+  "mode": "additive alpha-feathered derivatives; V3 files remain intact",
+  "sourceVersion": 3,
+  "counts": {
+    "sourceV3Structures": 50,
+    "runtimeV4Structures": 50
+  },
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "featherPx": [
+    192,
+    128
+  ],
+  "stridePx": [
+    1344,
+    896
+  ],
+  "rollback": "?groundStructureBlend=0",
+  "terrainContract": "authoritative terrain geometry mask, collision, HP, drops, and topology remain unchanged",
+  "derivatives": [
+    {
+      "id": "weathered-roots-ceiling-root-rib",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-ceiling-root-rib-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/weathered-roots-ceiling-root-rib-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/weathered-roots-ceiling-root-rib-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "324e41a1c618ec2a7c05078e75f8cb58ab52dbc5419f49ca236a3b47e3728cbd",
+      "runtimeSha256": "69f0e1ecca926fa1d4f102fec14f88be7077c6e634f0eb22156e2e8ce111acd6",
+      "runtimeBytes": 254726,
+      "opaqueCoverageBefore": 0.378457,
+      "opaqueCoverageAfter": 0.374198,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "weathered-roots-mycorrhizal-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-mycorrhizal-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/weathered-roots-mycorrhizal-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/weathered-roots-mycorrhizal-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "929723b4d00f195a99136b358cf655b1ae312e844e3f401530ca5efeecb1e0fc",
+      "runtimeSha256": "e92d1ed084230fffdc07dd1c3477ab485263d9cee5a27635802665c1692a0549",
+      "runtimeBytes": 122290,
+      "opaqueCoverageBefore": 0.16499,
+      "opaqueCoverageAfter": 0.164366,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "weathered-roots-rainworn-stone-root-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-rainworn-stone-root-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/weathered-roots-rainworn-stone-root-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/weathered-roots-rainworn-stone-root-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "c64f2eacc796f0641e943c9a6d1e35f73eb90a8b97039e1a4ad02d4fd2a73e44",
+      "runtimeSha256": "af62784ef73f139fd0d44089a8e24337d44b97cb13b0cd67e9b37445ae5afef9",
+      "runtimeBytes": 194040,
+      "opaqueCoverageBefore": 0.31618,
+      "opaqueCoverageAfter": 0.316173,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "weathered-roots-root-buttress-lattice",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-root-buttress-lattice-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/weathered-roots-root-buttress-lattice-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/weathered-roots-root-buttress-lattice-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "d8a867f053fcf3ac0644fd034adb391bb8e4f11e078ef8d93497b10c610974b5",
+      "runtimeSha256": "408f11e01b70956e2560afa6f6b1b2e135ff2aa85d75dfcac66abd94617f5128",
+      "runtimeBytes": 258572,
+      "opaqueCoverageBefore": 0.485837,
+      "opaqueCoverageAfter": 0.477462,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "weathered-roots-timber-loam-retaining-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-timber-loam-retaining-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/weathered-roots-timber-loam-retaining-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/weathered-roots-timber-loam-retaining-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "6dbf6d744744d26d97fd88f677d374db12093effba60e5f270d6a2e8a075ad2a",
+      "runtimeSha256": "2124f550d8048999ce4fca49ecc3dd2419a30e45f18ea8f57b51fe9acc4299e6",
+      "runtimeBytes": 204234,
+      "opaqueCoverageBefore": 0.385076,
+      "opaqueCoverageAfter": 0.382284,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blue-caverns-aquifer-stone-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-aquifer-stone-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blue-caverns-aquifer-stone-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blue-caverns-aquifer-stone-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "99106870e1e408ab77cf212575b5834f326e364c17075cdfc93defe8822ac51a",
+      "runtimeSha256": "5aefdf5a3da29847d524422a6f57573b161b620feed215700ad976756ed91a75",
+      "runtimeBytes": 211250,
+      "opaqueCoverageBefore": 0.36139,
+      "opaqueCoverageAfter": 0.35401,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blue-caverns-cobalt-crystal-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-cobalt-crystal-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blue-caverns-cobalt-crystal-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blue-caverns-cobalt-crystal-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "6fbe65cead5290477d5e54ed1ee2b079197067ec225a3c26c6d3ab998823a8af",
+      "runtimeSha256": "a8550a3e004c292269aa17edfc6acb936a5ec14aa116d834ceeb3126c0947111",
+      "runtimeBytes": 236034,
+      "opaqueCoverageBefore": 0.374481,
+      "opaqueCoverageAfter": 0.370192,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blue-caverns-geode-corner-cluster",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-geode-corner-cluster-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blue-caverns-geode-corner-cluster-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blue-caverns-geode-corner-cluster-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "225ea632514a6985045530ba4973481071b79656f5bb6703b56ba0a20f783dd2",
+      "runtimeSha256": "4ca3707c1cf40615d93b8a3f4d6d61d348fda18ca8844d41662d97afa90a174f",
+      "runtimeBytes": 169750,
+      "opaqueCoverageBefore": 0.336513,
+      "opaqueCoverageAfter": 0.336491,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blue-caverns-ice-ceiling-fin",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-ice-ceiling-fin-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blue-caverns-ice-ceiling-fin-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blue-caverns-ice-ceiling-fin-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "886b871d804ffd204e884f72366be54deef702c004d52ea6ce923a068ad220ba",
+      "runtimeSha256": "a9ff89b858df5693831554e56d9d6f982347bee57c8528ee180b3996c745ae66",
+      "runtimeBytes": 224908,
+      "opaqueCoverageBefore": 0.356251,
+      "opaqueCoverageAfter": 0.351948,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blue-caverns-sapphire-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-sapphire-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blue-caverns-sapphire-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blue-caverns-sapphire-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "922154b22814210a4a35bc1e84993f2cadc40059e31a28e2569282fc0cdc8726",
+      "runtimeSha256": "2b39e8f9991a0e32de8aa5f4a1f6c5fc4cdeab8b8b2d4de29cf6a561674f6e67",
+      "runtimeBytes": 101170,
+      "opaqueCoverageBefore": 0.101696,
+      "opaqueCoverageAfter": 0.101656,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "amber-depths-bronze-resin-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-bronze-resin-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/amber-depths-bronze-resin-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/amber-depths-bronze-resin-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "62214588d4b3b42e18c9b4ebdebe7afa4c46ca7549de34ec9fc87c2dc8ad0b2e",
+      "runtimeSha256": "1a69997b6acce5d18d48b06e038a96c1136e08b7895417c4553594301d1b8e02",
+      "runtimeBytes": 192528,
+      "opaqueCoverageBefore": 0.283715,
+      "opaqueCoverageAfter": 0.283704,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "amber-depths-fossil-masonry-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-fossil-masonry-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/amber-depths-fossil-masonry-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/amber-depths-fossil-masonry-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "c783fb91aa34a8389f95ed5beb431d45bbaf5a36703652b7271bcc935699fcbc",
+      "runtimeSha256": "60a6fb0d56f41035e26aa797a1a6e41ceff1a652f993f0a55efc5da421953179",
+      "runtimeBytes": 195812,
+      "opaqueCoverageBefore": 0.297513,
+      "opaqueCoverageAfter": 0.297513,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "amber-depths-golden-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-golden-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/amber-depths-golden-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/amber-depths-golden-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "f981c3a5994c671722c36e1ec3f2d8888070ceba066d465191bae1caa3252d91",
+      "runtimeSha256": "5a5cd8ccc15460c1f77a047554ccfaad08e03f338fa561a74607f7e580abc5e8",
+      "runtimeBytes": 158290,
+      "opaqueCoverageBefore": 0.197731,
+      "opaqueCoverageAfter": 0.197718,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "amber-depths-honeyglass-ceiling-shelf",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-honeyglass-ceiling-shelf-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/amber-depths-honeyglass-ceiling-shelf-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/amber-depths-honeyglass-ceiling-shelf-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "b7e1ebff3cfe9892bd90764c0c4941bee4a50a57435ab39c685bb4501a385154",
+      "runtimeSha256": "330d321987b882b44246700ec6f7ff88feaed1cc5436aa68d0f03642d522ffcf",
+      "runtimeBytes": 190692,
+      "opaqueCoverageBefore": 0.309822,
+      "opaqueCoverageAfter": 0.304536,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "amber-depths-resin-stone-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-resin-stone-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/amber-depths-resin-stone-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/amber-depths-resin-stone-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "06bad24e78da59ade6ba9b6a2987cdec0b1102f387ed74bc6cc1c56574d11afe",
+      "runtimeSha256": "17803c1d028c17fd1c0276f73dcb4fd06614398abb2a6691d91eccda124cff13",
+      "runtimeBytes": 209534,
+      "opaqueCoverageBefore": 0.353396,
+      "opaqueCoverageAfter": 0.35339,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "silver-core-black-iron-mineral-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-black-iron-mineral-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/silver-core-black-iron-mineral-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/silver-core-black-iron-mineral-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "0532b8de18804132baef157f2501d3a2c5e79f9cac40e504d8e048bbed0a3edd",
+      "runtimeSha256": "53628f2c72871c24691554366afa8cca4b17c2fddb7660a4985e13b372491e6a",
+      "runtimeBytes": 227710,
+      "opaqueCoverageBefore": 0.363007,
+      "opaqueCoverageAfter": 0.363004,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "silver-core-ceiling-blade-rib",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-ceiling-blade-rib-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/silver-core-ceiling-blade-rib-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/silver-core-ceiling-blade-rib-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "5270e098ad72abb26cfac8de311fc6e9ea93da9a4462b1f0b5c92cb37293a4f1",
+      "runtimeSha256": "aec492a8ffe476ba668390b717872e5e5ab4d5281caeca162dce155b4242f755",
+      "runtimeBytes": 210912,
+      "opaqueCoverageBefore": 0.331116,
+      "opaqueCoverageAfter": 0.327068,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "silver-core-magnetic-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-magnetic-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/silver-core-magnetic-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/silver-core-magnetic-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "038463b7178667a441faa036b9f93d86530d7f96878bd47c85aa7046ca9c8256",
+      "runtimeSha256": "9fae9bb519d4c34a9ef72d07b69a7a733ee1eefffd8ecd45615ec0ff0c880964",
+      "runtimeBytes": 123150,
+      "opaqueCoverageBefore": 0.151809,
+      "opaqueCoverageAfter": 0.1518,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "silver-core-mercury-stone-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-mercury-stone-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/silver-core-mercury-stone-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/silver-core-mercury-stone-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "293be581a430cb682b81d45b2521117b54f303b2dc9269472d57bf4bdf70814d",
+      "runtimeSha256": "8ff46a665905d9aa4f4444a1f5b9d7255d17ea8b5e8fe5a1a49f11c7975b8382",
+      "runtimeBytes": 250338,
+      "opaqueCoverageBefore": 0.385877,
+      "opaqueCoverageAfter": 0.38284,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "silver-core-mirror-mineral-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-mirror-mineral-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/silver-core-mirror-mineral-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/silver-core-mirror-mineral-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "98944aac70f5da9c4bdc2ccbfb76f3740cf02dce76ff860a6e6c3eec4b29201e",
+      "runtimeSha256": "79fd21fc5ece6664cff0ac0dcd99ae234c61a4ff4441652d8a06fb25c762666d",
+      "runtimeBytes": 156672,
+      "opaqueCoverageBefore": 0.221696,
+      "opaqueCoverageAfter": 0.221696,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "core-magma-basalt-lava-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-basalt-lava-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/core-magma-basalt-lava-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/core-magma-basalt-lava-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "6aa9f436c0311517e72e2ab435f4ae2f3bc4ca45e25d17e90c40bf6976d953fe",
+      "runtimeSha256": "3695c2098b2f586e7a10a33d0356e677f70ba87810e54a55ec7d3ebc4ea01305",
+      "runtimeBytes": 168934,
+      "opaqueCoverageBefore": 0.352662,
+      "opaqueCoverageAfter": 0.352625,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "core-magma-ember-fissure-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-ember-fissure-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/core-magma-ember-fissure-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/core-magma-ember-fissure-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "41b24306de48b21d630d1af5c3868eccfe24e2ce7d158f3819688476d822bd15",
+      "runtimeSha256": "9f89f2b9bcb5eeb97a2ec6ad67252aa19e0d0e7acdce64970faafaf84134d118",
+      "runtimeBytes": 136656,
+      "opaqueCoverageBefore": 0.198433,
+      "opaqueCoverageAfter": 0.1984,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "core-magma-furnace-stone-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-furnace-stone-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/core-magma-furnace-stone-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/core-magma-furnace-stone-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "68b703f65b892214d2d759f607efdf8c3b47f63012efcde7ca264f7deadd75be",
+      "runtimeSha256": "1f30bf3f5d015e1c55a08f63bc1be0a946f8b4c64ae2c34cb06637a912a662e0",
+      "runtimeBytes": 247918,
+      "opaqueCoverageBefore": 0.401204,
+      "opaqueCoverageAfter": 0.401199,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "core-magma-obsidian-ceiling-rib",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-obsidian-ceiling-rib-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/core-magma-obsidian-ceiling-rib-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/core-magma-obsidian-ceiling-rib-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "04457ceae80a094cbedb424e36b455d3dc6ed43e578bc7169a83e1a7988ef3c5",
+      "runtimeSha256": "8a41c52f163fa6998e01e58ab305694d96f9b0ef13eb236274d6efa8e71b3992",
+      "runtimeBytes": 143628,
+      "opaqueCoverageBefore": 0.295152,
+      "opaqueCoverageAfter": 0.291118,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "core-magma-volcanic-column-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-volcanic-column-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/core-magma-volcanic-column-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/core-magma-volcanic-column-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "aee1a1b1c7c96b8654be3e751da5b0ed0ef3c8b77f565a5b952620ba75527300",
+      "runtimeSha256": "f0bc0868c9ae6fdeea8b033fded42087eea8ba7530b974c95962135a2c8e5e22",
+      "runtimeBytes": 156356,
+      "opaqueCoverageBefore": 0.270781,
+      "opaqueCoverageAfter": 0.270779,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "slagworks-clinker-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-clinker-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/slagworks-clinker-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/slagworks-clinker-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "b90a3013c9d05da44f48387168350643d137039835af24581b89af3b7efaacc2",
+      "runtimeSha256": "82557089fea50b51763ce6cd8bea53c1ea7f58431e4c96b034e80184fa511c05",
+      "runtimeBytes": 218608,
+      "opaqueCoverageBefore": 0.296268,
+      "opaqueCoverageAfter": 0.296259,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "slagworks-iron-slag-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-iron-slag-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/slagworks-iron-slag-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/slagworks-iron-slag-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "05fe9fd2ec864c786a18612ff83a0afe2a7a2bffbbbcb881849372e1f42e1aab",
+      "runtimeSha256": "e5dcf3489a1e56e25d8c14a54cef2dc66fb105ff3f0fc9499410b78d220f98ed",
+      "runtimeBytes": 219388,
+      "opaqueCoverageBefore": 0.412182,
+      "opaqueCoverageAfter": 0.412176,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "slagworks-rail-ceiling-brace",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-rail-ceiling-brace-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/slagworks-rail-ceiling-brace-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/slagworks-rail-ceiling-brace-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "79e83d13612eef81079afe727078bb00d3a2a500e49fd1d4d8cc6e8b1eea343a",
+      "runtimeSha256": "e45cc506fc9e395a2d7490cf89949e24fd344c7570f6441adb2ed21b92a70f91",
+      "runtimeBytes": 231936,
+      "opaqueCoverageBefore": 0.436209,
+      "opaqueCoverageAfter": 0.430396,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "slagworks-refractory-brick-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-refractory-brick-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/slagworks-refractory-brick-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/slagworks-refractory-brick-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "c09217cde1f2905a4c0ed31591aaa33c1eee3a481be9dc4197ea2ddd515d1627",
+      "runtimeSha256": "b5edcd2ec186c223d4c4e84f40d2f001bf1ca9321a3c8f962c9844913e20c181",
+      "runtimeBytes": 285802,
+      "opaqueCoverageBefore": 0.458701,
+      "opaqueCoverageAfter": 0.458685,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "slagworks-riveted-slag-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-riveted-slag-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/slagworks-riveted-slag-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/slagworks-riveted-slag-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "2dceca5f23868b2f0e771715c8a9b3f113491d2be4023385077bb43b06f83e06",
+      "runtimeSha256": "023b2e8f8f3c538bf3abb28c573fd4fa73200ba3917c515ee1b15d5a917585bf",
+      "runtimeBytes": 196870,
+      "opaqueCoverageBefore": 0.352854,
+      "opaqueCoverageAfter": 0.352829,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-blackglass-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/obsidian-catacombs-blackglass-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/obsidian-catacombs-blackglass-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "8e58e33d3745c5c32bac661948fd1f39a0ddde5519f9ff5dd23eeba8a6bb2d16",
+      "runtimeSha256": "4068f3c5a51f0007f2ed5e10ab12298c5642827243399d5850a55565e41f95e7",
+      "runtimeBytes": 176694,
+      "opaqueCoverageBefore": 0.386944,
+      "opaqueCoverageAfter": 0.386944,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "obsidian-catacombs-column-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-column-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/obsidian-catacombs-column-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/obsidian-catacombs-column-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "350ce8ef931eb9356ff782faeb7836ce6c9a269075ba094143c67b021ab9dc1b",
+      "runtimeSha256": "40ed7bbc303448fb7c45028a13ac00a6912675ab915f270407fa75d9f1a8d87d",
+      "runtimeBytes": 118670,
+      "opaqueCoverageBefore": 0.231524,
+      "opaqueCoverageAfter": 0.231523,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "obsidian-catacombs-crypt-stone-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-crypt-stone-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/obsidian-catacombs-crypt-stone-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/obsidian-catacombs-crypt-stone-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "c6a2ae85cbd1a6e60f3b91f7e1ea89eedfdd895f7f7dd599dba2423c1ffc11f7",
+      "runtimeSha256": "b89001f3ab0531ee172cb05685c5e7509d604a41da114f615767d40a6a378c0e",
+      "runtimeBytes": 126300,
+      "opaqueCoverageBefore": 0.27595,
+      "opaqueCoverageAfter": 0.275949,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "obsidian-catacombs-shard-ceiling-rib",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-shard-ceiling-rib-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/obsidian-catacombs-shard-ceiling-rib-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/obsidian-catacombs-shard-ceiling-rib-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "c9935ecc02c91cc5d0dbcf0677222b3f235cc4ebd406f82a634cc16f3fc9dbc3",
+      "runtimeSha256": "37f204779288de19248f293d73a1095e35bfb74014394d2cc8be00a21363a4a0",
+      "runtimeBytes": 133294,
+      "opaqueCoverageBefore": 0.325065,
+      "opaqueCoverageAfter": 0.319063,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "obsidian-catacombs-violet-glass-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-violet-glass-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/obsidian-catacombs-violet-glass-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/obsidian-catacombs-violet-glass-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "6e49c3dd61e46686367f8e3f3005b98c1ee610e205d2f65083fa269a27affec8",
+      "runtimeSha256": "770ea8ec5ab3ca0ca6027ecf9b39ca6f2308686a65e3a9e8f50fd99e94ded71a",
+      "runtimeBytes": 107450,
+      "opaqueCoverageBefore": 0.174155,
+      "opaqueCoverageAfter": 0.17415,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "pressure-foundry-boiler-stone-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-boiler-stone-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/pressure-foundry-boiler-stone-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/pressure-foundry-boiler-stone-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "6906496e51fb7ddf5276aa913a2cb9ef755295d307a07b03eafbf846426a2803",
+      "runtimeSha256": "387a065b6954fffe4a1cb36085a9a32aeafaa765b1c596c029392c2e51a72aed",
+      "runtimeBytes": 230892,
+      "opaqueCoverageBefore": 0.417156,
+      "opaqueCoverageAfter": 0.417155,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "pressure-foundry-condenser-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-condenser-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/pressure-foundry-condenser-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/pressure-foundry-condenser-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "02c81120876956ecfbbac9fdd14b2b40271fbd27d4e01badbebe9b03afa5981f",
+      "runtimeSha256": "e14ca0aa9d94bfdde52aa5a41717b89ae120f9d85aa301dfd8639941a5fd7f3d",
+      "runtimeBytes": 131420,
+      "opaqueCoverageBefore": 0.214535,
+      "opaqueCoverageAfter": 0.214525,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "pressure-foundry-pipe-ceiling-truss",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-pipe-ceiling-truss-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/pressure-foundry-pipe-ceiling-truss-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/pressure-foundry-pipe-ceiling-truss-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "8c8a300f99b08984bed46a116dd51990182ac619f2281426ca0536c816041c28",
+      "runtimeSha256": "9d16bde97c7ddaed8dbe1ea34ac24efcbb8b9ed779a9b305707d5bfd9d35e397",
+      "runtimeBytes": 199546,
+      "opaqueCoverageBefore": 0.411573,
+      "opaqueCoverageAfter": 0.407114,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "pressure-foundry-steel-stone-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-steel-stone-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/pressure-foundry-steel-stone-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/pressure-foundry-steel-stone-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "17b8bd3ea447e358bf6b15083c42904acf2282fe99f2302d2df51aa1df4a66a1",
+      "runtimeSha256": "b17a1ac2628230e6a0e61af32c3f0722cd9b07e3abb226b9d65f8e1972a2f408",
+      "runtimeBytes": 207806,
+      "opaqueCoverageBefore": 0.445978,
+      "opaqueCoverageAfter": 0.44596,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "pressure-foundry-valve-rock-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-valve-rock-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/pressure-foundry-valve-rock-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/pressure-foundry-valve-rock-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "52bf078956f2c4183091c0251c4f2fd2d9afd862eff234f762e6b8ab98165803",
+      "runtimeSha256": "f966b4a51a4ab0d937eed4f97cfe71cc720683aa85f532136ebd8baaacc21530",
+      "runtimeBytes": 208780,
+      "opaqueCoverageBefore": 0.347378,
+      "opaqueCoverageAfter": 0.347347,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blackglass-abyss-black-mirror-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-black-mirror-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blackglass-abyss-black-mirror-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blackglass-abyss-black-mirror-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "3329cf4fc6203ac3906dc4299f7bb37d5cc89e384984bb917d720f05f5b6cbbc",
+      "runtimeSha256": "0c22003a0516bceb02268635bdb92bd6a01640b35bbf4a0859e9e12b316da1c3",
+      "runtimeBytes": 174828,
+      "opaqueCoverageBefore": 0.324446,
+      "opaqueCoverageAfter": 0.324392,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blackglass-abyss-eclipse-stone-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-eclipse-stone-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blackglass-abyss-eclipse-stone-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blackglass-abyss-eclipse-stone-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "821efeaf4577ee486704eaaac7233f58dcde210eac42252c9200a96577604201",
+      "runtimeSha256": "622dff8130f21b49a567002d0d10e735338b89285a69fab96e28d33222d9cd9a",
+      "runtimeBytes": 152876,
+      "opaqueCoverageBefore": 0.328234,
+      "opaqueCoverageAfter": 0.328234,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blackglass-abyss-mirror-ceiling-shard",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-mirror-ceiling-shard-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blackglass-abyss-mirror-ceiling-shard-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blackglass-abyss-mirror-ceiling-shard-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "f52112fce5ea885f54eb2fbbff3702f6cd5432ae341915196bdb014e01eaf72e",
+      "runtimeSha256": "ba8e57329ce1385081c7bc22ed3787ab8501e6d788fc23b1d3b47708d643c1e9",
+      "runtimeBytes": 143198,
+      "opaqueCoverageBefore": 0.333311,
+      "opaqueCoverageAfter": 0.326511,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blackglass-abyss-prism-glass-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-prism-glass-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blackglass-abyss-prism-glass-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blackglass-abyss-prism-glass-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "6446d3f7d0effbbb325a576a388de24f92c7aef2c72c18450c4afc107c65aa31",
+      "runtimeSha256": "c0836e3ffb15305a5607d6f042f3bde7070f2425047768666d4f7d6d449b0d8f",
+      "runtimeBytes": 171932,
+      "opaqueCoverageBefore": 0.346391,
+      "opaqueCoverageAfter": 0.342488,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "blackglass-abyss-spectral-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-spectral-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/blackglass-abyss-spectral-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/blackglass-abyss-spectral-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "9a785ce0447881785ee43f7503e7e99d388f4eae0df7e6687fcd7b2bbc559054",
+      "runtimeSha256": "4c2f62b2f5d363ad55d66b9b5f2b1eead1e2a5eefa603794cc2f1c1e0be042b5",
+      "runtimeBytes": 93670,
+      "opaqueCoverageBefore": 0.139881,
+      "opaqueCoverageAfter": 0.138403,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "starfire-rift-celestial-crystal-buttress",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-celestial-crystal-buttress-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/starfire-rift-celestial-crystal-buttress-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/starfire-rift-celestial-crystal-buttress-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "9ff06c58fe35d97f556e428cb65bccd6259de747368d21b85aabd2d8e9ebb5a6",
+      "runtimeSha256": "b5f1e0416d71ebd0436f8e8b9cd7b009371da78b4e646512641044ea16b65270",
+      "runtimeBytes": 154256,
+      "opaqueCoverageBefore": 0.283169,
+      "opaqueCoverageAfter": 0.283164,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "starfire-rift-cosmic-strata-seam",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-cosmic-strata-seam-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/starfire-rift-cosmic-strata-seam-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/starfire-rift-cosmic-strata-seam-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "915012529e2c069295e8e214b6503b5f6b80e2907e72197b8c2f9db74fd9f623",
+      "runtimeSha256": "e411070d4beb453229f0113599efafdbf20f4544b964200045568bbc38a1403b",
+      "runtimeBytes": 127744,
+      "opaqueCoverageBefore": 0.159355,
+      "opaqueCoverageAfter": 0.159279,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "starfire-rift-nebula-crystal-corner",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-nebula-crystal-corner-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/starfire-rift-nebula-crystal-corner-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/starfire-rift-nebula-crystal-corner-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "08aaeccd8c06f8f6985c767f49eb5cffce175fb0daee0bf5cda6e21f7a42839f",
+      "runtimeSha256": "d5a369db26c114c879c4716f92f44ce70a4ee728d0624d9b54a556a5cc29b449",
+      "runtimeBytes": 144484,
+      "opaqueCoverageBefore": 0.24276,
+      "opaqueCoverageAfter": 0.242735,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "starfire-rift-ring-ceiling-rib",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-ring-ceiling-rib-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/starfire-rift-ring-ceiling-rib-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/starfire-rift-ring-ceiling-rib-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "85c43f4eb86134b136beb9ea5c1769c5ecd48119ed94db0bf8033037ab21bcf2",
+      "runtimeSha256": "535268fa38093322c0d955a32e207c25be813584bf327ce91e5f072acb16b7f5",
+      "runtimeBytes": 121364,
+      "opaqueCoverageBefore": 0.218112,
+      "opaqueCoverageAfter": 0.214846,
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    {
+      "id": "starfire-rift-star-metal-arch",
+      "v3AlphaSource": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-star-metal-arch-v3.png",
+      "v3Runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3/starfire-rift-star-metal-arch-v3.webp",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4/starfire-rift-star-metal-arch-v4.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "v3AlphaSha256": "d8052c651164a7c34d7675f624673e38a71c1987b0a865c74f635cf04f5f8984",
+      "runtimeSha256": "7be24147b11e1aa9210ca01d375e5f72fe67bda9bd81d7abf931f7f7031c809e",
+      "runtimeBytes": 154016,
+      "opaqueCoverageBefore": 0.260775,
+      "opaqueCoverageAfter": 0.260775,
+      "alphaMin": 0,
+      "alphaMax": 255
+    }
+  ],
+  "contactSheet": "visual-approval-previews/underground-terrain-blend-v4/2026-07-28-ground-structure-blend-contact-sheet-v4.png"
+}

@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "generatedDate": "2026-07-28",
+  "iconSize": 256,
+  "subjectEnvelope": 232,
+  "assets": [
+    {
+      "upgradeId": "bronzePickaxe",
+      "name": "Bronze Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-bronze-pickaxe-chroma-source.png",
+      "sourceSha256": "d49f5b7bb1e0a757931ce4a15fbd6e2cde6dfa3f440e589ea73726e1e2cb5e03",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-bronze-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "251a9921dd12bc99bbcbe786302551a311a3a4bbac7e3cebad5c011f04cd7b00",
+      "runtime": "sprites/UI/pickaxe-icons-v1/bronze-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        89,
+        41,
+        1215,
+        1196
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        15,
+        12,
+        241,
+        244
+      ],
+      "runtimeCoverage": 0.19588,
+      "runtimeSha256": "9c8010ef0aa49858984045008c827129bae41fdf3553b63fa5ec7a6f5bc8eaa5"
+    },
+    {
+      "upgradeId": "ironPickaxe",
+      "name": "Iron Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-iron-pickaxe-chroma-source.png",
+      "sourceSha256": "86b74c0fc2d9af9e9af61e3dd5a5454fe50ca5cc2d750a0df6eaa552e2f84156",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-iron-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "036ac4e4bbc1259e8d5d9d575744c029f43f1d32ccdc477f833108772ec8443b",
+      "runtime": "sprites/UI/pickaxe-icons-v1/iron-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        108,
+        41,
+        1206,
+        1202
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        18,
+        12,
+        237,
+        244
+      ],
+      "runtimeCoverage": 0.19278,
+      "runtimeSha256": "29412e576599093ba254723395d4b15a230632f9776faaa59ae507a53d3f4e1d"
+    },
+    {
+      "upgradeId": "steelPickaxe",
+      "name": "Steel Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-steel-pickaxe-chroma-source.png",
+      "sourceSha256": "f211465aff6793c1728711d2425761ae5ffc627b3e43ddd8747dc7d8d72f5953",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-steel-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "37fb42be9aa57e692f6441cb8a467f8b9cc9362e6d86b3e6f823c9592977af4c",
+      "runtime": "sprites/UI/pickaxe-icons-v1/steel-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        116,
+        46,
+        1182,
+        1191
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        20,
+        12,
+        236,
+        244
+      ],
+      "runtimeCoverage": 0.17664,
+      "runtimeSha256": "0c7470515449708c66bf383d295289b6a6d290ca82c70683f4d78cbf6cb15ee9"
+    },
+    {
+      "upgradeId": "mithrilPickaxe",
+      "name": "Mithril Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-mithril-pickaxe-chroma-source.png",
+      "sourceSha256": "d52d1237efcd9d1f6aa03d43e065f26c3bee0ae0894453b55c96c05f68191fe5",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-mithril-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "2e405ee89c762fa20c86ee37814b2f2f7efa4da7e9fdf51d10e9bb2079763c8a",
+      "runtime": "sprites/UI/pickaxe-icons-v1/mithril-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        126,
+        38,
+        1186,
+        1199
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        22,
+        12,
+        234,
+        244
+      ],
+      "runtimeCoverage": 0.16856,
+      "runtimeSha256": "a5f7d2bed1aa31ce985e0233b0853fea4db2ff3fb72bb0441dc525d24087c135"
+    },
+    {
+      "upgradeId": "adamantPickaxe",
+      "name": "Adamant Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-adamant-pickaxe-chroma-source.png",
+      "sourceSha256": "b569a86f9b39fdab8fc4ec238117de8fee9e49856587656e1e88e21c2542491a",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-adamant-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "f5f6e79ed51d1b20f7aa2a5003353e07a005e9cb61227437fe245eebbcda2566",
+      "runtime": "sprites/UI/pickaxe-icons-v1/adamant-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        86,
+        39,
+        1226,
+        1215
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        15,
+        12,
+        240,
+        244
+      ],
+      "runtimeCoverage": 0.26051,
+      "runtimeSha256": "cb32f64daebdb519c5391de4bf952218d43c2b535c49b79c952ef921a2b70968"
+    },
+    {
+      "upgradeId": "runePickaxe",
+      "name": "Rune Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-rune-pickaxe-chroma-source.png",
+      "sourceSha256": "8d1d20fdf32c2069fe4e7d1b038404dd49cbf5f9e92ab50cf496b7b27dcbd358",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-rune-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "f929e727c2f639129c8784e47348778c6d60945a4cf276a5dcb860b92dab2384",
+      "runtime": "sprites/UI/pickaxe-icons-v1/rune-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        88,
+        42,
+        1207,
+        1213
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        17,
+        12,
+        239,
+        244
+      ],
+      "runtimeCoverage": 0.24922,
+      "runtimeSha256": "44aacc0c2ab6e4e236f536d80ae3b9dc6d83b83bf457c35e17c4f6160e3eb9aa"
+    },
+    {
+      "upgradeId": "dragonPickaxe",
+      "name": "Dragon Pickaxe",
+      "source": "sprites/UI/pickaxe-icons-v1/2026-07-28-dragon-pickaxe-chroma-source.png",
+      "sourceSha256": "8168d87262694f6360d0bcf5ed40d90e3b74ec887a6dccaa540f50f455fbed15",
+      "transparentMaster": "sprites/UI/pickaxe-icons-v1/2026-07-28-dragon-pickaxe-transparent-master.png",
+      "transparentMasterSha256": "52ff9dd2633ac308d322b5ca8941dd72c307805fb6fc32240a6b1609a6e42856",
+      "runtime": "sprites/UI/pickaxe-icons-v1/dragon-pickaxe-v1.png",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceBounds": [
+        94,
+        29,
+        1186,
+        1219
+      ],
+      "runtimeDimensions": [
+        256,
+        256
+      ],
+      "runtimeBounds": [
+        21,
+        12,
+        234,
+        244
+      ],
+      "runtimeCoverage": 0.24727,
+      "runtimeSha256": "47901d88d7e8c88551ff656205334d693baf5c03b58600a8d42a8be2ad96c70d"
+    }
+  ],
+  "reviewSheet": "sprites/UI/pickaxe-icons-v1/pickaxe-progression-contact-sheet-v1.png",
+  "reviewSheetSha256": "f5991d3e70899172937a814aed646cb08737432bb150edbe42da0069acd8432b"
+}

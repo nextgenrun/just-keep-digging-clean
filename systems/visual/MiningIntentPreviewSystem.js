@@ -18,7 +18,7 @@ export class MiningIntentPreviewSystem {
     }).setOrigin(0.5, 1).setDepth(this.config.depth + 1).setVisible(false);
   }
 
-  update(targetTile, keys) {
+  update(targetTile, keys, aimLabel = null) {
     this.graphics.clear();
     this.label.setVisible(false);
     if (
@@ -36,28 +36,16 @@ export class MiningIntentPreviewSystem {
       return;
     }
 
-    if (keys?.q?.isDown && abilities?.isQuickslashUnlocked?.()) {
-      this._drawQuickslash(targetTile, abilities);
-      return;
-    }
+    // Quickslash reads clearly from the authored action itself. Suppress the
+    // generic mining preview too, so Q never swaps the removed route UI for an
+    // unrelated Heavy Punch marker.
+    if (keys?.q?.isDown) return;
 
-    const finalHit = this._getFinalHitPreview(targetTile);
     const heavy = this.scene.digSystem?.getHeavyPunchPreview?.(
       targetTile,
-      this.scene.playerController?.getAimLabel?.()
+      aimLabel || this.scene.playerController?.getAimLabel?.()
     );
-    if (heavy) this._drawHeavyPunch(heavy, !finalHit);
-    if (finalHit) this._drawFinalHit(finalHit);
-  }
-
-  _getFinalHitPreview(targetTile) {
-    const world = this.scene.worldModel;
-    if (!world?.isDiggable?.(targetTile.tx, targetTile.ty)) return null;
-    const tileType = world.getTileType(targetTile.tx, targetTile.ty);
-    const damage = this.scene.digSystem?.getDamagePreview?.(tileType) || 0;
-    const hp = world.getTileHp(targetTile.tx, targetTile.ty);
-    if (damage <= 0 || hp <= 0 || damage < hp) return null;
-    return { ...targetTile, damage, hp };
+    if (heavy) this._drawHeavyPunch(heavy);
   }
 
   _drawTile(tx, ty, color, fillAlpha = this.config.fillAlpha) {
@@ -86,35 +74,18 @@ export class MiningIntentPreviewSystem {
     }
   }
 
-  _drawFinalHit(preview) {
-    const color = 0xf6df80;
-    const position = this._drawTile(preview.tx, preview.ty, color, 0.18);
-    this._setLabel(position, "FINAL HIT  •  BREAK", color);
-  }
-
-  _drawQuickslash(targetTile, abilities) {
-    const position = this._drawTile(targetTile.tx, targetTile.ty, this.config.quickslashColor);
-    const player = this.scene.playerController?.getPlayerPosition?.();
-    if (player) {
-      this.graphics.lineStyle(this.config.lineWidth, this.config.quickslashColor, 0.8);
-      this.graphics.lineBetween(player.x, player.y, position.x, position.y);
-    }
-    this._setLabel(
-      position,
-      `${USER_SETTINGS.getKeyLabel("quickslash")} ROUTE  •  ${abilities.getQuickslashCost()} GP`,
-      this.config.quickslashColor
-    );
-  }
-
   _drawThunder(preview) {
     let last = null;
     preview.entries.forEach(entry => {
       last = this._drawTile(entry.tx, entry.ty, this.config.thunderColor, entry.solid ? 0.18 : 0.07);
     });
     if (last) {
+      const footprint = preview.columns > 1
+        ? `${preview.columns} × ${preview.range}`
+        : `${preview.range}`;
       this._setLabel(
         last,
-        `${USER_SETTINGS.getKeyLabel("thunderStrike")} FOOTPRINT  •  ${preview.range} tiles  •  ${preview.cost} GP`,
+        `${USER_SETTINGS.getKeyLabel("thunderStrike")} FOOTPRINT  •  ${footprint} tiles  •  ${preview.cost} GP`,
         this.config.thunderColor
       );
     }

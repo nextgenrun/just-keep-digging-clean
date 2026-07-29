@@ -114,6 +114,7 @@ export class DepthMilestoneCinematic {
 
   _beginCinematic() {
     this._active = true;
+    this.scene.uiNotifications?.setPaused?.(true);
     this._createVisuals();
     this._setState(STATES.BARS_IN);
 

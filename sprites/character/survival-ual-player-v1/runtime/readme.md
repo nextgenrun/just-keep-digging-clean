@@ -30,3 +30,31 @@ to the action review sandbox but are not promoted into the active profile.
 
 `manifest.json` is authoritative for sheet dimensions, marker coordinates,
 Unreal retarget provenance, and packed-frame alpha bounds.
+
+`moving-side-dig-jab` and `moving-side-dig-cross` are 22-frame, 30 fps
+phase-locked composites. Jog still advances only 14 source phases across each
+strike, while the upper body uses denser Jab/Cross sampling and reaches contact
+on sequence frame 6 at the former planted-foot phase. Their editable Piskel sources,
+contact sheets, alignment overlays, and drift reports live under
+`sprites/character/piskel/runtime-active/`. Both clips use the shared full-cycle
+silhouette envelope plus 2 source pixels of clearance, preventing any extension
+or recovery frame from entering the block without changing mining reach or
+timing.
+
+`moving-side-dig-phase-handoff-sheet.webp` packs six additional 22-frame phase
+variants into a 132-frame atlas; the two base variants remain on the sibling
+sheets above. Every variant uses the same frame-6 contact and seven-frame
+upper-body ease-in/ease-out, while its manifest action carries phase-derived
+rig markers. The runtime
+chooses one of eight total phase starts with at most two Jog frames of
+quantization error and resumes the opposite half-cycle exactly.
+
+`survival-ual-player-v1-animation-polish-transitions-sheet.webp` is the
+centralized 61-frame transition atlas for planted Jog/idle bridges, stationary
+action settles, authored soft/hard landings, and wall bracing.
+`survival-ual-player-v1-animation-polish-diagonal-dig-sheet.webp` packs eight
+15-frame UP-SIDE/DOWN-SIDE strikes at four representative Jog phases. Jog owns
+the lower body throughout each diagonal clip, while the authored directional
+attack owns the torso and keeps its existing contact frame. Both atlases are
+generated from editable Piskel sources and share the runtime profile's fixed
+bottom anchor and display size.

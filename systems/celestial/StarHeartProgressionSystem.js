@@ -1,6 +1,7 @@
 import {
   CELESTIAL_ENGINE_CONFIG,
   CELESTIAL_ENGINE_ORDER,
+  getEarnedStarHeartCount,
   sanitizeStarHeartData,
 } from "../../values/celestialEngines.js";
 
@@ -14,6 +15,7 @@ export class StarHeartProgressionSystem {
     this._data = sanitizeStarHeartData(null);
     this._lastActivationId = null;
     this._lastActivationWasGodMode = false;
+    this._lastActivationPriorHeartsEarned = null;
     this._godModeEngine = null;
     this._godModeActivationSequence = 0;
   }
@@ -21,6 +23,7 @@ export class StarHeartProgressionSystem {
   loadSaveData(data, constellationCount = 0) {
     this._data = sanitizeStarHeartData(data);
     this._godModeEngine = null;
+    this._lastActivationPriorHeartsEarned = null;
     this.syncConstellationCount(constellationCount, { silent: true });
     this._emit("loaded", false);
     return this.getSnapshot();
@@ -32,12 +35,7 @@ export class StarHeartProgressionSystem {
     const previousHearts = this._data.heartsEarned;
     this._data.constellationCount = Math.max(previousCount, safeCount);
 
-    if (
-      this._data.constellationCount >= CELESTIAL_ENGINE_CONFIG.unlock.requiredConstellations
-      && this._data.heartsEarned < CELESTIAL_ENGINE_CONFIG.unlock.maxHearts
-    ) {
-      this._data.heartsEarned = CELESTIAL_ENGINE_CONFIG.unlock.maxHearts;
-    }
+    this._refreshEarnedHearts();
 
     const changed = previousCount !== this._data.constellationCount
       || previousHearts !== this._data.heartsEarned;
@@ -59,15 +57,19 @@ export class StarHeartProgressionSystem {
       this._emit("god-mode-engine-equipped", false);
       return { ok: true, snapshot: this.getSnapshot() };
     }
-    if (this._data.selectedEngine) {
-      return { ok: false, reason: "already-attuned" };
+    if (this._data.unlockedEngines.includes(engineId)) {
+      const changed = this._data.selectedEngine !== engineId;
+      this._data.selectedEngine = engineId;
+      if (changed) this._emit("engine-equipped", true);
+      return { ok: true, changed, snapshot: this.getSnapshot() };
     }
     if (this.getAvailableHearts() <= 0) {
       return { ok: false, reason: "heart-locked" };
     }
 
+    this._data.unlockedEngines = [...this._data.unlockedEngines, engineId];
     this._data.selectedEngine = engineId;
-    this._data.heartsSpent += 1;
+    this._data.heartsSpent = this._data.unlockedEngines.length;
     this._data.charge = CELESTIAL_ENGINE_CONFIG.charge.initialOnAttune;
     this._emit("engine-attuned", true);
     return { ok: true, snapshot: this.getSnapshot() };
@@ -102,9 +104,13 @@ export class StarHeartProgressionSystem {
     }
 
     if (!godMode) {
+      const previousHearts = this._data.heartsEarned;
+      this._lastActivationPriorHeartsEarned = previousHearts;
       this._data.charge -= CELESTIAL_ENGINE_CONFIG.charge.activationCost;
       this._data.activationsUsed += 1;
+      this._refreshEarnedHearts();
     } else {
+      this._lastActivationPriorHeartsEarned = null;
       this._godModeActivationSequence += 1;
     }
     this._lastActivationId = [
@@ -114,7 +120,12 @@ export class StarHeartProgressionSystem {
       godMode ? this._godModeActivationSequence : this._data.activationsUsed,
     ].join(":");
     this._lastActivationWasGodMode = godMode;
-    this._emit(godMode ? "god-mode-activation" : "activation-consumed", !godMode);
+    const heartEarned = !godMode
+      && this._lastActivationPriorHeartsEarned < this._data.heartsEarned;
+    this._emit(
+      godMode ? "god-mode-activation" : heartEarned ? "heart-earned" : "activation-consumed",
+      !godMode,
+    );
     return {
       ok: true,
       activationId: this._lastActivationId,
@@ -127,6 +138,7 @@ export class StarHeartProgressionSystem {
     if (this._lastActivationWasGodMode) {
       this._lastActivationId = null;
       this._lastActivationWasGodMode = false;
+      this._lastActivationPriorHeartsEarned = null;
       this._emit("god-mode-activation-refunded", false);
       return true;
     }
@@ -135,8 +147,15 @@ export class StarHeartProgressionSystem {
       this._data.charge + CELESTIAL_ENGINE_CONFIG.charge.activationCost,
     );
     this._data.activationsUsed = Math.max(0, this._data.activationsUsed - 1);
+    if (Number.isFinite(this._lastActivationPriorHeartsEarned)) {
+      this._data.heartsEarned = Math.max(
+        this._data.heartsSpent,
+        this._lastActivationPriorHeartsEarned,
+      );
+    }
     this._lastActivationId = null;
     this._lastActivationWasGodMode = false;
+    this._lastActivationPriorHeartsEarned = null;
     this._emit("activation-refunded", true);
     return true;
   }
@@ -181,6 +200,10 @@ export class StarHeartProgressionSystem {
       unlocked: this.isUnlocked(),
       charged: this.isCharged(),
       godMode,
+      engineCount: saveData.unlockedEngines.length,
+      allEnginesUnlocked: saveData.unlockedEngines.length >= CELESTIAL_ENGINE_ORDER.length,
+      nextHeartActivationMilestone: this._getNextHeartActivationMilestone(saveData),
+      activationsToNextHeart: this._getActivationsToNextHeart(saveData),
       requiredConstellations: CELESTIAL_ENGINE_CONFIG.unlock.requiredConstellations,
       chargeCapacity: CELESTIAL_ENGINE_CONFIG.charge.capacity,
     };
@@ -204,6 +227,35 @@ export class StarHeartProgressionSystem {
       this._godModeEngine = this._data.selectedEngine || CELESTIAL_ENGINE_ORDER[0];
     }
     return this._godModeEngine;
+  }
+
+  _refreshEarnedHearts() {
+    const earned = getEarnedStarHeartCount(
+      this._data.constellationCount,
+      this._data.activationsUsed,
+    );
+    this._data.heartsEarned = Math.max(
+      this._data.heartsEarned,
+      this._data.heartsSpent,
+      earned,
+    );
+    return this._data.heartsEarned;
+  }
+
+  _getNextHeartActivationMilestone(data) {
+    if (
+      data.constellationCount < CELESTIAL_ENGINE_CONFIG.unlock.requiredConstellations
+      || data.heartsEarned >= CELESTIAL_ENGINE_CONFIG.unlock.maxHearts
+    ) {
+      return null;
+    }
+    return CELESTIAL_ENGINE_CONFIG.unlock.additionalHeartActivationMilestones
+      .find(milestone => data.activationsUsed < milestone) ?? null;
+  }
+
+  _getActivationsToNextHeart(data) {
+    const milestone = this._getNextHeartActivationMilestone(data);
+    return milestone === null ? 0 : Math.max(0, milestone - data.activationsUsed);
   }
 
   _emit(event, persist, detail = null) {

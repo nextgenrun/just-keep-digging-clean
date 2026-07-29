@@ -1,5 +1,4 @@
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
-import { USER_SETTINGS } from "../UserSettings.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";
 import { SkySteadyLightRenderer } from "./SkySteadyLightRenderer.js";
@@ -106,7 +105,10 @@ export class LightSystem {
 
     if (gameplayActive && this._torchActive) {
       const requested = torchDrainRate * dt;
-      const consumed = this.playerController?.consumeGemPower?.(requested) ?? 0;
+      const consumed = this.playerController?.consumeGemPower?.(
+        requested,
+        { source: "torch" },
+      ) ?? 0;
       if (consumed + Number.EPSILON < requested) this.forceTorchOff();
     }
 
@@ -241,9 +243,6 @@ export class LightSystem {
     }
     this._torchActive = false;
     this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
-    if (options.showStatus !== false) {
-      this.scene.hudSystem?.flashStatus("Torch extinguished - no GP", "#ff9a55", 1800);
-    }
   }
 
   destroy() {
@@ -279,17 +278,14 @@ export class LightSystem {
       this._torchActive = false;
       this._manualTorchOff = true;
       this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
-      this.scene.hudSystem?.flashStatus(`Torch turned off (${USER_SETTINGS.getKeyLabel("torch")} to relight)`, "#ff9a55", 1800);
       return;
     }
     if (!this.playerController?.hasGemPower?.()) {
-      this.scene.hudSystem?.flashStatus("No GP for torch", "#ff6666", 1200);
       return;
     }
     this._torchActive = true;
     this._manualTorchOff = false;
     this.scene.hudSystem?.setTorchState(true, this._getTorchDrainPerSecond(this._latestDepth));
-    this.scene.hudSystem?.flashStatus("Torch relit", "#ffc06a", 900);
   }
 
   _canUseTorchInput() {

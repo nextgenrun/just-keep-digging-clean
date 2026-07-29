@@ -5,7 +5,10 @@
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { NPCActivitySystem } from "../../systems/visual/NPCActivitySystem.js";
 import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
-import { NPC_ACTIVITY_CONFIG } from "../../values/npcActivityConfig.js";
+import {
+  NPC_ACTIVITY_CONFIG,
+  resolveNpcGroundContact,
+} from "../../values/npcActivityConfig.js";
 import { TOWN_SQUARE_CONFIG } from "../../values/townSquareConfig.js";
 
 export class NPCManager {
@@ -64,7 +67,7 @@ export class NPCManager {
 
   createNPCs() {
     const npcSize = this.scene.config.playerDisplaySizePx;
-    
+
     for (const npc of this.npcDefs) {
       const hasIdleVideo = Boolean(npc.videoKey) && this.scene.cache.video.exists(npc.videoKey);
       const hasFallbackTexture = this.scene.textures.exists(npc.assetKey);
@@ -88,18 +91,20 @@ export class NPCManager {
         continue;
       }
       
-      // Place visual bottom at the top surface of the tile below (the ground/platform the NPC stands on).
-      // NPCs are placed at ty = surfaceTileY - 1, so (ty+1)*tileSize is the platform surface.
+      // Keep the measured sole/paw edge planted slightly into the platform lip.
+      // The NPC definition occupies the air row; the tile below starts at (ty + 1).
       const ts = this.scene.config.tileSize;
-      const merchantPresentation = NPC_ACTIVITY_CONFIG.merchants[npc.merchantId];
-      const groundOffset = merchantPresentation?.groundOffsetPx
-        ?? NPC_ACTIVITY_CONFIG.render.defaultGroundOffsetPx;
+      const spriteSize = npcSize * NPC_ACTIVITY_CONFIG.render.displayScale;
+      const groundSurfaceY = (npc.ty + 1) * ts;
+      const groundContact = resolveNpcGroundContact(
+        npc.merchantId,
+        spriteSize,
+      );
       const pos = {
         x: npc.tx * ts + ts / 2,                    // tile center X
-        y: (npc.ty + 1) * ts + groundOffset,       // platform surface + NPC-specific offset
+        y: groundSurfaceY + groundContact.anchorOffsetPx,
       };
       // Generated single merchant sprites share one town scale so monsters feel creepy, not gigantic.
-      const spriteSize = npcSize * NPC_ACTIVITY_CONFIG.render.displayScale;
       const sprite = hasIdleVideo
         ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
         : this.scene.add.sprite(pos.x, pos.y, npc.assetKey);
@@ -117,8 +122,10 @@ export class NPCManager {
         ...pos,
         displaySize: spriteSize,
         depth: NPC_ACTIVITY_CONFIG.render.depth,
+        groundSurfaceY,
+        groundContact,
       });
-      
+
       // Create "Press E" interact prompt above each NPC (hidden by default)
       const promptText = this.scene.add.text(
         pos.x,
@@ -151,7 +158,7 @@ export class NPCManager {
    */
   updateInteractPrompts(playerTile, competingDistance = Number.POSITIVE_INFINITY) {
     if (!playerTile || !this._interactPrompts) return;
-    
+
     for (const prompt of this._interactPrompts) {
       const dist = Math.abs(playerTile.tx - prompt.npc.tx) + Math.abs(playerTile.ty - prompt.npc.ty);
       const inRange = dist <= TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles

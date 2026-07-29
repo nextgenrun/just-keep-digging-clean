@@ -712,13 +712,6 @@ export class FloatingTextSystem {
     this.ensureConstellationsLoaded();
     const progress = this._recordCollectedStar(resourceType, rarity);
     if (progress) {
-      const relicGate = progress.relicRequired > progress.relicCurrent
-        ? `  •  Relics ${progress.relicCurrent}/${progress.relicRequired}`
-        : "";
-      this.scene.uiNotifications?.success?.(
-        `${progress.constellationName} STAR  •  ${progress.count}/${progress.threshold}${relicGate}`,
-        { key: `star-progress-${resourceType}`, durationMs: 2600 }
-      );
       this.scene.retentionProgressSystem?.recordStar?.(1);
     }
 
@@ -876,7 +869,10 @@ export class FloatingTextSystem {
       isFlightAnimating: false,
       isConstellationAnimating: false,
     };
-    star.setScale(entry.baseScaleX * 0.12, entry.baseScaleY * 0.12);
+    star.setScale(
+      entry.baseScaleX * COLLECTED_STAR_RELEASE_FX.startScale,
+      entry.baseScaleY * COLLECTED_STAR_RELEASE_FX.startScale
+    );
     return entry;
   }
 

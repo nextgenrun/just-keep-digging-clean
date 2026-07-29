@@ -5,6 +5,8 @@
  */
 import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
 import { getAabbAdjacentAimCandidates } from "../../player/playerDirectionalTargets.js";
+import { MiningTargetVisualSystem } from "../../systems/visual/MiningTargetVisualSystem.js";
+import { MouseDigInputController } from "./MouseDigInputController.js";
 
 export class PlayerInputHandler {
   constructor(scene) {
@@ -13,12 +15,15 @@ export class PlayerInputHandler {
     this.lastAimTileKey = "";
     this.stableMineTarget = null;
     this.stableMineAim = "";
+    this.targetVisual = null;
+    this.mouseDigInput = null;
     
     // Register all keys
     this.keys = this._registerKeys();
     
-    // Create aim box for visual feedback
+    // Create target feedback and pointer input after keyboard registration.
     this._createAimBox();
+    this.mouseDigInput = new MouseDigInputController(scene);
   }
 
   /**
@@ -136,12 +141,25 @@ export class PlayerInputHandler {
   }
 
   _createAimBox() {
-    this.aimBox = this.scene.add
-      .rectangle(0, 0, this.scene.config.tileSize, this.scene.config.tileSize)
-      .setStrokeStyle(2, 0xf6df80, 0.95)
-      .setFillStyle(0xf6df80, 0.14)
-      .setDepth(30)
-      .setVisible(false);
+    this.targetVisual = new MiningTargetVisualSystem(this.scene);
+    this.aimBox = this.targetVisual.root;
+  }
+
+  resolveMiningInputState() {
+    const keyboardTarget = this.resolveAimTargetTile();
+    return this.mouseDigInput.resolveState(
+      keyboardTarget,
+      this.scene.playerController.getAimLabel(),
+      this.keys,
+    );
+  }
+
+  acknowledgeMouseMineRequest() {
+    this.mouseDigInput?.acknowledgeMineRequest();
+  }
+
+  getMouseDigSnapshot() {
+    return this.mouseDigInput?.snapshot() || null;
   }
 
   resolveAimTargetTile() {
@@ -202,33 +220,22 @@ export class PlayerInputHandler {
     return rawTarget;
   }
 
-  updateAimBox(targetTile, shouldShow) {
-    if (!shouldShow) {
-      this.lastAimTileKey = "";
-      this.aimBox.setVisible(false);
-      return;
-    }
-
-    const tileKey = `${targetTile.tx},${targetTile.ty}`;
-    if (this.lastAimTileKey === tileKey && this.aimBox.visible) {
-      return;
-    }
-
-    const worldPosition = this.scene.worldModel.tileToWorld(targetTile.tx, targetTile.ty);
-    this.aimBox.setPosition(worldPosition.x, worldPosition.y);
-    this.aimBox.setVisible(true);
-    this.lastAimTileKey = tileKey;
+  updateAimBox(targetTile, shouldShow, feedbackState = null) {
+    this.targetVisual?.update(targetTile, shouldShow, feedbackState);
+    this.lastAimTileKey = this.targetVisual?.lastTargetKey || "";
   }
 
   setAimBoxVisible(visible) {
-    this.aimBox.setVisible(visible);
+    this.targetVisual?.setVisible(visible);
   }
 
   destroy() {
     this.stableMineTarget = null;
     this.stableMineAim = "";
-    if (this.aimBox) {
-      this.aimBox.destroy();
-    }
+    this.mouseDigInput?.destroy();
+    this.targetVisual?.destroy();
+    this.mouseDigInput = null;
+    this.targetVisual = null;
+    this.aimBox = null;
   }
 }

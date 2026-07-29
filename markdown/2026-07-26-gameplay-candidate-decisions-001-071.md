@@ -133,11 +133,17 @@ If approved, keys **1–8** become secondary aliases for the ability-only strip;
 ## Final-hit / aim visual review gate
 
 **Preview:** `visual-approval-previews/2026-07-26-aaa-final-hit-review-v1.png`  
-**State:** `reviewOnly: true`, `productionChanged: false`
+**State as of 2026-07-28:** aim treatment promoted; final-hit treatment rejected
+as redundant
 
-The concept replaces the full yellow debug-like target square with short corner glints, material-aware gold fracture light, dust draw-in, and a brief break-ready emphasis on the affected tile. It adds no label, panel, or permanent HUD element.
+The production aim treatment replaces the full yellow debug-like target square
+with the approved short-corner direction, backed by the generated transparent
+asset under `sprites/UI/mining-target-v1/`. The separate final-hit square,
+label, fracture pulse, dust draw-in, and break-ready state are not wired.
 
-This preview is deliberately held outside runtime until candidate 66 is clarified and the image itself is approved.
+The aim-only runtime can be compared with `?miningTargetVisuals=0`. Candidate
+66's final-hit interpretation is closed as rejected; the unrelated shop-row
+interpretation remains a separate decision.
 
 ## Still needed from review
 

@@ -1,4 +1,5 @@
 import { TILE_TYPES } from "./tileTypes.js";
+import { getGemPowerBlockTier } from "./specialBlocks.js";
 
 const asset = (key, path) => Object.freeze({ key, path });
 
@@ -12,93 +13,85 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
   resources: Object.freeze({
     atlas: Object.freeze({
       ...asset(
-        "world-visual-v2-semantic-resource-insets",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-insets-beauty-v1.png?v=20260717b"
+        "world-visual-v2-semantic-resource-ground-veins-v6",
+        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-ground-veins-imagegen-2d-v6.png?v=20260728e"
       ),
-      columns: 8,
-      frameSizePx: 256,
-      frameCount: 30,
-      variants: 3,
+      columns: 6,
+      frameSizePx: 188,
+      frameCount: 60,
+      variants: 6,
       framePrefix: "world-visual-v2-semantic-resource-",
     }),
     frameStarts: Object.freeze({
       copper: 0,
-      bronze: 3,
-      steel: 6,
-      iron: 9,
-      silver: 12,
-      gold: 15,
-      obsidian: 18,
-      emberOre: 21,
-      magmaCrystal: 24,
-      stone: 27,
+      bronze: 6,
+      steel: 12,
+      iron: 18,
+      silver: 24,
+      gold: 30,
+      obsidian: 36,
+      emberOre: 42,
+      magmaCrystal: 48,
+      stone: 54,
     }),
-    scale: 0.84,
-    alpha: 0.9,
-    scaleVariation: 0.035,
-    rotationVariationRadians: 0.045,
-    stoneDensity: 0.24,
-    maxVisibleStone: 14,
+    scale: 1,
+    alpha: 1,
+    scaleVariation: 0,
+    rotationVariationRadians: 0,
+    stoneDensity: 1,
+    maxVisibleStone: 96,
     profiles: Object.freeze({
-      copper: Object.freeze({ scale: 0.86, alpha: 0.93 }),
-      bronze: Object.freeze({ scale: 0.84, alpha: 0.91 }),
-      steel: Object.freeze({ scale: 0.82, alpha: 0.88 }),
-      iron: Object.freeze({ scale: 0.83, alpha: 0.89 }),
-      silver: Object.freeze({ scale: 0.81, alpha: 0.86 }),
-      gold: Object.freeze({ scale: 0.84, alpha: 0.92 }),
-      obsidian: Object.freeze({ scale: 0.87, alpha: 0.93 }),
-      emberOre: Object.freeze({ scale: 0.86, alpha: 0.95 }),
-      magmaCrystal: Object.freeze({ scale: 0.88, alpha: 0.96 }),
-      // Stone is common enough to read as geology instead of a repeated pickup.
-      stone: Object.freeze({ scale: 0.74, alpha: 0.64 }),
+      copper: Object.freeze({ scale: 1, alpha: 1 }),
+      bronze: Object.freeze({ scale: 1, alpha: 1 }),
+      steel: Object.freeze({ scale: 1, alpha: 1 }),
+      iron: Object.freeze({ scale: 1, alpha: 1 }),
+      silver: Object.freeze({ scale: 1, alpha: 1 }),
+      gold: Object.freeze({ scale: 1, alpha: 1 }),
+      obsidian: Object.freeze({ scale: 1, alpha: 1 }),
+      emberOre: Object.freeze({ scale: 1, alpha: 1 }),
+      magmaCrystal: Object.freeze({ scale: 1, alpha: 1 }),
+      stone: Object.freeze({ scale: 1, alpha: 1 }),
     }),
   }),
   specialBlocks: Object.freeze({
     beautyAtlas: Object.freeze({
       ...asset(
-        "world-visual-v2-semantic-special-rewards-beauty",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v2.png?v=20260726a"
+        "world-visual-v2-semantic-special-blocks-imagegen-gp-tiers-v3",
+        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-blocks-imagegen-gp-tiers-v3.png?v=20260728c"
       ),
       columns: 4,
-      frameSizePx: 256,
-      frameCount: 8,
+      frameSizePx: 188,
+      frameCount: 12,
       framePrefix: "world-visual-v2-semantic-special-reward-beauty-",
     }),
-    emissiveAtlas: Object.freeze({
-      ...asset(
-        "world-visual-v2-semantic-special-rewards-emissive",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-emissive-v2.png?v=20260726a"
-      ),
-      columns: 4,
-      frameSizePx: 256,
-      frameCount: 8,
-      framePrefix: "world-visual-v2-semantic-special-reward-emissive-",
-    }),
+    // Special blocks are approved opaque ImageGen rasters. GP owns five depth tiers.
+    emissiveAtlas: null,
     frameByTileType: Object.freeze({
-      [TILE_TYPES.GEM_POWER_BLOCK]: 0,
-      [TILE_TYPES.SPEED_BLOCK]: 1,
-      [TILE_TYPES.XP_BLOCK]: 2,
-      [TILE_TYPES.CRIT_BLOCK]: 3,
-      [TILE_TYPES.BERSERK_BLOCK]: 4,
-      [TILE_TYPES.COMBO_BLOCK]: 5,
-      [TILE_TYPES.LEGEND_BLOCK]: 6,
-      [TILE_TYPES.ANCIENT_RELIC_CACHE]: 7,
+      [TILE_TYPES.SPEED_BLOCK]: 5,
+      [TILE_TYPES.XP_BLOCK]: 6,
+      [TILE_TYPES.CRIT_BLOCK]: 7,
+      [TILE_TYPES.BERSERK_BLOCK]: 8,
+      [TILE_TYPES.COMBO_BLOCK]: 9,
+      [TILE_TYPES.LEGEND_BLOCK]: 10,
+      [TILE_TYPES.ANCIENT_RELIC_CACHE]: 11,
     }),
-    scale: 0.84,
-    beautyAlpha: 0.94,
-    emissiveAlpha: 0.32,
-    pulsePeriodMs: 2600,
-    pulseAlphaRange: 0.16,
+    scale: 1,
+    beautyAlpha: 1,
   }),
   bedrock: Object.freeze({
+    seamMaterial: asset(
+      "world-visual-v2-semantic-bedrock-seamless-v1",
+      "sprites/backgrounds/world-visual-v2/semantic-decals-v1/bedrock-seamless-v1.webp?v=20260729a"
+    ),
     material: asset(
       "world-visual-v2-semantic-bedrock-megalith-lock-v1",
       "sprites/backgrounds/world-visual-v2/semantic-decals-v1/bedrock-megalith-lock-v1.png?v=20260728a"
     ),
     semantic: "bedrock",
     includesCaveWall: true,
-    includesTownFloors: true,
-    alpha: 1,
+    includesTownFloors: false,
+    seamAlpha: 1,
+    alpha: 0.54,
     lightingLift: 0.38,
     coolTint: 0xbddcff,
     coolTintStrength: 0.22,
@@ -106,31 +99,34 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
   skyTile: Object.freeze({
     beautyAtlas: Object.freeze({
       ...asset(
-        "world-visual-v2-semantic-sky-stars-beauty",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-beauty-v1.png?v=20260717b"
+        "world-visual-v2-semantic-sky-stars-floating-crystal-beauty-v2",
+        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-floating-crystal-beauty-v2.png?v=20260728a"
       ),
       columns: 3,
       frameSizePx: 256,
       frameCount: 6,
-      framePrefix: "world-visual-v2-semantic-sky-star-beauty-",
+      framePrefix: "world-visual-v2-semantic-sky-star-crystal-beauty-",
     }),
     emissiveAtlas: Object.freeze({
       ...asset(
-        "world-visual-v2-semantic-sky-stars-emissive",
-        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-emissive-v1.png?v=20260717b"
+        "world-visual-v2-semantic-sky-stars-floating-crystal-emissive-v2",
+        "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-floating-crystal-emissive-v2.png?v=20260728a"
       ),
       columns: 3,
       frameSizePx: 256,
       frameCount: 6,
-      framePrefix: "world-visual-v2-semantic-sky-star-emissive-",
+      framePrefix: "world-visual-v2-semantic-sky-star-crystal-emissive-",
     }),
     scale: 1,
-    beautyAlpha: 0.98,
-    emissiveAlpha: 0.58,
+    beautyAlpha: 0.96,
+    beautyBlendMode: "SCREEN",
+    beautyReceivesTerrainTint: false,
+    emissiveAlpha: 0.44,
     pulsePeriodMs: 2100,
     pulseAlphaRange: 0.18,
   }),
   render: Object.freeze({
+    bedrockSeamDepth: 2.268,
     bedrockDepth: 2.27,
     resourceDepth: 2.41,
     starBeautyDepth: 2.43,
@@ -140,7 +136,11 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
     emissiveBlendMode: "ADD",
   }),
   performance: Object.freeze({
-    maxVisibleResources: 72,
+    // Resource identity is gameplay information. Keep every resource inside
+    // the active streamed window resident; caps only protect explicit
+    // comparison/fallback profiles that disable this invariant.
+    preserveActiveWindowResources: true,
+    maxVisibleResources: 192,
     maxVisibleStars: 72,
     maxVisibleSpecialBlocks: 72,
   }),
@@ -169,7 +169,18 @@ export function resolveWorldVisualSemanticStarFrame(rarity, config = WORLD_VISUA
   return Math.max(0, Math.min(config.skyTile.beautyAtlas.frameCount - 1, Math.floor(Number(rarity) || 0)));
 }
 
-export function resolveWorldVisualSemanticSpecialFrame(tileType, config = WORLD_VISUAL_SEMANTIC_ASSETS) {
+export function resolveWorldVisualSemanticSpecialFrame(
+  tileType,
+  depthTiles = 0,
+  config = WORLD_VISUAL_SEMANTIC_ASSETS
+) {
+  if (depthTiles && typeof depthTiles === "object") {
+    config = depthTiles;
+    depthTiles = 0;
+  }
+  if (tileType === TILE_TYPES.GEM_POWER_BLOCK) {
+    return getGemPowerBlockTier(depthTiles).semanticFrame;
+  }
   const frame = config.specialBlocks.frameByTileType[tileType];
   return Number.isInteger(frame) ? frame : null;
 }
@@ -177,10 +188,11 @@ export function resolveWorldVisualSemanticSpecialFrame(tileType, config = WORLD_
 export function getWorldVisualSemanticPreloadAssets(config = WORLD_VISUAL_SEMANTIC_ASSETS) {
   return [
     config.resources.atlas,
+    config.bedrock.seamMaterial,
     config.bedrock.material,
     config.skyTile.beautyAtlas,
     config.skyTile.emissiveAtlas,
     config.specialBlocks.beautyAtlas,
     config.specialBlocks.emissiveAtlas,
-  ];
+  ].filter(Boolean);
 }

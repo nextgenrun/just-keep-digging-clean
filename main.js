@@ -1,10 +1,10 @@
 import { GAME_CONFIG } from "./values/gameConfig.js";
-import { BootScene } from "./ui/scenes/BootScene.js?rev=20260727-arc-core-subdir-v1";
+import { BootScene } from "./ui/scenes/BootScene.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
 import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";
 import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
-import { PlayScene } from "./world/PlayScene.js?rev=20260727-save-transfer-v1";
+import { PlayScene } from "./world/PlayScene.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { CaveScene } from "./ui/scenes/CaveScene.js";
 import {
   finalizeRenderDensityFoundation,

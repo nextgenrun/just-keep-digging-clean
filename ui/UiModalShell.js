@@ -1,5 +1,6 @@
 import { UI_COLORS } from "../values/uiColors.js";
 import { UI_FONTS, UI_MODAL_LAYOUT } from "../values/uiLayout.js";
+import { acquireUiInputPriority } from "../systems/UiInputPriorityRegistry.js";
 import { createButton } from "./PhaserUiKit.js";
 import { createUiIcon } from "./UiIconAtlas.js";
 
@@ -29,29 +30,47 @@ function drawShell(shell) {
   const height = shell.height;
   const left = -width / 2;
   const top = -height / 2;
-  const headerBottom = top + UI_MODAL_LAYOUT.headerHeight;
+  const headerBottom = top + shell.headerHeight;
 
   shell.panel.clear();
-  shell.panel.fillStyle(UI_COLORS.bg, 0.985);
-  shell.panel.fillRoundedRect(left, top, width, height, UI_MODAL_LAYOUT.cornerRadius);
-  shell.panel.fillStyle(UI_COLORS.cardBase, 0.96);
-  shell.panel.fillRoundedRect(left + 2, top + 2, width - 4, UI_MODAL_LAYOUT.headerHeight - 2, UI_MODAL_LAYOUT.cornerRadius - 2);
-  shell.panel.fillStyle(UI_COLORS.cardSel, 0.28);
-  shell.panel.fillRoundedRect(left + 10, top + 10, width - 20, UI_MODAL_LAYOUT.headerHeight - 20, UI_MODAL_LAYOUT.cardRadius);
-  shell.panel.lineStyle(2, UI_COLORS.borderSel, 0.96);
-  shell.panel.strokeRoundedRect(left, top, width, height, UI_MODAL_LAYOUT.cornerRadius);
-  shell.panel.lineStyle(1, UI_COLORS.borderDim, 0.95);
-  shell.panel.strokeRoundedRect(left + 7, top + 7, width - 14, height - 14, UI_MODAL_LAYOUT.cardRadius);
-  shell.panel.fillStyle(UI_COLORS.gold, 0.95);
-  shell.panel.fillRoundedRect(left + 15, top + 17, 5, UI_MODAL_LAYOUT.headerHeight - 34, 3);
-  shell.panel.lineStyle(1, UI_COLORS.borderDim, 0.9);
-  shell.panel.lineBetween(left + 16, headerBottom, -left - 16, headerBottom);
+  shell.panel.setVisible(!shell.skin);
+  if (shell.skin) {
+    shell.skin.setPosition(0, 0).setDisplaySize(width, height);
+  } else {
+    shell.panel.fillStyle(UI_COLORS.bg, 0.985);
+    shell.panel.fillRoundedRect(left, top, width, height, UI_MODAL_LAYOUT.cornerRadius);
+    shell.panel.fillStyle(UI_COLORS.cardBase, 0.96);
+    shell.panel.fillRoundedRect(left + 2, top + 2, width - 4, shell.headerHeight - 2, UI_MODAL_LAYOUT.cornerRadius - 2);
+    shell.panel.fillStyle(UI_COLORS.cardSel, 0.28);
+    shell.panel.fillRoundedRect(left + 10, top + 10, width - 20, shell.headerHeight - 20, UI_MODAL_LAYOUT.cardRadius);
+    shell.panel.lineStyle(2, UI_COLORS.borderSel, 0.96);
+    shell.panel.strokeRoundedRect(left, top, width, height, UI_MODAL_LAYOUT.cornerRadius);
+    shell.panel.lineStyle(1, UI_COLORS.borderDim, 0.95);
+    shell.panel.strokeRoundedRect(left + 7, top + 7, width - 14, height - 14, UI_MODAL_LAYOUT.cardRadius);
+    shell.panel.fillStyle(UI_COLORS.gold, 0.95);
+    shell.panel.fillRoundedRect(left + 15, top + 17, 5, shell.headerHeight - 34, 3);
+    shell.panel.lineStyle(1, UI_COLORS.borderDim, 0.9);
+    shell.panel.lineBetween(left + 16, headerBottom, -left - 16, headerBottom);
+  }
 
+  const header = shell.headerLayout;
   const iconOffset = shell.icon ? 62 : 0;
-  shell.titleText.setPosition(left + 30 + iconOffset, top + 25);
-  shell.subtitleText.setPosition(left + 30 + iconOffset, top + 52);
-  shell.icon?.setPosition(left + 52, top + 41);
-  shell.closeButton?.root?.setPosition(width / 2 - 42, top + 41);
+  shell.titleText.setPosition(
+    header ? left + header.titleOffsetX : left + 30 + iconOffset,
+    header ? top + header.titleOffsetY : top + 25,
+  );
+  shell.subtitleText.setPosition(
+    header ? left + header.titleOffsetX : left + 30 + iconOffset,
+    header ? top + header.subtitleOffsetY : top + 52,
+  );
+  shell.icon?.setPosition(
+    header ? left + header.iconOffsetX : left + 52,
+    header ? top + header.iconOffsetY : top + 41,
+  );
+  shell.closeButton?.root?.setPosition(
+    header ? width / 2 - header.closeOffsetX : width / 2 - 42,
+    header ? top + header.closeOffsetY : top + 41,
+  );
   shell.content.setPosition(0, 0);
 }
 
@@ -78,6 +97,13 @@ export function createModalShell(scene, options = {}) {
     align: options.align || "center",
     depth: options.depth || 3400,
     iconKey: options.icon || null,
+    iconTexture: options.iconTexture || null,
+    iconSize: options.iconSize || 50,
+    closeTexture: options.closeTexture || null,
+    closeSize: options.closeSize || 32,
+    headerHeight: options.headerHeight || UI_MODAL_LAYOUT.headerHeight,
+    headerLayout: options.headerLayout || null,
+    releaseInputPriority: null,
   };
   const rect = fitUiModal(scene, shell.maxWidth, shell.maxHeight, { align: shell.align });
   shell.width = rect.width;
@@ -97,6 +123,9 @@ export function createModalShell(scene, options = {}) {
     .setDepth(shell.depth + 1)
     .setVisible(false);
   shell.panel = scene.add.graphics();
+  shell.skin = options.skinTexture && scene.textures?.exists?.(options.skinTexture)
+    ? scene.add.image(0, 0, options.skinTexture)
+    : null;
   shell.titleText = scene.add.text(0, 0, options.title || "", {
     fontFamily: UI_FONTS.display,
     fontSize: "24px",
@@ -111,18 +140,34 @@ export function createModalShell(scene, options = {}) {
     letterSpacing: 0.3,
   }).setOrigin(0, 0.5);
   shell.content = scene.add.container(0, 0);
-  shell.root.add([shell.panel, shell.titleText, shell.subtitleText, shell.content]);
+  shell.root.add([
+    shell.panel,
+    shell.skin,
+    shell.titleText,
+    shell.subtitleText,
+    shell.content,
+  ].filter(Boolean));
 
   shell.setIcon = key => {
     shell.icon?.destroy?.(true);
     shell.icon = null;
     shell.iconKey = key || null;
-    if (shell.iconKey) {
-      shell.icon = createIconBadge(scene, shell.iconKey, {
-        size: 50,
-        iconSize: 41,
-        parent: shell.root,
-      });
+    if (shell.iconTexture && scene.textures?.exists?.(shell.iconTexture)) {
+      shell.icon = scene.add.image(0, 0, shell.iconTexture)
+        .setDisplaySize(shell.iconSize, shell.iconSize);
+      shell.root.add(shell.icon);
+    } else if (shell.iconKey) {
+      shell.icon = shell.skin
+        ? createUiIcon(scene, shell.iconKey, {
+            size: shell.iconSize,
+            scrollFactor: 0,
+            parent: shell.root,
+          })
+        : createIconBadge(scene, shell.iconKey, {
+            size: 50,
+            iconSize: 41,
+            parent: shell.root,
+          });
     }
     drawShell(shell);
   };
@@ -132,17 +177,31 @@ export function createModalShell(scene, options = {}) {
     y: 0,
     width: 44,
     height: 38,
-    label: "X",
-    hint: "ESC",
+    label: shell.skin ? "" : "X",
+    hint: shell.skin ? "" : "ESC",
     accent: UI_COLORS.borderDim,
+    visibleChrome: !shell.skin,
     parent: shell.root,
     fontSize: "13px",
     onClick: () => options.onClose?.(),
   });
+  if (shell.closeButton && shell.skin) {
+    if (shell.closeTexture && scene.textures?.exists?.(shell.closeTexture)) {
+      const closeIcon = scene.add.image(0, 0, shell.closeTexture)
+        .setDisplaySize(shell.closeSize, shell.closeSize);
+      shell.closeButton.root.add(closeIcon);
+    } else {
+      createUiIcon(scene, "close", {
+        size: shell.closeSize,
+        scrollFactor: 0,
+        parent: shell.closeButton.root,
+      });
+    }
+  }
 
   shell.getContentRect = () => {
     const left = -shell.width / 2 + UI_MODAL_LAYOUT.contentPadding;
-    const top = -shell.height / 2 + UI_MODAL_LAYOUT.headerHeight + 14;
+    const top = -shell.height / 2 + shell.headerHeight + 14;
     const bottom = shell.height / 2 - UI_MODAL_LAYOUT.footerHeight;
     return {
       left,
@@ -178,6 +237,7 @@ export function createModalShell(scene, options = {}) {
   };
 
   shell.show = () => {
+    shell.releaseInputPriority ||= acquireUiInputPriority(scene);
     shell.layout();
     scene.tweens?.killTweensOf?.([shell.backdrop, shell.root]);
     shell.backdrop.setVisible(true).setAlpha(0);
@@ -207,6 +267,8 @@ export function createModalShell(scene, options = {}) {
       onComplete: () => {
         shell.backdrop.setVisible(false);
         shell.root.setVisible(false);
+        shell.releaseInputPriority?.();
+        shell.releaseInputPriority = null;
         onComplete?.();
       },
     });
@@ -214,6 +276,8 @@ export function createModalShell(scene, options = {}) {
 
   shell.destroy = () => {
     scene.tweens?.killTweensOf?.([shell.backdrop, shell.root]);
+    shell.releaseInputPriority?.();
+    shell.releaseInputPriority = null;
     shell.backdrop?.destroy?.();
     shell.root?.destroy?.(true);
   };

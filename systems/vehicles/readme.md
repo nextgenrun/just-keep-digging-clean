@@ -6,6 +6,16 @@ Runtime ownership, control, and mining-footprint behavior for player-controlled 
 distinct Small/Omega idle motion, dig beams and impacts, and cloud board/exit
 transitions. `ArcCoreVehicleSystem.js` owns gameplay state and uses the
 remappable `arcCoreVehicle` action, which defaults to `B`; `F` remains digging.
+`arcCoreVisualRenderer.js` loads every manifest role through an explicit
+caller-supplied root prefix, keeping the same `.sprite` manifest valid in both
+the production page and nested animation sandboxes.
+Its dig action now drives a planted brace, contact stretch, break kick, and
+recoil envelope on the unchanged centered master art. Beam reach grows into the
+front tile face and the authored fracture peaks on the real footprint break.
+The manifest also owns the fixed-center circular collision profiles.
+`ArcCoreVehicleSystem.js` swaps the custom player body to that profile on
+boarding, uses exact circle-vs-tile collision, and restores the measured human
+rectangle on exit.
 The visual owner tolerates pre-create and post-destroy update calls so a scene
 restart cannot dereference a released legacy sprite or layer package.
 Use `?arcCoreVisualsV3=0` to retain the legacy body-only rollback.

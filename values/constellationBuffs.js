@@ -1,69 +1,119 @@
 // ==================== CONSTELLATION BUFFS CONFIG ====================
-// Maps each resource constellation to an ability buff.
-// 'quickslash' = Q key ability, 'thunderstrike' = C key (thunder strike) ability
+// One auditable authority for shared rewards, Bobo gates, and stat modifiers.
 
-export const CONSTELLATION_BUFFS = {
-  dirt: {
-    ability: 'quickslash',
-    name: 'Swift Shovel',
-    description: 'Quickslash deals +5 flat damage',
-    apply: (stats) => { stats.quickslashFlatDamage += 5; },
-  },
-  stone: {
-    ability: 'thunderstrike',
-    name: 'Mountain Shock',
-    description: 'Thunderstrike +2 tile range',
-    apply: (stats) => { stats.thunderstrikeRange += 2; },
-  },
-  copper: {
-    ability: 'quickslash',
-    name: 'Anvil Efficiency',
-    description: 'Quickslash costs 2 less GP',
-    apply: (stats) => { stats.quickslashCostReduction += 2; },
-  },
-  darkDirtNormal: {
-    ability: 'thunderstrike',
-    name: 'Cave Echo',
-    description: 'Thunderstrike deals +25% damage',
-    apply: (stats) => { stats.thunderstrikeDamageMult += 0.25; },
-  },
-  steel: {
-    ability: 'quickslash',
-    name: 'Blade Rush',
-    description: 'Quickslash +300 burst speed',
-    apply: (stats) => { stats.quickslashBurstSpeed += 300; },
-  },
-  iron: {
-    ability: 'thunderstrike',
-    name: 'Hammer Force',
-    description: 'Thunderstrike -20% falloff',
-    apply: (stats) => { stats.thunderstrikeFalloffReduction += 0.20; },
-  },
-  bronze: {
-    ability: 'quickslash',
-    name: 'Shielded Slash',
-    description: 'Quickslash no GP cost while above 50% GP',
-    apply: (stats) => { stats.quickslashFreeAbovePct = 0.5; },
-  },
-  darkDirtStrong: {
-    ability: 'thunderstrike',
-    name: 'Fortress Smash',
-    description: 'Thunderstrike destroys 1 extra bedrock tile',
-    apply: (stats) => { stats.thunderstrikeBedrockBreach += 1; },
-  },
-  silver: {
-    ability: 'quickslash',
-    name: 'Crescent Flash',
-    description: 'Quickslash +20% mining speed while active',
-    apply: (stats) => { stats.quickslashSpeedBonus += 0.20; },
-  },
-  gold: {
-    ability: 'thunderstrike',
-    name: 'Crown Overload',
-    description: 'Thunderstrike costs 30 less GP',
-    apply: (stats) => { stats.thunderstrikeCostReduction += 30; },
-  },
-};
+export const CONSTELLATION_MATCHING_STAR_YIELD_BONUS = 1;
+
+export const CONSTELLATION_ABILITY_PREREQUISITES = Object.freeze({
+  quickslash: Object.freeze({
+    abilityName: "Quick Slash",
+    upgradeId: "quickslashAbility",
+    unlockMethod: "isQuickslashUnlocked",
+    merchantName: "Bobo",
+  }),
+  thunderstrike: Object.freeze({
+    abilityName: "Thunder Strike",
+    upgradeId: "thunderStrikeAbility",
+    unlockMethod: "isThunderStrikeUnlocked",
+    merchantName: "Bobo",
+  }),
+});
+
+function defineBuff(ability, name, description, stat, operation, value) {
+  const modifier = Object.freeze({ stat, operation, value });
+  return Object.freeze({
+    ability,
+    name,
+    description,
+    modifier,
+    apply(stats) {
+      if (operation === "set") stats[stat] = value;
+      else stats[stat] += value;
+    },
+  });
+}
+
+export const CONSTELLATION_BUFFS = Object.freeze({
+  dirt: defineBuff(
+    "quickslash",
+    "Swift Shovel",
+    "Every Quick Slash hit deals +5 flat tile damage.",
+    "quickslashFlatDamage",
+    "add",
+    5,
+  ),
+  stone: defineBuff(
+    "thunderstrike",
+    "Mountain Shock",
+    "Thunder Strike reaches 2 additional rows.",
+    "thunderstrikeRange",
+    "add",
+    2,
+  ),
+  copper: defineBuff(
+    "quickslash",
+    "Anvil Efficiency",
+    "Quick Slash costs 8 GP instead of 10 GP.",
+    "quickslashCostReduction",
+    "add",
+    2,
+  ),
+  darkDirtNormal: defineBuff(
+    "thunderstrike",
+    "Cave Echo",
+    "Every Thunder Strike slam deals 25% more tile damage.",
+    "thunderstrikeDamageMult",
+    "add",
+    0.25,
+  ),
+  steel: defineBuff(
+    "quickslash",
+    "Blade Rush",
+    "Quick Slash gains +300 burst movement speed.",
+    "quickslashBurstSpeed",
+    "add",
+    300,
+  ),
+  iron: defineBuff(
+    "thunderstrike",
+    "Hammer Force",
+    "Removes Thunder Strike's 10% damage loss per deeper row.",
+    "thunderstrikeFalloffReduction",
+    "add",
+    0.20,
+  ),
+  bronze: defineBuff(
+    "quickslash",
+    "Shielded Slash",
+    "Quick Slash costs 0 GP while current GP is 50% or higher.",
+    "quickslashFreeAbovePct",
+    "set",
+    0.5,
+  ),
+  darkDirtStrong: defineBuff(
+    "thunderstrike",
+    "Citadel Storm",
+    "Thunder Strike damage +10%.",
+    "thunderstrikeDamageMult",
+    "add",
+    0.10,
+  ),
+  silver: defineBuff(
+    "quickslash",
+    "Crescent Flash",
+    "Quick Slash mining cadence improves by 20% (4.0x to 4.8x base).",
+    "quickslashSpeedBonus",
+    "add",
+    0.20,
+  ),
+  gold: defineBuff(
+    "thunderstrike",
+    "Crown Overload",
+    "Opening cast costs 270 GP instead of 300; chained slams stay free.",
+    "thunderstrikeCostReduction",
+    "add",
+    30,
+  ),
+});
 
 /**
  * Get the default (unbuffed) ability stat block.
@@ -81,7 +131,6 @@ export function getDefaultAbilityStats() {
     thunderstrikeRange: 0,
     thunderstrikeDamageMult: 0,
     thunderstrikeFalloffReduction: 0,
-    thunderstrikeBedrockBreach: 0,
     thunderstrikeCostReduction: 0,
   };
 }

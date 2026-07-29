@@ -71,11 +71,12 @@ const ENGINE_DEFINITIONS = Object.freeze({
 });
 
 export const CELESTIAL_ENGINE_CONFIG = Object.freeze({
-  saveVersion: 1,
+  saveVersion: 2,
   rollbackQueryParam: "starHearts",
   unlock: Object.freeze({
     requiredConstellations: 10,
-    maxHearts: 1,
+    maxHearts: 3,
+    additionalHeartActivationMilestones: Object.freeze([20, 50]),
   }),
   charge: Object.freeze({
     capacity: 100,
@@ -127,19 +128,23 @@ export const CELESTIAL_ENGINE_CONFIG = Object.freeze({
   }),
   copy: Object.freeze({
     title: "STAR HEART",
-    subtitle: "ONE HEART  •  THREE CELESTIAL ENGINES  •  ONE PERMANENT ATTUNEMENT",
+    subtitle: "THREE HEARTS  •  THREE CELESTIAL ENGINES  •  MASTER ALL LATE GAME",
     locked: "Master all 10 constellations to forge a Star Heart.",
-    ready: "Your Star Heart is awake. Choose carefully: attunement is permanent.",
-    selected: "ATTUNEMENT COMPLETE",
-    confirm: "ATTUNE FOREVER",
-    permanentConfirm: "CONFIRM PERMANENT CHOICE",
+    ready: "A Star Heart is awake. Permanently unlock one of three Engines.",
+    selected: "ENGINE EQUIPPED",
+    confirm: "ATTUNE ENGINE",
+    permanentConfirm: "CONFIRM PERMANENT UNLOCK",
+    equip: "EQUIP ENGINE",
+    equipped: "CURRENTLY EQUIPPED",
+    mastered: "ALL THREE ENGINES MASTERED",
+    nextHeart: "Additional Hearts awaken through capped Engine activations.",
     godModeStatus: "GOD MODE  •  ALL CELESTIAL ENGINES FREE",
     godModeConfirm: "EQUIP ENGINE",
     godModeHint: "FREE SWITCH",
     godModeEquipped: "GOD MODE EQUIPPED",
     godModeActivated: "TRUE GODMODE  •  ALL ABILITIES FREE  •  ALL CELESTIAL ENGINES AVAILABLE",
     fullCharge: "CELESTIAL CHARGE READY",
-    recharge: "Sky stars recharge the Heart. Engine destruction never does.",
+    recharge: "Sky stars recharge the Heart. Only one Engine can be equipped at a time.",
     godModeRecharge: "God Mode ignores charge. Every Engine remains bounded to one capped activation.",
     protected: "Bedrock and protected structures are never damaged.",
     unavailable: "STAR HEART DORMANT",
@@ -162,26 +167,66 @@ function finiteInt(value, fallback, min, max) {
   return Math.max(min, Math.min(max, parsed));
 }
 
+function uniqueEngineIds(values) {
+  const source = Array.isArray(values) ? values : [];
+  return CELESTIAL_ENGINE_ORDER.filter(engineId => source.includes(engineId));
+}
+
+export function getEarnedStarHeartCount(constellationCount, activationsUsed) {
+  const safeConstellations = Math.max(0, Math.floor(Number(constellationCount) || 0));
+  if (safeConstellations < CELESTIAL_ENGINE_CONFIG.unlock.requiredConstellations) return 0;
+
+  const safeActivations = Math.max(0, Math.floor(Number(activationsUsed) || 0));
+  let hearts = 1;
+  for (const milestone of CELESTIAL_ENGINE_CONFIG.unlock.additionalHeartActivationMilestones) {
+    if (safeActivations >= milestone) hearts += 1;
+  }
+  return Math.min(CELESTIAL_ENGINE_CONFIG.unlock.maxHearts, hearts);
+}
+
 export function sanitizeStarHeartData(data) {
   const source = data && typeof data === "object" ? data : {};
-  const selectedEngine = CELESTIAL_ENGINE_ORDER.includes(source.selectedEngine)
+  const selectedCandidate = CELESTIAL_ENGINE_ORDER.includes(source.selectedEngine)
     ? source.selectedEngine
     : null;
-  const heartsEarned = finiteInt(source.heartsEarned, 0, 0, CELESTIAL_ENGINE_CONFIG.unlock.maxHearts);
-  const heartsSpent = selectedEngine ? 1 : finiteInt(source.heartsSpent, 0, 0, heartsEarned);
+  const activationsUsed = finiteInt(source.activationsUsed, 0, 0, 1000000);
+  const constellationCount = finiteInt(source.constellationCount, 0, 0, 100);
+  let unlockedEngines = uniqueEngineIds(source.unlockedEngines);
+  if (selectedCandidate && !unlockedEngines.includes(selectedCandidate)) {
+    unlockedEngines = [...unlockedEngines, selectedCandidate];
+  }
+  unlockedEngines = uniqueEngineIds(unlockedEngines);
+
+  const progressHearts = getEarnedStarHeartCount(constellationCount, activationsUsed);
+  const requestedHearts = finiteInt(
+    source.heartsEarned,
+    progressHearts,
+    0,
+    CELESTIAL_ENGINE_CONFIG.unlock.maxHearts,
+  );
+  const heartsEarned = Math.min(
+    CELESTIAL_ENGINE_CONFIG.unlock.maxHearts,
+    Math.max(progressHearts, requestedHearts, unlockedEngines.length),
+  );
+  unlockedEngines = unlockedEngines.slice(0, heartsEarned);
+  const selectedEngine = selectedCandidate && unlockedEngines.includes(selectedCandidate)
+    ? selectedCandidate
+    : unlockedEngines[0] || null;
+  const heartsSpent = unlockedEngines.length;
 
   return {
     version: CELESTIAL_ENGINE_CONFIG.saveVersion,
-    heartsEarned: Math.max(heartsEarned, heartsSpent),
+    heartsEarned,
     heartsSpent,
     selectedEngine,
+    unlockedEngines,
     charge: finiteInt(
       source.charge,
       selectedEngine ? 0 : CELESTIAL_ENGINE_CONFIG.charge.capacity,
       0,
       CELESTIAL_ENGINE_CONFIG.charge.capacity,
     ),
-    activationsUsed: finiteInt(source.activationsUsed, 0, 0, 1000000),
-    constellationCount: finiteInt(source.constellationCount, 0, 0, 100),
+    activationsUsed,
+    constellationCount,
   };
 }

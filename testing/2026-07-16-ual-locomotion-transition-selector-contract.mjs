@@ -8,6 +8,7 @@ import {
   UAL_NATIVE_LOCOMOTION_PHASES as PHASE,
   UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG as CONFIG,
 } from "../values/ualNativeLocomotionTransitions.js";
+import { PLAYER_ANIMATION_POLISH } from "../values/playerAnimationPolish.js";
 
 const profile = Object.freeze({
   idleAnim: "idle",
@@ -71,8 +72,19 @@ assert.deepEqual(
 );
 
 result = resolveState({ horizontalVelocity: 6, groundMovementActive: true });
+assert.equal(result.animationKey, PLAYER_ANIMATION_POLISH.groundHandoff.start.key);
+assert.equal(result.phase, PHASE.WALK_START);
+assert.equal(result.loop, false);
+currentAnimationKey = PLAYER_ANIMATION_POLISH.groundHandoff.start.key;
+isPlaying = true;
+result = resolveState({ horizontalVelocity: 6, groundMovementActive: true });
+assert.equal(result.animationKey, PLAYER_ANIMATION_POLISH.groundHandoff.start.key);
+assert.equal(result.restart, false);
+isPlaying = false;
+result = resolveState({ horizontalVelocity: 6, groundMovementActive: true });
 assert.equal(result.animationKey, profile.walkRunAnim);
 assert.equal(result.phase, PHASE.RUN);
+assert.equal(result.startFrame, PLAYER_ANIMATION_POLISH.groundHandoff.resumeJogFrame);
 assert.equal(result.facingFlipX, false);
 assert.notEqual(result.animationKey, profile.walkLoopAnim, "low-speed motion selected slow walk");
 currentAnimationKey = profile.walkRunAnim;
@@ -120,7 +132,13 @@ isPlaying = true;
 result = resolveState({ grounded: false, verticalVelocity: 120 });
 assert.equal(result.phase, PHASE.AIRBORNE_FALL);
 result = resolveState({ grounded: true, verticalVelocity: 0 });
-assert.equal(result.phase, PHASE.IDLE, "soft touchdown unnecessarily played the landing one-shot");
+assert.equal(result.phase, PHASE.LANDING, "soft touchdown skipped the promoted continuity landing");
+assert.equal(result.timeScale, 1);
+observePlaying(profile.landingAnim, PHASE.LANDING, true);
+result = completeOneShot();
+assert.equal(result.phase, PHASE.IDLE);
+currentAnimationKey = profile.idleAnim;
+isPlaying = true;
 
 result = resolveState({ grounded: false, verticalVelocity: 700 });
 assert.equal(result.phase, PHASE.AIRBORNE_FALL);

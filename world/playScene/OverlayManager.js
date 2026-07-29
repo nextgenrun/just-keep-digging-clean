@@ -83,7 +83,7 @@ export class OverlayManager {
       ?.isArtifactCollected?.() === true;
     const flightCopy = flightUnlocked
       ? USER_SETTINGS.getKeyLabel("fly") + " fly"
-      : "flight is buried below the huge arrows";
+      : "flight is the reward for learning the town loop";
     return [
       "Press ENTER, click, or any movement key to start",
       "",

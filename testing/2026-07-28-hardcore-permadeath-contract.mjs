@@ -1,0 +1,477 @@
+import assert from "node:assert/strict";
+import { existsSync, readFileSync, statSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { HardcoreModeSystem } from "../systems/hardcore/HardcoreModeSystem.js";
+import {
+  HARDCORE_MODE_CONFIG,
+  createHardcoreModeData,
+  isHardcoreModeArmed,
+  resolveHardcoreTeleportCost,
+  sanitizeHardcoreModeData,
+} from "../values/hardcoreMode.js";
+import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
+import { sanitizePlayerPersistenceData } from "../values/playerPersistence.js";
+import { UI_NOTIFICATION_CAROUSEL_CONFIG } from "../values/uiNotificationCarousel.js";
+import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
+
+class MemoryStorage {
+  constructor() {
+    this.data = new Map();
+  }
+  get length() {
+    return this.data.size;
+  }
+  key(index) {
+    return [...this.data.keys()][index] ?? null;
+  }
+  getItem(key) {
+    return this.data.has(String(key)) ? this.data.get(String(key)) : null;
+  }
+  setItem(key, value) {
+    this.data.set(String(key), String(value));
+  }
+  removeItem(key) {
+    this.data.delete(String(key));
+  }
+  clear() {
+    this.data.clear();
+  }
+}
+
+const storage = new MemoryStorage();
+globalThis.localStorage = storage;
+globalThis.window = { localStorage: storage };
+
+const selectedHardcore = createHardcoreModeData("hardcore", 1000);
+assert.equal(selectedHardcore.mode, "hardcore");
+assert.equal(selectedHardcore.armed, false, "Hardcore must remain pending before Flight");
+assert.equal(isHardcoreModeArmed(selectedHardcore), false);
+
+const statusHud = HARDCORE_MODE_CONFIG.ui.statusHud;
+const statusHudLeft = statusHud.x - statusHud.width / 2;
+const statusHudTop = statusHud.y - statusHud.height / 2;
+const approvedHud = APPROVED_HUD_SKIN.layout;
+assert.equal(
+  statusHudLeft,
+  approvedHud.playerCore.x,
+  "Hardcore status must align with the upper-left GP HUD frame",
+);
+assert.ok(
+  statusHudTop > approvedHud.gemPower.y + approvedHud.gemPower.height,
+  "Hardcore status must render below the GP bar",
+);
+assert.ok(
+  statusHudTop > approvedHud.buffs.y + approvedHud.buffs.height,
+  "Hardcore status must not cover the upper-left buff row",
+);
+assert.ok(
+  statusHud.depth > UI_NOTIFICATION_CAROUSEL_CONFIG.depth,
+  "Hardcore status must remain visible above transient HUD cards",
+);
+assert.ok(
+  statusHud.depth < HARDCORE_MODE_CONFIG.ui.depth,
+  "Hardcore confirmation and death modals must remain above the status HUD",
+);
+
+const pendingSystem = new HardcoreModeSystem(selectedHardcore);
+pendingSystem.update(100, {
+  gameplayActive: true,
+  depth: 1000,
+  darknessAlpha: 1,
+  torchActive: false,
+  descentTilesPerSecond: 20,
+});
+assert.equal(pendingSystem.state.stress, 0, "Pending Hardcore cannot gain lethal stress");
+assert.equal(pendingSystem.arm("flight", 2000), true);
+assert.equal(pendingSystem.arm("flight-again", 3000), false, "Arming is idempotent");
+
+let stressSnapshot = null;
+for (let elapsed = 0; elapsed < 20000; elapsed += 100) {
+  stressSnapshot = pendingSystem.update(100, {
+    gameplayActive: true,
+    nowMs: elapsed,
+    depth: 800,
+    darknessAlpha: 1,
+    torchActive: false,
+    descentTilesPerSecond: 12,
+  });
+}
+assert.ok(stressSnapshot.stress >= HARDCORE_MODE_CONFIG.stress.gpDrainStartThreshold);
+assert.ok(stressSnapshot.requestedStressGpDrain > 0);
+assert.ok(stressSnapshot.stressSources.includes("darkness"));
+assert.ok(stressSnapshot.stressSources.includes("rapid-descent"));
+assert.ok(stressSnapshot.stressSources.includes("deep-pressure"));
+assert.ok(stressSnapshot.activePlayMs > 0, "Armed play time must accumulate");
+assert.ok(
+  stressSnapshot.peakStress >= stressSnapshot.stress,
+  "Peak stress must retain the run high-water mark",
+);
+
+const casualSystem = new HardcoreModeSystem(createHardcoreModeData("casual", 1000));
+assert.equal(casualSystem.convertFromCasual("bobo", 5000), true);
+assert.equal(casualSystem.getSnapshot().armed, true);
+assert.equal(casualSystem.convertFromCasual("bobo", 6000), false);
+
+const shallowCost = resolveHardcoreTeleportCost(0, "groundToSky");
+const deepCost = resolveHardcoreTeleportCost(1000, "quickResume");
+assert.ok(shallowCost >= HARDCORE_MODE_CONFIG.teleport.minimumCost);
+assert.ok(deepCost > shallowCost);
+assert.equal(casualSystem.recordTeleport(deepCost), true);
+assert.equal(casualSystem.getSaveData().paidTeleports, 1);
+assert.equal(casualSystem.getSaveData().teleportMoneySpent, deepCost);
+
+assert.equal(casualSystem.canUseUnstuck(10000), true);
+casualSystem.recordUnstuck(10000);
+assert.equal(casualSystem.canUseUnstuck(10001), false);
+assert.equal(
+  casualSystem.getUnstuckCooldownRemaining(10000),
+  HARDCORE_MODE_CONFIG.unstuck.cooldownMs,
+);
+
+assert.deepEqual(
+  sanitizePlayerPersistenceData({
+    bodyX: 123.25,
+    bodyY: 456.75,
+    gemPower: 0.75,
+    facingRight: false,
+  }),
+  {
+    version: 1,
+    bodyX: 123.25,
+    bodyY: 456.75,
+    gemPower: 0.75,
+    facingRight: false,
+  },
+  "Fractional GP and exact body position must survive save normalization",
+);
+
+const store = new DugTilesSaveStore({ slotId: 2 });
+const world = {
+  seed: 101,
+  width: 320,
+  depth: 2400,
+  topAirRows: 65,
+  layoutId: "contract-layout",
+  layoutRevision: 1,
+};
+const casualNeighborStore = new DugTilesSaveStore({ slotId: 1 });
+assert.equal(
+  await casualNeighborStore.save(world, ["3,70"], { dirt: 77 }),
+  true,
+);
+assert.equal(
+  casualNeighborStore.loadForDisplay()?.hardcoreModeData.mode,
+  "casual",
+);
+const casualNeighborPayload = storage.getItem(
+  casualNeighborStore.localStorageKey,
+);
+const casualNeighborBackups = casualNeighborStore.getBackups().length;
+const hardcoreSave = sanitizeHardcoreModeData({
+  mode: "hardcore",
+  armed: true,
+  selectedAt: 1000,
+  armedAt: 2000,
+  stress: 72,
+});
+const playerState = {
+  bodyX: 1200.5,
+  bodyY: 6400.25,
+  gemPower: 1,
+  facingRight: false,
+};
+const saveSucceeded = await store.save(
+  world,
+  ["4,70"],
+  { dirt: 9, stone: 3 },
+  null,
+  null,
+  null,
+  null,
+  null,
+  [],
+  "default",
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  hardcoreSave,
+  null,
+  playerState,
+);
+assert.equal(saveSucceeded, true);
+assert.equal(store.loadForDisplay()?.version, 13);
+assert.equal(store.loadForDisplay()?.playerStateData.gemPower, 1);
+assert.equal(store.getBackups().length, 1);
+const hardcoreTransferPayload = store.loadFromLocalStorage();
+const checkpointPlayerState = {
+  bodyX: 2222.25,
+  bodyY: 7777.5,
+  gemPower: 0.75,
+  facingRight: true,
+};
+assert.equal(
+  store.saveHardcoreCheckpoint(
+    world,
+    { ...hardcoreSave, stress: 88 },
+    checkpointPlayerState,
+  ),
+  true,
+);
+assert.notEqual(storage.getItem(store.hardcoreCheckpointKey), null);
+assert.equal(
+  store.getBackups().length,
+  1,
+  "Live Hardcore checkpoints must not create rewind backups",
+);
+const checkpointMergedSave = store.loadCached(world);
+assert.equal(checkpointMergedSave?.hardcoreModeData.stress, 88);
+assert.deepEqual(
+  checkpointMergedSave?.playerStateData,
+  sanitizePlayerPersistenceData(checkpointPlayerState),
+  "Armed Hardcore reloads must use the latest exact live position and GP checkpoint",
+);
+assert.equal(
+  store.exportSave(),
+  false,
+  "Hardcore cannot create an external rollback export",
+);
+const liveHardcoreRestore = store.restoreFromBackup(0);
+assert.equal(liveHardcoreRestore.success, false);
+assert.match(liveHardcoreRestore.error, /purge-only/i);
+assert.equal(store.getLatestBackup(), null);
+const hardcoreImportTarget = new DugTilesSaveStore({ slotId: 4 });
+assert.equal(
+  hardcoreImportTarget.backupManager.createBackup(4, hardcoreTransferPayload).success,
+  true,
+);
+assert.equal(
+  hardcoreImportTarget.restoreFromBackup(0).success,
+  false,
+  "A Hardcore backup cannot be restored into another slot",
+);
+const hardcoreImport = await hardcoreImportTarget.importSave({
+  text: async () => JSON.stringify({
+    version: 13,
+    exportedAt: new Date().toISOString(),
+    slotId: 2,
+    saveData: hardcoreTransferPayload,
+  }),
+});
+assert.equal(hardcoreImport.success, false);
+assert.match(hardcoreImport.error, /external rollback files break permadeath/i);
+
+const unauthorizedDeath = store.preparePermanentDeath({
+  mode: "casual",
+  armed: false,
+  source: "fallingRock",
+  depth: 735,
+});
+assert.equal(unauthorizedDeath.refused, true);
+assert.notEqual(
+  store.loadForDisplay(),
+  null,
+  "Permanent deletion must refuse any non-armed-Hardcore authorization",
+);
+assert.equal(store.getBackups().length, 1);
+const forgedCasualDeath = casualNeighborStore.preparePermanentDeath({
+  mode: "hardcore",
+  armed: true,
+  source: "unknown",
+  depth: 1,
+});
+assert.equal(
+  forgedCasualDeath.refused,
+  true,
+  "Even forged armed metadata cannot authorize deletion of stored Casual data",
+);
+assert.equal(
+  storage.getItem(casualNeighborStore.localStorageKey),
+  casualNeighborPayload,
+);
+
+const preparedDeath = store.preparePermanentDeath({
+  mode: "hardcore",
+  armed: true,
+  source: "fallingRock",
+  depth: 735,
+});
+assert.equal(preparedDeath.success, true);
+assert.equal(preparedDeath.backupsDeleted, 1);
+assert.equal(store.loadForDisplay(), null);
+assert.equal(storage.getItem(store.localStorageKey), null);
+assert.equal(storage.getItem(store.hardcoreCheckpointKey), null);
+assert.notEqual(storage.getItem(store.deathTombstoneKey), null);
+
+const purge = await store.purgePermanentDeath(world, {
+  mode: "hardcore",
+  armed: true,
+  source: "fallingRock",
+  depth: 735,
+  backupsDeleted: preparedDeath.backupsDeleted,
+});
+assert.equal(purge.success, true);
+assert.equal(purge.backupsDeleted, 1);
+assert.equal(store.loadForDisplay(), null);
+assert.equal(store.getBackups().length, 0);
+assert.equal(store.restoreFromBackup(0).success, false);
+assert.equal(
+  storage.getItem(casualNeighborStore.localStorageKey),
+  casualNeighborPayload,
+  "Deleting a Hardcore run must not alter a Casual save in another slot",
+);
+assert.equal(
+  casualNeighborStore.getBackups().length,
+  casualNeighborBackups,
+  "Deleting a Hardcore run must not alter another slot's Casual backups",
+);
+assert.equal(
+  await store.save(world, [], { dirt: 1 }),
+  false,
+  "A late save must not resurrect a tombstoned slot",
+);
+assert.equal(storage.getItem(store.localStorageKey), null);
+assert.notEqual(storage.getItem(store.deathTombstoneKey), null);
+
+store.beginNewSave();
+assert.equal(store.isDeathTombstoned(), false, "Choosing a genuinely new save clears the tombstone");
+assert.equal(
+  await store.save(
+    world,
+    [],
+    { dirt: 0 },
+    null,
+    null,
+    null,
+    null,
+    null,
+    [],
+    "default",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    createHardcoreModeData("casual"),
+  ),
+  true,
+);
+
+const latePurgeStore = new DugTilesSaveStore({ slotId: 3 });
+assert.equal(
+  await latePurgeStore.save(
+    world,
+    ["8,90"],
+    { dirt: 4 },
+    null,
+    null,
+    null,
+    null,
+    null,
+    [],
+    "default",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    hardcoreSave,
+  ),
+  true,
+);
+const previousFetch = globalThis.fetch;
+let releaseRemoteDelete = null;
+globalThis.fetch = () => new Promise((resolveFetch) => {
+  releaseRemoteDelete = () => resolveFetch({ ok: true });
+});
+latePurgeStore.endpoint = "/contract-save";
+const latePurge = latePurgeStore.purgePermanentDeath(world, {
+  mode: "hardcore",
+  armed: true,
+  source: "stress",
+  depth: 900,
+});
+assert.equal(typeof releaseRemoteDelete, "function");
+latePurgeStore.endpoint = null;
+latePurgeStore.beginNewSave();
+assert.equal(
+  await latePurgeStore.save(
+    world,
+    [],
+    { dirt: 0 },
+    null,
+    null,
+    null,
+    null,
+    null,
+    [],
+    "default",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    createHardcoreModeData("casual"),
+  ),
+  true,
+);
+releaseRemoteDelete();
+await latePurge;
+assert.equal(
+  latePurgeStore.loadForDisplay()?.hardcoreModeData.mode,
+  "casual",
+  "A late remote purge completion must not erase the explicitly new local save",
+);
+globalThis.fetch = previousFetch;
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const sourceContracts = [
+  ["ui/scenes/StartMenuScene.js", "new StartModeSelectionOverlay(this)"],
+  ["ui/scenes/StartMenuScene.js", "this._showNewSaveTutorialChoice("],
+  ["ui/scenes/StartMenuScene.js", "this._confirmKeyAttachTimer = this.time.delayedCall(0"],
+  ["ui/scenes/StartMenuScene.js", '"OATH LOCKED"'],
+  ["ui/scenes/StartMenuScene.js", "purge-only backups"],
+  ["ui/scenes/StartModeSelectionOverlay.js", "this.scene.time.delayedCall(0"],
+  ["ui/scenes/StartTutorialChoiceOverlay.js", "this.scene.time.delayedCall(0"],
+  ["ui/scenes/StartMenuScene.js", "hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData)"],
+  ["ui/scenes/WorldLoadScene.js", "isNewSave: isNewSave === true"],
+  ["world/playScene/PlaySceneSetup.js", "if (data.isNewSave !== true) this.restorePersistentState();"],
+  ["world/playScene/PlaySceneUI.js", "allowExport: !isHardcoreMode"],
+  ["world/playScene/PlaySceneUI.js", "this.playerController?.getPersistenceData?.()"],
+  ["world/playScene/PlaySceneUI.js", "return this.requestHardcoreUnstuck?.()"],
+  ["world/playScene/HardcoreDeathBridge.js", "preparePermanentDeath"],
+  ["world/playScene/HardcoreDeathBridge.js", "settleWithSceneTimeout"],
+  ["world/playScene/HardcoreDeathBridge.js", "purgePermanentDeath"],
+  ["world/playScene/HardcoreDeathBridge.js", "persistHardcoreLiveCheckpoint"],
+  ["world/playScene/HardcoreDeathBridge.js", 'mode: "hardcore"'],
+  ["world/playScene/HardcoreDeathBridge.js", 'scene.scene.start("WorldLoadScene"'],
+  ["world/playScene/HardcoreDeathBridge.js", "TOWN_TUTORIAL_CHOICES.NO"],
+  ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.retryLabel"],
+  ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.menuLabel"],
+  ["world/model/DugTilesSaveStore.js", "saveHardcoreCheckpoint"],
+  ["ui/overlays/ShopOverlay.js", "requestHardcoreConversion"],
+  ["systems/mining/SpecialTileSystem.js", "tryPayHardcoreTeleport"],
+  ["systems/environment/EarthquakeSystem.js", 'source: "fallingRock"'],
+  ["systems/environment/CaveHazardSystem.js", 'source: "caveHazard"'],
+  ["systems/lighting/LightSystem.js", 'source: "torch"'],
+  ["world/playScene/GraveborerWurmEventBridge.js", 'source: "graveborerWurm"'],
+  ["ui/overlays/SaveTransferPanelContent.js", "Hardcore oath active"],
+];
+for (const [relativePath, expected] of sourceContracts) {
+  const source = readFileSync(resolve(root, relativePath), "utf8");
+  assert.ok(source.includes(expected), `${relativePath} must contain ${expected}`);
+}
+
+for (const asset of Object.values(HARDCORE_MODE_CONFIG.assets)) {
+  const assetPath = resolve(root, asset.path);
+  assert.equal(existsSync(assetPath), true, `Missing approved Hardcore art: ${asset.path}`);
+  assert.ok(statSync(assetPath).size > 20000, `Hardcore art is unexpectedly tiny: ${asset.path}`);
+}
+
+console.log("Hardcore permadeath lifecycle contract passed.");

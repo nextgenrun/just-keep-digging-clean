@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#09131d"/>
+      <stop offset="1" stop-color="#04090e"/>
+    </linearGradient>
+    <linearGradient id="levelOne" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6e5433"/>
+      <stop offset="1" stop-color="#30261d"/>
+    </linearGradient>
+    <linearGradient id="levelTwo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7d3323"/>
+      <stop offset="1" stop-color="#2b1415"/>
+    </linearGradient>
+    <pattern id="bedrock" width="180" height="180" patternUnits="userSpaceOnUse">
+      <image href="rejected-unbreakable-divider-seamless-v2.png"
+        width="180" height="180" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+    <pattern id="removedBedrock" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M0 18L18 0H36V18L18 36H0Z" fill="#566371" opacity=".35"/>
+      <path d="M0 0L36 36M36 0L0 36" stroke="#f05c64" stroke-width="3" opacity=".75"/>
+    </pattern>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12Z" fill="#7ce6ff"/>
+    </marker>
+    <style>
+      .title{font:700 38px system-ui,Segoe UI,sans-serif;letter-spacing:2px;fill:#eef7ff}
+      .subtitle{font:500 18px system-ui,Segoe UI,sans-serif;fill:#9eb6c7}
+      .panelTitle{font:700 22px system-ui,Segoe UI,sans-serif;letter-spacing:1px;fill:#eaf4fb}
+      .label{font:600 17px system-ui,Segoe UI,sans-serif;fill:#dce9f2}
+      .small{font:500 14px system-ui,Segoe UI,sans-serif;fill:#a8bdca}
+      .coord{font:700 15px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#ffcf73}
+      .ok{font:700 17px system-ui,Segoe UI,sans-serif;fill:#80f0bc}
+      .removed{font:700 17px system-ui,Segoe UI,sans-serif;fill:#ff7f85}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1100" fill="url(#bg)"/>
+  <path d="M0 125H1600" stroke="#183346" stroke-width="2"/>
+  <text x="70" y="65" class="title">BEDROCK PLACEMENT — GATE-ONLY DIVIDER</text>
+  <text x="72" y="99" class="subtitle">Exact runtime geometry • all underground bedrock removed except the continuous Level 1 / Level 2 separator</text>
+
+  <!-- Surface detail -->
+  <rect x="55" y="155" width="930" height="500" rx="18" fill="#0b1822" stroke="#244458" stroke-width="2"/>
+  <text x="85" y="198" class="panelTitle">SURFACE + GATE DETAIL</text>
+  <text x="85" y="226" class="small">Focused crop: columns x112..140 / rows y61..72</text>
+
+  <g transform="translate(96 263)">
+    <rect width="840" height="330" rx="10" fill="#071017"/>
+    <rect x="0" y="150" width="600" height="30" fill="#9a7545"/>
+    <rect x="600" y="150" width="240" height="30" fill="#b65331"/>
+    <rect x="0" y="180" width="600" height="150" fill="url(#levelOne)"/>
+    <rect x="630" y="180" width="210" height="150" fill="url(#levelTwo)"/>
+
+    <!-- bridge x120..136, floor y65 -->
+    <rect x="240" y="150" width="510" height="30" fill="#62717c" stroke="#c7d1d7" stroke-width="2"/>
+    <text x="495" y="171" text-anchor="middle" class="small" fill="#ffffff">SAFE BRIDGE x120..136 / y65</text>
+
+    <!-- locked gate x119/y64 -->
+    <rect x="210" y="120" width="30" height="30" fill="url(#bedrock)" stroke="#ffcf73" stroke-width="3"/>
+    <path d="M215 145V128Q225 118 235 128V145" fill="none" stroke="#ffcf73" stroke-width="3"/>
+    <text x="225" y="104" text-anchor="middle" class="coord">GATE x119 / y64</text>
+
+    <!-- divider x132, starts y67 -->
+    <rect x="600" y="210" width="30" height="120" fill="url(#bedrock)" stroke="#8ceaff" stroke-width="2"/>
+    <rect x="600" y="180" width="30" height="30" fill="#071017" stroke="#80f0bc" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="645" y="202" class="ok">OPEN y66</text>
+    <text x="646" y="233" class="coord">DIVIDER x132</text>
+    <text x="646" y="254" class="small">starts y67 • continues to y5064</text>
+
+    <!-- route -->
+    <path d="M105 135H200M245 135H565Q590 135 590 118H790"
+      fill="none" stroke="#7ce6ff" stroke-width="5" marker-end="url(#arrow)" filter="url(#glow)"/>
+    <text x="98" y="115" class="label">LEVEL 1</text>
+    <text x="690" y="115" class="label">LEVEL 2</text>
+    <text x="365" y="112" class="small">ONLY CROSSING ROUTE</text>
+
+    <!-- grid and coords -->
+    <g opacity=".16" stroke="#d8ebf7" stroke-width="1">
+      <path d="M0 120H840M0 150H840M0 180H840M0 210H840M0 240H840M0 270H840M0 300H840"/>
+      <path d="M210 0V330M240 0V330M600 0V330M630 0V330M750 0V330"/>
+    </g>
+  </g>
+
+  <!-- Full map -->
+  <rect x="1015" y="155" width="530" height="820" rx="18" fill="#0b1822" stroke="#244458" stroke-width="2"/>
+  <text x="1045" y="198" class="panelTitle">FULL MAP AUTHORITY</text>
+  <text x="1045" y="226" class="small">280 columns × 5065 rows • depth compressed for overview</text>
+  <g transform="translate(1090 270)">
+    <rect width="380" height="610" rx="8" fill="#071017" stroke="#426176" stroke-width="2"/>
+    <rect x="0" y="0" width="380" height="24" fill="#234b68"/>
+    <rect x="0" y="24" width="179" height="586" fill="url(#levelOne)"/>
+    <rect x="183" y="24" width="197" height="586" fill="url(#levelTwo)"/>
+    <!-- divider visually exaggerated, exact coordinate label -->
+    <rect x="179" y="25" width="4" height="585" fill="url(#bedrock)" stroke="#9ceaff" stroke-width="2" filter="url(#glow)"/>
+    <rect x="160" y="0" width="27" height="24" fill="#7ce6ff" opacity=".2" stroke="#7ce6ff"/>
+    <text x="89" y="70" text-anchor="middle" class="label">LEVEL 1</text>
+    <text x="282" y="70" text-anchor="middle" class="label">LEVEL 2</text>
+    <text x="89" y="95" text-anchor="middle" class="coord">x0..131</text>
+    <text x="282" y="95" text-anchor="middle" class="coord">x133..279</text>
+    <text x="206" y="350" transform="rotate(90 206 350)" text-anchor="middle" class="coord">ONLY BEDROCK: x132 / y67..5064</text>
+    <text x="-12" y="18" text-anchor="end" class="coord">y0</text>
+    <text x="-12" y="42" text-anchor="end" class="coord">y67</text>
+    <text x="-12" y="607" text-anchor="end" class="coord">y5064</text>
+    <path d="M0 24H380" stroke="#ffcf73" stroke-width="2" stroke-dasharray="7 5"/>
+  </g>
+  <text x="1280" y="917" text-anchor="middle" class="ok">NO GAPS • ONE TILE WIDE</text>
+  <text x="1280" y="943" text-anchor="middle" class="small">Divider width is exaggerated only for overview readability.</text>
+
+  <!-- Retained/removed -->
+  <rect x="55" y="685" width="930" height="290" rx="18" fill="#0b1822" stroke="#244458" stroke-width="2"/>
+  <text x="85" y="730" class="panelTitle">WHAT REMAINS / WHAT GOES</text>
+
+  <rect x="85" y="765" width="190" height="155" rx="10" fill="url(#bedrock)" stroke="#80f0bc" stroke-width="3"/>
+  <text x="180" y="950" text-anchor="middle" class="ok">RETAINED</text>
+  <text x="305" y="795" class="label">• Continuous divider x132</text>
+  <text x="305" y="828" class="label">• Locked surface gate x119</text>
+  <text x="305" y="861" class="label">• Above-ground sky platforms</text>
+
+  <rect x="660" y="765" width="270" height="155" rx="10" fill="url(#removedBedrock)" stroke="#ff7f85" stroke-width="2"/>
+  <path d="M680 795L910 895M910 795L680 895" stroke="#ff5c66" stroke-width="10" opacity=".9"/>
+  <text x="795" y="950" text-anchor="middle" class="removed">REMOVED UNDERGROUND</text>
+  <text x="540" y="907" text-anchor="middle" class="small">Old deep Level 1 seal + scattered TMX bedrock + bottom row + staircase</text>
+
+  <text x="70" y="1044" class="coord">AUTHORITATIVE RESULT:</text>
+  <text x="292" y="1044" class="label">If an underground BEDROCK cell is not x132/y67+, world generation replaces it with mineable regional terrain.</text>
+</svg>

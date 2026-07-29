@@ -47,6 +47,8 @@ class Actor {
   setVisible(value) { this.visible = value; return this; }
   setText(value) { this.text = String(value); this.width = Math.max(8, this.text.length * 8); return this; }
   setColor(value) { this.color = value; return this; }
+  setFontSize(value) { this.fontSize = value; return this; }
+  setWordWrapWidth(value) { this.wordWrapWidth = value; return this; }
   setStyle(value) { this.style = value; return this; }
   setPosition(x, y) { this.x = x; this.y = y; return this; }
   setDisplaySize(width, height) { this.displayWidth = width; this.displayHeight = height; return this; }
@@ -69,6 +71,10 @@ class Actor {
   beginPath() { return this; }
   arc() { return this; }
   strokePath() { return this; }
+  on(event, callback) { this.events ||= new Map(); this.events.set(event, callback); return this; }
+  removeAllListeners() { this.events?.clear(); return this; }
+  setInteractive() { this.input = { enabled: true }; return this; }
+  disableInteractive() { if (this.input) this.input.enabled = false; return this; }
   destroy() { this.active = false; this.destroyed = true; }
 }
 
@@ -94,10 +100,19 @@ function makeScene(allTextures = false) {
       on(event, callback) { listeners.set(event, callback); },
       off(event, callback) { if (listeners.get(event) === callback) listeners.delete(event); },
     },
+    input: {
+      setDraggable(target, value) { target.draggable = value; },
+      on(event, callback, context) { listeners.set(`input:${event}`, { callback, context }); },
+      off(event, callback) {
+        const listener = listeners.get(`input:${event}`);
+        if (listener?.callback === callback) listeners.delete(`input:${event}`);
+      },
+    },
     add: {
       image: (x, y, key) => create(x, y, key), rectangle: (x, y) => create(x, y, "rect"),
       circle: (x, y) => create(x, y, "circle"), graphics: () => create(0, 0, "graphics"),
       text: (x, y, text) => create(x, y, "text", text), container: (x, y) => create(x, y, "container"),
+      zone: (x, y) => create(x, y, "zone"),
     },
     tweens: {
       killed: [], add(config) { const tween = { ...config, stopped: false, stop() { this.stopped = true; } }; tweenCalls.push(tween); return tween; },
@@ -217,7 +232,7 @@ const hud = Object.create(HUDSystem.prototype); const statusCalls = [];
 Object.assign(hud, { scene: { scale: { width: 800, height: 600 }, uiNotifications: { destroyed: false, show: (...args) => statusCalls.push(args) }, tweens: { killTweensOf() {}, add() {} } }, depth: 0, xTile: 0, tilesBroken: 0, aim: "RIGHT", gemPowerPercent: 0, statsDirty: false, _destroyed: false, _startDepthCountUp() {} });
 hud.setDepth(-2); hud.setXTile(-3); hud.setTilesBroken(-4); hud.setGemPower(150); hud.setAim("UP"); hud.flashStatus("Safe");
 assert.deepEqual([hud.depth, hud.xTile, hud.tilesBroken, hud.gemPowerPercent, hud.aim], [0, 0, 0, 100, "UP"]);
-assert.equal(statusCalls[0][1].key, "hud-status"); assert.deepEqual(hud.getLootPickupTarget(), { x: 758, y: 558 });
+assert.equal(statusCalls[0][1].key, undefined); assert.deepEqual(hud.getLootPickupTarget(), { x: 758, y: 558 });
 
 // Loot pickups cap sprite counts, map world coordinates, and release all live sprites.
 const lootScene = makeScene(true); const loot = new LootPickupFxSystem(lootScene, { getLootPickupTarget: () => ({ x: 50, y: 60 }) });
@@ -226,8 +241,9 @@ assert.equal(loot.activeSprites.length, 2); assert.deepEqual(loot._worldToScreen
 
 // Notifications replace keyed entries, dedupe repeats, enforce caps, and clear timers/actors.
 const noticeScene = makeScene(false); const notices = new UINotificationSystem(noticeScene, { maxToasts: 2, dedupeWindowMs: 5000 });
+assert.equal(notices.dragController.zone.draggable, true);
 const keyed = notices.show("one", { key: "status" });
-assert.equal(notices.show("updated", { key: "status" }), keyed); assert.equal(keyed.text.text, "updated");
+assert.equal(notices.show("updated", { key: "status" }), keyed); assert.equal(keyed.message, "updated");
 assert.ok(notices.info("repeat")); assert.equal(notices.info("repeat"), null); notices.warning("third", { noDedupe: true });
 assert.equal(notices.entries.length, 2); notices.clear(); assert.equal(notices.entries.length, 0); notices.destroy(); assert.equal(notices.destroyed, true);
 

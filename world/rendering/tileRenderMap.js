@@ -1,5 +1,6 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { getGemPowerBlockTier } from "../../values/specialBlocks.js";
 import {
   SOIL_ATLAS_FRAME_COUNT,
   getSoilAtlasOffset,
@@ -143,6 +144,10 @@ const STATIC_SOURCE_KEYS = Object.freeze([
   ASSET_KEYS.tiles.rootOverlayDeep,
   ASSET_KEYS.tiles.geodeInterior,
   ASSET_KEYS.tiles.ancientRelicCache,
+  ASSET_KEYS.tiles.gemPowerBlockTiers.gp250,
+  ASSET_KEYS.tiles.gemPowerBlockTiers.gp500,
+  ASSET_KEYS.tiles.gemPowerBlockTiers.gp1000,
+  ASSET_KEYS.tiles.gemPowerBlockTiers.gp1700,
 ]);
 
 export const TILESET_SOURCE_KEYS = Object.freeze([
@@ -183,6 +188,10 @@ export const TILE_RENDER_INDEX = Object.freeze({
   GLOW_CRYSTAL: -1,
   GEODE_INTERIOR: STATIC_INDEX_START + 23,
   ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 24,
+  GEM_POWER_BLOCK_250: STATIC_INDEX_START + 25,
+  GEM_POWER_BLOCK_500: STATIC_INDEX_START + 26,
+  GEM_POWER_BLOCK_1000: STATIC_INDEX_START + 27,
+  GEM_POWER_BLOCK_1700: STATIC_INDEX_START + 28,
 });
 
 function visualHash(tx, ty, seed, salt = 0) {
@@ -288,6 +297,11 @@ export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTi
   }
 
   if (type === TILE_TYPES.GEM_POWER_BLOCK) {
+    const tierId = getGemPowerBlockTier(depthTiles).id;
+    if (tierId === "gp250") return TILE_RENDER_INDEX.GEM_POWER_BLOCK_250;
+    if (tierId === "gp500") return TILE_RENDER_INDEX.GEM_POWER_BLOCK_500;
+    if (tierId === "gp1000") return TILE_RENDER_INDEX.GEM_POWER_BLOCK_1000;
+    if (tierId === "gp1700") return TILE_RENDER_INDEX.GEM_POWER_BLOCK_1700;
     return TILE_RENDER_INDEX.GEM_POWER_BLOCK;
   }
 

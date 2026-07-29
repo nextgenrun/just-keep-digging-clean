@@ -15,7 +15,15 @@
  */
 
 import { TILE_TYPES } from "../../values/tileTypes.js";
-import { EARTHQUAKE_CONFIG } from "../../values/earthquakes.js";
+import {
+  EARTHQUAKE_CONFIG,
+  EARTHQUAKE_SUPPRESSION_UPGRADE,
+} from "../../values/earthquakes.js";
+import {
+  expandFallZoneCandidate,
+  resolveFallZoneGeometry,
+  rockSweptAabbCrossesBody,
+} from "./earthquakeFallZoneMath.js";
 
 const MUTABLE_TYPES = new Set([
   TILE_TYPES.DIRT,
@@ -23,13 +31,6 @@ const MUTABLE_TYPES = new Set([
   TILE_TYPES.DARK_DIRT_NORMAL,
   TILE_TYPES.DARK_DIRT_STRONG,
 ]);
-
-const COLORS = {
-  [TILE_TYPES.DIRT]: 0x8a4f28,
-  [TILE_TYPES.STONE]: 0x858585,
-  [TILE_TYPES.DARK_DIRT_NORMAL]: 0x5d3825,
-  [TILE_TYPES.DARK_DIRT_STRONG]: 0x3f2b22,
-};
 
 const rand = (min, max) => min + Math.random() * (max - min);
 const randInt = (min, max) => Math.floor(rand(min, max + 1));
@@ -52,23 +53,26 @@ export class EarthquakeSystem {
     this.chainPending = false;
     this.impactCooldown = 0;
     this.paused = false;
+    this.suppressed = false;
 
     this._restoreQueue = [];
     this._rubbleTimer = 0;
     this._trapGuidanceShown = false;
     this._openedPassageKeys = new Set();
     this._openedPassageTiles = [];
+    this._nextFallZoneId = 0;
 
     this.fx = scene.add.graphics().setDepth(34);
     this.stressFx = scene.add.graphics().setDepth(18);
     this._stressTimer = 0;
     this._scheduleNext();
+    this.syncSuppression();
     this._installDebugApi();
     this._log("initialized", this.getStatus());
   }
 
   update(delta) {
-    if (!this.config.enabled || this.paused) return;
+    if (this.syncSuppression() || !this.config.enabled || this.paused) return;
     const dt = Math.min(delta, 100);
     this.impactCooldown = Math.max(0, this.impactCooldown - dt);
     this._updateFallingRocks(dt);
@@ -89,7 +93,7 @@ export class EarthquakeSystem {
         this.chainPending = false;
         const candidate = this._findCeilingCandidates(1)[0];
         if (candidate) {
-          this._queueCaveIn(candidate, true);
+          this._queueCaveInGroup(candidate, true);
           this._log("chain reaction warning", candidate);
         }
       }
@@ -126,6 +130,7 @@ export class EarthquakeSystem {
   }
 
   start(forcedIntensity = null) {
+    if (this.syncSuppression()) return false;
     if (this.state !== "idle") this.cancelActiveHazards();
     this._trapGuidanceShown = false;
     this._openedPassageKeys.clear();
@@ -164,6 +169,31 @@ export class EarthquakeSystem {
     this._log(this.paused ? "paused" : "resumed");
   }
 
+  syncSuppression() {
+    const upgradeId = this.config.suppression?.id
+      || EARTHQUAKE_SUPPRESSION_UPGRADE.id;
+    const nextSuppressed = Number(
+      this.scene?.upgradeSystem?.getUpgradeLevel?.(upgradeId) || 0,
+    ) > 0;
+    const currentSuppressed = this.suppressed === true;
+    if (nextSuppressed === currentSuppressed) {
+      this.suppressed = currentSuppressed;
+      return currentSuppressed;
+    }
+
+    this.suppressed = nextSuppressed;
+    if (this.suppressed) {
+      this.cancelActiveHazards();
+      this.nextEventMs = Number.POSITIVE_INFINITY;
+      this.scene.earthquakeTileFeedbackSystem?.clear?.();
+      this._log("permanently suppressed by upgrade");
+    } else {
+      this._scheduleNext();
+      this._log("suppression removed");
+    }
+    return this.suppressed;
+  }
+
   cancelActiveHazards() {
     this.state = "idle";
     this.epicenter = null;
@@ -177,9 +207,9 @@ export class EarthquakeSystem {
     // ===== NEW: Clear restore queue =====
     this._restoreQueue.length = 0;
 
-    for (const rock of this.fallingRocks) rock.object?.destroy();
     this.fallingRocks.length = 0;
     this.fx.clear();
+    this.stressFx?.clear?.();
     // Scene may already be shutting down — camera could be gone
     const camera = this.scene?.cameras?.main;
     if (camera) {
@@ -190,7 +220,8 @@ export class EarthquakeSystem {
     if (this.scene?.shakeSystem) this.scene.shakeSystem.stop();
     this.scene.earthquakeFeedbackUI?.reset?.();
     this.scene.earthquakeHazardOverlay?.clear?.();
-    this._scheduleNext();
+    if (this.suppressed) this.nextEventMs = Number.POSITIVE_INFINITY;
+    else this._scheduleNext();
     this._log("active hazards cancelled");
   }
 
@@ -211,6 +242,7 @@ export class EarthquakeSystem {
       chainPending: this.chainPending,
       rubbleQueue: this._restoreQueue.length,
       rubbleTiles: this.scene.worldModel?.getRubbleTiles?.().length ?? 0,
+      suppressed: this.suppressed,
       warningTextActive: false,
       debug: this._debugEnabled(),
     };
@@ -234,18 +266,9 @@ export class EarthquakeSystem {
     this.stateTotalMs = this.stateRemaining;
     this.mutationTimer = 0;
 
-    // ===== NEW: Save original tile types for cave-in recovery =====
-    // Before we collapse, we queue up the cave-in candidates with their
-    // original type so _collapse can save them for restoration.
     const count = randInt(...cfg.caveIns);
     for (const candidate of this._findCeilingCandidates(count)) {
-      // Save the original type before queueing
-      const originalType = this.scene.worldModel.getTileType(candidate.tx, candidate.ty);
-      this._queueCaveIn({
-        ...candidate,
-        originalType,
-        originalHp: this.scene.worldModel.getTileHp(candidate.tx, candidate.ty),
-      }, false);
+      this._queueCaveInGroup(candidate, false);
     }
 
     this._playTone("crack");
@@ -286,8 +309,6 @@ export class EarthquakeSystem {
     const completedIntensity = this.intensity || "unknown";
     const distanceEndured = Math.max(0, Math.round(this._getPlayerDistanceToEpicenter() || 0));
     const passagesOpened = this._openedPassageKeys.size;
-    const playerAware = this.isPlayerAware();
-    const aftershockWatch = this.chainPending;
     this.scene.retentionProgressSystem?.recordEarthquake?.({
       passagesOpened,
       intensity: completedIntensity,
@@ -299,12 +320,6 @@ export class EarthquakeSystem {
     this.stateTotalMs = 0;
     this.fx.clear();
     this._scheduleNext();
-    this.scene.earthquakeFeedbackUI?.completeEvent?.({
-      intensity: completedIntensity,
-      passagesOpened,
-      playerAware,
-      aftershockWatch,
-    });
     this._log("event complete", { nextEventMs: Math.round(this.nextEventMs) });
   }
 
@@ -388,14 +403,22 @@ export class EarthquakeSystem {
     for (let i = this._restoreQueue.length - 1; i >= 0; i--) {
       const entry = this._restoreQueue[i];
       if (now - entry.scheduledAt >= entry.delayMs) {
+        if (this._isPlayerOccupiedTile(entry.tx, entry.ty)) {
+          entry.scheduledAt = now;
+          entry.delayMs = this.config.rubbleOccupiedRetryMs;
+          continue;
+        }
         this._restoreQueue.splice(i, 1);
-        if (this._isPlayerOccupiedTile(entry.tx, entry.ty)) continue;
         if (this.scene.worldModel.getTileType(entry.tx, entry.ty) !== TILE_TYPES.AIR) continue;
 
         const restored = this.scene.worldModel.setRubbleTile(entry.tx, entry.ty, entry.type, entry.hp, entry.maxHp);
         if (!restored) continue;
 
         this.scene.worldRenderer.applyTileUpdate(entry.tx, entry.ty);
+        this.scene.earthquakeTileFeedbackSystem?.showRestore?.({
+          tx: entry.tx,
+          ty: entry.ty,
+        });
         this._emitDust(entry.tx, entry.ty, entry.source === "dug" ? 4 : 5);
         this.scene.earthquakeHazardOverlay?.markRestoredRubble?.(entry.tx, entry.ty);
         restoredAny = true;
@@ -467,6 +490,13 @@ export class EarthquakeSystem {
       const damage = roll < 0.1 ? hp : roll < 0.35 ? hp * 0.55 : hp * 0.25;
       const result = this.scene.worldModel.damageTile(tile.tx, tile.ty, Math.max(1, damage));
       this.scene.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
+      this.scene.earthquakeTileFeedbackSystem?.showDamage?.({
+        tx: tile.tx,
+        ty: tile.ty,
+        damage: result.damage ?? damage,
+        destroyed: result.destroyed,
+        source: "pulse",
+      });
       if (result.destroyed) {
         this._recordOpenedPassage(tile.tx, tile.ty);
         this._emitDust(tile.tx, tile.ty, 7);
@@ -522,7 +552,8 @@ export class EarthquakeSystem {
     const halfWidth = spawn.ceilingSearchHalfWidthTiles ?? 10;
     const above = spawn.ceilingSearchAboveTiles ?? 7;
     const below = spawn.ceilingSearchBelowTiles ?? 4;
-    const maxAirDrop = spawn.maxAirDropTiles ?? 8;
+    const maxAirDrop = spawn.maxAirDropTiles;
+    const minAirDrop = spawn.minAirDropTiles;
     const spacing = spawn.caveInSpacingTiles ?? 3;
     const candidates = [];
     for (let tx = epicenter.tx - halfWidth; tx <= epicenter.tx + halfWidth; tx += 1) {
@@ -531,14 +562,20 @@ export class EarthquakeSystem {
         const ceilingY = ty - 1;
         const type = this.scene.worldModel.getTileType(tx, ceilingY);
         if (!MUTABLE_TYPES.has(type)) continue;
-        let airBelow = 0;
-        while (airBelow < maxAirDrop && this.scene.worldModel.getTileType(tx, ty + airBelow) === TILE_TYPES.AIR) airBelow += 1;
-        if (airBelow < 2) continue;
+        const geometry = resolveFallZoneGeometry({
+          worldModel: this.scene.worldModel,
+          tx,
+          sourceTy: ceilingY,
+          airType: TILE_TYPES.AIR,
+          minimumAirTiles: minAirDrop,
+          maximumAirTiles: maxAirDrop,
+        });
+        if (!geometry) continue;
         const distance = Math.abs(tx - epicenter.tx) + Math.abs(ceilingY - epicenter.ty);
         candidates.push({
           tx, ty: ceilingY,
           type,
-          airBelow,
+          ...geometry,
           originalType: type,
           score: (this._isUnstable(tx, ceilingY) ? 8 : 0) - distance + Math.random() * 3,
         });
@@ -554,9 +591,41 @@ export class EarthquakeSystem {
     return selected;
   }
 
+  _queueCaveInGroup(candidate, chain) {
+    const occupied = new Set(
+      [...this.caveIns, ...this.fallingRocks]
+        .map(zone => tileKey(zone.tx, zone.ty)),
+    );
+    const spawn = this.config.worldSpawn;
+    const zones = expandFallZoneCandidate({
+      candidate,
+      intensity: this.intensity,
+      widths: this.config.collapseWidths,
+      worldModel: this.scene.worldModel,
+      airType: TILE_TYPES.AIR,
+      minimumAirTiles: spawn.minAirDropTiles,
+      maximumAirTiles: spawn.maxAirDropTiles,
+      isMutableType: type => MUTABLE_TYPES.has(type),
+    });
+    for (const zone of zones) {
+      if (
+        this.caveIns.length + this.fallingRocks.length
+        >= this.config.maxConcurrentFallZones
+      ) {
+        break;
+      }
+      const key = tileKey(zone.tx, zone.ty);
+      if (occupied.has(key)) continue;
+      occupied.add(key);
+      this._queueCaveIn(zone, chain);
+    }
+  }
+
   _queueCaveIn(candidate, chain) {
+    this._nextFallZoneId = Number(this._nextFallZoneId) || 0;
     this.caveIns.push({
       ...candidate,
+      id: ++this._nextFallZoneId,
       remaining: this.config.caveInWarningMs,
       chain,
       lastStage: -1,
@@ -572,14 +641,21 @@ export class EarthquakeSystem {
       const caveIn = this.caveIns[i];
       caveIn.remaining -= delta;
       const elapsed = this.config.caveInWarningMs - caveIn.remaining;
-      const stage = elapsed < 1000 ? 0 : elapsed < 2000 ? 1 : 2;
+      const progress = elapsed / this.config.caveInWarningMs;
+      const [middleStage, fractureStage] = this.config.caveInWarningStageRatios;
+      const stage = progress < middleStage ? 0 : progress < fractureStage ? 1 : 2;
       if (stage !== caveIn.lastStage) {
         caveIn.lastStage = stage;
         this._emitDust(caveIn.tx, caveIn.ty + 1, stage === 0 ? 3 : 5);
-        if (stage === 2) this._playTone("crack");
+        if (stage === 2) {
+          this.scene.earthquakeTileFeedbackSystem?.showCaveInFracture?.({
+            tx: caveIn.tx,
+            ty: caveIn.ty,
+          });
+          this._playTone("crack");
+        }
       }
       if (caveIn.remaining <= 0) {
-        // ===== MODIFIED: collapse saves original type before destroying =====
         this._collapse(caveIn);
         this.caveIns.splice(i, 1);
       }
@@ -593,34 +669,36 @@ export class EarthquakeSystem {
    * @private
    */
   _collapse(caveIn) {
-    const width = this.intensity === "cataclysmic" ? 3 : this.intensity === "major" ? 2 : 1;
-    for (let offset = 0; offset < width; offset += 1) {
-      const tx = caveIn.tx + offset;
-      const ty = caveIn.ty;
-      const type = this.scene.worldModel.getTileType(tx, ty);
-      if (!MUTABLE_TYPES.has(type)) continue;
-      const hp = this.scene.worldModel.getTileHp(tx, ty);
-      const result = this.scene.worldModel.damageTile(tx, ty, Math.max(1, hp));
-      if (!result.destroyed) continue;
-      this._recordOpenedPassage(tx, ty);
+    const { tx, ty } = caveIn;
+    const type = this.scene.worldModel.getTileType(tx, ty);
+    if (!MUTABLE_TYPES.has(type)) return;
+    const hp = this.scene.worldModel.getTileHp(tx, ty);
+    const result = this.scene.worldModel.damageTile(tx, ty, Math.max(1, hp));
+    this.scene.worldRenderer.applyTileUpdate(tx, ty);
+    this.scene.earthquakeTileFeedbackSystem?.showDamage?.({
+      tx,
+      ty,
+      damage: result.damage ?? hp,
+      destroyed: result.destroyed,
+      source: "cave-in",
+    });
+    if (!result.destroyed) return;
+    this._recordOpenedPassage(tx, ty);
 
-      if (this._isTileNearPlayer(tx, ty, this.config.playerFeedback?.rewardRadiusTiles)) {
-        const reward = this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
-        this.scene.showLootPickupFeedback?.(reward, { tx, ty });
-      }
-      this._queueRubbleRestore({
-        tx,
-        ty,
-        type,
-        hp: Math.max(1, Math.floor(hp * (this.config.rubbleHpRatio || 0.25))),
-        maxHp: this.scene.worldModel.getTileMaxHp(tx, ty, type),
-        delayMs: this.config?.rubbleRestoreDelayMs || 3000,
-        source: "cave-in",
-      });
-
-      // Emit falling rock visual
-      this._spawnFallingRock(tx, ty, type);
+    if (this._isTileNearPlayer(tx, ty, this.config.playerFeedback?.rewardRadiusTiles)) {
+      const reward = this.scene.digSystem?.processDestroyedTile(tx, ty, result.typeBeforeDamage, performance.now(), false, result.wasRubble);
+      this.scene.showLootPickupFeedback?.(reward, { tx, ty });
     }
+    this._queueRubbleRestore({
+      tx,
+      ty,
+      type,
+      hp: Math.max(1, Math.floor(hp * this.config.rubbleHpRatio)),
+      maxHp: this.scene.worldModel.getTileMaxHp(tx, ty, type),
+      delayMs: this.config.rubbleRestoreDelayMs,
+      source: "cave-in",
+    });
+    this._spawnFallingRock(caveIn, type);
     const collapseProximity = this._getPlayerProximity(
       this.config.playerFeedback?.collapseShakeRadiusTiles
     );
@@ -641,51 +719,76 @@ export class EarthquakeSystem {
     this.scene.earthquakeHazardOverlay?.markOpenedPassage?.(tx, ty);
   }
 
-  _spawnFallingRock(tx, ty, type) {
+  _spawnFallingRock(caveIn, type) {
     const ts = this.scene.config.tileSize;
+    const { tx, ty, landingTy } = caveIn;
+    const falling = this.config.fallingRock;
     const x = tx * ts + ts / 2;
-    const y = ty * ts + ts / 2;
-    let landingTy = ty + 1;
-    while (landingTy < ty + 12 && this.scene.worldModel.getTileType(tx, landingTy) === TILE_TYPES.AIR) landingTy += 1;
-    const object = this.scene.add.rectangle(x, y, ts * 0.62, ts * 0.48, COLORS[type] ?? 0x777777).setDepth(35).setAngle(rand(-12, 12));
-    this.fallingRocks.push({ object, x, y, previousY: y, endY: landingTy * ts - ts * 0.25, vy: 100, hit: false });
+    const y = (ty + 1) * ts;
+    this.fallingRocks.push({
+      id: caveIn.id,
+      tx,
+      ty,
+      landingTy,
+      type,
+      x,
+      y,
+      previousY: y,
+      endY: landingTy * ts,
+      vy: falling.initialVelocityPxPerSecond,
+      angle: rand(...falling.initialAngleRadians),
+      hit: false,
+    });
   }
 
   _updateFallingRocks(delta) {
     const seconds = delta / 1000;
     const body = this.scene.playerController?.physicsBody;
+    const falling = this.config.fallingRock;
     for (let i = this.fallingRocks.length - 1; i >= 0; i -= 1) {
       const rock = this.fallingRocks[i];
       rock.previousY = rock.y;
-      rock.vy += 1500 * seconds;
+      rock.vy += falling.gravityPxPerSecondSq * seconds;
       rock.y = Math.min(rock.endY, rock.y + rock.vy * seconds);
-      rock.object.y = rock.y;
-      rock.object.angle += 160 * seconds;
+      rock.angle += (
+        falling.angularVelocityDegPerSecond * seconds * Math.PI
+      ) / 180;
       if (!rock.hit && body && this.impactCooldown <= 0 && this._rockCrossesBody(rock, body)) {
         rock.hit = true;
         this.impactCooldown = this.config.impactCooldownMs;
-        const drained = this.scene.playerController.drainAllGemPower();
+        const drained = this.scene.playerController.drainAllGemPower({
+          source: "fallingRock",
+          hazard: true,
+        });
+        if (this.scene._hardcoreDeathInProgress || this.scene.gameState === "dead") {
+          this.scene.shakeSystem?.shake("earthquake.rockImpact");
+          this._log("lethal player impact", { drainedGemPower: drained });
+          continue;
+        }
         const direction = body.x + body.w / 2 < rock.x ? -1 : 1;
-        this.scene.playerController.applyExternalKnockback(direction * 430, -520);
+        this.scene.playerController.applyExternalKnockback(
+          direction * falling.knockbackX,
+          falling.knockbackY,
+        );
         this.scene.shakeSystem?.shake("earthquake.rockImpact");
         this._log("player impact", { drainedGemPower: drained, zeroGpHit: drained <= 0 });
       }
       if (rock.y >= rock.endY) {
         this._emitDust(Math.floor(rock.x / this.scene.config.tileSize), Math.floor(rock.y / this.scene.config.tileSize), 5);
-        rock.object.destroy();
+        this.scene.earthquakeHazardOverlay?.playRockImpact?.(rock);
         this.fallingRocks.splice(i, 1);
       }
     }
   }
 
   _rockCrossesBody(rock, body) {
-    const halfWidth = this.scene.config.tileSize * 0.31;
-    const bodyLeft = body.x;
-    const bodyRight = body.x + body.w;
-    const bodyTop = body.y;
-    const bodyBottom = body.y + body.h;
-    return rock.x + halfWidth >= bodyLeft && rock.x - halfWidth <= bodyRight
-      && rock.y >= bodyTop && rock.previousY <= bodyBottom;
+    const ts = this.scene.config.tileSize;
+    return rockSweptAabbCrossesBody({
+      rock,
+      body,
+      hitboxWidth: ts * this.config.fallingRock.hitboxWidthTiles,
+      hitboxHeight: ts * this.config.fallingRock.hitboxHeightTiles,
+    });
   }
 
   _warningFx(delta) {

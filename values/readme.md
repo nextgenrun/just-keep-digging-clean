@@ -2,11 +2,84 @@
 
 Single Source of Truth — ALL numeric/string/config values.
 
-- `titanDiscoveryExperience.js` owns the partial-reveal plus chamber-entry
-  encounter threshold, 72-metre approved-HUD resonance range and cadence,
-  locked-safe direction copy, discovery announcement, `?titanGuidance=0`, and
-  `?titanEncounter=legacy`. Terrain, rewards, collision, and persistence remain
-  outside this presentation contract.
+- `depthGateConfig.js` owns the three blocking depth thresholds, warning copy,
+  typed-modal phrases (`100M`, `300M`, and `RISK`), legacy 999m migration, and
+  safe-return feedback. The progression system owns decisions and saves; the
+  injected Phaser modal owns visible presentation.
+
+- `uiNotificationCarousel.js` owns the single-card queue timing, fixed
+  navigation inputs, transition values, and mouse/touch drag safety lane,
+  including viewport insets and grab cursors. Player-selected position data is
+  normalized separately by `UserSettings`.
+
+- `worldVisualSkyCohesion.js` owns the twenty additive sky assets, five fixed
+  world chapters, four fixed air bands, 0.88 source-density scale, render
+  depth, and `?skyCohesion=0` rollback. Every complete plate occupies one
+  deterministic world anchor; none are cropped, enlarged, positioned from the
+  viewport, or repeated elsewhere.
+- `worldVisualTerrainVariation.js -> cohesion` registers one approved alpha
+  foreground painting per biome as a 0.88 source-density, world-anchored,
+  terrain-mask-bound image while retaining the original five material plates
+  unchanged. Ten distinct horizontal anchors keep every Level 1 and Level 2
+  painting inside its playable corridor without repetition.
+  `?undergroundForegroundCohesion=0` removes only those ten paintings.
+- `worldVisualDepthBackdrops.js -> wholeWorldExpansion` adds fifty V5 scenic
+  cards beside the retained 120-card V2/V3/motion pool and selects the V5
+  irregular edge-mask atlas. `?biomeBackdropExpansionV5=0` restores the exact
+  prior pool and V4 mask.
+- `worldVisualTerrainVariation.js -> expansionV5` allocates forty additional
+  material plates plus ten second-generation cap atlases without changing the
+  stored V4 inventory API. `?undergroundTerrainExpansionV5=0` removes only
+  those additions.
+- `worldVisualRuntime.js -> surface.surfaceGroundVariation` owns the ten
+  default-on additive surface paintings, 24-tile width, three-tile overlap,
+  non-mirrored placement, and `?surfaceGroundVariation=0` rollback. The same
+  surface contract gives repeated far-landscape cards a 256 px raster-feather
+  overlap without replacing the retained Town Square or mountain paintings.
+
+- `uiIcons.js -> UI_RESOURCE_PRESENTATION`, `UI_INVENTORY_COPY`, and
+  `UI_INVENTORY_LAYOUT` own the permanent `I`-menu resource identity key:
+  explicit icon/name/color pairings remain visible before discovery, only
+  quantities lock, and the full catalog fits the desktop three-column modal.
+- `inventoryResourceGuide.js` owns the second `I`-menu tab's complete
+  fourteen-material order, visual descriptions, six real-world comparison
+  grounds, soil-type mappings, Lava Dirt dig stages, copy, and responsive
+  layout. The guide renderer uses these values with the production semantic
+  atlas plus the always-preloaded ground, hardness, and intact-crack textures;
+  it does not manufacture replacement art.
+
+- `weatherConfig.js` owns clear/drizzle/rain/storm/snow timing, winter and
+  temperature eligibility, exact center/edge swept-collision dimensions,
+  world-solid impact sampling, rain/snow pool budgets, secondary impact
+  presentation, wind, wetness, audio, lighting, and sunlight response.
+  `skylineWeatherVfx.js` owns the three atmospheric atlas sheets plus the
+  compact 32-frame ImageGen particle sheet, its 256 px frames and 224 px safe
+  content area, frame groups, and ambient ground-particle presentation.
+  `?skylineVfx=0` is the explicit procedural rollback.
+
+- `arcCoreVisualConfig.js` owns Small/Omega action duration, real break progress,
+  review-stage target textures, controls, and deterministic capture parameters.
+  `arcCoreVisuals.sprite.json` owns the centered V4 Piskel roles, body-motion
+  envelopes, beam reach, impact scale, layer depths, hashes, and round hulls.
+
+- `titanDiscoveryExperience.js` owns the production creature-footprint encounter
+  mode, 72-metre resonance range/cadence, the 50% covering threshold,
+  reward-free automatic removal of the remaining footprint, the subtle
+  art-backed location pointer and HUD-safe edge bounds,
+  `?titanGuidance=0`, and the stricter rectangular-clear
+  `?titanEncounter=legacy` rollback. It configures the transition but does not
+  mutate terrain or award rewards itself.
+- `titanCreatureFootprints.js` owns the versioned 25-row-mask inventory derived
+  from each approved 768x768 stance PNG alpha. Every set bit identifies an
+  authoritative covering cell that can glow, counts toward the 50% threshold,
+  and is removed by `WorldModel` when the threshold is reached.
+- `titanLore.js` is the single text authority for all 25 discovered identities:
+  one unique epithet, surface-plinth inscription, and expanded ESC archive
+  account per Titan. Locked UI never resolves these entries.
+- `titanClueCatalog.js` owns the ESC `TITANS` locator-clue price curve, catalog
+  copy/layout, index-only journal keys, result ids, and reversible
+  `?titanClues=0` switch. Prices increase with Titan depth and the number of
+  clues already bought.
 
 - `lightConfig.js -> playerLightV2` owns the visible-player center anchor,
   positional-flutter lock, surface/day, night, rain, storm, deep-cave
@@ -14,33 +87,52 @@ Single Source of Truth — ALL numeric/string/config values.
   `?playerLight=legacy` rollback. `shaderConfig.js -> darknessLight` owns the
   v2 penumbra, falloff, core, warmth, and alpha ceiling.
 
-- `hardcoreMode.js` owns the versioned Casual/Hardcore save discriminator and
-  armed-state sanitizer. `graveborerWurm.js` owns the two Wurm developer flags,
-  post-Flight/depth gate, mining-noise weights, warning/travel/cooldown timing,
-  committed-path geometry, one-hit GP damage, ImageGen asset paths, HUD motion,
-  labels, persistence limits, and diagnostics key.
+- `hardcoreMode.js` owns the versioned Casual/Hardcore save discriminator,
+  post-Flight armed state, typed confirmation copy, stress sources and GP
+  drain, one-second live position/GP/stress checkpoint cadence, paid-teleport
+  curve, run counters, 50% unstuck penalty/cooldown, death-source labels, and
+  approved ImageGen UI paths. `hardcoreMemorials.js` owns the independently
+  persisted grave limits, exact-world placement, paginated run-recap layout,
+  stat labels, action copy, and approved grave/button paths.
+  `graveborerWurm.js` owns the versioned multi-pass Wurm
+  profile: development-only flags and summon-control copy, post-Flight/depth
+  gate, explicit production/development activity ratio, mining-noise weights,
+  lethal depth/pass damage tiers, short committed-line telegraphs, breach speed,
+  hit limits, critical/fatal feedback, ImageGen asset paths, HUD motion, labels,
+  persistence limits, and diagnostics.
+  key.
 
-- `npcActivityConfig.js` owns the approved v11 Piskel merchant cadence: four
-  chronological quiet-loop frames plus seven planted activities per merchant.
-  Quiet frames use a slow 0-1-2-3-2-1 rhythm, 520 ms dissolves, and long rests;
-  larger activities retain 1.15/1.35-second cross-fades and one-at-a-time town
-  scheduling. It also owns preload paths, `?npcActivities=0`, and exact-anchor
-  health. It contains no walking, roaming, whole-body translation, rotation,
-  or runtime scale animation values.
+- `npcActivityConfig.js` owns the approved v13 calm baseline and
+  Piskel-polished activity packs: seven planted activities per merchant,
+  1.4/1.65-second cross-fades, long rests, and one-at-a-time town scheduling.
+  Each merchant records its measured baseline foot-bottom row so runtime
+  grounding scales with the actual display size and settles 1.5 px into the
+  platform lip. It also owns preload paths, `?npcActivities=0`, exact-anchor
+  health, and foot-contact health. It contains no walking, roaming, whole-body
+  translation, rotation, or runtime scale animation values.
 
 - `runtimeCanaryConfig.js` owns runtime health globals, admin query/hotkey,
   timing thresholds, required scene collaborators, event copy, severity/status
   names, reporting endpoint hook, and panel presentation values.
 
-- `earthquakeFeedback.js` owns the generated seismic frame/medallion preload
-  contract, compact card geometry, entrance/exit/recap timing, auto-expiring
-  route guidance, hazard-marker limits, restrained fall guides, and all
-  player-facing seismic copy. Earthquake state and mutations remain owned by
-  `earthquakes.js` and `EarthquakeSystem`.
+- `earthquakeFeedback.js` owns the generated seismic frame/medallion, tile
+  fracture/collapse/rubble-return sprites, landing footprint, ceiling fracture,
+  falling boulder, impact debris, 320x60 status signal, exact
+  ground/player/falling/settling/debris depths, authored ground-contact squash,
+  pooled motion, and active-event seismic copy. Completion has no recap copy.
+  `earthquakes.js` owns the 1.8-second local warning,
+  independently validated collapse widths, rock physics/hitbox/knockback,
+  occupied-rubble retry, and the Level 99 + accepted-1000 m, 75,000 M permanent
+  Seismic Suppression upgrade. Earthquake state and mutations remain owned by
+  `EarthquakeSystem`.
 
 - `gameConfig.js -> rendererQuality` owns the painterly WebGL sampling contract: antialiasing stays enabled, pixel rounding stays disabled, High 1.5x is the default backing density, Ultra is 2x, and all rollback query names/presets are centralized there. Logical gameplay coordinates remain 1280x720.
 
-- `worldVisualDepthBackdrops.js` owns 70 streamed background-only plates across the ten row 65..5064 material bands: all fifty previously approved 1536x1024 WebPs, ten static WebP derivatives of the named motion-concept paintings, and ten approved 1536x1024, eight-second, 60 fps H.264 V3 loops. Every biome therefore has five older static cards, one concept-static card, and one moving card. It also owns the negative render depth that keeps all scenic architecture behind `terrainDepth: 0.1`, `?biomeBackdropVariants=0` legacy-pool rollback, and `?biomeBackdropMotion=0` whole-card motion rollback. The rejected Graphics, duplicate-emissive, drifting-mist, and choppy optical-flow V2 paths remain absent from production selection. V3 moves only the complete finished media card and automatically pauses video below its configured FPS floor. `?levelOneBackdrops=0` and `?shallowCavern=0` still disable the complete presentation without touching simulation state.
+- `worldVisualDepthBackdrops.js` owns 120 streamed background-only plates across the ten row 65..5064 material bands: fifty previously approved 1536x1024 WebPs, fifty additive V3 static compositions, ten static WebP derivatives of the named motion-concept paintings, and ten approved 1536x1024, eight-second, 60 fps H.264 V3 loops. Every biome therefore has ten static compositions, one concept-static card, and one moving card. It also owns the negative render depth that keeps all scenic architecture behind `terrainDepth: 0.1`, native 1536x1024 card geometry, 192x128 overlap, 1344x896 stride, the shared 16-state RGBA join mask, `?biomeBackdropVariants=0` legacy-pool rollback, and `?biomeBackdropMotion=0` whole-card motion rollback. Mirroring is disabled and partial tail cards crop instead of stretching. The rejected Graphics, duplicate-emissive, drifting-mist, and choppy optical-flow V2 paths remain absent from production selection. V3 moves only the complete finished media card and automatically pauses video below its configured FPS floor. `?levelOneBackdrops=0` and `?shallowCavern=0` still disable the complete presentation without touching simulation state.
+
+- `worldVisualTerrainVariation.js` owns five additive 1536x1024 terrain plates and twenty painted exposed-top cuts per biome: 50 complete plates plus 200 cap frames. Plates overlap at the same 1344x896 stride with authored alpha, while caps are restricted to generic solid terrain with air above. `?undergroundTerrainVariation=0` disables both image layers without changing terrain, collision, HP, drops, or saves.
+
+- `worldVisualGroundStructures.js` owns the fifty approved roots, ribs, arches, seams, and corners. Default assets are separate V4 alpha-feathered derivatives with no mirrored joins; every V3 file remains available through `?groundStructureBlend=0`. `?undergroundGroundStructures=0` disables the complete terrain-masked structure layer.
 
 - `worldVisualDepthCameraMotion.js` owns the ten restrained relationships
   between camera movement and the finished backdrop media. Amber, Slagworks and
@@ -54,20 +146,34 @@ Single Source of Truth — ALL numeric/string/config values.
   routing stays in `worldVisualDepthBackdrops.js`, so Phaser does not import
   review UI metadata.
 
-- `titanDiscoveries.js` owns the 25 visual-only Titan identities, canonical save order, archive lore/regions, compact creature/plinth paths, 25 individually authored 1536x848 chamber paths, colossal 15-22 by 8-13 tile search windows, bounded two-card world streaming, archive pinning values, reveal/glow timing, 5x5 archive geometry, production-health labels, and the complete non-interactive Titan Walk. `?titanChambers=0` restores compact underground art; `?titans=0` disables and de-queues the complete presentation. Neither changes terrain, rewards, collision, or saves.
+- `titanDiscoveries.js` owns the 25 visual-only Titan identities, canonical save order, regions, archived compact creature paths, opaque v2 rollback and organic-feather v3 routes for all 25 individually authored 1536x848 chamber cards, 25 independent 768x768 stance paths shared by the sharp underground reveal and surface gallery, the compact ImageGen basalt dais and per-Titan cover-resonance presentation, colossal 15-22 by 8-13 tile search windows, bounded two-card world streaming, archive pinning values, reveal/glow timing, 5x5 archive geometry, surface-inspection presentation values, and production-health labels. Underground Titans stand almost opaque on a 4.6 by 0.88 tile dais while the chamber card remains low-alpha context. The surface reuses that newer basalt footing at only 2.1 by 0.36 tiles and gives every identity a bounded 0.92-1.18 size profile over a larger 3.2-tile base envelope; all statues are larger than the former uniform 3x treatment while the 4.25-tile camera-safe height cap keeps them mostly in view. Surface stances retain normal blend, a 98.5% base alpha with only a 1.5% pulse, 3.4-tile spacing, and a start five tiles beyond the town benchmark. Only unlocked plinths expose the remapped interact prompt and shared inscription. `?titanStatueLore=0` removes that prompt/inspection without changing trophies; `?titanChamberBlend=0` restores opaque v2 cards; `?titanChambers=0` disables streamed chamber cards while retaining the sharp stance, compact dais, and tile resonance; `?titans=0` disables and de-queues the complete presentation. The 50% transition routes remaining covering cells through `WorldModel`; reward, collision, and save authority are not moved into presentation code.
 - `ancientRelics.js` remains the authority for cache placement, count limits, and progression gates. `relicDiscoveryFxConfig.js` owns only the bounded visible-world pedestal wake, short residual floor mark, world-space player-collection orbit, reduced-motion modes, presentation depths, and warning-only health code; it never awards or persists a relic.
 
-- `worldVisualSurfacePacks.js` owns the reversible scenic-surface composition. `town-benchmark-v1` is the default: its approved 1801x941 beauty plate is cropped at the authored ground line and uniformly calibrated from the shared 1.75 m midpoint player reference so its measured 75 px lintel-to-threshold opening renders as a 2.10 m door. This produces a roughly 23.05-tile beauty span with a bounded 20.3% enlargement and no aspect distortion. Approved Option A now adds an 1801x139 Town Square facade whose 1672 px core is an unscaled pixel-exact mockup crop followed only by the matching 129 px alpha handoff. It shares the beauty scale and authoritative solid-terrain mask, renders above overlapping terrain semantics, and remains below damage feedback. The legacy 14x10 underground facade remains unchanged underneath for exact digging holes and rollback continuity. The pack also owns restrained SCREEN lightning plus cool, low-alpha wet-ground response. Use `?surfacePack=current-v2` to roll back to the previous split scenic surface assembly without changing gameplay state.
+- `worldVisualSurfacePacks.js` owns the reversible scenic-surface composition. `town-benchmark-v1` is the default: its approved 1801x941 beauty plate is cropped at the authored ground line and uniformly calibrated from the shared 1.75 m midpoint player reference so its measured 75 px lintel-to-threshold opening renders as a 2.10 m door. This produces a roughly 23.05-tile beauty span with a bounded 20.3% enlargement and no aspect distortion. Approved Option A now adds an 1801x48 Town Square strip whose 1672 px core is an unscaled pixel-exact mockup crop followed only by the matching 129 px alpha handoff. At roughly 0.61 tile tall it preserves the wet slate walk line without hiding the first underground row. It shares the beauty scale and authoritative solid-terrain mask, renders above overlapping terrain semantics, and remains below damage feedback. The legacy 14x10 underground facade remains unchanged underneath for exact digging holes and rollback continuity. The pack also owns restrained SCREEN lightning plus cool, low-alpha wet-ground response. Use `?surfacePack=current-v2` to roll back to the previous split scenic surface assembly without changing gameplay state.
 
-- `worldVisualRuntime.js`, `worldVisualMaterials.js`, `worldVisualRegions.js`, `worldVisualFeedback.js`, `worldVisualSemanticAssets.js`, and `worldVisualLandmarks.js` are the scenic-v2 visual SSOT. The surface-stage contract caps each far-background card at native source density, preserves aspect ratio, and keeps the transparent surface-edge strip disabled in production; use `?surfaceEdge=1` only for legacy comparison. The landmark contract owns decorative world anchors, crop/baseline alignment, additive response, and the independent `?mineEntrancePilot=0` rollback; it never owns collision or tile state. `worldVisualSemanticAssets.js` makes the generated raster presentation the production default (`terrainSemantics=1`): a 256 px resource atlas with deterministic variants, rarity-mapped sky-star beauty/emissive atlases, paired beauty/emissive atlases for the seven reward blocks, and a seamless bedrock material with an explicit visibility lift and cool tint. These images are read-only views of the authoritative resource, reward, `SKY_TILE`, `BEDROCK`, `CAVE_WALL`, `FLOOR_TOWN_1`, and `FLOOR_TOWN_2` cells, so digging, HP, collision, rewards, recognition, and saves remain in `WorldModel`. The town-floor types inherit the bedrock material so their unbreakable foundation is visibly distinct from ordinary earth. Non-stone ores are prioritized over sparse stone detail so common geology cannot exhaust the render pool. `?terrainSemantics=0` is the explicit procedural rollback; within that rollback, `?resourceVeins=0` also restores the older resource-emblem atlas. `worldVisualFeedback.js` still owns damage cracks and non-reward special markers, while `worldGameplayLayout.js` labels the hidden compatibility layout so saves cannot cross a future blueprint revision.
-- `worldVisualDamage.js` owns the material-neutral nine-state damage ladder, deterministic fracture/scuff/chip geometry, adaptive MULTIPLY/SCREEN layer styling, and `?groundDamage=legacy` comparison rollback. It deliberately contains no material or tile-type map, so every current and future solid visual inherits the same pre-break feedback.
+- `worldVisualRuntime.js`, `worldVisualMaterials.js`, `worldVisualRegions.js`, `worldVisualFeedback.js`, `worldVisualSemanticAssets.js`, and `worldVisualLandmarks.js` are the scenic-v2 visual SSOT. The surface-stage contract caps each far-background card at native source density, preserves aspect ratio, feathers repeated landscape cards through registered raster-mask frames, and repeats the approved 48 px slate cap across every one of the 280 surface columns with overlapping joins; `?surfaceEdge=0` is the tile-only rollback. The cap is presentation-only and never owns collision or tile state. The landmark contract owns decorative world anchors, crop/baseline alignment, additive response, and the independent `?mineEntrancePilot=0` rollback. `worldVisualSemanticAssets.js` makes the generated raster presentation the production default (`terrainSemantics=1`): a 188 px RGBA resource atlas with six deterministic, transparent, strict-orthographic, ground-embedded ImageGen variants per material, rarity-mapped sky-star beauty/emissive atlases, the approved 12-frame GP-tier special-block atlas, and an additive bedrock pair that keeps the seamless shale base plus a low-alpha megalith accent with an explicit visibility lift and cool tint. These images are read-only views of the authoritative resource, reward, `SKY_TILE`, `BEDROCK`, `CAVE_WALL`, `FLOOR_TOWN_1`, and `FLOOR_TOWN_2` cells, so digging, HP, collision, rewards, recognition, and saves remain in `WorldModel`. Non-stone ores are prioritized over sparse stone detail so common geology cannot exhaust the render pool. `?terrainSemantics=0` is the explicit scenic rollback; the rejected Phaser resource-vein comparison stays off unless `?resourceVeins=1` is requested explicitly. `worldVisualFeedback.js` still owns damage cracks and non-reward special markers, while `worldGameplayLayout.js` labels the hidden compatibility layout so saves cannot cross a future blueprint revision.
+- `worldVisualDamage.js` owns the material-neutral twelve-state damage ladder, deterministic fracture/scuff/stress/chip geometry, adaptive two-sided MULTIPLY/SCREEN edge styling, and `?groundDamage=legacy` comparison rollback. It deliberately contains no material or tile-type map, so every current and future solid visual inherits the same proportional pre-break feedback, including very high-HP blocks.
 
-- `miningConfig.js` owns the shared `You cannot break this` and `0 damage` blocked-bedrock UI copy, styling, dedupe key, duration, and compact-cave status color. `DigSystem` identifies authoritative bedrock, cave-wall, and town-floor failures; presentation remains in the active world UI.
+- `miningConfig.js` owns mining cadence and base damage. `DigSystem` identifies
+  authoritative bedrock, cave-wall, and town-floor failures; active-world
+  presentation keeps those routine blocked contacts silent.
 - `caveArchetypes.js` owns the six cave identities, four width forms, palettes, motifs, discovery copy, feature chances, depth gates, and streaming values. `worldGen.js -> caves.authoredGapSupplement` owns the five-band Level One refill targets and spacing; the generator may carve only non-authored resources or reuse authored AIR.
-- `lightConfig.js -> caveLights` owns restrained local cave illumination that reveals identity art only while the player is at the cavern. `skyTileLights` separately owns Star Block beacon lighting: in-view `SKY_TILE` cells keep a strong, softly flattened reveal through hard underground darkness beyond player vision. Six 1254 px ImageGen steady-aura textures stain that darkness cyan, lavender, gold, orange, turquoise, or violet according to the live Star Block rarity; they composite above the black mask and never reuse or tint the generic torch glow. A separate coordinate-seeded 18% chance per 45-second window may send one faint 8.8-second ImageGen wave more than eight tiles outward while it continuously fades. Phaser may position, scale, fade, and additively composite these authored images but may not draw or tint replacement light geometry. Cross flares are disabled and concurrent rings are capped at one. Geode and crystal lights remain proximity-limited.
-- `starConstellations.js -> collectedStarReleaseFx` owns the UI-only mined Star Block presentation: twelve ImageGen core/fracture asset identities in the six production colours, quiet reuse of the ImageGen pulse ring, three authored-image echoes, long swaying ascent, scale beats, and final fade. Phaser may move/scale/fade/composite those images but may not draw, tint, or generate substitute destruction art. It never restores collected stars to the persistent world.
+- `caveLevelConfig.js` owns the default 60x20 entered-cave level, continuous
+  safe floor, camera follow, expanded reward coordinates, six-to-three
+  ImageGen visual-family routing, and `?caveLevel=legacy` compact rollback.
+- `lightConfig.js -> caveLights` owns restrained local cave illumination that reveals identity art only while the player is at the cavern. `skyTileLights` separately owns Star Block beacon lighting: in-view `SKY_TILE` cells keep a strong, softly flattened reveal through hard underground darkness beyond player vision. Six ImageGen steady-aura textures stain that darkness cyan, lavender, gold, orange, turquoise, or violet according to the live Star Block rarity; they composite above the black mask and never reuse or tint the generic torch glow. A separate coordinate-seeded 18% chance per 45-second window may send one faint 8.8-second ImageGen wave more than eight tiles outward while it continuously fades. Phaser may position, scale, fade, and additively composite these authored images but may not draw or tint replacement light geometry. Cross flares are disabled and concurrent rings are capped at one. Geode and crystal lights remain proximity-limited.
+- `starConstellations.js -> collectedStarReleaseFx` owns the UI-only mined Star Block presentation: six active normalized Choice 1 crystal cores, six retained ImageGen fracture identities, quiet reuse of the matching ImageGen pulse ring, an exact 94 px live-tile-to-release handoff before delayed growth to about 136 px, at least 10.8 seconds of swaying ascent, six paced authored-image echoes, and final fade. Phaser may move/scale/fade/composite those images but may not draw, tint, or generate substitute destruction art. It never restores collected stars to the persistent world.
+- `starlightTalentTree.js` owns the shared ESC/Star Pillar tree layout,
+  ten-node branch order, first-star reveal persistence, Bobo prerequisite-lock
+  copy, the 29-entry V3 ImageGen asset inventory, native foundation aspect,
+  three-card carousel geometry, generated-shell placement, text contrast,
+  motion values, and health expectations. `constellationBuffs.js` owns the
+  auditable ten stat modifiers, both Bobo ability prerequisites, and the shared
+  +1x matching Star Block yield. Citadel Storm grants +10% Thunderstrike damage
+  while its protected-tile-safe footprint remains one vertical lane and cannot
+  bypass the chain's zero-retry rule.
 
-- uiLayout.js centralizes modal spacing, UI typography, depth ordering, merchant presentation copy, and responsive manual save-transfer geometry for the unified interface.
+- uiLayout.js centralizes modal spacing, UI typography, depth ordering, merchant presentation copy, and responsive manual save-transfer geometry for the unified interface. `uiNotificationCarousel.js` separately owns the exact transient-card 15-visible-second selection timer, bounded queue, always-present arrow/`X` control art, interruptible transitions, disabled-control alpha, and legacy fallback metrics; `approvedHudSkin.js -> layout.notification` owns its approved-art geometry. `pickaxeHudThemes.js` owns the seven exact tier labels, accent colors, overlay/label geometry, purchase pulse, and `?pickaxeHud=0` rollback contract while `assetKeys.js -> ui.pickaxeHud` owns the generated overlay inventory. `gambleTileConfig.js`, `teleportPortalConfig.js`, `specialBlocks.js`, and `miningConfig.js` own their producer copy and stable dedupe keys without owning another renderer.
 - `pillarVisuals.js` owns both approved five-stage production asset lists, player-readable world scale, transition/glow timing, Milestone depth thresholds, Star Pillar constellation thresholds, and normalized socket centers. `milestonePillarUi.js` owns the responsive modal geometry, pagination density, and readable type floor; `milestonePillarReview.js` remains the isolated five-option review-lab contract.
 - `townSquareConfig.js` owns the approved Option A square layout id, surface-row offset, and five absolute door-aligned merchant slots. The Level 2 Arc Core merchant remains owned by `arcCoreConfig.js`.
 - `branding.js` owns the approved UNDERSTAR product name and Rift Monolith
@@ -87,16 +193,22 @@ Single Source of Truth — ALL numeric/string/config values.
 - `supermanFlightProneV3Runtime.json` is the explicit production promotion recipe for the latest `DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3` Blender pose. It owns the versioned 36-frame output, right-facing pack mirror, restrained whole-body hover offsets, 256px cell geometry, and rollback-safe runtime filename; the former Push Loop sheet remains untouched.
 - `supermanPoseEditor.json` owns the isolated, upright-idle Superman pose workbook: the approved Survivor v2 source, the frozen review action, five large labelled pose controls, and the review-only output paths. It never changes runtime art, animation, or collision.
 - `supermanHorizontalIdleReview.json` owns the simplified review-only Superman baseline: the frozen approved idle snapshot, a single 90-degree horizontal flip, and its clean no-controls output paths. It never changes runtime art, animation, or collision.
-- `openingFlightArtifact.js` is the one opening-flight SSOT. It owns the legacy
-  encounter, production Golden Five config, fresh/resume spawn eligibility,
-  calm five-minute weather, 14-cell reward seam, artifact/escape geometry,
-  protected ascent rings, paused-when-grounded 30-second bank, permanent cache
-  rewards, remap-safe copy, v2 save schema, and `?openingFlightV2=0` rollback.
+- `retentionConfig.js` owns the production Town Square tutorial choices,
+  movement/dig/sell/upgrade stages, guaranteed starter cargo, Flight reward,
+  30-second flying-only bank, copy, markers, and modal/HUD layout.
+- `playerPersistence.js` validates the exact pixel body coordinates, facing, and
+  GP snapshot stored in save schema v13.
+- `openingFlightArtifact.js` retains the rejected legacy and Golden Five
+  configuration only as rollback/reference data. Its production facade is
+  disabled and cannot alter spawn routing.
 - `directionalSidePunchReview.json` owns the review-only Blender Punch Cross source, the side/high/low torso-only layers, and their generated candidate paths. It never changes runtime action routing, collision, or mining contact timing.
 - `playerCollision.js` owns body skin, ground probe, swept-step size, velocity cap, frame-delta cap, and overlap-recovery policy for the custom tile solver.
 - `playerMotionPolish.js` owns deterministic UAL idle-fidget timing, calm 18 fps fidget cadence, the seven-second first-fidget delay, restrained breathing cadence, wall-push delay, falling threshold, and impact-reaction cooldowns.
 - `playerFlightFootFx.js` owns the approved Survivor Superman-flight foot offsets, cadence, color, travel, lifetime, and visual-skin gate used identically in the main world and compact caves.
 - `playerTileContact.js` owns body-edge targeting tolerance, target-direction variant/aim labels, and the UAL solid-tile visual-occlusion scan/mask values.
+- `miningTargetFeedback.js` owns the generated target-overlay asset, hover/held
+  frame-and-glow motion, mouse click buffer, primary-button policy, diagnostics
+  key, and independent visual/input rollback queries.
 - `playerRigContact.js` owns the Game Rig v2 marker schema, hand/foot contact groups, attack hitbox proportions, tile-face bands, and capped visual-only alignment response. Marker validation is diagnostic only: it never vetoes mining or changes the 31x75 movement collider.
 # World background master test
 
@@ -106,7 +218,7 @@ Single Source of Truth — ALL numeric/string/config values.
 
 `worldBackgroundAmbientMotion.js` defines the deterministic, camera-culled v11 town/L1/L2 ambient anchors and all rendering/performance values. It is limited to runtime rows `54..74.41176470588235` and can be rolled back with `?worldMotion=0`.
 
-`levelOneGroundFacade.js` owns the exact `x0..279 / ty65..74` benchmark facade, native 94px nine-piece v2 chunk manifest, current-plus-neighbor streaming margins, semantic stone/resource/special recognition mapping, always-opaque damage treatment, exact dug-cell boundaries, render depths, and independent `?level1Facade=0` rollback.
+`levelOneGroundFacade.js` owns the exact `x0..279 / ty65..74` benchmark facade, native 94px nine-piece v2 chunk manifest, audited 78-frame v7 RGBA recognition atlas with six transparent ImageGen variants per resource, the latest approved Teleport Up, five distinct GP tiers, current-plus-neighbor streaming margins, semantic stone/resource/special recognition mapping, always-opaque damage treatment, exact dug-cell boundaries, render depths, and independent `?level1Facade=0` rollback.
 
 `levelOneLivingBackdrop.js` owns the complete active authored backdrop field through `ty65..2064`. Its cool field reaches `x0..131` and warm field begins at `x113`, deliberately overlapping through the authored visual transition while gameplay ownership still changes at `x132`. It uses four fixed atlas pools, depth-faded weather/day-night response, slow world-space motion, and `?worldLiving=0` rollback. `?level1Living=0` remains a compatibility alias, while shared `?worldMotion=0` overrides either enable flag.
 
@@ -116,15 +228,21 @@ Single Source of Truth — ALL numeric/string/config values.
 
 `deepWorldLivingBackdrop.js` owns the separated Level Two living pass at `x132..279 / y2065..5064`. Its pure config maps ember, steam, ash, and magma-aura atlas treatments onto `WORLD_SCENIC_FACADE` band ids, fixes pool/FPS limits, attenuates surface weather underground, and provides `?deepWorldLiving=0` plus shared `?worldMotion=0` rollback.
 
-`celestialEngines.js` is the sole balance and presentation contract for Star Hearts and the three Celestial Engines. It owns the all-ten-constellation unlock, permanent one-of-three attunement, sky-star-only recharge, charge capacity, per-activation lifetime/impact/bounce/redirect/tile caps, modal/HUD and God Mode switch copy, sanitization, and the explicit `?starHearts=0` rollback.
+`celestialEngines.js` is the sole balance and presentation contract for Star Hearts and the three Celestial Engines. It owns the first Heart after all ten constellations, additional Hearts after 20 and 50 capped Engine activations, permanent ownership of up to all three Engines, one equipped Engine at a time, sky-star-only recharge, charge capacity, per-activation lifetime/impact/bounce/redirect/tile caps, modal/HUD and God Mode switch copy, save-v1 migration, sanitization, and the explicit `?starHearts=0` rollback.
 
-`thunderStrikeChain.js` owns the three-slam Thunderstrike contract: one 3x
-upfront GP payment, free earned follow-ups, 1x/3x/10x base stage damage, a
-cumulative +20% combo-local damage buff for every successful timing hit
-(effective 1x/3.6x/14x), practical 220 ms / 140 ms continuation windows,
-left-to-right challenge restarts, timing against the last needle position
-actually presented on-screen, responsive approved-art HUD presentation, and
-escalating impact/shake signatures.
+`thunderStrikeChain.js` owns the ten-slam Thunderstrike contract: one 3x
+upfront GP payment, nine free earned follow-ups, and the
+1x/3x/10x/12x/15x/20x/28x/40x/60x/100x base damage curve. Every timing success
+adds another +20% combo-local damage, reaching effective 27x at Slam V and
+280x at Slam X. Slam II-V windows are 280/230/190/150 ms; the drastic post-V
+ramp tightens Slam VI-X to 90/62/42/28/16 ms. A miss immediately ends the
+chain; there are zero retries and no level setback. Citadel Storm now supplies
++10% Thunderstrike damage and cannot override that failure rule. The first
+charge is a short 180 ms anticipation, while the approved three-socket HUD uses
+authored v2 target/needle art, v3 milestone/glyph/copy-backplate art, and
+viewport-aware scaling with no visible procedural indicator shapes. Input
+evaluates the exact last-rendered needle position so a visually correct press
+cannot drift into a later wall-clock miss.
 
 `caveGameplay.js` owns deterministic cave-wall resource seams, challenge-room
 density, safe checkpoints, all-GP failure consequences, hazard timing, and
@@ -136,12 +254,67 @@ hazard-light phases.
 
 `worldVisualSurfacePropAssets.js` owns the physical height, exact source
 dimensions, walk-through clearance, and visual-influence radius for the nine
-Level 1 and nine Level 2 prop assets. `worldVisualSurfacePropLayout.js` owns the
-68 deterministic placements, protected interaction zones, existing authored
-coverage bands, and complete Level 1/Level 2 surface ranges.
+retained Level 1 props, nine retained Level 2 props, and seven additive
+ImageGen Level 2 chapter anchors. `worldVisualSurfacePropLayout.js` keeps Level
+1 modular placements empty so the enlarged 25-slot Titan Walk remains fully
+unobstructed. Its 34 deterministic Level 2 placements reuse the original kit
+around the seven new anchors, protect the portal/Titan/transition footprints,
+enforce a low-profile Heavenblocks flight lane, and preserve irregular cluster
+spacing plus complete Level 1/Level 2 visual coverage.
 
 `worldVisualSurfaceProps.js` owns streaming margins, three-point ground
-validation, render lanes, source-density floor, maximum visual gap, and the
+validation, three named natural-size variants, lane perspective, source-density
+floor, maximum visual gap, and the
 presentation-only `?surfaceProps=0`, `?surfacePropsL1=0`, and
-`?surfacePropsL2=0` rollback controls. Placements never carry a free scale
-multiplier; the shared 1.75 m UAL player profile is authoritative.
+`?surfacePropsL2=0` rollback controls. Placements never carry a free numeric
+scale; the shared 1.75 m UAL player profile remains the baseline.
+
+`worldVisualSurfaceAtmosphere.js` adds six restrained smoke, steam, and
+ground-mist anchors to those Level 2 chapters using only the already approved
+ImageGen atmosphere atlas. It does not add a sky, moon, landscape, terrain
+texture, or gameplay state. `?surfaceAtmosphere=0` removes only these accents;
+the parent `?surfaceProps=0` rollback removes them together with the props.
+
+`playerCollision.js -> surfaceDropThrough` owns the continuous one-way surface
+contact, open-row requirement, downward release speed, and `?surfaceDrop=0`
+rollback. `worldVisualRuntime.js -> surfaceEdgeFeature` keeps the approved
+full-width raster ground edge enabled across both surfaces; `?surfaceEdge=0`
+restores the former tile-only presentation.
+
+`earthquakeDodgeReview.js` owns only the test-only earthquake world-layer
+mockup: viewport, live player geometry, proposed warning/fall/impact timing,
+layer depths, compact copy, and authored review asset paths. It is not imported
+by production earthquake systems.
+
+`movingSideDigProduction.json` is the authored production SSOT for the approved
+phase-locked Jog + Jab/Cross clips and phase handoff: sheet/animation identities,
+22-frame upper-body sampling over a 14-frame Jog advance, display size,
+contact/clearance, eight compact entry variants, seven-frame enter/release
+envelopes, exact Jog resume, planted pivot, movement eligibility, and the
+`?movingSideDig=0` / `?phaseHandoff=0` rollbacks. The Piskel builder emits
+`movingSideDigAnimation.generated.js`; `movingSideDigAnimation.js` is its stable
+runtime import boundary. `movingSideDigReview.json` remains the shared visual
+recipe used by the review sandbox and production builder.
+
+`phaseHandoffReview.json` is strictly review-only. It owns the measured
+moving-dig enter/release and instant-turn comparison scenarios, two-frame
+upper-body blend and planted-pivot limits, live collider/tile scale, review
+stage presentation, source paths, and generated output names. Production does
+not import it; the approved values are copied into the authored production SSOT.
+
+`playerAnimationPolishProduction.json` is the production SSOT for planted
+Jog/idle bridges, four-phase moving diagonal mining, stationary action settles,
+authored landing thresholds/exits, and wall-brace enter/hold/release. The Piskel
+builder emits `playerAnimationPolish.generated.js`;
+`playerAnimationPolish.js` is the stable runtime boundary and
+`survivalUalAnimationPolishProfile.js` maps the generated sheets into the
+Survival profile. `?animationPolish=0` is the parent rollback; the narrower
+switches are `?jogIdleHandoff=0`, `?movingDiagonalDig=0`, `?actionSettle=0`,
+`?landingContinuity=0`, and `?wallBrace=0`.
+
+`worldVisualRuntime.js -> streaming.demandAssetStreaming` owns visible-card
+residency, its zero-neighbor demand margin, and the
+`?scenicDemandStreaming=0` eager-residency rollback.
+`performanceTelemetryConfig.js` owns the thirty-frame phase-sampling cadence,
+stable metric names, admin ordering, and labels; runtime systems do not embed
+their own timing thresholds or display copy.

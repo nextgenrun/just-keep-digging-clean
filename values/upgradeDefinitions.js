@@ -6,6 +6,7 @@ import {
   OMEGA_ARC_CORE_PURCHASE_COST,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "./arcCoreConfig.js";
+import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "./earthquakes.js";
 
 // ==================== UPGRADES DEFINITIONS ====================
 export const UPGRADES = Object.freeze({
@@ -136,6 +137,13 @@ export const UPGRADES = Object.freeze({
     effectType: "luckyCollector",
     merchant: "playerUpgrades",
     maxLevel: 100
+  },
+  [EARTHQUAKE_SUPPRESSION_UPGRADE.id]: {
+    ...EARTHQUAKE_SUPPRESSION_UPGRADE,
+    category: UPGRADE_CATEGORIES.SPECIAL,
+    baseCost: 0,
+    baseEffect: 1,
+    oneTimePurchase: true,
   },
 
   // GEAR MERCHANT - PICKAXES
@@ -363,7 +371,8 @@ export const UPGRADES = Object.freeze({
     id: "quickslashAbility",
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Quick Slash",
-    description: "Unlock the Quick Slash ability (Q key) — burst forward and break tiles rapidly",
+    description: "Unlock Quick Slash (Q). Any mastered Quick Slash constellations activate immediately.",
+    purchaseCopy: "Quick Slash unlocked. Mastered Quick Slash constellations are now active.",
     baseCost: 0,
     goldCost: 100,
     baseEffect: 1,
@@ -375,7 +384,8 @@ export const UPGRADES = Object.freeze({
     id: "thunderStrikeAbility",
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Thunder Strike",
-    description: "Unlock the Thunder Strike ability (C key) — channel lightning to break tiles below you",
+    description: "Unlock Thunder Strike (C). Any mastered Thunder Strike constellations activate immediately.",
+    purchaseCopy: "Thunder Strike unlocked. Mastered Thunder Strike constellations are now active.",
     baseCost: 0,
     goldCost: 250,
     baseEffect: 1,

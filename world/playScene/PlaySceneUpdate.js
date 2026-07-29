@@ -4,30 +4,22 @@
  * Uses GameInputHandler for clean separation of input handling
  */
 
-import { UI_CONFIG } from "../../values/uiConfig.js";
-import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
-import { RESOURCE_PRICES_CONFIG, getCargoSellValue } from "../../values/resourcePrices.js";
 import { RETENTION_CONFIG, RETENTION_EVENT_TYPES } from "../../values/retentionConfig.js";
-import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { PERFORMANCE_TELEMETRY_CONFIG } from "../../values/performanceTelemetryConfig.js";
+import {
+  performanceNow,
+  recordPerformanceSpan,
+  shouldSamplePerformancePhases,
+} from "../../systems/health/performanceTelemetryBridge.js";
 import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
 import {
   recordGraveborerWurmMiningNoise,
   updateGraveborerWurmRuntime,
 } from "./GraveborerWurmBridge.js";
-
-function hasEscapeClosableOverlay(scene) {
-  return Boolean(
-    scene.depthGateSystem?.isOpen?.() ||
-    scene.levelUpPopup?.visible ||
-    scene.shopOverlay?.isVisible ||
-    scene.campfireSystem?.isSelecting?.() ||
-    scene.milestoneBoardSystem?._isBoardOpen ||
-    (scene._pillarViewActive && scene.starPillarSystem) ||
-    scene.uiInventoryPopup?.isOpen
-  );
-}
+import { updateHardcoreModeRuntime } from "./HardcoreModeBridge.js";
+import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 
 function syncProgressionGemPowerMax(scene) {
   const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
@@ -43,6 +35,16 @@ function resolveLiveContactDirection(scene, targetTile) {
   );
 }
 
+function refreshMiningTargetVisual(scene) {
+  const state = scene.inputHandler.resolveMiningInputState();
+  const targetTile = state.targetTile;
+  scene.inputHandler.updateAimBox(
+    targetTile,
+    scene.inputHandler.isSolidAimTarget(targetTile),
+    state,
+  );
+}
+
 function _handleLevelUpResult(scene, result) {
   if (!result?.levelUp || !scene.levelUpPopup) return;
   if (scene.openingFlightArtifactSystem?.handleStarterLevelUp?.(result) === true) return;
@@ -55,16 +57,7 @@ function _handleLevelUpResult(scene, result) {
 
   syncProgressionGemPowerMax(scene);
   scene.queueDugTilesSave?.();
-  if (!hasChoice) {
-    scene.uiNotifications?.success?.(
-      `LEVEL ${level}  •  Mining power and Gem Power increased`,
-      {
-        key: "routine-level-up",
-        durationMs: RETENTION_CONFIG.notifications.routineLevelMs,
-      }
-    );
-    return;
-  }
+  if (!hasChoice) return;
 
   if (scene.levelUpPopup.visible) {
     scene._pendingLevelUp = {
@@ -114,89 +107,22 @@ function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
     );
   }
 
-  const overkill = Math.max(0, Number(result.overkillDamage) || 0);
-  const maxHp = Math.max(1, Number(result.maxHp) || 1);
-  if (result.destroyed && overkill >= maxHp * feedback.overkillMinHpRatio) {
-    scene.floatingTextSystem.showFloatingText(
-      worldX,
-      worldY - 52,
-      `${feedback.overkillPrefix} +${Math.floor(overkill)}`,
-      feedback.overkillColor,
-      feedback.overkillDurationMs,
-      feedback.overkillFontSize
-    );
-    scene._applyDestroyParticles?.(worldX, worldY, result.tileType);
-    scene.shakeSystem?.shake?.("mining.crit", 0.7);
-  }
-
   if (options.consumeUpgradePayoff !== false) {
-    const payoff = scene.retentionProgressSystem?.consumeUpgradePayoff?.();
-    if (payoff && (
-      payoff.afterDamage > payoff.beforeDamage
-      || (payoff.beforeHits > 0 && payoff.afterHits < payoff.beforeHits)
-    )) {
-      const breakpoint = payoff.beforeHits > 0 && payoff.afterHits < payoff.beforeHits
-        ? `  •  ${payoff.beforeHits} hits → ${payoff.afterHits}`
-        : "";
-      scene.uiNotifications?.success?.(
-        `${payoff.upgradeName.toUpperCase()} FEELS STRONGER${breakpoint}`,
-        {
-          key: "upgrade-payoff",
-          durationMs: RETENTION_CONFIG.notifications.upgradePayoffMs,
-        }
-      );
-    }
+    scene.retentionProgressSystem?.consumeUpgradePayoff?.();
   }
-}
-
-function formatExpeditionSummary(scene, event) {
-  const summary = event.summary || {};
-  const previous = event.previous || {};
-  const cargoValue = getCargoSellValue(
-    scene.digSystem?.getResourceTotals?.() || {},
-    scene.upgradeSystem?.getUpgradeEffects?.() || {}
-  );
-  const parts = [
-    `RETURNED  •  ${summary.maxDepth || 0}m`,
-    `${summary.tilesBroken || 0} tiles`,
-    `${cargoValue.toLocaleString()} M cargo`,
-  ];
-  if (summary.bestMaterial) parts.push(`best: ${getResourceDisplayName(summary.bestMaterial)}`);
-  if (summary.stars > 0) parts.push(`${summary.stars} star${summary.stars === 1 ? "" : "s"}`);
-  if (summary.chests > 0) parts.push(`${summary.chests} chest${summary.chests === 1 ? "" : "s"}`);
-  const gains = [];
-  if ((summary.maxDepth || 0) > (previous.maxDepth || 0) && previous.maxDepth > 0) {
-    gains.push(`+${summary.maxDepth - previous.maxDepth}m deeper`);
-  }
-  if ((summary.resourceUnits || 0) > (previous.resourceUnits || 0) && previous.resourceUnits > 0) {
-    const percent = Math.round(
-      ((summary.resourceUnits - previous.resourceUnits) / previous.resourceUnits) * 100
-    );
-    if (percent > 0) gains.push(`+${percent}% more cargo`);
-  }
-  return `${parts.join("  •  ")}${gains.length ? `\nNEW HIGH: ${gains[0]}` : ""}`;
 }
 
 function handleRetentionEvents(scene) {
   const retention = scene.retentionProgressSystem;
   if (!retention) return;
-  const display = USER_SETTINGS.getDisplay();
   retention.drainEvents().forEach(event => {
     switch (event.type) {
-      case RETENTION_EVENT_TYPES.DISCOVERY: {
-        if (display.showMaterialDiscoveryCards === false) break;
-        const price = RESOURCE_PRICES_CONFIG.basePrices[event.key] || 0;
-        scene.uiNotifications?.success?.(
-          `NEW MATERIAL  •  ${getResourceDisplayName(event.key)}`
-            + (price > 0 ? `  •  Base value ${price} M each` : ""),
-          {
-            durationMs: RETENTION_CONFIG.notifications.discoveryMs,
-            noDedupe: true,
-          }
-        );
+      case RETENTION_EVENT_TYPES.DISCOVERY:
+      case RETENTION_EVENT_TYPES.PERSONAL_BEST:
+      case RETENTION_EVENT_TYPES.EARTHQUAKE_RECAP:
         break;
-      }
       case RETENTION_EVENT_TYPES.TUTORIAL:
+        if (scene.townSquareTutorialSystem) break;
         scene.uiNotifications?.info?.(event.message, {
           key: "first-run-contract",
           durationMs: RETENTION_CONFIG.notifications.tutorialMs,
@@ -206,42 +132,11 @@ function handleRetentionEvents(scene) {
         const reward = Math.max(0, Number(event.objective?.rewardMoney) || 0);
         scene.upgradeSystem?.addMoney?.(reward);
         retention.recordMoneyEarned(reward);
-        scene.uiNotifications?.success?.(
-          `SESSION GOAL COMPLETE  •  +${reward} M  •  No streak, no reset penalty`,
-          {
-            key: "session-objective",
-            durationMs: RETENTION_CONFIG.notifications.objectiveMs,
-          }
-        );
         scene.queueDugTilesSave?.();
         break;
       }
-      case RETENTION_EVENT_TYPES.PERSONAL_BEST:
-        scene.uiNotifications?.success?.(`NEW DEPTH RECORD  •  ${event.depth}m`, {
-          key: "personal-best",
-          durationMs: RETENTION_CONFIG.notifications.personalBestMs,
-        });
-        scene.screenFlashSystem?.flashLucky?.();
-        break;
       case RETENTION_EVENT_TYPES.EXPEDITION_SUMMARY:
-        if (display.showExpeditionSummaries !== false) {
-          scene.uiNotifications?.info?.(formatExpeditionSummary(scene, event), {
-            key: "expedition-summary",
-            durationMs: RETENTION_CONFIG.notifications.summaryMs,
-          });
-        }
         scene.queueDugTilesSave?.();
-        break;
-      case RETENTION_EVENT_TYPES.EARTHQUAKE_RECAP:
-        scene.uiNotifications?.info?.(
-          `EARTHQUAKE CLEARED  •  ${String(event.intensity).toUpperCase()}`
-            + `  •  endured ${event.distanceEndured || 0} tiles from the epicenter`
-            + `  •  ${event.passagesOpened} new passage${event.passagesOpened === 1 ? "" : "s"}`,
-          {
-            key: "earthquake-recap",
-            durationMs: RETENTION_CONFIG.notifications.earthquakeRecapMs,
-          }
-        );
         break;
       default:
         break;
@@ -347,8 +242,7 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
     }
   }
 
-  const refreshedAim = scene.inputHandler.resolveAimTargetTile();
-  scene.inputHandler.updateAimBox(refreshedAim, scene.inputHandler.isSolidAimTarget(refreshedAim));
+  refreshMiningTargetVisual(scene);
   if (result.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, result);
 }
 
@@ -369,10 +263,6 @@ function handleThunderStrikeResult(scene, strikeResult, now) {
       scene.floatingTextSystem.showHeavyPunchDamage(worldX, worldY, result.damage);
     }
     if (!result.destroyed) return;
-    if (result.breachedBedrock) {
-      scene.queueDugTilesSave?.();
-      return;
-    }
 
     const reward = scene.digSystem.processDestroyedTile(
       result.tx,
@@ -461,8 +351,7 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
   }
   if (shouldSave) scene.queueDugTilesSave?.();
   if (areaResult.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, areaResult);
-  const refreshedAim = scene.inputHandler.resolveAimTargetTile();
-  scene.inputHandler.updateAimBox(refreshedAim, scene.inputHandler.isSolidAimTarget(refreshedAim));
+  refreshMiningTargetVisual(scene);
   return areaResult;
 }
 
@@ -474,8 +363,17 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
 export function updateScene(time, delta) {
   // Safety guard: if setup hasn't completed, skip update
   if (!this.gameInputHandler) return;
+  if (this._hardcoreRuntime?.modal?.isVisible) {
+    this.uiNotifications?.setPaused?.(true);
+    return;
+  }
 
   this.worldBackgroundMasterSystem?.update();
+  const notificationInputBlocked = this.gameState !== "playing"
+    || this._settingsKeyCaptureActive
+    || this.depthMilestoneCinematic?.isActive?.()
+    || hasEscapeClosableUi(this);
+  this.uiNotifications?.setPaused?.(notificationInputBlocked);
 
   // 0. Handle global input (works in any state, including during popups)
   if (this.gameInputHandler.handleGlobalInput()) {
@@ -486,13 +384,11 @@ export function updateScene(time, delta) {
     return;
   }
 
-  const keys = this.inputHandler.getKeys();
-  const escPressed = hasEscapeClosableOverlay(this)
-    && ((keys.escape && Phaser.Input.Keyboard.JustDown(keys.escape))
-      || (keys.hardEscape && Phaser.Input.Keyboard.JustDown(keys.hardEscape)));
-  if (escPressed && this.closeTopOverlay?.("escape")) {
+  if (this.gameInputHandler.handleEscapeInput()) {
     return;
   }
+
+  const keys = this.inputHandler.getKeys();
 
   // 1. Check for level up popup input (has highest priority after global)
   if (this.levelUpPopup && this.levelUpPopup.visible) {
@@ -501,10 +397,6 @@ export function updateScene(time, delta) {
         if (choice !== "continue") {
           const applied = this.playerLevelSystem.applyChoiceReward(choice);
           if (applied) {
-            this.uiNotifications?.success?.(
-              `${applied.reward?.name || choice} chosen  •  permanent bonus saved`,
-              { durationMs: RETENTION_CONFIG.notifications.routineLevelMs }
-            );
             this.queueDugTilesSave?.();
           }
         }
@@ -517,6 +409,10 @@ export function updateScene(time, delta) {
         }
       }
     return; // Skip all other updates while level up popup is visible
+  }
+
+  if (!notificationInputBlocked && this.uiNotifications?.handleInput?.()) {
+    return;
   }
 
   // 2. Check for shop overlay closing (R key)
@@ -551,8 +447,10 @@ export function updateScene(time, delta) {
     return;
   }
 
+  const samplePerformancePhases = shouldSamplePerformancePhases(this);
+
   // 4. Update systems for all states
-  _updateSystems.call(this, time, delta, keys);
+  _updateSystems.call(this, time, delta, keys, samplePerformancePhases);
 
   // Update underground loop background visibility based on player depth
   if (this.backgroundRenderer && this.playerController) {
@@ -563,19 +461,29 @@ export function updateScene(time, delta) {
   }
 
   // Per-frame camera shake / look-ahead / depth-band zoom / UI zoom compensation
+  const cameraLightingStartedAtMs = samplePerformancePhases ? performanceNow() : null;
   updateCameraSystems(this, time, delta);
-  updateLightingSystems(this, time, delta);
+  updateLightingSystems(this, time, delta, this._framePlayerTile);
+  if (samplePerformancePhases) {
+    recordPerformanceSpan(
+      PERFORMANCE_TELEMETRY_CONFIG.phases.playCameraLighting,
+      cameraLightingStartedAtMs
+    );
+  }
 }
 
 /**
  * Update game systems (HUD, UI, etc.)
  * @private
  */
-function _updateSystems(time, delta, keys) {
+function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
+  let phaseStartedAtMs = samplePerformancePhases ? performanceNow() : null;
+
   // HUD updates
   this.hudSystem.update(time);
   this.nextPromiseHudSystem?.update(time);
   handleRetentionEvents(this);
+  this.journeySystem?.update?.(time);
   this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
   this.uiResourceBar?.setMoney(this.upgradeSystem.getMoney());
 
@@ -583,7 +491,9 @@ function _updateSystems(time, delta, keys) {
   // PlayerState.getPlayerTile() calculates the body's center and returns a new
   // tile object, so repeated calls here add avoidable work and allocations.
   const playerTile = this.playerController?.getPlayerTile?.() ?? null;
+  this._framePlayerTile = playerTile;
   this.worldRenderer?.updateRenderWindow?.(playerTile);
+  this.townSquareTutorialSystem?.update?.(delta);
 
   // Update XP progress bar
   if (this.xpProgressBar && this.playerLevelSystem) {
@@ -591,6 +501,12 @@ function _updateSystems(time, delta, keys) {
     const currentXP = this.playerLevelSystem.currentXP;
     const xpRequired = this.playerLevelSystem.getXPRequiredForNextLevel();
     this.xpProgressBar.update(level, currentXP, xpRequired);
+  }
+  if (samplePerformancePhases) {
+    recordPerformanceSpan(
+      PERFORMANCE_TELEMETRY_CONFIG.phases.playHudProgression,
+      phaseStartedAtMs
+    );
   }
 
   // Shop overlay state
@@ -600,10 +516,19 @@ function _updateSystems(time, delta, keys) {
   }
 
   // Playing state specific updates
+  phaseStartedAtMs = samplePerformancePhases ? performanceNow() : null;
   if (this.gameState === "playing") {
-    _updatePlayingState.call(this, time, delta, keys);
+    _updatePlayingState.call(this, time, delta, keys, playerTile);
   }
+  if (samplePerformancePhases) {
+    recordPerformanceSpan(
+      PERFORMANCE_TELEMETRY_CONFIG.phases.playGameplay,
+      phaseStartedAtMs
+    );
+  }
+  const activePlayerTile = this._framePlayerTile;
 
+  phaseStartedAtMs = samplePerformancePhases ? performanceNow() : null;
   // Update combo system timer (always active — checks expiry)
   if (this.comboSystem) {
     this.comboSystem.update(this.time.now);
@@ -627,13 +552,20 @@ function _updateSystems(time, delta, keys) {
   if (this.weatherSystem) {
     this.weatherSystem.update(time, delta);
   }
-  this.worldRenderer?.update?.(time, delta, { playerTile });
+  this.worldRenderer?.update?.(time, delta, { playerTile: activePlayerTile });
   this.backgroundRenderer?.updateUniverseSky();
   this.startZoneScenicBackgroundSystem?.update();
   this.levelOneGroundFacadeSystem?.update(time);
   this.startZoneGroundFacadeSystem?.update(time);
   this.worldScenicFacadeSystem?.update(time, delta);
+  if (samplePerformancePhases) {
+    recordPerformanceSpan(
+      PERFORMANCE_TELEMETRY_CONFIG.phases.playWorldEnvironment,
+      phaseStartedAtMs
+    );
+  }
 
+  phaseStartedAtMs = samplePerformancePhases ? performanceNow() : null;
   // Update atmosphere system (clouds, horizon glow, mist, fireflies, wind particles)
   if (this.atmosphereSystem) {
     this.atmosphereSystem.update(time, delta);
@@ -645,35 +577,41 @@ function _updateSystems(time, delta, keys) {
 
 
     // Update sky tile glow effects (always active)
-    if (this.worldRenderer && playerTile) {
-      this.worldRenderer.updateSkyTileGlow(playerTile, 20);
+    if (this.worldRenderer && activePlayerTile) {
+      this.worldRenderer.updateSkyTileGlow(activePlayerTile, 20);
     }
 
     // Update chest glow effects (always active — golden pulsing light around treasure chests)
-    if (this.worldRenderer && playerTile) {
-      this.worldRenderer.updateChestGlow(playerTile, 25);
+    if (this.worldRenderer && activePlayerTile) {
+      this.worldRenderer.updateChestGlow(activePlayerTile, 25);
     }
 
     // Update glow crystal effects (always active — pretty colored crystal clusters)
-    if (this.worldRenderer && playerTile) {
-      this.worldRenderer.updateGlowCrystals(playerTile, 25);
+    if (this.worldRenderer && activePlayerTile) {
+      this.worldRenderer.updateGlowCrystals(activePlayerTile, 25);
     }
 
-    if (this.caveAtmosphereSystem && playerTile) {
-      this.caveAtmosphereSystem.update(playerTile, time);
+    if (this.caveAtmosphereSystem && activePlayerTile) {
+      this.caveAtmosphereSystem.update(activePlayerTile, time);
     }
 
-    if (this.caveHazardSystem && playerTile) {
-      this.caveHazardSystem.update(time, playerTile, this.gameState === "playing");
+    if (this.caveHazardSystem && activePlayerTile) {
+      this.caveHazardSystem.update(time, activePlayerTile, this.gameState === "playing");
     }
 
-    if (this.caveInteriorOcclusionSystem && playerTile) {
-      this.caveInteriorOcclusionSystem.update(playerTile);
+    if (this.caveInteriorOcclusionSystem && activePlayerTile) {
+      this.caveInteriorOcclusionSystem.update(activePlayerTile);
     }
 
   // Update Star Pillar System (always active — handles proximity + zoom view)
-  if (this.starPillarSystem && playerTile) {
-    this.starPillarSystem.update(time, delta, playerTile, keys);
+  if (this.starPillarSystem && activePlayerTile) {
+    this.starPillarSystem.update(time, delta, activePlayerTile, keys);
+  }
+  if (samplePerformancePhases) {
+    recordPerformanceSpan(
+      PERFORMANCE_TELEMETRY_CONFIG.phases.playVisualEffects,
+      phaseStartedAtMs
+    );
   }
 }
 
@@ -681,22 +619,15 @@ function _updateSystems(time, delta, keys) {
  * Update playing state specific logic
  * @private
  */
-function _updatePlayingState(time, delta, keys) {
+function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Block all gameplay while star chart view is open
   if (this._pillarViewActive) return;
 
   // Depth gates have priority over movement, mining, and active hazards.
   if (this.depthGateSystem?.update()) return;
 
-  this.earthquakeSystem?.update(delta);
-  this.earthquakeFeedbackUI?.update();
-  this.earthquakeHazardOverlay?.update();
-
   // Get player tile early (needed for campfire proximity check)
-  let playerTile = null;
-  if (this.playerController) {
-    playerTile = this.playerController.getPlayerTile();
-  }
+  let playerTile = framePlayerTile;
 
   // Campfire system (surface buff station) — MUST run before player controller
   // so W/S/E input handling works while menu is open, and so player can't move
@@ -708,53 +639,120 @@ function _updatePlayingState(time, delta, keys) {
   // Block all gameplay while campfire menu is open (like shop overlay does)
   if (this.campfireSystem && this.campfireSystem.isSelecting()) return;
 
+  const thunderMovement = this.playerController?.input?.getHorizontalMovement?.();
+  if (thunderMovement?.left || thunderMovement?.right) {
+    this.thunderStrikeActionRuntime?.cancel?.(time);
+  }
+
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
+  // Honor the player's current-frame fly/dodge input before a falling rock
+  // resolves its swept collision.
+  this.earthquakeSystem?.update(delta);
+  this.earthquakeFeedbackUI?.update();
+  this.earthquakeHazardOverlay?.update();
+  if (this.gameState !== "playing") return;
+
   this.celestialEngineController?.update(time, delta, keys);
   this.openingFlightArtifactSystem?.update(delta);
   this.playerKinematicMotion?.samplePhysics(delta);
   this.playerRigContact?.update(delta);
 
   playerTile = this.playerController.getPlayerTile();
+  this._framePlayerTile = playerTile;
+  updateHardcoreModeRuntime(this, time, delta, playerTile);
+  if (this.gameState !== "playing") return;
   updateGraveborerWurmRuntime(this, time, delta, playerTile);
+  if (this.gameState !== "playing") return;
   this.npcManager?.updateActivities?.(time, delta, playerTile);
   const arcCoreConsumedInteraction = this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
 
+  this.specialTileSystem?.update?.();
   const milestoneDistance = this.milestoneBoardSystem?.getInteractionDistance?.(playerTile)
     ?? Number.POSITIVE_INFINITY;
   const nearestNpcDistance = this.npcManager?.getNearestInteractionDistance?.(playerTile)
     ?? Number.POSITIVE_INFINITY;
+  const titanStatueDistance = this.worldRenderer
+    ?.getTitanSurfaceInspectionDistance?.(playerTile)
+    ?? Number.POSITIVE_INFINITY;
+  const specialTileDistance = this.specialTileSystem?.getInteractionDistance?.(playerTile)
+    ?? Number.POSITIVE_INFINITY;
+  const specialTileHasPriority = Number.isFinite(specialTileDistance)
+    && specialTileDistance <= Math.min(
+      milestoneDistance,
+      nearestNpcDistance,
+      titanStatueDistance,
+    );
   const milestoneConsumedInteraction = this.milestoneBoardSystem?.update?.(
     playerTile,
     this.inputHandler?.getKeys?.(),
-    { allowOpen: milestoneDistance < nearestNpcDistance },
+    {
+      allowOpen: !arcCoreConsumedInteraction
+        && milestoneDistance
+        < Math.min(nearestNpcDistance, titanStatueDistance, specialTileDistance),
+    },
   ) === true;
+  const titanConsumedInteraction = this.worldRenderer
+    ?.updateTitanSurfaceInspection?.(
+      playerTile,
+      keys,
+      {
+          allowInspect: !arcCoreConsumedInteraction
+          && !milestoneConsumedInteraction
+          && titanStatueDistance
+            < Math.min(milestoneDistance, nearestNpcDistance, specialTileDistance),
+      },
+    ) === true;
 
   // NPC interaction
-  if (!arcCoreConsumedInteraction && !milestoneConsumedInteraction) {
+  if (
+    !arcCoreConsumedInteraction
+    && !milestoneConsumedInteraction
+    && !titanConsumedInteraction
+    && !specialTileHasPriority
+  ) {
     this.npcManager.checkNPCInteraction();
   }
   
   // Update NPC interact prompts (floating "Press E" text visibility)
-  this.npcManager.updateInteractPrompts(playerTile, milestoneDistance);
+  this.npcManager.updateInteractPrompts(
+    playerTile,
+    Math.min(milestoneDistance, titanStatueDistance, specialTileDistance),
+  );
 
   // Integrated caves stay in PlayScene. Only explicit compact review mouths
   // open CaveScene; geodes always remain in the authoritative world.
-  if (!arcCoreConsumedInteraction && this.caveEntryController?.update(playerTile, keys)) return;
+  if (
+    !arcCoreConsumedInteraction
+    && !milestoneConsumedInteraction
+    && !titanConsumedInteraction
+    && !specialTileHasPriority
+    && this.caveEntryController?.update(playerTile, keys)
+  ) return;
 
     // Special tile system (gamble and teleport tiles)
-    this.specialTileSystem.update();
     this.heavenblocksAccessSystem?.update?.(playerTile);
 
   // Aim handling
-  const rawAimTargetTile = this.inputHandler.resolveAimTargetTile();
+  const miningInputState = this.inputHandler.resolveMiningInputState();
+  const rawAimTargetTile = miningInputState.targetTile;
+  const effectiveAimLabel = miningInputState.aimLabel
+    || this.playerController.getAimLabel();
+  const mineInputHeld = keys.mine?.isDown === true
+    || miningInputState.mouseHeld
+    || miningInputState.mouseRequested;
   const aimTargetTile = this.inputHandler.resolveStableMineTarget(
     rawAimTargetTile,
-    keys.mine?.isDown === true,
-    this.playerController.getAimLabel()
+    mineInputHeld,
+    effectiveAimLabel,
   );
-  this.inputHandler.updateAimBox(aimTargetTile, this.inputHandler.isSolidAimTarget(aimTargetTile));
-  this.miningIntentPreviewSystem?.update(aimTargetTile, keys);
+  this.inputHandler.updateAimBox(
+    aimTargetTile,
+    this.inputHandler.isSolidAimTarget(aimTargetTile),
+    miningInputState,
+  );
+  this.miningIntentPreviewSystem?.update(aimTargetTile, keys, effectiveAimLabel);
+  this._effectiveMineAimLabel = effectiveAimLabel;
 
   // Mining
   const abilities = this.playerController.abilities;
@@ -791,6 +789,7 @@ function _updatePlayingState(time, delta, keys) {
         targetTile: quickslashTarget,
         tileType,
         actionKind: "quickslash",
+        actionDirectionX: quickslashDir,
         animationKeyOverride: profile.quickslashAnim || ASSET_KEYS.player.quickslashAnim,
         onContact: (contactEvent) => {
           const now = contactEvent?.now ?? this.time?.now ?? time;
@@ -820,12 +819,20 @@ function _updatePlayingState(time, delta, keys) {
     this._actionFlipX = null;
   }
 
-  // Normal mining (F key)
-  if (!this._teleportInAnimating && this.playerController.consumeMineInput() && !isQuickslashActive) {
+  // Normal mining (configured dig key or primary mouse click/hold).
+  const keyboardMineRequested = this.playerController.consumeMineInput();
+  const normalMineRequested = keyboardMineRequested || miningInputState.mouseRequested;
+  if (!this._teleportInAnimating && normalMineRequested && !isQuickslashActive) {
+    if (miningInputState.mouseRequested) {
+      this.inputHandler.acknowledgeMouseMineRequest();
+    }
     if (arcCoreActive) {
-      handleArcCoreMine(this, aimTargetTile, time, abilities);
+      handleArcCoreMine(this, aimTargetTile, time, abilities, effectiveAimLabel);
     } else {
-      const mineAttempt = this.prepareLivingDrillMineAttempt?.(aimTargetTile)
+      const mineAttempt = this.prepareLivingDrillMineAttempt?.(
+        aimTargetTile,
+        effectiveAimLabel,
+      )
         || { allow: true, targetTile: aimTargetTile };
       if (mineAttempt.allow) {
         const mineTargetTile = mineAttempt.targetTile;
@@ -837,7 +844,7 @@ function _updatePlayingState(time, delta, keys) {
           this.config.tileSize,
           mineTargetTile,
         );
-        const resolvedAim = committedDirection?.aimLabel || this.playerController.getAimLabel();
+        const resolvedAim = committedDirection?.aimLabel || effectiveAimLabel;
         const profile = this.playerAssetProfile || ASSET_KEYS.player;
 
         if (profile.isUalNative) {
@@ -907,7 +914,7 @@ function _updatePlayingState(time, delta, keys) {
     }
   }
 
-  // Thunder Strike: one paid charge, then two exact-timing free follow-up slams.
+  // Thunder Strike: one paid charge, then exact-timing free follow-up slams.
   const cInput = this.playerController.input.getThunderStrikeInput();
   this.thunderStrikeActionRuntime?.update(
     time,
@@ -929,9 +936,6 @@ function _updatePlayingState(time, delta, keys) {
     !this.isDigAnimating && this.playerController?.abilities?.isFlying?.() === true,
   );
 
-  // HUD updates - reuse playerTile from line 162 (no const to avoid redeclaration)
-  playerTile = this.playerController.getPlayerTile();
-  
   // Safety check: if playerTile is undefined (player about to die), skip depth calculation
   if (!playerTile) {
     return;
@@ -958,30 +962,18 @@ function _updatePlayingState(time, delta, keys) {
       this.shakeSystem?.shake("misc.depthMilestone");
       // Trigger cinematic for curated depths (100, 300, 500, 750, 1000, 1500, 2000)
       this.depthMilestoneCinematic?.trigger?.(depth, milestone);
-      // Flash status
-      if (this.hudSystem) {
-        this.hudSystem.flashStatus(
-          `✦ MILESTONE: ${milestone.depth}m - ${milestone.name}! ${milestone.reward}`,
-          '#FFD700',
-          3000
-        );
-      }
-      // Update the milestone board counter
-      const bonuses = this.milestoneBoardSystem.getBonuses();
-      if (this.hudSystem) {
-        this.hudSystem.flashStatus(
-          `Total: +${bonuses.gpMaxBonus} GP | +${bonuses.miningSpeedPct}% Speed | +${bonuses.critChancePct}% Crit`,
-          '#88AACC',
-          3000
-        );
-      }
+      // Exact permanent totals live in the Milestone board and ESC > Journey.
+      // Curated depths already receive the centered cinematic; never enqueue
+      // an additional normal notification card.
     }
   }
 
   this.hudSystem.setDepth(depth);
   this.hudSystem.setXTile(playerTile.tx);
   this.hudSystem.setTilesBroken(this.digSystem.getTilesBroken());
-  this.hudSystem.setAim(this.playerController.getAimLabel());
+  this.hudSystem.setAim(
+    this._effectiveMineAimLabel || this.playerController.getAimLabel(),
+  );
   syncProgressionGemPowerMax(this);
 
   const gemPowerPct = this.playerController.getGemPowerPercent();
@@ -990,15 +982,6 @@ function _updatePlayingState(time, delta, keys) {
     this.playerController.getGemPowerRaw(),
     this.playerController.getGemPowerMax()
   );
-
-  // Low gem power warning
-  if (gemPowerPct < HUD_LAYOUT.gpWarningPercent && gemPowerPct > 0 && !this._lowGemPowerWarned) {
-    this._lowGemPowerWarned = true;
-    this.hudSystem.flashStatus("Gem Power low! Head up!", "#ffaa33", UI_CONFIG.flashGemPowerLow);
-  }
-  if (gemPowerPct >= 50) {
-    this._lowGemPowerWarned = false;
-  }
 
   // Flight height indicator (always visible)
   const flightAbilities = this.playerController.abilities;
@@ -1028,7 +1011,7 @@ function _updatePlayingState(time, delta, keys) {
 
   // Death check
   if (playerTile.ty >= this.config.deathTileY) {
-    this.enterDeathState(depth);
+    this.handleCasualBoundaryRescue?.(depth);
   }
 }
 
@@ -1051,8 +1034,10 @@ export function updateCameraSystems(scene, time, delta) {
   //     already feels substantially larger without any zoom.
 }
 
-export function updateLightingSystems(scene, time, delta) {
-  const playerTile = scene.playerController?.getPlayerTile?.() ?? null;
+export function updateLightingSystems(scene, time, delta, framePlayerTile = undefined) {
+  const playerTile = framePlayerTile === undefined
+    ? scene.playerController?.getPlayerTile?.() ?? null
+    : framePlayerTile;
   const lightDepth = playerTile
     ? Math.max(0, playerTile.ty - scene.config.topAirRows + 1)
     : undefined;

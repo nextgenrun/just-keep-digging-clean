@@ -12,6 +12,10 @@ import { TILE_TYPES } from "../../values/tileTypes.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { RESOURCE_BY_TILE_TYPE, RESOURCE_COLOR_INTS } from "../../values/resourceTypes.js";
 import {
+  WORLD_RENDER_PERFORMANCE,
+  resolveTileStreamStagingEnabled,
+} from "../../values/worldRenderPerformance.js";
+import {
   SOIL_ATLAS_FRAME_COUNT,
   SOIL_BAND_COUNT,
   SOIL_VARIANT_COUNT,
@@ -23,6 +27,7 @@ import {
   getSoilAtlasOffset,
 } from "../../values/dynamicSoil.js";
 import { TitanDiscoverySystem } from "../../systems/visual/TitanDiscoverySystem.js";
+import { WorldRenderWindowBuffer } from "./WorldRenderWindowBuffer.js";
 
 // Resource colors used for brief "what's inside" flashes on sky tiles.
 const RESOURCE_GLOW_COLORS = Object.freeze(
@@ -161,10 +166,20 @@ export class WorldRenderer {
     this.map = null;
     this.layer = null;
     this.rootOverlayLayer = null;
-    this._streamHeightTiles = Math.min(256, worldModel.depth);
+    this._streamConfig = WORLD_RENDER_PERFORMANCE.streamWindow;
+    this._streamStagingEnabled = resolveTileStreamStagingEnabled(this._streamConfig);
+    this._streamHeightTiles = Math.min(this._streamConfig.heightTiles, worldModel.depth);
     this._streamTopTile = 0;
-    this._streamMarginTiles = 48;
-    this._streamStepTiles = 128;
+    this._streamMarginTiles = this._streamConfig.marginTiles;
+    this._streamStepTiles = this._streamConfig.stepTiles;
+    this._streamBuffer = new WorldRenderWindowBuffer(this, {
+      ...this._streamConfig,
+      heightTiles: this._streamHeightTiles,
+      immediateShiftDistanceTiles: Math.min(
+        this._streamConfig.immediateShiftDistanceTiles,
+        this._streamHeightTiles,
+      ),
+    }, worldModel.depth);
     
     // Sky tile highlighting
     this._skyTileGraphics = null; // Graphics object for sky tile glow effects
@@ -183,7 +198,10 @@ export class WorldRenderer {
     this.createTilesheetTexture();
     this.createLayer();
     this.paintInitialWorld();
-    this.layer.setCollisionByExclusion([-1, 0], true);
+    this.layer.setCollisionByExclusion(
+      this._streamConfig.excludedCollisionIndices,
+      true,
+    );
     
     // Create graphics object for sky tile glow effects
     this._skyTileGraphics = this.scene.add.graphics();
@@ -381,25 +399,84 @@ export class WorldRenderer {
     this.rootOverlayLayer.setY(this._streamTopTile * this.config.tileSize);
     this.rootOverlayLayer.setCullPadding(3, 3);
     this.rootOverlayLayer.setDepth(1);
+
+    if (this._streamStagingEnabled) {
+      const bufferLayer = this.map.createBlankLayer("world-buffer", tileset, 0, 0);
+      bufferLayer.setCullPadding(3, 3).setVisible(false);
+      const bufferRootOverlayLayer = this.map.createBlankLayer(
+        "root-overlays-buffer",
+        tileset,
+        0,
+        0,
+      );
+      bufferRootOverlayLayer
+        .setCullPadding(3, 3)
+        .setDepth(1)
+        .setVisible(false);
+      this._streamBuffer.attach(bufferLayer, bufferRootOverlayLayer);
+    }
   }
 
   paintInitialWorld() {
+    this.paintWorldRows(
+      this.layer,
+      this.rootOverlayLayer,
+      this._streamTopTile,
+      0,
+      this._streamHeightTiles,
+      false,
+    );
+  }
+
+  paintWorldRows(
+    layer,
+    rootOverlayLayer,
+    worldTopTile,
+    localStartRow,
+    rowCount,
+    applyCollision,
+  ) {
     const row = new Array(this.worldModel.width);
     const rootRow = new Array(this.worldModel.width);
+    const finalLocalRow = Math.min(
+      this._streamHeightTiles,
+      localStartRow + rowCount,
+    );
 
-    for (let localTy = 0; localTy < this._streamHeightTiles; localTy += 1) {
-      const ty = this._streamTopTile + localTy;
+    for (let localTy = localStartRow; localTy < finalLocalRow; localTy += 1) {
+      const ty = worldTopTile + localTy;
       for (let tx = 0; tx < this.worldModel.width; tx += 1) {
         row[tx] = this.worldModel.getRenderIndex(tx, ty);
         rootRow[tx] = this.getRootOverlayRenderIndex(tx, ty);
       }
 
-      this.layer.putTilesAt(row, 0, localTy);
-      this.rootOverlayLayer?.putTilesAt(rootRow, 0, localTy);
+      layer.putTilesAt(row, 0, localTy);
+      rootOverlayLayer?.putTilesAt(rootRow, 0, localTy);
+      if (applyCollision) this.applyRowCollision(layer, row, localTy);
+    }
+  }
+
+  applyRowCollision(layer, renderIndices, localTy) {
+    const excluded = this._streamConfig.excludedCollisionIndices;
+    for (let tx = 0; tx < renderIndices.length; tx += 1) {
+      const tile = layer.getTileAt(tx, localTy, false);
+      if (!tile) continue;
+      if (excluded.includes(renderIndices[tx])) {
+        tile.resetCollision(false);
+      } else {
+        tile.setCollision(true, true, true, true, false);
+      }
     }
   }
 
   updateRenderWindow(playerTile) {
+    if (!this._streamStagingEnabled || !this._streamBuffer.layer) {
+      return this.updateRenderWindowLegacy(playerTile);
+    }
+    return this._streamBuffer.update(playerTile, this._streamTopTile);
+  }
+
+  updateRenderWindowLegacy(playerTile) {
     if (!playerTile || !Number.isFinite(playerTile.ty)) return false;
     const minSafeY = this._streamTopTile + this._streamMarginTiles;
     const maxSafeY = this._streamTopTile + this._streamHeightTiles - this._streamMarginTiles - 1;
@@ -416,12 +493,19 @@ export class WorldRenderer {
     this.layer.setY(worldY);
     this.rootOverlayLayer?.setY(worldY);
     this.paintInitialWorld();
-    this.layer.setCollisionByExclusion([-1, 0], true);
+    this.layer.setCollisionByExclusion(
+      this._streamConfig.excludedCollisionIndices,
+      true,
+    );
     return true;
   }
 
   _toLocalTileY(worldTileY) {
-    const localTy = worldTileY - this._streamTopTile;
+    return this._toLocalTileYForTop(worldTileY, this._streamTopTile);
+  }
+
+  _toLocalTileYForTop(worldTileY, worldTopTile) {
+    const localTy = worldTileY - worldTopTile;
     return localTy >= 0 && localTy < this._streamHeightTiles ? localTy : null;
   }
 
@@ -440,17 +524,35 @@ export class WorldRenderer {
   }
 
   applyRootOverlayUpdate(tx, ty) {
-    if (!this.rootOverlayLayer) return;
-    const localTy = this._toLocalTileY(ty);
+    this.applyRootOverlayUpdateToLayer(
+      this.rootOverlayLayer,
+      this._streamTopTile,
+      tx,
+      ty,
+    );
+    const pendingWindow = this._streamBuffer.getPendingWindow();
+    if (pendingWindow?.rootOverlayLayer) {
+      this.applyRootOverlayUpdateToLayer(
+        pendingWindow.rootOverlayLayer,
+        pendingWindow.targetTop,
+        tx,
+        ty,
+      );
+    }
+  }
+
+  applyRootOverlayUpdateToLayer(layer, worldTopTile, tx, ty) {
+    if (!layer) return;
+    const localTy = this._toLocalTileYForTop(ty, worldTopTile);
     if (localTy === null) return;
     const renderIndex = this.getRootOverlayRenderIndex(tx, ty);
     if (renderIndex === -1) {
-      this.rootOverlayLayer.removeTileAt(tx, localTy, true, true);
+      layer.removeTileAt(tx, localTy, true, true);
       return;
     }
-    const existing = this.rootOverlayLayer.getTileAt(tx, localTy, false);
+    const existing = layer.getTileAt(tx, localTy, false);
     if (!existing || existing.index !== renderIndex) {
-      this.rootOverlayLayer.putTileAt(renderIndex, tx, localTy, true);
+      layer.putTileAt(renderIndex, tx, localTy, true);
     }
   }
 
@@ -458,28 +560,49 @@ export class WorldRenderer {
     this.scene.levelOneGroundFacadeSystem?.invalidateCell(tx, ty);
     this.scene.worldScenicFacadeSystem?.invalidateCell(tx, ty);
     this.titanDiscoverySystem?.invalidateTile(tx, ty);
-    const localTy = this._toLocalTileY(ty);
+    this.applyTileUpdateToWindow(
+      this.layer,
+      this.rootOverlayLayer,
+      this._streamTopTile,
+      tx,
+      ty,
+    );
+    const pendingWindow = this._streamBuffer.getPendingWindow();
+    if (pendingWindow) {
+      this.applyTileUpdateToWindow(
+        pendingWindow.layer,
+        pendingWindow.rootOverlayLayer,
+        pendingWindow.targetTop,
+        tx,
+        ty,
+      );
+    }
+  }
+
+  applyTileUpdateToWindow(layer, rootOverlayLayer, worldTopTile, tx, ty) {
+    const localTy = this._toLocalTileYForTop(ty, worldTopTile);
     if (localTy === null) return;
     const renderIndex = this.worldModel.getRenderIndex(tx, ty);
 
     if (renderIndex === -1) {
-      if (this.layer.getTileAt(tx, localTy, false)) {
-        this.layer.removeTileAt(tx, localTy, true, true);
+      if (layer.getTileAt(tx, localTy, false)) {
+        layer.removeTileAt(tx, localTy, true, true);
       }
-      this.applyRootOverlayUpdate(tx, ty);
+      this.applyRootOverlayUpdateToLayer(rootOverlayLayer, worldTopTile, tx, ty);
       return;
     }
 
-    const existing = this.layer.getTileAt(tx, localTy, false);
+    const existing = layer.getTileAt(tx, localTy, false);
     if (existing && existing.index === renderIndex) {
+      this.applyRootOverlayUpdateToLayer(rootOverlayLayer, worldTopTile, tx, ty);
       return;
     }
 
-    const tile = this.layer.putTileAt(renderIndex, tx, localTy, true);
+    const tile = layer.putTileAt(renderIndex, tx, localTy, true);
     if (tile) {
       tile.setCollision(true, true, true, true);
     }
-    this.applyRootOverlayUpdate(tx, ty);
+    this.applyRootOverlayUpdateToLayer(rootOverlayLayer, worldTopTile, tx, ty);
   }
 
   /**
@@ -498,30 +621,19 @@ export class WorldRenderer {
    * Repaints entire world to reflect reset state
    */
   refreshAllTiles() {
-    for (let localTy = 0; localTy < this._streamHeightTiles; localTy += 1) {
-      const ty = this._streamTopTile + localTy;
-      for (let tx = 0; tx < this.worldModel.width; tx += 1) {
-        const renderIndex = this.worldModel.getRenderIndex(tx, ty);
-
-        if (renderIndex === -1) {
-          // Air tile - remove if exists
-          if (this.layer.getTileAt(tx, localTy, false)) {
-            this.layer.removeTileAt(tx, localTy, true, true);
-          }
-          this.applyRootOverlayUpdate(tx, ty);
-        } else {
-          // Solid tile - update or create
-          const existing = this.layer.getTileAt(tx, localTy, false);
-          if (!existing || existing.index !== renderIndex) {
-            const tile = this.layer.putTileAt(renderIndex, tx, localTy, true);
-            if (tile) {
-              tile.setCollision(true, true, true, true);
-            }
-          }
-          this.applyRootOverlayUpdate(tx, ty);
-        }
-      }
-    }
+    this._streamBuffer.cancel();
+    this.paintWorldRows(
+      this.layer,
+      this.rootOverlayLayer,
+      this._streamTopTile,
+      0,
+      this._streamHeightTiles,
+      false,
+    );
+    this.layer.setCollisionByExclusion(
+      this._streamConfig.excludedCollisionIndices,
+      true,
+    );
     this.titanDiscoverySystem?.refresh();
   }
 
@@ -529,8 +641,28 @@ export class WorldRenderer {
     return this.titanDiscoverySystem?.getSnapshot() || null;
   }
 
+  getPerformanceSnapshot() {
+    return {
+      stagedStreamingEnabled: this._streamStagingEnabled,
+      ...this._streamBuffer.snapshot(this._streamTopTile),
+    };
+  }
+
   getTitanArchiveAssetProvider() {
     return this.titanDiscoverySystem?.getArchiveAssetProvider() || null;
+  }
+
+  getTitanSurfaceInspectionDistance(playerTile) {
+    return this.titanDiscoverySystem?.getSurfaceInspectionDistance(playerTile)
+      ?? Number.POSITIVE_INFINITY;
+  }
+
+  updateTitanSurfaceInspection(playerTile, keys, options = {}) {
+    return this.titanDiscoverySystem?.updateSurfaceInspection(
+      playerTile,
+      keys,
+      options
+    ) === true;
   }
 
   getTitanClueDirectionProvider() {
@@ -936,6 +1068,7 @@ export class WorldRenderer {
     this._skyTileGraphics?.destroy();
     this._specialBlockGraphics?.destroy();
     this.rootOverlayLayer?.destroy();
+    this._streamBuffer.destroy();
     this._chestGlowGfx?.destroy();
     this._glowCrystalGfx?.destroy();
     this._glowCrystalShardGfx?.destroy();

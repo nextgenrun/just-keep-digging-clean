@@ -1,6 +1,6 @@
 export const WORLD_VISUAL_SURFACE_PROPS = Object.freeze({
   enabled: true,
-  version: "surface-props-v2-approved-mockup-3-midtone-safe",
+  version: "surface-props-v5-additive-landscape-chapters",
   query: Object.freeze({
     all: "surfaceProps",
     level1: "surfacePropsL1",
@@ -9,6 +9,16 @@ export const WORLD_VISUAL_SURFACE_PROPS = Object.freeze({
   }),
   scale: Object.freeze({
     minimumSourcePixelsPerWorldPixel: 2.25,
+    sizeVariants: Object.freeze({
+      small: 0.84,
+      standard: 1,
+      large: 1.1,
+    }),
+    lanePerspective: Object.freeze({
+      rear: 0.93,
+      mid: 1,
+      front: 1.06,
+    }),
   }),
   grounding: Object.freeze({
     scanRowsAboveSurface: 4,
@@ -33,7 +43,10 @@ export const WORLD_VISUAL_SURFACE_PROPS = Object.freeze({
     front: 0.94,
   }),
   coverage: Object.freeze({
-    maximumUncoveredGapTiles: 0.5,
+    maximumUncoveredGapTiles: 3,
+  }),
+  exclusions: Object.freeze({
+    titanGalleryPaddingTiles: 2,
   }),
 });
 

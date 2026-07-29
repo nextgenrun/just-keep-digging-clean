@@ -1,4 +1,5 @@
 import {
+  formatThunderStrikeMultiplier,
   THUNDER_STRIKE_CHAIN_CONFIG,
   getThunderStrikeStage,
 } from "../../values/thunderStrikeChain.js";
@@ -166,9 +167,7 @@ export class ThunderStrikeImpactFxSystem {
     const fx = this.config.impactFx;
     if (!scene.add?.text) return;
     const multiplier = Number(effectiveDamageMultiplier) || stage.damageMultiplier;
-    const multiplierText = Number.isInteger(multiplier)
-      ? String(multiplier)
-      : multiplier.toFixed(1);
+    const multiplierText = formatThunderStrikeMultiplier(multiplier);
     const label = this._track(scene.add.text(
       x,
       y - 18,

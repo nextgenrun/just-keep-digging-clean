@@ -79,6 +79,7 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
     assert manifest["debugMode"] is False
     assert manifest["moduleCount"] >= 200
     assert manifest["assetCount"] >= 1000
+    assert manifest["moduleCacheKey"] == build_id
 
     index_response = request(endpoint(base_url, ""), headers={"Accept-Encoding": "identity"})
     assert index_response.status == 200, f"index returned {index_response.status}"
@@ -100,6 +101,8 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
     main_source = main_response.body.decode("utf-8")
     assert "installRuntimeCanarySystem" in main_source
     assert "installAdminHealthPanel" in main_source
+    assert f"?v={build_id}" in main_source
+    assert "?rev=" not in main_source
 
     require_javascript_contract(
         base_url,

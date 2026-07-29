@@ -2,6 +2,13 @@
 
 systems directory.
 
+## UI input priority
+
+`UiInputPriorityRegistry.js` is the scene-scoped, nested lock shared by full UI
+surfaces and gameplay pointer consumers. Modal shells hold one lock from show
+through completed exit, and releases are idempotent so overlapping menus cannot
+prematurely return the mouse to the world.
+
 ## Runtime health
 
 `health/RuntimeCanarySystem.js` is the browser-runtime health coordinator. It

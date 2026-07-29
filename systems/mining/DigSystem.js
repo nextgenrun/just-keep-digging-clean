@@ -2,7 +2,10 @@ import { TILE_TYPES, isUnbreakableMiningSurface } from "../../values/tileTypes.j
 import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
-import { getGemPowerBlockRestoreAmount } from "../../values/specialBlocks.js";
+import { getGemPowerBlockTier } from "../../values/specialBlocks.js";
+import {
+  CONSTELLATION_MATCHING_STAR_YIELD_BONUS,
+} from "../../values/constellationBuffs.js";
 import {
   getResourceRarityDescriptor,
   getResourceYieldMultiplier,
@@ -91,7 +94,9 @@ export class DigSystem {
     const passiveBonus = !!resourceType && unlocked.includes(resourceType);
 
     return {
-      multiplier: baseMultiplier + (passiveBonus ? 1 : 0),
+      multiplier: baseMultiplier + (
+        passiveBonus ? CONSTELLATION_MATCHING_STAR_YIELD_BONUS : 0
+      ),
       passiveBonus,
     };
   }
@@ -234,15 +239,6 @@ export class DigSystem {
         },
       });
     }
-    const plural = gained === 1 ? "" : "S";
-    this.floatingTextSystem?.showFloatingText(
-      worldX,
-      worldY - 14,
-      `+${gained} ${ANCIENT_RELIC_CONFIG.displayName.toUpperCase()}${plural}`,
-      ANCIENT_RELIC_CONFIG.color,
-      ANCIENT_RELIC_CONFIG.cache.floatingTextDurationMs,
-      ANCIENT_RELIC_CONFIG.cache.floatingTextFontSizePx
-    );
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
     const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(
       finalRelicCount
@@ -420,6 +416,9 @@ export class DigSystem {
       behindOverkillDamage: 0,
       behindRarityId: "normal",
       behindRarityMultiplier: 1,
+      behindGemPowerRestored: 0,
+      behindGemPowerTierId: null,
+      behindGemPowerRestoreCapacity: 0,
     };
 
     if (!targetTile || !aimDirection) return heavyPunchResult;
@@ -478,10 +477,13 @@ export class DigSystem {
           }
         }
 
-        this._handleSpecialBlockEffects(
+        const behindSpecialResult = this._handleSpecialBlockEffects(
           { destroyed: true, typeBeforeDamage: behindResult.typeBeforeDamage },
           heavyPunchResult.heavyPunchTile
         );
+        heavyPunchResult.behindGemPowerRestored = behindSpecialResult.gemPowerRestored;
+        heavyPunchResult.behindGemPowerTierId = behindSpecialResult.gemPowerTierId;
+        heavyPunchResult.behindGemPowerRestoreCapacity = behindSpecialResult.gemPowerRestoreCapacity;
       }
       this.retentionProgressSystem?.recordMiningResult?.({
         success: true,
@@ -529,8 +531,6 @@ export class DigSystem {
     if (!this.worldModel.isDiggable(targetTile.tx, targetTile.ty)) {
       // Show hint for GEODE_WALL (requires Heavy Punch upgrade)
       if (tileType === TILE_TYPES.GEODE_WALL) {
-        const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-        const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
         const hasHeavyPunch = this._getHeavyPunchFraction() > 0;
         if (hasHeavyPunch && !options.skipHeavyPunch) {
           const baseDamage = this._getBaseDamageForTile(tileType);
@@ -562,34 +562,14 @@ export class DigSystem {
               specialBlockEffect: null,
               specialBlockDestroyed: false,
               gemPowerRestored: 0,
+              gemPowerTierId: null,
+              gemPowerRestoreCapacity: 0,
               levelsGained: 0,
               skyTileMultiplier: 1,
               skyTilePassiveBonus: false,
             };
           }
 
-          // Player has heavy punch but the target is the wall itself (not behind it)
-          // Show hint about aiming through the wall
-          if (this.floatingTextSystem) {
-            this.floatingTextSystem.showFloatingText(
-              worldX, worldY - 12,
-              "⚡ Heavy Punch through wall!",
-              "#ff8800",
-              1000,
-              16
-            );
-          }
-        } else if (!hasHeavyPunch) {
-          // Player has NOT unlocked heavy punch — show upgrade hint
-          if (this.floatingTextSystem) {
-            this.floatingTextSystem.showFloatingText(
-              worldX, worldY - 12,
-              "⚠ Needs Heavy Punch!",
-              "#ff4444",
-              1500,
-              18
-            );
-          }
         }
       }
       return {
@@ -617,6 +597,8 @@ export class DigSystem {
     let specialBlockEffect = null;
     let specialBlockDestroyed = false;
     let gemPowerRestored = 0;
+    let gemPowerTierId = null;
+    let gemPowerRestoreCapacity = 0;
     let levelsGained = 0;
     let forcedLevelResult = null;
 
@@ -687,6 +669,8 @@ export class DigSystem {
         specialBlockEffect,
         specialBlockDestroyed,
         gemPowerRestored,
+        gemPowerTierId,
+        gemPowerRestoreCapacity,
         levelsGained,
         forcedLevelResult,
       } = specialBlockResult);
@@ -947,6 +931,10 @@ export class DigSystem {
       rewards: [],
       levelsGained: 0,
       specialBlockEffect: null,
+      specialBlockDestroyed: false,
+      gemPowerRestored: 0,
+      gemPowerTierId: null,
+      gemPowerRestoreCapacity: 0,
       ancientRelics: 0,
       rarityId: "normal",
       rarityMultiplier: 1,
@@ -1007,21 +995,23 @@ export class DigSystem {
       result.rewards = xpResult.rewards || [];
     }
 
-    // Handle special block effects (XP block, berserk, speed, combo, etc.)
-    if (this.specialBlockEffectsManager) {
-      const specialResult = this._handleSpecialBlockEffects(
-        { destroyed: true, typeBeforeDamage: tileType },
-        { tx, ty }
-      );
-      result.specialBlockEffect = specialResult.specialBlockEffect;
-      if (specialResult.levelsGained) {
-        result.levelUp = true;
-        result.newLevel = this.playerLevelSystem ? this.playerLevelSystem.level : null;
-        result.levelsGained = specialResult.levelsGained;
-        result.hasChoice = Boolean(specialResult.forcedLevelResult?.hasChoice);
-        result.choiceLevel = specialResult.forcedLevelResult?.choiceLevel ?? null;
-        result.rewards = specialResult.forcedLevelResult?.rewards || [];
-      }
+    // Apply every special reward, including instant GP tiers that do not need the timed-effect manager.
+    const specialResult = this._handleSpecialBlockEffects(
+      { destroyed: true, typeBeforeDamage: tileType },
+      { tx, ty }
+    );
+    result.specialBlockEffect = specialResult.specialBlockEffect;
+    result.specialBlockDestroyed = specialResult.specialBlockDestroyed;
+    result.gemPowerRestored = specialResult.gemPowerRestored;
+    result.gemPowerTierId = specialResult.gemPowerTierId;
+    result.gemPowerRestoreCapacity = specialResult.gemPowerRestoreCapacity;
+    if (specialResult.levelsGained) {
+      result.levelUp = true;
+      result.newLevel = this.playerLevelSystem ? this.playerLevelSystem.level : null;
+      result.levelsGained = specialResult.levelsGained;
+      result.hasChoice = Boolean(specialResult.forcedLevelResult?.hasChoice);
+      result.choiceLevel = specialResult.forcedLevelResult?.choiceLevel ?? null;
+      result.rewards = specialResult.forcedLevelResult?.rewards || [];
     }
 
     // Add combo points only if explicitly requested (prevents infinite combo loops)
@@ -1103,6 +1093,8 @@ export class DigSystem {
       specialBlockEffect: null,
       specialBlockDestroyed: false,
       gemPowerRestored: 0,
+      gemPowerTierId: null,
+      gemPowerRestoreCapacity: 0,
       levelsGained: 0,
       forcedLevelResult: null,
     };
@@ -1114,6 +1106,8 @@ export class DigSystem {
     let specialBlockEffect = null;
     let specialBlockDestroyed = false;
     let gemPowerRestored = 0;
+    let gemPowerTierId = null;
+    let gemPowerRestoreCapacity = 0;
     let levelsGained = 0;
     let forcedLevelResult = null;
     
@@ -1122,28 +1116,39 @@ export class DigSystem {
 
     switch (result.typeBeforeDamage) {
       case TILE_TYPES.GEM_POWER_BLOCK:
-        // GEM_POWER_BLOCK restores a fixed tiered amount, not full GP.
-        // Gem power is managed by PlayerAbilities, not PlayerLevelSystem
-        // Get scene to access player abilities
+        // One depth resolver owns the texture family and restoration capacity.
+        {
+          const depthTiles = Math.max(
+            0,
+            targetTile.ty - (
+              this.worldModel?.topAirRows
+              ?? this.worldModel?.config?.topAirRows
+              ?? this.config.topAirRows
+              ?? 0
+            )
+          );
+          const tier = getGemPowerBlockTier(depthTiles);
+          gemPowerTierId = tier.id;
+          gemPowerRestoreCapacity = tier.restoreAmount;
+        }
         if (scene && scene.playerController && scene.playerController.abilities) {
           const abilities = scene.playerController.abilities;
-          const maxGP = abilities.getGemPowerMax();
-          const currentGP = abilities.getGemPowerRaw();
-          const depthTiles = targetTile.ty - (this.worldModel?.topAirRows || 0);
-          const gpToRestore = Math.max(0, Math.min(maxGP - currentGP, getGemPowerBlockRestoreAmount(depthTiles)));
-          
-          // Restore only the tiered amount so GP blocks stay valuable without becoming full refills.
-          abilities.gemPower = Math.min(maxGP, currentGP + gpToRestore);
-          
+          gemPowerRestored = abilities.restoreGemPower(
+            gemPowerRestoreCapacity,
+            {
+              source: "gemPowerBlock",
+              tierId: gemPowerTierId,
+              restoreCapacity: gemPowerRestoreCapacity,
+              tx: targetTile.tx,
+              ty: targetTile.ty,
+            }
+          );
           specialBlockEffect = 'gemPowerRestored';
-          gemPowerRestored = gpToRestore;
         } else {
           console.warn('[DigSystem] GEM_POWER_BLOCK effect requires playerController.abilities');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, `+${gemPowerRestored} GP`, '#9900FF', 2000);
-        }
+        if (gemPowerRestored > 0) scene?.hudSystem?.pulseGemPower?.(true);
         break;
 
       case TILE_TYPES.SPEED_BLOCK:
@@ -1154,9 +1159,6 @@ export class DigSystem {
           console.warn('[DigSystem] SPEED_BLOCK effect requires specialBlockEffectsManager with applyEffect method');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, '⚡ SPEED BOOST! +50%', '#FFD700', 2000);
-        }
         break;
 
       case TILE_TYPES.XP_BLOCK:
@@ -1170,9 +1172,6 @@ export class DigSystem {
           console.warn('[DigSystem] XP_BLOCK effect requires playerLevelSystem with gainLevel method');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, '✨ LEVEL UP! +1', '#FFFF00', 2000);
-        }
         break;
 
       case TILE_TYPES.CRIT_BLOCK:
@@ -1183,9 +1182,6 @@ export class DigSystem {
           console.warn('[DigSystem] CRIT_BLOCK effect requires specialBlockEffectsManager with applyEffect method');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, '💥 CRITICAL HITS! 20s', '#FF0000', 2000);
-        }
         break;
 
       case TILE_TYPES.BERSERK_BLOCK:
@@ -1196,9 +1192,6 @@ export class DigSystem {
           console.warn('[DigSystem] BERSERK_BLOCK effect requires specialBlockEffectsManager with applyEffect method');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, '💪 BERSERK! +50% DMG 20s', '#DC143C', 2000);
-        }
         break;
 
       case TILE_TYPES.COMBO_BLOCK:
@@ -1210,9 +1203,6 @@ export class DigSystem {
           console.warn('[DigSystem] COMBO_BLOCK effect requires comboSystem with addCombo method');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          this.floatingTextSystem.showFloatingText(worldX, worldY, '🎯 COMBO +50!', '#FF8800', 2000);
-        }
         break;
 
       case TILE_TYPES.LEGEND_BLOCK:
@@ -1226,11 +1216,6 @@ export class DigSystem {
           console.warn('[DigSystem] LEGEND_BLOCK effect requires playerLevelSystem with gainLevel method');
         }
         specialBlockDestroyed = true;
-        if (this.floatingTextSystem) {
-          // Bigger, more prominent visual feedback for the king tile
-          this.floatingTextSystem.showFloatingText(worldX, worldY - 30, '👑 KING TILE!', '#FFD700', 4000);
-          this.floatingTextSystem.showFloatingText(worldX, worldY + 10, '⚡ +5 LEVELS!', '#FFAA00', 3500);
-        }
         // Add gold sparkle particles around the area (visual feedback)
         if (scene) {
           scene.shakeSystem?.shake("misc.legendBlock");
@@ -1263,6 +1248,8 @@ export class DigSystem {
       specialBlockEffect,
       specialBlockDestroyed,
       gemPowerRestored,
+      gemPowerTierId,
+      gemPowerRestoreCapacity,
       levelsGained,
       forcedLevelResult,
     };

@@ -40,6 +40,7 @@ export class OpeningFlightGoldenFiveFlightController {
     };
     scene.upgradeSystem?.grantUpgrade?.(artifactConfig.upgradeId);
     scene.playerController?.abilities?.fillGemPower?.();
+    scene.armHardcoreAfterFlightUnlock?.("opening-flight-golden-five");
     openOpeningFlightGoldenFiveEscape(scene, config);
     prepareOpeningFlightGoldenFiveRewardLedge(scene, config);
     view.revealArtifact(getOpeningFlightArtifactBottomWorld(scene, config));
@@ -58,14 +59,6 @@ export class OpeningFlightGoldenFiveFlightController {
     scene.uiNotifications?.success?.(
       config.copy.unlockToast,
       { durationMs: config.feedback.unlockToastDurationMs },
-    );
-    scene.hudSystem?.flashStatus?.(
-      interpolateOpeningFlightCopy(
-        config.copy.unlockBody,
-        getOpeningFlightKeyLabels(),
-      ),
-      config.feedback.gold,
-      config.feedback.unlockStatusDurationMs,
     );
     this._lockControlsForReveal();
     scene.queueDugTilesSave?.();

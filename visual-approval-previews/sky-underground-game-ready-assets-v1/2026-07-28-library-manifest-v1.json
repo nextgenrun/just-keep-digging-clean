@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-28",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWired": false,
+  "gameReadyAssetCount": 30,
+  "counts": {
+    "sky": 20,
+    "undergroundForeground": 10
+  },
+  "contracts": {
+    "sky": {
+      "format": "webp",
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "edgeTreatment": "128px gradual RGB handoff to #081837 on all four sides",
+      "runtimeRole": "candidate scenic-v2 far-parallax plate"
+    },
+    "undergroundForeground": {
+      "format": "webp",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "edgeTreatment": "80px continuous alpha feather on all four sides",
+      "runtimeRole": "candidate additive terrain-masked foreground variation"
+    }
+  },
+  "reviewSheets": [
+    "2026-07-28-sky-20-plate-contact-sheet-v1.jpg",
+    "2026-07-28-underground-10-plate-contact-sheet-v1.png",
+    "2026-07-28-sky-crossfade-transition-proof-v1.jpg"
+  ],
+  "assets": [
+    {
+      "id": "sky01",
+      "type": "sky",
+      "coverage": "base",
+      "name": "Base Flight Corridor",
+      "file": "2026-07-28-sky-flight-corridor-far-plate-v1.webp",
+      "retainedApprovedSource": true
+    },
+    {
+      "id": "sky02",
+      "type": "sky",
+      "coverage": "western-lower",
+      "name": "Western Lower Mist Valleys",
+      "file": "2026-07-28-sky-02-western-lower-mist-valleys-v1.webp"
+    },
+    {
+      "id": "sky03",
+      "type": "sky",
+      "coverage": "western-upper",
+      "name": "Western Upper Aurora Shelf",
+      "file": "2026-07-28-sky-03-western-upper-aurora-shelf-v1.webp"
+    },
+    {
+      "id": "sky04",
+      "type": "sky",
+      "coverage": "western-stormbreak",
+      "name": "Western Stormbreak Edge",
+      "file": "2026-07-28-sky-04-western-stormbreak-edge-v1.webp"
+    },
+    {
+      "id": "sky05",
+      "type": "sky",
+      "coverage": "level1-lower",
+      "name": "Level 1 Lower Cyan Approach",
+      "file": "2026-07-28-sky-05-level1-lower-cyan-approach-v1.webp"
+    },
+    {
+      "id": "sky06",
+      "type": "sky",
+      "coverage": "level1-middle",
+      "name": "Level 1 Middle Cloud Reef",
+      "file": "2026-07-28-sky-06-level1-mid-cloud-reef-v1.webp"
+    },
+    {
+      "id": "sky07",
+      "type": "sky",
+      "coverage": "level1-upper",
+      "name": "Level 1 Upper Ruin Beacons",
+      "file": "2026-07-28-sky-07-level1-upper-ruin-beacons-v1.webp"
+    },
+    {
+      "id": "sky08",
+      "type": "sky",
+      "coverage": "level1-departure",
+      "name": "Level 1 Quiet Departure",
+      "file": "2026-07-28-sky-08-level1-quiet-departure-v1.webp"
+    },
+    {
+      "id": "sky09",
+      "type": "sky",
+      "coverage": "central-lower",
+      "name": "Central Lower Horizon Saddle",
+      "file": "2026-07-28-sky-09-central-lower-horizon-saddle-v1.webp"
+    },
+    {
+      "id": "sky10",
+      "type": "sky",
+      "coverage": "central-middle",
+      "name": "Central Middle Open Aurora",
+      "file": "2026-07-28-sky-10-central-mid-open-aurora-v1.webp"
+    },
+    {
+      "id": "sky11",
+      "type": "sky",
+      "coverage": "central-upper",
+      "name": "Central Upper Star River",
+      "file": "2026-07-28-sky-11-central-upper-star-river-v1.webp"
+    },
+    {
+      "id": "sky12",
+      "type": "sky",
+      "coverage": "central-transition",
+      "name": "Central Transition Cloud Veil",
+      "file": "2026-07-28-sky-12-central-transition-cloud-veil-v1.webp"
+    },
+    {
+      "id": "sky13",
+      "type": "sky",
+      "coverage": "level2-lower",
+      "name": "Level 2 Lower Iron-Forge Haze",
+      "file": "2026-07-28-sky-13-level2-lower-iron-forge-haze-v1.webp"
+    },
+    {
+      "id": "sky14",
+      "type": "sky",
+      "coverage": "level2-middle",
+      "name": "Level 2 Middle Ruin Belt",
+      "file": "2026-07-28-sky-14-level2-mid-ruin-belt-v1.webp"
+    },
+    {
+      "id": "sky15",
+      "type": "sky",
+      "coverage": "level2-upper",
+      "name": "Level 2 Upper Chain Citadels",
+      "file": "2026-07-28-sky-15-level2-upper-chain-citadels-v1.webp"
+    },
+    {
+      "id": "sky16",
+      "type": "sky",
+      "coverage": "level2-stormbreak",
+      "name": "Level 2 Stormbreak Corridor",
+      "file": "2026-07-28-sky-16-level2-stormbreak-corridor-v1.webp"
+    },
+    {
+      "id": "sky17",
+      "type": "sky",
+      "coverage": "eastern-lower",
+      "name": "Eastern Lower Expedition Overlook",
+      "file": "2026-07-28-sky-17-eastern-lower-expedition-overlook-v1.webp"
+    },
+    {
+      "id": "sky18",
+      "type": "sky",
+      "coverage": "eastern-middle",
+      "name": "Eastern Middle Thunder Sea",
+      "file": "2026-07-28-sky-18-eastern-mid-thunder-sea-v1.webp"
+    },
+    {
+      "id": "sky19",
+      "type": "sky",
+      "coverage": "eastern-upper",
+      "name": "Eastern Upper Heavenblock Ascent",
+      "file": "2026-07-28-sky-19-eastern-upper-heavenblock-ascent-v1.webp"
+    },
+    {
+      "id": "sky20",
+      "type": "sky",
+      "coverage": "eastern-far",
+      "name": "Eastern Far Crimson Atmosphere",
+      "file": "2026-07-28-sky-20-eastern-far-crimson-atmosphere-v1.webp"
+    },
+    {
+      "id": "underground01",
+      "type": "undergroundForeground",
+      "coverage": "shallow-blue",
+      "name": "Shallow Blue",
+      "file": "2026-07-28-underground-shallow-blue-foreground-plate-v1.webp",
+      "retainedApprovedSource": true
+    },
+    {
+      "id": "underground02",
+      "type": "undergroundForeground",
+      "coverage": "weathered-roots",
+      "name": "Weathered Roots",
+      "file": "2026-07-28-underground-02-weathered-roots-foreground-v1.webp"
+    },
+    {
+      "id": "underground03",
+      "type": "undergroundForeground",
+      "coverage": "amber-depths",
+      "name": "Amber Depths",
+      "file": "2026-07-28-underground-03-amber-depths-foreground-v1.webp"
+    },
+    {
+      "id": "underground04",
+      "type": "undergroundForeground",
+      "coverage": "silver-core",
+      "name": "Silver Core",
+      "file": "2026-07-28-underground-04-silver-core-foreground-v1.webp"
+    },
+    {
+      "id": "underground05",
+      "type": "undergroundForeground",
+      "coverage": "core-magma",
+      "name": "Core Magma",
+      "file": "2026-07-28-underground-05-core-magma-foreground-v1.webp"
+    },
+    {
+      "id": "underground06",
+      "type": "undergroundForeground",
+      "coverage": "slagworks",
+      "name": "Slagworks",
+      "file": "2026-07-28-underground-06-slagworks-foreground-v1.webp"
+    },
+    {
+      "id": "underground07",
+      "type": "undergroundForeground",
+      "coverage": "obsidian-catacombs",
+      "name": "Obsidian Catacombs",
+      "file": "2026-07-28-underground-07-obsidian-catacombs-foreground-v1.webp"
+    },
+    {
+      "id": "underground08",
+      "type": "undergroundForeground",
+      "coverage": "pressure-foundry",
+      "name": "Pressure Foundry",
+      "file": "2026-07-28-underground-08-pressure-foundry-foreground-v1.webp"
+    },
+    {
+      "id": "underground09",
+      "type": "undergroundForeground",
+      "coverage": "blackglass-abyss",
+      "name": "Blackglass Abyss",
+      "file": "2026-07-28-underground-09-blackglass-abyss-foreground-v1.webp"
+    },
+    {
+      "id": "underground10",
+      "type": "undergroundForeground",
+      "coverage": "starfire-rift",
+      "name": "Starfire Rift",
+      "file": "2026-07-28-underground-10-starfire-rift-foreground-v1.webp"
+    }
+  ]
+}

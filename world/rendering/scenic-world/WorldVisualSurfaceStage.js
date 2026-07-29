@@ -2,10 +2,21 @@ import {
   WORLD_VISUAL_RUNTIME,
   getWorldVisualPreloadAssets,
   resolveWorldVisualSurfaceEdgeEnabled,
-} from "../../../values/worldVisualRuntime.js";
+  resolveWorldVisualSurfaceGroundVariationEnabled,
+} from "../../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import {
+  WORLD_VISUAL_DEPTH_BACKDROPS,
+  resolveWorldVisualDepthBackdropBlendMask,
+} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { resolveWorldVisualSurfacePack } from "../../../values/worldVisualSurfacePacks.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../../../values/v11SkyIslandLayout.js";
 import { WorldVisualSurfacePackView } from "./WorldVisualSurfacePackView.js";
+import {
+  createWorldVisualBlendMask,
+  resolveWorldVisualBlendBits,
+} from
+  "./worldVisualBlendMaskFrame.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { setTintIfChanged } from "./worldVisualRenderState.js";
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -19,6 +30,7 @@ export class WorldVisualSurfaceStage {
     this.scene = scene;
     this.config = config;
     this.far = [];
+    this.farBlendMasks = [];
     this.surfaceEdges = [];
     this.town = null;
     this.surfacePack = null;
@@ -39,7 +51,12 @@ export class WorldVisualSurfaceStage {
     } else {
       this._createTown();
     }
-    if (resolveWorldVisualSurfaceEdgeEnabled(this.config)) this._createSurfaceEdges();
+    if (resolveWorldVisualSurfaceEdgeEnabled(this.config)) {
+      this._createSurfaceEdges();
+      if (resolveWorldVisualSurfaceGroundVariationEnabled(this.config)) {
+        this._createSurfaceGroundVariation();
+      }
+    }
   }
 
   _createFarSegments() {
@@ -53,16 +70,39 @@ export class WorldVisualSurfaceStage {
     const segmentWidth = Math.max(1, displayWidth - overlap);
     const segmentHeight = displayWidth * source.height / source.width;
     const count = Math.ceil(worldWidthPx / segmentWidth) + 2;
+    const blendAsset = resolveWorldVisualDepthBackdropBlendMask(
+      WORLD_VISUAL_DEPTH_BACKDROPS
+    );
+    const blend = WORLD_VISUAL_DEPTH_BACKDROPS.blend;
     const addBand = (bottomY, name) => {
       for (let index = -1; index < count; index += 1) {
+        const x = index * segmentWidth;
         const image = this.scene.add.image(
-          index * segmentWidth,
+          x,
           bottomY,
           this.config.assets.far.key
         ).setOrigin(0, 1)
           .setDepth(this.config.render.farDepth)
           .setDisplaySize(displayWidth, segmentHeight)
           .setFlipX(Math.abs(index) % 2 === 1);
+        const incomingEdgeBits = resolveWorldVisualBlendBits(
+          blend,
+          { left: index > -1 }
+        );
+        const mask = createWorldVisualBlendMask(
+          this.scene,
+          blendAsset,
+          blend,
+          incomingEdgeBits,
+          x,
+          bottomY - segmentHeight,
+          displayWidth,
+          segmentHeight
+        );
+        if (mask) {
+          image.setMask(mask.bitmap);
+          this.farBlendMasks.push(mask);
+        }
         image.name = `world-visual-v2-${name}-${index}`;
         this.far.push(image);
       }
@@ -100,7 +140,9 @@ export class WorldVisualSurfaceStage {
   }
 
   bindTerrainMask(terrainMask) {
-    return this.surfacePack?.bindTerrainMask(terrainMask) || false;
+    const packBound = this.surfacePack?.bindTerrainMask(terrainMask) || false;
+    this.surfaceEdges.forEach(image => image.setMask?.(terrainMask));
+    return packBound || this.surfaceEdges.length > 0;
   }
 
   _createSurfaceEdges() {
@@ -122,19 +164,54 @@ export class WorldVisualSurfaceStage {
     }
   }
 
+  _createSurfaceGroundVariation() {
+    const { tileSize, worldWidthPx, topAirRows } = this.scene.config;
+    const feature = this.config.surface.surfaceGroundVariation;
+    const assets = feature.assets;
+    if (!assets?.length) return;
+    const width = feature.logicalWidthTiles * tileSize;
+    const stride = feature.strideTiles * tileSize;
+    const count = Math.ceil(worldWidthPx / stride) + 2;
+    for (let index = -1; index < count; index += 1) {
+      const assetIndex = ((index + 1) * 7 + 3) % assets.length;
+      const asset = assets[assetIndex];
+      const source = sourceSize(this.scene, asset.key);
+      const height = width * source.height / source.width;
+      const image = this.scene.add.image(
+        index * stride,
+        topAirRows * tileSize,
+        asset.key
+      )
+        .setOrigin(0, feature.edgeTopFraction)
+        .setDepth(this.config.render.surfaceEdgeDepth + 0.01)
+        .setDisplaySize(width, height);
+      image.name = `world-visual-v5-surface-ground-${index}-${assetIndex}`;
+      image._worldVisualAsset = asset;
+      this.surfaceEdges.push(image);
+    }
+  }
+
   update(time, lighting) {
-    this.far.forEach(image => image.setTint(lighting.farTint));
-    this.town?.setTint(lighting.farTint);
-    this.surfaceEdges.forEach(image => image.setTint(lighting.terrainTint));
+    this.far.forEach(image => setTintIfChanged(image, lighting.farTint));
+    setTintIfChanged(this.town, lighting.farTint);
+    this.surfaceEdges.forEach(image => setTintIfChanged(image, lighting.terrainTint));
     this.surfacePack?.update(lighting);
   }
 
   destroy() {
-    this.far.forEach(image => image.destroy());
+    this.far.forEach(image => {
+      image.clearMask?.(false);
+      image.destroy();
+    });
+    this.farBlendMasks.forEach(mask => {
+      mask.bitmap?.destroy?.();
+      mask.image?.destroy?.();
+    });
     this.surfaceEdges.forEach(image => image.destroy());
     this.town?.destroy();
     this.surfacePack?.destroy();
     this.far = [];
+    this.farBlendMasks = [];
     this.surfaceEdges = [];
     this.town = null;
     this.surfacePack = null;

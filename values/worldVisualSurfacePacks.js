@@ -37,15 +37,15 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
   }),
   floor: Object.freeze({
     asset: asset(
-      "world-visual-surface-pack-town-square-slate-v2",
-      "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-facade-v2.png"
+      "world-visual-surface-pack-town-square-slate-strip-v3",
+      "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-strip-v3.png"
     ),
-    expectedSource: Object.freeze({ width: 1801, height: 139 }),
-    sourceRect: Object.freeze({ x: 0, y: 0, width: 1801, height: 139 }),
+    expectedSource: Object.freeze({ width: 1801, height: 48 }),
+    sourceRect: Object.freeze({ x: 0, y: 0, width: 1801, height: 48 }),
     approvedCoreSourceWidthPx: 1672,
     handoffSourceWidthPx: 129,
     surfaceOffsetSourcePx: 2,
-    frameName: "world-visual-surface-pack-town-square-slate-v2-floor",
+    frameName: "world-visual-surface-pack-town-square-slate-strip-v3-floor",
     depth: 2.445,
     effectDepthStep: 0.001,
     minSourcePixelsPerWorldPixel: 0.83,

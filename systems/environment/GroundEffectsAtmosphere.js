@@ -4,9 +4,10 @@
  * Extracted from AtmosphereSystem for the ≤300-line rule.
  */
 export class GroundEffectsAtmosphere {
-  constructor(scene, config = {}) {
+  constructor(scene, config = {}, visualAssets = null) {
     this.scene = scene;
     this.config = config;
+    this.visualAssets = visualAssets;
 
     // Ground mist
     this.mistParticles = [];
@@ -44,12 +45,18 @@ export class GroundEffectsAtmosphere {
     const surfaceY = (this.config.topAirRows || 65) * tileSize;
 
     for (let i = 0; i < 8; i++) {
-      const gfx = this.scene.add.graphics();
-      const mw = 120 + Math.random() * 160;
-      const mh = 8 + Math.random() * 10;
-
-      gfx.fillStyle(0xc8d8e8, 0.04 + Math.random() * 0.03);
-      gfx.fillEllipse(0, 0, mw, mh);
+      const presentation = this.visualAssets?.presentation?.ambientMist;
+      const mw = presentation ? this._randomRange(presentation.widthPx) : 120 + Math.random() * 160;
+      const mh = presentation ? this._randomRange(presentation.heightPx) : 8 + Math.random() * 10;
+      const sprite = presentation
+        ? this._createImageParticle(presentation.frameGroup, 20, presentation.blendMode)
+        : this.scene.add.graphics();
+      if (!presentation) {
+        sprite.fillStyle(0xc8d8e8, 0.04 + Math.random() * 0.03);
+        sprite.fillEllipse(0, 0, mw, mh);
+      } else {
+        sprite.setDisplaySize(mw, mh);
+      }
 
       const viewportW = this.config.viewportWidth || 1280;
       const spawnCentreX = (this.config.spawnTileX || 28) * tileSize + viewportW * 0.5;
@@ -57,17 +64,18 @@ export class GroundEffectsAtmosphere {
 
       const x = spawnCentreX - zoneHalfW + Math.random() * zoneHalfW * 2;
       const y = surfaceY + 10 + Math.random() * 30;
-      gfx.setPosition(x, y);
-      gfx.setDepth(20);
+      sprite.setPosition(x, y);
+      sprite.setDepth(20);
 
       this.mistParticles.push({
-        sprite: gfx,
+        sprite,
         baseX: x,
         y,
         speed: 5 + Math.random() * 8,
         phase: Math.random() * Math.PI * 2,
         alpha: 0,
         targetAlpha: 0,
+        maxAlpha: presentation ? this._randomRange(presentation.alpha) : 0.08,
       });
     }
   }
@@ -86,7 +94,7 @@ export class GroundEffectsAtmosphere {
       }
 
       m.sprite.x += m.speed * (1 / 60);
-      m.sprite.setAlpha(m.alpha * 0.08);
+      m.sprite.setAlpha(m.alpha * m.maxAlpha);
     });
   }
 
@@ -178,7 +186,7 @@ export class GroundEffectsAtmosphere {
       const w = this.windParticles[i];
       w.sprite.x += w.vx * (delta / 16);
       w.sprite.y += w.vy * (delta / 16);
-      w.sprite.setAlpha(Math.max(0, w.sprite.alpha - 0.003));
+      w.sprite.setAlpha(Math.max(0, w.sprite.alpha - w.fadePerFrame));
 
       if (w.sprite.alpha <= 0.01) {
         w.sprite.destroy();
@@ -189,24 +197,49 @@ export class GroundEffectsAtmosphere {
 
   _emitWindParticle(windPower) {
     const cam = this.scene.cameras.main;
-    const gfx = this.scene.add.graphics();
-
-    const size = 2 + Math.random() * 3;
-    gfx.fillStyle(0xc8b888, 0.3 + Math.random() * 0.3);
-    gfx.fillCircle(0, 0, size);
-    gfx.setDepth(35);
+    const presentation = this.visualAssets?.presentation?.ambientWind;
+    const size = presentation ? this._randomRange(presentation.sizePx) : 2 + Math.random() * 3;
+    const sprite = presentation
+      ? this._createImageParticle(presentation.frameGroup, 35, presentation.blendMode)
+      : this.scene.add.graphics();
+    if (!presentation) {
+      sprite.fillStyle(0xc8b888, 0.3 + Math.random() * 0.3);
+      sprite.fillCircle(0, 0, size);
+    } else {
+      sprite
+        .setDisplaySize(size, size)
+        .setAlpha(this._randomRange(presentation.alpha));
+    }
+    sprite.setDepth(35);
 
     const ws = this.scene.weatherSystem;
     const windDir = ws ? Math.sign(ws.wind || 1) : 1;
     const startX = windDir > 0 ? cam.scrollX - 50 : cam.scrollX + cam.width + 50;
     const startY = cam.scrollY + Math.random() * cam.height * 0.6;
 
-    gfx.setPosition(startX, startY);
+    sprite.setPosition(startX, startY);
 
     this.windParticles.push({
-      sprite: gfx,
+      sprite,
       vx: windDir * (2 + windPower * 3),
       vy: -0.5 + Math.random() * 1,
+      fadePerFrame: presentation?.fadePerFrame ?? 0.003,
     });
+  }
+
+  _createImageParticle(frameGroup, depth, blendMode) {
+    const frames = this.visualAssets.frames[frameGroup];
+    const frame = frames[Math.floor(Math.random() * frames.length)];
+    const sprite = this.scene.add.image(0, 0, this.visualAssets.textureKey, frame)
+      .setOrigin(0.5)
+      .setScrollFactor(1)
+      .setDepth(depth);
+    const resolvedBlendMode = globalThis.Phaser?.BlendModes?.[blendMode?.toUpperCase?.()];
+    if (resolvedBlendMode !== undefined) sprite.setBlendMode(resolvedBlendMode);
+    return sprite;
+  }
+
+  _randomRange(range) {
+    return range[0] + Math.random() * (range[1] - range[0]);
   }
 }

@@ -83,6 +83,7 @@ const DEFAULT_SETTINGS = Object.freeze({
     showExpeditionSummaries: true,
     showMaterialDiscoveryCards: true,
     showSessionObjective: true,
+    notificationPosition: null,
     cameraShakeEnabled: true,
     cameraShakeIntensity: CAMERA_SHAKE_DEFAULT_INTENSITY,
     cameraShakeFlashEnabled: CAMERA_SHAKE_DEFAULT_FLASH_ENABLED,
@@ -101,6 +102,14 @@ function clampRange(value, fallback = 1, min = 0, max = 1) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return fallback;
   return Math.max(min, Math.min(max, numeric));
+}
+
+export function sanitizeNotificationPosition(value) {
+  if (!value || typeof value !== "object") return null;
+  const x = Number(value.x);
+  const y = Number(value.y);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  return { x: clamp01(x, 0.5), y: clamp01(y, 0.5) };
 }
 
 function sanitizeCameraShakeGroups(inputGroups) {
@@ -198,7 +207,7 @@ export function resolveFloatingTextPreference(display = {}) {
   if (hasValidMode && savedVersion >= config.preferenceVersion) {
     mode = savedMode;
   } else if (hasValidMode && savedMode === "off") {
-    // Preserve an explicit opt-out while promoting the former REDUCED default.
+    // Preserve an explicit opt-out while applying the current uncluttered default.
     mode = savedMode;
   }
 
@@ -239,6 +248,7 @@ function sanitizeSettings(input) {
       showExpeditionSummaries: display.showExpeditionSummaries !== false,
       showMaterialDiscoveryCards: display.showMaterialDiscoveryCards !== false,
       showSessionObjective: display.showSessionObjective !== false,
+      notificationPosition: sanitizeNotificationPosition(display.notificationPosition),
       cameraShakeEnabled: display.cameraShakeEnabled !== false,
       cameraShakeIntensity: clampRange(display.cameraShakeIntensity, defaults.cameraShakeIntensity, 0, 1),
       cameraShakeFlashEnabled: display.cameraShakeFlashEnabled !== false,
@@ -395,6 +405,9 @@ class UserSettingsStore {
     }
     if (Object.prototype.hasOwnProperty.call(partial, "showSessionObjective")) {
       display.showSessionObjective = Boolean(partial.showSessionObjective);
+    }
+    if (Object.prototype.hasOwnProperty.call(partial, "notificationPosition")) {
+      display.notificationPosition = sanitizeNotificationPosition(partial.notificationPosition);
     }
     if (Object.prototype.hasOwnProperty.call(partial, "cameraShakeEnabled")) {
       display.cameraShakeEnabled = Boolean(partial.cameraShakeEnabled);

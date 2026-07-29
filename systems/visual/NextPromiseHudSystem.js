@@ -61,7 +61,8 @@ export class NextPromiseHudSystem {
       || this.scene.levelUpPopup?.visible
       || this.scene.milestoneBoardSystem?._isBoardOpen
       || this.scene.campfireSystem?.isSelecting?.()
-      || this.scene._pillarViewActive;
+      || this.scene._pillarViewActive
+      || this.scene.townSquareTutorialSystem?.isShowingGuide?.();
     this.root.setVisible(!hidden);
     if (hidden) return;
 
@@ -73,12 +74,10 @@ export class NextPromiseHudSystem {
 
     const now = this.scene.time?.now || nowMs;
     const chestSeconds = Math.ceil(retention.getChestCritBuffRemaining(now) / 1000);
-    const tutorialStage = retention.getJournalSnapshot().tutorialStage;
     const objective = retention.getObjective();
     const showObjective = USER_SETTINGS.getDisplay().showSessionObjective !== false;
     const nextMilestone = this.scene.milestoneBoardSystem?.getNextMilestone?.();
     const deepestPortal = this.scene.specialTileSystem?.getDeepestPortal?.();
-    const depthChase = retention.getDepthChase?.();
     const playerTile = this.scene.playerController?.getPlayerTile?.();
     const atTown = playerTile
       && playerTile.ty >= this.scene.config.topAirRows - 4
@@ -87,14 +86,6 @@ export class NextPromiseHudSystem {
     let promise = "";
     if (chestSeconds > 0) {
       promise = `TREASURE FURY  •  ${chestSeconds}s ultra crit damage`;
-    } else if (tutorialStage !== "complete") {
-      promise = retention.getTutorialPromise();
-    } else if (!atTown && depthChase?.state === "approaching") {
-      promise = `DEPTH RECORD  •  ${depthChase.remaining}m to match ${depthChase.target}m`;
-    } else if (!atTown && depthChase?.state === "matching") {
-      promise = `DEPTH RECORD MATCHED  •  One more meter`;
-    } else if (!atTown && depthChase?.state === "beaten") {
-      promise = `NEW DEPTH RECORD  •  +${depthChase.amount}m`;
     } else if (showObjective && !objective.complete) {
       promise = `SESSION  •  ${objective.label}  ${Math.floor(objective.progress)}/${objective.target}`;
     } else if (atTown && deepestPortal) {

@@ -1,0 +1,4014 @@
+{
+  "version": 5,
+  "generatedOn": "2026-07-28",
+  "generatedWith": "built-in ImageGen",
+  "sourceDimensions": [
+    1536,
+    1024
+  ],
+  "counts": {
+    "imageGenMasters": 100,
+    "backgrounds": 50,
+    "terrainPlates": 40,
+    "surfaceGroundSources": 10,
+    "deepMastersCoreMagmaOrLower": 71,
+    "capAtlasFiles": 10,
+    "capFrames": 200,
+    "backgroundBlendMaskFrames": 16,
+    "runtimeFiles": 111
+  },
+  "contracts": {
+    "promotion": "additive; V2/V3/V4 assets remain installed and selectable",
+    "background": "scenery only; no collision or playable ledges",
+    "ground": "authoritative terrain geometry mask remains the only ground authority",
+    "motion": "existing image/video motion remains independent of this static expansion",
+    "rollback": {
+      "background": "?biomeBackdropExpansionV5=0",
+      "terrain": "?undergroundTerrainExpansionV5=0",
+      "surface": "?surfaceGroundVariation=0"
+    }
+  },
+  "geometry": {
+    "background": {
+      "width": 1536,
+      "height": 1024,
+      "overlapPx": [
+        192,
+        128
+      ],
+      "crossBiomeOverlapYPx": 128,
+      "blendMask": "irregular-low-frequency"
+    },
+    "terrain": {
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "crossBiomeOverlapYPx": 128,
+      "featherShape": "irregular-low-frequency"
+    },
+    "surface": {
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48
+    }
+  },
+  "backgrounds": [
+    {
+      "index": 1,
+      "id": "bg-starfire-rift-terminal-rift-overlook-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-6337ef89-ab76-4476-b729-f2406a47321c.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-terminal-rift-overlook-v5.png",
+      "sourceSha256": "5662eed5c955c5c01ee9182cb786d15e2c09177d95a8d60bcd52a44639a2a9a2",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-terminal-rift-overlook-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "80d3d799d5cf7f5c91c3d744eb044bd34c64a2a4c9e2f1b63c18c541fadf1694",
+      "runtimeBytes": 339852
+    },
+    {
+      "index": 2,
+      "id": "bg-weathered-roots-rootwater-sink-valley-v5",
+      "kind": "background",
+      "biomeId": "weathered-roots",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-3518dffe-db12-4db9-8f52-c7c457bc653f.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-weathered-roots-rootwater-sink-valley-v5.png",
+      "sourceSha256": "566a4f288c6cf35a109e7fbbef5664ca0946c6cc718ee8c1b325bc8b3570fc0b",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/weathered-roots-rootwater-sink-valley-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "0c8fad855ae1e2c3cbfb73b5418bb0dd10b39b09d890527473eda202dc472d90",
+      "runtimeBytes": 215276
+    },
+    {
+      "index": 3,
+      "id": "bg-weathered-roots-shale-root-escarpment-v5",
+      "kind": "background",
+      "biomeId": "weathered-roots",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-8a662e1b-8931-4de9-a4bf-badfc6f57b7a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-weathered-roots-shale-root-escarpment-v5.png",
+      "sourceSha256": "791770de4210545f5c2c1ee5586b561d1591026411027296780f80795441e89e",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/weathered-roots-shale-root-escarpment-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "3c9b8c6a9918d7b8245c9dbb9603c48998d625ca6ca0e2b3c3b0c590428775af",
+      "runtimeBytes": 298816
+    },
+    {
+      "index": 4,
+      "id": "bg-blue-caverns-cobalt-river-switchback-v5",
+      "kind": "background",
+      "biomeId": "blue-caverns",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-6a81ace8-f44b-4201-a23b-c20e27aeeb9a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blue-caverns-cobalt-river-switchback-v5.png",
+      "sourceSha256": "f5bd9b9b5ad5852c9cf89d6202f30fe8bd9eb29e00fdfb46ae81872b9bb833fc",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blue-caverns-cobalt-river-switchback-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "c17ef393f737c029636c26f9baf077d581805a4555b86b4c4f22da7ba2462518",
+      "runtimeBytes": 248426
+    },
+    {
+      "index": 5,
+      "id": "bg-blue-caverns-glacial-fault-overlook-v5",
+      "kind": "background",
+      "biomeId": "blue-caverns",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-158ecc1c-1ae9-4736-a552-1ff0227103d5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blue-caverns-glacial-fault-overlook-v5.png",
+      "sourceSha256": "58ae22d1df8288d0e4da41d0afc459e499a6096e2372b1e1f8fe978fa79a6898",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blue-caverns-glacial-fault-overlook-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "ff0e7c7bc1932f46ebf9773d64ed75a80ae8cc42dd9a6895383c341602d8fa3f",
+      "runtimeBytes": 292644
+    },
+    {
+      "index": 6,
+      "id": "bg-blue-caverns-amber-silt-handoff-v5",
+      "kind": "background",
+      "biomeId": "blue-caverns",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-bfb479ad-557a-42b6-af9a-b310a70bd46e.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blue-caverns-amber-silt-handoff-v5.png",
+      "sourceSha256": "eff219866d05bba908cd18fe4478b8093e5c283faad6ef3013abe06beaf88c94",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blue-caverns-amber-silt-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "ed658cc802db00761db6657c8bc3b63252ee9b91e5fbcd0dd774f49c87036657",
+      "runtimeBytes": 278648
+    },
+    {
+      "index": 7,
+      "id": "bg-amber-depths-resin-tide-escarpment-v5",
+      "kind": "background",
+      "biomeId": "amber-depths",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-ee6618eb-e211-4a5b-b6c5-7c73674a6712.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-amber-depths-resin-tide-escarpment-v5.png",
+      "sourceSha256": "12ac38dd7a82028c7b13840bbcf2f456e8e1bbbea6cc00ee1dea025ea0e8ed49",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/amber-depths-resin-tide-escarpment-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "900f4afc0cdc46b70282f081494aa88419788ac2d8a69d88b03eb1ac43a68dfa",
+      "runtimeBytes": 345436
+    },
+    {
+      "index": 8,
+      "id": "bg-amber-depths-fossil-forest-gorge-v5",
+      "kind": "background",
+      "biomeId": "amber-depths",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-f1e016e0-1e39-4aca-86c6-30635e7f4296.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-amber-depths-fossil-forest-gorge-v5.png",
+      "sourceSha256": "5f43f1d5c657803dd742bea6648cce67d95ca8508f820728f5bfa5e2774eb3eb",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/amber-depths-fossil-forest-gorge-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "118db2d3fcf51805e330f9570987052b66d6cd62068b0c7f09f331e86054243f",
+      "runtimeBytes": 248314
+    },
+    {
+      "index": 9,
+      "id": "bg-amber-depths-argent-calcite-handoff-v5",
+      "kind": "background",
+      "biomeId": "amber-depths",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-dbe7c605-ed05-4fe6-8727-0fd13f52e6a9.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-amber-depths-argent-calcite-handoff-v5.png",
+      "sourceSha256": "1581647cd70aab27d0f08f21c370dd9cf51671cb2b553c9c57101431c2117ef4",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/amber-depths-argent-calcite-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "e573f79ca845ed179d6cb6365dd56af868c5b2d0f8a1840d8034d1ff28dd9b79",
+      "runtimeBytes": 321660
+    },
+    {
+      "index": 10,
+      "id": "bg-silver-core-mercury-delta-terraces-v5",
+      "kind": "background",
+      "biomeId": "silver-core",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-8dad22f6-11ef-4e72-9d12-7f663f48bdfc.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-silver-core-mercury-delta-terraces-v5.png",
+      "sourceSha256": "d150aaad2d01c188ab005f555e8b2c9a91ce6577f37eee1755a3c2061760ea71",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/silver-core-mercury-delta-terraces-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "61b71ae153da3c5e0c2a375b95d6a377359930844a9b792e17ecf5d6da0044e7",
+      "runtimeBytes": 266624
+    },
+    {
+      "index": 11,
+      "id": "bg-silver-core-magnetic-shear-horizon-v5",
+      "kind": "background",
+      "biomeId": "silver-core",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-efa0c744-c8d8-4ede-908d-a8bfc52522d4.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-silver-core-magnetic-shear-horizon-v5.png",
+      "sourceSha256": "7759543a1b0c4415ac5f544543e0ba9920b52d2bd0cd67b8ef901035779b7ba2",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/silver-core-magnetic-shear-horizon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "a7901f0b4d5bf584d77c9a8fd95599ed8cbadd2eb1ac043bec879a7c3185f192",
+      "runtimeBytes": 242064
+    },
+    {
+      "index": 12,
+      "id": "bg-silver-core-ember-metal-handoff-v5",
+      "kind": "background",
+      "biomeId": "silver-core",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-142c1d50-a95a-4fc2-b8d1-0fb086cea624.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-silver-core-ember-metal-handoff-v5.png",
+      "sourceSha256": "71ae331175c1570c9d13c5fe34a890590c2193716e1989decc496ca1b549c0ec",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/silver-core-ember-metal-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "efec05a6c0cd13024c75048b05d25e79de79166db86d3a9031c696a6270da6f9",
+      "runtimeBytes": 245674
+    },
+    {
+      "index": 13,
+      "id": "bg-core-magma-lava-braided-canyon-v5",
+      "kind": "background",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-ae575d6d-b63f-422c-8c5b-6b9066b4ba29.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-core-magma-lava-braided-canyon-v5.png",
+      "sourceSha256": "18274e17a79c112ec57427b5cc932026fa4c35cd5c572b8ada3dec902ab07570",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/core-magma-lava-braided-canyon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "4d1ad6cc8e55d31a44c6213f13f3a30847b61791684a201dd248c8db5610cd94",
+      "runtimeBytes": 238418
+    },
+    {
+      "index": 14,
+      "id": "bg-core-magma-caldera-wall-crossing-v5",
+      "kind": "background",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-3fbaba02-bc15-4b44-ac91-caab6c2a3a9a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-core-magma-caldera-wall-crossing-v5.png",
+      "sourceSha256": "a60372f366e9f57a52d942a3a03c369ba0d7272ea154b876db62744d43abde9d",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/core-magma-caldera-wall-crossing-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "86522ed41d83be090a49131abca2d275c49088065183844b25c6d692c09e391b",
+      "runtimeBytes": 127278
+    },
+    {
+      "index": 15,
+      "id": "bg-core-magma-basalt-storm-gallery-v5",
+      "kind": "background",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-516dda4d-c6c4-4b6d-bb72-81f5809c24eb.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-core-magma-basalt-storm-gallery-v5.png",
+      "sourceSha256": "4a381ba64f4755a3253efc65d9dd64f87304d5845d3f5fa1705685b3aa953257",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/core-magma-basalt-storm-gallery-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "cd9cdba7625c4dbada279e972410d67b1a3d41b03fc90728309ca415549f52ab",
+      "runtimeBytes": 160048
+    },
+    {
+      "index": 16,
+      "id": "bg-core-magma-slag-heat-handoff-v5",
+      "kind": "background",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-65cc34ed-eb38-4471-9566-eaffb9aac8e4.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-core-magma-slag-heat-handoff-v5.png",
+      "sourceSha256": "013e2d95aa04955b4fc0a24d123cc551e68b2d70e950066de3149512a786e53b",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/core-magma-slag-heat-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "2dfb1d00850c40e9cf749448972ce487b09179ac267be0c399f0c95538d3af46",
+      "runtimeBytes": 230168
+    },
+    {
+      "index": 17,
+      "id": "bg-slagworks-iron-river-sorting-yard-v5",
+      "kind": "background",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-5b7f8587-44a7-45cc-9e9e-b6ebb59c69f3.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-slagworks-iron-river-sorting-yard-v5.png",
+      "sourceSha256": "923dacc733a117de62691d898b8bda1164c35e4c5f55383c3bf3e9b1c3f51f02",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/slagworks-iron-river-sorting-yard-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "33275b8248d3e51ea8780783d8a9610b6c1f3269543e2873f44e028f56520dbb",
+      "runtimeBytes": 201662
+    },
+    {
+      "index": 18,
+      "id": "bg-slagworks-collapsed-bloomery-terraces-v5",
+      "kind": "background",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-aa21f26d-b804-4a7d-ba58-b072eee2a017.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-slagworks-collapsed-bloomery-terraces-v5.png",
+      "sourceSha256": "7606c574688721e03049d04d5ad9f0474ebe98a2f6ebc0b258300a5963fa55de",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/slagworks-collapsed-bloomery-terraces-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "ac2d7c76d61b24b7cf32e8f4d12e75569a0d57fa3d1bb8545d328c6be685f2bc",
+      "runtimeBytes": 218286
+    },
+    {
+      "index": 19,
+      "id": "bg-slagworks-cooling-viaduct-horizon-v5",
+      "kind": "background",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-b10d0633-07de-4f30-b433-0b16d1bc478e.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-slagworks-cooling-viaduct-horizon-v5.png",
+      "sourceSha256": "cf24b4883ea7b42fffdc20607341734c43724666af3b818711c8a5604d5ca920",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/slagworks-cooling-viaduct-horizon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "fdc429b1eece4419544d9fae2a60bfa07b9c0cd445bb295cd0b1e1b699192069",
+      "runtimeBytes": 173798
+    },
+    {
+      "index": 20,
+      "id": "bg-slagworks-crucible-waste-delta-v5",
+      "kind": "background",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-4fd1cb05-46e9-415f-baa9-986db6346fe5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-slagworks-crucible-waste-delta-v5.png",
+      "sourceSha256": "d6df41cd2c27d640081a58296db8b471f9800a4dab3ccc453c3747127e0fa6de",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/slagworks-crucible-waste-delta-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "5858fc795d85b3c415782332323f1ce6c0f7cc2d33a84befb6a0d8dced7aabc3",
+      "runtimeBytes": 297716
+    },
+    {
+      "index": 21,
+      "id": "bg-slagworks-copper-salt-vent-field-v5",
+      "kind": "background",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-0169a625-1f5a-484c-8df3-1ea2e3ad0595.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-slagworks-copper-salt-vent-field-v5.png",
+      "sourceSha256": "63bd6709b416c69f9ad9a4c1984ac61a91e7f95091e8173342cb0ae1f490f5a4",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/slagworks-copper-salt-vent-field-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "f5374744e903b6d813051c187321d547049bfa13148434d232e83ce2785dec6a",
+      "runtimeBytes": 186936
+    },
+    {
+      "index": 22,
+      "id": "bg-slagworks-blackslag-handoff-v5",
+      "kind": "background",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-d2d6de28-7f48-438c-afc4-ebe57ce14702.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-slagworks-blackslag-handoff-v5.png",
+      "sourceSha256": "98456e39f92b6cad5e5a1b59b507d61d171047888f067b2d5cafd71946c4dd90",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/slagworks-blackslag-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "d31af914f64ee5b0a2d91018ece6aa9eb921ecf1e3e6508178571b512c714deb",
+      "runtimeBytes": 193154
+    },
+    {
+      "index": 23,
+      "id": "bg-obsidian-catacombs-glass-fjord-escarpment-v5",
+      "kind": "background",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-617727a0-9af0-424a-bff2-157cabb5c520.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-obsidian-catacombs-glass-fjord-escarpment-v5.png",
+      "sourceSha256": "c413cd18342c98374da2aedf8d2fed96aa534687031d60822ef99040671c721d",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/obsidian-catacombs-glass-fjord-escarpment-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "afed9a94c7598821f43c98e6eb8f5a97ce47b8719da6e7f59489eef877d2f3b6",
+      "runtimeBytes": 146358
+    },
+    {
+      "index": 24,
+      "id": "bg-obsidian-catacombs-violet-ash-switchback-v5",
+      "kind": "background",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-3cef1d47-59eb-45f1-bff8-215e710a6465.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-obsidian-catacombs-violet-ash-switchback-v5.png",
+      "sourceSha256": "b5bfbebe4590c97e8e486d9636afd585625e90cc8ab1f27439464441d41a6e28",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/obsidian-catacombs-violet-ash-switchback-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "7f33f5c0a080a85ba8271094d57193325587748c8278cd7abb26c15f05052023",
+      "runtimeBytes": 134164
+    },
+    {
+      "index": 25,
+      "id": "bg-obsidian-catacombs-crypt-quarry-horizon-v5",
+      "kind": "background",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-af22448f-309f-41eb-a8ab-aa9773ea3028.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-obsidian-catacombs-crypt-quarry-horizon-v5.png",
+      "sourceSha256": "2f02db096b50cb1937ec0600eef4f3b71fd235fadfd34a14920a73b3ce9f475c",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/obsidian-catacombs-crypt-quarry-horizon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "0336e45c4bc82d669abf4ccae64a830c3359a8cf33c106e544c2d2bddb4476d1",
+      "runtimeBytes": 152660
+    },
+    {
+      "index": 26,
+      "id": "bg-obsidian-catacombs-shattered-column-rain-v5",
+      "kind": "background",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-22c7aada-1ae1-4438-a2b3-1659a2a54c58.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-obsidian-catacombs-shattered-column-rain-v5.png",
+      "sourceSha256": "83f7cdbb001cbf3a6860211876047414a82fddbb122bcb008879cce07dd77e8d",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/obsidian-catacombs-shattered-column-rain-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "71e08d61e80f71680e6b562dbb14dd0b0abd3e8244f132ab116e15907f17d09b",
+      "runtimeBytes": 238578
+    },
+    {
+      "index": 27,
+      "id": "bg-obsidian-catacombs-voidwater-trench-v5",
+      "kind": "background",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-acd41701-f6b3-4dd2-8f9b-b5b1dcb09033.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-obsidian-catacombs-voidwater-trench-v5.png",
+      "sourceSha256": "67c06cccfdc7cfc5c0bdc4148e7634c34b7dc8f4d130fec8b4b77ac4504830bc",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/obsidian-catacombs-voidwater-trench-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "a030c1660b505ed7218bdfb429eda4c86e3675f37adc9584618d1797042c3c1c",
+      "runtimeBytes": 191554
+    },
+    {
+      "index": 28,
+      "id": "bg-obsidian-catacombs-condenser-ruin-handoff-v5",
+      "kind": "background",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-f563643e-29d6-4074-a316-d8d6978bdb34.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-obsidian-catacombs-condenser-ruin-handoff-v5.png",
+      "sourceSha256": "62fa1cc0ef0c4fe0af3377d967186d8429c0f9d52d01316d8ae9538f2a797dc8",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/obsidian-catacombs-condenser-ruin-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "c98511de003f26c7f8776b10d2e165c3220d049b02f866307a360851032b02ac",
+      "runtimeBytes": 200904
+    },
+    {
+      "index": 29,
+      "id": "bg-pressure-foundry-piston-ravine-crossing-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-32b165d3-75ab-4db0-8230-28c212dc7958.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-piston-ravine-crossing-v5.png",
+      "sourceSha256": "27688459d758190498134725537d3e8e380827847ec41bcc538bbac0c268cdbd",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-piston-ravine-crossing-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "4cd37c3f4b72ca6bf8e26b022ee44c796be04d8173a0532ff560f3bcfae63488",
+      "runtimeBytes": 181774
+    },
+    {
+      "index": 30,
+      "id": "bg-pressure-foundry-boiler-canopy-delta-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-c2297ebb-8a2a-4bc7-9326-a774ba6c8a56.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-boiler-canopy-delta-v5.png",
+      "sourceSha256": "404a4d19e34c04c9674c4d437badd547e953f30956f9240821216af0b5b4a086",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-boiler-canopy-delta-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "5d8cfbd3ece35b19bbe02b91e33baa0e31945418233aefd2310127ec47854b9e",
+      "runtimeBytes": 193972
+    },
+    {
+      "index": 31,
+      "id": "bg-pressure-foundry-pressure-pipe-horizon-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-9f0c1130-2d98-4309-aa22-4907a5ecba83.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-pressure-pipe-horizon-v5.png",
+      "sourceSha256": "653d6fc5073612a8c510fdbb7268213cbc32db61a6cf3ab0b2f32243e142a5f9",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-pressure-pipe-horizon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "07670519e4aa482bf3b0c541dd51a0fa552afa229232a9a39cb7059c3539faac",
+      "runtimeBytes": 144302
+    },
+    {
+      "index": 32,
+      "id": "bg-pressure-foundry-cyan-condensate-falls-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-1f42e377-603e-46fa-b55b-138f138c2743.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-cyan-condensate-falls-v5.png",
+      "sourceSha256": "d5dcde087d1d6122c538c5af09766a346c50abe0ba8a8314a8dc67ffe3e14b75",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-cyan-condensate-falls-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "7a4d7042e17c3757475fcd187ce377b51131ba7fb2e57dc8a289f9bc6a6c38c0",
+      "runtimeBytes": 235040
+    },
+    {
+      "index": 33,
+      "id": "bg-pressure-foundry-rivet-cliff-reservoir-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-088e04f4-8e45-4789-8dff-7e0ef6793cd8.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-rivet-cliff-reservoir-v5.png",
+      "sourceSha256": "5ba35585ee904147a3881dca93e3b46fc5e8c3f2d0e8a4913676bafd2cb8afeb",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-rivet-cliff-reservoir-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "bf85dc3529dd4f912c6ad42233e19d6ca905190f22d11d27795d2360715de114",
+      "runtimeBytes": 172806
+    },
+    {
+      "index": 34,
+      "id": "bg-pressure-foundry-turbine-graveyard-slope-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-901c18c4-7515-4fbd-916e-a9ccf6327c87.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-turbine-graveyard-slope-v5.png",
+      "sourceSha256": "e4df2bf8b94427d2189ba63c2e874fa2d33c615c6a8704d7a50df5987e7abe78",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-turbine-graveyard-slope-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "170468294e5aa6683532db5def2a5d7c378b4066c6c829da4bbde898c43cdc7f",
+      "runtimeBytes": 211844
+    },
+    {
+      "index": 35,
+      "id": "bg-pressure-foundry-prism-coolant-handoff-v5",
+      "kind": "background",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-ad3e28df-451a-4d2f-aa6c-bd4942286272.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-pressure-foundry-prism-coolant-handoff-v5.png",
+      "sourceSha256": "b4926b23830d856efcb4cd3a4b8911c5461d5fac0f8e2d44a9830aaff58b5cca",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/pressure-foundry-prism-coolant-handoff-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "94eab1c12460b4bb36e3bde9daacba4617c9217f71480b1a4cfec688806b114b",
+      "runtimeBytes": 198848
+    },
+    {
+      "index": 36,
+      "id": "bg-blackglass-abyss-prism-rift-escarpment-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-b9f5360a-fb68-45bb-9b7f-ba4fdf019bef.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-prism-rift-escarpment-v5.png",
+      "sourceSha256": "d80cc263a865fe228fa063a945a40d7f10e6edb68fba30fc8c1daba1abb7524c",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-prism-rift-escarpment-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "809007ece7704cb85f8a9ba536de3ff0b2b83b19d5a5825a09ed90f02de7c18e",
+      "runtimeBytes": 196278
+    },
+    {
+      "index": 37,
+      "id": "bg-blackglass-abyss-eclipse-shard-delta-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-b94e8111-3430-43fd-9d0a-6c02ffebcfee.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-eclipse-shard-delta-v5.png",
+      "sourceSha256": "ca0fdef910113b3504cff4bf14048af69bd4fa75bc7f373261e45be127bdbaea",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-eclipse-shard-delta-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "dce671824e98468c6122f5371c7a4f059b568f743896a762cb6e6e990e61ce0d",
+      "runtimeBytes": 142546
+    },
+    {
+      "index": 38,
+      "id": "bg-blackglass-abyss-star-map-fault-valley-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-2fa23f8e-9886-4886-b65e-78c7a2cf8ea3.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-star-map-fault-valley-v5.png",
+      "sourceSha256": "ace132fd41a63149a9bf9aa72284de357279432ca514d5982ceffc5914a211eb",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-star-map-fault-valley-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "c9779d84da9f5fd8731a3a3416e7e162ae422e62b2dde7afdadf72f1f2525b25",
+      "runtimeBytes": 137332
+    },
+    {
+      "index": 39,
+      "id": "bg-blackglass-abyss-black-mirror-tideway-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-92161836-4994-439b-a22a-fa3133c68306.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-black-mirror-tideway-v5.png",
+      "sourceSha256": "cb8303e01629ff7278f767fc6dd00ee2a40229a0833f139cccb8d4d16d5d388a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-black-mirror-tideway-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "03f2df0c3186565050fed1109a4a1d16fee043289c755a6c650069ab8ab32cbc",
+      "runtimeBytes": 181004
+    },
+    {
+      "index": 40,
+      "id": "bg-blackglass-abyss-spectral-scree-horizon-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-26d6813b-801a-4a7d-8299-67fa3ef4e1d8.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-spectral-scree-horizon-v5.png",
+      "sourceSha256": "1fe36a56ffa1ad916e1cc0baa7161d984c6d7ccae6306619105278edf206cb02",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-spectral-scree-horizon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "4adbe75f0ccc08b8c52764dc0290503ad74658cae8676bdd5a5a04af6996cd77",
+      "runtimeBytes": 146000
+    },
+    {
+      "index": 41,
+      "id": "bg-blackglass-abyss-fractured-orbit-terraces-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-86c8bdc2-8db3-4759-8d31-6614486e6320.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-fractured-orbit-terraces-v5.png",
+      "sourceSha256": "36c71c56f8a8797002c604378d3d331b4a22efdb9a2b561d94db9dd4a571449f",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-fractured-orbit-terraces-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "c8883fb5a5143fcf94a83189f2e7fc192ee1e8353e2e94333ff29472f6baf68b",
+      "runtimeBytes": 159174
+    },
+    {
+      "index": 42,
+      "id": "bg-blackglass-abyss-violet-gravity-shear-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-b2b58a8e-b52c-4425-a152-4051c4f151f2.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-violet-gravity-shear-v5.png",
+      "sourceSha256": "0cdf402595b805914efc72e7f87204ccff9500bb55174fcf7e120d8b3e0ac51a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-violet-gravity-shear-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "24d8eaa3fda6008e8c68ae270723b4b2479512bb6f4821da6081a89a0cb58e1b",
+      "runtimeBytes": 243788
+    },
+    {
+      "index": 43,
+      "id": "bg-blackglass-abyss-starfire-handoff-corridor-v5",
+      "kind": "background",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-57a62fdb-7e78-4dc3-a9d3-a22065fd2be3.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-blackglass-abyss-starfire-handoff-corridor-v5.png",
+      "sourceSha256": "a0c3774103937fae63ad6b4f0820bc84418eb1ccc5d0b16c8ed5e3cd1f65866c",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/blackglass-abyss-starfire-handoff-corridor-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "6ebef16c5b7cb746cf195e70db89b1b4ddc72153dd77de465559a770d261cb50",
+      "runtimeBytes": 184536
+    },
+    {
+      "index": 44,
+      "id": "bg-starfire-rift-comet-river-terraces-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-06d21c03-7f89-431a-903e-ef1f6dc12cea.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-comet-river-terraces-v5.png",
+      "sourceSha256": "388d2de71dde5c099861d04c68a0a666563434ea52e0028c5554c9d959a38e79",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-comet-river-terraces-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "4ea1a38247ac2360834ee2fa8ae8a03d4411ad0eaae4fd23b945027fb42e2d8f",
+      "runtimeBytes": 230406
+    },
+    {
+      "index": 45,
+      "id": "bg-starfire-rift-nebula-quartz-escarpment-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-6981c938-1c3f-4be8-9c9e-3e7b4d64d84e.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-nebula-quartz-escarpment-v5.png",
+      "sourceSha256": "9feca16558c0b02b5285c58b9ebfa120e3966a2fb5ff8c160d3780627c19f71b",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-nebula-quartz-escarpment-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "001034609e0251c8cfbff44d8839f66aa6bbcc3c0f63af73a9ae8c77dec9e6df",
+      "runtimeBytes": 176016
+    },
+    {
+      "index": 46,
+      "id": "bg-starfire-rift-binary-light-faultfield-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-a375b0e0-754a-4957-95af-86856afb5704.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-binary-light-faultfield-v5.png",
+      "sourceSha256": "48a3fd695c083aec341221f1f7339a0ddccdc8cdb65336a0e8d4019237242163",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-binary-light-faultfield-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "4a07808663cd73eed3dbed11f6b192dbfae8f00bb6d7938e4481d7a0f3cd6862",
+      "runtimeBytes": 168724
+    },
+    {
+      "index": 47,
+      "id": "bg-starfire-rift-celestial-current-canyon-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-1a542cc8-727c-4210-a10c-23789e65d13f.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-celestial-current-canyon-v5.png",
+      "sourceSha256": "7666c9142d642292d86bd7cc263ce29591535447e92300a40346264c3d12611a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-celestial-current-canyon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "190c405ed94bc5827c5029737b0710d6bd0c4b2141fe40c5f1a119a5e2ece3d0",
+      "runtimeBytes": 241072
+    },
+    {
+      "index": 48,
+      "id": "bg-starfire-rift-star-metal-archipelago-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-cd8da51e-aef8-4ba0-a403-138ed240618e.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-star-metal-archipelago-v5.png",
+      "sourceSha256": "e60b44253bfe39258edd7acfe8c7f9fbe9e78aabbf66e1b3c0db1ed758a406a6",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-star-metal-archipelago-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "335f1cd530b6c6f841b7fe2b98d258b515d551be8e658b7c1d924ccfdc2be012",
+      "runtimeBytes": 266640
+    },
+    {
+      "index": 49,
+      "id": "bg-starfire-rift-cosmic-ash-watercourse-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-41253597-cc59-4bc9-9a54-1b96a93eebc9.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-cosmic-ash-watercourse-v5.png",
+      "sourceSha256": "ceb6381aeb19a9478048db2e616eaaad04c4c8085c6a3046b559265a9bd07cc3",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-cosmic-ash-watercourse-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "c8c288e6e7bc4204c64f5f2a45d75d2708c23bafd864d8182e113bfb56f76eaf",
+      "runtimeBytes": 179400
+    },
+    {
+      "index": 50,
+      "id": "bg-starfire-rift-aurora-crystal-horizon-v5",
+      "kind": "background",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-d399af87-3d73-4340-889e-958365f4d634.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/backgrounds/bg-starfire-rift-aurora-crystal-horizon-v5.png",
+      "sourceSha256": "97c185107d626f41deeb23cfb5622586e3ea85c2a636a9342f027c2c6d3dae7d",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/starfire-rift-aurora-crystal-horizon-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "runtimeSha256": "93c715a12fd6520ab18d411c0d33ce2fc8c47a9f3ecb773c2ba2fa5a4c58b3c7",
+      "runtimeBytes": 231526
+    }
+  ],
+  "terrainPlates": [
+    {
+      "index": 51,
+      "id": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+      "kind": "terrain",
+      "biomeId": "weathered-roots",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-7cdaf040-15d0-48e4-af69-e5cadea776fb.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-weathered-roots-lightning-root-braided-clay-v5.png",
+      "sourceSha256": "d8a61af574de9f4b471ab770f6bb10b55c26924464a41030bc169957c636244e",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/weathered-roots-lightning-root-braided-clay-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "927f4179c11bb3b05161b107676c4a3bc01de27960a246f20fee5e2676d33f6c",
+      "runtimeBytes": 750982
+    },
+    {
+      "index": 52,
+      "id": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+      "kind": "terrain",
+      "biomeId": "weathered-roots",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-370712e9-ee54-414e-864d-ff7662bf2bae.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-weathered-roots-ironwater-loam-avulsion-v5.png",
+      "sourceSha256": "ba3fe59aef1c9acd591f7d6c5572ca3daa299d2ae5405c52b882d45bf9f71bed",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/weathered-roots-ironwater-loam-avulsion-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "aaffae442c7b44d6134a6f49cb1c9f88bfa368de5195016df29ab550226cb413",
+      "runtimeBytes": 759448
+    },
+    {
+      "index": 53,
+      "id": "terrain-blue-caverns-glacial-fan-calcite-v5",
+      "kind": "terrain",
+      "biomeId": "blue-caverns",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-bcbeacac-fbb5-46e7-98e6-1127300fcc19.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blue-caverns-glacial-fan-calcite-v5.png",
+      "sourceSha256": "a28e78f0eb258f06668f20fe774fadd808c7485145e9d395c9b6b975848b689c",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blue-caverns-glacial-fan-calcite-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "4ce98bf123c4c29f911f23bc34b66511075d3b7e52891261ffce0190c5aca7ca",
+      "runtimeBytes": 745698
+    },
+    {
+      "index": 54,
+      "id": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+      "kind": "terrain",
+      "biomeId": "blue-caverns",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-64f80c2b-1010-4649-a267-36acc1dac8a6.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blue-caverns-cobalt-turbidite-tear-v5.png",
+      "sourceSha256": "13416cbf49d5e77cafa6161b935614f1d62787bb6f2a7244b8eb018c629acef8",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blue-caverns-cobalt-turbidite-tear-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "905dd35e4b91b016666058cdfdfe1a100dd0ecba37211c78dfd62ace3cde1ebe",
+      "runtimeBytes": 716218
+    },
+    {
+      "index": 55,
+      "id": "terrain-amber-depths-resin-delta-breccia-v5",
+      "kind": "terrain",
+      "biomeId": "amber-depths",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-f82ebe6b-3a67-4a2e-a53e-c01a15e4638f.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-amber-depths-resin-delta-breccia-v5.png",
+      "sourceSha256": "0b867d93f1edad765579df5ebb17884476358cbbcac3fb20609f4c65360bbe59",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/amber-depths-resin-delta-breccia-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "8a6a561f794c9318ea43ca8414dff78c085caa487096adf43d0ae62c431208cf",
+      "runtimeBytes": 844190
+    },
+    {
+      "index": 56,
+      "id": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+      "kind": "terrain",
+      "biomeId": "amber-depths",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-cc1f4683-5bb8-44eb-99f3-05438231a783.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-amber-depths-fossil-sun-ripple-fault-v5.png",
+      "sourceSha256": "da4f8eabeed63b0292006e373bf5ecb94ded64422eb35b36b99cbcb3ada3dc41",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/amber-depths-fossil-sun-ripple-fault-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "f99ac80cf6a8ffed896e6407a8aa082ede9f3a13ad5b6868b4e62c17ba65c774",
+      "runtimeBytes": 833292
+    },
+    {
+      "index": 57,
+      "id": "terrain-silver-core-mercury-slickenside-fan-v5",
+      "kind": "terrain",
+      "biomeId": "silver-core",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-1668a140-43b1-4d48-bc0f-9cdc765bdc7a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-silver-core-mercury-slickenside-fan-v5.png",
+      "sourceSha256": "f20daa2f87190c1a89ed5907095cac8c5fca78ee90b54e90aac5876af49d6ed8",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/silver-core-mercury-slickenside-fan-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "c0148ff48f6ed66d550d19489ee4a2adff70a71df529d2c6fb64ae66ab404bf0",
+      "runtimeBytes": 803014
+    },
+    {
+      "index": 58,
+      "id": "terrain-silver-core-magnetite-needle-avalanche-v5",
+      "kind": "terrain",
+      "biomeId": "silver-core",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-5db4c3e2-2d85-48ad-a605-0ca32ff1bdda.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-silver-core-magnetite-needle-avalanche-v5.png",
+      "sourceSha256": "fbc83a2f8fbf3ca0a7aa4406db6ac56f0bb479a874b8058a7e0af6ea76d8d420",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/silver-core-magnetite-needle-avalanche-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "5ad15b4a4cc74696f78fa28ae31e0689c8f4c2de07196f71793290703ce7bf6a",
+      "runtimeBytes": 821022
+    },
+    {
+      "index": 59,
+      "id": "terrain-core-magma-lava-bomb-impact-field-v5",
+      "kind": "terrain",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-769ee193-98bb-4962-ba2c-4708d938fdb5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-core-magma-lava-bomb-impact-field-v5.png",
+      "sourceSha256": "854f75c7256a98e8a89f9e1eac3f3828067b0c1ef09987d46f036aed2953f992",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/core-magma-lava-bomb-impact-field-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "cdb52875b40b75c04d438d5ba104420d2ac74de05721907ff648d7dd9ae13e0e",
+      "runtimeBytes": 767032
+    },
+    {
+      "index": 60,
+      "id": "terrain-core-magma-basalt-ropefold-shear-v5",
+      "kind": "terrain",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-287cfabd-bf44-4568-bf1a-a494811bb54b.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-core-magma-basalt-ropefold-shear-v5.png",
+      "sourceSha256": "c9faad6a10531242f83eeed87a15770a862292871440e7f1ed8c7222d61c6b74",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/core-magma-basalt-ropefold-shear-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "11a5b11a52885dda29bf7f174305375a8585ca968128db6407ff6184f05a7cff",
+      "runtimeBytes": 690652
+    },
+    {
+      "index": 61,
+      "id": "terrain-core-magma-ember-dike-branching-v5",
+      "kind": "terrain",
+      "biomeId": "core-magma",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-4f6c14cf-374c-4e09-b71b-dad4b4666d13.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-core-magma-ember-dike-branching-v5.png",
+      "sourceSha256": "4ac9f196dc399155ac1e4a563b9c333d3f9cae3a9daf387c201fff841d488b8a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/core-magma-ember-dike-branching-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "2c8d0502512a9ccf36e08575f75e3192d25892734595b33779dee856258e37b3",
+      "runtimeBytes": 745388
+    },
+    {
+      "index": 62,
+      "id": "terrain-slagworks-clinker-avalanche-scab-v5",
+      "kind": "terrain",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-d43912e3-a901-4efd-b93b-fa597100ce57.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-clinker-avalanche-scab-v5.png",
+      "sourceSha256": "5fb7b9ac86fdf1ec6eac60d3fbda04bc87330a8ec96cb67232fafd5a9f07f8ce",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/slagworks-clinker-avalanche-scab-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "83a168ce8d35eb86d036136452b3cc0639b5e267109dc5df4d2e8bbb32199e0b",
+      "runtimeBytes": 781374
+    },
+    {
+      "index": 63,
+      "id": "terrain-slagworks-copper-salt-boil-v5",
+      "kind": "terrain",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-5be447d1-0b6e-41d0-8d01-ffa59e908823.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-copper-salt-boil-v5.png",
+      "sourceSha256": "55cfa3923ab63ff0e1109ed05ebf996484148bf90ae22002fa182af29a44db16",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/slagworks-copper-salt-boil-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "d2f70bbf749d4baf4952370366d07da3f16dadb195040d03b449208650c40827",
+      "runtimeBytes": 846082
+    },
+    {
+      "index": 64,
+      "id": "terrain-slagworks-rail-iron-breccia-v5",
+      "kind": "terrain",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-25d9d8ed-cefe-47b3-aa3d-4908274119c5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-rail-iron-breccia-v5.png",
+      "sourceSha256": "d668ce80c79d145e36a93c35cf54eb81c6dbc84eb0585f2a5cd7ebca7ae339a2",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/slagworks-rail-iron-breccia-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "862de8da6580ee5727eb0dda93ccf277d35123a0691c13db358580f533b92f76",
+      "runtimeBytes": 860006
+    },
+    {
+      "index": 65,
+      "id": "terrain-slagworks-refractory-spall-fan-v5",
+      "kind": "terrain",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-f35d02c5-6456-4f6d-a146-8f5ef19b1823.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-refractory-spall-fan-v5.png",
+      "sourceSha256": "bed671100fe0dc4a4cf25fb3ed2a1cadd042dccbeddb89229fcf6245564cf2a7",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/slagworks-refractory-spall-fan-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "ee80366a9e7f7d00f58eeee7d84b9e9134379ef302a8cab4946d02e1e8c542ca",
+      "runtimeBytes": 841686
+    },
+    {
+      "index": 66,
+      "id": "terrain-slagworks-quenched-slag-river-v5",
+      "kind": "terrain",
+      "biomeId": "slagworks",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-4dc48a54-fddd-4877-bea8-2d35383695d1.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-quenched-slag-river-v5.png",
+      "sourceSha256": "eedfc8efe2efd88c36fe0ac42895cb3e041e8a4a28296b4163b6ddecd43374d0",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/slagworks-quenched-slag-river-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "4fc94d939e80a35e424f2eef239511ed5db3a3061df30ade123aa2090c0f93dc",
+      "runtimeBytes": 870438
+    },
+    {
+      "index": 67,
+      "id": "terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5",
+      "kind": "terrain",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-7bdaa098-2cd4-4864-86fa-0b4042e46032.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5.png",
+      "sourceSha256": "2442c58c78add16a734564b0aadbf5ebb3e89ef40206a7a090bcd4a0707aca06",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/obsidian-catacombs-blackglass-conchoidal-storm-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "283975d1afefeb391bc6d959a0dbbf9d0e3ded0db80d2ae5e41f22f7fd6de127",
+      "runtimeBytes": 693402
+    },
+    {
+      "index": 68,
+      "id": "terrain-obsidian-catacombs-violet-ash-debris-flow-v5",
+      "kind": "terrain",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-f4c57ef8-f4e6-4ca2-966f-1484b3862f23.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-violet-ash-debris-flow-v5.png",
+      "sourceSha256": "3a4caddbf548be8b2a8f0861c18537e9b8f410812b234f52b1b49a9d7c28533c",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/obsidian-catacombs-violet-ash-debris-flow-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "a877e243bc776f301e8a746eb76b82c5787f653534f494898120c60e01f836ba",
+      "runtimeBytes": 626668
+    },
+    {
+      "index": 69,
+      "id": "terrain-obsidian-catacombs-crypt-lime-prism-vein-v5",
+      "kind": "terrain",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-e2cd80ee-03f3-47a8-8e99-f3c90ea83337.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-crypt-lime-prism-vein-v5.png",
+      "sourceSha256": "f4017c7678604b804cfed1938a9d3ba38ecabf47bdc18758d30e5a782eebee08",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/obsidian-catacombs-crypt-lime-prism-vein-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "ee7865235e3fde0085b77029b37f71cfa81949918d0b00c2714726db8bbef554",
+      "runtimeBytes": 714554
+    },
+    {
+      "index": 70,
+      "id": "terrain-obsidian-catacombs-obsidian-pillow-fracture-v5",
+      "kind": "terrain",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-e4085cf5-2bf8-4e1c-a3de-d89eecfa4772.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-obsidian-pillow-fracture-v5.png",
+      "sourceSha256": "03351546c841e1e32aeca3c96b854c902c27fc1638b566a3d4a984f2330c247e",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/obsidian-catacombs-obsidian-pillow-fracture-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "ebc57c6130782996ee607dc3439e289962af0afc8e2a297118213f41864d8e73",
+      "runtimeBytes": 650698
+    },
+    {
+      "index": 71,
+      "id": "terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5",
+      "kind": "terrain",
+      "biomeId": "obsidian-catacombs",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-97b0bb7e-3cd7-4dba-a06b-fe987abcdfbc.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5.png",
+      "sourceSha256": "661182ee090eb698d1e616e08ce65b628658a51f10fb5e17cb54d304dad29905",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/obsidian-catacombs-cold-lava-shard-avulsion-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "f4c3a781f5dd7ccd2bbf7b4442818b2706db9ff6a087565a543e6faa70791712",
+      "runtimeBytes": 737290
+    },
+    {
+      "index": 72,
+      "id": "terrain-pressure-foundry-boiler-scale-blisterfield-v5",
+      "kind": "terrain",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-0ee61723-41fa-46d3-8a4e-00e19045835b.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-boiler-scale-blisterfield-v5.png",
+      "sourceSha256": "820b2b70a402cf8929d282978f57e808802d04e56c865a7d0bfac3c429c05fab",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-boiler-scale-blisterfield-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "bc5e25383b65204800ccb4fa7f28817fb8c1db4feb40785bc5fb8caa843845d1",
+      "runtimeBytes": 747814
+    },
+    {
+      "index": 73,
+      "id": "terrain-pressure-foundry-cyan-coolant-mineral-delta-v5",
+      "kind": "terrain",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-d89cbb5b-a4dd-402b-8fa5-444f5df24455.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-cyan-coolant-mineral-delta-v5.png",
+      "sourceSha256": "0eb43e835d3a62bb426e61120d7ce1ae4f8b56019e9b0973eae72638047b35dc",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-cyan-coolant-mineral-delta-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "7b221fac3df5cc96caf0a0080843d77cca7a0afc4c11da668d821ad451c416fa",
+      "runtimeBytes": 724300
+    },
+    {
+      "index": 74,
+      "id": "terrain-pressure-foundry-rivet-iron-sediment-fan-v5",
+      "kind": "terrain",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-298ccaa1-a409-48ba-9ec6-491ba98c2dba.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-rivet-iron-sediment-fan-v5.png",
+      "sourceSha256": "9c802d54864e171deff26d8043176b03dce9de2d38fc34f1dd21bc53ba2cbc9a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-rivet-iron-sediment-fan-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "74490c52eea34e265bfaae635aba437d51896eade4c39488cecd259eac8438c1",
+      "runtimeBytes": 793574
+    },
+    {
+      "index": 75,
+      "id": "terrain-pressure-foundry-pressure-spall-shockwave-v5",
+      "kind": "terrain",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-9a210fca-bd3b-4185-8421-39d85a70a2fb.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-pressure-spall-shockwave-v5.png",
+      "sourceSha256": "6809d7b1cff2b7cd262c8ab5317b3cd73b82c49e1d2e0128b451eba75b2fb42a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-pressure-spall-shockwave-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "98624dbe01db05c58006ba31b38062de0e02ff5f27d5ea71ceee1a70bc82860e",
+      "runtimeBytes": 709904
+    },
+    {
+      "index": 76,
+      "id": "terrain-pressure-foundry-condenser-salt-lace-v5",
+      "kind": "terrain",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-a905c41f-39a5-490a-bcfe-fc0d446be27a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-condenser-salt-lace-v5.png",
+      "sourceSha256": "d273a5a858bd4559963a9b9178c423bc85355bd969b5962a594a123e17199774",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-condenser-salt-lace-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "baf8fa2ebc2af2e27638a3a9704005e87adaaf7b6edbc3658a6fba1bb03b28f1",
+      "runtimeBytes": 825234
+    },
+    {
+      "index": 77,
+      "id": "terrain-pressure-foundry-turbine-carbon-shear-v5",
+      "kind": "terrain",
+      "biomeId": "pressure-foundry",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-1c54061c-09a8-40c3-ae14-2a8c27a415f5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-turbine-carbon-shear-v5.png",
+      "sourceSha256": "bbc13766c248d13fd4caea6f9a9ec87c9cb6274083e0fb5a91f0822c6a917014",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-turbine-carbon-shear-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "667a36caa5ab1bb3a25c3c2c5cff7d19ae69ef8ce8e004dcf6fb1ebc651dd4dd",
+      "runtimeBytes": 762414
+    },
+    {
+      "index": 78,
+      "id": "terrain-blackglass-abyss-prism-splinter-breccia-v5",
+      "kind": "terrain",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-f319b6ad-7d08-426a-a145-113ffd665b90.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-prism-splinter-breccia-v5.png",
+      "sourceSha256": "8424282365b7b98f5697ee17d7fdb531db4b1f252d5def1cb0dc71f7e693ed1c",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-prism-splinter-breccia-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "7eb5cd4f03ce62f871480b3e61547244743639475b6896b6e224052ead1ce006",
+      "runtimeBytes": 725330
+    },
+    {
+      "index": 79,
+      "id": "terrain-blackglass-abyss-eclipse-dust-turbidite-v5",
+      "kind": "terrain",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-556b6bc8-712e-465d-bf65-5d7245999b90.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-eclipse-dust-turbidite-v5.png",
+      "sourceSha256": "47c4fed06be918257eb1eaee2e38011eec58632752efb404582f1a24572c4cbb",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-eclipse-dust-turbidite-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "6f407990dff206b7dbf9a441a67e92c708c4f8896636630df60b7d05ec126579",
+      "runtimeBytes": 607278
+    },
+    {
+      "index": 80,
+      "id": "terrain-blackglass-abyss-starlight-fracture-web-v5",
+      "kind": "terrain",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-6e4f09f1-4ce0-4eaf-8054-d8411a011f17.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-starlight-fracture-web-v5.png",
+      "sourceSha256": "123b013c5879c6e05789a49de19411326cd10228d6075a40aa02042a0983337a",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-starlight-fracture-web-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "bbdac32b35e2df1b2036f0890a03798de1d7a88f530c3fcceecb80e96ec86491",
+      "runtimeBytes": 676174
+    },
+    {
+      "index": 81,
+      "id": "terrain-blackglass-abyss-mirrorstone-tidal-shear-v5",
+      "kind": "terrain",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-b266b9ec-c082-48b9-aabf-4a8505cf2f9a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-mirrorstone-tidal-shear-v5.png",
+      "sourceSha256": "044e97c032b15ff490cb7cb0dac05b3f0e83bd118405f2ae240f192ac78fd895",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-mirrorstone-tidal-shear-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "d2dc3e72a1612445baf0dc6886405354d259033d1caadaa90f40412263e237d5",
+      "runtimeBytes": 743098
+    },
+    {
+      "index": 82,
+      "id": "terrain-blackglass-abyss-voidglass-impact-spray-v5",
+      "kind": "terrain",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-135bbc2e-ee45-4581-b121-5625248a93ae.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-voidglass-impact-spray-v5.png",
+      "sourceSha256": "d065170154b6a16b964b98675fe4d07843cb567155d307dc67a267c732bdc764",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-voidglass-impact-spray-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "5351362d0b619f636107bbf4698268a1f79404655ea248f7b375655246971350",
+      "runtimeBytes": 730722
+    },
+    {
+      "index": 83,
+      "id": "terrain-blackglass-abyss-spectral-mineral-avulsion-v5",
+      "kind": "terrain",
+      "biomeId": "blackglass-abyss",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-820a34a7-ff41-4ccb-bb44-77e8c378dffe.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-spectral-mineral-avulsion-v5.png",
+      "sourceSha256": "d6df41a00ddf198ed4ce7e1f4fe52c766d84d2b1324b38ffb27ca20874720eca",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-spectral-mineral-avulsion-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "dfc6348a390d9e13fa9e2d502ced0ed28ede3d9339985732fcdc3cec7d28d4bb",
+      "runtimeBytes": 639494
+    },
+    {
+      "index": 84,
+      "id": "terrain-starfire-rift-cometglass-debris-stream-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-a323fa76-c741-439a-9737-9b3501c8ed0f.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-cometglass-debris-stream-v5.png",
+      "sourceSha256": "2b220d39aba443f2be9d67d08f67b20f4f05f908ffdca02bb55705157487ca30",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-cometglass-debris-stream-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "da835eac432cc7eebc3e11d6d592f54fefc7e254d1291fe688d7ee31894cd3d5",
+      "runtimeBytes": 821446
+    },
+    {
+      "index": 85,
+      "id": "terrain-starfire-rift-nebula-quartz-lightning-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-42c3b6ae-76c8-43ae-83a1-9c524f134f8d.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-nebula-quartz-lightning-v5.png",
+      "sourceSha256": "59da56dc5f1cf0ef00fde54adb3e0bbdf3e906dd964ebbc939efd13f8ae74318",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-nebula-quartz-lightning-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "a8cf92686237a4583154a705528f75e0a9adbf18367152ff867f87e9f01b3975",
+      "runtimeBytes": 761744
+    },
+    {
+      "index": 86,
+      "id": "terrain-starfire-rift-star-metal-spherule-field-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-a094ff4c-b002-4a05-be1b-ac5e9cb65b13.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-star-metal-spherule-field-v5.png",
+      "sourceSha256": "7a54ecb64e4b7bc4047af8a1bd7b5630a99b151a835671a9f07aab6a8c30f455",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-star-metal-spherule-field-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "a2715e3d022d4ba5f00c34921195835a7248bc3017824050f5aa4186fda468af",
+      "runtimeBytes": 879720
+    },
+    {
+      "index": 87,
+      "id": "terrain-starfire-rift-cosmic-ash-aurora-shear-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-24137fce-a56d-4b55-ba5e-afcd4738642d.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-cosmic-ash-aurora-shear-v5.png",
+      "sourceSha256": "da852f14c7c5de1b1763b654828b88d7cf71773e34507bc980248362f5ed65cb",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-cosmic-ash-aurora-shear-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "61094e50523053d462e45e3ee76c3ef05fdb840648f6e52a608f665c7792a77f",
+      "runtimeBytes": 771682
+    },
+    {
+      "index": 88,
+      "id": "terrain-starfire-rift-binary-crystal-melt-vein-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-8ca74f16-1d55-4338-b50c-af6fbeefe6e4.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-binary-crystal-melt-vein-v5.png",
+      "sourceSha256": "0ec62d5d3471b0281aa3d71ba2fbedec31f1ef885178b426a5524edbc313c887",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-binary-crystal-melt-vein-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "1e38b7f8f95b050be5bc3f2d1d0b4440faa3d5d1c998d91a60caa4430a019496",
+      "runtimeBytes": 749004
+    },
+    {
+      "index": 89,
+      "id": "terrain-starfire-rift-celestial-breccia-cascade-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-21701390-362b-4694-9ae2-a3820c6813f5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-celestial-breccia-cascade-v5.png",
+      "sourceSha256": "11abc3f71ed35b493ee8edeb162edb67d420870d3378d5fe2ca98d586ebca508",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-celestial-breccia-cascade-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "2e5daff076ad3db1b29e6e0475c56566c704442919503ffd1e9ef2d82044f958",
+      "runtimeBytes": 859142
+    },
+    {
+      "index": 90,
+      "id": "terrain-starfire-rift-terminal-rift-meteorite-flow-v5",
+      "kind": "terrain",
+      "biomeId": "starfire-rift",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-5d51e6e8-dab5-4a58-844b-2a170c9d5d79.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-terminal-rift-meteorite-flow-v5.png",
+      "sourceSha256": "f6bfad94c2ef0d58168825eeb598f3e6a00739299d4597b8d734f14085be4dec",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-terminal-rift-meteorite-flow-v5.webp",
+      "width": 1536,
+      "height": 1024,
+      "featherPx": [
+        192,
+        128
+      ],
+      "featherShape": "irregular-low-frequency",
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "runtimeSha256": "abc7cdbd9d77ee7023ad47ec2a7ef077da9b42624383f247fb0702088da3abf4",
+      "runtimeBytes": 697086
+    }
+  ],
+  "surfaceGround": [
+    {
+      "index": 91,
+      "id": "surface-rain-polished-slate-and-loam-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-52fb78fc-f50c-4029-979e-cbf3e4cec96f.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-rain-polished-slate-and-loam-v5.png",
+      "sourceSha256": "fdcced1ee09f728ca4e8e7ebc1bca06d57b7d1be2c046be222e2e53bf6c81164",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-rain-polished-slate-and-loam-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-rain-polished-slate-and-loam-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.557699,
+      "runtimeSha256": "ec54a5aa08c020cfe9cadfd43873d28db7c8440eee48e81f94fc1f531cfb1fa3",
+      "runtimeBytes": 90558,
+      "chromaRgb": [
+        2,
+        249,
+        2
+      ],
+      "sourceBoundaryYMin": 372.53,
+      "sourceBoundaryYMax": 465.0
+    },
+    {
+      "index": 92,
+      "id": "surface-mossy-stone-root-break-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-e1c80bdd-35fd-4bc9-ac71-dde15aa13cae.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-mossy-stone-root-break-v5.png",
+      "sourceSha256": "9c4ee75999c787e680e117eeef07d51c7de71c082aea67d71e3f8e15329f18d2",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-mossy-stone-root-break-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-mossy-stone-root-break-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.611458,
+      "runtimeSha256": "560adc02fa06997e7cd4c7b5708a6ca06a42a2bfde67c9c3decf72f7d3723d9b",
+      "runtimeBytes": 107272,
+      "chromaRgb": [
+        2,
+        250,
+        4
+      ],
+      "sourceBoundaryYMin": 401.0,
+      "sourceBoundaryYMax": 497.33
+    },
+    {
+      "index": 93,
+      "id": "surface-weathered-cobble-clay-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-080a3fae-98db-47fb-8e84-e78c057728c5.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-weathered-cobble-clay-v5.png",
+      "sourceSha256": "c8d4f3b435b85dd9cc8719b0a6632717a04895255499ddd2f2b9a2f36b53b252",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-weathered-cobble-clay-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-weathered-cobble-clay-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.556311,
+      "runtimeSha256": "261b9fc097ffd88b8dc3ef9e406a64ac8583ec9eb9beb50f7d1aa20b6f6d34bb",
+      "runtimeBytes": 102644,
+      "chromaRgb": [
+        2,
+        250,
+        9
+      ],
+      "sourceBoundaryYMin": 346.0,
+      "sourceBoundaryYMax": 541.07
+    },
+    {
+      "index": 94,
+      "id": "surface-frost-wet-slate-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-0fe08cd6-4b9e-487b-9f8a-281ab0131305.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-frost-wet-slate-v5.png",
+      "sourceSha256": "5d780bf8400a1597456c85a5620d1bad60d0238ebd3112f83d3f8201a9dbb3f7",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-frost-wet-slate-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-frost-wet-slate-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.563847,
+      "runtimeSha256": "a5c617b2cff4b2ea575a979827a27557477d30227e6a2043876d571e05cef979",
+      "runtimeBytes": 106060,
+      "chromaRgb": [
+        2,
+        250,
+        1
+      ],
+      "sourceBoundaryYMin": 202.8,
+      "sourceBoundaryYMax": 387.73
+    },
+    {
+      "index": 95,
+      "id": "surface-ironwater-gravel-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-51a1185a-753b-4d4e-b4d6-f64f49a3840d.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-ironwater-gravel-v5.png",
+      "sourceSha256": "a0e2ca98a2733c6dd382ed97595f106c31c389d0e4a22d9eeb78d844f94e43d5",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-ironwater-gravel-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-ironwater-gravel-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.598018,
+      "runtimeSha256": "c2f6981c711ecda3baa5bd72d5ab04a06f61bddfbb99dda9028f7c896e80e3db",
+      "runtimeBytes": 111758,
+      "chromaRgb": [
+        2,
+        250,
+        3
+      ],
+      "sourceBoundaryYMin": 393.33,
+      "sourceBoundaryYMax": 472.0
+    },
+    {
+      "index": 96,
+      "id": "surface-storm-scoured-earth-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-d85f2085-ab74-42ed-bcb3-151f31828d19.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-storm-scoured-earth-v5.png",
+      "sourceSha256": "bb18504eded9d048946df92694d96617b3face87b6253833d7ba76096dde3131",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-storm-scoured-earth-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-storm-scoured-earth-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.521375,
+      "runtimeSha256": "2a10455c543fb59c465d730a54d38f7a92e5b41d1656d1ad1abea020ed94182c",
+      "runtimeBytes": 98972,
+      "chromaRgb": [
+        2,
+        249,
+        3
+      ],
+      "sourceBoundaryYMin": 311.27,
+      "sourceBoundaryYMax": 539.47
+    },
+    {
+      "index": 97,
+      "id": "surface-orchard-root-stone-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-526bf4ae-7d0a-4ac1-a682-2a0e0537a338.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-orchard-root-stone-v5.png",
+      "sourceSha256": "66fc53c943e64cbe321727ba238069711602ceef235fbd495ed0bb327b6ed501",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-orchard-root-stone-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-orchard-root-stone-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.50791,
+      "runtimeSha256": "b07ddec08473f68a0471513806206137088242562bcd09013a14c58b10a9ea69",
+      "runtimeBytes": 103434,
+      "chromaRgb": [
+        1,
+        248,
+        4
+      ],
+      "sourceBoundaryYMin": 310.6,
+      "sourceBoundaryYMax": 444.8
+    },
+    {
+      "index": 98,
+      "id": "surface-broken-town-slate-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-107944ee-ad50-42f0-b83f-27df75c69777.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-broken-town-slate-v5.png",
+      "sourceSha256": "ee107d9af787d940e3d3aed62856282d9789dae1718b415356348f1376de558a",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-broken-town-slate-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-broken-town-slate-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.55011,
+      "runtimeSha256": "d4ebeaf8f9aa132010898cba649b0c677cbaa2997ebad9e2184fd9011f398710",
+      "runtimeBytes": 101792,
+      "chromaRgb": [
+        2,
+        250,
+        6
+      ],
+      "sourceBoundaryYMin": 412.07,
+      "sourceBoundaryYMax": 496.27
+    },
+    {
+      "index": 99,
+      "id": "surface-mist-soaked-peat-stone-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-e94c1986-77cc-46e2-a570-7e26c1171359.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-mist-soaked-peat-stone-v5.png",
+      "sourceSha256": "7d09d69954c9d1a75181fac35846384866b470e2c14ce57124f631b632181129",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-mist-soaked-peat-stone-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-mist-soaked-peat-stone-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.603642,
+      "runtimeSha256": "8e3ee7818a0e6bcf212c516d35bb85504566c6ae5a52005cf46312bea5e5d579",
+      "runtimeBytes": 88702,
+      "chromaRgb": [
+        2,
+        250,
+        2
+      ],
+      "sourceBoundaryYMin": 343.4,
+      "sourceBoundaryYMax": 444.2
+    },
+    {
+      "index": 100,
+      "id": "surface-eastern-expedition-rock-v5",
+      "kind": "surface",
+      "biomeId": "surface",
+      "generatedOriginal": "C:\\Users\\Mila\\.codex\\generated_images\\019f9bc1-a932-7b01-b43b-3d804f0345c6\\exec-fdcfba01-e56e-4b17-b722-bacf6215097a.png",
+      "reviewSource": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface/surface-eastern-expedition-rock-v5.png",
+      "sourceSha256": "ce2ab25b6f31f87e61d81d72a7024aa657bdac178adfc49c467fc4fff75718bc",
+      "alphaReview": "visual-approval-previews/whole-world-visual-expansion-v5/sources/surface-alpha/surface-eastern-expedition-rock-v5-alpha.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-eastern-expedition-rock-v5.webp",
+      "width": 1536,
+      "height": 160,
+      "overlapPx": 192,
+      "bottomFadePx": 48,
+      "opaqueCoverage": 0.572933,
+      "runtimeSha256": "cfa1d363c779744fa9211ca339e0e7fbe00b2bf89c58c1fd4585b7ca067c1fa5",
+      "runtimeBytes": 119034,
+      "chromaRgb": [
+        2,
+        250,
+        4
+      ],
+      "sourceBoundaryYMin": 426.6,
+      "sourceBoundaryYMax": 534.67
+    }
+  ],
+  "capAtlases": [
+    {
+      "biomeId": "weathered-roots",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/weathered-roots-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            288,
+            487,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            262,
+            560,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            56,
+            326,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            783,
+            530,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            766,
+            252,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            1227,
+            361,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            284,
+            598,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            1028,
+            402,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            319,
+            238,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            1236,
+            651,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            920,
+            655,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            3,
+            319,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            536,
+            218,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            479,
+            177,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            820,
+            412,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            1058,
+            134,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            355,
+            428,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            1203,
+            343,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-weathered-roots-lightning-root-braided-clay-v5",
+          "crop": [
+            593,
+            678,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-weathered-roots-ironwater-loam-avulsion-v5",
+          "crop": [
+            1260,
+            312,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "8364afb453a313b40a7281e04c35097e2a5a0b578f005806ddffe06944976c16",
+      "runtimeBytes": 211218
+    },
+    {
+      "biomeId": "blue-caverns",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blue-caverns-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            516,
+            537,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            553,
+            399,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            834,
+            14,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            378,
+            186,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            333,
+            347,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            1187,
+            849,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            366,
+            704,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            558,
+            895,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            156,
+            497,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            504,
+            284,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            1080,
+            49,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            726,
+            514,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            954,
+            470,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            99,
+            317,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            117,
+            816,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            246,
+            807,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            947,
+            567,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            306,
+            180,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-blue-caverns-glacial-fan-calcite-v5",
+          "crop": [
+            1184,
+            560,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-blue-caverns-cobalt-turbidite-tear-v5",
+          "crop": [
+            88,
+            4,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "d67405a546f6b8838231b9b29995c2e84f02316120943e7c91404d9a6e386bfb",
+      "runtimeBytes": 199312
+    },
+    {
+      "biomeId": "amber-depths",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/amber-depths-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            429,
+            646,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            170,
+            94,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            486,
+            731,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            481,
+            755,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            1160,
+            532,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            1199,
+            641,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            1163,
+            26,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            590,
+            211,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            1211,
+            106,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            330,
+            351,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            378,
+            515,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            710,
+            433,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            678,
+            616,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            714,
+            509,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            673,
+            829,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            68,
+            752,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            72,
+            54,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            302,
+            668,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-amber-depths-resin-delta-breccia-v5",
+          "crop": [
+            14,
+            352,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-amber-depths-fossil-sun-ripple-fault-v5",
+          "crop": [
+            1158,
+            818,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "329adf72c48746ce6c1c516fe3b3da1c2ae6edf4950a6ed2037de20a85913e26",
+      "runtimeBytes": 228122
+    },
+    {
+      "biomeId": "silver-core",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/silver-core-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            202,
+            619,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            1251,
+            95,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            668,
+            637,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            458,
+            262,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            1259,
+            254,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            855,
+            636,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            1148,
+            169,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            1038,
+            197,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            120,
+            338,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            156,
+            226,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            509,
+            513,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            578,
+            844,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            725,
+            17,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            1155,
+            291,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            146,
+            739,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            533,
+            775,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            503,
+            906,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            570,
+            100,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-silver-core-mercury-slickenside-fan-v5",
+          "crop": [
+            423,
+            87,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-silver-core-magnetite-needle-avalanche-v5",
+          "crop": [
+            661,
+            622,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "215692b2b3743e76d24ec53bccfc48ec5636c8a4f6c4fd201df1088b69da13af",
+      "runtimeBytes": 210250
+    },
+    {
+      "biomeId": "core-magma",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/core-magma-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            1124,
+            62,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            445,
+            921,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-core-magma-ember-dike-branching-v5",
+          "crop": [
+            47,
+            389,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            533,
+            207,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            1230,
+            140,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-core-magma-ember-dike-branching-v5",
+          "crop": [
+            960,
+            449,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            568,
+            904,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            512,
+            720,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-core-magma-ember-dike-branching-v5",
+          "crop": [
+            503,
+            247,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            196,
+            227,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            1041,
+            235,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-core-magma-ember-dike-branching-v5",
+          "crop": [
+            960,
+            768,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            864,
+            402,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            1208,
+            715,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-core-magma-ember-dike-branching-v5",
+          "crop": [
+            498,
+            713,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            517,
+            512,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            250,
+            903,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-core-magma-ember-dike-branching-v5",
+          "crop": [
+            688,
+            753,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-core-magma-lava-bomb-impact-field-v5",
+          "crop": [
+            1217,
+            509,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-core-magma-basalt-ropefold-shear-v5",
+          "crop": [
+            1089,
+            849,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "1e2c9a33da6f6d97d3460b388f43146b1e5f344878fa0d677b9fe707e0a63dba",
+      "runtimeBytes": 195630
+    },
+    {
+      "biomeId": "slagworks",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/slagworks-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-slagworks-clinker-avalanche-scab-v5",
+          "crop": [
+            5,
+            133,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-slagworks-copper-salt-boil-v5",
+          "crop": [
+            624,
+            851,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-slagworks-rail-iron-breccia-v5",
+          "crop": [
+            739,
+            890,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-slagworks-refractory-spall-fan-v5",
+          "crop": [
+            162,
+            243,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-slagworks-quenched-slag-river-v5",
+          "crop": [
+            1198,
+            621,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-slagworks-clinker-avalanche-scab-v5",
+          "crop": [
+            255,
+            873,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-slagworks-copper-salt-boil-v5",
+          "crop": [
+            1234,
+            645,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-slagworks-rail-iron-breccia-v5",
+          "crop": [
+            789,
+            915,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-slagworks-refractory-spall-fan-v5",
+          "crop": [
+            776,
+            522,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-slagworks-quenched-slag-river-v5",
+          "crop": [
+            691,
+            790,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-slagworks-clinker-avalanche-scab-v5",
+          "crop": [
+            552,
+            409,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-slagworks-copper-salt-boil-v5",
+          "crop": [
+            1066,
+            617,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-slagworks-rail-iron-breccia-v5",
+          "crop": [
+            355,
+            681,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-slagworks-refractory-spall-fan-v5",
+          "crop": [
+            862,
+            317,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-slagworks-quenched-slag-river-v5",
+          "crop": [
+            677,
+            106,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-slagworks-clinker-avalanche-scab-v5",
+          "crop": [
+            652,
+            901,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-slagworks-copper-salt-boil-v5",
+          "crop": [
+            69,
+            180,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-slagworks-rail-iron-breccia-v5",
+          "crop": [
+            320,
+            0,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-slagworks-refractory-spall-fan-v5",
+          "crop": [
+            251,
+            527,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-slagworks-quenched-slag-river-v5",
+          "crop": [
+            996,
+            707,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "76b51555d0645b2116628899568207a38f23c929007f30ccb281a51b3af7cfef",
+      "runtimeBytes": 216644
+    },
+    {
+      "biomeId": "obsidian-catacombs",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/obsidian-catacombs-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5",
+          "crop": [
+            624,
+            780,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-obsidian-catacombs-violet-ash-debris-flow-v5",
+          "crop": [
+            1119,
+            501,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-obsidian-catacombs-crypt-lime-prism-vein-v5",
+          "crop": [
+            320,
+            65,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-obsidian-catacombs-obsidian-pillow-fracture-v5",
+          "crop": [
+            1247,
+            288,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5",
+          "crop": [
+            742,
+            742,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5",
+          "crop": [
+            1196,
+            807,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-obsidian-catacombs-violet-ash-debris-flow-v5",
+          "crop": [
+            847,
+            451,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-obsidian-catacombs-crypt-lime-prism-vein-v5",
+          "crop": [
+            661,
+            326,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-obsidian-catacombs-obsidian-pillow-fracture-v5",
+          "crop": [
+            247,
+            422,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5",
+          "crop": [
+            555,
+            20,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5",
+          "crop": [
+            335,
+            196,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-obsidian-catacombs-violet-ash-debris-flow-v5",
+          "crop": [
+            408,
+            654,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-obsidian-catacombs-crypt-lime-prism-vein-v5",
+          "crop": [
+            1278,
+            648,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-obsidian-catacombs-obsidian-pillow-fracture-v5",
+          "crop": [
+            1010,
+            619,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5",
+          "crop": [
+            1096,
+            543,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5",
+          "crop": [
+            36,
+            574,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-obsidian-catacombs-violet-ash-debris-flow-v5",
+          "crop": [
+            915,
+            359,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-obsidian-catacombs-crypt-lime-prism-vein-v5",
+          "crop": [
+            363,
+            909,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-obsidian-catacombs-obsidian-pillow-fracture-v5",
+          "crop": [
+            522,
+            450,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5",
+          "crop": [
+            260,
+            337,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "8f7419c2154bdbefb5de85e2588d57def31588417fe511c5e61cd34c41939f6a",
+      "runtimeBytes": 188008
+    },
+    {
+      "biomeId": "pressure-foundry",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/pressure-foundry-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-pressure-foundry-boiler-scale-blisterfield-v5",
+          "crop": [
+            1149,
+            23,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-pressure-foundry-cyan-coolant-mineral-delta-v5",
+          "crop": [
+            716,
+            626,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-pressure-foundry-rivet-iron-sediment-fan-v5",
+          "crop": [
+            674,
+            702,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-pressure-foundry-pressure-spall-shockwave-v5",
+          "crop": [
+            279,
+            734,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-pressure-foundry-condenser-salt-lace-v5",
+          "crop": [
+            266,
+            433,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-pressure-foundry-turbine-carbon-shear-v5",
+          "crop": [
+            287,
+            450,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-pressure-foundry-boiler-scale-blisterfield-v5",
+          "crop": [
+            360,
+            176,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-pressure-foundry-cyan-coolant-mineral-delta-v5",
+          "crop": [
+            857,
+            397,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-pressure-foundry-rivet-iron-sediment-fan-v5",
+          "crop": [
+            454,
+            212,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-pressure-foundry-pressure-spall-shockwave-v5",
+          "crop": [
+            26,
+            796,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-pressure-foundry-condenser-salt-lace-v5",
+          "crop": [
+            677,
+            707,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-pressure-foundry-turbine-carbon-shear-v5",
+          "crop": [
+            653,
+            811,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-pressure-foundry-boiler-scale-blisterfield-v5",
+          "crop": [
+            575,
+            687,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-pressure-foundry-cyan-coolant-mineral-delta-v5",
+          "crop": [
+            1086,
+            680,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-pressure-foundry-rivet-iron-sediment-fan-v5",
+          "crop": [
+            277,
+            513,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-pressure-foundry-pressure-spall-shockwave-v5",
+          "crop": [
+            769,
+            607,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-pressure-foundry-condenser-salt-lace-v5",
+          "crop": [
+            849,
+            417,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-pressure-foundry-turbine-carbon-shear-v5",
+          "crop": [
+            350,
+            722,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-pressure-foundry-boiler-scale-blisterfield-v5",
+          "crop": [
+            731,
+            70,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-pressure-foundry-cyan-coolant-mineral-delta-v5",
+          "crop": [
+            838,
+            290,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "cafcb38c5b9f4d1a17df33ab6e0e8690a71d08c8ec73ee90c87e2b8de0e21064",
+      "runtimeBytes": 207658
+    },
+    {
+      "biomeId": "blackglass-abyss",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/blackglass-abyss-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-blackglass-abyss-prism-splinter-breccia-v5",
+          "crop": [
+            94,
+            848,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-blackglass-abyss-eclipse-dust-turbidite-v5",
+          "crop": [
+            496,
+            209,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-blackglass-abyss-starlight-fracture-web-v5",
+          "crop": [
+            729,
+            125,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-blackglass-abyss-mirrorstone-tidal-shear-v5",
+          "crop": [
+            98,
+            926,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-blackglass-abyss-voidglass-impact-spray-v5",
+          "crop": [
+            309,
+            900,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-blackglass-abyss-spectral-mineral-avulsion-v5",
+          "crop": [
+            283,
+            805,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-blackglass-abyss-prism-splinter-breccia-v5",
+          "crop": [
+            743,
+            251,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-blackglass-abyss-eclipse-dust-turbidite-v5",
+          "crop": [
+            738,
+            606,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-blackglass-abyss-starlight-fracture-web-v5",
+          "crop": [
+            644,
+            2,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-blackglass-abyss-mirrorstone-tidal-shear-v5",
+          "crop": [
+            1189,
+            374,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-blackglass-abyss-voidglass-impact-spray-v5",
+          "crop": [
+            1274,
+            834,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-blackglass-abyss-spectral-mineral-avulsion-v5",
+          "crop": [
+            739,
+            93,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-blackglass-abyss-prism-splinter-breccia-v5",
+          "crop": [
+            967,
+            747,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-blackglass-abyss-eclipse-dust-turbidite-v5",
+          "crop": [
+            306,
+            616,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-blackglass-abyss-starlight-fracture-web-v5",
+          "crop": [
+            388,
+            304,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-blackglass-abyss-mirrorstone-tidal-shear-v5",
+          "crop": [
+            5,
+            125,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-blackglass-abyss-voidglass-impact-spray-v5",
+          "crop": [
+            430,
+            756,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-blackglass-abyss-spectral-mineral-avulsion-v5",
+          "crop": [
+            710,
+            633,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-blackglass-abyss-prism-splinter-breccia-v5",
+          "crop": [
+            986,
+            85,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-blackglass-abyss-eclipse-dust-turbidite-v5",
+          "crop": [
+            1060,
+            105,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "728cab83d0664c754fb73e7c1c670590547d8ab470754887ef3009256d8d5899",
+      "runtimeBytes": 183490
+    },
+    {
+      "biomeId": "starfire-rift",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/starfire-rift-exposed-top-caps-v5.webp",
+      "frameWidth": 256,
+      "frameHeight": 96,
+      "columns": 5,
+      "rows": 4,
+      "frameCount": 20,
+      "frames": [
+        {
+          "index": 0,
+          "source": "terrain-starfire-rift-cometglass-debris-stream-v5",
+          "crop": [
+            119,
+            509,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 1,
+          "source": "terrain-starfire-rift-nebula-quartz-lightning-v5",
+          "crop": [
+            70,
+            314,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "source": "terrain-starfire-rift-star-metal-spherule-field-v5",
+          "crop": [
+            158,
+            479,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 3,
+          "source": "terrain-starfire-rift-cosmic-ash-aurora-shear-v5",
+          "crop": [
+            827,
+            293,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 4,
+          "source": "terrain-starfire-rift-binary-crystal-melt-vein-v5",
+          "crop": [
+            1255,
+            868,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "source": "terrain-starfire-rift-celestial-breccia-cascade-v5",
+          "crop": [
+            786,
+            750,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 6,
+          "source": "terrain-starfire-rift-terminal-rift-meteorite-flow-v5",
+          "crop": [
+            746,
+            225,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 7,
+          "source": "terrain-starfire-rift-cometglass-debris-stream-v5",
+          "crop": [
+            837,
+            295,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 8,
+          "source": "terrain-starfire-rift-nebula-quartz-lightning-v5",
+          "crop": [
+            1091,
+            415,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "source": "terrain-starfire-rift-star-metal-spherule-field-v5",
+          "crop": [
+            762,
+            451,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "source": "terrain-starfire-rift-cosmic-ash-aurora-shear-v5",
+          "crop": [
+            172,
+            379,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 11,
+          "source": "terrain-starfire-rift-binary-crystal-melt-vein-v5",
+          "crop": [
+            1092,
+            355,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "source": "terrain-starfire-rift-celestial-breccia-cascade-v5",
+          "crop": [
+            77,
+            303,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 13,
+          "source": "terrain-starfire-rift-terminal-rift-meteorite-flow-v5",
+          "crop": [
+            755,
+            28,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 14,
+          "source": "terrain-starfire-rift-cometglass-debris-stream-v5",
+          "crop": [
+            221,
+            57,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 15,
+          "source": "terrain-starfire-rift-nebula-quartz-lightning-v5",
+          "crop": [
+            696,
+            734,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 16,
+          "source": "terrain-starfire-rift-star-metal-spherule-field-v5",
+          "crop": [
+            300,
+            753,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 17,
+          "source": "terrain-starfire-rift-cosmic-ash-aurora-shear-v5",
+          "crop": [
+            356,
+            301,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 18,
+          "source": "terrain-starfire-rift-binary-crystal-melt-vein-v5",
+          "crop": [
+            541,
+            671,
+            256,
+            96
+          ]
+        },
+        {
+          "index": 19,
+          "source": "terrain-starfire-rift-celestial-breccia-cascade-v5",
+          "crop": [
+            1085,
+            84,
+            256,
+            96
+          ]
+        }
+      ],
+      "runtimeSha256": "a9d1136e2f8048a5ba0439c343cbf055481b12965e3cbd42541fb8d2caf94021",
+      "runtimeBytes": 218128
+    }
+  ],
+  "backgroundBlendMaskAtlas": {
+    "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/backdrop-card-blend-mask-atlas-v5.png",
+    "frameWidth": 384,
+    "frameHeight": 256,
+    "columns": 4,
+    "rows": 4,
+    "frameCount": 16,
+    "edgeBits": {
+      "left": 1,
+      "right": 2,
+      "top": 4,
+      "bottom": 8
+    },
+    "featherPxAtMaskScale": [
+      48,
+      32
+    ],
+    "shape": "irregular-low-frequency",
+    "runtimeSha256": "8174d3fca2f9757b636540a3a106da8a1b93372eb5a5234e6ca93bb20521e6fb",
+    "runtimeBytes": 98390
+  },
+  "contactSheets": [
+    "visual-approval-previews/whole-world-visual-expansion-v5/2026-07-28-backgrounds-contact-sheet-v5.jpg",
+    "visual-approval-previews/whole-world-visual-expansion-v5/2026-07-28-terrain-contact-sheet-v5.jpg",
+    "visual-approval-previews/whole-world-visual-expansion-v5/2026-07-28-surface-ground-contact-sheet-v5.png"
+  ],
+  "promptManifest": "visual-approval-previews/whole-world-visual-expansion-v5/2026-07-28-imagegen-prompt-manifest.md"
+}

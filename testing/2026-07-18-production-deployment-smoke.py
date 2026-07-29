@@ -25,6 +25,7 @@ assert not any("underground-biome-smooth-motion-v3" in path.parts for path in as
 for relative_directory in (
     "sprites/npc/campfire/generated",
     "sprites/tiles/dynamic-soil",
+    "sprites/tiles/resource-tiles-imagegen-v3",
     "sprites/backgrounds/world-visual-v2/depth/biome-motion-v3",
 ):
     expected = {
@@ -60,6 +61,28 @@ build_id = builder["production_build_id"](modules, assets)
 assert len(build_id) == 12
 assert build_id == builder["production_build_id"](modules, assets)
 
+assert (
+    builder["version_local_module_specifier"]("./values/config.js", "contract123")
+    == "./values/config.js?v=contract123"
+)
+assert (
+    builder["version_local_module_specifier"](
+        "./values/config.js?rev=stale#fragment",
+        "contract123",
+    )
+    == "./values/config.js?v=contract123#fragment"
+)
+assert (
+    builder["version_local_module_specifier"]("phaser", "contract123")
+    == "phaser"
+)
+versioned_main = builder["production_module_source"](ROOT / "main.js", "contract123")
+for match in builder["MODULE_RE"].finditer(versioned_main):
+    specifier = match.group(1) or match.group(2)
+    if specifier.startswith("."):
+        assert "?v=contract123" in specifier
+        assert "?rev=" not in specifier
+
 # Warnings are allowed only for literals that are already absent from the dev
 # checkout. A source file that exists but was not collected is a build failure.
 for literal in unresolved:
@@ -71,7 +94,7 @@ build_id_index = index.index('globalThis.__DIG_GAME_BUILD_ID__ = "contract123"')
 phaser_index = index.index("./libs/phaser.js?v=contract123")
 main_index = index.index("./main.js?v=contract123")
 assert marker_index < build_id_index < phaser_index < main_index
-assert '["jkd_e2e", "ui-review", "cave-review"]' in index
+assert '["jkd_e2e", "ui-review", "cave-review", "wurm", "wurm10x"]' in index
 
 try:
     builder["safe_output_path"](str(ROOT))
@@ -101,6 +124,7 @@ if dist_manifest.is_file():
     assert manifest["debugMode"] is False
     assert manifest["moduleCount"] >= 200
     assert manifest["assetCount"] >= 1000
+    assert manifest["moduleCacheKey"] == manifest["buildId"]
     production_html = (ROOT / "dist" / "index.html").read_text(encoding="utf-8")
     assert "globalThis.__DIG_GAME_PRODUCTION__ = true" in production_html
     if "globalThis.__DIG_GAME_BUILD_ID__" in production_html:
@@ -117,5 +141,14 @@ if dist_manifest.is_file():
         (dist_arc_root / entry["url"]).is_file()
         for entry in dist_arc_section["files"]
     ), "production snapshot is missing Arc runtime layers"
+    for module in modules:
+        dist_module = ROOT / "dist" / module.relative_to(ROOT)
+        dist_source = dist_module.read_text(encoding="utf-8")
+        for match in builder["MODULE_RE"].finditer(dist_source):
+            specifier = match.group(1) or match.group(2)
+            if specifier.startswith("."):
+                assert f"?v={manifest['buildId']}" in specifier, (
+                    f"unversioned production import in {dist_module}: {specifier}"
+                )
 
 print("production deployment smoke: ok")

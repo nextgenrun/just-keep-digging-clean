@@ -19,6 +19,13 @@ function getMaxMultiplier() {
     : DEFAULT_MAX_MULTIPLIER;
 }
 
+function getComboMilestones() {
+  return Object.keys(COMBO_CONFIG.milestoneRewards || {})
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+}
+
 export class ComboSystem {
   constructor() {
     // Current combo state
@@ -104,7 +111,7 @@ export class ComboSystem {
    * @param {number} nowMs - Current timestamp
    */
   checkMilestones(nowMs) {
-    const milestones = [10, 25, 50, 100, 200, 500, 1000, 5000];
+    const milestones = getComboMilestones();
     
     for (const milestone of milestones) {
       if (this.comboCount >= milestone && !this.milestonesReached.has(milestone)) {
@@ -290,7 +297,10 @@ export class ComboSystem {
       this.lastComboTime = data.lastComboTime;
     }
     
-    // Clear milestones on load (player will earn them again)
-    this.milestonesReached.clear();
+    // A restored active combo must not repay every checkpoint on its next hit.
+    // A real combo break still clears this set so a new chain can earn rewards.
+    this.milestonesReached = new Set(
+      getComboMilestones().filter(milestone => milestone <= this.comboCount)
+    );
   }
 }

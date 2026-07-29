@@ -53,6 +53,8 @@ export class WorldVisualGameplayEffectLayer {
     this.chestGraphics = null;
     this.crystalGlowGraphics = null;
     this.crystalShardGraphics = null;
+    this.chestGraphicsPopulated = false;
+    this.crystalGraphicsPopulated = false;
   }
 
   create() {
@@ -87,11 +89,15 @@ export class WorldVisualGameplayEffectLayer {
 
   updateSkyTileGlow(playerTile, viewRange = 20) {
     const graphics = this.skyGraphics;
-    graphics?.clear();
-    if (!graphics || !playerTile) return false;
+    if (!graphics) return false;
+    if (!playerTile) {
+      if (!this.semanticAssetsEnabled) graphics.clear();
+      return false;
+    }
     if (this.semanticAssetsEnabled) {
       return this.skyTiles.some(tile => isNear(tile, playerTile, viewRange));
     }
+    graphics.clear();
     const config = this.effectConfig.sky;
     const size = this.scene.config.tileSize;
     const now = this.scene.time?.now || 0;
@@ -138,15 +144,24 @@ export class WorldVisualGameplayEffectLayer {
 
   updateChestGlow(playerTile, viewRange = 25) {
     const graphics = this.chestGraphics;
-    graphics?.clear();
-    if (!graphics || !playerTile) return false;
+    if (!graphics) return false;
+    if (!playerTile) {
+      if (this.chestGraphicsPopulated) graphics.clear();
+      this.chestGraphicsPopulated = false;
+      return false;
+    }
     const config = this.effectConfig.chest;
     const size = this.scene.config.tileSize;
     const now = this.scene.time?.now || 0;
     const pulse = Math.sin((now / config.pulsePeriodMs) * TAU) * 0.5 + 0.5;
     let drawn = 0;
+    let cleared = false;
     for (const tile of this.chestTiles) {
       if (!isNear(tile, playerTile, viewRange)) continue;
+      if (!cleared) {
+        graphics.clear();
+        cleared = true;
+      }
       const cx = (tile.tx + 0.5) * size;
       const cy = (tile.ty + 0.5) * size;
       graphics.fillStyle(config.haloColor, config.haloAlphaBase + pulse * config.haloAlphaPulse)
@@ -164,16 +179,41 @@ export class WorldVisualGameplayEffectLayer {
       }
       drawn += 1;
     }
+    if (!cleared && this.chestGraphicsPopulated) graphics.clear();
+    this.chestGraphicsPopulated = drawn > 0;
     return drawn > 0;
   }
 
   updateGlowCrystals(playerTile, viewRange = 25) {
-    this.crystalGlowGraphics?.clear();
-    this.crystalShardGraphics?.clear();
-    if (!this.crystalGlowGraphics || !this.crystalShardGraphics || !playerTile) return false;
+    if (!this.crystalGlowGraphics || !this.crystalShardGraphics) return false;
+    if (!playerTile) {
+      if (this.crystalGraphicsPopulated) {
+        this.crystalGlowGraphics.clear();
+        this.crystalShardGraphics.clear();
+      }
+      this.crystalGraphicsPopulated = false;
+      return false;
+    }
+    const hasNearbyTarget = this.crystalTiles.some(
+      tile => isNear(tile, playerTile, viewRange)
+    ) || this.crystalZones.some(zone => (
+      Math.abs(zone.cx - playerTile.tx) <= viewRange + zone.rx
+      && Math.abs(zone.cy - playerTile.ty) <= viewRange + zone.ry
+    ));
+    if (!hasNearbyTarget) {
+      if (this.crystalGraphicsPopulated) {
+        this.crystalGlowGraphics.clear();
+        this.crystalShardGraphics.clear();
+      }
+      this.crystalGraphicsPopulated = false;
+      return false;
+    }
+    this.crystalGlowGraphics.clear();
+    this.crystalShardGraphics.clear();
     const size = this.scene.config.tileSize;
     const now = this.scene.time?.now || 0;
     let drawn = 0;
+    let rendered = false;
     for (const tile of this.crystalTiles) {
       if (!isNear(tile, playerTile, viewRange)) continue;
       this._drawCrystalTile(tile.tx, tile.ty, this.effectConfig.crystals.defaultColor, 1, now, size);
@@ -189,6 +229,7 @@ export class WorldVisualGameplayEffectLayer {
       const pulse = Math.sin((now / this.effectConfig.crystals.pulsePeriodMs) * TAU + (zone.phase || 0)) * 0.5 + 0.5;
       this.crystalGlowGraphics.fillStyle(color, this.effectConfig.crystals.haloAlpha * active * (0.75 + pulse * 0.25))
         .fillEllipse(cx, cy, (zone.rx + this.effectConfig.crystals.haloPaddingTilesX) * size * 2, (zone.ry + this.effectConfig.crystals.haloPaddingTilesY) * size * 2);
+      rendered = true;
       const bounds = this.activeBounds;
       let reachedCap = false;
       for (let ty = Math.floor(zone.cy - zone.ry); ty <= Math.ceil(zone.cy + zone.ry); ty += 1) {
@@ -208,6 +249,7 @@ export class WorldVisualGameplayEffectLayer {
       }
       if (reachedCap) break;
     }
+    this.crystalGraphicsPopulated = rendered || drawn > 0;
     return drawn > 0;
   }
 
@@ -287,6 +329,8 @@ export class WorldVisualGameplayEffectLayer {
     this.chestGraphics = null;
     this.crystalGlowGraphics = null;
     this.crystalShardGraphics = null;
+    this.chestGraphicsPopulated = false;
+    this.crystalGraphicsPopulated = false;
     this.activeBounds = null;
   }
 }

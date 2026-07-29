@@ -12,7 +12,17 @@ export const CAMPFIRE_TIERS = Object.freeze([
   Object.freeze({ level: 10, label: "Tier X", cost: 300, durationMs: 360000, miningSpeedBonus: 0.35, xpBonus: 0.90, critBonus: 0.20, desc: "Eternal flame (360s)" }),
 ]);
 
+export function sanitizeCampfireData(value) {
+  const level = Number.isFinite(value?.level) ? Math.floor(value.level) : 1;
+  return {
+    level: Math.max(1, Math.min(CAMPFIRE_TIERS.length, level)),
+  };
+}
+
 export const CAMPFIRE_CONFIG = Object.freeze({
+  // Six tiles beyond the last surface merchant: part of town, but not crowded
+  // into the merchant line.
+  surfaceTileX: 23,
   inputActions: Object.freeze({
     interact: "interact",
     previousBlessing: "aimUp",

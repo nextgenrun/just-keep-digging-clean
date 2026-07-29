@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "generatedOn": "2026-07-28",
+  "purpose": "Audited overworld resource and special-tile clarity rollback",
+  "runtimeContract": {
+    "gameplayChanged": false,
+    "savesChanged": false,
+    "skyIslandEclipseGateChanged": false,
+    "nativeCellPx": 94,
+    "semanticFramePx": 188
+  },
+  "sources": {
+    "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v2.png": {
+      "sha256": "67ecae74c44945195722776562a7972e6df9b34ae48fc6043431c3e437332986",
+      "bytes": 410726
+    },
+    "sprites/tiles/tiles-under-1000/special-tiles/special-tile-teleport-up-.webp": {
+      "sha256": "86283c0b2df79053f8c09c7167a6792de700882f9372d89c44131c8441f6dbab",
+      "bytes": 19128
+    },
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-insets-beauty-v1.png": {
+      "sha256": "0797df6650d7409833c121b17ea7cd1e212bdb66470e88aa7f2fbf542648a0fd",
+      "bytes": 2792158
+    },
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-insets-beauty-v2.png": {
+      "sha256": "22facf59ef4e4e42b085012ddc0e6c18b8c9683ee4698829fab88d6586aab6dd",
+      "bytes": 728836
+    }
+  },
+  "outputs": {
+    "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v3.png": {
+      "sha256": "39c9224d3f042a9b43a263e1ab8ea72c32336d654a03501844204bf078866ba9",
+      "bytes": 415516
+    },
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-recognition-clarity-v1.png": {
+      "sha256": "84fffa76641471d5be1c34074785db68e571866d5d88dd7bc2092e81cc77856a",
+      "bytes": 934715
+    },
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-clarity-beauty-v1.png": {
+      "sha256": "9121bb52a788daff097f196a60e62dd9db527cce2d1eb8a56a7bb3641d9db8b3",
+      "bytes": 371370
+    },
+    "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-reward-clarity-emissive-v1.png": {
+      "sha256": "52b39650b99c0899bb99aff4cab92c5f8b378ded62b09b2075b8347d1642c2de",
+      "bytes": 370495
+    },
+    "visual-approval-previews/overground-texture-audit-v1/04-selected-production-textures.png": {
+      "sha256": "3b7bd5f2c9cec9da2cef7bce38fc47e4acd7a5db0bded61a927ca835fb8441e6",
+      "bytes": 186647
+    }
+  }
+}

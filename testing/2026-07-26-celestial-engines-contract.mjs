@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import {
   CELESTIAL_ENGINE_CONFIG,
   CELESTIAL_ENGINE_IDS,
+  CELESTIAL_ENGINE_ORDER,
+  getEarnedStarHeartCount,
   isCelestialEnginesEnabled,
   sanitizeStarHeartData,
 } from "../values/celestialEngines.js";
@@ -27,9 +29,12 @@ assert.equal(changes.at(-1), "heart-earned");
 const attuned = progression.chooseEngine(CELESTIAL_ENGINE_IDS.WAYWARD_STAR);
 assert.equal(attuned.ok, true);
 assert.equal(progression.getSnapshot().charge, CELESTIAL_ENGINE_CONFIG.charge.capacity);
+assert.deepEqual(progression.getSnapshot().unlockedEngines, [
+  CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
+]);
 assert.equal(
   progression.chooseEngine(CELESTIAL_ENGINE_IDS.HOLLOW_SUN).reason,
-  "already-attuned",
+  "heart-locked",
 );
 
 const activation = progression.consumeActivation(1000);
@@ -42,6 +47,40 @@ assert.equal(
 );
 for (let index = 0; index < 20; index += 1) progression.recordCollectedSkyStar(5);
 assert.equal(progression.getSnapshot().charge, CELESTIAL_ENGINE_CONFIG.charge.capacity);
+
+const masteryProgression = new StarHeartProgressionSystem();
+masteryProgression.loadSaveData({
+  constellationCount: 10,
+  activationsUsed: 19,
+  heartsEarned: 1,
+  unlockedEngines: [CELESTIAL_ENGINE_IDS.WAYWARD_STAR],
+  selectedEngine: CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
+  charge: CELESTIAL_ENGINE_CONFIG.charge.capacity,
+}, 10);
+assert.equal(masteryProgression.consumeActivation(2000).ok, true);
+assert.equal(masteryProgression.getSnapshot().heartsEarned, 2);
+assert.equal(masteryProgression.getSnapshot().availableHearts, 1);
+assert.equal(masteryProgression.getSnapshot().nextHeartActivationMilestone, 50);
+assert.equal(masteryProgression.chooseEngine(CELESTIAL_ENGINE_IDS.HOLLOW_SUN).ok, true);
+assert.deepEqual(masteryProgression.getSnapshot().unlockedEngines, [
+  CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
+  CELESTIAL_ENGINE_IDS.HOLLOW_SUN,
+]);
+
+masteryProgression.loadSaveData({
+  ...masteryProgression.getSaveData(),
+  activationsUsed: 49,
+  charge: CELESTIAL_ENGINE_CONFIG.charge.capacity,
+}, 10);
+assert.equal(masteryProgression.consumeActivation(3000).ok, true);
+assert.equal(masteryProgression.getSnapshot().heartsEarned, 3);
+assert.equal(masteryProgression.chooseEngine(CELESTIAL_ENGINE_IDS.COMET_ENGINE).ok, true);
+assert.equal(masteryProgression.getSnapshot().allEnginesUnlocked, true);
+assert.deepEqual(masteryProgression.getSnapshot().unlockedEngines, CELESTIAL_ENGINE_ORDER);
+assert.equal(masteryProgression.chooseEngine(CELESTIAL_ENGINE_IDS.WAYWARD_STAR).ok, true);
+assert.equal(masteryProgression.getSnapshot().selectedEngine, CELESTIAL_ENGINE_IDS.WAYWARD_STAR);
+assert.equal(masteryProgression.getSnapshot().availableHearts, 0);
+assert.equal(getEarnedStarHeartCount(10, 50), 3);
 
 const budget = new CelestialActivationBudget(
   CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
@@ -160,11 +199,21 @@ const payload = saveStore.createPayload(
   null,
   null,
   null,
-  progression.getSaveData(),
+  masteryProgression.getSaveData(),
 );
 assert.ok(payload.version >= 10);
 assert.equal(payload.starHeartData.selectedEngine, CELESTIAL_ENGINE_IDS.WAYWARD_STAR);
+assert.deepEqual(payload.starHeartData.unlockedEngines, CELESTIAL_ENGINE_ORDER);
+assert.equal(payload.starHeartData.heartsSpent, 3);
 assert.equal(sanitizeStarHeartData({ charge: 99999 }).charge, CELESTIAL_ENGINE_CONFIG.charge.capacity);
+assert.deepEqual(
+  sanitizeStarHeartData({
+    selectedEngine: CELESTIAL_ENGINE_IDS.HOLLOW_SUN,
+    heartsEarned: 1,
+  }).unlockedEngines,
+  [CELESTIAL_ENGINE_IDS.HOLLOW_SUN],
+  "legacy one-Engine saves must migrate into the permanent ownership list",
+);
 assert.equal(isCelestialEnginesEnabled("?starHearts=0"), false);
 assert.equal(isCelestialEnginesEnabled("?starHearts=1"), true);
 
@@ -183,6 +232,10 @@ const unsafeScene = {
       heartsSpent: 2,
       heartsEarned: 1,
       selectedEngine: CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
+      unlockedEngines: [
+        CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
+        CELESTIAL_ENGINE_IDS.HOLLOW_SUN,
+      ],
     }),
   },
   celestialEngineController: {
@@ -232,6 +285,7 @@ assert.match(setupSource, /new StarHeartProgressionSystem/);
 assert.match(setupSource, /new CelestialEngineController/);
 assert.match(updateSource, /celestialEngineController\?\.update/);
 assert.match(bootSource, /celestial-engines/);
-assert.match(pillarSource, /starHeartOverlay\.open/);
+assert.match(pillarSource, /createStarlightTalentTreeView/);
+assert.match(pillarSource, /starHeartOverlay\?\.open\?\.\(engineId\)/);
 
-console.log("celestial engines contract: rarity, permanent choice, caps, protected tiles, rewards, and current save schema passed");
+console.log("celestial engines contract: three permanent unlocks, milestones, caps, protected tiles, rewards, and save migration passed");

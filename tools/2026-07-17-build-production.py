@@ -40,6 +40,7 @@ DYNAMIC_ASSET_DIRECTORIES = (
     "sound/voice-lines/player-voice-lines",
     "sprites/npc/campfire/generated",
     "sprites/tiles/dynamic-soil",
+    "sprites/tiles/resource-tiles-imagegen-v3",
 )
 STYLESHEET_TAG_RE = re.compile(
     r'<link rel="stylesheet" href="\./css/style\.css(?:\?[^"]*)?">'
@@ -92,7 +93,8 @@ def module_graph(entry: Path) -> list[Path]:
             specifier = match.group(1) or match.group(2)
             if not specifier.startswith("."):
                 continue
-            target = (source.parent / specifier.split("?", 1)[0]).resolve()
+            clean_specifier = specifier.split("?", 1)[0].split("#", 1)[0]
+            target = (source.parent / clean_specifier).resolve()
             if not target.suffix:
                 target = target.with_suffix(".js")
             pending.append(target)
@@ -198,6 +200,37 @@ def copy_preserving_root(source: Path, staging: Path) -> None:
     shutil.copy2(source, target)
 
 
+def version_local_module_specifier(specifier: str, build_id: str) -> str:
+    if not specifier.startswith("."):
+        return specifier
+    path_and_query, separator, fragment = specifier.partition("#")
+    clean_path = path_and_query.split("?", 1)[0]
+    versioned = f"{clean_path}?v={build_id}"
+    return f"{versioned}#{fragment}" if separator else versioned
+
+
+def production_module_source(source: Path, build_id: str) -> str:
+    text = source.read_text(encoding="utf-8")
+
+    def replace_specifier(match: re.Match) -> str:
+        group_index = 1 if match.group(1) is not None else 2
+        specifier = match.group(group_index)
+        versioned = version_local_module_specifier(specifier, build_id)
+        if versioned == specifier:
+            return match.group(0)
+        relative_start = match.start(group_index) - match.start()
+        relative_end = match.end(group_index) - match.start()
+        return match.group(0)[:relative_start] + versioned + match.group(0)[relative_end:]
+
+    return MODULE_RE.sub(replace_specifier, text)
+
+
+def copy_versioned_module(source: Path, staging: Path, build_id: str) -> None:
+    target = staging / source.relative_to(ROOT)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(production_module_source(source, build_id), encoding="utf-8")
+
+
 def replace_required_tag(html: str, pattern: re.Pattern, replacement: str, label: str) -> str:
     updated, count = pattern.subn(replacement, html, count=1)
     if count != 1:
@@ -221,7 +254,7 @@ def production_index(build_id: str) -> str:
         f'    globalThis.__DIG_GAME_BUILD_ID__ = {json.dumps(build_id)};\n'
         '    {\n'
         '      const productionUrl = new URL(location.href);\n'
-        '      ["jkd_e2e", "ui-review", "cave-review"].forEach(name => productionUrl.searchParams.delete(name));\n'
+        '      ["jkd_e2e", "ui-review", "cave-review", "wurm", "wurm10x"].forEach(name => productionUrl.searchParams.delete(name));\n'
         '      history.replaceState(history.state, "", productionUrl);\n'
         '    }\n'
         '  </script>\n'
@@ -259,7 +292,7 @@ def build(output: Path) -> dict:
     staging = Path(tempfile.mkdtemp(prefix=".production-stage-", dir=ROOT))
     try:
         for source in modules:
-            copy_preserving_root(source, staging)
+            copy_versioned_module(source, staging, build_id)
         for source in assets:
             copy_preserving_root(source, staging)
         for source in (ROOT / "libs/phaser.js", ROOT / "css/style.css"):
@@ -271,6 +304,7 @@ def build(output: Path) -> dict:
             "debugMode": False,
             "moduleCount": len(modules),
             "assetCount": len(assets),
+            "moduleCacheKey": build_id,
             "brotliAvailable": brotli is not None,
             "unresolvedAssetLiterals": unresolved,
         }

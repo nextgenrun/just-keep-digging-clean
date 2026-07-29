@@ -1,29 +1,45 @@
 import {
   TITAN_DISCOVERY_CONFIG,
+  resolveTitanChamberAsset,
+  resolveTitanChamberBlendEnabled,
   resolveTitanChambersEnabled,
 } from "../../values/titanDiscoveries.js";
+import {
+  WORLD_VISUAL_DEPTH_BACKDROPS,
+  resolveWorldVisualDepthBackdropTint,
+} from "../../values/worldVisualDepthBackdrops.js";
 import {
   distanceToTitanZone,
   fitTitanChamberScale,
 } from "./titanChamberGeometry.js";
+import { TitanChamberTextureReleases } from "./TitanChamberTextureReleases.js";
 
 export class TitanChamberStream {
   constructor(
     scene,
     worldModel,
     config = TITAN_DISCOVERY_CONFIG,
-    onChanged = null
+    onChanged = null,
+    search = globalThis.location?.search || ""
   ) {
     this.scene = scene;
     this.worldModel = worldModel;
     this.config = config;
     this.onChanged = onChanged;
-    this.enabled = resolveTitanChambersEnabled(config);
+    this.search = search;
+    this.enabled = resolveTitanChambersEnabled(config, search);
+    this.blendEnabled = resolveTitanChamberBlendEnabled(config, search);
+    this.lastLighting = null;
     this.records = new Map();
     this.pending = new Map();
     this.failedAssets = new Set();
     this.loadedByStream = new Set();
     this.destroyed = false;
+    this.textureReleases = new TitanChamberTextureReleases(scene, {
+      canRelease: record => this._canReleaseTexture(record),
+      release: record => this._releaseTexture(record),
+      onChanged: () => this._notifyChanged(),
+    });
     this._handleLoadError = this._handleLoadError.bind(this);
     this.scene.load?.on?.("loaderror", this._handleLoadError);
   }
@@ -33,21 +49,22 @@ export class TitanChamberStream {
       this.records.set(view.definition.id, {
         view,
         definition: view.definition,
+        asset: resolveTitanChamberAsset(view.definition, this.config, this.search),
         playerDesired: false,
         pinCount: 0,
         readyCallbacks: new Set(),
         errorCallbacks: new Set(),
         card: null,
         glow: null,
-        compact: null,
       });
-      view.visualMode = "compact";
+      view.visualMode = "stance";
     }
     return this.enabled;
   }
 
-  sync(playerTile) {
+  sync(playerTile, lighting = null) {
     if (!this.enabled || this.destroyed) return false;
+    if (lighting) this.lastLighting = lighting;
     const stream = this.config.chambers;
     const candidates = [...this.records.values()]
       .map(record => ({
@@ -75,9 +92,10 @@ export class TitanChamberStream {
       record.playerDesired = desired;
       if (desired) {
         this._ensure(record);
-        if (this._textureExists(record.definition.chamberAsset.key)) {
+        if (this._textureExists(record.asset.key)) {
           this._attach(record);
         }
+        this._applyTint(record);
       } else {
         this._detach(record);
         this._releaseIfUnused(record);
@@ -90,9 +108,10 @@ export class TitanChamberStream {
     const record = this.records.get(definition?.id);
     if (!this.enabled || !record || this.destroyed) return () => {};
     record.pinCount += 1;
-    const key = record.definition.chamberAsset.key;
+    this.textureReleases.cancel(record);
+    const key = record.asset.key;
     if (this._textureExists(key)) {
-      onReady?.(record.definition.chamberAsset);
+      onReady?.(record.asset);
     } else {
       if (onReady) record.readyCallbacks.add(onReady);
       if (onError) record.errorCallbacks.add(onError);
@@ -113,7 +132,8 @@ export class TitanChamberStream {
   }
 
   _ensure(record) {
-    const asset = record.definition.chamberAsset;
+    this.textureReleases.cancel(record);
+    const asset = record.asset;
     if (this._textureExists(asset.key)) {
       this._flushReady(record);
       return true;
@@ -136,7 +156,7 @@ export class TitanChamberStream {
   }
 
   _finish(record, eventName) {
-    const asset = record.definition.chamberAsset;
+    const asset = record.asset;
     const pending = this.pending.get(asset.key);
     if (pending) this.scene.load?.off?.(eventName, pending.complete);
     this.pending.delete(asset.key);
@@ -160,10 +180,10 @@ export class TitanChamberStream {
   }
 
   _fail(record) {
-    const key = record.definition.chamberAsset.key;
+    const key = record.asset.key;
     this.failedAssets.add(key);
     for (const callback of record.errorCallbacks) {
-      callback(record.definition.chamberAsset);
+      callback(record.asset);
     }
     record.readyCallbacks.clear();
     record.errorCallbacks.clear();
@@ -172,7 +192,7 @@ export class TitanChamberStream {
 
   _flushReady(record) {
     for (const callback of record.readyCallbacks) {
-      callback(record.definition.chamberAsset);
+      callback(record.asset);
     }
     record.readyCallbacks.clear();
     record.errorCallbacks.clear();
@@ -181,8 +201,9 @@ export class TitanChamberStream {
   _attach(record) {
     if (record.card || record.view.animating) return false;
     const { view, definition } = record;
-    const asset = definition.chamberAsset;
+    const asset = record.asset;
     if (!this._textureExists(asset.key)) return false;
+    this.textureReleases.cancel(record);
     const card = this.scene.add.image(view.settledX, view.baseY, asset.key);
     const glow = this.scene.add.image(view.settledX, view.baseY, asset.key);
     const baseScale = fitTitanChamberScale(
@@ -191,67 +212,86 @@ export class TitanChamberStream {
       view.heightPx * this.config.backdrop.fitFraction
     );
     card
-      .setDepth(this.config.backdrop.spriteDepth)
+      .setDepth(this.config.chambers.cardDepth)
       .setScale(baseScale)
       .setAlpha(0);
     glow
-      .setDepth(this.config.backdrop.glowDepth)
+      .setDepth(this.config.chambers.cardGlowDepth)
       .setScale(baseScale)
       .setTint(definition.glowTint)
       .setBlendMode("ADD")
       .setAlpha(0);
     card.name = `titan-chamber-${definition.id}`;
     glow.name = `titan-chamber-glow-${definition.id}`;
-    record.compact = {
-      sprite: view.sprite,
-      glow: view.glowSprite,
-      baseScale: view.baseScale,
-    };
-    record.compact.sprite.setVisible?.(false);
-    record.compact.glow.setVisible?.(false);
     record.card = card;
     record.glow = glow;
-    view.sprite = card;
-    view.glowSprite = glow;
-    view.baseScale = baseScale;
+    view.chamberSprite = card;
+    view.chamberGlowSprite = glow;
     view.visualMode = "chamber";
+    this._applyTint(record);
     this._notifyChanged();
+    return true;
+  }
+
+  _applyTint(record) {
+    if (!record.card) return false;
+    record.card.setTint?.(resolveWorldVisualDepthBackdropTint(
+      record.view.zone.centerYTile,
+      this.lastLighting,
+      WORLD_VISUAL_DEPTH_BACKDROPS
+    ));
     return true;
   }
 
   _detach(record, force = false) {
     if (!record.card || (record.view.animating && !force)) return false;
-    const { view, compact, card, glow } = record;
+    const { view, card, glow } = record;
     this.scene.tweens?.killTweensOf?.([card, glow]);
-    view.sprite = compact.sprite;
-    view.glowSprite = compact.glow;
-    view.baseScale = compact.baseScale;
-    view.visualMode = "compact";
-    compact.sprite.setVisible?.(true);
-    compact.glow.setVisible?.(true);
+    view.chamberSprite = null;
+    view.chamberGlowSprite = null;
+    view.visualMode = "stance";
     card.destroy?.();
     glow.destroy?.();
     record.card = null;
     record.glow = null;
-    record.compact = null;
     this._notifyChanged();
     return true;
   }
 
   _releaseIfUnused(record) {
-    if (record.playerDesired || record.pinCount > 0) return false;
+    if (record.playerDesired || record.pinCount > 0) {
+      this.textureReleases.cancel(record);
+      return false;
+    }
     this._detach(record);
-    const key = record.definition.chamberAsset.key;
+    const key = record.asset.key;
     if (
-      this.pending.has(key)
+      record.card
+      || record.glow
+      || this.pending.has(key)
       || !this.loadedByStream.has(key)
       || !this._textureExists(key)
     ) {
       return false;
     }
-    this.scene.textures.remove?.(key);
+    return this.textureReleases.schedule(record);
+  }
+
+  _canReleaseTexture(record) {
+    const key = record.asset.key;
+    return !this.destroyed
+      && !record.playerDesired
+      && record.pinCount === 0
+      && !record.card
+      && !record.glow
+      && !this.pending.has(key)
+      && this.loadedByStream.has(key);
+  }
+
+  _releaseTexture(record) {
+    const key = record.asset.key;
+    if (this._textureExists(key)) this.scene.textures.remove?.(key);
     this.loadedByStream.delete(key);
-    return true;
   }
 
   _textureExists(key) {
@@ -270,8 +310,13 @@ export class TitanChamberStream {
       registered: records.length,
       resident: records.filter(record => record.card).length,
       pending: this.pending.size,
+      releasePending: this.textureReleases.size,
       pinned: records.filter(record => record.pinCount > 0).length,
       loaded: this.loadedByStream.size,
+      blendEnabled: this.blendEnabled,
+      assetVersion: this.blendEnabled
+        ? this.config.chambers.blendAssetVersion
+        : this.config.chambers.rollbackAssetVersion,
       failedAssets: [...this.failedAssets],
     };
   }
@@ -284,11 +329,12 @@ export class TitanChamberStream {
       this.scene.load?.off?.(pending.eventName, pending.complete);
     }
     this.pending.clear();
+    this.textureReleases.destroy();
     for (const record of this.records.values()) {
       record.playerDesired = false;
       record.pinCount = 0;
       this._detach(record, true);
-      const key = record.definition.chamberAsset.key;
+      const key = record.asset.key;
       if (this.loadedByStream.has(key)) this.scene.textures.remove?.(key);
     }
     this.loadedByStream.clear();

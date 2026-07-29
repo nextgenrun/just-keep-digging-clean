@@ -1,0 +1,384 @@
+import { HardcoreModeSystem } from "../../systems/hardcore/HardcoreModeSystem.js";
+import { HardcoreStatusHud } from "../../systems/visual/HardcoreStatusHud.js";
+import { HardcoreModalOverlay } from "../../ui/overlays/HardcoreModalOverlay.js";
+import {
+  HARDCORE_MODE_CONFIG,
+  isHardcoreMode,
+  isHardcoreModeArmed,
+  sanitizeHardcoreModeData,
+} from "../../values/hardcoreMode.js";
+import {
+  beginHardcorePermanentDeath,
+  getHardcoreDepth as getDepth,
+  handleHardcoreGpChanged,
+  persistHardcoreLiveCheckpoint,
+} from "./HardcoreDeathBridge.js";
+
+function isFlightUnlocked(scene) {
+  return scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
+}
+
+function syncSceneModeData(scene) {
+  const saveData = scene._hardcoreRuntime?.system?.getSaveData?.()
+    ?? sanitizeHardcoreModeData(scene.hardcoreModeData);
+  scene.hardcoreModeData = saveData;
+  return saveData;
+}
+
+function flash(scene, text, color, duration) {
+  scene.hudSystem?.flashStatus?.(text, color, duration);
+}
+
+function enterBlockingModal(scene) {
+  scene.hidePauseMenu?.();
+  scene.shopOverlay?.hide?.();
+  scene.gameState = "hardcore-modal";
+  scene.playerController?.setControlsEnabled?.(false);
+  scene.isDigAnimating = false;
+  scene.aimBox?.setVisible?.(false);
+}
+
+function leaveBlockingModal(scene) {
+  if (scene._hardcoreDeathInProgress) return;
+  scene.gameState = "playing";
+  scene.playerController?.setControlsEnabled?.(true);
+  scene.aimBox?.setVisible?.(true);
+}
+
+function processSystemEvents(scene) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime) return;
+  for (const event of runtime.system.drainEvents()) {
+    if (event.type !== "stress-band" || event.band !== "critical") continue;
+    flash(
+      scene,
+      runtime.config.feedback.stressCriticalText,
+      runtime.config.feedback.dangerColor,
+      runtime.config.feedback.dangerFlashMs,
+    );
+  }
+}
+
+async function persistNow(scene) {
+  scene.queueDugTilesSave?.();
+  const saved = await scene.flushDugTilesSave?.();
+  return saved !== false;
+}
+
+function armAfterFlightUnlock(scene, source = "flight") {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime || !isFlightUnlocked(scene)) return false;
+  if (!runtime.system.arm(source)) return false;
+  syncSceneModeData(scene);
+  runtime.lastPersistedStress = runtime.system.state.stress;
+  runtime.lastStressPersistAt = scene.time?.now || 0;
+  processSystemEvents(scene);
+  flash(
+    scene,
+    runtime.config.feedback.armedText,
+    runtime.config.feedback.armedColor,
+    runtime.config.feedback.armedFlashMs,
+  );
+  scene.queueDugTilesSave?.();
+  return true;
+}
+
+function requestConversion(scene) {
+  const runtime = scene._hardcoreRuntime;
+  if (
+    !runtime
+    || isHardcoreMode(runtime.system.state)
+    || !isFlightUnlocked(scene)
+    || runtime.modal.isVisible
+  ) {
+    return false;
+  }
+
+  enterBlockingModal(scene);
+  return runtime.modal.showConfirmation({
+    title: runtime.config.copy.boboConfirmationTitle,
+    body: runtime.config.copy.boboConfirmationBody,
+    onCancel: () => leaveBlockingModal(scene),
+    onConfirm: async () => {
+      scene.playerController?.fillGemPower?.();
+      if (!runtime.system.convertFromCasual("bobo")) {
+        leaveBlockingModal(scene);
+        return false;
+      }
+      syncSceneModeData(scene);
+      processSystemEvents(scene);
+      const saved = await persistNow(scene);
+      if (!saved) {
+        flash(
+          scene,
+          "Hardcore conversion save failed • retry SAVE GAME",
+          runtime.config.feedback.errorColor,
+          runtime.config.feedback.errorFlashMs,
+        );
+      }
+      flash(
+        scene,
+        runtime.config.feedback.armedText,
+        runtime.config.feedback.armedColor,
+        runtime.config.feedback.armedFlashMs,
+      );
+      leaveBlockingModal(scene);
+      return true;
+    },
+  });
+}
+
+function requestUnstuck(scene) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime || runtime.modal.isVisible || scene._hardcoreDeathInProgress) return false;
+  const remainingMs = runtime.system.getUnstuckCooldownRemaining();
+  if (remainingMs > 0) return false;
+
+  enterBlockingModal(scene);
+  return runtime.modal.showConfirmation({
+    title: runtime.config.copy.unstuckTitle,
+    subtitle: "50% OF EVERY CARRIED RESOURCE WILL BE LOST",
+    body: runtime.config.copy.unstuckBody,
+    onCancel: () => leaveBlockingModal(scene),
+    onConfirm: async () => {
+      if (!runtime.system.canUseUnstuck()) {
+        leaveBlockingModal(scene);
+        return false;
+      }
+      const resources = scene.digSystem?.getResourceTotals?.() || {};
+      const remaining = {};
+      for (const [resource, rawAmount] of Object.entries(resources)) {
+        const amount = Math.max(0, Math.floor(Number(rawAmount) || 0));
+        const nextAmount = Math.floor(
+          amount * (1 - runtime.config.unstuck.resourceLossRatio),
+        );
+        remaining[resource] = nextAmount;
+      }
+      scene.digSystem?.setResourceTotals?.(remaining);
+      scene.uiResourceBar?.setResources?.(scene.digSystem?.getResourceTotals?.() || remaining);
+      runtime.system.recordUnstuck();
+      syncSceneModeData(scene);
+      scene._resetPlayerToSpawn?.();
+      scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+      scene.earthquakeHazardOverlay?.clear?.();
+      const saved = await persistNow(scene);
+      if (!saved) {
+        flash(
+          scene,
+          "Unstuck penalty save failed • retry SAVE GAME",
+          runtime.config.feedback.errorColor,
+          runtime.config.feedback.errorFlashMs,
+        );
+      }
+      leaveBlockingModal(scene);
+      return true;
+    },
+  });
+}
+
+function tryPayTeleport(scene, options = {}) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime || !isHardcoreModeArmed(runtime.system.state)) {
+    return { success: true, cost: 0 };
+  }
+  const depth = Math.max(0, Number(options.depth) || getDepth(scene));
+  const kind = String(options.kind || "undergroundToSky");
+  const cost = runtime.system.getTeleportCost(depth, kind);
+  if (!scene.upgradeSystem?.spendMoney?.(cost)) {
+    return { success: false, cost };
+  }
+  scene.uiResourceBar?.setMoney?.(scene.upgradeSystem.getMoney());
+  runtime.system.recordTeleport(cost);
+  syncSceneModeData(scene);
+  scene.queueDugTilesSave?.();
+  return { success: true, cost };
+}
+
+function rescueAtCasualBoundary(scene) {
+  const runtime = scene._hardcoreRuntime;
+  if (runtime && isHardcoreModeArmed(runtime.system.state)) {
+    return beginHardcorePermanentDeath(scene, { source: "crushDepth" });
+  }
+  scene._resetPlayerToSpawn?.();
+  scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+  scene.earthquakeHazardOverlay?.clear?.();
+  scene.queueDugTilesSave?.();
+  return true;
+}
+
+function updateDiagnostics(scene) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime || typeof window === "undefined") return;
+  window[runtime.config.diagnostics.globalKey] = {
+    mode: runtime.system.getSnapshot(),
+    deathInProgress: scene._hardcoreDeathInProgress === true,
+    saveWritesBlocked: scene._saveWritesBlocked === true,
+    lastDeath: runtime.lastDeath || null,
+    forceDrainGp: (amount = 1, source = "unknown") => (
+      scene.playerController?.consumeGemPower?.(Number(amount) || 0, { source })
+    ),
+  };
+}
+
+export function createHardcoreModeRuntime(scene) {
+  if (scene._hardcoreRuntime) return scene._hardcoreRuntime;
+  const config = HARDCORE_MODE_CONFIG;
+  const system = new HardcoreModeSystem(scene.hardcoreModeData, config);
+  const runtime = {
+    config,
+    system,
+    hud: new HardcoreStatusHud(scene, config),
+    modal: new HardcoreModalOverlay(scene, config),
+    oneGpWarned: false,
+    lastPersistedStress: system.state.stress,
+    lastStressPersistAt: 0,
+    lastCheckpointAt: scene.time?.now || 0,
+    lastCheckpointGp: scene.playerController?.getGemPowerExact?.() || 0,
+    lastDeath: null,
+    bindings: {},
+  };
+  runtime.flash = (text, color, duration) => flash(
+    scene,
+    text,
+    color,
+    duration,
+  );
+  runtime.updateDiagnostics = () => updateDiagnostics(scene);
+  scene._hardcoreRuntime = runtime;
+  scene._hardcoreDeathInProgress = false;
+  scene._saveWritesBlocked = false;
+  syncSceneModeData(scene);
+
+  runtime.bindings.handlePlayerGemPowerChanged = event => (
+    handleHardcoreGpChanged(scene, event)
+  );
+  runtime.bindings.handleHardcoreGpDepleted = context => (
+    beginHardcorePermanentDeath(scene, context)
+  );
+  runtime.bindings.armHardcoreAfterFlightUnlock = (source) => armAfterFlightUnlock(scene, source);
+  runtime.bindings.syncHardcoreArmingFromFlight = () => (
+    armAfterFlightUnlock(scene, "restored-flight-unlock")
+  );
+  runtime.bindings.canOfferHardcoreConversion = () => (
+    !isHardcoreMode(runtime.system.state) && isFlightUnlocked(scene)
+  );
+  runtime.bindings.requestHardcoreConversion = () => requestConversion(scene);
+  runtime.bindings.requestHardcoreUnstuck = () => requestUnstuck(scene);
+  runtime.bindings.getHardcoreTeleportCost = (options = {}) => (
+    isHardcoreModeArmed(runtime.system.state)
+      ? runtime.system.getTeleportCost(
+          Math.max(0, Number(options.depth) || getDepth(scene)),
+          options.kind || "undergroundToSky",
+        )
+      : 0
+  );
+  runtime.bindings.tryPayHardcoreTeleport = (options) => tryPayTeleport(scene, options);
+  runtime.bindings.handleCasualBoundaryRescue = () => rescueAtCasualBoundary(scene);
+  for (const [name, handler] of Object.entries(runtime.bindings)) scene[name] = handler;
+
+  runtime.hud.update(system.getSnapshot(), scene.time?.now || 0, scene.playerController?.getGemPowerExact?.() || 0);
+  updateDiagnostics(scene);
+  return runtime;
+}
+
+export function loadHardcoreModeSaveData(scene, data) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime) {
+    scene.hardcoreModeData = sanitizeHardcoreModeData(data);
+    return scene.hardcoreModeData;
+  }
+  runtime.system.loadSaveData(data);
+  runtime.lastPersistedStress = runtime.system.state.stress;
+  syncSceneModeData(scene);
+  updateDiagnostics(scene);
+  return scene.hardcoreModeData;
+}
+
+export function getHardcoreModeSaveData(scene) {
+  return syncSceneModeData(scene);
+}
+
+export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime) return null;
+  if (
+    isHardcoreMode(runtime.system.state)
+    && !isHardcoreModeArmed(runtime.system.state)
+    && isFlightUnlocked(scene)
+  ) {
+    armAfterFlightUnlock(scene, "flight-unlock-runtime-guard");
+  }
+  const gp = scene.playerController?.getGemPowerExact?.() || 0;
+  if (scene._hardcoreDeathInProgress) {
+    runtime.hud.update(runtime.system.getSnapshot(), time, gp);
+    return runtime.system.getSnapshot();
+  }
+
+  const light = scene.lightSystem?.getShaderSnapshot?.() || {};
+  const body = scene.playerController?.physicsBody;
+  const snapshot = runtime.system.update(delta, {
+    gameplayActive: scene.gameState === "playing",
+    nowMs: time,
+    depth: getDepth(scene, playerTile),
+    darknessAlpha: light.darknessAlpha,
+    torchActive: light.torchActive,
+    descentTilesPerSecond: body && scene.config.tileSize > 0
+      ? Math.max(0, body.vy / scene.config.tileSize)
+      : 0,
+  });
+  syncSceneModeData(scene);
+  processSystemEvents(scene);
+
+  if (snapshot.requestedStressGpDrain > 0) {
+    scene.playerController?.consumeGemPower?.(
+      snapshot.requestedStressGpDrain,
+      { source: "stress", stress: snapshot.stress },
+    );
+  }
+  const currentGp = scene.playerController?.getGemPowerExact?.() || 0;
+  if (
+    snapshot.armed
+    && currentGp <= runtime.config.death.zeroGpEpsilon
+  ) {
+    void beginHardcorePermanentDeath(scene, { source: "unknown" });
+  }
+  if (
+    snapshot.armed
+    && scene.gameState === "playing"
+    && !scene._hardcoreDeathInProgress
+  ) {
+    persistHardcoreLiveCheckpoint(scene, time);
+  }
+
+  const stressDelta = Math.abs(snapshot.stress - runtime.lastPersistedStress);
+  const persistenceDue = time - runtime.lastStressPersistAt
+    >= runtime.config.stress.persistenceIntervalMs;
+  if (
+    scene.gameState === "playing"
+    && !scene._hardcoreDeathInProgress
+    && (stressDelta >= runtime.config.stress.persistenceDelta
+      || (persistenceDue && stressDelta > Number.EPSILON))
+  ) {
+    runtime.lastPersistedStress = snapshot.stress;
+    runtime.lastStressPersistAt = time;
+    scene.queueDugTilesSave?.();
+  }
+
+  runtime.hud.update(snapshot, time, currentGp);
+  updateDiagnostics(scene);
+  return snapshot;
+}
+
+export function destroyHardcoreModeRuntime(scene) {
+  const runtime = scene._hardcoreRuntime;
+  if (!runtime) return;
+  for (const [name, handler] of Object.entries(runtime.bindings)) {
+    if (scene[name] === handler) scene[name] = undefined;
+  }
+  runtime.hud?.destroy();
+  runtime.modal?.destroy();
+  if (typeof window !== "undefined") {
+    delete window[runtime.config.diagnostics.globalKey];
+  }
+  scene._hardcoreRuntime = null;
+}

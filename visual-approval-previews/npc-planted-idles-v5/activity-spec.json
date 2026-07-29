@@ -1,7 +1,7 @@
 {
   "created": "2026-07-26",
-  "title": "NPC Planted Idle Library v5",
-  "runtimePack": "npc-v12-piskel-approved-activities",
+  "title": "NPC Approved Activity Library v7",
+  "runtimePack": "npc-v13-piskel-polished-activities",
   "activityIds": [
     "work",
     "rare",
@@ -38,7 +38,7 @@
       "label": "Player Upgrades",
       "baseline": {
         "type": "video",
-        "path": "../../sprites/npc/npc-v6-animated/merchant-idle/player-upgrades-idle-alpha.webm?v=approved-v1-20260711"
+        "path": "../../sprites/npc/npc-v13-polished-baselines/video/player-upgrades-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728"
       },
       "board": "character",
       "row": 0,
@@ -59,7 +59,7 @@
       "label": "Gear Merchant",
       "baseline": {
         "type": "video",
-        "path": "../../sprites/npc/npc-v6-animated/merchant-idle/gear-merchant-idle-alpha.webm?v=approved-v1-20260711"
+        "path": "../../sprites/npc/npc-v13-polished-baselines/video/gear-merchant-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728"
       },
       "board": "character",
       "row": 1,
@@ -80,7 +80,7 @@
       "label": "Bobo Merchant",
       "baseline": {
         "type": "video",
-        "path": "../../sprites/npc/npc-v6-animated/merchant-idle/bobo-merchant-idle-alpha.webm?v=approved-v1-20260711"
+        "path": "../../sprites/npc/npc-v13-polished-baselines/video/bobo-merchant-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728"
       },
       "board": "character",
       "row": 2,
@@ -101,7 +101,7 @@
       "label": "Money Monster",
       "baseline": {
         "type": "video",
-        "path": "../../sprites/npc/npc-v6-animated/merchant-idle/money-monster-idle-alpha.webm?v=approved-v1-20260711"
+        "path": "../../sprites/npc/npc-v13-polished-baselines/video/money-monster-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728"
       },
       "board": "creature",
       "row": 0,
@@ -122,7 +122,7 @@
       "label": "Gem Power Merchant",
       "baseline": {
         "type": "video",
-        "path": "../../sprites/npc/npc-v6-animated/merchant-idle/gem-power-merchant-idle-alpha.webm?v=approved-v1-20260711"
+        "path": "../../sprites/npc/npc-v13-polished-baselines/video/gem-power-merchant-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728"
       },
       "board": "creature",
       "row": 1,
@@ -143,7 +143,7 @@
       "label": "Magma Money Monster",
       "baseline": {
         "type": "image",
-        "path": "../../sprites/npc/npc-v7-level-two/magma-money-monster.png?v=approved-v1-20260713"
+        "path": "../../sprites/npc/npc-v13-polished-baselines/static/magma-money-monster.webp?v=silhouette-chroma-polish-v1-20260728"
       },
       "board": "creature",
       "row": 2,

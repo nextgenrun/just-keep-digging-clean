@@ -1,17 +1,19 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260727-arc-core-subdir-v1";
+import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260728-arc-core-dig-repair-v4";
 import { getArcCoreVisualMode } from "../../values/arcCoreVisualConfig.js";
 import {
   drawArcCoreActionVisuals,
 } from "./arcCoreActionVisuals.js";
 import {
   applyArcCoreLayer,
+  arcCoreEnvelope,
   clampArcCoreValue,
   createArcCoreLayer,
   hideArcCoreLayers,
   smoothArcCoreValue,
   textureForArcCoreRole,
 } from "./arcCoreLayerPlacement.js";
+import { resolveArcCoreCollisionProfile } from "./arcCoreCollisionProfile.js";
 
 const TAU = Math.PI * 2;
 
@@ -23,9 +25,27 @@ function buildRoleMap(manifest) {
   return Object.fromEntries(section.files.map(file => [file.role, file.key]));
 }
 
+function queueArcCoreRoleAssets(scene, manifest, rootPrefix) {
+  const section = manifest?.[ARC_CORE_VISUAL_PACK.assetSection];
+  if (!Array.isArray(section?.files) || typeof section.path !== "string") {
+    throw new Error("Arc Core .sprite asset paths are missing");
+  }
+  for (const file of section.files) {
+    if (file.type !== "image" || !file.key || !file.url) {
+      throw new Error("Arc Core .sprite contains an unsupported production asset");
+    }
+    scene.load.image(file.key, `${rootPrefix}${section.path}${file.url}`);
+  }
+}
 
 export function preloadArcCoreVisualAssets(scene, rootPrefix = "") {
-  scene.load.pack(
+  scene.load.once(
+    `filecomplete-json-${ASSET_KEYS.vehicles.arcCore.pack}`,
+    (_key, _type, manifest) => {
+      queueArcCoreRoleAssets(scene, manifest, rootPrefix);
+    },
+  );
+  scene.load.json(
     ASSET_KEYS.vehicles.arcCore.pack,
     `${rootPrefix}${ARC_CORE_VISUAL_PACK.path}?rev=${ARC_CORE_VISUAL_PACK.revision}`,
   );
@@ -43,6 +63,14 @@ export function createArcCoreVisualLayers(scene) {
   }
   if (meta.pipeline !== "piskel-roundtrip") {
     throw new Error("Arc Core artwork did not pass through Piskel");
+  }
+  if (
+    Object.keys(meta.modes || {}).length !== 2
+    || Object.values(meta.modes).some(
+      profile => resolveArcCoreCollisionProfile(profile, meta) === null,
+    )
+  ) {
+    throw new Error("Arc Core .sprite collision profiles are invalid");
   }
   const blend = globalThis.Phaser?.BlendModes || {};
   const roles = buildRoleMap(manifest);
@@ -107,9 +135,41 @@ export function drawArcCoreVisualArtwork(state, options) {
   const breathPhase = options.timeMs
     / profile.idle.bodyBreathPeriodMs
     * TAU;
+  const direction = options.direction || { x: 1, y: 0 };
+  const bodyMotion = profile.dig.bodyMotion || {};
+  const brace = options.active
+    ? arcCoreEnvelope(
+      progress,
+      timeline.chargeStart,
+      timeline.chargePeak,
+      timeline.impactStart,
+    )
+    : 0;
+  const contact = options.active
+    ? arcCoreEnvelope(
+      progress,
+      timeline.beamStart,
+      timeline.impactPeak,
+      timeline.impactEnd,
+    )
+    : 0;
+  const breakPulse = options.active
+    ? arcCoreEnvelope(
+      progress,
+      timeline.impactStart,
+      timeline.impactPeak,
+      timeline.impactEnd,
+    )
+    : 0;
+  const recoilPeak = timeline.recoilStart
+    + (1 - timeline.recoilStart) * 0.34;
   const recoil = options.active
-    ? Math.sin(smoothArcCoreValue((progress - timeline.recoilStart)
-      / (1 - timeline.recoilStart)) * Math.PI) * profile.dig.recoilPx
+    ? arcCoreEnvelope(
+      progress,
+      timeline.recoilStart,
+      recoilPeak,
+      1,
+    ) * profile.dig.recoilPx
     : 0;
   const scaleMultiplier = options.scaleMultiplier ?? 1;
   const alpha = clampArcCoreValue(options.alpha ?? 1);
@@ -117,19 +177,38 @@ export function drawArcCoreVisualArtwork(state, options) {
   const energyAlphaMultiplier = options.energyAlphaMultiplier ?? 1;
   const baseSize = profile.bodyDisplaySizePx * scaleMultiplier;
   const breath = Math.sin(breathPhase) * profile.idle.bodyBreathRatio;
+  const alongOffset = -brace * (bodyMotion.bracePullbackPx || 0)
+    + contact * (bodyMotion.contactDrivePx || 0)
+    - breakPulse * (bodyMotion.breakKickPx || 0)
+    - recoil;
+  const alongScale = 1
+    - brace * (bodyMotion.compressAlongRatio || 0)
+    + contact * (bodyMotion.contactStretchRatio || 0)
+    - breakPulse * (bodyMotion.breakScaleRatio || 0) * 0.45;
+  const crossScale = 1
+    + brace * (bodyMotion.expandCrossRatio || 0)
+    + breakPulse * (bodyMotion.breakScaleRatio || 0);
+  const horizontalAction = Math.abs(direction.x) >= Math.abs(direction.y);
+  const torqueSign = direction.x !== 0 ? direction.x : -direction.y;
+  const bodyAngleDeg = (
+    brace - breakPulse * 0.45
+  ) * (bodyMotion.torqueDeg || 0) * torqueSign;
   const anchor = {
-    x: options.cx - options.direction.x * recoil,
+    x: options.cx + direction.x * alongOffset,
     y: options.cy
       + (options.active ? 0 : Math.sin(idlePhase) * profile.idle.bobPx)
-      - options.direction.y * recoil,
+      + direction.y * alongOffset,
   };
 
   applyArcCoreLayer(state.body, {
     texture: textureForArcCoreRole(state, profile.bodyRole),
     x: anchor.x,
     y: anchor.y,
-    width: baseSize * (1 + breath),
-    height: baseSize * (1 + breath),
+    width: baseSize * (1 + breath)
+      * (horizontalAction ? alongScale : crossScale),
+    height: baseSize * (1 + breath)
+      * (horizontalAction ? crossScale : alongScale),
+    angleDeg: bodyAngleDeg,
     depth: profile.depths.body,
     alpha,
     tint,
@@ -139,6 +218,8 @@ export function drawArcCoreVisualArtwork(state, options) {
   const energyScale = 1 + charge * profile.dig.energyScaleBoostRatio;
   const rotationBoost = progress * profile.dig.rotationBoostDeg;
   const energyTexture = textureForArcCoreRole(state, profile.energyRole);
+  const ghostSizeRatio = profile.idle.ghostEnergySizeRatio
+    + charge * profile.dig.ghostChargeSizeBoostRatio;
   const commonEnergy = {
     texture: energyTexture,
     x: anchor.x,
@@ -148,10 +229,10 @@ export function drawArcCoreVisualArtwork(state, options) {
   };
   applyArcCoreLayer(state.energyGhost, {
     ...commonEnergy,
-    width: baseSize * profile.idle.ghostEnergySizeRatio
+    width: baseSize * ghostSizeRatio
       * (1 + Math.sin(idlePhase * tuning.idleGhostPhaseRatio)
         * profile.idle.ghostPulseRatio),
-    height: baseSize * profile.idle.ghostEnergySizeRatio
+    height: baseSize * ghostSizeRatio
       * (1 + Math.sin(idlePhase * tuning.idleGhostPhaseRatio)
         * profile.idle.ghostPulseRatio),
     angleDeg: seconds * profile.idle.ghostRotationDegPerSecond,

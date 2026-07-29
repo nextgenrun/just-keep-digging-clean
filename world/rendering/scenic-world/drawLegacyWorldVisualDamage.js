@@ -1,10 +1,4 @@
-function hashUnit(tx, ty, salt, config) {
-  let value = Math.imul(tx + config.offsetX, config.primeX)
-    ^ Math.imul(ty + config.offsetY, config.primeY)
-    ^ Math.imul(salt + config.offsetSalt, config.primeSalt);
-  value = Math.imul(value ^ (value >>> config.avalancheShift), config.avalanchePrime);
-  return ((value ^ (value >>> config.finalShift)) >>> 0) / config.unsignedMax;
-}
+import { hashWorldVisualDamageUnit } from "./worldVisualDamageMath.js";
 
 export function drawLegacyWorldVisualDamage(layer, tx, ty, damage, size, config) {
   const legacy = config.legacy;
@@ -18,12 +12,14 @@ export function drawLegacyWorldVisualDamage(layer, tx, ty, damage, size, config)
   );
   layer.lineStyle(width, legacy.color, legacy.baseAlpha + damage * legacy.damageAlphaScale);
   for (let branch = 0; branch < branches; branch += 1) {
-    const angle = hashUnit(tx, ty, legacy.angleSalt + branch, hash) * Math.PI * 2;
+    const angle = hashWorldVisualDamageUnit(tx, ty, legacy.angleSalt + branch, hash) * Math.PI * 2;
     const length = size * (legacy.baseLengthScale + damage * legacy.damageLengthScale) * (
       legacy.randomLengthMin
-      + hashUnit(tx, ty, legacy.lengthSalt + branch, hash) * legacy.randomLengthRange
+      + hashWorldVisualDamageUnit(tx, ty, legacy.lengthSalt + branch, hash) * legacy.randomLengthRange
     );
-    const bend = (hashUnit(tx, ty, legacy.bendSalt + branch, hash) - 0.5) * legacy.bendRadians;
+    const bend = (
+      hashWorldVisualDamageUnit(tx, ty, legacy.bendSalt + branch, hash) - 0.5
+    ) * legacy.bendRadians;
     layer.beginPath()
       .moveTo(cx, cy)
       .lineTo(

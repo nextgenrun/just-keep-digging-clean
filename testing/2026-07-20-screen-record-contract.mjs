@@ -22,6 +22,7 @@ const globalInputSource = fs.readFileSync(new URL("../world/playScene/GameInputH
 const setupSource = fs.readFileSync(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8");
 const keybindSource = fs.readFileSync(new URL("../values/keybindActions.js", import.meta.url), "utf8");
 const serverSource = fs.readFileSync(new URL("../serve.py", import.meta.url), "utf8");
+const recordSource = fs.readFileSync(new URL("../systems/visual/ScreenRecordSystem.js", import.meta.url), "utf8");
 
 assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F9"/);
 assert.match(
@@ -33,6 +34,8 @@ assert.match(globalInputSource, /justDown\(keys\.screenRecord\)/);
 assert.match(globalInputSource, /screenRecordSystem\?\.toggle\(\)/);
 assert.match(setupSource, /new ScreenRecordSystem\(this\)/);
 assert.match(setupSource, /screenRecordSystem\?\.destroy\(\)/);
+assert.match(recordSource, /uiNotifications\?\.\[kind\]/);
+assert.doesNotMatch(recordSource, /notificationSystem\?\.\[kind\]/);
 assert.match(serverSource, /if self\.path != "\/screenrecord"/);
 assert.match(serverSource, /"systems", "screenrecord"/);
 

@@ -7,6 +7,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton, createPanel } from "../PhaserUiKit.js";
 import { TitanArchiveClueControl } from "./TitanArchiveClueControl.js";
+import { TitanArchiveLoreView } from "./TitanArchiveLoreView.js";
 import { fitTitanArchiveImage, formatTitanArchiveIndex } from "./titanArchivePresentation.js";
 
 export class TitanArchiveView {
@@ -151,47 +152,19 @@ export class TitanArchiveView {
     );
     this.root.add(this.portrait);
     const textTop = portraitTop + portraitHeight;
-    this.detailTextTop = textTop;
-    this.nameText = this.scene.add.text(
-      detailX + detailWidth / 2,
-      textTop + archive.titleOffsetY,
-      "",
-      {
-        fontFamily: UI_FONTS.display,
-        fontSize: `${archive.titleFontSize}px`,
-        fontStyle: "bold",
-        color: UI_COLORS.title,
-        align: "center",
-      }
-    ).setOrigin(0.5, 0);
-    this.regionText = this.scene.add.text(
-      detailX + detailWidth / 2,
-      textTop + archive.regionOffsetY,
-      "",
-      {
-        fontFamily: UI_FONTS.mono,
-        fontSize: `${archive.regionFontSize}px`,
-        color: UI_COLORS.gold,
-        align: "center",
-      }
-    ).setOrigin(0.5, 0);
-    this.loreText = this.scene.add.text(
-      detailX + archive.loreSideInset,
-      textTop + archive.loreOffsetY,
-      "",
-      {
-        fontFamily: UI_FONTS.body,
-        fontSize: `${archive.loreFontSize}px`,
-        color: UI_COLORS.body,
-        align: "center",
-        lineSpacing: 4,
-        wordWrap: {
-          width: detailWidth - archive.loreSideInset * 2,
-          useAdvancedWrap: true,
-        },
-      }
-    ).setOrigin(0, 0);
-    this.root.add([this.nameText, this.regionText, this.loreText]);
+    this.loreView = new TitanArchiveLoreView(this.scene, {
+      parent: this.root,
+      archive,
+      clueConfig: this.clueConfig,
+      textTop,
+      detailX,
+      detailWidth,
+    });
+    this.nameText = this.loreView.nameText;
+    this.epithetText = this.loreView.epithetText;
+    this.regionText = this.loreView.regionText;
+    this.loreText = this.loreView.loreText;
+    this.inscriptionText = this.loreView.inscriptionText;
     const clueLayout = this.clueConfig.layout;
     this.clueControl = new TitanArchiveClueControl(this.scene, {
       x: detailX + detailWidth / 2,
@@ -229,24 +202,7 @@ export class TitanArchiveView {
         },
       });
     }
-    this.nameText.setText(discovered ? definition.name.toUpperCase() : "UNDISCOVERED TITAN");
-    this.regionText.setText(
-      discovered
-        ? `#${formatTitanArchiveIndex(definition.index)}  •  ${definition.regionLabel.toUpperCase()}`
-        : `#${formatTitanArchiveIndex(definition.index)}  •  SEALED ENTRY`
-    );
-    this.loreText.setText(
-      discovered
-        ? definition.lore
-        : this.clueConfig.copy.lockedLore
-    );
-    this.loreText.setY(
-      this.detailTextTop + (
-        discovered
-          ? this.config.archive.loreOffsetY
-          : this.clueConfig.layout.lockedLoreOffsetY
-      )
-    );
+    this.loreView.setDefinition(definition, discovered);
     this.clueControl?.setDefinition(definition, discovered);
   }
 

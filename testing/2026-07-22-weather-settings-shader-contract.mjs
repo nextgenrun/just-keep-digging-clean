@@ -17,8 +17,8 @@ const { SkylineWeatherVfxAtlas } = await import("../systems/environment/SkylineW
 const { WeatherAudioController } = await import("../systems/environment/WeatherAudioController.js");
 const { WeatherDirector } = await import("../systems/environment/WeatherDirector.js");
 const { WeatherGameplayController } = await import("../systems/environment/WeatherGameplayController.js");
+const { WeatherImpactRainController } = await import("../systems/environment/WeatherImpactRainController.js");
 const { WeatherLightningController } = await import("../systems/environment/WeatherLightningController.js");
-const { WeatherParticleController } = await import("../systems/environment/WeatherParticleController.js");
 const { createWeatherParticleTextures } = await import("../systems/environment/WeatherParticleTextures.js");
 const { WeatherWorldState } = await import("../systems/environment/WeatherWorldState.js");
 const darkness = await import("../systems/lighting/darknessLightShader.js");
@@ -93,7 +93,10 @@ const audioConfig = { audio: { coverMuffle: 0.3, undergroundMuffle: 0.2, rainVol
 const audioScene = { soundSystem: { audioInitialized: true, sfxEnabled: true, sfxVolume: 0.5 }, sound: { context: audioContext, destination: audioContext.destination } };
 const audio = new WeatherAudioController(audioScene, audioConfig);
 audio.update({ intensity: 1, depth: { surfaceAmount: 1, undergroundSignal: 0, undergroundAmount: 0 }, occlusion: { openSkyAmount: 1, coveredAmount: 0 }, director: { stormDistance: 0 }, wind: 190 });
-assert.ok(audio._rainNoise.gain.gain.last > 0); assert.ok(audio._windNoise.gain.gain.last > 0); audio.playThunder({ undergroundAmount: 0 }, 2); assert.equal(sources.at(-1).started, true); audio.destroy(); assert.equal(audio._rainNoise, null);
+assert.ok(audio._rainNoise.gain.gain.last > 0); assert.ok(audio._windNoise.gain.gain.last > 0);
+audio.update({ kind: "snow", isRainKind: false, intensity: 1, depth: { surfaceAmount: 1, undergroundSignal: 0, undergroundAmount: 0 }, occlusion: { openSkyAmount: 1, coveredAmount: 0 }, director: { stormDistance: 1 }, wind: 0 });
+assert.equal(audio._rainNoise.gain.gain.last, 0);
+audio.playThunder({ undergroundAmount: 0 }, 2); assert.equal(sources.at(-1).started, true); audio.destroy(); assert.equal(audio._rainNoise, null);
 
 // Lightning schedules one thunder event, routes shake strength, exposes flash, and clears timers.
 const lightningTimers = []; const shakeCalls = []; const thunderCalls = [];
@@ -120,14 +123,11 @@ const textureScene = {
 };
 createWeatherParticleTextures(textureScene, textureKeys); createWeatherParticleTextures(textureScene, textureKeys); assert.equal(generated.size, 8);
 
-// Particle routing emits bounded rain bursts and recognizes only precipitation kinds.
-const particle = Object.create(WeatherParticleController.prototype);
-particle.weatherConfig = { rain: { layers: { foreground: { ratePerSecond: 10, maxBurst: 3, minSpeedY: 100, maxSpeedY: 200, windScale: 1, windSpread: 2, alpha: 0.5, flashBoost: 1, spawnY: 0, minLifespanMs: 100, maxLifespanMs: 1000, xJitterPx: 0 } } } };
-particle._accumulators = { foreground: 0 }; particle._randomRange = ([min]) => min; particle._pick = (items) => items[0];
-const emitted = []; const operation = { onChange(value) { this.value = value; } };
-const emitter = { ops: { speedX: operation, speedY: { ...operation }, rotate: { ...operation }, lifespan: { ...operation } }, setAlpha(value) { this.alpha = value; }, emitParticleAt: (...args) => emitted.push(args) };
-particle._emitRainLayer("foreground", emitter, 1, 1, { wind: 5, gust: 2, lightningFlashAmount: 0.5 }, [{ screenX: 20, landingScreenY: 200 }]);
-assert.equal(emitted.length, 3); assert.equal(particle._isRainKind("storm"), true); assert.equal(particle._isRainKind("clear"), false);
+// World precipitation routing admits only rain phases; snow has its own controller.
+const rainRouting = Object.create(WeatherImpactRainController.prototype);
+assert.equal(rainRouting._getSurfaceRainAmount({ kind: "rain", intensity: 0.8, depth: { surfaceAmount: 0.5 }, occlusion: { openSkyAmount: 0.5 } }), 0.2);
+assert.equal(rainRouting._getSurfaceRainAmount({ kind: "snow", intensity: 1, depth: { surfaceAmount: 1 }, occlusion: { openSkyAmount: 1 } }), 0);
+assert.equal(rainRouting._getSurfaceRainAmount({ kind: "clear", intensity: 1, depth: { surfaceAmount: 1 }, occlusion: { openSkyAmount: 1 } }), 0);
 
 // Shader exports share stable keys, complete uniform shapes, and standalone GLSL programs.
 const uniformsA = createCommonShaderUniforms(); const uniformsB = createCommonShaderUniforms();

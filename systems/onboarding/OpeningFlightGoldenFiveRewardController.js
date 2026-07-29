@@ -1,11 +1,9 @@
 import { OPENING_FLIGHT_STAGES } from "../../values/openingFlightArtifact.js";
 import { interpolateOpeningFlightCopy } from "./openingFlightGoldenFiveCopy.js";
-import { getOpeningFlightCacheCenterWorld } from "./openingFlightGoldenFiveGeometry.js";
 
 export class OpeningFlightGoldenFiveRewardController {
   constructor(runtime) {
     this.runtime = runtime;
-    this.completionTimer = null;
   }
 
   recoverInterruptedReward() {
@@ -54,63 +52,30 @@ export class OpeningFlightGoldenFiveRewardController {
       ...cache.resources,
     };
     view.celebrateCache();
-    view.showHud({
-      phase: config.copy.phaseComplete,
-      title: config.copy.completeTitle,
-      body: config.copy.completeBody,
-      progress: 1,
-      accent: "gold",
-    });
-    view.showRewardReveal({
-      title: config.copy.rewardRevealTitle,
-      primary: interpolateOpeningFlightCopy(
-        config.copy.rewardRevealPrimary,
-        rewardTokens,
-      ),
-      resources: interpolateOpeningFlightCopy(
-        config.copy.rewardRevealResources,
-        rewardTokens,
-      ),
-      footer: interpolateOpeningFlightCopy(
-        config.copy.rewardRevealFooter,
-        rewardTokens,
-      ),
-    });
+    view.hideHud();
+    view.hideRewardReveal({ instant: true });
     scene.soundSystem?.playUiConfirm?.();
     scene.uiNotifications?.success?.(
-      interpolateOpeningFlightCopy(config.copy.cacheReward, rewardTokens),
-      { durationMs: config.feedback.cacheToastDurationMs },
-    );
-    const cacheWorld = getOpeningFlightCacheCenterWorld(scene, config);
-    scene.floatingTextSystem?.showFloatingText?.(
-      cacheWorld.x,
-      cacheWorld.y,
-      interpolateOpeningFlightCopy(
-        config.copy.cacheFloatingReward,
-        rewardTokens,
-      ),
-      config.feedback.gold,
-      config.feedback.cacheDurationMs,
-      config.feedback.cacheFontSize,
-    );
-    scene.hudSystem?.flashStatus?.(
-      config.copy.completeBody,
-      config.feedback.cyan,
-      config.feedback.completeStatusDurationMs,
-    );
-    this.completionTimer = scene.time?.delayedCall?.(
-      config.presentation.rewardReveal.holdDurationMs,
-      () => {
-        view?.hideHud();
-        view?.hideRewardReveal();
+      [
+        interpolateOpeningFlightCopy(config.copy.cacheReward, rewardTokens),
+        interpolateOpeningFlightCopy(
+          config.copy.rewardRevealResources,
+          rewardTokens,
+        ),
+        interpolateOpeningFlightCopy(
+          config.copy.rewardRevealFooter,
+          rewardTokens,
+        ),
+      ].join("  •  "),
+      {
+        title: config.copy.rewardRevealTitle,
+        key: config.feedback.cacheNotificationKey,
       },
-    ) || null;
+    );
     scene.queueDugTilesSave?.();
   }
 
   destroy() {
-    this.completionTimer?.remove?.(false);
-    this.completionTimer = null;
     this.runtime = null;
   }
 }

@@ -1,0 +1,356 @@
+{
+  "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/gem-power-merchant.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 7,
+  "frameSize": [
+    512,
+    512
+  ],
+  "sheetGrid": [
+    7,
+    1
+  ],
+  "sheetSize": [
+    3584,
+    512
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 6,
+  "runtimeFps": 1,
+  "phaserKey": null,
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.42,
+    "anchorAlphaThreshold": 32,
+    "anchorSmoothingWindow": 1,
+    "targetAnchorX": 258.28327409856183,
+    "bottomY": 471.0,
+    "targetReferenceHeightPx": 428.86425,
+    "minUniformScale": 1.11975,
+    "maxUniformScale": 1.11975,
+    "runtimeBaselineY": 471.0,
+    "sizePolicy": "one fixed merchant scale matched to the calm baseline"
+  },
+  "runtimeOutputs": [
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-work.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-rare.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-player.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-inspect.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-habit.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-signature.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-showcase.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        28,
+        37,
+        495,
+        471
+      ],
+      "bboxWidth": 467,
+      "bboxHeight": 434,
+      "centerX": 261.5,
+      "rootAnchorX": 257.96,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 66876,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        37,
+        37,
+        473,
+        471
+      ],
+      "bboxWidth": 436,
+      "bboxHeight": 434,
+      "centerX": 255.0,
+      "rootAnchorX": 257.98,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 62658,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        1,
+        37,
+        468,
+        471
+      ],
+      "bboxWidth": 467,
+      "bboxHeight": 434,
+      "centerX": 234.5,
+      "rootAnchorX": 258.58,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 71358,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        48,
+        37,
+        432,
+        471
+      ],
+      "bboxWidth": 384,
+      "bboxHeight": 434,
+      "centerX": 240.0,
+      "rootAnchorX": 258.36,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 61732,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        52,
+        19,
+        438,
+        471
+      ],
+      "bboxWidth": 386,
+      "bboxHeight": 452,
+      "centerX": 245.0,
+      "rootAnchorX": 258.58,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 62895,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        79,
+        28,
+        446,
+        471
+      ],
+      "bboxWidth": 367,
+      "bboxHeight": 443,
+      "centerX": 262.5,
+      "rootAnchorX": 258.24,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 68042,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        14,
+        37,
+        476,
+        471
+      ],
+      "bboxWidth": 462,
+      "bboxHeight": 434,
+      "centerX": 245.0,
+      "rootAnchorX": 258.07,
+      "rootAnchorY": 471.0,
+      "rootAnchorPixels": 65781,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 471,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polish": {
+    "skipped": false,
+    "anchorMode": "alpha-lower-body",
+    "targetAnchor": [
+      258.28,
+      471.0
+    ],
+    "uniformScale": 1.11975,
+    "before": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 15.5,
+      "maxRootAnchorDriftPx": 0.42,
+      "maxAnchorDriftPx": 0.42,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 383.0
+    },
+    "after": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 17.5,
+      "maxRootAnchorDriftPx": 0.34,
+      "maxAnchorDriftPx": 0.34,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 434.0
+    },
+    "shifts": [
+      {
+        "frame": 0,
+        "sourceAnchor": [
+          256.42,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.42,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceAnchor": [
+          256.35,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.35,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceAnchor": [
+          256.11,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.11,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceAnchor": [
+          255.89,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.89,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceAnchor": [
+          256.02,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.02,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceAnchor": [
+          255.72,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.72,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceAnchor": [
+          255.6,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.6,
+          496.0
+        ],
+        "requestedTarget": [
+          258.28,
+          471.0
+        ]
+      }
+    ]
+  },
+  "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-alignment-overlay.png",
+  "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-drift-report.json"
+}

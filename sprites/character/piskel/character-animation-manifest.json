@@ -507,6 +507,251 @@
       "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/thunder-strike-review-contact-sheet.png",
       "phaserKey": "char-v2-thunder-strike",
       "orientation": "front"
+    },
+    {
+      "id": "survival-moving-side-dig-jab",
+      "displayName": "Survival Moving Side Dig Jab",
+      "fps": 30,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 22,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/moving-side-dig-jab.piskel",
+      "runtimeOutputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-jab-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/moving-side-dig-jab-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/moving-side-dig-jab-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/moving-side-dig-jab-review-contact-sheet.png",
+      "phaserKey": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+      "orientation": "right",
+      "autoAlign": false,
+      "contactFrame": 6,
+      "contactSequenceIndex": 6,
+      "displaySizePx": 123,
+      "hitFrameGroups": [
+        [
+          6
+        ]
+      ],
+      "centeringPolicy": {
+        "normalize": false,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.55,
+        "anchorAlphaThreshold": 32,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 1,
+        "maxAnchorDriftPx": 12,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
+      }
+    },
+    {
+      "id": "survival-moving-side-dig-cross",
+      "displayName": "Survival Moving Side Dig Cross",
+      "fps": 30,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 22,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/moving-side-dig-cross.piskel",
+      "runtimeOutputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-cross-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/moving-side-dig-cross-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/moving-side-dig-cross-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/moving-side-dig-cross-review-contact-sheet.png",
+      "phaserKey": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+      "orientation": "right",
+      "autoAlign": false,
+      "contactFrame": 6,
+      "contactSequenceIndex": 6,
+      "displaySizePx": 123,
+      "hitFrameGroups": [
+        [
+          6
+        ]
+      ],
+      "centeringPolicy": {
+        "normalize": false,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.55,
+        "anchorAlphaThreshold": 32,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 1,
+        "maxAnchorDriftPx": 12,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
+      }
+    },
+    {
+      "id": "survival-moving-side-dig-phase-handoff",
+      "displayName": "Survival Moving Side Dig Phase Handoff Atlas",
+      "fps": 30,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 132,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/moving-side-dig-phase-handoff.piskel",
+      "runtimeOutputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-phase-handoff-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/moving-side-dig-phase-handoff-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/moving-side-dig-phase-handoff-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/moving-side-dig-phase-handoff-review-contact-sheet.png",
+      "phaserKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "orientation": "right",
+      "autoAlign": false,
+      "contactFrame": 6,
+      "contactSequenceIndex": 6,
+      "displaySizePx": 123,
+      "hitFrameGroups": [
+        [
+          6
+        ],
+        [
+          28
+        ],
+        [
+          50
+        ],
+        [
+          72
+        ],
+        [
+          94
+        ],
+        [
+          116
+        ]
+      ],
+      "centeringPolicy": {
+        "normalize": false,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.55,
+        "anchorAlphaThreshold": 32,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 1,
+        "maxAnchorDriftPx": 12,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
+      }
+    },
+    {
+      "id": "survival-player-animation-polish-transitions",
+      "displayName": "Survival Player Animation Polish Transitions",
+      "fps": 30,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 61,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-transitions.piskel",
+      "runtimeOutputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-transitions-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/player-animation-polish-transitions-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/player-animation-polish-transitions-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-transitions-review-contact-sheet.png",
+      "phaserKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "orientation": "right",
+      "autoAlign": false,
+      "displaySizePx": 123,
+      "hitFrameGroups": [],
+      "centeringPolicy": {
+        "normalize": false,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.55,
+        "anchorAlphaThreshold": 32,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 1,
+        "maxAnchorDriftPx": 12,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
+      }
+    },
+    {
+      "id": "survival-player-animation-polish-diagonal-dig",
+      "displayName": "Survival Player Moving Diagonal Dig",
+      "fps": 30,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 120,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-diagonal-dig.piskel",
+      "runtimeOutputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-diagonal-dig-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/player-animation-polish-diagonal-dig-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/player-animation-polish-diagonal-dig-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-diagonal-dig-review-contact-sheet.png",
+      "phaserKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "orientation": "right",
+      "autoAlign": false,
+      "contactFrame": 7,
+      "contactSequenceIndex": 7,
+      "displaySizePx": 123,
+      "hitFrameGroups": [
+        [
+          7
+        ],
+        [
+          22
+        ],
+        [
+          37
+        ],
+        [
+          52
+        ],
+        [
+          66
+        ],
+        [
+          81
+        ],
+        [
+          96
+        ],
+        [
+          111
+        ]
+      ],
+      "centeringPolicy": {
+        "normalize": false,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.55,
+        "anchorAlphaThreshold": 32,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 1,
+        "maxAnchorDriftPx": 12,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
+      }
     }
   ]
 }

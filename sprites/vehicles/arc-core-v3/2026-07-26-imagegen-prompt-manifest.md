@@ -19,6 +19,26 @@ glow, transparent-effect-ready edges, and readability at gameplay scale.
 Accepted source:
 `source/2026-07-26-arc-dig-vfx-atlas-v3-chroma.png`.
 
+## Accepted 2026-07-28 impact replacements
+
+Small prompt intent: create a compact cyan electrical rock fracture on chroma
+green, with two readable bore channels, sharp mineral debris, transparent-ready
+edges, and no machine, portal, ring, or UI silhouette.
+
+Omega prompt intent: create a cathedral-scale obsidian wall rupture on chroma
+green, driven by a violet eight-lane compression lattice, with fractured rock,
+controlled gold sparks, transparent-ready edges, and no Arc machine duplicate.
+
+Accepted sources:
+
+- `source/2026-07-28-small-arc-impact-v4-chroma.png`
+- `source/2026-07-28-small-arc-impact-v4-alpha.png`
+- `source/2026-07-28-omega-arc-impact-v4-chroma.png`
+- `source/2026-07-28-omega-arc-impact-v4-alpha.png`
+
+Both replacements are centered on the fixed 512 x 512 anchor in
+`piskel/arc-core-body-and-fx-v4.piskel` before runtime export.
+
 ## Accepted foundry stage
 
 Reference the approved Arc bodies. Create a wide 16:9 underground Arc foundry

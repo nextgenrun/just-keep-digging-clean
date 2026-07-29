@@ -4,7 +4,7 @@
   "productionChanged": false,
   "runtimeApproved": false,
   "reason": "Rejected by user; excluded from preload, runtime keys, preview controls, and active Piskel sources.",
-  "supersededBy": "sprites/npc/npc-v12-piskel-approved-activities/manifest.json",
+  "supersededBy": "sprites/npc/npc-v13-piskel-polished-activities/manifest.json",
   "states": [
     {
       "merchant": "Player Upgrades",

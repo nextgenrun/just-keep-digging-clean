@@ -1,3 +1,8 @@
+import {
+  setAlphaIfChanged,
+  setTintIfChanged,
+} from "./worldVisualRenderState.js";
+
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
   const source = texture?.getSourceImage?.() || texture?.source?.[0]?.image || texture?.source?.[0];
@@ -81,8 +86,9 @@ export class WorldVisualMaterialBandView {
 
   setLighting(lighting) {
     const tint = this.band.tint === 0xffffff ? lighting.terrainTint : this.band.tint;
-    this.materialImages.forEach(image => image.setTint(tint));
-    this.backdropImages.forEach(image => image.setAlpha(0.20 + lighting.fog * 0.11));
+    this.materialImages.forEach(image => setTintIfChanged(image, tint));
+    const backdropAlpha = 0.20 + lighting.fog * 0.11;
+    this.backdropImages.forEach(image => setAlphaIfChanged(image, backdropAlpha));
   }
 
   destroy() {

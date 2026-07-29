@@ -12,7 +12,6 @@ export class EarthquakeFeedbackUI {
     this.config = config;
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
-    this.recap = null;
     this.mode = null;
     this.hiding = false;
     this.modeExpiresAt = 0;
@@ -45,7 +44,6 @@ export class EarthquakeFeedbackUI {
     ).setDisplaySize(card.iconSize, card.iconSize);
     this._iconBaseScaleX = this.iconArt.scaleX;
     this._iconBaseScaleY = this.iconArt.scaleY;
-    this.progress = this.scene.add.graphics();
     this.title = this.scene.add.text(card.textX, card.titleY, "", {
       fontFamily: font.family,
       fontSize: card.titleFontSize,
@@ -62,7 +60,7 @@ export class EarthquakeFeedbackUI {
       strokeThickness: 1,
       wordWrap: { width: card.textWidth, useAdvancedWrap: false },
     }).setOrigin(0, 0.5);
-    this.root.add([this.panelArt, this.iconArt, this.progress, this.title, this.detail]);
+    this.root.add([this.panelArt, this.iconArt, this.title, this.detail]);
 
     this._onResize = () => this._layout();
     this.scene.scale?.on?.("resize", this._onResize);
@@ -72,7 +70,6 @@ export class EarthquakeFeedbackUI {
   beginEvent() {
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
-    this.recap = null;
     this.suppressedSourceState = null;
   }
 
@@ -81,7 +78,6 @@ export class EarthquakeFeedbackUI {
     if (sourceState !== "idle") this.suppressedSourceState = sourceState;
     this.escapeActive = true;
     this.escapeExpiresAt = this._now() + this.config.timing.escapeVisibleMs;
-    this.recap = null;
     this.update();
   }
 
@@ -91,28 +87,9 @@ export class EarthquakeFeedbackUI {
     this.update();
   }
 
-  completeEvent({
-    intensity = "minor",
-    passagesOpened = 0,
-    playerAware = true,
-    aftershockWatch = false,
-  } = {}) {
-    this.escapeActive = false;
-    this.escapeExpiresAt = 0;
-    this.suppressedSourceState = null;
-    this.recap = playerAware ? {
-      intensity,
-      passagesOpened: Math.max(0, Math.floor(passagesOpened)),
-      aftershockWatch: Boolean(aftershockWatch),
-      expiresAt: this._now() + this.config.timing.recapVisibleMs,
-    } : null;
-    this.update();
-  }
-
   reset() {
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
-    this.recap = null;
     this.mode = null;
     this.hiding = false;
     this.modeExpiresAt = 0;
@@ -137,7 +114,6 @@ export class EarthquakeFeedbackUI {
       this.escapeActive = false;
       this.escapeExpiresAt = 0;
     }
-    if (this.recap && now >= this.recap.expiresAt) this.recap = null;
     if (
       this.mode === sourceState
       && Number.isFinite(this.modeExpiresAt)
@@ -153,7 +129,6 @@ export class EarthquakeFeedbackUI {
       state: sourceState,
       suppressedSourceState: this.suppressedSourceState,
       source: this.source,
-      recap: this.recap,
     });
     if (!nextMode) {
       this._hide();
@@ -226,34 +201,22 @@ export class EarthquakeFeedbackUI {
     const presentation = resolveEarthquakeFeedbackPresentation({
       mode,
       source: this.source,
-      recap: this.recap,
       escapeExpiresAt: this.escapeExpiresAt,
       now,
       scene: this.scene,
       config: this.config,
     });
+    if (!presentation) {
+      this._hide();
+      return;
+    }
     this.title.setText(presentation.title).setColor(hexColor(presentation.accent));
     this.detail.setText(presentation.detail);
-    this._drawProgress(presentation.accent, presentation.progress);
     const pulse = 1 + Math.sin(now / this.config.timing.iconPulsePeriodMs * Math.PI * 2)
       * this.config.card.iconPulseScale;
     this.iconArt.setScale?.(
       this._iconBaseScaleX * pulse,
       this._iconBaseScaleY * pulse,
-    );
-  }
-
-  _drawProgress(accent, progress) {
-    const card = this.config.card;
-    this.progress.clear();
-    if (progress <= 0) return;
-    this.progress.fillStyle(accent, 0.95);
-    this.progress.fillRoundedRect(
-      card.progressX,
-      card.progressY,
-      card.progressWidth * progress,
-      card.progressHeight,
-      card.progressRadius,
     );
   }
 

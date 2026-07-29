@@ -1,0 +1,372 @@
+{
+  "id": "npc-gear-merchant-polished-activities",
+  "displayName": "Gear Merchant polished planted activities",
+  "frameCount": 7,
+  "frameSize": [
+    512,
+    512
+  ],
+  "fps": 1,
+  "orientation": "front",
+  "centeringPolicy": {
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.42,
+    "anchorAlphaThreshold": 32,
+    "anchorSmoothingWindow": 1,
+    "targetAnchorX": 249.95429277933002,
+    "bottomY": 478.5,
+    "targetReferenceHeightPx": 446.5,
+    "minUniformScale": 0.9748908296943232,
+    "maxUniformScale": 0.9748908296943232,
+    "runtimeBaselineY": 478.5,
+    "sizePolicy": "one fixed merchant scale matched to the calm baseline"
+  },
+  "drift": {
+    "anchorMode": "alpha-lower-body",
+    "maxBBoxCenterDriftPx": 15.0,
+    "maxRootAnchorDriftPx": 0.67,
+    "maxAnchorDriftPx": 0.67,
+    "maxBottomDriftPx": 0.0,
+    "medianBBoxHeightPx": 449.0
+  },
+  "medianCenterX": 244.0,
+  "medianRootAnchorX": 250.08,
+  "medianRootAnchorY": 479.0,
+  "polish": {
+    "skipped": false,
+    "anchorMode": "alpha-lower-body",
+    "targetAnchor": [
+      249.95,
+      478.5
+    ],
+    "uniformScale": 0.974891,
+    "before": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 15.0,
+      "maxRootAnchorDriftPx": 0.54,
+      "maxAnchorDriftPx": 0.54,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 458.0
+    },
+    "after": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 15.0,
+      "maxRootAnchorDriftPx": 0.67,
+      "maxAnchorDriftPx": 0.67,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 449.0
+    },
+    "shifts": [
+      {
+        "frame": 0,
+        "sourceAnchor": [
+          256.44,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.44,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceAnchor": [
+          255.67,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.67,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceAnchor": [
+          255.5,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.5,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceAnchor": [
+          255.9,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.9,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceAnchor": [
+          256.13,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.13,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceAnchor": [
+          256.27,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.27,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceAnchor": [
+          255.82,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.82,
+          496.0
+        ],
+        "requestedTarget": [
+          249.95,
+          478.5
+        ]
+      }
+    ]
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        82,
+        30,
+        382,
+        479
+      ],
+      "bboxWidth": 300,
+      "bboxHeight": 449,
+      "centerX": 232.0,
+      "rootAnchorX": 250.08,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 48873,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": -12.0,
+      "rootAnchorDeltaXFromMedian": 0.0,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        69,
+        30,
+        425,
+        479
+      ],
+      "bboxWidth": 356,
+      "bboxHeight": 449,
+      "centerX": 247.0,
+      "rootAnchorX": 250.18,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 52914,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 3.0,
+      "rootAnchorDeltaXFromMedian": 0.1,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        34,
+        30,
+        454,
+        479
+      ],
+      "bboxWidth": 420,
+      "bboxHeight": 449,
+      "centerX": 244.0,
+      "rootAnchorX": 250.32,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 49898,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 0.24,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        106,
+        30,
+        395,
+        479
+      ],
+      "bboxWidth": 289,
+      "bboxHeight": 449,
+      "centerX": 250.5,
+      "rootAnchorX": 249.41,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 48527,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 6.5,
+      "rootAnchorDeltaXFromMedian": -0.67,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        81,
+        30,
+        389,
+        479
+      ],
+      "bboxWidth": 308,
+      "bboxHeight": 449,
+      "centerX": 235.0,
+      "rootAnchorX": 249.41,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 47645,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": -9.0,
+      "rootAnchorDeltaXFromMedian": -0.67,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        113,
+        30,
+        405,
+        479
+      ],
+      "bboxWidth": 292,
+      "bboxHeight": 449,
+      "centerX": 259.0,
+      "rootAnchorX": 249.72,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 50367,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": 15.0,
+      "rootAnchorDeltaXFromMedian": -0.36,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        97,
+        30,
+        379,
+        479
+      ],
+      "bboxWidth": 282,
+      "bboxHeight": 449,
+      "centerX": 238.0,
+      "rootAnchorX": 250.44,
+      "rootAnchorY": 479.0,
+      "rootAnchorPixels": 47213,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 479,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": -6.0,
+      "rootAnchorDeltaXFromMedian": 0.36,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 1
+    }
+  ]
+}

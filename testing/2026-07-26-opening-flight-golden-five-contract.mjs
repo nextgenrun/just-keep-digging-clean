@@ -39,6 +39,11 @@ const [
 ]);
 
 const cfg = OPENING_FLIGHT_GOLDEN_FIVE_CONFIG;
+assert.equal(
+  OPENING_FLIGHT_ARTIFACT_CONFIG.enabled,
+  false,
+  "the rejected Golden Five intro must remain dormant in production",
+);
 assert.equal(cfg.freeFlightBankMs, 30000);
 assert.equal(cfg.layout.path.length, 14);
 assert.equal(cfg.layout.artifactDepthTiles, 13);
@@ -101,6 +106,7 @@ assert.deepEqual(anchors, {
   platformRow: 62,
 });
 for (const entry of cfg.layout.path) {
+  if (entry.depth <= 1) continue;
   assert.deepEqual(
     worldFixture.cells.get(`28,${65 + entry.depth}`),
     {
@@ -108,6 +114,16 @@ for (const entry of cfg.layout.path) {
       hp: entry.hp,
     },
   );
+}
+assert.deepEqual(worldFixture.cells.get("28,65"), {
+  type: TILE_TYPES.FLOOR_TOWN_1,
+  hp: 0,
+}, "opening-flight setup may not replace the Town Square platform");
+for (let tx = 27; tx <= 29; tx += 1) {
+  assert.deepEqual(worldFixture.cells.get(`${tx},66`), {
+    type: TILE_TYPES.AIR,
+    hp: 0,
+  }, "opening-flight setup may not refill the shared clearance row");
 }
 assert.deepEqual(worldFixture.cells.get("27,70"), {
   type: TILE_TYPES.DIRT,
@@ -213,12 +229,20 @@ assert.equal(runtimeFixture.rewards.resources.dirt, 42);
 assert.equal(runtimeFixture.rewards.resources.stone, 28);
 assert.equal(runtimeFixture.rewards.resources.copper, 16);
 assert.equal(runtimeFixture.scene.playerLevelSystem.level, 2);
-assert.deepEqual(runtime.view.rewardReveals.at(-1), {
-  title: "FIRST ASCENT CACHE — REWARD SECURED",
-  primary: "+40 GP CAPACITY  •  +125 M",
-  resources: "+40 DIRT  •  +25 STONE  •  +12 COPPER",
-  footer: "LEVEL 2 GUARANTEED  •  FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
-});
+assert.equal(
+  runtime.view.rewardReveals.length,
+  0,
+  "completion must not stack a separate reward-reveal popup",
+);
+assert.deepEqual(runtimeFixture.rewards.notifications.at(-1), [
+  "FIRST ASCENT CACHE — +40 GP capacity, 125 M, and starter resources!"
+    + "  •  +40 DIRT  •  +25 STONE  •  +12 COPPER"
+    + "  •  LEVEL 2 GUARANTEED  •  FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
+  {
+    title: "FIRST ASCENT CACHE — REWARD SECURED",
+    key: cfg.feedback.cacheNotificationKey,
+  },
+]);
 assert.equal(runtime.state.onboardingComplete, true);
 assert.equal(runtime.state.stage, OPENING_FLIGHT_STAGES.COMPLETE);
 assert.equal(runtime.state.trialRemainingMs, 0);
@@ -285,6 +309,7 @@ const [
   uiSource,
   routeViewSource,
   rewardRevealSource,
+  rewardControllerSource,
 ] = await Promise.all([
   readFile(new URL("../ui/scenes/BootScene.js", import.meta.url), "utf8"),
   readFile(new URL("../values/assetKeys.js", import.meta.url), "utf8"),
@@ -294,22 +319,34 @@ const [
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/onboarding/OpeningFlightGoldenFiveRouteView.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/onboarding/OpeningFlightGoldenFiveRewardRevealView.js", import.meta.url), "utf8"),
+  readFile(new URL("../systems/onboarding/OpeningFlightGoldenFiveRewardController.js", import.meta.url), "utf8"),
 ]);
 assert.match(bootSource, /preloadOpeningFlightSprites\(\)/);
 assert.match(bootSource, /opening\.paths/);
 assert.match(assetKeysSource, /flight-artifact-v2\.webp/);
 assert.match(assetKeysSource, /first-ascent-cache-compact-v3\.webp/);
 assert.match(assetKeysSource, /objective-hud-frame-v2\.webp/);
-assert.match(setupSource, /shouldUseOpeningFlightGoldenSpawn/);
-assert.match(setupSource, /resumeProtectedEscape/);
+assert.doesNotMatch(
+  setupSource,
+  /shouldUseOpeningFlightGoldenSpawn/,
+  "PlayScene must never route a fresh or resumed save into the rejected shaft",
+);
+assert.match(setupSource, /new TownSquareTutorialSystem\(this\)/);
+assert.match(setupSource, /townSquareTutorialSystem\?\.create\(\)/);
 assert.match(systemSource, /resolveOpeningFlightGoldenFiveEnabled/);
+assert.match(systemSource, /this\.enabled = config\.enabled === true/);
 assert.match(systemSource, /applyChoiceReward\?\.\("miningPower"\)/);
-assert.match(welcomeSource, /FLIGHT IS BURIED BELOW THE HUGE ARROWS/);
-assert.match(uiSource, /FLIGHT LOCKED  •  DIG BELOW/);
+assert.doesNotMatch(welcomeSource, /FLIGHT IS BURIED BELOW THE HUGE ARROWS/);
+assert.match(welcomeSource, /LEARN THE TOWN LOOP TO UNLOCK FLIGHT/);
+assert.doesNotMatch(uiSource, /FLIGHT LOCKED  •  DIG BELOW/);
+assert.match(uiSource, /FLIGHT UNLOCKS AFTER TRAINING/);
 assert.match(routeViewSource, /cacheGroundInsetPx/);
 assert.match(routeViewSource, /cacheSettleDurationMs/);
 assert.doesNotMatch(routeViewSource, /bobDistancePx/);
 assert.match(rewardRevealSource, /objectiveHudFrame/);
 assert.match(rewardRevealSource, /rewardFooterSize/);
+assert.doesNotMatch(rewardControllerSource, /showRewardReveal\(\{/);
+assert.doesNotMatch(rewardControllerSource, /showFloatingText/);
+assert.doesNotMatch(rewardControllerSource, /flashStatus/);
 
-console.log("opening flight Golden Five contract: PASS");
+console.log("dormant opening flight Golden Five rollback contract: PASS");

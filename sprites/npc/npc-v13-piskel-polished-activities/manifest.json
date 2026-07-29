@@ -1,0 +1,1217 @@
+{
+  "created": "2026-07-28",
+  "runtimeApproved": true,
+  "reviewOnly": false,
+  "productionChanged": true,
+  "walkingRemoved": true,
+  "piskelRoundTripped": true,
+  "silhouetteMatched": true,
+  "chromaLeakRemoved": true,
+  "rejectedQuietConceptsExcluded": true,
+  "rejectedStates": {
+    "player-upgrades": "Quiet ready",
+    "gear-merchant": "Heavy rest",
+    "bobo-merchant": "Friendly wait",
+    "money-monster": "Guard the coin",
+    "gem-power-merchant": "Grounded charge",
+    "magma-money-monster": "Balanced guard"
+  },
+  "sourceActivityPack": "sprites/npc/npc-v12-piskel-approved-activities",
+  "baselinePack": "sprites/npc/npc-v13-polished-baselines",
+  "generator": "pipelines/piskel/2026-07-28-build-npc-polished-activity-piskel-package.py",
+  "canvas": [
+    512,
+    512
+  ],
+  "activityOrder": [
+    "work",
+    "rare",
+    "player",
+    "inspect",
+    "habit",
+    "signature",
+    "showcase"
+  ],
+  "frameCount": 42,
+  "scalePolicy": "one fixed per-merchant scale matches the median activity silhouette to the calm baseline; never per-frame scaling",
+  "anchorPolicy": "each merchant matches the normalized lower-body root and alpha bottom of its real calm baseline",
+  "transformPolicy": "fixed screen position, rotation 0, fixed display size; slow opacity crossfades provide activity transitions",
+  "merchants": {
+    "player-upgrades": {
+      "label": "Player Upgrades",
+      "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/player-upgrades.piskel",
+      "sourcePiskelSha256": "50bc33f746724255ad5ef192f1f66c886fca1d2d695f967cc3593b864729d475",
+      "baselineSilhouetteHeightPx": 460.5,
+      "sourceMedianSilhouetteHeightPx": 484,
+      "finalMedianSilhouetteHeightPx": 461,
+      "silhouetteErrorPx": 0.5,
+      "uniformScale": 0.951446,
+      "targetAnchor": [
+        256.24,
+        485.0
+      ],
+      "maxBaselineRootErrorPx": 0.425,
+      "maxBaselineBottomErrorPx": 0.0,
+      "largeGreenLeakPixelsBefore": 0,
+      "largeGreenLeakPixelsAfter": 0,
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 16.0,
+        "maxRootAnchorDriftPx": 0.24,
+        "maxAnchorDriftPx": 0.24,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 465.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/player-upgrades-metadata.json",
+        "previewPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/player-upgrades-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/player-upgrades-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/player-upgrades-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/player-upgrades-drift-report.json"
+      },
+      "assets": {
+        "work": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-work.webp",
+          "sha256": "8f76ee93a97f960ddf5d50dff47259d701c28db67083f187e77dca70d3b36a03",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            91,
+            21,
+            365,
+            485
+          ],
+          "mainSilhouetteHeightPx": 460,
+          "rootAnchor": [
+            256.25,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-rare.webp",
+          "sha256": "cd443dfc23020c1f9c5523b3c30d60bdb13cabc68307e1a92f3e5f78581c0c92",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            93,
+            20,
+            399,
+            485
+          ],
+          "mainSilhouetteHeightPx": 461,
+          "rootAnchor": [
+            255.82,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-player.webp",
+          "sha256": "23f923f5024c0a4163ec45e7713815c8c6129927fcb6aca8a099eeac4ff6faaa",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            45,
+            20,
+            419,
+            485
+          ],
+          "mainSilhouetteHeightPx": 461,
+          "rootAnchor": [
+            256.06,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-inspect.webp",
+          "sha256": "8f8e666b5def223a77fb91b8e58792b3714000c4bd6e6b71ac9bcda636309f91",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            112,
+            20,
+            380,
+            485
+          ],
+          "mainSilhouetteHeightPx": 461,
+          "rootAnchor": [
+            255.85,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-habit.webp",
+          "sha256": "6228cac1429875dd52d712273f7498c153540328f26d4eeb07e0259a0bff2c01",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            99,
+            20,
+            368,
+            485
+          ],
+          "mainSilhouetteHeightPx": 461,
+          "rootAnchor": [
+            255.86,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-signature.webp",
+          "sha256": "cdd98c6bb931b5a7939d1f6e2b84c33eabc7fd7dc6c738c87077f71b0f336525",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            90,
+            20,
+            373,
+            485
+          ],
+          "mainSilhouetteHeightPx": 461,
+          "rootAnchor": [
+            256.29,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-showcase.webp",
+          "sha256": "ff9c9ab1c5675f82e548107fb1f323bafb58425fe07ade53e69a187bd76d1b2f",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            126,
+            20,
+            373,
+            485
+          ],
+          "mainSilhouetteHeightPx": 461,
+          "rootAnchor": [
+            256.16,
+            485.0
+          ],
+          "bottom": 485,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        }
+      }
+    },
+    "gear-merchant": {
+      "label": "Gear Merchant",
+      "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/gear-merchant.piskel",
+      "sourcePiskelSha256": "99bfc2bc94aedf528d4c406dc25c0922358342d6999e33220526a4c708858f8c",
+      "baselineSilhouetteHeightPx": 446.5,
+      "sourceMedianSilhouetteHeightPx": 458,
+      "finalMedianSilhouetteHeightPx": 446,
+      "silhouetteErrorPx": 0.5,
+      "uniformScale": 0.974891,
+      "targetAnchor": [
+        249.95,
+        478.5
+      ],
+      "maxBaselineRootErrorPx": 0.544,
+      "maxBaselineBottomErrorPx": 0.5,
+      "largeGreenLeakPixelsBefore": 383,
+      "largeGreenLeakPixelsAfter": 0,
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 15.0,
+        "maxRootAnchorDriftPx": 0.67,
+        "maxAnchorDriftPx": 0.67,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 449.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gear-merchant-metadata.json",
+        "previewPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gear-merchant-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gear-merchant-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gear-merchant-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gear-merchant-drift-report.json"
+      },
+      "assets": {
+        "work": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-work.webp",
+          "sha256": "9756720bfc91df0744bfed30d2b69609afe75e27b11b2e805f3fc8928c0b13c0",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            82,
+            30,
+            382,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            250.08,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-rare.webp",
+          "sha256": "8af70e1b5a657e464b81fb1b9567e6b4ebca2d34b751398c9e91fcd582dea45f",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            69,
+            30,
+            425,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            250.18,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-player.webp",
+          "sha256": "c17fab9ac7dd9701f3396c2aca532e451bca3ddbf1133917b1465550819d64d2",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            34,
+            30,
+            454,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            250.32,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-inspect.webp",
+          "sha256": "2c4c5a57e7f461b05879652b2d2a208cc286ba30729f1b3e155757f510b41630",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            106,
+            30,
+            395,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            249.41,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-habit.webp",
+          "sha256": "03e85c1dea9b257165fed6f6f810a2a47d4b3df3cf2d43d38f42bd336c3ec1be",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            81,
+            30,
+            389,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            249.41,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-signature.webp",
+          "sha256": "3eca2eea6e00a38bc8ed599fe3066ba50a09e3c617bce7997cd6753447223eb5",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            113,
+            30,
+            405,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            249.72,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-showcase.webp",
+          "sha256": "1fb99ba0e243e58dd570c68476223daef9bdef94f953ae75b07ba23b4b66e6fd",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            97,
+            30,
+            379,
+            479
+          ],
+          "mainSilhouetteHeightPx": 446,
+          "rootAnchor": [
+            250.44,
+            479.0
+          ],
+          "bottom": 479,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        }
+      }
+    },
+    "bobo-merchant": {
+      "label": "Bobo Merchant",
+      "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/bobo-merchant.piskel",
+      "sourcePiskelSha256": "8470ed4467c638da514febc8f17f20c8f1fc8e23547e5e4ac1864a8db9a578c1",
+      "baselineSilhouetteHeightPx": 457.5,
+      "sourceMedianSilhouetteHeightPx": 444,
+      "finalMedianSilhouetteHeightPx": 458,
+      "silhouetteErrorPx": 0.5,
+      "uniformScale": 1.030405,
+      "targetAnchor": [
+        266.48,
+        481.0
+      ],
+      "maxBaselineRootErrorPx": 0.66,
+      "maxBaselineBottomErrorPx": 0.0,
+      "largeGreenLeakPixelsBefore": 0,
+      "largeGreenLeakPixelsAfter": 0,
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 19.5,
+        "maxRootAnchorDriftPx": 0.5,
+        "maxAnchorDriftPx": 0.5,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 463.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-metadata.json",
+        "previewPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-drift-report.json"
+      },
+      "assets": {
+        "work": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-work.webp",
+          "sha256": "65d602100cef1e4b8b88e114bc6c9996341d55122b11600fa54a4f4cd6727d9a",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            64,
+            18,
+            453,
+            481
+          ],
+          "mainSilhouetteHeightPx": 458,
+          "rootAnchor": [
+            266.46,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-rare.webp",
+          "sha256": "f5edea0c669987a7ef34b4b6850b112de3e0a2e33f30f4ccc35f2255ac4805e2",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            19,
+            16,
+            509,
+            481
+          ],
+          "mainSilhouetteHeightPx": 439,
+          "rootAnchor": [
+            266.16,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-player.webp",
+          "sha256": "d9579b98d0de42062a384483089f3d185e6e0f6ce893d0e46b27b1cadef25640",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            83,
+            18,
+            435,
+            481
+          ],
+          "mainSilhouetteHeightPx": 458,
+          "rootAnchor": [
+            266.64,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-inspect.webp",
+          "sha256": "23b0c1e37a59aa0f564e67d0fe6f10ba77128a239b4954ae602095ec270a0290",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            103,
+            18,
+            438,
+            481
+          ],
+          "mainSilhouetteHeightPx": 458,
+          "rootAnchor": [
+            266.82,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-habit.webp",
+          "sha256": "b3431d9010741911ba970e83e6e46404c499e50dc0b0ececb7e79d9ac87442f0",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            92,
+            18,
+            442,
+            481
+          ],
+          "mainSilhouetteHeightPx": 458,
+          "rootAnchor": [
+            267.14,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-signature.webp",
+          "sha256": "ec1733d64f5b152d10edd5508a91f643c26dd759468d351cbf91c3936ca8d088",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            88,
+            18,
+            480,
+            481
+          ],
+          "mainSilhouetteHeightPx": 458,
+          "rootAnchor": [
+            267.13,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-showcase.webp",
+          "sha256": "649a528071ff9a829a086d50779f8c271510790adbb3941983f88f3323ddc49b",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            75,
+            18,
+            454,
+            481
+          ],
+          "mainSilhouetteHeightPx": 458,
+          "rootAnchor": [
+            266.49,
+            481.0
+          ],
+          "bottom": 481,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        }
+      }
+    },
+    "money-monster": {
+      "label": "Money Monster",
+      "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/money-monster.piskel",
+      "sourcePiskelSha256": "cad03f202f910b97648d539634825b7a4b82c2a47443dbadbbb75e55c24c37ff",
+      "baselineSilhouetteHeightPx": 432.5,
+      "sourceMedianSilhouetteHeightPx": 433,
+      "finalMedianSilhouetteHeightPx": 432,
+      "silhouetteErrorPx": 0.5,
+      "uniformScale": 0.998845,
+      "targetAnchor": [
+        249.89,
+        465.5
+      ],
+      "maxBaselineRootErrorPx": 0.532,
+      "maxBaselineBottomErrorPx": 0.5,
+      "largeGreenLeakPixelsBefore": 0,
+      "largeGreenLeakPixelsAfter": 0,
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 9.0,
+        "maxRootAnchorDriftPx": 0.56,
+        "maxAnchorDriftPx": 0.56,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 433.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/money-monster-metadata.json",
+        "previewPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/money-monster-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/money-monster-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/money-monster-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/money-monster-drift-report.json"
+      },
+      "assets": {
+        "work": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-work.webp",
+          "sha256": "6bb407e66dd26e83730a8f195cff671f0e30f13c53e5f68a073facd584d3c056",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            60,
+            32,
+            418,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            249.74,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-rare.webp",
+          "sha256": "cdc21bd36e0c9289f691b035b248070241230d340a571203d9b025bfcb9b0acf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            65,
+            32,
+            431,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            249.45,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-player.webp",
+          "sha256": "500c435e2f33e01ba9d84d86494f38346bea6d80efafad655df733edf2267e14",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            36,
+            32,
+            428,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            250.09,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-inspect.webp",
+          "sha256": "a8aeac10cc5f343d87a05640f4e9bd208cc8eda7590075b33891750e793497cd",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            39,
+            32,
+            431,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            249.53,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-habit.webp",
+          "sha256": "02dca9e00601c1f92c9fff833dbcdcc7b15096ef5df219d1bf04e7d6cb0b74ce",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            57,
+            32,
+            423,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            249.57,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-signature.webp",
+          "sha256": "050538a2eac8e46874533a4a5c2a173ce481342864d2bd014ded55af069125f7",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            59,
+            32,
+            422,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            249.36,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-showcase.webp",
+          "sha256": "508dad2553a51174654354c47026b9e8eb0a816e596b9390a650c95b236d4e4f",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            47,
+            33,
+            427,
+            465
+          ],
+          "mainSilhouetteHeightPx": 432,
+          "rootAnchor": [
+            249.5,
+            465.0
+          ],
+          "bottom": 465,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        }
+      }
+    },
+    "gem-power-merchant": {
+      "label": "Gem Power Merchant",
+      "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/gem-power-merchant.piskel",
+      "sourcePiskelSha256": "4c2232dc797d5c799ca6353cca8a88bc0af20488e066df0e5655c1e4e7063c98",
+      "baselineSilhouetteHeightPx": 429.0,
+      "sourceMedianSilhouetteHeightPx": 383,
+      "finalMedianSilhouetteHeightPx": 429,
+      "silhouetteErrorPx": 0.0,
+      "uniformScale": 1.11975,
+      "targetAnchor": [
+        258.28,
+        471.0
+      ],
+      "maxBaselineRootErrorPx": 0.323,
+      "maxBaselineBottomErrorPx": 0.0,
+      "largeGreenLeakPixelsBefore": 0,
+      "largeGreenLeakPixelsAfter": 0,
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 17.5,
+        "maxRootAnchorDriftPx": 0.34,
+        "maxAnchorDriftPx": 0.34,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 434.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-metadata.json",
+        "previewPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/gem-power-merchant-drift-report.json"
+      },
+      "assets": {
+        "work": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-work.webp",
+          "sha256": "52f31a98ab2e37eb2e3914467c0d905b1628c6b0afa2c8fa79ebfa70b42ea70b",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            28,
+            37,
+            495,
+            471
+          ],
+          "mainSilhouetteHeightPx": 429,
+          "rootAnchor": [
+            257.96,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-rare.webp",
+          "sha256": "2b65a857bbabb43340c9fa29e1aa74d1b9438fe401b8ef752530f19f5641eeeb",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            37,
+            37,
+            473,
+            471
+          ],
+          "mainSilhouetteHeightPx": 429,
+          "rootAnchor": [
+            257.98,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-player.webp",
+          "sha256": "141b33da9cd14e4406ebc267c49340bc2fe376e15022e4cdc2f0db46854dccc4",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            1,
+            37,
+            468,
+            471
+          ],
+          "mainSilhouetteHeightPx": 429,
+          "rootAnchor": [
+            258.58,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-inspect.webp",
+          "sha256": "894db4c471e0eddf671e012734d0aa7d247c059422fc25ff24ffc455e4d1fd55",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            48,
+            37,
+            432,
+            471
+          ],
+          "mainSilhouetteHeightPx": 429,
+          "rootAnchor": [
+            258.36,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-habit.webp",
+          "sha256": "2638d939faedef4a607172a03103580755b0956d701efc21425148c0758c0768",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            52,
+            19,
+            438,
+            471
+          ],
+          "mainSilhouetteHeightPx": 428,
+          "rootAnchor": [
+            258.58,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-signature.webp",
+          "sha256": "7e97eaf0f1ff4ea5cc9de366002bff83f7d25de64e0b9db5bc20ab59d5e32cfd",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            79,
+            28,
+            446,
+            471
+          ],
+          "mainSilhouetteHeightPx": 429,
+          "rootAnchor": [
+            258.24,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-showcase.webp",
+          "sha256": "f698b49a430845a65db1b5de3e6700311cce32e01f08537f2e253040ef30b790",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            14,
+            37,
+            476,
+            471
+          ],
+          "mainSilhouetteHeightPx": 429,
+          "rootAnchor": [
+            258.07,
+            471.0
+          ],
+          "bottom": 471,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        }
+      }
+    },
+    "magma-money-monster": {
+      "label": "Magma Money Monster",
+      "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/magma-money-monster.piskel",
+      "sourcePiskelSha256": "580081cfd3dfb5f317cf2f810bca530c87601a041778be544b40ab8d88ee6873",
+      "baselineSilhouetteHeightPx": 441.365,
+      "sourceMedianSilhouetteHeightPx": 436,
+      "finalMedianSilhouetteHeightPx": 441,
+      "silhouetteErrorPx": 0.365,
+      "uniformScale": 1.012305,
+      "targetAnchor": [
+        272.97,
+        458.51
+      ],
+      "maxBaselineRootErrorPx": 0.558,
+      "maxBaselineBottomErrorPx": 0.486,
+      "largeGreenLeakPixelsBefore": 0,
+      "largeGreenLeakPixelsAfter": 0,
+      "drift": {
+        "anchorMode": "alpha-lower-body",
+        "maxBBoxCenterDriftPx": 12.0,
+        "maxRootAnchorDriftPx": 0.42,
+        "maxAnchorDriftPx": 0.42,
+        "maxBottomDriftPx": 0.0,
+        "medianBBoxHeightPx": 446.0
+      },
+      "artifacts": {
+        "metadataPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/magma-money-monster-metadata.json",
+        "previewPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/magma-money-monster-preview-1fps.gif",
+        "contactSheetPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/magma-money-monster-review-contact-sheet.png",
+        "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/magma-money-monster-alignment-overlay.png",
+        "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/magma-money-monster-drift-report.json"
+      },
+      "assets": {
+        "work": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-work.webp",
+          "sha256": "fff3b84449f77760a951530824d162ef4d071b050f0a4aceda050a331a4d3c18",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            25,
+            13,
+            471,
+            459
+          ],
+          "mainSilhouetteHeightPx": 441,
+          "rootAnchor": [
+            272.61,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "rare": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-rare.webp",
+          "sha256": "9b73eb9dab312c960f24947de5b911c99894602b98dbd44e5a70f3f4d14c974b",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            21,
+            13,
+            488,
+            459
+          ],
+          "mainSilhouetteHeightPx": 441,
+          "rootAnchor": [
+            272.46,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "player": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-player.webp",
+          "sha256": "387a55dc92214c13a10752eaedbbb8dce8caf8686ca8c2046fc532e20243f930",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            42,
+            13,
+            491,
+            459
+          ],
+          "mainSilhouetteHeightPx": 441,
+          "rootAnchor": [
+            272.99,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "inspect": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-inspect.webp",
+          "sha256": "3bcfbe08f94f036832b364a2caa37408a6ac2c1952acfc3f11bc67841a60b9e6",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            68,
+            13,
+            467,
+            459
+          ],
+          "mainSilhouetteHeightPx": 441,
+          "rootAnchor": [
+            272.66,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "habit": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-habit.webp",
+          "sha256": "464fbacba889e739cb0e479232a7b04df9825ffdba633d9c39dc3ebb33812791",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            37,
+            13,
+            463,
+            459
+          ],
+          "mainSilhouetteHeightPx": 441,
+          "rootAnchor": [
+            272.41,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "signature": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-signature.webp",
+          "sha256": "95c176ece51033ecb4fa023195558587df14d43e21207fcc3ca54661733503a1",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            87,
+            13,
+            452,
+            459
+          ],
+          "mainSilhouetteHeightPx": 441,
+          "rootAnchor": [
+            272.57,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        },
+        "showcase": {
+          "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/magma-money-monster-showcase.webp",
+          "sha256": "59938480d26800e0be6eeb182aa896161e6ece0868810eccc51aac1677993469",
+          "dimensions": [
+            512,
+            512
+          ],
+          "alphaBounds": [
+            26,
+            3,
+            489,
+            459
+          ],
+          "mainSilhouetteHeightPx": 442,
+          "rootAnchor": [
+            272.53,
+            459.0
+          ],
+          "bottom": 459,
+          "edgeOpaquePixels": 0,
+          "hiddenRgbPixels": 0,
+          "largeGreenLeakPixels": 0
+        }
+      }
+    }
+  }
+}

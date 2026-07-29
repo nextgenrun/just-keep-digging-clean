@@ -70,11 +70,34 @@ export class V11SkyIslandVisualSystem {
     if (!resolveHeavenblocksVisualsEnabled(this.heavenblocksConfig)) return;
 
     this.heavenblocksRequested = true;
+    this.loadHeavenblocksWhenIdle();
+  }
+
+  loadHeavenblocksWhenIdle() {
+    if (this.destroyed) return;
     const assets = this.heavenblocksConfig.regions.flatMap((region) => region.layers);
     const missingAssets = assets.filter((asset) => !this.scene.textures.exists(asset.key));
 
     if (missingAssets.length === 0) {
       this.addHeavenblockImages();
+      return;
+    }
+
+    // Scenic asset caches can already own the shared Phaser loader during
+    // PlayScene setup. Queueing another large batch into that active cycle can
+    // complete the cycle before the new files begin. Wait for loader idle, then
+    // start the complete Heavenblocks batch as one deterministic request.
+    if (this.scene.load.isLoading()) {
+      this.heavenblocksLoadHandler = () => {
+        this.heavenblocksLoadHandler = null;
+        Promise.resolve().then(() => {
+          if (!this.destroyed) this.loadHeavenblocksWhenIdle();
+        });
+      };
+      this.scene.load.once(
+        Phaser.Loader.Events.COMPLETE,
+        this.heavenblocksLoadHandler
+      );
       return;
     }
 
@@ -87,7 +110,7 @@ export class V11SkyIslandVisualSystem {
       if (!this.destroyed) this.addHeavenblockImages();
     };
     this.scene.load.once(Phaser.Loader.Events.COMPLETE, this.heavenblocksLoadHandler);
-    if (!this.scene.load.isLoading()) this.scene.load.start();
+    this.scene.load.start();
   }
 
   addHeavenblockImages() {

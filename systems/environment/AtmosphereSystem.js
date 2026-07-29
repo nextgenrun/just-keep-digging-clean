@@ -21,7 +21,11 @@ export class AtmosphereSystem {
 
     // Sub-systems
     this.lightRays = new LightRayAtmosphere(scene, config);
-    this.groundEffects = new GroundEffectsAtmosphere(scene, config);
+    this.groundEffects = new GroundEffectsAtmosphere(
+      scene,
+      config,
+      scene.weatherSystem?.particleVisualAssets || null,
+    );
 
     this._createClouds();
     this._createHorizonGlow();

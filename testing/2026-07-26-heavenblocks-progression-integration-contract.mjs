@@ -71,13 +71,13 @@ for (const [filename, size] of [
 }
 assert.equal(
   WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.beautyAtlas.frameCount,
-  8,
+  12,
 );
 assert.equal(
   WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.frameByTileType[
     TILE_TYPES.ANCIENT_RELIC_CACHE
   ],
-  7,
+  11,
 );
 assert.equal(
   getTileRenderIndex(TILE_TYPES.ANCIENT_RELIC_CACHE, 1, 1),
@@ -182,7 +182,7 @@ const access = new HeavenblocksAccessSystem(accessScene, {
   onChanged: (event) => changedEvents.push(event),
 });
 access.create();
-access.update({ tx: 105, ty: 64 });
+access.update(HEAVENBLOCKS_ACCESS_CONFIG.surfaceGates[0]);
 assert.equal(access.handleInteract().type, "heavenblock-ascent");
 assert.equal(progression.isSkyGateActivated(), true);
 assert.equal(progression.isRegionVisited(protectedRegion.id), true);
@@ -228,7 +228,7 @@ const payload = saveStore.createPayload(
   null,
   savedProgression,
 );
-assert.equal(payload.version, 12);
+assert.equal(payload.version, 13);
 assert.deepEqual(payload.heavenblocksData, savedProgression);
 const legacy = saveStore.normalizePayload({
   version: 10,

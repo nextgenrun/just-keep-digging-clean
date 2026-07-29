@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ground Damage Old vs New</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Consolas, monospace;
+      background: #07090d;
+      color: #f0dfbf;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 1280px;
+      height: 720px;
+      margin: 0;
+      padding: 20px 24px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 0%, rgb(31 38 49 / 48%), transparent 420px),
+        #07090d;
+    }
+
+    header {
+      padding: 0 4px 14px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: 0.08em;
+    }
+
+    p {
+      margin: 0;
+      color: #9dabbc;
+      font-size: 14px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    figure {
+      margin: 0;
+      border: 1px solid rgb(178 197 216 / 15%);
+      background: rgb(2 4 8 / 55%);
+    }
+
+    figcaption {
+      min-height: 56px;
+      padding: 10px 14px;
+      color: #e9d6b4;
+      font-size: 15px;
+    }
+
+    figcaption span:last-child {
+      display: block;
+      margin-top: 5px;
+      color: #8795a7;
+      font-size: 12px;
+    }
+
+    .overview {
+      display: block;
+      width: 100%;
+      height: 340px;
+      object-fit: contain;
+      background: #07090d;
+    }
+
+    .zoom {
+      position: relative;
+      height: 190px;
+      overflow: hidden;
+      border-top: 1px solid rgb(178 197 216 / 15%);
+      background: #07090d;
+    }
+
+    .zoom img {
+      position: absolute;
+      width: 1280px;
+      height: 720px;
+      max-width: none;
+      transform: translate(-400px, -350px);
+    }
+
+    .improved .zoom img {
+      transform: translate(-580px, -350px);
+    }
+
+    .zoom::after {
+      content: "DARK-MATERIAL DETAIL";
+      position: absolute;
+      right: 10px;
+      bottom: 8px;
+      padding: 4px 7px;
+      background: rgb(3 5 9 / 82%);
+      color: #9dabbc;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GROUND DAMAGE — OLD VS IMPROVED</h1>
+    <p>Both boards use the real Phaser painter over every current ground material.</p>
+  </header>
+
+  <main>
+    <figure class="old">
+      <figcaption>
+        <span>OLD</span>
+        <span>9 states · weak early contrast · texture can hide the fracture</span>
+      </figcaption>
+      <img class="overview" src="./2026-07-28-ground-damage-before-v2.png" alt="Old ground damage matrix">
+      <div class="zoom">
+        <img src="./2026-07-28-ground-damage-before-v2.png" alt="">
+      </div>
+    </figure>
+
+    <figure class="improved">
+      <figcaption>
+        <span>IMPROVED</span>
+        <span>12 cumulative states · adaptive edges · abrasion and stress progression</span>
+      </figcaption>
+      <img class="overview" src="./2026-07-28-ground-damage-after-v3.png" alt="Improved ground damage matrix">
+      <div class="zoom">
+        <img src="./2026-07-28-ground-damage-after-v3.png" alt="">
+      </div>
+    </figure>
+  </main>
+</body>
+</html>

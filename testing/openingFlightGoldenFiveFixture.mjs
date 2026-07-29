@@ -4,6 +4,13 @@ export function createOpeningFlightWorldScene() {
   const cells = new Map();
   const rendererUpdates = [];
   const key = (tx, ty) => `${tx},${ty}`;
+  for (let tx = 0; tx < 280; tx += 1) {
+    cells.set(key(tx, 65), {
+      type: tx < 132 ? TILE_TYPES.FLOOR_TOWN_1 : TILE_TYPES.FLOOR_TOWN_2,
+      hp: 0,
+    });
+    cells.set(key(tx, 66), { type: TILE_TYPES.AIR, hp: 0 });
+  }
   const worldModel = {
     dugTiles: new Map(),
     inBounds(tx, ty) {
@@ -77,6 +84,7 @@ export function createOpeningFlightRuntimeScene() {
     saves: 0,
     quakePaused: [],
     weather: [],
+    notifications: [],
   };
   let flying = false;
   const scene = {
@@ -121,7 +129,7 @@ export function createOpeningFlightRuntimeScene() {
       },
     },
     uiNotifications: {
-      success() {},
+      success(...args) { rewards.notifications.push(args); },
       info() {},
     },
     hudSystem: { flashStatus() {} },

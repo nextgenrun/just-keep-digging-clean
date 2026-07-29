@@ -12,16 +12,16 @@ export const COMBO_CONFIG = Object.freeze({
     godlike: Object.freeze({ minMultiplier: 2.75, color: "#ff33aa" }),
   }),
 
-  // Milestone flash messages (PlaySceneSetup milestone callback)
+  // Milestone rewards (PlaySceneSetup milestone callback).
   milestoneRewards: Object.freeze({
-    10: Object.freeze({ message: "Combo", gpRestore: 2 }),
-    25: Object.freeze({ message: "Nice Combo", gpRestore: 3 }),
-    50: Object.freeze({ message: "Great Combo", gpRestore: 4 }),
-    100: Object.freeze({ message: "AMAZING Combo", gpRestore: 5 }),
-    200: Object.freeze({ message: "INCREDIBLE Combo", gpRestore: 6 }),
-    500: Object.freeze({ message: "LEGENDARY Combo", gpRestore: 8 }),
-    1000: Object.freeze({ message: "GODLIKE Combo", gpRestore: 10 }),
-    5000: Object.freeze({ message: "ETERNAL Combo", gpRestore: 15 }),
+    10: Object.freeze({ gpRestore: 2 }),
+    25: Object.freeze({ gpRestore: 3 }),
+    50: Object.freeze({ gpRestore: 4 }),
+    100: Object.freeze({ gpRestore: 5 }),
+    200: Object.freeze({ gpRestore: 6 }),
+    500: Object.freeze({ gpRestore: 8 }),
+    1000: Object.freeze({ gpRestore: 10 }),
+    5000: Object.freeze({ gpRestore: 15 }),
   }),
 
   // ── COMBO MOMENTUM ──────────────────────────────────────────────────────

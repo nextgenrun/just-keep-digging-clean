@@ -1,6 +1,7 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HEAVENBLOCKS_ACCESS_CONFIG } from "../../values/heavenblocksAccessConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { resolveHeavenblocksSurfaceAltarStageIndex } from "./heavenblocksAltarProgression.js";
 
 export class HeavenblocksPresentationSystem {
   constructor(scene, worldModel, config = HEAVENBLOCKS_ACCESS_CONFIG) {
@@ -8,6 +9,9 @@ export class HeavenblocksPresentationSystem {
     this.worldModel = worldModel;
     this.config = config;
     this.fxObjects = new Set();
+    this.surfaceAltarSprites = new Map();
+    this.surfaceAltarStages = new Map();
+    this.missingSurfaceAltarAssets = new Set();
     this._lastGateSignature = "";
   }
 
@@ -22,7 +26,9 @@ export class HeavenblocksPresentationSystem {
       align: "center",
       stroke: "#07111b",
       strokeThickness: 5,
-    }).setOrigin(0.5, 1).setDepth(depth + 0.2).setVisible(false);
+    }).setOrigin(0.5, 1)
+      .setDepth(this.config.presentation.promptDepth ?? depth + 0.2)
+      .setVisible(false);
   }
 
   setPrompt(anchor, label) {
@@ -31,8 +37,16 @@ export class HeavenblocksPresentationSystem {
       return;
     }
     const point = this.worldModel.tileToWorld(anchor.tx, anchor.ty);
+    const isSurfaceGate = this.config.surfaceGates.some(
+      gate => gate.tx === anchor.tx && gate.ty === anchor.ty,
+    );
+    const tileSize = this.worldModel.tileSize || this.scene.config?.tileSize || 64;
+    const promptOffset = isSurfaceGate
+      && Number.isFinite(this.config.presentation.surfacePromptOffsetTiles)
+      ? this.config.presentation.surfacePromptOffsetTiles * tileSize
+      : this.config.presentation.promptOffsetPx;
     this.promptText
-      .setPosition(point.x, point.y - this.config.presentation.promptOffsetPx)
+      .setPosition(point.x, point.y - promptOffset)
       .setText(`[${USER_SETTINGS.getKeyLabel("interact")}] ${label}`)
       .setVisible(true);
   }
@@ -41,20 +55,27 @@ export class HeavenblocksPresentationSystem {
     this.promptText?.setVisible(false);
   }
 
-  redrawAltars(progressionSystem, force = false) {
+  redrawAltars(progressionSystem, relicCountOrForce = 0, force = false) {
     if (!this.altarGraphics) return;
-    const signature = JSON.stringify(progressionSystem?.getSaveData?.() || {});
-    if (!force && signature === this._lastGateSignature) return;
+    const legacyForceCall = typeof relicCountOrForce === "boolean";
+    const relicCount = legacyForceCall ? 0 : relicCountOrForce;
+    const shouldForce = legacyForceCall ? relicCountOrForce : force;
+    const signature = JSON.stringify({
+      progression: progressionSystem?.getSaveData?.() || {},
+      relicCount,
+    });
+    if (!shouldForce && signature === this._lastGateSignature) return;
     this._lastGateSignature = signature;
     this.altarGraphics.clear();
+    this.missingSurfaceAltarAssets.clear();
 
     for (const gate of this.config.surfaceGates) {
-      const unlocked = progressionSystem.isRegionUnlocked(gate.regionId);
-      const point = this.worldModel.tileToWorld(gate.tx, gate.ty);
-      this.altarGraphics.lineStyle(3, gate.color, unlocked ? 0.95 : 0.28);
-      this.altarGraphics.strokeCircle(point.x, point.y, this.config.presentation.altarRadiusPx);
-      this.altarGraphics.fillStyle(gate.color, unlocked ? 0.2 : 0.06);
-      this.altarGraphics.fillCircle(point.x, point.y, this.config.presentation.altarRadiusPx - 6);
+      const stageIndex = resolveHeavenblocksSurfaceAltarStageIndex({
+        gate,
+        progressionSystem,
+        relicCount,
+      });
+      this._syncSurfaceAltar(gate, stageIndex);
     }
     for (const region of this.config.regions) {
       if (!progressionSystem.isRegionUnlocked(region.id)) continue;
@@ -64,6 +85,66 @@ export class HeavenblocksPresentationSystem {
         this.altarGraphics.strokeCircle(point.x, point.y, 22);
       }
     }
+  }
+
+  _syncSurfaceAltar(gate, stageIndex) {
+    const assetFamily = ASSET_KEYS.environment.heavenblocksSkyAltars
+      ?.[gate.altarAssetId];
+    const asset = assetFamily?.[stageIndex];
+    const existing = this.surfaceAltarSprites.get(gate.regionId);
+    const textureAvailable = asset && (
+      typeof this.scene.textures?.exists !== "function"
+      || this.scene.textures.exists(asset.key)
+    );
+    if (!textureAvailable) {
+      this.missingSurfaceAltarAssets.add(
+        asset?.key || `${gate.altarAssetId || gate.regionId}:stage-${stageIndex + 1}`,
+      );
+      existing?.setVisible(false);
+      return;
+    }
+
+    const tileSize = this.worldModel.tileSize || this.scene.config?.tileSize || 64;
+    const point = this.worldModel.tileToWorld(gate.tx, gate.ty);
+    const baselineOffsetTiles = Number.isFinite(gate.altarBaselineOffsetTiles)
+      ? gate.altarBaselineOffsetTiles
+      : Number.isFinite(this.config.presentation.surfaceAltarBaselineOffsetTiles)
+        ? this.config.presentation.surfaceAltarBaselineOffsetTiles
+        : 0.5;
+    const displayWidthTiles = Number.isFinite(
+      this.config.presentation.surfaceAltarDisplayWidthTiles,
+    )
+      ? this.config.presentation.surfaceAltarDisplayWidthTiles
+      : 4;
+    const displayHeightTiles = Number.isFinite(
+      this.config.presentation.surfaceAltarDisplayHeightTiles,
+    )
+      ? this.config.presentation.surfaceAltarDisplayHeightTiles
+      : 4;
+    const baselineY = point.y + baselineOffsetTiles * tileSize;
+    let sprite = existing;
+    if (!sprite) {
+      sprite = this.scene.add.image(point.x, baselineY, asset.key)
+        .setOrigin(0.5, 1)
+        .setDepth(
+          this.config.presentation.surfaceAltarDepth
+            ?? this.config.presentation.depth,
+        );
+      sprite.name = `heavenblocks-surface-altar-${gate.regionId}`;
+      this.surfaceAltarSprites.set(gate.regionId, sprite);
+    } else if (sprite.__heavenblocksTextureKey !== asset.key) {
+      sprite.setTexture(asset.key);
+    }
+    sprite.__heavenblocksTextureKey = asset.key;
+    sprite
+      .setPosition(point.x, baselineY)
+      .setDisplaySize(
+        displayWidthTiles * tileSize,
+        displayHeightTiles * tileSize,
+      )
+      .setAlpha(1)
+      .setVisible(true);
+    this.surfaceAltarStages.set(gate.regionId, stageIndex);
   }
 
   playTransit(point, color, firstUnlock, delay) {
@@ -136,6 +217,10 @@ export class HeavenblocksPresentationSystem {
     return {
       promptReady: Boolean(this.promptText),
       altarGraphicsReady: Boolean(this.altarGraphics),
+      surfaceAltarsReady: this.surfaceAltarSprites.size === this.config.surfaceGates.length
+        && this.missingSurfaceAltarAssets.size === 0,
+      surfaceAltarCount: this.surfaceAltarSprites.size,
+      missingSurfaceAltarAssets: [...this.missingSurfaceAltarAssets],
       activeFxCount: this.fxObjects.size,
     };
   }
@@ -149,8 +234,12 @@ export class HeavenblocksPresentationSystem {
   destroy() {
     this.promptText?.destroy();
     this.altarGraphics?.destroy();
+    for (const sprite of this.surfaceAltarSprites.values()) sprite.destroy?.();
     this.promptText = null;
     this.altarGraphics = null;
+    this.surfaceAltarSprites.clear();
+    this.surfaceAltarStages.clear();
+    this.missingSurfaceAltarAssets.clear();
     for (const object of this.fxObjects) object.destroy?.();
     this.fxObjects.clear();
   }

@@ -1,3 +1,5 @@
+import { TitanSurfaceInspection } from "./TitanSurfaceInspection.js";
+
 function fitScale(image, maximumWidth, maximumHeight) {
   return Math.min(
     maximumWidth / Math.max(1, image.width || image.displayWidth || 1),
@@ -6,10 +8,21 @@ function fitScale(image, maximumWidth, maximumHeight) {
 }
 
 export class TitanSurfaceGallery {
-  constructor(scene, worldModel, config) {
+  constructor(
+    scene,
+    worldModel,
+    config,
+    search = globalThis.location?.search || ""
+  ) {
     this.scene = scene;
     this.worldModel = worldModel;
     this.config = config;
+    this.inspection = new TitanSurfaceInspection(
+      scene,
+      worldModel,
+      config,
+      search
+    );
     this.views = new Map();
     this.missingAssets = new Set();
   }
@@ -37,15 +50,19 @@ export class TitanSurfaceGallery {
   _ensureSlot(definition) {
     const existing = this.views.get(definition.id);
     if (existing) return existing;
-    const plinthAsset = this.config.assets.walkPlinth;
-    if (!this._textureExists(plinthAsset.key) || !this._textureExists(definition.asset.key)) {
-      this.missingAssets.add(
-        !this._textureExists(plinthAsset.key) ? plinthAsset.key : definition.asset.key
-      );
+    const gallery = this.config.surfaceGallery;
+    const plinthAsset = this.config.assets[gallery.footingAssetId];
+    const surfaceAsset = definition.surfaceAsset;
+    const missingAssetKey = !plinthAsset || !this._textureExists(plinthAsset.key)
+      ? plinthAsset?.key || gallery.footingAssetId
+      : !surfaceAsset || !this._textureExists(surfaceAsset.key)
+        ? surfaceAsset?.key || `${definition.id}:surface-stance`
+        : null;
+    if (missingAssetKey) {
+      this.missingAssets.add(missingAssetKey);
       return null;
     }
 
-    const gallery = this.config.surfaceGallery;
     const tileSize = this.worldModel.tileSize;
     const x = (
       gallery.startTileX + (definition.index - 1) * gallery.spacingTiles
@@ -53,10 +70,9 @@ export class TitanSurfaceGallery {
     const surfaceY = (
       this.worldModel.topAirRows + gallery.baselineOffsetTiles
     ) * tileSize;
-    const creatureY = surfaceY - gallery.creatureBaselineOffsetTiles * tileSize;
     const plinth = this.scene.add.image(x, surfaceY, plinthAsset.key);
     const glow = this.scene.add.image(x, surfaceY, plinthAsset.key);
-    const sprite = this.scene.add.image(x, creatureY, definition.asset.key);
+    const sprite = this.scene.add.image(x, surfaceY, surfaceAsset.key);
 
     plinth
       .setOrigin(0.5, 1)
@@ -75,16 +91,30 @@ export class TitanSurfaceGallery {
       .setTint(definition.glowTint)
       .setBlendMode("ADD")
       .setAlpha(0);
+    const requestedScaleMultiplier = Number.isFinite(
+      definition.surfaceGalleryScale
+    )
+      ? definition.surfaceGalleryScale
+      : gallery.fallbackScaleMultiplier;
+    const scaleMultiplier = Math.min(
+      gallery.maximumScaleMultiplier,
+      Math.max(gallery.minimumScaleMultiplier, requestedScaleMultiplier)
+    );
     const baseScale = fitScale(
       sprite,
-      gallery.maxWidthTiles * tileSize,
+      gallery.maxWidthTiles * scaleMultiplier * tileSize,
       gallery.maxHeightTiles * tileSize
     );
+    const creatureY = surfaceY
+      - gallery.plinthHeightTiles * tileSize
+      + gallery.stanceBottomPaddingPx * baseScale
+      + gallery.creatureContactInsetTiles * tileSize;
     sprite
       .setOrigin(0.5, 1)
       .setDepth(gallery.spriteDepth)
-      .setBlendMode("ADD")
+      .setBlendMode(gallery.spriteBlendMode)
       .setScale(baseScale)
+      .setY(creatureY)
       .setAlpha(0);
 
     const view = {
@@ -94,6 +124,7 @@ export class TitanSurfaceGallery {
       sprite,
       baseY: creatureY,
       baseScale,
+      scaleMultiplier,
       discovered: false,
       animating: false,
     };
@@ -106,6 +137,7 @@ export class TitanSurfaceGallery {
     const gallery = this.config.surfaceGallery;
     view.discovered = discovered;
     view.initialized = true;
+    this.inspection.syncView(view, discovered);
     this.scene.tweens?.killTweensOf?.(view.sprite);
     view.animating = false;
     view.plinth.setAlpha(
@@ -158,6 +190,14 @@ export class TitanSurfaceGallery {
     }
   }
 
+  getInspectionDistance(playerTile) {
+    return this.inspection.getDistance(playerTile);
+  }
+
+  updateInspection(playerTile, keys, options = {}) {
+    return this.inspection.update(playerTile, keys, options);
+  }
+
   getSnapshot() {
     const discovered = [...this.views.values()]
       .filter(view => view.discovered)
@@ -165,6 +205,7 @@ export class TitanSurfaceGallery {
     return {
       slots: this.views.size,
       discovered,
+      ...this.inspection.getSnapshot(),
       ready: this.views.size === this.config.definitions.length
         && this.missingAssets.size === 0,
       missingAssets: [...this.missingAssets],
@@ -172,6 +213,7 @@ export class TitanSurfaceGallery {
   }
 
   destroy() {
+    this.inspection.destroy();
     for (const view of this.views.values()) {
       [view.plinth, view.glow, view.sprite].forEach(object => {
         this.scene.tweens?.killTweensOf?.(object);

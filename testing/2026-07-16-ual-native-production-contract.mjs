@@ -390,6 +390,11 @@ const caveController = new CaveGameplayController({
     get: () => ({ frames: range(27), frameRate: 30 }),
   },
   player: {
+    anims: {
+      currentAnim: null,
+      currentFrame: null,
+      timeScale: 1,
+    },
     setFlipX(value) { caveFlips.push(value); return this; },
     play() { return this; },
     setDisplaySize() { return this; },
@@ -515,6 +520,10 @@ const thunderRuntimeSource = readFileSync(
 const playerControllerSource = readFileSync(resolve(root, "player/PlayerController.js"), "utf8");
 const caveGameplaySource = readFileSync(resolve(root, "world/playScene/CaveGameplayController.js"), "utf8");
 const caveActionSource = readFileSync(resolve(root, "world/playScene/CaveActionAnimationRuntime.js"), "utf8");
+const caveLocomotionSource = readFileSync(
+  resolve(root, "world/playScene/CaveLocomotionAnimationRuntime.js"),
+  "utf8",
+);
 const motionSystemSource = readFileSync(resolve(root, "systems/visual/PlayerKinematicMotionSystem.js"), "utf8");
 const rendererSource = readFileSync(resolve(root, "ai-tools/2026-07-16-render-ual-native-player.py"), "utf8");
 const packerSource = readFileSync(resolve(root, "ai-tools/2026-07-16-pack-ual-native-player.py"), "utf8");
@@ -563,14 +572,14 @@ assert.match(caveGameplaySource, /new PlayerRigContactSystem/);
 assert.match(caveGameplaySource, /playerKinematicMotion\?\.samplePhysics\(delta\)/);
 assert.doesNotMatch(caveGameplaySource, /if \(rigContact[^\n]*!rigContact\.valid\) return/);
 assert.match(caveGameplaySource, /const contactDirection = targetDirection[\s\S]{0,80}\|\| resolvePlayerTargetDirection/);
-assert.match(caveActionSource, /resolveLocomotionTimeScale/);
-assert.match(caveActionSource, /getTravelSpeedPxPerSec/);
 assert.match(caveActionSource, /UalNativeLocomotionTransitionSelector/);
-assert.match(caveActionSource, /getResolvedVelocityX/);
-assert.match(caveActionSource, /getResolvedVelocityY/);
 assert.match(caveActionSource, /UalMiningComboSelector/);
 assert.match(caveActionSource, /canReplaceMiningRecovery/);
-assert.match(caveActionSource, /resolveUalFlightBankAlpha/);
+assert.match(caveLocomotionSource, /resolveLocomotionTimeScale/);
+assert.match(caveLocomotionSource, /getTravelSpeedPxPerSec/);
+assert.match(caveLocomotionSource, /getResolvedVelocityX/);
+assert.match(caveLocomotionSource, /getResolvedVelocityY/);
+assert.match(caveLocomotionSource, /resolveUalFlightBankAlpha/);
 assert.match(motionSystemSource, /body\.x - this\._lastX/);
 assert.match(motionSystemSource, /strideTilesPerCycle \* tileSize/);
 assert.match(rendererSource, /SOURCE_FPS,\s*FRAME_SIZE\s*=\s*24\.0,\s*512/);

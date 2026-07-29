@@ -9,6 +9,10 @@ import { ANCIENT_RELIC_CONFIG } from "../values/ancientRelics.js";
 import { COMBO_CONFIG, getNextComboGpCheckpoint } from "../values/comboConfig.js";
 import { getResourceRarityDescriptor } from "../values/dynamicSoil.js";
 import { LEVEL_CONFIG } from "../values/levelConfig.js";
+import {
+  TOWN_TUTORIAL_CHOICES,
+  TOWN_TUTORIAL_STAGES,
+} from "../values/retentionConfig.js";
 import { getCargoSellValue } from "../values/resourcePrices.js";
 import { getTeleportPortalLabel } from "../values/teleportPortalConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
@@ -18,6 +22,14 @@ import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
 // GP checkpoints are additions to the unchanged six-second combo window.
 const combo = new ComboSystem();
 assert.equal(combo.comboDurationMs, 6000);
+const reachedComboMilestones = [];
+combo.setMilestoneReachedCallback(milestone => reachedComboMilestones.push(milestone));
+for (let hit = 1; hit <= 10; hit += 1) combo.incrementCombo(hit * 100);
+assert.equal(combo.getComboCount(), 10);
+assert.ok(combo.getMultiplier() > 1);
+assert.deepEqual(reachedComboMilestones, [10]);
+assert.equal(combo.update(7000), true, "the full six-second decay window remains available");
+assert.equal(combo.update(7001), false, "the combo still expires immediately after that window");
 assert.deepEqual(getNextComboGpCheckpoint(0), { milestone: 10, gpRestore: 2 });
 assert.deepEqual(getNextComboGpCheckpoint(25), { milestone: 50, gpRestore: 4 });
 assert.equal(getNextComboGpCheckpoint(5000), null);
@@ -51,7 +63,8 @@ const retention = new RetentionProgressSystem({ saveSlot: 1 });
 retention.loadSaveData({
   stats: { bestDepth: 100 },
   discoveries: { materials: ["stone"], portals: [], journal: [] },
-  tutorialStage: "mine",
+  tutorialChoice: TOWN_TUTORIAL_CHOICES.YES,
+  tutorialStage: TOWN_TUTORIAL_STAGES.MOVE,
 });
 retention.updateDepth(75);
 assert.deepEqual(retention.getDepthChase(), {
@@ -66,6 +79,8 @@ retention.updateDepth(101);
 assert.equal(retention.getDepthChase().state, "beaten");
 assert.ok(retention.drainEvents().some(event => event.type === "personalBest"));
 
+assert.equal(retention.recordTutorialMovement(2), true);
+assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.DIG);
 retention.recordMiningResult({
   success: true,
   destroyed: true,
@@ -75,16 +90,26 @@ retention.recordMiningResult({
   isCriticalHit: true,
   isLuckyDrop: true,
 });
-assert.equal(retention.getJournalSnapshot().tutorialStage, "sell");
+assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.SELL);
+assert.deepEqual(retention.claimTutorialStarterReward(), {
+  money: 3,
+  resources: { dirt: 6 },
+});
+assert.equal(retention.claimTutorialStarterReward(), null);
 retention.recordSale(30, 2);
-assert.equal(retention.getJournalSnapshot().tutorialStage, "upgrade");
+assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.UPGRADE);
 retention.recordUpgrade("Mining Power", {
   beforeHits: 3,
   afterHits: 2,
   beforeDamage: 10,
   afterDamage: 12,
 });
-assert.equal(retention.getJournalSnapshot().tutorialStage, "complete");
+assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.COMPLETE);
+assert.equal(retention.claimTutorialCompletionReward().freeFlightMs, 30000);
+assert.equal(retention.claimTutorialCompletionReward(), null);
+assert.equal(retention.isTutorialFreeFlightActive(), true);
+retention.consumeTutorialFreeFlight(1000);
+assert.equal(retention.getTutorialState().freeFlightRemainingMs, 29000);
 assert.equal(retention.consumeUpgradePayoff().afterHits, 2);
 assert.equal(retention.hasDiscoveredMaterial("copper"), true);
 retention.recordChest({ money: 45, star: false });
@@ -113,7 +138,20 @@ const sanitized = sanitizeRetentionProgressData({
 assert.equal(sanitized.stats.bestDepth, 0);
 assert.equal(sanitized.stats.moneyEarned, 0);
 assert.deepEqual(sanitized.discoveries.materials, ["stone"]);
-assert.equal(sanitized.tutorialStage, "mine");
+assert.equal(sanitized.tutorialChoice, TOWN_TUTORIAL_CHOICES.LEGACY);
+assert.equal(sanitized.tutorialStage, TOWN_TUTORIAL_STAGES.SKIPPED);
+assert.equal(
+  sanitizeRetentionProgressData(null).tutorialStage,
+  TOWN_TUTORIAL_STAGES.UNSELECTED,
+);
+
+const skippedTutorial = new RetentionProgressSystem();
+assert.equal(skippedTutorial.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.NO), true);
+assert.equal(skippedTutorial.isTutorialActive(), false);
+assert.equal(
+  skippedTutorial.getTutorialState().stage,
+  TOWN_TUTORIAL_STAGES.SKIPPED,
+);
 
 // Chest duration/reward scope, cargo preview, rarity readability, Level 2
 // portal labels, and Level 2 relic cadence are configuration contracts.
@@ -134,7 +172,7 @@ assert.match(getTeleportPortalLabel(2, 3500), /^L2 .*3500m/);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.count > 0);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.minTileX >= 121);
 
-// Retention state is present in version 10 payloads and legacy payloads default
+// Retention state is present in the current payload and legacy payloads default
 // safely without changing world compatibility.
 const saveStore = new DugTilesSaveStore();
 const payload = saveStore.createPayload(
@@ -154,7 +192,7 @@ const payload = saveStore.createPayload(
   null,
   retention.getSaveData(),
 );
-assert.equal(payload.version, 12);
+assert.equal(payload.version, 13);
 assert.equal(payload.retentionData.stats.bestDepth, 101);
 assert.equal(payload.retentionData.stats.chestsOpened, 1);
 const legacyPayload = { ...payload };
@@ -170,6 +208,7 @@ const [
   specialTileSource,
   pillarSource,
   settingsSource,
+  userSettingsSource,
 ] =
   await Promise.all([
     readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
@@ -178,6 +217,7 @@ const [
     readFile(new URL("../systems/mining/SpecialTileSystem.js", import.meta.url), "utf8"),
     readFile(new URL("../systems/visual/MilestonePillarModal.js", import.meta.url), "utf8"),
     readFile(new URL("../ui/overlays/SettingsPanelContent.js", import.meta.url), "utf8"),
+    readFile(new URL("../systems/UserSettings.js", import.meta.url), "utf8"),
   ]);
 assert.match(setupSource, /new RetentionProgressSystem/);
 assert.match(setupSource, /restoreGemPower/);
@@ -186,7 +226,9 @@ assert.match(thunderStrikeSource, /abilityInputBufferMs/);
 assert.match(specialTileSource, /quickResumeDeepestPortal/);
 assert.match(specialTileSource, /TREASURE_CHEST_CONFIG/);
 assert.match(pillarSource, /MINER JOURNAL/);
-assert.match(settingsSource, /showExpeditionSummaries/);
-assert.match(settingsSource, /showMaterialDiscoveryCards/);
+assert.doesNotMatch(settingsSource, /showExpeditionSummaries/);
+assert.doesNotMatch(settingsSource, /showMaterialDiscoveryCards/);
+assert.match(userSettingsSource, /showExpeditionSummaries/);
+assert.match(userSettingsSource, /showMaterialDiscoveryCards/);
 
 console.log("retention systems contract: progression, promises, feedback, saves, and guardrails passed");

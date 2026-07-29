@@ -44,6 +44,8 @@ export function createNpcActivityActor(
     anchorX: presentation.x,
     anchorY: presentation.y,
     displaySize: presentation.displaySize,
+    groundSurfaceY: presentation.groundSurfaceY,
+    groundContact: presentation.groundContact,
     state: "quiet",
     stateEndsAt: Number.POSITIVE_INFINITY,
     nextEventAt: null,

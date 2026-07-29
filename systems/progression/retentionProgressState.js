@@ -1,4 +1,8 @@
-import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import {
+  RETENTION_CONFIG,
+  TOWN_TUTORIAL_CHOICES,
+  TOWN_TUTORIAL_STAGES,
+} from "../../values/retentionConfig.js";
 import { sanitizeTitanDiscoveryIds } from "../../values/titanDiscoveries.js";
 
 const TUTORIAL_STAGES = RETENTION_CONFIG.tutorial.stages;
@@ -68,6 +72,18 @@ export function sanitizeRetentionExpedition(value) {
   };
 }
 
+function sanitizeTitanClueTracking(value) {
+  const source = value && typeof value === "object" ? value : {};
+  const configured = source.configured === true;
+  const activeTitanId = configured
+    ? sanitizeTitanDiscoveryIds([source.activeTitanId])[0] || null
+    : null;
+  return {
+    configured,
+    activeTitanId,
+  };
+}
+
 export function sanitizeRetentionProgressData(value) {
   const source = value && typeof value === "object" ? value : {};
   const rawStats = source.stats && typeof source.stats === "object" ? source.stats : {};
@@ -80,9 +96,30 @@ export function sanitizeRetentionProgressData(value) {
   const rawDiscoveries = source.discoveries && typeof source.discoveries === "object"
     ? source.discoveries
     : {};
-  const tutorialStage = TUTORIAL_STAGES.includes(source.tutorialStage)
+  const explicitChoice = Object.values(TOWN_TUTORIAL_CHOICES).includes(
+    source.tutorialChoice,
+  )
+    ? source.tutorialChoice
+    : null;
+  const legacyStage = typeof source.tutorialStage === "string"
     ? source.tutorialStage
-    : "mine";
+    : null;
+  const hasLegacyData = value && typeof value === "object";
+  const tutorialChoice = explicitChoice
+    ?? (hasLegacyData ? TOWN_TUTORIAL_CHOICES.LEGACY : null);
+  const fallbackStage = tutorialChoice === TOWN_TUTORIAL_CHOICES.YES
+    ? TOWN_TUTORIAL_STAGES.MOVE
+    : tutorialChoice === TOWN_TUTORIAL_CHOICES.NO
+      ? TOWN_TUTORIAL_STAGES.SKIPPED
+      : hasLegacyData
+        ? (legacyStage === TOWN_TUTORIAL_STAGES.COMPLETE
+          ? TOWN_TUTORIAL_STAGES.COMPLETE
+          : TOWN_TUTORIAL_STAGES.SKIPPED)
+        : TOWN_TUTORIAL_STAGES.UNSELECTED;
+  const tutorialStage = TUTORIAL_STAGES.includes(legacyStage)
+    ? legacyStage
+    : fallbackStage;
+  const legacyRewardHandled = tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY;
 
   return {
     version: RETENTION_CONFIG.saveVersion,
@@ -93,7 +130,18 @@ export function sanitizeRetentionProgressData(value) {
       journal: sanitizeStringArray(rawDiscoveries.journal, 128),
       titans: sanitizeTitanDiscoveryIds(rawDiscoveries.titans),
     },
+    tutorialChoice,
     tutorialStage,
+    tutorialStarterRewardGranted: legacyRewardHandled
+      || source.tutorialStarterRewardGranted === true,
+    tutorialCompletionRewardGranted: legacyRewardHandled
+      || source.tutorialCompletionRewardGranted === true,
+    tutorialFreeFlightRemainingMs: finiteRetentionInt(
+      source.tutorialFreeFlightRemainingMs,
+      0,
+      RETENTION_CONFIG.tutorial.completionReward.freeFlightMs,
+    ),
+    titanClueTracking: sanitizeTitanClueTracking(source.titanClueTracking),
     lastExpedition: sanitizeRetentionExpedition(source.lastExpedition),
   };
 }

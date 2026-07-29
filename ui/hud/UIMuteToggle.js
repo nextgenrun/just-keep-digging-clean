@@ -166,8 +166,6 @@ export class UIMuteToggle {
     this.y = y;
     this.approved = hasApprovedHudSkin(scene);
 
-    this._toast = null;
-    this._toastTween = null;
     this._destroyed = false;
 
     // Ensure textures exist (safe to call multiple times)
@@ -223,10 +221,6 @@ export class UIMuteToggle {
       USER_SETTINGS.updateAudio({ musicEnabled: !this.soundSystem.musicEnabled });
       USER_SETTINGS.applyAudioTo(this.soundSystem);
       this.syncMusicState(this.soundSystem.musicEnabled);
-      this.showToast(
-        this.soundSystem.musicEnabled ? "Music: ON" : "Music: OFF",
-        this.soundSystem.musicEnabled ? "#f2f5f8" : "#ff6b6b"
-      );
       this.scene.soundSystem.playUiSelect();
     });
     this._musicHit.on('pointerover', () => { if (!this._destroyed) this._musicImg.setAlpha(0.8); });
@@ -242,10 +236,6 @@ export class UIMuteToggle {
       USER_SETTINGS.updateAudio({ sfxEnabled: !this.soundSystem.sfxEnabled });
       USER_SETTINGS.applyAudioTo(this.soundSystem);
       this.syncSfxState(this.soundSystem.sfxEnabled);
-      this.showToast(
-        this.soundSystem.sfxEnabled ? "SFX: ON" : "SFX: OFF",
-        this.soundSystem.sfxEnabled ? "#f2f5f8" : "#ff6b6b"
-      );
       this.scene.soundSystem.playUiSelect();
     });
     this._sfxHit.on('pointerover', () => { if (!this._destroyed) this._sfxImg.setAlpha(0.8); });
@@ -266,71 +256,6 @@ export class UIMuteToggle {
   syncSfxState(enabled) {
     if (this._destroyed) return;
     this._updateButtonState(this._sfxImg, enabled);
-  }
-
-  // ─── Toast notification (keyboard feedback only) ───
-
-  showToast(message, color) {
-    if (this._destroyed || !this.scene) return;
-    if (this.scene.uiNotifications) {
-      this.scene.uiNotifications.show(message, {
-        color,
-        durationMs: 1400,
-        key: "audio",
-      });
-      return;
-    }
-
-    // Kill any existing toast immediately
-    if (this._toastTween) {
-      this._toastTween.stop();
-      this._toastTween = null;
-    }
-    if (this._toast) {
-      this._toast.destroy();
-      this._toast = null;
-    }
-    if (this._toastBg) {
-      this._toastBg.destroy();
-      this._toastBg = null;
-    }
-
-    const cx = this.scene.config?.viewportWidth
-      ? this.scene.config.viewportWidth / 2
-      : this.scene.scale.width / 2;
-
-    this._toast = this.scene.add.text(cx, 55, message, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "18px",
-      fontStyle: "bold",
-      color: color,
-      stroke: "#000000",
-      strokeThickness: 3
-    });
-    this._toast.setOrigin(0.5);
-    this._toast.setScrollFactor(0);
-    this._toast.setDepth(2100);
-    this._toast.setAlpha(1);
-
-    // Background pill behind toast text
-    this._toastBg = this.scene.add.rectangle(cx, 55, this._toast.width + 24, 32, 0x000000, 0.65);
-    this._toastBg.setOrigin(0.5);
-    this._toastBg.setScrollFactor(0);
-    this._toastBg.setDepth(2099);
-
-    this._toastTween = this.scene.tweens.add({
-      targets: [this._toast, this._toastBg],
-      alpha: 0,
-      delay: 400,
-      duration: 800,
-      ease: "Power2.in",
-      onComplete: () => {
-        if (this._destroyed) return;
-        if (this._toast) { this._toast.destroy(); this._toast = null; }
-        if (this._toastBg) { this._toastBg.destroy(); this._toastBg = null; }
-        this._toastTween = null;
-      }
-    });
   }
 
   // ─── Private helper ───
@@ -372,7 +297,6 @@ export class UIMuteToggle {
   setVisible(visible) {
     if (this._destroyed || !this.container) return;
     this.container.setVisible(visible);
-    if (this._toast) this._toast.setVisible(visible);
   }
 
   destroy() {
@@ -380,13 +304,7 @@ export class UIMuteToggle {
     this._destroyed = true;
     this._musicHit?.removeAllListeners?.();
     this._sfxHit?.removeAllListeners?.();
-    this.scene?.tweens?.killTweensOf?.([this._toast, this._toastBg, this._musicImg, this._sfxImg]);
-    if (this._toastTween) {
-      this._toastTween.stop();
-      this._toastTween = null;
-    }
-    if (this._toast) { this._toast.destroy(); this._toast = null; }
-    if (this._toastBg) { this._toastBg.destroy(); this._toastBg = null; }
+    this.scene?.tweens?.killTweensOf?.([this._musicImg, this._sfxImg]);
     this.container?.destroy();
     this.container = null;
     this._musicHit = null;

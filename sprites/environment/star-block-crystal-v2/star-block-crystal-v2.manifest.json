@@ -1,0 +1,113 @@
+{
+  "version": 2,
+  "artSource": "ImageGen",
+  "approvalReference": "visual-approval-previews/underground-star-floating-directions-v2/2026-07-28-01-pure-crystal-star-v2.png",
+  "rarityOrder": [
+    "cyan",
+    "lavender",
+    "gold",
+    "orange",
+    "turquoise",
+    "violet"
+  ],
+  "coreSizePx": 512,
+  "atlasFrameSizePx": 256,
+  "tileDisplaySizePx": 94,
+  "releaseStartScale": 0.9,
+  "popDisplayScale": 1.0,
+  "growthDelayMs": 720,
+  "peakDisplayScale": 1.45,
+  "releaseDurationMs": 10800,
+  "cores": [
+    {
+      "rarity": "cyan",
+      "source": "sprites/environment/star-block-destruction-v1/star-core-cyan-v1.png",
+      "sourceSha256": "52b71fc8e5dd4322290ad099dbe19640485a2c197478b879ffc1ed52ddf73463",
+      "cropBox": [
+        242,
+        228,
+        1015,
+        1001
+      ],
+      "runtime": "sprites/environment/star-block-crystal-v2/star-core-cyan-v2.png",
+      "runtimeSha256": "524a6dee4b0e679bb734792e9220a48b71b8bf00bcfdb171c1f684288c08ee59"
+    },
+    {
+      "rarity": "lavender",
+      "source": "sprites/environment/star-block-destruction-v1/star-core-lavender-v1.png",
+      "sourceSha256": "ca9c1f07e10fdd55d19ac9623002e48c367f2551c566d1f395c65555be0b5c1f",
+      "cropBox": [
+        241,
+        228,
+        1018,
+        1005
+      ],
+      "runtime": "sprites/environment/star-block-crystal-v2/star-core-lavender-v2.png",
+      "runtimeSha256": "598bb5fa94485e72745c7a535d0acf7d9931c14046d01ac1fc8ce1c2e1be4b47"
+    },
+    {
+      "rarity": "gold",
+      "source": "sprites/environment/star-block-destruction-v1/star-core-gold-v1.png",
+      "sourceSha256": "61569efa3f3a11aed32ee47c6eeed0c00a8a8e08e8945cb9fa8813715f808671",
+      "cropBox": [
+        246,
+        234,
+        1011,
+        999
+      ],
+      "runtime": "sprites/environment/star-block-crystal-v2/star-core-gold-v2.png",
+      "runtimeSha256": "f5e678c6a8d94f8f78c9156ec8fb8455c5f64d32df602e1f854b440ff764ca5c"
+    },
+    {
+      "rarity": "orange",
+      "source": "sprites/environment/star-block-destruction-v1/star-core-orange-v1.png",
+      "sourceSha256": "21eb0249a9228f48fdae30de0d1b09175522b9d2e61ee74190bf92bfce4488a8",
+      "cropBox": [
+        244,
+        230,
+        1016,
+        1002
+      ],
+      "runtime": "sprites/environment/star-block-crystal-v2/star-core-orange-v2.png",
+      "runtimeSha256": "27d0bb9b5edeb34f8f8ca3dfba42796e4bf2bc51fe214fe21e0193fcb8af5776"
+    },
+    {
+      "rarity": "turquoise",
+      "source": "sprites/environment/star-block-destruction-v1/star-core-turquoise-v1.png",
+      "sourceSha256": "d46a1d3d50011bfa04275a3b28c6fd42cc7df67c60ca6b955b253c6e059d484b",
+      "cropBox": [
+        246,
+        234,
+        1010,
+        998
+      ],
+      "runtime": "sprites/environment/star-block-crystal-v2/star-core-turquoise-v2.png",
+      "runtimeSha256": "7c84959af622d3438b7fd237e07debca44daa1bb3ee8ea48bd2dd05d2a0697ee"
+    },
+    {
+      "rarity": "violet",
+      "source": "sprites/environment/star-block-destruction-v1/star-core-violet-v1.png",
+      "sourceSha256": "1e86729b462a930d3fecbab9a140a0360a67dac7977bcaf658d461dca3d4784a",
+      "cropBox": [
+        241,
+        229,
+        1018,
+        1006
+      ],
+      "runtime": "sprites/environment/star-block-crystal-v2/star-core-violet-v2.png",
+      "runtimeSha256": "253a158a9036b67dabd36b973b037a5460a4e1cafe77469bc969f13169d61a4c"
+    }
+  ],
+  "beautyAtlas": {
+    "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-floating-crystal-beauty-v2.png",
+    "sha256": "4378b60ebfef5dabeee92b1e8d81eb28e9634ed462eac3fa5832407c5243ede1"
+  },
+  "emissiveAtlas": {
+    "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-floating-crystal-emissive-v2.png",
+    "sha256": "368cf01194fcc6d08635dfd981ea9ad38cb2b41fb445e4a6838bbbb45112d2ca"
+  },
+  "proof": {
+    "path": "visual-approval-previews/underground-star-floating-directions-v2/2026-07-29-choice1-production-scale-proof-v4.png",
+    "sha256": "d4b301eff4c242bd46f2cf352ed4262fe491d1a4a894b2d9845b49bed0776b70"
+  }
+}

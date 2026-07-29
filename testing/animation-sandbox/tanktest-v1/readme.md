@@ -1,6 +1,6 @@
 # Tank Test V1
 
-**Updated:** 2026-07-26
+**Updated:** 2026-07-28
 
 Standalone Phaser sandbox for testing character concepts, Arc Core motion language, and redesigned dig feel.
 
@@ -28,11 +28,30 @@ Open:
 http://127.0.0.1:8081/testing/animation-sandbox/tanktest-v1/index.html
 ```
 
+Deterministic visual-review captures can freeze a production layer state:
+
+```text
+?arcMode=small&arcAction=dig&arcProgress=0.45
+?arcMode=omega&arcAction=dig&arcProgress=0.62
+?arcMode=small&arcAction=cloud-enter&arcProgress=0.50
+?arcMode=omega&arcAction=cloud-exit&arcProgress=0.50
+?arcMode=small&arcAction=idle&arcProgress=0&arcHitbox=1
+?arcMode=omega&arcAction=idle&arcProgress=0&arcHitbox=1
+```
+
+`arcMode` accepts `small` or `omega`; `arcAction` accepts `idle`, `dig`,
+`cloud-enter`, or `cloud-exit`; `arcProgress` is clamped from `0` to `1`.
+Add `arcHitbox=1` to show the production circular hull in a frozen capture.
+These parameters only freeze the review harness. They do not change gameplay.
+
 Do not open `index.html` directly with `file://`; Phaser loads the PNG sheets through HTTP, and browsers block those requests from a file origin.
 
 ## Focus
 
 - Every character mode uses a silhouette-matched physics hull instead of the old shared `94x94` harness collision.
+- Small and Omega read their centered `104px` and `416px` circular hulls
+  directly from the production `.sprite` manifest; the former `44px` and
+  `62px` sandbox-only rectangles no longer exist.
 - The tank uses its measured chassis hull; the UAL character uses one stable torso hull; the single Robot Sphere uses one stable body hull.
 - The UAL character opens at the 109px production base size and origin, yielding an approximately `75px`/`0.8 tile` upright figure beside the `94px` blocks. This older concept harness does not apply the newer 123px walk/run compensation; use the tuning lab or game for locomotion scale truth.
 - `UAL View: 2x Inspect` enlarges the harness's 109px base to `218px` for close review while preserving its foot anchor and gameplay hitbox.
@@ -40,6 +59,8 @@ Do not open `index.html` directly with `file://`; Phaser loads the PNG sheets th
 - The chassis art is anchored to the tile center and tread baseline.
 - The drill is a separate elastic tool layer, not part of the physics size.
 - The target tile stays solid until the configured break frame.
+- Deterministic dig captures now apply that same break mutation, so post-break
+  review frames cannot leave an intact wall behind the authored rupture.
 - Occlusion hides the drill inside the block so it reads as penetration instead of clipping.
 - Legacy character concepts retain their older diagnostics; the active Arc
   presentation uses authored raster effects only.
@@ -53,6 +74,8 @@ Do not open `index.html` directly with `file://`; Phaser loads the PNG sheets th
   has one fixed master body plus independently animated authored energy, beam,
   impact, cloud, and glyph layers. No whole-body frame change or procedural
   shape renderer can alter its silhouette, pivot, scale, or lighting.
+- The review wall uses the real production dirt texture for Small and production
+  stone for Omega. The former random dirt/stone checker composition is absent.
 - `Cloud Enter / Exit` uses ImageGen cloud and glyph sprites only. The former
   code-drawn sparks, lines, rings, HTML panels, and flat Arc-stage tiles are
   absent from the active Arc presentation.
@@ -93,7 +116,10 @@ projects and round-trips ten production roles plus one sandbox background
 through fixed canvases before runtime export. Phaser loads the hashed outputs
 through `values/arcCoreVisuals.sprite.json`, which centralizes roles, paths,
 pivots, display sizes, depths, timelines, stage art, and the zero-drift
-contract.
+contract. It now also owns both centered collision profiles, and gameplay
+restores the original human body on Arc exit. The sandbox loader applies its
+repo-root prefix to every role URL so
+Phaser cannot silently substitute its missing-texture wireframe.
 The older boards under
 `visual-approval-previews/arc-core-imagegen-animation-v1` remain rejection and
 comparison evidence only. The rejected ornamental frame, four random tiles,

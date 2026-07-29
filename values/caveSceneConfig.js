@@ -17,6 +17,14 @@ const COMPACT_CAVE_ENABLED_VALUES = Object.freeze([
   "compact",
 ]);
 
+const INTEGRATED_CAVE_ENTRY_DISABLED_VALUES = Object.freeze([
+  "0",
+  "false",
+  "off",
+  "disabled",
+  "legacy",
+]);
+
 export const CAVE_SCENE_CONFIG = Object.freeze({
   enabled: true,
   sceneKey: "CaveScene",
@@ -28,6 +36,16 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
   reviewEntranceMode: "entrance",
   reviewLaunchDelayMs: 800,
   interactionRangeTiles: 2,
+  integratedEntrances: Object.freeze({
+    enabledByDefault: true,
+    queryParam: "caveEntrances",
+    disabledValues: INTEGRATED_CAVE_ENTRY_DISABLED_VALUES,
+    eligibleSources: Object.freeze([
+      "authored-gap",
+      "level-one-procedural",
+    ]),
+    healthLabel: "production cave entrances",
+  }),
   overworldEntrance: Object.freeze({
     scenicEnabledByDefault: true,
     scenicQueryParam: "scenicCaveMouths",
@@ -108,6 +126,38 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
     treasurePresetKey: "treasure",
     normalPresetKeys: Object.freeze(["caveAmber", "caveViolet"]),
   }),
+  interiors: Object.freeze({
+    "echo-gallery": Object.freeze({
+      presetKey: "caveViolet",
+      signatureTileTypeKey: "COMBO_BLOCK",
+      resourceBias: Object.freeze(["stone", "copper", "iron"]),
+    }),
+    "rootbound-hollow": Object.freeze({
+      presetKey: "caveAmber",
+      signatureTileTypeKey: "GEM_POWER_BLOCK",
+      resourceBias: Object.freeze(["copper", "iron", "bronze"]),
+    }),
+    "prism-nursery": Object.freeze({
+      presetKey: "caveViolet",
+      signatureTileTypeKey: "CRIT_BLOCK",
+      resourceBias: Object.freeze(["silver", "gold", "magmaCrystal"]),
+    }),
+    "storm-scar": Object.freeze({
+      presetKey: "caveViolet",
+      signatureTileTypeKey: "SPEED_BLOCK",
+      resourceBias: Object.freeze(["iron", "steel", "silver"]),
+    }),
+    "gilded-burrow": Object.freeze({
+      presetKey: "treasure",
+      signatureTileTypeKey: "LEGEND_BLOCK",
+      resourceBias: Object.freeze(["silver", "gold"]),
+    }),
+    "ember-fault": Object.freeze({
+      presetKey: "caveAmber",
+      signatureTileTypeKey: "BERSERK_BLOCK",
+      resourceBias: Object.freeze(["gold", "obsidian", "emberOre", "magmaCrystal"]),
+    }),
+  }),
   player: Object.freeze({
     spriteDepth: 4,
   }),
@@ -121,6 +171,7 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
     cameraZoom: 0.74,
     safeFloorTileXs: Object.freeze([1, 2, 3]),
     floorResourceKeys: Object.freeze(["dirt", "stone"]),
+    signatureNode: Object.freeze({ tx: 14, ty: 7 }),
   }),
   exit: Object.freeze({
     tileX: 1,
@@ -129,7 +180,7 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
     labelColor: "#c9dcff",
   }),
   feedback: Object.freeze({
-    statusTileY: 0.72,
+    statusTileY: 0.98,
     gpTileY: 0.72,
     sideInsetTiles: 0.8,
     statusDurationMs: 1100,
@@ -138,8 +189,29 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
     statusColor: "#f6d36c",
     gpColor: "#bca7ff",
   }),
+  presentation: Object.freeze({
+    titleTileY: 0.34,
+    hintTileY: 0.69,
+    titleFontSizePx: 25,
+    hintFontSizePx: 15,
+    titleColor: "#f7f2df",
+    hintColor: "#d5d9e8",
+    textStrokeColor: "#060710",
+    titleStrokeThickness: 5,
+    hintStrokeThickness: 3,
+    exitMouth: Object.freeze({
+      displayWidthTiles: 2.15,
+      displayHeightTiles: 2.05,
+      originX: 628 / 1254,
+      originY: 1136 / 1254,
+      floorOffsetTiles: 0,
+      depth: 2.15,
+      alpha: 0.96,
+    }),
+  }),
   rewards: Object.freeze({
     baseYield: 2,
+    archetypeBiasCopies: 2,
     collectRangeRatio: 0.09,
     collectedTextColor: "#f6d36c",
     nodeRadius: 23,
@@ -197,4 +269,17 @@ export function resolveCompactCaveScenesEnabled(
   if (raw) return CAVE_SCENE_CONFIG.compactSceneEnabledValues.includes(raw);
   if (params.has(CAVE_SCENE_CONFIG.reviewQueryParam)) return true;
   return Boolean(defaultEnabled);
+}
+
+export function resolveIntegratedCaveEntrancesEnabled(
+  config = CAVE_SCENE_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  const entrances = config.integratedEntrances;
+  const value = new URLSearchParams(search)
+    .get(entrances.queryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && entrances.disabledValues.includes(value)) return false;
+  return entrances.enabledByDefault;
 }

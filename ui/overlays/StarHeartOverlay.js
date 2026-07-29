@@ -8,6 +8,10 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton } from "../PhaserUiKit.js";
 import { createModalShell } from "../UiModalShell.js";
 import { createStarHeartEngineCard } from "./StarHeartEngineCard.js";
+import {
+  buildStarHeartBackdrop,
+  refreshStarHeartSelection,
+} from "./starHeartOverlayPresentation.js";
 
 export class StarHeartOverlay {
   constructor(scene, progression) {
@@ -30,11 +34,22 @@ export class StarHeartOverlay {
     return this.opened;
   }
 
-  open() {
+  open(preferredEngineId = null) {
     if (!this.enabled || this.opened) return false;
     this._ensureShell();
-    const selected = this.progression.getSnapshot().selectedEngine;
-    if (selected) this.selectedIndex = Math.max(0, CELESTIAL_ENGINE_ORDER.indexOf(selected));
+    const snapshot = this.progression.getSnapshot();
+    const preferred = CELESTIAL_ENGINE_ORDER.includes(preferredEngineId)
+      ? preferredEngineId
+      : null;
+    const firstUnowned = CELESTIAL_ENGINE_ORDER.find(
+      engineId => !snapshot.unlockedEngines.includes(engineId),
+    );
+    const selected = preferred
+      || (snapshot.availableHearts > 0 ? firstUnowned : null)
+      || snapshot.selectedEngine;
+    if (selected) {
+      this.selectedIndex = Math.max(0, CELESTIAL_ENGINE_ORDER.indexOf(selected));
+    }
     this._buildContent();
     this.opened = true;
     this.openedAtMs = this.scene.time?.now || 0;
@@ -115,12 +130,14 @@ export class StarHeartOverlay {
     this.ambientNodes = [];
     const rect = this.shell.getContentRect();
     const snapshot = this.progression.getSnapshot();
-    this._buildConstellationBackdrop(rect);
+    buildStarHeartBackdrop(this, rect);
 
     const status = snapshot.godMode
       ? `${CELESTIAL_ENGINE_CONFIG.copy.godModeStatus}  •  ${CELESTIAL_ENGINE_CONFIG.engines[snapshot.selectedEngine].shortName}`
-      : snapshot.selectedEngine
-      ? `${CELESTIAL_ENGINE_CONFIG.copy.selected}  •  ${snapshot.charge}/${snapshot.chargeCapacity} CHARGE`
+      : snapshot.allEnginesUnlocked
+        ? `${CELESTIAL_ENGINE_CONFIG.copy.mastered}  •  ${snapshot.charge}/${snapshot.chargeCapacity} CHARGE`
+      : snapshot.engineCount > 0
+        ? `${snapshot.engineCount}/3 ENGINES ATTUNED  •  ${snapshot.charge}/${snapshot.chargeCapacity} CHARGE`
       : snapshot.unlocked
         ? CELESTIAL_ENGINE_CONFIG.copy.ready
         : `${CELESTIAL_ENGINE_CONFIG.copy.locked}  (${snapshot.constellationCount}/${snapshot.requiredConstellations})`;
@@ -183,22 +200,7 @@ export class StarHeartOverlay {
       onClick: () => this._activateConfirm(),
       autoIcon: false,
     });
-    this._refreshSelection(snapshot);
-  }
-
-  _buildConstellationBackdrop(rect) {
-    const gfx = this.scene.add.graphics();
-    gfx.lineStyle(1, 0x275775, 0.22);
-    gfx.lineBetween(rect.left + 22, rect.top + 18, rect.right - 28, rect.bottom - 86);
-    gfx.lineBetween(rect.left + 90, rect.bottom - 82, rect.right - 80, rect.top + 24);
-    this.shell.content.add(gfx);
-    for (let index = 0; index < 16; index += 1) {
-      const x = rect.left + 24 + ((index * 137) % Math.max(1, rect.width - 48));
-      const y = rect.top + 18 + ((index * 79) % Math.max(1, rect.height - 96));
-      const node = this.scene.add.circle(x, y, index % 4 === 0 ? 2.2 : 1.2, 0x7eeaff, 0.3);
-      this.shell.content.add(node);
-      this.ambientNodes.push(node);
-    }
+    refreshStarHeartSelection(this, snapshot);
   }
 
   _select(index, playSound) {
@@ -208,40 +210,21 @@ export class StarHeartOverlay {
     this.confirmArmedAtMs = 0;
     this.confirmEngineId = null;
     if (playSound) this.scene.soundSystem?.playUiSelect?.();
-    this._refreshSelection(this.progression.getSnapshot());
-  }
-
-  _refreshSelection(snapshot) {
-    this.cardViews.forEach((view, index) => {
-      const selected = index === this.selectedIndex;
-      const attuned = snapshot.selectedEngine === view.engineId;
-      const sealed = Boolean(!snapshot.godMode && snapshot.selectedEngine && !attuned);
-      view.bg.clear();
-      view.bg.fillStyle(selected ? 0x0b2230 : 0x07131d, sealed ? 0.52 : 0.9);
-      view.bg.fillRoundedRect(-view.width / 2, -view.height / 2, view.width, view.height, 12);
-      view.bg.lineStyle(selected || attuned ? 2 : 1, attuned ? 0xf2c86e : CELESTIAL_ENGINE_CONFIG.engines[view.engineId].accent, selected ? 0.96 : 0.38);
-      view.bg.strokeRoundedRect(-view.width / 2, -view.height / 2, view.width, view.height, 12);
-      view.root.setAlpha(sealed ? 0.33 : selected ? 1 : 0.72);
-    });
-
-    const canChoose = snapshot.godMode || (snapshot.availableHearts > 0 && !snapshot.selectedEngine);
-    this.confirmButton?.setEnabled(canChoose, snapshot.selectedEngine && !snapshot.godMode ? "ATTUNED" : "LOCKED");
-    this.confirmButton?.setLabel(
-      snapshot.godMode
-        ? CELESTIAL_ENGINE_CONFIG.copy.godModeConfirm
-        : snapshot.selectedEngine
-        ? CELESTIAL_ENGINE_CONFIG.copy.selected
-        : CELESTIAL_ENGINE_CONFIG.copy.confirm,
-    );
-    this.confirmButton?.setHint(snapshot.godMode ? CELESTIAL_ENGINE_CONFIG.copy.godModeHint : canChoose ? "PERMANENT" : "");
+    refreshStarHeartSelection(this, this.progression.getSnapshot());
   }
 
   _activateConfirm() {
     const snapshot = this.progression.getSnapshot();
-    if (snapshot.selectedEngine && !snapshot.godMode) return false;
-    if (!snapshot.godMode && snapshot.availableHearts <= 0) {
+    const engineId = CELESTIAL_ENGINE_ORDER[this.selectedIndex];
+    const owned = snapshot.godMode
+      || snapshot.unlockedEngines.includes(engineId);
+    const equipped = snapshot.selectedEngine === engineId;
+    if (equipped && !snapshot.godMode) return false;
+    if (!snapshot.godMode && !owned && snapshot.availableHearts <= 0) {
       this.scene.hudSystem?.flashStatus?.(
-        CELESTIAL_ENGINE_CONFIG.copy.unavailable,
+        snapshot.nextHeartActivationMilestone
+          ? `${snapshot.activationsToNextHeart} CAPPED ENGINE USES UNTIL NEXT HEART`
+          : CELESTIAL_ENGINE_CONFIG.copy.unavailable,
         "#7896A8",
         1600,
       );
@@ -249,9 +232,8 @@ export class StarHeartOverlay {
       return false;
     }
 
-    const engineId = CELESTIAL_ENGINE_ORDER[this.selectedIndex];
     const now = this.scene.time?.now || 0;
-    const armed = snapshot.godMode || this.confirmEngineId === engineId
+    const armed = snapshot.godMode || owned || this.confirmEngineId === engineId
       && now - this.confirmArmedAtMs <= CELESTIAL_ENGINE_CONFIG.input.confirmWindowMs;
     if (!armed) {
       this.confirmEngineId = engineId;
@@ -264,11 +246,19 @@ export class StarHeartOverlay {
 
     const result = this.progression.chooseEngine(engineId);
     if (!result.ok) return false;
+    this.confirmArmedAtMs = 0;
+    this.confirmEngineId = null;
     this.scene.soundSystem?.playUiConfirm?.();
     this.scene.screenFlashSystem?.flashLucky?.();
     this.scene.shakeSystem?.shake(CELESTIAL_ENGINE_CONFIG.fx.hitShakeSignature);
     this.scene.hudSystem?.flashStatus?.(
-      `${CELESTIAL_ENGINE_CONFIG.engines[engineId].shortName} ${snapshot.godMode ? CELESTIAL_ENGINE_CONFIG.copy.godModeEquipped : "ATTUNED"}`,
+      `${CELESTIAL_ENGINE_CONFIG.engines[engineId].shortName} ${
+        snapshot.godMode
+          ? CELESTIAL_ENGINE_CONFIG.copy.godModeEquipped
+          : owned
+            ? "EQUIPPED"
+            : "ATTUNED"
+      }`,
       CELESTIAL_ENGINE_CONFIG.engines[engineId].cssAccent,
       2800,
     );

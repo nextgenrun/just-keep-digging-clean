@@ -57,21 +57,34 @@ function createPainter(search = "") {
   return { painter, graphics };
 }
 
-assert.equal(WORLD_VISUAL_DAMAGE.stateCount, 9);
+assert.equal(WORLD_VISUAL_DAMAGE.stateCount, 12);
 assert.equal(WORLD_VISUAL_DAMAGE.stages.length, WORLD_VISUAL_DAMAGE.stateCount);
 assert.equal(resolveWorldVisualDamageStateNumber(0), 0);
 assert.equal(resolveWorldVisualDamageStateNumber(0.001), 1);
-assert.equal(resolveWorldVisualDamageStateNumber(0.119), 1);
-assert.equal(resolveWorldVisualDamageStateNumber(0.12), 2);
-assert.equal(resolveWorldVisualDamageStateNumber(1), 9);
+assert.equal(resolveWorldVisualDamageStateNumber(0.079), 1);
+assert.equal(resolveWorldVisualDamageStateNumber(0.08), 2);
+assert.equal(resolveWorldVisualDamageStateNumber(1), 12);
+const toughBlockHp = 1_000_000;
+assert.equal(
+  resolveWorldVisualDamageStateNumber(1 - (toughBlockHp - 1) / toughBlockHp),
+  1,
+  "one point removed from a very high-HP block must still reveal the first state"
+);
+assert.equal(
+  resolveWorldVisualDamageStateNumber(1 - 50_000 / toughBlockHp),
+  12,
+  "very high-HP blocks must reach the final state proportionally"
+);
 assert.equal(resolveWorldVisualDamageStage(Number.NaN), null);
 for (let index = 1; index < WORLD_VISUAL_DAMAGE.stages.length; index += 1) {
   const previous = WORLD_VISUAL_DAMAGE.stages[index - 1];
   const current = WORLD_VISUAL_DAMAGE.stages[index];
   assert.ok(current.minDamage > previous.minDamage, "damage thresholds must rise monotonically");
+  assert.ok(current.intensity > previous.intensity, "contrast intensity must rise monotonically");
   assert.ok(current.spanScale > previous.spanScale, "fracture span must rise monotonically");
   assert.ok(current.branchCount >= previous.branchCount, "branch count must never regress");
   assert.ok(current.chipCount >= previous.chipCount, "micro-flakes must never regress");
+  assert.ok(current.stressCount >= previous.stressCount, "stress marks must never regress");
 }
 
 assert.equal(resolveWorldVisualDamageMode(undefined, ""), WORLD_VISUAL_DAMAGE_MODES.modular);
@@ -109,6 +122,10 @@ critical.painter.draw(4, 7, 1, 94);
 const count = (layers, method) => layers.flatMap(layer => layer.calls)
   .filter(([name]) => name === method).length;
 assert.ok(
+  count([early.graphics[2]], "strokePath") >= 3,
+  "the earliest state must combine stress wear with two-sided adaptive fracture edges"
+);
+assert.ok(
   count(critical.graphics, "strokePath") > count(early.graphics, "strokePath"),
   "later states must accumulate more fracture paths"
 );
@@ -118,10 +135,15 @@ assert.ok(
   "later states must accumulate more resting micro-flakes"
 );
 
-const painterSource = fs.readFileSync(
-  new URL("../world/rendering/scenic-world/WorldVisualDamagePainter.js", import.meta.url),
+const painterSource = [
+  "WorldVisualDamagePainter.js",
+  "drawWorldVisualDamageSurfaceWear.js",
+  "drawWorldVisualDamageChips.js",
+  "worldVisualDamageMath.js",
+].map(file => fs.readFileSync(
+  new URL(`../world/rendering/scenic-world/${file}`, import.meta.url),
   "utf8"
-);
+)).join("\n");
 assert.doesNotMatch(
   painterSource,
   /worldVisualMaterials|TILE_TYPES|getTileType|materialId|textureKey/,
@@ -148,4 +170,4 @@ for (const harness of [modular, early, critical, legacy]) {
   assert.ok(harness.graphics.every(layer => layer.destroyed), "destroy must release every damage layer");
 }
 
-console.log("Modular ground damage contract passed: nine states, four adaptive layers, all current and future materials, no holes");
+console.log("Modular ground damage contract passed: twelve states, four adaptive layers, all current and future materials, no holes");

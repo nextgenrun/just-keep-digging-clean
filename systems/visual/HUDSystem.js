@@ -1,5 +1,5 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
-import { COMBO_CONFIG, getNextComboGpCheckpoint } from "../../values/comboConfig.js";
+import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
@@ -13,6 +13,7 @@ const WEATHER_ICONS = Object.freeze({
   drizzle: "🌦",
   rain: "🌧",
   storm: "⛈",
+  snow: "",
 });
 
 const SEASON_ICONS = Object.freeze({
@@ -84,6 +85,7 @@ export class HUDSystem {
     this.gemPowerPercent = 0;
     this.gemPowerRaw = 0;
     this.gemPowerMax = 0;
+    this.currentPickaxeId = null;
     this.torchActive = false;
     this.torchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
     this._destroyed = false;
@@ -319,6 +321,7 @@ export class HUDSystem {
       .setDepth(HUD_LAYOUT.hudDepth + 1);
 
     this.approvedSkin = new ApprovedHudSkin(scene, this);
+    this.setCurrentPickaxe(scene.upgradeSystem?.ownedPickaxe, { force: true });
     this._createLootBagTarget();
 
     this.refresh();
@@ -590,7 +593,6 @@ export class HUDSystem {
       this.scene.uiNotifications.show(message, {
         color,
         durationMs,
-        key: "hud-status",
       });
       return;
     }
@@ -613,6 +615,7 @@ export class HUDSystem {
 
   update(timeMs) {
     if (this._destroyed) return;
+    this.setCurrentPickaxe(this.scene.upgradeSystem?.ownedPickaxe);
     if (this.statsDirty && (this.lastRefreshMs === 0 || timeMs - this.lastRefreshMs >= this.refreshIntervalMs)) {
       this.refresh();
       this.lastRefreshMs = timeMs;
@@ -653,14 +656,15 @@ export class HUDSystem {
 
     if (ws) {
       const snap = ws.getSnapshot();
-      const icon = WEATHER_ICONS[snap.kind] || "☀️";
+      const icon = WEATHER_ICONS[snap.kind] || "";
       const label = snap.kind.charAt(0).toUpperCase() + snap.kind.slice(1);
+      const weatherLabel = [icon, label].filter(Boolean).join(" ");
       const forecast = snap.forecastKind && snap.forecastKind !== snap.kind
         ? ` -> ${snap.forecastKind.charAt(0).toUpperCase() + snap.forecastKind.slice(1)}`
         : "";
       setTextIfChanged(
         this.weatherText,
-        this.approvedSkin?.active ? `${icon} ${label.toUpperCase()}` : `${icon} ${label}${forecast}`,
+        this.approvedSkin?.active ? weatherLabel.toUpperCase() : `${weatherLabel}${forecast}`,
       );
 
       if (dnc) {
@@ -716,11 +720,9 @@ export class HUDSystem {
     
     const multiplier = this.comboSystem.getMultiplier();
     const multiplierStr = multiplier.toFixed(2);
-    const nextGp = getNextComboGpCheckpoint(comboCount);
-    const nextGpText = nextGp ? `  ·  GP +${nextGp.gpRestore} @ ${nextGp.milestone}` : "";
     setTextIfChanged(this.comboText, this.approvedSkin?.active
-      ? `COMBO ${comboCount}  ·  ${multiplierStr}x${nextGpText}`
-      : `🔥 COMBO ${comboCount}  ${multiplierStr}x${nextGpText}`);
+      ? `COMBO ${comboCount}  ·  ${multiplierStr}x`
+      : `🔥 COMBO ${comboCount}  ${multiplierStr}x`);
 
     // Combo pop — quick scale punch when combo count increases
     if (HUD_JUICE_CONFIG.enabled && HUD_JUICE_CONFIG.comboPop.enabled && comboCount > this._lastComboCount) {
@@ -891,7 +893,45 @@ export class HUDSystem {
   }
 
   bindGemPowerObjects(bg, fill, label) {
+    this._gemPowerFillObject = fill || null;
+    this._gemPowerLabelObject = label || null;
     this.approvedSkin?.bindGemPowerObjects(bg, fill, label);
+  }
+
+  setCurrentPickaxe(pickaxeId, options = {}) {
+    if (this._destroyed) return false;
+    const normalizedId = typeof pickaxeId === "string" && pickaxeId
+      ? pickaxeId
+      : null;
+    const unchanged = normalizedId === this.currentPickaxeId;
+    if (unchanged && options.force !== true && options.animate !== true) {
+      return this.approvedSkin?.getPickaxeHudSnapshot()?.overlayVisible === true;
+    }
+    this.currentPickaxeId = normalizedId;
+    return this.approvedSkin?.setCurrentPickaxe(normalizedId, options) === true;
+  }
+
+  getCurrentPickaxeTheme() {
+    return this.approvedSkin?.getCurrentPickaxeTheme() || null;
+  }
+
+  getPickaxeHudSnapshot() {
+    return this.approvedSkin?.getPickaxeHudSnapshot() || null;
+  }
+
+  pulseGemPower(strong = false) {
+    const targets = [this._gemPowerFillObject, this._gemPowerLabelObject].filter(Boolean);
+    if (!targets.length || !this.scene?.tweens) return;
+    targets.forEach(target => {
+      this.scene.tweens.killTweensOf(target);
+      target.setAlpha?.(strong ? 0.48 : 0.68);
+    });
+    this.scene.tweens.add({
+      targets,
+      alpha: 1,
+      duration: strong ? 320 : 220,
+      ease: "Quad.out",
+    });
   }
 
   getGemPowerLayout() {

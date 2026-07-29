@@ -33,9 +33,9 @@ assert.equal(WORLD_VISUAL_MATERIAL_BANDS.at(-1).bottomTileExclusive, 5065);
 assert.equal(getWorldVisualStartupMaterialAssets().length, 1);
 assert.ok(getWorldVisualMaterialAssets().length > getWorldVisualStartupMaterialAssets().length);
 assert.equal(resolveWorldVisualMaterialBand(0).id, "surface-earth");
-assert.equal(WORLD_VISUAL_FEEDBACK.atlas.frameCount, 44);
+assert.equal(WORLD_VISUAL_FEEDBACK.atlas.frameCount, 78);
 assert.equal(WORLD_VISUAL_FEEDBACK.atlas.columns, 8);
-assert.ok(resolveWorldVisualFeedbackFrame(7, 66, 1, WORLD_VISUAL_FEEDBACK.resourceMarkers.copper) < 3);
+assert.ok(resolveWorldVisualFeedbackFrame(7, 66, 1, WORLD_VISUAL_FEEDBACK.resourceMarkers.copper) < 6);
 
 const saveStore = new DugTilesSaveStore({ localStorageKey: "scenic-runtime-contract" });
 const payload = saveStore.createPayload({
@@ -46,7 +46,7 @@ const payload = saveStore.createPayload({
   layoutId: WORLD_GAMEPLAY_LAYOUT.id,
   layoutRevision: WORLD_GAMEPLAY_LAYOUT.revision,
 }, []);
-assert.equal(payload.version, 12);
+assert.equal(payload.version, 13);
 assert.equal(payload.world.layoutId, WORLD_GAMEPLAY_LAYOUT.id);
 assert.equal(payload.world.layoutRevision, WORLD_GAMEPLAY_LAYOUT.revision);
 assert.deepEqual(saveStore.normalizePayload(payload).world, payload.world);

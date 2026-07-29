@@ -1,28 +1,30 @@
 import { clamp01, lerp } from "../../values/mathUtils.js";
 
-const LAYER_STYLES = Object.freeze({
-  foreground: { width: 1.35, alphaScale: 1.00, lengthKey: "foregroundLengthPx" },
-  midground: { width: 1.05, alphaScale: 0.62, lengthKey: "midgroundLengthPx" },
-  sheet: { width: 2.10, alphaScale: 0.34, lengthKey: "sheetLengthPx" },
-});
-
 export class WeatherImpactRainController {
-  constructor(scene, config, weatherConfig) {
+  constructor(scene, config, weatherConfig, visualAssets = null) {
     this.scene = scene;
     this.config = config;
     this.weatherConfig = weatherConfig;
+    this.visualAssets = visualAssets;
     this.drops = [];
-    this.impacts = [];
+    this._dropSpritePool = [];
+    this._impactEvents = [];
     this._accumulators = { foreground: 0, midground: 0, sheet: 0 };
-    this._graphics = this.scene.add.graphics()
-      .setScrollFactor(0)
-      .setDepth(weatherConfig.renderDepths.rain + 0.2);
+    this._graphics = visualAssets
+      ? null
+      : this.scene.add.graphics()
+        .setScrollFactor(1)
+        .setDepth(weatherConfig.renderDepths.rain);
   }
 
   update(time, delta, state) {
     const impactCfg = this.weatherConfig.rain.impact;
-    this._graphics.clear();
-    if (!impactCfg?.enabled) return;
+    this._impactEvents.length = 0;
+    this._graphics?.clear?.();
+    if (!impactCfg?.enabled) {
+      this._releaseAllDrops();
+      return;
+    }
 
     const dtMs = Math.min(Math.max(delta || 0, 0), 100);
     const dt = dtMs / 1000;
@@ -32,20 +34,25 @@ export class WeatherImpactRainController {
     this._spawnLayer("sheet", amount * (state.kind === "storm" ? 0.62 : 0.2), dt, state);
     this._updateDrops(dt, state);
     this._drawDrops(state.lightningFlashAmount || 0);
-    this._updateImpacts(dtMs);
   }
 
   resize() {
-    this.drops.length = 0;
-    this.impacts.length = 0;
-    this._graphics.clear();
+    this._releaseAllDrops();
+    this._impactEvents.length = 0;
+    this._graphics?.clear?.();
   }
 
   destroy() {
+    this._releaseAllDrops();
+    this._dropSpritePool.forEach((sprite) => sprite?.destroy?.());
+    this._dropSpritePool.length = 0;
     this._graphics?.destroy?.();
     this._graphics = null;
-    this.drops.length = 0;
-    this.impacts.length = 0;
+    this._impactEvents.length = 0;
+  }
+
+  drainImpactEvents() {
+    return this._impactEvents.splice(0);
   }
 
   _spawnLayer(name, amount, dt, state) {
@@ -61,26 +68,30 @@ export class WeatherImpactRainController {
 
     for (let i = 0; i < count && this.drops.length < impactCfg.maxActiveDrops; i += 1) {
       const sample = this._pick(samples);
-      if (!Number.isFinite(sample.impactScreenY)) continue;
+      if (!Number.isFinite(sample.impactWorldY)) continue;
 
-      const startY = layer.spawnY;
-      const fallDistance = sample.impactScreenY - startY;
+      const scaleX = state.occlusion.worldPerScreenPixelX || 1;
+      const scaleY = state.occlusion.worldPerScreenPixelY || 1;
+      const startY = (state.occlusion.worldView?.y || 0) + layer.spawnY * scaleY;
+      const fallDistance = sample.impactWorldY - startY;
       if (fallDistance < impactCfg.minFallDistancePx) continue;
 
       const speedY = lerp(layer.minSpeedY, layer.maxSpeedY, amount) * this._randomRange([0.92, 1.10]);
       const wind = state.wind + state.gust;
       const speedX = wind * layer.windScale + this._randomRange([-layer.windSpread, layer.windSpread]);
+      const x = sample.worldX + this._randomRange([-layer.xJitterPx, layer.xJitterPx]) * scaleX;
       this.drops.push({
-        x: sample.screenX + this._randomRange([-layer.xJitterPx, layer.xJitterPx]),
+        x,
         y: startY,
-        previousX: sample.screenX,
+        previousX: x,
         previousY: startY,
         speedX,
         speedY,
-        alpha: layer.alpha * amount * LAYER_STYLES[name].alphaScale,
+        alpha: layer.alpha * amount,
         layer: name,
-        impactScreenY: sample.impactScreenY,
+        impactWorldY: sample.impactWorldY,
         impactSource: sample.impactSource || sample.source || "air",
+        sprite: this._acquireDropSprite(),
       });
     }
   }
@@ -91,17 +102,49 @@ export class WeatherImpactRainController {
     for (const drop of this.drops) {
       drop.previousX = drop.x;
       drop.previousY = drop.y;
-      drop.x += drop.speedX * dt;
-      drop.y += drop.speedY * dt;
-
-      const nearest = state.occlusion.nearestImpactForScreenX?.(drop.x);
-      if (nearest?.openToSky && Number.isFinite(nearest.impactScreenY)) {
-        drop.impactScreenY = Math.min(drop.impactScreenY, nearest.impactScreenY);
-        drop.impactSource = nearest.impactSource || nearest.source || drop.impactSource;
+      const nextX = drop.x + drop.speedX * dt;
+      const nextY = drop.y + drop.speedY * dt;
+      const hasSweptCollision = state.occlusion.supportsWorldRaycast !== false
+        && typeof state.occlusion.raycastWorldSegment === "function";
+      drop.usesSweptCollision = hasSweptCollision;
+      const hit = hasSweptCollision
+        ? this._findSweptImpact(drop, nextX, nextY, state.occlusion, impactCfg)
+        : null;
+      if (hit) {
+        drop.x = lerp(drop.previousX, nextX, hit.fraction);
+        drop.y = lerp(drop.previousY, nextY, hit.fraction);
+        this._emitImpact(
+          hit.worldX,
+          hit.worldY,
+          hit.source,
+          drop.alpha,
+          hit,
+        );
+        this._releaseDropSprite(drop);
+        continue;
       }
 
-      if (drop.y >= drop.impactScreenY - impactCfg.hardStopPaddingPx) {
-        this._addImpact(drop.x, drop.impactScreenY, drop.impactSource, drop.alpha);
+      drop.x = nextX;
+      drop.y = nextY;
+      if (!hasSweptCollision) {
+        const nearest = state.occlusion.nearestImpactForWorldX?.(drop.x);
+        if (Number.isFinite(nearest?.impactWorldY)) {
+          drop.impactWorldY = nearest.impactWorldY;
+          drop.impactSource = nearest.impactSource || nearest.source || drop.impactSource;
+        }
+
+        const stopY = drop.impactWorldY - impactCfg.hardStopPaddingPx;
+        if (drop.y >= stopY) {
+          const travelY = Math.max(Number.EPSILON, drop.y - drop.previousY);
+          const hitT = clamp01((stopY - drop.previousY) / travelY);
+          const impactX = lerp(drop.previousX, drop.x, hitT);
+          this._emitImpact(impactX, drop.impactWorldY, drop.impactSource, drop.alpha);
+          this._releaseDropSprite(drop);
+          continue;
+        }
+      }
+      if (this._isOutsideWorldView(drop, state.occlusion.worldView, impactCfg.cullMarginPx)) {
+        this._releaseDropSprite(drop);
       } else {
         survivors.push(drop);
       }
@@ -109,55 +152,69 @@ export class WeatherImpactRainController {
     this.drops = survivors;
   }
 
+  _findSweptImpact(drop, nextX, nextY, occlusion, impactCfg) {
+    const style = impactCfg.visualStyles[drop.layer] || impactCfg.visualStyles.foreground;
+    const halfWidth = style.widthPx * impactCfg.collisionHalfWidthScale;
+    const rayFractions = this.weatherConfig.precipitationCollision.rayFractions;
+    let earliest = null;
+    for (const fraction of rayFractions) {
+      const offsetX = halfWidth * fraction;
+      const hit = occlusion.raycastWorldSegment(
+        drop.previousX + offsetX,
+        drop.previousY + impactCfg.hardStopPaddingPx,
+        nextX + offsetX,
+        nextY + impactCfg.hardStopPaddingPx,
+      );
+      if (hit && (!earliest || hit.fraction < earliest.fraction)) earliest = hit;
+    }
+    return earliest;
+  }
+
   _drawDrops(lightningFlashAmount) {
     const impactCfg = this.weatherConfig.rain.impact;
     const flash = 1 + clamp01(lightningFlashAmount) * impactCfg.flashBoost;
     for (const drop of this.drops) {
-      const style = LAYER_STYLES[drop.layer] || LAYER_STYLES.foreground;
-      const length = impactCfg[style.lengthKey] || impactCfg.foregroundLengthPx;
-      const y2 = Math.min(drop.y, drop.impactScreenY - impactCfg.hardStopPaddingPx);
+      const style = impactCfg.visualStyles[drop.layer] || impactCfg.visualStyles.foreground;
+      const length = style.lengthPx;
+      const y2 = drop.usesSweptCollision
+        ? drop.y
+        : Math.min(drop.y, drop.impactWorldY - impactCfg.hardStopPaddingPx);
       const y1 = Math.max(drop.previousY, y2 - length);
-      const x1 = drop.x - drop.speedX * 0.014;
-      this._graphics.lineStyle(style.width, 0xbfeeff, clamp01(drop.alpha * flash));
-      this._graphics.beginPath();
-      this._graphics.moveTo(x1, y1);
-      this._graphics.lineTo(drop.x, y2);
-      this._graphics.strokePath();
+      const visibleLength = Math.max(1, y2 - y1);
+      const x1 = drop.x - drop.speedX * (visibleLength / Math.max(1, drop.speedY));
+      const alpha = clamp01(drop.alpha * style.alphaScale * flash);
+      if (drop.sprite) {
+        const rotation = Math.atan2(y2 - y1, drop.x - x1) - Math.PI * 0.5;
+        drop.sprite
+          .setPosition((x1 + drop.x) * 0.5, (y1 + y2) * 0.5)
+          .setDisplaySize(style.widthPx, visibleLength)
+          .setRotation(rotation)
+          .setAlpha(alpha)
+          .setVisible(true);
+      } else {
+        this._graphics.lineStyle(style.widthPx, 0xbfeeff, alpha);
+        this._graphics.beginPath();
+        this._graphics.moveTo(x1, y1);
+        this._graphics.lineTo(drop.x, y2);
+        this._graphics.strokePath();
+      }
     }
   }
 
-  _addImpact(x, y, source, alpha) {
+  _emitImpact(worldX, worldY, source, alpha, hit = null) {
     const cfg = this.weatherConfig.rain.impact;
-    const scale = source === "surfaceMask" || source === "tile" ? 1 : cfg.ceilingImpactScale;
-    this.impacts.push({
-      x,
-      y,
-      ageMs: 0,
-      durationMs: cfg.impactDurationMs,
-      radius: cfg.impactRadiusPx * scale,
+    if (this._impactEvents.length >= cfg.maxEventsPerFrame) return;
+    this._impactEvents.push({
+      kind: "rain",
+      worldX,
+      worldY,
+      impactSource: source,
+      normalX: hit?.normalX ?? 0,
+      normalY: hit?.normalY ?? -1,
+      tileX: hit?.tileX ?? null,
+      tileY: hit?.tileY ?? null,
       alpha: cfg.impactAlpha * Math.max(0.35, alpha),
     });
-  }
-
-  _updateImpacts(deltaMs) {
-    const survivors = [];
-    for (const impact of this.impacts) {
-      impact.ageMs += deltaMs;
-      const t = clamp01(impact.ageMs / Math.max(1, impact.durationMs));
-      if (t >= 1) continue;
-
-      const alpha = impact.alpha * (1 - t);
-      const radius = Math.max(1, impact.radius * (0.55 + t));
-      this._graphics.lineStyle(1, 0xcff6ff, alpha);
-      this._graphics.beginPath();
-      this._graphics.moveTo(impact.x - radius, impact.y);
-      this._graphics.lineTo(impact.x + radius, impact.y);
-      this._graphics.moveTo(impact.x, impact.y - radius * 0.35);
-      this._graphics.lineTo(impact.x, impact.y + radius * 0.15);
-      this._graphics.strokePath();
-      survivors.push(impact);
-    }
-    this.impacts = survivors;
   }
 
   _getSurfaceRainAmount(state) {
@@ -171,5 +228,42 @@ export class WeatherImpactRainController {
 
   _randomRange(range) {
     return range[0] + Math.random() * (range[1] - range[0]);
+  }
+
+  _acquireDropSprite() {
+    if (!this.visualAssets) return null;
+    const sprite = this._dropSpritePool.pop()
+      || this.scene.add.image(0, 0, this.visualAssets.textureKey);
+    const frames = this.visualAssets.frames.rainStreaks;
+    const frame = frames[Math.floor(Math.random() * frames.length)];
+    sprite
+      .setTexture(this.visualAssets.textureKey, frame)
+      .setOrigin(0.5)
+      .setScrollFactor(1)
+      .setDepth(this.weatherConfig.renderDepths.rain)
+      .setAlpha(0)
+      .setVisible(false);
+    return sprite;
+  }
+
+  _releaseDropSprite(drop) {
+    if (!drop.sprite) return;
+    drop.sprite.setVisible(false).setAlpha(0);
+    this._dropSpritePool.push(drop.sprite);
+    drop.sprite = null;
+  }
+
+  _releaseAllDrops() {
+    this.drops.forEach((drop) => this._releaseDropSprite(drop));
+    this.drops.length = 0;
+  }
+
+  _isOutsideWorldView(drop, worldView, marginPx) {
+    if (!worldView) return false;
+    const margin = marginPx || 0;
+    return drop.x < worldView.x - margin
+      || drop.x > worldView.x + worldView.width + margin
+      || drop.y < worldView.y - margin
+      || drop.y > worldView.y + worldView.height + margin;
   }
 }

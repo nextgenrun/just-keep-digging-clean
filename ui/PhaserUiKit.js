@@ -141,6 +141,7 @@ export function createButton(scene, options = {}) {
     playSounds = true,
     icon = null,
     autoIcon = true,
+    visibleChrome = true,
   } = options;
   let buttonHint = hint || "";
   const resolvedIcon = icon || (autoIcon ? resolveUiIconForLabel(label) : null);
@@ -179,6 +180,8 @@ export function createButton(scene, options = {}) {
 
   function draw() {
     if (!root?.active || !bg?.active || !accentBar?.active || !text?.active) return;
+    bg.setVisible(visibleChrome);
+    accentBar.setVisible(visibleChrome);
     const highlighted = state.selected || state.focused || state.hovered;
     const currentFill = !state.enabled
       ? disabledFill
@@ -194,19 +197,21 @@ export function createButton(scene, options = {}) {
         : UI_COLORS.borderDim;
     const alpha = state.enabled ? 1 : 0.62;
 
-    bg.clear();
-    bg.fillStyle(currentFill, highlighted ? 1 : 0.94);
-    bg.fillRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
-    bg.lineStyle(state.selected || state.focused ? 2 : 1, currentBorder, state.enabled ? 1 : 0.55);
-    bg.strokeRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
+    if (visibleChrome) {
+      bg.clear();
+      bg.fillStyle(currentFill, highlighted ? 1 : 0.94);
+      bg.fillRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
+      bg.lineStyle(state.selected || state.focused ? 2 : 1, currentBorder, state.enabled ? 1 : 0.55);
+      bg.strokeRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
 
-    accentBar.clear();
-    if (accent) {
-      accentBar.fillStyle(
-        accent,
-        state.enabled ? (state.selected ? 1 : state.focused ? 0.94 : 0.82) : 0.35
-      );
-      accentBar.fillRoundedRect(-width / 2, -height / 2, 4, height, UI_THEME.radiusSmall);
+      accentBar.clear();
+      if (accent) {
+        accentBar.fillStyle(
+          accent,
+          state.enabled ? (state.selected ? 1 : state.focused ? 0.94 : 0.82) : 0.35
+        );
+        accentBar.fillRoundedRect(-width / 2, -height / 2, 4, height, UI_THEME.radiusSmall);
+      }
     }
 
     try {
@@ -863,13 +868,19 @@ export function createFocusController(scene, options = {}) {
     move(delta);
   }
 
+  function verticalOrMove(delta) {
+    if (!enabled()) return;
+    if (options.onVertical?.(delta) === true) return;
+    move(delta);
+  }
+
   const handlers = [
-    ["keydown-UP", () => move(-1)],
-    ["keydown-W", () => move(-1)],
+    ["keydown-UP", () => verticalOrMove(-1)],
+    ["keydown-W", () => verticalOrMove(-1)],
     ["keydown-LEFT", () => options.onHorizontal ? options.onHorizontal(-1) : adjustOrMove(-1)],
     ["keydown-A", () => options.onHorizontal ? options.onHorizontal(-1) : adjustOrMove(-1)],
-    ["keydown-DOWN", () => move(1)],
-    ["keydown-S", () => move(1)],
+    ["keydown-DOWN", () => verticalOrMove(1)],
+    ["keydown-S", () => verticalOrMove(1)],
     ["keydown-RIGHT", () => options.onHorizontal ? options.onHorizontal(1) : adjustOrMove(1)],
     ["keydown-D", () => options.onHorizontal ? options.onHorizontal(1) : adjustOrMove(1)],
     ["keydown-ENTER", activate],

@@ -1,4 +1,6 @@
 import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
+import { UalActionRecoverySelector } from "./UalActionRecoverySelector.js";
+import { UalWallBraceSelector } from "./UalWallBraceSelector.js";
 
 const finiteTime = (value) => Number.isFinite(value) ? value : 0;
 
@@ -8,6 +10,8 @@ export class PlayerMotionPolishSystem {
     this.config = config;
     this.idleFidgets = profile?.idleFidgets || config.idle.fidgets;
     this.enabled = config.enabled === true && profile?.isUalNative === true;
+    this.actionRecovery = new UalActionRecoverySelector(profile);
+    this.wallBrace = new UalWallBraceSelector(profile, config);
     this.reset(0);
   }
 
@@ -18,13 +22,11 @@ export class PlayerMotionPolishSystem {
     this._fidgetIndex = 0;
     this._repeatDelayIndex = 0;
     this._activeFidget = null;
-    this._wallStartedAt = null;
-    this._wallLastSeenAt = -Infinity;
-    this._wallActive = false;
-    this._wallFlipX = false;
     this._impactQueuedUntil = -Infinity;
     this._impactActive = false;
     this._nextImpactAllowedAt = time;
+    this.actionRecovery.reset();
+    this.wallBrace.reset();
   }
 
   destroy() {
@@ -36,12 +38,22 @@ export class PlayerMotionPolishSystem {
     if (!this.enabled) return [];
     return [
       ...this.idleFidgets.map((fidget) => fidget.key),
+      ...this.actionRecovery.animationKeys,
+      ...this.wallBrace.oneShotAnimationKeys,
       this.profile.earthquakeReactAnim,
     ].filter(Boolean);
   }
 
   getPostActionRecoverDurationMs() {
     return this.config.postActionRecoverMs;
+  }
+
+  beginActionRecovery(animationKey, flipX = false) {
+    return this.actionRecovery.begin(animationKey, flipX);
+  }
+
+  consumeWallRunResumeFrame() {
+    return this.wallBrace.consumeRunResumeFrame();
   }
 
   isFallingDownward(velocityY) {
@@ -60,6 +72,7 @@ export class PlayerMotionPolishSystem {
   interruptForAction(now = 0) {
     if (!this.enabled) return;
     this._clearAmbient();
+    this.actionRecovery.reset();
     this._impactActive = false;
     if (finiteTime(now) > this._impactQueuedUntil) this._impactQueuedUntil = -Infinity;
   }
@@ -75,6 +88,8 @@ export class PlayerMotionPolishSystem {
 
   onAnimationComplete(animationKey, now = 0) {
     const time = finiteTime(now);
+    if (this.actionRecovery.onAnimationComplete(animationKey)) return true;
+    if (this.wallBrace.onAnimationComplete(animationKey)) return true;
     if (this._impactActive && animationKey === this.profile.earthquakeReactAnim) {
       this._impactActive = false;
       return true;
@@ -107,7 +122,22 @@ export class PlayerMotionPolishSystem {
       return this._override(this.profile.earthquakeReactAnim, context.facingFlipX, "impact");
     }
 
-    const wallOverride = this._resolveWallOverride(now, context);
+    const moving = context.motionState === "walk-left" || context.motionState === "walk-right";
+    const recoveryOverride = this.actionRecovery.resolve({
+      moving: moving || context.grounded !== true,
+      currentAnimationKey: context.currentAnimationKey,
+      isPlaying: context.isPlaying,
+    });
+    if (recoveryOverride) return recoveryOverride;
+
+    const wallOverride = this.wallBrace.resolve({
+      now,
+      blocked: context.wallBlocked === true,
+      movingAway: moving && context.wallBlocked !== true,
+      flipX: context.wallFlipX,
+      currentAnimationKey: context.currentAnimationKey,
+      isPlaying: context.isPlaying,
+    });
     if (wallOverride) return wallOverride;
 
     const verticalAim = context.verticalAim || {};
@@ -135,29 +165,6 @@ export class PlayerMotionPolishSystem {
     return this._override(this._activeFidget.key, context.facingFlipX, "idle-fidget");
   }
 
-  _resolveWallOverride(now, context) {
-    if (context.wallBlocked === true) {
-      this._clearIdle();
-      this._wallLastSeenAt = now;
-      this._wallFlipX = context.wallFlipX === true;
-      if (this._wallStartedAt === null) this._wallStartedAt = now;
-      if (now - this._wallStartedAt >= this.config.wallPush.enterDelayMs) {
-        this._wallActive = true;
-        return this._override(this.profile.wallPushAnim, this._wallFlipX, "wall-push");
-      }
-      return null;
-    }
-
-    const inReleaseGrace = this._wallActive
-      && now - this._wallLastSeenAt <= this.config.wallPush.releaseGraceMs;
-    if (inReleaseGrace) {
-      return this._override(this.profile.wallPushAnim, this._wallFlipX, "wall-push");
-    }
-    this._wallStartedAt = null;
-    this._wallActive = false;
-    return null;
-  }
-
   _scheduleRepeatFidget(now) {
     const delays = this.config.idle.repeatDelaysMs;
     const delay = delays[this._repeatDelayIndex % delays.length];
@@ -167,9 +174,7 @@ export class PlayerMotionPolishSystem {
 
   _clearAmbient() {
     this._clearIdle();
-    this._wallStartedAt = null;
-    this._wallActive = false;
-    this._wallLastSeenAt = -Infinity;
+    this.wallBrace.reset();
   }
 
   _clearIdle() {

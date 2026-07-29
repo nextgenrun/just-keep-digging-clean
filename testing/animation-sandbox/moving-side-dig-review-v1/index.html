@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Moving Side Dig Review · Dig Game</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">Dig Game · moving mining study</p>
+    <h1>Can the player punch while the Jog keeps the feet grounded?</h1>
+    <p>All candidates move at the same production reference speed. Option A shows the current planted-pose slide; B-D preserve the actual Jog lower body and layer real Jab/Cross torso motion.</p>
+  </header>
+
+  <section class="controls" aria-label="Synchronized review controls">
+    <button id="play-toggle" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <label><span>Playback</span><select id="speed"></select></label>
+    <label><span>Review scale</span><select id="zoom"></select></label>
+    <label class="check"><input id="flip" type="checkbox"><span>Face left</span></label>
+    <label class="scrub"><span>Shared frame</span><input id="scrub" type="range"></label>
+    <strong id="status" role="status">Loading exact production sheets…</strong>
+  </section>
+
+  <section class="truth" aria-label="Review guardrails">
+    <span>Real 28-frame UAL Jog</span>
+    <span>Real Jab / Cross</span>
+    <span>94px tile · 31×75 collider</span>
+    <span>Review only · production unchanged</span>
+  </section>
+
+  <main id="candidate-grid" class="candidate-grid" aria-label="Moving side-dig candidates"></main>
+
+  <footer class="selection">
+    <span>Temporary review choice</span>
+    <strong id="selection-summary">Option C · Phase-locked jab / cross</strong>
+    <em>Choosing here cannot promote an animation.</em>
+  </footer>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

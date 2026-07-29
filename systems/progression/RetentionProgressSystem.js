@@ -1,6 +1,8 @@
 import {
   RETENTION_CONFIG,
   RETENTION_EVENT_TYPES,
+  TOWN_TUTORIAL_CHOICES,
+  TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
 import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
 import { TREASURE_CHEST_CONFIG } from "../../values/treasureChestConfig.js";
@@ -44,6 +46,113 @@ export class RetentionProgressSystem {
     return sanitizeRetentionProgressData(this.data);
   }
 
+  getTitanClueTrackingState() {
+    const state = this.data.titanClueTracking;
+    return {
+      configured: state?.configured === true,
+      activeTitanId: TITAN_IDS.has(state?.activeTitanId)
+        ? state.activeTitanId
+        : null,
+    };
+  }
+
+  setTitanClueTrackingId(titanId) {
+    if (titanId !== null && !TITAN_IDS.has(titanId)) return false;
+    const current = this.getTitanClueTrackingState();
+    const changed = (
+      !current.configured
+      || current.activeTitanId !== titanId
+    );
+    this.data.titanClueTracking = {
+      configured: true,
+      activeTitanId: titanId,
+    };
+    return changed;
+  }
+
+  configureTutorialChoice(choice) {
+    if (this.data.tutorialChoice !== null) return false;
+    const normalized = choice === TOWN_TUTORIAL_CHOICES.YES
+      ? TOWN_TUTORIAL_CHOICES.YES
+      : TOWN_TUTORIAL_CHOICES.NO;
+    this.data.tutorialChoice = normalized;
+    this._setTutorialStage(
+      normalized === TOWN_TUTORIAL_CHOICES.YES
+        ? TOWN_TUTORIAL_STAGES.MOVE
+        : TOWN_TUTORIAL_STAGES.SKIPPED,
+    );
+    return true;
+  }
+
+  getTutorialState() {
+    return {
+      choice: this.data.tutorialChoice,
+      stage: this.data.tutorialStage,
+      starterRewardGranted: this.data.tutorialStarterRewardGranted === true,
+      completionRewardGranted: this.data.tutorialCompletionRewardGranted === true,
+      freeFlightRemainingMs: finiteRetentionInt(
+        this.data.tutorialFreeFlightRemainingMs,
+        0,
+        RETENTION_CONFIG.tutorial.completionReward.freeFlightMs,
+      ),
+    };
+  }
+
+  isTutorialActive() {
+    return RETENTION_CONFIG.tutorial.activeStages.includes(this.data.tutorialStage);
+  }
+
+  recordTutorialMovement(distanceTiles) {
+    if (
+      this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.MOVE
+      || Number(distanceTiles) < RETENTION_CONFIG.tutorial.moveDistanceTiles
+    ) {
+      return false;
+    }
+    this._setTutorialStage(TOWN_TUTORIAL_STAGES.DIG);
+    return true;
+  }
+
+  claimTutorialStarterReward() {
+    if (this.data.tutorialStarterRewardGranted === true) return null;
+    this.data.tutorialStarterRewardGranted = true;
+    const reward = RETENTION_CONFIG.tutorial.starterReward;
+    return {
+      money: reward.money,
+      resources: { ...reward.resources },
+    };
+  }
+
+  claimTutorialCompletionReward() {
+    if (this.data.tutorialCompletionRewardGranted === true) return null;
+    if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
+    this.data.tutorialCompletionRewardGranted = true;
+    const reward = RETENTION_CONFIG.tutorial.completionReward;
+    this.data.tutorialFreeFlightRemainingMs = Math.max(
+      this.data.tutorialFreeFlightRemainingMs,
+      reward.freeFlightMs,
+    );
+    return {
+      money: reward.money,
+      flightUpgradeId: reward.flightUpgradeId,
+      freeFlightMs: reward.freeFlightMs,
+    };
+  }
+
+  isTutorialFreeFlightActive() {
+    return this.data.tutorialFreeFlightRemainingMs > 0;
+  }
+
+  consumeTutorialFreeFlight(deltaMs) {
+    const previous = this.data.tutorialFreeFlightRemainingMs;
+    if (previous <= 0) return 0;
+    this.data.tutorialFreeFlightRemainingMs = Math.max(
+      0,
+      previous - Math.max(0, Number(deltaMs) || 0),
+    );
+    return previous - this.data.tutorialFreeFlightRemainingMs;
+  }
+
   seedLegacyProgress({
     dugTileKeys = [],
     resources = {},
@@ -65,9 +174,6 @@ export class RetentionProgressSystem {
     Object.entries(resources || {}).forEach(([key, amount]) => {
       if (Number(amount) > 0) this._discover("materials", key, null, false);
     });
-    if (finiteRetentionInt(level, 1) > 1 && this.data.tutorialStage === "mine") {
-      this.data.tutorialStage = "complete";
-    }
     if (finiteRetentionInt(relics) > 0) this._discover("journal", "ancient-relic", null, false);
     if (this.data.stats.starsCollected <= 0) {
       this.data.stats.starsCollected = finiteRetentionInt(stars, 0, 1000000);
@@ -177,7 +283,9 @@ export class RetentionProgressSystem {
   recordSale(money, units = 0) {
     const earned = this.recordMoneyEarned(money);
     this.data.stats.resourcesSold += finiteRetentionInt(units, 0, 1000000000);
-    if (this.data.tutorialStage === "sell") this._setTutorialStage("upgrade");
+    if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.SELL) {
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
+    }
     return { money: earned, units: finiteRetentionInt(units) };
   }
 
@@ -190,7 +298,9 @@ export class RetentionProgressSystem {
 
   recordUpgrade(upgradeName, preview = null) {
     this.data.stats.upgradesPurchased += 1;
-    if (this.data.tutorialStage === "upgrade") this._setTutorialStage("complete");
+    if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE) {
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.COMPLETE);
+    }
     this.pendingUpgradePayoff = {
       upgradeName: String(upgradeName || "Upgrade"),
       beforeHits: finiteRetentionInt(preview?.beforeHits),
@@ -297,10 +407,11 @@ export class RetentionProgressSystem {
   _setTutorialStage(stage) {
     if (!TUTORIAL_STAGES.includes(stage) || stage === this.data.tutorialStage) return;
     this.data.tutorialStage = stage;
+    const copy = RETENTION_CONFIG.tutorial.copy[stage];
     this.events.push({
       type: RETENTION_EVENT_TYPES.TUTORIAL,
       stage,
-      message: RETENTION_CONFIG.tutorial.copy[stage],
+      message: typeof copy === "string" ? copy : copy?.title || "",
     });
   }
 
@@ -335,11 +446,14 @@ export class RetentionProgressSystem {
   }
 
   onFirstTileBroken() {
-    if (this.data.tutorialStage === "mine") this._setTutorialStage("sell");
+    if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.DIG) {
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
+    }
   }
 
   getTutorialPromise() {
-    return RETENTION_CONFIG.tutorial.copy[this.data.tutorialStage] || "";
+    const copy = RETENTION_CONFIG.tutorial.copy[this.data.tutorialStage];
+    return typeof copy === "string" ? copy : copy?.title || "";
   }
 
   getObjective() {
@@ -375,7 +489,10 @@ export class RetentionProgressSystem {
         journal: [...this.data.discoveries.journal],
         titans: [...this.data.discoveries.titans],
       },
+      tutorialChoice: this.data.tutorialChoice,
       tutorialStage: this.data.tutorialStage,
+      tutorialFreeFlightRemainingMs: this.data.tutorialFreeFlightRemainingMs,
+      titanClueTracking: this.getTitanClueTrackingState(),
       objective: this.getObjective(),
       lastExpedition: this.data.lastExpedition ? { ...this.data.lastExpedition } : null,
     };

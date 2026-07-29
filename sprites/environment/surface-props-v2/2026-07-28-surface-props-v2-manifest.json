@@ -1,0 +1,199 @@
+{
+  "version": "surface-props-v2-additive-runtime",
+  "date": "2026-07-28",
+  "generator": "built-in ImageGen plus installed chroma-key helper",
+  "additive": true,
+  "replacesExistingAssets": false,
+  "backgroundChanged": false,
+  "bakedCelestialBodies": false,
+  "runtimeAssetCount": 7,
+  "reviewSheet": "visual-approval-previews/surface-props-v2-additive-runtime/2026-07-28-existing-plus-additive-prop-scale-sheet-v2.png",
+  "assets": [
+    {
+      "id": "forgeShelter",
+      "label": "Arrival Forge Shelter",
+      "slug": "forge-shelter",
+      "heightMeters": 3.1,
+      "clearOpeningMeters": 2.2,
+      "visualInfluenceRadiusTiles": 3.15,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-forge-shelter-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-forge-shelter-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1478,
+        "height": 1064
+      },
+      "runtimeDimensions": {
+        "width": 886,
+        "height": 651
+      },
+      "runtimeSubjectBounds": {
+        "left": 10,
+        "top": 11,
+        "right": 876,
+        "bottom": 651
+      },
+      "visiblePixels": 421545,
+      "partiallyTransparentPixels": 39384,
+      "sha256": "ff5bd29c54b61ec413a6a66289f9ff557677db0c623353b878871f34bb8155ac"
+    },
+    {
+      "id": "campKitchen",
+      "label": "Caravan Camp Kitchen",
+      "slug": "camp-kitchen",
+      "heightMeters": 2.7,
+      "clearOpeningMeters": 2.2,
+      "visualInfluenceRadiusTiles": 3.1,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-camp-kitchen-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-camp-kitchen-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1470,
+        "height": 1070
+      },
+      "runtimeDimensions": {
+        "width": 948,
+        "height": 650
+      },
+      "runtimeSubjectBounds": {
+        "left": 10,
+        "top": 10,
+        "right": 938,
+        "bottom": 650
+      },
+      "visiblePixels": 356080,
+      "partiallyTransparentPixels": 42227,
+      "sha256": "07f240b7c3b45d0c03b76fde1cac4e9eb1a6c70b05d1dec22cd55151d08e5c77"
+    },
+    {
+      "id": "herbStation",
+      "label": "Starwell Herb Station",
+      "slug": "herb-station",
+      "heightMeters": 1.65,
+      "visualInfluenceRadiusTiles": 2.65,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-herb-station-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-herb-station-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1633,
+        "height": 963
+      },
+      "runtimeDimensions": {
+        "width": 1024,
+        "height": 525
+      },
+      "runtimeSubjectBounds": {
+        "left": 10,
+        "top": 9,
+        "right": 1015,
+        "bottom": 525
+      },
+      "visiblePixels": 306005,
+      "partiallyTransparentPixels": 68089,
+      "sha256": "5fdaf1cb53f0cecc5329603ed756906aeba3083954daf87a5cbab3f343c662cb"
+    },
+    {
+      "id": "timberGantry",
+      "label": "Timberwright Gantry",
+      "slug": "timber-gantry",
+      "heightMeters": 3.3,
+      "clearOpeningMeters": 2.35,
+      "visualInfluenceRadiusTiles": 3.25,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-timber-gantry-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-timber-gantry-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1294,
+        "height": 1216
+      },
+      "runtimeDimensions": {
+        "width": 723,
+        "height": 649
+      },
+      "runtimeSubjectBounds": {
+        "left": 9,
+        "top": 8,
+        "right": 714,
+        "bottom": 649
+      },
+      "visiblePixels": 209841,
+      "partiallyTransparentPixels": 30934,
+      "sha256": "86ec5740b9ede084bd414531b20c6168a24620afed708c57137a269e200a2588"
+    },
+    {
+      "id": "observatory",
+      "label": "Heavenblocks Observatory",
+      "slug": "observatory",
+      "heightMeters": 2.0,
+      "visualInfluenceRadiusTiles": 2.85,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-observatory-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-observatory-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "runtimeDimensions": {
+        "width": 1024,
+        "height": 577
+      },
+      "runtimeSubjectBounds": {
+        "left": 9,
+        "top": 9,
+        "right": 1014,
+        "bottom": 577
+      },
+      "visiblePixels": 300189,
+      "partiallyTransparentPixels": 34253,
+      "sha256": "5c7259a84d62fca401232bda6387ab8ab08e24d093b417806e35e624f2b82967"
+    },
+    {
+      "id": "surveyStation",
+      "label": "Frontier Survey Station",
+      "slug": "survey-station",
+      "heightMeters": 1.9,
+      "visualInfluenceRadiusTiles": 2.75,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-survey-station-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-survey-station-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1577,
+        "height": 997
+      },
+      "runtimeDimensions": {
+        "width": 1024,
+        "height": 526
+      },
+      "runtimeSubjectBounds": {
+        "left": 9,
+        "top": 9,
+        "right": 1014,
+        "bottom": 526
+      },
+      "visiblePixels": 296765,
+      "partiallyTransparentPixels": 27309,
+      "sha256": "efe60a39d55965a08e188d19a0f54b9eab0ae56e9c05dfe168d5eafe18ce8db5"
+    },
+    {
+      "id": "expeditionShelter",
+      "label": "Far-East Expedition Shelter",
+      "slug": "expedition-shelter",
+      "heightMeters": 3.2,
+      "clearOpeningMeters": 2.2,
+      "visualInfluenceRadiusTiles": 3.45,
+      "sourceAlphaPath": "sprites/environment/surface-props-v2/sources/alpha-masters/2026-07-28-level2-expedition-shelter-alpha-v1.png",
+      "runtimePath": "sprites/environment/surface-props-v2/level2-expedition-shelter-v2.webp",
+      "sourceAlphaDimensions": {
+        "width": 1402,
+        "height": 1122
+      },
+      "runtimeDimensions": {
+        "width": 820,
+        "height": 649
+      },
+      "runtimeSubjectBounds": {
+        "left": 8,
+        "top": 9,
+        "right": 811,
+        "bottom": 649
+      },
+      "visiblePixels": 333754,
+      "partiallyTransparentPixels": 17490,
+      "sha256": "3b31e52aa0e9dac51a6f6bd730cce18e5a44e5f5228818c09aa4556dff5b0be6"
+    }
+  ]
+}

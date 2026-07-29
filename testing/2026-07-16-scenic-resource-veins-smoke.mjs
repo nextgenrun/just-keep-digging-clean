@@ -95,7 +95,7 @@ function createHarness(search = "") {
   return { layer, decals: graphics[0], graphics };
 }
 
-assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, ""), true);
+assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, ""), false);
 assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, "?resourceVeins=embedded"), true);
 assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, "?resourceVeins=0"), false);
 assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, "?resourceVeins=legacy"), false);
@@ -125,7 +125,7 @@ assert.ok(embedded.graphics.some(graphic => graphic.calls.some(([method, _width,
   method === "lineStyle" && color === WORLD_VISUAL_DAMAGE.layers.fracture.coreColor
 ))), "modular damage fractures must remain visible above generated mineral art");
 
-const proceduralRollback = createHarness("?terrainSemantics=0");
+const proceduralRollback = createHarness("?terrainSemantics=0&resourceVeins=1");
 assert.equal(proceduralRollback.layer.markerPool.length, 1, "procedural rollback keeps special atlas art separate");
 assert.ok(proceduralRollback.decals.calls.some(([method]) => method === "fillCircle"), "rollback restores ore nodules");
 assert.ok(proceduralRollback.decals.calls.some(([method]) => method === "lineTo"), "rollback restores vein paths");
@@ -156,7 +156,7 @@ assert.doesNotMatch(
   "the legacy emissive hook must not move terrain feedback above the player or lighting"
 );
 
-const atlasRollback = createHarness("?terrainSemantics=0&resourceVeins=0");
+const atlasRollback = createHarness("?terrainSemantics=0");
 assert.equal(atlasRollback.layer.markerPool.length, 3, "rollback must restore both resource atlas markers");
 assert.equal(
   atlasRollback.decals.calls.filter(([method]) => method === "fillCircle").length,
@@ -167,4 +167,4 @@ assert.equal(
 embedded.layer.destroy();
 proceduralRollback.layer.destroy();
 atlasRollback.layer.destroy();
-console.log("Scenic resource presentation smoke: generated default, damage coexistence, and both procedural rollbacks passed");
+console.log("Scenic resource presentation smoke: ImageGen default, damage coexistence, atlas rollback, and explicit procedural comparison passed");

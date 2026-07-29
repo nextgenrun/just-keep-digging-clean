@@ -74,7 +74,6 @@ export class CaveHazardSystem {
     this.config = config;
     this.worldModel = null;
     this.visibleEntries = [];
-    this.warnedCaves = new Set();
     this.activeCaveId = null;
     this.lastRenderAt = Number.NEGATIVE_INFINITY;
     this.lastFailureAt = Number.NEGATIVE_INFINITY;
@@ -107,7 +106,7 @@ export class CaveHazardSystem {
         this.scene.config?.tileSize,
       );
     }
-    this._warnForActiveCave(playerTile);
+    this._syncActiveCave(playerTile);
     if (!gameplayActive || time - this.lastFailureAt < this.config.failureCooldownMs) return;
     this._checkPlayerContact(time);
   }
@@ -116,7 +115,6 @@ export class CaveHazardSystem {
     this.view?.destroy?.();
     this.worldModel = null;
     this.visibleEntries = [];
-    this.warnedCaves.clear();
     this.activeCaveId = null;
   }
 
@@ -130,19 +128,9 @@ export class CaveHazardSystem {
     };
   }
 
-  _warnForActiveCave(playerTile) {
+  _syncActiveCave(playerTile) {
     const cave = this.worldModel.getCaveZoneAtTile?.(playerTile);
     this.activeCaveId = cave?.id || null;
-    if (!cave?.hazards?.length || this.warnedCaves.has(cave.id)) return;
-    this.warnedCaves.add(cave.id);
-    const hazard = cave.hazards[0];
-    this.scene.uiNotifications?.warning?.(
-      `${hazard.label}${this.config.warningSeparator}${hazard.hint}`,
-      {
-        key: `${this.config.warningKeyPrefix}${cave.id}`,
-        durationMs: this.config.warningDurationMs,
-      },
-    );
   }
 
   _checkPlayerContact(time) {
@@ -175,7 +163,11 @@ export class CaveHazardSystem {
     const recoverLeft = bodyCenterX <= hazardWorldX;
     const checkpoint = recoverLeft ? hazard.leftCheckpoint : hazard.rightCheckpoint;
     const direction = recoverLeft ? -1 : 1;
-    const drained = controller?.drainAllGemPower?.() || 0;
+    const drained = controller?.drainAllGemPower?.({
+      source: "caveHazard",
+      hazard: true,
+      hazardId: hazard.id,
+    }) || 0;
 
     this.lastFailureAt = time;
     this.failureCount += 1;
@@ -186,6 +178,7 @@ export class CaveHazardSystem {
       checkpoint: { ...checkpoint },
       time,
     };
+    if (this.scene._hardcoreDeathInProgress || this.scene.gameState === "dead") return;
 
     this.scene.lightSystem?.forceTorchOff?.({ manual: true, showStatus: false });
     controller?.teleportToTile?.(checkpoint.tx, checkpoint.ty);
@@ -200,27 +193,12 @@ export class CaveHazardSystem {
     );
     this.scene.soundSystem?.[this.config.hit.soundMethod]?.();
     this.scene.uiNotifications?.danger?.(
-      this.config.hit.notification,
+      `${this.config.hit.notification}${this.config.warningSeparator}`
+        + this.config.hit.recoveryStatus,
       {
         key: this.config.failureNotificationKey,
         durationMs: this.config.hit.notificationDurationMs,
       },
-    );
-    this.scene.hudSystem?.flashStatus?.(
-      this.config.hit.recoveryStatus,
-      this.config.hit.statusColor,
-      this.config.hit.statusDurationMs,
-    );
-    const floatingText = drained > 0
-      ? `-${Math.floor(drained)} GP`
-      : this.config.hit.emptyFloatingText;
-    this.scene.floatingTextSystem?.showFloatingText?.(
-      bodyCenterX,
-      (bodyBounds.top + bodyBounds.bottom) * 0.5,
-      floatingText,
-      this.config.hit.floatingColor,
-      this.config.hit.floatingDurationMs,
-      this.config.hit.floatingFontSize,
     );
   }
 }

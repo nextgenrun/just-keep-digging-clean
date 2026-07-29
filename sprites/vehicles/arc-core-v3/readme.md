@@ -12,6 +12,10 @@ and impact artwork. Gameplay and `tanktest-v1` consume the same package.
 4. `values/arcCoreVisuals.sprite.json` is updated with runtime hashes and loads
    the package in Phaser.
 
+The active V4 repair keeps all approved bodies, rings, clouds, and beams, but
+replaces the two device-like impact frames with centered Small/Omega fracture
+art. V3 remains intact as the source rollback.
+
 The master machine bodies never change between animation phases. Motion comes
 from independent authored raster layers positioned against the same anchor.
 The pack contains ten production roles. The single foundry background remains

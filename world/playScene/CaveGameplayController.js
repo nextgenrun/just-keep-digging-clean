@@ -2,7 +2,6 @@
  * CaveGameplayController — runs the normal player, mining, and ability stack in CaveScene.
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { MINING_CONFIG } from "../../values/miningConfig.js";
 import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
 import { PlayerController } from "../../player/PlayerController.js";
@@ -112,13 +111,41 @@ export class CaveGameplayController {
   }
 
   update(time, delta) {
+    const keys = this.inputHandler.getKeys();
+    const horizontal = this.playerController.input.getHorizontalMovement();
+    const escapePressed = (
+      (keys.escape && Phaser.Input.Keyboard.JustDown(keys.escape))
+      || (keys.hardEscape && Phaser.Input.Keyboard.JustDown(keys.hardEscape))
+    );
+    if (escapePressed || horizontal.left || horizontal.right) {
+      this.actionAnimationRuntime.cancelThunderStrike(time);
+    }
     this.playerController.update(delta);
     this.playerKinematicMotion?.samplePhysics(delta);
     this.playerRigContact?.update(delta);
     const playerTile = this.playerController.getPlayerTile();
-    const targetTile = this.inputHandler.resolveAimTargetTile();
-    this.inputHandler.updateAimBox(targetTile, this.inputHandler.isSolidAimTarget(targetTile));
-    this._updateMining(time, playerTile, targetTile);
+    const miningInputState = this.inputHandler.resolveMiningInputState();
+    const effectiveAimLabel = miningInputState.aimLabel
+      || this.playerController.getAimLabel();
+    const targetTile = this.inputHandler.resolveStableMineTarget(
+      miningInputState.targetTile,
+      keys.mine?.isDown === true
+        || miningInputState.mouseHeld
+        || miningInputState.mouseRequested,
+      effectiveAimLabel,
+    );
+    this.inputHandler.updateAimBox(
+      targetTile,
+      this.inputHandler.isSolidAimTarget(targetTile),
+      miningInputState,
+    );
+    this._updateMining(
+      time,
+      playerTile,
+      targetTile,
+      miningInputState,
+      effectiveAimLabel,
+    );
     this._updateThunderStrike(time);
     this._updateLocomotionVisual(time, delta);
     this.flightFootParticleSystem?.update(
@@ -148,7 +175,7 @@ export class CaveGameplayController {
     this.inputHandler?.destroy();
   }
 
-  _updateMining(time, playerTile, targetTile) {
+  _updateMining(time, playerTile, targetTile, miningInputState, effectiveAimLabel) {
     const abilities = this.playerController.abilities;
     if (
       this.actionAnimationRuntime.isUalActionLocked
@@ -169,8 +196,12 @@ export class CaveGameplayController {
       );
       return;
     }
-    if (this.playerController.consumeMineInput()) {
-      this._tryMine(targetTile, time, this.playerController.getAimLabel(), abilities, "mine");
+    const keyboardMineRequested = this.playerController.consumeMineInput();
+    if (keyboardMineRequested || miningInputState.mouseRequested) {
+      if (miningInputState.mouseRequested) {
+        this.inputHandler.acknowledgeMouseMineRequest();
+      }
+      this._tryMine(targetTile, time, effectiveAimLabel, abilities, "mine");
     }
   }
 
@@ -204,7 +235,6 @@ export class CaveGameplayController {
           { actionStartedAtMs: time },
         );
         if (result.success) this._applyMineResult(result, targetTile);
-        else this._showBlockedMineFeedback(result, targetTile);
       }, targetTile, targetDirection);
       return;
     }
@@ -212,25 +242,6 @@ export class CaveGameplayController {
     const result = this.digSystem.tryMine(targetTile, time, resolvedAim, abilities);
     if (result.reason !== "cooldown") this._playMiningAnimation(action, resolvedAim, time);
     if (result.success) this._applyMineResult(result, targetTile);
-    else this._showBlockedMineFeedback(result, targetTile);
-  }
-
-  _showBlockedMineFeedback(result, targetTile = null) {
-    if (!result?.blockedByBedrock) return;
-    const feedback = MINING_CONFIG.blockedUi;
-    this.scene.flashStatus?.(feedback.bedrockMessage, feedback.color, feedback.durationMs);
-    if (!targetTile) return;
-    const tileSize = this.scene.config.tileSize;
-    const worldX = targetTile.tx * tileSize + tileSize / 2;
-    const worldY = targetTile.ty * tileSize + tileSize / 2;
-    this.floatingTextSystem?.showFloatingText(
-      worldX,
-      worldY,
-      feedback.zeroDamageText,
-      feedback.zeroDamageColor,
-      feedback.zeroDamageDurationMs,
-      feedback.zeroDamageFontSize,
-    );
   }
 
   _applyMineResult(result, targetTile) {
@@ -256,7 +267,6 @@ export class CaveGameplayController {
       const behindY = result.heavyPunchTile.ty * tileSize + tileSize / 2;
       this._showResource(result.behindResourceType, result.behindResourceAmount, behindX, behindY);
     }
-    if (result.levelUp) this.scene.flashStatus(`Level ${result.newLevel || "up"}!`);
     const sounds = this.originScene.soundSystem;
     if (result.destroyed) sounds?.playTileBreak?.();
     else sounds?.playTileHit?.();
@@ -309,10 +319,6 @@ export class CaveGameplayController {
         hit.damage,
       );
       if (!hit.destroyed) continue;
-      if (hit.breachedBedrock) {
-        this.scene.markCaveTileDug(hit.tx, hit.ty);
-        continue;
-      }
       const reward = this.digSystem.processDestroyedTile(hit.tx, hit.ty, hit.tileType, time, false, hit.wasRubble);
       this._applyMineResult({
         ...reward,

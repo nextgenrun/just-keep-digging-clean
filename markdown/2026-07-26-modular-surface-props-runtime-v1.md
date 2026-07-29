@@ -1,7 +1,7 @@
 # Modular Surface Props Runtime V1
 
 **Date:** 2026-07-26  
-**Status:** approved Variant C direction wired for Level 1 and Level 2  
+**Status:** superseded by [the 2026-07-28 natural-composition correction](2026-07-28-natural-surface-composition-and-drop-through.md)  
 **Runtime panorama:** none  
 **Gameplay/state changed:** false
 

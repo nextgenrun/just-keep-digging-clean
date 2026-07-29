@@ -22,16 +22,42 @@ export function createArcCoreLayer(scene, texture, blendMode) {
 }
 
 export function applyArcCoreLayer(layer, options) {
+  const alpha = clampArcCoreValue(options.alpha);
+  const visible = alpha > options.visibleAlphaThreshold;
+  const cache = layer.__arcCoreLayerCache || (layer.__arcCoreLayerCache = {});
+  const actualVisibilityChanged = typeof layer.visible === "boolean"
+    && layer.visible !== visible;
+  if (cache.visible !== visible || actualVisibilityChanged) {
+    layer.setVisible(visible);
+    cache.visible = visible;
+  }
+  if (!visible) return;
+
+  const originX = options.originX ?? 0.5;
+  const originY = options.originY ?? 0.5;
+  const tint = options.tint ?? 0xffffff;
+  if (cache.texture !== options.texture) {
+    layer.setTexture(options.texture);
+    cache.texture = options.texture;
+  }
+  if (cache.originX !== originX || cache.originY !== originY) {
+    layer.setOrigin(originX, originY);
+    cache.originX = originX;
+    cache.originY = originY;
+  }
+  if (cache.depth !== options.depth) {
+    layer.setDepth(options.depth);
+    cache.depth = options.depth;
+  }
+  if (cache.tint !== tint) {
+    layer.setTint(tint);
+    cache.tint = tint;
+  }
   layer
-    .setTexture(options.texture)
-    .setOrigin(options.originX ?? 0.5, options.originY ?? 0.5)
     .setPosition(options.x, options.y)
     .setDisplaySize(options.width, options.height)
     .setAngle(options.angleDeg ?? 0)
-    .setDepth(options.depth)
-    .setAlpha(clampArcCoreValue(options.alpha))
-    .setTint(options.tint ?? 0xffffff)
-    .setVisible(options.alpha > options.visibleAlphaThreshold);
+    .setAlpha(alpha);
 }
 
 export function textureForArcCoreRole(state, role) {
@@ -42,5 +68,12 @@ export function textureForArcCoreRole(state, role) {
 
 export function hideArcCoreLayers(state, keys) {
   if (!state) return;
-  for (const key of keys) state[key]?.setVisible(false);
+  for (const key of keys) {
+    const layer = state[key];
+    if (!layer) continue;
+    layer.setVisible(false);
+    if (layer.__arcCoreLayerCache) {
+      layer.__arcCoreLayerCache.visible = false;
+    }
+  }
 }

@@ -178,10 +178,10 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   assert.equal(tiles.get(`${divider.tileX},${divider.gateTopTileY}`), TILE_TYPES.AIR);
 }
 
-// Thunder Strike can breach ordinary bedrock, but never the full-height Level 1/2 divider.
+// Thunder Strike can breach ordinary bedrock, but never the protected Level 1/2 divider.
 {
   const divider = SECOND_WORLD_CONFIG.levelDivider;
-  const protectedStartTileY = divider.floorTileY + 1;
+  const protectedStartTileY = divider.undergroundStartTileY;
   const tileSize = 64;
   const tiles = new Map();
   for (let ty = protectedStartTileY; ty < protectedStartTileY + 4; ty += 1) {
@@ -208,7 +208,7 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     worldModel,
     upgradeSystem: { getUpgradeLevel: () => 0 },
     getThunderStrikeCost: () => 0,
-    getConstellationStats: () => ({ thunderstrikeSideColumns: 1 }),
+    getConstellationStats: () => ({ thunderstrikeDamageMult: 0.10 }),
     _getNormalMiningDamageForTile: () => 1,
   });
 

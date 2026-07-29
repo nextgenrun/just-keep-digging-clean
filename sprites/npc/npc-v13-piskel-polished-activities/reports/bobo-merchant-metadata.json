@@ -1,0 +1,356 @@
+{
+  "sourcePiskel": "sprites/npc/npc-v13-piskel-polished-activities/piskel/bobo-merchant.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 7,
+  "frameSize": [
+    512,
+    512
+  ],
+  "sheetGrid": [
+    7,
+    1
+  ],
+  "sheetSize": [
+    3584,
+    512
+  ],
+  "unusedGridFrames": [],
+  "phaserEndFrame": 6,
+  "runtimeFps": 1,
+  "phaserKey": null,
+  "orientation": "front",
+  "hitFrameGroups": [],
+  "centeringPolicy": {
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.42,
+    "anchorAlphaThreshold": 32,
+    "anchorSmoothingWindow": 1,
+    "targetAnchorX": 266.47963690074147,
+    "bottomY": 481.0,
+    "targetReferenceHeightPx": 457.50000000000006,
+    "minUniformScale": 1.0304054054054055,
+    "maxUniformScale": 1.0304054054054055,
+    "runtimeBaselineY": 481.0,
+    "sizePolicy": "one fixed merchant scale matched to the calm baseline"
+  },
+  "runtimeOutputs": [
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-work.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-rare.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-player.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-inspect.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-habit.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-signature.webp",
+    "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-showcase.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        64,
+        18,
+        453,
+        481
+      ],
+      "bboxWidth": 389,
+      "bboxHeight": 463,
+      "centerX": 258.5,
+      "rootAnchorX": 266.46,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 72220,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        19,
+        16,
+        509,
+        481
+      ],
+      "bboxWidth": 490,
+      "bboxHeight": 465,
+      "centerX": 264.0,
+      "rootAnchorX": 266.16,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 81788,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        83,
+        18,
+        435,
+        481
+      ],
+      "bboxWidth": 352,
+      "bboxHeight": 463,
+      "centerX": 259.0,
+      "rootAnchorX": 266.64,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 69493,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        103,
+        18,
+        438,
+        481
+      ],
+      "bboxWidth": 335,
+      "bboxHeight": 463,
+      "centerX": 270.5,
+      "rootAnchorX": 266.82,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 68425,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        92,
+        18,
+        442,
+        481
+      ],
+      "bboxWidth": 350,
+      "bboxHeight": 463,
+      "centerX": 267.0,
+      "rootAnchorX": 267.14,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 69048,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        88,
+        18,
+        480,
+        481
+      ],
+      "bboxWidth": 392,
+      "bboxHeight": 463,
+      "centerX": 284.0,
+      "rootAnchorX": 267.13,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 71047,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        75,
+        18,
+        454,
+        481
+      ],
+      "bboxWidth": 379,
+      "bboxHeight": 463,
+      "centerX": 264.5,
+      "rootAnchorX": 266.49,
+      "rootAnchorY": 481.0,
+      "rootAnchorPixels": 69493,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 481,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polish": {
+    "skipped": false,
+    "anchorMode": "alpha-lower-body",
+    "targetAnchor": [
+      266.48,
+      481.0
+    ],
+    "uniformScale": 1.030405,
+    "before": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 18.0,
+      "maxRootAnchorDriftPx": 0.62,
+      "maxAnchorDriftPx": 0.62,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 444.0
+    },
+    "after": {
+      "anchorMode": "alpha-lower-body",
+      "maxBBoxCenterDriftPx": 19.5,
+      "maxRootAnchorDriftPx": 0.5,
+      "maxAnchorDriftPx": 0.5,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 463.0
+    },
+    "shifts": [
+      {
+        "frame": 0,
+        "sourceAnchor": [
+          255.51,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.51,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      },
+      {
+        "frame": 1,
+        "sourceAnchor": [
+          256.22,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.22,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      },
+      {
+        "frame": 2,
+        "sourceAnchor": [
+          255.64,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.64,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      },
+      {
+        "frame": 3,
+        "sourceAnchor": [
+          255.83,
+          496.0
+        ],
+        "smoothedAnchor": [
+          255.83,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      },
+      {
+        "frame": 4,
+        "sourceAnchor": [
+          256.13,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.13,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      },
+      {
+        "frame": 5,
+        "sourceAnchor": [
+          256.14,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.14,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      },
+      {
+        "frame": 6,
+        "sourceAnchor": [
+          256.47,
+          496.0
+        ],
+        "smoothedAnchor": [
+          256.47,
+          496.0
+        ],
+        "requestedTarget": [
+          266.48,
+          481.0
+        ]
+      }
+    ]
+  },
+  "alignmentOverlayPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-alignment-overlay.png",
+  "driftReportPath": "sprites/npc/npc-v13-piskel-polished-activities/reports/bobo-merchant-drift-report.json"
+}

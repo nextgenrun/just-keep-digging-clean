@@ -49,6 +49,7 @@ const proneV3Promotion = JSON.parse(readFileSync(
 const expectedRuntimeActions = [
   "airborne", "climb", "crouch", "death", "falling", "fly",
   "ground-strike", "hit-react", "idle", "idle-talk", "landing",
+  "moving-side-dig-cross", "moving-side-dig-jab",
   "punch-cross", "punch-jab", "punch-uppercut",
   "run", "teleport", "thunder-charge", "walk", "wall-push",
 ];
@@ -68,7 +69,7 @@ assert.equal(survival.isUalNative, true);
 assert.equal(survival.basePath, "sprites/character/survival-ual-player-v1/runtime");
 assert.equal(
   survival.renderPipeline,
-  "survival-blender-v2-piskel-stabilized-dig-up-superman-prone-v3-flight-ual-jog-v1",
+  "survival-blender-v2-piskel-central-animation-polish-v1-superman-prone-v3-flight-ual-jog-v1",
 );
 assert.equal(survival.visualSkin, blender.visualId);
 assert.equal(survival.weaponPolicy, "none");
@@ -109,9 +110,15 @@ assert.deepEqual(survival.digUpSidewaysFrames, blender.frames.digUp);
 assert.equal(survival.digUpAnimationFps, blender.sheets.digUp.frameRate);
 assert.deepEqual(survival.flySourceFrames, blender.frames.fly);
 assert.deepEqual(survival.flightTravelLoopFrames, blender.frames.fly);
-assert.equal(survival.sheetFiles.length, ual.sheetFiles.length);
+assert.equal(
+  survival.sheetFiles.length,
+  ual.sheetFiles.length + 3 + survival.animationPolishSheetFiles.length,
+);
 assert.equal(new Set(survival.requiredSheets).size, survival.requiredSheets.length);
-assert.equal(survival.requiredSheets.length, 19);
+assert.equal(
+  survival.requiredSheets.length,
+  ual.requiredSheets.length + 3 + survival.animationPolishRequiredSheets.length,
+);
 assert.ok(survival.requiredSheets.some((key) => key.startsWith("survival-blender-v2-")));
 assert.ok(survival.requiredSheets.some((key) => key.startsWith(prefix)));
 assert.equal(survival.rigManifestKey, `${prefix}-rig-manifest`);
@@ -119,7 +126,7 @@ assert.equal(runtimeManifest.pipeline, "survival-body-ual-motion-unreal-ik-v1");
 assert.ok(expectedRuntimeActions.every((action) => runtimeManifest.actions[action]), "profile runtime action is missing");
 assert.equal(
   expectedRuntimeActions.reduce((total, action) => total + runtimeManifest.actions[action].frame_count, 0),
-  882,
+  926,
 );
 assert.ok(runtimeManifest.visual_skin?.retargeter?.includes("RTG_UAL_To_SurvivalCharacter_v1"));
 assert.ok(survival.sheetFiles.every(([, fileName, , sourceBasePath]) => existsSync(resolve(
@@ -268,6 +275,8 @@ assert.equal(createdAnimations.get(survival.digUpLookAnim)?.frameRate, 30);
 assert.equal(createdAnimations.get(survival.landingAnim)?.frameRate, 40);
 assert.equal(createdAnimations.get(survival.landingAnim)?.frames.length, 14);
 assert.equal(createdAnimations.get(survival.digUpHitAnims[0])?.frames.length, 24);
+assert.equal(createdAnimations.get(survival.movingSideDigAnimationMap[survival.digSidewaysHitAnims[0]])?.frames.length, 22);
+assert.equal(createdAnimations.get(survival.movingSideDigAnimationMap[survival.digSidewaysHitAnims[1]])?.frames.length, 22);
 assert.equal(
   createdAnimations.get(survival.digUpHitAnims[0])?.frameRate,
   blender.sheets.digUp.frameRate,

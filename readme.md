@@ -65,9 +65,10 @@ PlayScene (game runs here, MenuAudioScene stopped)
 |----------|-----------|---------|
 | Mining | `/systems/mining/` | DigSystem, TileCollisionSystem, SpecialTileSystem, SpecialBlockEffectsManager |
 | Progression | `/systems/progression/` | PlayerLevelSystem, UpgradeSystem, DepthGateSystem |
-| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, GraveborerWurmVisualSystem, GraveborerWurmHudSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
+| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, GraveborerWurmVisualSystem, GraveborerWurmHudSystem, HardcoreMemorialWorldSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
 | Audio | `/systems/audio/` | SoundSystem, SoundLibraryManager, VoiceLineManager |
 | Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, GraveborerWurmSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
+| Hardcore | `/systems/hardcore/` | HardcoreModeSystem, HardcoreMemorialStore, hardcoreMemorialRecord |
 | Lighting | `/systems/lighting/` | LightSystem, ShaderSystem |
 | Combo | `/systems/combo/` | ComboSystem, HitstopSystem |
 | Health | `/systems/health/` | RuntimeCanarySystem, RuntimeCanaryReporter, deterministic runtime checks |
@@ -160,7 +161,18 @@ This project uses a 3-tier version control system:
 | `/markdown/pathing/readme.md` | Import path resolution |
 | `/markdown/2026-06-25-next-steps.md` | Immediate next steps |
 | `/markdown/2026-06-25-phase3-roadmap.md` | Phase 3 roadmap |
+| `/markdown/2026-07-28-star-block-crystal-popout-v2.md` | Approved Choice 1 Star Block family with an exact one-to-one tile pop-out, delayed growth, calmer levitation, six-echo trail, validation, and rollback |
 | `/markdown/2026-07-12-v11-polished-runtime-backgrounds.md` | V11 polished surface/depth streaming package and rollback |
+| `/markdown/2026-07-28-underground-visual-expansion-v3.md` | 100 additive underground ImageGen assets: 50 full backgrounds plus 50 terrain-masked ground structures |
+| `/markdown/2026-07-28-underground-terrain-blend-v4.md` | 250 effective ground visuals, 50 feathered structure derivatives, native overlap blending, retained older layouts, rollback, and regression evidence |
+| `/markdown/2026-07-28-sky-underground-cohesion-runtime.md` | Additive 20-card native-density sky field and 10 native-density terrain-masked underground cohesion placements, retained bases, rollback, and validation |
+| `/markdown/2026-07-29-background-rendering-regression-restoration.md` | World-space sky/depth restoration, mask-origin fix, seamless retained backdrops, live QA, and regression tests |
+| `/markdown/2026-07-29-expanded-cave-level-visual-overhaul.md` | 60x20 camera-traversed entered caves, three ImageGen panorama families, safe painted-floor collision, persistence migration, and rollback |
 | `/markdown/2026-07-13-v11-split-sky-islands-tmx.md` | V11 open-sky bedrock cleanup and two four-portal sky-island banks |
 | `/markdown/2026-07-26-titan-chambers-production-v2.md` | 25 high-resolution Titan chambers, streaming, archive pinning, health, validation, and rollback |
-| `/markdown/2026-07-26-titan-discovery-player-path-correction.md` | Player-reliable Titan resonance guidance, partial-entry discovery, 700 m regression coverage, and rollback |
+| `/markdown/2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
+| `/markdown/2026-07-28-titan-clues-and-creature-footprint-unlock.md` | Catalog clues, high-resolution underground stances, compact dais, exact colored cover-tile glow, 50% auto-clear unlock, surface inspection, ESC lore, trophy/save wiring, and validation |
+| `/markdown/2026-07-28-earthquake-polish-seismic-suppression.md` | Compact seismic UI, authored tile-impact feedback, and permanent endgame earthquake removal |
+| `/markdown/2026-07-28-earthquake-dodge-audit-and-layering.md` | Production FallZones, measured dodge fairness, exact tile/ground feedback, world layering, and regression coverage |
+| `/markdown/2026-07-29-starlight-talent-tree-v3-polish.md` | Native ultra-wide ImageGen talent presentation, three-card carousel spacing, proportional scaling, and rollback |
+| `/markdown/2026-07-28-ui-notification-carousel.md` | Centered transient-card queue with fresh seven-second selection timing, consumptive arrows, full-queue X, modal isolation, and reduced floating text |

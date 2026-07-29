@@ -6,52 +6,74 @@ import {
   THUNDER_STRIKE_CHAIN_CONFIG,
   THUNDER_STRIKE_CHAIN_PHASES,
   resolveThunderStrikeDamage,
+  resolveThunderStrikeEffectiveDamageMultiplier,
   resolveThunderStrikeSuccessDamageMultiplier,
   resolveThunderStrikeTimingBarScale,
 } from "../values/thunderStrikeChain.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import { UAL_NATIVE_ACTION_TUNING } from "../values/ualNativeActionTuning.js";
 import { setupGameplayMethods } from "../world/playScene/PlaySceneGameplay.js";
 import { ThunderStrikeActionRuntime } from "../world/playScene/ThunderStrikeActionRuntime.js";
 import { ThunderStrikeChainState } from "../world/playScene/ThunderStrikeChainState.js";
 
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.upfrontCostMultiplier, 3);
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.followUpCost, 0);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs, 180);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.stages.length, 10);
 assert.deepEqual(
   THUNDER_STRIKE_CHAIN_CONFIG.stages.map((stage) => stage.damageMultiplier),
-  [1, 3, 10],
+  [1, 3, 10, 12, 15, 20, 28, 40, 60, 100],
+);
+assert.deepEqual(
+  THUNDER_STRIKE_CHAIN_CONFIG.timingBar.milestones.map(({ stageIndex }) => stageIndex),
+  [0, 4, 9],
+);
+const openingPressToContactMs = THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs
+  + (
+    UAL_NATIVE_ACTION_TUNING.contact.thunderStrike.sequenceIndex
+    / UAL_NATIVE_ACTION_TUNING.thunderStrike.frameRate
+  ) * 1000;
+assert.ok(
+  openingPressToContactMs < 500,
+  `opening impact should land promptly, received ${openingPressToContactMs} ms`,
 );
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.damage.successBuffPerTimingHit, 0.2);
 assert.deepEqual(
-  [0, 1, 2].map(resolveThunderStrikeSuccessDamageMultiplier),
-  [1, 1.2, 1.4],
+  [0, 1, 4, 9].map(resolveThunderStrikeSuccessDamageMultiplier),
+  [1, 1.2, 1.8, 2.8],
 );
+const timingWindows = THUNDER_STRIKE_CHAIN_CONFIG.stages
+  .slice(1).map((entry) => entry.timing.windowMs);
+assert.deepEqual(timingWindows, [280, 230, 190, 150, 90, 62, 42, 28, 16]);
+assert.ok(timingWindows.slice(0, 4).every((windowMs) => windowMs >= 150));
 assert.ok(
-  THUNDER_STRIKE_CHAIN_CONFIG.stages[1].timing.windowMs >= 200,
-  "Slam II must be readable and consistently achievable",
+  timingWindows[4] < timingWindows[3] * 0.65,
+  "Slam VI must begin the drastic post-V difficulty ramp",
 );
-assert.ok(
-  THUNDER_STRIKE_CHAIN_CONFIG.stages[2].timing.windowMs >= 120,
-  "Slam III must be difficult without being frame-perfect",
-);
-assert.ok(
-  THUNDER_STRIKE_CHAIN_CONFIG.stages[2].timing.windowMs
-    < THUNDER_STRIKE_CHAIN_CONFIG.stages[1].timing.windowMs,
-  "Slam III remains the harder continuation",
-);
+for (let index = 4; index < timingWindows.length; index += 1) {
+  assert.ok(timingWindows[index] < timingWindows[index - 1]);
+}
+assert.ok(timingWindows.at(-1) <= 16, "Slam X should remain nearly impossible");
+assert.equal(THUNDER_STRIKE_CHAIN_PHASES.SETBACK, undefined);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.recovery, undefined);
 assert.ok(
   THUNDER_STRIKE_CHAIN_CONFIG.timingBar.depth > 3600,
   "the timing bar must render above transient notification toasts",
 );
+assert.equal(
+  Object.keys(THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt.assetPaths).length,
+  10,
+);
 
-// The pure chain accepts exact hits, rejects an early press immediately, and
-// cannot skip from Slam I directly to the final 10x strike.
+// The pure chain accepts exact hits, ends on the first miss, and cannot skip
+// from Slam I directly to the final tenth strike.
 {
   const state = new ThunderStrikeChainState();
   state.beginCharge(0);
   assert.equal(state.markSlamStarted(0, 1000), true);
   state.beginContinuation(1800);
   assert.equal(state.phase, THUNDER_STRIKE_CHAIN_PHASES.TIMING);
-  assert.equal(state.markSlamStarted(2, 1800), false);
+  assert.equal(state.markSlamStarted(9, 1800), false);
   const presented = state.getSnapshot(state.challengeTargetMs);
   const slamTwo = state.attemptContinuationAtProgress(presented.progress);
   assert.equal(slamTwo.success, true);
@@ -64,8 +86,14 @@ assert.ok(
     - 1;
   const miss = state.attemptContinuation(tooEarly);
   assert.equal(miss.success, false);
+  assert.equal(miss.failed, true);
   assert.equal(miss.reason, "miss");
+  assert.equal(miss.recovered, undefined);
   assert.equal(state.phase, THUNDER_STRIKE_CHAIN_PHASES.FAILED);
+  assert.equal(state.currentStageIndex, 1);
+  assert.equal(state.completedStageIndex, 1);
+  assert.equal(state.successfulContinuations, 1);
+  assert.equal("setbacksRemaining" in miss.snapshot, false);
 }
 
 // Timing authority follows the position drawn on the previous rendered frame,
@@ -91,19 +119,35 @@ assert.ok(
   const state = new ThunderStrikeChainState();
   state.beginCharge(0);
   state.markSlamStarted(0, 1000);
-  state.beginContinuation(1800);
-  let attempt = state.attemptContinuation(state.challengeTargetMs);
-  state.markSlamStarted(attempt.stageIndex, state.challengeTargetMs);
-  state.beginContinuation(2800);
-  assert.equal(state.getSnapshot(2800).progress, 0, "each timing bar restarts at the left edge");
-  attempt = state.attemptContinuation(state.challengeTargetMs);
-  assert.equal(attempt.snapshot.successfulContinuations, 2);
-  state.markSlamStarted(attempt.stageIndex, state.challengeTargetMs);
-  const finished = state.beginContinuation(3800);
+  let nowMs = 1800;
+  for (let stageIndex = 1; stageIndex < 10; stageIndex += 1) {
+    const continuation = state.beginContinuation(nowMs);
+    assert.equal(continuation.complete, false);
+    assert.equal(continuation.snapshot.progress, 0, "every timing bar restarts left");
+    const attempt = state.attemptContinuation(state.challengeTargetMs);
+    assert.equal(attempt.success, true);
+    assert.equal(attempt.snapshot.successfulContinuations, stageIndex);
+    assert.equal(state.markSlamStarted(stageIndex, state.challengeTargetMs), true);
+    nowMs = state.challengeTargetMs + 800;
+  }
+  const finished = state.beginContinuation(nowMs);
   assert.equal(finished.complete, true);
   assert.equal(state.phase, THUNDER_STRIKE_CHAIN_PHASES.COMPLETE);
-  assert.equal(state.completedStageIndex, 2);
-  assert.equal(state.successfulContinuations, 2);
+  assert.equal(state.completedStageIndex, 9);
+  assert.equal(state.successfulContinuations, 9);
+}
+
+// Extra legacy arguments cannot restore retries: the first miss always disperses.
+{
+  const state = new ThunderStrikeChainState();
+  state.beginCharge(0, 99);
+  state.markSlamStarted(0, 1000);
+  state.beginContinuation(1800);
+  const miss = state.attemptContinuation(state.challengeStartMs);
+  assert.equal(miss.failed, true);
+  assert.equal(miss.recovered, undefined);
+  assert.equal(miss.reason, "miss");
+  assert.equal(state.phase, THUNDER_STRIKE_CHAIN_PHASES.FAILED);
 }
 
 {
@@ -113,7 +157,9 @@ assert.ok(
   state.beginContinuation(1800);
   const timedOut = state.update(state.challengeEndMs + 1);
   assert.equal(timedOut.failed, true);
+  assert.equal(timedOut.recovered, undefined);
   assert.equal(timedOut.reason, "timeout");
+  assert.equal(state.phase, THUNDER_STRIKE_CHAIN_PHASES.FAILED);
 }
 
 // Only Slam I spends GP. Follow-ups must be explicitly armed by a successful
@@ -125,6 +171,7 @@ assert.ok(
   Object.assign(abilities, {
     _thunderStrikeCharging: true,
     _thunderStrikeFollowUpStageIndex: null,
+    _thunderStrikeFollowUpSuccessCount: 0,
     _godMode: false,
     gemPower: 1000,
     body: {
@@ -162,27 +209,36 @@ assert.ok(
   assert.equal(first.chainEffectiveDamageMultiplier, 1);
   assert.equal(abilities.gemPower, 700);
 
-  const unauthorized = abilities.executeThunderStrike(2);
+  const unauthorized = abilities.executeThunderStrike(9);
   assert.equal(unauthorized.success, false);
   assert.equal(unauthorized.reason, "follow-up-not-armed");
   assert.equal(abilities.gemPower, 700);
 
-  assert.equal(abilities.armThunderStrikeFollowUp(1), true);
-  const second = abilities.executeThunderStrike(1);
-  assert.equal(second.success, true);
-  assert.equal(second.chainDamageMultiplier, 3);
-  assert.equal(second.chainSuccessDamageMultiplier, 1.2);
-  assert.equal(second.chainEffectiveDamageMultiplier, 3.6);
+  for (let stageIndex = 1; stageIndex < 10; stageIndex += 1) {
+    assert.equal(abilities.armThunderStrikeFollowUp(stageIndex, stageIndex), true);
+    const strike = abilities.executeThunderStrike(stageIndex);
+    const stage = THUNDER_STRIKE_CHAIN_CONFIG.stages[stageIndex];
+    assert.equal(strike.success, true);
+    assert.equal(strike.chainDamageMultiplier, stage.damageMultiplier);
+    assert.equal(
+      strike.chainEffectiveDamageMultiplier,
+      resolveThunderStrikeEffectiveDamageMultiplier(stage.damageMultiplier, stageIndex),
+    );
+  }
   assert.equal(abilities.gemPower, 700);
+  assert.deepEqual(
+    damages.map((hit) => hit.damage),
+    [150, 540, 2100, 2880, 4050, 6000, 9240, 14400, 23400, 42000],
+  );
+  assert.equal(
+    new Set(damages.map((hit) => hit.tx)).size,
+    1,
+    "every slam must stay in the one vertical lane below the player",
+  );
 
-  assert.equal(abilities.armThunderStrikeFollowUp(2), true);
-  const third = abilities.executeThunderStrike(2);
-  assert.equal(third.success, true);
-  assert.equal(third.chainDamageMultiplier, 10);
-  assert.equal(third.chainSuccessDamageMultiplier, 1.4);
-  assert.equal(third.chainEffectiveDamageMultiplier, 14);
-  assert.equal(abilities.gemPower, 700);
-  assert.deepEqual(damages.map((hit) => hit.damage), [150, 540, 2100]);
+  abilities._thunderStrikeChargeStart = 1000;
+  assert.equal(abilities.updateThunderStrikeCharge(1179).complete, false);
+  assert.equal(abilities.updateThunderStrikeCharge(1180).complete, true);
 }
 
 assert.equal(
@@ -213,11 +269,11 @@ assert.equal(
     baseDamage: 100,
     normalDamageMultiplier: 1.5,
     bonusDamageMultiplier: 1,
-    stageDamageMultiplier: 10,
-    successDamageMultiplier: 1.4,
+    stageDamageMultiplier: 100,
+    successDamageMultiplier: 2.8,
   }),
-  2100,
-  "two successful timings add a cumulative 40% combo-local damage buff",
+  42000,
+  "nine successful timings add a cumulative 180% combo-local damage buff",
 );
 
 const wideScale = resolveThunderStrikeTimingBarScale(1672, 940);
@@ -242,6 +298,14 @@ const updateSource = readFileSync(
 );
 const caveSource = readFileSync(
   new URL("../world/playScene/CaveActionAnimationRuntime.js", import.meta.url),
+  "utf8",
+);
+const caveGameplaySource = readFileSync(
+  new URL("../world/playScene/CaveGameplayController.js", import.meta.url),
+  "utf8",
+);
+const inputSource = readFileSync(
+  new URL("../world/playScene/GameInputHandler.js", import.meta.url),
   "utf8",
 );
 const timingBarSource = readFileSync(
@@ -274,6 +338,33 @@ const frameAsset = readFileSync(
     import.meta.url,
   ),
 );
+const targetGateAsset = readFileSync(
+  new URL(
+    "../sprites/UI/thunderstrike-chain-v2/thunderstrike-target-gate-v2.webp",
+    import.meta.url,
+  ),
+);
+const needleAsset = readFileSync(
+  new URL(
+    "../sprites/UI/thunderstrike-chain-v2/thunderstrike-needle-v2.webp",
+    import.meta.url,
+  ),
+);
+const indicatorAssetNames = [
+  "thunderstrike-milestone-dormant-v3.webp",
+  "thunderstrike-milestone-challenge-v3.webp",
+  "thunderstrike-milestone-completed-v3.webp",
+  "thunderstrike-milestone-check-v3.webp",
+  "thunderstrike-prompt-plate-v3.webp",
+  "thunderstrike-stage-plate-v3.webp",
+  "thunderstrike-badge-plate-v3.webp",
+  "thunderstrike-glyph-i-v3.webp",
+  "thunderstrike-glyph-v-v3.webp",
+  "thunderstrike-glyph-x-v3.webp",
+];
+const indicatorAssets = indicatorAssetNames.map((name) => readFileSync(
+  new URL(`../sprites/UI/thunderstrike-chain-v3/${name}`, import.meta.url),
+));
 
 assert.match(setupSource, /new ThunderStrikeActionRuntime\(this\)/);
 assert.match(setupSource, /this\._isShuttingDown = false/);
@@ -287,15 +378,35 @@ assert.match(
   /thunderStrikeActionRuntime\?\.isAnimating[\s\S]{0,120}thunderStrikeStrikeAnim/,
 );
 assert.match(updateSource, /thunderStrikeActionRuntime\?\.update/);
+assert.match(updateSource, /thunderStrikeActionRuntime\?\.cancel/);
 assert.match(caveSource, /new ThunderStrikeActionRuntime\(controller\.scene/);
+assert.match(caveSource, /cancelThunderStrike\(time\)/);
+assert.match(caveGameplaySource, /cancelThunderStrike\(time\)/);
+assert.match(inputSource, /thunderStrikeActionRuntime\?\.cancel/);
 assert.match(timingBarSource, /getPresentedTimingSnapshot/);
 assert.match(timingBarViewSource, /getKeyLabel\("thunderStrike"\)/);
 assert.match(timingBarViewSource, /windowStartProgress/);
 assert.match(timingBarViewSource, /thunderStrikeChainFrame/);
+assert.match(timingBarViewSource, /thunderStrikeTargetGate/);
+assert.match(timingBarViewSource, /thunderStrikeNeedle/);
+assert.match(timingBarViewSource, /thunderStrikeIndicator/);
+assert.match(timingBarViewSource, /milestoneChallenge/);
+assert.match(timingBarViewSource, /promptPlate/);
+assert.match(timingBarViewSource, /ui\.milestones/);
+assert.doesNotMatch(timingBarViewSource, /add\.graphics|fillCircle|strokeCircle|lineBetween/);
 assert.match(bootSource, /THUNDER_STRIKE_CHAIN_CONFIG\.timingBar\.assetPath/);
+assert.match(bootSource, /THUNDER_STRIKE_CHAIN_CONFIG\.timingBar\.targetAssetPath/);
+assert.match(bootSource, /THUNDER_STRIKE_CHAIN_CONFIG\.timingBar\.needleAssetPath/);
+assert.match(bootSource, /timingBar\.indicatorArt\.assetPaths/);
 assert.match(visualHarnessSource, /new ThunderStrikeTimingBarSystem\(this\)/);
 assert.match(visualHarnessSource, /keydown-SPACE/);
+assert.match(visualHarnessSource, /keydown-\$\{key\}/);
+assert.match(visualHarnessSource, /keydown-M/);
+assert.match(visualHarnessSource, /"ZERO"/);
+assert.match(visualHarnessSource, /THUNDER_STRIKE_CHAIN_CONFIG\.stages\.length - 1/);
 assert.match(visualHarnessSource, /successfulContinuations/);
+assert.match(visualHarnessSource, /showFailure/);
+assert.doesNotMatch(visualHarnessSource, /showSetback|setbacksRemaining|SETBACK/);
 assert.match(
   visualHarnessHtml,
   /2026-07-26-thunderstrike-chain-visual-harness\.js/,
@@ -304,6 +415,11 @@ assert.match(impactSource, /stage\.visual\.shakeSignature/);
 assert.match(impactSource, /stage\.visual\.sparkCount/);
 assert.match(impactSource, /chainEffectiveDamageMultiplier/);
 assert.equal(frameAsset.subarray(0, 4).toString("ascii"), "RIFF");
+assert.equal(targetGateAsset.subarray(0, 4).toString("ascii"), "RIFF");
+assert.equal(needleAsset.subarray(0, 4).toString("ascii"), "RIFF");
+for (const indicatorAsset of indicatorAssets) {
+  assert.equal(indicatorAsset.subarray(0, 4).toString("ascii"), "RIFF");
+}
 
 {
   const gameplayPrototype = {};

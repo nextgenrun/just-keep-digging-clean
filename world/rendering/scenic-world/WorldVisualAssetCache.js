@@ -1,13 +1,29 @@
+import {
+  WORLD_VISUAL_RUNTIME,
+  resolveScenicAssetSchedulerEnabled,
+} from "../../../values/worldVisualRuntime.js";
+
 export class WorldVisualAssetCache {
-  constructor(scene, { retainKeys = [], videoNoAudio = true } = {}) {
+  constructor(scene, {
+    retainKeys = [],
+    videoNoAudio = true,
+    schedulerConfig = WORLD_VISUAL_RUNTIME.streaming.assetLoadScheduler,
+  } = {}) {
     this.scene = scene;
     this.retainKeys = new Set(retainKeys);
     this.videoNoAudio = videoNoAudio;
+    this.schedulerConfig = schedulerConfig;
+    this.schedulerEnabled = resolveScenicAssetSchedulerEnabled(schedulerConfig);
     this.pending = new Map();
+    this.waiting = [];
+    this.activeKeys = new Set();
     this.loadedByCache = new Set();
     this.assetsByKey = new Map();
     this.destroyed = false;
+    this.loaderWaitArmed = false;
+    this.cancelledLoads = 0;
     this._handleLoadError = this._handleLoadError.bind(this);
+    this._handleLoaderComplete = this._handleLoaderComplete.bind(this);
     this.scene.load.on("loaderror", this._handleLoadError);
   }
 
@@ -34,9 +50,25 @@ export class WorldVisualAssetCache {
       ready: new Set(onReady ? [onReady] : []),
       error: new Set(onError ? [onError] : []),
       complete: null,
+      started: false,
     };
     record.complete = () => this._finish(asset.key);
     this.pending.set(asset.key, record);
+    if (this.schedulerEnabled) {
+      this.waiting.push(record);
+      this._pump();
+    } else {
+      this._startRecord(record);
+    }
+    return false;
+  }
+
+  _startRecord(record) {
+    if (!record || record.started || this.destroyed) return;
+    const { asset, eventName } = record;
+    const type = asset.type === "video" ? "video" : "image";
+    record.started = true;
+    this.activeKeys.add(asset.key);
     this.scene.load.once(eventName, record.complete);
     if (type === "video") {
       this.scene.load.video(asset.key, asset.path, this.videoNoAudio);
@@ -45,7 +77,32 @@ export class WorldVisualAssetCache {
     }
     if (!this.scene.load.isLoading()) this.scene.load.start();
     console.info(`[WorldVisualAssetCache] Streaming ${asset.key}`);
-    return false;
+  }
+
+  _pump() {
+    if (!this.schedulerEnabled || this.destroyed) return;
+    const loader = this.scene.load;
+    if (loader.isLoading()) {
+      if (!this.loaderWaitArmed) {
+        this.loaderWaitArmed = true;
+        loader.once(this.schedulerConfig.loaderCompleteEvent, this._handleLoaderComplete);
+      }
+      return;
+    }
+    if (this.loaderWaitArmed) {
+      loader.off(this.schedulerConfig.loaderCompleteEvent, this._handleLoaderComplete);
+      this.loaderWaitArmed = false;
+    }
+    let started = 0;
+    while (this.waiting.length > 0 && started < this.schedulerConfig.maxAssetsPerBatch) {
+      this._startRecord(this.waiting.shift());
+      started += 1;
+    }
+  }
+
+  _handleLoaderComplete() {
+    this.loaderWaitArmed = false;
+    this._pump();
   }
 
   _exists(asset, key = asset?.key) {
@@ -56,7 +113,12 @@ export class WorldVisualAssetCache {
   }
 
   release(key, asset = this.assetsByKey.get(key)) {
-    if (!key || this.retainKeys.has(key) || this.pending.has(key)) return false;
+    if (!key || this.retainKeys.has(key)) return false;
+    const pendingRecord = this.pending.get(key);
+    if (pendingRecord) {
+      if (!pendingRecord.started) return this._cancelWaitingRecord(pendingRecord);
+      return false;
+    }
     if (!this._exists(asset, key)) return false;
     if (asset?.type === "video") {
       this.scene.cache.video.remove(key);
@@ -68,32 +130,64 @@ export class WorldVisualAssetCache {
     return true;
   }
 
+  _cancelWaitingRecord(record) {
+    const index = this.waiting.indexOf(record);
+    if (index >= 0) this.waiting.splice(index, 1);
+    this.pending.delete(record.asset.key);
+    this.assetsByKey.delete(record.asset.key);
+    this.cancelledLoads += 1;
+    const cancellation = { cancelled: true };
+    for (const callback of record.error) {
+      callback(record.asset, cancellation);
+    }
+    return true;
+  }
+
+  getPerformanceSnapshot() {
+    return {
+      pendingAssets: this.pending.size,
+      waitingAssets: this.waiting.length,
+      activeAssets: this.activeKeys.size,
+      loadedAssets: this.loadedByCache.size,
+      retainedAssets: this.retainKeys.size,
+      knownAssets: this.assetsByKey.size,
+      cancelledLoads: this.cancelledLoads,
+    };
+  }
+
   _finish(key) {
     const record = this.pending.get(key);
-    if (!record || this.destroyed) return;
+    if (!record?.started || this.destroyed) return;
     this.pending.delete(key);
+    this.activeKeys.delete(key);
     this.loadedByCache.add(key);
     for (const callback of record.ready) callback(record.asset);
+    this._pump();
   }
 
   _handleLoadError(file) {
     const key = file?.key;
     const record = this.pending.get(key);
-    if (!record) return;
+    if (!record?.started) return;
     this.scene.load.off(record.eventName, record.complete);
     this.pending.delete(key);
+    this.activeKeys.delete(key);
     console.error(`[WorldVisualAssetCache] Failed to stream ${key}`);
     for (const callback of record.error) callback(record.asset, file);
+    this._pump();
   }
 
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
     this.scene.load.off("loaderror", this._handleLoadError);
+    this.scene.load.off(this.schedulerConfig.loaderCompleteEvent, this._handleLoaderComplete);
     for (const record of this.pending.values()) {
-      this.scene.load.off(record.eventName, record.complete);
+      if (record.started) this.scene.load.off(record.eventName, record.complete);
     }
     this.pending.clear();
+    this.waiting.length = 0;
+    this.activeKeys.clear();
     for (const key of this.loadedByCache) this.release(key);
     this.loadedByCache.clear();
     this.assetsByKey.clear();

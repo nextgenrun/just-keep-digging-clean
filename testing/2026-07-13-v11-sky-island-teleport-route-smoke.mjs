@@ -5,6 +5,7 @@ import { WorldModel } from "../world/model/WorldModel.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
+import { TOWN_SQUARE_CONFIG } from "../values/townSquareConfig.js";
 
 function createPromptText() {
   return {
@@ -102,7 +103,17 @@ const level1 = V11_SKY_ISLAND_LAYOUT.levels.find((level) => level.levelId === 1)
 const level2 = V11_SKY_ISLAND_LAYOUT.levels.find((level) => level.levelId === 2);
 
 assert.equal(harness.system.skyPortalSlots.length, 8, "v11 should expose four authored gate slots per level");
-assert.equal(harness.system._findUnlockedGroundPortalAt(93, 64), null, "surface portal must start locked");
+assert.equal(level1.groundPortal.leftTile, 0, "Level 1 surface portal should sit at the town's far-left edge");
+assert.ok(
+  level1.groundPortal.leftTile + level1.groundPortal.widthTiles
+    <= TOWN_SQUARE_CONFIG.milestonePillar.tileX,
+  "Level 1 surface portal must remain fully left of the Milestone Pillar"
+);
+assert.equal(
+  harness.system._findUnlockedGroundPortalAt(level1.groundPortal.leftTile, 64),
+  null,
+  "surface portal must start locked"
+);
 
 const level1Activation = activateDepthTile(harness, 77, 95);
 assert.equal(level1Activation.success, true);
@@ -110,9 +121,10 @@ assert.equal(level1Activation.pairData.levelId, 1);
 assert.equal(harness.groundPortalStates.get(1), true, "first Level 1 depth tile should unlock its surface portal");
 assert.equal(harness.groundPortalStates.get(2), false, "Level 2 surface portal should remain locked");
 
-harness.setPlayerTile(level1.groundPortal.leftTile - 1, 64);
+harness.setPlayerTile(level1.groundPortal.leftTile + level1.groundPortal.widthTiles, 64);
 harness.system.update();
 assert.equal(harness.system.promptTile?.type, "teleportGroundToSky");
+assert.equal(harness.system.getInteractionDistance(), 1);
 const level1Ascent = harness.system.handleInteract();
 assert.deepEqual(level1Ascent, {
   success: true,

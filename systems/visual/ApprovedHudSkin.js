@@ -1,6 +1,7 @@
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { PickaxeHudView } from "./PickaxeHudView.js";
 
 const REQUIRED_KEYS = Object.freeze(Object.values(ASSET_KEYS.ui.approvedHud));
 
@@ -28,6 +29,7 @@ export class ApprovedHudSkin {
     this.active = hasApprovedHudSkin(scene);
     this.buffFrames = [];
     this.buffTexts = [];
+    this.pickaxeHudView = null;
     if (!this.active) return;
 
     this.scale = Math.min(
@@ -36,6 +38,7 @@ export class ApprovedHudSkin {
     );
     this._createFrames();
     this._applyLegacyObjectLayout();
+    this.pickaxeHudView = new PickaxeHudView(scene, this.scale);
     this.setTorchState(hud.torchActive);
   }
 
@@ -189,11 +192,32 @@ export class ApprovedHudSkin {
     this.hud.torchStatusText?.setVisible(false);
   }
 
+  setCurrentPickaxe(pickaxeId, options = {}) {
+    if (!this.active) return false;
+    return this.pickaxeHudView?.setPickaxe(pickaxeId, options) === true;
+  }
+
+  getCurrentPickaxeTheme() {
+    return this.pickaxeHudView?.getTheme() || null;
+  }
+
+  getPickaxeHudSnapshot() {
+    return this.pickaxeHudView?.getSnapshot() || Object.freeze({
+      enabled: false,
+      ready: false,
+      pickaxeId: null,
+      label: "",
+      overlayVisible: false,
+    });
+  }
+
   destroy() {
+    this.pickaxeHudView?.destroy();
     [this.playerFrame, this.comboFrame, this.worldFrame, ...this.buffFrames, ...this.buffTexts]
       .forEach((object) => object?.destroy());
     this.buffFrames = [];
     this.buffTexts = [];
+    this.pickaxeHudView = null;
     this.scene = null;
     this.hud = null;
   }

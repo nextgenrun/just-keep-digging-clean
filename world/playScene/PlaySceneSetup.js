@@ -26,8 +26,10 @@ import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { WorldModel } from "../WorldModel.js";
-import { createWorldRenderer } from "../rendering/WorldRenderFactory.js?rev=20260727-restart-lifecycle-v1";
-import { WORLD_VISUAL_RUNTIME_MODES } from "../../values/worldVisualRuntime.js";
+import { createWorldRenderer } from
+  "../rendering/WorldRenderFactory.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { WORLD_VISUAL_RUNTIME_MODES } from
+  "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { WorldBackgroundMasterSystem } from "../rendering/WorldBackgroundMasterSystem.js";
 import { WorldBackgroundAmbientMotionSystem } from "../rendering/WorldBackgroundAmbientMotionSystem.js";
 import { LevelOneLivingBackdropSystem } from "../rendering/LevelOneLivingBackdropSystem.js";
@@ -95,8 +97,14 @@ import { AmbientParticleSystem } from "../../systems/environment/AmbientParticle
 import { DepthMilestoneCinematic } from "../../systems/visual/DepthMilestoneCinematic.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
+import {
+  CONSTELLATION_ABILITY_PREREQUISITES,
+  CONSTELLATION_BUFFS,
+  CONSTELLATION_MATCHING_STAR_YIELD_BONUS,
+} from "../../values/constellationBuffs.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
 import { StarHeartOverlay } from "../../ui/overlays/StarHeartOverlay.js";
+import { StarlightTalentTreeView } from "../../ui/overlays/StarlightTalentTreeView.js";
 import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
 import { CaveAtmosphereSystem } from "../../systems/visual/CaveAtmosphereSystem.js";
 import { CaveHazardView } from "../../systems/visual/CaveHazardView.js";
@@ -110,32 +118,40 @@ import { CaveHazardSystem } from "../../systems/environment/CaveHazardSystem.js"
 import { EarthquakeSystem } from "../../systems/environment/EarthquakeSystem.js";
 import { EarthquakeFeedbackUI } from "../../systems/visual/EarthquakeFeedbackUI.js";
 import { EarthquakeHazardOverlay } from "../../systems/visual/EarthquakeHazardOverlay.js";
+import { EarthquakeTileFeedbackSystem } from "../../systems/visual/EarthquakeTileFeedbackSystem.js";
 import { DepthGateSystem } from "../../systems/progression/DepthGateSystem.js";
+import { createJourneyRuntime } from "./JourneyBridge.js";
 import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnelDoorSystem.js";
 import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSystem.js";
 import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
 import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
-import {
-  OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
-  shouldUseOpeningFlightGoldenSpawn,
-} from "../../values/openingFlightArtifact.js";
+import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
+import { HardcoreMemorialStore } from "../../systems/hardcore/HardcoreMemorialStore.js";
+import { HardcoreMemorialWorldSystem } from "../../systems/visual/HardcoreMemorialWorldSystem.js";
 
 const PLAY_SCENE_UI_FACTORIES = Object.freeze({
   createButton,
   createIconBadge,
   createModalShell,
+  createStarlightTalentTreeView: (scene, options) => (
+    new StarlightTalentTreeView(scene, options)
+  ),
 });
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js";
+import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { CaveEntryController } from "./CaveEntryController.js";
 import {
   createGraveborerWurmRuntime,
   destroyGraveborerWurmRuntime,
 } from "./GraveborerWurmBridge.js";
+import {
+  createHardcoreModeRuntime,
+  destroyHardcoreModeRuntime,
+} from "./HardcoreModeBridge.js";
 
 function comboShakeSignatureFor(milestone) {
   if (milestone >= 5000) return "combo.godlike";
@@ -394,31 +410,14 @@ async function _setupSceneSafe(data = {}) {
   this.saveSlot = data.saveSlot || 1;
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
   this.dugTileSaveStore = new DugTilesSaveStore({ slotId: this.saveSlot });
+  if (data.isNewSave === true) this.dugTileSaveStore.beginNewSave();
   this.worldModel = new WorldModel(this.config);
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
   this._cachedSaveData = initialCachedSave;
-  this.hardcoreModeData = sanitizeHardcoreModeData(initialCachedSave?.hardcoreModeData);
-  this._openingFlightGoldenFiveSpawn = shouldUseOpeningFlightGoldenSpawn(
-    initialCachedSave,
-    OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
+  this.hardcoreModeData = sanitizeHardcoreModeData(
+    initialCachedSave?.hardcoreModeData ?? data.hardcoreModeData,
   );
-  if (this._openingFlightGoldenFiveSpawn) {
-    const openingState = initialCachedSave?.openingFlightArtifactData;
-    const resumeProtectedEscape = openingState?.artifactCollected === true
-      && openingState?.surfaceReturnCelebrated !== true;
-    this.config = Object.freeze({
-      ...this.config,
-      playerSpawnTileX: this.config.spawnTileX
-        + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.tileXOffsetFromTownAnchor,
-      playerSpawnTileY: resumeProtectedEscape
-        ? this.config.topAirRows
-          + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.surfaceRowOffset
-          + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.artifactDepthTiles
-        : this.config.topAirRows - 1
-          + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.surfaceRowOffset,
-    });
-  }
   const cachedPlayerCharacterId = resolvePersistedPlayerCharacterId(initialCachedSave?.playerCharacterId);
   this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? cachedPlayerCharacterId);
   this.playerAssetProfile = getPlayerAssetProfile(this.playerCharacterId);
@@ -590,6 +589,7 @@ async function _setupSceneSafe(data = {}) {
   this.ualActionContactTimeline = this.playerAssetProfile.isUalNative
     ? new UalActionContactTimeline(this.player)
     : null;
+  this._ualMovingSideDigResumeJogFrame = null;
 
   this._onAnimComplete = (animation) => {
     const profile = this.playerAssetProfile || ASSET_KEYS.player;
@@ -626,6 +626,15 @@ async function _setupSceneSafe(data = {}) {
       this._postActionFacingFlipX = null;
       this.player.anims.timeScale = 1.0;
       this.pickaxeTrailSystem?.stop();
+      const resumeJogFrame = this._ualMovingSideDigResumeJogFrame;
+      this._ualMovingSideDigResumeJogFrame = null;
+      const motionState = this.playerController?.getMotionState?.();
+      const movementActive = motionState === "walk-left" || motionState === "walk-right";
+      if (Number.isFinite(resumeJogFrame) && movementActive) {
+        this.ualLocomotionTransitionSelector?.requestRunResume(resumeJogFrame);
+      } else {
+        this.playerMotionPolish?.beginActionRecovery?.(animation.key, settledFlipX);
+      }
       this.updatePlayerVisualState(true);
     } else if (this.playerMotionPolish?.onAnimationComplete?.(animation.key, now)) {
       this.updatePlayerVisualState(true);
@@ -738,11 +747,12 @@ async function _setupSceneSafe(data = {}) {
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
   this.starHeartProgressionSystem = new StarHeartProgressionSystem({
     isGodModeActive: () => this.upgradeSystem?.godModeActive === true,
-    onChanged: (_snapshot, event) => {
+    onChanged: (snapshot, event) => {
       this.queueDugTilesSave?.();
       if (event === "heart-earned") {
         this.uiNotifications?.success?.(
-          "STAR HEART FORGED  •  Return to the Star Pillar",
+          `STAR HEART FORGED  •  ${snapshot.charge}/${snapshot.chargeCapacity}`
+            + " CHARGE  •  RETURN TO THE STAR PILLAR",
           { key: "star-heart-forged", durationMs: 3600 },
         );
       }
@@ -752,16 +762,10 @@ async function _setupSceneSafe(data = {}) {
     this._cachedSaveData?.starHeartData,
     this.floatingTextSystem.getUnlockedConstellations().length,
   );
-  this.floatingTextSystem.setCollectedSkyStarCallback(({ rarity }) => {
-    const gained = this.starHeartProgressionSystem.recordCollectedSkyStar(rarity);
-    if (gained > 0) {
-      const snapshot = this.starHeartProgressionSystem.getSnapshot();
-      this.hudSystem?.flashStatus?.(
-        `STAR HEART +${gained}  •  ${snapshot.charge}/${snapshot.chargeCapacity}`,
-        "#65E8FF",
-        1500,
-      );
-    }
+  this.floatingTextSystem.setCollectedSkyStarCallback((detail) => {
+    const gained = this.starHeartProgressionSystem.recordCollectedSkyStar(detail.rarity);
+    this.starPillarSystem?.onCollectedSkyStar?.(detail);
+    if (gained > 0) this.hudSystem?.pulseGemPower?.(true);
   });
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
   this.relicDiscoveryFxSystem = new RelicDiscoveryFxSystem(this, {
@@ -773,22 +777,14 @@ async function _setupSceneSafe(data = {}) {
     ),
   });
   this.digSystem.setRelicDiscoveryFxSystem?.(this.relicDiscoveryFxSystem);
-  this.comboSystem.setMilestoneReachedCallback((milestone, multiplier, timestamp) => {
+  this.comboSystem.setMilestoneReachedCallback((milestone) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
-    const message = reward?.message || "Combo";
     const restored = this.playerController?.abilities?.restoreGemPower?.(reward?.gpRestore || 0) || 0;
-    const gpText = restored > 0 ? `  +${Math.floor(restored)} GP` : "";
-    this.hudSystem.flashStatus(`${message} ${milestone}!${gpText}`, "#ffdd44", 1500);
+    if (restored > 0) this.hudSystem?.pulseGemPower?.(true);
     if (this.shakeSystem) {
       this.shakeSystem.shake(comboShakeSignatureFor(milestone));
     }
   });
-  this.comboSystem.setComboBreakCallback((finalCombo, finalMultiplier) => {
-    if (finalCombo >= 25) {
-      this.hudSystem.flashStatus(`Combo broken at ${finalCombo}! (${finalMultiplier.toFixed(2)}x)`, "#ff4444", 2000);
-    }
-  });
-
   this.milestoneBoardSystem = new MilestoneBoardSystem(
     this,
     this.config,
@@ -818,30 +814,30 @@ async function _setupSceneSafe(data = {}) {
       this.floatingTextSystem.getUnlockedConstellations().length,
     );
     const resourceNames = { dirt: 'Dirt', stone: 'Stone', copper: 'Copper', darkDirtNormal: 'Dark Dirt', darkDirtStrong: 'Hard Dirt', steel: 'Steel', iron: 'Iron', bronze: 'Bronze', silver: 'Silver', gold: 'Gold' };
-    const passiveBuffText = `${resourceNames[type] || type} sky tiles +1x`;
+    const passiveBuffText = (
+      `${resourceNames[type] || type} Star Blocks +${CONSTELLATION_MATCHING_STAR_YIELD_BONUS}x yield`
+    );
+    const abilities = this.playerController?.abilities;
+    const buff = CONSTELLATION_BUFFS[type];
+    const prerequisite = CONSTELLATION_ABILITY_PREREQUISITES[buff?.ability];
+    abilities?._refreshConstellationStats?.();
+    const abilityOwned = prerequisite
+      && abilities?.[prerequisite.unlockMethod]?.() === true;
+    const mutationText = buff && prerequisite
+      ? abilityOwned
+        ? `${buff.name} active  •  ${buff.description}`
+        : `${buff.name} sealed  •  Buy ${prerequisite.abilityName} from ${prerequisite.merchantName}`
+      : "";
     if (this.hudSystem) {
-      this.hudSystem.flashStatus(`✦ ${passiveBuffText} unlocked!`, '#FFD700', 2500);
+      this.hudSystem.flashStatus(
+        `${resourceNames[type] || type} constellation mastered`
+          + `  •  ${passiveBuffText}`
+          + (mutationText ? `\n${mutationText}` : ""),
+        '#FFD700',
+        3000,
+      );
     }
-    if (this.playerController && this.playerController.abilities) {
-      this.playerController.abilities._refreshConstellationStats();
-      const cStats = this.playerController.abilities.getConstellationStats();
-      const buffs = [];
-      const quickKey = USER_SETTINGS.getKeyLabel("quickslash");
-      const thunderKey = USER_SETTINGS.getKeyLabel("thunderStrike");
-      if (cStats.quickslashFlatDamage > 0) buffs.push(`+${cStats.quickslashFlatDamage} ${quickKey} dmg`);
-      if (cStats.quickslashCostReduction > 0) buffs.push(`-${cStats.quickslashCostReduction} ${quickKey} cost`);
-      if (cStats.quickslashBurstSpeed > 0) buffs.push(`+${cStats.quickslashBurstSpeed} ${quickKey} speed`);
-      if (cStats.quickslashFreeAbovePct > 0) buffs.push(`${quickKey} free above 50% GP`);
-      if (cStats.quickslashSpeedBonus > 0) buffs.push(`+${Math.round(cStats.quickslashSpeedBonus * 100)}% ${quickKey} mining`);
-      if (cStats.thunderstrikeRange > 0) buffs.push(`+${cStats.thunderstrikeRange} ${thunderKey} range`);
-      if (cStats.thunderstrikeDamageMult > 0) buffs.push(`+${Math.round(cStats.thunderstrikeDamageMult * 100)}% ${thunderKey} dmg`);
-      if (cStats.thunderstrikeFalloffReduction > 0) buffs.push(`-${Math.round(cStats.thunderstrikeFalloffReduction * 100)}% ${thunderKey} falloff`);
-      if (cStats.thunderstrikeCostReduction > 0) buffs.push(`-${cStats.thunderstrikeCostReduction} ${thunderKey} cost`);
-      if (buffs.length > 0 && this.hudSystem) {
-        this.time.delayedCall(1500, () => {
-          if (this.hudSystem) this.hudSystem.flashStatus(`${passiveBuffText} | ${buffs.join(' | ')}`, '#AABBEE', 3000);
-        });
-      }
+    if (abilities) {
       if (this.shakeSystem) this.shakeSystem.shake("misc.constellationUnlock");
     }
   });
@@ -941,6 +937,12 @@ async function _setupSceneSafe(data = {}) {
   this.soundSystem.printStats();
 
   this.createSceneUI();
+  this.hardcoreMemorialStore = new HardcoreMemorialStore();
+  this.hardcoreMemorialSystem = new HardcoreMemorialWorldSystem(
+    this,
+    this.hardcoreMemorialStore.getForSlot(this.saveSlot),
+  );
+  createHardcoreModeRuntime(this);
   this.celestialEngineController = new CelestialEngineController(
     this,
     this.starHeartProgressionSystem,
@@ -949,6 +951,7 @@ async function _setupSceneSafe(data = {}) {
   this.miningIntentPreviewSystem = new MiningIntentPreviewSystem(this);
   this.thunderStrikeActionRuntime = new ThunderStrikeActionRuntime(this);
   this.openingFlightArtifactSystem = new OpeningFlightArtifactSystem(this);
+  this.townSquareTutorialSystem = new TownSquareTutorialSystem(this);
 
   const keys = this.inputHandler.getKeys();
   this.interactKey = keys.interact;
@@ -958,7 +961,9 @@ async function _setupSceneSafe(data = {}) {
   this.earthquakeSystem = new EarthquakeSystem(this);
   this.earthquakeFeedbackUI = new EarthquakeFeedbackUI(this, this.earthquakeSystem);
   this.earthquakeHazardOverlay = new EarthquakeHazardOverlay(this, this.earthquakeSystem);
-  this.depthGateSystem = new DepthGateSystem(this);
+  this.earthquakeTileFeedbackSystem = new EarthquakeTileFeedbackSystem(this);
+  this.depthGateSystem = new DepthGateSystem(this, this._hardcoreRuntime?.modal);
+  this.journeySystem = createJourneyRuntime(this);
   this.upgradeSystem.setProgressionStateProvider(() => ({
     isDepthGateAccepted: threshold => this.depthGateSystem?.accepted?.has?.(threshold) === true,
   }));
@@ -988,6 +993,10 @@ async function _setupSceneSafe(data = {}) {
     if (this._resizeHandler) { this.scale.off('resize', this._resizeHandler); }
     this.worldMapOverlay?.destroy?.();
     this.worldMapOverlay = null;
+    destroyHardcoreModeRuntime(this);
+    this.hardcoreMemorialSystem?.destroy();
+    this.hardcoreMemorialSystem = null;
+    this.hardcoreMemorialStore = null;
     this.destroySceneUI();
     this.titanClueSystem?.destroy();
     this.npcManager?.destroy();
@@ -1058,11 +1067,13 @@ async function _setupSceneSafe(data = {}) {
     this.depthGateSystem?.destroy();
     this.surfaceTunnelDoorSystem?.destroy();
     this.openingFlightArtifactSystem?.destroy();
+    this.townSquareTutorialSystem?.destroy();
     this.arcCoreVehicleSystem?.destroy();
     destroyGraveborerWurmRuntime(this);
     this.earthquakeSystem?.destroy();
     this.earthquakeFeedbackUI?.destroy();
     this.earthquakeHazardOverlay?.destroy();
+    this.earthquakeTileFeedbackSystem?.destroy();
     this.shakeSystem?.stop();
     if (this._activeParticleChips) {
       this._activeParticleChips.forEach(chip => { this.tweens.killTweensOf(chip); chip.destroy(); });
@@ -1075,12 +1086,22 @@ async function _setupSceneSafe(data = {}) {
   if (cachedSave && cachedSave.levelData) { this.playerLevelSystem.fromJSON(cachedSave.levelData); }
   if (cachedSave && cachedSave.comboData) { this.comboSystem.fromJSON(cachedSave.comboData); }
   this.applyPersistentState(cachedSave, false);
+  this.journeySystem?.seedCurrentState?.();
+  if (this.retentionProgressSystem?.getTutorialState?.().choice === null) {
+    this.retentionProgressSystem.configureTutorialChoice(data.tutorialChoice);
+  }
   this.openingFlightArtifactSystem?.create();
+  this.townSquareTutorialSystem?.create();
+  this.syncHardcoreArmingFromFlight?.();
   this.surfaceTunnelDoorSystem?.syncFromUpgrade();
   this.arcCoreVehicleSystem?.syncOwnership();
   this.updatePlayerVisualState(true);
-  this.restorePersistentState();
+  // An explicitly selected new save must remain fresh. In particular, do not
+  // let a stale remote payload return after a failed permadeath remote delete
+  // once beginNewSave() has intentionally cleared the local tombstone.
+  if (data.isNewSave !== true) this.restorePersistentState();
   if (data.autoStart !== false) { this.startRun(); } else { this.enterTitleState(); }
+  if (data.isNewSave === true) this.queueDugTilesSave?.();
   this._resizeHandler = (gameSize, baseSize, displaySize, previousWidth, previousHeight) => { if (this.resize) { this.resize(gameSize, baseSize, displaySize, previousWidth, previousHeight); } };
   this.scale.on('resize', this._resizeHandler);
 }

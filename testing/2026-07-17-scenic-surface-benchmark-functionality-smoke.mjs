@@ -546,6 +546,7 @@ function sampleClearNightWeatherTint(worldVisualRuntimeMode) {
     weatherConfig: WEATHER_CONFIG,
     intensity: 0,
     kind: "clear",
+    _isRainKind: WeatherSystem.prototype._isRainKind,
     gameplayController: { getSnapshot: () => ({ visibilityPenalty: 0 }) },
     _tintOverlay: overlay,
   }, {
@@ -637,6 +638,16 @@ destroyRuntime.created = true;
 destroyRuntime.gameplayEffectLayer = { destroy() { destroyOrder.push("gameplay-effect"); } };
 destroyRuntime.feedbackLayer = { destroy() { destroyOrder.push("feedback"); } };
 destroyRuntime.semanticAssetLayer = { destroy() { destroyOrder.push("semantic"); } };
+destroyRuntime.groundStructureLayer = {
+  destroy() {
+    assert.equal(
+      borrowedMask.destroyed,
+      false,
+      "ground structures must release the borrowed terrain mask before material teardown",
+    );
+    destroyOrder.push("ground-structures");
+  },
+};
 destroyRuntime.surfaceStage = {
   destroy() {
     assert.equal(
@@ -660,6 +671,10 @@ destroyRuntime.destroy();
 assert.ok(
   destroyOrder.indexOf("surface-stage") < destroyOrder.indexOf("material-mask"),
   "surfaceStage must be destroyed before materialField destroys their shared geometry mask",
+);
+assert.ok(
+  destroyOrder.indexOf("ground-structures") < destroyOrder.indexOf("material-mask"),
+  "ground structures must be destroyed before materialField destroys their shared mask",
 );
 assert.equal(borrowedMask.destroyed, true);
 

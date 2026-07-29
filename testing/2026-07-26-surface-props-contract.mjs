@@ -16,6 +16,7 @@ import {
   auditSurfacePropCoverage,
   resolveSurfacePropDisplayGeometry,
   resolveSurfacePropGroundContact,
+  resolveSurfacePropScaleMultiplier,
 } from "../world/rendering/scenic-world/surfacePropGeometry.js";
 
 function readVp8xMetadata(fileUrl) {
@@ -98,9 +99,9 @@ function createSceneStub() {
 }
 
 const preloadAssets = getSurfacePropPreloadAssets();
-assert.equal(preloadAssets.length, 18);
-assert.equal(new Set(preloadAssets.map(asset => asset.key)).size, 18);
-assert.equal(new Set(preloadAssets.map(asset => asset.path)).size, 18);
+assert.equal(preloadAssets.length, 25);
+assert.equal(new Set(preloadAssets.map(asset => asset.key)).size, 25);
+assert.equal(new Set(preloadAssets.map(asset => asset.path)).size, 25);
 
 for (const [level, assets] of Object.entries(WORLD_VISUAL_SURFACE_PROP_ASSETS)) {
   for (const [assetId, definition] of Object.entries(assets)) {
@@ -146,28 +147,37 @@ for (const assets of Object.values(WORLD_VISUAL_SURFACE_PROP_ASSETS)) {
     assets.pergola.clearOpeningMeters >= 2.2,
     "walk-through prop openings must clear the 1.75 m player",
   );
+  for (const assetDefinition of Object.values(assets)) {
+    if (!Number.isFinite(assetDefinition.clearOpeningMeters)) continue;
+    assert.ok(
+      assetDefinition.clearOpeningMeters >= 2.2,
+      "every authored walk-through opening must clear the 1.75 m player",
+    );
+  }
 }
 
 const placements = WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements;
-assert.equal(placements.length, 68);
+assert.equal(placements.length, 34);
+assert.equal(
+  placements.some(item => item.level === "level1"),
+  false,
+  "Level 1 modular props must not enter the enlarged Titan Walk corridor",
+);
 assert.equal(new Set(placements.map(item => item.id)).size, placements.length);
 for (const item of placements) {
   assert.ok(WORLD_VISUAL_SURFACE_PROP_ASSETS[item.level]?.[item.assetId], item.id);
   assert.ok(ASSET_KEYS.environment.surfaceProps[item.level]?.[item.assetId], item.id);
   assert.deepEqual(
     Object.keys(item).sort(),
-    ["assetId", "flipX", "id", "lane", "level", "tileX"].sort(),
-    `${item.id} may not carry an arbitrary scale override`,
+    ["assetId", "flipX", "id", "lane", "level", "sizeVariant", "tileX"].sort(),
+    `${item.id} may carry only a named, bounded scale variant`,
   );
-  const blocked = WORLD_VISUAL_SURFACE_PROP_LAYOUT.protectedClearZones.find(zone => (
-    item.tileX >= zone.leftTile && item.tileX <= zone.rightTile
-  ));
-  assert.equal(blocked, undefined, `${item.id} must preserve interaction clearance`);
 }
 
 const coverage = auditSurfacePropCoverage(
   WORLD_VISUAL_SURFACE_PROP_LAYOUT,
   WORLD_VISUAL_SURFACE_PROP_ASSETS,
+  WORLD_VISUAL_SURFACE_PROPS,
 );
 assert.equal(coverage.length, 2);
 for (const report of coverage) {
@@ -183,6 +193,7 @@ const unsupportedProductionPlacements = placements.flatMap(item => {
     WORLD_VISUAL_SURFACE_PROP_ASSETS[item.level][item.assetId],
     GAME_CONFIG.tileSize,
     UAL_NATIVE_PLAYER_ASSET_PROFILE,
+    resolveSurfacePropScaleMultiplier(item, WORLD_VISUAL_SURFACE_PROPS),
   );
   const contact = resolveSurfacePropGroundContact(
     productionWorld,
@@ -256,7 +267,13 @@ assert.equal(
 const scene = createSceneStub();
 const layer = new WorldVisualSurfacePropLayer(scene, flatWorld);
 assert.equal(layer.create(""), true);
-assert.equal(layer.sync({ left: 22, right: 44, top: 58, bottom: 70 }, { terrainTint: 0xbadbee }), true);
+assert.equal(
+  layer.sync(
+    { left: 150, right: 176, top: 58, bottom: 70 },
+    { terrainTint: 0xbadbee },
+  ),
+  true,
+);
 assert.ok(layer.active.size > 0);
 for (const sprite of layer.active.values()) {
   assert.equal(sprite.y, flatContact.y);
@@ -264,7 +281,13 @@ for (const sprite of layer.active.values()) {
   assert.equal(sprite.scrollFactor, 1);
   assert.equal(sprite.destroyed, false);
 }
-assert.equal(layer.sync({ left: 22, right: 44, top: 80, bottom: 100 }, { terrainTint: 0xffffff }), false);
+assert.equal(
+  layer.sync(
+    { left: 150, right: 176, top: 80, bottom: 100 },
+    { terrainTint: 0xffffff },
+  ),
+  false,
+);
 assert.equal(layer.active.size, 0, "surface props must be removed while the camera is underground");
 layer.destroy();
 assert.equal(globalThis.__jkdSurfaceProps, undefined);

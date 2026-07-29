@@ -1,9 +1,10 @@
 {
   "created": "2026-07-26",
+  "polished": "2026-07-28",
   "reviewOnly": false,
   "productionChanged": true,
   "runtimeLoadedFromPreview": false,
-  "generator": "pipelines/piskel/2026-07-26-build-npc-approved-activity-piskel-package.py",
+  "generator": "pipelines/piskel/2026-07-28-build-npc-polished-activity-piskel-package.py",
   "sourceCropGenerator": "ai-tools/2026-07-26-build-npc-planted-idles-v9.py",
   "activitySpec": "visual-approval-previews/npc-planted-idles-v5/activity-spec.json",
   "promptManifest": "visual-approval-previews/npc-planted-idles-v5/prompt-manifest.json",
@@ -171,13 +172,16 @@
     }
   },
   "poseCount": 42,
-  "runtimeManifest": "sprites/npc/npc-v12-piskel-approved-activities/manifest.json",
-  "cropSafety": "Accepted frames use a fixed 512px canvas, Piskel lower-body root 256, baseline 496, and zero opaque edge pixels.",
-  "runtimePack": "npc-v12-piskel-approved-activities",
+  "runtimeManifest": "sprites/npc/npc-v13-piskel-polished-activities/manifest.json",
+  "baselineManifest": "sprites/npc/npc-v13-polished-baselines/manifest.json",
+  "cropSafety": "Accepted frames use a fixed 512px canvas, merchant-specific calm-baseline roots, one uniform scale per merchant, exact-alpha WebP, and zero opaque edge pixels.",
+  "runtimePack": "npc-v13-piskel-polished-activities",
   "piskelNormalized": true,
-  "piskelSourceDirectory": "sprites/npc/npc-v12-piskel-approved-activities/piskel",
+  "piskelSourceDirectory": "sprites/npc/npc-v13-piskel-polished-activities/piskel",
   "motionPolicy": "original calm idle baseline with slow activity opacity crossfades; no runtime translation, rotation, body scaling, walking, or roaming",
-  "baselinePolicy": "original v6 alpha idle video where available; original static merchant sprite otherwise",
+  "baselinePolicy": "v13 chroma-clean calm idle video where available; v13 exact-alpha static merchant sprite otherwise",
+  "silhouetteMatched": true,
+  "chromaLeakRemoved": true,
   "rejectedQuietConceptsExcluded": true,
   "rejectedQuietLoopBoards": {
     "character": {

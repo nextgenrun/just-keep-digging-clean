@@ -139,7 +139,7 @@ Increase the feeling of “one more dig” with low-effort, low-risk improvement
 | 45 | Approved | Add the discovery journal. |
 | 46 | Approved | Add the trapped-state portal compass. |
 | 47 | Approved | Briefly highlight passages opened by an earthquake. |
-| 48 | Approved | Add the compact earthquake recap without economy rewards. |
+| 48 | Removed | Completion statistics remain recorded, but no earthquake recap is shown. |
 | 49 | Approved | Add campfire expiration feedback. |
 | 50 | Approved | Add one optional session-only expedition objective with no streak or failure punishment. |
 
@@ -182,7 +182,7 @@ The approved scope is now wired through the existing persistent mine rather than
 - Activated Level 1 and Level 2 portals participate in deepest-safe quick resume, meaningful labels, first-activation celebration, and trapped-state guidance.
 - Stars and relics now report exact constellation progress. Relic caches are present in both levels, persist through the existing save payload, and gate the configured constellations.
 - The Milestone Pillar now owns the nearest-milestone highlight plus Miner Statistics and Discovery Journal tabs.
-- Earthquake aftermath records and highlights newly opened passages, shows a no-reward recap, and points to the nearest activated portal only during the existing trapped state.
+- Earthquake aftermath records and highlights newly opened passages and points to the nearest activated portal only during the existing trapped state; completion no longer shows a recap.
 - Campfire blessings warn at ten seconds and finish with a clear visual/audio fade.
 - One session objective is offered without streaks, failure punishment, offline pressure, or another permanent currency.
 

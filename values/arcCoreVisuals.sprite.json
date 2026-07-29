@@ -1,6 +1,6 @@
 {
   "spriteMeta": {
-    "schemaVersion": 3,
+    "schemaVersion": 4,
     "packageId": "arc-core-v3",
     "approved": true,
     "reviewOnly": false,
@@ -14,6 +14,15 @@
         "bodyDisplaySizePx": 114,
         "originX": 0.5,
         "originY": 0.5,
+        "collision": {
+          "kind": "circle",
+          "label": "Small Arc round shell",
+          "diameterPx": 104,
+          "centerPx": [
+            256,
+            256
+          ]
+        },
         "depths": {
           "cloudBack": 17.8,
           "body": 18,
@@ -43,8 +52,19 @@
           "ghostPulseRatio": 0.055
         },
         "dig": {
-          "recoilPx": 4,
+          "recoilPx": 8,
+          "bodyMotion": {
+            "bracePullbackPx": 5,
+            "contactDrivePx": 8,
+            "breakKickPx": 4,
+            "compressAlongRatio": 0.07,
+            "expandCrossRatio": 0.035,
+            "contactStretchRatio": 0.055,
+            "breakScaleRatio": 0.08,
+            "torqueDeg": 5
+          },
           "energyScaleBoostRatio": 0.15,
+          "ghostChargeSizeBoostRatio": 0.55,
           "energyAlphaBoost": 0.26,
           "rotationBoostDeg": 150,
           "beamStartRatio": 0.16,
@@ -52,21 +72,23 @@
           "beamLengthPaddingPx": 42,
           "beamAlpha": 0.9,
           "beamPulseRatio": 0.045,
-          "impactPaddingPx": 14,
-          "impactAlpha": 0.88,
-          "impactEchoAlpha": 0.24,
-          "impactEchoScale": 1.16,
-          "impactRotationDegPerSecond": 22,
+          "impactPaddingPx": 8,
+          "impactAlpha": 0.96,
+          "impactEchoAlpha": 0.12,
+          "impactEchoScale": 1.06,
+          "impactStartScale": 0.74,
+          "impactEndScale": 1.05,
+          "impactRotationDegPerSecond": 0,
           "timeline": {
             "chargeStart": 0.04,
-            "chargePeak": 0.24,
+            "chargePeak": 0.25,
             "beamStart": 0.16,
-            "beamPeak": 0.34,
-            "beamEnd": 0.82,
-            "impactStart": 0.28,
-            "impactPeak": 0.58,
-            "impactEnd": 0.8,
-            "recoilStart": 0.72
+            "beamPeak": 0.42,
+            "beamEnd": 0.76,
+            "impactStart": 0.44,
+            "impactPeak": 0.65,
+            "impactEnd": 0.84,
+            "recoilStart": 0.64
           }
         },
         "cloud": {
@@ -92,6 +114,15 @@
         "bodyDisplaySizePx": 452,
         "originX": 0.5,
         "originY": 0.5,
+        "collision": {
+          "kind": "circle",
+          "label": "Omega Arc round array hull",
+          "diameterPx": 416,
+          "centerPx": [
+            256,
+            256
+          ]
+        },
         "depths": {
           "cloudBack": 17.8,
           "body": 18,
@@ -121,8 +152,19 @@
           "ghostPulseRatio": 0.035
         },
         "dig": {
-          "recoilPx": 10,
+          "recoilPx": 20,
+          "bodyMotion": {
+            "bracePullbackPx": 10,
+            "contactDrivePx": 16,
+            "breakKickPx": 7,
+            "compressAlongRatio": 0.045,
+            "expandCrossRatio": 0.022,
+            "contactStretchRatio": 0.035,
+            "breakScaleRatio": 0.055,
+            "torqueDeg": 1.5
+          },
           "energyScaleBoostRatio": 0.21,
+          "ghostChargeSizeBoostRatio": 0.22,
           "energyAlphaBoost": 0.34,
           "rotationBoostDeg": 48,
           "beamStartRatio": 0.28,
@@ -130,21 +172,23 @@
           "beamLengthPaddingPx": 88,
           "beamAlpha": 0.84,
           "beamPulseRatio": 0.025,
-          "impactPaddingPx": 44,
-          "impactAlpha": 0.82,
-          "impactEchoAlpha": 0.2,
-          "impactEchoScale": 1.12,
-          "impactRotationDegPerSecond": 5,
+          "impactPaddingPx": 12,
+          "impactAlpha": 0.92,
+          "impactEchoAlpha": 0.08,
+          "impactEchoScale": 1.04,
+          "impactStartScale": 0.7,
+          "impactEndScale": 1.03,
+          "impactRotationDegPerSecond": 0,
           "timeline": {
             "chargeStart": 0.08,
-            "chargePeak": 0.36,
+            "chargePeak": 0.38,
             "beamStart": 0.32,
-            "beamPeak": 0.54,
-            "beamEnd": 0.88,
-            "impactStart": 0.5,
-            "impactPeak": 0.72,
-            "impactEnd": 0.9,
-            "recoilStart": 0.82
+            "beamPeak": 0.58,
+            "beamEnd": 0.84,
+            "impactStart": 0.56,
+            "impactPeak": 0.75,
+            "impactEnd": 0.92,
+            "recoilStart": 0.74
           }
         },
         "cloud": {
@@ -166,7 +210,7 @@
     },
     "pipeline": "piskel-roundtrip",
     "piskelSources": [
-      "sprites/vehicles/arc-core-v3/piskel/arc-core-body-and-fx-v3.piskel",
+      "sprites/vehicles/arc-core-v3/piskel/arc-core-body-and-fx-v4.piskel",
       "sprites/vehicles/arc-core-v3/piskel/arc-core-stage-background-v3.piskel"
     ],
     "anchorPx": [
@@ -192,6 +236,7 @@
       "cloudFrontCounterRotationRatio": 0.62,
       "visibleAlphaThreshold": 0.002,
       "beamPulseTimeScale": 0.035,
+      "beamCrossAxisFollowRatio": 0.12,
       "impactRotationRatio": 0.18
     }
   },
@@ -229,9 +274,9 @@
       {
         "type": "image",
         "key": "arc-core-v3-small-impact",
-        "url": "small-arc-impact-v3.png",
+        "url": "small-arc-impact-v4.png",
         "role": "small.impact",
-        "sha256": "e8b5f5bd27dc8ac60d4213f26a89f19a2e88ea98bed573a325a9e4a020d58c58"
+        "sha256": "7a03c4991a56e9bdd5be7be32e74db449875f67497db27072b0c5fcf28615fea"
       },
       {
         "type": "image",
@@ -264,9 +309,9 @@
       {
         "type": "image",
         "key": "arc-core-v3-omega-impact",
-        "url": "omega-arc-impact-v3.png",
+        "url": "omega-arc-impact-v4.png",
         "role": "omega.impact",
-        "sha256": "ab72998bcd3ecd675f9dc95f59cac36ef5a82a60d72ec20ac7652127721202ef"
+        "sha256": "9a9dcbdd09feb76061c47271a70c7253938a0ab9a97712f23aa40487c0b76df0"
       }
     ]
   }

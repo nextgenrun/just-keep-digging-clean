@@ -1,0 +1,333 @@
+{
+  "created": "2026-07-28",
+  "runtimeApproved": true,
+  "sourceAssetsPreserved": true,
+  "motionTimingChanged": false,
+  "presentationNormalized": true,
+  "chromaLeakRemoved": true,
+  "generator": "pipelines/piskel/2026-07-28-build-npc-polished-baselines.py",
+  "static": {
+    "money-monster": {
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/money-monster.png",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/money-monster.webp",
+      "sha256": "06f30dcd9e8326064f9289efe106b035445459628c784bade00a6b2141a1499e",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceMainSilhouetteHeightAt512": 432.5,
+      "mainSilhouetteHeightAt512": 432.5,
+      "presentationScale": 1.0,
+      "rootAnchorAt512": [
+        249.892,
+        465.5
+      ],
+      "sourceAnchorPixels": [
+        499.785,
+        931.0
+      ],
+      "hiddenRgbPixels": 0,
+      "cleanup": {
+        "areaThresholdPx": 126,
+        "largeGreenComponentsBefore": [],
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "hiddenRgbPixelsBefore": 0,
+        "hiddenRgbPixelsAfter": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "player-upgrades": {
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/player-upgrades.png",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/player-upgrades.webp",
+      "sha256": "bda7a30b80e315f64abc8a75571ae12d70d2a9be1de02192b907a82384b278c7",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceMainSilhouetteHeightAt512": 460.5,
+      "mainSilhouetteHeightAt512": 460.5,
+      "presentationScale": 1.0,
+      "rootAnchorAt512": [
+        256.245,
+        485.0
+      ],
+      "sourceAnchorPixels": [
+        512.489,
+        970.0
+      ],
+      "hiddenRgbPixels": 0,
+      "cleanup": {
+        "areaThresholdPx": 126,
+        "largeGreenComponentsBefore": [
+          {
+            "area": 315,
+            "bbox": [
+              598,
+              384,
+              19,
+              44
+            ]
+          }
+        ],
+        "largeGreenLeakPixelsBefore": 315,
+        "removedPixels": 356,
+        "hiddenRgbPixelsBefore": 0,
+        "hiddenRgbPixelsAfter": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "gear-merchant": {
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/gear-merchant.png",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/gear-merchant.webp",
+      "sha256": "2982fd9018d32b25d68d5314e5fc3ee749c36f75c4b35d29b8c219ba0d4aeb03",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceMainSilhouetteHeightAt512": 446.5,
+      "mainSilhouetteHeightAt512": 446.5,
+      "presentationScale": 1.0,
+      "rootAnchorAt512": [
+        249.954,
+        478.5
+      ],
+      "sourceAnchorPixels": [
+        499.909,
+        957.0
+      ],
+      "hiddenRgbPixels": 0,
+      "cleanup": {
+        "areaThresholdPx": 126,
+        "largeGreenComponentsBefore": [
+          {
+            "area": 1121,
+            "bbox": [
+              704,
+              195,
+              57,
+              44
+            ]
+          }
+        ],
+        "largeGreenLeakPixelsBefore": 1121,
+        "removedPixels": 1179,
+        "hiddenRgbPixelsBefore": 0,
+        "hiddenRgbPixelsAfter": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "bobo-merchant": {
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/bobo-merchant.png",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/bobo-merchant.webp",
+      "sha256": "4045b9792abf4ac12120c1208eb603f6603f839c797f351ce71d9ccbc7ea53bc",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceMainSilhouetteHeightAt512": 457.5,
+      "mainSilhouetteHeightAt512": 457.5,
+      "presentationScale": 1.0,
+      "rootAnchorAt512": [
+        266.48,
+        481.0
+      ],
+      "sourceAnchorPixels": [
+        532.959,
+        962.0
+      ],
+      "hiddenRgbPixels": 0,
+      "cleanup": {
+        "areaThresholdPx": 126,
+        "largeGreenComponentsBefore": [],
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "hiddenRgbPixelsBefore": 0,
+        "hiddenRgbPixelsAfter": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "gem-power-merchant": {
+      "source": "sprites/npc/npc-v5-generated/singles/merchant-idle/gem-power-merchant.png",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/gem-power-merchant.webp",
+      "sha256": "52bdbb4a9922a66964c5787a281f93c4baa1a64cf0244e14dd1c62e2d48448b5",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sourceMainSilhouetteHeightAt512": 449.0,
+      "mainSilhouetteHeightAt512": 429.0,
+      "presentationScale": 0.955367,
+      "rootAnchorAt512": [
+        258.283,
+        471.0
+      ],
+      "sourceAnchorPixels": [
+        516.75,
+        942.0
+      ],
+      "hiddenRgbPixels": 0,
+      "cleanup": {
+        "areaThresholdPx": 126,
+        "largeGreenComponentsBefore": [],
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "hiddenRgbPixelsBefore": 0,
+        "hiddenRgbPixelsAfter": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "magma-money-monster": {
+      "source": "sprites/npc/npc-v7-level-two/magma-money-monster.png",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/magma-money-monster.webp",
+      "sha256": "b7ade3cabefeca87751c455505be8c38f4b926e5874ccd57660ceebd72200a74",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sourceMainSilhouetteHeightAt512": 441.365,
+      "mainSilhouetteHeightAt512": 441.365,
+      "presentationScale": 1.0,
+      "rootAnchorAt512": [
+        272.968,
+        458.514
+      ],
+      "sourceAnchorPixels": [
+        668.558,
+        1123.0
+      ],
+      "hiddenRgbPixels": 0,
+      "cleanup": {
+        "areaThresholdPx": 189,
+        "largeGreenComponentsBefore": [],
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "hiddenRgbPixelsBefore": 5,
+        "hiddenRgbPixelsAfter": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    }
+  },
+  "video": {
+    "money-monster": {
+      "source": "visual-approval-previews/npc-idle-polish-v1/money-monster-idle-alpha.webm",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/money-monster-idle-alpha.webm",
+      "sha256": "e332b091b02da2f11c7813ecef7d4bfba0140e5119633bab366c76862fb1fb28",
+      "fps": 30,
+      "frames": 120,
+      "presentationScale": 1.0,
+      "outputVerification": {
+        "alphaBounds": [
+          156,
+          64,
+          836,
+          932
+        ],
+        "frames": 120,
+        "largeGreenLeakPixels": 0
+      },
+      "cleanup": {
+        "framesWithLeakage": 0,
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "player-upgrades": {
+      "source": "visual-approval-previews/npc-idle-polish-v1/player-upgrades-idle-alpha.webm",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/player-upgrades-idle-alpha.webm",
+      "sha256": "9225a1e111279078f266f186b640d460b0e33e59ef98af17c929779cec934a62",
+      "fps": 30,
+      "frames": 120,
+      "presentationScale": 1.0,
+      "outputVerification": {
+        "alphaBounds": [
+          252,
+          48,
+          732,
+          972
+        ],
+        "frames": 120,
+        "largeGreenLeakPixels": 0
+      },
+      "cleanup": {
+        "framesWithLeakage": 120,
+        "largeGreenLeakPixelsBefore": 37096,
+        "removedPixels": 42862,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "gear-merchant": {
+      "source": "visual-approval-previews/npc-idle-polish-v1/gear-merchant-idle-alpha.webm",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/gear-merchant-idle-alpha.webm",
+      "sha256": "d8c8fa48dfbfb7e5b7ea8a15c4e734f359b4009b33695ab3f6063d7c18ff9a4d",
+      "fps": 30,
+      "frames": 120,
+      "presentationScale": 1.0,
+      "outputVerification": {
+        "alphaBounds": [
+          212,
+          64,
+          817,
+          960
+        ],
+        "frames": 120,
+        "largeGreenLeakPixels": 0
+      },
+      "cleanup": {
+        "framesWithLeakage": 120,
+        "largeGreenLeakPixelsBefore": 134334,
+        "removedPixels": 144390,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "bobo-merchant": {
+      "source": "visual-approval-previews/npc-idle-polish-v1/bobo-merchant-idle-alpha.webm",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/bobo-merchant-idle-alpha.webm",
+      "sha256": "02964aa4b1a32813b06d4e882e64d8ecb0738b3772aad03ba2ea667706fb4d42",
+      "fps": 30,
+      "frames": 120,
+      "presentationScale": 1.0,
+      "outputVerification": {
+        "alphaBounds": [
+          211,
+          44,
+          868,
+          964
+        ],
+        "frames": 120,
+        "largeGreenLeakPixels": 0
+      },
+      "cleanup": {
+        "framesWithLeakage": 0,
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    },
+    "gem-power-merchant": {
+      "source": "visual-approval-previews/npc-idle-polish-v1/gem-power-merchant-idle-alpha.webm",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/gem-power-merchant-idle-alpha.webm",
+      "sha256": "25fd2eba523f9f9349a42fe18ec8103ff92c8f9b73aed2142e4c7e3ad6f0a30a",
+      "fps": 30,
+      "frames": 120,
+      "presentationScale": 0.955367,
+      "outputVerification": {
+        "alphaBounds": [
+          136,
+          80,
+          868,
+          944
+        ],
+        "frames": 120,
+        "largeGreenLeakPixels": 0
+      },
+      "cleanup": {
+        "framesWithLeakage": 0,
+        "largeGreenLeakPixelsBefore": 0,
+        "removedPixels": 0,
+        "largeGreenLeakPixelsAfter": 0
+      }
+    }
+  }
+}

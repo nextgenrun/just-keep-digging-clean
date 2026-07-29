@@ -8,6 +8,7 @@ import { WORLD_VISUAL_RUNTIME } from "../values/worldVisualRuntime.js";
 import {
   WORLD_VISUAL_SEMANTIC_ASSETS,
   resolveWorldVisualSemanticResourceFrame,
+  resolveWorldVisualSemanticSpecialFrame,
 } from "../values/worldVisualSemanticAssets.js";
 import { WorldVisualFeedbackLayer } from "../world/rendering/scenic-world/WorldVisualFeedbackLayer.js";
 import { WorldVisualSemanticAssetLayer } from "../world/rendering/scenic-world/WorldVisualSemanticAssetLayer.js";
@@ -34,10 +35,7 @@ function readPngDimensions(descriptor) {
   return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20), cleanPath };
 }
 
-for (const atlas of [
-  WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.beautyAtlas,
-  WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.emissiveAtlas,
-]) {
+for (const atlas of [WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.beautyAtlas]) {
   const dimensions = readPngDimensions(atlas);
   assert.match(dimensions.cleanPath, /^sprites\/backgrounds\/world-visual-v2\/semantic-decals-v1\//);
   assert.doesNotMatch(`${atlas.key} ${dimensions.cleanPath}`, /feedback-atlas|recognition-atlas/i);
@@ -45,12 +43,23 @@ for (const atlas of [
   assert.ok(dimensions.width >= atlas.frameSizePx && dimensions.height >= atlas.frameSizePx);
   assert.ok(atlas.frameCount >= SPECIAL_REWARD_TYPES.length);
 }
+assert.equal(
+  WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.emissiveAtlas,
+  null,
+  "approved special blocks must remain one complete ImageGen raster without a second overlay",
+);
 assert.equal(WORLD_VISUAL_FEEDBACK.atlas.frameSizePx, 94, "the suppressed legacy marker is the 94px atlas");
-for (const [frame, tileType] of SPECIAL_REWARD_TYPES.entries()) {
+assert.equal(
+  WORLD_VISUAL_SEMANTIC_ASSETS.performance.preserveActiveWindowResources,
+  true,
+  "gameplay resource identity must not participate in active-window LOD culling",
+);
+for (const [index, tileType] of SPECIAL_REWARD_TYPES.entries()) {
+  const expectedFrame = [0, 5, 6, 7, 8, 9, 10][index];
   assert.equal(
-    WORLD_VISUAL_SEMANTIC_ASSETS.specialBlocks.frameByTileType[tileType],
-    frame,
-    `special reward tile ${tileType} needs a generated beauty/emissive frame`
+    resolveWorldVisualSemanticSpecialFrame(tileType, 0),
+    expectedFrame,
+    `special reward tile ${tileType} needs its approved generated beauty frame`
   );
 }
 
@@ -152,6 +161,7 @@ const semanticConfig = {
   },
   performance: {
     ...WORLD_VISUAL_SEMANTIC_ASSETS.performance,
+    preserveActiveWindowResources: false,
     maxVisibleResources: 2,
   },
 };
@@ -172,6 +182,58 @@ assert.deepEqual(
   "common stone must not starve visible non-stone resources"
 );
 
+const continuityRow = Array.from(
+  { length: 12 },
+  (_, index) => (index % 2 === 0 ? TILE_TYPES.COPPER : TILE_TYPES.STONE),
+);
+const continuityWorld = {
+  getTileType(tx, ty) {
+    return ty === 0 ? (continuityRow[tx] ?? TILE_TYPES.AIR) : TILE_TYPES.AIR;
+  },
+};
+const continuityConfig = {
+  ...WORLD_VISUAL_SEMANTIC_ASSETS,
+  resources: {
+    ...WORLD_VISUAL_SEMANTIC_ASSETS.resources,
+    stoneDensity: 1,
+    maxVisibleStone: 1,
+  },
+  performance: {
+    ...WORLD_VISUAL_SEMANTIC_ASSETS.performance,
+    preserveActiveWindowResources: true,
+    maxVisibleResources: 2,
+  },
+};
+const continuityScene = createSceneStub();
+const continuityLayer = new WorldVisualSemanticAssetLayer(
+  continuityScene,
+  continuityWorld,
+  { id: "solid-mask" },
+  continuityConfig,
+);
+continuityLayer.create();
+const visibleResourceTiles = activeLayer => activeLayer.resourcePool
+  .filter(image => image.visible)
+  .map(image => Math.round(image.x / GAME_CONFIG.tileSize - 0.5))
+  .sort((a, b) => a - b);
+continuityLayer.sync({ left: 0, right: 6, top: 0, bottom: 1 }, { terrainTint: 0xffffff });
+assert.deepEqual(
+  visibleResourceTiles(continuityLayer),
+  [0, 1, 2, 3, 4, 5],
+  "every active-window resource must survive a deliberately tiny fallback cap",
+);
+continuityLayer.sync(
+  { left: 1, right: 7, top: 0, bottom: 1 },
+  { terrainTint: 0xffffff },
+  true,
+);
+assert.deepEqual(
+  visibleResourceTiles(continuityLayer),
+  [1, 2, 3, 4, 5, 6],
+  "camera movement and reduced mode must not hide resources that remain in sight",
+);
+continuityLayer.destroy();
+
 const readsAfterInitialSync = world.reads;
 const bedrockClearsAfterInitialSync = layer.bedrockLayer.maskGraphics.calls
   .filter(([method]) => method === "clear").length;
@@ -187,16 +249,13 @@ layer.setEmissiveDepth(777);
 const fullBounds = { left: 0, right: row.length, top: 0, bottom: 1 };
 layer.sync(fullBounds, { terrainTint: 0xffffff });
 assert.equal(layer.specialBeautyPool.length, SPECIAL_REWARD_TYPES.length);
-assert.equal(layer.specialEmissivePool.length, SPECIAL_REWARD_TYPES.length);
+assert.equal(layer.specialEmissivePool.length, 0);
 assert.ok(layer.specialBeautyPool.every(image => (
   image.textureKey === semanticConfig.specialBlocks.beautyAtlas.key && image.visible
 )));
-assert.ok(layer.specialEmissivePool.every(image => (
-  image.textureKey === semanticConfig.specialBlocks.emissiveAtlas.key && image.visible
-)));
 assert.ok(
-  [...layer.starEmissivePool, ...layer.specialEmissivePool].every(image => image.depth === 777),
-  "setEmissiveDepth must persist for emissive images allocated by later syncs"
+  layer.starEmissivePool.every(image => image.depth === 777),
+  "setEmissiveDepth must persist for star emissive images allocated by later syncs"
 );
 layer.update(4100);
 
@@ -242,4 +301,4 @@ assert.equal(
 );
 feedbackLayer.destroy();
 
-console.log("Scenic semantic runtime lifecycle smoke passed: generated rewards suppress 94px markers, ores outrank stone, and pooling/depth/invalidation cleanup remain stable");
+console.log("Scenic semantic runtime lifecycle smoke passed: active-window resources remain stable across camera/FPS changes, single-layer ImageGen rewards suppress 94px markers, ores outrank fallback stone, and pooling/depth/invalidation cleanup remain stable");

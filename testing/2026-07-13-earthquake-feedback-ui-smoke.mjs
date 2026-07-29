@@ -24,8 +24,9 @@ function displayObject() {
       this.displayHeight = height;
       return this;
     },
-    setOrigin() { return this; },
+    setOrigin(x, y = x) { this.originX = x; this.originY = y; return this; },
     setPosition(x, y) { this.x = x; this.y = y; return this; },
+    setRotation(value) { this.rotation = value; return this; },
     setText(value) { this.text = value; return this; },
     setColor() { return this; },
     setFontSize() { return this; },
@@ -86,18 +87,18 @@ function makeScene() {
   ui.update();
 
   assert.equal(ui.root.visible, true, "warning card should be visible");
-  assert.equal(ui.title.text, "TREMOR NEARBY");
+  assert.equal(ui.title.text, "TREMOR");
   assert.match(ui.detail.text, /MAJOR.*3\.2s/);
-  assert.equal(scene.uiNotifications.baseY, 188, "toasts should move below the compact hazard card");
+  assert.equal(scene.uiNotifications.baseY, 154, "toasts should move below the compact hazard signal");
 
   ui.activateEscapeObjective();
-  assert.equal(ui.title.text, "ROUTE BLOCKED");
-  assert.equal(ui.detail.text, "DIG THROUGH FRESH RUBBLE");
+  assert.equal(ui.title.text, "BLOCKED");
+  assert.equal(ui.detail.text, "DIG RUBBLE");
 
   source.state = "idle";
   ui.clearEscapeObjective();
   assert.equal(ui.root.visible, false, "idle feedback should hide after escape recovery");
-  assert.deepEqual(notificationY, [188, 58]);
+  assert.deepEqual(notificationY, [154, 58]);
   ui.destroy();
 }
 
@@ -115,7 +116,7 @@ function makeScene() {
   assert.equal(ui.root.visible, false, "a remote world quake should not take over the player HUD");
   ui.activateEscapeObjective();
   assert.equal(ui.root.visible, true, "an existing escape objective must remain visible during remote quakes");
-  scene.time.now += 6501;
+  scene.time.now += 3401;
   source.state = "idle";
   ui.update();
   assert.equal(ui.root.visible, false, "escape guidance must auto-dismiss instead of sticking forever");
@@ -132,7 +133,7 @@ function makeScene() {
   };
   const ui = new EarthquakeFeedbackUI(scene, source);
   ui.update();
-  scene.time.now += 4801;
+  scene.time.now += 2401;
   ui.update();
   assert.equal(
     ui.root.visible,
@@ -180,13 +181,9 @@ function makeScene() {
     isPlayerAware: () => false,
   };
   const ui = new EarthquakeFeedbackUI(scene, source);
-  ui.completeEvent({ intensity: "major", passagesOpened: 2, playerAware: true });
-  assert.equal(ui.root.visible, true, "event completion should show one short recap");
-  assert.equal(ui.title.text, "TREMOR PASSED");
-  assert.match(ui.detail.text, /2 PASSAGES OPENED/);
-  scene.time.now += 3201;
   ui.update();
-  assert.equal(ui.root.visible, false, "completion recap must remove itself");
+  assert.equal(ui.root.visible, false, "idle completion must not create a recap card");
+  assert.equal(typeof ui.completeEvent, "undefined");
   ui.destroy();
 }
 
@@ -194,26 +191,54 @@ function makeScene() {
   const { scene } = makeScene();
   const source = {
     state: "earthquake",
-    config: { caveInWarningMs: 3000 },
+    config: EARTHQUAKE_CONFIG,
     caveIns: [
-      { tx: 10, ty: 6, remaining: 1400, chain: false },
-      { tx: 60, ty: 40, remaining: 2200, chain: true },
+      { id: 1, tx: 10, ty: 6, landingTy: 12, remaining: 1400, chain: false },
+      { id: 2, tx: 60, ty: 40, landingTy: 45, remaining: 1200, chain: true },
     ],
-    fallingRocks: [{ x: 500, y: 100, endY: 600 }],
+    fallingRocks: [{
+      id: 3,
+      tx: 15,
+      ty: 6,
+      landingTy: 18,
+      x: 500,
+      y: 100,
+      endY: 18 * scene.config.tileSize,
+      angle: 0,
+    }],
   };
   const overlay = new EarthquakeHazardOverlay(scene, source);
   overlay.markRestoredRubble(9, 8);
   overlay.update();
 
-  assert.equal(overlay.markerPool[0].root.visible, true);
-  assert.match(overlay.markerPool[0].text.text, /CAVE-IN 1\.4s/);
+  const visibleWarning = overlay.warningPool.find(entry => entry.id === 1);
+  assert.equal(visibleWarning.footprint.visible, true);
+  assert.equal(visibleWarning.footprint.y, 12 * scene.config.tileSize);
+  assert.equal(visibleWarning.fracture.visible, true);
+  assert.equal(
+    overlay.rockPool.find(entry => entry.id === 3).image.visible,
+    true,
+  );
+  const fallingWarning = overlay.warningPool.find(entry => entry.id === 3);
+  assert.equal(
+    fallingWarning.footprint.visible,
+    true,
+    "The authored landing footprint must remain visible while the rock falls",
+  );
+  assert.equal(fallingWarning.footprint.y, 18 * scene.config.tileSize);
+  assert.equal(fallingWarning.fracture.visible, false);
+  assert.equal(overlay.playRockImpact(source.fallingRocks[0]), true);
+  const groundedImpact = overlay.fallZoneView.impactPool.find(entry => entry.active);
+  assert.equal(groundedImpact.image.y, source.fallingRocks[0].endY);
+  assert.equal(groundedImpact.settledRock.y, source.fallingRocks[0].endY);
+  assert.equal(groundedImpact.settledRock.originY, 0.92);
+  assert.equal(
+    groundedImpact.settledRock.visible,
+    true,
+    "the authored boulder should squash at the exact landing edge before fading",
+  );
   assert.equal(overlay.edgeRoot.visible, true, "offscreen aftershock should get an edge warning");
   assert.equal(overlay.recentRubble.has("9,8"), true);
-  assert.equal(
-    overlay.worldGraphics.calls.some(([method]) => method === "lineBetween"),
-    true,
-    "falling rock lane should use restrained guide lines"
-  );
   overlay.destroy();
 }
 

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "defaultScenarioId": "moving-dig",
+  "scenarios": {
+    "moving-dig": {
+      "label": "Moving dig: enter + release",
+      "output": "generated/moving-dig-phase-handoff.gif",
+      "entry": {
+        "outgoingPhase": 23,
+        "currentPhase": 9,
+        "proposedPhase": 24,
+        "currentFootDeltaSourcePx": 105.022,
+        "proposedFootDeltaSourcePx": 1.165,
+        "currentFootDeltaLivePx": 50.46,
+        "proposedFootDeltaLivePx": 0.56
+      },
+      "release": {
+        "outgoingPhase": 22,
+        "currentPhase": 0,
+        "proposedOutgoingPhase": 9,
+        "proposedPhase": 10,
+        "currentFootDeltaSourcePx": 87.202,
+        "proposedFootDeltaSourcePx": 2.106,
+        "currentFootDeltaLivePx": 41.898,
+        "proposedFootDeltaLivePx": 1.012
+      },
+      "actionFrames": 14,
+      "contactFrame": 4,
+      "blendFrames": 2,
+      "inputDelayFrames": 0
+    },
+    "instant-turn": {
+      "label": "Instant reversal: plant pivot",
+      "output": "generated/instant-turn-plant-pivot.gif",
+      "outgoingPhase": 13,
+      "currentPhase": 14,
+      "pivotPhases": [
+        20,
+        21
+      ],
+      "currentFootDeltaSourcePx": 95.641,
+      "proposedFootDeltaSourcePx": 3.863,
+      "pivotFrames": 2,
+      "inputDelayFrames": 0,
+      "currentFootDeltaLivePx": 45.953,
+      "proposedFootDeltaLivePx": 1.856
+    }
+  }
+}

@@ -29,12 +29,14 @@ approved runtime promotion uses the later 1.75 m midpoint / 2.10 m calibration.
 ## Promotion boundary
 
 - None of these full-screen concept images is loaded by the Phaser runtime.
-- Runtime loads `town-square-slate-facade-v2.png`. Its first 1672x139 pixels
-  are a direct, unscaled crop of the approved Option A floor/foundation band;
-  only a 129 px mirrored alpha handoff is appended beyond the approved frame.
-- `WorldVisualTownFloorView` aligns the 1801x139 facade with the same uniform
+- Runtime loads `town-square-slate-strip-v3.png`. Its first 1672x48 pixels are
+  a direct, unscaled crop of the approved Option A walk line; only a 129 px
+  mirrored alpha handoff is appended beyond the approved frame.
+- `WorldVisualTownFloorView` aligns the 1801x48 strip with the same uniform
   source scale as the approved village and borrows the authoritative terrain
-  mask. The separately regenerated v1 approximation is no longer loaded.
+  mask. The matching 1672x48 core repeats across the complete surface through
+  `town-surface-edge-thin-v2.png`. The deeper v2 and regenerated v1
+  approximations are no longer loaded.
 - No collision, tile type, HP, saving, digging, or unbreakable rules changed.
 - Houses, NPCs, background, HUD, resources, and the underground facade are
   explicitly outside this correction.

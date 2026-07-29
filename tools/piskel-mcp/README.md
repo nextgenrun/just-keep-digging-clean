@@ -28,6 +28,10 @@ The production `survival-blender-v2-dig-up` entry imports the protected Blender
 render, writes an editable Piskel source, locks the body to `(128, 248)`, and
 exports a separate polished sheet. The raw Blender sheet is never overwritten.
 
+`npc_sprite_cleanup.py` supplies the NPC release pipelines with large-component
+chroma cleanup, transparent-RGB normalization, exact-alpha WebP export,
+silhouette measurement, fixed-scale placement, and lower-body anchor matching.
+
 On Windows, `open-piskel-workspace.bat` starts the same local review desk without requiring npm on PATH.
 
 ## MCP Config

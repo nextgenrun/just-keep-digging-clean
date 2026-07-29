@@ -1,5 +1,18 @@
-import { isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
+import {
+  TILE_TYPES,
+  isUnbreakableMiningSurface,
+} from "../../../values/tileTypes.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../../../values/worldVisualSemanticAssets.js";
+import {
+  setAlphaIfChanged,
+  setTintIfChanged,
+} from "./worldVisualRenderState.js";
+
+export function isWorldVisualBedrockMaterialTileType(tileType) {
+  return isUnbreakableMiningSurface(tileType)
+    && tileType !== TILE_TYPES.FLOOR_TOWN_1
+    && tileType !== TILE_TYPES.FLOOR_TOWN_2;
+}
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -32,14 +45,20 @@ export class WorldVisualBedrockMaterialLayer {
     this.config = config;
     this.maskGraphics = null;
     this.geometryMask = null;
+    this.seamPlanes = new Map();
     this.planes = new Map();
     this.activeBounds = null;
   }
 
   create() {
-    const material = this.config.bedrock.material;
-    if (!this.scene.textures.exists(material.key)) {
-      throw new Error(`[WorldVisualBedrockMaterialLayer] Required bedrock material was not preloaded: ${material.key}`);
+    const materials = [
+      this.config.bedrock.seamMaterial,
+      this.config.bedrock.material,
+    ].filter(Boolean);
+    for (const material of materials) {
+      if (!this.scene.textures.exists(material.key)) {
+        throw new Error(`[WorldVisualBedrockMaterialLayer] Required bedrock material was not preloaded: ${material.key}`);
+      }
     }
     this.maskGraphics = this.scene.make.graphics({ add: false });
     this.geometryMask = this.maskGraphics.createGeometryMask();
@@ -53,7 +72,9 @@ export class WorldVisualBedrockMaterialLayer {
     this.maskGraphics.clear().fillStyle(0xffffff, 1);
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
-        if (!isUnbreakableMiningSurface(this.worldModel.getTileType(tx, ty))) continue;
+        if (!isWorldVisualBedrockMaterialTileType(
+          this.worldModel.getTileType(tx, ty),
+        )) continue;
         this.maskGraphics.fillRect(tx * tileSize, ty * tileSize, tileSize + 0.5, tileSize + 0.5);
         visibleCells += 1;
       }
@@ -63,9 +84,30 @@ export class WorldVisualBedrockMaterialLayer {
   }
 
   _syncPlanes(bounds, hasBedrock) {
+    this._syncPlaneSet(
+      this.seamPlanes,
+      this.config.bedrock.seamMaterial,
+      bounds,
+      hasBedrock,
+      this.config.render.bedrockSeamDepth,
+      this.config.bedrock.seamAlpha,
+      "bedrock-seam"
+    );
+    this._syncPlaneSet(
+      this.planes,
+      this.config.bedrock.material,
+      bounds,
+      hasBedrock,
+      this.config.render.bedrockDepth,
+      this.config.bedrock.alpha,
+      "bedrock-accent"
+    );
+  }
+
+  _syncPlaneSet(planes, material, bounds, hasBedrock, depth, alpha, name) {
     const needed = new Set();
-    if (hasBedrock) {
-      const key = this.config.bedrock.material.key;
+    if (hasBedrock && material) {
+      const key = material.key;
       const size = sourceSize(this.scene, key);
       const tileSize = this.scene.config.tileSize;
       const leftPx = bounds.left * tileSize;
@@ -80,21 +122,21 @@ export class WorldVisualBedrockMaterialLayer {
         for (let column = firstColumn; column < lastColumn; column += 1) {
           const id = `${column}:${row}`;
           needed.add(id);
-          if (this.planes.has(id)) continue;
+          if (planes.has(id)) continue;
           const image = this.scene.add.image(column * size.width, row * size.height, key)
             .setOrigin(0)
-            .setDepth(this.config.render.bedrockDepth)
+            .setDepth(depth)
             .setMask(this.geometryMask)
-            .setAlpha(this.config.bedrock.alpha);
-          image.name = `world-visual-semantic-bedrock-${id}`;
-          this.planes.set(id, image);
+            .setAlpha(alpha);
+          image.name = `world-visual-semantic-${name}-${id}`;
+          planes.set(id, image);
         }
       }
     }
-    for (const [id, image] of this.planes) {
+    for (const [id, image] of planes) {
       if (needed.has(id)) continue;
       image.destroy();
-      this.planes.delete(id);
+      planes.delete(id);
     }
   }
 
@@ -102,7 +144,14 @@ export class WorldVisualBedrockMaterialLayer {
     const terrainTint = lighting?.terrainTint || 0xffffff;
     const lifted = mixColor(terrainTint, 0xffffff, this.config.bedrock.lightingLift);
     const tint = mixColor(lifted, this.config.bedrock.coolTint, this.config.bedrock.coolTintStrength);
-    this.planes.forEach(image => image.setTint(tint).setAlpha(this.config.bedrock.alpha));
+    this.seamPlanes.forEach(image => {
+      setTintIfChanged(image, tint);
+      setAlphaIfChanged(image, this.config.bedrock.seamAlpha);
+    });
+    this.planes.forEach(image => {
+      setTintIfChanged(image, tint);
+      setAlphaIfChanged(image, this.config.bedrock.alpha);
+    });
   }
 
   invalidateCell(tx, ty, lighting) {
@@ -112,6 +161,8 @@ export class WorldVisualBedrockMaterialLayer {
   }
 
   destroy() {
+    this.seamPlanes.forEach(image => image.destroy());
+    this.seamPlanes.clear();
     this.planes.forEach(image => image.destroy());
     this.planes.clear();
     this.geometryMask?.destroy();

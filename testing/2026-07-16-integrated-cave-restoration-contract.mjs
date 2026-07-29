@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import {
   CAVE_SCENE_CONFIG,
   resolveCompactCaveScenesEnabled,
+  resolveIntegratedCaveEntrancesEnabled,
 } from "../values/caveSceneConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_GEN_CONFIG } from "../values/worldGen.js";
@@ -40,6 +41,8 @@ assert.equal(resolveCompactCaveScenesEnabled(false, ""), false);
 assert.equal(resolveCompactCaveScenesEnabled(false, "?compactCaves=1"), true);
 assert.equal(resolveCompactCaveScenesEnabled(false, "?compactCaves=true"), true);
 assert.equal(resolveCompactCaveScenesEnabled(true, "?compactCaves=0"), false);
+assert.equal(resolveIntegratedCaveEntrancesEnabled(CAVE_SCENE_CONFIG, ""), true);
+assert.equal(resolveIntegratedCaveEntrancesEnabled(CAVE_SCENE_CONFIG, "?caveEntrances=0"), false);
 assert.equal(
   resolveCompactCaveScenesEnabled(false, "?cave-review=1"),
   true,
@@ -54,6 +57,7 @@ assert.equal(
 const world = makeBlankWorld();
 const zone = {
   id: "cave-17",
+  source: "authored-gap",
   cx: 20,
   cy: 15,
   rx: 6,
@@ -103,8 +107,8 @@ assert.deepEqual(
 const integratedEntry = new CaveEntryController({ worldModel: { caveZones: [zone] } });
 assert.equal(
   integratedEntry._findNearestZone(zone.entry),
-  null,
-  "integrated caves must never pause PlayScene or launch the compact placeholder",
+  zone,
+  "safe integrated Level One mouths must open their persistent CaveScene interior",
 );
 const compactEntry = new CaveEntryController({ worldModel: { caveZones: [compactZone] } });
 assert.equal(compactEntry._findNearestZone(compactZone.entry), compactZone);
@@ -114,7 +118,8 @@ const entrySource = await readFile(new URL("../world/playScene/CaveEntryControll
 assert.match(modelSource, /this\.reapplyStandaloneCaveMouths\(\)/, "only compact rollback mouths may override authored terrain");
 assert.doesNotMatch(modelSource, /reapplyCaveZones\(\)/, "procedural ellipses must not carve over authored Tiled authority");
 assert.match(entrySource, /if \(!zone\?\.entry\) continue;/, "approved scenic mouths must remain on integrated caves");
-assert.match(entrySource, /zone\.standaloneScene !== true/, "only explicit compact caves may consume interaction");
+assert.match(entrySource, /resolveIntegratedCaveEntrancesEnabled/, "production integrated entrances must keep an explicit rollback");
+assert.match(entrySource, /eligibleSources\.includes\(zone\.source\)/, "only approved Level One cave sources may consume interaction");
 assert.ok(CAVE_SCENE_CONFIG.overworldEntrance.scenic.assetPath.includes("underground-cave-mouth"));
 
 // Keep the compact model import live as an explicit rollback contract.

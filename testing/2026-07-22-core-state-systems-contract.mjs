@@ -165,7 +165,7 @@ const toasts = [];
 const effectScene = {
   time: { now: 1000 },
   playerController: { getPlayerPosition: () => ({ x: 4, y: 8 }) },
-  floatingTextSystem: { showFloatingText: (...args) => toasts.push(args) },
+  uiNotifications: { success: (...args) => toasts.push(args) },
 };
 const effects = new SpecialBlockEffectsManager(effectScene);
 effects.applyTimedEffect({ effect: "damageBoost", value: 0.25, duration: 3000, stacks: true });

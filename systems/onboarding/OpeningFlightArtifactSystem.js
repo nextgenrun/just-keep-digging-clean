@@ -1,6 +1,7 @@
 import {
   OPENING_FLIGHT_ARTIFACT_CONFIG,
   OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
+  OPENING_FLIGHT_STAGES,
   resolveOpeningFlightGoldenFiveEnabled,
 } from "../../values/openingFlightArtifact.js";
 import { OpeningFlightGoldenFiveRuntime } from "./OpeningFlightGoldenFiveRuntime.js";
@@ -10,14 +11,17 @@ export class OpeningFlightArtifactSystem {
   constructor(scene, config = OPENING_FLIGHT_ARTIFACT_CONFIG) {
     this.scene = scene;
     this.config = config;
-    this.goldenEnabled = resolveOpeningFlightGoldenFiveEnabled();
-    this.runtime = this.goldenEnabled
-      ? new OpeningFlightGoldenFiveRuntime(
-        scene,
-        config,
-        OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
-      )
-      : new OpeningFlightLegacyRuntime(scene, config);
+    this.enabled = config.enabled === true;
+    this.goldenEnabled = this.enabled && resolveOpeningFlightGoldenFiveEnabled();
+    this.runtime = !this.enabled
+      ? null
+      : this.goldenEnabled
+        ? new OpeningFlightGoldenFiveRuntime(
+          scene,
+          config,
+          OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
+        )
+        : new OpeningFlightLegacyRuntime(scene, config);
     this.goldenRuntime = this.goldenEnabled ? this.runtime : null;
   }
 
@@ -54,10 +58,14 @@ export class OpeningFlightArtifactSystem {
   }
 
   isArtifactCollected() {
+    if (!this.enabled) {
+      return this.scene?.upgradeSystem?.isGemPowerUnlocked?.() === true;
+    }
     return this.runtime?.isArtifactCollected() === true;
   }
 
   handleStarterLevelUp(result) {
+    if (!this.enabled) return false;
     if (this.state?.artifactCollected || result?.levelUp !== true) return false;
     const level = Number.isFinite(result.newLevel)
       ? result.newLevel
@@ -102,7 +110,21 @@ export class OpeningFlightArtifactSystem {
   }
 
   getSaveData() {
-    return this.runtime?.getSaveData() || null;
+    if (this.enabled) return this.runtime?.getSaveData() || null;
+    return {
+      version: this.config.saveVersion,
+      stage: OPENING_FLIGHT_STAGES.COMPLETE,
+      artifactCollected: true,
+      firstDigCelebrated: true,
+      ringsPassed: OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.escape.rings.length,
+      trialStarted: true,
+      trialRemainingMs: 0,
+      trialComplete: true,
+      surfaceReturnCelebrated: true,
+      cacheCollected: true,
+      rewardGranted: true,
+      onboardingComplete: true,
+    };
   }
 
   loadSaveData(data) {

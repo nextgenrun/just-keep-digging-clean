@@ -1,5 +1,6 @@
 import { SECOND_WORLD_CONFIG } from "../../values/secondWorldConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { isSurfaceClearanceTileY } from "../../values/worldDepthConfig.js";
 
 function replacementType(tileX, dividerTileX) {
   return tileX < dividerTileX ? TILE_TYPES.DIRT : TILE_TYPES.LAVA_DIRT;
@@ -14,8 +15,8 @@ function isBridgeUndercroft(config, tileX, tileY) {
 }
 
 /**
- * Makes one full-height, gate-controlled Level 1/Level 2 divider and removes
- * every unrelated underground BEDROCK cell.
+ * Makes one gate-controlled Level 1/Level 2 divider, pauses it through the
+ * shared surface-clearance row, and removes every unrelated BEDROCK cell.
  */
 export function enforceUndergroundBedrockLayout(
   worldModel,
@@ -28,23 +29,39 @@ export function enforceUndergroundBedrockLayout(
     removedLevelTwo: 0,
     clearedBridgeUndercroft: 0,
     clearedLegacyGate: 0,
+    clearedSurfaceClearance: 0,
     repairedDivider: 0,
     retainedDivider: 0,
   };
 
+  let expectedDividerTiles = 0;
   for (let tileY = divider.topTileY; tileY < worldModel.depthTiles; tileY += 1) {
-    const dividerType = tileY === divider.floorTileY
-      ? TILE_TYPES.FLOOR_TOWN_2
-      : TILE_TYPES.BEDROCK;
+    const isSurfaceClearance = isSurfaceClearanceTileY(
+      tileY,
+      worldModel.topAirRows,
+      worldModel.config,
+    );
+    const dividerType = isSurfaceClearance
+      ? TILE_TYPES.AIR
+      : tileY === divider.floorTileY
+        ? TILE_TYPES.FLOOR_TOWN_2
+        : TILE_TYPES.BEDROCK;
     if (worldModel.getTileType(divider.tileX, tileY) !== dividerType) {
-      report.repairedDivider += 1;
+      if (isSurfaceClearance) {
+        report.clearedSurfaceClearance += 1;
+      } else {
+        report.repairedDivider += 1;
+      }
     }
     const index = worldModel.index(divider.tileX, tileY);
     worldModel.setTile(divider.tileX, tileY, dividerType, 0);
     worldModel.skyTileOriginalType[index] = 0;
     worldModel.skyTileRarity[index] = 0;
     worldModel.rootOverlay[index] = 0;
-    report.retainedDivider += 1;
+    if (!isSurfaceClearance) {
+      report.retainedDivider += 1;
+      expectedDividerTiles += 1;
+    }
   }
 
   for (let offset = 0; offset < divider.gateHeightTiles; offset += 1) {
@@ -90,7 +107,6 @@ export function enforceUndergroundBedrockLayout(
     }
   }
 
-  const expectedDividerTiles = worldModel.depthTiles - divider.topTileY;
   if (report.retainedDivider !== expectedDividerTiles) {
     throw new Error(
       `[UndergroundBedrockLayout] Divider gap detected: expected ${expectedDividerTiles} tiles, `

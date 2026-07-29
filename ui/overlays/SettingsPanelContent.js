@@ -656,16 +656,6 @@ export function createSettingsPanelContent(scene, options = {}) {
       : gameplayLayout.feedbackRowGap;
     const rows = [
       {
-        key: "showExpeditionSummaries",
-        label: copy.expeditionLabel,
-        hint: copy.expeditionHint,
-      },
-      {
-        key: "showMaterialDiscoveryCards",
-        label: copy.discoveryLabel,
-        hint: copy.discoveryHint,
-      },
-      {
         key: "showSessionObjective",
         label: copy.objectiveLabel,
         hint: copy.objectiveHint,

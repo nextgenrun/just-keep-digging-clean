@@ -1,4 +1,5 @@
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { getGemPowerBlockTier } from "../../values/specialBlocks.js";
 
 export const SPECIAL_MARKER_KEY_BY_TYPE = Object.freeze({
   [TILE_TYPES.TELEPORT_TILE]: "teleport",
@@ -24,6 +25,24 @@ export function scenicMarkerVariant(tx, ty, type, variants) {
   let hash = Math.imul(tx + 17, 374761393) ^ Math.imul(ty + 31, 668265263) ^ Math.imul(type + 7, 2246822519);
   hash = Math.imul(hash ^ (hash >>> 13), 1274126177);
   return ((hash ^ (hash >>> 16)) >>> 0) % variants;
+}
+
+export function resolveScenicFacadeMarker(
+  markerConfig,
+  tileType,
+  resourceKey,
+  tileY,
+  topAirRows = 0
+) {
+  const resourceMarker = markerConfig.resourceMarkers[resourceKey];
+  if (resourceMarker) return resourceMarker;
+  if (tileType === TILE_TYPES.GEM_POWER_BLOCK) {
+    const depthTiles = Math.max(0, tileY - topAirRows);
+    const tier = getGemPowerBlockTier(depthTiles);
+    return markerConfig.specialMarkers.gemPowerTiers?.[tier.id]
+      || markerConfig.specialMarkers.gemPower;
+  }
+  return markerConfig.specialMarkers[SPECIAL_MARKER_KEY_BY_TYPE[tileType]];
 }
 
 export function mixScenicColor(from, to, amount) {

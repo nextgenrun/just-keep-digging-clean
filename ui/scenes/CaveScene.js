@@ -2,11 +2,20 @@
  * CaveScene — fixed cave destination backed by the normal tile/player/mining stack.
  */
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
+import {
+  CAVE_LEVEL_CONFIG,
+  getCaveLevelVisualPack,
+  resolveExpandedCaveLevelEnabled,
+} from "../../values/caveLevelConfig.js";
+import { getCaveArchetype } from "../../values/caveArchetypes.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
 import { CaveWorldModel, makeCaveTileSaveKey } from "../../world/model/CaveWorldModel.js";
 import { WorldRenderer } from "../../world/rendering/WorldRenderer.js";
 import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { CaveLevelPresentationSystem } from "../../systems/visual/CaveLevelPresentationSystem.js";
+import { UINotificationSystem } from "../UINotificationSystem.js";
 
 function hashSeed(text, seed = 0) {
   let value = 2166136261 ^ seed;
@@ -14,9 +23,20 @@ function hashSeed(text, seed = 0) {
   return value >>> 0;
 }
 
-function getRewardPool(depthTiles) {
+function getRewardPool(depthTiles, archetypeId) {
   const pools = CAVE_SCENE_CONFIG.rewards.depthPools;
-  return [...pools].reverse().find(pool => depthTiles >= pool.minDepthTiles) || pools[0];
+  const pool = [...pools].reverse().find(entry => depthTiles >= entry.minDepthTiles) || pools[0];
+  const interior = CAVE_SCENE_CONFIG.interiors[archetypeId];
+  const allowed = new Set(pool.resources);
+  const bias = (interior?.resourceBias || []).filter(resourceKey => allowed.has(resourceKey));
+  const weightedBias = Array.from(
+    { length: CAVE_SCENE_CONFIG.rewards.archetypeBiasCopies },
+    () => bias,
+  ).flat();
+  return Object.freeze({
+    ...pool,
+    resources: Object.freeze([...pool.resources, ...weightedBias]),
+  });
 }
 
 export class CaveScene extends Phaser.Scene {
@@ -25,14 +45,15 @@ export class CaveScene extends Phaser.Scene {
     this.entryData = null;
     this.originScene = null;
     this.backgroundPreset = null;
+    this.visualPack = null;
+    this.archetype = null;
+    this.expandedLevelEnabled = false;
+    this.presentation = null;
     this.gameplay = null;
     this.player = null;
-    this.exitLabel = null;
-    this.statusText = null;
-    this.gpText = null;
+    this.uiNotifications = null;
     this.isLeaving = false;
     this._syncedToOrigin = false;
-    this._statusRevision = 0;
   }
 
   init(data = {}) {
@@ -40,25 +61,30 @@ export class CaveScene extends Phaser.Scene {
     this.originScene = this.scene.get(CAVE_SCENE_CONFIG.originSceneKey);
     this.backgroundPreset = CAVE_SCENE_CONFIG.presets[data.backgroundPresetKey]
       || CAVE_SCENE_CONFIG.presets[CAVE_SCENE_CONFIG.selection.normalPresetKeys[0]];
+    this.archetype = getCaveArchetype(data.archetypeId);
+    this.expandedLevelEnabled = resolveExpandedCaveLevelEnabled();
+    this.visualPack = getCaveLevelVisualPack(this.archetype.id);
     this.isLeaving = false;
     this._syncedToOrigin = false;
   }
 
   preload() {
-    const background = this.backgroundPreset;
+    const background = this.expandedLevelEnabled ? this.visualPack : this.backgroundPreset;
     if (background.assetPath && !this.textures.exists(background.textureKey)) {
       this.load.image(background.textureKey, background.assetPath);
     }
   }
 
   create() {
-    const grid = CAVE_SCENE_CONFIG.grid;
+    const grid = this.expandedLevelEnabled ? CAVE_LEVEL_CONFIG.grid : CAVE_SCENE_CONFIG.grid;
     const tileSize = this.originScene.config.tileSize;
     const depthTiles = Math.max(0, this.entryData?.depthTiles || 0);
     const caveId = this.entryData?.caveId || "unknown-cave";
     const collected = this.originScene.caveSceneCollectedNodes || new Set();
     this.originScene.caveSceneCollectedNodes = collected;
-    const pool = getRewardPool(depthTiles);
+    const pool = getRewardPool(depthTiles, this.archetype.id);
+    const interior = CAVE_SCENE_CONFIG.interiors[this.archetype.id]
+      || CAVE_SCENE_CONFIG.interiors["echo-gallery"];
 
     this.config = Object.freeze({
       ...this.originScene.config,
@@ -74,11 +100,19 @@ export class CaveScene extends Phaser.Scene {
       caveRuntime: Object.freeze({
         caveId,
         floorRow: grid.floorRow,
+        floorThicknessTiles: grid.floorThicknessTiles,
         boundaryThicknessTiles: grid.boundaryThicknessTiles,
-        safeFloorTileXs: grid.safeFloorTileXs,
-        floorResourceKeys: grid.floorResourceKeys,
+        stablePaintedFloor: this.expandedLevelEnabled,
+        safeFloorTileXs: grid.safeFloorTileXs || CAVE_SCENE_CONFIG.grid.safeFloorTileXs,
+        floorResourceKeys: grid.floorResourceKeys || CAVE_SCENE_CONFIG.grid.floorResourceKeys,
         resourcePool: pool.resources,
-        nodeLayout: CAVE_SCENE_CONFIG.rewards.nodeLayout,
+        nodeLayout: this.expandedLevelEnabled
+          ? CAVE_LEVEL_CONFIG.rewards.nodeLayout
+          : CAVE_SCENE_CONFIG.rewards.nodeLayout,
+        signatureNode: grid.signatureNode,
+        legacyNodeLayout: CAVE_SCENE_CONFIG.rewards.nodeLayout,
+        legacySignatureNode: CAVE_SCENE_CONFIG.grid.signatureNode,
+        signatureTileTypeKey: interior.signatureTileTypeKey,
         collectedTileKeys: Object.freeze([...collected]),
       }),
     });
@@ -88,14 +122,27 @@ export class CaveScene extends Phaser.Scene {
       * (this.backgroundPreset.rewardMultiplier || 1)
     ));
 
-    this._createBackground(this.config.worldWidthPx, this.config.worldDepthPx);
     this.worldModel = new CaveWorldModel(this.config);
     this.worldRenderer = new WorldRenderer(this, this.worldModel, this.config);
+    if (!this.textures.exists(ASSET_KEYS.runtime.tilesheet)) {
+      this.worldRenderer.createTilesheetTexture();
+    }
     this.worldRenderer.createLayer();
     this.worldRenderer.paintInitialWorld();
     this.worldRenderer.layer.setCollisionByExclusion([-1, 0], true);
+    this.presentation = new CaveLevelPresentationSystem(this, {
+      config: this.config,
+      expanded: this.expandedLevelEnabled,
+      visualPack: this.visualPack,
+      backgroundPreset: this.backgroundPreset,
+      entryData: this.entryData,
+      archetype: this.archetype,
+      worldModel: this.worldModel,
+      worldRenderer: this.worldRenderer,
+    });
+    this.presentation.create();
     this._createPlayer();
-    this._createFeedbackAndExit();
+    this.uiNotifications = new UINotificationSystem(this);
     this.hudSystem = { flashStatus: (message, color, duration) => this.flashStatus(message, color, duration) };
 
     this.gameplay = new CaveGameplayController(this, this.worldModel, this.worldRenderer);
@@ -107,6 +154,10 @@ export class CaveScene extends Phaser.Scene {
 
   update(time, delta) {
     if (this.isLeaving || !this.gameplay) return;
+    if (this.uiNotifications?.handleInput?.()) {
+      this._updateGpText();
+      return;
+    }
     this.gameplay.update(time, delta);
     this._updateGpText();
     this._tryExit();
@@ -119,28 +170,14 @@ export class CaveScene extends Phaser.Scene {
   }
 
   flashStatus(message, color = CAVE_SCENE_CONFIG.feedback.statusColor, duration = CAVE_SCENE_CONFIG.feedback.statusDurationMs) {
-    const revision = ++this._statusRevision;
-    this.statusText?.setColor(color).setText(message || "");
-    this.time.delayedCall(duration, () => {
-      if (revision === this._statusRevision) this.statusText?.setText("");
+    this.uiNotifications?.show?.(message, {
+      color,
+      durationMs: duration,
     });
   }
 
-  _createBackground(width, height) {
-    const background = this.backgroundPreset;
-    if (this.textures.exists(background.textureKey)) {
-      this.add.image(width / 2, height / 2, background.textureKey)
-        .setDisplaySize(width, height)
-        .setDepth(-10);
-      return;
-    }
-    const fallback = CAVE_SCENE_CONFIG.background;
-    this.add.rectangle(width / 2, height / 2, width, height, fallback.fallbackColor).setDepth(-10);
-    this.add.circle(width * 0.6, height * 0.5, width * 0.38, fallback.fallbackLightColor, fallback.fallbackLightAlpha).setDepth(-9);
-  }
-
   _createPlayer() {
-    const grid = CAVE_SCENE_CONFIG.grid;
+    const grid = this.expandedLevelEnabled ? CAVE_LEVEL_CONFIG.grid : CAVE_SCENE_CONFIG.grid;
     const tileSize = this.config.tileSize;
     this.playerAssetProfile = this.originScene.playerAssetProfile;
     const profile = this.playerAssetProfile;
@@ -158,48 +195,36 @@ export class CaveScene extends Phaser.Scene {
     if (profile.idleAnim && this.anims.exists(profile.idleAnim)) this.player.play(profile.idleAnim, true);
   }
 
-  _createFeedbackAndExit() {
-    const tileSize = this.config.tileSize;
-    const grid = CAVE_SCENE_CONFIG.grid;
-    const exit = CAVE_SCENE_CONFIG.exit;
-    const feedback = CAVE_SCENE_CONFIG.feedback;
-    const exitX = (exit.tileX + 0.5) * tileSize;
-    const exitY = grid.floorRow * tileSize;
-    this.add.rectangle(exitX, exitY - tileSize / 2, tileSize * 1.2, tileSize, 0x24354f, 0.52)
-      .setStrokeStyle(2, 0x9ec8ff, 0.85)
-      .setDepth(2);
-    this.exitLabel = this.add.text(exitX, exitY - exit.labelOffsetTiles * tileSize, "", {
-      fontFamily: "Consolas, monospace", fontSize: "16px", color: exit.labelColor,
-      backgroundColor: "#070814cc", padding: { x: 7, y: 4 },
-    }).setOrigin(0.5, 1).setDepth(5).setVisible(false);
-    this.statusText = this.add.text(this.config.worldWidthPx / 2, feedback.statusTileY * tileSize, "", {
-      fontFamily: "Consolas, monospace", fontSize: "20px", color: feedback.statusColor,
-    }).setOrigin(0.5).setDepth(5);
-    this.gpText = this.add.text(
-      this.config.worldWidthPx - feedback.sideInsetTiles * tileSize,
-      feedback.gpTileY * tileSize,
-      "",
-      { fontFamily: "Consolas, monospace", fontSize: "16px", color: feedback.gpColor }
-    ).setOrigin(1, 0.5).setDepth(5);
-  }
-
   _configureCamera() {
     const camera = this.cameras.main;
     camera.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
-    camera.setZoom(CAVE_SCENE_CONFIG.grid.cameraZoom);
-    camera.centerOn(this.config.worldWidthPx / 2, this.config.worldDepthPx / 2);
+    if (!this.expandedLevelEnabled) {
+      camera.setZoom(CAVE_SCENE_CONFIG.grid.cameraZoom);
+      camera.centerOn(this.config.worldWidthPx / 2, this.config.worldDepthPx / 2);
+      return;
+    }
+    const cameraConfig = CAVE_LEVEL_CONFIG.camera;
+    camera.setZoom(cameraConfig.zoom);
+    camera.startFollow(
+      this.player,
+      cameraConfig.roundPixels,
+      cameraConfig.lerpX,
+      cameraConfig.lerpY,
+      cameraConfig.followOffsetXTiles * this.config.tileSize,
+      cameraConfig.followOffsetYTiles * this.config.tileSize,
+    );
   }
 
   _updateGpText() {
     const controller = this.gameplay.playerController;
-    this.gpText.setText(`GP ${controller.getGemPowerRaw()} / ${controller.getGemPowerMax()}`);
+    this.presentation?.setGp(controller.getGemPowerRaw(), controller.getGemPowerMax());
   }
 
   _tryExit() {
     const playerTile = this.gameplay.playerController.getPlayerTile();
     const exit = CAVE_SCENE_CONFIG.exit;
     const inRange = Math.abs(playerTile.tx - exit.tileX) <= exit.rangeTiles;
-    this.exitLabel.setText(`[${USER_SETTINGS.getKeyLabel("interact")}] Exit cave`).setVisible(inRange);
+    this.presentation?.setExitPrompt(`[${USER_SETTINGS.getKeyLabel("interact")}] Exit cave`, inRange);
     const interact = this.gameplay.inputHandler.getKeys().interact;
     if (inRange && Phaser.Input.Keyboard.JustDown(interact)) this._returnToWorld();
   }
@@ -227,6 +252,9 @@ export class CaveScene extends Phaser.Scene {
 
   _handleShutdown() {
     this._syncToOrigin();
+    this.uiNotifications?.destroy();
+    this.uiNotifications = null;
+    this.presentation = null;
     this.gameplay?.destroy();
   }
 }

@@ -1,71 +1,91 @@
 import { UI_COLORS } from "../values/uiColors.js";
-import { UI_FONTS } from "../values/uiLayout.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
-import { ASSET_KEYS } from "../values/assetKeys.js";
-import { hasApprovedHudSkin } from "../systems/visual/ApprovedHudSkin.js";
-
+import { UI_NOTIFICATION_CAROUSEL_CONFIG } from "../values/uiNotificationCarousel.js";
+import { NotificationCarouselState } from "./NotificationCarouselState.js";
+import { UINotificationDragController } from "./UINotificationDragController.js";
+import { UINotificationCarouselView } from "./UINotificationCarouselView.js";
+import { UINotificationCarouselPresenter } from "./UINotificationCarouselPresenter.js";
 const KIND_STYLES = Object.freeze({
-  info: { accent: UI_COLORS.borderHov, color: UI_COLORS.white },
-  success: { accent: UI_COLORS.borderGood, color: UI_COLORS.white },
-  warning: { accent: UI_COLORS.gold, color: UI_COLORS.white },
-  danger: { accent: UI_COLORS.borderBad, color: UI_COLORS.white },
+  info: Object.freeze({ accent: UI_COLORS.borderHov, color: UI_COLORS.white }),
+  success: Object.freeze({ accent: UI_COLORS.borderGood, color: UI_COLORS.white }),
+  warning: Object.freeze({ accent: UI_COLORS.gold, color: UI_COLORS.white }),
+  danger: Object.freeze({ accent: UI_COLORS.borderBad, color: UI_COLORS.white }),
+});
+const DOM_INPUT_CODES = Object.freeze({
+  LEFT: "ArrowLeft",
+  RIGHT: "ArrowRight",
+  X: "KeyX",
 });
 
-const KIND_PRIORITY = Object.freeze({
-  info: 0,
-  success: 1,
-  warning: 2,
-  danger: 3,
-});
-
-const KIND_DEFAULT_DURATIONS = Object.freeze({
-  info: 2000,
-  success: 2400,
-  warning: 3600,
-  danger: 5200,
-});
-
-function colorStringToNumber(value) {
-  if (typeof value !== "string" || !value.startsWith("#")) return null;
-  const parsed = Number.parseInt(value.slice(1), 16);
-  return Number.isFinite(parsed) ? parsed : null;
-}
 function inferKind(color) {
   const lower = typeof color === "string" ? color.toLowerCase() : "";
   if (lower.includes("44ff") || lower.includes("2ecc") || lower.includes("4ecb")) return "success";
   if (lower.includes("ff44") || lower.includes("ff66") || lower.includes("e070")) return "danger";
   if (lower.includes("ffaa") || lower.includes("ffdd") || lower.includes("ffd7")) return "warning";
-  return "info";
+  return UI_NOTIFICATION_CAROUSEL_CONFIG.defaultKind;
 }
 
+// Queues approved transient UI messages behind one centered seven-second card.
 export class UINotificationSystem {
   constructor(scene, options = {}) {
     this.scene = scene;
-    this.approved = hasApprovedHudSkin(scene);
-    const reference = APPROVED_HUD_SKIN.referenceViewport;
-    this.skinScale = Math.min(
-      (scene.scale?.width || reference.width) / reference.width,
-      (scene.scale?.height || reference.height) / reference.height,
-    );
-    this.maxToasts = options.maxToasts ?? 4;
-    this.depth = options.depth ?? 3600;
-    this.baseY = options.y ?? (this.approved ? APPROVED_HUD_SKIN.layout.notification.y * this.skinScale : 58);
-    this.gap = options.gap ?? (this.approved ? APPROVED_HUD_SKIN.layout.notification.gap * this.skinScale : 10);
-    this.entries = [];
-    this.keyed = new Map();
-    this._allEntries = new Set();
     this.destroyed = false;
+    this.keyed = new Map();
     this._dedupeHistory = new Map();
-    this._dedupeWindowMs = options.dedupeWindowMs ?? 1800;
     this._entryCounter = 0;
+    this._dedupeWindowMs = options.dedupeWindowMs
+      ?? UI_NOTIFICATION_CAROUSEL_CONFIG.dedupeWindowMs;
+    const maxQueued = options.maxQueued
+      ?? options.maxToasts
+      ?? UI_NOTIFICATION_CAROUSEL_CONFIG.maxQueued;
+    this.state = new NotificationCarouselState(maxQueued);
+    this.entries = this.state.entries;
+    this._explicitBaseY = Number.isFinite(options.y) ? options.y : null;
+    this.defaultBaseY = this._explicitBaseY ?? this._defaultBaseY();
+    this.baseY = this.defaultBaseY;
+    this.depth = options.depth
+      ?? UI_NOTIFICATION_CAROUSEL_CONFIG.depth;
+    this.view = new UINotificationCarouselView(scene, {
+      onPrevious: () => this.cyclePrevious(),
+      onNext: () => this.cycleNext(),
+      onDismiss: () => this.closeAll(),
+    });
+    this.view.root.setDepth(this.depth).setPosition(this._centerX(), this.baseY);
+    this.presenter = new UINotificationCarouselPresenter(scene, this.view, {
+      getSnapshot: () => ({
+        entry: this.state.current,
+        position: this.state.position,
+        total: this.state.size,
+      }),
+      getBaseY: () => this.baseY,
+      getCenterX: () => this._centerX(),
+      resolvePosition: (centerX, baseY) => (
+        this.dragController?.resolvePosition(
+          centerX,
+          baseY,
+          this.baseY - this.defaultBaseY,
+        ) || { x: centerX, y: baseY }
+      ),
+      onExpire: entryId => this._expireCurrent(entryId),
+    });
+    this.dragController = new UINotificationDragController(scene, this.view, {
+      onInteractionStart: () => this.presenter.interrupt(),
+      onInteractionEnd: () => this.presenter.schedule(),
+    });
+    this.presenter.updatePosition();
+    this._keys = this._registerKeys();
+    this._domKeyTarget = globalThis.window || null;
+    this._onDomKeyDown = event => this._handleDomKeyDown(event);
+    this._domKeyTarget?.addEventListener?.("keydown", this._onDomKeyDown, true);
   }
 
   show(message, options = {}) {
-    if (!message || this.destroyed || !this.scene?.add || !this.scene?.time) return null;
+    if (!message || this.destroyed || !this.scene?.time) return null;
     const now = Date.now();
     const normalized = this._normalizeOptions(options);
     const key = normalized.key || null;
-    const dedupeKey = normalized.dedupeKey || `${normalized.kind}|${String(message).trim().toLowerCase()}`;
+    const dedupeKey = normalized.dedupeKey
+      || `${normalized.kind}|${String(message).trim().toLowerCase()}`;
 
     this._cleanupDedupes(now);
     if (!key && !normalized.noDedupe) {
@@ -75,33 +95,33 @@ export class UINotificationSystem {
     }
 
     const existing = key ? this.keyed.get(key) : null;
-    if (existing && !existing.expiring && existing.root?.active) {
+    if (existing && this.entries.includes(existing)) {
       this._updateEntry(existing, message, normalized);
       return existing;
-    } else if (existing) {
-      this.keyed.delete(key);
     }
+    if (existing) this.keyed.delete(key);
 
-    const entry = this._createEntry(message, normalized);
-    this.entries.push(entry);
-    this._entryCounter += 1;
-    entry.createdAt = now;
-    this._sortEntries();
+    const current = this.state.current;
+    const entry = {
+      ...normalized,
+      id: `notification-${++this._entryCounter}`,
+      key,
+      message: String(message),
+      createdAt: now,
+    };
+    const shouldFocus = !current || entry.priority > current.priority;
+    const result = this.state.enqueue(entry, { focus: shouldFocus });
+    if (result.evicted) this._forgetEntry(result.evicted);
+    if (!result.accepted) return null;
     if (key) this.keyed.set(key, entry);
 
-    while (this.entries.length > this.maxToasts) {
-      this._expire(this.entries[this.entries.length - 1], true);
+    if (shouldFocus) {
+      this.presenter.present({
+        animate: Boolean(current) && !this.dragController.isInteracting,
+      });
+    } else {
+      this.presenter.refresh();
     }
-
-    this._layout();
-    this.scene.tweens.add({
-      targets: entry.root,
-      alpha: 1,
-      y: entry.targetY,
-      duration: 150,
-      ease: "Power2.out",
-    });
-    this._schedule(entry, normalized.durationMs);
     return entry;
   }
 
@@ -121,211 +141,271 @@ export class UINotificationSystem {
     return this.show(message, { ...options, kind: "info" });
   }
 
+  cyclePrevious() {
+    return this._cycle(-1);
+  }
+
+  cycleNext() {
+    return this._cycle(1);
+  }
+
+  closeCurrent() {
+    if (!this.state.current || this.destroyed) return false;
+    return Boolean(this._removeCurrent());
+  }
+
+  closeAll() {
+    if (this.destroyed || this.state.size === 0) return false;
+    this.state.clear().forEach(entry => this._forgetEntry(entry));
+    this.keyed.clear();
+    this.presenter.clear();
+    return true;
+  }
+
+  closeByKey(key) {
+    if (!key || this.destroyed) return false;
+    const entry = this.keyed.get(key);
+    if (!entry) return false;
+    if (this.state.current?.id === entry.id) return this.closeCurrent();
+
+    const removed = this.state.removeById(entry.id);
+    if (!removed) return false;
+    this._forgetEntry(removed);
+    this.presenter.refresh();
+    return true;
+  }
+
+  handleInput() {
+    if (!this._canHandleInput()) return false;
+
+    const justDown = globalThis.Phaser?.Input?.Keyboard?.JustDown;
+    if (typeof justDown !== "function") return false;
+    // Dismiss wins if inputs land on the same frame: X clears every unread card.
+    if (justDown(this._keys.dismiss)) {
+      this.closeAll();
+      return true;
+    }
+    if (this.state.size > 1 && justDown(this._keys.previous)) {
+      this.cyclePrevious();
+      return true;
+    }
+    if (this.state.size > 1 && justDown(this._keys.next)) {
+      this.cycleNext();
+      return true;
+    }
+    return false;
+  }
+
+  getSnapshot() {
+    const current = this.state?.current || null;
+    return {
+      currentId: current?.id || null,
+      currentKey: current?.key || null,
+      message: current?.message || "",
+      position: this.state?.position || 0,
+      total: this.state?.size || 0,
+      visible: Boolean(this.view?.root?.visible),
+      suspended: Boolean(this.presenter?.suspended),
+      transitioning: Boolean(this.presenter?.transitioning),
+      transitionKind: this.presenter?.transitionKind || null,
+    };
+  }
+
+  setPaused(paused) {
+    if (this.destroyed) return;
+    this.presenter.setPaused(paused);
+  }
+
   setBaseY(value) {
     if (!Number.isFinite(value) || this.destroyed || value === this.baseY) return;
     this.baseY = value;
-    this._layout();
+    this.presenter.updatePosition();
+  }
+
+  resize() {
+    if (this.destroyed) return;
+    const avoidanceOffsetY = this.baseY - this.defaultBaseY;
+    this.defaultBaseY = this._explicitBaseY ?? this._defaultBaseY();
+    this.baseY = this.defaultBaseY + avoidanceOffsetY;
+    this.view.resize(this.baseY);
+    this.presenter.refresh();
   }
 
   clear() {
-    [...this.entries].forEach(entry => this._expire(entry, true));
+    this.closeAll();
   }
 
   destroy() {
+    if (this.destroyed) return;
+    this.clear();
     this.destroyed = true;
-    [...this._allEntries].forEach(entry => this._destroyEntry(entry));
-    this.entries = [];
+    this._domKeyTarget?.removeEventListener?.(
+      "keydown",
+      this._onDomKeyDown,
+      true,
+    );
+    Object.values(this._keys).forEach(key => key?.destroy?.());
+    this.dragController?.destroy();
+    this.dragController = null;
+    this.presenter?.destroy();
+    this._dedupeHistory.clear();
     this.keyed.clear();
-    this._allEntries.clear();
     this.scene = null;
+    this.view = null;
+    this.presenter = null;
+    this.state = null;
+    this._domKeyTarget = null;
+    this._onDomKeyDown = null;
   }
 
-  _createEntry(message, options) {
-    const normalized = this._normalizeOptions(options);
-    const skinLayout = APPROVED_HUD_SKIN.layout.notification;
-    const width = this.approved
-      ? skinLayout.width * this.skinScale
-      : Math.min(520, Math.max(280, (this.scene.scale?.width || 1280) - 48));
-    const root = this.scene.add.container(this._centerX(), this.baseY - 18)
-      .setDepth(this.depth)
-      .setScrollFactor(0)
-      .setAlpha(0);
-
-    const bg = this.approved
-      ? this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.notification).setOrigin(0.5)
-      : this.scene.add.graphics();
-    const textInset = this.approved ? skinLayout.iconInset * this.skinScale : 18;
-    const text = this.scene.add.text(-width / 2 + textInset, 0, "", {
-      fontFamily: this.approved ? APPROVED_HUD_SKIN.font.family : UI_FONTS.mono,
-      fontSize: options.fontSize || `${this.approved ? skinLayout.fontSize * this.skinScale : 14}px`,
-      fontStyle: "bold",
-      color: UI_COLORS.white,
-      stroke: this.approved ? APPROVED_HUD_SKIN.font.shadow : undefined,
-      strokeThickness: this.approved ? APPROVED_HUD_SKIN.font.strokeThickness : 0,
-      lineSpacing: 2,
-      wordWrap: { width: width - textInset - skinLayout.rightInset * this.skinScale, useAdvancedWrap: true },
-    }).setOrigin(0, 0.5);
-
-    root.add([bg, text]);
-
-    const entry = {
-      root,
-      bg,
-      text,
-      width,
-      height: this.approved ? skinLayout.minHeight * this.skinScale : 42,
-      timer: null,
-      targetY: this.baseY,
-      expiring: false,
-      key: normalized.key || null,
-      priority: Number.isFinite(normalized.priority) ? normalized.priority : KIND_PRIORITY.info,
-      durationMs: Number.isFinite(normalized.durationMs) ? normalized.durationMs : KIND_DEFAULT_DURATIONS.info,
-      kind: normalized.kind,
-    };
-    this._updateEntry(entry, message, normalized, false);
-    this._allEntries.add(entry);
-    return entry;
-  }
-
-  _updateEntry(entry, message, options = {}, reschedule = true) {
-    if (this.destroyed || !entry?.root?.active) return;
-
-    const kind = options.kind || inferKind(options.color);
-    const style = KIND_STYLES[kind] || KIND_STYLES.info;
-    const color = options.color || style.color;
-    const durationMs = options.durationMs;
-    const colorNumber = colorStringToNumber(color) ?? style.accent;
-
-    entry.text.setText(String(message));
-    entry.text.setColor(color);
-    const minHeight = this.approved
-      ? APPROVED_HUD_SKIN.layout.notification.minHeight * this.skinScale
-      : 42;
-    entry.height = Math.max(minHeight, entry.text.height + APPROVED_HUD_SKIN.layout.notification.verticalPadding * this.skinScale);
-    entry.kind = kind;
-    entry.priority = Number.isFinite(options.priority) ? options.priority : KIND_PRIORITY[kind];
-    entry.durationMs = Number.isFinite(durationMs) ? durationMs : KIND_DEFAULT_DURATIONS[kind];
-
-    if (this.approved) {
-      entry.bg.setDisplaySize(entry.width, entry.height);
-    } else {
-      entry.bg.clear();
-      entry.bg.fillStyle(UI_COLORS.bg, 0.94);
-      entry.bg.fillRoundedRect(-entry.width / 2, -entry.height / 2, entry.width, entry.height, 6);
-      entry.bg.lineStyle(1, UI_COLORS.borderDim, 0.95);
-      entry.bg.strokeRoundedRect(-entry.width / 2, -entry.height / 2, entry.width, entry.height, 6);
-      entry.bg.fillStyle(colorNumber, 0.95);
-      entry.bg.fillRoundedRect(-entry.width / 2, -entry.height / 2, 5, entry.height, 6);
+  _updateEntry(entry, message, options) {
+    entry.message = String(message);
+    entry.title = options.title;
+    entry.kind = options.kind;
+    entry.priority = options.priority;
+    entry.color = options.color;
+    entry.accentColor = options.accentColor;
+    entry.fontSize = options.fontSize;
+    if (this.state.current?.id === entry.id) {
+      this.presenter.present({ animate: false });
     }
-
-    entry.root.setAlpha(1);
-    entry.expiring = false;
-    this._layout();
-    if (reschedule) this._schedule(entry, options.durationMs);
   }
 
-  _schedule(entry, durationMs = 2200) {
-    if (this.destroyed || !this.scene?.time || !entry?.root?.active) return;
-    entry.timer?.remove?.();
-    const duration = Math.max(150, Number.isFinite(durationMs) ? durationMs : 2200);
-    entry.timer = this.scene.time.delayedCall(duration, () => this._expire(entry));
+  _cycle(step) {
+    if (
+      this.destroyed
+      || this.presenter.suspended
+      || this.state.size < 2
+    ) {
+      return false;
+    }
+    const removed = this.state.consumeCurrent(step);
+    if (!removed) return false;
+    this._forgetEntry(removed);
+    return this.presenter.switch();
+  }
+
+  _removeCurrent() {
+    this.presenter.interrupt();
+    const removed = this.state.removeCurrent();
+    if (!removed) return null;
+    this._forgetEntry(removed);
+    this.presenter.present({ animate: false });
+    return removed;
+  }
+
+  _expireCurrent(entryId) {
+    if (!entryId || this.state.current?.id !== entryId) return null;
+    const removed = this.state.removeById(entryId);
+    if (!removed) return null;
+    this._forgetEntry(removed);
+    return removed;
   }
 
   _normalizeOptions(options = {}) {
     const kind = options.kind || inferKind(options.color);
+    const kindConfig = UI_NOTIFICATION_CAROUSEL_CONFIG.kinds[kind]
+      || UI_NOTIFICATION_CAROUSEL_CONFIG.kinds.info;
     const style = KIND_STYLES[kind] || KIND_STYLES.info;
-    const durationMs = Number.isFinite(options.durationMs)
-      ? options.durationMs
-      : KIND_DEFAULT_DURATIONS[kind];
-    const priority = Number.isFinite(options.priority)
-      ? options.priority
-      : KIND_PRIORITY[kind];
-
     return {
       ...options,
       kind,
-      priority,
-      durationMs: Number.isFinite(durationMs) ? durationMs : 2200,
+      title: options.title || kindConfig.title,
+      priority: Number.isFinite(options.priority)
+        ? options.priority
+        : kindConfig.priority,
+      durationMs: UI_NOTIFICATION_CAROUSEL_CONFIG.visibleDurationMs,
       color: options.color || style.color,
+      accentColor: options.accentColor || options.color || style.accent,
       noDedupe: options.noDedupe ?? false,
     };
   }
 
-  _sortEntries() {
-    this.entries = this.entries.sort((a, b) => {
-      const aPriority = Number.isFinite(a?.priority) ? a.priority : 0;
-      const bPriority = Number.isFinite(b?.priority) ? b.priority : 0;
-      if (aPriority !== bPriority) return bPriority - aPriority;
-      return (b.createdAt || 0) - (a.createdAt || 0);
-    });
-    this._layout();
+  _forgetEntry(entry) {
+    if (!entry) return;
+    if (entry.key && this.keyed.get(entry.key) === entry) {
+      this.keyed.delete(entry.key);
+    }
   }
 
   _cleanupDedupes(now) {
-    if (!this._dedupeHistory?.size) return;
     const cutoff = now - this._dedupeWindowMs;
-    for (const [dedupeKey, at] of this._dedupeHistory.entries()) {
-      if (!Number.isFinite(at) || at < cutoff) this._dedupeHistory.delete(dedupeKey);
+    for (const [key, at] of this._dedupeHistory.entries()) {
+      if (!Number.isFinite(at) || at < cutoff) this._dedupeHistory.delete(key);
     }
   }
 
-  _expire(entry, immediate = false) {
-    if (!entry || entry.expiring) return;
-    entry.expiring = true;
-    entry.timer?.remove?.();
-    entry.timer = null;
-    this.entries = this.entries.filter(item => item !== entry);
-    if (entry.key) this.keyed.delete(entry.key);
-    this.scene?.tweens?.killTweensOf?.(entry.root);
+  _registerKeys() {
+    const keyboard = this.scene?.input?.keyboard;
+    const keyCodes = globalThis.Phaser?.Input?.Keyboard?.KeyCodes;
+    const input = UI_NOTIFICATION_CAROUSEL_CONFIG.input;
+    if (!keyboard?.addKey || !keyCodes) {
+      return { previous: null, next: null, dismiss: null };
+    }
+    const keys = {
+      previous: keyboard.addKey(keyCodes[input.previous]),
+      next: keyboard.addKey(keyCodes[input.next]),
+      dismiss: keyboard.addKey(keyCodes[input.dismiss]),
+    };
+    keyboard.addCapture?.(
+      Object.values(keys).filter(Boolean).map(key => key.keyCode),
+    );
+    return keys;
+  }
 
-    const destroy = () => this._destroyEntry(entry);
+  _handleDomKeyDown(event) {
+    if (event?.repeat || !this._canHandleInput()) return false;
+    const input = UI_NOTIFICATION_CAROUSEL_CONFIG.input;
+    const code = event?.code || "";
+    const key = String(event?.key || "").toLowerCase();
+    let handled = false;
 
-    if (immediate || this.destroyed || !this.scene?.tweens) {
-      destroy();
-      return;
+    if (code === DOM_INPUT_CODES[input.dismiss] || key === input.dismiss.toLowerCase()) {
+      handled = this.closeAll();
+    } else if (
+      this.state.size > 1
+      && (code === DOM_INPUT_CODES[input.previous] || key === "arrowleft")
+    ) {
+      handled = this.cyclePrevious();
+    } else if (
+      this.state.size > 1
+      && (code === DOM_INPUT_CODES[input.next] || key === "arrowright")
+    ) {
+      handled = this.cycleNext();
     }
 
-    this.scene.tweens.add({
-      targets: entry.root,
-      alpha: 0,
-      y: entry.root.y - 12,
-      duration: 180,
-      ease: "Power1.in",
-      onComplete: destroy,
-    });
+    if (handled) {
+      event?.preventDefault?.();
+      event?.stopImmediatePropagation?.();
+    }
+    return handled;
   }
 
-  _destroyEntry(entry) {
-    if (!entry) return;
-    entry.timer?.remove?.();
-    entry.timer = null;
-    this.scene?.tweens?.killTweensOf?.(entry.root);
-    if (entry.root?.active) entry.root.destroy(true);
-    this.entries = this.entries.filter(item => item !== entry);
-    if (entry.key) this.keyed.delete(entry.key);
-    this._allEntries.delete(entry);
-    this._layout();
-  }
-
-  _layout() {
-    if (this.destroyed || !this.scene?.tweens) return;
-    let y = this.baseY;
-    this.entries = this.entries.filter(entry => entry?.root?.active);
-    this.entries.forEach(entry => {
-      entry.targetY = y;
-      this.scene.tweens.killTweensOf(entry.root);
-      this.scene.tweens.add({
-        targets: entry.root,
-        x: this._centerX(),
-        y,
-        duration: 140,
-        ease: "Power2.out",
-      });
-      y += entry.height + this.gap;
-    });
+  _canHandleInput() {
+    const sceneActive = typeof this.scene?.sys?.isActive !== "function"
+      || this.scene.sys.isActive();
+    return Boolean(
+      !this.destroyed
+      && !this.presenter?.suspended
+      && this.state?.current
+      && !this.scene?._settingsKeyCaptureActive
+      && sceneActive
+    );
   }
 
   _centerX() {
-    return (this.scene?.scale?.width || this.scene?.config?.viewportWidth || 1280) / 2;
+    const width = this.scene?.scale?.width
+      || this.scene?.config?.viewportWidth
+      || APPROVED_HUD_SKIN.referenceViewport.width;
+    return width / 2;
+  }
+
+  _defaultBaseY() {
+    const reference = APPROVED_HUD_SKIN.referenceViewport;
+    const scale = Math.min(
+      (this.scene?.scale?.width || reference.width) / reference.width,
+      (this.scene?.scale?.height || reference.height) / reference.height,
+    );
+    return APPROVED_HUD_SKIN.layout.notification.y * scale;
   }
 }

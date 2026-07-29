@@ -78,11 +78,46 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
       type: 'instant',
       effect: 'restoreGemPower',
       restoreTiers: Object.freeze([
-        Object.freeze({ minDepthTiles: 0, restoreAmount: 25 }),
-        Object.freeze({ minDepthTiles: 250, restoreAmount: 40 }),
-        Object.freeze({ minDepthTiles: 500, restoreAmount: 60 }),
-        Object.freeze({ minDepthTiles: 1000, restoreAmount: 90 }),
-        Object.freeze({ minDepthTiles: 1500, restoreAmount: 130 }),
+        Object.freeze({
+          id: 'gp100',
+          minDepthTiles: 0,
+          restoreAmount: 100,
+          semanticFrame: 0,
+          recognitionFrame: 62,
+          assetPath: 'sprites/tiles/special-tiles-imagegen-v4/gem-power-100.webp',
+        }),
+        Object.freeze({
+          id: 'gp250',
+          minDepthTiles: 250,
+          restoreAmount: 250,
+          semanticFrame: 1,
+          recognitionFrame: 63,
+          assetPath: 'sprites/tiles/special-tiles-imagegen-v4/gem-power-250.webp',
+        }),
+        Object.freeze({
+          id: 'gp500',
+          minDepthTiles: 500,
+          restoreAmount: 500,
+          semanticFrame: 2,
+          recognitionFrame: 64,
+          assetPath: 'sprites/tiles/special-tiles-imagegen-v4/gem-power-500.webp',
+        }),
+        Object.freeze({
+          id: 'gp1000',
+          minDepthTiles: 1000,
+          restoreAmount: 1000,
+          semanticFrame: 3,
+          recognitionFrame: 65,
+          assetPath: 'sprites/tiles/special-tiles-imagegen-v4/gem-power-1000.webp',
+        }),
+        Object.freeze({
+          id: 'gp1700',
+          minDepthTiles: 1500,
+          restoreAmount: 1700,
+          semanticFrame: 4,
+          recognitionFrame: 66,
+          assetPath: 'sprites/tiles/special-tiles-imagegen-v4/gem-power-1700.webp',
+        }),
       ]),
     },
     speedBlock: {
@@ -122,6 +157,8 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
   },
 });
 
+export const GEM_POWER_BLOCK_TIERS = SPECIAL_BLOCKS_CONFIG.effects.gemPowerBlock.restoreTiers;
+
 /**
  * Get effect configuration for a block type
  */
@@ -129,12 +166,15 @@ export function getBlockEffect(blockType) {
   return SPECIAL_BLOCKS_CONFIG.effects[blockType] || null;
 }
 
-export function getGemPowerBlockRestoreAmount(depthTiles) {
-  const tiers = SPECIAL_BLOCKS_CONFIG.effects.gemPowerBlock.restoreTiers;
+export function getGemPowerBlockTier(depthTiles) {
   const safeDepth = Number.isFinite(depthTiles) ? Math.max(0, depthTiles) : 0;
-  let selected = tiers[0];
-  for (const tier of tiers) {
+  let selected = GEM_POWER_BLOCK_TIERS[0];
+  for (const tier of GEM_POWER_BLOCK_TIERS) {
     if (safeDepth >= tier.minDepthTiles) selected = tier;
   }
-  return selected.restoreAmount;
+  return selected;
+}
+
+export function getGemPowerBlockRestoreAmount(depthTiles) {
+  return getGemPowerBlockTier(depthTiles).restoreAmount;
 }

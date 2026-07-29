@@ -6,13 +6,20 @@ import {
   copyGraveborerTile,
   createGraveborerWurmPath,
   createGraveborerWurmRenderState,
-  resolveGraveborerWurmCollision,
+  resolveGraveborerWurmSweptCollision,
   sampleGraveborerWurmPath,
 } from "./graveborerWurmPath.js";
 import {
   createGraveborerWurmSaveData,
   resolveGraveborerWurmRestoredState,
 } from "./graveborerWurmPersistence.js";
+import { resolveGraveborerWurmDifficulty } from "./graveborerWurmDifficulty.js";
+import {
+  createGraveborerWurmCooldownState,
+  createGraveborerWurmForcedState,
+  createGraveborerWurmInitialState,
+  createGraveborerWurmSnapshot,
+} from "./graveborerWurmState.js";
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -25,26 +32,12 @@ export class GraveborerWurmSystem {
     this.config = options.config || GRAVEBORER_WURM_CONFIG;
     this.enabled = options.enabled ?? this.config.featureFlags.enabled;
     this.devTest10x = options.devTest10x ?? this.config.featureFlags.devTest10x;
-    this.active = false;
     this._events = [];
-    this._path = null;
     this._lastWorldWidth = 0;
-    this._reset();
-  }
-
-  _reset() {
-    this.phase = GRAVEBORER_WURM_PHASES.dormant;
-    this.noise = 0;
-    this.cooldownMs = this.config.timing.initialCooldownMs;
-    this.warningRemainingMs = 0;
-    this.progress = 0;
-    this.encounterCount = 0;
-    this.targetTile = null;
-    this.lastNoiseTile = null;
-    this.direction = 1;
-    this.hitConsumed = false;
-    this._lastCarveProgress = 0;
-    this._path = null;
+    Object.assign(
+      this,
+      createGraveborerWurmInitialState(this.config, this.devTest10x),
+    );
   }
 
   setEnabled(enabled) {
@@ -58,7 +51,9 @@ export class GraveborerWurmSystem {
   }
 
   getActivityMultiplier() {
-    return this.devTest10x ? this.config.featureFlags.devActivityMultiplier : 1;
+    return this.devTest10x
+      ? this.config.frequency.devActivityMultiplier
+      : this.config.frequency.productionActivityMultiplier;
   }
 
   loadSaveData(data) {
@@ -66,6 +61,7 @@ export class GraveborerWurmSystem {
     if (!restored) return this.getSaveData();
     Object.assign(this, restored);
     this._lastCarveProgress = restored.progress;
+    this._refreshDifficulty();
     this._rebuildPath();
     return this.getSaveData();
   }
@@ -91,20 +87,15 @@ export class GraveborerWurmSystem {
   forceEncounter(tile = null) {
     const target = copyGraveborerTile(tile);
     if (target) this.lastNoiseTile = target;
-    this.phase = GRAVEBORER_WURM_PHASES.dormant;
-    this.cooldownMs = 0;
-    this.noise = this.config.noise.maximum;
-    this.warningRemainingMs = 0;
-    this.progress = 0;
-    this.hitConsumed = false;
-    this._path = null;
+    Object.assign(
+      this,
+      createGraveborerWurmForcedState(this.config, this.devTest10x),
+    );
     return this.getSnapshot();
   }
 
   update(deltaMs, context = {}) {
     this.active = this.enabled === true && context.active === true;
-    if (!this.active) return this.getSnapshot();
-
     const dtMs = clamp(
       Number.isFinite(deltaMs) ? deltaMs : 0,
       0,
@@ -115,6 +106,20 @@ export class GraveborerWurmSystem {
     this._lastWorldWidth = Number.isFinite(context.worldWidthTiles)
       ? context.worldWidthTiles
       : this._lastWorldWidth;
+    if (!this.enabled) return this.getSnapshot();
+    if (!this.active) {
+      if (
+        this.phase === GRAVEBORER_WURM_PHASES.dormant
+        || this.phase === GRAVEBORER_WURM_PHASES.cooldown
+      ) {
+        this.cooldownMs = Math.max(0, this.cooldownMs - dtMs * activityMultiplier);
+        this.noise = Math.max(
+          0,
+          this.noise - this.config.noise.decayPerSecond * dtSeconds,
+        );
+      }
+      return this.getSnapshot();
+    }
 
     if (this.phase === GRAVEBORER_WURM_PHASES.warning) {
       this.warningRemainingMs = Math.max(0, this.warningRemainingMs - dtMs);
@@ -123,7 +128,7 @@ export class GraveborerWurmSystem {
     }
 
     if (this.phase === GRAVEBORER_WURM_PHASES.burrowing) {
-      this._updateBurrowing(dtMs, context.playerTile);
+      this._updateBurrowing(dtMs, context);
       return this.getSnapshot();
     }
 
@@ -143,33 +148,59 @@ export class GraveborerWurmSystem {
       && this.noise >= this.config.noise.threshold
       && copyGraveborerTile(context.playerTile)
     ) {
-      this._beginWarning(context.playerTile);
+      this._beginWarning(context.playerTile, context.depth, true);
     }
     return this.getSnapshot();
   }
 
-  _beginWarning(playerTile) {
-    this.targetTile = copyGraveborerTile(this.lastNoiseTile)
-      || copyGraveborerTile(playerTile);
+  _beginWarning(playerTile, depthTiles, newHunt) {
+    if (newHunt) {
+      this.encounterDepthTiles = Math.max(
+        this.config.activation.minDepthTiles,
+        Number(depthTiles) || this.config.activation.minDepthTiles,
+      );
+      this.passIndex = 1;
+      this.passCount = resolveGraveborerWurmDifficulty(
+        this.encounterDepthTiles,
+        this.passIndex,
+        this.devTest10x,
+        this.config,
+      ).passCount;
+      this.huntHitCount = 0;
+      this.targetTile = copyGraveborerTile(this.lastNoiseTile)
+        || copyGraveborerTile(playerTile);
+      this.encounterCount += 1;
+    } else {
+      this.passIndex = Math.min(this.passCount, this.passIndex + 1);
+      this.targetTile = copyGraveborerTile(playerTile)
+        || copyGraveborerTile(this.targetTile);
+      this.direction *= -1;
+    }
     if (!this.targetTile) return;
     const margin = this.config.path.spawnDistanceTiles + 2;
     if (this.targetTile.tx < margin) {
       this.direction = 1;
     } else if (this._lastWorldWidth > 0 && this.targetTile.tx > this._lastWorldWidth - margin) {
       this.direction = -1;
-    } else {
+    } else if (newHunt) {
       this.direction = (this.encounterCount + this.targetTile.ty) % 2 === 0 ? 1 : -1;
     }
-    this.encounterCount += 1;
+    this._refreshDifficulty();
     this.phase = GRAVEBORER_WURM_PHASES.warning;
-    this.warningRemainingMs = this.devTest10x
-      ? this.config.timing.devWarningMs
-      : this.config.timing.warningMs;
+    this.warningRemainingMs = this.difficulty.warningMs;
     this.progress = 0;
+    this.hitCount = 0;
     this.hitConsumed = false;
     this._lastCarveProgress = 0;
     this._rebuildPath();
-    this._events.push({ type: "phase", phase: this.phase });
+    this._events.push({
+      type: "phase",
+      phase: this.phase,
+      passIndex: this.passIndex,
+      passCount: this.passCount,
+      threatPercent: this.difficulty.threatPercent,
+      repeatedPass: newHunt !== true,
+    });
   }
 
   _beginBurrowing() {
@@ -177,11 +208,18 @@ export class GraveborerWurmSystem {
     this.warningRemainingMs = 0;
     this.progress = 0;
     this._lastCarveProgress = 0;
-    this._events.push({ type: "phase", phase: this.phase });
+    this._events.push({
+      type: "phase",
+      phase: this.phase,
+      passIndex: this.passIndex,
+      passCount: this.passCount,
+      threatPercent: this.difficulty.threatPercent,
+    });
   }
 
-  _updateBurrowing(dtMs, playerTile) {
-    this.progress += dtMs / this.config.timing.travelMs;
+  _updateBurrowing(dtMs, context = {}) {
+    const previousProgress = this.progress;
+    this.progress += dtMs / this.difficulty.travelMs;
     const carveEnd = Math.min(1, this.progress);
     while (this._lastCarveProgress <= carveEnd) {
       const sample = this.samplePath(this._lastCarveProgress);
@@ -196,40 +234,75 @@ export class GraveborerWurmSystem {
       this._lastCarveProgress += this.config.path.carveStepProgress;
     }
 
-    if (!this.hitConsumed && copyGraveborerTile(playerTile)) {
-      const hit = resolveGraveborerWurmCollision(
+    const collisionTarget = context.playerBounds || context.playerTile;
+    if (
+      this.hitCount < this.config.combat.maxHitsPerPass
+      && collisionTarget
+    ) {
+      const hit = resolveGraveborerWurmSweptCollision(
+        this.getRenderState(0, previousProgress),
         this.getRenderState(0),
-        playerTile,
+        collisionTarget,
         this.config,
       );
       if (hit) {
-        this.hitConsumed = true;
+        this.hitCount += 1;
+        this.huntHitCount += 1;
+        this.hitConsumed = this.hitCount >= this.config.combat.maxHitsPerPass;
+        const headHit = hit.part === "head";
         this._events.push({
           type: "hit",
           ...hit,
           targetTile: copyGraveborerTile(this.targetTile),
+          passIndex: this.passIndex,
+          passCount: this.passCount,
+          damageRatio: headHit
+            ? this.difficulty.headDamageRatio
+            : this.difficulty.bodyDamageRatio,
+          minimumDamageGp: headHit
+            ? this.difficulty.minimumHeadDamageGp
+            : this.difficulty.minimumBodyDamageGp,
         });
       }
     }
 
     if (this.progress >= this.config.path.encounterEndProgress) {
-      this._completeEncounter(true);
+      if (this.passIndex < this.passCount) {
+        this._beginWarning(
+          context.playerTile,
+          this.encounterDepthTiles,
+          false,
+        );
+      } else {
+        this._completeEncounter(true);
+      }
     }
   }
 
   _completeEncounter(emitEvent) {
-    const didHit = this.hitConsumed;
-    this.phase = GRAVEBORER_WURM_PHASES.cooldown;
-    this.cooldownMs = this.config.timing.cooldownMs;
-    this.warningRemainingMs = 0;
-    this.progress = 0;
-    this.noise = 0;
-    this.targetTile = null;
-    this.lastNoiseTile = null;
-    this.hitConsumed = false;
-    this._path = null;
-    this._lastCarveProgress = 0;
-    if (emitEvent) this._events.push({ type: "encounter-complete", didHit });
+    const completedPasses = this.passCount;
+    const huntHitCount = this.huntHitCount;
+    Object.assign(
+      this,
+      createGraveborerWurmCooldownState(this.config, this.devTest10x),
+    );
+    if (emitEvent) {
+      this._events.push({
+        type: "encounter-complete",
+        didHit: huntHitCount > 0,
+        huntHitCount,
+        completedPasses,
+      });
+    }
+  }
+
+  _refreshDifficulty() {
+    this.difficulty = resolveGraveborerWurmDifficulty(
+      this.encounterDepthTiles || this.config.activation.minDepthTiles,
+      this.passIndex || 1,
+      this.devTest10x,
+      this.config,
+    );
   }
 
   _rebuildPath() {
@@ -244,11 +317,11 @@ export class GraveborerWurmSystem {
     return sampleGraveborerWurmPath(this._path, progress);
   }
 
-  getRenderState(timeMs = 0) {
+  getRenderState(timeMs = 0, progress = this.progress) {
     return createGraveborerWurmRenderState({
       active: this.active,
       phase: this.phase,
-      progress: this.progress,
+      progress,
       path: this._path,
       config: this.config,
       timeMs,
@@ -256,21 +329,7 @@ export class GraveborerWurmSystem {
   }
 
   getSnapshot() {
-    return {
-      enabled: this.enabled,
-      devTest10x: this.devTest10x,
-      activityMultiplier: this.getActivityMultiplier(),
-      active: this.active,
-      phase: this.phase,
-      noise: this.noise,
-      noiseRatio: clamp(this.noise / this.config.noise.threshold, 0, 1),
-      cooldownMs: this.cooldownMs,
-      warningRemainingMs: this.warningRemainingMs,
-      progress: this.progress,
-      encounterCount: this.encounterCount,
-      targetTile: copyGraveborerTile(this.targetTile),
-      hitConsumed: this.hitConsumed,
-    };
+    return createGraveborerWurmSnapshot(this);
   }
 
   drainEvents() {

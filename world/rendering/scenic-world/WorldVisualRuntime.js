@@ -1,4 +1,11 @@
-import { WORLD_VISUAL_RUNTIME } from "../../../values/worldVisualRuntime.js";
+import { WORLD_VISUAL_RUNTIME } from
+  "../../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { PERFORMANCE_TELEMETRY_CONFIG } from "../../../values/performanceTelemetryConfig.js";
+import {
+  performanceNow,
+  recordPerformanceSpan,
+  shouldSamplePerformancePhases,
+} from "../../../systems/health/performanceTelemetryBridge.js";
 import { validateWorldVisualMaterialCoverage } from "../../../values/worldVisualMaterials.js";
 import { TitanDiscoverySystem } from "../../../systems/visual/TitanDiscoverySystem.js";
 import {
@@ -11,9 +18,18 @@ import { WorldVisualLandmarkLayer } from "./WorldVisualLandmarkLayer.js";
 import { WorldVisualLightingBridge } from "./WorldVisualLightingBridge.js";
 import { WorldVisualMaterialField } from "./WorldVisualMaterialField.js";
 import { WorldVisualSemanticAssetLayer } from "./WorldVisualSemanticAssetLayer.js";
-import { WorldVisualDepthBackdropStage } from "./WorldVisualDepthBackdropStage.js";
-import { WorldVisualSurfaceStage } from "./WorldVisualSurfaceStage.js";
+import { WorldVisualDepthBackdropStage } from
+  "./WorldVisualDepthBackdropStage.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { WorldVisualGroundStructureLayer } from "./WorldVisualGroundStructureLayer.js";
+import { WorldVisualSurfaceStage } from
+  "./WorldVisualSurfaceStage.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { WorldVisualSurfaceAtmosphereLayer } from "./WorldVisualSurfaceAtmosphereLayer.js";
 import { WorldVisualSurfacePropLayer } from "./WorldVisualSurfacePropLayer.js";
+import { WorldVisualSkyCohesionLayer } from
+  "./WorldVisualSkyCohesionLayer.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { WorldVisualPerformanceTracker } from "./WorldVisualPerformanceTracker.js";
+import { WorldVisualTerrainVariationLayer } from
+  "./WorldVisualTerrainVariationLayer.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 
 export class WorldVisualRuntime {
   constructor(scene, worldModel, config, runtimeConfig = WORLD_VISUAL_RUNTIME) {
@@ -22,10 +38,14 @@ export class WorldVisualRuntime {
     this.config = config;
     this.runtimeConfig = runtimeConfig;
     this.surfaceStage = null;
+    this.skyCohesionLayer = null;
     this.surfacePropLayer = null;
+    this.surfaceAtmosphereLayer = null;
     this.depthBackdropStage = null;
     this.titanDiscoverySystem = null;
     this.materialField = null;
+    this.terrainVariationLayer = null;
+    this.groundStructureLayer = null;
     this.semanticAssetLayer = null;
     this.feedbackLayer = null;
     this.gameplayEffectLayer = null;
@@ -33,8 +53,10 @@ export class WorldVisualRuntime {
     this.lightingBridge = null;
     this.lastBounds = null;
     this.lastSignature = "";
+    this.lastReduced = false;
     this.nextUpdateAt = 0;
     this.created = false;
+    this.performanceTracker = new WorldVisualPerformanceTracker(runtimeConfig);
     this._onResize = () => this.resize();
   }
 
@@ -45,8 +67,12 @@ export class WorldVisualRuntime {
     this.lightingBridge = new WorldVisualLightingBridge(this.scene);
     this.surfaceStage = new WorldVisualSurfaceStage(this.scene, this.runtimeConfig);
     this.surfaceStage.create();
+    this.skyCohesionLayer = new WorldVisualSkyCohesionLayer(this.scene);
+    this.skyCohesionLayer.create();
     this.surfacePropLayer = new WorldVisualSurfacePropLayer(this.scene, this.worldModel);
     this.surfacePropLayer.create();
+    this.surfaceAtmosphereLayer = new WorldVisualSurfaceAtmosphereLayer(this.scene);
+    this.surfaceAtmosphereLayer.create();
     this.depthBackdropStage = new WorldVisualDepthBackdropStage(this.scene);
     this.depthBackdropStage.create();
     this.titanDiscoverySystem = new TitanDiscoverySystem(this.scene, this.worldModel);
@@ -61,7 +87,18 @@ export class WorldVisualRuntime {
     }
     this.materialField = new WorldVisualMaterialField(this.scene, this.worldModel, this.runtimeConfig);
     this.materialField.create();
+    this.terrainVariationLayer = new WorldVisualTerrainVariationLayer(
+      this.scene,
+      this.worldModel,
+      this.materialField.geometryMask
+    );
+    this.terrainVariationLayer.create();
     this.surfaceStage.bindTerrainMask(this.materialField.geometryMask);
+    this.groundStructureLayer = new WorldVisualGroundStructureLayer(
+      this.scene,
+      this.materialField.geometryMask
+    );
+    this.groundStructureLayer.create();
     this.semanticAssetLayer = new WorldVisualSemanticAssetLayer(
       this.scene,
       this.worldModel,
@@ -94,47 +131,113 @@ export class WorldVisualRuntime {
     const bounds = this._getVisibleBounds(playerTile);
     if (!bounds) return false;
     const signature = this._boundsSignature(bounds);
-    if (signature === this.lastSignature) return false;
-    this._sync(playerTile, false, bounds, signature);
+    const reduced = this.performanceTracker.isReduced(
+      this.scene,
+      this.runtimeConfig.streaming.reduceBelowFps,
+      this.runtimeConfig.streaming.recoverReducedAboveFps
+    );
+    if (signature === this.lastSignature && reduced === this.lastReduced) {
+      this.performanceTracker.recordSkip(signature, reduced);
+      return false;
+    }
+    this._sync(playerTile, false, bounds, signature, reduced);
     return true;
   }
 
   update(time, delta, context = {}) {
     if (!this.created || this.scene?._isShuttingDown || !this.scene?.cameras?.main) return;
+    const samplePerformancePhases = shouldSamplePerformancePhases(this);
+    const continuousStartedAtMs = samplePerformancePhases ? performanceNow() : null;
     const now = Number.isFinite(time) ? time : (this.scene.time?.now || 0);
     const lighting = this.lightingBridge.sample();
     this.surfaceStage.update(now, lighting);
+    this.skyCohesionLayer?.update(now, lighting);
     this.surfacePropLayer?.update(now, lighting);
+    this.surfaceAtmosphereLayer?.update(now, lighting);
     this.depthBackdropStage?.update(now, lighting);
+    this.terrainVariationLayer?.update(lighting);
+    this.groundStructureLayer?.update(lighting);
     this.landmarkLayer?.update(now, lighting);
     this.semanticAssetLayer?.update(now, lighting);
-    this.titanDiscoverySystem?.update(now, delta, context);
+    this.titanDiscoverySystem?.update(now, delta, context, lighting);
+    if (samplePerformancePhases) {
+      recordPerformanceSpan(
+        PERFORMANCE_TELEMETRY_CONFIG.phases.scenicContinuous,
+        continuousStartedAtMs
+      );
+    }
     if (now < this.nextUpdateAt) return;
     this.nextUpdateAt = now + this.runtimeConfig.streaming.updateIntervalMs;
+    this.materialField?.setLighting(lighting);
+    this.semanticAssetLayer?.setLighting(lighting);
     const bounds = this._getVisibleBounds(context.playerTile);
     if (!bounds) return;
     const signature = this._boundsSignature(bounds);
-    const fps = this.scene.game?.loop?.actualFps || 60;
-    this._sync(context.playerTile, false, bounds, signature, fps < this.runtimeConfig.streaming.reduceBelowFps);
+    const reduced = this.performanceTracker.isReduced(
+      this.scene,
+      this.runtimeConfig.streaming.reduceBelowFps,
+      this.runtimeConfig.streaming.recoverReducedAboveFps
+    );
+    if (
+      this.performanceTracker.schedulerEnabled
+      && signature === this.lastSignature
+      && reduced === this.lastReduced
+    ) {
+      this.performanceTracker.recordSkip(signature, reduced);
+      return;
+    }
+    this._sync(
+      context.playerTile,
+      false,
+      bounds,
+      signature,
+      reduced,
+      lighting,
+      true
+    );
   }
 
-  _sync(playerTile, force = false, suppliedBounds = null, suppliedSignature = "", reduced = false) {
+  _sync(
+    playerTile,
+    force = false,
+    suppliedBounds = null,
+    suppliedSignature = "",
+    reduced = false,
+    suppliedLighting = null,
+    continuousLayersAlreadyUpdated = false
+  ) {
     if (!this.created || this.scene?._isShuttingDown) return false;
     const bounds = suppliedBounds || this._getVisibleBounds(playerTile);
     if (!bounds) return false;
     const signature = suppliedSignature || this._boundsSignature(bounds);
-    const lighting = this.lightingBridge.sample();
+    const startedAtMs = this.performanceTracker.beginSync();
+    const lighting = suppliedLighting || this.lightingBridge.sample();
     this.depthBackdropStage?.sync(bounds, lighting, force);
+    this.skyCohesionLayer?.sync(bounds, lighting, force);
     this.surfacePropLayer?.sync(bounds, lighting, force);
+    this.surfaceAtmosphereLayer?.sync(bounds, lighting);
     this.materialField.sync(bounds, lighting, force);
+    this.terrainVariationLayer?.sync(bounds, lighting, force);
+    this.groundStructureLayer?.sync(bounds, lighting, force);
     this.semanticAssetLayer?.sync(bounds, lighting, reduced);
     this.feedbackLayer.sync(bounds, reduced);
     this.gameplayEffectLayer.sync(bounds);
-    this.surfaceStage.update(this.scene.time?.now || 0, lighting);
-    this.depthBackdropStage?.update(this.scene.time?.now || 0, lighting);
-    this.landmarkLayer?.update(this.scene.time?.now || 0, lighting);
+    if (!continuousLayersAlreadyUpdated) {
+      const now = this.scene.time?.now || 0;
+      this.surfaceStage.update(now, lighting);
+      this.skyCohesionLayer?.update(now, lighting);
+      this.depthBackdropStage?.update(now, lighting);
+      this.landmarkLayer?.update(now, lighting);
+    }
     this.lastBounds = bounds;
     this.lastSignature = signature;
+    this.lastReduced = reduced;
+    this.performanceTracker.recordSync(startedAtMs, {
+      bounds,
+      signature,
+      reduced,
+      force,
+    });
     return true;
   }
 
@@ -174,8 +277,10 @@ export class WorldVisualRuntime {
 
   applyTileUpdate(tx, ty) {
     if (!this.created) return;
+    this.performanceTracker.recordTileInvalidation();
     const lighting = this.lightingBridge.sample();
     this.materialField.invalidateCell(tx, ty, lighting);
+    this.terrainVariationLayer?.invalidateCell(tx, ty, lighting);
     this.semanticAssetLayer?.invalidateCell(tx, ty);
     if (this.lastBounds) this.feedbackLayer.sync(this.lastBounds, false);
     this.gameplayEffectLayer.invalidateCell(tx, ty);
@@ -193,8 +298,25 @@ export class WorldVisualRuntime {
     return this.titanDiscoverySystem?.getSnapshot() || null;
   }
 
+  getPerformanceSnapshot() {
+    return this.performanceTracker.snapshotRuntime(this);
+  }
+
   getTitanArchiveAssetProvider() {
     return this.titanDiscoverySystem?.getArchiveAssetProvider() || null;
+  }
+
+  getTitanSurfaceInspectionDistance(playerTile) {
+    return this.titanDiscoverySystem?.getSurfaceInspectionDistance(playerTile)
+      ?? Number.POSITIVE_INFINITY;
+  }
+
+  updateTitanSurfaceInspection(playerTile, keys, options = {}) {
+    return this.titanDiscoverySystem?.updateSurfaceInspection(
+      playerTile,
+      keys,
+      options
+    ) === true;
   }
 
   getTitanClueDirectionProvider() {
@@ -247,21 +369,29 @@ export class WorldVisualRuntime {
     this.titanDiscoverySystem?.destroy();
     this.feedbackLayer?.destroy();
     this.semanticAssetLayer?.destroy();
+    this.groundStructureLayer?.destroy();
+    this.terrainVariationLayer?.destroy();
+    this.skyCohesionLayer?.destroy();
     // Surface-pack ground cards share the material field's geometry mask. They
     // must detach before that mask is destroyed during hot restart/shutdown.
     this.surfaceStage?.destroy();
+    this.surfaceAtmosphereLayer?.destroy();
     this.surfacePropLayer?.destroy();
     this.materialField?.destroy();
     this.depthBackdropStage?.destroy();
     this.landmarkLayer?.destroy();
     this.feedbackLayer = null;
     this.semanticAssetLayer = null;
+    this.groundStructureLayer = null;
+    this.terrainVariationLayer = null;
+    this.skyCohesionLayer = null;
     this.gameplayEffectLayer = null;
     this.materialField = null;
     this.depthBackdropStage = null;
     this.titanDiscoverySystem = null;
     this.landmarkLayer = null;
     this.surfaceStage = null;
+    this.surfaceAtmosphereLayer = null;
     this.surfacePropLayer = null;
     this.lightingBridge = null;
   }

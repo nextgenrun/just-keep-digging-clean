@@ -1,8 +1,10 @@
 # Celestial Engines
 
-The Star Heart systems own permanent attunement, finite sky-star charge, and
-per-activation budgets. Engine effects receive world and reward callbacks; they
-never mutate `WorldModel` directly.
+The Star Heart systems own up to three permanent Engine unlocks, one equipped
+Engine, finite sky-star charge, and per-activation budgets. The first Heart is
+earned by mastering all ten constellations; the second and third are earned at
+20 and 50 completed capped Engine activations. Engine effects receive world and
+reward callbacks; they never mutate `WorldModel` directly.
 
 All balance, copy, visual sizing, and safety caps live in
 `values/celestialEngines.js`. Every activation is bounded by time and impact

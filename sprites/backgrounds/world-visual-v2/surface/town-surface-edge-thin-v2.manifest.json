@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "generatedOn": "2026-07-28",
+  "productionChanged": true,
+  "scope": "Thin full-width surface ground and Town Square handoff",
+  "source": "visual-approval-previews/village-floor-concepts-v1/01-worn-mountain-slate-street.png",
+  "sourceSize": [
+    1672,
+    941
+  ],
+  "sourceCrop": {
+    "x": 0,
+    "y": 468,
+    "width": 1672,
+    "height": 48
+  },
+  "approvedCorePixelExact": true,
+  "approvedCoreWidth": 1672,
+  "handoffWidth": 129,
+  "townOutput": "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-strip-v3.png",
+  "townOutputSize": [
+    1801,
+    48
+  ],
+  "surfaceOutput": "sprites/backgrounds/world-visual-v2/surface/town-surface-edge-thin-v2.png",
+  "surfaceOutputSize": [
+    1672,
+    48
+  ],
+  "sourceFileSha256": "b7b0bdefa23e4bfc5d1bb7301939f06ea9a1fbd4bfde33dda0b4b923ba12c1d7",
+  "sourcePixelSha256": "76a0b7930b656c644aa41a9a5b905311a9ab8eb5fa9fbf4e0b172f0022fb402e",
+  "approvedCorePixelSha256": "e43f49b6c3d9ac336df7e2f9b5edba457308bfe28ddd6cd9b9f940078e707aea",
+  "townOutputFileSha256": "ecd682e87520b3fdac08a3b35e3f6baa50210c127c3e57851eb1276ae46cd3ab",
+  "townOutputPixelSha256": "3dd1aa71d03e944c570fdee5d3caa2baa933f1e0ba09eff247f518e411980313",
+  "surfaceOutputFileSha256": "b357f2df6900c83bb395405dd8ad3764cd0ddacf9669bcde9b27c9710c2faf79",
+  "surfaceOutputPixelSha256": "e43f49b6c3d9ac336df7e2f9b5edba457308bfe28ddd6cd9b9f940078e707aea",
+  "invariants": {
+    "resizedApprovedPixels": false,
+    "repaintedApprovedPixels": false,
+    "includesUnderground": false,
+    "changesGameplayState": false
+  }
+}

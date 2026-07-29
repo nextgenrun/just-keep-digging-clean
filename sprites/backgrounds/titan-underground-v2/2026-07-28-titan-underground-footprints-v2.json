@@ -1,0 +1,523 @@
+{
+  "version": "titan-creature-alpha-footprint-v2-20260728",
+  "complete": true,
+  "count": 25,
+  "sourceAssetVersion": "titan-surface-stances-v1",
+  "fitFraction": 0.96,
+  "minimumAlpha": 24,
+  "minimumOpaquePixelsPerTile": 1,
+  "titans": [
+    {
+      "id": "mossback-wanderer",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/01-mossback-wanderer-surface-stance-v1.webp",
+      "sha256": "fe90592edafb220d5ffada96a284e45e0632fa9e55b8cc21c107c4b184ff8c95",
+      "zoneWidthTiles": 18,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        1984,
+        4032,
+        8160,
+        16352,
+        16352,
+        8160,
+        8176,
+        8160
+      ],
+      "coveredTiles": 62
+    },
+    {
+      "id": "bellhorn-grazer",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/02-bellhorn-grazer-surface-stance-v1.webp",
+      "sha256": "c9407b24bed380f844d35c7d56037e2d3e77aba72454e8aeddcb27405fa24b3d",
+      "zoneWidthTiles": 17,
+      "zoneHeightTiles": 9,
+      "rows": [
+        512,
+        1008,
+        1008,
+        2016,
+        4064,
+        8160,
+        8160,
+        8176,
+        8176
+      ],
+      "coveredTiles": 60
+    },
+    {
+      "id": "lantern-jaw",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/03-lantern-jaw-surface-stance-v1.webp",
+      "sha256": "3fd131d767554f0995fdfbfbd1d1b63efbef374f34096263f9205704ed3b2df0",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        58336,
+        130528,
+        131040,
+        131040,
+        131040,
+        65408,
+        30592
+      ],
+      "coveredTiles": 71
+    },
+    {
+      "id": "archwalker",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/04-archwalker-surface-stance-v1.webp",
+      "sha256": "1d75cde57c56c568fff92dfd34c3e41944fc460410918b807e6b006e66760596",
+      "zoneWidthTiles": 17,
+      "zoneHeightTiles": 9,
+      "rows": [
+        0,
+        0,
+        1920,
+        8128,
+        8160,
+        8160,
+        8160,
+        8176,
+        4080
+      ],
+      "coveredTiles": 52
+    },
+    {
+      "id": "shale-mother",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/05-shale-mother-surface-stance-v1.webp",
+      "sha256": "35f1800a1cf45d145ce2ff191557881632fbdaa702e941ffdfe29cacfca749d2",
+      "zoneWidthTiles": 19,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        384,
+        1984,
+        4032,
+        8160,
+        16352,
+        16352,
+        16352,
+        14304
+      ],
+      "coveredTiles": 56
+    },
+    {
+      "id": "ribbon-wyrm",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/06-ribbon-wyrm-surface-stance-v1.webp",
+      "sha256": "1deb3e219460347adf486a628c4f58c43896fb509b9df2b3e2c00e0825ca50e9",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        14336,
+        31488,
+        65408,
+        32736,
+        32736,
+        65472,
+        62400,
+        65472,
+        65504,
+        131040,
+        131008,
+        63360
+      ],
+      "coveredTiles": 108
+    },
+    {
+      "id": "crowned-mole",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/07-crowned-mole-surface-stance-v1.webp",
+      "sha256": "452e75ac58f5b3efec808ea273aa39baedd98b84996db746c246a3ab14df66a5",
+      "zoneWidthTiles": 17,
+      "zoneHeightTiles": 9,
+      "rows": [
+        0,
+        0,
+        384,
+        896,
+        2032,
+        4080,
+        4064,
+        8176,
+        8176
+      ],
+      "coveredTiles": 45
+    },
+    {
+      "id": "hammerhead-pilgrim",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/08-hammerhead-pilgrim-surface-stance-v1.webp",
+      "sha256": "e26f89c6db2ef98c56abfd69c2b6f86a5001270d7be5c4a17d5ce7f373f843bf",
+      "zoneWidthTiles": 17,
+      "zoneHeightTiles": 9,
+      "rows": [
+        1920,
+        8064,
+        3840,
+        2016,
+        2032,
+        2016,
+        2032,
+        1776,
+        1712
+      ],
+      "coveredTiles": 51
+    },
+    {
+      "id": "cathedral-stag",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/09-cathedral-stag-surface-stance-v1.webp",
+      "sha256": "249a9eedbe12059ce4c533d2c45697b5548a7c1f3cf6f0447ed9ba2662048158",
+      "zoneWidthTiles": 19,
+      "zoneHeightTiles": 10,
+      "rows": [
+        1408,
+        8128,
+        8128,
+        8128,
+        3840,
+        3968,
+        3968,
+        3968,
+        4032,
+        1984
+      ],
+      "coveredTiles": 54
+    },
+    {
+      "id": "hollowback-bear",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/10-hollowback-bear-surface-stance-v1.webp",
+      "sha256": "c9ecf98d5a54d968b2d1b03bb8550576db2d351082467ede492c81a9d25adf1f",
+      "zoneWidthTiles": 19,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        0,
+        3968,
+        16352,
+        16352,
+        16352,
+        16352,
+        16352,
+        4064
+      ],
+      "coveredTiles": 57
+    },
+    {
+      "id": "silver-strider",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/11-silver-strider-surface-stance-v1.webp",
+      "sha256": "b1a497bfb19ab8162d36b966f8c4891215190590715c441f2b3d298c38b5f98a",
+      "zoneWidthTiles": 17,
+      "zoneHeightTiles": 9,
+      "rows": [
+        1984,
+        2016,
+        2016,
+        2016,
+        1984,
+        1984,
+        4032,
+        2880,
+        2368
+      ],
+      "coveredTiles": 46
+    },
+    {
+      "id": "mirror-ray",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/12-mirror-ray-surface-stance-v1.webp",
+      "sha256": "35356e94aa5cc6f350b18cac7e8c30a97a9d956cce8784a9ae67ec876ddc4a4f",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        0,
+        96,
+        96,
+        16608,
+        131040,
+        65472,
+        65408,
+        32704,
+        8160,
+        1888,
+        992,
+        192
+      ],
+      "coveredTiles": 68
+    },
+    {
+      "id": "needlecrown",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/13-needlecrown-surface-stance-v1.webp",
+      "sha256": "7606a94f9323e5ccea361c3a98219764858938595e6753958e03c66eb49b0faf",
+      "zoneWidthTiles": 18,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        128,
+        960,
+        2032,
+        2032,
+        4080,
+        8160,
+        16368,
+        8176
+      ],
+      "coveredTiles": 54
+    },
+    {
+      "id": "moon-shell",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/14-moon-shell-surface-stance-v1.webp",
+      "sha256": "e07a35a5574a953e2f6b4b0e82dcac587538a8e9b0a159d29686c9c5f618f1be",
+      "zoneWidthTiles": 19,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        0,
+        896,
+        14272,
+        16352,
+        16352,
+        16352,
+        16352,
+        8160
+      ],
+      "coveredTiles": 54
+    },
+    {
+      "id": "veilwing",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/15-veilwing-surface-stance-v1.webp",
+      "sha256": "780ea4812c58e6ca705c17c7076550872393287f6443e3796816dac1e78cde83",
+      "zoneWidthTiles": 21,
+      "zoneHeightTiles": 12,
+      "rows": [
+        0,
+        224,
+        49632,
+        63456,
+        32704,
+        32704,
+        16256,
+        32704,
+        65472,
+        65504,
+        58336,
+        49152
+      ],
+      "coveredTiles": 84
+    },
+    {
+      "id": "ember-tusk",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/16-ember-tusk-surface-stance-v1.webp",
+      "sha256": "818565ca64dca26f2b2ceb8150e4c32fd5d6a30703b149a3d67e937dd882e4f2",
+      "zoneWidthTiles": 19,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        0,
+        3840,
+        8064,
+        8064,
+        16352,
+        16352,
+        16352,
+        16256
+      ],
+      "coveredTiles": 50
+    },
+    {
+      "id": "furnace-drake",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/17-furnace-drake-surface-stance-v1.webp",
+      "sha256": "ce46736b06c2f7d36823ecdcf1998cee1779b365ca6c87434951cdb58a65f2a6",
+      "zoneWidthTiles": 20,
+      "zoneHeightTiles": 11,
+      "rows": [
+        0,
+        0,
+        0,
+        0,
+        384,
+        8160,
+        32736,
+        16352,
+        8160,
+        8160,
+        16352
+      ],
+      "coveredTiles": 54
+    },
+    {
+      "id": "ash-colossus",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/18-ash-colossus-surface-stance-v1.webp",
+      "sha256": "453544036b83c2f3c8505f1dad3c7995d7f958fff4a7a8fe49fc7826c8d222b2",
+      "zoneWidthTiles": 18,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        1920,
+        4032,
+        4064,
+        8160,
+        16352,
+        16352,
+        16368,
+        16368,
+        16368
+      ],
+      "coveredTiles": 73
+    },
+    {
+      "id": "magma-whale",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/19-magma-whale-surface-stance-v1.webp",
+      "sha256": "35f78ef12a5cca0dec0e0071116807c59c65813fdc41fb15e715d05b62b49f97",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        192,
+        15296,
+        130912,
+        131040,
+        32736,
+        16256,
+        7936
+      ],
+      "coveredTiles": 54
+    },
+    {
+      "id": "cinder-centipede",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/20-cinder-centipede-surface-stance-v1.webp",
+      "sha256": "2c759cbe0ace2339e772156a0a38431fa3663a81ed5e3dd2db9591ab357fba2f",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        0,
+        0,
+        0,
+        192,
+        480,
+        480,
+        480,
+        7616,
+        131040,
+        131040,
+        131040,
+        1984
+      ],
+      "coveredTiles": 61
+    },
+    {
+      "id": "obsidian-sleeper",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/21-obsidian-sleeper-surface-stance-v1.webp",
+      "sha256": "a921c387cbcb7522395985fc27e852bd7975bb53acd978e82d0a2ed9a47f5071",
+      "zoneWidthTiles": 19,
+      "zoneHeightTiles": 10,
+      "rows": [
+        0,
+        0,
+        0,
+        0,
+        7168,
+        7936,
+        8160,
+        8160,
+        16352,
+        11744
+      ],
+      "coveredTiles": 40
+    },
+    {
+      "id": "rift-heron",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/22-rift-heron-surface-stance-v1.webp",
+      "sha256": "934ec9cf703115b0a9de88d686e4c5ab20b010479b7d7466a0179def36cc72ca",
+      "zoneWidthTiles": 17,
+      "zoneHeightTiles": 9,
+      "rows": [
+        192,
+        960,
+        1984,
+        1984,
+        1920,
+        1920,
+        1920,
+        1792,
+        896
+      ],
+      "coveredTiles": 34
+    },
+    {
+      "id": "star-eater",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/23-star-eater-surface-stance-v1.webp",
+      "sha256": "211de8977e9a4a883d3b7c258c7842397da0386b94cd3fea65904296374e84e4",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        7936,
+        32640,
+        65408,
+        65408,
+        32704,
+        28608,
+        63424,
+        63424,
+        65472,
+        65472,
+        32640,
+        16128
+      ],
+      "coveredTiles": 100
+    },
+    {
+      "id": "deep-crown",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/24-deep-crown-surface-stance-v1.webp",
+      "sha256": "875cc71e022e9425c9b758999f3e96710bc82d2c2764d1db2cbeae0c8cca828a",
+      "zoneWidthTiles": 20,
+      "zoneHeightTiles": 11,
+      "rows": [
+        0,
+        0,
+        448,
+        2016,
+        26592,
+        28640,
+        32736,
+        32736,
+        32736,
+        8160,
+        7104
+      ],
+      "coveredTiles": 70
+    },
+    {
+      "id": "worldroot-titan",
+      "source": "sprites/backgrounds/titan-surface-stances-v1/25-worldroot-titan-surface-stance-v1.webp",
+      "sha256": "440aab7d16393c472fc134bdf3f88128a1dcd78cc05ca88ad8ff0e436a2dd217",
+      "zoneWidthTiles": 22,
+      "zoneHeightTiles": 12,
+      "rows": [
+        3840,
+        32736,
+        65504,
+        131008,
+        130944,
+        65408,
+        65408,
+        65408,
+        65408,
+        65408,
+        131008,
+        130944
+      ],
+      "coveredTiles": 112
+    }
+  ]
+}

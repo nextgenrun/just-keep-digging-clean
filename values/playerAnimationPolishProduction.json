@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "version": "survival-player-animation-polish-v1-20260728",
+  "enabledByDefault": true,
+  "rollbackQuery": "animationPolish",
+  "disabledQueryValue": "0",
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "displaySizePx": 123,
+  "visualOriginX": 0.5,
+  "visualOriginY": 0.96484375,
+  "frameRate": 30,
+  "sources": {
+    "run": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-run-sheet.webp",
+      "manifestAction": "run",
+      "frameCount": 28,
+      "columns": 16,
+      "displaySizePx": 123
+    },
+    "idle": {
+      "file": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-idle-sheet.png",
+      "frameCount": 48,
+      "columns": 16,
+      "displaySizePx": 101
+    },
+    "digUp": {
+      "file": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png",
+      "frameCount": 24,
+      "columns": 16,
+      "displaySizePx": 109
+    },
+    "groundStrike": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp",
+      "manifestAction": "ground-strike",
+      "frameCount": 41,
+      "columns": 16,
+      "displaySizePx": 123
+    },
+    "punchJab": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp",
+      "manifestAction": "punch-jab",
+      "frameCount": 27,
+      "columns": 16,
+      "displaySizePx": 123
+    },
+    "punchCross": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-cross-sheet.webp",
+      "manifestAction": "punch-cross",
+      "frameCount": 31,
+      "columns": 16,
+      "displaySizePx": 123
+    },
+    "landing": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-landing-sheet.webp",
+      "manifestAction": "landing",
+      "frameCount": 39,
+      "columns": 16,
+      "displaySizePx": 123
+    },
+    "wallPush": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-wall-push-sheet.webp",
+      "manifestAction": "wall-push",
+      "frameCount": 80,
+      "columns": 16,
+      "displaySizePx": 123
+    }
+  },
+  "sheets": {
+    "transitions": {
+      "id": "survival-player-animation-polish-transitions",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "fileName": "survival-ual-player-v1-animation-polish-transitions-sheet.webp",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-transitions.piskel"
+    },
+    "diagonalDig": {
+      "id": "survival-player-animation-polish-diagonal-dig",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "fileName": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet.webp",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-diagonal-dig.piskel"
+    }
+  },
+  "groundHandoff": {
+    "enabledByDefault": true,
+    "rollbackQuery": "jogIdleHandoff",
+    "disabledQueryValue": "0",
+    "runFrameCount": 28,
+    "bridgeFrameCount": 2,
+    "phaseStep": 2,
+    "maxPhaseError": 1,
+    "blendToDestination": 0.55,
+    "startAnimationKey": "survival-ual-player-v1-jog-idle-start-bridge-anim",
+    "stopAnimationKeyPrefix": "survival-ual-player-v1-jog-idle-stop-phase",
+    "resumeJogFrame": 1
+  },
+  "diagonalMining": {
+    "enabledByDefault": true,
+    "rollbackQuery": "movingDiagonalDig",
+    "disabledQueryValue": "0",
+    "requireGrounded": true,
+    "requireTowardTarget": true,
+    "minHorizontalSpeedPxPerSec": 8,
+    "runFrameCount": 28,
+    "frameCount": 15,
+    "phaseStarts": [1, 8, 15, 22],
+    "maxEntryPhaseError": 4,
+    "entryPhaseOffset": 1,
+    "seamOffsetPx": 5,
+    "seamFeatherPx": 20,
+    "up": {
+      "animationKeyPrefix": "survival-ual-player-v1-moving-diagonal-up-phase",
+      "manifestActionPrefix": "moving-diagonal-up-phase",
+      "source": "digUp",
+      "sourceFrames": [0, 2, 3, 5, 6, 8, 9, 11, 13, 14, 16, 18, 20, 21, 23],
+      "contactSequenceIndex": 7,
+      "markerGroup": "hands"
+    },
+    "down": {
+      "animationKeyPrefix": "survival-ual-player-v1-moving-diagonal-down-phase",
+      "manifestActionPrefix": "moving-diagonal-down-phase",
+      "source": "groundStrike",
+      "sourceFrames": [4, 6, 9, 11, 13, 16, 18, 21, 24, 26, 29, 32, 34, 37, 40],
+      "contactSequenceIndex": 6,
+      "markerGroup": "hands"
+    }
+  },
+  "actionRecovery": {
+    "enabledByDefault": true,
+    "rollbackQuery": "actionSettle",
+    "disabledQueryValue": "0",
+    "frameRate": 30,
+    "bridgeFrameCount": 2,
+    "idleBlendWeight": 0.45,
+    "families": {
+      "jab": {
+        "source": "punchJab",
+        "sourceFrame": 26,
+        "animationKey": "survival-ual-player-v1-jab-idle-settle-anim"
+      },
+      "cross": {
+        "source": "punchCross",
+        "sourceFrame": 30,
+        "animationKey": "survival-ual-player-v1-cross-idle-settle-anim"
+      },
+      "up": {
+        "source": "digUp",
+        "sourceFrame": 23,
+        "animationKey": "survival-ual-player-v1-dig-up-idle-settle-anim"
+      },
+      "down": {
+        "source": "groundStrike",
+        "sourceFrame": 40,
+        "animationKey": "survival-ual-player-v1-dig-down-idle-settle-anim"
+      }
+    }
+  },
+  "landing": {
+    "enabledByDefault": true,
+    "rollbackQuery": "landingContinuity",
+    "disabledQueryValue": "0",
+    "compressionOwner": "authored-animation",
+    "softAnimationKey": "survival-ual-player-v1-soft-landing-continuity-anim",
+    "hardAnimationKey": "survival-ual-player-v1-hard-landing-continuity-anim",
+    "softFrames": [0, 3, 8, 18, 38],
+    "hardFrames": [0, 2, 4, 6, 8, 10, 12, 15, 18, 21, 24, 28, 33, 38],
+    "frameRate": 40,
+    "softMinImpactSpeedPxPerSec": 70,
+    "hardMinImpactSpeedPxPerSec": 260,
+    "veryHardImpactSpeedPxPerSec": 600,
+    "mediumTimeScale": 1.4,
+    "hardTimeScale": 1,
+    "softMoveCancelAfterFrameIndex": 1,
+    "hardMoveCancelAfterFrameIndex": 2,
+    "resumeJogFrame": 13
+  },
+  "wallBrace": {
+    "enabledByDefault": true,
+    "rollbackQuery": "wallBrace",
+    "disabledQueryValue": "0",
+    "entryAnimationKey": "survival-ual-player-v1-wall-brace-enter-anim",
+    "exitAnimationKey": "survival-ual-player-v1-wall-brace-exit-anim",
+    "frameRate": 30,
+    "blendWeight": 0.55,
+    "wallSourceFrame": 0,
+    "resumeJogFrame": 13
+  }
+}

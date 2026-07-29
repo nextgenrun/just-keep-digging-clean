@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "reviewDate": "2026-07-28",
+  "generator": "OpenAI built-in ImageGen",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "contactSheet": {
+    "file": "00-v6-contact-sheet.png",
+    "composition": "Lossless two-column comparison assembled only from the six ImageGen boards",
+    "sha256": "f7b28a087ce7a3d6e49f9bdc793e65562970b2946f0378930d31ce326f33be63"
+  },
+  "sharedDirection": "One unmistakable embedded ground-overlay identity repeated across several current ground families, plus a small miner-scale readability example. No square resource block and no HTML, Canvas, or Phaser-generated texture.",
+  "assets": [
+    {
+      "resource": "Copper",
+      "file": "01-copper-clarity-revision.png",
+      "promptDirection": "Broad saturated copper loops with turquoise verdigris",
+      "sha256": "86ee8944ef5428b9bc907020481e3bc6122a58a492c9bc63a691cec2bb3f50e4"
+    },
+    {
+      "resource": "Iron",
+      "file": "02-iron-clarity-revision.png",
+      "promptDirection": "Heavy gunmetal ribs with rust-red hematite seams",
+      "sha256": "81f62e393617af65b0ec592e3483b073efb9bd10a502612a9420e6ca75e95524"
+    },
+    {
+      "resource": "Silver",
+      "file": "03-silver-clarity-revision.png",
+      "promptDirection": "High-contrast liquid-mirror crescent ribbon",
+      "sha256": "8b6a21702aac6ab3029109adc6e4e19163d9c25bb71cacacc790950163117b44"
+    },
+    {
+      "resource": "Gold",
+      "file": "04-gold-clarity-revision.png",
+      "promptDirection": "One bold gold vein with three large native-gold nodules",
+      "sha256": "c6a2d518efa2e81c7fb4ee02a2d763ac1b6bb9131d42de4a89eba89d02ad12c1"
+    },
+    {
+      "resource": "Ember Ore",
+      "file": "05-ember-ore-clarity-revision.png",
+      "promptDirection": "Dark cinder shell holding a small cluster of bright ember cells",
+      "sha256": "adf350875b48d36d99e8b08e493e6624b33edccee77edf697274349669d58c6d"
+    },
+    {
+      "resource": "Obsidian",
+      "file": "06-obsidian-expressive-revision.png",
+      "promptDirection": "Asymmetrical shattered-eclipse glass with violet, magenta, and cyan fracture light",
+      "sha256": "88a9d0cd85f3feeb5351d3b8f5cbd21c2225a7126ae65d5e71efaa2ce0157d3d"
+    }
+  ]
+}

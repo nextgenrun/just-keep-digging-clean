@@ -9,9 +9,9 @@ import {
 import { getDamageStage } from "./tileRenderMap.js";
 import { WorldScenicFacadeBandView } from "./WorldScenicFacadeBandView.js";
 import {
-  SPECIAL_MARKER_KEY_BY_TYPE,
   clamp01,
   mixScenicColor,
+  resolveScenicFacadeMarker,
   scenicFacadeTextureKey,
   scenicMarkerVariant,
 } from "./worldScenicFacadeHelpers.js";
@@ -177,9 +177,16 @@ export class WorldScenicFacadeSystem {
         const maxHp = this.worldModel.getTileMaxHp(tx, ty, type);
         const stage = getDamageStage(hp, maxHp);
         const resourceKey = RESOURCE_BY_TILE_TYPE[type];
-        const specialKey = SPECIAL_MARKER_KEY_BY_TYPE[type];
-        const marker = this.markerConfig.resourceMarkers[resourceKey]
-          || this.markerConfig.specialMarkers[specialKey];
+        const marker = resolveScenicFacadeMarker(
+          this.markerConfig,
+          type,
+          resourceKey,
+          ty,
+          this.worldModel.topAirRows
+            ?? this.worldModel.config?.topAirRows
+            ?? this.scene.config.topAirRows
+            ?? 0
+        );
         if (marker && markerIndex < this.config.performance.maxVisibleMarkers) {
           this._showMarker(markerIndex++, tx, ty, type, marker, stage);
         }

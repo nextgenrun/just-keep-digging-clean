@@ -12,6 +12,7 @@ import { hash01 } from "../../values/deterministicMath.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { createZeroResourceTotals } from "../../values/resourceTypes.js";
+import { GAMBLE_TILE_CONFIG } from "../../values/gambleTileConfig.js";
 
 export class SpecialTileSystem {
   constructor(scene, worldModel, playerController, floatingTextSystem) {
@@ -67,6 +68,10 @@ export class SpecialTileSystem {
             tile.tx,
             tile.ty,
             `Press ${USER_SETTINGS.getKeyLabel("interact")} to Return via ${this._getPairLabel(pair)}`
+              + this._hardcoreCostSuffix(
+                Math.max(0, pair.dungeonTy - this.worldModel.config.topAirRows),
+                "skyToDungeon",
+              )
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleportSkyReturn", key: tileKey, dungeonKey: dungeonKeyFromSky };
           foundSpecialTile = true;
@@ -80,6 +85,7 @@ export class SpecialTileSystem {
           tile.tx,
           tile.ty,
           `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${groundPortalLevel.groundPortal.promptLabel}`
+            + this._hardcoreCostSuffix(0, "groundToSky")
         );
         this.promptTile = {
           tx: tile.tx,
@@ -115,6 +121,7 @@ export class SpecialTileSystem {
             tile.tx,
             tile.ty,
             `Press ${USER_SETTINGS.getKeyLabel("interact")} to Use ${label}`
+              + this._hardcoreCostSuffix(depthTiles, "undergroundToSky")
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleportPaired", key: tileKey };
         } else {
@@ -122,6 +129,7 @@ export class SpecialTileSystem {
             tile.tx,
             tile.ty,
             `Press ${USER_SETTINGS.getKeyLabel("interact")} to Activate ${label}`
+              + this._hardcoreCostSuffix(depthTiles, "undergroundToSky")
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleport", key: tileKey };
         }
@@ -162,6 +170,14 @@ export class SpecialTileSystem {
     if (this.promptTile) this.update();
   }
 
+  getInteractionDistance(playerTile = this.playerController?.getPlayerTile?.()) {
+    if (!playerTile || !this.promptTile || this.promptTile.type === "gambleUsed") {
+      return Number.POSITIVE_INFINITY;
+    }
+    return Math.abs(playerTile.tx - this.promptTile.tx)
+      + Math.abs(playerTile.ty - this.promptTile.ty);
+  }
+
   handleInteract() {
     if (!this.promptTile) return { success: false, reason: "no-special-tile" };
     if (this.promptTile.type === "teleport" || this.promptTile.type === "teleportPaired") return this._activateTeleport();
@@ -176,6 +192,11 @@ export class SpecialTileSystem {
   _getPairLabel(pairData) {
     const depth = Math.max(0, pairData.dungeonTy - this.worldModel.config.topAirRows);
     return getTeleportPortalLabel(pairData.levelId, depth);
+  }
+
+  _hardcoreCostSuffix(depth, kind) {
+    const cost = this.scene.getHardcoreTeleportCost?.({ depth, kind }) || 0;
+    return cost > 0 ? `  •  HARDCORE COST ${cost.toLocaleString()} M` : "";
   }
 
   _activateChest() {
@@ -232,22 +253,6 @@ export class SpecialTileSystem {
       );
     }
     this.scene.retentionProgressSystem?.recordChest?.({ money, star: hasStar });
-    this.floatingTextSystem?.showFloatingText?.(
-      worldPos.x,
-      worldPos.y - 18,
-      `+${money} M${hasStar ? "  +1 STAR" : ""}`,
-      TREASURE_CHEST_CONFIG.feedback.moneyColor,
-      TREASURE_CHEST_CONFIG.feedback.floatingDurationMs,
-      TREASURE_CHEST_CONFIG.feedback.floatingFontSizePx
-    );
-    this.scene.uiNotifications?.success?.(
-      `${TREASURE_CHEST_CONFIG.critBuff.name}  •  20s ultra critical damage`
-        + `  •  +${money} M${hasStar ? `  •  ${starType} star` : ""}`,
-      {
-        key: "treasure-fury",
-        durationMs: TREASURE_CHEST_CONFIG.feedback.statusDurationMs,
-      }
-    );
     this.scene.screenFlashSystem?.flashLucky?.();
     this.scene.soundSystem?.playSfx?.("reward");
     this.scene.queueDugTilesSave?.();
@@ -385,7 +390,7 @@ export class SpecialTileSystem {
     }
   }
 
-  _reserveGateSlotForNewPortal(tile) {
+  _reserveGateSlotForNewPortal(tile, { commit = true } = {}) {
     if (!this.skyPortalSlots.length) return null;
 
     const levelId = tile.tx <= V11_SKY_ISLAND_LAYOUT.dividerTileX ? 1 : 2;
@@ -399,7 +404,7 @@ export class SpecialTileSystem {
       .filter(({ pair }) => pair?.levelId === levelId)
       .sort((a, b) => a.pair.dungeonTy - b.pair.dungeonTy)[0];
     const slotToReuse = shallowestEntry ? this._findSlotById(shallowestEntry.pair.gateSlotId) : null;
-    if (shallowestEntry) this._removeSkyPortal(shallowestEntry.key);
+    if (shallowestEntry && commit) this._removeSkyPortal(shallowestEntry.key);
     return slotToReuse || levelSlots[0] || null;
   }
 
@@ -611,7 +616,21 @@ export class SpecialTileSystem {
       return this._teleportToSky(this.pairedTeleporters.get(tileKey), false);
     }
 
-    const slot = this._reserveGateSlotForNewPortal(tile);
+    const slotCandidate = this._reserveGateSlotForNewPortal(tile, { commit: false });
+    if (!slotCandidate) {
+      console.warn("[SpecialTileSystem] No authored eclipse gate slots available for teleport activation.");
+      return { success: false, reason: "no-sky-portal-slot" };
+    }
+    const depth = Math.max(0, tile.ty - this.worldModel.config.topAirRows);
+    const payment = this.scene.tryPayHardcoreTeleport?.({
+      depth,
+      kind: "undergroundToSky",
+    }) || { success: true, cost: 0 };
+    if (!payment.success) {
+      return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
+    }
+
+    const slot = this._reserveGateSlotForNewPortal(tile, { commit: true });
     if (!slot) {
       console.warn("[SpecialTileSystem] No authored eclipse gate slots available for teleport activation.");
       return { success: false, reason: "no-sky-portal-slot" };
@@ -620,15 +639,25 @@ export class SpecialTileSystem {
     const pairData = this._createPairData(tile, slot);
     pairData.skyPortalVisual = this._spawnSkyPortalGlow(slot);
     this._addSkyPortal(tileKey, pairData);
-    return this._teleportToSky(pairData, true);
+    return this._teleportToSky(pairData, true, { paymentHandled: true, cost: payment.cost });
   }
 
-  _teleportToSky(pairData, firstActivation) {
+  _teleportToSky(pairData, firstActivation, options = {}) {
     const safeTile = this._findSafeAdjacentTile(pairData.skyTx, pairData.skyTy)
       || this._findSafeReturnTile(pairData.skyLandingTx, pairData.skyLandingTy);
     const target = safeTile || { tx: pairData.skyLandingTx, ty: pairData.skyLandingTy };
     if (!safeTile) {
       console.warn("[SpecialTileSystem] No safe sky portal landing tile found, using assigned fallback.", pairData.gateSlotId);
+    }
+    const depth = Math.max(0, pairData.dungeonTy - this.worldModel.config.topAirRows);
+    const payment = options.paymentHandled
+      ? { success: true, cost: options.cost || 0 }
+      : this.scene.tryPayHardcoreTeleport?.({
+          depth,
+          kind: "undergroundToSky",
+        }) || { success: true, cost: 0 };
+    if (!payment.success) {
+      return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
     this.playerController.teleportToTile(target.tx, target.ty);
@@ -637,15 +666,13 @@ export class SpecialTileSystem {
     this._playSound("teleport");
     if (firstActivation) this._celebratePortalActivation(pairData, target);
 
-    if (this.floatingTextSystem) {
-      const worldPos = this.worldModel.tileToWorld(target.tx, target.ty);
-      const text = firstActivation
-        ? `RETURN ROUTE UNLOCKED  •  ${this._getPairLabel(pairData)}`
-        : "Teleported to Sky Island!";
-      this.floatingTextSystem.showFloatingText(worldPos.x, worldPos.y, text, "#00ffff");
-    }
-
-    return { success: true, type: "teleport", target: "skyIsland", pairData };
+    return {
+      success: true,
+      type: "teleport",
+      target: "skyIsland",
+      pairData,
+      ...(payment.cost > 0 ? { cost: payment.cost } : {}),
+    };
   }
 
   _activateGroundTeleport() {
@@ -658,21 +685,25 @@ export class SpecialTileSystem {
     const arrival = level.groundPortal.skyArrivalTile;
     const target = this._findSafeStandingTile(arrival.tx, arrival.ty);
     if (!target) return { success: false, reason: "no-safe-sky-arrival" };
+    const payment = this.scene.tryPayHardcoreTeleport?.({
+      depth: 0,
+      kind: "groundToSky",
+    }) || { success: true, cost: 0 };
+    if (!payment.success) {
+      return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
+    }
 
     this.playerController.teleportToTile(target.tx, target.ty);
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this.scene.earthquakeHazardOverlay?.clear?.();
     this._playSound("teleport");
-    if (this.floatingTextSystem) {
-      const worldPos = this.worldModel.tileToWorld(target.tx, target.ty);
-      this.floatingTextSystem.showFloatingText(
-        worldPos.x,
-        worldPos.y,
-        `Teleported to ${level.groundPortal.arrivalLabel}!`,
-        "#00ffff"
-      );
-    }
-    return { success: true, type: "teleport", target: "skyIslandGroundPortal", levelId };
+    return {
+      success: true,
+      type: "teleport",
+      target: "skyIslandGroundPortal",
+      levelId,
+      ...(payment.cost > 0 ? { cost: payment.cost } : {}),
+    };
   }
 
   _activateSkyTeleportReturn() {
@@ -681,10 +712,10 @@ export class SpecialTileSystem {
     const pair = dungeonKey ? this.pairedTeleporters.get(dungeonKey) : null;
     if (!pair) return { success: false, reason: "no-paired-teleporter" };
 
-    return this._teleportToDungeonPair(pair);
+    return this._teleportToDungeonPair(pair, { kind: "skyToDungeon" });
   }
 
-  _teleportToDungeonPair(pair) {
+  _teleportToDungeonPair(pair, options = {}) {
     const fallbackTy = pair.dungeonTy - 1;
     const safeTile = this._findSafeReturnTile(pair.dungeonTx, fallbackTy);
     const target = safeTile || { tx: pair.dungeonTx, ty: fallbackTy };
@@ -694,22 +725,26 @@ export class SpecialTileSystem {
         `${pair.dungeonTx},${pair.dungeonTy}`
       );
     }
+    const depth = Math.max(0, pair.dungeonTy - this.worldModel.config.topAirRows);
+    const payment = this.scene.tryPayHardcoreTeleport?.({
+      depth,
+      kind: options.kind || "skyToDungeon",
+    }) || { success: true, cost: 0 };
+    if (!payment.success) {
+      return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
+    }
 
     this.playerController.teleportToTile(target.tx, target.ty);
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this._playSound("teleport");
 
-    if (this.floatingTextSystem) {
-      const worldPos = this.worldModel.tileToWorld(target.tx, target.ty);
-      this.floatingTextSystem.showFloatingText(
-        worldPos.x,
-        worldPos.y,
-        `Returned via ${this._getPairLabel(pair)}`,
-        "#00ffff"
-      );
-    }
-
-    return { success: true, type: "teleport", target: "dungeon", pairData: pair };
+    return {
+      success: true,
+      type: "teleport",
+      target: "dungeon",
+      pairData: pair,
+      ...(payment.cost > 0 ? { cost: payment.cost } : {}),
+    };
   }
 
   _celebratePortalActivation(pairData, targetTile) {
@@ -776,7 +811,7 @@ export class SpecialTileSystem {
   quickResumeDeepestPortal() {
     const deepest = this.getDeepestPortal();
     if (!deepest) return { success: false, reason: "no-activated-portal" };
-    return this._teleportToDungeonPair(deepest.pairData);
+    return this._teleportToDungeonPair(deepest.pairData, { kind: "quickResume" });
   }
 
   _activateGamble() {
@@ -787,10 +822,13 @@ export class SpecialTileSystem {
 
     const resources = digSystem.getResourceTotals();
     const totalResources = Object.values(resources).reduce((sum, value) => sum + value, 0);
-    const worldPos = this.worldModel.tileToWorld(this.promptTile.tx, this.promptTile.ty);
+    const feedback = GAMBLE_TILE_CONFIG.feedback;
 
     if (totalResources === 0) {
-      this.floatingTextSystem?.showFloatingText(worldPos.x, worldPos.y, "No resources to gamble!", "#ff0000");
+      this.scene.uiNotifications?.warning?.(
+        feedback.noResources,
+        { key: feedback.key, color: feedback.noResourcesColor },
+      );
       return { success: true, type: "gamble", result: "no-resources" };
     }
 
@@ -800,13 +838,19 @@ export class SpecialTileSystem {
         if (value > 0) newResources[resourceKey] = value * 3;
       }
       digSystem.setResourceTotals(newResources);
-      this.floatingTextSystem?.showFloatingText(worldPos.x, worldPos.y, "GAMBLE WIN! x3 Resources!", "#00ff00");
+      this.scene.uiNotifications?.success?.(
+        feedback.win,
+        { key: feedback.key, color: feedback.winColor },
+      );
       this._playSound("gamble-win");
       return { success: true, type: "gamble", result: "win", multiplied: newResources };
     }
 
     digSystem.setResourceTotals(createZeroResourceTotals());
-    this.floatingTextSystem?.showFloatingText(worldPos.x, worldPos.y, "GAMBLE LOSE! All resources lost!", "#ff0000");
+    this.scene.uiNotifications?.danger?.(
+      feedback.loss,
+      { key: feedback.key, color: feedback.lossColor },
+    );
     this._playSound("gamble-lose");
     return { success: true, type: "gamble", result: "lose", lostResources: resources };
   }

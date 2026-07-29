@@ -2,7 +2,7 @@
  * PlayScene - Main game scene
  * Delegates setup to PlaySceneSetup and PlaySceneGameplay modules
  */
-import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260727-save-transfer-v1";
+import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { setupUIMethods } from "./playScene/PlaySceneUI.js?rev=20260727-save-transfer-v1";
 import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260727-restart-lifecycle-v1";
 import { updateScene } from "./playScene/PlaySceneUpdate.js";

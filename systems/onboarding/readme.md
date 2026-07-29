@@ -3,25 +3,22 @@
 Game systems that teach production mechanics through short, persisted opening
 encounters.
 
-- `OpeningFlightArtifactSystem.js` is the stable scene/save facade. The default
-  path delegates to the Golden Five runtime; `?openingFlightV2=0` restores the
-  previous procedural five-tile encounter without touching saves.
-- `OpeningFlightGoldenFiveRuntime.js` is the persisted orchestrator.
-  `OpeningFlightGoldenFiveDescentController.js`,
-  `OpeningFlightGoldenFiveFlightController.js`, and
-  `OpeningFlightGoldenFiveRewardController.js` separately own the guided dig,
-  protected first ascent plus pauseable bank, and idempotent cache payout.
-- `OpeningFlightGoldenFiveView.js` composes generated artifact/marker, route,
-  grounded cache, FX, objective HUD, and centered cache-reward reveal. Both UI
-  beats use the premium generated frame with live remap-safe Phaser text rather
-  than primitive panels.
-- `OpeningFlightStarterSeam.js` keeps the legacy seam intact and separately
-  owns the authored 14-cell Golden Five descent, three-wide escape opening,
-  and cache ledge.
-- Fresh and cache-pending saves spawn at the marked shaft. Saves made during
-  the protected escape resume safely on its artifact floor.
-- Earthquakes remain paused through the ascent, opening weather is forced calm
-  for five minutes, and the 30-second bank does not start until the player has
-  reached the surface and is actively flying.
-- `OpeningFlightArtifactView.js` and `OpeningFlightTrialView.js` are retained as
-  the explicit rollback presentation through `OpeningFlightLegacyRuntime.js`.
+- `TownSquareTutorialSystem.js` is the production tutorial authority. A chosen
+  tutorial advances only from real movement, tile destruction, resource sale,
+  and upgrade-purchase events. It grants its starter cargo, Flight unlock,
+  30-second flying-only bank, and money rewards idempotently. Starter cargo
+  updates the resource bar and save silently instead of adding a confirmation
+  card.
+- `TownSquareTutorialDigSite.js` authors one safe one-hit practice block beside
+  Town Square without opening a forced shaft. `TownSquareTutorialView.js` keeps
+  only its world marker; keyed guide and completion cards use the shared
+  notification carousel, so onboarding cannot stack a second objective frame
+  or centered reward over another transient message.
+- Completed and skipped states render no tutorial UI after load. Existing saves
+  migrate to a completed compatibility state and keep Flight available.
+- `OpeningFlightArtifactSystem.js` remains only as a save-compatible dormant
+  facade. The Golden Five, legacy shaft, cache, and their views are retained as
+  rollback/reference modules but cannot control production spawn or level-up
+  flow while `OPENING_FLIGHT_ARTIFACT_CONFIG.enabled` is false. Their retained
+  compatibility messages also route through the same queue if that rollback is
+  deliberately enabled.

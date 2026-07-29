@@ -1,9 +1,54 @@
 const TITAN_ASSET_ROOT = "sprites/backgrounds/titan-discoveries-v1";
 const TITAN_CHAMBER_ASSET_ROOT = "sprites/backgrounds/titan-chambers-v2";
+const TITAN_CHAMBER_BLEND_ASSET_ROOT =
+  "sprites/backgrounds/titan-chambers-v3";
+const TITAN_SURFACE_STANCE_ASSET_ROOT =
+  "sprites/backgrounds/titan-surface-stances-v1";
+const TITAN_UNDERGROUND_ASSET_ROOT =
+  "sprites/backgrounds/titan-underground-v2";
 const DISABLED_QUERY_VALUES = Object.freeze(["0", "false", "off", "disabled"]);
+const TITAN_SURFACE_GALLERY_SCALE_BY_ID = Object.freeze({
+  "mossback-wanderer": 1,
+  "bellhorn-grazer": 1.08,
+  "lantern-jaw": 0.96,
+  archwalker: 1.04,
+  "shale-mother": 1.1,
+  "ribbon-wyrm": 1.06,
+  "crowned-mole": 0.92,
+  "hammerhead-pilgrim": 0.98,
+  "cathedral-stag": 1.08,
+  "hollowback-bear": 1.06,
+  "silver-strider": 0.94,
+  "mirror-ray": 1.02,
+  needlecrown: 0.96,
+  "moon-shell": 1.08,
+  veilwing: 1.1,
+  "ember-tusk": 1.04,
+  "furnace-drake": 1.06,
+  "ash-colossus": 1.14,
+  "magma-whale": 1.18,
+  "cinder-centipede": 1.08,
+  "obsidian-sleeper": 1.12,
+  "rift-heron": 1.06,
+  "star-eater": 1.16,
+  "deep-crown": 1.12,
+  "worldroot-titan": 1.18,
+});
 const TITAN_WALK_PLINTH_ASSET = Object.freeze({
   key: "titan-discovery-walk-plinth-v1",
   path: `${TITAN_ASSET_ROOT}/titan-walk-plinth-v1.png`,
+});
+const TITAN_UNDERGROUND_DAIS_ASSET = Object.freeze({
+  key: "titan-underground-dais-v1",
+  path: `${TITAN_UNDERGROUND_ASSET_ROOT}/titan-dais-v1.png`,
+});
+const TITAN_COVER_RESONANCE_ASSET = Object.freeze({
+  key: "titan-cover-resonance-v1",
+  path: `${TITAN_UNDERGROUND_ASSET_ROOT}/titan-cover-resonance-v1.png`,
+});
+const TITAN_GUIDANCE_POINTER_ASSET = Object.freeze({
+  key: "ui-titan-resonance-pointer-v1",
+  path: "sprites/UI/titan-guidance-v1/titan-resonance-pointer-v1.png",
 });
 const TITAN_REGION_LABELS = Object.freeze([
   "Weathered Roots",
@@ -32,34 +77,6 @@ const TITAN_REGION_LABELS = Object.freeze([
   "Blackglass Abyss",
   "Starfire Rift",
 ]);
-const TITAN_LORE = Object.freeze({
-  "mossback-wanderer": "Older than the first tunnel, it carries a sleeping forest through the roots.",
-  "bellhorn-grazer": "Its buried horns ring softly whenever forgotten stone begins to move.",
-  "lantern-jaw": "Cold lights drift between its teeth, guiding nothing that still needs a road.",
-  archwalker: "Each measured step presses a new arch into the blue cavern walls.",
-  "shale-mother": "Loose strata gather against her shell as if stone remembers where it began.",
-  "ribbon-wyrm": "It knots amber dust into long currents and vanishes before they settle.",
-  "crowned-mole": "A crystal crown marks every sealed chamber it has opened from below.",
-  "hammerhead-pilgrim": "The pilgrim follows old forge tones through galleries no map records.",
-  "cathedral-stag": "Its antlers hold the warm glow of a sanctuary swallowed by the mine.",
-  "hollowback-bear": "The dark within its back is deeper than the silver halls around it.",
-  "silver-strider": "Needle legs cross mirror seams without leaving a fracture behind.",
-  "mirror-ray": "It swims through polished stone and returns every light as a colder star.",
-  needlecrown: "Its crown hums when pressure aligns the buried metal veins.",
-  "moon-shell": "A slow lunar pulse turns its ancient shell into a moving tide clock.",
-  veilwing: "One wingbeat lifts silver dust into a veil that hangs for hours.",
-  "ember-tusk": "Molten seams cool against its tusks and wake again when it exhales.",
-  "furnace-drake": "It sleeps beside dead furnaces and keeps their final heat alive.",
-  "ash-colossus": "Every footfall releases the ash of structures the deep world forgot.",
-  "magma-whale": "A low song rolls through slag channels before its vast shadow appears.",
-  "cinder-centipede": "Its many steps stitch cooling plates across broken obsidian.",
-  "obsidian-sleeper": "Violet sparks mark the places where its glass armor dreams.",
-  "rift-heron": "It waits motionless beside pressure rifts until the stone breathes.",
-  "star-eater": "Fragments of false constellations circle the hunger inside its wake.",
-  "deep-crown": "No throne remains below, but the crown still patrols its buried borders.",
-  "worldroot-titan": "At the final root, stone and starlight grow from the same ancient body.",
-});
-
 const titan = (
   index,
   id,
@@ -82,14 +99,22 @@ const titan = (
   travelTiles,
   travelDirection: index % 2 === 0 ? -1 : 1,
   regionLabel: TITAN_REGION_LABELS[index - 1],
-  lore: TITAN_LORE[id],
+  surfaceGalleryScale: TITAN_SURFACE_GALLERY_SCALE_BY_ID[id],
   asset: Object.freeze({
     key: `titan-discovery-${id}`,
     path: `${TITAN_ASSET_ROOT}/${String(index).padStart(2, "0")}-${id}.png`,
   }),
+  surfaceAsset: Object.freeze({
+    key: `titan-surface-stance-${id}-v1`,
+    path: `${TITAN_SURFACE_STANCE_ASSET_ROOT}/${String(index).padStart(2, "0")}-${id}-surface-stance-v1.webp`,
+  }),
   chamberAsset: Object.freeze({
     key: `titan-discovery-chamber-${id}-v2`,
     path: `${TITAN_CHAMBER_ASSET_ROOT}/${String(index).padStart(2, "0")}-${id}-chamber-v2.webp`,
+  }),
+  chamberBlendAsset: Object.freeze({
+    key: `titan-discovery-chamber-${id}-v3`,
+    path: `${TITAN_CHAMBER_BLEND_ASSET_ROOT}/${String(index).padStart(2, "0")}-${id}-chamber-v3.webp`,
   }),
 });
 
@@ -127,6 +152,9 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
   definitions: TITAN_DEFINITIONS,
   assets: Object.freeze({
     walkPlinth: TITAN_WALK_PLINTH_ASSET,
+    undergroundDais: TITAN_UNDERGROUND_DAIS_ASSET,
+    coverResonance: TITAN_COVER_RESONANCE_ASSET,
+    guidancePointer: TITAN_GUIDANCE_POINTER_ASSET,
   }),
   health: Object.freeze({
     globalKey: "__jkdTitanDiscoveries",
@@ -145,27 +173,61 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     minimumTrackedTiles: 64,
   }),
   backdrop: Object.freeze({
-    spriteDepth: -5.98,
-    glowDepth: -5.96,
     fitFraction: 0.98,
-    hiddenAlpha: 0.04,
-    progressAlpha: 0.46,
-    discoveredAlpha: 0.82,
-    peakAlpha: 0.98,
+  }),
+  underground: Object.freeze({
+    assetVersion: "titan-surface-stances-v1",
+    titanFitFraction: 0.96,
+    spriteDepth: -5.96,
+    glowDepth: -5.95,
+    coveredAlpha: 0.9,
+    coverageProgressAlpha: 0.095,
+    coverageGlowAlpha: 0.16,
+    coverageGlowFloor: 0.28,
+    discoveredAlpha: 0.995,
+    peakAlpha: 1,
     idleDriftPixels: 7,
     idlePeriodMs: 9200,
     phaseStep: 0.73,
+    daisDepth: -5.99,
+    daisGlowDepth: -5.985,
+    daisWidthTiles: 4.6,
+    daisHeightTiles: 0.88,
+    daisCenterInsetTiles: 0.08,
+    daisAlpha: 0.97,
+    daisGlowAlpha: 0.075,
+  }),
+  coverageGlow: Object.freeze({
+    activationRangeTiles: 14,
+    maxVisibleTiles: 112,
+    depth: 898,
+    displaySizeTiles: 1.02,
+    minimumAlpha: 0.42,
+    maximumAlpha: 0.72,
+    pulsePeriodMs: 1800,
+    phaseStep: 0.63,
+    scalePulse: 0.03,
+    blendMode: "ADD",
   }),
   chambers: Object.freeze({
     enabledByDefault: true,
     queryParam: "titanChambers",
     disabledValues: DISABLED_QUERY_VALUES,
+    blendEnabledByDefault: true,
+    blendQueryParam: "titanChamberBlend",
+    blendAssetVersion: "titan-chambers-v3",
+    rollbackAssetVersion: "titan-chambers-v2",
     preloadRangeTiles: 24,
     releaseRangeTiles: 36,
     maxResidentCards: 2,
     nativeWidthPx: 1536,
     nativeHeightPx: 848,
-    ambientGlowAlpha: 0.055,
+    cardDepth: -6.02,
+    cardGlowDepth: -6.01,
+    lockedCardAlpha: 0.05,
+    lockedCardProgressAlpha: 0.03,
+    discoveredCardAlpha: 0.12,
+    ambientGlowAlpha: 0.025,
   }),
   unlockFx: Object.freeze({
     ringDepth: -5.94,
@@ -195,27 +257,52 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     echoEndScale: 0.18,
   }),
   surfaceGallery: Object.freeze({
-    startTileX: 24,
-    spacingTiles: 1.2,
+    assetVersion: "titan-surface-stances-v1",
+    footingAssetId: "undergroundDais",
+    startTileX: 29.5,
+    spacingTiles: 3.4,
     baselineOffsetTiles: -0.03,
-    spriteDepth: -3.92,
-    plinthDepth: -3.96,
-    plinthGlowDepth: -3.95,
-    maxWidthTiles: 0.86,
-    maxHeightTiles: 0.78,
-    creatureBaselineOffsetTiles: 0.43,
-    discoveredAlpha: 0.92,
-    pulseAlpha: 0.12,
+    spriteDepth: 19.2,
+    plinthDepth: 18.8,
+    plinthGlowDepth: 18.9,
+    spriteBlendMode: "NORMAL",
+    maxWidthTiles: 3.2,
+    maxHeightTiles: 4.25,
+    minimumScaleMultiplier: 0.92,
+    maximumScaleMultiplier: 1.18,
+    fallbackScaleMultiplier: 1,
+    stanceBottomPaddingPx: 24,
+    creatureContactInsetTiles: 0.035,
+    discoveredAlpha: 0.985,
+    pulseAlpha: 0.015,
     bobPixels: 4,
     bobPeriodMs: 5200,
     phaseStep: 0.61,
-    plinthWidthTiles: 1.08,
-    plinthHeightTiles: 0.66,
-    plinthLockedAlpha: 0.5,
-    plinthDiscoveredAlpha: 0.94,
-    plinthGlowAlpha: 0.2,
+    plinthWidthTiles: 2.1,
+    plinthHeightTiles: 0.36,
+    plinthLockedAlpha: 0.38,
+    plinthDiscoveredAlpha: 0.98,
+    plinthGlowAlpha: 0.16,
     arrivalMs: 900,
     arrivalStartScale: 0.15,
+    inspectionEnabledByDefault: true,
+    inspectionQueryParam: "titanStatueLore",
+    inspectionRangeTiles: 2.4,
+    inspectionPromptDepth: 20.6,
+    inspectionPromptOffsetTiles: 0.18,
+    inspectionPromptFontSizePx: 13,
+    inspectionPromptColor: "#f3dfaa",
+    inspectionPromptStrokeColor: "#071018",
+    inspectionPromptStrokeThicknessPx: 4,
+    inspectionPromptPulseMinAlpha: 0.72,
+    inspectionPromptPulseMaxAlpha: 1,
+    inspectionPromptPulseMs: 950,
+    inspectionPromptCopy: "INSPECT",
+    inspectionNotificationTitle: "TITAN INSCRIPTION",
+    inspectionNotificationKey: "titan-statue-inspection",
+    inspectionNotificationPriority: 1,
+    inspectionSeparator: "  •  ",
+    inspectionArchiveHint: "ESC > TITANS: FULL ARCHIVE",
   }),
   archive: Object.freeze({
     columns: 5,
@@ -231,15 +318,21 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     discoveredThumbnailAlpha: 0.94,
     portraitInset: 22,
     portraitMaxWidthFraction: 0.82,
-    portraitMaxHeightFraction: 0.52,
+    portraitMaxHeightFraction: 0.4,
     portraitLockedAlpha: 0.2,
-    titleOffsetY: 22,
-    regionOffsetY: 55,
-    loreOffsetY: 87,
+    titleOffsetY: 10,
+    epithetOffsetY: 39,
+    regionOffsetY: 59,
+    loreOffsetY: 83,
     loreSideInset: 26,
     titleFontSize: 22,
+    epithetFontSize: 12,
     regionFontSize: 13,
-    loreFontSize: 14,
+    loreFontSize: 12,
+    loreLineSpacingPx: 3,
+    inscriptionFontSize: 11,
+    inscriptionGapPx: 8,
+    inscriptionLabel: "PLINTH INSCRIPTION",
     slotIndexFontSize: 10,
     vignettePulseScale: 1.008,
     vignettePulseMs: 5200,
@@ -268,14 +361,60 @@ export function resolveTitanChambersEnabled(
   if (value && chamberConfig.disabledValues.includes(value)) return false;
   return chamberConfig.enabledByDefault;
 }
+
+export function resolveTitanChamberBlendEnabled(
+  config = TITAN_DISCOVERY_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  if (!resolveTitanChambersEnabled(config, search)) return false;
+  const chamberConfig = config.chambers;
+  const value = new URLSearchParams(search)
+    .get(chamberConfig.blendQueryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && chamberConfig.disabledValues.includes(value)) return false;
+  return chamberConfig.blendEnabledByDefault;
+}
+
+export function resolveTitanStatueLoreEnabled(
+  config = TITAN_DISCOVERY_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  if (!resolveTitanDiscoveriesEnabled(config, search)) return false;
+  const gallery = config.surfaceGallery;
+  const value = new URLSearchParams(search)
+    .get(gallery.inspectionQueryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && config.disabledValues.includes(value)) return false;
+  return gallery.inspectionEnabledByDefault;
+}
+
+export function resolveTitanChamberAsset(
+  definition,
+  config = TITAN_DISCOVERY_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  return resolveTitanChamberBlendEnabled(config, search)
+    && definition.chamberBlendAsset
+    ? definition.chamberBlendAsset
+    : definition.chamberAsset;
+}
+
 export function getTitanDiscoveryPreloadAssets(
   config = TITAN_DISCOVERY_CONFIG,
   search
 ) {
   if (!resolveTitanDiscoveriesEnabled(config, search)) return [];
   return [
-    ...config.definitions.map(definition => definition.asset),
+    ...config.definitions.flatMap(definition => [
+      definition.asset,
+      definition.surfaceAsset,
+    ]),
     config.assets.walkPlinth,
+    config.assets.undergroundDais,
+    config.assets.coverResonance,
+    config.assets.guidancePointer,
   ];
 }
 export function getTitanChamberAssets(
@@ -283,7 +422,9 @@ export function getTitanChamberAssets(
   search
 ) {
   if (!resolveTitanChambersEnabled(config, search)) return [];
-  return config.definitions.map(definition => definition.chamberAsset);
+  return config.definitions.map(definition => (
+    resolveTitanChamberAsset(definition, config, search)
+  ));
 }
 
 export function getTitanDefinition(id, config = TITAN_DISCOVERY_CONFIG) {

@@ -10,7 +10,9 @@ import {
   auditSurfacePropCoverage,
   resolveSurfacePropDisplayGeometry,
   resolveSurfacePropGroundContact,
+  resolveSurfacePropScaleMultiplier,
 } from "./surfacePropGeometry.js";
+import { setTintIfChanged } from "./worldVisualRenderState.js";
 
 export class WorldVisualSurfacePropLayer {
   constructor(
@@ -38,7 +40,7 @@ export class WorldVisualSurfacePropLayer {
     this.enabled = resolveWorldVisualSurfacePropsEnabled(this.config, search);
     if (!this.enabled.all) return false;
     this.placements = this.layout.placements.filter(item => this.enabled[item.level]);
-    this.coverage = auditSurfacePropCoverage(this.layout, this.assets);
+    this.coverage = auditSurfacePropCoverage(this.layout, this.assets, this.config);
     this._validateCoverage();
     this._validatePlacements();
     this._validateTextures();
@@ -90,17 +92,19 @@ export class WorldVisualSurfacePropLayer {
   update(_time, lighting) {
     if (!this.created || !lighting) return;
     for (const sprite of this.active.values()) {
-      sprite.setTint(lighting.terrainTint);
+      setTintIfChanged(sprite, lighting.terrainTint);
     }
   }
 
   _createPlacement(item) {
     const definition = this.assets[item.level]?.[item.assetId];
     const runtimeAsset = ASSET_KEYS.environment.surfaceProps[item.level]?.[item.assetId];
+    const scaleMultiplier = resolveSurfacePropScaleMultiplier(item, this.config);
     const geometry = resolveSurfacePropDisplayGeometry(
       definition,
       this.scene.config.tileSize,
       UAL_NATIVE_PLAYER_ASSET_PROFILE,
+      scaleMultiplier,
     );
     const contact = resolveSurfacePropGroundContact(
       this.worldModel,
@@ -128,6 +132,8 @@ export class WorldVisualSurfacePropLayer {
     sprite.name = `surface-prop-${item.id}`;
     sprite.setData("surfacePropPlacementId", item.id);
     sprite.setData("surfacePropHeightMeters", definition.heightMeters);
+    sprite.setData("surfacePropSizeVariant", item.sizeVariant);
+    sprite.setData("surfacePropScaleMultiplier", scaleMultiplier);
     this.invalidPlacements.delete(item.id);
     this.active.set(item.id, sprite);
     return sprite;
@@ -159,11 +165,39 @@ export class WorldVisualSurfacePropLayer {
       if (!(item.lane in this.config.renderDepths)) {
         throw new Error(`[WorldVisualSurfacePropLayer] Invalid lane for ${item.id}`);
       }
+      const scaleMultiplier = resolveSurfacePropScaleMultiplier(item, this.config);
+      const geometry = resolveSurfacePropDisplayGeometry(
+        this.assets[item.level][item.assetId],
+        this.scene.config.tileSize,
+        UAL_NATIVE_PLAYER_ASSET_PROFILE,
+        scaleMultiplier,
+      );
+      const leftTile = item.tileX - geometry.widthTiles / 2;
+      const rightTile = item.tileX + geometry.widthTiles / 2;
       const blocked = this.layout.protectedClearZones.find(zone => (
-        item.tileX >= zone.leftTile && item.tileX <= zone.rightTile
+        (!zone.levels || zone.levels.includes(item.level))
+        && rightTile > zone.leftTile
+        && leftTile < zone.rightTile
       ));
       if (blocked) {
         throw new Error(`[WorldVisualSurfacePropLayer] ${item.id} overlaps ${blocked.id}`);
+      }
+      const lowProfileZone = this.layout.lowProfileZones?.find(zone => (
+        (!zone.levels || zone.levels.includes(item.level))
+        && rightTile > zone.leftTile
+        && leftTile < zone.rightTile
+      ));
+      const renderedHeightMeters = this.assets[item.level][item.assetId].heightMeters
+        * scaleMultiplier;
+      if (
+        lowProfileZone
+        && renderedHeightMeters > lowProfileZone.maximumRenderedHeightMeters
+      ) {
+        throw new Error(
+          `[WorldVisualSurfacePropLayer] ${item.id} is `
+          + `${renderedHeightMeters.toFixed(2)} m inside ${lowProfileZone.id}; `
+          + `maximum is ${lowProfileZone.maximumRenderedHeightMeters.toFixed(2)} m`
+        );
       }
     }
   }
@@ -182,6 +216,8 @@ export class WorldVisualSurfacePropLayer {
           definition,
           this.scene.config.tileSize,
           UAL_NATIVE_PLAYER_ASSET_PROFILE,
+          Math.max(...Object.values(this.config.scale.sizeVariants))
+            * Math.max(...Object.values(this.config.scale.lanePerspective)),
         );
         if (geometry.sourcePixelsPerWorldPixel
           < this.config.scale.minimumSourcePixelsPerWorldPixel) {
@@ -204,6 +240,12 @@ export class WorldVisualSurfacePropLayer {
       totalPlacements: this.placements.length,
       activePlacements: this.active.size,
       invalidPlacements: Object.freeze([...this.invalidPlacements.entries()]),
+      sizeVariants: Object.freeze(
+        Object.fromEntries(Object.keys(this.config.scale.sizeVariants).map(variant => [
+          variant,
+          this.placements.filter(item => item.sizeVariant === variant).length,
+        ])),
+      ),
       coverage: this.coverage,
     });
   }

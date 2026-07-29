@@ -1,5 +1,7 @@
 import { UPGRADES, getUpgradeCost, getUpgradeEffect, calculateHeavyPunchEffect } from "../../values/upgradeFormulas.js";
 import { isCraftOnlyUpgrade } from "../../values/craftingRecipes.js";
+import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "../../values/earthquakes.js";
+import { resolveMovementSpeed } from "./ResolvedPlayerStats.js";
 
 export class UpgradeSystem {
   constructor(digSystem = null, playerLevelSystem = null) {
@@ -272,6 +274,7 @@ export class UpgradeSystem {
       luckyCollector: 0,
       unlockQuickslash: 0,
       unlockThunderStrike: 0,
+      [EARTHQUAKE_SUPPRESSION_UPGRADE.effectType]: 0,
     };
 
     // Track pickaxes by metal tier to only apply the highest one
@@ -392,9 +395,12 @@ export class UpgradeSystem {
   }
 
   getEffectiveWalkSpeed(baseSpeed) {
-    if (this.godModeActive) return 2000; // 10x normal
     const effects = this.getUpgradeEffects();
-    return baseSpeed + effects.walkSpeed;
+    return resolveMovementSpeed({
+      baseSpeed,
+      flatBonus: effects.walkSpeed,
+      override: this.godModeActive ? 2000 : null,
+    });
   }
 
   isGemPowerUnlocked() {

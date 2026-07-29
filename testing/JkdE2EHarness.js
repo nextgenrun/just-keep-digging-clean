@@ -3,9 +3,12 @@ import { RESOURCE_BY_TILE_TYPE } from "../values/resourceTypes.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_VISUAL_LANDMARKS } from "../values/worldVisualLandmarks.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
+import { TITAN_DISCOVERY_CONFIG } from "../values/titanDiscoveries.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
+import { HEAVENBLOCKS_ACCESS_CONFIG } from "../values/heavenblocksAccessConfig.js";
 import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
+import { createTitanE2EPreviewController } from "./JkdE2ETitanPreview.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
   100, 350, 700, 1100, 1450, 1800, 2500, 3500, 4500, 4990,
@@ -15,8 +18,32 @@ const BACKGROUND_PREVIEW_RANGES = Object.freeze({
   level2: Object.freeze({ minX: 113, maxX: 278 }),
 });
 const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 33, 63]);
-const SURFACE_PROP_PREVIEW_TILES = Object.freeze([33, 63, 86, 161, 178, 201, 244, 274]);
+const SURFACE_PROP_PREVIEW_TILES = Object.freeze([40, 63, 89, 109, 161, 179, 209, 247, 275]);
 const STAR_PILLAR_PREVIEW_COUNTS = Object.freeze([0, 1, 3, 5, 7, 10]);
+const TEXTURE_AUDIT_RESOURCE_TYPES = Object.freeze([
+  TILE_TYPES.STONE,
+  TILE_TYPES.COPPER,
+  TILE_TYPES.BRONZE,
+  TILE_TYPES.IRON,
+  TILE_TYPES.STEEL,
+  TILE_TYPES.SILVER,
+  TILE_TYPES.GOLD,
+  TILE_TYPES.OBSIDIAN,
+  TILE_TYPES.EMBER_ORE,
+  TILE_TYPES.MAGMA_CRYSTAL,
+]);
+const TEXTURE_AUDIT_SPECIAL_TYPES = Object.freeze([
+  TILE_TYPES.TELEPORT_TILE,
+  TILE_TYPES.GAMBLE_TILE,
+  TILE_TYPES.GEM_POWER_BLOCK,
+  TILE_TYPES.SPEED_BLOCK,
+  TILE_TYPES.XP_BLOCK,
+  TILE_TYPES.CRIT_BLOCK,
+  TILE_TYPES.BERSERK_BLOCK,
+  TILE_TYPES.COMBO_BLOCK,
+  TILE_TYPES.LEGEND_BLOCK,
+  TILE_TYPES.ANCIENT_RELIC_CACHE,
+]);
 
 function e2eEnabled() {
   if (!GAME_CONFIG.debugMode || typeof window === "undefined") return false;
@@ -44,6 +71,7 @@ function center(scene) {
 
 function closeTransientUi(scene) {
   if (!scene) return;
+  const wasPaused = scene.gameState === "paused";
   scene.shopOverlay?.hide?.();
   scene.uiInventoryPopup?.close?.();
   scene.levelUpPopup?.hide?.();
@@ -61,6 +89,7 @@ function closeTransientUi(scene) {
       scene.gameState = "playing";
     }
   }
+  if (wasPaused) scene.gameState = "playing";
   scene.playerController?.setControlsEnabled?.(scene.gameState === "playing");
 }
 
@@ -183,7 +212,9 @@ function openSurface(scene, surface, options = {}) {
       break;
     case "pauseSettings":
       scene.showPauseMenu?.();
-      scene._pausePanel?.state?.tabs?.setActive?.(2);
+      scene._pausePanel?.state?.tabs?.setActive?.(
+        Math.max(0, scene._pausePanel?.state?.tabKeys?.indexOf("settings") ?? 0),
+      );
       if (options.settingsTab) {
         const tabIndex = { audio: 0, controls: 1, display: 2 }[options.settingsTab] ?? 0;
         const settingsContent = scene._pausePanel?.state?.contentObjects?.find(obj => obj?.tabs?.setActive);
@@ -264,6 +295,60 @@ function forcePlayerState(scene, options = {}) {
     scene.digSystem.setResourceTotals(options.resources);
   }
   return getState(scene);
+}
+
+function buildTextureAuditGallery(scene, mode = "sparse") {
+  const model = scene.worldModel;
+  if (!model || !scene.worldRenderer) return { ok: false, reason: "world-not-ready" };
+  closeTransientUi(scene);
+
+  const left = Math.max(2, (scene.config.spawnTileX || 28) - 5);
+  const top = Math.min(model.depth - 10, GAME_CONFIG.topAirRows + 16);
+  const width = 12;
+  const height = 8;
+  const setTile = (tx, ty, type) => {
+    const hp = type === TILE_TYPES.AIR ? 0 : model.getTileMaxHp(tx, ty, type);
+    model.setTile(tx, ty, type, hp);
+    scene.worldRenderer.applyTileUpdate(tx, ty);
+  };
+
+  for (let ty = top; ty < top + height; ty += 1) {
+    for (let tx = left; tx < left + width; tx += 1) {
+      setTile(tx, ty, TILE_TYPES.DARK_DIRT_NORMAL);
+    }
+  }
+
+  if (mode === "dense") {
+    for (let row = 1; row < height - 1; row += 1) {
+      for (let column = 1; column < width - 1; column += 1) {
+        const type = TEXTURE_AUDIT_RESOURCE_TYPES[
+          (column - 1 + (row - 1) * (width - 2)) % TEXTURE_AUDIT_RESOURCE_TYPES.length
+        ];
+        setTile(left + column, top + row, type);
+      }
+    }
+    for (let column = 1; column < width - 1; column += 1) {
+      setTile(left + column, top + 3, TILE_TYPES.AIR);
+      setTile(left + column, top + 4, TILE_TYPES.AIR);
+    }
+  } else {
+    for (let column = 1; column < width - 1; column += 1) {
+      setTile(left + column, top + 2, TEXTURE_AUDIT_SPECIAL_TYPES[column - 1]);
+      setTile(left + column, top + 5, TEXTURE_AUDIT_RESOURCE_TYPES[column - 1]);
+      setTile(left + column, top + 3, TILE_TYPES.AIR);
+      setTile(left + column, top + 4, TILE_TYPES.AIR);
+    }
+  }
+
+  const playerTile = { tx: left + Math.floor(width / 2), ty: top + 4 };
+  forcePlayerState(scene, playerTile);
+  scene.weatherSystem?.forceWeather?.("clear", 0, 10 * 60 * 1000);
+  scene.worldRenderer?.invalidate?.();
+  console.info(
+    `[JkdE2EHarness] Opaque ImageGen texture audit ${mode} gallery at `
+    + `${left},${top}; save writes remain disabled`
+  );
+  return { ok: true, mode, left, top, width, height, playerTile };
 }
 
 function findBackgroundPreviewTile(scene, level, depth) {
@@ -360,11 +445,80 @@ export function installJkdE2EHarness(scene) {
   let backgroundPreviewIndex = -1;
   let surfaceBenchmarkPreviewIndex = -1;
   let surfacePropPreviewIndex = -1;
+  let surfaceAltarPreviewIndex = -1;
   let heavenblockPreviewIndex = -1;
   let starPillarPreviewIndex = -1;
   let caveHazardPreviewIndex = -1;
   let caveHazardKindPreviewIndex = -1;
   let currentCaveHazard = null;
+  const titanPreview = createTitanE2EPreviewController(scene, {
+    closeUi: () => closeTransientUi(scene),
+    forcePlayer: options => forcePlayerState(scene, options),
+  });
+  const previewFirstUnlockedTitanStatue = () => {
+    const discoveredIds = scene.retentionProgressSystem
+      ?.getDiscoveredTitans?.() || [];
+    const definition = TITAN_DISCOVERY_CONFIG.definitions.find(candidate => (
+      discoveredIds.includes(candidate.id)
+    ));
+    if (!definition) {
+      console.warn("[JkdE2EHarness] Unlock a Titan before previewing its plinth");
+      return null;
+    }
+    const gallery = TITAN_DISCOVERY_CONFIG.surfaceGallery;
+    const tx = gallery.startTileX
+      + (definition.index - 1) * gallery.spacingTiles;
+    closeTransientUi(scene);
+    forcePlayerState(scene, {
+      tx,
+      ty: GAME_CONFIG.topAirRows - 1,
+    });
+    console.info(
+      `[JkdE2EHarness] Titan plinth preview ${definition.index}/25 `
+      + `at ${tx},${GAME_CONFIG.topAirRows - 1}`
+    );
+    scene.time?.delayedCall?.(180, () => {
+      const playerTile = scene.playerController?.getPlayerTile?.();
+      const distance = scene.worldRenderer
+        ?.getTitanSurfaceInspectionDistance?.(playerTile);
+      const surface = scene.worldRenderer
+        ?.getTitanDiscoverySnapshot?.()?.surface;
+      console.info(
+        `[JkdE2EHarness] Titan plinth inspection: `
+        + `distance=${Number.isFinite(distance) ? distance : "unavailable"} `
+        + `inspectable=${surface?.inspectable ?? "unavailable"} `
+        + `active=${surface?.activeInspection || "none"}`
+      );
+    });
+    return { titanId: definition.id, titanIndex: definition.index, tx };
+  };
+  const previewHeavenblocksSurfaceAltar = () => {
+    const gates = HEAVENBLOCKS_ACCESS_CONFIG.surfaceGates;
+    const stageCount = 3;
+    const previewCount = gates.length * stageCount;
+    surfaceAltarPreviewIndex = (surfaceAltarPreviewIndex + 1) % previewCount;
+    const gateIndex = Math.floor(surfaceAltarPreviewIndex / stageCount);
+    const stageIndex = surfaceAltarPreviewIndex % stageCount;
+    const gate = gates[gateIndex];
+    closeTransientUi(scene);
+    forcePlayerState(scene, {
+      tx: gate.tx,
+      ty: GAME_CONFIG.topAirRows - 1,
+    });
+    scene.heavenblocksPresentationSystem?._syncSurfaceAltar?.(gate, stageIndex);
+    const health = scene.heavenblocksPresentationSystem?.getHealthSnapshot?.() || null;
+    console.info(
+      `[JkdE2EHarness] Heavenblocks surface altar preview: `
+      + `${gate.label} stage ${stageIndex + 1}/3 at ${gate.tx},${gate.ty}; `
+      + `ready=${health?.surfaceAltarsReady ?? "unavailable"}`,
+    );
+    return {
+      gateIndex,
+      stageIndex,
+      gate,
+      health,
+    };
+  };
   const activateCaveHazardPreview = (hazards, index) => {
     caveHazardPreviewIndex = index;
     currentCaveHazard = hazards[index];
@@ -425,6 +579,11 @@ export function installJkdE2EHarness(scene) {
     console.info(`[JkdE2EHarness] Entered cave hazard ${currentCaveHazard.id} for failure validation`);
   };
   const handleBackgroundPreviewKey = event => {
+    if (event.code === "F1") {
+      event.preventDefault?.();
+      buildTextureAuditGallery(scene, event.shiftKey ? "dense" : "sparse");
+      return;
+    }
     if (event.code === "F5") {
       event.preventDefault?.();
       const preview = findSemanticPreview(
@@ -483,6 +642,12 @@ export function installJkdE2EHarness(scene) {
       event.preventDefault?.();
       scene.weatherSystem?.forceWeather?.("clear", 0, 10 * 60 * 1000);
       console.info("[JkdE2EHarness] F11 clear-weather visual benchmark preview");
+      return;
+    }
+    if (event.code === "F12") {
+      event.preventDefault?.();
+      scene.weatherSystem?.forceWeather?.("snow", 1, 10 * 60 * 1000);
+      console.info("[JkdE2EHarness] F12 swept-collision snow preview");
       return;
     }
     if (event.code === "F10") {
@@ -563,6 +728,44 @@ export function installJkdE2EHarness(scene) {
       return;
     }
     if (!event.ctrlKey || !event.altKey) return;
+    if (event.code === "KeyA") {
+      event.preventDefault?.();
+      previewHeavenblocksSurfaceAltar();
+      return;
+    }
+    if (event.code === "KeyU") {
+      event.preventDefault?.();
+      closeTransientUi(scene);
+      forcePlayerState(scene, { money: 5000 });
+      scene.uiResourceBar?.setMoney?.(scene.upgradeSystem?.getMoney?.() || 0);
+      scene.showPauseMenu?.();
+      console.info("[JkdE2EHarness] Funded Titan catalog preview opened");
+      return;
+    }
+    if (event.code === "KeyY") {
+      event.preventDefault?.();
+      titanPreview.advance();
+      return;
+    }
+    if (event.code === "KeyI") {
+      event.preventDefault?.();
+      previewFirstUnlockedTitanStatue();
+      return;
+    }
+    if (event.code === "KeyS") {
+      event.preventDefault?.();
+      closeTransientUi(scene);
+      const tx = SECOND_WORLD_CONFIG.runtimeArea.leftTile - 2;
+      forcePlayerState(scene, {
+        tx,
+        ty: GAME_CONFIG.topAirRows - 1,
+      });
+      console.info(
+        `[JkdE2EHarness] Save-safe surface drop-through preview triggered at `
+        + `${tx},${GAME_CONFIG.topAirRows - 1}`
+      );
+      return;
+    }
     if (event.code === "Home") {
       event.preventDefault?.();
       scene.activateDevCheat?.();
@@ -659,10 +862,14 @@ export function installJkdE2EHarness(scene) {
     },
     resetTestSave,
     forcePlayerState: (options = {}) => forcePlayerState(scene, options),
+    previewTextureAudit: (mode = "sparse") => buildTextureAuditGallery(scene, mode),
+    advanceTitanPreview: () => titanPreview.advance(),
+    previewFirstUnlockedTitanStatue,
+    previewHeavenblocksSurfaceAltar,
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; F11 forces clear-weather benchmark lighting; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting; F12 forces the swept-collision snow preview; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

@@ -219,11 +219,19 @@ for (const [, file] of profile.sheetFiles) {
 const mainGameplay = readFileSync(resolve(root, "world/playScene/PlaySceneGameplay.js"), "utf8");
 const mainUpdate = readFileSync(resolve(root, "world/playScene/PlaySceneUpdate.js"), "utf8");
 const caveActions = readFileSync(resolve(root, "world/playScene/CaveActionAnimationRuntime.js"), "utf8");
+const caveLocomotion = readFileSync(
+  resolve(root, "world/playScene/CaveLocomotionAnimationRuntime.js"),
+  "utf8",
+);
 const caveGameplay = readFileSync(resolve(root, "world/playScene/CaveGameplayController.js"), "utf8");
 for (const source of [mainGameplay, caveActions]) {
   assert.match(source, /UalMiningComboSelector/);
+}
+for (const source of [mainGameplay, caveLocomotion]) {
   assert.match(source, /getResolvedVelocityX/);
   assert.match(source, /getResolvedVelocityY/);
+}
+for (const source of [mainGameplay, caveActions, caveLocomotion]) {
   assert.doesNotMatch(source, /isOpenFlightSpace/);
 }
 assert.match(mainGameplay, /ualLocomotionTransitionSelector\.resolve/);

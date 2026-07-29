@@ -1,5 +1,9 @@
-import { getRequiredTitanRevealTiles } from "./titanDiscoveryEncounter.js";
+import {
+  buildTitanCreatureCoverageCells,
+  countRemainingTitanCoverage,
+} from "./titanCreatureFootprint.js";
 import { fitTitanChamberScale } from "./titanChamberGeometry.js";
+import { getTitanCoverageRequired } from "./titanCoverageThreshold.js";
 
 export function createTitanDiscoveryView(
   scene,
@@ -14,28 +18,63 @@ export function createTitanDiscoveryView(
   const baseY = zone.centerYTile * tileSize;
   const widthPx = (zone.rightExclusive - zone.left) * tileSize;
   const heightPx = (zone.bottomExclusive - zone.top) * tileSize;
-  const sprite = scene.add.image(baseX, baseY, definition.asset.key);
-  const glowSprite = scene.add.image(baseX, baseY, definition.asset.key);
+  const coverageCells = buildTitanCreatureCoverageCells(zone);
+  const renderAsset = definition.surfaceAsset;
+  const underground = config.underground;
+  const sprite = scene.add.image(baseX, baseY, renderAsset.key);
+  const glowSprite = scene.add.image(baseX, baseY, renderAsset.key);
   const baseScale = fitTitanChamberScale(
     sprite,
-    widthPx * config.backdrop.fitFraction,
-    heightPx * config.backdrop.fitFraction
+    widthPx * underground.titanFitFraction,
+    heightPx * underground.titanFitFraction
   );
   sprite
-    .setDepth(config.backdrop.spriteDepth)
+    .setDepth(underground.spriteDepth)
     .setScale(baseScale)
-    .setAlpha(config.backdrop.hiddenAlpha);
+    .setAlpha(underground.coveredAlpha);
   glowSprite
-    .setDepth(config.backdrop.glowDepth)
+    .setDepth(underground.glowDepth)
     .setScale(baseScale)
     .setTint(definition.glowTint)
     .setBlendMode("ADD")
     .setAlpha(0);
+  const daisY = (
+    zone.bottomExclusive - underground.daisCenterInsetTiles
+  ) * tileSize;
+  const daisSprite = scene.add.image(
+    baseX,
+    daisY,
+    config.assets.undergroundDais.key
+  );
+  const daisGlowSprite = scene.add.image(
+    baseX,
+    daisY,
+    config.assets.undergroundDais.key
+  );
+  [daisSprite, daisGlowSprite].forEach(image => image.setDisplaySize(
+    underground.daisWidthTiles * tileSize,
+    underground.daisHeightTiles * tileSize
+  ));
+  daisSprite
+    .setDepth(underground.daisDepth)
+    .setAlpha(underground.daisAlpha);
+  daisGlowSprite
+    .setDepth(underground.daisGlowDepth)
+    .setTint(definition.glowTint)
+    .setBlendMode("ADD")
+    .setAlpha(underground.daisGlowAlpha);
+  const coverageRequired = getTitanCoverageRequired(
+    coverageCells.length,
+    experienceConfig.encounter.requiredClearRatio
+  );
   return {
     zone,
     definition,
     sprite,
     glowSprite,
+    daisSprite,
+    daisGlowSprite,
+    renderAsset,
     baseX,
     baseY,
     settledX: baseX,
@@ -45,17 +84,40 @@ export function createTitanDiscoveryView(
     topPx: zone.top * tileSize,
     widthPx,
     heightPx,
-    remaining: zone.cells.length,
-    revealed: 0,
-    requiredReveal: getRequiredTitanRevealTiles(
-      zone.cells.length,
-      experienceConfig
+    coverageCells,
+    coverageTotal: coverageCells.length,
+    coverageRequired,
+    coverageRemaining: coverageCells.length,
+    coverageCleared: 0,
+    coverageProgress: 0,
+    coverageValid: (
+      coverageCells.length
+      >= experienceConfig.encounter.minimumCoverageTiles
     ),
+    legacyModeId: experienceConfig.encounter.legacyModeId,
+    zoneRemaining: zone.cells.length,
+    remaining: coverageCells.length,
+    revealed: 0,
     progress: 0,
     ready: false,
     discovered: false,
     animating: false,
+    chamberSprite: null,
+    chamberGlowSprite: null,
   };
+}
+
+export function syncTitanCoverageState(worldModel, view) {
+  view.coverageRemaining = countRemainingTitanCoverage(
+    worldModel,
+    view.coverageCells
+  );
+  view.coverageCleared = view.coverageTotal - view.coverageRemaining;
+  view.coverageProgress = view.coverageCleared
+    / Math.max(1, view.coverageTotal);
+  view.remaining = view.coverageRemaining;
+  view.revealed = view.coverageCleared;
+  view.progress = view.coverageProgress;
 }
 
 export function syncTitanDiscoveryViews(
@@ -66,17 +128,17 @@ export function syncTitanDiscoveryViews(
   config
 ) {
   for (const view of views) {
-    view.remaining = view.zone.cells.reduce(
+    view.zoneRemaining = view.zone.cells.reduce(
       (total, cell) => total + (worldModel.isSolid(cell.tx, cell.ty) ? 1 : 0),
       0
     );
-    view.revealed = view.zone.cells.length - view.remaining;
-    view.progress = 1 - view.remaining / Math.max(1, view.zone.cells.length);
+    syncTitanCoverageState(worldModel, view);
     view.discovered = discovered.has(view.definition.id);
     view.ready = !view.discovered && (
-      encounterMode === "legacy"
-        ? view.remaining === 0
-        : view.revealed >= view.requiredReveal
+      encounterMode === view.legacyModeId
+        ? view.zoneRemaining === 0
+        : view.coverageValid
+          && view.coverageCleared >= view.coverageRequired
     );
     if (view.animating) continue;
     if (view.discovered) {
@@ -85,17 +147,32 @@ export function syncTitanDiscoveryViews(
         * view.tileSize;
       view.sprite
         .setX(view.settledX)
-        .setAlpha(config.backdrop.discoveredAlpha);
+        .setAlpha(config.underground.discoveredAlpha);
       view.glowSprite.setX(view.settledX).setAlpha(0);
+      view.chamberSprite
+        ?.setX(view.baseX)
+        .setAlpha(config.chambers.discoveredCardAlpha);
+      view.chamberGlowSprite?.setX(view.baseX).setAlpha(0);
+      view.daisSprite.setAlpha(config.underground.daisAlpha);
+      view.daisGlowSprite.setAlpha(config.underground.daisGlowAlpha);
       continue;
     }
     view.settledX = view.baseX;
     view.sprite
       .setX(view.baseX)
       .setAlpha(
-        config.backdrop.hiddenAlpha
-        + config.backdrop.progressAlpha * view.progress
+        config.underground.coveredAlpha
+        + config.underground.coverageProgressAlpha * view.coverageProgress
       );
     view.glowSprite.setX(view.baseX).setAlpha(0);
+    view.chamberSprite
+      ?.setX(view.baseX)
+      .setAlpha(
+        config.chambers.lockedCardAlpha
+        + config.chambers.lockedCardProgressAlpha * view.coverageProgress
+      );
+    view.chamberGlowSprite?.setX(view.baseX).setAlpha(0);
+    view.daisSprite.setAlpha(config.underground.daisAlpha);
+    view.daisGlowSprite.setAlpha(config.underground.daisGlowAlpha);
   }
 }

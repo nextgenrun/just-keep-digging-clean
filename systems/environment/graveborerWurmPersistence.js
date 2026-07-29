@@ -13,9 +13,25 @@ export function resolveGraveborerWurmRestoredState(data, config) {
     lastNoiseTile: copyGraveborerTile(saved.lastNoiseTile),
   };
 
-  // Never resume an unseen lethal pass mid-frame after loading. Re-telegraph
-  // the same committed path unless its encounter hit was already consumed.
+  const activePass = restored.phase === GRAVEBORER_WURM_PHASES.warning
+    || restored.phase === GRAVEBORER_WURM_PHASES.burrowing;
+
+  // A pass that already hit advances instead of becoming a reloadable second
+  // hit. Remaining hunt passes are still owed and receive a fresh telegraph.
   if (
+    activePass
+    && restored.targetTile
+    && restored.hitConsumed
+    && restored.passIndex < restored.passCount
+  ) {
+    restored.phase = GRAVEBORER_WURM_PHASES.warning;
+    restored.passIndex += 1;
+    restored.direction *= -1;
+    restored.warningRemainingMs = config.timing.restoredWarningMinMs;
+    restored.progress = 0;
+    restored.hitCount = 0;
+    restored.hitConsumed = false;
+  } else if (
     restored.phase === GRAVEBORER_WURM_PHASES.burrowing
     && restored.targetTile
     && !restored.hitConsumed
@@ -24,8 +40,16 @@ export function resolveGraveborerWurmRestoredState(data, config) {
     restored.warningRemainingMs = config.timing.restoredWarningMinMs;
     restored.progress = 0;
   } else if (
-    (restored.phase === GRAVEBORER_WURM_PHASES.warning
-      || restored.phase === GRAVEBORER_WURM_PHASES.burrowing)
+    restored.phase === GRAVEBORER_WURM_PHASES.warning
+    && restored.targetTile
+    && !restored.hitConsumed
+  ) {
+    restored.warningRemainingMs = Math.max(
+      restored.warningRemainingMs,
+      config.timing.restoredWarningMinMs,
+    );
+  } else if (
+    activePass
     && (!restored.targetTile || restored.hitConsumed)
   ) {
     restored.phase = GRAVEBORER_WURM_PHASES.cooldown;
@@ -35,6 +59,11 @@ export function resolveGraveborerWurmRestoredState(data, config) {
     restored.noise = 0;
     restored.targetTile = null;
     restored.lastNoiseTile = null;
+    restored.encounterDepthTiles = 0;
+    restored.passIndex = 0;
+    restored.passCount = 0;
+    restored.huntHitCount = 0;
+    restored.hitCount = 0;
     restored.hitConsumed = false;
   }
   return restored;
@@ -48,9 +77,14 @@ export function createGraveborerWurmSaveData(state) {
     warningRemainingMs: state.warningRemainingMs,
     progress: state.progress,
     encounterCount: state.encounterCount,
+    encounterDepthTiles: state.encounterDepthTiles,
+    passIndex: state.passIndex,
+    passCount: state.passCount,
+    huntHitCount: state.huntHitCount,
     targetTile: state.targetTile,
     lastNoiseTile: state.lastNoiseTile,
     direction: state.direction,
+    hitCount: state.hitCount,
     hitConsumed: state.hitConsumed,
   });
 }
