@@ -2,18 +2,35 @@ export const LEVEL_TWO_MERCHANT_ID = "magmaMoneyMonster";
 export const ARC_CORE_UPGRADE_ID = "arcCoreVehicle";
 export const OMEGA_ARC_CORE_UPGRADE_ID = "omegaArcCoreVehicle";
 
-export const ARC_CORE_PURCHASE_COST = Object.freeze({
+export const ARC_CORE_CRAFT_COST = Object.freeze({
   silver: 120,
   gold: 60,
+  cloudstone: 40,
+  stormglass: 12,
+  halostone: 30,
+  lumenite: 10,
+  cinderstone: 24,
+  hellglass: 8,
 });
 
-export const OMEGA_ARC_CORE_PURCHASE_COST = Object.freeze({
+export const OMEGA_ARC_CORE_CRAFT_COST = Object.freeze({
   silver: 240,
   gold: 240,
   obsidian: 40,
   emberOre: 15,
   magmaCrystal: 3,
+  cloudstone: 100,
+  stormglass: 35,
+  halostone: 80,
+  lumenite: 30,
+  cinderstone: 75,
+  hellglass: 24,
 });
+
+// Compatibility exports for older save/test consumers. Runtime acquisition is
+// craft-only; these aliases are not merchant purchase routes.
+export const ARC_CORE_PURCHASE_COST = ARC_CORE_CRAFT_COST;
+export const OMEGA_ARC_CORE_PURCHASE_COST = OMEGA_ARC_CORE_CRAFT_COST;
 
 export const ARC_CORE_CONFIG = Object.freeze({
   merchant: Object.freeze({

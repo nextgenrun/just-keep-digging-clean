@@ -16,6 +16,7 @@ import {
   resolveWorldVisualSemanticSpecialFrame,
 } from "../../../values/worldVisualSemanticAssets.js";
 import { WorldVisualDamagePainter } from "./WorldVisualDamagePainter.js";
+import { getHeavenblocksRegionAt } from "../../../values/heavenblocksWorldConfig.js";
 
 function hashUnit(tx, ty, salt = 0) {
   let value = Math.imul(tx + 31, 73856093) ^ Math.imul(ty + 47, 19349663) ^ Math.imul(salt + 7, 83492791);
@@ -92,6 +93,7 @@ export class WorldVisualFeedbackLayer {
     // because a dense ore field exhausted the decorative resource budget.
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
+        if (getHeavenblocksRegionAt(tx, ty)) continue;
         const type = this.worldModel.getTileType(tx, ty);
         const markerKey = WORLD_VISUAL_SPECIAL_MARKER_KEY_BY_TYPE[type];
         const marker = markerKey ? this.feedbackConfig.specialMarkers[markerKey] : null;
@@ -104,6 +106,7 @@ export class WorldVisualFeedbackLayer {
 
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
+        if (getHeavenblocksRegionAt(tx, ty)) continue;
         const tileType = this.worldModel.getTileType(tx, ty);
         if (tileType === TILE_TYPES.AIR) continue;
         const resourceType = tileType === TILE_TYPES.SKY_TILE

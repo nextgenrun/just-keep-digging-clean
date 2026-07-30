@@ -559,6 +559,7 @@ export class WorldRenderer {
   applyTileUpdate(tx, ty) {
     this.scene.levelOneGroundFacadeSystem?.invalidateCell(tx, ty);
     this.scene.worldScenicFacadeSystem?.invalidateCell(tx, ty);
+    this.scene.heavenblocksTerrainRenderer?.invalidateCell?.(tx, ty);
     this.titanDiscoverySystem?.invalidateTile(tx, ty);
     this.applyTileUpdateToWindow(
       this.layer,

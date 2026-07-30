@@ -493,6 +493,7 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
   const playerTile = this.playerController?.getPlayerTile?.() ?? null;
   this._framePlayerTile = playerTile;
   this.worldRenderer?.updateRenderWindow?.(playerTile);
+  this.heavenblocksTerrainRenderer?.update?.();
   this.townSquareTutorialSystem?.update?.(delta);
 
   // Update XP progress bar

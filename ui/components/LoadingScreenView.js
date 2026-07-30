@@ -3,7 +3,7 @@ import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 
-const MENU_BACKGROUND_BASE_PATH = "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/";
+const MENU_BACKGROUND_BASE_PATH = "sprites/backgrounds/background-database/";
 
 export const MENU_BACKGROUND_ASSETS = Object.freeze([
   {
@@ -418,4 +418,3 @@ export function createMenuLoadingScreen(scene, options = {}) {
     },
   };
 }
-

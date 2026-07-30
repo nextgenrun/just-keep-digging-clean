@@ -172,7 +172,11 @@ effects.applyTimedEffect({ effect: "damageBoost", value: 0.25, duration: 3000, s
 effects.applyTimedEffect({ effect: "damageBoost", value: 0.25, duration: 3000, stacks: true });
 assert.equal(effects.getDamageMultiplier(), 1.5);
 assert.equal(effects.getRemainingTime("damageBoost"), 3);
-assert.equal(toasts.length, 2);
+assert.equal(
+  toasts.length,
+  0,
+  "the state manager must not duplicate the caller-owned special-block notifications"
+);
 const savedEffects = effects.getSaveData();
 const restoredEffects = new SpecialBlockEffectsManager(effectScene);
 restoredEffects.loadSaveData(savedEffects);

@@ -1,9 +1,35 @@
+import { ASSET_KEYS } from "./assetKeys.js";
+
 const soilSlot = (group, band, variant, label) => Object.freeze({
   group,
   band,
   variant,
   label,
 });
+
+const nativePreview = (textureKey, label, crackIndex = null) => Object.freeze({
+  textureKey,
+  label,
+  crackIndex: Number.isInteger(crackIndex) ? crackIndex : null,
+});
+
+const nativeGroundPreviews = biome => Object.freeze([
+  nativePreview(biome.interior, "INTERIOR"),
+  nativePreview(biome.alternate, "INTERIOR ALT"),
+  nativePreview(biome.surface, "SURFACE"),
+  nativePreview(biome.edgeLeft, "LEFT EDGE"),
+  nativePreview(biome.edgeRight, "RIGHT EDGE"),
+  nativePreview(biome.underside, "UNDERSIDE"),
+]);
+
+const nativeOrePreviews = biome => Object.freeze([
+  nativePreview(biome.ore, "ORE • INTACT"),
+  nativePreview(biome.crystal, "CRYSTAL • INTACT"),
+  nativePreview(biome.ore, "ORE • DAMAGED", 2),
+  nativePreview(biome.crystal, "CRYSTAL • DAMAGED", 2),
+  nativePreview(biome.ore, "ORE • NEAR BREAK", 4),
+  nativePreview(biome.crystal, "CRYSTAL • NEAR BREAK", 4),
+]);
 
 export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
   resourceKeys: Object.freeze([
@@ -21,6 +47,12 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     "obsidian",
     "emberOre",
     "magmaCrystal",
+    "cloudstone",
+    "stormglass",
+    "halostone",
+    "lumenite",
+    "cinderstone",
+    "hellglass",
   ]),
   formationKeys: Object.freeze([
     "stone",
@@ -34,6 +66,14 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     "emberOre",
     "magmaCrystal",
   ]),
+  heavenblocksPreviews: Object.freeze({
+    cloudstone: nativeGroundPreviews(ASSET_KEYS.heavenblocks.cloudReef),
+    stormglass: nativeOrePreviews(ASSET_KEYS.heavenblocks.cloudReef),
+    halostone: nativeGroundPreviews(ASSET_KEYS.heavenblocks.haloBastion),
+    lumenite: nativeOrePreviews(ASSET_KEYS.heavenblocks.haloBastion),
+    cinderstone: nativeGroundPreviews(ASSET_KEYS.heavenblocks.eclipseScar),
+    hellglass: nativeOrePreviews(ASSET_KEYS.heavenblocks.eclipseScar),
+  }),
   groundTypeIndices: Object.freeze({
     dirt: 0,
     darkDirtNormal: 1,
@@ -54,6 +94,12 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     obsidian: "Black glass shards with violet edges.",
     emberOre: "Charcoal ore packed with ember cores.",
     magmaCrystal: "Red-orange crystal spires in hot stone.",
+    cloudstone: "Buoyant Cloud Reef stone mined from the Level 1 sky.",
+    stormglass: "Storm-charged glass veins inside the Level 1 Cloud Reef.",
+    halostone: "Radiant bastion masonry mined from Halo Bastion in Level 1.",
+    lumenite: "Concentrated angelic light crystals found inside Halo Bastion.",
+    cinderstone: "Dense infernal island stone mined from Eclipse Scar in Level 2.",
+    hellglass: "Volcanic black-red crystal veins formed inside Eclipse Scar.",
   }),
   grounds: Object.freeze([
     soilSlot("bases", 0, 0, "0–200M GROUND"),
@@ -105,9 +151,11 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     formationArtLabel: "EXACT IN-GAME ART • 6 WORLD VARIANTS",
     groundArtLabel: "EXACT IN-GAME GROUND • 6 WORLD VARIANTS",
     damageArtLabel: "EXACT IN-GAME GROUND • 5 DIG STAGES",
+    heavenblocksArtLabel: "EXACT NATIVE ISLAND ART • WORLD + DIG STATES",
     formationHint: "Production ground and approved resource layers, combined exactly as they appear in the mine.",
     groundHint: "These are the production ground textures used for this mineable material.",
     damageHint: "The same production tile shown from intact to near-break condition.",
+    heavenblocksHint: "The authored tile roles and damage states used by the real diggable Heavenblocks cells.",
   }),
   layout: Object.freeze({
     tabTopInset: 17,
@@ -117,7 +165,7 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     tabButtonHeight: 30,
     desktopThreshold: 760,
     desktopSelectorWidth: 332,
-    desktopSelectorColumns: 2,
+    desktopSelectorColumns: 3,
     compactSelectorColumns: 5,
     panelGap: 14,
     panelPadding: 12,
@@ -128,6 +176,6 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     previewGap: 10,
     previewLabelHeight: 18,
     maxPreviewTileSize: 132,
-    maxSelectorThumbnailSize: 48,
+    maxSelectorThumbnailSize: 30,
   }),
 });

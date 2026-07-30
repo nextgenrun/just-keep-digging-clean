@@ -648,9 +648,16 @@ visual coverage, the 223 ms open-space clear time, ground-top landing, and
 occupied-rubble retry instead of silent loss.
 
 `2026-07-26-heavenblocks-visual-layout-contract.mjs` guards the three
-non-overlapping sky regions, complete background/facade loading and cleanup,
-visual rollback, gate/prompt drawing, relic projection, transit, component and
-vault animation lifecycles, and presentation health publication.
+non-overlapping native sky regions, 51 unique modular preload assets,
+cell-level damage/dug view removal, deep-relic render isolation, authored
+portal activation, Phaser display-scale preservation, cleanup, and the absence
+of the deleted baked facade runtime.
+
+`2026-07-29-heavenblocks-native-world-contract.mjs` executes the complete
+production path: 3,881 model cells, collision, HP, six resources, safety
+floors, locked damage/direct entry, three-relic activation, all regions and
+parts, both Arc Forge recipes, three vaults, Zenith Keystone, schema-v13 save
+sanitization, 51 hashed assets, and every PlayScene lifecycle hook.
 
 `2026-07-26-pause-settings-layout-contract.mjs` guards REDUCED floating text as
 the uncluttered default, explicit FULL/OFF preservation, persistent
@@ -800,7 +807,8 @@ thirty-frame phase sampling, supplied-light reuse, and stable-window sync
 skipping. The sky/terrain/structure contracts remain the image-quality
 authority for the optimized paths.
 
-`2026-07-26-heavenblocks-visual-layout-contract.mjs` also starts the
-Heavenblocks system while a fake Phaser loader is active and proves that no
-large plate joins that in-flight cycle; all six plates queue and render after
-the loader-idle handoff.
+`2026-07-29-guarded-git-rollback-contract.py` creates isolated repositories to
+prove that a green guarded commit persists and that a deliberately failed
+post-commit gate creates an exact clean `git revert`. The production
+Heavenblocks health gate runs the native contract, every game contract, the
+production builder, and an isolated HTTP canary before and after committing.

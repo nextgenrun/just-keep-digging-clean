@@ -1059,6 +1059,7 @@ export class ShopOverlay {
     this.scene.uiResourceBar?.setResources?.(this.scene.digSystem?.getResourceTotals?.() || {});
     this.scene.journeySystem?.recordCraft?.(result);
     this.scene.queueDugTilesSave?.();
+    this.scene.heavenblocksArtifactSystem?.playCraftSuccess?.(result);
     this._notify(
       result.recipe?.ui?.successCopy || `Forged ${result.recipe?.name || "Arc Core"}.`,
       UI_COLORS.success,

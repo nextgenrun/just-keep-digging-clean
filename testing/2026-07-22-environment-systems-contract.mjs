@@ -22,7 +22,6 @@ const { default: BiomeSystem } = await import("../systems/environment/BiomeSyste
 const { CampfireSystem } = await import("../systems/environment/CampfireSystem.js");
 const { GroundEffectsAtmosphere } = await import("../systems/environment/GroundEffectsAtmosphere.js");
 const { LightRayAtmosphere } = await import("../systems/environment/LightRayAtmosphere.js");
-const { V11SkyIslandVisualSystem } = await import("../systems/environment/V11SkyIslandVisualSystem.js");
 const { StartZoneGroundFacadeSystem } = await import("../world/rendering/StartZoneGroundFacadeSystem.js");
 const { StartZoneScenicBackgroundSystem } = await import("../world/rendering/StartZoneScenicBackgroundSystem.js");
 const { TILE_TYPES } = await import("../values/tileTypes.js");
@@ -86,7 +85,13 @@ function makeEnvironmentScene() {
       graphics: () => create(0, 0, "graphics"),
       container: () => create(0, 0, "container"),
     },
-    tweens: { add(config) { tweens.push(config); return config; } },
+    tweens: {
+      add(config) {
+        config.remove = () => { config.removed = true; };
+        tweens.push(config);
+        return config;
+      },
+    },
     textures: {
       exists: () => true,
       createCanvas: () => makeCanvasTexture(),
@@ -191,21 +196,6 @@ assert.equal(campfire.getCampfireLevel(), 2);
 assert.equal(storage.get("jkd-campfire-level-slot-3"), "2");
 assert.equal(spent.length, 1);
 
-// Sky-island visual unlocks are idempotent and remove only their owned portal sprite.
-const islandLayout = {
-  enabled: true, platformDepth: 1, portalDepth: 2,
-  levels: [{ levelId: "one", platformKey: "platform", portalKey: "portal", leftTile: 1, bottomTile: 2, widthTiles: 3, heightTiles: 1,
-    portalSlots: [{ leftTile: 2, bottomTile: 2, widthTiles: 1, heightTiles: 1 }],
-    groundPortal: { id: "ground", leftTile: 4, bottomTile: 5, widthTiles: 1, heightTiles: 1 } }],
-};
-const islands = new V11SkyIslandVisualSystem(scene, islandLayout);
-islands.create();
-assert.ok(islands.sprites.length >= 2);
-const portal = islands.setGroundPortalUnlocked("one", true);
-assert.equal(islands.setGroundPortalUnlocked("one", true), portal);
-islands.setGroundPortalUnlocked("one", false);
-assert.equal(portal.destroyed, true);
-
 // Start-zone scenic plate and tile facade stay world-anchored and mirror live WorldModel state.
 const scenicConfig = {
   enabled: true, queryParam: "townScenic", queryEnableValues: ["1"], queryDisableValues: ["0"],
@@ -237,4 +227,4 @@ facade.update(20, true);
 assert.equal(facade.tiles[0].base.visible, false);
 facade.destroy();
 
-console.log("environment systems contract: particles, atmosphere, campfire, islands, and start zone passed");
+console.log("environment systems contract: particles, atmosphere, campfire, native Heavenblocks, and start zone passed");

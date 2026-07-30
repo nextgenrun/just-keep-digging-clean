@@ -54,11 +54,21 @@ export const TILE_TYPES = Object.freeze({
 
   // Ancient Relic Cache — rare deep-world treasure chest (mineable)
   ANCIENT_RELIC_CACHE: 35,
+
+  // Heavenblocks — native, mineable sky-realm materials.
+  CLOUDSTONE: 36,
+  STORMGLASS: 37,
+  HALOSTONE: 38,
+  LUMENITE: 39,
+  CINDERSTONE: 40,
+  HELLGLASS: 41,
+  HEAVEN_BARRIER: 42,
 });
 
 export function isUnbreakableMiningSurface(tileType) {
   return tileType === TILE_TYPES.BEDROCK
     || tileType === TILE_TYPES.CAVE_WALL
     || tileType === TILE_TYPES.FLOOR_TOWN_1
-    || tileType === TILE_TYPES.FLOOR_TOWN_2;
+    || tileType === TILE_TYPES.FLOOR_TOWN_2
+    || tileType === TILE_TYPES.HEAVEN_BARRIER;
 }

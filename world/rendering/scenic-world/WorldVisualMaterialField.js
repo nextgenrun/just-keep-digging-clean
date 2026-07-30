@@ -1,4 +1,5 @@
 import { TILE_TYPES } from "../../../values/tileTypes.js";
+import { getHeavenblocksRegionAt } from "../../../values/heavenblocksWorldConfig.js";
 import {
   WORLD_VISUAL_MATERIALS,
   resolveWorldVisualMaterialBands,
@@ -148,6 +149,7 @@ export class WorldVisualMaterialField {
     this.edgeGraphics.clear().lineStyle(Math.max(2, tileSize * 0.025), 0x111820, 0.72);
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
+        if (getHeavenblocksRegionAt(tx, ty)) continue;
         if (isAir(this.worldModel, tx, ty)) continue;
         const x = tx * tileSize;
         const y = ty * tileSize;

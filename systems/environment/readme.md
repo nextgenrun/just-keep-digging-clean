@@ -14,10 +14,14 @@ Notable systems:
 - `AmbientParticleSystem.js` — underground dust motes + falling debris (values/ambientParticleConfig.js)
 - `CampfireSystem.js` — campfire buffs
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
-- `V11SkyIslandVisualSystem.js` waits for the shared Phaser loader to become
-  idle before starting the six large Heavenblocks backdrops/facades. This keeps
-  scenic demand streaming and Heavenblocks from joining the same in-flight
-  loader cycle and losing the late-queued visual files.
+- Heavenblocks deliberately has no region-wide environment plate; its terrain is rendered cell-by-cell by `HeavenblocksTerrainRenderer`
+  behind the authoritative native tile regions. It validates every texture at
+  creation, culls the plates underground, and never contains terrain,
+  collision, relics, or a complete island painting.
+- `HeavenblocksRegionAccessGuard.js` is the shared locked-region authority for
+  mining, direct flight entry, physical barriers, and safe arrival/shrine
+  floor spans. `HeavenblocksAccessSystem.js` composes its health with native
+  geometry, terrain, atmosphere, artifacts, portals, progression, and prompts.
 - `EarthquakeSystem.js` — world-space seismic events with independent
   epicenters, independently validated one-column FallZones, ground-aligned
   authored boulders, leading-edge swept player collision, retry-safe local

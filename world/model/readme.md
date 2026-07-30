@@ -38,6 +38,16 @@ Legacy dug-key restoration now rejects both town-floor types alongside
 bedrock/cave/geode walls, so an old save cannot reopen the unbreakable surface
 foundation.
 
+`WorldModel.generate()` also delegates the complete sky-band world to
+`world/generation/HeavenblocksWorldGenerator.js`. The builder creates real
+material/ore HP cells, caves, corridors, safe landing and shrine floors, relic
+vaults, and locked barriers; it does not place image facades. Native dug cells
+reuse the existing dug-source persistence contract, while the small
+arrival/return and shrine safety spans are rejected by both runtime damage and
+dug/rubble restoration. `getHeavenblocksLayoutHealth()` counts live plus
+persisted-dug native cells, rejects bedrock contamination, and publishes
+`nativeWorldReady`.
+
 `CaveIdentityPlanner.js` assigns deterministic depth-gated cave identities and
 ceiling/floor feature plans without consuming `WorldModel`'s shared RNG. It
 finalizes only structurally live caves after authored and Level Two generation,

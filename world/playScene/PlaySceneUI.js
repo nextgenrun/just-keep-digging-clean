@@ -862,7 +862,6 @@ export function setupUIMethods(prototype) {
     loadGraveborerWurmSaveData(this, savedData.graveborerWurmData);
 
     const appliedTiles = this.worldModel.applyDugTileKeys(savedData.dugTiles ?? []);
-    this.worldModel.applyHeavenblocksLayout?.();
     for (const tile of appliedTiles) {
       this.worldRenderer.applyTileUpdate(tile.tx, tile.ty);
     }
@@ -885,6 +884,8 @@ export function setupUIMethods(prototype) {
     this.heavenblocksProgressionSystem?.loadSaveData?.(savedData.heavenblocksData, {
       relicCount: this.ancientRelicSystem?.getCount?.() || 0,
     });
+    this.heavenblocksRegionAccessGuard?.syncProgressionState?.();
+    this.heavenblocksArtifactSystem?.refreshProgressionVisuals?.();
     this.starHeartProgressionSystem?.loadSaveData(
       savedData.starHeartData,
       this.floatingTextSystem?.getUnlockedConstellations?.().length || 0,

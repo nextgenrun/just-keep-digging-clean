@@ -8,7 +8,11 @@ import {
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "../values/arcCoreConfig.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
-import { MONEY_MONSTER_RESOURCE_KEYS, SECOND_WORLD_RESOURCE_KEYS } from "../values/resourceTypes.js";
+import {
+  HEAVENBLOCKS_RESOURCE_KEYS,
+  MONEY_MONSTER_RESOURCE_KEYS,
+  SECOND_WORLD_RESOURCE_KEYS,
+} from "../values/resourceTypes.js";
 import { RESOURCE_PRICES_CONFIG } from "../values/resourcePrices.js";
 import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
@@ -43,12 +47,21 @@ assert.equal(ARC_CORE_CONFIG.omega.dig.depthTiles, 8);
 assert.equal(ARC_CORE_CONFIG.omega.dig.widthTiles, 8);
 assert.equal(ARC_CORE_CONFIG.omega.displaySizeTiles, ARC_CORE_CONFIG.displaySizeTiles * 4);
 assert.equal(UPGRADES[ARC_CORE_UPGRADE_ID].merchant, LEVEL_TWO_MERCHANT_ID);
-assert.deepEqual(Object.keys(UPGRADES[ARC_CORE_UPGRADE_ID].resources).sort(), ["gold", "silver"]);
+assert.deepEqual(
+  Object.keys(UPGRADES[ARC_CORE_UPGRADE_ID].resources).sort(),
+  [
+    "cinderstone", "cloudstone", "gold", "halostone",
+    "hellglass", "lumenite", "silver", "stormglass",
+  ],
+);
 assert.equal(UPGRADES[ARC_CORE_UPGRADE_ID].requires, "worldTwoTunnelAccess");
 assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].merchant, LEVEL_TWO_MERCHANT_ID);
 assert.deepEqual(
   Object.keys(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].resources).sort(),
-  ["emberOre", "gold", "magmaCrystal", "obsidian", "silver"],
+  [
+    "cinderstone", "cloudstone", "emberOre", "gold", "halostone",
+    "hellglass", "lumenite", "magmaCrystal", "obsidian", "silver", "stormglass",
+  ],
 );
 assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].requires, ARC_CORE_UPGRADE_ID);
 assert.deepEqual(UPGRADES[ARC_CORE_UPGRADE_ID].resources, ARC_CORE_PURCHASE_COST);
@@ -62,11 +75,11 @@ const getMaterialValue = cost => Object.entries(cost).reduce(
 );
 const baseMaterialValue = getMaterialValue(ARC_CORE_PURCHASE_COST);
 const omegaMaterialValue = getMaterialValue(OMEGA_ARC_CORE_PURCHASE_COST);
-assert.equal(baseMaterialValue, 60000);
-assert.equal(omegaMaterialValue, 300000);
-assert.equal(omegaMaterialValue, baseMaterialValue * 5);
+assert.equal(baseMaterialValue, 417800);
+assert.equal(omegaMaterialValue, 1344000);
+assert.ok(omegaMaterialValue > baseMaterialValue * 3);
 
-for (const resource of SECOND_WORLD_RESOURCE_KEYS) {
+for (const resource of [...SECOND_WORLD_RESOURCE_KEYS, ...HEAVENBLOCKS_RESOURCE_KEYS]) {
   assert.equal(MONEY_MONSTER_RESOURCE_KEYS.includes(resource), false, `${resource} leaked into Level One seller`);
   assert.ok(RESOURCE_PRICES_CONFIG.basePrices[resource] >= 120, `${resource} should be high value`);
 }

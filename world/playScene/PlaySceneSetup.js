@@ -28,6 +28,7 @@ import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { WorldModel } from "../WorldModel.js";
 import { createWorldRenderer } from
   "../rendering/WorldRenderFactory.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { HeavenblocksTerrainRenderer } from "../rendering/HeavenblocksTerrainRenderer.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
   "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
 import { WorldBackgroundMasterSystem } from "../rendering/WorldBackgroundMasterSystem.js";
@@ -123,8 +124,11 @@ import { DepthGateSystem } from "../../systems/progression/DepthGateSystem.js";
 import { createJourneyRuntime } from "./JourneyBridge.js";
 import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnelDoorSystem.js";
 import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSystem.js";
-import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
 import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
+import { HeavenblocksRegionAccessGuard } from "../../systems/environment/HeavenblocksRegionAccessGuard.js";
+import { HeavenblocksArtifactFx } from "../../systems/visual/HeavenblocksArtifactFx.js";
+import { HeavenblocksArtifactSystem } from "../../systems/visual/HeavenblocksArtifactSystem.js";
+import { HeavenblocksPortalVisualSystem } from "../../systems/visual/HeavenblocksPortalVisualSystem.js";
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
@@ -534,12 +538,11 @@ async function _setupSceneSafe(data = {}) {
   this.caveInteriorOcclusionSystem = new CaveInteriorOcclusionSystem(this);
   this.caveInteriorOcclusionSystem.create(this.worldModel);
 
-  // Sky Island platforms and eclipse gates are gameplay landmarks, not part of
-  // either terrain renderer. Construct them for both the legacy rollback and
-  // scenic-v2 so SpecialTileSystem's saved teleport graph never becomes an
-  // invisible, still-functional interaction layer.
-  this.v11SkyIslandVisualSystem = new V11SkyIslandVisualSystem(this);
-  this.v11SkyIslandVisualSystem.create();
+  this.heavenblocksTerrainRenderer = new HeavenblocksTerrainRenderer(
+    this,
+    this.worldModel,
+  );
+  this.heavenblocksTerrainRenderer.create();
   this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
 
   this._safeReturnGfx = this.add.graphics();
@@ -903,6 +906,30 @@ async function _setupSceneSafe(data = {}) {
 
   this.specialTileSystem = new SpecialTileSystem(this, this.worldModel, this.playerController, this.floatingTextSystem);
   this.heavenblocksPresentationSystem = new HeavenblocksPresentationSystem(this, this.worldModel);
+  this.heavenblocksArtifactFx = new HeavenblocksArtifactFx(this);
+  this.heavenblocksPortalVisualSystem = new HeavenblocksPortalVisualSystem(
+    this,
+    this.heavenblocksProgressionSystem,
+  );
+  this.heavenblocksArtifactSystem = new HeavenblocksArtifactSystem(this, {
+    progressionSystem: this.heavenblocksProgressionSystem,
+    fxSystem: this.heavenblocksArtifactFx,
+    portalVisualSystem: this.heavenblocksPortalVisualSystem,
+  });
+  this.heavenblocksArtifactSystem.create();
+  this.heavenblocksRegionAccessGuard = new HeavenblocksRegionAccessGuard(this, {
+    worldModel: this.worldModel,
+    playerController: this.playerController,
+    progressionSystem: this.heavenblocksProgressionSystem,
+    ancientRelicSystem: this.ancientRelicSystem,
+    artifactSystem: this.heavenblocksArtifactSystem,
+  });
+  this.worldModel.setDamageGuard(
+    ({ tx, ty }) => this.heavenblocksRegionAccessGuard.canMutateTile(tx, ty),
+  );
+  this._removeHeavenblocksRelicListener = this.digSystem.addRelicDiscoveryListener?.(
+    (discovery) => this.heavenblocksArtifactSystem?.playRelicDiscovery?.(discovery),
+  );
   this.heavenblocksAccessSystem = new HeavenblocksAccessSystem(this, {
     worldModel: this.worldModel,
     playerController: this.playerController,
@@ -910,6 +937,8 @@ async function _setupSceneSafe(data = {}) {
     ancientRelicSystem: this.ancientRelicSystem,
     upgradeSystem: this.upgradeSystem,
     presentationSystem: this.heavenblocksPresentationSystem,
+    artifactSystem: this.heavenblocksArtifactSystem,
+    regionAccessGuard: this.heavenblocksRegionAccessGuard,
     onChanged: () => this.queueDugTilesSave?.(),
   });
   this.heavenblocksAccessSystem.create();
@@ -1008,7 +1037,10 @@ async function _setupSceneSafe(data = {}) {
     this.worldScenicFacadeSystem?.destroy();
     this.worldBackgroundAmbientMotionSystem?.destroy();
     this.levelOneLivingBackdropSystem?.destroy();
-    this.v11SkyIslandVisualSystem?.destroy();
+    this._removeHeavenblocksRelicListener?.();
+    this._removeHeavenblocksRelicListener = null;
+    this.worldModel?.setDamageGuard?.(null);
+    this.heavenblocksTerrainRenderer?.destroy();
     this.worldRenderer?.destroy();
     this.bgObjectPlacer?.destroy();
     this.caveTemplateVisualSystem?.destroy();
@@ -1021,6 +1053,9 @@ async function _setupSceneSafe(data = {}) {
     this.campfireSystem?.destroy();
     this.specialTileSystem?.destroy();
     this.heavenblocksAccessSystem?.destroy();
+    this.heavenblocksRegionAccessGuard?.destroy();
+    this.heavenblocksArtifactSystem?.destroy();
+    this.heavenblocksArtifactFx?.destroy();
     this.heavenblocksPresentationSystem?.destroy();
     this.nextPromiseHudSystem?.destroy();
     this.miningIntentPreviewSystem?.destroy();

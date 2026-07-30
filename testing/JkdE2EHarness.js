@@ -6,7 +6,7 @@ import { SECOND_WORLD_CONFIG } from "../values/secondWorldConfig.js";
 import { TITAN_DISCOVERY_CONFIG } from "../values/titanDiscoveries.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../values/v11SkyIslandLayout.js";
 import { HEAVENBLOCKS_ACCESS_CONFIG } from "../values/heavenblocksAccessConfig.js";
-import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
+import { HEAVENBLOCKS_WORLD_CONFIG } from "../values/heavenblocksWorldConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 import { createTitanE2EPreviewController } from "./JkdE2ETitanPreview.js";
 
@@ -815,16 +815,19 @@ export function installJkdE2EHarness(scene) {
       event.preventDefault?.();
       heavenblockPreviewIndex = (
         heavenblockPreviewIndex + 1
-      ) % HEAVENBLOCKS_VISUAL_CONFIG.regions.length;
-      const region = HEAVENBLOCKS_VISUAL_CONFIG.regions[heavenblockPreviewIndex];
-      const tileSize = scene.config?.tileSize || HEAVENBLOCKS_VISUAL_CONFIG.tileSize;
-      const camera = scene.cameras?.main;
-      camera?.stopFollow?.();
-      camera?.centerOn?.(
-        region.leftTile * tileSize + region.displayWidthPx / 2,
-        region.topTile * tileSize + region.displayHeightPx / 2
-      );
-      console.info(`[JkdE2EHarness] Heavenblock preview: ${region.label}`);
+      ) % HEAVENBLOCKS_WORLD_CONFIG.regions.length;
+      const region = HEAVENBLOCKS_WORLD_CONFIG.regions[heavenblockPreviewIndex];
+      closeTransientUi(scene);
+      forcePlayerState(scene, region.arrivalTile);
+      const layout = scene.worldModel?.getHeavenblocksLayoutHealth?.();
+      const terrain = scene.heavenblocksTerrainRenderer?.getHealthSnapshot?.();
+      console.info("[JkdE2EHarness] Native Heavenblocks region", {
+        id: region.id,
+        displayName: region.displayName,
+        arrivalTile: region.arrivalTile,
+        layout,
+        terrain,
+      });
       return;
     }
     if (event.code === "KeyC") {

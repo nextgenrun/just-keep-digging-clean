@@ -18,6 +18,10 @@ import {
   HEAVENBLOCKS_PROGRESSION_CONFIG,
   createDefaultHeavenblocksProgressionData,
 } from "../values/heavenblocksProgressionConfig.js";
+import {
+  getHeavenblocksRegionById,
+  isHeavenblocksMaterialTileType,
+} from "../values/heavenblocksWorldConfig.js";
 import { RUNTIME_CANARY_CONFIG } from "../values/runtimeCanaryConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
@@ -131,18 +135,47 @@ assert.ok(
   recoveredCaches.every(({ tx, ty }) => !removedLegacyCacheKeys.has(`${tx},${ty}`)),
   "legacy recovery must use still-solid cells instead of regenerating dug coordinates",
 );
-assert.equal(world.getHeavenblocksLayoutHealth().platformsReady, true);
+assert.equal(world.getHeavenblocksLayoutHealth().nativeWorldReady, true);
 for (const region of HEAVENBLOCKS_ACCESS_CONFIG.regions) {
   assert.equal(world.getType(region.arrival.tx, region.arrival.ty), TILE_TYPES.AIR);
-  assert.equal(world.getType(region.arrival.tx, region.platform.floorTy), TILE_TYPES.BEDROCK);
+  assert.equal(
+    isHeavenblocksMaterialTileType(
+      world.getType(region.arrival.tx, region.arrival.ty + 1),
+    ),
+    true,
+  );
 }
 const protectedRegion = HEAVENBLOCKS_ACCESS_CONFIG.regions[0];
-world.setTile(protectedRegion.arrival.tx, protectedRegion.platform.floorTy, TILE_TYPES.AIR, 0);
-world.applyHeavenblocksLayout();
+const nativeRegion = getHeavenblocksRegionById(protectedRegion.id);
+let diggableNativeCell = null;
+for (let ty = nativeRegion.bounds.top; ty <= nativeRegion.bounds.bottom && !diggableNativeCell; ty += 1) {
+  for (let tx = nativeRegion.bounds.left; tx <= nativeRegion.bounds.right; tx += 1) {
+    if (!isHeavenblocksMaterialTileType(world.getType(tx, ty))) continue;
+    if (ty === nativeRegion.arrivalTile.ty + 1) continue;
+    if (ty === nativeRegion.shrine.floorTy) continue;
+    diggableNativeCell = { tx, ty, type: world.getType(tx, ty) };
+    break;
+  }
+}
+assert.ok(diggableNativeCell);
+assert.deepEqual(
+  world.applyDugTileKeys([`${diggableNativeCell.tx},${diggableNativeCell.ty}`]),
+  [{ tx: diggableNativeCell.tx, ty: diggableNativeCell.ty }],
+);
 assert.equal(
-  world.getType(protectedRegion.arrival.tx, protectedRegion.platform.floorTy),
-  TILE_TYPES.BEDROCK,
-  "save restoration must not leave a Heavenblock platform dug out",
+  world.getType(diggableNativeCell.tx, diggableNativeCell.ty),
+  TILE_TYPES.AIR,
+  "native island mining must persist as a cell-level hole",
+);
+assert.equal(
+  world.getDugTileSource(diggableNativeCell.tx, diggableNativeCell.ty).type,
+  diggableNativeCell.type,
+);
+assert.equal(world.getHeavenblocksLayoutHealth().nativeWorldReady, true);
+assert.doesNotMatch(
+  readFileSync(fromRoot("world/playScene/PlaySceneUI.js"), "utf8"),
+  /applyHeavenblocksLayout/,
+  "save loading must not regenerate native islands over persisted dug cells",
 );
 
 let relicCount = 3;
@@ -168,6 +201,21 @@ const accessScene = {
   hudSystem: { flashStatus() {} },
   earthquakeFeedbackUI: { clearEscapeObjective() {} },
   earthquakeHazardOverlay: { clear() {} },
+  heavenblocksTerrainRenderer: { getHealthSnapshot: () => ({ ready: true }) },
+};
+const artifactSystem = {
+  playLockedPortalFeedback() {},
+  playRegionUnlock() {},
+  playRegionArrival() {},
+  playComponentClaim() {},
+  playVault() {},
+  getHealthSnapshot: () => ({ ready: true }),
+};
+const regionAccessGuard = {
+  syncProgressionState() {},
+  update() {},
+  getRegionAccessState: (regionId) => ({ allowed: true, regionId }),
+  getHealthSnapshot: () => ({ damageGuardReady: true, barriersReady: true }),
 };
 const access = new HeavenblocksAccessSystem(accessScene, {
   worldModel: world,
@@ -179,6 +227,8 @@ const access = new HeavenblocksAccessSystem(accessScene, {
   ancientRelicSystem: { getCount: () => relicCount },
   upgradeSystem: new UpgradeSystem(),
   presentationSystem: presentation,
+  artifactSystem,
+  regionAccessGuard,
   onChanged: (event) => changedEvents.push(event),
 });
 access.create();
@@ -203,9 +253,15 @@ assert.deepEqual(
   {
     promptReady: access.getHealthSnapshot().promptReady,
     layoutReady: access.getHealthSnapshot().layoutReady,
+    nativeWorldReady: access.getHealthSnapshot().nativeWorldReady,
     progressionReady: access.getHealthSnapshot().progressionReady,
   },
-  { promptReady: true, layoutReady: true, progressionReady: true },
+  {
+    promptReady: true,
+    layoutReady: true,
+    nativeWorldReady: true,
+    progressionReady: true,
+  },
 );
 
 const saveStore = new DugTilesSaveStore();
@@ -292,7 +348,13 @@ assert.equal(
   true,
 );
 
-const healthyHeavenblocks = { enabled: true, promptReady: true, layoutReady: true, progressionReady: true };
+const healthyHeavenblocks = {
+  enabled: true,
+  promptReady: true,
+  layoutReady: true,
+  nativeWorldReady: true,
+  progressionReady: true,
+};
 const playScene = {
   sys: { settings: { key: "PlayScene" } },
   worldModel: {},
@@ -334,7 +396,7 @@ assert.equal(
 );
 playScene.heavenblocksAccessSystem.getHealthSnapshot = () => ({
   ...healthyHeavenblocks,
-  layoutReady: false,
+  nativeWorldReady: false,
 });
 const unhealthy = evaluateRuntimeCanaries(game, sampleState, 6001, false);
 assert.equal(

@@ -42,6 +42,11 @@ function createHarness(worldModelOverride = null) {
       return tx >= 0 && tx < 280 && ty >= 0 && ty < 2000;
     },
     isSolid(tx, ty) {
+      const nativeArrivalFloor = V11_SKY_ISLAND_LAYOUT.levels.some((level) => (
+        ty === level.groundPortal.skyArrivalTile.ty + 1
+        && Math.abs(tx - level.groundPortal.skyArrivalTile.tx) <= 3
+      ));
+      if (nativeArrivalFloor) return true;
       if (ty !== 18) return false;
       return (tx >= 80 && tx <= 95) || (tx >= 142 && tx <= 157);
     },
@@ -62,7 +67,7 @@ function createHarness(worldModelOverride = null) {
         return { stop() {} };
       },
     },
-    v11SkyIslandVisualSystem: {
+    heavenblocksArtifactSystem: {
       setGroundPortalUnlocked(levelId, unlocked) {
         groundPortalStates.set(levelId, unlocked);
       },

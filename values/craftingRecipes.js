@@ -1,7 +1,7 @@
 import {
-  ARC_CORE_PURCHASE_COST,
+  ARC_CORE_CRAFT_COST,
   ARC_CORE_UPGRADE_ID,
-  OMEGA_ARC_CORE_PURCHASE_COST,
+  OMEGA_ARC_CORE_CRAFT_COST,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "./arcCoreConfig.js";
 import { ASSET_KEYS } from "./assetKeys.js";
@@ -41,7 +41,7 @@ export const CRAFTING_RECIPES = Object.freeze({
   [CRAFTING_RECIPE_IDS.ARC_CORE]: freezeRecipe({
     id: CRAFTING_RECIPE_IDS.ARC_CORE,
     name: "Arc Core",
-    ingredients: ARC_CORE_PURCHASE_COST,
+    ingredients: ARC_CORE_CRAFT_COST,
     requirements: {
       minimumAncientRelics: CRAFTING_REQUIREMENTS.arcCoreRelics,
       requiredUpgradeIds: ["worldTwoTunnelAccess"],
@@ -65,13 +65,14 @@ export const CRAFTING_RECIPES = Object.freeze({
         "World Two Tunnel Key",
         "All three Heavenblocks completed",
         "Aether Turbine, Halo Regulator, Eclipse Crucible installed",
+        "Cloudstone, Stormglass, Halostone, Lumenite, Cinderstone, Hellglass",
       ],
     },
   }),
   [CRAFTING_RECIPE_IDS.OMEGA_ARC_CORE]: freezeRecipe({
     id: CRAFTING_RECIPE_IDS.OMEGA_ARC_CORE,
     name: "Omega Arc Core",
-    ingredients: OMEGA_ARC_CORE_PURCHASE_COST,
+    ingredients: OMEGA_ARC_CORE_CRAFT_COST,
     requirements: {
       minimumAncientRelics: CRAFTING_REQUIREMENTS.omegaArcCoreRelics,
       requiredUpgradeIds: [ARC_CORE_UPGRADE_ID],
@@ -94,6 +95,7 @@ export const CRAFTING_RECIPES = Object.freeze({
         "Arc Core owned",
         "18 Ancient Relics found (permanent)",
         "Zenith Keystone forged from all three Arc Vaults",
+        "Advanced resources from every Heavenblock biome",
       ],
     },
   }),

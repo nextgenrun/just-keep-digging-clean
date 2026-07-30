@@ -13,6 +13,7 @@ import {
   resolveTownFloorOcclusionBounds,
 } from "./WorldVisualTownFloorOcclusion.js";
 import { setTintIfChanged } from "./worldVisualRenderState.js";
+import { getHeavenblocksRegionAt } from "../../../values/heavenblocksWorldConfig.js";
 
 function hashUnit(tx, ty, salt = 0) {
   let value = Math.imul(tx + 31, 73856093) ^ Math.imul(ty + 47, 19349663) ^ Math.imul(salt + 7, 83492791);
@@ -102,6 +103,7 @@ export class WorldVisualSemanticAssetLayer {
     let bedrockCells = 0;
     for (let ty = bounds.top; ty < bounds.bottom; ty += 1) {
       for (let tx = bounds.left; tx < bounds.right; tx += 1) {
+        if (getHeavenblocksRegionAt(tx, ty)) continue;
         const tileType = this.worldModel.getTileType(tx, ty);
         if (isUnbreakableMiningSurface(tileType)) {
           bedrockCells += 1;

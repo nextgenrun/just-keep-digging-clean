@@ -6,6 +6,7 @@ import {
 } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { MENU_BACKGROUND_ASSETS } from "../ui/components/LoadingScreenView.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const bootPath = path.join(ROOT, "ui/scenes/BootScene.js");
@@ -31,6 +32,18 @@ assert.doesNotMatch(
   "live boot must not create an animation from an unloaded archive atlas",
 );
 assert.ok(statSync(activeSheet).size > 0, "the active Shadow Miner sheet is missing");
+for (const asset of MENU_BACKGROUND_ASSETS) {
+  assert.match(
+    asset.path,
+    /^sprites\/backgrounds\/background-database\//,
+    `${asset.key} must use the live project-relative background database`,
+  );
+  const menuBackground = path.join(ROOT, asset.path);
+  assert.ok(
+    statSync(menuBackground).size > 0,
+    `${asset.key} points at a missing menu background`,
+  );
+}
 
 const liveRoots = ["player", "systems", "ui", "values", "world"];
 const pending = liveRoots.map(name => path.join(ROOT, name));
@@ -49,4 +62,4 @@ while (pending.length > 0) {
 }
 assert.deepEqual(consumers, [], "archive-only Shadow Miner idle atlas gained a live consumer");
 
-console.log("boot live-asset health contract: active NPC assets load without the archived idle atlas");
+console.log("boot live-asset health contract: NPC and all six menu backgrounds resolve locally");

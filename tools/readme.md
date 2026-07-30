@@ -86,3 +86,12 @@ Generate Blender motion-envelope references with:
 ```powershell
 blender --background --python tools/export_legacy_miner_blender_motion_reference.py -- --profile <motion-profile.json> --out-dir <review-output-directory>
 ```
+
+## Guarded Heavenblocks commit
+
+`2026-07-29-heavenblocks-commit-health-gate.py` runs the native world contract,
+the complete gameplay regression, production packaging, and an isolated HTTP
+canary. `2026-07-29-guarded-git-commit.py` requires an intentionally staged,
+otherwise clean worktree, runs that gate before and after committing, and
+automatically creates an exact revert commit if the post-commit gate fails.
+It never pushes.

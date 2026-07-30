@@ -1,18 +1,25 @@
-const SOURCE_TMX = "exports/dig-game-world-edit-v-11-08-07-2026-;1-img-test-saved-before-runtime-wire.tmx";
+const SOURCE_TMX =
+  "exports/dig-game-world-edit-v-11-08-07-2026-;1-img-test-saved-before-runtime-wire.tmx";
 
-function freezeSlots(levelId, leftTiles) {
-  return Object.freeze(leftTiles.map((leftTile, slotIndex) => Object.freeze({
+function freezeSlots(levelId, specs) {
+  return Object.freeze(specs.map((spec, slotIndex) => Object.freeze({
     id: `v11-level-${levelId}-portal-${slotIndex + 1}`,
     levelId,
     slotIndex,
-    leftTile,
-    bottomTile: 18,
+    regionId: spec.regionId,
+    leftTile: spec.leftTile,
+    bottomTile: spec.bottomTile,
     widthTiles: 2,
     heightTiles: 2,
   })));
 }
 
-function freezeGroundPortal(levelId, leftTile, skyArrivalTx) {
+function freezeGroundPortal(
+  levelId,
+  leftTile,
+  skyArrivalTile,
+  arrivalLabel,
+) {
   const interactionTy = 64;
   return Object.freeze({
     id: `v11-level-${levelId}-ground-portal`,
@@ -24,9 +31,9 @@ function freezeGroundPortal(levelId, leftTile, skyArrivalTx) {
       Object.freeze({ tx: leftTile, ty: interactionTy }),
       Object.freeze({ tx: leftTile + 1, ty: interactionTy }),
     ]),
-    skyArrivalTile: Object.freeze({ tx: skyArrivalTx, ty: 17 }),
-    promptLabel: `Teleport to Level ${levelId} Sky Island`,
-    arrivalLabel: `Level ${levelId} Sky Island`,
+    skyArrivalTile: Object.freeze({ ...skyArrivalTile }),
+    promptLabel: `Teleport to ${arrivalLabel}`,
+    arrivalLabel,
   });
 }
 
@@ -34,38 +41,84 @@ export const V11_SKY_ISLAND_LAYOUT = Object.freeze({
   enabled: true,
   source: SOURCE_TMX,
   tileSize: 94,
-  dividerTileX: 119,
+  dividerTileX: 132,
   groundRow: 65,
-  platformDepth: -0.5,
-  portalDepth: 2,
   levels: Object.freeze([
     Object.freeze({
       levelId: 1,
-      platformKey: "v11-sky-island-level-1-platform",
-      portalKey: "v11-sky-island-level-1-portal",
-      leftTile: 80,
-      bottomTile: 23.25531914893617,
-      widthTiles: 16,
-      heightTiles: 6,
-      floorRow: 18,
+      leftTile: 4,
+      bottomTile: 51,
+      widthTiles: 114,
+      heightTiles: 49,
+      floorRow: 14,
       pillarTileX: 88,
       pillarTileY: 17,
-      groundPortal: freezeGroundPortal(1, 0, 83),
-      portalSlots: freezeSlots(1, [81, 85, 89, 93]),
+      groundPortal: freezeGroundPortal(
+        1,
+        0,
+        { tx: 11, ty: 12 },
+        "Level 1 Cloud Reef",
+      ),
+      portalSlots: freezeSlots(1, [
+        {
+          leftTile: 11,
+          bottomTile: 14,
+          regionId: "lower-sky-cloud-reef",
+        },
+        {
+          leftTile: 45,
+          bottomTile: 16,
+          regionId: "lower-sky-cloud-reef",
+        },
+        {
+          leftTile: 68,
+          bottomTile: 18,
+          regionId: "angel-heavenblock",
+        },
+        {
+          leftTile: 108,
+          bottomTile: 20,
+          regionId: "angel-heavenblock",
+        },
+      ]),
     }),
     Object.freeze({
       levelId: 2,
-      platformKey: "v11-sky-island-level-2-platform",
-      portalKey: "v11-sky-island-level-2-portal",
-      leftTile: 142,
-      bottomTile: 23.25531914893617,
-      widthTiles: 16,
-      heightTiles: 6,
-      floorRow: 18,
-      pillarTileX: 150,
-      pillarTileY: 17,
-      groundPortal: freezeGroundPortal(2, 187, 145),
-      portalSlots: freezeSlots(2, [143, 147, 151, 155]),
+      leftTile: 136,
+      bottomTile: 57,
+      widthTiles: 84,
+      heightTiles: 56,
+      floorRow: 12,
+      pillarTileX: 177,
+      pillarTileY: 10,
+      groundPortal: freezeGroundPortal(
+        2,
+        187,
+        { tx: 142, ty: 9 },
+        "Level 2 Eclipse Scar",
+      ),
+      portalSlots: freezeSlots(2, [
+        {
+          leftTile: 142,
+          bottomTile: 12,
+          regionId: "devil-eclipse-scar",
+        },
+        {
+          leftTile: 162,
+          bottomTile: 13,
+          regionId: "devil-eclipse-scar",
+        },
+        {
+          leftTile: 187,
+          bottomTile: 13,
+          regionId: "devil-eclipse-scar",
+        },
+        {
+          leftTile: 211,
+          bottomTile: 15,
+          regionId: "devil-eclipse-scar",
+        },
+      ]),
     }),
   ]),
 });

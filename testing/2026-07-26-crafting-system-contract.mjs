@@ -7,8 +7,10 @@ import {
   isCraftOnlyUpgrade,
 } from "../values/craftingRecipes.js";
 import {
+  ARC_CORE_CRAFT_COST,
   ARC_CORE_PURCHASE_COST,
   ARC_CORE_UPGRADE_ID,
+  OMEGA_ARC_CORE_CRAFT_COST,
   OMEGA_ARC_CORE_PURCHASE_COST,
   OMEGA_ARC_CORE_UPGRADE_ID,
 } from "../values/arcCoreConfig.js";
@@ -70,13 +72,30 @@ const arcRecipe = CRAFTING_RECIPES[CRAFTING_RECIPE_IDS.ARC_CORE];
 const omegaRecipe = CRAFTING_RECIPES[CRAFTING_RECIPE_IDS.OMEGA_ARC_CORE];
 assert.equal(arcRecipe.ingredients, ARC_CORE_PURCHASE_COST);
 assert.equal(omegaRecipe.ingredients, OMEGA_ARC_CORE_PURCHASE_COST);
-assert.deepEqual(ARC_CORE_PURCHASE_COST, { silver: 120, gold: 60 });
-assert.deepEqual(OMEGA_ARC_CORE_PURCHASE_COST, {
+assert.equal(ARC_CORE_PURCHASE_COST, ARC_CORE_CRAFT_COST);
+assert.equal(OMEGA_ARC_CORE_PURCHASE_COST, OMEGA_ARC_CORE_CRAFT_COST);
+assert.deepEqual(ARC_CORE_CRAFT_COST, {
+  silver: 120,
+  gold: 60,
+  cloudstone: 40,
+  stormglass: 12,
+  halostone: 30,
+  lumenite: 10,
+  cinderstone: 24,
+  hellglass: 8,
+});
+assert.deepEqual(OMEGA_ARC_CORE_CRAFT_COST, {
   silver: 240,
   gold: 240,
   obsidian: 40,
   emberOre: 15,
   magmaCrystal: 3,
+  cloudstone: 100,
+  stormglass: 35,
+  halostone: 80,
+  lumenite: 30,
+  cinderstone: 75,
+  hellglass: 24,
 });
 assert.equal(arcRecipe.requirements.minimumAncientRelics, 3);
 assert.equal(omegaRecipe.requirements.minimumAncientRelics, 18);
@@ -140,7 +159,7 @@ assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].hiddenFromShop, true);
   const relics = CRAFTING_REQUIREMENTS.arcCoreRelics;
   const { craftingSystem, digSystem, upgradeSystem, progressionSystem } = createHarness({
     relics,
-    resources: { silver: 200, gold: 100 },
+    resources: { ...ARC_CORE_CRAFT_COST, silver: 200, gold: 100 },
   });
   const progressionBefore = progressionSystem.getSaveData();
   const result = craftingSystem.craft(CRAFTING_RECIPE_IDS.ARC_CORE);
@@ -150,13 +169,18 @@ assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].hiddenFromShop, true);
   assert.equal(upgradeSystem.getUpgradeLevel(ARC_CORE_UPGRADE_ID), 1);
   assert.equal(digSystem.getResourceTotals().silver, 80);
   assert.equal(digSystem.getResourceTotals().gold, 40);
+  for (const key of Object.keys(ARC_CORE_CRAFT_COST).filter(
+    (key) => key !== "silver" && key !== "gold",
+  )) {
+    assert.equal(digSystem.getResourceTotals()[key], 0);
+  }
   assert.deepEqual(progressionSystem.getSaveData(), progressionBefore);
   assert.equal(craftingSystem.craft(CRAFTING_RECIPE_IDS.ARC_CORE).reason, "already_owned");
 }
 
 {
   const { craftingSystem, digSystem, upgradeSystem } = createHarness({
-    resources: { silver: 200, gold: 100 },
+    resources: { ...ARC_CORE_CRAFT_COST, silver: 200, gold: 100 },
   });
   const before = digSystem.getResourceTotals();
   upgradeSystem.grantUpgrade = () => ({ success: false, reason: "forced_grant_failure" });
@@ -184,7 +208,14 @@ assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].hiddenFromShop, true);
     relics: 18,
     grantArc: true,
     grantKeystone: true,
-    resources: { silver: 300, gold: 300, obsidian: 50, emberOre: 20, magmaCrystal: 5 },
+    resources: {
+      ...OMEGA_ARC_CORE_CRAFT_COST,
+      silver: 300,
+      gold: 300,
+      obsidian: 50,
+      emberOre: 20,
+      magmaCrystal: 5,
+    },
   });
   const progressionBefore = progressionSystem.getSaveData();
   const result = craftingSystem.craft(CRAFTING_RECIPE_IDS.OMEGA_ARC_CORE);
@@ -200,15 +231,23 @@ assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].hiddenFromShop, true);
     },
     { silver: 60, gold: 60, obsidian: 10, emberOre: 5, magmaCrystal: 2 },
   );
+  for (const key of [
+    "cloudstone", "stormglass", "halostone", "lumenite", "cinderstone", "hellglass",
+  ]) {
+    assert.equal(digSystem.getResourceTotals()[key], 0);
+  }
   assert.deepEqual(progressionSystem.getSaveData(), progressionBefore);
 }
 
 {
   const { craftingSystem, upgradeSystem } = createHarness();
   const first = craftingSystem.getRecipeIngredientConflicts([
-    "silver", "gold", "obsidian", "dirt",
+    "silver", "gold", "cloudstone", "hellglass", "obsidian", "dirt",
   ]);
-  assert.deepEqual(first.map((entry) => entry.resourceKey), ["silver", "gold", "obsidian"]);
+  assert.deepEqual(
+    first.map((entry) => entry.resourceKey),
+    ["silver", "gold", "cloudstone", "hellglass", "obsidian"],
+  );
   upgradeSystem.grantUpgrade(ARC_CORE_UPGRADE_ID);
   const afterArc = craftingSystem.getRecipeIngredientConflicts(["silver", "gold", "obsidian"]);
   assert.ok(afterArc.every((entry) => entry.recipeIds.length === 1));
@@ -219,7 +258,7 @@ assert.equal(UPGRADES[OMEGA_ARC_CORE_UPGRADE_ID].hiddenFromShop, true);
 
 {
   const { digSystem, upgradeSystem } = createHarness({
-    resources: { silver: 200, gold: 100 },
+    resources: { ...ARC_CORE_CRAFT_COST, silver: 200, gold: 100 },
   });
   const resourcesBefore = digSystem.getResourceTotals();
   assert.equal(upgradeSystem.purchaseUpgrade(ARC_CORE_UPGRADE_ID).reason, "craft_only");

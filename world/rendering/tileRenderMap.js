@@ -6,6 +6,10 @@ import {
   getSoilAtlasOffset,
   getSoilVisualDescriptor,
 } from "../../values/dynamicSoil.js";
+import {
+  getHeavenblocksRegionAt,
+  isHeavenblocksMaterialTileType,
+} from "../../values/heavenblocksWorldConfig.js";
 
 export const DAMAGE_STAGE_KEYS_BY_TYPE = Object.freeze({
   [TILE_TYPES.DIRT]: [
@@ -242,6 +246,16 @@ export function getRubbleRenderIndex(type, hp, maxHp) {
 
 export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTiles = 0, seed = 0, visualHint = "") {
   if (type === TILE_TYPES.AIR) {
+    return -1;
+  }
+  if (
+    isHeavenblocksMaterialTileType(type)
+    || type === TILE_TYPES.HEAVEN_BARRIER
+    || (
+      type === TILE_TYPES.ANCIENT_RELIC_CACHE
+      && getHeavenblocksRegionAt(tx, ty)
+    )
+  ) {
     return -1;
   }
 

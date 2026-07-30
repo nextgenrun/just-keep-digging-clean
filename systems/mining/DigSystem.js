@@ -36,6 +36,7 @@ export class DigSystem {
     this.specialBlockEffectsManager = specialBlockEffectsManager;
     this.ancientRelicSystem = null;
     this.relicDiscoveryFxSystem = null;
+    this.relicDiscoveryListeners = new Set();
     this.retentionProgressSystem = null;
 
     this.lastMineTime = -Infinity;
@@ -62,6 +63,12 @@ export class DigSystem {
 
   setRelicDiscoveryFxSystem(relicDiscoveryFxSystem) {
     this.relicDiscoveryFxSystem = relicDiscoveryFxSystem;
+  }
+
+  addRelicDiscoveryListener(listener) {
+    if (typeof listener !== "function") return () => {};
+    this.relicDiscoveryListeners.add(listener);
+    return () => this.relicDiscoveryListeners.delete(listener);
   }
 
   setRetentionProgressSystem(retentionProgressSystem) {
@@ -238,6 +245,18 @@ export class DigSystem {
           error: error?.message || String(error),
         },
       });
+    }
+    for (const listener of this.relicDiscoveryListeners) {
+      try {
+        listener({
+          tx,
+          ty,
+          gained,
+          total: finalRelicCount,
+        });
+      } catch (error) {
+        console.warn("[DigSystem] Relic discovery listener failed:", error);
+      }
     }
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
     const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(

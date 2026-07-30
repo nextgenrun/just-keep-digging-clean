@@ -77,14 +77,6 @@ export class HeavenblocksPresentationSystem {
       });
       this._syncSurfaceAltar(gate, stageIndex);
     }
-    for (const region of this.config.regions) {
-      if (!progressionSystem.isRegionUnlocked(region.id)) continue;
-      for (const anchor of [region.returnAltar, region.rewardShrine]) {
-        const point = this.worldModel.tileToWorld(anchor.tx, anchor.ty);
-        this.altarGraphics.lineStyle(2, region.color, 0.78);
-        this.altarGraphics.strokeCircle(point.x, point.y, 22);
-      }
-    }
   }
 
   _syncSurfaceAltar(gate, stageIndex) {

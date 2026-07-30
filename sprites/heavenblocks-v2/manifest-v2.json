@@ -1,0 +1,353 @@
+{
+  "version": 2,
+  "generatedBy": "2026-07-29-build-heavenblocks-v2-assets.py",
+  "runtimeFacadeImages": 0,
+  "sourceAtlases": 3,
+  "modularSprites": 48,
+  "regionWideBackgrounds": 0,
+  "assets": [
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-interior-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "1700bce67bd8942f73c5e59bf19764d221cd8afc97a567b6701585b3a7d8e430"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-alternate-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "e695bfba66870f575a2744f2b806b707da7db1a37b727666608153ce3def1e84"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-ore-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "696f52279af75b448926f980d8dd4ed280468a237bb63a2f720385f54ed2aa6d"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-crystal-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "49f497b1eab9bb08d61058c7c22e01d31d862b0ec6d3998b11ed62abad0b0f6e"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-surface-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "67286e266fa05bf6c0522e6dff9e28ca20845bd3af9d9244eb4ee6ce6451e045"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-edge-left-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "9db41bf1cb0b7fef1e616dec37c4cc905d0472a56df74160dbf1679dd4078d85"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-edge-right-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "6b75b1e7c72e391612f57eef68c7060ed91cf1daab22b3f3ae071db2ea39543a"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-terrain-underside-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "a0d2e535744e62a84067db4cd8e18849a23affb39741a01522821301a7c23ca9"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-prop-flora-v2.webp",
+      "width": 248,
+      "height": 185,
+      "mode": "RGBA",
+      "sha256": "2636ab7f90427d732ccd3616fc958c19a9fdbde0902ed544b595bda82734366e"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-prop-crystal-cluster-v2.webp",
+      "width": 227,
+      "height": 213,
+      "mode": "RGBA",
+      "sha256": "875af7de02893774a3794989cf5723481814d7d116673a25ae72b5ac900296b0"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-heart-shrine-v2.webp",
+      "width": 212,
+      "height": 241,
+      "mode": "RGBA",
+      "sha256": "d82c3e5c5594ab298fe42c3534629066309328300ac574db899d26cdf02aa3ed"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-portal-v2.webp",
+      "width": 246,
+      "height": 248,
+      "mode": "RGBA",
+      "sha256": "1c88a9b9dcdecd559f0133201c61b8302d6b7c106615d4ae15327606ce29610a"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-barrier-v2.webp",
+      "width": 216,
+      "height": 210,
+      "mode": "RGBA",
+      "sha256": "695708a62030aa0e86f6ce9e211f7ea86eb95d07e1939aa7322f6685afce564c"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-relic-vault-v2.webp",
+      "width": 227,
+      "height": 232,
+      "mode": "RGBA",
+      "sha256": "8137f570b705dce6ecb78b2b80c3b81a1f6fc43235d56b89131425f5dc165fb2"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-craft-component-v2.webp",
+      "width": 236,
+      "height": 238,
+      "mode": "RGBA",
+      "sha256": "c171a4d8dd6257ca1cd17c2b7929f3149d5fbd408dcba23ff0005299f0191525"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/cloud-reef/cloud-capstone-v2.webp",
+      "width": 248,
+      "height": 234,
+      "mode": "RGBA",
+      "sha256": "5eee6ac97bb92ffaaf120adf9757b3938988b902bf9db5dfbde6a69b32c1cd78"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-interior-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "b119d7b9d3a9f58b3cb3f709555985882a3205da3771c111986686c35b56d069"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-alternate-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "9847009971f6d988326fac2a7bfe8e651ea707bf4f582cabbe0a4cddfdc41f50"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-ore-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "a647d3ba2e38689e89542cdd7962cd746708fa6f34ca2c46a5cc5023618b9cca"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-crystal-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "8b8312bd4c46e99b1b51f49603a302ab70cdab9db826fed5c94d62549fc5e32b"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-surface-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "476c88fd5cac0d1e2e3b6e317a26290cbaacab79fc4f07bf960a0cc2c799eb4a"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-edge-left-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "65f23af9d0f06d49ff851963f74924e73d30527585e7ec0862ad13bbd6bc6488"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-edge-right-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "6d67c55f7edcaf908ce525e986de6326e204589d8e1853535f0184347777b14f"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-terrain-underside-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "015f4a17963618f3b2d1db95bac79376294eb72086dc1e33252b37471e876a38"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-prop-flora-v2.webp",
+      "width": 205,
+      "height": 287,
+      "mode": "RGBA",
+      "sha256": "0c37b64409af12b41ff7944762ad9485df3c53fbefbaaea0af4c33a09567a1d6"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-prop-crystal-cluster-v2.webp",
+      "width": 212,
+      "height": 231,
+      "mode": "RGBA",
+      "sha256": "b12cfa432f6ea9044d4d54033f1a4d5296ef3b88ff2d02bba6bc46dea6c696af"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-heart-shrine-v2.webp",
+      "width": 226,
+      "height": 313,
+      "mode": "RGBA",
+      "sha256": "41376d06e1aac3af2795360fce57cb850d8558e19d01afd47d6a9a8bcd11ddfc"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-portal-v2.webp",
+      "width": 246,
+      "height": 259,
+      "mode": "RGBA",
+      "sha256": "e44620e4b082d40545579e8f3c11eceadad4f91edcf4408187a228b8a5f399d8"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-barrier-v2.webp",
+      "width": 190,
+      "height": 245,
+      "mode": "RGBA",
+      "sha256": "9da8a857230a43313edcd2718a683003a4da3ec81a1383093e675ee05bfb327e"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-relic-vault-v2.webp",
+      "width": 226,
+      "height": 235,
+      "mode": "RGBA",
+      "sha256": "213b71d285f883eeb10bd09419f42544a9ff5fab56e826073c06a59477841fd8"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-craft-component-v2.webp",
+      "width": 247,
+      "height": 245,
+      "mode": "RGBA",
+      "sha256": "9af3b605cf493bda050eddc40e8abc83a817412bc8416b545beb5bf7ab0cbca7"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/halo-bastion/halo-capstone-v2.webp",
+      "width": 244,
+      "height": 241,
+      "mode": "RGBA",
+      "sha256": "eb5ba810755fb722d07bfcf60c2c215d13a2e766cf1dd85f3096b1bc0e5fb9fb"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-interior-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "9516e289e09849ae38b86bada4c9883b8b1f420f10fc5f3afb194a32c9bb32a0"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-alternate-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "643542415a98b66b64e8fccd001b6e22b49a16e24f4c319bfa68619a741aaa9c"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-ore-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "39e5bf531038f32c6f5f49fdf0a9852c65092bc7bd41d072138319625726a2c4"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-crystal-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "3c3b3d95052f5804cc8e64bf2839c92bceaf58656bcbaf40f00f67133aae95f7"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-surface-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "bbaa03a03df4e3be55a972548381f9077d49d241795f05adfe6191e9d848a24a"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-edge-left-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "1e39e57e507281f5290e7fecd635515ebea24d15240ad8a0737327fbac978832"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-edge-right-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "3b8f947e491cb42107290ddc19aef6fd17b9b033b4cc0bc8dbdc3ff1e375e95f"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-terrain-underside-v2.webp",
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA",
+      "sha256": "e56ff3182b2e4b89dfa2583673e00b8a9d98275da936667e5b71163a37119765"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-prop-flora-v2.webp",
+      "width": 186,
+      "height": 198,
+      "mode": "RGBA",
+      "sha256": "c671ab38da6509a746c9f4a36c6a92b33fe134476c3920dd36263081683e1e76"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-prop-crystal-cluster-v2.webp",
+      "width": 202,
+      "height": 240,
+      "mode": "RGBA",
+      "sha256": "6c2755e469923409fbdd37598561a88632981b7fab3b2cc2ece5c5b6442b8c1e"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-heart-shrine-v2.webp",
+      "width": 219,
+      "height": 302,
+      "mode": "RGBA",
+      "sha256": "a4fc564fe0ff2086a7a6204db457bb97660e6b1dbfcb5b9e2fa273b3f3dce0b3"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-portal-v2.webp",
+      "width": 251,
+      "height": 301,
+      "mode": "RGBA",
+      "sha256": "54da2b9cd34452ec2020b07f7eb09215d70985110dd84c99b5b96dc7e63fef56"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-barrier-v2.webp",
+      "width": 198,
+      "height": 247,
+      "mode": "RGBA",
+      "sha256": "9bf2c2f3fc57a1c1bd2839db2c5cf7c86defe9b460e76d592e3cf23f7a9d73fb"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-relic-vault-v2.webp",
+      "width": 242,
+      "height": 246,
+      "mode": "RGBA",
+      "sha256": "3e71cd002b0dd931e6b75800af029d5db630d6d0def34337463bd7139e1373b0"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-craft-component-v2.webp",
+      "width": 251,
+      "height": 253,
+      "mode": "RGBA",
+      "sha256": "910ca6dc252bd2f071c270010706793779baa62ab739e36b1aca35b976210566"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/eclipse-scar/eclipse-capstone-v2.webp",
+      "width": 210,
+      "height": 255,
+      "mode": "RGBA",
+      "sha256": "ae81af5f90b54f44d407176cbe95f5ddd22e157f9ad9f959c0e759dac1b101ee"
+    },
+    {
+      "path": "sprites/heavenblocks-v2/2026-07-29-heavenblocks-runtime-contact-sheet-v2.png",
+      "width": 1536,
+      "height": 1152,
+      "mode": "RGBA",
+      "sha256": "1d04d0ee85ecd407b0d1ac86f8cead685af0dba345ae70215cc266c04a381871"
+    }
+  ]
+}

@@ -94,7 +94,11 @@ const stageSource = fs.readFileSync(
   new URL("world/rendering/scenic-world/WorldVisualDepthBackdropStage.js", root),
   "utf8"
 );
-assert.match(viewSource, /segment\.backwall\.setPosition/);
+assert.match(
+  viewSource,
+  /setPositionIfChanged\(segment\.backwall/,
+  "camera motion must update the baked backdrop through the exact-state helper"
+);
 assert.match(stageSource, /WorldVisualDepthCameraMotion/);
 assert.doesNotMatch(
   `${helperSource}\n${viewSource}\n${stageSource}`,

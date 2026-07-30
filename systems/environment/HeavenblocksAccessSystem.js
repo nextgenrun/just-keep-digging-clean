@@ -14,6 +14,8 @@ export class HeavenblocksAccessSystem {
     ancientRelicSystem,
     upgradeSystem,
     presentationSystem,
+    artifactSystem = null,
+    regionAccessGuard = null,
     onChanged = null,
     config = HEAVENBLOCKS_ACCESS_CONFIG,
   }) {
@@ -24,6 +26,8 @@ export class HeavenblocksAccessSystem {
     this.ancientRelicSystem = ancientRelicSystem;
     this.upgradeSystem = upgradeSystem;
     this.presentationSystem = presentationSystem;
+    this.artifactSystem = artifactSystem;
+    this.regionAccessGuard = regionAccessGuard;
     this.onChanged = typeof onChanged === "function" ? onChanged : null;
     this.config = config;
     this.enabled = resolveHeavenblocksGameplayEnabled(config);
@@ -34,11 +38,13 @@ export class HeavenblocksAccessSystem {
   create() {
     if (!this.enabled) return;
     this.presentationSystem?.create?.();
+    this.regionAccessGuard?.syncProgressionState?.();
     this._redrawAltars(true);
   }
 
   update(playerTile) {
     if (!this.enabled || !playerTile || this.inTransit) return;
+    this.regionAccessGuard?.update?.(playerTile);
     const eligibility = this.progressionSystem?.syncRelicEligibility?.(
       this.ancientRelicSystem?.getCount?.() || 0,
     );
@@ -75,15 +81,27 @@ export class HeavenblocksAccessSystem {
       );
       if (!activation.success) {
         this._notifyLockedRelics();
+        this.artifactSystem?.playLockedPortalFeedback?.(
+          region.id,
+          this.regionAccessGuard?.getRegionAccessState?.(region.id),
+        );
         return { success: true, type: "heavenblock-gate-locked", reason: activation.reason };
       }
-      if (activation.changed) this.onChanged?.("sky-gate-activated");
+      if (activation.changed) {
+        this.regionAccessGuard?.syncProgressionState?.();
+        this.artifactSystem?.playRegionUnlock?.(region.id);
+        this.onChanged?.("sky-gate-activated");
+      }
     }
     if (!this.progressionSystem.isRegionUnlocked(region.id)) {
       this.scene.hudSystem?.flashStatus?.(
         `${region.label.toUpperCase()}  •  Complete the Cloud Reef first`,
         "#aeb7c6",
         1800,
+      );
+      this.artifactSystem?.playLockedPortalFeedback?.(
+        region.id,
+        this.regionAccessGuard?.getRegionAccessState?.(region.id),
       );
       return { success: true, type: "heavenblock-region-locked", regionId: region.id };
     }
@@ -105,6 +123,10 @@ export class HeavenblocksAccessSystem {
         3000,
       );
       this.onChanged?.("region-completed");
+      this.regionAccessGuard?.syncProgressionState?.();
+      for (const regionId of completed.newlyUnlockedRegionIds || []) {
+        this.artifactSystem?.playRegionUnlock?.(regionId);
+      }
       this._redrawAltars(true);
       return {
         success: true,
@@ -144,7 +166,10 @@ export class HeavenblocksAccessSystem {
     );
     this._scheduleTeleport(delay, region.arrival, () => {
       const visited = this.progressionSystem.visitRegion(region.id);
-      if (visited.changed) this.onChanged?.("region-visited");
+      if (visited.changed) {
+        this.artifactSystem?.playRegionArrival?.(region.id);
+        this.onChanged?.("region-visited");
+      }
       this.scene.hudSystem?.flashStatus?.(
         region.label.toUpperCase(),
         `#${region.color.toString(16).padStart(6, "0")}`,
@@ -190,10 +215,12 @@ export class HeavenblocksAccessSystem {
 
   _playComponentClaimFx(region) {
     this.presentationSystem?.playComponentClaim?.(region);
+    this.artifactSystem?.playComponentClaim?.(region);
   }
 
   _playVaultFx(region, keystoneGranted) {
     this.presentationSystem?.playVault?.(region, keystoneGranted);
+    this.artifactSystem?.playVault?.(region, keystoneGranted);
     this.scene.hudSystem?.flashStatus?.(
       keystoneGranted ? "ZENITH KEYSTONE FORGED" : "ARC VAULT RESONANCE CAPTURED",
       keystoneGranted ? "#ffffff" : `#${region.color.toString(16).padStart(6, "0")}`,
@@ -294,11 +321,21 @@ export class HeavenblocksAccessSystem {
   getHealthSnapshot() {
     const saveData = this.progressionSystem?.getSaveData?.();
     const layout = this.worldModel?.getHeavenblocksLayoutHealth?.();
+    const guard = this.regionAccessGuard?.getHealthSnapshot?.();
+    const terrain = this.scene.heavenblocksTerrainRenderer?.getHealthSnapshot?.();
+    const artifacts = this.artifactSystem?.getHealthSnapshot?.();
     return {
       enabled: this.enabled,
       promptReady: !this.enabled
         || this.presentationSystem?.getHealthSnapshot?.()?.promptReady === true,
-      layoutReady: !this.enabled || layout?.platformsReady === true,
+      layoutReady: !this.enabled || layout?.nativeWorldReady === true,
+      nativeWorldReady: !this.enabled || (
+        layout?.nativeWorldReady === true
+        && guard?.damageGuardReady === true
+        && guard?.barriersReady === true
+        && terrain?.ready === true
+        && artifacts?.ready === true
+      ),
       progressionReady: !this.enabled || (
         saveData?.version === this.progressionSystem?.config?.version
         && Array.isArray(saveData?.unlockedRegionIds)
@@ -306,6 +343,7 @@ export class HeavenblocksAccessSystem {
       ),
       inTransit: this.inTransit,
       missingFloorCells: layout?.missingFloorCells || [],
+      native: { layout, guard, terrain, artifacts },
     };
   }
 

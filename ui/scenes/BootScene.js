@@ -5,6 +5,9 @@ import {
   getPickaxeIconPreloadAssets,
   getSurfacePropPreloadAssets,
 } from "../../values/assetKeys.js";
+import {
+  getHeavenblocksNativePreloadAssets,
+} from "../../values/heavenblocksVisualConfig.js";
 import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { GEM_POWER_BLOCK_TIERS } from "../../values/specialBlocks.js";
@@ -365,6 +368,7 @@ export class BootScene extends Phaser.Scene {
       this.preloadOpeningFlightSprites();
       this.preloadNPCs();
       this.preloadTileSprites();
+      this.preloadHeavenblocksNativeAssets();
       this.preloadFxSprites();
       this.preloadHeavenblocksSkyAltars();
       this.preloadGraveborerWurmSprites();
@@ -803,11 +807,6 @@ export class BootScene extends Phaser.Scene {
   preloadTileSprites() {
     const approvedWorldBase = "sprites/tiles/approved-world";
     const caveEntrance = CAVE_SCENE_CONFIG.overworldEntrance;
-    const v11SkyIslandBase = "sprites/backgrounds/world-v11-sky-islands-v1";
-    this.load.image(ASSET_KEYS.background.skyIslands.level1Platform, `${v11SkyIslandBase}/level1-platform.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
     this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-megalith-lock-v1.png`);
     this.load.image(caveEntrance.legacy.textureKey, caveEntrance.legacy.assetPath);
     this.load.image(caveEntrance.scenic.textureKey, caveEntrance.scenic.assetPath);
@@ -969,6 +968,12 @@ export class BootScene extends Phaser.Scene {
 
   preloadHeavenblocksSkyAltars() {
     for (const asset of getHeavenblocksSkyAltarPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+  }
+
+  preloadHeavenblocksNativeAssets() {
+    for (const asset of getHeavenblocksNativePreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
   }

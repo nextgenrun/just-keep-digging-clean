@@ -47,6 +47,28 @@ assert.equal(
   guide.formationKeys.length * semanticResources.atlas.variants,
   "the production atlas must contain six frames for every formation"
 );
+assert.deepEqual(
+  new Set(Object.keys(guide.heavenblocksPreviews)),
+  new Set(["cloudstone", "stormglass", "halostone", "lumenite", "cinderstone", "hellglass"]),
+  "all six Heavenblocks resources need native authored world previews"
+);
+const heavenblocksTextureKeys = new Set(
+  Object.values(ASSET_KEYS.heavenblocks).flatMap(biome => Object.values(biome))
+);
+for (const [key, entries] of Object.entries(guide.heavenblocksPreviews)) {
+  assert.equal(entries.length, 6, `${key} needs six exact native world or damage views`);
+  for (const entry of entries) {
+    assert(
+      heavenblocksTextureKeys.has(entry.textureKey),
+      `${key} must reference an authored Heavenblocks runtime texture`
+    );
+    assert(
+      entry.crackIndex === null
+        || (Number.isInteger(entry.crackIndex) && entry.crackIndex >= 0 && entry.crackIndex <= 4),
+      `${key} damage previews must use a production crack stage`
+    );
+  }
+}
 assert.equal(guide.grounds.length, semanticResources.atlas.variants);
 for (const key of guide.formationKeys) {
   const start = semanticResources.frameStarts[key];
@@ -109,7 +131,7 @@ const selectorItemHeight = (
   - guide.layout.panelPadding
   - guide.layout.selectorGap * (selectorRows - 1)
 ) / selectorRows;
-assert(selectorItemHeight >= 44, "all 14 clickable desktop resource selectors must fit clearly");
+assert(selectorItemHeight >= 44, "all 20 clickable desktop resource selectors must fit clearly");
 assert.match(popupSource, /guide\.copy\.guideTab/);
 assert.match(popupSource, /renderInventoryResourceGuide\(/);
 assert.match(popupSource, /resourceKey\s*=>\s*\{/);
@@ -117,6 +139,7 @@ assert.match(guideSource, /guide\.resourceKeys\.map\(/);
 assert.match(guideSource, /onClick:\s*\(\)\s*=>\s*onSelect\(resourceKey\)/);
 assert.match(guideSource, /addInventoryWorldTile\(/);
 assert.match(guideSource, /addInventoryLavaDirtTile\(/);
+assert.match(guideSource, /addInventoryHeavenblocksTile\(/);
 assert.match(tilePreviewSource, /ASSET_KEYS\.tiles\.dynamicSoil/);
 assert.match(tilePreviewSource, /soil\.hardness\.compact/);
 assert.match(tilePreviewSource, /soil\.hardness\.strong/);
@@ -198,9 +221,16 @@ function makeStubScene() {
     ...soil.cracks,
     ...Object.values(soil.hardness),
   ];
+  const nativeTextureKeys = [
+    ...new Set(
+      Object.values(guide.heavenblocksPreviews)
+        .flatMap(entries => entries.map(entry => entry.textureKey))
+    ),
+  ];
   const textureMap = new Map([
     [semanticResources.atlas.key, new StubTexture(atlasWidth, atlasHeight)],
     ...soilTextureKeys.map(key => [key, new StubTexture(94, 94)]),
+    ...nativeTextureKeys.map(key => [key, new StubTexture(384, 384)]),
     ...[1, 2, 3, 4, 5].map(stage => [
       ASSET_KEYS.tiles[`lavaDirtHp${stage}`],
       new StubTexture(94, 94),
@@ -272,6 +302,28 @@ for (const resourceKey of guide.resourceKeys) {
         ),
         `${resourceKey} must render production world variant ${variant + 1}`
       );
+    }
+  }
+  const nativeEntries = guide.heavenblocksPreviews[resourceKey];
+  if (nativeEntries) {
+    for (const entry of nativeEntries) {
+      assert(
+        smokeScene.imageRecords.some(image =>
+          image.key === entry.textureKey
+          && image.displayWidth >= 100
+        ),
+        `${resourceKey} must render its authored ${entry.label} native view`
+      );
+      if (Number.isInteger(entry.crackIndex)) {
+        const crackKey = ASSET_KEYS.tiles.dynamicSoil.cracks[entry.crackIndex];
+        assert(
+          smokeScene.imageRecords.some(image =>
+            image.key === crackKey
+            && image.displayWidth >= 100
+          ),
+          `${resourceKey} must render production crack stage ${entry.crackIndex}`
+        );
+      }
     }
   }
 }

@@ -15,6 +15,12 @@ export const RESOURCE_KEYS = Object.freeze([
   "obsidian",
   "emberOre",
   "magmaCrystal",
+  "cloudstone",
+  "stormglass",
+  "halostone",
+  "lumenite",
+  "cinderstone",
+  "hellglass",
 ]);
 
 export const START_RESOURCE_KEYS = Object.freeze(["dirt", "stone", "copper"]);
@@ -30,6 +36,14 @@ export const SECOND_WORLD_RESOURCE_KEYS = Object.freeze([
   "obsidian",
   "emberOre",
   "magmaCrystal",
+]);
+export const HEAVENBLOCKS_RESOURCE_KEYS = Object.freeze([
+  "cloudstone",
+  "stormglass",
+  "halostone",
+  "lumenite",
+  "cinderstone",
+  "hellglass",
 ]);
 export const MONEY_MONSTER_RESOURCE_KEYS = Object.freeze([
   ...START_RESOURCE_KEYS,
@@ -51,6 +65,12 @@ export const RESOURCE_DISPLAY = Object.freeze({
   obsidian: Object.freeze({ name: "Obsidian", shortName: "Obsidian", icon: "OB", color: "#2B1B31", colorInt: 0x2b1b31, oreColorInt: 0xb247ff }),
   emberOre: Object.freeze({ name: "Ember Ore", shortName: "Ember", icon: "EM", color: "#FF6B21", colorInt: 0xff6b21, oreColorInt: 0xffd166 }),
   magmaCrystal: Object.freeze({ name: "Magma Crystal", shortName: "Magma", icon: "MC", color: "#FF2E6D", colorInt: 0xff2e6d, oreColorInt: 0xffb1ff }),
+  cloudstone: Object.freeze({ name: "Cloudstone", shortName: "Cloudstone", icon: "CS", color: "#DCE8EE", colorInt: 0xdce8ee, oreColorInt: 0xf4fbff }),
+  stormglass: Object.freeze({ name: "Stormglass", shortName: "Stormglass", icon: "SG", color: "#31D9FF", colorInt: 0x31d9ff, oreColorInt: 0x9cf2ff }),
+  halostone: Object.freeze({ name: "Halostone", shortName: "Halostone", icon: "HS", color: "#FFF0C7", colorInt: 0xfff0c7, oreColorInt: 0xfff8e8 }),
+  lumenite: Object.freeze({ name: "Lumenite", shortName: "Lumenite", icon: "LU", color: "#8FCBFF", colorInt: 0x8fcbff, oreColorInt: 0xe2f4ff }),
+  cinderstone: Object.freeze({ name: "Cinderstone", shortName: "Cinderstone", icon: "CI", color: "#C34C43", colorInt: 0xc34c43, oreColorInt: 0xff5b3e }),
+  hellglass: Object.freeze({ name: "Hellglass", shortName: "Hellglass", icon: "HG", color: "#E25CFF", colorInt: 0xe25cff, oreColorInt: 0xffa1ff }),
 });
 
 export const RESOURCE_ZERO_TOTALS = Object.freeze(
@@ -84,6 +104,12 @@ export const RESOURCE_BY_TILE_TYPE = Object.freeze({
   [TILE_TYPES.OBSIDIAN]: "obsidian",
   [TILE_TYPES.EMBER_ORE]: "emberOre",
   [TILE_TYPES.MAGMA_CRYSTAL]: "magmaCrystal",
+  [TILE_TYPES.CLOUDSTONE]: "cloudstone",
+  [TILE_TYPES.STORMGLASS]: "stormglass",
+  [TILE_TYPES.HALOSTONE]: "halostone",
+  [TILE_TYPES.LUMENITE]: "lumenite",
+  [TILE_TYPES.CINDERSTONE]: "cinderstone",
+  [TILE_TYPES.HELLGLASS]: "hellglass",
 });
 
 export const RESOURCE_TILE_TYPE_VALUES = Object.freeze(Object.keys(RESOURCE_BY_TILE_TYPE).map(Number));
@@ -100,6 +126,12 @@ export const HARD_RESOURCE_TILE_TYPES = Object.freeze(new Set([
   TILE_TYPES.OBSIDIAN,
   TILE_TYPES.EMBER_ORE,
   TILE_TYPES.MAGMA_CRYSTAL,
+  TILE_TYPES.CLOUDSTONE,
+  TILE_TYPES.STORMGLASS,
+  TILE_TYPES.HALOSTONE,
+  TILE_TYPES.LUMENITE,
+  TILE_TYPES.CINDERSTONE,
+  TILE_TYPES.HELLGLASS,
 ]));
 
 function clampResourceCount(value) {

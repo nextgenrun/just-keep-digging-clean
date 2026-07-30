@@ -76,6 +76,12 @@ export const UI_RESOURCE_PRESENTATION = Object.freeze({
   obsidian: { name: "Obsidian", icon: "stone", color: "#8067a8" },
   emberOre: { name: "Ember Ore", icon: "gold", color: "#ff7a32" },
   magmaCrystal: { name: "Magma Crystal", icon: "gem", color: "#ff3e86" },
+  cloudstone: { name: "Cloudstone", icon: "stone", color: "#dce8ee" },
+  stormglass: { name: "Stormglass", icon: "gem", color: "#31d9ff" },
+  halostone: { name: "Halostone", icon: "stone", color: "#fff0c7" },
+  lumenite: { name: "Lumenite", icon: "gem", color: "#8fcbff" },
+  cinderstone: { name: "Cinderstone", icon: "darkDirt", color: "#c34c43" },
+  hellglass: { name: "Hellglass", icon: "gem", color: "#e25cff" },
 });
 
 export const UI_INVENTORY_COPY = Object.freeze({

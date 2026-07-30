@@ -4,6 +4,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import {
+  addInventoryHeavenblocksTile,
   addInventoryLavaDirtTile,
   addInventoryWorldTile,
   installInventoryResourceFrames,
@@ -65,7 +66,7 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
   const thumbnailSize = Math.min(
     layout.maxSelectorThumbnailSize,
     itemHeight - (desktop ? 12 : 16),
-    itemWidth * (desktop ? 0.31 : 0.25)
+    itemWidth * (desktop ? 0.25 : 0.2)
   );
 
   return guide.resourceKeys.map((resourceKey, index) => {
@@ -83,7 +84,7 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
       height: itemHeight,
       label: presentation.name.toUpperCase(),
       labelColor: presentation.color,
-      fontSize: desktop ? "10px" : "8px",
+      fontSize: desktop ? "9px" : "8px",
       align: "left",
       autoIcon: false,
       selected: resourceKey === selectedKey,
@@ -92,9 +93,19 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
       onClick: () => onSelect(resourceKey),
     });
     const thumbX = -itemWidth / 2 + thumbnailSize / 2 + 7;
+    const nativeEntries = guide.heavenblocksPreviews[resourceKey] || null;
     if (resourceKey === "lavaDirt") {
       addInventoryLavaDirtTile(scene, button.root, {
         stage: 5,
+        x: thumbX,
+        y: 0,
+        size: thumbnailSize,
+      });
+    } else if (nativeEntries) {
+      const entry = nativeEntries[index % nativeEntries.length];
+      addInventoryHeavenblocksTile(scene, button.root, {
+        textureKey: entry.textureKey,
+        crackIndex: entry.crackIndex,
         x: thumbX,
         y: 0,
         size: thumbnailSize,
@@ -113,7 +124,7 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
         size: thumbnailSize,
       });
     }
-    button.text.setX(-itemWidth / 2 + thumbnailSize + 14);
+    button.text.setX(-itemWidth / 2 + thumbnailSize + 12);
     button.setSelected(resourceKey === selectedKey);
     return button;
   });
@@ -125,20 +136,28 @@ function renderPreview(scene, parent, atlas, rect, resourceKey) {
   const presentation = UI_RESOURCE_PRESENTATION[resourceKey];
   const isFormation = guide.formationKeys.includes(resourceKey);
   const isLavaDirt = resourceKey === "lavaDirt";
+  const nativeEntries = guide.heavenblocksPreviews[resourceKey] || null;
+  const isHeavenblocks = Boolean(nativeEntries);
   const groundTypeIndex = guide.groundTypeIndices[resourceKey] ?? 0;
   const entries = isLavaDirt
     ? guide.lavaDirtStages
-    : (guide.groundMaterialSlots[resourceKey] || guide.grounds);
+    : isHeavenblocks
+      ? nativeEntries
+      : (guide.groundMaterialSlots[resourceKey] || guide.grounds);
   const artLabel = isLavaDirt
     ? guide.copy.damageArtLabel
-    : isFormation
-      ? guide.copy.formationArtLabel
-      : guide.copy.groundArtLabel;
+    : isHeavenblocks
+      ? guide.copy.heavenblocksArtLabel
+      : isFormation
+        ? guide.copy.formationArtLabel
+        : guide.copy.groundArtLabel;
   const previewHint = isLavaDirt
     ? guide.copy.damageHint
-    : isFormation
-      ? guide.copy.formationHint
-      : guide.copy.groundHint;
+    : isHeavenblocks
+      ? guide.copy.heavenblocksHint
+      : isFormation
+        ? guide.copy.formationHint
+        : guide.copy.groundHint;
 
   addPanel(scene, parent, rect.left, rect.top, rect.width, rect.height, true);
   addText(scene, parent, rect.left + layout.panelPadding, rect.top + 12,
@@ -194,6 +213,14 @@ function renderPreview(scene, parent, atlas, rect, resourceKey) {
     if (isLavaDirt) {
       addInventoryLavaDirtTile(scene, parent, {
         stage: entry.stage,
+        x: centerX,
+        y: centerY,
+        size: tileSize,
+      });
+    } else if (isHeavenblocks) {
+      addInventoryHeavenblocksTile(scene, parent, {
+        textureKey: entry.textureKey,
+        crackIndex: entry.crackIndex,
         x: centerX,
         y: centerY,
         size: tileSize,

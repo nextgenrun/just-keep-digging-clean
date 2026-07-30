@@ -93,6 +93,28 @@ export function addInventoryWorldTile(scene, parent, options) {
   return { groundLayers, resource };
 }
 
+export function addInventoryHeavenblocksTile(scene, parent, options) {
+  const {
+    textureKey,
+    crackIndex = null,
+    x,
+    y,
+    size,
+  } = options;
+  requireTexture(scene, textureKey, "UIInventoryWorldTilePreview");
+  addTileBorder(scene, parent, x, y, size);
+  const layers = [
+    scene.add.image(x, y, textureKey).setDisplaySize(size, size),
+  ];
+  if (Number.isInteger(crackIndex)) {
+    const crackKey = ASSET_KEYS.tiles.dynamicSoil.cracks[crackIndex];
+    requireTexture(scene, crackKey, "UIInventoryWorldTilePreview");
+    layers.push(scene.add.image(x, y, crackKey).setDisplaySize(size, size));
+  }
+  parent.add(layers);
+  return layers;
+}
+
 export function addInventoryLavaDirtTile(scene, parent, options) {
   const { stage, x, y, size } = options;
   const textureKey = ASSET_KEYS.tiles[`lavaDirtHp${stage}`];

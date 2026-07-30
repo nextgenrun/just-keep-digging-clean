@@ -175,6 +175,7 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-28-build-weather-particles-v2.py` | Re-extract the approved clean ImageGen rain, snow, water, and atmosphere sources, isolate usable particles, pack a transparent 32-frame production sheet, and reject residual chroma-green pixels |
 | `2026-07-28-build-whole-world-visual-expansion-v5.py` | Pin exactly 100 approved ImageGen masters, build 50 scenic cards, 40 irregular terrain plates, ten 20-frame cap atlases, ten alpha surface-ground cards, a 16-state backdrop mask, contact sheets, hashes, and the additive V5 manifest |
 | `2026-07-29-build-starlight-talent-tree-v3.py` | Preserve the V2 Starlight pack and build the native-ultrawide three-card foundation, authored live-copy plaques, carousel controls, alpha validation, and the V3 hash manifest |
+| `2026-07-29-build-heavenblocks-v2-assets.py` | Extract three ImageGen modular atlases into 48 alpha-safe terrain/resource/prop/portal/shrine/vault/component WebPs, validate inventory/dimensions/hashes, and emit the runtime contact sheet plus a manifest that hard-records zero region-wide backgrounds |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

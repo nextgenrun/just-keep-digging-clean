@@ -277,6 +277,7 @@ export class WorldVisualRuntime {
 
   applyTileUpdate(tx, ty) {
     if (!this.created) return;
+    this.scene.heavenblocksTerrainRenderer?.invalidateCell?.(tx, ty);
     this.performanceTracker.recordTileInvalidation();
     const lighting = this.lightingBridge.sample();
     this.materialField.invalidateCell(tx, ty, lighting);
