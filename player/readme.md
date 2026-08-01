@@ -4,9 +4,11 @@ player directory.
 
 `PlayerAssetLoader.js` loads selected character profiles, including full source-sheet bounds even when runtime actions use trimmed/reordered segments. Gameplay queues 18 active UAL sheets; the generated UAL manifest retains 21 actions for review and rollback evidence. `UalNativePlayerAnimations.js` creates the weapon-free production motion library and its calm one-shot fidgets.
 
-Idle and actions use the 109px base display size. The production grounded gait
-always uses the 123px UAL Option C Jog run slot, preserving the same
-approximately 0.8-tile visible height instead of shrinking against idle.
+Idle and authored standing actions use the 109px base display size. The
+production grounded gait and Piskel-composited moving strikes use 123px because
+their upper body is normalized by the 109/123 source ratio. This keeps apparent
+character height within three pixels across standing attack, Jog, and moving
+attack without enlarging the authored attack skeleton.
 
 `UalActionContactTimeline.js` turns Phaser animation updates into one deterministic gameplay contact per visible action and exposes whether that contact has fired. Mining, Quickslash, and Thunder mutate tiles only at authored contact; skipped frames and animation-complete fallback still fire exactly once. Once contact plus the configured recovery delay have passed and `DigSystem` confirms the action-start cooldown is ready, held mining may replace only the visible recovery with the next action without replaying the old contact.
 
@@ -35,6 +37,13 @@ combo-local damage for each successful continuation. Any early, late, or
 expired follow-up ends the chain immediately. Citadel Storm adds +10%
 Thunderstrike damage without widening the damage footprint.
 
+`PlayerAbilities.js` also owns the injected GP-consumption floor. Normal play
+has a zero floor. Armed Hardcore injects a one-GP floor only for Flight and
+torch sources; Flight admission includes its startup plus current-frame upkeep,
+and an active flight stops immediately when it reaches the reserve. Stress,
+combat abilities, Wurm hits, rocks, traps, and every other hazard retain the
+zero floor and can consume the final GP.
+
 The development God Mode path immediately fills and preserves GP, unlocks
 Flight, Quickslash, and Thunderstrike, reports their costs as zero, applies all
 constellation ability modifiers, and makes torch drain zero. The dormant legacy
@@ -53,15 +62,21 @@ mineable tiles begin beneath that clearance instead of intersecting the player
 or the surface art. The protected Level 1/Level 2 divider remains blocking.
 `?surfaceDrop=0` restores the former collision behavior.
 
-`UalMovingSideDigSelector` promotes only grounded, normal LEFT/RIGHT mining
-while movement intent points toward the target. It maps the Survival Jab/Cross
-combo to the phase-locked Jog composites even when collision has reduced
-resolved velocity to zero. Standing, diagonal, airborne, reverse-moving, and
-Quickslash actions keep their existing clips. `?movingSideDig=0` is the visual
-rollback. With phase handoff enabled, it selects the nearest of eight Jog-phase
-Jab/Cross variants. Each strike renders 22 smoothed upper-body poses over the
-same 14-frame Jog advance, reaches contact on visual frame 6 at the original
-planted-foot phase, and returns the exact next Jog phase on completion.
+`UalMovingSideDigSelector` promotes grounded LEFT/RIGHT mining and Quickslash
+while movement points toward the target. It maps the Survival Jab/Cross combo
+to phase-locked Jog composites even when collision has reduced resolved
+velocity to zero. Standing, diagonal, airborne, and reverse-moving actions keep
+their existing clips. `?movingSideDig=0` is the visual rollback. With phase
+handoff enabled, it selects the nearest of eight Jog phases. Normal strikes use
+22 smoothed upper-body poses over the same 14-frame Jog advance; moving
+Quickslash retimes those Piskel frames to the original 16-frame action and
+original sequence-4 contact. The moving upper body keeps the stable 109/123
+normalization, and moving contacts are body-locked so marker validation cannot
+translate the sprite away from its running feet. An 18 px physics-body
+stand-off holds only those moving SIDE actions outside a
+still-solid target face, then releases immediately when the target is dug or
+the action ends. It does not enlarge the collider or change the adjacent-tile
+mining reach. All variants return the exact next Jog phase on completion.
 `?phaseHandoff=0` keeps the approved moving-dig sheets but restores base-sheet
 entry and frame-zero resume.
 

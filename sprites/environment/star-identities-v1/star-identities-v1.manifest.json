@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "packageId": "star-identities-v1",
+  "artSource": "ImageGen built-in",
+  "identityCount": 50,
+  "frameSize": 320,
+  "atlases": [
+    {
+      "rarity": "common",
+      "source": "sprites/environment/star-identities-v1/source/star-identities-common-source-v1.png",
+      "sourceSha256": "79fc633c9ab92d76b804fdb9f3350b737b0b4388f30fe7652980d10d00242e42",
+      "output": "sprites/environment/star-identities-v1/star-identities-common-atlas-v1.png",
+      "outputSha256": "e074a32d7bc7c0bfc1246fefd64dce4587555cf5ba2b0995d9b79837e0c7011c",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "frameSize": 320,
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "coverage": [
+        0.54917,
+        0.571572,
+        0.517861,
+        0.506748,
+        0.485674,
+        0.498887,
+        0.567891,
+        0.498916,
+        0.550996,
+        0.50873,
+        0.539463,
+        0.44416
+      ]
+    },
+    {
+      "rarity": "uncommon",
+      "source": "sprites/environment/star-identities-v1/source/star-identities-uncommon-source-v1.png",
+      "sourceSha256": "9504e24416e94eca8c5b1b789ee5ab3e08df3b67cb551a2d324bda61a11b18ea",
+      "output": "sprites/environment/star-identities-v1/star-identities-uncommon-atlas-v1.png",
+      "outputSha256": "e462aaf49d34fd23eb04bf2ded674d8e92c8b0e6a90184f5328ca0c093d6b66a",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "frameSize": 320,
+      "columns": 5,
+      "rows": 2,
+      "frameCount": 10,
+      "coverage": [
+        0.757832,
+        0.630801,
+        0.639297,
+        0.641836,
+        0.616494,
+        0.669551,
+        0.65792,
+        0.457334,
+        0.639619,
+        0.682979
+      ]
+    },
+    {
+      "rarity": "rare",
+      "source": "sprites/environment/star-identities-v1/source/star-identities-rare-source-v1.png",
+      "sourceSha256": "aca564f249ac24964c639a24454f82dbf64751f6cc5aeaf272c9f5e610b32c75",
+      "output": "sprites/environment/star-identities-v1/star-identities-rare-atlas-v1.png",
+      "outputSha256": "12fdb19cfca2437c2ccab4afb33ccc71ed328598b21470619845550d9b40eafc",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "frameSize": 320,
+      "columns": 5,
+      "rows": 2,
+      "frameCount": 10,
+      "coverage": [
+        0.676338,
+        0.511328,
+        0.626553,
+        0.441914,
+        0.612803,
+        0.500088,
+        0.49335,
+        0.570068,
+        0.561094,
+        0.608965
+      ]
+    },
+    {
+      "rarity": "epic",
+      "source": "sprites/environment/star-identities-v1/source/star-identities-epic-source-v1.png",
+      "sourceSha256": "58e2022b2b65d66a3d0b6525ad6947a6b1e8ddfe99c4e48d342bd0d203d0697e",
+      "output": "sprites/environment/star-identities-v1/star-identities-epic-atlas-v1.png",
+      "outputSha256": "307db838bf8480b7f4875d0b25dbf33cbb94ec15eb650214f61c8f8d41397676",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "frameSize": 320,
+      "columns": 4,
+      "rows": 2,
+      "frameCount": 8,
+      "coverage": [
+        0.659189,
+        0.600908,
+        0.589121,
+        0.562285,
+        0.645107,
+        0.647646,
+        0.614404,
+        0.474277
+      ]
+    },
+    {
+      "rarity": "mythic",
+      "source": "sprites/environment/star-identities-v1/source/star-identities-mythic-source-v1.png",
+      "sourceSha256": "2f60ea6d919acd9d13f04e169bfaa36935c8a399940e8ba9b8a4ba3c849327b6",
+      "output": "sprites/environment/star-identities-v1/star-identities-mythic-atlas-v1.png",
+      "outputSha256": "3076e7f9d43cb654bc18dbc3571bf08aa27fcc9100fb49f55a792aeef2eb44ee",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "frameSize": 320,
+      "columns": 3,
+      "rows": 2,
+      "frameCount": 6,
+      "coverage": [
+        0.463652,
+        0.555762,
+        0.481934,
+        0.475322,
+        0.433418,
+        0.491084
+      ]
+    },
+    {
+      "rarity": "astral",
+      "source": "sprites/environment/star-identities-v1/source/star-identities-astral-source-v1.png",
+      "sourceSha256": "92543dd61e5f90eacafae3548eb5030f37077dcc16952ccc6a210fa3d433f9ed",
+      "output": "sprites/environment/star-identities-v1/star-identities-astral-atlas-v1.png",
+      "outputSha256": "8a5cc97ee902efdcfd8d8040359bdece65a5d3426f9a28347089e2ba0a43fd9a",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "frameSize": 320,
+      "columns": 2,
+      "rows": 2,
+      "frameCount": 4,
+      "coverage": [
+        0.746641,
+        0.646641,
+        0.611543,
+        0.642451
+      ]
+    }
+  ],
+  "inventoryFoundation": {
+    "source": "sprites/UI/star-atlas-v1/source/star-atlas-foundation-source-v1.png",
+    "sourceSha256": "c6900b1ba0871dddac7a47d4825a8cd61d31d7f2604dd0952f3056a616e33114",
+    "output": "sprites/UI/star-atlas-v1/star-atlas-foundation-v1.png",
+    "outputSha256": "0c065d2c63b2468698f723f8d4ce474082708bcf2d827b9f85f2eb06ddcae960",
+    "sourceSize": [
+      1738,
+      905
+    ],
+    "sourceBounds": [
+      3,
+      11,
+      1734,
+      884
+    ],
+    "outputSize": [
+      1536,
+      800
+    ],
+    "transparentCorners": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

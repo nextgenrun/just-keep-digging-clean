@@ -1,0 +1,234 @@
+{
+  "schema": "surface-hero-landmarks-v4-manifest@1",
+  "generatedUtc": "2026-07-30",
+  "staticTransforms": true,
+  "runtimeMotion": false,
+  "cropPaddingPx": {
+    "left": 8,
+    "right": 8,
+    "top": 8,
+    "bottom": 2
+  },
+  "assets": [
+    {
+      "id": "arrivalForgeShelter",
+      "keyColor": "green",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/arrival-forge-shelter-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/arrival-forge-shelter-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-arrival-forge-shelter-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1536,
+        "height": 1024
+      },
+      "cropBox": [
+        164,
+        36,
+        1371,
+        932
+      ],
+      "width": 1207,
+      "height": 896,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "5b268102a01ae3fbe5a9a949af59b71a03ab256aca4b0475a8a04f504e5732c0",
+      "alpha": {
+        "totalPixels": 1081472,
+        "transparentPixels": 462536,
+        "partialAlphaPixels": 8248,
+        "opaquePixels": 610688,
+        "transparentRatio": 0.427691,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 0
+      }
+    },
+    {
+      "id": "caravanWaystation",
+      "keyColor": "green",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/caravan-waystation-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/caravan-waystation-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-caravan-waystation-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1536,
+        "height": 1024
+      },
+      "cropBox": [
+        35,
+        149,
+        1456,
+        863
+      ],
+      "width": 1421,
+      "height": 714,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "3fa078406a06a713e7bef949b40194c49d2b293e90acd6e974bf20fdeef3315c",
+      "alpha": {
+        "totalPixels": 1014594,
+        "transparentPixels": 366323,
+        "partialAlphaPixels": 14490,
+        "opaquePixels": 633781,
+        "transparentRatio": 0.361054,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 0
+      }
+    },
+    {
+      "id": "starwellPortalFrame",
+      "keyColor": "green",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/starwell-portal-frame-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/starwell-portal-frame-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-starwell-portal-frame-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1254,
+        "height": 1254
+      },
+      "cropBox": [
+        51,
+        76,
+        1200,
+        1079
+      ],
+      "width": 1149,
+      "height": 1003,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "d4fb1764a78ff255c560f5820e962a8ff464cade8fddc20fbae7aaf03d013f5c",
+      "alpha": {
+        "totalPixels": 1152447,
+        "transparentPixels": 560471,
+        "partialAlphaPixels": 6554,
+        "opaquePixels": 585422,
+        "transparentRatio": 0.486331,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 169
+      },
+      "portalOpening": {
+        "sampleBox": [
+          483,
+          361,
+          666,
+          602
+        ],
+        "transparentRatio": 1.0,
+        "centerAlpha": 0
+      }
+    },
+    {
+      "id": "timberwrightYard",
+      "keyColor": "green",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/timberwright-yard-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/timberwright-yard-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-timberwright-yard-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1536,
+        "height": 1024
+      },
+      "cropBox": [
+        210,
+        30,
+        1355,
+        953
+      ],
+      "width": 1145,
+      "height": 923,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "16b84489470449cdfc12abcc9e71228680d4787b50a59771354482a4764320f8",
+      "alpha": {
+        "totalPixels": 1056835,
+        "transparentPixels": 435405,
+        "partialAlphaPixels": 15449,
+        "opaquePixels": 605981,
+        "transparentRatio": 0.41199,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 0
+      }
+    },
+    {
+      "id": "observatoryTelescope",
+      "keyColor": "green",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/observatory-telescope-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/observatory-telescope-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-observatory-telescope-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1402,
+        "height": 1122
+      },
+      "cropBox": [
+        115,
+        37,
+        1289,
+        1069
+      ],
+      "width": 1174,
+      "height": 1032,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "e6e61f1502c80ce839d5be07f5c19134f30348d70ab552e026085262700d679c",
+      "alpha": {
+        "totalPixels": 1211568,
+        "transparentPixels": 725713,
+        "partialAlphaPixels": 9081,
+        "opaquePixels": 476774,
+        "transparentRatio": 0.598987,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 0
+      }
+    },
+    {
+      "id": "frontierSurveyPavilion",
+      "keyColor": "magenta",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/frontier-survey-pavilion-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/frontier-survey-pavilion-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-frontier-survey-pavilion-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1536,
+        "height": 1024
+      },
+      "cropBox": [
+        85,
+        28,
+        1491,
+        933
+      ],
+      "width": 1406,
+      "height": 905,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "73058dbfbb98bd57f76a65bf64d4b6668df0e3c2ca0d070a9f484328fbcaf3dd",
+      "alpha": {
+        "totalPixels": 1272430,
+        "transparentPixels": 564720,
+        "partialAlphaPixels": 21393,
+        "opaquePixels": 686317,
+        "transparentRatio": 0.443812,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 0
+      }
+    },
+    {
+      "id": "threeKingsOverlook",
+      "keyColor": "green",
+      "runtimePath": "sprites/environment/surface-hero-landmarks-v4/three-kings-overlook-v4.png",
+      "alphaMasterPath": "sprites/environment/surface-hero-landmarks-v4/sources/alpha-masters/three-kings-overlook-alpha-v4.png",
+      "chromaSourcePath": "sprites/environment/surface-hero-landmarks-v4/sources/2026-07-30-three-kings-overlook-chroma-v4.png",
+      "sourceCanvas": {
+        "width": 1536,
+        "height": 1024
+      },
+      "cropBox": [
+        94,
+        23,
+        1438,
+        977
+      ],
+      "width": 1344,
+      "height": 954,
+      "bottomTransparentPaddingPx": 2,
+      "sha256": "2d754ad42d3328236e5939d3351ec49e29041c917bb44d8efd38d5ee945cc4e3",
+      "alpha": {
+        "totalPixels": 1282176,
+        "transparentPixels": 531985,
+        "partialAlphaPixels": 7563,
+        "opaquePixels": 742628,
+        "transparentRatio": 0.414908,
+        "greenResidualPixels": 0,
+        "magentaResidualPixels": 0
+      }
+    }
+  ]
+}

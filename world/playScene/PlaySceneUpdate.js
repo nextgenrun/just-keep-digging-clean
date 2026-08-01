@@ -112,6 +112,18 @@ function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
   }
 }
 
+function isSystemFeatureAvailable(scene, feature) {
+  return scene.systemIntroductionSystem?.isFeatureAvailable?.(feature) !== false;
+}
+
+function isTutorialDescentBlocked(scene) {
+  return scene.townSquareTutorialSystem?.isDescentBlocked?.() === true;
+}
+
+function isDownwardAimLabel(label) {
+  return String(label || "").startsWith("DOWN");
+}
+
 function handleRetentionEvents(scene) {
   const retention = scene.retentionProgressSystem;
   if (!retention) return;
@@ -363,7 +375,7 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
 export function updateScene(time, delta) {
   // Safety guard: if setup hasn't completed, skip update
   if (!this.gameInputHandler) return;
-  if (this._hardcoreRuntime?.modal?.isVisible) {
+  if (this._hardcoreRuntime?.modal?.isVisible || this._randomEventModalVisible) {
     this.uiNotifications?.setPaused?.(true);
     return;
   }
@@ -480,6 +492,7 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
   let phaseStartedAtMs = samplePerformancePhases ? performanceNow() : null;
 
   // HUD updates
+  this.systemIntroductionSystem?.update?.();
   this.hudSystem.update(time);
   this.nextPromiseHudSystem?.update(time);
   handleRetentionEvents(this);
@@ -542,17 +555,18 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
     this.specialBlockEffectsManager.update();
   }
 
-  // Update day/night cycle (always active)
-  if (this.dayNightCycle) {
+  // Clock progression begins with the first-return system introduction.
+  if (isSystemFeatureAvailable(this, "clock") && this.dayNightCycle) {
     this.dayNightCycle.update(delta);
   }
 
-  // Update dynamic weather before lighting so sunlight, storm flashes, and cave
-  // pulses feed the current frame's compositor.
-  if (this.weatherSystem) {
+  // Weather progression begins with the first-return system introduction so
+  // the opening loop is not quietly altered by unseen precipitation rules.
+  if (isSystemFeatureAvailable(this, "weather") && this.weatherSystem) {
     this.weatherSystem.update(time, delta);
   }
   this.worldRenderer?.update?.(time, delta, { playerTile: activePlayerTile });
+  this.v11SkyIslandVisualSystem?.update?.(time, delta);
   this.backgroundRenderer?.updateUniverseSky();
   this.startZoneScenicBackgroundSystem?.update();
   this.levelOneGroundFacadeSystem?.update(time);
@@ -591,20 +605,20 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
       this.worldRenderer.updateGlowCrystals(activePlayerTile, 25);
     }
 
-    if (this.caveAtmosphereSystem && activePlayerTile) {
+    if (isSystemFeatureAvailable(this, "caves") && this.caveAtmosphereSystem && activePlayerTile) {
       this.caveAtmosphereSystem.update(activePlayerTile, time);
     }
 
-    if (this.caveHazardSystem && activePlayerTile) {
+    if (isSystemFeatureAvailable(this, "hazards") && this.caveHazardSystem && activePlayerTile) {
       this.caveHazardSystem.update(time, activePlayerTile, this.gameState === "playing");
     }
 
-    if (this.caveInteriorOcclusionSystem && activePlayerTile) {
+    if (isSystemFeatureAvailable(this, "caves") && this.caveInteriorOcclusionSystem && activePlayerTile) {
       this.caveInteriorOcclusionSystem.update(activePlayerTile);
     }
 
   // Update Star Pillar System (always active — handles proximity + zoom view)
-  if (this.starPillarSystem && activePlayerTile) {
+  if (isSystemFeatureAvailable(this, "constellations") && this.starPillarSystem && activePlayerTile) {
     this.starPillarSystem.update(time, delta, activePlayerTile, keys);
   }
   if (samplePerformancePhases) {
@@ -621,7 +635,9 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
  */
 function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Block all gameplay while star chart view is open
+  const featureAvailable = feature => this.systemIntroductionSystem?.isFeatureAvailable?.(feature) !== false;
   if (this._pillarViewActive) return;
+  const featureDistance = (feature, getter) => featureAvailable(feature) ? getter?.() ?? Number.POSITIVE_INFINITY : Number.POSITIVE_INFINITY;
 
   // Depth gates have priority over movement, mining, and active hazards.
   if (this.depthGateSystem?.update()) return;
@@ -631,13 +647,13 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 
   // Campfire system (surface buff station) — MUST run before player controller
   // so W/S/E input handling works while menu is open, and so player can't move
-  if (this.campfireSystem && this.inputHandler) {
+  if (featureAvailable("campfire") && this.campfireSystem && this.inputHandler) {
     const handlerKeys = this.inputHandler.getKeys();
     this.campfireSystem.update(playerTile, handlerKeys, delta);
   }
 
   // Block all gameplay while campfire menu is open (like shop overlay does)
-  if (this.campfireSystem && this.campfireSystem.isSelecting()) return;
+  if (featureAvailable("campfire") && this.campfireSystem && this.campfireSystem.isSelecting()) return;
 
   const thunderMovement = this.playerController?.input?.getHorizontalMovement?.();
   if (thunderMovement?.left || thunderMovement?.right) {
@@ -646,53 +662,88 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
+  // A player can still enter the authored surface shaft by walking into it;
+  // rescue that route immediately while the tutorial has not taught Flight.
+  this.townSquareTutorialSystem?.enforceSurfaceSafety?.();
   // Honor the player's current-frame fly/dodge input before a falling rock
   // resolves its swept collision.
-  this.earthquakeSystem?.update(delta);
-  this.earthquakeFeedbackUI?.update();
-  this.earthquakeHazardOverlay?.update();
+  if (featureAvailable("hazards")) {
+    this.earthquakeSystem?.update(delta);
+    this.earthquakeFeedbackUI?.update();
+    this.earthquakeHazardOverlay?.update();
+  } else {
+    this.earthquakeSystem?.setPaused?.(true);
+  }
   if (this.gameState !== "playing") return;
 
   this.celestialEngineController?.update(time, delta, keys);
   this.openingFlightArtifactSystem?.update(delta);
   this.playerKinematicMotion?.samplePhysics(delta);
   this.playerRigContact?.update(delta);
+  this.playerContactShadow?.update(delta);
 
   playerTile = this.playerController.getPlayerTile();
   this._framePlayerTile = playerTile;
+  this.hardcoreMemorialSystem?.update?.();
   updateHardcoreModeRuntime(this, time, delta, playerTile);
   if (this.gameState !== "playing") return;
   updateGraveborerWurmRuntime(this, time, delta, playerTile);
   if (this.gameState !== "playing") return;
+  if (featureAvailable("randomEvents")) {
+    this.randomEventBridge?.update?.(time, delta, playerTile, {
+      pauseTimer: hasEscapeClosableUi(this),
+    });
+  }
   this.npcManager?.updateActivities?.(time, delta, playerTile);
-  const arcCoreConsumedInteraction = this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
+  const arcCoreConsumedInteraction = featureAvailable("arcCore") && this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
 
-  this.specialTileSystem?.update?.();
-  const milestoneDistance = this.milestoneBoardSystem?.getInteractionDistance?.(playerTile)
-    ?? Number.POSITIVE_INFINITY;
-  const nearestNpcDistance = this.npcManager?.getNearestInteractionDistance?.(playerTile)
-    ?? Number.POSITIVE_INFINITY;
-  const titanStatueDistance = this.worldRenderer
-    ?.getTitanSurfaceInspectionDistance?.(playerTile)
-    ?? Number.POSITIVE_INFINITY;
-  const specialTileDistance = this.specialTileSystem?.getInteractionDistance?.(playerTile)
-    ?? Number.POSITIVE_INFINITY;
+  if (featureAvailable("specialTiles")) this.specialTileSystem?.update?.();
+  this.animatedCacheVisualSystem?.update?.(time, playerTile);
+  if (featureAvailable("relics")) this.memoryReliquaryWorldSystem?.update?.(time, playerTile);
+  this.interactiveWorldStateTextureBank?.update?.(time);
+  const milestoneDistance = featureDistance("milestones", () => this.milestoneBoardSystem?.getInteractionDistance?.(playerTile));
+  const nearestNpcDistance = featureDistance("core", () => this.npcManager?.getNearestInteractionDistance?.(playerTile));
+  const titanStatueDistance = featureDistance("titans", () => this.worldRenderer?.getTitanSurfaceInspectionDistance?.(playerTile));
+  const specialTileDistance = featureDistance("specialTiles", () => this.specialTileSystem?.getInteractionDistance?.(playerTile));
+  const eventDistance = featureDistance("randomEvents", () => this.randomEventBridge?.getInteractionDistance?.(playerTile));
+  const memoryReliquaryDistance = featureDistance("relics", () => this.memoryReliquaryWorldSystem?.getInteractionDistance?.(playerTile));
   const specialTileHasPriority = Number.isFinite(specialTileDistance)
     && specialTileDistance <= Math.min(
       milestoneDistance,
       nearestNpcDistance,
       titanStatueDistance,
+      eventDistance,
+      memoryReliquaryDistance,
     );
-  const milestoneConsumedInteraction = this.milestoneBoardSystem?.update?.(
+  const eventHasPriority = Number.isFinite(eventDistance)
+    && eventDistance < Math.min(
+      milestoneDistance,
+      nearestNpcDistance,
+      titanStatueDistance,
+      specialTileDistance,
+      memoryReliquaryDistance,
+    );
+  const memoryReliquaryHasPriority = Number.isFinite(memoryReliquaryDistance)
+    && memoryReliquaryDistance < Math.min(
+      milestoneDistance,
+      nearestNpcDistance,
+      titanStatueDistance,
+      specialTileDistance,
+      eventDistance,
+    );
+  this.memoryReliquaryWorldSystem?.setInteractionAllowed?.(
+    !arcCoreConsumedInteraction && memoryReliquaryHasPriority,
+  );
+  const milestoneConsumedInteraction = featureAvailable("milestones") && this.milestoneBoardSystem?.update?.(
     playerTile,
     this.inputHandler?.getKeys?.(),
     {
       allowOpen: !arcCoreConsumedInteraction
         && milestoneDistance
-        < Math.min(nearestNpcDistance, titanStatueDistance, specialTileDistance),
+        < Math.min(nearestNpcDistance, titanStatueDistance, specialTileDistance, eventDistance, memoryReliquaryDistance),
     },
   ) === true;
-  const titanConsumedInteraction = this.worldRenderer
+  const titanConsumedInteraction = featureAvailable("titans") && this.worldRenderer
     ?.updateTitanSurfaceInspection?.(
       playerTile,
       keys,
@@ -700,7 +751,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
           allowInspect: !arcCoreConsumedInteraction
           && !milestoneConsumedInteraction
           && titanStatueDistance
-            < Math.min(milestoneDistance, nearestNpcDistance, specialTileDistance),
+            < Math.min(milestoneDistance, nearestNpcDistance, specialTileDistance, eventDistance, memoryReliquaryDistance),
       },
     ) === true;
 
@@ -710,6 +761,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     && !milestoneConsumedInteraction
     && !titanConsumedInteraction
     && !specialTileHasPriority
+    && !eventHasPriority
+    && !memoryReliquaryHasPriority
   ) {
     this.npcManager.checkNPCInteraction();
   }
@@ -717,7 +770,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Update NPC interact prompts (floating "Press E" text visibility)
   this.npcManager.updateInteractPrompts(
     playerTile,
-    Math.min(milestoneDistance, titanStatueDistance, specialTileDistance),
+    Math.min(milestoneDistance, titanStatueDistance, specialTileDistance, eventDistance, memoryReliquaryDistance),
   );
 
   // Integrated caves stay in PlayScene. Only explicit compact review mouths
@@ -727,11 +780,14 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     && !milestoneConsumedInteraction
     && !titanConsumedInteraction
     && !specialTileHasPriority
+    && !eventHasPriority
+    && !memoryReliquaryHasPriority
+    && featureAvailable("caves")
     && this.caveEntryController?.update(playerTile, keys)
   ) return;
 
     // Special tile system (gamble and teleport tiles)
-    this.heavenblocksAccessSystem?.update?.(playerTile);
+    if (featureAvailable("heavenblocks")) this.heavenblocksAccessSystem?.update?.(playerTile);
 
   // Aim handling
   const miningInputState = this.inputHandler.resolveMiningInputState();
@@ -777,7 +833,10 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       quickslashTarget,
     );
 
-    if (arcCoreActive) {
+    if (this.randomEventBridge?.shouldConsumeMineTarget?.(quickslashTarget)) {
+      this.randomEventBridge.handleMineContact(quickslashTarget);
+      this.updatePlayerVisualState(true);
+    } else if (arcCoreActive) {
       handleArcCoreMine(this, quickslashTarget, time, abilities, quickslashAim);
     } else if (
       (!this.isDigAnimating || this.canReplaceUalDigRecovery?.(time, abilities))
@@ -822,11 +881,40 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Normal mining (configured dig key or primary mouse click/hold).
   const keyboardMineRequested = this.playerController.consumeMineInput();
   const normalMineRequested = keyboardMineRequested || miningInputState.mouseRequested;
-  if (!this._teleportInAnimating && normalMineRequested && !isQuickslashActive) {
+  const tutorialDownwardMineBlocked = isTutorialDescentBlocked(this)
+    && isDownwardAimLabel(effectiveAimLabel);
+  if (tutorialDownwardMineBlocked && normalMineRequested && !isQuickslashActive) {
     if (miningInputState.mouseRequested) {
       this.inputHandler.acknowledgeMouseMineRequest();
     }
-    if (arcCoreActive) {
+    this.townSquareTutorialSystem?.handleDescentBlocked?.();
+  }
+  if (
+    !this._teleportInAnimating
+    && normalMineRequested
+    && !isQuickslashActive
+    && !tutorialDownwardMineBlocked
+  ) {
+    if (miningInputState.mouseRequested) {
+      this.inputHandler.acknowledgeMouseMineRequest();
+    }
+    if (this.randomEventBridge?.shouldConsumeMineTarget?.(aimTargetTile)) {
+      const eventTileType = this.worldModel.getTileType(aimTargetTile.tx, aimTargetTile.ty);
+      const eventProfile = this.playerAssetProfile || ASSET_KEYS.player;
+      if (eventProfile.isLivingDrill) {
+        this.randomEventBridge.handleMineContact(aimTargetTile);
+        this.updatePlayerVisualState(true);
+      } else if (!this.isDigAnimating || this.canReplaceUalDigRecovery?.(time, abilities)) {
+        this.startDigAnimation({
+          targetTile: aimTargetTile,
+          tileType: eventTileType,
+          actionKind: "normal",
+          onContact: () => {
+            this.randomEventBridge?.handleMineContact?.(aimTargetTile);
+          },
+        });
+      }
+    } else if (arcCoreActive) {
       handleArcCoreMine(this, aimTargetTile, time, abilities, effectiveAimLabel);
     } else {
       const mineAttempt = this.prepareLivingDrillMineAttempt?.(
@@ -891,13 +979,24 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 
   // Special tile interaction (E key for gamble/teleport tiles)
   if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
-    const heavenblocksResult = this.heavenblocksAccessSystem?.handleInteract?.()
-      || { success: false };
+    if (featureAvailable("randomEvents") && eventHasPriority && this.randomEventBridge?.handleInteract?.()) {
+      return;
+    }
+
+    const heavenblocksResult = featureAvailable("heavenblocks") ? (this.heavenblocksAccessSystem?.handleInteract?.() || { success: false }) : { success: false };
     if (heavenblocksResult.success) {
       console.log("[HEAVENBLOCKS] Interaction successful:", heavenblocksResult.type, heavenblocksResult);
       return;
     }
-    const interactResult = this.specialTileSystem?.handleInteract?.() || { success: false };
+    if (featureAvailable("relics") && memoryReliquaryHasPriority) {
+      const memoryResult = this.memoryReliquaryWorldSystem?.handleInteract?.()
+        || { success: false };
+      if (memoryResult.success) {
+        console.log("[MEMORY RELIQUARY] Interaction successful:", memoryResult.type, memoryResult);
+        return;
+      }
+    }
+    const interactResult = featureAvailable("specialTiles") ? (this.specialTileSystem?.handleInteract?.() || { success: false }) : { success: false };
     if (interactResult.success) {
       console.log('[SPECIAL TILE] Interaction successful:', interactResult.type, interactResult);
       // Refresh resources after gamble
@@ -908,7 +1007,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     }
 
     // Star Pillar is the fallback when no special tile consumed E.
-    if (this.starPillarSystem && this.starPillarSystem._playerInRange) {
+    if (featureAvailable("constellations") && this.starPillarSystem && this.starPillarSystem._playerInRange) {
       this.starPillarSystem.openConstellationView();
       return;
     }
@@ -916,7 +1015,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 
   // Thunder Strike: one paid charge, then exact-timing free follow-up slams.
   const cInput = this.playerController.input.getThunderStrikeInput();
-  this.thunderStrikeActionRuntime?.update(
+  if (featureAvailable("abilities")) this.thunderStrikeActionRuntime?.update(
     time,
     cInput,
     (strikeResult, contactTime) => handleThunderStrikeResult(
@@ -945,6 +1044,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   const inTown = playerTile.ty >= this.config.topAirRows - 4
     && playerTile.ty <= this.config.topAirRows;
   this.retentionProgressSystem?.updateDepth?.(depth, { isTown: inTown });
+  if (featureAvailable("randomEvents")) this.randomEventBridge?.checkJackpotMaturity?.(depth);
 
   // Update biome system with current depth
   if (this.biomeSystem) {
@@ -952,7 +1052,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   }
 
   // Check depth milestones
-  if (this.milestoneBoardSystem) {
+  if (featureAvailable("milestones") && this.milestoneBoardSystem && !this._randomEventModalVisible) {
     const milestone = this.milestoneBoardSystem.checkDepthMilestone(depth);
     if (milestone) {
       // Play milestone fanfare

@@ -65,6 +65,34 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
       Object.freeze({ type: TILE_TYPES.MAGMA_CRYSTAL, weight: 14 }),
       Object.freeze({ type: TILE_TYPES.GOLD, weight: 10 }),
     ]),
+    nodeTilesDeep: Object.freeze([
+      Object.freeze({ type: TILE_TYPES.OBSIDIAN, weight: 20 }),
+      Object.freeze({ type: TILE_TYPES.EMBER_ORE, weight: 35 }),
+      Object.freeze({ type: TILE_TYPES.MAGMA_CRYSTAL, weight: 35 }),
+      Object.freeze({ type: TILE_TYPES.GOLD, weight: 10 }),
+    ]),
+    resourceCurve: Object.freeze([
+      Object.freeze({
+        type: TILE_TYPES.MAGMA_CRYSTAL,
+        topChance: 0.018,
+        bottomChance: 0.14,
+      }),
+      Object.freeze({
+        type: TILE_TYPES.EMBER_ORE,
+        topChance: 0.062,
+        bottomChance: 0.20,
+      }),
+      Object.freeze({
+        type: TILE_TYPES.OBSIDIAN,
+        topChance: 0.19,
+        bottomChance: 0.25,
+      }),
+      Object.freeze({
+        type: TILE_TYPES.GOLD,
+        topChance: 0.04,
+        bottomChance: 0.06,
+      }),
+    ]),
     // Level Two is generated after the authored Tiled override, so its special
     // tiles must be restored explicitly. These anchors sit on deterministic
     // cave walls from the current seed, spread through the full 3000m route.

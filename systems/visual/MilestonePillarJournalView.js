@@ -3,6 +3,7 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import { MILESTONE_PILLAR_UI } from "../../values/milestonePillarUi.js";
 import { RESOURCE_KEYS, getResourceDisplayName } from "../../values/resourceTypes.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import { getMemoryReliquaryByJournalKey } from "../../values/interactiveWorldStates.js";
 import { TITAN_CLUE_CATALOG_CONFIG } from "../../values/titanClueCatalog.js";
 import {
   addMilestonePanel,
@@ -14,6 +15,8 @@ function formatJournalEntry(key) {
   if (key === "sky-star") return "Constellation Star";
   if (key === "ancient-relic") return "Ancient Relic Cache";
   if (key === "earthquake") return "Earthquake Aftermath";
+  const memory = getMemoryReliquaryByJournalKey(key);
+  if (memory) return `World Memory: ${memory.title}`;
   if (key.startsWith(TITAN_CLUE_CATALOG_CONFIG.persistence.journalKeyPrefix)) {
     const index = key.slice(
       TITAN_CLUE_CATALOG_CONFIG.persistence.journalKeyPrefix.length

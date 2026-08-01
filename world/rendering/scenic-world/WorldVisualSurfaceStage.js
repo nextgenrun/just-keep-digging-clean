@@ -3,19 +3,19 @@ import {
   getWorldVisualPreloadAssets,
   resolveWorldVisualSurfaceEdgeEnabled,
   resolveWorldVisualSurfaceGroundVariationEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
 import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
   resolveWorldVisualDepthBackdropBlendMask,
-} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
-import { resolveWorldVisualSurfacePack } from "../../../values/worldVisualSurfacePacks.js";
+} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
+import { resolveWorldVisualSurfacePack } from "../../../values/worldVisualSurfacePacks.js?rev=20260730-surface-transition-v1";
 import { V11_SKY_ISLAND_LAYOUT } from "../../../values/v11SkyIslandLayout.js";
-import { WorldVisualSurfacePackView } from "./WorldVisualSurfacePackView.js";
+import { WorldVisualSurfacePackView } from "./WorldVisualSurfacePackView.js?rev=20260729-native-density-v14";
 import {
   createWorldVisualBlendMask,
   resolveWorldVisualBlendBits,
 } from
-  "./worldVisualBlendMaskFrame.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./worldVisualBlendMaskFrame.js?rev=20260729-native-density-v14";
 import { setTintIfChanged } from "./worldVisualRenderState.js";
 
 function sourceSize(scene, key) {
@@ -127,7 +127,11 @@ export class WorldVisualSurfaceStage {
     const { tileSize, topAirRows } = this.scene.config;
     const cfg = this.config.surface;
     const source = sourceSize(this.scene, this.config.assets.town.key);
-    const displayWidth = cfg.townWidthTiles * tileSize;
+    const requestedWidth = cfg.townWidthTiles * tileSize;
+    const displayWidth = Math.min(
+      requestedWidth,
+      source.width * cfg.townMaxSourceScale,
+    );
     const scale = displayWidth / source.width;
     this.town = this.scene.add.image(
       cfg.townLeftTile * tileSize,
@@ -149,15 +153,24 @@ export class WorldVisualSurfaceStage {
     const { tileSize, worldWidthPx, topAirRows } = this.scene.config;
     const cfg = this.config.surface;
     const source = sourceSize(this.scene, this.config.assets.surfaceEdge.key);
-    const width = cfg.edgeSegmentWidthTiles * tileSize;
-    const scale = width / source.width;
+    const requestedWidth = cfg.edgeSegmentWidthTiles * tileSize + cfg.edgeOverlapPx;
+    const displayWidth = Math.min(
+      requestedWidth,
+      source.width * cfg.edgeMaxSourceScale,
+    );
+    const scale = displayWidth / source.width;
     const height = source.height * scale;
-    const count = Math.ceil(worldWidthPx / width) + 1;
+    const stride = Math.max(1, displayWidth - cfg.edgeOverlapPx);
+    const count = Math.ceil(worldWidthPx / stride) + 1;
     for (let index = 0; index < count; index += 1) {
-      const image = this.scene.add.image(index * width, topAirRows * tileSize, this.config.assets.surfaceEdge.key)
+      const image = this.scene.add.image(
+        index * stride,
+        topAirRows * tileSize,
+        this.config.assets.surfaceEdge.key,
+      )
         .setOrigin(0, cfg.edgeTopFraction)
         .setDepth(this.config.render.surfaceEdgeDepth)
-        .setDisplaySize(width + cfg.edgeOverlapPx, height)
+        .setDisplaySize(displayWidth, height)
         .setFlipX(index % 2 === 1);
       image.name = `world-visual-v2-surface-edge-${index}`;
       this.surfaceEdges.push(image);
@@ -169,14 +182,26 @@ export class WorldVisualSurfaceStage {
     const feature = this.config.surface.surfaceGroundVariation;
     const assets = feature.assets;
     if (!assets?.length) return;
-    const width = feature.logicalWidthTiles * tileSize;
-    const stride = feature.strideTiles * tileSize;
+    const width = feature.expectedSourceWidthPx * feature.maxSourceScale;
+    const height = feature.expectedSourceHeightPx * feature.maxSourceScale;
+    const stride = feature.stridePx * feature.maxSourceScale;
     const count = Math.ceil(worldWidthPx / stride) + 2;
     for (let index = -1; index < count; index += 1) {
-      const assetIndex = ((index + 1) * 7 + 3) % assets.length;
+      // The library is authored west-to-east. Walk it in that order so rain
+      // slate, roots, cobble, and expedition rock form a readable ground
+      // journey instead of a prime-step shuffle.
+      const assetIndex = ((index + 1) % assets.length + assets.length)
+        % assets.length;
       const asset = assets[assetIndex];
       const source = sourceSize(this.scene, asset.key);
-      const height = width * source.height / source.width;
+      if (
+        source.width !== feature.expectedSourceWidthPx
+        || source.height !== feature.expectedSourceHeightPx
+      ) {
+        throw new Error(
+          `[WorldVisualSurfaceStage] Ground source changed: ${asset.key}`,
+        );
+      }
       const image = this.scene.add.image(
         index * stride,
         topAirRows * tileSize,

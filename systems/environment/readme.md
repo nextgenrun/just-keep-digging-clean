@@ -11,13 +11,31 @@ Notable systems:
 - `WeatherImpactParticleController.js` / `WeatherParticleController.js` — world-anchored ImageGen splashes, ripples, powder, drips, mist, dust, and steam; procedural textures are explicit `?skylineVfx=0` rollback only
 - `SkylineWeatherVfxSystem.js` — approved generated clouds/fog/lightning; it intentionally does not own precipitation, avoiding a second camera-space rain/snow path
 - `AtmosphereSystem.js` / `LightRayAtmosphere.js` — depth-safe clouds, horizon glow, and rays sourced from the live sun position and weather tint
+- Carried-fire rays are intentionally not environment rays: the separate
+  `systems/lighting/FireLightRayRenderer.js` hand-sockets and solid-tile-clamps
+  its local authored gobos beneath the darkness mask.
 - `AmbientParticleSystem.js` — underground dust motes + falling debris (values/ambientParticleConfig.js)
-- `CampfireSystem.js` — campfire buffs
+- `CampfireSystem.js` — campfire buffs plus save-slot-aware texture residency.
+  It adopts the current tier queued by `WorldLoadScene`, keeps that exact visual
+  until an upgraded tier is fully ready, then releases the previous
+  manager-owned texture without changing upgrade or persistence semantics.
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
-- `V11SkyIslandVisualSystem.js` waits for the shared Phaser loader to become
-  idle before starting the six large Heavenblocks backdrops/facades. This keeps
-  scenic demand streaming and Heavenblocks from joining the same in-flight
-  loader cycle and losing the late-queued visual files.
+- `V11SkyIslandVisualSystem.js` submits the six Heavenblocks backdrops/facades
+  as separate low-priority requests to the shared runtime coordinator. Each
+  1672x941 source is now uniformly contained at maximum scale `1` and centered
+  inside its reserved 1920x1080 world region; backdrop overscan can request
+  coverage but can no longer magnify the source. All six layers still activate
+  together after serialized decode, and `?runtimeAssetQueue=0` retains the
+  loader-idle rollback.
+- `V11SkyPropSystem.js` selects thirteen static details from the 60-asset V3
+  sky library, using only portal-island outer bookends and one object per safe
+  Heavenblock interaction gap. It
+  validates complete rendered rectangles against all eight portal slots, both
+  sky pillars, platform bounds, and arrival/altar/shrine radii, and exposes
+  `window.__jkdSkyPropsV3`. `?skyPropsV3=0` is its isolated rollback.
+  All prop transforms remain static after creation.
+- `v11SkyPropGeometry.js` centralizes the player-calibrated size, density,
+  frame, and rectangle-intersection math used by that static sky composition.
 - `EarthquakeSystem.js` — world-space seismic events with independent
   epicenters, independently validated one-column FallZones, ground-aligned
   authored boulders, leading-edge swept player collision, retry-safe local

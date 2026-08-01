@@ -210,7 +210,7 @@ expandedTerrainRegions.forEach((region, index) => {
   assert.equal(region.capAtlases[1], region.v5CapAtlas);
 });
 assert.equal(terrainConfig.segment.crossBiomeOverlapYPx, 128);
-assert.equal(WORLD_VISUAL_DEPTH_BACKDROPS.blend.crossBiomeOverlapYPx, 128);
+assert.equal(WORLD_VISUAL_DEPTH_BACKDROPS.blend.crossBiomeOverlapYPx, 140);
 
 class FakeTerrainImage {
   constructor(x, y, key) {
@@ -383,9 +383,9 @@ const rollbackPreload = getWorldVisualPreloadAssets(
 assert.ok(rollbackPreload.some(asset => asset === runtimeConfig.assets.surfaceEdge));
 assert.ok(surfaceAssets.every(asset => !rollbackPreload.includes(asset)));
 assert.equal(
-  runtimeConfig.surface.surfaceGroundVariation.logicalWidthTiles
-    - runtimeConfig.surface.surfaceGroundVariation.overlapTiles,
-  runtimeConfig.surface.surfaceGroundVariation.strideTiles
+  runtimeConfig.surface.surfaceGroundVariation.expectedSourceWidthPx
+    - runtimeConfig.surface.surfaceGroundVariation.overlapPx,
+  runtimeConfig.surface.surfaceGroundVariation.stridePx
 );
 
 const surfaceStageSource = fs.readFileSync(path.join(

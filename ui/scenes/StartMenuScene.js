@@ -8,6 +8,7 @@ import {
 import { UI_COLORS } from "../../values/uiColors.js";
 import { SAVE_TRANSFER_UI, UI_FONTS } from "../../values/uiLayout.js?rev=20260727-save-transfer-v1";
 import { createButton } from "../PhaserUiKit.js";
+import { createUiIcon } from "../UiIconAtlas.js";
 import { createManualSaveFilePicker } from "../components/manualSaveFilePicker.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
@@ -292,7 +293,14 @@ export class StartMenuScene extends Phaser.Scene {
 
 
         // Continue indicator
-        const contTxt = this.add.text(cx, cy + CARD_H / 2 - 30, '▶  CONTINUE', {
+        const continueIcon = createUiIcon(this, 'play', {
+          x: cx - 50,
+          y: cy + CARD_H / 2 - 39,
+          size: 22,
+          alpha: 0.92,
+        });
+        if (continueIcon) objs.push(continueIcon);
+        const contTxt = this.add.text(cx + 10, cy + CARD_H / 2 - 30, 'CONTINUE', {
           fontFamily: UI_FONTS.mono,
           fontSize: '14px',
           color: '#4ecb71',
@@ -301,15 +309,15 @@ export class StartMenuScene extends Phaser.Scene {
 
       } else {
         // Empty slot
-        const emptyLabel = this.add.text(cx, cy - 15, '＋', {
-          fontFamily: UI_FONTS.display,
-          fontSize: '30px',
-          fontStyle: 'bold',
-          color: '#2a4a5a',
-        }).setOrigin(0.5);
-        objs.push(emptyLabel);
+        const emptyIcon = createUiIcon(this, 'save', {
+          x: cx,
+          y: cy - 15,
+          size: 42,
+          alpha: 0.38,
+        });
+        if (emptyIcon) objs.push(emptyIcon);
 
-        const newTxt = this.add.text(cx, cy + CARD_H / 2 - 30, '+  NEW SAVE', {
+        const newTxt = this.add.text(cx, cy + CARD_H / 2 - 30, 'NEW SAVE', {
           fontFamily: UI_FONTS.mono,
           fontSize: '14px',
           color: '#7ab8f5',
@@ -415,13 +423,16 @@ export class StartMenuScene extends Phaser.Scene {
 
   _animateCardEntry() {
     this._cardObjects.forEach((objs, i) => {
-      objs.forEach(o => o.setAlpha(0));
-      this.tweens.add({
-        targets: objs,
-        alpha: 1,
-        duration: 240,
-        delay: 80 + i * 100,
-        ease: 'Power2.out',
+      objs.forEach(object => {
+        const targetAlpha = object.alpha;
+        object.setAlpha(0);
+        this.tweens.add({
+          targets: object,
+          alpha: targetAlpha,
+          duration: 240,
+          delay: 80 + i * 100,
+          ease: 'Power2.out',
+        });
       });
     });
   }

@@ -2,7 +2,7 @@ import {
   buildTitanCreatureCoverageCells,
   countRemainingTitanCoverage,
 } from "./titanCreatureFootprint.js";
-import { fitTitanChamberScale } from "./titanChamberGeometry.js";
+import { fitTitanChamberScale } from "./titanChamberGeometry.js?rev=20260729-native-density-v14";
 import { getTitanCoverageRequired } from "./titanCoverageThreshold.js";
 
 export function createTitanDiscoveryView(
@@ -26,7 +26,8 @@ export function createTitanDiscoveryView(
   const baseScale = fitTitanChamberScale(
     sprite,
     widthPx * underground.titanFitFraction,
-    heightPx * underground.titanFitFraction
+    heightPx * underground.titanFitFraction,
+    config.density.maxSourceScale,
   );
   sprite
     .setDepth(underground.spriteDepth)

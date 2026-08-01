@@ -11,13 +11,24 @@ four flight altitudes:
   overlook.
 
 `values/worldVisualSkyCohesion.js` owns the exact file inventory and selection
-grid. `WorldVisualSkyCohesionLayer` builds a complete native-scale 18x8 overlap
-field without cropping or enlarging the art. All twenty images are used, with
-balanced seven/eight-use repetition being the minimum needed to cover the full
-world at source density. Only incoming left/top edges feather over an opaque
-retained card; outer world edges remain opaque, so no join or sky boundary can
-reveal clear color. Cards remain fixed in world space and never follow the
-camera.
+grid. `WorldVisualSkyCohesionLayer` builds a complete native-density 28x12
+overlap field. All twenty images are retained and used. The renderer selects
+the clean 1254x705 inner frame from each 1672x941 source, excluding only the
+baked dark edge and never enlarging a source pixel. Columns select the nearest
+authored west-to-east chapter center, while rows select the nearest authored
+altitude center. Far/open sky therefore remains above upper structures,
+mid-atmosphere, and lower horizon/ground art instead of shuffling mountains
+through unrelated locations.
+
+Every real left/right/top/bottom neighbor receives a generated smoothstep
+weight. Adjacent weights are exact complements and are ADD-composed over one
+opaque world-space matte; they sum to one along edges and at four-card corners.
+Outer world edges stay fully opaque, so neither a fold nor clear color can
+appear. The quarter-frame 314x176 overlap gives neighboring horizons enough
+shared area to read as one painting. Per-source multiplicative atmosphere
+grades bring the daylight, crimson, and storm outliers into the same live
+weather palette without baking replacements. Cards remain fixed in world space
+and never follow the camera.
 
 These files are additive production copies of the visually approved assets in
 `visual-approval-previews/sky-underground-game-ready-assets-v1/`. The runtime

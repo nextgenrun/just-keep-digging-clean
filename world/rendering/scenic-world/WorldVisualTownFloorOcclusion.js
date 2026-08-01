@@ -4,7 +4,7 @@ import {
 } from "../../../values/worldVisualSurfacePacks.js";
 import {
   resolveSurfacePackBeautyGeometry,
-} from "./WorldVisualSurfacePackView.js";
+} from "./WorldVisualSurfacePackView.js?rev=20260729-native-density-v14";
 import {
   resolveTownFloorGeometry,
 } from "./WorldVisualTownFloorView.js";

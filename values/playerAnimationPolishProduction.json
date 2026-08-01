@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "survival-player-animation-polish-v1-20260728",
+  "version": "survival-player-animation-polish-v2-20260731",
   "enabledByDefault": true,
   "rollbackQuery": "animationPolish",
   "disabledQueryValue": "0",
@@ -27,6 +27,7 @@
     "digUp": {
       "file": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png",
       "frameCount": 24,
+      "sourceClip": "Blender MINER_dig_up",
       "columns": 16,
       "displaySizePx": 109
     },
@@ -35,35 +36,42 @@
       "manifestAction": "ground-strike",
       "frameCount": 41,
       "columns": 16,
-      "displaySizePx": 123
+      "displaySizePx": 109
     },
     "punchJab": {
       "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp",
       "manifestAction": "punch-jab",
       "frameCount": 27,
       "columns": 16,
-      "displaySizePx": 123
+      "displaySizePx": 109
     },
     "punchCross": {
       "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-cross-sheet.webp",
       "manifestAction": "punch-cross",
       "frameCount": 31,
       "columns": 16,
-      "displaySizePx": 123
+      "displaySizePx": 109
     },
     "landing": {
       "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-landing-sheet.webp",
       "manifestAction": "landing",
       "frameCount": 39,
       "columns": 16,
-      "displaySizePx": 123
+      "displaySizePx": 109
     },
     "wallPush": {
       "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-wall-push-sheet.webp",
       "manifestAction": "wall-push",
       "frameCount": 80,
       "columns": 16,
-      "displaySizePx": 123
+      "displaySizePx": 109
+    },
+    "blenderDigDown": {
+      "file": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-down-sheet.png",
+      "frameCount": 30,
+      "sourceClip": "Blender MINER_dig_down",
+      "columns": 16,
+      "displaySizePx": 109
     }
   },
   "sheets": {
@@ -118,11 +126,75 @@
     "down": {
       "animationKeyPrefix": "survival-ual-player-v1-moving-diagonal-down-phase",
       "manifestActionPrefix": "moving-diagonal-down-phase",
-      "source": "groundStrike",
-      "sourceFrames": [4, 6, 9, 11, 13, 16, 18, 21, 24, 26, 29, 32, 34, 37, 40],
+      "source": "blenderDigDown",
+      "sourceFrames": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 27, 29],
       "contactSequenceIndex": 6,
       "markerGroup": "hands"
     }
+  },
+  "verticalMining": {
+    "enabledByDefault": true,
+    "rollbackQuery": "verticalDigPolish",
+    "disabledQueryValue": "0",
+    "frameRate": 30,
+    "up": {
+      "source": "digUp",
+      "animationKeys": [
+        "survival-ual-player-v1-dig-up-jab-anim",
+        "survival-ual-player-v1-dig-up-cross-anim",
+        "survival-ual-player-v1-dig-up-side-jab-anim",
+        "survival-ual-player-v1-dig-up-side-cross-anim"
+      ],
+      "sourceFrames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+      "sourceContactFrame": 11,
+      "contactSequenceIndex": 11,
+      "sourceAction": "survival-blender-v2-dig-up-polished",
+      "markerGroup": "hands",
+      "upperSeamY": 174,
+      "upperSeamFeatherPx": 34,
+      "upperLiftSourcePx": [0, 0, 0, 2, 6, 11, 14, 11, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "down": {
+      "source": "blenderDigDown",
+      "animationKeys": [
+        "survival-ual-player-v1-dig-down-ground-strike-anim"
+      ],
+      "sourceFrames": [0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29],
+      "sourceContactFrame": 12,
+      "contactSequenceIndex": 14,
+      "sourceAction": "survival-blender-v2-dig-down-body-locked",
+      "markerGroup": "hands"
+    }
+  },
+  "stationaryContactPolish": {
+    "enabledByDefault": true,
+    "rollbackQuery": "stationaryContactPolish",
+    "disabledQueryValue": "0",
+    "side": [
+      {
+        "animationKey": "survival-ual-player-v1-punch-jab-anim",
+        "textureFrame": 7,
+        "sequenceIndex": 7,
+        "sourceAction": "punch-jab",
+        "markerGroup": "hands"
+      },
+      {
+        "animationKey": "survival-ual-player-v1-dig-side-cross-anim",
+        "textureFrame": 9,
+        "sequenceIndex": 9,
+        "sourceAction": "punch-cross",
+        "markerGroup": "hands"
+      }
+    ],
+    "quickslash": [
+      {
+        "animationKey": "survival-ual-player-v1-punch-jab-anim",
+        "textureFrame": 7,
+        "sequenceIndex": 4,
+        "sourceAction": "punch-jab",
+        "markerGroup": "hands"
+      }
+    ]
   },
   "actionRecovery": {
     "enabledByDefault": true,
@@ -130,7 +202,7 @@
     "disabledQueryValue": "0",
     "frameRate": 30,
     "bridgeFrameCount": 2,
-    "idleBlendWeight": 0.45,
+    "idleBlendWeight": 0.1,
     "families": {
       "jab": {
         "source": "punchJab",
@@ -178,10 +250,16 @@
     "rollbackQuery": "wallBrace",
     "disabledQueryValue": "0",
     "entryAnimationKey": "survival-ual-player-v1-wall-brace-enter-anim",
+    "loopAnimationKey": "survival-ual-player-v1-wall-brace-loop-anim",
     "exitAnimationKey": "survival-ual-player-v1-wall-brace-exit-anim",
     "frameRate": 30,
-    "blendWeight": 0.55,
-    "wallSourceFrame": 0,
+    "sourceFrames": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75],
+    "upperSeamY": 176,
+    "upperSeamFeatherPx": 36,
+    "targetVisibleHeightPx": 73.5,
+    "alphaThreshold": 32,
+    "entryBlendWeights": [0.3, 0.65, 1.0],
+    "exitBlendWeights": [0.65, 0.3, 0.0],
     "resumeJogFrame": 13
   }
 }

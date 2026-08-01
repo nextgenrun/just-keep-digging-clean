@@ -3,8 +3,18 @@ import {
   getHeavenblocksSkyAltarPreloadAssets,
   getPickaxeHudPreloadAssets,
   getPickaxeIconPreloadAssets,
+  getSurfaceHeroLandmarkPreloadAssets,
+  getSurfaceSkyPropAtlasPreloadAssets,
   getSurfacePropPreloadAssets,
 } from "../../values/assetKeys.js";
+import {
+  AUDIO_RUNTIME_LOADING,
+  resolveRuntimeAudioStreamingEnabled,
+} from "../../values/audioConfig.js";
+import {
+  CAMPFIRE_TIERS,
+  getCampfireTierAsset,
+} from "../../values/campfireConfig.js";
 import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { GEM_POWER_BLOCK_TIERS } from "../../values/specialBlocks.js";
@@ -24,19 +34,31 @@ import { LEVEL_ONE_GROUND_FACADE } from "../../values/levelOneGroundFacade.js";
 import {
   getWorldVisualPreloadAssets,
   isScenicWorldVisualRuntime,
-} from "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
 import { getWorldVisualStartupMaterialAssets } from "../../values/worldVisualMaterials.js";
 import { getWorldVisualDepthBackdropPreloadAssets } from
-  "../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
 import { getWorldVisualFeedbackPreloadAssets } from "../../values/worldVisualFeedback.js";
+import { getWorldVisualDamagePreloadAssets } from "../../values/worldVisualDamage.js";
 import { getWorldVisualSemanticPreloadAssets } from "../../values/worldVisualSemanticAssets.js";
 import { getWorldVisualLandmarkPreloadAssets } from "../../values/worldVisualLandmarks.js";
 import {
   getStarBlockPulsePreloadAssets,
   getStarBlockSteadyLightPreloadAssets,
 } from "../../values/lightConfig.js";
+import { getFireIlluminationPreloadAssets } from
+  "../../values/fireIlluminationConfig.js";
+import { getFireLightPreloadAssets } from "../../values/fireLightConfig.js";
+import { getOldSchoolLampLightPreloadAssets } from
+  "../../values/oldSchoolLampLightConfig.js";
 import { getCollectedStarReleasePreloadAssets } from "../../values/starConstellations.js";
-import { getTitanDiscoveryPreloadAssets } from "../../values/titanDiscoveries.js";
+import { getStarDiscoveryPreloadAssets } from "../../values/starRarityProgression.js";
+import { getStarIdentityPreloadAssets } from "../../values/starIdentityLibrary.js";
+import { resolveRuntimeFeatureAssetDeferralEnabled } from "../../values/runtimeAssetLoading.js";
+import {
+  getTitanDiscoveryPreloadAssets,
+  getTitanGameplayPreloadAssets,
+} from "../../values/titanDiscoveries.js";
 import {
   NPC_ACTIVITY_CONFIG,
   getNpcActivityPreloadAssets,
@@ -44,16 +66,26 @@ import {
 } from "../../values/npcActivityConfig.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
+import {
+  getPauseFeatureLoadingDecorationAssets,
+} from "../../values/pauseFeatureLoading.js";
+import {
+  getLoadingMiningMinigamePreloadAssets,
+  getPauseFeatureLoadingPreloadAssets,
+} from "../../values/loadingMiningMinigame.js";
+import {
+  getLoadingScreenPresentationAssets,
+} from "../../values/loadingScreenPresentation.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
 import { getHardcoreModePreloadAssets } from "../../values/hardcoreMode.js";
 import { getHardcoreMemorialPreloadAssets } from "../../values/hardcoreMemorials.js";
+import { RANDOM_EVENT_PRELOAD_ASSETS } from "../../values/randomWorldEvents.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
 import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
 import { getMiningTargetFeedbackPreloadAssets } from "../../values/miningTargetFeedback.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
 import {
-  MENU_BACKGROUND_ASSETS,
   createMenuLoadingScreen,
   addMenuBackground,
   getSelectedMenuBackgroundAsset,
@@ -196,6 +228,8 @@ export class BootScene extends Phaser.Scene {
     this.debugText = null;
     this.loadingUi = null;
     this._queuedImagePaths = new Map();
+    this._deferFeatureAssets = resolveRuntimeFeatureAssetDeferralEnabled();
+    this._queuedAudioKeys = new Set();
     this._isPreloading = false;
     this._bootAttempt = 0;
   }
@@ -206,6 +240,18 @@ export class BootScene extends Phaser.Scene {
     const menuBackground = getSelectedMenuBackgroundAsset();
     this.queueImage(ASSET_KEYS.branding.logo, BRAND_CONFIG.logoAssetPath);
     this.queueImage(menuBackground.key, menuBackground.path);
+    for (const asset of getPauseFeatureLoadingPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getPauseFeatureLoadingDecorationAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getLoadingScreenPresentationAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getLoadingMiningMinigamePreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
   }
 
   async create() {
@@ -241,10 +287,12 @@ export class BootScene extends Phaser.Scene {
     }
   }
 
-  queueAudio(key, path) {
-    if (!this.cache.audio.exists(key)) {
-      this.load.audio(key, path);
-    }
+  queueAudio(key, path, { preload = true } = {}) {
+    if (!key || !path) return;
+    ASSET_KEYS.audio.runtime.paths[key] = path;
+    if (!preload || this.cache.audio.exists(key) || this._queuedAudioKeys.has(key)) return;
+    this._queuedAudioKeys.add(key);
+    this.load.audio(key, path);
   }
 
   async startFullPreload() {
@@ -256,6 +304,7 @@ export class BootScene extends Phaser.Scene {
     if (typeof this.load.reset === "function") {
       this.load.reset();
     }
+    this._queuedAudioKeys.clear();
 
     const totalMessages = LOADING_MESSAGES.length;
     const initialLabel = `Loading game assets... (${attempt})`;
@@ -359,6 +408,7 @@ export class BootScene extends Phaser.Scene {
     try {
       this.preloadBranding();
       this.preloadBackgrounds();
+      this.preloadSurfaceSkyPropAtlasesV3();
       this.preloadWeatherVfx();
       this.preloadConstellationSprites();
       this.preloadPillarSprites();
@@ -387,7 +437,8 @@ export class BootScene extends Phaser.Scene {
   preloadBackgrounds() {
     if (isScenicWorldVisualRuntime()) {
       this.preloadScenicWorldRuntime();
-      MENU_BACKGROUND_ASSETS.forEach(({ key, path }) => this.queueImage(key, path));
+      const menuBackground = getSelectedMenuBackgroundAsset();
+      this.queueImage(menuBackground.key, menuBackground.path);
       return;
     }
 
@@ -416,8 +467,8 @@ export class BootScene extends Phaser.Scene {
     this.queueImage(ASSET_KEYS.background.houseMoneyMonster, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/money-monster-npc-house.webp`);
     this.queueImage(ASSET_KEYS.background.housePlayerUpgrade, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/player-upgrade-npc-house.webp`);
     
-    // Load background database images
-    MENU_BACKGROUND_ASSETS.forEach(({ key, path }) => this.queueImage(key, path));
+    const menuBackground = getSelectedMenuBackgroundAsset();
+    this.queueImage(menuBackground.key, menuBackground.path);
 
     const townLoop = ASSET_KEYS.background.townLoop;
     this.load.image(townLoop.aboveFloor, `${FULL_NON_TILE_SPRITES_BASE}infinate-loops/above-floor-layer.png`);
@@ -471,13 +522,27 @@ export class BootScene extends Phaser.Scene {
       ...getWorldVisualStartupMaterialAssets(),
       ...getWorldVisualDepthBackdropPreloadAssets(),
       ...getWorldVisualFeedbackPreloadAssets(),
+      ...getWorldVisualDamagePreloadAssets(),
       ...getWorldVisualSemanticPreloadAssets(),
       ...getWorldVisualLandmarkPreloadAssets(),
       ...getSurfacePropPreloadAssets(),
+      ...getSurfaceHeroLandmarkPreloadAssets(),
     ];
     for (const asset of assets) this.queueImage(asset.key, asset.path);
     console.info(
       `[BootScene] Queued ${assets.length} scenic-v2 startup textures; depth materials stream on demand and legacy Tiled visuals were skipped`
+    );
+  }
+
+  preloadSurfaceSkyPropAtlasesV3() {
+    const atlases = getSurfaceSkyPropAtlasPreloadAssets();
+    for (const asset of atlases) {
+      if (!this.textures.exists(asset.key)) {
+        this.load.atlas(asset.key, asset.path, asset.dataPath);
+      }
+    }
+    console.info(
+      `[BootScene] Queued ${atlases.length} surface/sky prop V3 atlases for both renderer modes`
     );
   }
 
@@ -530,11 +595,13 @@ export class BootScene extends Phaser.Scene {
     this.queueImage(celestial.waywardStar, `${celestialBase}wayward-star-core-v1.png`);
     this.queueImage(celestial.hollowSun, `${celestialBase}hollow-sun-core-v1.png`);
     this.queueImage(celestial.cometEngine, `${celestialBase}comet-engine-core-v1.png`);
-    const starlightKeys = ASSET_KEYS.ui.starlightTalentTree;
-    const starlightAssets = STARLIGHT_TALENT_TREE_CONFIG.assets;
-    Object.entries(starlightKeys).forEach(([name, key]) => {
-      this.queueImage(key, `${starlightAssets.basePath}${starlightAssets.files[name]}`);
-    });
+    if (!this._deferFeatureAssets) {
+      const starlightKeys = ASSET_KEYS.ui.starlightTalentTree;
+      const starlightAssets = STARLIGHT_TALENT_TREE_CONFIG.assets;
+      Object.entries(starlightKeys).forEach(([name, key]) => {
+        this.queueImage(key, `${starlightAssets.basePath}${starlightAssets.files[name]}`);
+      });
+    }
   }
 
   preloadPillarSprites() {
@@ -602,10 +669,11 @@ export class BootScene extends Phaser.Scene {
     );
 
     // Campfire sprites - grounded bottom-anchor textures for each upgrade tier.
-    const campfireBase = "sprites/npc/campfire";
-    for (let i = 1; i <= 10; i += 1) {
-      const tier = String(i).padStart(2, '0');
-      this.load.image(`campfire-tier-${tier}`, `${campfireBase}/generated/campfire-tier-${tier}.png`);
+    if (!this._deferFeatureAssets) {
+      for (let level = 1; level <= CAMPFIRE_TIERS.length; level += 1) {
+        const asset = getCampfireTierAsset(level);
+        this.queueImage(asset.key, asset.path);
+      }
     }
   }
 
@@ -808,7 +876,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
     this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
     this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
-    this.load.image(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-megalith-lock-v1.png`);
+    this.queueImage(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-megalith-lock-v1.png`);
     this.load.image(caveEntrance.legacy.textureKey, caveEntrance.legacy.assetPath);
     this.load.image(caveEntrance.scenic.textureKey, caveEntrance.scenic.assetPath);
     this.load.image(ASSET_KEYS.tiles.caveEdge, `${approvedWorldBase}/cave-edge.webp`);
@@ -953,14 +1021,34 @@ export class BootScene extends Phaser.Scene {
   preloadFxSprites() {
     this.load.image(ASSET_KEYS.fx.break1, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-1.webp");
     this.load.image(ASSET_KEYS.fx.break2, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp");
-    for (const asset of getStarBlockSteadyLightPreloadAssets()) {
-      this.queueImage(asset.key, asset.path);
+    for (const asset of getFireLightPreloadAssets()) {
+      if (!this.textures.exists(asset.key)) {
+        this.load.spritesheet(asset.key, asset.path, asset.frameConfig);
+      }
     }
-    for (const asset of getStarBlockPulsePreloadAssets()) {
-      this.queueImage(asset.key, asset.path);
+    for (const asset of getFireIlluminationPreloadAssets()) {
+      if (!this.textures.exists(asset.key)) {
+        this.load.spritesheet(asset.key, asset.path, asset.frameConfig);
+      }
     }
-    for (const asset of getCollectedStarReleasePreloadAssets()) {
-      this.queueImage(asset.key, asset.path);
+    for (const asset of getOldSchoolLampLightPreloadAssets()) {
+      if (!this.textures.exists(asset.key)) {
+        this.load.spritesheet(asset.key, asset.path, asset.frameConfig);
+      }
+    }
+    if (!this._deferFeatureAssets) {
+      for (const asset of getStarBlockSteadyLightPreloadAssets()) {
+        this.queueImage(asset.key, asset.path);
+      }
+      for (const asset of getStarBlockPulsePreloadAssets()) {
+        this.queueImage(asset.key, asset.path);
+      }
+      for (const asset of getCollectedStarReleasePreloadAssets()) {
+        this.queueImage(asset.key, asset.path);
+      }
+      for (const asset of getStarDiscoveryPreloadAssets()) {
+        this.queueImage(asset.key, asset.path);
+      }
     }
     for (const asset of getMiningTargetFeedbackPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
@@ -985,6 +1073,9 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadUiSprites() {
+    for (const asset of getStarIdentityPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
     this.load.spritesheet(UI_ICON_ATLAS.key, UI_ICON_ATLAS.path, {
       frameWidth: UI_ICON_ATLAS.frameWidth,
       frameHeight: UI_ICON_ATLAS.frameHeight,
@@ -995,7 +1086,9 @@ export class BootScene extends Phaser.Scene {
     for (const asset of getPickaxeHudPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
-    this.queueImage(ASSET_KEYS.ui.worldMapFrame, WORLD_MAP_CONFIG.assetPath);
+    if (!this._deferFeatureAssets) {
+      this.queueImage(ASSET_KEYS.ui.worldMapFrame, WORLD_MAP_CONFIG.assetPath);
+    }
     this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.copper, "sprites/UI/copper/copper-icon.webp");
@@ -1009,6 +1102,9 @@ export class BootScene extends Phaser.Scene {
       if (path) this.queueImage(key, path);
     });
     Object.values(ASSET_KEYS.ui.notificationControls).forEach(asset => {
+      this.queueImage(asset.key, asset.path);
+    });
+    RANDOM_EVENT_PRELOAD_ASSETS.forEach(asset => {
       this.queueImage(asset.key, asset.path);
     });
     this.queueImage(
@@ -1028,7 +1124,10 @@ export class BootScene extends Phaser.Scene {
     ).forEach(([name, path]) => {
       this.queueImage(ASSET_KEYS.ui.thunderStrikeIndicator[name], path);
     });
-    for (const asset of getTitanDiscoveryPreloadAssets()) {
+    const titanAssets = this._deferFeatureAssets
+      ? getTitanGameplayPreloadAssets()
+      : getTitanDiscoveryPreloadAssets();
+    for (const asset of titanAssets) {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getEarthquakeFeedbackPreloadAssets()) {
@@ -1253,6 +1352,10 @@ export class BootScene extends Phaser.Scene {
   }
 
   async preloadAudio() {
+    const runtimeAudioStreaming = resolveRuntimeAudioStreamingEnabled();
+    ASSET_KEYS.audio.runtime.paths = {};
+    ASSET_KEYS.audio.runtime.streamingEnabled = runtimeAudioStreaming;
+    ASSET_KEYS.audio.runtime.bootQueuedKeys = [];
     let playlistFiles = [];
     try {
       const resp = await fetch('sound/playlists/playlist.json');
@@ -1262,12 +1365,27 @@ export class BootScene extends Phaser.Scene {
       playlistFiles = ['j-k-d-amb-1.ogg', 'j-k-d-amb-2.ogg', 'j-k-d-amb-3.ogg'];
     }
 
+    const bootMusicIndexes = new Set();
+    if (playlistFiles.length > 0) {
+      const seedIndex = runtimeAudioStreaming
+        ? Math.floor(Math.random() * playlistFiles.length)
+        : 0;
+      const count = runtimeAudioStreaming
+        ? Math.min(AUDIO_RUNTIME_LOADING.bootMusicTracks, playlistFiles.length)
+        : playlistFiles.length;
+      for (let offset = 0; offset < count; offset += 1) {
+        bootMusicIndexes.add((seedIndex + offset) % playlistFiles.length);
+      }
+    }
     const playlistKeys = playlistFiles.map((file, i) => {
       const key = `music-track-${i + 1}`;
-      this.queueAudio(key, `sound/playlists/${file}`);
+      this.queueAudio(key, `sound/playlists/${file}`, {
+        preload: bootMusicIndexes.has(i),
+      });
       return key;
     });
     ASSET_KEYS.audio.music.playlist = playlistKeys;
+    ASSET_KEYS.audio.music.bootSeedKey = playlistKeys[[...bootMusicIndexes][0]] || "";
 
     // Load random voice line manifest dynamically — add/remove files in manifest.json, no code changes needed
     try {
@@ -1279,7 +1397,13 @@ export class BootScene extends Phaser.Scene {
     }
 
     this.loadSoundEffectLibraries();
-    this.loadVoiceLineLibraries();
+    this.loadVoiceLineLibraries({ streaming: runtimeAudioStreaming });
+    ASSET_KEYS.audio.runtime.bootQueuedKeys = [...this._queuedAudioKeys];
+    console.info(
+      `[BootScene] Audio ${runtimeAudioStreaming ? "streaming" : "eager rollback"}: `
+      + `${Object.keys(ASSET_KEYS.audio.runtime.paths).length} registered, `
+      + `${ASSET_KEYS.audio.runtime.bootQueuedKeys.length} queued for boot.`,
+    );
   }
   
   /**
@@ -1301,14 +1425,20 @@ export class BootScene extends Phaser.Scene {
 
     const tileHitBasePath = 'sound/soundEffects/costume-sounds/hit-reource-tile/';
     this.queueAudio('tileHit-0', tileHitBasePath + 'dig-1.ogg');
+
+    const uiBasePath = 'sound/soundEffects/ui/';
+    this.queueAudio(ASSET_KEYS.audio.sfx.uiSelect, uiBasePath + 'ui-select.wav');
+    this.queueAudio(ASSET_KEYS.audio.sfx.uiConfirm, uiBasePath + 'ui-confirm.wav');
   }
 
-  loadVoiceLineLibraries() {
+  loadVoiceLineLibraries({ streaming = false } = {}) {
+    const shouldPreload = index => !streaming
+      || index < AUDIO_RUNTIME_LOADING.bootVoiceLinesPerLibrary;
     const playerRandomFiles = ASSET_KEYS.audio.voiceLines.playerRandomFiles;
     const playerRandomBasePath = 'sound/voice-lines/player-voice-lines/random-voice-lines/';
     playerRandomFiles.forEach((file, index) => {
       const key = `player-random-${index}`;
-      this.queueAudio(key, playerRandomBasePath + file);
+      this.queueAudio(key, playerRandomBasePath + file, { preload: shouldPreload(index) });
     });
 
     const voiceDir = (subdir) => `sound/voice-lines/npc-voicelines/${subdir}/`;
@@ -1316,7 +1446,9 @@ export class BootScene extends Phaser.Scene {
     const loadNPC = (category, dir, files) => {
       files.forEach((file, index) => {
         const key = `npc-${category}-${index}`;
-        this.queueAudio(key, voiceDir(dir) + file);
+        this.queueAudio(key, voiceDir(dir) + file, {
+          preload: shouldPreload(index),
+        });
       });
     };
 
@@ -1375,7 +1507,9 @@ export class BootScene extends Phaser.Scene {
     
     // Load playerUpgrades update-2 files: keys npc-playerUpgrades-3..36
     playerUpgradeUpdate2Files.forEach((file, index) => {
-      this.queueAudio(`npc-playerUpgrades-${index + 3}`, voiceDir('player-upgrade-npc-voicelines') + file);
+      this.queueAudio(`npc-playerUpgrades-${index + 3}`, voiceDir('player-upgrade-npc-voicelines') + file, {
+        preload: !streaming,
+      });
     });
 
     // === GEM MERCHANT UPDATE-2 VOICELINES ===
@@ -1438,7 +1572,9 @@ export class BootScene extends Phaser.Scene {
     
     // Load gem merchant update-2 files.
     gemMerchantUpdate2Files.forEach((file, index) => {
-      this.queueAudio(`npc-gemPowerMerchant-${index}`, voiceDir('gem-merchant-voice-lines') + file);
+      this.queueAudio(`npc-gemPowerMerchant-${index}`, voiceDir('gem-merchant-voice-lines') + file, {
+        preload: shouldPreload(index),
+      });
     });
 
     loadNPC('boboMerchant', 'bobo-voice-lines',

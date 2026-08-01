@@ -37,6 +37,9 @@ export class VoiceLineManager {
     
     // Current voice line playing
     this.currentVoiceLine = null;
+    this.currentVoiceLineKey = null;
+    this.pendingVoiceLineKey = null;
+    this.pendingVoiceLineHandle = null;
     
     // Original volumes before ducking
     this.originalVolumes = {
@@ -51,7 +54,7 @@ export class VoiceLineManager {
    * @param {string} subCategory - 'random', 'special', or NPC name
    * @param {string} basePath - Base path to the directory
    * @param {Array} fileList - Array of file names
-   * NOTE: Sounds are pre-loaded in BootScene, this just populates the library arrays
+   * Boot seeds one entry per library; the remaining registered entries stream on demand.
    */
   loadLibrary(category, subCategory, basePath, fileList) {
     if (!this.libraries[category]) {
@@ -63,28 +66,19 @@ export class VoiceLineManager {
       this.libraries[category][subCategory] = [];
     }
 
-    console.log(`[VoiceLineManager] Populating ${category}/${subCategory} voice lines from pre-loaded cache`);
+    console.log(`[VoiceLineManager] Registering ${category}/${subCategory} voice lines`);
+    const library = this.libraries[category][subCategory];
+    library.length = 0;
     
-    // Populate from pre-loaded cache instead of loading again
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
-      // Use the same key pattern as BootScene
       const key = `${category}-${subCategory}-${i}`;
       const filePath = `${basePath}${file}`;
       
-      // Only add if the sound exists in cache
-      if (this.scene.cache.audio.exists(key)) {
-        this.libraries[category][subCategory].push({
-          key: key,
-          file: file,
-          path: filePath
-        });
-      } else {
-        console.warn(`[VoiceLineManager] Voice line not found in cache: ${key}`);
-      }
+      library.push({ key, file, path: filePath });
     }
     
-    console.log(`[VoiceLineManager] ${category}/${subCategory}: ${this.libraries[category][subCategory].length} voice lines populated from cache`);
+    console.log(`[VoiceLineManager] ${category}/${subCategory}: ${library.length} voice lines registered`);
   }
 
   /**
@@ -124,65 +118,73 @@ export class VoiceLineManager {
    */
   playVoiceLine(category, subCategory) {
     const library = this.libraries[category][subCategory];
-
     if (!library || library.length === 0) {
       console.warn(`[VoiceLineManager] Library ${category}/${subCategory} is empty`);
       return null;
     }
-
-    // Kill any currently playing voiceline to prevent overlap
-    if (this.currentVoiceLine && this.currentVoiceLine.isPlaying) {
-      const oldVoiceLine = this.currentVoiceLine;
-      this.currentVoiceLine = null;
-      oldVoiceLine.stop();
-      oldVoiceLine.destroy();
-      this.restoreVolumes();
-    }
-
-    // Get the last played key for this category
-    // Key uses "category-subCategory" format, matching how voice line keys are stored
     const trackKey = `${category}-${subCategory}`;
     const lastPlayedKey = this.lastPlayed[trackKey];
-    
-    // Select a random voice line that's different from last played
+    const loaded = library.filter(entry => this.scene.cache.audio.exists(entry.key));
+    const candidates = loaded.length > 0 ? loaded : library;
     let selectedVoiceLine;
     let attempts = 0;
-    const maxAttempts = 10;
-
     do {
-      const randomIndex = Math.floor(Math.random() * library.length);
-      selectedVoiceLine = library[randomIndex];
-      attempts++;
-      
-      if (selectedVoiceLine.key !== lastPlayedKey || attempts >= maxAttempts || library.length === 1) {
+      selectedVoiceLine = candidates[Math.floor(Math.random() * candidates.length)];
+      attempts += 1;
+      if (selectedVoiceLine.key !== lastPlayedKey || attempts >= 10 || candidates.length === 1) {
         break;
       }
     } while (true);
-
-    // Update last played (same key format as lookup above)
     this.lastPlayed[trackKey] = selectedVoiceLine.key;
 
-    // Duck volumes before playing
-    this.duckVolumes();
+    if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) {
+      this.pendingVoiceLineHandle?.cancel?.();
+      this.pendingVoiceLineKey = selectedVoiceLine.key;
+      this.pendingVoiceLineHandle = this.soundSystem.loadVoiceLineAsset(
+        selectedVoiceLine,
+        () => {
+          if (this.pendingVoiceLineKey !== selectedVoiceLine.key) return;
+          this.pendingVoiceLineHandle = null;
+          this.pendingVoiceLineKey = null;
+          this._playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
+        },
+      );
+      return null;
+    }
+    return this._playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
+  }
 
-    // Play the voice line
+  _playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library) {
+    if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) return null;
+    this.pendingVoiceLineHandle?.cancel?.();
+    this.pendingVoiceLineHandle = null;
+    this.pendingVoiceLineKey = null;
+    if (this.currentVoiceLine) {
+      const oldVoiceLine = this.currentVoiceLine;
+      this.currentVoiceLine = null;
+      this.currentVoiceLineKey = null;
+      try { oldVoiceLine.stop(); } catch (_) {}
+      try { oldVoiceLine.destroy(); } catch (_) {}
+      this.restoreVolumes();
+    }
+    this.duckVolumes();
     console.log(`[VoiceLineManager] Playing ${category}/${subCategory}: ${selectedVoiceLine.file}`);
-    
     const sound = this.scene.sound.add(selectedVoiceLine.key, {
       volume: this.soundSystem.voiceVolume * this.soundSystem.masterVolume,
       loop: false
     });
-
     sound.play();
-    
-    // Set up completion handler to restore volumes
     this.currentVoiceLine = sound;
+    this.currentVoiceLineKey = selectedVoiceLine.key;
+    this.soundSystem.noteVoiceLineUse(selectedVoiceLine.key);
     sound.once('complete', () => {
       if (this.currentVoiceLine !== sound) return;
       this.currentVoiceLine = null;
+      this.currentVoiceLineKey = null;
       this.restoreVolumes();
+      try { sound.destroy(); } catch (_) {}
+      this.soundSystem.prefetchVoiceLine(library, selectedVoiceLine);
     });
-
     return sound;
   }
 
@@ -223,7 +225,9 @@ export class VoiceLineManager {
     if (this.currentVoiceLine && this.currentVoiceLine.isPlaying) {
       const oldVoiceLine = this.currentVoiceLine;
       this.currentVoiceLine = null;
+      this.currentVoiceLineKey = null;
       oldVoiceLine.stop();
+      oldVoiceLine.destroy();
       this.restoreVolumes();
     }
   }
@@ -232,11 +236,15 @@ export class VoiceLineManager {
    * Clean up all voice line resources
    */
   destroy() {
+    this.pendingVoiceLineHandle?.cancel?.();
+    this.pendingVoiceLineHandle = null;
+    this.pendingVoiceLineKey = null;
     this.stopCurrentVoiceLine();
     if (this.currentVoiceLine) {
       this.currentVoiceLine.destroy();
       this.currentVoiceLine = null;
     }
+    this.currentVoiceLineKey = null;
     this.libraries = { player: {}, npc: {} };
   }
 

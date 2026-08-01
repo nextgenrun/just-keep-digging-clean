@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "far-east-far-telescope": {
+      "frame": {
+        "x": 5,
+        "y": 5,
+        "w": 153,
+        "h": 223
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 153,
+        "h": 223
+      },
+      "sourceSize": {
+        "w": 153,
+        "h": 223
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-expedition-map-cases": {
+      "frame": {
+        "x": 168,
+        "y": 5,
+        "w": 221,
+        "h": 135
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 221,
+        "h": 135
+      },
+      "sourceSize": {
+        "w": 221,
+        "h": 135
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-climbing-crate": {
+      "frame": {
+        "x": 399,
+        "y": 5,
+        "w": 248,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 248,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 248,
+        "h": 185
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-expedition-chests": {
+      "frame": {
+        "x": 657,
+        "y": 5,
+        "w": 277,
+        "h": 162
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 277,
+        "h": 162
+      },
+      "sourceSize": {
+        "w": 277,
+        "h": 162
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-signal-lantern": {
+      "frame": {
+        "x": 944,
+        "y": 5,
+        "w": 114,
+        "h": 242
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 114,
+        "h": 242
+      },
+      "sourceSize": {
+        "w": 114,
+        "h": 242
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-folded-flags": {
+      "frame": {
+        "x": 5,
+        "y": 257,
+        "w": 299,
+        "h": 94
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 299,
+        "h": 94
+      },
+      "sourceSize": {
+        "w": 299,
+        "h": 94
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-expedition-stool": {
+      "frame": {
+        "x": 314,
+        "y": 257,
+        "w": 174,
+        "h": 151
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 151
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 151
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-boot-rack": {
+      "frame": {
+        "x": 498,
+        "y": 257,
+        "w": 261,
+        "h": 171
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 261,
+        "h": 171
+      },
+      "sourceSize": {
+        "w": 261,
+        "h": 171
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-supply-barrels": {
+      "frame": {
+        "x": 769,
+        "y": 257,
+        "w": 252,
+        "h": 171
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 252,
+        "h": 171
+      },
+      "sourceSize": {
+        "w": 252,
+        "h": 171
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-belay-frame": {
+      "frame": {
+        "x": 1031,
+        "y": 257,
+        "w": 214,
+        "h": 162
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 214,
+        "h": 162
+      },
+      "sourceSize": {
+        "w": 214,
+        "h": 162
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-survey-beacon": {
+      "frame": {
+        "x": 5,
+        "y": 438,
+        "w": 132,
+        "h": 202
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 132,
+        "h": 202
+      },
+      "sourceSize": {
+        "w": 132,
+        "h": 202
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-specimen-table": {
+      "frame": {
+        "x": 147,
+        "y": 438,
+        "w": 274,
+        "h": 144
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 274,
+        "h": 144
+      },
+      "sourceSize": {
+        "w": 274,
+        "h": 144
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-shelter-bundle": {
+      "frame": {
+        "x": 431,
+        "y": 438,
+        "w": 293,
+        "h": 156
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 293,
+        "h": 156
+      },
+      "sourceSize": {
+        "w": 293,
+        "h": 156
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-ice-tools": {
+      "frame": {
+        "x": 734,
+        "y": 438,
+        "w": 152,
+        "h": 195
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 152,
+        "h": 195
+      },
+      "sourceSize": {
+        "w": 152,
+        "h": 195
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-overlook-brazier": {
+      "frame": {
+        "x": 896,
+        "y": 438,
+        "w": 134,
+        "h": 157
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 134,
+        "h": 157
+      },
+      "sourceSize": {
+        "w": 134,
+        "h": 157
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-expedition-cairn": {
+      "frame": {
+        "x": 5,
+        "y": 650,
+        "w": 178,
+        "h": 200
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 178,
+        "h": 200
+      },
+      "sourceSize": {
+        "w": 178,
+        "h": 200
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-drying-line": {
+      "frame": {
+        "x": 193,
+        "y": 650,
+        "w": 238,
+        "h": 179
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 238,
+        "h": 179
+      },
+      "sourceSize": {
+        "w": 238,
+        "h": 179
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-sewing-station": {
+      "frame": {
+        "x": 441,
+        "y": 650,
+        "w": 263,
+        "h": 160
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 263,
+        "h": 160
+      },
+      "sourceSize": {
+        "w": 263,
+        "h": 160
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-food-crate": {
+      "frame": {
+        "x": 714,
+        "y": 650,
+        "w": 246,
+        "h": 162
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 246,
+        "h": 162
+      },
+      "sourceSize": {
+        "w": 246,
+        "h": 162
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "far-east-overlook-rail": {
+      "frame": {
+        "x": 970,
+        "y": 650,
+        "w": 314,
+        "h": 158
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 314,
+        "h": 158
+      },
+      "sourceSize": {
+        "w": 314,
+        "h": 158
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "meta": {
+    "app": "2026-07-29-build-surface-sky-props-v3.py",
+    "version": "3",
+    "image": "surface-sky-props-v3-far-east.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1289,
+      "h": 855
+    },
+    "scale": "1"
+  }
+}

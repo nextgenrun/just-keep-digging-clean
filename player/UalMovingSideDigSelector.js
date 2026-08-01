@@ -32,10 +32,14 @@ function resolveOutgoingJogFrame({
 }) {
   const handoff = config.phaseHandoff;
   const count = handoff.runFrameCount;
+  const phaseVariants = [
+    ...handoff.variants,
+    ...(profile?.movingSideQuickslashPhaseVariants || []),
+  ];
   if (currentAnimationKey === profile?.walkRunAnim && Number.isFinite(currentTextureFrame)) {
     return modulo(currentTextureFrame, count);
   }
-  const activeVariant = handoff.variants.find(
+  const activeVariant = phaseVariants.find(
     (variant) => variant.animationKey === currentAnimationKey,
   );
   if (activeVariant && Number.isFinite(currentFrameIndex)) {
@@ -44,7 +48,7 @@ function resolveOutgoingJogFrame({
     if (Number.isFinite(authoredRunFrame)) return modulo(authoredRunFrame, count);
     return modulo(activeVariant.runStartFrame + sequenceIndex, count);
   }
-  const fallbackVariant = handoff.variants.find(
+  const fallbackVariant = phaseVariants.find(
     (variant) => variant.base === true && variant.animationKey === fallbackAnimationKey,
   );
   if (fallbackVariant) {
@@ -67,17 +71,24 @@ export function resolveMovingSideDigAnimation({
   search = globalThis.location?.search || "",
 } = {}) {
   const config = profile?.movingSideDigConfig || MOVING_SIDE_DIG_ANIMATION;
-  const replacement = profile?.movingSideDigAnimationMap?.[animationKey];
+  const isQuickslash = actionKind === "quickslash";
+  const replacement = isQuickslash && animationKey === profile?.quickslashAnim
+    ? profile?.movingSideQuickslashAnimationKey
+    : profile?.movingSideDigAnimationMap?.[animationKey];
+  const supportedActionKind = actionKind === "normal"
+    || (isQuickslash && config.quickslash?.enabledByDefault === true);
   const unchanged = Object.freeze({
     animationKey,
     outgoingJogFrame: null,
     resumeJogFrame: null,
     phaseVariantId: null,
+    movingSideDigActive: false,
+    targetDirectionX: 0,
   });
   if (
     !replacement
     || config.enabledByDefault !== true
-    || actionKind !== "normal"
+    || !supportedActionKind
     || isDisabledByQuery(search, config)
   ) return unchanged;
 
@@ -102,6 +113,8 @@ export function resolveMovingSideDigAnimation({
     return Object.freeze({
       ...unchanged,
       animationKey: replacement,
+      movingSideDigActive: true,
+      targetDirectionX: targetDirection,
     });
   }
   const outgoingJogFrame = resolveOutgoingJogFrame({
@@ -114,12 +127,24 @@ export function resolveMovingSideDigAnimation({
   });
   const variantId = handoff.entryVariantIdByOutgoingJogFrame[outgoingJogFrame];
   const variant = handoff.variants.find((entry) => entry.id === variantId);
-  if (!variant) return Object.freeze({ ...unchanged, animationKey: replacement });
+  if (!variant) {
+    return Object.freeze({
+      ...unchanged,
+      animationKey: replacement,
+      movingSideDigActive: true,
+      targetDirectionX: targetDirection,
+    });
+  }
+  const phaseAnimationKey = isQuickslash
+    ? profile?.movingSideQuickslashAnimationKeyByPhaseVariantId?.[variantId]
+    : variant.animationKey;
   return Object.freeze({
-    animationKey: variant.animationKey,
+    animationKey: phaseAnimationKey || replacement,
     outgoingJogFrame,
     resumeJogFrame: variant.resumeJogFrame,
     phaseVariantId: variant.id,
+    movingSideDigActive: true,
+    targetDirectionX: targetDirection,
   });
 }
 

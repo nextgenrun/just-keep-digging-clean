@@ -31,15 +31,27 @@ export class WorldVisualSurfacePropLayer {
     this.invalidPlacements = new Map();
     this.coverage = [];
     this.placements = [];
+    this.suppressedPlacementIds = Object.freeze([]);
     this.enabled = Object.freeze({ all: false, level1: false, level2: false });
     this.created = false;
     this.inspector = null;
   }
 
-  create(search = globalThis.location?.search || "") {
+  create(search = globalThis.location?.search || "", options = {}) {
     this.enabled = resolveWorldVisualSurfacePropsEnabled(this.config, search);
     if (!this.enabled.all) return false;
-    this.placements = this.layout.placements.filter(item => this.enabled[item.level]);
+    this.suppressedPlacementIds = Object.freeze([
+      ...(options.suppressedPlacementIds || []),
+    ]);
+    const suppressed = new Set(this.suppressedPlacementIds);
+    for (const id of suppressed) {
+      if (!this.layout.placements.some(item => item.id === id)) {
+        throw new Error(`[WorldVisualSurfacePropLayer] Unknown suppressed placement ${id}`);
+      }
+    }
+    this.placements = this.layout.placements.filter(item => (
+      this.enabled[item.level] && !suppressed.has(item.id)
+    ));
     this.coverage = auditSurfacePropCoverage(this.layout, this.assets, this.config);
     this._validateCoverage();
     this._validatePlacements();
@@ -134,6 +146,10 @@ export class WorldVisualSurfacePropLayer {
     sprite.setData("surfacePropHeightMeters", definition.heightMeters);
     sprite.setData("surfacePropSizeVariant", item.sizeVariant);
     sprite.setData("surfacePropScaleMultiplier", scaleMultiplier);
+    sprite.setData(
+      "surfacePropDistance",
+      this.config.scale.distanceByLane[item.lane],
+    );
     this.invalidPlacements.delete(item.id);
     this.active.set(item.id, sprite);
     return sprite;
@@ -238,8 +254,10 @@ export class WorldVisualSurfacePropLayer {
       created: this.created,
       enabled: this.enabled,
       totalPlacements: this.placements.length,
+      suppressedPlacementIds: this.suppressedPlacementIds,
       activePlacements: this.active.size,
       invalidPlacements: Object.freeze([...this.invalidPlacements.entries()]),
+      staticTransforms: true,
       sizeVariants: Object.freeze(
         Object.fromEntries(Object.keys(this.config.scale.sizeVariants).map(variant => [
           variant,

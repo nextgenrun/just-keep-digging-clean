@@ -699,7 +699,7 @@ export function createSettingsPanelContent(scene, options = {}) {
         width: modeButtonWidth,
         height: modeButtonHeight,
         label: active
-          ? `${modeConfig.label}  ${isCompact ? "✓" : "SELECTED"}`
+          ? `${modeConfig.label}  ${isCompact ? "ACTIVE" : "SELECTED"}`
           : modeConfig.label,
         fontSize: isCompact ? "10px" : "12px",
         selected: active,
@@ -763,7 +763,12 @@ export function createSettingsPanelContent(scene, options = {}) {
         value: display[row.key] !== false,
         parent: root,
         depth,
-        onChange: value => USER_SETTINGS.updateDisplay({ [row.key]: value }),
+        onChange: value => {
+          USER_SETTINGS.updateDisplay({ [row.key]: value });
+          if (row.refreshFloatingText) {
+            scene.floatingTextSystem?.applyDisplaySettings?.();
+          }
+        },
       });
       state.objects.push(toggle.root);
       if (!useShortLayout) {

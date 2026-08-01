@@ -1,0 +1,119 @@
+{
+  "id": "fire-light-v3",
+  "revision": "2026-07-30-imagegen-piskel-v1",
+  "generationMode": "built-in-imagegen",
+  "sheet": {
+    "width": 1252,
+    "height": 1252,
+    "columns": 4,
+    "rows": 4,
+    "frameWidth": 313,
+    "frameHeight": 313,
+    "framesPerAtlas": 16
+  },
+  "authoredComponentCount": 160,
+  "authoredLightFrameCount": 96,
+  "newIlluminationFrameCount": 80,
+  "assets": [
+    {
+      "file": "fire-flame-steady-v3.png",
+      "sha256": "7ede2796a1292b43b5657ce646dc6bd5320b86eb63a3d78529e54e00ef42678c",
+      "originalSha256": "a82a774d77de18b093d175bed9564606ddc71e2fe41d55d5e50ea91919494420",
+      "polishedSha256": "7ede2796a1292b43b5657ce646dc6bd5320b86eb63a3d78529e54e00ef42678c",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/steadyFlame.piskel",
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-flame-states-v3.png",
+      "sha256": "babf23d60747ce2c7f46b2df132b08bc85997ac4ebaac5be5053e5a44c424a9f",
+      "originalSha256": "0b64cfbec135f7834aba65f6af4ab2171578c4a1d1f42db26d20cec4e8c0b096",
+      "polishedSha256": "babf23d60747ce2c7f46b2df132b08bc85997ac4ebaac5be5053e5a44c424a9f",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/stateFlame.piskel",
+      "anchorMode": "source-root",
+      "grouping": "rows"
+    },
+    {
+      "file": "fire-light-volume-v3.png",
+      "sha256": "74e7ea5cd9a795f39c84af17b9f46812df394865943891e2d6aaa693d057529d",
+      "originalSha256": "6f9837513541303e6f43bc4ea2d1d0b7ede8b279709a34a7d14a2d57e3eadcc1",
+      "polishedSha256": "74e7ea5cd9a795f39c84af17b9f46812df394865943891e2d6aaa693d057529d",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/lightVolume.piskel",
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-light-rays-v3.png",
+      "sha256": "2246d32fa168c72cf8f8b96212604e74023d0096bf559e6192403eeed08139b3",
+      "originalSha256": "06a17e2a502e0941921e24cc658d3b943b2e52da0329a4298af605039a3c8e0c",
+      "polishedSha256": "2246d32fa168c72cf8f8b96212604e74023d0096bf559e6192403eeed08139b3",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/rays.piskel",
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-atmosphere-v3.png",
+      "sha256": "347eb2db69bf2509e052f3d970864bab3dd6ffcd418fc3be4cdc24cc7633bf38",
+      "originalSha256": "b7d941e13783c78bd3837ac7ff2a7a35a6d1df99c04e8d2e688f420046bbe712",
+      "polishedSha256": "347eb2db69bf2509e052f3d970864bab3dd6ffcd418fc3be4cdc24cc7633bf38",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/atmosphere.piskel",
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-light-hot-core-v3.png",
+      "sha256": "6c481b529dad12b6c410265e4491468e78a2802873ed7c62d32f00ce800654ed",
+      "originalSha256": "098c9215ddccf28dbbfd162f41410b87d31b21c8c084e37a0288d28119f47230",
+      "polishedSha256": "6c481b529dad12b6c410265e4491468e78a2802873ed7c62d32f00ce800654ed",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/hotCore.piskel",
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-light-penumbra-v3.png",
+      "sha256": "188507900083d9bd9b18005443026e6ef97d9adae2d308587b1bf8b56722ed87",
+      "originalSha256": "3c70f3c8ef95064cbe74171e7d162b94b08584a09a33b18a5ac3b6a199487c8a",
+      "polishedSha256": "188507900083d9bd9b18005443026e6ef97d9adae2d308587b1bf8b56722ed87",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/penumbra.piskel",
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-light-bounce-v3.png",
+      "sha256": "8e973341c8c9c48f5dc1a5c445623fd983d286432749671c8af224d7d43f9716",
+      "originalSha256": "966364451fa86c1eb318bf144f881b68607d98fda8746dfe92b7b5f28e4663d2",
+      "polishedSha256": "8e973341c8c9c48f5dc1a5c445623fd983d286432749671c8af224d7d43f9716",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/bounce.piskel",
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-light-breakup-v3.png",
+      "sha256": "7c3fe892f48becac98f68f1dfe4335ddbf72063f7ff03d23c03f15203d8e8778",
+      "originalSha256": "c6fbb65f2aef30dc542f5691dc6e7b203d1ec9d340a6d2b4101caed390aabde0",
+      "polishedSha256": "7c3fe892f48becac98f68f1dfe4335ddbf72063f7ff03d23c03f15203d8e8778",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/breakup.piskel",
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "file": "fire-light-environment-v3.png",
+      "sha256": "34b9fd3161d85806f6bef05714d15b5bf4bac9f83a13261bca11f75b7114b93b",
+      "originalSha256": "12c98cbf307fca2c8c5d8f606211869efdc9eec6c10184d381696ac3cc97541f",
+      "polishedSha256": "34b9fd3161d85806f6bef05714d15b5bf4bac9f83a13261bca11f75b7114b93b",
+      "piskelProject": "sprites/environment/fire-light-v3/piskel/polished-work/environment.piskel",
+      "anchorMode": "luminous-core",
+      "grouping": "rows"
+    }
+  ],
+  "polishMode": "piskel-fixed-group-anchor-v1",
+  "piskelPolish": {
+    "runtimeSelection": "polished",
+    "packageManifest": "sprites/environment/fire-light-v3/piskel/manifest.json",
+    "editableProjectCount": 10,
+    "registeredFrameCount": 160,
+    "safeBorderPx": 3,
+    "applyCommand": "python ai-tools/2026-07-30-refresh-fire-light-piskel-polish.py --apply",
+    "rollbackCommand": "python ai-tools/2026-07-30-refresh-fire-light-piskel-polish.py --rollback"
+  }
+}

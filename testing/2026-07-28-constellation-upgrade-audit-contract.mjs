@@ -259,16 +259,22 @@ const crown = castThunder("gold");
 assert.equal(baseThunder.cost, PLAYER_ABILITIES_CONFIG.thunderStrikeCost * 3);
 assert.equal(crown.cost, baseThunder.cost - 30);
 
-const [pauseSource, pillarSource, viewSource, setupSource] = await Promise.all([
+const [pauseSource, pillarSource, viewSource, healthSource, setupSource] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/StarPillarSystem.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/overlays/StarlightTalentTreeView.js", import.meta.url), "utf8"),
+  readFile(new URL("../ui/overlays/starlightTalentTreeHealth.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
 ]);
 assert.match(pauseSource, /abilities:\s*this\.playerController\?\.abilities/);
 assert.match(pillarSource, /abilities:\s*this\.scene\.playerController\?\.abilities/);
 assert.match(pillarSource, /missingAbilityProviders/);
-assert.match(viewSource, /abilityProviderReady/);
+assert.match(viewSource, /return buildStarlightTalentTreeHealth\(this\)/);
+assert.match(
+  healthSource,
+  /const abilityProviderReady\s*=\s*view\.abilityAccess\?\.providerReady\s*===\s*true/,
+);
+assert.match(healthSource, /&&\s*abilityProviderReady/);
 assert.match(setupSource, /constellation mastered/);
 assert.match(setupSource, /sealed\s+•\s+Buy/);
 

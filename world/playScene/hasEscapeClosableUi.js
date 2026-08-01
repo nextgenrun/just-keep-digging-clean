@@ -6,7 +6,8 @@
  */
 export function hasEscapeClosableUi(scene) {
   return Boolean(
-    scene?._hardcoreRuntime?.modal?.isVisible
+    scene?._randomEventModalVisible
+    || scene?._hardcoreRuntime?.modal?.isVisible
     || scene?.worldMapOverlay?.isOpen
     || scene?.depthGateSystem?.isOpen?.()
     || scene?.levelUpPopup?.visible

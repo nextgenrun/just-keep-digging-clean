@@ -374,6 +374,7 @@ const [
   earthquakeSystemSource,
   earthquakeFeedbackUiSource,
   earthquakeFeedbackConfigSource,
+  gameInputSource,
 ] = await Promise.all([
   readSource("ui/UINotificationSystem.js"),
   readSource("ui/UINotificationCarouselView.js"),
@@ -418,6 +419,7 @@ const [
   readSource("systems/environment/EarthquakeSystem.js"),
   readSource("systems/visual/EarthquakeFeedbackUI.js"),
   readSource("values/earthquakeFeedback.js"),
+  readSource("world/playScene/GameInputHandler.js"),
 ]);
 
 assert.match(
@@ -455,6 +457,11 @@ assert.ok(viewSource.includes("control.enabled"));
 assert.ok(viewSource.includes("control.image.setInteractive"));
 assert.ok(viewSource.includes("control.image.disableInteractive"));
 assert.ok(
+  viewSource.includes("control.zone?.scene?.sys")
+    && viewSource.includes("control.image?.scene?.sys"),
+  "scene shutdown must not disable controls after Phaser clears GameObject.scene",
+);
+assert.ok(
   !viewSource.includes("previousGlyph"),
   "runtime controls must use approved raster art instead of font glyphs",
 );
@@ -478,6 +485,10 @@ assert.ok(dragSource.includes('"dragend"'));
 assert.ok(dragSource.includes("notificationPosition"));
 assert.ok(dragSource.includes("onInteractionStart"));
 assert.ok(dragSource.includes("onInteractionEnd"));
+assert.ok(
+  dragSource.includes("this.zone?.input && this.zone.scene?.sys"),
+  "scene shutdown must not call disableInteractive after Phaser clears zone.scene",
+);
 assert.ok(presenterSource.includes("resolvePosition?.(centerX, baseY)"));
 assert.ok(settingsSource.includes("sanitizeNotificationPosition"));
 assert.ok(systemSource.includes("new UINotificationDragController"));
@@ -511,6 +522,10 @@ assert.ok(
 );
 assert.ok(!muteSource.includes("showToast"));
 assert.ok(!muteSource.includes("uiNotifications"));
+assert.ok(
+  !gameInputSource.includes("showToast"),
+  "audio keybinds must not call the removed raw-toast API",
+);
 assert.ok(!effectSource.includes("uiNotifications"));
 assert.ok(!effectSource.includes("showFloatingText"));
 assert.ok(!digSource.includes("⚡ SPEED BOOST! +50%"));

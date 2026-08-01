@@ -15,6 +15,11 @@ import {
   resolveWorldVisualSemanticAssetsEnabled,
   resolveWorldVisualSemanticSpecialFrame,
 } from "../../../values/worldVisualSemanticAssets.js";
+import {
+  WORLD_VISUAL_DAMAGE_MODES,
+  resolveWorldVisualDamageMode,
+} from "../../../values/worldVisualDamage.js";
+import { WorldVisualDamageImagePainter } from "./WorldVisualDamageImagePainter.js";
 import { WorldVisualDamagePainter } from "./WorldVisualDamagePainter.js";
 
 function hashUnit(tx, ty, salt = 0) {
@@ -53,6 +58,7 @@ export class WorldVisualFeedbackLayer {
     this.feedbackConfig = feedbackConfig;
     this.semanticAssetsEnabled = resolveWorldVisualSemanticAssetsEnabled();
     this.resourceVeinsEnabled = resolveWorldVisualResourceVeinsEnabled(feedbackConfig);
+    this.damageMode = resolveWorldVisualDamageMode();
     this.decals = null;
     this.damagePainter = null;
     this.markerPool = [];
@@ -64,7 +70,10 @@ export class WorldVisualFeedbackLayer {
     this.decals = this.scene.add.graphics()
       .setDepth(this.config.render.feedbackDepth)
       .setMask(this.geometryMask);
-    this.damagePainter = new WorldVisualDamagePainter(
+    const DamagePainter = this.damageMode === WORLD_VISUAL_DAMAGE_MODES.imagegen
+      ? WorldVisualDamageImagePainter
+      : WorldVisualDamagePainter;
+    this.damagePainter = new DamagePainter(
       this.scene,
       this.geometryMask,
       this.config.render.feedbackDepth

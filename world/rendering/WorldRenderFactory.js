@@ -1,10 +1,10 @@
 import {
   WORLD_VISUAL_RUNTIME_MODES,
   resolveWorldVisualRuntimeMode,
-} from "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
 import { WorldRenderer } from "./WorldRenderer.js";
 import { WorldVisualRuntime } from
-  "./scenic-world/WorldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./scenic-world/WorldVisualRuntime.js?rev=20260729-native-density-v14";
 
 export function createWorldRenderer(scene, worldModel, gameConfig, search = globalThis.location?.search || "") {
   const mode = resolveWorldVisualRuntimeMode(undefined, search);

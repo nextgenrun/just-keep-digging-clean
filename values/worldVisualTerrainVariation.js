@@ -9,6 +9,9 @@ const ASSET_ROOT = (
 const ASSET_ROOT_V5 = (
   "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5"
 );
+const SEAM_ASSET_ROOT_V6 = (
+  "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6"
+);
 const COHESION_ASSET_ROOT = (
   "sprites/backgrounds/world-visual-v2/depth/foreground-cohesion-v1"
 );
@@ -28,6 +31,12 @@ const capAsset = biomeId => Object.freeze({
 const plateAssetV5 = stem => Object.freeze({
   key: `world-visual-terrain-variation-v5-${stem}`,
   path: `${ASSET_ROOT_V5}/${stem}-v5.webp`,
+  type: "image",
+});
+
+const seamPlateAssetV6 = stem => Object.freeze({
+  key: `world-visual-terrain-seam-v6-${stem}`,
+  path: `${SEAM_ASSET_ROOT_V6}/${stem}-v6.webp`,
   type: "image",
 });
 
@@ -106,6 +115,19 @@ const V5_PLATE_STEMS = Object.freeze({
   ]),
 });
 
+const REGION_ORDER_INDEX = Object.freeze({
+  "surface-entry": 0,
+  "level1-blue": 1,
+  "level1-amber": 2,
+  "level1-silver": 3,
+  "level1-magma": 4,
+  "level2-slagworks": 5,
+  "level2-obsidian": 6,
+  "level2-foundry": 7,
+  "level2-blackglass": 8,
+  "level2-starfire": 9,
+});
+
 const region = (
   id,
   biomeId,
@@ -119,6 +141,10 @@ const region = (
   const v5Plates = Object.freeze(
     (V5_PLATE_STEMS[biomeId] || []).map(plateAssetV5)
   );
+  const seamBasePlatesV6 = Object.freeze(plateStems.map(seamPlateAssetV6));
+  const seamV5PlatesV6 = Object.freeze(
+    (V5_PLATE_STEMS[biomeId] || []).map(seamPlateAssetV6)
+  );
   const baseCapAtlas = capAsset(biomeId);
   const v5CapAtlas = capAssetV5(biomeId);
   return Object.freeze({
@@ -129,9 +155,12 @@ const region = (
     topTile,
     bottomTileExclusive,
     seedOffset,
+    orderIndex: REGION_ORDER_INDEX[id] ?? 0,
     plates,
     basePlates: plates,
     v5Plates,
+    seamBasePlatesV6,
+    seamV5PlatesV6,
     cohesionPlate: cohesionAsset(cohesionStem),
     capAtlas: baseCapAtlas,
     capAtlases: Object.freeze([baseCapAtlas]),
@@ -230,6 +259,27 @@ export const WORLD_VISUAL_TERRAIN_VARIATION = Object.freeze({
     queryParam: "undergroundTerrainExpansionV5",
     disabledValues: DISABLED_QUERY_VALUES,
   }),
+  seamBlendV6: Object.freeze({
+    enabledByDefault: true,
+    queryParam: "undergroundSeamBlend",
+    disabledValues: DISABLED_QUERY_VALUES,
+    plateAlpha: 1,
+    segment: Object.freeze({
+      logicalWidthPx: 1536,
+      logicalHeightPx: 1024,
+      overlapXPx: 384,
+      overlapYPx: 256,
+      crossBiomeOverlapYPx: 128,
+      strideXPx: 1152,
+      strideYPx: 768,
+      neighborSegments: 1,
+    }),
+    depthOrder: Object.freeze({
+      regionStep: 0.00075,
+      rowStep: 0.00001,
+      columnStep: 0.0000005,
+    }),
+  }),
   cohesion: Object.freeze({
     enabledByDefault: true,
     runtimeMode: "world-overlay",
@@ -314,10 +364,25 @@ export function resolveWorldVisualTerrainExpansionV5Enabled(
   return expansion.enabledByDefault && !isDisabled(expansion, search);
 }
 
-function resolveRegionPlates(region, includeV5) {
+export function resolveWorldVisualTerrainSeamBlendEnabled(
+  config = WORLD_VISUAL_TERRAIN_VARIATION,
+  search = globalThis.location?.search || ""
+) {
+  const seamBlend = config.seamBlendV6;
+  if (!seamBlend) return false;
+  return seamBlend.enabledByDefault && !isDisabled(seamBlend, search);
+}
+
+function resolveRegionPlates(region, includeV5, seamBlendEnabled, config) {
+  const basePlates = seamBlendEnabled
+    ? region.seamBasePlatesV6
+    : region.basePlates;
+  const v5Plates = seamBlendEnabled
+    ? region.seamV5PlatesV6
+    : region.v5Plates;
   const plates = [
-    ...region.basePlates,
-    ...(includeV5 ? region.v5Plates : []),
+    ...basePlates,
+    ...(includeV5 ? v5Plates : []),
   ];
   const capAtlases = [
     region.capAtlas,
@@ -327,6 +392,8 @@ function resolveRegionPlates(region, includeV5) {
     ...region,
     plates: Object.freeze(plates),
     capAtlases: Object.freeze(capAtlases),
+    seamBlendEnabled,
+    segment: seamBlendEnabled ? config.seamBlendV6.segment : config.segment,
   });
 }
 
@@ -339,12 +406,18 @@ export function resolveWorldVisualTerrainVariationRegions(
   if (!resolveWorldVisualTerrainVariationEnabled(config, search)) return [];
   if (bottomTileExclusive <= topTile) return [];
   const includeV5 = resolveWorldVisualTerrainExpansionV5Enabled(config, search);
+  const seamBlendEnabled = resolveWorldVisualTerrainSeamBlendEnabled(config, search);
   return config.regions
     .filter(entry => (
       entry.bottomTileExclusive > topTile
       && entry.topTile < bottomTileExclusive
     ))
-    .map(entry => resolveRegionPlates(entry, includeV5));
+    .map(entry => resolveRegionPlates(
+      entry,
+      includeV5,
+      seamBlendEnabled,
+      config
+    ));
 }
 
 export function resolveWorldVisualTerrainVariationRegion(
@@ -358,7 +431,9 @@ export function resolveWorldVisualTerrainVariationRegion(
   return regionEntry
     ? resolveRegionPlates(
       regionEntry,
-      resolveWorldVisualTerrainExpansionV5Enabled(config, search)
+      resolveWorldVisualTerrainExpansionV5Enabled(config, search),
+      resolveWorldVisualTerrainSeamBlendEnabled(config, search),
+      config
     )
     : null;
 }
@@ -378,9 +453,12 @@ export function getWorldVisualTerrainVariationRuntimeAssets(
 ) {
   const includeV5 = resolveWorldVisualTerrainExpansionV5Enabled(config, search);
   const includeCohesion = resolveWorldVisualTerrainCohesionEnabled(config, search);
+  const seamBlendEnabled = resolveWorldVisualTerrainSeamBlendEnabled(config, search);
   return config.regions.flatMap(entry => [
-    ...entry.basePlates,
-    ...(includeV5 ? entry.v5Plates : []),
+    ...(seamBlendEnabled ? entry.seamBasePlatesV6 : entry.basePlates),
+    ...(includeV5
+      ? (seamBlendEnabled ? entry.seamV5PlatesV6 : entry.v5Plates)
+      : []),
     ...(includeCohesion && entry.cohesionPlate
       ? [entry.cohesionPlate]
       : []),

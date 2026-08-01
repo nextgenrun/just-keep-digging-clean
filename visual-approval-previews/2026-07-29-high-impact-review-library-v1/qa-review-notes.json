@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "libraryId": "2026-07-29-high-impact-review-library-v1",
+  "createdAtUtc": "2026-07-29T19:07:35.311106+00:00",
+  "status": "review-only-not-wired",
+  "structuralQaPassed": true,
+  "structuralSummary": {
+    "sources": 1000,
+    "derivatives": 9000,
+    "profiles": 10,
+    "uniqueCandidateIds": 10000,
+    "uniqueCandidatePaths": 10000,
+    "uniqueFileHashes": 10000,
+    "uniqueRgbaHashes": 10000,
+    "sequenceGroups": 150,
+    "framesPerSequenceGroup": 5,
+    "lineageDepth": 1
+  },
+  "reviewDispositionCounts": {
+    "pending": 9610,
+    "needs-edit": 380,
+    "reject": 10
+  },
+  "rejectedSources": [
+    {
+      "id": "a0864-ui-tab-state-s04",
+      "reason": "Baked padlock plus two separate UI surfaces; not an atomic reusable tab state."
+    }
+  ],
+  "needsEditSources": [
+    {
+      "id": "a0186-wurm-tremor-ring",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0187-wurm-noise-motes",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0188-wurm-ground-warning",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0189-wurm-breach-eruption",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0191-wurm-passage-debris",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0192-wurm-head-impact",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0193-wurm-tail-wake",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0194-wurm-missed-pass-dust",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0195-wurm-gp-rupture",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0196-gate-dormant-nodes",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0197-gate-warning-nodes",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0198-gate-active-beam",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0199-gate-crossing-sparks",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0200-gate-hit-burst",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0201-spike-floor-crack",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0202-spike-tip-glow",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0203-spike-emergence-dust",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0204-spike-hit-burst",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0205-spike-retraction-dust",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0206-vent-dormant-mark",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0207-vent-telegraph",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0208-vent-active-core",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0209-vent-flame-tongues",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0210-vent-cooling-smoke",
+      "reason": "Contains baked white atlas/grid-divider lines; regenerate or clean before approval."
+    },
+    {
+      "id": "a0861-ui-tab-state-s01",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0862-ui-tab-state-s02",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0863-ui-tab-state-s03",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0865-ui-tab-state-s05",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0916-ui-quantity-badge-state-s01",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0917-ui-quantity-badge-state-s02",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0918-ui-quantity-badge-state-s03",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0919-ui-quantity-badge-state-s04",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0920-ui-quantity-badge-state-s05",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0936-ui-talent-navigation-state-s01",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0937-ui-talent-navigation-state-s02",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0938-ui-talent-navigation-state-s03",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0939-ui-talent-navigation-state-s04",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    },
+    {
+      "id": "a0940-ui-talent-navigation-state-s05",
+      "reason": "Contains two separate UI components; must be split or regenerated as one atomic reusable asset."
+    }
+  ],
+  "correctedChromaReview": {
+    "bugFixed": "The original dominance metric used uint8 arithmetic and overflowed. The builder now widens RGB to int16.",
+    "sourceIdsWithStrongChromaAfterFix": [
+      "a0029-green-geode-fracture",
+      "a0984-ui-journey-checkpoint-state-s04",
+      "a0985-ui-journey-checkpoint-state-s05"
+    ],
+    "disposition": "Pending visual review; colors are consistent with intentional green geode/checkpoint artwork, not automatic rejects."
+  },
+  "sequenceGroupsRequiringVisualReview": {
+    "groups": [
+      "m22-rain-drop-cycle",
+      "m22-rain-ceiling-impact",
+      "m22-rain-puddle-ripple",
+      "m23-wind-dust-gust",
+      "m23-lightning-fork-flash"
+    ],
+    "reason": "p09-detail-alt uses a one-pixel deterministic uniqueness fallback on sparse frames; verify the alternate is visually meaningful before approval."
+  },
+  "scopeAudit": {
+    "solidInteractableStateSheetsFound": 0,
+    "result": "Pass. Object-adjacent records are FX, light, hazard, ambience, or UI overlays only."
+  },
+  "runtimeWired": false,
+  "productionEligible": false,
+  "visualEvidence": {
+    "quarantineSheet": {
+      "path": "catalog/01-quarantine-review.png",
+      "sha256": "90709b882fd7ede1ae616ef714f1484ddc47ae72edad37dc2e57db0c1273a329",
+      "sourceCount": 39
+    }
+  }
+}

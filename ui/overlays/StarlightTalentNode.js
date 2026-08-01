@@ -3,13 +3,8 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
 import { createButton } from "../PhaserUiKit.js";
-
-function fitImage(image, maxWidth, maxHeight) {
-  const sourceWidth = Math.max(1, image.width || image.displayWidth || 1);
-  const sourceHeight = Math.max(1, image.height || image.displayHeight || 1);
-  image.setScale(Math.min(maxWidth / sourceWidth, maxHeight / sourceHeight));
-  return image;
-}
+import { fitStarlightImage, fitStarlightSign } from "./starlightImagePlacement.js";
+import { createStarlightSignXpBar } from "./starlightSignXpBar.js";
 
 function scaledFont(base, minimum, scale) {
   return Math.max(minimum, Math.round(base * scale));
@@ -35,11 +30,6 @@ export function createStarlightTalentNode({
   const mastered = status.state === "mastered";
   const locked = status.state === "locked" || status.abilityLocked;
   const textures = ASSET_KEYS.ui.starlightTalentTree;
-  const frameKey = status.abilityLocked
-    ? textures.nodeLocked
-    : status.abilityId === "thunderstrike"
-      ? textures.nodeThunderstrike
-      : textures.nodeQuickslash;
   const button = createButton(scene, {
     x,
     y,
@@ -53,14 +43,15 @@ export function createStarlightTalentNode({
     onClick: () => onPress?.(index),
   });
 
-  const selectedHalo = fitImage(
-    scene.add.image(0, 0, textures.nodeSelected),
-    width + layout.nodeSelectionPaddingPx * layoutScale,
-    height + layout.nodeSelectionPaddingPx * layoutScale,
+  const artY = layout.nodeArtOffsetYPx * layoutScale;
+  const selectedHalo = fitStarlightImage(
+    scene.add.image(0, artY, textures.nodeSelected),
+    layout.nodeSelectionHaloPx * layoutScale,
+    layout.nodeSelectionHaloPx * layoutScale,
   ).setVisible(false);
-  const frame = fitImage(scene.add.image(0, 0, frameKey), width, height);
-  const art = fitImage(
-    scene.add.image(0, layout.nodeArtOffsetYPx * layoutScale, textureKey),
+  const art = fitStarlightSign(
+    scene.add.image(0, artY, textureKey),
+    resourceType,
     layout.nodeArtMaxWidthPx * layoutScale,
     layout.nodeArtMaxHeightPx * layoutScale,
   );
@@ -68,7 +59,7 @@ export function createStarlightTalentNode({
   if (locked) art.setTint(0x526478);
 
   const lockIcon = status.abilityLocked
-    ? fitImage(
+    ? fitStarlightImage(
         scene.add.image(
           layout.nodeLockOffsetXPx,
           layout.nodeLockOffsetYPx * layoutScale,
@@ -78,7 +69,7 @@ export function createStarlightTalentNode({
         layout.nodeLockSizePx * layoutScale,
       )
     : null;
-  const ribbon = fitImage(
+  const ribbon = fitStarlightImage(
     scene.add.image(
       0,
       layout.nodeRibbonOffsetYPx * layoutScale,
@@ -115,7 +106,7 @@ export function createStarlightTalentNode({
   const progress = scene.add.text(
     0,
     layout.nodeProgressOffsetYPx * layoutScale,
-    status.shortLabel,
+    `${Math.min(status.maxLevel, status.level)} / ${status.maxLevel}`,
     {
       fontFamily: UI_FONTS.mono,
       fontSize: `${scaledFont(
@@ -132,15 +123,27 @@ export function createStarlightTalentNode({
       ),
     },
   ).setOrigin(0.5);
+  const xpBar = layout.nodeXpBarVisible
+    ? createStarlightSignXpBar({
+        scene,
+        parent: null,
+        x: 0,
+        y: layout.nodeXpBarOffsetYPx * layoutScale,
+        width: layout.nodeXpBarWidthPx * layoutScale,
+        height: layout.nodeXpBarHeightPx * layoutScale,
+        progress: status.levelProgress,
+        alpha: status.abilityLocked ? 0.45 : 1,
+      })
+    : null;
 
   button.root.add([
     selectedHalo,
-    frame,
     art,
     lockIcon,
     ribbon,
     name,
     progress,
+    xpBar,
   ].filter(Boolean));
   button.root.setVisible(false).setAlpha(0);
 
@@ -181,9 +184,13 @@ export function createStarlightTalentNode({
       return;
     }
     const centered = Boolean(slot.centered);
+    ribbon.setVisible(
+      centered && !layout.carouselCenterRibbonEmbedded,
+    );
     ribbon.setAlpha(centered ? 1 : layout.carouselFlankLabelAlpha);
     name.setAlpha(centered ? 1 : layout.carouselFlankLabelAlpha);
     progress.setVisible(centered);
+    xpBar?.setVisible(centered);
     if (!laidOut || slot.immediate) {
       button.root
         .setPosition(slot.x, slot.y)

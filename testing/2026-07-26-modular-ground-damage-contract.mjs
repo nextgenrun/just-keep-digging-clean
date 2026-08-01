@@ -37,7 +37,7 @@ class GraphicsStub {
   destroy() { this.destroyed = true; return this.call("destroy"); }
 }
 
-function createPainter(search = "") {
+function createPainter(search = "?groundDamage=procedural") {
   const originalLocation = globalThis.location;
   globalThis.location = { search };
   const graphics = [];
@@ -87,8 +87,9 @@ for (let index = 1; index < WORLD_VISUAL_DAMAGE.stages.length; index += 1) {
   assert.ok(current.stressCount >= previous.stressCount, "stress marks must never regress");
 }
 
-assert.equal(resolveWorldVisualDamageMode(undefined, ""), WORLD_VISUAL_DAMAGE_MODES.modular);
+assert.equal(resolveWorldVisualDamageMode(undefined, ""), WORLD_VISUAL_DAMAGE_MODES.imagegen);
 assert.equal(resolveWorldVisualDamageMode(undefined, "?groundDamage=layers"), WORLD_VISUAL_DAMAGE_MODES.modular);
+assert.equal(resolveWorldVisualDamageMode(undefined, "?groundDamage=imagegen"), WORLD_VISUAL_DAMAGE_MODES.imagegen);
 assert.equal(resolveWorldVisualDamageMode(undefined, "?groundDamage=legacy"), WORLD_VISUAL_DAMAGE_MODES.legacy);
 
 const modular = createPainter();

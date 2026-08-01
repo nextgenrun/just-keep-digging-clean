@@ -1,7 +1,7 @@
 import {
   TITAN_DISCOVERY_CONFIG,
   resolveTitanDiscoveriesEnabled,
-} from "../../values/titanDiscoveries.js";
+} from "../../values/titanDiscoveries.js?rev=20260729-native-density-v14";
 import {
   TITAN_DISCOVERY_EXPERIENCE,
   resolveTitanEncounterMode,
@@ -10,13 +10,13 @@ import { buildTitanDiscoveryZones } from "./titanDiscoveryZones.js";
 import {
   createTitanDiscoveryView,
   syncTitanDiscoveryViews,
-} from "./titanDiscoveryView.js";
+} from "./titanDiscoveryView.js?rev=20260729-native-density-v14";
 import { buildTitanDiscoverySnapshot } from "./titanDiscoverySnapshot.js";
 import { describeTitanDirection } from "./titanDirection.js";
-import { TitanChamberStream } from "./TitanChamberStream.js";
+import { TitanChamberStream } from "./TitanChamberStream.js?rev=20260729-native-density-v14";
 import { TitanCoverageGlowSystem } from "./TitanCoverageGlowSystem.js";
 import { TitanDiscoveryGuidance } from "./TitanDiscoveryGuidance.js";
-import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js";
+import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js?rev=20260729-native-density-v14";
 import { TitanUnlockController } from "./TitanUnlockController.js";
 import { publishTitanDiscoveryHealth } from "./titanDiscoveryHealth.js";
 

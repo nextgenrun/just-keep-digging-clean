@@ -1,0 +1,124 @@
+{
+  "libraryId": "2026-07-29-high-impact-review-library-v1",
+  "manifest": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/manifest.json",
+  "counts": {
+    "masters": 41,
+    "authoredSources": 1000,
+    "derivatives": 9000,
+    "profiles": 10,
+    "candidateImages": 10000
+  },
+  "qaSummary": {
+    "passed": true,
+    "errors": [],
+    "warnings": [],
+    "sourceCount": 1000,
+    "derivativeCount": 9000,
+    "totalCandidateCount": 10000,
+    "uniqueIdCount": 10000,
+    "uniquePathCount": 10000,
+    "uniqueRgbaHashCount": 10000,
+    "correctedStrongChromaSourceCount": 3,
+    "reviewDispositionCounts": {
+      "pending": 9610,
+      "needs-edit": 380,
+      "reject": 10
+    },
+    "semanticReviewPassedWithQuarantine": true
+  },
+  "performanceSummary": {
+    "sources": {
+      "count": 1000,
+      "encodedBytes": 37183871,
+      "decodedRgbaBytes": 327680000,
+      "encodedBytesP50": 36692,
+      "encodedBytesP95": 73614,
+      "encodedBytesMax": 109783
+    },
+    "derivatives": {
+      "count": 9000,
+      "encodedBytes": 335789883,
+      "decodedRgbaBytes": 2949120000,
+      "encodedBytesP50": 37272,
+      "encodedBytesP95": 74089,
+      "encodedBytesMax": 112357
+    },
+    "allCandidates": {
+      "count": 10000,
+      "encodedBytes": 372973754,
+      "decodedRgbaBytes": 3276800000,
+      "encodedBytesP50": 37193,
+      "encodedBytesP95": 74082,
+      "encodedBytesMax": 112357
+    },
+    "uniform320x256DecodedEstimateBytes": 3276800000,
+    "uniform320x256DecodedEstimateGiB": 3.0518,
+    "runtimePolicy": "Never preload the full library; curate, atlas by family, and lazy-load approved subsets."
+  },
+  "elapsedSeconds": 344.198,
+  "reviewDisposition": {
+    "updatedAtUtc": "2026-07-29T19:07:35.311106+00:00",
+    "counts": {
+      "pending": 9610,
+      "needs-edit": 380,
+      "reject": 10
+    },
+    "rejectedSourceIds": [
+      "a0864-ui-tab-state-s04"
+    ],
+    "needsEditSourceIds": [
+      "a0186-wurm-tremor-ring",
+      "a0187-wurm-noise-motes",
+      "a0188-wurm-ground-warning",
+      "a0189-wurm-breach-eruption",
+      "a0191-wurm-passage-debris",
+      "a0192-wurm-head-impact",
+      "a0193-wurm-tail-wake",
+      "a0194-wurm-missed-pass-dust",
+      "a0195-wurm-gp-rupture",
+      "a0196-gate-dormant-nodes",
+      "a0197-gate-warning-nodes",
+      "a0198-gate-active-beam",
+      "a0199-gate-crossing-sparks",
+      "a0200-gate-hit-burst",
+      "a0201-spike-floor-crack",
+      "a0202-spike-tip-glow",
+      "a0203-spike-emergence-dust",
+      "a0204-spike-hit-burst",
+      "a0205-spike-retraction-dust",
+      "a0206-vent-dormant-mark",
+      "a0207-vent-telegraph",
+      "a0208-vent-active-core",
+      "a0209-vent-flame-tongues",
+      "a0210-vent-cooling-smoke",
+      "a0861-ui-tab-state-s01",
+      "a0862-ui-tab-state-s02",
+      "a0863-ui-tab-state-s03",
+      "a0865-ui-tab-state-s05",
+      "a0916-ui-quantity-badge-state-s01",
+      "a0917-ui-quantity-badge-state-s02",
+      "a0918-ui-quantity-badge-state-s03",
+      "a0919-ui-quantity-badge-state-s04",
+      "a0920-ui-quantity-badge-state-s05",
+      "a0936-ui-talent-navigation-state-s01",
+      "a0937-ui-talent-navigation-state-s02",
+      "a0938-ui-talent-navigation-state-s03",
+      "a0939-ui-talent-navigation-state-s04",
+      "a0940-ui-talent-navigation-state-s05"
+    ],
+    "strongChromaReviewSourceIds": [
+      "a0029-green-geode-fracture",
+      "a0984-ui-journey-checkpoint-state-s04",
+      "a0985-ui-journey-checkpoint-state-s05"
+    ],
+    "sequenceGroupsRequiringVisualReview": [
+      "m22-rain-drop-cycle",
+      "m22-rain-ceiling-impact",
+      "m22-rain-puddle-ripple",
+      "m23-wind-dust-gust",
+      "m23-lightning-fork-flash"
+    ],
+    "notesPath": "qa-review-notes.json",
+    "notesSha256": "236e1b025508122fb32708ed6f7aaa627e5dcae45f65e2a4fd6bf62942338bea"
+  }
+}

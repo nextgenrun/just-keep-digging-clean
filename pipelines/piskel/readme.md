@@ -3,6 +3,14 @@
 Repository-owned builders that convert editable `.piskel` sources into
 runtime sprite assets.
 
+The Fire Light V3 package is driven by
+`ai-tools/2026-07-30-build-fire-light-piskel-polish-v1.py`. It round-trips ten
+independent 16-frame projects, preserves the shared 313x313 grid, uses
+integer-only source-root/luminous-core/state-row registration, enforces
+true-black additive borders and energy retention, and emits hash-linked
+candidate plus byte-exact rollback atlases. Runtime apply/rollback remains an
+explicit separate command.
+
 The Arc Core production builder round-trips ten gameplay images and one
 sandbox background through two Piskel documents, checks zero-drift
 fixed-center anchors and role order, then writes hashed runtime PNGs and
@@ -30,18 +38,26 @@ components.
 
 `moving_side_dig_compositor.py` is the shared review/production compositor for
 the Survival moving side-dig. It keeps Jog in charge of the pelvis and legs,
-aligns the Jab/Cross upper body to the rig pelvis, and applies the approved
-contact-only backoff. `2026-07-28-build-moving-side-dig-piskel-package.py`
+aligns the Jab/Cross upper body to the rig pelvis at the stable 109/123 source
+ratio, and applies the approved contact-only backoff.
+`2026-07-28-build-moving-side-dig-piskel-package.py`
 round-trips the two base clips plus six phase variants through editable Piskel
 sources, packs the variants into one 132-frame runtime atlas, enforces
 anchor/baseline drift limits, and derives one shared contact marker from the
 widest visible silhouette. `moving_side_dig_phase_handoff.py` owns the compact
 entry family and planted-pivot maps; `moving_side_dig_runtime_module.py`
 generates the frozen JavaScript runtime contract from
-`values/movingSideDigProduction.json`. This keeps the full Jab/Cross cycle clear
-of the tile. Each strike now exposes 22 upper-body poses while Jog advances its
-original 14 phases; seven-frame ease-in/ease-out envelopes remove the compressed
-recovery snap without accelerating the feet or moving the contact beat.
+`values/movingSideDigProduction.json`. This keeps the apparent Jab/Cross size
+matched to the surrounding Jog while retaining a compact contact envelope.
+Each normal strike exposes 22 upper-body poses while Jog
+advances its original 14 phases; seven-frame ease-in/ease-out envelopes remove
+the compressed recovery snap without accelerating the feet or moving the
+contact beat. Moving Quickslash samples 16 frames from the same Piskel-owned
+phase variants so its original sequence-4 contact and fast cadence remain
+unchanged without introducing another sprite sheet.
+The same authored package now emits the 18 px solid-face body stand-off into
+the generated runtime module and manifest; the Piskel silhouettes and their
+validated 194 px contact envelope remain unchanged.
 
 `2026-07-28-build-player-animation-polish-piskel-package.py` is the centralized
 builder for the broader player handoff pass. It regenerates editable transition

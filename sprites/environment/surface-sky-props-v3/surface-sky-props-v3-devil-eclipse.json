@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "devil-eclipse-obsidian-thorns": {
+      "frame": {
+        "x": 5,
+        "y": 5,
+        "w": 197,
+        "h": 188
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 197,
+        "h": 188
+      },
+      "sourceSize": {
+        "w": 197,
+        "h": 188
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-eclipse-chain-winch": {
+      "frame": {
+        "x": 212,
+        "y": 5,
+        "w": 250,
+        "h": 192
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 250,
+        "h": 192
+      },
+      "sourceSize": {
+        "w": 250,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-ember-urns": {
+      "frame": {
+        "x": 472,
+        "y": 5,
+        "w": 209,
+        "h": 187
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 209,
+        "h": 187
+      },
+      "sourceSize": {
+        "w": 209,
+        "h": 187
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-crimson-pennants": {
+      "frame": {
+        "x": 691,
+        "y": 5,
+        "w": 259,
+        "h": 179
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 259,
+        "h": 179
+      },
+      "sourceSize": {
+        "w": 259,
+        "h": 179
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-eclipse-glass-shard": {
+      "frame": {
+        "x": 960,
+        "y": 5,
+        "w": 115,
+        "h": 216
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 115,
+        "h": 216
+      },
+      "sourceSize": {
+        "w": 115,
+        "h": 216
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-cinder-basket": {
+      "frame": {
+        "x": 5,
+        "y": 231,
+        "w": 155,
+        "h": 196
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 155,
+        "h": 196
+      },
+      "sourceSize": {
+        "w": 155,
+        "h": 196
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-basalt-seat": {
+      "frame": {
+        "x": 170,
+        "y": 231,
+        "w": 234,
+        "h": 117
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 234,
+        "h": 117
+      },
+      "sourceSize": {
+        "w": 234,
+        "h": 117
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-pressure-vent": {
+      "frame": {
+        "x": 414,
+        "y": 231,
+        "w": 149,
+        "h": 194
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 149,
+        "h": 194
+      },
+      "sourceSize": {
+        "w": 149,
+        "h": 194
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-crystal-cage": {
+      "frame": {
+        "x": 573,
+        "y": 231,
+        "w": 142,
+        "h": 210
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 142,
+        "h": 210
+      },
+      "sourceSize": {
+        "w": 142,
+        "h": 210
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-hook-rack": {
+      "frame": {
+        "x": 725,
+        "y": 231,
+        "w": 235,
+        "h": 220
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 235,
+        "h": 220
+      },
+      "sourceSize": {
+        "w": 235,
+        "h": 220
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-furnace-lens": {
+      "frame": {
+        "x": 5,
+        "y": 461,
+        "w": 160,
+        "h": 192
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 160,
+        "h": 192
+      },
+      "sourceSize": {
+        "w": 160,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-meteor-pile": {
+      "frame": {
+        "x": 175,
+        "y": 461,
+        "w": 229,
+        "h": 145
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 229,
+        "h": 145
+      },
+      "sourceSize": {
+        "w": 229,
+        "h": 145
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-soot-chest": {
+      "frame": {
+        "x": 414,
+        "y": 461,
+        "w": 249,
+        "h": 165
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 249,
+        "h": 165
+      },
+      "sourceSize": {
+        "w": 249,
+        "h": 165
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-crimson-lantern": {
+      "frame": {
+        "x": 673,
+        "y": 461,
+        "w": 115,
+        "h": 188
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 115,
+        "h": 188
+      },
+      "sourceSize": {
+        "w": 115,
+        "h": 188
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-slag-ballast": {
+      "frame": {
+        "x": 798,
+        "y": 461,
+        "w": 219,
+        "h": 168
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 219,
+        "h": 168
+      },
+      "sourceSize": {
+        "w": 219,
+        "h": 168
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-incense-vessel": {
+      "frame": {
+        "x": 5,
+        "y": 663,
+        "w": 144,
+        "h": 194
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 144,
+        "h": 194
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 194
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-eclipse-instrument": {
+      "frame": {
+        "x": 159,
+        "y": 663,
+        "w": 113,
+        "h": 201
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 113,
+        "h": 201
+      },
+      "sourceSize": {
+        "w": 113,
+        "h": 201
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-spiked-posts": {
+      "frame": {
+        "x": 282,
+        "y": 663,
+        "w": 208,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 208,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 208,
+        "h": 185
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-cracked-sample-tray": {
+      "frame": {
+        "x": 500,
+        "y": 663,
+        "w": 235,
+        "h": 127
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 235,
+        "h": 127
+      },
+      "sourceSize": {
+        "w": 235,
+        "h": 127
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "devil-eclipse-devil-repair-bench": {
+      "frame": {
+        "x": 745,
+        "y": 663,
+        "w": 263,
+        "h": 179
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 263,
+        "h": 179
+      },
+      "sourceSize": {
+        "w": 263,
+        "h": 179
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "meta": {
+    "app": "2026-07-29-build-surface-sky-props-v3.py",
+    "version": "3",
+    "image": "surface-sky-props-v3-devil-eclipse.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1080,
+      "h": 869
+    },
+    "scale": "1"
+  }
+}

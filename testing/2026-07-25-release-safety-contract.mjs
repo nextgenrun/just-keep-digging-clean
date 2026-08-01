@@ -39,9 +39,11 @@ let intervalCleared = false;
 let workerStarted = 0;
 let workerHeartbeats = 0;
 let workerDestroyed = 0;
+let workerFindingBatches = 0;
 const workerBridge = {
   start: () => { workerStarted += 1; return true; },
   heartbeat: () => { workerHeartbeats += 1; },
+  reportFindings: () => { workerFindingBatches += 1; },
   destroy: () => { workerDestroyed += 1; },
 };
 const globalRef = {
@@ -108,6 +110,7 @@ assert.ok(globalRef.localStorage.getItem(RUNTIME_CANARY_CONFIG.storage.lastCriti
 monitor.destroy();
 assert.equal(intervalCleared, true);
 assert.ok(workerHeartbeats >= 1);
+assert.ok(workerFindingBatches >= 1);
 assert.equal(workerDestroyed, 1);
 assert.equal(globalRef[RUNTIME_CANARY_CONFIG.globals.monitor], undefined);
 

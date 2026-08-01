@@ -1,9 +1,56 @@
+const SHORT_CAPTURE_WIDTH = 720;
+const SHORT_CAPTURE_HEIGHT = 1280;
+
 export const SCREEN_RECORD_CONFIG = Object.freeze({
   frameRate: 60,
-  captureWidth: 720,
-  captureHeight: 1280,
+  captureWidth: SHORT_CAPTURE_WIDTH,
+  captureHeight: SHORT_CAPTURE_HEIGHT,
   captureBackground: "#07111f",
   captureFocusX: 0.35,
+  defaultMode: "short",
+  modePrompt: Object.freeze({
+    message: [
+      "Choose capture format:",
+      "SHORT = clean 9:16 capture without game UI",
+      "BROAD = complete wide game screen in fullscreen",
+    ].join("\n\n"),
+    defaultValue: "short",
+  }),
+  modes: Object.freeze({
+    short: Object.freeze({
+      id: "short",
+      aliases: Object.freeze(["short", "s", "1", "portrait", "vertical"]),
+      width: SHORT_CAPTURE_WIDTH,
+      height: SHORT_CAPTURE_HEIGHT,
+      fit: "cover",
+      hideUi: true,
+      requireFullscreen: false,
+      fileNameToken: "short",
+      indicator: "REC • SHORT • F9 TO STOP",
+    }),
+    broad: Object.freeze({
+      id: "broad",
+      aliases: Object.freeze(["broad", "b", "2", "wide", "fullscreen", "landscape"]),
+      captureSourceSize: true,
+      fit: "contain",
+      hideUi: false,
+      requireFullscreen: true,
+      fileNameToken: "broad",
+      indicator: "REC • BROAD FULLSCREEN • F9 TO STOP",
+    }),
+  }),
+  shortUi: Object.freeze({
+    minimumDepth: 998,
+    keepVisibleDataKey: "screenRecordKeepVisible",
+  }),
+  fullscreen: Object.freeze({
+    settleMs: 180,
+    gameRootSelector: "#game-root",
+  }),
+  renderEvents: Object.freeze({
+    preRender: "prerender",
+    postRender: "postrender",
+  }),
   endpoint: "/screenrecord",
   uploadField: "recording",
   fileNamePrefix: "screenrecord",
@@ -19,5 +66,7 @@ export const SCREEN_RECORD_CONFIG = Object.freeze({
     saved: "Screen recording saved: {file}",
     unsupported: "Screen recording is not supported by this browser",
     failed: "Screen recording could not be saved",
+    invalidMode: "Choose SHORT or BROAD capture mode",
+    fullscreenRequired: "Broad capture needs the game in fullscreen",
   }),
 });

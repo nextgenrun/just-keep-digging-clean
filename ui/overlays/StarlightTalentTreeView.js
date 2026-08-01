@@ -1,4 +1,3 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
@@ -8,7 +7,9 @@ import { buildStarlightEnginePage } from "./starlightEnginePagePresentation.js";
 import { resolveStarlightContentBounds } from "./starlightTalentLayout.js";
 import { buildStarlightTalentSummary } from "./starlightTalentDetailPresentation.js";
 import { createStarlightTalentPageNavigation } from "./starlightTalentPageNavigation.js";
+import { createStarlightPauseTalentChrome } from "./starlightPauseTalentChrome.js";
 import { buildStarlightTalentStatuses } from "./starlightTalentStatus.js";
+import { buildStarlightTalentTreeHealth } from "./starlightTalentTreeHealth.js";
 import { buildStarlightTalentBranchPage } from "./starlightTalentTreePresentation.js";
 
 function pageIndexForControl(controlIndex) {
@@ -44,6 +45,7 @@ export class StarlightTalentTreeView {
     this.firstRevealResource = options.firstRevealResource || null;
     this.onFocus = options.onFocus || null;
     this.onEngineAction = options.onEngineAction || null;
+    this.onPauseMenu = options.onPauseMenu || null;
     this.root = scene.add.container(0, 0);
     this.parent?.add?.(this.root);
     this.controls = [];
@@ -104,6 +106,7 @@ export class StarlightTalentTreeView {
     buildStarlightEnginePage(this, this.pageRoots[2]);
     this.summaryRoot = this.scene.add.container(0, 0);
     this.root.add(this.summaryRoot);
+    this.pauseChrome = createStarlightPauseTalentChrome(this);
     this.pageNavigation = createStarlightTalentPageNavigation(this);
     this.branchPageStates.forEach((state, pageIndex) => {
       const page = STARLIGHT_TALENT_TREE_CONFIG.pages[pageIndex];
@@ -122,6 +125,7 @@ export class StarlightTalentTreeView {
   _readProgress() {
     const data = this.fts?.getConstellationData?.() || {};
     const counts = this.fts?.getConstellationCounts?.() || {};
+    const progressByResource = this.fts?.getConstellationProgress?.() || null;
     const unlockedResources = this.fts?.getUnlockedConstellations?.() || [];
     const relicCount = this.fts?.getAncientRelicCount?.()
       ?? this.scene.ancientRelicSystem?.getCount?.()
@@ -130,6 +134,7 @@ export class StarlightTalentTreeView {
     const talentState = buildStarlightTalentStatuses({
       data,
       counts,
+      progressByResource,
       unlockedResources,
       relicCount,
       abilities: this.abilities,
@@ -268,53 +273,7 @@ export class StarlightTalentTreeView {
   }
 
   getHealthSnapshot() {
-    const expected = STARLIGHT_TALENT_TREE_CONFIG.health;
-    const textureKeys = [
-      ...STARLIGHT_TALENT_RESOURCE_ORDER.map(
-        resourceType => ASSET_KEYS.constellations.signs[resourceType],
-      ),
-      ...Object.values(ASSET_KEYS.ui.starlightTalentTree),
-    ];
-    const missingTextures = textureKeys.filter(
-      textureKey => !textureKey || !this.scene.textures?.exists?.(textureKey),
-    );
-    const nodeCount = this.nodeControls.filter(Boolean).length;
-    const engineOptionCount = this.engineControls.filter(Boolean).length;
-    const pageCount = this.pageRoots.filter(Boolean).length;
-    const visiblePageCount = this.pageRoots.filter(page => page.visible).length;
-    const pageNavigationCount = this.pageNavigation?.entries?.length || 0;
-    const visibleBranchCardCounts = this.branchPageStates.map(
-      state => state?.visibleCardCount ?? 0,
-    );
-    const abilityProviderReady = this.abilityAccess?.providerReady === true;
-    const lockedBranchCount = STARLIGHT_TALENT_TREE_CONFIG.branches.filter(
-      branch => this.abilityAccess?.[branch.id]?.unlocked !== true,
-    ).length;
-    const steadyMotionLoopCount = this.summaryAnimatedObjects.length;
-    return {
-      ready: nodeCount === expected.expectedConstellations
-        && engineOptionCount === expected.expectedEngineOptions
-        && pageCount === expected.expectedPages
-        && visiblePageCount === 1
-        && pageNavigationCount === expected.expectedPages
-        && visibleBranchCardCounts.every(
-          count => count === expected.expectedVisibleBranchCards,
-        )
-        && abilityProviderReady
-        && steadyMotionLoopCount <= expected.maximumSteadyMotionLoops
-        && missingTextures.length === 0,
-      nodeCount,
-      engineOptionCount,
-      pageCount,
-      visiblePageCount,
-      pageNavigationCount,
-      visibleBranchCardCounts,
-      activePageId: STARLIGHT_TALENT_TREE_CONFIG.pages[this.pageIndex]?.id || null,
-      abilityProviderReady,
-      lockedBranchCount,
-      steadyMotionLoopCount,
-      missingTextures,
-    };
+    return buildStarlightTalentTreeHealth(this);
   }
 
   destroy() {
@@ -324,6 +283,7 @@ export class StarlightTalentTreeView {
     this.branchPageStates.forEach(state => state?.destroy?.());
     this.enginePageState?.destroy?.();
     this.controls.forEach(control => control?.destroy?.());
+    this.pauseChrome?.destroy?.();
     this.root?.destroy?.(true);
     this.controls = [];
     this.nodeControls = [];

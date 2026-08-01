@@ -45,6 +45,7 @@ export function createCommonShaderUniforms() {
     uTorchCoreRadiusRatio: float(0.24),
     uTorchPenumbraWidth: float(0.16),
     uTorchMaximumAlpha: float(0.19),
+    uFireLightProceduralMix: float(1),
     uSurfaceLightInfluence: float(1),
     uUndergroundDarknessInfluence: float(0),
     uStormCavePulse: float(0),

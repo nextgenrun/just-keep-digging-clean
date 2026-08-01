@@ -1,0 +1,1477 @@
+{
+  "schemaVersion": 1,
+  "packageId": "star-identity-lights-v1",
+  "artSource": "OpenAI ImageGen built-in",
+  "identityCount": 250,
+  "frameSize": 192,
+  "atlasColumns": 10,
+  "decodedBytes": 36864000,
+  "originalSixLightDecodedBytes": 37740384,
+  "withinOriginalDecodedBudget": true,
+  "sources": [
+    {
+      "page": 1,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-01-source-v1.png",
+      "sha256": "492c5b6b239e6f5c7129bd1f4e1b37eaaf267712236d0027246f874d7809018e",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 0,
+      "imageGenCallId": "call_svmAdwM3dW7gdFPy3BbiXy4O"
+    },
+    {
+      "page": 2,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-02-source-v1.png",
+      "sha256": "78ea226eacf223cf54170a09b81b59a5357cecb3b6f2ef0d82d36671cfa05a4f",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 25,
+      "imageGenCallId": "call_Y009sSURxPgeVA5bb6q9ALuF"
+    },
+    {
+      "page": 3,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-03-source-v1.png",
+      "sha256": "dd0359d57ee8a7cf0728c050ae8a477c3b0a0343f047655dfe0fc1515bf5dbf1",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 50,
+      "imageGenCallId": "call_3cKJBNkejSq3dmPC57xQbnDw"
+    },
+    {
+      "page": 4,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-04-source-v1.png",
+      "sha256": "6d250eb9760632aebafb9a58aa3fb84c6df8ad389b8ddc72b71dd93718a536ae",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 75,
+      "imageGenCallId": "call_LTg3QY647BdxTIAW3rtP2mr9"
+    },
+    {
+      "page": 5,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-05-source-v1.png",
+      "sha256": "eb40bb9cf8cf10bdafe823f8256b96bbd1eaa5859a1f2c5aa3d7be9c36ca074c",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 100,
+      "imageGenCallId": "call_GN8MPzucoqWbaAFnfdgLGhmM"
+    },
+    {
+      "page": 6,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-06-source-v1.png",
+      "sha256": "37a1fc58a09702c5db7790a948312967e4c8680769d26b6a8d4bb26d7deb0d61",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 125,
+      "imageGenCallId": "call_29WfO9mBGlvxgwLptCP6OoXG"
+    },
+    {
+      "page": 7,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-07-source-v1.png",
+      "sha256": "0274b39d187792185378b5014d1a14fd1e7474b732d439f57454e5171df83eff",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 150,
+      "imageGenCallId": "call_Npr1cWrGnL4MVRANZWh3qmew"
+    },
+    {
+      "page": 8,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-08-source-v1.png",
+      "sha256": "7ff369f5252b55255a89d46a4aff42c5354f3f071bf6676a4e07918e9166141b",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 175,
+      "imageGenCallId": "call_VN6lJXlgPdFlVsmRVBQ3Fjw9"
+    },
+    {
+      "page": 9,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-09-source-v1.png",
+      "sha256": "bbc9e21f9cedec8ab2bea5c3c7987d623cad9082b5763f18b9c4ee178908f041",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 200,
+      "imageGenCallId": "call_gHjcAaO2wOgMtJrehvP0ogt7"
+    },
+    {
+      "page": 10,
+      "path": "sprites/environment/star-identity-lights-v1/source/star-identity-lights-page-10-source-v1.png",
+      "sha256": "362ca6b2d243302ceb046c6771f54a80346401ba1d84d90ae88476ab7705bcac",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "columns": 5,
+      "rows": 5,
+      "frameCount": 25,
+      "globalStartIndex": 225,
+      "imageGenCallId": "call_v0uK5dCNABroxU00yLhoyvIh"
+    }
+  ],
+  "atlases": [
+    {
+      "rarity": "common",
+      "output": "sprites/environment/star-identity-lights-v1/star-identity-lights-common-atlas-v1.png",
+      "outputSha256": "814f3a0e8f20b4738b4b29935f5d1d9b326ced4e6fd1839841cfdf167affbccf",
+      "frameSize": 192,
+      "columns": 10,
+      "rows": 6,
+      "frameCount": 60,
+      "decodedBytes": 8847360,
+      "frames": [
+        {
+          "rgbaSha256": "ea747dc5543c4a9c185fd3f246ef3b349397cf84ce4085a235de0002589f9263",
+          "alphaCoverage": 0.607476,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "39f3c2a14dd46102bbfa6d97f682a1a6df8d13d402dc7b3a31465d82657529c8",
+          "alphaCoverage": 0.599474,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "596a88d45fd2a0d46c1810a4f27e31944387b193784eb84e18c0a1612947de13",
+          "alphaCoverage": 0.617242,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "fdb2bc5f84867637e1f0dfd17d3054ecab853816386e92a2d15d80b8037ece66",
+          "alphaCoverage": 0.619059,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "28e79459aa25021c906968d436ac6e5e88d371282eaa6a89d2019295dbf0aae4",
+          "alphaCoverage": 0.622016,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "c5e4ed3d82563eaa95442c84bdba68b3e037d1e01714af00158ac5f13c698944",
+          "alphaCoverage": 0.611328,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "8dae84ff3fe19bdcf0fd2c3341013e637418115c561606cea8322876ff69a2ca",
+          "alphaCoverage": 0.626112,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "9b2e1b7f8385914fe2a541877ab6227fc926f9dad1dbccb3367781eccc702145",
+          "alphaCoverage": 0.593452,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "8aec90d201d8c51eb3bea47473b0e8a32953e8237173f410a6dcc8cd59f245c8",
+          "alphaCoverage": 0.650282,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "78210d6e4da992f63da1308982e127c8ffdae4ca9a1566f86ecbb70eb9932287",
+          "alphaCoverage": 0.623237,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "35709d1489812c76167de2e0d61074befa2f90bcfb894404a343642fd3c70cce",
+          "alphaCoverage": 0.612359,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "0e47c4af7e2566e43ac06a1e8a0972b715c757f6ff290d3b40bdec02e3043206",
+          "alphaCoverage": 0.58884,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "baaa88ef0e1eba5f44a9d99f6a580ef745436b9fc1c2e40100795acdf08d3750",
+          "alphaCoverage": 0.639431,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c1661175b93e64a6aa546d860456132b0ec337d47413bafc5dc8878484321387",
+          "alphaCoverage": 0.598796,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "7cd3c9a28dec66536056df0b0660078ae5410d2527cdd59742c80278044d7924",
+          "alphaCoverage": 0.59649,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "930e4cddf0dd5bd93d83222d060681fb0f1c64882f4eacef02db019f15d79191",
+          "alphaCoverage": 0.64114,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c1da3d3c6e4cd99cb6cb0150de921b61e79a5d48a3e2f6572dd8bafdb14f1dfc",
+          "alphaCoverage": 0.594618,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "fe7d7fb7230c854c94527568124cde1cb6a89a6d7b870e8028c04deffe0268ed",
+          "alphaCoverage": 0.640028,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "a5fbebe103be4c7a7965ad482ec8ed57dd5c714a37f52f6c3a2bb912e59752b1",
+          "alphaCoverage": 0.623047,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "64d78a01d7cc326ce3abad7c537de61e515efd9b0db5b052d55e39520d042ae9",
+          "alphaCoverage": 0.603326,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "fabfa17405a9e37a685bbce2a77bd17d49a45870d05602e00ca3844cfb9b7a54",
+          "alphaCoverage": 0.628364,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c8422baa15ba481d95ae142478ccc3f09403eaa13f28f7399f6f98a909ce08c0",
+          "alphaCoverage": 0.584201,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "98c7fd3596a4f3c8a8360db5c098c0873ece8535b6c017fef4539a4516232a96",
+          "alphaCoverage": 0.607883,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "51d9878ecb4fd1f52d8544f073a8ba5fe9134d7728fdebca9247f28c7f95e1b2",
+          "alphaCoverage": 0.629503,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "1d10c2a73b8c058575b00d3bad729752fea179c182f523ff8a53174aed586754",
+          "alphaCoverage": 0.648736,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b968cd2b9afecb454d3689a72e3525b011d3742e7633f31c4f623f5250f32324",
+          "alphaCoverage": 0.616618,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "8f3cf42fe3f8d7c7b7c681a388c4b0115b6d407d004764bf4e5aed93ff429bb2",
+          "alphaCoverage": 0.613173,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "4e7afb4351d6feefe644ccb267319a04d171c3176ea6aee04fb23a45e3881153",
+          "alphaCoverage": 0.640951,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "925c1001378ae9d1232f188c54ccc2f084a2a0cfd4f5d6e83fa23284c28124c6",
+          "alphaCoverage": 0.629232,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "3b3d74cd0644d07cacf17dec3204f7c7d586f6b49c6c7228b4d75aa47b209c32",
+          "alphaCoverage": 0.631944,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "aece539dbc4746179bb7d08fdecd01d2c4f602fdef36f6fce94e98bc1cb72a2e",
+          "alphaCoverage": 0.636583,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "6515ede67c5fecfeb333cecb8e189573d0afd6c9c34f69215165376dc7e9bdfc",
+          "alphaCoverage": 0.633599,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "292a8d80fe3d720b30369c579047037791a00873c42df5a11e8111c8d214ac45",
+          "alphaCoverage": 0.648899,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "8fce0aac27eb78af1e285f06c231107a3fb0e2e8c0a11185e314547cc53cdc1e",
+          "alphaCoverage": 0.659912,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "426aef733522009617a32e6d18b06a7ea257a99724af7324b836a617739f56d4",
+          "alphaCoverage": 0.653863,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "fc8ba5c5f55ad07c1ca63fe3761b57c3b6280b64390af40eef978fc21cc2d033",
+          "alphaCoverage": 0.670817,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "86a941483dae27230b4ec19a732b64c136e21ed61aa0a475a9093e8855bab84d",
+          "alphaCoverage": 0.675808,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "262154ae00118e7ce37d11a222165fe5c7990e09c8ecbbe162a547d2750a47ec",
+          "alphaCoverage": 0.591797,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "416fbe25795d86c5b9e99da22e62cea7a1a1e48060f3f6fa8a22a6290d16bdc7",
+          "alphaCoverage": 0.625868,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "a1d5876b32917a5d06092302dd4ad2f22bb337bfa9e81ede28d3437267057e27",
+          "alphaCoverage": 0.630534,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "87d87733807d265f487152bf6dfd77e703d664b2d80337f4ce57e47e96afeffc",
+          "alphaCoverage": 0.628174,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "b96ddf19664142a67665a30a9ef4ec9889153280da35973c13c925c49daa4eac",
+          "alphaCoverage": 0.603678,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "10b881489b320ca638a8ac5364274eebcb6e6f89ac2f783a49c54e0a299648cc",
+          "alphaCoverage": 0.642253,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "98c00131469c66cfdc4283a9f787e8c619544546c034b07f7a8565a496f73c6a",
+          "alphaCoverage": 0.672526,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "85f33f4364bf1300c5b129c553fb908b3c8e125bd285f393b068775232f1195d",
+          "alphaCoverage": 0.670085,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "d555f7eb230d5ce95382a6df9b39c981a20870e10218b408683b0e782898f2ec",
+          "alphaCoverage": 0.66569,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "160b1119b99de569262c0f898b78f960a7391beae770f895730244f2e4d7de81",
+          "alphaCoverage": 0.651774,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "e875da65fc545d777b1b8d067038abf339ee980c724b804240ec1eef49840209",
+          "alphaCoverage": 0.667942,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "a032b8628befb74857ab5ea2abfda307919dfbeb78928b924796ebf26833f0c7",
+          "alphaCoverage": 0.69911,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "7e4f9c17f3b3b27fab1beec9e0846643f76b60959d59d8fce732ef9c3b3fdfdd",
+          "alphaCoverage": 0.694363,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "ee32159b1631cdad1d74c419dbc0fa6cb8e92837b4d0cd911a428b0df5301e24",
+          "alphaCoverage": 0.687364,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "af54487cef7814ec10a93adcc80daad96b6d4975b9b86412cca9bc4ab4430f45",
+          "alphaCoverage": 0.687419,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "92fcc9f6d6ddb89765715b6334a1296ed78af970b56fea3486e6f0677ca20ac3",
+          "alphaCoverage": 0.669569,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "db98af7f9aab4d7b50e6be6a29c6daa92f0e8487efb275420ee0ed4c8ec44d98",
+          "alphaCoverage": 0.690348,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "855e289cfa9bda46c6a5549ef8bd6e0572faaa4bc813f1cc51226fb953492d78",
+          "alphaCoverage": 0.685601,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "3a3a20fbccf95696f67f998e549b70c898bf0e48440dcc5324c002605e5be754",
+          "alphaCoverage": 0.68495,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "0613d2012b87f0fac10b7c5e168db07f3dd09c7b58e59032f6ee4fa43ff93773",
+          "alphaCoverage": 0.668701,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "2b5a87173ae53dd8e1c67ab40212a8288ccc3db06852f9eecb547c78e1586171",
+          "alphaCoverage": 0.65549,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "08770e2ffad607be888d4e0c9a0dece5287afb00bd91a1628f54afde90e7bd6f",
+          "alphaCoverage": 0.672173,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "df5e63b7cf74f74dd1863227ecf9b94fc27b473efa2323144358adad1165db6a",
+          "alphaCoverage": 0.678223,
+          "edgeAlphaMaximum": 0
+        }
+      ]
+    },
+    {
+      "rarity": "uncommon",
+      "output": "sprites/environment/star-identity-lights-v1/star-identity-lights-uncommon-atlas-v1.png",
+      "outputSha256": "d9be172420872ca6fe099a070c6c7a6c7428cc40621c4dfa980475d753cfc239",
+      "frameSize": 192,
+      "columns": 10,
+      "rows": 5,
+      "frameCount": 50,
+      "decodedBytes": 7372800,
+      "frames": [
+        {
+          "rgbaSha256": "536c24a49f92302ae88fb410a98cad4aebe33ca746e9f6a039d2e95987981464",
+          "alphaCoverage": 0.618598,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "52e0f838fcbfb05a3d470b1a3003f24c5917994e5fcd4f8d973014bfb93cff78",
+          "alphaCoverage": 0.616211,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "391e9d9a0cadb75ad1120176a30371b48ac31a5a7a98b11fa124401d84a45333",
+          "alphaCoverage": 0.630425,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "25f3b6fd4243dc5ad3e951e56a5672aa0b864a25f90a9defdb04702a9d2caa4c",
+          "alphaCoverage": 0.618245,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "dc060e26d7ce397c36a62d4ca9ebb22b4492c1189bdc7450755308994bba7004",
+          "alphaCoverage": 0.622396,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "15a847892075e0fca3cd6807dfdd21f576c96f979b3b7435f3d01fed9696e726",
+          "alphaCoverage": 0.63303,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "58d4356a7c18f6f0f0363ad055ff560dac56a386d1f9e72498a59235d885c3bc",
+          "alphaCoverage": 0.621772,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "e363367a1df7caa22ff3f426165a722b190c5d152584157f1377c4b9b51027f1",
+          "alphaCoverage": 0.572157,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "6f306d3582b7a809b5547e3d07b6c2a4099c6c282ec06752e7594d131a4721b9",
+          "alphaCoverage": 0.583957,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "4c111ca1c09cfc3b4458e18b340c696217563b8b1f52f1399c7c8a2810be9792",
+          "alphaCoverage": 0.621908,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "4149a890a03c9eaaf25af668f82be723c4922fd9a32c25f9714f8075cd818be6",
+          "alphaCoverage": 0.691433,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b9ccb432601c5c1d4929e5e4de28360a559989bfe409448789ddc09343f2f52d",
+          "alphaCoverage": 0.672011,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "e745481f38dc0fbb452f292de8261d95111698a63eee7acd9be31c937f7d7a7f",
+          "alphaCoverage": 0.539144,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "cb9577a2c4b9e03a26578679bbe08eae2fb349b034f51a1720c7be261c18bc3d",
+          "alphaCoverage": 0.472222,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "3903c0c42bda6371c8cb46b1289b81074b61cea980685b1398f97a6514be5280",
+          "alphaCoverage": 0.620877,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c00c1f659f2872adb5dc6b8948bb45c5bdc1e09e0b4ccad445dd2d4ad85bc853",
+          "alphaCoverage": 0.520399,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "cf5d9559608fc3caed643efb512a628bb2b54586ef95e15472a4cf7b92eb73c4",
+          "alphaCoverage": 0.578505,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ba5b52f4233e8e3c41bbb231e17ffd247612e45472f4d3d1184761bb7736247a",
+          "alphaCoverage": 0.60593,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b6c5a68c83de8fb6b4436f882b5258545d66c86635d64e4282100b8af40db922",
+          "alphaCoverage": 0.571099,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e3c3cd47b3f815a1f0231f39fe4f0f5ce65427f3c0a123e1f92666d2ae8169ea",
+          "alphaCoverage": 0.600396,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "eca3e2e075994fbf2109388cec041df44bf6e8c37f363a20a76d8defd6c50122",
+          "alphaCoverage": 0.58233,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "2d7952fed54e57abdd756ac552b918fe98f8ffda7ae8a7a61b051b925da81b66",
+          "alphaCoverage": 0.579427,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "465bbdc8ce3ee71fd041feae3683eff989f1b0c1ec1aa37700431d9daa35975f",
+          "alphaCoverage": 0.580811,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "3d6e118299ceda1cc7622ec0cfe0021350518b345f5e783a1f5fee92587b3840",
+          "alphaCoverage": 0.458469,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d9233ecfd69cd70bb9c0c5af840895d00b2f9d40ff5091c562a2275ee8dab429",
+          "alphaCoverage": 0.596219,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e71f6e915b5913c375033e1571759c602258991906c064950bc6bb50e167007a",
+          "alphaCoverage": 0.501058,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d5d05020a4958b402594fb71525a7ecc10d7e8caab8f615f52510ee1bd72e512",
+          "alphaCoverage": 0.567573,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "5717937959a314561348a3b8b2779892e00164d70fd0e0ab54d88bc82928c340",
+          "alphaCoverage": 0.560059,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d8351436cbd855344768b821697d7d0715073712e96d958ee59de801e4d7e63a",
+          "alphaCoverage": 0.513563,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "f8d3a0573dbb010ba6aaeaaba2c39c16787fd31f1912c190f5d6b439fcd02b42",
+          "alphaCoverage": 0.549615,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ec539e460716fca62e99fa9bc026f25e7a6954df21fd37e3dbcb00cd7b1fc918",
+          "alphaCoverage": 0.556885,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "70e2deba8b8199533597da6f7d9d30f423b5481469b77e01a3fb36d92472a436",
+          "alphaCoverage": 0.582655,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "5c073dbfe8a049c6f6f19f9c67f03547f35398ef7af4839007b0b2488af981d8",
+          "alphaCoverage": 0.53163,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "2d10ac76550451d893d337b1306765e76daebdb6a52d66c276d25fff2f1b0056",
+          "alphaCoverage": 0.430881,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "eeccb8235c40ffb18b10b69ae76c3bc750793a2b5c97c27d10774b7723368915",
+          "alphaCoverage": 0.574273,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "3a3e20909637372330a253fd5ddc07cc7ebe00bb40f99888db51e9dcc7eaa313",
+          "alphaCoverage": 0.505887,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "c59052adf4d37b5beda49138d3735aec8a790960981f637eeda5a4dba9c72b71",
+          "alphaCoverage": 0.57685,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "469e32f622dcd21b3aa6b4b39b609f2d7fe004523145b12d82cd7f066e35ad77",
+          "alphaCoverage": 0.675239,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "aeaca1d81ffd59bf91a57b02d375b7b6f66b88098e36d8746c2f69404bdf4a2b",
+          "alphaCoverage": 0.680122,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "53c96794f89b9643e26899caae721c1a23ef65db86736ee1b412b49232f40291",
+          "alphaCoverage": 0.658556,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "9da5762c69ab64149cd7309d92ad34971773718dae77981e3b0e6f0bc13b0514",
+          "alphaCoverage": 0.666775,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "7d1b971267b8df2e2ce809c59e99c6d64de21ce2999110c014c299e0ce4b06ff",
+          "alphaCoverage": 0.67551,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "d2f1176ef7f38875618621f72e620440efafe5c7481731aa5c893cab4c525b77",
+          "alphaCoverage": 0.686035,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "267e5680d2f8fe5a2c8a7645eed7539b2e6d37ab159a472231c156c97ae67ec9",
+          "alphaCoverage": 0.606364,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "0610ac54229d386e195695f1126013e6541c8ee47da1fbf7c49f7314337c3566",
+          "alphaCoverage": 0.673313,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "77640e0b6114aff6fda99443e2769b9a51947de22e6a75593f2897947ed3bb72",
+          "alphaCoverage": 0.644748,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e29ff83db971c082c8ad6a926dbea2a3bf007881e65317288a785e87b7ab6fa2",
+          "alphaCoverage": 0.644938,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "f37f7d4ea4191db754270d0df4a7f0bb7af7910bdef99403798a58d4400d5d5f",
+          "alphaCoverage": 0.646729,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "5bfe3496977616506f57e3e2145e211fa20a279147ebff78dd4792ec9542c3b4",
+          "alphaCoverage": 0.635607,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "399cea3bdcce8523fff67ab24437e02873a41fb084ddd404cc16d156ab488238",
+          "alphaCoverage": 0.65313,
+          "edgeAlphaMaximum": 0
+        }
+      ]
+    },
+    {
+      "rarity": "rare",
+      "output": "sprites/environment/star-identity-lights-v1/star-identity-lights-rare-atlas-v1.png",
+      "outputSha256": "e9d067d4c570888579fda73945f7e00f071191e801442af6a0c1a45dfc7cfb8d",
+      "frameSize": 192,
+      "columns": 10,
+      "rows": 5,
+      "frameCount": 50,
+      "decodedBytes": 7372800,
+      "frames": [
+        {
+          "rgbaSha256": "b625158e4c34779c8dfd1abf2e22f75cb875747153578e2d6fab674da348c9ca",
+          "alphaCoverage": 0.628228,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "6e68856dc31fbc036611c6d87c126e77dc352cb1907c0c29c00677eadd872b04",
+          "alphaCoverage": 0.618083,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "0833c6de2d154e224c0d85d235e3cb23543335b1a907388399295b7ba31cda7e",
+          "alphaCoverage": 0.582303,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "c0926b466612ff490c9f3650fd2840830104b0af484ed15c5d13558e56b1507c",
+          "alphaCoverage": 0.598307,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e376a1e8ed5166c3290f7c02e3cb71f2825d8f77e87fa90d7a1e6ada7cc242ea",
+          "alphaCoverage": 0.636664,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d6617699f9b4637921bc308d0d8ea824428291ae28eaa2ecdb7a14dcb47d63d2",
+          "alphaCoverage": 0.667453,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "6879ac118403426346b0111e87616b039f5d8ec2c4effa5e71a692cd75460b33",
+          "alphaCoverage": 0.628011,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "1441b5b04d8b0ddb2cde9712100b826be77308e2962991052ccbda47867859fe",
+          "alphaCoverage": 0.659831,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "23f54854f0a79973593de1632beeaae82664a73dd29abd1e2f219b71d8dbf249",
+          "alphaCoverage": 0.617459,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "9d9e3f8891a167651c7b526fec703da075c208c50caf2a362c86bab693eb44b0",
+          "alphaCoverage": 0.675347,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "2edfec30b40ca22437194480c6adca6761f51cac3257082ad39d0eecec7dd4fd",
+          "alphaCoverage": 0.665853,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b1e059f865c6a9dea65efef9eb2bd831d0aeebbd6a6ca072ede9c60cc954883d",
+          "alphaCoverage": 0.650201,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e50565041318a11adda090d4bd667ceb78918cf0acca5b49d8dd91cd729268e1",
+          "alphaCoverage": 0.648709,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "849ac872810226f3a8e0da1b333d6acb5fd87b2d4aafee577b90b7d0c9e04cc1",
+          "alphaCoverage": 0.678358,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "d490e41977e7119b6808e1328e518a2184376d966761ebef7a382facf5c8be9c",
+          "alphaCoverage": 0.666287,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "fa37483ec355e79bc48f402cbe155c48cbb72fdac546cb9bc821edfde0d7d56d",
+          "alphaCoverage": 0.674723,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "f31955775c5f4d65426431b991564077e5311a9bd089bf4a36582708bd7a3a89",
+          "alphaCoverage": 0.67334,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "a2e14eaaa49b4ae204193cbff092e19729547611e62ad1c6aaead9f21b6a46aa",
+          "alphaCoverage": 0.605767,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "22cb4db6afa632f46a78c42af3565c4c3a9ce2687bb0a1f9e37aa95da21422f5",
+          "alphaCoverage": 0.640571,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "0198b166067ba1ef0f7e44f512b2c88a08197178c6b3d21eccf40b826702c031",
+          "alphaCoverage": 0.607937,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "e93e35a3cc66361769045622d467b9c7d09efdfa23d8864640a6af9748ddf17f",
+          "alphaCoverage": 0.628825,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "ad13715262e244ef8e3941cfa710896700e9a412999eb84c21a7071ebcae9b41",
+          "alphaCoverage": 0.652615,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "8e6762b07c8e77f5c08c718b577d752f4551ee8df3205519b7ca85eb4671a0b5",
+          "alphaCoverage": 0.55523,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d5241a5a2756ed435a1534cbc5db8c400f2aeb75b22956253c7d931249b4d882",
+          "alphaCoverage": 0.599501,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "1ab85a3705f3e6dad975aca39e236dfb2659ce73a4f897c3bdc59bec8222e945",
+          "alphaCoverage": 0.570611,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "be571ac6bac7b31fe42a767cd840645f4abdd07ae211540260469207eba08dfc",
+          "alphaCoverage": 0.554091,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "73f5106310e11194fcb10fce695896949af483e37651e4f4419f587b758359d3",
+          "alphaCoverage": 0.55344,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "1be543e71d83b4440e9d825a20c3079b2aa74771f880df98b7bf2c05273b4f23",
+          "alphaCoverage": 0.545681,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "65cb94390cf5b672aa2b168dc0445fc0d0df4fcfc38ca70101f59ec145806593",
+          "alphaCoverage": 0.580024,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "8905add9a33e946f40d6fcb2ced62aa9c5833ae701dfc39793437613ce24f498",
+          "alphaCoverage": 0.60102,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "bb30b0b93f445431c24538332448abda02c3b29d130f8c103866ddf91604bedc",
+          "alphaCoverage": 0.569553,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "bf77ac176d4274fc0b5ac83b68c13002d5589932960f0f3b70ce291768e30604",
+          "alphaCoverage": 0.587511,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "ee9d36ee0dfec909f11f2b7fb4d9d12088b717cf060bb946d01980b8f0f43b6b",
+          "alphaCoverage": 0.543593,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ccfd73b37db297363464f649fdcf6a2d00418eaf93cfa8f0be4f0b587b6d9d05",
+          "alphaCoverage": 0.577718,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e6369b41bf0529b01cedecc0bb5dacca192a3c810e423522ea190e1e3da4e956",
+          "alphaCoverage": 0.616943,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c295403dad9dffbb0b2fc6a754fb5a31a6bf87c3385e7ee149315cc4130ee4a2",
+          "alphaCoverage": 0.561659,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "205e4c7886b701e7f27a081b4ac65c083e5e1bd045a09b0a23bffdd9cc58ec72",
+          "alphaCoverage": 0.579319,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c70930a6e8cd0f7c8486e057d9184cd8695c110103f7434b25567259af027d00",
+          "alphaCoverage": 0.603597,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b447c11abeeffcdc13d6b504fc2a0d1e319cf132aa7d8388136e08f1c6812404",
+          "alphaCoverage": 0.623698,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "f46dce873fd4f1507dc36b27becab3488f91299aa9071cdf0ca2a929f6ff08b8",
+          "alphaCoverage": 0.630398,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "275b07467a7d7b9946ce7a651793b5dd91c17ec94077ae46569996730be4c52f",
+          "alphaCoverage": 0.574436,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "94a2cd02c0dee5344f205af5690c911f16d33c30c25efe33162abf50e3dc6768",
+          "alphaCoverage": 0.599094,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ef5c52dabec4e5e438e978fc68f90f2e00c4a4ca5f66403e44644ddffb3d1048",
+          "alphaCoverage": 0.634494,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b2f6e313c852c21356dacbb4494a5b6a00c997dfe04268bdf741e16391060072",
+          "alphaCoverage": 0.661865,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "91691505a19f9ad8395594d6d34590ca4e1a53687ceb274e0d4dfa042395f207",
+          "alphaCoverage": 0.663873,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "8dc10d0c8ed517d5fb7144acc32e974952e1b8e154939670ca5d7be644050d79",
+          "alphaCoverage": 0.623454,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "0d5b39d75d5ca4805cfc39a3c12c0315e71b2fe321e54358bb224b29bdaea377",
+          "alphaCoverage": 0.656169,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "2892f2a12085314751ae6756af6d0edde2d12effd6aa344ab83fe3ef9156412d",
+          "alphaCoverage": 0.637831,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "669c463649018e217ad2b164986e5865cfbedcfc4a3d210e4fcaed295a6ab4ed",
+          "alphaCoverage": 0.65351,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "30f29359599c0224e932e603fda781e80ec4ecc1f9710d001502f39d7e13c58e",
+          "alphaCoverage": 0.578044,
+          "edgeAlphaMaximum": 0
+        }
+      ]
+    },
+    {
+      "rarity": "epic",
+      "output": "sprites/environment/star-identity-lights-v1/star-identity-lights-epic-atlas-v1.png",
+      "outputSha256": "f68f79c8875b1995bfe6bd80a025ab042d0f5808b9d2625150d6022fb59d5a24",
+      "frameSize": 192,
+      "columns": 10,
+      "rows": 4,
+      "frameCount": 40,
+      "decodedBytes": 5898240,
+      "frames": [
+        {
+          "rgbaSha256": "84eb0821b55515264b069280ac099590f0a343439b7e50038f114fba32bd47f9",
+          "alphaCoverage": 0.655897,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "0a23eaa9dd0105a6fdb560650c774e15da3d76e4f25489cd962f229505d59b71",
+          "alphaCoverage": 0.653592,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ad18eb3ab3e85474ef13b4a00ee8c8ecc5bef562995bf6cbf2f0a4410293bba3",
+          "alphaCoverage": 0.646105,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "87c3fe525d04107939b6fb77b8ab30ac75b4f4c159a5007ea7f4b31f7ec357ee",
+          "alphaCoverage": 0.618517,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d8be5b3cae4642c8e4f03e101d03571130f7c51a4f831d1ed3a4bbe774a098d7",
+          "alphaCoverage": 0.676215,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "e3e3cf8fe6f65885158a5c879528b7cac104cf59c331592f12d372c6944aa3da",
+          "alphaCoverage": 0.642144,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c0ec12332b90011ab5c77c1753c42f0c1fb74d0c46ba0429608178b99a506ebc",
+          "alphaCoverage": 0.660536,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "bcc7b5ec2b2d13cf0ed80f1b58e3818e5360046cfa3ce72dd59437d7cd665016",
+          "alphaCoverage": 0.662299,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "cbed7881f064768420fda7119bf6f5592f969126d915f16b9edc13656a7b0bce",
+          "alphaCoverage": 0.659695,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ccaa11bf51b636df559957e1ffba21e660c4eb8353f08ec1523240bdaeee4822",
+          "alphaCoverage": 0.621908,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "a36f17a624e7637ea4bc2d8c15f6fc0c1ddd86bde4ac10436d79e584073a5224",
+          "alphaCoverage": 0.679118,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "ba24685aedcd8a8b6467de44dfad2c3d4667e6102871de635b564bd059da5100",
+          "alphaCoverage": 0.691488,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "d98efd76ef43af0531e6b09032c9a14b8d6084047874f2aa1924313e92d3d6c0",
+          "alphaCoverage": 0.68495,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "cf5510f6ba3fe2e931947b6604706a89127e11e22148b606084c599e6289338b",
+          "alphaCoverage": 0.689969,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "70fcaa352c304fd2d1578536b52de46d0e223e7287b8e50e39cbceee818f3354",
+          "alphaCoverage": 0.685221,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "8897648fabdabd12e649013dc6b352e1604b95b1406b6b23555d55fd8e87dd78",
+          "alphaCoverage": 0.699137,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "f56426eee0f96556296138261beb322d521c8c6710fdc99b8f6069eafe42205f",
+          "alphaCoverage": 0.694309,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "0c87f1edf0d908683ad460ef8fd16f6f29100eff264492285adbd580e01cf632",
+          "alphaCoverage": 0.666558,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "b431c2b580de1d3593f29636d74104c874873b7dfb3393ae7509996b8e8235de",
+          "alphaCoverage": 0.694309,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "dcccfd42ee120eac6e02b6128c1cac69e119bb5bbd83ae20cd09f9e209062b98",
+          "alphaCoverage": 0.693821,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "f6a5fcfddc35b21dbe424e37438575f1f925608d43c8573d8c64eb327d875394",
+          "alphaCoverage": 0.66881,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "c5bb9715951df977d962adac910103f3af050c9a0f9fa10d6bb213baae030147",
+          "alphaCoverage": 0.650581,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "de5d8abfb6bdc859b9d6387ab501811d377560dc704588fcf38f7c1344ce14a9",
+          "alphaCoverage": 0.673937,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "6bdccb4dcb558d70d84b4e92ed34df1f4bdec483a12cd1bfd72755dce8213e90",
+          "alphaCoverage": 0.682454,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "1d53a31660eb11f4ae52c2320553aa68e3300f613a86f72d0ae56da8eb1cca7f",
+          "alphaCoverage": 0.66786,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "9f42155e53bdf227152fef601bc1f5d1b6676a58bed5439f9d73d05155ed8f4b",
+          "alphaCoverage": 0.651801,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "f76c13bf6cdaa684f62cbf102f09706df9cb032bf67a85b3f72a9675f09ede57",
+          "alphaCoverage": 0.662218,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "e0d04f321122e27e21bdf17bcc07398c9616399448a60e813615cf3681997f3e",
+          "alphaCoverage": 0.658447,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "9067400061b8d9133469bddfd88b9dab44864ceabf20245f48fc4296e230fb01",
+          "alphaCoverage": 0.648383,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "714e50d08bceaaf0c3294cb2a79bf004e9c5f146362208c5a785be5937598157",
+          "alphaCoverage": 0.624702,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "027638d0d6339fcbb75fac5b878852949164e598952c513a6a88d6ef9ff92d3e",
+          "alphaCoverage": 0.632541,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "f0d6338259600ffce508ad500f5665b18daf6f0f3b8739675ed8d42181773a8a",
+          "alphaCoverage": 0.614041,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "2b19f118dd822ce7524349fe81a880c587e691dfcd7b72b6503fa6ccc52589ab",
+          "alphaCoverage": 0.609782,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "b84865b5b0cc86e4a3647e8a003af79e7696373b3460c04bf2fae6505d8e581c",
+          "alphaCoverage": 0.662869,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "4d396d761bd5c11584a745989113d1c3a1d8621d6f3be44ef222bc25ebc00e10",
+          "alphaCoverage": 0.665256,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "4c3b953d94b4f5bf2d01af6f31b28562b7498402092e7aa1e5d23b03690d44c6",
+          "alphaCoverage": 0.698975,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "c12853853341c1e332deb5500be0eb393d9e7c4b7bbb31381f3c963bb06f32e0",
+          "alphaCoverage": 0.693441,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "2d3235a9ca3b13c78d13c8c072d768217e5fc0668975af4b97835d5a8cac981c",
+          "alphaCoverage": 0.630263,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "9af84d716f7c7dc1e44cf3343c33d4aa09bd5a623d4d8880d834f80ee952f23d",
+          "alphaCoverage": 0.688585,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "1fa1eb345e709f5462bb558577bf540d3bfb47099aa3004481fdf60b8e9cee5d",
+          "alphaCoverage": 0.65937,
+          "edgeAlphaMaximum": 1
+        }
+      ]
+    },
+    {
+      "rarity": "mythic",
+      "output": "sprites/environment/star-identity-lights-v1/star-identity-lights-mythic-atlas-v1.png",
+      "outputSha256": "dcde7de8dfc1819a613ca841c20804c9a8836273126e6498eecc393a41882eda",
+      "frameSize": 192,
+      "columns": 10,
+      "rows": 3,
+      "frameCount": 30,
+      "decodedBytes": 4423680,
+      "frames": [
+        {
+          "rgbaSha256": "30715a9fa70b538e18fb77c6869458c963098b2d376d9216f60a7116fd783610",
+          "alphaCoverage": 0.646864,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c1e2eca7bc05cd78272fd6e898fd0552335377fa508732d484dfb58647ab0322",
+          "alphaCoverage": 0.663737,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "66c64b3acee08dc13d20403fdd0a508deefda39378674acf4ff65a1460365728",
+          "alphaCoverage": 0.667074,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "f0984367fbf89e51b3f130e04a05779a5513e51243c5f8315a28c66df81f288a",
+          "alphaCoverage": 0.661811,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "f753c657c253e9197789d2526f58ed536e024b82442e255c769b0e01a7386bd1",
+          "alphaCoverage": 0.662245,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ef8b73d594181cd567645760e36aef0362ed0527545d664272eb81a041f5c5db",
+          "alphaCoverage": 0.668484,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "024de447970a925f3a0a2a6d1ef28ff6df37b46ef4505e0ffa0d880f55c8f0e6",
+          "alphaCoverage": 0.695312,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "57a28bdfaafdbe3db3c97d5ae3d86dbecab197451f59e7163a38e57ea50c086c",
+          "alphaCoverage": 0.693929,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "f9b51d5de1781762ec6969c3ac838ca3271c0b4066aa1ff6cef9d087c1835a99",
+          "alphaCoverage": 0.677599,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "638968ecc946a2388374eef7d6cea342e88137d426170192eba4ae11ea76f56e",
+          "alphaCoverage": 0.694472,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "693bdbb0a50a5f0a33090d7faad8e22e9859a753d51db082ab5815b6d69a4566",
+          "alphaCoverage": 0.666016,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "9c1263259aa6eacc8187d171ac84b4c4d45f4fa104b6b56321f9fe0e3e38a3fe",
+          "alphaCoverage": 0.665039,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "772feab108ee1529b20fba909ff1018c1f381469ec451a1fdf6314977d9363ec",
+          "alphaCoverage": 0.65134,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "66a8dc5adf553b73800f08fc12dab657f0e72c65ac59faf73e6b2484b17f2352",
+          "alphaCoverage": 0.678738,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "fb57efae1b27cb97cd74daddc8d0531f8c7027a4d1a861e7fe876eaab4997923",
+          "alphaCoverage": 0.685059,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "ad21184ba8de370d1441c328c74dbcb4e422b3b58545df3fff3be27b8f64ec40",
+          "alphaCoverage": 0.678141,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "0be7cff7dff76fea0f5437267165ba3a3fb77c74e84b95f98811eac455f90e72",
+          "alphaCoverage": 0.654487,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "8944db4a6c5952b8da3aba45e027883c97ccc588b0fad9362b32646d08449424",
+          "alphaCoverage": 0.659125,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "9ca1fdd3c52bf0725707439710dd05719f5b2a779f04d9d55021c3701f0fc884",
+          "alphaCoverage": 0.657064,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "a2670a68de2693e1780da0fe8b76cdb871b377213af687ccb24cdf2a34f94170",
+          "alphaCoverage": 0.691461,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "4c0e84a1a2b14cfe9cce83cc45a348c2d013f901361ec139effe18691fbea358",
+          "alphaCoverage": 0.684001,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "1ceb58fb4b3d7456a55762356e40b71e4d32b5d7cc6a777be200345967f0a745",
+          "alphaCoverage": 0.632189,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "19bd8d9c14ffbf3a40f7afa7b7d3dc14d28823f7277c932cb49ee02001b07471",
+          "alphaCoverage": 0.672065,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "f487392941f1483a74882a5af8d58fb5a85e0fb7e1b981ef3565385f8f35adac",
+          "alphaCoverage": 0.663032,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "4450cafdd72e16a9a375ff6dd67686cad9e91f6f9b21d50c039a04f366683951",
+          "alphaCoverage": 0.687174,
+          "edgeAlphaMaximum": 3
+        },
+        {
+          "rgbaSha256": "f26758895969ea3d16d6ac502166f5287415d325f166d55fde509e1fc67718a9",
+          "alphaCoverage": 0.693604,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "cc64157c1eeb6415a0d372abd9d20e823e67391e1a04f9c2a88dfff074289583",
+          "alphaCoverage": 0.661865,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "fb784025d93b7fd28554ce4707fa306cf7ad97e4361425f052ae053e9a68e9c2",
+          "alphaCoverage": 0.669244,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "851cff5da0c30b73f0c90ad7de74c3aec0199abe2595f4d5eb220aaa43d8a218",
+          "alphaCoverage": 0.68495,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "6cc57c9f19d28fd15c5aba341395af426b348819106a1f5e860833b29af5755a",
+          "alphaCoverage": 0.652615,
+          "edgeAlphaMaximum": 1
+        }
+      ]
+    },
+    {
+      "rarity": "astral",
+      "output": "sprites/environment/star-identity-lights-v1/star-identity-lights-astral-atlas-v1.png",
+      "outputSha256": "e17f1b1167a578afc7f70013e1dad28adcfc380edea674ecd12b9d98516fb338",
+      "frameSize": 192,
+      "columns": 10,
+      "rows": 2,
+      "frameCount": 20,
+      "decodedBytes": 2949120,
+      "frames": [
+        {
+          "rgbaSha256": "066a09e1d1d4b278a4f6acf3ef8e41ab5a46be440cc0062677e5d2170fe73d8e",
+          "alphaCoverage": 0.684842,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "60593082ee7f1f97483a88d7f0beda8456d7702c387a50be702706e38fefd6b0",
+          "alphaCoverage": 0.678548,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "8449e04cf68f4a0771e526a9993b1f52c31d66d5e41a7175dceddb46aaf34f6b",
+          "alphaCoverage": 0.682156,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "b27b8a576739aab00cee0e229d21164ec948400c2da3d7c7a17bda2af44b5fc1",
+          "alphaCoverage": 0.696099,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "29a2676a9f3bf898288e6b0a8c464e1f811b8433960c44dee87826f10174aaa5",
+          "alphaCoverage": 0.682807,
+          "edgeAlphaMaximum": 2
+        },
+        {
+          "rgbaSha256": "91b94c8ed24de219db1f5f7590e09a8b4cfbaaef6a1097381bc375ec6839e165",
+          "alphaCoverage": 0.67532,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "be8a41b8b0d615fe44d9494ab475cd1fb92e4906ade6c40e4c940b114f114774",
+          "alphaCoverage": 0.656331,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "46a31e48199600716aa7b781e8c48176630abf224eca439e95251f04856119b2",
+          "alphaCoverage": 0.676595,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "341389c977af89d28809da74e06b97341130e3203bf8b70725dcb8513d52ac3c",
+          "alphaCoverage": 0.674127,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "9fc232417094195eb0a976824b0d95d86dc7a1a637bc87a8922147279c51e634",
+          "alphaCoverage": 0.684462,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "c34b036669251c1efad62f615e41eae4843e1295ae5351250cb1d2455d1d4487",
+          "alphaCoverage": 0.67136,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c8c5f6623faf0bd2f82dd8a2d9db541399d1e09947af1698066ae10beb341913",
+          "alphaCoverage": 0.669895,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "a7f3d28adc1303abb70270f850258418198b71379999efa9c32aea959dd12090",
+          "alphaCoverage": 0.695475,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "c653bdf9535d47adcd2ed3b929153d9d65bd435e0f99b1553ac8e7db409c8b2f",
+          "alphaCoverage": 0.676107,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "3c26be15f68b67cc76f8f614741c45ec2ab03c2d195531437f2598c679beabeb",
+          "alphaCoverage": 0.696479,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "56247f62fa44588e4cc24990900b8847582a00d23637f935def2825f83bd7e47",
+          "alphaCoverage": 0.69241,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "61079b83881168ae09a131831bde353dbdec02bfad092861d36753e45a4b13dd",
+          "alphaCoverage": 0.669813,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "cfe2ca90c4824f700a128534e709c2fabc8a84919b9586482e1afa1da9290ab3",
+          "alphaCoverage": 0.701036,
+          "edgeAlphaMaximum": 1
+        },
+        {
+          "rgbaSha256": "0977bd889efb4c7eca57be367e1057564f25a030a837ce444dba4cd7e385c5e9",
+          "alphaCoverage": 0.689453,
+          "edgeAlphaMaximum": 0
+        },
+        {
+          "rgbaSha256": "1fe154b360a7a3ac2de740347c84f63e3619d21e916063d3cac7850b9210234c",
+          "alphaCoverage": 0.700602,
+          "edgeAlphaMaximum": 0
+        }
+      ]
+    }
+  ]
+}

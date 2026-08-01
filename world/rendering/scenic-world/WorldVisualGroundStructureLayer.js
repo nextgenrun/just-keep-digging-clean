@@ -1,17 +1,18 @@
 import {
   WORLD_VISUAL_GROUND_STRUCTURES,
-  getWorldVisualGroundStructureAssets,
+  getWorldVisualGroundStructureRuntimeAssets,
   isWorldVisualGroundStructureRegionReady,
-  resolveWorldVisualGroundStructureRegions,
+  resolveWorldVisualGroundStructureRuntimeRegions,
   resolveWorldVisualGroundStructuresEnabled,
-} from "../../../values/worldVisualGroundStructures.js";
+} from "../../../values/worldVisualGroundStructures.js?rev=20260729-underground-seam-v6";
 import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicDemandAssetStreamingEnabled,
-} from "../../../values/worldVisualRuntime.js";
+} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualGroundStructureRegionView } from
-  "./WorldVisualGroundStructureRegionView.js";
+  "./WorldVisualGroundStructureRegionView.js?rev=20260729-native-density-v14";
 
 export class WorldVisualGroundStructureLayer {
   constructor(
@@ -41,7 +42,10 @@ export class WorldVisualGroundStructureLayer {
 
   create() {
     if (!this.enabled || !this.terrainMask) return false;
-    this.assetCache = new WorldVisualAssetCache(this.scene);
+    this.assetCache = new WorldVisualAssetCache(this.scene, {
+      owner: RUNTIME_ASSET_LOADING.owners.groundStructure,
+      priority: RUNTIME_ASSET_LOADING.priorities.groundStructure,
+    });
     return true;
   }
 
@@ -51,7 +55,7 @@ export class WorldVisualGroundStructureLayer {
     this.lastLighting = lighting;
     if (force) this._destroyRegionViews();
 
-    const regions = resolveWorldVisualGroundStructureRegions(
+    const regions = resolveWorldVisualGroundStructureRuntimeRegions(
       bounds.top,
       bounds.bottom,
       this.config,
@@ -142,7 +146,7 @@ export class WorldVisualGroundStructureLayer {
   }
 
   _releaseUnusedAssets() {
-    for (const asset of getWorldVisualGroundStructureAssets(
+    for (const asset of getWorldVisualGroundStructureRuntimeAssets(
       this.config,
       this.search
     )) {

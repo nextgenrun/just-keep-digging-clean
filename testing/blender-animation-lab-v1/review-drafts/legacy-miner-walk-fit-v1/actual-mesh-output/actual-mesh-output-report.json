@@ -1,0 +1,126 @@
+{
+  "schema": "dig-game-actual-mesh-mockup-v1",
+  "source": "legacy-miner-meshy-rigged-v2.glb",
+  "generativePixelsUsed": false,
+  "sourceFrameCount": 24,
+  "sourceFrames": [
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0001.png",
+      "sha256": "3883b0128f5c3efe2c5372b8122bfce051b586bd83bed20e90f426f69cb389ad"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0002.png",
+      "sha256": "bd3ede820931388d779ff9d32dad72bba03dfe248e32b27570ac2e7299880c1a"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0003.png",
+      "sha256": "ad2e6967950cff3c8bd2d13c062d61aa4baffd9da7e18f025e074d3679a8fb20"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0004.png",
+      "sha256": "d1833727049742edb7cb340e5e0224f7d1867a7e658a68be4289207d55599cfd"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0005.png",
+      "sha256": "7a859a75b822f047e06e4822fe8376102176b1e4c713629b12325f58b31ab3c7"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0006.png",
+      "sha256": "4299235fe4e290b8100d9c83f4fab895943a1b8487c1feecd6421bf4905b9ae5"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0007.png",
+      "sha256": "c64fbba8c2c39bc0bb05531ffe796d15ba03c496bc66508d94d248330fb13c63"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0008.png",
+      "sha256": "b0ca864138ac315ed9c043a2616dc2157c2043291c94109986c6c8c23d406572"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0009.png",
+      "sha256": "eb47fee63bcb08be00619f76bc2c79693af46e2391d1a2be4976e288a5cc9be1"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0010.png",
+      "sha256": "618fc8f2f21ee100dce1b6525dbc5068a365e03f8dd168b3c5828408eefae7e4"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0011.png",
+      "sha256": "ef6ad45e0bab4f5c176cd7c9ad7cd982caba37eeb11a856e58ed2624401847e8"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0012.png",
+      "sha256": "b8c66168167cfcdbffdc2a18580ce224ce1dba1671bd80791f565c5ba2088287"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0013.png",
+      "sha256": "0780fa34d76eec046331db8245ff618e935a25e6bfe582d79d0872c8d0a6033a"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0014.png",
+      "sha256": "5f4067fb2901a04e7702092acdbc46943db0142f8ff34dc7116c8b5c6c86421a"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0015.png",
+      "sha256": "fa2d9e93f1c2a24a1a7e4cc38a4103652815e75218231e4ec2c2de2b4b1d8a1c"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0016.png",
+      "sha256": "d88e864efb982cf27a5fd06a9e89acc28951bd07e8df4c87fc424c33297d2b70"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0017.png",
+      "sha256": "220ec24fb37acb13d2ca4e4bf3fbd977695eedb2cf8ec23d5d408c38e168fcad"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0018.png",
+      "sha256": "84d4d0751c7b9fe9c3dbd9e514dfe7561d0818faca7907e030fb19375de0e038"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0019.png",
+      "sha256": "68b8d468c0d4a54389cd88cb49ca4f9978b68b7751f9f71e0e767d4ce14d6af3"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0020.png",
+      "sha256": "2c2c5ae0286b076732378a14d8e9109f1fe11ab950907c877e26d84a4f0d7f50"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0021.png",
+      "sha256": "6857a7edcacc2529174a4b760fcd6514301729a6141666d8bb1da3600befdd8d"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0022.png",
+      "sha256": "06535a22315baf68a38dd94f02140163c9f829308c1e81f7f518edf46870936c"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0023.png",
+      "sha256": "4a78239a9956a21b4dd48738d91b9190015dcd5b76f0c46377365250411f6d60"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\animation-frames\\frame-0024.png",
+      "sha256": "fc1859e892c9b7462d76bce2ab422f5a9e549658107cb49e9fb37f2ac5507f55"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\actual-mesh-output\\legacy-miner-actual-mesh-fit-contact-sheet.png",
+      "sha256": "3ae7da6217bd465dfcb2afcd8172485a01a057cdddd3d4265dcd714a5e058f6a",
+      "visualizationCopy": "C:\\Users\\Mila\\.codex\\visualizations\\2026\\07\\29\\019fafb8-c82d-79e0-96a8-5f2f06d9ff4f\\legacy-miner-actual-mesh-fit-contact-sheet.png"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\actual-mesh-output\\legacy-miner-actual-walk-fit-loop.webp",
+      "sha256": "a1e3449406d1f5179273c170f93eda78766a777e75c3dd3f8d22d50a413eea91",
+      "visualizationCopy": "C:\\Users\\Mila\\.codex\\visualizations\\2026\\07\\29\\019fafb8-c82d-79e0-96a8-5f2f06d9ff4f\\legacy-miner-actual-walk-fit-loop.webp"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\actual-mesh-output\\legacy-miner-actual-walk-fit-loop.gif",
+      "sha256": "2796d191564c2303324f0f6a961028a17cca0dfeadf44044a48732e6879f8a93",
+      "visualizationCopy": "C:\\Users\\Mila\\.codex\\visualizations\\2026\\07\\29\\019fafb8-c82d-79e0-96a8-5f2f06d9ff4f\\legacy-miner-actual-walk-fit-loop.gif"
+    },
+    {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\actual-mesh-output\\legacy-miner-actual-walk-fit-frame-0007.png",
+      "sha256": "d7e5d0a18888ffbf8a8e99991adaa563f4ce228728aff93a5302ecf3f10c3060",
+      "visualizationCopy": "C:\\Users\\Mila\\.codex\\visualizations\\2026\\07\\29\\019fafb8-c82d-79e0-96a8-5f2f06d9ff4f\\legacy-miner-actual-walk-fit-frame-0007.png"
+    }
+  ]
+}

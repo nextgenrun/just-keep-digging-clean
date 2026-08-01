@@ -20,17 +20,50 @@ const damageStage = (
   stressCount,
 });
 
+const damageAtlas = path => Object.freeze({
+  key: "world-visual-v2-ground-damage-imagegen-v1",
+  path,
+  columns: 10,
+  frameSizePx: 188,
+  frameCount: 120,
+  framePrefix: "world-visual-v2-ground-damage-",
+});
+
+const POLISHED_DAMAGE_ATLAS = damageAtlas(
+  "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-piskel-anchor-v2.png?v=20260730a"
+);
+const LEGACY_IMAGEGEN_DAMAGE_ATLAS = damageAtlas(
+  "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-imagegen-v1.png?v=20260729a"
+);
+
 export const WORLD_VISUAL_DAMAGE_MODES = Object.freeze({
+  imagegen: "imagegen",
   modular: "modular",
   legacy: "legacy",
 });
 
 export const WORLD_VISUAL_DAMAGE = Object.freeze({
-  defaultMode: WORLD_VISUAL_DAMAGE_MODES.modular,
+  defaultMode: WORLD_VISUAL_DAMAGE_MODES.imagegen,
   queryParam: "groundDamage",
-  modularValues: Object.freeze(["modular", "layers", "new", "v2"]),
+  imagegenValues: Object.freeze(["imagegen", "art", "atlas", "new", "v3"]),
+  modularValues: Object.freeze(["modular", "layers", "procedural", "v2"]),
   legacyValues: Object.freeze(["legacy", "old", "radial", "v1"]),
   stateCount: 12,
+  imagegen: Object.freeze({
+    atlasQueryParam: "groundDamageAtlas",
+    defaultAtlas: "polished",
+    legacyAtlasValues: Object.freeze(["legacy", "v1", "old"]),
+    atlases: Object.freeze({
+      polished: POLISHED_DAMAGE_ATLAS,
+      legacy: LEGACY_IMAGEGEN_DAMAGE_ATLAS,
+    }),
+    atlas: POLISHED_DAMAGE_ATLAS,
+    variants: 10,
+    scale: 1,
+    alpha: 1,
+    depthOffset: 0.004,
+    variantSalt: 977,
+  }),
   stages: Object.freeze([
     damageStage(0.001, 0.12, 0.22, 0.10, 0, 0, 1, 0, 1),
     damageStage(0.08, 0.20, 0.27, 0.12, 0, 0, 1, 1, 1),
@@ -209,7 +242,23 @@ export function resolveWorldVisualDamageMode(
   const value = new URLSearchParams(search).get(config.queryParam)?.trim().toLowerCase();
   if (value && config.legacyValues.includes(value)) return WORLD_VISUAL_DAMAGE_MODES.legacy;
   if (value && config.modularValues.includes(value)) return WORLD_VISUAL_DAMAGE_MODES.modular;
+  if (value && config.imagegenValues.includes(value)) return WORLD_VISUAL_DAMAGE_MODES.imagegen;
   return config.defaultMode;
+}
+
+export function resolveWorldVisualDamageAtlas(
+  config = WORLD_VISUAL_DAMAGE,
+  search = globalThis.location?.search || ""
+) {
+  const imagegen = config.imagegen;
+  const value = new URLSearchParams(search)
+    .get(imagegen.atlasQueryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && imagegen.legacyAtlasValues.includes(value)) {
+    return imagegen.atlases.legacy;
+  }
+  return imagegen.atlases[imagegen.defaultAtlas] || imagegen.atlas;
 }
 
 export function resolveWorldVisualDamageStage(damage, config = WORLD_VISUAL_DAMAGE) {
@@ -226,4 +275,27 @@ export function resolveWorldVisualDamageStage(damage, config = WORLD_VISUAL_DAMA
 export function resolveWorldVisualDamageStateNumber(damage, config = WORLD_VISUAL_DAMAGE) {
   const stage = resolveWorldVisualDamageStage(damage, config);
   return stage ? config.stages.indexOf(stage) + 1 : 0;
+}
+
+export function resolveWorldVisualDamageVariant(tx, ty, config = WORLD_VISUAL_DAMAGE) {
+  const hash = config.hash;
+  let value = Math.imul(tx + hash.offsetX, hash.primeX)
+    ^ Math.imul(ty + hash.offsetY, hash.primeY)
+    ^ Math.imul(config.imagegen.variantSalt + hash.offsetSalt, hash.primeSalt);
+  value = Math.imul(value ^ (value >>> hash.avalancheShift), hash.avalanchePrime);
+  return ((value ^ (value >>> hash.finalShift)) >>> 0) % config.imagegen.variants;
+}
+
+export function resolveWorldVisualDamageFrame(tx, ty, damage, config = WORLD_VISUAL_DAMAGE) {
+  const stateNumber = resolveWorldVisualDamageStateNumber(damage, config);
+  if (stateNumber <= 0) return null;
+  const variant = resolveWorldVisualDamageVariant(tx, ty, config);
+  return (stateNumber - 1) * config.imagegen.variants + variant;
+}
+
+export function getWorldVisualDamagePreloadAssets(
+  config = WORLD_VISUAL_DAMAGE,
+  search = globalThis.location?.search || ""
+) {
+  return [resolveWorldVisualDamageAtlas(config, search)];
 }

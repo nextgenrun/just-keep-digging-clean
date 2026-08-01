@@ -1,6 +1,7 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { LEVEL_ONE_GROUND_FACADE } from "../../values/levelOneGroundFacade.js";
 import { RESOURCE_BY_TILE_TYPE } from "../../values/resourceTypes.js";
+import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import {
   WORLD_SCENIC_FACADE,
@@ -8,6 +9,7 @@ import {
 } from "../../values/worldScenicFacade.js";
 import { getDamageStage } from "./tileRenderMap.js";
 import { WorldScenicFacadeBandView } from "./WorldScenicFacadeBandView.js";
+import { WorldVisualAssetCache } from "./scenic-world/WorldVisualAssetCache.js";
 import {
   clamp01,
   mixScenicColor,
@@ -20,6 +22,10 @@ export class WorldScenicFacadeSystem {
     this.scene = scene;
     this.worldModel = worldModel;
     this.config = config;
+    this.materialAssets = new WorldVisualAssetCache(scene, {
+      owner: RUNTIME_ASSET_LOADING.owners.worldFacade,
+      priority: RUNTIME_ASSET_LOADING.priorities.worldFacade,
+    });
     this.markerConfig = markerConfig;
     this.maskGraphics = null;
     this.geometryMask = null;
@@ -32,7 +38,6 @@ export class WorldScenicFacadeSystem {
     this.enabled = false;
     this.destroyed = false;
     this.nextUpdateAt = 0;
-    this.loading = false;
   }
   create() {
     const master = this.scene.worldBackgroundMasterSystem;
@@ -51,7 +56,6 @@ export class WorldScenicFacadeSystem {
     this.maskGraphics = this.scene.make.graphics({ add: false });
     this.geometryMask = this.maskGraphics.createGeometryMask();
     this.destroyed = false;
-    this.scene.load.on("loaderror", this._handleLoadError, this);
     this.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, this.destroy, this);
     this.update(this.scene.time?.now || 0, 0, true);
     console.info("[WorldScenicFacadeSystem] Camera-windowed continuous materials active; use ?worldFacade=0 to roll back");
@@ -122,7 +126,7 @@ export class WorldScenicFacadeSystem {
     }));
     for (const key of [...this.ownedTextures]) {
       if (retained.has(key) || this.pendingTextures.has(key)) continue;
-      if (this.scene.textures.exists(key)) this.scene.textures.remove(key);
+      this.materialAssets.release(key);
       this.ownedTextures.delete(key);
     }
     this._queueMaterials(needed);
@@ -138,27 +142,25 @@ export class WorldScenicFacadeSystem {
   }
 
   _queueMaterials(bands) {
-    if (this.loading || this.scene.load.isLoading()) return;
-    const missing = [];
     for (const band of bands) {
       const key = scenicFacadeTextureKey(band.material);
       if (this.scene.textures.exists(key) || this.pendingTextures.has(key) || this.failedTextures.has(key)) continue;
-      missing.push({ key, path: this.config.materials[band.material] });
-    }
-    if (missing.length === 0) return;
-    this.loading = true;
-    for (const item of missing) {
+      const item = { key, path: this.config.materials[band.material] };
       if (!item.path) throw new Error(`Missing scenic facade path for ${item.key}`);
       this.pendingTextures.add(item.key);
       this.ownedTextures.add(item.key);
-      this.scene.load.image(item.key, item.path);
+      this.materialAssets.ensure(item, {
+        onReady: asset => {
+          this.pendingTextures.delete(asset.key);
+          if (!this.destroyed) this.update(this.scene.time?.now || 0, 0, true);
+        },
+        onError: (asset, error) => {
+          this.pendingTextures.delete(asset.key);
+          this.ownedTextures.delete(asset.key);
+          if (!error?.cancelled) this.failedTextures.add(asset.key);
+        },
+      });
     }
-    this.scene.load.once(Phaser.Loader.Events.COMPLETE, () => {
-      missing.forEach(item => this.pendingTextures.delete(item.key));
-      this.loading = false;
-      if (!this.destroyed) this.update(this.scene.time?.now || 0, 0, true);
-    });
-    this.scene.load.start();
   }
   _drawSolidMaskAndFeedback(bounds, reduced) {
     this.maskGraphics.clear().fillStyle(0xffffff, 1);
@@ -269,27 +271,20 @@ export class WorldScenicFacadeSystem {
     this.crackPool.forEach(image => image.setVisible(false));
   }
 
-  _handleLoadError(file) {
-    if (!this.ownedTextures.has(file?.key)) return;
-    this.failedTextures.add(file.key);
-    this.pendingTextures.delete(file.key);
-  }
-
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
     this.enabled = false;
-    this.scene.load.off("loaderror", this._handleLoadError, this);
     this.scene.events.off(Phaser.Scenes.Events.SHUTDOWN, this.destroy, this);
     for (const view of this.bandViews.values()) view.destroy();
     this.markerPool.forEach(image => image.destroy());
     this.crackPool.forEach(image => image.destroy());
     this.geometryMask?.destroy();
     this.maskGraphics?.destroy();
-    for (const key of this.ownedTextures) {
-      if (this.scene.textures.exists(key)) this.scene.textures.remove(key);
-    }
+    this.materialAssets.destroy();
     this.bandViews.clear();
+    this.pendingTextures.clear();
+    this.failedTextures.clear();
     this.ownedTextures.clear();
     this.markerPool = [];
     this.crackPool = [];

@@ -22,6 +22,7 @@ uniform float uTorchWarmthStrength;
 uniform float uTorchCoreRadiusRatio;
 uniform float uTorchPenumbraWidth;
 uniform float uTorchMaximumAlpha;
+uniform float uFireLightProceduralMix;
 uniform float uNightAmount;
 uniform float uRainAmount;
 uniform float uStormAmount;
@@ -72,10 +73,11 @@ void main() {
       + sin(t * 6.4 + uWind * 0.010) * 0.020
       + sin(t * 13.2) * 0.012
       + uStormCavePulse * 0.045;
+    float proceduralMix = clamp(uFireLightProceduralMix, 0.0, 1.0);
     float torch = smoothstep(1.08 * firePulse, 0.02, legacyDist)
-      * clamp(uTorchActive * uTorchGlow, 0.0, 1.0);
+      * clamp(uTorchActive * uTorchGlow, 0.0, 1.0) * proceduralMix;
     float core = smoothstep(0.28 * firePulse, 0.00, legacyDist)
-      * clamp(uTorchActive * uTorchGlow, 0.0, 1.0);
+      * clamp(uTorchActive * uTorchGlow, 0.0, 1.0) * proceduralMix;
 
     vec3 warm = mix(vec3(1.0, 0.34, 0.10), vec3(1.0, 0.78, 0.36), core);
     vec3 caveBlue = vec3(0.045, 0.075, 0.105);
@@ -113,7 +115,8 @@ void main() {
     max(0.20, 0.72 - penumbra * 0.25),
     shapedDist
   );
-  float energy = clamp(uTorchActive * uTorchGlow, 0.0, 1.0);
+  float energy = clamp(uTorchActive * uTorchGlow, 0.0, 1.0)
+    * clamp(uFireLightProceduralMix, 0.0, 1.0);
   float light = falloff * energy;
 
   vec3 edgeWarm = vec3(1.0, 0.38, 0.12);

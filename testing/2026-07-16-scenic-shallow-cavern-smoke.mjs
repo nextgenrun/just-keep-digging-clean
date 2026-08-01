@@ -72,13 +72,13 @@ assert.deepEqual(regions.map(({ id, topTile, bottomTileExclusive }) => (
   { id: "level2-blackglass", topTile: 3865, bottomTileExclusive: 4465 },
   { id: "level2-starfire", topTile: 4465, bottomTileExclusive: 5065 },
 ]);
-assert.equal(segment.logicalWidthPx, 1536);
-assert.equal(segment.logicalHeightPx, 1024);
+assert.equal(segment.logicalWidthPx, 1152);
+assert.equal(segment.logicalHeightPx, 768);
 assert.equal(segment.neighborSegments, 1);
-assert.equal(segment.overlapXPx, 192);
-assert.equal(segment.overlapYPx, 128);
-assert.equal(segment.strideXPx, 1344);
-assert.equal(segment.strideYPx, 896);
+assert.equal(segment.overlapXPx, 144);
+assert.equal(segment.overlapYPx, 140);
+assert.equal(segment.strideXPx, 1008);
+assert.equal(segment.strideYPx, 628);
 assert.deepEqual(motion.smoothVideo, {
   widthPx: 1536,
   heightPx: 1024,
@@ -304,6 +304,7 @@ const videoKeys = new Set();
 const removedKeys = [];
 const removedVideoKeys = [];
 const textureFrameMaps = new Map();
+const canvasTextures = new Map();
 const getTexture = (key) => {
   if (!textureFrameMaps.has(key)) textureFrameMaps.set(key, new Map());
   const frames = textureFrameMaps.get(key);
@@ -340,17 +341,52 @@ const fakeScene = {
   },
   textures: {
     exists: key => textureKeys.has(key),
-    get: key => getTexture(key),
-    remove: key => { removedKeys.push(key); textureKeys.delete(key); },
+    get: key => canvasTextures.get(key) || getTexture(key),
+    createCanvas(key, width, height) {
+      const context = {
+        createImageData: (w, h) => ({
+          width: w,
+          height: h,
+          data: new Uint8ClampedArray(w * h * 4),
+        }),
+        putImageData(imageData) { this.imageData = imageData; },
+      };
+      const texture = {
+        width,
+        height,
+        getContext: () => context,
+        refresh() { this.refreshed = true; return this; },
+      };
+      canvasTextures.set(key, texture);
+      textureKeys.add(key);
+      return texture;
+    },
+    remove: key => {
+      removedKeys.push(key);
+      textureKeys.delete(key);
+      canvasTextures.delete(key);
+    },
   },
   add: {
     image: (x, y, key) => new FakeImage(x, y, key),
     video: (x, y, key) => new FakeVideo(x, y, key),
     graphics: () => fakeGraphics(),
+    rectangle: (x, y, width, height, color, alpha) => {
+      const image = new FakeImage(x, y, "rectangle");
+      image.rectangle = { width, height, color, alpha };
+      return image;
+    },
   },
   make: {
     image: ({ x, y, key, frame }) => (
-      new FakeImage(x, y, key, textureFrameMaps.get(key)?.get(frame))
+      new FakeImage(
+        x,
+        y,
+        key,
+        frame
+          ? textureFrameMaps.get(key)?.get(frame)
+          : canvasTextures.get(key)
+      )
     ),
   },
 };
@@ -424,9 +460,7 @@ const assertRegionTailCrop = region => {
   const expectedDisplayHeight = (
     regionHeightPx - expectedRow * segment.strideYPx
   );
-  const expectedSourceHeight = Math.round(
-    expectedDisplayHeight * motion.smoothVideo.heightPx / segment.logicalHeightPx
-  );
+  const expectedSourceHeight = Math.round(expectedDisplayHeight);
   assert.equal(stage.sync(
     { left: 73, right: 84, top: region.bottomTileExclusive - 1, bottom: region.bottomTileExclusive },
     neutralLighting,
@@ -442,18 +476,19 @@ const assertRegionTailCrop = region => {
     `${region.id} backwall display tail`
   );
   assert.equal(tail.backwall.crop.height, expectedSourceHeight, `${region.id} backwall source crop`);
-  assert.equal(tail.backwall.crop.y, 0);
+  assert.equal(tail.backwall.crop.y, segment.sourceCrop.yPx);
+  assert.equal(tail.backwall.crop.x, segment.sourceCrop.xPx);
   assert.equal(tail.backwall.flipX, undefined, `${region.id} never mirrors artwork`);
   assert.equal(tail.backwall.flipY, undefined, `${region.id} never mirrors artwork`);
   assert.ok(tail.bitmapMask, `${region.id} card uses the image crossfade mask`);
   assertNear(
     tail.blendMaskImage.scaleX,
-    tail.widthPx / WORLD_VISUAL_DEPTH_BACKDROPS.blend.frameWidthPx,
+    tail.widthPx / tail.blendMaskImage.frame.width,
     `${region.id} blend mask covers the complete card width`
   );
   assertNear(
     tail.blendMaskImage.scaleY,
-    tail.heightPx / WORLD_VISUAL_DEPTH_BACKDROPS.blend.frameHeightPx,
+    tail.heightPx / tail.blendMaskImage.frame.height,
     `${region.id} blend mask covers the complete card height`
   );
   assert.equal("emissive" in tail, false, `${region.id} has no duplicate light overlay`);

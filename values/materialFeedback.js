@@ -11,7 +11,7 @@ const DEFAULT_PROFILE = Object.freeze({
   digRate: 1.0,        // playback rate for the dig/hit sound
   breakRate: 1.0,      // playback rate for the tile-break sound
   breakVolume: 1.0,    // volume multiplier for the break sound
-  particleScale: 1.0,  // multiplies destroy particle count
+  particleScale: 1.0,  // scales the authored destroy-impact footprint
   particleSizeScale: 1.0,
   shakeScale: 1.0,     // multiplies camera shake intensity
   glint: false,        // sparkle burst for precious materials
@@ -74,6 +74,22 @@ export const GLINT_CONFIG = Object.freeze({
   durationMax: 640,
   depth: 37, // above destroy particles (36)
 });
+
+export function getMineShakeSignature(tileType, { critical = false, destroyed = false } = {}) {
+  if (critical && destroyed && tileType !== TILE_TYPES.SKY_TILE) return "mining.crit";
+  switch (tileType) {
+    case TILE_TYPES.DIRT:
+    case TILE_TYPES.DARK_DIRT_NORMAL: return "mining.light";
+    case TILE_TYPES.STONE:
+    case TILE_TYPES.COPPER:
+    case TILE_TYPES.DARK_DIRT_STRONG:
+    case TILE_TYPES.BRONZE:
+    case TILE_TYPES.IRON:
+    case TILE_TYPES.GEODE_INTERIOR: return "mining.medium";
+    case TILE_TYPES.SKY_TILE: return "mining.skyTile";
+    default: return "mining.heavy";
+  }
+}
 
 export function getMaterialFeedback(tileType) {
   return PROFILES[tileType] || DEFAULT_PROFILE;

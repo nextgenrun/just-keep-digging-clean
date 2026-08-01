@@ -39,6 +39,8 @@ DYNAMIC_ASSET_DIRECTORIES = (
     "sound/voice-lines/npc-voicelines",
     "sound/voice-lines/player-voice-lines",
     "sprites/npc/campfire/generated",
+    "sprites/environment/star-identities-v2",
+    "sprites/environment/star-identity-lights-v1",
     "sprites/tiles/dynamic-soil",
     "sprites/tiles/resource-tiles-imagegen-v3",
 )

@@ -24,3 +24,10 @@ anchors are part of the real mine model and feed the Level 2 Sky Island route;
 they are not renderer-only landmarks. Configured cardinal access offsets
 guarantee an adjacent open cell, and cave-identity features may not repaint that
 cell after the anchor is restored.
+
+Modern Level Two composition interpolates independent Magma Crystal, Ember Ore,
+Obsidian, and Gold chances from entrance to bottom, then uses the existing base
+mix as fallback. Node weights likewise move from the original Obsidian-heavy
+entrance toward Ember/Magma-heavy deep nodes. This fixes the former overlapping
+Gold threshold and reduces bottom Lava Dirt dominance. Legacy mode executes the
+old comparisons and static node weights exactly.

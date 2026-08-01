@@ -1,5 +1,7 @@
 import { WORLD_VISUAL_RUNTIME } from
-  "../../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+import { ASSET_KEYS } from "../../../values/assetKeys.js";
+import { TILE_TYPES } from "../../../values/tileTypes.js";
 import { PERFORMANCE_TELEMETRY_CONFIG } from "../../../values/performanceTelemetryConfig.js";
 import {
   performanceNow,
@@ -7,11 +9,13 @@ import {
   shouldSamplePerformancePhases,
 } from "../../../systems/health/performanceTelemetryBridge.js";
 import { validateWorldVisualMaterialCoverage } from "../../../values/worldVisualMaterials.js";
-import { TitanDiscoverySystem } from "../../../systems/visual/TitanDiscoverySystem.js";
+import { TitanDiscoverySystem } from "../../../systems/visual/TitanDiscoverySystem.js?rev=20260729-native-density-v14";
 import {
   WORLD_VISUAL_LANDMARKS,
   resolveWorldVisualLandmarksEnabled,
 } from "../../../values/worldVisualLandmarks.js";
+import { resolveWorldVisualSurfaceHeroLandmarkSuppression } from
+  "../../../values/worldVisualSurfaceHeroLandmarks.js";
 import { WorldVisualFeedbackLayer } from "./WorldVisualFeedbackLayer.js";
 import { WorldVisualGameplayEffectLayer } from "./WorldVisualGameplayEffectLayer.js";
 import { WorldVisualLandmarkLayer } from "./WorldVisualLandmarkLayer.js";
@@ -19,17 +23,26 @@ import { WorldVisualLightingBridge } from "./WorldVisualLightingBridge.js";
 import { WorldVisualMaterialField } from "./WorldVisualMaterialField.js";
 import { WorldVisualSemanticAssetLayer } from "./WorldVisualSemanticAssetLayer.js";
 import { WorldVisualDepthBackdropStage } from
-  "./WorldVisualDepthBackdropStage.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
-import { WorldVisualGroundStructureLayer } from "./WorldVisualGroundStructureLayer.js";
+  "./WorldVisualDepthBackdropStage.js?rev=20260729-native-density-v14";
+import { WorldVisualBackdropEnhancerLayer } from
+  "./WorldVisualBackdropEnhancerLayer.js?rev=20260729-backdrop-enhancers-v7";
+import { WorldVisualGroundStructureLayer } from
+  "./WorldVisualGroundStructureLayer.js?rev=20260729-native-density-v14";
+import { WorldVisualUndergroundDetailLayer } from
+  "./WorldVisualUndergroundDetailLayer.js?rev=20260729-native-density-v14";
 import { WorldVisualSurfaceStage } from
-  "./WorldVisualSurfaceStage.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./WorldVisualSurfaceStage.js?rev=20260730-surface-transition-v1";
 import { WorldVisualSurfaceAtmosphereLayer } from "./WorldVisualSurfaceAtmosphereLayer.js";
+import { WorldVisualSurfacePropExpansionLayer } from
+  "./WorldVisualSurfacePropExpansionLayer.js";
+import { WorldVisualSurfaceHeroLandmarkLayer } from
+  "./WorldVisualSurfaceHeroLandmarkLayer.js";
 import { WorldVisualSurfacePropLayer } from "./WorldVisualSurfacePropLayer.js";
 import { WorldVisualSkyCohesionLayer } from
-  "./WorldVisualSkyCohesionLayer.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./WorldVisualSkyCohesionLayer.js?rev=20260730-sky-order-v2";
 import { WorldVisualPerformanceTracker } from "./WorldVisualPerformanceTracker.js";
 import { WorldVisualTerrainVariationLayer } from
-  "./WorldVisualTerrainVariationLayer.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./WorldVisualTerrainVariationLayer.js?rev=20260729-native-density-v14";
 
 export class WorldVisualRuntime {
   constructor(scene, worldModel, config, runtimeConfig = WORLD_VISUAL_RUNTIME) {
@@ -40,12 +53,16 @@ export class WorldVisualRuntime {
     this.surfaceStage = null;
     this.skyCohesionLayer = null;
     this.surfacePropLayer = null;
+    this.surfacePropExpansionLayer = null;
+    this.surfaceHeroLandmarkLayer = null;
     this.surfaceAtmosphereLayer = null;
     this.depthBackdropStage = null;
+    this.backdropEnhancerLayer = null;
     this.titanDiscoverySystem = null;
     this.materialField = null;
     this.terrainVariationLayer = null;
     this.groundStructureLayer = null;
+    this.undergroundDetailLayer = null;
     this.semanticAssetLayer = null;
     this.feedbackLayer = null;
     this.gameplayEffectLayer = null;
@@ -56,6 +73,8 @@ export class WorldVisualRuntime {
     this.lastReduced = false;
     this.nextUpdateAt = 0;
     this.created = false;
+    this.tutorialTileVisual = null;
+    this.tutorialTileKey = null;
     this.performanceTracker = new WorldVisualPerformanceTracker(runtimeConfig);
     this._onResize = () => this.resize();
   }
@@ -69,12 +88,33 @@ export class WorldVisualRuntime {
     this.surfaceStage.create();
     this.skyCohesionLayer = new WorldVisualSkyCohesionLayer(this.scene);
     this.skyCohesionLayer.create();
+    const search = globalThis.location?.search || "";
+    const heroSuppression = resolveWorldVisualSurfaceHeroLandmarkSuppression(
+      undefined,
+      search,
+    );
     this.surfacePropLayer = new WorldVisualSurfacePropLayer(this.scene, this.worldModel);
-    this.surfacePropLayer.create();
+    this.surfacePropLayer.create(search, {
+      suppressedPlacementIds: heroSuppression.retained,
+    });
+    this.surfacePropExpansionLayer = new WorldVisualSurfacePropExpansionLayer(
+      this.scene,
+      this.worldModel,
+    );
+    this.surfacePropExpansionLayer.create(search, {
+      suppressedPlacementIds: heroSuppression.expansion,
+    });
+    this.surfaceHeroLandmarkLayer = new WorldVisualSurfaceHeroLandmarkLayer(
+      this.scene,
+      this.worldModel,
+    );
+    this.surfaceHeroLandmarkLayer.create(search);
     this.surfaceAtmosphereLayer = new WorldVisualSurfaceAtmosphereLayer(this.scene);
     this.surfaceAtmosphereLayer.create();
     this.depthBackdropStage = new WorldVisualDepthBackdropStage(this.scene);
     this.depthBackdropStage.create();
+    this.backdropEnhancerLayer = new WorldVisualBackdropEnhancerLayer(this.scene);
+    this.backdropEnhancerLayer.create();
     this.titanDiscoverySystem = new TitanDiscoverySystem(this.scene, this.worldModel);
     this.titanDiscoverySystem.create();
     if (resolveWorldVisualLandmarksEnabled()) {
@@ -99,6 +139,11 @@ export class WorldVisualRuntime {
       this.materialField.geometryMask
     );
     this.groundStructureLayer.create();
+    this.undergroundDetailLayer = new WorldVisualUndergroundDetailLayer(
+      this.scene,
+      this.materialField.geometryMask
+    );
+    this.undergroundDetailLayer.create();
     this.semanticAssetLayer = new WorldVisualSemanticAssetLayer(
       this.scene,
       this.worldModel,
@@ -153,10 +198,14 @@ export class WorldVisualRuntime {
     this.surfaceStage.update(now, lighting);
     this.skyCohesionLayer?.update(now, lighting);
     this.surfacePropLayer?.update(now, lighting);
+    this.surfacePropExpansionLayer?.update(now, lighting);
+    this.surfaceHeroLandmarkLayer?.update(now, lighting);
     this.surfaceAtmosphereLayer?.update(now, lighting);
     this.depthBackdropStage?.update(now, lighting);
+    this.backdropEnhancerLayer?.update(lighting);
     this.terrainVariationLayer?.update(lighting);
     this.groundStructureLayer?.update(lighting);
+    this.undergroundDetailLayer?.update(lighting);
     this.landmarkLayer?.update(now, lighting);
     this.semanticAssetLayer?.update(now, lighting);
     this.titanDiscoverySystem?.update(now, delta, context, lighting);
@@ -213,12 +262,16 @@ export class WorldVisualRuntime {
     const startedAtMs = this.performanceTracker.beginSync();
     const lighting = suppliedLighting || this.lightingBridge.sample();
     this.depthBackdropStage?.sync(bounds, lighting, force);
+    this.backdropEnhancerLayer?.sync(bounds, lighting, force);
     this.skyCohesionLayer?.sync(bounds, lighting, force);
     this.surfacePropLayer?.sync(bounds, lighting, force);
+    this.surfacePropExpansionLayer?.sync(bounds, lighting, force);
+    this.surfaceHeroLandmarkLayer?.sync(bounds, lighting, force);
     this.surfaceAtmosphereLayer?.sync(bounds, lighting);
     this.materialField.sync(bounds, lighting, force);
     this.terrainVariationLayer?.sync(bounds, lighting, force);
     this.groundStructureLayer?.sync(bounds, lighting, force);
+    this.undergroundDetailLayer?.sync(bounds, lighting, force);
     this.semanticAssetLayer?.sync(bounds, lighting, reduced);
     this.feedbackLayer.sync(bounds, reduced);
     this.gameplayEffectLayer.sync(bounds);
@@ -227,6 +280,7 @@ export class WorldVisualRuntime {
       this.surfaceStage.update(now, lighting);
       this.skyCohesionLayer?.update(now, lighting);
       this.depthBackdropStage?.update(now, lighting);
+      this.backdropEnhancerLayer?.update(lighting);
       this.landmarkLayer?.update(now, lighting);
     }
     this.lastBounds = bounds;
@@ -277,6 +331,7 @@ export class WorldVisualRuntime {
 
   applyTileUpdate(tx, ty) {
     if (!this.created) return;
+    this._syncTutorialTileVisual(tx, ty);
     this.performanceTracker.recordTileInvalidation();
     const lighting = this.lightingBridge.sample();
     this.materialField.invalidateCell(tx, ty, lighting);
@@ -285,6 +340,52 @@ export class WorldVisualRuntime {
     if (this.lastBounds) this.feedbackLayer.sync(this.lastBounds, false);
     this.gameplayEffectLayer.invalidateCell(tx, ty);
     this.titanDiscoverySystem?.invalidateTile(tx, ty);
+  }
+
+  setTutorialTileVisual(tx, ty, tileType, visible = true) {
+    const key = `${tx},${ty}`;
+    if (
+      !visible
+      || tileType !== TILE_TYPES.DIRT
+      || !this.created
+      || !this.scene.textures.exists(ASSET_KEYS.tiles.dirtHp5)
+    ) {
+      if (!visible || this.tutorialTileKey === key) this.clearTutorialTileVisual();
+      return false;
+    }
+
+    const tileSize = this.scene.config.tileSize;
+    if (!this.tutorialTileVisual) {
+      this.tutorialTileVisual = this.scene.add.image(
+        0,
+        0,
+        ASSET_KEYS.tiles.dirtHp5,
+      )
+        .setOrigin(0.5)
+        .setDepth(this.runtimeConfig.render.physicalEffectDepth + 0.01);
+    }
+    this.tutorialTileVisual
+      .setPosition((tx + 0.5) * tileSize, (ty + 0.5) * tileSize)
+      .setDisplaySize(tileSize, tileSize)
+      .setVisible(true);
+    this.tutorialTileKey = key;
+    return true;
+  }
+
+  clearTutorialTileVisual() {
+    this.tutorialTileVisual?.setVisible(false);
+    this.tutorialTileKey = null;
+  }
+
+  _syncTutorialTileVisual(tx, ty) {
+    const key = `${tx},${ty}`;
+    if (this.tutorialTileKey !== key) return;
+    if (
+      this.worldModel.dugTiles?.has?.(key)
+      || this.worldModel.getTileType(tx, ty) === TILE_TYPES.AIR
+    ) {
+      this.clearTutorialTileVisual();
+    }
   }
 
   refreshAllTiles() {
@@ -364,11 +465,15 @@ export class WorldVisualRuntime {
 
   destroy() {
     this.created = false;
+    this.tutorialTileVisual?.destroy();
+    this.tutorialTileVisual = null;
+    this.tutorialTileKey = null;
     this.scene?.scale?.off?.("resize", this._onResize);
     this.gameplayEffectLayer?.destroy();
     this.titanDiscoverySystem?.destroy();
     this.feedbackLayer?.destroy();
     this.semanticAssetLayer?.destroy();
+    this.undergroundDetailLayer?.destroy();
     this.groundStructureLayer?.destroy();
     this.terrainVariationLayer?.destroy();
     this.skyCohesionLayer?.destroy();
@@ -376,22 +481,29 @@ export class WorldVisualRuntime {
     // must detach before that mask is destroyed during hot restart/shutdown.
     this.surfaceStage?.destroy();
     this.surfaceAtmosphereLayer?.destroy();
+    this.surfaceHeroLandmarkLayer?.destroy();
+    this.surfacePropExpansionLayer?.destroy();
     this.surfacePropLayer?.destroy();
     this.materialField?.destroy();
+    this.backdropEnhancerLayer?.destroy();
     this.depthBackdropStage?.destroy();
     this.landmarkLayer?.destroy();
     this.feedbackLayer = null;
     this.semanticAssetLayer = null;
+    this.undergroundDetailLayer = null;
     this.groundStructureLayer = null;
     this.terrainVariationLayer = null;
     this.skyCohesionLayer = null;
     this.gameplayEffectLayer = null;
     this.materialField = null;
+    this.backdropEnhancerLayer = null;
     this.depthBackdropStage = null;
     this.titanDiscoverySystem = null;
     this.landmarkLayer = null;
     this.surfaceStage = null;
     this.surfaceAtmosphereLayer = null;
+    this.surfaceHeroLandmarkLayer = null;
+    this.surfacePropExpansionLayer = null;
     this.surfacePropLayer = null;
     this.lightingBridge = null;
   }

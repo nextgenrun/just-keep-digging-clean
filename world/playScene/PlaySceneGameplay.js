@@ -5,8 +5,10 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
+import { resolveAuthoredMineImpactEnabled } from "../../values/gamefeel.js";
 import { LIVING_DRILL_CONFIG } from "../../values/livingDrillConfig.js";
-import { getMaterialFeedback, GLINT_CONFIG } from "../../values/materialFeedback.js";
+import { getMaterialFeedback, getMineShakeSignature, GLINT_CONFIG } from "../../values/materialFeedback.js";
 import { ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
@@ -57,14 +59,6 @@ export function setupGameplayMethods(prototype) {
       world.isSolid?.(tx, Math.floor(upperY / tileSize)) ||
       world.isSolid?.(tx, Math.floor(lowerY / tileSize))
     );
-  };
-  const mineShakeSignatureForTile = (tileType) => {
-    switch (tileType) {
-      case TILE_TYPES.DIRT: case TILE_TYPES.DARK_DIRT_NORMAL: return "mining.light";
-      case TILE_TYPES.STONE: case TILE_TYPES.COPPER: case TILE_TYPES.DARK_DIRT_STRONG: case TILE_TYPES.BRONZE: case TILE_TYPES.IRON: case TILE_TYPES.GEODE_INTERIOR: return "mining.medium";
-      case TILE_TYPES.SKY_TILE: return "mining.skyTile";
-      default: return "mining.heavy";
-    }
   };
   const selectComboAnim = (scene, family, direction, anims, fallback, targetTile) => {
     if (!scene.ualMiningComboSelector) {
@@ -319,11 +313,8 @@ export function setupGameplayMethods(prototype) {
     return true;
   };
 
-  prototype.playMineImpactFx = function(targetTile, destroyed) {
+  prototype.playMineImpactFx = function(targetTile) {
     if (!targetTile) return;
-    const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-    const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-    if (destroyed) this._applyDestroyParticles?.(worldX, worldY, this._lastMinedTileType);
     this.worldRenderer?.applyTileUpdate(targetTile.tx, targetTile.ty);
   };
 
@@ -526,6 +517,27 @@ export function setupGameplayMethods(prototype) {
     this._postActionFacingFlipX = postActionFacingFlipX;
     if (!profile.immediateDigImpactFeedback && mineFeedback?.result) this.queueDigImpactFeedback(mineFeedback);
     this.player.setFlipX(flipX);
+    this.player.play(animKey, true);
+    const displaySize = resolvePlayerDisplaySizePx(
+      profile,
+      this.config.playerDisplaySizePx,
+      animKey,
+    );
+    this.player.setDisplaySize(displaySize, displaySize);
+
+    if (profile.isUalNative) {
+      this.player.setAngle(0);
+      this.player.anims.timeScale = actionTimeScale;
+    } else if (profile.preserveNativeActionCadence) {
+      this.player.anims.timeScale = 1;
+    } else if (this._gamefeelConfig && this.digSystem) {
+      const baseCooldown = this._gamefeelConfig.animSpeed.baseCooldownMs;
+      const effective = this.digSystem.getEffectiveCooldownMs();
+      const mult = Math.min(baseCooldown / effective, this._gamefeelConfig.animSpeed.maxSpeedMultiplier);
+      this.player.anims.timeScale = mult;
+    }
+    this.playerController?._syncSpriteWithPhysics?.();
+
     if (profile.isUalNative && contactSpec && this.ualActionContactTimeline) {
       const rigDirection = resolvePlayerTargetDirection(
         this.playerController?.physicsBody,
@@ -538,6 +550,12 @@ export function setupGameplayMethods(prototype) {
         targetTile: mineFeedback?.targetTile,
         direction: rigDirection,
       });
+      if (movingSideDig.movingSideDigActive === true) {
+        this.playerController?.beginMovingSideDigStandOff?.({
+          targetTile: mineFeedback?.targetTile,
+          directionX: movingSideDig.targetDirectionX,
+        });
+      }
       this.ualActionContactTimeline.begin({
         animationKey: animKey,
         contactFrame: contactSpec.textureFrame,
@@ -561,25 +579,6 @@ export function setupGameplayMethods(prototype) {
         targetTile: mineFeedback?.targetTile || null,
         trigger: "immediate-fallback",
       });
-    }
-    this.player.play(animKey, true);
-    const displaySize = resolvePlayerDisplaySizePx(
-      profile,
-      this.config.playerDisplaySizePx,
-      animKey,
-    );
-    this.player.setDisplaySize(displaySize, displaySize);
-
-    if (profile.isUalNative) {
-      this.player.setAngle(0);
-      this.player.anims.timeScale = actionTimeScale;
-    } else if (profile.preserveNativeActionCadence) {
-      this.player.anims.timeScale = 1;
-    } else if (this._gamefeelConfig && this.digSystem) {
-      const baseCooldown = this._gamefeelConfig.animSpeed.baseCooldownMs;
-      const effective = this.digSystem.getEffectiveCooldownMs();
-      const mult = Math.min(baseCooldown / effective, this._gamefeelConfig.animSpeed.maxSpeedMultiplier);
-      this.player.anims.timeScale = mult;
     }
     if (profile.weaponPolicy !== "none") this.pickaxeTrailSystem?.start();
     return true;
@@ -1202,8 +1201,10 @@ export function setupGameplayMethods(prototype) {
     if (!this._gamefeelConfig) return;
     if (this.game.loop.actualFps < this._gamefeelConfig.shake.minFps) return;
     const tileType = result.tileType ?? result.typeBeforeDamage ?? null;
-    const signature = result.isCriticalHit && result.destroyed && tileType !== TILE_TYPES.SKY_TILE
-      ? "mining.crit" : mineShakeSignatureForTile(tileType);
+    const signature = getMineShakeSignature(tileType, {
+      critical: result.isCriticalHit,
+      destroyed: result.destroyed,
+    });
     const material = getMaterialFeedback(tileType);
     const intensityScale = (result.destroyed ? 1 : 0.65) * (material.shakeScale || 1);
     this.shakeSystem?.shake(signature, intensityScale);
@@ -1212,38 +1213,75 @@ export function setupGameplayMethods(prototype) {
   prototype._applyDestroyParticles = function(worldX, worldY, tileType) {
     if (!this._gamefeelConfig) return;
     const cfg = this._gamefeelConfig.particles;
+    const textureKey = EARTHQUAKE_FEEDBACK_CONFIG.assets.impactDebris.key;
+    if (!resolveAuthoredMineImpactEnabled()) return;
+    if (!this.textures?.exists(textureKey)) return;
     const material = getMaterialFeedback(tileType);
     const color = cfg.tileColors[tileType] || cfg.defaultColor;
-    const count = Math.round(cfg.count * (material.particleScale || 1));
-    const sizeScale = material.particleSizeScale || 1;
+    const tileSize = this.config.tileSize;
+    const impactScale = Math.max(
+      cfg.minMaterialScale,
+      Math.min(
+        cfg.maxMaterialScale,
+        Math.sqrt(
+          (material.particleScale || 1) * (material.particleSizeScale || 1),
+        ),
+      ),
+    );
     if (material.glint) this._applyGlintBurst?.(worldX, worldY, material.glintColor);
     if (!this._activeParticleChips) this._activeParticleChips = [];
-    for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.8;
-      const speed = cfg.speedMin + Math.random() * (cfg.speedMax - cfg.speedMin);
-      const vx = Math.cos(angle) * speed;
-      const vy = Math.sin(angle) * speed - 60;
-      const chip = this.add.graphics();
-      chip.fillStyle(color, 0.9);
-      chip.fillCircle(0, 0, cfg.size * sizeScale * (0.6 + Math.random() * 0.7));
-      chip.setPosition(worldX + (Math.random() - 0.5) * 16, worldY + (Math.random() - 0.5) * 16);
-      chip.setDepth(cfg.depth);
-      this._activeParticleChips.push(chip);
-      const lifespan = cfg.lifespanMin + Math.random() * (cfg.lifespanMax - cfg.lifespanMin);
-      this.tweens.add({
-        targets: chip,
-        x: chip.x + vx * (lifespan / 1000),
-        y: chip.y + vy * (lifespan / 1000) + 0.5 * cfg.gravityY * Math.pow(lifespan / 1000, 2),
-        alpha: 0,
-        duration: lifespan,
-        ease: 'Power1.out',
-        onComplete: () => {
-          const idx = this._activeParticleChips.indexOf(chip);
-          if (idx !== -1) this._activeParticleChips.splice(idx, 1);
-          chip.destroy();
-        },
-      });
+    const impact = this.add.image(
+      worldX + (Math.random() - 0.5) * tileSize * cfg.randomOffsetTiles,
+      worldY + tileSize * cfg.offsetYTiles,
+      textureKey,
+    ).setOrigin(0.5, cfg.originY)
+      .setDepth(cfg.depth)
+      .setDisplaySize(
+        tileSize * cfg.displayWidthTiles * impactScale,
+        tileSize * cfg.displayHeightTiles * impactScale,
+      )
+      .setRotation(cfg.rotationMin + Math.random() * (cfg.rotationMax - cfg.rotationMin))
+      .setTint(color)
+      .setAlpha(cfg.startAlpha);
+    const baseScaleX = impact.scaleX;
+    const baseScaleY = impact.scaleY;
+    impact.setScale(baseScaleX * cfg.startScale, baseScaleY * cfg.startScale);
+    this._activeParticleChips.push(impact);
+
+    const release = () => {
+      const index = this._activeParticleChips.indexOf(impact);
+      if (index !== -1) this._activeParticleChips.splice(index, 1);
+      impact.destroy();
+    };
+    if (!this.tweens?.add) {
+      impact.setAlpha(cfg.alpha);
+      const duration = cfg.enterMs + cfg.holdMs + cfg.exitMs;
+      if (this.time?.delayedCall) this.time.delayedCall(duration, release);
+      else release();
+      return;
     }
+    this.tweens.add({
+      targets: impact,
+      alpha: cfg.alpha,
+      scaleX: baseScaleX * cfg.peakScale,
+      scaleY: baseScaleY * cfg.peakScale,
+      duration: cfg.enterMs,
+      ease: "Back.easeOut",
+      onComplete: () => {
+        if (!impact.active) return;
+        this.tweens.add({
+          targets: impact,
+          y: impact.y + tileSize * cfg.driftYTiles,
+          alpha: 0,
+          scaleX: baseScaleX * cfg.endScale,
+          scaleY: baseScaleY * cfg.endScale,
+          delay: cfg.holdMs,
+          duration: cfg.exitMs,
+          ease: "Sine.easeOut",
+          onComplete: release,
+        });
+      },
+    });
   };
 
   // Precious-material sparkle burst (gold/silver/sky) — small rising glints

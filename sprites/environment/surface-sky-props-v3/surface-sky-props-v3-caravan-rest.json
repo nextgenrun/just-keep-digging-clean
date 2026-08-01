@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "caravan-rest-rolled-bedroll": {
+      "frame": {
+        "x": 5,
+        "y": 5,
+        "w": 256,
+        "h": 156
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 156
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 156
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-folding-table": {
+      "frame": {
+        "x": 271,
+        "y": 5,
+        "w": 243,
+        "h": 168
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 243,
+        "h": 168
+      },
+      "sourceSize": {
+        "w": 243,
+        "h": 168
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-cooking-tripod": {
+      "frame": {
+        "x": 524,
+        "y": 5,
+        "w": 219,
+        "h": 241
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 219,
+        "h": 241
+      },
+      "sourceSize": {
+        "w": 219,
+        "h": 241
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-luggage-stack": {
+      "frame": {
+        "x": 753,
+        "y": 5,
+        "w": 230,
+        "h": 227
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 230,
+        "h": 227
+      },
+      "sourceSize": {
+        "w": 230,
+        "h": 227
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-tether-post": {
+      "frame": {
+        "x": 993,
+        "y": 5,
+        "w": 181,
+        "h": 224
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 181,
+        "h": 224
+      },
+      "sourceSize": {
+        "w": 181,
+        "h": 224
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-feed-trough": {
+      "frame": {
+        "x": 5,
+        "y": 256,
+        "w": 264,
+        "h": 125
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 125
+      },
+      "sourceSize": {
+        "w": 264,
+        "h": 125
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-water-keg": {
+      "frame": {
+        "x": 279,
+        "y": 256,
+        "w": 175,
+        "h": 197
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 175,
+        "h": 197
+      },
+      "sourceSize": {
+        "w": 175,
+        "h": 197
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-travel-chest": {
+      "frame": {
+        "x": 464,
+        "y": 256,
+        "w": 256,
+        "h": 158
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 158
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 158
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-canvas-repair-frame": {
+      "frame": {
+        "x": 730,
+        "y": 256,
+        "w": 243,
+        "h": 182
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 243,
+        "h": 182
+      },
+      "sourceSize": {
+        "w": 243,
+        "h": 182
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-firewood-rack": {
+      "frame": {
+        "x": 983,
+        "y": 256,
+        "w": 253,
+        "h": 179
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 253,
+        "h": 179
+      },
+      "sourceSize": {
+        "w": 253,
+        "h": 179
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-boot-drying-stand": {
+      "frame": {
+        "x": 5,
+        "y": 463,
+        "w": 262,
+        "h": 158
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 262,
+        "h": 158
+      },
+      "sourceSize": {
+        "w": 262,
+        "h": 158
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-rope-hardware": {
+      "frame": {
+        "x": 277,
+        "y": 463,
+        "w": 174,
+        "h": 191
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 191
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 191
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-camp-stools": {
+      "frame": {
+        "x": 461,
+        "y": 463,
+        "w": 293,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 293,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 293,
+        "h": 132
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-travel-brazier": {
+      "frame": {
+        "x": 764,
+        "y": 463,
+        "w": 145,
+        "h": 184
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 145,
+        "h": 184
+      },
+      "sourceSize": {
+        "w": 145,
+        "h": 184
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-wheel-repair-stand": {
+      "frame": {
+        "x": 919,
+        "y": 463,
+        "w": 225,
+        "h": 197
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 225,
+        "h": 197
+      },
+      "sourceSize": {
+        "w": 225,
+        "h": 197
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-hook-lantern": {
+      "frame": {
+        "x": 5,
+        "y": 670,
+        "w": 131,
+        "h": 217
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 131,
+        "h": 217
+      },
+      "sourceSize": {
+        "w": 131,
+        "h": 217
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-pack-saddle-rack": {
+      "frame": {
+        "x": 146,
+        "y": 670,
+        "w": 243,
+        "h": 216
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 243,
+        "h": 216
+      },
+      "sourceSize": {
+        "w": 243,
+        "h": 216
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-map-cases": {
+      "frame": {
+        "x": 399,
+        "y": 670,
+        "w": 273,
+        "h": 195
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 273,
+        "h": 195
+      },
+      "sourceSize": {
+        "w": 273,
+        "h": 195
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-camp-cookware": {
+      "frame": {
+        "x": 682,
+        "y": 670,
+        "w": 205,
+        "h": 170
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 205,
+        "h": 170
+      },
+      "sourceSize": {
+        "w": 205,
+        "h": 170
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "caravan-rest-blank-signpost": {
+      "frame": {
+        "x": 897,
+        "y": 670,
+        "w": 148,
+        "h": 227
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 148,
+        "h": 227
+      },
+      "sourceSize": {
+        "w": 148,
+        "h": 227
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "meta": {
+    "app": "2026-07-29-build-surface-sky-props-v3.py",
+    "version": "3",
+    "image": "surface-sky-props-v3-caravan-rest.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1241,
+      "h": 902
+    },
+    "scale": "1"
+  }
+}

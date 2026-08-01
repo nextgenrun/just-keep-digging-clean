@@ -42,3 +42,24 @@ manifest pins every runtime filename, size, color mode, alpha range, and hash;
 the step markers remain in the approved pack but are intentionally omitted
 from the cleaner click-only runtime layout. `starlight-talent-tree-v2/`
 remains intact as the visual rollback source.
+
+`star-discovery-v1/` contains six ImageGen-authored rarity popup plates and six
+matching Sign XP fills. The live Star Block popup and Talent Tree crop these
+transparent assets from real progression state; the manifest pins dimensions,
+alpha behavior, source provenance, and hashes.
+
+`star-atlas-v1/` contains the active 1536x800 ImageGen foundation for the third
+`I`-key tab. Its six rarity sockets, twelve selector sockets, large identity
+showcase, lore dossier, and three reward-stat sockets are authored with
+generous breathing room. Phaser overlays only exact Star identity frames,
+dynamic text, invisible hit zones, and bounded motion. The source prompt and
+alpha-normalization boundary live in the package readmes.
+
+`starlight-talent-tree-v4/` contains the active mockup-fidelity Starlight
+package. Its new `1672x941` ImageGen foundation supplies one tall antique-gold
+frame, three navigation plaques, three generous sign alcoves, embedded arrow
+housings, and the broad lower dossier. The other 28 runtime PNGs are the
+unchanged approved transparent V3 assets, copied locally so deferred loading
+remains one exact package. `manifest-v4.json` pins the new source dimensions,
+bytes, and SHA-256; `sources/` retains the unmodified ImageGen output. The V3
+folder remains intact as the presentation rollback source.

@@ -291,6 +291,10 @@ export class ShaderSystem {
     shader.setUniform("uTorchCoreRadiusRatio.value", clamp01(darknessLight.torchCoreRadiusRatio));
     shader.setUniform("uTorchPenumbraWidth.value", clamp01(darknessLight.torchPenumbraWidth));
     shader.setUniform("uTorchMaximumAlpha.value", clamp01(darknessLight.torchMaximumAlpha));
+    shader.setUniform(
+      "uFireLightProceduralMix.value",
+      clamp01(light.fireLightProceduralMix ?? 1)
+    );
     shader.setUniform("uSurfaceLightInfluence.value", clamp01(light.surfaceLightInfluence));
     shader.setUniform("uUndergroundDarknessInfluence.value", clamp01(light.undergroundDarknessInfluence));
     shader.setUniform("uStormCavePulse.value", clamp01(light.stormCavePulse));

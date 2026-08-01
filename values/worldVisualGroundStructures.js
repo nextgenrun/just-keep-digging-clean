@@ -5,6 +5,9 @@ const V3_ASSET_ROOT = (
 const V4_ASSET_ROOT = (
   "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v4"
 );
+const V6_ASSET_ROOT = (
+  "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6"
+);
 
 const v3Asset = stem => Object.freeze({
   key: `world-visual-ground-structure-v3-${stem}`,
@@ -18,11 +21,31 @@ const v4Asset = stem => Object.freeze({
   type: "image",
 });
 
+const v6Asset = stem => Object.freeze({
+  key: `world-visual-ground-structure-v6-${stem}`,
+  path: `${V6_ASSET_ROOT}/${stem}-v6.webp`,
+  type: "image",
+});
+
 const assets = (stems, factory) => Object.freeze(stems.map(factory));
+
+const REGION_ORDER_INDEX = Object.freeze({
+  "surface-entry": 0,
+  "level1-blue": 1,
+  "level1-amber": 2,
+  "level1-silver": 3,
+  "level1-magma": 4,
+  "level2-slagworks": 5,
+  "level2-obsidian": 6,
+  "level2-foundry": 7,
+  "level2-blackglass": 8,
+  "level2-starfire": 9,
+});
 
 const region = (id, topTile, bottomTileExclusive, seedOffset, stems) => {
   const baseAssets = assets(stems, v3Asset);
   const blendAssets = assets(stems, v4Asset);
+  const seamAssets = assets(stems, v6Asset);
   return Object.freeze({
     id,
     leftTile: 0,
@@ -30,10 +53,13 @@ const region = (id, topTile, bottomTileExclusive, seedOffset, stems) => {
     topTile,
     bottomTileExclusive,
     seedOffset,
+    orderIndex: REGION_ORDER_INDEX[id] ?? 0,
     baseAssets,
     blendAssets,
+    seamAssets,
     assets: blendAssets,
     blendEnabled: true,
+    seamBlendEnabled: false,
   });
 };
 
@@ -129,6 +155,26 @@ export const WORLD_VISUAL_GROUND_STRUCTURES = Object.freeze({
     queryParam: "groundStructureBlend",
     disabledValues: DISABLED_QUERY_VALUES,
   }),
+  seamBlendV6: Object.freeze({
+    enabledByDefault: true,
+    queryParam: "undergroundSeamBlend",
+    disabledValues: DISABLED_QUERY_VALUES,
+    alpha: 1,
+    segment: Object.freeze({
+      logicalWidthPx: 1536,
+      logicalHeightPx: 1024,
+      overlapXPx: 384,
+      overlapYPx: 256,
+      strideXPx: 1152,
+      strideYPx: 768,
+      neighborSegments: 1,
+    }),
+    depthOrder: Object.freeze({
+      regionStep: 0.00075,
+      rowStep: 0.00001,
+      columnStep: 0.0000005,
+    }),
+  }),
   render: Object.freeze({
     depth: 0.16,
     alpha: 0.86,
@@ -151,16 +197,33 @@ export function resolveWorldVisualGroundStructureBlendEnabled(
   return blend.enabledByDefault && !isDisabledQuery(blend, search);
 }
 
-function resolveRegionAssets(region, blendEnabled) {
-  return blendEnabled ? region.blendAssets : region.baseAssets;
+export function resolveWorldVisualGroundStructureSeamBlendEnabled(
+  config = WORLD_VISUAL_GROUND_STRUCTURES,
+  search = globalThis.location?.search || ""
+) {
+  const seamBlend = config.seamBlendV6;
+  return Boolean(
+    seamBlend?.enabledByDefault
+    && !isDisabledQuery(seamBlend, search)
+  );
 }
 
-function resolveRegion(region, blendEnabled) {
-  if (region.blendEnabled === blendEnabled) return region;
+function resolveRegionAssets(region, blendEnabled, seamBlendEnabled = false) {
+  if (!blendEnabled) return region.baseAssets;
+  return seamBlendEnabled ? region.seamAssets : region.blendAssets;
+}
+
+function resolveRegion(region, blendEnabled, seamBlendEnabled = false, config) {
+  if (
+    region.blendEnabled === blendEnabled
+    && region.seamBlendEnabled === seamBlendEnabled
+  ) return region;
   return Object.freeze({
     ...region,
-    assets: resolveRegionAssets(region, blendEnabled),
+    assets: resolveRegionAssets(region, blendEnabled, seamBlendEnabled),
     blendEnabled,
+    seamBlendEnabled,
+    segment: seamBlendEnabled ? config.seamBlendV6.segment : config.segment,
   });
 }
 
@@ -183,7 +246,7 @@ export function resolveWorldVisualGroundStructureRegions(
   return config.regions.filter(entry => (
     entry.bottomTileExclusive > topTile
     && entry.topTile < bottomTileExclusive
-  )).map(entry => resolveRegion(entry, blendEnabled));
+  )).map(entry => resolveRegion(entry, blendEnabled, false, config));
 }
 
 export function getWorldVisualGroundStructureAssets(
@@ -192,6 +255,42 @@ export function getWorldVisualGroundStructureAssets(
 ) {
   const blendEnabled = resolveWorldVisualGroundStructureBlendEnabled(config, search);
   return config.regions.flatMap(entry => resolveRegionAssets(entry, blendEnabled));
+}
+
+export function resolveWorldVisualGroundStructureRuntimeRegions(
+  topTile,
+  bottomTileExclusive,
+  config = WORLD_VISUAL_GROUND_STRUCTURES,
+  search = globalThis.location?.search || ""
+) {
+  if (!resolveWorldVisualGroundStructuresEnabled(config, search)) return [];
+  if (bottomTileExclusive <= topTile) return [];
+  const blendEnabled = resolveWorldVisualGroundStructureBlendEnabled(config, search);
+  const seamBlendEnabled = blendEnabled
+    && resolveWorldVisualGroundStructureSeamBlendEnabled(config, search);
+  return config.regions.filter(entry => (
+    entry.bottomTileExclusive > topTile
+    && entry.topTile < bottomTileExclusive
+  )).map(entry => resolveRegion(
+    entry,
+    blendEnabled,
+    seamBlendEnabled,
+    config
+  ));
+}
+
+export function getWorldVisualGroundStructureRuntimeAssets(
+  config = WORLD_VISUAL_GROUND_STRUCTURES,
+  search = globalThis.location?.search || ""
+) {
+  const blendEnabled = resolveWorldVisualGroundStructureBlendEnabled(config, search);
+  const seamBlendEnabled = blendEnabled
+    && resolveWorldVisualGroundStructureSeamBlendEnabled(config, search);
+  return config.regions.flatMap(entry => resolveRegionAssets(
+    entry,
+    blendEnabled,
+    seamBlendEnabled
+  ));
 }
 
 export function isWorldVisualGroundStructureRegionReady(region, assetExists) {

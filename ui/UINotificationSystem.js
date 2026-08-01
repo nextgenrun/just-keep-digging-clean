@@ -32,6 +32,7 @@ export class UINotificationSystem {
     this.destroyed = false;
     this.keyed = new Map();
     this._dedupeHistory = new Map();
+    this._routineHistory = [];
     this._entryCounter = 0;
     this._dedupeWindowMs = options.dedupeWindowMs
       ?? UI_NOTIFICATION_CAROUSEL_CONFIG.dedupeWindowMs;
@@ -83,6 +84,7 @@ export class UINotificationSystem {
     if (!message || this.destroyed || !this.scene?.time) return null;
     const now = Date.now();
     const normalized = this._normalizeOptions(options);
+    if (!this._admitRoutine(normalized, now)) return null;
     const key = normalized.key || null;
     const dedupeKey = normalized.dedupeKey
       || `${normalized.kind}|${String(message).trim().toLowerCase()}`;
@@ -249,6 +251,7 @@ export class UINotificationSystem {
     this.dragController = null;
     this.presenter?.destroy();
     this._dedupeHistory.clear();
+    this._routineHistory = [];
     this.keyed.clear();
     this.scene = null;
     this.view = null;
@@ -302,6 +305,30 @@ export class UINotificationSystem {
     return removed;
   }
 
+  _admitRoutine(options, now) {
+    if (
+      options?.bypassPacing
+      || options?.key
+      || Number(options?.priority) >= 2
+    ) {
+      return true;
+    }
+    const windowMs = UI_NOTIFICATION_CAROUSEL_CONFIG.routineWindowMs;
+    const gapMs = UI_NOTIFICATION_CAROUSEL_CONFIG.routineGapMs;
+    const maxInWindow = UI_NOTIFICATION_CAROUSEL_CONFIG.maxRoutineInWindow;
+    const cutoff = now - windowMs;
+    this._routineHistory = this._routineHistory.filter(at => at >= cutoff);
+    const lastAt = this._routineHistory.at(-1);
+    if (
+      this._routineHistory.length >= maxInWindow
+      || (Number.isFinite(lastAt) && now - lastAt < gapMs)
+    ) {
+      return false;
+    }
+    this._routineHistory.push(now);
+    return true;
+  }
+
   _normalizeOptions(options = {}) {
     const kind = options.kind || inferKind(options.color);
     const kindConfig = UI_NOTIFICATION_CAROUSEL_CONFIG.kinds[kind]
@@ -318,6 +345,7 @@ export class UINotificationSystem {
       color: options.color || style.color,
       accentColor: options.accentColor || options.color || style.accent,
       noDedupe: options.noDedupe ?? false,
+      bypassPacing: options.bypassPacing === true,
     };
   }
 

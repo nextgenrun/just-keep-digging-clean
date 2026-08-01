@@ -62,16 +62,23 @@ export class PlayerRigContactSystem {
       direction: normalizedDirection,
     };
     this.update(this.config.alignment.bootstrapDeltaMs);
+    if (contactSpec.visualAlignmentEnabled === false) return true;
     return Boolean(this._resolveDirectionalMarker(normalizedDirection));
   }
 
   update(deltaMs = 0) {
     if (!this.config.alignment.enabled) return false;
     if (!this._activeAction) return this._updateRelease(deltaMs);
+    const currentOffset = this._readVisualOffset();
+    if (this._activeAction.contactSpec.visualAlignmentEnabled === false) {
+      if (currentOffset.x !== 0 || currentOffset.y !== 0) {
+        this._setVisualOffset({ x: 0, y: 0 });
+      }
+      return true;
+    }
     const selection = this._resolveDirectionalMarker(this._activeAction.direction);
     const tileSize = this.scene?.config?.tileSize;
     if (!selection || !(tileSize > 0)) return false;
-    const currentOffset = this._readVisualOffset();
     const targetOffset = resolveTileFaceAlignmentOffset({
       markerWorld: selection.world,
       targetTile: this._activeAction.targetTile,
@@ -101,6 +108,9 @@ export class PlayerRigContactSystem {
     if (active.targetTile.tx !== targetTile.tx || active.targetTile.ty !== targetTile.ty) {
       return { valid: false, reason: "target-changed" };
     }
+    if (active.contactSpec.visualAlignmentEnabled === false) {
+      return { valid: true, reason: "body-locked-contact" };
+    }
     const selection = this._resolveDirectionalMarker(normalizedDirection);
     const tileSize = this.scene?.config?.tileSize;
     if (!selection || !(tileSize > 0)) {
@@ -126,6 +136,7 @@ export class PlayerRigContactSystem {
   endAction({ immediate = false } = {}) {
     const hadAction = this._activeAction !== null;
     this._activeAction = null;
+    this.controller?.endMovingSideDigStandOff?.();
     const offset = this._readVisualOffset();
     this._releasing = !immediate && (
       Math.abs(offset.x) > this.config.alignment.releaseEpsilonPx

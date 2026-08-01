@@ -29,7 +29,7 @@ export function buildStarlightEnginePage(view, parent) {
   const page = cfg.pages[2];
   addStarlightFoundation(view, parent);
   const identity = addStarlightPageIdentity(view, parent, {
-    title: `1 / ${page.itemCount}`,
+    title: `ENGINE 1 / ${page.itemCount}`,
     status: getPageStatus(view),
     titleColor: UI_COLORS.gold,
     statusColor: view.snapshot.godMode || view.snapshot.availableHearts > 0
@@ -78,7 +78,7 @@ export function buildStarlightEnginePage(view, parent) {
     setSelected(selectedOffset, options = {}) {
       if (currentSelectedOffset === selectedOffset && !options.immediate) return;
       currentSelectedOffset = selectedOffset;
-      identity.titleText.setText(`${selectedOffset + 1} / ${page.itemCount}`);
+      identity.titleText.setText(`ENGINE ${selectedOffset + 1} / ${page.itemCount}`);
       controls.forEach((control, index) => {
         const slotIndex = getCarouselSlot(
           index,

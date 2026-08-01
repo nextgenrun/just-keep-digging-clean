@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "frontier-survey-survey-tripod": {
+      "frame": {
+        "x": 5,
+        "y": 5,
+        "w": 119,
+        "h": 235
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 119,
+        "h": 235
+      },
+      "sourceSize": {
+        "w": 119,
+        "h": 235
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-frontier-map-table": {
+      "frame": {
+        "x": 134,
+        "y": 5,
+        "w": 237,
+        "h": 202
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 237,
+        "h": 202
+      },
+      "sourceSize": {
+        "w": 237,
+        "h": 202
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-soil-sample-crates": {
+      "frame": {
+        "x": 381,
+        "y": 5,
+        "w": 244,
+        "h": 210
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 244,
+        "h": 210
+      },
+      "sourceSize": {
+        "w": 244,
+        "h": 210
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-gabion-basket": {
+      "frame": {
+        "x": 635,
+        "y": 5,
+        "w": 186,
+        "h": 204
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 186,
+        "h": 204
+      },
+      "sourceSize": {
+        "w": 186,
+        "h": 204
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-seed-bed": {
+      "frame": {
+        "x": 831,
+        "y": 5,
+        "w": 266,
+        "h": 119
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 266,
+        "h": 119
+      },
+      "sourceSize": {
+        "w": 266,
+        "h": 119
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-young-sapling": {
+      "frame": {
+        "x": 5,
+        "y": 250,
+        "w": 117,
+        "h": 230
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 117,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 117,
+        "h": 230
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-irrigation-jugs": {
+      "frame": {
+        "x": 132,
+        "y": 250,
+        "w": 260,
+        "h": 171
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 260,
+        "h": 171
+      },
+      "sourceSize": {
+        "w": 260,
+        "h": 171
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-split-rail": {
+      "frame": {
+        "x": 402,
+        "y": 250,
+        "w": 279,
+        "h": 163
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 279,
+        "h": 163
+      },
+      "sourceSize": {
+        "w": 279,
+        "h": 163
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-repair-tool-rack": {
+      "frame": {
+        "x": 691,
+        "y": 250,
+        "w": 196,
+        "h": 243
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 196,
+        "h": 243
+      },
+      "sourceSize": {
+        "w": 196,
+        "h": 243
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-specimen-drawers": {
+      "frame": {
+        "x": 897,
+        "y": 250,
+        "w": 209,
+        "h": 198
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 209,
+        "h": 198
+      },
+      "sourceSize": {
+        "w": 209,
+        "h": 198
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-soil-auger": {
+      "frame": {
+        "x": 5,
+        "y": 503,
+        "w": 133,
+        "h": 218
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 133,
+        "h": 218
+      },
+      "sourceSize": {
+        "w": 133,
+        "h": 218
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-mineral-tray": {
+      "frame": {
+        "x": 148,
+        "y": 503,
+        "w": 243,
+        "h": 158
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 243,
+        "h": 158
+      },
+      "sourceSize": {
+        "w": 243,
+        "h": 158
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-hand-winch": {
+      "frame": {
+        "x": 401,
+        "y": 503,
+        "w": 226,
+        "h": 178
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 226,
+        "h": 178
+      },
+      "sourceSize": {
+        "w": 226,
+        "h": 178
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-twine-and-stakes": {
+      "frame": {
+        "x": 637,
+        "y": 503,
+        "w": 207,
+        "h": 192
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 207,
+        "h": 192
+      },
+      "sourceSize": {
+        "w": 207,
+        "h": 192
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-survey-wheelbarrow": {
+      "frame": {
+        "x": 854,
+        "y": 503,
+        "w": 287,
+        "h": 157
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 287,
+        "h": 157
+      },
+      "sourceSize": {
+        "w": 287,
+        "h": 157
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-rain-gauge": {
+      "frame": {
+        "x": 5,
+        "y": 731,
+        "w": 111,
+        "h": 203
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 111,
+        "h": 203
+      },
+      "sourceSize": {
+        "w": 111,
+        "h": 203
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-pruning-bench": {
+      "frame": {
+        "x": 126,
+        "y": 731,
+        "w": 267,
+        "h": 209
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 267,
+        "h": 209
+      },
+      "sourceSize": {
+        "w": 267,
+        "h": 209
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-reed-mat": {
+      "frame": {
+        "x": 403,
+        "y": 731,
+        "w": 270,
+        "h": 161
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 270,
+        "h": 161
+      },
+      "sourceSize": {
+        "w": 270,
+        "h": 161
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-bee-skeps": {
+      "frame": {
+        "x": 683,
+        "y": 731,
+        "w": 267,
+        "h": 184
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 267,
+        "h": 184
+      },
+      "sourceSize": {
+        "w": 267,
+        "h": 184
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "frontier-survey-frontier-lantern": {
+      "frame": {
+        "x": 960,
+        "y": 731,
+        "w": 94,
+        "h": 237
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 94,
+        "h": 237
+      },
+      "sourceSize": {
+        "w": 94,
+        "h": 237
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "meta": {
+    "app": "2026-07-29-build-surface-sky-props-v3.py",
+    "version": "3",
+    "image": "surface-sky-props-v3-frontier-survey.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1146,
+      "h": 973
+    },
+    "scale": "1"
+  }
+}

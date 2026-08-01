@@ -8,10 +8,11 @@ import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
   resolveWorldVisualDepthBackdropTint,
 } from "../../values/worldVisualDepthBackdrops.js";
+import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
 import {
   distanceToTitanZone,
   fitTitanChamberScale,
-} from "./titanChamberGeometry.js";
+} from "./titanChamberGeometry.js?rev=20260729-native-density-v14";
 import { TitanChamberTextureReleases } from "./TitanChamberTextureReleases.js";
 
 export class TitanChamberStream {
@@ -35,6 +36,9 @@ export class TitanChamberStream {
     this.failedAssets = new Set();
     this.loadedByStream = new Set();
     this.destroyed = false;
+    this.assetCoordinator = scene.runtimeAssetLoadCoordinator?.enabled
+      ? scene.runtimeAssetLoadCoordinator
+      : null;
     this.textureReleases = new TitanChamberTextureReleases(scene, {
       canRelease: record => this._canReleaseTexture(record),
       release: record => this._releaseTexture(record),
@@ -145,6 +149,29 @@ export class TitanChamberStream {
     ) {
       return false;
     }
+    if (this.assetCoordinator) {
+      const pending = {
+        record,
+        coordinated: true,
+        handle: null,
+      };
+      this.pending.set(asset.key, pending);
+      pending.handle = this.assetCoordinator.request(asset, {
+        owner: RUNTIME_ASSET_LOADING.owners.titanChamber,
+        priority: RUNTIME_ASSET_LOADING.priorities.titanChamber,
+        onReady: () => this._finish(record),
+        onError: () => {
+          if (this.pending.get(asset.key) !== pending) return;
+          this.pending.delete(asset.key);
+          this._fail(record);
+        },
+      });
+      if (pending.handle) {
+        this._notifyChanged();
+        return false;
+      }
+      this.pending.delete(asset.key);
+    }
     const eventName = `filecomplete-image-${asset.key}`;
     const complete = () => this._finish(record, eventName);
     this.pending.set(asset.key, { record, eventName, complete });
@@ -155,10 +182,12 @@ export class TitanChamberStream {
     return false;
   }
 
-  _finish(record, eventName) {
+  _finish(record, eventName = null) {
     const asset = record.asset;
     const pending = this.pending.get(asset.key);
-    if (pending) this.scene.load?.off?.(eventName, pending.complete);
+    if (pending && !pending.coordinated && eventName) {
+      this.scene.load?.off?.(eventName, pending.complete);
+    }
     this.pending.delete(asset.key);
     if (!this._textureExists(asset.key)) {
       this._fail(record);
@@ -173,7 +202,7 @@ export class TitanChamberStream {
 
   _handleLoadError(file) {
     const pending = this.pending.get(file?.key);
-    if (!pending) return;
+    if (!pending || pending.coordinated) return;
     this.scene.load?.off?.(pending.eventName, pending.complete);
     this.pending.delete(file.key);
     this._fail(pending.record);
@@ -209,7 +238,8 @@ export class TitanChamberStream {
     const baseScale = fitTitanChamberScale(
       card,
       view.widthPx * this.config.backdrop.fitFraction,
-      view.heightPx * this.config.backdrop.fitFraction
+      view.heightPx * this.config.backdrop.fitFraction,
+      this.config.density.maxSourceScale,
     );
     card
       .setDepth(this.config.chambers.cardDepth)
@@ -265,10 +295,17 @@ export class TitanChamberStream {
     }
     this._detach(record);
     const key = record.asset.key;
+    const pending = this.pending.get(key);
+    if (pending?.coordinated) {
+      pending.handle?.cancel?.();
+      this.pending.delete(key);
+      this._notifyChanged();
+      return true;
+    }
     if (
       record.card
       || record.glow
-      || this.pending.has(key)
+      || pending
       || !this.loadedByStream.has(key)
       || !this._textureExists(key)
     ) {
@@ -291,6 +328,7 @@ export class TitanChamberStream {
   _releaseTexture(record) {
     const key = record.asset.key;
     if (this._textureExists(key)) this.scene.textures.remove?.(key);
+    this.assetCoordinator?.releaseDecodedSource?.(key);
     this.loadedByStream.delete(key);
   }
 
@@ -326,7 +364,8 @@ export class TitanChamberStream {
     this.destroyed = true;
     this.scene.load?.off?.("loaderror", this._handleLoadError);
     for (const pending of this.pending.values()) {
-      this.scene.load?.off?.(pending.eventName, pending.complete);
+      if (pending.coordinated) pending.handle?.cancel?.();
+      else this.scene.load?.off?.(pending.eventName, pending.complete);
     }
     this.pending.clear();
     this.textureReleases.destroy();
@@ -335,10 +374,14 @@ export class TitanChamberStream {
       record.pinCount = 0;
       this._detach(record, true);
       const key = record.asset.key;
-      if (this.loadedByStream.has(key)) this.scene.textures.remove?.(key);
+      if (this.loadedByStream.has(key)) {
+        this.scene.textures.remove?.(key);
+        this.assetCoordinator?.releaseDecodedSource?.(key);
+      }
     }
     this.loadedByStream.clear();
     this.failedAssets.clear();
     this.records.clear();
+    this.assetCoordinator = null;
   }
 }

@@ -12,6 +12,7 @@ import {
 } from "../values/titanDiscoveries.js";
 import {
   TITAN_SURFACE_GALLERY_CLEAR_ZONE,
+  TITAN_SURFACE_STATUE_CLEAR_ZONES,
   WORLD_VISUAL_SURFACE_PROP_LAYOUT,
 } from "../values/worldVisualSurfacePropLayout.js";
 import { WORLD_VISUAL_SURFACE_PROPS } from "../values/worldVisualSurfaceProps.js";
@@ -160,12 +161,21 @@ const tunnelBand = WORLD_VISUAL_SURFACE_PROP_LAYOUT.existingVisualCoverageBands
 assert.ok(TITAN_SURFACE_GALLERY_CLEAR_ZONE.leftTile > townBand.rightTile);
 assert.ok(TITAN_SURFACE_GALLERY_CLEAR_ZONE.rightTile < tunnelBand.leftTile);
 assert.ok(gallery.startTileX - townBand.rightTile >= 5);
-assert.equal(
-  WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements
-    .some(item => item.level === "level1"),
-  false,
-  "no modular surface prop may share the enlarged Titan Walk corridor",
-);
+const titanPromenadeProps = WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements
+  .filter(item => item.level === "level1");
+assert.equal(titanPromenadeProps.length, 12);
+assert.ok(titanPromenadeProps.every(item => (
+  item.tileX > gallery.startTileX
+  && item.tileX < 91.5
+  && item.lane !== "front"
+)), "existing props may decorate only the safe pre-portal promenade gaps");
+assert.equal(TITAN_SURFACE_STATUE_CLEAR_ZONES.length, TITAN_DEFINITIONS.length);
+TITAN_SURFACE_STATUE_CLEAR_ZONES.forEach((zone, index) => {
+  const centerTile = gallery.startTileX + index * gallery.spacingTiles;
+  assert.ok(zone.leftTile < centerTile && zone.rightTile > centerTile);
+  assert.ok(zone.rightTile - zone.leftTile > gallery.plinthWidthTiles);
+  assert.ok(zone.rightTile - zone.leftTile < gallery.spacingTiles);
+});
 
 const worldModel = { tileSize: 94, topAirRows: 65 };
 const scene = {
@@ -235,6 +245,6 @@ assert.doesNotMatch(
 surfaceGallery.destroy();
 console.log(
   "Titan surface gallery polish contract: 25 ImageGen stances, compact shared "
-    + "basalt dais, per-Titan scale, grounded contact, protected corridor, "
+    + "basalt dais, per-Titan scale, grounded contact, decorated promenade with protected plinths, "
     + "raster-only rendering, and layer safety passed",
 );

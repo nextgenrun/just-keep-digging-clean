@@ -2,7 +2,9 @@ import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 import {
   HEAVENBLOCKS_VISUAL_CONFIG,
   resolveHeavenblocksVisualsEnabled,
-} from "../../values/heavenblocksVisualConfig.js";
+} from "../../values/heavenblocksVisualConfig.js?rev=20260729-native-density-v14";
+import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
+import { V11SkyPropSystem } from "./V11SkyPropSystem.js";
 
 export class V11SkyIslandVisualSystem {
   constructor(
@@ -19,6 +21,9 @@ export class V11SkyIslandVisualSystem {
     this.heavenblocksRequested = false;
     this.heavenblocksCreated = false;
     this.heavenblocksLoadHandler = null;
+    this.heavenblocksLoadHandles = [];
+    this.heavenblocksPendingAssets = 0;
+    this.skyPropSystem = new V11SkyPropSystem(scene);
     this.destroyed = false;
   }
 
@@ -50,6 +55,11 @@ export class V11SkyIslandVisualSystem {
     }
 
     this.createHeavenblocks();
+    this.skyPropSystem.create();
+  }
+
+  update(time, _delta) {
+    this.skyPropSystem?.update(time);
   }
 
   addAuthoredImage({ key, left, bottom, width, height, depth }) {
@@ -80,6 +90,11 @@ export class V11SkyIslandVisualSystem {
 
     if (missingAssets.length === 0) {
       this.addHeavenblockImages();
+      return;
+    }
+    const coordinator = this.scene.runtimeAssetLoadCoordinator;
+    if (coordinator?.enabled) {
+      this.loadHeavenblocksCoordinated(coordinator, missingAssets);
       return;
     }
 
@@ -113,6 +128,39 @@ export class V11SkyIslandVisualSystem {
     this.scene.load.start();
   }
 
+  loadHeavenblocksCoordinated(coordinator, missingAssets) {
+    this.heavenblocksPendingAssets = missingAssets.length;
+    const settle = () => {
+      this.heavenblocksPendingAssets = Math.max(
+        0,
+        this.heavenblocksPendingAssets - 1
+      );
+      if (this.heavenblocksPendingAssets > 0 || this.destroyed) return;
+      this.heavenblocksLoadHandles = [];
+      this.addHeavenblockImages();
+    };
+    for (const asset of missingAssets) {
+      const handle = coordinator.request(asset, {
+        owner: RUNTIME_ASSET_LOADING.owners.heavenblocks,
+        priority: RUNTIME_ASSET_LOADING.priorities.heavenblocks,
+        onReady: settle,
+        onError: () => {
+          console.warn(
+            `[V11SkyIslandVisualSystem] Failed to load Heavenblock texture: ${asset.key}`
+          );
+          settle();
+        },
+      });
+      if (handle) {
+        if (this.heavenblocksPendingAssets > 0) {
+          this.heavenblocksLoadHandles.push(handle);
+        }
+      } else {
+        settle();
+      }
+    }
+  }
+
   addHeavenblockImages() {
     if (this.heavenblocksCreated || this.destroyed) return;
     this.heavenblocksCreated = true;
@@ -126,8 +174,15 @@ export class V11SkyIslandVisualSystem {
           continue;
         }
 
-        const displayWidth = region.displayWidthPx * layer.overscan;
-        const displayHeight = region.displayHeightPx * layer.overscan;
+        const requestedWidth = region.displayWidthPx * layer.overscan;
+        const requestedHeight = region.displayHeightPx * layer.overscan;
+        const sourceScale = Math.min(
+          requestedWidth / region.sourceWidthPx,
+          requestedHeight / region.sourceHeightPx,
+          this.heavenblocksConfig.maxSourceScale,
+        );
+        const displayWidth = region.sourceWidthPx * sourceScale;
+        const displayHeight = region.sourceHeightPx * sourceScale;
         const offsetX = (region.displayWidthPx - displayWidth) / 2;
         const offsetY = (region.displayHeightPx - displayHeight) / 2;
         const image = this.scene.add.image(
@@ -178,13 +233,18 @@ export class V11SkyIslandVisualSystem {
 
   destroy() {
     this.destroyed = true;
+    this.skyPropSystem?.destroy();
     if (this.heavenblocksLoadHandler) {
       this.scene.load.off(Phaser.Loader.Events.COMPLETE, this.heavenblocksLoadHandler);
       this.heavenblocksLoadHandler = null;
     }
+    this.heavenblocksLoadHandles.forEach(handle => handle.cancel?.());
+    this.heavenblocksLoadHandles = [];
+    this.heavenblocksPendingAssets = 0;
     this.sprites.forEach((sprite) => sprite.destroy());
     this.sprites = [];
     this.groundPortalSprites.clear();
     this.heavenblockSprites.clear();
+    this.skyPropSystem = null;
   }
 }

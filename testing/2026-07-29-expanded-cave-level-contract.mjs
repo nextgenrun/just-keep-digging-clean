@@ -10,6 +10,7 @@ import { CAVE_SCENE_CONFIG } from "../values/caveSceneConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { CaveWorldModel, makeCaveTileSaveKey } from "../world/model/CaveWorldModel.js";
 
+
 function makeModel(collectedTileKeys = []) {
   const grid = CAVE_LEVEL_CONFIG.grid;
   return new CaveWorldModel({
@@ -25,9 +26,10 @@ function makeModel(collectedTileKeys = []) {
       floorRow: grid.floorRow,
       floorThicknessTiles: grid.floorThicknessTiles,
       boundaryThicknessTiles: grid.boundaryThicknessTiles,
-      stablePaintedFloor: true,
+      mineableOnly: grid.mineableOnly,
       safeFloorTileXs: CAVE_SCENE_CONFIG.grid.safeFloorTileXs,
-      floorResourceKeys: CAVE_SCENE_CONFIG.grid.floorResourceKeys,
+      floorResourceKeys: grid.floorResourceKeys,
+      floorMaterialRunTiles: grid.floorMaterialRunTiles,
       resourcePool: ["iron", "silver", "gold"],
       nodeLayout: CAVE_LEVEL_CONFIG.rewards.nodeLayout,
       signatureNode: grid.signatureNode,
@@ -56,15 +58,25 @@ assert.ok(CAVE_LEVEL_CONFIG.rewards.nodeLayout.length > CAVE_SCENE_CONFIG.reward
 const model = makeModel();
 const grid = CAVE_LEVEL_CONFIG.grid;
 assert.equal(model.getTileType(grid.spawnTileX, grid.spawnTileY), TILE_TYPES.AIR);
-for (let tx = 1; tx < grid.widthTiles - 1; tx += 1) {
-  assert.equal(model.getTileType(tx, grid.floorRow), TILE_TYPES.CAVE_WALL, `floor gap at ${tx}`);
+for (let tx = 0; tx < grid.widthTiles; tx += 1) {
+  assert.equal(model.isDiggable(tx, grid.floorRow), true, `floor ${tx} must be mineable`);
   const routeType = model.getTileType(tx, grid.floorRow - 1);
   assert.ok(
     routeType === TILE_TYPES.AIR || model.isDiggable(tx, grid.floorRow - 1),
     `main route ${tx} must be open or mineable without jumping`,
   );
 }
+for (let ty = 0; ty < grid.heightTiles; ty += 1) {
+  for (let tx = 0; tx < grid.widthTiles; tx += 1) {
+    assert.notEqual(
+      model.getTileType(tx, ty),
+      TILE_TYPES.CAVE_WALL,
+      `expanded cave cannot contain an unbreakable cave tile at ${tx},${ty}`,
+    );
+  }
+}
 for (const node of CAVE_LEVEL_CONFIG.rewards.nodeLayout) {
+  assert.equal(node.ty, grid.floorRow, `reward ${node.tx},${node.ty} must sit in the floor`);
   assert.equal(model.isDiggable(node.tx, node.ty), true, `reward ${node.tx},${node.ty} must be diggable`);
 }
 assert.equal(model.getTileType(grid.signatureNode.tx, grid.signatureNode.ty), TILE_TYPES.COMBO_BLOCK);
@@ -88,10 +100,21 @@ for (const archetypeId of archetypeIds) {
   const assetUrl = new URL(`../${pack.assetPath}`, import.meta.url);
   await access(assetUrl);
   const size = readPngSize(await readFile(assetUrl));
-  assert.equal(size.width / size.height, 3, `${archetypeId} panorama must remain native 3:1`);
-  assert.ok(size.width >= 2000, `${archetypeId} panorama must retain production source density`);
+  assert.equal(size.width / size.height, 3, `${archetypeId} interior must remain native 3:1`);
+  assert.ok(size.width >= 2000, `${archetypeId} interior must retain authored source density`);
 }
-assert.equal(uniquePacks.size, 3, "expanded caves must expose three visually distinct authored families");
+assert.equal(uniquePacks.size, 3, "expanded caves must retain three distinct authored interiors");
+const materialRow = grid.floorRow + 1;
+let materialTransitions = 0;
+for (let tx = 1; tx < grid.widthTiles; tx += 1) {
+  if (model.getTileType(tx, materialRow) !== model.getTileType(tx - 1, materialRow)) {
+    materialTransitions += 1;
+  }
+}
+assert.ok(
+  materialTransitions <= Math.ceil(grid.widthTiles / grid.floorMaterialRunTiles),
+  "mineable ground must form broad material runs instead of a checkerboard",
+);
 
 const caveSceneSource = await readFile(new URL("../ui/scenes/CaveScene.js", import.meta.url), "utf8");
 const presentationSource = await readFile(
@@ -100,8 +123,17 @@ const presentationSource = await readFile(
 );
 assert.match(caveSceneSource, /camera\.startFollow\(/, "expanded caves need camera travel");
 assert.match(caveSceneSource, /resolveExpandedCaveLevelEnabled/, "expanded cave rollback must stay wired");
-assert.match(presentationSource, /setDisplaySize\(width, height\)/, "authored panorama must span the level");
-assert.match(presentationSource, /TILE_TYPES\.CAVE_WALL/, "painted terrain must hide structural tiles only");
+assert.match(presentationSource, /setDisplaySize\(width, height\)/, "one interior must span the full cave");
+assert.match(presentationSource, /cave-level-continuous-interior/, "continuous interior identity must stay explicit");
+assert.match(
+  presentationSource,
+  /CAVE_SCENE_CONFIG\.overworldEntrance\.scenic\.textureKey/,
+  "the approved left entrance must remain unchanged",
+);
+assert.doesNotMatch(presentationSource, /CaveLevelBackdropView|cave-level-meshy-shell/, "repeated cards and giant Meshy props cannot return");
+assert.doesNotMatch(caveSceneSource, /meshyShell|cave-level-meshy/, "CaveScene cannot preload the rejected Meshy interior art");
+assert.doesNotMatch(presentationSource, /TILE_TYPES\.CAVE_WALL/, "presentation cannot hide collision tiles");
+assert.doesNotMatch(caveSceneSource, /stablePaintedFloor/, "painted unbreakable floor cannot return");
 assert.doesNotMatch(presentationSource, /add\.(rectangle|circle|graphics)\(/i, "no primitive cave placeholders");
 assert.doesNotMatch(caveSceneSource, /document\.|createElement|innerHTML/i, "CaveScene must stay Phaser-native");
 

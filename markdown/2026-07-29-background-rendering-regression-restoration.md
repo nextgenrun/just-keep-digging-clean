@@ -24,21 +24,20 @@ between the Town Square cap and the first roots backdrop; at depth it made
 loaded scenic cards appear black, faded, or missing. Sky cover crops had the
 same offset risk.
 
-The depth renderer now registers a real mask frame before scaling, so its alpha
-begins at the exact card coordinate, including partial tail cards and
-cross-biome transitions. A second transition correction removes the
-double-feather composition: the retained card stays opaque and only the
-incoming left/top edge fades over it. Sky uses the same policy on complete,
-uncropped native-scale frames.
+The depth renderer now generates low-resolution smoothstep masks for the exact
+display geometry, including partial tail cards and cross-biome transitions.
+Every real neighbor contributes a complementary weight, and ADD composition
+over an opaque world-space matte keeps the total at one. Sky uses the same
+normalized policy on native-density clean-frame crops.
 
 ## Layer ownership
 
-The twenty sky assets form a complete 18x8 native-density overlap field
-organized by five semantic chapters and four altitude bands. Balanced
-seven/eight-use repetition is the minimum required to cover the 280x65-tile
-sky without enlargement. Incoming-only left/top feathers, opaque outer edges,
-and deterministic micro-depth order keep every join covered; cards never use
-`setScrollFactor(0)` or viewport-centered placement.
+The twenty sky assets form a complete 24x10 native-density overlap field
+organized by five semantic chapters and four altitude-locked bands. The clean
+1254x705 source frames overlap by 157x88 without enlargement. Four-sided
+normalized weights, opaque outer edges, and a world-space matte keep every join
+covered; cards never use `setScrollFactor(0)` or viewport-centered placement.
+Rows descend monotonically from far celestial art to lower horizon/ground art.
 
 The ten underground cohesion assets use one dedicated, complete 0.88
 source-density masked placement per biome. Their ten distinct horizontal
@@ -59,5 +58,5 @@ biome card streams.
   without viewport attachment or hard rectangular borders.
 - Live surface comparison at the western card edge showed the feather merging
   into the retained far base without a visible rectangular cut.
-- The crop-origin, incoming-edge composition, fallback, thirty-asset,
+- The native-crop, normalized composition, fallback, thirty-asset,
   gap-free native-density placement, and whole-world V5 contracts pass.

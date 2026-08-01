@@ -2,6 +2,7 @@
 // Shared star pillar / sky-star constellation layout and display tuning.
 
 import { GAME_CONFIG } from "./gameConfig.js";
+import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
 
 const STAR_BLOCK_TILE_DISPLAY_SIZE_PX = GAME_CONFIG.tileSize;
 
@@ -175,14 +176,9 @@ export const STAR_CONSTELLATION_CONFIG = Object.freeze({
   chartPartialStarSizePx: 16,
   chartEmptyStarRadiusPx: 10,
 
-  rarityFallbacks: Object.freeze([
-    Object.freeze({ name: 'common', glowColor: 0x87CEEB, multiplier: 2, label: '★' }),
-    Object.freeze({ name: 'rare', glowColor: 0xCC44FF, multiplier: 3, label: '★★' }),
-    Object.freeze({ name: 'legendary', glowColor: 0xFFD700, multiplier: 5, label: '★★★' }),
-    Object.freeze({ name: 'ancient', glowColor: 0xFF4422, multiplier: 8, label: '✦' }),
-    Object.freeze({ name: 'cosmic', glowColor: 0x00FFEE, multiplier: 14, label: '✦✦' }),
-    Object.freeze({ name: 'void', glowColor: 0x9900FF, multiplier: 25, label: '✦✦✦' }),
-  ]),
+
+  rarityFallbacks: STAR_RARITY_PROGRESSION_CONFIG.rarityTiers,
+
 });
 
 export function getCollectedStarReleasePreloadAssets(config = STAR_CONSTELLATION_CONFIG) {

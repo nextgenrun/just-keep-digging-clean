@@ -190,6 +190,12 @@ assert.ok(survivalKeys.every((key) => (
 assert.ok(survivalKeys.every((key) => !ualKeys.has(key)));
 assert.ok(survivalKeys.some((key) => key.startsWith("survival-blender-v2-")));
 assert.equal(resolvePlayerDisplaySizePx(survival, survival.displaySizePx, survival.walkRunAnim), 123);
+assert.deepEqual(
+  [...new Set(survival.digSidewaysHitAnims)].map((animationKey) => (
+    resolvePlayerDisplaySizePx(survival, survival.displaySizePx, animationKey)
+  )),
+  [109, 109],
+);
 assert.equal(
   resolvePlayerDisplaySizePx(survival, survival.displaySizePx, survival.digUpHitAnims[0]),
   blender.sheets.digUp.displaySizePx,

@@ -1,6 +1,95 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
 
+function hasMemorialClearance(worldModel, tileX, supportTileY, clearanceTiles) {
+  for (let offset = 1; offset <= clearanceTiles; offset += 1) {
+    const tileY = supportTileY - offset;
+    if (
+      !worldModel.inBounds(tileX, tileY)
+      || worldModel.isSolid(tileX, tileY)
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isGroundAnchorValid(worldModel, anchor, clearanceTiles) {
+  return Boolean(
+    anchor
+    && worldModel?.inBounds?.(anchor.tileX, anchor.supportTileY)
+    && worldModel.isSolid?.(anchor.tileX, anchor.supportTileY)
+    && hasMemorialClearance(
+      worldModel,
+      anchor.tileX,
+      anchor.supportTileY,
+      clearanceTiles,
+    ),
+  );
+}
+
+export function resolveHardcoreMemorialGroundAnchor(
+  worldModel,
+  worldX,
+  worldY,
+  tileSize,
+  config = HARDCORE_MEMORIAL_CONFIG,
+) {
+  if (
+    !worldModel
+    || typeof worldModel.inBounds !== "function"
+    || typeof worldModel.isSolid !== "function"
+  ) {
+    return null;
+  }
+  const safeTileSize = Math.max(1, Number(tileSize) || 1);
+  const widthTiles = Math.max(
+    0,
+    Math.floor(Number(worldModel.widthTiles ?? worldModel.width) || 0),
+  );
+  const depthTiles = Math.max(
+    0,
+    Math.floor(Number(worldModel.depthTiles ?? worldModel.depth) || 0),
+  );
+  if (widthTiles === 0 || depthTiles === 0) return null;
+
+  const preferredTileX = Math.max(
+    0,
+    Math.min(widthTiles - 1, Math.floor(Number(worldX) / safeTileSize)),
+  );
+  const startTileY = Math.max(
+    0,
+    Math.min(depthTiles - 1, Math.floor(Number(worldY) / safeTileSize)),
+  );
+  const offsets = config.world.supportSearchOffsetsTiles;
+  const clearance = config.world.airClearanceTiles;
+
+  for (let supportTileY = startTileY; supportTileY < depthTiles; supportTileY += 1) {
+    for (const offset of offsets) {
+      const tileX = preferredTileX + offset;
+      if (
+        !worldModel.inBounds(tileX, supportTileY)
+        || !worldModel.isSolid(tileX, supportTileY)
+        || !hasMemorialClearance(
+          worldModel,
+          tileX,
+          supportTileY,
+          clearance,
+        )
+      ) {
+        continue;
+      }
+      return {
+        tileX,
+        supportTileY,
+        worldX: (tileX + 0.5) * safeTileSize,
+        worldY: supportTileY * safeTileSize,
+      };
+    }
+  }
+  return null;
+}
+
 export class HardcoreMemorialWorldSystem {
   constructor(scene, records = [], config = HARDCORE_MEMORIAL_CONFIG) {
     this.scene = scene;
@@ -52,24 +141,40 @@ export class HardcoreMemorialWorldSystem {
     const offset = world.clusterOffsetsTiles[
       nearbyCount % world.clusterOffsetsTiles.length
     ] * tileSize;
-    const width = world.widthTiles * tileSize;
     const height = world.heightTiles * tileSize;
-    const maximumX = Number.isFinite(this.scene.config?.worldWidthPx)
-      ? this.scene.config.worldWidthPx - width / 2
+    const width = height * world.widthToHeightRatio;
+    const worldWidth = Number(
+      this.scene.worldModel?.widthPx
+      ?? this.scene.config?.worldWidthPx,
+    );
+    const maximumX = Number.isFinite(worldWidth)
+      ? worldWidth - width / 2
       : baseX + offset;
-    const maximumY = Number.isFinite(this.scene.config?.worldDepthPx)
-      ? this.scene.config.worldDepthPx
-      : baseY;
-    const safeX = Math.max(width / 2, Math.min(maximumX, baseX + offset));
-    const safeY = Math.max(height, Math.min(maximumY, baseY));
-    const root = this.scene.add.container(safeX, safeY)
+    const preferredX = Math.max(
+      width / 2,
+      Math.min(maximumX, baseX + offset),
+    );
+    const anchor = resolveHardcoreMemorialGroundAnchor(
+      this.scene.worldModel,
+      preferredX,
+      baseY,
+      tileSize,
+      this.config,
+    );
+    if (!anchor) {
+      console.warn(
+        `[HardcoreMemorialWorldSystem] No solid ground found for ${record?.id}.`,
+      );
+      return null;
+    }
+    const root = this.scene.add.container(anchor.worldX, anchor.worldY)
       .setDepth(world.depth);
     const image = this.scene.add.image(
       0,
       0,
       ASSET_KEYS.environment.hardcoreMemorial,
     )
-      .setOrigin(0.5, 1)
+      .setOrigin(0.5, world.visibleAlphaBottomRatio)
       .setDisplaySize(width, height)
       .setAlpha(world.baseAlpha)
       .setInteractive({
@@ -117,17 +222,49 @@ export class HardcoreMemorialWorldSystem {
         yoyo: true,
         ease: "Power2.out",
       });
-      this.scene.uiNotifications?.warning?.(
-        `${this.config.copy.memorialPrefix}  •  ${record.depth}`
-          + `${this.config.copy.meterUpperSuffix}\n`
-          + `${record.reason}\n${this.config.copy.memorialInspectHint}`,
-        {
-          key: `${world.noticeKeyPrefix}${record.id}`,
-          durationMs: world.noticeDurationMs,
-        },
-      );
+      this.scene.inspectHardcoreMemorial?.(record);
     });
-    return { root, image, pulse, baseX, baseY, record };
+    return {
+      root,
+      image,
+      pulse,
+      baseX,
+      baseY,
+      preferredX,
+      anchor,
+      record,
+    };
+  }
+
+  update() {
+    const worldModel = this.scene?.worldModel;
+    if (!worldModel) return;
+    for (const entry of this.entries) {
+      if (
+        isGroundAnchorValid(
+          worldModel,
+          entry.anchor,
+          this.config.world.airClearanceTiles,
+        )
+      ) {
+        continue;
+      }
+      const anchor = resolveHardcoreMemorialGroundAnchor(
+        worldModel,
+        entry.preferredX,
+        entry.baseY,
+        this.scene.config?.tileSize,
+        this.config,
+      );
+      entry.anchor = anchor;
+      if (!anchor) {
+        entry.root.setVisible(false);
+        continue;
+      }
+      entry.root
+        .setPosition(anchor.worldX, anchor.worldY)
+        .setVisible(true);
+    }
   }
 
   _clearEntries() {

@@ -1,5 +1,7 @@
 import { V11_SKY_ISLAND_LAYOUT } from "./v11SkyIslandLayout.js";
 import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
+import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
+import { resolveDepthEconomyEnabled } from "./resourceEconomy.js";
 
 // ==================== GAME CONFIG (SSOT) ====================
 const TILE_SIZE = 94;
@@ -20,6 +22,10 @@ export const GAME_CONFIG = Object.freeze({
     antialiasGL: true,
     roundPixels: false,
     powerPreference: "high-performance",
+    // ScreenRecordSystem copies the live WebGL canvas into its portrait 2D
+    // capture surface; preserving the drawing buffer keeps that readback
+    // visible after the browser presents a frame.
+    preserveDrawingBuffer: true,
     defaultDensityPreset: "high",
     densityPresets: Object.freeze({
       legacy: 1,
@@ -41,6 +47,7 @@ export const GAME_CONFIG = Object.freeze({
     lootVisuals: true,
     "loot-visuals": true,
   }),
+  resourceEconomyEnabled: resolveDepthEconomyEnabled(),
   // Viewport & World
   viewportWidth: 1280,
   viewportHeight: 720,
@@ -51,6 +58,8 @@ export const GAME_CONFIG = Object.freeze({
   worldDepthPx: WORLD_DEPTH_TILES * TILE_SIZE,
   topAirRows: TOP_AIR_ROWS,
   surfaceClearanceRowsBelow: WORLD_DEPTH_CONFIG.surfaceClearanceRowsBelow,
+  levelTwoLeftTile: WORLD_DEPTH_CONFIG.levelTwoLeftTile,
+  levelTwoRightTile: WORLD_DEPTH_CONFIG.levelTwoRightTile,
 
   // Physics
   gravityY: 1400,
@@ -85,18 +94,13 @@ export const GAME_CONFIG = Object.freeze({
   transitionDuration: 5000,
 
   // Sky Tiles
-  skyTileProbability: 0.018,
+  skyTileProbability: STAR_RARITY_PROGRESSION_CONFIG.spawn.probability,
   skyTileDepth: Infinity,
   skyTileBonusMultiplier: 2,
   skyTileBonusAtNightOnly: false,
-  skyTileRarities: [
-    { name: 'common',    glowColor: 0x87CEEB, multiplier: 2,  label: '★',    minDepthTiles: 0    },
-    { name: 'rare',      glowColor: 0xCC44FF, multiplier: 3,  label: '★★',   minDepthTiles: 0    },
-    { name: 'legendary', glowColor: 0xFFD700, multiplier: 5,  label: '★★★',  minDepthTiles: 0    },
-    { name: 'ancient',   glowColor: 0xFF4422, multiplier: 8,  label: '✦',    minDepthTiles: 500  },
-    { name: 'cosmic',    glowColor: 0x00FFEE, multiplier: 14, label: '✦✦',   minDepthTiles: 1000 },
-    { name: 'void',      glowColor: 0x9900FF, multiplier: 25, label: '✦✦✦',  minDepthTiles: 1600 },
-  ],
+
+  skyTileRarities: STAR_RARITY_PROGRESSION_CONFIG.rarityTiers,
+
 
   // Star Pillar
   starPillarTileX: V11_SKY_ISLAND_LAYOUT.levels[0].pillarTileX,
@@ -141,3 +145,4 @@ export const GAME_CONFIG = Object.freeze({
   ],
   cameraZoomLerp: 0.04,
 });
+

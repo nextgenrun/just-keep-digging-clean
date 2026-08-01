@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Vertical Dig · Before / After Review</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">Dig Game · review only · 30 July 2026</p>
+    <h1>UP + DOWN dig<br>body-lock review</h1>
+    <p class="lede">Four synchronized comparisons isolate the current full-sprite contact translation and shrinking DOWN source. The proposed side keeps the collider, timing, damage and input response unchanged while the feet and apparent body scale remain stable.</p>
+    <div class="truth">
+      <span>Real production sheets</span>
+      <span>31×75 collider</span>
+      <span>94 px tile faces</span>
+      <span>Contact timing retained</span>
+      <span>No runtime wiring</span>
+    </div>
+  </header>
+
+  <nav class="review-nav" aria-label="Vertical dig scenarios">
+    <button type="button" data-filter="all" class="is-active">Show all four</button>
+    <div id="scenario-buttons"></div>
+    <a href="generated/vertical-dig-before-after-contact-sheet.png">Open contact sheet</a>
+  </nav>
+
+  <main id="review-grid" class="review-grid" aria-live="polite"></main>
+
+  <footer class="approval">
+    <div>
+      <span>Browser-local review selection</span>
+      <strong id="approval-summary">Nothing approved yet</strong>
+    </div>
+    <em>Approval here only records which mockups may be wired later.</em>
+  </footer>
+
+  <script type="module" src="review.js"></script>
+</body>
+</html>

@@ -14,6 +14,7 @@ import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinemati
 import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
 import { CaveActionAnimationRuntime } from "./CaveActionAnimationRuntime.js";
+import { dispatchCaveMineFeedback } from "./caveMineFeedback.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 
 function copyAbilityState(source, target) {
@@ -63,6 +64,9 @@ export class CaveGameplayController {
     );
     this.digSystem.setAncientRelicSystem(origin.ancientRelicSystem);
     this.digSystem.setCampfireSystem(origin.campfireSystem);
+    this.digSystem.setDepthMilestoneBonusProvider(
+      () => origin.milestoneBoardSystem?.getBonuses?.() || {},
+    );
     this.digSystem.setResourceTotals(origin.digSystem.getResourceTotals());
 
     const collisionSystem = new TileCollisionSystem(this.worldModel, this.scene.config);
@@ -267,9 +271,7 @@ export class CaveGameplayController {
       const behindY = result.heavyPunchTile.ty * tileSize + tileSize / 2;
       this._showResource(result.behindResourceType, result.behindResourceAmount, behindX, behindY);
     }
-    const sounds = this.originScene.soundSystem;
-    if (result.destroyed) sounds?.playTileBreak?.();
-    else sounds?.playTileHit?.();
+    dispatchCaveMineFeedback(this.scene, this.originScene, result);
     this._syncResources();
   }
 

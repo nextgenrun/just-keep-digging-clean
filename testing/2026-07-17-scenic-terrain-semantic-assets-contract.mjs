@@ -113,10 +113,13 @@ for (const semantic of expectedSemantics) {
   assert.ok(matches.length > 0, `${semantic.label} needs a generated terrain-native raster descriptor`);
   for (const { descriptor } of matches) {
     const cleanPath = descriptor.path.split(/[?#]/, 1)[0].replace(/\\/g, "/");
+    const expectedPackagePattern = semantic.label === "bedrock"
+      ? /^(?:sprites\/backgrounds\/world-visual-v2\/semantic-decals-v1\/bedrock-seamless-v1\.webp|sprites\/tiles\/approved-world\/bedrock-megalith-lock-v1\.png)$/
+      : /^sprites\/backgrounds\/world-visual-v2\/semantic-decals-v1\//;
     assert.match(
       cleanPath,
-      /^sprites\/backgrounds\/world-visual-v2\/semantic-decals-v1\//,
-      `${semantic.label} must use the generated semantic-decals package`
+      expectedPackagePattern,
+      `${semantic.label} must use its approved generated terrain package`
     );
     assert.doesNotMatch(
       `${descriptor.key} ${cleanPath}`,

@@ -205,7 +205,7 @@ export class UINotificationDragController {
 
   destroy() {
     this.zone?.removeAllListeners();
-    this.zone?.disableInteractive();
+    if (this.zone?.input && this.zone.scene?.sys) this.zone.disableInteractive();
     this.scene?.input?.off?.("gameout", this._onGameOut, this);
     this.scene = null;
     this.view = null;

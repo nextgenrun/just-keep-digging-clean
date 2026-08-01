@@ -175,7 +175,7 @@ assert.deepEqual(
     strideXPx: WORLD_VISUAL_DEPTH_BACKDROPS.segment.strideXPx,
     strideYPx: WORLD_VISUAL_DEPTH_BACKDROPS.segment.strideYPx,
   },
-  { overlapXPx: 192, overlapYPx: 128, strideXPx: 1344, strideYPx: 896 }
+  { overlapXPx: 144, overlapYPx: 140, strideXPx: 1008, strideYPx: 628 }
 );
 assert.equal(WORLD_VISUAL_DEPTH_BACKDROPS.blend.maskAtlas.path, (
   "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v4/"
@@ -239,6 +239,34 @@ const view = new WorldVisualTerrainVariationRegionView(
   config,
   terrainMask
 );
+const previousLocation = globalThis.location;
+globalThis.location = { search: "?naturalDepthAreas=0" };
+const terrainSequence = Array.from(
+  { length: firstRegion.plates.length },
+  (_unused, column) => view._resolvePlateAsset(column, 0)
+);
+assert.deepEqual(
+  terrainSequence,
+  Array.from(
+    { length: firstRegion.plates.length },
+    (_unused, index) => firstRegion.plates[
+      (index + firstRegion.seedOffset) % firstRegion.plates.length
+    ]
+  ),
+  "rollback terrain cards retain the authored one-step family sequence"
+);
+assert.equal(
+  new Set(terrainSequence.map(asset => asset.key)).size,
+  firstRegion.plates.length,
+  "rollback still uses every terrain plate before repeating"
+);
+assert.equal(
+  view._resolvePlateAsset(0, 1),
+  view._resolvePlateAsset(1, 0),
+  "rollback neighbors retain horizontal and vertical one-step ordering"
+);
+if (previousLocation === undefined) delete globalThis.location;
+else globalThis.location = previousLocation;
 assert.equal(view.sync(
   { left: 0, right: 6, top: 65, bottom: 70 },
   { terrainTint: 0xddeeff },

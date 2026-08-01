@@ -474,12 +474,16 @@ const median = (values) => {
 };
 const alphaHeight = (box) => box[3] - box[1];
 const runDisplaySize = resolvePlayerDisplaySizePx(profile, profile.displaySizePx, profile.walkRunAnim);
+const sideAttackDisplaySizes = [...new Set(profile.digSidewaysHitAnims)].map((animationKey) => (
+  resolvePlayerDisplaySizePx(profile, profile.displaySizePx, animationKey)
+));
 const runVisibleHeight = runDisplaySize * median(runtimeManifest.actions.run.alpha_bounds.map(alphaHeight))
   / profile.frameHeight;
 const idleVisibleHeight = profile.displaySizePx
   * median(runtimeManifest.actions.idle.alpha_bounds.map(alphaHeight))
   / profile.frameHeight;
 assert.equal(runDisplaySize, 123);
+assert.deepEqual(sideAttackDisplaySizes, [109, 109]);
 assert.ok(
   Math.abs(runVisibleHeight - idleVisibleHeight) < 1,
   `run/idle presentation mismatch is ${Math.abs(runVisibleHeight - idleVisibleHeight).toFixed(2)}px`,

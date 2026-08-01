@@ -1,0 +1,4478 @@
+{
+  "version": 1,
+  "date": "2026-07-30",
+  "productionChanged": false,
+  "sourceManifest": "sprites/environment/fire-light-v3/manifest.json",
+  "assetCount": 10,
+  "frameCount": 160,
+  "applyCommand": "python ai-tools/2026-07-30-refresh-fire-light-piskel-polish.py --apply",
+  "rollbackCommand": "python ai-tools/2026-07-30-refresh-fire-light-piskel-polish.py --rollback",
+  "geometryReport": "sprites/environment/fire-light-v3/piskel/geometry-report.json",
+  "previews": [
+    "visual-approval-previews/fire-light-piskel-polish-v1/01-before-after-anchor-grid.png",
+    "visual-approval-previews/fire-light-piskel-polish-v1/01-before-after-anchor-grid-small.jpg",
+    "visual-approval-previews/fire-light-piskel-polish-v1/02-drift-summary.png"
+  ],
+  "assets": [
+    {
+      "id": "steadyFlame",
+      "file": "fire-flame-steady-v3.png",
+      "anchorMode": "source-root",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/steadyFlame.piskel",
+      "registeredSourceSha256": "683d419bfa905f7b6f29c6cef8a3564be3a30200e9652b683703c76c3629bdcd",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/steadyFlame.piskel",
+      "polishedWorkSha256": "bd930dbb4c2f04303b872f9f35c1ce613e7458deb5a78094d6f1151201b17de1",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/steadyFlame.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-flame-steady-v3.png",
+      "rollbackRuntimeSha256": "a82a774d77de18b093d175bed9564606ddc71e2fe41d55d5e50ea91919494420",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-flame-steady-v3.png",
+      "candidateRuntimeSha256": "7ede2796a1292b43b5657ce646dc6bd5320b86eb63a3d78529e54e00ef42678c",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-flame-steady-v3.png",
+      "maximumEnergyLossRatio": 2.568e-05,
+      "maximumBeforeAnchorRangePx": 50.0,
+      "maximumAfterAnchorRangePx": 0.8357,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "source-root",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            155,
+            246
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "rangeXPx": 19.2788,
+            "rangeYPx": 50.0,
+            "maximumAnchorErrorPx": 27.0319
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "rangeXPx": 0.8357,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.4384
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              166.4379,
+              270.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -11,
+              -24
+            ],
+            "polishedAnchorPx": [
+              155.4379,
+              246.0
+            ],
+            "energyLossRatio": 9.43e-06,
+            "sourcePixelSha256": "2181aef713edef2303a774aa033ddbfe825b1e278f1bed8e5a810608a37fb118",
+            "polishedPixelSha256": "57d5313b4cd89ea6e0fb5e4573ead2548bc5de8206b25183a5ab179fcd152a7c"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              155.6426,
+              270.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -1,
+              -24
+            ],
+            "polishedAnchorPx": [
+              154.6426,
+              246.0
+            ],
+            "energyLossRatio": 1e-08,
+            "sourcePixelSha256": "3f1baed5b9fb42008e3004c29e8eeaf4540c67721c29d564242455b8066b2c43",
+            "polishedPixelSha256": "58f4476ab69ed20bb350e6461ef29e508e5d393ecd83c6b8de47bf86b1d1cb16"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              152.0668,
+              270.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              3,
+              -24
+            ],
+            "polishedAnchorPx": [
+              155.0668,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f563ba110ff98079ca8886cd1febeffa5d9f28ce98f64993fa580eec6241bc1d",
+            "polishedPixelSha256": "e6693a1ab61cfcb1f0b0d0722e1ca2ea60bad77aaced39cd2459beb00dac3f0c"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              147.617,
+              270.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              7,
+              -24
+            ],
+            "polishedAnchorPx": [
+              154.617,
+              246.0
+            ],
+            "energyLossRatio": 2.568e-05,
+            "sourcePixelSha256": "eccf85f3fd2fe3c22c241d9dfd95b186cbf8d9b6bedd0768da80abfb366faed8",
+            "polishedPixelSha256": "4136d81318629400f500e68b8070d8e018bb940d9ce4f99b62927e2ddc85b733"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              163.6621,
+              257.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -9,
+              -11
+            ],
+            "polishedAnchorPx": [
+              154.6621,
+              246.0
+            ],
+            "energyLossRatio": 1e-08,
+            "sourcePixelSha256": "38d9f50b3ba53cf99064e4fd4cc65aa7be71ea1a1ffb44756dbf8f614dc735c7",
+            "polishedPixelSha256": "0f138c6abc2822f3c8553408fb4b88df95c79df26d0c7142c08c1d8b751aa0b2"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.4384,
+              257.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -1,
+              -11
+            ],
+            "polishedAnchorPx": [
+              155.4384,
+              246.0
+            ],
+            "energyLossRatio": 1e-08,
+            "sourcePixelSha256": "7a808d201e36293a9983ed4cdf1637b25163ed0b4b82ff75b657a9f1e637c1f6",
+            "polishedPixelSha256": "8b0fd3a0779aa724349e61c05d57bf3c96bc79f5955fa3c54fb170fdc9f617e3"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.7981,
+              256.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              1,
+              -10
+            ],
+            "polishedAnchorPx": [
+              154.7981,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3967cdac27e47cd6e2769b0de6c9c7a9eca92b64447110ca57cb9a22af0fe2e3",
+            "polishedPixelSha256": "ee85608aff6ee780ae8069eab844b5a7ab411a4e278edf37644acb9985c5002d"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              147.1591,
+              257.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              8,
+              -11
+            ],
+            "polishedAnchorPx": [
+              155.1591,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "26241345a50634661ec4bd56f9b8a0bd1085664ab8336464e1c9484dcc20baaa",
+            "polishedPixelSha256": "8b61a20c600073b945ac0fa36084a3ffb35a51b13d6610f3ab0ee01ea02f76dc"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              164.3548,
+              237.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -9,
+              9
+            ],
+            "polishedAnchorPx": [
+              155.3548,
+              246.0
+            ],
+            "energyLossRatio": 1.103e-05,
+            "sourcePixelSha256": "0f081985b60aff526e8916c145a3bbc06ceec42bfd2e776fd0136ea4ab924357",
+            "polishedPixelSha256": "540a483ed1db48f4edea08e050c1b417a11226c164478c0cbd448babd59d717c"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.0446,
+              237.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -1,
+              9
+            ],
+            "polishedAnchorPx": [
+              155.0446,
+              246.0
+            ],
+            "energyLossRatio": 4.8e-06,
+            "sourcePixelSha256": "20b01c810671e5c9be9ade3e12797d1636e1e717eb14142b428a538324099999",
+            "polishedPixelSha256": "288b0e9f8c45062fe6d3f02ad36afa87fd118b468c7a5a68ce9cf530662b0776"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.4185,
+              237.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              1,
+              9
+            ],
+            "polishedAnchorPx": [
+              155.4185,
+              246.0
+            ],
+            "energyLossRatio": 1.341e-05,
+            "sourcePixelSha256": "2c99afe3a20681a130d2205a0ae207e8ef3fb0a386c9e24ffda7131ccf7d56b1",
+            "polishedPixelSha256": "ff56e0c51ba05e415f4ca8dcc4eb961a843cf77dda9ffaf19f870e039a93211a"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              147.3525,
+              237.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              8,
+              9
+            ],
+            "polishedAnchorPx": [
+              155.3525,
+              246.0
+            ],
+            "energyLossRatio": 1.723e-05,
+            "sourcePixelSha256": "3cc21f9ecda9665639e58c59786ffb1fd0ffd3f58833ef2a6af81dc72b647304",
+            "polishedPixelSha256": "5d190db1b2507e067a0a294e93089b44c0064eb12f6f017dc775beb6a066db45"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              164.3905,
+              221.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -9,
+              25
+            ],
+            "polishedAnchorPx": [
+              155.3905,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "dcbc33f2ae9228f22725ffb068e9a76e0c76f5883c6fdc5aa107d888954da40e",
+            "polishedPixelSha256": "29182299834b5d1f0b59c68dfdd57185874a6999d10419c18fda001419519fcd"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              157.2014,
+              221.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              -2,
+              25
+            ],
+            "polishedAnchorPx": [
+              155.2014,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "132d8af39f356fb59757780414454d45c20a15fe7e165350cb8ab1309cdacfee",
+            "polishedPixelSha256": "65a56f1f1f172a865547621ec452eb92a2baf215dab15a8efc4f3bc572d0df7e"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.8401,
+              221.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              1,
+              25
+            ],
+            "polishedAnchorPx": [
+              154.8401,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "a9aa35fdd14d8c25b5667947d77838098b5597e8239eed4475d7b02e65be3a7c",
+            "polishedPixelSha256": "6da81e5e2825480d4abcb9267888a08fe80329261c39412335b256d01d8857d0"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              147.6026,
+              220.0
+            ],
+            "targetAnchorPx": [
+              155,
+              246
+            ],
+            "shiftPx": [
+              7,
+              26
+            ],
+            "polishedAnchorPx": [
+              154.6026,
+              246.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3d728105f99171f1e9a66f4ad534ccfed6534af1ed7fc445fd59d46c4a26c652",
+            "polishedPixelSha256": "c6bf2687e5c3930e36a6ae560a4d04b58e5be6341daa9bfc601227890f1d0333"
+          }
+        ]
+      }
+    },
+    {
+      "id": "stateFlame",
+      "file": "fire-flame-states-v3.png",
+      "anchorMode": "source-root",
+      "grouping": "rows",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/stateFlame.piskel",
+      "registeredSourceSha256": "0eaafacc0dc0663b74a4f0ea658d983509357fb841866cce21d528360100845e",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/stateFlame.piskel",
+      "polishedWorkSha256": "46d78a3d7488f72b5e94b40ba11c09b599acf282aedb0741f4858cfc6d7d975c",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/stateFlame.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-flame-states-v3.png",
+      "rollbackRuntimeSha256": "0b64cfbec135f7834aba65f6af4ab2171578c4a1d1f42db26d20cec4e8c0b096",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-flame-states-v3.png",
+      "candidateRuntimeSha256": "babf23d60747ce2c7f46b2df132b08bc85997ac4ebaac5be5053e5a44c424a9f",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-flame-states-v3.png",
+      "maximumEnergyLossRatio": 0.00040023,
+      "maximumBeforeAnchorRangePx": 37.0957,
+      "maximumAfterAnchorRangePx": 0.5891,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "source-root",
+        "grouping": "rows",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "row-0": [
+            218,
+            278
+          ],
+          "row-1": [
+            149,
+            262
+          ],
+          "row-2": [
+            147,
+            222
+          ],
+          "row-3": [
+            150,
+            232
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "row-0",
+            "targetAnchorPx": [
+              218,
+              278
+            ],
+            "rangeXPx": 31.0588,
+            "rangeYPx": 2.0,
+            "maximumAnchorErrorPx": 20.4912
+          },
+          {
+            "id": "row-1",
+            "targetAnchorPx": [
+              149,
+              262
+            ],
+            "rangeXPx": 33.2747,
+            "rangeYPx": 1.0,
+            "maximumAnchorErrorPx": 19.2603
+          },
+          {
+            "id": "row-2",
+            "targetAnchorPx": [
+              147,
+              222
+            ],
+            "rangeXPx": 37.0957,
+            "rangeYPx": 1.0,
+            "maximumAnchorErrorPx": 19.8712
+          },
+          {
+            "id": "row-3",
+            "targetAnchorPx": [
+              150,
+              232
+            ],
+            "rangeXPx": 34.3641,
+            "rangeYPx": 5.0,
+            "maximumAnchorErrorPx": 20.0682
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "row-0",
+            "targetAnchorPx": [
+              218,
+              278
+            ],
+            "rangeXPx": 0.1741,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.4668
+          },
+          {
+            "id": "row-1",
+            "targetAnchorPx": [
+              149,
+              262
+            ],
+            "rangeXPx": 0.5089,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.4945
+          },
+          {
+            "id": "row-2",
+            "targetAnchorPx": [
+              147,
+              222
+            ],
+            "rangeXPx": 0.5891,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.3847
+          },
+          {
+            "id": "row-3",
+            "targetAnchorPx": [
+              150,
+              232
+            ],
+            "rangeXPx": 0.4374,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.3958
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              228.592,
+              279.0
+            ],
+            "targetAnchorPx": [
+              218,
+              278
+            ],
+            "shiftPx": [
+              -11,
+              -1
+            ],
+            "polishedAnchorPx": [
+              217.592,
+              278.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "c2201790f706d76b3f6cd641cc1153c3642d5b9e5a43463df6909254ce0e788b",
+            "polishedPixelSha256": "57d4423c0bfe85cd7431d61aa7ab393b199985a533de34e89c95549784a26529"
+          },
+          {
+            "frame": 1,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              221.6924,
+              278.0
+            ],
+            "targetAnchorPx": [
+              218,
+              278
+            ],
+            "shiftPx": [
+              -4,
+              0
+            ],
+            "polishedAnchorPx": [
+              217.6924,
+              278.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "1a4a23d487a49c37bc46e9ebfc1792b8f0a9f3e00d0d30c2f03d2854cfd77de1",
+            "polishedPixelSha256": "e6d43c40b715ff714e5b9f332861adf84168fe1a8465dc44707bc623587a68ed"
+          },
+          {
+            "frame": 2,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              214.7073,
+              277.0
+            ],
+            "targetAnchorPx": [
+              218,
+              278
+            ],
+            "shiftPx": [
+              3,
+              1
+            ],
+            "polishedAnchorPx": [
+              217.7073,
+              278.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f4e24892c81cfe74458f01787f2ddf2a202df0ea353e26732d493a2388fb9b80",
+            "polishedPixelSha256": "8acfdc565b4399076c457e33e0de6d72576065cd4821ea36435edf693ac8c25a"
+          },
+          {
+            "frame": 3,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              197.5332,
+              279.0
+            ],
+            "targetAnchorPx": [
+              218,
+              278
+            ],
+            "shiftPx": [
+              20,
+              -1
+            ],
+            "polishedAnchorPx": [
+              217.5332,
+              278.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "1b7705e31de3acbc69ff1d3419153ddf48d9e0928504d745645dc0278fb10a07",
+            "polishedPixelSha256": "865e975ff1b9a94abbd726fd7c2e9b855f6c7822eee158bcc4312e1f4e498d46"
+          },
+          {
+            "frame": 4,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              168.2603,
+              262.0
+            ],
+            "targetAnchorPx": [
+              149,
+              262
+            ],
+            "shiftPx": [
+              -19,
+              0
+            ],
+            "polishedAnchorPx": [
+              149.2603,
+              262.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "fbe2ed89212f2b9b0e765687c67f4614b8a198cd952f97ff91accaa27c39cb65",
+            "polishedPixelSha256": "cd8949bfd8e0f84a6e9b7e4af3c132e55016627d7b01734edeeec95f5df09084"
+          },
+          {
+            "frame": 5,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              152.4945,
+              263.0
+            ],
+            "targetAnchorPx": [
+              149,
+              262
+            ],
+            "shiftPx": [
+              -3,
+              -1
+            ],
+            "polishedAnchorPx": [
+              149.4945,
+              262.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b016b2e0ea63db4e7f9cf9a412f447af2fa046ddca57078f5d86b1463b6ac4a7",
+            "polishedPixelSha256": "5e17aabaa5155cf9a015484887f07bd3744e4bb546ebcf49bd664f82896ef5d7"
+          },
+          {
+            "frame": 6,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              145.0041,
+              262.0
+            ],
+            "targetAnchorPx": [
+              149,
+              262
+            ],
+            "shiftPx": [
+              4,
+              0
+            ],
+            "polishedAnchorPx": [
+              149.0041,
+              262.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "52e2f8ce5633dae501e37225eb404ac0d62c192b324728c2fca8b8456f195675",
+            "polishedPixelSha256": "23ba32fe1e7e57207cd1ee00edda1a4565048525679a888de6b3e53f8aadeafd"
+          },
+          {
+            "frame": 7,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              134.9855,
+              263.0
+            ],
+            "targetAnchorPx": [
+              149,
+              262
+            ],
+            "shiftPx": [
+              14,
+              -1
+            ],
+            "polishedAnchorPx": [
+              148.9855,
+              262.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "9b5d34e20aee9f9118ead7cf2b726edfd5ed19dfc9ea6e05bd40cfadb4415f56",
+            "polishedPixelSha256": "ab1ae32bcc2a513cc7c57cd9b411c642e9a93586ccd68915626c49481e3bed8a"
+          },
+          {
+            "frame": 8,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              164.2497,
+              222.0
+            ],
+            "targetAnchorPx": [
+              147,
+              222
+            ],
+            "shiftPx": [
+              -17,
+              0
+            ],
+            "polishedAnchorPx": [
+              147.2497,
+              222.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3cdcd44a984a5de12561a1e099eb22841424e27441f9b16bdb186073def7c749",
+            "polishedPixelSha256": "f4dbe1934a8d08f56760db9012277d072b968792f9af2dc05c3b742fd8117df6"
+          },
+          {
+            "frame": 9,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              152.7956,
+              222.0
+            ],
+            "targetAnchorPx": [
+              147,
+              222
+            ],
+            "shiftPx": [
+              -6,
+              0
+            ],
+            "polishedAnchorPx": [
+              146.7956,
+              222.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f78cd17b2d0d715a594cbe1c16ac9b5b127e0d6d67f6f544f13ebdf3a6af7f0f",
+            "polishedPixelSha256": "31a2df9f3c7f2d64d7a7e1bda7e83c8ae8fd18c1b1abb3bcb6d2d3d9cadbf117"
+          },
+          {
+            "frame": 10,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              140.3847,
+              222.0
+            ],
+            "targetAnchorPx": [
+              147,
+              222
+            ],
+            "shiftPx": [
+              7,
+              0
+            ],
+            "polishedAnchorPx": [
+              147.3847,
+              222.0
+            ],
+            "energyLossRatio": 2.6e-07,
+            "sourcePixelSha256": "c2e9e30120fcce1b5485ba4b67e35d6ea47481e17c1356ba6e708ffc14963bff",
+            "polishedPixelSha256": "81c58c993f5bac2c28dc6308a48fa3e08b0169cf99fcaa80b537d63860fadf18"
+          },
+          {
+            "frame": 11,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              127.154,
+              223.0
+            ],
+            "targetAnchorPx": [
+              147,
+              222
+            ],
+            "shiftPx": [
+              20,
+              -1
+            ],
+            "polishedAnchorPx": [
+              147.154,
+              222.0
+            ],
+            "energyLossRatio": 0.00040023,
+            "sourcePixelSha256": "0e07e2a1093c572a2dd2bf528cd5c59aaa5fc0a4b8aa326d589c3ff3fc9fa5c0",
+            "polishedPixelSha256": "edc36ca4534d6f2c50af722345f06be5e298f072e62e5006f55e48e5e8a8bafb"
+          },
+          {
+            "frame": 12,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              169.9683,
+              234.0
+            ],
+            "targetAnchorPx": [
+              150,
+              232
+            ],
+            "shiftPx": [
+              -20,
+              -2
+            ],
+            "polishedAnchorPx": [
+              149.9683,
+              232.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b670f4689d24ed76e63e37805659d40d4a657b90098e20aa563658b70041e7bd",
+            "polishedPixelSha256": "b906745274b572147d3dfc5ac6b51d1b5f3d2a7f993f7f1b5c065741fb33f490"
+          },
+          {
+            "frame": 13,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              157.0416,
+              232.0
+            ],
+            "targetAnchorPx": [
+              150,
+              232
+            ],
+            "shiftPx": [
+              -7,
+              0
+            ],
+            "polishedAnchorPx": [
+              150.0416,
+              232.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "bdcf8cf5efdcf05d8f500787807bb925fee7f984f2d7b1f8f5b74f0a13017c26",
+            "polishedPixelSha256": "cca3ad468814eb2492a03995e8e65baeb1057d4a069f7fe18bc2168e82cbf9cb"
+          },
+          {
+            "frame": 14,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              142.8209,
+              231.0
+            ],
+            "targetAnchorPx": [
+              150,
+              232
+            ],
+            "shiftPx": [
+              7,
+              1
+            ],
+            "polishedAnchorPx": [
+              149.8209,
+              232.0
+            ],
+            "energyLossRatio": 5.591e-05,
+            "sourcePixelSha256": "1f749285918b4741326a02d37854b0201b4f708a412a9ce313b8fee0a22284ec",
+            "polishedPixelSha256": "5d4725fe7a6f30046622d17a7d536c1019a2e5d0ef1d3a9ba3164cc9ec6f43dc"
+          },
+          {
+            "frame": 15,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              135.6042,
+              229.0
+            ],
+            "targetAnchorPx": [
+              150,
+              232
+            ],
+            "shiftPx": [
+              14,
+              3
+            ],
+            "polishedAnchorPx": [
+              149.6042,
+              232.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "cd0430706cf76dee3063eee12224cfb4714fc08bf5c32e78f057cdd8b6c66215",
+            "polishedPixelSha256": "d34e805d3ee294c40bb60bf070700d25683ba22e5aceb1142e1ceec0bd1eed62"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lightVolume",
+      "file": "fire-light-volume-v3.png",
+      "anchorMode": "luminous-core",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/lightVolume.piskel",
+      "registeredSourceSha256": "430077624e61d5edf149e8735311be4b30c4ebbd90ae81c4e7104b7d531d0006",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/lightVolume.piskel",
+      "polishedWorkSha256": "e0b76b75ef4bc45ccf02b68f336774c0ea8b777864e2880555a4701d9ced8456",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/lightVolume.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-volume-v3.png",
+      "rollbackRuntimeSha256": "6f9837513541303e6f43bc4ea2d1d0b7ede8b279709a34a7d14a2d57e3eadcc1",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-volume-v3.png",
+      "candidateRuntimeSha256": "74e7ea5cd9a795f39c84af17b9f46812df394865943891e2d6aaa693d057529d",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-volume-v3.png",
+      "maximumEnergyLossRatio": 1e-08,
+      "maximumBeforeAnchorRangePx": 67.9173,
+      "maximumAfterAnchorRangePx": 0.9658,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "luminous-core",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            139,
+            180
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "rangeXPx": 30.7402,
+            "rangeYPx": 67.9173,
+            "maximumAnchorErrorPx": 37.1267
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "rangeXPx": 0.9658,
+            "rangeYPx": 0.8884,
+            "maximumAnchorErrorPx": 0.6277
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.3405,
+              212.1295
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -14,
+              -32
+            ],
+            "polishedAnchorPx": [
+              139.3405,
+              180.1295
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "43e20cac76fb1d17b7b0b4765c500aff010acd20c4afcc32a3369e352a57ea33",
+            "polishedPixelSha256": "1ab3ecebbf08a9f6c84d96751b12c5ffdec510abfbfaf24b8acabe804fd83378"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              139.6819,
+              211.1674
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -1,
+              -31
+            ],
+            "polishedAnchorPx": [
+              138.6819,
+              180.1674
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "87c9a32c29fe0b8273d62c359b86e1079492d160fa88f6b5bedd77fa71432725",
+            "polishedPixelSha256": "0b8c437ff69243e1e8de91f0ff27b93e67ae03540f4bfc4a52511a2ed1da31ad"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              133.8742,
+              211.8809
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              5,
+              -32
+            ],
+            "polishedAnchorPx": [
+              138.8742,
+              179.8809
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "10fd929277a149971ae1ce66feffe9c37176add2b2a9bd2483c6f69baa8ca792",
+            "polishedPixelSha256": "e36d5363be54003a9d4bfd160498b2e8f340cb16d842347b47a564e44c0381ca"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              123.9971,
+              209.3475
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              15,
+              -29
+            ],
+            "polishedAnchorPx": [
+              138.9971,
+              180.3475
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "c582d020e29d35267b47ecb1dded34ea2cc91bac193e7606632ef21daf55be55",
+            "polishedPixelSha256": "d26d1e75fc372372afb7e385b5e9a072a91ffea0f276d18b08481594f023425e"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              149.9883,
+              190.8091
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -11,
+              -11
+            ],
+            "polishedAnchorPx": [
+              138.9883,
+              179.8091
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "2a63c8fefe452428be077586ae58dfe05f0e5d98f695365a8076f4152e5a527e",
+            "polishedPixelSha256": "d26ea766bb0381336d8c25f8249919a1defa7df278638a9504fe03359db70932"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              146.5234,
+              189.9843
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -8,
+              -10
+            ],
+            "polishedAnchorPx": [
+              138.5234,
+              179.9843
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "24fc4668cb5b2b19c6127918d299678a72044e87905f6d63dce5373488d9ba99",
+            "polishedPixelSha256": "7f2ad89e830a5a818a2453e578686c7ff01e93c509573a96c8bf027b69e57b43"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              135.5375,
+              189.4245
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              3,
+              -9
+            ],
+            "polishedAnchorPx": [
+              138.5375,
+              180.4245
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b21f62b8a2e5ce429350e5b1e89d864295ac09f5d2e7c3435d3a3be0e3252c2a",
+            "polishedPixelSha256": "539eebe66f5a5324c57cddcca684f99adcf8f4e039457aa1d6575c81708520ab"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              124.6741,
+              191.8546
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              14,
+              -12
+            ],
+            "polishedAnchorPx": [
+              138.6741,
+              179.8546
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "ba1af9189f38e8d1171fe0bd279b28787d1c657078e882d3e9a5ef395d724225",
+            "polishedPixelSha256": "8b829fa9119db57a97076fa0d0b165c1d332736e9b3deca3d03cbbdc283c6e42"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              150.4242,
+              165.7216
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -11,
+              14
+            ],
+            "polishedAnchorPx": [
+              139.4242,
+              179.7216
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "981e867ff7378e372715d32a0c72c4ec0c792f76036182d72e49e9df5172a090",
+            "polishedPixelSha256": "db03df839cdc3f3d4e6ae9ef8327778018d4e637f1a9c35b403a306232669fa2"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              148.4892,
+              165.6782
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -9,
+              14
+            ],
+            "polishedAnchorPx": [
+              139.4892,
+              179.6782
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "78ca879a8e5c37ddfecbf628cb7818d005e3cbf0b37c7116074122b50c63f596",
+            "polishedPixelSha256": "a53687e8741fb93e433195c972907095409f8e6bb102b1d50e24c38bef020640"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              133.222,
+              171.4724
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              6,
+              9
+            ],
+            "polishedAnchorPx": [
+              139.222,
+              180.4724
+            ],
+            "energyLossRatio": 1e-08,
+            "sourcePixelSha256": "8138e697fb42de079bc09c6b99ac03349b45a4ef09d1d414ab78be5ec2b0554a",
+            "polishedPixelSha256": "980ac2a9ee6562d259d87686cbb8468a3e349ec064ebcb8ef8b26f7a8de1ff94"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              122.6003,
+              168.696
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              16,
+              11
+            ],
+            "polishedAnchorPx": [
+              138.6003,
+              179.696
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "247846087bf4ad85cefc939a9175590393b6b6590554b030d759cec3f3c202fc",
+            "polishedPixelSha256": "16fe19858f47308e0b8311e139af857f68fa095aec51299edce2f06f45edfc02"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              152.1713,
+              146.2184
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -13,
+              34
+            ],
+            "polishedAnchorPx": [
+              139.1713,
+              180.2184
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "a02e6a5b84d159b3d1d318c0171568b214fd64520d9bf7aca0068c9181ae8b40",
+            "polishedPixelSha256": "a578c17b1cb21ea2dbe5b94decc1a368d99854123ac1734fe2160c5851184a9f"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              142.9156,
+              148.5839
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              -4,
+              31
+            ],
+            "polishedAnchorPx": [
+              138.9156,
+              179.5839
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "430de8d4fb3d42a55ab6dd8cb92b83dff9ca7708790647d756392a2efb03e8f1",
+            "polishedPixelSha256": "6d12d95b359d658427756f39b0a6f11a05a029865d30b2cac30a504e27776345"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              138.3248,
+              146.3276
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              1,
+              34
+            ],
+            "polishedAnchorPx": [
+              139.3248,
+              180.3276
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "bfe9780c2e88cb5ff5899502f5e3f5266c3821bbf6e2ff98c92bbd75d6f3f799",
+            "polishedPixelSha256": "2b12056b12d12ab82d1c1f9730a1e58b5e34f3c693a2b4a812c92245c079793a"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              129.1196,
+              144.2122
+            ],
+            "targetAnchorPx": [
+              139,
+              180
+            ],
+            "shiftPx": [
+              10,
+              36
+            ],
+            "polishedAnchorPx": [
+              139.1196,
+              180.2122
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "ed472325f26bf1b2011c47dfd1a7ce2120fceb83d6a18403e16e9267f3e967b5",
+            "polishedPixelSha256": "4e025fa599a73be3a5a5a8dd572fbd6a930dbe1bce3cfeeab9b240e6099730cb"
+          }
+        ]
+      }
+    },
+    {
+      "id": "rays",
+      "file": "fire-light-rays-v3.png",
+      "anchorMode": "source-root",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/rays.piskel",
+      "registeredSourceSha256": "21eba20259e1e7b60da394e00d438688ec0f696a4d42bd2356bf2964b253e7dc",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/rays.piskel",
+      "polishedWorkSha256": "dee4b4d18e8a85b328ef42fc44415c593e67304be21f8758da4494538c592232",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/rays.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-rays-v3.png",
+      "rollbackRuntimeSha256": "06a17e2a502e0941921e24cc658d3b943b2e52da0329a4298af605039a3c8e0c",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-rays-v3.png",
+      "candidateRuntimeSha256": "2246d32fa168c72cf8f8b96212604e74023d0096bf559e6192403eeed08139b3",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-rays-v3.png",
+      "maximumEnergyLossRatio": 0.0,
+      "maximumBeforeAnchorRangePx": 29.2361,
+      "maximumAfterAnchorRangePx": 0.96,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "source-root",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            150,
+            288
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "rangeXPx": 29.2361,
+            "rangeYPx": 8.0,
+            "maximumAnchorErrorPx": 18.1951
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "rangeXPx": 0.96,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.4861
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              158.9168,
+              286.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -9,
+              2
+            ],
+            "polishedAnchorPx": [
+              149.9168,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "04a4035fbbb523c7bd2fa8a6650ab966c9e08d29c1cc58f499756482a9149469",
+            "polishedPixelSha256": "c8194a59a3fc2e9fb55c5cf3b6f97145bc6d32bd40f6a79ae616efad0c41a01c"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              148.9425,
+              288.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              1,
+              0
+            ],
+            "polishedAnchorPx": [
+              149.9425,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b7758cc566af1cd25205dbd4263e24919624095f5a7d9d4e2bdf9293a187694a",
+            "polishedPixelSha256": "87c43ff64d3aaa9289e537bfd99f4e376d6a93e63e20f0bff36b8d2b8441dbd7"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              151.3018,
+              286.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -1,
+              2
+            ],
+            "polishedAnchorPx": [
+              150.3018,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f28de9caddc123d533f0f1727c3d9c70a4492e0ab1788a831a3eedbf76847b20",
+            "polishedPixelSha256": "bf380d690c04c5273308617077c1221badb83c07786238b357c4736d05999211"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              146.1851,
+              292.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              4,
+              -4
+            ],
+            "polishedAnchorPx": [
+              150.1851,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "10b440c7e0c6b229e8023be78c5368c86799087a020a5187db21885ce34a219b",
+            "polishedPixelSha256": "38daf7635eeb0ee68c08f628faaffa463de4cb1433af06c36a541e7b2d0d002b"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              165.0498,
+              287.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -15,
+              1
+            ],
+            "polishedAnchorPx": [
+              150.0498,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "573f95929d51bdf4efa345609b745807d5a158415382e64625f5cbe8fe30e635",
+            "polishedPixelSha256": "a22935abcce352d8a2fe11a770887df68117dda68bf3205b87432d9c1f9fe4d8"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              167.75,
+              284.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -18,
+              4
+            ],
+            "polishedAnchorPx": [
+              149.75,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "78f5b60b487ef072a168a851e7faf4e7c6e7129450b4b9591eb714ddf7f3a687",
+            "polishedPixelSha256": "f01e6e42522af5957ef232dd031df8f0d9e7c33eac9430b781298e58f7ec624b"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              143.1238,
+              287.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              7,
+              1
+            ],
+            "polishedAnchorPx": [
+              150.1238,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "484a4056e54ebf3b6fdeac85c14fbac2a816395495c91875b0e5ab09aa2259bc",
+            "polishedPixelSha256": "34e0c777f5ab100852019ada3fbcbf86476e5778d985af3e11f4b7b731dcf69b"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              146.8224,
+              287.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              3,
+              1
+            ],
+            "polishedAnchorPx": [
+              149.8224,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "5383754d1581f49e2c4923ff80d0d18014ca1c8490fdeb2ee08b4a5597c50888",
+            "polishedPixelSha256": "80c8fac5b75a61249fa869d09972b46b3a3f6b47cba2ab4b44119fed70f4bbe7"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              160.257,
+              289.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -10,
+              -1
+            ],
+            "polishedAnchorPx": [
+              150.257,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "155c506fe00b9dacfacb7fbf4fcfd4fdfccb87d6652dc07787508ee1c6b4c600",
+            "polishedPixelSha256": "675d1f4d55f2a6ce67d5049466bb92300d7dbeff198a2dea803fb7b9a1481d30"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              147.2679,
+              289.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              3,
+              -1
+            ],
+            "polishedAnchorPx": [
+              150.2679,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "fb1a8e2b73c11592f52bdab5a924794e3076ed1069cbf14b76f996e38361f789",
+            "polishedPixelSha256": "f773ed6658fadd59c16870c2838b255988283587339ebafc4b0381848a3ca22c"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              150.6381,
+              291.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -1,
+              -3
+            ],
+            "polishedAnchorPx": [
+              149.6381,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3e13cac103d96f94e3b3a30c12fbdfcb5318f632822246422e6acb96829efe35",
+            "polishedPixelSha256": "15bba45a667abb1ebecf010aa97fa0295844d2ff8d0bf78353cd7c44991989ee"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              139.3578,
+              287.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              11,
+              1
+            ],
+            "polishedAnchorPx": [
+              150.3578,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "73d00162f412be4f62e12a3b89a5475c4e396c7e69fd0e91c663946290d19276",
+            "polishedPixelSha256": "15f1ccb2fbe81366dcd38588a306423d389cb17099b13258f3f43baf0f0ee07d"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              159.4738,
+              289.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -9,
+              -1
+            ],
+            "polishedAnchorPx": [
+              150.4738,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b67f0535108391f30b0ebd1e6ef538f5a4ef733642dc5ade4297935d6c415e07",
+            "polishedPixelSha256": "dc4a7fc6aa64a6427b20bd1d68c44a91ff7db6f0d48ade823ad74063bca97f88"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              150.1834,
+              288.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              0,
+              0
+            ],
+            "polishedAnchorPx": [
+              150.1834,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "a9c234da34d86899fc2e1d08f85b2619c58ff73ae619aa92a8c6798d784da999",
+            "polishedPixelSha256": "f60bfbe1d7d77a7e60ddd0a8a75367988d15a03db95da14f59461059c7c0ef19"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              150.7698,
+              289.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              -1,
+              -1
+            ],
+            "polishedAnchorPx": [
+              149.7698,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "bdbaecb51b65171f673d6eaff4d16dbeff731dca95a3c8a66ddf438c09c313d0",
+            "polishedPixelSha256": "6e7a278d1681f34b19a011e9b86c052366bdd34eb1a3fbe3b40aa71499bd35fe"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              138.5139,
+              291.0
+            ],
+            "targetAnchorPx": [
+              150,
+              288
+            ],
+            "shiftPx": [
+              11,
+              -3
+            ],
+            "polishedAnchorPx": [
+              149.5139,
+              288.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "2b0ccd3ab224a666c33f2514988d7172e54fca0aa61c2391f80885e7586d1533",
+            "polishedPixelSha256": "6dedccc2ef883fcfa6db69409afe07c215f80f33cfe6979893725e998f51eb57"
+          }
+        ]
+      }
+    },
+    {
+      "id": "atmosphere",
+      "file": "fire-atmosphere-v3.png",
+      "anchorMode": "source-root",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/atmosphere.piskel",
+      "registeredSourceSha256": "df3ffa8d159845b769b7b37aec78c5180d611d158757dbc8888e34f18d60af0d",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/atmosphere.piskel",
+      "polishedWorkSha256": "b43cee159b72a0a30796b2e2bdd508134efbff0a7951458746af7dca6e981610",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/atmosphere.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-atmosphere-v3.png",
+      "rollbackRuntimeSha256": "b7d941e13783c78bd3837ac7ff2a7a35a6d1df99c04e8d2e688f420046bbe712",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-atmosphere-v3.png",
+      "candidateRuntimeSha256": "347eb2db69bf2509e052f3d970864bab3dd6ffcd418fc3be4cdc24cc7633bf38",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-atmosphere-v3.png",
+      "maximumEnergyLossRatio": 0.01041017,
+      "maximumBeforeAnchorRangePx": 42.0,
+      "maximumAfterAnchorRangePx": 0.8674,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "source-root",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            156,
+            227
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "rangeXPx": 6.423,
+            "rangeYPx": 42.0,
+            "maximumAnchorErrorPx": 30.086
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "rangeXPx": 0.8674,
+            "rangeYPx": 0.0,
+            "maximumAnchorErrorPx": 0.4451
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              158.2732,
+              257.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              -2,
+              -30
+            ],
+            "polishedAnchorPx": [
+              156.2732,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "2c05c2313f3ce310033c1fb6bc6b962b9cdb8ea92b03f06dc4f872193324fd1d",
+            "polishedPixelSha256": "b885507c42769cf78565ac1073c7d3d25a02bb6b343b368115ddc7e651113435"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.5968,
+              257.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              -1,
+              -30
+            ],
+            "polishedAnchorPx": [
+              155.5968,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "96e4b61f938eba7e193a092e0788319ceba51eed5ff88f8fc8f1611a397c0ed4",
+            "polishedPixelSha256": "6b8115944a839e730aebda7e66f4f17de4db40b78898e78c86f2595e05b9a206"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.0387,
+              257.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              2,
+              -30
+            ],
+            "polishedAnchorPx": [
+              156.0387,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "79d193f58f6ecdc0630e846bbcd88554ad9a58cfdfd0aea26b4e662cc1773ae0",
+            "polishedPixelSha256": "5976655f84edb56cee22a019216d5706b20502c82888dec366585229bf262adc"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.0661,
+              257.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              2,
+              -30
+            ],
+            "polishedAnchorPx": [
+              156.0661,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "a1a36d98b2cc375f8d1049e92a44c4ce0dc4694066311f8c4bbb35765ee730a6",
+            "polishedPixelSha256": "984bc039c602618d32efe0d7ba95dce4151619d7c6a8fc44f91eafd710406227"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              158.2409,
+              235.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              -2,
+              -8
+            ],
+            "polishedAnchorPx": [
+              156.2409,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "927abab2b219a483aa2b59f68d64f332150936dec131dd50d38ab42733750a58",
+            "polishedPixelSha256": "28e62a3e90e697cc8c4fd69e74b539a20e632815b57326c8e9884c4a3eb6efba"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.9046,
+              235.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              1,
+              -8
+            ],
+            "polishedAnchorPx": [
+              155.9046,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "e8fbda33b322d2e747b493080744fd23f44bd90d847d9c4f55b5a00fc446da85",
+            "polishedPixelSha256": "9147aedd6478267c2c483320fab4b4e343c61d62c00dd147a35dc594608c2f49"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.2275,
+              235.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              0,
+              -8
+            ],
+            "polishedAnchorPx": [
+              156.2275,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f2bf14a2fb506b9a2d7ca26120245681caed9129120c2a5bf4b142f460ffc234",
+            "polishedPixelSha256": "0435518b80b4520ebc77e9d3663e6a2b0149c82607270840b4183ff62d0f497a"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.5549,
+              235.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              2,
+              -8
+            ],
+            "polishedAnchorPx": [
+              155.5549,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "c3b89e8c53a2f78c326ea182b454449c33e9905f1b517e75481fdb6bc1641d45",
+            "polishedPixelSha256": "f93ad0efbaf670b3718ec9f697421b7a0ff7ffcf9637dc81cb0e0795dfef94cb"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              157.0843,
+              215.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              -1,
+              12
+            ],
+            "polishedAnchorPx": [
+              156.0843,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "4d4a744d1439122e8c401733cd878891aecccf1360399ff58d6f37f27c9c118c",
+            "polishedPixelSha256": "bdd795646d211e9f73c07aff7751643ccc9aa98e6b1b2aae11aca4f13bbcbbc2"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.7791,
+              215.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              1,
+              12
+            ],
+            "polishedAnchorPx": [
+              155.7791,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "850d280fab08b62a5efc37344e79c628784ff1d8ad6dad4af9f64fb23264c406",
+            "polishedPixelSha256": "a15e93eadd4d98fb57163e9f71c958db37cabbe4d185177e8337663721747689"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.9266,
+              216.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              1,
+              11
+            ],
+            "polishedAnchorPx": [
+              155.9266,
+              227.0
+            ],
+            "energyLossRatio": 0.01041017,
+            "sourcePixelSha256": "f8414eb1898452d82d36f6a5b01a2b16bf6a850737258ad3cded2587f0d00108",
+            "polishedPixelSha256": "284243a6efa23fe709ab1feed159e6fbaf23ea391c8273c061cd8a0e2d65250e"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              157.1286,
+              216.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              -1,
+              11
+            ],
+            "polishedAnchorPx": [
+              156.1286,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "1801b465dd3f15f2da9c6836c8a7cc9a312877a55740dba1fbde0df87cceb7b4",
+            "polishedPixelSha256": "c791cbdb44f6c00b83d0241ac268e01c44e5179c005212e94f27705fd2ab443a"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              159.8454,
+              218.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              -4,
+              9
+            ],
+            "polishedAnchorPx": [
+              155.8454,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "46d4cfb463d5ca7bc35d32dda6675487d6b5507478ec56f53b7ac83b30abe2a2",
+            "polishedPixelSha256": "33845b24776070a803ddfabfcbc74a16de9d77d48c22c57dfaa701487b78cec9"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              155.371,
+              218.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              1,
+              9
+            ],
+            "polishedAnchorPx": [
+              156.371,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "8ecef35ef5d128d688758a19c1a8ede908160c131817cebb6d9cd3d10e86f519",
+            "polishedPixelSha256": "d1e6fce574b7e65dd9bc5f57d7572e882b0da6821e0bdf99e4d59ab02789f344"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.3991,
+              219.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              0,
+              8
+            ],
+            "polishedAnchorPx": [
+              156.3991,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3c85c361425ecfc9cd568ba4656d40e282d3c96848e404e6dda45b2b0ad4eadb",
+            "polishedPixelSha256": "86c3ffff6c4a171cf3113c35eaf5e5b2597e50d87a4a3c80062ab0d8410cf36b"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.4223,
+              218.0
+            ],
+            "targetAnchorPx": [
+              156,
+              227
+            ],
+            "shiftPx": [
+              3,
+              9
+            ],
+            "polishedAnchorPx": [
+              156.4223,
+              227.0
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "ca3b29f82ef517bdd885095b6e3555a152cd1dbcb95f9d3d6ae48e568065c5ca",
+            "polishedPixelSha256": "092c1f0150e1d167206de9d474a3a16e37a21b7298b9288526e8aae1bcdda359"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hotCore",
+      "file": "fire-light-hot-core-v3.png",
+      "anchorMode": "luminous-core",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/hotCore.piskel",
+      "registeredSourceSha256": "d632e3682112d2cd0594ab3ecbbe13c767cb8328fef317ac999472404df2cdef",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/hotCore.piskel",
+      "polishedWorkSha256": "c86150501b102301b50c0dcf0f47baedd2827ef41a290ff83d08c42c9c9a28be",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/hotCore.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-hot-core-v3.png",
+      "rollbackRuntimeSha256": "098c9215ddccf28dbbfd162f41410b87d31b21c8c084e37a0288d28119f47230",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-hot-core-v3.png",
+      "candidateRuntimeSha256": "6c481b529dad12b6c410265e4491468e78a2802873ed7c62d32f00ce800654ed",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-hot-core-v3.png",
+      "maximumEnergyLossRatio": 0.00034994,
+      "maximumBeforeAnchorRangePx": 70.7133,
+      "maximumAfterAnchorRangePx": 0.8748,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "luminous-core",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            155,
+            167
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "rangeXPx": 30.1458,
+            "rangeYPx": 70.7133,
+            "maximumAnchorErrorPx": 37.0495
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "rangeXPx": 0.7747,
+            "rangeYPx": 0.8748,
+            "maximumAnchorErrorPx": 0.6342
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              158.1047,
+              183.941
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -3,
+              -17
+            ],
+            "polishedAnchorPx": [
+              155.1047,
+              166.941
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "601503f5309a8cb27af4ceeafedb84eff478fb20eae2f2be4836ccb3f0bada33",
+            "polishedPixelSha256": "e72a1bce004e927f2e81afec3c398ec460eda04c1ac74fec87a14cffd9538e4e"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              164.0057,
+              188.5567
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -9,
+              -22
+            ],
+            "polishedAnchorPx": [
+              155.0057,
+              166.5567
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f49e0c2d2f69d1d9bb040d736c0d7eb89abb0a0f8a0be6da2da49302403b3ca6",
+            "polishedPixelSha256": "2b9bc391bd01065bb463b96b95fdd9da4841dec741b41416e5e44c51b28911bd"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              158.2503,
+              201.6277
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -3,
+              -35
+            ],
+            "polishedAnchorPx": [
+              155.2503,
+              166.6277
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "adfb9130d0fbc17e50657701b8fd6148acbb2e5ee51b49126b9a18b48ff80425",
+            "polishedPixelSha256": "b29ba6bb8db81f191a57f222a1622412f344cb531858e6930a55d4b3562e5ba6"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              149.9186,
+              185.9709
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              5,
+              -19
+            ],
+            "polishedAnchorPx": [
+              154.9186,
+              166.9709
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "fb64f03a4e0389360fce6aa415900504cb204348fd59a969e9b280aa3019a9b0",
+            "polishedPixelSha256": "109ca47e00a8ed44eba935455eab71e664c69377e42030fe36db50c8674eaba2"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              167.8448,
+              180.9699
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -13,
+              -14
+            ],
+            "polishedAnchorPx": [
+              154.8448,
+              166.9699
+            ],
+            "energyLossRatio": 2.5e-07,
+            "sourcePixelSha256": "aac63080755af64238657559b2b2f0927202c534f26c5a897bdc00b5e3380e23",
+            "polishedPixelSha256": "a0e54b0b171a84da48b6b671983f1a62bad5c4b0387ea5049a49eac1e4f5c5d8"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              149.3936,
+              170.5933
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              6,
+              -4
+            ],
+            "polishedAnchorPx": [
+              155.3936,
+              166.5933
+            ],
+            "energyLossRatio": 4e-08,
+            "sourcePixelSha256": "b2f925a1b4aa1252884d8bd0b8e6f66c1e418ffe575e46860254c8741327cf60",
+            "polishedPixelSha256": "2b435c848999d92e68de885215a434e531ea84d161ce57e3d0d220c97a264707"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              158.216,
+              198.3632
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -3,
+              -31
+            ],
+            "polishedAnchorPx": [
+              155.216,
+              167.3632
+            ],
+            "energyLossRatio": 9e-08,
+            "sourcePixelSha256": "34e62de913d4bbe0b69325a670e4aabce44b2a0e3aefef03d9ed7d6f6055aa93",
+            "polishedPixelSha256": "5e381f8f2b5a507aa9f606256a630c846e5642de48e09ae248cf0eb025a5b927"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              140.1815,
+              169.8987
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              15,
+              -3
+            ],
+            "polishedAnchorPx": [
+              155.1815,
+              166.8987
+            ],
+            "energyLossRatio": 1e-08,
+            "sourcePixelSha256": "1a1051ed98ccfc5b106dec4b921e43be2083200d61df572ff3a9b100d95c667b",
+            "polishedPixelSha256": "b25539957ab0d34dccf81ef016dc9915d2f46cfc89a299eaabb0d1793f118201"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              155.1157,
+              150.2329
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              0,
+              17
+            ],
+            "polishedAnchorPx": [
+              155.1157,
+              167.2329
+            ],
+            "energyLossRatio": 4.11e-06,
+            "sourcePixelSha256": "018d74b3a6fe8b6e753c5ec399e323b44dc30c29a5f2292073266f1fdd7eddd4",
+            "polishedPixelSha256": "d19776be8a5e3c0ceafc1e2ec1aa205a74ceafe265006fa7ba494e0c896107fb"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.4648,
+              163.4315
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              1,
+              4
+            ],
+            "polishedAnchorPx": [
+              155.4648,
+              167.4315
+            ],
+            "energyLossRatio": 4e-07,
+            "sourcePixelSha256": "625b403b6b98e97276d5bbf3cc4f8234c23203dc99301202720b2e5b735823b2",
+            "polishedPixelSha256": "1a24d775ead5a70fb0b0de09b39778646b6e4de5d942ab87480b3de5e30033d8"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              149.0318,
+              155.1614
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              6,
+              12
+            ],
+            "polishedAnchorPx": [
+              155.0319,
+              167.1609
+            ],
+            "energyLossRatio": 0.00034994,
+            "sourcePixelSha256": "42df3ab9d6cd25ed2885af3a06b4c8307161f3cbaa5f73a51aad135532424b18",
+            "polishedPixelSha256": "124743d788b67e152b033098806a4bf87d32d38fc1be25745b067fd316c8adb1"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.1814,
+              163.6688
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              2,
+              3
+            ],
+            "polishedAnchorPx": [
+              155.1814,
+              166.6688
+            ],
+            "energyLossRatio": 6.73e-06,
+            "sourcePixelSha256": "6c08b4929126f82991c4d4474c8bc44cf71b3e1350f271c1e5c3bcba77fb7043",
+            "polishedPixelSha256": "336b37cf1a8c1aaef940465027c075819ac646691173591bf34e4d5ff9c56847"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              163.3966,
+              130.9145
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -8,
+              36
+            ],
+            "polishedAnchorPx": [
+              155.3966,
+              166.9145
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "e41904e2c525099e03263493e6559d9372b82ab54b63ca2979cf3d2cb8a46dc5",
+            "polishedPixelSha256": "4dfdb8084a341650f372e4746e3c13ed350ebb9b64b10dbca1e6df4b7937a0d1"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              161.6925,
+              137.6136
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              -7,
+              29
+            ],
+            "polishedAnchorPx": [
+              154.6925,
+              166.6136
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "d442ef940a25e9bb092cfa3ef218df97afb61755f493bc6b2673a33291da7c94",
+            "polishedPixelSha256": "d408eab1d1f4e315afe8aaa2add144fddbf492217db1f79fda3aefabfc987aac"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.69,
+              136.7498
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              0,
+              30
+            ],
+            "polishedAnchorPx": [
+              154.69,
+              166.7498
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "4f3d88545950d13dcda618c1b2229bce3a5afff5fa909adba3eccd052ca8b0f9",
+            "polishedPixelSha256": "572cb747a87c6ced33ee976f64de13198e4a0e6bb006b838d8926fdaf0e56473"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              137.699,
+              143.9801
+            ],
+            "targetAnchorPx": [
+              155,
+              167
+            ],
+            "shiftPx": [
+              17,
+              23
+            ],
+            "polishedAnchorPx": [
+              154.699,
+              166.9801
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "a06fbcd117292e87316bbd28157a2c1b3b39229be5f07777b59c0d135b49fc33",
+            "polishedPixelSha256": "6fa1ed61dd170500c801629e4f98a55425cc0b556158bf1e8804ecfc3cffa4ef"
+          }
+        ]
+      }
+    },
+    {
+      "id": "penumbra",
+      "file": "fire-light-penumbra-v3.png",
+      "anchorMode": "luminous-core",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/penumbra.piskel",
+      "registeredSourceSha256": "772a5cb34f092b47c3e44715498af6c395ddd6c0b8f3eda5a33f4c3e8293ffca",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/penumbra.piskel",
+      "polishedWorkSha256": "9cf50bb2d633f6d231c117cb32ed9f29fbff787a0089bed35d625997b0e2f0fa",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/penumbra.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-penumbra-v3.png",
+      "rollbackRuntimeSha256": "3c70f3c8ef95064cbe74171e7d162b94b08584a09a33b18a5ac3b6a199487c8a",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-penumbra-v3.png",
+      "candidateRuntimeSha256": "188507900083d9bd9b18005443026e6ef97d9adae2d308587b1bf8b56722ed87",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-penumbra-v3.png",
+      "maximumEnergyLossRatio": 0.00085707,
+      "maximumBeforeAnchorRangePx": 53.3126,
+      "maximumAfterAnchorRangePx": 0.9846,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "luminous-core",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            161,
+            149
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "rangeXPx": 41.1799,
+            "rangeYPx": 53.3126,
+            "maximumAnchorErrorPx": 32.191
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "rangeXPx": 0.9846,
+            "rangeYPx": 0.9208,
+            "maximumAnchorErrorPx": 0.6246
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              164.2775,
+              141.4321
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -3,
+              8
+            ],
+            "polishedAnchorPx": [
+              161.2775,
+              149.4321
+            ],
+            "energyLossRatio": 2.4e-07,
+            "sourcePixelSha256": "8178ae70dbb175bf47ba671a4c76e9b3544a0efffc62b9e796702c44b9ca9fec",
+            "polishedPixelSha256": "1ab1dc6496f04feaaab9b7de5b0d41e043575ee8749a52d21c6da98961135907"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              135.5349,
+              146.2346
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              25,
+              3
+            ],
+            "polishedAnchorPx": [
+              160.53,
+              149.2345
+            ],
+            "energyLossRatio": 0.00085707,
+            "sourcePixelSha256": "679dff1174230c6af63f19b2a77ba2bf9643ae778611b387f0134c4785e19683",
+            "polishedPixelSha256": "2885a7b35d03d515338eec7ae8d606f9a6286a72de286356535e7b149eb11bac"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              161.0506,
+              161.3665
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              0,
+              -12
+            ],
+            "polishedAnchorPx": [
+              161.0506,
+              149.3665
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "be22a7319f5a49e00d21a8287ee6f75c4eb11879eb2e4f681e0315a74bedec95",
+            "polishedPixelSha256": "715e8f32da1f853a6c0c6f6a503407dc9c9f69b7665b0d8387ff89cae33cf9c4"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              165.5807,
+              154.1031
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -5,
+              -5
+            ],
+            "polishedAnchorPx": [
+              160.5807,
+              149.1031
+            ],
+            "energyLossRatio": 4e-08,
+            "sourcePixelSha256": "42339fae434979bbe1714f5d77349701d343726e6c37d8b781c07e64e2b48c2d",
+            "polishedPixelSha256": "573f8e510f618346892692a348d609966b5cd4597bdc8be63549e50b54a7f4de"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              146.8444,
+              170.8893
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              14,
+              -22
+            ],
+            "polishedAnchorPx": [
+              160.8444,
+              148.8893
+            ],
+            "energyLossRatio": 2.351e-05,
+            "sourcePixelSha256": "ef6f0e33f38e1bdd666c6f19eb879c9118d42bde32149056dc2d97100560920a",
+            "polishedPixelSha256": "6966803d711e559a9cdb38c76ccdc0b2cfbe648140d89e1e6aac4ce6dce18aed"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              167.1661,
+              117.5767
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -6,
+              31
+            ],
+            "polishedAnchorPx": [
+              161.1663,
+              148.576
+            ],
+            "energyLossRatio": 0.00035636,
+            "sourcePixelSha256": "2f8df1842fd4d4c752179637bd97371e225ecd806cc94c163511b0107ddc9c61",
+            "polishedPixelSha256": "0c337b4d96e4fef6086114973f448bbd393b61f90c7f867a396d0072c2f6aa0b"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              165.9483,
+              147.3745
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -5,
+              2
+            ],
+            "polishedAnchorPx": [
+              160.9483,
+              149.3745
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f22171ac6b10a394b67cea00b385ec558d3673ca008f1c555f566d81d666b3f8",
+            "polishedPixelSha256": "0323af0b02663dc127538336111678ea171134bdea3b752b0d9508251807ea36"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              160.493,
+              168.1826
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              1,
+              -19
+            ],
+            "polishedAnchorPx": [
+              161.493,
+              149.1826
+            ],
+            "energyLossRatio": 1.3e-07,
+            "sourcePixelSha256": "b0c11c4a5def8d23cbeeedb85ab7601972f0c65b84b3c02fecc13c260c4e8f98",
+            "polishedPixelSha256": "9d824fea3156b82ff9eefd082e5c03d259dd85fe8fd1177d0ae1481ee2742ecf"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              142.9725,
+              122.3303
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              18,
+              27
+            ],
+            "polishedAnchorPx": [
+              160.9725,
+              149.3303
+            ],
+            "energyLossRatio": 4.669e-05,
+            "sourcePixelSha256": "43549a4e0732fee1ff58551846abbb129e6f8565905f27e1402b036e64ea8ed7",
+            "polishedPixelSha256": "355a989a94efc36f2a92b0a6a5c85d480d5ec94adcaf8ac33592a6c3a9614f45"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.9481,
+              145.395
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              4,
+              4
+            ],
+            "polishedAnchorPx": [
+              160.9481,
+              149.395
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3d9d3429e648e083c8601f50c44dff63d97026d2e6369ea791663a750bd1748c",
+            "polishedPixelSha256": "ee3a270daa209a98ca680876eeab849106d9a31a72a6b3270784510127c03db2"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              173.997,
+              159.0905
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -13,
+              -10
+            ],
+            "polishedAnchorPx": [
+              160.997,
+              149.0905
+            ],
+            "energyLossRatio": 2e-07,
+            "sourcePixelSha256": "bbf2ab72a426ba1606e1e0eabc70d74af6226494ecbdce7f3d85a23e92eb3c9d",
+            "polishedPixelSha256": "be913a8392d2122c00ea90df75155ed39ae57752289ec3f2a5ae4e833dd4376a"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              168.4989,
+              150.7329
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -7,
+              -2
+            ],
+            "polishedAnchorPx": [
+              161.4989,
+              148.7329
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "d4a0dcfdfc933be2fc8e4160750862b86da3425309c1ffabe1e2a362bdbb35f9",
+            "polishedPixelSha256": "083458d31317a5fca752602cb6d56ec7d50e644c76c5a3db896faa652142b910"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              162.4004,
+              158.8706
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              -1,
+              -10
+            ],
+            "polishedAnchorPx": [
+              161.4004,
+              148.8706
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "00a54d844a4c744ce7162ee7a2c7ceb1c477f52a2673e21f659a163b77f1494d",
+            "polishedPixelSha256": "cab7470f6ec120af95c5a7611d2cf3c176b65bed3e5d1727de46832d50c90e55"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.5143,
+              152.9617
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              7,
+              -4
+            ],
+            "polishedAnchorPx": [
+              160.5143,
+              148.9617
+            ],
+            "energyLossRatio": 4e-08,
+            "sourcePixelSha256": "47a960c32baf6e9927c5a894dfc35ef748b671a3af53fac75da70086be58da76",
+            "polishedPixelSha256": "8db9172e0d31e3197cf567d9819a8fbf20ef128664cf92ecaeaa9faff57f030d"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              154.6214,
+              131.4968
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              6,
+              18
+            ],
+            "polishedAnchorPx": [
+              160.6214,
+              149.4968
+            ],
+            "energyLossRatio": 4.847e-05,
+            "sourcePixelSha256": "4f0fda185739381a69d508cccfa7921e43247d5329c2229441626365ac6f77d1",
+            "polishedPixelSha256": "42cfd116f20d621a2029b0f7fe41355bcaa61c2142bcaf431604d2e13e88ab84"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              132.8171,
+              147.5944
+            ],
+            "targetAnchorPx": [
+              161,
+              149
+            ],
+            "shiftPx": [
+              28,
+              1
+            ],
+            "polishedAnchorPx": [
+              160.8155,
+              148.5937
+            ],
+            "energyLossRatio": 0.00046843,
+            "sourcePixelSha256": "1fce057c7d406d31577de0f67bccf6fac54277e9eeb27d5965073df234691c81",
+            "polishedPixelSha256": "895ee0dbd12f5a028d0b262122124120e390ba1e5e23c2615ec5ff46c0ffe9f0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bounce",
+      "file": "fire-light-bounce-v3.png",
+      "anchorMode": "luminous-core",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/bounce.piskel",
+      "registeredSourceSha256": "42cae146043c5f005721eed8287f8446e978663328dc5bdb6a0f11fab0625a5d",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/bounce.piskel",
+      "polishedWorkSha256": "b70f06bc62a583e196446c5ac01eabb138607ee834b4dd345061a3b06f5ca688",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/bounce.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-bounce-v3.png",
+      "rollbackRuntimeSha256": "966364451fa86c1eb318bf144f881b68607d98fda8746dfe92b7b5f28e4663d2",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-bounce-v3.png",
+      "candidateRuntimeSha256": "8e973341c8c9c48f5dc1a5c445623fd983d286432749671c8af224d7d43f9716",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-bounce-v3.png",
+      "maximumEnergyLossRatio": 0.0,
+      "maximumBeforeAnchorRangePx": 79.5748,
+      "maximumAfterAnchorRangePx": 0.9673,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "luminous-core",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            159,
+            150
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "rangeXPx": 20.0995,
+            "rangeYPx": 79.5748,
+            "maximumAnchorErrorPx": 47.3583
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "rangeXPx": 0.9673,
+            "rangeYPx": 0.8878,
+            "maximumAnchorErrorPx": 0.5917
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              167.2956,
+              196.6261
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -8,
+              -47
+            ],
+            "polishedAnchorPx": [
+              159.2956,
+              149.6261
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "ebc6e58576cfb96861f00966fba0f195bcd6ed8920d8b89b98b7ccc04adcbee9",
+            "polishedPixelSha256": "a58049eeaf463243a8b5b960913ecf8377620c99527fd4d040660d440868f562"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              162.4806,
+              145.1149
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -3,
+              5
+            ],
+            "polishedAnchorPx": [
+              159.4806,
+              150.1149
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "8643d629b6642916e3f8c232e3d10a3a2718537ffc8a4f302eb5c98be3bba8ab",
+            "polishedPixelSha256": "2429864701a9bed5be9998244d2981f8ee45ff358135afacc4aa7eab6aa6965f"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              157.5217,
+              188.6516
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              1,
+              -39
+            ],
+            "polishedAnchorPx": [
+              158.5217,
+              149.6516
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "dafeeeed32609aac737055effca649957657e2b6cc99d326735f0620cd6238bc",
+            "polishedPixelSha256": "7488b3ea3073ef34148c76d84ac12c42ae534296cb357d1b3297ff5de1cbcf3f"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              148.1185,
+              179.1652
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              11,
+              -29
+            ],
+            "polishedAnchorPx": [
+              159.1185,
+              150.1652
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b4f74368df26f4391334bec9befed711a4df981b96129bb2fc12657f4a85abdf",
+            "polishedPixelSha256": "66eec082f8d3ae6e07ccaebc0935ca7f8b7431426f907bf251840acef90ef1e6"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              168.218,
+              173.4905
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -9,
+              -23
+            ],
+            "polishedAnchorPx": [
+              159.218,
+              150.4905
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "34593fa79948794bfcf86b9d25a3a73f770e724be2f5b46c4e83e2c86e02babd",
+            "polishedPixelSha256": "ad36fe8289615a15d9ac32e4ec2f315235aafd9b324dbbd807181a6f68609827"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              166.4337,
+              170.0674
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -7,
+              -20
+            ],
+            "polishedAnchorPx": [
+              159.4337,
+              150.0674
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "d32fd05872f809c9c0e94bcce26ae994f6f377b7354a71d1b227c8bfd96ae9dc",
+            "polishedPixelSha256": "a4ecf1453820ad7f5da38baf0425515f6b3d205e750a50f806a4166831011ff5"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.9771,
+              156.2547
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              2,
+              -6
+            ],
+            "polishedAnchorPx": [
+              158.9771,
+              150.2547
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "088ac9e30a0bd6366c52abd22b1c69ea1c7a45cbd190acfea950c22c36eeee22",
+            "polishedPixelSha256": "f3f41d38a96bf0738ee9a349893851986288cd17729db0d54c8e2cf29d94e44e"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.0201,
+              161.1669
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              6,
+              -11
+            ],
+            "polishedAnchorPx": [
+              159.0201,
+              150.1669
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "db079177a6198a7f1b99331caf6ceb5a1748136469bebfa8dc29613af43d9402",
+            "polishedPixelSha256": "faff3cbe0be5f74afa59be5828841a5c31f69fe59d9d3595bc8158d4a4cb6cde"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              166.5177,
+              151.1327
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -8,
+              -1
+            ],
+            "polishedAnchorPx": [
+              158.5177,
+              150.1327
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "c23097ddbaacad507fcef9881686ad456089019c954f74d3d3b1e2f07d648509",
+            "polishedPixelSha256": "5d675c88f7ca2d0714086186cdc61738696c364c9cd57945be52dd82b83cdce5"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              159.2669,
+              143.2472
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              0,
+              7
+            ],
+            "polishedAnchorPx": [
+              159.2669,
+              150.2472
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "2760a2158d6d35153ad5caec2b4643c9184d492bbc8b50cbd9a290d524b362c7",
+            "polishedPixelSha256": "83249f4eb085890df278534d8e108a34cf00bd2a9699fbbe92cf794972ec4834"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              157.5133,
+              148.9487
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              1,
+              1
+            ],
+            "polishedAnchorPx": [
+              158.5133,
+              149.9487
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "b919c6f5c084d88d379310cf03f233300ab97e1f96189acafeb4eb3a81bc19b7",
+            "polishedPixelSha256": "2b4da4cfa6fbc535c5eb8e952b0ebe4a49eb3e3242a074fd3b330bab88e8b775"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              149.0318,
+              130.6028
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              10,
+              19
+            ],
+            "polishedAnchorPx": [
+              159.0318,
+              149.6028
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "e96c79e482cb03ec687a6a6e48a0fb1875d2487570ff8352a4385163f60afe2f",
+            "polishedPixelSha256": "84911a1d3c7b092d2d2b931f6c1d64faf10fd1258f196f6e16177c63f5cb7a7d"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              166.4127,
+              133.0157
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -7,
+              17
+            ],
+            "polishedAnchorPx": [
+              159.4127,
+              150.0157
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "0d9c9f8bdd5754bed924ff369b7e7bc83450c5afbffeb7cd1a3dcf317a5c9914",
+            "polishedPixelSha256": "35826efb96831623135c92af337b1c0ca40cf0aa50b08a11533dc0f0299d7ff4"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              163.3619,
+              138.7667
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              -4,
+              11
+            ],
+            "polishedAnchorPx": [
+              159.3619,
+              149.7667
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "7169c56c413e986333aaa792ba92c322ee8ac0d4cdc3a281c9d60cd6d56ccea6",
+            "polishedPixelSha256": "c782157ba4a1d75972b2d39a2301643d1e797cf306f9aa52ed711c2f515359f2"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              159.3698,
+              117.0513
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              0,
+              33
+            ],
+            "polishedAnchorPx": [
+              159.3698,
+              150.0513
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "fae3ca58a102f6c8b2615f9e4b15df011981bc3af1ed42e487ce4724d811d2ef",
+            "polishedPixelSha256": "836d98491d52ed7501c85f95bc87ac249c1be3c8372af2cd785416510053cc03"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              151.6041,
+              132.9185
+            ],
+            "targetAnchorPx": [
+              159,
+              150
+            ],
+            "shiftPx": [
+              7,
+              17
+            ],
+            "polishedAnchorPx": [
+              158.6041,
+              149.9185
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "3c30801091c40dfc092ba4079083713646d9763263696d2e54054ad8334f77f5",
+            "polishedPixelSha256": "285ece7add3b8b9338fbd570192395b3e07bec880948e05b54dc4fd0d6338801"
+          }
+        ]
+      }
+    },
+    {
+      "id": "breakup",
+      "file": "fire-light-breakup-v3.png",
+      "anchorMode": "luminous-core",
+      "grouping": "all",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/breakup.piskel",
+      "registeredSourceSha256": "9c54962023d6278f1b20b9a1d1df7ce9a541c356016edda120b140fb5a6a4b77",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/breakup.piskel",
+      "polishedWorkSha256": "911c0972ceeb738bab2ac35f3e67a850c34268fe74ad035f5e4e2157fefeeb78",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/breakup.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-breakup-v3.png",
+      "rollbackRuntimeSha256": "c6fbb65f2aef30dc542f5691dc6e7b203d1ec9d340a6d2b4101caed390aabde0",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-breakup-v3.png",
+      "candidateRuntimeSha256": "7c3fe892f48becac98f68f1dfe4335ddbf72063f7ff03d23c03f15203d8e8778",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-breakup-v3.png",
+      "maximumEnergyLossRatio": 2.427e-05,
+      "maximumBeforeAnchorRangePx": 65.5307,
+      "maximumAfterAnchorRangePx": 0.9227,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "luminous-core",
+        "grouping": "all",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "all": [
+            147,
+            150
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "rangeXPx": 54.836,
+            "rangeYPx": 65.5307,
+            "maximumAnchorErrorPx": 42.5914
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "all",
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "rangeXPx": 0.8475,
+            "rangeYPx": 0.9227,
+            "maximumAnchorErrorPx": 0.4974
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "all",
+            "sourceAnchorPx": [
+              135.9161,
+              152.1518
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              11,
+              -2
+            ],
+            "polishedAnchorPx": [
+              146.9161,
+              150.1518
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "82f211671bdf852c69c3b57c32c477d5aad6b6cd72a8abe74da76257b7d8175b",
+            "polishedPixelSha256": "bb193056e872bbce8bb0e7a304f57e6ee5badf625da97ae72590cecc4d639a7f"
+          },
+          {
+            "frame": 1,
+            "group": "all",
+            "sourceAnchorPx": [
+              144.0802,
+              178.5463
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              3,
+              -29
+            ],
+            "polishedAnchorPx": [
+              147.0802,
+              149.5463
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "f0f0a073a38a7902bd854f6732dc3cf8acb66975987660d9b9d7e8607d9641d9",
+            "polishedPixelSha256": "0ec0994c10f1af94e4fdafdd0b01af2bc697c1e02d732a2f03dda5c91e6a59d2"
+          },
+          {
+            "frame": 2,
+            "group": "all",
+            "sourceAnchorPx": [
+              143.3967,
+              176.7954
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              4,
+              -27
+            ],
+            "polishedAnchorPx": [
+              147.3967,
+              149.7954
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "5eb6d83493fa4483d65d059b0496f75d7620fd87875579db66420e8f97721e38",
+            "polishedPixelSha256": "683b1a729e0457744eb5f623ce06301292fa54f103f1e72a01c8475d60577d5a"
+          },
+          {
+            "frame": 3,
+            "group": "all",
+            "sourceAnchorPx": [
+              150.6074,
+              137.9487
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -4,
+              12
+            ],
+            "polishedAnchorPx": [
+              146.6074,
+              149.9487
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "1d78939271e4fde056931aa6e01dbb0caa9e1e77bc5ea434b5f3176e8d63cf22",
+            "polishedPixelSha256": "9d7eed5142475586914ae9abc8af2d8a202ca1a655b8d65cdeb5d641c7d23f47"
+          },
+          {
+            "frame": 4,
+            "group": "all",
+            "sourceAnchorPx": [
+              182.3922,
+              173.6942
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -35,
+              -24
+            ],
+            "polishedAnchorPx": [
+              147.3923,
+              149.6942
+            ],
+            "energyLossRatio": 2.427e-05,
+            "sourcePixelSha256": "e847cd11259677bcd892b792b820cc719b794c1a10ea6118dd1d088c1b4ed553",
+            "polishedPixelSha256": "c677776a367fd8bb046982315c0b532308d82086fd26da1bdc84802d48a0c1d7"
+          },
+          {
+            "frame": 5,
+            "group": "all",
+            "sourceAnchorPx": [
+              155.0555,
+              149.4689
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -8,
+              1
+            ],
+            "polishedAnchorPx": [
+              147.0555,
+              150.4689
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "e9304101569d30e2f2d39d5bf9174e3f67ab201ea2e3b37e4a7d91edb042ef66",
+            "polishedPixelSha256": "1eb448cde4df201544ddc049198fa7b551bd8dced1c49af87e9c579ad48caa47"
+          },
+          {
+            "frame": 6,
+            "group": "all",
+            "sourceAnchorPx": [
+              156.2068,
+              153.559
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -9,
+              -4
+            ],
+            "polishedAnchorPx": [
+              147.2068,
+              149.559
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "9f90c5ed3e84c147b731cbfc614fe922ed70dcd4c306bbf610f66957a3cc0bf5",
+            "polishedPixelSha256": "23dccf5c666aa2c1596479c8cbaccfd334a76754c0533eff2d0e2793e08d04f4"
+          },
+          {
+            "frame": 7,
+            "group": "all",
+            "sourceAnchorPx": [
+              127.5563,
+              149.8231
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              19,
+              0
+            ],
+            "polishedAnchorPx": [
+              146.5563,
+              149.8231
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "59e1de9b0a9f1b460e1607669d22b9bed570ab10395729e74c86e20554805228",
+            "polishedPixelSha256": "446c50e01a0020adb3cfcd5cad1bf0c8ad5f72a8ffc7406f21aa219e97a27efb"
+          },
+          {
+            "frame": 8,
+            "group": "all",
+            "sourceAnchorPx": [
+              161.0358,
+              120.0713
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -14,
+              30
+            ],
+            "polishedAnchorPx": [
+              147.0358,
+              150.0713
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "caef0ec0ddd4921bb9bb63f641c19aa6cfdca42951567fd19898c992edcdfa2d",
+            "polishedPixelSha256": "d20fb90455ce0cc93fc0aadd1c669db937154b68878f7b3c3541aec1d3e56eda"
+          },
+          {
+            "frame": 9,
+            "group": "all",
+            "sourceAnchorPx": [
+              128.7871,
+              172.9716
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              18,
+              -23
+            ],
+            "polishedAnchorPx": [
+              146.7871,
+              149.9716
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "8f0e058524e96d83b1ae2570aa16514ca2945c315ec512d699341fef49ee7d46",
+            "polishedPixelSha256": "a5c098803a4dd87d620f5812cc8f5d0f2399877872871f8e9a65562925f3d1c2"
+          },
+          {
+            "frame": 10,
+            "group": "all",
+            "sourceAnchorPx": [
+              152.0596,
+              136.3226
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -5,
+              14
+            ],
+            "polishedAnchorPx": [
+              147.0596,
+              150.3226
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "bef126071bb0142d77a0846c9ddab6fcf8e1c396ebb4dbe46f8cb5526c6a8fd8",
+            "polishedPixelSha256": "2b907896a3e06dac8c09f2b7a520b430f49f947c9ea33ab0543aee6b2d42782a"
+          },
+          {
+            "frame": 11,
+            "group": "all",
+            "sourceAnchorPx": [
+              133.9153,
+              161.6586
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              13,
+              -12
+            ],
+            "polishedAnchorPx": [
+              146.9153,
+              149.6586
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "1d52e02e7b4eceb914322ad890da701853f36d08e8a919572ca31d4da94d4f02",
+            "polishedPixelSha256": "9f725acb3f8085512f01db71eff08ac1aab9545eedd082130c700f49f4f4d577"
+          },
+          {
+            "frame": 12,
+            "group": "all",
+            "sourceAnchorPx": [
+              142.1043,
+              124.7639
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              5,
+              25
+            ],
+            "polishedAnchorPx": [
+              147.1043,
+              149.7639
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "74119bde2e85b71a8b66a32c38fbe0e8d20e240533a36da7c0c767fd9989ac44",
+            "polishedPixelSha256": "4efe0cb104eb4b873e019a8c70dd5ce6431f5c142c768fc53dbfaa3a8181232c"
+          },
+          {
+            "frame": 13,
+            "group": "all",
+            "sourceAnchorPx": [
+              175.065,
+              132.2952
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -28,
+              18
+            ],
+            "polishedAnchorPx": [
+              147.065,
+              150.2952
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "37756faf6349e53b848b1688a79848a936fa8e8ce3ca291fba10f555cd3dc19f",
+            "polishedPixelSha256": "7d609b0c05361a9ffe666737dc056ae15b6c4093778b12e68ca889a327f1ca6b"
+          },
+          {
+            "frame": 14,
+            "group": "all",
+            "sourceAnchorPx": [
+              153.8238,
+              113.0156
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              -7,
+              37
+            ],
+            "polishedAnchorPx": [
+              146.8238,
+              150.0156
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "019c221e7c1b27be22451754b0570d1ace6a65cbc7713aba47863a4cc9a0c3e7",
+            "polishedPixelSha256": "87517a2fefe69c0a9c57710bb5c4f4af6ddbfec3e60ef4b56cce4cd408fe2370"
+          },
+          {
+            "frame": 15,
+            "group": "all",
+            "sourceAnchorPx": [
+              142.4038,
+              135.0534
+            ],
+            "targetAnchorPx": [
+              147,
+              150
+            ],
+            "shiftPx": [
+              5,
+              15
+            ],
+            "polishedAnchorPx": [
+              147.4038,
+              150.0534
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "80ad6dd7a75909dd4094b90fd948c0946b286edd07ee804640a7c6acb5aab308",
+            "polishedPixelSha256": "e6163af8019a2d716ac1558aa5ba92b6900fdd0d5037fd6d66135bac611dc898"
+          }
+        ]
+      }
+    },
+    {
+      "id": "environment",
+      "file": "fire-light-environment-v3.png",
+      "anchorMode": "luminous-core",
+      "grouping": "rows",
+      "registeredSourceProject": "sprites/environment/fire-light-v3/piskel/registered-source/environment.piskel",
+      "registeredSourceSha256": "54e652d3f38616792406924be73dc376ac4be588ab23306b9b0efcd8b17b4c78",
+      "polishedWorkProject": "sprites/environment/fire-light-v3/piskel/polished-work/environment.piskel",
+      "polishedWorkSha256": "cb22cb4ee16b0c871ac53cc6e3f417a2056cd5d0b59ef58b39554d398ee43c13",
+      "rollbackProject": "sprites/environment/fire-light-v3/piskel/rollback-v1/environment.piskel",
+      "rollbackRuntime": "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-environment-v3.png",
+      "rollbackRuntimeSha256": "12c98cbf307fca2c8c5d8f606211869efdc9eec6c10184d381696ac3cc97541f",
+      "candidateRuntime": "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-environment-v3.png",
+      "candidateRuntimeSha256": "34b9fd3161d85806f6bef05714d15b5bf4bac9f83a13261bca11f75b7114b93b",
+      "strip": "sprites/environment/fire-light-v3/piskel/strips/fire-light-environment-v3.png",
+      "maximumEnergyLossRatio": 5.414e-05,
+      "maximumBeforeAnchorRangePx": 11.1939,
+      "maximumAfterAnchorRangePx": 0.8465,
+      "alignment": {
+        "policy": "integer-translation-fixed-group-anchor",
+        "anchorMode": "luminous-core",
+        "grouping": "rows",
+        "safeBorderPx": 3,
+        "groupTargetsPx": {
+          "row-0": [
+            103,
+            196
+          ],
+          "row-1": [
+            155,
+            186
+          ],
+          "row-2": [
+            151,
+            172
+          ],
+          "row-3": [
+            155,
+            141
+          ]
+        },
+        "beforeGroups": [
+          {
+            "id": "row-0",
+            "targetAnchorPx": [
+              103,
+              196
+            ],
+            "rangeXPx": 11.1939,
+            "rangeYPx": 2.0992,
+            "maximumAnchorErrorPx": 8.695
+          },
+          {
+            "id": "row-1",
+            "targetAnchorPx": [
+              155,
+              186
+            ],
+            "rangeXPx": 3.5796,
+            "rangeYPx": 2.888,
+            "maximumAnchorErrorPx": 2.8306
+          },
+          {
+            "id": "row-2",
+            "targetAnchorPx": [
+              151,
+              172
+            ],
+            "rangeXPx": 6.0526,
+            "rangeYPx": 4.3619,
+            "maximumAnchorErrorPx": 5.5734
+          },
+          {
+            "id": "row-3",
+            "targetAnchorPx": [
+              155,
+              141
+            ],
+            "rangeXPx": 4.5584,
+            "rangeYPx": 5.9139,
+            "maximumAnchorErrorPx": 4.3323
+          }
+        ],
+        "afterGroups": [
+          {
+            "id": "row-0",
+            "targetAnchorPx": [
+              103,
+              196
+            ],
+            "rangeXPx": 0.8061,
+            "rangeYPx": 0.2513,
+            "maximumAnchorErrorPx": 0.5001
+          },
+          {
+            "id": "row-1",
+            "targetAnchorPx": [
+              155,
+              186
+            ],
+            "rangeXPx": 0.5211,
+            "rangeYPx": 0.5816,
+            "maximumAnchorErrorPx": 0.4934
+          },
+          {
+            "id": "row-2",
+            "targetAnchorPx": [
+              151,
+              172
+            ],
+            "rangeXPx": 0.8465,
+            "rangeYPx": 0.6063,
+            "maximumAnchorErrorPx": 0.6226
+          },
+          {
+            "id": "row-3",
+            "targetAnchorPx": [
+              155,
+              141
+            ],
+            "rangeXPx": 0.8302,
+            "rangeYPx": 0.4508,
+            "maximumAnchorErrorPx": 0.5523
+          }
+        ],
+        "frames": [
+          {
+            "frame": 0,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              100.4063,
+              196.2536
+            ],
+            "targetAnchorPx": [
+              103,
+              196
+            ],
+            "shiftPx": [
+              3,
+              0
+            ],
+            "polishedAnchorPx": [
+              103.4063,
+              196.2536
+            ],
+            "energyLossRatio": 3.888e-05,
+            "sourcePixelSha256": "f5c5ad3489782df391c9dab0c540f09644200aaf79721659df40a165438adc6a",
+            "polishedPixelSha256": "6cf5d3278516bb254eeaf43c2c4c9f0c21a69d3735076966a9af16978a6546c5"
+          },
+          {
+            "frame": 1,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              101.7488,
+              196.4325
+            ],
+            "targetAnchorPx": [
+              103,
+              196
+            ],
+            "shiftPx": [
+              1,
+              0
+            ],
+            "polishedAnchorPx": [
+              102.7488,
+              196.4324
+            ],
+            "energyLossRatio": 5.414e-05,
+            "sourcePixelSha256": "9e798bf78c41ba6a35ff0040dd353492cf6c1dc2b845519d8c9d13bbf30cb2cd",
+            "polishedPixelSha256": "22475412d19b52a0ef46aa70cd04a4888418eb101b6f7b3e5a17829ca94e6212"
+          },
+          {
+            "frame": 2,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              111.6002,
+              197.2803
+            ],
+            "targetAnchorPx": [
+              103,
+              196
+            ],
+            "shiftPx": [
+              -9,
+              -1
+            ],
+            "polishedAnchorPx": [
+              102.6002,
+              196.2803
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "d94a5c64419df4c626623eceaa150e9c34ac992b1726af6096e3e0a0a376f6f4",
+            "polishedPixelSha256": "0481a330b3065c3cf4c2b78c8f01d3ce1393d481320d3f95f8539349fa554f2b"
+          },
+          {
+            "frame": 3,
+            "group": "row-0",
+            "sourceAnchorPx": [
+              103.2733,
+              195.1811
+            ],
+            "targetAnchorPx": [
+              103,
+              196
+            ],
+            "shiftPx": [
+              0,
+              1
+            ],
+            "polishedAnchorPx": [
+              103.2733,
+              196.1811
+            ],
+            "energyLossRatio": 5.131e-05,
+            "sourcePixelSha256": "4b7eecdcd59565d56ee7f30f6c468497e9966a7fd639e81fa31eda9a60712948",
+            "polishedPixelSha256": "08baa4e262dc2c7b611b35b7cc04fc6de87c111e42fee046e2e385a47aab13d8"
+          },
+          {
+            "frame": 4,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              153.9766,
+              185.0865
+            ],
+            "targetAnchorPx": [
+              155,
+              186
+            ],
+            "shiftPx": [
+              1,
+              1
+            ],
+            "polishedAnchorPx": [
+              154.9766,
+              186.0865
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "0fe0110cb58bee05a16d6d9992db719bdcf6a2b67fa1ee185331f203981d57cf",
+            "polishedPixelSha256": "a24bc96f8892348610e3230ff93f135fddf4693e42d841cec2dab7e45e550496"
+          },
+          {
+            "frame": 5,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              154.6008,
+              186.2539
+            ],
+            "targetAnchorPx": [
+              155,
+              186
+            ],
+            "shiftPx": [
+              0,
+              0
+            ],
+            "polishedAnchorPx": [
+              154.6008,
+              186.2539
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "0829efe8e2be447fe6fdd1436943db3b3f15a1e57589894e2a81349d646a0e41",
+            "polishedPixelSha256": "2c6c28699cbfb4416e0a9b5123a0a627b180646e9bef3f9e96c735b5ced3ea8c"
+          },
+          {
+            "frame": 6,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              157.5563,
+              184.7842
+            ],
+            "targetAnchorPx": [
+              155,
+              186
+            ],
+            "shiftPx": [
+              -3,
+              1
+            ],
+            "polishedAnchorPx": [
+              154.5563,
+              185.7842
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "4b896fd00796f78b3c73d1260959b8ee7245c224c1732091410110fb4ab5e5ee",
+            "polishedPixelSha256": "c5f34d1198ad4069a78057e03acb298ec09e9fba7d3c888d3a7a00c97edbc2e6"
+          },
+          {
+            "frame": 7,
+            "group": "row-1",
+            "sourceAnchorPx": [
+              156.0774,
+              187.6723
+            ],
+            "targetAnchorPx": [
+              155,
+              186
+            ],
+            "shiftPx": [
+              -1,
+              -2
+            ],
+            "polishedAnchorPx": [
+              155.0774,
+              185.6723
+            ],
+            "energyLossRatio": 3.202e-05,
+            "sourcePixelSha256": "c937a44221e2d2b0ab9270fa4991fcfccda7fce24c13e4680ddb29466a85a5e9",
+            "polishedPixelSha256": "e93e655bcecd0f6f038f973114a84a04741ad98174b52d3343a67dbbea75c9a1"
+          },
+          {
+            "frame": 8,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              150.3926,
+              171.4832
+            ],
+            "targetAnchorPx": [
+              151,
+              172
+            ],
+            "shiftPx": [
+              1,
+              1
+            ],
+            "polishedAnchorPx": [
+              151.3926,
+              172.4832
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "afe5e317f8d70eca77cea3f134d3d03f038b6990e9ef773c8def463c0952bd23",
+            "polishedPixelSha256": "749ebebd8d01d2e89b3dc79bf051c73f0e631d24c5650338321bc51b61ce1627"
+          },
+          {
+            "frame": 9,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              150.5987,
+              170.8769
+            ],
+            "targetAnchorPx": [
+              151,
+              172
+            ],
+            "shiftPx": [
+              0,
+              1
+            ],
+            "polishedAnchorPx": [
+              150.5987,
+              171.8769
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "ddf0cc4f85c089a3bce4f509f6060fe7607e867144edebb9bfd72e771dbbe68d",
+            "polishedPixelSha256": "2c7e2a6b9a3e2a4dbc00381f52138a73bec7d1b4469da1024ee115d110b56b0d"
+          },
+          {
+            "frame": 10,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              156.4452,
+              173.1884
+            ],
+            "targetAnchorPx": [
+              151,
+              172
+            ],
+            "shiftPx": [
+              -5,
+              -1
+            ],
+            "polishedAnchorPx": [
+              151.4452,
+              172.1884
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "82bcbeb255f9da84b3f5f1848e7974d57119ca74e78323f110d4ff70198a03ae",
+            "polishedPixelSha256": "98e39b50d0613e460256dc13ec26deed5e3ff7affa6e04d6bebc418a79ea8449"
+          },
+          {
+            "frame": 11,
+            "group": "row-2",
+            "sourceAnchorPx": [
+              152.1601,
+              175.2388
+            ],
+            "targetAnchorPx": [
+              151,
+              172
+            ],
+            "shiftPx": [
+              -1,
+              -3
+            ],
+            "polishedAnchorPx": [
+              151.1601,
+              172.2388
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "a2f5bd0d97d94779be00f80589c9b8f32491a3fb956a43007a435a874a31aec3",
+            "polishedPixelSha256": "5cc6e10bc07c495f4d30a71c42941410408dc32fb8288104d492bbfaa3f3a722"
+          },
+          {
+            "frame": 12,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              154.3913,
+              138.6977
+            ],
+            "targetAnchorPx": [
+              155,
+              141
+            ],
+            "shiftPx": [
+              1,
+              2
+            ],
+            "polishedAnchorPx": [
+              155.3913,
+              140.6977
+            ],
+            "energyLossRatio": 0.0,
+            "sourcePixelSha256": "452bccaf2bccba7ffa06642028f270de081c38f724d1d3ec9a4553cef1fb666f",
+            "polishedPixelSha256": "41f81a6f360656bbbfc8fe1b90777c200bb7d48c2dd2657d082d8e4ba38f5079"
+          },
+          {
+            "frame": 13,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              152.6073,
+              144.6117
+            ],
+            "targetAnchorPx": [
+              155,
+              141
+            ],
+            "shiftPx": [
+              2,
+              -4
+            ],
+            "polishedAnchorPx": [
+              154.6073,
+              140.6117
+            ],
+            "energyLossRatio": 7e-08,
+            "sourcePixelSha256": "3f2f23bc9b6493700791f0767bb497b77f4d92b10964918a7c9368cf5274dc76",
+            "polishedPixelSha256": "95523b94557915886905389a6891c89393c909262661bc5cadb39d53eb927bb4"
+          },
+          {
+            "frame": 14,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              155.4375,
+              142.0624
+            ],
+            "targetAnchorPx": [
+              155,
+              141
+            ],
+            "shiftPx": [
+              0,
+              -1
+            ],
+            "polishedAnchorPx": [
+              155.4375,
+              141.0624
+            ],
+            "energyLossRatio": 1.71e-05,
+            "sourcePixelSha256": "338d86e5a503ee00ffb0415dcdf19c16f43e1009d83f64cbe265b00a24f413bb",
+            "polishedPixelSha256": "82d840ad2b4248f1215343eefa956da11c8b5621318554198c36eca86e430f58"
+          },
+          {
+            "frame": 15,
+            "group": "row-3",
+            "sourceAnchorPx": [
+              157.1657,
+              140.6215
+            ],
+            "targetAnchorPx": [
+              155,
+              141
+            ],
+            "shiftPx": [
+              -2,
+              0
+            ],
+            "polishedAnchorPx": [
+              155.1658,
+              140.6215
+            ],
+            "energyLossRatio": 3.325e-05,
+            "sourcePixelSha256": "914ce8fca9604e291dcd01b7522a7790134e11acf1af33fc59bf6fa58ed92b44",
+            "polishedPixelSha256": "9b06e342b5619c838848452e62d783fb66a161639c8efb73f0f800a36b31b57c"
+          }
+        ]
+      }
+    }
+  ],
+  "sha256": {
+    "sprites/environment/fire-light-v3/piskel/registered-source/steadyFlame.piskel": "683d419bfa905f7b6f29c6cef8a3564be3a30200e9652b683703c76c3629bdcd",
+    "sprites/environment/fire-light-v3/piskel/polished-work/steadyFlame.piskel": "bd930dbb4c2f04303b872f9f35c1ce613e7458deb5a78094d6f1151201b17de1",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/steadyFlame.piskel": "683d419bfa905f7b6f29c6cef8a3564be3a30200e9652b683703c76c3629bdcd",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-flame-steady-v3.png": "a82a774d77de18b093d175bed9564606ddc71e2fe41d55d5e50ea91919494420",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-flame-steady-v3.png": "7ede2796a1292b43b5657ce646dc6bd5320b86eb63a3d78529e54e00ef42678c",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-flame-steady-v3.png": "271747149cf15f565b297c150c54781b9d041b6ced737824bab3fe7844f7a1bc",
+    "sprites/environment/fire-light-v3/piskel/registered-source/stateFlame.piskel": "0eaafacc0dc0663b74a4f0ea658d983509357fb841866cce21d528360100845e",
+    "sprites/environment/fire-light-v3/piskel/polished-work/stateFlame.piskel": "46d78a3d7488f72b5e94b40ba11c09b599acf282aedb0741f4858cfc6d7d975c",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/stateFlame.piskel": "0eaafacc0dc0663b74a4f0ea658d983509357fb841866cce21d528360100845e",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-flame-states-v3.png": "0b64cfbec135f7834aba65f6af4ab2171578c4a1d1f42db26d20cec4e8c0b096",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-flame-states-v3.png": "babf23d60747ce2c7f46b2df132b08bc85997ac4ebaac5be5053e5a44c424a9f",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-flame-states-v3.png": "3c526d930ec3eede74de2ed5cf2e7b5575faf9423b77b27d9f01743a40bcdcc3",
+    "sprites/environment/fire-light-v3/piskel/registered-source/lightVolume.piskel": "430077624e61d5edf149e8735311be4b30c4ebbd90ae81c4e7104b7d531d0006",
+    "sprites/environment/fire-light-v3/piskel/polished-work/lightVolume.piskel": "e0b76b75ef4bc45ccf02b68f336774c0ea8b777864e2880555a4701d9ced8456",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/lightVolume.piskel": "430077624e61d5edf149e8735311be4b30c4ebbd90ae81c4e7104b7d531d0006",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-volume-v3.png": "6f9837513541303e6f43bc4ea2d1d0b7ede8b279709a34a7d14a2d57e3eadcc1",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-volume-v3.png": "74e7ea5cd9a795f39c84af17b9f46812df394865943891e2d6aaa693d057529d",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-volume-v3.png": "867f5f4f727e6df3042d5e14f75e1f636fa55e27ebbfb409392493c7cadf377a",
+    "sprites/environment/fire-light-v3/piskel/registered-source/rays.piskel": "21eba20259e1e7b60da394e00d438688ec0f696a4d42bd2356bf2964b253e7dc",
+    "sprites/environment/fire-light-v3/piskel/polished-work/rays.piskel": "dee4b4d18e8a85b328ef42fc44415c593e67304be21f8758da4494538c592232",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/rays.piskel": "21eba20259e1e7b60da394e00d438688ec0f696a4d42bd2356bf2964b253e7dc",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-rays-v3.png": "06a17e2a502e0941921e24cc658d3b943b2e52da0329a4298af605039a3c8e0c",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-rays-v3.png": "2246d32fa168c72cf8f8b96212604e74023d0096bf559e6192403eeed08139b3",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-rays-v3.png": "2943c3c6d35b03572d7020493f1ee2ca0b233330a80f0f62813dbcbf716e1bb9",
+    "sprites/environment/fire-light-v3/piskel/registered-source/atmosphere.piskel": "df3ffa8d159845b769b7b37aec78c5180d611d158757dbc8888e34f18d60af0d",
+    "sprites/environment/fire-light-v3/piskel/polished-work/atmosphere.piskel": "b43cee159b72a0a30796b2e2bdd508134efbff0a7951458746af7dca6e981610",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/atmosphere.piskel": "df3ffa8d159845b769b7b37aec78c5180d611d158757dbc8888e34f18d60af0d",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-atmosphere-v3.png": "b7d941e13783c78bd3837ac7ff2a7a35a6d1df99c04e8d2e688f420046bbe712",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-atmosphere-v3.png": "347eb2db69bf2509e052f3d970864bab3dd6ffcd418fc3be4cdc24cc7633bf38",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-atmosphere-v3.png": "93fc09ea53a4368e8df658c7537275f7e248bd5dd3a25cd8db516d1c95a5eaf1",
+    "sprites/environment/fire-light-v3/piskel/registered-source/hotCore.piskel": "d632e3682112d2cd0594ab3ecbbe13c767cb8328fef317ac999472404df2cdef",
+    "sprites/environment/fire-light-v3/piskel/polished-work/hotCore.piskel": "c86150501b102301b50c0dcf0f47baedd2827ef41a290ff83d08c42c9c9a28be",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/hotCore.piskel": "d632e3682112d2cd0594ab3ecbbe13c767cb8328fef317ac999472404df2cdef",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-hot-core-v3.png": "098c9215ddccf28dbbfd162f41410b87d31b21c8c084e37a0288d28119f47230",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-hot-core-v3.png": "6c481b529dad12b6c410265e4491468e78a2802873ed7c62d32f00ce800654ed",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-hot-core-v3.png": "aceb7d20fe1928f85cccbbafc6ef7741915ffa43874c04f63b1a40f549b0f0f4",
+    "sprites/environment/fire-light-v3/piskel/registered-source/penumbra.piskel": "772a5cb34f092b47c3e44715498af6c395ddd6c0b8f3eda5a33f4c3e8293ffca",
+    "sprites/environment/fire-light-v3/piskel/polished-work/penumbra.piskel": "9cf50bb2d633f6d231c117cb32ed9f29fbff787a0089bed35d625997b0e2f0fa",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/penumbra.piskel": "772a5cb34f092b47c3e44715498af6c395ddd6c0b8f3eda5a33f4c3e8293ffca",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-penumbra-v3.png": "3c70f3c8ef95064cbe74171e7d162b94b08584a09a33b18a5ac3b6a199487c8a",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-penumbra-v3.png": "188507900083d9bd9b18005443026e6ef97d9adae2d308587b1bf8b56722ed87",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-penumbra-v3.png": "263eef5bf885ac6a29dde2838d2f3436ffec7fb3c44177170053220ae310215f",
+    "sprites/environment/fire-light-v3/piskel/registered-source/bounce.piskel": "42cae146043c5f005721eed8287f8446e978663328dc5bdb6a0f11fab0625a5d",
+    "sprites/environment/fire-light-v3/piskel/polished-work/bounce.piskel": "b70f06bc62a583e196446c5ac01eabb138607ee834b4dd345061a3b06f5ca688",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/bounce.piskel": "42cae146043c5f005721eed8287f8446e978663328dc5bdb6a0f11fab0625a5d",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-bounce-v3.png": "966364451fa86c1eb318bf144f881b68607d98fda8746dfe92b7b5f28e4663d2",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-bounce-v3.png": "8e973341c8c9c48f5dc1a5c445623fd983d286432749671c8af224d7d43f9716",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-bounce-v3.png": "a8b5dffc8482d681c1a7e4cdfa45d1466840d169e41f44cc3e8a2eb55e27c54d",
+    "sprites/environment/fire-light-v3/piskel/registered-source/breakup.piskel": "9c54962023d6278f1b20b9a1d1df7ce9a541c356016edda120b140fb5a6a4b77",
+    "sprites/environment/fire-light-v3/piskel/polished-work/breakup.piskel": "911c0972ceeb738bab2ac35f3e67a850c34268fe74ad035f5e4e2157fefeeb78",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/breakup.piskel": "9c54962023d6278f1b20b9a1d1df7ce9a541c356016edda120b140fb5a6a4b77",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-breakup-v3.png": "c6fbb65f2aef30dc542f5691dc6e7b203d1ec9d340a6d2b4101caed390aabde0",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-breakup-v3.png": "7c3fe892f48becac98f68f1dfe4335ddbf72063f7ff03d23c03f15203d8e8778",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-breakup-v3.png": "6ccc4d22c4e386a79bb08da6cb3fda9517598b9f427aa96436e82bf5e9278833",
+    "sprites/environment/fire-light-v3/piskel/registered-source/environment.piskel": "54e652d3f38616792406924be73dc376ac4be588ab23306b9b0efcd8b17b4c78",
+    "sprites/environment/fire-light-v3/piskel/polished-work/environment.piskel": "cb22cb4ee16b0c871ac53cc6e3f417a2056cd5d0b59ef58b39554d398ee43c13",
+    "sprites/environment/fire-light-v3/piskel/rollback-v1/environment.piskel": "54e652d3f38616792406924be73dc376ac4be588ab23306b9b0efcd8b17b4c78",
+    "sprites/environment/fire-light-v3/piskel/runtime-rollback-v1/fire-light-environment-v3.png": "12c98cbf307fca2c8c5d8f606211869efdc9eec6c10184d381696ac3cc97541f",
+    "sprites/environment/fire-light-v3/piskel/candidate-runtime/fire-light-environment-v3.png": "34b9fd3161d85806f6bef05714d15b5bf4bac9f83a13261bca11f75b7114b93b",
+    "sprites/environment/fire-light-v3/piskel/strips/fire-light-environment-v3.png": "b2f174a78ec04aef413c2641241f99c8de445fa26884bb5d91d667d7ce269bd9",
+    "visual-approval-previews/fire-light-piskel-polish-v1/01-before-after-anchor-grid.png": "34931b4a270fd4a1711c01b452c43456722c2a0120e9952830289140aec4eb60",
+    "visual-approval-previews/fire-light-piskel-polish-v1/01-before-after-anchor-grid-small.jpg": "38f7049eac0715a6c5bd5ed11ebbb2620cfb5645c7ef7efb596028438cac8d43",
+    "visual-approval-previews/fire-light-piskel-polish-v1/02-drift-summary.png": "c94445b0ddeb70e73396469ae57ce4eaa5278550731a9d2007cb6483ca4aed00",
+    "sprites/environment/fire-light-v3/piskel/geometry-report.json": "419534008a69f6e14de02e6b1a4b1129edf3cce9ab3a09dacaa97f0232539f1c"
+  }
+}

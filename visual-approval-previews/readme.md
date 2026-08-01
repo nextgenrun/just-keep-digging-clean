@@ -2,6 +2,92 @@
 
 Review-only visual assets live here before runtime wiring. Each subfolder must identify its source art, intended review scope, and whether anything is game-loaded.
 
+## Fire Light Piskel polish V1 — 2026-07-30
+
+- `fire-light-piskel-polish-v1/01-before-after-anchor-grid.png` shows all ten
+  source and polished 4x4 atlases with measured anchors and fixed group targets.
+- `02-drift-summary.png` records the worst group range improving from 79.57 px
+  to 0.98 px without scaling or interpolation.
+- The matching package contains ten editable `.piskel` authorities, 160
+  pixel-identical round-tripped frames, three-pixel black borders, candidate
+  runtime exports, and byte-exact original rollback atlases.
+- The boards are evidence only; the hash-verified polished PNGs are loaded from
+  `sprites/environment/fire-light-v3/`.
+
+## Natural fire versus legacy V1 — 2026-07-30
+
+- `natural-fire-vs-legacy-v1/live-simulation/` is the actual simultaneous
+  dual-Phaser/WebGL comparison selected after the lamp review. The left world
+  runs `natural-fire-v1`; the right world runs the untouched pre-Fire-V3
+  procedural baseline at the same tile, camera, GP, weather, and solar phase.
+- The natural side measures one authored layer, 0.98 procedural world glow,
+  0.96 shader energy, 0.24 adaptation overlay, zero rays, no visible volume or
+  atmosphere, and an approximately `0.450 x 0.607`-tile flickering flame.
+- The folder contains full/clear, low-GP/rain/night, and final-resync captures
+  plus a JSON report. Both renderers were WebGL, all twenty fire-asset responses
+  were HTTP 200, and no UI errors occurred; two root `favicon.ico` misses are
+  retained as harmless browser evidence.
+- `natural-fire-vs-legacy-v1/deep-simulation/` contains the decisive settled
+  700/1000/1800 m captures plus a 1000 m low-GP capture. Both sides measured the
+  same 3.412/3.021/2.973-tile reach and darkness alpha 1. Natural Fire's only
+  deliberate additions are one compact flame and 0.24 adaptation; legacy keeps
+  zero authored source layers. The report retains harmless cancelled outgoing
+  biome-video requests caused by jumping between depth bands.
+
+## Old-school lamp light V1 — 2026-07-30
+
+- `old-school-lamp-light-v1/live-simulation/` contains the actual simultaneous
+  dual-Phaser/WebGL evidence: full/clear, low/rain, resynced captures, and the
+  runtime report proving identical tile/camera and solar phase, zero default
+  rays, eye adaptation, compact fire geometry, and 27 successful responses.
+- `old-school-lamp-light-v1/01-torch-vs-lamp-ingame.png` retains the earlier
+  sequential reference board.
+- `02-lamp-asset-library.png` shows all seven 4x4 ImageGen atlases and
+  `03-lamp-anchor-drift.png` records every fixed Piskel group range below one
+  pixel without interpolation.
+- The lamp assets are game-loadable only through
+  `?carriedLightStyle=lamp-review`; Fire Light V3 remains the default.
+- The lamp remains review-only. The comparison does not change gameplay
+  visibility, GP drain, or default preload cost.
+
+## Ground damage Piskel anchor V2 review — 2026-07-30
+
+- `ground-damage-anchor-v2-review/` compares all ten twelve-state production
+  fracture families before and after fixed-seed registration at native 94 px,
+  across multiple display resolutions and current ground materials.
+- Ten independent editable Piskel projects, exact round-trip hashes, shared
+  per-family scale, cumulative prior-stage retention, edge safety, and the
+  corrected 341/342/341 source-row split are recorded under
+  `exports/piskel/ground-damage-anchor-v2-review/`.
+- `reviewOnly: true`; `productionChanged: false`. The Phaser harness loads the
+  candidate atlas only for review through the exact production painter.
+- The polished revision now separates immutable registered-source, editable
+  polished-work, and derived runtime-scale Piskels; `04-high-risk-piskel-polish-proof.png`
+  isolates the five scale/slicing-risk families and reports crop, scale, and removed bleed.
+- `polished-work-rollback-v1/` preserves all ten pre-opacity-adjustment Piskels;
+  the manifest records the exact rollback command and production-atlas guard.
+
+## High-impact v2 10K geometry audit — 2026-07-30
+
+- `high-impact-v2-geometry-audit-2026-07-30/` records a reproducible pixel scan
+  of all 1,000 corrected p00 sources and 9,000 first-generation derivatives.
+- The JSON and Markdown evidence separate true support/canvas failures from
+  p01 alpha-threshold contraction and identify source-sequence anchor risks.
+- `reviewOnly: true`; `productionChanged: false`. The audit does not rewrite,
+  register, preload, or wire any image.
+
+## Underground detail library and seam blend V6 — 2026-07-29
+
+- `underground-foreground-library-v6/` retains twenty ImageGen atlas sources,
+  their alpha masters, a hash-pinned 400-frame manifest, and complete
+  checkerboard contact sheets for 200 foreground textures plus 200 overlay
+  props.
+- `underground-seam-blend-v6/` records 90 terrain and 50 ground-structure
+  complementary incoming-edge derivatives with true-stride biome seam proofs.
+- `reviewOnly: false`; `productionChanged: true`. Phaser loads only the packed
+  WebPs under `sprites/backgrounds/world-visual-v2/depth/`; review files remain
+  provenance and QA evidence.
+
 ## Wide embedded resource runtime QA V8 — 2026-07-28
 
 - `overground-texture-audit-v8-wide-embedded-runtime/` shows all 60 production
@@ -405,3 +491,48 @@ whole-body frames.
 - Production files are derived into `biome-expansion-v5/`,
   `terrain-variation-v5/`, and `surface-ground-variation-v5/`; every older
   approved asset remains in its original directory and active pool.
+
+## Surface and sky props V3 — 2026-07-29
+
+- `surface-sky-props-v3/` contains ten labeled 20-prop category sheets and one
+  complete 200-object overview for alpha, silhouette, material, size-metadata,
+  and palette review.
+- The exact production atlases and prompt/build provenance live under
+  `sprites/environment/surface-sky-props-v3/`; only those atlas files are
+  preloaded by Phaser.
+
+## Surface prop worldbuilding implementation V2/V4 — 2026-07-30
+
+- `surface-prop-worldbuilding-implementation-v2/` contains the original five
+  scale-correct direction frames plus seven actual PlayScene
+  default-versus-rollback comparisons for every Level 2 chapter.
+- Production now uses one physically scaled hero landmark per chapter and
+  suppresses twenty-four earlier placements that overlapped or competed,
+  reducing the combined composition from 84 silhouettes to 67.
+- The overview proves Arrival Forge, Caravan Rest, Starwell, Timberwright,
+  Observatory, Frontier Survey, and Three Kings against unchanged backgrounds,
+  terrain, HUD, player, weather, portal logic, and collision.
+- `reviewOnly: true` for the PNG sheets; `productionChanged: true` for the
+  separate landmark assets. Phaser never loads the comparison images.
+
+## Underground backdrop enhancers V7 - 2026-07-29
+
+- `underground-backdrop-enhancers-v7/` preserves 100 native 1536x1024
+  ImageGen chroma sources, processed alpha PNGs, prompt provenance, hash and
+  alpha metrics, a checkerboard contact sheet, and a correct-biome context
+  contact sheet.
+- Runtime promotion is additive and lives under
+  `sprites/backgrounds/world-visual-v2/depth/biome-backdrop-enhancers-v7/`.
+- Placement is stable, motif-compatible, and optional; plain no-overlay
+  backdrop cards remain common by design.
+
+
+## Starlight Talent Tree V4 - 2026-07-30
+
+- `starlight-talent-tree-v4/final-approved-page-*.png` captures all three Starlight pages
+  at `1280x720` through the production Phaser view.
+- `starlight-talent-tree-v4/compact-approved-page-*.png` captures the
+  `960x640` readability floor after removing the obsolete outer shell frame.
+- Every capture requires a healthy 10-sign/3-Engine/3-page snapshot, exactly
+  three visible branch choices, zero missing textures, the bounded motion
+  budget, and no browser exceptions.

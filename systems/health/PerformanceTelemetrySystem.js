@@ -61,9 +61,13 @@ export class PerformanceTelemetrySystem {
     this.frameDurations = [];
     this.stepDurations = [];
     this.renderDurations = [];
+    this.longTaskDurations = [];
     this.spanDurations = new Map();
     this.spanContexts = new Map();
     this.totalLongFrames = 0;
+    this.totalLongTasks = 0;
+    this.longTaskObserver = null;
+    this.longTaskSupported = false;
     this.onPreStep = () => this._handlePreStep();
     this.onPostStep = () => this._handlePostStep();
     this.onPreRender = () => this._handlePreRender();
@@ -71,7 +75,10 @@ export class PerformanceTelemetrySystem {
   }
 
   install() {
-    if (this.config.enabled) this.globalRef[this.config.globals.monitor] = this;
+    if (this.config.enabled) {
+      this.globalRef[this.config.globals.monitor] = this;
+      this._installLongTaskObserver();
+    }
     return this;
   }
 
@@ -127,11 +134,19 @@ export class PerformanceTelemetrySystem {
         value => value >= this.config.thresholds.longFrameMs
       ).length,
       totalLongFrames: this.totalLongFrames,
+      longTaskMs: summarize(this.longTaskDurations, this.config),
+      longTasksInWindow: this.longTaskDurations.length,
+      totalLongTasks: this.totalLongTasks,
+      longTaskSupported: this.longTaskSupported,
       spans,
       streaming: {
         worldRenderer,
         backgrounds: activeScene?.worldBackgroundMasterSystem?.getPerformanceSnapshot?.() || null,
         tileWindow: worldRenderer,
+        audio: activeScene?.soundSystem?.getRuntimeAudioSnapshot?.() || null,
+        assetLoads: activeScene?.runtimeAssetLoadCoordinator?.getSnapshot?.() || null,
+        featureAssets: activeScene?.runtimeFeatureAssetManager?.getSnapshot?.() || null,
+        saves: activeScene?._saveScheduler?.getSnapshot?.() || null,
       },
     };
   }
@@ -142,9 +157,13 @@ export class PerformanceTelemetrySystem {
       delete this.globalRef[this.config.globals.monitor];
     }
     this.game = null;
+    this.longTaskObserver?.disconnect?.();
+    this.longTaskObserver = null;
+    this.longTaskSupported = false;
     this.frameDurations.length = 0;
     this.stepDurations.length = 0;
     this.renderDurations.length = 0;
+    this.longTaskDurations.length = 0;
     this.spanDurations.clear();
     this.spanContexts.clear();
   }
@@ -164,6 +183,32 @@ export class PerformanceTelemetrySystem {
     }
     this.frameStartedAtMs = nowMs;
     this.stepStartedAtMs = nowMs;
+  }
+
+  _installLongTaskObserver() {
+    const Observer = this.globalRef.PerformanceObserver;
+    if (!this.config.longTasks.enabled || typeof Observer !== "function") return;
+    try {
+      this.longTaskObserver = new Observer(list => {
+        for (const entry of list.getEntries?.() || []) {
+          if (!Number.isFinite(entry.duration) || entry.duration < 0) continue;
+          pushBounded(
+            this.longTaskDurations,
+            entry.duration,
+            this.config.samples.longTaskWindowSize,
+          );
+          this.totalLongTasks += 1;
+        }
+      });
+      this.longTaskObserver.observe({
+        type: this.config.longTasks.entryType,
+        buffered: this.config.longTasks.buffered,
+      });
+      this.longTaskSupported = true;
+    } catch (_) {
+      this.longTaskObserver?.disconnect?.();
+      this.longTaskObserver = null;
+    }
   }
 
   _handlePostStep() {

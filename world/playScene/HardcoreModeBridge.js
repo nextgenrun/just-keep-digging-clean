@@ -5,6 +5,7 @@ import {
   HARDCORE_MODE_CONFIG,
   isHardcoreMode,
   isHardcoreModeArmed,
+  resolveHardcoreUpkeepGpFloor,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
 import {
@@ -13,6 +14,11 @@ import {
   handleHardcoreGpChanged,
   persistHardcoreLiveCheckpoint,
 } from "./HardcoreDeathBridge.js";
+import {
+  enterHardcoreBlockingModal,
+  leaveHardcoreBlockingModal,
+  requestHardcoreMemorialInspection,
+} from "./HardcoreModalStateBridge.js";
 
 function isFlightUnlocked(scene) {
   return scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -27,22 +33,6 @@ function syncSceneModeData(scene) {
 
 function flash(scene, text, color, duration) {
   scene.hudSystem?.flashStatus?.(text, color, duration);
-}
-
-function enterBlockingModal(scene) {
-  scene.hidePauseMenu?.();
-  scene.shopOverlay?.hide?.();
-  scene.gameState = "hardcore-modal";
-  scene.playerController?.setControlsEnabled?.(false);
-  scene.isDigAnimating = false;
-  scene.aimBox?.setVisible?.(false);
-}
-
-function leaveBlockingModal(scene) {
-  if (scene._hardcoreDeathInProgress) return;
-  scene.gameState = "playing";
-  scene.playerController?.setControlsEnabled?.(true);
-  scene.aimBox?.setVisible?.(true);
 }
 
 function processSystemEvents(scene) {
@@ -94,15 +84,15 @@ function requestConversion(scene) {
     return false;
   }
 
-  enterBlockingModal(scene);
+  enterHardcoreBlockingModal(scene);
   return runtime.modal.showConfirmation({
     title: runtime.config.copy.boboConfirmationTitle,
     body: runtime.config.copy.boboConfirmationBody,
-    onCancel: () => leaveBlockingModal(scene),
+    onCancel: () => leaveHardcoreBlockingModal(scene),
     onConfirm: async () => {
       scene.playerController?.fillGemPower?.();
       if (!runtime.system.convertFromCasual("bobo")) {
-        leaveBlockingModal(scene);
+        leaveHardcoreBlockingModal(scene);
         return false;
       }
       syncSceneModeData(scene);
@@ -122,7 +112,7 @@ function requestConversion(scene) {
         runtime.config.feedback.armedColor,
         runtime.config.feedback.armedFlashMs,
       );
-      leaveBlockingModal(scene);
+      leaveHardcoreBlockingModal(scene);
       return true;
     },
   });
@@ -134,15 +124,15 @@ function requestUnstuck(scene) {
   const remainingMs = runtime.system.getUnstuckCooldownRemaining();
   if (remainingMs > 0) return false;
 
-  enterBlockingModal(scene);
+  enterHardcoreBlockingModal(scene);
   return runtime.modal.showConfirmation({
     title: runtime.config.copy.unstuckTitle,
     subtitle: "50% OF EVERY CARRIED RESOURCE WILL BE LOST",
     body: runtime.config.copy.unstuckBody,
-    onCancel: () => leaveBlockingModal(scene),
+    onCancel: () => leaveHardcoreBlockingModal(scene),
     onConfirm: async () => {
       if (!runtime.system.canUseUnstuck()) {
-        leaveBlockingModal(scene);
+        leaveHardcoreBlockingModal(scene);
         return false;
       }
       const resources = scene.digSystem?.getResourceTotals?.() || {};
@@ -170,7 +160,7 @@ function requestUnstuck(scene) {
           runtime.config.feedback.errorFlashMs,
         );
       }
-      leaveBlockingModal(scene);
+      leaveHardcoreBlockingModal(scene);
       return true;
     },
   });
@@ -244,6 +234,13 @@ export function createHardcoreModeRuntime(scene) {
     duration,
   );
   runtime.updateDiagnostics = () => updateDiagnostics(scene);
+  runtime.gpFloorProvider = context => resolveHardcoreUpkeepGpFloor(
+    runtime.system.state,
+    context?.source,
+  );
+  scene.playerController?.setGemPowerFloorProvider?.(
+    runtime.gpFloorProvider,
+  );
   scene._hardcoreRuntime = runtime;
   scene._hardcoreDeathInProgress = false;
   scene._saveWritesBlocked = false;
@@ -264,6 +261,9 @@ export function createHardcoreModeRuntime(scene) {
   );
   runtime.bindings.requestHardcoreConversion = () => requestConversion(scene);
   runtime.bindings.requestHardcoreUnstuck = () => requestUnstuck(scene);
+  runtime.bindings.inspectHardcoreMemorial = record => (
+    requestHardcoreMemorialInspection(scene, record)
+  );
   runtime.bindings.getHardcoreTeleportCost = (options = {}) => (
     isHardcoreModeArmed(runtime.system.state)
       ? runtime.system.getTeleportCost(
@@ -377,6 +377,8 @@ export function destroyHardcoreModeRuntime(scene) {
   }
   runtime.hud?.destroy();
   runtime.modal?.destroy();
+  scene.playerController?.setGemPowerFloorProvider?.(null);
+  runtime.gpFloorProvider = null;
   if (typeof window !== "undefined") {
     delete window[runtime.config.diagnostics.globalKey];
   }

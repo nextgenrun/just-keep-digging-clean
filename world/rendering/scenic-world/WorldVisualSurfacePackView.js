@@ -82,6 +82,7 @@ export function resolveSurfacePackBeautyGeometry(
       widthTiles: pack.worldAnchor.widthTiles,
       sourcePixelsPerWorldPixel: cfg.expectedSource.width / width,
       targetDoorHeightWorldPx: null,
+      renderedDoorHeightWorldPx: null,
     };
   }
 
@@ -89,12 +90,14 @@ export function resolveSurfacePackBeautyGeometry(
   const playerVisibleHeightTiles = playerProfile.targetVisibleHeightTiles;
   const sourceDoorHeightPx = scaleReference.sourceDoorHeightPx;
   const targetDoorHeightMeters = scaleReference.targetDoorHeightMeters;
+  const maximumScale = cfg.maxWorldPixelsPerSourcePixel;
   const requiredValues = [
     tileSize,
     playerHeightMeters,
     playerVisibleHeightTiles,
     sourceDoorHeightPx,
     targetDoorHeightMeters,
+    maximumScale,
   ];
   if (requiredValues.some(value => !Number.isFinite(value) || value <= 0)) {
     throw new Error(`[WorldVisualSurfacePackView] ${pack.id} has an invalid physical-scale reference`);
@@ -104,7 +107,13 @@ export function resolveSurfacePackBeautyGeometry(
   const targetDoorHeightWorldPx = playerVisibleHeightWorldPx
     * targetDoorHeightMeters
     / playerHeightMeters;
-  const worldPixelsPerSourcePixel = targetDoorHeightWorldPx / sourceDoorHeightPx;
+  const requestedWorldPixelsPerSourcePixel = (
+    targetDoorHeightWorldPx / sourceDoorHeightPx
+  );
+  const worldPixelsPerSourcePixel = Math.min(
+    requestedWorldPixelsPerSourcePixel,
+    maximumScale,
+  );
   const width = cfg.expectedSource.width * worldPixelsPerSourcePixel;
   return {
     width,
@@ -112,6 +121,7 @@ export function resolveSurfacePackBeautyGeometry(
     widthTiles: width / tileSize,
     sourcePixelsPerWorldPixel: 1 / worldPixelsPerSourcePixel,
     targetDoorHeightWorldPx,
+    renderedDoorHeightWorldPx: sourceDoorHeightPx * worldPixelsPerSourcePixel,
   };
 }
 
@@ -155,6 +165,7 @@ export class WorldVisualSurfacePackView {
       widthTiles,
       sourcePixelsPerWorldPixel,
       targetDoorHeightWorldPx,
+      renderedDoorHeightWorldPx,
     } = geometry;
     if (sourcePixelsPerWorldPixel < cfg.minSourcePixelsPerWorldPixel) {
       throw new Error(
@@ -235,7 +246,8 @@ export class WorldVisualSurfacePackView {
       `[WorldVisualSurfacePackView] ${this.pack.id} active at `
       + `${sourcePixelsPerWorldPixel.toFixed(3)} source px/world px across `
       + `${widthTiles.toFixed(2)} tiles`
-      + `${Number.isFinite(targetDoorHeightWorldPx) ? `; ${targetDoorHeightWorldPx.toFixed(2)} px door` : ""}; `
+      + `${Number.isFinite(renderedDoorHeightWorldPx) ? `; ${renderedDoorHeightWorldPx.toFixed(2)} px rendered door` : ""}`
+      + `${Number.isFinite(targetDoorHeightWorldPx) ? ` (${targetDoorHeightWorldPx.toFixed(2)} px physical target capped)` : ""}; `
       + "use ?surfacePack=current-v2 to roll back"
     );
     return true;

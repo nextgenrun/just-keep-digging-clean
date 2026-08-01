@@ -2,18 +2,26 @@ import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicAssetSchedulerEnabled,
 } from "../../../values/worldVisualRuntime.js";
+import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 
 export class WorldVisualAssetCache {
   constructor(scene, {
     retainKeys = [],
     videoNoAudio = true,
     schedulerConfig = WORLD_VISUAL_RUNTIME.streaming.assetLoadScheduler,
+    owner = RUNTIME_ASSET_LOADING.owners.default,
+    priority = RUNTIME_ASSET_LOADING.priorities.default,
   } = {}) {
     this.scene = scene;
     this.retainKeys = new Set(retainKeys);
     this.videoNoAudio = videoNoAudio;
     this.schedulerConfig = schedulerConfig;
     this.schedulerEnabled = resolveScenicAssetSchedulerEnabled(schedulerConfig);
+    this.owner = owner;
+    this.priority = priority;
+    this.coordinator = scene.runtimeAssetLoadCoordinator?.enabled
+      ? scene.runtimeAssetLoadCoordinator
+      : null;
     this.pending = new Map();
     this.waiting = [];
     this.activeKeys = new Set();
@@ -51,16 +59,45 @@ export class WorldVisualAssetCache {
       error: new Set(onError ? [onError] : []),
       complete: null,
       started: false,
+      coordinated: false,
+      coordinatorHandle: null,
     };
     record.complete = () => this._finish(asset.key);
     this.pending.set(asset.key, record);
-    if (this.schedulerEnabled) {
+    if (this.coordinator) {
+      this._queueCoordinated(record);
+    } else if (this.schedulerEnabled) {
       this.waiting.push(record);
       this._pump();
     } else {
       this._startRecord(record);
     }
     return false;
+  }
+
+  _queueCoordinated(record) {
+    record.coordinated = true;
+    record.coordinatorHandle = this.coordinator.request(record.asset, {
+      owner: this.owner,
+      priority: this.priority,
+      videoNoAudio: this.videoNoAudio,
+      onStart: () => {
+        if (this.destroyed || !this.pending.has(record.asset.key)) return;
+        record.started = true;
+        this.activeKeys.add(record.asset.key);
+        console.info(`[WorldVisualAssetCache] Streaming ${record.asset.key}`);
+      },
+      onReady: () => this._finish(record.asset.key),
+      onError: (_asset, error) => this._fail(record.asset.key, error),
+    });
+    if (record.coordinatorHandle) return;
+    record.coordinated = false;
+    if (this.schedulerEnabled) {
+      this.waiting.push(record);
+      this._pump();
+    } else {
+      this._startRecord(record);
+    }
   }
 
   _startRecord(record) {
@@ -125,14 +162,19 @@ export class WorldVisualAssetCache {
     } else {
       this.scene.textures.remove(key);
     }
+    this.coordinator?.releaseDecodedSource?.(key);
     this.loadedByCache.delete(key);
     this.assetsByKey.delete(key);
     return true;
   }
 
   _cancelWaitingRecord(record) {
-    const index = this.waiting.indexOf(record);
-    if (index >= 0) this.waiting.splice(index, 1);
+    if (record.coordinated) {
+      record.coordinatorHandle?.cancel?.();
+    } else {
+      const index = this.waiting.indexOf(record);
+      if (index >= 0) this.waiting.splice(index, 1);
+    }
     this.pending.delete(record.asset.key);
     this.assetsByKey.delete(record.asset.key);
     this.cancelledLoads += 1;
@@ -146,7 +188,9 @@ export class WorldVisualAssetCache {
   getPerformanceSnapshot() {
     return {
       pendingAssets: this.pending.size,
-      waitingAssets: this.waiting.length,
+      waitingAssets: this.waiting.length + [...this.pending.values()].filter(
+        record => record.coordinated && !record.started
+      ).length,
       activeAssets: this.activeKeys.size,
       loadedAssets: this.loadedByCache.size,
       retainedAssets: this.retainKeys.size,
@@ -168,12 +212,18 @@ export class WorldVisualAssetCache {
   _handleLoadError(file) {
     const key = file?.key;
     const record = this.pending.get(key);
-    if (!record?.started) return;
+    if (!record?.started || record.coordinated) return;
     this.scene.load.off(record.eventName, record.complete);
+    this._fail(key, file);
+  }
+
+  _fail(key, error) {
+    const record = this.pending.get(key);
+    if (!record) return;
     this.pending.delete(key);
     this.activeKeys.delete(key);
     console.error(`[WorldVisualAssetCache] Failed to stream ${key}`);
-    for (const callback of record.error) callback(record.asset, file);
+    for (const callback of record.error) callback(record.asset, error);
     this._pump();
   }
 
@@ -183,7 +233,8 @@ export class WorldVisualAssetCache {
     this.scene.load.off("loaderror", this._handleLoadError);
     this.scene.load.off(this.schedulerConfig.loaderCompleteEvent, this._handleLoaderComplete);
     for (const record of this.pending.values()) {
-      if (record.started) this.scene.load.off(record.eventName, record.complete);
+      if (record.coordinated) record.coordinatorHandle?.cancel?.();
+      else if (record.started) this.scene.load.off(record.eventName, record.complete);
     }
     this.pending.clear();
     this.waiting.length = 0;

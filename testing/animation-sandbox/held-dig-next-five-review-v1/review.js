@@ -1,7 +1,7 @@
 const grid = document.querySelector("#review-grid");
 const buttons = document.querySelector("#scenario-buttons");
 const summary = document.querySelector("#approval-summary");
-const storageKey = "dig-game-held-dig-next-five-review-v1";
+const storageKey = "dig-game-held-dig-scale-anchor-review-v2";
 
 const state = {
   config: null,
@@ -49,19 +49,16 @@ function updateSummary() {
 function metricChips(scenario) {
   const metric = state.metrics.scenarios.find(({ id }) => id === scenario.id);
   if (!metric) return "";
-  if (scenario.id === "held-chain") {
-    return `<span>${metric.beforeJogFlashFrames} → ${metric.afterJogFlashFrames} Jog-flash frames</span><span>contacts ${metric.contactFramesAfter.join(" / ")}</span>`;
+  if (scenario.id === "moving-hold-scale-lock") {
+    return `<span>${metric.sizePulsePercentBefore}% → ${metric.sizePulsePercentAfter}% torso pulse</span><span>${metric.currentTorsoLengthSourcePx} → ${metric.proposedTorsoLengthSourcePx} px torso</span><span>contacts unchanged</span>`;
   }
-  if (scenario.id === "move-during-strike") {
-    return `<span>${metric.standingFootTravelFramesBefore} → ${metric.standingFootTravelFramesAfter} sliding frames</span><span>contacts unchanged</span>`;
+  if (scenario.id === "jog-jab-size-lock" || scenario.id === "jog-cross-size-lock") {
+    return `<span>${metric.displaySizePxBefore} → ${metric.displaySizePxAfter} px attack size</span><span>${metric.sizePulsePercentBefore}% → 0% pulse</span><span>root offset ${metric.contactVisualOffsetPxBefore.toFixed(1)} → ${metric.contactVisualOffsetPxAfter.toFixed(1)} px</span>`;
   }
-  if (scenario.id === "aim-retarget") {
-    return `<span>${metric.visualResponseDelayFramesBefore} → ${metric.visualResponseDelayFramesAfter} response frames</span><span>next contact ${metric.nextContactFrameAfter}</span>`;
+  if (scenario.id === "move-during-strike-scale-lock") {
+    return `<span>${metric.sizePulsePercentBefore}% → 0% torso pulse</span><span>${metric.standingFootTravelFramesBefore} → ${metric.standingFootTravelFramesAfter} sliding frames</span><span>contacts unchanged</span>`;
   }
-  if (scenario.id === "mining-reversal") {
-    return `<span>${metric.facingResponseDelayFramesBefore} → ${metric.facingResponseDelayFramesAfter} turn-delay frames</span><span>${metric.pivotFramesAfter}-frame plant</span>`;
-  }
-  return `<span>Jog phases ${metric.beforeJogPhaseAdvance.join("/")} → ${metric.afterJogPhaseAdvance.join("/")}</span><span>80 / 200 px/s</span>`;
+  return `<span>${metric.sizePulsePercentBefore}% → 0% torso pulse</span><span>${metric.beforeJogFlashFrames} → ${metric.afterJogFlashFrames} Jog-flash frames</span><span>contacts unchanged</span>`;
 }
 
 function createCard(scenario) {

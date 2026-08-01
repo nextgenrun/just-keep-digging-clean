@@ -1,5 +1,8 @@
 import { RESOURCE_BY_TILE_TYPE } from "../../../values/resourceTypes.js";
 import { TILE_TYPES, isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../../values/starIdentityLibrary.js";
+import { getStarIdentity } from "../../../values/starIdentityLibraryMath.js";
+import { installStarIdentityTextureFrames } from "../../../systems/visual/installStarIdentityTextureFrames.js";
 import {
   WORLD_VISUAL_SEMANTIC_ASSETS,
   resolveWorldVisualSemanticAssetsEnabled,
@@ -49,6 +52,7 @@ export class WorldVisualSemanticAssetLayer {
     this._installFrames(this.config.resources.atlas);
     this._installFrames(this.config.skyTile.beautyAtlas);
     this._installFrames(this.config.skyTile.emissiveAtlas);
+    this.identityFramesReady = installStarIdentityTextureFrames(this.scene);
     this._installFrames(this.config.specialBlocks.beautyAtlas);
     if (this.config.specialBlocks.emissiveAtlas) {
       this._installFrames(this.config.specialBlocks.emissiveAtlas);
@@ -182,12 +186,37 @@ export class WorldVisualSemanticAssetLayer {
   }
 
   _showStar(index, tx, ty, size, lighting) {
-    const frame = resolveWorldVisualSemanticStarFrame(
+    const fallbackFrame = resolveWorldVisualSemanticStarFrame(
       this.worldModel.getSkyTileRarity?.(tx, ty) || 0,
       this.config
     );
-    const beautyAtlas = this.config.skyTile.beautyAtlas;
-    const emissiveAtlas = this.config.skyTile.emissiveAtlas;
+    const identity = getStarIdentity(
+      this.worldModel.getSkyTileIdentity?.(tx, ty) || 0,
+    );
+    const identityAtlas = STAR_IDENTITY_LIBRARY_CONFIG.atlases[
+      identity.rarityIndex
+    ];
+    const identityLightAtlas = STAR_IDENTITY_LIBRARY_CONFIG.lightAtlases[
+      identity.rarityIndex
+    ];
+    const identityReady = this.identityFramesReady
+      && identityAtlas
+      && this.scene.textures.exists(identityAtlas.key);
+    const identityLightReady = this.identityFramesReady
+      && identityLightAtlas
+      && this.scene.textures.exists(identityLightAtlas.key);
+    const beautyAtlas = identityReady
+      ? identityAtlas
+      : this.config.skyTile.beautyAtlas;
+    const emissiveAtlas = identityLightReady
+      ? identityLightAtlas
+      : this.config.skyTile.emissiveAtlas;
+    const beautyFrame = identityReady
+      ? identity.frameName
+      : `${beautyAtlas.framePrefix}${fallbackFrame}`;
+    const emissiveFrame = identityLightReady
+      ? identity.lightFrameName
+      : `${emissiveAtlas.framePrefix}${fallbackFrame}`;
     const beauty = this.starBeautyPool[index] || this._createImage(
       this.starBeautyPool,
       beautyAtlas.key,
@@ -202,14 +231,26 @@ export class WorldVisualSemanticAssetLayer {
     );
     const x = (tx + 0.5) * size;
     const y = (ty + 0.5) * size;
-    const displaySize = size * this.config.skyTile.scale;
+    const displaySize = size
+      * this.config.skyTile.scale
+      * (identityReady
+        ? STAR_IDENTITY_LIBRARY_CONFIG.visual.worldTileScale
+        : 1);
+    const identityVisualReady = identityReady || identityLightReady;
+    const opacityScale = identityVisualReady ? identity.light.opacityScale : 1;
+    const lightDisplaySize = identityLightReady
+      ? displaySize * STAR_IDENTITY_LIBRARY_CONFIG.visual.worldLightScale
+      : displaySize;
+    const lightAlphaScale = identityLightReady
+      ? STAR_IDENTITY_LIBRARY_CONFIG.visual.worldLightAlphaScale
+      : 1;
     const townFloorOccluded = cellIntersectsTownFloorOcclusion(
       this.townFloorOcclusion, tx, ty, size
     );
     beauty.setPosition(x, y)
-      .setTexture(beautyAtlas.key, `${beautyAtlas.framePrefix}${frame}`)
+      .setTexture(beautyAtlas.key, beautyFrame)
       .setDisplaySize(displaySize, displaySize)
-      .setAlpha(this.config.skyTile.beautyAlpha)
+      .setAlpha(this.config.skyTile.beautyAlpha * opacityScale)
       .setTint(
         this.config.skyTile.beautyReceivesTerrainTint === false
           ? 0xffffff
@@ -220,12 +261,18 @@ export class WorldVisualSemanticAssetLayer {
       .setDepth(townFloorOccluded
         ? this.config.render.townFloorOccludedEmissiveDepth
         : this.currentEmissiveDepth)
-      .setTexture(emissiveAtlas.key, `${emissiveAtlas.framePrefix}${frame}`)
-      .setDisplaySize(displaySize, displaySize)
-      .setAlpha(this.config.skyTile.emissiveAlpha)
+      .setTexture(emissiveAtlas.key, emissiveFrame)
+      .setDisplaySize(lightDisplaySize, lightDisplaySize)
+      .setAlpha(
+        this.config.skyTile.emissiveAlpha * opacityScale * lightAlphaScale)
       .setVisible(true);
     this.activeStars.push({
-      beauty, emissive, townFloorOccluded, phase: hashUnit(tx, ty, 19) * Math.PI * 2,
+      beauty,
+      emissive,
+      townFloorOccluded,
+      identity: identityVisualReady ? identity : null,
+      lightAlphaScale,
+      phase: hashUnit(tx, ty, 19) * Math.PI * 2,
     });
   }
 
@@ -278,12 +325,30 @@ export class WorldVisualSemanticAssetLayer {
 
   update(now) {
     if (!this.enabled) return;
-    const period = this.config.skyTile.pulsePeriodMs;
-    const range = this.config.skyTile.pulseAlphaRange;
     for (const star of this.activeStars) {
+      const light = star.identity?.light;
+      const period = light?.pulsePeriodMs
+        || this.config.skyTile.pulsePeriodMs;
+      const range = light?.pulseRange
+        || this.config.skyTile.pulseAlphaRange;
+      const opacityScale = light?.opacityScale || 1;
       const pulse = Math.sin((now / period) * Math.PI * 2 + star.phase) * 0.5 + 0.5;
-      star.beauty.setAlpha(this.config.skyTile.beautyAlpha * (1 - range * 0.25 + pulse * range * 0.25));
-      star.emissive.setAlpha(this.config.skyTile.emissiveAlpha * (1 - range + pulse * range));
+      star.beauty.setAlpha(
+        this.config.skyTile.beautyAlpha
+          * opacityScale
+          * (1 - range * 0.25 + pulse * range * 0.25)
+      );
+      star.emissive.setAlpha(
+        this.config.skyTile.emissiveAlpha
+          * star.lightAlphaScale
+          * opacityScale
+          * (1 - range + pulse * range)
+      );
+      const rotation = Math.sin(
+        now * (light?.rotationSpeedRadiansPerMs || 0) + star.phase
+      ) * (light?.rotationAmplitudeRadians || 0);
+      star.beauty.setRotation(rotation);
+      star.emissive.setRotation(rotation);
     }
   }
 

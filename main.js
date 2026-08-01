@@ -1,11 +1,11 @@
 import { GAME_CONFIG } from "./values/gameConfig.js";
-import { BootScene } from "./ui/scenes/BootScene.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { BootScene } from "./ui/scenes/BootScene.js?rev=20260729-native-density-v14";
 import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
 import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";
 import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
-import { PlayScene } from "./world/PlayScene.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
-import { CaveScene } from "./ui/scenes/CaveScene.js";
+import { PlayScene } from "./world/PlayScene.js?rev=20260729-native-density-v14";
+import { CaveScene } from "./ui/scenes/CaveScene.js?rev=20260729-native-density-v14";
 import {
   finalizeRenderDensityFoundation,
   installRenderDensityFoundation,
@@ -14,6 +14,11 @@ import {
 import { installRuntimeCanarySystem } from "./systems/health/RuntimeCanarySystem.js";
 import { installAdminHealthPanel } from "./ui/admin/AdminHealthPanel.js";
 import { USER_SETTINGS, normalizeKeyboardEvent } from "./systems/UserSettings.js";
+import {
+  RUNTIME_ASSET_LOADING,
+  resolveRuntimeAssetQueueEnabled,
+} from "./values/runtimeAssetLoading.js";
+import { waitForUiFonts } from "./values/uiLayout.js";
 
 const runtimeCanarySystem = installRuntimeCanarySystem({
   globalRef: window,
@@ -44,6 +49,7 @@ document.addEventListener("keydown", event => {
 });
 
 const renderDensityProfile = resolveRenderDensityProfile(globalThis.window?.location?.search || "");
+const runtimeAssetQueueEnabled = resolveRuntimeAssetQueueEnabled();
 
 const phaserConfig = {
   type: renderDensityProfile.rendererMode === "auto" ? Phaser.AUTO : Phaser.WEBGL,
@@ -56,8 +62,14 @@ const phaserConfig = {
     antialiasGL: GAME_CONFIG.rendererQuality.antialiasGL,
     roundPixels: GAME_CONFIG.rendererQuality.roundPixels,
     powerPreference: GAME_CONFIG.rendererQuality.powerPreference,
+    preserveDrawingBuffer: GAME_CONFIG.rendererQuality.preserveDrawingBuffer,
   },
   backgroundColor: "#111820",
+  ...(runtimeAssetQueueEnabled ? {
+    loader: {
+      maxParallelDownloads: RUNTIME_ASSET_LOADING.phaserLoader.maxParallelDownloads,
+    },
+  } : {}),
   physics: {
     default: "arcade",
     arcade: {
@@ -85,9 +97,12 @@ installAdminHealthPanel(runtimeCanarySystem, {
   documentRef: document,
 });
 
+await waitForUiFonts(document);
+
 try {
   window.__phaserGame = new Phaser.Game(phaserConfig);
 } catch (error) {
   captureUiError(runtimeCanarySystem.config.events.runtimeError, error);
   throw error;
 }
+

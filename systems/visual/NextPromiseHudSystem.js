@@ -56,18 +56,24 @@ export class NextPromiseHudSystem {
   update(nowMs) {
     if (!this.root?.active || nowMs - this.lastRefreshAt < this.config.refreshMs) return;
     this.lastRefreshAt = nowMs;
+    const tutorialPromise = this.scene.townSquareTutorialSystem
+      ?.getNextPromiseOverride?.() || null;
     const hidden = this.scene.gameState !== "playing"
       || this.scene.shopOverlay?.isVisible
       || this.scene.levelUpPopup?.visible
       || this.scene.milestoneBoardSystem?._isBoardOpen
       || this.scene.campfireSystem?.isSelecting?.()
       || this.scene._pillarViewActive
-      || this.scene.townSquareTutorialSystem?.isShowingGuide?.();
+      || (this.scene.townSquareTutorialSystem?.isShowingGuide?.()
+        && !tutorialPromise);
     this.root.setVisible(!hidden);
     if (hidden) return;
 
+    const eventPromise = this.scene.randomEventBridge?.getNextPromiseOverride?.() || null;
+    const systemPromise = this.scene.systemIntroductionSystem?.getNextPromiseOverride?.() || null;
+    const priorityPromise = tutorialPromise || eventPromise || systemPromise;
     const retention = this.scene.retentionProgressSystem;
-    if (!retention) {
+    if (!retention && !priorityPromise) {
       this.root.setVisible(false);
       return;
     }
@@ -84,7 +90,9 @@ export class NextPromiseHudSystem {
       && playerTile.ty <= this.scene.config.topAirRows;
 
     let promise = "";
-    if (chestSeconds > 0) {
+    if (priorityPromise) {
+      promise = priorityPromise.promise;
+    } else if (chestSeconds > 0) {
       promise = `TREASURE FURY  •  ${chestSeconds}s ultra crit damage`;
     } else if (showObjective && !objective.complete) {
       promise = `SESSION  •  ${objective.label}  ${Math.floor(objective.progress)}/${objective.target}`;
@@ -100,9 +108,12 @@ export class NextPromiseHudSystem {
 
     const resources = this.scene.digSystem?.getResourceTotals?.() || {};
     const effects = this.scene.upgradeSystem?.getUpgradeEffects?.() || {};
-    const cargoValue = getCargoSellValue(resources, effects);
-    const detail = `${this.config.cargoPrefix}  ${formatMoney(cargoValue)}`
-      + (deepestPortal ? `  •  DEEPEST ${deepestPortal.depth}m` : "");
+    const cargoValue = this.scene.randomEventBridge?.quoteCargoValue?.(resources, effects)
+      ?? getCargoSellValue(resources, effects);
+    const detail = priorityPromise?.detail || (
+      `${this.config.cargoPrefix}  ${formatMoney(cargoValue)}`
+      + (deepestPortal ? `  •  DEEPEST ${deepestPortal.depth}m` : "")
+    );
     const signature = `${promise}|${detail}`;
     if (signature !== this.lastSignature) {
       this.lastSignature = signature;

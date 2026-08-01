@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Player Animation · 500-Point Optimisation Review</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar" aria-label="Review navigation">
+        <a class="brand" href="#top">ANIMATION LAB</a>
+        <div class="nav-links">
+          <a href="#comparisons">Before / After</a>
+          <a href="#catalog">500-point atlas</a>
+          <a href="#method">Method</a>
+        </div>
+      </nav>
+
+      <div id="top" class="hero-grid">
+        <div>
+          <p class="eyebrow"><span class="live-dot"></span> REVIEW-ONLY · PRODUCTION UNTOUCHED</p>
+          <h1>500 ways to make the player feel <em>physically continuous.</em></h1>
+          <p class="hero-copy">
+            A complete 20-animation × 25-lens audit, plus synchronized visual
+            fixes for the three strongest verified remaining faults.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#comparisons">Compare the top 3</a>
+            <a class="button" href="./generated/player-animation-optimization-points-500.json" download>
+              Download all 500
+            </a>
+          </div>
+        </div>
+        <aside class="matrix-card" aria-label="Review matrix summary">
+          <div class="matrix-number">500</div>
+          <div class="matrix-formula"><span>20 families</span><b>×</b><span>25 lenses</span></div>
+          <div class="matrix-rule"></div>
+          <dl>
+            <div><dt>Visual comparisons</dt><dd>3</dd></div>
+            <div><dt>Verified hotspots</dt><dd id="hotspot-count">—</dd></div>
+            <div><dt>Runtime files changed</dt><dd class="safe">0</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section id="comparisons" class="section comparisons-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">HIGHEST IMPACT · MEASURED</p>
+            <h2>Before and after, on the same frame.</h2>
+          </div>
+          <p>
+            Collider, tile face, visual bounds and root anchor remain visible.
+            Red is current production; mint is the review candidate.
+          </p>
+        </div>
+        <div id="comparison-list" class="comparison-list" aria-live="polite">
+          <div class="loading-card">Building synchronized comparisons…</div>
+        </div>
+      </section>
+
+      <section id="catalog" class="section catalog-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COMPLETE OPTIMISATION ATLAS</p>
+            <h2>Every animation, through every polish lens.</h2>
+          </div>
+          <p>
+            Each point has a measurable pass rule, current evidence and a
+            concrete recommendation. Use the filters to isolate one fault family.
+          </p>
+        </div>
+
+        <div class="catalog-toolbar">
+          <label class="search-field">
+            <span>Search all 500 points</span>
+            <input id="catalog-search" type="search" placeholder="Try “anchor”, “landing”, “tile”…">
+          </label>
+          <label>
+            <span>Animation family</span>
+            <select id="family-filter"><option value="">All 20 families</option></select>
+          </label>
+          <label>
+            <span>Polish lens</span>
+            <select id="lens-filter"><option value="">All 25 lenses</option></select>
+          </label>
+          <label>
+            <span>Priority</span>
+            <select id="priority-filter">
+              <option value="">Every priority</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="watch">Watch</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="catalog-summary">
+          <strong id="visible-count">—</strong>
+          <span>matching optimisation points</span>
+          <button id="reset-filters" class="text-button" type="button">Reset filters</button>
+        </div>
+        <div id="catalog-list" class="point-list" aria-live="polite"></div>
+        <button id="show-more" class="button show-more" type="button">Show 60 more</button>
+      </section>
+
+      <section id="method" class="section method-section">
+        <div>
+          <p class="eyebrow">WHY 500 IS USEFUL</p>
+          <h2>A matrix, not a pile of vague ideas.</h2>
+        </div>
+        <div class="method-grid">
+          <article>
+            <span class="method-index">01</span>
+            <h3>20 animation families</h3>
+            <p>Every common state and risky handoff, from Idle and Jog through digging, Flight, landing and wall push.</p>
+          </article>
+          <article>
+            <span class="method-index">02</span>
+            <h3>25 repeatable lenses</h3>
+            <p>Size, anchors, phase, timing, contact, composition, feedback, architecture, performance and regression.</p>
+          </article>
+          <article>
+            <span class="method-index">03</span>
+            <h3>One numeric pass rule each</h3>
+            <p>The atlas can become production gates after approval instead of relying on “looks slightly off.”</p>
+          </article>
+        </div>
+        <div class="review-boundary">
+          <strong>Review boundary</strong>
+          <span>Approval is stored only in this browser. Nothing on this page modifies the game runtime.</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./comparisons.js" defer></script>
+  <script src="./catalog.js" defer></script>
+  <script src="./review.js" defer></script>
+</body>
+</html>

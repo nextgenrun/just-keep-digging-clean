@@ -21,7 +21,11 @@ import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { isSurfaceTraversalReservedTileY } from "../../values/worldDepthConfig.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
 import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
-import { isInsideEllipse } from "../../values/deterministicMath.js";
+import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
+import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
+import { resolveStarRarityIndex } from "../../values/starRarityProgressionMath.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js";
+import { resolveStarIdentityIndex } from "../../values/starIdentityLibraryMath.js";
 import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
 import {
   applyCaveFeatures,
@@ -32,6 +36,7 @@ import { finalizeCaveGameplay } from "./CaveGameplayPlanner.js";
 import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
 import { enforceUndergroundBedrockLayout } from "./UndergroundBedrockLayout.js";
+import { resolveBaseTerrainResourceType } from "./baseTerrainResourceResolver.js";
 import { enforceSurfaceTraversalLayout } from "./surfaceTraversalLayout.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
@@ -76,6 +81,7 @@ export class WorldModel {
     this.tileHp = this._hp;
     this.skyTileOriginalType = new Uint8Array(tileCount);
     this.skyTileRarity = new Uint8Array(tileCount);
+    this.skyTileIdentity = new Uint8Array(tileCount);
     this.rootOverlay = new Uint8Array(tileCount);
     this.authoredTileMask = new Uint8Array(tileCount);
 
@@ -91,6 +97,7 @@ export class WorldModel {
     this.caveResourceSeams = [];
     this.caveHazardZones = [];
     this.rng = new SeededRandom(config.seed || 133742);
+    this.tileDamageGuard = null;
 
     this.generate();
   }
@@ -181,6 +188,7 @@ export class WorldModel {
     this._hp.fill(0);
     this.skyTileOriginalType.fill(0);
     this.skyTileRarity.fill(0);
+    this.skyTileIdentity.fill(0);
     this.rootOverlay.fill(0);
     this.authoredTileMask.fill(0);
     this.dugTiles.clear();
@@ -236,39 +244,13 @@ export class WorldModel {
     for (let ty = this.topAirRows + 1; ty < this.depthTiles; ty += 1) {
       const depth = ty - this.topAirRows;
       for (let tx = 0; tx < this.widthTiles; tx += 1) {
-        let type = TILE_TYPES.DIRT;
         const roll = this.rng.next();
-
-        if (depth < terrain.band1MaxDepth) {
-          type = roll < terrain.band1StoneChance ? TILE_TYPES.STONE : TILE_TYPES.DIRT;
-        } else if (depth < terrain.band2MaxDepth) {
-          if (roll < terrain.band2CopperChance) type = TILE_TYPES.COPPER;
-          else if (roll < terrain.band2StoneChance) type = TILE_TYPES.STONE;
-        } else if (depth < terrain.band3MaxDepth) {
-          if (roll < terrain.band3IronChance) type = TILE_TYPES.IRON;
-          else if (roll < terrain.band3DarkDirtNormalChance) type = TILE_TYPES.DARK_DIRT_NORMAL;
-          else if (roll < terrain.band3CopperChance) type = TILE_TYPES.COPPER;
-          else if (roll < terrain.band3StoneChance) type = TILE_TYPES.STONE;
-        } else if (depth < terrain.band4MaxDepth) {
-          if (roll < terrain.band4GoldChance) type = TILE_TYPES.GOLD;
-          else if (roll < terrain.band4SilverChance) type = TILE_TYPES.SILVER;
-          else if (roll < terrain.band4DarkDirtStrongChance) type = TILE_TYPES.DARK_DIRT_STRONG;
-          else if (roll < terrain.band4DarkDirtNormalChance) type = TILE_TYPES.DARK_DIRT_NORMAL;
-          else if (roll < terrain.band4SteelChance) type = TILE_TYPES.STEEL;
-          else if (roll < terrain.band4IronChance) type = TILE_TYPES.IRON;
-          else if (roll < terrain.band4CopperChance) type = TILE_TYPES.COPPER;
-          else if (roll < terrain.band4StoneChance) type = TILE_TYPES.STONE;
-        } else {
-          if (roll < terrain.deepGoldChance) type = TILE_TYPES.GOLD;
-          else if (roll < terrain.deepSilverChance) type = TILE_TYPES.SILVER;
-          else if (roll < terrain.deepDarkDirtStrongChance) type = TILE_TYPES.DARK_DIRT_STRONG;
-          else if (roll < terrain.deepDarkDirtNormalChance) type = TILE_TYPES.DARK_DIRT_NORMAL;
-          else if (roll < terrain.deepBronzeChance) type = TILE_TYPES.BRONZE;
-          else if (roll < terrain.deepSteelChance) type = TILE_TYPES.STEEL;
-          else if (roll < terrain.deepIronChance) type = TILE_TYPES.IRON;
-          else if (roll < terrain.deepCopperChance) type = TILE_TYPES.COPPER;
-          else if (roll < terrain.deepStoneChance) type = TILE_TYPES.STONE;
-        }
+        const type = resolveBaseTerrainResourceType(
+          depth,
+          roll,
+          terrain,
+          this.config.resourceEconomyEnabled !== false,
+        );
 
         this.setTile(tx, ty, type, this.getTileMaxHp(tx, ty, type));
       }
@@ -584,8 +566,6 @@ export class WorldModel {
   generateSkyTiles() {
     const probability = this.config.skyTileProbability || 0;
     if (probability <= 0) return;
-    const rarities = this.config.skyTileRarities || [];
-
     for (let ty = this.topAirRows + 1; ty < this.depthTiles - 1; ty += 1) {
       for (let tx = 0; tx < this.widthTiles; tx += 1) {
         const idx = this.index(tx, ty);
@@ -593,16 +573,24 @@ export class WorldModel {
         if (!RESOURCE_TILE_TYPES.has(type) || this.rng.next() >= probability) continue;
 
         const depthTiles = ty - this.topAirRows;
-        let rarityTier = 0;
-        for (let r = rarities.length - 1; r >= 0; r -= 1) {
-          if (depthTiles >= (rarities[r].minDepthTiles || 0)) {
-            rarityTier = r;
-            break;
-          }
-        }
+        const rarityRoll = hash01(
+          tx,
+          ty,
+          this.config.seed,
+          STAR_RARITY_PROGRESSION_CONFIG.spawn.rarityHashSalt,
+        );
+        const rarityTier = resolveStarRarityIndex(depthTiles, rarityRoll);
+        const identityRoll = hash01(
+          tx,
+          ty,
+          this.config.seed,
+          STAR_IDENTITY_LIBRARY_CONFIG.identityHashSalt,
+        );
+        const identityIndex = resolveStarIdentityIndex(rarityTier, identityRoll);
 
         this.skyTileOriginalType[idx] = type;
         this.skyTileRarity[idx] = rarityTier;
+        this.skyTileIdentity[idx] = identityIndex;
         this._types[idx] = TILE_TYPES.SKY_TILE;
         this._hp[idx] = this.getTileMaxHp(tx, ty, TILE_TYPES.SKY_TILE);
       }
@@ -758,9 +746,20 @@ export class WorldModel {
 
         if (tileType === TILE_TYPES.SKY_TILE) {
           this.skyTileOriginalType[idx] = RESOURCE_TILE_TYPES.has(previousType) ? previousType : TILE_TYPES.DIRT;
+          const identityRoll = hash01(
+            tx,
+            ty,
+            this.config.seed,
+            STAR_IDENTITY_LIBRARY_CONFIG.identityHashSalt,
+          );
+          this.skyTileIdentity[idx] = resolveStarIdentityIndex(
+            this.skyTileRarity[idx],
+            identityRoll,
+          );
         } else {
           this.skyTileOriginalType[idx] = 0;
           this.skyTileRarity[idx] = 0;
+          this.skyTileIdentity[idx] = 0;
         }
 
         this.setTile(tx, ty, tileType, tileType === TILE_TYPES.AIR ? 0 : this.getTileMaxHp(tx, ty, tileType));
@@ -812,7 +811,14 @@ export class WorldModel {
     if (!this.inBounds(tileX, tileY)) return 0;
     const renderType = type === TILE_TYPES.SKY_TILE ? this.getSkyTileOriginalType(tileX, tileY) : type;
     const depthTiles = tileY - this.topAirRows;
-    const hpMult = getResourceHpMultiplier(renderType, tileX, tileY, depthTiles, this.config.seed);
+    const hpMult = getResourceHpMultiplier(
+      renderType,
+      tileX,
+      tileY,
+      depthTiles,
+      this.config.seed,
+      this.config.resourceEconomyEnabled !== false,
+    );
     return getTileHealth(renderType, depthTiles, hpMult);
   }
 
@@ -867,6 +873,11 @@ export class WorldModel {
   getSkyTileRarity(tileX, tileY) {
     if (!this.inBounds(tileX, tileY)) return 0;
     return this.skyTileRarity[this.index(tileX, tileY)];
+  }
+
+  getSkyTileIdentity(tileX, tileY) {
+    if (!this.inBounds(tileX, tileY)) return 0;
+    return this.skyTileIdentity[this.index(tileX, tileY)];
   }
 
   _getRestorableRubbleType(tileX, tileY, type) {
@@ -932,13 +943,29 @@ export class WorldModel {
     return applied;
   }
 
+  setTileDamageGuard(guard = null) {
+    this.tileDamageGuard = typeof guard === "function" ? guard : null;
+  }
+
+
   damageTile(tileX, tileY, damage) {
     if (!this.inBounds(tileX, tileY)) return { success: false, reason: "out-of-bounds" };
     if (!this.isSolid(tileX, tileY)) return { success: false, reason: "air", hp: 0, typeBeforeDamage: TILE_TYPES.AIR };
     if (!this.isDiggable(tileX, tileY)) {
       return { success: false, reason: "blocked", hp: this.getHp(tileX, tileY), typeBeforeDamage: this.getType(tileX, tileY) };
     }
+    const currentType = this.getType(tileX, tileY);
+    const currentHp = this.getHp(tileX, tileY);
+    if (this.tileDamageGuard?.({ tileX, tileY, damage, type: currentType, hp: currentHp }) === true) {
+      return {
+        success: false,
+        reason: "event-protected",
+        protected: true,
+        hp: currentHp,
+        typeBeforeDamage: currentType,
+      };
 
+    }
     const idx = this.index(tileX, tileY);
     const key = makeTileKey(tileX, tileY);
     const wasRubble = this.rubbleTiles.has(key);

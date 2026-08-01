@@ -1,6 +1,6 @@
 # Dig Game Dev Environment — README
 
-**Last updated:** 2026-07-28
+**Last updated:** 2026-07-30
 
 ## Table of Contents
 1. [Directory Structure Overview](#directory-structure-overview)
@@ -303,6 +303,14 @@ See `markdown/archive-policy.md` for full details.
 | `naming-policy.md` | Full naming convention reference |
 | `values-system.md` | How to use the /values/ system |
 | `archive-policy.md` | What to archive & when to delete |
+| `2026-07-30-fire-light-v3-runtime.md` | Fire-specific carried torch with five 4x4 ImageGen atlases, hand socket, first-solid local rays, eye adaptation, shader integration, validation, and complete/narrow rollbacks |
+| `2026-07-30-star-colour-identity-library.md` | Fifty authored Star colours, per-identity light/flavour, deterministic within-rarity selection, the I-key Star Atlas, health checks, and rollback |
+| `2026-07-30-star-colour-identity-library-v2.md` | 250 authored Star lights, preserved V1 indices, 62.5 MiB capped atlases, twelve-card paging, authored controls, health checks, and rollback |
+| `2026-07-30-star-identity-dedicated-light-library.md` | Separate 35.16 MiB ImageGen light-only package for all 250 Stars, core/light layering, transparent-edge QA, health checks, and rollback |
+| `2026-07-31-loading-screen-imagegen-redesign.md` | Dedicated ImageGen 16:9 loader, two authored real-progress meters, separated 8 by 4 minigame, seven-tool rail, failure plate, live QA, and rollback |
+| `2026-07-30-loading-mining-minigame-runtime.md` | Optional shared-loader mining board using the approved ImageGen block, GP, Star, pickaxe, frame, target, fracture, and debris library; session-only chains, diagnostics, validation, and rollback |
+| `2026-07-29-runtime-asset-loading-optimization.md` | Full-quality prioritized runtime loading, off-main-thread image decode, frame-budgeted GPU activation, telemetry, contracts, and rollback |
+| `2026-07-30-runtime-feature-residency-and-save-scheduling.md` | Measured 89-file Boot deferral, atomic full-quality feature residency, decoded-memory watermarks, selected Campfire loading, coalesced idle saves, lifecycle forcing, telemetry, rollback, and contracts |
 | `2026-07-28-star-block-crystal-popout-v2.md` | Approved Choice 1 Star Block art, exact one-to-one tile pop-out, delayed growth, calmer levitation, heavy echo trail, validation, and rollback |
 | `2026-07-28-overground-resource-special-tile-texture-audit.md` | Approved six-variant ground-embedded ImageGen resource overlays, retained special/GP tiles, runtime routes, rollback boundary, and regression contract |
 | `2026-07-28-complete-surface-landscape-mockup-library.md` | Review-only fourteen-panel final-look library for all Level 1 and Level 2 surface tiles, including unique ground identities, protected landmarks, modular extraction gates, and rollback boundary |
@@ -311,18 +319,25 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-26-underground-biome-baked-motion-runtime-v2.md` | Ten actual moving-image backgrounds, painted keyframes, VP9 pipeline, ground separation, streaming, performance, and rollback contract |
 | `2026-07-28-underground-visual-expansion-v3.md` | Fifty additive full backgrounds plus fifty terrain-masked ImageGen ground structures, production wiring, alpha pipeline, streaming, validation, and independent rollback |
 | `2026-07-28-underground-terrain-blend-v4.md` | Fifty bolder feathered terrain plates, 200 painted dug-top cuts, seamless backdrop and structure joins, retained V3 assets, layer authority, rollback, and validation |
+| `2026-07-29-underground-detail-library-v6.md` | 400 additive ImageGen foreground textures/props, complementary V6 seam routing across all retained terrain/structures, deterministic masked streaming, rollback, and contracts |
+| `2026-07-29-underground-backdrop-enhancers-v7.md` | 100 high-resolution transparent biome backdrop enhancers, motif-compatible optional placement, stable no-overlay variation, edge-feathered streaming, rollback, and contracts |
 | `2026-07-28-sky-underground-cohesion-runtime.md` | Gap-free native-density overlap field using all twenty sky assets plus ten terrain-masked biome foregrounds, all additive over retained libraries with independent rollback |
 | `2026-07-29-background-rendering-regression-restoration.md` | Restored world-anchored sky and opaque underground backdrops, corrected Phaser crop-origin masks, live QA, and regression coverage |
-| `2026-07-29-expanded-cave-level-visual-overhaul.md` | Expanded entered caves into 60x20 camera-traversed levels with three ImageGen panorama families, safe painted-floor collision, save migration, and rollback |
+| `2026-07-29-expanded-cave-level-visual-overhaul.md` | Historical 60x20 cave expansion; its hidden painted-floor collision and ImageGen panorama runtime were superseded on 2026-07-30 |
+| `2026-07-30-meshy-cave-terrain-correction.md` | Historical Meshy interior attempt; its zero-`CAVE_WALL` terrain remains, but its visual routing was superseded |
+| `2026-07-31-cave-interior-visual-correction.md` | Removes repeated Meshy cards and giant arches, preserves the approved left entrance, restores one continuous authored interior, and clusters mineable ground |
 | `2026-07-26-modular-surface-props-runtime-v1.md` | Approved modular Level 1/Level 2 surface props, physical scale, terrain contact, coverage, streaming, testing, and rollback contract |
 | `2026-07-28-natural-surface-composition-and-drop-through.md` | Natural Level 2 prop clusters, prop-free enlarged Level 1 Titan Walk, continuous two-level surface edge, conditional S drop-through, tests, and rollback |
 | `2026-07-28-additive-surface-landscape-runtime-v2.md` | Seven additive ImageGen Level 2 chapter anchors, retained original props, protected footprints, subtle approved-atlas atmosphere, untouched backgrounds, validation, and rollback |
+| `2026-07-29-surface-sky-props-v3-runtime.md` | 200-asset palette with a sparse 38-surface/13-sky authored composition, static transforms, layered scale/opacity distance, protected landmarks, validation, and rollback |
+| `2026-07-30-surface-hero-landmarks-v4-runtime.md` | Seven physically scaled Level 2 hero landmarks, twenty-four deliberate prop suppressions, static depth/fade profiles, protected portals/Titans, actual live before/after evidence, validation, and exact rollback |
 | `2026-07-28-earthquake-polish-seismic-suppression.md` | Compact seismic UI, authored tile-hit feedback, permanent Level 99 earthquake suppression, persistence, validation, and rollback |
 | `2026-07-28-earthquake-dodge-audit-and-layering.md` | Production FallZone behavior, measured dodge window, exact tile/ground feedback, world layer stack, and regression coverage |
 | `2026-07-28-starlight-talent-tree-runtime.md` | Shared ESC/Star Pillar talent tree, first-star reveals, three-Heart Engine mastery, safety caps, health checks, and rollback |
 | `2026-07-29-starlight-talent-tree-v3-polish.md` | Native ultra-wide ImageGen presentation, three-card carousels, proportional scaling, God Mode review, validation, and V2 rollback |
 | `2026-07-28-ui-notification-carousel.md` | Centered transient-card queue, seven-second per-selection timing, consumptive arrows, full-queue X, modal input isolation, and reduced floating-text default |
 | `2026-07-28-authored-mining-target-and-mouse-dig.md` | Image-backed corner targeting, adjacent primary-click digging, keyboard parity, final-hit removal, safety checks, and rollback |
+| `2026-07-30-depth-resource-economy-rebalance.md` | Continuous steep depth income, rarity yield/HP separation, richer deep composition, live Milestone bonuses, Deep Market progression, caps, health checks, measurements, and exact rollback |
 | `2026-07-26-titan-chambers-production-v2.md` | 25 unique high-resolution Titan chambers, v3 seamless-edge/depth-grade amendment, colossal discovery zones, streamed runtime/archive wiring, health, and rollback |
 | `2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
 | `2026-07-28-titan-clues-and-creature-footprint-unlock.md` | Catalog clues, exact directions, 25 sharp underground/surface stances, compact dais, colored cover-tile glow, 50% auto-clear authority, plinth inspection, ESC lore, and trophy/save wiring |
@@ -330,3 +345,4 @@ See `markdown/archive-policy.md` for full details.
 | `2026-06-25-next-steps.md` | Immediate next steps |
 </content-file>
 </write_to_file>
+| `2026-07-30-starlight-talent-tree-v4-mockup-fidelity.md` | Approved mockup-ratio single-frame Starlight UI, full-shell ESC and Star Pillar integration, large choice/dossier art, responsive Phaser evidence, validation, and rollback |

@@ -12,6 +12,7 @@ import {
   queueRobotSheets,
 } from "../../player/PlayerAssetLoader.js";
 import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import { queueWorldLoadFeatureAssets } from "./WorldLoadAssetPreloader.js";
 
 /**
  * Load robot spritesheets into Phaser's texture manager so they exist
@@ -60,9 +61,14 @@ export class WorldLoadScene extends Phaser.Scene {
       characterLoadNeeded = queueLivingDrillSheets(this);
     }
 
-    if (characterLoadNeeded) {
-      this.loadingUi?.setLabel("Loading character sprites...");
-      this.loadingUi?.setDetail("Preparing character assets...");
+    const featureLoad = queueWorldLoadFeatureAssets(this, { saveSlot });
+    const loadNeeded = characterLoadNeeded || featureLoad.queued;
+
+    if (loadNeeded) {
+      this.loadingUi?.setLabel("Loading game assets...");
+      this.loadingUi?.setDetail(
+        characterLoadNeeded ? "Preparing character and nearby assets..." : "Preparing nearby world assets...",
+      );
       this.loadingUi?.setProgress(0.3);
       const loadComplete = awaitLoadComplete(this, { forceNextLoad: true });
       this.load.start();
@@ -72,7 +78,7 @@ export class WorldLoadScene extends Phaser.Scene {
 
     // Animate the loading bar and transition to PlayScene
     this.tweens.addCounter({
-      from: characterLoadNeeded ? 0.70 : 0.08,
+      from: loadNeeded ? 0.70 : 0.08,
       to: 1,
       duration: 780,
       ease: "Sine.easeInOut",

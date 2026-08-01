@@ -25,11 +25,19 @@ import { createUalNativePlayerAnimations } from "../../player/UalNativePlayerAni
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { SAVE_SCHEDULING_CONFIG } from "../../values/saveScheduling.js";
 import { WorldModel } from "../WorldModel.js";
 import { createWorldRenderer } from
-  "../rendering/WorldRenderFactory.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "../rendering/WorldRenderFactory.js?rev=20260729-native-density-v14";
+import { RuntimeAssetLoadCoordinator } from
+  "../rendering/RuntimeAssetLoadCoordinator.js";
+import { RuntimeFeatureAssetManager } from
+  "../rendering/RuntimeFeatureAssetManager.js";
+import { PlaySceneSaveScheduler } from "./PlaySceneSaveScheduler.js";
+import { RuntimeFeaturePrefetchSystem } from
+  "../rendering/RuntimeFeaturePrefetchSystem.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
-  "../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
 import { WorldBackgroundMasterSystem } from "../rendering/WorldBackgroundMasterSystem.js";
 import { WorldBackgroundAmbientMotionSystem } from "../rendering/WorldBackgroundAmbientMotionSystem.js";
 import { LevelOneLivingBackdropSystem } from "../rendering/LevelOneLivingBackdropSystem.js";
@@ -46,6 +54,12 @@ import { reportPlaySceneSetupFailure } from "../../systems/health/RuntimeCanaryS
 import { HUDSystem } from "../../systems/visual/HUDSystem.js";
 import { SoundSystem } from "../../sound/SoundSystem.js";
 import { FloatingTextSystem } from "../../systems/visual/FloatingTextSystem.js";
+import { AnimatedCacheVisualSystem } from
+  "../../systems/visual/AnimatedCacheVisualSystem.js";
+import { InteractiveWorldStateTextureBank } from
+  "../../systems/visual/InteractiveWorldStateTextureBank.js";
+import { MemoryReliquaryWorldSystem } from
+  "../../systems/visual/MemoryReliquaryWorldSystem.js";
 import { WorldMapDiscoverySystem } from "../../systems/map/WorldMapDiscoverySystem.js";
 import { WorldMapActivityRegistry } from "../../systems/map/WorldMapActivityRegistry.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
@@ -55,8 +69,11 @@ import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
 import { HeavenblocksProgressionSystem } from "../../systems/progression/HeavenblocksProgressionSystem.js";
+import { MemoryReliquaryDiscoverySystem } from
+  "../../systems/progression/MemoryReliquaryDiscoverySystem.js";
 import { RetentionProgressSystem } from "../../systems/progression/RetentionProgressSystem.js";
 import { TitanClueSystem } from "../../systems/progression/TitanClueSystem.js";
+import { SystemIntroductionSystem } from "../../systems/onboarding/SystemIntroductionSystem.js";
 import { CraftingSystem } from "../../systems/crafting/CraftingSystem.js";
 import { StarHeartProgressionSystem } from "../../systems/celestial/StarHeartProgressionSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
@@ -88,6 +105,7 @@ import { ClimbTrailSystem } from "../../systems/visual/ClimbTrailSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
 import { PostFxSystem } from "../../systems/visual/PostFxSystem.js";
 import { PlayerBodyLanguageSystem } from "../../systems/visual/PlayerBodyLanguageSystem.js";
+import { PlayerContactShadowSystem } from "../../systems/visual/PlayerContactShadowSystem.js";
 import { PlayerMotionPolishSystem } from "../../systems/visual/PlayerMotionPolishSystem.js";
 import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinematicMotionSystem.js";
 import { UalNativeLocomotionTransitionSelector } from "../../systems/visual/UalNativeLocomotionTransitionSelector.js";
@@ -123,7 +141,7 @@ import { DepthGateSystem } from "../../systems/progression/DepthGateSystem.js";
 import { createJourneyRuntime } from "./JourneyBridge.js";
 import { SurfaceTunnelDoorSystem } from "../../systems/environment/SurfaceTunnelDoorSystem.js";
 import { ArcCoreVehicleSystem } from "../../systems/vehicles/ArcCoreVehicleSystem.js";
-import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js";
+import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIslandVisualSystem.js?rev=20260729-native-density-v14";
 import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
@@ -142,7 +160,7 @@ const PLAY_SCENE_UI_FACTORIES = Object.freeze({
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js?rev=20260729-native-density-v14";
 import { CaveEntryController } from "./CaveEntryController.js";
 import {
   createGraveborerWurmRuntime,
@@ -152,6 +170,7 @@ import {
   createHardcoreModeRuntime,
   destroyHardcoreModeRuntime,
 } from "./HardcoreModeBridge.js";
+import { RandomEventBridge } from "./RandomEventBridge.js";
 
 function comboShakeSignatureFor(milestone) {
   if (milestone >= 5000) return "combo.godlike";
@@ -246,7 +265,14 @@ export async function setupScene(data = {}) {
   try {
     await _setupSceneSafe.call(this, data);
   } catch (err) {
+    this.memoryReliquaryWorldSystem?.destroy();
+    this.animatedCacheVisualSystem?.destroy();
+    this.memoryReliquaryDiscoverySystem?.destroy();
+    this.interactiveWorldStateTextureBank?.destroy();
     console.error('[PlayScene] Fatal error during setupScene:', err);
+    this.runtimeFeaturePrefetchSystem?.destroy();
+    this.runtimeFeatureAssetManager?.destroy();
+    this.runtimeAssetLoadCoordinator?.destroy();
     reportPlaySceneSetupFailure(err);
     // Show error on screen for diagnosis
     try {
@@ -479,7 +505,11 @@ async function _setupSceneSafe(data = {}) {
       await _ensureUalNativePlayer(this, this.playerAssetProfile);
     }
   }
+  this.runtimeAssetLoadCoordinator = new RuntimeAssetLoadCoordinator(this);
   this.npcManager = new NPCManager(this, ASSET_KEYS);
+  this.runtimeFeatureAssetManager = new RuntimeFeatureAssetManager(this);
+  this.runtimeFeaturePrefetchSystem = new RuntimeFeaturePrefetchSystem(this, this.runtimeFeatureAssetManager);
+  this.runtimeFeaturePrefetchSystem.start();
   this.backgroundRenderer = new BackgroundRenderer(this, ASSET_KEYS);
   const worldVisualSelection = createWorldRenderer(this, this.worldModel, this.config);
   this.worldVisualRuntimeMode = worldVisualSelection.mode;
@@ -547,14 +577,24 @@ async function _setupSceneSafe(data = {}) {
   this._lastSafeReturnDepth = -1;
 
   const warningY = (this.config.topAirRows + this.config.climbWarningDepthTiles) * this.config.tileSize;
-  const warningGfx = this.add.graphics();
-  warningGfx.lineStyle(HUD_LAYOUT.warnLineWidth, HUD_LAYOUT.warnLineColor, HUD_LAYOUT.warnLineAlpha);
-  warningGfx.lineBetween(0, warningY, this.config.worldWidthPx, warningY);
-  this.add.text(HUD_LAYOUT.warnTextX, warningY + HUD_LAYOUT.warnTextOffsetY, "⚠  Gem Power critical zone — returning is very difficult", { fontFamily: "Consolas, monospace", fontSize: HUD_LAYOUT.warnFontSize, color: HUD_LAYOUT.warnColor }).setDepth(5);
+  this._gemPowerWarningGfx = this.add.graphics();
+  this._gemPowerWarningGfx.lineStyle(HUD_LAYOUT.warnLineWidth, HUD_LAYOUT.warnLineColor, HUD_LAYOUT.warnLineAlpha);
+  this._gemPowerWarningGfx.lineBetween(0, warningY, this.config.worldWidthPx, warningY);
+  this._gemPowerWarningText = this.add.text(
+    HUD_LAYOUT.warnTextX,
+    warningY + HUD_LAYOUT.warnTextOffsetY,
+    "⚠  Gem Power critical zone — returning is very difficult",
+    { fontFamily: "Consolas, monospace", fontSize: HUD_LAYOUT.warnFontSize, color: HUD_LAYOUT.warnColor },
+  ).setDepth(5);
 
   const islandLabelX = (this.config.skyIslandTileX + this.config.skyIslandWidthTiles / 2) * this.config.tileSize;
   const islandLabelY = (this.config.skyIslandTileY - 2) * this.config.tileSize;
-  this.add.text(islandLabelX, islandLabelY, "✦  Sky Island  ✦", { fontFamily: "Trebuchet MS, Segoe UI, sans-serif", fontSize: HUD_LAYOUT.skyLabelFontSize, color: HUD_LAYOUT.skyLabelColor }).setOrigin(0.5).setDepth(5);
+  this._skyIslandLabel = this.add.text(
+    islandLabelX,
+    islandLabelY,
+    "✦  Sky Island  ✦",
+    { fontFamily: "Trebuchet MS, Segoe UI, sans-serif", fontSize: HUD_LAYOUT.skyLabelFontSize, color: HUD_LAYOUT.skyLabelColor },
+  ).setOrigin(0.5).setDepth(5);
 
   this.npcManager.createNPCs();
 
@@ -715,7 +755,9 @@ async function _setupSceneSafe(data = {}) {
   this.playerLevelSystem.setTemporaryCriticalDamageBonusProvider(
     () => this.retentionProgressSystem.getChestCritDamageBonus(this.time?.now || 0)
   );
-  this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
+  this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem, {
+    depthEconomyEnabled: this.config.resourceEconomyEnabled,
+  });
   this.titanClueSystem = new TitanClueSystem({
     retention: this.retentionProgressSystem,
     wallet: this.upgradeSystem,
@@ -794,6 +836,9 @@ async function _setupSceneSafe(data = {}) {
     this.retentionProgressSystem
   );
   this.milestoneBoardSystem.create();
+  this.digSystem.setDepthMilestoneBonusProvider(
+    () => this.milestoneBoardSystem?.getBonuses?.() || {},
+  );
   this.biomeSystem = new BiomeSystem(this, this.config, this.worldModel);
   this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel, PLAY_SCENE_UI_FACTORIES, this.saveSlot);
   this.campfireSystem.create();
@@ -858,6 +903,8 @@ async function _setupSceneSafe(data = {}) {
   this.postFxSystem.create();
   this.playerBodyLanguage = new PlayerBodyLanguageSystem(this, this.player);
   this.playerBodyLanguage.create();
+  this.playerContactShadow = new PlayerContactShadowSystem(this, this.player, this.playerController);
+  this.playerContactShadow.create();
   this.playerMotionPolish = this.playerAssetProfile.isUalNative
     ? new PlayerMotionPolishSystem(this.playerAssetProfile)
     : null;
@@ -895,13 +942,25 @@ async function _setupSceneSafe(data = {}) {
   this.depthMilestoneCinematic = new DepthMilestoneCinematic(this);
   this.depthMilestoneCinematic.create();
 
-  const _gfx = this.make.graphics({ add: false });
-  _gfx.fillStyle(0xffffff, 1);
-  _gfx.fillCircle(GAMEFEEL_CONFIG.particles.size, GAMEFEEL_CONFIG.particles.size, GAMEFEEL_CONFIG.particles.size);
-  _gfx.generateTexture('_gamefeel_particle', GAMEFEEL_CONFIG.particles.size * 2, GAMEFEEL_CONFIG.particles.size * 2);
-  _gfx.destroy();
-
   this.specialTileSystem = new SpecialTileSystem(this, this.worldModel, this.playerController, this.floatingTextSystem);
+  this.interactiveWorldStateTextureBank = new InteractiveWorldStateTextureBank(this);
+  this.animatedCacheVisualSystem = new AnimatedCacheVisualSystem(
+    this,
+    this.worldModel,
+    this.interactiveWorldStateTextureBank,
+  );
+  this.memoryReliquaryDiscoverySystem = new MemoryReliquaryDiscoverySystem(
+    this.retentionProgressSystem,
+    () => this.queueDugTilesSave?.(),
+  );
+  this.memoryReliquaryWorldSystem = new MemoryReliquaryWorldSystem(
+    this,
+    this.worldModel,
+    this.interactiveWorldStateTextureBank,
+    this.memoryReliquaryDiscoverySystem,
+    () => `Press ${USER_SETTINGS.getKeyLabel("interact")}`,
+  );
+  this.memoryReliquaryWorldSystem.create();
   this.heavenblocksPresentationSystem = new HeavenblocksPresentationSystem(this, this.worldModel);
   this.heavenblocksAccessSystem = new HeavenblocksAccessSystem(this, {
     worldModel: this.worldModel,
@@ -972,16 +1031,27 @@ async function _setupSceneSafe(data = {}) {
   this.arcCoreVehicleSystem = new ArcCoreVehicleSystem(this);
   this.arcCoreVehicleSystem.create();
   createGraveborerWurmRuntime(this);
+  this.randomEventBridge = new RandomEventBridge(this);
+  this.worldModel.setTileDamageGuard?.(({ tileX, tileY }) => (
+    this.randomEventBridge?.shouldProtectMineTarget?.({ tx: tileX, ty: tileY }) === true
+  ));
+  this.specialTileSystem?.setChestEventHandler?.(this.randomEventBridge);
+  this.systemIntroductionSystem = new SystemIntroductionSystem(this, this.retentionProgressSystem);
+  this.systemIntroductionSystem.refresh({ announce: false });
+
   installDebugUiSmokeHooks(this);
   installJkdE2EHarness(this);
 
-  this._autosaveInterval = setInterval(() => this.queueDugTilesSave(), 60000);
+  this._saveScheduler = new PlaySceneSaveScheduler(this);
+  this._autosaveInterval = setInterval(() => this.queueDugTilesSave(), SAVE_SCHEDULING_CONFIG.autosaveIntervalMs);
 
   this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     this._isShuttingDown = true;
     this.caveEntryController?.destroy();
     clearInterval(this._autosaveInterval);
     this.queueDugTilesSave();
+    void this.flushDugTilesSave({ scheduled: false, force: true });
+    this._saveScheduler?.destroy();
     if (this.player) {
       this.player.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
       this.player.off(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
@@ -993,6 +1063,10 @@ async function _setupSceneSafe(data = {}) {
     if (this._resizeHandler) { this.scale.off('resize', this._resizeHandler); }
     this.worldMapOverlay?.destroy?.();
     this.worldMapOverlay = null;
+    this.randomEventBridge?.destroy();
+    this.worldModel?.setTileDamageGuard?.(null);
+    this.randomEventBridge = null;
+    this.specialTileSystem?.setChestEventHandler?.(null);
     destroyHardcoreModeRuntime(this);
     this.hardcoreMemorialSystem?.destroy();
     this.hardcoreMemorialSystem = null;
@@ -1019,6 +1093,14 @@ async function _setupSceneSafe(data = {}) {
     this.milestoneBoardSystem?.destroy();
     this.biomeSystem?.destroy();
     this.campfireSystem?.destroy();
+    this.memoryReliquaryWorldSystem?.destroy();
+    this.memoryReliquaryWorldSystem = null;
+    this.animatedCacheVisualSystem?.destroy();
+    this.animatedCacheVisualSystem = null;
+    this.memoryReliquaryDiscoverySystem?.destroy();
+    this.memoryReliquaryDiscoverySystem = null;
+    this.interactiveWorldStateTextureBank?.destroy();
+    this.interactiveWorldStateTextureBank = null;
     this.specialTileSystem?.destroy();
     this.heavenblocksAccessSystem?.destroy();
     this.heavenblocksPresentationSystem?.destroy();
@@ -1033,6 +1115,7 @@ async function _setupSceneSafe(data = {}) {
     this.flightFootParticleSystem?.destroy();
     this.postFxSystem?.destroy();
     this.playerBodyLanguage?.destroy();
+    this.playerContactShadow?.destroy();
     this.playerMotionPolish?.destroy();
     this.playerKinematicMotion?.destroy();
     this.ualLocomotionTransitionSelector?.reset();
@@ -1067,6 +1150,7 @@ async function _setupSceneSafe(data = {}) {
     this.depthGateSystem?.destroy();
     this.surfaceTunnelDoorSystem?.destroy();
     this.openingFlightArtifactSystem?.destroy();
+    this.systemIntroductionSystem?.destroy();
     this.townSquareTutorialSystem?.destroy();
     this.arcCoreVehicleSystem?.destroy();
     destroyGraveborerWurmRuntime(this);
@@ -1075,6 +1159,13 @@ async function _setupSceneSafe(data = {}) {
     this.earthquakeHazardOverlay?.destroy();
     this.earthquakeTileFeedbackSystem?.destroy();
     this.shakeSystem?.stop();
+    this.runtimeFeaturePrefetchSystem?.destroy();
+    this.runtimeFeaturePrefetchSystem = null;
+    this.runtimeFeatureAssetManager?.destroy();
+    this.runtimeFeatureAssetManager = null;
+    this.runtimeAssetLoadCoordinator?.destroy();
+    this.runtimeAssetLoadCoordinator = null;
+
     if (this._activeParticleChips) {
       this._activeParticleChips.forEach(chip => { this.tweens.killTweensOf(chip); chip.destroy(); });
       this._activeParticleChips = [];

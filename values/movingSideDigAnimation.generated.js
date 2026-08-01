@@ -6,8 +6,8 @@ const deepFreeze = (value) => {
 };
 
 export const MOVING_SIDE_DIG_PRODUCTION = deepFreeze({
-  "schemaVersion": 3,
-  "version": "moving-side-dig-smoothed-v3-20260728",
+  "schemaVersion": 6,
+  "version": "moving-side-dig-tile-face-standoff-v6-20260730",
   "reviewCandidateId": "phase-locked-combo",
   "enabledByDefault": true,
   "rollbackQuery": "movingSideDig",
@@ -22,14 +22,49 @@ export const MOVING_SIDE_DIG_PRODUCTION = deepFreeze({
   "contactBackoffFalloffFrames": 4,
   "contactFaceClearanceSourcePx": 2,
   "contactEnvelopePolicy": "shared-visible-silhouette",
-  "contactAlignmentMode": "immediate",
+  "contactVisualAlignmentEnabled": false,
   "frameRate": 30,
   "contactFrame": 6,
   "contactSequenceIndex": 6,
+  "quickslash": {
+    "enabledByDefault": true,
+    "animationKey": "survival-ual-player-v1-moving-side-quickslash-anim",
+    "variantAnimationKeyPrefix": "survival-ual-player-v1-moving-side-quickslash",
+    "baseVariantId": "jab-phase-09",
+    "frameIndexes": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      17,
+      19,
+      21
+    ],
+    "contactFrame": 6,
+    "contactSequenceIndex": 4,
+    "sourceClip": "phase-locked Jog lower body plus nearest Jab/Cross running strike"
+  },
   "movement": {
     "requireGrounded": true,
     "requireTowardTarget": true,
-    "minHorizontalSpeedPxPerSec": 8
+    "minHorizontalSpeedPxPerSec": 8,
+    "tileFaceStandOff": {
+      "enabled": true,
+      "mode": "authoritative-body-gap",
+      "distancePx": 18,
+      "releaseWhenTargetNotSolid": true,
+      "stopTowardVelocity": true,
+      "epsilonPx": 0.01
+    }
   },
   "actions": {
     "jab": {

@@ -4,6 +4,15 @@ Image-generated physical terrain art for the scenic renderer. These assets are
 visual-only: `WorldModel` remains authoritative for tile type, HP, digging,
 collision, rewards, and saves.
 
+- `ground-damage-piskel-anchor-v2.png` is the active 188 px universal damage
+  atlas. Its 120 transparent frames give ten registered surface-damage families
+  twelve cumulative proportional-HP states each, with every frame anchored to
+  the invariant `94,94` tile pivot.
+- `piskel-ground-damage-v2/` records the production hash, source-review hashes,
+  exact 10x12 slicing order, logical 94 px placement, and both rollback queries.
+- `ground-damage-imagegen-v1.png` and `imagegen-ground-damage-v1/` remain the
+  byte-intact V1 atlas/source package selected by
+  `?groundDamageAtlas=legacy`.
 - `resource-ground-veins-imagegen-2d-v6.png` is the active 188 px semantic
   atlas. Its 60 RGBA frames give all ten resources six genuinely different,
   transparent, orthographic, ground-embedded ImageGen formations. The current
@@ -55,7 +64,8 @@ python ai-tools/2026-07-26-build-heavenblocks-progression-assets.py
 python ai-tools/2026-07-28-build-overground-texture-clarity-assets.py
 python ai-tools/2026-07-28-build-wide-embedded-resource-overlays-v6.py
 python ai-tools/2026-07-28-build-star-block-crystal-v2.py
+python ai-tools/2026-07-29-build-ground-damage-imagegen-v1.py
 ```
 
-Runtime rollback is controlled by the query parameter documented in
-`values/worldVisualSemanticAssets.js`.
+Runtime rollback is controlled by the query parameters documented in
+`values/worldVisualSemanticAssets.js` and `values/worldVisualDamage.js`.

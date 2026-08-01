@@ -196,6 +196,7 @@ export const GRAVEBORER_WURM_CONFIG = Object.freeze({
     globalKey: "__jkdGraveborerWurm",
   }),
   devControls: Object.freeze({
+    summonKeyCandidates: Object.freeze(["P", "L"]),
     summonNoticeKey: "graveborer-wurm-dev-summon",
     disabledNoticeKey: "graveborer-wurm-dev-disabled",
     noticeDurationMs: 2600,

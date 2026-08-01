@@ -8,13 +8,16 @@ import {
   resolveExpandedCaveLevelEnabled,
 } from "../../values/caveLevelConfig.js";
 import { getCaveArchetype } from "../../values/caveArchetypes.js";
+import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
 import { CaveWorldModel, makeCaveTileSaveKey } from "../../world/model/CaveWorldModel.js";
 import { WorldRenderer } from "../../world/rendering/WorldRenderer.js";
 import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import { CaveLevelPresentationSystem } from "../../systems/visual/CaveLevelPresentationSystem.js";
+import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
+import { ScreenFlashSystem } from "../../systems/visual/ScreenFlashSystem.js";
+import { CaveLevelPresentationSystem } from "../../systems/visual/CaveLevelPresentationSystem.js?rev=20260729-native-density-v14";
 import { UINotificationSystem } from "../UINotificationSystem.js";
 
 function hashSeed(text, seed = 0) {
@@ -73,6 +76,7 @@ export class CaveScene extends Phaser.Scene {
     if (background.assetPath && !this.textures.exists(background.textureKey)) {
       this.load.image(background.textureKey, background.assetPath);
     }
+
   }
 
   create() {
@@ -99,12 +103,17 @@ export class CaveScene extends Phaser.Scene {
       deathTileY: grid.heightTiles - 1,
       caveRuntime: Object.freeze({
         caveId,
+        secondWorldEconomy: (
+          Number.isFinite(this.entryData?.originTile?.tx)
+          && this.entryData.originTile.tx >= this.originScene.config.levelTwoLeftTile
+        ),
         floorRow: grid.floorRow,
         floorThicknessTiles: grid.floorThicknessTiles,
         boundaryThicknessTiles: grid.boundaryThicknessTiles,
-        stablePaintedFloor: this.expandedLevelEnabled,
+        mineableOnly: this.expandedLevelEnabled && grid.mineableOnly,
         safeFloorTileXs: grid.safeFloorTileXs || CAVE_SCENE_CONFIG.grid.safeFloorTileXs,
         floorResourceKeys: grid.floorResourceKeys || CAVE_SCENE_CONFIG.grid.floorResourceKeys,
+        floorMaterialRunTiles: grid.floorMaterialRunTiles || 1,
         resourcePool: pool.resources,
         nodeLayout: this.expandedLevelEnabled
           ? CAVE_LEVEL_CONFIG.rewards.nodeLayout
@@ -141,6 +150,10 @@ export class CaveScene extends Phaser.Scene {
       worldRenderer: this.worldRenderer,
     });
     this.presentation.create();
+    this.screenFlashSystem = new ScreenFlashSystem(this, GAMEFEEL_CONFIG.flash);
+    this.shakeSystem = new CameraShakeSystem(this, undefined, {
+      getDisplaySettings: () => USER_SETTINGS.getDisplay(),
+    });
     this._createPlayer();
     this.uiNotifications = new UINotificationSystem(this);
     this.hudSystem = { flashStatus: (message, color, duration) => this.flashStatus(message, color, duration) };
@@ -159,6 +172,7 @@ export class CaveScene extends Phaser.Scene {
       return;
     }
     this.gameplay.update(time, delta);
+    this.shakeSystem?.update(time, delta);
     this._updateGpText();
     this._tryExit();
   }
@@ -254,7 +268,12 @@ export class CaveScene extends Phaser.Scene {
     this._syncToOrigin();
     this.uiNotifications?.destroy();
     this.uiNotifications = null;
+    this.presentation?.destroy();
     this.presentation = null;
+    this.shakeSystem?.stop();
+    this.shakeSystem = null;
+    this.screenFlashSystem?.destroy();
+    this.screenFlashSystem = null;
     this.gameplay?.destroy();
   }
 }

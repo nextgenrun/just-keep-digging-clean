@@ -13,8 +13,9 @@ export function distanceToTitanZone(playerTile, zone) {
   return Math.max(dx, dy);
 }
 
-export function fitTitanChamberScale(image, maximumWidth, maximumHeight) {
+export function fitTitanChamberScale(image, maximumWidth, maximumHeight, maximumScale) {
   return Math.min(
+    maximumScale,
     maximumWidth / Math.max(1, image.width || image.displayWidth || 1),
     maximumHeight / Math.max(1, image.height || image.displayHeight || 1)
   );

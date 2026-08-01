@@ -53,32 +53,45 @@ export const GAMEFEEL_CONFIG = Object.freeze({
     depth:       18,        // just below playerDepth:20
   },
 
-  // ── TILE DESTROY PARTICLES ─────────────────────────────────────────────
+  // ── AUTHORED TILE DESTROY IMPACT ───────────────────────────────────────
   particles: {
-    count:          15,
-    critCount:      12,
-    speedMin:       70,
-    speedMax:       220,
-    lifespanMin:    180,
-    lifespanMax:    420,
-    gravityY:       550,
-    size:           5,      // radius of each chip circle in px
-    depth:          36,     // just above fxDepth:35
-    // Colors per tile type
+    enabledByDefault:    true,
+    rollbackQuery:       "authoredMineImpact",
+    disabledValues:      Object.freeze(["0", "false", "off", "legacy"]),
+    depth:              36,   // just above fxDepth:35
+    displayWidthTiles:  1.62,
+    displayHeightTiles: 1.18,
+    originY:            0.68,
+    offsetYTiles:       0.13,
+    randomOffsetTiles:  0.1,
+    startScale:         0.64,
+    peakScale:          1.0,
+    endScale:           1.08,
+    minMaterialScale:   0.9,
+    maxMaterialScale:   1.32,
+    alpha:              0.88,
+    startAlpha:          0.32,
+    rotationMin:       -0.1,
+    rotationMax:        0.1,
+    enterMs:            75,
+    holdMs:             45,
+    exitMs:             285,
+    driftYTiles:       -0.1,
+    // Light material tints preserve detail in the authored debris artwork.
     tileColors: {
-      1:  0x9B5523,   // dirt
-      2:  0x888888,   // stone
-      3:  0xCD7F32,   // copper
-      4:  0x8b5a2b,   // dark dirt
-      5:  0x6b4226,   // dark dirt strong
-      6:  0xc8d4dc,   // steel
-      7:  0xd8d8d8,   // iron
-      8:  0xcd7f32,   // bronze
-      9:  0xc8c8c8,   // silver
-      10: 0xffd700,   // gold
-      16: 0x88eeff,   // sky tile
+      1:  0xd9ad7a,   // dirt
+      2:  0xc3c8cc,   // stone
+      3:  0xe5aa73,   // copper
+      4:  0xc69675,   // dark dirt
+      5:  0xaa7b60,   // dark dirt strong
+      6:  0xe0e9ee,   // steel
+      7:  0xf0f0f0,   // iron
+      8:  0xd99d69,   // bronze
+      9:  0xe6edf2,   // silver
+      10: 0xffe394,   // gold
+      16: 0xc2f5ff,   // sky tile
     },
-    defaultColor: 0xaaaaaa,
+    defaultColor: 0xd5d5d5,
   },
 
   // ── DIG ANIMATION SPEED SCALING ────────────────────────────────────────
@@ -109,4 +122,18 @@ export const GAMEFEEL_CONFIG = Object.freeze({
     digPopMs: 90,
     digPopEase: "Sine.easeOut",
   },
+
 });
+
+export function resolveAuthoredMineImpactEnabled(
+  search = globalThis.window?.location?.search || "",
+  config = GAMEFEEL_CONFIG,
+) {
+  const particles = config?.particles;
+  if (particles?.enabledByDefault !== true) return false;
+  const value = new URLSearchParams(search)
+    .get(particles.rollbackQuery)
+    ?.trim()
+    .toLowerCase();
+  return !particles.disabledValues.includes(value);
+}

@@ -11,6 +11,12 @@ export const GEM_POWER_CONFIG = Object.freeze({
   maxFlightHeightTiles: 20, // Hard cap on flight height — prevents unbounded scaling with tank upgrades + level
   lowGpWarningThreshold: 20, // GP level that triggers "Low Gem Power" HUD flash
   lowGpFlashMs: 800, // Duration of low-GP warning flash messages
+  lowGpWarningText: "Low Gem Power!",
+  lowGpWarningColor: "#ff6600",
+  emptyGpWarningText: "No Gem Power!",
+  emptyGpWarningColor: "#ff4444",
+  protectedReserveWarningText: "1 GP reserve protected • Flight stopped",
+  protectedReserveWarningColor: "#ffb45f",
   
   // Upgrade multipliers
   tankMultiplier: 40, // GP per level (increased from 20 to 40)

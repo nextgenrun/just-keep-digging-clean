@@ -5,7 +5,7 @@ globalThis.localStorage = {
   getItem: (key) => storage.get(key) ?? null,
   setItem: (key, value) => storage.set(key, String(value)),
 };
-globalThis.location = { search: "?skylineVfx=0" };
+globalThis.location = { search: "?skylineVfx=0&skyPropsV3=0" };
 globalThis.Phaser = {
   BlendModes: { ADD: 1, SCREEN: 2 },
   Scenes: { Events: { UPDATE: "update" } },

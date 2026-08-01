@@ -26,6 +26,10 @@ import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../../values/starlightTalentTree.js";
+import {
+  RUNTIME_FEATURE_ASSET_CONSUMERS,
+  RUNTIME_FEATURE_ASSET_GROUP_IDS,
+} from "../../values/runtimeAssetLoading.js";
 import { StarTalentRevealState } from "./StarTalentRevealState.js";
 import { StarPillarWorldVisual } from "./StarPillarWorldVisual.js";
 
@@ -89,6 +93,9 @@ export class StarPillarSystem {
 
     // Star chart view state
     this._isViewOpen   = false;
+    this._isViewLoading = false;
+    this._viewLoadToken = 0;
+    this._starlightFeatureRetained = false;
     this._viewObjects  = [];     // all GOs created for the chart (destroyed on close)
     this._overlay      = null;   // dark bg overlay
     this._chartTitle   = null;   // fixed-screen "STAR CHART" text
@@ -255,12 +262,9 @@ export class StarPillarSystem {
     }
   }
 
-  /** Queue one explanatory ESC reveal for the first star in each material section. */
-  onCollectedSkyStar(detail) {
-    if (!this._firstRevealState.queueFirstStar(detail)) return false;
-    this._firstRevealNotBeforeMs = (this.scene.time?.now || 0)
-      + STARLIGHT_TALENT_TREE_CONFIG.reveal.openDelayMs;
-    return true;
+  /** Star collection never opens an explanatory screen-space reveal. */
+  onCollectedSkyStar(_detail) {
+    return false;
   }
 
   /** Clean up all created objects (called on scene shutdown). */
@@ -407,8 +411,52 @@ export class StarPillarSystem {
 
   // ── Star Chart zoom view ───────────────────────────────────────────────────
 
+  _releaseStarlightFeatureAssets() {
+    const manager = this.scene?.runtimeFeatureAssetManager;
+    const hadConsumer = this._isViewLoading || this._starlightFeatureRetained;
+    this._viewLoadToken += 1;
+    this._isViewLoading = false;
+    if (hadConsumer) manager?.releaseGroup?.(
+      RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight,
+      RUNTIME_FEATURE_ASSET_CONSUMERS.pillarStarlight,
+    );
+    this._starlightFeatureRetained = false;
+    return hadConsumer;
+  }
+
   openConstellationView(options = {}) {
-    if (this._isViewOpen) return;
+    if (this._isViewOpen || this._isViewLoading) return false;
+    const manager = this.scene?.runtimeFeatureAssetManager;
+    const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight;
+    const consumer = RUNTIME_FEATURE_ASSET_CONSUMERS.pillarStarlight;
+
+    if (manager?.enabled && !manager.isReady(groupId)) {
+      this._isViewLoading = true;
+      const loadToken = this._viewLoadToken += 1;
+      manager.ensureGroup(groupId, { consumer }).then(result => {
+        if (loadToken !== this._viewLoadToken || !this.scene) {
+          manager.releaseGroup(groupId, consumer);
+          return;
+        }
+        this._isViewLoading = false;
+        if (!result.ready) {
+          manager.releaseGroup(groupId, consumer);
+          this.scene.hudSystem?.flashStatus?.(
+            "STARLIGHT ART COULD NOT BE LOADED",
+            "#E07030",
+            1800,
+          );
+          return;
+        }
+        this.openConstellationView(options);
+      });
+      return true;
+    }
+
+    if (manager?.enabled) {
+      manager.ensureGroup(groupId, { consumer });
+      this._starlightFeatureRetained = true;
+    }
 
     this._isViewOpen = true;
     this._isChartUiReady = false;
@@ -417,11 +465,10 @@ export class StarPillarSystem {
     this.scene._pillarViewActive = true;
     this.scene.setShopOpen?.(true);
 
-    const data = this.fts.getConstellationData();
     const unlocked = this.fts.getUnlockedConstellations() || [];
-    const counts = this.fts.getConstellationCounts() || {};
+    const progressByResource = this.fts.getConstellationProgress?.() || {};
     const focused = options.focusResource
-      || this._getFocusedConstellation(unlocked, counts, data);
+      || this._getFocusedConstellation(unlocked, progressByResource);
     this._selectedConstellationIndex = Math.max(0, PILLAR_SLOT_ORDER.indexOf(focused));
 
     this._starShell = this.ui.createModalShell(this.scene, {
@@ -449,12 +496,17 @@ export class StarPillarSystem {
       onClose: () => this.closeConstellationView(),
     });
     this._starShell.show();
-    const rect = this._starShell.getContentRect();
+    this._starShell.titleText?.setVisible?.(false);
+    this._starShell.subtitleText?.setVisible?.(false);
+    this._starShell.icon?.setVisible?.(false);
+    this._starShell.skin?.setVisible?.(false);
+    this._starShell.panel?.setVisible?.(false);
+    const inset = STARLIGHT_TALENT_TREE_CONFIG.layout.immersiveInsetPx;
     this._talentTreeView = this.ui.createStarlightTalentTreeView?.(this.scene, {
-      x: rect.left,
-      y: rect.top,
-      width: rect.width,
-      height: rect.height,
+      x: -this._starShell.width / 2 + inset,
+      y: -this._starShell.height / 2 + inset,
+      width: this._starShell.width - inset * 2,
+      height: this._starShell.height - inset * 2,
       parent: this._starShell.content,
       floatingTextSystem: this.fts,
       progression: this.scene.starHeartProgressionSystem,
@@ -483,7 +535,10 @@ export class StarPillarSystem {
       this.starHeartOverlay.close();
       return;
     }
-    if (!this._isViewOpen) return;
+    if (!this._isViewOpen) {
+      this._releaseStarlightFeatureAssets();
+      return;
+    }
 
     this._isChartUiReady = false;
     this._talentTreeView?.destroy?.();
@@ -504,6 +559,7 @@ export class StarPillarSystem {
     this._isViewOpen = false;
     this.scene._pillarViewActive = false;
     this.scene.setShopOpen?.(false);
+    this._releaseStarlightFeatureAssets();
   }
 
   _openStarHeartFromTree(engineId) {
@@ -520,29 +576,7 @@ export class StarPillarSystem {
   }
 
   _tryOpenPendingFirstStarReveal(timeMs) {
-    const resourceType = this._firstRevealState.peekPending();
-    if (!resourceType || timeMs < this._firstRevealNotBeforeMs) return false;
-    if (
-      this.scene.gameState !== "playing"
-      || this._isViewOpen
-      || this.starHeartOverlay?.isOpen?.()
-      || this.scene._pausePanel
-      || this.scene.shopOverlay?.isVisible
-      || this.scene.uiInventoryPopup?.isOpen
-      || this.scene.levelUpPopup?.visible
-      || this.scene.milestoneBoardSystem?._isBoardOpen
-    ) {
-      return false;
-    }
-    const opened = this.scene.showPauseMenu?.({
-      initialTabKey: "talents",
-      focusResource: resourceType,
-      firstReveal: true,
-    });
-    if (!opened) return false;
-    this._firstRevealState.markShown(resourceType);
-    this._firstRevealNotBeforeMs = 0;
-    return true;
+    return false;
   }
 
   getTalentTreeHealthSnapshot() {
@@ -584,7 +618,7 @@ export class StarPillarSystem {
   _drawConstellationView() {
     const data      = this.fts.getConstellationData();
     const unlocked  = this.fts.getUnlockedConstellations();
-    const counts    = this.fts.getConstellationCounts();
+    const progressByResource = this.fts.getConstellationProgress?.() || {};
     const sp        = data.spacing; // 80px
 
     // One shared graphics object for all lines and shapes
@@ -613,10 +647,9 @@ export class StarPillarSystem {
       const def = data.defs[resourceType];
       if (!def) continue;
 
-      const isUnlocked  = unlocked.includes(resourceType);
-      const threshold   = data.thresholds[resourceType] ?? 5;
-      const collected   = Math.min(counts[resourceType] || 0, threshold);
-      const isPartial   = !isUnlocked && collected > 0;
+      const isUnlocked = unlocked.includes(resourceType);
+      const signProgress = progressByResource[resourceType];
+      const isPartial = !isUnlocked && (signProgress?.xp || 0) > 0;
 
       const lineColor   = data.lineColors[resourceType] || 0x334455;
       const cssColor    = isUnlocked ? (RESOURCE_CSS_COLORS[resourceType] || '#AABBEE')
@@ -820,15 +853,20 @@ export class StarPillarSystem {
 
     const data = this.fts.getConstellationData();
     const unlocked = this.fts.getUnlockedConstellations() || [];
-    const counts = this.fts.getConstellationCounts() || {};
+    const progressByResource = this.fts.getConstellationProgress?.() || {};
     const relicCount = this.scene.ancientRelicSystem?.getCount?.() || 0;
     if (this._selectedConstellationIndex < 0 || this._selectedConstellationIndex >= PILLAR_SLOT_ORDER.length) {
-      const focused = this._getFocusedConstellation(unlocked, counts, data);
+      const focused = this._getFocusedConstellation(unlocked, progressByResource);
       this._selectedConstellationIndex = Math.max(0, PILLAR_SLOT_ORDER.indexOf(focused));
     }
 
     const selectedResource = PILLAR_SLOT_ORDER[this._selectedConstellationIndex] || PILLAR_SLOT_ORDER[0];
-    const selectedStatus = this._getConstellationStatus(selectedResource, unlocked, counts, data, relicCount);
+    const selectedStatus = this._getConstellationStatus(
+      selectedResource,
+      unlocked,
+      progressByResource,
+      relicCount,
+    );
     const selectedColor = RESOURCE_LINE_COLORS[selectedResource] || 0x87CEEB;
     const selectedCss = RESOURCE_CSS_COLORS[selectedResource] || "#87CEEB";
     const selectedName = RESOURCE_DISPLAY_NAMES[selectedResource] || selectedResource;
@@ -1000,7 +1038,12 @@ export class StarPillarSystem {
       const row = Math.floor(index / columns);
       const x = gridX + col * (cardWidth + cardGap);
       const y = gridTop + row * (cardHeight + cardGap);
-      const status = this._getConstellationStatus(resourceType, unlocked, counts, data, relicCount);
+      const status = this._getConstellationStatus(
+        resourceType,
+        unlocked,
+        progressByResource,
+        relicCount,
+      );
       const lineColor = RESOURCE_LINE_COLORS[resourceType] || 0x87CEEB;
       const cssColor = RESOURCE_CSS_COLORS[resourceType] || "#87CEEB";
       const name = RESOURCE_DISPLAY_NAMES[resourceType] || resourceType;
@@ -1058,19 +1101,18 @@ export class StarPillarSystem {
     return { header, rows };
   }
 
-  _getFocusedConstellation(unlocked, counts, data) {
+  _getFocusedConstellation(unlocked, progressByResource) {
     let bestResource = null;
     let bestProgress = -1;
 
     for (const resourceType of PILLAR_SLOT_ORDER) {
       if (unlocked.includes(resourceType)) continue;
-      const threshold = data.thresholds[resourceType] ?? 5;
-      const collected = Math.min(counts[resourceType] || 0, threshold);
-      if (collected <= 0) continue;
-      const progress = collected / threshold;
-      if (progress > bestProgress) {
+      const signProgress = progressByResource[resourceType];
+      if (!signProgress || signProgress.xp <= 0) continue;
+      const progressRatio = signProgress.xp / Math.max(1, signProgress.totalXp);
+      if (progressRatio > bestProgress) {
         bestResource = resourceType;
-        bestProgress = progress;
+        bestProgress = progressRatio;
       }
     }
 
@@ -1084,9 +1126,20 @@ export class StarPillarSystem {
     return PILLAR_SLOT_ORDER[0];
   }
 
-  _getConstellationStatus(resourceType, unlocked, counts, data, relicCount = 0) {
-    const threshold = data.thresholds[resourceType] ?? 5;
-    const collected = Math.min(counts[resourceType] || 0, threshold);
+  _getConstellationStatus(
+    resourceType,
+    unlocked,
+    progressByResource,
+    relicCount = 0,
+  ) {
+    const signProgress = progressByResource[resourceType] || {};
+    const threshold = Math.max(1, Number(signProgress.totalXp) || 1);
+    const collected = Math.min(
+      threshold,
+      Math.max(0, Number(signProgress.xp) || 0),
+    );
+    const level = Math.max(0, Number(signProgress.level) || 0);
+    const maxLevel = Math.max(1, Number(signProgress.maxLevel) || 5);
     const isUnlocked = unlocked.includes(resourceType);
     const relicRequirement = getConstellationRelicRequirement(resourceType);
     const relics = Math.max(0, Math.floor(relicCount));
@@ -1095,15 +1148,26 @@ export class StarPillarSystem {
     const shortRelicProgress = relicRequirement > 0 ? ` ${relics}/${relicRequirement}R` : "";
 
     if (isUnlocked) {
-      return { threshold, collected: threshold, isUnlocked, hasAny: true, relicRequirement, relics, label: 'UNLOCKED', shortLabel: 'DONE', progressLabel: 'UNLOCKED', color: UI_COLORS.success };
+      return {
+        threshold,
+        collected: threshold,
+        isUnlocked,
+        hasAny: true,
+        relicRequirement,
+        relics,
+        label: "MASTERED",
+        shortLabel: `LV ${maxLevel}`,
+        progressLabel: `SIGN LV ${maxLevel}/${maxLevel} • MASTERED`,
+        color: UI_COLORS.success,
+      };
     }
 
-    if (collected >= threshold && relics < relicRequirement) {
+    if (signProgress.mastered && relics < relicRequirement) {
       return {
         threshold, collected, isUnlocked, hasAny, relicRequirement, relics,
-        label: `NEED ${relicRequirement - relics} RELIC${relicRequirement - relics === 1 ? '' : 'S'}`,
-        shortLabel: `${collected}/${threshold}S ${relics}/${relicRequirement}R`,
-        progressLabel: `${collected} / ${threshold} STARS${relicProgress}`,
+        label: `NEED ${relicRequirement - relics} RELIC${relicRequirement - relics === 1 ? "" : "S"}`,
+        shortLabel: `LV ${maxLevel} ${relics}/${relicRequirement}R`,
+        progressLabel: `SIGN LV ${maxLevel}/${maxLevel} • ${collected}/${threshold} XP${relicProgress}`,
         color: UI_COLORS.gold,
       };
     }
@@ -1111,18 +1175,18 @@ export class StarPillarSystem {
     if (hasAny) {
       return {
         threshold, collected, isUnlocked, hasAny, relicRequirement, relics,
-        label: `${collected} / ${threshold}`,
-        shortLabel: `${collected}/${threshold}S${shortRelicProgress}`,
-        progressLabel: `${collected} / ${threshold} STARS${relicProgress}`,
-        color: '#DDE7FF',
+        label: `SIGN LV ${level}/${maxLevel}`,
+        shortLabel: `LV ${level} ${collected}/${threshold}XP${shortRelicProgress}`,
+        progressLabel: `SIGN LV ${level}/${maxLevel} • ${collected}/${threshold} XP${relicProgress}`,
+        color: "#DDE7FF",
       };
     }
 
     return {
       threshold, collected, isUnlocked, hasAny, relicRequirement, relics,
-      label: `NEED ${threshold}`,
-      shortLabel: `need ${threshold}S${shortRelicProgress}`,
-      progressLabel: `${collected} / ${threshold} STARS${relicProgress}`,
+      label: `SIGN LV 0/${maxLevel}`,
+      shortLabel: `LV 0 0/${threshold}XP${shortRelicProgress}`,
+      progressLabel: `SIGN LV 0/${maxLevel} • 0/${threshold} XP${relicProgress}`,
       color: UI_COLORS.body,
     };
   }

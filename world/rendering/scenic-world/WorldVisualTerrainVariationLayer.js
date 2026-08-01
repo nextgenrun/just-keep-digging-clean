@@ -5,14 +5,15 @@ import {
   resolveWorldVisualTerrainCohesionEnabled,
   resolveWorldVisualTerrainVariationEnabled,
   resolveWorldVisualTerrainVariationRegions,
-} from "../../../values/worldVisualTerrainVariation.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../../values/worldVisualTerrainVariation.js?rev=20260729-underground-seam-v6";
 import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicDemandAssetStreamingEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualTerrainVariationRegionView } from
-  "./WorldVisualTerrainVariationRegionView.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./WorldVisualTerrainVariationRegionView.js?rev=20260729-native-density-v14";
 
 function regionAssets(region, includeCohesion = false) {
   return [
@@ -53,7 +54,10 @@ export class WorldVisualTerrainVariationLayer {
 
   create() {
     if (!this.enabled || !this.terrainMask) return false;
-    this.assetCache = new WorldVisualAssetCache(this.scene);
+    this.assetCache = new WorldVisualAssetCache(this.scene, {
+      owner: RUNTIME_ASSET_LOADING.owners.terrainVariation,
+      priority: RUNTIME_ASSET_LOADING.priorities.terrainVariation,
+    });
     return true;
   }
 

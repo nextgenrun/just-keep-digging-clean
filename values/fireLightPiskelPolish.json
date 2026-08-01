@@ -1,0 +1,106 @@
+{
+  "id": "fire-light-v3-piskel-polish-v1",
+  "date": "2026-07-30",
+  "runtimeManifest": "sprites/environment/fire-light-v3/manifest.json",
+  "packageRoot": "sprites/environment/fire-light-v3/piskel",
+  "previewRoot": "visual-approval-previews/fire-light-piskel-polish-v1",
+  "sheet": {
+    "safeBorderPx": 3,
+    "luminanceFloor": 2,
+    "rootLuminanceFloor": 5,
+    "coreWeightPower": 3,
+    "energyWeightPower": 1.5,
+    "rootWeightPower": 2,
+    "rootRowEnergyQuantile": 0.94,
+    "rootBandBeforePx": 28,
+    "rootBandAfterPx": 10
+  },
+  "limits": {
+    "maximumShiftPx": 72,
+    "maximumEnergyLossRatio": 0.02,
+    "maximumAfterAnchorErrorPx": 1.5,
+    "maximumAfterGroupRangePx": 2.25
+  },
+  "assets": [
+    {
+      "id": "steadyFlame",
+      "file": "fire-flame-steady-v3.png",
+      "displayName": "Steady flame",
+      "fps": 13,
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "id": "stateFlame",
+      "file": "fire-flame-states-v3.png",
+      "displayName": "Wind rain low-fuel rekindle flame",
+      "fps": 9,
+      "anchorMode": "source-root",
+      "grouping": "rows"
+    },
+    {
+      "id": "lightVolume",
+      "file": "fire-light-volume-v3.png",
+      "displayName": "Base light volume",
+      "fps": 7,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "rays",
+      "file": "fire-light-rays-v3.png",
+      "displayName": "Local fire rays",
+      "fps": 5,
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "id": "atmosphere",
+      "file": "fire-atmosphere-v3.png",
+      "displayName": "Embers smoke atmosphere",
+      "fps": 8,
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "id": "hotCore",
+      "file": "fire-light-hot-core-v3.png",
+      "displayName": "Hot core illumination",
+      "fps": 11,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "penumbra",
+      "file": "fire-light-penumbra-v3.png",
+      "displayName": "Irregular penumbra",
+      "fps": 4,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "bounce",
+      "file": "fire-light-bounce-v3.png",
+      "displayName": "Environmental bounce",
+      "fps": 3,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "breakup",
+      "file": "fire-light-breakup-v3.png",
+      "displayName": "Smoke-filtered breakup",
+      "fps": 5,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "environment",
+      "file": "fire-light-environment-v3.png",
+      "displayName": "Wind wet low-fuel rekindle illumination",
+      "fps": 8,
+      "anchorMode": "luminous-core",
+      "grouping": "rows"
+    }
+  ]
+}

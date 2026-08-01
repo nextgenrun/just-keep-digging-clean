@@ -116,13 +116,37 @@ def write_runtime_module(
         transition_layout["wall"]["entry"],
         wall["frameRate"],
     )
+    wall["loop"] = _animation(
+        wall["loopAnimationKey"],
+        transition_sheet["sheetKey"],
+        transition_layout["wall"]["loop"],
+        wall["frameRate"],
+        -1,
+    )
     wall["exit"] = _animation(
         wall["exitAnimationKey"],
         transition_sheet["sheetKey"],
         transition_layout["wall"]["exit"],
         wall["frameRate"],
     )
-    animations.extend([wall["entry"], wall["exit"]])
+    animations.extend([wall["entry"], wall["loop"], wall["exit"]])
+
+    vertical = runtime["verticalMining"]
+    vertical_animations = []
+    for family in ("up", "down"):
+        family_animations = [
+            _animation(
+                key,
+                transition_sheet["sheetKey"],
+                transition_layout["vertical"][family],
+                vertical["frameRate"],
+            )
+            for key in vertical[family]["animationKeys"]
+        ]
+        vertical[family]["animations"] = family_animations
+        vertical_animations.extend(family_animations)
+    vertical["animations"] = vertical_animations
+    animations.extend(vertical_animations)
     runtime["transitionAnimations"] = animations
 
     diagonal = runtime["diagonalMining"]

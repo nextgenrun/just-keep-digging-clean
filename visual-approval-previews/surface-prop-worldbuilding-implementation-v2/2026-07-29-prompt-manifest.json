@@ -1,0 +1,84 @@
+{
+  "version": "surface-prop-worldbuilding-implementation-v2-2026-07-29",
+  "reviewOnly": true,
+  "runtimeLoaded": false,
+  "productionDirectionImplemented": true,
+  "playerScale": {
+    "physicalHeightMeters": 1.75,
+    "targetVisibleHeightTiles": 0.8,
+    "authoritativeSequence": "v3-scale-correct"
+  },
+  "sharedDirection": {
+    "camera": "wide 16:9 orthographic side-view gameplay camera",
+    "composition": "one hero, functional clusters, deliberate negative space",
+    "distanceOpacity": {
+      "distantScenery": 0.58,
+      "rearProps": 0.82,
+      "midProps": 0.95,
+      "frontProps": 1.0
+    },
+    "motion": "static; no pulsing, bobbing, swaying, rotation, drift, or resize",
+    "grounding": "terrain overlap and contact shadow at every prop foot",
+    "forbidden": [
+      "random scattering",
+      "equal-size asset dump",
+      "portal interior overlap",
+      "Titan silhouette overlap",
+      "floating surface props",
+      "text, labels, UI, or grid"
+    ]
+  },
+  "runtimeEvidence": {
+    "source": "direct PlayScene canvas capture",
+    "captureResolution": "1536x864",
+    "backingResolution": "1920x1080",
+    "activeScene": "PlayScene",
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "skyHandoff": {
+      "pendingFallback": "continuous far plate remains visible",
+      "activeSkyPriority": 99,
+      "fieldFitTiles": "280x65",
+      "lowerEdge": "exactly surface aligned"
+    },
+    "files": [
+      "2026-07-29-runtime-01-arrival-forge-camera-v3.png",
+      "2026-07-29-runtime-02-starwell-camera-v3.png",
+      "2026-07-29-runtime-03-observatory-camera-v3.png",
+      "2026-07-29-runtime-04-frontier-camera-v3.png",
+      "2026-07-29-runtime-05-far-east-camera-v3.png"
+    ]
+  },
+  "frames": [
+    {
+      "file": "2026-07-29-01-arrival-forge-camera-composition-v3-scale-correct.png",
+      "chapter": "arrival-forge",
+      "method": "composition-locked player-scale correction of v2",
+      "direction": "forge hero left-center, compact fuel and quench clusters, open east route"
+    },
+    {
+      "file": "2026-07-29-02-starwell-camera-composition-v3-scale-correct.png",
+      "chapter": "starwell-herb",
+      "method": "fresh ImageGen camera composition after local reference handoff failed",
+      "direction": "monumental clear portal, west garden, east apothecary, open approach"
+    },
+    {
+      "file": "2026-07-29-03-observatory-camera-composition-v3-scale-correct.png",
+      "chapter": "observatory",
+      "method": "fresh ImageGen camera composition after local reference handoff failed",
+      "direction": "one low-profile instrument court left, restrained lantern, open skyline right"
+    },
+    {
+      "file": "2026-07-29-04-frontier-camera-composition-v3-scale-correct.png",
+      "chapter": "frontier-survey",
+      "method": "fresh ImageGen camera composition after local reference handoff failed",
+      "direction": "compact garden and survey cluster left, empty center, caravan handoff right"
+    },
+    {
+      "file": "2026-07-29-05-far-east-camera-composition-v3-scale-correct.png",
+      "chapter": "far-east",
+      "method": "fresh ImageGen camera composition after local reference handoff failed",
+      "direction": "wagon handoff, rear telescope, hero shelter, low supply clusters, open travel lane"
+    }
+  ]
+}

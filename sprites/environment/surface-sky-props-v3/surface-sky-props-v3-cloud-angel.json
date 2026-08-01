@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "cloud-angel-cloudgrass-planter": {
+      "frame": {
+        "x": 5,
+        "y": 5,
+        "w": 216,
+        "h": 191
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 216,
+        "h": 191
+      },
+      "sourceSize": {
+        "w": 216,
+        "h": 191
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-turbine-vane": {
+      "frame": {
+        "x": 231,
+        "y": 5,
+        "w": 220,
+        "h": 260
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 220,
+        "h": 260
+      },
+      "sourceSize": {
+        "w": 220,
+        "h": 260
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-shell-basin": {
+      "frame": {
+        "x": 461,
+        "y": 5,
+        "w": 214,
+        "h": 151
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 214,
+        "h": 151
+      },
+      "sourceSize": {
+        "w": 214,
+        "h": 151
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-wind-chime": {
+      "frame": {
+        "x": 685,
+        "y": 5,
+        "w": 156,
+        "h": 227
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 227
+      },
+      "sourceSize": {
+        "w": 156,
+        "h": 227
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-cloud-crystal-tray": {
+      "frame": {
+        "x": 851,
+        "y": 5,
+        "w": 229,
+        "h": 114
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 229,
+        "h": 114
+      },
+      "sourceSize": {
+        "w": 229,
+        "h": 114
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-bridge-repair-kit": {
+      "frame": {
+        "x": 5,
+        "y": 275,
+        "w": 211,
+        "h": 149
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 211,
+        "h": 149
+      },
+      "sourceSize": {
+        "w": 211,
+        "h": 149
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-driftwood-bench": {
+      "frame": {
+        "x": 226,
+        "y": 275,
+        "w": 234,
+        "h": 140
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 234,
+        "h": 140
+      },
+      "sourceSize": {
+        "w": 234,
+        "h": 140
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-condensation-jars": {
+      "frame": {
+        "x": 470,
+        "y": 275,
+        "w": 236,
+        "h": 153
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 236,
+        "h": 153
+      },
+      "sourceSize": {
+        "w": 236,
+        "h": 153
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-fin-antenna": {
+      "frame": {
+        "x": 716,
+        "y": 275,
+        "w": 81,
+        "h": 219
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 81,
+        "h": 219
+      },
+      "sourceSize": {
+        "w": 81,
+        "h": 219
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-cloudstone-cairn": {
+      "frame": {
+        "x": 807,
+        "y": 275,
+        "w": 208,
+        "h": 159
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 208,
+        "h": 159
+      },
+      "sourceSize": {
+        "w": 208,
+        "h": 159
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-gold-feather-relic": {
+      "frame": {
+        "x": 5,
+        "y": 504,
+        "w": 112,
+        "h": 214
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 214
+      },
+      "sourceSize": {
+        "w": 112,
+        "h": 214
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-broken-halo": {
+      "frame": {
+        "x": 127,
+        "y": 504,
+        "w": 91,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 91,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 91,
+        "h": 190
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-angel-ribbon-frame": {
+      "frame": {
+        "x": 228,
+        "y": 504,
+        "w": 220,
+        "h": 179
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 220,
+        "h": 179
+      },
+      "sourceSize": {
+        "w": 220,
+        "h": 179
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-gold-lantern": {
+      "frame": {
+        "x": 458,
+        "y": 504,
+        "w": 99,
+        "h": 211
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 99,
+        "h": 211
+      },
+      "sourceSize": {
+        "w": 99,
+        "h": 211
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-angel-offering-bowl": {
+      "frame": {
+        "x": 567,
+        "y": 504,
+        "w": 192,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 192,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 192,
+        "h": 136
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-wing-vane": {
+      "frame": {
+        "x": 5,
+        "y": 728,
+        "w": 200,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 200,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 200,
+        "h": 185
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-angel-urns": {
+      "frame": {
+        "x": 215,
+        "y": 728,
+        "w": 175,
+        "h": 188
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 175,
+        "h": 188
+      },
+      "sourceSize": {
+        "w": 175,
+        "h": 188
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-light-crystals": {
+      "frame": {
+        "x": 400,
+        "y": 728,
+        "w": 168,
+        "h": 177
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 168,
+        "h": 177
+      },
+      "sourceSize": {
+        "w": 168,
+        "h": 177
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-gilded-chain-anchor": {
+      "frame": {
+        "x": 578,
+        "y": 728,
+        "w": 163,
+        "h": 165
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 163,
+        "h": 165
+      },
+      "sourceSize": {
+        "w": 163,
+        "h": 165
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "cloud-angel-celestial-seat": {
+      "frame": {
+        "x": 751,
+        "y": 728,
+        "w": 158,
+        "h": 191
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 158,
+        "h": 191
+      },
+      "sourceSize": {
+        "w": 158,
+        "h": 191
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "meta": {
+    "app": "2026-07-29-build-surface-sky-props-v3.py",
+    "version": "3",
+    "image": "surface-sky-props-v3-cloud-angel.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1085,
+      "h": 924
+    },
+    "scale": "1"
+  }
+}

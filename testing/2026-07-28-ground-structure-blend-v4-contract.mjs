@@ -174,6 +174,34 @@ const view = new WorldVisualGroundStructureRegionView(
   WORLD_VISUAL_GROUND_STRUCTURES,
   terrainMask
 );
+const previousLocation = globalThis.location;
+globalThis.location = { search: "?naturalDepthAreas=0" };
+const authoredSequence = Array.from(
+  { length: region.assets.length },
+  (_unused, column) => view._resolveSegmentAsset(column, 0)
+);
+assert.deepEqual(
+  authoredSequence,
+  Array.from(
+    { length: region.assets.length },
+    (_unused, index) => region.assets[
+      (index + region.seedOffset) % region.assets.length
+    ]
+  ),
+  "rollback keeps the authored buttress-to-corner card sequence"
+);
+assert.equal(
+  new Set(authoredSequence.map(asset => asset.key)).size,
+  region.assets.length,
+  "rollback still uses every structure before repeating"
+);
+assert.equal(
+  view._resolveSegmentAsset(0, 1),
+  view._resolveSegmentAsset(1, 0),
+  "rollback vertical neighbors retain one-step semantic ordering"
+);
+if (previousLocation === undefined) delete globalThis.location;
+else globalThis.location = previousLocation;
 assert.equal(view.sync(
   { left: 0, right: 50, top: 65, bottom: 90 },
   { terrainTint: 0xddeeff },

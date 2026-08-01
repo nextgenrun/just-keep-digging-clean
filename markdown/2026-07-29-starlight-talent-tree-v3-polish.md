@@ -51,6 +51,26 @@ The Engine page follows the same proportions and always exposes all three
 choices. A late-game save may own all three, but only one remains equipped and
 only one Engine activation may exist.
 
+## 2026-07-30 readability recomposition
+
+The ESC shell now shares the Pillar's 1160px maximum width, giving both hosts
+the foundation's full 1116px content width instead of shrinking the ESC view by
+about twenty percent at 1280x720. The three runtime card centers were measured
+from the painted alcoves and moved to `0.258 / 0.500 / 0.742`.
+
+Approved constellation signs keep their original files. A small data table pins
+each sign's non-transparent visible bounds; the shared placement helper then
+scales and centers the painted symbol rather than its inconsistent transparent
+padding. This fixes apparent left/right and vertical drift without manufacturing
+replacement graphics.
+
+The ImageGen foundation is now the sole idle frame layer. Runtime navigation
+plaques appear only for the active tab, and talent/Engine ribbons appear only on
+the centered choice. Flanks remain large, clean previews. The lower dossier is
+reduced from five competing rows to four separated rows with larger title, body,
+and metadata floors. Bobo locks, selection halos, progress, first-star routing,
+Engine ownership/equip rules, and God Mode behavior are unchanged.
+
 ## Dynamic presentation
 
 Phaser is limited to placement, clipping, live text, invisible hit regions,
@@ -75,8 +95,8 @@ exposes all three Engines for free, ignores charge costs, and does not mutate
 permanent ownership. Lifetime, impact, bounce, protected-tile, single-active,
 and other Engine caps remain active.
 
-The visual harness supports `&god=1` so this state can be reviewed without
-altering a save.
+The visual harness supports `&god=1` for the free-unlock state and
+`&shell=pause` for exact ESC geometry without altering a save.
 
 ## Health and verification
 

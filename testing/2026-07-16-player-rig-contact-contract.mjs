@@ -170,6 +170,36 @@ assert.equal(missedContact.reason, "marker-missed-tile-face");
 assert.deepEqual(missHarness.body, missBodyBefore, "miss handling changed the movement body");
 missHarness.system.endAction();
 
+const bodyLockedHarness = createRigHarness();
+const bodyLockedBodyBefore = { ...bodyLockedHarness.body };
+bodyLockedHarness.player.setData(
+  PLAYER_RIG_CONTACT_CONFIG.visualOffsetDataKey,
+  { x: 12, y: -6 },
+);
+bodyLockedHarness.controller._syncSpriteWithPhysics();
+const bodyLockedSpec = Object.freeze({
+  textureFrame: 12,
+  sequenceIndex: 14,
+  sourceAction: "deliberately-markerless-body-locked-action",
+  markerGroup: "hands",
+  visualAlignmentEnabled: false,
+});
+assert.equal(bodyLockedHarness.system.beginAction({
+  animationKey: "test-body-locked-action",
+  contactSpec: bodyLockedSpec,
+  targetTile: { tx: 0, ty: 1 },
+  direction: { x: 0, y: 1 },
+}), true);
+assert.equal(
+  bodyLockedHarness.player.getData(PLAYER_RIG_CONTACT_CONFIG.visualOffsetDataKey),
+  null,
+);
+assert.deepEqual(bodyLockedHarness.body, bodyLockedBodyBefore);
+assert.deepEqual(bodyLockedHarness.system.validateContact({
+  targetTile: { tx: 0, ty: 1 },
+  direction: { x: 0, y: 1 },
+}), { valid: true, reason: "body-locked-contact" });
+
 let manifestCached = false;
 const queuedManifests = [];
 const loaderScene = {

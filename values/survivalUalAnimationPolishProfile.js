@@ -1,7 +1,44 @@
+import { isPlayerAnimationFeatureEnabled } from "./playerAnimationPolish.js";
+
 const frozenUnique = (values) => Object.freeze(Array.from(new Set(values.filter(Boolean))));
 
 function freezeMap(entries) {
   return Object.freeze(Object.fromEntries(entries));
+}
+
+function bodyLockedContact(spec) {
+  return Object.freeze({
+    textureFrame: spec.textureFrame,
+    sequenceIndex: spec.sequenceIndex,
+    sourceAction: spec.sourceAction,
+    markerGroup: spec.markerGroup,
+    visualAlignmentEnabled: false,
+  });
+}
+
+function bodyLockedContacts(specs = []) {
+  return freezeMap(specs.map((spec) => [
+    spec.animationKey,
+    bodyLockedContact(spec),
+  ]));
+}
+
+function verticalContacts(polish, enabled, retainedLegacyAnimationKeys) {
+  if (!enabled) return Object.freeze({});
+  const entries = [];
+  for (const family of ["up", "down"]) {
+    const spec = polish.verticalMining[family];
+    for (const animationKey of spec.animationKeys) {
+      if (retainedLegacyAnimationKeys.has(animationKey)) continue;
+      entries.push([animationKey, bodyLockedContact({
+        ...spec,
+        animationKey,
+        textureFrame: spec.sourceContactFrame,
+        sequenceIndex: spec.contactSequenceIndex,
+      })]);
+    }
+  }
+  return freezeMap(entries);
 }
 
 function animationDefinition(spec) {
@@ -53,7 +90,7 @@ function diagonalContacts(polish) {
       sequenceIndex: variant.contactSequenceIndex,
       sourceAction: variant.sourceAction,
       markerGroup: variant.markerGroup,
-      visualAlignmentMode: "immediate",
+      visualAlignmentEnabled: false,
     }),
   ]));
 }
@@ -62,6 +99,7 @@ export function buildSurvivalUalAnimationPolishProfile({
   profile,
   movingSideDig,
   polish,
+  retainedLegacyAnimationKeys = [],
 }) {
   const transitionSheet = polish.sheets.transitions;
   const diagonalSheet = polish.sheets.diagonalDig;
@@ -69,8 +107,34 @@ export function buildSurvivalUalAnimationPolishProfile({
   const landing = polish.landing;
   const wall = polish.wallBrace;
   const recovery = polish.actionRecovery;
+  const verticalEnabled = isPlayerAnimationFeatureEnabled(polish.verticalMining);
+  const stationaryContactEnabled = isPlayerAnimationFeatureEnabled(
+    polish.stationaryContactPolish,
+  );
+  const wallEnabled = isPlayerAnimationFeatureEnabled(wall);
+  const verticalAnimationKeys = new Set([
+    ...polish.verticalMining.up.animationKeys,
+    ...polish.verticalMining.down.animationKeys,
+  ]);
+  const retainedLegacyAnimationKeySet = new Set(retainedLegacyAnimationKeys);
   const defaultStop = ground.stopVariants[0];
-  const transitionAnimations = polish.transitionAnimations.map(animationDefinition);
+  const transitionAnimations = polish.transitionAnimations
+    .filter((spec) => (
+      !verticalAnimationKeys.has(spec.key)
+      || (verticalEnabled && !retainedLegacyAnimationKeySet.has(spec.key))
+    ))
+    .map(animationDefinition);
+  const verticalContactByAnimation = verticalContacts(
+    polish,
+    verticalEnabled,
+    retainedLegacyAnimationKeySet,
+  );
+  const stationaryContactByAnimation = bodyLockedContacts(
+    stationaryContactEnabled ? polish.stationaryContactPolish.side : [],
+  );
+  const stationaryQuickslashContactByAnimation = bodyLockedContacts(
+    stationaryContactEnabled ? polish.stationaryContactPolish.quickslash : [],
+  );
   const legacyLandingAnimation = animationDefinition({
     key: profile.landingAnim,
     sheet: profile.landingSheet,
@@ -147,6 +211,7 @@ export function buildSurvivalUalAnimationPolishProfile({
     landingAnimationFps: landing.frameRate,
     landingCompressionOwner: landing.compressionOwner,
     wallBraceEnterAnim: wall.entry.key,
+    wallPushAnim: wallEnabled ? wall.loop.key : profile.wallPushAnim,
     wallBraceExitAnim: wall.exit.key,
     actionRecoveryAnimationByCompletedAnimation,
     movingDiagonalDigAnimationMap,
@@ -154,6 +219,12 @@ export function buildSurvivalUalAnimationPolishProfile({
     movingDiagonalDigConfig: polish.diagonalMining,
     diagonalDigAnimationVariants: Object.freeze(diagonalAnimations),
     diagonalDigContactByAnimation: diagonalContacts(polish),
+    verticalDigContactByAnimation: verticalContactByAnimation,
+    animationPolishRetainedLegacyAnimationKeys: frozenUnique(
+      retainedLegacyAnimationKeys,
+    ),
+    stationaryContactByAnimation,
+    stationaryQuickslashContactByAnimation,
     customAnimationKeys,
     customDisplaySizes,
     customOriginBySheet: Object.freeze({

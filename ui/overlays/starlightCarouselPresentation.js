@@ -15,26 +15,26 @@ export function addStarlightFoundation(view, parent) {
   const bounds = view.contentBounds;
   const pageBounds = view.pageBounds;
   const layout = STARLIGHT_TALENT_TREE_CONFIG.layout;
-  const underlay = view.scene.add.image(
-    pageBounds.x + pageBounds.width / 2,
-    pageBounds.y + pageBounds.height / 2,
-    ASSET_KEYS.ui.starlightTalentTree.ultrawideFoundation,
-  );
-  underlay.setCrop(
+  const underlay = layout.foundationUnderlayEnabled
+    ? view.scene.add.image(
+        pageBounds.x + pageBounds.width / 2,
+        pageBounds.y + pageBounds.height / 2,
+        ASSET_KEYS.ui.starlightTalentTree.ultrawideFoundation,
+      )
+    : null;
+  underlay?.setCrop(
     underlay.width * layout.foundationUnderlayCropXFraction,
     underlay.height * layout.foundationUnderlayCropYFraction,
     underlay.width * layout.foundationUnderlayCropWidthFraction,
     underlay.height * layout.foundationUnderlayCropHeightFraction,
-  ).setDisplaySize(
-    pageBounds.width,
-    pageBounds.height,
-  ).setAlpha(layout.foundationUnderlayAlpha);
+  ).setDisplaySize(pageBounds.width, pageBounds.height)
+    .setAlpha(layout.foundationUnderlayAlpha);
   const background = view.scene.add.image(
     bounds.x + bounds.width / 2,
     bounds.y + bounds.height / 2,
     ASSET_KEYS.ui.starlightTalentTree.ultrawideFoundation,
   ).setDisplaySize(bounds.width, bounds.height);
-  parent.add([underlay, background]);
+  parent.add([underlay, background].filter(Boolean));
   return { underlay, background };
 }
 
@@ -70,15 +70,17 @@ export function addStarlightPageIdentity(
   ).setOrigin(0.5);
   const statusX = bounds.x + bounds.width * layout.branchStatusXFraction;
   const statusY = bounds.y + layout.branchStatusOffsetYPx * scale;
-  const statusSeal = fitImage(
-    view.scene.add.image(
-      statusX,
-      statusY,
-      ASSET_KEYS.ui.starlightTalentTree.statusSeal,
-    ),
-    layout.branchStatusWidthPx * scale,
-    layout.branchStatusHeightPx * scale,
-  );
+  const statusSeal = layout.branchStatusSealEnabled
+    ? fitImage(
+        view.scene.add.image(
+          statusX,
+          statusY,
+          ASSET_KEYS.ui.starlightTalentTree.statusSeal,
+        ),
+        layout.branchStatusWidthPx * scale,
+        layout.branchStatusHeightPx * scale,
+      )
+    : null;
   const statusText = view.scene.add.text(
     statusX,
     statusY,
@@ -102,7 +104,7 @@ export function addStarlightPageIdentity(
       strokeThickness: 1,
     },
   ).setOrigin(0.5);
-  parent.add([titleText, statusSeal, statusText]);
+  parent.add([titleText, statusSeal, statusText].filter(Boolean));
   return { titleText, statusSeal, statusText };
 }
 

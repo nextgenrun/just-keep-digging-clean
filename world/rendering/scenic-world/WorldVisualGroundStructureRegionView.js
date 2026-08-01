@@ -2,6 +2,8 @@ import {
   setAlphaIfChanged,
   setTintIfChanged,
 } from "./worldVisualRenderState.js";
+import { resolveWorldVisualSemanticSequenceIndex } from
+  "./worldVisualSemanticSequence.js?rev=20260729-native-density-v14";
 
 function resolveGeometry(segment, blendEnabled) {
   const widthPx = Math.max(1, Number(segment.logicalWidthPx) || 1);
@@ -60,6 +62,23 @@ function sourceSize(scene, asset) {
   return { width: source.width, height: source.height };
 }
 
+function resolveSegmentDepth(region, config, column, row) {
+  if (!region.seamBlendEnabled) return config.render.depth;
+  const order = config.seamBlendV6.depthOrder;
+  return (
+    config.render.depth
+    + region.orderIndex * order.regionStep
+    + row * order.rowStep
+    + column * order.columnStep
+  );
+}
+
+function resolveSegmentAlpha(region, config) {
+  return region.seamBlendEnabled
+    ? config.seamBlendV6.alpha
+    : config.render.alpha;
+}
+
 export class WorldVisualGroundStructureRegionView {
   constructor(scene, region, config, terrainMask) {
     this.scene = scene;
@@ -95,7 +114,9 @@ export class WorldVisualGroundStructureRegionView {
 
   resolveRequiredAssets(
     bounds,
-    neighborSegments = this.config.segment.neighborSegments
+    neighborSegments = (
+      this.region.segment || this.config.segment
+    ).neighborSegments
   ) {
     const range = this._resolveRange(bounds, neighborSegments);
     if (!range || this.region.assets.length === 0) return [];
@@ -119,11 +140,16 @@ export class WorldVisualGroundStructureRegionView {
 
   _resolveRange(
     bounds,
-    neighborSegments = this.config.segment.neighborSegments
+    neighborSegments = (
+      this.region.segment || this.config.segment
+    ).neighborSegments
   ) {
     const { region, config } = this;
     const tileSize = this.scene.config.tileSize;
-    const geometry = resolveGeometry(config.segment, region.blendEnabled);
+    const geometry = resolveGeometry(
+      region.segment || config.segment,
+      region.blendEnabled
+    );
     if (
       bounds.right <= region.leftTile
       || bounds.left >= region.rightTileExclusive
@@ -184,16 +210,23 @@ export class WorldVisualGroundStructureRegionView {
   }
 
   _resolveSegmentAsset(column, row) {
-    const assetIndex = (
-      column * 7 + row * 11 + this.region.seedOffset
-    ) % this.region.assets.length;
+    const assetIndex = resolveWorldVisualSemanticSequenceIndex(
+      column,
+      row,
+      this.region.seedOffset,
+      this.region.assets.length,
+      { profileId: "groundStructure" }
+    );
     return this.region.assets[assetIndex];
   }
 
   _createSegment(column, row) {
     const { region, config } = this;
     const tileSize = this.scene.config.tileSize;
-    const geometry = resolveGeometry(config.segment, region.blendEnabled);
+    const geometry = resolveGeometry(
+      region.segment || config.segment,
+      region.blendEnabled
+    );
     const startX = Math.round(
       region.leftTile * tileSize + column * geometry.strideXPx
     );
@@ -214,11 +247,17 @@ export class WorldVisualGroundStructureRegionView {
       selected.key
     )
       .setOrigin(0)
-      .setDepth(config.render.depth)
-      .setAlpha(config.render.alpha)
-      .setCrop(0, 0, cropWidth, cropHeight)
-      .setDisplaySize(widthPx, heightPx)
-      .setMask(this.terrainMask);
+      .setDepth(resolveSegmentDepth(region, config, column, row))
+      .setAlpha(resolveSegmentAlpha(region, config))
+      .setCrop(0, 0, cropWidth, cropHeight);
+    // Phaser keeps the complete texture as the native size after setCrop.
+    // Scale from the cropped frame so truncated edge cards retain full coverage.
+    if (typeof sprite.setScale === "function") {
+      sprite.setScale(widthPx / cropWidth, heightPx / cropHeight);
+    } else {
+      sprite.setDisplaySize(widthPx, heightPx);
+    }
+    sprite.setMask(this.terrainMask);
     sprite.name = `world-visual-ground-structure-${region.id}-${column}-${row}`;
     return { sprite, asset: selected };
   }
@@ -227,7 +266,10 @@ export class WorldVisualGroundStructureRegionView {
     if (!lighting) return;
     for (const segment of this.segments.values()) {
       setTintIfChanged(segment.sprite, lighting.terrainTint);
-      setAlphaIfChanged(segment.sprite, this.config.render.alpha);
+      setAlphaIfChanged(
+        segment.sprite,
+        resolveSegmentAlpha(this.region, this.config)
+      );
     }
   }
 

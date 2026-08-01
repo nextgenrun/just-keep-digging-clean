@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "date": "2026-07-30",
+  "production": true,
+  "atlas": {
+    "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-piskel-anchor-v2.png",
+    "sha256": "c550a33b8bca2e32f3a5945d8173272cfc1d90ea415e79ac7b2ab5e1ff883d19",
+    "width": 1880,
+    "height": 2256,
+    "mode": "RGBA",
+    "frameSizePx": 188,
+    "columns": 10,
+    "states": 12,
+    "frameCount": 120,
+    "frameOrder": "state-major: frame = stateIndex * 10 + variantIndex",
+    "logicalTilePx": 94,
+    "pivotPx": [94, 94]
+  },
+  "sourceReview": {
+    "manifest": "exports/piskel/ground-damage-anchor-v2-review/manifest.json",
+    "manifestSha256": "cf025957d0fb65f2829066b1d32f5e2041347bbeba86891463870ec39833e415",
+    "geometryReport": "exports/piskel/ground-damage-anchor-v2-review/geometry-report.json",
+    "geometryReportSha256": "16e139ed4fd1c498b02e6179aa589351bc1493059fd72369cbdb130758ad8fc9"
+  },
+  "rollback": {
+    "atlasPath": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-imagegen-v1.png",
+    "atlasSha256": "2f424648dc9727723e19d73de2662d3ba3f948bab32f20bd8f91c284807096f4",
+    "atlasQuery": "?groundDamageAtlas=legacy",
+    "rendererQuery": "?groundDamage=legacy"
+  },
+  "runtime": {
+    "values": "values/worldVisualDamage.js",
+    "preload": "ui/scenes/BootScene.js",
+    "painter": "world/rendering/scenic-world/WorldVisualDamageImagePainter.js"
+  }
+}

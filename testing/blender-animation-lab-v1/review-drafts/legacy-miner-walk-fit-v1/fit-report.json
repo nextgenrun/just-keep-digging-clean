@@ -1,0 +1,152 @@
+{
+  "schema": "dig-game-legacy-miner-mesh-fit-review-v1",
+  "session": "legacy-miner-walk-fit-v1",
+  "productionChanged": false,
+  "requestedAssetCorrection": {
+    "requested": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\archive\\2026-07-15-rejected-legacy-miner-unreal-walk-experiment\\testing\\unreal-legacy-miner-walk\\Content\\LegacyMinerWalk\\Meshy\\M_LegacyMiner_Material_1.uasset",
+      "role": "Unreal material; this file contains no character geometry",
+      "bytes": 62769,
+      "sha256": "acd91fec293863fed46ca9e1f7e30a82a1a6a5f4a271cb102873632fe638ecd8"
+    },
+    "actualUnrealMesh": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\archive\\2026-07-15-rejected-legacy-miner-unreal-walk-experiment\\testing\\unreal-legacy-miner-walk\\Content\\LegacyMinerWalk\\Meshy\\SK_LegacyMiner_Meshy_v2.uasset",
+      "role": "Unreal skeletal mesh paired with the requested material",
+      "bytes": 30642774,
+      "sha256": "34750633ecebf812fc93ec0fc8a27d11de9b73b5192e75e77fe2b43ecc6d4f55"
+    },
+    "portableMeshUsed": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\archive\\2026-07-15-rejected-legacy-miner-unreal-walk-experiment\\testing\\unreal-legacy-miner-walk\\SourceAssets\\legacy-miner-meshy-rigged-v2.glb",
+      "role": "Rigged GLB source used by Blender for the isolated fit test",
+      "bytes": 17311532,
+      "sha256": "c5e25605ced29f4e5123320ba7a08b5572eb1f60fc0d00d1bd998d2dc0b66d3f"
+    },
+    "safeUnrealMaterial": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\archive\\2026-07-15-rejected-legacy-miner-unreal-walk-experiment\\testing\\unreal-legacy-miner-walk\\Content\\LegacyMinerWalk\\Meshy\\M_LegacyMiner_Unreal.uasset",
+      "role": "Corrected Unreal material already bound to the archived skeletal mesh",
+      "bytes": 7182,
+      "sha256": "9ff44242e2c05cf26a5b665780b2c143f7cc2f074318af8e7142f78c2ba6d322"
+    }
+  },
+  "sourceCharacter": {
+    "profile": "survival-ual-player-v1",
+    "clipId": "walk",
+    "sourceClip": "Jog_Fwd_Loop",
+    "sourceMode": "direct current FBX; shared stale master bypassed",
+    "currentCarrier": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\unreal-survival-motion-v2\\SourceAssets\\ual-exports\\survival-ual-jog-fwd-loop.fbx",
+      "role": "Current Jog_Fwd_Loop FBX imported directly into this review copy",
+      "bytes": 5344816,
+      "sha256": "3ebe5cf2ac0fdffe32967a656710b3268960345651dc9f640ed98830f0c6486a"
+    },
+    "action": "DGAL_CURRENT_locomotion-jog",
+    "frameRange": [
+      1,
+      24
+    ],
+    "sampleFrames": [
+      1,
+      7,
+      12,
+      18
+    ]
+  },
+  "fit": {
+    "mode": "RIG_RETARGET",
+    "mappedBones": 22,
+    "targetBoneCount": 24,
+    "fitScale": 0.933985,
+    "nativeWeightsPreserved": true,
+    "meshAudit": {
+      "meshes": 1,
+      "excludedMeshes": 1,
+      "armatures": 1,
+      "vertices": 119519,
+      "triangles": 217147,
+      "materials": 1,
+      "vertexGroups": 24,
+      "unweightedVertices": 0,
+      "nonManifoldEdges": 25381,
+      "rigged": true
+    },
+    "armMotionDegreesAcrossSamples": 658.842,
+    "legMotionDegreesAcrossSamples": 841.256,
+    "retargetAction": "DGAL_MESHY_CURRENT_locomotion-jog",
+    "currentCarrierDirect": true
+  },
+  "materials": {
+    "materialSlots": [
+      {
+        "mesh": "char1",
+        "slot": "Material_1",
+        "material": "Material_1",
+        "usesNodes": true
+      }
+    ],
+    "images": [
+      {
+        "name": "texture_0",
+        "filepath": "",
+        "packed": true,
+        "size": [
+          2048,
+          2048
+        ]
+      }
+    ]
+  },
+  "renders": [
+    {
+      "label": "current-survival",
+      "frame": 1,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\current-survival-walk-frame-0001.png",
+      "sha256": "1fd23e6ac06fa2716085013b8650625ae98a63b221583eb9caf73f6e6639353d"
+    },
+    {
+      "label": "fitted-legacy-miner",
+      "frame": 1,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\fitted-legacy-miner-walk-frame-0001.png",
+      "sha256": "e06ef0531e04af01849e739a312adcf4cf7b039396506408b2743cbac1ac4b08"
+    },
+    {
+      "label": "current-survival",
+      "frame": 7,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\current-survival-walk-frame-0007.png",
+      "sha256": "a56bcd58a270c223e24a7f8fe30f94bb19938b140e155ac3845534c56560f4e2"
+    },
+    {
+      "label": "fitted-legacy-miner",
+      "frame": 7,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\fitted-legacy-miner-walk-frame-0007.png",
+      "sha256": "8193978c939d8dc77f8c0e2b9cefd5a0b27684b48b49fae4f431cda76eb7336b"
+    },
+    {
+      "label": "current-survival",
+      "frame": 12,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\current-survival-walk-frame-0012.png",
+      "sha256": "f10ac34d6cc3b5ff53ad6f9a132ea81fa581c6545fe39e1c30332d58dd7b86da"
+    },
+    {
+      "label": "fitted-legacy-miner",
+      "frame": 12,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\fitted-legacy-miner-walk-frame-0012.png",
+      "sha256": "acb007b97e5798158737d6a41fc32c98663a5bcc8382332edae8155a34459e0e"
+    },
+    {
+      "label": "current-survival",
+      "frame": 18,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\current-survival-walk-frame-0018.png",
+      "sha256": "8a2fd96ec3d3c0ebc6bc31047722388daff454f999945f55b023ca6f4104689f"
+    },
+    {
+      "label": "fitted-legacy-miner",
+      "frame": 18,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\proof-renders\\fitted-legacy-miner-walk-frame-0018.png",
+      "sha256": "9832e69309ea024071dc24763bb4a3647a9afac5d8a3646db1ded0ed88d76551"
+    }
+  ],
+  "reviewBundle": {
+    "blend": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\blender-animation-lab.blend",
+    "manifest": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\review-manifest.json"
+  }
+}

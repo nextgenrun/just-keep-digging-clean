@@ -9,6 +9,7 @@ function setTownTile(worldModel, tx, ty, type, hp = null) {
   worldModel.setTile(tx, ty, type, nextHp);
   worldModel.skyTileOriginalType[index] = 0;
   worldModel.skyTileRarity[index] = 0;
+  worldModel.skyTileIdentity[index] = 0;
   worldModel.rootOverlay[index] = 0;
 }
 

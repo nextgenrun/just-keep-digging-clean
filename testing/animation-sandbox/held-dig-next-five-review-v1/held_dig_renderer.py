@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 from PIL import Image, ImageDraw, ImageFont
@@ -134,11 +133,13 @@ def draw_actor(
 ) -> None:
     build, palette = config["build"], config["palette"]
     scale = build["reviewScale"]
-    display = round(build["displaySizePx"] * scale)
+    display_size_px = float(record.get("displaySizePx") or build["displaySizePx"])
+    display = round(display_size_px * scale)
+    visual_offset_x = float(record.get("visualOffsetPx") or 0) * scale
     sprite = record["frame"].resize((display, display), Image.Resampling.LANCZOS)
     if record["flipX"]:
         sprite = sprite.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-    sprite_x = round(actor_x - display * build["visualOriginX"])
+    sprite_x = round(actor_x + visual_offset_x - display * build["visualOriginX"])
     sprite_y = round(ground_y - display * build["visualOriginY"])
     canvas.alpha_composite(sprite, (sprite_x, sprite_y))
     collider_w = build["playerBodyWidthPx"] * scale
@@ -153,11 +154,30 @@ def draw_actor(
         outline=palette["collider"],
         width=2,
     )
+    visual_root_x = actor_x + visual_offset_x
+    draw.line(
+        (actor_x, ground_y - 8, visual_root_x, ground_y - 8),
+        fill=accent,
+        width=2,
+    )
+    draw.ellipse(
+        (
+            visual_root_x - 3,
+            ground_y - 11,
+            visual_root_x + 3,
+            ground_y - 5,
+        ),
+        fill=accent,
+    )
     phase = record.get("runPhase")
     if phase is not None:
         foot = planted_foot(manifest, int(phase), bool(record["flipX"]))
         frame_scale = display / build["frameWidth"]
-        foot_x = actor_x + (foot[0] - build["frameWidth"] * build["visualOriginX"]) * frame_scale
+        foot_x = (
+            actor_x
+            + visual_offset_x
+            + (foot[0] - build["frameWidth"] * build["visualOriginX"]) * frame_scale
+        )
         foot_y = ground_y + (foot[1] - build["frameHeight"] * build["visualOriginY"]) * frame_scale
         draw.ellipse(
             (foot_x - 4, foot_y - 4, foot_x + 4, foot_y + 4),
@@ -194,8 +214,8 @@ def draw_labels(
         font=regular,
         fill=palette["text"],
     )
-    phase = record.get("runPhase")
-    phase_text = "--" if phase is None else f"{int(phase):02d}"
+    display_size = float(record.get("displaySizePx") or build["displaySizePx"])
+    apparent_scale = float(record.get("apparentScale") or 1)
     draw.text(
         (panel_left + 386, 24),
         f"FRAME {index + 1:02d}/{total:02d}",
@@ -204,7 +224,7 @@ def draw_labels(
     )
     draw.text(
         (panel_left + 386, 49),
-        f"JOG {phase_text}  •  {abs(round(record['speed']))} PX/S",
+        f"{display_size:.0f} PX  •  TORSO {apparent_scale * 100:.1f}%",
         font=small,
         fill=palette["amber"],
     )
@@ -221,8 +241,14 @@ def draw_labels(
             fill="#061015",
         )
     if record["contact"]:
+        draw.rounded_rectangle(
+            (panel_left + 392, build["panelHeight"] - 63,
+             panel_left + 584, build["panelHeight"] - 27),
+            radius=7,
+            fill="#061015e8",
+        )
         draw.text(
-            (panel_left + 405, build["panelHeight"] - 50),
+            (panel_left + 405, build["panelHeight"] - 52),
             "CONTACT • UNCHANGED",
             font=small,
             fill=palette["impact"],
@@ -246,7 +272,7 @@ def render_pair(
     draw = ImageDraw.Draw(canvas)
     rows = (
         (0, before[index], "BEFORE • CURRENT HANDOFF", palette["red"]),
-        (build["panelWidth"], after[index], "AFTER • PROPOSED MOCKUP", palette["green"]),
+        (build["panelWidth"], after[index], "AFTER • SCALE + ANCHOR LOCK", palette["green"]),
     )
     for panel_left, record_value, heading, accent in rows:
         actor_x, ground_y = draw_background(draw, config, panel_left, record_value)
@@ -269,20 +295,3 @@ def render_pair(
         width=3,
     )
     return canvas
-
-
-def save_gif(frames: list[Image.Image], path: Path, duration_ms: int) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    paletted = [
-        frame.convert("P", palette=Image.Palette.ADAPTIVE, colors=255)
-        for frame in frames
-    ]
-    paletted[0].save(
-        path,
-        save_all=True,
-        append_images=paletted[1:],
-        duration=duration_ms,
-        loop=0,
-        disposal=2,
-        optimize=False,
-    )

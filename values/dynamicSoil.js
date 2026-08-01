@@ -24,10 +24,22 @@ export const SOIL_TYPES = Object.freeze([
 ]);
 
 export const RESOURCE_RARITIES = Object.freeze([
-  { id: "normal", chance: 0, multiplier: 1 },
-  { id: "rich", chance: 0.02, multiplier: 2 },
-  { id: "packed", chance: 0.004, multiplier: 5 },
-  { id: "ancient", chance: 0.0005, multiplier: 12 },
+  Object.freeze({
+    id: "normal", chance: 0, multiplier: 1, yieldMultiplier: 1,
+    hpMultiplier: 1, legacyMultiplier: 1,
+  }),
+  Object.freeze({
+    id: "rich", chance: 0.02, multiplier: 3, yieldMultiplier: 3,
+    hpMultiplier: 1.5, legacyMultiplier: 2,
+  }),
+  Object.freeze({
+    id: "packed", chance: 0.004, multiplier: 8, yieldMultiplier: 8,
+    hpMultiplier: 2.5, legacyMultiplier: 5,
+  }),
+  Object.freeze({
+    id: "ancient", chance: 0.0005, multiplier: 25, yieldMultiplier: 25,
+    hpMultiplier: 5, legacyMultiplier: 12,
+  }),
 ]);
 
 // Tile types that can have rarity tiers (affecting HP and yield)
@@ -109,25 +121,57 @@ export function getResourceRarityIndex(tileType, tx, ty, depthTiles, seed) {
   return 0;
 }
 
-function getResourceMultiplier(tileType, tx, ty, depthTiles, seed) {
-  return RESOURCE_RARITIES[getResourceRarityIndex(tileType, tx, ty, depthTiles, seed)].multiplier;
+function getResourceRarity(tileType, tx, ty, depthTiles, seed) {
+  return RESOURCE_RARITIES[
+    getResourceRarityIndex(tileType, tx, ty, depthTiles, seed)
+  ] || RESOURCE_RARITIES[0];
 }
 
-export function getResourceHpMultiplier(tileType, tx, ty, depthTiles, seed) {
-  return getResourceMultiplier(tileType, tx, ty, depthTiles, seed);
+export function getResourceHpMultiplier(
+  tileType,
+  tx,
+  ty,
+  depthTiles,
+  seed,
+  depthEconomyEnabled = true,
+) {
+  const rarity = getResourceRarity(tileType, tx, ty, depthTiles, seed);
+  return depthEconomyEnabled ? rarity.hpMultiplier : rarity.legacyMultiplier;
 }
 
-export function getResourceYieldMultiplier(tileType, tx, ty, depthTiles, seed) {
-  return getResourceMultiplier(tileType, tx, ty, depthTiles, seed);
+export function getResourceYieldMultiplier(
+  tileType,
+  tx,
+  ty,
+  depthTiles,
+  seed,
+  depthEconomyEnabled = true,
+) {
+  const rarity = getResourceRarity(tileType, tx, ty, depthTiles, seed);
+  return depthEconomyEnabled ? rarity.yieldMultiplier : rarity.legacyMultiplier;
 }
 
-export function getResourceRarityDescriptor(tileType, tx, ty, depthTiles, seed) {
+export function getResourceRarityDescriptor(
+  tileType,
+  tx,
+  ty,
+  depthTiles,
+  seed,
+  depthEconomyEnabled = true,
+) {
   const index = getResourceRarityIndex(tileType, tx, ty, depthTiles, seed);
   const rarity = RESOURCE_RARITIES[index] || RESOURCE_RARITIES[0];
+  const multiplier = depthEconomyEnabled
+    ? rarity.yieldMultiplier
+    : rarity.legacyMultiplier;
   return Object.freeze({
     index,
     id: rarity.id,
-    multiplier: rarity.multiplier,
+    multiplier,
+    yieldMultiplier: multiplier,
+    hpMultiplier: depthEconomyEnabled
+      ? rarity.hpMultiplier
+      : rarity.legacyMultiplier,
   });
 }
 

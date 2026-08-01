@@ -36,6 +36,10 @@ offsets, and grants a fresh seven-second viewing window after release. The
 queue is bounded to six entries and evicts the least-important hidden card
 first.
 
+When enabled, routine entries also require a 1.4-second gap and are capped at
+three entries in seven seconds. Tutorial and priority-two-or-higher danger
+entries can bypass that routine admission gate.
+
 Routine confirmations do not enter this queue when a persistent HUD element or
 the action itself already proves the result. This includes audio toggles,
 ordinary save success, run/load confirmations, routine level changes, timed

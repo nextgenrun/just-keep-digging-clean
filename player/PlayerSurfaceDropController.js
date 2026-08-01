@@ -7,10 +7,21 @@ export class PlayerSurfaceDropController {
     this.collisionSystem = collisionSystem;
     this.physicsBody = physicsBody;
     this.surfaceRow = surfaceRow;
+    this.canDrop = null;
+    this.onBlocked = null;
+  }
+
+  setAccessPolicy(canDrop, onBlocked) {
+    this.canDrop = typeof canDrop === "function" ? canDrop : null;
+    this.onBlocked = typeof onBlocked === "function" ? onBlocked : null;
   }
 
   update() {
     if (!this.input?.consumeSurfaceDropInput?.()) return false;
+    if (this.canDrop && this.canDrop() !== true) {
+      this.onBlocked?.();
+      return false;
+    }
     return this.collisionSystem?.tryBeginSurfaceDropThrough?.(
       this.physicsBody,
       this.surfaceRow,

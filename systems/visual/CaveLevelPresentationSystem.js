@@ -1,9 +1,13 @@
 /**
- * CaveLevelPresentationSystem — renders authored cave-level art and hides structural collision tiles.
+ * CaveLevelPresentationSystem — renders one continuous authored cave interior over mineable terrain.
  */
 import { CAVE_LEVEL_CONFIG } from "../../values/caveLevelConfig.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
-import { TILE_TYPES } from "../../values/tileTypes.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { UI_FONTS } from "../../values/uiLayout.js";
+import { hasApprovedHudSkin } from "./ApprovedHudSkin.js";
+
 
 export class CaveLevelPresentationSystem {
   constructor(scene, options) {
@@ -18,11 +22,12 @@ export class CaveLevelPresentationSystem {
     this.worldRenderer = options.worldRenderer;
     this.exitLabel = null;
     this.gpText = null;
+    this.gpFrame = null;
+    this.backgroundImage = null;
   }
 
   create() {
     this._createBackground();
-    this._maskStructuralTiles();
     this._createIdentity();
     this._createExitAndHud();
   }
@@ -43,19 +48,10 @@ export class CaveLevelPresentationSystem {
       : this.backgroundPreset?.textureKey;
     this.scene.cameras.main.setBackgroundColor(CAVE_SCENE_CONFIG.background.fallbackColor);
     if (!textureKey || !this.scene.textures.exists(textureKey)) return;
-    this.scene.add.image(width / 2, height / 2, textureKey)
+    this.backgroundImage = this.scene.add.image(width / 2, height / 2, textureKey)
       .setDisplaySize(width, height)
-      .setDepth(this.expanded ? CAVE_LEVEL_CONFIG.presentation.backgroundDepth : -10);
-  }
-
-  _maskStructuralTiles() {
-    if (!this.expanded) return;
-    const layer = this.worldRenderer?.layer;
-    if (!layer?.forEachTile) return;
-    layer.forEachTile((tile) => {
-      if (this.worldModel.getTileType(tile.x, tile.y) !== TILE_TYPES.CAVE_WALL) return;
-      tile.alpha = CAVE_LEVEL_CONFIG.presentation.structuralTileAlpha;
-    });
+      .setDepth(this.expanded ? CAVE_LEVEL_CONFIG.presentation.backgroundDepth : -10)
+      .setName(this.expanded ? "cave-level-continuous-interior" : "cave-level-legacy-interior");
   }
 
   _createIdentity() {
@@ -69,14 +65,14 @@ export class CaveLevelPresentationSystem {
     const title = this.entryData?.displayName || this.archetype.journalLabel;
     const hint = this.entryData?.discoveryHint || this.archetype.hint;
     this.scene.add.text(titleX, titleY, title.toUpperCase(), {
-      fontFamily: "Georgia, serif",
+      fontFamily: UI_FONTS.display,
       fontSize: `${this.expanded ? expanded.titleFontSizePx : legacy.titleFontSizePx}px`,
       color: legacy.titleColor,
       stroke: legacy.textStrokeColor,
       strokeThickness: legacy.titleStrokeThickness,
     }).setOrigin(0.5).setDepth(5);
     this.scene.add.text(hintX, hintY, hint, {
-      fontFamily: "Georgia, serif",
+      fontFamily: UI_FONTS.body,
       fontSize: `${this.expanded ? expanded.hintFontSizePx : legacy.hintFontSizePx}px`,
       color: legacy.hintColor,
       stroke: legacy.textStrokeColor,
@@ -100,24 +96,49 @@ export class CaveLevelPresentationSystem {
         .setAlpha(mouth.alpha);
     }
     this.exitLabel = this.scene.add.text(exitX, exitY - exit.labelOffsetTiles * tileSize, "", {
-      fontFamily: "Georgia, serif",
+      fontFamily: UI_FONTS.body,
       fontSize: "16px",
       color: exit.labelColor,
       stroke: CAVE_SCENE_CONFIG.presentation.textStrokeColor,
       strokeThickness: CAVE_SCENE_CONFIG.presentation.hintStrokeThickness,
     }).setOrigin(0.5, 1).setDepth(5).setVisible(false);
     const hud = CAVE_LEVEL_CONFIG.presentation;
+    const gpHud = hud.gpHud;
+    const hudX = this.scene.scale.width - hud.hudInsetPx;
+    const approved = hasApprovedHudSkin(this.scene);
+    if (approved) {
+      this.gpFrame = this.scene.add.image(
+        hudX,
+        hud.hudTopPx,
+        ASSET_KEYS.ui.approvedHud.buffChip,
+      ).setOrigin(1, 0)
+        .setDisplaySize(gpHud.frameWidthPx, gpHud.frameHeightPx)
+        .setScrollFactor(0)
+        .setDepth(hud.hudDepth);
+    }
     this.gpText = this.scene.add.text(
-      this.scene.scale.width - hud.hudInsetPx,
-      hud.hudTopPx,
+      approved ? hudX - gpHud.frameWidthPx / 2 : hudX,
+      approved
+        ? hud.hudTopPx + gpHud.frameHeightPx / 2 + gpHud.textOffsetYPx
+        : hud.hudTopPx,
       "",
       {
-        fontFamily: "Consolas, monospace",
-        fontSize: "16px",
-        color: CAVE_SCENE_CONFIG.feedback.gpColor,
-        stroke: CAVE_SCENE_CONFIG.presentation.textStrokeColor,
-        strokeThickness: CAVE_SCENE_CONFIG.presentation.hintStrokeThickness,
+        fontFamily: approved ? APPROVED_HUD_SKIN.font.family : UI_FONTS.mono,
+        fontSize: `${gpHud.fontSizePx}px`,
+        fontStyle: approved ? "bold" : "normal",
+        color: approved ? APPROVED_HUD_SKIN.font.cyan : CAVE_SCENE_CONFIG.feedback.gpColor,
+        stroke: approved ? APPROVED_HUD_SKIN.font.shadow : CAVE_SCENE_CONFIG.presentation.textStrokeColor,
+        strokeThickness: approved
+          ? APPROVED_HUD_SKIN.font.strokeThickness
+          : CAVE_SCENE_CONFIG.presentation.hintStrokeThickness,
       },
-    ).setOrigin(1, 0).setScrollFactor(0).setDepth(hud.hudDepth);
+    ).setOrigin(approved ? 0.5 : 1, approved ? 0.5 : 0)
+      .setScrollFactor(0)
+      .setDepth(hud.hudTextDepth);
+  }
+
+  destroy() {
+    this.backgroundImage = null;
+    this.gpFrame = null;
   }
 }

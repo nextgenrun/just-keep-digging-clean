@@ -1,6 +1,8 @@
 // ==================== CELESTIAL ENGINES ====================
 // Star Heart choice, charge economy, hard activation caps, and UI copy.
 
+import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
+
 export const CELESTIAL_ENGINE_IDS = Object.freeze({
   WAYWARD_STAR: "wayward-star",
   HOLLOW_SUN: "hollow-sun",
@@ -82,7 +84,9 @@ export const CELESTIAL_ENGINE_CONFIG = Object.freeze({
     capacity: 100,
     initialOnAttune: 100,
     activationCost: 100,
-    starChargeByRarity: Object.freeze([12, 18, 26, 38, 55, 75]),
+    starChargeByRarity: Object.freeze(
+      STAR_RARITY_PROGRESSION_CONFIG.rarityTiers.map(tier => tier.engineCharge),
+    ),
   }),
   damage: Object.freeze({
     maxPerHit: 1000000,

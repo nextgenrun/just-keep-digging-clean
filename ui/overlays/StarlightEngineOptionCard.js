@@ -168,6 +168,9 @@ export function createStarlightEngineOptionCard({
       return;
     }
     const centered = Boolean(slot.centered);
+    ribbon.setVisible(
+      centered && !layout.carouselCenterRibbonEmbedded,
+    );
     ribbon.setAlpha(centered ? 1 : layout.carouselFlankLabelAlpha);
     name.setAlpha(centered ? 1 : layout.carouselFlankLabelAlpha);
     roleAndState.setVisible(centered);

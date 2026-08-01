@@ -41,7 +41,10 @@ const skylineSource = fs.readFileSync(
 assert.match(weatherSource, /new WeatherSnowController/);
 assert.match(weatherSource, /precipitationImpacts/);
 assert.match(weatherSource, /approvedParticleVisualsReady/);
-assert.match(bootSource, /this\.preloadBackgrounds\(\);\s*this\.preloadWeatherVfx\(\);/);
+assert.match(
+  bootSource,
+  /this\.preloadBackgrounds\(\);\s*(?:this\.preloadSurfaceSkyPropAtlasesV3\(\);\s*)?this\.preloadWeatherVfx\(\);/,
+);
 assert.match(bootSource, /preloadWeatherVfx\(\)\s*\{/);
 assert.match(bootSource, /this\.load\.spritesheet\(\s*weatherVfx\.particles/);
 assert.match(rainSource, /nearestImpactForWorldX/);

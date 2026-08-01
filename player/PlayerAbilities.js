@@ -36,6 +36,7 @@ export class PlayerAbilities {
     this._gemPowerMax = this._baseGemPowerMax;
     this._gemPowerRegenRate = GEM_POWER_CONFIG.baseRegen || 2;
     this._gemPowerChangeListener = null;
+    this._gemPowerFloorProvider = null;
 
     // Climbing
     this._climbing = false;
@@ -76,6 +77,9 @@ export class PlayerAbilities {
   setGemPowerChangeListener(listener) {
     this._gemPowerChangeListener = typeof listener === "function" ? listener : null;
   }
+  setGemPowerFloorProvider(provider) {
+    this._gemPowerFloorProvider = typeof provider === "function" ? provider : null;
+  }
 
   update(dt, input, isGrounded, facingRight) {
     this._refreshConstellationStats();
@@ -98,50 +102,73 @@ export class PlayerAbilities {
       || this.upgradeSystem?.isGemPowerUnlocked?.();
     const flyHeld = input.getFlyInput();
     const flyDownHeld = input.getFlyDownInput?.() === true;
+    const flightContext = { source: "flight" };
+    const flightDrainRequest = freeFlightActive
+      ? 0
+      : this._getGemPowerDrain() * dt;
+    const flightStartRequirement = this._getFlyStartCost()
+      + (this.getGemPowerFloor(flightContext) > 0 ? flightDrainRequest : 0);
 
     if (flightAvailable && flyHeld && this.body) {
       const canStartFlying = !this._flying
-        && (this._godMode || freeFlightActive || this.gemPower >= this._getFlyStartCost());
+        && (
+          this._godMode
+          || freeFlightActive
+          || this.canSpendGemPower(
+            flightStartRequirement,
+            flightContext,
+          )
+        );
       const canContinueFlying = this._flying
-        && (this._godMode || freeFlightActive || this.gemPower > 0);
+        && (
+          this._godMode
+          || freeFlightActive
+          || this.hasSpendableGemPower(flightContext)
+        );
 
       if (canStartFlying || canContinueFlying) {
         if (canStartFlying && !this._godMode && !freeFlightActive) {
-          this.consumeGemPower(this._getFlyStartCost(), { source: "flight" });
+          this.consumeGemPower(this._getFlyStartCost(), flightContext);
         }
-        const flightDirection = (!isGrounded && flyDownHeld) ? 1 : -1;
-        this.body.vy = this._getClimbSpeed() * flightDirection;
-        this._flying = true;
-        this._climbing = true;
-        usingGemPowerMovement = true;
+        let upkeepPaid = true;
         if (!freeFlightActive) {
-          this.consumeGemPower(this._getGemPowerDrain() * dt, { source: "flight" });
+          const consumed = this.consumeGemPower(
+            flightDrainRequest,
+            flightContext,
+          );
+          upkeepPaid = consumed + Number.EPSILON >= flightDrainRequest;
         } else {
           this._warnedLowGemPower = false;
         }
 
+        if (upkeepPaid) {
+          const flightDirection = (!isGrounded && flyDownHeld) ? 1 : -1;
+          this.body.vy = this._getClimbSpeed() * flightDirection;
+          this._flying = true;
+          this._climbing = true;
+          usingGemPowerMovement = true;
+        } else {
+          this._flying = false;
+          this._climbing = false;
+          this._warnFlightPowerUnavailable(flightContext);
+        }
+
         if (
-          !freeFlightActive
+          upkeepPaid
+          && !freeFlightActive
           && this.gemPower < GEM_POWER_CONFIG.lowGpWarningThreshold
           && !this._warnedLowGemPower
         ) {
           this.sprite?.scene?.hudSystem?.flashStatus?.(
-            "Low Gem Power!",
-            "#ff6600",
+            GEM_POWER_CONFIG.lowGpWarningText,
+            GEM_POWER_CONFIG.lowGpWarningColor,
             GEM_POWER_CONFIG.lowGpFlashMs
           );
           this._warnedLowGemPower = true;
         }
-      } else if (this.gemPower <= 0) {
+      } else if (!this.hasSpendableGemPower(flightContext)) {
         this._flying = false;
-        if (!this._warnedLowGemPower) {
-          this.sprite?.scene?.hudSystem?.flashStatus?.(
-            "No Gem Power!",
-            "#ff4444",
-            GEM_POWER_CONFIG.lowGpFlashMs
-          );
-          this._warnedLowGemPower = true;
-        }
+        this._warnFlightPowerUnavailable(flightContext);
       }
     } else {
       this._flying = false;
@@ -561,6 +588,21 @@ export class PlayerAbilities {
   }
 
   hasGemPower() { return this.gemPower > 0; }
+  getGemPowerFloor(context = {}) {
+    const resolved = Number(this._gemPowerFloorProvider?.(context));
+    const floor = Number.isFinite(resolved) ? Math.max(0, resolved) : 0;
+    return Math.min(this.gemPower, floor);
+  }
+  getSpendableGemPower(context = {}) {
+    return Math.max(0, this.gemPower - this.getGemPowerFloor(context));
+  }
+  hasSpendableGemPower(context = {}) {
+    return this.getSpendableGemPower(context) > Number.EPSILON;
+  }
+  canSpendGemPower(amount, context = {}) {
+    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
+    return this.getSpendableGemPower(context) + Number.EPSILON >= requested;
+  }
   fillGemPower(context = { source: "fill" }) {
     const previous = this.gemPower;
     this.gemPower = this.getGemPowerMax();
@@ -587,16 +629,16 @@ export class PlayerAbilities {
     if (this._godMode) return Math.max(0, Number.isFinite(amount) ? amount : 0);
     const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
     const previous = this.gemPower;
-    const consumed = Math.min(this.gemPower, requested);
+    const consumed = Math.min(this.getSpendableGemPower(context), requested);
     this.gemPower = Math.max(0, this.gemPower - consumed);
     if (consumed > 0) this._emitGemPowerChange(previous, context);
     return consumed;
   }
   drainAllGemPower(context = {}) {
     if (this._godMode) return 0;
-    const drained = this.gemPower;
+    const drained = this.getSpendableGemPower(context);
     const previous = this.gemPower;
-    this.gemPower = 0;
+    this.gemPower = Math.max(0, this.gemPower - drained);
     if (drained > 0) this._emitGemPowerChange(previous, context);
     return drained;
   }
@@ -651,6 +693,22 @@ export class PlayerAbilities {
     if (this._godMode) return 0;
     const startCost = GEM_POWER_CONFIG.flightStartCost;
     return Number.isFinite(startCost) ? Math.max(0, startCost) : 0;
+  }
+
+  _warnFlightPowerUnavailable(context) {
+    if (this._warnedLowGemPower) return;
+    const reserveProtected = this.gemPower > 0
+      && !this.hasSpendableGemPower(context);
+    this.sprite?.scene?.hudSystem?.flashStatus?.(
+      reserveProtected
+        ? GEM_POWER_CONFIG.protectedReserveWarningText
+        : GEM_POWER_CONFIG.emptyGpWarningText,
+      reserveProtected
+        ? GEM_POWER_CONFIG.protectedReserveWarningColor
+        : GEM_POWER_CONFIG.emptyGpWarningColor,
+      GEM_POWER_CONFIG.lowGpFlashMs,
+    );
+    this._warnedLowGemPower = true;
   }
 
   _isFreeFlightActive() {

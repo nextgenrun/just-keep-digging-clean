@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { resolveMovingDiagonalDigAnimation } from "../player/UalMovingDiagonalDigSelector.js";
+import { createUalNativePlayerAnimations } from "../player/UalNativePlayerAnimations.js";
 import { UalActionRecoverySelector } from "../systems/visual/UalActionRecoverySelector.js";
 import { UalGroundPhaseHandoffSelector } from "../systems/visual/UalGroundPhaseHandoffSelector.js";
 import { UalNativeLocomotionTransitionSelector } from "../systems/visual/UalNativeLocomotionTransitionSelector.js";
@@ -11,6 +12,10 @@ import { UalWallBraceSelector } from "../systems/visual/UalWallBraceSelector.js"
 import { PLAYER_ANIMATION_POLISH as polish } from "../values/playerAnimationPolish.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../values/playerMotionPolish.js";
 import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE as profile } from "../values/survivalUalPlayerAssetProfile.js";
+import {
+  resolveUalActionContact,
+  UAL_NATIVE_ACTION_TUNING,
+} from "../values/ualNativeActionTuning.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const runtimeRoot = resolve(root, "sprites/character/survival-ual-player-v1/runtime");
@@ -27,11 +32,11 @@ const piskelManifest = JSON.parse(readFileSync(
 assert.equal(polish.version, sourceConfig.version);
 assert.equal(polish.enabledByDefault, true);
 assert.equal(polish.rollbackQuery, "animationPolish");
-assert.equal(polish.sheets.transitions.frameCount, 61);
+assert.equal(polish.sheets.transitions.frameCount, 133);
 assert.equal(polish.sheets.diagonalDig.frameCount, 120);
-assert.equal(polish.transitionAnimations.length, 23);
+assert.equal(polish.transitionAnimations.length, 29);
 assert.equal(polish.diagonalMining.variants.length, 8);
-assert.equal(profile.animationPolishAnimations.length, 32);
+assert.equal(profile.animationPolishAnimations.length, 37);
 assert.equal(profile.landingCompressionOwner, "authored-animation");
 assert.equal(profile.walkStartAnim, polish.groundHandoff.start.key);
 assert.equal(profile.walkStopAnim, polish.groundHandoff.stopVariants[0].key);
@@ -39,6 +44,68 @@ assert.equal(profile.landingAnim, polish.landing.hard.key);
 assert.equal(profile.softLandingAnim, polish.landing.soft.key);
 assert.equal(profile.wallBraceEnterAnim, polish.wallBrace.entry.key);
 assert.equal(profile.wallBraceExitAnim, polish.wallBrace.exit.key);
+assert.equal(profile.wallPushAnim, polish.wallBrace.loop.key);
+assert.equal(polish.wallBrace.loop.frames.length, 16);
+assert.equal(polish.wallBrace.loop.repeat, -1);
+for (const sourceId of ["groundStrike", "punchJab", "punchCross", "landing", "wallPush"]) {
+  assert.equal(sourceConfig.sources[sourceId].displaySizePx, 109);
+}
+
+const upVertical = polish.verticalMining.up;
+assert.equal(upVertical.animations.length, upVertical.animationKeys.length);
+assert.equal(upVertical.animations.every(({ frames }) => (
+  frames.length === upVertical.sourceFrames.length
+)), true);
+for (const animation of upVertical.animations) {
+  assert.equal(profile.animationPolishAnimations.some(({ key }) => key === animation.key), true);
+  assert.deepEqual(profile.actionContactByAnimation[animation.key], {
+    textureFrame: upVertical.sourceContactFrame,
+    sequenceIndex: upVertical.contactSequenceIndex,
+    sourceAction: upVertical.sourceAction,
+    markerGroup: upVertical.markerGroup,
+    visualAlignmentEnabled: false,
+  });
+}
+
+const downVertical = polish.verticalMining.down;
+assert.equal(downVertical.animations.length, downVertical.animationKeys.length);
+assert.deepEqual(profile.animationPolishRetainedLegacyAnimationKeys, [profile.digDownAnim]);
+for (const animation of downVertical.animations) {
+  assert.equal(profile.animationPolishAnimations.some(({ key }) => key === animation.key), false);
+  assert.equal(profile.actionContactByAnimation[animation.key], undefined);
+}
+assert.equal(profile.digDownSheet, profile.groundStrikeSheet);
+assert.deepEqual(profile.digDownFrames, Array.from({ length: 37 }, (_, index) => index + 4));
+assert.deepEqual(
+  resolveUalActionContact(profile, profile.digDownAnim),
+  UAL_NATIVE_ACTION_TUNING.contact.digDown,
+);
+const registeredAnimations = new Map();
+createUalNativePlayerAnimations({
+  anims: {
+    exists: (key) => registeredAnimations.has(key),
+    create: (config) => registeredAnimations.set(config.key, config),
+  },
+  textures: { exists: () => false },
+}, profile);
+const registeredDigDown = registeredAnimations.get(profile.digDownAnim);
+assert.deepEqual(
+  registeredDigDown.frames.map(({ key, frame }) => [key, frame]),
+  profile.digDownFrames.map((frame) => [profile.digDownSheet, frame]),
+);
+for (const animationKey of upVertical.animationKeys) {
+  const registeredUp = registeredAnimations.get(animationKey);
+  assert.equal(registeredUp.frames.length, upVertical.sourceFrames.length);
+  assert.equal(registeredUp.frames.every(({ key }) => (
+    key === polish.sheets.transitions.sheetKey
+  )), true);
+}
+for (const spec of polish.stationaryContactPolish.side) {
+  assert.equal(profile.actionContactByAnimation[spec.animationKey].visualAlignmentEnabled, false);
+}
+for (const spec of polish.stationaryContactPolish.quickslash) {
+  assert.equal(profile.quickslashActionContactByAnimation[spec.animationKey].visualAlignmentEnabled, false);
+}
 
 for (const sheet of Object.values(polish.sheets)) {
   assert.equal(profile.requiredSheets.includes(sheet.sheetKey), true);
@@ -98,7 +165,7 @@ for (const variant of polish.diagonalMining.variants) {
     sequenceIndex: variant.contactSequenceIndex,
     sourceAction: variant.sourceAction,
     markerGroup: "hands",
-    visualAlignmentMode: "immediate",
+    visualAlignmentEnabled: false,
   });
   const metadata = runtimeManifest.actions[variant.sourceAction];
   assert.equal(metadata.frame_count, 15);
@@ -108,7 +175,10 @@ for (const variant of polish.diagonalMining.variants) {
   if (variant.family === "up") {
     assert.ok(contact[0] > 175 && contact[1] < 115);
   } else {
-    assert.ok(contact[0] > 160 && contact[1] > 180);
+    assert.deepEqual(metadata.source_clips, ["Jog_Fwd_Loop", "Blender MINER_dig_down"]);
+    assert.equal(contact.every(Number.isFinite), true);
+    assert.ok(contact[0] >= 0 && contact[0] <= 256);
+    assert.ok(contact[1] >= 0 && contact[1] <= 256);
   }
   for (let index = 0; index < 15; index += 1) {
     const runFrame = (variant.runStartFrame + index) % 28;

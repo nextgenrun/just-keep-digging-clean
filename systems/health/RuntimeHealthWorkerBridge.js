@@ -69,6 +69,14 @@ export class RuntimeHealthWorkerBridge {
     });
   }
 
+  reportFindings(findings = []) {
+    if (!this.worker) return;
+    this.worker.postMessage({
+      type: "system-findings",
+      findings: Array.isArray(findings) ? findings : [],
+    });
+  }
+
   _reportEndpoint() {
     const injected = this.globalRef[this.config.globals.reportEndpoint];
     return typeof injected === "string" && injected.trim()

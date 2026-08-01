@@ -267,7 +267,9 @@ assert.equal(firstView.sprite.key, firstView.definition.surfaceAsset.key);
 assert.equal(firstView.daisSprite.key, TITAN_DISCOVERY_CONFIG.assets.undergroundDais.key);
 assert.ok(
   firstView.daisSprite.displayWidth
-    < firstView.sprite.width * firstView.baseScale,
+    < Math.min(firstView.widthPx, firstView.heightPx)
+      * TITAN_DISCOVERY_CONFIG.underground.titanFitFraction
+      * 0.6,
   "the underground dais must remain substantially smaller than its Titan",
 );
 const initialCreatureAlpha = firstView.sprite.alpha;

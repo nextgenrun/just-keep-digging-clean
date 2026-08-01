@@ -1,0 +1,3444 @@
+{
+  "schema": "dig-game-legacy-miner-mesh-fit-review-v2",
+  "session": "legacy-miner-walk-fit-v2",
+  "verdict": "corrected-review-candidate",
+  "productionChanged": false,
+  "sourceBlend": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v1\\blender-animation-lab.blend",
+  "sourceAction": "DGAL_CURRENT_locomotion-jog",
+  "failedV1Action": "DGAL_MESHY_CURRENT_locomotion-jog",
+  "correctedAction": "DGAL_MESHY_CORRECTED_locomotion-jog",
+  "frameRange": [
+    1,
+    24
+  ],
+  "sampleFrames": [
+    1,
+    7,
+    12,
+    18
+  ],
+  "diagnosis": {
+    "failedV1": [
+      "armature-space rotations crossed incompatible rig bases",
+      "Meshy spine order was mapped backwards",
+      "pelvis translation and ground contact were omitted",
+      "key totals were mistaken for deformation validation"
+    ],
+    "correctedV2": [
+      "rest-joint Kabsch facing alignment",
+      "hierarchy-correct spine mapping",
+      "joint-direction chain solving with native target rest roll",
+      "scaled pelvis sway and per-frame lowest-foot grounding"
+    ]
+  },
+  "alignment": {
+    "sourceToTargetWorldMatrix3x3": [
+      [
+        -0.000277,
+        -1.0,
+        -0.000884
+      ],
+      [
+        0.998694,
+        -0.000231,
+        -0.051086
+      ],
+      [
+        0.051086,
+        -0.000897,
+        0.998694
+      ]
+    ],
+    "sourceToTargetWorldQuaternionWXYZ": [
+      0.706786,
+      0.017753,
+      -0.018383,
+      0.706966
+    ],
+    "sourceToTargetWorldEulerDegreesXYZ": [
+      -0.051,
+      -2.928,
+      90.016
+    ],
+    "characterScale": 0.889922,
+    "restJointRmsResidualWorld": 0.064515
+  },
+  "mapping": {
+    "Hips": "pelvis",
+    "LeftUpLeg": "thigh_l",
+    "LeftLeg": "calf_l",
+    "LeftFoot": "foot_l",
+    "LeftToeBase": "ball_l",
+    "RightUpLeg": "thigh_r",
+    "RightLeg": "calf_r",
+    "RightFoot": "foot_r",
+    "RightToeBase": "ball_r",
+    "Spine02": "spine_01",
+    "Spine01": "spine_03",
+    "Spine": "spine_05",
+    "LeftShoulder": "clavicle_l",
+    "LeftArm": "upperarm_l",
+    "LeftForeArm": "lowerarm_l",
+    "LeftHand": "hand_l",
+    "RightShoulder": "clavicle_r",
+    "RightArm": "upperarm_r",
+    "RightForeArm": "lowerarm_r",
+    "RightHand": "hand_r",
+    "neck": "neck_01",
+    "Head": "head"
+  },
+  "mappedBones": 22,
+  "drivenBones": 17,
+  "motionValidation": {
+    "meanSegmentDirectionErrorDegrees": 6.463,
+    "maxSegmentDirectionErrorDegrees": 39.534,
+    "restContactJointWorldZ": 0.031309,
+    "frames": [
+      {
+        "frame": 1,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.168544,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 2,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.089784,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 3,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.079332,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 4,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.081124,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 5,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.0972,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 6,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.222603,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 7,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.286616,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 8,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.315196,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 9,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.335056,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 10,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.334493,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 11,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.263756,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 12,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.198361,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 13,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.122007,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 14,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.102007,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 15,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.095334,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 16,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.099853,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 17,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.214978,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 18,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.280168,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 19,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.315378,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 20,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.333567,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.922
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 21,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.324497,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 22,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.253506,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.921
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 23,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.190335,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.922
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      },
+      {
+        "frame": 24,
+        "meanDirectionErrorDegrees": 6.463,
+        "maxDirectionErrorDegrees": 39.534,
+        "groundCorrectionWorldZ": -0.190335,
+        "lowestFootJointWorldZ": 0.031309,
+        "segments": [
+          {
+            "source": "pelvis->thigh_l",
+            "target": "Hips->LeftUpLeg",
+            "degrees": 27.922
+          },
+          {
+            "source": "pelvis->thigh_r",
+            "target": "Hips->RightUpLeg",
+            "degrees": 28.207
+          },
+          {
+            "source": "pelvis->spine_01",
+            "target": "Hips->Spine02",
+            "degrees": 0.256
+          },
+          {
+            "source": "thigh_l->calf_l",
+            "target": "LeftUpLeg->LeftLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_l->foot_l",
+            "target": "LeftLeg->LeftFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_l->ball_l",
+            "target": "LeftFoot->LeftToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "thigh_r->calf_r",
+            "target": "RightUpLeg->RightLeg",
+            "degrees": 0.0
+          },
+          {
+            "source": "calf_r->foot_r",
+            "target": "RightLeg->RightFoot",
+            "degrees": 0.0
+          },
+          {
+            "source": "foot_r->ball_r",
+            "target": "RightFoot->RightToeBase",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_01->spine_03",
+            "target": "Spine02->Spine01",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_03->spine_05",
+            "target": "Spine01->Spine",
+            "degrees": 0.0
+          },
+          {
+            "source": "spine_05->neck_01",
+            "target": "Spine->neck",
+            "degrees": 2.12
+          },
+          {
+            "source": "spine_05->clavicle_l",
+            "target": "Spine->LeftShoulder",
+            "degrees": 37.69
+          },
+          {
+            "source": "spine_05->clavicle_r",
+            "target": "Spine->RightShoulder",
+            "degrees": 39.534
+          },
+          {
+            "source": "neck_01->head",
+            "target": "neck->Head",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_l->upperarm_l",
+            "target": "LeftShoulder->LeftArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_l->lowerarm_l",
+            "target": "LeftArm->LeftForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_l->hand_l",
+            "target": "LeftForeArm->LeftHand",
+            "degrees": 0.0
+          },
+          {
+            "source": "clavicle_r->upperarm_r",
+            "target": "RightShoulder->RightArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "upperarm_r->lowerarm_r",
+            "target": "RightArm->RightForeArm",
+            "degrees": 0.0
+          },
+          {
+            "source": "lowerarm_r->hand_r",
+            "target": "RightForeArm->RightHand",
+            "degrees": 0.0
+          }
+        ]
+      }
+    ],
+    "groundingMode": "evaluated skinned Meshy shoe geometry",
+    "restMeshGroundWorldZ": -0.006791,
+    "meshGroundingFrames": [
+      {
+        "frame": 1,
+        "meshGroundBeforeWorldZ": -0.082762,
+        "meshGroundCorrectionWorldZ": 0.075971,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.10728
+      },
+      {
+        "frame": 2,
+        "meshGroundBeforeWorldZ": -0.025507,
+        "meshGroundCorrectionWorldZ": 0.018716,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.050025
+      },
+      {
+        "frame": 3,
+        "meshGroundBeforeWorldZ": -0.015282,
+        "meshGroundCorrectionWorldZ": 0.008491,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.0398
+      },
+      {
+        "frame": 4,
+        "meshGroundBeforeWorldZ": -0.02661,
+        "meshGroundCorrectionWorldZ": 0.019819,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.051128
+      },
+      {
+        "frame": 5,
+        "meshGroundBeforeWorldZ": -0.034741,
+        "meshGroundCorrectionWorldZ": 0.02795,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.059258
+      },
+      {
+        "frame": 6,
+        "meshGroundBeforeWorldZ": -0.073204,
+        "meshGroundCorrectionWorldZ": 0.066413,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.097722
+      },
+      {
+        "frame": 7,
+        "meshGroundBeforeWorldZ": -0.082739,
+        "meshGroundCorrectionWorldZ": 0.075948,
+        "meshGroundAfterWorldZ": -0.006792,
+        "lowestFootJointWorldZ": 0.107257
+      },
+      {
+        "frame": 8,
+        "meshGroundBeforeWorldZ": -0.080557,
+        "meshGroundCorrectionWorldZ": 0.073766,
+        "meshGroundAfterWorldZ": -0.006792,
+        "lowestFootJointWorldZ": 0.105075
+      },
+      {
+        "frame": 9,
+        "meshGroundBeforeWorldZ": -0.082249,
+        "meshGroundCorrectionWorldZ": 0.075458,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.106766
+      },
+      {
+        "frame": 10,
+        "meshGroundBeforeWorldZ": -0.083089,
+        "meshGroundCorrectionWorldZ": 0.076298,
+        "meshGroundAfterWorldZ": -0.006792,
+        "lowestFootJointWorldZ": 0.107607
+      },
+      {
+        "frame": 11,
+        "meshGroundBeforeWorldZ": -0.0813,
+        "meshGroundCorrectionWorldZ": 0.074509,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.105818
+      },
+      {
+        "frame": 12,
+        "meshGroundBeforeWorldZ": -0.079841,
+        "meshGroundCorrectionWorldZ": 0.07305,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.104359
+      },
+      {
+        "frame": 13,
+        "meshGroundBeforeWorldZ": -0.046745,
+        "meshGroundCorrectionWorldZ": 0.039954,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.071263
+      },
+      {
+        "frame": 14,
+        "meshGroundBeforeWorldZ": -0.01351,
+        "meshGroundCorrectionWorldZ": 0.006719,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.038028
+      },
+      {
+        "frame": 15,
+        "meshGroundBeforeWorldZ": -0.015077,
+        "meshGroundCorrectionWorldZ": 0.008286,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.039595
+      },
+      {
+        "frame": 16,
+        "meshGroundBeforeWorldZ": -0.021492,
+        "meshGroundCorrectionWorldZ": 0.014701,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.04601
+      },
+      {
+        "frame": 17,
+        "meshGroundBeforeWorldZ": -0.056545,
+        "meshGroundCorrectionWorldZ": 0.049754,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.081063
+      },
+      {
+        "frame": 18,
+        "meshGroundBeforeWorldZ": -0.07479,
+        "meshGroundCorrectionWorldZ": 0.067999,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.099308
+      },
+      {
+        "frame": 19,
+        "meshGroundBeforeWorldZ": -0.071928,
+        "meshGroundCorrectionWorldZ": 0.065137,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.096446
+      },
+      {
+        "frame": 20,
+        "meshGroundBeforeWorldZ": -0.072821,
+        "meshGroundCorrectionWorldZ": 0.06603,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.097339
+      },
+      {
+        "frame": 21,
+        "meshGroundBeforeWorldZ": -0.085239,
+        "meshGroundCorrectionWorldZ": 0.078448,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.109757
+      },
+      {
+        "frame": 22,
+        "meshGroundBeforeWorldZ": -0.084003,
+        "meshGroundCorrectionWorldZ": 0.077212,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.108521
+      },
+      {
+        "frame": 23,
+        "meshGroundBeforeWorldZ": -0.082938,
+        "meshGroundCorrectionWorldZ": 0.076147,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.107456
+      },
+      {
+        "frame": 24,
+        "meshGroundBeforeWorldZ": -0.082938,
+        "meshGroundCorrectionWorldZ": 0.076147,
+        "meshGroundAfterWorldZ": -0.006791,
+        "lowestFootJointWorldZ": 0.107456
+      }
+    ]
+  },
+  "correctedBoundsBySampleFrame": [
+    {
+      "frame": 1,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.21713,
+        -0.654459,
+        -0.006791
+      ],
+      "maximumWorld": [
+        0.595641,
+        0.66106,
+        1.466324
+      ],
+      "dimensionsWorld": [
+        0.812771,
+        1.315518,
+        1.473115
+      ],
+      "diagonalWorld": 2.135709
+    },
+    {
+      "frame": 7,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.324924,
+        -0.599462,
+        -0.006792
+      ],
+      "maximumWorld": [
+        0.420637,
+        0.593541,
+        1.402403
+      ],
+      "dimensionsWorld": [
+        0.745561,
+        1.193003,
+        1.409195
+      ],
+      "diagonalWorld": 1.991217
+    },
+    {
+      "frame": 12,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.294947,
+        -0.717805,
+        -0.006791
+      ],
+      "maximumWorld": [
+        0.350837,
+        0.667858,
+        1.443675
+      ],
+      "dimensionsWorld": [
+        0.645785,
+        1.385663,
+        1.450466
+      ],
+      "diagonalWorld": 2.107356
+    },
+    {
+      "frame": 18,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.250664,
+        -0.541651,
+        -0.006791
+      ],
+      "maximumWorld": [
+        0.624348,
+        0.581994,
+        1.423353
+      ],
+      "dimensionsWorld": [
+        0.875012,
+        1.123645,
+        1.430144
+      ],
+      "diagonalWorld": 2.0183
+    }
+  ],
+  "renders": [
+    {
+      "label": "source-survival",
+      "frame": 1,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\source-survival-frame-0001.png",
+      "sha256": "2c3b05176620661005d7b417512bdace7137b194ad58329aac1c6a3053a914d2"
+    },
+    {
+      "label": "failed-v1-meshy",
+      "frame": 1,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\failed-v1-meshy-frame-0001.png",
+      "sha256": "4b9126e0cce64d3a06d1d5a7202be07becb74ed1a21babd6bcc100f13c4bca6b"
+    },
+    {
+      "label": "corrected-v2-meshy",
+      "frame": 1,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\corrected-v2-meshy-frame-0001.png",
+      "sha256": "0e89121195f473d42746fb43d1db686941aba6501ff909c7ffdfaef7a867dfa3"
+    },
+    {
+      "label": "source-survival",
+      "frame": 7,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\source-survival-frame-0007.png",
+      "sha256": "c213c68357da4e9b2a38a3769f2c7e6f504f65be4596fb4d5792ed688da76695"
+    },
+    {
+      "label": "failed-v1-meshy",
+      "frame": 7,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\failed-v1-meshy-frame-0007.png",
+      "sha256": "5d530178b7a4201e79b1ee3498dec8d9400141d6051afe223d95723bd0175932"
+    },
+    {
+      "label": "corrected-v2-meshy",
+      "frame": 7,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\corrected-v2-meshy-frame-0007.png",
+      "sha256": "b7bac57bdcd4d2758fa38d49ff17876b9b178952551b4d633b49580f2f84f4f4"
+    },
+    {
+      "label": "source-survival",
+      "frame": 12,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\source-survival-frame-0012.png",
+      "sha256": "c24c2dbb1c0dcf1f30b1028dd03c9202ae8841cf50ba7d2a35ca3791ebff8da3"
+    },
+    {
+      "label": "failed-v1-meshy",
+      "frame": 12,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\failed-v1-meshy-frame-0012.png",
+      "sha256": "07730d54e191173bc42a2d14bdca0af5a440861a8e581d7f6c2cffe8f4223f65"
+    },
+    {
+      "label": "corrected-v2-meshy",
+      "frame": 12,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\corrected-v2-meshy-frame-0012.png",
+      "sha256": "267999e422cf2e89549b318f91a55066916961d9cd1a32a80b2af9a9d6c47470"
+    },
+    {
+      "label": "source-survival",
+      "frame": 18,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\source-survival-frame-0018.png",
+      "sha256": "312d337e6c9c19d3216f1e74a0a70363a618c6951af08be5e2e979da9dc6aea0"
+    },
+    {
+      "label": "failed-v1-meshy",
+      "frame": 18,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\failed-v1-meshy-frame-0018.png",
+      "sha256": "03ece65ff92f964e963d7ce88a915cfee4d14197585a4af9953761868cb9143d"
+    },
+    {
+      "label": "corrected-v2-meshy",
+      "frame": 18,
+      "path": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\proof-renders\\corrected-v2-meshy-frame-0018.png",
+      "sha256": "3fc2593750caca96ef08645a0e538bd58c48f61e01d5ebc20ce8f82b83bb50a0"
+    }
+  ],
+  "reviewBundle": {
+    "blend": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\blender-animation-lab.blend",
+    "report": "testing\\blender-animation-lab-v1\\review-drafts\\legacy-miner-walk-fit-v2\\fit-report.json"
+  },
+  "targetRestBounds": {
+    "frame": 1,
+    "vertices": 119519,
+    "minimumWorld": [
+      -0.38338,
+      -0.242126,
+      -0.006791
+    ],
+    "maximumWorld": [
+      0.585732,
+      0.090208,
+      1.655703
+    ],
+    "dimensionsWorld": [
+      0.969112,
+      0.332334,
+      1.662494
+    ],
+    "diagonalWorld": 1.952821
+  },
+  "comparisonAgainstFailedV1": {
+    "failedV1": {
+      "action": "DGAL_MESHY_CURRENT_locomotion-jog",
+      "meanSegmentDirectionErrorDegrees": 23.366,
+      "maxSegmentDirectionErrorDegrees": 157.337,
+      "frames": [
+        {
+          "frame": 1,
+          "meanDegrees": 57.409,
+          "maxDegrees": 145.852
+        },
+        {
+          "frame": 2,
+          "meanDegrees": 48.858,
+          "maxDegrees": 130.418
+        },
+        {
+          "frame": 3,
+          "meanDegrees": 42.511,
+          "maxDegrees": 145.29
+        },
+        {
+          "frame": 4,
+          "meanDegrees": 26.602,
+          "maxDegrees": 106.212
+        },
+        {
+          "frame": 5,
+          "meanDegrees": 31.934,
+          "maxDegrees": 157.337
+        },
+        {
+          "frame": 6,
+          "meanDegrees": 17.9,
+          "maxDegrees": 64.329
+        },
+        {
+          "frame": 7,
+          "meanDegrees": 19.833,
+          "maxDegrees": 61.944
+        },
+        {
+          "frame": 8,
+          "meanDegrees": 19.687,
+          "maxDegrees": 60.637
+        },
+        {
+          "frame": 9,
+          "meanDegrees": 18.858,
+          "maxDegrees": 60.372
+        },
+        {
+          "frame": 10,
+          "meanDegrees": 18.937,
+          "maxDegrees": 61.004
+        },
+        {
+          "frame": 11,
+          "meanDegrees": 18.949,
+          "maxDegrees": 62.114
+        },
+        {
+          "frame": 12,
+          "meanDegrees": 18.473,
+          "maxDegrees": 63.429
+        },
+        {
+          "frame": 13,
+          "meanDegrees": 20.226,
+          "maxDegrees": 65.632
+        },
+        {
+          "frame": 14,
+          "meanDegrees": 23.724,
+          "maxDegrees": 62.887
+        },
+        {
+          "frame": 15,
+          "meanDegrees": 20.324,
+          "maxDegrees": 47.744
+        },
+        {
+          "frame": 16,
+          "meanDegrees": 20.257,
+          "maxDegrees": 59.792
+        },
+        {
+          "frame": 17,
+          "meanDegrees": 17.496,
+          "maxDegrees": 43.889
+        },
+        {
+          "frame": 18,
+          "meanDegrees": 16.827,
+          "maxDegrees": 44.486
+        },
+        {
+          "frame": 19,
+          "meanDegrees": 16.604,
+          "maxDegrees": 46.738
+        },
+        {
+          "frame": 20,
+          "meanDegrees": 16.4,
+          "maxDegrees": 48.8
+        },
+        {
+          "frame": 21,
+          "meanDegrees": 17.134,
+          "maxDegrees": 50.474
+        },
+        {
+          "frame": 22,
+          "meanDegrees": 17.648,
+          "maxDegrees": 51.595
+        },
+        {
+          "frame": 23,
+          "meanDegrees": 17.591,
+          "maxDegrees": 52.121
+        },
+        {
+          "frame": 24,
+          "meanDegrees": 16.595,
+          "maxDegrees": 52.15
+        }
+      ]
+    },
+    "correctedV2": {
+      "action": "DGAL_MESHY_CORRECTED_locomotion-jog",
+      "meanSegmentDirectionErrorDegrees": 6.463,
+      "maxSegmentDirectionErrorDegrees": 39.534,
+      "frames": [
+        {
+          "frame": 1,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 2,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 3,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 4,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 5,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 6,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 7,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 8,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 9,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 10,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 11,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 12,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 13,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 14,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 15,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 16,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 17,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 18,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 19,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 20,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 21,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 22,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 23,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        },
+        {
+          "frame": 24,
+          "meanDegrees": 6.463,
+          "maxDegrees": 39.534
+        }
+      ]
+    },
+    "meanDirectionErrorReductionPercent": 72.34
+  }
+}

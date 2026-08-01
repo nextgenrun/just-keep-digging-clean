@@ -26,23 +26,30 @@ export class SkyBeaconPulseRenderer {
     this.scene = scene;
     this.visuals = visuals;
     this._ring = null;
+  }
 
-    if (!visuals?.enabled || !scene?.add?.image) return;
-
+  _ensureRing() {
+    if (this._ring) return true;
+    const visuals = this.visuals;
+    if (!visuals?.enabled || !this.scene?.add?.image) return false;
     const fallback = resolveAsset(visuals, visuals.fallbackRarityIndex);
-    if (!fallback?.key || !scene.textures?.exists?.(fallback.key)) return;
+    if (!fallback?.key || visuals.rarityAssets.some(
+      asset => !this.scene.textures?.exists?.(asset.key),
+    )) return false;
 
     const blendMode = Phaser.BlendModes[visuals.blendMode]
       ?? Phaser.BlendModes.ADD;
-    this._ring = scene.add.image(0, 0, fallback.key)
+    this._ring = this.scene.add.image(0, 0, fallback.key)
       .setOrigin(0.5)
       .setDepth(visuals.renderDepth)
       .setBlendMode(blendMode)
       .setAlpha(0)
       .setVisible(false);
+    return true;
   }
 
   beginFrame() {
+    this._ensureRing();
     if (!this._ring) return;
     this._ring.setAlpha(0);
     this._ring.setVisible(false);
@@ -57,6 +64,7 @@ export class SkyBeaconPulseRenderer {
     pulse,
     rarity,
   }) {
+    this._ensureRing();
     const visuals = this.visuals;
     const asset = resolveAsset(visuals, rarity);
     if (!this._ring || !asset?.key || !pulse) return false;

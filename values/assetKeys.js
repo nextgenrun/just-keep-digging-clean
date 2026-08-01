@@ -1,5 +1,29 @@
+import {
+  WORLD_VISUAL_PROP_ATLASES_V3,
+  WORLD_VISUAL_SKY_PROP_ASSETS_V3,
+  WORLD_VISUAL_SURFACE_PROP_ASSETS_V3,
+} from "./generated/worldVisualPropLibraryV3/index.js";
+import {
+  WORLD_VISUAL_SURFACE_HERO_LANDMARK_ASSETS,
+  resolveWorldVisualSurfaceHeroLandmarksEnabled,
+} from "./worldVisualSurfaceHeroLandmarks.js";
+
 const HEAVENBLOCKS_SKY_ALTAR_ASSET_ROOT =
   "sprites/environment/heavenblocks-sky-altars-v1";
+
+const createGeneratedPropAssetMap = assets => Object.freeze(Object.fromEntries(
+  assets.map(asset => [
+    asset.id,
+    Object.freeze({ key: asset.atlasKey, frame: asset.frame }),
+  ]),
+));
+
+const SURFACE_PROP_ASSETS_V3 = createGeneratedPropAssetMap(
+  WORLD_VISUAL_SURFACE_PROP_ASSETS_V3,
+);
+const SKY_PROP_ASSETS_V3 = createGeneratedPropAssetMap(
+  WORLD_VISUAL_SKY_PROP_ASSETS_V3,
+);
 
 const createSkyAltarAsset = (familyId, stageId) => Object.freeze({
   key: `environment-sky-altar-${familyId}-${stageId}-v1`,
@@ -759,6 +783,10 @@ export const ASSET_KEYS = Object.freeze({
         expeditionShelter: { key: "surface-prop-level2-expedition-shelter-v2", path: "sprites/environment/surface-props-v2/level2-expedition-shelter-v2.webp" },
       },
     },
+    surfaceHeroLandmarksV4: WORLD_VISUAL_SURFACE_HERO_LANDMARK_ASSETS,
+    surfaceSkyPropAtlasesV3: WORLD_VISUAL_PROP_ATLASES_V3,
+    surfacePropsV3: SURFACE_PROP_ASSETS_V3,
+    skyPropsV3: SKY_PROP_ASSETS_V3,
     skylineWeatherVfx: {
       clouds: "weather-v11-clouds",
       atmosphere: "weather-v11-atmosphere",
@@ -775,6 +803,7 @@ export const ASSET_KEYS = Object.freeze({
       track2: "music-track-2",
       track3: "music-track-3",
       playlist: ["music-track-1", "music-track-2", "music-track-3"],
+      bootSeedKey: "",
     },
     sfx: {
       footstep: "sfx-footstep",
@@ -813,6 +842,11 @@ export const ASSET_KEYS = Object.freeze({
       // Populated dynamically from manifest.json — add/remove files there, no code changes needed
       playerRandomFiles: [],
     },
+    runtime: {
+      paths: {},
+      streamingEnabled: true,
+      bootQueuedKeys: [],
+    },
   },
 });
 
@@ -820,6 +854,22 @@ export function getSurfacePropPreloadAssets(assetKeys = ASSET_KEYS) {
   return Object.values(assetKeys.environment.surfaceProps)
     .flatMap(level => Object.values(level))
     .map(({ key, path }) => Object.freeze({ key, path }));
+}
+
+export function getSurfaceHeroLandmarkPreloadAssets(
+  assetKeys = ASSET_KEYS,
+  search = globalThis.location?.search || "",
+) {
+  const enabled = resolveWorldVisualSurfaceHeroLandmarksEnabled(undefined, search);
+  return Object.entries(assetKeys.environment.surfaceHeroLandmarksV4)
+    .filter(([assetId]) => enabled[assetId])
+    .map(([, { key, path }]) => Object.freeze({ key, path }));
+}
+
+export function getSurfaceSkyPropAtlasPreloadAssets(assetKeys = ASSET_KEYS) {
+  return assetKeys.environment.surfaceSkyPropAtlasesV3.map(
+    ({ key, path, dataPath }) => Object.freeze({ key, path, dataPath }),
+  );
 }
 
 export function getPickaxeIconPreloadAssets(assetKeys = ASSET_KEYS) {

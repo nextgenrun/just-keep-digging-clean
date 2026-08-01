@@ -1,0 +1,1432 @@
+{
+  "schemaVersion": 1,
+  "libraryId": "2026-07-29-high-impact-review-library-v1",
+  "createdAtUtc": "2026-07-29T19:01:22.317996+00:00",
+  "status": "review-only-not-wired",
+  "notice": "REVIEW COMPOSITE \u2014 NOT WIRED",
+  "runtimeChanged": false,
+  "mainManifestIntentionallyUnchanged": true,
+  "reasonMainManifestUnchanged": "Preserves the sealed 10K build manifest; mockups have independent review provenance.",
+  "method": "Existing verified screenshots are copied pixel-exact on the left; candidate assets are composited offline on the right.",
+  "counts": {
+    "boards": 8,
+    "placements": 40,
+    "contactSheets": 1
+  },
+  "boards": [
+    {
+      "id": "01-mining-contact-and-break",
+      "title": "Mining contact, material read, and final break",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "testing/2026-07-29-imagegen-ground-damage-production-runtime.png",
+        "sha256": "817108086c71a5eb27334a5ffa3996a3695de3576b7374f52d019af99f4b525b",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "DigSystem / SpecialBlockEffectsManager / tile contact point",
+      "implementationRisk": "Must remain tile-anchored and never conceal damage-stage readability.",
+      "placements": [
+        {
+          "placementId": "01-mining-contact-and-break-p01",
+          "candidateId": "a0001-dry-topsoil-pick-contact-burst__p07-compact-read",
+          "sourceId": "a0001-dry-topsoil-pick-contact-burst",
+          "sourceMasterId": "m01",
+          "semanticName": "dry-topsoil-pick-contact-burst",
+          "candidatePath": "derivatives/a0001-dry-topsoil-pick-contact-burst__p07-compact-read.png",
+          "candidateSha256": "8b2b5783b5f77874d2ebadfaa3fdff4b07f6250bfd216da084090e39f49bae15",
+          "sourceSha256": "c93395bdddaf76b00132633ca072e872aeed80066b9a25a70ebbaf60863a4c6d",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 520,
+            "y": 470,
+            "scaleX": 0.48,
+            "scaleY": 0.48,
+            "rotationDegrees": 0,
+            "alpha": 0.92
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 443,
+            "top": 408,
+            "width": 154,
+            "height": 123
+          }
+        },
+        {
+          "placementId": "01-mining-contact-and-break-p02",
+          "candidateId": "a0006-weathered-limestone-chip-burst__p04-highlight-safe",
+          "sourceId": "a0006-weathered-limestone-chip-burst",
+          "sourceMasterId": "m01",
+          "semanticName": "weathered-limestone-chip-burst",
+          "candidatePath": "derivatives/a0006-weathered-limestone-chip-burst__p04-highlight-safe.png",
+          "candidateSha256": "0711d6eda125568b1971b9a645b1b94d90d12e158eccfd8e8534d64054d8730e",
+          "sourceSha256": "818a9747c7dd945c33af2886bd7f266cb8ee712801e2caa1016efbf0b330727d",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 690,
+            "y": 505,
+            "scaleX": 0.46,
+            "scaleY": 0.46,
+            "rotationDegrees": 0,
+            "alpha": 0.9
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 616,
+            "top": 446,
+            "width": 147,
+            "height": 118
+          }
+        },
+        {
+          "placementId": "01-mining-contact-and-break-p03",
+          "candidateId": "a0021-copper-ore-warm-spark-impact__p02-emphasized",
+          "sourceId": "a0021-copper-ore-warm-spark-impact",
+          "sourceMasterId": "m02",
+          "semanticName": "copper-ore-warm-spark-impact",
+          "candidatePath": "derivatives/a0021-copper-ore-warm-spark-impact__p02-emphasized.png",
+          "candidateSha256": "eb18af1f9b47a60dfd557bb078ea4947de45441c0c49cbfe9b15fc605869d25e",
+          "sourceSha256": "ba1d20e686039d204bc4974faad49ddc283ba09d4a50d9f47def08128fcbfc7a",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 835,
+            "y": 442,
+            "scaleX": 0.42,
+            "scaleY": 0.42,
+            "rotationDegrees": 0,
+            "alpha": 0.88
+          },
+          "blend": "additive",
+          "z": 2,
+          "renderedPixels": {
+            "left": 768,
+            "top": 388,
+            "width": 134,
+            "height": 108
+          }
+        },
+        {
+          "placementId": "01-mining-contact-and-break-p04",
+          "candidateId": "a0015-reinforced-stone-final-break-burst__p08-broad-read",
+          "sourceId": "a0015-reinforced-stone-final-break-burst",
+          "sourceMasterId": "m01",
+          "semanticName": "reinforced-stone-final-break-burst",
+          "candidatePath": "derivatives/a0015-reinforced-stone-final-break-burst__p08-broad-read.png",
+          "candidateSha256": "1847ac3d1ebf9922f38d7b9595f92720d0e6c116345a4a9d916dea6099e9b6d2",
+          "sourceSha256": "626953dd7370872da002b18ed3c464d0511d22d0daf22bea8d02255ed073950e",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 1000,
+            "y": 515,
+            "scaleX": 0.58,
+            "scaleY": 0.58,
+            "rotationDegrees": 0,
+            "alpha": 0.92
+          },
+          "blend": "normal",
+          "z": 3,
+          "renderedPixels": {
+            "left": 907,
+            "top": 441,
+            "width": 186,
+            "height": 148
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/01-mining-contact-and-break.png",
+        "sha256": "8a4de2c9c8d21fbfeb3b967662f827f99053d8e84a67975773cd2c99673abaa2",
+        "width": 2640,
+        "height": 874
+      }
+    },
+    {
+      "id": "02-quickslash-and-thunder",
+      "title": "Quickslash silhouette plus Thunder Strike hierarchy",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/2026-07-26-comparison-quickslash-after-v1.png",
+        "sha256": "0e714e427ea9eb329665764b87453f7a6388791eec6e3aa02b5b94004cce6d88",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "Quickslash and ThunderStrike visual systems at player/contact/world layers",
+      "implementationRisk": "Peak arcs must stay behind HUD and cannot erase the player silhouette.",
+      "placements": [
+        {
+          "placementId": "02-quickslash-and-thunder-p01",
+          "candidateId": "a0383-thunder-bolt-descent-f03__p02-emphasized",
+          "sourceId": "a0383-thunder-bolt-descent-f03",
+          "sourceMasterId": "m17",
+          "semanticName": "thunder-bolt-descent-f03",
+          "candidatePath": "derivatives/a0383-thunder-bolt-descent-f03__p02-emphasized.png",
+          "candidateSha256": "8a3f03da847c50d765644499ab5b3028c52ac2c90ab782c920d5179658f9615c",
+          "sourceSha256": "fde6099a3c2f6d19a056f7041aaaac73d4ba40326c2a045608c489272ab79e08",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 1285,
+            "y": 330,
+            "scaleX": 1.05,
+            "scaleY": 1.05,
+            "rotationDegrees": 0,
+            "alpha": 0.86
+          },
+          "blend": "additive",
+          "z": 1,
+          "renderedPixels": {
+            "left": 1117,
+            "top": 196,
+            "width": 336,
+            "height": 269
+          }
+        },
+        {
+          "placementId": "02-quickslash-and-thunder-p02",
+          "candidateId": "a0358-quickslash-main-arc-f03__p02-emphasized",
+          "sourceId": "a0358-quickslash-main-arc-f03",
+          "sourceMasterId": "m16",
+          "semanticName": "quickslash-main-arc-f03",
+          "candidatePath": "derivatives/a0358-quickslash-main-arc-f03__p02-emphasized.png",
+          "candidateSha256": "2190e1d22153ae0038a38ffd35818f1dba0092b28aa944a30476be65f26fbdc6",
+          "sourceSha256": "d651f5a5a615d213464facba46cd480d0756c85fdf03c34e05a28609239b9a5d",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 805,
+            "y": 505,
+            "scaleX": 0.88,
+            "scaleY": 0.88,
+            "rotationDegrees": 0,
+            "alpha": 0.92
+          },
+          "blend": "additive",
+          "z": 2,
+          "renderedPixels": {
+            "left": 664,
+            "top": 392,
+            "width": 282,
+            "height": 225
+          }
+        },
+        {
+          "placementId": "02-quickslash-and-thunder-p03",
+          "candidateId": "a0363-quickslash-contact-f03__p04-highlight-safe",
+          "sourceId": "a0363-quickslash-contact-f03",
+          "sourceMasterId": "m16",
+          "semanticName": "quickslash-contact-f03",
+          "candidatePath": "derivatives/a0363-quickslash-contact-f03__p04-highlight-safe.png",
+          "candidateSha256": "050a402126b6bd885e2fd763cf63a1a004ad2cbe788e312de5489466ad4e9d0e",
+          "sourceSha256": "297e1f9fad8bc3202b5f7e087c23d0e05d83c445d8b400fff9f5bee4e5639664",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 1030,
+            "y": 555,
+            "scaleX": 0.52,
+            "scaleY": 0.52,
+            "rotationDegrees": 0,
+            "alpha": 0.9
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 947,
+            "top": 488,
+            "width": 166,
+            "height": 133
+          }
+        },
+        {
+          "placementId": "02-quickslash-and-thunder-p04",
+          "candidateId": "a0388-thunder-ground-slam-f03__p08-broad-read",
+          "sourceId": "a0388-thunder-ground-slam-f03",
+          "sourceMasterId": "m17",
+          "semanticName": "thunder-ground-slam-f03",
+          "candidatePath": "derivatives/a0388-thunder-ground-slam-f03__p08-broad-read.png",
+          "candidateSha256": "c7626fecc270660e64c682ac324216f125a0e2a6c14e580ff8af95ff8166274c",
+          "sourceSha256": "e098f9974cb7ce2cc8810c49d02aaea8802940814229c8eb8b70b8c1e372d210",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 1275,
+            "y": 675,
+            "scaleX": 0.78,
+            "scaleY": 0.78,
+            "rotationDegrees": 0,
+            "alpha": 0.92
+          },
+          "blend": "additive",
+          "z": 4,
+          "renderedPixels": {
+            "left": 1150,
+            "top": 575,
+            "width": 250,
+            "height": 200
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/02-quickslash-and-thunder.png",
+        "sha256": "fd64dc746b1cc0be5b393a60dcd08c6768ccd27955f2626d751e4d471edcfa6e",
+        "width": 3424,
+        "height": 1095
+      }
+    },
+    {
+      "id": "03-rain-and-weather-contact",
+      "title": "Rain depth layers with ground and ceiling contact",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/overground-texture-audit-v2-imagegen/03-live-runtime-resource-context-rain.png",
+        "sha256": "5b036d330f2d662586b362259298d3bd4977323694a536cc6f6e370ba3930260",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "WeatherParticleTextures / WeatherImpactRainController / occlusion contact samples",
+      "implementationRisk": "Weather may only resolve on sampled surfaces and must not become screen-space noise.",
+      "placements": [
+        {
+          "placementId": "03-rain-and-weather-contact-p01",
+          "candidateId": "a0086-foreground-rain-streak__p01-restrained",
+          "sourceId": "a0086-foreground-rain-streak",
+          "sourceMasterId": "m05",
+          "semanticName": "foreground-rain-streak",
+          "candidatePath": "derivatives/a0086-foreground-rain-streak__p01-restrained.png",
+          "candidateSha256": "229efa53a3d889758c4aead9bbb442ccd20a45620144eddbdb597dc085435d9b",
+          "sourceSha256": "11c63da7543466e794b29f998afa2f7786a8bbc945395a6edfa7347e0c5edd62",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 210,
+            "y": 275,
+            "scaleX": 0.8,
+            "scaleY": 0.8,
+            "rotationDegrees": 0,
+            "alpha": 0.58
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 82,
+            "top": 172,
+            "width": 256,
+            "height": 205
+          }
+        },
+        {
+          "placementId": "03-rain-and-weather-contact-p02",
+          "candidateId": "a0086-foreground-rain-streak__p05-cool-context",
+          "sourceId": "a0086-foreground-rain-streak",
+          "sourceMasterId": "m05",
+          "semanticName": "foreground-rain-streak",
+          "candidatePath": "derivatives/a0086-foreground-rain-streak__p05-cool-context.png",
+          "candidateSha256": "24c1271363ffdd54322b6e478195ae004cb6cea0e579111a792bc1a03694bbbf",
+          "sourceSha256": "11c63da7543466e794b29f998afa2f7786a8bbc945395a6edfa7347e0c5edd62",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 580,
+            "y": 250,
+            "scaleX": 0.82,
+            "scaleY": 0.82,
+            "rotationDegrees": 0,
+            "alpha": 0.58
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 449,
+            "top": 145,
+            "width": 262,
+            "height": 210
+          }
+        },
+        {
+          "placementId": "03-rain-and-weather-contact-p03",
+          "candidateId": "a0087-midground-rain-streak__p01-restrained",
+          "sourceId": "a0087-midground-rain-streak",
+          "sourceMasterId": "m05",
+          "semanticName": "midground-rain-streak",
+          "candidatePath": "derivatives/a0087-midground-rain-streak__p01-restrained.png",
+          "candidateSha256": "51e43b583a55e4fd79ac77d8264ecd6987cffb24b4739147d29d47c7e790f40a",
+          "sourceSha256": "7deab6841ffbb1114871e996ef7653391fcf463d9cf3fc56bb5563a2915f24de",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 950,
+            "y": 290,
+            "scaleX": 0.68,
+            "scaleY": 0.68,
+            "rotationDegrees": 0,
+            "alpha": 0.48
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 841,
+            "top": 203,
+            "width": 218,
+            "height": 174
+          }
+        },
+        {
+          "placementId": "03-rain-and-weather-contact-p04",
+          "candidateId": "a0508-rain-ground-splash-f03__p04-highlight-safe",
+          "sourceId": "a0508-rain-ground-splash-f03",
+          "sourceMasterId": "m22",
+          "semanticName": "rain-ground-splash-f03",
+          "candidatePath": "derivatives/a0508-rain-ground-splash-f03__p04-highlight-safe.png",
+          "candidateSha256": "33901b123cb06b93878d1767caab4c329d8c4f387477abc08dd9255329ba71e4",
+          "sourceSha256": "f9df009bc0fa9a19819382648a40fa81e03c07d199251f941af88c9120703743",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 380,
+            "y": 610,
+            "scaleX": 0.34,
+            "scaleY": 0.34,
+            "rotationDegrees": 0,
+            "alpha": 0.82
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 326,
+            "top": 566,
+            "width": 109,
+            "height": 87
+          }
+        },
+        {
+          "placementId": "03-rain-and-weather-contact-p05",
+          "candidateId": "a0508-rain-ground-splash-f03__p07-compact-read",
+          "sourceId": "a0508-rain-ground-splash-f03",
+          "sourceMasterId": "m22",
+          "semanticName": "rain-ground-splash-f03",
+          "candidatePath": "derivatives/a0508-rain-ground-splash-f03__p07-compact-read.png",
+          "candidateSha256": "6cc35c10e43685b667c2e2f488e83dbd5942a7dfdc7e096277fef59807141d39",
+          "sourceSha256": "f9df009bc0fa9a19819382648a40fa81e03c07d199251f941af88c9120703743",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 890,
+            "y": 620,
+            "scaleX": 0.3,
+            "scaleY": 0.3,
+            "rotationDegrees": 0,
+            "alpha": 0.78
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 842,
+            "top": 582,
+            "width": 96,
+            "height": 77
+          }
+        },
+        {
+          "placementId": "03-rain-and-weather-contact-p06",
+          "candidateId": "a0513-rain-ceiling-impact-f03__p04-highlight-safe",
+          "sourceId": "a0513-rain-ceiling-impact-f03",
+          "sourceMasterId": "m22",
+          "semanticName": "rain-ceiling-impact-f03",
+          "candidatePath": "derivatives/a0513-rain-ceiling-impact-f03__p04-highlight-safe.png",
+          "candidateSha256": "4094984d856cc61186281ece665c0774d7313c05820625cffb6b22f35d64d9d3",
+          "sourceSha256": "d6423d51006d842f798cc181928f108a58caf946fa913a31df09a9afc32be7cf",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 690,
+            "y": 145,
+            "scaleX": 0.32,
+            "scaleY": 0.32,
+            "rotationDegrees": 0,
+            "alpha": 0.74
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 639,
+            "top": 104,
+            "width": 102,
+            "height": 82
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/03-rain-and-weather-contact.png",
+        "sha256": "cc4fb1c1e3d4027b6f745b5f50f0490fc97f86a5280ad42f82afc4207427460d",
+        "width": 2640,
+        "height": 874
+      }
+    },
+    {
+      "id": "04-titan-deep-ambience",
+      "title": "Titan discovery focus with restrained deep ambience",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/titan-collection-mockups-v1/sources/2026-07-26-current-underground-reference.png",
+        "sha256": "dfe32b0d161c5b86b2f62e26a1ce816ee7e1c66b2b45371dea7bd3996ac25330",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "Titan chamber discovery layer / light companion layer / ambient pool",
+      "implementationRisk": "Discovery focus must remain sparse; persistent glow cannot flatten chamber darkness.",
+      "placements": [
+        {
+          "placementId": "04-titan-deep-ambience-p01",
+          "candidateId": "a0173-titan-resonance-glow__p05-cool-context",
+          "sourceId": "a0173-titan-resonance-glow",
+          "sourceMasterId": "m08",
+          "semanticName": "titan-resonance-glow",
+          "candidatePath": "derivatives/a0173-titan-resonance-glow__p05-cool-context.png",
+          "candidateSha256": "cb0406af7fcf5776446630f5ff559cfaafc88ba81353b5853862ce5390d9a2b7",
+          "sourceSha256": "08ab12f69b9ddc0fe4ab2cea69094d615034d2940eb8591086860197caa6f8b9",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 650,
+            "y": 390,
+            "scaleX": 0.66,
+            "scaleY": 0.66,
+            "rotationDegrees": 0,
+            "alpha": 0.8
+          },
+          "blend": "additive",
+          "z": 1,
+          "renderedPixels": {
+            "left": 544,
+            "top": 306,
+            "width": 211,
+            "height": 169
+          }
+        },
+        {
+          "placementId": "04-titan-deep-ambience-p02",
+          "candidateId": "a0083-titan-chamber-dust__p01-restrained",
+          "sourceId": "a0083-titan-chamber-dust",
+          "sourceMasterId": "m04",
+          "semanticName": "titan-chamber-dust",
+          "candidatePath": "derivatives/a0083-titan-chamber-dust__p01-restrained.png",
+          "candidateSha256": "89e73f3bb829247e6e096d7acc7ce730bc87aa9f0a5c51059cfea038465a5838",
+          "sourceSha256": "da749a47d4e8c63f4b810ccab52a8fd86544adc147774bcc14a8e77bf76727c8",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 445,
+            "y": 390,
+            "scaleX": 0.58,
+            "scaleY": 0.58,
+            "rotationDegrees": 0,
+            "alpha": 0.44
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 352,
+            "top": 316,
+            "width": 186,
+            "height": 148
+          }
+        },
+        {
+          "placementId": "04-titan-deep-ambience-p03",
+          "candidateId": "a0083-titan-chamber-dust__p03-shadow-safe",
+          "sourceId": "a0083-titan-chamber-dust",
+          "sourceMasterId": "m04",
+          "semanticName": "titan-chamber-dust",
+          "candidatePath": "derivatives/a0083-titan-chamber-dust__p03-shadow-safe.png",
+          "candidateSha256": "4180f0a0099ded2db2c5e10dcbc223ccb58851890510fdadee64cd2eebf6fd12",
+          "sourceSha256": "da749a47d4e8c63f4b810ccab52a8fd86544adc147774bcc14a8e77bf76727c8",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 850,
+            "y": 420,
+            "scaleX": 0.54,
+            "scaleY": 0.54,
+            "rotationDegrees": 0,
+            "alpha": 0.4
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 764,
+            "top": 351,
+            "width": 173,
+            "height": 138
+          }
+        },
+        {
+          "placementId": "04-titan-deep-ambience-p04",
+          "candidateId": "a0082-titan-discovery-ring__p02-emphasized",
+          "sourceId": "a0082-titan-discovery-ring",
+          "sourceMasterId": "m04",
+          "semanticName": "titan-discovery-ring",
+          "candidatePath": "derivatives/a0082-titan-discovery-ring__p02-emphasized.png",
+          "candidateSha256": "f98d7c2ab718bf30f213d73ce2606f63f6f9cced3265342ec4edbba62c21a3ab",
+          "sourceSha256": "faeee01f804d0428a195e033c868ec00444a49b164e690b0e4d4f7c02d27bf11",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 650,
+            "y": 420,
+            "scaleX": 0.9,
+            "scaleY": 0.9,
+            "rotationDegrees": 0,
+            "alpha": 0.88
+          },
+          "blend": "additive",
+          "z": 2,
+          "renderedPixels": {
+            "left": 506,
+            "top": 305,
+            "width": 288,
+            "height": 230
+          }
+        },
+        {
+          "placementId": "04-titan-deep-ambience-p05",
+          "candidateId": "a0224-prism-flare__p04-highlight-safe",
+          "sourceId": "a0224-prism-flare",
+          "sourceMasterId": "m10",
+          "semanticName": "prism-flare",
+          "candidatePath": "derivatives/a0224-prism-flare__p04-highlight-safe.png",
+          "candidateSha256": "bfd5c263f73fed15a6513169735b5d32e20c5ff75ad24055adeb27718c8d86e5",
+          "sourceSha256": "ae1dacdccd044bfc1167360a55ea8e3ad6960fd20970be139809ccb8847c7189",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 650,
+            "y": 315,
+            "scaleX": 0.34,
+            "scaleY": 0.34,
+            "rotationDegrees": 0,
+            "alpha": 0.74
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 596,
+            "top": 272,
+            "width": 109,
+            "height": 87
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/04-titan-deep-ambience.png",
+        "sha256": "d26aeb9276520eb8e75e1d3212fa55e94120161c273b24df3a05649063b5dc7f",
+        "width": 2640,
+        "height": 874
+      }
+    },
+    {
+      "id": "05-wurm-hazard-warning",
+      "title": "Graveborer Wurm approach and dodge-readable warning",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/earthquake-dodge-layering-v1/01-warning-footprint.png",
+        "sha256": "f7fa7db4f1b7a318f7f5410b583c2c6a9bb64b50c9476d53d49165f16d317527",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "GraveborerWurmVisualSystem warning, burrow path, and light companion layers",
+      "implementationRisk": "The safe lateral/Flight route must stay visible without requiring a jump.",
+      "placements": [
+        {
+          "placementId": "05-wurm-hazard-warning-p01",
+          "candidateId": "a0190-wurm-burrow-ridge__p06-warm-context",
+          "sourceId": "a0190-wurm-burrow-ridge",
+          "sourceMasterId": "m09",
+          "semanticName": "wurm-burrow-ridge",
+          "candidatePath": "derivatives/a0190-wurm-burrow-ridge__p06-warm-context.png",
+          "candidateSha256": "474040a5f299ff964aef84d35bcb540ac8bc9c9bb55b2f213b1189d439b9310d",
+          "sourceSha256": "cdaeb38faaed57e51b1568924e587bed1006d485ad588bdd84c5b21ad3f93ada",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 805,
+            "y": 570,
+            "scaleX": 0.66,
+            "scaleY": 0.66,
+            "rotationDegrees": 0,
+            "alpha": 0.76
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 700,
+            "top": 486,
+            "width": 211,
+            "height": 169
+          }
+        },
+        {
+          "placementId": "05-wurm-hazard-warning-p02",
+          "candidateId": "a0648-hazard-warning-light-loop-f03__p04-highlight-safe",
+          "sourceId": "a0648-hazard-warning-light-loop-f03",
+          "sourceMasterId": "m27",
+          "semanticName": "hazard-warning-light-loop-f03",
+          "candidatePath": "derivatives/a0648-hazard-warning-light-loop-f03__p04-highlight-safe.png",
+          "candidateSha256": "7c1f5d5ee88ad2eef96dc004fe7154033590e61c9c13e3d43a34849fd564a150",
+          "sourceSha256": "ada55f43e302e4881a54d90f9a6bbe1310ba86c41d711d6a73dbb4470966672f",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 610,
+            "y": 500,
+            "scaleX": 0.58,
+            "scaleY": 0.58,
+            "rotationDegrees": 0,
+            "alpha": 0.66
+          },
+          "blend": "additive",
+          "z": 1,
+          "renderedPixels": {
+            "left": 517,
+            "top": 426,
+            "width": 186,
+            "height": 148
+          }
+        },
+        {
+          "placementId": "05-wurm-hazard-warning-p03",
+          "candidateId": "a0188-wurm-ground-warning__p08-broad-read",
+          "sourceId": "a0188-wurm-ground-warning",
+          "sourceMasterId": "m09",
+          "semanticName": "wurm-ground-warning",
+          "candidatePath": "derivatives/a0188-wurm-ground-warning__p08-broad-read.png",
+          "candidateSha256": "31a459ecf31776e0a51beac84e1c3278f5af42501eb8b5f50ac8a07e0293764b",
+          "sourceSha256": "c155eafd40f46123552d495535bfc14bb3f2766d09044a0d07df07af045bce33",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 610,
+            "y": 565,
+            "scaleX": 0.88,
+            "scaleY": 0.88,
+            "rotationDegrees": 0,
+            "alpha": 0.9
+          },
+          "blend": "additive",
+          "z": 2,
+          "renderedPixels": {
+            "left": 469,
+            "top": 452,
+            "width": 282,
+            "height": 225
+          }
+        },
+        {
+          "placementId": "05-wurm-hazard-warning-p04",
+          "candidateId": "a0763-cave-in-warning-f03__p07-compact-read",
+          "sourceId": "a0763-cave-in-warning-f03",
+          "sourceMasterId": "m32",
+          "semanticName": "cave-in-warning-f03",
+          "candidatePath": "derivatives/a0763-cave-in-warning-f03__p07-compact-read.png",
+          "candidateSha256": "e535e024b0e31d8dd14f815cdaf369ff6617758b84d4a9ecde137c362411e23f",
+          "sourceSha256": "571703240fe49c3fdb50b0a0180d7d07444db2051c8c874ffea50087405fa3de",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 1015,
+            "y": 525,
+            "scaleX": 0.52,
+            "scaleY": 0.52,
+            "rotationDegrees": 0,
+            "alpha": 0.76
+          },
+          "blend": "additive",
+          "z": 2,
+          "renderedPixels": {
+            "left": 932,
+            "top": 458,
+            "width": 166,
+            "height": 133
+          }
+        },
+        {
+          "placementId": "05-wurm-hazard-warning-p05",
+          "candidateId": "a0703-wurm-warning-pulse-f03__p02-emphasized",
+          "sourceId": "a0703-wurm-warning-pulse-f03",
+          "sourceMasterId": "m30",
+          "semanticName": "wurm-warning-pulse-f03",
+          "candidatePath": "derivatives/a0703-wurm-warning-pulse-f03__p02-emphasized.png",
+          "candidateSha256": "f36ed12f9230b3747e0aee597a2303128d64776a9b4ce48e870c4683b1eb2a6c",
+          "sourceSha256": "c83bfd1ce4f9cc53a7c46246e96ae58a1b74718ac50253b7fc904f5e9ddb523e",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 610,
+            "y": 535,
+            "scaleX": 0.8,
+            "scaleY": 0.8,
+            "rotationDegrees": 0,
+            "alpha": 0.82
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 482,
+            "top": 432,
+            "width": 256,
+            "height": 205
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/05-wurm-hazard-warning.png",
+        "sha256": "4eaca743fdb63ac94ed8452550ef659424bc140126671fd0edd15f6ba0587644",
+        "width": 2640,
+        "height": 874
+      }
+    },
+    {
+      "id": "06-earthquake-impact",
+      "title": "Earthquake rock lane, impact, and settle hierarchy",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/earthquake-dodge-layering-v1/03-safe-impact.png",
+        "sha256": "f359e73890d06397aa50f64451006b0cb035106cb9503fafcedc155b7c0942ae",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "EarthquakeHazardOverlay falling-rock, impact, and rubble-settle phases",
+      "implementationRisk": "Impact art must match the authoritative FallZone and preserve the safe corridor.",
+      "placements": [
+        {
+          "placementId": "06-earthquake-impact-p01",
+          "candidateId": "a0658-earthquake-ceiling-fracture-f03__p03-shadow-safe",
+          "sourceId": "a0658-earthquake-ceiling-fracture-f03",
+          "sourceMasterId": "m28",
+          "semanticName": "earthquake-ceiling-fracture-f03",
+          "candidatePath": "derivatives/a0658-earthquake-ceiling-fracture-f03__p03-shadow-safe.png",
+          "candidateSha256": "86f1c93cfe98a61287dcc5f72cd8221b144e51d9f94ab8a40c1742926e2f4e43",
+          "sourceSha256": "df15a3264ee5f32a518864d59364e81268fe1dd7c0549ba03f5de145466b23c5",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 425,
+            "y": 145,
+            "scaleX": 0.58,
+            "scaleY": 0.58,
+            "rotationDegrees": 0,
+            "alpha": 0.86
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 332,
+            "top": 71,
+            "width": 186,
+            "height": 148
+          }
+        },
+        {
+          "placementId": "06-earthquake-impact-p02",
+          "candidateId": "a0663-earthquake-falling-rock-passage-f03__p02-emphasized",
+          "sourceId": "a0663-earthquake-falling-rock-passage-f03",
+          "sourceMasterId": "m28",
+          "semanticName": "earthquake-falling-rock-passage-f03",
+          "candidatePath": "derivatives/a0663-earthquake-falling-rock-passage-f03__p02-emphasized.png",
+          "candidateSha256": "5ff95187ee9cbe77bc806f3114421934b1f1aa0597fa6e5ebab2057f68402fe6",
+          "sourceSha256": "09e23334bad424ae6db9e41ee39f7105442fd34fca7ac3ceae2a1101d7370897",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 450,
+            "y": 350,
+            "scaleX": 0.64,
+            "scaleY": 0.64,
+            "rotationDegrees": 0,
+            "alpha": 0.9
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 348,
+            "top": 268,
+            "width": 205,
+            "height": 164
+          }
+        },
+        {
+          "placementId": "06-earthquake-impact-p03",
+          "candidateId": "a0673-earthquake-rubble-settle-f03__p01-restrained",
+          "sourceId": "a0673-earthquake-rubble-settle-f03",
+          "sourceMasterId": "m28",
+          "semanticName": "earthquake-rubble-settle-f03",
+          "candidatePath": "derivatives/a0673-earthquake-rubble-settle-f03__p01-restrained.png",
+          "candidateSha256": "d99d162ba29348213b61890b5e085dbffed36cb7012b27e2d160f418d4e753ad",
+          "sourceSha256": "542e55147749ee8778b2a876dd9456abcffe577621ab98da80fd6ef618ad7248",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 690,
+            "y": 625,
+            "scaleX": 0.54,
+            "scaleY": 0.54,
+            "rotationDegrees": 0,
+            "alpha": 0.76
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 604,
+            "top": 556,
+            "width": 173,
+            "height": 138
+          }
+        },
+        {
+          "placementId": "06-earthquake-impact-p04",
+          "candidateId": "a0758-rock-landing-marker-f03__p04-highlight-safe",
+          "sourceId": "a0758-rock-landing-marker-f03",
+          "sourceMasterId": "m32",
+          "semanticName": "rock-landing-marker-f03",
+          "candidatePath": "derivatives/a0758-rock-landing-marker-f03__p04-highlight-safe.png",
+          "candidateSha256": "943819ae8d6ec49865f4e06ad8e35560ec4af22ca1a4d05ecea6d093df2326f6",
+          "sourceSha256": "533f64146e25fb64645eb9d49fb57e5df8b4a142dcdadeb07a32f4c47c807305",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 455,
+            "y": 570,
+            "scaleX": 0.46,
+            "scaleY": 0.46,
+            "rotationDegrees": 0,
+            "alpha": 0.68
+          },
+          "blend": "additive",
+          "z": 1,
+          "renderedPixels": {
+            "left": 382,
+            "top": 511,
+            "width": 147,
+            "height": 118
+          }
+        },
+        {
+          "placementId": "06-earthquake-impact-p05",
+          "candidateId": "a0668-earthquake-rock-impact-f03__p08-broad-read",
+          "sourceId": "a0668-earthquake-rock-impact-f03",
+          "sourceMasterId": "m28",
+          "semanticName": "earthquake-rock-impact-f03",
+          "candidatePath": "derivatives/a0668-earthquake-rock-impact-f03__p08-broad-read.png",
+          "candidateSha256": "00387bc1e14d443ebbf0b94cdb7d73de48ed583419932d282e52a5a6f50a8e0a",
+          "sourceSha256": "0582f83baee7b3e3ce695a36b99701f2d230c0e3ba6807822d3466beee435f28",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 455,
+            "y": 610,
+            "scaleX": 0.7,
+            "scaleY": 0.7,
+            "rotationDegrees": 0,
+            "alpha": 0.94
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 343,
+            "top": 520,
+            "width": 224,
+            "height": 179
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/06-earthquake-impact.png",
+        "sha256": "f1bc50d4866362b3fb9c5a19807cafd271aebe238ea4b61d95706a323d64c2b1",
+        "width": 2640,
+        "height": 874
+      }
+    },
+    {
+      "id": "07-modal-ui",
+      "title": "ESC modal shell, cards, controls, and selection state",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/star-pillar-talent-tree-esc-v1/2026-07-28-current-esc-shell-reference.png",
+        "sha256": "1ed5c9c942187fd50f775baeb47fa0173d082d4da13f65254f470b41b32ef3fb",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "UiModalShell / PhaserUiKit / approved art-backed modal controls",
+      "implementationRisk": "Nine-slice boundaries, text-safe zones, focus state, and pointer hit areas require separate approval.",
+      "placements": [
+        {
+          "placementId": "07-modal-ui-p01",
+          "candidateId": "a0111-modal-shell__p03-shadow-safe",
+          "sourceId": "a0111-modal-shell",
+          "sourceMasterId": "m06",
+          "semanticName": "modal-shell",
+          "candidatePath": "derivatives/a0111-modal-shell__p03-shadow-safe.png",
+          "candidateSha256": "dca423a51eb7b8d21aa54596f92ab6b4f33870f400c663a7149e499a7127ed77",
+          "sourceSha256": "f680a96ef959942498afce834b4e439741d58aa8e62a752c984e39b455ff8d02",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 640,
+            "y": 365,
+            "scaleX": 2.4,
+            "scaleY": 2.4,
+            "rotationDegrees": 0,
+            "alpha": 0.88
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 256,
+            "top": 58,
+            "width": 768,
+            "height": 614
+          }
+        },
+        {
+          "placementId": "07-modal-ui-p02",
+          "candidateId": "a0112-modal-header-cap__p04-highlight-safe",
+          "sourceId": "a0112-modal-header-cap",
+          "sourceMasterId": "m06",
+          "semanticName": "modal-header-cap",
+          "candidatePath": "derivatives/a0112-modal-header-cap__p04-highlight-safe.png",
+          "candidateSha256": "6305b448c912ec2764429e74fc70ef64b6a705e429b62a454a982403ffc974a2",
+          "sourceSha256": "0d5b6afcc1b9276acde84d7fbdf68ac72fe47447b614e1c2724dec1df60d4513",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 640,
+            "y": 125,
+            "scaleX": 0.96,
+            "scaleY": 0.96,
+            "rotationDegrees": 0,
+            "alpha": 0.95
+          },
+          "blend": "additive",
+          "z": 2,
+          "renderedPixels": {
+            "left": 486,
+            "top": 2,
+            "width": 307,
+            "height": 246
+          }
+        },
+        {
+          "placementId": "07-modal-ui-p03",
+          "candidateId": "a0116-content-card-normal__p01-restrained",
+          "sourceId": "a0116-content-card-normal",
+          "sourceMasterId": "m06",
+          "semanticName": "content-card-normal",
+          "candidatePath": "derivatives/a0116-content-card-normal__p01-restrained.png",
+          "candidateSha256": "f9e91977bda338d38bcf955977a65fce4103f8f08208f9fc8dc3acbcb8b7254c",
+          "sourceSha256": "d1e2dd94a769144dc72440ad94af7508350235b16219e7a55533cc5b1549296d",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 445,
+            "y": 385,
+            "scaleX": 0.82,
+            "scaleY": 0.82,
+            "rotationDegrees": 0,
+            "alpha": 0.92
+          },
+          "blend": "normal",
+          "z": 3,
+          "renderedPixels": {
+            "left": 314,
+            "top": 280,
+            "width": 262,
+            "height": 210
+          }
+        },
+        {
+          "placementId": "07-modal-ui-p04",
+          "candidateId": "a0118-content-card-selected__p02-emphasized",
+          "sourceId": "a0118-content-card-selected",
+          "sourceMasterId": "m06",
+          "semanticName": "content-card-selected",
+          "candidatePath": "derivatives/a0118-content-card-selected__p02-emphasized.png",
+          "candidateSha256": "6112bc390f722f245a316807f27621025c5cdfeb12ff039afc0a096be961d245",
+          "sourceSha256": "9e8a982740cd1c0943f2230d0fccce565c44962f60079e827931b87531c7c616",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 815,
+            "y": 385,
+            "scaleX": 0.82,
+            "scaleY": 0.82,
+            "rotationDegrees": 0,
+            "alpha": 0.96
+          },
+          "blend": "additive",
+          "z": 4,
+          "renderedPixels": {
+            "left": 684,
+            "top": 280,
+            "width": 262,
+            "height": 210
+          }
+        },
+        {
+          "placementId": "07-modal-ui-p05",
+          "candidateId": "a0122-button-hover__p04-highlight-safe",
+          "sourceId": "a0122-button-hover",
+          "sourceMasterId": "m06",
+          "semanticName": "button-hover",
+          "candidatePath": "derivatives/a0122-button-hover__p04-highlight-safe.png",
+          "candidateSha256": "f0ee62406da24d53bef1a6a990aead9a8215f49d327fae4b08385f57669325e4",
+          "sourceSha256": "6ac9883ff3c9f19415d2a3bf9740664849ee10c93d39161894b2edd2d5990a5e",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 640,
+            "y": 625,
+            "scaleX": 0.7,
+            "scaleY": 0.7,
+            "rotationDegrees": 0,
+            "alpha": 0.96
+          },
+          "blend": "normal",
+          "z": 5,
+          "renderedPixels": {
+            "left": 528,
+            "top": 536,
+            "width": 224,
+            "height": 179
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/07-modal-ui.png",
+        "sha256": "eba44b68eefbbd6c15121f8f22a564dd3437f7db282d0da25e7a00ac1a093302",
+        "width": 2640,
+        "height": 874
+      }
+    },
+    {
+      "id": "08-hud-state-layer",
+      "title": "HUD meters, cooldowns, depth, and critical feedback",
+      "status": "review-only-not-wired",
+      "compositeType": "offline-placement-study",
+      "baseCapture": {
+        "path": "visual-approval-previews/2026-07-26-aaa-ability-bar-review-v2.png",
+        "sha256": "ff93c0867ef049f8006b77bba2536c8d9e46b70f257bff768b60c6c2bfafd794",
+        "verifiedExistingCapture": true
+      },
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "leftPanelExactPixelCopy": true,
+      "plannedConsumer": "HUDSystem / XPProgressBar / ability cooldown state renderers",
+      "implementationRisk": "HUD promotion needs native-scale legibility, overlap testing, and low-GP accessibility checks.",
+      "placements": [
+        {
+          "placementId": "08-hud-state-layer-p01",
+          "candidateId": "a0878-ui-gp-meter-state-s03__p02-emphasized",
+          "sourceId": "a0878-ui-gp-meter-state-s03",
+          "sourceMasterId": "m37",
+          "semanticName": "ui-gp-meter-state-s03",
+          "candidatePath": "derivatives/a0878-ui-gp-meter-state-s03__p02-emphasized.png",
+          "candidateSha256": "7fa55c7564fef103a383eaf66a1f8a3845391c9e6d922fdf50dd7b40d4d2132f",
+          "sourceSha256": "8f590459c413b09242d325827d44a8fe053dd9d92916bdafb2a2dd87c1a8ef3a",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 260,
+            "y": 120,
+            "scaleX": 0.66,
+            "scaleY": 0.66,
+            "rotationDegrees": 0,
+            "alpha": 0.96
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 154,
+            "top": 36,
+            "width": 211,
+            "height": 169
+          }
+        },
+        {
+          "placementId": "08-hud-state-layer-p02",
+          "candidateId": "a0883-ui-xp-meter-state-s03__p01-restrained",
+          "sourceId": "a0883-ui-xp-meter-state-s03",
+          "sourceMasterId": "m37",
+          "semanticName": "ui-xp-meter-state-s03",
+          "candidatePath": "derivatives/a0883-ui-xp-meter-state-s03__p01-restrained.png",
+          "candidateSha256": "d5b2d6dada2eae9a99a7024ff7eacea8edb7ce0f2a69818d9569bb9f91dd0ebb",
+          "sourceSha256": "d7f0e6ce06952de6e6b6758f6a484d5844b1d4fcfca1c78b7325924d89b6143a",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 835,
+            "y": 875,
+            "scaleX": 0.74,
+            "scaleY": 0.74,
+            "rotationDegrees": 0,
+            "alpha": 0.94
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 716,
+            "top": 780,
+            "width": 237,
+            "height": 189
+          }
+        },
+        {
+          "placementId": "08-hud-state-layer-p03",
+          "candidateId": "a0898-ui-depth-plate-state-s03__p03-shadow-safe",
+          "sourceId": "a0898-ui-depth-plate-state-s03",
+          "sourceMasterId": "m37",
+          "semanticName": "ui-depth-plate-state-s03",
+          "candidatePath": "derivatives/a0898-ui-depth-plate-state-s03__p03-shadow-safe.png",
+          "candidateSha256": "cdc5131b5673b5228b0119286ac777c90b5c9ebeeb1aa5f12d3c7d68c97c8d70",
+          "sourceSha256": "b6aea67d5bee782c3a31577fa245c65a47d562cf3d9c4acb8a9b9825e568ce6f",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 1440,
+            "y": 110,
+            "scaleX": 0.58,
+            "scaleY": 0.58,
+            "rotationDegrees": 0,
+            "alpha": 0.94
+          },
+          "blend": "normal",
+          "z": 1,
+          "renderedPixels": {
+            "left": 1347,
+            "top": 36,
+            "width": 186,
+            "height": 148
+          }
+        },
+        {
+          "placementId": "08-hud-state-layer-p04",
+          "candidateId": "a0158-critical-gp-corners__p01-restrained",
+          "sourceId": "a0158-critical-gp-corners",
+          "sourceMasterId": "m07",
+          "semanticName": "critical-gp-corners",
+          "candidatePath": "derivatives/a0158-critical-gp-corners__p01-restrained.png",
+          "candidateSha256": "de9a678fbf29e5a74026c5d226dd047cfa73bc3500d73d6c8fdebacb1a025338",
+          "sourceSha256": "d569e07a3fb4eab6c5c3eec494141f2292e07776022a25e4c090254bf5fdea1e",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 835,
+            "y": 470,
+            "scaleX": 1.65,
+            "scaleY": 1.65,
+            "rotationDegrees": 0,
+            "alpha": 0.4
+          },
+          "blend": "additive",
+          "z": 1,
+          "renderedPixels": {
+            "left": 571,
+            "top": 259,
+            "width": 528,
+            "height": 422
+          }
+        },
+        {
+          "placementId": "08-hud-state-layer-p05",
+          "candidateId": "a0893-ui-cooldown-ring-state-s03__p04-highlight-safe",
+          "sourceId": "a0893-ui-cooldown-ring-state-s03",
+          "sourceMasterId": "m37",
+          "semanticName": "ui-cooldown-ring-state-s03",
+          "candidatePath": "derivatives/a0893-ui-cooldown-ring-state-s03__p04-highlight-safe.png",
+          "candidateSha256": "fc06857dead896e3005a68a12e7881ae4971066dd6d79741ffebca56044bdd46",
+          "sourceSha256": "52dcdfa1054367419635d86980288be38855a97f036c2b9c8726fbfc1bc9164b",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 640,
+            "y": 800,
+            "scaleX": 0.5,
+            "scaleY": 0.5,
+            "rotationDegrees": 0,
+            "alpha": 0.96
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 560,
+            "top": 736,
+            "width": 160,
+            "height": 128
+          }
+        },
+        {
+          "placementId": "08-hud-state-layer-p06",
+          "candidateId": "a0894-ui-cooldown-ring-state-s04__p05-cool-context",
+          "sourceId": "a0894-ui-cooldown-ring-state-s04",
+          "sourceMasterId": "m37",
+          "semanticName": "ui-cooldown-ring-state-s04",
+          "candidatePath": "derivatives/a0894-ui-cooldown-ring-state-s04__p05-cool-context.png",
+          "candidateSha256": "072f4848a5ed75cfcebe6517a65f0fce8f3efafc304ee4d83127f5eaf46c9f87",
+          "sourceSha256": "ee3940c8c942215e41c6925464acb1f402259df9f2b96a225622e8b00b7cd131",
+          "transform": {
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "x": 835,
+            "y": 800,
+            "scaleX": 0.5,
+            "scaleY": 0.5,
+            "rotationDegrees": 0,
+            "alpha": 0.96
+          },
+          "blend": "additive",
+          "z": 3,
+          "renderedPixels": {
+            "left": 755,
+            "top": 736,
+            "width": 160,
+            "height": 128
+          }
+        }
+      ],
+      "output": {
+        "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/08-hud-state-layer.png",
+        "sha256": "a899dc1dbaef901802c04b81f32f1d7e401b4a76c166f8cc99ed7265d148d3f0",
+        "width": 3424,
+        "height": 1095
+      }
+    }
+  ],
+  "implementationMap": {
+    "path": "visual-approval-previews/2026-07-29-high-impact-review-library-v1/mockups/00-implementation-map.png",
+    "sha256": "be190717d0ccab52d4728567ddbf01b4a7ba399afa3d56e4e2f448ee36daaf86",
+    "width": 1336,
+    "height": 1156
+  }
+}

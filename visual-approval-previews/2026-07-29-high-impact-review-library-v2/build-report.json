@@ -1,0 +1,538 @@
+{
+  "libraryId": "2026-07-29-high-impact-review-library-v2",
+  "manifest": "visual-approval-previews/2026-07-29-high-impact-review-library-v2/manifest.json",
+  "counts": {
+    "masters": 41,
+    "authoredSources": 1000,
+    "derivatives": 9000,
+    "profiles": 10,
+    "candidateImages": 10000
+  },
+  "qaSummary": {
+    "passed": true,
+    "errors": [],
+    "warnings": [
+      "exact-rgba-hash-collisions:2"
+    ],
+    "sourceCount": 1000,
+    "derivativeCount": 9000,
+    "totalCandidateCount": 10000,
+    "uniqueIdCount": 10000,
+    "uniquePathCount": 10000,
+    "uniqueRgbaHashCount": 9998
+  },
+  "performanceSummary": {
+    "sources": {
+      "count": 1000,
+      "encodedBytes": 36296020,
+      "decodedRgbaBytes": 327680000,
+      "encodedBytesP50": 34699,
+      "encodedBytesP95": 75557,
+      "encodedBytesMax": 110050
+    },
+    "derivatives": {
+      "count": 9000,
+      "encodedBytes": 328829867,
+      "decodedRgbaBytes": 2949120000,
+      "encodedBytesP50": 35081,
+      "encodedBytesP95": 75638,
+      "encodedBytesMax": 112480
+    },
+    "allCandidates": {
+      "count": 10000,
+      "encodedBytes": 365125887,
+      "decodedRgbaBytes": 3276800000,
+      "encodedBytesP50": 35025,
+      "encodedBytesP95": 75638,
+      "encodedBytesMax": 112480
+    },
+    "uniform320x256DecodedEstimateBytes": 3276800000,
+    "uniform320x256DecodedEstimateGiB": 3.0518,
+    "runtimePolicy": "Never preload the full library; curate, atlas by family, and lazy-load approved subsets."
+  },
+  "elapsedSeconds": 690.484,
+  "slicingAudit": {
+    "equalGridAssumptionRejected": true,
+    "retainedFallbackRule": "Equal v1 boundaries remain only where the 41-master projection audit found no drift; their exact v1 shared inset is preserved.",
+    "algorithm": "audited dividers/corridors, master-key chroma, component-centroid UI assignment, master-space clipping gates, and row-union sequence framing",
+    "statusCounts": {
+      "sources": {
+        "quarantined": 279,
+        "pending": 720,
+        "rejected": 1
+      },
+      "derivatives": {
+        "quarantined": 2511,
+        "pending": 6480,
+        "rejected": 9
+      }
+    },
+    "config": {
+      "edgeSafetyPx": 2,
+      "unionPaddingPx": 4,
+      "componentPaddingPx": 4,
+      "componentClosePx": 7,
+      "boundaries": {
+        "m04": {
+          "y": {
+            "1": [
+              212,
+              253,
+              "chroma-corridor"
+            ]
+          }
+        },
+        "m05": {
+          "y": {
+            "1": [
+              218,
+              317,
+              "chroma-corridor"
+            ],
+            "2": [
+              419,
+              515,
+              "chroma-corridor"
+            ]
+          }
+        },
+        "m09": {
+          "x": {
+            "1": [
+              300,
+              311,
+              "explicit-divider"
+            ],
+            "2": [
+              605,
+              617,
+              "explicit-divider"
+            ],
+            "3": [
+              911,
+              923,
+              "explicit-divider"
+            ],
+            "4": [
+              1218,
+              1230,
+              "explicit-divider"
+            ]
+          },
+          "y": {
+            "1": [
+              235,
+              243,
+              "explicit-divider"
+            ],
+            "2": [
+              457,
+              466,
+              "explicit-divider"
+            ],
+            "3": [
+              657,
+              665,
+              "explicit-divider"
+            ],
+            "4": [
+              837,
+              845,
+              "explicit-divider"
+            ]
+          }
+        },
+        "m12": {
+          "y": {
+            "1": [
+              218,
+              279,
+              "chroma-corridor"
+            ],
+            "2": [
+              422,
+              481,
+              "chroma-corridor"
+            ],
+            "3": [
+              630,
+              684,
+              "chroma-corridor"
+            ]
+          }
+        },
+        "m14": {
+          "y": {
+            "1": [
+              233,
+              280,
+              "chroma-corridor"
+            ],
+            "2": [
+              429,
+              467,
+              "chroma-corridor"
+            ],
+            "3": [
+              622,
+              652,
+              "chroma-corridor"
+            ]
+          }
+        },
+        "m17": {
+          "y": {
+            "2": [
+              528,
+              612,
+              "chroma-corridor"
+            ]
+          }
+        },
+        "m20": {
+          "x": {
+            "1": [
+              242,
+              262,
+              "explicit-divider"
+            ],
+            "2": [
+              490,
+              509,
+              "explicit-divider"
+            ],
+            "3": [
+              736,
+              758,
+              "explicit-divider"
+            ],
+            "4": [
+              991,
+              1012,
+              "explicit-divider"
+            ]
+          },
+          "y": {
+            "1": [
+              265,
+              289,
+              "explicit-divider"
+            ],
+            "2": [
+              517,
+              540,
+              "explicit-divider"
+            ],
+            "3": [
+              765,
+              788,
+              "explicit-divider"
+            ],
+            "4": [
+              996,
+              1020,
+              "explicit-divider"
+            ]
+          }
+        },
+        "m28": {
+          "x": {
+            "1": [
+              235,
+              254,
+              "explicit-divider"
+            ],
+            "2": [
+              490,
+              508,
+              "explicit-divider"
+            ],
+            "3": [
+              745,
+              762,
+              "explicit-divider"
+            ],
+            "4": [
+              999,
+              1017,
+              "explicit-divider"
+            ]
+          },
+          "y": {
+            "1": [
+              233,
+              252,
+              "explicit-divider"
+            ],
+            "2": [
+              487,
+              505,
+              "explicit-divider"
+            ],
+            "3": [
+              741,
+              759,
+              "explicit-divider"
+            ],
+            "4": [
+              996,
+              1014,
+              "explicit-divider"
+            ]
+          }
+        },
+        "m31": {
+          "y": {
+            "4": [
+              895,
+              944,
+              "chroma-corridor"
+            ]
+          }
+        },
+        "m32": {
+          "x": {
+            "1": [
+              248,
+              260,
+              "explicit-divider"
+            ],
+            "2": [
+              496,
+              508,
+              "explicit-divider"
+            ],
+            "3": [
+              745,
+              756,
+              "explicit-divider"
+            ],
+            "4": [
+              992,
+              1004,
+              "explicit-divider"
+            ]
+          },
+          "y": {
+            "1": [
+              246,
+              260,
+              "explicit-divider"
+            ],
+            "2": [
+              499,
+              511,
+              "explicit-divider"
+            ],
+            "3": [
+              749,
+              761,
+              "explicit-divider"
+            ],
+            "4": [
+              999,
+              1012,
+              "explicit-divider"
+            ]
+          }
+        }
+      },
+      "componentRows": {
+        "m06": [
+          [
+            27,
+            256
+          ],
+          [
+            288,
+            511
+          ],
+          [
+            566,
+            651
+          ],
+          [
+            690,
+            818
+          ],
+          [
+            840,
+            984
+          ]
+        ],
+        "m07": [
+          [
+            49,
+            152
+          ],
+          [
+            193,
+            380
+          ],
+          [
+            402,
+            586
+          ],
+          [
+            594,
+            798
+          ],
+          [
+            813,
+            993
+          ]
+        ],
+        "m36": [
+          [
+            97,
+            184
+          ],
+          [
+            269,
+            588
+          ],
+          [
+            676,
+            790
+          ],
+          [
+            901,
+            981
+          ],
+          [
+            1107,
+            1187
+          ]
+        ],
+        "m37": [
+          [
+            89,
+            189
+          ],
+          [
+            309,
+            413
+          ],
+          [
+            453,
+            729
+          ],
+          [
+            762,
+            965
+          ],
+          [
+            1047,
+            1179
+          ]
+        ],
+        "m38": [
+          [
+            45,
+            239
+          ],
+          [
+            291,
+            498
+          ],
+          [
+            556,
+            743
+          ],
+          [
+            814,
+            908
+          ],
+          [
+            969,
+            1200
+          ]
+        ],
+        "m39": [
+          [
+            48,
+            249
+          ],
+          [
+            360,
+            406
+          ],
+          [
+            530,
+            604
+          ],
+          [
+            679,
+            931
+          ],
+          [
+            967,
+            1208
+          ]
+        ],
+        "m40": [
+          [
+            20,
+            254
+          ],
+          [
+            295,
+            410
+          ],
+          [
+            453,
+            633
+          ],
+          [
+            684,
+            764
+          ],
+          [
+            809,
+            992
+          ]
+        ],
+        "m41": [
+          [
+            14,
+            298
+          ],
+          [
+            309,
+            432
+          ],
+          [
+            444,
+            631
+          ],
+          [
+            639,
+            824
+          ],
+          [
+            839,
+            972
+          ]
+        ]
+      },
+      "quarantinedMasters": {
+        "m24": "All 25 cave ambient frames contain a baked semitransparent square matte; regenerate or use supervised roto before production promotion."
+      },
+      "quarantinedRanges": [],
+      "masterArtRejects": {
+        "a0864-ui-tab-state-s04": "Baked semantic padlock motif requires explicit UI semantics approval."
+      }
+    },
+    "files": {
+      "audit": {
+        "path": "ai-tools/2026-07-29-high-impact-v2-slicing-audit.json",
+        "sha256": "93da7540e7b1c6f3802681879546a44c0516d6d0327f2e2f2854e1d4c9deea94"
+      },
+      "extraction": {
+        "path": "ai-tools/high_impact_v2_extraction.py",
+        "sha256": "7d4ecff68e8e1b64bdec778d70a0f68f07556c9210bf3125ea34be0bbc59d7be",
+        "opencv": "4.13.0"
+      }
+    }
+  }
+}

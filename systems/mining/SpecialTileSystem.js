@@ -27,10 +27,15 @@ export class SpecialTileSystem {
     this.skyToDungeonMap = new Map();
     this.portalOrder = [];
     this.skyPortalSlots = this._buildSkyPortalSlots();
+    this.chestEventHandler = null;
 
     this.promptText = null;
     this.promptTile = null;
     this._initializePrompt();
+  }
+
+  setChestEventHandler(handler = null) {
+    this.chestEventHandler = handler;
   }
 
   _initializePrompt() {
@@ -99,12 +104,17 @@ export class SpecialTileSystem {
 
       const tileType = this.worldModel.getTileType(tile.tx, tile.ty);
       if (tileType === TILE_TYPES.CHEST) {
-        this._showPrompt(
-          tile.tx,
-          tile.ty,
-          `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${TREASURE_CHEST_CONFIG.interaction.prompt}`
-        );
-        this.promptTile = { tx: tile.tx, ty: tile.ty, type: "chest", key: tileKey };
+        const chestTile = {
+          tx: tile.tx,
+          ty: tile.ty,
+          type: "chest",
+          key: tileKey,
+          depth: Math.max(0, tile.ty - this.worldModel.config.topAirRows + 1),
+        };
+        const eventPrompt = this.chestEventHandler?.getChestPrompt?.(chestTile);
+        const prompt = eventPrompt || TREASURE_CHEST_CONFIG.interaction.prompt;
+        this._showPrompt(tile.tx, tile.ty, `Press ${USER_SETTINGS.getKeyLabel("interact")}  •  ${prompt}`);
+        this.promptTile = chestTile;
         foundSpecialTile = true;
         break;
       }
@@ -183,7 +193,11 @@ export class SpecialTileSystem {
     if (this.promptTile.type === "teleport" || this.promptTile.type === "teleportPaired") return this._activateTeleport();
     if (this.promptTile.type === "teleportSkyReturn") return this._activateSkyTeleportReturn();
     if (this.promptTile.type === "teleportGroundToSky") return this._activateGroundTeleport();
-    if (this.promptTile.type === "chest") return this._activateChest();
+    if (this.promptTile.type === "chest") {
+      const eventResult = this.chestEventHandler?.handleChestInteract?.(this.promptTile);
+      if (eventResult) return eventResult;
+      return this._activateChest();
+    }
     if (this.promptTile.type === "gamble") return this._activateGamble();
     if (this.promptTile.type === "gambleUsed") return { success: false, reason: "already-used" };
     return { success: false, reason: "unknown-type" };
@@ -259,6 +273,39 @@ export class SpecialTileSystem {
     this.promptText.setVisible(false);
     this.promptTile = null;
     return { success: true, type: "chest", money, star: hasStar, starType };
+  }
+
+  consumeChestForEvent(tile = this.promptTile) {
+    const key = tile?.key || `${tile?.tx},${tile?.ty}`;
+    if (!tile || this.openedChestKeys.has(key)) {
+      return { success: false, reason: "chest-already-opened" };
+    }
+    if (this.worldModel.getTileType(tile.tx, tile.ty) !== TILE_TYPES.CHEST) {
+      return { success: false, reason: "chest-missing" };
+    }
+    this.openedChestKeys.add(key);
+    this.worldModel.applyDugTileKeys([key]);
+    this.scene.worldRenderer?.applyTileUpdate?.(tile.tx, tile.ty);
+    if (
+      this.promptTile?.type === "chest"
+      && this.promptTile.tx === tile.tx
+      && this.promptTile.ty === tile.ty
+    ) {
+      this.promptText.setVisible(false);
+      this.promptTile = null;
+    }
+    return { success: true, type: "eventChest", key, tx: tile.tx, ty: tile.ty };
+  }
+
+  restoreChestForEvent(tile) {
+    const key = tile?.key || `${tile?.tx},${tile?.ty}`;
+    if (!tile || !Number.isInteger(tile.tx) || !Number.isInteger(tile.ty)) return false;
+    this.openedChestKeys.delete(key);
+    const hp = this.worldModel.getTileMaxHp(tile.tx, tile.ty, TILE_TYPES.CHEST);
+    this.worldModel.setTile(tile.tx, tile.ty, TILE_TYPES.CHEST, hp);
+    this.worldModel.dugTileSource?.delete?.(key);
+    this.scene.worldRenderer?.applyTileUpdate?.(tile.tx, tile.ty);
+    return true;
   }
 
   _buildSkyPortalSlots() {
@@ -973,5 +1020,6 @@ export class SpecialTileSystem {
     this.promptText?.destroy();
     this.promptText = null;
     this.promptTile = null;
+    this.chestEventHandler = null;
   }
 }

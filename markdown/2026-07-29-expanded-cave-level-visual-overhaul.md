@@ -1,5 +1,8 @@
 # Expanded Cave Level Visual Overhaul
 
+> Superseded on 2026-07-30 by `2026-07-30-meshy-cave-terrain-correction.md`.
+> The hidden `CAVE_WALL` floor and ImageGen runtime described below are history,
+> not the current cave implementation.
 **Date:** 2026-07-29
 
 ## Outcome

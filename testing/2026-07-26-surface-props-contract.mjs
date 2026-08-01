@@ -157,11 +157,11 @@ for (const assets of Object.values(WORLD_VISUAL_SURFACE_PROP_ASSETS)) {
 }
 
 const placements = WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements;
-assert.equal(placements.length, 34);
+assert.equal(placements.length, 46);
 assert.equal(
-  placements.some(item => item.level === "level1"),
-  false,
-  "Level 1 modular props must not enter the enlarged Titan Walk corridor",
+  placements.filter(item => item.level === "level1").length,
+  12,
+  "Level 1 reuses twelve low props in verified Titan plinth gaps",
 );
 assert.equal(new Set(placements.map(item => item.id)).size, placements.length);
 for (const item of placements) {

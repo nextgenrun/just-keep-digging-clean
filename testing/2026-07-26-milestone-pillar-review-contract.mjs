@@ -163,14 +163,14 @@ assert.match(npcSource, /dist\s*<=\s*competingDistance/);
 assert.match(updateSource, /allowOpen:\s*!arcCoreConsumedInteraction/);
 assert.match(
   updateSource,
-  /milestoneDistance\s*<\s*Math\.min\(nearestNpcDistance,\s*titanStatueDistance,\s*specialTileDistance\)/,
+  /milestoneDistance\s*<\s*Math\.min\(nearestNpcDistance,\s*titanStatueDistance,\s*specialTileDistance,\s*eventDistance,\s*memoryReliquaryDistance\)/,
 );
 assert.match(
   updateSource,
-  /updateInteractPrompts\(\s*playerTile,\s*Math\.min\(milestoneDistance,\s*titanStatueDistance,\s*specialTileDistance\)/,
+  /updateInteractPrompts\(\s*playerTile,\s*Math\.min\(milestoneDistance,\s*titanStatueDistance,\s*specialTileDistance,\s*eventDistance,\s*memoryReliquaryDistance\)/,
 );
 assert.match(updateSource, /specialTileDistance\s*<=\s*Math\.min\(/);
-assert.match(updateSource, /&&\s*!specialTileHasPriority\s*\)\s*{\s*this\.npcManager\.checkNPCInteraction/);
+assert.match(updateSource, /&&\s*!specialTileHasPriority\s*&&\s*!eventHasPriority\s*&&\s*!memoryReliquaryHasPriority\s*\)\s*{\s*this\.npcManager\.checkNPCInteraction/);
 assert.ok(
   updateSource.indexOf("specialTileSystem?.update")
     < updateSource.indexOf("milestoneBoardSystem?.update"),

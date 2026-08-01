@@ -1,10 +1,17 @@
 import { UPGRADES, getUpgradeCost, getUpgradeEffect, calculateHeavyPunchEffect } from "../../values/upgradeFormulas.js";
 import { isCraftOnlyUpgrade } from "../../values/craftingRecipes.js";
 import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "../../values/earthquakes.js";
+import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
+import { resolveDepthEconomyEnabled } from "../../values/resourceEconomy.js";
+import { roundResourceCurrency } from "../../values/resourcePrices.js";
 import { resolveMovementSpeed } from "./ResolvedPlayerStats.js";
 
 export class UpgradeSystem {
-  constructor(digSystem = null, playerLevelSystem = null) {
+  constructor(digSystem = null, playerLevelSystem = null, options = {}) {
+    this.firstFiveEnabled = options.firstFiveEnabled
+      ?? resolveFirstFiveMinutesEnabled();
+    this.depthEconomyEnabled = options.depthEconomyEnabled
+      ?? resolveDepthEconomyEnabled();
     this.upgradeLevels = {}; // Maps upgradeId -> level
     this.money = 0;
     this.ownedPickaxe = null; // Currently equipped pickaxe
@@ -35,18 +42,20 @@ export class UpgradeSystem {
   }
 
   setMoney(amount) {
-    this.money = Number.isFinite(amount) ? Math.max(0, amount) : 0;
+    this.money = Number.isFinite(amount) ? roundResourceCurrency(amount) : 0;
     return this.money;
   }
 
   addMoney(amount) {
-    this.money += amount;
+    this.money = roundResourceCurrency(
+      this.money + (Number.isFinite(amount) ? amount : 0),
+    );
     return this.money;
   }
 
   spendMoney(amount) {
     if (this.money >= amount) {
-      this.money -= amount;
+      this.money = roundResourceCurrency(this.money - amount);
       return true;
     }
     return false;
@@ -118,6 +127,12 @@ export class UpgradeSystem {
     if (!upgrade) {
       return { canPurchase: false, reason: "invalid_upgrade" };
     }
+    if (upgrade.firstFiveOnly && !this.firstFiveEnabled) {
+      return { canPurchase: false, reason: "feature_disabled" };
+    }
+    if (upgrade.depthEconomyOnly && !this.depthEconomyEnabled) {
+      return { canPurchase: false, reason: "feature_disabled" };
+    }
     if (isCraftOnlyUpgrade(upgradeId)) {
       return { canPurchase: false, reason: "craft_only" };
     }
@@ -157,6 +172,14 @@ export class UpgradeSystem {
       }
     }
     
+    // Prerequisite locks should be communicated before price/material locks.
+    if (upgrade.requires) {
+      const requiredLevel = this.getUpgradeLevel(upgrade.requires);
+      if (requiredLevel === 0) {
+        return { canPurchase: false, reason: "requires_upgrade", required: upgrade.requires };
+      }
+    }
+
     // Check gold cost
     const goldCost = getUpgradeCost(upgradeId, currentLevel);
     if (this.money < goldCost) {
@@ -179,14 +202,6 @@ export class UpgradeSystem {
             have: resources[resourceType] || 0
           };
         }
-      }
-    }
-    
-    // Check if upgrade requires another upgrade
-    if (upgrade.requires) {
-      const requiredLevel = this.getUpgradeLevel(upgrade.requires);
-      if (requiredLevel === 0) {
-        return { canPurchase: false, reason: "requires_upgrade", required: upgrade.requires };
       }
     }
     
@@ -266,9 +281,11 @@ export class UpgradeSystem {
       sellAllUnlocked: 0,
       startResourceBonus: 0,
       nextResourceBonus: 0,
+      deepResourceBonus: 0,
       marketBonus: 0,
       luckySales: 0,
       marketReports: 0,
+      depthEconomyEnabled: this.depthEconomyEnabled,
       critChance: 0,
       heavyPunchDamage: 0,
       luckyCollector: 0,
@@ -285,6 +302,8 @@ export class UpgradeSystem {
       if (level === 0) continue;
       
       const upgrade = UPGRADES[upgradeId];
+      if (upgrade.firstFiveOnly && !this.firstFiveEnabled) continue;
+      if (upgrade.depthEconomyOnly && !this.depthEconomyEnabled) continue;
       
       // For pickaxes, track them by tier instead of adding
       if (upgrade.category === "pickaxes" && upgrade.metalTier) {
@@ -341,7 +360,10 @@ export class UpgradeSystem {
     if (upgrade.oneTimePurchase && currentLevel > 0) return this.getUpgradeEffects();
     if (upgrade.maxLevel && currentLevel >= upgrade.maxLevel) return this.getUpgradeEffects();
 
-    const projected = new UpgradeSystem(this.digSystem, this.playerLevelSystem);
+    const projected = new UpgradeSystem(this.digSystem, this.playerLevelSystem, {
+      firstFiveEnabled: this.firstFiveEnabled,
+      depthEconomyEnabled: this.depthEconomyEnabled,
+    });
     projected.setUpgradeLevels({
       ...this.upgradeLevels,
       [upgradeId]: currentLevel + 1,
@@ -470,7 +492,7 @@ export class UpgradeSystem {
       this.setUpgradeLevels(upgradeLevels);
     }
     if (typeof data.money === 'number') {
-      this.money = data.money;
+      this.setMoney(data.money);
     }
     if (data.ownedPickaxe) {
       this.ownedPickaxe = data.ownedPickaxe;

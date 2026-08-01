@@ -4,6 +4,10 @@ import {
 } from "../../values/constellationBuffs.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
+  getSignProgress,
+  migrateLegacyStarCountToXp,
+} from "../../values/starRarityProgressionMath.js";
+import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../../values/starlightTalentTree.js";
@@ -47,6 +51,7 @@ export function readStarlightAbilityAccess(abilities) {
 export function buildStarlightTalentStatuses({
   data = {},
   counts = {},
+  progressByResource = null,
   unlockedResources = [],
   relicCount = 0,
   abilities = null,
@@ -57,9 +62,13 @@ export function buildStarlightTalentStatuses({
     STARLIGHT_TALENT_RESOURCE_ORDER.map(resourceType => {
       const branch = BRANCH_BY_RESOURCE[resourceType];
       const access = abilityAccess[branch.id];
-      const threshold = data.thresholds?.[resourceType] ?? 5;
-      const collected = Math.min(threshold, Math.max(0, counts[resourceType] || 0));
-      const isUnlocked = unlocked.has(resourceType);
+      const encounterCount = Math.max(0, Math.floor(Number(counts[resourceType]) || 0));
+      const fallbackXp = migrateLegacyStarCountToXp(resourceType, encounterCount);
+      const signProgress = progressByResource?.[resourceType]
+        || getSignProgress(resourceType, fallbackXp);
+      const threshold = signProgress.totalXp;
+      const collected = signProgress.xp;
+      const isUnlocked = unlocked.has(resourceType) || abilityAccess.godMode;
       const abilityLocked = access.unlocked !== true;
       const baseState = isUnlocked ? "mastered" : collected > 0 ? "partial" : "locked";
       const state = abilityLocked ? "ability-locked" : baseState;
@@ -75,6 +84,15 @@ export function buildStarlightTalentStatuses({
         prerequisiteLabel: access.prerequisiteLabel,
         threshold,
         collected,
+        encounterCount,
+        xp: signProgress.xp,
+        totalXp: signProgress.totalXp,
+        level: isUnlocked ? signProgress.maxLevel : signProgress.level,
+        maxLevel: signProgress.maxLevel,
+        levelXp: signProgress.levelXp,
+        levelXpRequired: signProgress.levelXpRequired,
+        levelProgress: isUnlocked ? 1 : signProgress.levelProgress,
+        mastered: isUnlocked || signProgress.mastered,
         isUnlocked,
         rewardActive: isUnlocked && !abilityLocked,
         progressBanked: abilityLocked && collected > 0,
@@ -86,6 +104,9 @@ export function buildStarlightTalentStatuses({
         state,
         lineColor,
         cssColor: cssColor(lineColor),
+        xpLabel: isUnlocked
+          ? STARLIGHT_TALENT_TREE_CONFIG.copy.mastered
+          : `LV ${signProgress.level}  •  ${signProgress.levelXp}/${signProgress.levelXpRequired} XP`,
         shortLabel: abilityLocked
           ? STARLIGHT_TALENT_TREE_CONFIG.copy.boboLocked
           : isUnlocked

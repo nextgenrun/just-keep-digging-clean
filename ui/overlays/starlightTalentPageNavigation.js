@@ -3,6 +3,7 @@ import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
 import { createButton } from "../PhaserUiKit.js";
+import { fitStarlightImage, fitStarlightSign } from "./starlightImagePlacement.js";
 
 const PAGE_ICON_KEYS = Object.freeze({
   quickslash: ASSET_KEYS.constellations.signs.dirt,
@@ -10,18 +11,28 @@ const PAGE_ICON_KEYS = Object.freeze({
   engines: ASSET_KEYS.ui.starlightTalentTree.starHeart,
 });
 
-function fitImage(image, maxWidth, maxHeight) {
-  const width = Math.max(1, image.width || image.displayWidth || 1);
-  const height = Math.max(1, image.height || image.displayHeight || 1);
-  image.setScale(Math.min(maxWidth / width, maxHeight / height));
-  return image;
-}
+const PAGE_ICON_RESOURCES = Object.freeze({
+  quickslash: "dirt",
+  thunderstrike: "stone",
+});
 
 function fontSize(layout, scale) {
   return Math.max(
     layout.pageTabMinimumFontSizePx,
     Math.round(layout.pageTabFontSizePx * scale),
   );
+}
+
+function fitPageIcon(image, pageId, size) {
+  const resourceType = PAGE_ICON_RESOURCES[pageId];
+  return resourceType
+    ? fitStarlightSign(
+        image,
+        resourceType,
+        size,
+        size,
+      )
+    : fitStarlightImage(image, size, size);
 }
 
 export function createStarlightTalentPageNavigation(view) {
@@ -45,20 +56,22 @@ export function createStarlightTalentPageNavigation(view) {
       parent: root,
       onClick: () => view.setPage(index, { notify: true }),
     });
-    const plaque = fitImage(
-      view.scene.add.image(0, 0, textures.navigationPlaqueIdle),
+    const plaque = fitStarlightImage(
+      view.scene.add.image(0, 0, textures.navigationPlaqueSelected),
       layout.pageTabPlaqueWidthPx * scale,
       layout.pageTabPlaqueHeightPx * scale,
-    );
-    const icon = fitImage(
-      view.scene.add.image(
-        layout.pageTabIconOffsetXPx * scale,
-        0,
-        PAGE_ICON_KEYS[page.id],
-      ),
-      layout.pageTabIconSizePx * scale,
-      layout.pageTabIconSizePx * scale,
-    );
+    ).setVisible(false).setAlpha(0);
+    const icon = layout.pageTabShowIcons
+      ? fitPageIcon(
+          view.scene.add.image(
+            layout.pageTabIconOffsetXPx * scale,
+            0,
+            PAGE_ICON_KEYS[page.id],
+          ),
+          page.id,
+          layout.pageTabIconSizePx * scale,
+        )
+      : null;
     const label = view.scene.add.text(
       layout.pageTabLabelOffsetXPx * scale,
       0,
@@ -80,15 +93,15 @@ export function createStarlightTalentPageNavigation(view) {
         },
       },
     ).setOrigin(0.5);
-    button.root.add([plaque, icon, label]);
+    button.root.add([plaque, icon, label].filter(Boolean));
     return {
       button,
       plaque,
       plaqueScaleX: plaque.scaleX,
       plaqueScaleY: plaque.scaleY,
       icon,
-      iconScaleX: icon.scaleX,
-      iconScaleY: icon.scaleY,
+      iconScaleX: icon?.scaleX || 1,
+      iconScaleY: icon?.scaleY || 1,
       label,
     };
   });
@@ -101,15 +114,12 @@ export function createStarlightTalentPageNavigation(view) {
     entries.forEach((entry, index) => {
       const selected = index === activeIndex;
       entry.button.setSelected(selected);
-      entry.plaque.setTexture(
-        selected ? textures.navigationPlaqueSelected : textures.navigationPlaqueIdle,
-      );
       view.scene.tweens?.killTweensOf?.(entry.plaque);
-      view.scene.tweens?.killTweensOf?.(entry.icon);
+      if (entry.icon) view.scene.tweens?.killTweensOf?.(entry.icon);
       entry.label.setColor(selected ? UI_COLORS.title : UI_COLORS.body);
       entry.label.setAlpha(selected ? 1 : layout.pageTabIdleAlpha);
-      entry.icon.setAlpha(selected ? 1 : layout.pageTabIdleAlpha);
-      entry.plaque.setAlpha(selected ? 1 : layout.pageTabIdleAlpha);
+      entry.icon?.setAlpha(selected ? 1 : layout.pageTabIdleAlpha);
+      entry.plaque.setVisible(selected).setAlpha(selected ? 1 : 0);
       const stateScale = selected
         ? layout.pageTabSelectedScale
         : layout.pageTabIdleScale;
@@ -120,13 +130,15 @@ export function createStarlightTalentPageNavigation(view) {
         duration: layout.pageTabTweenMs,
         ease: "Sine.Out",
       });
-      view.scene.tweens.add({
-        targets: entry.icon,
-        scaleX: entry.iconScaleX * stateScale,
-        scaleY: entry.iconScaleY * stateScale,
-        duration: layout.pageTabTweenMs,
-        ease: "Sine.Out",
-      });
+      if (entry.icon) {
+        view.scene.tweens.add({
+          targets: entry.icon,
+          scaleX: entry.iconScaleX * stateScale,
+          scaleY: entry.iconScaleY * stateScale,
+          duration: layout.pageTabTweenMs,
+          ease: "Sine.Out",
+        });
+      }
     });
   }
 
@@ -137,7 +149,7 @@ export function createStarlightTalentPageNavigation(view) {
     destroy() {
       entries.forEach(entry => {
         view.scene.tweens?.killTweensOf?.(entry.plaque);
-        view.scene.tweens?.killTweensOf?.(entry.icon);
+        if (entry.icon) view.scene.tweens?.killTweensOf?.(entry.icon);
         entry.button.destroy();
       });
       root.destroy(true);

@@ -3,12 +3,17 @@ import {
   THUNDER_STRIKE_CHAIN_CONFIG,
   getThunderStrikeStage,
 } from "../../values/thunderStrikeChain.js";
+import { ThunderStrikeAuthoredImpactView } from "./ThunderStrikeAuthoredImpactView.js";
 
 export class ThunderStrikeImpactFxSystem {
-  constructor(scene, config = THUNDER_STRIKE_CHAIN_CONFIG) {
+  constructor(scene, config = THUNDER_STRIKE_CHAIN_CONFIG, authoredImpactOptions = {}) {
     this.scene = scene;
     this.config = config;
     this.activeObjects = new Set();
+    this.authoredImpact = new ThunderStrikeAuthoredImpactView(
+      scene,
+      authoredImpactOptions,
+    );
   }
 
   play(strikeResult, player, stageIndex = 0) {
@@ -38,8 +43,16 @@ export class ThunderStrikeImpactFxSystem {
     this._strokeBolt(core, points, stage.visual.boltThickness, fx.coreColor, 1);
     this._drawBranches(glow, core, points, stage);
     this._fadeAndDestroy([glow, core], fx.boltLifetimeMs);
-    this._spawnImpactRings(impactX, impactY, stage);
-    this._spawnSparks(impactX, impactY, stage);
+    const authoredImpactPlayed = this.authoredImpact?.play(
+      impactX,
+      impactY,
+      stage,
+      fx.depth,
+    ) === true;
+    if (!authoredImpactPlayed) {
+      this._spawnImpactRings(impactX, impactY, stage);
+      this._spawnSparks(impactX, impactY, stage);
+    }
     this._spawnFlash(stage);
     this._spawnLabel(
       impactX,
@@ -240,6 +253,8 @@ export class ThunderStrikeImpactFxSystem {
   }
 
   destroy() {
+    this.authoredImpact?.destroy?.();
+    this.authoredImpact = null;
     this.activeObjects.forEach((object) => object.destroy?.());
     this.activeObjects.clear();
     this.scene = null;

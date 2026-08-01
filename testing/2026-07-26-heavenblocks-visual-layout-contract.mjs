@@ -190,8 +190,15 @@ for (const region of HEAVENBLOCKS_VISUAL_CONFIG.regions) {
   for (let index = 0; index < sprites.length; index += 1) {
     const sprite = sprites[index];
     const layer = region.layers[index];
-    const displayWidth = region.displayWidthPx * layer.overscan;
-    const displayHeight = region.displayHeightPx * layer.overscan;
+    const requestedWidth = region.displayWidthPx * layer.overscan;
+    const requestedHeight = region.displayHeightPx * layer.overscan;
+    const sourceScale = Math.min(
+      requestedWidth / region.sourceWidthPx,
+      requestedHeight / region.sourceHeightPx,
+      HEAVENBLOCKS_VISUAL_CONFIG.maxSourceScale,
+    );
+    const displayWidth = region.sourceWidthPx * sourceScale;
+    const displayHeight = region.sourceHeightPx * sourceScale;
     assert.equal(
       sprite.x,
       region.leftTile * harness.scene.config.tileSize
@@ -206,6 +213,9 @@ for (const region of HEAVENBLOCKS_VISUAL_CONFIG.regions) {
     assert.equal(sprite.originY, 0);
     assert.equal(sprite.displayWidth, displayWidth);
     assert.equal(sprite.displayHeight, displayHeight);
+    assert.ok(sourceScale <= 1, "Heavenblocks art may never be enlarged");
+    assert.ok(sprite.displayWidth <= region.sourceWidthPx);
+    assert.ok(sprite.displayHeight <= region.sourceHeightPx);
     assert.equal(sprite.depth, layer.depth);
   }
 }

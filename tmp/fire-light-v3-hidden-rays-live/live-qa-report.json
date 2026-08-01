@@ -1,0 +1,1740 @@
+{
+  "schema": "fire-light-v3-live-qa@1",
+  "generatedUtc": "2026-07-30T12:01:36.854Z",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "scenarios": [
+    {
+      "id": "default",
+      "url": "http://127.0.0.1:8090/?jkd_e2e=1&runtimeAssetQueue=1&nativeDensity=0",
+      "placement": {
+        "target": {
+          "tx": 127,
+          "ty": 208
+        },
+        "maxGp": 110
+      },
+      "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\fire-light-v3-hidden-rays-live\\default.png",
+      "evidence": {
+        "activeScenes": [
+          "MainMenuScene",
+          "PlayScene"
+        ],
+        "fire": {
+          "id": "fire-light-v3",
+          "requested": true,
+          "enabled": true,
+          "disabledReason": null,
+          "active": true,
+          "reducedFlicker": false,
+          "raysRequested": false,
+          "eyeAdaptationRequested": true,
+          "illuminationRequested": true,
+          "authoredLightFrameCount": 96,
+          "proceduralShaderMix": 0.1,
+          "source": {
+            "x": 12014.14,
+            "y": 19576.75,
+            "facingSign": 1,
+            "source": "fire-socket:survivalUal"
+          },
+          "fuelRatio": 0.9912327272727273,
+          "renderer": {
+            "available": true,
+            "active": true,
+            "state": "steady",
+            "flameFrame": 7,
+            "volumeFrame": 10,
+            "atmosphereFrame": 1,
+            "volumeAlphaScale": 0.56,
+            "source": {
+              "x": 12015.055220687496,
+              "y": 19576.082299619175,
+              "anchorSource": "fire-socket:survivalUal"
+            },
+            "fuelRatio": 0.9912327272727273
+          },
+          "illumination": {
+            "available": true,
+            "enabled": true,
+            "active": true,
+            "state": "steady",
+            "visibleLayerCount": 4,
+            "frames": {
+              "penumbra": 11,
+              "bounce": 0,
+              "hotCore": 9,
+              "breakup": 4,
+              "environment": null
+            },
+            "fuelRatio": 0.9912327272727273,
+            "totalAuthoredLightFrameCount": 96
+          },
+          "rays": {
+            "available": false,
+            "enabled": false,
+            "active": false,
+            "visibleRayCount": 0,
+            "lengthsWorld": []
+          },
+          "eyeAdaptation": {
+            "enabled": true,
+            "available": true,
+            "targetLuminance": 0.40771087542098366,
+            "perceivedLuminance": 0.6924632964482266,
+            "darkVeilAlpha": 0.11864684209468454,
+            "bloomAlpha": 0
+          }
+        },
+        "textures": {
+          "fire-light-v3-flame-steady": true,
+          "fire-light-v3-flame-states": true,
+          "fire-light-v3-volume": true,
+          "fire-light-v3-rays": true,
+          "fire-light-v3-atmosphere": true,
+          "fire-light-v3-hot-core": true,
+          "fire-light-v3-penumbra": true,
+          "fire-light-v3-bounce": true,
+          "fire-light-v3-breakup": true,
+          "fire-light-v3-environment": true
+        },
+        "torchActive": true,
+        "legacyGlow": {
+          "haloVisible": false,
+          "haloAlpha": 0,
+          "coreVisible": false,
+          "flameVisible": false
+        },
+        "darkness": {
+          "active": true,
+          "alpha": 1
+        },
+        "shader": {
+          "state": "undergroundDarkness",
+          "depth": 144,
+          "depthRatio": 0.014251614741034353,
+          "darknessAlpha": 1,
+          "torchActive": true,
+          "torchScreenPosition": {
+            "x": 640,
+            "y": 322.5
+          },
+          "torchRadiusPx": 902.3025030176254,
+          "torchGlowStrength": 0.4695343111380241,
+          "fireLightV3Active": true,
+          "carriedLightPresentationId": "fire-light-v3",
+          "fireLightProceduralMix": 0.1,
+          "playerLightProfileId": "v2",
+          "torchAnchorSource": "physics-visible-center",
+          "torchWarmth": 0.96,
+          "torchCoolEdge": 0.05499999999999999,
+          "torchVerticalScale": 0.9,
+          "torchFlickerScale": 0.72,
+          "surfaceLightInfluence": 0,
+          "undergroundDarknessInfluence": 1,
+          "nightAmount": 0,
+          "sunStrength": 1,
+          "sunTint": 16777215,
+          "sunExposure": 1,
+          "cloudCoverAmount": 0,
+          "fogAmount": 0,
+          "stormCavePulse": 0
+        },
+        "health": {
+          "schemaVersion": 1,
+          "status": "healthy",
+          "buildId": "development",
+          "mode": "development",
+          "startedAt": "2026-07-30T12:00:49.910Z",
+          "sampledAt": "2026-07-30T12:01:08.540Z",
+          "telemetry": {
+            "activeScenes": [
+              "MainMenuScene",
+              "PlayScene"
+            ],
+            "frame": 392,
+            "fps": 22,
+            "loopRunning": true,
+            "pageFocused": true,
+            "performance": {
+              "schemaVersion": 4,
+              "frameMs": {
+                "sampleCount": 390,
+                "last": 772.5,
+                "median": 33,
+                "p95": 102.3,
+                "p99": 149.3,
+                "max": 772.5
+              },
+              "stepMs": {
+                "sampleCount": 392,
+                "last": 30.2,
+                "median": 0.3,
+                "p95": 11.6,
+                "p99": 24,
+                "max": 1244.7
+              },
+              "renderMs": {
+                "sampleCount": 392,
+                "last": 39,
+                "median": 0.8,
+                "p95": 17.1,
+                "p99": 27.7,
+                "max": 39
+              },
+              "medianFps": 30.3,
+              "onePercentLowFps": 6.7,
+              "longFramesInWindow": 100,
+              "totalLongFrames": 100,
+              "longTaskMs": {
+                "sampleCount": 33,
+                "last": 114,
+                "median": 75,
+                "p95": 311,
+                "p99": 1727,
+                "max": 1727
+              },
+              "longTasksInWindow": 33,
+              "totalLongTasks": 33,
+              "longTaskSupported": true,
+              "spans": {
+                "scenic-world-sync": {
+                  "sampleCount": 3,
+                  "last": 4.7,
+                  "median": 4.7,
+                  "p95": 16.5,
+                  "p99": 16.5,
+                  "max": 16.5,
+                  "context": {
+                    "cellCount": 247,
+                    "force": false,
+                    "reduced": true
+                  }
+                }
+              },
+              "streaming": {
+                "worldRenderer": {
+                  "mode": "scenic-v2",
+                  "schedulerEnabled": true,
+                  "windowChecks": 8,
+                  "syncs": 3,
+                  "skippedSyncs": 5,
+                  "forcedSyncs": 1,
+                  "tileInvalidations": 0,
+                  "lastSyncMs": 4.700000002980232,
+                  "maxSyncMs": 16.5,
+                  "lastSignature": "118:136:202:214",
+                  "reduced": true,
+                  "lastCellCount": 247,
+                  "assetsPending": 30,
+                  "assetsResident": 3,
+                  "assetsCancelled": 14,
+                  "demandStreamingEnabled": true,
+                  "demandedAssets": 28,
+                  "demandedAssetCounts": {
+                    "backdrop": 7,
+                    "terrain": 8,
+                    "groundStructures": 3,
+                    "undergroundDetails": 2,
+                    "backdropEnhancers": 8
+                  },
+                  "materialAssets": {
+                    "pendingAssets": 1,
+                    "waitingAssets": 1,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 1,
+                    "knownAssets": 1,
+                    "cancelledLoads": 0
+                  },
+                  "backdropAssets": {
+                    "pendingAssets": 6,
+                    "waitingAssets": 6,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 2,
+                    "knownAssets": 6,
+                    "cancelledLoads": 2
+                  },
+                  "terrainAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 5
+                  },
+                  "groundStructureAssets": {
+                    "pendingAssets": 3,
+                    "waitingAssets": 3,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 3,
+                    "cancelledLoads": 2
+                  },
+                  "skyAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 0,
+                    "activeAssets": 2,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 1
+                  },
+                  "undergroundDetailAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 2,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 2
+                  },
+                  "backdropEnhancerAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 2
+                  },
+                  "assetQueue": {
+                    "schemaVersion": 3,
+                    "enabled": true,
+                    "bitmapDecodeEnabled": true,
+                    "queued": 36,
+                    "active": 3,
+                    "activeKey": "world-visual-sky-atmosphere-foundation-v2",
+                    "activeKeys": [
+                      "world-visual-sky-atmosphere-foundation-v2",
+                      "world-visual-sky-cohesion-v1-sky04",
+                      "heavenblocks-devil-eclipse-backdrop-v1"
+                    ],
+                    "activeOwner": "sky-cohesion",
+                    "activeOwners": [
+                      "sky-cohesion",
+                      "sky-cohesion",
+                      "heavenblocks"
+                    ],
+                    "activeBackend": "bitmap",
+                    "activeElapsedMs": 1596.3,
+                    "queuedByOwner": {
+                      "material-field": 1,
+                      "depth-backdrop": 6,
+                      "terrain-variation": 8,
+                      "ground-structure": 3,
+                      "underground-detail": 2,
+                      "backdrop-enhancer": 8,
+                      "high-impact-fx-thunder": 3,
+                      "heavenblocks": 5
+                    },
+                    "maxQueueDepth": 40,
+                    "started": 3,
+                    "completed": 0,
+                    "failed": 0,
+                    "cancelled": 14,
+                    "deduplicated": 0,
+                    "bitmapFallbacks": 0,
+                    "externalLoaderWaits": 0,
+                    "decodedSources": 0,
+                    "textureMemory": {
+                      "estimatedBytes": 1165783140,
+                      "estimatedMiB": 1111.7774391174316,
+                      "highWatermarkBytes": 738197504,
+                      "highWatermarkMiB": 704,
+                      "lowWatermarkBytes": 671088640,
+                      "lowWatermarkMiB": 640,
+                      "overBudget": true,
+                      "sourceCount": 637,
+                      "registeredRuntimeTextures": 1,
+                      "bytesByOwner": {
+                        "boot-or-untracked": 1164128796,
+                        "feature-campfire": 1654344
+                      },
+                      "sampledAtMs": 19334.19999998808
+                    },
+                    "totalMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "decodeMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "activationMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "lastLoad": null
+                  }
+                },
+                "backgrounds": null,
+                "tileWindow": {
+                  "mode": "scenic-v2",
+                  "schedulerEnabled": true,
+                  "windowChecks": 8,
+                  "syncs": 3,
+                  "skippedSyncs": 5,
+                  "forcedSyncs": 1,
+                  "tileInvalidations": 0,
+                  "lastSyncMs": 4.700000002980232,
+                  "maxSyncMs": 16.5,
+                  "lastSignature": "118:136:202:214",
+                  "reduced": true,
+                  "lastCellCount": 247,
+                  "assetsPending": 30,
+                  "assetsResident": 3,
+                  "assetsCancelled": 14,
+                  "demandStreamingEnabled": true,
+                  "demandedAssets": 28,
+                  "demandedAssetCounts": {
+                    "backdrop": 7,
+                    "terrain": 8,
+                    "groundStructures": 3,
+                    "undergroundDetails": 2,
+                    "backdropEnhancers": 8
+                  },
+                  "materialAssets": {
+                    "pendingAssets": 1,
+                    "waitingAssets": 1,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 1,
+                    "knownAssets": 1,
+                    "cancelledLoads": 0
+                  },
+                  "backdropAssets": {
+                    "pendingAssets": 6,
+                    "waitingAssets": 6,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 2,
+                    "knownAssets": 6,
+                    "cancelledLoads": 2
+                  },
+                  "terrainAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 5
+                  },
+                  "groundStructureAssets": {
+                    "pendingAssets": 3,
+                    "waitingAssets": 3,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 3,
+                    "cancelledLoads": 2
+                  },
+                  "skyAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 0,
+                    "activeAssets": 2,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 1
+                  },
+                  "undergroundDetailAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 2,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 2
+                  },
+                  "backdropEnhancerAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 2
+                  },
+                  "assetQueue": {
+                    "schemaVersion": 3,
+                    "enabled": true,
+                    "bitmapDecodeEnabled": true,
+                    "queued": 36,
+                    "active": 3,
+                    "activeKey": "world-visual-sky-atmosphere-foundation-v2",
+                    "activeKeys": [
+                      "world-visual-sky-atmosphere-foundation-v2",
+                      "world-visual-sky-cohesion-v1-sky04",
+                      "heavenblocks-devil-eclipse-backdrop-v1"
+                    ],
+                    "activeOwner": "sky-cohesion",
+                    "activeOwners": [
+                      "sky-cohesion",
+                      "sky-cohesion",
+                      "heavenblocks"
+                    ],
+                    "activeBackend": "bitmap",
+                    "activeElapsedMs": 1596.3,
+                    "queuedByOwner": {
+                      "material-field": 1,
+                      "depth-backdrop": 6,
+                      "terrain-variation": 8,
+                      "ground-structure": 3,
+                      "underground-detail": 2,
+                      "backdrop-enhancer": 8,
+                      "high-impact-fx-thunder": 3,
+                      "heavenblocks": 5
+                    },
+                    "maxQueueDepth": 40,
+                    "started": 3,
+                    "completed": 0,
+                    "failed": 0,
+                    "cancelled": 14,
+                    "deduplicated": 0,
+                    "bitmapFallbacks": 0,
+                    "externalLoaderWaits": 0,
+                    "decodedSources": 0,
+                    "textureMemory": {
+                      "estimatedBytes": 1165783140,
+                      "estimatedMiB": 1111.7774391174316,
+                      "highWatermarkBytes": 738197504,
+                      "highWatermarkMiB": 704,
+                      "lowWatermarkBytes": 671088640,
+                      "lowWatermarkMiB": 640,
+                      "overBudget": true,
+                      "sourceCount": 637,
+                      "registeredRuntimeTextures": 1,
+                      "bytesByOwner": {
+                        "boot-or-untracked": 1164128796,
+                        "feature-campfire": 1654344
+                      },
+                      "sampledAtMs": 19334.19999998808
+                    },
+                    "totalMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "decodeMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "activationMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "lastLoad": null
+                  }
+                },
+                "audio": {
+                  "schemaVersion": 1,
+                  "streamingEnabled": true,
+                  "registered": 292,
+                  "bootQueued": 15,
+                  "pending": 0,
+                  "residentMusic": 1,
+                  "residentVoices": 0
+                },
+                "assetLoads": {
+                  "schemaVersion": 3,
+                  "enabled": true,
+                  "bitmapDecodeEnabled": true,
+                  "queued": 36,
+                  "active": 3,
+                  "activeKey": "world-visual-sky-atmosphere-foundation-v2",
+                  "activeKeys": [
+                    "world-visual-sky-atmosphere-foundation-v2",
+                    "world-visual-sky-cohesion-v1-sky04",
+                    "heavenblocks-devil-eclipse-backdrop-v1"
+                  ],
+                  "activeOwner": "sky-cohesion",
+                  "activeOwners": [
+                    "sky-cohesion",
+                    "sky-cohesion",
+                    "heavenblocks"
+                  ],
+                  "activeBackend": "bitmap",
+                  "activeElapsedMs": 1596.6,
+                  "queuedByOwner": {
+                    "material-field": 1,
+                    "depth-backdrop": 6,
+                    "terrain-variation": 8,
+                    "ground-structure": 3,
+                    "underground-detail": 2,
+                    "backdrop-enhancer": 8,
+                    "high-impact-fx-thunder": 3,
+                    "heavenblocks": 5
+                  },
+                  "maxQueueDepth": 40,
+                  "started": 3,
+                  "completed": 0,
+                  "failed": 0,
+                  "cancelled": 14,
+                  "deduplicated": 0,
+                  "bitmapFallbacks": 0,
+                  "externalLoaderWaits": 0,
+                  "decodedSources": 0,
+                  "textureMemory": {
+                    "estimatedBytes": 1165783140,
+                    "estimatedMiB": 1111.7774391174316,
+                    "highWatermarkBytes": 738197504,
+                    "highWatermarkMiB": 704,
+                    "lowWatermarkBytes": 671088640,
+                    "lowWatermarkMiB": 640,
+                    "overBudget": true,
+                    "sourceCount": 637,
+                    "registeredRuntimeTextures": 1,
+                    "bytesByOwner": {
+                      "boot-or-untracked": 1164128796,
+                      "feature-campfire": 1654344
+                    },
+                    "sampledAtMs": 19334.19999998808
+                  },
+                  "totalMs": {
+                    "last": null,
+                    "p95": null,
+                    "max": null
+                  },
+                  "decodeMs": {
+                    "last": null,
+                    "p95": null,
+                    "max": null
+                  },
+                  "activationMs": {
+                    "last": null,
+                    "p95": null,
+                    "max": null
+                  },
+                  "lastLoad": null
+                },
+                "featureAssets": {
+                  "enabled": true,
+                  "groups": [
+                    {
+                      "id": "campfire-tier:1",
+                      "status": "ready",
+                      "consumers": 1,
+                      "pendingAssets": 0,
+                      "loadedAssets": 1,
+                      "totalAssets": 1,
+                      "progress": 1,
+                      "managedTextures": 1,
+                      "lastUsedAtMs": 17893.19999998808
+                    }
+                  ],
+                  "readyGroups": 1,
+                  "loadingGroups": 0,
+                  "pendingAssets": 0,
+                  "evictions": 0,
+                  "failedGroups": 0,
+                  "cancelledGroups": 0
+                },
+                "saves": {
+                  "schemaVersion": 1,
+                  "pending": false,
+                  "scheduledRequests": 0,
+                  "coalescedRequests": 0,
+                  "scheduledFlushes": 0,
+                  "forcedFlushes": 0,
+                  "failedFlushes": 0,
+                  "capture": {
+                    "lastMs": 0,
+                    "maxMs": 0,
+                    "p95Ms": 0
+                  },
+                  "write": {
+                    "lastMs": 0,
+                    "maxMs": 0,
+                    "p95Ms": 0
+                  },
+                  "total": {
+                    "lastMs": 0,
+                    "maxMs": 0,
+                    "p95Ms": 0
+                  }
+                }
+              }
+            }
+          },
+          "findings": [],
+          "events": [
+            {
+              "id": 1,
+              "at": "2026-07-30T12:00:49.910Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: installed",
+              "context": {}
+            },
+            {
+              "id": 2,
+              "at": "2026-07-30T12:00:50.282Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: phaser-postboot",
+              "context": {}
+            },
+            {
+              "id": 3,
+              "at": "2026-07-30T12:01:01.052Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: MenuAudioScene:start",
+              "context": {}
+            },
+            {
+              "id": 4,
+              "at": "2026-07-30T12:01:02.535Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: BootScene:shutdown",
+              "context": {}
+            },
+            {
+              "id": 5,
+              "at": "2026-07-30T12:01:02.535Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: MainMenuScene:start",
+              "context": {}
+            },
+            {
+              "id": 6,
+              "at": "2026-07-30T12:01:02.590Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: WorldLoadScene:start",
+              "context": {}
+            },
+            {
+              "id": 7,
+              "at": "2026-07-30T12:01:05.453Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: MenuAudioScene:shutdown",
+              "context": {}
+            },
+            {
+              "id": 8,
+              "at": "2026-07-30T12:01:05.453Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: WorldLoadScene:shutdown",
+              "context": {}
+            },
+            {
+              "id": 9,
+              "at": "2026-07-30T12:01:05.454Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: PlayScene:start",
+              "context": {}
+            },
+            {
+              "id": 10,
+              "at": "2026-07-30T12:01:06.763Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: titan-discoveries-ready",
+              "context": {
+                "zones": 25,
+                "creatureFootprints": 25,
+                "surfaceSlots": 25,
+                "chamberCards": 25
+              }
+            },
+            {
+              "id": 11,
+              "at": "2026-07-30T12:01:06.793Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: npc-activity-ready",
+              "context": {
+                "actorCount": 6,
+                "anchorLocked": true,
+                "groundContactLocked": true
+              }
+            }
+          ],
+          "previousCritical": null
+        },
+        "uiErrors": [],
+        "renderer": {
+          "type": 2,
+          "width": 1280,
+          "height": 720
+        },
+        "camera": {
+          "width": 1280,
+          "height": 720,
+          "scrollX": 11345,
+          "scrollY": 19286,
+          "zoom": 1
+        },
+        "dom": {
+          "bodyBackground": "rgba(0, 0, 0, 0)",
+          "centerStack": [
+            {
+              "tag": "CANVAS",
+              "id": "",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "tag": "DIV",
+              "id": "game-root",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "tag": "BODY",
+              "id": "",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "tag": "HTML",
+              "id": "",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            }
+          ],
+          "canvases": [
+            {
+              "width": 1280,
+              "height": 720,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1280,
+                "height": 720
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "rays",
+      "url": "http://127.0.0.1:8090/?jkd_e2e=1&runtimeAssetQueue=1&nativeDensity=0&fireRays=1",
+      "placement": {
+        "target": {
+          "tx": 127,
+          "ty": 208
+        },
+        "maxGp": 110
+      },
+      "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\fire-light-v3-hidden-rays-live\\rays.png",
+      "evidence": {
+        "activeScenes": [
+          "MainMenuScene",
+          "PlayScene"
+        ],
+        "fire": {
+          "id": "fire-light-v3",
+          "requested": true,
+          "enabled": true,
+          "disabledReason": null,
+          "active": true,
+          "reducedFlicker": false,
+          "raysRequested": true,
+          "eyeAdaptationRequested": true,
+          "illuminationRequested": true,
+          "authoredLightFrameCount": 96,
+          "proceduralShaderMix": 0.1,
+          "source": {
+            "x": 12014.14,
+            "y": 19576.75,
+            "facingSign": 1,
+            "source": "fire-socket:survivalUal"
+          },
+          "fuelRatio": 0.9877992727272725,
+          "renderer": {
+            "available": true,
+            "active": true,
+            "state": "steady",
+            "flameFrame": 5,
+            "volumeFrame": 1,
+            "atmosphereFrame": 9,
+            "volumeAlphaScale": 0.56,
+            "source": {
+              "x": 12013.495380121312,
+              "y": 19576.023289137705,
+              "anchorSource": "fire-socket:survivalUal"
+            },
+            "fuelRatio": 0.9877992727272725
+          },
+          "illumination": {
+            "available": true,
+            "enabled": true,
+            "active": true,
+            "state": "steady",
+            "visibleLayerCount": 4,
+            "frames": {
+              "penumbra": 15,
+              "bounce": 3,
+              "hotCore": 4,
+              "breakup": 9,
+              "environment": null
+            },
+            "fuelRatio": 0.9877992727272725,
+            "totalAuthoredLightFrameCount": 96
+          },
+          "rays": {
+            "available": true,
+            "enabled": true,
+            "active": true,
+            "visibleRayCount": 6,
+            "lengthsWorld": [
+              270.7199999999999,
+              135.35999999999999,
+              203.03999999999994,
+              118.43999999999998,
+              135.35999999999999,
+              45.12
+            ]
+          },
+          "eyeAdaptation": {
+            "enabled": true,
+            "available": true,
+            "targetLuminance": 0.34665638101586316,
+            "perceivedLuminance": 0.6771180722808705,
+            "darkVeilAlpha": 0.13769237136041973,
+            "bloomAlpha": 0
+          }
+        },
+        "textures": {
+          "fire-light-v3-flame-steady": true,
+          "fire-light-v3-flame-states": true,
+          "fire-light-v3-volume": true,
+          "fire-light-v3-rays": true,
+          "fire-light-v3-atmosphere": true,
+          "fire-light-v3-hot-core": true,
+          "fire-light-v3-penumbra": true,
+          "fire-light-v3-bounce": true,
+          "fire-light-v3-breakup": true,
+          "fire-light-v3-environment": true
+        },
+        "torchActive": true,
+        "legacyGlow": {
+          "haloVisible": false,
+          "haloAlpha": 0,
+          "coreVisible": false,
+          "flameVisible": false
+        },
+        "darkness": {
+          "active": true,
+          "alpha": 1
+        },
+        "shader": {
+          "state": "undergroundDarkness",
+          "depth": 144,
+          "depthRatio": 0.014251614741034353,
+          "darknessAlpha": 1,
+          "torchActive": true,
+          "torchScreenPosition": {
+            "x": 640,
+            "y": 322.5
+          },
+          "torchRadiusPx": 828.6821221910055,
+          "torchGlowStrength": 0.5939585374145262,
+          "fireLightV3Active": true,
+          "carriedLightPresentationId": "fire-light-v3",
+          "fireLightProceduralMix": 0.1,
+          "playerLightProfileId": "v2",
+          "torchAnchorSource": "physics-visible-center",
+          "torchWarmth": 0.96,
+          "torchCoolEdge": 0.05499999999999999,
+          "torchVerticalScale": 0.9,
+          "torchFlickerScale": 0.72,
+          "surfaceLightInfluence": 0,
+          "undergroundDarknessInfluence": 1,
+          "nightAmount": 0,
+          "sunStrength": 1,
+          "sunTint": 16777215,
+          "sunExposure": 1,
+          "cloudCoverAmount": 0,
+          "fogAmount": 0,
+          "stormCavePulse": 0
+        },
+        "health": {
+          "schemaVersion": 1,
+          "status": "healthy",
+          "buildId": "development",
+          "mode": "development",
+          "startedAt": "2026-07-30T12:01:15.168Z",
+          "sampledAt": "2026-07-30T12:01:32.521Z",
+          "telemetry": {
+            "activeScenes": [
+              "MainMenuScene",
+              "PlayScene"
+            ],
+            "frame": 369,
+            "fps": 17,
+            "loopRunning": true,
+            "pageFocused": true,
+            "performance": {
+              "schemaVersion": 4,
+              "frameMs": {
+                "sampleCount": 367,
+                "last": 764.1,
+                "median": 32.8,
+                "p95": 114.2,
+                "p99": 184.4,
+                "max": 764.1
+              },
+              "stepMs": {
+                "sampleCount": 369,
+                "last": 48.8,
+                "median": 0.3,
+                "p95": 3.8,
+                "p99": 25.4,
+                "max": 1295.6
+              },
+              "renderMs": {
+                "sampleCount": 369,
+                "last": 29.1,
+                "median": 0.8,
+                "p95": 16.7,
+                "p99": 27.5,
+                "max": 31
+              },
+              "medianFps": 30.5,
+              "onePercentLowFps": 5.4,
+              "longFramesInWindow": 88,
+              "totalLongFrames": 88,
+              "longTaskMs": {
+                "sampleCount": 30,
+                "last": 80,
+                "median": 77,
+                "p95": 1595,
+                "p99": 1989,
+                "max": 1989
+              },
+              "longTasksInWindow": 30,
+              "totalLongTasks": 30,
+              "longTaskSupported": true,
+              "spans": {
+                "scenic-world-sync": {
+                  "sampleCount": 3,
+                  "last": 4.3,
+                  "median": 4.3,
+                  "p95": 11,
+                  "p99": 11,
+                  "max": 11,
+                  "context": {
+                    "cellCount": 247,
+                    "force": false,
+                    "reduced": true
+                  }
+                }
+              },
+              "streaming": {
+                "worldRenderer": {
+                  "mode": "scenic-v2",
+                  "schedulerEnabled": true,
+                  "windowChecks": 9,
+                  "syncs": 3,
+                  "skippedSyncs": 6,
+                  "forcedSyncs": 1,
+                  "tileInvalidations": 0,
+                  "lastSyncMs": 4.299999997019768,
+                  "maxSyncMs": 11,
+                  "lastSignature": "118:136:202:214",
+                  "reduced": true,
+                  "lastCellCount": 247,
+                  "assetsPending": 30,
+                  "assetsResident": 3,
+                  "assetsCancelled": 14,
+                  "demandStreamingEnabled": true,
+                  "demandedAssets": 28,
+                  "demandedAssetCounts": {
+                    "backdrop": 7,
+                    "terrain": 8,
+                    "groundStructures": 3,
+                    "undergroundDetails": 2,
+                    "backdropEnhancers": 8
+                  },
+                  "materialAssets": {
+                    "pendingAssets": 1,
+                    "waitingAssets": 1,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 1,
+                    "knownAssets": 1,
+                    "cancelledLoads": 0
+                  },
+                  "backdropAssets": {
+                    "pendingAssets": 6,
+                    "waitingAssets": 6,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 2,
+                    "knownAssets": 6,
+                    "cancelledLoads": 2
+                  },
+                  "terrainAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 5
+                  },
+                  "groundStructureAssets": {
+                    "pendingAssets": 3,
+                    "waitingAssets": 3,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 3,
+                    "cancelledLoads": 2
+                  },
+                  "skyAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 0,
+                    "activeAssets": 2,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 1
+                  },
+                  "undergroundDetailAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 2,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 2
+                  },
+                  "backdropEnhancerAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 2
+                  },
+                  "assetQueue": {
+                    "schemaVersion": 3,
+                    "enabled": true,
+                    "bitmapDecodeEnabled": true,
+                    "queued": 36,
+                    "active": 3,
+                    "activeKey": "world-visual-sky-atmosphere-foundation-v2",
+                    "activeKeys": [
+                      "world-visual-sky-atmosphere-foundation-v2",
+                      "world-visual-sky-cohesion-v1-sky04",
+                      "heavenblocks-devil-eclipse-backdrop-v1"
+                    ],
+                    "activeOwner": "sky-cohesion",
+                    "activeOwners": [
+                      "sky-cohesion",
+                      "sky-cohesion",
+                      "heavenblocks"
+                    ],
+                    "activeBackend": "bitmap",
+                    "activeElapsedMs": 1342.2,
+                    "queuedByOwner": {
+                      "material-field": 1,
+                      "depth-backdrop": 6,
+                      "terrain-variation": 8,
+                      "ground-structure": 3,
+                      "underground-detail": 2,
+                      "backdrop-enhancer": 8,
+                      "high-impact-fx-thunder": 3,
+                      "heavenblocks": 5
+                    },
+                    "maxQueueDepth": 40,
+                    "started": 3,
+                    "completed": 0,
+                    "failed": 0,
+                    "cancelled": 14,
+                    "deduplicated": 0,
+                    "bitmapFallbacks": 0,
+                    "externalLoaderWaits": 0,
+                    "decodedSources": 0,
+                    "textureMemory": {
+                      "estimatedBytes": 1144811620,
+                      "estimatedMiB": 1091.7774391174316,
+                      "highWatermarkBytes": 738197504,
+                      "highWatermarkMiB": 704,
+                      "lowWatermarkBytes": 671088640,
+                      "lowWatermarkMiB": 640,
+                      "overBudget": true,
+                      "sourceCount": 632,
+                      "registeredRuntimeTextures": 1,
+                      "bytesByOwner": {
+                        "boot-or-untracked": 1143157276,
+                        "feature-campfire": 1654344
+                      },
+                      "sampledAtMs": 19308.19999998808
+                    },
+                    "totalMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "decodeMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "activationMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "lastLoad": null
+                  }
+                },
+                "backgrounds": null,
+                "tileWindow": {
+                  "mode": "scenic-v2",
+                  "schedulerEnabled": true,
+                  "windowChecks": 9,
+                  "syncs": 3,
+                  "skippedSyncs": 6,
+                  "forcedSyncs": 1,
+                  "tileInvalidations": 0,
+                  "lastSyncMs": 4.299999997019768,
+                  "maxSyncMs": 11,
+                  "lastSignature": "118:136:202:214",
+                  "reduced": true,
+                  "lastCellCount": 247,
+                  "assetsPending": 30,
+                  "assetsResident": 3,
+                  "assetsCancelled": 14,
+                  "demandStreamingEnabled": true,
+                  "demandedAssets": 28,
+                  "demandedAssetCounts": {
+                    "backdrop": 7,
+                    "terrain": 8,
+                    "groundStructures": 3,
+                    "undergroundDetails": 2,
+                    "backdropEnhancers": 8
+                  },
+                  "materialAssets": {
+                    "pendingAssets": 1,
+                    "waitingAssets": 1,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 1,
+                    "knownAssets": 1,
+                    "cancelledLoads": 0
+                  },
+                  "backdropAssets": {
+                    "pendingAssets": 6,
+                    "waitingAssets": 6,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 2,
+                    "knownAssets": 6,
+                    "cancelledLoads": 2
+                  },
+                  "terrainAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 5
+                  },
+                  "groundStructureAssets": {
+                    "pendingAssets": 3,
+                    "waitingAssets": 3,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 3,
+                    "cancelledLoads": 2
+                  },
+                  "skyAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 0,
+                    "activeAssets": 2,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 1
+                  },
+                  "undergroundDetailAssets": {
+                    "pendingAssets": 2,
+                    "waitingAssets": 2,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 2,
+                    "cancelledLoads": 2
+                  },
+                  "backdropEnhancerAssets": {
+                    "pendingAssets": 8,
+                    "waitingAssets": 8,
+                    "activeAssets": 0,
+                    "loadedAssets": 0,
+                    "retainedAssets": 0,
+                    "knownAssets": 8,
+                    "cancelledLoads": 2
+                  },
+                  "assetQueue": {
+                    "schemaVersion": 3,
+                    "enabled": true,
+                    "bitmapDecodeEnabled": true,
+                    "queued": 36,
+                    "active": 3,
+                    "activeKey": "world-visual-sky-atmosphere-foundation-v2",
+                    "activeKeys": [
+                      "world-visual-sky-atmosphere-foundation-v2",
+                      "world-visual-sky-cohesion-v1-sky04",
+                      "heavenblocks-devil-eclipse-backdrop-v1"
+                    ],
+                    "activeOwner": "sky-cohesion",
+                    "activeOwners": [
+                      "sky-cohesion",
+                      "sky-cohesion",
+                      "heavenblocks"
+                    ],
+                    "activeBackend": "bitmap",
+                    "activeElapsedMs": 1342.2,
+                    "queuedByOwner": {
+                      "material-field": 1,
+                      "depth-backdrop": 6,
+                      "terrain-variation": 8,
+                      "ground-structure": 3,
+                      "underground-detail": 2,
+                      "backdrop-enhancer": 8,
+                      "high-impact-fx-thunder": 3,
+                      "heavenblocks": 5
+                    },
+                    "maxQueueDepth": 40,
+                    "started": 3,
+                    "completed": 0,
+                    "failed": 0,
+                    "cancelled": 14,
+                    "deduplicated": 0,
+                    "bitmapFallbacks": 0,
+                    "externalLoaderWaits": 0,
+                    "decodedSources": 0,
+                    "textureMemory": {
+                      "estimatedBytes": 1144811620,
+                      "estimatedMiB": 1091.7774391174316,
+                      "highWatermarkBytes": 738197504,
+                      "highWatermarkMiB": 704,
+                      "lowWatermarkBytes": 671088640,
+                      "lowWatermarkMiB": 640,
+                      "overBudget": true,
+                      "sourceCount": 632,
+                      "registeredRuntimeTextures": 1,
+                      "bytesByOwner": {
+                        "boot-or-untracked": 1143157276,
+                        "feature-campfire": 1654344
+                      },
+                      "sampledAtMs": 19308.19999998808
+                    },
+                    "totalMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "decodeMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "activationMs": {
+                      "last": null,
+                      "p95": null,
+                      "max": null
+                    },
+                    "lastLoad": null
+                  }
+                },
+                "audio": {
+                  "schemaVersion": 1,
+                  "streamingEnabled": true,
+                  "registered": 292,
+                  "bootQueued": 15,
+                  "pending": 0,
+                  "residentMusic": 1,
+                  "residentVoices": 0
+                },
+                "assetLoads": {
+                  "schemaVersion": 3,
+                  "enabled": true,
+                  "bitmapDecodeEnabled": true,
+                  "queued": 36,
+                  "active": 3,
+                  "activeKey": "world-visual-sky-atmosphere-foundation-v2",
+                  "activeKeys": [
+                    "world-visual-sky-atmosphere-foundation-v2",
+                    "world-visual-sky-cohesion-v1-sky04",
+                    "heavenblocks-devil-eclipse-backdrop-v1"
+                  ],
+                  "activeOwner": "sky-cohesion",
+                  "activeOwners": [
+                    "sky-cohesion",
+                    "sky-cohesion",
+                    "heavenblocks"
+                  ],
+                  "activeBackend": "bitmap",
+                  "activeElapsedMs": 1342.4,
+                  "queuedByOwner": {
+                    "material-field": 1,
+                    "depth-backdrop": 6,
+                    "terrain-variation": 8,
+                    "ground-structure": 3,
+                    "underground-detail": 2,
+                    "backdrop-enhancer": 8,
+                    "high-impact-fx-thunder": 3,
+                    "heavenblocks": 5
+                  },
+                  "maxQueueDepth": 40,
+                  "started": 3,
+                  "completed": 0,
+                  "failed": 0,
+                  "cancelled": 14,
+                  "deduplicated": 0,
+                  "bitmapFallbacks": 0,
+                  "externalLoaderWaits": 0,
+                  "decodedSources": 0,
+                  "textureMemory": {
+                    "estimatedBytes": 1144811620,
+                    "estimatedMiB": 1091.7774391174316,
+                    "highWatermarkBytes": 738197504,
+                    "highWatermarkMiB": 704,
+                    "lowWatermarkBytes": 671088640,
+                    "lowWatermarkMiB": 640,
+                    "overBudget": true,
+                    "sourceCount": 632,
+                    "registeredRuntimeTextures": 1,
+                    "bytesByOwner": {
+                      "boot-or-untracked": 1143157276,
+                      "feature-campfire": 1654344
+                    },
+                    "sampledAtMs": 19308.19999998808
+                  },
+                  "totalMs": {
+                    "last": null,
+                    "p95": null,
+                    "max": null
+                  },
+                  "decodeMs": {
+                    "last": null,
+                    "p95": null,
+                    "max": null
+                  },
+                  "activationMs": {
+                    "last": null,
+                    "p95": null,
+                    "max": null
+                  },
+                  "lastLoad": null
+                },
+                "featureAssets": {
+                  "enabled": true,
+                  "groups": [
+                    {
+                      "id": "campfire-tier:1",
+                      "status": "ready",
+                      "consumers": 1,
+                      "pendingAssets": 0,
+                      "loadedAssets": 1,
+                      "totalAssets": 1,
+                      "progress": 1,
+                      "managedTextures": 1,
+                      "lastUsedAtMs": 19034
+                    }
+                  ],
+                  "readyGroups": 1,
+                  "loadingGroups": 0,
+                  "pendingAssets": 0,
+                  "evictions": 0,
+                  "failedGroups": 0,
+                  "cancelledGroups": 0
+                },
+                "saves": {
+                  "schemaVersion": 1,
+                  "pending": false,
+                  "scheduledRequests": 0,
+                  "coalescedRequests": 0,
+                  "scheduledFlushes": 0,
+                  "forcedFlushes": 0,
+                  "failedFlushes": 0,
+                  "capture": {
+                    "lastMs": 0,
+                    "maxMs": 0,
+                    "p95Ms": 0
+                  },
+                  "write": {
+                    "lastMs": 0,
+                    "maxMs": 0,
+                    "p95Ms": 0
+                  },
+                  "total": {
+                    "lastMs": 0,
+                    "maxMs": 0,
+                    "p95Ms": 0
+                  }
+                }
+              }
+            }
+          },
+          "findings": [],
+          "events": [
+            {
+              "id": 1,
+              "at": "2026-07-30T12:01:15.168Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: installed",
+              "context": {}
+            },
+            {
+              "id": 2,
+              "at": "2026-07-30T12:01:15.256Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: phaser-postboot",
+              "context": {}
+            },
+            {
+              "id": 3,
+              "at": "2026-07-30T12:01:25.130Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: MenuAudioScene:start",
+              "context": {}
+            },
+            {
+              "id": 4,
+              "at": "2026-07-30T12:01:26.635Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: BootScene:shutdown",
+              "context": {}
+            },
+            {
+              "id": 5,
+              "at": "2026-07-30T12:01:26.635Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: MainMenuScene:start",
+              "context": {}
+            },
+            {
+              "id": 6,
+              "at": "2026-07-30T12:01:26.664Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: WorldLoadScene:start",
+              "context": {}
+            },
+            {
+              "id": 7,
+              "at": "2026-07-30T12:01:29.627Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: MenuAudioScene:shutdown",
+              "context": {}
+            },
+            {
+              "id": 8,
+              "at": "2026-07-30T12:01:29.627Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: WorldLoadScene:shutdown",
+              "context": {}
+            },
+            {
+              "id": 9,
+              "at": "2026-07-30T12:01:29.628Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: PlayScene:start",
+              "context": {}
+            },
+            {
+              "id": 10,
+              "at": "2026-07-30T12:01:30.984Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: titan-discoveries-ready",
+              "context": {
+                "zones": 25,
+                "creatureFootprints": 25,
+                "surfaceSlots": 25,
+                "chamberCards": 25
+              }
+            },
+            {
+              "id": 11,
+              "at": "2026-07-30T12:01:30.993Z",
+              "code": "runtime-lifecycle",
+              "severity": "info",
+              "message": "Runtime lifecycle: npc-activity-ready",
+              "context": {
+                "actorCount": 6,
+                "anchorLocked": true,
+                "groundContactLocked": true
+              }
+            }
+          ],
+          "previousCritical": null
+        },
+        "uiErrors": [],
+        "renderer": {
+          "type": 2,
+          "width": 1280,
+          "height": 720
+        },
+        "camera": {
+          "width": 1280,
+          "height": 720,
+          "scrollX": 11345,
+          "scrollY": 19286,
+          "zoom": 1
+        },
+        "dom": {
+          "bodyBackground": "rgba(0, 0, 0, 0)",
+          "centerStack": [
+            {
+              "tag": "CANVAS",
+              "id": "",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "tag": "DIV",
+              "id": "game-root",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "tag": "BODY",
+              "id": "",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "tag": "HTML",
+              "id": "",
+              "className": "",
+              "background": "rgba(0, 0, 0, 0)"
+            }
+          ],
+          "canvases": [
+            {
+              "width": 1280,
+              "height": 720,
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1280,
+                "height": 720
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "assetResponses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    }
+  ],
+  "browserIssues": []
+}

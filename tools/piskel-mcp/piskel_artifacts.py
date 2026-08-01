@@ -13,6 +13,7 @@ from piskel_document import (
     piskel_grid,
     rel_path,
     repo_path,
+    save_pillow_image,
     write_json,
 )
 from piskel_frame_polish import analyze_frames, drift_summary
@@ -45,7 +46,14 @@ def write_preview(path: Path, frames: list[Image.Image], fps: int) -> None:
     ensure_parent(path)
     previews = [preview_frame(frame) for frame in frames]
     duration = max(1, round(1000 / max(1, fps)))
-    previews[0].save(path, save_all=True, append_images=previews[1:], duration=duration, loop=0)
+    save_pillow_image(
+        path,
+        previews[0],
+        save_all=True,
+        append_images=previews[1:],
+        duration=duration,
+        loop=0,
+    )
 
 
 def write_contact_sheet(path: Path, frames: list[Image.Image]) -> None:
@@ -61,7 +69,7 @@ def write_contact_sheet(path: Path, frames: list[Image.Image]) -> None:
         y = (index // columns) * cell
         sheet.paste(preview, (x, y))
         draw.text((x + 4, y + 4), str(index), fill=(255, 255, 255))
-    sheet.save(path)
+    save_pillow_image(path, sheet)
 
 
 def render_alignment_cell(
@@ -140,7 +148,7 @@ def write_alignment_overlay(
     for index, frame in enumerate(frames):
         preview = render_alignment_cell(frame, stats[index], index, median_center, median_anchor, policy, cell)
         sheet.paste(preview, ((index % columns) * cell, (index // columns) * cell))
-    sheet.save(path)
+    save_pillow_image(path, sheet)
 
 
 def write_drift_report(

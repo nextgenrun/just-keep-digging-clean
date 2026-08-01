@@ -1,14 +1,19 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 
 import { StarTalentRevealState } from "../systems/visual/StarTalentRevealState.js";
 import { evaluateRuntimeCanaries } from "../systems/health/runtimeCanaryChecks.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
+import { RUNTIME_CANARY_CONFIG } from "../values/runtimeCanaryConfig.js";
+import { STARLIGHT_TALENT_SIGN_ART } from "../values/starlightTalentSignArt.js";
 import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../values/starlightTalentTree.js";
-import { RUNTIME_CANARY_CONFIG } from "../values/runtimeCanaryConfig.js";
+import { PAUSE_MENU_LAYOUT } from "../values/uiLayout.js";
+import { fitUiModal } from "../ui/UiModalShell.js";
+import { resolveVisibleArtPlacement } from "../ui/overlays/starlightImagePlacement.js";
+import { resolveStarlightContentBounds } from "../ui/overlays/starlightTalentLayout.js";
 
 assert.equal(STARLIGHT_TALENT_TREE_CONFIG.branches.length, 2);
 assert.equal(STARLIGHT_TALENT_TREE_CONFIG.pages.length, 3);
@@ -34,6 +39,88 @@ assert.equal(
 for (const resourceType of STARLIGHT_TALENT_RESOURCE_ORDER) {
   assert.ok(ASSET_KEYS.constellations.signs[resourceType]);
 }
+const layout = STARLIGHT_TALENT_TREE_CONFIG.layout;
+assert.equal(
+  PAUSE_MENU_LAYOUT.maxWidth,
+  layout.pillarMaxWidthPx,
+  "ESC and Star Pillar must give the talent tree the same authored width",
+);
+assert.ok(
+  layout.referenceWidthPx
+    <= PAUSE_MENU_LAYOUT.maxWidth - layout.immersiveInsetPx * 2,
+  "the full-screen ESC host must contain the authored V4 composition width",
+);
+assert.ok(
+  layout.referenceHeightPx
+    <= PAUSE_MENU_LAYOUT.maxHeight - layout.immersiveInsetPx * 2,
+  "the full-screen ESC host must contain the authored V4 composition height",
+);
+function pauseTalentGeometry(viewportWidth, viewportHeight) {
+  const shell = fitUiModal(
+    { scale: { width: viewportWidth, height: viewportHeight } },
+    PAUSE_MENU_LAYOUT.maxWidth,
+    PAUSE_MENU_LAYOUT.maxHeight,
+  );
+  const page = {
+    x: 0,
+    y: 0,
+    width: shell.width - layout.immersiveInsetPx * 2,
+    height: shell.height - layout.immersiveInsetPx * 2,
+  };
+  const content = resolveStarlightContentBounds(page, layout);
+  return {
+    shell,
+    page,
+    content,
+    scale: Math.max(
+      layout.minimumLayoutScale,
+      Math.min(
+        1,
+        content.width / layout.referenceWidthPx,
+        content.height / layout.referenceHeightPx,
+      ),
+    ),
+  };
+}
+const wideEsc = pauseTalentGeometry(1280, 720);
+assert.deepEqual([wideEsc.page.width, wideEsc.page.height], [1144, 656]);
+assert.equal(wideEsc.scale, 1);
+const compactEsc = pauseTalentGeometry(960, 640);
+assert.ok(compactEsc.scale >= layout.minimumLayoutScale);
+assert.ok(compactEsc.content.width <= compactEsc.page.width);
+assert.ok(compactEsc.content.height <= compactEsc.page.height);
+assert.deepEqual(
+  layout.carouselSlotXFractions,
+  [0.25, 0.5, 0.75],
+  "live card centers must align to the measured foundation alcoves",
+);
+assert.deepEqual(
+  Object.keys(STARLIGHT_TALENT_SIGN_ART).sort(),
+  [...STARLIGHT_TALENT_RESOURCE_ORDER].sort(),
+);
+let hasMaterialCenterCorrection = false;
+for (const resourceType of STARLIGHT_TALENT_RESOURCE_ORDER) {
+  const art = STARLIGHT_TALENT_SIGN_ART[resourceType];
+  const placement = resolveVisibleArtPlacement(
+    art.sourceWidth,
+    art.sourceHeight,
+    art,
+    layout.nodeArtMaxWidthPx,
+    layout.nodeArtMaxHeightPx,
+  );
+  const centeredX = (
+    art.x + art.width / 2 - art.sourceWidth / 2
+  ) * placement.scale + placement.offsetX;
+  const centeredY = (
+    art.y + art.height / 2 - art.sourceHeight / 2
+  ) * placement.scale + placement.offsetY;
+  assert.ok(Math.abs(centeredX) < 1e-9 && Math.abs(centeredY) < 1e-9);
+  hasMaterialCenterCorrection ||= Math.max(
+    Math.abs(placement.offsetX),
+    Math.abs(placement.offsetY),
+  ) >= 8;
+}
+assert.equal(hasMaterialCenterCorrection, true);
 assert.ok(
   STARLIGHT_TALENT_TREE_CONFIG.layout.nodeHeightPx >= 210,
   "the five-card branch page must retain the large approved card treatment",
@@ -44,26 +131,35 @@ assert.equal(
   "each branch must show only three widely separated cards at once",
 );
 assert.ok(
-  STARLIGHT_TALENT_TREE_CONFIG.layout.foundationAspectRatio > 2.3,
-  "the runtime foundation must be authored for the ultra-wide host ratio",
+  STARLIGHT_TALENT_TREE_CONFIG.layout.foundationAspectRatio > 1.75
+    && STARLIGHT_TALENT_TREE_CONFIG.layout.foundationAspectRatio < 1.8,
+  "the runtime foundation must retain the approved tall 16:9-like composition",
 );
 assert.ok(
-  STARLIGHT_TALENT_TREE_CONFIG.layout.nodeWidthPx >= 150,
+  STARLIGHT_TALENT_TREE_CONFIG.layout.nodeWidthPx >= 240,
   "carousel cards must retain their large authored treatment",
 );
 assert.ok(
-  STARLIGHT_TALENT_TREE_CONFIG.layout.carouselFlankScale <= 0.8
-    && STARLIGHT_TALENT_TREE_CONFIG.layout.carouselFlankAlpha <= 0.6,
+  layout.carouselFlankScale <= 0.85
+    && layout.carouselFlankAlpha <= 0.75,
   "side choices must read as quiet previews instead of competing focal cards",
 );
 assert.ok(
-  STARLIGHT_TALENT_TREE_CONFIG.layout.detailBodyMinimumFontSizePx >= 10
-    && STARLIGHT_TALENT_TREE_CONFIG.layout.detailMetaMinimumFontSizePx >= 9,
+  layout.detailTitleMinimumFontSizePx >= 22
+    && layout.detailBodyMinimumFontSizePx >= 12
+    && layout.detailMetaMinimumFontSizePx >= 10,
   "the detail dossier must retain readable minimum typography",
 );
 assert.ok(
-  STARLIGHT_TALENT_TREE_CONFIG.layout.engineArtMaxPx >= 110,
+  layout.nodeArtMaxWidthPx >= 200 && layout.engineArtMaxPx >= 200,
   "the dedicated Engine page must not regress to footer-sized medallions",
+);
+assert.ok(
+  layout.detailProgressOffsetYPx
+    + layout.detailXpBarOffsetYPx
+    + layout.detailXpBarHeightPx / 2
+    <= layout.referenceHeightPx,
+  "the simplified dossier must stay inside the authored lower panel",
 );
 const starlightTextureKeys = ASSET_KEYS.ui.starlightTalentTree;
 assert.equal(Object.keys(starlightTextureKeys).length, 29);
@@ -73,29 +169,38 @@ assert.deepEqual(
 );
 const starlightManifest = JSON.parse(await readFile(
   new URL(
+    "../sprites/UI/starlight-talent-tree-v4/manifest-v4.json",
+    import.meta.url,
+  ),
+  "utf8",
+));
+assert.equal(starlightManifest.runtimeAssetCount, 29);
+const v4RuntimeFiles = (await readdir(new URL(
+  "../sprites/UI/starlight-talent-tree-v4/",
+  import.meta.url,
+))).filter(fileName => fileName.endsWith(".png"));
+assert.deepEqual(
+  Object.values(STARLIGHT_TALENT_TREE_CONFIG.assets.files).sort(),
+  v4RuntimeFiles.sort(),
+  "Boot preload names and the hash-pinned ImageGen inventory must stay exact",
+);
+assert.equal(
+  starlightManifest.foundation.file,
+  "starlight-mockup-foundation-v4.png",
+);
+assert.equal(starlightManifest.foundation.width, 1672);
+assert.equal(starlightManifest.foundation.height, 941);
+assert.equal(
+  starlightManifest.foundation.sha256,
+  "55d30c1ff7f7ff86f20c3a5ae08d9c534eeff7d2941b0e7350a5816a2dbc519d",
+);
+const inheritedManifest = JSON.parse(await readFile(
+  new URL(
     "../sprites/UI/starlight-talent-tree-v3/manifest-v3.json",
     import.meta.url,
   ),
   "utf8",
 ));
-assert.equal(Object.keys(starlightManifest.assets).length, 29);
-assert.deepEqual(
-  Object.values(STARLIGHT_TALENT_TREE_CONFIG.assets.files).sort(),
-  Object.keys(starlightManifest.assets).sort(),
-  "Boot preload names and the hash-pinned ImageGen inventory must stay exact",
-);
-assert.equal(
-  starlightManifest.assets["starlight-ultrawide-foundation-v3.png"].mode,
-  "RGB",
-);
-assert.equal(
-  starlightManifest.assets["starlight-ultrawide-foundation-v3.png"].width,
-  1939,
-);
-assert.equal(
-  starlightManifest.assets["starlight-ultrawide-foundation-v3.png"].height,
-  811,
-);
 for (const alphaAssetName of [
   "star-heart-ui-v2.png",
   "wayward-star-ui-v2.png",
@@ -114,9 +219,9 @@ for (const alphaAssetName of [
   "carousel-step-idle-v3.png",
   "carousel-step-active-v3.png",
 ]) {
-  assert.equal(starlightManifest.assets[alphaAssetName].mode, "RGBA");
+  assert.equal(inheritedManifest.assets[alphaAssetName].mode, "RGBA");
   assert.deepEqual(
-    starlightManifest.assets[alphaAssetName].alphaExtrema,
+    inheritedManifest.assets[alphaAssetName].alphaExtrema,
     [0, 255],
   );
 }
@@ -217,6 +322,8 @@ const [
   carouselSource,
   engineDetailSource,
   layoutSource,
+  healthSource,
+  placementSource,
   uiKitSource,
 ] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
@@ -271,6 +378,20 @@ const [
     ),
     "utf8",
   ),
+  readFile(
+    new URL(
+      "../ui/overlays/starlightTalentTreeHealth.js",
+      import.meta.url,
+    ),
+    "utf8",
+  ),
+  readFile(
+    new URL(
+      "../ui/overlays/starlightImagePlacement.js",
+      import.meta.url,
+    ),
+    "utf8",
+  ),
   readFile(new URL("../ui/PhaserUiKit.js", import.meta.url), "utf8"),
 ]);
 assert.match(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"TALENTS"/);
@@ -278,6 +399,9 @@ assert.match(pauseSource, /new StarlightTalentTreeView/);
 assert.match(pauseSource, /initialTabKey/);
 assert.match(pauseSource, /onVertical:\s*direction/);
 assert.match(setupSource, /createStarlightTalentTreeView/);
+assert.match(pauseSource, /setTalentImmersive\(true\)/);
+assert.match(pauseSource, /width:\s*shell\.width\s*-\s*inset\s*\*\s*2/);
+assert.match(pillarSource, /width:\s*this\._starShell\.width\s*-\s*inset\s*\*\s*2/);
 assert.match(setupSource, /starPillarSystem\?\.onCollectedSkyStar\?\.\(detail\)/);
 assert.match(pillarSource, /queueFirstStar\(detail\)/);
 assert.match(pillarSource, /initialTabKey:\s*"talents"/);
@@ -286,11 +410,13 @@ assert.match(pillarSource, /createStarlightTalentTreeView/);
 assert.match(pillarSource, /skinTexture:\s*ASSET_KEYS\.ui\.starlightTalentTree\.modalShell/);
 assert.match(pillarSource, /iconTexture:\s*ASSET_KEYS\.ui\.starlightTalentTree\.modalCrest/);
 assert.match(pillarSource, /closeTexture:\s*ASSET_KEYS\.ui\.starlightTalentTree\.modalClose/);
-assert.match(treeSource, /Object\.values\(ASSET_KEYS\.ui\.starlightTalentTree\)/);
-assert.match(treeSource, /visiblePageCount\s*===\s*1/);
-assert.match(treeSource, /visibleBranchCardCounts/);
+assert.match(treeSource, /buildStarlightTalentTreeHealth/);
+assert.match(healthSource, /Object\.values\(ASSET_KEYS\.ui\.starlightTalentTree\)/);
+assert.match(healthSource, /visiblePageCount\s*===\s*1/);
+assert.match(healthSource, /visibleBranchCardCounts/);
 assert.match(treeSource, /pageIndexForResource/);
 assert.doesNotMatch(treeSource, /createPanel/);
+assert.doesNotMatch(healthSource, /\.add\.graphics/);
 assert.doesNotMatch(presentationSource, /\.add\.graphics/);
 assert.doesNotMatch(navigationSource, /\.add\.graphics/);
 assert.doesNotMatch(enginePageSource, /\.add\.graphics/);
@@ -298,9 +424,18 @@ assert.doesNotMatch(carouselSource, /\.add\.graphics/);
 assert.doesNotMatch(engineDetailSource, /\.add\.graphics/);
 assert.doesNotMatch(nodeSource, /createUiIcon/);
 assert.doesNotMatch(detailSource, /createUiIcon/);
+assert.match(nodeSource, /fitStarlightSign/);
+assert.match(detailSource, /fitStarlightSign/);
+assert.match(placementSource, /resolveVisibleArtPlacement/);
+assert.doesNotMatch(nodeSource, /textures\.nodeQuickslash/);
+assert.doesNotMatch(detailSource, /detailPassiveOffsetYPx/);
 assert.match(nodeSource, /visibleChrome:\s*false/);
 assert.match(engineCardSource, /visibleChrome:\s*false/);
 assert.match(navigationSource, /visibleChrome:\s*false/);
+assert.match(nodeSource, /carouselCenterRibbonEmbedded/);
+assert.match(engineCardSource, /carouselCenterRibbonEmbedded/);
+assert.match(navigationSource, /setVisible\(selected\)/);
+assert.doesNotMatch(navigationSource, /navigationPlaqueIdle/);
 assert.doesNotMatch(navigationSource, /underline/);
 assert.match(carouselSource, /starlightTalentTree\.ultrawideFoundation/);
 assert.match(carouselSource, /carouselArrowHoverTravelPx/);
@@ -310,7 +445,7 @@ assert.doesNotMatch(enginePageSource, /onFocus:/);
 assert.doesNotMatch(navigationSource, /onFocus:/);
 assert.doesNotMatch(nodeSource, /repeat:\s*-1/);
 assert.doesNotMatch(engineCardSource, /repeat:\s*-1/);
-assert.match(treeSource, /steadyMotionLoopCount/);
+assert.match(healthSource, /steadyMotionLoopCount/);
 assert.match(treeSource, /clearSummary/);
 assert.match(enginePageSource, /const wasCentered/);
 assert.match(enginePageSource, /if \(wasCentered\) view\.onEngineAction/);
@@ -329,6 +464,20 @@ assert.match(
 );
 assert.match(
   harnessSource,
+  /params\.get\("shell"\) === "pause"/,
+  "the visual harness must reproduce both the Star Pillar and ESC shells",
+);
+assert.match(
+  harnessSource,
+  /layout\.immersiveInsetPx/,
+  "ESC visual QA must use the same full-shell inset as the live pause menu",
+);
+assert.match(
+  harnessSource,
+  /mode:\s*shellMode/,
+);
+assert.match(
+  harnessSource,
   /isGodModeActive:\s*\(\) => godMode/,
   "God Mode browser QA must drive the same ability-status contract as production",
 );
@@ -339,4 +488,11 @@ assert.doesNotMatch(
 );
 assert.match(engineCardSource, /onPress/);
 
-console.log("starlight talent tree contract: click-only horizontal carousel, one-loop motion budget, native-ultrawide spacing, readable live-copy plaques, Engine caps, Bobo seal, first-reveal routing, and worker-backed health alerts passed");
+const pauseChromeSource = await readFile(
+  new URL("../ui/overlays/starlightPauseTalentChrome.js", import.meta.url),
+  "utf8",
+);
+assert.match(pauseChromeSource, /"PAUSED"/);
+assert.match(pauseChromeSource, /Run controls, progression, and settings/);
+
+console.log("starlight talent tree contract: mockup-ratio V4 ESC parity, large measured card and visible-art centering, authored ImageGen chrome, readable dossier, click-only carousel, Engine caps, Bobo seal, first-reveal routing, and worker health alerts passed");

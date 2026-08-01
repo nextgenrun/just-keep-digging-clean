@@ -129,6 +129,8 @@ const scene = {
 };
 
 const renderer = new SkyBeaconPulseRenderer(scene, visuals);
+assert.equal(imageRecords.length, 0, "the pulse pool must wait for demand-ready textures");
+renderer.beginFrame();
 assert.equal(imageRecords.length, 1, "the runtime must pool exactly one pulse sprite");
 
 const tileSize = 94;

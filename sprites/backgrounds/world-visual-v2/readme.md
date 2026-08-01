@@ -2,19 +2,30 @@
 
 Production source plates for the scenic-v2 world renderer.
 
-- `far/moonlit-mountain-forest-v1.png`: opaque far parallax plate.
-- `far/sky-cohesion-v1/`: twenty additive, complete native-density sky cards in
-  a gap-free overlap grid. Balanced reuse covers the whole sky; deterministic
-  incoming-edge crossfades retain an opaque card beneath every join.
+- `far/moonlit-mountain-forest-v1.png`: original opaque tree/mountain surface
+  plate and stable Titan-promenade background.
+- `far/sky-foundation-v2/`: retained seamless atmosphere plus an immediate
+  cobalt runtime fallback behind the forest plate.
+- `far/sky-cohesion-v1/`: twenty native-density sky feature paintings routed
+  through explicit world/altitude order and four-edge foundation fades.
 - `mid/town-row-hero-v1.png`: alpha town midground aligned by its door baseline.
 - `surface/town-surface-edge-thin-v2.png`: production 1672x48 approved-slate
   walk-surface cap, mirrored and overlapped across all 280 columns without
   owning collision.
 - `surface/town-surface-edge-v1.png`: retained deeper natural-edge provenance.
 - `materials/town-dark-earth-v1.png`: continuous terrain material for the surface mine.
+- `semantic-decals-v1/ground-damage-imagegen-v1.png`: universal 120-frame
+  transparent ground-damage atlas with ten coordinate-stable families and
+  twelve cumulative proportional-HP states.
 - `depth/shallow-cavern-backwall-v1.png`: streamed opaque shallow-cavern plate covering runtime rows 65..159.
 - `depth/foreground-cohesion-v1/`: ten additive alpha-foreground plates, one
   dedicated terrain-masked world placement per biome.
+- `depth/terrain-seam-blend-v6/` and `depth/biome-ground-structures-v6/`:
+  complementary incoming-edge derivatives over every retained V4/V5 terrain
+  plate and V3 structure composition.
+- `depth/underground-foreground-textures-v6/` and
+  `depth/underground-overlay-props-v6/`: twenty streamed biome atlases exposing
+  400 localized terrain-masked ImageGen details.
 - `sources/`: retained chroma-key generations used to produce the alpha assets.
 
 These are layered runtime sources, not flattened HTML mockups. Geometry, digging, damage, and resource authority remain in `WorldModel`.

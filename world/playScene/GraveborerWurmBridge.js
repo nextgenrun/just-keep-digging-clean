@@ -2,6 +2,11 @@ import { GraveborerWurmSystem } from "../../systems/environment/GraveborerWurmSy
 import { GraveborerWurmHudSystem } from "../../systems/visual/GraveborerWurmHudSystem.js";
 import { GraveborerWurmVisualSystem } from "../../systems/visual/GraveborerWurmVisualSystem.js";
 import {
+  USER_SETTINGS,
+  keyToPhaserKey,
+  normalizeKey,
+} from "../../systems/UserSettings.js";
+import {
   GRAVEBORER_WURM_CONFIG,
   GRAVEBORER_WURM_PHASES,
   sanitizeGraveborerWurmData,
@@ -9,6 +14,7 @@ import {
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
 import { handleGraveborerWurmEvents } from "./GraveborerWurmEventBridge.js";
+import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 
 function readBooleanQuery(params, name, fallback) {
   if (!params.has(name)) return fallback;
@@ -90,6 +96,44 @@ export function forceGraveborerWurmEncounter(scene) {
   return true;
 }
 
+function createDevSummonKeys(scene, enabled) {
+  if (!enabled || !scene.input?.keyboard?.addKey) return [];
+  const names = [
+    ...new Set(
+      (GRAVEBORER_WURM_CONFIG.devControls.summonKeyCandidates || [])
+        .map(normalizeKey)
+        .filter(Boolean),
+    ),
+  ];
+  const bindings = names
+    .map(name => ({ name, keyCode: keyToPhaserKey(name) }))
+    .filter(binding => binding.keyCode)
+    .map(binding => ({
+      ...binding,
+      key: scene.input.keyboard.addKey(binding.keyCode),
+    }));
+  scene.input.keyboard.addCapture?.(bindings.map(binding => binding.keyCode));
+  return bindings;
+}
+
+function isConfiguredKey(name) {
+  return Object.values(USER_SETTINGS.getKeybinds?.() || {})
+    .some(boundKey => normalizeKey(boundKey) === name);
+}
+
+function consumeDevSummonInput(scene, runtime) {
+  if (
+    !runtime.devToolsEnabled
+    || scene.gameState !== "playing"
+    || scene._settingsKeyCaptureActive
+    || hasEscapeClosableUi(scene)
+  ) return false;
+  const binding = runtime.devSummonKeys.find(candidate => !isConfiguredKey(candidate.name));
+  return binding
+    ? Phaser.Input.Keyboard.JustDown(binding.key) === true
+    : false;
+}
+
 function installDiagnostics(scene, runtime) {
   const key = GRAVEBORER_WURM_CONFIG.diagnostics.globalKey;
   if (!runtime.devToolsEnabled || typeof globalThis.window === "undefined") return;
@@ -134,6 +178,7 @@ export function createGraveborerWurmRuntime(scene) {
     visual: new GraveborerWurmVisualSystem(scene),
     hud: null,
     devToolsEnabled: GAME_CONFIG.debugMode === true,
+    devSummonKeys: [],
     forcedDevEncounter: false,
     devSaveIsolation: flags.devTest10x === true,
     lastGate: null,
@@ -143,14 +188,8 @@ export function createGraveborerWurmRuntime(scene) {
     lastHit: null,
     diagnosticsApi: null,
   };
-  runtime.hud = new GraveborerWurmHudSystem(
-    scene,
-    GRAVEBORER_WURM_CONFIG,
-    {
-      devToolsEnabled: runtime.devToolsEnabled,
-      onSummon: () => forceGraveborerWurmEncounter(scene),
-    },
-  );
+  runtime.devSummonKeys = createDevSummonKeys(scene, runtime.devToolsEnabled);
+  runtime.hud = new GraveborerWurmHudSystem(scene, GRAVEBORER_WURM_CONFIG);
   scene.graveborerWurmRuntime = runtime;
   scene.graveborerWurmSystem = system;
   scene.graveborerWurmData = system.getSaveData();
@@ -167,6 +206,9 @@ export function createGraveborerWurmRuntime(scene) {
 export function updateGraveborerWurmRuntime(scene, time, delta, playerTile) {
   const runtime = scene.graveborerWurmRuntime;
   if (!runtime) return null;
+  if (consumeDevSummonInput(scene, runtime)) {
+    forceGraveborerWurmEncounter(scene);
+  }
   runtime.lastGate = resolveGraveborerWurmActivation(
     scene,
     playerTile,
@@ -257,6 +299,8 @@ export function destroyGraveborerWurmRuntime(scene) {
   }
   runtime.visual?.destroy?.();
   runtime.hud?.destroy?.();
+  runtime.devSummonKeys?.forEach(binding => binding.key?.destroy?.());
+  runtime.devSummonKeys = [];
   scene.graveborerWurmRuntime = null;
   scene.graveborerWurmSystem = null;
 }

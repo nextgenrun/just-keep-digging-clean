@@ -7,10 +7,20 @@ import {
   buildHardcoreDeathRecapPages,
   sanitizeHardcoreMemorialRecord,
 } from "../systems/hardcore/hardcoreMemorialRecord.js";
-import { HardcoreMemorialWorldSystem } from "../systems/visual/HardcoreMemorialWorldSystem.js";
+import {
+  HardcoreMemorialWorldSystem,
+  resolveHardcoreMemorialGroundAnchor,
+} from "../systems/visual/HardcoreMemorialWorldSystem.js";
 import { HardcoreDeathRecapView } from "../ui/overlays/HardcoreDeathRecapView.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../values/hardcoreMemorials.js";
+import {
+  UAL_NATIVE_PLAYER_ASSET_PROFILE,
+} from "../values/ualNativePlayerAssetProfile.js";
+import {
+  requestHardcoreMemorialInspection,
+} from "../world/playScene/HardcoreModalStateBridge.js";
+import { readWebpMetadata } from "./2026-07-28-webp-test-utils.mjs";
 
 class MemoryStorage {
   constructor() {
@@ -37,7 +47,11 @@ function createDisplayObject(x = 0, y = 0) {
     visible: true,
     children: [],
     setVisible(value) { this.visible = value; return this; },
-    setOrigin() { return this; },
+    setOrigin(originX, originY = originX) {
+      this.originX = originX;
+      this.originY = originY;
+      return this;
+    },
     setDisplaySize(width, height) {
       this.displayWidth = width;
       this.displayHeight = height;
@@ -49,6 +63,11 @@ function createDisplayObject(x = 0, y = 0) {
     setColor(value) { this.color = value; return this; },
     setAlpha(value) { this.alpha = value; return this; },
     setDepth(value) { this.depth = value; return this; },
+    setPosition(nextX, nextY) {
+      this.x = nextX;
+      this.y = nextY;
+      return this;
+    },
     setScale(xValue, yValue = xValue) {
       this.scaleX = xValue;
       this.scaleY = yValue;
@@ -65,20 +84,43 @@ function createDisplayObject(x = 0, y = 0) {
   };
 }
 
-function createVisualScene() {
+function createVisualScene({ solidTiles = [] } = {}) {
   const images = [];
   const texts = [];
   const containers = [];
   const notices = [];
+  const inspections = [];
+  const solids = new Set(solidTiles.map(([tileX, tileY]) => `${tileX},${tileY}`));
+  const tileSize = 94;
+  const worldWidthTiles = 320;
+  const worldDepthTiles = 3200;
   return {
     images,
     texts,
     containers,
     notices,
+    inspections,
     config: {
-      tileSize: 94,
-      worldWidthPx: 30000,
-      worldDepthPx: 300000,
+      tileSize,
+      worldWidthPx: worldWidthTiles * tileSize,
+      worldDepthPx: worldDepthTiles * tileSize,
+    },
+    worldModel: {
+      widthTiles: worldWidthTiles,
+      depthTiles: worldDepthTiles,
+      widthPx: worldWidthTiles * tileSize,
+      inBounds: (tileX, tileY) => (
+        tileX >= 0
+        && tileX < worldWidthTiles
+        && tileY >= 0
+        && tileY < worldDepthTiles
+      ),
+      isSolid: (tileX, tileY) => solids.has(`${tileX},${tileY}`),
+      setSolid(tileX, tileY, solid) {
+        const key = `${tileX},${tileY}`;
+        if (solid) solids.add(key);
+        else solids.delete(key);
+      },
     },
     textures: { exists: () => true },
     add: {
@@ -107,6 +149,10 @@ function createVisualScene() {
     },
     uiNotifications: {
       warning: (message, options) => notices.push({ message, options }),
+    },
+    inspectHardcoreMemorial: (value) => {
+      inspections.push(value);
+      return true;
     },
   };
 }
@@ -220,24 +266,129 @@ recapView.show({
 recapView.setReady("SLOT 2");
 recapView.handleKey({ key: "Enter" });
 assert.equal(retried, 1);
+
+let memorialClosed = 0;
+recapView.showMemorial({
+  reason: record.reason,
+  depth: record.depth,
+  slotId: record.slotId,
+  pages,
+  onClose: () => { memorialClosed += 1; },
+});
+assert.equal(recapView.mode, "memorial");
+assert.equal(recapView.retryButton.visible, true);
+assert.equal(recapView.menuButton.visible, false);
+assert.equal(
+  recapView.retryButton.actionLabel.text,
+  config.copy.memorialCloseLabel,
+);
+assert.match(recapView.subtitle.text, /SLOT 2/);
+assert.equal(recapView.pageTitle.text, pages[0].title);
+recapView.handleKey({ key: "ArrowLeft" });
+assert.equal(recapView.pageTitle.text, pages.at(-1).title);
+recapView.handleKey({ key: "Escape" });
+assert.equal(memorialClosed, 1);
 recapView.destroy();
 
-const graveScene = createVisualScene();
+const deathTileX = Math.floor(rawRecord.position.worldX / 94);
+const supportTileY = Math.floor(rawRecord.position.worldY / 94) + 4;
+const graveScene = createVisualScene({
+  solidTiles: [[deathTileX, supportTileY]],
+});
+const anchor = resolveHardcoreMemorialGroundAnchor(
+  graveScene.worldModel,
+  rawRecord.position.worldX,
+  rawRecord.position.worldY,
+  graveScene.config.tileSize,
+);
+assert.equal(anchor.tileX, deathTileX);
+assert.equal(anchor.supportTileY, supportTileY);
+assert.equal(anchor.worldY, supportTileY * graveScene.config.tileSize);
 const graveSystem = new HardcoreMemorialWorldSystem(graveScene, [record]);
 assert.equal(graveSystem.entries.length, 1);
+assert.equal(
+  config.world.heightTiles,
+  UAL_NATIVE_PLAYER_ASSET_PROFILE.targetVisibleHeightTiles,
+  "The death memorial must match the authored visible player height",
+);
 assert.equal(
   graveSystem.entries[0].root.depth,
   config.world.depth,
 );
 assert.equal(
+  graveSystem.entries[0].root.y,
+  supportTileY * graveScene.config.tileSize,
+  "An airborne death memorial must sit on the first authoritative floor below it",
+);
+assert.notEqual(
+  graveSystem.entries[0].root.y,
+  record.position.worldY,
+  "The grave must not reuse an airborne death coordinate as its ground",
+);
+assert.equal(
   graveSystem.entries[0].image.displayHeight,
   config.world.heightTiles * graveScene.config.tileSize,
 );
+assert.equal(
+  graveSystem.entries[0].image.displayWidth,
+  graveSystem.entries[0].image.displayHeight * config.world.widthToHeightRatio,
+  "The player-scale memorial must retain its authored 512x768 aspect ratio",
+);
+assert.equal(
+  graveSystem.entries[0].image.originY,
+  config.world.visibleAlphaBottomRatio,
+  "The measured visible stone base, not the transparent canvas edge, must touch ground",
+);
 graveSystem.entries[0].image.emit("pointerdown");
-assert.equal(graveScene.notices.length, 1);
-assert.match(graveScene.notices[0].message, /777M/);
-assert.match(graveScene.notices[0].message, /Graveborer Wurm/);
+assert.equal(graveScene.notices.length, 0);
+assert.equal(graveScene.inspections.length, 1);
+assert.equal(graveScene.inspections[0].id, record.id);
+
+graveScene.worldModel.setSolid(deathTileX, supportTileY, false);
+graveScene.worldModel.setSolid(deathTileX, supportTileY + 3, true);
+graveSystem.update();
+assert.equal(
+  graveSystem.entries[0].root.y,
+  (supportTileY + 3) * graveScene.config.tileSize,
+  "A memorial must settle onto the next floor if its support is mined",
+);
 graveSystem.destroy();
+
+let modalOptions = null;
+let controlsEnabled = true;
+let aimVisible = true;
+const modalScene = {
+  gameState: "playing",
+  _hardcoreDeathInProgress: false,
+  _hardcoreRuntime: {
+    modal: {
+      isVisible: false,
+      showMemorial: (options) => {
+        modalOptions = options;
+        return true;
+      },
+    },
+  },
+  hidePauseMenu() {},
+  shopOverlay: { hide() {} },
+  playerController: {
+    setControlsEnabled: value => { controlsEnabled = value; },
+  },
+  aimBox: {
+    setVisible: value => { aimVisible = value; },
+  },
+};
+assert.equal(requestHardcoreMemorialInspection(modalScene, record), true);
+assert.equal(modalScene.gameState, "hardcore-modal");
+assert.equal(controlsEnabled, false);
+assert.equal(aimVisible, false);
+assert.equal(modalOptions.pages.length, pages.length);
+assert.ok(modalOptions.pages.some(page => page.type === "stats"));
+assert.ok(modalOptions.pages.some(page => page.type === "achievements"));
+modalOptions.onClose();
+assert.equal(modalScene.gameState, "playing");
+assert.equal(controlsEnabled, true);
+assert.equal(aimVisible, true);
 
 const store = new HardcoreMemorialStore({ storage });
 assert.equal(store.append(record).persisted, true);
@@ -270,6 +421,15 @@ assert.equal(
 assert.ok(store.getAll().length <= config.persistence.maximumRecords);
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const graveMetadata = readWebpMetadata(resolve(root, config.assets.grave.path));
+assert.deepEqual(
+  { width: graveMetadata.width, height: graveMetadata.height },
+  { width: 512, height: 768 },
+);
+assert.equal(
+  config.world.widthToHeightRatio,
+  graveMetadata.width / graveMetadata.height,
+);
 for (const asset of Object.values(config.assets)) {
   const path = resolve(root, asset.path);
   assert.equal(existsSync(path), true, `Missing memorial asset ${asset.path}`);
@@ -286,8 +446,15 @@ const sourceContracts = [
   ["world/playScene/HardcoreDeathBridge.js", "isNewSave: true"],
   ["world/playScene/HardcoreDeathBridge.js", 'createHardcoreModeData("hardcore")'],
   ["ui/overlays/HardcoreModalOverlay.js", "new HardcoreDeathRecapView("],
-  ["ui/overlays/HardcoreDeathRecapView.js", "deathActionButton"],
+  ["ui/overlays/HardcoreModalOverlay.js", "showMemorial("],
+  ["ui/overlays/hardcoreRecapAction.js", "deathActionButton"],
+  ["ui/overlays/HardcoreDeathRecapView.js", "showMemorial("],
   ["systems/visual/HardcoreMemorialWorldSystem.js", "hardcoreMemorial"],
+  ["systems/visual/HardcoreMemorialWorldSystem.js", "inspectHardcoreMemorial"],
+  ["world/playScene/HardcoreModalStateBridge.js", "buildHardcoreDeathRecapPages"],
+  ["world/playScene/HardcoreModalStateBridge.js", "runtime.modal.showMemorial"],
+  ["world/playScene/HardcoreModeBridge.js", "inspectHardcoreMemorial"],
+  ["world/playScene/PlaySceneUpdate.js", "hardcoreMemorialSystem?.update?.()"],
   ["world/model/DugTilesSaveStore.js", "_hasStoredArmedHardcoreRun"],
   ["world/model/DugTilesSaveStore.js", "PERMANENT_DEATH_TOMBSTONE_TOKEN"],
 ];
@@ -297,6 +464,7 @@ for (const [relativePath, expected] of sourceContracts) {
 }
 
 for (const relativePath of [
+  "ui/overlays/hardcoreRecapAction.js",
   "ui/overlays/HardcoreDeathRecapView.js",
   "systems/visual/HardcoreMemorialWorldSystem.js",
 ]) {

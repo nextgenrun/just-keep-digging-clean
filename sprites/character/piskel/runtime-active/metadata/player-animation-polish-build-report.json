@@ -1,14 +1,14 @@
 {
-  "version": "survival-player-animation-polish-v1-20260728",
+  "version": "survival-player-animation-polish-v2-20260731",
   "transitions": {
-    "frameCount": 61,
+    "frameCount": 133,
     "bottomDriftPx": 3.0,
-    "rootAnchorDriftPx": 11.479
+    "rootAnchorDriftPx": 14.113
   },
   "diagonalDig": {
     "frameCount": 120,
     "bottomDriftPx": 1.0,
-    "rootAnchorDriftPx": 19.049
+    "rootAnchorDriftPx": 15.703
   },
   "reviewPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-runtime-review.png",
   "transitionPiskel": {
@@ -18,16 +18,16 @@
       "source": "sprites/character/piskel/runtime-active/player-animation-polish-transitions.piskel",
       "errors": [],
       "warnings": [],
-      "frameCount": 61,
+      "frameCount": 133,
       "frameSize": [
         256,
         256
       ],
       "fps": 30,
       "anchorMode": "alpha-lower-body",
-      "maxCenterDriftPx": 10.63,
-      "maxBBoxCenterDriftPx": 28.5,
-      "maxRootAnchorDriftPx": 10.63,
+      "maxCenterDriftPx": 10.88,
+      "maxBBoxCenterDriftPx": 36.5,
+      "maxRootAnchorDriftPx": 10.88,
       "maxBottomDriftPx": 1.0,
       "medianBBoxHeightPx": 156.0
     },
@@ -38,16 +38,24 @@
       ],
       "sheetGrid": [
         16,
-        4
+        9
       ],
       "sheetSize": [
         4096,
-        1024
+        2304
       ],
       "unusedGridFrames": [
-        61,
-        62,
-        63
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
       ]
     },
     "artifacts": {
@@ -72,11 +80,11 @@
       ],
       "fps": 30,
       "anchorMode": "alpha-lower-body",
-      "maxCenterDriftPx": 11.19,
-      "maxBBoxCenterDriftPx": 38.5,
-      "maxRootAnchorDriftPx": 11.19,
+      "maxCenterDriftPx": 10.69,
+      "maxBBoxCenterDriftPx": 24.5,
+      "maxRootAnchorDriftPx": 10.69,
       "maxBottomDriftPx": 1.0,
-      "medianBBoxHeightPx": 153.5
+      "medianBBoxHeightPx": 158.0
     },
     "runtime": {
       "runtimeMode": "sheet",

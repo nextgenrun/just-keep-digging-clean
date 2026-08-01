@@ -7,6 +7,7 @@ import {
   TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../values/retentionConfig.js";
+import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../values/upgradeDefinitions.js";
 import { sanitizePlayerPersistenceData } from "../values/playerPersistence.js";
 import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
 
@@ -70,6 +71,7 @@ const restored = {
   worldModel: { widthPx: 280 * 94, depthTiles: 5065 },
   config: { tileSize: 94 },
   surfaceDrop: { reset() {} },
+  movingSideDigStandOff: { end() {} },
   collisionSystem: { resolveBodyOverlap: () => true },
   setFacingRight(value) {
     this.facingRight = value;
@@ -103,7 +105,9 @@ tutorial.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
 tutorial.recordSale(1, 1);
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
-tutorial.recordUpgrade("Agility Training");
+tutorial.recordUpgrade("Miner's Grip", {
+  upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
+});
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
 assert.equal(tutorial.claimTutorialCompletionReward().freeFlightMs, 30000);
 

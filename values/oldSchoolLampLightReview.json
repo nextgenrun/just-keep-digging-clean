@@ -1,0 +1,105 @@
+{
+  "id": "old-school-lamp-light-v1",
+  "date": "2026-07-30",
+  "generationMode": "built-in-imagegen",
+  "reviewOnly": true,
+  "sourceRoot": "sprites/environment/old-school-lamp-light-v1/source-masters",
+  "runtimeRoot": "sprites/environment/old-school-lamp-light-v1",
+  "piskelRoot": "sprites/environment/old-school-lamp-light-v1/piskel",
+  "previewRoot": "visual-approval-previews/old-school-lamp-light-v1",
+  "atlas": {
+    "sourceWidth": 1254,
+    "sourceHeight": 1254,
+    "cropInsetPx": 1,
+    "width": 1252,
+    "height": 1252,
+    "columns": 4,
+    "rows": 4,
+    "frameWidth": 313,
+    "frameHeight": 313,
+    "framesPerAtlas": 16
+  },
+  "sheet": {
+    "safeBorderPx": 3,
+    "luminanceFloor": 2,
+    "rootLuminanceFloor": 5,
+    "coreWeightPower": 3,
+    "energyWeightPower": 1.5,
+    "rootWeightPower": 2,
+    "rootRowEnergyQuantile": 0.94,
+    "rootBandBeforePx": 28,
+    "rootBandAfterPx": 10,
+    "topLeftRootDistanceQuantile": 0.1
+  },
+  "limits": {
+    "maximumShiftPx": 88,
+    "maximumEnergyLossRatio": 0.02,
+    "maximumAfterAnchorErrorPx": 1.5,
+    "maximumAfterGroupRangePx": 2.25
+  },
+  "assets": [
+    {
+      "id": "source",
+      "displayName": "Brass safety lamp",
+      "master": "lamp-source-master.png",
+      "file": "old-school-lamp-source-v1.png",
+      "fps": 8,
+      "anchorMode": "source-root",
+      "grouping": "all"
+    },
+    {
+      "id": "volume",
+      "displayName": "Shielded amber volume",
+      "master": "lamp-volume-master.png",
+      "file": "old-school-lamp-volume-v1.png",
+      "fps": 5,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "rays",
+      "displayName": "Reflector and glass rays",
+      "master": "lamp-rays-master.png",
+      "file": "old-school-lamp-rays-v1.png",
+      "fps": 3,
+      "anchorMode": "top-left-source",
+      "grouping": "all"
+    },
+    {
+      "id": "penumbra",
+      "displayName": "Glass-rib penumbra",
+      "master": "lamp-penumbra-master.png",
+      "file": "old-school-lamp-penumbra-v1.png",
+      "fps": 3,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "bounce",
+      "displayName": "Floor and wall bounce",
+      "master": "lamp-bounce-master.png",
+      "file": "old-school-lamp-bounce-v1.png",
+      "fps": 2,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "hotCore",
+      "displayName": "Glass-filtered hot core",
+      "master": "lamp-hot-core-master.png",
+      "file": "old-school-lamp-hot-core-v1.png",
+      "fps": 7,
+      "anchorMode": "luminous-core",
+      "grouping": "all"
+    },
+    {
+      "id": "atmosphere",
+      "displayName": "Dust and glass atmosphere",
+      "master": "lamp-atmosphere-master.png",
+      "file": "old-school-lamp-atmosphere-v1.png",
+      "fps": 4,
+      "anchorMode": "source-root",
+      "grouping": "all"
+    }
+  ]
+}

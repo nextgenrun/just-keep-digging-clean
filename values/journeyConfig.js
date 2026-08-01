@@ -9,6 +9,7 @@ export const JOURNEY_EVENT_TYPES = Object.freeze({
   HEAVENBLOCK: "heavenblock",
   FORGE: "forge",
   TITAN: "titan",
+  JACKPOT: "jackpot",
   LEVEL: "level",
 });
 export const JOURNEY_CONFIG = Object.freeze({

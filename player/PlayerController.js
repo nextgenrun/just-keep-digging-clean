@@ -4,6 +4,7 @@ import { PlayerAbilities } from './PlayerAbilities.js';
 import { PlayerState } from './PlayerState.js';
 import { PlayerPhysicsBody } from './PlayerPhysicsBody.js';
 import { PlayerSurfaceDropController } from './PlayerSurfaceDropController.js';
+import { MovingSideDigStandOffController } from './MovingSideDigStandOffController.js';
 import { GAME_CONFIG } from '../values/gameConfig.js';
 import { PLAYER_STATS_CONFIG } from '../values/playerStats.js';
 import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
@@ -43,10 +44,17 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     });
     this.state = new PlayerState(this.physicsBody, worldModel, config, upgradeSystem);
     this.surfaceDrop = new PlayerSurfaceDropController(this.input, collisionSystem, this.physicsBody, config.topAirRows);
+    this.movingSideDigStandOff = new MovingSideDigStandOffController(
+      this.physicsBody,
+      worldModel,
+      config.tileSize,
+      scene?.playerAssetProfile?.movingSideDigConfig?.movement?.tileFaceStandOff,
+    );
   }
 
   teleportToTile(tx, ty) {
     this.surfaceDrop.reset();
+    this.movingSideDigStandOff.end();
     const bodyPos = this._bodyPositionForStandingTile(tx, ty);
     this.physicsBody.setPosition(bodyPos.x, bodyPos.y);
     this.physicsBody.resetVelocity();
@@ -68,6 +76,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     
     if (!enabled && this.physicsBody) {
       this.surfaceDrop.reset();
+      this.movingSideDigStandOff.end();
       this.physicsBody.resetVelocity();
       // Clear flying state to prevent getting stuck
       this.abilities.resetFlyingState();
@@ -113,6 +122,16 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     return this.abilities.getDashCooldownMs();
   }
 
+  beginMovingSideDigStandOff(options) {
+    const active = this.movingSideDigStandOff.begin(options);
+    if (active) this._syncSpriteWithPhysics();
+    return active;
+  }
+
+  endMovingSideDigStandOff() {
+    return this.movingSideDigStandOff.end();
+  }
+
   update(delta = 16.67) {
     if (!this.physicsBody) return;
     const dt = Math.min(delta / 1000, PLAYER_COLLISION_CONFIG.maxDeltaSeconds);
@@ -134,6 +153,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
 
     // Integrate and resolve against authoritative tile collision.
     this.movement.update(dt, this.collisionSystem, this.state.isClimbing());
+    this.movingSideDigStandOff.update();
     this.state.refreshAfterPhysics(this.input, this.abilities, this.collisionSystem);
     
     // Update aim
@@ -273,6 +293,22 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     return this.abilities?.consumeGemPower?.(amount, context) ?? 0;
   }
 
+  setGemPowerFloorProvider(provider) {
+    this.abilities?.setGemPowerFloorProvider?.(provider);
+  }
+
+  getSpendableGemPower(context) {
+    return this.abilities?.getSpendableGemPower?.(context) ?? 0;
+  }
+
+  hasSpendableGemPower(context) {
+    return this.abilities?.hasSpendableGemPower?.(context) ?? false;
+  }
+
+  canSpendGemPower(amount, context) {
+    return this.abilities?.canSpendGemPower?.(amount, context) ?? false;
+  }
+
   fillGemPower() {
     return this.abilities?.fillGemPower?.() ?? 0;
   }
@@ -308,6 +344,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
 
     const previous = { x: body.x, y: body.y };
     this.surfaceDrop.reset();
+    this.movingSideDigStandOff.end();
     body.setPosition(normalized.bodyX, normalized.bodyY);
     body.resetVelocity();
     if (this.collisionSystem && !this.collisionSystem.resolveBodyOverlap(body)) {
@@ -324,6 +361,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
 
   applyExternalKnockback(vx, vy) {
     if (!this.physicsBody) return;
+    this.movingSideDigStandOff.end();
     this.physicsBody.vx = Number.isFinite(vx) ? vx : 0;
     this.physicsBody.vy = Number.isFinite(vy) ? vy : 0;
     this.externalKnockbackMs = PLAYER_MOTION_POLISH_CONFIG.hitReaction.externalKnockbackLockMs;

@@ -1,8 +1,38 @@
 export const UI_FONTS = Object.freeze({
-  display: "Bahnschrift SemiCondensed, Trebuchet MS, sans-serif",
-  body: "Bahnschrift, Trebuchet MS, sans-serif",
+  display: '"Barlow Semi Condensed", Bahnschrift SemiCondensed, Trebuchet MS, sans-serif',
+  body: '"Barlow Semi Condensed", Bahnschrift, Trebuchet MS, sans-serif',
   mono: "Cascadia Mono, Consolas, monospace",
 });
+
+export const UI_FONT_BOOT = Object.freeze({
+  family: "Barlow Semi Condensed",
+  regularWeight: 400,
+  semiboldWeight: 600,
+  boldWeight: 700,
+  probeSizePx: 16,
+  readinessTimeoutMs: 2000,
+});
+
+export async function waitForUiFonts(
+  documentRef = globalThis.document,
+  config = UI_FONT_BOOT,
+) {
+  const fonts = documentRef?.fonts;
+  if (!fonts?.load) return false;
+  const family = `"${config.family}"`;
+  const loads = Promise.all([
+    fonts.load(`${config.regularWeight} ${config.probeSizePx}px ${family}`),
+    fonts.load(`${config.semiboldWeight} ${config.probeSizePx}px ${family}`),
+    fonts.load(`${config.boldWeight} ${config.probeSizePx}px ${family}`),
+  ]);
+  let timeoutId = null;
+  const timeout = new Promise(resolve => {
+    timeoutId = globalThis.setTimeout(resolve, config.readinessTimeoutMs, false);
+  });
+  const loaded = await Promise.race([loads.then(() => true, () => false), timeout]);
+  if (timeoutId !== null) globalThis.clearTimeout(timeoutId);
+  return loaded === true;
+}
 
 export const UI_MODAL_LAYOUT = Object.freeze({
   margin: 24,
@@ -18,7 +48,7 @@ export const UI_MODAL_LAYOUT = Object.freeze({
 });
 
 export const PAUSE_MENU_LAYOUT = Object.freeze({
-  maxWidth: 940,
+  maxWidth: 1160,
   maxHeight: 680,
   tabRowHeight: 32,
   tabRowOffsetY: 20,

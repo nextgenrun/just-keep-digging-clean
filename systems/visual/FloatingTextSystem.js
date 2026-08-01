@@ -6,6 +6,30 @@ import { getConstellationRelicRequirement } from "../../values/ancientRelics.js"
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { SkyStarReleaseView } from "./SkyStarReleaseView.js";
+import {
+  getStarDiscoveryPreloadAssets,
+  STAR_RARITY_PROGRESSION_CONFIG,
+} from "../../values/starRarityProgression.js";
+import {
+  getSignProgress,
+  getStarRarityTier,
+  migrateLegacyStarCountToXp,
+  validateStarRarityProgressionConfig,
+} from "../../values/starRarityProgressionMath.js";
+import {
+  getStarIdentityPreloadAssets,
+  STAR_IDENTITY_LIBRARY_CONFIG,
+} from "../../values/starIdentityLibrary.js";
+import {
+  getStarIdentitiesForRarity,
+  getStarIdentity,
+  validateStarIdentityLibraryConfig,
+} from "../../values/starIdentityLibraryMath.js";
+import { installStarIdentityTextureFrames } from "./installStarIdentityTextureFrames.js";
+import {
+  RUNTIME_FEATURE_ASSET_CONSUMERS,
+  RUNTIME_FEATURE_ASSET_GROUP_IDS,
+} from "../../values/runtimeAssetLoading.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
 const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
@@ -27,13 +51,17 @@ export class FloatingTextSystem {
     this._constellationLines = [];
     this._constellationSignBackdrops = {};
     this._constellationCounts = {};
+    this._constellationXp = {};
     this._starRarityCounts = new Array(SKY_RARITY_FALLBACKS.length).fill(0);
     this._constellationsLoaded = false;
     this._activeSkyStarReleaseViews = new Set();
+    this._runtimeFeatureRequestSequence = 0;
+    this._destroyed = false;
     this._constellationStarsBeingAnimated = new Set(); // Track stars being animated
     this._onConstellationUnlocked = null; // callback(resourceType) wired by StarPillarSystem
     this._onCollectedSkyStar = null; // callback(detail) wired by Star Heart progression
     this._loadPersistedStarCounts();
+    this._loadPersistedSignXp();
     this._loadPersistedStarRarityCounts();
   }
 
@@ -67,10 +95,23 @@ export class FloatingTextSystem {
     } catch (e) { return []; }
   }
 
-  /** Return how many stars of each resource type have been collected this session. */
+  /** Return physical Star Block encounter counts by material. */
   getConstellationCounts() {
     this._loadPersistedStarCounts();
     return this._constellationCounts || {};
+  }
+
+  /** Return the five-level Sign XP state used by the talent tree and unlocks. */
+  getConstellationProgress() {
+    this._loadPersistedStarCounts();
+    this._loadPersistedSignXp();
+    return Object.fromEntries(
+      Object.keys(STAR_RARITY_PROGRESSION_CONFIG.signProgression.xpTotals)
+        .map(resourceType => [
+          resourceType,
+          getSignProgress(resourceType, this._constellationXp?.[resourceType] || 0),
+        ]),
+    );
   }
 
   getAncientRelicCount() {
@@ -78,15 +119,15 @@ export class FloatingTextSystem {
   }
 
   tryUnlockEligibleConstellations() {
-    const counts = this.getConstellationCounts();
+    const progressByResource = this.getConstellationProgress();
     const unlocked = new Set(this.getUnlockedConstellations());
     const relicCount = this.getAncientRelicCount();
 
     for (const resourceType of Object.keys(CONSTELLATION_THRESHOLDS)) {
-      const threshold = CONSTELLATION_THRESHOLDS[resourceType] ?? 5;
+      const progress = progressByResource[resourceType];
       const relicRequirement = getConstellationRelicRequirement(resourceType);
       if (unlocked.has(resourceType)) continue;
-      if ((counts[resourceType] || 0) < threshold || relicCount < relicRequirement) continue;
+      if (!progress?.mastered || relicCount < relicRequirement) continue;
       this._unlockConstellation(resourceType);
       unlocked.add(resourceType);
     }
@@ -128,6 +169,7 @@ export class FloatingTextSystem {
       anchor:     this._getConstellationAnchor(),
       lineColors: CONSTELLATION_LINE_COLORS,
       thresholds: CONSTELLATION_THRESHOLDS,
+      signProgression: STAR_RARITY_PROGRESSION_CONFIG.signProgression,
       spacing:    CONSTELLATION_SPACING,
     };
   }
@@ -157,6 +199,7 @@ export class FloatingTextSystem {
   }
 
   _shouldShowFloatingText(category = "status", slotCount = 1) {
+    if (RETENTION_CONFIG.floatingText.enabled === false) return false;
     const policy = this._getFloatingTextPolicy();
     if (
       policy.maxActive <= 0
@@ -703,14 +746,25 @@ export class FloatingTextSystem {
   /**
    * Record a collected sky star for UI progression, then let its world-space
    * visual drift upward slowly and fade away. No collected star remains in the world.
-   * @param {number} rarity - 0=common, 1=rare, 2=legendary, ...
+   * @param {number} rarity - 0=common through 5=astral
    * @param {number} startWorldX - Mined tile world X center
    * @param {number} startWorldY - Mined tile world Y center
    * @param {string} resourceType - Resource type string (e.g. 'copper', 'gold')
+   * @param {?object} rewardDetail - Exact material reward granted by mining
    */
-  releaseCollectedSkyStar(rarity, startWorldX, startWorldY, resourceType) {
+  releaseCollectedSkyStar(
+    rarity,
+    startWorldX,
+    startWorldY,
+    resourceType,
+    rewardDetail = null,
+  ) {
     this.ensureConstellationsLoaded();
-    const progress = this._recordCollectedStar(resourceType, rarity);
+    const progress = this._recordCollectedStar(
+      resourceType,
+      rarity,
+      rewardDetail,
+    );
     if (progress) {
       this.scene.retentionProgressSystem?.recordStar?.(1);
     }
@@ -719,7 +773,8 @@ export class FloatingTextSystem {
       rarity,
       startWorldX,
       startWorldY,
-      resourceType
+      resourceType,
+      progress,
     );
     return progress;
   }
@@ -727,13 +782,27 @@ export class FloatingTextSystem {
   /**
    * Play only the authored collected-star presentation. This does not award,
    * persist, or notify progression and is safe for visual review harnesses.
-   */
-  showCollectedSkyStarRelease(rarity, startWorldX, startWorldY, resourceType = null) {
+  */
+  showCollectedSkyStarRelease(rarity, startWorldX, startWorldY, resourceType = null, progress = null) {
+    const manager = this.scene?.runtimeFeatureAssetManager;
+    const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx;
+    if (manager?.enabled && !manager.isReady(groupId)) {
+      const consumer = `${RUNTIME_FEATURE_ASSET_CONSUMERS.starReleasePrefix}${this._runtimeFeatureRequestSequence += 1}`;
+      manager.ensureGroup(groupId, { consumer }).then(result => {
+        if (result.ready && !this._destroyed && this.scene) {
+          this.showCollectedSkyStarRelease(rarity, startWorldX, startWorldY, resourceType, progress);
+        }
+        manager.releaseGroup(groupId, consumer);
+      });
+      return null;
+    }
+
     const entry = this._createSkyStarEntry(
       startWorldX,
       startWorldY,
       rarity,
-      resourceType
+      resourceType,
+      progress?.identityIndex,
     );
     if (!entry) return null;
 
@@ -762,28 +831,35 @@ export class FloatingTextSystem {
     return releaseView;
   }
 
-  grantCollectedStar(rarity, worldX, worldY, resourceType) {
-    return this.releaseCollectedSkyStar(rarity, worldX, worldY, resourceType);
+
+  grantCollectedStar(rarity, worldX, worldY, resourceType, rewardDetail = null) {
+    return this.releaseCollectedSkyStar(
+      rarity,
+      worldX,
+      worldY,
+      resourceType,
+      { source: "bonus", ...(rewardDetail || {}) },
+    );
   }
 
   getRelicPurposeSummary(relicCount = this.getAncientRelicCount()) {
     const currentRelics = Math.max(0, Math.floor(Number(relicCount) || 0));
-    const counts = this.getConstellationCounts();
+    const progressByResource = this.getConstellationProgress();
     const unlocked = new Set(this.getUnlockedConstellations());
     const next = Object.keys(CONSTELLATION_DEFS)
       .filter(resourceType => !unlocked.has(resourceType))
       .map(resourceType => ({
         resourceType,
         name: CONSTELLATION_DEFS[resourceType]?.name || resourceType,
-        stars: counts[resourceType] || 0,
-        threshold: CONSTELLATION_THRESHOLDS[resourceType] || 1,
+        xp: progressByResource[resourceType]?.xp || 0,
+        totalXp: progressByResource[resourceType]?.totalXp || 1,
         relics: getConstellationRelicRequirement(resourceType),
       }))
       .filter(entry => entry.relics > currentRelics)
       .sort((a, b) => (a.relics - b.relics)
-        || ((b.stars / b.threshold) - (a.stars / a.threshold)))[0];
+        || ((b.xp / b.totalXp) - (a.xp / a.totalXp)))[0];
     if (!next) return `All known constellation relic gates met (${currentRelics} relics)`;
-    return `${next.name}: relics ${currentRelics}/${next.relics}, stars ${next.stars}/${next.threshold}`;
+    return `${next.name}: relics ${currentRelics}/${next.relics}, Sign XP ${next.xp}/${next.totalXp}`;
   }
 
   _capTownStarPool(maxStars = 220) {
@@ -817,20 +893,30 @@ export class FloatingTextSystem {
       };
     }
 
-    const currentCount = Math.max(0, this._constellationCounts?.[resourceType] || 0);
-    const threshold = CONSTELLATION_THRESHOLDS[resourceType] ?? def.points.length;
-    const pointIndex = currentCount < threshold
-      ? Math.min(currentCount, def.points.length - 1)
-      : Math.floor(Math.random() * def.points.length);
+    const progress = getSignProgress(
+      resourceType,
+      this._constellationXp?.[resourceType] || 0,
+    );
+    const pointIndex = progress.mastered
+      ? Math.floor(Math.random() * def.points.length)
+      : Math.min(progress.level, def.points.length - 1);
     const [dx, dy] = def.points[pointIndex];
 
     return {
-      x: center.x + dx * CONSTELLATION_SPACING + (currentCount >= threshold ? Math.random() * 46 - 23 : 0),
-      y: center.y + dy * CONSTELLATION_SPACING + (currentCount >= threshold ? Math.random() * 34 - 17 : 0),
+      x: center.x + dx * CONSTELLATION_SPACING
+        + (progress.mastered ? Math.random() * 46 - 23 : 0),
+      y: center.y + dy * CONSTELLATION_SPACING
+        + (progress.mastered ? Math.random() * 34 - 17 : 0),
     };
   }
 
-  _createSkyStarEntry(x, y, rarity = 0, resourceType = null) {
+  _createSkyStarEntry(
+    x,
+    y,
+    rarity = 0,
+    resourceType = null,
+    identityIndex = 0,
+  ) {
     const assets = COLLECTED_STAR_RELEASE_FX.coreAssets;
     if (!Array.isArray(assets) || assets.length === 0) return null;
     const fallbackIndex = Math.max(
@@ -843,7 +929,25 @@ export class FloatingTextSystem {
     const safeRarity = Number.isFinite(rarity)
       ? Math.max(0, Math.min(assets.length - 1, Math.floor(rarity)))
       : fallbackIndex;
-    const textureKey = assets[safeRarity]?.key || assets[fallbackIndex]?.key;
+    const requestedIdentity = getStarIdentity(identityIndex);
+    const identity = requestedIdentity.rarityIndex === safeRarity
+      ? requestedIdentity
+      : getStarIdentitiesForRarity(safeRarity)[0];
+    const identityAtlas = STAR_IDENTITY_LIBRARY_CONFIG.atlases[
+      identity.rarityIndex
+    ];
+    const identityLightAtlas = STAR_IDENTITY_LIBRARY_CONFIG.lightAtlases[
+      identity.rarityIndex
+    ];
+    const identityReady = installStarIdentityTextureFrames(this.scene)
+      && this.scene.textures?.exists?.(identityAtlas?.key)
+      && this.scene.textures?.exists?.(identityLightAtlas?.key);
+    const textureKey = identityReady
+      ? identityAtlas.key
+      : assets[safeRarity]?.key || assets[fallbackIndex]?.key;
+    const textureFrame = identityReady ? identity.frameName : null;
+    const lightTextureKey = identityReady ? identityLightAtlas.key : null;
+    const lightTextureFrame = identityReady ? identity.lightFrameName : null;
     const displaySize = COLLECTED_STAR_RELEASE_FX.coreDisplaySizesPx[safeRarity]
       || COLLECTED_STAR_RELEASE_FX.coreDisplaySizesPx[fallbackIndex];
     if (
@@ -852,7 +956,7 @@ export class FloatingTextSystem {
     ) {
       return null;
     }
-    const star = this.scene.add.image(x, y, textureKey);
+    const star = this.scene.add.image(x, y, textureKey, textureFrame || undefined);
     star.setDepth(HUD_LAYOUT.hudDepth - 5);
     star.setDisplaySize(displaySize, displaySize);
     star.setAlpha(0);
@@ -861,9 +965,14 @@ export class FloatingTextSystem {
       graphic: star,
       tween: null,
       textureKey,
+      textureFrame,
+      lightTextureKey,
+      lightTextureFrame,
       displaySize,
       resourceType: resourceType || null,
       rarity: safeRarity,
+      identityIndex: identity.index,
+      identityId: identity.id,
       baseScaleX: star.scaleX,
       baseScaleY: star.scaleY,
       isFlightAnimating: false,
@@ -995,33 +1104,75 @@ export class FloatingTextSystem {
     return tween;
   }
 
-  _recordCollectedStar(resourceType, rarity = 0) {
-    this._recordStarRarity(rarity);
+  _recordCollectedStar(resourceType, rarity = 0, rewardDetail = null) {
+    const tier = getStarRarityTier(rarity);
+    const rarityIdentities = getStarIdentitiesForRarity(tier.index);
+    const requestedIdentity = getStarIdentity(rewardDetail?.identityIndex);
+    const identity = requestedIdentity.rarityIndex === tier.index
+      ? requestedIdentity
+      : rarityIdentities[0];
+    const rarityEncounterCount = this._recordStarRarity(tier.index);
     if (!resourceType || !CONSTELLATION_DEFS[resourceType]) return null;
 
     if (!this._constellationCounts) this._constellationCounts = {};
-    const threshold = CONSTELLATION_THRESHOLDS[resourceType] ?? 5;
-    const wasUnlocked = this.getUnlockedConstellations().includes(resourceType);
-    const current = this._constellationCounts[resourceType] || 0;
-    this._constellationCounts[resourceType] = Math.max(0, Math.min(threshold, current + 1));
-    this._saveStarCounts();
+    if (!this._constellationXp) this._constellationXp = {};
+    const progressionConfig = STAR_RARITY_PROGRESSION_CONFIG.signProgression;
+    const currentCount = Math.max(
+      0,
+      Math.floor(Number(this._constellationCounts[resourceType]) || 0),
+    );
+    this._constellationCounts[resourceType] = Math.min(
+      progressionConfig.maxEncounterCount,
+      currentCount + 1,
+    );
 
-    if (!wasUnlocked && this._constellationCounts[resourceType] >= threshold) {
-      this.tryUnlockEligibleConstellations();
-    }
+    const before = getSignProgress(
+      resourceType,
+      this._constellationXp[resourceType] || 0,
+    );
+    const nextXp = Math.min(before.totalXp, before.xp + tier.signXp);
+    this._constellationXp[resourceType] = nextXp;
+    const after = getSignProgress(resourceType, nextXp);
+    const wasUnlocked = this.getUnlockedConstellations().includes(resourceType);
+    this._saveStarCounts();
+    this._saveSignXp();
+
+    if (!wasUnlocked && after.mastered) this.tryUnlockEligibleConstellations();
     const progress = {
+      ...after,
       resourceType,
       constellationName: CONSTELLATION_DEFS[resourceType].name,
       count: this._constellationCounts[resourceType],
-      threshold,
+      threshold: after.totalXp,
+      xpBefore: before.xp,
+      xpGained: after.xp - before.xp,
+      levelBefore: before.level,
+      levelProgressBefore: before.levelProgress,
+      levelsGained: Math.max(0, after.level - before.level),
+      rarity: tier.index,
+      rarityId: tier.id,
+      rarityEncounterCount,
+      identityIndex: identity.index,
+      identityId: identity.id,
+      identityName: identity.name,
+      identityColourName: identity.colourName,
+      identityPrimary: identity.primary,
+      identitySecondary: identity.secondary,
+      identityFlavour: identity.flavour,
+      identityLightStyle: identity.light.style,
+      rewardSource: rewardDetail?.source === "bonus" ? "bonus" : "mining",
+      materialMultiplier: Math.max(
+        1,
+        Number(rewardDetail?.materialMultiplier) || tier.multiplier,
+      ),
+      materialAmount: Number.isFinite(rewardDetail?.materialAmount)
+        ? Math.max(0, rewardDetail.materialAmount)
+        : null,
       relicCurrent: this.getAncientRelicCount(),
       relicRequired: getConstellationRelicRequirement(resourceType),
-    };
-    this._onCollectedSkyStar?.({
-      ...progress,
-      rarity: Math.max(0, Math.floor(Number(rarity) || 0)),
       unlocked: this.getUnlockedConstellations().includes(resourceType),
-    });
+    };
+    this._onCollectedSkyStar?.(progress);
     return progress;
   }
 
@@ -1035,6 +1186,7 @@ export class FloatingTextSystem {
     }
     this._starRarityCounts[safeRarity] = (this._starRarityCounts[safeRarity] || 0) + 1;
     this._saveStarRarityCounts();
+    return this._starRarityCounts[safeRarity];
   }
 
   /** Persist an unlock and notify the UI without creating world-space stars. */
@@ -1169,6 +1321,50 @@ export class FloatingTextSystem {
     } catch (e) { /* storage unavailable */ }
   }
 
+  _saveSignXp() {
+    try {
+      const progression = STAR_RARITY_PROGRESSION_CONFIG.signProgression;
+      localStorage.setItem(
+        this._getPersistenceKey(progression.saveKey),
+        JSON.stringify({
+          version: progression.saveVersion,
+          xp: this._constellationXp || {},
+        }),
+      );
+    } catch (e) { /* storage unavailable */ }
+  }
+
+  _loadPersistedSignXp() {
+    const progression = STAR_RARITY_PROGRESSION_CONFIG.signProgression;
+    if (!this._constellationXp) this._constellationXp = {};
+    try {
+      const raw = this._readPersistedValue(progression.saveKey, '');
+      let saved = null;
+      try { saved = raw ? JSON.parse(raw) : null; } catch (e) { saved = null; }
+      const hasCurrentSave = saved?.version === progression.saveVersion
+        && saved.xp
+        && typeof saved.xp === 'object';
+      const unlocked = new Set(this.getUnlockedConstellations());
+
+      for (const resourceType of Object.keys(progression.xpTotals)) {
+        const storedXp = Number(saved?.xp?.[resourceType]);
+        const migratedXp = migrateLegacyStarCountToXp(
+          resourceType,
+          this._constellationCounts?.[resourceType] || 0,
+        );
+        const candidate = hasCurrentSave && Number.isFinite(storedXp)
+          ? storedXp
+          : migratedXp;
+        const requiredXp = progression.xpTotals[resourceType];
+        this._constellationXp[resourceType] = getSignProgress(
+          resourceType,
+          unlocked.has(resourceType) ? requiredXp : candidate,
+        ).xp;
+      }
+      if (!hasCurrentSave) this._saveSignXp();
+    } catch (e) { /* storage unavailable */ }
+  }
+
   _saveStarRarityCounts() {
     try {
       if (this._starRarityCounts) {
@@ -1209,8 +1405,53 @@ export class FloatingTextSystem {
   /** Load saved counts for the UI without restoring any world-space stars. */
   _restorePersistedConstellationProgress() {
     if (!this._constellationCounts) this._constellationCounts = {};
+    if (!this._constellationXp) this._constellationXp = {};
     this._loadPersistedStarCounts();
+    this._loadPersistedSignXp();
     this._loadPersistedStarRarityCounts();
+  }
+
+  getStarProgressionHealthSnapshot() {
+    const configHealth = validateStarRarityProgressionConfig();
+    const identityHealth = validateStarIdentityLibraryConfig();
+    const progressByResource = this.getConstellationProgress();
+    const invalidProgress = Object.entries(progressByResource)
+      .filter(([, progress]) => (
+        !Number.isFinite(progress.xp)
+        || progress.xp < 0
+        || progress.xp > progress.totalXp
+        || progress.level < 0
+        || progress.level > progress.maxLevel
+      ))
+      .map(([resourceType]) => resourceType);
+    const manager = this.scene?.runtimeFeatureAssetManager;
+    const groupReady = manager?.enabled
+      ? manager.isReady(RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx)
+      : true;
+    const requiredAssets = [
+      ...getStarIdentityPreloadAssets(),
+      ...(groupReady ? getStarDiscoveryPreloadAssets() : []),
+    ];
+    const missingTextures = requiredAssets.filter(
+      asset => !this.scene?.textures?.exists?.(asset.key),
+    ).map(asset => asset.key);
+    return {
+      ready: configHealth.ready
+        && identityHealth.ready
+        && invalidProgress.length === 0
+        && missingTextures.length === 0
+        && STAR_RARITY_PROGRESSION_CONFIG.popup.maximumActive >= 0,
+      ...configHealth,
+      identityHealth,
+      invalidProgress,
+      missingTextures,
+      activePopupCount: 0,
+      maximumActivePopups: STAR_RARITY_PROGRESSION_CONFIG.popup.maximumActive,
+      starPopupsEnabled: false,
+      popupHoldMs: STAR_RARITY_PROGRESSION_CONFIG.popup.holdMsByRarity[0],
+      popupMinimumIntervalMs: STAR_RARITY_PROGRESSION_CONFIG.popup.minimumIntervalMs,
+      rarityCountSlots: this._starRarityCounts?.length || 0,
+    };
   }
 
   /**
@@ -1345,6 +1586,7 @@ export class FloatingTextSystem {
    */
   destroy() {
     // Kill in-flight tweens before destroying objects to prevent onComplete
+    this._destroyed = true;
     // callbacks firing on already-destroyed objects after scene shutdown
     this.activeFloatingTexts.forEach(text => {
       this.scene.tweens.killTweensOf(text);

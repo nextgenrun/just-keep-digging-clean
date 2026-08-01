@@ -175,6 +175,9 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
   backdrop: Object.freeze({
     fitFraction: 0.98,
   }),
+  density: Object.freeze({
+    maxSourceScale: 1,
+  }),
   underground: Object.freeze({
     assetVersion: "titan-surface-stances-v1",
     titanFitFraction: 0.96,
@@ -401,20 +404,35 @@ export function resolveTitanChamberAsset(
     : definition.chamberAsset;
 }
 
-export function getTitanDiscoveryPreloadAssets(
+export function getTitanGameplayPreloadAssets(
   config = TITAN_DISCOVERY_CONFIG,
   search
 ) {
   if (!resolveTitanDiscoveriesEnabled(config, search)) return [];
   return [
-    ...config.definitions.flatMap(definition => [
-      definition.asset,
-      definition.surfaceAsset,
-    ]),
+    ...config.definitions.map(definition => definition.surfaceAsset),
     config.assets.walkPlinth,
     config.assets.undergroundDais,
     config.assets.coverResonance,
     config.assets.guidancePointer,
+  ];
+}
+
+export function getTitanArchivePreloadAssets(
+  config = TITAN_DISCOVERY_CONFIG,
+  search
+) {
+  if (!resolveTitanDiscoveriesEnabled(config, search)) return [];
+  return config.definitions.map(definition => definition.asset);
+}
+
+export function getTitanDiscoveryPreloadAssets(
+  config = TITAN_DISCOVERY_CONFIG,
+  search
+) {
+  return [
+    ...getTitanGameplayPreloadAssets(config, search),
+    ...getTitanArchivePreloadAssets(config, search),
   ];
 }
 export function getTitanChamberAssets(

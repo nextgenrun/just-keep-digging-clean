@@ -1,0 +1,425 @@
+{
+  "schema": "natural-fire-deep-live-comparison-qa@1",
+  "generatedUtc": "2026-07-30T17:24:49.812Z",
+  "url": "http://127.0.0.1:8090/testing/2026-07-30-natural-fire-live-compare.html",
+  "captures": [
+    {
+      "ready": true,
+      "target": {
+        "tx": 125,
+        "ty": 757
+      },
+      "fuelProfile": "full",
+      "weatherProfile": "clear",
+      "dayProfile": "day",
+      "depthProfile": "deep",
+      "scenarios": [
+        {
+          "scenario": "natural",
+          "runtimeId": "fire-light-v3",
+          "presentationId": "natural-fire-v1",
+          "active": true,
+          "rays": 0,
+          "authoredLayers": 1,
+          "proceduralWorldGlow": true,
+          "proceduralShaderMix": 0.96,
+          "depth": 693,
+          "torchBonusRadiusTiles": 0,
+          "visibilityRadiusTiles": 3.412129800524208,
+          "darknessAlpha": 1,
+          "torchGlowStrength": 1,
+          "gpRatio": 0.9987878787878788,
+          "eyeLuminance": 0.9617067159208763,
+          "veilAlpha": 0.031119682408956784,
+          "dayTime": 0.5000023148148148,
+          "nightAmount": 0,
+          "tile": {
+            "tx": 125,
+            "ty": 757
+          },
+          "rendererType": 2,
+          "uiErrors": []
+        },
+        {
+          "scenario": "legacy",
+          "runtimeId": "fire-light-v3",
+          "presentationId": "legacy-procedural-v2",
+          "active": true,
+          "rays": 0,
+          "authoredLayers": 0,
+          "proceduralWorldGlow": true,
+          "proceduralShaderMix": 1,
+          "depth": 693,
+          "torchBonusRadiusTiles": 0,
+          "visibilityRadiusTiles": 3.4121280821943585,
+          "darknessAlpha": 1,
+          "torchGlowStrength": 1,
+          "gpRatio": 0.9955098181818183,
+          "eyeLuminance": 0,
+          "veilAlpha": 0,
+          "dayTime": 0.500008575,
+          "nightAmount": 0,
+          "tile": {
+            "tx": 125,
+            "ty": 757
+          },
+          "rendererType": 2,
+          "uiErrors": []
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "target": {
+        "tx": 168,
+        "ty": 1077
+      },
+      "fuelProfile": "full",
+      "weatherProfile": "clear",
+      "dayProfile": "day",
+      "depthProfile": "abyss",
+      "scenarios": [
+        {
+          "scenario": "natural",
+          "runtimeId": "fire-light-v3",
+          "presentationId": "natural-fire-v1",
+          "active": true,
+          "rays": 0,
+          "authoredLayers": 1,
+          "proceduralWorldGlow": true,
+          "proceduralShaderMix": 0.96,
+          "depth": 1013,
+          "torchBonusRadiusTiles": 0,
+          "visibilityRadiusTiles": 3.020869823024237,
+          "darknessAlpha": 1,
+          "torchGlowStrength": 1,
+          "gpRatio": 0.9976977272727273,
+          "eyeLuminance": 0.9275378894336782,
+          "veilAlpha": 0.04401180304418028,
+          "dayTime": 0.5000023148148148,
+          "nightAmount": 0,
+          "tile": {
+            "tx": 168,
+            "ty": 1077
+          },
+          "rendererType": 2,
+          "uiErrors": []
+        },
+        {
+          "scenario": "legacy",
+          "runtimeId": "fire-light-v3",
+          "presentationId": "legacy-procedural-v2",
+          "active": true,
+          "rays": 0,
+          "authoredLayers": 0,
+          "proceduralWorldGlow": true,
+          "proceduralShaderMix": 1,
+          "depth": 1013,
+          "torchBonusRadiusTiles": 0,
+          "visibilityRadiusTiles": 3.0208526691040403,
+          "darknessAlpha": 1,
+          "torchGlowStrength": 1,
+          "gpRatio": 0.991471460909091,
+          "eyeLuminance": 0,
+          "veilAlpha": 0,
+          "dayTime": 0.500008575,
+          "nightAmount": 0,
+          "tile": {
+            "tx": 168,
+            "ty": 1077
+          },
+          "rendererType": 2,
+          "uiErrors": []
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "target": {
+        "tx": 123,
+        "ty": 1831
+      },
+      "fuelProfile": "full",
+      "weatherProfile": "clear",
+      "dayProfile": "day",
+      "depthProfile": "extreme",
+      "scenarios": [
+        {
+          "scenario": "natural",
+          "runtimeId": "fire-light-v3",
+          "presentationId": "natural-fire-v1",
+          "active": true,
+          "rays": 0,
+          "authoredLayers": 1,
+          "proceduralWorldGlow": true,
+          "proceduralShaderMix": 0.96,
+          "depth": 1767,
+          "torchBonusRadiusTiles": 0,
+          "visibilityRadiusTiles": 2.9730924127117224,
+          "darknessAlpha": 1,
+          "torchGlowStrength": 1,
+          "gpRatio": 1,
+          "eyeLuminance": 0.8647046086139859,
+          "veilAlpha": 0.05022324433846263,
+          "dayTime": 0.5,
+          "nightAmount": 0,
+          "tile": {
+            "tx": 123,
+            "ty": 1831
+          },
+          "rendererType": 2,
+          "uiErrors": []
+        },
+        {
+          "scenario": "legacy",
+          "runtimeId": "fire-light-v3",
+          "presentationId": "legacy-procedural-v2",
+          "active": true,
+          "rays": 0,
+          "authoredLayers": 0,
+          "proceduralWorldGlow": true,
+          "proceduralShaderMix": 1,
+          "depth": 1767,
+          "torchBonusRadiusTiles": 0,
+          "visibilityRadiusTiles": 2.973060620253558,
+          "darknessAlpha": 1,
+          "torchGlowStrength": 1,
+          "gpRatio": 1,
+          "eyeLuminance": 0,
+          "veilAlpha": 0,
+          "dayTime": 0.5,
+          "nightAmount": 0,
+          "tile": {
+            "tx": 123,
+            "ty": 1831
+          },
+          "rendererType": 2,
+          "uiErrors": []
+        }
+      ]
+    }
+  ],
+  "lowFuel": {
+    "ready": true,
+    "target": {
+      "tx": 168,
+      "ty": 1077
+    },
+    "fuelProfile": "low",
+    "weatherProfile": "clear",
+    "dayProfile": "night",
+    "depthProfile": "abyss",
+    "scenarios": [
+      {
+        "scenario": "natural",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 3.01256935444295,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.14,
+        "eyeLuminance": 0.900511571944089,
+        "veilAlpha": 0.04813655749488209,
+        "dayTime": 0.88,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "legacy",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "legacy-procedural-v2",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 1,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 3.0125897535825006,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.14,
+        "eyeLuminance": 0,
+        "veilAlpha": 0,
+        "dayTime": 0.88,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "frames": [
+    {
+      "id": "natural",
+      "presentationId": "natural-fire-v1",
+      "eyeEffectScale": 0.24,
+      "visibleRayCount": 0,
+      "volumeVisible": false,
+      "atmosphereVisible": false,
+      "flameWidthTiles": 0.4511644706843811,
+      "flameHeightTiles": 0.6080912430963398
+    },
+    {
+      "id": "legacy",
+      "presentationId": "legacy-procedural-v2",
+      "eyeEffectScale": 0,
+      "visibleRayCount": 0,
+      "volumeVisible": false,
+      "atmosphereVisible": false,
+      "flameWidthTiles": 0,
+      "flameHeightTiles": 0
+    }
+  ],
+  "assetResponses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    }
+  ],
+  "browserIssues": [
+    "console:http://127.0.0.1:8090/favicon.ico:Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "console:http://127.0.0.1:8090/favicon.ico:Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED",
+    "requestfailed:http://127.0.0.1:8090/sprites/backgrounds/world-visual-v2/depth/biome-motion-v3/amber-depths-golden-dust-cathedral-loop-v3.mp4:net::ERR_ABORTED"
+  ]
+}

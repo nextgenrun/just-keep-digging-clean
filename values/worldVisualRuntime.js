@@ -2,7 +2,7 @@ import {
   WORLD_VISUAL_SURFACE_PACKS,
   getWorldVisualSurfacePackPreloadAssets,
   resolveWorldVisualSurfacePack,
-} from "./worldVisualSurfacePacks.js";
+} from "./worldVisualSurfacePacks.js?rev=20260729-native-density-v14";
 
 const SURFACE_GROUND_VARIATION_ROOT = (
   "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5"
@@ -63,7 +63,9 @@ export const WORLD_VISUAL_RUNTIME = Object.freeze({
       queryParam: "scenicDemandStreaming",
       queryEnableValues: Object.freeze(["1", "on", "true"]),
       queryDisableValues: Object.freeze(["0", "off", "false"]),
-      neighborSegments: 0,
+      // Every feather depends on its adjacent card. Request one complete ring
+      // so a slow asset swap can never reveal the black blend matte.
+      neighborSegments: 1,
     }),
   }),
   render: Object.freeze({
@@ -81,12 +83,17 @@ export const WORLD_VISUAL_RUNTIME = Object.freeze({
   }),
   surface: Object.freeze({
     farSegmentWidthTiles: 30,
-    farSegmentOverlapPx: 256,
+    // The 1672px far plate carries a wider scenic vignette than the depth
+    // cards. This includes the 209px mask feather plus a 335px safe handoff
+    // and a small opaque guard, without scaling the source above 1:1.
+    farSegmentOverlapPx: 576,
     farMaxSourceScale: 1,
     townLeftTile: 0,
     townWidthTiles: 20,
+    townMaxSourceScale: 1,
     townBaselineFraction: 727 / 941,
     edgeSegmentWidthTiles: 21.4016,
+    edgeMaxSourceScale: 1,
     edgeTopFraction: 2 / 48,
     edgeOverlapPx: 3,
     surfaceEdgeFeature: Object.freeze({
@@ -103,9 +110,11 @@ export const WORLD_VISUAL_RUNTIME = Object.freeze({
       queryParam: "surfaceGroundVariation",
       queryEnableValues: Object.freeze(["1", "on", "true", "v5"]),
       queryDisableValues: Object.freeze(["0", "off", "false", "legacy"]),
-      logicalWidthTiles: 24,
-      overlapTiles: 3,
-      strideTiles: 21,
+      expectedSourceWidthPx: 1536,
+      expectedSourceHeightPx: 160,
+      maxSourceScale: 1,
+      overlapPx: 192,
+      stridePx: 1344,
       edgeTopFraction: 0,
       assets: SURFACE_GROUND_VARIATION_ASSETS,
     }),

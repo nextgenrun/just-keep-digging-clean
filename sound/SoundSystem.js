@@ -2,6 +2,8 @@ import { ASSET_KEYS } from "../values/assetKeys.js";
 import { AUDIO_CONFIG } from "../values/audioConfig.js";
 import { SoundLibraryManager } from "./SoundLibraryManager.js";
 import { VoiceLineManager } from "./VoiceLineManager.js";
+import { RuntimeAudioAssetManager } from "./RuntimeAudioAssetManager.js";
+import { MusicStreamController } from "./MusicStreamController.js";
 export class SoundSystem {
   constructor(scene) {
     this.scene = scene;
@@ -20,6 +22,7 @@ export class SoundSystem {
 
     this.sfxEnabled = true;
     this.lastFootstepTime = 0;
+    this.lastUiSelectTime = -Infinity;
 
     this.voiceLineTimer = null;
     this.lastVoiceLineTime = 0;
@@ -38,11 +41,13 @@ export class SoundSystem {
 
     this.soundLibraryManager = new SoundLibraryManager(scene);
     this.voiceLineManager = new VoiceLineManager(scene, this);
+    this.runtimeAudioAssetManager = new RuntimeAudioAssetManager(scene);
+    this.musicStreamController = new MusicStreamController(this, this.runtimeAudioAssetManager);
   }
 
   init() {
     this.audioInitialized = false;
-    console.log('[SoundSystem] Skipping pre-cache - using library system for on-demand loading');
+    console.log('[SoundSystem] Runtime audio uses a bounded current/next working set');
     this.scene.sound.volume = this.masterVolume;
     this.tryUnlockAudioContext();
     console.log('[SoundSystem] Initialized - waiting for user interaction to start audio');
@@ -68,73 +73,15 @@ export class SoundSystem {
   }
 
   startBackgroundMusic() {
-    if (!this.musicEnabled) return;
-    this.currentTrackIndex = Math.floor(Math.random() * ASSET_KEYS.audio.music.playlist.length);
-    const startTrackKey = ASSET_KEYS.audio.music.playlist[this.currentTrackIndex];
-    if (!this.scene.cache.audio.exists(startTrackKey)) {
-      console.warn(`[SoundSystem] Music track not available: ${startTrackKey}`);
-      return;
-    }
-    this.currentTrack = this.scene.sound.add(startTrackKey, { volume: 0, loop: false });
-    this.currentTrack.play();
-    this.scene.tweens.add({
-      targets: this.currentTrack, volume: this.musicVolume * this.masterVolume, duration: 2000, ease: 'Sine.easeIn',
-    });
-    this.currentTrack.on('complete', () => this.crossfadeToNextTrack());
-    this.musicTrackTimer = this.scene.time.delayedCall(
-      this.config.musicTrackChangeInterval, () => {
-        if (this.currentTrack && this.currentTrack.isPlaying) this.crossfadeToNextTrack();
-      }
-    );
+    return this.musicStreamController.start();
   }
 
   crossfadeToNextTrack() {
-    if (!this.musicEnabled || this.isCrossfading) return;
-    this.isCrossfading = true;
-    if (this.musicTrackTimer) { this.musicTrackTimer.remove(); this.musicTrackTimer = null; }
-    const oldTrack = this.currentTrack;
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * ASSET_KEYS.audio.music.playlist.length);
-    } while (nextIndex === this.currentTrackIndex && ASSET_KEYS.audio.music.playlist.length > 1);
-    this.currentTrackIndex = nextIndex;
-    const nextTrackKey = ASSET_KEYS.audio.music.playlist[this.currentTrackIndex];
-    if (!this.scene.cache.audio.exists(nextTrackKey)) {
-      console.warn(`[SoundSystem] Music track not available: ${nextTrackKey}`);
-      this.isCrossfading = false;
-      return;
-    }
-    this.currentTrack = this.scene.sound.add(nextTrackKey, { volume: 0, loop: false });
-    this.currentTrack.play();
-    if (oldTrack) {
-      this.scene.tweens.add({
-        targets: oldTrack, volume: 0, duration: 2000, ease: 'Sine.easeOut',
-        onComplete: () => { oldTrack.stop(); oldTrack.destroy(); }
-      });
-    }
-    this.scene.tweens.add({
-      targets: this.currentTrack, volume: this.musicVolume * this.masterVolume, duration: 2000, ease: 'Sine.easeIn',
-      onComplete: () => { this.isCrossfading = false; }
-    });
-    this.currentTrack.on('complete', () => this.crossfadeToNextTrack());
-    this.musicTrackTimer = this.scene.time.delayedCall(
-      this.config.musicTrackChangeInterval, () => {
-        if (this.currentTrack && this.currentTrack.isPlaying) this.crossfadeToNextTrack();
-      }
-    );
+    return this.musicStreamController.crossfade();
   }
 
   stopBackgroundMusic() {
-    if (this.musicTrackTimer) { this.musicTrackTimer.remove(); this.musicTrackTimer = null; }
-    if (this.currentTrack) {
-      this.scene?.tweens?.killTweensOf(this.currentTrack);
-      this.currentTrack.stop(); this.currentTrack.destroy(); this.currentTrack = null;
-    }
-    if (this.nextTrack) {
-      this.scene?.tweens?.killTweensOf(this.nextTrack);
-      this.nextTrack.stop(); this.nextTrack.destroy(); this.nextTrack = null;
-    }
-    this.isCrossfading = false;
+    return this.musicStreamController.stop();
   }
 
   getSfxVolumeForKey(key) {
@@ -193,26 +140,25 @@ export class SoundSystem {
     }
   }
 
-  playFirstAvailableSfx(keys, volumeMultiplier = 1.0) {
+  playFirstAvailableSfx(keys, volumeMultiplier = 1.0, options = {}) {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     const key = keys.find((candidate) => this.scene.cache.audio.exists(candidate));
-    return key ? this.playSfx(key, volumeMultiplier) : null;
+    return key ? this.playSfx(key, volumeMultiplier, options) : null;
   }
 
   playUiSelect() {
+    const now = Number(this.scene.time?.now) || 0;
+    if (now - this.lastUiSelectTime < this.config.uiSelectMinIntervalMs) return null;
+    this.lastUiSelectTime = now;
     return this.playFirstAvailableSfx([
       ASSET_KEYS.audio.sfx.uiSelect,
-      "tileHit-0",
-      "footsteps-0",
-    ], 0.45);
+    ], this.config.uiSelectVolumeMultiplier, { rate: this.config.uiSelectRate });
   }
 
   playUiConfirm() {
     return this.playFirstAvailableSfx([
       ASSET_KEYS.audio.sfx.uiConfirm,
-      "tileBreak-0",
-      "dig-0",
-    ], 0.55);
+    ], this.config.uiConfirmVolumeMultiplier, { rate: this.config.uiConfirmRate });
   }
 
   playVoiceLine(key) {
@@ -237,6 +183,27 @@ export class SoundSystem {
       console.error(`[SoundSystem] ERROR: Failed to play voice line: ${key}`, error);
       return null;
     }
+  }
+
+  loadVoiceLineAsset(entry, onReady) {
+    return this.runtimeAudioAssetManager.ensure(entry, {
+      onReady,
+      onError: (asset, error) => {
+        console.warn(`[SoundSystem] Voice line load failed: ${asset?.key || entry?.key}`, error);
+      },
+    });
+  }
+
+  prefetchVoiceLine(library, selectedEntry) {
+    return this.runtimeAudioAssetManager.prefetchVoiceLine(library, selectedEntry);
+  }
+
+  noteVoiceLineUse(key) {
+    this.runtimeAudioAssetManager.noteVoiceUse(key, this.voiceLineManager?.currentVoiceLineKey);
+  }
+
+  getRuntimeAudioSnapshot() {
+    return this.runtimeAudioAssetManager.snapshot();
   }
 
   playRandomVoiceLine() {
@@ -299,10 +266,10 @@ export class SoundSystem {
     return null;
   }
 
-  playTileHit() {
+  playTileHit(options = {}) {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     const soundKey = this.soundLibraryManager.getRandomSound('tileHit');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey);
+    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey, 1, options);
     return null;
   }
 
@@ -572,8 +539,9 @@ export class SoundSystem {
     // Update total count: playerRandom + moneyMonster + gearUpgrades + playerUpgrades + gemMerchant
     const playerUpgradeTotal = playerUpgradeFiles.length;
     const gemMerchantTotal = gemMerchantUpdate2Files.length;
-    const totalVoiceLines = playerRandomFiles.length + moneyMonsterFiles.length + gearUpgradeFiles.length + playerUpgradeTotal + gemMerchantTotal;
-    console.log(`[SoundSystem] Populated ${totalVoiceLines} voice lines from voice-lines directories`);
+    const totalVoiceLines = playerRandomFiles.length + moneyMonsterFiles.length
+      + gearUpgradeFiles.length + playerUpgradeTotal + gemMerchantTotal + boboFiles.length;
+    console.log(`[SoundSystem] Registered ${totalVoiceLines} voice lines from voice-lines directories`);
   }
 
   playNPCVoiceLine(npcName) {
@@ -595,8 +563,10 @@ export class SoundSystem {
 
   destroy() {
     console.log('[SoundSystem] Destroying sound system');
-    this.stopBackgroundMusic();
     this.stopVoiceLineTimer();
+    this.voiceLineManager?.destroy();
+    this.musicStreamController?.destroy();
+    this.runtimeAudioAssetManager?.destroy();
     // Kill any remaining tweens targeting cached sounds to prevent "Cannot set properties of null (setting 'volume')"
     for (const [key, sound] of this.sfxCache) {
       this.scene?.tweens?.killTweensOf(sound);

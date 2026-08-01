@@ -1,0 +1,488 @@
+{
+  "schema": "old-school-lamp-live-comparison-qa@1",
+  "generatedUtc": "2026-07-30T19:50:26.565Z",
+  "url": "http://127.0.0.1:8090/testing/2026-07-30-old-school-lamp-live-compare.html",
+  "initial": {
+    "ready": true,
+    "target": {
+      "tx": 177,
+      "ty": 204
+    },
+    "fuelProfile": "full",
+    "weatherProfile": "clear",
+    "dayProfile": "day",
+    "depthProfile": "shallow",
+    "scenarios": [
+      {
+        "scenario": "torch",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.801022919873889,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.9966666666666665,
+        "eyeLuminance": 0.9800536788769455,
+        "veilAlpha": 0.01583870035255296,
+        "dayTime": 0.5000069444444445,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "lamp",
+        "runtimeId": "old-school-lamp-light-v1",
+        "presentationId": null,
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": false,
+        "proceduralShaderMix": 0.12,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.801019159454976,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.8981061818181818,
+        "eyeLuminance": 0.699632313408036,
+        "veilAlpha": 0.08222367259250028,
+        "dayTime": 0.5000227138888889,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "initialFrames": [
+    {
+      "id": "torch",
+      "href": "http://127.0.0.1:8090/?jkd_e2e=1&runtimeAssetQueue=1&nativeDensity=0",
+      "query": {
+        "jkd_e2e": "1",
+        "runtimeAssetQueue": "1",
+        "nativeDensity": "0"
+      },
+      "runtimeId": "fire-light-v3",
+      "raysRequested": false,
+      "visibleRayCount": 0,
+      "torchActive": true,
+      "rendererType": 2,
+      "weather": {
+        "kind": "clear",
+        "intensity": 0.02986080150314449,
+        "targetIntensity": 0,
+        "wind": 1.5372783407026152,
+        "forecastKind": "drizzle",
+        "forecastProgress": 0,
+        "stormDistance": 1,
+        "windGustAmount": 0.00044145543107572475,
+        "gustAmount": 0.00044145543107572475,
+        "surfaceAmount": 0,
+        "undergroundAmount": 1,
+        "undergroundSignal": 0,
+        "coveredAmount": 1,
+        "openSkyAmount": 0,
+        "playerShelterAmount": 1,
+        "visibilityPenalty": 0,
+        "movementWetnessPenalty": 0,
+        "campfireExposure": 0,
+        "worldWetnessAmount": 0.00014596470920740355,
+        "surfaceWetness": 0.00014596470920740355,
+        "rainAmount": 0,
+        "snowAmount": 0,
+        "precipitationAmount": 0,
+        "approvedParticleVisualsReady": true,
+        "particleTextureKey": "weather-v11-particles-v2",
+        "isStorming": false,
+        "isSnowing": false
+      },
+      "camera": {
+        "scrollX": 16045,
+        "scrollY": 18910,
+        "playerScreenX": 640,
+        "playerScreenY": 360
+      },
+      "fireGeometry": {
+        "flameWidthTiles": 0.45116336936000473,
+        "flameHeightTiles": 0.6080897587026152,
+        "atmosphereHeightTiles": 1.65
+      },
+      "uiErrors": []
+    },
+    {
+      "id": "lamp",
+      "href": "http://127.0.0.1:8090/?jkd_e2e=1&runtimeAssetQueue=1&nativeDensity=0&carriedLightStyle=lamp-review",
+      "query": {
+        "jkd_e2e": "1",
+        "runtimeAssetQueue": "1",
+        "nativeDensity": "0",
+        "carriedLightStyle": "lamp-review"
+      },
+      "runtimeId": "old-school-lamp-light-v1",
+      "raysRequested": false,
+      "visibleRayCount": 0,
+      "torchActive": true,
+      "rendererType": 2,
+      "weather": {
+        "kind": "clear",
+        "intensity": 0.020631123094984334,
+        "targetIntensity": 0,
+        "wind": 14.327142496397173,
+        "forecastKind": "drizzle",
+        "forecastProgress": 0,
+        "stormDistance": 1,
+        "windGustAmount": 0.0001348813804764036,
+        "gustAmount": 0.0001348813804764036,
+        "surfaceAmount": 0,
+        "undergroundAmount": 1,
+        "undergroundSignal": 0,
+        "coveredAmount": 1,
+        "openSkyAmount": 0,
+        "playerShelterAmount": 1,
+        "visibilityPenalty": 0,
+        "movementWetnessPenalty": 0,
+        "campfireExposure": 0,
+        "worldWetnessAmount": 0,
+        "surfaceWetness": 0,
+        "rainAmount": 0,
+        "snowAmount": 0,
+        "precipitationAmount": 0,
+        "approvedParticleVisualsReady": true,
+        "particleTextureKey": "weather-v11-particles-v2",
+        "isStorming": false,
+        "isSnowing": false
+      },
+      "camera": {
+        "scrollX": 16045,
+        "scrollY": 18910,
+        "playerScreenX": 640,
+        "playerScreenY": 360
+      },
+      "fireGeometry": null,
+      "uiErrors": []
+    }
+  ],
+  "lowRain": {
+    "ready": true,
+    "target": {
+      "tx": 177,
+      "ty": 204
+    },
+    "fuelProfile": "low",
+    "weatherProfile": "rain",
+    "dayProfile": "night",
+    "depthProfile": "shallow",
+    "scenarios": [
+      {
+        "scenario": "torch",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.809240730301449,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.14,
+        "eyeLuminance": 0.969500321250942,
+        "veilAlpha": 0.028167183272568282,
+        "dayTime": 0.88,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "lamp",
+        "runtimeId": "old-school-lamp-light-v1",
+        "presentationId": null,
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": false,
+        "proceduralShaderMix": 0.12,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.8092411167745155,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.14,
+        "eyeLuminance": 0.6637203104063898,
+        "veilAlpha": 0.10908487911101324,
+        "dayTime": 0.88,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "torchOff": {
+    "ready": true,
+    "target": {
+      "tx": 177,
+      "ty": 204
+    },
+    "fuelProfile": "low",
+    "weatherProfile": "rain",
+    "dayProfile": "night",
+    "depthProfile": "shallow",
+    "scenarios": [
+      {
+        "scenario": "torch",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": false,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.792574400876235,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.13681818181818187,
+        "eyeLuminance": 0.9546926362404297,
+        "veilAlpha": 0.03685239034512943,
+        "dayTime": 0.8800069444444445,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "lamp",
+        "runtimeId": "old-school-lamp-light-v1",
+        "presentationId": null,
+        "active": false,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": false,
+        "proceduralShaderMix": 0.12,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.7817251828905825,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.12898400000000018,
+        "eyeLuminance": 0.6247351277234866,
+        "veilAlpha": 0.1113548534318074,
+        "dayTime": 0.8800236416666667,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "finalSnapshot": {
+    "ready": true,
+    "target": {
+      "tx": 177,
+      "ty": 204
+    },
+    "fuelProfile": "full",
+    "weatherProfile": "clear",
+    "dayProfile": "day",
+    "depthProfile": "shallow",
+    "scenarios": [
+      {
+        "scenario": "torch",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.735791399237301,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 1,
+        "eyeLuminance": 0.9490477946831722,
+        "veilAlpha": 0.03910104768054138,
+        "dayTime": 0.5,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "lamp",
+        "runtimeId": "old-school-lamp-light-v1",
+        "presentationId": null,
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": false,
+        "proceduralShaderMix": 0.12,
+        "depth": 140,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 6.716360459046044,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 1,
+        "eyeLuminance": 0.6119817120115543,
+        "veilAlpha": 0.10960297558050158,
+        "dayTime": 0.5,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 177,
+          "ty": 204
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "assetResponses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-source-v1.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-volume-v1.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-rays-v1.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-penumbra-v1.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-bounce-v1.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-hot-core-v1.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/old-school-lamp-light-v1/old-school-lamp-atmosphere-v1.png"
+    }
+  ],
+  "browserIssues": [
+    "console:http://127.0.0.1:8090/favicon.ico:Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "console:http://127.0.0.1:8090/favicon.ico:Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

@@ -63,9 +63,10 @@ assert.deepEqual(
   new Set(ADDITIVE_IDS),
 );
 assert.equal(
-  WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements.some(item => item.level === "level1"),
-  false,
-  "the existing town, Titan Walk, portal gates, and transition retain Level 1 ownership",
+  WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements
+    .filter(item => item.level === "level1").length,
+  12,
+  "existing low props may decorate verified Titan gaps without replacing Level 1 owners",
 );
 
 for (const item of WORLD_VISUAL_SURFACE_PROP_LAYOUT.placements) {

@@ -35,6 +35,7 @@ const animationPolish = buildSurvivalUalAnimationPolishProfile({
   profile: remappedProfile,
   movingSideDig: MOVING_SIDE_DIG_ANIMATION,
   polish: PLAYER_ANIMATION_POLISH,
+  retainedLegacyAnimationKeys: [remappedProfile.digDownAnim],
 });
 const digUpAnimationKeys = Object.freeze(Array.from(new Set([
   ...remappedProfile.digUpHitAnims,
@@ -126,6 +127,10 @@ const blenderCoreDisplaySizeByAnimation = Object.freeze({
     variant.animationKey,
     MOVING_SIDE_DIG_ANIMATION.displaySizePx,
   ])),
+  ...Object.fromEntries(movingSideDig.quickslashPhaseVariants.map((variant) => [
+    variant.animationKey,
+    MOVING_SIDE_DIG_ANIMATION.displaySizePx,
+  ])),
   ...Object.fromEntries(blenderV2.idleFidgets.map((fidget) => [
     fidget.key,
     groundedVisual.idle.displaySizePx,
@@ -158,7 +163,7 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
   renderPipeline: "survival-blender-v2-piskel-central-animation-polish-v1-superman-prone-v3-flight-ual-jog-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",
-  version: "survival-blender-v2-piskel-central-animation-polish-v1-20260728",
+  version: "survival-blender-v2-promoted-animation-polish-v3-20260731",
   visualSkin: blenderV2.visualId,
   coreAnimationPolicy: "Blender idle/flight plus Piskel-owned planted handoffs, moving digs, landing, and wall brace",
   walkStartAnim: animationPolish.walkStartAnim,
@@ -238,6 +243,7 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     digUpSecondary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
     movingSideDigJab: MOVING_SIDE_DIG_ANIMATION.actions.jab.sourceClip,
     movingSideDigCross: MOVING_SIDE_DIG_ANIMATION.actions.cross.sourceClip,
+    movingQuickslash: MOVING_SIDE_DIG_ANIMATION.quickslash.sourceClip,
     fly: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
     flyHover: "Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 + restrained hover loop",
   }),
@@ -262,25 +268,39 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     ...remappedProfile.digAnimationVariants.filter((variant) => !digUpAnimationKeys.includes(variant.key)),
     ...digUpVariants,
     ...movingSideDig.variants,
+    ...movingSideDig.quickslashVariants,
     ...animationPolish.diagonalDigAnimationVariants,
   ]),
   digAnims: Object.freeze(Array.from(new Set([
     ...remappedProfile.digAnims,
     ...movingSideDig.animationKeys,
+    ...movingSideDig.quickslashAnimationKeys,
     ...animationPolish.movingDiagonalDigAnimationKeys,
   ]))),
   punchActionAnims: Object.freeze(Array.from(new Set([
     ...remappedProfile.punchActionAnims,
     ...movingSideDig.animationKeys,
+    ...movingSideDig.quickslashAnimationKeys,
     ...animationPolish.movingDiagonalDigAnimationKeys,
   ]))),
   movingSideDigConfig: MOVING_SIDE_DIG_ANIMATION,
   movingSideDigAnimationMap: movingSideDig.animationMap,
+  movingSideQuickslashAnimationKey: MOVING_SIDE_DIG_ANIMATION.quickslash.animationKey,
+  movingSideQuickslashPhaseVariants: movingSideDig.quickslashPhaseVariants,
+  movingSideQuickslashAnimationKeys: movingSideDig.quickslashAnimationKeys,
+  movingSideQuickslashAnimationKeyByPhaseVariantId:
+    movingSideDig.quickslashAnimationKeyByPhaseVariantId,
   actionContactByAnimation: Object.freeze({
     ...(remappedProfile.actionContactByAnimation || {}),
     ...digUpContactByAnimation,
     ...movingSideDig.contactByAnimation,
     ...animationPolish.diagonalDigContactByAnimation,
+    ...animationPolish.stationaryContactByAnimation,
+    ...animationPolish.verticalDigContactByAnimation,
+  }),
+  quickslashActionContactByAnimation: Object.freeze({
+    ...movingSideDig.quickslashContactByAnimation,
+    ...animationPolish.stationaryQuickslashContactByAnimation,
   }),
   idleFidgets: blenderV2.idleFidgets,
   displaySizePxByAnimation: Object.freeze({

@@ -9,13 +9,8 @@ import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../../values/starlightTalentTree.js";
-
-function fitImage(image, maxWidth, maxHeight) {
-  const width = Math.max(1, image.width || image.displayWidth || 1);
-  const height = Math.max(1, image.height || image.displayHeight || 1);
-  image.setScale(Math.min(maxWidth / width, maxHeight / height));
-  return image;
-}
+import { fitStarlightImage, fitStarlightSign } from "./starlightImagePlacement.js";
+import { createStarlightSignXpBar } from "./starlightSignXpBar.js";
 
 function scaledFont(base, minimum, scale) {
   return Math.max(minimum, Math.round(base * scale));
@@ -29,12 +24,12 @@ function addStarHeart(view, masteredCount) {
   const x = bounds.x + bounds.width * layout.detailHeartXFraction;
   const y = bounds.y + layout.detailHeartOffsetYPx * scale;
   const size = layout.detailHeartSizePx * scale;
-  const socket = fitImage(
+  const socket = fitStarlightImage(
     view.scene.add.image(x, y, ASSET_KEYS.ui.starlightTalentTree.starHeartSocket),
     size,
     size,
   );
-  const image = fitImage(
+  const image = fitStarlightImage(
     view.scene.add.image(x, y, ASSET_KEYS.ui.starlightTalentTree.starHeart),
     size * 0.78,
     size * 0.78,
@@ -102,12 +97,13 @@ export function buildStarlightTalentSummary(view) {
   const buff = CONSTELLATION_BUFFS[view.selectedResource];
   const signX = bounds.x + bounds.width * layout.detailSignXFraction;
   const signY = bounds.y + layout.detailSignOffsetYPx * scale;
-  const sign = fitImage(
+  const sign = fitStarlightSign(
     view.scene.add.image(
       signX,
       signY,
       ASSET_KEYS.constellations.signs[view.selectedResource],
     ),
+    view.selectedResource,
     layout.detailSignMaxPx * scale,
     layout.detailSignMaxPx * scale,
   );
@@ -117,7 +113,7 @@ export function buildStarlightTalentSummary(view) {
   }
   view.summaryRoot.add(sign);
   if (status.abilityLocked) {
-    const lock = fitImage(
+    const lock = fitStarlightImage(
       view.scene.add.image(
         signX,
         signY,
@@ -138,10 +134,15 @@ export function buildStarlightTalentSummary(view) {
       - layout.detailTextRightPaddingFraction
     ),
   );
+  const mutationState = status.abilityLocked
+    ? "BUY ABILITY FROM BOBO"
+    : status.rewardActive
+      ? cfg.copy.mutationActive
+      : cfg.copy.mutationPending;
   view.addSummaryText(
     textX,
     bounds.y + layout.detailTitleOffsetYPx * scale,
-    definition.name || view.selectedResource,
+    `THE ${cfg.resources[view.selectedResource].shortName}`,
     {
       fontFamily: UI_FONTS.display,
       fontSize: `${scaledFont(
@@ -158,7 +159,7 @@ export function buildStarlightTalentSummary(view) {
   view.addSummaryText(
     textX,
     bounds.y + layout.detailBuffOffsetYPx * scale,
-    buff?.name || "Constellation Talent",
+    `${buff?.name || "Constellation Talent"}  •  ${mutationState}`,
     {
       fontFamily: UI_FONTS.display,
       fontSize: `${scaledFont(
@@ -187,46 +188,33 @@ export function buildStarlightTalentSummary(view) {
     },
   );
 
-  const yieldState = status.isUnlocked ? "ACTIVE" : "ON MASTERY";
-  view.addSummaryText(
-    textX,
-    bounds.y + layout.detailPassiveOffsetYPx * scale,
-    `STAR YIELD  +${CONSTELLATION_MATCHING_STAR_YIELD_BONUS}x  •  ${yieldState}`,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSize: `${scaledFont(
-        layout.detailMetaFontSizePx,
-        layout.detailMetaMinimumFontSizePx,
-        scale,
-      )}px`,
-      color: status.isUnlocked ? UI_COLORS.success : UI_COLORS.dim,
-    },
-  );
-
-  const mutationState = status.abilityLocked
-    ? "BUY ABILITY FROM BOBO"
-    : status.rewardActive
-      ? cfg.copy.mutationActive
-      : cfg.copy.mutationPending;
   const relicText = status.relicRequired > 0
     ? `  •  ${status.relicCount}/${status.relicRequired} RELICS`
     : "";
-  const progressText = `${mutationState}`
-    + `  •  ${status.collected}/${status.threshold} STARS${relicText}`;
+  const yieldState = status.isUnlocked ? "ACTIVE" : "ON MASTERY";
+  const nextLevel = Math.min(status.maxLevel, status.level + 1);
+  const levelText = status.mastered
+    ? `SIGN LV ${status.maxLevel}/${status.maxLevel}  •  MASTERED`
+    : `SIGN LV ${status.level}/${status.maxLevel}`
+      + `  •  ${status.levelXp}/${status.levelXpRequired} XP TO LV ${nextLevel}`;
+  const progressText = `${levelText}${relicText}`
+    + `  •  STAR YIELD +${CONSTELLATION_MATCHING_STAR_YIELD_BONUS}x ${yieldState}`;
   const progressY = bounds.y + layout.detailProgressOffsetYPx * scale;
-  const progressPlaque = fitImage(
-    view.scene.add.image(
-      textX + textWidth / 2,
-      progressY,
-      ASSET_KEYS.ui.starlightTalentTree.progressPlaque,
-    ),
-    textWidth,
-    layout.detailProgressPlaqueHeightPx * scale,
-  );
-  view.summaryRoot.add(progressPlaque);
+  if (layout.detailProgressPlaqueVisible) {
+    const progressPlaque = fitStarlightImage(
+      view.scene.add.image(
+        textX + textWidth / 2,
+        progressY,
+        ASSET_KEYS.ui.starlightTalentTree.progressPlaque,
+      ),
+      textWidth,
+      layout.detailProgressPlaqueHeightPx * scale,
+    );
+    view.summaryRoot.add(progressPlaque);
+  }
   view.addSummaryText(
     textX + textWidth / 2,
-    progressY,
+    progressY - 8 * scale,
     progressText,
     {
       fontFamily: UI_FONTS.mono,
@@ -245,6 +233,19 @@ export function buildStarlightTalentSummary(view) {
     0.5,
     0.5,
   );
+  createStarlightSignXpBar({
+    scene: view.scene,
+    parent: view.summaryRoot,
+    x: textX + textWidth / 2,
+    y: progressY + layout.detailXpBarOffsetYPx * scale,
+    width: Math.max(
+      1,
+      textWidth - layout.detailXpBarHorizontalPaddingPx * 2 * scale,
+    ),
+    height: layout.detailXpBarHeightPx * scale,
+    progress: status.levelProgress,
+    alpha: status.abilityLocked ? 0.45 : 1,
+  });
 
   const masteredCount = STARLIGHT_TALENT_RESOURCE_ORDER.filter(
     resourceType => view.statuses[resourceType].isUnlocked,

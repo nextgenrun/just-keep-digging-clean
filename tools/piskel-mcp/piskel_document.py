@@ -4,6 +4,7 @@ import base64
 import io
 import json
 import math
+import time
 from pathlib import Path
 from typing import Any
 
@@ -212,15 +213,32 @@ def load_runtime_frames(entry: dict[str, Any], import_source: bool = False) -> l
     return frames
 
 
-def save_image(path: Path, image: Image.Image) -> None:
+def save_pillow_image(path: Path, image: Image.Image, *args: Any, **kwargs: Any) -> None:
+    """Save beside the target, then replace it to tolerate transient Windows readers."""
     ensure_parent(path)
+    temporary = path.with_name(f".{path.stem}.piskel-write{path.suffix}")
+    for attempt in range(5):
+        try:
+            image.save(temporary, *args, **kwargs)
+            temporary.replace(path)
+            return
+        except OSError:
+            if attempt == 4:
+                raise
+            time.sleep(0.05 * (attempt + 1))
+        finally:
+            if temporary.exists():
+                temporary.unlink()
+
+
+def save_image(path: Path, image: Image.Image) -> None:
     suffix = path.suffix.lower()
     if suffix == ".webp":
-        image.save(path, "WEBP", lossless=True, quality=100, method=6)
+        save_pillow_image(path, image, "WEBP", lossless=True, quality=100, method=6)
     elif suffix == ".png":
-        image.save(path, "PNG")
+        save_pillow_image(path, image, "PNG")
     else:
-        image.save(path)
+        save_pillow_image(path, image)
 
 
 def save_runtime_frames(entry: dict[str, Any], frames: list[Image.Image]) -> dict[str, Any]:

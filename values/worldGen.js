@@ -1,4 +1,5 @@
 import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
+import { TILE_TYPES } from "./tileTypes.js";
 
 // ==================== WORLD GENERATION CONFIG ====================
 export const WORLD_GEN_CONFIG = Object.freeze({
@@ -36,6 +37,68 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     deepIronChance: 0.35,
     deepCopperChance: 0.55,
     deepStoneChance: 0.70,
+    depthEconomyBands: Object.freeze([
+      Object.freeze({
+        minDepth: 300,
+        maxDepth: 599,
+        thresholds: Object.freeze([
+          Object.freeze({ type: TILE_TYPES.GOLD, chance: 0.003 }),
+          Object.freeze({ type: TILE_TYPES.SILVER, chance: 0.012 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_STRONG, chance: 0.035 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_NORMAL, chance: 0.09 }),
+          Object.freeze({ type: TILE_TYPES.BRONZE, chance: 0.14 }),
+          Object.freeze({ type: TILE_TYPES.STEEL, chance: 0.24 }),
+          Object.freeze({ type: TILE_TYPES.IRON, chance: 0.38 }),
+          Object.freeze({ type: TILE_TYPES.COPPER, chance: 0.58 }),
+          Object.freeze({ type: TILE_TYPES.STONE, chance: 0.72 }),
+        ]),
+      }),
+      Object.freeze({
+        minDepth: 600,
+        maxDepth: 999,
+        thresholds: Object.freeze([
+          Object.freeze({ type: TILE_TYPES.GOLD, chance: 0.007 }),
+          Object.freeze({ type: TILE_TYPES.SILVER, chance: 0.025 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_STRONG, chance: 0.05 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_NORMAL, chance: 0.10 }),
+          Object.freeze({ type: TILE_TYPES.BRONZE, chance: 0.18 }),
+          Object.freeze({ type: TILE_TYPES.STEEL, chance: 0.30 }),
+          Object.freeze({ type: TILE_TYPES.IRON, chance: 0.44 }),
+          Object.freeze({ type: TILE_TYPES.COPPER, chance: 0.62 }),
+          Object.freeze({ type: TILE_TYPES.STONE, chance: 0.75 }),
+        ]),
+      }),
+      Object.freeze({
+        minDepth: 1000,
+        maxDepth: 1499,
+        thresholds: Object.freeze([
+          Object.freeze({ type: TILE_TYPES.GOLD, chance: 0.015 }),
+          Object.freeze({ type: TILE_TYPES.SILVER, chance: 0.05 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_STRONG, chance: 0.08 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_NORMAL, chance: 0.13 }),
+          Object.freeze({ type: TILE_TYPES.BRONZE, chance: 0.24 }),
+          Object.freeze({ type: TILE_TYPES.STEEL, chance: 0.37 }),
+          Object.freeze({ type: TILE_TYPES.IRON, chance: 0.51 }),
+          Object.freeze({ type: TILE_TYPES.COPPER, chance: 0.67 }),
+          Object.freeze({ type: TILE_TYPES.STONE, chance: 0.79 }),
+        ]),
+      }),
+      Object.freeze({
+        minDepth: 1500,
+        maxDepth: null,
+        thresholds: Object.freeze([
+          Object.freeze({ type: TILE_TYPES.GOLD, chance: 0.03 }),
+          Object.freeze({ type: TILE_TYPES.SILVER, chance: 0.09 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_STRONG, chance: 0.12 }),
+          Object.freeze({ type: TILE_TYPES.DARK_DIRT_NORMAL, chance: 0.17 }),
+          Object.freeze({ type: TILE_TYPES.BRONZE, chance: 0.32 }),
+          Object.freeze({ type: TILE_TYPES.STEEL, chance: 0.46 }),
+          Object.freeze({ type: TILE_TYPES.IRON, chance: 0.59 }),
+          Object.freeze({ type: TILE_TYPES.COPPER, chance: 0.73 }),
+          Object.freeze({ type: TILE_TYPES.STONE, chance: 0.83 }),
+        ]),
+      }),
+    ]),
   }),
 
   spawnGeometry: Object.freeze({

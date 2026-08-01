@@ -117,6 +117,9 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     intervalMs: 1000,
     lowGpImmediateThreshold: 1,
   }),
+  upkeepProtection: Object.freeze({
+    floorGp: 1, sources: Object.freeze(["flight", "torch"]),
+  }),
   runStats: Object.freeze({
     maximumActivePlayMs: 315360000000,
     maximumActiveFrameMs: 1000,
@@ -179,14 +182,14 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     casualName: "CASUAL",
     casualSummary: "Persistent mine. Zero GP disables abilities, but never deletes your save.",
     hardcoreName: "PERMADEATH HARDCORE",
-    hardcoreSummary: "Arms when Flight is unlocked. At 0 GP, this save and every local backup are deleted.",
+    hardcoreSummary: "Arms at Flight. Flight and torch stop at 1 GP; stress and hazards can take the last.",
     pendingLabel: "HARDCORE • ARMS AT FLIGHT",
     armedLabel: "HARDCORE • OATH ARMED",
     boboOfferName: "The Hardcore Oath",
     boboOfferSummary: "Convert this Casual save forever. Bobo fully charges GP, then 0 GP means permadeath.",
     boboConfirmationTitle: "BOBO'S HARDCORE OATH",
     boboConfirmationBody:
-      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately. Darkness, rapid descent, cave traps, falling rocks, abilities, and the Graveborer Wurm can reduce GP. At 0 GP the save and its local backups are erased.",
+      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately. Flight and torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can take the final GP. At 0 GP the save and its local backups are erased.",
     unstuckTitle: "LAST RESORT RETURN",
     unstuckBody:
       "Returning to safety destroys 50% of every carried resource stack and starts a 10-minute cooldown.\n\nThis applies in Casual and Hardcore. Your wallet and permanent upgrades are not touched.",
@@ -273,6 +276,12 @@ export function isHardcoreMode(data) {
 export function isHardcoreModeArmed(data) {
   const normalized = sanitizeHardcoreModeData(data);
   return normalized.mode === MODES.hardcore && normalized.armed === true;
+}
+
+export function resolveHardcoreUpkeepGpFloor(data, source) {
+  const cfg = HARDCORE_MODE_CONFIG.upkeepProtection;
+  return data?.mode === MODES.hardcore && data?.armed === true
+    && cfg.sources.includes(source) ? cfg.floorGp : 0;
 }
 
 export function getHardcoreModePreloadAssets() {

@@ -52,6 +52,9 @@ jobs:
       - name: Validate release-safety wiring
         run: node testing/2026-07-25-release-safety-contract.mjs
 
+      - name: Validate depth resource economy, rollback, and worker alerts
+        run: node testing/2026-07-30-depth-resource-economy-contract.mjs
+
       - name: Validate approved Arc Core Piskel visuals and rollback
         run: node testing/2026-07-26-arc-core-production-visual-contract.mjs
 

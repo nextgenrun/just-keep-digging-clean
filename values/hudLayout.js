@@ -109,8 +109,8 @@ export const HUD_LAYOUT = Object.freeze({
     guaranteedCrit: "#FF0000",     // Red — crit
   },
   buffTimerLabels: {
-    miningSpeedBoost: "⚡ SPD",
-    damageBoost: "💪 DMG",
-    guaranteedCrit: "💥 CRIT",
+    miningSpeedBoost: "SPD",
+    damageBoost: "DMG",
+    guaranteedCrit: "CRIT",
   },
 });

@@ -1,19 +1,23 @@
 {
   "schemaVersion": 1,
-  "version": "held-dig-next-five-review-v1-20260729",
+  "version": "held-dig-size-anchor-review-v2-20260729",
   "reviewOnly": true,
   "productionChanged": false,
   "runtimeAssetCount": 44,
   "effectiveCooldownMs": 750,
   "scenarios": [
     {
-      "id": "held-chain",
+      "id": "moving-hold-scale-lock",
       "rank": 1,
-      "title": "Continuous Jab to Cross chain",
-      "output": "generated/01-held-chain-before-after.gif",
+      "title": "Held SIDE Dig while moving",
+      "output": "generated/01-moving-hold-scale-lock.gif",
       "frames": 44,
-      "beforeJogFlashFrames": 2,
-      "afterJogFlashFrames": 0,
+      "currentApparentScale": 0.8861788618,
+      "proposedApparentScale": 1.0,
+      "currentTorsoLengthSourcePx": 56.856,
+      "proposedTorsoLengthSourcePx": 64.159,
+      "sizePulsePercentBefore": 11.38,
+      "sizePulsePercentAfter": 0,
       "contactFramesBefore": [
         6,
         28
@@ -21,15 +25,63 @@
       "contactFramesAfter": [
         6,
         28
-      ]
+      ],
+      "bottomDriftPxAfter": 1,
+      "pelvisAlignmentErrorPxAfter": 0.632
     },
     {
-      "id": "move-during-strike",
+      "id": "jog-jab-size-lock",
       "rank": 2,
-      "title": "Move start during an active strike",
-      "output": "generated/02-move-during-strike-before-after.gif",
+      "title": "Jog to standing Jab to Jog",
+      "output": "generated/02-jog-jab-size-lock.gif",
+      "frames": 39,
+      "attackStartFrame": 6,
+      "displaySizePxBefore": 109,
+      "displaySizePxAfter": 123,
+      "sizePulsePercentBefore": 11.38,
+      "sizePulsePercentAfter": 0,
+      "contactFramesBefore": [
+        13
+      ],
+      "contactFramesAfter": [
+        13
+      ],
+      "contactVisualOffsetPxBefore": 21.5779,
+      "contactVisualOffsetPxAfter": 18.1843
+    },
+    {
+      "id": "jog-cross-size-lock",
+      "rank": 3,
+      "title": "Jog to standing Cross to Jog",
+      "output": "generated/03-jog-cross-size-lock.gif",
+      "frames": 43,
+      "attackStartFrame": 6,
+      "displaySizePxBefore": 109,
+      "displaySizePxAfter": 123,
+      "sizePulsePercentBefore": 11.38,
+      "sizePulsePercentAfter": 0,
+      "contactFramesBefore": [
+        15
+      ],
+      "contactFramesAfter": [
+        15
+      ],
+      "contactVisualOffsetPxBefore": 22.8098,
+      "contactVisualOffsetPxAfter": 19.5743
+    },
+    {
+      "id": "move-during-strike-scale-lock",
+      "rank": 4,
+      "title": "Movement begins during a Jab",
+      "output": "generated/04-move-during-strike-scale-lock.gif",
       "frames": 44,
       "movementInputFrame": 9,
+      "currentApparentScale": 0.8861788618,
+      "proposedApparentScale": 1.0,
+      "currentTorsoLengthSourcePx": 56.856,
+      "proposedTorsoLengthSourcePx": 64.159,
+      "sizePulsePercentBefore": 11.38,
+      "sizePulsePercentAfter": 0,
       "standingFootTravelFramesBefore": 18,
       "standingFootTravelFramesAfter": 0,
       "contactFramesBefore": [
@@ -42,53 +94,19 @@
       ]
     },
     {
-      "id": "aim-retarget",
-      "rank": 3,
-      "title": "SIDE to UP-SIDE retarget while held",
-      "output": "generated/03-aim-retarget-before-after.gif",
-      "frames": 44,
-      "retargetInputFrame": 15,
-      "visualResponseDelayFramesBefore": 9,
-      "visualResponseDelayFramesAfter": 0,
-      "nextContactFrameBefore": 31,
-      "nextContactFrameAfter": 31
-    },
-    {
-      "id": "mining-reversal",
-      "rank": 4,
-      "title": "Opposite-side mining reversal",
-      "output": "generated/04-mining-reversal-before-after.gif",
-      "frames": 31,
-      "turnInputFrame": 7,
-      "facingResponseDelayFramesBefore": 15,
-      "facingResponseDelayFramesAfter": 0,
-      "pivotFramesAfter": 2,
-      "contactFramesBefore": [
-        6,
-        28
-      ],
-      "contactFramesAfter": [
-        6,
-        28
-      ]
-    },
-    {
-      "id": "speed-matched-feet",
+      "id": "held-chain-scale-lock",
       "rank": 5,
-      "title": "Travel-speed-matched mining feet",
-      "output": "generated/05-speed-matched-feet-before-after.gif",
+      "title": "Continuous scale-locked Jab to Cross",
+      "output": "generated/05-held-chain-scale-lock.gif",
       "frames": 44,
-      "speedChangeFrame": 22,
-      "slowSpeedPxPerSec": 80,
-      "fastSpeedPxPerSec": 200,
-      "beforeJogPhaseAdvance": [
-        14,
-        14
-      ],
-      "afterJogPhaseAdvance": [
-        18,
-        45
-      ],
+      "currentApparentScale": 0.8861788618,
+      "proposedApparentScale": 1.0,
+      "currentTorsoLengthSourcePx": 56.856,
+      "proposedTorsoLengthSourcePx": 64.159,
+      "sizePulsePercentBefore": 11.38,
+      "sizePulsePercentAfter": 0,
+      "beforeJogFlashFrames": 2,
+      "afterJogFlashFrames": 0,
       "contactFramesBefore": [
         6,
         28

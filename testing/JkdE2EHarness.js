@@ -18,7 +18,10 @@ const BACKGROUND_PREVIEW_RANGES = Object.freeze({
   level2: Object.freeze({ minX: 113, maxX: 278 }),
 });
 const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 33, 63]);
-const SURFACE_PROP_PREVIEW_TILES = Object.freeze([40, 63, 89, 109, 161, 179, 209, 247, 275]);
+const SURFACE_PROP_PREVIEW_TILES = Object.freeze([
+  40, 63, 89, 109,
+  155, 169, 182, 195, 209, 231, 251, 271,
+]);
 const STAR_PILLAR_PREVIEW_COUNTS = Object.freeze([0, 1, 3, 5, 7, 10]);
 const TEXTURE_AUDIT_RESOURCE_TYPES = Object.freeze([
   TILE_TYPES.STONE,

@@ -1,9 +1,11 @@
 {
-  "schemaVersion": 1,
-  "version": "held-dig-next-five-review-v1-20260729",
+  "schemaVersion": 2,
+  "version": "held-dig-size-anchor-review-v2-20260729",
   "reviewOnly": true,
   "productionChanged": false,
-  "defaultScenarioId": "held-chain",
+  "productionDecision": "rejected-after-runtime-test",
+  "productionDecisionReason": "The uniform 123 px attack canvas enlarged the authored body and contact envelope in game, increasing apparent size drift and contact-driven skating.",
+  "defaultScenarioId": "moving-hold-scale-lock",
   "sources": {
     "runtimeManifest": "sprites/character/survival-ual-player-v1/runtime/manifest.json",
     "runtimeDirectory": "sprites/character/survival-ual-player-v1/runtime",
@@ -17,6 +19,14 @@
     "effectiveCooldownMs": 750,
     "previewFrameDurationMs": 34,
     "displaySizePx": 123,
+    "currentAttackDisplaySizePx": 109,
+    "proposedAttackDisplaySizePx": 123,
+    "currentMovingUpperScale": 0.8861788618,
+    "proposedMovingUpperScale": 1.0,
+    "currentMovingContactEnvelopeRightSourcePx": 194,
+    "proposedMovingContactEnvelopeRightSourcePx": 203,
+    "contactFaceClearanceSourcePx": 2,
+    "scaleLockTorsoReferenceSourcePx": 64.159,
     "reviewScale": 1.45,
     "visualOriginX": 0.5,
     "visualOriginY": 0.96484375,
@@ -27,8 +37,20 @@
     "referenceMoveSpeedPxPerSec": 200,
     "slowMoveSpeedPxPerSec": 80,
     "pivotRunFrames": [20, 21],
+    "chainJogPhases": [23, 24],
+    "scaleReferenceEntryPhases": [21, 22, 23, 24, 25, 26],
+    "scaleReferenceExitPhases": [27, 0, 1, 2, 3, 4],
+    "actionIds": {
+      "run": "run",
+      "punchJab": "punch-jab",
+      "punchCross": "punch-cross",
+      "movingJab": "moving-side-dig-jab",
+      "movingCross": "moving-side-dig-cross",
+      "diagonalUp": "moving-diagonal-up-phase-15"
+    },
     "contactSequenceIndexes": {
       "punch-jab": 7,
+      "punch-cross": 9,
       "moving-side": 6,
       "moving-diagonal-up": 7
     },
@@ -64,65 +86,65 @@
     "contactSheet": "generated/held-dig-next-five-contact-sheet.png"
   },
   "scenarios": [
-    {
-      "rank": 1,
-      "id": "held-chain",
-      "title": "Continuous Jab to Cross chain",
-      "shortTitle": "No Jog flash",
-      "before": "Each completed strike briefly returns the whole body to Jog before the next punch owns the torso.",
-      "after": "Jab recovery feeds Cross anticipation directly while the authored Jog phase continues underneath.",
-      "eventLabel": "NEXT HELD DIG",
-      "eventFrame": 22,
-      "output": "generated/01-held-chain-before-after.gif",
-      "keyFrame": 23
-    },
-    {
-      "rank": 2,
-      "id": "move-during-strike",
-      "title": "Move start during an active strike",
-      "shortTitle": "Feet engage immediately",
-      "before": "A standing punch keeps planted feet after movement begins, so the collider travels under a stationary pose.",
-      "after": "The same upper-punch phase hands its lower body to a phase-matched Jog on the movement-input frame.",
-      "eventLabel": "MOVE INPUT",
-      "eventFrame": 9,
-      "output": "generated/02-move-during-strike-before-after.gif",
-      "keyFrame": 10
-    },
-    {
-      "rank": 3,
-      "id": "aim-retarget",
-      "title": "SIDE to UP-SIDE retarget while held",
-      "shortTitle": "Strike follows aim",
-      "before": "The old sideways strike finishes against the previous tile before the new diagonal family can begin.",
-      "after": "A neutral recovery phase redirects into the closest diagonal Jog phase without resetting the feet.",
-      "eventLabel": "AIM UP-SIDE",
-      "eventFrame": 15,
-      "output": "generated/03-aim-retarget-before-after.gif",
-      "keyFrame": 16
-    },
-    {
-      "rank": 4,
-      "id": "mining-reversal",
-      "title": "Opposite-side mining reversal",
-      "shortTitle": "Immediate planted pivot",
-      "before": "The active punch remains aimed right after left input, then mirrors abruptly when the next strike starts.",
-      "after": "Facing changes immediately through the existing two planted Jog phases before the mirrored Cross continues.",
-      "eventLabel": "TURN + DIG LEFT",
-      "eventFrame": 7,
-      "output": "generated/04-mining-reversal-before-after.gif",
-      "keyFrame": 8
-    },
-    {
-      "rank": 5,
-      "id": "speed-matched-feet",
-      "title": "Travel-speed-matched mining feet",
-      "shortTitle": "No slow or fast foot skate",
-      "before": "The composite advances the same fourteen Jog phases whether the player travels slowly or at full run speed.",
-      "after": "Only the lower-body Jog sampling follows resolved travel distance; punch timing and contact remain unchanged.",
-      "eventLabel": "80 to 200 PX/S",
-      "eventFrame": 22,
-      "output": "generated/05-speed-matched-feet-before-after.gif",
-      "keyFrame": 25
-    }
+      {
+        "rank": 1,
+        "id": "moving-hold-scale-lock",
+        "title": "Held SIDE Dig while moving",
+        "shortTitle": "Remove the size pulse",
+        "before": "Jog legs remain at 123 px while every Jab/Cross torso is internally reduced to 88.6%, making the upper body breathe smaller on each strike.",
+        "after": "Jog and both attack torsos share one 123 px presentation and one 100% skeletal scale; contact alignment and timing stay unchanged.",
+        "eventLabel": "HELD DIG",
+        "eventFrame": 0,
+        "output": "generated/01-moving-hold-scale-lock.gif",
+        "keyFrame": 6
+      },
+      {
+        "rank": 2,
+        "id": "jog-jab-size-lock",
+        "title": "Jog to standing Jab to Jog",
+        "shortTitle": "Lock full-body attack size",
+        "before": "The live resolver hard-switches from 123 px Jog to a 109 px Jab and back, creating a clear whole-character shrink and regrow.",
+        "after": "The same authored Jab stays at 123 px around the fixed 247/256 ground origin, eliminating the scale and root-offset pulse.",
+        "eventLabel": "JAB START",
+        "eventFrame": 6,
+        "output": "generated/02-jog-jab-size-lock.gif",
+        "keyFrame": 13
+      },
+      {
+        "rank": 3,
+        "id": "jog-cross-size-lock",
+        "title": "Jog to standing Cross to Jog",
+        "shortTitle": "Stop Cross breathing",
+        "before": "Cross uses the same native skeleton as Jog but is presented fourteen pixels smaller and needs a larger contact-driven visual offset.",
+        "after": "Cross shares the 123 px family size, stays planted, and reaches the same tile with less sprite-to-collider displacement.",
+        "eventLabel": "CROSS START",
+        "eventFrame": 6,
+        "output": "generated/03-jog-cross-size-lock.gif",
+        "keyFrame": 15
+      },
+      {
+        "rank": 4,
+        "id": "move-during-strike-scale-lock",
+        "title": "Movement begins during a Jab",
+        "shortTitle": "One scale through handoff",
+        "before": "A 109 px standing Jab becomes a 123 px moving composite whose torso still remains at 88.6%, producing two conflicting size changes.",
+        "after": "The standing and moving portions both use the 123 px / 100% attack family while phase-matched Jog feet engage immediately.",
+        "eventLabel": "MOVE INPUT",
+        "eventFrame": 9,
+        "output": "generated/04-move-during-strike-scale-lock.gif",
+        "keyFrame": 10
+      },
+      {
+        "rank": 5,
+        "id": "held-chain-scale-lock",
+        "title": "Continuous scale-locked Jab to Cross",
+        "shortTitle": "No size or Jog reset",
+        "before": "The current held loop combines an undersized torso with a two-frame full-size Jog flash, amplifying the breathing effect between attacks.",
+        "after": "A full-scale Jab recovery feeds the full-scale Cross directly while the authored Jog lower-body phase continues underneath.",
+        "eventLabel": "NEXT HELD DIG",
+        "eventFrame": 22,
+        "output": "generated/05-held-chain-scale-lock.gif",
+        "keyFrame": 23
+      }
   ]
 }

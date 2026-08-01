@@ -104,6 +104,18 @@ function talentTreeFindings(scene, config) {
   )];
 }
 
+function starProgressionFindings(scene, config) {
+  const health = scene?.floatingTextSystem?.getStarProgressionHealthSnapshot?.();
+  if (!health || health.ready) return [];
+  return [finding(
+    config,
+    config.events.starProgressionInvariant,
+    config.severity.error,
+    config.messages.starProgressionInvariant,
+    { sceneKey: "PlayScene", health },
+  )];
+}
+
 function heavenblocksFindings(scene, config) {
   const findings = [];
   const health = scene?.heavenblocksAccessSystem?.getHealthSnapshot?.();
@@ -150,6 +162,18 @@ function arcCoreVisualFindings(scene, config) {
     config.events.arcCoreVisualInvariant,
     config.severity.error,
     config.messages.arcCoreVisualInvariant,
+    { sceneKey: "PlayScene", health },
+  )];
+}
+
+function resourceEconomyFindings(scene, config) {
+  const health = scene?.digSystem?.getDepthEconomyHealthSnapshot?.();
+  if (!health || health.ready) return [];
+  return [finding(
+    config,
+    config.events.resourceEconomyInvariant,
+    config.severity.error,
+    config.messages.resourceEconomyInvariant,
     { sceneKey: "PlayScene", health },
   )];
 }
@@ -224,9 +248,11 @@ export function evaluateRuntimeCanaries(
     if (key === "PlayScene") {
       findings.push(...shopUiFindings(scene, config));
       findings.push(...celestialFindings(scene, nowMs, config));
+      findings.push(...starProgressionFindings(scene, config));
       findings.push(...talentTreeFindings(scene, config));
       findings.push(...heavenblocksFindings(scene, config));
       findings.push(...arcCoreVisualFindings(scene, config));
+      findings.push(...resourceEconomyFindings(scene, config));
     }
   }
 

@@ -158,7 +158,9 @@ const scene = {
 };
 
 const renderer = new SkySteadyLightRenderer(scene, visuals);
-assert.equal(imageRecords.length, visuals.maxImages, "steady-light images must be pooled at setup");
+assert.equal(imageRecords.length, 0, "steady-light pooling must wait for demand-ready textures");
+renderer.beginFrame();
+assert.equal(imageRecords.length, visuals.maxImages, "steady-light images must pool at first ready frame");
 
 const tileSize = 94;
 for (let rarity = 0; rarity < assets.length; rarity += 1) {

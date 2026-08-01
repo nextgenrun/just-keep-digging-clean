@@ -1,5 +1,9 @@
 # Meshy Background Render Mockup V2
 
+> Historical note: this route was briefly promoted on 2026-07-30, then removed
+> after live review on 2026-07-31 exposed severe repetition and giant duplicate
+> arches. The user approved the existing small left entrance, not these Meshy
+> review images as the cave interior. This folder remains provenance only.
 Status: **rejected review-only mockup**. Nothing here is loaded by Phaser.
 
 This direction was rejected because a single generated cave prop/model is not

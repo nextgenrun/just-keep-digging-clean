@@ -264,7 +264,7 @@ for (const rendererSource of [legacySource, scenicSource]) {
 assert.match(playUpdateSource, /titanStatueDistance/);
 assert.match(
   playUpdateSource,
-  /Math\.min\(milestoneDistance, nearestNpcDistance, specialTileDistance\)/,
+  /Math\.min\(milestoneDistance, nearestNpcDistance, specialTileDistance, eventDistance, memoryReliquaryDistance\)/,
 );
 assert.match(playUpdateSource, /!titanConsumedInteraction/);
 assert.match(e2eSource, /previewFirstUnlockedTitanStatue/);

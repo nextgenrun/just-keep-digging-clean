@@ -89,6 +89,13 @@ export class HUDSystem {
     this.torchActive = false;
     this.torchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
     this._destroyed = false;
+    this._systemVisibility = {
+      clock: true,
+      weather: true,
+      torch: true,
+      combo: true,
+      buff: true,
+    };
 
     // Combo pop state
     this._lastComboCount = 0;
@@ -336,6 +343,24 @@ export class HUDSystem {
     this.specialBlockEffectsManager = manager;
   }
 
+  setSystemVisibility(visibility = {}) {
+    this._systemVisibility = { ...this._systemVisibility, ...visibility };
+    const groups = {
+      clock: [this.clockPanel, this.clockTimeText, this.clockDayText],
+      weather: [this.weatherPanel, this.weatherText, this.weatherTempText, this.weatherSeasonText, this.weatherIntensityBar],
+      torch: [this.torchIcon, this.torchStatusText],
+      combo: [this.comboText, this.comboTimerBg, this.comboTimerBar],
+      buff: [this.buffTimerText],
+    };
+    Object.entries(groups).forEach(([key, objects]) => (
+      objects.forEach(object => object?.setVisible(this._systemVisibility[key]))
+    ));
+    this.approvedSkin?.worldFrame?.setVisible(
+      this._systemVisibility.clock || this._systemVisibility.weather,
+    );
+    this.approvedSkin?.setComboVisible(this._systemVisibility.combo && this.comboVisible);
+    if (!this._systemVisibility.buff) this.approvedSkin?.setBuffLines([]);
+  }
   _createLootBagTarget() {
     const featureFlags = this.scene.config?.featureFlags;
     const lootVisualsEnabled = this.scene.config?.lootVisuals !== false
@@ -696,8 +721,15 @@ export class HUDSystem {
 
   updateCombo(timeMs) {
     if (!this.comboSystem) return;
-    
     const comboCount = this.comboSystem.getComboCount();
+    if (!this._systemVisibility.combo) {
+      this.comboText?.setVisible(false);
+      this.comboTimerBg?.setVisible(false);
+      this.comboTimerBar?.setVisible(false);
+      this.approvedSkin?.setComboVisible(false);
+      this.comboVisible = false;
+      return;
+    }
     
     if (comboCount < 5) {
       if (this.comboVisible) {
@@ -722,7 +754,7 @@ export class HUDSystem {
     const multiplierStr = multiplier.toFixed(2);
     setTextIfChanged(this.comboText, this.approvedSkin?.active
       ? `COMBO ${comboCount}  ·  ${multiplierStr}x`
-      : `🔥 COMBO ${comboCount}  ${multiplierStr}x`);
+      : `COMBO ${comboCount}  ${multiplierStr}x`);
 
     // Combo pop — quick scale punch when combo count increases
     if (HUD_JUICE_CONFIG.enabled && HUD_JUICE_CONFIG.comboPop.enabled && comboCount > this._lastComboCount) {
@@ -759,6 +791,11 @@ export class HUDSystem {
   }
 
   updateBuffTimers() {
+    if (!this._systemVisibility.buff) {
+      this.buffTimerText?.setVisible(false);
+      this.approvedSkin?.setBuffLines([]);
+      return;
+    }
     const labels = HUD_LAYOUT.buffTimerLabels;
     const colors = HUD_LAYOUT.buffTimerColors;
     const lines = [];
@@ -789,7 +826,7 @@ export class HUDSystem {
       const buff = campfire.getActiveBuff();
       if (buff) {
         const remaining = Math.ceil(buff.remainingMs / 1000);
-        lines.push(`🔥 ${buff.name} ${remaining}s`);
+        lines.push(`HEARTH  ${buff.name} ${remaining}s`);
       }
     }
 

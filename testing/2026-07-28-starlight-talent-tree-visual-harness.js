@@ -7,6 +7,10 @@ import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../values/starlightTalentTree.js";
+import {
+  getStarDiscoveryPreloadAssets,
+} from "../values/starRarityProgression.js";
+import { PAUSE_MENU_LAYOUT } from "../values/uiLayout.js";
 import { createModalShell } from "../ui/UiModalShell.js";
 import { StarlightTalentTreeView } from "../ui/overlays/StarlightTalentTreeView.js";
 
@@ -14,6 +18,7 @@ const params = new URLSearchParams(window.location.search);
 const reviewWidth = Phaser.Math.Clamp(Number(params.get("width")) || 1280, 960, 1600);
 const reviewHeight = Phaser.Math.Clamp(Number(params.get("height")) || 720, 640, 1000);
 const godMode = params.get("god") === "1";
+const shellMode = params.get("shell") === "pause" ? "pause" : "pillar";
 const SIGN_PATHS = Object.freeze({
   dirt: "dirt-shovel.png",
   stone: "stone-mountain.png",
@@ -85,6 +90,40 @@ const PROFILES = Object.freeze({
   }),
 });
 
+function getReviewShellOptions() {
+  if (shellMode === "pause") {
+    return {
+      title: "PAUSED", subtitle: "Run controls, progression, and settings", icon: "pause",
+      maxWidth: PAUSE_MENU_LAYOUT.maxWidth, maxHeight: PAUSE_MENU_LAYOUT.maxHeight,
+      depth: 3180, onClose() {},
+    };
+  }
+  return {
+    title: "STAR PILLAR",
+    subtitle: STARLIGHT_TALENT_TREE_CONFIG.copy.pillarHint,
+    icon: "constellation",
+    skinTexture: ASSET_KEYS.ui.starlightTalentTree.modalShell,
+    iconTexture: ASSET_KEYS.ui.starlightTalentTree.modalCrest,
+    iconSize: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconSizePx,
+    closeTexture: ASSET_KEYS.ui.starlightTalentTree.modalClose,
+    closeSize: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseSizePx,
+    headerHeight: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderHeightPx,
+    headerLayout: {
+      iconOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconOffsetXPx,
+      iconOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconOffsetYPx,
+      titleOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderTitleOffsetXPx,
+      titleOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderTitleOffsetYPx,
+      subtitleOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderSubtitleOffsetYPx,
+      closeOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseOffsetXPx,
+      closeOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseOffsetYPx,
+    },
+    maxWidth: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarMaxWidthPx,
+    maxHeight: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarMaxHeightPx,
+    depth: 3180,
+    onClose() {},
+  };
+}
+
 class StarlightTalentTreeReviewScene extends Phaser.Scene {
   constructor() {
     super("StarlightTalentTreeReviewScene");
@@ -100,34 +139,14 @@ class StarlightTalentTreeReviewScene extends Phaser.Scene {
     Object.entries(starlightKeys).forEach(([name, key]) => {
       this.load.image(key, `../${starlightAssets.basePath}${starlightAssets.files[name]}`);
     });
+    getStarDiscoveryPreloadAssets().forEach(asset => {
+      this.load.image(asset.key, `../${asset.path}`);
+    });
   }
 
   create() {
     this.soundSystem = { playUiSelect() {}, playUiConfirm() {} };
-    this.shell = createModalShell(this, {
-      title: "STAR PILLAR",
-      subtitle: STARLIGHT_TALENT_TREE_CONFIG.copy.pillarHint,
-      icon: "constellation",
-      skinTexture: ASSET_KEYS.ui.starlightTalentTree.modalShell,
-      iconTexture: ASSET_KEYS.ui.starlightTalentTree.modalCrest,
-      iconSize: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconSizePx,
-      closeTexture: ASSET_KEYS.ui.starlightTalentTree.modalClose,
-      closeSize: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseSizePx,
-      headerHeight: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderHeightPx,
-      headerLayout: {
-        iconOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconOffsetXPx,
-        iconOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconOffsetYPx,
-        titleOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderTitleOffsetXPx,
-        titleOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderTitleOffsetYPx,
-        subtitleOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderSubtitleOffsetYPx,
-        closeOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseOffsetXPx,
-        closeOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseOffsetYPx,
-      },
-      maxWidth: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarMaxWidthPx,
-      maxHeight: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarMaxHeightPx,
-      depth: 3180,
-      onClose() {},
-    });
+    this.shell = createModalShell(this, getReviewShellOptions());
     this.shell.show();
     this.showProfile(params.get("profile") || "mid");
     globalThis.__starlightTalentReview = {
@@ -152,22 +171,39 @@ class StarlightTalentTreeReviewScene extends Phaser.Scene {
       activate: () => this.view?.activateSelected(),
       health: () => this.view?.getHealthSnapshot(),
       snapshot: () => ({
+        shellMode,
         profile: this.profile,
         selectedControlIndex: this.view?.selectedControlIndex,
         selectedResource: this.view?.selectedResource,
         pageIndex: this.view?.pageIndex,
         activePageId: STARLIGHT_TALENT_TREE_CONFIG.pages[this.view?.pageIndex]?.id,
         lastEngine: document.body.dataset.lastEngine || null,
+        layoutScale: this.view?.layoutScale,
+        contentBounds: this.contentBounds,
+        pageBounds: this.view?.bounds,
       }),
     };
     document.body.dataset.reviewReady = "true";
+    document.body.dataset.shellMode = shellMode;
   }
 
   showProfile(profileName) {
     const profile = PROFILES[profileName] || PROFILES.mid;
     this.profile = PROFILES[profileName] ? profileName : "mid";
     this.view?.destroy();
-    const rect = this.shell.getContentRect();
+    const inset = STARLIGHT_TALENT_TREE_CONFIG.layout.immersiveInsetPx;
+    this.contentBounds = {
+      x: -this.shell.width / 2 + inset,
+      y: -this.shell.height / 2 + inset,
+      width: this.shell.width - inset * 2,
+      height: this.shell.height - inset * 2,
+    };
+    this.shell.titleText?.setVisible?.(false);
+    this.shell.subtitleText?.setVisible?.(false);
+    this.shell.icon?.setVisible?.(false);
+    this.shell.skin?.setVisible?.(false);
+    this.shell.panel?.setVisible?.(false);
+    this.shell.closeButton?.root?.setVisible?.(shellMode !== "pause");
     const thresholds = Object.fromEntries(
       STARLIGHT_TALENT_RESOURCE_ORDER.map(resourceType => [resourceType, 5]),
     );
@@ -222,15 +258,15 @@ class StarlightTalentTreeReviewScene extends Phaser.Scene {
       isThunderStrikeUnlocked: () => profile.thunderstrikeUnlocked,
     };
     this.view = new StarlightTalentTreeView(this, {
-      x: rect.left,
-      y: rect.top,
-      width: rect.width,
-      height: rect.height,
+      x: this.contentBounds.x,
+      y: this.contentBounds.y,
+      width: this.contentBounds.width,
+      height: this.contentBounds.height,
       parent: this.shell.content,
       floatingTextSystem: fts,
       progression,
       abilities,
-      mode: "pillar",
+      mode: shellMode,
       focusResource: profile.focusResource,
       firstRevealResource: profile.firstRevealResource,
       onFocus: () => this.publishReviewState(),
@@ -248,6 +284,8 @@ class StarlightTalentTreeReviewScene extends Phaser.Scene {
   publishReviewState() {
     if (!this.view) return;
     const health = this.view.getHealthSnapshot();
+    document.body.dataset.layoutScale = String(this.view.layoutScale);
+    document.body.dataset.contentBounds = JSON.stringify(this.contentBounds);
     document.body.dataset.healthReady = String(health.ready);
     document.body.dataset.healthSnapshot = JSON.stringify(health);
     document.body.dataset.activePage = health.activePageId || "";

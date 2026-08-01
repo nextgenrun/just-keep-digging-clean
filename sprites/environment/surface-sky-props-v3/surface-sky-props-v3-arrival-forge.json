@@ -1,0 +1,495 @@
+{
+  "frames": {
+    "arrival-forge-coal-sacks": {
+      "frame": {
+        "x": 5,
+        "y": 5,
+        "w": 243,
+        "h": 168
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 243,
+        "h": 168
+      },
+      "sourceSize": {
+        "w": 243,
+        "h": 168
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-cooling-trough": {
+      "frame": {
+        "x": 258,
+        "y": 5,
+        "w": 260,
+        "h": 100
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 260,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 260,
+        "h": 100
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-smith-tool-rack": {
+      "frame": {
+        "x": 528,
+        "y": 5,
+        "w": 226,
+        "h": 177
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 226,
+        "h": 177
+      },
+      "sourceSize": {
+        "w": 226,
+        "h": 177
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-chained-ore-crate": {
+      "frame": {
+        "x": 764,
+        "y": 5,
+        "w": 189,
+        "h": 178
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 189,
+        "h": 178
+      },
+      "sourceSize": {
+        "w": 189,
+        "h": 178
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-anvil-stump": {
+      "frame": {
+        "x": 963,
+        "y": 5,
+        "w": 173,
+        "h": 157
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 173,
+        "h": 157
+      },
+      "sourceSize": {
+        "w": 173,
+        "h": 157
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-quenching-buckets": {
+      "frame": {
+        "x": 5,
+        "y": 193,
+        "w": 255,
+        "h": 166
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 255,
+        "h": 166
+      },
+      "sourceSize": {
+        "w": 255,
+        "h": 166
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-iron-ingots": {
+      "frame": {
+        "x": 270,
+        "y": 193,
+        "w": 245,
+        "h": 124
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 245,
+        "h": 124
+      },
+      "sourceSize": {
+        "w": 245,
+        "h": 124
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-small-bellows": {
+      "frame": {
+        "x": 525,
+        "y": 193,
+        "w": 245,
+        "h": 142
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 245,
+        "h": 142
+      },
+      "sourceSize": {
+        "w": 245,
+        "h": 142
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-slag-basket": {
+      "frame": {
+        "x": 780,
+        "y": 193,
+        "w": 183,
+        "h": 131
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 183,
+        "h": 131
+      },
+      "sourceSize": {
+        "w": 183,
+        "h": 131
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-leaning-tools": {
+      "frame": {
+        "x": 973,
+        "y": 193,
+        "w": 149,
+        "h": 207
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 149,
+        "h": 207
+      },
+      "sourceSize": {
+        "w": 149,
+        "h": 207
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-scorched-brace": {
+      "frame": {
+        "x": 5,
+        "y": 410,
+        "w": 225,
+        "h": 182
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 225,
+        "h": 182
+      },
+      "sourceSize": {
+        "w": 225,
+        "h": 182
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-ember-brazier": {
+      "frame": {
+        "x": 240,
+        "y": 410,
+        "w": 168,
+        "h": 151
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 168,
+        "h": 151
+      },
+      "sourceSize": {
+        "w": 168,
+        "h": 151
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-wheeled-ore-tub": {
+      "frame": {
+        "x": 418,
+        "y": 410,
+        "w": 243,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 243,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 243,
+        "h": 154
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-chain-and-hook": {
+      "frame": {
+        "x": 671,
+        "y": 410,
+        "w": 200,
+        "h": 135
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 200,
+        "h": 135
+      },
+      "sourceSize": {
+        "w": 200,
+        "h": 135
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-firewood-bundle": {
+      "frame": {
+        "x": 881,
+        "y": 410,
+        "w": 203,
+        "h": 126
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 203,
+        "h": 126
+      },
+      "sourceSize": {
+        "w": 203,
+        "h": 126
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-banded-barrel": {
+      "frame": {
+        "x": 5,
+        "y": 602,
+        "w": 129,
+        "h": 168
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 129,
+        "h": 168
+      },
+      "sourceSize": {
+        "w": 129,
+        "h": 168
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-broken-gears": {
+      "frame": {
+        "x": 144,
+        "y": 602,
+        "w": 219,
+        "h": 145
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 219,
+        "h": 145
+      },
+      "sourceSize": {
+        "w": 219,
+        "h": 145
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-low-coal-cart": {
+      "frame": {
+        "x": 373,
+        "y": 602,
+        "w": 246,
+        "h": 152
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 246,
+        "h": 152
+      },
+      "sourceSize": {
+        "w": 246,
+        "h": 152
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-smith-apron-stand": {
+      "frame": {
+        "x": 629,
+        "y": 602,
+        "w": 182,
+        "h": 198
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 182,
+        "h": 198
+      },
+      "sourceSize": {
+        "w": 182,
+        "h": 198
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    },
+    "arrival-forge-ash-shovel-bucket": {
+      "frame": {
+        "x": 821,
+        "y": 602,
+        "w": 190,
+        "h": 188
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 190,
+        "h": 188
+      },
+      "sourceSize": {
+        "w": 190,
+        "h": 188
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 1
+      }
+    }
+  },
+  "meta": {
+    "app": "2026-07-29-build-surface-sky-props-v3.py",
+    "version": "3",
+    "image": "surface-sky-props-v3-arrival-forge.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1141,
+      "h": 805
+    },
+    "scale": "1"
+  }
+}

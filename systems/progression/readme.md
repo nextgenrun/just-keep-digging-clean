@@ -27,3 +27,8 @@ Game system — progression.
   sanitized inside retention data, survives save/load, and requests an
   autosave; older purchased clues migrate as enabled until the player changes
   the switch. Clues never call Titan discovery or mutate terrain.
+- `UpgradeSystem.js` carries the active depth-economy mode into cached and
+  projected sale effects. `Deep Market Contracts` requires the World Two
+  Tunnel Key and adds 15% Level Two material value per level through level 10.
+  Legacy mode hides and ignores the upgrade without deleting its saved level.
+  Wallet mutation is normalized to the shared two-decimal currency boundary.

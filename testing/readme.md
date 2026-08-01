@@ -1,11 +1,218 @@
 # Testing
 
-`2026-07-29-expanded-cave-level-contract.mjs` guards the default 60x20
-camera-traversed cave level, continuous no-jump painted floor collision,
-expanded mineable-node route, legacy collected-node migration, all six
-identity routes across three native 3:1 ImageGen panoramas, explicit
-`?caveLevel=legacy` rollback, and the absence of HTML or primitive cave
-placeholders.
+## First five minutes — 2026-07-30
+
+- `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and
+  `?firstFive=0` profiles, in-camera normal-HP target, persistent objective,
+  remapped control copy, tutorial-specific surface gate, saved Flight practice,
+  post-upgrade payoff marker, and Next Promise priority.
+- `2026-07-30-first-upgrade-breakpoint-contract.mjs` exercises the real
+  `UpgradeSystem` and `DigSystem` result: affordable Miner's Grip raises shallow
+  Dirt damage from 16 to 24 and lowers 45 HP from 3 hits to 2. It also locks the
+  Bronze Pickaxe no-regression guard and exact legacy behavior under rollback.
+- The existing town persistence and retention fixtures now complete with the
+  authored starter-upgrade ID and the current movement collaborator contract.
+
+## Fire Light V3 — 2026-07-30
+
+`2026-07-30-fire-light-v3-contract.mjs` locks all ten exact 1252x1252 ImageGen
+atlases and 160 retained components, spritesheet wiring, character-aware socket,
+compact flame limits, default-hidden ray allocation, real exposure response,
+one-layer natural default, legacy-style procedural falloff, lifecycle cleanup,
+class separation, line budgets, complete legacy rollback, and the exact former
+layered profile.
+
+`2026-07-30-natural-fire-light-contract.mjs` proves natural fire displays only
+its authored flame, hides volume/atmosphere/expanded illumination, uses 0.98
+world glow, 0.96 shader energy, and 0.24 adaptation overlay, while
+`?fireLightStyle=layered` restores all eight possible authored layers.
+
+`2026-07-30-fire-illumination-textures-contract.mjs` locks the retained 80
+light-only frames, 96 total authored illumination frames, layer/state routing,
+missing-asset fallback, Boot wiring, and `?fireLightTextures=0` inside the
+explicit `?fireLightStyle=layered` rollback profile.
+
+`2026-07-30-fire-light-piskel-anchor-contract.py` verifies ten editable
+projects and all 160 frames: exact Piskel round-trip, hidden anchor guides,
+integer-only registered shifts, three-pixel black borders, retained-light
+energy, per-group drift/error limits, hash-linked byte-exact rollback, candidate
+exports, promoted runtime parity, and recorded apply/rollback commands.
+
+`2026-07-30-fire-light-v3-live-qa.mjs` drives the real save-safe E2E harness in
+hidden Edge, moves the player to valid underground standing air, activates the
+torch at full GP, verifies every authored atlas response and runtime snapshot,
+and captures natural default, explicit `?fireRays=1`, adaptation-off, full
+`?fireLightStyle=layered`, and complete legacy scenarios at one deterministic
+target.
+
+`2026-07-30-natural-fire-live-compare-contract.mjs` locks the dedicated
+natural-versus-legacy page, queries, two real iframe routes, shared values-only
+runtime, separate saves, synchronized controls, default-hidden rays, and line
+budgets. `2026-07-30-natural-fire-live-compare-qa.mjs` cold-boots both real
+Phaser/WebGL worlds, verifies identical tile/camera/day-night state, one versus
+zero authored layers, 0.96 versus 1.0 procedural shader energy, low-GP rain/night,
+torch-off adaptation, final resync, 20 successful lighting responses, and three
+comparison screenshots. Its only generic browser misses are two `favicon.ico`
+requests.
+
+`2026-07-30-natural-fire-deep-live-qa.mjs` drives the same two real worlds
+through settled standing-air targets near 700, 1000, and 1800 m plus a 1000 m
+low-GP state. It normalizes sequential boot easing without freezing flame or eye
+adaptation, checks each radius against the authoritative piecewise depth curve,
+and records identical settled reach of 3.412, 3.021, and 2.973 tiles at darkness
+alpha 1. All twenty Fire assets returned HTTP 200; depth streaming intentionally
+aborted outgoing biome-video requests during jumps, with no UI or fatal errors.
+
+## Old-school lamp light review — 2026-07-30
+
+`2026-07-30-old-school-lamp-light-contract.mjs` locks seven conditional
+atlases, 112 authored components, the separate class boundary, query-only
+selection, default-hidden ray allocation, explicit collision-clamped ray opt-in,
+exposure participation, shader snapshot, and unchanged natural-fire fallback.
+
+`2026-07-30-old-school-lamp-piskel-contract.py` verifies all seven editable
+Piskel authorities, 112 exact round-tripped frames, integer-only registration,
+subpixel group ranges, true-black cell borders, retained light energy, runtime
+parity, and hash-linked source rollback.
+
+`2026-07-30-old-school-lamp-light-live-qa.mjs` captures isolated real-WebGL
+torch and lamp pages at the same underground standing tile and full GP. It
+checks both runtime IDs, darkness, eye adaptation, all seven asset responses,
+zero default rays, shader selection, browser health, and renderer type.
+
+`2026-07-30-old-school-lamp-live-compare-contract.mjs` locks the live A/B page,
+two real iframe routes, shared world identity, separate saves, synchronized
+controls, default-hidden rays, day/dusk/night, and the 300-line runtime budget.
+
+`2026-07-30-old-school-lamp-live-compare-qa.mjs` cold-boots the two real
+Phaser/WebGL worlds, verifies identical tile, camera, and solar phase, measures
+the compact fire envelope, drives full/low GP, clear/rain/storm, day/dusk/night,
+torch-off eye adaptation, resync, and captures three synchronized screenshots.
+The final run served all 27 lighting assets with HTTP 200 and reported no UI
+errors; the only generic console misses were two root-frame `favicon.ico`
+requests.
+
+## Ground damage Piskel anchor V2 — 2026-07-30
+
+- `2026-07-30-ground-damage-piskel-anchor-v2-contract.py` verifies ten
+  twelve-frame editable projects, corrected source-grid row boundaries,
+  invariant `94,94` pivot/seed mapping, cumulative coverage, edge safety,
+  pixel-identical Piskel round-trip, hashes, and no production reference.
+- `2026-07-30-ground-damage-piskel-anchor-v2-harness.html` uses
+  `WorldVisualDamageImagePainter` with a review-only config so Phaser/WebGL
+  exercises the exact production placement and display-size contract without
+  modifying runtime values or preload registration.
+- `2026-07-30-ground-damage-piskel-polish-contract.py` verifies the immutable
+  272 px source, editable 272 px polish, derived 188 px round-trip, fixed seeds,
+  shared family matrices, safe 180 px envelope, recovered scales, and production isolation.
+- `2026-07-30-ground-damage-piskel-rollback-contract.py` verifies all ten
+  hash-linked rollback Piskels, apply/rollback commands, and the production atlas guard.
+- `2026-07-30-ground-damage-piskel-production-contract.mjs` proves the approved
+  review atlas was promoted byte-for-byte, default and rollback preload
+  descriptors share the exact 10x12 slicing contract, placement remains centered
+  at 94x94, Boot queues only the selected atlas, and the radial renderer remains
+  available through `?groundDamage=legacy`.
+- `2026-07-30-ground-damage-piskel-production-harness.html` renders all nine
+  materials and all twelve states through the real production resolver and
+  `WorldVisualDamageImagePainter`. Add `?groundDamageAtlas=legacy` to exercise
+  the narrow atlas rollback in the same painter.
+- `2026-07-30-ground-damage-piskel-production-live-visual.mjs` launches the
+  browser twice, validates both 120-frame/188 px/94 px runtime snapshots and
+  HTTP 200 atlas responses, rejects browser errors, and captures the polished
+  default plus V1 rollback boards under
+  `visual-approval-previews/ground-damage-piskel-production/`.
+
+`2026-07-30-loading-mining-minigame-contract.mjs` guards the 26 approved
+production textures, 13 square soil/resource materials, explicit exclusion of
+GP/star special blocks, the 1.6 MB source budget, all-material opening board,
+pure hit/refill/chain/tier state, image-only minigame renderer, the annotated
+upper-left logo and lower-left progress/control slots, exact reuse of the
+approved electric loading track already painted into the minigame board frame,
+removal of the notification-frame strip, the deliberately empty middle band,
+no under-board duplicate, Boot mini-preload, layered pickaxe/contact/drop FX,
+failure cleanup, and
+`?loadingMine=0` rollback.
+
+`2026-07-30-loading-mining-minigame-harness.html` runs the production shared
+loading view against a 30-second simulated loader.
+`2026-07-30-loading-mining-minigame-live-qa.mjs` drives real Edge pointer-hold
+and keyboard input, proves loader progress continues, and guards the cropped
+78-percent minigame against the fixed-height left column at 1.5 density. It
+captures a guaranteed break-contact frame and the active view, then reloads
+and captures the legacy rollback.
+Supplying `--game-url` adds a
+real BootScene pass that requires the live diagnostic and all 27 textures while
+Boot is active.
+
+`2026-07-30-runtime-feature-asset-tiering-contract.mjs` guards default and
+rollback selection, every real demand-group path, the deferred Boot guards, Star
+Block FX, slot-aware current/next Campfire loading, managed versus external
+texture ownership, cancellation, delayed eviction, and lazy full-rarity exact-art
+renderer recovery.
+
+`2026-07-30-play-scene-save-scheduling-contract.mjs` proves repeated state
+mutations collapse into one debounce/idle request, the maximum delay remains
+bounded, timing samples remain visible, hidden/page-hide lifecycle events force
+fresh saves, and setup retains immediate shutdown persistence.
+
+`2026-07-30-surface-hero-landmarks-v4-contract.mjs` guards all seven Level 2
+chapter RGBA cutouts, exact dimensions/hashes, production player-relative scale,
+high source density, deterministic grounding, live-portal depth/opening safety,
+Titan/portal exclusions, one hero per chapter, conditional preload, and
+complete/per-landmark rollback resolution.
+
+`2026-07-30-surface-hero-landmarks-v4-runtime-contract.mjs` guards static
+transforms, no repeated visual writes, exact ID-based prop replacement, scenic
+runtime lifecycle wiring, preload wiring, and clean teardown.
+
+`2026-07-30-surface-hero-landmarks-v4-live-qa.mjs` launches an isolated hidden
+Edge profile, enters a no-tutorial save with `?jkd_e2e=1`, captures all seven
+Level 2 chapters at their exact authored tiles, repeats the same views through
+`?surfaceHeroLandmarksV4=0`, and emits screenshots plus runtime health, texture,
+suppression, grounding, and browser-error evidence under `tmp/` by default.
+
+`2026-07-29-runtime-audio-streaming-contract.mjs` executes the real 144-track
+playlist and complete voice catalog. It guards the default 15-file/under-40-MiB
+Boot working set, all 292 registered audio entries, `?runtimeAudioQueue=0`
+eager rollback, one-at-a-time fallback and shared-coordinator loads, cached
+voice playback plus post-line prefetch, and delayed low-priority next-track
+music prefetch. It also guards selected-only menu-background loading and the
+byte-identical canonical texture shared by the semantic and tile bedrock
+consumers.
+
+`2026-07-29-runtime-asset-load-coordinator-contract.mjs` guards the three-load
+decode bound, serialized rollback, scenery-over-optional-FX priority, key
+deduplication, obsolete-request cancellation, full 1672x941 source preservation,
+premultiplied bitmap decode, serialized activation, Phaser fallback isolation,
+decoded-source release, all-seven-cache telemetry, coordinated facade materials,
+staged Heavenblocks presentation, Titan cancellation, long-task metrics, and
+both loading rollbacks.
+
+`2026-07-30-natural-depth-area-composition-contract.mjs` guards broad default
+areas, bounded within-area motifs, complete approved-library participation over
+descent, exact one-step rollback, and profile wiring across modern backdrop,
+terrain, and ground-structure views.
+
+`2026-07-29-underground-detail-library-v6-contract.mjs` guards the 400-entry
+ImageGen library, twenty production atlas hashes, 90+50 complementary seam
+derivatives, deterministic terrain-masked placement, and complete per-biome
+frame participation. Every 320x256 detail frame must keep uniform aspect and a
+source scale at or below `1`; localized and guaranteed multi-tile classes retain
+separate bounded ranges without changing gameplay or saves.
+
+`2026-07-29-expanded-cave-level-contract.mjs` guards the default 60x20 cave,
+zero in-bounds `CAVE_WALL` cells, four fully mineable dirt/stone floor rows,
+embedded rewards, migration, and all six identity routes. It also proves three
+distinct authored 3:1 interiors remain available, exactly one continuous image
+spans a cave, the approved left entrance stays wired, five-tile material runs
+prevent checkerboards, and repeated Meshy cards or giant shell actors cannot
+return.
+
+`2026-07-29-world-texture-native-density-contract.mjs` reads the real cave,
+surface, Heavenblocks, Titan, standard sky-island, and living-atmosphere source
+files. It fails if any corrected scale ceiling exceeds `1`, exact native
+geometry drifts, a surface overlap no longer closes, or an ambient frame would
+be displayed larger than its source.
 
 `2026-07-29-ui-mouse-priority-contract.mjs` guards nested modal input locks,
 exit-tween ownership, same-click close races, cancellation of an active held
@@ -27,8 +234,9 @@ and contains no visible DOM UI.
 `2026-07-28-depth-gate-typed-modal-visual-harness.html` loads that production
 modal class and approved runtime textures in isolation; `?mode=depth` and
 `?mode=unstuck` provide a direct same-surface visual comparison without loading
-or mutating a save. Add `&threshold=100`, `300`, or `1000` to review each depth
-phrase.
+or mutating a save. `?mode=memorial` renders the production full-screen grave
+inspection with representative overview/stat/achievement pages. Add
+`&threshold=100`, `300`, or `1000` to review each depth phrase.
 
 `2026-07-28-ui-notification-carousel-contract.mjs` guards the centered one-card
 seven-second queue, complete-queue close, consumptive arrow navigation, modal
@@ -113,8 +321,16 @@ Hardcore retry routing, and approved generated UI art.
 `2026-07-28-hardcore-memorial-contract.mjs` guards complete stat and bounded
 Journey-achievement recap coverage, duration/run-counter formatting,
 append/read-only memorial persistence outside save slots, per-slot/global
-bounds, permanent grave/button assets, scene lifecycle wiring, both death
-actions, and the absence of primitive placeholder art in the new views.
+bounds, permanent grave/button assets, exact 0.8-tile player-matched world
+height with preserved aspect ratio, visible-alpha ground contact, airborne
+death floor search, re-grounding after mined support, full-screen inspection
+input/control restoration, scene lifecycle wiring, both death actions, and the
+absence of primitive placeholder art in the new views.
+
+`2026-07-29-hardcore-gp-reserve-contract.mjs` guards the armed-only one-GP
+Flight/Torch floor, full startup-plus-upkeep Flight admission, shutdown instead
+of free Flight, torch shutdown without auto-relight flicker, unchanged Casual
+zero-GP behavior, and final-GP lethality for stress and Hardcore hazards.
 
 `2026-07-16-scenic-world-runtime-foundation.mjs` verifies the default scenic/legacy selector, complete depth-material coverage, renderer compatibility surface, absence of tilemap construction in scenic mode, and versioned gameplay-layout save identity.
 
@@ -264,246 +480,7 @@ opposed sun/moon orbit, smooth horizon travel/fades, and screen anchoring.
 render-to-texture shader layers hide both GPU producer and sampled image, skip
 uniform churn, and that the darkness compositor skips clear/fill/erase plus
 local-light scans until its exact active-frame path is needed again.
-`2026-07-26-star-block-light-persistence-contract.mjs` verifies that every
-in-view `SKY_TILE` keeps a strong, softly shaped light pool outside the player's
-torch/vision radius, emits only a rare faint cross-free ring, never stacks more
-than one traveling pulse, fades as it travels, spans more than ten tiles, never
-drops the steady core, and leaves geode and other local lights proximity
-limited.
-`2026-07-27-star-block-pulse-quality-contract.mjs` verifies all six 1254 px
-ImageGen colour sprites, lossless production paths, rarity-to-colour selection,
-one pooled additive image, long-range flattened geometry, quiet-frame hiding,
-complete cleanup, and the absence of Canvas, tint, or Phaser primitive drawing.
-`2026-07-27-star-block-steady-colour-light-contract.mjs` verifies six unique
-1254 px ImageGen atmosphere textures in production rarity order, Boot preload,
-live rarity selection, a bounded pooled renderer above hard darkness and below
-the rare pulse, restrained additive opacity, softly flattened reach beyond the
-tile, cleanup, and the absence of Canvas, tint, or Phaser primitive drawing.
-`2026-07-26-titan-discovery-contract.mjs` verifies all 25 unique alpha sprites,
-the 512x320 generated plinth, deterministic non-overlapping clear-area zones,
-`?titans=0`, canonical persistence without duplicate or unknown ids, journal
-exposure, complete creature-cover clearance before visual unlock, pre-final-tile
-award rejection, all 25 surface slots, real-art archive wiring,
-discovered epithet/field-lore/inscription rendering with locked-entry privacy,
-production-health publication, save requesting, scenic-runtime lifecycle wiring,
-matching legacy-renderer lifecycle ownership, and complete cleanup.
-`2026-07-26-titan-discovery-experience-contract.mjs` instantiates the production
-world and verifies first-seven depth guidance, explicit 700 m coverage,
-locked-name protection, remaining-cover guidance, final-cover-cell admission,
-silent discovery guidance cleanup, `?titanGuidance=0`, and the stricter rectangular-clear
-`?titanEncounter=legacy` rollback.
-`2026-07-28-titan-guidance-indicator-contract.mjs` verifies exact camera-edge
-ray projection in every direction, on-screen chamber anchoring, clearance from
-the center notification and bottom XP HUD, restrained alpha/pulse, a
-transparent 256 px ImageGen pointer, approved-frame reuse, preload wiring, and
-the absence of routine carousel or Phaser-primitive pointer drawing.
-`2026-07-26-titan-chamber-production-contract.mjs` verifies the complete 25-card
-1536x848 v2 rollback and transparent-edge v3 production inventories, unique
-hashes, alpha flags/chunks and bounded edge/center opacity, colossal 15-22 by
-8-13 tile zones, Boot de-queuing, `?titanChamberBlend=0`,
-`?titanChambers=0`, near-zone stream/load/release, shared depth-biome tint,
-independent compact-creature/chamber layering, archive pinning, renderer parity,
-both production manifests, post-render-safe texture eviction, and cancellation
-of that eviction when rapid return travel makes the chamber resident again.
-`2026-07-27-titan-clue-catalog-contract.mjs` verifies depth- and
-purchase-escalated clue prices against the upgrade economy, atomic wallet
-deduction/refund, index-only journal persistence, restore/re-track behavior,
-locked-name protection, long-range exact directions, rollback, archive control,
-autosave, and both renderer providers.
-With `?jkd_e2e=1`, `Ctrl+Alt+U` supplies an isolated 5,000 M wallet and opens the
-real pause catalog without writing the save, allowing the purchase control and
-wallet deduction to be inspected directly.
-`2026-07-28-titan-creature-footprint-contract.mjs` regenerates all 25 masks from
-the actual approved PNG alpha and verifies exact row-mask parity, coverage
-counts, no unlock while one covering tile remains, unlock on the final tile,
-fixed real-art progressive reveal, independent chamber layering, remaining-tile
-guidance, and production-health coverage.
-With `?jkd_e2e=1`, `Ctrl+Alt+Y` advances a save-suppressed first-Titan preview
-through sealed, partial, one-covering-tile-left, and complete states so the
-progressive real-art reveal and final-tile trophy/archive transition can be
-visually inspected.
-`2026-07-26-relic-discovery-fx-contract.mjs` verifies that Ancient Relic awards
-remain authoritative and failure-isolated while visible discoveries use a
-world-space pedestal wake, residual floor mark, live-player orbit, bounded
-full/low/reduced modes, canonical token art, warning-only health reporting for
-presentation failure, and complete transient cleanup.
-`2026-07-11-world-background-ambient-motion-smoke.mjs` covers all six shallow
-effect families, exact 0–20 m anchor bounds, culling, FPS fallback, and the
-`?worldMotion=0` rollback.
-
-`2026-07-15-level1-ground-facade-smoke.mjs` verifies exact 280x10 coverage,
-always-opaque scenic damage states, zero-overlap dug-cell boundaries, integrated
-stone recognition, distinct geode/relic/glow markers, missing-frame hard failure,
-Boot-only start-chunk residency, current-plus-neighbor camera streaming, distant
-texture removal, underground unloading, cleanup, and the `?level1Facade=0`
-rollback. Structural soil remains continuous rather than receiving repeated
-placeholder recognition glyphs.
-
-`2026-07-15-level1-living-backdrop-smoke.mjs` keeps its compatibility filename
-while verifying deterministic full-depth Level 1 + Level 2 ambience, four
-fixed-size sprite pools, world anchoring, slow bounded motion, depth-faded
-weather/day-night response, FPS degradation, and dedicated, legacy, and shared
-motion rollback flags.
-
-`2026-07-15-deep-world-living-backdrop-smoke.mjs` verifies the separated Level
-Two `x132..279 / y2065..5064` ambience pass: facade-band inheritance, fixed
-atlas pools, world anchoring, 8–20 second motion, strongly attenuated underground
-weather/wind, FPS gates, cleanup, facade dependency, and both rollback flags.
-
-`2026-07-15-world-wisp-ownership-smoke.mjs` verifies that skyline weather and
-background ambience never double-render the same smoke/steam families.
-
-`2026-07-15-v11-background-depth-streaming-smoke.mjs` verifies that the scenic
-runtime crop union reaches the deepest Level 1 tile and that camera bounds do
-not shrink while streamed chunks change.
-
-`2026-07-15-world-scenic-facade-smoke.mjs` verifies the streamed, world-space
-continuous material facade across all 280 columns and the full 5,065-row model,
-including authoritative solid masking, exact digging holes, integrated damage
-and resource feedback, grid-anchored/cropped image repeats, a hard guard against
-memory-heavy Phaser `TileSprite` canvases, and `?worldFacade=0` rollback.
-
-`2026-07-16-world-depth-continuation-smoke.mjs` verifies that approved detailed
-Level Two plates continue without vertical gaps through `x132..279 / y2065..5064`,
-stay cropped to the playable deep world, reuse existing source textures, inherit
-facade-band grading, and disappear with the depth-master rollback.
-
-`2026-07-13-sky-star-release-smoke.mjs` verifies that mined sky stars update
-constellation UI progress immediately, play the matching ImageGen rarity core,
-fracture bloom, quiet pulse, and three delayed image echoes, sway slowly upward
-through the configured fade, clean every transient image up, and never enter or
-restore a persistent world pool.
-
-`2026-07-13-earthquake-feedback-ui-smoke.mjs` verifies the compact generated-art
-phase card, notification offset, auto-expiring escape guidance, silent event
-completion, one-to-one landing footprints, ceiling fractures, authored boulders,
-footprint persistence during the fall, exact-ground settling-boulder contact,
-offscreen danger, restored-rubble lifecycle, trap dedupe, and medium shake key.
-
-`2026-07-26-earthquake-feedback-lifecycle-contract.mjs` guards the v2 restrained
-seismic presentation: nine generated RGBA runtime assets, Boot preload wiring,
-320x60 short active-phase timing, silent completion, auto-expiring escape guidance, one quake-start
-flash, no repeated warning/toast/emoji path, image-backed hazard/tile feedback,
-ground/player/falling/settling/debris layer ordering, non-flattened footprint
-readability, event-completion teardown, and
-protection against a
-restarted hide tween that could leave the card visible forever.
-
-`2026-07-28-earthquake-polish-and-suppression-contract.mjs` verifies the
-Level 99 + accepted-1000 m Seismic Suppression purchase gate, permanent upgrade
-save round-trip, immediate active-hazard cancellation, debug-start rejection,
-three distinct camera-culled authored tile effects, bounded pooling, PlayScene
-lifecycle wiring, and the absence of primitive fallback drawing.
-
-`2026-07-13-earthquake-world-epicenter-smoke.mjs` verifies that epicenters are
-selected from world coordinates instead of the player, and that mutations,
-cave-ins, aftermath rubble, rewards, shake, HUD awareness, and trap guidance
-remain local to that epicenter.
-
-`animation-sandbox/earthquake-feedback-ui-v1/` renders the production seismic
-feedback classes in isolated warning, earthquake, and escape review states.
-
-`2026-07-26-arc-core-production-visual-contract.mjs` guards the approved
-Small/Omega Arc Core production path: distinct silhouettes, idle cadences, dig
-languages and timing; truthful 2x2 versus 8x8 footprints; ten Piskel
-machine/VFX roles with fixed-center hashes; sandbox-only foundry background;
-complete isolation of the archived random tiles/HUD and legacy HTML/placeholder
-board; Boot and PlayScene wiring; runtime health publication; F-key digging;
-the separate rebindable B boarding/exiting action; and
-`?arcCoreVisualsV3=0` rollback.
-
-`level-two-arc-core-contract.mjs` verifies the exact four-cell 2x2 footprint,
-gold/silver Arc recipe, expanded deep-resource Omega recipe, seller resource
-separation, and 5,000-meter depth contract.
-`level-two-world-generation-smoke.mjs` builds the full runtime world,
-checks the ceiling-to-bottom one-tile Level 1/2 divider and locked gate cell,
-rejects every stray underground bedrock cell, and samples deep Level 2 resource
-rendering.
-With `?jkd_e2e`, F9 centers the scenic mine-entrance pilot on the deterministic
-shallowest traversable integrated cave mouth below the surface plate,
-Ctrl+Alt+Home opens the godmode Level 2 surface/Arc Core preview, and
-Ctrl+Alt+End opens the Molten Money Monster sell preview.
-
-`2026-07-16-ual-native-production-contract.mjs` verifies UAL rollback routing,
-19 game-loaded sheets / 882 active frames versus the 23-action / 987-frame
-review manifest, exact referenced-frame load bounds, punch-only SIDE/UP actions,
-authored visual-contact timing, action-start cooldown admission, velocity-matched
-flight, the 109px base and 123px locomotion presentation, the 0.8-tile visible
-target and 31x75 collider, weapon-free assets, deterministic idle fidgets,
-wall-push selection, hit reactions, and action-lock priority.
-
-`2026-07-16-ual-animation-tuning-lab-v2-contract.mjs` guards the additive
-production-asset tuning lab at `animation-sandbox/ual-animation-tuning-lab-v2/`:
-all six scenario lanes, 23 review actions / 987 frames, the separate 19-sheet
-game preload, Option C identity, action-aware 109px/123px scaling, control and
-export surfaces, line budgets, complete versus partial rig-marker truth, and
-the rule that sandbox review never mutates production.
-
-`2026-07-16-ual-directional-combo-contract.mjs` proves the punch-only
-Jab/Cross/Jab/Cross chain, adjacent-block continuity,
-direction/timeout reset, Jab/Cross UP variants, floor contact, ground-directed
-Thunder, horizontal flight hysteresis, per-frame rig markers, explicit rejection
-of the kick and `Sword_Regular_C` up strike, and action-start cooldown timing that
-cannot drop the earlier-contact Jab after a later-contact Cross.
-
-`2026-07-28-quickslash-facing-contract.mjs` repeatedly alternates A/Q and D/Q
-against intentionally stale locomotion facing, proves the admitted direction is
-locked while Q remains held, checks both authored source orientations in the
-main-world and cave animation runtimes, and guards the complete removal of the
-purple Quickslash route/GP preview.
-
-`2026-07-16-ual-action-contact-timeline-contract.mjs` proves one and only one
-contact for normal, skipped, repeated, reversed, cancelled, and completed action
-sequences. Tile mutation remains on that visual contact even though mining
-cooldown is measured from action start.
-
-`2026-07-16-cave-ual-action-contract.mjs` exercises the compact-cave runtime with
-an event-emitting player: DOWN mining and Thunder remain damage-free until their
-authored contact, UAL mining carries the original action-start timestamp through
-the delayed contact, actions stay locked through completion, repeated DOWN
-attacks keep facing the same way, and flight traverses
-enter/travel/hover/exit/fall/landing phases.
-
-`2026-07-16-ual-locomotion-transition-selector-contract.mjs` proves jog-only
-grounded routing even below the former walk threshold, same-frame input-facing
-reversal without restarting the jog cycle, immediate stop despite residual
-smoothed velocity, one landing per airborne interval, flight hysteresis, and a
-Phaser-independent selector under 300 lines.
-
-`2026-07-16-player-tile-contact-contract.mjs` verifies body-AABB-adjacent aim
-candidate order, proves every candidate lies outside the 31x75 UAL body, keeps
-Thunder Strike damage on the first floor cell directly below the player, and
-covers WebGL solid-cell mask creation/update/cleanup plus Canvas and non-UAL guards.
-
-`2026-07-28-mining-target-mouse-dig-contract.mjs` verifies the authored target
-asset and preload, visual/input rollback queries, primary-pointer adjacency and
-range safety, hover ownership, one-frame quick clicks, repeated held requests,
-held retargeting, canvas-exit cancellation, hover/held visual modes, UI-hit
-rejection, main-world/compact-cave wiring, and complete removal of the redundant
-final-hit preview.
-
-`2026-07-16-player-collision-contract.mjs` verifies high-speed swept collision
-against both walls, floors, and ceilings, nearest-face overlap recovery, exact
-31x75 profile dimensions, and full-foot-span ground detection while straddling
-tile columns.
-
-`2026-07-16-ual-game-physics-motion-contract.mjs` verifies that UAL cadence is
-driven by post-collision body displacement rather than requested velocity,
-matches run and climb strides to the 94px world grid, suppresses teleport
-spikes, exposes signed resolved velocity, preserves falling hysteresis, and has
-equivalent shared-selector integration in the main world and caves.
-
-`2026-07-24-flight-foot-particle-contract.mjs` verifies the approved Survivor
-Superman-flight visual gate, prone-v3 Blender marker-calibrated and mirrored
-two-foot origins, spawn cadence, cleanup, and matching main-world / compact-cave
-lifecycle wiring.
-
-`2026-07-16-player-rig-contact-contract.mjs` verifies Game Rig v2 projected
-marker metadata, packed-frame flip projection, hand selection for all five
-mining directions, capped sprite-only tile-face alignment, independent contact
-hitboxes, an unchanged 31x75 movement body, manifest loading, Blender/packer
-support, diagnostic-only marker validation that cannot veto mining, and
-main-world/compact-cave parity.
+`2026-07-26-star-block-light-persistence-contract.mjs` verifies th…3766 tokens truncated… parity.
 
 `animation-sandbox/ual-walk-review-v1/` is the additive five-candidate UAL walk
 chooser. `2026-07-16-ual-walk-review-contract.mjs` proves its exact 94px/0.8-tile
@@ -558,14 +535,15 @@ tree contains ten unique material sections and three Engine options, gates the
 automatic first-star reveal once per material and save slot, and publishes the
 tree invariant through the runtime-canary worker route. It also guards the
 three-page 5/5/3 data layout, exactly three widely spaced visible branch cards,
-the native ultra-wide foundation ratio, enlarged cards and medallions, vertical
-ESC page navigation, exactly one visible page, all 29 hash-pinned V3 texture
-mappings, the dedicated three-bay Engine presentation, transparent
-Engine/Heart/glyph/plaque assets, the generated Star Pillar shell, crest, close
-rune, bespoke Bobo lock, authored controls, deterministic God Mode review
-state, click-only horizontal selection, a one-loop steady-motion budget,
-readable typography floors, quiet flank cards, center-first Engine activation,
-and the absence of procedural tree panels or leaked black-core Engine textures.
+the native ultra-wide ratio, ESC/Pillar 1116px content-width parity, measured
+alcove centers, visible-alpha sign centering, enlarged cards and medallions,
+exactly one visible page, all 29 hash-pinned V3 texture mappings, transparent
+Engine/Heart/glyph/plaque assets, the dedicated three-bay Engine presentation,
+generated Pillar shell, crest, close rune, bespoke Bobo lock, active-only
+navigation chrome, center-only ribbons, deterministic God Mode review state,
+click-only horizontal selection, a one-loop steady-motion budget, four-row
+dossier typography floors, quiet flank cards, center-first Engine activation,
+and no procedural tree panels or leaked black-core Engine textures.
 
 `2026-07-28-constellation-upgrade-audit-contract.mjs` executes every permanent
 constellation reward against its live gameplay consumer: matching Star Block
@@ -578,10 +556,13 @@ paths; and the ability-provider runtime-health invariant.
 `2026-07-28-starlight-talent-tree-visual-harness.html` renders the production
 view and exact assets in first-reveal, mid-progress, and all-mastered profiles
 for deterministic interaction and screenshot review across all three inner
-pages. Add `&god=1` to verify free abilities, all three free Engines, and the
-normal safety/health state without mutating a save. The harness deliberately
-does not preload the generic UI atlas or black-background V1 celestial cores,
-so those assets cannot hide an accidental tree regression.
+pages. Add `&shell=pause` to reproduce the live ESC shell, tab-row reservation,
+and content bounds; omit it for the physical Star Pillar shell. The harness
+publishes the resolved layout scale and bounds for exact wide/compact checks.
+Add `&god=1` to verify free abilities, all three free Engines, and the normal
+safety/health state without mutating a save. It deliberately does not preload
+the generic UI atlas or black-background V1 celestial cores, so those assets
+cannot hide an accidental tree regression.
 
 `2026-07-26-godmode-abilities-contract.mjs` exercises the debug cheat through
 the live activation methods: Flight, Quickslash, Thunderstrike, and torch are
@@ -738,9 +719,12 @@ tile atlas, core, fracture, and pulse assets in an isolated no-save scene.
 
 `2026-07-28-moving-side-dig-production-contract.mjs` guards the approved
 Option C promotion: two editable 22-frame Piskel clips over the original
-14-frame Jog phase advance, seven-frame upper-body enter/release envelopes,
+14-frame Jog phase advance, restored 109/123 apparent-size normalization,
+body-locked moving contacts, a 16-frame phase-aware moving Quickslash at its
+original sequence-4 contact, seven-frame upper-body enter/release envelopes,
 1 px maximum foot-baseline drift, pelvis-derived rig markers, 8 px contact
-backoff, 2 px visible-fist clearance, profile/loader registration, selector
+backoff, 2 px visible-fist clearance, symmetric 18 px authoritative body
+stand-off and solid-target release, profile/loader registration, selector
 eligibility in both world modes, unchanged 360 ms minimum cadence, and
 `?movingSideDig=0` rollback.
 
@@ -757,6 +741,26 @@ diagonal family, authored soft/hard landing ownership, wall-brace release phase,
 Piskel round-trip metadata, anchor/baseline limits, both runtime worlds, and
 every parent/per-feature rollback.
 
+`2026-07-29-held-dig-next-five-review-contract.mjs` guards the isolated V2
+attack-size/anchor review: the measured 109-to-123 px presentation mismatch,
+88.6%-to-100% proposal, one-pixel baseline and pelvis-alignment limits,
+preserved strike contacts, synchronized GIF/contact-sheet outputs, helper line
+budgets and no imports from production runtime files. The contract also guards
+its rejected-after-runtime-test decision and proves the enlarged proposal is
+absent from production.
+
+`2026-07-30-vertical-dig-before-after-review-contract.mjs` guards the isolated
+four-case UP/DOWN comparison: fixed 31x75 collider and 94 px tile geometry,
+shared foot plane, zero candidate sprite translation, zero measured tile
+intrusion, preserved contact/input timing, normalized Blender DOWN source,
+phase-locked Jog composition, generated GIF/contact outputs, helper line budgets
+and no production-runtime imports.
+
+`2026-07-30-player-animation-optimization-500-review-contract.mjs` guards the
+review-only 20-family by 25-lens matrix, all 500 unique optimisation IDs and
+pass rules, three synchronized 1280x380 comparisons, calibrated candidate
+atlas, measurable SIDE/Q contact and release, landing finish, wall-brace
+continuity, compact helper budgets, and complete production-source isolation.
 `2026-07-28-weather-world-precipitation-contract.mjs` exercises the production
 ImageGen rain, snow, splash, ripple, and powder routing with Phaser-independent
 scene stubs. It verifies world-coordinate terrain and roof collisions, visible
@@ -771,11 +775,11 @@ diagonal tile entry, width-aware snow/rain edge contact, and correctly oriented
 world-space wall impacts without spawning a horizontal ground ripple. With
 `?jkd_e2e=1`, F12 forces the production snow phase for save-safe live review;
 F11 retains the clear-weather benchmark.
-`2026-07-28-backdrop-mask-coverage-contract.mjs` locks the cropped blend-mask
-frame to the complete scenic backdrop card, including tail cards, and cancels
-its Phaser atlas offset at the display origin. It also proves horizontal and
-cross-biome joins keep the retained card opaque, feather only the incoming
-left/top edge, and use deterministic depth order rather than a double-fade cut.
+`2026-07-28-backdrop-mask-coverage-contract.mjs` locks generated normalized
+masks to complete scenic cards, including irregular tail cards. It proves
+adjacent smoothstep weights sum to one, all real neighbor edges participate,
+named handoff art is reserved for its biome boundary, and cross-biome joins
+remain world-space and fully covered.
 
 `2026-07-28-whole-world-visual-expansion-v5-contract.mjs` guards all 100
 pixel-distinct ImageGen masters, 111 built runtime files, exact biome
@@ -784,10 +788,11 @@ terrain-mask ownership, non-mirrored surface placement, and the 128 px
 cross-biome material overlap.
 
 `2026-07-28-sky-underground-cohesion-runtime-contract.mjs` guards all thirty
-unique additive assets, the gap-free 18x8 native-density sky field, balanced
-use of all twenty sky images, ten dedicated native-density terrain-masked biome
-placements, immutable world coordinates, complete source frames, opaque world
-edges, and incoming-only sky transition masks.
+unique additive assets, the gap-free 24x10 native-density sky field,
+altitude-monotonic scheduling of all twenty sky images, balanced reuse inside
+each altitude family, native safe-frame crops, ten dedicated native-density
+terrain-masked biome placements, immutable world coordinates, opaque
+world-space mattes, and four-sided normalized sky transition masks.
 
 `2026-07-29-surface-backdrop-fallback-contract.mjs` guards an opaque scenic
 fallback from the first underground row while the requested biome card streams,
@@ -804,3 +809,94 @@ authority for the optimized paths.
 Heavenblocks system while a fake Phaser loader is active and proves that no
 large plate joins that in-flight cycle; all six plates queue and render after
 the loader-idle handoff.
+
+`2026-07-29-surface-sky-props-v3-contract.mjs` guards the exact 200/140/60
+asset inventory and ten lossless atlas hashes while separately enforcing the
+38-surface/13-sky authored runtime selection. It checks bounded story clusters,
+explicit breathing ranges, static transforms, rear/mid/front distance opacity,
+full Titan/portal/pillar/Heavenblock exclusions, and Phaser-like streaming
+lifecycles. Save-safe browser review uses Ctrl+Alt+F10 plus 9/0 and Ctrl+Alt+H.
+
+`2026-07-29-underground-backdrop-enhancers-v7-contract.mjs` guards the exact
+100-file/ten-biome high-resolution alpha inventory, runtime hashes, transparent
+outer edges, sparse occupancy, 70 normal plus 30 additive blend split,
+motif-compatible stable selection, deliberate no-overlay cards, full asset
+participation, shared backdrop-card geometry, below-terrain depth, streaming
+lifecycle wiring, rollback, and the visual-only boundary.
+
+`2026-07-30-star-rarity-sign-xp-contract.mjs` guards the exact 80% spawn
+reduction, six weighted/depth-gated tiers, monotonic high-impact rewards,
+five-level capped Sign XP and legacy migration, both Star mining paths, both
+deferred preload routes, twelve ImageGen alpha assets and hashes, authored-only
+popup/bar presentation, exact three-second hold, 20-second routine cooldown,
+first-rarity/Sign-level exceptions, higher-priority replacement, persisted
+ESC opt-out with immediate teardown, one-active-popup cap, and the
+health-worker canary.
+
+`2026-07-26-pause-settings-layout-contract.mjs` also guards the enabled-by-default
+legacy migration, Gameplay-tab wiring, immediate settings refresh, and
+non-overlapping second feedback row.
+
+`2026-07-30-star-identity-library-contract.mjs` guards all 250 identities, the
+exact 60/50/50/40/30/20 split, 250 distinct primary colours and light styles,
+V1 index stability, byte-storage capacity, fourteen V2 ImageGen source hashes,
+six atlas dimensions/output hashes/alpha coverage, and the 64 MiB decoded cap.
+It also guards deterministic coordinate assignment without an extra primary
+RNG draw, both Star mining paths, Boot preload, authored-only
+world/release/popup routing, and runtime texture health.
+
+`2026-07-30-star-identity-v2-art-contract.py` performs pixel-level QA on the
+fourteen expansion sheets and 200 appended frames. It rejects dirty corners,
+cross-cell source bleed, clipped runtime edges, wrong atlas dimensions, or
+missing expansion pages.
+
+`2026-07-30-star-atlas-ui-smoke.mjs` executes the real third-tab renderer with
+Phaser-like doubles. It requires the 1536x800 foundation, twelve visible
+selectors, authored previous/next arrows, five Common pages, one large
+preview, all sixty Common frames, and correct page-two identity routing
+without Graphics.
+
+`2026-07-30-star-identity-light-smoke.mjs` executes the real pooled
+`SkySteadyLightRenderer`, proves a newly appended Astral dedicated light frame
+and bounded motion/alpha/scale are applied, then verifies the pool releases
+cleanly.
+
+`2026-07-30-star-identity-light-art-contract.py` validates all ten built-in
+ImageGen sources and six RGBA light atlases: 250 unique frame hashes, exact
+dimensions and source/output hashes, transparent edges, alpha coverage, and
+the original-six-light decoded-memory cap.
+
+`2026-07-30-star-identity-dedicated-light-contract.mjs`,
+`2026-07-30-star-identity-semantic-layer-smoke.mjs`, and
+`2026-07-30-star-identity-release-light-smoke.mjs` guard the separate
+core/light metadata, exact hard-darkness frame, dynamic semantic
+beauty/emissive pairing, bounded collected-light follower, popup/Atlas
+underlays, no runtime tint/Graphics, and legacy rarity-light fallback.
+
+`2026-07-30-pause-feature-loading-contract.mjs` guards the authored-only
+Starlight loader, guaranteed Boot chrome, exact 41-asset progress, responsive
+layout, bounded component size, 100% beat and cancellation teardown. The
+matching harness plus `2026-07-30-pause-feature-loading-live-qa.mjs` render
+partial and ready states in hidden Edge and reject browser errors.
+
+`2026-07-30-pause-feature-loading-production-live-qa.mjs` enters a fresh real
+PlayScene, waits for unrelated runtime art to settle, throttles the Starlight
+group, opens ESC directly on Talents, compares the visible diagnostic with the
+manager, captures a genuine partial state, closes mid-load, and proves that
+reopening reaches the real talent tree at 41/41 with no browser errors.
+
+`2026-07-30-depth-resource-economy-contract.mjs` verifies the modern and
+legacy query modes, exact depth-curve points, modern/legacy rarity HP and yield,
+deterministic integer rounding, final caps, decimal pricing, Deep Market
+locking, Milestone speed/crit wiring, runtime-canary failure/recovery, and
+health-worker forwarding. It builds both complete authoritative worlds and
+reports real coins per 100 HP for four Level One and five Level Two bands,
+including the continuous world handoff and rising deep income.
+
+`2026-07-30-starlight-mockup-fidelity-live-qa.mjs` renders all three production
+Starlight pages in hidden Edge at configurable review sizes. It verifies the
+real view health snapshot, active page, missing-texture list, and browser error
+stream before writing screenshots under
+`visual-approval-previews/starlight-talent-tree-v4/`. The companion updated
+Starlight contract pins the V4 foundation hash, exact 29-file package,
+full-shell host geometry, readable art floors, Bobo locks, and worker alerts.

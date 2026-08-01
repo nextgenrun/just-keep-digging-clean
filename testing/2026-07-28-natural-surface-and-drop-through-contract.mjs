@@ -10,6 +10,7 @@ import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "../values/ualNativePlayerAssetP
 import { WORLD_VISUAL_SURFACE_PROP_ASSETS } from "../values/worldVisualSurfacePropAssets.js";
 import {
   TITAN_SURFACE_GALLERY_CLEAR_ZONE,
+  TITAN_SURFACE_STATUE_CLEAR_ZONES,
   WORLD_VISUAL_SURFACE_PROP_LAYOUT,
 } from "../values/worldVisualSurfacePropLayout.js";
 import { WORLD_VISUAL_SURFACE_PROPS } from "../values/worldVisualSurfaceProps.js";
@@ -32,11 +33,23 @@ assert.deepEqual(
   [...new Set(placements.map(item => item.sizeVariant))].sort(),
   ["large", "small", "standard"],
 );
-assert.equal(
-  placements.some(item => item.level === "level1"),
-  false,
-  "the enlarged Titan Walk must own a prop-free Level 1 surface corridor",
+const levelOnePlacements = placements.filter(item => item.level === "level1");
+assert.equal(levelOnePlacements.length, 12);
+assert.ok(levelOnePlacements.every(item => item.id.startsWith("l1-titan-gap-")));
+assert.ok(levelOnePlacements.every(item => item.lane !== "front"));
+assert.deepEqual(
+  [...new Set(levelOnePlacements.map(item => item.assetId))].sort(),
+  ["bench", "fence", "handcart", "lantern", "plants", "supplies"],
+  "the Titan promenade reuses only the existing low prop library",
 );
+const levelOnePositions = levelOnePlacements
+  .map(item => item.tileX)
+  .sort((left, right) => left - right);
+const levelOneGaps = levelOnePositions
+  .slice(1)
+  .map((position, index) => position - levelOnePositions[index]);
+assert.ok(Math.min(...levelOneGaps) >= 3.4 - 1e-9);
+assert.ok(Math.max(...levelOneGaps) >= 6.8 - 1e-9);
 for (const level of ["level2"]) {
   const positions = placements
     .filter(item => item.level === level)
@@ -47,7 +60,7 @@ for (const level of ["level2"]) {
   assert.ok(Math.min(...gaps) <= 1.5, `${level} needs clustered prop moments`);
   assert.ok(Math.max(...gaps) >= 4.5, `${level} needs deliberate breathing space`);
 }
-for (const item of placements.filter(candidate => candidate.level === "level1")) {
+for (const item of levelOnePlacements) {
   const scale = resolveSurfacePropScaleMultiplier(item, WORLD_VISUAL_SURFACE_PROPS);
   const geometry = resolveSurfacePropDisplayGeometry(
     WORLD_VISUAL_SURFACE_PROP_ASSETS[item.level][item.assetId],
@@ -57,12 +70,23 @@ for (const item of placements.filter(candidate => candidate.level === "level1"))
   );
   const left = item.tileX - geometry.widthTiles / 2;
   const right = item.tileX + geometry.widthTiles / 2;
-  assert.equal(
-    right > TITAN_SURFACE_GALLERY_CLEAR_ZONE.leftTile
-      && left < TITAN_SURFACE_GALLERY_CLEAR_ZONE.rightTile,
-    false,
-    `${item.id} may not cover the Titan Walk`,
+  assert.ok(
+    left > TITAN_SURFACE_GALLERY_CLEAR_ZONE.leftTile
+      && right < TITAN_SURFACE_GALLERY_CLEAR_ZONE.rightTile,
+    `${item.id} must remain inside the Titan promenade`,
   );
+  const blockedPlinth = TITAN_SURFACE_STATUE_CLEAR_ZONES.find(zone => (
+    right > zone.leftTile && left < zone.rightTile
+  ));
+  assert.equal(blockedPlinth, undefined, `${item.id} must stay between plinths`);
+  const blockedGameplay = WORLD_VISUAL_SURFACE_PROP_LAYOUT.protectedClearZones
+    .filter(zone => !zone.id.startsWith("titan-plinth-"))
+    .find(zone => (
+      (!zone.levels || zone.levels.includes(item.level))
+      && right > zone.leftTile
+      && left < zone.rightTile
+    ));
+  assert.equal(blockedGameplay, undefined, `${item.id} must preserve gameplay gates`);
 }
 
 function createWorld(surfaceType, belowType, lowerType = TILE_TYPES.DIRT) {

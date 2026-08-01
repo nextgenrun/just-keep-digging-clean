@@ -11,19 +11,12 @@ const TAU = Math.PI * 2;
  * panel is used; missing production art hides the widget and reports an error.
  */
 export class GraveborerWurmHudSystem {
-  constructor(scene, config = GRAVEBORER_WURM_CONFIG, options = {}) {
+  constructor(scene, config = GRAVEBORER_WURM_CONFIG) {
     this.scene = scene;
     this.config = config;
-    this.devToolsEnabled = options.devToolsEnabled === true;
-    this.onSummon = typeof options.onSummon === "function"
-      ? options.onSummon
-      : null;
     this.root = null;
     this.medallion = null;
     this.label = null;
-    this.devBadge = null;
-    this.devHover = false;
-    this.devPressUntilMs = 0;
     this.ready = scene.textures?.exists?.(ASSET_KEYS.environment.graveborerWurm.medallion) === true;
     this._resizeHandler = () => this._layout();
     if (this.ready) {
@@ -57,31 +50,7 @@ export class GraveborerWurmHudSystem {
       strokeThickness: visuals.hudLabelStrokeThickness,
       align: "center",
     }).setOrigin(0.5);
-    this.devBadge = this.scene.add.text(0, visuals.hudDevBadgeOffsetY, "", {
-      fontFamily: visuals.hudLabelFont,
-      fontSize: `${visuals.hudDevBadgeFontSizePx}px`,
-      fontStyle: "bold",
-      color: visuals.hudDevBadgeColor,
-      stroke: visuals.hudDevBadgeStrokeColor,
-      strokeThickness: visuals.hudDevBadgeStrokeThickness,
-    }).setOrigin(0.5).setVisible(false);
-    this.root.add([this.medallion, this.label, this.devBadge]);
-    if (this.devToolsEnabled) {
-      this.medallion
-        .setInteractive({ useHandCursor: true })
-        .on("pointerover", () => {
-          this.devHover = true;
-        })
-        .on("pointerout", () => {
-          this.devHover = false;
-        })
-        .on("pointerdown", () => {
-          if (this.onSummon?.() !== false) {
-            this.devPressUntilMs = (this.scene.time?.now || 0)
-              + visuals.hudDevPressMs;
-          }
-        });
-    }
+    this.root.add([this.medallion, this.label]);
     this._layout();
     this.scene.scale?.on?.("resize", this._resizeHandler);
   }
@@ -97,9 +66,8 @@ export class GraveborerWurmHudSystem {
   update(snapshot, timeMs = 0) {
     if (!this.ready) return;
     const active = snapshot?.active === true;
-    const devVisible = this.devToolsEnabled === true;
-    this.root.setVisible(active || devVisible);
-    if (!active && !devVisible) return;
+    this.root.setVisible(active);
+    if (!active) return;
 
     const visuals = this.config.visuals;
     let label = this.config.labels.dormant;
@@ -109,18 +77,7 @@ export class GraveborerWurmHudSystem {
     let pulseHz = visuals.hudDormantPulseHz;
     let pulseAmount = visuals.hudPulseAmount * visuals.hudDormantPulseScale;
 
-    if (!active && devVisible) {
-      const enabled = snapshot?.enabled !== false;
-      label = enabled
-        ? this.config.labels.devReady
-        : this.config.labels.devDisabled;
-      tint = enabled ? visuals.hudDevReadyTint : visuals.hudDormantTint;
-      color = enabled
-        ? visuals.hudLabelListeningColor
-        : visuals.hudLabelDormantColor;
-      alpha = enabled ? visuals.hudDevReadyAlpha : visuals.hudDormantAlpha;
-      pulseHz = visuals.hudDevReadyPulseHz;
-    } else if (snapshot.phase === GRAVEBORER_WURM_PHASES.warning) {
+    if (snapshot.phase === GRAVEBORER_WURM_PHASES.warning) {
       label = `${this.config.labels.passPrefix} ${snapshot.passIndex}/${snapshot.passCount}`
         + ` • ${this.config.labels.warningPrefix} ${(snapshot.warningRemainingMs / 1000).toFixed(1)}s`;
       tint = visuals.hudWarningTint;
@@ -152,10 +109,6 @@ export class GraveborerWurmHudSystem {
 
     const phase = timeMs / 1000 * pulseHz * TAU;
     const pulse = 1 + Math.sin(phase) * pulseAmount;
-    const hoverScale = this.devHover ? visuals.hudDevHoverScale : 1;
-    const pressScale = timeMs < this.devPressUntilMs
-      ? visuals.hudDevPressScale
-      : 1;
     this.medallion
       .setTint(tint)
       .setAlpha(alpha)
@@ -164,22 +117,13 @@ export class GraveborerWurmHudSystem {
           * visuals.hudRotationRadians,
       )
       .setScale(
-        this._medallionBaseScaleX * pulse * hoverScale * pressScale,
-        this._medallionBaseScaleY * pulse * hoverScale * pressScale,
+        this._medallionBaseScaleX * pulse,
+        this._medallionBaseScaleY * pulse,
       );
     this.label
       .setText(label)
       .setColor(color)
       .setAlpha(Math.max(visuals.hudMinimumLabelAlpha, alpha));
-    this.devBadge
-      .setText(
-        snapshot?.enabled === false
-          ? this.config.labels.devBadgeDisabled
-          : snapshot?.devTest10x === true
-            ? this.config.labels.devBadge10x
-            : this.config.labels.devBadge,
-      )
-      .setVisible(devVisible);
   }
 
   destroy() {
@@ -190,8 +134,6 @@ export class GraveborerWurmHudSystem {
     this.root = null;
     this.medallion = null;
     this.label = null;
-    this.devBadge = null;
-    this.onSummon = null;
     this.scene = null;
   }
 }

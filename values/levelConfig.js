@@ -35,13 +35,13 @@ export const LEVEL_CONFIG = Object.freeze({
   CHOICE_REWARDS: {
     miningPower: {
       name: "Mining Power",
-      icon: "⛏️",
+      icon: "pickaxe",
       description: "+3% damage to all tiles",
       damageBonus: 0.03
     },
     resourceLuck: {
       name: "Resource Luck",
-      icon: "🍀",
+      icon: "luck",
       description: "+2% chance for bonus resources",
       luckBonus: 0.02
     }

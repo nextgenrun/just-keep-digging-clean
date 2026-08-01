@@ -9,16 +9,17 @@ import {
   resolveWorldVisualDepthBackdropRegionAssets,
   resolveWorldVisualDepthBackdropRegions,
   resolveWorldVisualDepthBackdropsEnabled,
-} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
 import { WORLD_VISUAL_DEPTH_CAMERA_MOTION } from
   "../../../values/worldVisualDepthCameraMotion.js";
 import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicDemandAssetStreamingEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualDepthBackdropRegionView } from
-  "./WorldVisualDepthBackdropRegionView.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./WorldVisualDepthBackdropRegionView.js?rev=20260729-native-density-v14";
 import { WorldVisualDepthCameraMotion } from "./WorldVisualDepthCameraMotion.js";
 
 export class WorldVisualDepthBackdropStage {
@@ -50,6 +51,7 @@ export class WorldVisualDepthBackdropStage {
     this.lastLighting = null;
     this.assetCache = null;
     this.cameraMotion = null;
+    this.matte = null;
   }
 
   get segments() {
@@ -73,12 +75,34 @@ export class WorldVisualDepthBackdropStage {
     this.assetCache = new WorldVisualAssetCache(this.scene, {
       retainKeys: startupAssets.map(asset => asset.key),
       videoNoAudio: this.config.motion.smoothVideo.noAudio,
+      owner: RUNTIME_ASSET_LOADING.owners.depthBackdrop,
+      priority: RUNTIME_ASSET_LOADING.priorities.depthBackdrop,
     });
     this.cameraMotion = new WorldVisualDepthCameraMotion(
       this.scene,
       this.cameraMotionConfig,
       this.motionEnabled
     );
+    const tileSize = this.scene.config.tileSize;
+    const leftTile = Math.min(...this.config.regions.map(region => region.leftTile));
+    const rightTile = Math.max(
+      ...this.config.regions.map(region => region.rightTileExclusive)
+    );
+    const topTile = Math.min(...this.config.regions.map(region => region.topTile));
+    const bottomTile = Math.max(
+      ...this.config.regions.map(region => region.bottomTileExclusive)
+    );
+    this.matte = this.scene.add.rectangle(
+      leftTile * tileSize,
+      topTile * tileSize,
+      (rightTile - leftTile) * tileSize,
+      (bottomTile - topTile) * tileSize,
+      this.config.blend.matteColor,
+      1
+    )
+      .setOrigin(0)
+      .setDepth(this.config.render.matteDepth);
+    this.matte.name = "world-visual-depth-normalized-blend-matte";
     return true;
   }
 
@@ -221,6 +245,8 @@ export class WorldVisualDepthBackdropStage {
     this.fallbackAsset = null;
     this.cameraMotion?.destroy();
     this.cameraMotion = null;
+    this.matte?.destroy?.();
+    this.matte = null;
     this.activeRegions = [];
     this.activeRegionIds.clear();
     this.activeAssetKeys.clear();

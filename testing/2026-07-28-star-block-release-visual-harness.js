@@ -6,10 +6,22 @@ import {
   STAR_CONSTELLATION_CONFIG,
   getCollectedStarReleasePreloadAssets,
 } from "../values/starConstellations.js";
+import {
+  getStarDiscoveryPreloadAssets,
+  STAR_RARITY_PROGRESSION_CONFIG,
+} from "../values/starRarityProgression.js";
+import { getSignProgress } from "../values/starRarityProgressionMath.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
 
 const RELEASE_FX = STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx;
 const SKY_TILE = WORLD_VISUAL_SEMANTIC_ASSETS.skyTile;
+const REVIEW_RARITY = Math.max(
+  0,
+  Math.min(
+    STAR_RARITY_PROGRESSION_CONFIG.rarityTiers.length - 1,
+    Math.floor(Number(new URLSearchParams(location.search).get("rarity")) || 2),
+  ),
+);
 const HARNESS = Object.freeze({
   width: 1280,
   height: 720,
@@ -18,7 +30,7 @@ const HARNESS = Object.freeze({
   startY: 628,
   referenceX: 154,
   referenceY: 560,
-  rarity: 0,
+  rarity: REVIEW_RARITY,
   fontFamily: "Consolas, monospace",
 });
 
@@ -46,6 +58,7 @@ class StarBlockReleaseVisualHarnessScene extends Phaser.Scene {
     for (const asset of [
       ...getCollectedStarReleasePreloadAssets(),
       ...getStarBlockPulsePreloadAssets(),
+      ...getStarDiscoveryPreloadAssets(),
     ]) {
       this.load.image(asset.key, rootAssetPath(asset.path));
     }
@@ -85,7 +98,7 @@ class StarBlockReleaseVisualHarnessScene extends Phaser.Scene {
       graphics.lineBetween(0, y, HARNESS.width, y);
     }
 
-    this.add.text(42, 28, "STAR BLOCK • CHOICE 1 PRODUCTION RELEASE", {
+    this.add.text(42, 28, "STAR BLOCK • RARITY + SIGN XP PRODUCTION RELEASE", {
       color: "#eaf8ff",
       fontFamily: HARNESS.fontFamily,
       fontSize: "25px",
@@ -103,7 +116,7 @@ class StarBlockReleaseVisualHarnessScene extends Phaser.Scene {
         fontSize: "17px",
       }
     );
-    this.add.text(640, 405, "CLICK OR PRESS SPACE TO REPLAY THE REAL RELEASE VIEW", {
+    this.add.text(640, 405, "CLICK OR PRESS SPACE • ?rarity=0..5 SELECTS THE PALETTE", {
       color: "#b6eaff",
       fontFamily: HARNESS.fontFamily,
       fontSize: "15px",
@@ -188,11 +201,27 @@ class StarBlockReleaseVisualHarnessScene extends Phaser.Scene {
     this.sourceIcon.setVisible(false);
     document.body.dataset.releasePhase = "pop";
 
+    const tier = STAR_RARITY_PROGRESSION_CONFIG.rarityTiers[HARNESS.rarity];
+    const signProgress = getSignProgress("dirt", tier.signXp);
     this.floatingTextSystem.showCollectedSkyStarRelease(
       HARNESS.rarity,
       HARNESS.startX,
       HARNESS.startY,
-      "dirt"
+      "dirt",
+      {
+        ...signProgress,
+        resourceType: "dirt",
+        constellationName: STAR_CONSTELLATION_CONFIG.defs.dirt.name,
+        count: 1,
+        threshold: signProgress.totalXp,
+        xpBefore: 0,
+        xpGained: tier.signXp,
+        levelBefore: 0,
+        levelProgressBefore: 0,
+        levelsGained: signProgress.level,
+        rarity: HARNESS.rarity,
+        rarityId: tier.id,
+      },
     );
 
     this.time.delayedCall(1500, () => {

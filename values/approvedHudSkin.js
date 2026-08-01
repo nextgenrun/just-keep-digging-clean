@@ -1,3 +1,5 @@
+import { UI_FONTS } from "./uiLayout.js";
+
 export const APPROVED_HUD_SKIN = Object.freeze({
   enabled: true,
   assetPrefix: "ui-hud-approved-",
@@ -15,7 +17,7 @@ export const APPROVED_HUD_SKIN = Object.freeze({
     inventory: "sprites/UI/hud-approved-v1/inventory-bag.png",
   }),
   font: Object.freeze({
-    family: "Bahnschrift SemiCondensed, Trebuchet MS, sans-serif",
+    family: UI_FONTS.display,
     color: "#f4e8c8",
     secondary: "#b9c8d3",
     cyan: "#65d8f2",

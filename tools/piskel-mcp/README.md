@@ -17,6 +17,10 @@ Use `-- --ids idle,walk` after an npm command to target specific animations.
 
 Use per-animation `.piskel` files for editing. The all-animation review pack is only a contact/review convenience because Piskel flattens it into one timeline.
 
+Pillow outputs are written beside their destination and atomically replaced
+with a short bounded retry. This prevents an open Windows review page or asset
+scanner from intermittently breaking a deterministic Piskel rebuild.
+
 `centeringPolicy` is the normalization SSOT. Legacy purple-core characters can
 keep `anchorMode: legacy-core`; photoreal Survival sheets use
 `alpha-lower-body`, which ignores an extending arm when deciding whether the

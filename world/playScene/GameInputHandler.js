@@ -75,6 +75,7 @@ export class GameInputHandler {
     }
 
     this.scene.showPauseMenu?.();
+
     return true;
   }
 
@@ -129,10 +130,6 @@ export class GameInputHandler {
       USER_SETTINGS.updateAudio({ musicEnabled: musicOn });
       USER_SETTINGS.applyAudioTo(this.scene.soundSystem);
       this.scene.uiMuteToggle?.syncMusicState(musicOn);
-      this.scene.uiMuteToggle?.showToast(
-        musicOn ? "Music: ON" : "Music: OFF",
-        musicOn ? "#f2f5f8" : "#ff6b6b"
-      );
       return true;
     }
 
@@ -141,10 +138,6 @@ export class GameInputHandler {
       USER_SETTINGS.updateAudio({ sfxEnabled: sfxOn });
       USER_SETTINGS.applyAudioTo(this.scene.soundSystem);
       this.scene.uiMuteToggle?.syncSfxState(sfxOn);
-      this.scene.uiMuteToggle?.showToast(
-        sfxOn ? "SFX: ON" : "SFX: OFF",
-        sfxOn ? "#f2f5f8" : "#ff6b6b"
-      );
       return true;
     }
 

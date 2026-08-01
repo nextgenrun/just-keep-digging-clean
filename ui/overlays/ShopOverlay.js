@@ -1,8 +1,10 @@
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
+import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
 import { getUpgradeCost } from "../../values/upgradeFormulas.js";
 import {
   RESOURCE_PRICES_CONFIG,
   getAdjustedResourceUnitPrice,
+  roundResourceCurrency,
 } from "../../values/resourcePrices.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS, SHOP_MERCHANT_PROFILES } from "../../values/uiLayout.js";
@@ -17,6 +19,7 @@ import {
 } from "../../values/resourceTypes.js";
 import { createButton } from "../PhaserUiKit.js";
 import {
+  createUiIcon,
   isSellCapableMerchant,
   resolveMerchantUiIcon,
   resolveUpgradeUiIcon,
@@ -39,7 +42,10 @@ function resourceIconKey(resource) {
 }
 
 function formatMoney(value) {
-  return Math.max(0, Number(value) || 0).toLocaleString() + " M";
+  return Math.max(0, Number(value) || 0).toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+  }) + " M";
 }
 
 function sellResourceKeysForMerchant(merchantId) {
@@ -163,11 +169,15 @@ export class ShopOverlay {
 
   show(merchantId) {
     if (this._destroyed) return;
+    if (this.scene.systemIntroductionSystem
+      && this.scene.systemIntroductionSystem.isMerchantAvailable?.(merchantId) === false) return;
     this.currentMerchant = merchantId;
     this.isVisible = true;
     this.currentPage = 0;
     this.selectedIndex = 0;
-    this.moneyMonsterMode = isArcForgeMerchant(merchantId) ? "craft" : "buy";
+    this.moneyMonsterMode = this.scene.townSquareTutorialSystem
+      ?.getPreferredMerchantMode?.(merchantId)
+      || (isArcForgeMerchant(merchantId) ? "craft" : "buy");
     this.selectedSellButton = 0;
     this.sellAllConfirmUntil = 0;
     this.saleConfirmSignature = "";
@@ -188,7 +198,8 @@ export class ShopOverlay {
 
   _syncMerchantChrome() {
     const profile = SHOP_MERCHANT_PROFILES[this.currentMerchant] || SHOP_MERCHANT_PROFILES.default;
-    this.shell.setHeader(profile.title, profile.role + "  |  " + profile.greeting);
+    const rushHeader = this.scene?.randomEventBridge?.getShopHeader?.(this.currentMerchant);
+    this.shell.setHeader(profile.title, rushHeader || (profile.role + "  |  " + profile.greeting));
     this.shell.setIcon(resolveMerchantUiIcon(this.currentMerchant));
     this.moneyText = this.walletText;
     this._updateWallet();
@@ -222,11 +233,25 @@ export class ShopOverlay {
 
   populateUpgrades(merchantId = this.currentMerchant) {
     this.currentMerchant = merchantId;
+    const firstFiveEnabled = this.scene?.townSquareTutorialSystem
+      ?.isFirstFiveEnabled?.()
+      ?? resolveFirstFiveMinutesEnabled();
+    const focusedUpgradeId = this.scene?.townSquareTutorialSystem
+      ?.getFocusedUpgradeId?.(merchantId) || null;
+    const isTutorialUpgradeAvailable = id => this.scene?.townSquareTutorialSystem
+      ?.isUpgradeAvailable?.(id) ?? true;
+    const isSystemUpgradeAvailable = id => this.scene.systemIntroductionSystem
+      ?.isUpgradeAvailable?.(id) ?? true;
     this.allUpgrades = Object.entries(UPGRADES)
-      .filter(([, upgrade]) => (
+      .filter(([id, upgrade]) => (
         upgrade.merchant === merchantId &&
         !upgrade.comingSoon &&
-        !upgrade.hiddenFromShop
+        !upgrade.hiddenFromShop &&
+        (!upgrade.firstFiveOnly || firstFiveEnabled) &&
+        (!upgrade.depthEconomyOnly || this.scene.config?.resourceEconomyEnabled !== false) &&
+        isTutorialUpgradeAvailable(id) &&
+        (!focusedUpgradeId || id === focusedUpgradeId) &&
+        isSystemUpgradeAvailable(id)
       ))
       .map(([id, upgrade]) => ({ ...upgrade, id }));
     if (
@@ -249,6 +274,10 @@ export class ShopOverlay {
       name: getResourceDisplayName(resource),
       basePrice: RESOURCE_PRICES_CONFIG.basePrices[resource] || 0,
     }));
+    const rushTarget = this.scene?.randomEventBridge?.getRushSnapshot?.()?.targetResource;
+    if (merchantId === "moneyMonster" && rushTarget) {
+      this.sellItems.sort((a, b) => Number(b.resource === rushTarget) - Number(a.resource === rushTarget));
+    }
     this._render();
   }
 
@@ -436,8 +465,11 @@ export class ShopOverlay {
       }
 
       const name = this.moneyMonsterMode === "sell" ? item.name : item.name;
+      const rushStatus = this.moneyMonsterMode === "sell"
+        ? this.scene?.randomEventBridge?.getRushRowStatus?.(item.resource, this.currentMerchant)
+        : null;
       const sub = this.moneyMonsterMode === "sell"
-        ? String(this._getResourceAmount(item.resource)).toLocaleString() + " owned"
+        ? (rushStatus || String(this._getResourceAmount(item.resource)).toLocaleString() + " owned")
         : this.moneyMonsterMode === "craft"
           ? this._forgeRowStatus(item)
           : this._upgradeRowStatus(item);
@@ -590,11 +622,18 @@ export class ShopOverlay {
     const lineHeight = checks.length > 7 ? 17 : 20;
     const visibleChecks = checks.slice(0, Math.max(1, Math.floor(availableHeight / lineHeight)));
     visibleChecks.forEach((entry, index) => {
-      this._text(x + 24, requirementsY + 27 + index * lineHeight, `${entry.met ? "✓" : "•"} ${entry.label}`, {
+      const lineY = requirementsY + 27 + index * lineHeight;
+      createUiIcon(this.scene, entry.met ? "check" : "warning", {
+        x: x + 28,
+        y: lineY + 7,
+        size: 14,
+        parent: this.upgradesContainer,
+      });
+      this._text(x + 42, lineY, entry.label, {
         fontFamily: UI_FONTS.mono,
         fontSize: checks.length > 7 ? "10px" : "11px",
         color: entry.met ? UI_COLORS.success : UI_COLORS.danger,
-        wordWrap: { width: width - 48 },
+        wordWrap: { width: width - 66 },
       });
     });
 
@@ -800,6 +839,14 @@ export class ShopOverlay {
         met: have >= amount,
       });
     });
+    if (upgrade.requires) {
+      const requiredUpgrade = UPGRADES[upgrade.requires];
+      const requiredLevel = this.upgradeSystem?.getUpgradeLevel?.(upgrade.requires) || 0;
+      lines.push({
+        text: "Requires  " + (requiredUpgrade?.name || upgrade.requires),
+        met: requiredLevel > 0,
+      });
+    }
     if (upgrade.requiresLevel) {
       const current = this.upgradeSystem?.playerLevelSystem?.getLevel?.() || 0;
       lines.push({ text: "Player level  " + current + " / " + upgrade.requiresLevel, met: current >= upgrade.requiresLevel });
@@ -926,6 +973,11 @@ export class ShopOverlay {
   }
 
   _adjustedUnitPrice(resource, basePrice) {
+    const permanent = this._permanentUnitPrice(resource, basePrice);
+    return this.scene?.randomEventBridge?.quoteSaleUnit?.(resource, permanent, this.currentMerchant) ?? permanent;
+  }
+
+  _permanentUnitPrice(resource, basePrice) {
     const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
     return getAdjustedResourceUnitPrice(resource, effects, basePrice);
   }
@@ -1069,6 +1121,8 @@ export class ShopOverlay {
   purchaseUpgrade(upgradeId) {
     if (!this.isVisible || !upgradeId) return;
     const upgrade = UPGRADES[upgradeId];
+    const tutorialPreview = this.scene.townSquareTutorialSystem
+      ?.getUpgradePreview?.(upgradeId) || null;
     const beforeLevel = this.upgradeSystem?.getUpgradeLevel?.(upgradeId) || 0;
     const beforeJourneySnapshot = this.scene.journeySystem?.captureSnapshot?.();
     const result = this.upgradeSystem?.purchaseUpgrade?.(upgradeId);
@@ -1084,6 +1138,7 @@ export class ShopOverlay {
         requires_upgrade: "Another upgrade is required first.",
         requires_depth_gate: "A deeper milestone must be claimed first.",
         requires_player_level: "A higher player level is required.",
+        feature_disabled: "This upgrade belongs to the modern depth economy.",
       };
       this.soundSystem?.playUiSelect?.();
       this._notify(messages[result.reason] || "Purchase requirements are not met.", UI_COLORS.danger);
@@ -1102,7 +1157,10 @@ export class ShopOverlay {
     if (upgradeId === "arcCoreVehicle") this.scene.arcCoreVehicleSystem?.syncOwnership?.();
     this.scene.earthquakeSystem?.syncSuppression?.();
     this._notify(upgrade.purchaseCopy || ("Purchased " + upgrade.name + "."), UI_COLORS.success);
-    this.scene.retentionProgressSystem?.recordUpgrade?.(upgrade.name);
+    this.scene.retentionProgressSystem?.recordUpgrade?.(upgrade.name, {
+      ...(tutorialPreview || {}),
+      upgradeId,
+    });
     this.scene.journeySystem?.recordUpgradePurchase?.({
       upgrade,
       beforeSnapshot: beforeJourneySnapshot,
@@ -1148,20 +1206,23 @@ export class ShopOverlay {
     }
     if (!this._confirmCraftingMaterialSale([resource], `resource:${resource}:${count}`)) return;
 
+    const permanentUnitPrice = this._permanentUnitPrice(resource, basePrice);
     const unitPrice = this._adjustedUnitPrice(resource, basePrice);
     let total = unitPrice * count;
     const luckySales = this.upgradeSystem.getUpgradeEffects?.().luckySales || 0;
     if (luckySales > 0 && Math.random() < luckySales * 0.1) {
-      const bonus = Math.floor(total * 0.5);
+      const bonus = roundResourceCurrency(total * 0.5);
       total += bonus;
       this._notify("Lucky sale bonus: +" + formatMoney(bonus), UI_COLORS.gold);
     }
+    total = roundResourceCurrency(total);
 
     resources[resource] = available - count;
     digSystem.setResourceTotals(resources);
     this.upgradeSystem.addMoney(total);
     this.scene.retentionProgressSystem?.recordSale?.(total, count);
     this.soundSystem?.playUiConfirm?.();
+    this.scene?.randomEventBridge?.recordRushSale?.(resource, count, permanentUnitPrice, unitPrice);
     this._notify(
       "Sold " + count.toLocaleString() + " " + getResourceDisplayName(resource) + " for " + formatMoney(total) + ".",
       UI_COLORS.success
@@ -1183,10 +1244,14 @@ export class ShopOverlay {
       const amount = resources[resource] || 0;
       if (amount <= 0) return;
       const basePrice = RESOURCE_PRICES_CONFIG.basePrices[resource] || 0;
-      totalMoney += this._adjustedUnitPrice(resource, basePrice) * amount;
+      const permanentUnitPrice = this._permanentUnitPrice(resource, basePrice);
+      const unitPrice = this._adjustedUnitPrice(resource, basePrice);
+      totalMoney += unitPrice * amount;
+      this.scene?.randomEventBridge?.recordRushSale?.(resource, amount, permanentUnitPrice, unitPrice);
       totalSold += amount;
       resources[resource] = 0;
     });
+    totalMoney = roundResourceCurrency(totalMoney);
     if (totalSold <= 0) {
       this._notify("No resources are available to sell.", UI_COLORS.danger);
       return;
@@ -1204,6 +1269,8 @@ export class ShopOverlay {
   _confirmCraftingMaterialSale(resourceKeys, signature) {
     const conflicts = this.scene.craftingSystem
       ?.getRecipeIngredientConflicts?.(resourceKeys) || [];
+    const rushQuoteId = this.scene?.randomEventBridge?.getRushSnapshot?.()?.id || "base";
+    signature = `${signature}|${rushQuoteId}`;
     const resources = this.scene.digSystem?.getResourceTotals?.() || {};
     const atRisk = conflicts.filter((entry) => (resources[entry.resourceKey] || 0) > 0);
     if (!atRisk.length) return true;

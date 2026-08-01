@@ -26,7 +26,7 @@ import {
   SOIL_DAMAGE_STAGE_COUNT,
   getSoilAtlasOffset,
 } from "../../values/dynamicSoil.js";
-import { TitanDiscoverySystem } from "../../systems/visual/TitanDiscoverySystem.js";
+import { TitanDiscoverySystem } from "../../systems/visual/TitanDiscoverySystem.js?rev=20260729-native-density-v14";
 import { WorldRenderWindowBuffer } from "./WorldRenderWindowBuffer.js";
 
 // Resource colors used for brief "what's inside" flashes on sky tiles.

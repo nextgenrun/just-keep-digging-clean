@@ -30,6 +30,7 @@ export class NPCManager {
       'boboMerchant': "Bobo's Shop",
       'gemPowerMerchant': 'Gem Merchant'
     };
+    this._availableMerchantIds = null;
   }
 
   _getNPCDefs() {
@@ -64,6 +65,24 @@ export class NPCManager {
       },
     ];
   }
+  setMerchantAvailability(merchantIds = null) {
+    this._availableMerchantIds = merchantIds
+      ? new Set(merchantIds)
+      : null;
+    for (const [merchantId, sprite] of this.npcSprites.entries()) {
+      sprite.setVisible(this._isMerchantAvailable(merchantId));
+    }
+    for (const prompt of this._interactPrompts) {
+      if (!this._isMerchantAvailable(prompt.npc?.merchantId)) {
+        prompt.text?.setVisible(false);
+      }
+    }
+  }
+  _isMerchantAvailable(merchantId) {
+    return !this._availableMerchantIds
+      || this._availableMerchantIds.has(merchantId);
+  }
+
 
   createNPCs() {
     const npcSize = this.scene.config.playerDisplaySizePx;
@@ -87,7 +106,7 @@ export class NPCManager {
           color: '#ff0000',
           align: 'center'
         }).setOrigin(0.5).setDepth(16);
-        
+
         continue;
       }
       
@@ -161,6 +180,17 @@ export class NPCManager {
 
     for (const prompt of this._interactPrompts) {
       const dist = Math.abs(playerTile.tx - prompt.npc.tx) + Math.abs(playerTile.ty - prompt.npc.ty);
+      const merchantId = prompt.npc.merchantId;
+      const rushPrompt = this.scene.randomEventBridge?.getMerchantPrompt?.(merchantId);
+      if (!this._isMerchantAvailable(merchantId)) {
+        prompt.text.setVisible(false);
+        continue;
+      }
+      const label = rushPrompt
+        ? `[${USER_SETTINGS.getKeyLabel("interact")}] ${rushPrompt}`
+        : `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[merchantId] || "Shop"}`;
+      if (prompt.text.text !== label) prompt.text.setText(label);
+
       const inRange = dist <= TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles
         && dist <= competingDistance;
       
@@ -205,6 +235,7 @@ export class NPCManager {
     let nearestDistance = interactionRange + 1;
 
     for (const npc of this.npcDefs) {
+      if (!this._isMerchantAvailable(npc.merchantId)) continue;
       const distance = Math.abs(playerTile.tx - npc.tx) + Math.abs(playerTile.ty - npc.ty);
 
       if (distance <= interactionRange && distance < nearestDistance) {
@@ -232,6 +263,7 @@ export class NPCManager {
     const range = TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles;
     let nearestDistance = Number.POSITIVE_INFINITY;
     for (const npc of this.npcDefs) {
+      if (!this._isMerchantAvailable(npc.merchantId)) continue;
       const distance = Math.abs(playerTile.tx - npc.tx) + Math.abs(playerTile.ty - npc.ty);
       if (distance <= range && distance < nearestDistance) nearestDistance = distance;
     }
@@ -284,3 +316,4 @@ export class NPCManager {
     this._interactPrompts = [];
   }
 }
+

@@ -15,6 +15,7 @@ import {
   isWorldVisualTerrainCapTileType,
   resolveWorldVisualTerrainVariationEnabled,
 } from "../../../values/worldVisualTerrainVariation.js";
+import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualMaterialBandView } from "./WorldVisualMaterialBandView.js";
 
@@ -50,6 +51,8 @@ export class WorldVisualMaterialField {
     this.pendingMaterialKeys = new Set();
     this.assetCache = new WorldVisualAssetCache(scene, {
       retainKeys: [WORLD_VISUAL_MATERIALS.townEarth.key],
+      owner: RUNTIME_ASSET_LOADING.owners.materialField,
+      priority: RUNTIME_ASSET_LOADING.priorities.materialField,
     });
   }
 

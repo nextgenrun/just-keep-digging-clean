@@ -7,7 +7,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
-from moving_side_dig_compositor import extract_frame
+from moving_side_dig_compositor import blend_at_pelvis, extract_frame
 
 
 def _alpha_anchor(frame: Image.Image, threshold: int = 32) -> tuple[float, float]:
@@ -54,6 +54,20 @@ def _aligned_frame(
 
 def _blend(left: Image.Image, right: Image.Image, right_weight: float) -> Image.Image:
     return Image.blend(left.convert("RGBA"), right.convert("RGBA"), float(right_weight))
+
+
+def _shift_up(frame: Image.Image, distance: int) -> Image.Image:
+    if distance <= 0:
+        return frame.copy()
+    shifted = Image.new("RGBA", frame.size)
+    shifted.alpha_composite(frame, (0, -int(distance)))
+    return shifted
+
+
+def _visible_height(frame: Image.Image, threshold: int) -> int:
+    alpha = np.asarray(frame.getchannel("A"))
+    ys, _ = np.where(alpha >= threshold)
+    return int(ys.max() - ys.min() + 1) if len(ys) else 0
 
 
 def normalize_source_frame(
@@ -134,17 +148,34 @@ def build_transition_frames(
         layout["landing"][strength] = list(range(start, len(frames)))
 
     wall = config["wallBrace"]
-    wall_pose = normalize_source_frame(
-        sheets["wallPush"],
-        int(wall["wallSourceFrame"]),
-        config["sources"]["wallPush"],
-        output_size,
-    )
+    target_source_height = float(wall["targetVisibleHeightPx"]) * (256 / output_size)
+    wall_loop = []
+    for source_frame in wall["sourceFrames"]:
+        normalized = normalize_source_frame(
+            sheets["wallPush"],
+            int(source_frame),
+            config["sources"]["wallPush"],
+            output_size,
+        )
+        lift = max(
+            0,
+            round(target_source_height - _visible_height(normalized, int(wall["alphaThreshold"]))),
+        )
+        wall_loop.append(blend_at_pelvis(
+            normalized,
+            _shift_up(normalized, lift),
+            float(wall["upperSeamY"]),
+            0,
+            float(wall["upperSeamFeatherPx"]),
+        ))
     start = len(frames)
-    frames.extend([_blend(idle, wall_pose, wall["blendWeight"]), wall_pose])
+    frames.extend(_blend(idle, wall_loop[0], weight) for weight in wall["entryBlendWeights"])
     layout["wall"]["entry"] = list(range(start, len(frames)))
     start = len(frames)
-    frames.extend([_blend(wall_pose, idle, wall["blendWeight"]), idle])
+    frames.extend(wall_loop)
+    layout["wall"]["loop"] = list(range(start, len(frames)))
+    start = len(frames)
+    frames.extend(_blend(wall_loop[-1], idle, 1 - weight) for weight in wall["exitBlendWeights"])
     layout["wall"]["exit"] = list(range(start, len(frames)))
     return frames, layout
 

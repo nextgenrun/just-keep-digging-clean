@@ -22,7 +22,8 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
     sourceGroundY: 534,
     frameName: "world-visual-surface-pack-town-benchmark-v1-upper",
     depth: -4.2,
-    minSourcePixelsPerWorldPixel: 0.83,
+    minSourcePixelsPerWorldPixel: 1,
+    maxWorldPixelsPerSourcePixel: 1,
     scaleReference: Object.freeze({
       sourceDoorHeightPx: 75,
       targetDoorHeightMeters: 2.1,
@@ -31,8 +32,11 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
       // Feather only the otherwise-visible top edge into the continuous sky.
       // The authored town and its ground alignment remain fully opaque.
       topFeatherTiles: 0.75,
-      fullAlphaEdgeViewportFraction: 0.12,
-      zeroAlphaEdgeViewportFraction: 0.52,
+      // Keep the approved tree/town plate stable while it still owns most of
+      // the surface view. Fade only as its feathered top edge approaches the
+      // lower screen, preventing the former obvious image-to-image switch.
+      fullAlphaEdgeViewportFraction: 0.42,
+      zeroAlphaEdgeViewportFraction: 0.92,
     }),
   }),
   floor: Object.freeze({
@@ -48,7 +52,7 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
     frameName: "world-visual-surface-pack-town-square-slate-strip-v3-floor",
     depth: 2.445,
     effectDepthStep: 0.001,
-    minSourcePixelsPerWorldPixel: 0.83,
+    minSourcePixelsPerWorldPixel: 1,
   }),
   ground: Object.freeze({
     asset: asset(

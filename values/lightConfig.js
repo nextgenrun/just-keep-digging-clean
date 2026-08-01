@@ -48,8 +48,8 @@ export const LIGHT_CONFIG = Object.freeze({
     stormPulseStrength: 0.18,
   }),
 
-  // Torch extends visibility without clearing the entire screen.
-  torchBonusRadiusTiles: 2.5,         // Extra radius when torch is active
+  // Active torch reveal bonus layered over the depth-aware base radius.
+  torchBonusRadiusTiles: 2.5,
   torchDrainGpPerSecond: 8,
   torchDrainDepthStartTiles: 1000,     // Depth where torch drain starts ramping up
   torchDrainDepthRampEndTiles: 2000,   // Depth where torch drain reaches max ramp scaling
@@ -267,7 +267,8 @@ export const LIGHT_CONFIG = Object.freeze({
       renderDepth: 900.5,
       blendMode: "ADD",
       artSource: "ImageGen",
-      artRevision: "star-block-steady-light-v1-20260727",
+      artRevision: "star-identity-lights-v1-20260730",
+      fallbackArtRevision: "star-block-steady-light-v1-20260727",
       artLightDiameterRatio: 0.78,
       radiusMultiplier: 1,
       opacity: 0.22,

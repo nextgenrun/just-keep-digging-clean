@@ -102,6 +102,7 @@ export class DepthMilestoneCinematic {
   _hasBlockingOverlay() {
     const s = this.scene;
     return Boolean(
+      s._randomEventModalVisible ||
       s.shopOverlay?.isVisible ||
       s.levelUpPopup?.visible ||
       s.campfireSystem?.isSelecting?.() ||

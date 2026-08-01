@@ -117,6 +117,37 @@ export class JourneySystem {
     return event;
   }
 
+  recordJackpot({
+    phase = "sealed",
+    chestDepth = 0,
+    targetDepth = 0,
+    oddsBps = 0,
+    source = "sleeping-jackpot",
+    outcomeSeed = null,
+    detail = "",
+  } = {}) {
+    const labels = {
+      gamble: "Sleeping Jackpot gambled",
+      sealed: "Sleeping Jackpot sealed",
+      win: "Sleeping Jackpot matured — won",
+      loss: "Sleeping Jackpot matured — lost",
+    };
+    const seedDetail = Number.isInteger(outcomeSeed) ? `seed ${outcomeSeed >>> 0} • ` : "";
+
+    const event = this.ledger.record({
+      type: JOURNEY_EVENT_TYPES.JACKPOT,
+      title: labels[phase] || "Sleeping Jackpot",
+      detail: `${seedDetail}${Math.round(oddsBps / 100)}% odds • ${detail}`,
+      source,
+      before: chestDepth,
+      after: targetDepth,
+      unit: "m",
+      precision: 0,
+    });
+    if (event) this.onChanged?.();
+    return event;
+  }
+
   getViewModel() {
     const snapshot = this.captureSnapshot() || this.baseline || {};
     return {

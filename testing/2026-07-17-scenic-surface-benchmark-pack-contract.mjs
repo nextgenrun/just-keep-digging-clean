@@ -42,23 +42,23 @@ assert.ok(
         * pack.beauty.scaleReference.targetDoorHeightMeters
         / UAL_NATIVE_PLAYER_ASSET_PROFILE.physicalHeightMeters
   ) < 1e-9,
-  "the rendered door height must derive from the shared 1.75 m player reference",
+  "the requested physical door target must derive from the shared player reference",
 );
+assert.equal(pack.beauty.maxWorldPixelsPerSourcePixel, 1);
+assert.equal(beautyGeometry.sourcePixelsPerWorldPixel, 1);
+assert.equal(beautyGeometry.renderedDoorHeightWorldPx, 75);
 assert.ok(
-  beautyGeometry.sourcePixelsPerWorldPixel >= pack.beauty.minSourcePixelsPerWorldPixel,
+  beautyGeometry.targetDoorHeightWorldPx > beautyGeometry.renderedDoorHeightWorldPx,
+  "the physical door request must be recorded without enlarging the source",
+);
+assert.equal(beautyGeometry.width, pack.beauty.expectedSource.width);
+assert.equal(
+  beautyGeometry.widthTiles,
+  pack.beauty.expectedSource.width / tileSize,
 );
 assert.ok(
   beautyGeometry.widthTiles > pack.worldAnchor.widthTiles,
-  "physical door calibration must widen the baked village uniformly instead of distorting it",
-);
-assert.ok(
-  beautyGeometry.sourcePixelsPerWorldPixel > 0.83
-    && beautyGeometry.sourcePixelsPerWorldPixel < 0.832,
-  "door-correct scaling must stay within the bounded 20.3% source enlargement",
-);
-assert.ok(
-  beautyGeometry.widthTiles > 23 && beautyGeometry.widthTiles < 23.1,
-  "the calibrated village should span roughly 23.05 world tiles",
+  "the native town plate must still cover its fourteen-tile authored core",
 );
 const floorGeometry = resolveTownFloorGeometry(pack, beautyGeometry, tileSize, 65);
 assert.equal(floorGeometry.width, beautyGeometry.width);
@@ -68,10 +68,8 @@ assert.ok(
   ) < 1e-9,
   "the exact floor and approved town must use the same uniform source scale",
 );
-assert.ok(
-  floorGeometry.height / tileSize > 0.6 && floorGeometry.height / tileSize < 0.62,
-  "the approved slate cap must stay near 0.61 tile so the first mine row remains visible",
-);
+assert.equal(floorGeometry.height, pack.floor.sourceRect.height);
+assert.equal(floorGeometry.sourcePixelsPerWorldPixel, 1);
 assert.equal(pack.floor.expectedSource.width, pack.beauty.expectedSource.width);
 assert.equal(pack.floor.expectedSource.height, 48);
 assert.equal(pack.floor.sourceRect.width, pack.floor.expectedSource.width);
@@ -90,10 +88,12 @@ assert.ok(
 );
 assert.equal(pack.beauty.sourceGroundY, 534);
 assert.equal(pack.beauty.verticalReveal.topFeatherTiles, 0.75);
-assert.ok(pack.beauty.verticalReveal.fullAlphaEdgeViewportFraction >= 0);
+assert.equal(pack.beauty.verticalReveal.fullAlphaEdgeViewportFraction, 0.42);
+assert.equal(pack.beauty.verticalReveal.zeroAlphaEdgeViewportFraction, 0.92);
 assert.ok(
   pack.beauty.verticalReveal.zeroAlphaEdgeViewportFraction
-    > pack.beauty.verticalReveal.fullAlphaEdgeViewportFraction,
+    - pack.beauty.verticalReveal.fullAlphaEdgeViewportFraction >= 0.5,
+  "the tree/town plate must hand off across at least half a viewport",
 );
 assert.equal(pack.ground.sourceCellPx, 94);
 assert.equal(pack.ground.columns, pack.worldAnchor.widthTiles);

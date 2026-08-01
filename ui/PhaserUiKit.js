@@ -1,9 +1,10 @@
 import { UI_COLORS } from "../values/uiColors.js";
+import { UI_FONTS } from "../values/uiLayout.js";
 import { createUiIcon, resolveUiIconForLabel } from "./UiIconAtlas.js";
 
 export const UI_THEME = Object.freeze({
-  fontBody: "Bahnschrift, Consolas, monospace",
-  fontTitle: "Bahnschrift SemiCondensed, Trebuchet MS, Segoe UI, sans-serif",
+  fontBody: UI_FONTS.body,
+  fontTitle: UI_FONTS.display,
   radius: 7,
   radiusSmall: 4,
   depthOverlay: 2500,

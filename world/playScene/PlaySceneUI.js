@@ -25,6 +25,8 @@ import { createSaveTransferPanelContent } from "../../ui/overlays/SaveTransferPa
 import { createJourneyPanelContent } from "../../ui/overlays/JourneyView.js";
 import { StarlightTalentTreeView } from "../../ui/overlays/StarlightTalentTreeView.js";
 import { TitanArchiveView } from "../../ui/overlays/TitanArchiveView.js";
+import { createPauseFeatureLoadingView } from
+  "../../ui/components/PauseFeatureLoadingView.js";
 import { WorldMapOverlay } from "../../ui/overlays/WorldMapOverlay.js";
 import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
 import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
@@ -39,6 +41,10 @@ import {
 } from "../../values/hardcoreMode.js";
 import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
 import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
+import {
+  RUNTIME_FEATURE_ASSET_CONSUMERS,
+  RUNTIME_FEATURE_ASSET_GROUP_IDS,
+} from "../../values/runtimeAssetLoading.js";
 import { JOURNEY_CONFIG } from "../../values/journeyConfig.js";
 import {
   getGraveborerWurmSaveData,
@@ -107,11 +113,13 @@ export function setupUIMethods(prototype) {
     const flightLocked = this.openingFlightArtifactSystem
       ?.isArtifactCollected?.() !== true
       && this.upgradeSystem?.isGemPowerUnlocked?.() !== true;
+    const gemPowerVisible = this.systemIntroductionSystem?.isFeatureAvailable?.("gemPower") ?? true;
     if (
       gemPowerPct === this._lastGemPowerBarPct &&
       gpRaw === this._lastGemPowerBarRaw &&
       gpMax === this._lastGemPowerBarMax &&
-      flightLocked === this._lastGemPowerBarLocked
+      flightLocked === this._lastGemPowerBarLocked &&
+      gemPowerVisible === this._lastGemPowerBarVisible
     ) {
       return;
     }
@@ -120,6 +128,11 @@ export function setupUIMethods(prototype) {
     this._lastGemPowerBarMax = gpMax;
     this._lastGemPowerBarLocked = flightLocked;
 
+    this._lastGemPowerBarVisible = gemPowerVisible;
+    this._gemPowerBarBg?.setVisible(gemPowerVisible);
+    this._gemPowerBarFill?.setVisible(gemPowerVisible);
+    this._gpLabelText?.setVisible(gemPowerVisible);
+    if (!gemPowerVisible) return;
     const gpNorm = gemPowerPct / 100;
     const gpColor = gpNorm > HUD_LAYOUT.gpThresholdHigh ? HUD_LAYOUT.gpColorHigh
       : gpNorm > HUD_LAYOUT.gpThresholdMid ? HUD_LAYOUT.gpColorMid
@@ -169,7 +182,7 @@ export function setupUIMethods(prototype) {
 
     this._safeReturnText.setPosition(HUD_LAYOUT.warnTextX, lineY + HUD_LAYOUT.warnTextOffsetY);
     this._safeReturnText.setText(
-      `✓  Current flight return range: ~${depth} tiles`
+      `SAFE RETURN  •  ~${depth} tiles`
     );
   };
 
@@ -208,14 +221,21 @@ export function setupUIMethods(prototype) {
       journeyView: null,
       talentTree: null,
       titanArchive: null,
+      activeFeatureGroup: null,
+      activeFeatureConsumer: null,
+      pendingFeatureGroup: null,
+      pendingFeatureConsumer: null,
+      featureRequestToken: 0,
+      featureLoadingView: null,
       tabContent,
     };
+    const systemFeatureAvailable = feature => this.systemIntroductionSystem?.isFeatureAvailable?.(feature) !== false;
     const pauseTabs = [
       { key: "general", label: "GENERAL", icon: "journal" },
       { key: "saves", label: "SAVES", icon: "journal" },
-      { key: "journey", label: JOURNEY_CONFIG.copy.tabLabel, icon: "stats" },
-      { key: "talents", label: "TALENTS", icon: "constellation" },
-      ...(resolveTitanDiscoveriesEnabled()
+      ...(systemFeatureAvailable("journey") ? [{ key: "journey", label: JOURNEY_CONFIG.copy.tabLabel, icon: "stats" }] : []),
+      ...(systemFeatureAvailable("constellations") ? [{ key: "talents", label: "TALENTS", icon: "constellation" }] : []),
+      ...(resolveTitanDiscoveriesEnabled() && systemFeatureAvailable("titans")
         ? [{ key: "titans", label: "TITANS", icon: "journal" }]
         : []),
       { key: "settings", label: "SETTINGS", icon: "settings" },
@@ -230,6 +250,46 @@ export function setupUIMethods(prototype) {
     const initialTabIndex = requestedInitialTab >= 0 ? requestedInitialTab : 0;
     this._currentPauseTab = initialTabIndex;
     const settingsTabIndex = pauseTabs.findIndex(tab => tab.key === "settings");
+    const featureGroupForTab = tabKey => {
+      if (tabKey === "talents") return RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight;
+      if (tabKey === "titans") return RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive;
+      return null;
+    };
+    const featureConsumerForGroup = groupId => (
+      groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight
+        ? RUNTIME_FEATURE_ASSET_CONSUMERS.pauseStarlight
+        : RUNTIME_FEATURE_ASSET_CONSUMERS.pauseTitanArchive
+    );
+    const featureThemeForGroup = groupId => (
+      groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight
+        ? "starlight"
+        : "titanArchive"
+    );
+    const releaseActiveFeature = () => {
+      if (!state.activeFeatureGroup) return;
+      this.runtimeFeatureAssetManager?.releaseGroup?.(
+        state.activeFeatureGroup,
+        state.activeFeatureConsumer,
+      );
+      state.activeFeatureGroup = null;
+      state.activeFeatureConsumer = null;
+    };
+    const cancelPendingFeature = () => {
+      state.featureRequestToken += 1;
+      if (state.pendingFeatureGroup) {
+        this.runtimeFeatureAssetManager?.releaseGroup?.(
+          state.pendingFeatureGroup,
+          state.pendingFeatureConsumer,
+        );
+      }
+      state.pendingFeatureGroup = null;
+      state.pendingFeatureConsumer = null;
+      state.featureLoadingView?.destroy?.();
+      state.featureLoadingView = null;
+    };
+    state.releaseFeatureAssets = releaseActiveFeature;
+    state.cancelFeatureRequest = cancelPendingFeature;
+
 
     const clearContent = () => {
       state.settings?.destroy?.();
@@ -237,14 +297,31 @@ export function setupUIMethods(prototype) {
       state.journeyView?.destroy?.();
       state.talentTree?.destroy?.();
       state.titanArchive?.destroy?.();
+      state.featureLoadingView?.destroy?.();
       state.settings = null;
       state.saveTransfer = null;
       state.journeyView = null;
       state.talentTree = null;
       state.titanArchive = null;
+      state.featureLoadingView = null;
       state.controls = [];
+      releaseActiveFeature();
       tabContent.removeAll(true);
     };
+
+    const setTalentImmersive = active => {
+      const visible = !active;
+      state.talentImmersive = Boolean(active);
+      state.tabs?.root?.setVisible?.(visible);
+      state.hint?.root?.setVisible?.(visible);
+      shell.titleText?.setVisible?.(visible);
+      shell.subtitleText?.setVisible?.(visible);
+      shell.icon?.setVisible?.(visible);
+      shell.closeButton?.root?.setVisible?.(visible);
+      shell.skin?.setVisible?.(visible);
+      shell.panel?.setVisible?.(visible && !shell.skin);
+    };
+    state.setTalentImmersive = setTalentImmersive;
 
     const addText = (x, y, value, style = {}, originX = 0, originY = 0) => {
       const text = this.add.text(x, y, value, {
@@ -300,7 +377,7 @@ export function setupUIMethods(prototype) {
         : 0;
       const definitions = [
         { label: "RESUME GAME", icon: "play", accent: UI_COLORS.borderSel, action: () => this.resumeGame() },
-        ...(deepestPortal ? [{
+        ...(systemFeatureAvailable("specialTiles") && deepestPortal ? [{
           label: `QUICK RESUME  •  L${deepestPortal.levelId} ${deepestPortal.depth}m`
             + (quickResumeCost > 0 ? `  •  ${quickResumeCost.toLocaleString()} M` : ""),
           icon: "next",
@@ -376,11 +453,11 @@ export function setupUIMethods(prototype) {
         ["DEPTH", depth + "m"],
         ["PLAYER LEVEL", level],
         ["WALLET", Number(wallet).toLocaleString() + " M"],
-        ["GEM POWER", Math.floor(gp) + " / " + Math.floor(gpMax)],
+        ...(systemFeatureAvailable("gemPower") ? [["GEM POWER", Math.floor(gp) + " / " + Math.floor(gpMax)]] : []),
         ["MATERIALS", Math.floor(materials).toLocaleString()],
-        ["ANCIENT RELICS", relicCount],
-        ["TITANS", titanCount + " / 25"],
-        ["CAMPFIRE", buff ? buff.name.toUpperCase() : "NO ACTIVE BUFF"],
+        ...(systemFeatureAvailable("relics") ? [["ANCIENT RELICS", relicCount]] : []),
+        ...(systemFeatureAvailable("titans") ? [["TITANS", titanCount + " / 25"]] : []),
+        ...(systemFeatureAvailable("campfire") ? [["CAMPFIRE", buff ? buff.name.toUpperCase() : "NO ACTIVE BUFF"]] : []),
       ];
       const snapshotTop = bodyTop + 118;
       snapshot.forEach((entry, index) => {
@@ -479,11 +556,13 @@ export function setupUIMethods(prototype) {
     };
 
     const buildTalents = () => {
+      setTalentImmersive(true);
+      const inset = STARLIGHT_TALENT_TREE_CONFIG.layout.immersiveInsetPx;
       state.talentTree = new StarlightTalentTreeView(this, {
-        x: rect.left,
-        y: bodyTop,
-        width: rect.width,
-        height: bodyHeight,
+        x: -shell.width / 2 + inset,
+        y: -shell.height / 2 + inset,
+        width: shell.width - inset * 2,
+        height: shell.height - inset * 2,
         parent: tabContent,
         floatingTextSystem: this.floatingTextSystem,
         progression: this.starHeartProgressionSystem,
@@ -492,6 +571,7 @@ export function setupUIMethods(prototype) {
         focusResource: options.focusResource,
         firstRevealResource: options.firstReveal ? options.focusResource : null,
         onFocus: index => state.focus?.setIndex?.(index),
+        onPauseMenu: () => state.tabs?.setActive?.(0),
         onEngineAction: () => {
           this.hudSystem?.flashStatus?.(
             STARLIGHT_TALENT_TREE_CONFIG.copy.pillarOnly,
@@ -541,12 +621,89 @@ export function setupUIMethods(prototype) {
       state.controls = state.titanArchive.getControls();
     };
 
-    const buildContent = tabIndex => {
+    const buildContent = (tabIndex, { assetsRetained = false } = {}) => {
+      cancelPendingFeature();
+      const tabKey = pauseTabs[tabIndex]?.key;
+      const groupId = featureGroupForTab(tabKey);
+      const manager = this.runtimeFeatureAssetManager;
+      const consumer = groupId ? featureConsumerForGroup(groupId) : null;
+
+      if (groupId && manager?.enabled && !assetsRetained && !manager.isReady(groupId)) {
+        clearContent();
+        setTalentImmersive(false);
+        state.activeTab = tabIndex;
+        this._currentPauseTab = tabIndex;
+        state.tabs?.setActive?.(tabIndex, true);
+        state.pendingFeatureGroup = groupId;
+        state.pendingFeatureConsumer = consumer;
+        const requestToken = state.featureRequestToken;
+        const groupRequest = manager.ensureGroup(groupId, { consumer });
+        state.featureLoadingView = createPauseFeatureLoadingView(this, {
+          x: rect.left,
+          y: bodyTop,
+          width: rect.width,
+          height: bodyHeight,
+          parent: tabContent,
+          themeId: featureThemeForGroup(groupId),
+          getProgress: () => manager.getGroupProgress(groupId),
+        });
+        if (!state.featureLoadingView) {
+          console.error(
+            `[PauseFeatureLoading] Required authored loader art is unavailable for ${groupId}`,
+          );
+        }
+        state.focus?.setItems?.([]);
+        groupRequest.then(result => {
+          const stillCurrent = this._pausePanel?.state === state
+            && state.featureRequestToken === requestToken
+            && state.pendingFeatureGroup === groupId;
+          if (!stillCurrent) {
+            manager.releaseGroup(groupId, consumer);
+            return;
+          }
+          if (!result.ready) {
+            state.pendingFeatureGroup = null;
+            state.pendingFeatureConsumer = null;
+            manager.releaseGroup(groupId, consumer);
+            this.hudSystem?.flashStatus?.(
+              "Feature art could not be loaded",
+              "#E07030",
+              1800,
+            );
+            buildContent(0);
+            return;
+          }
+          const openLoadedFeature = () => {
+            const stillReady = this._pausePanel?.state === state
+              && state.featureRequestToken === requestToken
+              && state.pendingFeatureGroup === groupId;
+            if (!stillReady) {
+              manager.releaseGroup(groupId, consumer);
+              return;
+            }
+            state.pendingFeatureGroup = null;
+            state.pendingFeatureConsumer = null;
+            buildContent(tabIndex, { assetsRetained: true });
+          };
+          if (state.featureLoadingView) {
+            state.featureLoadingView.complete(openLoadedFeature);
+          } else {
+            openLoadedFeature();
+          }
+        });
+        return;
+      }
+
       clearContent();
+      setTalentImmersive(false);
+      if (groupId && manager?.enabled) {
+        if (!assetsRetained) manager.ensureGroup(groupId, { consumer });
+        state.activeFeatureGroup = groupId;
+        state.activeFeatureConsumer = consumer;
+      }
       state.activeTab = tabIndex;
       this._currentPauseTab = tabIndex;
       state.tabs?.setActive?.(tabIndex, true);
-      const tabKey = pauseTabs[tabIndex]?.key;
       if (tabKey === "general") buildGeneral();
       else if (tabKey === "saves") buildSaves();
       else if (tabKey === "journey") buildJourney();
@@ -626,33 +783,76 @@ export function setupUIMethods(prototype) {
     if (!this._pausePanel) return;
     const pause = this._pausePanel;
     this._pausePanel = null;
+    pause.state?.cancelFeatureRequest?.();
     pause.state?.focus?.destroy?.();
     pause.state?.settings?.destroy?.();
     pause.state?.saveTransfer?.destroy?.();
     pause.state?.journeyView?.destroy?.();
     pause.state?.talentTree?.destroy?.();
     pause.state?.titanArchive?.destroy?.();
+    pause.state?.releaseFeatureAssets?.();
     pause.state?.tabs?.destroy?.();
     pause.state?.hint?.destroy?.();
     pause.shell?.hide?.(() => pause.shell?.destroy?.());
   };
 
   prototype.showWorldMap = function() {
-    if (this.worldMapOverlay?.isOpen || this.gameState !== "playing") return false;
+    if (this.worldMapOverlay?.isOpen || this._worldMapFeatureLoading || this.gameState !== "playing") return false;
+    if (this.systemIntroductionSystem && !this.systemIntroductionSystem.isFeatureAvailable("map")) return false;
+    const manager = this.runtimeFeatureAssetManager;
+    const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap;
+    const consumer = RUNTIME_FEATURE_ASSET_CONSUMERS.worldMap;
+
+    if (manager?.enabled && !manager.isReady(groupId)) {
+      this._worldMapFeatureLoading = true;
+      const requestId = (this._worldMapFeatureRequestId || 0) + 1;
+      this._worldMapFeatureRequestId = requestId;
+      manager.ensureGroup(groupId, { consumer }).then(result => {
+        if (this._worldMapFeatureRequestId !== requestId) {
+          manager.releaseGroup(groupId, consumer);
+          return;
+        }
+        this._worldMapFeatureLoading = false;
+        if (!result.ready || this.gameState !== "playing") {
+          manager.releaseGroup(groupId, consumer);
+          return;
+        }
+        this.showWorldMap();
+      });
+      return true;
+    }
+
+    if (manager?.enabled) manager.ensureGroup(groupId, { consumer });
     if (!this.worldMapOverlay) {
       this.worldMapOverlay = new WorldMapOverlay(this, {
         discoverySystem: this.worldMapDiscoverySystem,
         activityRegistry: this.worldMapActivityRegistry,
       });
     }
-    return this.worldMapOverlay.open();
+    const opened = this.worldMapOverlay.open();
+    if (!opened) manager?.releaseGroup?.(groupId, consumer);
+    return opened;
   };
 
   prototype.hideWorldMap = function() {
-    return this.worldMapOverlay?.close?.() || false;
+    const manager = this.runtimeFeatureAssetManager;
+    const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap;
+    const consumer = RUNTIME_FEATURE_ASSET_CONSUMERS.worldMap;
+    const wasLoading = this._worldMapFeatureLoading === true;
+    if (wasLoading) {
+      this._worldMapFeatureLoading = false;
+      this._worldMapFeatureRequestId = (this._worldMapFeatureRequestId || 0) + 1;
+    }
+    const overlay = this.worldMapOverlay;
+    const closed = overlay?.close?.() || false;
+    overlay?.destroy?.();
+    if (overlay) this.worldMapOverlay = null;
+    manager?.releaseGroup?.(groupId, consumer);
+    return closed || wasLoading;
   };
 
   prototype.toggleWorldMap = function() {
+    if (this._worldMapFeatureLoading) return this.hideWorldMap();
     return this.worldMapOverlay?.isOpen
       ? this.hideWorldMap()
       : this.showWorldMap();
@@ -895,6 +1095,7 @@ export function setupUIMethods(prototype) {
     if (savedData.specialTileData && this.specialTileSystem) {
       this.specialTileSystem.loadSaveData(savedData.specialTileData);
     }
+    this.randomEventBridge?.loadSaveData?.(savedData.specialTileData?.randomWorldEvents);
 
     if (this.retentionProgressSystem) {
       this.retentionProgressSystem.loadSaveData(savedData.retentionData);
@@ -913,6 +1114,7 @@ export function setupUIMethods(prototype) {
     }
 
     if (this.depthGateSystem) {
+    this.systemIntroductionSystem?.refresh({ announce: false });
       this.depthGateSystem.loadSaveData(savedData.depthGateData);
     }
     if (savedData.campfireData) {
@@ -969,19 +1171,21 @@ export function setupUIMethods(prototype) {
     if (this.savingDugTiles) {
       return this._dugTileSavePromise;
     }
-
-    this.flushDugTilesSave();
+    if (this._saveScheduler?.schedule?.()) return true;
+    return this.flushDugTilesSave({ scheduled: false });
   };
 
-  prototype.flushDugTilesSave = async function() {
+  prototype.flushDugTilesSave = async function({ scheduled = false, force = false } = {}) {
     if (this._saveWritesBlocked || this._hardcoreDeathInProgress) {
       this.pendingDugTileSave = false;
       return false;
     }
-    if (!this.pendingDugTileSave) {
-      return;
+    if (!scheduled) this._saveScheduler?.cancelPending?.();
+    if (!this.pendingDugTileSave) return;
+    if (this.savingDugTiles) {
+      if (!scheduled || force) this._forceNextDugTileSave = true;
+      return this._dugTileSavePromise;
     }
-    if (this.savingDugTiles) return this._dugTileSavePromise;
 
     this.pendingDugTileSave = false;
     this.savingDugTiles = true;
@@ -989,18 +1193,42 @@ export function setupUIMethods(prototype) {
     this._dugTileSavePromise = new Promise((resolve) => {
       resolveInFlight = resolve;
     });
+    const now = () => globalThis.performance?.now?.() ?? Date.now();
+    const totalStartedAtMs = now();
+    let captureMs = 0;
+    let writeMs = 0;
+    let writeStartedAtMs = null;
     let saved = true;
 
     try {
+      const captureStartedAtMs = now();
       const worldIdentity = this.worldModel.getWorldIdentity();
       const dugTileKeys = this.worldModel.getDugTileKeys();
       const rubbleTiles = this.worldModel.getRubbleTiles();
       const resources = this.digSystem.getResourceTotals();
       const upgrades = this.upgradeSystem.toJSON();
-      const levelData = this.playerLevelSystem ? this.playerLevelSystem.toJSON() : null;
-      const specialTileData = this.specialTileSystem ? this.specialTileSystem.getSaveData() : null;
-      const depthGateData = this.depthGateSystem ? this.depthGateSystem.getSaveData() : null;
+      const levelData = this.playerLevelSystem?.toJSON?.() ?? null;
+      const baseSpecialTileData = this.specialTileSystem?.getSaveData?.() ?? null;
+      const specialTileData = baseSpecialTileData ? {
+        ...baseSpecialTileData,
+        randomWorldEvents: this.randomEventBridge?.getSaveData?.() ?? null,
+      } : null;
+      const depthGateData = this.depthGateSystem?.getSaveData?.() ?? null;
       const dayNightData = this.dayNightCycle?.toJSON?.() ?? null;
+      const caveSceneData = this.caveEntryController?.getSaveData?.();
+      const ancientRelicData = this.ancientRelicSystem?.getSaveData?.();
+      const openingFlightData = this.openingFlightArtifactSystem?.getSaveData?.();
+      const starHeartData = this.starHeartProgressionSystem?.getSaveData?.();
+      const retentionData = this.retentionProgressSystem?.getSaveData?.();
+      const heavenblocksData = this.heavenblocksProgressionSystem?.getSaveData?.();
+      const hardcoreModeData = getHardcoreModeSaveData(this);
+      const graveborerWurmData = getGraveborerWurmSaveData(this);
+      const playerStateData = this.playerController?.getPersistenceData?.();
+      const campfireData = this.campfireSystem?.getSaveData?.();
+      const journeyData = this.journeySystem?.getSaveData?.();
+      captureMs = Math.max(0, now() - captureStartedAtMs);
+
+      writeStartedAtMs = now();
       const saveResult = await this.dugTileSaveStore.save(
         worldIdentity,
         dugTileKeys,
@@ -1012,29 +1240,45 @@ export function setupUIMethods(prototype) {
         dayNightData,
         rubbleTiles,
         this.playerCharacterId,
-        this.caveEntryController?.getSaveData(),
-        this.ancientRelicSystem?.getSaveData(),
-        this.openingFlightArtifactSystem?.getSaveData(),
-        this.starHeartProgressionSystem?.getSaveData(),
-        this.retentionProgressSystem?.getSaveData(),
-        this.heavenblocksProgressionSystem?.getSaveData(),
-        getHardcoreModeSaveData(this),
-        getGraveborerWurmSaveData(this),
-        this.playerController?.getPersistenceData?.(),
-        this.campfireSystem?.getSaveData?.(),
-        this.journeySystem?.getSaveData?.(),
+        caveSceneData,
+        ancientRelicData,
+        openingFlightData,
+        starHeartData,
+        retentionData,
+        heavenblocksData,
+        hardcoreModeData,
+        graveborerWurmData,
+        playerStateData,
+        campfireData,
+        journeyData,
       );
+      writeMs = Math.max(0, now() - writeStartedAtMs);
       if (saveResult === false) saved = false;
     } catch (error) {
+      if (writeStartedAtMs !== null) writeMs = Math.max(0, now() - writeStartedAtMs);
       saved = false;
       console.warn('[PlayScene] Save I/O failed:', error);
     } finally {
+      this._saveScheduler?.recordTiming?.({
+        captureMs,
+        writeMs,
+        totalMs: Math.max(0, now() - totalStartedAtMs),
+      });
       this.savingDugTiles = false;
     }
 
+    const forceNext = this._forceNextDugTileSave === true;
+    this._forceNextDugTileSave = false;
     if (this.pendingDugTileSave) {
-      const nextSaveSucceeded = await this.flushDugTilesSave();
-      saved = saved && nextSaveSucceeded !== false;
+      if (scheduled && !forceNext && this._saveScheduler && !this._saveScheduler.destroyed) {
+        this._saveScheduler.schedule();
+      } else {
+        const nextSaveSucceeded = await this.flushDugTilesSave({
+          scheduled: false,
+          force: forceNext,
+        });
+        saved = saved && nextSaveSucceeded !== false;
+      }
     }
     resolveInFlight(saved);
     this._dugTileSavePromise = null;
@@ -1047,6 +1291,7 @@ export function setupUIMethods(prototype) {
     this.levelUpPopup?.resize?.();
     this.uiInventoryPopup?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
+    this.randomEventBridge?.resize?.();
     this.townSquareTutorialSystem?.resize?.();
     this.celestialEngineController?.resize?.();
     this.starHeartOverlay?.resize?.();

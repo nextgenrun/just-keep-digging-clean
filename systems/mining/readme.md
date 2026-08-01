@@ -2,6 +2,12 @@
 
 Game system — mining.
 
+`LoadingMiningMinigameState` is a pure, session-only 8 by 4 loading-board
+model. It owns selection, HP, break/refill, chain, and visual pickaxe-tier
+state without touching WorldModel, rewards, saves, or loader progress. The
+opening board contains every configured material before weighted refills begin.
+It is presentation support, not an alternate progression system.
+
 `TileCollisionSystem` resolves the measured player AABB in sub-tile swept
 steps, uses a shared skin/probe contract, and can eject a body from the nearest
 valid tile face after world mutation. This prevents high-speed wall/floor/ceiling
@@ -18,6 +24,12 @@ across the approved 2-wide by 2-deep footprint while preserving normal damage,
 critical, luck, combo, XP, resource, special-block, player-level, and upgrade
 calculation paths. Heavy Punch benefits the second depth row without creating a
 fifth target.
+
+Both ordinary and Heavy Punch/behind-tile Star destruction capture the
+authoritative `WorldModel` rarity and identity before the tile is cleared.
+They pass both values through the exact reward detail, so the UI-only release,
+discovery popup, progress metadata, darkness light, and original world tile
+cannot disagree about the Star's colour.
 
 When a target is authoritative `BEDROCK`, `CAVE_WALL`, `FLOOR_TOWN_1`, or
 `FLOOR_TOWN_2`, `DigSystem.tryMine()` returns the normal blocked result with
@@ -44,3 +56,14 @@ its deterministic teleport anchors after procedural world generation. Pair data
 and the resulting surface unlock state survive saves. The shared Sky Island
 visual system is created in both scenic and legacy render modes so these routes
 cannot remain functional but invisible.
+
+`resourceDepthYield.js` applies the coordinate-stable Level One/Two yield
+curve after native rarity, detects compact-cave world ownership, and enforces
+the shared final reward cap. `DigSystem` uses it for ordinary, Heavy Punch,
+direct/Engine, Star, lucky, and Sign-boosted rewards. No reward path performs
+its own depth math.
+
+`depthEconomyBonuses.js` clamps Milestone Pillar speed and crit totals before
+`DigSystem` consumes them. `getDepthEconomyHealthSnapshot()` fails closed when
+modern mode lacks valid curves, the Level Two boundary, or the Milestone
+provider. Legacy mode deliberately disables these bonuses.

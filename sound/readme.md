@@ -12,6 +12,9 @@ Audio files (.ogg, .wav, .mp3) AND audio system code — co-located for single o
 | `SoundSystem.js` | Sound playback & management |
 | `SoundLibraryManager.js` | SFX library loading |
 | `VoiceLineManager.js` | NPC voice line scheduling |
+| `MusicStreamController.js` | Bounded music rotation and low-priority prefetch |
+| `RuntimeAudioAssetManager.js` | Catalog lookup, shared loading, and residency |
+| `RuntimeAudioLoadQueue.js` | Serialized frame-and-idle fallback loading |
 | `library-v2/` | Sound library definitions (v2-v4) |
 | `playlists/` | Background music tracks (.ogg) |
 | `soundEffects/` | Sound effect files |

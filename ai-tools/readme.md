@@ -50,8 +50,27 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 
 ## Active Tools
 
+| `2026-07-30-prepare-surface-hero-landmarks-v4.py` | Reproducibly crop all seven Level 2 hero-landmark alpha masters, validate green/magenta key removal, exact existing-pixel parity and the open portal center, and emit grounded dimensions plus SHA-256 provenance |
 | Tool | Purpose |
 |------|---------|
+| `2026-07-30-build-fire-light-piskel-polish-v1.py` | Orchestrate ten independent Fire Light `.piskel` authorities, 160-frame round-trip, candidate/rollback atlases, reports, and review boards without changing production |
+| `2026-07-30-fire-light-piskel-core.py` | Split and pack the shared 313 px grid, measure source-root/luminous-core anchors, apply integer-only group registration, preserve light energy, and enforce true-black borders |
+| `2026-07-30-fire-light-piskel-package.py` | Serialize and validate editable Piskel projects, hidden anchor guides, exact frame order, and pixel-identical round-trip |
+| `2026-07-30-fire-light-piskel-assets.py` | Build the immutable-source, editable-work, hash-linked rollback, candidate-runtime, and strip stages for one Fire Light atlas |
+| `2026-07-30-fire-light-piskel-visuals.py` | Render the complete before/after anchor grid and per-atlas drift summary |
+| `2026-07-30-refresh-fire-light-piskel-polish.py` | Hash-verify and apply all ten polished runtime atlases or restore all ten byte-exact originals, then refresh manifest selection and hashes |
+| `2026-07-30-old-school-lamp-anchor.py` | Measure and integer-register the seven lamp atlas roles to stable fixture, light-core, or ray-root group anchors |
+| `2026-07-30-old-school-lamp-visuals.py` | Render the complete lamp asset-library and measured anchor-drift review boards |
+| `2026-07-30-build-old-school-lamp-light-v1.py` | Package seven built-in ImageGen masters into 112 fixed-anchor runtime frames, editable Piskels, strips, manifests, rollback, and QA |
+| `2026-07-30-build-old-school-lamp-comparison-board.py` | Compose untouched same-world torch and lamp WebGL captures into the final full-view plus close-detail A/B board |
+| `2026-07-30-build-ground-damage-piskel-polish-v3.py` | Build the review-only three-stage ground-damage package: immutable registered-source Piskels, editable polished-work Piskels, derived runtime-scale projects/atlas, hash links, production guard, and visual QA |
+| `2026-07-30-ground-damage-piskel-polish.py` | Classify temporal components, suppress proven sheet-seam contamination, repair fixed seed cores, paint the vertical-pressure branches, neutralize material color, and merge without stacked rims |
+| `2026-07-30-ground-damage-piskel-package.py` | Serialize, guide-layer, round-trip, hash, and validate linked Piskel work and derived documents |
+| `2026-07-30-ground-damage-piskel-polish-visuals.py` | Render native-scale, material-resolution, anchor-registration, and high-risk slicing/scale review boards |
+| `2026-07-30-refresh-ground-damage-piskel-polish.py` | Apply the current editable Piskel style revision or restore all ten polished-work projects from hash-linked rollback-v1 copies |
+| `2026-07-30-audit-high-impact-v2-geometry.py` | Read-only pixel audit of all 1,000 p00 sources and 9,000 derivatives: validates actual RGBA 320x256 canvases, exact nonzero support, p02-p09 alpha equality, p01 threshold-only changes, mining baselines, and source-sequence anchor risks; writes only dated JSON/Markdown evidence |
+| `2026-07-29-build-underground-detail-library-v6.py` | Split and normalize twenty ImageGen alpha masters into 400 unique `320x256` frames, pack twenty biome/kind atlases, validate alpha/hash uniqueness, and emit production manifests plus complete contact sheets |
+| `2026-07-29-build-underground-seam-blend-v6.py` | Derive 90 terrain and 50 ground-structure WebPs with complementary incoming left/top alpha, retained right/bottom coverage, hashes, and real-stride seam proof sheets without changing V3/V4/V5 |
 | `2026-07-28-build-star-block-crystal-v2.py` | Normalize the six approved ImageGen crystal-star masters into exact-family 512 px release cores, paired 3x2 beauty/emissive Star Block atlases, a hash-pinned manifest, and the exact 94 px one-to-one pop / 136 px ascent proof |
 | `2026-07-28-build-titan-creature-footprints-v2.py` | Project the 25 high-resolution 768px Titan stance alpha silhouettes into their authoritative underground tile grids, then emit the values module and hash-pinned footprint manifest |
 | `2026-07-28-build-thunderstrike-indicator-v3.py` | Crop, alpha-validate, and losslessly export the approved ImageGen milestone rings, storm check, Roman numerals, and dynamic-copy backplates used by the Thunderstrike timing minigame |
@@ -175,6 +194,9 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-28-build-weather-particles-v2.py` | Re-extract the approved clean ImageGen rain, snow, water, and atmosphere sources, isolate usable particles, pack a transparent 32-frame production sheet, and reject residual chroma-green pixels |
 | `2026-07-28-build-whole-world-visual-expansion-v5.py` | Pin exactly 100 approved ImageGen masters, build 50 scenic cards, 40 irregular terrain plates, ten 20-frame cap atlases, ten alpha surface-ground cards, a 16-state backdrop mask, contact sheets, hashes, and the additive V5 manifest |
 | `2026-07-29-build-starlight-talent-tree-v3.py` | Preserve the V2 Starlight pack and build the native-ultrawide three-card foundation, authored live-copy plaques, carousel controls, alpha validation, and the V3 hash manifest |
+| `2026-07-29-build-surface-sky-props-v3.py` | Split ten ImageGen 5x4 alpha masters into 200 connected-component-safe frames, pack ten lossless Phaser atlases, emit generated asset values/hashes and candidate placement provenance, validate landmark exclusions, and build eleven QA sheets; production selection is hand-authored separately |
+
+| `2026-07-29-build-underground-backdrop-enhancers-v7.py` | Soft-matte, despill, frame-feather, preserve native 1536x1024 resolution, write 100 alpha WebPs, hash every source/runtime file, and build checkerboard plus correct-biome context proof sheets |
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.

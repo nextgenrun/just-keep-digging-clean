@@ -19,18 +19,33 @@ const placement = (
   flipX,
 });
 
-const LEVEL_ONE_PLACEMENTS = Object.freeze([]);
+const LEVEL_ONE_PLACEMENTS = Object.freeze([
+  // Titan Walk promenade. Existing low props occupy alternating plinth gaps
+  // in rear/mid lanes; the Titans, prompts, portals, and walking line stay clear.
+  placement("l1-titan-gap-01-plants", "level1", "plants", 31.2, "rear", "small"),
+  placement("l1-titan-gap-02-lantern", "level1", "lantern", 34.6, "rear", "small"),
+  placement("l1-titan-gap-03-fence", "level1", "fence", 38.0, "rear", "small"),
+  placement("l1-titan-gap-05-bench", "level1", "bench", 44.8, "mid", "small", true),
+  placement("l1-titan-gap-06-plants", "level1", "plants", 48.2, "rear"),
+  placement("l1-titan-gap-08-handcart", "level1", "handcart", 55.0, "mid", "small"),
+  placement("l1-titan-gap-09-lantern", "level1", "lantern", 58.4, "rear", "small", true),
+  placement("l1-titan-gap-11-fence", "level1", "fence", 65.2, "rear", "small", true),
+  placement("l1-titan-gap-12-supplies", "level1", "supplies", 68.6, "mid", "small"),
+  placement("l1-titan-gap-14-plants", "level1", "plants", 75.4, "rear"),
+  placement("l1-titan-gap-16-bench", "level1", "bench", 82.2, "mid", "small"),
+  placement("l1-titan-gap-18-lantern", "level1", "lantern", 89.0, "rear", "small"),
+]);
 
 const LEVEL_TWO_PLACEMENTS = Object.freeze([
   // Level 2 arrival forge: one new chapter anchor supported by retained props.
   placement("l2-153-supplies", "level2", "supplies", 152.8, "front", "small"),
-  placement("l2-155-forge", "level2", "forgeShelter", 155.2, "rear", "standard"),
+  placement("l2-155-forge", "level2", "forgeShelter", 155.2, "mid", "large"),
   placement("l2-159-handcart", "level2", "handcart", 158.6, "mid", "small", true),
   placement("l2-161-lantern", "level2", "lantern", 160.1, "mid", "small"),
 
   // Caravan rest.
   placement("l2-164-plants", "level2", "plants", 163.7, "front", "small"),
-  placement("l2-167-camp-kitchen", "level2", "campKitchen", 166.8, "rear", "standard"),
+  placement("l2-167-camp-kitchen", "level2", "campKitchen", 166.8, "mid", "large"),
   placement("l2-172-wagon", "level2", "wagon", 172.0, "rear", "large"),
   placement("l2-176-bench", "level2", "bench", 176.1, "mid", "small", true),
   placement("l2-179-fence", "level2", "fence", 179.0, "rear", "standard"),
@@ -38,19 +53,19 @@ const LEVEL_TWO_PLACEMENTS = Object.freeze([
   // Starwell herb court. The Level 2 ground portal at x187..189 stays clear.
   placement("l2-182-pergola", "level2", "pergola", 181.7, "rear", "small"),
   placement("l2-184-lantern", "level2", "lantern", 183.8, "mid", "small", true),
-  placement("l2-194-herb-station", "level2", "herbStation", 193.8, "mid", "standard"),
+  placement("l2-194-herb-station", "level2", "herbStation", 193.8, "mid", "large"),
   placement("l2-197-plants", "level2", "plants", 197.1, "front", "large"),
   placement("l2-199-handcart", "level2", "handcart", 199.3, "front", "small"),
 
   // Timberwright yard.
   placement("l2-203-supplies", "level2", "supplies", 203.0, "front", "standard"),
-  placement("l2-208-timber-gantry", "level2", "timberGantry", 207.6, "rear", "large"),
+  placement("l2-208-timber-gantry", "level2", "timberGantry", 207.6, "mid", "large"),
   placement("l2-212-handcart", "level2", "handcart", 211.6, "mid", "standard", true),
   placement("l2-215-fence", "level2", "fence", 215.1, "rear", "small"),
   placement("l2-218-bench", "level2", "bench", 217.7, "mid", "standard"),
 
   // Heavenblocks observatory: intentionally low-profile through the flight lane.
-  placement("l2-224-plants", "level2", "plants", 223.4, "front", "small"),
+  placement("l2-224-lantern", "level2", "lantern", 223.4, "front", "small"),
   placement("l2-230-observatory", "level2", "observatory", 229.8, "mid", "standard"),
   placement("l2-235-bench", "level2", "bench", 235.0, "mid", "small", true),
   placement("l2-239-supplies", "level2", "supplies", 239.0, "front", "small"),
@@ -58,7 +73,7 @@ const LEVEL_TWO_PLACEMENTS = Object.freeze([
   // Frontier survey garden.
   placement("l2-243-fence", "level2", "fence", 242.8, "rear", "small"),
   placement("l2-245-plants", "level2", "plants", 245.2, "front", "standard"),
-  placement("l2-248-survey", "level2", "surveyStation", 248.4, "mid", "standard"),
+  placement("l2-248-survey", "level2", "surveyStation", 248.4, "mid", "large"),
   placement("l2-253-handcart", "level2", "handcart", 253.0, "mid", "small"),
   placement("l2-257-supplies", "level2", "supplies", 257.2, "front", "large", true),
 
@@ -66,7 +81,7 @@ const LEVEL_TWO_PLACEMENTS = Object.freeze([
   placement("l2-261-supplies", "level2", "supplies", 260.8, "front", "small"),
   placement("l2-264-wagon", "level2", "wagon", 264.2, "rear", "small", true),
   placement("l2-267-plants", "level2", "plants", 267.4, "front", "standard"),
-  placement("l2-272-expedition", "level2", "expeditionShelter", 272.0, "rear", "standard"),
+  placement("l2-272-expedition", "level2", "expeditionShelter", 272.0, "mid", "large"),
   placement("l2-276-bench", "level2", "bench", 276.2, "mid", "standard"),
   placement("l2-279-fence", "level2", "fence", 278.6, "rear", "small", true),
 ]);
@@ -88,8 +103,22 @@ export const TITAN_SURFACE_GALLERY_CLEAR_ZONE = Object.freeze({
     + WORLD_VISUAL_SURFACE_PROPS.exclusions.titanGalleryPaddingTiles,
 });
 
+const titanStatueClearHalfWidthTiles = gallery.plinthWidthTiles / 2
+  + WORLD_VISUAL_SURFACE_PROPS.exclusions.titanStatueFootingPaddingTiles;
+export const TITAN_SURFACE_STATUE_CLEAR_ZONES = Object.freeze(
+  TITAN_DISCOVERY_CONFIG.definitions.map((_definition, index) => {
+    const centerTile = gallery.startTileX + index * gallery.spacingTiles;
+    return Object.freeze({
+      id: `titan-plinth-${String(index + 1).padStart(2, "0")}`,
+      levels: Object.freeze(["level1"]),
+      leftTile: centerTile - titanStatueClearHalfWidthTiles,
+      rightTile: centerTile + titanStatueClearHalfWidthTiles,
+    });
+  })
+);
+
 export const WORLD_VISUAL_SURFACE_PROP_LAYOUT = Object.freeze({
-  version: "surface-props-v5-additive-landscape-chapters",
+  version: "surface-props-v6-titan-promenade",
   requiredSurfaceRanges: Object.freeze([
     Object.freeze({ id: "level1-surface", leftTile: 0, rightTile: 132 }),
     Object.freeze({ id: "level2-surface", leftTile: 132, rightTile: 280 }),
@@ -107,7 +136,7 @@ export const WORLD_VISUAL_SURFACE_PROP_LAYOUT = Object.freeze({
       leftTile: 0,
       rightTile: 22.75,
     }),
-    TITAN_SURFACE_GALLERY_CLEAR_ZONE,
+    ...TITAN_SURFACE_STATUE_CLEAR_ZONES,
     Object.freeze({
       id: "level1-ground-sky-portal",
       levels: Object.freeze(["level1"]),

@@ -1,6 +1,7 @@
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
+import { playSkyStarReleaseIdentityLight } from "./playSkyStarReleaseIdentityLight.js";
 
 const clampRarityIndex = (rarity, assets, fallbackIndex = 0) => {
   if (!Array.isArray(assets) || assets.length === 0) return -1;
@@ -59,7 +60,7 @@ export class SkyStarReleaseView {
     this._images.add(star);
     this._playSourceFracture(fractureAsset, rarity, startWorldX, startWorldY);
     this._playSourcePulse(pulseAsset, rarity, startWorldX, startWorldY);
-    this._playEchoes({
+    const motion = {
       entry,
       startWorldX,
       startWorldY,
@@ -69,18 +70,16 @@ export class SkyStarReleaseView {
       swayAmplitude,
       swayCycles,
       duration,
+    };
+    this._playEchoes(motion);
+    playSkyStarReleaseIdentityLight({
+      scene: this.scene,
+      motion,
+      releaseFx: fx,
+      createImage: this._createImage.bind(this),
+      destroyImage: this._destroyImage.bind(this),
     });
-    this._playCore({
-      entry,
-      startWorldX,
-      startWorldY,
-      riseDistance,
-      lateralDrift,
-      rotation,
-      swayAmplitude,
-      swayCycles,
-      duration,
-    });
+    this._playCore(motion);
     return true;
   }
 
@@ -158,7 +157,8 @@ export class SkyStarReleaseView {
         HUD_LAYOUT.hudDepth - 6,
         motion.entry.displaySize,
         0,
-        Phaser.BlendModes.SCREEN
+        Phaser.BlendModes.SCREEN,
+        motion.entry.textureFrame,
       );
       if (!echo) continue;
 
@@ -280,12 +280,12 @@ export class SkyStarReleaseView {
     });
   }
 
-  _createImage(x, y, textureKey, depth, displaySize, alpha, blendMode) {
+  _createImage(x, y, textureKey, depth, displaySize, alpha, blendMode, textureFrame = null) {
     if (!textureKey) return null;
     if (this.scene.textures?.exists && !this.scene.textures.exists(textureKey)) {
       return null;
     }
-    const image = this.scene.add.image(x, y, textureKey);
+    const image = this.scene.add.image(x, y, textureKey, textureFrame || undefined);
     image
       .setDepth(depth)
       .setDisplaySize(displaySize, displaySize)

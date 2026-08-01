@@ -8,6 +8,7 @@ import {
   getTownTutorialDigSite,
   prepareTownTutorialDigSite,
 } from "./TownSquareTutorialDigSite.js";
+import { FirstFiveMinutesTutorialBridge } from "./FirstFiveMinutesTutorialBridge.js";
 import { TownSquareTutorialView } from "./TownSquareTutorialView.js";
 
 function interpolateText(value, replacements = {}) {
@@ -17,6 +18,7 @@ function interpolateText(value, replacements = {}) {
     down: USER_SETTINGS.getKeyLabel("aimDown"),
     mine: USER_SETTINGS.getKeyLabel("dig"),
     interact: USER_SETTINGS.getKeyLabel("interact"),
+    fly: USER_SETTINGS.getKeyLabel("fly"),
     ...replacements,
   };
   return String(value).replace(
@@ -25,20 +27,27 @@ function interpolateText(value, replacements = {}) {
   );
 }
 
-function interpolateCopy(copy) {
+function interpolateCopy(copy, replacements = {}) {
   return Object.fromEntries(
     Object.entries(copy).map(([key, value]) => [
       key,
-      interpolateText(value),
+      interpolateText(value, replacements),
     ]),
   );
 }
 
 export class TownSquareTutorialSystem {
-  constructor(scene) {
+  constructor(scene, options = {}) {
     this.scene = scene;
     this.retention = scene.retentionProgressSystem;
     this.view = new TownSquareTutorialView(scene);
+    this.firstFive = new FirstFiveMinutesTutorialBridge(
+      scene,
+      this.retention,
+      this.view,
+      interpolateCopy,
+      options,
+    );
     this.lastStage = null;
     this.moveOriginX = null;
     this._flightSaveElapsedMs = 0;
@@ -49,6 +58,7 @@ export class TownSquareTutorialSystem {
       () => this.isFreeFlightActive(),
     );
     this._syncStage(true);
+    this.firstFive.create();
   }
 
   update(deltaMs) {
@@ -69,14 +79,56 @@ export class TownSquareTutorialSystem {
 
     this._syncStage(false);
     this._updateFreeFlight(deltaMs);
+    this.firstFive.update();
   }
 
   isShowingGuide() {
-    return this.retention?.isTutorialActive?.() === true;
+    return this.retention?.isTutorialActive?.() === true
+      || this.firstFive.hasPersistentGuide();
   }
 
   isFreeFlightActive() {
     return this.retention?.isTutorialFreeFlightActive?.() === true;
+  }
+
+  isFirstFiveEnabled() {
+    return this.firstFive.isEnabled();
+  }
+
+  getNextPromiseOverride() {
+    return this.firstFive.getNextPromiseOverride();
+  }
+
+  getFocusedUpgradeId(merchantId) {
+    return this.firstFive.getFocusedUpgradeId(merchantId);
+  }
+
+  isUpgradeAvailable(upgradeId) {
+    return this.firstFive.isUpgradeAvailable(upgradeId);
+  }
+
+  getPreferredMerchantMode(merchantId) {
+    return this.firstFive.getPreferredMerchantMode(merchantId);
+  }
+
+  getUpgradePreview(upgradeId) {
+    return this.firstFive.getUpgradePreview(upgradeId);
+  }
+
+  isDescentBlocked() {
+    return this.firstFive.isDescentBlocked();
+  }
+
+  handleDescentBlocked() {
+    this.firstFive.handleDescentBlocked();
+  }
+
+  enforceSurfaceSafety() {
+    return this.firstFive.enforceSurfaceSafety();
+  }
+
+  getHealthSnapshot() {
+    return this.firstFive.getHealthSnapshot();
   }
 
   resize() {
@@ -98,14 +150,17 @@ export class TownSquareTutorialSystem {
   _enterStage(stage, { celebrate = false } = {}) {
     const copy = RETENTION_CONFIG.tutorial.copy[stage];
     if (RETENTION_CONFIG.tutorial.activeStages.includes(stage) && copy) {
-      this.view.showGuide(interpolateCopy(copy));
+      if (this.firstFive.isEnabled()) this.view.closeGuideNotification();
+      else this.view.showGuide(interpolateCopy(copy));
     } else {
-      this.view.hideGuide();
+      if (this.firstFive.isEnabled()) this.view.closeGuideNotification();
+      else this.view.hideGuide();
     }
+    const firstFiveHandled = this.firstFive.onStageEntered(stage);
 
     if (stage === TOWN_TUTORIAL_STAGES.MOVE) {
       this.moveOriginX = this.scene.playerController?.physicsBody?.x ?? null;
-      this.view.clearMarker();
+      if (!firstFiveHandled) this.view.clearMarker();
       return;
     }
     if (stage === TOWN_TUTORIAL_STAGES.DIG) {
@@ -131,6 +186,7 @@ export class TownSquareTutorialSystem {
       stage === TOWN_TUTORIAL_STAGES.COMPLETE
       || stage === TOWN_TUTORIAL_STAGES.SKIPPED
     ) {
+      this.view.clearMarker();
       this._grantCompletionReward(
         celebrate && stage === TOWN_TUTORIAL_STAGES.COMPLETE,
       );
@@ -162,7 +218,7 @@ export class TownSquareTutorialSystem {
     this.retention.recordMoneyEarned(reward.money);
     this.scene.playerController?.abilities?.fillGemPower?.();
     this.scene.uiResourceBar?.setMoney?.(this.scene.upgradeSystem?.getMoney?.() || 0);
-    if (showReward) {
+    if (showReward && !this.firstFive.isEnabled()) {
       this.view.showCompletion(
         interpolateCopy(RETENTION_CONFIG.tutorial.copy.complete),
       );
@@ -230,6 +286,8 @@ export class TownSquareTutorialSystem {
   }
 
   destroy() {
+    this.firstFive?.destroy();
+    this.firstFive = null;
     this.scene?.playerController?.abilities?.setFreeFlightProvider?.(null);
     this.view?.destroy();
     this.view = null;

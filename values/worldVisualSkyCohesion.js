@@ -1,3 +1,8 @@
+import {
+  WORLD_VISUAL_SKY_TRANSITION_ORDER,
+  resolveWorldVisualSkyFeatureCells,
+} from "./worldVisualSkyTransitionOrder.js";
+
 const DISABLED_QUERY_VALUES = Object.freeze([
   "0", "false", "off", "disabled", "legacy",
 ]);
@@ -28,6 +33,33 @@ const SKY_FILES = Object.freeze({
   sky20: "2026-07-28-sky-20-eastern-far-crimson-atmosphere-v1.webp",
 });
 
+// Multiplicative atmosphere grades measured from the approved safe frames.
+// They only darken/temper outliers (notably the bright eastern daylight
+// plates), allowing the weather tint and the neighboring plate to share one
+// continuous sky palette without modifying the source assets.
+const SKY_ATMOSPHERE_TINTS = Object.freeze({
+  sky01: 0xffe6fb,
+  sky02: 0xffffff,
+  sky03: 0xfbecdb,
+  sky04: 0xafc4da,
+  sky05: 0xfcdde8,
+  sky06: 0xd3b4c2,
+  sky07: 0xfffbf1,
+  sky08: 0xcdd2de,
+  sky09: 0x80daef,
+  sky10: 0xffffff,
+  sky11: 0xffffff,
+  sky12: 0xffffff,
+  sky13: 0xffffff,
+  sky14: 0xe9fffa,
+  sky15: 0xa8ffff,
+  sky16: 0xffffff,
+  sky17: 0x406c9f,
+  sky18: 0xf7e9ff,
+  sky19: 0x404f84,
+  sky20: 0xafe3eb,
+});
+
 const SKY_ASSETS = Object.freeze(Object.fromEntries(
   Object.entries(SKY_FILES).map(([id, file]) => [
     id,
@@ -36,19 +68,52 @@ const SKY_ASSETS = Object.freeze(Object.fromEntries(
       key: `world-visual-sky-cohesion-v1-${id}`,
       path: `${ASSET_ROOT}/${file}`,
       type: "image",
+      atmosphereTint: SKY_ATMOSPHERE_TINTS[id] || 0xffffff,
     }),
   ])
 ));
 
 export const WORLD_VISUAL_SKY_COHESION = Object.freeze({
   enabledByDefault: true,
-  runtimeMode: "world-grid",
+  runtimeMode: "ordered-features",
   queryParam: "skyCohesion",
   disabledValues: DISABLED_QUERY_VALUES,
+  compositionQueryParam: "skyComposition",
+  orderedValues: Object.freeze(["ordered", "features", "ordered-features", "v2"]),
+  gridValues: Object.freeze(["grid", "world-grid", "legacy", "v1"]),
   assets: SKY_ASSETS,
+  foundation: Object.freeze({
+    asset: Object.freeze({
+      id: "sky-atmosphere-foundation-v2",
+      key: "world-visual-sky-atmosphere-foundation-v2",
+      path: (
+        "sprites/backgrounds/world-visual-v2/far/sky-foundation-v2/"
+        + "sky-atmosphere-foundation-v2.webp"
+      ),
+      type: "image",
+    }),
+    expectedSource: Object.freeze({
+      widthPx: 1024,
+      heightPx: 2048,
+    }),
+    // Stay beneath the restored moonlit forest plate at -10. Surface trees
+    // remain the ground-level owner while the atmosphere fills all empty sky.
+    depth: -10.2,
+    alpha: 1,
+    fallbackColor: 0x071a33,
+    fallbackDepth: -10.21,
+  }),
   source: Object.freeze({
     widthPx: 1672,
     heightPx: 941,
+    // Keep the authored pixels at 1:1 while excluding the dark generation
+    // falloff baked into the outer 12.5% of every plate.
+    safeFrame: Object.freeze({
+      xPx: 209,
+      yPx: 118,
+      widthPx: 1254,
+      heightPx: 705,
+    }),
   }),
   bands: Object.freeze([
     Object.freeze({ id: "far", centerTile: 14 }),
@@ -85,15 +150,55 @@ export const WORLD_VISUAL_SKY_COHESION = Object.freeze({
   ]),
   worldGrid: Object.freeze({
     sourceDensityScale: 1,
-    overlapRatioX: 0.125,
-    overlapRatioY: 0.125,
-    chapterShiftPerRow: 2,
+    // A quarter-frame handoff gives palette and cloud silhouettes enough room
+    // to become one field while every source pixel remains at native density.
+    // Adjacent normalized weights are exact complements, including at corners.
+    overlapXPx: 314,
+    overlapYPx: 176,
     loadMarginTiles: 5,
+  }),
+  composition: Object.freeze({
+    order: WORLD_VISUAL_SKY_TRANSITION_ORDER,
+    featureFeatherXPx: 314,
+    featureFeatherYPx: 176,
+    // Lower cards are restrained so the older tree-bearing surface plate
+    // remains legible behind the atmosphere near the ground line.
+    bandAlpha: Object.freeze({
+      far: 0.82,
+      upper: 0.82,
+      middle: 0.76,
+      lower: 0.42,
+    }),
+    // Measured incompatible handoffs recede into the common atmosphere;
+    // compatible direct pairs remain the strongest authored features.
+    transitionAlphaScale: Object.freeze({
+      repeat: 0.96,
+      direct: 1,
+      haze: 0.92,
+      foundation: 0.84,
+    }),
+  }),
+  blend: Object.freeze({
+    mode: "normalized-additive",
+    blendMode: "ADD",
+    matteColor: 0x000000,
+    maskResolutionScale: 0.32,
+    featherXPx: 314,
+    featherYPx: 176,
+    textureKeyPrefix: "world-visual-sky-normalized-mask",
+    edgeBits: Object.freeze({
+      left: 1,
+      right: 2,
+      top: 4,
+      bottom: 8,
+    }),
   }),
   render: Object.freeze({
     depth: -9.6,
-    depthStep: 0.000001,
+    matteDepth: -9.61,
+    depthStep: 0.001,
     alpha: 1,
+    featureBlendMode: "NORMAL",
   }),
 });
 
@@ -112,20 +217,57 @@ export function resolveWorldVisualSkyCohesionEnabled(
   return config.enabledByDefault && !isDisabled(config, search);
 }
 
+export function resolveWorldVisualSkyRuntimeMode(
+  config = WORLD_VISUAL_SKY_COHESION,
+  search = globalThis.location?.search || ""
+) {
+  const value = new URLSearchParams(search)
+    .get(config.compositionQueryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && config.gridValues.includes(value)) return "world-grid";
+  if (value && config.orderedValues.includes(value)) return "ordered-features";
+  return config.runtimeMode;
+}
+
 function segmentCount(spanPx, cardSizePx, stridePx) {
   if (spanPx <= cardSizePx) return 1;
   return Math.ceil((spanPx - cardSizePx) / stridePx) + 1;
 }
 
-function clampOverlapRatio(value) {
-  return Math.max(0, Math.min(0.49, Number(value) || 0));
+function resolveBandIndex(centerTile, bands) {
+  let closestIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+  bands.forEach((band, index) => {
+    const distance = Math.abs(centerTile - band.centerTile);
+    if (distance < closestDistance) {
+      closestIndex = index;
+      closestDistance = distance;
+    }
+  });
+  return closestIndex;
 }
 
-function resolveBandIndex(row, rowCount, bandCount) {
-  return Math.min(
-    bandCount - 1,
-    Math.floor(row * bandCount / rowCount)
+function resolveChapterIndex(centerTile, columns) {
+  let closestIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+  columns.forEach((column, index) => {
+    const distance = Math.abs(centerTile - column.centerTile);
+    if (distance < closestDistance) {
+      closestIndex = index;
+      closestDistance = distance;
+    }
+  });
+  return closestIndex;
+}
+
+export function multiplyWorldVisualSkyTints(leftTint, rightTint) {
+  const left = Number.isFinite(leftTint) ? leftTint : 0xffffff;
+  const right = Number.isFinite(rightTint) ? rightTint : 0xffffff;
+  const channel = shift => Math.round(
+    (((left >> shift) & 255) * ((right >> shift) & 255)) / 255
   );
+  return (channel(16) << 16) | (channel(8) << 8) | channel(0);
 }
 
 export function resolveWorldVisualSkyCohesionCells(
@@ -141,37 +283,70 @@ export function resolveWorldVisualSkyCohesionCells(
     1,
     Math.max(0, Number(config.worldGrid.sourceDensityScale) || 1)
   );
-  const displayWidthPx = config.source.widthPx * displayScale;
-  const displayHeightPx = config.source.heightPx * displayScale;
-  const overlapXPx = displayWidthPx
-    * clampOverlapRatio(config.worldGrid.overlapRatioX);
-  const overlapYPx = displayHeightPx
-    * clampOverlapRatio(config.worldGrid.overlapRatioY);
-  const strideXPx = Math.max(1, displayWidthPx - overlapXPx);
-  const strideYPx = Math.max(1, displayHeightPx - overlapYPx);
+  const safeFrame = config.source.safeFrame || Object.freeze({
+    xPx: 0,
+    yPx: 0,
+    widthPx: config.source.widthPx,
+    heightPx: config.source.heightPx,
+  });
+  const displayWidthPx = safeFrame.widthPx * displayScale;
+  const displayHeightPx = safeFrame.heightPx * displayScale;
+  const overlapXPx = Math.min(
+    displayWidthPx - 1,
+    Math.max(0, Number(config.worldGrid.overlapXPx) || 0) * displayScale
+  );
+  const overlapYPx = Math.min(
+    displayHeightPx - 1,
+    Math.max(0, Number(config.worldGrid.overlapYPx) || 0) * displayScale
+  );
+  const requestedStrideXPx = Math.max(1, displayWidthPx - overlapXPx);
+  const requestedStrideYPx = Math.max(1, displayHeightPx - overlapYPx);
   const columnCount = segmentCount(
     width * tilePixels,
     displayWidthPx,
-    strideXPx
+    requestedStrideXPx
   );
   const rowCount = segmentCount(
     height * tilePixels,
     displayHeightPx,
-    strideYPx
+    requestedStrideYPx
   );
-  const chapterShift = Number(config.worldGrid.chapterShiftPerRow) || 0;
+  // Distribute the small tail remainder through the grid instead of letting
+  // its final card overshoot the authored world. At the surface this anchors
+  // the lower plate's horizon to the ground line rather than burying it below
+  // terrain. The effective overlaps are passed to the normalized masks.
+  const strideXPx = columnCount > 1
+    ? (width * tilePixels - displayWidthPx) / (columnCount - 1)
+    : 0;
+  const strideYPx = rowCount > 1
+    ? (height * tilePixels - displayHeightPx) / (rowCount - 1)
+    : 0;
+  const fittedOverlapXPx = displayWidthPx - strideXPx;
+  const fittedOverlapYPx = displayHeightPx - strideYPx;
   const cells = [];
   for (let row = 0; row < rowCount; row += 1) {
-    const bandIndex = resolveBandIndex(
-      row,
-      rowCount,
-      config.bands.length
-    );
-    const band = config.bands[bandIndex];
     for (let column = 0; column < columnCount; column += 1) {
-      const chapterIndex = (
-        column + row * chapterShift
-      ) % config.columns.length;
+      const altitudeCenterTile = (
+        row * strideYPx + displayHeightPx / 2
+      ) / tilePixels;
+      // Asset families remain locked to their authored altitude. Normalized
+      // vertical weights now remove the old fold without mixing a ground-level
+      // horizon into a high-sky row.
+      const bandIndex = resolveBandIndex(
+        altitudeCenterTile,
+        config.bands
+      );
+      const band = config.bands[bandIndex];
+      const horizontalCenterTile = (
+        column * strideXPx + displayWidthPx / 2
+      ) / tilePixels;
+      // Keep authored western, island, central, and eastern chapters near
+      // their real world anchors. The previous row-shifted modulo selection
+      // placed distant mountains and daylight palettes beside unrelated cards.
+      const chapterIndex = resolveChapterIndex(
+        horizontalCenterTile,
+        config.columns
+      );
       const chapter = config.columns[chapterIndex];
       const leftTile = column * strideXPx / tilePixels;
       const topTile = row * strideYPx / tilePixels;
@@ -183,12 +358,20 @@ export function resolveWorldVisualSkyCohesionCells(
         rowCount,
         columnId: chapter.id,
         bandId: band.id,
+        horizontalCenterTile,
+        altitudeCenterTile,
         asset: config.assets[chapter.assetIds[bandIndex]],
+        sourceCrop: Object.freeze({
+          xPx: safeFrame.xPx,
+          yPx: safeFrame.yPx,
+          widthPx: safeFrame.widthPx,
+          heightPx: safeFrame.heightPx,
+        }),
         displayScale,
         displayWidthPx,
         displayHeightPx,
-        overlapXPx,
-        overlapYPx,
+        overlapXPx: fittedOverlapXPx,
+        overlapYPx: fittedOverlapYPx,
         leftTile,
         rightTileExclusive: leftTile + displayWidthPx / tilePixels,
         topTile,
@@ -196,9 +379,9 @@ export function resolveWorldVisualSkyCohesionCells(
         renderOrder: row * columnCount + column,
         blendEdges: Object.freeze({
           left: column > 0,
-          right: false,
+          right: column < columnCount - 1,
           top: row > 0,
-          bottom: false,
+          bottom: row < rowCount - 1,
         }),
       }));
     }
@@ -206,8 +389,31 @@ export function resolveWorldVisualSkyCohesionCells(
   return cells;
 }
 
+export function resolveWorldVisualSkyCells(
+  worldWidthTiles,
+  topAirRows,
+  tileSize,
+  config = WORLD_VISUAL_SKY_COHESION,
+  search = globalThis.location?.search || ""
+) {
+  return resolveWorldVisualSkyRuntimeMode(config, search) === "world-grid"
+    ? resolveWorldVisualSkyCohesionCells(
+      worldWidthTiles,
+      topAirRows,
+      tileSize,
+      config
+    )
+    : resolveWorldVisualSkyFeatureCells(
+      worldWidthTiles,
+      topAirRows,
+      tileSize,
+      config,
+      config.composition.order
+    );
+}
+
 export function getWorldVisualSkyCohesionAssets(
   config = WORLD_VISUAL_SKY_COHESION
 ) {
-  return Object.values(config.assets);
+  return [config.foundation.asset, ...Object.values(config.assets)];
 }

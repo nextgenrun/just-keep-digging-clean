@@ -1,0 +1,414 @@
+{
+  "schema": "natural-fire-live-comparison-qa@1",
+  "generatedUtc": "2026-07-30T20:10:48.798Z",
+  "url": "http://127.0.0.1:8090/testing/2026-07-30-natural-fire-live-compare.html",
+  "initial": {
+    "ready": true,
+    "target": {
+      "tx": 168,
+      "ty": 1077
+    },
+    "fuelProfile": "full",
+    "weatherProfile": "clear",
+    "dayProfile": "day",
+    "depthProfile": "abyss",
+    "scenarios": [
+      {
+        "scenario": "natural",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 2.983028876333861,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.9890946969696972,
+        "eyeLuminance": 0.9725299045926203,
+        "veilAlpha": 0.024416761761615852,
+        "dayTime": 0.5000115740740741,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "legacy",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "legacy-procedural-v2",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 1,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 2.983054389713925,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.8726480809090906,
+        "eyeLuminance": 0,
+        "veilAlpha": 0,
+        "dayTime": 0.5000384694444444,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "initialFrames": [
+    {
+      "id": "natural",
+      "href": "http://127.0.0.1:8090/?jkd_e2e=1&runtimeAssetQueue=1&nativeDensity=0&fireLightStyle=natural",
+      "query": {
+        "jkd_e2e": "1",
+        "runtimeAssetQueue": "1",
+        "nativeDensity": "0",
+        "fireLightStyle": "natural"
+      },
+      "runtimeId": "fire-light-v3",
+      "presentationId": "natural-fire-v1",
+      "raysRequested": false,
+      "visibleRayCount": 0,
+      "authoredLayers": 1,
+      "proceduralWorldGlow": true,
+      "proceduralShaderMix": 0.96,
+      "eyeEffectScale": 0.24,
+      "torchActive": true,
+      "rendererType": 2,
+      "camera": {
+        "scrollX": 15199,
+        "scrollY": 100972,
+        "playerScreenX": 640,
+        "playerScreenY": 360
+      },
+      "fireGeometry": {
+        "flameWidthTiles": 0.47147248655517554,
+        "flameHeightTiles": 0.6354629166613235,
+        "volumeVisible": false,
+        "atmosphereVisible": false
+      },
+      "uiErrors": []
+    },
+    {
+      "id": "legacy",
+      "href": "http://127.0.0.1:8090/?jkd_e2e=1&runtimeAssetQueue=1&nativeDensity=0&fireLight=legacy",
+      "query": {
+        "jkd_e2e": "1",
+        "runtimeAssetQueue": "1",
+        "nativeDensity": "0",
+        "fireLight": "legacy"
+      },
+      "runtimeId": "fire-light-v3",
+      "presentationId": "legacy-procedural-v2",
+      "raysRequested": false,
+      "visibleRayCount": 0,
+      "authoredLayers": 0,
+      "proceduralWorldGlow": true,
+      "proceduralShaderMix": 1,
+      "eyeEffectScale": 0,
+      "torchActive": true,
+      "rendererType": 2,
+      "camera": {
+        "scrollX": 15199,
+        "scrollY": 100972,
+        "playerScreenX": 640,
+        "playerScreenY": 360
+      },
+      "fireGeometry": null,
+      "uiErrors": []
+    }
+  ],
+  "lowRainNight": {
+    "ready": true,
+    "target": {
+      "tx": 168,
+      "ty": 1077
+    },
+    "fuelProfile": "low",
+    "weatherProfile": "rain",
+    "dayProfile": "night",
+    "depthProfile": "abyss",
+    "scenarios": [
+      {
+        "scenario": "natural",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 2.9940204551334895,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.13784924242424246,
+        "eyeLuminance": 0.9537110643576545,
+        "veilAlpha": 0.036758217766681575,
+        "dayTime": 0.8800023148148148,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "legacy",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "legacy-procedural-v2",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 1,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 2.994033284527459,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.13261806954545455,
+        "eyeLuminance": 0,
+        "veilAlpha": 0,
+        "dayTime": 0.8800078791666667,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "torchOff": {
+    "ready": true,
+    "target": {
+      "tx": 168,
+      "ty": 1077
+    },
+    "fuelProfile": "low",
+    "weatherProfile": "rain",
+    "dayProfile": "night",
+    "depthProfile": "abyss",
+    "scenarios": [
+      {
+        "scenario": "natural",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": false,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 0.6243641595143105,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 0,
+        "gpRatio": 0.12509621212121222,
+        "eyeLuminance": 0.9091569238577437,
+        "veilAlpha": 0.04961318579655742,
+        "dayTime": 0.8800185185185186,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "legacy",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "legacy-procedural-v2",
+        "active": false,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 1,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 0.6243640545204119,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 0,
+        "gpRatio": 0.09108100272727249,
+        "eyeLuminance": 0,
+        "veilAlpha": 0,
+        "dayTime": 0.8800602583333336,
+        "nightAmount": 1,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "finalSnapshot": {
+    "ready": true,
+    "target": {
+      "tx": 168,
+      "ty": 1077
+    },
+    "fuelProfile": "full",
+    "weatherProfile": "clear",
+    "dayProfile": "day",
+    "depthProfile": "abyss",
+    "scenarios": [
+      {
+        "scenario": "natural",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "natural-fire-v1",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 1,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 0.96,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 2.995878926853078,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.9976977272727273,
+        "eyeLuminance": 0.8940337755905768,
+        "veilAlpha": 0.052498476724288576,
+        "dayTime": 0.5000023148148148,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      },
+      {
+        "scenario": "legacy",
+        "runtimeId": "fire-light-v3",
+        "presentationId": "legacy-procedural-v2",
+        "active": true,
+        "rays": 0,
+        "authoredLayers": 0,
+        "proceduralWorldGlow": true,
+        "proceduralShaderMix": 1,
+        "depth": 1013,
+        "torchBonusRadiusTiles": 0,
+        "visibilityRadiusTiles": 2.99587974500114,
+        "darknessAlpha": 1,
+        "torchGlowStrength": 1,
+        "gpRatio": 0.9926235181818182,
+        "eyeLuminance": 0,
+        "veilAlpha": 0,
+        "dayTime": 0.5000074166666667,
+        "nightAmount": 0,
+        "tile": {
+          "tx": 168,
+          "ty": 1077
+        },
+        "rendererType": 2,
+        "uiErrors": []
+      }
+    ]
+  },
+  "assetResponses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-steady-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-flame-states-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-rays-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-volume-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-atmosphere-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-hot-core-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-penumbra-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-bounce-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-breakup-v3.png"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:8090/sprites/environment/fire-light-v3/fire-light-environment-v3.png"
+    }
+  ],
+  "browserIssues": [
+    "console:http://127.0.0.1:8090/favicon.ico:Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "console:http://127.0.0.1:8090/favicon.ico:Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

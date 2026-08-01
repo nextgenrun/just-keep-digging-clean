@@ -2,6 +2,18 @@
 
 UI module — scenes.
 
+`BootScene.js` mini-preloads the four dedicated Loading Screen V1 ImageGen
+textures together with the complete minigame pack before starting its full
+queue. `WorldLoadScene.js` reuses the cached authored screen and its same two
+meter API while loading the selected character and nearby world package.
+
+`CaveScene.js` preloads one authored 3:1 interior for the selected cave identity.
+`CaveLevelPresentationSystem` stretches that single image across the world and
+keeps the approved left entrance unchanged; it never repeats cards or adds
+Meshy shell actors. `CaveWorldModel` owns only ordinary mineable terrain.
+Compact cave rollback behavior remains unchanged.
+
+
 `StartMenuScene.js` exposes visible, slot-aware Export Save and Import Save
 buttons in the 1280x720 safe area. Empty slots can receive an import, while
 export remains disabled until the selected slot contains save data.
@@ -31,6 +43,12 @@ atmosphere, and lightning atlases plus the clean 32-frame ImageGen particle
 sheet. The rejected broad rain/snow/water sheets are not part of the runtime
 queue.
 
+Ground-damage preload is also values-driven. Boot queues exactly one atlas from
+`getWorldVisualDamagePreloadAssets()`: polished Piskel V2 by default, or the
+byte-intact V1 atlas for `?groundDamageAtlas=legacy`. Both use the same texture
+key and frame geometry, so the painter and preload cannot disagree; the Piskel
+projects and review exports are never queued.
+
 The FX preload also queues the single generated mining-target corner overlay
 from `values/miningTargetFeedback.js`; the explicit rectangle rollback skips
 that texture.
@@ -45,14 +63,18 @@ boot queue. No production system consumes it; loading the 3840x3840 sheet only
 adds texture pressure and can prevent PlayScene from starting on constrained
 renderers. The smaller active Shadow Miner sheet remains available.
 
-The shared UI preload now queues the 25 compact alpha Titan silhouettes, 25
-independent transparent surface stances, the compact basalt dais, resonance
-overlay, guidance pointer, and retained legacy plinth declared by
-`values/titanDiscoveries.js` in both scenic and legacy renderer modes. The live
-surface gallery uses the newer basalt dais; retaining the older footing in the
-bounded 54-asset package preserves provenance without routing it into the
-scene. `?titans=0` de-queues the complete package. Source chroma, alpha masters,
-contact sheets, and intermediate atlases remain tooling-only.
+The shared UI Boot preload keeps the 25 independent Titan surface stances plus
+walk plinth, underground dais, resonance overlay, and guidance pointer needed by
+live world gameplay. The 25 compact archive portraits are now an atomic
+on-demand group: opening TITANS loads the original full-resolution files through
+the shared serialized runtime lane, and closing the archive releases only those
+manager-owned textures. `?runtimeFeatureAssets=0` restores the former eager
+package, while `?titans=0` still disables the complete feature. Source chroma,
+alpha masters, contact sheets, and intermediate atlases remain tooling-only.
+
+`WorldLoadScene` also queues only the save slot's current Campfire tier and its
+next upgrade before PlayScene starts; the other eight tiers no longer occupy
+Boot transfer or decoded memory.
 
 `BootScene.js` also queues exactly the 25 live modular surface-prop cutouts
 returned by `getSurfacePropPreloadAssets()`: the retained 18-piece Level

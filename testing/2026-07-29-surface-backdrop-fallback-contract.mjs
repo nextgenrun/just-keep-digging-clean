@@ -69,6 +69,7 @@ class FakeImage {
   clearMask() { this.mask = null; return this; }
   setPosition(x, y) { this.x = x; this.y = y; return this; }
   setTint(value) { this.tint = value; return this; }
+  setBlendMode(value) { this.blendMode = value; return this; }
   createBitmapMask() {
     return {
       source: this,
@@ -121,6 +122,7 @@ const loader = new FakeLoader();
 const textureKeys = new Set([fallbackAsset.key, blendMaskAsset.key]);
 const videoKeys = new Set();
 const textureFrameMaps = new Map();
+const canvasTextures = new Map();
 const getTexture = (key) => {
   if (!textureFrameMaps.has(key)) textureFrameMaps.set(key, new Map());
   const frames = textureFrameMaps.get(key);
@@ -157,16 +159,50 @@ const scene = {
   },
   textures: {
     exists: key => textureKeys.has(key),
-    get: key => getTexture(key),
-    remove: key => textureKeys.delete(key),
+    get: key => canvasTextures.get(key) || getTexture(key),
+    createCanvas(key, width, height) {
+      const context = {
+        createImageData: (w, h) => ({
+          width: w,
+          height: h,
+          data: new Uint8ClampedArray(w * h * 4),
+        }),
+        putImageData(imageData) { this.imageData = imageData; },
+      };
+      const texture = {
+        width,
+        height,
+        getContext: () => context,
+        refresh() { this.refreshed = true; return this; },
+      };
+      canvasTextures.set(key, texture);
+      textureKeys.add(key);
+      return texture;
+    },
+    remove: key => {
+      textureKeys.delete(key);
+      canvasTextures.delete(key);
+    },
   },
   add: {
     image: (x, y, key) => new FakeImage(x, y, key),
     video: (x, y, key) => new FakeVideo(x, y, key),
+    rectangle: (x, y, width, height, color, alpha) => {
+      const image = new FakeImage(x, y, "rectangle");
+      image.rectangle = { width, height, color, alpha };
+      return image;
+    },
   },
   make: {
     image: ({ x, y, key, frame }) => (
-      new FakeImage(x, y, key, textureFrameMaps.get(key)?.get(frame))
+      new FakeImage(
+        x,
+        y,
+        key,
+        frame
+          ? textureFrameMaps.get(key)?.get(frame)
+          : canvasTextures.get(key)
+      )
     ),
   },
 };

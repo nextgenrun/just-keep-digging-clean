@@ -1,15 +1,18 @@
 import {
   resolveWorldVisualDepthBackdropTint,
-} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
 import {
   setPositionIfChanged,
   setTintIfChanged,
 } from "./worldVisualRenderState.js";
 import {
   createWorldVisualBlendMask,
+  createWorldVisualNormalizedBlendMask,
   resolveWorldVisualBlendBits,
 } from
-  "./worldVisualBlendMaskFrame.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "./worldVisualBlendMaskFrame.js?rev=20260729-native-density-v14";
+import { resolveWorldVisualSemanticSequenceIndex } from
+  "./worldVisualSemanticSequence.js?rev=20260729-native-density-v14";
 
 function sourceSize(scene, asset, videoConfig) {
   if (asset.type === "video") {
@@ -60,10 +63,15 @@ function resolveRegionSpan(region, config, tileSize) {
   const crossBiomeOverlapYPx = hasPreviousRegion
     ? Math.max(0, Number(config.blend?.crossBiomeOverlapYPx) || 0)
     : 0;
+  const hasNextRegion = config.regions?.some(entry => (
+    entry.id !== region.id
+    && entry.topTile === region.bottomTileExclusive
+  )) || false;
   const topPx = region.topTile * tileSize - crossBiomeOverlapYPx;
   const bottomPx = region.bottomTileExclusive * tileSize;
   return {
     hasPreviousRegion,
+    hasNextRegion,
     crossBiomeOverlapYPx,
     topPx,
     bottomPx,
@@ -237,7 +245,32 @@ export class WorldVisualDepthBackdropRegionView {
   }
 
   _resolveSegmentAsset(column, row) {
-    return this.backwalls[(column + row * 3) % this.backwalls.length];
+    const handoffs = this.backwalls.filter(asset => (
+      asset.path?.includes("-handoff-")
+    ));
+    const body = this.backwalls.filter(asset => !handoffs.includes(asset));
+    if (handoffs.length > 0) {
+      const tileSize = this.scene.config.tileSize;
+      const geometry = resolveSegmentGeometry(this.config.segment, tileSize);
+      const regionSpan = resolveRegionSpan(this.region, this.config, tileSize);
+      const regionHeightPx = regionSpan.bottomPx - regionSpan.topPx;
+      const rows = segmentCount(
+        regionHeightPx,
+        geometry.heightPx,
+        geometry.strideYPx
+      );
+      if (row === rows - 1) {
+        return handoffs[column % handoffs.length];
+      }
+    }
+    const ordered = body.length > 0 ? body : handoffs;
+    return ordered[resolveWorldVisualSemanticSequenceIndex(
+      column,
+      row,
+      0,
+      ordered.length,
+      { profileId: "backdrop" }
+    )];
   }
 
   _resolveRenderableSegmentAsset(requestedAsset) {
@@ -281,9 +314,31 @@ export class WorldVisualDepthBackdropRegionView {
     const cropRatioY = contentHeightPx / geometry.heightPx;
     const resolveCardGeometry = asset => {
       const source = sourceSize(this.scene, asset, config.motion.smoothVideo);
-      const cropWidth = Math.round(source.width * cropRatioX);
-      const cropHeight = Math.round(source.height * cropRatioY);
-      return { cropX: 0, cropY: 0, cropWidth, cropHeight };
+      const authoredCrop = segment.sourceCrop || {
+        xPx: 0,
+        yPx: 0,
+        widthPx: source.width,
+        heightPx: source.height,
+      };
+      const cropX = Math.max(0, Math.min(
+        source.width - 1,
+        Number(authoredCrop.xPx) || 0
+      ));
+      const cropY = Math.max(0, Math.min(
+        source.height - 1,
+        Number(authoredCrop.yPx) || 0
+      ));
+      const safeWidth = Math.max(1, Math.min(
+        source.width - cropX,
+        Number(authoredCrop.widthPx) || source.width
+      ));
+      const safeHeight = Math.max(1, Math.min(
+        source.height - cropY,
+        Number(authoredCrop.heightPx) || source.height
+      ));
+      const cropWidth = Math.max(1, Math.round(safeWidth * cropRatioX));
+      const cropHeight = Math.max(1, Math.round(safeHeight * cropRatioY));
+      return { cropX, cropY, cropWidth, cropHeight };
     };
     const applyCardGeometry = (card, cardGeometry) => card
       .setCrop(
@@ -292,6 +347,10 @@ export class WorldVisualDepthBackdropRegionView {
         cardGeometry.cropWidth,
         cardGeometry.cropHeight
       )
+      // Keep the safe crop anchored to baseX/baseY. Phaser otherwise adds the
+      // crop origin to the rendered quad, exposing an empty gutter at every
+      // card's left and top edges.
+      .setDisplayOrigin(cardGeometry.cropX, cardGeometry.cropY)
       // Tail cards are cropped frames. Scale from that cropped frame rather
       // than the complete source texture so the right/bottom world boundary
       // remains covered without a black sliver.
@@ -306,7 +365,9 @@ export class WorldVisualDepthBackdropRegionView {
       contentHeightPx,
       {
         left: column > 0,
+        right: column < columns - 1,
         top: row > 0 || regionSpan.hasPreviousRegion,
+        bottom: row < rows - 1 || regionSpan.hasNextRegion,
       }
     );
     const applyBlendMask = card => {
@@ -320,6 +381,7 @@ export class WorldVisualDepthBackdropRegionView {
       const card = this.scene.add.image(baseX, baseY, asset.key)
         .setOrigin(0)
         .setDepth(depth);
+      card.setBlendMode?.(config.blend.blendMode);
       applyCardGeometry(card, cardGeometry);
       applyBlendMask(card);
       card.name = name;
@@ -331,6 +393,7 @@ export class WorldVisualDepthBackdropRegionView {
         .setOrigin(0)
         .setDepth(depth)
         .setVisible(false);
+      card.setBlendMode?.(config.blend.blendMode);
       card.name = name;
       applyBlendMask(card);
       card.once("created", () => {
@@ -352,6 +415,7 @@ export class WorldVisualDepthBackdropRegionView {
       requestedAssetKey: requestedAsset?.key || null,
       blendMaskImage: blend?.maskImage || null,
       bitmapMask: blend?.bitmapMask || null,
+      blendBits: blend?.blendBits || 0,
       isSmoothVideo,
       videoPaused: !this.motionEnabled,
       widthPx: contentWidthPx,
@@ -367,20 +431,31 @@ export class WorldVisualDepthBackdropRegionView {
       return null;
     }
     const bits = resolveWorldVisualBlendBits(blend, edges);
-    const mask = createWorldVisualBlendMask(
-      this.scene,
-      maskAtlas,
-      blend,
-      bits,
-      x,
-      y,
-      width,
-      height
-    );
+    const mask = blend.mode === "normalized-additive"
+      ? createWorldVisualNormalizedBlendMask(
+        this.scene,
+        blend,
+        bits,
+        x,
+        y,
+        width,
+        height
+      )
+      : createWorldVisualBlendMask(
+        this.scene,
+        maskAtlas,
+        blend,
+        bits,
+        x,
+        y,
+        width,
+        height
+      );
     if (!mask) return null;
     return {
       maskImage: mask.image,
       bitmapMask: mask.bitmap,
+      blendBits: bits,
     };
   }
 

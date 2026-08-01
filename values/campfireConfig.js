@@ -28,6 +28,14 @@ export const CAMPFIRE_CONFIG = Object.freeze({
     previousBlessing: "aimUp",
     nextBlessing: "aimDown",
   }),
+  spriteBasePath: "sprites/npc/campfire/generated",
+  persistence: Object.freeze({
+    slotKeyPrefix: "jkd-campfire-level-slot-",
+    legacyKey: "jkd-campfire-level",
+  }),
+  runtimeResidency: Object.freeze({
+    consumerId: "campfire-current",
+  }),
   spriteKeys: Object.freeze([
     "campfire-tier-01", "campfire-tier-02", "campfire-tier-03", "campfire-tier-04", "campfire-tier-05",
     "campfire-tier-06", "campfire-tier-07", "campfire-tier-08", "campfire-tier-09", "campfire-tier-10",
@@ -45,3 +53,46 @@ export const CAMPFIRE_CONFIG = Object.freeze({
     expiredDurationMs: 1800,
   }),
 });
+
+export function getCampfireTierAsset(level, config = CAMPFIRE_CONFIG) {
+  const normalized = sanitizeCampfireData({ level });
+  const index = normalized.level - 1;
+  const tier = String(normalized.level).padStart(2, "0");
+  return Object.freeze({
+    key: config.spriteKeys[index],
+    path: `${config.spriteBasePath}/campfire-tier-${tier}.png`,
+  });
+}
+
+export function getCampfireWorldLoadAssets(level, config = CAMPFIRE_CONFIG) {
+  const current = getCampfireTierAsset(level, config);
+  const next = getCampfireTierAsset(Math.min(CAMPFIRE_TIERS.length, level + 1), config);
+  return current.key === next.key ? [current] : [current, next];
+}
+
+export function getCampfireStorageKey(saveSlot, config = CAMPFIRE_CONFIG) {
+  const slot = Number.isInteger(Number(saveSlot)) && Number(saveSlot) > 0
+    ? Math.floor(Number(saveSlot))
+    : 1;
+  return `${config.persistence.slotKeyPrefix}${slot}`;
+}
+
+export function readStoredCampfireLevel(
+  saveSlot,
+  storage = globalThis.localStorage,
+  config = CAMPFIRE_CONFIG,
+) {
+  if (!storage?.getItem) return 1;
+  const slot = Math.max(1, Math.floor(Number(saveSlot) || 1));
+  const storageKey = getCampfireStorageKey(slot, config);
+  try {
+    let saved = storage.getItem(storageKey);
+    if (!saved && slot === 1) {
+      saved = storage.getItem(config.persistence.legacyKey);
+      if (saved) storage.setItem?.(storageKey, saved);
+    }
+    return sanitizeCampfireData({ level: Number.parseInt(saved, 10) }).level;
+  } catch {
+    return 1;
+  }
+}

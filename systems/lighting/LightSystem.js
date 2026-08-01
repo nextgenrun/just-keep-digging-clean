@@ -1,5 +1,10 @@
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { resolveOldSchoolLampLightReviewEnabled } from
+  "../../values/oldSchoolLampLightConfig.js";
+import { FireLightSystem } from "./FireLightSystem.js";
+import { OldSchoolLampLightSystem } from "./OldSchoolLampLightSystem.js";
+import { resolveFireLightAnchor } from "./resolveFireLightAnchor.js";
 import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";
 import { SkySteadyLightRenderer } from "./SkySteadyLightRenderer.js";
 import {
@@ -41,7 +46,6 @@ export class LightSystem {
     this.weatherSystem = weatherSystem;
     this.config = config;
     this._playerLightProfileId = resolvePlayerLightProfile(config);
-
     this._torchActive = false;
     this._currentRadiusTiles = null;
     this._currentGlowStrength = 0;
@@ -59,6 +63,7 @@ export class LightSystem {
     this._caveInteriorDarknessBoost = 0;
     this._activeCaveArchetypeId = null;
     this._preparedFrame = null;
+    this._randomEventPresentation = null;
 
     this._ensureGeneratedTextures();
     this._eraser = scene.make.image({ key: config.visibilityMaskTextureKey, add: false })
@@ -73,6 +78,9 @@ export class LightSystem {
       scene,
       config.skyTileLights?.steadyAura
     );
+    this._fireLightSystem = resolveOldSchoolLampLightReviewEnabled()
+      ? new OldSchoolLampLightSystem(scene)
+      : new FireLightSystem(scene);
 
     this._torchHalo = this._createGlowImage(config.torchHaloColor);
     this._torchCoreGlow = this._createGlowImage(config.torchCoreColor);
@@ -105,15 +113,16 @@ export class LightSystem {
 
     if (gameplayActive && this._torchActive) {
       const requested = torchDrainRate * dt;
-      const consumed = this.playerController?.consumeGemPower?.(
-        requested,
-        { source: "torch" },
-      ) ?? 0;
-      if (consumed + Number.EPSILON < requested) this.forceTorchOff();
+      this._drainTorchGemPower(requested);
     }
 
     // Auto-recover torch if it was drained by GP depletion (not manually toggled).
-    if (gameplayActive && !this._torchActive && !this._manualTorchOff && this.playerController?.hasGemPower?.()) {
+    if (
+      gameplayActive
+      && !this._torchActive
+      && !this._manualTorchOff
+      && this._hasTorchFuel()
+    ) {
       this._torchActive = true;
       this.scene.hudSystem?.setTorchState(true, torchDrainRate);
     }
@@ -144,6 +153,7 @@ export class LightSystem {
 
     this._preparedFrame = {
       time: Number.isFinite(time) ? time : 0,
+      deltaMs,
       radiusTiles: this._currentRadiusTiles,
       lighting,
     };
@@ -156,7 +166,8 @@ export class LightSystem {
     this._redraw(
       Number.isFinite(time) ? time : frame.time,
       frame.radiusTiles,
-      frame.lighting
+      frame.lighting,
+      frame.deltaMs
     );
     return true;
   }
@@ -164,6 +175,7 @@ export class LightSystem {
   resize() {
     this._darknessTexture?.destroy();
     this._createDarknessTexture();
+    this._fireLightSystem?.resize();
   }
 
   isTorchActive() {
@@ -175,6 +187,10 @@ export class LightSystem {
       ...this._shaderSnapshot,
       torchScreenPosition: { ...this._shaderSnapshot.torchScreenPosition },
     };
+  }
+
+  getFireLightSnapshot() {
+    return this._fireLightSystem?.getSnapshot?.() || null;
   }
 
   getSunlightSnapshot(weatherSnapshot = null) {
@@ -245,6 +261,38 @@ export class LightSystem {
     this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
   }
 
+  _hasTorchFuel() {
+    if (this.playerController?.hasSpendableGemPower) {
+      return this.playerController.hasSpendableGemPower({ source: "torch" });
+    }
+    return this.playerController?.hasGemPower?.() === true;
+  }
+
+  _drainTorchGemPower(requested) {
+    const consumed = this.playerController?.consumeGemPower?.(
+      requested,
+      { source: "torch" },
+    ) ?? 0;
+    if (consumed + Number.EPSILON < requested) {
+      this.forceTorchOff({
+        manual: this.playerController?.hasGemPower?.() === true,
+      });
+    }
+    return consumed;
+  }
+
+  setRandomEventPresentation(profile = null) {
+    if (!profile) {
+      this._randomEventPresentation = null;
+      return;
+    }
+    const ambientVisibilityScale = Number(profile.ambientVisibilityScale);
+    this._randomEventPresentation = {
+      ambientVisibilityScale: Number.isFinite(ambientVisibilityScale)
+        ? Math.max(0.05, Math.min(1, ambientVisibilityScale)) : 1,
+    };
+  }
+
   destroy() {
     this._torchKey?.off("down", this._torchKeyHandler);
     this._darknessTexture?.destroy();
@@ -255,6 +303,7 @@ export class LightSystem {
     this._crystalEraser?.destroy();
     this._skyBeaconPulseRenderer?.destroy();
     this._skySteadyLightRenderer?.destroy();
+    this._fireLightSystem?.destroy();
     this._darknessTexture = null;
     this._darknessRenderActive = false;
     this._darknessRenderAlpha = null;
@@ -262,6 +311,7 @@ export class LightSystem {
     this._caveInteriorDarknessBoost = 0;
     this._activeCaveArchetypeId = null;
     this._preparedFrame = null;
+    this._randomEventPresentation = null;
     this._torchHalo = null;
     this._torchCoreGlow = null;
     this._torchFlameGlow = null;
@@ -269,6 +319,7 @@ export class LightSystem {
     this._crystalEraser = null;
     this._skyBeaconPulseRenderer = null;
     this._skySteadyLightRenderer = null;
+    this._fireLightSystem = null;
     this._torchKey = null;
     this._torchKeyHandler = null;
   }
@@ -280,7 +331,7 @@ export class LightSystem {
       this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
       return;
     }
-    if (!this.playerController?.hasGemPower?.()) {
+    if (!this._hasTorchFuel()) {
       return;
     }
     this._torchActive = true;
@@ -430,6 +481,11 @@ export class LightSystem {
 
   _computeVisibilityRadius(lighting) {
     const baseRadius = this._getBaseVisibilityRadius(lighting.depth);
+    const ambientScale = this._randomEventPresentation?.ambientVisibilityScale ?? 1;
+    const presentedBaseRadius = Math.max(
+      0.05,
+      baseRadius * ambientScale,
+    );
     const torchBonus = this._torchActive
       ? this.config.torchBonusRadiusTiles + Number(lighting.torchBonusRadius || 0)
       : 0;
@@ -447,7 +503,7 @@ export class LightSystem {
     const stormMultiplier = 1 - weather.stormAmount * this.config.stormVisibilityPenalty * surface;
     const caveWeatherMultiplier = 1 - weather.undergroundSignal * underground * 0.06;
 
-    return Math.max(minRadius + noTorchMinVisibilityBonus, (baseRadius + torchBonus) * nightMultiplier * stormMultiplier * caveWeatherMultiplier);
+    return Math.max(minRadius + noTorchMinVisibilityBonus, (presentedBaseRadius + torchBonus) * nightMultiplier * stormMultiplier * caveWeatherMultiplier);
   }
 
   _computeTargetGlow(lighting) {
@@ -468,7 +524,7 @@ export class LightSystem {
     return clamp01(surfaceGlow + caveGlow);
   }
 
-  _redraw(time, radiusTiles, lighting) {
+  _redraw(time, radiusTiles, lighting, deltaMs = 0) {
     const darkness = this._darknessTexture;
     const camera = this.scene.cameras.main;
     const player = this.scene.player;
@@ -503,6 +559,10 @@ export class LightSystem {
       this._setGlowState(this._torchHalo, 0, 0, 1, 0);
       this._setGlowState(this._torchCoreGlow, 0, 0, 1, 0);
       this._setGlowState(this._torchFlameGlow, 0, 0, 1, 0);
+      this._fireLightSystem?.hideWorldPresentation({
+        deltaMs,
+        lighting,
+      });
       this._setShaderSnapshot(lighting, {
         darknessAlpha,
         torchScreenPosition: {
@@ -589,15 +649,61 @@ export class LightSystem {
       ? 1 + lighting.undergroundDarknessInfluence * 0.06
       : 1;
     const glowStrength = this._currentGlowStrength * nightBoost * caveBoost;
+    let authoredFireOwnsPresentation = false;
+    if (this._fireLightSystem) {
+      const fireSource = resolveFireLightAnchor({
+        player,
+        playerController: this.playerController,
+        playerAssetProfile: this.scene.playerAssetProfile,
+        tileSize: this.scene.config.tileSize,
+        config: this._fireLightSystem.config,
+      });
+      const maximumFuel = Math.max(
+        0,
+        Number(this.playerController?.getGemPowerMax?.()) || 0
+      );
+      const currentFuel = Math.max(
+        0,
+        Number(this.playerController?.getGemPowerExact?.()) || 0
+      );
+      const fuelRatio = maximumFuel > 0
+        ? clamp01(currentFuel / maximumFuel)
+        : this._torchActive ? 1 : 0;
+      this._fireLightSystem.renderFrame({
+        time,
+        deltaMs,
+        torchActive: this._torchActive,
+        source: fireSource,
+        tileSize: this.scene.config.tileSize,
+        radiusWorld,
+        glowStrength,
+        fuelRatio,
+        lighting,
+        worldModel: this.scene.worldModel,
+      });
+      authoredFireOwnsPresentation = this._fireLightSystem
+        .ownsTorchPresentation();
+    }
 
-    if (this._playerLightProfileId === "legacy") {
-      this._drawLegacyPlayerGlow(glowX, glowY, radiusWorld, glowStrength, fire);
+    const proceduralFireGlow = this._fireLightSystem
+      ?.usesProceduralWorldGlow?.() === true;
+    const proceduralGlowStrength = glowStrength * (
+      this._fireLightSystem?.getProceduralWorldGlowScale?.() ?? 1
+    );
+    if (authoredFireOwnsPresentation && !proceduralFireGlow) {
+      this._setGlowState(this._torchHalo, 0, 0, 1, 0);
+      this._setGlowState(this._torchCoreGlow, 0, 0, 1, 0);
+      this._setGlowState(this._torchFlameGlow, 0, 0, 1, 0);
+    } else if (this._playerLightProfileId === "legacy") {
+      this._drawLegacyPlayerGlow(
+        glowX, glowY, radiusWorld, proceduralGlowStrength, fire
+      );
     } else {
       this._drawV2PlayerGlow(
         glowX,
         glowY,
         radiusWorld,
-        glowStrength,
+        proceduralGlowStrength,
         fire,
         playerLight
       );
@@ -1096,7 +1202,11 @@ export class LightSystem {
           verticalScale,
           radiusTiles: scaledRadiusTiles,
           rarity: worldModel.getSkyTileRarity?.(source.tx, source.ty) ?? 0,
+          identity: worldModel.getSkyTileIdentity?.(source.tx, source.ty) ?? 0,
           intensity: flicker,
+          time,
+          tx: source.tx,
+          ty: source.ty,
         });
       }
 
@@ -1388,6 +1498,9 @@ export class LightSystem {
       },
       torchRadiusPx: 0,
       torchGlowStrength: 0,
+      fireLightV3Active: false,
+      carriedLightPresentationId: null,
+      fireLightProceduralMix: 1,
       playerLightProfileId: this._playerLightProfileId,
       torchAnchorSource: "unavailable",
       torchWarmth: playerLight.warmth,
@@ -1421,6 +1534,11 @@ export class LightSystem {
       torchScreenPosition: values.torchScreenPosition ?? this._shaderSnapshot.torchScreenPosition,
       torchRadiusPx: values.torchRadiusPx ?? 0,
       torchGlowStrength: values.torchGlowStrength ?? 0,
+      fireLightV3Active: this._fireLightSystem?.ownsTorchPresentation?.() === true,
+      carriedLightPresentationId: this._fireLightSystem?.getSnapshot?.()?.id || null,
+      fireLightProceduralMix: values.fireLightProceduralMix
+        ?? this._fireLightSystem?.getProceduralShaderMix?.()
+        ?? 1,
       playerLightProfileId: this._playerLightProfileId,
       torchAnchorSource: values.torchAnchorSource ?? this._shaderSnapshot.torchAnchorSource,
       torchWarmth: playerLight.warmth,

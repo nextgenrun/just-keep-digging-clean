@@ -1,7 +1,8 @@
 import { TitanSurfaceInspection } from "./TitanSurfaceInspection.js";
 
-function fitScale(image, maximumWidth, maximumHeight) {
+function fitScale(image, maximumWidth, maximumHeight, maximumScale) {
   return Math.min(
+    maximumScale,
     maximumWidth / Math.max(1, image.width || image.displayWidth || 1),
     maximumHeight / Math.max(1, image.height || image.displayHeight || 1)
   );
@@ -103,7 +104,8 @@ export class TitanSurfaceGallery {
     const baseScale = fitScale(
       sprite,
       gallery.maxWidthTiles * scaleMultiplier * tileSize,
-      gallery.maxHeightTiles * tileSize
+      gallery.maxHeightTiles * tileSize,
+      this.config.density.maxSourceScale,
     );
     const creatureY = surfaceY
       - gallery.plinthHeightTiles * tileSize

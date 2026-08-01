@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live carried-light comparison</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07080b;
+      --panel: #111319;
+      --line: #353944;
+      --copy: #f4eee2;
+      --muted: #a7acb8;
+      --torch: #ed7130;
+      --lamp: #e1b052;
+      --live: #63dca5;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; background: var(--bg); color: var(--copy); }
+    body { font-family: "Segoe UI", system-ui, sans-serif; }
+    header {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+      gap: 18px;
+      align-items: center;
+      padding: 15px 22px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #111318, #0b0c10);
+    }
+    h1 { margin: 0; font-size: 21px; letter-spacing: .08em; font-weight: 600; }
+    .subtitle, .hint, .telemetry { color: var(--muted); font-size: 12px; }
+    .subtitle { margin-top: 3px; }
+    #status { justify-self: end; color: var(--live); font-size: 12px; }
+    .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; }
+    button {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 7px 11px;
+      background: #171a21;
+      color: var(--copy);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    button:hover, button:focus-visible { border-color: #727988; }
+    button[aria-pressed="true"] { border-color: var(--lamp); background: #2a251b; }
+    button:disabled { opacity: .42; cursor: wait; }
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+    .runtime {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--panel);
+    }
+    .runtime[data-id="torch"] { border-color: color-mix(in srgb, var(--torch) 55%, var(--line)); }
+    .runtime[data-id="lamp"] { border-color: color-mix(in srgb, var(--lamp) 55%, var(--line)); }
+    .runtime-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 58px;
+      padding: 9px 13px;
+      border-bottom: 1px solid var(--line);
+    }
+    .runtime h2 { margin: 0; font-size: 14px; letter-spacing: .05em; }
+    .runtime-detail { margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .telemetry { text-align: right; font-variant-numeric: tabular-nums; }
+    .frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      pointer-events: none;
+      background: #000;
+    }
+    footer {
+      display: flex;
+      justify-content: center;
+      padding: 0 18px 14px;
+    }
+    @media (max-width: 980px) {
+      header { grid-template-columns: 1fr; }
+      #status { justify-self: start; }
+      main { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 id="title">LIVE CARRIED-LIGHT A/B</h1>
+      <div class="subtitle" id="subtitle"></div>
+    </div>
+    <div class="controls" aria-label="Synchronized comparison controls">
+      <button type="button" data-action="step" data-value="-1" disabled>← Step</button>
+      <button type="button" data-action="step" data-value="1" disabled>Step →</button>
+      <button type="button" data-action="resync" disabled>Resync</button>
+      <button type="button" data-action="fuel" data-value="full" disabled>Full GP</button>
+      <button type="button" data-action="fuel" data-value="low" disabled>Low GP</button>
+      <button type="button" data-action="weather" data-value="clear" disabled>Clear</button>
+      <button type="button" data-action="weather" data-value="rain" disabled>Rain</button>
+      <button type="button" data-action="weather" data-value="storm" disabled>Storm</button>
+      <button type="button" data-action="day" data-value="day" disabled>Day</button>
+      <button type="button" data-action="day" data-value="dusk" disabled>Dusk</button>
+      <button type="button" data-action="day" data-value="night" disabled>Night</button>
+      <button type="button" data-action="torch" disabled>Torch on/off</button>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </header>
+
+  <main id="comparison">
+    <section class="runtime" data-id="torch">
+      <div class="runtime-head">
+        <div>
+          <h2 data-label></h2>
+          <div class="runtime-detail" data-detail></div>
+        </div>
+        <div class="telemetry" data-telemetry>Waiting…</div>
+      </div>
+      <div class="frame-wrap">
+        <iframe id="torch-frame" title="Live Fire Light V3 game"></iframe>
+      </div>
+    </section>
+
+    <section class="runtime" data-id="lamp">
+      <div class="runtime-head">
+        <div>
+          <h2 data-label></h2>
+          <div class="runtime-detail" data-detail></div>
+        </div>
+        <div class="telemetry" data-telemetry>Waiting…</div>
+      </div>
+      <div class="frame-wrap">
+        <iframe id="lamp-frame" title="Live old-school lamp game"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="hint" id="hint"></div></footer>
+  <script type="module" src="./2026-07-30-old-school-lamp-live-compare.js"></script>
+</body>
+</html>

@@ -13,6 +13,7 @@ import {
   TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../values/retentionConfig.js";
+import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../values/upgradeDefinitions.js";
 import { getCargoSellValue } from "../values/resourcePrices.js";
 import { getTeleportPortalLabel } from "../values/teleportPortalConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
@@ -98,7 +99,8 @@ assert.deepEqual(retention.claimTutorialStarterReward(), {
 assert.equal(retention.claimTutorialStarterReward(), null);
 retention.recordSale(30, 2);
 assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.UPGRADE);
-retention.recordUpgrade("Mining Power", {
+retention.recordUpgrade("Miner's Grip", {
+  upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
   beforeHits: 3,
   afterHits: 2,
   beforeDamage: 10,
@@ -167,7 +169,10 @@ assert.equal(
 );
 const rarity = getResourceRarityDescriptor(TILE_TYPES.GOLD, 12, 700, 635241, 133742);
 assert.ok(["normal", "rich", "packed", "ancient"].includes(rarity.id));
-assert.ok([1, 2, 5, 12].includes(rarity.multiplier));
+assert.ok([1, 3, 8, 25].includes(rarity.multiplier));
+const legacyRarity = getResourceRarityDescriptor(TILE_TYPES.GOLD, 12, 700, 635241, 133742, false);
+assert.equal(legacyRarity.id, rarity.id);
+assert.ok([1, 2, 5, 12].includes(legacyRarity.multiplier));
 assert.match(getTeleportPortalLabel(2, 3500), /^L2 .*3500m/);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.count > 0);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.minTileX >= 121);

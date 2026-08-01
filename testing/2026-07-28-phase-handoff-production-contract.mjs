@@ -56,7 +56,7 @@ for (const variant of variants) {
     sequenceIndex: 6,
     sourceAction: variant.manifestAction,
     markerGroup: "hands",
-    visualAlignmentMode: "immediate",
+    visualAlignmentEnabled: false,
   });
   const metadata = runtimeManifest.actions[variant.manifestAction];
   assert.equal(metadata.frame_count, 22);

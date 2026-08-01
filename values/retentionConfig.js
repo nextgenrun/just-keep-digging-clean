@@ -209,6 +209,7 @@ export const RETENTION_CONFIG = Object.freeze({
 
   floatingText: Object.freeze({
     preferenceVersion: 1,
+    enabled: false,
     legacyDefaultMode: "reduced",
     defaultMode: "reduced",
     modes: Object.freeze({
@@ -255,6 +256,9 @@ export const RETENTION_CONFIG = Object.freeze({
     objectiveHint: "Show an optional goal with no streak or failure penalty.",
     floatingTextLabel: "Floating Damage / Reward Text",
     floatingTextHint: "Reduced keeps critical and special feedback while hiding routine damage and resource numbers.",
+    starPopupsDefaultEnabled: true,
+    starPopupLabel: "Star Discovery Popups",
+    starPopupHint: "Show the three-second rarity and Sign XP reveal. Repeated Stars are rate-limited.",
   }),
 });
 

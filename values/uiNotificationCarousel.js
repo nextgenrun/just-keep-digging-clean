@@ -1,7 +1,11 @@
 export const UI_NOTIFICATION_CAROUSEL_CONFIG = Object.freeze({
+  enabled: false,
   visibleDurationMs: 7000,
   dedupeWindowMs: 15000,
   maxQueued: 6,
+  routineGapMs: 1400,
+  routineWindowMs: 7000,
+  maxRoutineInWindow: 3,
   depth: 3600,
   defaultKind: "info",
   kinds: Object.freeze({

@@ -1,0 +1,1292 @@
+{
+  "version": 6,
+  "mode": "additive complementary incoming-edge derivatives",
+  "counts": {
+    "terrainV4Derivatives": 50,
+    "terrainV5Derivatives": 40,
+    "terrainTotal": 90,
+    "groundStructures": 50
+  },
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "incomingFadePx": [
+    320,
+    128
+  ],
+  "stridePx": [
+    1152,
+    768
+  ],
+  "alphaContract": "left/top incoming feather; right/bottom coverage retained",
+  "rollback": "?undergroundSeamBlend=0",
+  "terrain": [
+    {
+      "id": "amber-depths-fossil-honeycomb-upheaval",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-fossil-honeycomb-upheaval-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-fossil-honeycomb-upheaval-v6.webp",
+      "sourceSha256": "8f534bc7b89b4a6b61e3ce7218e50d09dc01eb8f5afdbf4b6027286d7e40a674",
+      "runtimeSha256": "666bc9fb66d0297da871ef41ae525ed7c94391a9970231fb96f74ae0bcaaca66",
+      "runtimeBytes": 888534
+    },
+    {
+      "id": "amber-depths-fossil-sunstone-clay",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-fossil-sunstone-clay-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-fossil-sunstone-clay-v6.webp",
+      "sourceSha256": "6a5282c155a7018f9c73ddad6a87709d731c8a3214731c5c4b5a8d276063a965",
+      "runtimeSha256": "4602fd987c7d9b9a048972175acba0f92e1771612dcb2c84d5b734796f31c69a",
+      "runtimeBytes": 884884
+    },
+    {
+      "id": "amber-depths-honeyglass-gravel",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-honeyglass-gravel-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-honeyglass-gravel-v6.webp",
+      "sourceSha256": "16f494e81aacc7e85cc4fa1f194671194644488c14c32aac6e9613880eba6722",
+      "runtimeSha256": "bcb42d12dfd3f88cf9df52647babd668f9dfacdf86f1e0c5552ea11aa1ecc192",
+      "runtimeBytes": 851394
+    },
+    {
+      "id": "amber-depths-resin-fault-cascade",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-resin-fault-cascade-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-resin-fault-cascade-v6.webp",
+      "sourceSha256": "e9384c5606fe264218c9c7ccb00d7966f9ecb3996acc9003c25c699d83b9c278",
+      "runtimeSha256": "66018b42b8cf233d5b8fcd0c7b69b09350b955f3b19329b8cff50be09c6af15b",
+      "runtimeBytes": 861196
+    },
+    {
+      "id": "amber-depths-resin-ochre-strata",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/amber-depths-resin-ochre-strata-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-resin-ochre-strata-v6.webp",
+      "sourceSha256": "e33a1533959d453a6ab5b5cd0301091c0d2a52abb7fcd70b7d248d22c4d5b21c",
+      "runtimeSha256": "bfcc8f9cdba5b44aa7d89d448e2bc8f8d7d44e9d42e59b231bc1db17c3b3f394",
+      "runtimeBytes": 831854
+    },
+    {
+      "id": "blackglass-abyss-eclipse-impact-breccia",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-eclipse-impact-breccia-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-eclipse-impact-breccia-v6.webp",
+      "sourceSha256": "bd174e8f1732b15de6454be2552c6d99619a521d5d4aa5b8728a2f608a15038e",
+      "runtimeSha256": "00398ad387d3aa643211138a6d97168b12e08fdadeb0b75f61eb56e873d1d8db",
+      "runtimeBytes": 589128
+    },
+    {
+      "id": "blackglass-abyss-eclipse-stone",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-eclipse-stone-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-eclipse-stone-v6.webp",
+      "sourceSha256": "f87e0ac235254923eb03a1c9eb41d397e3794cd204d0bc0e6d9303eddb203dd5",
+      "runtimeSha256": "56231af3b42fa165ee9ccaaeee078445519bfa55c875bfff4b344955270b7ed4",
+      "runtimeBytes": 675132
+    },
+    {
+      "id": "blackglass-abyss-prism-glass-shale",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-prism-glass-shale-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-prism-glass-shale-v6.webp",
+      "sourceSha256": "ab9ea5bea0351cb6cc795c80a05fe5e60781d47d5c03728aae271798cf958403",
+      "runtimeSha256": "1dbe3a563871a85d69bd8aedb24c225ef89ee65d8cfc51c3dac671696d9b61f8",
+      "runtimeBytes": 658452
+    },
+    {
+      "id": "blackglass-abyss-prism-shear-storm",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-prism-shear-storm-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-prism-shear-storm-v6.webp",
+      "sourceSha256": "9f8ed5af0070362099f56d9d9f2c0d6016709e01a77fdb429601084cab22024f",
+      "runtimeSha256": "0f67bad5fd533e985924fd05416c7e3e4cbba19fb34c05d4b803e97f2dde7cd7",
+      "runtimeBytes": 598412
+    },
+    {
+      "id": "blackglass-abyss-stardust-obsidian",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blackglass-abyss-stardust-obsidian-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-stardust-obsidian-v6.webp",
+      "sourceSha256": "a826bb791a5ae04d84cb858af5def202484fa370a16e8aaf3266f646a007915c",
+      "runtimeSha256": "dcea3d6b9f769d6712e1b41b21c88fe9aeae131a74aa5e08efe40152dc68c158",
+      "runtimeBytes": 684982
+    },
+    {
+      "id": "blue-caverns-cobalt-fossil-shale",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-cobalt-fossil-shale-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-cobalt-fossil-shale-v6.webp",
+      "sourceSha256": "e08a1a1e6bac0873f08ccc79f10dc51297e348b21004cf2063a27959289dd71b",
+      "runtimeSha256": "e2103b2f3437a1886e10c677bbf8a45c9ac7b4743ce71c285276649c4738214e",
+      "runtimeBytes": 735002
+    },
+    {
+      "id": "blue-caverns-frozen-current-eddies",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-frozen-current-eddies-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-frozen-current-eddies-v6.webp",
+      "sourceSha256": "7a1b2fde021d9aef5fff694476f9f58a076c6258d7f48b3ebb117e686a3670a1",
+      "runtimeSha256": "16b207a8b9a494ce3316a664a7f528574804b1fcec30fa10e61306646294cc38",
+      "runtimeBytes": 780046
+    },
+    {
+      "id": "blue-caverns-glacial-aquifer-slate",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-glacial-aquifer-slate-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-glacial-aquifer-slate-v6.webp",
+      "sourceSha256": "38c2db836840b5e264694ff733d5bc1b37a8c1a6068323b7813ae3323c7f4640",
+      "runtimeSha256": "56c2103aca8d7d0dcb768d79d73f9eb6bf656edfbc0bc74d8494203fca130863",
+      "runtimeBytes": 773396
+    },
+    {
+      "id": "blue-caverns-sapphire-calcite-fractures",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-sapphire-calcite-fractures-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-sapphire-calcite-fractures-v6.webp",
+      "sourceSha256": "b85d0ab128d9dbd9ca5f5385fa765dadd2396428c38be1fbcef7caba000d8fd7",
+      "runtimeSha256": "421c52a49f4dec810ab1fabc5bdf1b42bd930ad2c20da8a36ef78134c8617400",
+      "runtimeBytes": 845248
+    },
+    {
+      "id": "blue-caverns-tectonic-sapphire-shear",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/blue-caverns-tectonic-sapphire-shear-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-tectonic-sapphire-shear-v6.webp",
+      "sourceSha256": "8f7794ce2cd9fb9de417bb3899d9b6aa18a33440bd31504e3311f59a7e28bb53",
+      "runtimeSha256": "9a43af6954776941f49100abe775c4c9d4721553ddb1730ad1dce7a56b2cf4b5",
+      "runtimeBytes": 933838
+    },
+    {
+      "id": "core-magma-basalt-scoria",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-basalt-scoria-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-basalt-scoria-v6.webp",
+      "sourceSha256": "76ce09af413d96a62c524d834de99f44bb018caac7a2975d835346fc99510683",
+      "runtimeSha256": "67efdb84f0c12dd9399e0bb2a4b2643f263b7878fa9effa2a6a884c984ba2a4e",
+      "runtimeBytes": 612196
+    },
+    {
+      "id": "core-magma-ember-lava-breccia",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-ember-lava-breccia-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-ember-lava-breccia-v6.webp",
+      "sourceSha256": "d988c3969c830147f292e9c9640a9bc35daa1df8462c37d341e005e6961a4a51",
+      "runtimeSha256": "6b4cb260e3532955b1cc4a6fa1ffd3e8b23474e7b7baab3f912947719d75d510",
+      "runtimeBytes": 828608
+    },
+    {
+      "id": "core-magma-lava-delta-fault",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-lava-delta-fault-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-lava-delta-fault-v6.webp",
+      "sourceSha256": "394a47bbe9181fa2fc7459d68ee622c10beb3e4839bcaec49b1bdba8f3b009b6",
+      "runtimeSha256": "47e57352d901669da5e9b674496107cae474d1c29c56616671e7b6f2e14d72b2",
+      "runtimeBytes": 705102
+    },
+    {
+      "id": "core-magma-obsidian-clinker",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-obsidian-clinker-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-obsidian-clinker-v6.webp",
+      "sourceSha256": "293897ff95334994573a9931a0cc4037bfe4a74eceaa429b53d623db5fffb917",
+      "runtimeSha256": "2dd3b9bc3124f69243ca399e26e3bd0be593cbba83f1bc922752769a722435b0",
+      "runtimeBytes": 638420
+    },
+    {
+      "id": "core-magma-shattered-caldera-pressure",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/core-magma-shattered-caldera-pressure-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-shattered-caldera-pressure-v6.webp",
+      "sourceSha256": "6a4d7711a1b68aecfef4c7eb6b0a72e848b345b8846845b93e99d8ad11e8b350",
+      "runtimeSha256": "59ac947790989cf4a6a12d26025c96658c12057493c6e27b79cfd6888f86cd75",
+      "runtimeBytes": 576496
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-shard-earth",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-blackglass-shard-earth-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-blackglass-shard-earth-v6.webp",
+      "sourceSha256": "5b6e34562b59b4f659e7c2e9ac7079ad1d9a0d2f556c6717f45e629fc8e49274",
+      "runtimeSha256": "1a7b0b0be0ab29c0cb217c38785ee5cc406f27f8aba1f2e072bd6256df1a0463",
+      "runtimeBytes": 740372
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-wavebreak",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-blackglass-wavebreak-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-blackglass-wavebreak-v6.webp",
+      "sourceSha256": "9334d0eee2065f7b1ecaaeb3a1eb670cddec4cb32e7bc963efb351ac1551db80",
+      "runtimeSha256": "55db87d7ea4f18d2dda0c9431737e0d5c8065e81196c4f9c4f009c74c6933741",
+      "runtimeBytes": 725186
+    },
+    {
+      "id": "obsidian-catacombs-crypt-stone-dust",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-crypt-stone-dust-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-crypt-stone-dust-v6.webp",
+      "sourceSha256": "af42c8a71a97e9902b763960e01ec1d41644a4f864a6268ce50b2817c2512d4c",
+      "runtimeSha256": "977d14c6e33587a0fd5038098860955e0dfc810b05755de7dfff56062c9f3ee1",
+      "runtimeBytes": 660274
+    },
+    {
+      "id": "obsidian-catacombs-violet-ash-basalt",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-violet-ash-basalt-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-violet-ash-basalt-v6.webp",
+      "sourceSha256": "9d6a53e8502b5dd85dd2bb1adbf4545c459c8ee1de8bc4fdd4906a8cc12c1ee5",
+      "runtimeSha256": "a0661aaf806c5c89117cecb1f82ab93b5f86fe50370b30a86f7c4339c0761f47",
+      "runtimeBytes": 773534
+    },
+    {
+      "id": "obsidian-catacombs-violet-crypt-fault",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/obsidian-catacombs-violet-crypt-fault-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-violet-crypt-fault-v6.webp",
+      "sourceSha256": "bbf0f0e44b7954a7506ee19604aa9738f3b5b1998dbca82ff663d62802fddb68",
+      "runtimeSha256": "17c2d6c35f2ead21af0a90e0684ac62c40f40b052bd678f6963b717ff0165cac",
+      "runtimeBytes": 648970
+    },
+    {
+      "id": "pressure-foundry-boiler-scale-rock",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-boiler-scale-rock-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-boiler-scale-rock-v6.webp",
+      "sourceSha256": "eb441fac10f7b1c5c7011a429f00686078b07d550e79b748bd9a32dd14a264e3",
+      "runtimeSha256": "40e24c9a5c92a7847b65ceb291981e6528da52f5be56423439b94833bb6126ee",
+      "runtimeBytes": 769052
+    },
+    {
+      "id": "pressure-foundry-condenser-mineral-surge",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-condenser-mineral-surge-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-condenser-mineral-surge-v6.webp",
+      "sourceSha256": "e09685564fced2649885a8b2ce58e1481b0733d192e3fd9270605af239f1241b",
+      "runtimeSha256": "814c3d932ffb2921659409c35168146ff0a42eb31f5817569ab4d738c07167d1",
+      "runtimeBytes": 887130
+    },
+    {
+      "id": "pressure-foundry-cyan-condenser-crust",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-cyan-condenser-crust-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-cyan-condenser-crust-v6.webp",
+      "sourceSha256": "fda6784331224ec6cbf6506c38d9d46c27f517ebc3ac867cf343f0238c5ff3a4",
+      "runtimeSha256": "a1a10a1ad380fc19e049f943ffd44ebd54dc3cef937d1eb9f4716bbcc3a84da1",
+      "runtimeBytes": 780662
+    },
+    {
+      "id": "pressure-foundry-pressure-fracture-fan",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-pressure-fracture-fan-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-pressure-fracture-fan-v6.webp",
+      "sourceSha256": "c196f3e9352a7d681f441c00e2c3a2383927ec5b6f17326820139e1922ddb168",
+      "runtimeSha256": "def569cf38cb375dc947a5ce5d6a9dd6e56740fd3ec7d4b21a4b2cf45ea6dc14",
+      "runtimeBytes": 811640
+    },
+    {
+      "id": "pressure-foundry-riveted-slag-matrix",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/pressure-foundry-riveted-slag-matrix-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-riveted-slag-matrix-v6.webp",
+      "sourceSha256": "b2c1f5881bc8f6efb24c52f69f06114a11345aff3d27d03c708a79a9f3e5f0b3",
+      "runtimeSha256": "f2cec8a80d4c92ace5555d0bda782ba9a23d8361e233f58c71c1ff06b7f425f9",
+      "runtimeBytes": 765008
+    },
+    {
+      "id": "silver-core-magnetic-needle-matrix",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-magnetic-needle-matrix-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-magnetic-needle-matrix-v6.webp",
+      "sourceSha256": "96dba997bd4ef8a72005392a2352a736b0278854635c4e3fa6ef9eb244c93f97",
+      "runtimeSha256": "2747124562812c5b2ebe0dceef300ce35975b690e9a52d9a2c8d5f84d0714ba8",
+      "runtimeBytes": 879732
+    },
+    {
+      "id": "silver-core-magnetic-spear-convergence",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-magnetic-spear-convergence-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-magnetic-spear-convergence-v6.webp",
+      "sourceSha256": "47d3dc8332d6f574c314733cbf03fb397758395f5cd4ae77c0cd6c175ab56b29",
+      "runtimeSha256": "ce2a9a665abb6ec2f4ebdd7628aa9ca8e3893b2f937b194176fbc60bfe33ab08",
+      "runtimeBytes": 745228
+    },
+    {
+      "id": "silver-core-mercury-slate",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-mercury-slate-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-mercury-slate-v6.webp",
+      "sourceSha256": "e9c1ddf2f8bc0416d64b5aca43e28f62ae8fdbce9525cd5959a7d0ee0f415d67",
+      "runtimeSha256": "e2aba6e50f9cbac9f86e8177c226fca939e6a84ff2fd008fd802d083a3606e1e",
+      "runtimeBytes": 764426
+    },
+    {
+      "id": "silver-core-mercury-vortex-schist",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-mercury-vortex-schist-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-mercury-vortex-schist-v6.webp",
+      "sourceSha256": "20d61fcf30d6a0037738e57aee74918680e768f5a99c45f432cf9e62402b9477",
+      "runtimeSha256": "51a3041fea3c6bc91aa7cc302950e0a14be1b277034491a24ba00e5974c66019",
+      "runtimeBytes": 825666
+    },
+    {
+      "id": "silver-core-moon-metal-carbonate",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/silver-core-moon-metal-carbonate-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-moon-metal-carbonate-v6.webp",
+      "sourceSha256": "44d3b536c91b903495addad2c5bb8afd863f4c023523a574a70d60128918daf4",
+      "runtimeSha256": "5f5b68988de68e150e9e269b34a3d88a053d35dc9a510638ae1e53641cf98bd3",
+      "runtimeBytes": 817728
+    },
+    {
+      "id": "slagworks-copper-oxidation-surge",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-copper-oxidation-surge-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-copper-oxidation-surge-v6.webp",
+      "sourceSha256": "434b5e40d2a867e6ab080e268746ba90cb13c7d8d848c479f6b012a5a81a78e6",
+      "runtimeSha256": "c25b3ebe97fcd72395de547a4234f02fe63970585a9939a09193aad1bc85452d",
+      "runtimeBytes": 859584
+    },
+    {
+      "id": "slagworks-iron-slag-clinker",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-iron-slag-clinker-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-iron-slag-clinker-v6.webp",
+      "sourceSha256": "8a76c5b9bc57fa7dba31913a4c93bb1d06d84f007a786dcbc047be5bf88eb24b",
+      "runtimeSha256": "1d76b4bdd3d26748ec42ab3f24c0b586bb3bb8d1ffd4e93ba98709e67d307258",
+      "runtimeBytes": 848444
+    },
+    {
+      "id": "slagworks-refractory-brick-rubble",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-refractory-brick-rubble-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-refractory-brick-rubble-v6.webp",
+      "sourceSha256": "c42891b0dcf0e97606b52d1a3bf31580ad7e782cbf955c980d32bc507599a4d9",
+      "runtimeSha256": "ce3d6a3a2c98b49c54426d92b2fea9900d41e19bfdb0f763ad34a0931627f9f4",
+      "runtimeBytes": 793618
+    },
+    {
+      "id": "slagworks-smelter-tectonic-churn",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-smelter-tectonic-churn-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-smelter-tectonic-churn-v6.webp",
+      "sourceSha256": "312fe4893f07a17c53aed0b4b1a5ac549b2d4360b516a725d8ef107e23fe405b",
+      "runtimeSha256": "58158645fa158497d48606160546b5487f04c04cba7322f0fb2cc50afa7e6830",
+      "runtimeBytes": 831316
+    },
+    {
+      "id": "slagworks-soot-copper-sediment",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/slagworks-soot-copper-sediment-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-soot-copper-sediment-v6.webp",
+      "sourceSha256": "b11aae907cfb8c8e7a63e07e950ae73fdf92b43e05b3c05a58fe64e36ae01b86",
+      "runtimeSha256": "1cbd72dc3cc0c14e8e955ab58e5c893b15183abeb40484b21916001c583facbc",
+      "runtimeBytes": 824722
+    },
+    {
+      "id": "starfire-rift-comet-tail-quartz-shear",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-comet-tail-quartz-shear-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-comet-tail-quartz-shear-v6.webp",
+      "sourceSha256": "48a1b2eb92e0464ef947bae6cf1466f3bd1f3c0858945720861d37d8ad7ac3bb",
+      "runtimeSha256": "8153d79725a4b100c4d46efec2203ea4deef35631b6227ca91d340f97891a4a2",
+      "runtimeBytes": 862834
+    },
+    {
+      "id": "starfire-rift-cosmic-ash-quartz",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-cosmic-ash-quartz-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-cosmic-ash-quartz-v6.webp",
+      "sourceSha256": "a388a20abecfa46ffdbb7a2ddda444133dc46d1a246373051514bfd9b3cde719",
+      "runtimeSha256": "648af7ac36aa7ca331ea9a137af7c3d94a869b706a82f2218db32f968bcb3a5d",
+      "runtimeBytes": 760062
+    },
+    {
+      "id": "starfire-rift-nebula-crystal-soil",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-nebula-crystal-soil-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-nebula-crystal-soil-v6.webp",
+      "sourceSha256": "9e1d08492a16b0825ec02a0571fb161ea314fd7b264936bae490447a6cd3fece",
+      "runtimeSha256": "06c229144d30fc6c53c237032327992245c39a150fd21c74ad963c4991cbaf2a",
+      "runtimeBytes": 725590
+    },
+    {
+      "id": "starfire-rift-nebula-fault-bloom",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-nebula-fault-bloom-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-nebula-fault-bloom-v6.webp",
+      "sourceSha256": "f7e646c402bb4c55d54736ef074afac87f0a6bc9cdb45df96cc3072f2010ef0b",
+      "runtimeSha256": "9067e09a38a0b4ef811c0edcf6cc8c587c96c921c4ee93d5b8073c994e226067",
+      "runtimeBytes": 676018
+    },
+    {
+      "id": "starfire-rift-star-metal-meteorite-matrix",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/starfire-rift-star-metal-meteorite-matrix-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-star-metal-meteorite-matrix-v6.webp",
+      "sourceSha256": "50d37572510f062b7873db047fd49bddf7dfa38a30a4ce30b4b388db7d41c20f",
+      "runtimeSha256": "108045d84b324bf73d50e0580b9310cf5943def48c8b08450c7eda8335d2f98a",
+      "runtimeBytes": 715556
+    },
+    {
+      "id": "weathered-roots-mycelial-clay",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-mycelial-clay-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-mycelial-clay-v6.webp",
+      "sourceSha256": "cde4ffa86848482ce1d52cbf79acee282b47ee5ef5364c0d4a13da4aa042c387",
+      "runtimeSha256": "79be1eb0dd1db2f572cd0d3dd4ccb80fa01712f21f17acdad873c2854962c979",
+      "runtimeBytes": 818752
+    },
+    {
+      "id": "weathered-roots-orchard-stone-earth",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-orchard-stone-earth-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-orchard-stone-earth-v6.webp",
+      "sourceSha256": "e79759af829185873a47d3a47f76d383fa305082793303e9f3396852b0e10675",
+      "runtimeSha256": "17e8b13caca0ac0db6e01a3b39f017a86d9d87fa8cd9b915180cac984fa3bdac",
+      "runtimeBytes": 740294
+    },
+    {
+      "id": "weathered-roots-peat-rift-upheaval",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-peat-rift-upheaval-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-peat-rift-upheaval-v6.webp",
+      "sourceSha256": "e982310d41bdb9d853e0e5e4aa9c18301269cb2d22964ecd5c561e78eaf55ddd",
+      "runtimeSha256": "e53c731eb33c657ba9015da7b89762d011b1240e4c7f4826268c6db7f1bd12ce",
+      "runtimeBytes": 715582
+    },
+    {
+      "id": "weathered-roots-rain-compacted-loam",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-rain-compacted-loam-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-rain-compacted-loam-v6.webp",
+      "sourceSha256": "7deb061446bd0deaa79a4b9040cf1d9cc02fc537bcf74aafa52264dd5ca84212",
+      "runtimeSha256": "6bd809d1c16e7906f2e944c8c443e7bddd699a277a33518274aee2f5cdf70d8b",
+      "runtimeBytes": 796826
+    },
+    {
+      "id": "weathered-roots-storm-root-torsion",
+      "sourceVersion": "v4",
+      "source": "visual-approval-previews/underground-terrain-blend-v4/weathered-roots-storm-root-torsion-v4-master.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-storm-root-torsion-v6.webp",
+      "sourceSha256": "0842284cf2c59702a44851c9a66ef7fe9c715ef0c07c673df531fc18533c4994",
+      "runtimeSha256": "876285377479d817a0992b1d00c72cce2f7bd1d5cb556cd30065c934d9eb965d",
+      "runtimeBytes": 743956
+    },
+    {
+      "id": "amber-depths-fossil-sun-ripple-fault",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-amber-depths-fossil-sun-ripple-fault-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-fossil-sun-ripple-fault-v6.webp",
+      "sourceSha256": "da4f8eabeed63b0292006e373bf5ecb94ded64422eb35b36b99cbcb3ada3dc41",
+      "runtimeSha256": "56ea51e74a8e394143b97ec85878280cd313d3121f058a20b6cfba9a6453c904",
+      "runtimeBytes": 912466
+    },
+    {
+      "id": "amber-depths-resin-delta-breccia",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-amber-depths-resin-delta-breccia-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/amber-depths-resin-delta-breccia-v6.webp",
+      "sourceSha256": "0b867d93f1edad765579df5ebb17884476358cbbcac3fb20609f4c65360bbe59",
+      "runtimeSha256": "2cf150335fe2b379a2f0d0e680a2d05c5a5b1d41e6f02d7cadfa88d368dbcd05",
+      "runtimeBytes": 940514
+    },
+    {
+      "id": "blackglass-abyss-eclipse-dust-turbidite",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-eclipse-dust-turbidite-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-eclipse-dust-turbidite-v6.webp",
+      "sourceSha256": "47c4fed06be918257eb1eaee2e38011eec58632752efb404582f1a24572c4cbb",
+      "runtimeSha256": "6e0681522e107c89596c44a2c5525c180bb390200bda0f91f1bede5809068f80",
+      "runtimeBytes": 688120
+    },
+    {
+      "id": "blackglass-abyss-mirrorstone-tidal-shear",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-mirrorstone-tidal-shear-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-mirrorstone-tidal-shear-v6.webp",
+      "sourceSha256": "044e97c032b15ff490cb7cb0dac05b3f0e83bd118405f2ae240f192ac78fd895",
+      "runtimeSha256": "4eb5b1c72bc2ae8fe3ae707217490f095c5fb775a7b2efb2b1d3cdd3d49dd5cf",
+      "runtimeBytes": 832352
+    },
+    {
+      "id": "blackglass-abyss-prism-splinter-breccia",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-prism-splinter-breccia-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-prism-splinter-breccia-v6.webp",
+      "sourceSha256": "8424282365b7b98f5697ee17d7fdb531db4b1f252d5def1cb0dc71f7e693ed1c",
+      "runtimeSha256": "1041ef654ee2580d27bb52b4e068b1e3c45992f2b64f9e41a1586180a9b556af",
+      "runtimeBytes": 780458
+    },
+    {
+      "id": "blackglass-abyss-spectral-mineral-avulsion",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-spectral-mineral-avulsion-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-spectral-mineral-avulsion-v6.webp",
+      "sourceSha256": "d6df41a00ddf198ed4ce7e1f4fe52c766d84d2b1324b38ffb27ca20874720eca",
+      "runtimeSha256": "83fdac1ab0166be9ea9e15e622994f0978bb26ff8b10bbd2e98d39a87f0b436c",
+      "runtimeBytes": 699040
+    },
+    {
+      "id": "blackglass-abyss-starlight-fracture-web",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-starlight-fracture-web-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-starlight-fracture-web-v6.webp",
+      "sourceSha256": "123b013c5879c6e05789a49de19411326cd10228d6075a40aa02042a0983337a",
+      "runtimeSha256": "ccd2bce485e16efd441f04823455075131751eaeff7ec9ee505786fde5ba50d0",
+      "runtimeBytes": 766660
+    },
+    {
+      "id": "blackglass-abyss-voidglass-impact-spray",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blackglass-abyss-voidglass-impact-spray-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blackglass-abyss-voidglass-impact-spray-v6.webp",
+      "sourceSha256": "d065170154b6a16b964b98675fe4d07843cb567155d307dc67a267c732bdc764",
+      "runtimeSha256": "706d08d34abc79981f1f21bcd0053e190a7492877fb3288788daebce46ce99f0",
+      "runtimeBytes": 816028
+    },
+    {
+      "id": "blue-caverns-cobalt-turbidite-tear",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blue-caverns-cobalt-turbidite-tear-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-cobalt-turbidite-tear-v6.webp",
+      "sourceSha256": "13416cbf49d5e77cafa6161b935614f1d62787bb6f2a7244b8eb018c629acef8",
+      "runtimeSha256": "4ba853ad74f65b725554fc831630909b19314ddb0c128091fc67b435cfeae153",
+      "runtimeBytes": 774980
+    },
+    {
+      "id": "blue-caverns-glacial-fan-calcite",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-blue-caverns-glacial-fan-calcite-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/blue-caverns-glacial-fan-calcite-v6.webp",
+      "sourceSha256": "a28e78f0eb258f06668f20fe774fadd808c7485145e9d395c9b6b975848b689c",
+      "runtimeSha256": "95deb61e9226ec2b65c4d31a031f93dbcce2653fd3b2616d8f4b43f6e897713b",
+      "runtimeBytes": 799312
+    },
+    {
+      "id": "core-magma-basalt-ropefold-shear",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-core-magma-basalt-ropefold-shear-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-basalt-ropefold-shear-v6.webp",
+      "sourceSha256": "c9faad6a10531242f83eeed87a15770a862292871440e7f1ed8c7222d61c6b74",
+      "runtimeSha256": "2cd9b9e36ebe269f41f9a1ad5ef7f1a31eebfaeb7b5ac441b5bfd926eb9400bd",
+      "runtimeBytes": 749562
+    },
+    {
+      "id": "core-magma-ember-dike-branching",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-core-magma-ember-dike-branching-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-ember-dike-branching-v6.webp",
+      "sourceSha256": "4ac9f196dc399155ac1e4a563b9c333d3f9cae3a9daf387c201fff841d488b8a",
+      "runtimeSha256": "266216bb9cfbab44308fb703456bcac9479ce354ef71f36684603e19e6ef2cc3",
+      "runtimeBytes": 824580
+    },
+    {
+      "id": "core-magma-lava-bomb-impact-field",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-core-magma-lava-bomb-impact-field-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/core-magma-lava-bomb-impact-field-v6.webp",
+      "sourceSha256": "854f75c7256a98e8a89f9e1eac3f3828067b0c1ef09987d46f036aed2953f992",
+      "runtimeSha256": "a58747f7dbb4ac33967fb83fb8edc65ac752d1c92bb4809050bfc1af75bcd16e",
+      "runtimeBytes": 838628
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-conchoidal-storm",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-blackglass-conchoidal-storm-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-blackglass-conchoidal-storm-v6.webp",
+      "sourceSha256": "2442c58c78add16a734564b0aadbf5ebb3e89ef40206a7a090bcd4a0707aca06",
+      "runtimeSha256": "0ec025628fef8e4a701d23216b08be8fa9aad06b469305594251d1dbcf622427",
+      "runtimeBytes": 774190
+    },
+    {
+      "id": "obsidian-catacombs-cold-lava-shard-avulsion",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-cold-lava-shard-avulsion-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-cold-lava-shard-avulsion-v6.webp",
+      "sourceSha256": "661182ee090eb698d1e616e08ce65b628658a51f10fb5e17cb54d304dad29905",
+      "runtimeSha256": "10d8c97d449376cfd5c92a98687a05da2a2f1bed3883f44f37b72f8727d4fdda",
+      "runtimeBytes": 811818
+    },
+    {
+      "id": "obsidian-catacombs-crypt-lime-prism-vein",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-crypt-lime-prism-vein-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-crypt-lime-prism-vein-v6.webp",
+      "sourceSha256": "f4017c7678604b804cfed1938a9d3ba38ecabf47bdc18758d30e5a782eebee08",
+      "runtimeSha256": "88b4f05fb1f051abf6fd99ab895f061bf7b371f7f3cb4954ba7fc41c4ad393ee",
+      "runtimeBytes": 781514
+    },
+    {
+      "id": "obsidian-catacombs-obsidian-pillow-fracture",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-obsidian-pillow-fracture-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-obsidian-pillow-fracture-v6.webp",
+      "sourceSha256": "03351546c841e1e32aeca3c96b854c902c27fc1638b566a3d4a984f2330c247e",
+      "runtimeSha256": "a03d996c163f627e21e45c2e25fac025ce36c9e00e561d9ffd116cb903505ded",
+      "runtimeBytes": 736294
+    },
+    {
+      "id": "obsidian-catacombs-violet-ash-debris-flow",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-obsidian-catacombs-violet-ash-debris-flow-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/obsidian-catacombs-violet-ash-debris-flow-v6.webp",
+      "sourceSha256": "3a4caddbf548be8b2a8f0861c18537e9b8f410812b234f52b1b49a9d7c28533c",
+      "runtimeSha256": "7803e80cdc7d728dfb1e999ce2331d01e06c34a3baa8e941389816fe66263821",
+      "runtimeBytes": 703122
+    },
+    {
+      "id": "pressure-foundry-boiler-scale-blisterfield",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-boiler-scale-blisterfield-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-boiler-scale-blisterfield-v6.webp",
+      "sourceSha256": "820b2b70a402cf8929d282978f57e808802d04e56c865a7d0bfac3c429c05fab",
+      "runtimeSha256": "edf75ec7bdcd423cc030ebb0151d3b2f0d43efd6f3418bd946d17881df6065b4",
+      "runtimeBytes": 819644
+    },
+    {
+      "id": "pressure-foundry-condenser-salt-lace",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-condenser-salt-lace-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-condenser-salt-lace-v6.webp",
+      "sourceSha256": "d273a5a858bd4559963a9b9178c423bc85355bd969b5962a594a123e17199774",
+      "runtimeSha256": "8d5d659f7f3231cfd9a32ee81b3d820df356ffb454c94e047fa1502a7401018c",
+      "runtimeBytes": 906172
+    },
+    {
+      "id": "pressure-foundry-cyan-coolant-mineral-delta",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-cyan-coolant-mineral-delta-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-cyan-coolant-mineral-delta-v6.webp",
+      "sourceSha256": "0eb43e835d3a62bb426e61120d7ce1ae4f8b56019e9b0973eae72638047b35dc",
+      "runtimeSha256": "3cac1af1c23e0d6608bd19721ef868ccfd0f9d88e2545103021f3a579e8da0a6",
+      "runtimeBytes": 805988
+    },
+    {
+      "id": "pressure-foundry-pressure-spall-shockwave",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-pressure-spall-shockwave-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-pressure-spall-shockwave-v6.webp",
+      "sourceSha256": "6809d7b1cff2b7cd262c8ab5317b3cd73b82c49e1d2e0128b451eba75b2fb42a",
+      "runtimeSha256": "362ce5474eca80ff2828e9c95f51a3ab6b3d9eefa0be6d43a4ab33f8de1391f8",
+      "runtimeBytes": 776158
+    },
+    {
+      "id": "pressure-foundry-rivet-iron-sediment-fan",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-rivet-iron-sediment-fan-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-rivet-iron-sediment-fan-v6.webp",
+      "sourceSha256": "9c802d54864e171deff26d8043176b03dce9de2d38fc34f1dd21bc53ba2cbc9a",
+      "runtimeSha256": "b405cdc29d32319d5208678e240276fc1ce1c019b990a05c391f33813f15597c",
+      "runtimeBytes": 846172
+    },
+    {
+      "id": "pressure-foundry-turbine-carbon-shear",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-pressure-foundry-turbine-carbon-shear-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/pressure-foundry-turbine-carbon-shear-v6.webp",
+      "sourceSha256": "bbc13766c248d13fd4caea6f9a9ec87c9cb6274083e0fb5a91f0822c6a917014",
+      "runtimeSha256": "e71ab36f8e5e6ebaa73d8d0a82c68bb256e566a9469859324e03610a85bedb79",
+      "runtimeBytes": 834386
+    },
+    {
+      "id": "silver-core-magnetite-needle-avalanche",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-silver-core-magnetite-needle-avalanche-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-magnetite-needle-avalanche-v6.webp",
+      "sourceSha256": "fbc83a2f8fbf3ca0a7aa4406db6ac56f0bb479a874b8058a7e0af6ea76d8d420",
+      "runtimeSha256": "ad3ee6ad073908ab24fc0a3dd4dd513fabc2f1035dfee49b0c094e4a1626ae63",
+      "runtimeBytes": 871816
+    },
+    {
+      "id": "silver-core-mercury-slickenside-fan",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-silver-core-mercury-slickenside-fan-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/silver-core-mercury-slickenside-fan-v6.webp",
+      "sourceSha256": "f20daa2f87190c1a89ed5907095cac8c5fca78ee90b54e90aac5876af49d6ed8",
+      "runtimeSha256": "74c2bca4b851b8f48fecd81d80426e2f68f76388070ff2bddd8304ff55aa4fbb",
+      "runtimeBytes": 867616
+    },
+    {
+      "id": "slagworks-clinker-avalanche-scab",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-clinker-avalanche-scab-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-clinker-avalanche-scab-v6.webp",
+      "sourceSha256": "5fb7b9ac86fdf1ec6eac60d3fbda04bc87330a8ec96cb67232fafd5a9f07f8ce",
+      "runtimeSha256": "fd2d0cb7bc50958b1a503f8473f4190aa6a4d86a342811a9166e941f270e1bae",
+      "runtimeBytes": 859942
+    },
+    {
+      "id": "slagworks-copper-salt-boil",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-copper-salt-boil-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-copper-salt-boil-v6.webp",
+      "sourceSha256": "55cfa3923ab63ff0e1109ed05ebf996484148bf90ae22002fa182af29a44db16",
+      "runtimeSha256": "d34a5cf9f0881cb86d24dddfe1e87dcdea0a21dbdf04734a688235f6d560cde2",
+      "runtimeBytes": 904792
+    },
+    {
+      "id": "slagworks-quenched-slag-river",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-quenched-slag-river-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-quenched-slag-river-v6.webp",
+      "sourceSha256": "eedfc8efe2efd88c36fe0ac42895cb3e041e8a4a28296b4163b6ddecd43374d0",
+      "runtimeSha256": "6c50afcd75076b818d4dcec49c415a410be5a1c9c0a22fe029dbb3310e9e97b2",
+      "runtimeBytes": 926318
+    },
+    {
+      "id": "slagworks-rail-iron-breccia",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-rail-iron-breccia-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-rail-iron-breccia-v6.webp",
+      "sourceSha256": "d668ce80c79d145e36a93c35cf54eb81c6dbc84eb0585f2a5cd7ebca7ae339a2",
+      "runtimeSha256": "2bdde6d00e2d77e20c7c123b48a61ba847ddadd026f6c0a696820b1bfbe74a68",
+      "runtimeBytes": 924892
+    },
+    {
+      "id": "slagworks-refractory-spall-fan",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-slagworks-refractory-spall-fan-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/slagworks-refractory-spall-fan-v6.webp",
+      "sourceSha256": "bed671100fe0dc4a4cf25fb3ed2a1cadd042dccbeddb89229fcf6245564cf2a7",
+      "runtimeSha256": "c1c44da0f6445609998ee8c8a676c927aa87d1463663e572ea1e4a2940a874ef",
+      "runtimeBytes": 896402
+    },
+    {
+      "id": "starfire-rift-binary-crystal-melt-vein",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-binary-crystal-melt-vein-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-binary-crystal-melt-vein-v6.webp",
+      "sourceSha256": "0ec62d5d3471b0281aa3d71ba2fbedec31f1ef885178b426a5524edbc313c887",
+      "runtimeSha256": "17e4d7c70a5028db12869be8d39eb18c678ac2928a4325917048e95f54ea0e1c",
+      "runtimeBytes": 805374
+    },
+    {
+      "id": "starfire-rift-celestial-breccia-cascade",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-celestial-breccia-cascade-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-celestial-breccia-cascade-v6.webp",
+      "sourceSha256": "11abc3f71ed35b493ee8edeb162edb67d420870d3378d5fe2ca98d586ebca508",
+      "runtimeSha256": "b3b66ed12a869e035b617795525c11836069f9f556600dbaec20228b488969cb",
+      "runtimeBytes": 938698
+    },
+    {
+      "id": "starfire-rift-cometglass-debris-stream",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-cometglass-debris-stream-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-cometglass-debris-stream-v6.webp",
+      "sourceSha256": "2b220d39aba443f2be9d67d08f67b20f4f05f908ffdca02bb55705157487ca30",
+      "runtimeSha256": "21128a29038ad4b83319fae773eeffbe4cc8327cad35444cc79e4af4770c7c70",
+      "runtimeBytes": 881704
+    },
+    {
+      "id": "starfire-rift-cosmic-ash-aurora-shear",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-cosmic-ash-aurora-shear-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-cosmic-ash-aurora-shear-v6.webp",
+      "sourceSha256": "da852f14c7c5de1b1763b654828b88d7cf71773e34507bc980248362f5ed65cb",
+      "runtimeSha256": "7ed6fd3883de4b0befac8a2cd9a2e58bf8d677517bb6e6de55a2fbd3c453a980",
+      "runtimeBytes": 836210
+    },
+    {
+      "id": "starfire-rift-nebula-quartz-lightning",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-nebula-quartz-lightning-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-nebula-quartz-lightning-v6.webp",
+      "sourceSha256": "59da56dc5f1cf0ef00fde54adb3e0bbdf3e906dd964ebbc939efd13f8ae74318",
+      "runtimeSha256": "fed61af3fb1d18e409bafc5152d4aefe5d81bda9777f0b1efb7708cdc13c0119",
+      "runtimeBytes": 835002
+    },
+    {
+      "id": "starfire-rift-star-metal-spherule-field",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-star-metal-spherule-field-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-star-metal-spherule-field-v6.webp",
+      "sourceSha256": "7a54ecb64e4b7bc4047af8a1bd7b5630a99b151a835671a9f07aab6a8c30f455",
+      "runtimeSha256": "9a05e47d18e3061bbb86f57a7da73d8e3bbe549ac22fdc8bd627ec94de15fca0",
+      "runtimeBytes": 942846
+    },
+    {
+      "id": "starfire-rift-terminal-rift-meteorite-flow",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-starfire-rift-terminal-rift-meteorite-flow-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/starfire-rift-terminal-rift-meteorite-flow-v6.webp",
+      "sourceSha256": "f6bfad94c2ef0d58168825eeb598f3e6a00739299d4597b8d734f14085be4dec",
+      "runtimeSha256": "300832e2670cbf4daffb3c9c1842f70d86780b48895bd32bd195b26581c96e59",
+      "runtimeBytes": 785626
+    },
+    {
+      "id": "weathered-roots-ironwater-loam-avulsion",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-weathered-roots-ironwater-loam-avulsion-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-ironwater-loam-avulsion-v6.webp",
+      "sourceSha256": "ba3fe59aef1c9acd591f7d6c5572ca3daa299d2ae5405c52b882d45bf9f71bed",
+      "runtimeSha256": "052721964fbf01c260f40ea94472b97625799264e723c69abd6aa6e0cd783c27",
+      "runtimeBytes": 832742
+    },
+    {
+      "id": "weathered-roots-lightning-root-braided-clay",
+      "sourceVersion": "v5",
+      "source": "visual-approval-previews/whole-world-visual-expansion-v5/sources/terrain/terrain-weathered-roots-lightning-root-braided-clay-v5.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/terrain-seam-blend-v6/weathered-roots-lightning-root-braided-clay-v6.webp",
+      "sourceSha256": "d8a61af574de9f4b471ab770f6bb10b55c26924464a41030bc169957c636244e",
+      "runtimeSha256": "5d2979de12f231a19093a507ea8488fd2a583d5175bbbb74cc83a8ec281751ae",
+      "runtimeBytes": 839340
+    }
+  ],
+  "groundStructures": [
+    {
+      "id": "weathered-roots-ceiling-root-rib",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-ceiling-root-rib-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/weathered-roots-ceiling-root-rib-v6.webp",
+      "sourceSha256": "324e41a1c618ec2a7c05078e75f8cb58ab52dbc5419f49ca236a3b47e3728cbd",
+      "runtimeSha256": "34da34dd2b0312179e03c1c26c305674e0f8cdffe469c51f1800ac893a627eda",
+      "runtimeBytes": 340486
+    },
+    {
+      "id": "weathered-roots-mycorrhizal-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-mycorrhizal-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/weathered-roots-mycorrhizal-strata-seam-v6.webp",
+      "sourceSha256": "929723b4d00f195a99136b358cf655b1ae312e844e3f401530ca5efeecb1e0fc",
+      "runtimeSha256": "88249683f197b9647a3339f9026d72556f773e59f73127a5c22056619339fb59",
+      "runtimeBytes": 152366
+    },
+    {
+      "id": "weathered-roots-rainworn-stone-root-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-rainworn-stone-root-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/weathered-roots-rainworn-stone-root-corner-v6.webp",
+      "sourceSha256": "c64f2eacc796f0641e943c9a6d1e35f73eb90a8b97039e1a4ad02d4fd2a73e44",
+      "runtimeSha256": "661c3c3a8e446f59fd6492301725d2e7a39c9ec17c97fbf8517c8cbcf22233f3",
+      "runtimeBytes": 268760
+    },
+    {
+      "id": "weathered-roots-root-buttress-lattice",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-root-buttress-lattice-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/weathered-roots-root-buttress-lattice-v6.webp",
+      "sourceSha256": "d8a867f053fcf3ac0644fd034adb391bb8e4f11e078ef8d93497b10c610974b5",
+      "runtimeSha256": "6542c2ced44f1659ee7686bcd0559677e504ab75e704b53274cf86ba18702a52",
+      "runtimeBytes": 333182
+    },
+    {
+      "id": "weathered-roots-timber-loam-retaining-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-weathered-roots-timber-loam-retaining-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/weathered-roots-timber-loam-retaining-arch-v6.webp",
+      "sourceSha256": "6dbf6d744744d26d97fd88f677d374db12093effba60e5f270d6a2e8a075ad2a",
+      "runtimeSha256": "267769d55bb6bac7bb0a6fcaf237945ab18b2cca82d26577e31f9ffb202a2241",
+      "runtimeBytes": 244880
+    },
+    {
+      "id": "blue-caverns-aquifer-stone-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-aquifer-stone-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blue-caverns-aquifer-stone-arch-v6.webp",
+      "sourceSha256": "99106870e1e408ab77cf212575b5834f326e364c17075cdfc93defe8822ac51a",
+      "runtimeSha256": "c7c88d8857323d4852346a29ca8eb6b9e442b857d8f1ecc7aa90a5fbe6f23c4f",
+      "runtimeBytes": 263188
+    },
+    {
+      "id": "blue-caverns-cobalt-crystal-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-cobalt-crystal-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blue-caverns-cobalt-crystal-buttress-v6.webp",
+      "sourceSha256": "6fbe65cead5290477d5e54ed1ee2b079197067ec225a3c26c6d3ab998823a8af",
+      "runtimeSha256": "a9ab19b0f56c7d91906bbe5fb8cc897bb3862526096a9ff3d79c9c3fad108346",
+      "runtimeBytes": 310586
+    },
+    {
+      "id": "blue-caverns-geode-corner-cluster",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-geode-corner-cluster-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blue-caverns-geode-corner-cluster-v6.webp",
+      "sourceSha256": "225ea632514a6985045530ba4973481071b79656f5bb6703b56ba0a20f783dd2",
+      "runtimeSha256": "8bf237f40112140bd6dfc652377273604a85db2231b4457ac12476cbff989a63",
+      "runtimeBytes": 248090
+    },
+    {
+      "id": "blue-caverns-ice-ceiling-fin",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-ice-ceiling-fin-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blue-caverns-ice-ceiling-fin-v6.webp",
+      "sourceSha256": "886b871d804ffd204e884f72366be54deef702c004d52ea6ce923a068ad220ba",
+      "runtimeSha256": "97241ed1a101ebaa30e2109b512971586bad561439da52603c52082f83fcb38b",
+      "runtimeBytes": 290528
+    },
+    {
+      "id": "blue-caverns-sapphire-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blue-caverns-sapphire-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blue-caverns-sapphire-strata-seam-v6.webp",
+      "sourceSha256": "922154b22814210a4a35bc1e84993f2cadc40059e31a28e2569282fc0cdc8726",
+      "runtimeSha256": "f6e332d8a1085c6c2b175483a9b23dcc6b435cb86a4dc22312e2ef8bcc34a066",
+      "runtimeBytes": 119116
+    },
+    {
+      "id": "amber-depths-bronze-resin-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-bronze-resin-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/amber-depths-bronze-resin-corner-v6.webp",
+      "sourceSha256": "62214588d4b3b42e18c9b4ebdebe7afa4c46ca7549de34ec9fc87c2dc8ad0b2e",
+      "runtimeSha256": "27fe6eb31fad23e6d17d28719333a15684e0098fcac98a1ca5adf5f39cea174c",
+      "runtimeBytes": 253618
+    },
+    {
+      "id": "amber-depths-fossil-masonry-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-fossil-masonry-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/amber-depths-fossil-masonry-arch-v6.webp",
+      "sourceSha256": "c783fb91aa34a8389f95ed5beb431d45bbaf5a36703652b7271bcc935699fcbc",
+      "runtimeSha256": "13797d570748076f5cad9d3ed596df0f14b10929b101432d83f252b2add62633",
+      "runtimeBytes": 237618
+    },
+    {
+      "id": "amber-depths-golden-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-golden-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/amber-depths-golden-strata-seam-v6.webp",
+      "sourceSha256": "f981c3a5994c671722c36e1ec3f2d8888070ceba066d465191bae1caa3252d91",
+      "runtimeSha256": "27b5dd24b1ad10ff1f94ef65e6a6256ce52018687163bf69d30af9be865aa3f2",
+      "runtimeBytes": 186250
+    },
+    {
+      "id": "amber-depths-honeyglass-ceiling-shelf",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-honeyglass-ceiling-shelf-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/amber-depths-honeyglass-ceiling-shelf-v6.webp",
+      "sourceSha256": "b7e1ebff3cfe9892bd90764c0c4941bee4a50a57435ab39c685bb4501a385154",
+      "runtimeSha256": "cdefefce6d4e2ba6d914cd2f6c38cdad884893f5f5270acee9f856e9babf167c",
+      "runtimeBytes": 247824
+    },
+    {
+      "id": "amber-depths-resin-stone-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-amber-depths-resin-stone-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/amber-depths-resin-stone-buttress-v6.webp",
+      "sourceSha256": "06bad24e78da59ade6ba9b6a2987cdec0b1102f387ed74bc6cc1c56574d11afe",
+      "runtimeSha256": "3939153acc0d4ccfafc0e4cfa69ce5c8166ab3e6153dd1f15b8737215554a39a",
+      "runtimeBytes": 250472
+    },
+    {
+      "id": "silver-core-black-iron-mineral-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-black-iron-mineral-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/silver-core-black-iron-mineral-arch-v6.webp",
+      "sourceSha256": "0532b8de18804132baef157f2501d3a2c5e79f9cac40e504d8e048bbed0a3edd",
+      "runtimeSha256": "fec28a0546649ccc139156400ba9775bf7fbe3429a95a63e040d3eff58a7de92",
+      "runtimeBytes": 272482
+    },
+    {
+      "id": "silver-core-ceiling-blade-rib",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-ceiling-blade-rib-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/silver-core-ceiling-blade-rib-v6.webp",
+      "sourceSha256": "5270e098ad72abb26cfac8de311fc6e9ea93da9a4462b1f0b5c92cb37293a4f1",
+      "runtimeSha256": "2bd8bd2cc1cd9364e7f82fab2e900d8f5e3ef8a4f41d7d9be208ad399f8ca1eb",
+      "runtimeBytes": 272990
+    },
+    {
+      "id": "silver-core-magnetic-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-magnetic-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/silver-core-magnetic-strata-seam-v6.webp",
+      "sourceSha256": "038463b7178667a441faa036b9f93d86530d7f96878bd47c85aa7046ca9c8256",
+      "runtimeSha256": "5fd0547c95c18e87b6cb5b3504b3b21d9b5e5fad1267ab7b7fb7c5b11a0fdc3d",
+      "runtimeBytes": 143078
+    },
+    {
+      "id": "silver-core-mercury-stone-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-mercury-stone-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/silver-core-mercury-stone-buttress-v6.webp",
+      "sourceSha256": "293be581a430cb682b81d45b2521117b54f303b2dc9269472d57bf4bdf70814d",
+      "runtimeSha256": "a3e3680ed20e51e66a406db9df9541413bb677c96057cbb52943a5d014b0ca1c",
+      "runtimeBytes": 316174
+    },
+    {
+      "id": "silver-core-mirror-mineral-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-silver-core-mirror-mineral-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/silver-core-mirror-mineral-corner-v6.webp",
+      "sourceSha256": "98944aac70f5da9c4bdc2ccbfb76f3740cf02dce76ff860a6e6c3eec4b29201e",
+      "runtimeSha256": "ecaa7dbd3556219d3276c169dda3d556168a7bc2e3f8d4cd122b6c3d126abf1e",
+      "runtimeBytes": 203782
+    },
+    {
+      "id": "core-magma-basalt-lava-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-basalt-lava-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/core-magma-basalt-lava-buttress-v6.webp",
+      "sourceSha256": "6aa9f436c0311517e72e2ab435f4ae2f3bc4ca45e25d17e90c40bf6976d953fe",
+      "runtimeSha256": "739a6c8b98f74911e4895ac68ef77d54a1960762505afdb43d46b04fa22f966d",
+      "runtimeBytes": 234232
+    },
+    {
+      "id": "core-magma-ember-fissure-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-ember-fissure-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/core-magma-ember-fissure-seam-v6.webp",
+      "sourceSha256": "41b24306de48b21d630d1af5c3868eccfe24e2ce7d158f3819688476d822bd15",
+      "runtimeSha256": "244ec8f2a33dc2beca788c45a90e227341b3be5d44c98a88f4e3d3be64886e99",
+      "runtimeBytes": 168354
+    },
+    {
+      "id": "core-magma-furnace-stone-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-furnace-stone-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/core-magma-furnace-stone-arch-v6.webp",
+      "sourceSha256": "68b703f65b892214d2d759f607efdf8c3b47f63012efcde7ca264f7deadd75be",
+      "runtimeSha256": "e9d6d90e3e7c5912f038698748474a861e2948570745a557fcae72b99963c822",
+      "runtimeBytes": 309268
+    },
+    {
+      "id": "core-magma-obsidian-ceiling-rib",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-obsidian-ceiling-rib-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/core-magma-obsidian-ceiling-rib-v6.webp",
+      "sourceSha256": "04457ceae80a094cbedb424e36b455d3dc6ed43e578bc7169a83e1a7988ef3c5",
+      "runtimeSha256": "4a74d49284e644e0f7dda85e33ed26abf4f2bf665f79eeb192b46aba5ecf24d1",
+      "runtimeBytes": 205116
+    },
+    {
+      "id": "core-magma-volcanic-column-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-core-magma-volcanic-column-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/core-magma-volcanic-column-corner-v6.webp",
+      "sourceSha256": "aee1a1b1c7c96b8654be3e751da5b0ed0ef3c8b77f565a5b952620ba75527300",
+      "runtimeSha256": "e33a6b0d430cd10899bf06c4e7202ee5ccdaf2766d9f9837f1009b118544d09f",
+      "runtimeBytes": 210110
+    },
+    {
+      "id": "slagworks-clinker-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-clinker-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/slagworks-clinker-strata-seam-v6.webp",
+      "sourceSha256": "b90a3013c9d05da44f48387168350643d137039835af24581b89af3b7efaacc2",
+      "runtimeSha256": "b041a60e6cea28cc2da8c91af1950d90756edb7dd4982acc06325756ef707e57",
+      "runtimeBytes": 256866
+    },
+    {
+      "id": "slagworks-iron-slag-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-iron-slag-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/slagworks-iron-slag-buttress-v6.webp",
+      "sourceSha256": "05fe9fd2ec864c786a18612ff83a0afe2a7a2bffbbbcb881849372e1f42e1aab",
+      "runtimeSha256": "e24509bbe67bf66ba9386b267a064004138e49d894a292785ee19ff5c815addf",
+      "runtimeBytes": 267546
+    },
+    {
+      "id": "slagworks-rail-ceiling-brace",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-rail-ceiling-brace-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/slagworks-rail-ceiling-brace-v6.webp",
+      "sourceSha256": "79e83d13612eef81079afe727078bb00d3a2a500e49fd1d4d8cc6e8b1eea343a",
+      "runtimeSha256": "7edbfc79391256dcd263e2889a47b78dab8fc169bdc72b951ecd4150d7b5be71",
+      "runtimeBytes": 310624
+    },
+    {
+      "id": "slagworks-refractory-brick-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-refractory-brick-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/slagworks-refractory-brick-arch-v6.webp",
+      "sourceSha256": "c09217cde1f2905a4c0ed31591aaa33c1eee3a481be9dc4197ea2ddd515d1627",
+      "runtimeSha256": "417d7b4ccc79d1188d6997bc209179082f21c5e19ecdb1e5381f45fa2b859f3f",
+      "runtimeBytes": 359626
+    },
+    {
+      "id": "slagworks-riveted-slag-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-slagworks-riveted-slag-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/slagworks-riveted-slag-corner-v6.webp",
+      "sourceSha256": "2dceca5f23868b2f0e771715c8a9b3f113491d2be4023385077bb43b06f83e06",
+      "runtimeSha256": "4c6d51269d845245305db033043a3eb744f1ea34fcf2ce1ebfb5000e2b2d85b8",
+      "runtimeBytes": 263830
+    },
+    {
+      "id": "obsidian-catacombs-blackglass-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-blackglass-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/obsidian-catacombs-blackglass-buttress-v6.webp",
+      "sourceSha256": "8e58e33d3745c5c32bac661948fd1f39a0ddde5519f9ff5dd23eeba8a6bb2d16",
+      "runtimeSha256": "043c764c8bc387df455f3f0c29a423069d5ff54d0455a282402444d78df828d9",
+      "runtimeBytes": 225402
+    },
+    {
+      "id": "obsidian-catacombs-column-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-column-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/obsidian-catacombs-column-corner-v6.webp",
+      "sourceSha256": "350ce8ef931eb9356ff782faeb7836ce6c9a269075ba094143c67b021ab9dc1b",
+      "runtimeSha256": "3de81c83eba59f32377118b2cc5123784414a4cfc905df8b82f721482407ba9d",
+      "runtimeBytes": 160694
+    },
+    {
+      "id": "obsidian-catacombs-crypt-stone-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-crypt-stone-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/obsidian-catacombs-crypt-stone-arch-v6.webp",
+      "sourceSha256": "c6a2ae85cbd1a6e60f3b91f7e1ea89eedfdd895f7f7dd599dba2423c1ffc11f7",
+      "runtimeSha256": "095f19ed31f400e4daedde3b81b668c4f0e905ace4dc722bc24d286f833b3060",
+      "runtimeBytes": 160030
+    },
+    {
+      "id": "obsidian-catacombs-shard-ceiling-rib",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-shard-ceiling-rib-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/obsidian-catacombs-shard-ceiling-rib-v6.webp",
+      "sourceSha256": "c9935ecc02c91cc5d0dbcf0677222b3f235cc4ebd406f82a634cc16f3fc9dbc3",
+      "runtimeSha256": "ca47267dca468d1928c8d720784e73a31d9a757949cf5e718aa05d0a5a7a5712",
+      "runtimeBytes": 192034
+    },
+    {
+      "id": "obsidian-catacombs-violet-glass-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-obsidian-catacombs-violet-glass-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/obsidian-catacombs-violet-glass-seam-v6.webp",
+      "sourceSha256": "6e49c3dd61e46686367f8e3f3005b98c1ee610e205d2f65083fa269a27affec8",
+      "runtimeSha256": "c07cf8bab509107c83a4079bafb58f9d14218f543a6a6993aa51be2c3ded6f92",
+      "runtimeBytes": 129918
+    },
+    {
+      "id": "pressure-foundry-boiler-stone-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-boiler-stone-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/pressure-foundry-boiler-stone-arch-v6.webp",
+      "sourceSha256": "6906496e51fb7ddf5276aa913a2cb9ef755295d307a07b03eafbf846426a2803",
+      "runtimeSha256": "ccf49638ab13ba101e828769aa8dec4163a60cc24ca0150c700429a8003db222",
+      "runtimeBytes": 289956
+    },
+    {
+      "id": "pressure-foundry-condenser-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-condenser-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/pressure-foundry-condenser-strata-seam-v6.webp",
+      "sourceSha256": "02c81120876956ecfbbac9fdd14b2b40271fbd27d4e01badbebe9b03afa5981f",
+      "runtimeSha256": "2f8c66a8c713486df1125a1194cff5fe7acb709f9c07a7288f4aaf366d58d8c9",
+      "runtimeBytes": 156480
+    },
+    {
+      "id": "pressure-foundry-pipe-ceiling-truss",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-pipe-ceiling-truss-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/pressure-foundry-pipe-ceiling-truss-v6.webp",
+      "sourceSha256": "8c8a300f99b08984bed46a116dd51990182ac619f2281426ca0536c816041c28",
+      "runtimeSha256": "6ff5a613abbb18ec2702f4b72c516108fc7527f741a7a1ac2e59a58bff11d722",
+      "runtimeBytes": 268686
+    },
+    {
+      "id": "pressure-foundry-steel-stone-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-steel-stone-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/pressure-foundry-steel-stone-buttress-v6.webp",
+      "sourceSha256": "17b8bd3ea447e358bf6b15083c42904acf2282fe99f2302d2df51aa1df4a66a1",
+      "runtimeSha256": "87258711efa9855743e68df01cef03bc521bddd7615d05e068b0744f783e58a9",
+      "runtimeBytes": 281374
+    },
+    {
+      "id": "pressure-foundry-valve-rock-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-pressure-foundry-valve-rock-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/pressure-foundry-valve-rock-corner-v6.webp",
+      "sourceSha256": "52bf078956f2c4183091c0251c4f2fd2d9afd862eff234f762e6b8ab98165803",
+      "runtimeSha256": "e38c826d768cd14989ff6ce604277ca8199b698a984df9797a2f257b67990844",
+      "runtimeBytes": 268832
+    },
+    {
+      "id": "blackglass-abyss-black-mirror-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-black-mirror-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blackglass-abyss-black-mirror-corner-v6.webp",
+      "sourceSha256": "3329cf4fc6203ac3906dc4299f7bb37d5cc89e384984bb917d720f05f5b6cbbc",
+      "runtimeSha256": "1bc0e19cad54f41bc7547b203db1d75e72a153fd5474306d3c86416c832ddde3",
+      "runtimeBytes": 239450
+    },
+    {
+      "id": "blackglass-abyss-eclipse-stone-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-eclipse-stone-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blackglass-abyss-eclipse-stone-arch-v6.webp",
+      "sourceSha256": "821efeaf4577ee486704eaaac7233f58dcde210eac42252c9200a96577604201",
+      "runtimeSha256": "85a5589308886c06667103aa1b9d9f063e1a8cc387b00ec18ca856318b810caa",
+      "runtimeBytes": 196588
+    },
+    {
+      "id": "blackglass-abyss-mirror-ceiling-shard",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-mirror-ceiling-shard-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blackglass-abyss-mirror-ceiling-shard-v6.webp",
+      "sourceSha256": "f52112fce5ea885f54eb2fbbff3702f6cd5432ae341915196bdb014e01eaf72e",
+      "runtimeSha256": "47f901cd94b5a15aab80866a971957534790507f287bb0f0bdeb34af6672b45b",
+      "runtimeBytes": 209816
+    },
+    {
+      "id": "blackglass-abyss-prism-glass-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-prism-glass-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blackglass-abyss-prism-glass-buttress-v6.webp",
+      "sourceSha256": "6446d3f7d0effbbb325a576a388de24f92c7aef2c72c18450c4afc107c65aa31",
+      "runtimeSha256": "ba5e42423effdeb38509d3bb13b24449c8e051086951a713bad5c2ace0deadf9",
+      "runtimeBytes": 238038
+    },
+    {
+      "id": "blackglass-abyss-spectral-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-blackglass-abyss-spectral-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/blackglass-abyss-spectral-strata-seam-v6.webp",
+      "sourceSha256": "9a785ce0447881785ee43f7503e7e99d388f4eae0df7e6687fcd7b2bbc559054",
+      "runtimeSha256": "65cad4831c8fe9d7bb7c2dfcb3438581786ea5411ce5379b278c9433af8cb683",
+      "runtimeBytes": 118536
+    },
+    {
+      "id": "starfire-rift-celestial-crystal-buttress",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-celestial-crystal-buttress-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/starfire-rift-celestial-crystal-buttress-v6.webp",
+      "sourceSha256": "9ff06c58fe35d97f556e428cb65bccd6259de747368d21b85aabd2d8e9ebb5a6",
+      "runtimeSha256": "fd5359f579e912303f9e63bb7d74c0a93212acf6f8608cdd11bfba28f2c0a347",
+      "runtimeBytes": 207126
+    },
+    {
+      "id": "starfire-rift-cosmic-strata-seam",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-cosmic-strata-seam-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/starfire-rift-cosmic-strata-seam-v6.webp",
+      "sourceSha256": "915012529e2c069295e8e214b6503b5f6b80e2907e72197b8c2f9db74fd9f623",
+      "runtimeSha256": "59a5545af10770afc2c7b9e8c64f63df79fc20e24d38bc46cd35b195a5954e8f",
+      "runtimeBytes": 154056
+    },
+    {
+      "id": "starfire-rift-nebula-crystal-corner",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-nebula-crystal-corner-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/starfire-rift-nebula-crystal-corner-v6.webp",
+      "sourceSha256": "08aaeccd8c06f8f6985c767f49eb5cffce175fb0daee0bf5cda6e21f7a42839f",
+      "runtimeSha256": "65939a54cfd8d6c03769dfda2f1baaef65e6247efd1f76ffb9f67d0581937a04",
+      "runtimeBytes": 198354
+    },
+    {
+      "id": "starfire-rift-ring-ceiling-rib",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-ring-ceiling-rib-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/starfire-rift-ring-ceiling-rib-v6.webp",
+      "sourceSha256": "85c43f4eb86134b136beb9ea5c1769c5ecd48119ed94db0bf8033037ab21bcf2",
+      "runtimeSha256": "b08292fd8bb0c1525ed81857048622de3aca190dd2cc6b47ac220abbba4da118",
+      "runtimeBytes": 169300
+    },
+    {
+      "id": "starfire-rift-star-metal-arch",
+      "sourceVersion": "v3-alpha-master",
+      "source": "visual-approval-previews/underground-visual-expansion-v3/ground-starfire-rift-star-metal-arch-v3.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v6/starfire-rift-star-metal-arch-v6.webp",
+      "sourceSha256": "d8052c651164a7c34d7675f624673e38a71c1987b0a865c74f635cf04f5f8984",
+      "runtimeSha256": "26fc9aeae856324222c6ed3c4a62669d8ae9f4970bed01e68db3e9ad3d3d5497",
+      "runtimeBytes": 193924
+    }
+  ],
+  "contactSheets": [
+    "visual-approval-previews/underground-seam-blend-v6/2026-07-29-terrain-seam-proof-v6.jpg",
+    "visual-approval-previews/underground-seam-blend-v6/2026-07-29-ground-structures-seam-proof-v6.jpg"
+  ]
+}

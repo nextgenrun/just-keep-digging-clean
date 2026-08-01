@@ -33,8 +33,11 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import {
   CAMPFIRE_CONFIG,
   CAMPFIRE_TIERS,
+  getCampfireStorageKey,
+  readStoredCampfireLevel,
   sanitizeCampfireData,
 } from "../../values/campfireConfig.js";
+import { getCampfireFeatureAssetGroupId } from "../../values/runtimeAssetLoading.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../UserSettings.js";
 
 // ── Main Menu Theme Palette (matches ShopOverlay / MainMenuScene) ──────────
@@ -108,6 +111,9 @@ export class CampfireSystem {
 
     // Upgrade tier
     this._campfireLevel = 1; // 1-10
+    this._campfireRequestedGroupId = null;
+    this._campfireResidentGroupId = null;
+    this._destroyed = false;
 
     // Available buff definitions (use getter to apply tier scaling)
     this._buffs = [
@@ -142,6 +148,7 @@ export class CampfireSystem {
     this._campfireSprite.setDepth(5);
     this._campfireSprite.setOrigin(0.5, 1);
     this._applyCampfireVisualLayout();
+    void this._ensureCampfireTierTexture(this._campfireLevel);
 
     // Interact label
     this._interactLabel = this.scene.add.text(this._campX, this._getCampfireTopY() - 18, 'Campfire', {
@@ -318,7 +325,7 @@ export class CampfireSystem {
     const normalized = sanitizeCampfireData(data);
     this._campfireLevel = normalized.level;
     this._saveCampfireLevel();
-    this._updateCampfireSprite();
+    void this._ensureCampfireTierTexture(this._campfireLevel);
     return this.getSaveData();
   }
 
@@ -347,14 +354,14 @@ export class CampfireSystem {
     this._saveCampfireLevel();
 
     // Update campfire sprite to match new level
-    this._updateCampfireSprite();
+    void this._ensureCampfireTierTexture(this._campfireLevel);
     this._syncMoneyUi();
     this.scene.queueDugTilesSave?.();
-    this.scene.hudSystem?.flashStatus?.(`🔥 Campfire upgraded to ${nextTier.label}!`, COL.cssSuccess, 1800);
+    this.scene.hudSystem?.flashStatus?.(`CAMPFIRE UPGRADED  •  ${nextTier.label}`, COL.cssSuccess, 1800);
 
     return {
       success: true,
-      message: `🔥 Campfire upgraded to ${nextTier.label}!`,
+      message: `Campfire upgraded to ${nextTier.label}.`,
       tier: nextTier,
     };
   }
@@ -377,30 +384,55 @@ export class CampfireSystem {
   }
 
   _loadCampfireLevel() {
-    try {
-      const storageKey = `jkd-campfire-level-slot-${this.saveSlot}`;
-      let saved = localStorage.getItem(storageKey);
-      if (!saved && this.saveSlot === 1) {
-        saved = localStorage.getItem('jkd-campfire-level');
-        if (saved) localStorage.setItem(storageKey, saved);
-      }
-      if (saved) {
-        const level = parseInt(saved, 10);
-        if (level >= 1 && level <= 10) {
-          this._campfireLevel = level;
-        }
-      }
-    } catch (e) {
-      // ignore localStorage errors
-    }
+    this._campfireLevel = readStoredCampfireLevel(this.saveSlot);
   }
 
   _saveCampfireLevel() {
     try {
-      localStorage.setItem(`jkd-campfire-level-slot-${this.saveSlot}`, String(this._campfireLevel));
-    } catch (e) {
-      // ignore
+      localStorage.setItem(getCampfireStorageKey(this.saveSlot), String(this._campfireLevel));
+    } catch {
+      // Ignore storage failures; the normal save payload still carries campfire state.
     }
+  }
+
+  _ensureCampfireTierTexture(level = this._campfireLevel) {
+    const normalizedLevel = sanitizeCampfireData({ level }).level;
+    const manager = this.scene.runtimeFeatureAssetManager;
+    const groupId = getCampfireFeatureAssetGroupId(normalizedLevel);
+    const consumer = CAMPFIRE_CONFIG.runtimeResidency.consumerId;
+
+    if (!manager?.enabled) {
+      this._updateCampfireSprite();
+      return Promise.resolve(
+        this.scene.textures?.exists?.(this._getCampfireSpriteKey()) === true,
+      );
+    }
+
+    this._campfireRequestedGroupId = groupId;
+    return manager.ensureGroup(groupId, {
+      consumer,
+      adoptExisting: true,
+    }).then(result => {
+      if (this._destroyed) {
+        manager.releaseGroup(groupId, consumer);
+        return false;
+      }
+      const isCurrent = result.ready
+        && this._campfireLevel === normalizedLevel
+        && this._campfireRequestedGroupId === groupId;
+      if (!isCurrent) {
+        manager.releaseGroup(groupId, consumer);
+        return false;
+      }
+
+      const previousGroupId = this._campfireResidentGroupId;
+      this._campfireResidentGroupId = groupId;
+      this._updateCampfireSprite();
+      if (previousGroupId && previousGroupId !== groupId) {
+        manager.releaseGroup(previousGroupId, consumer);
+      }
+      return true;
+    });
   }
 
   _updateCampfireSprite() {
@@ -812,6 +844,7 @@ export class CampfireSystem {
   }
 
   destroy() {
+    this._destroyed = true;
     if (this._fireAnimTimer) this._fireAnimTimer.remove();
     this._closeBuffSelection();
     this._campfireGfx?.destroy();
@@ -819,7 +852,13 @@ export class CampfireSystem {
     this._ePrompt?.destroy();
     this._interactLabel?.destroy();
     this._flameEmbers.forEach(e => e.destroy());
+    const manager = this.scene.runtimeFeatureAssetManager;
+    const consumer = CAMPFIRE_CONFIG.runtimeResidency.consumerId;
+    for (const groupId of new Set([this._campfireResidentGroupId, this._campfireRequestedGroupId])) {
+      if (groupId) manager?.releaseGroup?.(groupId, consumer);
+    }
+    this._campfireResidentGroupId = null;
+    this._campfireRequestedGroupId = null;
   }
 }
-
 

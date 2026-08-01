@@ -1,5 +1,5 @@
 import { resolveWorldVisualTerrainCohesionPlacement } from
-  "../../../values/worldVisualTerrainVariation.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "../../../values/worldVisualTerrainVariation.js?rev=20260729-underground-seam-v6";
 import {
   setAlphaIfChanged,
   setTintIfChanged,

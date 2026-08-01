@@ -22,8 +22,8 @@ const previousPoolAssets = getWorldVisualDepthBackdropAllAssets(
   "?biomeBackdropExpansion=0"
 );
 
-assert.equal(productionAssets.length, 120, "production exposes 110 static and ten smooth V3 cards");
-assert.equal(productionAssets.filter(entry => entry.type === "image").length, 110);
+assert.equal(productionAssets.length, 170, "production exposes 160 static and ten smooth V3 cards");
+assert.equal(productionAssets.filter(entry => entry.type === "image").length, 160);
 assert.equal(productionAssets.filter(entry => entry.type === "video").length, 10);
 assert.equal(previousPoolAssets.length, 70, "expansion rollback restores the approved 70-card pool");
 assert.ok(WORLD_VISUAL_DEPTH_BACKDROPS.regions.every(region => (

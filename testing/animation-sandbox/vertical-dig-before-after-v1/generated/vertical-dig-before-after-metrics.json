@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "version": "vertical-dig-before-after-review-v1-20260730",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "scenarioCount": 4,
+  "scenarios": {
+    "stationary-up": {
+      "label": "Stationary UP",
+      "before": {
+        "frameCount": 24,
+        "medianVisibleHeightPx": 73.45,
+        "minimumVisibleHeightPx": 62.16,
+        "maximumVisibleHeightPx": 74.51,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 10.62,
+        "centerDriftLivePx": 13.2
+      },
+      "after": {
+        "frameCount": 24,
+        "medianVisibleHeightPx": 73.45,
+        "minimumVisibleHeightPx": 68.12,
+        "maximumVisibleHeightPx": 74.51,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 10.62,
+        "centerDriftLivePx": 13.2
+      },
+      "currentSpriteOffsetPx": {
+        "x": 0,
+        "y": 0,
+        "magnitude": 0.0
+      },
+      "proposedSpriteOffsetPx": {
+        "x": 0,
+        "y": 0,
+        "magnitude": 0
+      },
+      "currentOpaqueTileIntrusionPixels": 0,
+      "proposedOpaqueTileIntrusionPixels": 0,
+      "contactSequenceIndex": 11,
+      "inputDelayFrames": 0,
+      "output": "generated/stationary-up-before-after.gif"
+    },
+    "stationary-down": {
+      "label": "Stationary DOWN",
+      "before": {
+        "frameCount": 37,
+        "medianVisibleHeightPx": 58.33,
+        "minimumVisibleHeightPx": 51.52,
+        "maximumVisibleHeightPx": 74.94,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 30.47,
+        "centerDriftLivePx": 19.16
+      },
+      "after": {
+        "frameCount": 30,
+        "medianVisibleHeightPx": 73.23,
+        "minimumVisibleHeightPx": 60.89,
+        "maximumVisibleHeightPx": 78.34,
+        "bottomDriftSourcePx": 0.0,
+        "rootAnchorDriftSourcePx": 0.89,
+        "centerDriftLivePx": 20.44
+      },
+      "currentSpriteOffsetPx": {
+        "x": 0,
+        "y": 15.04,
+        "magnitude": 15.04
+      },
+      "proposedSpriteOffsetPx": {
+        "x": 0,
+        "y": 0,
+        "magnitude": 0
+      },
+      "currentOpaqueTileIntrusionPixels": 1408,
+      "proposedOpaqueTileIntrusionPixels": 0,
+      "contactSequenceIndex": 14,
+      "inputDelayFrames": 0,
+      "output": "generated/stationary-down-before-after.gif"
+    },
+    "moving-up": {
+      "label": "Moving UP-SIDE",
+      "before": {
+        "frameCount": 15,
+        "medianVisibleHeightPx": 73.51,
+        "minimumVisibleHeightPx": 62.46,
+        "maximumVisibleHeightPx": 74.95,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 9.0,
+        "centerDriftLivePx": 3.6
+      },
+      "after": {
+        "frameCount": 15,
+        "medianVisibleHeightPx": 73.51,
+        "minimumVisibleHeightPx": 68.23,
+        "maximumVisibleHeightPx": 74.95,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 9.98,
+        "centerDriftLivePx": 3.6
+      },
+      "currentSpriteOffsetPx": {
+        "x": 16.92,
+        "y": -15.04,
+        "magnitude": 22.64
+      },
+      "proposedSpriteOffsetPx": {
+        "x": 0,
+        "y": 0,
+        "magnitude": 0
+      },
+      "currentOpaqueTileIntrusionPixels": 0,
+      "proposedOpaqueTileIntrusionPixels": 0,
+      "contactSequenceIndex": 7,
+      "inputDelayFrames": 0,
+      "output": "generated/moving-up-before-after.gif"
+    },
+    "moving-down": {
+      "label": "Moving DOWN-SIDE",
+      "before": {
+        "frameCount": 15,
+        "medianVisibleHeightPx": 62.46,
+        "minimumVisibleHeightPx": 51.41,
+        "maximumVisibleHeightPx": 81.2,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 15.16,
+        "centerDriftLivePx": 19.7
+      },
+      "after": {
+        "frameCount": 15,
+        "medianVisibleHeightPx": 73.51,
+        "minimumVisibleHeightPx": 61.02,
+        "maximumVisibleHeightPx": 78.8,
+        "bottomDriftSourcePx": 1.0,
+        "rootAnchorDriftSourcePx": 10.86,
+        "centerDriftLivePx": 11.77
+      },
+      "currentSpriteOffsetPx": {
+        "x": 16.92,
+        "y": 15.04,
+        "magnitude": 22.64
+      },
+      "proposedSpriteOffsetPx": {
+        "x": 0,
+        "y": 0,
+        "magnitude": 0
+      },
+      "currentOpaqueTileIntrusionPixels": 262,
+      "proposedOpaqueTileIntrusionPixels": 0,
+      "contactSequenceIndex": 6,
+      "inputDelayFrames": 0,
+      "output": "generated/moving-down-before-after.gif"
+    }
+  }
+}

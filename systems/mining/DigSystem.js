@@ -1,5 +1,6 @@
 import { TILE_TYPES, isUnbreakableMiningSurface } from "../../values/tileTypes.js";
 import { MINING_CONFIG } from "../../values/miningConfig.js";
+import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
 import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import { getGemPowerBlockTier } from "../../values/specialBlocks.js";
@@ -14,6 +15,13 @@ import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { RELIC_DISCOVERY_FX_CONFIG } from "../../values/relicDiscoveryFxConfig.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
+import { getResourceEconomyConfigHealth } from "../../values/resourceEconomy.js";
+import { resolveDepthMilestoneEconomyBonuses } from "./depthEconomyBonuses.js";
+import {
+  capFinalResourceYield,
+  isSecondWorldResourceEconomy,
+  resolveDepthAdjustedResourceYield,
+} from "./resourceDepthYield.js";
 import {
   HARD_RESOURCE_TILE_TYPES,
   RESOURCE_KEYS,
@@ -29,6 +37,8 @@ export class DigSystem {
     this.worldModel = worldModel;
     this.worldRenderer = worldRenderer;
     this.config = config;
+    this.firstFiveEnabled = config?.firstFiveEnabled
+      ?? resolveFirstFiveMinutesEnabled();
     this.upgradeSystem = upgradeSystem;
     this.playerLevelSystem = playerLevelSystem;
     this.floatingTextSystem = floatingTextSystem;
@@ -37,6 +47,7 @@ export class DigSystem {
     this.ancientRelicSystem = null;
     this.relicDiscoveryFxSystem = null;
     this.retentionProgressSystem = null;
+    this.depthMilestoneBonusProvider = null;
 
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
@@ -68,14 +79,79 @@ export class DigSystem {
     this.retentionProgressSystem = retentionProgressSystem;
   }
 
+  setDepthMilestoneBonusProvider(provider) {
+    this.depthMilestoneBonusProvider = typeof provider === "function"
+      ? provider
+      : null;
+  }
+
+  _isDepthEconomyEnabled() {
+    return this.config?.resourceEconomyEnabled !== false;
+  }
+
+  _getDepthMilestoneBonuses() {
+    return resolveDepthMilestoneEconomyBonuses(
+      this.depthMilestoneBonusProvider?.(),
+      this._isDepthEconomyEnabled(),
+    );
+  }
+
   _getNativeYield(tileType, tx, ty) {
-    const depthTiles = ty - this.config.topAirRows;
-    return getResourceYieldMultiplier(tileType, tx, ty, depthTiles, this.config.seed);
+    const depthTiles = ty - (this.config?.topAirRows || 0);
+    const enabled = this._isDepthEconomyEnabled();
+    const nativeYield = getResourceYieldMultiplier(
+      tileType,
+      tx,
+      ty,
+      depthTiles,
+      this.config?.seed || 0,
+      enabled,
+    );
+    return resolveDepthAdjustedResourceYield({
+      nativeYield,
+      depthTiles,
+      secondWorld: isSecondWorldResourceEconomy(this.config, tx),
+      tileX: tx,
+      tileY: ty,
+      seed: this.config?.seed || 0,
+      enabled,
+    });
   }
 
   _getNativeRarity(tileType, tx, ty) {
-    const depthTiles = ty - this.config.topAirRows;
-    return getResourceRarityDescriptor(tileType, tx, ty, depthTiles, this.config.seed);
+    const depthTiles = ty - (this.config?.topAirRows || 0);
+    return getResourceRarityDescriptor(
+      tileType,
+      tx,
+      ty,
+      depthTiles,
+      this.config?.seed || 0,
+      this._isDepthEconomyEnabled(),
+    );
+  }
+
+  _capResourceYield(value) {
+    return capFinalResourceYield(value, this._isDepthEconomyEnabled());
+  }
+
+  getDepthEconomyHealthSnapshot() {
+    const enabled = this._isDepthEconomyEnabled();
+    const configHealth = getResourceEconomyConfigHealth();
+    const milestoneProviderAttached = (
+      typeof this.depthMilestoneBonusProvider === "function"
+    );
+    const levelTwoBoundaryReady = Number.isInteger(this.config?.levelTwoLeftTile);
+    return Object.freeze({
+      ...configHealth,
+      enabled,
+      ready: !enabled || (
+        configHealth.ready
+        && milestoneProviderAttached
+        && levelTwoBoundaryReady
+      ),
+      milestoneProviderAttached,
+      levelTwoBoundaryReady,
+    });
   }
 
   _rollLuckyDrop() {
@@ -264,6 +340,11 @@ export class DigSystem {
       cooldown = cooldown * (1 - speedBonus);
     }
     
+    const milestoneBonuses = this._getDepthMilestoneBonuses();
+    if (milestoneBonuses.miningSpeedReduction > 0) {
+      cooldown *= 1 - milestoneBonuses.miningSpeedReduction;
+    }
+
     // Apply special block mining speed boost (e.g., Speed Block)
     if (this.specialBlockEffectsManager) {
       const speedMult = this.specialBlockEffectsManager.getMiningSpeedMultiplier();
@@ -313,21 +394,18 @@ export class DigSystem {
       const levelFlatBonus = this.playerLevelSystem
         ? this.playerLevelSystem.getMiningFlatDamageBonus()
         : 0;
-
-      if (this.playerLevelSystem) {
-        const levelMultiplier = this.playerLevelSystem.getMiningDamageMultiplier();
-        if (pickaxeDamage > 0) {
-          damage = pickaxeDamage * multiplier * levelMultiplier;
-        } else {
-          damage = baseDamage * levelMultiplier;
-        }
-      } else {
-        if (pickaxeDamage > 0) {
-          damage = pickaxeDamage * multiplier;
-        } else {
-          damage = baseDamage;
-        }
-      }
+      const levelMultiplier = this.playerLevelSystem
+        ? this.playerLevelSystem.getMiningDamageMultiplier()
+        : 1;
+      const baselineDamage = baseDamage * levelMultiplier;
+      const pickaxeResult = pickaxeDamage * multiplier * levelMultiplier;
+      damage = pickaxeDamage > 0
+        ? (
+          this.firstFiveEnabled
+            ? Math.max(baselineDamage, pickaxeResult)
+            : pickaxeResult
+        )
+        : baselineDamage;
 
       damage += strengthBonus + levelFlatBonus;
     }
@@ -470,6 +548,9 @@ export class DigSystem {
             heavyPunchResult.behindResourceAmount += 1;
             heavyPunchResult.behindIsLuckyDrop = true;
           }
+          heavyPunchResult.behindResourceAmount = this._capResourceYield(
+            heavyPunchResult.behindResourceAmount,
+          );
           this.resources[heavyPunchResult.behindResourceType] =
             (this.resources[heavyPunchResult.behindResourceType] || 0) + heavyPunchResult.behindResourceAmount;
           if (this.playerLevelSystem) {
@@ -613,6 +694,7 @@ export class DigSystem {
           ?? this.playerLevelSystem.calculatedBonuses.criticalHitChance
           ?? 0;
       }
+      critChance += this._getDepthMilestoneBonuses().critChance;
       // Guaranteed crit from special blocks (e.g., Crit Block)
       if (this.specialBlockEffectsManager && this.specialBlockEffectsManager.isGuaranteedCritActive()) {
         isCriticalHit = true;
@@ -709,12 +791,14 @@ export class DigSystem {
       if (!result.wasRubble) {
         ancientRelics = this._awardAncientRelics(result.typeBeforeDamage, targetTile.tx, targetTile.ty);
         let skyTileRarity = 0;
+        let skyTileIdentity = 0;
         let rewardTileType = result.typeBeforeDamage;
         if (result.typeBeforeDamage === TILE_TYPES.SKY_TILE) {
           const originalType = this.worldModel.getSkyTileOriginalType(targetTile.tx, targetTile.ty);
           rewardTileType = originalType;
           resourceType = tileTypeToResource(originalType);
           skyTileRarity = this.worldModel.getSkyTileRarity(targetTile.tx, targetTile.ty);
+          skyTileIdentity = this.worldModel.getSkyTileIdentity(targetTile.tx, targetTile.ty);
           isSkyTileBonus = true;
         } else {
           resourceType = tileTypeToResource(result.typeBeforeDamage);
@@ -741,6 +825,7 @@ export class DigSystem {
             resourceAmount += 1;
             isLuckyDrop = true;
           }
+          resourceAmount = this._capResourceYield(resourceAmount);
 
           this.resources[resourceType] = (this.resources[resourceType] || 0) + resourceAmount;
 
@@ -762,7 +847,12 @@ export class DigSystem {
               skyTileRarity,
               worldX,
               worldY,
-              resourceType
+              resourceType,
+              {
+                materialMultiplier: skyTileMultiplier,
+                materialAmount: resourceAmount,
+                identityIndex: skyTileIdentity,
+              },
             );
           }
         }
@@ -954,11 +1044,13 @@ export class DigSystem {
     let resourceType = tileTypeToResource(tileType);
     let skyMultiplier = 1;
     let skyTileRarity = 0;
+    let skyTileIdentity = 0;
     let skyTilePassiveBonus = false;
     if (tileType === TILE_TYPES.SKY_TILE) {
       rewardTileType = this.worldModel.getSkyTileOriginalType(tx, ty);
       resourceType = tileTypeToResource(rewardTileType);
       skyTileRarity = this.worldModel.getSkyTileRarity(tx, ty);
+      skyTileIdentity = this.worldModel.getSkyTileIdentity(tx, ty);
       const skyReward = this._getSkyTileRewardMultiplier(skyTileRarity, resourceType);
       skyMultiplier = skyReward.multiplier;
       skyTilePassiveBonus = skyReward.passiveBonus;
@@ -973,13 +1065,24 @@ export class DigSystem {
         result.resourceAmount += 1;
         result.isLuckyDrop = true;
       }
+      result.resourceAmount = this._capResourceYield(result.resourceAmount);
       this.resources[resourceType] = (this.resources[resourceType] || 0) + result.resourceAmount;
     }
 
     if (tileType === TILE_TYPES.SKY_TILE && resourceType && this.floatingTextSystem) {
       const worldX = tx * this.config.tileSize + this.config.tileSize / 2;
       const worldY = ty * this.config.tileSize + this.config.tileSize / 2;
-      this.floatingTextSystem.releaseCollectedSkyStar(skyTileRarity, worldX, worldY, resourceType);
+      this.floatingTextSystem.releaseCollectedSkyStar(
+        skyTileRarity,
+        worldX,
+        worldY,
+        resourceType,
+        {
+          materialMultiplier: skyMultiplier,
+          materialAmount: result.resourceAmount,
+          identityIndex: skyTileIdentity,
+        },
+      );
       result.skyTileMultiplier = skyMultiplier;
       result.skyTilePassiveBonus = skyTilePassiveBonus;
     }

@@ -208,6 +208,8 @@ export class CaveActionAnimationRuntime {
         targetTile,
         direction,
         resumeJogFrame: movingDiagonalDig.resumeJogFrame ?? movingSideDig.resumeJogFrame,
+        movingSideDigActive: movingSideDig.movingSideDigActive,
+        standOffDirectionX: movingSideDig.targetDirectionX,
       });
     }
     this.controller._playAnim(key, time, CAVE_SCENE_CONFIG.feedback.actionHoldMs);
@@ -246,12 +248,23 @@ export class CaveActionAnimationRuntime {
       ? rigContext.resumeJogFrame
       : null;
     controller._actionUntilMs = Infinity;
+    scene.player.play(key, true);
+    controller._applyPlayerDisplaySize();
+    scene.player.setAngle?.(0);
+    scene.player.anims.timeScale = timeScale;
+    controller.playerController?._syncSpriteWithPhysics?.();
     scene.playerRigContact?.beginAction({
       animationKey: key,
       contactSpec: contact,
       targetTile: rigContext?.targetTile,
       direction: rigContext?.direction,
     });
+    if (rigContext?.movingSideDigActive === true) {
+      controller.playerController?.beginMovingSideDigStandOff?.({
+        targetTile: rigContext.targetTile,
+        directionX: rigContext.standOffDirectionX,
+      });
+    }
     this.timeline.begin({
       animationKey: key,
       contactFrame: contact.textureFrame,
@@ -277,10 +290,6 @@ export class CaveActionAnimationRuntime {
         }
       },
     });
-    scene.player.play(key, true);
-    scene.player.setAngle?.(0);
-    scene.player.anims.timeScale = timeScale;
-    controller._applyPlayerDisplaySize();
     return true;
   }
   _cancelMiningRecovery(nowMs, abilities) {

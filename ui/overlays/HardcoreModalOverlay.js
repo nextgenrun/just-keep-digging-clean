@@ -157,19 +157,35 @@ export class HardcoreModalOverlay {
   }
 
   showDeath({ reason, depth, pages, onRetry, onReturn }) {
-    this.mode = "death";
-    this.buffer = "";
-    this.busy = true;
-    this.onConfirm = null;
-    this.onCancel = null;
-    this.confirmationRoot.setVisible(false);
-    this.deathView.show({
+    this._showRecap("death", true, () => this.deathView.show({
       reason,
       depth,
       pages,
-      onRetry: () => this._finishDeath(onRetry),
-      onReturn: () => this._finishDeath(onReturn),
-    });
+      onRetry: () => this._finishRecap(onRetry),
+      onReturn: () => this._finishRecap(onReturn),
+    }));
+  }
+
+  showMemorial({ reason, depth, slotId, pages, onClose }) {
+    if (this.isVisible) return false;
+    this._showRecap("memorial", false, () => this.deathView.showMemorial({
+      reason,
+      depth,
+      slotId,
+      pages,
+      onClose: () => this._finishRecap(onClose),
+    }));
+    return true;
+  }
+
+  _showRecap(mode, busy, present) {
+    this.mode = mode;
+    this.buffer = "";
+    this.busy = busy;
+    this.onConfirm = null;
+    this.onCancel = null;
+    this.confirmationRoot.setVisible(false);
+    present();
     this.root.setVisible(true).setAlpha(1);
     this.scene.input.keyboard.on("keydown", this._keyHandler);
   }
@@ -197,6 +213,7 @@ export class HardcoreModalOverlay {
 
   close({ cancelled = false } = {}) {
     if (!this.isVisible || this.mode === "death") return false;
+    if (this.mode === "memorial") return this.deathView.requestClose();
     const onCancel = this.onCancel;
     this._resetAndHide();
     if (cancelled) onCancel?.();
@@ -209,7 +226,7 @@ export class HardcoreModalOverlay {
     event?.stopPropagation?.();
     const key = String(event?.key || "");
 
-    if (this.mode === "death") {
+    if (this.mode === "death" || this.mode === "memorial") {
       this.deathView.handleKey(event);
       return;
     }
@@ -269,7 +286,7 @@ export class HardcoreModalOverlay {
     }
   }
 
-  _finishDeath(callback) {
+  _finishRecap(callback) {
     this._resetAndHide();
     if (typeof callback === "function") callback();
   }

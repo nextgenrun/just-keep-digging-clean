@@ -14,6 +14,8 @@ import {
 } from "../ui/overlays/SettingsPanelContent.js";
 
 const floatingText = RETENTION_CONFIG.floatingText;
+assert.equal(RETENTION_CONFIG.settings.starPopupsDefaultEnabled, true);
+assert.match(RETENTION_CONFIG.settings.starPopupHint, /three-second|rate-limited/i);
 assert.equal(floatingText.defaultMode, "reduced");
 assert.deepEqual(floatingText.modes.full.hiddenCategories, []);
 assert.deepEqual(floatingText.modes.reduced.hiddenCategories, ["damage", "resource"]);
@@ -44,7 +46,7 @@ const fittedPause = fitUiModal(
   PAUSE_MENU_LAYOUT.maxWidth,
   PAUSE_MENU_LAYOUT.maxHeight,
 );
-assert.equal(fittedPause.width, 940);
+assert.equal(fittedPause.width, PAUSE_MENU_LAYOUT.maxWidth);
 assert.equal(fittedPause.height, 672);
 const pauseContentTop = (
   -fittedPause.height / 2
@@ -78,7 +80,7 @@ const compactPauseSettingsHeight = (
 assert.equal(compactPauseSettingsHeight, 346);
 
 for (const [width, height, compact] of [
-  [896, pauseSettingsHeight, false],
+  [fittedPause.width - UI_MODAL_LAYOUT.contentPadding * 2, pauseSettingsHeight, false],
   [760, 430, false],
   [620, 380, true],
   [420, 380, true],
@@ -241,11 +243,12 @@ assert.ok(
   "all compact gameplay toggles must remain above the footer",
 );
 
-const [uiKitSource, settingsSource, pauseSource, floatingTextSource] = await Promise.all([
+const [uiKitSource, settingsSource, pauseSource, floatingTextSource, userSettingsSource] = await Promise.all([
   readFile(new URL("../ui/PhaserUiKit.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/overlays/SettingsPanelContent.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/FloatingTextSystem.js", import.meta.url), "utf8"),
+  readFile(new URL("../systems/UserSettings.js", import.meta.url), "utf8"),
 ]);
 assert.match(uiKitSource, /setFocused\(value\)\s*\{\s*state\.focused = Boolean\(value\)/);
 assert.match(settingsSource, /selected:\s*active/);
@@ -259,5 +262,8 @@ assert.match(
   "the first-run HUD must not cover pause-menu controls",
 );
 assert.match(floatingTextSource, /USER_SETTINGS\.getDisplay\(\)\.floatingTextMode/);
+assert.match(settingsSource, /showStarDiscoveryPopups/);
+assert.match(settingsSource, /scene\.floatingTextSystem\?\.applyDisplaySettings/);
+assert.match(userSettingsSource, /showStarDiscoveryPopups/);
 
-console.log("pause settings contract: reduced-by-default floating text, persistent selection, unobscured controls, and non-overlapping layout passed");
+console.log("pause settings contract: persistent feedback options, Star popup opt-out, unobscured controls, and non-overlapping layout passed");

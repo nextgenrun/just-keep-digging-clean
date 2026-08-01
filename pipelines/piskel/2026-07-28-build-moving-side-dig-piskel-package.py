@@ -186,6 +186,10 @@ def main() -> None:
     invalid |= build["runFrameOffsets"] != handoff["runFrameOffsets"] or build["contactFrame"] != production_config["contactFrame"]
     invalid |= build["contactBackoffFalloffFrames"] != production_config["contactBackoffFalloffFrames"]
     invalid |= candidate["entryActionBlendWeights"] != handoff["actionBlendWeights"] or candidate["exitActionBlendWeights"] != handoff["exitActionBlendWeights"]
+    stand_off = production_config["movement"]["tileFaceStandOff"]
+    invalid |= stand_off.get("enabled") is not True
+    invalid |= stand_off.get("mode") != "authoritative-body-gap"
+    invalid |= not isinstance(stand_off.get("distancePx"), (int, float)) or stand_off["distancePx"] <= 0
     if invalid:
         raise ValueError("approved Option C review and production smoothing contracts differ")
 
@@ -259,12 +263,14 @@ def main() -> None:
     })
 
     runtime_manifest["moving_side_dig_pipeline"] = {
-        "version": 3,
+        "version": 5,
         "builder": "pipelines/piskel/2026-07-28-build-moving-side-dig-piskel-package.py",
         "candidate": candidate["id"],
         "contact_backoff_source_px": candidate["contactBackoffPx"],
         "contact_face_clearance_source_px": candidate["contactFaceClearancePx"],
         "contact_envelope_policy": candidate["contactEnvelopePolicy"],
+        "contact_visual_alignment_enabled": production_config["contactVisualAlignmentEnabled"],
+        "tile_face_stand_off": deepcopy(stand_off),
         "contact_envelope_right_source_px": contact_envelope_right,
         "bottom_drift_px": metrics["bottomDriftPx"],
         "max_pelvis_alignment_error_px": metrics["maxPelvisAlignmentErrorPx"],
@@ -280,6 +286,13 @@ def main() -> None:
             ),
             "entry_variant_ids": handoff["entryVariantIdByOutgoingJogFrame"],
             "pivot_frames": handoff["pivotFrameByOutgoingJogFrame"],
+        },
+        "moving_quickslash": {
+            "animation_key": production_config["quickslash"]["animationKey"],
+            "frame_indexes": production_config["quickslash"]["frameIndexes"],
+            "contact_frame": production_config["quickslash"]["contactFrame"],
+            "contact_sequence_index": production_config["quickslash"]["contactSequenceIndex"],
+            "phase_variant_count": len(handoff["variants"]),
         },
     }
     write_json(RUNTIME_MANIFEST_PATH, runtime_manifest)

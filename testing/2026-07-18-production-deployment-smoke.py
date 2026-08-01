@@ -24,6 +24,8 @@ assert not any("underground-biome-smooth-motion-v3" in path.parts for path in as
 
 for relative_directory in (
     "sprites/npc/campfire/generated",
+    "sprites/environment/star-identities-v2",
+    "sprites/environment/star-identity-lights-v1",
     "sprites/tiles/dynamic-soil",
     "sprites/tiles/resource-tiles-imagegen-v3",
     "sprites/backgrounds/world-visual-v2/depth/biome-motion-v3",

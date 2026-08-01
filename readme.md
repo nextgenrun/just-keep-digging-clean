@@ -41,6 +41,27 @@ ui/           ← Layer 3: Reads from all layers above
 - No circular dependencies — if A needs B and B needs A, inject at setup time
 - Max ~300 lines per file — split by concern using PlayScene pattern (setup/update/gameplay modules)
 
+Runtime scenic assets use one prioritized PlayScene loading lane: image decode
+is moved to `createImageBitmap`, original source dimensions are preserved, and
+GPU activation is spread across post-render idle windows. See
+`/markdown/2026-07-29-runtime-asset-loading-optimization.md`; use
+`?runtimeAssetBitmap=0` for the serialized Phaser fallback or
+`?runtimeAssetQueue=0` for the complete legacy rollback.
+
+The same runtime lane keeps all 292 audio entries available while Boot queues
+only a 15-file working set; use `?runtimeAudioQueue=0` to restore the old eager
+audio preload for comparison.
+
+Feature-heavy visuals are now tiered without resizing or recompressing their
+source pixels. Star Block FX prefetch near demand; Starlight, Titan archive
+portraits, and the World Map load only when their views are requested; and
+WorldLoad queues only the saved Campfire tier plus its next upgrade. Closed
+views release manager-owned textures after a short anti-thrash delay, while a
+704/640 MiB decoded-texture watermark is visible in runtime health. Routine
+save mutations coalesce into bounded idle work; manual save, menu exit,
+visibility loss, page hide, and shutdown still force an immediate snapshot.
+See `/markdown/2026-07-30-runtime-feature-residency-and-save-scheduling.md`;
+
 ---
 
 ## Scene Lifecycle
@@ -161,13 +182,21 @@ This project uses a 3-tier version control system:
 | `/markdown/pathing/readme.md` | Import path resolution |
 | `/markdown/2026-06-25-next-steps.md` | Immediate next steps |
 | `/markdown/2026-06-25-phase3-roadmap.md` | Phase 3 roadmap |
+| `/markdown/2026-07-30-fire-light-v3-runtime.md` | Fire-specific carried torch, authored local rays, eye adaptation, rollback, and validation |
+| `/markdown/2026-07-30-natural-fire-light-v1.md` | Selected one-layer carried flame, legacy-style procedural falloff, live comparison, and rollback |
+| `/markdown/2026-07-30-star-colour-identity-library.md` | Fifty authored Star colours/lights/flavours, deterministic identity selection, I-key Star Atlas, health checks, and rollback |
+| `/markdown/2026-07-30-star-colour-identity-library-v2.md` | 250 authored Star lights, preserved V1 indices, six capped V2 atlases, paged I-key Atlas, health checks, and rollback |
+| `/markdown/2026-07-30-star-identity-dedicated-light-library.md` | Separate ImageGen light-only frames for all 250 Stars, paired world/UI layering, original-light memory cap, health checks, and rollback |
 | `/markdown/2026-07-28-star-block-crystal-popout-v2.md` | Approved Choice 1 Star Block family with an exact one-to-one tile pop-out, delayed growth, calmer levitation, six-echo trail, validation, and rollback |
 | `/markdown/2026-07-12-v11-polished-runtime-backgrounds.md` | V11 polished surface/depth streaming package and rollback |
 | `/markdown/2026-07-28-underground-visual-expansion-v3.md` | 100 additive underground ImageGen assets: 50 full backgrounds plus 50 terrain-masked ground structures |
 | `/markdown/2026-07-28-underground-terrain-blend-v4.md` | 250 effective ground visuals, 50 feathered structure derivatives, native overlap blending, retained older layouts, rollback, and regression evidence |
+| `/markdown/2026-07-29-underground-detail-library-v6.md` | 400 additive ImageGen foreground textures/props, 90+50 complementary seam derivatives, deterministic terrain-masked streaming, rollback, and validation |
 | `/markdown/2026-07-28-sky-underground-cohesion-runtime.md` | Gap-free native-density sky overlap field using all 20 assets plus 10 terrain-masked underground cohesion placements, incoming-edge blends, rollback, and validation |
 | `/markdown/2026-07-29-background-rendering-regression-restoration.md` | World-space sky/depth restoration, mask-origin fix, seamless retained backdrops, live QA, and regression tests |
-| `/markdown/2026-07-29-expanded-cave-level-visual-overhaul.md` | 60x20 camera-traversed entered caves, three ImageGen panorama families, safe painted-floor collision, persistence migration, and rollback |
+| `/markdown/2026-07-29-expanded-cave-level-visual-overhaul.md` | Historical 60x20 expansion; its ImageGen/hidden-floor runtime is superseded |
+| `/markdown/2026-07-30-meshy-cave-terrain-correction.md` | Historical Meshy interior attempt; zero-`CAVE_WALL` terrain remains current |
+| `/markdown/2026-07-31-cave-interior-visual-correction.md` | One continuous cave interior, correct left entrance, no giant/repeated Meshy props, and clustered mineable ground |
 | `/markdown/2026-07-13-v11-split-sky-islands-tmx.md` | V11 open-sky bedrock cleanup and two four-portal sky-island banks |
 | `/markdown/2026-07-26-titan-chambers-production-v2.md` | 25 high-resolution Titan chambers, streaming, archive pinning, health, validation, and rollback |
 | `/markdown/2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
@@ -176,3 +205,5 @@ This project uses a 3-tier version control system:
 | `/markdown/2026-07-28-earthquake-dodge-audit-and-layering.md` | Production FallZones, measured dodge fairness, exact tile/ground feedback, world layering, and regression coverage |
 | `/markdown/2026-07-29-starlight-talent-tree-v3-polish.md` | Native ultra-wide ImageGen talent presentation, three-card carousel spacing, proportional scaling, and rollback |
 | `/markdown/2026-07-28-ui-notification-carousel.md` | Centered transient-card queue with fresh seven-second selection timing, consumptive arrows, full-queue X, modal isolation, and reduced floating text |
+| `/markdown/2026-07-30-depth-resource-economy-rebalance.md` | Steep continuous depth income, high-impact rarity, deep composition, live Milestone bonuses, Level Two market progression, caps, canary/worker health, and exact rollback |
+| `/markdown/2026-07-30-starlight-talent-tree-v4-mockup-fidelity.md` | Approved tall single-frame ImageGen talent composition, full-shell ESC/Star Pillar parity, large readable choices, responsive live QA, worker health, and rollback |

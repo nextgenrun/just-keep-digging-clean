@@ -19,7 +19,11 @@ already hid or destroyed its visible target.
 
 UAL main-world and compact-cave actions share contact-synchronised damage: SIDE keeps Jab/Cross/Jab/Cross, default-Survivor UP and UP-SIDE use the complete 24-frame Piskel-stabilized Blender dig-up, DOWN uses the same-facing ground strike, and Quickslash/Thunder remain one-contact actions. The explicit native rollback keeps its recovered uppercut. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use body velocity for first-step/reversal cadence, apply frame-rate-independent flight banking, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Survivor flight uses one continuous loop; the explicit native rollback retains its authored phase chain.
 
-UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles, release and reversal react on the current frame, upgraded or weather-adjusted speed remains stride-matched, and climb/flight timing stays consistent across both world implementations. The base idle/action presentation is 109px, while the UAL Jog uses 123px to preserve the same approximately 0.8-tile visible height.
+UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles, release and reversal react on the current frame, upgraded or weather-adjusted speed remains stride-matched, and climb/flight timing stays consistent across both world implementations. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
+Moving SIDE actions also hold the authoritative 31 px body 18 px away from a
+still-solid target face in both runtime worlds. The clamp is symmetric, keeps
+the target adjacent for mining, releases when the tile is destroyed, and does
+not delay input or change damage/reach.
 
 ## Tutorial and resume authority
 
@@ -43,9 +47,13 @@ unlocks; a Casual save may make the same irreversible oath through Bobo only
 after Flight and a typed `YES`. Casual never dies at zero GP.
 
 Once armed, every exact GP change flows through the central death boundary.
-Flight, torch, abilities, stress, falling rocks, cave traps, crush boundary,
-and Wurm hits can therefore kill without duplicating delete logic. Darkness,
-rapid descent, and excessive depth build stress; high stress drains GP.
+Abilities, stress, falling rocks, cave traps, crush boundary, and Wurm hits can
+therefore kill without duplicating delete logic. Darkness, rapid descent, and
+excessive depth build stress; high stress drains GP. Flight and torch upkeep
+are the deliberate exception at the final point: both
+stop at exactly 1 GP and cannot restart without spendable GP. Stress, combat
+abilities, rocks, traps, the Wurm, and other hazards can still consume that
+last point and trigger permadeath.
 The bridge records exact position, fractional GP, and stress every second,
 with an immediate checkpoint when GP first falls into the one-GP danger band.
 Teleport costs are quoted and charged before movement. Both modes require a
@@ -59,6 +67,11 @@ finishes, then offer `TRY AGAIN` or `BACK TO MENU`. Retry creates a fresh
 Hardcore save in the same slot, skips the completed-player tutorial choice, and
 still waits for Flight before arming. The memorial record lives outside the
 slot, so that grave also appears if the player starts Casual in the same slot.
+`HardcoreModalStateBridge.js` turns a grave click into the same blocking,
+large-panel presentation used by the oath/depth-gate family, supplies every
+saved recap page, and restores controls only after explicit close. The world
+visual grounds an airborne death record on authoritative terrain and rechecks
+that support if the current run digs beneath it.
 
 ## Hardcore Graveborer Wurm
 
@@ -277,3 +290,33 @@ camera lighting, glow systems, and the star pillar instead of repeatedly
 recalculating and allocating the same tile record. Runtime health samples the
 HUD/progression, gameplay, world/environment, visual-effects, and camera/light
 phases once every thirty frames; unsampled frames perform no phase clock reads.
+
+`PlaySceneSaveScheduler` now coalesces routine mutation bursts behind a 350 ms
+debounce, runs the full snapshot/write in an idle callback, and enforces a 1.8
+second maximum delay. Explicit Save, scene transitions, hidden/page-hide events,
+and shutdown bypass the routine delay. Runtime health reports capture, write,
+and total p95 timing so serialization stalls are distinguishable from rendering.
+
+Pause-menu Talents and Titans plus the World Map retain their feature texture
+groups only while their exact full-quality views exist. Pending tab requests are
+cancellable, and view objects are destroyed before manager-owned textures are
+released.
+
+When deferred Talents or Titans art is absent, `PlaySceneUI` mounts the compact
+authored feature loader inside the existing pause content rect. It reports the
+manager's exact loaded/total asset count, themed phase, percentage and three
+visual milestones; the tab opens automatically after a short real-100% beat.
+Closing ESC or changing tabs destroys the loader and cancels the pending group.
+Reopening starts from actual texture residency, so it neither leaks a request
+nor resumes from a fabricated percentage.
+
+PlayScene passes the resolved depth-economy mode into `UpgradeSystem` and
+connects `MilestoneBoardSystem.getBonuses()` to `DigSystem`. Compact CaveScene
+configs retain their origin depth and record whether the entry came from Level
+Two, while `CaveGameplayController` shares the same Milestone provider.
+
+When the Talents page is ready, `PlaySceneUI` switches that page into the V4
+immersive shell mode: generic ESC tabs/header/frame are hidden and the authored
+Starlight composition receives the fitted shell bounds. Clicking the in-frame
+`PAUSED` title returns to the normal ESC pages. Changing page or closing ESC
+restores/destroys the ordinary shell state without changing gameplay authority.

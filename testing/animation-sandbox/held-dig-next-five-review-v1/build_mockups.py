@@ -15,7 +15,8 @@ CONFIG_PATH = ROOT / "values" / "heldDigNextFiveReview.json"
 sys.path.insert(0, str(ROOT / "pipelines" / "piskel"))
 sys.path.insert(0, str(HERE))
 
-from held_dig_renderer import render_pair, save_gif  # noqa: E402
+from held_dig_output import save_gif  # noqa: E402
+from held_dig_renderer import render_pair  # noqa: E402
 from held_dig_sequences import build_all_sequences, load_json  # noqa: E402
 
 

@@ -1,0 +1,392 @@
+{
+  "schema": "random-world-events-live-qa@2",
+  "generatedUtc": "2026-07-30T19:52:28.031Z",
+  "prepared": {
+    "gallery": {
+      "ok": true,
+      "mode": "sparse",
+      "left": 23,
+      "top": 81,
+      "width": 12,
+      "height": 8,
+      "playerTile": {
+        "tx": 29,
+        "ty": 85
+      }
+    },
+    "textures": {
+      "panel": true,
+      "sigils": true
+    }
+  },
+  "jackpot": {
+    "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\random-world-events-live-qa\\sleeping-jackpot-riskall.png",
+    "state": {
+      "visible": true,
+      "selected": "maturity",
+      "buffer": "RISKALL",
+      "left": "YOU WILL GAMBLE 500 M\nYOU CAN GAIN +1.500 M\nOR LOSE 500 M\n50% WIN CHANCE",
+      "right": "MATURITY: 100M\nSTAKE: ALL YOUR RESOURCES\nWIN: ×9 ALL RESOURCES\nLOSE: ALL STAKED RESOURCES\n50% WIN CHANCE\nTHIS CAN EMPTY YOUR ENTIRE RESOURCE INVENTORY\nDIRT 8                   BRONZE 29                \nSTONE 11                 SILVER 32                \nCOPPER 37                GOLD 35                  \nDARK DIRT 17             LAVA DIRT 38             \nHARD DARK DIRT 20        OBSIDIAN 41              \nSTEEL 23                 EMBER ORE 44             \nIRON 26                  MAGMA CRYSTAL 47         ",
+      "instruction": "TYPE RISKALL THEN PRESS ENTER",
+      "blocked": true
+    }
+  },
+  "events": [
+    {
+      "type": "crystalChoir",
+      "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\random-world-events-live-qa\\crystalChoir.png",
+      "started": {
+        "flags": {
+          "master": true,
+          "crystalChoir": true,
+          "blackoutBloom": true,
+          "moneyMonsterRush": true,
+          "debug": true,
+          "forcedType": null
+        },
+        "version": 2,
+        "seed": 133742,
+        "serial": 1,
+        "cooldownMs": 34484.41999999999,
+        "active": {
+          "id": "crystalChoir-1",
+          "type": "crystalChoir",
+          "remainingMs": 75000,
+          "phase": "active",
+          "suspended": false,
+          "startedDepth": 20,
+          "anchors": [
+            {
+              "tx": 24,
+              "ty": 86
+            },
+            {
+              "tx": 26,
+              "ty": 86
+            },
+            {
+              "tx": 28,
+              "ty": 86
+            },
+            {
+              "tx": 30,
+              "ty": 86
+            },
+            {
+              "tx": 32,
+              "ty": 86
+            }
+          ],
+          "sequence": [
+            2,
+            0,
+            4
+          ],
+          "progress": 0,
+          "targetResource": null,
+          "choirId": null,
+          "bonusMoney": 0
+        },
+        "recentTypes": [
+          "crystalChoir"
+        ],
+        "recentResources": [
+          "copper",
+          "iron",
+          "bronze",
+          "steel",
+          "silver",
+          "gold"
+        ],
+        "sleepingJackpot": null,
+        "completedChoirs": [],
+        "stats": {
+          "started": 1,
+          "completed": 0,
+          "interrupted": 0
+        }
+      },
+      "runtime": {
+        "active": {
+          "id": "crystalChoir-1",
+          "type": "crystalChoir",
+          "remainingMs": 74871.52,
+          "phase": "active",
+          "suspended": false,
+          "startedDepth": 20,
+          "anchors": [
+            {
+              "tx": 24,
+              "ty": 86
+            },
+            {
+              "tx": 26,
+              "ty": 86
+            },
+            {
+              "tx": 28,
+              "ty": 86
+            },
+            {
+              "tx": 30,
+              "ty": 86
+            },
+            {
+              "tx": 32,
+              "ty": 86
+            }
+          ],
+          "sequence": [
+            2,
+            0,
+            4
+          ],
+          "progress": 0,
+          "targetResource": null,
+          "choirId": null,
+          "bonusMoney": 0
+        },
+        "ribbonVisible": true,
+        "ribbonTitle": "CRYSTAL CHOIR  •  REPEAT THE SONG",
+        "ribbonDetail": "◇◇◉◇◇  •  STRIKE, DO NOT BREAK",
+        "nodes": 5,
+        "visibleNodes": 5,
+        "ambient": null,
+        "rushHeader": null,
+        "rushRow": null,
+        "visibleText": [
+          "✓  Current flight return range: ~3 tiles",
+          "⚠  Gem Power critical zone — returning is very difficult",
+          "✦  Sky Island  ✦",
+          "Campfire",
+          "DEPTH  21 m",
+          "☀ 9:36 AM",
+          "DAY 1 · SPRING",
+          "☀️ CLEAR",
+          "22.9°C",
+          "GP  100 / 110",
+          "LEVEL 1",
+          "0 / 57 XP"
+        ],
+        "uiErrors": []
+      },
+      "rushFreeze": null
+    },
+    {
+      "type": "blackoutBloom",
+      "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\random-world-events-live-qa\\blackoutBloom.png",
+      "started": {
+        "flags": {
+          "master": true,
+          "crystalChoir": true,
+          "blackoutBloom": true,
+          "moneyMonsterRush": true,
+          "debug": true,
+          "forcedType": null
+        },
+        "version": 2,
+        "seed": 133742,
+        "serial": 2,
+        "cooldownMs": 221421,
+        "active": {
+          "id": "blackoutBloom-2",
+          "type": "blackoutBloom",
+          "remainingMs": 26000,
+          "phase": "active",
+          "suspended": false,
+          "startedDepth": 20,
+          "anchors": [
+            {
+              "tx": 25,
+              "ty": 85
+            },
+            {
+              "tx": 29,
+              "ty": 85
+            },
+            {
+              "tx": 33,
+              "ty": 85
+            }
+          ],
+          "sequence": [],
+          "progress": 0,
+          "targetResource": "copper",
+          "choirId": null,
+          "bonusMoney": 0
+        },
+        "recentTypes": [
+          "crystalChoir",
+          "blackoutBloom"
+        ],
+        "recentResources": [
+          "copper",
+          "iron",
+          "bronze",
+          "steel",
+          "silver",
+          "gold"
+        ],
+        "sleepingJackpot": null,
+        "completedChoirs": [],
+        "stats": {
+          "started": 2,
+          "completed": 0,
+          "interrupted": 1
+        }
+      },
+      "runtime": {
+        "active": {
+          "id": "blackoutBloom-2",
+          "type": "blackoutBloom",
+          "remainingMs": 25871.52,
+          "phase": "active",
+          "suspended": false,
+          "startedDepth": 20,
+          "anchors": [
+            {
+              "tx": 25,
+              "ty": 85
+            },
+            {
+              "tx": 29,
+              "ty": 85
+            },
+            {
+              "tx": 33,
+              "ty": 85
+            }
+          ],
+          "sequence": [],
+          "progress": 0,
+          "targetResource": "copper",
+          "choirId": null,
+          "bonusMoney": 0
+        },
+        "ribbonVisible": true,
+        "ribbonTitle": "BLACKOUT BLOOM  •  HARVEST 3",
+        "ribbonDetail": "0/3 BLOOMS  •  26S",
+        "nodes": 3,
+        "visibleNodes": 3,
+        "ambient": {
+          "ambientVisibilityScale": 0.8869376000000004
+        },
+        "rushHeader": null,
+        "rushRow": null,
+        "visibleText": [
+          "✓  Current flight return range: ~3 tiles",
+          "⚠  Gem Power critical zone — returning is very difficult",
+          "✦  Sky Island  ✦",
+          "Campfire",
+          "DEPTH  21 m",
+          "☀ 9:36 AM",
+          "DAY 1 · SPRING",
+          "☀️ CLEAR",
+          "22.9°C",
+          "GP  100 / 110",
+          "LEVEL 1",
+          "0 / 57 XP",
+          "HARVEST BLACKOUT BLOOM"
+        ],
+        "uiErrors": []
+      },
+      "rushFreeze": null
+    },
+    {
+      "type": "moneyMonsterRush",
+      "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\random-world-events-live-qa\\moneyMonsterRush.png",
+      "started": {
+        "flags": {
+          "master": true,
+          "crystalChoir": true,
+          "blackoutBloom": true,
+          "moneyMonsterRush": true,
+          "debug": true,
+          "forcedType": null
+        },
+        "version": 2,
+        "seed": 133742,
+        "serial": 3,
+        "cooldownMs": 229804.52,
+        "active": {
+          "id": "moneyMonsterRush-3",
+          "type": "moneyMonsterRush",
+          "remainingMs": 90000,
+          "phase": "active",
+          "suspended": false,
+          "startedDepth": 20,
+          "anchors": [],
+          "sequence": [],
+          "progress": 0,
+          "targetResource": "copper",
+          "choirId": null,
+          "bonusMoney": 0
+        },
+        "recentTypes": [
+          "blackoutBloom",
+          "moneyMonsterRush"
+        ],
+        "recentResources": [
+          "copper",
+          "iron",
+          "bronze",
+          "steel",
+          "silver",
+          "gold"
+        ],
+        "sleepingJackpot": null,
+        "completedChoirs": [],
+        "stats": {
+          "started": 3,
+          "completed": 0,
+          "interrupted": 2
+        }
+      },
+      "runtime": {
+        "active": {
+          "id": "moneyMonsterRush-3",
+          "type": "moneyMonsterRush",
+          "remainingMs": 90000,
+          "phase": "active",
+          "suspended": false,
+          "startedDepth": 20,
+          "anchors": [],
+          "sequence": [],
+          "progress": 0,
+          "targetResource": "copper",
+          "choirId": null,
+          "bonusMoney": 0
+        },
+        "ribbonVisible": true,
+        "ribbonTitle": "RUSH ORDER  •  COPPER ×2",
+        "ribbonDetail": "01:30 ACTIVE PLAY  •  TIMER PAUSES IN SHOP",
+        "nodes": 0,
+        "visibleNodes": 0,
+        "ambient": null,
+        "rushHeader": "RUSH ORDER ACTIVE  •  COPPER ×2  •  01:30 LEFT",
+        "rushRow": "RUSH ×2  •  01:30",
+        "visibleText": [
+          "✓  Current flight return range: ~3 tiles",
+          "⚠  Gem Power critical zone — returning is very difficult",
+          "✦  Sky Island  ✦",
+          "Campfire",
+          "DEPTH  21 m",
+          "☀ 9:36 AM",
+          "DAY 1 · SPRING",
+          "☀️ CLEAR",
+          "22.9°C",
+          "GP  101 / 110",
+          "LEVEL 1",
+          "0 / 57 XP"
+        ],
+        "uiErrors": []
+      },
+      "rushFreeze": {
+        "before": 90000,
+        "after": 90000,
+        "driftMs": 0
+      }
+    }
+  ],
+  "browserErrors": []
+}

@@ -1,0 +1,2548 @@
+{
+  "schema": "dig-game-retarget-diagnostic-v1",
+  "verdict": "failed-v1-incompatible-rest-space-transfer",
+  "productionChanged": false,
+  "sourceRig": {
+    "name": "root",
+    "parent": null,
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotationQuaternionWXYZ": [
+      0.707107,
+      -0.0,
+      0.0,
+      -0.707107
+    ],
+    "scale": [
+      0.01,
+      0.01,
+      0.01
+    ],
+    "determinant": 1e-06
+  },
+  "targetRig": {
+    "name": "Armature",
+    "parent": "DGAL_CANDIDATE_legacy-miner-meshy-rigged-v2",
+    "location": [
+      0.101176,
+      -0.075959,
+      -0.006791
+    ],
+    "rotationQuaternionWXYZ": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      0.00934,
+      0.00934,
+      0.00934
+    ],
+    "determinant": 1e-06
+  },
+  "targetCandidateParent": {
+    "name": "DGAL_CANDIDATE_legacy-miner-meshy-rigged-v2",
+    "parent": null,
+    "location": [
+      0.101176,
+      -0.075959,
+      -0.006791
+    ],
+    "rotationQuaternionWXYZ": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      0.933985,
+      0.933985,
+      0.933985
+    ],
+    "determinant": 0.814743
+  },
+  "sourceBoneCount": 160,
+  "targetBoneCount": 24,
+  "sourceRootBones": [
+    "pelvis",
+    "ik_foot_root",
+    "ik_hand_root",
+    "interaction",
+    "center_of_mass"
+  ],
+  "targetRootBones": [
+    "Hips"
+  ],
+  "mappedBoneCount": 22,
+  "mappedBones": [
+    {
+      "source": "pelvis",
+      "target": "Hips",
+      "sourceParent": null,
+      "targetParent": null,
+      "sourceHeadWorld": [
+        -0.022808,
+        0.0,
+        0.958968
+      ],
+      "sourceTailWorld": [
+        0.057598,
+        0.0,
+        0.953865
+      ],
+      "targetHeadWorld": [
+        0.100743,
+        -0.075966,
+        0.897386
+      ],
+      "targetTailWorld": [
+        -0.358142,
+        2.194732,
+        13.884511
+      ],
+      "sourceLengthWorld": 0.080568,
+      "targetLengthWorld": 13.192121,
+      "targetToSourceLengthRatio": 163.739385,
+      "restDirectionDifferenceDegrees": 95.57,
+      "restBasisDifferenceDegrees": 174.015
+    },
+    {
+      "source": "thigh_l",
+      "target": "LeftUpLeg",
+      "sourceParent": "pelvis",
+      "targetParent": "Hips",
+      "sourceHeadWorld": [
+        -0.025405,
+        -0.099692,
+        0.935427
+      ],
+      "sourceTailWorld": [
+        0.188972,
+        -0.068056,
+        0.933433
+      ],
+      "targetHeadWorld": [
+        0.200446,
+        -0.078003,
+        0.810538
+      ],
+      "targetTailWorld": [
+        4.296656,
+        -0.892836,
+        -33.928684
+      ],
+      "sourceLengthWorld": 0.216707,
+      "targetLengthWorld": 34.989377,
+      "targetToSourceLengthRatio": 161.459244,
+      "restDirectionDifferenceDegrees": 83.018,
+      "restBasisDifferenceDegrees": 83.053
+    },
+    {
+      "source": "calf_l",
+      "target": "LeftLeg",
+      "sourceParent": "thigh_l",
+      "targetParent": "LeftUpLeg",
+      "sourceHeadWorld": [
+        -0.025946,
+        -0.123309,
+        0.502658
+      ],
+      "sourceTailWorld": [
+        0.182101,
+        -0.091608,
+        0.519102
+      ],
+      "targetHeadWorld": [
+        0.241408,
+        -0.086151,
+        0.463146
+      ],
+      "targetTailWorld": [
+        1.88404,
+        6.06076,
+        -35.178532
+      ],
+      "sourceLengthWorld": 0.21109,
+      "targetLengthWorld": 36.205138,
+      "targetToSourceLengthRatio": 171.515202,
+      "restDirectionDifferenceDegrees": 90.371,
+      "restBasisDifferenceDegrees": 91.849
+    },
+    {
+      "source": "foot_l",
+      "target": "LeftFoot",
+      "sourceParent": "calf_l",
+      "targetParent": "LeftLeg",
+      "sourceHeadWorld": [
+        0.009947,
+        -0.140852,
+        0.082373
+      ],
+      "sourceTailWorld": [
+        0.093137,
+        -0.128392,
+        0.08503
+      ],
+      "targetHeadWorld": [
+        0.257834,
+        -0.024682,
+        0.106729
+      ],
+      "targetTailWorld": [
+        3.189581,
+        -9.888019,
+        -7.008564
+      ],
+      "sourceLengthWorld": 0.08416,
+      "targetLengthWorld": 12.510313,
+      "targetToSourceLengthRatio": 148.649206,
+      "restDirectionDifferenceDegrees": 84.436,
+      "restBasisDifferenceDegrees": 98.232
+    },
+    {
+      "source": "ball_l",
+      "target": "LeftToeBase",
+      "sourceParent": "foot_l",
+      "targetParent": "LeftFoot",
+      "sourceHeadWorld": [
+        -0.139282,
+        -0.157757,
+        0.007502
+      ],
+      "sourceTailWorld": [
+        -0.141905,
+        -0.158146,
+        0.09162
+      ],
+      "targetHeadWorld": [
+        0.287152,
+        -0.123316,
+        0.035576
+      ],
+      "targetTailWorld": [
+        3.851539,
+        -12.115107,
+        0.035594
+      ],
+      "sourceLengthWorld": 0.08416,
+      "targetLengthWorld": 12.510312,
+      "targetToSourceLengthRatio": 148.649205,
+      "restDirectionDifferenceDegrees": 90.254,
+      "restBasisDifferenceDegrees": 184.404
+    },
+    {
+      "source": "thigh_r",
+      "target": "RightUpLeg",
+      "sourceParent": "pelvis",
+      "targetParent": "Hips",
+      "sourceHeadWorld": [
+        -0.025499,
+        0.099691,
+        0.935435
+      ],
+      "sourceTailWorld": [
+        -0.239874,
+        0.131333,
+        0.937428
+      ],
+      "targetHeadWorld": [
+        0.002384,
+        -0.077777,
+        0.809492
+      ],
+      "targetTailWorld": [
+        -4.049778,
+        -0.802151,
+        -34.348137
+      ],
+      "sourceLengthWorld": 0.216707,
+      "targetLengthWorld": 35.397789,
+      "targetToSourceLengthRatio": 163.344266,
+      "restDirectionDifferenceDegrees": 84.196,
+      "restBasisDifferenceDegrees": 84.246
+    },
+    {
+      "source": "calf_r",
+      "target": "RightLeg",
+      "sourceParent": "thigh_r",
+      "targetParent": "RightUpLeg",
+      "sourceHeadWorld": [
+        -0.026033,
+        0.123328,
+        0.502667
+      ],
+      "sourceTailWorld": [
+        -0.234079,
+        0.155036,
+        0.486221
+      ],
+      "targetHeadWorld": [
+        -0.038138,
+        -0.085021,
+        0.457916
+      ],
+      "targetTailWorld": [
+        -1.63305,
+        6.075159,
+        -34.295902
+      ],
+      "sourceLengthWorld": 0.21109,
+      "targetLengthWorld": 35.331564,
+      "targetToSourceLengthRatio": 167.376457,
+      "restDirectionDifferenceDegrees": 81.529,
+      "restBasisDifferenceDegrees": 82.168
+    },
+    {
+      "source": "foot_r",
+      "target": "RightFoot",
+      "sourceParent": "calf_r",
+      "targetParent": "RightLeg",
+      "sourceHeadWorld": [
+        0.009867,
+        0.140889,
+        0.082383
+      ],
+      "sourceTailWorld": [
+        -0.077498,
+        0.153977,
+        0.079592
+      ],
+      "targetHeadWorld": [
+        -0.054087,
+        -0.023419,
+        0.110378
+      ],
+      "targetTailWorld": [
+        -3.084263,
+        -9.984329,
+        -7.796514
+      ],
+      "sourceLengthWorld": 0.088384,
+      "targetLengthWorld": 13.073662,
+      "targetToSourceLengthRatio": 147.919536,
+      "restDirectionDifferenceDegrees": 82.22,
+      "restBasisDifferenceDegrees": 94.126
+    },
+    {
+      "source": "ball_r",
+      "target": "RightToeBase",
+      "sourceParent": "foot_r",
+      "targetParent": "RightFoot",
+      "sourceHeadWorld": [
+        -0.139361,
+        0.157801,
+        0.007511
+      ],
+      "sourceTailWorld": [
+        -0.136605,
+        0.157396,
+        -0.080829
+      ],
+      "targetHeadWorld": [
+        -0.084388,
+        -0.123028,
+        0.031309
+      ],
+      "targetTailWorld": [
+        -3.889328,
+        -12.630748,
+        0.031303
+      ],
+      "sourceLengthWorld": 0.088384,
+      "targetLengthWorld": 13.073661,
+      "targetToSourceLengthRatio": 147.919602,
+      "restDirectionDifferenceDegrees": 90.269,
+      "restBasisDifferenceDegrees": 90.458
+    },
+    {
+      "source": "spine_01",
+      "target": "Spine",
+      "sourceParent": "pelvis",
+      "targetParent": "Spine01",
+      "sourceHeadWorld": [
+        -0.02048,
+        -0.0,
+        0.995665
+      ],
+      "sourceTailWorld": [
+        0.046261,
+        -1e-06,
+        1.008428
+      ],
+      "targetHeadWorld": [
+        0.10096,
+        -0.085432,
+        1.301448
+      ],
+      "targetTailWorld": [
+        0.049009,
+        0.221537,
+        5.472683
+      ],
+      "sourceLengthWorld": 0.06795,
+      "targetLengthWorld": 4.182839,
+      "targetToSourceLengthRatio": 61.55717,
+      "restDirectionDifferenceDegrees": 79.915,
+      "restBasisDifferenceDegrees": 176.751
+    },
+    {
+      "source": "spine_03",
+      "target": "Spine01",
+      "sourceParent": "spine_02",
+      "targetParent": "Spine02",
+      "sourceHeadWorld": [
+        -0.04252,
+        -2e-06,
+        1.134191
+      ],
+      "sourceTailWorld": [
+        0.042553,
+        -2e-06,
+        1.128866
+      ],
+      "targetHeadWorld": [
+        0.100887,
+        -0.082277,
+        1.166761
+      ],
+      "targetTailWorld": [
+        0.108097,
+        -0.397805,
+        14.635477
+      ],
+      "sourceLengthWorld": 0.08524,
+      "targetLengthWorld": 13.472414,
+      "targetToSourceLengthRatio": 158.053307,
+      "restDirectionDifferenceDegrees": 93.55,
+      "restBasisDifferenceDegrees": 180.998
+    },
+    {
+      "source": "spine_05",
+      "target": "Spine02",
+      "sourceParent": "spine_04",
+      "targetParent": "Hips",
+      "sourceHeadWorld": [
+        -0.005293,
+        -5e-06,
+        1.411026
+      ],
+      "sourceTailWorld": [
+        0.124399,
+        -5e-06,
+        1.387868
+      ],
+      "targetHeadWorld": [
+        0.100815,
+        -0.079121,
+        1.032073
+      ],
+      "targetTailWorld": [
+        0.108025,
+        -0.394651,
+        14.500828
+      ],
+      "sourceLengthWorld": 0.131744,
+      "targetLengthWorld": 13.472452,
+      "targetToSourceLengthRatio": 102.262559,
+      "restDirectionDifferenceDegrees": 100.09,
+      "restBasisDifferenceDegrees": 181.048
+    },
+    {
+      "source": "clavicle_l",
+      "target": "LeftShoulder",
+      "sourceParent": "spine_05",
+      "targetParent": "Spine",
+      "sourceHeadWorld": [
+        0.017347,
+        -0.014285,
+        1.463019
+      ],
+      "sourceTailWorld": [
+        0.163491,
+        -0.007569,
+        1.463563
+      ],
+      "targetHeadWorld": [
+        0.13333,
+        -0.078896,
+        1.327493
+      ],
+      "targetTailWorld": [
+        13.081315,
+        0.574658,
+        1.327493
+      ],
+      "sourceLengthWorld": 0.1463,
+      "targetLengthWorld": 12.964469,
+      "targetToSourceLengthRatio": 88.615704,
+      "restDirectionDifferenceDegrees": 0.335,
+      "restBasisDifferenceDegrees": 171.227
+    },
+    {
+      "source": "upperarm_l",
+      "target": "LeftArm",
+      "sourceParent": "clavicle_l",
+      "targetParent": "LeftShoulder",
+      "sourceHeadWorld": [
+        0.025527,
+        -0.190106,
+        1.435857
+      ],
+      "sourceTailWorld": [
+        0.164125,
+        -0.185577,
+        1.428718
+      ],
+      "targetHeadWorld": [
+        0.262809,
+        -0.072361,
+        1.327493
+      ],
+      "targetTailWorld": [
+        13.065805,
+        3.924112,
+        -21.645859
+      ],
+      "sourceLengthWorld": 0.138855,
+      "targetLengthWorld": 26.601942,
+      "targetToSourceLengthRatio": 191.580593,
+      "restDirectionDifferenceDegrees": 58.016,
+      "restBasisDifferenceDegrees": 169.613
+    },
+    {
+      "source": "lowerarm_l",
+      "target": "LeftForeArm",
+      "sourceParent": "upperarm_l",
+      "targetParent": "LeftArm",
+      "sourceHeadWorld": [
+        0.019069,
+        -0.350102,
+        1.20896
+      ],
+      "sourceTailWorld": [
+        0.122804,
+        -0.396027,
+        1.133486
+      ],
+      "targetHeadWorld": [
+        0.39084,
+        -0.032396,
+        1.09776
+      ],
+      "targetTailWorld": [
+        12.146109,
+        -4.756013,
+        -20.985792
+      ],
+      "sourceLengthWorld": 0.136259,
+      "targetLengthWorld": 25.459421,
+      "targetToSourceLengthRatio": 186.846477,
+      "restDirectionDifferenceDegrees": 26.555,
+      "restBasisDifferenceDegrees": 184.984
+    },
+    {
+      "source": "hand_l",
+      "target": "LeftHand",
+      "sourceParent": "lowerarm_l",
+      "targetParent": "LeftForeArm",
+      "sourceHeadWorld": [
+        -0.156957,
+        -0.477744,
+        1.044686
+      ],
+      "sourceTailWorld": [
+        -0.148958,
+        -0.457768,
+        1.022436
+      ],
+      "targetHeadWorld": [
+        0.508392,
+        -0.079632,
+        0.876924
+      ],
+      "targetTailWorld": [
+        7.47431,
+        -4.293584,
+        -23.245695
+      ],
+      "sourceLengthWorld": 0.030953,
+      "targetLengthWorld": 25.459422,
+      "targetToSourceLengthRatio": 822.519602,
+      "restDirectionDifferenceDegrees": 49.838,
+      "restBasisDifferenceDegrees": 160.255
+    },
+    {
+      "source": "clavicle_r",
+      "target": "RightShoulder",
+      "sourceParent": "spine_05",
+      "targetParent": "Spine",
+      "sourceHeadWorld": [
+        0.017347,
+        0.014273,
+        1.463019
+      ],
+      "sourceTailWorld": [
+        -0.130087,
+        0.021046,
+        1.46246
+      ],
+      "targetHeadWorld": [
+        0.066644,
+        -0.078907,
+        1.324458
+      ],
+      "targetTailWorld": [
+        -13.659621,
+        0.573527,
+        1.324458
+      ],
+      "sourceLengthWorld": 0.147591,
+      "targetLengthWorld": 13.741762,
+      "targetToSourceLengthRatio": 93.106936,
+      "restDirectionDifferenceDegrees": 0.235,
+      "restBasisDifferenceDegrees": 8.778
+    },
+    {
+      "source": "upperarm_r",
+      "target": "RightArm",
+      "sourceParent": "clavicle_r",
+      "targetParent": "RightShoulder",
+      "sourceHeadWorld": [
+        0.025527,
+        0.190095,
+        1.435841
+      ],
+      "sourceTailWorld": [
+        -0.113069,
+        0.194623,
+        1.44297
+      ],
+      "targetHeadWorld": [
+        -0.070619,
+        -0.072383,
+        1.324459
+      ],
+      "targetTailWorld": [
+        -11.573105,
+        3.918892,
+        -21.068724
+      ],
+      "sourceLengthWorld": 0.138853,
+      "targetLengthWorld": 25.489058,
+      "targetToSourceLengthRatio": 183.56867,
+      "restDirectionDifferenceDegrees": 65.768,
+      "restBasisDifferenceDegrees": 225.921
+    },
+    {
+      "source": "lowerarm_r",
+      "target": "RightForeArm",
+      "sourceParent": "upperarm_r",
+      "targetParent": "RightArm",
+      "sourceHeadWorld": [
+        0.019082,
+        0.350079,
+        1.20894
+      ],
+      "sourceTailWorld": [
+        -0.084657,
+        0.304156,
+        1.284409
+      ],
+      "targetHeadWorld": [
+        -0.185644,
+        -0.03247,
+        1.100527
+      ],
+      "targetTailWorld": [
+        -12.050784,
+        -4.795281,
+        -20.701023
+      ],
+      "sourceLengthWorld": 0.136258,
+      "targetLengthWorld": 25.273969,
+      "targetToSourceLengthRatio": 185.486465,
+      "restDirectionDifferenceDegrees": 93.258,
+      "restBasisDifferenceDegrees": 239.162
+    },
+    {
+      "source": "hand_r",
+      "target": "RightHand",
+      "sourceParent": "lowerarm_r",
+      "targetParent": "RightForeArm",
+      "sourceHeadWorld": [
+        -0.156934,
+        0.477711,
+        1.04465
+      ],
+      "sourceTailWorld": [
+        -0.164936,
+        0.497689,
+        1.066898
+      ],
+      "targetHeadWorld": [
+        -0.304295,
+        -0.080099,
+        0.882512
+      ],
+      "targetTailWorld": [
+        -6.830153,
+        -4.697448,
+        -23.093868
+      ],
+      "sourceLengthWorld": 0.030953,
+      "targetLengthWorld": 25.273969,
+      "targetToSourceLengthRatio": 816.522865,
+      "restDirectionDifferenceDegrees": 137.14,
+      "restBasisDifferenceDegrees": 168.503
+    },
+    {
+      "source": "neck_01",
+      "target": "neck",
+      "sourceParent": "spine_05",
+      "targetParent": "Spine",
+      "sourceHeadWorld": [
+        0.015604,
+        -7e-06,
+        1.528054
+      ],
+      "sourceTailWorld": [
+        0.065229,
+        -7e-06,
+        1.540246
+      ],
+      "targetHeadWorld": [
+        0.101081,
+        -0.087714,
+        1.39885
+      ],
+      "targetTailWorld": [
+        0.110545,
+        -0.265211,
+        8.975541
+      ],
+      "sourceLengthWorld": 0.051101,
+      "targetLengthWorld": 7.578775,
+      "targetToSourceLengthRatio": 148.311071,
+      "restDirectionDifferenceDegrees": 76.13,
+      "restBasisDifferenceDegrees": 180.883
+    },
+    {
+      "source": "head",
+      "target": "Head",
+      "sourceParent": "neck_02",
+      "targetParent": "neck",
+      "sourceHeadWorld": [
+        -0.00671,
+        -8e-06,
+        1.625758
+      ],
+      "sourceTailWorld": [
+        0.042423,
+        -8e-06,
+        1.625769
+      ],
+      "targetHeadWorld": [
+        0.101176,
+        -0.089489,
+        1.474617
+      ],
+      "targetTailWorld": [
+        0.111834,
+        -5.223378,
+        9.912232
+      ],
+      "sourceLengthWorld": 0.049133,
+      "targetLengthWorld": 9.876755,
+      "targetToSourceLengthRatio": 201.021862,
+      "restDirectionDifferenceDegrees": 89.927,
+      "restBasisDifferenceDegrees": 202.039
+    }
+  ],
+  "chainProportions": {
+    "leftLeg": {
+      "sourceBones": [
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l"
+      ],
+      "targetBones": [
+        "LeftUpLeg",
+        "LeftLeg",
+        "LeftFoot",
+        "LeftToeBase"
+      ],
+      "sourceLengthWorld": 0.596117,
+      "targetLengthWorld": 96.215139,
+      "targetToSourceRatio": 161.403112
+    },
+    "rightLeg": {
+      "sourceBones": [
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r"
+      ],
+      "targetBones": [
+        "RightUpLeg",
+        "RightLeg",
+        "RightFoot",
+        "RightToeBase"
+      ],
+      "sourceLengthWorld": 0.604564,
+      "targetLengthWorld": 96.876676,
+      "targetToSourceRatio": 160.242218
+    },
+    "leftArm": {
+      "sourceBones": [
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l"
+      ],
+      "targetBones": [
+        "LeftShoulder",
+        "LeftArm",
+        "LeftForeArm",
+        "LeftHand"
+      ],
+      "sourceLengthWorld": 0.452366,
+      "targetLengthWorld": 90.485255,
+      "targetToSourceRatio": 200.026649
+    },
+    "rightArm": {
+      "sourceBones": [
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r"
+      ],
+      "targetBones": [
+        "RightShoulder",
+        "RightArm",
+        "RightForeArm",
+        "RightHand"
+      ],
+      "sourceLengthWorld": 0.453655,
+      "targetLengthWorld": 89.778757,
+      "targetToSourceRatio": 197.900953
+    },
+    "spine": {
+      "sourceBones": [
+        "spine_01",
+        "spine_03",
+        "spine_05",
+        "neck_01",
+        "head"
+      ],
+      "targetBones": [
+        "Spine",
+        "Spine01",
+        "Spine02",
+        "neck",
+        "Head"
+      ],
+      "sourceLengthWorld": 0.385167,
+      "targetLengthWorld": 48.583235,
+      "targetToSourceRatio": 126.135507
+    }
+  },
+  "sourceBoundsByFrame": [
+    {
+      "frame": 1,
+      "vertices": 78497,
+      "minimumWorld": [
+        -0.653877,
+        -0.50573,
+        -0.006791
+      ],
+      "maximumWorld": [
+        0.856229,
+        0.353812,
+        1.655702
+      ],
+      "dimensionsWorld": [
+        1.510106,
+        0.859542,
+        1.662493
+      ],
+      "diagonalWorld": 2.404811
+    },
+    {
+      "frame": 7,
+      "vertices": 78497,
+      "minimumWorld": [
+        -0.596223,
+        -0.34638,
+        0.0822
+      ],
+      "maximumWorld": [
+        0.772541,
+        0.450796,
+        1.720257
+      ],
+      "dimensionsWorld": [
+        1.368764,
+        0.797176,
+        1.638057
+      ],
+      "diagonalWorld": 2.278647
+    },
+    {
+      "frame": 12,
+      "vertices": 78497,
+      "minimumWorld": [
+        -0.642946,
+        -0.294116,
+        0.022197
+      ],
+      "maximumWorld": [
+        0.854549,
+        0.399337,
+        1.668833
+      ],
+      "dimensionsWorld": [
+        1.497495,
+        0.693453,
+        1.646636
+      ],
+      "diagonalWorld": 2.331261
+    },
+    {
+      "frame": 18,
+      "vertices": 78497,
+      "minimumWorld": [
+        -0.542742,
+        -0.544183,
+        0.087574
+      ],
+      "maximumWorld": [
+        0.763673,
+        0.398356,
+        1.741445
+      ],
+      "dimensionsWorld": [
+        1.306415,
+        0.942539,
+        1.653871
+      ],
+      "diagonalWorld": 2.308763
+    }
+  ],
+  "targetFailedV1BoundsByFrame": [
+    {
+      "frame": 1,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.244901,
+        -0.851678,
+        0.152518
+      ],
+      "maximumWorld": [
+        0.31907,
+        0.465263,
+        1.610628
+      ],
+      "dimensionsWorld": [
+        0.563971,
+        1.316941,
+        1.45811
+      ],
+      "diagonalWorld": 2.044134
+    },
+    {
+      "frame": 7,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.2142,
+        -0.533976,
+        0.208214
+      ],
+      "maximumWorld": [
+        0.453915,
+        0.604859,
+        1.57645
+      ],
+      "dimensionsWorld": [
+        0.668114,
+        1.138835,
+        1.368237
+      ],
+      "diagonalWorld": 1.901419
+    },
+    {
+      "frame": 12,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.218078,
+        -0.683472,
+        0.108054
+      ],
+      "maximumWorld": [
+        0.405761,
+        0.66181,
+        1.597357
+      ],
+      "dimensionsWorld": [
+        0.62384,
+        1.345282,
+        1.489303
+      ],
+      "diagonalWorld": 2.101662
+    },
+    {
+      "frame": 18,
+      "vertices": 119519,
+      "minimumWorld": [
+        -0.255602,
+        -0.512527,
+        0.221026
+      ],
+      "maximumWorld": [
+        0.560103,
+        0.595205,
+        1.597969
+      ],
+      "dimensionsWorld": [
+        0.815705,
+        1.107732,
+        1.376943
+      ],
+      "diagonalWorld": 1.946386
+    }
+  ],
+  "targetRestBounds": {
+    "frame": 1,
+    "vertices": 119519,
+    "minimumWorld": [
+      -0.38338,
+      -0.242126,
+      -0.006791
+    ],
+    "maximumWorld": [
+      0.585732,
+      0.090208,
+      1.655703
+    ],
+    "dimensionsWorld": [
+      0.969112,
+      0.332334,
+      1.662494
+    ],
+    "diagonalWorld": 1.952821
+  },
+  "targetRestPose": {
+    "Hips": {
+      "headWorld": [
+        0.100743,
+        -0.075966,
+        0.897386
+      ],
+      "tailWorld": [
+        -0.358142,
+        2.194732,
+        13.884511
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "LeftFoot": {
+      "headWorld": [
+        0.257834,
+        -0.024685,
+        0.106732
+      ],
+      "tailWorld": [
+        3.189581,
+        -9.888023,
+        -7.008562
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "LeftToeBase": {
+      "headWorld": [
+        0.287152,
+        -0.123321,
+        0.035577
+      ],
+      "tailWorld": [
+        3.851539,
+        -12.115109,
+        0.035596
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "RightFoot": {
+      "headWorld": [
+        -0.054086,
+        -0.023419,
+        0.11037
+      ],
+      "tailWorld": [
+        -3.084263,
+        -9.984328,
+        -7.79652
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "RightToeBase": {
+      "headWorld": [
+        -0.084388,
+        -0.123027,
+        0.031303
+      ],
+      "tailWorld": [
+        -3.889327,
+        -12.630747,
+        0.031297
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "LeftHand": {
+      "headWorld": [
+        0.508391,
+        -0.079633,
+        0.876928
+      ],
+      "tailWorld": [
+        7.47431,
+        -4.293585,
+        -23.245689
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "RightHand": {
+      "headWorld": [
+        -0.304295,
+        -0.0801,
+        0.882513
+      ],
+      "tailWorld": [
+        -6.830151,
+        -4.69745,
+        -23.093861
+      ],
+      "basisRotationWXYZ": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basisTranslation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "poseSamples": [
+    {
+      "frame": 1,
+      "source": {
+        "pelvis": {
+          "headWorld": [
+            0.056322,
+            -0.018763,
+            0.82505
+          ],
+          "tailWorld": [
+            0.133592,
+            -0.018458,
+            0.847863
+          ],
+          "basisRotationWXYZ": [
+            0.984602,
+            -0.000343,
+            -0.012798,
+            -0.174343
+          ],
+          "basisTranslation": [
+            -12.863767,
+            8.745262,
+            -1.876433
+          ]
+        },
+        "foot_l": {
+          "headWorld": [
+            -0.429016,
+            -0.100722,
+            0.10388
+          ],
+          "tailWorld": [
+            -0.365253,
+            -0.089434,
+            0.050124
+          ],
+          "basisRotationWXYZ": [
+            0.998918,
+            0.01398,
+            0.03682,
+            0.024712
+          ],
+          "basisTranslation": [
+            -2.6e-05,
+            8e-06,
+            -4e-06
+          ]
+        },
+        "ball_l": {
+          "headWorld": [
+            -0.590267,
+            -0.106193,
+            0.15002
+          ],
+          "tailWorld": [
+            -0.535343,
+            -0.117815,
+            0.212719
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "basisTranslation": [
+            4e-06,
+            -0.0,
+            -2e-06
+          ]
+        },
+        "foot_r": {
+          "headWorld": [
+            0.765372,
+            0.097838,
+            0.469335
+          ],
+          "tailWorld": [
+            0.760625,
+            0.11159,
+            0.382157
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            -0.0,
+            0.0
+          ],
+          "basisTranslation": [
+            6e-05,
+            -2.8e-05,
+            3.2e-05
+          ]
+        },
+        "ball_r": {
+          "headWorld": [
+            0.827096,
+            0.115798,
+            0.314324
+          ],
+          "tailWorld": [
+            0.915342,
+            0.115262,
+            0.309428
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "basisTranslation": [
+            -1.6e-05,
+            -0.0,
+            1.5e-05
+          ]
+        },
+        "hand_l": {
+          "headWorld": [
+            0.238982,
+            -0.41673,
+            1.075315
+          ],
+          "tailWorld": [
+            0.25487,
+            -0.395982,
+            1.058727
+          ],
+          "basisRotationWXYZ": [
+            0.995423,
+            -0.016553,
+            -0.082962,
+            0.044457
+          ],
+          "basisTranslation": [
+            -2e-06,
+            -1e-06,
+            4e-06
+          ]
+        },
+        "hand_r": {
+          "headWorld": [
+            -0.39765,
+            0.194545,
+            0.990114
+          ],
+          "tailWorld": [
+            -0.408886,
+            0.210076,
+            1.014417
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            0.0,
+            0.0
+          ],
+          "basisTranslation": [
+            -3e-05,
+            4e-06,
+            4e-06
+          ]
+        }
+      },
+      "targetFailedV1": {
+        "Hips": {
+          "headWorld": [
+            0.100743,
+            -0.075966,
+            0.897386
+          ],
+          "tailWorld": [
+            -0.695297,
+            -2.400535,
+            13.858671
+          ],
+          "basisRotationWXYZ": [
+            0.984602,
+            0.173732,
+            -0.007808,
+            0.017769
+          ],
+          "basisTranslation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "LeftFoot": {
+          "headWorld": [
+            0.19809,
+            -0.401638,
+            0.226923
+          ],
+          "tailWorld": [
+            1.753716,
+            -6.651424,
+            10.952057
+          ],
+          "basisRotationWXYZ": [
+            0.928134,
+            -0.342758,
+            -0.117524,
+            0.085274
+          ],
+          "basisTranslation": [
+            0.0,
+            2e-06,
+            0.0
+          ]
+        },
+        "LeftToeBase": {
+          "headWorld": [
+            0.213646,
+            -0.464138,
+            0.334177
+          ],
+          "tailWorld": [
+            5.981404,
+            7.397081,
+            8.17267
+          ],
+          "basisRotationWXYZ": [
+            0.928134,
+            -0.333622,
+            -0.162629,
+            0.028552
+          ],
+          "basisTranslation": [
+            3e-06,
+            0.0,
+            8e-06
+          ]
+        },
+        "RightFoot": {
+          "headWorld": [
+            -0.035887,
+            0.403065,
+            0.952555
+          ],
+          "tailWorld": [
+            -3.698663,
+            0.717597,
+            13.498725
+          ],
+          "basisRotationWXYZ": [
+            0.737034,
+            0.655002,
+            -0.15631,
+            0.057618
+          ],
+          "basisTranslation": [
+            -2e-06,
+            6e-06,
+            0.0
+          ]
+        },
+        "RightToeBase": {
+          "headWorld": [
+            -0.072515,
+            0.406211,
+            1.078015
+          ],
+          "tailWorld": [
+            -4.748825,
+            -8.372459,
+            9.562591
+          ],
+          "basisRotationWXYZ": [
+            0.737034,
+            0.645969,
+            -0.198732,
+            0.003234
+          ],
+          "basisTranslation": [
+            2e-06,
+            -8e-06,
+            0.0
+          ]
+        },
+        "LeftHand": {
+          "headWorld": [
+            -0.037805,
+            -0.653085,
+            1.578182
+          ],
+          "tailWorld": [
+            -5.339481,
+            -25.083038,
+            -3.244915
+          ],
+          "basisRotationWXYZ": [
+            0.906527,
+            0.362093,
+            -0.052369,
+            -0.210605
+          ],
+          "basisTranslation": [
+            -8e-06,
+            8e-06,
+            0.0
+          ]
+        },
+        "RightHand": {
+          "headWorld": [
+            -0.106633,
+            -0.021643,
+            1.167917
+          ],
+          "tailWorld": [
+            11.363891,
+            0.001564,
+            23.689278
+          ],
+          "basisRotationWXYZ": [
+            0.853098,
+            -0.321344,
+            -0.323867,
+            -0.253126
+          ],
+          "basisTranslation": [
+            4e-06,
+            4e-06,
+            1.5e-05
+          ]
+        }
+      }
+    },
+    {
+      "frame": 7,
+      "source": {
+        "pelvis": {
+          "headWorld": [
+            0.056322,
+            0.009791,
+            0.909937
+          ],
+          "tailWorld": [
+            0.133604,
+            0.007889,
+            0.932633
+          ],
+          "basisRotationWXYZ": [
+            0.982877,
+            -0.00127,
+            0.060626,
+            -0.173999
+          ],
+          "basisTranslation": [
+            -4.392152,
+            8.207704,
+            0.979008
+          ]
+        },
+        "foot_l": {
+          "headWorld": [
+            0.672569,
+            -0.096251,
+            0.322981
+          ],
+          "tailWorld": [
+            0.688886,
+            -0.076342,
+            0.403108
+          ],
+          "basisRotationWXYZ": [
+            0.987041,
+            0.066524,
+            -0.017593,
+            -0.144966
+          ],
+          "basisTranslation": [
+            -2.6e-05,
+            8e-06,
+            -4e-06
+          ]
+        },
+        "ball_l": {
+          "headWorld": [
+            0.71095,
+            -0.123714,
+            0.161943
+          ],
+          "tailWorld": [
+            0.634885,
+            -0.127733,
+            0.197732
+          ],
+          "basisRotationWXYZ": [
+            0.993557,
+            -0.026783,
+            -0.005405,
+            0.109992
+          ],
+          "basisTranslation": [
+            4e-06,
+            -0.0,
+            -2e-06
+          ]
+        },
+        "foot_r": {
+          "headWorld": [
+            -0.347244,
+            0.10216,
+            0.361227
+          ],
+          "tailWorld": [
+            -0.4285,
+            0.123959,
+            0.388319
+          ],
+          "basisRotationWXYZ": [
+            0.988127,
+            0.028994,
+            0.034907,
+            0.146786
+          ],
+          "basisTranslation": [
+            6e-05,
+            -2.8e-05,
+            3.2e-05
+          ]
+        },
+        "ball_r": {
+          "headWorld": [
+            -0.511552,
+            0.130711,
+            0.342557
+          ],
+          "tailWorld": [
+            -0.540631,
+            0.125899,
+            0.259233
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "basisTranslation": [
+            -1.6e-05,
+            -0.0,
+            1.5e-05
+          ]
+        },
+        "hand_l": {
+          "headWorld": [
+            -0.335276,
+            -0.204196,
+            0.906034
+          ],
+          "tailWorld": [
+            -0.310681,
+            -0.19844,
+            0.888143
+          ],
+          "basisRotationWXYZ": [
+            0.995423,
+            -0.016553,
+            -0.082962,
+            0.044457
+          ],
+          "basisTranslation": [
+            -2e-06,
+            -1e-06,
+            4e-06
+          ]
+        },
+        "hand_r": {
+          "headWorld": [
+            0.173748,
+            0.367003,
+            1.216763
+          ],
+          "tailWorld": [
+            0.157796,
+            0.383392,
+            1.23762
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            0.0,
+            0.0
+          ],
+          "basisTranslation": [
+            -3e-05,
+            4e-06,
+            4e-06
+          ]
+        }
+      },
+      "targetFailedV1": {
+        "Hips": {
+          "headWorld": [
+            0.100743,
+            -0.075966,
+            0.897386
+          ],
+          "tailWorld": [
+            1.23528,
+            -2.398063,
+            13.83388
+          ],
+          "basisRotationWXYZ": [
+            0.982877,
+            0.175773,
+            -0.000681,
+            -0.055286
+          ],
+          "basisTranslation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "LeftFoot": {
+          "headWorld": [
+            0.220304,
+            0.488268,
+            0.443025
+          ],
+          "tailWorld": [
+            3.707097,
+            3.857374,
+            -11.089525
+          ],
+          "basisRotationWXYZ": [
+            0.998239,
+            -0.005457,
+            -0.043718,
+            -0.03972
+          ],
+          "basisTranslation": [
+            0.0,
+            2e-06,
+            0.0
+          ]
+        },
+        "LeftToeBase": {
+          "headWorld": [
+            0.255172,
+            0.52196,
+            0.327697
+          ],
+          "tailWorld": [
+            4.839244,
+            -1.52758,
+            -11.130642
+          ],
+          "basisRotationWXYZ": [
+            0.996463,
+            0.079876,
+            0.025484,
+            -0.005664
+          ],
+          "basisTranslation": [
+            3e-06,
+            0.0,
+            8e-06
+          ]
+        },
+        "RightFoot": {
+          "headWorld": [
+            -0.024189,
+            -0.326939,
+            0.391598
+          ],
+          "tailWorld": [
+            -3.554537,
+            -12.636626,
+            -2.240569
+          ],
+          "basisRotationWXYZ": [
+            0.96896,
+            -0.230099,
+            0.089523,
+            -0.01254
+          ],
+          "basisTranslation": [
+            -2e-06,
+            6e-06,
+            0.0
+          ]
+        },
+        "RightToeBase": {
+          "headWorld": [
+            -0.059493,
+            -0.450034,
+            0.365277
+          ],
+          "tailWorld": [
+            -3.564842,
+            -8.08144,
+            10.385038
+          ],
+          "basisRotationWXYZ": [
+            0.974929,
+            -0.211157,
+            0.031838,
+            -0.062556
+          ],
+          "basisTranslation": [
+            2e-06,
+            -8e-06,
+            0.0
+          ]
+        },
+        "LeftHand": {
+          "headWorld": [
+            0.352522,
+            -0.351887,
+            0.800946
+          ],
+          "tailWorld": [
+            5.065564,
+            1.018453,
+            -24.181093
+          ],
+          "basisRotationWXYZ": [
+            0.978727,
+            0.200435,
+            0.00519,
+            -0.0435
+          ],
+          "basisTranslation": [
+            -8e-06,
+            8e-06,
+            0.0
+          ]
+        },
+        "RightHand": {
+          "headWorld": [
+            -0.163452,
+            0.170366,
+            1.109761
+          ],
+          "tailWorld": [
+            -2.594895,
+            14.767129,
+            -19.379477
+          ],
+          "basisRotationWXYZ": [
+            0.979003,
+            0.157738,
+            -0.044919,
+            -0.121051
+          ],
+          "basisTranslation": [
+            4e-06,
+            4e-06,
+            1.5e-05
+          ]
+        }
+      }
+    },
+    {
+      "frame": 12,
+      "source": {
+        "pelvis": {
+          "headWorld": [
+            0.056322,
+            0.016973,
+            0.836384
+          ],
+          "tailWorld": [
+            0.133612,
+            0.014521,
+            0.859001
+          ],
+          "basisRotationWXYZ": [
+            0.981606,
+            -0.001502,
+            0.079075,
+            -0.173765
+          ],
+          "basisTranslation": [
+            -11.732645,
+            8.673487,
+            1.697125
+          ]
+        },
+        "foot_l": {
+          "headWorld": [
+            0.765502,
+            -0.094159,
+            0.455639
+          ],
+          "tailWorld": [
+            0.762579,
+            -0.07427,
+            0.537363
+          ],
+          "basisRotationWXYZ": [
+            0.996003,
+            0.07053,
+            0.008529,
+            -0.054131
+          ],
+          "basisTranslation": [
+            -2.6e-05,
+            8e-06,
+            -4e-06
+          ]
+        },
+        "ball_l": {
+          "headWorld": [
+            0.840567,
+            -0.121592,
+            0.308082
+          ],
+          "tailWorld": [
+            0.756528,
+            -0.12561,
+            0.30606
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "basisTranslation": [
+            4e-06,
+            -0.0,
+            -2e-06
+          ]
+        },
+        "foot_r": {
+          "headWorld": [
+            -0.434317,
+            0.106574,
+            0.131806
+          ],
+          "tailWorld": [
+            -0.492014,
+            0.128183,
+            0.195176
+          ],
+          "basisRotationWXYZ": [
+            0.992987,
+            0.041343,
+            -0.053871,
+            0.096778
+          ],
+          "basisTranslation": [
+            6e-05,
+            -2.8e-05,
+            3.2e-05
+          ]
+        },
+        "ball_r": {
+          "headWorld": [
+            -0.58557,
+            0.144978,
+            0.193521
+          ],
+          "tailWorld": [
+            -0.649281,
+            0.15299,
+            0.13279
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "basisTranslation": [
+            -1.6e-05,
+            -0.0,
+            1.5e-05
+          ]
+        },
+        "hand_l": {
+          "headWorld": [
+            -0.487067,
+            -0.084281,
+            0.936499
+          ],
+          "tailWorld": [
+            -0.473731,
+            -0.073524,
+            0.910721
+          ],
+          "basisRotationWXYZ": [
+            0.995423,
+            -0.016553,
+            -0.082962,
+            0.044457
+          ],
+          "basisTranslation": [
+            -2e-06,
+            -1e-06,
+            4e-06
+          ]
+        },
+        "hand_r": {
+          "headWorld": [
+            0.304954,
+            0.31132,
+            1.131205
+          ],
+          "tailWorld": [
+            0.292919,
+            0.331585,
+            1.151269
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            0.0,
+            0.0
+          ],
+          "basisTranslation": [
+            -3e-05,
+            4e-06,
+            4e-06
+          ]
+        }
+      },
+      "targetFailedV1": {
+        "Hips": {
+          "headWorld": [
+            0.100743,
+            -0.075966,
+            0.897386
+          ],
+          "tailWorld": [
+            1.719107,
+            -2.393014,
+            13.783208
+          ],
+          "basisRotationWXYZ": [
+            0.981606,
+            0.176137,
+            0.001115,
+            -0.073647
+          ],
+          "basisTranslation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "LeftFoot": {
+          "headWorld": [
+            0.224253,
+            0.533471,
+            0.556691
+          ],
+          "tailWorld": [
+            3.75401,
+            9.002521,
+            -7.947681
+          ],
+          "basisRotationWXYZ": [
+            0.990932,
+            0.117548,
+            -0.023308,
+            -0.060767
+          ],
+          "basisTranslation": [
+            0.0,
+            2e-06,
+            0.0
+          ]
+        },
+        "LeftToeBase": {
+          "headWorld": [
+            0.259551,
+            0.618164,
+            0.471645
+          ],
+          "tailWorld": [
+            4.922544,
+            1.117633,
+            -11.126413
+          ],
+          "basisRotationWXYZ": [
+            0.998553,
+            -0.049377,
+            -0.021315,
+            3.4e-05
+          ],
+          "basisTranslation": [
+            3e-06,
+            0.0,
+            8e-06
+          ]
+        },
+        "RightFoot": {
+          "headWorld": [
+            -0.022024,
+            -0.371927,
+            0.214948
+          ],
+          "tailWorld": [
+            -4.78593,
+            -11.819088,
+            4.360766
+          ],
+          "basisRotationWXYZ": [
+            0.961563,
+            -0.267429,
+            0.043908,
+            0.044156
+          ],
+          "basisTranslation": [
+            -2e-06,
+            6e-06,
+            0.0
+          ]
+        },
+        "RightToeBase": {
+          "headWorld": [
+            -0.069663,
+            -0.486397,
+            0.256406
+          ],
+          "tailWorld": [
+            -5.21313,
+            -7.091735,
+            10.298089
+          ],
+          "basisRotationWXYZ": [
+            0.99938,
+            0.028388,
+            -0.020529,
+            0.003416
+          ],
+          "basisTranslation": [
+            2e-06,
+            -8e-06,
+            0.0
+          ]
+        },
+        "LeftHand": {
+          "headWorld": [
+            0.307599,
+            -0.539212,
+            0.883277
+          ],
+          "tailWorld": [
+            -3.905651,
+            -16.989332,
+            -18.086037
+          ],
+          "basisRotationWXYZ": [
+            0.994295,
+            0.092574,
+            -0.047244,
+            -0.023994
+          ],
+          "basisTranslation": [
+            -8e-06,
+            8e-06,
+            0.0
+          ]
+        },
+        "RightHand": {
+          "headWorld": [
+            -0.123532,
+            0.201648,
+            1.071977
+          ],
+          "tailWorld": [
+            -9.424533,
+            9.311552,
+            -20.591072
+          ],
+          "basisRotationWXYZ": [
+            0.999887,
+            0.013959,
+            -0.002585,
+            -0.004851
+          ],
+          "basisTranslation": [
+            4e-06,
+            4e-06,
+            1.5e-05
+          ]
+        }
+      }
+    },
+    {
+      "frame": 18,
+      "source": {
+        "pelvis": {
+          "headWorld": [
+            0.056322,
+            -0.007778,
+            0.900904
+          ],
+          "tailWorld": [
+            0.133593,
+            -0.008324,
+            0.923711
+          ],
+          "basisRotationWXYZ": [
+            0.984567,
+            -0.000701,
+            0.01549,
+            -0.174322
+          ],
+          "basisTranslation": [
+            -5.29359,
+            8.264905,
+            -0.777849
+          ]
+        },
+        "foot_l": {
+          "headWorld": [
+            -0.292046,
+            -0.101277,
+            0.343036
+          ],
+          "tailWorld": [
+            -0.209193,
+            -0.0898,
+            0.333727
+          ],
+          "basisRotationWXYZ": [
+            0.993706,
+            0.01315,
+            -0.029264,
+            0.107327
+          ],
+          "basisTranslation": [
+            -2.6e-05,
+            8e-06,
+            -4e-06
+          ]
+        },
+        "ball_l": {
+          "headWorld": [
+            -0.450262,
+            -0.119394,
+            0.290122
+          ],
+          "tailWorld": [
+            -0.441305,
+            -0.116184,
+            0.373742
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            -0.0,
+            -0.0
+          ],
+          "basisTranslation": [
+            4e-06,
+            -0.0,
+            -2e-06
+          ]
+        },
+        "foot_r": {
+          "headWorld": [
+            0.660765,
+            0.100172,
+            0.325269
+          ],
+          "tailWorld": [
+            0.635887,
+            0.113941,
+            0.241584
+          ],
+          "basisRotationWXYZ": [
+            0.994466,
+            -0.008759,
+            -0.029733,
+            -0.100378
+          ],
+          "basisTranslation": [
+            6e-05,
+            -2.8e-05,
+            3.2e-05
+          ]
+        },
+        "ball_r": {
+          "headWorld": [
+            0.684772,
+            0.118155,
+            0.16016
+          ],
+          "tailWorld": [
+            0.758859,
+            0.117616,
+            0.111968
+          ],
+          "basisRotationWXYZ": [
+            0.989743,
+            -0.022229,
+            -0.000866,
+            0.141119
+          ],
+          "basisTranslation": [
+            -1.6e-05,
+            -0.0,
+            1.5e-05
+          ]
+        },
+        "hand_l": {
+          "headWorld": [
+            0.054779,
+            -0.452525,
+            1.13966
+          ],
+          "tailWorld": [
+            0.072034,
+            -0.439391,
+            1.117573
+          ],
+          "basisRotationWXYZ": [
+            0.995423,
+            -0.016553,
+            -0.082962,
+            0.044457
+          ],
+          "basisTranslation": [
+            -2e-06,
+            -1e-06,
+            4e-06
+          ]
+        },
+        "hand_r": {
+          "headWorld": [
+            -0.249519,
+            0.278492,
+            1.00436
+          ],
+          "tailWorld": [
+            -0.267872,
+            0.291849,
+            1.025404
+          ],
+          "basisRotationWXYZ": [
+            1.0,
+            -0.0,
+            0.0,
+            0.0
+          ],
+          "basisTranslation": [
+            -3e-05,
+            4e-06,
+            4e-06
+          ]
+        }
+      },
+      "targetFailedV1": {
+        "Hips": {
+          "headWorld": [
+            0.100743,
+            -0.075966,
+            0.897386
+          ],
+          "tailWorld": [
+            0.048396,
+            -2.402913,
+            13.882562
+          ],
+          "basisRotationWXYZ": [
+            0.984567,
+            0.174629,
+            -0.005067,
+            -0.010374
+          ],
+          "basisTranslation": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "LeftFoot": {
+          "headWorld": [
+            0.222477,
+            -0.289155,
+            0.379484
+          ],
+          "tailWorld": [
+            3.240533,
+            -11.9561,
+            -2.979338
+          ],
+          "basisRotationWXYZ": [
+            0.974946,
+            -0.219518,
+            -0.030778,
+            -0.01856
+          ],
+          "basisTranslation": [
+            0.0,
+            2e-06,
+            0.0
+          ]
+        },
+        "LeftToeBase": {
+          "headWorld": [
+            0.252658,
+            -0.405827,
+            0.345895
+          ],
+          "tailWorld": [
+            4.641227,
+            -10.368476,
+            6.509801
+          ],
+          "basisRotationWXYZ": [
+            0.989604,
+            -0.100188,
+            -0.096284,
+            -0.037078
+          ],
+          "basisTranslation": [
+            3e-06,
+            0.0,
+            8e-06
+          ]
+        },
+        "RightFoot": {
+          "headWorld": [
+            -0.025384,
+            0.473903,
+            0.458251
+          ],
+          "tailWorld": [
+            -3.067396,
+            2.503147,
+            -12.093604
+          ],
+          "basisRotationWXYZ": [
+            0.99529,
+            -0.09561,
+            0.007057,
+            -0.014347
+          ],
+          "basisTranslation": [
+            -2e-06,
+            6e-06,
+            0.0
+          ]
+        },
+        "RightToeBase": {
+          "headWorld": [
+            -0.055804,
+            0.494195,
+            0.332734
+          ],
+          "tailWorld": [
+            -3.972216,
+            -4.634739,
+            -11.037269
+          ],
+          "basisRotationWXYZ": [
+            0.999086,
+            0.041588,
+            -0.008329,
+            0.005369
+          ],
+          "basisTranslation": [
+            2e-06,
+            -8e-06,
+            0.0
+          ]
+        },
+        "LeftHand": {
+          "headWorld": [
+            0.45457,
+            0.05458,
+            1.072848
+          ],
+          "tailWorld": [
+            11.490893,
+            5.785015,
+            -21.143234
+          ],
+          "basisRotationWXYZ": [
+            0.99766,
+            0.058728,
+            0.015276,
+            0.031486
+          ],
+          "basisTranslation": [
+            -8e-06,
+            8e-06,
+            0.0
+          ]
+        },
+        "RightHand": {
+          "headWorld": [
+            -0.196414,
+            -0.27722,
+            0.860525
+          ],
+          "tailWorld": [
+            2.397185,
+            -12.855359,
+            -20.907591
+          ],
+          "basisRotationWXYZ": [
+            0.995019,
+            -0.054488,
+            0.052517,
+            0.064885
+          ],
+          "basisTranslation": [
+            4e-06,
+            4e-06,
+            1.5e-05
+          ]
+        }
+      }
+    }
+  ],
+  "explosiveBoundsChecks": [
+    {
+      "frame": 1,
+      "posedToRestDiagonalRatio": 1.04676,
+      "flagged": false
+    },
+    {
+      "frame": 7,
+      "posedToRestDiagonalRatio": 0.973678,
+      "flagged": false
+    },
+    {
+      "frame": 12,
+      "posedToRestDiagonalRatio": 1.076218,
+      "flagged": false
+    },
+    {
+      "frame": 18,
+      "posedToRestDiagonalRatio": 0.996705,
+      "flagged": false
+    }
+  ],
+  "knownAlgorithmDefects": [
+    "v1 composes source pose/rest and target rest quaternions in armature space",
+    "v1 ignores the different parent-local rest bases and bone rolls",
+    "v1 keys rotations only and omits pelvis/root translation scaling",
+    "v1 has no explicit retarget base pose or foot-contact correction",
+    "v1 validates key motion totals but not anatomical or skinned-mesh stability"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "generationMode": "built-in-imagegen",
+  "date": "2026-07-30",
+  "shared": {
+    "useCase": "stylized-concept",
+    "assetType": "production 2D Phaser game additive sprite atlas",
+    "layout": "exact 4 by 4 atlas with sixteen equal cells, fixed anchor, no gutters or labels",
+    "backdrop": "perfectly uniform pure black #000000",
+    "style": "premium painterly-realistic dark fantasy mining game",
+    "avoid": "text, watermark, UI, magic symbols, scenery, cave geometry and perfect circular gradient discs"
+  },
+  "prompts": [
+    {
+      "id": "source",
+      "master": "lamp-source-master.png",
+      "request": "Sixteen animation frames of one compact old-school brass and blackened-iron miner safety lamp with a glass chamber and tiny shielded wick flame. Keep a shared bottom pivot, consistent scale, restrained white-yellow core, amber chamber glow, worn metal, soot, glass shimmer, natural micro-flicker and slight suspension sway. No character, hand, floor or large exposed torch flame."
+    },
+    {
+      "id": "volume",
+      "master": "lamp-volume-master.png",
+      "request": "Sixteen light-only frames of a compact shielded amber volume with a small white-gold center, lower-weighted illumination, subtle glass-cylinder structure, organic dusty irregularity and restrained breathing. Keep one shared luminous core and no lamp object or exposed flame."
+    },
+    {
+      "id": "rays",
+      "master": "lamp-rays-master.png",
+      "request": "Sixteen light-only short asymmetric warm reflector beams sharing one root, spreading forward and slightly downward with glass-rib shadows and dust breakup. Keep physically plausible soft edges and avoid perfect spotlight wedges, objects, flame and broad halos."
+    },
+    {
+      "id": "penumbra",
+      "master": "lamp-penumbra-master.png",
+      "request": "Sixteen light-only broad irregular amber-gold penumbra fields with a restrained bright center, softly darkened vertical cage-rib shadows, lower-half weight, gentle edge breakup and stable protected-lamp variation."
+    },
+    {
+      "id": "bounce",
+      "master": "lamp-bounce-master.png",
+      "request": "Sixteen light-only floor and near-wall bounce fields, low and broad, strongest below a shared lamp source, with subtle side-wall return and dusty reflected softness but no depicted surface geometry."
+    },
+    {
+      "id": "hotCore",
+      "master": "lamp-hot-core-master.png",
+      "request": "Sixteen compact glass-filtered hot-core frames with a tiny white-yellow vertical wick core, warm amber glass glow, narrow caustics, cage-rib interruptions and a compact asymmetric bloom."
+    },
+    {
+      "id": "atmosphere",
+      "master": "lamp-atmosphere-master.png",
+      "request": "Sixteen sparse light-only atmosphere frames with warm dust motes, faint short glass-caustic threads, a little soot haze above the shared source and a few downward-lit particles. Keep the field delicate and restrained without torch sparks."
+    }
+  ]
+}

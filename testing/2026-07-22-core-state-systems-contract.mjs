@@ -96,10 +96,16 @@ assert.equal(audioScene.timers.at(-1).removed, true);
 
 // Voice playback stops overlap, ducks both buses, restores them, and resolves merchant aliases.
 const volumeCalls = [];
+const voiceUseCalls = [];
+const voicePrefetches = [];
 const voiceSoundSystem = {
   masterVolume: 0.8, musicVolume: 0.6, sfxVolume: 0.4, voiceVolume: 0.5,
   setMusicVolume(value) { volumeCalls.push(["music", value]); this.musicVolume = value; },
   setSfxVolume(value) { volumeCalls.push(["sfx", value]); this.sfxVolume = value; },
+  noteVoiceLineUse(key) { voiceUseCalls.push(key); },
+  prefetchVoiceLine(library, selectedEntry) {
+    voicePrefetches.push([library, selectedEntry]);
+  },
 };
 for (const key of ["player-random-0", "player-random-1", "npc-gearUpgrades-0"]) cached.add(key);
 const voices = new VoiceLineManager(audioScene, voiceSoundSystem);
@@ -107,8 +113,10 @@ voices.loadLibrary("player", "random", "voice/", ["a.wav", "b.wav"]);
 voices.loadLibrary("npc", "gearUpgrades", "voice/", ["gear.wav"]);
 const voice = voices.playRandomPlayerVoiceLine();
 assert.equal(voice.played, 1);
+assert.deepEqual(voiceUseCalls, [voice.key]);
 assert.deepEqual(volumeCalls.slice(0, 2), [["music", 0.18], ["sfx", 0.2]]);
 voice.emit("complete");
+assert.equal(voicePrefetches.length, 1);
 assert.deepEqual(volumeCalls.slice(-2), [["music", 0.6], ["sfx", 0.4]]);
 assert.equal(voices.playNPCVoiceLine("gearMerchant").key, "npc-gearUpgrades-0");
 
@@ -160,7 +168,7 @@ const restoredLevel = new PlayerLevelSystem();
 restoredLevel.fromJSON(savedLevel);
 assert.equal(restoredLevel.level, 5);
 
-// Timed special-block effects stack, serialize with remaining time, expire, and clear.
+// Timed special-block effects stack, stay card-free, serialize with remaining time, expire, and clear.
 const toasts = [];
 const effectScene = {
   time: { now: 1000 },
@@ -172,7 +180,7 @@ effects.applyTimedEffect({ effect: "damageBoost", value: 0.25, duration: 3000, s
 effects.applyTimedEffect({ effect: "damageBoost", value: 0.25, duration: 3000, stacks: true });
 assert.equal(effects.getDamageMultiplier(), 1.5);
 assert.equal(effects.getRemainingTime("damageBoost"), 3);
-assert.equal(toasts.length, 2);
+assert.equal(toasts.length, 0, "ordinary timed boosts stay out of the shared notification lane");
 const savedEffects = effects.getSaveData();
 const restoredEffects = new SpecialBlockEffectsManager(effectScene);
 restoredEffects.loadSaveData(savedEffects);

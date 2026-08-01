@@ -52,7 +52,7 @@ export function buildStarlightTalentBranchPage(view, branch, pageIndex, parent) 
 
   addStarlightFoundation(view, parent);
   const identity = addStarlightPageIdentity(view, parent, {
-    title: `1 / ${page.itemCount}`,
+    title: `SIGN 1 / ${page.itemCount}`,
     status: firstReveal
       ? cfg.copy.firstStar
       : abilityUnlocked
@@ -99,7 +99,7 @@ export function buildStarlightTalentBranchPage(view, branch, pageIndex, parent) 
     setSelected(selectedOffset, options = {}) {
       if (currentSelectedOffset === selectedOffset && !options.immediate) return;
       currentSelectedOffset = selectedOffset;
-      identity.titleText.setText(`${selectedOffset + 1} / ${page.itemCount}`);
+      identity.titleText.setText(`SIGN ${selectedOffset + 1} / ${page.itemCount}`);
       visibleCardCount = 0;
       controls.forEach((control, index) => {
         const slotIndex = getCarouselSlot(

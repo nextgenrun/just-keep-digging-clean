@@ -43,6 +43,7 @@ export const HEAVENBLOCKS_VISUAL_CONFIG = Object.freeze({
   enabled: true,
   queryParam: "heavenblocksVisuals",
   tileSize: 94,
+  maxSourceScale: 1,
   visualOnly: false,
   collisionWired: true,
   accessWired: true,

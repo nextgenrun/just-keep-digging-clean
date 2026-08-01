@@ -7,10 +7,16 @@ import {
   resolveMovingSideDigAnimation,
   resolveMovingSideDigAnimationKey,
 } from "../player/UalMovingSideDigSelector.js";
+import { MovingSideDigStandOffController } from "../player/MovingSideDigStandOffController.js";
+import { resolvePlayerTargetDirection } from "../player/playerDirectionalTargets.js";
 import { PlayerRigContactSystem } from "../systems/visual/PlayerRigContactSystem.js";
 import { MOVING_SIDE_DIG_ANIMATION } from "../values/movingSideDigAnimation.js";
+import { resolvePlayerDisplaySizePx } from "../values/playerAssetProfiles.js";
 import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE as profile } from "../values/survivalUalPlayerAssetProfile.js";
-import { UAL_NATIVE_ACTION_TUNING } from "../values/ualNativeActionTuning.js";
+import {
+  resolveUalActionContact,
+  UAL_NATIVE_ACTION_TUNING,
+} from "../values/ualNativeActionTuning.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const runtimeRoot = resolve(root, "sprites/character/survival-ual-player-v1/runtime");
@@ -22,13 +28,32 @@ const piskelManifest = JSON.parse(readFileSync(
 const reviewConfig = JSON.parse(readFileSync(resolve(root, "values/movingSideDigReview.json"), "utf8"));
 const reviewCandidate = reviewConfig.candidates.find(({ id }) => id === reviewConfig.defaultCandidateId);
 const actions = Object.values(MOVING_SIDE_DIG_ANIMATION.actions);
+const median = (values) => {
+  const sorted = [...values].sort((left, right) => left - right);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[middle]
+    : (sorted[middle - 1] + sorted[middle]) / 2;
+};
+const alphaHeight = (bounds) => bounds[3] - bounds[1];
 
 assert.equal(MOVING_SIDE_DIG_ANIMATION.reviewCandidateId, "phase-locked-combo");
+assert.equal("actionDisplaySizePx" in MOVING_SIDE_DIG_ANIMATION, false);
+assert.equal("actionScale" in MOVING_SIDE_DIG_ANIMATION, false);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactBackoffSourcePx, 8);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactBackoffFalloffFrames, 4);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactFaceClearanceSourcePx, 2);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactEnvelopePolicy, "shared-visible-silhouette");
-assert.equal(MOVING_SIDE_DIG_ANIMATION.contactAlignmentMode, "immediate");
+assert.equal(MOVING_SIDE_DIG_ANIMATION.contactVisualAlignmentEnabled, false);
+const standOffConfig = MOVING_SIDE_DIG_ANIMATION.movement.tileFaceStandOff;
+assert.equal(standOffConfig.enabled, true);
+assert.equal(standOffConfig.mode, "authoritative-body-gap");
+assert.equal(standOffConfig.distancePx, 18);
+assert.equal(standOffConfig.releaseWhenTargetNotSolid, true);
+assert.equal(standOffConfig.stopTowardVelocity, true);
+assert.deepEqual(runtimeManifest.moving_side_dig_pipeline.tile_face_stand_off, standOffConfig);
+assert.equal(MOVING_SIDE_DIG_ANIMATION.quickslash.contactSequenceIndex, 4);
+assert.equal(MOVING_SIDE_DIG_ANIMATION.quickslash.frameIndexes.length, 16);
 assert.equal(reviewCandidate.contactBackoffPx, MOVING_SIDE_DIG_ANIMATION.contactBackoffSourcePx);
 assert.equal(
   reviewCandidate.contactFaceClearancePx,
@@ -38,6 +63,10 @@ assert.equal(MOVING_SIDE_DIG_ANIMATION.rollbackQuery, "movingSideDig");
 assert.equal(UAL_NATIVE_ACTION_TUNING.cadence.normal.minDurationMs, 360);
 
 for (const action of actions) {
+  assert.equal(
+    resolvePlayerDisplaySizePx(profile, profile.displaySizePx, action.baseAnimationKey),
+    profile.displaySizePx,
+  );
   assert.equal(profile.movingSideDigAnimationMap[action.baseAnimationKey], action.animationKey);
   assert.ok(profile.requiredSheets.includes(action.sheetKey));
   assert.ok(profile.digAnims.includes(action.animationKey));
@@ -54,7 +83,7 @@ for (const action of actions) {
     sequenceIndex: 6,
     sourceAction: action.sourceAction,
     markerGroup: "hands",
-    visualAlignmentMode: "immediate",
+    visualAlignmentEnabled: false,
   });
   assert.ok(profile.sheetFiles.some(([profileKey, fileName]) => (
     profile[profileKey] === action.sheetKey && fileName === action.fileName
@@ -88,6 +117,8 @@ for (const action of actions) {
   assert.equal(metadata.fps, 30);
   assert.equal(metadata.loop, false);
   assert.equal(metadata.composition.candidate, "phase-locked-combo");
+  assert.equal(metadata.composition.version, 2);
+  assert.equal("action_scale" in metadata.composition, false);
   assert.equal(metadata.composition.contact_backoff_source_px, 8);
   assert.equal(metadata.composition.contact_face_clearance_source_px, 2);
   assert.equal(metadata.composition.contact_envelope_policy, "shared-visible-silhouette");
@@ -153,7 +184,14 @@ assert.equal(select({ motionState: "idle", horizontalVelocity: 0 }), jab.baseAni
 assert.equal(select({ grounded: false }), jab.baseAnimationKey);
 assert.equal(select({ motionState: "walk-left" }), jab.baseAnimationKey);
 assert.equal(select({ aim: "UP-RIGHT" }), jab.baseAnimationKey);
-assert.equal(select({ actionKind: "quickslash" }), jab.baseAnimationKey);
+assert.equal(
+  select({ actionKind: "quickslash" }),
+  MOVING_SIDE_DIG_ANIMATION.quickslash.animationKey,
+);
+assert.equal(
+  select({ actionKind: "quickslash", motionState: "idle", horizontalVelocity: 0 }),
+  profile.quickslashAnim,
+);
 assert.equal(select({ search: "?movingSideDig=0" }), jab.baseAnimationKey);
 assert.equal(select({ animationKey: profile.digDownAnim }), profile.digDownAnim);
 const phaseLocked = resolveMovingSideDigAnimation({
@@ -170,9 +208,117 @@ const phaseLocked = resolveMovingSideDigAnimation({
 assert.equal(phaseLocked.phaseVariantId, "jab-phase-24");
 assert.equal(phaseLocked.outgoingJogFrame, 23);
 assert.equal(phaseLocked.resumeJogFrame, 10);
+assert.equal(phaseLocked.movingSideDigActive, true);
+assert.equal(phaseLocked.targetDirectionX, 1);
 
-let visualOffset = null;
+assert.equal(profile.movingSideQuickslashAnimationKeys.length, 8);
+const standingQuickslashHeight = profile.displaySizePx * median(
+  profile.quickslashFrames.map((frame) => alphaHeight(runtimeManifest.actions["punch-jab"].alpha_bounds[frame])),
+) / profile.frameHeight;
+for (const variant of profile.movingSideQuickslashPhaseVariants) {
+  const registered = profile.digAnimationVariants.find(({ key }) => key === variant.animationKey);
+  assert.equal(registered?.frames.length, 16);
+  assert.equal(profile.displaySizePxByAnimation[variant.animationKey], 123);
+  const metadata = runtimeManifest.actions[variant.manifestAction];
+  const movingQuickslashHeight = MOVING_SIDE_DIG_ANIMATION.displaySizePx * median(
+    MOVING_SIDE_DIG_ANIMATION.quickslash.frameIndexes.map(
+      (frame) => alphaHeight(metadata.alpha_bounds[frame]),
+    ),
+  ) / profile.frameHeight;
+  assert.ok(
+    Math.abs(movingQuickslashHeight - standingQuickslashHeight) < 3,
+    `${variant.id} apparent size drift exceeds 3 px`,
+  );
+  assert.deepEqual(resolveUalActionContact(profile, variant.animationKey, "quickslash"), {
+    textureFrame: 6,
+    sequenceIndex: 4,
+    sourceAction: variant.manifestAction,
+    markerGroup: "hands",
+    visualAlignmentEnabled: false,
+  });
+}
+const phaseLockedQuickslash = resolveMovingSideDigAnimation({
+  profile,
+  animationKey: profile.quickslashAnim,
+  aim: "RIGHT",
+  actionKind: "quickslash",
+  grounded: true,
+  motionState: "walk-right",
+  currentAnimationKey: profile.walkRunAnim,
+  currentTextureFrame: 23,
+  search: "",
+});
+assert.equal(phaseLockedQuickslash.phaseVariantId, "jab-phase-24");
+assert.equal(phaseLockedQuickslash.outgoingJogFrame, 23);
+assert.equal(phaseLockedQuickslash.resumeJogFrame, 10);
+assert.ok(profile.movingSideQuickslashAnimationKeys.includes(phaseLockedQuickslash.animationKey));
+assert.equal(phaseLockedQuickslash.movingSideDigActive, true);
+assert.equal(phaseLockedQuickslash.targetDirectionX, 1);
+
+const stationarySelection = resolveMovingSideDigAnimation({
+  profile,
+  animationKey: jab.baseAnimationKey,
+  aim: "RIGHT",
+  actionKind: "normal",
+  grounded: true,
+  motionState: "idle",
+  horizontalVelocity: 0,
+  search: "",
+});
+assert.equal(stationarySelection.movingSideDigActive, false);
+assert.equal(stationarySelection.targetDirectionX, 0);
+
+const tileSize = 94;
+const contactEnvelope = runtimeManifest.actions["moving-side-dig-jab"]
+  .composition.contact_envelope_right_source_px;
+const visibleContactReachPx = (
+  contactEnvelope - MOVING_SIDE_DIG_ANIMATION.visualOriginX * profile.frameWidth
+) * MOVING_SIDE_DIG_ANIMATION.displaySizePx / profile.frameWidth;
+const visibleClearancePx = standOffConfig.distancePx
+  + profile.playerBodyWidthPx * 0.5
+  - visibleContactReachPx;
+assert.ok(visibleClearancePx >= 1.5, `moving fist clearance is only ${visibleClearancePx}px`);
+
+let targetSolid = true;
+const worldModel = { isSolid: () => targetSolid };
+const rightBody = {
+  x: tileSize - profile.playerBodyWidthPx,
+  y: 0,
+  w: profile.playerBodyWidthPx,
+  h: profile.playerBodyHeightPx,
+  vx: 200,
+};
+const rightStandOff = new MovingSideDigStandOffController(
+  rightBody,
+  worldModel,
+  tileSize,
+  standOffConfig,
+);
+assert.equal(rightStandOff.begin({ targetTile: { tx: 1, ty: 0 }, directionX: 1 }), true);
+assert.equal(rightBody.x, tileSize - rightBody.w - standOffConfig.distancePx);
+assert.equal(rightBody.vx, 0);
+assert.equal(resolvePlayerTargetDirection(rightBody, tileSize, { tx: 1, ty: 0 })?.x, 1);
+rightBody.x += 4;
+rightBody.vx = 200;
+assert.equal(rightStandOff.update(), true);
+assert.equal(rightBody.x, tileSize - rightBody.w - standOffConfig.distancePx);
+assert.equal(rightBody.vx, 0);
+targetSolid = false;
+assert.equal(rightStandOff.update(), false);
+assert.equal(rightStandOff.isActive, false);
+
+targetSolid = true;
+const leftBody = {
+  x: tileSize,
+  y: 0,
+  w: profile.playerBodyWidthPx,
+  h: profile.playerBodyHeightPx,
+  vx: -200,
+};
+
+let visualOffset = { x: -12, y: 0 };
 let syncCount = 0;
+let standOffEndCount = 0;
 const contactPlayer = {
   x: 78,
   y: 0,
@@ -189,7 +335,10 @@ const contactPlayer = {
 const contactSystem = new PlayerRigContactSystem(
   { config: { tileSize: 94 } },
   contactPlayer,
-  { _syncSpriteWithPhysics: () => { syncCount += 1; } },
+  {
+    _syncSpriteWithPhysics: () => { syncCount += 1; },
+    endMovingSideDigStandOff: () => { standOffEndCount += 1; },
+  },
   profile,
   runtimeManifest,
 );
@@ -200,9 +349,14 @@ assert.equal(contactSystem.beginAction({
   targetTile: { tx: 1, ty: 0 },
   direction: { x: 1, y: 0 },
 }), true);
-assert.ok(visualOffset.x < -15, `moving-side-dig alignment was not immediate: ${visualOffset.x}`);
-assert.equal(syncCount, 2);
+assert.equal(visualOffset, null);
+assert.equal(standOffEndCount, 1);
+assert.equal(syncCount, 1);
+contactSystem.update(16.67);
+assert.equal(visualOffset, null);
+assert.equal(syncCount, 1);
 contactSystem.destroy();
+assert.equal(standOffEndCount, 2);
 
 for (const relativePath of [
   "world/playScene/PlaySceneGameplay.js",
@@ -211,6 +365,19 @@ for (const relativePath of [
   const source = readFileSync(resolve(root, relativePath), "utf8");
   assert.match(source, /resolveMovingSideDigAnimation/);
   assert.match(source, /resumeJogFrame/);
+  const cave = relativePath.includes("Cave");
+  const playIndex = source.indexOf(cave ? "scene.player.play(key, true)" : "this.player.play(animKey, true)");
+  const sizeIndex = source.indexOf(
+    cave ? "controller._applyPlayerDisplaySize()" : "this.player.setDisplaySize(displaySize, displaySize)",
+    playIndex,
+  );
+  const rigIndex = source.indexOf(
+    cave ? "scene.playerRigContact?.beginAction" : "this.playerRigContact?.beginAction",
+    sizeIndex,
+  );
+  const standOffIndex = source.indexOf("beginMovingSideDigStandOff", rigIndex);
+  assert.ok(rigIndex < standOffIndex);
+  assert.ok(playIndex >= 0 && playIndex < sizeIndex && sizeIndex < rigIndex);
 }
 
 console.log("MOVING_SIDE_DIG_PRODUCTION_CONTRACT_OK", {
@@ -219,4 +386,5 @@ console.log("MOVING_SIDE_DIG_PRODUCTION_CONTRACT_OK", {
   contactFrame: 6,
   contactBackoffSourcePx: MOVING_SIDE_DIG_ANIMATION.contactBackoffSourcePx,
   contactFaceClearanceSourcePx: MOVING_SIDE_DIG_ANIMATION.contactFaceClearanceSourcePx,
+  tileFaceStandOffPx: standOffConfig.distancePx,
 });

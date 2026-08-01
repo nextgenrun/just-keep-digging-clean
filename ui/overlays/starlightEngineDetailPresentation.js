@@ -179,16 +179,18 @@ export function buildStarlightEngineSummary(view, selectedOffset) {
   );
 
   const progressY = bounds.y + layout.detailProgressOffsetYPx * scale;
-  const progressPlaque = fitImage(
-    view.scene.add.image(
-      textX + textWidth / 2,
-      progressY,
-      ASSET_KEYS.ui.starlightTalentTree.progressPlaque,
-    ),
-    textWidth,
-    layout.detailProgressPlaqueHeightPx * scale,
-  );
-  view.summaryRoot.add(progressPlaque);
+  if (layout.detailProgressPlaqueVisible) {
+    const progressPlaque = fitImage(
+      view.scene.add.image(
+        textX + textWidth / 2,
+        progressY,
+        ASSET_KEYS.ui.starlightTalentTree.progressPlaque,
+      ),
+      textWidth,
+      layout.detailProgressPlaqueHeightPx * scale,
+    );
+    view.summaryRoot.add(progressPlaque);
+  }
   view.addSummaryText(
     textX + textWidth / 2,
     progressY,

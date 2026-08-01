@@ -19,20 +19,22 @@ cap atlas, ground structures, material field, backdrops, and motion assets.
 ## Sky composition
 
 `values/worldVisualSkyCohesion.js` is the placement SSOT. It maps five semantic
-world chapters and four altitude bands across a complete 18x8 overlap grid.
-All twenty approved plates participate, and the required 144 cells distribute
-them evenly at seven or eight uses each.
+world chapters and four altitude bands across a complete 24x10 overlap grid.
+All twenty approved plates participate. Every row selects the nearest authored
+altitude center, so celestial, upper-structure, mid-atmosphere, and lower
+horizon/ground families descend monotonically toward the surface. Repetition
+is balanced inside each physical altitude family.
 `WorldVisualSkyCohesionLayer` streams only cards intersecting the expanded
 world window and never derives a card position from the camera.
 
 The original cell-fill implementation enlarged the 1672x941 sources by
-roughly 3.4x to 4.2x. The corrected renderer displays every complete frame at
-native source density with no cover crop, no aspect distortion, and no
-enlargement. Adjacent cards overlap by 12.5% in both axes. Deterministic
-micro-depth ordering leaves the retained card opaque while only the incoming
-card's left and/or top edge feathers over it. This one-sided crossfade prevents
-the opacity trough produced when both touching edges fade and guarantees that
-the complete 280x65-tile sky has no clear-color holes. The layer renders from
+roughly 3.4x to 4.2x. The corrected renderer uses each source's clean
+1254x705 inner frame at 1:1 density, excluding only its generated dark edge.
+Cards overlap by 157x88 pixels. Four-sided smoothstep masks make adjacent
+weights exact complements; ADD composition over one opaque world-space matte
+sums to one along every edge and four-card corner. This removes opacity
+troughs, overbright intersections, hard rectangular folds, and clear-color
+holes without stretching or replacing an asset. The layer renders from
 depth `-9.6`, above the retained far base at `-10` and below clouds at `-8.8`.
 
 Use `?skyCohesion=0` for an isolated comparison.
@@ -66,11 +68,12 @@ terrain-variation system.
 - 20 unique sky paths and 10 unique underground paths;
 - production copies are SHA-256-identical to the approved review files;
 - exact WebP dimensions and expected opacity/alpha;
-- all twenty sky assets occur in a balanced, world-anchored 18x8 field;
+- all twenty sky assets occur in an altitude-ordered, world-anchored 24x10 field;
 - every horizontal and vertical row overlaps through the world boundary;
 - sky and underground display scale never exceeds source density;
-- every card preserves its complete authored frame and aspect ratio;
-- outer sky edges stay opaque and only incoming left/top edges feather;
+- every card preserves its native clean-frame density and aspect ratio;
+- outer sky edges stay opaque and every real neighbor receives a complementary
+  transition weight;
 - overlap depth ordering is deterministic even when assets stream separately;
 - all ten underground paintings have unique dedicated biome placements;
 - all five deep-biome paintings remain wholly inside the Level 2 corridor;

@@ -1,0 +1,14 @@
+{
+  "packageId": "starlight-talent-tree-v4",
+  "artSource": "ImageGen",
+  "foundation": {
+    "file": "starlight-mockup-foundation-v4.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2223689,
+    "sha256": "55d30c1ff7f7ff86f20c3a5ae08d9c534eeff7d2941b0e7350a5816a2dbc519d"
+  },
+  "inheritedRuntimeAssets": 28,
+  "inheritedFrom": "../starlight-talent-tree-v3/manifest-v3.json",
+  "runtimeAssetCount": 29
+}

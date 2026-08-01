@@ -3,15 +3,23 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { WORLD_VISUAL_RUNTIME } from "../values/worldVisualRuntime.js";
+import { RUNTIME_ASSET_LOADING } from "../values/runtimeAssetLoading.js";
 import { WORLD_DEPTH_CONFIG } from "../values/worldDepthConfig.js";
 import { WORLD_VISUAL_DEPTH_BACKDROPS } from
   "../values/worldVisualDepthBackdrops.js";
 import {
   WORLD_VISUAL_SKY_COHESION,
   getWorldVisualSkyCohesionAssets,
+  multiplyWorldVisualSkyTints,
   resolveWorldVisualSkyCohesionCells,
   resolveWorldVisualSkyCohesionEnabled,
+  resolveWorldVisualSkyCells,
+  resolveWorldVisualSkyRuntimeMode,
 } from "../values/worldVisualSkyCohesion.js";
+import {
+  WORLD_VISUAL_SKY_TRANSITION_ORDER,
+  resolveWorldVisualSkyTransition,
+} from "../values/worldVisualSkyTransitionOrder.js";
 import {
   WORLD_VISUAL_TERRAIN_VARIATION,
   getWorldVisualTerrainVariationAssets,
@@ -43,13 +51,17 @@ const skyReviewAssets = reviewManifest.assets.filter(asset => asset.type === "sk
 const undergroundReviewAssets = reviewManifest.assets.filter(
   asset => asset.type === "undergroundForeground"
 );
-const skyAssets = getWorldVisualSkyCohesionAssets();
+const skyAssets = Object.values(WORLD_VISUAL_SKY_COHESION.assets);
+const skyRuntimeAssets = getWorldVisualSkyCohesionAssets();
+const skyFoundation = WORLD_VISUAL_SKY_COHESION.foundation;
 
 assert.equal(skyAssets.length, 20);
+assert.equal(skyRuntimeAssets.length, 21);
 assert.equal(skyReviewAssets.length, 20);
 assert.equal(undergroundReviewAssets.length, 10);
 assert.equal(new Set(skyAssets.map(asset => asset.key)).size, 20);
 assert.equal(new Set(skyAssets.map(asset => asset.path)).size, 20);
+assert.equal(new Set(skyRuntimeAssets.map(asset => asset.key)).size, 21);
 
 for (const asset of skyAssets) {
   const file = path.basename(asset.path);
@@ -63,6 +75,24 @@ for (const asset of skyAssets) {
     `${file} sky geometry`
   );
 }
+const foundationPath = path.join(ROOT, skyFoundation.asset.path);
+assert.equal(fs.existsSync(foundationPath), true, skyFoundation.asset.path);
+assert.deepEqual(
+  readWebpMetadata(foundationPath),
+  { width: 1024, height: 2048, alphaFlag: false, hasAlpha: false },
+  "the stable foundation is a full opaque sky field"
+);
+const foundationManifest = JSON.parse(fs.readFileSync(
+  path.join(
+    ROOT,
+    "sprites/backgrounds/world-visual-v2/far/sky-foundation-v2/"
+      + "sky-atmosphere-foundation-v2.manifest.json"
+  ),
+  "utf8"
+));
+assert.equal(foundationManifest.sha256, sha256(foundationPath));
+assert.equal(foundationManifest.horizontalSeamMaximumChannelDelta, 0);
+assert.equal(foundationManifest.sourceCount, 20);
 
 const config = WORLD_VISUAL_TERRAIN_VARIATION;
 assert.equal(new Set(
@@ -82,11 +112,24 @@ for (const region of config.regions) {
   );
 }
 
-assert.equal(WORLD_VISUAL_SKY_COHESION.runtimeMode, "world-grid");
+assert.equal(WORLD_VISUAL_SKY_COHESION.runtimeMode, "ordered-features");
+assert.equal(resolveWorldVisualSkyRuntimeMode(undefined, ""), "ordered-features");
+assert.equal(
+  resolveWorldVisualSkyRuntimeMode(undefined, "?skyComposition=grid"),
+  "world-grid"
+);
 assert.equal(resolveWorldVisualSkyCohesionEnabled(undefined, ""), true);
 assert.equal(resolveWorldVisualSkyCohesionEnabled(undefined, "?skyCohesion=0"), false);
+assert.ok(
+  RUNTIME_ASSET_LOADING.priorities.skyCohesion
+    > RUNTIME_ASSET_LOADING.priorities.depthBackdrop
+);
+assert.ok(
+  RUNTIME_ASSET_LOADING.priorities.skyCohesion
+    > RUNTIME_ASSET_LOADING.priorities.terrainVariation
+);
 const cells = resolveWorldVisualSkyCohesionCells(280, 65, 94);
-assert.equal(cells.length, 144);
+assert.equal(cells.length, 336);
 assert.equal(new Set(cells.map(cell => cell.id)).size, cells.length);
 assert.equal(new Set(cells.map(cell => cell.asset.key)).size, 20);
 assert.deepEqual(
@@ -99,10 +142,18 @@ cells.forEach(cell => skyAssetCounts.set(
   cell.asset.key,
   skyAssetCounts.get(cell.asset.key) + 1
 ));
-assert.ok(
-  Math.max(...skyAssetCounts.values()) - Math.min(...skyAssetCounts.values()) <= 1,
-  "required repetition is balanced across all twenty assets"
-);
+for (const asset of skyAssets) {
+  assert.ok(
+    skyAssetCounts.get(asset.key) > 0,
+    `${asset.id} participates in its authored world chapter`
+  );
+  assert.ok(
+    Number.isInteger(asset.atmosphereTint)
+      && asset.atmosphereTint >= 0
+      && asset.atmosphereTint <= 0xffffff,
+    `${asset.id} has a bounded atmospheric grade`
+  );
+}
 for (const cell of cells) {
   assert.ok(cell.leftTile >= 0);
   assert.ok(cell.leftTile < 280);
@@ -113,40 +164,101 @@ for (const cell of cells) {
   assert.ok(cell.displayHeightPx <= WORLD_VISUAL_SKY_COHESION.source.heightPx);
   assert.equal(cell.blendEdges.left, cell.columnIndex > 0);
   assert.equal(cell.blendEdges.top, cell.rowIndex > 0);
-  assert.equal(cell.blendEdges.right, false);
-  assert.equal(cell.blendEdges.bottom, false);
+  assert.equal(cell.blendEdges.right, cell.columnIndex < cell.columnCount - 1);
+  assert.equal(cell.blendEdges.bottom, cell.rowIndex < cell.rowCount - 1);
   assert.ok(
     Math.abs(
       cell.displayWidthPx / cell.displayHeightPx
-      - WORLD_VISUAL_SKY_COHESION.source.widthPx
-        / WORLD_VISUAL_SKY_COHESION.source.heightPx
+      - WORLD_VISUAL_SKY_COHESION.source.safeFrame.widthPx
+        / WORLD_VISUAL_SKY_COHESION.source.safeFrame.heightPx
     ) < Number.EPSILON * 2,
-    `${cell.id} preserves the authored aspect ratio`
+    `${cell.id} preserves the native safe-frame aspect ratio`
   );
 }
 const skyRows = cells[0].rowCount;
 const skyColumns = cells[0].columnCount;
-assert.deepEqual([skyColumns, skyRows], [18, 8]);
+assert.deepEqual([skyColumns, skyRows], [28, 12]);
+const bandIndexById = new Map(
+  WORLD_VISUAL_SKY_COHESION.bands.map((band, index) => [band.id, index])
+);
+const rowBandIndexes = [];
 for (let row = 0; row < skyRows; row += 1) {
   const rowCells = cells
     .filter(cell => cell.rowIndex === row)
     .sort((left, right) => left.columnIndex - right.columnIndex);
+  assert.equal(
+    new Set(rowCells.map(cell => cell.bandId)).size,
+    1,
+    `sky row ${row} stays in one physical altitude family`
+  );
+  rowBandIndexes.push(bandIndexById.get(rowCells[0].bandId));
   assert.equal(rowCells[0].leftTile, 0);
-  assert.ok(rowCells.at(-1).rightTileExclusive >= 280);
+  assert.ok(Math.abs(rowCells.at(-1).rightTileExclusive - 280) < 1e-9);
   for (let index = 1; index < rowCells.length; index += 1) {
+    assert.ok(
+      Math.abs(
+        (rowCells[index - 1].rightTileExclusive - rowCells[index].leftTile) * 94
+          - rowCells[index].overlapXPx
+      ) < 1e-9,
+      `sky row ${row} overlap ${index - 1}->${index} matches its blend feather`
+    );
     assert.ok(
       rowCells[index].leftTile < rowCells[index - 1].rightTileExclusive,
       `sky row ${row} has no horizontal gap at column ${index}`
     );
   }
 }
+assert.deepEqual(
+  [...rowBandIndexes].sort((left, right) => left - right),
+  rowBandIndexes,
+  "sky sprite families descend monotonically from far sky to ground"
+);
+assert.equal(rowBandIndexes[0], 0);
+assert.equal(rowBandIndexes.at(-1), WORLD_VISUAL_SKY_COHESION.bands.length - 1);
+const chapterIndexById = new Map(
+  WORLD_VISUAL_SKY_COHESION.columns.map((chapter, index) => (
+    [chapter.id, index]
+  ))
+);
+const columnChapterIndexes = [];
 for (let column = 0; column < skyColumns; column += 1) {
   const columnCells = cells
     .filter(cell => cell.columnIndex === column)
     .sort((top, bottom) => top.rowIndex - bottom.rowIndex);
+  assert.equal(
+    new Set(columnCells.map(cell => cell.columnId)).size,
+    1,
+    `sky column ${column} stays in one physical world chapter`
+  );
+  const chapterIndex = chapterIndexById.get(columnCells[0].columnId);
+  const nearestChapterIndex = WORLD_VISUAL_SKY_COHESION.columns.reduce(
+    (nearest, chapter, index, chapters) => (
+      Math.abs(columnCells[0].horizontalCenterTile - chapter.centerTile)
+        < Math.abs(
+          columnCells[0].horizontalCenterTile
+          - chapters[nearest].centerTile
+        )
+        ? index
+        : nearest
+    ),
+    0
+  );
+  assert.equal(
+    chapterIndex,
+    nearestChapterIndex,
+    `sky column ${column} uses the closest authored world chapter`
+  );
+  columnChapterIndexes.push(chapterIndex);
   assert.equal(columnCells[0].topTile, 0);
-  assert.ok(columnCells.at(-1).bottomTileExclusive >= 65);
+  assert.ok(Math.abs(columnCells.at(-1).bottomTileExclusive - 65) < 1e-9);
   for (let index = 1; index < columnCells.length; index += 1) {
+    assert.ok(
+      Math.abs(
+        (columnCells[index - 1].bottomTileExclusive - columnCells[index].topTile) * 94
+          - columnCells[index].overlapYPx
+      ) < 1e-9,
+      `sky column ${column} overlap ${index - 1}->${index} matches its blend feather`
+    );
     assert.ok(
       columnCells[index].topTile
         < columnCells[index - 1].bottomTileExclusive,
@@ -154,6 +266,85 @@ for (let column = 0; column < skyColumns; column += 1) {
     );
   }
 }
+assert.deepEqual(
+  [...columnChapterIndexes].sort((left, right) => left - right),
+  columnChapterIndexes,
+  "sky chapters progress monotonically west to east without shuffled jumps"
+);
+for (let index = 1; index < columnChapterIndexes.length; index += 1) {
+  assert.ok(
+    columnChapterIndexes[index] - columnChapterIndexes[index - 1] <= 1,
+    `sky chapter handoff ${index - 1}->${index} is adjacent`
+  );
+}
+
+const featureCells = resolveWorldVisualSkyCells(280, 65, 94);
+assert.equal(featureCells.length, 56, "four altitude bands use fourteen ordered feature slots");
+assert.equal(new Set(featureCells.map(cell => cell.id)).size, featureCells.length);
+assert.deepEqual(
+  new Set(featureCells.map(cell => cell.asset.key)),
+  new Set(skyAssets.map(asset => asset.key)),
+  "the ordered composition retains all twenty approved paintings"
+);
+assert.ok(featureCells.every(cell => (
+  cell.blendEdges.left
+  && cell.blendEdges.right
+  && cell.blendEdges.top
+  && cell.blendEdges.bottom
+)), "every feature card feathers back into the stable foundation on all edges");
+assert.ok(featureCells.every(cell => (
+  cell.leftTile >= 0
+  && cell.rightTileExclusive <= 280
+  && cell.topTile >= 0
+  && cell.bottomTileExclusive <= 65
+)), "ordered features stay inside the authored upper-world field");
+assert.deepEqual(
+  [...new Set(featureCells
+    .filter(cell => cell.rowIndex === 0)
+    .map(cell => cell.slotId))],
+  WORLD_VISUAL_SKY_TRANSITION_ORDER.featureSlots.map(slot => slot.id),
+  "feature slots keep the explicit west-to-east story order"
+);
+assert.equal(WORLD_VISUAL_SKY_TRANSITION_ORDER.horizontalTransitions.length, 16);
+assert.equal(WORLD_VISUAL_SKY_TRANSITION_ORDER.verticalTransitions.length, 15);
+assert.equal(
+  resolveWorldVisualSkyTransition("sky02", "sky05", "horizontal").profile,
+  "direct"
+);
+assert.equal(
+  resolveWorldVisualSkyTransition("sky04", "sky08", "horizontal").profile,
+  "foundation"
+);
+assert.equal(
+  resolveWorldVisualSkyTransition("sky03", "sky07", "horizontal").profile,
+  "haze"
+);
+assert.equal(
+  resolveWorldVisualSkyTransition("sky04", "sky03", "vertical").profile,
+  "foundation"
+);
+assert.ok(
+  WORLD_VISUAL_SKY_COHESION.composition.transitionAlphaScale.direct
+    > WORLD_VISUAL_SKY_COHESION.composition.transitionAlphaScale.haze
+);
+assert.ok(
+  WORLD_VISUAL_SKY_COHESION.composition.transitionAlphaScale.haze
+    > WORLD_VISUAL_SKY_COHESION.composition.transitionAlphaScale.foundation
+);
+assert.equal(
+  resolveWorldVisualSkyCells(280, 65, 94, undefined, "?skyComposition=grid").length,
+  cells.length,
+  "the previous dense world grid remains an explicit comparison rollback"
+);
+assert.ok(
+  WORLD_VISUAL_SKY_COHESION.foundation.depth < WORLD_VISUAL_RUNTIME.render.farDepth,
+  "the atmosphere stays behind the older tree-bearing surface plate"
+);
+assert.ok(
+  WORLD_VISUAL_SKY_COHESION.composition.bandAlpha.lower
+    < WORLD_VISUAL_SKY_COHESION.composition.bandAlpha.middle,
+  "lower sky art recedes so the forest surface plate remains legible"
+);
 
 assert.equal(config.cohesion.runtimeMode, "world-overlay");
 assert.equal(resolveWorldVisualTerrainCohesionEnabled(config, ""), true);
@@ -221,11 +412,13 @@ class FakeImage {
   setDepth(value) { this.depth = value; return this; }
   setAlpha(value) { this.alpha = value; return this; }
   setTint(value) { this.tint = value; return this; }
+  setBlendMode(value) { this.blendMode = value; return this; }
   setCrop(x, y, width, height) {
     this.crop = { x, y, width, height };
     return this;
   }
   setScale(x, y = x) { this.scale = { x, y }; return this; }
+  setTileScale(x, y = x) { this.tileScale = { x, y }; return this; }
   setDisplaySize(width, height) {
     this.displayWidth = width;
     this.displayHeight = height;
@@ -261,13 +454,16 @@ function createSceneStub() {
       exists() { return true; },
       get(key) {
         const sky = key.startsWith("world-visual-sky-cohesion-v1-");
+        const foundation = key === WORLD_VISUAL_SKY_COHESION.foundation.asset.key;
         const frames = new Set();
         return {
           has(name) { return frames.has(name); },
           add(name) { frames.add(name); },
-          getSourceImage: () => (
-            sky ? { width: 1672, height: 941 } : { width: 1536, height: 1024 }
-          ),
+          getSourceImage: () => {
+            if (sky) return { width: 1672, height: 941 };
+            if (foundation) return { width: 1024, height: 2048 };
+            return { width: 1536, height: 1024 };
+          },
         };
       },
       remove() {},
@@ -275,6 +471,18 @@ function createSceneStub() {
     add: {
       image(x, y, key) {
         const image = new FakeImage(x, y, key);
+        images.push(image);
+        return image;
+      },
+      tileSprite(x, y, width, height, key) {
+        const image = new FakeImage(x, y, key);
+        image.tileSprite = { width, height };
+        images.push(image);
+        return image;
+      },
+      rectangle(x, y, width, height, color, alpha) {
+        const image = new FakeImage(x, y, "rectangle");
+        image.rectangle = { width, height, color, alpha };
         images.push(image);
         return image;
       },
@@ -292,25 +500,61 @@ function createSceneStub() {
 const skyScene = createSceneStub();
 const skyLayer = new WorldVisualSkyCohesionLayer(skyScene);
 assert.equal(skyLayer.create(), true);
+assert.equal(skyLayer.runtimeMode, "ordered-features");
+assert.equal(skyLayer.matte, null, "ordered features never introduce a black matte");
+assert.ok(skyLayer.foundationView.fallback, "a cobalt fallback exists before streaming");
+assert.equal(skyLayer.foundationView.fallback.depth, skyFoundation.fallbackDepth);
+assert.equal(
+  skyLayer.foundationView.fallback.rectangle.color,
+  skyFoundation.fallbackColor
+);
+assert.ok(skyLayer.foundationView.image, "the stable atmosphere is created before feature sync");
+assert.equal(skyLayer.foundationView.image.depth, skyFoundation.depth);
+assert.equal(skyLayer.foundationView.image.alpha, skyFoundation.alpha);
+assert.equal(
+  skyLayer.foundationView.images.length,
+  Math.ceil(280 * 94 / skyFoundation.expectedSource.widthPx)
+);
+skyLayer.foundationView.images.forEach((image, index) => {
+  assert.equal(image.x, index * skyFoundation.expectedSource.widthPx);
+  assert.equal(image.y, 0);
+  assert.deepEqual(image.scale, {
+    x: 1,
+    y: 65 * 94 / skyFoundation.expectedSource.heightPx,
+  });
+});
 assert.equal(skyLayer.sync(
   { left: 0, right: 280, top: 0, bottom: 65 },
   { farTint: 0xddeeff }
 ), true);
-assert.equal(skyLayer.cards.size, cells.length);
+assert.equal(skyLayer.coverageReady, true);
+assert.equal(skyLayer.matte, null);
+assert.equal(skyLayer.foundationView.image.tint, 0xddeeff);
+assert.equal(skyLayer.cards.size, featureCells.length);
+assert.deepEqual(skyLayer.getSnapshot(), {
+  enabled: true,
+  runtimeMode: "ordered-features",
+  fallbackReady: true,
+  foundationReady: true,
+  foundationAssetKey: skyFoundation.asset.key,
+  activeFeatureCards: featureCells.length,
+  pendingFeatureAssets: 0,
+  coverageReady: true,
+  blackMatteActive: false,
+});
+assert.equal(globalThis.__jkdSkyComposition.snapshot().blackMatteActive, false);
 for (const { cell, image, blendBits } of skyLayer.cards.values()) {
   assert.equal(image.x, cell.leftTile * 94);
   assert.equal(image.y, cell.topTile * 94);
   assert.equal(image.scrollFactor, undefined);
-  assert.ok(image.mask, `${cell.id} has feather mask`);
+  assert.ok(image.mask, `${cell.id} has a four-edge feather mask`);
   assert.equal(
     blendBits,
-    (cell.blendEdges.left
-      ? WORLD_VISUAL_DEPTH_BACKDROPS.blend.edgeBits.left
-      : 0)
-      | (cell.blendEdges.top
-        ? WORLD_VISUAL_DEPTH_BACKDROPS.blend.edgeBits.top
-        : 0),
-    `${cell.id} feathers only incoming edges`
+    WORLD_VISUAL_SKY_COHESION.blend.edgeBits.left
+      | WORLD_VISUAL_SKY_COHESION.blend.edgeBits.right
+      | WORLD_VISUAL_SKY_COHESION.blend.edgeBits.top
+      | WORLD_VISUAL_SKY_COHESION.blend.edgeBits.bottom,
+    `${cell.id} returns every edge to the foundation`
   );
   assert.equal(
     image.depth,
@@ -321,9 +565,38 @@ for (const { cell, image, blendBits } of skyLayer.cards.values()) {
   assert.deepEqual(
     image.scale,
     { x: cell.displayScale, y: cell.displayScale },
-    `${cell.id} renders the complete source at native density`
+    `${cell.id} renders the safe source frame at native density`
   );
-  assert.equal(image.crop, undefined, `${cell.id} is not cover-cropped`);
+  assert.deepEqual(image.crop, {
+    x: WORLD_VISUAL_SKY_COHESION.source.safeFrame.xPx,
+    y: WORLD_VISUAL_SKY_COHESION.source.safeFrame.yPx,
+    width: WORLD_VISUAL_SKY_COHESION.source.safeFrame.widthPx,
+    height: WORLD_VISUAL_SKY_COHESION.source.safeFrame.heightPx,
+  }, `${cell.id} excludes only the authored dark edge`);
+  assert.deepEqual(image.displayOrigin, {
+    x: WORLD_VISUAL_SKY_COHESION.source.safeFrame.xPx,
+    y: WORLD_VISUAL_SKY_COHESION.source.safeFrame.yPx,
+  }, `${cell.id} keeps its safe crop grounded at the feature origin`);
+  assert.equal(
+    image.tint,
+    multiplyWorldVisualSkyTints(0xddeeff, cell.asset.atmosphereTint),
+    `${cell.id} is color-graded into the shared weather palette`
+  );
+  assert.equal(image.blendMode, WORLD_VISUAL_SKY_COHESION.render.featureBlendMode);
+  const transitionAlpha = [
+    cell.incomingHorizontalTransition?.profile,
+    cell.incomingVerticalTransition?.profile,
+  ].filter(Boolean).reduce((alpha, profile) => Math.min(
+    alpha,
+    WORLD_VISUAL_SKY_COHESION.composition.transitionAlphaScale[profile]
+  ), 1);
+  assert.equal(
+    image.alpha,
+    WORLD_VISUAL_SKY_COHESION.render.alpha
+      * WORLD_VISUAL_SKY_COHESION.composition.bandAlpha[cell.bandId]
+      * transitionAlpha,
+    `${cell.id} obeys altitude and measured compatibility alpha`
+  );
 }
 for (const { cell, maskImage } of skyLayer.cards.values()) {
   assert.equal(maskImage.displayWidth, cell.displayWidthPx);
@@ -334,9 +607,116 @@ skyLayer.update(1234, { farTint: 0xaabbcc });
 assert.deepEqual(
   [...skyLayer.cards.values()].map(({ image }) => [image.x, image.y]),
   beforeUpdate,
-  "frame updates never reposition sky cards around the camera"
+  "frame updates never reposition sky features around the camera"
 );
+assert.equal(skyLayer.foundationView.image.tint, 0xaabbcc);
 skyLayer.destroy();
+assert.equal(globalThis.__jkdSkyComposition, undefined);
+
+function skyCellsIntersecting(bounds, margin = 0) {
+  return cells.filter(cell => (
+    bounds.right + margin > cell.leftTile
+    && bounds.left - margin < cell.rightTileExclusive
+    && bounds.bottom + margin > cell.topTile
+    && bounds.top - margin < cell.bottomTileExclusive
+  ));
+}
+
+const transitionStartBounds = Object.freeze({
+  left: 26,
+  right: 44,
+  top: 53,
+  bottom: 65,
+});
+const transitionNextBounds = Object.freeze({
+  left: 28,
+  right: 46,
+  top: 53,
+  bottom: 65,
+});
+const transitionStartCells = skyCellsIntersecting(
+  transitionStartBounds,
+  WORLD_VISUAL_SKY_COHESION.worldGrid.loadMarginTiles
+);
+const transitionAvailableKeys = new Set(
+  transitionStartCells.map(cell => cell.asset.key)
+);
+const transitionScene = createSceneStub();
+transitionScene.textures.exists = key => (
+  !key.startsWith("world-visual-sky-cohesion-v1-")
+  || transitionAvailableKeys.has(key)
+);
+const transitionLayer = new WorldVisualSkyCohesionLayer(
+  transitionScene,
+  WORLD_VISUAL_SKY_COHESION,
+  "?skyComposition=grid"
+);
+assert.equal(transitionLayer.create(), true);
+assert.equal(transitionLayer.runtimeMode, "world-grid");
+assert.equal(transitionLayer.sync(
+  transitionStartBounds,
+  { farTint: 0xddeeff }
+), true);
+assert.equal(transitionLayer.coverageReady, true);
+assert.equal(transitionLayer.matte.alpha, 1);
+const committedBeforeTransition = new Set(transitionLayer.committedCellIds);
+assert.ok(committedBeforeTransition.size > 0);
+
+assert.equal(transitionLayer.sync(
+  transitionNextBounds,
+  { farTint: 0xddeeff }
+), true);
+assert.ok(
+  [...transitionLayer.activeCellIds].some(id => !transitionLayer.cards.has(id)),
+  "the moved camera window is still waiting for at least one prefetched card"
+);
+assert.deepEqual(
+  transitionLayer.committedCellIds,
+  committedBeforeTransition,
+  "pending cells do not replace the last complete sky window"
+);
+assert.equal(
+  transitionLayer.coverageReady,
+  true,
+  "the last complete sky remains visible while its replacement streams"
+);
+assert.equal(transitionLayer.matte.alpha, 1);
+assert.ok([...transitionLayer.cards.entries()].every(([id, card]) => (
+  committedBeforeTransition.has(id) ? card.image.alpha === 1 : card.image.alpha === 0
+)));
+
+assert.equal(transitionLayer.sync(
+  { left: 216, right: 234, top: 53, bottom: 65 },
+  { farTint: 0xddeeff }
+), true);
+assert.equal(
+  transitionLayer.coverageReady,
+  false,
+  "a real teleport reveals the resident far fallback instead of a black matte"
+);
+assert.equal(transitionLayer.matte.alpha, 0);
+assert.ok([...transitionLayer.cards.values()].every(card => card.image.alpha === 0));
+transitionLayer.destroy();
+
+const pendingSkyScene = createSceneStub();
+pendingSkyScene.textures.exists = () => false;
+const pendingSkyLayer = new WorldVisualSkyCohesionLayer(pendingSkyScene);
+assert.equal(pendingSkyLayer.create(), true);
+assert.equal(pendingSkyLayer.runtimeMode, "ordered-features");
+assert.ok(
+  pendingSkyLayer.foundationView.fallback,
+  "the immediate cobalt field exists while the foundation texture streams"
+);
+assert.equal(pendingSkyLayer.foundationView.image, null);
+assert.equal(pendingSkyLayer.sync(
+  { left: 220, right: 246, top: 54, bottom: 65 },
+  { farTint: 0xddeeff }
+), true);
+assert.equal(pendingSkyLayer.cards.size, 0);
+assert.equal(pendingSkyLayer.coverageReady, true);
+assert.equal(pendingSkyLayer.matte, null);
+assert.equal(pendingSkyLayer.foundationView.fallback.tint, 0xddeeff);
+pendingSkyLayer.destroy();
 
 const terrainScene = createSceneStub();
 const terrainMask = { id: "terrain-geometry-mask" };
@@ -380,10 +760,16 @@ const skySource = fs.readFileSync(path.join(
   ROOT,
   "world/rendering/scenic-world/WorldVisualSkyCohesionLayer.js"
 ), "utf8");
+const skyFoundationSource = fs.readFileSync(path.join(
+  ROOT,
+  "world/rendering/scenic-world/WorldVisualSkyFoundationView.js"
+), "utf8");
 assert.match(runtimeSource, /new WorldVisualSkyCohesionLayer\(this\.scene\)/);
 assert.match(runtimeSource, /skyCohesionLayer\?\.sync/);
 assert.doesNotMatch(skySource, /\.setScrollFactor\s*\(\s*0\s*\)/);
 assert.doesNotMatch(skySource, /fitCover|setDisplaySize/);
-assert.match(skySource, /createWorldVisualBlendMask/);
+assert.match(skySource, /createWorldVisualNormalizedBlendMask/);
+assert.doesNotMatch(skyFoundationSource, /tileSprite/);
+assert.match(skyFoundationSource, /Math\.ceil\(fieldWidthPx \/ segmentWidthPx\)/);
 
 console.log("sky and underground world-space cohesion runtime contract: ok");

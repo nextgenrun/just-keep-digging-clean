@@ -37,17 +37,20 @@ class GraphicsStub {
 }
 
 class ImageStub {
-  constructor() {
+  constructor(key) {
+    this.key = key;
+    this.calls = [];
     this.visible = true;
   }
 
-  setDepth() { return this; }
-  setMask() { return this; }
-  setVisible(value) { this.visible = value; return this; }
-  setPosition() { return this; }
-  setTexture() { return this; }
-  setDisplaySize() { return this; }
-  setAlpha() { return this; }
+  call(method, ...args) { this.calls.push([method, ...args]); return this; }
+  setDepth(...args) { return this.call("setDepth", ...args); }
+  setMask(...args) { return this.call("setMask", ...args); }
+  setVisible(value) { this.visible = value; return this.call("setVisible", value); }
+  setPosition(...args) { return this.call("setPosition", ...args); }
+  setTexture(...args) { return this.call("setTexture", ...args); }
+  setDisplaySize(...args) { return this.call("setDisplaySize", ...args); }
+  setAlpha(...args) { return this.call("setAlpha", ...args); }
   destroy() { this.destroyed = true; }
 }
 
@@ -56,10 +59,14 @@ function createHarness(search = "") {
   globalThis.location = { search };
   const frames = new Set();
   const graphics = [];
+  const images = [];
   const scene = {
     config: { tileSize: 94 },
     textures: {
-      exists: key => key === WORLD_VISUAL_FEEDBACK.atlas.key,
+      exists: key => (
+        key === WORLD_VISUAL_FEEDBACK.atlas.key
+        || key === WORLD_VISUAL_DAMAGE.imagegen.atlas.key
+      ),
       get: () => ({
         has: name => frames.has(name),
         add: name => frames.add(name),
@@ -71,7 +78,11 @@ function createHarness(search = "") {
         graphics.push(item);
         return item;
       },
-      image: () => new ImageStub(),
+      image: (_x, _y, key) => {
+        const item = new ImageStub(key);
+        images.push(item);
+        return item;
+      },
     },
   };
   const types = [TILE_TYPES.COPPER, TILE_TYPES.GOLD, TILE_TYPES.GEM_POWER_BLOCK];
@@ -92,7 +103,7 @@ function createHarness(search = "") {
   layer.sync({ left: 0, right: 3, top: 0, bottom: 1 });
   if (originalLocation === undefined) delete globalThis.location;
   else globalThis.location = originalLocation;
-  return { layer, decals: graphics[0], graphics };
+  return { layer, decals: graphics[0], graphics, images };
 }
 
 assert.equal(resolveWorldVisualResourceVeinsEnabled(undefined, ""), false);
@@ -121,9 +132,17 @@ assert.equal(
   false,
   "generated raster semantics must suppress procedural ore geometry by default"
 );
-assert.ok(embedded.graphics.some(graphic => graphic.calls.some(([method, _width, color]) => (
+assert.equal(embedded.layer.damagePainter.pool.length, 1);
+assert.ok(embedded.layer.damagePainter.pool[0].calls.some(([method, key, frame]) => (
+  method === "setTexture"
+  && key === WORLD_VISUAL_DAMAGE.imagegen.atlas.key
+  && String(frame).startsWith(WORLD_VISUAL_DAMAGE.imagegen.atlas.framePrefix)
+)), "ImageGen damage sprites must remain visible above generated mineral art");
+
+const proceduralDamage = createHarness("?groundDamage=procedural");
+assert.ok(proceduralDamage.graphics.some(graphic => graphic.calls.some(([method, _width, color]) => (
   method === "lineStyle" && color === WORLD_VISUAL_DAMAGE.layers.fracture.coreColor
-))), "modular damage fractures must remain visible above generated mineral art");
+))), "procedural damage rollback must remain available for comparison");
 
 const proceduralRollback = createHarness("?terrainSemantics=0&resourceVeins=1");
 assert.equal(proceduralRollback.layer.markerPool.length, 1, "procedural rollback keeps special atlas art separate");
@@ -165,6 +184,7 @@ assert.equal(
 );
 
 embedded.layer.destroy();
+proceduralDamage.layer.destroy();
 proceduralRollback.layer.destroy();
 atlasRollback.layer.destroy();
 console.log("Scenic resource presentation smoke: ImageGen default, damage coexistence, atlas rollback, and explicit procedural comparison passed");

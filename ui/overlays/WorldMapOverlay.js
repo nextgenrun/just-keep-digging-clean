@@ -107,7 +107,7 @@ export class WorldMapOverlay {
       "X",
       { fontSize: `${Math.max(24, Math.round(height * 0.042))}px`, fontStyle: "bold", color: WORLD_MAP_CONFIG.colors.title }
     ).setInteractive({ useHandCursor: true });
-    this.closeText.on("pointerdown", () => this.close());
+    this.closeText.on("pointerdown", () => this.scene.hideWorldMap?.() ?? this.close());
 
     this.discoveryText = this._addText(
       0.874 * width,

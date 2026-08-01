@@ -1,0 +1,97 @@
+{
+  "version": "sky-atmosphere-foundation-v2",
+  "path": "sprites/backgrounds/world-visual-v2/far/sky-foundation-v2/sky-atmosphere-foundation-v2.webp",
+  "width": 1024,
+  "height": 2048,
+  "sha256": "82a5aa0094c480ad800192ed30e37b2dfd88fceda658efe2b82a03904072886a",
+  "safeFrame": {
+    "x": 209,
+    "y": 118,
+    "width": 1254,
+    "height": 705
+  },
+  "horizontalSeamMaximumChannelDelta": 0,
+  "sourceCount": 20,
+  "sources": [
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-02-western-lower-mist-valleys-v1.webp",
+      "sha256": "83998da694236a1e943d8c6bceca73b15c61b0705138889af117daf203fc49e4"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-03-western-upper-aurora-shelf-v1.webp",
+      "sha256": "430d998b8a62d7fa4148e95637e3cf334203e8c37c3b9b6646052641e6b5b6fb"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-04-western-stormbreak-edge-v1.webp",
+      "sha256": "79eaa90879b1c97451a3b89248f4ea42d518822d824f9b96cd42a3622f00902a"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-05-level1-lower-cyan-approach-v1.webp",
+      "sha256": "9220913d1b965c6ce87dc0244ae1a1ae62c11bbb2d0c6fbd77eeb5bb18a532c8"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-06-level1-mid-cloud-reef-v1.webp",
+      "sha256": "e85fc1d9151cc1fbf1720243b49960773bc8d96fd3389da7f996af02680943d5"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-07-level1-upper-ruin-beacons-v1.webp",
+      "sha256": "4d2b0d15a71ee108e1e61f7d090557148f82befeb6a882699cd4030c32b6694b"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-08-level1-quiet-departure-v1.webp",
+      "sha256": "664c8e8b03eb2e263f9c36c201de2fcc2f1d2ce2297035e4ab70b0764aa0abf7"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-09-central-lower-horizon-saddle-v1.webp",
+      "sha256": "e3888aebfd6983c2f2d514c461636c5abd77b3028b3e30f57748c70332bda13e"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-10-central-mid-open-aurora-v1.webp",
+      "sha256": "2e87009a1c4b35d6f6fa32c6f9a67d4d88ddaf18f9fe72f7c11877ba1e71827e"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-11-central-upper-star-river-v1.webp",
+      "sha256": "8240d5647c28e794f84c97c2cc674514ca979342f4eaa864baa355b182378c12"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-12-central-transition-cloud-veil-v1.webp",
+      "sha256": "93578478cdf15e6f559f2b6dc6b03eb813d59977699b388a594d23f63c742390"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-13-level2-lower-iron-forge-haze-v1.webp",
+      "sha256": "a1d6bf7b7f945bf1baf4f9c846c9ba7d9c44231d5804fcaa945c581e5c45e029"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-14-level2-mid-ruin-belt-v1.webp",
+      "sha256": "1dc7b488fe0a43e1049542a24141b7462015c7ae9c36ce768f1bcb5d81c6c473"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-15-level2-upper-chain-citadels-v1.webp",
+      "sha256": "b67810ad2b44bcc5f27897f7939c531abf09ed1c9b8c0abb660491f9558599e4"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-16-level2-stormbreak-corridor-v1.webp",
+      "sha256": "2927c4a6530c1bfc62a70c448c6e35baff6a44ed7ab4a2309215686aab343c01"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-17-eastern-lower-expedition-overlook-v1.webp",
+      "sha256": "236a7c6d61cda97bfd7315193e0d47a430209cd6ad53664f10df6ad061bf2d59"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-18-eastern-mid-thunder-sea-v1.webp",
+      "sha256": "dba97a01d55759b27062d6c9e0f4eb4c9d1cc67da85f0835d0051cbc5bfd7690"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-19-eastern-upper-heavenblock-ascent-v1.webp",
+      "sha256": "423b9891858e1fc05da85231208190d438895bea995b2d68dec80728f8dba511"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-20-eastern-far-crimson-atmosphere-v1.webp",
+      "sha256": "ad3d6e78867219a00590df11cc2a6ad676e40853c5f40b5d999fb7cbab457691"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-flight-corridor-far-plate-v1.webp",
+      "sha256": "b376e4b164bd3760384c707a1cd70a6ac7b58758636a95bfa7cfcbf7599d205e"
+    }
+  ]
+}

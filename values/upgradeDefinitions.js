@@ -8,6 +8,8 @@ import {
 } from "./arcCoreConfig.js";
 import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "./earthquakes.js";
 
+export const FIRST_FIVE_STARTER_UPGRADE_ID = "minersGrip";
+
 // ==================== UPGRADES DEFINITIONS ====================
 export const UPGRADES = Object.freeze({
   // GEM POWER MERCHANT UPGRADES
@@ -69,6 +71,18 @@ export const UPGRADES = Object.freeze({
   },
 
   // PLAYER UPGRADES MERCHANT UPGRADES
+  [FIRST_FIVE_STARTER_UPGRADE_ID]: {
+    id: FIRST_FIVE_STARTER_UPGRADE_ID,
+    category: UPGRADE_CATEGORIES.PLAYER_STATS,
+    name: "Miner's Grip",
+    description: "One-time +8 mining damage. Starter Dirt drops from 3 hits to 2.",
+    goldCost: 4,
+    baseEffect: 8,
+    effectType: "digDamageAdditive",
+    merchant: "playerUpgrades",
+    oneTimePurchase: true,
+    firstFiveOnly: true,
+  },
   agility: {
     id: "agility",
     category: UPGRADE_CATEGORIES.PLAYER_STATS,
@@ -339,6 +353,19 @@ export const UPGRADES = Object.freeze({
     effectType: "nextResourceBonus",
     maxLevel: 10,
     merchant: "moneyMonster"
+  },
+  deepResourcePrices: {
+    id: "deepResourcePrices",
+    category: UPGRADE_CATEGORIES.SPECIAL,
+    name: "Deep Market Contracts",
+    description: "Improve Lava Dirt, Obsidian, Ember Ore, and Magma Crystal prices by 15% per level.",
+    baseCost: 2500,
+    baseEffect: 0.15,
+    effectType: "deepResourceBonus",
+    maxLevel: 10,
+    requires: "worldTwoTunnelAccess",
+    merchant: "moneyMonster",
+    depthEconomyOnly: true,
   },
   marketInsight: {
     id: "marketInsight",

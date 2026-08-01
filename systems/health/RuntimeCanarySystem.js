@@ -149,6 +149,7 @@ export class RuntimeCanarySystem {
       this.documentRef?.hidden === true,
       this.config,
     );
+    this.workerBridge?.reportFindings?.(result.findings);
     this.telemetry = {
       ...result.telemetry,
       performance: this.performanceTelemetry.snapshot(),

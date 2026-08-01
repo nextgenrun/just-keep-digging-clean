@@ -124,6 +124,32 @@ idle art, earthquake HUD frame, and an approved cavern background. Bookmark
 `A`/`D` and held Shift Flight; it has no jump action and never mutates production
 earthquake logic.
 
+## Held Dig next-five review
+
+`held-dig-next-five-review-v1/` now hosts the stronger V2 attack scale/anchor
+review after the earlier micro-handoff set was rejected. It exposes the real
+123-to-109 px standing-attack shrink and 88.6% moving-torso scale, then compares
+one 123 px / 100% attack family across moving hold, standing Jab/Cross, movement
+start and the held chain. The 94 px tile, 31x75 collider, 750 ms cadence and
+contact frames remain fixed; production is untouched.
+
+## Vertical Dig Before / After review
+
+`vertical-dig-before-after-v1/` compares stationary UP, stationary DOWN, moving
+UP-SIDE, and moving DOWN-SIDE against body-locked candidates. It reproduces the
+current contact translation, tile overlap and DOWN-source shrink, then keeps the
+31x75 collider, 94 px tile, contact frame and zero-delay input fixed while the
+candidate reuses the central Piskel alignment and diagonal Jog compositor.
+Production remains untouched until explicit visual approval.
+
+## Player animation 500-point optimisation review
+
+`player-animation-optimization-500-review-v1/` materializes exactly 500
+measurable polish points from 20 animation families and 25 repeatable review
+lenses. Its synchronized Before/After loops target stationary SIDE/Q release,
+landing finish, and wall brace/push with visible collider, tile, anchor, and
+silhouette guides. Filters and approvals are browser-local; production remains
+untouched.
 ## Spritesheets Loaded
 
 | Sheet | Source | Frames | Size |

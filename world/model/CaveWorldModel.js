@@ -37,7 +37,7 @@ export class CaveWorldModel extends WorldModel {
 
     const runtime = this.config.caveRuntime;
     if (!runtime) return;
-    this._buildBoundary(runtime);
+    if (!runtime.mineableOnly) this._buildBoundary(runtime);
     this._buildFloor(runtime);
     this._placeRewardTiles(runtime);
     this._placeSignatureTile(runtime);
@@ -56,19 +56,24 @@ export class CaveWorldModel extends WorldModel {
   }
 
   _buildFloor(runtime) {
-    if (runtime.stablePaintedFloor) {
+    const floorTypes = runtime.floorResourceKeys
+      .map(resourceKey => TILE_TYPE_BY_RESOURCE[resourceKey])
+      .filter(Number.isInteger);
+    if (runtime.mineableOnly) {
       const thickness = Math.max(1, runtime.floorThicknessTiles || 1);
       const lastRow = Math.min(this.depthTiles - 1, runtime.floorRow + thickness - 1);
       for (let ty = runtime.floorRow; ty <= lastRow; ty += 1) {
-        for (let tx = 1; tx < this.widthTiles - 1; tx += 1) {
-          this.setTile(tx, ty, TILE_TYPES.CAVE_WALL, 0);
+        for (let tx = 0; tx < this.widthTiles; tx += 1) {
+          const runTiles = Math.max(1, runtime.floorMaterialRunTiles || 1);
+          const materialColumn = Math.floor(tx / runTiles);
+          const type = floorTypes[
+            hashIndex(`${runtime.caveId}:floor:${materialColumn},${ty}`, floorTypes.length)
+          ] || TILE_TYPES.DIRT;
+          this.setTile(tx, ty, type, this.getTileMaxHp(tx, ty, type));
         }
       }
       return;
     }
-    const floorTypes = runtime.floorResourceKeys
-      .map(resourceKey => TILE_TYPE_BY_RESOURCE[resourceKey])
-      .filter(Number.isInteger);
     const safeFloor = new Set(runtime.safeFloorTileXs || []);
     for (let tx = 1; tx < this.widthTiles - 1; tx += 1) {
       if (safeFloor.has(tx)) {
@@ -102,8 +107,8 @@ export class CaveWorldModel extends WorldModel {
   _applyDugTiles(runtime) {
     const collected = new Set(runtime.collectedTileKeys || []);
     this._applyLegacyCollectedAliases(runtime, collected);
-    for (let ty = 1; ty < this.depthTiles - 1; ty += 1) {
-      for (let tx = 1; tx < this.widthTiles - 1; tx += 1) {
+    for (let ty = 0; ty < this.depthTiles; ty += 1) {
+      for (let tx = 0; tx < this.widthTiles; tx += 1) {
         if (!collected.has(makeCaveTileSaveKey(runtime.caveId, tx, ty))) continue;
         if (!this.isDiggable(tx, ty)) continue;
         this.setTile(tx, ty, TILE_TYPES.AIR, 0);

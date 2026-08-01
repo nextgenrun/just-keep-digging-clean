@@ -71,24 +71,28 @@ function textureStub(width, height) {
 
 const TEST_EPSILON = 1e-6;
 
-const verticalReveal = {
-  topFeatherTiles: 0.75,
-  fullAlphaEdgeViewportFraction: 0.12,
-  zeroAlphaEdgeViewportFraction: 0.52,
-};
+const verticalReveal = resolveWorldVisualSurfacePack(
+  WORLD_VISUAL_SURFACE_PACKS,
+  ""
+).beauty.verticalReveal;
 assert.equal(
   resolveSurfacePackBeautyVisibility(40, 720, verticalReveal),
   1,
-  "the approved plate stays opaque when its top edge is safely above the view",
+  "the approved plate stays opaque while it owns most of the surface view",
 );
 assert.equal(
-  resolveSurfacePackBeautyVisibility(408, 720, verticalReveal),
+  resolveSurfacePackBeautyVisibility(680, 720, verticalReveal),
   0,
   "a high-flight view must not expose the benchmark plate as a second sky card",
 );
+const transitionVisibility = resolveSurfacePackBeautyVisibility(
+  500,
+  720,
+  verticalReveal
+);
 assert.ok(
-  resolveSurfacePackBeautyVisibility(220, 720, verticalReveal) > 0,
-  "the sky handoff must crossfade rather than pop",
+  transitionVisibility > 0 && transitionVisibility < 1,
+  "the later half-viewport sky handoff must crossfade rather than switch",
 );
 
 function assertNear(actual, expected, message) {

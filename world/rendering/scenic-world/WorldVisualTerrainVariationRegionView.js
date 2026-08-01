@@ -1,12 +1,14 @@
 import { TILE_TYPES } from "../../../values/tileTypes.js";
 import { isWorldVisualTerrainCapTileType } from
-  "../../../values/worldVisualTerrainVariation.js?rev=20260729-whole-world-expansion-v5-lineless-v10";
+  "../../../values/worldVisualTerrainVariation.js?rev=20260729-underground-seam-v6";
 import {
   setAlphaIfChanged,
   setTintIfChanged,
 } from "./worldVisualRenderState.js";
 import { WorldVisualTerrainCohesionView } from
   "./WorldVisualTerrainCohesionView.js";
+import { resolveWorldVisualSemanticSequenceIndex } from
+  "./worldVisualSemanticSequence.js?rev=20260729-native-density-v14";
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -18,12 +20,13 @@ function sourceSize(scene, key) {
 }
 
 function resolvePlateRegionSpan(region, config, tileSize) {
+  const segment = region.segment || config.segment;
   const hasPreviousRegion = config.regions?.some(entry => (
     entry.id !== region.id
     && entry.bottomTileExclusive === region.topTile
   )) || false;
   const crossBiomeOverlapYPx = hasPreviousRegion
-    ? Math.max(0, Number(config.segment.crossBiomeOverlapYPx) || 0)
+    ? Math.max(0, Number(segment.crossBiomeOverlapYPx) || 0)
     : 0;
   const topPx = region.topTile * tileSize - crossBiomeOverlapYPx;
   const bottomPx = region.bottomTileExclusive * tileSize;
@@ -32,6 +35,23 @@ function resolvePlateRegionSpan(region, config, tileSize) {
     bottomPx,
     topTile: topPx / tileSize,
   };
+}
+
+function resolvePlateDepth(region, config, column, row) {
+  if (!region.seamBlendEnabled) return config.render.plateDepth;
+  const order = config.seamBlendV6.depthOrder;
+  return (
+    config.render.plateDepth
+    + region.orderIndex * order.regionStep
+    + row * order.rowStep
+    + column * order.columnStep
+  );
+}
+
+function resolvePlateAlpha(region, config) {
+  return region.seamBlendEnabled
+    ? config.seamBlendV6.plateAlpha
+    : config.render.plateAlpha;
 }
 
 function segmentCount(regionSpanPx, cardSizePx, stridePx) {
@@ -120,7 +140,9 @@ export class WorldVisualTerrainVariationRegionView {
 
   resolveRequiredAssets(
     bounds,
-    neighborSegments = this.config.segment.neighborSegments
+    neighborSegments = (
+      this.region.segment || this.config.segment
+    ).neighborSegments
   ) {
     const range = this._resolvePlateRange(bounds, neighborSegments);
     if (!range) return [];
@@ -128,10 +150,7 @@ export class WorldVisualTerrainVariationRegionView {
     const assets = new Map(capAtlases.map(asset => [asset.key, asset]));
     for (let row = range.rows.first; row <= range.rows.last; row += 1) {
       for (let column = range.columns.first; column <= range.columns.last; column += 1) {
-        const assetIndex = (
-          column * 7 + row * 11 + this.region.seedOffset
-        ) % this.region.plates.length;
-        const asset = this.region.plates[assetIndex];
+        const asset = this._resolvePlateAsset(column, row);
         assets.set(asset.key, asset);
       }
     }
@@ -155,13 +174,26 @@ export class WorldVisualTerrainVariationRegionView {
     return [...assets.values()];
   }
 
+  _resolvePlateAsset(column, row) {
+    const assetIndex = resolveWorldVisualSemanticSequenceIndex(
+      column,
+      row,
+      this.region.seedOffset,
+      this.region.plates.length,
+      { profileId: "terrain" }
+    );
+    return this.region.plates[assetIndex];
+  }
+
   _resolvePlateRange(
     bounds,
-    neighborSegments = this.config.segment.neighborSegments
+    neighborSegments = (
+      this.region.segment || this.config.segment
+    ).neighborSegments
   ) {
     const { scene, region, config } = this;
     const tileSize = scene.config.tileSize;
-    const segment = config.segment;
+    const segment = region.segment || config.segment;
     const regionSpan = resolvePlateRegionSpan(region, config, tileSize);
     const intersects = (
       bounds.right > region.leftTile
@@ -227,10 +259,8 @@ export class WorldVisualTerrainVariationRegionView {
         const id = `${column}:${row}`;
         needed.add(id);
         if (!this.plateImages.has(id)) {
-          const assetIndex = (
-            column * 7 + row * 11 + this.region.seedOffset
-          ) % this.region.plates.length;
-          if (!this.scene.textures.exists(this.region.plates[assetIndex].key)) continue;
+          const selected = this._resolvePlateAsset(column, row);
+          if (!this.scene.textures.exists(selected.key)) continue;
           this.plateImages.set(id, this._createPlate(column, row));
         }
       }
@@ -241,7 +271,7 @@ export class WorldVisualTerrainVariationRegionView {
   _createPlate(column, row) {
     const { scene, region, config } = this;
     const tileSize = scene.config.tileSize;
-    const segment = config.segment;
+    const segment = region.segment || config.segment;
     const regionSpan = resolvePlateRegionSpan(region, config, tileSize);
     const regionRightPx = region.rightTileExclusive * tileSize;
     const regionBottomPx = region.bottomTileExclusive * tileSize;
@@ -249,17 +279,14 @@ export class WorldVisualTerrainVariationRegionView {
     const y = regionSpan.topPx + row * segment.strideYPx;
     const width = Math.min(segment.logicalWidthPx, regionRightPx - x);
     const height = Math.min(segment.logicalHeightPx, regionBottomPx - y);
-    const assetIndex = (
-      column * 7 + row * 11 + region.seedOffset
-    ) % region.plates.length;
-    const selected = region.plates[assetIndex];
+    const selected = this._resolvePlateAsset(column, row);
     const source = sourceSize(scene, selected.key);
     const cropWidth = Math.round(source.width * width / segment.logicalWidthPx);
     const cropHeight = Math.round(source.height * height / segment.logicalHeightPx);
     const image = scene.add.image(x, y, selected.key)
       .setOrigin(0)
-      .setDepth(config.render.plateDepth)
-      .setAlpha(config.render.plateAlpha)
+      .setDepth(resolvePlateDepth(region, config, column, row))
+      .setAlpha(resolvePlateAlpha(region, config))
       .setCrop(0, 0, cropWidth, cropHeight);
     // Tail plates are cropped frames. Phaser display-size scaling is based on
     // the complete texture, so scale from the crop to prevent uncovered seams.
@@ -335,7 +362,10 @@ export class WorldVisualTerrainVariationRegionView {
     const tint = lighting.terrainTint;
     this.plateImages.forEach(image => {
       setTintIfChanged(image, tint);
-      setAlphaIfChanged(image, this.config.render.plateAlpha);
+      setAlphaIfChanged(
+        image,
+        resolvePlateAlpha(this.region, this.config)
+      );
     });
     this.capImages.forEach(image => {
       setTintIfChanged(image, tint);

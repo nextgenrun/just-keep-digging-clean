@@ -85,7 +85,25 @@ function setGeneratedTile(worldModel, tx, ty, type, hp = null) {
   worldModel.setTile(tx, ty, type, nextHp);
   worldModel.skyTileOriginalType[idx] = 0;
   worldModel.skyTileRarity[idx] = 0;
+  worldModel.skyTileIdentity[idx] = 0;
   worldModel.rootOverlay[idx] = 0;
+}
+
+function interpolate(top, bottom, progress) {
+  return top + (bottom - top) * Math.max(0, Math.min(1, progress));
+}
+
+function resolveNodeTiles(generation, depthBias, depthEconomyEnabled) {
+  if (!depthEconomyEnabled || !Array.isArray(generation.nodeTilesDeep)) {
+    return generation.nodeTiles;
+  }
+  return generation.nodeTiles.map(entry => {
+    const deep = generation.nodeTilesDeep.find(candidate => candidate.type === entry.type);
+    return {
+      type: entry.type,
+      weight: interpolate(entry.weight, deep?.weight ?? entry.weight, depthBias),
+    };
+  });
 }
 
 function chooseBaseTile(worldModel, tx, ty, bounds, config) {
@@ -95,10 +113,23 @@ function chooseBaseTile(worldModel, tx, ty, bounds, config) {
   const depthBias = Math.min(1, localDepth / maxDepth);
   const roll = hash01(tx, ty, worldModel.config.seed, 4117);
 
-  if (roll < 0.018 + depthBias * 0.035) return TILE_TYPES.MAGMA_CRYSTAL;
-  if (roll < 0.08 + depthBias * 0.075) return TILE_TYPES.EMBER_ORE;
-  if (roll < 0.27 + depthBias * 0.08) return TILE_TYPES.OBSIDIAN;
-  if (roll < 0.31 + depthBias * 0.03) return TILE_TYPES.GOLD;
+  if (worldModel.config.resourceEconomyEnabled === false) {
+    if (roll < 0.018 + depthBias * 0.035) return TILE_TYPES.MAGMA_CRYSTAL;
+    if (roll < 0.08 + depthBias * 0.075) return TILE_TYPES.EMBER_ORE;
+    if (roll < 0.27 + depthBias * 0.08) return TILE_TYPES.OBSIDIAN;
+    if (roll < 0.31 + depthBias * 0.03) return TILE_TYPES.GOLD;
+    return chooseWeightedTile(
+      worldModel.config.seed,
+      tx * 8191 + ty,
+      config.generation.baseTiles,
+    );
+  }
+
+  let threshold = 0;
+  for (const entry of config.generation.resourceCurve || []) {
+    threshold += interpolate(entry.topChance, entry.bottomChance, depthBias);
+    if (roll < threshold) return entry.type;
+  }
   return chooseWeightedTile(worldModel.config.seed, tx * 8191 + ty, config.generation.baseTiles);
 }
 
@@ -129,7 +160,17 @@ function paintResourceNodes(worldModel, mask, bounds, config) {
     const cy = randomInt(seed, 5300 + i * 11, floorY + 5, bounds.y + bounds.height - 3);
     const rx = randomInt(seed, 5400 + i, gen.nodeRadiusXMin, gen.nodeRadiusXMax);
     const ry = randomInt(seed, 5500 + i, gen.nodeRadiusYMin, gen.nodeRadiusYMax);
-    const type = chooseWeightedTile(seed, 5600 + i, gen.nodeTiles);
+    const maxDepth = Math.max(1, bounds.y + bounds.height - floorY);
+    const depthBias = Math.min(1, Math.max(0, cy - floorY) / maxDepth);
+    const type = chooseWeightedTile(
+      seed,
+      5600 + i,
+      resolveNodeTiles(
+        gen,
+        depthBias,
+        worldModel.config.resourceEconomyEnabled !== false,
+      ),
+    );
 
     paintEllipse(worldModel, mask, bounds, cx, cy, rx, ry, (tx, ty) => {
       if (ty <= floorY) return;

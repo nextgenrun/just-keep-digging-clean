@@ -31,7 +31,12 @@ from player_animation_polish_compositor import (  # noqa: E402
     build_transition_frames,
     frame_stability,
 )
+from moving_side_dig_compositor import pack_sheet  # noqa: E402
 from player_animation_diagonal_compositor import build_diagonal_frames  # noqa: E402
+from player_animation_vertical_compositor import (  # noqa: E402
+    build_vertical_frames,
+    build_vertical_source_frames,
+)
 from player_animation_polish_runtime_module import write_runtime_module  # noqa: E402
 from player_animation_polish_review import write_review_board  # noqa: E402
 
@@ -98,6 +103,8 @@ def _diagonal_action_metadata(
     run = runtime_manifest["actions"]["run"]
     family = source["family"]
     family_config = config["diagonalMining"][family]
+    action_source = config["sources"][family_config["source"]]
+    action_clip = action_source.get("sourceClip") or action_source.get("manifestAction")
     generated = next(
         variant for variant in runtime["diagonalMining"]["variants"]
         if variant["family"] == family
@@ -113,15 +120,10 @@ def _diagonal_action_metadata(
         "fps": config["frameRate"],
         "loop": False,
         "source": "piskel-phase-locked-diagonal-upper-lower-composite",
-        "source_clip": (
-            f"Jog_Fwd_Loop + {config['sources'][family_config['source']].get('manifestAction', 'MINER_dig_up')}"
-        ),
+        "source_clip": f"Jog_Fwd_Loop + {action_clip}",
         "source_clips": [
             "Jog_Fwd_Loop",
-            config["sources"][family_config["source"]].get(
-                "manifestAction",
-                "Blender MINER_dig_up",
-            ),
+            action_clip,
         ],
         "source_crop_mode": "fixed-frame-phase-locked-upper-lower-composite",
         "source_window": config["frameWidth"],
@@ -171,10 +173,28 @@ def build_package() -> dict[str, Any]:
     }
 
     transition_frames, transition_layout = build_transition_frames(config, sheets)
+    vertical_sources = build_vertical_source_frames(config, sheets)
+    vertical_frames, vertical_layout = build_vertical_frames(config, vertical_sources)
+    vertical_offset = len(transition_frames)
+    transition_frames.extend(vertical_frames)
+    transition_layout["vertical"] = {
+        family: [vertical_offset + frame for frame in frames]
+        for family, frames in vertical_layout.items()
+    }
+
+    diagonal_sheets = dict(sheets)
+    for family in ("up", "down"):
+        source_id = config["verticalMining"][family]["source"]
+        diagonal_sheets[source_id] = pack_sheet(
+            vertical_sources[family],
+            16,
+            int(config["frameWidth"]),
+            int(config["frameHeight"]),
+        )
     diagonal_frames, diagonal_variants = build_diagonal_frames(
         config,
         runtime_manifest,
-        sheets,
+        diagonal_sheets,
     )
     expected_counts = {
         config["sheets"]["transitions"]["id"]: len(transition_frames),

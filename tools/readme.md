@@ -29,10 +29,27 @@ Every snapshot receives a deterministic, content-derived build ID in both its
 manifest and `index.html`. The hash covers reachable modules, collected runtime
 media, the page shell, Phaser, CSS, and the builder itself, allowing the runtime
 panel, CI artifact, and rollback candidate to identify the exact same build.
-Dynamic runtime directories include the opaque ImageGen resource-tile pack
-because BootScene constructs those ten file paths from resource ids; production
-must copy the directory even though no complete path literal appears in the
-module graph.
+Dynamic runtime directories include the opaque ImageGen resource-tile pack and
+the Star identity/core-light atlas packages because runtime configuration
+constructs those file paths from resource or rarity ids; production must copy
+those directories even though no complete path literal appears in the module
+graph.
+
+## Star identity assets
+
+`2026-07-30-build-star-identity-assets.py` slices six built-in ImageGen contact
+sheets into 50 straight-alpha 320 px frames, writes one atlas per rarity,
+normalizes the authored Star Atlas UI foundation to 1536x800, and records
+source/output SHA-256 hashes, dimensions, and alpha coverage in
+`sprites/environment/star-identities-v1/star-identities-v1.manifest.json`.
+It never generates substitute star art.
+
+`2026-07-30-build-star-identity-assets-v2.py` preserves those fifty frames and
+adds fourteen built-in ImageGen expansion sheets for 250 total lights. It
+writes six 256 px, ten-column atlases plus a V2 manifest with source/frame
+offsets, hashes, dimensions, alpha coverage, and decoded memory. The package
+decodes to 62.5 MiB under its 64 MiB cap. V1 inputs and outputs remain
+untouched for rollback.
 
 ## Graveborer Wurm sprite package
 
@@ -86,3 +103,10 @@ Generate Blender motion-envelope references with:
 ```powershell
 blender --background --python tools/export_legacy_miner_blender_motion_reference.py -- --profile <motion-profile.json> --out-dir <review-output-directory>
 ```
+
+## Star discovery assets
+
+`build_star_discovery_assets.py` splits the two selected 2x3 ImageGen alpha
+masters into six rarity plates and six matching XP fills, normalizes each
+family without stretching, enforces transparent corners/alpha coverage, and
+writes a hash manifest. It never generates substitute artwork.

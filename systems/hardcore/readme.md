@@ -6,10 +6,11 @@ counters, darkness/descent/deep-pressure stress calculation, high-stress GP
 drain, teleport quotes, and last-resort cooldown.
 
 `hardcoreMemorialRecord.js` sanitizes a final run and builds every stat and
-bounded Journey-achievement recap page. `HardcoreMemorialStore.js` persists
-those records outside save slots. It exposes append/read only, so permadeath,
-new-save cleanup, and Casual save management cannot remove graves. Phaser,
-purge, and scene-transition responsibilities remain in
+bounded Journey-achievement recap page for both the death result and later
+full-screen grave inspection. `HardcoreMemorialStore.js` persists those records
+outside save slots. It exposes append/read only, so permadeath, new-save
+cleanup, and Casual save management cannot remove graves. Phaser, purge, and
+scene-transition responsibilities remain in
 `world/playScene/HardcoreDeathBridge.js`.
 
 The persistent Hardcore HUD is the authoritative routine-status surface.

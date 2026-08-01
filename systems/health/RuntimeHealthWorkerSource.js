@@ -6,6 +6,26 @@ export function runtimeHealthWorkerMain() {
   let paused = false;
   let alertSent = false;
   let reporting = null;
+  let activeSystemFindingKeys = new Set();
+
+  async function reportEvent(event, source) {
+    if (!reporting?.endpoint || typeof fetch !== "function") return;
+    try {
+      await fetch(reporting.endpoint, {
+        method: reporting.method,
+        headers: { "Content-Type": reporting.contentType },
+        body: JSON.stringify({
+          schemaVersion: reporting.schemaVersion,
+          buildId: reporting.buildId,
+          source,
+          event,
+        }),
+        credentials: "same-origin",
+      });
+    } catch {
+      // A health worker must never fail because the optional alert endpoint is down.
+    }
+  }
 
   async function reportFrozen(stalledForMs) {
     const event = {
@@ -15,22 +35,25 @@ export function runtimeHealthWorkerMain() {
       context: { stalledForMs, source: "runtime-health-worker" },
     };
     self.postMessage({ type: "runtime-health-finding", finding: event });
-    if (!reporting?.endpoint || typeof fetch !== "function") return;
-    try {
-      await fetch(reporting.endpoint, {
-        method: reporting.method,
-        headers: { "Content-Type": reporting.contentType },
-        body: JSON.stringify({
-          schemaVersion: reporting.schemaVersion,
-          buildId: reporting.buildId,
-          source: "runtime-health-worker",
-          event,
-        }),
-        credentials: "same-origin",
-      });
-    } catch {
-      // A health worker must never fail because the optional alert endpoint is down.
+    await reportEvent(event, "runtime-health-worker");
+  }
+
+  function reportSystemFindings(findings) {
+    const active = Array.isArray(findings)
+      ? findings.filter(finding => finding?.severity === "error" && finding?.key)
+      : [];
+    const nextKeys = new Set(active.map(finding => finding.key));
+    for (const finding of active) {
+      if (activeSystemFindingKeys.has(finding.key)) continue;
+      void reportEvent({
+        ...finding,
+        context: {
+          ...(finding.context || {}),
+          source: "runtime-health-worker-system-canary",
+        },
+      }, "runtime-health-worker-system-canary");
     }
+    activeSystemFindingKeys = nextKeys;
   }
 
   function sample() {
@@ -58,9 +81,14 @@ export function runtimeHealthWorkerMain() {
       alertSent = false;
       return;
     }
+    if (message.type === "system-findings") {
+      reportSystemFindings(message.findings);
+      return;
+    }
     if (message.type === "stop" && timer !== null) {
       clearInterval(timer);
       timer = null;
+      activeSystemFindingKeys = new Set();
     }
   };
 }

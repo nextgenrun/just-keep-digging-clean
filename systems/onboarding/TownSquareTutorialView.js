@@ -19,7 +19,14 @@ export class TownSquareTutorialView {
         key: this.config.guideNotificationKey,
         title: copy?.phase || "GUIDE",
         noDedupe: true,
+        bypassPacing: true,
       },
+    );
+  }
+
+  closeGuideNotification() {
+    this.scene.uiNotifications?.closeByKey?.(
+      this.config.guideNotificationKey,
     );
   }
 
@@ -68,6 +75,7 @@ export class TownSquareTutorialView {
         key: this.config.completionNotificationKey,
         title: copy?.phase || "COMPLETE",
         noDedupe: true,
+        bypassPacing: true,
       },
     );
   }

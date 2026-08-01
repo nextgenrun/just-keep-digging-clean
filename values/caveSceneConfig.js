@@ -185,6 +185,7 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
     sideInsetTiles: 0.8,
     statusDurationMs: 1100,
     actionHoldMs: 240,
+    mineShakeScale: 0.82,
     thunderStrikeHoldMs: 350,
     statusColor: "#f6d36c",
     gpColor: "#bca7ff",

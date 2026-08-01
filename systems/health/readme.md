@@ -6,8 +6,10 @@ This directory owns non-visual runtime canary logic.
   asset-load failures, frozen frames, stalled loading scenes, and missing
   PlayScene/CaveScene collaborators.
 - `PerformanceTelemetrySystem.js` records rolling Phaser frame, update, render,
-  and named hot-path timings without changing game state. Its snapshot is
-  published at `window.__jkdPerformance` and included in canary reports.
+  named hot-path, and browser Long Tasks API timings without changing game
+  state. Its snapshot includes the runtime asset queue, active owner/backend,
+  decode and GPU-activation p95 timings, and is published at
+  `window.__jkdPerformance` and included in canary reports.
 - `performanceTelemetryBridge.js` is the narrow timing bridge used by
   PlayScene and world renderers. Its weakly held cadence state samples named
   phases once every thirty frames, so unsampled frames avoid clock reads; it
@@ -41,3 +43,14 @@ This directory owns non-visual runtime canary logic.
 The system never mutates gameplay state. Admin presentation belongs in
 `ui/admin/`, and all thresholds, labels, event codes, and styles live in
 `values/runtimeCanaryConfig.js` or `values/performanceTelemetryConfig.js`.
+
+- The `star-rarity-progression-invariant` validates tier weights, the exact
+  spawn reduction, five-level curves, stored XP bounds, all twelve popup
+  textures once their deferred group is resident, and the one-popup cap.
+  Failures use the existing canary reporter and worker alert route.
+- The `depth-resource-economy-invariant` validates curve/cap configuration,
+  Level Two boundary availability, and Milestone-provider wiring. It is
+  disabled only by the explicit legacy economy switch.
+- Every sampled error finding is forwarded to the health worker. The worker
+  deduplicates active keys and independently posts newly broken invariants to
+  the optional alert endpoint; main-thread freeze detection remains separate.

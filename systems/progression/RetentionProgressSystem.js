@@ -1,3 +1,5 @@
+import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
+import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../../values/upgradeDefinitions.js";
 import {
   RETENTION_CONFIG,
   RETENTION_EVENT_TYPES,
@@ -21,6 +23,8 @@ const TITAN_IDS = new Set(TITAN_DEFINITIONS.map(definition => definition.id));
 export class RetentionProgressSystem {
   constructor(options = {}) {
     this.saveSlot = finiteRetentionInt(options.saveSlot, 1, 999) || 1;
+    this.firstFiveEnabled = options.firstFiveEnabled
+      ?? resolveFirstFiveMinutesEnabled();
     this.data = sanitizeRetentionProgressData(null);
     this.expedition = createRetentionExpedition();
     this.events = [];
@@ -298,7 +302,12 @@ export class RetentionProgressSystem {
 
   recordUpgrade(upgradeName, preview = null) {
     this.data.stats.upgradesPurchased += 1;
-    if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE) {
+    const completesTutorial = !this.firstFiveEnabled
+      || preview?.upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID;
+    if (
+      this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE
+      && completesTutorial
+    ) {
       this._setTutorialStage(TOWN_TUTORIAL_STAGES.COMPLETE);
     }
     this.pendingUpgradePayoff = {

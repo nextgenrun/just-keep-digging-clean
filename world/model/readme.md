@@ -38,6 +38,13 @@ Legacy dug-key restoration now rejects both town-floor types alongside
 bedrock/cave/geode walls, so an old save cannot reopen the unbreakable surface
 foundation.
 
+`WorldModel.skyTileIdentity` is a one-byte visual identity index for Star
+Blocks. Rarity is selected by the existing reward roll first; a second stable
+coordinate hash selects one of the identities belonging to that rarity. This
+does not advance the shared generator RNG, change encounter/reward odds, or
+require a save migration. Generated and authored Star tiles receive the same
+deterministic contract, and non-Star authored cells clear the metadata.
+
 `CaveIdentityPlanner.js` assigns deterministic depth-gated cave identities and
 ceiling/floor feature plans without consuming `WorldModel`'s shared RNG. It
 finalizes only structurally live caves after authored and Level Two generation,
@@ -66,3 +73,9 @@ dedicated Level 1/Level 2 town-floor types and clears one complete row beneath
 it before the divider guard runs. The surface therefore remains a continuous
 Town Square platform and one-way collision contact, while ordinary tiles begin
 below a player-safe AIR row and cannot overlap the ground presentation.
+
+`baseTerrainResourceResolver.js` is the authoritative Level One material
+selector. It preserves the exact pre-300m rules, uses progressively richer
+post-300m bands in modern mode, and reproduces the former single deep band
+under `?depthEconomy=legacy`. `WorldModel.getTileMaxHp()` passes the same mode
+to rarity HP resolution, so generated HP and rewarded yield cannot disagree.

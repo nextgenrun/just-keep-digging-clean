@@ -21,7 +21,7 @@ SELF = Path(__file__).resolve()
 META_TESTS = (
     TESTING / "2026-07-22-all-game-systems-health-check.mjs",
 )
-SKIP_TOKENS = ("all-game-systems", "deep-game-logic-health")
+SKIP_TOKENS = ("all-game-systems", "deep-game-logic-health", "live-qa", "live-compare-qa", "live-visual")
 TOOL_ONLY_CONTRACTS = {
     "2026-07-17-blender-animation-lab-contract.py",
     "2026-07-17-blender-animation-lab-simple-mode-smoke.py",

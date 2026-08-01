@@ -240,8 +240,8 @@ export class UINotificationCarouselView {
       control.zone.setInteractive({ useHandCursor: true });
       control.image.setInteractive({ useHandCursor: true });
     } else {
-      control.zone.disableInteractive();
-      control.image.disableInteractive();
+      if (control.zone?.scene?.sys) control.zone.disableInteractive();
+      if (control.image?.scene?.sys) control.image.disableInteractive();
     }
   }
 
@@ -250,8 +250,8 @@ export class UINotificationCarouselView {
     this.root.setVisible(resolved);
     if (!resolved) {
       Object.values(this.controls).forEach(control => {
-        control.zone.disableInteractive();
-        control.image.disableInteractive();
+        if (control.zone?.scene?.sys) control.zone.disableInteractive();
+        if (control.image?.scene?.sys) control.image.disableInteractive();
       });
     } else {
       this._setControlEnabled(this.controls.previous, this.canCycle);
@@ -291,8 +291,8 @@ export class UINotificationCarouselView {
     Object.values(this.controls).forEach(control => {
       control.zone.removeAllListeners();
       control.image.removeAllListeners();
-      control.zone.disableInteractive();
-      control.image.disableInteractive();
+      if (control.zone?.scene?.sys) control.zone.disableInteractive();
+      if (control.image?.scene?.sys) control.image.disableInteractive();
     });
     this.root?.destroy(true);
     this.scene = null;

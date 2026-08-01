@@ -183,6 +183,7 @@ export class AdminHealthPanel {
       `${performanceLabels.worst} ${formatMilliseconds(performance?.frameMs?.max)}`,
       `${performanceLabels.onePercentLow} ${performance?.onePercentLowFps ?? unavailable} ${performanceLabels.framesPerSecond}`,
       `${performanceLabels.longFrames} ${performance?.longFramesInWindow ?? 0}`,
+      `${performanceLabels.browserLongTasks} ${performance?.longTasksInWindow ?? 0}`,
     ].join(separator);
     const phaseOrder = PERFORMANCE_TELEMETRY_CONFIG.ui.phaseOrder;
     const phaseLabels = PERFORMANCE_TELEMETRY_CONFIG.ui.phaseLabels;
@@ -195,6 +196,29 @@ export class AdminHealthPanel {
     const backgrounds = performance?.streaming?.backgrounds;
     const tileWindow = performance?.streaming?.tileWindow;
     const worldRenderer = performance?.streaming?.worldRenderer || tileWindow;
+    const assetLoads = performance?.streaming?.assetLoads || worldRenderer?.assetQueue;
+    const audio = performance?.streaming?.audio;
+    const featureAssets = performance?.streaming?.featureAssets;
+    const saveMetrics = performance?.streaming?.saves;
+    const textureMemory = assetLoads?.textureMemory;
+    const formatMebibytes = value => Number.isFinite(value)
+      ? `${Number(value).toFixed(1)} MiB`
+      : unavailable;
+    const runtimeHealth = [
+      `${performanceLabels.textureMemory} ${formatMebibytes(textureMemory?.estimatedMiB)} / ${performanceLabels.textureBudget} ${formatMebibytes(textureMemory?.highWatermarkMiB)}`,
+      `${performanceLabels.featureReady} ${featureAssets?.readyGroups ?? unavailable}`,
+      `${performanceLabels.featureLoading} ${featureAssets?.loadingGroups ?? unavailable}`,
+      `${performanceLabels.saveCapture} ${formatMilliseconds(saveMetrics?.capture?.p95Ms)}`,
+      `${performanceLabels.saveWrite} ${formatMilliseconds(saveMetrics?.write?.p95Ms)}`,
+      `${performanceLabels.saveTotal} ${formatMilliseconds(saveMetrics?.total?.p95Ms)}`,
+    ];
+    const audioHealth = [
+      `${performanceLabels.audioRegistered} ${audio?.registered ?? unavailable}`,
+      `${performanceLabels.audioBoot} ${audio?.bootQueued ?? unavailable}`,
+      `${performanceLabels.audioPending} ${audio?.pending ?? unavailable}`,
+      `${performanceLabels.audioMusic} ${audio?.residentMusic ?? unavailable}`,
+      `${performanceLabels.audioVoices} ${audio?.residentVoices ?? unavailable}`,
+    ];
     if (worldRenderer?.mode === WORLD_VISUAL_RUNTIME_MODES.scenic) {
       const digits = PERFORMANCE_TELEMETRY_CONFIG.formatting.precisionDigits;
       const lastSync = Number.isFinite(worldRenderer.lastSyncMs)
@@ -208,6 +232,13 @@ export class AdminHealthPanel {
         `${performanceLabels.assetsResident} ${worldRenderer.assetsResident ?? unavailable}`,
         `${performanceLabels.assetsCancelled} ${worldRenderer.assetsCancelled ?? unavailable}`,
         `${performanceLabels.demandedAssets} ${worldRenderer.demandedAssets ?? unavailable}`,
+        `${performanceLabels.loadQueue} ${assetLoads?.queued ?? unavailable}`,
+        `${performanceLabels.loadActive} ${assetLoads?.activeKey || unavailable}`,
+        `${performanceLabels.loadBackend} ${assetLoads?.activeBackend || unavailable}`,
+        `${performanceLabels.loadDecode} ${formatMilliseconds(assetLoads?.decodeMs?.p95)}`,
+        `${performanceLabels.loadActivation} ${formatMilliseconds(assetLoads?.activationMs?.p95)}`,
+        ...audioHealth,
+        ...runtimeHealth,
         `${performanceLabels.demandStreaming} ${
           worldRenderer.demandStreamingEnabled
             ? performanceLabels.enabled
@@ -226,6 +257,8 @@ export class AdminHealthPanel {
         `${performanceLabels.tileBatches} ${tileWindow?.batches ?? unavailable}`,
         `${performanceLabels.tileCommits} ${tileWindow?.commits ?? unavailable}`,
         `${performanceLabels.tilePending} ${tileWindow?.pendingTargetTop ?? unavailable}`,
+        ...audioHealth,
+        ...runtimeHealth,
       ].join(separator);
     }
     this.nodes.findings.textContent = snapshot.findings.map(item => item.message).join(" | ");

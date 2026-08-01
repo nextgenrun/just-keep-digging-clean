@@ -161,7 +161,12 @@ const scene = {
   },
   add: { image: () => new FakeImage() },
 };
-const layer = new WorldVisualGroundStructureLayer(scene, terrainMask);
+const layer = new WorldVisualGroundStructureLayer(
+  scene,
+  terrainMask,
+  WORLD_VISUAL_GROUND_STRUCTURES,
+  "?undergroundSeamBlend=0"
+);
 assert.equal(layer.create(), true);
 assert.equal(layer.sync(
   { left: 0, right: 30, top: 65, bottom: 80 },

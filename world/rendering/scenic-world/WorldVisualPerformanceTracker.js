@@ -91,6 +91,11 @@ export class WorldVisualPerformanceTracker {
       groundStructureAssets:
         runtime.groundStructureLayer?.assetCache?.getPerformanceSnapshot?.() || null,
       skyAssets: runtime.skyCohesionLayer?.assetCache?.getPerformanceSnapshot?.() || null,
+      undergroundDetailAssets:
+        runtime.undergroundDetailLayer?.assetCache?.getPerformanceSnapshot?.() || null,
+      backdropEnhancerAssets:
+        runtime.backdropEnhancerLayer?.assetCache?.getPerformanceSnapshot?.() || null,
+      assetQueue: runtime.scene?.runtimeAssetLoadCoordinator?.getSnapshot?.() || null,
       demandStreamingEnabled:
         runtime.depthBackdropStage?.demandStreamingEnabled === true
         || runtime.terrainVariationLayer?.demandStreamingEnabled === true
@@ -99,6 +104,8 @@ export class WorldVisualPerformanceTracker {
         backdrop: runtime.depthBackdropStage?.activeAssetKeys?.size || 0,
         terrain: runtime.terrainVariationLayer?.activeAssetKeys?.size || 0,
         groundStructures: runtime.groundStructureLayer?.activeAssetKeys?.size || 0,
+        undergroundDetails: runtime.undergroundDetailLayer?.activeAssetKeys?.size || 0,
+        backdropEnhancers: runtime.backdropEnhancerLayer?.activeAssetKeys?.size || 0,
       },
     });
   }
@@ -109,6 +116,9 @@ export class WorldVisualPerformanceTracker {
     terrainAssets = null,
     groundStructureAssets = null,
     skyAssets = null,
+    undergroundDetailAssets = null,
+    backdropEnhancerAssets = null,
+    assetQueue = null,
     demandStreamingEnabled = null,
     demandedAssetCounts = null,
   } = {}) {
@@ -118,6 +128,8 @@ export class WorldVisualPerformanceTracker {
       terrainAssets,
       groundStructureAssets,
       skyAssets,
+      undergroundDetailAssets,
+      backdropEnhancerAssets,
     ].filter(Boolean);
     const demandedAssets = demandedAssetCounts
       ? Object.values(demandedAssetCounts).reduce((total, count) => total + (count || 0), 0)
@@ -157,6 +169,9 @@ export class WorldVisualPerformanceTracker {
       terrainAssets,
       groundStructureAssets,
       skyAssets,
+      undergroundDetailAssets,
+      backdropEnhancerAssets,
+      assetQueue,
     };
   }
 }
