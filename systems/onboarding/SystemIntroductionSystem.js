@@ -42,6 +42,12 @@ export class SystemIntroductionSystem {
       ?? resolveSystemIntroductionEnabled(this.config, options.search);
     this.lastSnapshot = null;
     this._lastAvailabilitySignature = "";
+    this._upgradeAvailabilityProvider = (upgradeId, upgrade) => (
+      this.getUpgradeAvailability(upgradeId, upgrade)
+    );
+    this.scene.upgradeSystem?.setUpgradeAvailabilityProvider?.(
+      this._upgradeAvailabilityProvider,
+    );
   }
 
   update() {
@@ -113,9 +119,16 @@ export class SystemIntroductionSystem {
     return Boolean(snapshot[unlock]);
   }
 
-  isMerchantAvailable(merchantId) {
+  isMerchantUnlocked(merchantId) {
+    if (!Object.hasOwn(this.config.merchantUnlocks, merchantId)) return false;
     const feature = this.config.merchantUnlocks[merchantId];
-    return !feature || this.isFeatureAvailable(feature);
+    return this.isFeatureAvailable(feature);
+  }
+
+  isMerchantAvailable(merchantId) {
+    if (!Object.hasOwn(this.config.merchantUnlocks, merchantId)) return false;
+    if (this.config.shopPresentation?.alwaysVisibleMerchantIds?.includes(merchantId)) return true;
+    return this.isMerchantUnlocked(merchantId);
   }
 
   getAvailableMerchantIds() {
@@ -123,15 +136,41 @@ export class SystemIntroductionSystem {
       .filter(merchantId => this.isMerchantAvailable(merchantId));
   }
 
-  isUpgradeAvailable(upgradeId, upgrade = UPGRADES[upgradeId]) {
-    if (!this.enabled) return true;
-    if (!upgrade) return false;
-    if (this.scene.upgradeSystem?.getUpgradeLevel?.(upgradeId) > 0) return true;
-    if (upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID) return true;
+  getUpgradeAvailability(upgradeId, upgrade = UPGRADES[upgradeId]) {
+    if (!upgrade) {
+      return {
+        available: false,
+        reason: "invalid_upgrade",
+        feature: null,
+        short: "UNAVAILABLE",
+        detail: "The upgrade definition is unavailable.",
+      };
+    }
+    if (!this.enabled || this.scene.upgradeSystem?.getUpgradeLevel?.(upgradeId) > 0) {
+      return { available: true, reason: null, feature: "core", short: "AVAILABLE NOW", detail: "" };
+    }
+    if (upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID) {
+      return { available: true, reason: null, feature: "core", short: "AVAILABLE NOW", detail: "" };
+    }
     const feature = this.config.upgradeUnlocks[upgradeId]
       || this.config.merchantUnlocks[upgrade.merchant]
       || "core";
-    return this.isFeatureAvailable(feature);
+    const available = this.isFeatureAvailable(feature);
+    const copy = this.config.unlockCopy?.[feature] || {
+      short: "PROGRESSION LOCK",
+      detail: "Continue progressing to unlock this upgrade.",
+    };
+    return {
+      available,
+      reason: available ? null : "progression_locked",
+      feature,
+      short: copy.short,
+      detail: copy.detail,
+    };
+  }
+
+  isUpgradeAvailable(upgradeId, upgrade = UPGRADES[upgradeId]) {
+    return this.getUpgradeAvailability(upgradeId, upgrade).available;
   }
 
   getNextPromiseOverride() {
@@ -164,10 +203,16 @@ export class SystemIntroductionSystem {
   }
 
   getHealthSnapshot() {
+    const merchantIds = Object.keys(this.config.merchantUnlocks);
+    const lockedUpgradeIds = Object.keys(UPGRADES).filter(
+      upgradeId => !this.isUpgradeAvailable(upgradeId),
+    );
     return {
       enabled: this.enabled,
       featureCount: Object.keys(this.config.featureUnlocks).length,
       availableMerchants: this.getAvailableMerchantIds(),
+      unlockedMerchants: merchantIds.filter(merchantId => this.isMerchantUnlocked(merchantId)),
+      lockedUpgradeIds,
       snapshot: this.lastSnapshot || this.getProgressSnapshot(),
     };
   }
@@ -235,8 +280,10 @@ export class SystemIntroductionSystem {
   }
 
   destroy() {
+    this.scene?.upgradeSystem?.setUpgradeAvailabilityProvider?.(null);
     this.scene = null;
     this.retention = null;
     this.lastSnapshot = null;
+    this._upgradeAvailabilityProvider = null;
   }
 }

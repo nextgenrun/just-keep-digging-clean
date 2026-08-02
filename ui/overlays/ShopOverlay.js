@@ -119,8 +119,8 @@ export class ShopOverlay {
       arrowDown: keyboard.addKey(code.DOWN),
       arrowLeft: keyboard.addKey(code.LEFT),
       arrowRight: keyboard.addKey(code.RIGHT),
-      previous: keyboard.addKey(code.Q),
-      next: keyboard.addKey(code.E),
+      previousPage: keyboard.addKey(code.PAGE_UP),
+      nextPage: keyboard.addKey(code.PAGE_DOWN),
       confirm: keyboard.addKey(code.ENTER),
       action: keyboard.addKey(code.F),
       space: keyboard.addKey(code.SPACE),
@@ -138,8 +138,8 @@ export class ShopOverlay {
   refreshKeybindHints() {
     const interact = USER_SETTINGS.getKeyLabel("interact");
     this.helpText.setText(
-      "W/S or arrows: select    A/D or Tab: tabs    " +
-      interact + "/Enter: action    ESC: close"
+      "W/S or arrows: select    PgUp/PgDn: pages    " +
+      "A/D or Tab: tabs/pages    " + interact + "/Enter: action    ESC: close"
     );
   }
 
@@ -158,7 +158,8 @@ export class ShopOverlay {
     else if (just(this.keys.down) || just(this.keys.arrowDown)) this.navigateDown();
     else if (just(this.keys.left) || just(this.keys.arrowLeft)) this.navigateLeft();
     else if (just(this.keys.right) || just(this.keys.arrowRight)) this.navigateRight();
-    else if (just(this.keys.previous)) this.prevPage();
+    else if (just(this.keys.previousPage)) this.prevPage();
+    else if (just(this.keys.nextPage)) this.nextPage();
     else if (this.scene.interactKey && just(this.scene.interactKey)) this.purchaseSelected();
     else if (just(this.keys.confirm) || just(this.keys.space)) this.purchaseSelected();
     else if (just(this.keys.action)) {
@@ -168,9 +169,9 @@ export class ShopOverlay {
   }
 
   show(merchantId) {
-    if (this._destroyed) return;
-    if (this.scene.systemIntroductionSystem
-      && this.scene.systemIntroductionSystem.isMerchantAvailable?.(merchantId) === false) return;
+    if (this._destroyed) return false;
+    if (this.scene?.systemIntroductionSystem
+      && this.scene.systemIntroductionSystem.isMerchantAvailable?.(merchantId) === false) return false;
     this.currentMerchant = merchantId;
     this.isVisible = true;
     this.currentPage = 0;
@@ -187,6 +188,7 @@ export class ShopOverlay {
     this.shell.show();
     this._layoutChrome();
     this.soundSystem?.playUiSelect?.();
+    return true;
   }
 
   hide() {
@@ -240,20 +242,46 @@ export class ShopOverlay {
       ?.getFocusedUpgradeId?.(merchantId) || null;
     const isTutorialUpgradeAvailable = id => this.scene?.townSquareTutorialSystem
       ?.isUpgradeAvailable?.(id) ?? true;
-    const isSystemUpgradeAvailable = id => this.scene.systemIntroductionSystem
-      ?.isUpgradeAvailable?.(id) ?? true;
+    const introduction = this.scene?.systemIntroductionSystem;
+    const presentation = introduction?.config?.shopPresentation || {};
+    const keepLocked = presentation.keepLockedUpgradesVisible !== false;
+    const getSystemAvailability = (id, upgrade) => (
+      introduction?.getUpgradeAvailability?.(id, upgrade)
+      || {
+        available: introduction?.isUpgradeAvailable?.(id, upgrade) ?? true,
+        reason: null,
+        feature: "core",
+        short: "AVAILABLE NOW",
+        detail: "",
+      }
+    );
     this.allUpgrades = Object.entries(UPGRADES)
-      .filter(([id, upgrade]) => (
+      .filter(([, upgrade]) => (
         upgrade.merchant === merchantId &&
         !upgrade.comingSoon &&
         !upgrade.hiddenFromShop &&
         (!upgrade.firstFiveOnly || firstFiveEnabled) &&
-        (!upgrade.depthEconomyOnly || this.scene.config?.resourceEconomyEnabled !== false) &&
-        isTutorialUpgradeAvailable(id) &&
-        (!focusedUpgradeId || id === focusedUpgradeId) &&
-        isSystemUpgradeAvailable(id)
+        (!upgrade.depthEconomyOnly || this.scene?.config?.resourceEconomyEnabled !== false)
       ))
-      .map(([id, upgrade]) => ({ ...upgrade, id }));
+      .map(([id, upgrade]) => {
+        const owned = (this.upgradeSystem?.getUpgradeLevel?.(id) || 0) > 0;
+        const tutorialLocked = !owned && (
+          !isTutorialUpgradeAvailable(id)
+          || (focusedUpgradeId && id !== focusedUpgradeId)
+        );
+        const availability = tutorialLocked
+          ? {
+            available: false,
+            reason: "guided_step_locked",
+            feature: "tutorial",
+            short: presentation.guidedLockShort || "GUIDED STEP",
+            detail: presentation.guidedLockDetail || "Complete the current guided shop step first.",
+          }
+          : getSystemAvailability(id, upgrade);
+        return { ...upgrade, id, availability };
+      })
+      .filter(upgrade => keepLocked || upgrade.availability.available)
+      .sort((a, b) => Number(b.id === focusedUpgradeId) - Number(a.id === focusedUpgradeId));
     if (
       merchantId === HARDCORE_MODE_CONFIG.bobo.merchantId
       && this.scene.canOfferHardcoreConversion?.()
@@ -278,6 +306,7 @@ export class ShopOverlay {
     if (merchantId === "moneyMonster" && rushTarget) {
       this.sellItems.sort((a, b) => Number(b.resource === rushTarget) - Number(a.resource === rushTarget));
     }
+    this._syncPageToSelection(this._itemsForCurrentMode());
     this._render();
   }
 
@@ -403,7 +432,7 @@ export class ShopOverlay {
       ? "RESOURCE STOCK"
       : this.moneyMonsterMode === "craft"
         ? "HEAVENBLOCK SCHEMATICS"
-        : "AVAILABLE UPGRADES";
+        : "UPGRADE CATALOG";
     this._text(x + 16, y + 14, title, {
       fontFamily: UI_FONTS.display,
       fontSize: "15px",
@@ -439,6 +468,8 @@ export class ShopOverlay {
       ).setStrokeStyle(selected ? 2 : 1, selected ? UI_COLORS.borderSel : UI_COLORS.borderDim);
       this.upgradesContainer.add(bg);
 
+      const progressionLocked = this.moneyMonsterMode === "buy"
+        && item.availability?.available === false;
       const iconKey = this.moneyMonsterMode === "sell"
         ? resourceIconKey(item.resource)
         : this.moneyMonsterMode === "craft"
@@ -463,6 +494,14 @@ export class ShopOverlay {
           parent: this.upgradesContainer,
         });
       }
+      if (progressionLocked) {
+        createUiIcon(this.scene, "lock", {
+          x: x + 54,
+          y: rowY + 39,
+          size: 14,
+          parent: this.upgradesContainer,
+        });
+      }
 
       const name = this.moneyMonsterMode === "sell" ? item.name : item.name;
       const rushStatus = this.moneyMonsterMode === "sell"
@@ -476,13 +515,13 @@ export class ShopOverlay {
       this._text(x + 69, rowY + 16, name, {
         fontSize: "14px",
         fontStyle: "bold",
-        color: selected ? UI_COLORS.title : UI_COLORS.body,
+        color: progressionLocked ? UI_COLORS.dim : selected ? UI_COLORS.title : UI_COLORS.body,
         wordWrap: { width: width - 150 },
       });
       this._text(x + 69, rowY + 37, sub, {
         fontFamily: UI_FONTS.mono,
         fontSize: "11px",
-        color: selected ? UI_COLORS.gold : UI_COLORS.dim,
+        color: progressionLocked ? UI_COLORS.danger : selected ? UI_COLORS.gold : UI_COLORS.dim,
       });
       if (this.moneyMonsterMode === "sell") {
         this._text(x + width - 22, rowY + 27, formatMoney(this._adjustedUnitPrice(item.resource, item.basePrice)), {
@@ -505,7 +544,11 @@ export class ShopOverlay {
         playSounds: false,
         selected,
         onFocus: () => {
-          if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderHov);
+          if (index === this.selectedIndex) return;
+          this.selectedIndex = index;
+          this.selectedSellButton = index;
+          this.topButtonSelected = null;
+          this._render();
         },
         onClick: () => {
           this.selectedIndex = index;
@@ -534,7 +577,7 @@ export class ShopOverlay {
         width: 82,
         height: 30,
         label: "PREV",
-        hint: "Q",
+        hint: "PGUP",
         accent: UI_COLORS.borderDim,
         parent: this.upgradesContainer,
         fontSize: "10px",
@@ -546,7 +589,7 @@ export class ShopOverlay {
         width: 82,
         height: 30,
         label: "NEXT",
-        hint: "E",
+        hint: "PGDN",
         accent: UI_COLORS.borderDim,
         parent: this.upgradesContainer,
         fontSize: "10px",
@@ -558,7 +601,11 @@ export class ShopOverlay {
   _upgradeRowStatus(upgrade) {
     if (upgrade?.isHardcoreConversion) return HARDCORE_MODE_CONFIG.bobo.rowStatus;
     const level = this.upgradeSystem?.getUpgradeLevel?.(upgrade.id) || 0;
-    if (upgrade.oneTimePurchase) return level > 0 ? "OWNED" : "ONE-TIME PURCHASE";
+    if (upgrade.oneTimePurchase && level > 0) return "OWNED";
+    if (upgrade.availability?.available === false) {
+      return "LOCKED  •  " + (upgrade.availability.short || "PROGRESSION");
+    }
+    if (upgrade.oneTimePurchase) return "ONE-TIME PURCHASE";
     const max = upgrade.maxLevel ?? "MAX";
     return "LEVEL " + level + " / " + max;
   }
@@ -670,7 +717,12 @@ export class ShopOverlay {
     }
     const level = this.upgradeSystem.getUpgradeLevel(upgrade.id);
     const cost = getUpgradeCost(upgrade.id, level);
-    const check = this.upgradeSystem.canPurchaseUpgrade(upgrade.id);
+    const availability = upgrade.availability || { available: true, short: "", detail: "" };
+    const progressionLocked = availability.available === false;
+    const purchaseCheck = this.upgradeSystem.canPurchaseUpgrade(upgrade.id);
+    const check = progressionLocked
+      ? { canPurchase: false, reason: availability.reason || "progression_locked" }
+      : purchaseCheck;
     const owned = upgrade.oneTimePurchase && level > 0;
     const maxed = owned || level >= (upgrade.maxLevel ?? Infinity) || cost >= Infinity;
 
@@ -682,6 +734,14 @@ export class ShopOverlay {
       selected: true,
       parent: this.upgradesContainer,
     });
+    if (progressionLocked) {
+      createUiIcon(this.scene, "lock", {
+        x: x + 78,
+        y: y + 78,
+        size: 22,
+        parent: this.upgradesContainer,
+      });
+    }
     this._text(x + 110, y + 27, upgrade.name, {
       fontFamily: UI_FONTS.display,
       fontSize: "23px",
@@ -733,20 +793,28 @@ export class ShopOverlay {
       color: UI_COLORS.title,
     });
     const requirementLines = this._buildRequirementLines(upgrade, cost);
-    requirementLines.slice(0, 4).forEach((line, index) => {
-      this._text(x + 24, requirementsY + 26 + index * 20, line.text, {
+    const requirementColumns = requirementLines.length > 4 ? 2 : 1;
+    const rowsPerColumn = Math.ceil(requirementLines.length / requirementColumns);
+    const requirementGap = 20;
+    requirementLines.forEach((line, index) => {
+      const column = Math.floor(index / rowsPerColumn);
+      const row = index % rowsPerColumn;
+      const columnWidth = (width - 48) / requirementColumns;
+      this._text(x + 24 + column * columnWidth, requirementsY + 26 + row * requirementGap, line.text, {
         fontFamily: UI_FONTS.mono,
-        fontSize: "12px",
+        fontSize: requirementColumns > 1 ? "11px" : "12px",
         color: line.met ? UI_COLORS.success : UI_COLORS.danger,
       });
     });
 
     const actionY = y + height - 37;
-    const actionLabel = owned
-      ? (upgrade.id === "sellAllButton" ? "SELL ALL RESOURCES" : "OWNED")
-      : maxed
-        ? "MAXIMUM LEVEL"
-        : "BUY UPGRADE  -  " + formatMoney(cost);
+    const actionLabel = progressionLocked
+      ? "LOCKED  -  " + (availability.short || "KEEP PROGRESSING")
+      : owned
+        ? (upgrade.id === "sellAllButton" ? "SELL ALL RESOURCES" : "OWNED")
+        : maxed
+          ? "MAXIMUM LEVEL"
+          : "BUY UPGRADE  -  " + formatMoney(cost);
     const action = this._createShopButton({
       x: x + width / 2,
       y: actionY,
@@ -754,18 +822,20 @@ export class ShopOverlay {
       height: 48,
       label: actionLabel,
       hint: USER_SETTINGS.getKeyLabel("interact"),
-      icon: owned && upgrade.id === "sellAllButton" ? "sell" : "upgrade",
+      icon: progressionLocked ? "lock" : owned && upgrade.id === "sellAllButton" ? "sell" : "upgrade",
       accent: check.canPurchase || (owned && upgrade.id === "sellAllButton")
         ? UI_COLORS.borderSel
         : UI_COLORS.borderDim,
       parent: this.upgradesContainer,
       fontSize: "13px",
       onClick: () => {
-        if (owned && upgrade.id === "sellAllButton") this.sellAllResources();
+        if (progressionLocked) {
+          this._notify(availability.detail || "Keep progressing to unlock this upgrade.", UI_COLORS.danger);
+        } else if (owned && upgrade.id === "sellAllButton") this.sellAllResources();
         else this.purchaseUpgrade(upgrade.id);
       },
     });
-    action.setEnabled?.(!maxed || (owned && upgrade.id === "sellAllButton"));
+    action.setEnabled?.(!progressionLocked && (!maxed || (owned && upgrade.id === "sellAllButton")));
   }
 
   _renderHardcoreConversionDetail(upgrade, x, y, width, height) {
@@ -828,10 +898,17 @@ export class ShopOverlay {
   _buildRequirementLines(upgrade, cost) {
     const wallet = this.upgradeSystem?.getMoney?.() || 0;
     const resources = this.scene.digSystem?.getResourceTotals?.() || {};
-    const lines = [{
+    const lines = [];
+    if (upgrade.availability?.available === false) {
+      lines.push({
+        text: "Unlock  " + (upgrade.availability.detail || "Keep progressing."),
+        met: false,
+      });
+    }
+    lines.push({
       text: "Money  " + formatMoney(wallet) + " / " + formatMoney(Number.isFinite(cost) ? cost : 0),
       met: Number.isFinite(cost) && wallet >= cost,
-    }];
+    });
     Object.entries(upgrade.resources || {}).forEach(([resource, amount]) => {
       const have = resources[resource] || 0;
       lines.push({
@@ -988,10 +1065,23 @@ export class ShopOverlay {
     return items.slice(start, start + this.itemsPerPage);
   }
 
+  _syncPageToSelection(items = this._itemsForCurrentMode()) {
+    if (!items.length) {
+      this.selectedIndex = 0;
+      this.selectedSellButton = 0;
+      this.currentPage = 0;
+      return;
+    }
+    this.selectedIndex = Math.max(0, Math.min(this.selectedIndex, items.length - 1));
+    this.selectedSellButton = this.selectedIndex;
+    this.currentPage = Math.floor(this.selectedIndex / this.itemsPerPage);
+  }
+
   navigateUp() {
     const items = this._itemsForCurrentMode();
     if (!items.length) return;
     this.selectedIndex = (this.selectedIndex - 1 + items.length) % items.length;
+    this._syncPageToSelection(items);
     this.selectedSellButton = this.selectedIndex;
     this.soundSystem?.playUiSelect?.();
     this._render();
@@ -1001,6 +1091,7 @@ export class ShopOverlay {
     const items = this._itemsForCurrentMode();
     if (!items.length) return;
     this.selectedIndex = (this.selectedIndex + 1) % items.length;
+    this._syncPageToSelection(items);
     this.selectedSellButton = this.selectedIndex;
     this.soundSystem?.playUiSelect?.();
     this._render();
@@ -1121,6 +1212,21 @@ export class ShopOverlay {
   purchaseUpgrade(upgradeId) {
     if (!this.isVisible || !upgradeId) return;
     const upgrade = UPGRADES[upgradeId];
+    const listedUpgrade = this.allUpgrades?.find(item => item.id === upgradeId);
+    if (!upgrade || !listedUpgrade || upgrade.merchant !== this.currentMerchant) {
+      this.soundSystem?.playUiSelect?.();
+      this._notify("This merchant does not sell that upgrade.", UI_COLORS.danger);
+      return;
+    }
+    if (listedUpgrade?.availability?.available === false) {
+      this.soundSystem?.playUiSelect?.();
+      this._notify(
+        listedUpgrade.availability.detail || "Keep progressing to unlock this upgrade.",
+        UI_COLORS.danger,
+      );
+      this._render();
+      return;
+    }
     const tutorialPreview = this.scene.townSquareTutorialSystem
       ?.getUpgradePreview?.(upgradeId) || null;
     const beforeLevel = this.upgradeSystem?.getUpgradeLevel?.(upgradeId) || 0;
@@ -1139,6 +1245,8 @@ export class ShopOverlay {
         requires_depth_gate: "A deeper milestone must be claimed first.",
         requires_player_level: "A higher player level is required.",
         feature_disabled: "This upgrade belongs to the modern depth economy.",
+        progression_locked: "Keep progressing to unlock this upgrade.",
+        guided_step_locked: "Complete the current guided shop step first.",
       };
       this.soundSystem?.playUiSelect?.();
       this._notify(messages[result.reason] || "Purchase requirements are not met.", UI_COLORS.danger);

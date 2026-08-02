@@ -12,8 +12,10 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - systemIntroduction.js owns the production staged-disclosure profile:
   persistent progression signals, depth thresholds, merchant/upgrade gates,
-  one-next-system promises, and the ?systemPacing=0 rollback. It changes
-  visibility and availability without creating a separate game fork.
+  Level-1 merchant presentation allowlist, lock-condition copy, one-next-system
+  promises, and the ?systemPacing=0 rollback. The five Town Square shops remain
+  visible while upgrade purchases unlock progressively; the Level-2 Arc Forge
+  stays gated.
 - `loadingScreenPresentation.js` owns the dedicated ImageGen foundation,
   amber overall meter, cyan current-phase meter, authored retry plate, measured
   logo/meter/minigame/tool-rail slots, four contiguous load phases, copy,

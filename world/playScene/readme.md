@@ -127,6 +127,11 @@ interact key: the closer target wins, and an exact tie remains with the
 merchant. An adjacent actionable special tile is sampled before that arbitration
 and wins exact ties, keeping the far-left Town Square ascent portal usable beside
 the Milestone Pillar.
+`NPCManager` publishes a fail-closed interaction-health snapshot for those five
+Level-1 merchants: definitions, visuals, prompts, availability, interact input,
+and the callable shop surface must all be ready. The separately gated Level-2
+Magma Money Monster is intentionally outside that Town Square uptime invariant.
+
 
 `NPCManager` also delegates presentation to `NPCActivitySystem`: four approved
 v11 Piskel quiet frames now form a slow rooted loop, seven planted activity

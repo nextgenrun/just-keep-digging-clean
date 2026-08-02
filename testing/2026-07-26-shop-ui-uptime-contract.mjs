@@ -78,20 +78,41 @@ try {
   );
   assert.equal(manager.checkNPCInteraction(), true);
   assert.deepEqual(openedShops, ["boboMerchant"]);
+  manager.setMerchantAvailability(TOWN_SQUARE_CONFIG.surfaceMerchantOrder);
+  assert.equal(manager._isMerchantAvailable("magmaMoneyMonster"), false);
 
-  manager.npcSprites.set("boboMerchant", {});
-  manager._interactPrompts.push({
-    npc: { merchantId: "boboMerchant" },
-    text: {},
-  });
-  assert.deepEqual(manager.getInteractionHealthSnapshot(), {
-    ready: true,
-    boboDefined: true,
-    promptReady: true,
-    visualReady: true,
-    shopReady: true,
-    interactKeyReady: true,
-  });
+  for (const npc of manager.getNPCDefs()) {
+    manager.npcSprites.set(npc.merchantId, { setVisible() { return this; } });
+    manager._interactPrompts.push({
+      npc: { merchantId: npc.merchantId },
+      text: { setVisible() { return this; } },
+    });
+  }
+  const interactionHealth = manager.getInteractionHealthSnapshot();
+  assert.equal(interactionHealth.ready, true);
+  assert.equal(interactionHealth.boboDefined, true);
+  assert.equal(interactionHealth.promptReady, true);
+  assert.equal(interactionHealth.visualReady, true);
+  assert.equal(interactionHealth.shopReady, true);
+  assert.equal(interactionHealth.interactKeyReady, true);
+  assert.equal(interactionHealth.merchantCount, 5);
+  assert.deepEqual(
+    interactionHealth.expectedMerchantIds,
+    TOWN_SQUARE_CONFIG.surfaceMerchantOrder,
+  );
+  assert.deepEqual(interactionHealth.missingDefinitionIds, []);
+  assert.deepEqual(interactionHealth.missingPromptIds, []);
+  assert.deepEqual(interactionHealth.missingVisualIds, []);
+  assert.deepEqual(interactionHealth.unavailableMerchantIds, []);
+  manager.setMerchantAvailability(
+    TOWN_SQUARE_CONFIG.surfaceMerchantOrder.filter(id => id !== "gearMerchant"),
+  );
+  const gatedHealth = manager.getInteractionHealthSnapshot();
+  assert.equal(gatedHealth.ready, false);
+  assert.deepEqual(gatedHealth.unavailableMerchantIds, ["gearMerchant"]);
+  manager.setMerchantAvailability(TOWN_SQUARE_CONFIG.surfaceMerchantOrder);
+  assert.equal(manager.getInteractionHealthSnapshot().ready, true);
+
   assert.equal(SHOP_MERCHANT_PROFILES.boboMerchant.title, "BOBO'S COUNTER");
 
   const pillarKey = { justDown: true };

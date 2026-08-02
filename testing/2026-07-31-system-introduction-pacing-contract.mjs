@@ -57,9 +57,14 @@ assert.equal(
 );
 assert.deepEqual(
   pacing.getAvailableMerchantIds(),
-  ["playerUpgrades", "moneyMonster"],
-  "fresh saves should expose only the core shops",
+  ["boboMerchant", "playerUpgrades", "gemPowerMerchant", "gearMerchant", "moneyMonster"],
+  "fresh saves should keep all Level-1 shops visible while the Level-2 forge stays gated",
 );
+assert.equal(pacing.isMerchantAvailable("boboMerchant"), true);
+assert.equal(pacing.isMerchantUnlocked("boboMerchant"), false);
+assert.equal(pacing.isMerchantAvailable("magmaMoneyMonster"), false);
+assert.equal(pacing.isMerchantUnlocked("magmaMoneyMonster"), false);
+assert.equal(pacing.isMerchantAvailable("missingMerchant"), false);
 assert.equal(pacing.getNextPromiseOverride(), null, "tutorial owns the opening promise");
 
 tutorial = {
@@ -72,7 +77,8 @@ stats.totalResources = 3;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(snapshot.flightReady, true);
 assert.equal(snapshot.firstReturn, false);
-assert.equal(pacing.isMerchantAvailable("gemPowerMerchant"), false);
+assert.equal(pacing.isMerchantAvailable("gemPowerMerchant"), true);
+assert.equal(pacing.isMerchantUnlocked("gemPowerMerchant"), false);
 assert.equal(
   pacing.getNextPromiseOverride().promise,
   "CORE LOOP  •  RETURN AND SELL",
@@ -96,7 +102,9 @@ stats.bestDepth = 12;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(snapshot.firstReturn, true);
 assert.equal(pacing.isMerchantAvailable("gemPowerMerchant"), true);
-assert.equal(pacing.isMerchantAvailable("gearMerchant"), false);
+assert.equal(pacing.isMerchantUnlocked("gemPowerMerchant"), true);
+assert.equal(pacing.isMerchantAvailable("gearMerchant"), true);
+assert.equal(pacing.isMerchantUnlocked("gearMerchant"), false);
 assert.equal(pacing.isFeatureAvailable("comboHud"), true);
 assert.equal(
   pacing.getNextPromiseOverride().promise,
@@ -129,6 +137,9 @@ for (const [depth, feature, expected] of [
     `${feature} threshold should be ${depth}m`,
   );
 }
+
+assert.equal(pacing.isMerchantUnlocked("boboMerchant"), true);
+assert.equal(pacing.isMerchantAvailable("magmaMoneyMonster"), false);
 
 assert.equal(
   pacing.isUpgradeAvailable("steelPickaxe"),

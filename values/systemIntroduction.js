@@ -8,6 +8,18 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     queryParam: "systemPacing",
     disabledValues: Object.freeze(["0", "off", "false", "legacy"]),
   }),
+  shopPresentation: Object.freeze({
+    alwaysVisibleMerchantIds: Object.freeze([
+      "boboMerchant",
+      "playerUpgrades",
+      "gemPowerMerchant",
+      "gearMerchant",
+      "moneyMonster",
+    ]),
+    keepLockedUpgradesVisible: true,
+    guidedLockShort: "GUIDED STEP",
+    guidedLockDetail: "Complete the current guided shop step first.",
+  }),
   thresholds: Object.freeze({
     gearDepth: 40,
     portalDepth: 80,
@@ -88,6 +100,68 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     boboCaveEyes: "caveRun",
     worldTwoTunnelAccess: "lateRun",
     upOrDown: "lateRun",
+  }),
+  unlockCopy: Object.freeze({
+    core: Object.freeze({
+      short: "AVAILABLE NOW",
+      detail: "Available from the start.",
+    }),
+    flightReady: Object.freeze({
+      short: "UNLOCK FLIGHT",
+      detail: "Complete the opening path and unlock Flight.",
+    }),
+    firstReturn: Object.freeze({
+      short: "RETURN ONCE",
+      detail: "Complete one mining expedition and return to town.",
+    }),
+    gemPowerMerchant: Object.freeze({
+      short: "RETURN ONCE",
+      detail: "Complete one mining expedition and return to town.",
+    }),
+    gearMerchant: Object.freeze({
+      short: "REACH 40m",
+      detail: "Complete one expedition and reach a best depth of 40m.",
+    }),
+    portalRun: Object.freeze({
+      short: "REACH 80m",
+      detail: "Reach 80m or discover a portal or chest.",
+    }),
+    constellationRun: Object.freeze({
+      short: "REACH 100m",
+      detail: "Reach 100m or bring a Star home.",
+    }),
+    caveRun: Object.freeze({
+      short: "REACH 140m",
+      detail: "Reach a best depth of 140m.",
+    }),
+    hazardRun: Object.freeze({
+      short: "REACH 220m",
+      detail: "Reach 220m or survive an earthquake.",
+    }),
+    relicRun: Object.freeze({
+      short: "REACH 250m",
+      detail: "Reach 250m or discover an Ancient Relic.",
+    }),
+    titanRun: Object.freeze({
+      short: "REACH 350m",
+      detail: "Reach 350m or discover a Titan.",
+    }),
+    abilityRun: Object.freeze({
+      short: "REACH 500m",
+      detail: "Reach 500m before purchasing advanced abilities.",
+    }),
+    boboMerchant: Object.freeze({
+      short: "REACH 500m",
+      detail: "Reach 500m before purchasing Bobo's advanced upgrades.",
+    }),
+    lateRun: Object.freeze({
+      short: "REACH 1000m",
+      detail: "Reach 1000m before purchasing endgame upgrades.",
+    }),
+    magmaMoneyMonster: Object.freeze({
+      short: "REACH 1000m",
+      detail: "Reach 1000m before using the Level Two forge.",
+    }),
   }),
   promiseOrder: Object.freeze([
     Object.freeze({

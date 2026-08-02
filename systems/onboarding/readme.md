@@ -8,15 +8,17 @@ encounters.
   sale, and the authored starter-upgrade purchase. Rewards remain idempotent:
   starter cargo, Flight unlock, a 30-second flying-only bank, and money.
 - `FirstFiveMinutesTutorialBridge.js` is the reversible presentation/safety
-- SystemIntroductionSystem.js is the post-tutorial staged-disclosure director.
-  It reads persisted depth/return signals, supplies the single next-system
-  promise, and gates merchant, HUD, pause, shop, and world interactions without
-  changing the core movement/digging/return loop.
   layer. It feeds the existing Next Promise strip with persistent remapped-key
-  guidance, focuses SELL and Miner's Grip in the real shops, blocks the
-  one-way surface drop during training, requires one real Flight frame, then
-  points at the normal-HP payoff block. The consumed Flight bank persists the
-  safety proof without a save-schema change.
+  guidance, focuses SELL and Miner's Grip in the real shops, blocks the one-way
+  surface drop during training, requires one real Flight frame, then points at
+  the normal-HP payoff block. The consumed Flight bank persists the safety
+  proof without a save-schema change.
+- `SystemIntroductionSystem.js` is the post-tutorial staged-disclosure director.
+  It reads persisted depth/return signals and supplies the single next-system
+  promise. All five Level-1 merchants remain visible and open; progression is
+  expressed through locked catalog rows with explicit unlock copy and an
+  authoritative purchase gate. The Level-2 Arc Forge and later non-shop systems
+  retain their progression gates.
 - `TownSquareTutorialDigSite.js` authors normal-HP Dirt at x11 and a payoff
   block at x12 without opening a forced shaft. Under `?firstFive=0` it restores
   the former x24 one-HP practice tile. `TownSquareTutorialView.js` reuses the

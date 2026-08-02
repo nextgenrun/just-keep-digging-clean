@@ -245,14 +245,15 @@ export class NPCManager {
     }
 
     if (nearestNPC && this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
+      const showShop = this.scene.shopOverlay?.show;
+      if (typeof showShop !== "function") return false;
+      const opened = this.scene.shopOverlay.show(nearestNPC.merchantId);
+      if (opened === false) return false;
       this.activitySystem.settleMerchant(nearestNPC.merchantId);
       // Play NPC voice line before showing shop
       if (this.scene.soundSystem) {
         this.scene.soundSystem.playNPCVoiceLine(nearestNPC.merchantId);
       }
-      
-      // Show shop overlay
-      this.scene.shopOverlay.show(nearestNPC.merchantId);
       return true;
     }
     return false;
@@ -286,20 +287,50 @@ export class NPCManager {
   }
 
   getInteractionHealthSnapshot() {
-    const bobo = this.npcDefs.find(npc => npc.merchantId === "boboMerchant");
-    const promptReady = this._interactPrompts.some(
-      prompt => prompt.npc?.merchantId === "boboMerchant" && prompt.text,
+    const expectedMerchantIds = [...TOWN_SQUARE_CONFIG.surfaceMerchantOrder];
+    const definedMerchantIds = new Set(this.npcDefs.map(npc => npc.merchantId));
+    const promptMerchantIds = new Set(
+      this._interactPrompts
+        .filter(prompt => Boolean(prompt.text))
+        .map(prompt => prompt.npc?.merchantId),
     );
+    const missingDefinitionIds = expectedMerchantIds.filter(
+      merchantId => !definedMerchantIds.has(merchantId),
+    );
+    const missingPromptIds = expectedMerchantIds.filter(
+      merchantId => !promptMerchantIds.has(merchantId),
+    );
+    const missingVisualIds = expectedMerchantIds.filter(
+      merchantId => !this.npcSprites.has(merchantId),
+    );
+    const unavailableMerchantIds = expectedMerchantIds.filter(
+      merchantId => !this._isMerchantAvailable(merchantId),
+    );
+    const boboDefined = definedMerchantIds.has("boboMerchant");
+    const promptReady = promptMerchantIds.has("boboMerchant");
     const visualReady = this.npcSprites.has("boboMerchant");
     const shopReady = typeof this.scene.shopOverlay?.show === "function";
     const interactKeyReady = Boolean(this.scene.interactKey);
     return {
-      ready: Boolean(bobo && promptReady && visualReady && shopReady && interactKeyReady),
-      boboDefined: Boolean(bobo),
+      ready: Boolean(
+        shopReady
+        && interactKeyReady
+        && missingDefinitionIds.length === 0
+        && missingPromptIds.length === 0
+        && missingVisualIds.length === 0
+        && unavailableMerchantIds.length === 0
+      ),
+      boboDefined,
       promptReady,
       visualReady,
       shopReady,
       interactKeyReady,
+      merchantCount: expectedMerchantIds.length,
+      expectedMerchantIds,
+      missingDefinitionIds,
+      missingPromptIds,
+      missingVisualIds,
+      unavailableMerchantIds,
     };
   }
 

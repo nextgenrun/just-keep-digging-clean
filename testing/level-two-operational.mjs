@@ -291,7 +291,14 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
 
 // Both Arc schematics appear in the Forge and are absent from the money-purchase catalog.
 {
-  const catalog = { _render() {} };
+  const catalog = Object.assign(Object.create(ShopOverlay.prototype), {
+    scene: { config: { resourceEconomyEnabled: true } },
+    moneyMonsterMode: "craft",
+    currentPage: 0,
+    selectedIndex: 0,
+    itemsPerPage: 5,
+    _render() {},
+  });
   ShopOverlay.prototype.populateUpgrades.call(catalog, LEVEL_TWO_MERCHANT_ID);
   assert.deepEqual(catalog.allUpgrades, []);
   assert.deepEqual(

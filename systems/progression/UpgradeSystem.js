@@ -29,6 +29,7 @@ export class UpgradeSystem {
     // GodMode flag
     this.godModeActive = false;
     this.progressionStateProvider = null;
+    this.upgradeAvailabilityProvider = null;
   }
 
   initializeUpgrades() {
@@ -88,6 +89,10 @@ export class UpgradeSystem {
     this.progressionStateProvider = typeof provider === "function" ? provider : null;
   }
 
+  setUpgradeAvailabilityProvider(provider) {
+    this.upgradeAvailabilityProvider = typeof provider === "function" ? provider : null;
+  }
+
   isDepthGateAccepted(threshold) {
     const state = this.progressionStateProvider?.();
     if (!state) return false;
@@ -135,6 +140,16 @@ export class UpgradeSystem {
     }
     if (isCraftOnlyUpgrade(upgradeId)) {
       return { canPurchase: false, reason: "craft_only" };
+    }
+
+    const availability = this.upgradeAvailabilityProvider?.(upgradeId, upgrade);
+    if (availability?.available === false) {
+      return {
+        canPurchase: false,
+        reason: "progression_locked",
+        required: availability.feature,
+        unlock: availability,
+      };
     }
 
     const currentLevel = this.getUpgradeLevel(upgradeId);

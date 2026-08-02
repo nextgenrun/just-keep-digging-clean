@@ -21,6 +21,10 @@ Game system — progression.
 - `UpgradeSystem.js` persists Seismic Suppression through the existing
   `upgradeLevels` save map and exposes `earthquakesDisabled` only after the
   one-time endgame player-merchant purchase succeeds.
+- `UpgradeSystem.js` accepts the staged-disclosure availability provider and
+  checks it before any wallet or resource transaction. Locked UI rows therefore
+  cannot be purchased through direct calls, stale overlays, or another merchant
+  catalog.
 - `TitanClueSystem.js` owns the wallet-backed transaction and active locator
   arrow for clues bought from the ESC `TITANS` catalog. Purchases use
   locked-safe index journal keys. The enabled/disabled arrow selection is

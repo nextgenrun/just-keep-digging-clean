@@ -59,6 +59,12 @@ UI module — overlays.
 - `StarHeartOverlay.js` — the tall three-choice Star Heart modal with ambient constellation motion, keyboard/mouse selection, owned/equipped/available states, and a timed two-step permanent unlock. Three Hearts let a late-game save own all three Engines while only one remains equipped.
 - `StarHeartEngineCard.js` — image-backed Wayward Star, Hollow Sun, and Comet Engine cards with fixed-screen hit areas plus hover, focus, press, and selection tweens.
 - `ShopOverlay.js` — shared merchant modal. The Molten Money Monster opens on the Arc Forge tab, renders the two canonical crafting recipes, and retains its Sell tab with a timed repeat-confirmation before any uncrafted-core ingredient is sold.
+  Every Level-1 merchant always exposes its complete active catalog; staged
+  progression changes row availability into approved lock icons and readable
+  hover/detail conditions instead of deleting rows or refusing to open. Global
+  selection follows the visible page, Page Up/Page Down provide dedicated page
+  input, and the interact key remains purchase-only. Direct cross-merchant
+  purchase calls are rejected.
 - `ShopOverlay.js` also exposes Bobo's irreversible Hardcore Oath only to
   post-Flight Casual saves. The generated oath crest and typed `YES` path route
   through the live Hardcore bridge; there is no one-click conversion.

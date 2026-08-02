@@ -44,6 +44,9 @@ jobs:
       - name: Prove Bobo interaction and runtime health routing
         run: |
           node testing/2026-07-26-shop-ui-uptime-contract.mjs
+          node testing/2026-07-31-system-introduction-pacing-contract.mjs
+          node testing/2026-08-02-shop-catalog-integrity-contract.mjs
+          node testing/level-two-operational.mjs
           node testing/2026-07-26-town-square-runtime-contract.mjs
           node testing/2026-07-25-release-safety-contract.mjs
 

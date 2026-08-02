@@ -397,6 +397,16 @@ status, and price, synchronizes the same selection state as keyboard input,
 and routes every tab, row, page, action, and sell control through one
 modal-depth-aware shared button primitive.
 
+`2026-08-02-shop-catalog-integrity-contract.mjs` pins the complete Money
+Monster (6), Gear (7), and Bobo (8) catalog IDs across fresh and progressed
+saves. It verifies locked rows remain visible with conditions, five-item page
+unions and wraparound selection retain every row, Page Up/Page Down never
+conflict with interact-to-purchase, complete Gear requirements are rendered,
+locked and cross-merchant purchases cannot mutate money/resources/levels, and
+the Level-2 Arc Forge refuses direct opening at 999m but opens at 1000m. Both
+shop uptime and general quality workflows run this contract with pacing and
+Level-Two operational coverage.
+
 `2026-07-26-town-square-ground-fidelity-contract.mjs` guards the ground-only
 correction: the v3 Town Square and v2 full-width PNG hashes, exact 1672x48
 Option A crop, 129 px handoff, shared town/floor scale, semantic occlusion only
