@@ -9,6 +9,7 @@ import {
 import { buildTitanDiscoveryZones } from "./titanDiscoveryZones.js";
 import {
   createTitanDiscoveryView,
+  syncTitanDiscoveryEnvironment,
   syncTitanDiscoveryViews,
 } from "./titanDiscoveryView.js?rev=20260729-native-density-v14";
 import { buildTitanDiscoverySnapshot } from "./titanDiscoverySnapshot.js";
@@ -16,6 +17,7 @@ import { describeTitanDirection } from "./titanDirection.js";
 import { TitanChamberStream } from "./TitanChamberStream.js?rev=20260729-native-density-v14";
 import { TitanCoverageGlowSystem } from "./TitanCoverageGlowSystem.js";
 import { TitanDiscoveryGuidance } from "./TitanDiscoveryGuidance.js";
+import { TitanEnvironmentEnvelopeStream } from "./TitanEnvironmentEnvelopeStream.js";
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js?rev=20260729-native-density-v14";
 import { TitanUnlockController } from "./TitanUnlockController.js";
 import { publishTitanDiscoveryHealth } from "./titanDiscoveryHealth.js";
@@ -36,15 +38,24 @@ export class TitanDiscoverySystem {
     this.surfaceGallery = new TitanSurfaceGallery(scene, worldModel, config);
     this.guidance = new TitanDiscoveryGuidance(scene, experienceConfig);
     this.coverGlow = new TitanCoverageGlowSystem(scene, worldModel, config);
+    const handleStreamChange = () => {
+      this.forceProgressSync = true;
+      if (this.created) this._publishHealth(true);
+    };
     this.chamberStream = new TitanChamberStream(
       scene,
       worldModel,
       config,
-      () => {
-        this.forceProgressSync = true;
-        if (this.created) this._publishHealth(true);
-      }
+      handleStreamChange
     );
+    this.environmentStream = new TitanEnvironmentEnvelopeStream(
+      scene,
+      worldModel,
+      config,
+      handleStreamChange
+    );
+    this.groundingReady = false;
+    this.groundingMissingAssets = [];
     this.transients = new Set();
     this.unlockController = new TitanUnlockController({
       scene,
@@ -70,12 +81,18 @@ export class TitanDiscoverySystem {
       return false;
     }
     const zones = buildTitanDiscoveryZones(this.worldModel, this.config);
-    const daisReady = this._textureExists(
-      this.config.assets.undergroundDais.key
-    );
+    const groundingAssets = [
+      this.config.assets.undergroundDais,
+      this.config.assets.groundContact,
+      this.config.assets.unlockResonance,
+    ];
+    this.groundingMissingAssets = groundingAssets
+      .filter(asset => !this._textureExists(asset.key))
+      .map(asset => asset.key);
+    this.groundingReady = this.groundingMissingAssets.length === 0;
     this.zoneViews = zones
       .filter(zone => (
-        daisReady
+        this.groundingReady
         && this._textureExists(zone.definition.surfaceAsset.key)
       ))
       .map(zone => createTitanDiscoveryView(
@@ -86,6 +103,7 @@ export class TitanDiscoverySystem {
         this.experienceConfig
       ));
     this.chamberStream.create(this.zoneViews);
+    this.environmentStream.create(this.zoneViews);
     this.coverGlow.create();
     this.surfaceGallery.sync(new Set(), true);
     this.created = this.zoneViews.length > 0;
@@ -134,6 +152,10 @@ export class TitanDiscoverySystem {
     )) {
       this.forceProgressSync = true;
     }
+    for (const view of this.zoneViews) {
+      syncTitanDiscoveryEnvironment(view, lighting, this.config);
+    }
+    this.environmentStream.sync(context.playerTile, lighting);
     const safeTime = Number.isFinite(time) ? time : 0;
     this.coverGlow.update(safeTime, context.playerTile, this.zoneViews);
     this.guidance.update(
@@ -151,50 +173,49 @@ export class TitanDiscoverySystem {
     const underground = this.config.underground;
     for (const view of this.zoneViews) {
       if (view.animating) continue;
-      const phase = time / underground.idlePeriodMs
+      const phase = time / underground.idlePeriodMs * Math.PI * 2
         + view.definition.index * underground.phaseStep;
-      const wave = (Math.sin(phase) + 1) / 2;
+      const wave = Math.sin(phase);
+      const pulse = (wave + 1) / 2;
+      const scaleX = view.baseScale
+        * (1 - wave * underground.idleWidthScale);
+      const scaleY = view.baseScale
+        * (1 + wave * underground.idleBreathScale);
+      view.sprite
+        .setPosition(view.baseX, view.baseY)
+        .setScale(scaleX, scaleY);
+      view.glowSprite
+        .setPosition(view.baseX, view.baseY)
+        .setScale(scaleX, scaleY);
+      view.chamberSprite?.setPosition(view.baseX, view.chamberCenterY);
+      view.chamberGlowSprite?.setPosition(
+        view.baseX,
+        view.chamberCenterY
+      );
+      view.daisGlowSprite.setAlpha(
+        underground.daisGlowAlpha * (0.72 + pulse * 0.28)
+      );
+      view.contactGlowSprite.setAlpha(
+        underground.contactGlowAlpha * (0.68 + pulse * 0.32)
+      );
       if (!view.discovered) {
         const glowFloor = underground.coverageGlowFloor;
-        const pulseFactor = glowFloor + (1 - glowFloor) * wave;
+        const pulseFactor = glowFloor + (1 - glowFloor) * pulse;
         const progressFactor = glowFloor
           + (1 - glowFloor) * view.coverageProgress;
-        view.sprite.setX(view.baseX);
-        view.glowSprite
-          .setX(view.baseX)
-          .setAlpha(
-            underground.coverageGlowAlpha * pulseFactor * progressFactor
-          );
-        view.daisGlowSprite.setAlpha(
-          underground.daisGlowAlpha * (0.7 + wave * 0.3)
+        view.glowSprite.setAlpha(
+          underground.coverageGlowAlpha * pulseFactor * progressFactor
         );
-        view.chamberSprite?.setX(view.baseX);
-        view.chamberGlowSprite
-          ?.setX(view.baseX)
-          .setAlpha(
-            this.config.chambers.ambientGlowAlpha
-            * wave
-            * view.coverageProgress
-          );
-        continue;
-      }
-      if (view.visualMode === "chamber") {
-        view.sprite.setX(view.settledX);
-        view.glowSprite.setX(view.settledX).setAlpha(0);
-        view.chamberSprite?.setX(view.baseX);
-        view.chamberGlowSprite
-          ?.setX(view.baseX)
-          .setAlpha(this.config.chambers.ambientGlowAlpha * wave);
-        view.daisGlowSprite.setAlpha(
-          underground.daisGlowAlpha * (0.7 + wave * 0.3)
+        view.chamberGlowSprite?.setAlpha(
+          this.config.chambers.ambientGlowAlpha
+          * pulse
+          * view.coverageProgress
         );
         continue;
       }
-      const x = view.settledX + Math.sin(phase) * underground.idleDriftPixels;
-      view.sprite.setX(x);
-      view.glowSprite.setX(x);
-      view.daisGlowSprite.setAlpha(
-        underground.daisGlowAlpha * (0.7 + wave * 0.3)
+      view.glowSprite.setAlpha(0);
+      view.chamberGlowSprite?.setAlpha(
+        this.config.chambers.ambientGlowAlpha * pulse
       );
     }
     this.surfaceGallery.update(time);
@@ -254,6 +275,7 @@ export class TitanDiscoverySystem {
   }
   destroy() {
     this.chamberStream.destroy();
+    this.environmentStream.destroy();
     this.coverGlow.destroy();
     const objects = [
       ...this.transients,
@@ -262,6 +284,8 @@ export class TitanDiscoverySystem {
         view.glowSprite,
         view.daisSprite,
         view.daisGlowSprite,
+        view.contactSprite,
+        view.contactGlowSprite,
       ]),
     ];
     objects.forEach(object => {

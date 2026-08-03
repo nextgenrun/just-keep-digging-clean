@@ -43,12 +43,19 @@ assert.equal("actionScale" in MOVING_SIDE_DIG_ANIMATION, false);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactBackoffSourcePx, 8);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactBackoffFalloffFrames, 4);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactFaceClearanceSourcePx, 2);
+assert.equal(MOVING_SIDE_DIG_ANIMATION.runSource.manifestAction, profile.footstepRigAction);
+assert.equal(
+  MOVING_SIDE_DIG_ANIMATION.runSource.file.endsWith(
+    "survival-ual-player-v1-animation-polish-run-sheet.webp",
+  ),
+  true,
+);
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactEnvelopePolicy, "shared-visible-silhouette");
 assert.equal(MOVING_SIDE_DIG_ANIMATION.contactVisualAlignmentEnabled, false);
 const standOffConfig = MOVING_SIDE_DIG_ANIMATION.movement.tileFaceStandOff;
 assert.equal(standOffConfig.enabled, true);
 assert.equal(standOffConfig.mode, "authoritative-body-gap");
-assert.equal(standOffConfig.distancePx, 18);
+assert.equal(standOffConfig.distancePx, 21);
 assert.equal(standOffConfig.releaseWhenTargetNotSolid, true);
 assert.equal(standOffConfig.stopTowardVelocity, true);
 assert.deepEqual(runtimeManifest.moving_side_dig_pipeline.tile_face_stand_off, standOffConfig);
@@ -128,12 +135,12 @@ for (const action of actions) {
   assert.deepEqual(metadata.composition.exit_action_blend_weights, [0.94, 0.8, 0.66, 0.52, 0.38, 0.24, 0.1]);
   assert.deepEqual(metadata.composition.action_blend_weights.slice(0, 7), [0.12, 0.26, 0.4, 0.54, 0.68, 0.84, 1]);
   assert.deepEqual(metadata.composition.action_blend_weights.slice(-7), [0.94, 0.8, 0.66, 0.52, 0.38, 0.24, 0.1]);
-  assert.equal(metadata.composition.contact_envelope_right_source_px, 194);
+  assert.equal(metadata.composition.contact_envelope_right_source_px, 199);
   assert.equal(Object.keys(metadata.rig_markers.frames).length, 22);
   assert.equal(metadata.rig_markers.source, "derived-phase-locked-piskel-composite");
   const contactMarkers = metadata.rig_markers.frames[String(action.contactFrame)];
   const leadingHandX = Math.max(contactMarkers.hand_l[0], contactMarkers.hand_r[0]);
-  assert.equal(leadingHandX, 196);
+  assert.equal(leadingHandX, 201);
   const bottoms = metadata.alpha_bounds.map((bounds) => bounds[3] - 1);
   assert.ok(Math.max(...bottoms) - Math.min(...bottoms) <= 1);
   for (const bounds of metadata.alpha_bounds) {
@@ -149,11 +156,13 @@ assert.deepEqual(crossMetadata.composition.run_frames.slice(-5), [6, 6, 7, 8, 8]
 assert.equal(jabMetadata.composition.run_frames[0], 9);
 assert.deepEqual(
   jabMetadata.rig_markers.frames["6"].pelvis,
-  runtimeManifest.actions.run.rig_markers.frames["13"].pelvis,
+  runtimeManifest.actions[MOVING_SIDE_DIG_ANIMATION.runSource.manifestAction]
+    .rig_markers.frames["13"].pelvis,
 );
 assert.deepEqual(
   crossMetadata.rig_markers.frames["6"].pelvis,
-  runtimeManifest.actions.run.rig_markers.frames["27"].pelvis,
+  runtimeManifest.actions[MOVING_SIDE_DIG_ANIMATION.runSource.manifestAction]
+    .rig_markers.frames["27"].pelvis,
 );
 assert.equal(
   Math.max(...Object.values(jabMetadata.rig_markers.frames["6"]).filter(Array.isArray).map(([x]) => x)),
@@ -169,7 +178,7 @@ const select = (overrides = {}) => resolveMovingSideDigAnimationKey({
   actionKind: "normal",
   grounded: true,
   motionState: "walk-right",
-  horizontalVelocity: 0,
+  horizontalVelocity: 200,
   search: "",
   ...overrides,
 });
@@ -178,9 +187,11 @@ assert.equal(select({
   animationKey: cross.baseAnimationKey,
   aim: "LEFT",
   motionState: "walk-left",
+  horizontalVelocity: -200,
 }), cross.animationKey);
 assert.equal(select({ motionState: "idle", horizontalVelocity: 9 }), jab.animationKey);
 assert.equal(select({ motionState: "idle", horizontalVelocity: 0 }), jab.baseAnimationKey);
+assert.equal(select({ motionState: "walk-right", horizontalVelocity: 0 }), jab.baseAnimationKey);
 assert.equal(select({ grounded: false }), jab.baseAnimationKey);
 assert.equal(select({ motionState: "walk-left" }), jab.baseAnimationKey);
 assert.equal(select({ aim: "UP-RIGHT" }), jab.baseAnimationKey);
@@ -201,6 +212,7 @@ const phaseLocked = resolveMovingSideDigAnimation({
   actionKind: "normal",
   grounded: true,
   motionState: "walk-right",
+  horizontalVelocity: 200,
   currentAnimationKey: profile.walkRunAnim,
   currentTextureFrame: 23,
   search: "",
@@ -244,6 +256,7 @@ const phaseLockedQuickslash = resolveMovingSideDigAnimation({
   actionKind: "quickslash",
   grounded: true,
   motionState: "walk-right",
+  horizontalVelocity: 200,
   currentAnimationKey: profile.walkRunAnim,
   currentTextureFrame: 23,
   search: "",
@@ -255,18 +268,19 @@ assert.ok(profile.movingSideQuickslashAnimationKeys.includes(phaseLockedQuicksla
 assert.equal(phaseLockedQuickslash.movingSideDigActive, true);
 assert.equal(phaseLockedQuickslash.targetDirectionX, 1);
 
-const stationarySelection = resolveMovingSideDigAnimation({
+const collisionStoppedSelection = resolveMovingSideDigAnimation({
   profile,
   animationKey: jab.baseAnimationKey,
   aim: "RIGHT",
   actionKind: "normal",
   grounded: true,
-  motionState: "idle",
+  motionState: "walk-right",
   horizontalVelocity: 0,
   search: "",
 });
-assert.equal(stationarySelection.movingSideDigActive, false);
-assert.equal(stationarySelection.targetDirectionX, 0);
+assert.equal(collisionStoppedSelection.animationKey, jab.baseAnimationKey);
+assert.equal(collisionStoppedSelection.movingSideDigActive, false);
+assert.equal(collisionStoppedSelection.targetDirectionX, 0);
 
 const tileSize = 94;
 const contactEnvelope = runtimeManifest.actions["moving-side-dig-jab"]

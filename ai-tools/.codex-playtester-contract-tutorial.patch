@@ -1,0 +1,72 @@
+diff --git a/testing/2026-08-02-playtester-feedback-implementation-contract.mjs b/testing/2026-08-02-playtester-feedback-implementation-contract.mjs
+--- a/testing/2026-08-02-playtester-feedback-implementation-contract.mjs
++++ b/testing/2026-08-02-playtester-feedback-implementation-contract.mjs
+@@ -21,8 +21,10 @@
+ import { TILE_TYPES } from "../values/tileTypes.js";
+ import { TUTORIAL_NARRATION_CONFIG } from "../values/tutorialNarration.js";
+-import { UI_NOTIFICATION_CAROUSEL_CONFIG } from
+-  "../values/uiNotificationCarousel.js";
++import {
++  ESSENTIAL_UI_NOTIFICATION_CONFIG,
++  UI_NOTIFICATION_CAROUSEL_CONFIG,
++} from "../values/uiNotificationCarousel.js";
+@@ -31,11 +33,13 @@
+   TOWN_TUTORIAL_STAGES.MOVE,
+   TOWN_TUTORIAL_STAGES.DIG,
++  TOWN_TUTORIAL_STAGES.SELL,
++  TOWN_TUTORIAL_STAGES.UPGRADE,
+   TOWN_TUTORIAL_STAGES.FLIGHT,
+   TOWN_TUTORIAL_STAGES.PORTAL,
+-  TOWN_TUTORIAL_STAGES.SELL,
+   TOWN_TUTORIAL_STAGES.RESUME,
+ ]);
+-assert.equal("UPGRADE" in TOWN_TUTORIAL_STAGES, false);
+-assert.equal("upgradeFunding" in RETENTION_CONFIG.tutorial, false);
++assert.equal(TOWN_TUTORIAL_STAGES.UPGRADE, "upgrade");
++assert.equal(RETENTION_CONFIG.tutorial.upgradeFunding.money, 2);
+@@ -50,6 +54,12 @@
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
++retention.recordSale(1, 1);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), { money: 2 });
++retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+ assert.deepEqual(retention.claimTutorialFlightTraining(), {
+@@ -59,8 +69,6 @@
+ retention.recordPortalActivated("Starter Return Gate");
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+-retention.recordSale(1, 1);
+ assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+@@ -70,6 +78,7 @@
+-assert.equal("upgradeFundingGranted" in resumed.getTutorialState(), false);
++assert.equal(resumed.getTutorialState().upgradeFundingGranted, true);
+@@ -88,6 +97,15 @@
+   TOWN_TUTORIAL_STAGES.PORTAL,
+ );
++assert.equal(
++  sanitizeRetentionProgressData({
++    version: 5,
++    tutorialChoice: "yes",
++    tutorialStage: "sell",
++  }).tutorialStage,
++  TOWN_TUTORIAL_STAGES.RESUME,
++);
+ 
+ const tileWrites = [];
+@@ -132,6 +150,7 @@
+ assert.equal(notifications.getSnapshot().total, 0);
+ notifications.destroy();
++assert.equal(ESSENTIAL_UI_NOTIFICATION_CONFIG.enabled, true);
+ 
+-const cueStages = ["move", "dig", "flight", "portal", "sell", "resume", "complete"];
++const cueStages = ["move", "dig", "sell", "upgrade", "flight", "portal", "resume", "complete"];
+@@ -159,9 +178,9 @@
+   "ui/overlays/LevelUpPopup.js",
+   "systems/visual/StarDiscoveryPopupView.js",
+   "systems/visual/starDiscoveryPopupPolicy.js",
+-  "systems/onboarding/TutorialFlightReminderSystem.js",
+ ]) {
+   assert.equal(existsSync(path.join(root, retiredPath)), false, retiredPath);
+ }
++assert.equal(existsSync(path.join(root, "systems/onboarding/TutorialFlightReminderSystem.js")), true);

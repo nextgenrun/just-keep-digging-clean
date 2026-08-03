@@ -67,9 +67,9 @@ export function createJourneySnapshot(scene) {
   const mineCooldownMs = scene.upgradeSystem?.getEffectiveMineCooldown?.(
     scene.config.mineCooldownMs,
   ) ?? scene.config.mineCooldownMs;
-  const flightSpeed = scene.upgradeSystem?.getEffectiveLevitationSpeed?.(
-    scene.config.climbSpeedPxPerSec,
-  ) ?? scene.config.climbSpeedPxPerSec;
+  const flightSpeed = scene.upgradeSystem?.getEffectiveFlightSpeed?.(
+    scene.config.flightSpeedPxPerSec,
+  ) ?? scene.config.flightSpeedPxPerSec;
 
   return {
     stats: {

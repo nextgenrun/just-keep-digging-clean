@@ -6,8 +6,8 @@ const deepFreeze = (value) => {
 };
 
 export const MOVING_SIDE_DIG_PRODUCTION = deepFreeze({
-  "schemaVersion": 6,
-  "version": "moving-side-dig-tile-face-standoff-v6-20260730",
+  "schemaVersion": 7,
+  "version": "moving-side-dig-piskel-jog-source-v7-20260803",
   "reviewCandidateId": "phase-locked-combo",
   "enabledByDefault": true,
   "rollbackQuery": "movingSideDig",
@@ -18,6 +18,12 @@ export const MOVING_SIDE_DIG_PRODUCTION = deepFreeze({
   "displaySizePx": 123,
   "visualOriginX": 0.5,
   "visualOriginY": 0.96484375,
+  "runSource": {
+    "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp",
+    "manifestAction": "run-piskel-polished",
+    "frameCount": 28,
+    "displaySizePx": 123
+  },
   "contactBackoffSourcePx": 8,
   "contactBackoffFalloffFrames": 4,
   "contactFaceClearanceSourcePx": 2,
@@ -60,7 +66,7 @@ export const MOVING_SIDE_DIG_PRODUCTION = deepFreeze({
     "tileFaceStandOff": {
       "enabled": true,
       "mode": "authoritative-body-gap",
-      "distancePx": 18,
+      "distancePx": 21,
       "releaseWhenTargetNotSolid": true,
       "stopTowardVelocity": true,
       "epsilonPx": 0.01
@@ -818,34 +824,34 @@ export const MOVING_SIDE_DIG_PRODUCTION = deepFreeze({
       "verticalWeight": 2,
       "minimumSpeedPxPerSec": 36,
       "frameByOutgoingJogFrame": [
+        20,
         19,
-        18,
+        2,
         17,
         16,
         8,
         8,
         8,
-        8,
         5,
         5,
-        5,
-        20,
+        6,
         21,
-        20,
+        21,
+        21,
+        5,
         20,
         19,
         18,
-        2,
+        17,
         16,
         15,
-        11,
         12,
         12,
         12,
         12,
-        19,
-        19,
-        19
+        20,
+        20,
+        20
       ]
     },
     "entryVariantIdByOutgoingJogFrame": [

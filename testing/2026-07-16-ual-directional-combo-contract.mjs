@@ -183,7 +183,7 @@ assert.equal(manifest.actions.fly.frame_count, 14);
 assert.equal(manifest.actions.landing.source_clip, "Jump_Land");
 assert.equal(manifest.actions.landing.frame_count, 39);
 assert.equal(manifest.actions["fly-hover"], undefined);
-assert.equal(Object.keys(manifest.actions).length, 23);
+assert.equal(Object.keys(manifest.actions).length, 22);
 assert.equal(profile.rejectedSourceClips.fly, "Swim_Fwd_Loop");
 assert.equal(profile.rejectedSourceClips.flyHover, "Swim_Idle_Loop");
 assert.equal(profile.rejectedSourceClips.sideFinisher, "Authored_Grounded_Side_Kick_v1");

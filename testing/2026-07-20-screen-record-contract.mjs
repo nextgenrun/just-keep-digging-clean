@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import {
   canCaptureCanvas,
   normalizeCaptureMode,
@@ -10,6 +12,8 @@ import {
   ScreenRecordUiVisibility,
 } from "../systems/visual/ScreenRecordUiVisibility.js";
 import { SCREEN_RECORD_CONFIG } from "../values/screenRecordConfig.js";
+import { GAME_CONFIG } from "../values/gameConfig.js";
+import { KEYBIND_ACTIONS, createDefaultKeybinds } from "../values/keybindActions.js";
 
 const supportedRecorder = {
   isTypeSupported: type => type === "video/webm;codecs=vp8,opus",
@@ -73,6 +77,10 @@ assert.equal(SCREEN_RECORD_CONFIG.modes.short.hideUi, true);
 assert.equal(SCREEN_RECORD_CONFIG.modes.short.fit, "cover");
 assert.equal(SCREEN_RECORD_CONFIG.modes.broad.requireFullscreen, true);
 assert.equal(SCREEN_RECORD_CONFIG.modes.broad.captureSourceSize, true);
+assert.equal(GAME_CONFIG.debugMode, true);
+assert.equal(GAME_CONFIG.rendererQuality.preserveDrawingBuffer, true);
+assert.equal(KEYBIND_ACTIONS.some(action => action.id === "screenRecord"), true);
+assert.equal(createDefaultKeybinds().screenRecord, "F9");
 
 const inputSource = fs.readFileSync(new URL("../world/playScene/PlayerInputHandler.js", import.meta.url), "utf8");
 const globalInputSource = fs.readFileSync(new URL("../world/playScene/GameInputHandler.js", import.meta.url), "utf8");
@@ -83,21 +91,22 @@ const mainSource = fs.readFileSync(new URL("../main.js", import.meta.url), "utf8
 const serverSource = fs.readFileSync(new URL("../serve.py", import.meta.url), "utf8");
 const recordSource = fs.readFileSync(new URL("../systems/visual/ScreenRecordSystem.js", import.meta.url), "utf8");
 
-assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F9"/);
+assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F9"[\s\S]*devOnly: true/);
 assert.match(
   keybindSource,
   /id: "fullscreen"[\s\S]*defaultKey: "F10"[\s\S]*rebindable: false/,
 );
-assert.match(inputSource, /addBoundKey\("screenRecord"\)/);
-assert.match(globalInputSource, /justDown\(keys\.screenRecord\)/);
+assert.match(inputSource, /GAME_CONFIG\.debugMode \? addBoundKey\("screenRecord"\) : null/);
+assert.match(globalInputSource, /GAME_CONFIG\.debugMode && justDown\(keys\.screenRecord\)/);
 assert.match(globalInputSource, /screenRecordSystem\?\.toggle\(\)/);
-assert.match(setupSource, /new ScreenRecordSystem\(this\)/);
+assert.match(setupSource, /GAME_CONFIG\.debugMode \? new ScreenRecordSystem\(this\) : null/);
 assert.match(setupSource, /screenRecordSystem\?\.destroy\(\)/);
-assert.match(gameConfigSource, /preserveDrawingBuffer: true/);
+assert.match(gameConfigSource, /preserveDrawingBuffer: DEBUG_MODE/);
 assert.match(
   mainSource,
   /preserveDrawingBuffer: GAME_CONFIG\.rendererQuality\.preserveDrawingBuffer/,
 );
+assert.match(recordSource, /if \(!GAME_CONFIG\.debugMode\) return false/);
 assert.match(recordSource, /uiNotifications\?\.\[kind\]/);
 assert.doesNotMatch(recordSource, /notificationSystem\?\.\[kind\]/);
 assert.match(recordSource, /__isGameFullscreen/);
@@ -105,5 +114,47 @@ assert.match(recordSource, /ScreenRecordUiVisibility/);
 assert.match(recordSource, /renderEvents\.postRender/);
 assert.match(serverSource, /if self\.path != "\/screenrecord"/);
 assert.match(serverSource, /"systems", "screenrecord"/);
+
+const productionProbe = spawnSync(
+  process.execPath,
+  [
+    "--input-type=module",
+    "--eval",
+    `
+globalThis.__DIG_GAME_PRODUCTION__ = true;
+const { GAME_CONFIG } = await import("./values/gameConfig.js");
+const { KEYBIND_ACTIONS, createDefaultKeybinds } = await import("./values/keybindActions.js");
+const { ScreenRecordSystem } = await import("./systems/visual/ScreenRecordSystem.js");
+if (GAME_CONFIG.debugMode !== false) throw new Error("production debugMode stayed enabled");
+if (GAME_CONFIG.rendererQuality.preserveDrawingBuffer !== false) {
+  throw new Error("production preserveDrawingBuffer stayed enabled");
+}
+if (KEYBIND_ACTIONS.some(action => action.id === "screenRecord")) {
+  throw new Error("production keybind list exposes screenRecord");
+}
+if (Object.prototype.hasOwnProperty.call(createDefaultKeybinds(), "screenRecord")) {
+  throw new Error("production defaults expose screenRecord");
+}
+let prompted = false;
+globalThis.prompt = () => {
+  prompted = true;
+  return "short";
+};
+const result = await new ScreenRecordSystem(null).toggle();
+if (result !== false || prompted) {
+  throw new Error("production recorder toggle reached the capture chooser");
+}
+`,
+  ],
+  {
+    cwd: fileURLToPath(new URL("..", import.meta.url)),
+    encoding: "utf8",
+  },
+);
+assert.equal(
+  productionProbe.status,
+  0,
+  [productionProbe.stderr, productionProbe.stdout].filter(Boolean).join("\n"),
+);
 
 console.log("screen-record contract: ok");

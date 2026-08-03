@@ -1,0 +1,6 @@
+diff --git a/testing/2026-08-02-combo-block-reward-contract.mjs b/testing/2026-08-02-combo-block-reward-contract.mjs
+--- a/testing/2026-08-02-combo-block-reward-contract.mjs
++++ b/testing/2026-08-02-combo-block-reward-contract.mjs
+@@ -42,1 +42,2 @@
+ assert.equal(notifications.length, 1);
++assert.equal(genericNotifications.length, 0);

@@ -7,7 +7,7 @@ const deepFreeze = (value) => {
 
 export const PLAYER_ANIMATION_POLISH = deepFreeze({
   "schemaVersion": 1,
-  "version": "survival-player-animation-polish-v2-20260731",
+  "version": "survival-player-animation-polish-v3-20260803",
   "enabledByDefault": true,
   "rollbackQuery": "animationPolish",
   "disabledQueryValue": "0",
@@ -82,6 +82,43 @@ export const PLAYER_ANIMATION_POLISH = deepFreeze({
     }
   },
   "sheets": {
+    "run": {
+      "id": "survival-player-animation-polish-run",
+      "sheetKey": "survival-ual-player-v1-animation-polish-run-sheet",
+      "fileName": "survival-ual-player-v1-animation-polish-run-sheet.webp",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-run.piskel",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "frameCount": 28
+    },
     "transitions": {
       "id": "survival-player-animation-polish-transitions",
       "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
@@ -353,6 +390,58 @@ export const PLAYER_ANIMATION_POLISH = deepFreeze({
       ],
       "frameCount": 120
     }
+  },
+  "runPolish": {
+    "enabledByDefault": true,
+    "rollbackQuery": "animationPolish",
+    "disabledQueryValue": "0",
+    "sourceAction": "run",
+    "manifestAction": "run-piskel-polished",
+    "animationKey": "survival-ual-player-v1-run-anim",
+    "sourceSha256": "28b2074b4c08b54e8f6cdd9f052ae69ba5f6941c6c8fb1cd4a0f500b5132c5be",
+    "targetPelvisX": 128,
+    "targetBottomY": 248,
+    "maxPelvisCenterErrorPx": 1,
+    "contactSequenceIndices": [
+      13,
+      27
+    ],
+    "contactTextureFrames": [
+      12,
+      26
+    ],
+    "sheetKey": "survival-ual-player-v1-animation-polish-run-sheet",
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "frameCount": 28
   },
   "groundHandoff": {
     "enabledByDefault": true,

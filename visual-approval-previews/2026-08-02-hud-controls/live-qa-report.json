@@ -1,0 +1,206 @@
+{
+  "schema": "hud-controls-live-qa@1",
+  "generatedUtc": "2026-08-01T23:57:59.122Z",
+  "initial": {
+    "ready": true,
+    "approvedSkinActive": true,
+    "musicEnabled": true,
+    "sfxEnabled": true,
+    "musicAlpha": 1,
+    "sfxAlpha": 1,
+    "inventoryOpen": false,
+    "inventoryShellVisible": false,
+    "controlsEnabled": true,
+    "shopOpen": false,
+    "uiInputPriority": false,
+    "uiSelectCount": 0,
+    "scenePointerDowns": 0,
+    "lastCurrentlyOverCount": 0,
+    "hitSizes": {
+      "music": [
+        52,
+        38
+      ],
+      "sfx": [
+        52,
+        38
+      ],
+      "inventory": [
+        109,
+        116
+      ]
+    },
+    "visualSizes": {
+      "inventory": [
+        108.99999999999999,
+        116
+      ]
+    },
+    "positions": {
+      "music": {
+        "x": 1242,
+        "y": 39
+      },
+      "sfx": {
+        "x": 1242,
+        "y": 81
+      },
+      "inventory": {
+        "x": 1215.5,
+        "y": 653
+      }
+    }
+  },
+  "afterMusic": {
+    "ready": true,
+    "approvedSkinActive": true,
+    "musicEnabled": false,
+    "sfxEnabled": true,
+    "musicAlpha": 0.48,
+    "sfxAlpha": 1,
+    "inventoryOpen": false,
+    "inventoryShellVisible": false,
+    "controlsEnabled": true,
+    "shopOpen": false,
+    "uiInputPriority": false,
+    "uiSelectCount": 1,
+    "scenePointerDowns": 0,
+    "lastCurrentlyOverCount": 0,
+    "hitSizes": {
+      "music": [
+        52,
+        38
+      ],
+      "sfx": [
+        52,
+        38
+      ],
+      "inventory": [
+        109,
+        116
+      ]
+    },
+    "visualSizes": {
+      "inventory": [
+        108.99999999999999,
+        116
+      ]
+    },
+    "positions": {
+      "music": {
+        "x": 1242,
+        "y": 39
+      },
+      "sfx": {
+        "x": 1242,
+        "y": 81
+      },
+      "inventory": {
+        "x": 1215.5,
+        "y": 653
+      }
+    }
+  },
+  "afterSfx": {
+    "ready": true,
+    "approvedSkinActive": true,
+    "musicEnabled": false,
+    "sfxEnabled": false,
+    "musicAlpha": 0.48,
+    "sfxAlpha": 0.48,
+    "inventoryOpen": false,
+    "inventoryShellVisible": false,
+    "controlsEnabled": true,
+    "shopOpen": false,
+    "uiInputPriority": false,
+    "uiSelectCount": 2,
+    "scenePointerDowns": 0,
+    "lastCurrentlyOverCount": 0,
+    "hitSizes": {
+      "music": [
+        52,
+        38
+      ],
+      "sfx": [
+        52,
+        38
+      ],
+      "inventory": [
+        109,
+        116
+      ]
+    },
+    "visualSizes": {
+      "inventory": [
+        108.99999999999999,
+        116
+      ]
+    },
+    "positions": {
+      "music": {
+        "x": 1242,
+        "y": 39
+      },
+      "sfx": {
+        "x": 1242,
+        "y": 81
+      },
+      "inventory": {
+        "x": 1215.5,
+        "y": 653
+      }
+    }
+  },
+  "afterInventory": {
+    "ready": true,
+    "approvedSkinActive": true,
+    "musicEnabled": false,
+    "sfxEnabled": false,
+    "musicAlpha": 0.48,
+    "sfxAlpha": 0.48,
+    "inventoryOpen": true,
+    "inventoryShellVisible": true,
+    "controlsEnabled": false,
+    "shopOpen": true,
+    "uiInputPriority": true,
+    "uiSelectCount": 3,
+    "scenePointerDowns": 0,
+    "lastCurrentlyOverCount": 0,
+    "hitSizes": {
+      "music": [
+        52,
+        38
+      ],
+      "sfx": [
+        52,
+        38
+      ],
+      "inventory": [
+        109,
+        116
+      ]
+    },
+    "visualSizes": {
+      "inventory": [
+        108.99999999999999,
+        116
+      ]
+    },
+    "positions": {
+      "music": {
+        "x": 1242,
+        "y": 39
+      },
+      "sfx": {
+        "x": 1242,
+        "y": 81
+      },
+      "inventory": {
+        "x": 1215.5,
+        "y": 653
+      }
+    }
+  },
+  "browserIssues": [],
+  "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-02-hud-controls\\hud-controls-inventory-open.png"
+}

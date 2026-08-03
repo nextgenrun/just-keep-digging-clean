@@ -1,0 +1,59 @@
+diff --git a/world/playScene/PlaySceneUI.js b/world/playScene/PlaySceneUI.js
+--- a/world/playScene/PlaySceneUI.js
++++ b/world/playScene/PlaySceneUI.js
+@@ -5,6 +5,7 @@
+ import { WelcomeMessageGenerator } from "../model/WelcomeMessageGenerator.js";
+ import { UI_CONFIG } from "../../values/uiConfig.js";
++import { ESSENTIAL_UI_NOTIFICATION_CONFIG } from "../../values/uiNotificationCarousel.js";
+ import { HUD_LAYOUT } from "../../values/hudLayout.js";
+@@ -70,6 +71,10 @@
+     this.uiNotifications ||= new UINotificationSystem(this);
++    this.essentialNotifications ||= new UINotificationSystem(
++      this,
++      ESSENTIAL_UI_NOTIFICATION_CONFIG,
++    );
+     this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem, this.config.viewportWidth - 123, 20);
+@@ -81,6 +86,7 @@
+     this.uiNotifications?.destroy();
++    this.essentialNotifications?.destroy();
+     this.uiMuteToggle?.destroy();
+@@ -87,6 +93,7 @@
+     this.uiNotifications = null;
++    this.essentialNotifications = null;
+     this.uiMuteToggle = null;
+@@ -1275,6 +1282,7 @@
+   prototype.resize = function() {
+     this.uiNotifications?.resize?.();
++    this.essentialNotifications?.resize?.();
+     this.xpProgressBar?.resize?.();
+diff --git a/ui/scenes/CaveScene.js b/ui/scenes/CaveScene.js
+--- a/ui/scenes/CaveScene.js
++++ b/ui/scenes/CaveScene.js
+@@ -11,6 +11,7 @@
+ import { ASSET_KEYS } from "../../values/assetKeys.js";
++import { ESSENTIAL_UI_NOTIFICATION_CONFIG } from "../../values/uiNotificationCarousel.js";
+ import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
+@@ -57,6 +58,7 @@
+     this.uiNotifications = null;
++    this.essentialNotifications = null;
+     this.isLeaving = false;
+@@ -158,6 +160,10 @@
+     this.uiNotifications = new UINotificationSystem(this);
++    this.essentialNotifications = new UINotificationSystem(
++      this,
++      ESSENTIAL_UI_NOTIFICATION_CONFIG,
++    );
+     this.hudSystem = { flashStatus: (message, color, duration) => this.flashStatus(message, color, duration) };
+@@ -170,7 +176,10 @@
+-    if (this.uiNotifications?.handleInput?.()) {
++    if (
++      this.essentialNotifications?.handleInput?.()
++      || this.uiNotifications?.handleInput?.()
++    ) {
+       this._updateGpText();
+@@ -269,6 +278,8 @@
+     this.uiNotifications?.destroy();
+     this.uiNotifications = null;
++    this.essentialNotifications?.destroy();
++    this.essentialNotifications = null;
+     this.presentation?.destroy();

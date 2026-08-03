@@ -137,7 +137,9 @@ assert.match(reviewSource, /catalog\.pointCount !== 500/);
 
 const forbiddenToken = "playerAnimationOptimization500Review";
 for (const productionDirectory of ["player", "systems", "world", "ui", "dynamic-systems"]) {
-  for (const filePath of walk(path.join(ROOT, productionDirectory))) {
+  const productionPath = path.join(ROOT, productionDirectory);
+  if (!fs.existsSync(productionPath)) continue;
+  for (const filePath of walk(productionPath)) {
     if (![".js", ".json", ".ts"].includes(path.extname(filePath))) continue;
     assert.ok(
       !fs.readFileSync(filePath, "utf8").includes(forbiddenToken),

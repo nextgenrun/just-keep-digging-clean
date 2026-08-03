@@ -18,7 +18,6 @@ globalThis.Phaser = {
 const { ApprovedHudSkin, hasApprovedHudSkin } = await import("../systems/visual/ApprovedHudSkin.js");
 const { CaveInteriorOcclusionSystem } = await import("../systems/visual/CaveInteriorOcclusionSystem.js");
 const { CaveTemplateVisualSystem } = await import("../systems/visual/CaveTemplateVisualSystem.js");
-const { ClimbTrailSystem } = await import("../systems/visual/ClimbTrailSystem.js");
 const { DepthMilestoneCinematic } = await import("../systems/visual/DepthMilestoneCinematic.js");
 const { HUDSystem } = await import("../systems/visual/HUDSystem.js");
 const { LootPickupFxSystem } = await import("../systems/visual/LootPickupFxSystem.js");
@@ -177,13 +176,9 @@ class Player extends Actor {
   emit(event) { this._events.get(event)?.(); }
 }
 const trailScene = makeScene(); const trailPlayer = new Player();
-const climbTrail = new ClimbTrailSystem(trailScene, trailPlayer, { spawnEveryFrames: 2, depth: 2, alpha: 0.4, tint: 1, fadeMs: 50 });
-climbTrail.start(); trailPlayer.emit("animationupdate"); trailPlayer.emit("animationupdate");
-assert.equal(trailScene.actors.length, 2);
-climbTrail.stop(); trailPlayer.emit("animationupdate"); assert.equal(trailScene.actors.length, 2); climbTrail.destroy();
 const pickaxeTrail = new PickaxeTrailSystem(trailScene, trailPlayer, { depth: 2, alpha: 0.4, tint: 1, fadeMs: 50 });
 pickaxeTrail.start(); trailPlayer.emit("animationupdate"); pickaxeTrail.stop();
-assert.equal(trailScene.actors.length, 4); pickaxeTrail.destroy();
+assert.equal(trailScene.actors.length, 2); pickaxeTrail.destroy();
 
 // Re-entrant flashes stop the previous tween and teardown destroys the overlay.
 const flashScene = makeScene();

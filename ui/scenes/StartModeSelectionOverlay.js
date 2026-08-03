@@ -5,6 +5,7 @@ import {
 } from "../../values/hardcoreMode.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { createSaveChoiceChrome } from "../components/SaveMenuPresentationView.js";
 
 export class StartModeSelectionOverlay {
   constructor(scene, config = HARDCORE_MODE_CONFIG) {
@@ -100,6 +101,12 @@ export class StartModeSelectionOverlay {
     const modeUi = ui.modeSelector;
     const y = modeUi.choiceCenterY;
     const container = this.scene.add.container(x, y);
+    const frame = this.scene._useAuthoredSaveMenuArt
+      ? createSaveChoiceChrome(this.scene, {
+          width: modeUi.choiceWidth,
+          height: modeUi.choiceHeight,
+        })
+      : null;
     const hit = this.scene.add.rectangle(
       0,
       0,
@@ -133,9 +140,11 @@ export class StartModeSelectionOverlay {
       fontStyle: "bold",
       color: accent,
     }).setOrigin(0.5);
-    container.add([hit, icon, titleText, bodyText, selectedText]);
+    container.add(frame
+      ? [frame.root, hit, icon, titleText, bodyText, selectedText]
+      : [hit, icon, titleText, bodyText, selectedText]);
     this.root.add(container);
-    const choice = { mode, container, hit, icon, titleText, bodyText, selectedText };
+    const choice = { mode, container, frame, hit, icon, titleText, bodyText, selectedText };
     this.choiceObjects.push(choice);
     hit.on("pointerover", () => this._select(mode));
     hit.on("pointerdown", () => {
@@ -214,6 +223,7 @@ export class StartModeSelectionOverlay {
       const selected = choice.mode === this.selectedMode;
       choice.container.setAlpha(selected ? ui.selectedAlpha : ui.idleAlpha);
       choice.container.setScale(selected ? ui.selectedScale : 1);
+      choice.frame?.setSelected(selected);
       choice.selectedText.setVisible(selected);
     }
   }

@@ -6,10 +6,8 @@ import { getConstellationRelicRequirement } from "../../values/ancientRelics.js"
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { SkyStarReleaseView } from "./SkyStarReleaseView.js";
-import {
-  getStarDiscoveryPreloadAssets,
-  STAR_RARITY_PROGRESSION_CONFIG,
-} from "../../values/starRarityProgression.js";
+import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
+import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
 import {
   getSignProgress,
   getStarRarityTier,
@@ -995,6 +993,11 @@ export class FloatingTextSystem {
     const startY = star.y;
     const distance = Math.hypot(targetX - startX, targetY - startY);
     const duration = Phaser.Math.Clamp(distance * 0.035, 2400, 6600) + Math.min(5, rarity) * 260;
+    const startAngle = Number.isFinite(star.angle) ? star.angle : 0;
+    const totalRotationDegrees = (
+      ANIMATION_SMOOTHNESS_CONFIG.skyStar.rotationDegreesPerReferenceFrame
+      + rarity * ANIMATION_SMOOTHNESS_CONFIG.skyStar.rotationDegreesPerRarityPerReferenceFrame
+    ) * (duration / ANIMATION_SMOOTHNESS_CONFIG.referenceFrameMs);
     const rarityColor = this._getSkyRarityConfig(rarity).glowColor || 0x87CEEB;
     const lineColor = CONSTELLATION_LINE_COLORS[entry.resourceType] || rarityColor;
     const controlX = (startX + targetX) / 2 + Phaser.Math.Clamp((targetX - startX) * 0.12, -180, 180) + (Math.random() * 160 - 80);
@@ -1029,7 +1032,7 @@ export class FloatingTextSystem {
             const inv = 1 - t;
             star.x = inv * inv * startX + 2 * inv * t * controlX + t * t * targetX;
             star.y = inv * inv * startY + 2 * inv * t * controlY + t * t * targetY;
-            star.angle += 0.35 + rarity * 0.12;
+            star.angle = startAngle + totalRotationDegrees * t;
 
             const now = this.scene.time?.now || Date.now();
             if (now - lastTrailTime > trailGap) {
@@ -1424,14 +1427,7 @@ export class FloatingTextSystem {
         || progress.level > progress.maxLevel
       ))
       .map(([resourceType]) => resourceType);
-    const manager = this.scene?.runtimeFeatureAssetManager;
-    const groupReady = manager?.enabled
-      ? manager.isReady(RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx)
-      : true;
-    const requiredAssets = [
-      ...getStarIdentityPreloadAssets(),
-      ...(groupReady ? getStarDiscoveryPreloadAssets() : []),
-    ];
+    const requiredAssets = getStarIdentityPreloadAssets();
     const missingTextures = requiredAssets.filter(
       asset => !this.scene?.textures?.exists?.(asset.key),
     ).map(asset => asset.key);
@@ -1439,17 +1435,11 @@ export class FloatingTextSystem {
       ready: configHealth.ready
         && identityHealth.ready
         && invalidProgress.length === 0
-        && missingTextures.length === 0
-        && STAR_RARITY_PROGRESSION_CONFIG.popup.maximumActive >= 0,
+        && missingTextures.length === 0,
       ...configHealth,
       identityHealth,
       invalidProgress,
       missingTextures,
-      activePopupCount: 0,
-      maximumActivePopups: STAR_RARITY_PROGRESSION_CONFIG.popup.maximumActive,
-      starPopupsEnabled: false,
-      popupHoldMs: STAR_RARITY_PROGRESSION_CONFIG.popup.holdMsByRarity[0],
-      popupMinimumIntervalMs: STAR_RARITY_PROGRESSION_CONFIG.popup.minimumIntervalMs,
       rarityCountSlots: this._starRarityCounts?.length || 0,
     };
   }

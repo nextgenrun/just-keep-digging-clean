@@ -83,7 +83,6 @@ const DEFAULT_SETTINGS = Object.freeze({
     showExpeditionSummaries: true,
     showMaterialDiscoveryCards: true,
     showSessionObjective: true,
-    showStarDiscoveryPopups: RETENTION_CONFIG.settings.starPopupsDefaultEnabled,
     notificationPosition: null,
     cameraShakeEnabled: true,
     cameraShakeIntensity: CAMERA_SHAKE_DEFAULT_INTENSITY,
@@ -249,9 +248,6 @@ function sanitizeSettings(input) {
       showExpeditionSummaries: display.showExpeditionSummaries !== false,
       showMaterialDiscoveryCards: display.showMaterialDiscoveryCards !== false,
       showSessionObjective: display.showSessionObjective !== false,
-      showStarDiscoveryPopups: display.showStarDiscoveryPopups === undefined
-        ? defaults.display.showStarDiscoveryPopups
-        : display.showStarDiscoveryPopups !== false,
       notificationPosition: sanitizeNotificationPosition(display.notificationPosition),
       cameraShakeEnabled: display.cameraShakeEnabled !== false,
       cameraShakeIntensity: clampRange(display.cameraShakeIntensity, defaults.cameraShakeIntensity, 0, 1),
@@ -409,9 +405,6 @@ class UserSettingsStore {
     }
     if (Object.prototype.hasOwnProperty.call(partial, "showSessionObjective")) {
       display.showSessionObjective = Boolean(partial.showSessionObjective);
-    }
-    if (Object.prototype.hasOwnProperty.call(partial, "showStarDiscoveryPopups")) {
-      display.showStarDiscoveryPopups = Boolean(partial.showStarDiscoveryPopups);
     }
     if (Object.prototype.hasOwnProperty.call(partial, "notificationPosition")) {
       display.notificationPosition = sanitizeNotificationPosition(partial.notificationPosition);

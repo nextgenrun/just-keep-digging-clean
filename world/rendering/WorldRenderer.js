@@ -6,7 +6,6 @@ import {
   RUBBLE_INDEX_START,
   RUBBLE_TILE_TYPES,
   TILESET_SOURCE_KEYS,
-  TILE_RENDER_INDEX,
 } from "./tileRenderMap.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
@@ -165,7 +164,6 @@ export class WorldRenderer {
     this.config = config;
     this.map = null;
     this.layer = null;
-    this.rootOverlayLayer = null;
     this._streamConfig = WORLD_RENDER_PERFORMANCE.streamWindow;
     this._streamStagingEnabled = resolveTileStreamStagingEnabled(this._streamConfig);
     this._streamHeightTiles = Math.min(this._streamConfig.heightTiles, worldModel.depth);
@@ -211,9 +209,6 @@ export class WorldRenderer {
     this._specialBlockGraphics = this.scene.add.graphics();
     this._specialBlockGraphics.setDepth(0); // Above tiles, below player
 
-    if (this.rootOverlayLayer) {
-      this.rootOverlayLayer.setDepth(1);
-    }
     
     // Create chest glow graphics (golden pulsing light)
     this._chestGlowGfx = this.scene.add.graphics();
@@ -395,32 +390,17 @@ export class WorldRenderer {
     this.layer = this.map.createBlankLayer("world", tileset, 0, 0);
     this.layer.setY(this._streamTopTile * this.config.tileSize);
     this.layer.setCullPadding(3, 3);
-    this.rootOverlayLayer = this.map.createBlankLayer("root-overlays", tileset, 0, 0);
-    this.rootOverlayLayer.setY(this._streamTopTile * this.config.tileSize);
-    this.rootOverlayLayer.setCullPadding(3, 3);
-    this.rootOverlayLayer.setDepth(1);
 
     if (this._streamStagingEnabled) {
       const bufferLayer = this.map.createBlankLayer("world-buffer", tileset, 0, 0);
       bufferLayer.setCullPadding(3, 3).setVisible(false);
-      const bufferRootOverlayLayer = this.map.createBlankLayer(
-        "root-overlays-buffer",
-        tileset,
-        0,
-        0,
-      );
-      bufferRootOverlayLayer
-        .setCullPadding(3, 3)
-        .setDepth(1)
-        .setVisible(false);
-      this._streamBuffer.attach(bufferLayer, bufferRootOverlayLayer);
+      this._streamBuffer.attach(bufferLayer);
     }
   }
 
   paintInitialWorld() {
     this.paintWorldRows(
       this.layer,
-      this.rootOverlayLayer,
       this._streamTopTile,
       0,
       this._streamHeightTiles,
@@ -430,14 +410,12 @@ export class WorldRenderer {
 
   paintWorldRows(
     layer,
-    rootOverlayLayer,
     worldTopTile,
     localStartRow,
     rowCount,
     applyCollision,
   ) {
     const row = new Array(this.worldModel.width);
-    const rootRow = new Array(this.worldModel.width);
     const finalLocalRow = Math.min(
       this._streamHeightTiles,
       localStartRow + rowCount,
@@ -447,11 +425,9 @@ export class WorldRenderer {
       const ty = worldTopTile + localTy;
       for (let tx = 0; tx < this.worldModel.width; tx += 1) {
         row[tx] = this.worldModel.getRenderIndex(tx, ty);
-        rootRow[tx] = this.getRootOverlayRenderIndex(tx, ty);
       }
 
       layer.putTilesAt(row, 0, localTy);
-      rootOverlayLayer?.putTilesAt(rootRow, 0, localTy);
       if (applyCollision) this.applyRowCollision(layer, row, localTy);
     }
   }
@@ -491,7 +467,6 @@ export class WorldRenderer {
     this._streamTopTile = nextTop;
     const worldY = nextTop * this.config.tileSize;
     this.layer.setY(worldY);
-    this.rootOverlayLayer?.setY(worldY);
     this.paintInitialWorld();
     this.layer.setCollisionByExclusion(
       this._streamConfig.excludedCollisionIndices,
@@ -509,52 +484,6 @@ export class WorldRenderer {
     return localTy >= 0 && localTy < this._streamHeightTiles ? localTy : null;
   }
 
-  getRootOverlayRenderIndex(tx, ty) {
-    const overlayType = this.worldModel.getRootOverlayType(tx, ty);
-    if (overlayType === 0 || this.worldModel.getTileType(tx, ty) === TILE_TYPES.AIR) {
-      return -1;
-    }
-    if (overlayType === TILE_TYPES.ROOT_OVERLAY) {
-      return TILE_RENDER_INDEX.ROOT_OVERLAY;
-    }
-    if (overlayType === TILE_TYPES.ROOT_OVERLAY_DEEP) {
-      return TILE_RENDER_INDEX.ROOT_OVERLAY_DEEP;
-    }
-    return -1;
-  }
-
-  applyRootOverlayUpdate(tx, ty) {
-    this.applyRootOverlayUpdateToLayer(
-      this.rootOverlayLayer,
-      this._streamTopTile,
-      tx,
-      ty,
-    );
-    const pendingWindow = this._streamBuffer.getPendingWindow();
-    if (pendingWindow?.rootOverlayLayer) {
-      this.applyRootOverlayUpdateToLayer(
-        pendingWindow.rootOverlayLayer,
-        pendingWindow.targetTop,
-        tx,
-        ty,
-      );
-    }
-  }
-
-  applyRootOverlayUpdateToLayer(layer, worldTopTile, tx, ty) {
-    if (!layer) return;
-    const localTy = this._toLocalTileYForTop(ty, worldTopTile);
-    if (localTy === null) return;
-    const renderIndex = this.getRootOverlayRenderIndex(tx, ty);
-    if (renderIndex === -1) {
-      layer.removeTileAt(tx, localTy, true, true);
-      return;
-    }
-    const existing = layer.getTileAt(tx, localTy, false);
-    if (!existing || existing.index !== renderIndex) {
-      layer.putTileAt(renderIndex, tx, localTy, true);
-    }
-  }
 
   applyTileUpdate(tx, ty) {
     this.scene.levelOneGroundFacadeSystem?.invalidateCell(tx, ty);
@@ -562,7 +491,6 @@ export class WorldRenderer {
     this.titanDiscoverySystem?.invalidateTile(tx, ty);
     this.applyTileUpdateToWindow(
       this.layer,
-      this.rootOverlayLayer,
       this._streamTopTile,
       tx,
       ty,
@@ -571,7 +499,6 @@ export class WorldRenderer {
     if (pendingWindow) {
       this.applyTileUpdateToWindow(
         pendingWindow.layer,
-        pendingWindow.rootOverlayLayer,
         pendingWindow.targetTop,
         tx,
         ty,
@@ -579,7 +506,7 @@ export class WorldRenderer {
     }
   }
 
-  applyTileUpdateToWindow(layer, rootOverlayLayer, worldTopTile, tx, ty) {
+  applyTileUpdateToWindow(layer, worldTopTile, tx, ty) {
     const localTy = this._toLocalTileYForTop(ty, worldTopTile);
     if (localTy === null) return;
     const renderIndex = this.worldModel.getRenderIndex(tx, ty);
@@ -588,13 +515,11 @@ export class WorldRenderer {
       if (layer.getTileAt(tx, localTy, false)) {
         layer.removeTileAt(tx, localTy, true, true);
       }
-      this.applyRootOverlayUpdateToLayer(rootOverlayLayer, worldTopTile, tx, ty);
       return;
     }
 
     const existing = layer.getTileAt(tx, localTy, false);
     if (existing && existing.index === renderIndex) {
-      this.applyRootOverlayUpdateToLayer(rootOverlayLayer, worldTopTile, tx, ty);
       return;
     }
 
@@ -602,7 +527,6 @@ export class WorldRenderer {
     if (tile) {
       tile.setCollision(true, true, true, true);
     }
-    this.applyRootOverlayUpdateToLayer(rootOverlayLayer, worldTopTile, tx, ty);
   }
 
   /**
@@ -624,7 +548,6 @@ export class WorldRenderer {
     this._streamBuffer.cancel();
     this.paintWorldRows(
       this.layer,
-      this.rootOverlayLayer,
       this._streamTopTile,
       0,
       this._streamHeightTiles,
@@ -1029,15 +952,6 @@ export class WorldRenderer {
     }
   }
 
-  /**
-   * Root overlays are now rendered by a dedicated tilemap layer using
-   * transparent PNG atlas sprites. This method remains as the update hook
-   * expected by PlaySceneUpdate, but no longer draws Phaser Graphics.
-   */
-  updateRootOverlays(playerTile, viewRange = 20) {
-    if (!this.rootOverlayLayer || !playerTile) return;
-    this.rootOverlayLayer.setDepth(1);
-  }
 
   /**
    * Update special block glow effects
@@ -1067,7 +981,6 @@ export class WorldRenderer {
     this.titanDiscoverySystem = null;
     this._skyTileGraphics?.destroy();
     this._specialBlockGraphics?.destroy();
-    this.rootOverlayLayer?.destroy();
     this._streamBuffer.destroy();
     this._chestGlowGfx?.destroy();
     this._glowCrystalGfx?.destroy();

@@ -64,11 +64,11 @@ assert.equal(profile.playerBodyWidthPx, 31);
 assert.equal(profile.playerBodyHeightPx, 75);
 assert.equal(ANIMATION_SANDBOX_HITBOX_CONFIG.survivalMiner.width, 31);
 assert.equal(ANIMATION_SANDBOX_HITBOX_CONFIG.survivalMiner.height, 75);
-assert.equal(profile.sheetFiles.length, 19);
-assert.equal(new Set(profile.requiredSheets).size, 19);
+assert.equal(profile.sheetFiles.length, 18);
+assert.equal(new Set(profile.requiredSheets).size, 18);
 assert.equal(profile.sourceClips.walk, "Jog_Fwd_Loop");
 assert.equal(profile.walkFrames.length, 28);
-assert.equal(manifestFrameTotal, 987);
+assert.equal(manifestFrameTotal, 967);
 assert.deepEqual(profile.walkStartFrames, [3, 4, 5]);
 assert.deepEqual(profile.walkStopFrames, [5, 4, 3]);
 assert.deepEqual(profile.footstepFrameIndices[profile.walkLoopAnim], [13, 27]);
@@ -108,7 +108,7 @@ assert.equal(profile.requiredSheets.includes("ual-native-v1-thunder-strike-sheet
 assert.equal(profile.requiredSheets.includes("ual-native-v1-fly-hover-sheet"), false);
 assert.deepEqual(activeSourceClips, new Set([
   "Idle_Loop", "Idle_Talking_Loop", "Jog_Fwd_Loop", "Jump_Start", "Jump_Loop",
-  "Crouch_Idle_Loop", "Shield_Dash", "ClimbUp_1m", "Punch_Jab",
+  "Crouch_Idle_Loop", "Shield_Dash", "Punch_Jab",
   "Punch_Cross", "Melee_Hook", "Melee_Hook_Rec", "OverhandThrow",
   "Jump_Land", "Push_Loop", "Roll", "Spell_Simple_Idle_Loop",
   "Hit_Chest", "Death01",
@@ -141,7 +141,7 @@ const loaderScene = {
 };
 
 assert.equal(queuePlayerProfileSheets(loaderScene, profile), true);
-assert.equal(queuedSheets.length, 19);
+assert.equal(queuedSheets.length, 18);
 assert.deepEqual(queuedManifests, [{
   key: profile.rigManifestKey,
   url: `${profile.basePath}/${profile.rigManifestFile}?v=${profile.version}`,
@@ -183,9 +183,7 @@ const requiredAnimationKeys = [
   profile.walkStopAnim,
   profile.airborneAnim,
   profile.fallingAnim,
-  profile.climbAnim,
   profile.flyAnim,
-  profile.flyClimbAnim,
   profile.flightEnterAnim,
   profile.flightTravelEnterAnim,
   profile.flightTravelLoopAnim,
@@ -247,9 +245,7 @@ assert.deepEqual(profile.rejectedAnimationKeys, ["ual-native-v1-dig-side-jab-ani
 assert.deepEqual(profile.thunderStrikeChargeFrames, range(30));
 assert.deepEqual(profile.thunderStrikeStrikeFrames, range(34).map((frame) => frame + 7));
 assert.equal(profile.flySourceFrames.length, 14);
-assert.equal(profile.flyClimbFrames.length, 14);
 assert.equal(profile.flightHoverFrames.length, 14);
-assert.deepEqual(profile.flightHoverFrames, profile.flyClimbFrames);
 assert.equal(profile.landingFrames.length, 14);
 assert.equal(profile.landingFrames.at(-1), 38);
 assert.deepEqual(profile.landingSourceFrames, range(39));
@@ -488,7 +484,7 @@ assert.ok(
   Math.abs(runVisibleHeight - idleVisibleHeight) < 1,
   `run/idle presentation mismatch is ${Math.abs(runVisibleHeight - idleVisibleHeight).toFixed(2)}px`,
 );
-assert.equal(Object.keys(runtimeManifest.actions).length, 23);
+assert.equal(Object.keys(runtimeManifest.actions).length, 22);
 assert.ok(Number.isSafeInteger(manifestFrameTotal) && manifestFrameTotal > 0);
 for (const [action, metadata] of Object.entries(runtimeManifest.actions)) {
   assert.equal(metadata.fps, 30, `${action} lost native cadence`);

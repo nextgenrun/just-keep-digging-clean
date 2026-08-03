@@ -275,9 +275,9 @@ export class WorldVisualDepthBackdropRegionView {
 
   _resolveRenderableSegmentAsset(requestedAsset) {
     if (this._isAssetReady(requestedAsset)) return requestedAsset;
+    if (this._isAssetReady(this.fallbackAsset)) return this.fallbackAsset;
     const readyRegionalAsset = this.backwalls.find(asset => this._isAssetReady(asset));
-    if (readyRegionalAsset) return readyRegionalAsset;
-    return this._isAssetReady(this.fallbackAsset) ? this.fallbackAsset : null;
+    return readyRegionalAsset || null;
   }
 
   _isAssetReady(asset) {

@@ -1,7 +1,6 @@
 import { createButton, createTabBar } from "../PhaserUiKit.js";
 import { createModalShell } from "../UiModalShell.js";
 import { INVENTORY_RESOURCE_GUIDE } from "../../values/inventoryResourceGuide.js";
-import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
   UI_INVENTORY_COPY,
@@ -11,7 +10,6 @@ import {
 import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
 import { renderInventoryHoldingsView } from "./UIInventoryHoldingsView.js";
 import { renderInventoryResourceGuide } from "./UIInventoryResourceGuide.js";
-import { renderInventoryStarAtlas } from "./UIInventoryStarAtlas.js";
 
 export class UIInventoryPopup {
   constructor(scene) {
@@ -27,8 +25,6 @@ export class UIInventoryPopup {
     this.returnButton = null;
     this.activeTab = 0;
     this.selectedGuideResource = INVENTORY_RESOURCE_GUIDE.resourceKeys[0];
-    this.selectedStarRarity = 0;
-    this.selectedStarIdentity = 0;
     Object.keys(UI_RESOURCE_PRESENTATION).forEach(key => {
       this.items[key] = 0;
     });
@@ -109,14 +105,9 @@ export class UIInventoryPopup {
     this.summaryText = null;
     const fullRect = this.shell.getContentRect();
     const guide = INVENTORY_RESOURCE_GUIDE;
-    const starAtlas = STAR_IDENTITY_LIBRARY_CONFIG.inventory;
-    const showStarAtlas = this.scene.systemIntroductionSystem?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
-    if (!showStarAtlas && this.activeTab === 2) this.activeTab = 0;
     const subtitle = this.activeTab === 1
       ? guide.copy.guideSubtitle
-      : this.activeTab === 2
-        ? starAtlas.copy.subtitle
-        : UI_INVENTORY_COPY.subtitle;
+      : UI_INVENTORY_COPY.subtitle;
     this.shell.setHeader(
       UI_INVENTORY_COPY.title,
       subtitle
@@ -127,7 +118,6 @@ export class UIInventoryPopup {
       tabs: [
         { label: guide.copy.inventoryTab, icon: "inventory" },
         { label: guide.copy.guideTab, icon: "stone" },
-        ...(showStarAtlas ? [{ label: starAtlas.copy.tabLabel, icon: "gem" }] : []),
       ],
       activeIndex: this.activeTab,
       spacing: guide.layout.tabSpacing,
@@ -170,26 +160,6 @@ export class UIInventoryPopup {
           this._render();
         }
       );
-    } else {
-      const state = renderInventoryStarAtlas(
-        this.scene,
-        this.shell,
-        bodyRect,
-        this.selectedStarRarity,
-        this.selectedStarIdentity,
-        rarityIndex => {
-          this.selectedStarRarity = rarityIndex;
-          this.selectedStarIdentity = STAR_IDENTITY_LIBRARY_CONFIG.identities
-            .find(identity => identity.rarityIndex === rarityIndex)?.index || 0;
-          this._render();
-        },
-        identityIndex => {
-          this.selectedStarIdentity = identityIndex;
-          this._render();
-        },
-      );
-      this.selectedStarRarity = state.rarityIndex;
-      this.selectedStarIdentity = state.identityIndex;
     }
 
     this.returnButton = createButton(this.scene, {

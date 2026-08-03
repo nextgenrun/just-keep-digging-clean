@@ -443,9 +443,6 @@ export class WorldVisualRuntime {
     return this.gameplayEffectLayer?.updateGlowCrystals(playerTile, viewRange) || false;
   }
 
-  updateRootOverlays() {
-    return this.gameplayEffectLayer?.updateRootOverlays() || false;
-  }
 
   updateSpecialBlockGlow() {
     return this.gameplayEffectLayer?.updateSpecialBlockGlow() || false;

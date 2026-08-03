@@ -2,6 +2,7 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { RESOURCE_COLOR_INTS, RESOURCE_ORE_COLOR_INTS } from "../../values/resourceTypes.js";
+import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
 
 function isLootVisualsEnabled(scene) {
   const config = scene?.config || GAME_CONFIG;
@@ -82,6 +83,11 @@ export class LootPickupFxSystem {
     const controlX = (startX + target.x) / 2 + (Math.random() - 0.5) * 80;
     const controlY = Math.min(startY, target.y) - curveLift;
     const duration = 420 + Math.random() * 100;
+    const startRotation = Number.isFinite(sprite.rotation) ? sprite.rotation : 0;
+    const totalRotationRadians = (
+      ANIMATION_SMOOTHNESS_CONFIG.lootPickup.rotationRadiansPerReferenceFrame
+      * (duration / ANIMATION_SMOOTHNESS_CONFIG.referenceFrameMs)
+    );
     const state = { t: 0 };
 
     this.scene.tweens.add({
@@ -98,7 +104,7 @@ export class LootPickupFxSystem {
         sprite.alpha = 1 - Math.max(0, t - 0.82) / 0.18;
         const scale = 1.05 - t * 0.38;
         sprite.setScale(scale);
-        sprite.rotation += 0.045;
+        sprite.rotation = startRotation + totalRotationRadians * t;
       },
       onComplete: () => {
         this._arrivalBurst(target.x, target.y, resourceType, isLuckyDrop, isSkyTileBonus);

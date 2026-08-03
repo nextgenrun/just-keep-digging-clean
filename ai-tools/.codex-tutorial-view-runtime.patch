@@ -1,0 +1,62 @@
+diff --git a/systems/onboarding/TownSquareTutorialView.js b/systems/onboarding/TownSquareTutorialView.js
+--- a/systems/onboarding/TownSquareTutorialView.js
++++ b/systems/onboarding/TownSquareTutorialView.js
+@@ -1,5 +1,10 @@
+ import { ASSET_KEYS } from "../../values/assetKeys.js";
++import { FIRST_FIVE_MINUTES_CONFIG } from "../../values/firstFiveMinutes.js";
+ import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+ 
++function formatMessage(copy) {
++  return [copy?.title, copy?.body].filter(Boolean).join("  •  ");
++}
++
+ export class TownSquareTutorialView {
+@@ -6,6 +11,7 @@
+     this.scene = scene;
+     this.config = RETENTION_CONFIG.tutorial.ui;
++    this.flightConfig = FIRST_FIVE_MINUTES_CONFIG.flightReminders;
+     this.marker = null;
+@@ -35,10 +41,44 @@
+   clearMarker() {
+     if (this.marker) this.marker.setVisible(false);
+   }
+ 
++  showFlightUnlock(copy) {
++    const notifications = this.scene?.essentialNotifications
++      || this.scene?.uiNotifications;
++    this.closeFlightNotifications();
++    notifications?.success?.(formatMessage(copy), {
++      key: this.flightConfig.notificationKeys.unlock,
++      title: copy?.phase || "FLIGHT UNLOCKED",
++      noDedupe: true,
++      bypassPacing: true,
++      priority: 8,
++    });
++  }
++
++  showFlightReminder(copy, reminderNumber) {
++    const notifications = this.scene?.essentialNotifications
++      || this.scene?.uiNotifications;
++    this.closeFlightNotifications();
++    notifications?.info?.(formatMessage(copy), {
++      key: this.flightConfig.notificationKeys.reminder,
++      title: `${copy?.phase || "FLIGHT REMINDER"}  ${reminderNumber} / ${this.flightConfig.count}`,
++      noDedupe: true,
++      bypassPacing: true,
++      priority: 7,
++    });
++  }
++
++  closeFlightNotifications() {
++    const notifications = this.scene?.essentialNotifications
++      || this.scene?.uiNotifications;
++    Object.values(this.flightConfig.notificationKeys).forEach(key => {
++      notifications?.closeByKey?.(key);
++    });
++  }
++
+   resize() {}
+ 
+   destroy() {
++    this.closeFlightNotifications();
+     this.scene?.tweens?.killTweensOf?.(this.marker);

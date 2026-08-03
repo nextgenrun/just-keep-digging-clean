@@ -10,7 +10,6 @@ function resetTilePresentationMetadata(worldModel, tileX, tileY) {
   const index = worldModel.index(tileX, tileY);
   if (worldModel.skyTileOriginalType) worldModel.skyTileOriginalType[index] = 0;
   if (worldModel.skyTileRarity) worldModel.skyTileRarity[index] = 0;
-  if (worldModel.rootOverlay) worldModel.rootOverlay[index] = 0;
 }
 
 function resolveSurfaceFloorType(worldModel, tileX, surfaceRow, levelTwoLeftTile) {

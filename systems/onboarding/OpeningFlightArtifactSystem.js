@@ -64,51 +64,6 @@ export class OpeningFlightArtifactSystem {
     return this.runtime?.isArtifactCollected() === true;
   }
 
-  handleStarterLevelUp(result) {
-    if (!this.enabled) return false;
-    if (this.state?.artifactCollected || result?.levelUp !== true) return false;
-    const level = Number.isFinite(result.newLevel)
-      ? result.newLevel
-      : this.scene.playerLevelSystem?.level;
-    if (result?.hasChoice === true) {
-      if (!this.goldenEnabled) return false;
-      const claimed = this.scene.playerLevelSystem
-        ?.applyChoiceReward?.("miningPower");
-      if (!claimed) return false;
-      this.scene.uiNotifications?.success(
-        this.config.copy.starterChoiceLevelUp.replace(
-          "{level}",
-          String(level),
-        ),
-        {
-          durationMs: this.config.starterLevelUpToastDurationMs
-            + this.config.starterChoiceToastExtraDurationMs,
-        },
-      );
-      this._syncStarterLevelProgression();
-      this.scene.queueDugTilesSave?.();
-      return true;
-    }
-    this.scene.uiNotifications?.success(
-      this.config.copy.starterLevelUp.replace("{level}", String(level)),
-      { durationMs: this.config.starterLevelUpToastDurationMs },
-    );
-    this._syncStarterLevelProgression();
-    this.scene.queueDugTilesSave?.();
-    return true;
-  }
-
-  _syncStarterLevelProgression() {
-    const levelBonus = this.scene.playerLevelSystem
-      ?.getGemPowerMaxBonus?.() ?? 0;
-    const milestoneBonus = this.scene.milestoneBoardSystem
-      ?.getBonuses?.()?.gpMaxBonus ?? 0;
-    this.scene.playerController?.setProgressionGemPowerMaxBonus?.(
-      levelBonus + milestoneBonus,
-    );
-    this.scene.playerController?.abilities?.fillGemPower?.();
-  }
-
   getSaveData() {
     if (this.enabled) return this.runtime?.getSaveData() || null;
     return {

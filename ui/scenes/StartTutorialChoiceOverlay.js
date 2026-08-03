@@ -5,7 +5,7 @@ import {
 } from "../../values/retentionConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import { createButton } from "../PhaserUiKit.js";
+import { createSaveMenuButton } from "../components/SaveMenuPresentationView.js";
 
 export class StartTutorialChoiceOverlay {
   constructor(scene) {
@@ -89,7 +89,7 @@ export class StartTutorialChoiceOverlay {
 
   _addButton(choice, x, label, accent) {
     const ui = this.config.ui;
-    const button = createButton(this.scene, {
+    const button = createSaveMenuButton(this.scene, {
       x,
       y: ui.choiceButtonYPx,
       width: ui.choiceButtonWidthPx,

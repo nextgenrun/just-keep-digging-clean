@@ -77,7 +77,6 @@ function closeTransientUi(scene) {
   const wasPaused = scene.gameState === "paused";
   scene.shopOverlay?.hide?.();
   scene.uiInventoryPopup?.close?.();
-  scene.levelUpPopup?.hide?.();
   scene.openingFlightArtifactSystem?.view?.hideHud?.();
   scene.campfireSystem?._closeBuffSelection?.();
   scene.milestoneBoardSystem?._closeBoardView?.();
@@ -181,8 +180,8 @@ function getState(scene) {
     shopMerchant: scene.shopOverlay?.currentMerchant || null,
     shopMode: scene.shopOverlay?.moneyMonsterMode || null,
     inventoryOpen: Boolean(scene.uiInventoryPopup?.isOpen),
-    levelUpVisible: Boolean(scene.levelUpPopup?.visible),
-    levelUpPendingChoice: Boolean(scene.levelUpPopup?.pendingChoice),
+    level: scene.playerLevelSystem?.level || 1,
+    levelUpBlocking: false,
     campfireOpen: Boolean(scene.campfireSystem?.isSelecting?.()),
     milestoneOpen: Boolean(scene.milestoneBoardSystem?._isBoardOpen),
     starChartOpen: Boolean(scene._pillarViewActive || scene.starPillarSystem?._isViewOpen),
@@ -191,7 +190,7 @@ function getState(scene) {
     caveHazards: scene.caveHazardSystem?.getSnapshot?.() || null,
     depthGateOpen: Boolean(scene.depthGateSystem?.isOpen?.()),
     depthGateThreshold: scene.depthGateSystem?.activeGate?.threshold || null,
-    dialogVisible: Boolean(scene.overlayManager?.overlayBackdrop?.visible),
+    dialogVisible: Boolean(scene.overlayManager?.shell?.root?.visible),
     fullscreen: {
       isFullscreen: Boolean(window.__isGameFullscreen?.()),
       hasToggle: typeof window.__toggleGameFullscreen === "function",
@@ -243,10 +242,12 @@ function openSurface(scene, surface, options = {}) {
       scene.uiInventoryPopup?.open?.();
       break;
     case "levelChoice":
-      scene.levelUpPopup?.show?.(2, true, ["miningPower", "resourceLuck"]);
-      break;
     case "levelContinue":
-      scene.levelUpPopup?.show?.(3, false, [{ type: "milestone", reward: { description: "E2E milestone reward" } }]);
+      scene.hudSystem?.flashStatus?.(
+        "LEVEL UPS ARE AUTOMATIC AND NONBLOCKING",
+        "#76f4ff",
+        1600,
+      );
       break;
     case "campfire":
       scene.campfireSystem?._openBuffSelection?.();

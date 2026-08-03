@@ -1,6 +1,8 @@
 # Screen recordings
 
-`serve.py` writes F9 game-canvas recordings here as timestamped `.webm` files.
+In the development environment, `serve.py` writes F9 game-canvas recordings
+here as timestamped `.webm` files. Production does not register the F9 action,
+construct the recorder, or expose it in Settings.
 When recording is idle, F9 asks for `SHORT` or `BROAD`:
 
 - `SHORT` records a clean 720x1280 portrait crop with screen-space game UI hidden.

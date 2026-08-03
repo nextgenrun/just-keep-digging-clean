@@ -86,7 +86,7 @@ PlayScene (game runs here, MenuAudioScene stopped)
 |----------|-----------|---------|
 | Mining | `/systems/mining/` | DigSystem, TileCollisionSystem, SpecialTileSystem, SpecialBlockEffectsManager |
 | Progression | `/systems/progression/` | PlayerLevelSystem, UpgradeSystem, DepthGateSystem |
-| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, GraveborerWurmVisualSystem, GraveborerWurmHudSystem, HardcoreMemorialWorldSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
+| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, GraveborerWurmVisualSystem, GraveborerWurmHudSystem, HardcoreMemorialWorldSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, StarPillarSystem, MilestoneBoardSystem |
 | Audio | `/systems/audio/` | SoundSystem, SoundLibraryManager, VoiceLineManager |
 | Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, GraveborerWurmSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
 | Hardcore | `/systems/hardcore/` | HardcoreModeSystem, HardcoreMemorialStore, hardcoreMemorialRecord |

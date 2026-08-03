@@ -1,0 +1,45 @@
+diff --git a/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs b/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
+--- a/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
++++ b/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
+@@ -46,4 +46,4 @@
+-const optionalUpgrade = new UpgradeSystem(null, null, { firstFiveEnabled: true });
+-optionalUpgrade.addMoney(UPGRADES.agility.baseCost);
+-assert.equal(optionalUpgrade.purchaseUpgrade("agility").success, true);
+-assert.equal(optionalUpgrade.getUpgradeLevel("agility"), 1);
++const tutorialUpgrade = new UpgradeSystem(null, null, { firstFiveEnabled: true });
++tutorialUpgrade.addMoney(1 + RETENTION_CONFIG.tutorial.upgradeFunding.money);
++assert.equal(tutorialUpgrade.purchaseUpgrade(FIRST_FIVE_STARTER_UPGRADE_ID).success, true);
++assert.equal(tutorialUpgrade.getUpgradeLevel(FIRST_FIVE_STARTER_UPGRADE_ID), 1);
+@@ -51,11 +51,19 @@
+ const retention = new RetentionProgressSystem();
+ retention.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES);
+ retention.recordTutorialMovement(2);
+ retention.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+-retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
++retention.recordSale(1, 1);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), { money: 2 });
++retention.recordUpgrade("Strength", { upgradeId: "strength" });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++retention.recordUpgrade(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name, {
++  upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
++});
+ assert.equal(
+   retention.getTutorialState().stage,
+   TOWN_TUTORIAL_STAGES.FLIGHT,
+-  "buying any upgrade is optional and must not drive tutorial progression",
++  "the real Agility purchase must be the Flight unlock boundary",
+ );
+@@ -63,7 +71,7 @@
+ const tutorialSource = read("systems/onboarding/TownSquareTutorialSystem.js");
+ const bridgeSource = read("systems/onboarding/FirstFiveMinutesTutorialBridge.js");
+-assert.doesNotMatch(tutorialSource, /Agility Training|addMoney|setResources/);
+-assert.doesNotMatch(bridgeSource, /FIRST_FIVE_STARTER_UPGRADE_ID|claimTutorialUpgradeFunding/);
++assert.match(bridgeSource, /FIRST_FIVE_STARTER_UPGRADE_ID/);
++assert.match(bridgeSource, /claimTutorialUpgradeFunding/);
+ assert.match(tutorialSource, /claimTutorialFlightTraining/);
+ 
+-console.log("first upgrade compatibility contract passed: no forced purchase, legacy effect preserved");
++console.log("first upgrade contract passed: Agility unlocks Flight and legacy Grip is preserved");

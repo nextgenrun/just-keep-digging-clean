@@ -234,7 +234,18 @@ def save_pillow_image(path: Path, image: Image.Image, *args: Any, **kwargs: Any)
 def save_image(path: Path, image: Image.Image) -> None:
     suffix = path.suffix.lower()
     if suffix == ".webp":
-        save_pillow_image(path, image, "WEBP", lossless=True, quality=100, method=6)
+        # Preserve zero RGB beneath fully transparent pixels. Without the exact
+        # flag, libwebp may synthesize hidden color fields that bleed through
+        # Phaser linear texture filtering even though the alpha channel is zero.
+        save_pillow_image(
+            path,
+            image,
+            "WEBP",
+            lossless=True,
+            quality=100,
+            method=6,
+            exact=True,
+        )
     elif suffix == ".png":
         save_pillow_image(path, image, "PNG")
     else:

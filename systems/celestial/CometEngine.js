@@ -4,7 +4,8 @@ import { getPerpendicularDirections } from "./CelestialActivationBudget.js";
 export class CometEngine {
   constructor(options) {
     Object.assign(this, options);
-    this.definition = CELESTIAL_ENGINE_CONFIG.engines[this.budget.engineId];
+    this.definition = this.definitionOverride
+      || CELESTIAL_ENGINE_CONFIG.engines[this.budget.engineId];
     this.startTile = this.toTile(this.startX, this.startY);
     this.lastProcessedStep = 0;
     this.lastTrailAt = -Infinity;

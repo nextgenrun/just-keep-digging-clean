@@ -108,9 +108,6 @@ assert.deepEqual(
 assert.ok(
   WORLD_VISUAL_GROUND_STRUCTURES.render.depth > WORLD_VISUAL_RUNTIME.render.terrainDepth
 );
-assert.ok(
-  WORLD_VISUAL_GROUND_STRUCTURES.render.depth < WORLD_VISUAL_RUNTIME.render.rootOverlayDepth
-);
 
 for (const entry of manifest.backgrounds) {
   const payload = fs.readFileSync(new URL(entry.runtime, root));

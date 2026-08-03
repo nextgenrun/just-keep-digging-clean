@@ -1,0 +1,26 @@
+diff --git a/systems/progression/RetentionProgressSystem.js b/systems/progression/RetentionProgressSystem.js
+--- a/systems/progression/RetentionProgressSystem.js
++++ b/systems/progression/RetentionProgressSystem.js
+@@ -132,2 +132,11 @@
+-    if (this.data.tutorialFlightTrainingGranted === true) return null;
+-    if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
++    if (
++      this.data.tutorialFlightTrainingGranted === true
++      || this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY
++      || ![
++        TOWN_TUTORIAL_STAGES.FLIGHT,
++        TOWN_TUTORIAL_STAGES.COMPLETE,
++        TOWN_TUTORIAL_STAGES.SKIPPED,
++      ].includes(this.data.tutorialStage)
++    ) {
++      return null;
++    }
+@@ -297,1 +306,1 @@
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
+@@ -338,1 +347,1 @@
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
+@@ -472,1 +481,1 @@
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);

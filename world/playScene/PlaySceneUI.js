@@ -23,7 +23,6 @@ import {
 import { createSettingsPanelContent } from "../../ui/overlays/SettingsPanelContent.js";
 import { createSaveTransferPanelContent } from "../../ui/overlays/SaveTransferPanelContent.js";
 import { createJourneyPanelContent } from "../../ui/overlays/JourneyView.js";
-import { StarlightTalentTreeView } from "../../ui/overlays/StarlightTalentTreeView.js";
 import { TitanArchiveView } from "../../ui/overlays/TitanArchiveView.js";
 import { createPauseFeatureLoadingView } from
   "../../ui/components/PauseFeatureLoadingView.js";
@@ -32,15 +31,28 @@ import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
 import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
 import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
 import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
-import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { CelestialActionBarSystem } from
+  "../../systems/visual/CelestialActionBarSystem.js";
+import { CelestialActionBarInputBridge } from
+  "../../systems/visual/CelestialActionBarInputBridge.js";
+import { CelestialCurrencyHudSystem } from
+  "../../systems/visual/CelestialCurrencyHudSystem.js";
+import {
+  activateCelestialActionBarEntry,
+  getCelestialActionBarAbilityState,
+  getCelestialActionBarMetrics,
+} from "./CelestialActionBarRuntime.js";
+import {
+  applyCelestialOverhaulState,
+  captureCelestialOverhaulState,
+} from "./CelestialOverhaulRuntime.js";
 import {
   isHardcoreMode,
   isHardcoreModeArmed,
 } from "../../values/hardcoreMode.js";
 import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
-import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
 import {
   RUNTIME_FEATURE_ASSET_CONSUMERS,
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
@@ -73,7 +85,44 @@ export function setupUIMethods(prototype) {
     this.uiInventoryPopup = new UIInventoryPopup(this);
     this.shopOverlay = new ShopOverlay(this, this.upgradeSystem, this.soundSystem);
     this.xpProgressBar = new XPProgressBar(this);
-    this.levelUpPopup = new LevelUpPopup(this);
+    this.celestialCurrencyHudSystem = new CelestialCurrencyHudSystem(this, {
+      getMoney: () => this.upgradeSystem?.getMoney?.() || 0,
+      getStars: () => (
+        this.celestialTalentProgressionSystem?.getSnapshot?.()?.stars || 0
+      ),
+    });
+    this.celestialActionBarSystem = new CelestialActionBarSystem(this, {
+      loadoutProvider: {
+        getLoadout: () => this._celestialActionBarOrder,
+        setLoadout: order => {
+          this._celestialActionBarOrder = [...order];
+          this.queueDugTilesSave?.();
+          return true;
+        },
+      },
+      getAbilityState: entryId => (
+        getCelestialActionBarAbilityState(this, entryId)
+      ),
+      getMetrics: () => getCelestialActionBarMetrics(this),
+      onActivate: entryId => activateCelestialActionBarEntry(this, entryId),
+      onBlockedActivate: (_entryId, detail) => {
+        const state = detail?.state;
+        this.hudSystem?.flashStatus?.(
+          state?.unlocked ? state.unavailableReason : state?.unlockCondition,
+          "#AFC4D2",
+          1700,
+        );
+      },
+    });
+    this.celestialActionBarInputBridge = new CelestialActionBarInputBridge(
+      this,
+      this.celestialActionBarSystem,
+      {
+        isEnabled: () => this.gameState === "playing"
+          && !hasEscapeClosableUi(this)
+          && !this.campfireSystem?.isSelecting?.(),
+      },
+    );
   };
 
   prototype.destroySceneUI = function() {
@@ -85,14 +134,18 @@ export function setupUIMethods(prototype) {
     this.uiInventoryPopup?.destroy();
     this.shopOverlay?.destroy();
     this.xpProgressBar?.destroy();
-    this.levelUpPopup?.destroy();
+    this.celestialActionBarInputBridge?.destroy();
+    this.celestialActionBarSystem?.destroy();
+    this.celestialCurrencyHudSystem?.destroy();
 
     this.uiNotifications = null;
     this.uiMuteToggle = null;
     this.uiInventoryPopup = null;
     this.shopOverlay = null;
     this.xpProgressBar = null;
-    this.levelUpPopup = null;
+    this.celestialActionBarInputBridge = null;
+    this.celestialActionBarSystem = null;
+    this.celestialCurrencyHudSystem = null;
   };
 
   prototype.showOverlay = function(title, body) {
@@ -167,7 +220,7 @@ export function setupUIMethods(prototype) {
     const maxFlyTiles = this.playerController?.abilities?.getMaxFlightHeightTiles?.();
     const fallbackTiles = this.config.safeReturnDepthTiles ?? 3;
     const depthTiles = Number.isFinite(maxFlyTiles) ? Math.floor(maxFlyTiles) : fallbackTiles;
-    return Math.max(2, Math.min(depthTiles, this.config.climbWarningDepthTiles - 1));
+    return Math.max(2, Math.min(depthTiles, this.config.flightWarningDepthTiles - 1));
   };
 
   prototype._refreshSafeReturnLine = function() {
@@ -219,7 +272,6 @@ export function setupUIMethods(prototype) {
       settings: null,
       saveTransfer: null,
       journeyView: null,
-      talentTree: null,
       titanArchive: null,
       activeFeatureGroup: null,
       activeFeatureConsumer: null,
@@ -234,8 +286,7 @@ export function setupUIMethods(prototype) {
       { key: "general", label: "GENERAL", icon: "journal" },
       { key: "saves", label: "SAVES", icon: "journal" },
       ...(systemFeatureAvailable("journey") ? [{ key: "journey", label: JOURNEY_CONFIG.copy.tabLabel, icon: "stats" }] : []),
-      ...(systemFeatureAvailable("constellations") ? [{ key: "talents", label: "TALENTS", icon: "constellation" }] : []),
-      ...(resolveTitanDiscoveriesEnabled() && systemFeatureAvailable("titans")
+      ...(resolveTitanDiscoveriesEnabled()
         ? [{ key: "titans", label: "TITANS", icon: "journal" }]
         : []),
       { key: "settings", label: "SETTINGS", icon: "settings" },
@@ -243,7 +294,9 @@ export function setupUIMethods(prototype) {
     state.tabKeys = pauseTabs.map(tab => tab.key);
     const requestedTabKey = options.initialTabKey === "stats"
       ? "journey"
-      : options.initialTabKey;
+      : options.initialTabKey === "talents"
+        ? "titans"
+        : options.initialTabKey;
     const requestedInitialTab = pauseTabs.findIndex(
       tab => tab.key === requestedTabKey,
     );
@@ -251,20 +304,11 @@ export function setupUIMethods(prototype) {
     this._currentPauseTab = initialTabIndex;
     const settingsTabIndex = pauseTabs.findIndex(tab => tab.key === "settings");
     const featureGroupForTab = tabKey => {
-      if (tabKey === "talents") return RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight;
       if (tabKey === "titans") return RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive;
       return null;
     };
-    const featureConsumerForGroup = groupId => (
-      groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight
-        ? RUNTIME_FEATURE_ASSET_CONSUMERS.pauseStarlight
-        : RUNTIME_FEATURE_ASSET_CONSUMERS.pauseTitanArchive
-    );
-    const featureThemeForGroup = groupId => (
-      groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight
-        ? "starlight"
-        : "titanArchive"
-    );
+    const featureConsumerForGroup = () => RUNTIME_FEATURE_ASSET_CONSUMERS.pauseTitanArchive;
+    const featureThemeForGroup = () => "titanArchive";
     const releaseActiveFeature = () => {
       if (!state.activeFeatureGroup) return;
       this.runtimeFeatureAssetManager?.releaseGroup?.(
@@ -295,13 +339,11 @@ export function setupUIMethods(prototype) {
       state.settings?.destroy?.();
       state.saveTransfer?.destroy?.();
       state.journeyView?.destroy?.();
-      state.talentTree?.destroy?.();
       state.titanArchive?.destroy?.();
       state.featureLoadingView?.destroy?.();
       state.settings = null;
       state.saveTransfer = null;
       state.journeyView = null;
-      state.talentTree = null;
       state.titanArchive = null;
       state.featureLoadingView = null;
       state.controls = [];
@@ -309,19 +351,6 @@ export function setupUIMethods(prototype) {
       tabContent.removeAll(true);
     };
 
-    const setTalentImmersive = active => {
-      const visible = !active;
-      state.talentImmersive = Boolean(active);
-      state.tabs?.root?.setVisible?.(visible);
-      state.hint?.root?.setVisible?.(visible);
-      shell.titleText?.setVisible?.(visible);
-      shell.subtitleText?.setVisible?.(visible);
-      shell.icon?.setVisible?.(visible);
-      shell.closeButton?.root?.setVisible?.(visible);
-      shell.skin?.setVisible?.(visible);
-      shell.panel?.setVisible?.(visible && !shell.skin);
-    };
-    state.setTalentImmersive = setTalentImmersive;
 
     const addText = (x, y, value, style = {}, originX = 0, originY = 0) => {
       const text = this.add.text(x, y, value, {
@@ -555,34 +584,6 @@ export function setupUIMethods(prototype) {
       state.controls = [];
     };
 
-    const buildTalents = () => {
-      setTalentImmersive(true);
-      const inset = STARLIGHT_TALENT_TREE_CONFIG.layout.immersiveInsetPx;
-      state.talentTree = new StarlightTalentTreeView(this, {
-        x: -shell.width / 2 + inset,
-        y: -shell.height / 2 + inset,
-        width: shell.width - inset * 2,
-        height: shell.height - inset * 2,
-        parent: tabContent,
-        floatingTextSystem: this.floatingTextSystem,
-        progression: this.starHeartProgressionSystem,
-        abilities: this.playerController?.abilities,
-        mode: "pause",
-        focusResource: options.focusResource,
-        firstRevealResource: options.firstReveal ? options.focusResource : null,
-        onFocus: index => state.focus?.setIndex?.(index),
-        onPauseMenu: () => state.tabs?.setActive?.(0),
-        onEngineAction: () => {
-          this.hudSystem?.flashStatus?.(
-            STARLIGHT_TALENT_TREE_CONFIG.copy.pillarOnly,
-            "#D6A84A",
-            2200,
-          );
-          this.soundSystem?.playUiSelect?.();
-        },
-      });
-      state.controls = state.talentTree.getControls();
-    };
 
     const buildSettings = () => {
       state.settings = createSettingsPanelContent(this, {
@@ -630,7 +631,6 @@ export function setupUIMethods(prototype) {
 
       if (groupId && manager?.enabled && !assetsRetained && !manager.isReady(groupId)) {
         clearContent();
-        setTalentImmersive(false);
         state.activeTab = tabIndex;
         this._currentPauseTab = tabIndex;
         state.tabs?.setActive?.(tabIndex, true);
@@ -695,7 +695,6 @@ export function setupUIMethods(prototype) {
       }
 
       clearContent();
-      setTalentImmersive(false);
       if (groupId && manager?.enabled) {
         if (!assetsRetained) manager.ensureGroup(groupId, { consumer });
         state.activeFeatureGroup = groupId;
@@ -707,14 +706,11 @@ export function setupUIMethods(prototype) {
       if (tabKey === "general") buildGeneral();
       else if (tabKey === "saves") buildSaves();
       else if (tabKey === "journey") buildJourney();
-      else if (tabKey === "talents") buildTalents();
       else if (tabKey === "titans") buildTitans();
       else buildSettings();
       state.focus?.setItems?.(
         state.controls,
-        state.titanArchive?.selectedIndex
-          ?? state.talentTree?.selectedControlIndex
-          ?? 0
+        state.titanArchive?.selectedIndex ?? 0
       );
     };
 
@@ -751,21 +747,9 @@ export function setupUIMethods(prototype) {
       onCancel: () => this.resumeGame(),
       onFocus: index => {
         state.titanArchive?.selectControl?.(index);
-        state.talentTree?.selectControl?.(index);
-      },
-      onVertical: direction => {
-        if (pauseTabs[state.activeTab]?.key !== "talents") return false;
-        const next = state.talentTree?.moveSelection?.(0, direction);
-        if (Number.isFinite(next)) state.focus?.setIndex?.(next);
-        return true;
       },
       onHorizontal: direction => {
         if (state.activeTab === settingsTabIndex) return;
-        if (pauseTabs[state.activeTab]?.key === "talents") {
-          const next = state.talentTree?.moveSelection?.(direction, 0);
-          if (Number.isFinite(next)) state.focus?.setIndex?.(next);
-          return;
-        }
         const next = (
           state.activeTab + direction + pauseTabs.length
         ) % pauseTabs.length;
@@ -788,7 +772,6 @@ export function setupUIMethods(prototype) {
     pause.state?.settings?.destroy?.();
     pause.state?.saveTransfer?.destroy?.();
     pause.state?.journeyView?.destroy?.();
-    pause.state?.talentTree?.destroy?.();
     pause.state?.titanArchive?.destroy?.();
     pause.state?.releaseFeatureAssets?.();
     pause.state?.tabs?.destroy?.();
@@ -880,17 +863,6 @@ export function setupUIMethods(prototype) {
       return true;
     }
 
-    if (this.levelUpPopup?.visible) {
-      if (this.levelUpPopup.pendingChoice) {
-        this.hudSystem?.flashStatus?.("Choose a reward to continue", "#e4ba78", 1400);
-        this.soundSystem?.playUiSelect?.();
-      } else {
-        this.levelUpPopup.clickedChoice = "continue";
-        this.soundSystem?.playUiConfirm?.();
-      }
-      return true;
-    }
-
     if (this.shopOverlay?.isVisible) {
       this.soundSystem?.playUiConfirm?.();
       this.shopOverlay.hide?.();
@@ -976,15 +948,58 @@ export function setupUIMethods(prototype) {
     }
   };
 
-  prototype.returnToMainMenu = async function() {
-    this.hidePauseMenu();
-    this.gameState = "transitioning";
-    this.queueDugTilesSave();
-    const saved = await this.flushDugTilesSave();
-    if (saved === false) {
-      console.warn('[PlayScene] Save failed while returning to the main menu.');
-    }
-    this.scene.start("MainMenuScene");
+  prototype.returnToMainMenu = function() {
+    if (this._returnToMainMenuPromise) return this._returnToMainMenuPromise;
+
+    const operation = (async () => {
+      try {
+        this.hidePauseMenu?.();
+      } catch (error) {
+        console.warn('[PlayScene] Pause cleanup failed while returning to the main menu:', error);
+      }
+      this.gameState = "transitioning";
+
+      let saved = true;
+      try {
+        this.queueDugTilesSave?.();
+        if (typeof this.flushDugTilesSave === "function") {
+          saved = await this.flushDugTilesSave({ scheduled: false, force: true });
+        }
+      } catch (error) {
+        saved = false;
+        console.warn('[PlayScene] Save failed while returning to the main menu:', error);
+      }
+      if (saved === false) {
+        console.warn('[PlayScene] Save failed while returning to the main menu.');
+      }
+
+      if (typeof this.scene?.start !== "function") {
+        console.error('[PlayScene] Main menu transition is unavailable.');
+        return false;
+      }
+      try {
+        this.scene.start("MainMenuScene");
+        return true;
+      } catch (error) {
+        console.error('[PlayScene] Main menu transition failed:', error);
+        return false;
+      }
+    })();
+
+    this._returnToMainMenuPromise = operation;
+    operation.then(
+      succeeded => {
+        if (!succeeded && this._returnToMainMenuPromise === operation) {
+          this._returnToMainMenuPromise = null;
+        }
+      },
+      () => {
+        if (this._returnToMainMenuPromise === operation) {
+          this._returnToMainMenuPromise = null;
+        }
+      },
+    );
+    return operation;
   };
 
   prototype.unstuckPlayer = function() {
@@ -1089,12 +1104,14 @@ export function setupUIMethods(prototype) {
       savedData.starHeartData,
       this.floatingTextSystem?.getUnlockedConstellations?.().length || 0,
     );
+    applyCelestialOverhaulState(this, savedData);
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
 
     // Restore paired teleporter data (sky island teleporter tiles)
     if (savedData.specialTileData && this.specialTileSystem) {
       this.specialTileSystem.loadSaveData(savedData.specialTileData);
     }
+    this.firstSessionPortalSystem?.ensure();
     this.randomEventBridge?.loadSaveData?.(savedData.specialTileData?.randomWorldEvents);
 
     if (this.retentionProgressSystem) {
@@ -1226,6 +1243,7 @@ export function setupUIMethods(prototype) {
       const playerStateData = this.playerController?.getPersistenceData?.();
       const campfireData = this.campfireSystem?.getSaveData?.();
       const journeyData = this.journeySystem?.getSaveData?.();
+      const celestialOverhaulData = captureCelestialOverhaulState(this);
       captureMs = Math.max(0, now() - captureStartedAtMs);
 
       writeStartedAtMs = now();
@@ -1251,6 +1269,7 @@ export function setupUIMethods(prototype) {
         playerStateData,
         campfireData,
         journeyData,
+        celestialOverhaulData,
       );
       writeMs = Math.max(0, now() - writeStartedAtMs);
       if (saveResult === false) saved = false;
@@ -1288,7 +1307,8 @@ export function setupUIMethods(prototype) {
   prototype.resize = function() {
     this.uiNotifications?.resize?.();
     this.xpProgressBar?.resize?.();
-    this.levelUpPopup?.resize?.();
+    this.celestialActionBarSystem?.resize?.();
+    this.celestialCurrencyHudSystem?.resize?.();
     this.uiInventoryPopup?.resize?.();
     this.nextPromiseHudSystem?.resize?.();
     this.randomEventBridge?.resize?.();

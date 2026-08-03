@@ -4,6 +4,7 @@
  * Single source of truth for all input key registration
  */
 import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
+import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { getAabbAdjacentAimCandidates } from "../../player/playerDirectionalTargets.js";
 import { MiningTargetVisualSystem } from "../../systems/visual/MiningTargetVisualSystem.js";
 import { MouseDigInputController } from "./MouseDigInputController.js";
@@ -64,7 +65,7 @@ export class PlayerInputHandler {
     const muteSfx = addBoundKey("muteSfx");
     const mainMenuKey = addBoundKey("mainMenu");
     const fullscreen = addBoundKey("fullscreen");
-    const screenRecord = addBoundKey("screenRecord");
+    const screenRecord = GAME_CONFIG.debugMode ? addBoundKey("screenRecord") : null;
 
     // Prevent browser default behavior for captured keys
     const captureKeys = new Set([

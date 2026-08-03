@@ -256,26 +256,6 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     ]),
   },
 
-  // Root overlays — visual-only decorative overlays on diggable tiles
-  roots: {
-    // Surface roots (0-100m) — frequent
-    shallow: {
-      minDepth: 0,
-      maxDepth: 100,
-      overlayType: 'shallow',  // maps to ROOT_OVERLAY
-      spawnChance: 0.05,       // 5% of eligible tiles
-      caveChance: 0.03,        // 3% in caves
-    },
-    // Deep roots (100m+) — rarer
-    deep: {
-      minDepth: 100,
-      maxDepth: WORLD_DEPTH_CONFIG.levelTwoDepthMeters,
-      overlayType: 'deep',     // maps to ROOT_OVERLAY_DEEP
-      spawnChance: 0.008,      // 0.8% of eligible tiles
-      caveChance: 0.01,        // 1% in caves
-    },
-  },
-
   // Gold spawn
   gold: {
     maxDepth: WORLD_DEPTH_CONFIG.levelTwoDepthMeters,

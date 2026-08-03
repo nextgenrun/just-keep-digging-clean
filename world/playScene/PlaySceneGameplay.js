@@ -5,8 +5,6 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
-import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
-import { resolveAuthoredMineImpactEnabled } from "../../values/gamefeel.js";
 import { LIVING_DRILL_CONFIG } from "../../values/livingDrillConfig.js";
 import { getMaterialFeedback, getMineShakeSignature, GLINT_CONFIG } from "../../values/materialFeedback.js";
 import { ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
@@ -359,7 +357,7 @@ export function setupGameplayMethods(prototype) {
     if (result.success) {
       const material = getMaterialFeedback(tileType);
       if (tileType === TILE_TYPES.SKY_TILE) { this.soundSystem.playStarDig(); }
-      else if (tileType === TILE_TYPES.DIRT || tileType === TILE_TYPES.STONE || tileType === TILE_TYPES.COPPER) {
+      else {
         this.soundSystem.playDig({ rate: material.digRate });
       }
       if (result.destroyed) this.soundSystem.playTileBreak({ rate: material.breakRate, volume: material.breakVolume });
@@ -589,7 +587,7 @@ export function setupGameplayMethods(prototype) {
     const profile = getP(this);
     const aim = this.playerController?.getAimLabel?.() || (this.playerController?.isFacingRight?.() ? "RIGHT" : "LEFT");
     const motionState = this.playerController?.getMotionState?.() || "idle";
-    const isFlyingVisual = this.playerController?.abilities?.isFlying?.() === true || motionState === "airborne" || motionState === "climb";
+    const isFlyingVisual = this.playerController?.abilities?.isFlying?.() === true || motionState === "airborne";
     const targetAnim = isFlyingVisual ? (profile.flyAnim || profile.idleAnim) : profile.idleAnim;
     const targetSheet = isFlyingVisual ? (profile.flySheet || profile.idleSheet) : profile.idleSheet;
     if (this.player.texture?.key !== targetSheet) this.player.setTexture(targetSheet);
@@ -983,11 +981,6 @@ export function setupGameplayMethods(prototype) {
       this.ualLocomotionTransitionSelector?.requestRunResume(wallRunResumeFrame);
     }
 
-    const wasClimbing = this._isClimbing || false;
-    const isClimbingNow = poweredFlight || motionState === "climb";
-    this._isClimbing = isClimbingNow;
-    if (isClimbingNow && !wasClimbing) { this.climbTrailSystem?.start(); }
-    else if (!isClimbingNow && wasClimbing) { this.climbTrailSystem?.stop(); }
 
     if (motionOverride) {
       targetAnim = motionOverride.animationKey;
@@ -1011,7 +1004,7 @@ export function setupGameplayMethods(prototype) {
         : resolvedVerticalVelocity;
       locomotionSelection = this.ualLocomotionTransitionSelector.resolve({
         grounded: this.playerController.isGrounded(),
-        flying: poweredFlight || motionState === "climb",
+        flying: poweredFlight,
         horizontalVelocity,
         verticalVelocity,
         currentAnimationKey: currentAnimKey,
@@ -1042,10 +1035,7 @@ export function setupGameplayMethods(prototype) {
       this._ualFlightTravelVisual = flightTravelVisual;
       targetAnim = flightTravelVisual
         ? (profile.flyAnim || ASSET_KEYS.player.flyAnim)
-        : (profile.flyClimbAnim || profile.climbAnim || ASSET_KEYS.player.climbAnim);
-      flipX = !this.playerController.isFacingRight();
-    } else if (motionState === "climb") {
-      targetAnim = profile.climbAnim || ASSET_KEYS.player.climbAnim;
+        : (profile.flyAnim || ASSET_KEYS.player.flyAnim || profile.idleAnim || ASSET_KEYS.player.idleAnim);
       flipX = !this.playerController.isFacingRight();
     } else if (motionState === "airborne") {
       targetAnim = isFallingDownward(this) ? (profile.fallingAnim || ASSET_KEYS.player.fallingAnim) : (profile.airborneAnim || ASSET_KEYS.player.airborneAnim);
@@ -1098,7 +1088,7 @@ export function setupGameplayMethods(prototype) {
         this._applyWalkAnimationTimeScale(targetAnim, Math.abs(body?.vx || 0));
       } else {
         const body = this.playerController?.physicsBody;
-        const flightActive = poweredFlight || motionState === "climb";
+        const flightActive = poweredFlight;
         const kinematicSpeed = this.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
         this.player.anims.timeScale = flightActive
           ? resolveUalFlightTimeScale(
@@ -1123,18 +1113,12 @@ export function setupGameplayMethods(prototype) {
       } else {
         const body = this.playerController?.physicsBody;
         const kinematicSpeed = this.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
-        const locomotionScale = motionState === "climb"
-          ? this.playerKinematicMotion?.resolveLocomotionTimeScale?.(
-            targetAnim,
-            this.anims.get(targetAnim),
-          )
-          : null;
         this.player.anims.timeScale = poweredFlight
           ? resolveUalFlightTimeScale(
             Number.isFinite(kinematicSpeed) ? kinematicSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
             flightTravelVisual,
           )
-          : (Number.isFinite(locomotionScale) ? locomotionScale : 1.0);
+          : 1.0;
       }
     }
 
@@ -1152,7 +1136,7 @@ export function setupGameplayMethods(prototype) {
       const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()
         ?? body?.vx
         ?? 0;
-      const flightActive = poweredFlight || motionState === "climb";
+      const flightActive = poweredFlight;
       const flight = UAL_NATIVE_ACTION_TUNING.flight;
       const velocitySign = Math.sign(horizontalVelocity) || (flipX ? -1 : 1);
       const hoverRatio = Math.min(1, Math.abs(horizontalVelocity) / flight.referenceSpeedPxPerSec);
@@ -1212,75 +1196,12 @@ export function setupGameplayMethods(prototype) {
 
   prototype._applyDestroyParticles = function(worldX, worldY, tileType) {
     if (!this._gamefeelConfig) return;
-    const cfg = this._gamefeelConfig.particles;
-    const textureKey = EARTHQUAKE_FEEDBACK_CONFIG.assets.impactDebris.key;
-    if (!resolveAuthoredMineImpactEnabled()) return;
-    if (!this.textures?.exists(textureKey)) return;
     const material = getMaterialFeedback(tileType);
-    const color = cfg.tileColors[tileType] || cfg.defaultColor;
-    const tileSize = this.config.tileSize;
-    const impactScale = Math.max(
-      cfg.minMaterialScale,
-      Math.min(
-        cfg.maxMaterialScale,
-        Math.sqrt(
-          (material.particleScale || 1) * (material.particleSizeScale || 1),
-        ),
-      ),
-    );
     if (material.glint) this._applyGlintBurst?.(worldX, worldY, material.glintColor);
-    if (!this._activeParticleChips) this._activeParticleChips = [];
-    const impact = this.add.image(
-      worldX + (Math.random() - 0.5) * tileSize * cfg.randomOffsetTiles,
-      worldY + tileSize * cfg.offsetYTiles,
-      textureKey,
-    ).setOrigin(0.5, cfg.originY)
-      .setDepth(cfg.depth)
-      .setDisplaySize(
-        tileSize * cfg.displayWidthTiles * impactScale,
-        tileSize * cfg.displayHeightTiles * impactScale,
-      )
-      .setRotation(cfg.rotationMin + Math.random() * (cfg.rotationMax - cfg.rotationMin))
-      .setTint(color)
-      .setAlpha(cfg.startAlpha);
-    const baseScaleX = impact.scaleX;
-    const baseScaleY = impact.scaleY;
-    impact.setScale(baseScaleX * cfg.startScale, baseScaleY * cfg.startScale);
-    this._activeParticleChips.push(impact);
-
-    const release = () => {
-      const index = this._activeParticleChips.indexOf(impact);
-      if (index !== -1) this._activeParticleChips.splice(index, 1);
-      impact.destroy();
-    };
-    if (!this.tweens?.add) {
-      impact.setAlpha(cfg.alpha);
-      const duration = cfg.enterMs + cfg.holdMs + cfg.exitMs;
-      if (this.time?.delayedCall) this.time.delayedCall(duration, release);
-      else release();
-      return;
-    }
-    this.tweens.add({
-      targets: impact,
-      alpha: cfg.alpha,
-      scaleX: baseScaleX * cfg.peakScale,
-      scaleY: baseScaleY * cfg.peakScale,
-      duration: cfg.enterMs,
-      ease: "Back.easeOut",
-      onComplete: () => {
-        if (!impact.active) return;
-        this.tweens.add({
-          targets: impact,
-          y: impact.y + tileSize * cfg.driftYTiles,
-          alpha: 0,
-          scaleX: baseScaleX * cfg.endScale,
-          scaleY: baseScaleY * cfg.endScale,
-          delay: cfg.holdMs,
-          duration: cfg.exitMs,
-          ease: "Sine.easeOut",
-          onComplete: release,
-        });
-      },
+    this.tileDestructionFxSystem?.play({
+      worldX,
+      worldY,
+      tileType,
     });
   };
 

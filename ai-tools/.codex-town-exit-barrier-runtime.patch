@@ -1,0 +1,177 @@
+diff --git a/values/firstFiveMinutes.js b/values/firstFiveMinutes.js
+--- a/values/firstFiveMinutes.js
++++ b/values/firstFiveMinutes.js
+@@ -20,6 +20,20 @@ export const FIRST_FIVE_MINUTES_CONFIG = Object.freeze({
+     recoveryScanRadiusTiles: 12,
+     safeReturnTileX: 4,
+   }),
++  townExitBarrier: Object.freeze({
++    // Matches the approved Town Square doorway centered at tile 65.9.
++    tileX: 66,
++    topSurfaceRowOffset: -3,
++    heightTiles: 3,
++    approachRangeTiles: 4,
++    notificationKey: "first-five-town-exit-task",
++    priority: 7,
++    copy: Object.freeze({
++      title: "TOWN EXIT SEALED",
++      prefix: "UNLOCK FLIGHT BEFORE LEAVING TOWN",
++      fallbackTask: "FOLLOW THE CURRENT TUTORIAL TASK",
++    }),
++  }),
+   flightReminders: Object.freeze({
+     count: 3,
+     intervalMs: 30000,
+diff --git a/systems/onboarding/TownSquareTutorialView.js b/systems/onboarding/TownSquareTutorialView.js
+--- a/systems/onboarding/TownSquareTutorialView.js
++++ b/systems/onboarding/TownSquareTutorialView.js
+@@ -11,6 +11,7 @@ export class TownSquareTutorialView {
+     this.scene = scene;
+     this.config = RETENTION_CONFIG.tutorial.ui;
+     this.flightConfig = FIRST_FIVE_MINUTES_CONFIG.flightReminders;
++    this.exitBarrierConfig = FIRST_FIVE_MINUTES_CONFIG.townExitBarrier;
+     this.marker = null;
+   }
+ 
+@@ -76,10 +77,35 @@ export class TownSquareTutorialView {
+     });
+   }
+ 
++  showTownExitTask(task) {
++    const notifications = this.scene?.essentialNotifications
++      || this.scene?.uiNotifications;
++    const copy = this.exitBarrierConfig.copy;
++    const message = [
++      copy.prefix,
++      task?.promise || copy.fallbackTask,
++      task?.detail,
++    ].filter(Boolean).join("  •  ");
++    notifications?.warning?.(message, {
++      key: this.exitBarrierConfig.notificationKey,
++      title: copy.title,
++      noDedupe: true,
++      bypassPacing: true,
++      priority: this.exitBarrierConfig.priority,
++    });
++  }
++
++  closeTownExitTask() {
++    const notifications = this.scene?.essentialNotifications
++      || this.scene?.uiNotifications;
++    notifications?.closeByKey?.(this.exitBarrierConfig.notificationKey);
++  }
++
+   resize() {}
+ 
+   destroy() {
+     this.closeFlightNotifications();
++    this.closeTownExitTask();
+     this.scene?.tweens?.killTweensOf?.(this.marker);
+     this.marker?.destroy();
+     this.marker = null;
+diff --git a/systems/onboarding/FirstFiveMinutesTutorialBridge.js b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+--- a/systems/onboarding/FirstFiveMinutesTutorialBridge.js
++++ b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+@@ -15,6 +15,7 @@ import { prepareTownTutorialDigSite } from "./TownSquareTutorialDigSite.js";
+ import { TutorialFlightReminderSystem } from "./TutorialFlightReminderSystem.js";
+ import { TutorialNarrationController } from "./TutorialNarrationController.js";
+ import { TutorialSurfaceSafetySystem } from "./TutorialSurfaceSafetySystem.js";
++import { TutorialTownExitBarrierSystem } from "./TutorialTownExitBarrierSystem.js";
+ 
+ const PROTECTED_TOWN_TYPES = new Set([
+   TILE_TYPES.FLOOR_TOWN_1,
+@@ -39,6 +40,12 @@ export class FirstFiveMinutesTutorialBridge {
+       view,
+       interpolateCopy,
+     );
++    this.townExitBarrier = new TutorialTownExitBarrierSystem(
++      scene,
++      retention,
++      view,
++      () => this.getNextPromiseOverride(),
++    );
+     this._surfaceBlockedUntil = 0;
+   }
+ 
+@@ -49,6 +56,7 @@ export class FirstFiveMinutesTutorialBridge {
+       () => this.handleDescentBlocked(),
+     );
+     this.surfaceSafety.create();
++    this.townExitBarrier.create();
+     this.scene.playerController?.surfaceDrop?.setAccessPolicy?.(
+       () => !this.isSurfaceDropBlocked(),
+       () => this.handleSurfaceDropBlocked(),
+@@ -61,12 +69,14 @@ export class FirstFiveMinutesTutorialBridge {
+ 
+     this.enforceSurfaceSafety();
+     this.narration.update();
++    this.townExitBarrier.update();
+     this.flightReminders.update();
+   }
+ 
+   onStageEntered(stage) {
+     if (!this.enabled) return false;
+     this.narration.onStageEntered(stage);
++    this.townExitBarrier.sync();
+     if (stage === TOWN_TUTORIAL_STAGES.UPGRADE) {
+       if (
+         this.scene.upgradeSystem?.getUpgradeLevel?.(
+@@ -211,6 +221,7 @@ export class FirstFiveMinutesTutorialBridge {
+       portalDistance: this.scene?.firstSessionPortalSystem?.getDistance?.()
+         ?? Number.POSITIVE_INFINITY,
+       narration: this.narration?.getHealthSnapshot?.() || null,
++      townExitBarrier: this.townExitBarrier?.getHealthSnapshot?.() || null,
+     };
+   }
+ 
+@@ -249,6 +260,8 @@ export class FirstFiveMinutesTutorialBridge {
+ 
+   destroy() {
+     this.scene?.playerController?.surfaceDrop?.setAccessPolicy?.(null, null);
++    this.townExitBarrier?.destroy();
++    this.townExitBarrier = null;
+     this.flightReminders?.destroy();
+     this.flightReminders = null;
+     this.narration?.destroy();
+diff --git a/systems/onboarding/TutorialTownExitBarrierSystem.js b/systems/onboarding/TutorialTownExitBarrierSystem.js
+--- a/systems/onboarding/TutorialTownExitBarrierSystem.js
++++ b/systems/onboarding/TutorialTownExitBarrierSystem.js
+@@ -30,12 +30,14 @@ export class TutorialTownExitBarrierSystem {
+     this.getCurrentTask = getCurrentTask;
+     this.config = config;
+     this.originalTiles = new Map();
++    this.created = false;
+     this.active = false;
+     this.playerNearby = false;
+     this.distanceTiles = Number.POSITIVE_INFINITY;
+   }
+ 
+   create() {
++    this.created = true;
+     return this.sync();
+   }
+ 
+@@ -56,6 +58,7 @@ export class TutorialTownExitBarrierSystem {
+   }
+ 
+   sync() {
++    if (!this.created) return false;
+     const shouldBeActive = this._shouldBeActive();
+     if (shouldBeActive === this.active) return this.active;
+     if (shouldBeActive) this._install();
+@@ -66,6 +69,7 @@ export class TutorialTownExitBarrierSystem {
+   getHealthSnapshot() {
+     return {
+       active: this.active,
++      created: this.created,
+       tileX: this.config.tileX,
+       tileCount: this.config.heightTiles,
+       playerNearby: this.playerNearby,
+@@ -153,6 +157,7 @@ export class TutorialTownExitBarrierSystem {
+ 
+   destroy() {
+     this._restore();
++    this.created = false;
+     this.scene = null;
+     this.retention = null;
+     this.view = null;

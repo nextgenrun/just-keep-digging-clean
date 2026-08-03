@@ -45,10 +45,17 @@ def write_runtime_module(
     transition_frame_count: int,
     diagonal_variants: list[dict[str, Any]],
     diagonal_frame_count: int,
+    run_frame_count: int,
 ) -> dict[str, Any]:
     runtime = deepcopy(config)
+    run_sheet = runtime["sheets"]["run"]
     transition_sheet = runtime["sheets"]["transitions"]
     diagonal_sheet = runtime["sheets"]["diagonalDig"]
+    run_sheet["frames"] = list(range(run_frame_count))
+    run_sheet["frameCount"] = run_frame_count
+    runtime["runPolish"]["sheetKey"] = run_sheet["sheetKey"]
+    runtime["runPolish"]["frames"] = run_sheet["frames"]
+    runtime["runPolish"]["frameCount"] = run_frame_count
     transition_sheet["frames"] = list(range(transition_frame_count))
     transition_sheet["frameCount"] = transition_frame_count
     diagonal_sheet["frames"] = list(range(diagonal_frame_count))

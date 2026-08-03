@@ -1,40 +1,11 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 
-function formatGuideMessage(copy) {
-  return [copy?.title, copy?.body].filter(Boolean).join("  •  ");
-}
-
 export class TownSquareTutorialView {
   constructor(scene) {
     this.scene = scene;
     this.config = RETENTION_CONFIG.tutorial.ui;
     this.marker = null;
-  }
-
-  showGuide(copy) {
-    this.scene.uiNotifications?.info?.(
-      formatGuideMessage(copy),
-      {
-        key: this.config.guideNotificationKey,
-        title: copy?.phase || "GUIDE",
-        noDedupe: true,
-        bypassPacing: true,
-      },
-    );
-  }
-
-  closeGuideNotification() {
-    this.scene.uiNotifications?.closeByKey?.(
-      this.config.guideNotificationKey,
-    );
-  }
-
-  hideGuide() {
-    this.scene.uiNotifications?.closeByKey?.(
-      this.config.guideNotificationKey,
-    );
-    this.clearMarker();
   }
 
   pointAt(x, y) {
@@ -65,27 +36,9 @@ export class TownSquareTutorialView {
     if (this.marker) this.marker.setVisible(false);
   }
 
-  showCompletion(copy) {
-    this.scene.uiNotifications?.closeByKey?.(
-      this.config.guideNotificationKey,
-    );
-    this.scene.uiNotifications?.success?.(
-      formatGuideMessage(copy),
-      {
-        key: this.config.completionNotificationKey,
-        title: copy?.phase || "COMPLETE",
-        noDedupe: true,
-        bypassPacing: true,
-      },
-    );
-  }
-
   resize() {}
 
   destroy() {
-    this.scene?.uiNotifications?.closeByKey?.(
-      this.config.guideNotificationKey,
-    );
     this.scene?.tweens?.killTweensOf?.(this.marker);
     this.marker?.destroy();
     this.marker = null;

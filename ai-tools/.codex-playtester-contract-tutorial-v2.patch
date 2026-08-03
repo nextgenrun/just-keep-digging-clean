@@ -1,0 +1,61 @@
+diff --git a/testing/2026-08-02-playtester-feedback-implementation-contract.mjs b/testing/2026-08-02-playtester-feedback-implementation-contract.mjs
+--- a/testing/2026-08-02-playtester-feedback-implementation-contract.mjs
++++ b/testing/2026-08-02-playtester-feedback-implementation-contract.mjs
+@@ -23,2 +23,5 @@
+-import { UI_NOTIFICATION_CAROUSEL_CONFIG } from
+-  "../values/uiNotificationCarousel.js";
++import {
++  ESSENTIAL_UI_NOTIFICATION_CONFIG,
++  UI_NOTIFICATION_CAROUSEL_CONFIG,
++} from "../values/uiNotificationCarousel.js";
+@@ -29,10 +32,12 @@
+ assert.deepEqual(RETENTION_CONFIG.tutorial.activeStages, [
+   TOWN_TUTORIAL_STAGES.MOVE,
+   TOWN_TUTORIAL_STAGES.DIG,
++  TOWN_TUTORIAL_STAGES.SELL,
++  TOWN_TUTORIAL_STAGES.UPGRADE,
+   TOWN_TUTORIAL_STAGES.FLIGHT,
+   TOWN_TUTORIAL_STAGES.PORTAL,
+-  TOWN_TUTORIAL_STAGES.SELL,
+   TOWN_TUTORIAL_STAGES.RESUME,
+ ]);
+-assert.equal("UPGRADE" in TOWN_TUTORIAL_STAGES, false);
+-assert.equal("upgradeFunding" in RETENTION_CONFIG.tutorial, false);
++assert.equal(TOWN_TUTORIAL_STAGES.UPGRADE, "upgrade");
++assert.equal(RETENTION_CONFIG.tutorial.upgradeFunding.money, 2);
+@@ -51,1 +56,7 @@
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
++retention.recordSale(1, 1);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), { money: 2 });
++retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+@@ -60,2 +71,0 @@
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+-retention.recordSale(1, 1);
+@@ -70,1 +79,1 @@
+-assert.equal("upgradeFundingGranted" in resumed.getTutorialState(), false);
++assert.equal(resumed.getTutorialState().upgradeFundingGranted, true);
+@@ -89,1 +98,10 @@
++assert.equal(
++  sanitizeRetentionProgressData({
++    version: 5,
++    tutorialChoice: "yes",
++    tutorialStage: "sell",
++  }).tutorialStage,
++  TOWN_TUTORIAL_STAGES.RESUME,
++);
++
+ const tileWrites = [];
+@@ -137,1 +155,2 @@
+ notifications.destroy();
++assert.equal(ESSENTIAL_UI_NOTIFICATION_CONFIG.enabled, true);
+@@ -139,1 +158,1 @@
+-const cueStages = ["move", "dig", "flight", "portal", "sell", "resume", "complete"];
++const cueStages = ["move", "dig", "sell", "upgrade", "flight", "portal", "resume", "complete"];
+@@ -162,1 +181,0 @@
+-  "systems/onboarding/TutorialFlightReminderSystem.js",
+@@ -165,1 +183,2 @@
+ }
++assert.equal(existsSync(path.join(root, "systems/onboarding/TutorialFlightReminderSystem.js")), true);

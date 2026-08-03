@@ -53,9 +53,6 @@ assert.match(semantic, /identity\.lightFrameName/);
 assert.match(semantic, /worldLightScale/);
 assert.match(semantic, /worldLightAlphaScale/);
 
-const popup = read("systems/visual/StarDiscoveryPopupView.js");
-assert.match(popup, /identity\.lightFrameName/);
-assert.match(popup, /popupLightAlpha/);
 const release = read("systems/visual/playSkyStarReleaseIdentityLight.js");
 assert.match(release, /entry\.lightTextureKey/);
 assert.match(release, /entry\.lightTextureFrame/);
@@ -74,5 +71,5 @@ assert.doesNotMatch(`${atlas}\n${controls}`, /add\.graphics|setTint/);
 
 console.log(
   "star identity dedicated light contract: PASS "
-  + "(core/light separation across world, release, popup, and Atlas)",
+  + "(core/light separation across world, release, and Atlas)",
 );

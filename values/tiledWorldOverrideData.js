@@ -26945,12 +26945,6 @@ export const TILED_WORLD_OVERRIDE = Object.freeze({
     ]),
   }),
 
-  rootOverlays: Object.freeze({
-    runs: Object.freeze([
-
-    ]),
-  }),
-
   secondWorldArea: Object.freeze({
     enabled: true,
     markerGid: 3094,

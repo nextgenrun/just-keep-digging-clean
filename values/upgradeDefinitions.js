@@ -8,7 +8,8 @@ import {
 } from "./arcCoreConfig.js";
 import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "./earthquakes.js";
 
-export const FIRST_FIVE_STARTER_UPGRADE_ID = "minersGrip";
+export const FIRST_FIVE_STARTER_UPGRADE_ID = "agility";
+export const LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID = "minersGrip";
 
 // ==================== UPGRADES DEFINITIONS ====================
 export const UPGRADES = Object.freeze({
@@ -62,7 +63,7 @@ export const UPGRADES = Object.freeze({
     id: "gemFlySpeed",
     category: UPGRADE_CATEGORIES.GEM_POWER,
     name: "Gem Fly Speed",
-    description: "Increases flight/climbing speed in all directions. Scales aggressively!",
+    description: "Increases powered flight speed. Scales aggressively!",
     baseCost: 180,
     baseEffect: 40,
     effectType: "levitationSpeed",
@@ -71,17 +72,18 @@ export const UPGRADES = Object.freeze({
   },
 
   // PLAYER UPGRADES MERCHANT UPGRADES
-  [FIRST_FIVE_STARTER_UPGRADE_ID]: {
-    id: FIRST_FIVE_STARTER_UPGRADE_ID,
+  [LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID]: {
+    id: LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID,
     category: UPGRADE_CATEGORIES.PLAYER_STATS,
     name: "Miner's Grip",
-    description: "One-time +8 mining damage. Starter Dirt drops from 3 hits to 2.",
+    description: "Legacy tutorial bonus retained for existing saves.",
     goldCost: 4,
     baseEffect: 8,
     effectType: "digDamageAdditive",
     merchant: "playerUpgrades",
     oneTimePurchase: true,
     firstFiveOnly: true,
+    hiddenFromShop: true,
   },
   agility: {
     id: "agility",

@@ -1,0 +1,22 @@
+diff --git a/values/firstFiveMinutes.js b/values/firstFiveMinutes.js
+--- a/values/firstFiveMinutes.js
++++ b/values/firstFiveMinutes.js
+@@ -30,6 +30,10 @@
+     notificationKeys: Object.freeze({
+       unlock: "first-five-flight-unlocked",
+       reminder: "first-five-flight-reminder",
+     }),
++    priorities: Object.freeze({
++      unlock: 8,
++      reminder: 7,
++    }),
+     copy: Object.freeze({
+diff --git a/systems/onboarding/TownSquareTutorialView.js b/systems/onboarding/TownSquareTutorialView.js
+--- a/systems/onboarding/TownSquareTutorialView.js
++++ b/systems/onboarding/TownSquareTutorialView.js
+@@ -54,1 +54,1 @@
+-      priority: 8,
++      priority: this.flightConfig.priorities.unlock,
+@@ -67,1 +67,1 @@
+-      priority: 7,
++      priority: this.flightConfig.priorities.reminder,

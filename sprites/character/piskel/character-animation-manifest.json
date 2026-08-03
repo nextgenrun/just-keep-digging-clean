@@ -653,6 +653,50 @@
       }
     },
     {
+      "id": "survival-player-animation-polish-run",
+      "displayName": "Survival Player Piskel-Polished Jog",
+      "fps": 30,
+      "frameSize": [
+        256,
+        256
+      ],
+      "frameCount": 28,
+      "sheetColumns": 16,
+      "runtimeMode": "sheet",
+      "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-run.piskel",
+      "runtimeOutputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp"
+      ],
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/player-animation-polish-run-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/player-animation-polish-run-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-run-review-contact-sheet.png",
+      "phaserKey": "survival-ual-player-v1-animation-polish-run-sheet",
+      "orientation": "right",
+      "autoAlign": false,
+      "displaySizePx": 123,
+      "hitFrameGroups": [
+        [
+          12
+        ],
+        [
+          26
+        ]
+      ],
+      "centeringPolicy": {
+        "normalize": false,
+        "anchorMode": "alpha-lower-body",
+        "lowerBodyStartFraction": 0.55,
+        "anchorAlphaThreshold": 32,
+        "runtimeBaselineY": 247,
+        "bottomY": 248,
+        "bottomTolerancePx": 0,
+        "maxAnchorDriftPx": 9,
+        "enforceAnchor": true,
+        "enforceBottom": true,
+        "strictBounds": true
+      }
+    },
+    {
       "id": "survival-player-animation-polish-transitions",
       "displayName": "Survival Player Animation Polish Transitions",
       "fps": 30,

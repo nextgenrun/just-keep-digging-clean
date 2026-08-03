@@ -10,7 +10,6 @@ export class WorldRenderWindowBuffer {
     this.config = config;
     this.scheduler = new WorldRenderWindowScheduler(config, worldDepth);
     this.layer = null;
-    this.rootOverlayLayer = null;
     this.pendingStartedAtMs = null;
     this.performance = {
       batches: 0,
@@ -25,9 +24,8 @@ export class WorldRenderWindowBuffer {
     };
   }
 
-  attach(layer, rootOverlayLayer) {
+  attach(layer) {
     this.layer = layer;
-    this.rootOverlayLayer = rootOverlayLayer;
     return this;
   }
 
@@ -43,7 +41,6 @@ export class WorldRenderWindowBuffer {
     const batchStartedAtMs = performanceNow();
     this.renderer.paintWorldRows(
       this.layer,
-      this.rootOverlayLayer,
       plan.targetTop,
       plan.localStartRow,
       plan.rowCount,
@@ -75,22 +72,16 @@ export class WorldRenderWindowBuffer {
   begin(targetTop) {
     const worldY = targetTop * this.renderer.config.tileSize;
     this.layer.setY(worldY).setVisible(false);
-    this.rootOverlayLayer?.setY(worldY).setVisible(false);
     this.pendingStartedAtMs = performanceNow();
   }
 
   commit(targetTop, immediate) {
     const previousLayer = this.renderer.layer;
-    const previousRootOverlayLayer = this.renderer.rootOverlayLayer;
     this.renderer.layer = this.layer;
-    this.renderer.rootOverlayLayer = this.rootOverlayLayer;
     this.layer = previousLayer;
-    this.rootOverlayLayer = previousRootOverlayLayer;
     this.renderer._streamTopTile = targetTop;
     this.renderer.layer.setVisible(true);
-    this.renderer.rootOverlayLayer?.setVisible(true).setDepth(1);
     this.layer.setVisible(false);
-    this.rootOverlayLayer?.setVisible(false);
 
     const shiftDurationMs = recordPerformanceSpan(
       this.config.shiftMetricName,
@@ -113,7 +104,6 @@ export class WorldRenderWindowBuffer {
     return {
       targetTop,
       layer: this.layer,
-      rootOverlayLayer: this.rootOverlayLayer,
     };
   }
 
@@ -121,7 +111,6 @@ export class WorldRenderWindowBuffer {
     this.scheduler.cancel();
     this.pendingStartedAtMs = null;
     this.layer?.setVisible(false);
-    this.rootOverlayLayer?.setVisible(false);
   }
 
   snapshot(currentTop) {
@@ -137,8 +126,6 @@ export class WorldRenderWindowBuffer {
   destroy() {
     this.cancel();
     this.layer?.destroy();
-    this.rootOverlayLayer?.destroy();
     this.layer = null;
-    this.rootOverlayLayer = null;
   }
 }

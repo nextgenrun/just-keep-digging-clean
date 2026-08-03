@@ -342,7 +342,6 @@ export class LightSystem {
   _canUseTorchInput() {
     return this.scene.gameState === "playing"
       && !this.scene.shopOverlay?.isVisible
-      && !this.scene.levelUpPopup?.visible
       && !this.scene._pillarViewActive
       && !this.scene.campfireSystem?.isSelecting?.();
   }

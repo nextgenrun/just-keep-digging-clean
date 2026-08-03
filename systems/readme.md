@@ -12,10 +12,10 @@ prematurely return the mouse to the world.
 ## User settings
 
 `UserSettings.js` persists the ESC Settings contract. Missing legacy fields
-sanitize to their current defaults. `display.showStarDiscoveryPopups` defaults
-on, can be changed from `SETTINGS → GAMEPLAY`, and immediately closes an active
-Star reveal when switched off without suppressing the mined Star release,
-rewards, Sign XP, or progression callbacks.
+sanitize to their current defaults. The retired
+`display.showStarDiscoveryPopups` field is no longer read or written; old
+saves containing it remain valid and the unknown value is ignored. Star
+release, rewards, Sign XP, Atlas, and progression callbacks remain live.
 
 ## Runtime health
 

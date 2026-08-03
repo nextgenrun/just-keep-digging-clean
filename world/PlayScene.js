@@ -33,7 +33,6 @@ export class PlayScene extends Phaser.Scene {
     this.celestialEngineController = null;
     this.tileHitOriginStrength = 0;
     this.crouching = false;
-    this.climbing = false;
     this.paused = false;
     this.isInDialogue = false;
     this.isInShop = false;

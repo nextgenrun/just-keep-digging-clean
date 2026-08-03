@@ -19,7 +19,7 @@ import {
   TOWN_TUTORIAL_STAGES,
 } from "../values/retentionConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
-import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../values/upgradeDefinitions.js";
+import { TUTORIAL_NARRATION_CONFIG } from "../values/tutorialNarration.js";
 import { WorldVisualRuntime } from
   "../world/rendering/scenic-world/WorldVisualRuntime.js";
 
@@ -128,7 +128,7 @@ assert.equal(
 );
 
 const legacyScene = makeDigSiteScene();
-assert.equal(getTownTutorialDigSite(legacyScene, "?firstFive=0").tx, 24);
+assert.equal(getTownTutorialDigSite(legacyScene, "?firstFive=0").tx, 12);
 prepareTownTutorialDigSite(legacyScene, "?firstFive=0");
 assert.equal(legacyScene.worldModel.writes[0].hp, 1);
 
@@ -180,7 +180,6 @@ const retention = new RetentionProgressSystem({ firstFiveEnabled: true });
 assert.equal(retention.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES), true);
 const worldModel = makeWorld();
 let flightActive = false;
-let starterOwned = false;
 let canDropThrough = null;
 let onDropBlocked = null;
 let saveCount = 0;
@@ -232,8 +231,7 @@ const scene = {
     getAimTargetTile: () => null,
   },
   upgradeSystem: {
-    getUpgradeLevel: id => starterOwned
-      && id === FIRST_FIVE_STARTER_UPGRADE_ID ? 1 : 0,
+    getUpgradeLevel: () => 0,
   },
   queueDugTilesSave() {
     saveCount += 1;
@@ -249,13 +247,10 @@ const bridge = new FirstFiveMinutesTutorialBridge(
 bridge.create();
 assert.equal(bridge.hasPersistentGuide(), true);
 assert.match(bridge.getNextPromiseOverride().promise, /STEP 1/);
-assert.equal(
-  bridge.isUpgradeAvailable(FIRST_FIVE_STARTER_UPGRADE_ID),
-  false,
-);
+assert.equal(bridge.isUpgradeAvailable("agility"), true);
 assert.equal(canDropThrough(), false);
 onDropBlocked();
-assert.match(bridge.getNextPromiseOverride().detail, /4 STEPS/);
+assert.match(bridge.getNextPromiseOverride().detail, /MARKED STARTER ROUTE/);
 scene.playerController.physicsBody.y = GAME_CONFIG.topAirRows * GAME_CONFIG.tileSize + 18;
 assert.equal(bridge.enforceSurfaceSafety(), true);
 assert.deepEqual(scene.playerController.teleports.at(-1), {
@@ -266,23 +261,11 @@ assert.equal(bridge.isDescentBlocked(), true);
 
 retention.recordTutorialMovement(2);
 retention.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
-retention.recordSale(1, 1);
-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
-assert.equal(
-  bridge.isUpgradeAvailable(FIRST_FIVE_STARTER_UPGRADE_ID),
-  true,
-);
-retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
-starterOwned = true;
-retention.recordUpgrade("Miner's Grip", {
-  upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
-});
-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
-assert.equal(retention.claimTutorialCompletionReward().freeFlightMs, 30000);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+assert.equal(retention.claimTutorialFlightTraining().freeFlightMs, 30000);
 const fullFlightSave = retention.getSaveData();
 bridge.update();
-assert.match(bridge.getNextPromiseOverride().promise, /SAFETY CHECK/);
+assert.match(bridge.getNextPromiseOverride().promise, /STEP 3/);
 assert.equal(canDropThrough(), false);
 
 const resumed = new RetentionProgressSystem({ firstFiveEnabled: true });
@@ -294,44 +277,22 @@ const resumedBridge = new FirstFiveMinutesTutorialBridge(
   interpolateCopy,
   { enabled: true },
 );
-assert.match(resumedBridge.getNextPromiseOverride().promise, /SHIFT/);
+assert.match(resumedBridge.getNextPromiseOverride().detail, /SHIFT/);
 
 flightActive = true;
 retention.consumeTutorialFreeFlight(16);
+assert.equal(retention.recordTutorialFlight(), true);
 bridge.update();
 assert.equal(canDropThrough(), true);
-assert.match(bridge.getNextPromiseOverride().promise, /FEEL THE UPGRADE/);
-assert.ok(view.marker, "payoff block must receive the existing tutorial marker");
-assert.ok(saveCount >= 1, "first real Flight use must queue persistence");
-
-worldModel.dugTiles.add(
-  `${FIRST_FIVE_MINUTES_CONFIG.payoffSite.tileX},${GAME_CONFIG.topAirRows - 1}`,
-);
-bridge.update();
-assert.match(view.completion.title, /MINE.*SELL.*UPGRADE.*FLY/);
+assert.match(bridge.getNextPromiseOverride().promise, /STEP 4/);
+retention.recordPortalActivated("Starter Return Gate");
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+assert.match(bridge.getNextPromiseOverride().promise, /STEP 5/);
+retention.recordSale(1, 1);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+assert.match(bridge.getNextPromiseOverride().promise, /STEP 6/);
+assert.equal(retention.recordTutorialPortalResume(), true);
 assert.equal(bridge.hasPersistentGuide(), false);
-
-const preownedRetention = new RetentionProgressSystem({ firstFiveEnabled: true });
-preownedRetention.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES);
-preownedRetention.recordTutorialMovement(2);
-preownedRetention.recordMiningResult({
-  success: true,
-  destroyed: true,
-  resourceAmount: 1,
-});
-preownedRetention.recordSale(1, 1);
-const preownedBridge = new FirstFiveMinutesTutorialBridge(
-  scene,
-  preownedRetention,
-  view,
-  interpolateCopy,
-  { enabled: true },
-);
-preownedBridge.onStageEntered(TOWN_TUTORIAL_STAGES.UPGRADE);
-assert.equal(
-  preownedRetention.getTutorialState().stage,
-  TOWN_TUTORIAL_STAGES.COMPLETE,
-);
 
 const townSource = await readFile(
   new URL("../systems/onboarding/TownSquareTutorialSystem.js", import.meta.url),
@@ -351,8 +312,8 @@ assert.match(townSource, /getNextPromiseOverride/);
 assert.match(promiseSource, /tutorialPromise \|\| eventPromise/);
 assert.match(updateSource, /enforceSurfaceSafety/);
 assert.match(updateSource, /tutorialDownwardMineBlocked/);
-assert.ok(FIRST_FIVE_MINUTES_CONFIG.copy.dig.detail.includes("{mine}"));
-assert.ok(FIRST_FIVE_MINUTES_CONFIG.copy.flight.promise.includes("{fly}"));
+assert.ok(TUTORIAL_NARRATION_CONFIG.cues.dig.caption.detail.includes("{mine}"));
+assert.ok(TUTORIAL_NARRATION_CONFIG.cues.flight.caption.detail.includes("{fly}"));
 
 const rollbackBridge = new FirstFiveMinutesTutorialBridge(
   scene,

@@ -15,6 +15,7 @@ import {
   resolveTitanChambersEnabled,
 } from "../values/titanDiscoveries.js";
 import {
+  mixWorldVisualTint,
   resolveWorldVisualDepthBackdropTint,
 } from "../values/worldVisualDepthBackdrops.js";
 import { TitanChamberStream } from "../systems/visual/TitanChamberStream.js";
@@ -101,7 +102,7 @@ assert.equal(resolveTitanChambersEnabled(undefined, "?titanChambers=1"), true);
 assert.equal(resolveTitanChambersEnabled(undefined, "?titans=0"), false);
 assert.equal(resolveTitanChamberBlendEnabled(undefined, ""), true);
 assert.equal(resolveTitanChamberBlendEnabled(undefined, "?titanChamberBlend=0"), false);
-assert.equal(preloadAssets.length, 54);
+assert.equal(preloadAssets.length, 56);
 assert.ok(chamberAssets.every(asset => (
   !preloadAssets.some(preload => preload.key === asset.key)
 )), "high-resolution cards must stream instead of entering Boot");
@@ -213,6 +214,7 @@ const view = {
   glowSprite: compactGlow,
   baseX: 29 * 94,
   baseY: 85 * 94,
+  chamberCenterY: 85 * 94,
   settledX: 29 * 94,
   baseScale: 1,
   widthPx: 18 * 94,
@@ -247,7 +249,11 @@ assert.equal(stream.getSnapshot().blendEnabled, true);
 assert.equal(stream.getSnapshot().assetVersion, "titan-chambers-v3");
 assert.equal(
   view.chamberSprite.tint,
-  resolveWorldVisualDepthBackdropTint(85, lighting),
+  mixWorldVisualTint(
+    0xffffff,
+    resolveWorldVisualDepthBackdropTint(85, lighting),
+    TITAN_DISCOVERY_CONFIG.underground.structureEnvironmentTintMix,
+  ),
 );
 assert.notEqual(view.chamberSprite.tint, 0xffffff);
 

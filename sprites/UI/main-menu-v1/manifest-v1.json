@@ -1,0 +1,65 @@
+{
+  "schema": "main-menu-v1@1",
+  "source": {
+    "path": "sprites/UI/main-menu-v1/sources/2026-08-03-main-menu-button-alpha-v1.png",
+    "width": 1983,
+    "height": 793,
+    "alphaBounds": [
+      103,
+      192,
+      1875,
+      597
+    ],
+    "sha256": "b1d1aaa85392e75029bbe708d675e106d7adf39752da1f6a84a8e02d1d83ced6"
+  },
+  "displayContract": {
+    "widthPx": 260,
+    "heightPx": 52,
+    "sourceDensityAtUltra": 4.134615384615385,
+    "aspect": 5.0,
+    "preservedCapWidthPx": 480,
+    "centerExtensionOnly": true
+  },
+  "assets": {
+    "idle": {
+      "path": "sprites/UI/main-menu-v1/main-menu-button-idle-v1.png",
+      "width": 2150,
+      "height": 430,
+      "alphaBounds": [
+        12,
+        12,
+        2138,
+        417
+      ],
+      "visiblePixels": 857930,
+      "opaquePixels": 850841,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "8d5e0139f4e3d1ade63346258d71def5f7e2e59a6bdfe42e5b6096267857643e"
+    },
+    "selected": {
+      "path": "sprites/UI/main-menu-v1/main-menu-button-selected-v1.png",
+      "width": 2150,
+      "height": 430,
+      "alphaBounds": [
+        0,
+        0,
+        2150,
+        430
+      ],
+      "visiblePixels": 923126,
+      "opaquePixels": 850841,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "9ec2fa41969453d6c7d942cf7709d313b9b9d767e9b3255275b77e48bd5d4f73"
+    }
+  }
+}

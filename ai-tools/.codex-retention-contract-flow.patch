@@ -1,0 +1,21 @@
+diff --git a/testing/2026-07-26-retention-systems-contract.mjs b/testing/2026-07-26-retention-systems-contract.mjs
+--- a/testing/2026-07-26-retention-systems-contract.mjs
++++ b/testing/2026-07-26-retention-systems-contract.mjs
+@@ -92,9 +92,13 @@
+-assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.SELL);
++retention.recordSale(30, 2);
++assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), { money: 2 });
+ retention.recordUpgrade("Agility Training", {
+   upgradeId: "agility",
+   beforeHits: 3,
+   afterHits: 2,
+   beforeDamage: 10,
+   afterDamage: 12,
+ });
+@@ -107,8 +111,6 @@
+ retention.recordPortalActivated("Starter Return Gate");
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+-retention.recordSale(30, 2);
+ assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);

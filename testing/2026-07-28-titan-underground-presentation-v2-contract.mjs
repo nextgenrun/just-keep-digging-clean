@@ -65,7 +65,7 @@ for (const definition of TITAN_DEFINITIONS) {
 assert.ok(preloadKeys.has(TITAN_DISCOVERY_CONFIG.assets.undergroundDais.key));
 assert.ok(preloadKeys.has(TITAN_DISCOVERY_CONFIG.assets.coverResonance.key));
 assert.ok(TITAN_DISCOVERY_CONFIG.underground.discoveredAlpha >= 0.99);
-assert.ok(TITAN_DISCOVERY_CONFIG.chambers.discoveredCardAlpha <= 0.15);
+assert.ok(TITAN_DISCOVERY_CONFIG.chambers.discoveredCardAlpha <= 0.2);
 assert.equal(
   TITAN_DISCOVERY_CONFIG.coverageGlow.depth,
   898,

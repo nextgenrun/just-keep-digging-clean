@@ -53,6 +53,7 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-30-prepare-surface-hero-landmarks-v4.py` | Reproducibly crop all seven Level 2 hero-landmark alpha masters, validate green/magenta key removal, exact existing-pixel parity and the open portal center, and emit grounded dimensions plus SHA-256 provenance |
 | Tool | Purpose |
 |------|---------|
+| `2026-08-03-roboplaytest.mjs` | Run the save-isolated deep Phaser playtest, exercising the full progression route plus runtime, world, controls, economy, UI, weather, hazards, events, mining-depth, visual, performance, and Starlight lifecycle analysis with JSON/Markdown/PNG evidence |
 | `2026-07-30-build-fire-light-piskel-polish-v1.py` | Orchestrate ten independent Fire Light `.piskel` authorities, 160-frame round-trip, candidate/rollback atlases, reports, and review boards without changing production |
 | `2026-07-30-fire-light-piskel-core.py` | Split and pack the shared 313 px grid, measure source-root/luminous-core anchors, apply integer-only group registration, preserve light energy, and enforce true-black borders |
 | `2026-07-30-fire-light-piskel-package.py` | Serialize and validate editable Piskel projects, hidden anchor guides, exact frame order, and pixel-identical round-trip |
@@ -90,12 +91,12 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-26-build-surface-prop-scale-sheet-v1.py` | Render the live Level 1 and Level 2 cutouts from their values/asset-key SSOT at one player-relative physical scale for review |
 | `2026-07-26-lift-surface-prop-midtone-v1.py` | Build non-resized, alpha-preserving Level 2 v2 prop variants from the retained ImageGen v1 cutouts, lifting only dark midtones for forest readability and emitting a hash manifest |
 | `2026-07-26-build-hud-torch-states.py` | Composite the generated extinguished torch onto the locked approved HUD core while preserving its exact 417x93 geometry |
-| `2026-06-25-bulk-migrate.py` | Bulk file migration/restructuring |
+| `archive/2026-08-02-root-overlay-climb-dash-prune/legacy-tools/2026-06-25-bulk-migrate.py` | Archived bulk migration/restructuring helper retained for rollback |
 | `2026-06-25-check-404s.ps1` | Check for 404 resource errors |
 | `2026-06-25-fix-404s.py` | Fix 404 resource paths |
 | `2026-06-25-fix-corruption.ps1` | Fix file corruption issues |
 | `2026-06-25-rewire-imports.bat` | Batch import path rewire |
-| `2026-06-25-compare-stubs.py` | Compare stub files against originals |
+| `archive/2026-08-02-root-overlay-climb-dash-prune/legacy-tools/2026-06-25-compare-stubs.py` | Archived stub comparison/import-fix helper retained for rollback |
 | `2026-06-25-fix-player-stubs.py` | Fix player stub files |
 | `2026-06-30-create-tiled-v8-polish.py` | Create the Tiled-only v8 visual review TMX with repaired/upscaled texture variants |
 | `2026-06-30-create-tiled-v8-bold-composite.py` | Add large composite background plates to v8 to reduce box seams and low-resolution tiled structure |
@@ -195,6 +196,9 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-28-build-whole-world-visual-expansion-v5.py` | Pin exactly 100 approved ImageGen masters, build 50 scenic cards, 40 irregular terrain plates, ten 20-frame cap atlases, ten alpha surface-ground cards, a 16-state backdrop mask, contact sheets, hashes, and the additive V5 manifest |
 | `2026-07-29-build-starlight-talent-tree-v3.py` | Preserve the V2 Starlight pack and build the native-ultrawide three-card foundation, authored live-copy plaques, carousel controls, alpha validation, and the V3 hash manifest |
 | `2026-07-29-build-surface-sky-props-v3.py` | Split ten ImageGen 5x4 alpha masters into 200 connected-component-safe frames, pack ten lossless Phaser atlases, emit generated asset values/hashes and candidate placement provenance, validate landmark exclusions, and build eleven QA sheets; production selection is hand-authored separately |
+| `2026-08-02-build-tile-destruction-fx-v3.py` | Promote only zero-warning mining-library frames into four-phase material atlases, extract independent foreground shards, pin source/runtime hashes, and render exact-94px QA |
+| `2026-08-03-build-main-menu-v1.py` | Preserve the ImageGen-authored button end caps, extend only the neutral center span to exact 5:1 geometry, derive the selected state offline, and verify RGBA, alpha, density, and hashes |
+| `2026-08-03-build-save-menu-v1.py` | Crop the approved four-part ImageGen UI kit, remove chroma, preserve caps and center crests while retargeting exact live geometry, derive choice selection art, and emit validated RGBA hashes |
 
 | `2026-07-29-build-underground-backdrop-enhancers-v7.py` | Soft-matte, despill, frame-feather, preserve native 1536x1024 resolution, write 100 alpha WebPs, hash every source/runtime file, and build checkerboard plus correct-biome context proof sheets |
 

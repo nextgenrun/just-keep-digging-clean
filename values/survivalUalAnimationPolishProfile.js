@@ -103,6 +103,8 @@ export function buildSurvivalUalAnimationPolishProfile({
 }) {
   const transitionSheet = polish.sheets.transitions;
   const diagonalSheet = polish.sheets.diagonalDig;
+  const runSheet = polish.sheets.run;
+  const runPolishEnabled = isPlayerAnimationFeatureEnabled(polish.runPolish);
   const ground = polish.groundHandoff;
   const landing = polish.landing;
   const wall = polish.wallBrace;
@@ -178,6 +180,12 @@ export function buildSurvivalUalAnimationPolishProfile({
 
   return Object.freeze({
     animationPolishConfig: polish,
+    runPolishEnabled,
+    animationPolishRunSheet: runSheet.sheetKey,
+    animationPolishRunFrames: runSheet.frames,
+    footstepRigAction: runPolishEnabled
+      ? polish.runPolish.manifestAction
+      : polish.runPolish.sourceAction,
     animationPolishTransitionSheet: transitionSheet.sheetKey,
     animationPolishTransitionFrames: transitionSheet.frames,
     animationPolishDiagonalDigSheet: diagonalSheet.sheetKey,
@@ -188,6 +196,11 @@ export function buildSurvivalUalAnimationPolishProfile({
       ...diagonalAnimations,
     ]),
     animationPolishSheetFiles: Object.freeze([
+      Object.freeze([
+        "animationPolishRunSheet",
+        runSheet.fileName,
+        "animationPolishRunFrames",
+      ]),
       Object.freeze([
         "animationPolishTransitionSheet",
         transitionSheet.fileName,
@@ -200,6 +213,7 @@ export function buildSurvivalUalAnimationPolishProfile({
       ]),
     ]),
     animationPolishRequiredSheets: Object.freeze([
+      runSheet.sheetKey,
       transitionSheet.sheetKey,
       diagonalSheet.sheetKey,
     ]),
@@ -228,6 +242,10 @@ export function buildSurvivalUalAnimationPolishProfile({
     customAnimationKeys,
     customDisplaySizes,
     customOriginBySheet: Object.freeze({
+      [runSheet.sheetKey]: Object.freeze({
+        x: polish.visualOriginX,
+        y: polish.visualOriginY,
+      }),
       [transitionSheet.sheetKey]: Object.freeze({
         x: polish.visualOriginX,
         y: polish.visualOriginY,

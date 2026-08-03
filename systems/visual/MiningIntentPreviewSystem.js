@@ -25,7 +25,6 @@ export class MiningIntentPreviewSystem {
       this.scene.gameState !== "playing"
       || !targetTile
       || this.scene.shopOverlay?.isVisible
-      || this.scene.levelUpPopup?.visible
     ) return;
 
     const abilities = this.scene.playerController?.abilities;

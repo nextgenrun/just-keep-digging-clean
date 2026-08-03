@@ -1,0 +1,23 @@
+diff --git a/testing/readme.md b/testing/readme.md
+--- a/testing/readme.md
++++ b/testing/readme.md
+@@ -5,9 +5,16 @@
+ - `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and
+   `?firstFive=0` profiles, in-camera normal-HP target, persistent objective,
+   remapped control copy, tutorial-specific surface gate, saved Flight practice,
+-  post-upgrade payoff marker, and Next Promise priority.
++  Agility focus, and Next Promise priority.
+ - `2026-07-30-first-upgrade-breakpoint-contract.mjs` exercises the real
+-  `UpgradeSystem` and `DigSystem` result: affordable Miner's Grip raises shallow
+-  Dirt damage from 16 to 24 and lowers 45 HP from 3 hits to 2. It also locks the
+-  Bronze Pickaxe no-regression guard and exact legacy behavior under rollback.
++  `UpgradeSystem` and retention path: the first permanent Agility level costs
++  the sold starter cargo plus one-time funding and is the exact Flight-unlock
++  boundary. Existing Miner's Grip saves retain their legacy effect while that
++  retired tutorial row stays hidden from the shop.
+ - The existing town persistence and retention fixtures now complete with the
+   authored starter-upgrade ID and the current movement collaborator contract.
++- `2026-08-03-tutorial-town-exit-flight-reminders-contract.mjs` proves the
++  three-cell tile-66 Bedrock wall is solid, restores the original cells at
++  Flight, shows the current task once per approach, schedules reminders at
++  30/60/90 seconds, and cancels them on the first real Flight action.

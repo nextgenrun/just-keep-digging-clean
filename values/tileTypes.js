@@ -30,11 +30,6 @@ export const TILE_TYPES = Object.freeze({
   // Cave wall — unbreakable decorative shell using the shared unbreakable material.
   CAVE_WALL: 24,
 
-  // Root overlay types — placed on top of base tiles as visual decoration
-  // (you can't "dig" a root tile; you dig the base tile underneath)
-  ROOT_OVERLAY: 25,
-  ROOT_OVERLAY_DEEP: 26,
-
   // Geode interior — rare resource tile inside a geode pocket
   GEODE_INTERIOR: 27,
   // Geode wall — undiggable shell (heavy punch type)

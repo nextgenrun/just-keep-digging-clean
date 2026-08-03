@@ -14,8 +14,8 @@ import {
 } from "../ui/overlays/SettingsPanelContent.js";
 
 const floatingText = RETENTION_CONFIG.floatingText;
-assert.equal(RETENTION_CONFIG.settings.starPopupsDefaultEnabled, true);
-assert.match(RETENTION_CONFIG.settings.starPopupHint, /three-second|rate-limited/i);
+assert.equal("starPopupsDefaultEnabled" in RETENTION_CONFIG.settings, false);
+assert.equal("starPopupHint" in RETENTION_CONFIG.settings, false);
 assert.equal(floatingText.defaultMode, "reduced");
 assert.deepEqual(floatingText.modes.full.hiddenCategories, []);
 assert.deepEqual(floatingText.modes.reduced.hiddenCategories, ["damage", "resource"]);
@@ -262,8 +262,8 @@ assert.match(
   "the first-run HUD must not cover pause-menu controls",
 );
 assert.match(floatingTextSource, /USER_SETTINGS\.getDisplay\(\)\.floatingTextMode/);
-assert.match(settingsSource, /showStarDiscoveryPopups/);
 assert.match(settingsSource, /scene\.floatingTextSystem\?\.applyDisplaySettings/);
-assert.match(userSettingsSource, /showStarDiscoveryPopups/);
+assert.doesNotMatch(settingsSource, /showStarDiscoveryPopups/);
+assert.doesNotMatch(userSettingsSource, /showStarDiscoveryPopups/);
 
-console.log("pause settings contract: persistent feedback options, Star popup opt-out, unobscured controls, and non-overlapping layout passed");
+console.log("pause settings contract: popup option retired, controls unobscured, and layout non-overlapping");

@@ -10,7 +10,6 @@ function setTownTile(worldModel, tx, ty, type, hp = null) {
   worldModel.skyTileOriginalType[index] = 0;
   worldModel.skyTileRarity[index] = 0;
   worldModel.skyTileIdentity[index] = 0;
-  worldModel.rootOverlay[index] = 0;
 }
 
 function contains(bounds, tx, ty) {

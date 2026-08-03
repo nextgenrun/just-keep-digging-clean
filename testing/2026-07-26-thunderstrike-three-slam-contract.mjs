@@ -308,6 +308,14 @@ const inputSource = readFileSync(
   new URL("../world/playScene/GameInputHandler.js", import.meta.url),
   "utf8",
 );
+const playerInputSource = readFileSync(
+  new URL("../player/PlayerInput.js", import.meta.url),
+  "utf8",
+);
+const keybindActionsSource = readFileSync(
+  new URL("../values/keybindActions.js", import.meta.url),
+  "utf8",
+);
 const timingBarSource = readFileSync(
   new URL("../systems/visual/ThunderStrikeTimingBarSystem.js", import.meta.url),
   "utf8",
@@ -378,11 +386,36 @@ assert.match(
   /thunderStrikeActionRuntime\?\.isAnimating[\s\S]{0,120}thunderStrikeStrikeAnim/,
 );
 assert.match(updateSource, /thunderStrikeActionRuntime\?\.update/);
-assert.match(updateSource, /thunderStrikeActionRuntime\?\.cancel/);
+assert.doesNotMatch(
+  updateSource,
+  /getHorizontalMovement[\s\S]{0,180}thunderStrikeActionRuntime\?\.cancel/,
+  "held A/D must not abort the committed C strike on the next frame",
+);
 assert.match(caveSource, /new ThunderStrikeActionRuntime\(controller\.scene/);
 assert.match(caveSource, /cancelThunderStrike\(time\)/);
-assert.match(caveGameplaySource, /cancelThunderStrike\(time\)/);
+assert.match(
+  caveGameplaySource,
+  /if \(escapePressed\)[\s\S]{0,120}cancelThunderStrike\(time\)/,
+  "Escape remains the explicit cave strike cancel",
+);
+assert.doesNotMatch(
+  caveGameplaySource,
+  /horizontal\.(?:left|right)[\s\S]{0,120}cancelThunderStrike\(time\)/,
+  "held cave locomotion must not cancel Thunder Strike",
+);
 assert.match(inputSource, /thunderStrikeActionRuntime\?\.cancel/);
+assert.match(
+  playerInputSource,
+  /queueThunderStrikeInput\(\)[\s\S]{0,180}_queuedThunderStrikeInput = true/,
+);
+assert.match(
+  playerInputSource,
+  /return queued \|\| Phaser\.Input\.Keyboard\.JustDown\(this\.keys\.c\)/,
+);
+assert.match(
+  keybindActionsSource,
+  /id:\s*["']thunderStrike["'][\s\S]{0,120}defaultKey:\s*["']C["']/,
+);
 assert.match(timingBarSource, /getPresentedTimingSnapshot/);
 assert.match(timingBarViewSource, /getKeyLabel\("thunderStrike"\)/);
 assert.match(timingBarViewSource, /windowStartProgress/);

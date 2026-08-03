@@ -1,4 +1,5 @@
 import { SCREEN_RECORD_CONFIG } from "../../values/screenRecordConfig.js";
+import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { ScreenRecordUiVisibility } from "./ScreenRecordUiVisibility.js";
 
 export function selectSupportedMimeType(mediaRecorder, preferredMimeTypes) {
@@ -38,6 +39,7 @@ export class ScreenRecordSystem {
   }
 
   async toggle() {
+    if (!GAME_CONFIG.debugMode) return false;
     const now = Date.now();
     if (now - this.lastToggleAt < 250) return false;
     this.lastToggleAt = now;

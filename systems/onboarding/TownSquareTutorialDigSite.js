@@ -53,11 +53,3 @@ export function prepareTownTutorialDigSite(
 ) {
   return prepareSite(scene, getDigSiteConfig(search));
 }
-
-export function getTownTutorialPayoffSite(scene) {
-  return getSite(scene, FIRST_FIVE_MINUTES_CONFIG.payoffSite);
-}
-
-export function prepareTownTutorialPayoffSite(scene) {
-  return prepareSite(scene, FIRST_FIVE_MINUTES_CONFIG.payoffSite);
-}

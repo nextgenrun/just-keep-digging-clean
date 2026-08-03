@@ -141,19 +141,20 @@ export class TitanSurfaceInspection {
     if (!definition || !lore) return false;
     const gallery = this.config.surfaceGallery;
     this.lastInspectedId = definition.id;
-    this.scene.uiNotifications?.info?.(
-      [
-        `${definition.name.toUpperCase()} — ${lore.epithet.toUpperCase()}`,
-        `“${lore.inscription}”`,
-        gallery.inspectionArchiveHint,
-      ].join(gallery.inspectionSeparator),
-      {
-        key: gallery.inspectionNotificationKey,
-        title: gallery.inspectionNotificationTitle,
-        priority: gallery.inspectionNotificationPriority,
-        noDedupe: true,
-      }
-    );
+    const title = `${definition.name.toUpperCase()} — ${lore.epithet.toUpperCase()}`;
+    const body = [
+      `“${lore.inscription}”`,
+      gallery.inspectionArchiveHint,
+    ].join("\n\n");
+    if (typeof this.scene.showGameDialog === "function") {
+      this.scene.showGameDialog(title, body);
+    } else {
+      this.scene.hudSystem?.flashStatus?.(
+        `${title}  •  ${lore.inscription}`,
+        undefined,
+        5000,
+      );
+    }
     return true;
   }
 

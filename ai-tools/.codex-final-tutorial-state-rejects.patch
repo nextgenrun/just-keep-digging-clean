@@ -1,0 +1,121 @@
+diff --git a/values/tutorialNarration.js b/values/tutorialNarration.js
+--- a/values/tutorialNarration.js
++++ b/values/tutorialNarration.js
+@@ -22,6 +22,18 @@
+   dig: cue(
+     "dig",
+     "Face the block and keep mining until it breaks.",
+     "STEP 2  •  MINE THE MARKED BLOCK",
+     "FACE THE BLOCK  •  HOLD {mine}  •  KEEP THE CARGO YOU FIND",
+   ),
++  sell: cue(
++    "sell",
++    "Sell the cargo you just mined. That money starts your first real upgrade.",
++    "STEP 3  •  SELL YOUR FIRST CARGO",
++    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
++  ),
++  upgrade: cue(
++    "upgrade",
++    "Buy Agility Training. The movement-speed increase stays with you.",
++    "STEP 4  •  BUY {upgrade}",
++    "VISIT UPGRADES  •  {interact}  •  BUY THE MOVEMENT-SPEED UPGRADE",
++  ),
+@@ -28,6 +40,6 @@
+   flight: cue(
+     "flight",
+     "Hold Flight to rise. Use it whenever you need to recover locally.",
+-    "STEP 3  •  PROVE YOUR LOCAL RECOVERY",
++    "STEP 5  •  PROVE YOUR LOCAL RECOVERY",
+     "HOLD {fly} UNTIL YOU LIFT OFF  •  THEN DESCEND TOWARD 40M",
+   ),
+@@ -34,6 +46,6 @@
+   portal: cue(
+     "portal",
+     "Descend to the return gate. Activating it opens a permanent route home.",
+-    "STEP 4  •  FIND THE RETURN GATE AT 40M",
++    "STEP 6  •  FIND THE RETURN GATE AT 40M",
+     "DIG DOWN THE STARTER ROUTE  •  UNLOCK A PERMANENT WAY HOME",
+   ),
+@@ -46,12 +58,6 @@
+-  sell: cue(
+-    "sell",
+-    "Your route is open. Return to town and sell what you actually found.",
+-    "STEP 5  •  SELL YOUR REAL CARGO",
+-    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
+-  ),
+   resume: cue(
+     "resume",
+     "The surface gate now returns you to the route you opened.",
+-    "STEP 6  •  RESUME AT 40M",
++    "STEP 7  •  RESUME AT 40M",
+     "USE THE MARKED SURFACE GATE  •  THEN ENTER YOUR PAIRED SKY GATE",
+   ),
+@@ -58,6 +64,6 @@
+   complete: cue(
+     "complete",
+-    "Your route is yours. Dig deeper, return through gates, and spend only what you earn.",
++    "Your Agility is permanent. Dig deeper and return through the gates you open.",
+     "CORE ROUTE LEARNED  •  DIG DEEPER",
+     "FLIGHT = LOCAL RECOVERY  •  PORTALS = LONG-DISTANCE RETURN",
+   ),
+diff --git a/systems/progression/RetentionProgressSystem.js b/systems/progression/RetentionProgressSystem.js
+--- a/systems/progression/RetentionProgressSystem.js
++++ b/systems/progression/RetentionProgressSystem.js
+@@ -117,9 +117,29 @@
++  claimTutorialUpgradeFunding() {
++    if (
++      this.data.tutorialUpgradeFundingGranted === true
++      || this.data.tutorialChoice !== TOWN_TUTORIAL_CHOICES.YES
++      || this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.UPGRADE
++    ) {
++      return null;
++    }
++    this.data.tutorialUpgradeFundingGranted = true;
++    return {
++      money: RETENTION_CONFIG.tutorial.upgradeFunding.money,
++    };
++  }
++
+   claimTutorialFlightTraining() {
+-    if (this.data.tutorialFlightTrainingGranted === true) return null;
+-    if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
++    if (
++      this.data.tutorialFlightTrainingGranted === true
++      || this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY
++      || ![
++        TOWN_TUTORIAL_STAGES.FLIGHT,
++        TOWN_TUTORIAL_STAGES.COMPLETE,
++        TOWN_TUTORIAL_STAGES.SKIPPED,
++      ].includes(this.data.tutorialStage)
++    ) {
++      return null;
++    }
+     this.data.tutorialFlightTrainingGranted = true;
+     const reward = RETENTION_CONFIG.tutorial.flightTraining;
+@@ -279,8 +299,8 @@
+   recordSale(money, units = 0) {
+     const earned = this.recordMoneyEarned(money);
+     this.data.stats.resourcesSold += finiteRetentionInt(units, 0, 1000000000);
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.SELL) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
+     }
+     return { money: earned, units: finiteRetentionInt(units) };
+   }
+@@ -319,9 +339,9 @@
+   recordPortalActivated(label) {
+     this.data.stats.portalsActivated += 1;
+     this._discover("portals", label, label, false);
+     this._discover("journal", `portal:${label}`, `Portal: ${label}`, false);
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.PORTAL) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
+     }
+   }
+@@ -456,7 +476,7 @@
+   onFirstTileBroken() {
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.DIG) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
+     }
+   }

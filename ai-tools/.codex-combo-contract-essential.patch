@@ -1,0 +1,22 @@
+diff --git a/testing/2026-08-02-combo-block-reward-contract.mjs b/testing/2026-08-02-combo-block-reward-contract.mjs
+--- a/testing/2026-08-02-combo-block-reward-contract.mjs
++++ b/testing/2026-08-02-combo-block-reward-contract.mjs
+@@ -7,11 +7,15 @@
+ 
+ const notifications = [];
++const genericNotifications = [];
+ const scene = {
+   time: { now: 1250 },
++  essentialNotifications: {
++    success: (message, options) => notifications.push({ message, options }),
++  },
+   uiNotifications: {
+-    success: (message, options) => notifications.push({ message, options }),
++    success: (message, options) => genericNotifications.push({ message, options }),
+   },
+ };
+@@ -34,6 +38,7 @@
+ assert.equal(comboSystem.getComboCount(), SPECIAL_BLOCKS_CONFIG.effects.comboBlock.value);
+ assert.equal(comboSystem.lastComboTime, scene.time.now);
+ assert.equal(notifications.length, 1);
++assert.equal(genericNotifications.length, 0);

@@ -1,0 +1,225 @@
+diff --git a/systems/onboarding/TutorialFlightReminderSystem.js b/systems/onboarding/TutorialFlightReminderSystem.js
+--- a/systems/onboarding/TutorialFlightReminderSystem.js
++++ b/systems/onboarding/TutorialFlightReminderSystem.js
+@@ -89,8 +89,8 @@
+   _isEligible() {
+     const state = this.retention?.getTutorialState?.();
+     return state?.choice === TOWN_TUTORIAL_CHOICES.YES
+-      && state.stage === TOWN_TUTORIAL_STAGES.COMPLETE
+-      && state.completionRewardGranted === true
++      && state.stage === TOWN_TUTORIAL_STAGES.FLIGHT
++      && state.flightTrainingGranted === true
+       && state.freeFlightRemainingMs
+         >= RETENTION_CONFIG.tutorial.completionReward.freeFlightMs
+diff --git a/systems/onboarding/FirstFiveMinutesTutorialBridge.js b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+--- a/systems/onboarding/FirstFiveMinutesTutorialBridge.js
++++ b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+@@ -2,6 +2,10 @@
+   FIRST_FIVE_MINUTES_CONFIG,
+   resolveFirstFiveMinutesEnabled,
+ } from "../../values/firstFiveMinutes.js";
++import {
++  FIRST_FIVE_STARTER_UPGRADE_ID,
++  UPGRADES,
++} from "../../values/upgradeDefinitions.js";
+ import {
+@@ -9,6 +13,7 @@
+ import { TILE_TYPES } from "../../values/tileTypes.js";
+ import { prepareTownTutorialDigSite } from "./TownSquareTutorialDigSite.js";
++import { TutorialFlightReminderSystem } from "./TutorialFlightReminderSystem.js";
+ import { TutorialNarrationController } from "./TutorialNarrationController.js";
+@@ -28,6 +33,13 @@
+       ?? resolveFirstFiveMinutesEnabled(this.config, this.search);
+     this.surfaceSafety = new TutorialSurfaceSafetySystem(this.scene, this.config);
+     this.narration = new TutorialNarrationController(scene, retention);
++    this.flightReminders = new TutorialFlightReminderSystem(
++      scene,
++      retention,
++      view,
++      interpolateCopy,
++    );
+     this._surfaceBlockedUntil = 0;
+@@ -42,6 +54,7 @@
+       () => this.handleSurfaceDropBlocked(),
+     );
++    this.flightReminders.resume();
+   }
+@@ -51,14 +64,34 @@
+ 
+     this.enforceSurfaceSafety();
+     this.narration.update();
++    this.flightReminders.update();
+   }
+ 
+   onStageEntered(stage) {
+     if (!this.enabled) return false;
+     this.narration.onStageEntered(stage);
++    if (stage === TOWN_TUTORIAL_STAGES.UPGRADE) {
++      if (
++        this.scene.upgradeSystem?.getUpgradeLevel?.(
++          FIRST_FIVE_STARTER_UPGRADE_ID,
++        ) > 0
++      ) {
++        this.retention.recordUpgrade(
++          UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name,
++          { upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID },
++        );
++        this.view.clearMarker();
++        return true;
++      }
++      this._grantUpgradeFunding();
++      this._pointAtMerchant(RETENTION_CONFIG.tutorial.merchants.upgrade);
++      return true;
++    }
+     if (stage !== TOWN_TUTORIAL_STAGES.MOVE) return false;
+@@ -66,6 +99,11 @@
+     return true;
+   }
+ 
++  onFlightUnlocked(announce = true) {
++    if (!this.enabled) return false;
++    return this.flightReminders.begin({ announce });
++  }
++
+   isEnabled() {
+@@ -122,11 +160,30 @@
+   }
+ 
+   getFocusedUpgradeId(merchantId) {
+-    return null;
++    const state = this.retention?.getTutorialState?.();
++    if (
++      !this.enabled
++      || state?.stage !== TOWN_TUTORIAL_STAGES.UPGRADE
++      || merchantId !== RETENTION_CONFIG.tutorial.merchants.upgrade
++    ) {
++      return null;
++    }
++    return FIRST_FIVE_STARTER_UPGRADE_ID;
+   }
+ 
+   isUpgradeAvailable(upgradeId) {
+-    return true;
++    if (upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return true;
++    if (!this.enabled) return false;
++    const stage = this.retention?.getTutorialState?.()?.stage;
++    return stage === TOWN_TUTORIAL_STAGES.UPGRADE
++      || !RETENTION_CONFIG.tutorial.activeStages.includes(stage);
+   }
+@@ -142,5 +199,6 @@
+ 
+   getUpgradePreview(upgradeId) {
+-    return null;
++    if (!this.enabled || upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return null;
++    return { upgradeId };
+   }
+@@ -175,8 +233,32 @@
+     );
+   }
+ 
++  _grantUpgradeFunding() {
++    const reward = this.retention?.claimTutorialUpgradeFunding?.();
++    if (!reward) return false;
++    this.scene.upgradeSystem?.addMoney?.(reward.money);
++    this.scene.uiResourceBar?.setMoney?.(
++      this.scene.upgradeSystem?.getMoney?.() || 0,
++    );
++    this.scene.queueDugTilesSave?.();
++    return true;
++  }
++
++  _pointAtMerchant(merchantId) {
++    const sprite = this.scene.npcManager?.getNPCSprite?.(merchantId);
++    if (!sprite) {
++      this.view.clearMarker();
++      return;
++    }
++    this.view.pointAt(
++      sprite.x,
++      sprite.y - Math.max(
++        RETENTION_CONFIG.tutorial.ui.merchantMinimumHeightPx,
++        sprite.displayHeight || 0,
++      ) - RETENTION_CONFIG.tutorial.ui.merchantMarkerGapPx,
++    );
++  }
++
+   _interpolate(copy) {
+-    return this.interpolateCopy(copy);
++    return this.interpolateCopy(copy, {
++      upgrade: UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name,
++    });
+   }
+@@ -185,6 +267,8 @@
+     this.scene?.playerController?.surfaceDrop?.setAccessPolicy?.(null, null);
++    this.flightReminders?.destroy();
++    this.flightReminders = null;
+     this.narration?.destroy();
+diff --git a/systems/onboarding/TownSquareTutorialView.js b/systems/onboarding/TownSquareTutorialView.js
+--- a/systems/onboarding/TownSquareTutorialView.js
++++ b/systems/onboarding/TownSquareTutorialView.js
+@@ -1,5 +1,10 @@
+ import { ASSET_KEYS } from "../../values/assetKeys.js";
++import { FIRST_FIVE_MINUTES_CONFIG } from "../../values/firstFiveMinutes.js";
+ import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+ 
++function formatMessage(copy) {
++  return [copy?.title, copy?.body].filter(Boolean).join("  •  ");
++}
++
+ export class TownSquareTutorialView {
+@@ -7,6 +12,7 @@
+     this.scene = scene;
+     this.config = RETENTION_CONFIG.tutorial.ui;
++    this.flightConfig = FIRST_FIVE_MINUTES_CONFIG.flightReminders;
+     this.marker = null;
+@@ -38,6 +44,36 @@
+     if (this.marker) this.marker.setVisible(false);
+   }
+ 
++  showFlightUnlock(copy) {
++    this.closeFlightNotifications();
++    this.scene.uiNotifications?.success?.(formatMessage(copy), {
++      key: this.flightConfig.notificationKeys.unlock,
++      title: copy?.phase || "FLIGHT UNLOCKED",
++      noDedupe: true,
++      bypassPacing: true,
++    });
++  }
++
++  showFlightReminder(copy, reminderNumber) {
++    this.closeFlightNotifications();
++    this.scene.uiNotifications?.info?.(formatMessage(copy), {
++      key: this.flightConfig.notificationKeys.reminder,
++      title: `${copy?.phase || "FLIGHT REMINDER"}  ${reminderNumber} / ${this.flightConfig.count}`,
++      noDedupe: true,
++      bypassPacing: true,
++    });
++  }
++
++  closeFlightNotifications() {
++    Object.values(this.flightConfig.notificationKeys).forEach(key => {
++      this.scene?.uiNotifications?.closeByKey?.(key);
++    });
++  }
++
+   resize() {}
+@@ -45,6 +81,7 @@
+ 
+   destroy() {
++    this.closeFlightNotifications();
+     this.scene?.tweens?.killTweensOf?.(this.marker);
+diff --git a/systems/onboarding/TownSquareTutorialSystem.js b/systems/onboarding/TownSquareTutorialSystem.js
+--- a/systems/onboarding/TownSquareTutorialSystem.js
++++ b/systems/onboarding/TownSquareTutorialSystem.js
+@@ -206,9 +206,11 @@
+       return;
+     }
+-    const reward = this.retention.claimTutorialFlightTraining()
++    const newlyGranted = this.retention.claimTutorialFlightTraining();
++    const reward = newlyGranted
+       || RETENTION_CONFIG.tutorial.flightTraining;
+     this.scene.upgradeSystem?.grantUpgrade?.(reward.flightUpgradeId);
+     this.scene.armHardcoreAfterFlightUnlock?.("town-tutorial-flight-training");
+     this.scene.playerController?.abilities?.fillGemPower?.();
++    this.firstFive.onFlightUnlocked(newlyGranted !== null);
+     this.scene.queueDugTilesSave?.();

@@ -91,8 +91,8 @@ assert.deepEqual(
 );
 
 const preloadAssets = getTitanDiscoveryPreloadAssets();
-assert.equal(preloadAssets.length, 54);
-assert.equal(new Set(preloadAssets.map(asset => asset.key)).size, 54);
+assert.equal(preloadAssets.length, 56);
+assert.equal(new Set(preloadAssets.map(asset => asset.key)).size, 56);
 for (const definition of TITAN_DEFINITIONS) {
   assert.notEqual(definition.surfaceAsset.key, definition.asset.key);
   assert.ok(preloadAssets.some(asset => asset.key === definition.surfaceAsset.key));

@@ -13,7 +13,6 @@ import {
   TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../values/retentionConfig.js";
-import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../values/upgradeDefinitions.js";
 import { getCargoSellValue } from "../values/resourcePrices.js";
 import { getTeleportPortalLabel } from "../values/teleportPortalConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
@@ -40,22 +39,21 @@ assert.ok(
   "combo GP restoration must remain restrained",
 );
 
-// Routine levels stay non-choice while authored five-level milestones preserve
-// their selection and survive later recalculation and save restoration.
+// Five-level bonuses are automatic and never pause mining for a choice.
 assert.equal(LEVEL_CONFIG.hasChoiceReward(4), false);
 assert.equal(LEVEL_CONFIG.hasChoiceReward(5), true);
 const levels = new PlayerLevelSystem();
 const milestone = levels.gainLevel(4);
 assert.equal(milestone.newLevel, 5);
-assert.equal(milestone.hasChoice, true);
-const selected = levels.applyChoiceReward("miningPower");
-assert.equal(selected.count, 1);
+assert.equal(milestone.hasChoice, false);
+assert.equal(milestone.automaticReward.count, 1);
 const chosenDamage = levels.getMiningDamageMultiplier();
 levels.gainLevel(1);
 assert.ok(levels.getMiningDamageMultiplier() > chosenDamage);
 const restoredLevels = new PlayerLevelSystem();
 restoredLevels.fromJSON(levels.toJSON());
-assert.deepEqual(restoredLevels.choiceSelections, { miningPower: 1, resourceLuck: 0 });
+assert.deepEqual(restoredLevels.choiceSelections, { miningPower: 0, resourceLuck: 0 });
+assert.equal(restoredLevels.automaticMilestoneRewards, 1);
 assert.equal(restoredLevels.getMiningDamageMultiplier(), levels.getMiningDamageMultiplier());
 
 // Persistent records, first-run loop, discoveries, expedition comparison data,
@@ -91,27 +89,27 @@ retention.recordMiningResult({
   isCriticalHit: true,
   isLuckyDrop: true,
 });
-assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.SELL);
-assert.deepEqual(retention.claimTutorialStarterReward(), {
-  money: 3,
-  resources: { dirt: 6 },
-});
-assert.equal(retention.claimTutorialStarterReward(), null);
-retention.recordSale(30, 2);
-assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.UPGRADE);
-retention.recordUpgrade("Miner's Grip", {
-  upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
+assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.FLIGHT);
+retention.recordUpgrade("Agility Training", {
+  upgradeId: "agility",
   beforeHits: 3,
   afterHits: 2,
   beforeDamage: 10,
   afterDamage: 12,
 });
-assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.COMPLETE);
-assert.equal(retention.claimTutorialCompletionReward().freeFlightMs, 30000);
-assert.equal(retention.claimTutorialCompletionReward(), null);
+assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.FLIGHT);
+assert.equal(retention.claimTutorialFlightTraining().freeFlightMs, 30000);
+assert.equal(retention.claimTutorialFlightTraining(), null);
 assert.equal(retention.isTutorialFreeFlightActive(), true);
 retention.consumeTutorialFreeFlight(1000);
 assert.equal(retention.getTutorialState().freeFlightRemainingMs, 29000);
+assert.equal(retention.recordTutorialFlight(), true);
+retention.recordPortalActivated("Starter Return Gate");
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+retention.recordSale(30, 2);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+assert.equal(retention.recordTutorialPortalResume(), true);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
 assert.equal(retention.consumeUpgradePayoff().afterHits, 2);
 assert.equal(retention.hasDiscoveredMaterial("copper"), true);
 retention.recordChest({ money: 45, star: false });

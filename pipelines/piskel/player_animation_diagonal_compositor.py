@@ -101,6 +101,10 @@ def build_diagonal_frames(
 ) -> tuple[list[Image.Image], list[dict[str, Any]]]:
     diagonal = config["diagonalMining"]
     run_source = config["sources"]["run"]
+    run_action = config.get("runPolish", {}).get(
+        "manifestAction",
+        run_source["manifestAction"],
+    )
     output_size = float(config["displaySizePx"])
     all_frames: list[Image.Image] = []
     variants: list[dict[str, Any]] = []
@@ -129,12 +133,12 @@ def build_diagonal_frames(
                     action_source,
                     int(action_index),
                     run,
-                    run_source["manifestAction"],
+                    run_action,
                     run_index,
                     manifest,
                     output_size,
                 )
-                pelvis = _marker(manifest, run_source["manifestAction"], run_index, "pelvis")
+                pelvis = _marker(manifest, run_action, run_index, "pelvis")
                 composite = blend_at_pelvis(
                     run,
                     aligned,
@@ -143,7 +147,7 @@ def build_diagonal_frames(
                     float(diagonal["seamFeatherPx"]),
                 )
                 variant_frames.append(composite)
-                markers = _run_markers(manifest, run_source["manifestAction"], run_index)
+                markers = _run_markers(manifest, run_action, run_index)
                 if action_id:
                     for name in ("hand_l", "hand_r", "head"):
                         markers[name] = _transform_marker(

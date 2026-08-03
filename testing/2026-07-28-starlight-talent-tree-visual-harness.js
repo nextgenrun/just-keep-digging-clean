@@ -7,9 +7,6 @@ import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../values/starlightTalentTree.js";
-import {
-  getStarDiscoveryPreloadAssets,
-} from "../values/starRarityProgression.js";
 import { PAUSE_MENU_LAYOUT } from "../values/uiLayout.js";
 import { createModalShell } from "../ui/UiModalShell.js";
 import { StarlightTalentTreeView } from "../ui/overlays/StarlightTalentTreeView.js";
@@ -138,9 +135,6 @@ class StarlightTalentTreeReviewScene extends Phaser.Scene {
     const starlightAssets = STARLIGHT_TALENT_TREE_CONFIG.assets;
     Object.entries(starlightKeys).forEach(([name, key]) => {
       this.load.image(key, `../${starlightAssets.basePath}${starlightAssets.files[name]}`);
-    });
-    getStarDiscoveryPreloadAssets().forEach(asset => {
-      this.load.image(asset.key, `../${asset.path}`);
     });
   }
 

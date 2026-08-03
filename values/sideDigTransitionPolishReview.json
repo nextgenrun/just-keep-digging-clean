@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "version": "side-dig-transition-polish-review-v1-20260803",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWiring": false,
+  "sourceManifest": "sprites/character/survival-ual-player-v1/runtime/manifest.json",
+  "geometry": {
+    "frameWidth": 256,
+    "frameHeight": 256,
+    "sheetColumns": 16,
+    "outputDisplaySizePx": 123,
+    "outputOriginX": 0.5,
+    "outputOriginY": 0.96484375,
+    "targetPelvisX": 128,
+    "targetPelvisY": 169,
+    "targetBottomY": 248,
+    "bodyWidthPx": 31,
+    "bodyHeightPx": 75,
+    "tileSizePx": 94,
+    "alphaThreshold": 32,
+    "lowerAnchorTopY": 208
+  },
+  "sources": {
+    "idle": {
+      "file": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-idle-sheet.png",
+      "frameCount": 48,
+      "columns": 16,
+      "displaySizePx": 101,
+      "originY": 0.890625
+    },
+    "run": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp",
+      "manifestAction": "run-piskel-polished",
+      "frameCount": 28,
+      "columns": 16,
+      "displaySizePx": 123,
+      "originY": 0.96484375
+    },
+    "jab": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp",
+      "manifestAction": "punch-jab",
+      "frameCount": 27,
+      "columns": 16,
+      "displaySizePx": 109,
+      "originY": 0.96484375,
+      "contactFrame": 7
+    },
+    "cross": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-cross-sheet.webp",
+      "manifestAction": "punch-cross",
+      "frameCount": 31,
+      "columns": 16,
+      "displaySizePx": 109,
+      "originY": 0.96484375,
+      "contactFrame": 9
+    },
+    "movingJab": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-jab-sheet.webp",
+      "manifestAction": "moving-side-dig-jab",
+      "frameCount": 22,
+      "columns": 16,
+      "displaySizePx": 123,
+      "originY": 0.96484375
+    },
+    "movingCross": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-cross-sheet.webp",
+      "manifestAction": "moving-side-dig-cross",
+      "frameCount": 22,
+      "columns": 16,
+      "displaySizePx": 123,
+      "originY": 0.96484375
+    },
+    "transitions": {
+      "file": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-transitions-sheet.webp",
+      "frameCount": 61,
+      "columns": 16,
+      "displaySizePx": 123,
+      "originY": 0.96484375,
+      "jabRecoveryFrames": [30, 31],
+      "crossRecoveryFrames": [32, 33]
+    }
+  },
+  "standing": {
+    "idleFrame": 0,
+    "seamOffsetPx": 6,
+    "seamFeatherPx": 24,
+    "exitBlendFrameCount": 8,
+    "contactBackoffSourcePx": 5,
+    "contactBackoffFalloffFrames": 4,
+    "blockedPlantBlendWeights": [0.18, 0.48, 0.78, 1.0]
+  },
+  "moving": {
+    "framesPerAction": 22,
+    "runPhaseAdvanceFrames": 14,
+    "runFrameOffsets": [0, 1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9, 10, 10, 11, 11, 12, 13, 13],
+    "jabSequence": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 21, 23, 25, 26],
+    "crossSequence": [0, 2, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30],
+    "jabRunStartFrame": 9,
+    "crossRunStartFrame": 23,
+    "contactFrame": 6,
+    "contactBackoffSourcePx": 8,
+    "contactBackoffFalloffFrames": 4,
+    "seamOffsetPx": 6,
+    "seamFeatherPx": 18,
+    "currentEntryWeights": [0.12, 0.26, 0.4, 0.54, 0.68, 0.84, 1.0],
+    "currentExitWeights": [0.94, 0.8, 0.66, 0.52, 0.38, 0.24, 0.1],
+    "proposedEntryWeights": [0.0, 0.0741, 0.2593, 0.5, 0.7407, 0.9259, 1.0],
+    "proposedExitWeights": [1.0, 0.9259, 0.7407, 0.5, 0.2593, 0.0741, 0.0]
+  },
+  "blocked": {
+    "currentStandOffDistancePx": 21,
+    "stableHoldRootOffsetPx": -21,
+    "runLeadFrames": [4, 5, 6, 7, 8, 9],
+    "currentRunLeadRootOffsetsPx": [-30, -24, -18, -12, -6, 0],
+    "proposedRunLeadRootOffsetsPx": [-30, -26, -23, -21, -21, -21],
+    "releaseRootOffsetsPx": [-14, -7, 0]
+  },
+  "render": {
+    "canvasWidth": 1280,
+    "canvasHeight": 420,
+    "actorRootX": 350,
+    "groundInsetPx": 42,
+    "previewFrameDurationMs": 72,
+    "contactHoldFrames": 3,
+    "fontFile": "C:/Windows/Fonts/segoeui.ttf",
+    "fontBoldFile": "C:/Windows/Fonts/seguisb.ttf"
+  },
+  "piskel": {
+    "id": "side-dig-transition-polish-after-review",
+    "displayName": "Side Dig Transition Polish After Review",
+    "fps": 30,
+    "frameSize": [256, 256],
+    "sheetColumns": 16
+  },
+  "outputs": {
+    "piskel": "generated/side-dig-transition-polish-after-review.piskel",
+    "candidateSheet": "generated/side-dig-transition-polish-after-review.webp",
+    "layout": "generated/side-dig-transition-polish-layout.json",
+    "metrics": "generated/side-dig-transition-polish-metrics.json",
+    "contactSheet": "generated/side-dig-transition-before-after.png",
+    "keyframeSheet": "generated/side-dig-transition-before-after-keyframes.png",
+    "standingGif": "generated/standing-side-dig-before-after.gif",
+    "blockedGif": "generated/blocked-side-dig-before-after.gif",
+    "runningGif": "generated/running-side-dig-before-after.gif"
+  }
+}

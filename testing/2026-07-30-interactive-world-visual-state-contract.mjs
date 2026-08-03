@@ -116,7 +116,7 @@ const discovery = new MemoryReliquaryDiscoverySystem(
   retention,
   () => { saveRequests += 1; },
 );
-const loreNotifications = [];
+const loreDialogs = [];
 const reliquaryImages = [];
 const reliquaryScene = {
   time: { now: 200 },
@@ -128,8 +128,8 @@ const reliquaryScene = {
     },
     text: () => displayObject(),
   },
-  uiNotifications: {
-    info: (message, options) => loreNotifications.push({ message, options }),
+  showGameDialog(title, body) {
+    loreDialogs.push({ title, body });
   },
 };
 const reliquaryBank = {
@@ -162,8 +162,8 @@ const openResult = reliquarySystem.handleInteract();
 assert.equal(openResult.success, true);
 assert.equal(openResult.newlyDiscovered, true);
 assert.equal(saveRequests, 1);
-assert.equal(loreNotifications.length, 1);
-assert.match(loreNotifications[0].message, /Recorded in Journey findings/);
+assert.equal(loreDialogs.length, 1);
+assert.match(loreDialogs[0].body, /Recorded in Journey findings/);
 assert.equal("reward" in openResult, false);
 assert.equal("money" in openResult, false);
 

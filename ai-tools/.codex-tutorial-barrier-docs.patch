@@ -1,0 +1,111 @@
+diff --git a/systems/onboarding/readme.md b/systems/onboarding/readme.md
+--- a/systems/onboarding/readme.md
++++ b/systems/onboarding/readme.md
+@@ -4,12 +4,17 @@ encounters.
+ 
+ - `TownSquareTutorialSystem.js` remains the production tutorial authority. A
+   chosen tutorial advances only from real movement, tile destruction, resource
+-  sale, and the authored starter-upgrade purchase. Rewards remain idempotent:
+-  starter cargo, Flight unlock, a 30-second flying-only bank, and money.
++  sale, and the authored Agility purchase. Rewards remain idempotent: two-money
++  Agility funding, the Flight unlock, and a 30-second flying-only bank.
+ - `FirstFiveMinutesTutorialBridge.js` is the reversible presentation/safety
+   layer. It feeds the existing Next Promise strip with persistent remapped-key
+   guidance, focuses SELL and Agility Training in the real shops, blocks the
+   one-way surface drop during training, and requires one real Flight frame.
+   The consumed Flight bank persists the safety proof without a save-schema
+   change.
++- `TutorialTownExitBarrierSystem.js` installs a three-tile authoritative
++  Bedrock column in the approved right-hand Town Square doorway while the
++  guided player is in MOVE, DIG, SELL, or UPGRADE. Approaching it shows the
++  current tutorial task through the authored essential notification channel.
++  Entering FLIGHT restores the exact original tiles immediately.
+ - `TutorialFlightReminderSystem.js` shows the authored Flight-unlocked card,
+   schedules three reminders across 90 seconds, and cancels every pending card
+@@ -24,13 +29,12 @@ encounters.
+   retain their progression gates.
+ - `TownSquareTutorialDigSite.js` authors the normal-HP Dirt at x12 without
+-  opening a forced shaft. Under `?firstFive=0` it restores the former x24
+-  one-HP practice tile. `TownSquareTutorialView.js` reuses the existing world
+-  marker and authored notification carousel; the persistent objective is
+-  rendered by `NextPromiseHudSystem`.
+-- Completed/skipped guided saves keep the Flight prompt only until Flight is
+-  actually demonstrated. Legacy saves remain exempt. Once Flight is used, no
+-  tutorial objective remains after load.
++  opening a forced shaft. `TownSquareTutorialView.js` reuses the existing world
++  marker and authored notification carousel for Flight and sealed-exit task
++  messages; the persistent objective is rendered by `NextPromiseHudSystem`.
++- Completed, skipped, and legacy saves create neither the Bedrock tutorial wall
++  nor the Flight reminder sequence. Agility remains a normal permanent player
++  upgrade after the tutorial.
+ - `?firstFive=0` is the parent rollback for this layer. It does not alter the
+   independent `?surfaceDrop=0`, `?randomEvents=0`, or `?loadingMine=0`
+   diagnostic switches.
+diff --git a/values/readme.md b/values/readme.md
+--- a/values/readme.md
++++ b/values/readme.md
+@@ -3,11 +3,10 @@
+ Single Source of Truth — ALL numeric/string/config values.
+ 
+ - `firstFiveMinutes.js` owns the default-on opening profile: the in-camera
+-  practice and payoff Dirt sites, surface-safety feedback timing, persistent
+-  stage/Flight/payoff copy, the expected 3-hit to 2-hit result, and the single
+-  `?firstFive=0` rollback. Disabling the profile restores the former transient
+-  tutorial, x24 one-HP practice tile, unrestricted tutorial descent, legacy
+-  shop selection, and legacy pickaxe damage behavior.
++  x12 practice Dirt, exact Town-exit Bedrock wall geometry and approach copy,
++  surface-safety timing, Flight unlock card, three 30-second reminders, and the
++  single `?firstFive=0` rollback. Generic notifications remain disabled; these
++  action-critical messages use the authored essential channel.
+ 
+ 
+ - systemIntroduction.js owns the production staged-disclosure profile:
+@@ -307,8 +306,10 @@ Single Source of Truth — ALL numeric/string/config values.
+ - `supermanHorizontalIdleReview.json` owns the simplified review-only Superman baseline: the frozen approved idle snapshot, a single 90-degree horizontal flip, and its clean no-controls output paths. It never changes runtime art, animation, or collision.
+ - `retentionConfig.js` owns the production Town Square tutorial choices,
+-  movement/dig/sell/upgrade stages, guaranteed starter cargo, Flight reward,
+-  30-second flying-only bank, copy, markers, and modal/HUD layout.
++  movement/dig/sell/Agility/Flight/portal/resume stages, one-time Agility
++  funding, Flight reward, 30-second flying-only bank, copy, markers, and
++  modal/HUD layout. `uiNotificationCarousel.js` separately owns the narrow
++  essential notification channel used for explicit tutorial/reward feedback.
+ - `playerPersistence.js` validates the exact pixel body coordinates, facing, and
+   GP snapshot stored in save schema v13.
+diff --git a/world/playScene/readme.md b/world/playScene/readme.md
+--- a/world/playScene/readme.md
++++ b/world/playScene/readme.md
+@@ -35,8 +35,12 @@ before scene shutdown.
+ 
+ The persisted Town Square tutorial is created after save application. Its
+ movement, digging, Money Monster sale, and player-upgrade stages are driven by
+-the production systems, while completed or skipped saves create no guide UI.
++the production systems, while completed or skipped saves create no guide UI.
++A real three-cell Bedrock column seals the authored right-hand town doorway
++through the Agility purchase. The original doorway cells are restored as soon
++as Flight unlocks; approaching the sealed doorway shows the current task in the
++authored essential notification surface.
+ 
+ ## Hardcore oath lifecycle
+diff --git a/testing/readme.md b/testing/readme.md
+--- a/testing/readme.md
++++ b/testing/readme.md
+@@ -3,13 +3,17 @@
+ ## First five minutes — 2026-07-30
+ 
+ - `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and
+   `?firstFive=0` profiles, in-camera normal-HP target, persistent objective,
+   remapped control copy, tutorial-specific surface gate, saved Flight practice,
+-  post-upgrade payoff marker, and Next Promise priority.
++  Agility focus, and Next Promise priority.
+ - `2026-07-30-first-upgrade-breakpoint-contract.mjs` exercises the real
+-  `UpgradeSystem` and `DigSystem` result: affordable Miner's Grip raises shallow
+-  Dirt damage from 16 to 24 and lowers 45 HP from 3 hits to 2. It also locks the
+-  Bronze Pickaxe no-regression guard and exact legacy behavior under rollback.
++  `UpgradeSystem` and retention path: the first permanent Agility level costs
++  the sold starter cargo plus one-time funding and is the exact Flight-unlock
++  boundary. Existing Miner's Grip saves retain their legacy effect while that
++  retired tutorial row stays hidden from the shop.
++- `2026-08-03-tutorial-town-exit-flight-reminders-contract.mjs` proves the
++  three-cell tile-66 Bedrock wall is solid, restores the original cells at
++  Flight, shows the current task once per approach, schedules reminders at
++  30/60/90 seconds, and cancels them on the first real Flight action.

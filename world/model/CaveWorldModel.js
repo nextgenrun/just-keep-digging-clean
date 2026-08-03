@@ -25,7 +25,6 @@ export class CaveWorldModel extends WorldModel {
     this._hp.fill(0);
     this.skyTileOriginalType.fill(0);
     this.skyTileRarity.fill(0);
-    this.rootOverlay.fill(0);
     this.dugTiles.clear();
     this.dugTileSource.clear();
     this.rubbleTiles.clear();

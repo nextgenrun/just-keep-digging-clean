@@ -10,10 +10,8 @@ import {
 } from "../../values/runtimeAssetLoading.js";
 import { getCollectedStarReleasePreloadAssets } from
   "../../values/starConstellations.js";
-import { getStarDiscoveryPreloadAssets } from
-  "../../values/starRarityProgression.js";
-import { STARLIGHT_TALENT_TREE_CONFIG } from
-  "../../values/starlightTalentTree.js";
+import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
+  "../../values/celestialTalentTreeUi.js";
 import { TITAN_DISCOVERY_CONFIG } from "../../values/titanDiscoveries.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 
@@ -30,15 +28,6 @@ function deduplicateAssets(assets) {
   return Object.freeze([...byKey.values()]);
 }
 
-function getStarlightAssets() {
-  const keys = ASSET_KEYS.ui.starlightTalentTree;
-  const source = STARLIGHT_TALENT_TREE_CONFIG.assets;
-  return Object.entries(keys).flatMap(([name, key]) => {
-    const file = source.files[name];
-    return file ? [{ key, path: `${source.basePath}${file}` }] : [];
-  });
-}
-
 function getGroupSettings(groupId, config) {
   if (groupId.startsWith(RUNTIME_FEATURE_ASSET_GROUP_IDS.campfirePrefix)) {
     return config.featureResidency.groups.campfire;
@@ -52,14 +41,10 @@ function getGroupAssets(groupId) {
       ...getStarBlockSteadyLightPreloadAssets(),
       ...getStarBlockPulsePreloadAssets(),
       ...getCollectedStarReleasePreloadAssets(),
-      ...getStarDiscoveryPreloadAssets(),
     ];
   }
   if (groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight) {
-    return [
-      ...getStarlightAssets(),
-      ...getStarDiscoveryPreloadAssets(),
-    ];
+    return [...CELESTIAL_TALENT_TREE_PRELOAD_ASSETS];
   }
   if (groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive) {
     return TITAN_DISCOVERY_CONFIG.definitions.map(definition => definition.asset);

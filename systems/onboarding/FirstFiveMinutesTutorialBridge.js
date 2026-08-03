@@ -3,21 +3,14 @@ import {
   resolveFirstFiveMinutesEnabled,
 } from "../../values/firstFiveMinutes.js";
 import {
-  FIRST_FIVE_STARTER_UPGRADE_ID,
-  UPGRADES,
-} from "../../values/upgradeDefinitions.js";
-import {
   RETENTION_CONFIG,
-  TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
-import {
-  getTownTutorialPayoffSite,
-  prepareTownTutorialDigSite,
-  prepareTownTutorialPayoffSite,
-} from "./TownSquareTutorialDigSite.js";
+import { prepareTownTutorialDigSite } from "./TownSquareTutorialDigSite.js";
+import { TutorialNarrationController } from "./TutorialNarrationController.js";
 import { TutorialSurfaceSafetySystem } from "./TutorialSurfaceSafetySystem.js";
+import { TutorialTownExitBarrierSystem } from "./TutorialTownExitBarrierSystem.js";
 
 const PROTECTED_TOWN_TYPES = new Set([
   TILE_TYPES.FLOOR_TOWN_1,
@@ -35,9 +28,9 @@ export class FirstFiveMinutesTutorialBridge {
     this.enabled = options.enabled
       ?? resolveFirstFiveMinutesEnabled(this.config, this.search);
     this.surfaceSafety = new TutorialSurfaceSafetySystem(this.scene, this.config);
+    this.narration = new TutorialNarrationController(scene, retention);
+    this.townExitBarrier = new TutorialTownExitBarrierSystem(scene, retention);
     this._surfaceBlockedUntil = 0;
-    this._wasFlightPracticePending = false;
-    this._wasPayoffPending = false;
   }
 
   create() {
@@ -47,8 +40,7 @@ export class FirstFiveMinutesTutorialBridge {
       () => this.handleDescentBlocked(),
     );
     this.surfaceSafety.create();
-    this._wasFlightPracticePending = this._isFlightPracticePending();
-    this._wasPayoffPending = this._syncPayoff();
+    this.townExitBarrier.create();
     this.scene.playerController?.surfaceDrop?.setAccessPolicy?.(
       () => !this.isSurfaceDropBlocked(),
       () => this.handleSurfaceDropBlocked(),
@@ -59,39 +51,14 @@ export class FirstFiveMinutesTutorialBridge {
     if (!this.enabled) return;
 
     this.enforceSurfaceSafety();
-    const flightPracticePending = this._isFlightPracticePending();
-    if (
-      this._wasFlightPracticePending
-      && !flightPracticePending
-      && this.scene.playerController?.abilities?.isFlying?.() === true
-    ) {
-      this.scene.queueDugTilesSave?.();
-    }
-    this._wasFlightPracticePending = flightPracticePending;
-
-    const payoffPending = this._syncPayoff();
-    if (this._wasPayoffPending && !payoffPending) {
-      this.view.clearMarker();
-      this.view.showCompletion(this._interpolate(this.config.copy.complete));
-      this.scene.queueDugTilesSave?.();
-    }
-    this._wasPayoffPending = payoffPending;
+    this.narration.update();
+    this.townExitBarrier.update();
   }
 
   onStageEntered(stage) {
     if (!this.enabled) return false;
-    this.view.closeGuideNotification();
-    if (
-      stage === TOWN_TUTORIAL_STAGES.UPGRADE
-      && this.scene.upgradeSystem?.getUpgradeLevel?.(
-        FIRST_FIVE_STARTER_UPGRADE_ID,
-      ) > 0
-    ) {
-      this.retention.recordUpgrade(
-        UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name,
-        { upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID },
-      );
-    }
+    this.narration.onStageEntered(stage);
+    this.townExitBarrier.sync();
     if (stage !== TOWN_TUTORIAL_STAGES.MOVE) return false;
     const site = prepareTownTutorialDigSite(this.scene, this.search);
     if (!site) return false;
@@ -112,21 +79,16 @@ export class FirstFiveMinutesTutorialBridge {
     const state = this.retention?.getTutorialState?.();
     if (!state) return null;
 
-    let template = null;
-    if (RETENTION_CONFIG.tutorial.activeStages.includes(state.stage)) {
-      template = this.config.copy[state.stage] || null;
-    } else if (this._isFlightPracticePending(state)) {
-      template = this.config.copy.flight;
-    } else if (this._wasPayoffPending) {
-      template = this.config.copy.payoff;
-    }
+    const template = RETENTION_CONFIG.tutorial.activeStages.includes(state.stage)
+      ? this.narration.getCaption(state.stage)
+      : null;
     if (!template) return null;
 
     const copy = this._interpolate(template);
     if (this.scene.time?.now < this._surfaceBlockedUntil) {
-      const blocked = this._isFlightPracticePending(state)
+      const blocked = state.stage === TOWN_TUTORIAL_STAGES.FLIGHT
         ? this.config.copy.surfaceDropBlocked
-        : this.config.copy.trainingDropBlocked;
+        : this.config.copy.protectedGround;
       copy.detail = this._interpolate(blocked).detail;
     } else if (
       (state.stage === TOWN_TUTORIAL_STAGES.MOVE
@@ -144,8 +106,10 @@ export class FirstFiveMinutesTutorialBridge {
 
   isDescentBlocked() {
     if (!this.enabled) return false;
-    return this.retention?.isTutorialActive?.() === true
-      || this._isFlightPracticePending();
+    const stage = this.retention?.getTutorialState?.()?.stage;
+    return stage === TOWN_TUTORIAL_STAGES.MOVE
+      || stage === TOWN_TUTORIAL_STAGES.DIG
+      || stage === TOWN_TUTORIAL_STAGES.FLIGHT;
   }
 
   handleSurfaceDropBlocked() {
@@ -163,25 +127,11 @@ export class FirstFiveMinutesTutorialBridge {
   }
 
   getFocusedUpgradeId(merchantId) {
-    const state = this.retention?.getTutorialState?.();
-    if (
-      !this.enabled
-      || state?.stage !== TOWN_TUTORIAL_STAGES.UPGRADE
-      || merchantId !== RETENTION_CONFIG.tutorial.merchants.upgrade
-    ) {
-      return null;
-    }
-    return FIRST_FIVE_STARTER_UPGRADE_ID;
+    return null;
   }
 
   isUpgradeAvailable(upgradeId) {
-    if (upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return true;
-    if (!this.enabled) return false;
-    const state = this.retention?.getTutorialState?.();
-    const blockedByGuidedStage = state?.choice === TOWN_TUTORIAL_CHOICES.YES
-      && RETENTION_CONFIG.tutorial.activeStages.includes(state.stage)
-      && state.stage !== TOWN_TUTORIAL_STAGES.UPGRADE;
-    return !blockedByGuidedStage;
+    return true;
   }
 
   getPreferredMerchantMode(merchantId) {
@@ -197,31 +147,7 @@ export class FirstFiveMinutesTutorialBridge {
   }
 
   getUpgradePreview(upgradeId) {
-    if (!this.enabled || upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return null;
-    const digSystem = this.scene.digSystem;
-    const upgradeSystem = this.scene.upgradeSystem;
-    if (!digSystem || !upgradeSystem) return null;
-
-    const site = getTownTutorialPayoffSite(this.scene, this.search);
-    const before = digSystem.getHitsToBreakPreview(
-      TILE_TYPES.DIRT,
-      site.tx,
-      site.ty,
-      upgradeSystem.getUpgradeEffects(),
-    );
-    const after = digSystem.getHitsToBreakPreview(
-      TILE_TYPES.DIRT,
-      site.tx,
-      site.ty,
-      upgradeSystem.getProjectedUpgradeEffects(upgradeId),
-    );
-    return {
-      upgradeId,
-      beforeHits: before.hits,
-      afterHits: after.hits,
-      beforeDamage: before.damage,
-      afterDamage: after.damage,
-    };
+    return null;
   }
 
   getHealthSnapshot() {
@@ -231,45 +157,11 @@ export class FirstFiveMinutesTutorialBridge {
       stage: state?.stage || null,
       persistentGuideVisible: this.hasPersistentGuide(),
       surfaceDropBlocked: this.isSurfaceDropBlocked(),
-      flightPracticePending: this._isFlightPracticePending(state),
-      payoffPending: this._wasPayoffPending,
+      portalDistance: this.scene?.firstSessionPortalSystem?.getDistance?.()
+        ?? Number.POSITIVE_INFINITY,
+      narration: this.narration?.getHealthSnapshot?.() || null,
+      townExitBarrier: this.townExitBarrier?.getHealthSnapshot?.() || null,
     };
-  }
-
-  _isFlightPracticePending(state = this.retention?.getTutorialState?.()) {
-    if (!this.enabled || !state) return false;
-    if (state.choice === TOWN_TUTORIAL_CHOICES.LEGACY) return false;
-    if (
-      state.stage !== TOWN_TUTORIAL_STAGES.COMPLETE
-      && state.stage !== TOWN_TUTORIAL_STAGES.SKIPPED
-    ) {
-      return false;
-    }
-    if (state.completionRewardGranted !== true) return false;
-    return state.freeFlightRemainingMs
-      >= RETENTION_CONFIG.tutorial.completionReward.freeFlightMs;
-  }
-
-  _syncPayoff() {
-    if (!this._isPayoffEligible()) return false;
-    const site = prepareTownTutorialPayoffSite(this.scene, this.search);
-    if (!site) return false;
-    const key = `${site.tx},${site.ty}`;
-    const pending = this.scene.worldModel?.dugTiles?.has?.(key) !== true;
-    if (pending) this._pointAtSite(site);
-    return pending;
-  }
-
-  _isPayoffEligible() {
-    const state = this.retention?.getTutorialState?.();
-    return this.enabled
-      && state?.choice === TOWN_TUTORIAL_CHOICES.YES
-      && state.stage === TOWN_TUTORIAL_STAGES.COMPLETE
-      && state.completionRewardGranted === true
-      && !this._isFlightPracticePending(state)
-      && this.scene.upgradeSystem?.getUpgradeLevel?.(
-        FIRST_FIVE_STARTER_UPGRADE_ID,
-      ) > 0;
   }
 
   _isAimingAtProtectedGround() {
@@ -289,13 +181,15 @@ export class FirstFiveMinutesTutorialBridge {
   }
 
   _interpolate(copy) {
-    return this.interpolateCopy(copy, {
-      upgrade: UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name,
-    });
+    return this.interpolateCopy(copy);
   }
 
   destroy() {
     this.scene?.playerController?.surfaceDrop?.setAccessPolicy?.(null, null);
+    this.townExitBarrier?.destroy();
+    this.townExitBarrier = null;
+    this.narration?.destroy();
+    this.narration = null;
     this.surfaceSafety?.destroy?.();
     this.surfaceSafety = null;
     this.scene = null;

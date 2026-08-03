@@ -1,0 +1,393 @@
+diff --git a/values/upgradeDefinitions.js b/values/upgradeDefinitions.js
+--- a/values/upgradeDefinitions.js
++++ b/values/upgradeDefinitions.js
+@@ -11,1 +11,2 @@
+-export const FIRST_FIVE_STARTER_UPGRADE_ID = "minersGrip";
++export const FIRST_FIVE_STARTER_UPGRADE_ID = "agility";
++export const LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID = "minersGrip";
+@@ -74,13 +75,14 @@
+-  [FIRST_FIVE_STARTER_UPGRADE_ID]: {
+-    id: FIRST_FIVE_STARTER_UPGRADE_ID,
++  [LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID]: {
++    id: LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID,
+     category: UPGRADE_CATEGORIES.PLAYER_STATS,
+     name: "Miner's Grip",
+-    description: "One-time +8 mining damage. Starter Dirt drops from 3 hits to 2.",
++    description: "Legacy tutorial bonus retained for existing saves.",
+     goldCost: 4,
+     baseEffect: 8,
+     effectType: "digDamageAdditive",
+     merchant: "playerUpgrades",
+     oneTimePurchase: true,
+     firstFiveOnly: true,
++    hiddenFromShop: true,
+   },
+diff --git a/values/firstFiveMinutes.js b/values/firstFiveMinutes.js
+--- a/values/firstFiveMinutes.js
++++ b/values/firstFiveMinutes.js
+@@ -15,17 +15,27 @@
+-  payoffSite: Object.freeze({
+-    tileX: 13,
+-    surfaceRowOffset: -1,
+-    tileTypeName: "DIRT",
+-    useNormalTileHp: true,
+-  }),
+   surfaceSafety: Object.freeze({
+     blockedDetailMs: 1800,
+     depthGuardTolerancePx: 4,
+     recoveryScanRadiusTiles: 12,
+     safeReturnTileX: 4,
+   }),
+-  expectedPayoff: Object.freeze({
+-    materialLabel: "Dirt",
+-    beforeHits: 3,
+-    afterHits: 2,
++  flightReminders: Object.freeze({
++    count: 3,
++    intervalMs: 30000,
++    windowMs: 90000,
++    notificationKeys: Object.freeze({
++      unlock: "first-five-flight-unlocked",
++      reminder: "first-five-flight-reminder",
++    }),
++    copy: Object.freeze({
++      unlock: Object.freeze({
++        phase: "FLIGHT UNLOCKED",
++        title: "YOU UNLOCKED FLIGHT",
++        body: "PRESS {fly} TO FLY  •  KEEP HOLDING UNTIL YOU LIFT OFF",
++      }),
++      reminder: Object.freeze({
++        phase: "FLIGHT REMINDER",
++        title: "PRESS {fly} TO FLY",
++        body: "KEEP HOLDING {fly} UNTIL YOU LIFT OFF",
++      }),
++    }),
+   }),
+@@ -45,4 +55,4 @@
+     upgrade: Object.freeze({
+       promise: "STEP 4  •  BUY {upgrade}",
+-      detail: "FOLLOW THE MARKER LEFT  •  {interact}  •  DIRT: 3 HITS → 2",
++      detail: "FOLLOW THE MARKER LEFT  •  {interact}  •  MOVE FASTER PERMANENTLY",
+     }),
+@@ -53,4 +63,0 @@
+-    payoff: Object.freeze({
+-      promise: "FEEL THE UPGRADE  •  BREAK THE MARKED DIRT",
+-      detail: "{upgrade}: DIRT 3 HITS → 2  •  THEN GO DEEPER",
+-    }),
+@@ -66,5 +72,5 @@
+     complete: Object.freeze({
+       phase: "CORE LOOP LEARNED",
+       title: "MINE  →  SELL  →  UPGRADE  →  FLY  →  GO DEEPER",
+-      body: "{upgrade} proved itself: Dirt now breaks in 2 hits.",
++      body: "{upgrade} is permanent  •  Flight is ready whenever you need it.",
+     }),
+diff --git a/systems/onboarding/FirstFiveMinutesTutorialBridge.js b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+--- a/systems/onboarding/FirstFiveMinutesTutorialBridge.js
++++ b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+@@ -15,6 +15,3 @@
+-import {
+-  getTownTutorialPayoffSite,
+-  prepareTownTutorialDigSite,
+-  prepareTownTutorialPayoffSite,
+-} from "./TownSquareTutorialDigSite.js";
++import { prepareTownTutorialDigSite } from "./TownSquareTutorialDigSite.js";
++import { TutorialFlightReminderSystem } from "./TutorialFlightReminderSystem.js";
+ import { TutorialSurfaceSafetySystem } from "./TutorialSurfaceSafetySystem.js";
+@@ -37,4 +34,4 @@
+     this.surfaceSafety = new TutorialSurfaceSafetySystem(this.scene, this.config);
+     this._surfaceBlockedUntil = 0;
+-    this._wasFlightPracticePending = false;
+-    this._wasPayoffPending = false;
++    this._flightPracticeHandled = false;
++    this.flightReminders = new TutorialFlightReminderSystem(scene, retention, view, interpolateCopy);
+@@ -49,3 +46,3 @@
+     this.surfaceSafety.create();
+-    this._wasFlightPracticePending = this._isFlightPracticePending();
+-    this._wasPayoffPending = this._syncPayoff();
++    this._flightPracticeHandled = this._hasFlightPracticeBeenUsed();
++    this.flightReminders.resume();
+@@ -61,18 +58,18 @@
+     this.enforceSurfaceSafety();
+-    const flightPracticePending = this._isFlightPracticePending();
+-    if (
+-      this._wasFlightPracticePending
+-      && !flightPracticePending
+-      && this.scene.playerController?.abilities?.isFlying?.() === true
+-    ) {
++    const flightPracticeUsed = this._hasFlightPracticeBeenUsed();
++    if (!this._flightPracticeHandled && flightPracticeUsed) {
++      this.view.clearMarker();
++      this.view.showCompletion(this._interpolate(this.config.copy.complete));
+       this.scene.queueDugTilesSave?.();
+     }
+-    this._wasFlightPracticePending = flightPracticePending;
+-
+-    const payoffPending = this._syncPayoff();
+-    if (this._wasPayoffPending && !payoffPending) {
+-      this.view.clearMarker();
+-      this.view.showCompletion(this._interpolate(this.config.copy.complete));
+-      this.scene.queueDugTilesSave?.();
+-    }
+-    this._wasPayoffPending = payoffPending;
++    this._flightPracticeHandled = this._flightPracticeHandled
++      || flightPracticeUsed;
++    this.flightReminders.update();
++  }
++
++  onFlightUnlocked(announce = true) {
++    if (!this.enabled) return false;
++    return this.flightReminders.begin({ announce });
+   }
+@@ -116,7 +113,5 @@
+     if (RETENTION_CONFIG.tutorial.activeStages.includes(state.stage)) {
+       template = this.config.copy[state.stage] || null;
+     } else if (this._isFlightPracticePending(state)) {
+       template = this.config.copy.flight;
+-    } else if (this._wasPayoffPending) {
+-      template = this.config.copy.payoff;
+     }
+@@ -199,27 +194,3 @@
+   getUpgradePreview(upgradeId) {
+     if (!this.enabled || upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return null;
+-    const digSystem = this.scene.digSystem;
+-    const upgradeSystem = this.scene.upgradeSystem;
+-    if (!digSystem || !upgradeSystem) return null;
+-
+-    const site = getTownTutorialPayoffSite(this.scene, this.search);
+-    const before = digSystem.getHitsToBreakPreview(
+-      TILE_TYPES.DIRT,
+-      site.tx,
+-      site.ty,
+-      upgradeSystem.getUpgradeEffects(),
+-    );
+-    const after = digSystem.getHitsToBreakPreview(
+-      TILE_TYPES.DIRT,
+-      site.tx,
+-      site.ty,
+-      upgradeSystem.getProjectedUpgradeEffects(upgradeId),
+-    );
+-    return {
+-      upgradeId,
+-      beforeHits: before.hits,
+-      afterHits: after.hits,
+-      beforeDamage: before.damage,
+-      afterDamage: after.damage,
+-    };
++    return { upgradeId };
+   }
+@@ -229,8 +200,7 @@
+     return {
+       enabled: this.enabled,
+       stage: state?.stage || null,
+       persistentGuideVisible: this.hasPersistentGuide(),
+       surfaceDropBlocked: this.isSurfaceDropBlocked(),
+       flightPracticePending: this._isFlightPracticePending(state),
+-      payoffPending: this._wasPayoffPending,
+     };
+@@ -253,21 +223,11 @@
+-  _syncPayoff() {
+-    if (!this._isPayoffEligible()) return false;
+-    const site = prepareTownTutorialPayoffSite(this.scene, this.search);
+-    if (!site) return false;
+-    const key = `${site.tx},${site.ty}`;
+-    const pending = this.scene.worldModel?.dugTiles?.has?.(key) !== true;
+-    if (pending) this._pointAtSite(site);
+-    return pending;
+-  }
+-
+-  _isPayoffEligible() {
+-    const state = this.retention?.getTutorialState?.();
+-    return this.enabled
+-      && state?.choice === TOWN_TUTORIAL_CHOICES.YES
++  _hasFlightPracticeBeenUsed(state = this.retention?.getTutorialState?.()) {
++    if (!this.enabled || !state) return false;
++    return state.choice === TOWN_TUTORIAL_CHOICES.YES
+       && state.stage === TOWN_TUTORIAL_STAGES.COMPLETE
+       && state.completionRewardGranted === true
+-      && !this._isFlightPracticePending(state)
+-      && this.scene.upgradeSystem?.getUpgradeLevel?.(
+-        FIRST_FIVE_STARTER_UPGRADE_ID,
+-      ) > 0;
++      && state.freeFlightRemainingMs
++        < RETENTION_CONFIG.tutorial.completionReward.freeFlightMs;
+   }
+@@ -297,8 +257,10 @@
+   destroy() {
+     this.scene?.playerController?.surfaceDrop?.setAccessPolicy?.(null, null);
++    this.flightReminders?.destroy();
++    this.flightReminders = null;
+     this.surfaceSafety?.destroy?.();
+     this.surfaceSafety = null;
+     this.scene = null;
+     this.retention = null;
+     this.view = null;
+     this.interpolateCopy = null;
+diff --git a/systems/onboarding/TownSquareTutorialDigSite.js b/systems/onboarding/TownSquareTutorialDigSite.js
+--- a/systems/onboarding/TownSquareTutorialDigSite.js
++++ b/systems/onboarding/TownSquareTutorialDigSite.js
+@@ -50,14 +50,7 @@
+ export function prepareTownTutorialDigSite(
+   scene,
+   search = globalThis.location?.search || "",
+ ) {
+   return prepareSite(scene, getDigSiteConfig(search));
+ }
+-
+-export function getTownTutorialPayoffSite(scene) {
+-  return getSite(scene, FIRST_FIVE_MINUTES_CONFIG.payoffSite);
+-}
+-
+-export function prepareTownTutorialPayoffSite(scene) {
+-  return prepareSite(scene, FIRST_FIVE_MINUTES_CONFIG.payoffSite);
+-}
+diff --git a/systems/onboarding/TownSquareTutorialView.js b/systems/onboarding/TownSquareTutorialView.js
+--- a/systems/onboarding/TownSquareTutorialView.js
++++ b/systems/onboarding/TownSquareTutorialView.js
+@@ -1,2 +1,3 @@
+ import { ASSET_KEYS } from "../../values/assetKeys.js";
++import { FIRST_FIVE_MINUTES_CONFIG } from "../../values/firstFiveMinutes.js";
+ import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+@@ -9,4 +10,5 @@
+   constructor(scene) {
+     this.scene = scene;
+     this.config = RETENTION_CONFIG.tutorial.ui;
++    this.flightConfig = FIRST_FIVE_MINUTES_CONFIG.flightReminders;
+     this.marker = null;
+@@ -68,15 +70,45 @@
+   showCompletion(copy) {
+     this.scene.uiNotifications?.closeByKey?.(
+       this.config.guideNotificationKey,
+     );
+     this.scene.uiNotifications?.success?.(
+       formatGuideMessage(copy),
+       {
+         key: this.config.completionNotificationKey,
+         title: copy?.phase || "COMPLETE",
+         noDedupe: true,
+         bypassPacing: true,
+       },
+     );
+   }
++
++  showFlightUnlock(copy) {
++    this.closeFlightNotifications();
++    this.scene.uiNotifications?.success?.(formatGuideMessage(copy), {
++      key: this.flightConfig.notificationKeys.unlock,
++      title: copy?.phase || "FLIGHT UNLOCKED",
++      noDedupe: true,
++      bypassPacing: true,
++    });
++  }
++
++  showFlightReminder(copy, reminderNumber) {
++    this.closeFlightNotifications();
++    this.scene.uiNotifications?.info?.(formatGuideMessage(copy), {
++      key: this.flightConfig.notificationKeys.reminder,
++      title: `${copy?.phase || "FLIGHT REMINDER"}  ${reminderNumber} / ${this.flightConfig.count}`,
++      noDedupe: true,
++      bypassPacing: true,
++    });
++  }
++
++  closeFlightNotifications() {
++    Object.values(this.flightConfig.notificationKeys).forEach(key => {
++      this.scene?.uiNotifications?.closeByKey?.(key);
++    });
++  }
+ 
+   resize() {}
+@@ -85,2 +117,3 @@
+   destroy() {
++    this.closeFlightNotifications();
+     this.scene?.uiNotifications?.closeByKey?.(
+diff --git a/systems/onboarding/TownSquareTutorialSystem.js b/systems/onboarding/TownSquareTutorialSystem.js
+--- a/systems/onboarding/TownSquareTutorialSystem.js
++++ b/systems/onboarding/TownSquareTutorialSystem.js
+@@ -219,2 +219,3 @@
+     this.scene.playerController?.abilities?.fillGemPower?.();
+     this.scene.uiResourceBar?.setMoney?.(this.scene.upgradeSystem?.getMoney?.() || 0);
++    this.firstFive.onFlightUnlocked(showReward);
+diff --git a/systems/onboarding/readme.md b/systems/onboarding/readme.md
+--- a/systems/onboarding/readme.md
++++ b/systems/onboarding/readme.md
+@@ -10,8 +10,11 @@
+ - `FirstFiveMinutesTutorialBridge.js` is the reversible presentation/safety
+   layer. It feeds the existing Next Promise strip with persistent remapped-key
+-  guidance, focuses SELL and Miner's Grip in the real shops, blocks the one-way
+-  surface drop during training, requires one real Flight frame, then points at
+-  the normal-HP payoff block. The consumed Flight bank persists the safety
+-  proof without a save-schema change.
++  guidance, focuses SELL and Agility Training in the real shops, blocks the
++  one-way surface drop during training, and requires one real Flight frame.
++  The consumed Flight bank persists the safety proof without a save-schema
++  change.
++- `TutorialFlightReminderSystem.js` shows the authored Flight-unlocked card,
++  schedules three reminders across 90 seconds, and cancels every pending card
++  and timer as soon as the player actually flies.
+@@ -22,10 +25,10 @@
+- `TownSquareTutorialDigSite.js` authors normal-HP Dirt at x11 and a payoff
+-  block at x12 without opening a forced shaft. Under `?firstFive=0` it restores
+-  the former x24 one-HP practice tile. `TownSquareTutorialView.js` reuses the
+-  existing world marker and notification carousel; the persistent objective is
+-  rendered by `NextPromiseHudSystem`.
++- `TownSquareTutorialDigSite.js` authors the normal-HP Dirt at x12 without
++  opening a forced shaft. Under `?firstFive=0` it restores the former x24
++  one-HP practice tile. `TownSquareTutorialView.js` reuses the existing world
++  marker and authored notification carousel; the persistent objective is
++  rendered by `NextPromiseHudSystem`.
+ - Completed/skipped guided saves keep the Flight prompt only until Flight is
+-  actually demonstrated. Legacy saves remain exempt. Once Flight and the
+-  payoff block are complete, no tutorial objective remains after load.
++  actually demonstrated. Legacy saves remain exempt. Once Flight is used, no
++  tutorial objective remains after load.
+diff --git a/testing/2026-07-30-first-five-onboarding-contract.mjs b/testing/2026-07-30-first-five-onboarding-contract.mjs
+--- a/testing/2026-07-30-first-five-onboarding-contract.mjs
++++ b/testing/2026-07-30-first-five-onboarding-contract.mjs
+@@ -22,1 +22,4 @@
+-import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../values/upgradeDefinitions.js";
++import {
++  FIRST_FIVE_STARTER_UPGRADE_ID,
++  UPGRADES,
++} from "../values/upgradeDefinitions.js";
+@@ -275,8 +278,8 @@
+-retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
++retention.recordUpgrade("Strength", { upgradeId: "strength" });
+ assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
+ starterOwned = true;
+-retention.recordUpgrade("Miner's Grip", {
++retention.recordUpgrade(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name, {
+   upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
+ });
+@@ -299,15 +302,7 @@
+ flightActive = true;
+ retention.consumeTutorialFreeFlight(16);
+ bridge.update();
+ assert.equal(canDropThrough(), true);
+-assert.match(bridge.getNextPromiseOverride().promise, /FEEL THE UPGRADE/);
+-assert.ok(view.marker, "payoff block must receive the existing tutorial marker");
+ assert.ok(saveCount >= 1, "first real Flight use must queue persistence");
+-
+-worldModel.dugTiles.add(
+-  `${FIRST_FIVE_MINUTES_CONFIG.payoffSite.tileX},${GAME_CONFIG.topAirRows - 1}`,
+-);
+-bridge.update();
+ assert.match(view.completion.title, /MINE.*SELL.*UPGRADE.*FLY/);
+ assert.equal(bridge.hasPersistentGuide(), false);
+diff --git a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+--- a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
++++ b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+@@ -108,2 +108,2 @@
+-tutorial.recordUpgrade("Miner's Grip", {
++tutorial.recordUpgrade("Agility Training", {
+   upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
+diff --git a/testing/2026-08-02-tile-destruction-fx-contract.mjs b/testing/2026-08-02-tile-destruction-fx-contract.mjs
+--- a/testing/2026-08-02-tile-destruction-fx-contract.mjs
++++ b/testing/2026-08-02-tile-destruction-fx-contract.mjs
+@@ -208,6 +208,2 @@
+ assert.equal(FIRST_FIVE_MINUTES_CONFIG.digSite.tileX, 12);
+-assert.equal(
+-  FIRST_FIVE_MINUTES_CONFIG.payoffSite.tileX,
+-  FIRST_FIVE_MINUTES_CONFIG.digSite.tileX + 1,
+-  "payoff target must remain adjacent after moving the first dig target right",
+-);
++assert.equal("payoffSite" in FIRST_FIVE_MINUTES_CONFIG, false);

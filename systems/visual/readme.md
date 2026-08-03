@@ -8,8 +8,8 @@ Notable systems:
   obsolete before activation. Resident cards and archive pins keep their
   existing release-safe lifecycle and exact source art.
 - `RenderDensitySystem.js` — keeps gameplay, cameras, UI, and pointer input in the existing 1280x720 logical coordinate space while WebGL renders to a denser backing canvas. Its CameraManager resize guard prevents browser-panel, fullscreen, and parent resizes from promoting a logical camera to the High/Ultra backing dimensions. `high` is the default 1.5x profile (1920x1080), `?renderQuality=ultra` selects 2x (2560x1440), and `?nativeDensity=0`, `?renderQuality=legacy`, or `?renderer=auto` restores the 1x compatibility path. Current runtime diagnostics are published as `window.__jkdRenderDensity`.
-- `HUDSystem.js` — main HUD (depth and stats); transient status calls delegate
-  to the shared notification carousel rather than drawing a second flash layer
+- `HUDSystem.js` — main HUD (depth and stats); compatibility transient status
+  calls reach the centrally disabled notification admission gate
 - `MiningTargetVisualSystem.js` — image-backed four-corner world-space mining target shared by the main world and compact caves; its approved duplicate-art glow stays restrained on hover and tightens/brightens during held mouse digging; `?miningTargetVisuals=0` restores the former rectangle comparison
 - `ApprovedHudSkin.js` — optional approved image-frame presentation layer that preserves HUDSystem runtime data and legacy fallback; its player core switches between matched illustrated torch ON/OFF frames instead of drawing a status dot
 - `PickaxeHudView.js` — permanent owned-pickaxe presentation layered over the
@@ -18,12 +18,12 @@ Notable systems:
   upgrade state or GP values
 - `FloatingTextSystem.js` — policy-gated world text + constellation UI progress;
   REDUCED is the uncluttered default and hides routine damage/resource numbers
-  while keeping critical, special, status, and bonus feedback. Status-like event
-  messages use `UINotificationSystem`; remaining floating labels stay attached
-  to world impacts or collectibles. Mined Star Blocks remain UI-only and
+  while keeping critical, special, status, and bonus feedback. Remaining
+  floating labels stay attached to world impacts or collectibles. Mined Star
+  Blocks remain UI-only and
   delegate their transient presentation to `SkyStarReleaseView.js`. The exact
   deterministic one-of-250 identity now travels through progress metadata,
-  the popup, and release; saved constellation progress and callbacks remain
+  release, and the player-opened Star Atlas; saved constellation progress and callbacks remain
   authoritative without a pickup card
 - `SkyStarReleaseView.js` — ImageGen-only mined Star Block release: the exact
   identity crystal and its separate light-only frame fade in below full alpha,
@@ -33,16 +33,6 @@ Notable systems:
   three-tween path and cannot loop indefinitely. Matching rarity
   fracture/pulse art remains beneath it; the view never draws circles,
   graphics, tints art, or generates textures
-- `StarDiscoveryPopupView.js` — one-active-popup rarity reveal with exact
-  identity core plus matched authored light, name, Sign XP fill, reward copy,
-  and an exact three-second settled hold. It uses the prior rarity pulse only
-  as a missing-frame fallback.
-- `starDiscoveryPopupPolicy.js` — pure anti-spam admission. Routine Stars can
-  show once per 20 seconds; the first encounter of each rarity and Sign
-  level-ups may bypass that interval, while only a higher-priority reveal may
-  replace a live card. The persisted ESC Gameplay opt-out blocks and
-  immediately closes this popup only; the long crystal release, rewards, and
-  progression remain live.
 - `PostFxSystem.js` — camera vignette + depth-based color grading (values/postFxConfig.js)
 - `PlayerBodyLanguageSystem.js` — landing squash, fall stretch, dig impact pop (values/gamefeel.js → bodyLanguage)
 - `PlayerMotionPolishSystem.js` — contextual calm idle fidgets, delayed wall bracing, native hit reactions, and action-safe animation priority (`values/playerMotionPolish.js`)
@@ -55,15 +45,16 @@ Notable systems:
   roaming, whole-body sway, stretch, or wobble. A town-wide gate permits only
   one large activity at a time. `?npcActivities=0` restores the v6/static
   baseline (`values/npcActivityConfig.js`).
-- `PlayerKinematicMotionSystem.js` — UAL feet anchoring plus signed post-collision displacement; grounded Jog cadence can use the immediate body velocity while climb/flight retain smoothed travel and teleport suppression (`values/playerKinematicMotion.js`)
+- `PlayerKinematicMotionSystem.js` — UAL feet anchoring plus signed post-collision displacement; grounded Jog cadence can use the immediate body velocity while airborne flight retains smoothed travel and teleport suppression (`values/playerKinematicMotion.js`)
 - `UalNativeLocomotionTransitionSelector.js` / `UalGroundPhaseHandoffSelector.js` — Phaser-independent shared routing: every grounded speed uses Jog, moving actions resume its exact lower-body phase, and input-facing reversals flip immediately while replaying only the two closest planted Jog frames as pivot-stop/pivot-start. Survivor flight keeps one continuous loop, soft touchdowns skip landing, and harder landings expose a short movement-cancellable prefix (`values/ualNativeLocomotionTransitions.js`, `values/movingSideDigAnimation.js`; `?phaseHandoff=0`)
 - `PlayerSolidOcclusionSystem.js` — WebGL-only inverted solid-cell mask that clips UAL limbs at authoritative tile faces in both the main world and compact caves (`values/playerTileContact.js`)
 - `PlayerRigContactSystem.js` — marker-driven UAL action contact, separate fist/foot hitboxes, and capped sprite-only tile-face alignment that eases in and out across the main world and compact caves (`values/playerRigContact.js`); phase-locked moving strikes explicitly disable that translation so the physics-owned running feet cannot skate while marker validation remains diagnostic; pure geometry lives in `playerRigContactGeometry.js`
 - `player/MovingSideDigStandOffController.js` — supplies the body-owned 18 px
   tile-face gap for moving SIDE mining and Quickslash; rig-contact teardown
   releases it, while the visual system never translates the running sprite.
-- `PickaxeTrailSystem.js` / `ClimbTrailSystem.js` — motion ghost trails; flight ghosts are throttled, short-lived, and inherit velocity-bank angle so the native skeleton stays readable
+- `PickaxeTrailSystem.js` — motion ghost trail for mining; powered flight uses the restrained foot-particle layer so the native skeleton stays readable
 - `FlightFootParticleSystem.js` — two restrained additive trails emitted from the approved Survivor Superman pose's trailing feet in both the main world and compact caves (`values/playerFlightFootFx.js`)
+- `GroundFootstepFxSystem.js` — emits at most three tiny material-matched fragments from the planted Game Rig foot on authored grounded contacts, using all explicit non-air material routes into the promoted seventeen-family shard atlas in both world implementations. Fragments stay at or below 0.09 tile, the global live cap is twelve, sound remains contact-driven below the visual speed threshold, legacy profiles retain their former cadence fallback, and `?groundFootFx=0` disables only the bitmap fragments (`values/playerGroundFootstepFx.js`, `values/tileDestructionFx.js`).
 - `DepthMilestoneCinematic.js` — letterbox + title card cinematic at major depths (values/depthCinematicConfig.js)
 - `CameraShakeSystem.js` — signature-based screen shake
 - `ThunderStrikeTimingBarSystem.js` / `ThunderStrikeTimingBarView.js` /
@@ -82,7 +73,7 @@ Notable systems:
   row, so the timing view creates no Phaser `Graphics` object. Miss feedback
   reports `CHAIN ENDED` with no retry state, and the prompt exposes
   movement/Escape cancellation.
-- `ScreenRecordSystem.js` — F10 game-canvas WebM capture; uploads timestamped local files through `serve.py` to `/systems/screenrecord/`
+- `ScreenRecordSystem.js` — development-only F9 `SHORT` (clean 9:16, no HUD) or `BROAD` (complete fullscreen canvas) WebM capture; production omits the action and recorder; development uploads timestamped local files through `serve.py` to `/systems/screenrecord/`
 - `EarthquakeFeedbackUI.js` / `earthquakeFeedbackPresentation.js` /
   `EarthquakeHazardOverlay.js` / `EarthquakeFallZoneView.js` /
   `EarthquakeRockImpactView.js` / `EarthquakeTileFeedbackSystem.js` —
@@ -117,12 +108,12 @@ Notable systems:
   identities still route through the same three authored families, and only
   unbreakable structural collision cells are hidden.
 - `CaveHazardView.js` — renders cave-only resonance gates, real spike silhouettes, vent telegraphs, and erupting columns below the existing cave occlusion; `CaveAtmosphereSystem` adds restrained glints only while its underlying resource seam tile still exists
-- `TitanDiscoverySystem.js` / `TitanUnlockController.js` / `TitanCoverageGlowSystem.js` / `TitanDiscoveryGuidance.js` / `TitanGuidanceIndicator.js` / `titanCreatureFootprint.js` / `titanCoverageThreshold.js` / `TitanChamberStream.js` / `TitanChamberTextureReleases.js` / `TitanSurfaceGallery.js` / `TitanSurfaceInspection.js` — track 25 deterministic colossal search windows, project each sharp 768x768 stance alpha into authoritative covering cells, and keep that same near-opaque high-resolution stance behind terrain on a compact ImageGen basalt dais. While the player approaches, the subtle ImageGen location pointer targets the chamber; once inside, it disappears and the still-solid footprint tiles pulse with the Titan's color using authored resonance art on the shared below-darkness emissive layer. Reaching `ceil(total * 0.5)` dug cover cells destroys the remaining footprint cells through `WorldModel`, redraws them without mining rewards, and admits the canonical discovery/trophy/save path. The old 1536x848 chamber paintings stream as faint depth-graded environmental context rather than the dominant creature/platform. The reveal, guidance pointer, gallery, and Journey entry communicate discovery without a redundant center card. On the surface, the same newer basalt footing replaces the oversized walk plinth at a compact 2.1 by 0.36 tiles. The 25 sharp stance cutouts use bounded identity-specific sizes, a camera-safe height cap, measured transparent-bottom grounding, normal blend, 98.5% base alpha, a prop-free corridor, unlocked-only inspection, and expanded ESC lore. Zone/threshold/glow/slot/stream/art/guidance/inspection state is published through `__jkdTitanDiscoveries` (`values/titanDiscoveries.js`, `values/titanDiscoveryExperience.js`, `values/titanCreatureFootprints.js`, `values/titanLore.js`; `?titanStatueLore=0`; `?titanGuidance=0`; `?titanEncounter=legacy`; `?titanChamberBlend=0`; `?titanChambers=0`; `?titans=0`)
+- `TitanDiscoverySystem.js` / `TitanUnlockController.js` / `TitanCoverageGlowSystem.js` / `TitanDiscoveryGuidance.js` / `TitanGuidanceIndicator.js` / `titanCreatureFootprint.js` / `titanCoverageThreshold.js` / `TitanChamberStream.js` / `TitanChamberTextureReleases.js` / `TitanEnvironmentEnvelopeStream.js` / `TitanEnvironmentTextureBank.js` / `titanEnvironmentAssets.js` / `TitanSurfaceGallery.js` / `TitanSurfaceInspection.js` — track 25 deterministic colossal search windows and keep progression authority in the existing creature-footprint encounter. Underground stances are bottom-anchored to a fixed foot baseline, share the active depth grade, sit over a mostly buried dais, and receive an authored terrain-tinted contact foreground. The nearest two chambers demand-stream identity-matched `side-arches`, `ceiling-crown`, and `hanging-network` assets from the existing ten-biome V7 library; all 75 mappings and stream failures publish through `__jkdTitanDiscoveries`. Unlocks use the authored mineral resonance plus a short compression/lift/settle to the same baseline, with no lateral chamber crossing or idle horizontal drift. The faint v3 chamber card remains context behind the sharp stance. Surface gallery, clues, archive, trophy/save path, 50% threshold, and `WorldModel` remainder clear are unchanged (`values/titanDiscoveries.js`; `?titanEnvironment=0`; `?titanStatueLore=0`; `?titanGuidance=0`; `?titanEncounter=legacy`; `?titanChamberBlend=0`; `?titanChambers=0`; `?titans=0`).
 - `RelicDiscoveryFxSystem.js` / `relicDiscoveryFxBurst.js` — present the already-authoritative Ancient Relic award as a visible world-space pedestal wake, generated-token orbit into the live player, short residual floor mark, and bounded count reveal. Reduced-motion and low-FX modes preserve the state-independent cleanup contract; presentation exceptions remain unable to roll back awards but publish a warning to runtime health.
 - `HeavenblocksPresentationSystem.js` / `heavenblocksAltarProgression.js` — render three ImageGen-authored dormant/attuning/awakened surface altar families from real relic and region state, while retaining sky-region arrival/return rings, component claims, interaction prompts, lifecycle cleanup, and health publication.
 - `CelestialEngineHudSystem.js` — lower-right Star Heart icon, bounded charge bar, selected-Engine label, active impact budget, and context-sensitive `X` prompt.
 - `ProgressivePillarSprite.js` — shared bottom-anchored renderer for approved five-stage pillar art; it preserves the source sheets' natural height growth and adds only restrained in-engine transition light.
-- `StarPillarWorldVisual.js` / `StarPillarSystem.js` — screenshot-2 blue stone monument on the Level 1 Sky Island. The world visual grows across five constellation thresholds, layers the sharper Wayward Star core over a Star Heart halo inside its authored sockets, intensifies paired unlocks, and owns staggered glow/pop/beam animation. `StarPillarSystem` opens the same ten-node Starlight Talent Tree used by the ESC `TALENTS` tab, routes its three Engine cards into the Star Heart overlay, and queues the one-time first-star reveal for each material section; no collected sky star is restored to the persistent world.
+- `StarPillarWorldVisual.js` / `StarPillarSystem.js` — screenshot-2 blue stone monument on the Level 1 Sky Island. The world visual grows across five constellation thresholds, layers the sharper Wayward Star core over a Star Heart halo inside its authored sockets, intensifies paired unlocks, and owns staggered glow/pop/beam animation. `StarPillarSystem` is the sole production host for the ten-node Starlight Talent Tree, routes its three Engine cards into the Star Heart overlay, and queues the one-time first-star reveal for each material section; no collected sky star is restored to the persistent world.
 - `MilestoneBoardSystem.js` / `MilestonePillarModal.js` — Town Square depth
   pillar and journal. The world object uses the approved screenshot-1 Dwarven
   Depth Engine and advances at 0/500/1000/1500/2000 m while preserving
@@ -142,14 +133,8 @@ Notable systems:
   release. These are presentation selectors only; they do not delay input or
   alter collision, mining cadence, or action authority.
 
-- `StarDiscoveryPopupView.js` — one-active, screen-space Star discovery readout
-  using the six authored rarity plates and fills. It shows rarity, material
-  Sign, exact Sign XP, material multiplier, current level, and cropped
-  per-level progress; rarer or level-up discoveries may replace a weaker
-  active popup. All tweens end and the view owns no infinite ambient loop.
-
-`StarPillarSystem` mounts the same full-shell V4 Starlight view used by ESC
-Talents. While open it hides the older shell skin to prevent a double frame,
+`StarPillarSystem` mounts the full-shell V4 Starlight view only at the physical
+pillar. While open it hides the older shell skin to prevent a double frame,
 keeps the authored close control, retains the deferred Starlight asset group,
 and exposes the existing health snapshot to the runtime canary/worker path.
 Closing releases the view and its retained texture consumer.

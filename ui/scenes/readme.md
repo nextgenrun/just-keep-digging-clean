@@ -19,6 +19,13 @@ Compact cave rollback behavior remains unchanged.
 buttons in the 1280x720 safe area. Empty slots can receive an import, while
 export remains disabled until the selected slot contains save data.
 
+Its default presentation now uses high-resolution authored bitmap chrome for
+all three save dossiers, selected/hover states, clear/import/backup dialogs,
+save-rule choice cards, and save-flow action buttons. Dynamic slot and backup
+data remains Phaser text, existing hit zones and keyboard paths stay unchanged,
+and `?saveMenuArt=0` restores the prior Graphics surfaces without changing
+save or transition behavior.
+
 Every empty slot now composes two explicit decisions before launch:
 the illustrated `StartModeSelectionOverlay` Casual/Permadeath Hardcore rules,
 then `StartTutorialChoiceOverlay` Yes/No. Keyboard listeners attach on the next
@@ -64,14 +71,14 @@ boot queue. No production system consumes it; loading the 3840x3840 sheet only
 adds texture pressure and can prevent PlayScene from starting on constrained
 renderers. The smaller active Shadow Miner sheet remains available.
 
-The shared UI Boot preload keeps the 25 independent Titan surface stances plus
-walk plinth, underground dais, resonance overlay, and guidance pointer needed by
-live world gameplay. The 25 compact archive portraits are now an atomic
-on-demand group: opening TITANS loads the original full-resolution files through
-the shared serialized runtime lane, and closing the archive releases only those
-manager-owned textures. `?runtimeFeatureAssets=0` restores the former eager
-package, while `?titans=0` still disables the complete feature. Source chroma,
-alpha masters, contact sheets, and intermediate atlases remain tooling-only.
+The shared UI Boot preload keeps the 25 independent Titan surface stances, the
+walk plinth, underground dais, resonance overlay, guidance pointer, and 25
+compact archive portraits resident. Escape can therefore open TITANS immediately
+instead of placing its UI behind the deep-world streaming queue. Other optional
+feature packages still honor `?runtimeFeatureAssets=0`, while `?titans=0` still
+disables the complete Titan feature. Source chroma, alpha masters, contact
+sheets, and intermediate atlases remain tooling-only.
+
 
 `WorldLoadScene` also queues only the save slot's current Campfire tier and its
 next upgrade before PlayScene starts; the other eight tiers no longer occupy

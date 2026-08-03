@@ -2,7 +2,7 @@
 export const PLAYER_STATS_CONFIG = Object.freeze({
   // Movement
   walkSpeedPxPerSec: 200,
-  climbSpeedPxPerSec: 252, // +50% buff (168 * 1.5); unlocked: 504px/s before upgrades
+  flightSpeedPxPerSec: 252, // Powered upward flight speed before upgrades
   
   // Player dimensions
   playerDisplaySizePx: 89, // 95% of 94px tile size (larger visual sprite)

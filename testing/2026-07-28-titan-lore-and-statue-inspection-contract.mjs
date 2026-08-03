@@ -47,9 +47,9 @@ class FakeDisplayObject {
 }
 
 function createScene() {
-  const notifications = [];
+  const dialogs = [];
   return {
-    notifications,
+    dialogs,
     textures: { exists: () => true },
     add: {
       image: (x, y, key) => new FakeDisplayObject(x, y, key),
@@ -62,10 +62,8 @@ function createScene() {
       add: () => ({ stop() {} }),
       killTweensOf() {},
     },
-    uiNotifications: {
-      info(message, options) {
-        notifications.push({ message, options });
-      },
+    showGameDialog(title, body) {
+      dialogs.push({ title, body });
     },
   };
 }
@@ -183,16 +181,12 @@ try {
     ),
     true,
   );
-  assert.equal(scene.notifications.length, 1);
+  assert.equal(scene.dialogs.length, 1);
   const lore = getTitanLoreEntry(first.id);
-  assert.match(scene.notifications[0].message, /MOSSBACK WANDERER/);
-  assert.ok(scene.notifications[0].message.includes(lore.epithet.toUpperCase()));
-  assert.ok(scene.notifications[0].message.includes(lore.inscription));
-  assert.match(scene.notifications[0].message, /ESC > TITANS: FULL ARCHIVE/);
-  assert.equal(
-    scene.notifications[0].options.title,
-    TITAN_DISCOVERY_CONFIG.surfaceGallery.inspectionNotificationTitle,
-  );
+  assert.match(scene.dialogs[0].title, /MOSSBACK WANDERER/);
+  assert.ok(scene.dialogs[0].title.includes(lore.epithet.toUpperCase()));
+  assert.ok(scene.dialogs[0].body.includes(lore.inscription));
+  assert.match(scene.dialogs[0].body, /ESC > TITANS: FULL ARCHIVE/);
   assert.equal(gallery.getSnapshot().lastInspected, first.id);
 
   firstPrompt.setVisible(false);
@@ -205,7 +199,7 @@ try {
     false,
   );
   assert.equal(firstPrompt.visible, false);
-  assert.equal(scene.notifications.length, 1);
+  assert.equal(scene.dialogs.length, 1);
   gallery.destroy();
 
   const disabledScene = createScene();
@@ -230,7 +224,7 @@ try {
     ),
     false,
   );
-  assert.equal(disabledScene.notifications.length, 0);
+  assert.equal(disabledScene.dialogs.length, 0);
   disabledGallery.destroy();
 } finally {
   if (previousPhaser === undefined) delete globalThis.Phaser;
@@ -279,5 +273,5 @@ assert.doesNotMatch(
 
 console.log(
   "Titan lore and statue inspection contract: 25 unique archives, unlocked-only "
-    + "world interaction, native notifications, renderer parity, and rollback passed",
+    + "world interaction, player-requested dialogs, renderer parity, and rollback passed",
 );

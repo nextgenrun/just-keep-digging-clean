@@ -17,10 +17,10 @@ through their exit tween. Opening any such menu cancels a held mouse dig, and
 the event-time Phaser hit list still belongs to UI even when that same click
 already hid or destroyed its visible target.
 
-UAL main-world and compact-cave actions share contact-synchronised damage: SIDE keeps Jab/Cross/Jab/Cross, default-Survivor UP and UP-SIDE use the complete 24-frame Piskel-stabilized Blender dig-up, DOWN uses the same-facing ground strike, and Quickslash/Thunder remain one-contact actions. The explicit native rollback keeps its recovered uppercut. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use body velocity for first-step/reversal cadence, apply frame-rate-independent flight banking, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Survivor flight uses one continuous loop; the explicit native rollback retains its authored phase chain.
+UAL main-world and compact-cave actions share contact-synchronised damage: SIDE keeps Jab/Cross/Jab/Cross, default-Survivor UP and UP-SIDE use the complete 24-frame Piskel-stabilized Blender dig-up, DOWN uses the same-facing ground strike, and Quickslash/Thunder remain one-contact actions. The explicit native rollback keeps its recovered uppercut. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use the resolved body velocity for first-step/reversal cadence, apply frame-rate-independent flight banking, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Survivor flight uses one continuous loop; the explicit native rollback retains its authored phase chain.
 
-UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles, release and reversal react on the current frame, upgraded or weather-adjusted speed remains stride-matched, and climb/flight timing stays consistent across both world implementations. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
-Moving SIDE actions also hold the authoritative 31 px body 18 px away from a
+UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles. Input intent and facing react on the current frame, while grounded velocity uses the shared 120 ms acceleration, 90 ms release, and 150 ms full-reversal envelope; upgraded or weather-adjusted speed remains stride-matched, and airborne flight timing stays consistent across both world implementations. The production Jog is now Piskel-round-tripped with one uniform 5-source-pixel root correction, a zero-drift bottom row, unchanged 28-frame cadence, and identically transformed rig markers. Its sequence-13/27 plants drive the existing footstep sound plus small material-matched bitmap fragments at the collision-owned floor. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
+Moving SIDE actions also hold the authoritative 31 px body 21 px away from a
 still-solid target face in both runtime worlds. The clamp is symmetric, keeps
 the target adjacent for mining, releases when the tile is destroyed, and does
 not delay input or change damage/reach.
@@ -159,19 +159,15 @@ modal, closes only the top surface, and consumes the same frame-level
 `JustDown`, so closing Inventory or Pause cannot reopen Pause on the same key
 press. A later distinct Escape press remains the normal Pause toggle.
 
-Add ?ui-review=1 to the game URL to enable the query-gated production UI review controls. The harness is disabled during normal play and opens the real Pause, Inventory, Shop, Campfire, Milestones, Star Pillar, Level Up, Dialog, and Notification surfaces for visual regression checks. Repeated Notification selections rotate through distinct update, notice, and warning samples so the live carousel can be filled and browsed.
+Add ?ui-review=1 to the game URL to enable the query-gated production UI review controls. The harness is disabled during normal play and opens the real Pause, Inventory, Shop, Campfire, Milestones, Star Pillar, and Dialog surfaces for visual regression checks. The former Level Up control now demonstrates a short nonblocking HUD pulse; generic Notification review calls are rejected by the production admission gate.
 
-Approved transient statuses from the HUD, warnings, and compact caves converge
-on one centered notification carousel. Only one card renders at a time; arrows
-or Left/Right consume the visible card and advance to another unread entry,
-while the cross or `X` clears the complete queue even if a transition is still
-running. Arrow art remains dimly visible on a one-card queue. Each selected
-card owns seven visible seconds. Full modal surfaces pause and hide the
-carousel so their choices and key handling stay authoritative and modal time
-never consumes the card's viewing window. The retained major-depth cinematic
-also hides the card for its complete centered presentation. Routine retention, discovery,
-reward, blocked-action, depth, and combo events remain silent because their
-persistent HUD, Journey, world presentation, or cinematic is authoritative.
+The generic notification carousel remains as a bounded compatibility class,
+but `UI_NOTIFICATION_CAROUSEL_CONFIG.enabled = false` is a real construction
+and admission gate in production. Tutorial, portal, Star, level, and combo
+events therefore create no card or input capture. Explicit Titan and Memory
+Reliquary inspection opens the existing Game Dialog only after the player
+presses Interact; persistent HUD, Journey, world presentation, and cinematics
+remain authoritative for automatic events.
 
 ## Authored-world visual benchmark
 
@@ -193,13 +189,13 @@ motion pass. Use `?worldFacade=0` for the deep static-material rollback and
 `PlaySceneSetup` restores `StarHeartProgressionSystem`, connects constellation
 mastery and newly collected sky stars, creates the choice overlay and
 `CelestialEngineController`, and includes the result in the current save schema.
-The ESC `TALENTS` tab and the physical Star Pillar share one
-`StarlightTalentTreeView`, now split into large Quick Slash, Thunder Strike, and
-Celestial Engine pages. Left/Right changes the large choice on the active page;
-Up/Down changes pages in both hosts. Collecting the first star for a material
-section opens ESC directly on that focused branch page and node once per save
-slot; later stars in that section never interrupt play. The Pillar exposes all
-three large Engine choices.
+The physical Star Pillar owns `StarlightTalentTreeView`, split into large Quick
+Slash, Thunder Strike, and Celestial Engine pages. Left/Right changes the large
+choice on the active page and Up/Down changes pages. Collecting the first star
+for a material section opens the Pillar view on that focused branch page and
+node once per save slot; later stars in that section never interrupt play. The
+ESC menu has no Talents page and exposes the Titan Archive as its progression
+collection view.
 `PlaySceneUpdate` advances one active Engine at a time. The controller consumes
 the bound `X` action, enforces every configured activation cap, routes tile
 damage through `DigSystem.applyCelestialDamage`, updates the fixed HUD and
@@ -250,11 +246,10 @@ journal keys and request the normal dug-state autosave, while retention data
 remains the only Titan discovery authority.
 `PlaySceneUpdate` also arbitrates the remapped interact key between Arc Core,
 the milestone pillar, NPCs, unlocked surface Titan plinths, and cave mouths.
-The nearest eligible target wins; inspecting a plinth uses the approved
-notification carousel and never mutates discovery state.
-Opening the pause shell suppresses the first-run flight guidance card so it
-cannot cover archive entries or the locator purchase control; normal gameplay
-restores onboarding guidance on its next update after resume.
+The nearest eligible target wins; inspecting a plinth opens a player-requested
+Game Dialog and never mutates discovery state.
+Opening the pause shell cannot create or replay a Flight guidance card;
+onboarding remains in the persistent marker and Next Promise after resume.
 `?titanClues=0` hides clue purchasing without deleting purchased keys;
 `?titanStatueLore=0` disables surface-plinth prompts and inspection without
 changing unlocked trophies or archive lore;
@@ -280,7 +275,8 @@ main world. The existing combo selector, 360 ms minimum action cadence, contact
 callback, damage logic, and all non-side directions remain authoritative.
 
 The main world and compact caves also share the centralized animation-polish
-contract. Jog starts/stops use planted two-frame bridges; moving diagonal mining
+contract. Jog first uses the root-centered, baseline-locked Piskel sheet;
+starts/stops use planted two-frame bridges; moving diagonal mining
 uses phase-locked Jog legs beneath directional strikes; stationary actions
 finish through matched guard/settle clips; soft and hard falls use one authored
 landing owner; and collision-blocked walking enters a planted wall brace before
@@ -302,15 +298,15 @@ second maximum delay. Explicit Save, scene transitions, hidden/page-hide events,
 and shutdown bypass the routine delay. Runtime health reports capture, write,
 and total p95 timing so serialization stalls are distinguishable from rendering.
 
-Pause-menu Talents and Titans plus the World Map retain their feature texture
-groups only while their exact full-quality views exist. Pending tab requests are
+The pause-menu Titan Archive plus the World Map retain their feature texture
+groups only while their exact full-quality views exist. Pending requests are
 cancellable, and view objects are destroyed before manager-owned textures are
-released.
+released. Starlight textures are retained by the physical Star Pillar instead.
 
-When deferred Talents or Titans art is absent, `PlaySceneUI` mounts the compact
-authored feature loader inside the existing pause content rect. It reports the
-manager's exact loaded/total asset count, themed phase, percentage and three
-visual milestones; the tab opens automatically after a short real-100% beat.
+When deferred Titan art is absent, `PlaySceneUI` mounts the compact authored
+feature loader inside the existing pause content rect. It reports the manager's
+exact loaded/total asset count, themed phase, percentage and three visual
+milestones; the tab opens automatically after a short real-100% beat.
 Closing ESC or changing tabs destroys the loader and cancels the pending group.
 Reopening starts from actual texture residency, so it neither leaks a request
 nor resumes from a fabricated percentage.
@@ -319,9 +315,3 @@ PlayScene passes the resolved depth-economy mode into `UpgradeSystem` and
 connects `MilestoneBoardSystem.getBonuses()` to `DigSystem`. Compact CaveScene
 configs retain their origin depth and record whether the entry came from Level
 Two, while `CaveGameplayController` shares the same Milestone provider.
-
-When the Talents page is ready, `PlaySceneUI` switches that page into the V4
-immersive shell mode: generic ESC tabs/header/frame are hidden and the authored
-Starlight composition receives the fitted shell bounds. Clicking the in-frame
-`PAUSED` title returns to the normal ESC pages. Changing page or closing ESC
-restores/destroys the ordinary shell state without changing gameplay authority.

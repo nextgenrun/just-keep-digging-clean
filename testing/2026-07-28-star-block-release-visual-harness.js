@@ -6,10 +6,7 @@ import {
   STAR_CONSTELLATION_CONFIG,
   getCollectedStarReleasePreloadAssets,
 } from "../values/starConstellations.js";
-import {
-  getStarDiscoveryPreloadAssets,
-  STAR_RARITY_PROGRESSION_CONFIG,
-} from "../values/starRarityProgression.js";
+import { STAR_RARITY_PROGRESSION_CONFIG } from "../values/starRarityProgression.js";
 import { getSignProgress } from "../values/starRarityProgressionMath.js";
 import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
 
@@ -58,7 +55,6 @@ class StarBlockReleaseVisualHarnessScene extends Phaser.Scene {
     for (const asset of [
       ...getCollectedStarReleasePreloadAssets(),
       ...getStarBlockPulsePreloadAssets(),
-      ...getStarDiscoveryPreloadAssets(),
     ]) {
       this.load.image(asset.key, rootAssetPath(asset.path));
     }

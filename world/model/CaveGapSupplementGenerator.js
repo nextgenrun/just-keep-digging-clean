@@ -92,18 +92,6 @@ function isSpacedFromCaves(zone, caves, config) {
   ));
 }
 
-function clearCaveRootOverlays(worldModel, protectedMask, zone) {
-  const wallRx = zone.rx + zone.wallThickness;
-  const wallRy = zone.ry + zone.wallThickness;
-  for (let ty = zone.cy - wallRy; ty <= zone.cy + wallRy; ty += 1) {
-    for (let tx = zone.cx - wallRx; tx <= zone.cx + wallRx; tx += 1) {
-      if (!worldModel.inBounds(tx, ty)) continue;
-      if (!isInsideEllipse(tx, ty, zone.cx, zone.cy, wallRx, wallRy)) continue;
-      if (protectedMask[worldModel.index(tx, ty)]) continue;
-      worldModel.rootOverlay[worldModel.index(tx, ty)] = 0;
-    }
-  }
-}
 
 function carveGapCave(worldModel, protectedMask, zone) {
   const wallRx = zone.rx + zone.wallThickness;
@@ -135,7 +123,6 @@ function carveGapCave(worldModel, protectedMask, zone) {
     }
   }
 
-  clearCaveRootOverlays(worldModel, protectedMask, zone);
   applyCaveFeatures(worldModel, zone);
 }
 

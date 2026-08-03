@@ -1,0 +1,12 @@
+diff --git a/systems/mining/DigSystem.js b/systems/mining/DigSystem.js
+--- a/systems/mining/DigSystem.js
++++ b/systems/mining/DigSystem.js
+@@ -1331,7 +1331,9 @@
+             const message = feedback.message
+               .replace('{amount}', String(comboAdded))
+               .replace('{total}', String(comboTotal));
+-            scene?.uiNotifications?.success?.(message, {
++            const notifications = scene?.essentialNotifications
++              || scene?.uiNotifications;
++            notifications?.success?.(message, {
+               key: feedback.notificationKey,

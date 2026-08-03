@@ -76,7 +76,6 @@ export const WORLD_VISUAL_RUNTIME = Object.freeze({
     terrainDepth: 0.1,
     terrainEdgeDepth: 0.2,
     surfaceEdgeDepth: 2.2,
-    rootOverlayDepth: 2.32,
     physicalEffectDepth: 2.4,
     feedbackDepth: 2.45,
     emissiveDepth: 898,

@@ -15,9 +15,13 @@ Game system — progression.
   canonical 1-25 definition order, and exposes the same array through the
   journal snapshot used by collection surfaces.
 - The same retention payload is the authoritative Town Square tutorial state:
-  Yes/No choice, current movement/dig/sell/upgrade stage, idempotent rewards,
-  and remaining free-flight time all survive save/load. Older saves migrate
-  without replaying the tutorial or duplicating its money rewards.
+  Yes/No choice, current MOVE/DIG/FLIGHT/PORTAL/SELL/RESUME stage, idempotent
+  Flight training, and remaining free-flight time all survive save/load. Older
+  sell/upgrade stages migrate without replaying the tutorial or injecting money.
+- `PlayerLevelSystem.js` resolves former choice milestones automatically and
+  nonblockingly. Each milestone applies both small permanent rewards (+3%
+  mining and +2% luck), supports multi-level awards, and persists its applied
+  milestone count without opening a choice popup.
 - `UpgradeSystem.js` persists Seismic Suppression through the existing
   `upgradeLevels` save map and exposes `earthquakesDisabled` only after the
   one-time endgame player-merchant purchase succeeds.

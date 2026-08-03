@@ -18,8 +18,8 @@ export class PlayerState {
     // Motion state
     this.motionState = "idle";
     
-    // Climbing state (internal, use isClimbing() getter)
-    this._isClimbing = false;
+    // Flight state (internal, use isFlightActive() getter)
+    this._isFlightActive = false;
   }
   
   /**
@@ -31,7 +31,6 @@ export class PlayerState {
   update(dt, input, abilities, collisionSystem = null) {
     if (!this.physicsBody) return;
     
-    // Climbing state is managed by PlayerAbilities.update() - do NOT reset here
     
     // Update ground detection using custom collision system (authoritative source)
     this._updateGroundDetection(collisionSystem);
@@ -84,8 +83,8 @@ export class PlayerState {
    * @private
    */
   _updateMotionState(input, abilities) {
-    if (this.isClimbing()) {
-      this.motionState = "climb";
+    if (this.isFlightActive() || abilities?.isFlying?.() === true) {
+      this.motionState = "airborne";
       return;
     }
 
@@ -139,27 +138,27 @@ export class PlayerState {
   }
   
   /**
-   * Get whether player is climbing
+   * Get whether powered flight is active.
    * @returns {boolean}
    */
-  isClimbing() {
-    return this._isClimbing;
+  isFlightActive() {
+    return this._isFlightActive;
   }
   
   /**
-   * Set climbing state
-   * @param {boolean} climbing
+   * Set flight state
+   * @param {boolean} active
    */
-  setClimbing(climbing) {
-    if (typeof climbing !== 'boolean') {
-      console.error('[PlayerState Error] Invalid climbing state value:', climbing, '- must be boolean');
-      this._isClimbing = false;
+  setFlightActive(active) {
+    if (typeof active !== 'boolean') {
+      console.error('[PlayerState Error] Invalid flight state value:', active, '- must be boolean');
+      this._isFlightActive = false;
       return;
     }
     
-    this._isClimbing = climbing;
+    this._isFlightActive = active;
     if (this.physicsBody) {
-      this.physicsBody.setClimbing(climbing);
+      this.physicsBody.setFlightActive(active);
     }
   }
   
@@ -168,14 +167,14 @@ export class PlayerState {
    * Prevents getting stuck in various states
    */
   resetAllState() {
-    this._isClimbing = false;
+    this._isFlightActive = false;
     this.onGround = false;
     this.motionState = "idle";
     
     if (this.physicsBody) {
       this.physicsBody.resetVelocity();
       this.physicsBody.clearSurfaceDropThrough();
-      this.physicsBody.setClimbing(false);
+      this.physicsBody.setFlightActive(false);
     }
   }
 }

@@ -19,7 +19,7 @@ const upgradeSystem = new UpgradeSystem();
 assert.equal(upgradeSystem.isGemPowerUnlocked(), false);
 assert.equal(upgradeSystem.isQuickslashUnlocked(), false);
 assert.equal(upgradeSystem.isThunderStrikeUnlocked(), false);
-assert.equal(upgradeSystem.isGemDashUnlocked(), false, "retired Gem Dash must not be advertised");
+assert.equal(typeof upgradeSystem.isGemDashUnlocked, "undefined", "retired Gem Dash API must be removed");
 
 const thunderHits = [];
 const body = {
@@ -29,7 +29,7 @@ const body = {
   h: 12,
   vx: 0,
   vy: 0,
-  setClimbing(value) { this.climbing = value; },
+  setFlightActive(value) { this.flightActive = value; },
 };
 const worldModel = {
   depth: 30,
@@ -59,7 +59,7 @@ const sprite = {
 const abilities = new PlayerAbilities(
   sprite,
   worldModel,
-  { tileSize: 16, climbSpeedPxPerSec: 252 },
+  { tileSize: 16, flightSpeedPxPerSec: 252 },
   upgradeSystem,
   body,
 );
@@ -89,7 +89,6 @@ assert.equal(stats.thunderstrikeBedrockBreach, undefined);
 const gpBeforeAbilities = abilities.gemPower;
 abilities.update(0.5, {
   getFlyInput: () => true,
-  getFlyDownInput: () => false,
   getQuickslashInput: () => false,
   isUp: () => false,
 }, false, true);
@@ -98,7 +97,6 @@ assert.equal(abilities.gemPower, gpBeforeAbilities, "God Mode flight must be fre
 
 abilities.update(0.016, {
   getFlyInput: () => false,
-  getFlyDownInput: () => false,
   getQuickslashInput: () => true,
   isUp: () => false,
 }, true, true);

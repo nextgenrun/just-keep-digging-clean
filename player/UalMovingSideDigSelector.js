@@ -6,10 +6,14 @@ function isDisabledByQuery(search, config) {
 }
 
 function directionFromMotion(motionState, horizontalVelocity, minimumSpeed) {
-  if (motionState === "walk-left") return -1;
-  if (motionState === "walk-right") return 1;
   const velocity = Number(horizontalVelocity) || 0;
-  return Math.abs(velocity) >= minimumSpeed ? Math.sign(velocity) : 0;
+  const threshold = Math.max(0, Number(minimumSpeed) || 0);
+  if (Math.abs(velocity) < threshold) return 0;
+
+  const direction = Math.sign(velocity);
+  if (motionState === "walk-left" && direction !== -1) return 0;
+  if (motionState === "walk-right" && direction !== 1) return 0;
+  return direction;
 }
 
 function directionFromAim(aim) {

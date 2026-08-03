@@ -5,13 +5,33 @@
 - `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and
   `?firstFive=0` profiles, in-camera normal-HP target, persistent objective,
   remapped control copy, tutorial-specific surface gate, saved Flight practice,
-  post-upgrade payoff marker, and Next Promise priority.
+  guaranteed 15 m first portal, six real action stages, and Next Promise priority.
 - `2026-07-30-first-upgrade-breakpoint-contract.mjs` exercises the real
-  `UpgradeSystem` and `DigSystem` result: affordable Miner's Grip raises shallow
-  Dirt damage from 16 to 24 and lowers 45 HP from 3 hits to 2. It also locks the
-  Bronze Pickaxe no-regression guard and exact legacy behavior under rollback.
-- The existing town persistence and retention fixtures now complete with the
-  authored starter-upgrade ID and the current movement collaborator contract.
+  `UpgradeSystem` compatibility boundary: Agility remains a normal optional
+  purchase, legacy Miner's Grip remains hidden/save-compatible, and neither can
+  advance or fund the tutorial.
+- The town persistence and retention fixtures complete MOVE, DIG, FLIGHT,
+  PORTAL, SELL, and RESUME without an injected wallet/resource reward.
+
+## Playtester feedback implementation — 2026-08-02
+
+`2026-08-02-playtester-feedback-implementation-contract.mjs` guards the full
+six-stage route, versioned legacy-stage migration, deterministic 15 m first portal,
+nonblocking multi-level rewards, disabled generic notification admission,
+optional narration hooks, unchanged Depth Gates and combo duration, and
+physical removal of Level Up, Star-discovery, and Flight-reminder views.
+`2026-08-03-player-progression-regressions-contract.mjs` guards hard-material
+dig audio, the guaranteed and repeatedly repaired 15 m tutorial portal,
+Titan-only Escape ownership, the always-available Milestone Pillar, lenient
+early/midgame shop lanes, and protected hazard/endgame upgrades.
+`2026-08-02-combo-block-reward-contract.mjs` keeps the authoritative +combo
+result and output fields while proving it creates no forced popup.
+`2026-08-03-tutorial-town-exit-flight-reminders-contract.mjs` now guards only
+the reversible MOVE/DIG Town boundary, exact map restoration, six-stage bridge
+wiring, and the absence of notification/reminder/upgrade bypasses.
+`2026-08-03-main-menu-return-contract.mjs` reproduces the former double scene
+start and guards one shared save promise, one forced flush, one MainMenuScene
+transition, and graceful continuation after a save-teardown error.
 
 ## Fire Light V3 — 2026-07-30
 
@@ -226,9 +246,9 @@ inspection with representative overview/stat/achievement pages. Add
 `&threshold=100`, `300`, or `1000` to review each depth phrase.
 
 `2026-07-28-ui-notification-carousel-contract.mjs` guards the centered one-card
-seven-second queue, complete-queue close, consumptive arrow navigation, modal
-pausing, interrupt safety, strict producer purge, mouse/touch drag lifecycle,
-HUD-safe clamping, and normalized saved positioning.
+compatibility implementation, complete-queue close, consumptive navigation,
+modal pausing, interrupt safety, strict producer purge, mouse/touch drag
+lifecycle, and the disabled production construction/admission gate.
 
 `2026-07-28-webp-test-utils.mjs` supplies its bounded WebP
 geometry/alpha/hash inspection helpers.
@@ -527,13 +547,14 @@ hits from feeding their own recharge, preserves bedrock, deduplicates mining
 rewards, round-trips save v10, exposes the `?starHearts=0` rollback, and guards
 the Boot/scene/pillar runtime wiring.
 
-`2026-07-28-starlight-talent-tree-contract.mjs` proves the shared ESC/Pillar
-tree contains ten unique material sections and three Engine options, gates the
-automatic first-star reveal once per material and save slot, and publishes the
-tree invariant through the runtime-canary worker route. It also guards the
-three-page 5/5/3 data layout, exactly three widely spaced visible branch cards,
-the native ultra-wide ratio, ESC/Pillar 1116px content-width parity, measured
-alcove centers, visible-alpha sign centering, enlarged cards and medallions,
+`2026-07-28-starlight-talent-tree-contract.mjs` proves the physical Star
+Pillar contains ten unique material sections and three Engine options, while
+Escape contains the Titan Archive and no Talents page. It gates the automatic
+first-star reveal once per material and save slot and publishes the tree
+invariant through the runtime-canary worker route. It also guards the three-page
+5/5/3 data layout, exactly three widely spaced visible branch cards, the native
+ultra-wide ratio, physical-Pillar content bounds, measured alcove centers,
+visible-alpha sign centering, enlarged cards and medallions,
 exactly one visible page, all 29 hash-pinned V3 texture mappings, transparent
 Engine/Heart/glyph/plaque assets, the dedicated three-bay Engine presentation,
 generated Pillar shell, crest, close rune, bespoke Bobo lock, active-only
@@ -553,8 +574,9 @@ paths; and the ability-provider runtime-health invariant.
 `2026-07-28-starlight-talent-tree-visual-harness.html` renders the production
 view and exact assets in first-reveal, mid-progress, and all-mastered profiles
 for deterministic interaction and screenshot review across all three inner
-pages. Add `&shell=pause` to reproduce the live ESC shell, tab-row reservation,
-and content bounds; omit it for the physical Star Pillar shell. The harness
+pages. Add `&shell=pause` only for an isolated comparison shell; it is not
+wired into the current gameplay Escape menu. Omit it for the physical Star
+Pillar shell. The harness
 publishes the resolved layout scale and bounds for exact wide/compact checks.
 Add `&god=1` to verify free abilities, all three free Engines, and the normal
 safety/health state without mutating a save. It deliberately does not preload
@@ -567,7 +589,7 @@ unlocked and GP-free; every Celestial Engine can be switched and activated
 without charge or save mutation; normal Engine caps and runtime-canary
 invariants remain active; Citadel Storm supplies +10% Thunderstrike damage
 without widening the protected-safe one-lane strike or restoring a retry; and
-the retired Gem Dash stub is not registered.
+the removed Gem Dash API is absent and no HUD path advertises it.
 
 `2026-07-26-boot-live-asset-health-contract.mjs` prevents the archived,
 unused 3840x3840 Shadow Miner idle atlas from re-entering the production boot
@@ -615,7 +637,7 @@ route and reward-reveal views together at 1280x720 for chest grounding, ring
 scale, and center-message visual QA without depending on full-game boot.
 
 `2026-07-28-town-tutorial-position-persistence-contract.mjs` guards new-save
-Tutorial Yes/No routing, the real move/dig/sell/upgrade progression, completed
+Tutorial Yes/No routing, the real move/dig/Flight/portal/sell/resume progression, completed
 and skipped reload behavior, exact underground pixel-position/GP persistence,
 Town Square fallback wiring, and the awaited save-before-main-menu path.
 
@@ -643,8 +665,8 @@ bounded queue, severity preemption, consumptive arrows, full-queue `X` clearing
 even during enter/switch/expiry races, fresh seven-second selection timers,
 centered default placement, modal pause/resume, immediate keyboard capture,
 directly interactive visible control art, approved control surface without
-duplicate browse/delete labels, the strict popup purge, and
-main-world/compact-cave routing.
+duplicate browse/delete labels, the strict popup purge, disabled default
+construction, and main-world/compact-cave compatibility routing.
 
 `2026-07-27-manual-save-transfer-ui-contract.mjs` guards the visible Start Menu
 export/import row, the responsive Esc-menu `SAVES` tab, five-tab safe width,
@@ -695,6 +717,12 @@ resonance overlay alpha assets, dais-to-Titan scale, colored glow only on
 remaining authoritative cover cells, exact odd/even 50% thresholds, automatic
 remainder destruction, and removal of chamber-cover count instructions from UI.
 
+`2026-08-02-titan-underground-grounding-polish-contract.mjs` guards all 25
+explicit region mappings, the 75 reused V7 arch/crown/hanging assignments,
+all 30 selected alpha WebPs, both shared RGBA grounding assets, 56-item full
+preload, bottom anchoring, depth tinting, `?titanEnvironment=0`, raster-only
+resonance, and removal of long lateral/idle drift motion.
+
 `2026-07-28-titan-lore-and-statue-inspection-contract.mjs` guards all 25 unique
 epithets, inscriptions, and expanded archive accounts; unlocked-only surface
 prompts; remapped interact handling; approved notification copy; nearest-target
@@ -720,7 +748,7 @@ Option C promotion: two editable 22-frame Piskel clips over the original
 body-locked moving contacts, a 16-frame phase-aware moving Quickslash at its
 original sequence-4 contact, seven-frame upper-body enter/release envelopes,
 1 px maximum foot-baseline drift, pelvis-derived rig markers, 8 px contact
-backoff, 2 px visible-fist clearance, symmetric 18 px authoritative body
+backoff, at least 1.5 px visible-fist clearance, symmetric 21 px authoritative body
 stand-off and solid-target release, profile/loader registration, selector
 eligibility in both world modes, unchanged 360 ms minimum cadence, and
 `?movingSideDig=0` rollback.
@@ -728,11 +756,12 @@ eligibility in both world modes, unchanged 360 ms minimum cadence, and
 `2026-07-28-phase-handoff-production-contract.mjs` guards the approved production
 handoff: eight entry variants, one 132-frame compact atlas, at most two Jog frames
 of phase quantization, exact `23 -> Jab 24 -> Jog 10` entry/resume, immediate
-facing plus planted `20 -> 21` pivot, frame-6/original-foot-phase contact parity, Piskel
+facing plus planted `21 -> 22` pivot, frame-6/original-foot-phase contact parity, Piskel
 anchor/baseline limits, main-world/cave wiring, and `?phaseHandoff=0` rollback.
 
 `2026-07-28-player-animation-polish-production-contract.mjs` guards the complete
-follow-up pass: 61 centralized transition frames, 120 moving-diagonal frames,
+follow-up pass: the promoted 28-frame Jog, 133 centralized transition frames,
+120 moving-diagonal frames,
 two-frame planted start/stop and action-settle clips, four phase variants per
 diagonal family, authored soft/hard landing ownership, wall-brace release phase,
 Piskel round-trip metadata, anchor/baseline limits, both runtime worlds, and
@@ -792,8 +821,9 @@ terrain-masked biome placements, immutable world coordinates, opaque
 world-space mattes, and four-sided normalized sky transition masks.
 
 `2026-07-29-surface-backdrop-fallback-contract.mjs` guards an opaque scenic
-fallback from the first underground row while the requested biome card streams,
-then verifies clean replacement and generic-material last-resort behavior.
+fallback from the first underground row while the requested biome card streams.
+It rejects unrelated ready-region substitution, then verifies clean requested
+replacement and generic-material last-resort behavior.
 
 `2026-07-28-performance-foundation-contract.mjs` additionally guards
 visible-card scenic demand and its rollback, cancellation of obsolete queued
@@ -824,15 +854,12 @@ lifecycle wiring, rollback, and the visual-only boundary.
 `2026-07-30-star-rarity-sign-xp-contract.mjs` guards the exact 80% spawn
 reduction, six weighted/depth-gated tiers, monotonic high-impact rewards,
 five-level capped Sign XP and legacy migration, both Star mining paths, both
-deferred preload routes, twelve ImageGen alpha assets and hashes, authored-only
-popup/bar presentation, exact three-second hold, 20-second routine cooldown,
-first-rarity/Sign-level exceptions, higher-priority replacement, persisted
-ESC opt-out with immediate teardown, one-active-popup cap, and the
-health-worker canary.
+deferred identity preload routes, dedicated Starlight progress art, and absence
+of popup config, preload, settings, policy, and view files.
 
-`2026-07-26-pause-settings-layout-contract.mjs` also guards the enabled-by-default
-legacy migration, Gameplay-tab wiring, immediate settings refresh, and
-non-overlapping second feedback row.
+`2026-07-26-pause-settings-layout-contract.mjs` also guards that the retired
+Star popup preference is absent from config, settings UI, and user settings
+while the remaining responsive Gameplay controls retain their layout.
 
 `2026-07-30-star-identity-library-contract.mjs` guards all 250 identities, the
 exact 60/50/50/40/30/20 split, 250 distinct primary colours and light styles,
@@ -840,7 +867,7 @@ V1 index stability, byte-storage capacity, fourteen V2 ImageGen source hashes,
 six atlas dimensions/output hashes/alpha coverage, and the 64 MiB decoded cap.
 It also guards deterministic coordinate assignment without an extra primary
 RNG draw, both Star mining paths, Boot preload, authored-only
-world/release/popup routing, and runtime texture health.
+world/release/Atlas routing, and runtime texture health.
 
 `2026-07-30-star-identity-v2-art-contract.py` performs pixel-level QA on the
 fourteen expansion sheets and 200 appended frames. It rejects dirty corners,
@@ -867,7 +894,7 @@ the original-six-light decoded-memory cap.
 `2026-07-30-star-identity-semantic-layer-smoke.mjs`, and
 `2026-07-30-star-identity-release-light-smoke.mjs` guard the separate
 core/light metadata, exact hard-darkness frame, dynamic semantic
-beauty/emissive pairing, bounded collected-light follower, popup/Atlas
+beauty/emissive pairing, bounded collected-light follower, release/Atlas
 underlays, no runtime tint/Graphics, and legacy rarity-light fallback.
 
 `2026-07-30-pause-feature-loading-contract.mjs` guards the authored-only
@@ -876,11 +903,9 @@ layout, bounded component size, 100% beat and cancellation teardown. The
 matching harness plus `2026-07-30-pause-feature-loading-live-qa.mjs` render
 partial and ready states in hidden Edge and reject browser errors.
 
-`2026-07-30-pause-feature-loading-production-live-qa.mjs` enters a fresh real
-PlayScene, waits for unrelated runtime art to settle, throttles the Starlight
-group, opens ESC directly on Talents, compares the visible diagnostic with the
-manager, captures a genuine partial state, closes mid-load, and proves that
-reopening reaches the real talent tree at 41/41 with no browser errors.
+`2026-07-30-pause-feature-loading-production-live-qa.mjs` is retained as a
+historical Talents-in-ESC fixture and is no longer part of current production
+QA. Titan-only Escape coverage supersedes it.
 
 `2026-07-30-depth-resource-economy-contract.mjs` verifies the modern and
 legacy query modes, exact depth-curve points, modern/legacy rarity HP and yield,
@@ -897,3 +922,43 @@ stream before writing screenshots under
 `visual-approval-previews/starlight-talent-tree-v4/`. The companion updated
 Starlight contract pins the V4 foundation hash, exact 29-file package,
 full-shell host geometry, readable art floors, Bobo locks, and worker alerts.
+
+`2026-08-03-ground-running-motion-contract.mjs` verifies the 120 ms grounded
+acceleration, 90 ms release, and 150 ms complete reversal at 30, 60, and 144 Hz,
+plus direct-response rollback and timing alignment with the planted two-frame
+Jog transition bridge.
+
+`2026-08-03-player-run-piskel-polish-contract.mjs` pins the byte-identical source
+Jog hash, 28-frame Piskel round-trip, uniform root transform, zero baseline
+drift, transformed rig markers, sequence-index versus texture-frame footfall
+mapping, production sheet registration, and `?animationPolish=0` rollback.
+
+`2026-08-03-ground-footstep-fx-contract.mjs` executes the grounded contact
+system with Phaser-like doubles. It guards Game Rig planted-foot projection,
+the authoritative `w/h` collision-floor anchor, facing mirroring, material
+sampling, explicit and visually distinct routing for all 33 non-air tile
+materials, the three-fragment/0.09-tile/twelve-live subtlety caps, promoted
+bitmap-only shards, low-speed sound preservation, legacy cadence fallback,
+main/cave wiring, lifecycle cleanup, and `?groundFootFx=0`.
+
+`2026-08-03-main-menu-native-resolution-contract.mjs` pins the authored idle
+and selected PNG dimensions, RGBA format, transparent corners, hashes, exact
+5:1 geometry, greater-than-4x Ultra source density, SSOT routing, Graphics
+rollback, and Ultra/High renderer presets.
+
+`2026-08-03-main-menu-native-resolution-live-qa.mjs` boots the real game in
+hidden Edge without a quality override, waits for `MainMenuScene`, captures
+idle and hover frames, and rejects browser/UI errors, non-Ultra backing size,
+texture misrouting, or drift from the original 260x52 display and hit zones.
+
+`2026-08-03-save-menu-presentation-contract.mjs` pins every authored slot,
+modal, and choice texture to its RGBA dimensions and hash manifest, verifies
+the `?saveMenuArt=0` Graphics fallback, and guards the existing slot keys,
+WorldLoad transition, export, import, clear, and backup restore paths.
+
+`2026-08-03-save-menu-presentation-live-qa.mjs` drives the real Play → save
+flow in hidden Edge at the default Ultra 2560x1440 backing size. It uses only
+ephemeral in-scene slot fixtures, preserves storage, verifies mouse and keyboard
+selection plus all original hit geometry, captures clear/backup/import/rules/
+tutorial surfaces, rejects browser and UI errors, and boots the explicit
+Graphics rollback in the same run.

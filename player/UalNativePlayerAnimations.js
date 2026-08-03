@@ -47,13 +47,11 @@ export function createUalNativePlayerAnimations(scene, profile) {
 
   createAnimation(scene, profile.airborneAnim, profile.airborneSheet, profile.airborneFrames, profile.airborneAnimationFps, 0);
   createAnimation(scene, profile.fallingAnim, profile.fallingSheet, profile.fallingFrames, profile.fallingAnimationFps, -1);
-  createAnimation(scene, profile.climbAnim, profile.climbSheet, profile.climbFrames, profile.climbAnimationFps || profile.flyClimbAnimationFps, -1);
-  createAnimation(scene, profile.flyAnim, profile.flySheet, profile.flyFrames, profile.flyAnimationFps || profile.flyClimbAnimationFps, -1);
-  createAnimation(scene, profile.flyClimbAnim, profile.flyClimbSheet, profile.flyClimbFrames, profile.flyClimbAnimationFps, -1);
+  createAnimation(scene, profile.flyAnim, profile.flySheet, profile.flyFrames, profile.flyAnimationFps, -1);
   createAnimation(scene, profile.flightEnterAnim, profile.flightEnterSheet, profile.flightEnterFrames, profile.flightEnterAnimationFps || profile.airborneAnimationFps, 0);
-  createAnimation(scene, profile.flightTravelEnterAnim, profile.flightTravelEnterSheet, profile.flightTravelEnterFrames, profile.flightTravelEnterAnimationFps || profile.flyClimbAnimationFps, 0);
-  createAnimation(scene, profile.flightTravelLoopAnim, profile.flightTravelLoopSheet, profile.flightTravelLoopFrames, profile.flightTravelLoopAnimationFps || profile.flyClimbAnimationFps, -1);
-  createAnimation(scene, profile.flightHoverAnim, profile.flightHoverSheet, profile.flightHoverFrames, profile.flightHoverAnimationFps || profile.flyClimbAnimationFps, -1);
+  createAnimation(scene, profile.flightTravelEnterAnim, profile.flightTravelEnterSheet, profile.flightTravelEnterFrames, profile.flightTravelEnterAnimationFps || profile.flyAnimationFps, 0);
+  createAnimation(scene, profile.flightTravelLoopAnim, profile.flightTravelLoopSheet, profile.flightTravelLoopFrames, profile.flightTravelLoopAnimationFps || profile.flyAnimationFps, -1);
+  createAnimation(scene, profile.flightHoverAnim, profile.flightHoverSheet, profile.flightHoverFrames, profile.flightHoverAnimationFps || profile.flyAnimationFps, -1);
   createAnimation(scene, profile.flightExitAnim, profile.flightExitSheet, profile.flightExitFrames, profile.flightExitAnimationFps || profile.airborneAnimationFps, 0);
   createAnimation(
     scene,

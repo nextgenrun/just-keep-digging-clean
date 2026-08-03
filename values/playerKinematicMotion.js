@@ -27,11 +27,6 @@ export const PLAYER_KINEMATIC_MOTION_CONFIG = Object.freeze({
       minTimeScale: 0.75,
       maxTimeScale: 2.8,
     }),
-    climb: Object.freeze({
-      strideTilesPerCycle: 1,
-      minTimeScale: 0.75,
-      maxTimeScale: 2.5,
-    }),
   }),
 
   airborne: Object.freeze({

@@ -35,8 +35,8 @@ const body = {
   w: 12,
   h: 12,
   vy: 0,
-  setClimbing(value) {
-    this.climbing = value;
+  setFlightActive(value) {
+    this.flightActive = value;
   },
 };
 const flashes = [];
@@ -53,13 +53,13 @@ const upgradeSystem = {
   getEffectiveGemPowerMax: base => base,
   getEffectiveGemPowerDrain: base => base,
   getEffectiveGemPowerRegen: () => 0,
-  getEffectiveLevitationSpeed: base => base,
+  getEffectiveFlightSpeed: base => base,
   getUpgradeEffects: () => ({}),
 };
 const abilities = new PlayerAbilities(
   sprite,
   { isSolid: () => false },
-  { tileSize: 16, climbSpeedPxPerSec: 252 },
+  { tileSize: 16, flightSpeedPxPerSec: 252 },
   upgradeSystem,
   body,
 );
@@ -99,14 +99,13 @@ abilities._flying = true;
 abilities._warnedLowGemPower = false;
 const heldFlightInput = {
   getFlyInput: () => true,
-  getFlyDownInput: () => false,
   getQuickslashInput: () => false,
   isUp: () => false,
 };
 abilities.update(1, heldFlightInput, false, true);
 assert.equal(abilities.getGemPowerExact(), 1);
 assert.equal(abilities.isFlying(), false);
-assert.equal(body.climbing, false);
+assert.equal(body.flightActive, false);
 assert.ok(
   flashes.some(([message]) => /1 GP reserve protected/i.test(message)),
   "Protected Flight exhaustion must explain why Flight stopped",

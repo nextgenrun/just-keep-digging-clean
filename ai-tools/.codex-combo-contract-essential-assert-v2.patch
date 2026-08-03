@@ -1,0 +1,5 @@
+diff --git a/testing/2026-08-02-combo-block-reward-contract.mjs b/testing/2026-08-02-combo-block-reward-contract.mjs
+--- a/testing/2026-08-02-combo-block-reward-contract.mjs
++++ b/testing/2026-08-02-combo-block-reward-contract.mjs
+@@ -43,0 +43,1 @@
++assert.equal(genericNotifications.length, 0);

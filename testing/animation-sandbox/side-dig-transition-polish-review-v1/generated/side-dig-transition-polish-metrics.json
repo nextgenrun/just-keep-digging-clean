@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "version": "side-dig-transition-polish-review-v1-20260803",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWiring": false,
+  "scenarioCount": 3,
+  "standing": {
+    "currentMaxFootMarkerTravelPx": 3.444,
+    "proposedFootMarkerTravelPx": 0.0,
+    "currentLowerAnchorTravelPx": 0.179,
+    "proposedLowerAnchorTravelPx": 0.0,
+    "currentFinalToRecoveryHeightDeltaPx": 0.113,
+    "proposedFinalToRecoveryHeightDeltaPx": 0.0,
+    "currentFinalToRecoveryChangedPixels": 6880,
+    "proposedFinalToRecoveryChangedPixels": 0,
+    "proposedEndpointChangedPixels": 0
+  },
+  "blocked": {
+    "currentBodyRootExcursionPx": 21.0,
+    "proposedBodyRootExcursionPx": 0.0,
+    "currentRootDirectionReversals": 4,
+    "proposedRootDirectionReversals": 0,
+    "currentForwardReturnDistancePx": 42.0,
+    "proposedForwardReturnDistancePx": 0.0,
+    "currentApproachTravelPx": 30.0,
+    "proposedApproachTravelPx": 9.0,
+    "currentActionLowerAnchorTravelPx": 16.656,
+    "proposedActionLowerAnchorTravelPx": 4.267,
+    "proposedSettledLowerAnchorTravelPx": 0.0
+  },
+  "collision": {
+    "tileFaceOffsetPx": 15.5,
+    "currentSolidFrames": {
+      "checkedFrames": 125,
+      "rightFacing": {
+        "intrusionPixels": 16475,
+        "upperIntrusionPixels": 13654,
+        "lowerIntrusionPixels": 2821,
+        "minimumClearancePx": -18.562
+      },
+      "leftFacing": {
+        "intrusionPixels": 16475,
+        "upperIntrusionPixels": 13654,
+        "lowerIntrusionPixels": 2821,
+        "minimumClearancePx": -18.562
+      },
+      "mirroredParity": true
+    },
+    "proposedSolidFrames": {
+      "checkedFrames": 125,
+      "rightFacing": {
+        "intrusionPixels": 0,
+        "upperIntrusionPixels": 0,
+        "lowerIntrusionPixels": 0,
+        "minimumClearancePx": 2.867
+      },
+      "leftFacing": {
+        "intrusionPixels": 0,
+        "upperIntrusionPixels": 0,
+        "lowerIntrusionPixels": 0,
+        "minimumClearancePx": 2.867
+      },
+      "mirroredParity": true
+    },
+    "proposedActions": {
+      "standingJab": {
+        "checkedFrames": 27,
+        "rightFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 2.867
+        },
+        "leftFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 2.867
+        },
+        "mirroredParity": true
+      },
+      "standingCross": {
+        "checkedFrames": 31,
+        "rightFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 5.27
+        },
+        "leftFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 5.27
+        },
+        "mirroredParity": true
+      },
+      "blockedJab": {
+        "checkedFrames": 22,
+        "rightFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 2.867
+        },
+        "leftFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 2.867
+        },
+        "mirroredParity": true
+      },
+      "blockedCross": {
+        "checkedFrames": 22,
+        "rightFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 5.27
+        },
+        "leftFacing": {
+          "intrusionPixels": 0,
+          "upperIntrusionPixels": 0,
+          "lowerIntrusionPixels": 0,
+          "minimumClearancePx": 5.27
+        },
+        "mirroredParity": true
+      }
+    }
+  },
+  "running": {
+    "currentEntryResidualPixels": 6307,
+    "proposedEntryResidualPixels": 0,
+    "currentExitResidualPixels": 5954,
+    "proposedExitResidualPixels": 0,
+    "currentWorldRootTravelPx": 42.0,
+    "proposedWorldRootTravelPx": 42.0
+  },
+  "candidate": {
+    "standingJabFrames": 27,
+    "standingCrossFrames": 31,
+    "movingJabFrames": 22,
+    "movingCrossFrames": 22,
+    "maxMovingPelvisAlignmentErrorPx": 0.624
+  },
+  "piskel": {
+    "frameCount": 102,
+    "width": 256,
+    "height": 256,
+    "fps": 30,
+    "roundTripIdentity": true,
+    "sha256": "8c394d0710bcf901a8d35400694fb250ae7fde9d2c7698c4ec94d3d72624405e"
+  },
+  "artifacts": {
+    "candidateSheetBytes": 1189694,
+    "contactSheetBytes": 96137,
+    "keyframeSheetBytes": 271400,
+    "comparisonGifBytes": {
+      "standing-chain": 1989239,
+      "blocked-chain": 1674836,
+      "running-handoff": 822649
+    }
+  }
+}

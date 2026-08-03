@@ -161,11 +161,11 @@ const blenderCoreOriginBySheet = Object.freeze({
 export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   ...remappedProfile,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
-  renderPipeline: "survival-blender-v2-piskel-central-animation-polish-v1-superman-prone-v3-flight-ual-jog-v1",
+  renderPipeline: "survival-blender-v2-piskel-central-animation-polish-v2-superman-prone-v3-flight-ual-jog-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",
-  version: "survival-blender-v2-promoted-animation-polish-v3-20260731",
+  version: "survival-blender-v2-promoted-animation-polish-v4-20260803",
   visualSkin: blenderV2.visualId,
-  coreAnimationPolicy: "Blender idle/flight plus Piskel-owned planted handoffs, moving digs, landing, and wall brace",
+  coreAnimationPolicy: "Blender idle/flight plus Piskel-owned root-centered Jog, planted handoffs, moving digs, landing, and wall brace",
   walkStartAnim: animationPolish.walkStartAnim,
   walkStopAnim: animationPolish.walkStopAnim,
   landingAnim: animationPolish.landingAnim,
@@ -175,10 +175,11 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   walkSheet: blenderV2.sheets.walk.key,
   walkStartSheet: blenderV2.sheets.walk.key,
   walkLoopSheet: blenderV2.sheets.walk.key,
-  walkRunSheet: remappedProfile.walkRunSheet,
+  walkRunSheet: animationPolish.runPolishEnabled
+    ? animationPolish.animationPolishRunSheet
+    : remappedProfile.walkRunSheet,
   walkStopSheet: blenderV2.sheets.walk.key,
   flySheet: blenderV2.sheets.fly.key,
-  flyClimbSheet: blenderV2.sheets.fly.key,
   flightEnterSheet: blenderV2.sheets.fly.key,
   flightTravelEnterSheet: blenderV2.sheets.fly.key,
   flightTravelLoopSheet: blenderV2.sheets.fly.key,
@@ -200,11 +201,12 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   walkFrames: blenderV2.frames.walk,
   walkStartFrames: blenderV2.frames.walkStart,
   walkLoopFrames: blenderV2.frames.walk,
-  walkRunFrames: remappedProfile.walkRunFrames,
+  walkRunFrames: animationPolish.runPolishEnabled
+    ? animationPolish.animationPolishRunFrames
+    : remappedProfile.walkRunFrames,
   walkStopFrames: blenderV2.frames.walkStop,
   flyFrames: blenderV2.frames.fly,
   flySourceFrames: blenderV2.frames.fly,
-  flyClimbFrames: blenderV2.frames.fly,
   flightEnterFrames: blenderV2.frames.fly,
   flightTravelEnterFrames: blenderV2.frames.fly,
   flightTravelLoopFrames: blenderV2.frames.fly,
@@ -220,7 +222,6 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   idleAnimationFps: 12,
   digUpAnimationFps: digUpSheet.frameRate,
   digUpLookAnimationFps: 30,
-  flyClimbAnimationFps: 16,
   flyAnimationFps: 16,
   flightEnterAnimationFps: 16,
   flightTravelEnterAnimationFps: 16,
@@ -237,7 +238,9 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
     idle: "Blender MINER_idle",
     idleTalk: "Blender MINER_idle",
     walk: "Blender MINER_walk",
-    run: "UAL Jog_Fwd_Loop",
+    run: animationPolish.runPolishEnabled
+      ? "UAL Jog_Fwd_Loop + Piskel root-center/baseline polish"
+      : "UAL Jog_Fwd_Loop",
     uppercut: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
     digUpPrimary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
     digUpSecondary: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",

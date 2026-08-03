@@ -64,6 +64,9 @@ export const THUNDER_STRIKE_CHAIN_CONFIG = Object.freeze({
   }),
   stages: THUNDER_STRIKE_STAGES,
   feedback: Object.freeze({
+    insufficientGpText: "NOT ENOUGH GP",
+    insufficientGpSlamText: "CAST BLOCKED",
+    insufficientGpBadgeText: "CHARGE REQUIRED",
     timingHitText: "PERFECT — STORM DAMAGE UP",
     chainBrokenText: "STORM DISPERSED",
     cancelledText: "THUNDERSTRIKE CANCELLED",
@@ -71,6 +74,7 @@ export const THUNDER_STRIKE_CHAIN_CONFIG = Object.freeze({
     followUpsFreeText: "FOLLOW-UP SLAMS FREE",
     timingHintText: "PRESS {key} INSIDE THE FLASH",
     cancelHintText: "MOVE / ESC CANCEL",
+    insufficientGpLingerMs: 900,
     successLingerMs: 260,
     cancelLingerMs: 360,
     failureLingerMs: 620,

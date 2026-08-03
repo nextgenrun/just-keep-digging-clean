@@ -155,6 +155,17 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
       value: 5,                // +5 levels
     },
   },
+
+  // Rare rewards must confirm both the granted amount and the live total.
+  feedback: Object.freeze({
+    comboBlock: Object.freeze({
+      title: "COMBO BLOCK ACTIVATED",
+      message: "COMBO BLOCK  •  +{amount} COMBO  •  {total} TOTAL",
+      color: "#F1C56A",
+      notificationKey: "special-block-combo-reward",
+      priority: 6,
+    }),
+  }),
 });
 
 export const GEM_POWER_BLOCK_TIERS = SPECIAL_BLOCKS_CONFIG.effects.gemPowerBlock.restoreTiers;

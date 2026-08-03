@@ -47,34 +47,7 @@ assert.equal(
 );
 assert.equal(lockedSaveUpgrades.isGemPowerUnlocked(), true);
 
-const starterLevelToasts = [];
-const starterLevelSystem = new OpeningFlightArtifactSystem({
-  playerLevelSystem: { level: 2 },
-  uiNotifications: {
-    success(message) {
-      starterLevelToasts.push(message);
-    },
-  },
-});
-assert.equal(
-  starterLevelSystem.handleStarterLevelUp({
-    levelUp: true,
-    newLevel: 2,
-    hasChoice: false,
-  }),
-  false,
-  "the dormant intro must not intercept production level-up handling",
-);
-assert.equal(starterLevelToasts.length, 0);
-assert.equal(
-  starterLevelSystem.handleStarterLevelUp({
-    levelUp: true,
-    newLevel: 3,
-    hasChoice: true,
-  }),
-  false,
-  "choice-based level-ups must stay with the normal production flow",
-);
+const starterLevelSystem = new OpeningFlightArtifactSystem({});
 assert.equal(
   starterLevelSystem.isOpeningGraceActive(),
   false,
@@ -88,8 +61,8 @@ function makeAbilities(upgradeSystem) {
     w: 32,
     h: 48,
     vy: 0,
-    setClimbing(value) {
-      this.climbing = value;
+    setFlightActive(value) {
+      this.flightActive = value;
     },
   };
   const sprite = {
@@ -106,7 +79,7 @@ function makeAbilities(upgradeSystem) {
   };
   const config = {
     tileSize: 94,
-    climbSpeedPxPerSec: 252,
+    flightSpeedPxPerSec: 252,
   };
   return new PlayerAbilities(sprite, worldModel, config, upgradeSystem, body);
 }
@@ -114,9 +87,6 @@ function makeAbilities(upgradeSystem) {
 const flightInput = {
   getFlyInput() {
     return true;
-  },
-  getFlyDownInput() {
-    return false;
   },
   getQuickslashInput() {
     return false;
@@ -258,12 +228,12 @@ assert.match(setupSource, /new OpeningFlightArtifactSystem\(this\)/);
 assert.match(setupSource, /openingFlightArtifactSystem\?\.create\(\)/);
 assert.match(setupSource, /openingFlightArtifactSystem\?\.destroy\(\)/);
 assert.match(updateSource, /openingFlightArtifactSystem\?\.update\(delta\)/);
-assert.match(updateSource, /openingFlightArtifactSystem\?\.handleStarterLevelUp/);
+assert.doesNotMatch(updateSource, /handleStarterLevelUp|levelUpPopup/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.loadSaveData/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.getSaveData/);
 assert.match(artifactSystemSource, /new OpeningFlightLegacyRuntime/);
-assert.match(artifactSystemSource, /if \(!this\.enabled\) return false/);
 assert.match(artifactSystemSource, /this\.runtime = !this\.enabled/);
+assert.doesNotMatch(artifactSystemSource, /applyChoiceReward|uiNotifications/);
 assert.match(
   legacyRuntimeSource,
   /earthquakeSystem\?\.\s*setPaused\(this\.isOpeningGraceActive\(\)\)/,

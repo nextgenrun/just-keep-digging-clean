@@ -63,7 +63,6 @@ const animationFrameCounts = new Map([
   [profile.quickslashAnim, profile.quickslashFrames.length],
   [profile.thunderStrikeStrikeAnim, profile.thunderStrikeStrikeFrames.length],
   [profile.flyAnim, profile.flyFrames.length],
-  [profile.flyClimbAnim, profile.flyClimbFrames.length],
   [profile.flightEnterAnim, profile.flightEnterFrames.length],
   [profile.flightTravelEnterAnim, profile.flightTravelEnterFrames.length],
   [profile.flightTravelLoopAnim, profile.flightTravelLoopFrames.length],
@@ -156,7 +155,7 @@ const abilities = {
 };
 let facingRight = true;
 let grounded = true;
-let motionState = "climb";
+let motionState = "airborne";
 const controller = {
   scene,
   worldModel,
@@ -437,7 +436,7 @@ assert.equal(profile.rejectedSourceClips.fly, "Swim_Fwd_Loop");
 assert.equal(profile.rejectedSourceClips.flyHover, "Swim_Idle_Loop");
 abilities.flying = true;
 grounded = false;
-motionState = "climb";
+motionState = "airborne";
 flightHorizontalSpeed = 252;
 flightVerticalSpeed = 0;
 runtime.updateLocomotionVisual(1100);

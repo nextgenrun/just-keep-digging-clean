@@ -135,7 +135,7 @@ function createAbilities(unlockedResources = [], upgradeId = null, worldOptions 
     h: 12,
     vx: 0,
     vy: 0,
-    setClimbing(value) { this.climbing = value; },
+    setFlightActive(value) { this.flightActive = value; },
   };
   const world = createWorld(worldOptions);
   const sprite = {
@@ -148,7 +148,7 @@ function createAbilities(unlockedResources = [], upgradeId = null, worldOptions 
   const abilities = new PlayerAbilities(
     sprite,
     world,
-    { tileSize: 16, climbSpeedPxPerSec: 252 },
+    { tileSize: 16, flightSpeedPxPerSec: 252 },
     upgrades,
     body,
   );
@@ -158,7 +158,6 @@ function createAbilities(unlockedResources = [], upgradeId = null, worldOptions 
 
 const quickInput = {
   getFlyInput: () => false,
-  getFlyDownInput: () => false,
   getQuickslashInput: () => true,
   isUp: () => false,
 };
@@ -259,23 +258,17 @@ const crown = castThunder("gold");
 assert.equal(baseThunder.cost, PLAYER_ABILITIES_CONFIG.thunderStrikeCost * 3);
 assert.equal(crown.cost, baseThunder.cost - 30);
 
-const [pauseSource, pillarSource, viewSource, healthSource, setupSource] = await Promise.all([
-  readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
+const [actionbarRuntimeSource, pillarSource, treeSource, setupSource] = await Promise.all([
+  readFile(new URL("../world/playScene/CelestialActionBarRuntime.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/StarPillarSystem.js", import.meta.url), "utf8"),
-  readFile(new URL("../ui/overlays/StarlightTalentTreeView.js", import.meta.url), "utf8"),
-  readFile(new URL("../ui/overlays/starlightTalentTreeHealth.js", import.meta.url), "utf8"),
+  readFile(new URL("../ui/overlays/CelestialTalentTreeView.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
 ]);
-assert.match(pauseSource, /abilities:\s*this\.playerController\?\.abilities/);
-assert.match(pillarSource, /abilities:\s*this\.scene\.playerController\?\.abilities/);
-assert.match(pillarSource, /missingAbilityProviders/);
-assert.match(viewSource, /return buildStarlightTalentTreeHealth\(this\)/);
-assert.match(
-  healthSource,
-  /const abilityProviderReady\s*=\s*view\.abilityAccess\?\.providerReady\s*===\s*true/,
-);
-assert.match(healthSource, /&&\s*abilityProviderReady/);
-assert.match(setupSource, /constellation mastered/);
-assert.match(setupSource, /sealed\s+•\s+Buy/);
+assert.match(actionbarRuntimeSource, /isQuickslashUnlocked/);
+assert.match(actionbarRuntimeSource, /isThunderStrikeUnlocked/);
+assert.match(pillarSource, /celestialTalentProgressionSystem/);
+assert.match(treeSource, /purchaseNode/);
+assert.doesNotMatch(setupSource, /constellation mastered/);
+assert.doesNotMatch(setupSource, /STAR HEART FORGED/);
 
 console.log("constellation upgrade audit: ten live modifiers, shared yield, Bobo locks, God Mode, protected tiles, and health wiring passed");

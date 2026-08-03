@@ -75,6 +75,35 @@ export class StarHeartProgressionSystem {
     return { ok: true, snapshot: this.getSnapshot() };
   }
 
+  syncTalentUnlockedEngines(engineIds, { silent = false } = {}) {
+    const requested = CELESTIAL_ENGINE_ORDER.filter(
+      engineId => Array.isArray(engineIds) && engineIds.includes(engineId),
+    );
+    const merged = CELESTIAL_ENGINE_ORDER.filter(engineId => (
+      this._data.unlockedEngines.includes(engineId) || requested.includes(engineId)
+    ));
+    const changed = merged.length !== this._data.unlockedEngines.length;
+    if (!changed) {
+      return { ok: true, changed: false, snapshot: this.getSnapshot() };
+    }
+
+    const hadSelectedEngine = Boolean(this._data.selectedEngine);
+    this._data.unlockedEngines = merged;
+    this._data.heartsEarned = Math.max(this._data.heartsEarned, merged.length);
+    this._data.heartsSpent = merged.length;
+    if (!hadSelectedEngine && merged.length > 0) {
+      this._data.selectedEngine = merged[0];
+      this._data.charge = Math.max(
+        this._data.charge,
+        CELESTIAL_ENGINE_CONFIG.charge.initialOnAttune,
+      );
+    }
+    if (!silent) {
+      this._emit("engine-unlocked-by-talent", true, { engineIds: requested });
+    }
+    return { ok: true, changed: true, snapshot: this.getSnapshot() };
+  }
+
   recordCollectedSkyStar(rarity = 0) {
     if (this.isGodModeActive()) return 0;
     if (!this._data.selectedEngine) return 0;

@@ -93,7 +93,9 @@ def runtime_action_metadata(
     atlas_frame_start: int = 0,
 ) -> dict[str, Any]:
     source_name = spec["sourceAction"]
-    run_metadata = runtime_manifest["actions"]["run"]
+    run_metadata = runtime_manifest["actions"][
+        review_config["sources"]["run"]["manifestAction"]
+    ]
     source_metadata = runtime_manifest["actions"][f"punch-{source_name}"]
     bounds = alpha_bounds(frames)
     derived_markers = {
@@ -171,6 +173,8 @@ def runtime_action_metadata(
 def main() -> None:
     review_config = load_json(REVIEW_CONFIG_PATH)
     production_config = load_json(PRODUCTION_CONFIG_PATH)
+    review_config = deepcopy(review_config)
+    review_config["sources"]["run"] = deepcopy(production_config["runSource"])
     candidate = next(
         item for item in review_config["candidates"]
         if item["id"] == review_config["defaultCandidateId"]

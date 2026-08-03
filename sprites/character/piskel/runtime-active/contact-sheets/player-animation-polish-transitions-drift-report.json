@@ -23,14 +23,14 @@
   },
   "drift": {
     "anchorMode": "alpha-lower-body",
-    "maxBBoxCenterDriftPx": 36.5,
-    "maxRootAnchorDriftPx": 10.88,
-    "maxAnchorDriftPx": 10.88,
-    "maxBottomDriftPx": 1.0,
+    "maxBBoxCenterDriftPx": 36.0,
+    "maxRootAnchorDriftPx": 5.89,
+    "maxAnchorDriftPx": 5.89,
+    "maxBottomDriftPx": 0.0,
     "medianBBoxHeightPx": 156.0
   },
-  "medianCenterX": 125.5,
-  "medianRootAnchorX": 127.86,
+  "medianCenterX": 126.0,
+  "medianRootAnchorX": 127.87,
   "medianRootAnchorY": 248.0,
   "polish": null,
   "frames": [
@@ -38,17 +38,17 @@
       "frame": 0,
       "sourceFrame": null,
       "bbox": [
-        49,
-        85,
-        187,
+        54,
+        86,
+        192,
         248
       ],
       "bboxWidth": 138,
-      "bboxHeight": 163,
-      "centerX": 118.0,
-      "rootAnchorX": 120.79,
+      "bboxHeight": 162,
+      "centerX": 123.0,
+      "rootAnchorX": 124.02,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3818,
+      "rootAnchorPixels": 3876,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -58,8 +58,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -7.5,
-      "rootAnchorDeltaXFromMedian": -7.07,
+      "centerDeltaFromMedian": -3.0,
+      "rootAnchorDeltaXFromMedian": -3.85,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -67,46 +67,17 @@
       "frame": 1,
       "sourceFrame": null,
       "bbox": [
-        49,
-        85,
-        187,
-        247
-      ],
-      "bboxWidth": 138,
-      "bboxHeight": 162,
-      "centerX": 118.0,
-      "rootAnchorX": 116.98,
-      "rootAnchorY": 247.0,
-      "rootAnchorPixels": 2685,
-      "anchorMode": "alpha-lower-body",
-      "bottom": 247,
-      "clipped": false,
-      "cornerAlpha": [
-        0,
-        0,
-        0,
-        0
-      ],
-      "centerDeltaFromMedian": -7.5,
-      "rootAnchorDeltaXFromMedian": -10.88,
-      "rootAnchorDeltaYFromMedian": -1.0,
-      "bottomDeltaFromTarget": -1
-    },
-    {
-      "frame": 2,
-      "sourceFrame": null,
-      "bbox": [
-        49,
-        87,
-        187,
+        54,
+        86,
+        192,
         248
       ],
       "bboxWidth": 138,
-      "bboxHeight": 161,
-      "centerX": 118.0,
-      "rootAnchorX": 121.81,
+      "bboxHeight": 162,
+      "centerX": 123.0,
+      "rootAnchorX": 121.98,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3778,
+      "rootAnchorPixels": 2685,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -116,8 +87,37 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -7.5,
-      "rootAnchorDeltaXFromMedian": -6.05,
+      "centerDeltaFromMedian": -3.0,
+      "rootAnchorDeltaXFromMedian": -5.89,
+      "rootAnchorDeltaYFromMedian": 0.0,
+      "bottomDeltaFromTarget": 0
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        54,
+        88,
+        192,
+        248
+      ],
+      "bboxWidth": 138,
+      "bboxHeight": 160,
+      "centerX": 123.0,
+      "rootAnchorX": 124.54,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 3839,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "centerDeltaFromMedian": -3.0,
+      "rootAnchorDeltaXFromMedian": -3.33,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -145,8 +145,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -154,17 +154,17 @@
       "frame": 4,
       "sourceFrame": null,
       "bbox": [
-        69,
+        74,
         91,
-        178,
+        183,
         248
       ],
       "bboxWidth": 109,
       "bboxHeight": 157,
-      "centerX": 123.5,
-      "rootAnchorX": 123.51,
+      "centerX": 128.5,
+      "rootAnchorX": 126.26,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3147,
+      "rootAnchorPixels": 3245,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -174,8 +174,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -2.0,
-      "rootAnchorDeltaXFromMedian": -4.35,
+      "centerDeltaFromMedian": 2.5,
+      "rootAnchorDeltaXFromMedian": -1.61,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -203,8 +203,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -212,17 +212,17 @@
       "frame": 6,
       "sourceFrame": null,
       "bbox": [
+        92,
         87,
-        87,
-        165,
+        170,
         248
       ],
       "bboxWidth": 78,
       "bboxHeight": 161,
-      "centerX": 126.0,
-      "rootAnchorX": 126.88,
+      "centerX": 131.0,
+      "rootAnchorX": 129.36,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 2714,
+      "rootAnchorPixels": 2643,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -232,8 +232,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 0.5,
-      "rootAnchorDeltaXFromMedian": -0.98,
+      "centerDeltaFromMedian": 5.0,
+      "rootAnchorDeltaXFromMedian": 1.49,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -261,8 +261,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -270,17 +270,17 @@
       "frame": 8,
       "sourceFrame": null,
       "bbox": [
-        60,
+        65,
         88,
-        174,
+        179,
         248
       ],
       "bboxWidth": 114,
       "bboxHeight": 160,
-      "centerX": 117.0,
-      "rootAnchorX": 123.73,
+      "centerX": 122.0,
+      "rootAnchorX": 126.31,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3859,
+      "rootAnchorPixels": 3705,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -290,8 +290,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -8.5,
-      "rootAnchorDeltaXFromMedian": -4.13,
+      "centerDeltaFromMedian": -4.0,
+      "rootAnchorDeltaXFromMedian": -1.56,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -319,8 +319,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -328,17 +328,17 @@
       "frame": 10,
       "sourceFrame": null,
       "bbox": [
-        51,
-        88,
-        188,
+        56,
+        89,
+        193,
         248
       ],
       "bboxWidth": 137,
-      "bboxHeight": 160,
-      "centerX": 119.5,
-      "rootAnchorX": 122.67,
+      "bboxHeight": 159,
+      "centerX": 124.5,
+      "rootAnchorX": 125.5,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3971,
+      "rootAnchorPixels": 3956,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -348,8 +348,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -6.0,
-      "rootAnchorDeltaXFromMedian": -5.19,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": -2.37,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -377,8 +377,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -386,17 +386,17 @@
       "frame": 12,
       "sourceFrame": null,
       "bbox": [
-        49,
+        54,
         90,
-        193,
+        198,
         248
       ],
       "bboxWidth": 144,
       "bboxHeight": 158,
-      "centerX": 121.0,
-      "rootAnchorX": 123.19,
+      "centerX": 126.0,
+      "rootAnchorX": 125.88,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 4044,
+      "rootAnchorPixels": 4002,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -406,8 +406,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -4.5,
-      "rootAnchorDeltaXFromMedian": -4.67,
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": -1.99,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -435,8 +435,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -444,17 +444,17 @@
       "frame": 14,
       "sourceFrame": null,
       "bbox": [
-        46,
+        51,
         92,
-        194,
+        199,
         248
       ],
       "bboxWidth": 148,
       "bboxHeight": 156,
-      "centerX": 120.0,
-      "rootAnchorX": 123.43,
+      "centerX": 125.0,
+      "rootAnchorX": 126.29,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 4190,
+      "rootAnchorPixels": 4187,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -464,8 +464,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -5.5,
-      "rootAnchorDeltaXFromMedian": -4.43,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -1.58,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -493,8 +493,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -502,17 +502,17 @@
       "frame": 16,
       "sourceFrame": null,
       "bbox": [
-        45,
+        50,
         85,
-        192,
+        197,
         248
       ],
       "bboxWidth": 147,
       "bboxHeight": 163,
-      "centerX": 118.5,
-      "rootAnchorX": 122.87,
+      "centerX": 123.5,
+      "rootAnchorX": 125.65,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 4160,
+      "rootAnchorPixels": 4190,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -522,8 +522,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -7.0,
-      "rootAnchorDeltaXFromMedian": -4.99,
+      "centerDeltaFromMedian": -2.5,
+      "rootAnchorDeltaXFromMedian": -2.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -551,8 +551,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -560,17 +560,17 @@
       "frame": 18,
       "sourceFrame": null,
       "bbox": [
-        79,
+        84,
         92,
-        172,
+        177,
         248
       ],
       "bboxWidth": 93,
       "bboxHeight": 156,
-      "centerX": 125.5,
-      "rootAnchorX": 127.66,
+      "centerX": 130.5,
+      "rootAnchorX": 130.48,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3304,
+      "rootAnchorPixels": 3371,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -580,8 +580,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 0.0,
-      "rootAnchorDeltaXFromMedian": -0.2,
+      "centerDeltaFromMedian": 4.5,
+      "rootAnchorDeltaXFromMedian": 2.61,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -609,8 +609,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -618,17 +618,17 @@
       "frame": 20,
       "sourceFrame": null,
       "bbox": [
-        88,
+        93,
         87,
-        165,
+        170,
         248
       ],
       "bboxWidth": 77,
       "bboxHeight": 161,
-      "centerX": 126.5,
-      "rootAnchorX": 127.98,
+      "centerX": 131.5,
+      "rootAnchorX": 130.36,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 2436,
+      "rootAnchorPixels": 2482,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -638,8 +638,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 1.0,
-      "rootAnchorDeltaXFromMedian": 0.12,
+      "centerDeltaFromMedian": 5.5,
+      "rootAnchorDeltaXFromMedian": 2.49,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -667,8 +667,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -676,17 +676,17 @@
       "frame": 22,
       "sourceFrame": null,
       "bbox": [
-        66,
+        71,
         87,
-        166,
+        171,
         248
       ],
       "bboxWidth": 100,
       "bboxHeight": 161,
-      "centerX": 116.0,
-      "rootAnchorX": 123.83,
+      "centerX": 121.0,
+      "rootAnchorX": 126.46,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3606,
+      "rootAnchorPixels": 3541,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -696,8 +696,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -9.5,
-      "rootAnchorDeltaXFromMedian": -4.03,
+      "centerDeltaFromMedian": -5.0,
+      "rootAnchorDeltaXFromMedian": -1.41,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -725,8 +725,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -734,17 +734,17 @@
       "frame": 24,
       "sourceFrame": null,
       "bbox": [
-        56,
+        61,
         84,
-        181,
+        186,
         248
       ],
       "bboxWidth": 125,
       "bboxHeight": 164,
-      "centerX": 118.5,
-      "rootAnchorX": 122.92,
+      "centerX": 123.5,
+      "rootAnchorX": 125.53,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3957,
+      "rootAnchorPixels": 3875,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -754,8 +754,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -7.0,
-      "rootAnchorDeltaXFromMedian": -4.94,
+      "centerDeltaFromMedian": -2.5,
+      "rootAnchorDeltaXFromMedian": -2.34,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -783,8 +783,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -792,17 +792,17 @@
       "frame": 26,
       "sourceFrame": null,
       "bbox": [
-        54,
+        59,
         88,
-        187,
+        192,
         248
       ],
       "bboxWidth": 133,
       "bboxHeight": 160,
-      "centerX": 120.5,
-      "rootAnchorX": 123.35,
+      "centerX": 125.5,
+      "rootAnchorX": 126.04,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3993,
+      "rootAnchorPixels": 3935,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -812,8 +812,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -5.0,
-      "rootAnchorDeltaXFromMedian": -4.51,
+      "centerDeltaFromMedian": -0.5,
+      "rootAnchorDeltaXFromMedian": -1.83,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -841,8 +841,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -850,17 +850,17 @@
       "frame": 28,
       "sourceFrame": null,
       "bbox": [
-        51,
+        56,
         91,
-        188,
+        193,
         248
       ],
       "bboxWidth": 137,
       "bboxHeight": 157,
-      "centerX": 119.5,
-      "rootAnchorX": 123.04,
+      "centerX": 124.5,
+      "rootAnchorX": 125.82,
       "rootAnchorY": 248.0,
-      "rootAnchorPixels": 3969,
+      "rootAnchorPixels": 3960,
       "anchorMode": "alpha-lower-body",
       "bottom": 248,
       "clipped": false,
@@ -870,8 +870,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -6.0,
-      "rootAnchorDeltaXFromMedian": -4.82,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": -2.05,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -899,8 +899,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -928,8 +928,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -957,8 +957,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -986,8 +986,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.0,
-      "rootAnchorDeltaXFromMedian": -0.24,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": -0.25,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1015,8 +1015,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1044,8 +1044,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": 0.47,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": 0.46,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1073,8 +1073,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1102,8 +1102,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.16,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.15,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1131,8 +1131,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1160,8 +1160,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.0,
-      "rootAnchorDeltaXFromMedian": -0.21,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": -0.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1189,8 +1189,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -3.5,
-      "rootAnchorDeltaXFromMedian": -0.43,
+      "centerDeltaFromMedian": -4.0,
+      "rootAnchorDeltaXFromMedian": -0.44,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1218,8 +1218,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 5.5,
-      "rootAnchorDeltaXFromMedian": 0.05,
+      "centerDeltaFromMedian": 5.0,
+      "rootAnchorDeltaXFromMedian": 0.04,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1247,8 +1247,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 8.0,
-      "rootAnchorDeltaXFromMedian": 0.19,
+      "centerDeltaFromMedian": 7.5,
+      "rootAnchorDeltaXFromMedian": 0.18,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1276,8 +1276,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.23,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1305,8 +1305,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.0,
-      "rootAnchorDeltaXFromMedian": -0.21,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": -0.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1334,8 +1334,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -4.5,
-      "rootAnchorDeltaXFromMedian": 0.02,
+      "centerDeltaFromMedian": -5.0,
+      "rootAnchorDeltaXFromMedian": 0.01,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1363,8 +1363,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.24,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.25,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1392,8 +1392,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 3.5,
-      "rootAnchorDeltaXFromMedian": -0.17,
+      "centerDeltaFromMedian": 3.0,
+      "rootAnchorDeltaXFromMedian": -0.18,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1421,8 +1421,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 5.5,
-      "rootAnchorDeltaXFromMedian": 0.05,
+      "centerDeltaFromMedian": 5.0,
+      "rootAnchorDeltaXFromMedian": 0.04,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1450,8 +1450,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 7.0,
-      "rootAnchorDeltaXFromMedian": 0.08,
+      "centerDeltaFromMedian": 6.5,
+      "rootAnchorDeltaXFromMedian": 0.07,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1479,8 +1479,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 8.5,
-      "rootAnchorDeltaXFromMedian": 0.27,
+      "centerDeltaFromMedian": 8.0,
+      "rootAnchorDeltaXFromMedian": 0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1508,8 +1508,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 8.5,
-      "rootAnchorDeltaXFromMedian": 0.01,
+      "centerDeltaFromMedian": 8.0,
+      "rootAnchorDeltaXFromMedian": 0.0,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1537,8 +1537,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 8.0,
-      "rootAnchorDeltaXFromMedian": 0.19,
+      "centerDeltaFromMedian": 7.5,
+      "rootAnchorDeltaXFromMedian": 0.18,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1566,8 +1566,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 8.5,
-      "rootAnchorDeltaXFromMedian": 0.49,
+      "centerDeltaFromMedian": 8.0,
+      "rootAnchorDeltaXFromMedian": 0.48,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1595,8 +1595,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 6.5,
-      "rootAnchorDeltaXFromMedian": 0.39,
+      "centerDeltaFromMedian": 6.0,
+      "rootAnchorDeltaXFromMedian": 0.38,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1624,8 +1624,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 2.0,
-      "rootAnchorDeltaXFromMedian": 0.24,
+      "centerDeltaFromMedian": 1.5,
+      "rootAnchorDeltaXFromMedian": 0.23,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1653,8 +1653,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.23,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1682,8 +1682,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.23,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1711,8 +1711,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 23.5,
-      "rootAnchorDeltaXFromMedian": -0.01,
+      "centerDeltaFromMedian": 23.0,
+      "rootAnchorDeltaXFromMedian": -0.02,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1740,8 +1740,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 23.5,
-      "rootAnchorDeltaXFromMedian": 0.35,
+      "centerDeltaFromMedian": 23.0,
+      "rootAnchorDeltaXFromMedian": 0.34,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1769,8 +1769,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 25.0,
-      "rootAnchorDeltaXFromMedian": 0.68,
+      "centerDeltaFromMedian": 24.5,
+      "rootAnchorDeltaXFromMedian": 0.67,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1798,8 +1798,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 25.0,
-      "rootAnchorDeltaXFromMedian": 0.68,
+      "centerDeltaFromMedian": 24.5,
+      "rootAnchorDeltaXFromMedian": 0.67,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1827,8 +1827,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 26.0,
-      "rootAnchorDeltaXFromMedian": 1.43,
+      "centerDeltaFromMedian": 25.5,
+      "rootAnchorDeltaXFromMedian": 1.42,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1856,8 +1856,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 26.5,
-      "rootAnchorDeltaXFromMedian": 1.57,
+      "centerDeltaFromMedian": 26.0,
+      "rootAnchorDeltaXFromMedian": 1.56,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1885,8 +1885,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 26.5,
-      "rootAnchorDeltaXFromMedian": 2.71,
+      "centerDeltaFromMedian": 26.0,
+      "rootAnchorDeltaXFromMedian": 2.7,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1914,8 +1914,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 26.5,
-      "rootAnchorDeltaXFromMedian": 3.06,
+      "centerDeltaFromMedian": 26.0,
+      "rootAnchorDeltaXFromMedian": 3.05,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1943,8 +1943,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 26.0,
-      "rootAnchorDeltaXFromMedian": 2.97,
+      "centerDeltaFromMedian": 25.5,
+      "rootAnchorDeltaXFromMedian": 2.96,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -1972,8 +1972,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 28.0,
-      "rootAnchorDeltaXFromMedian": 3.43,
+      "centerDeltaFromMedian": 27.5,
+      "rootAnchorDeltaXFromMedian": 3.42,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2001,8 +2001,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 25.5,
-      "rootAnchorDeltaXFromMedian": 1.95,
+      "centerDeltaFromMedian": 25.0,
+      "rootAnchorDeltaXFromMedian": 1.94,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2030,8 +2030,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 17.5,
-      "rootAnchorDeltaXFromMedian": 1.08,
+      "centerDeltaFromMedian": 17.0,
+      "rootAnchorDeltaXFromMedian": 1.07,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2059,8 +2059,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 16.5,
-      "rootAnchorDeltaXFromMedian": 1.1,
+      "centerDeltaFromMedian": 16.0,
+      "rootAnchorDeltaXFromMedian": 1.09,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2088,8 +2088,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 16.5,
-      "rootAnchorDeltaXFromMedian": 1.19,
+      "centerDeltaFromMedian": 16.0,
+      "rootAnchorDeltaXFromMedian": 1.18,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2117,8 +2117,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 17.0,
-      "rootAnchorDeltaXFromMedian": 2.21,
+      "centerDeltaFromMedian": 16.5,
+      "rootAnchorDeltaXFromMedian": 2.2,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2146,8 +2146,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 18.0,
-      "rootAnchorDeltaXFromMedian": 1.87,
+      "centerDeltaFromMedian": 17.5,
+      "rootAnchorDeltaXFromMedian": 1.86,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2175,8 +2175,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 23.5,
-      "rootAnchorDeltaXFromMedian": 1.49,
+      "centerDeltaFromMedian": 23.0,
+      "rootAnchorDeltaXFromMedian": 1.48,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2204,8 +2204,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 22.5,
-      "rootAnchorDeltaXFromMedian": -0.34,
+      "centerDeltaFromMedian": 22.0,
+      "rootAnchorDeltaXFromMedian": -0.35,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2233,8 +2233,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 24.0,
-      "rootAnchorDeltaXFromMedian": -0.07,
+      "centerDeltaFromMedian": 23.5,
+      "rootAnchorDeltaXFromMedian": -0.08,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2262,8 +2262,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 22.0,
-      "rootAnchorDeltaXFromMedian": -0.13,
+      "centerDeltaFromMedian": 21.5,
+      "rootAnchorDeltaXFromMedian": -0.14,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2291,8 +2291,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 21.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": 21.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2320,8 +2320,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": -0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2349,8 +2349,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -2.5,
-      "rootAnchorDeltaXFromMedian": 0.28,
+      "centerDeltaFromMedian": -3.0,
+      "rootAnchorDeltaXFromMedian": 0.27,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2378,8 +2378,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": -0.08,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": -0.09,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2407,8 +2407,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 1.5,
-      "rootAnchorDeltaXFromMedian": 0.34,
+      "centerDeltaFromMedian": 1.0,
+      "rootAnchorDeltaXFromMedian": 0.33,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2436,8 +2436,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 5.0,
-      "rootAnchorDeltaXFromMedian": 0.25,
+      "centerDeltaFromMedian": 4.5,
+      "rootAnchorDeltaXFromMedian": 0.24,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2465,8 +2465,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 5.5,
-      "rootAnchorDeltaXFromMedian": 0.35,
+      "centerDeltaFromMedian": 5.0,
+      "rootAnchorDeltaXFromMedian": 0.34,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2494,8 +2494,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 1.0,
-      "rootAnchorDeltaXFromMedian": 0.22,
+      "centerDeltaFromMedian": 0.5,
+      "rootAnchorDeltaXFromMedian": 0.21,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2523,8 +2523,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": -0.23,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": -0.24,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2552,8 +2552,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": -0.18,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": -0.19,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2581,8 +2581,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -7.5,
-      "rootAnchorDeltaXFromMedian": 0.26,
+      "centerDeltaFromMedian": -8.0,
+      "rootAnchorDeltaXFromMedian": 0.25,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2610,8 +2610,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 3.0,
-      "rootAnchorDeltaXFromMedian": 0.59,
+      "centerDeltaFromMedian": 2.5,
+      "rootAnchorDeltaXFromMedian": 0.58,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2639,8 +2639,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 13.5,
-      "rootAnchorDeltaXFromMedian": 0.1,
+      "centerDeltaFromMedian": 13.0,
+      "rootAnchorDeltaXFromMedian": 0.09,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2668,8 +2668,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 20.0,
-      "rootAnchorDeltaXFromMedian": 0.49,
+      "centerDeltaFromMedian": 19.5,
+      "rootAnchorDeltaXFromMedian": 0.48,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2697,8 +2697,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 16.0,
-      "rootAnchorDeltaXFromMedian": 0.04,
+      "centerDeltaFromMedian": 15.5,
+      "rootAnchorDeltaXFromMedian": 0.03,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2726,8 +2726,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 11.0,
-      "rootAnchorDeltaXFromMedian": -0.21,
+      "centerDeltaFromMedian": 10.5,
+      "rootAnchorDeltaXFromMedian": -0.22,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2755,8 +2755,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 4.0,
-      "rootAnchorDeltaXFromMedian": 0.22,
+      "centerDeltaFromMedian": 3.5,
+      "rootAnchorDeltaXFromMedian": 0.21,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2784,8 +2784,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -3.0,
-      "rootAnchorDeltaXFromMedian": -0.13,
+      "centerDeltaFromMedian": -3.5,
+      "rootAnchorDeltaXFromMedian": -0.14,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2813,8 +2813,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": 0.0,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": -0.01,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2842,8 +2842,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": -0.35,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": -0.36,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2871,8 +2871,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.0,
-      "rootAnchorDeltaXFromMedian": 0.08,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": 0.07,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2900,8 +2900,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.25,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.24,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2929,8 +2929,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.32,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.31,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2958,8 +2958,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.0,
-      "rootAnchorDeltaXFromMedian": 0.38,
+      "centerDeltaFromMedian": -1.5,
+      "rootAnchorDeltaXFromMedian": 0.37,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -2987,8 +2987,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": 0.43,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": 0.42,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3016,8 +3016,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -1.5,
-      "rootAnchorDeltaXFromMedian": 0.43,
+      "centerDeltaFromMedian": -2.0,
+      "rootAnchorDeltaXFromMedian": 0.42,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3045,8 +3045,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 16.5,
-      "rootAnchorDeltaXFromMedian": 0.16,
+      "centerDeltaFromMedian": 16.0,
+      "rootAnchorDeltaXFromMedian": 0.15,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3074,8 +3074,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 13.0,
-      "rootAnchorDeltaXFromMedian": 0.22,
+      "centerDeltaFromMedian": 12.5,
+      "rootAnchorDeltaXFromMedian": 0.21,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3103,8 +3103,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 4.5,
-      "rootAnchorDeltaXFromMedian": -0.27,
+      "centerDeltaFromMedian": 4.0,
+      "rootAnchorDeltaXFromMedian": -0.28,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3132,8 +3132,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -2.5,
-      "rootAnchorDeltaXFromMedian": -0.41,
+      "centerDeltaFromMedian": -3.0,
+      "rootAnchorDeltaXFromMedian": -0.42,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3161,8 +3161,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -2.5,
-      "rootAnchorDeltaXFromMedian": -0.41,
+      "centerDeltaFromMedian": -3.0,
+      "rootAnchorDeltaXFromMedian": -0.42,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3190,8 +3190,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.07,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": 0.06,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3219,8 +3219,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -3.5,
-      "rootAnchorDeltaXFromMedian": 0.27,
+      "centerDeltaFromMedian": -4.0,
+      "rootAnchorDeltaXFromMedian": 0.26,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3248,8 +3248,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 18.0,
-      "rootAnchorDeltaXFromMedian": -0.11,
+      "centerDeltaFromMedian": 17.5,
+      "rootAnchorDeltaXFromMedian": -0.12,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3277,8 +3277,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 17.5,
-      "rootAnchorDeltaXFromMedian": -0.19,
+      "centerDeltaFromMedian": 17.0,
+      "rootAnchorDeltaXFromMedian": -0.2,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3306,8 +3306,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 20.0,
-      "rootAnchorDeltaXFromMedian": 0.61,
+      "centerDeltaFromMedian": 19.5,
+      "rootAnchorDeltaXFromMedian": 0.6,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3335,8 +3335,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 36.0,
-      "rootAnchorDeltaXFromMedian": -0.09,
+      "centerDeltaFromMedian": 35.5,
+      "rootAnchorDeltaXFromMedian": -0.1,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3364,8 +3364,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 36.0,
-      "rootAnchorDeltaXFromMedian": -0.09,
+      "centerDeltaFromMedian": 35.5,
+      "rootAnchorDeltaXFromMedian": -0.1,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3393,8 +3393,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 36.5,
-      "rootAnchorDeltaXFromMedian": 0.33,
+      "centerDeltaFromMedian": 36.0,
+      "rootAnchorDeltaXFromMedian": 0.32,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3422,8 +3422,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 10.5,
-      "rootAnchorDeltaXFromMedian": 0.28,
+      "centerDeltaFromMedian": 10.0,
+      "rootAnchorDeltaXFromMedian": 0.27,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3451,8 +3451,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -2.0,
-      "rootAnchorDeltaXFromMedian": 0.58,
+      "centerDeltaFromMedian": -2.5,
+      "rootAnchorDeltaXFromMedian": 0.57,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3480,8 +3480,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -6.0,
-      "rootAnchorDeltaXFromMedian": -0.19,
+      "centerDeltaFromMedian": -6.5,
+      "rootAnchorDeltaXFromMedian": -0.2,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3509,8 +3509,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 5.0,
-      "rootAnchorDeltaXFromMedian": -0.07,
+      "centerDeltaFromMedian": 4.5,
+      "rootAnchorDeltaXFromMedian": -0.08,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3538,8 +3538,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 12.0,
-      "rootAnchorDeltaXFromMedian": 0.59,
+      "centerDeltaFromMedian": 11.5,
+      "rootAnchorDeltaXFromMedian": 0.58,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3567,8 +3567,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 15.0,
-      "rootAnchorDeltaXFromMedian": -0.27,
+      "centerDeltaFromMedian": 14.5,
+      "rootAnchorDeltaXFromMedian": -0.28,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3596,8 +3596,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 14.5,
-      "rootAnchorDeltaXFromMedian": 0.55,
+      "centerDeltaFromMedian": 14.0,
+      "rootAnchorDeltaXFromMedian": 0.54,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3625,8 +3625,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 7.5,
-      "rootAnchorDeltaXFromMedian": 0.48,
+      "centerDeltaFromMedian": 7.0,
+      "rootAnchorDeltaXFromMedian": 0.47,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3654,8 +3654,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 4.0,
-      "rootAnchorDeltaXFromMedian": 0.41,
+      "centerDeltaFromMedian": 3.5,
+      "rootAnchorDeltaXFromMedian": 0.4,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3683,8 +3683,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 0.5,
-      "rootAnchorDeltaXFromMedian": -0.14,
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": -0.15,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3712,8 +3712,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 0.5,
-      "rootAnchorDeltaXFromMedian": 0.62,
+      "centerDeltaFromMedian": 0.0,
+      "rootAnchorDeltaXFromMedian": 0.61,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3741,8 +3741,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": -0.5,
-      "rootAnchorDeltaXFromMedian": 0.0,
+      "centerDeltaFromMedian": -1.0,
+      "rootAnchorDeltaXFromMedian": -0.01,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3770,8 +3770,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 0.0,
-      "rootAnchorDeltaXFromMedian": 0.25,
+      "centerDeltaFromMedian": -0.5,
+      "rootAnchorDeltaXFromMedian": 0.24,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3799,8 +3799,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 2.5,
-      "rootAnchorDeltaXFromMedian": 0.0,
+      "centerDeltaFromMedian": 2.0,
+      "rootAnchorDeltaXFromMedian": -0.01,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3828,8 +3828,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 4.5,
-      "rootAnchorDeltaXFromMedian": 0.32,
+      "centerDeltaFromMedian": 4.0,
+      "rootAnchorDeltaXFromMedian": 0.31,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3857,8 +3857,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 4.5,
-      "rootAnchorDeltaXFromMedian": -0.28,
+      "centerDeltaFromMedian": 4.0,
+      "rootAnchorDeltaXFromMedian": -0.29,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     },
@@ -3886,8 +3886,8 @@
         0,
         0
       ],
-      "centerDeltaFromMedian": 4.5,
-      "rootAnchorDeltaXFromMedian": -0.04,
+      "centerDeltaFromMedian": 4.0,
+      "rootAnchorDeltaXFromMedian": -0.05,
       "rootAnchorDeltaYFromMedian": 0.0,
       "bottomDeltaFromTarget": 0
     }

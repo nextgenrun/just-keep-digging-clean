@@ -7,7 +7,6 @@ import {
   TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../values/retentionConfig.js";
-import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../values/upgradeDefinitions.js";
 import { sanitizePlayerPersistenceData } from "../values/playerPersistence.js";
 import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
 
@@ -102,14 +101,15 @@ assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.MOVE);
 assert.equal(tutorial.recordTutorialMovement(2), true);
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.DIG);
 tutorial.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
+assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+assert.equal(tutorial.claimTutorialFlightTraining().freeFlightMs, 30000);
+assert.equal(tutorial.recordTutorialFlight(), true);
+tutorial.recordPortalActivated("Starter Return Gate");
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
 tutorial.recordSale(1, 1);
-assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
-tutorial.recordUpgrade("Miner's Grip", {
-  upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
-});
+assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+assert.equal(tutorial.recordTutorialPortalResume(), true);
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
-assert.equal(tutorial.claimTutorialCompletionReward().freeFlightMs, 30000);
 
 const resumedTutorial = new RetentionProgressSystem();
 resumedTutorial.loadSaveData(tutorial.getSaveData());
@@ -119,15 +119,15 @@ assert.equal(
 );
 assert.equal(resumedTutorial.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES), false);
 assert.equal(resumedTutorial.isTutorialActive(), false);
-assert.equal(resumedTutorial.claimTutorialCompletionReward(), null);
+assert.equal(resumedTutorial.claimTutorialFlightTraining(), null);
 assert.equal(resumedTutorial.getTutorialState().freeFlightRemainingMs, 30000);
 
 const skipped = new RetentionProgressSystem();
 skipped.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.NO);
 assert.equal(skipped.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SKIPPED);
 assert.equal(skipped.isTutorialActive(), false);
-assert.equal(skipped.claimTutorialCompletionReward().freeFlightMs, 30000);
-assert.equal(skipped.claimTutorialCompletionReward(), null);
+assert.equal(skipped.claimTutorialFlightTraining().freeFlightMs, 30000);
+assert.equal(skipped.claimTutorialFlightTraining(), null);
 
 const [
   startMenuSource,
@@ -155,7 +155,11 @@ assert.match(uiSource, /restorePersistenceData/);
 assert.match(uiSource, /_restoredPlayerPosition/);
 assert.match(
   uiSource,
-  /returnToMainMenu = async function\(\)[\s\S]*?await this\.flushDugTilesSave\(\)/,
+  /returnToMainMenu = function\(\)[\s\S]*?if \(this\._returnToMainMenuPromise\) return this\._returnToMainMenuPromise/,
+);
+assert.match(
+  uiSource,
+  /await this\.flushDugTilesSave\(\{ scheduled: false, force: true \}\)/,
 );
 assert.match(openingConfigSource, /OPENING_FLIGHT_ARTIFACT_CONFIG[\s\S]*enabled: false/);
 

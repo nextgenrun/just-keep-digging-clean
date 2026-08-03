@@ -43,7 +43,6 @@ const worldModel = {
   getTileType: (tx, ty) => types.get(key(tx, ty)) ?? TILE_TYPES.AIR,
   getSkyTileRarity: () => 2,
   getSkyTileOriginalType: () => TILE_TYPES.COPPER,
-  getRootOverlayType: (tx, ty) => tx === 3 && ty === 0 ? TILE_TYPES.ROOT_OVERLAY : 0,
   getGlowCrystalActiveRatio: () => 0.8,
 };
 const graphics = [];
@@ -62,37 +61,33 @@ const layer = new WorldVisualGameplayEffectLayer(scene, worldModel, { id: "solid
 layer.create();
 layer.sync({ left: 0, right: 4, top: 0, bottom: 2 });
 
-assert.equal(graphics.length, 5, "semantic effects should own bounded pooled Graphics layers");
+assert.equal(graphics.length, 4, "semantic effects should own bounded pooled Graphics layers");
 assert.ok(graphics.every(item => item.calls.some(([method]) => method === "setMask")), "all cues must share the solid geometry mask");
 assert.equal(layer.skyTiles.length, 1);
 assert.equal(layer.chestTiles.length, 1, "zone metadata must deduplicate the real chest tile");
 assert.equal(layer.crystalTiles.length, 1);
 assert.equal(layer.crystalZones.length, 1);
-assert.equal(layer.rootTiles.length, 1);
 assert.equal(layer.updateSkyTileGlow({ tx: 1, ty: 0 }, 20), true);
 assert.equal(layer.updateChestGlow({ tx: 1, ty: 0 }, 25), true);
 assert.equal(layer.updateGlowCrystals({ tx: 2, ty: 0 }, 25), true);
-assert.equal(layer.updateRootOverlays(), true);
-assert.ok(graphics[0].calls.some(([method]) => method === "lineTo"), "roots need organic tendril paths");
 assert.equal(resolveWorldVisualSemanticAssetsEnabled(undefined, ""), true);
 assert.equal(
-  graphics[2].calls.some(([method]) => ["fillTriangle", "lineTo", "strokePath"].includes(method)),
+  graphics[1].calls.some(([method]) => ["fillTriangle", "lineTo", "strokePath"].includes(method)),
   false,
   "generated star artwork must replace the primitive faceted cue"
 );
-assert.ok(graphics[3].calls.some(([method]) => method === "fillCircle"), "chests need a restrained golden pulse");
-assert.ok(graphics[4].calls.some(([method]) => method === "fillEllipse"), "crystal zones need a soft authored halo");
-assert.ok(graphics[1].calls.some(([method]) => method === "fillTriangle"), "crystal zones need physical shards below darkness");
+assert.ok(graphics[2].calls.some(([method]) => method === "fillCircle"), "chests need a restrained golden pulse");
+assert.ok(graphics[3].calls.some(([method]) => method === "fillEllipse"), "crystal zones need a soft authored halo");
+assert.ok(graphics[0].calls.some(([method]) => method === "fillTriangle"), "crystal zones need physical shards below darkness");
 assert.equal(layer.updateSpecialBlockGlow(), false);
 assert.equal(WORLD_VISUAL_GAMEPLAY_EFFECTS.compatibility.specialBlockGlow.disposition, "visual-only-no-op");
 assert.equal(WORLD_VISUAL_GAMEPLAY_EFFECTS.compatibility.specialBlockGlow.owner, "WorldVisualFeedbackLayer");
 
 layer.setEmissiveDepth(777);
+assert.ok(graphics[1].calls.some(call => call[0] === "setDepth" && call[1] === 777));
 assert.ok(graphics[2].calls.some(call => call[0] === "setDepth" && call[1] === 777));
 assert.ok(graphics[3].calls.some(call => call[0] === "setDepth" && call[1] === 777));
-assert.ok(graphics[4].calls.some(call => call[0] === "setDepth" && call[1] === 777));
-assert.ok(!graphics[0].calls.some(call => call[0] === "setDepth" && call[1] === 777), "roots must remain terrain-level");
-assert.ok(!graphics[1].calls.some(call => call[0] === "setDepth" && call[1] === 777), "physical shards must remain terrain-level");
+assert.ok(!graphics[0].calls.some(call => call[0] === "setDepth" && call[1] === 777), "physical shards must remain terrain-level");
 
 types.set(key(0, 0), TILE_TYPES.AIR);
 layer.invalidateCell(0, 0);
@@ -147,7 +142,7 @@ for (const required of ["create", "applyTileUpdate", "updateRenderWindow", "upda
 for (const method of invokedMethods) {
   assert.ok(runtimeMethods.has(method), `scenic runtime is missing invoked renderer API: ${method}`);
 }
-for (const method of ["refreshAllTiles", "playerTileToPixel", "updateRootOverlays", "updateSpecialBlockGlow", "resize"]) {
+for (const method of ["refreshAllTiles", "playerTileToPixel", "updateSpecialBlockGlow", "resize"]) {
   assert.ok(runtimeMethods.has(method), `scenic compatibility surface is missing ${method}`);
 }
 

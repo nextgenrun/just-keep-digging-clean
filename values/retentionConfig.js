@@ -12,14 +12,16 @@ export const TOWN_TUTORIAL_STAGES = Object.freeze({
   UNSELECTED: "unselected",
   MOVE: "move",
   DIG: "dig",
+  FLIGHT: "flight",
+  PORTAL: "portal",
   SELL: "sell",
-  UPGRADE: "upgrade",
+  RESUME: "resume",
   COMPLETE: "complete",
   SKIPPED: "skipped",
 });
 
 export const RETENTION_CONFIG = Object.freeze({
-  saveVersion: 2,
+  saveVersion: 5,
 
   depth: Object.freeze({
     surfaceMaxMeters: 2,
@@ -41,66 +43,70 @@ export const RETENTION_CONFIG = Object.freeze({
     activeStages: Object.freeze([
       TOWN_TUTORIAL_STAGES.MOVE,
       TOWN_TUTORIAL_STAGES.DIG,
+      TOWN_TUTORIAL_STAGES.FLIGHT,
+      TOWN_TUTORIAL_STAGES.PORTAL,
       TOWN_TUTORIAL_STAGES.SELL,
-      TOWN_TUTORIAL_STAGES.UPGRADE,
+      TOWN_TUTORIAL_STAGES.RESUME,
     ]),
     moveDistanceTiles: 2,
     digSite: Object.freeze({
-      tileX: 24,
+      tileX: 12,
       surfaceRowOffset: -1,
       tileTypeName: "DIRT",
       tileHp: 1,
     }),
     merchants: Object.freeze({
       sell: "moneyMonster",
-      upgrade: "playerUpgrades",
     }),
-    starterReward: Object.freeze({
-      money: 3,
-      resources: Object.freeze({ dirt: 6 }),
-    }),
-    completionReward: Object.freeze({
-      money: 40,
+    flightTraining: Object.freeze({
       flightUpgradeId: "gemPowerUnlock",
       freeFlightMs: 30000,
     }),
     choice: Object.freeze({
       title: "DO YOU WANT TO PLAY THE TUTORIAL?",
-      body: "A short guided start through movement, digging, selling,\nand your first NPC upgrade.\n\nSkip it if you know the loop — Flight and rewards are still granted.",
+      body: "A short guided start through movement, digging, Flight,\na permanent return gate, selling, and resuming below.\n\nSkip it if you know the loop — Flight is still unlocked.",
       yesLabel: "YES  •  TEACH ME",
       noLabel: "NO  •  START PLAYING",
       footer: "A / D OR ARROWS  CHOOSE     ENTER  CONFIRM     ESC  BACK",
     }),
     copy: Object.freeze({
       move: Object.freeze({
-        phase: "1 / 4  •  MOVE",
+        phase: "1 / 6  •  MOVE",
         title: "GET COMFORTABLE IN TOWN",
         body: "{left}/{right} move and aim  •  {interact} talks to people",
       }),
       dig: Object.freeze({
-        phase: "2 / 4  •  DIG",
+        phase: "2 / 6  •  DIG",
         title: "BREAK THE PRACTICE BLOCK",
         body: "Walk to the mining marker  •  face the block  •  hold {mine} to dig",
       }),
+      flight: Object.freeze({
+        phase: "3 / 6  •  FLIGHT",
+        title: "PROVE LOCAL RECOVERY",
+        body: "Hold {fly} until you lift off  •  then descend toward 15m",
+      }),
+      portal: Object.freeze({
+        phase: "4 / 6  •  RETURN GATE",
+        title: "OPEN A PERMANENT ROUTE HOME",
+        body: "Follow the starter route to 15m  •  press {interact} at the gate",
+      }),
       sell: Object.freeze({
-        phase: "3 / 4  •  SELL",
-        title: "TURN CARGO INTO MONEY",
+        phase: "5 / 6  •  SELL",
+        title: "TURN YOUR REAL CARGO INTO MONEY",
         body: "Return to the Money Monster  •  press {interact}  •  sell any stack",
       }),
-      upgrade: Object.freeze({
-        phase: "4 / 4  •  UPGRADE",
-        title: "MAKE THE NEXT DIG EASIER",
-        body: "Visit Upgrades  •  press {interact}  •  buy Agility Training",
+      resume: Object.freeze({
+        phase: "6 / 6  •  RESUME",
+        title: "REOPEN THE DEEP ROUTE",
+        body: "Use the surface gate  •  enter the paired sky gate  •  resume at 15m",
       }),
       complete: Object.freeze({
-        phase: "CORE LOOP LEARNED",
-        title: "MINE  →  SELL  →  UPGRADE  →  DIG DEEPER",
-        body: "Flight unlocked  •  30 seconds free  •  +40 M",
+        phase: "CORE ROUTE LEARNED",
+        title: "DIG DEEPER  •  OPEN THE WAY BACK",
+        body: "Flight is local recovery  •  portals are long-distance return",
       }),
     }),
     ui: Object.freeze({
-      guideNotificationKey: "town-tutorial-guide",
-      completionNotificationKey: "town-tutorial-complete",
       markerHeightPx: 138,
       markerDepth: 54,
       markerPulseScale: 1.045,
@@ -108,8 +114,6 @@ export const RETENTION_CONFIG = Object.freeze({
       digMarkerOffsetYPx: -8,
       merchantMarkerGapPx: 10,
       merchantMinimumHeightPx: 48,
-      rewardFlashDurationMs: 180,
-      rewardFlashRgb: Object.freeze([126, 225, 255]),
       freeFlightSaveIntervalMs: 1000,
       choiceDepth: 4250,
       choicePanelWidthPx: 960,
@@ -256,9 +260,6 @@ export const RETENTION_CONFIG = Object.freeze({
     objectiveHint: "Show an optional goal with no streak or failure penalty.",
     floatingTextLabel: "Floating Damage / Reward Text",
     floatingTextHint: "Reduced keeps critical and special feedback while hiding routine damage and resource numbers.",
-    starPopupsDefaultEnabled: true,
-    starPopupLabel: "Star Discovery Popups",
-    starPopupHint: "Show the three-second rarity and Sign XP reveal. Repeated Stars are rate-limited.",
   }),
 });
 

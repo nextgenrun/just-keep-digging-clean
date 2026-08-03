@@ -9,13 +9,18 @@ dialogs. It owns responsive viewport fitting, backdrop and input isolation,
 title and icon chrome, consistent spacing, and enter and exit presentation.
 Every visible shell acquires shared UI mouse priority until its exit tween has
 fully completed, so closing a shop or menu cannot leak the same click through
-to world digging. Shop, Level Up, Campfire, Milestones, Star Pillar, and
+to world digging. Shop, Campfire, Milestones, Star Pillar, and
 PlayScene overlays use this visual language.
 
 ## Transient notification carousel
 
-`UINotificationSystem.js` is the single public path for transient HUD messages.
-It composes `NotificationCarouselState.js`,
+`UINotificationSystem.js` retains the bounded single-card compatibility path,
+but production `UI_NOTIFICATION_CAROUSEL_CONFIG.enabled` is `false`. The
+constructor therefore creates no view, presenter, drag controller, key capture,
+or accepted queue in normal play.
+
+When explicitly enabled in an isolated compatibility/review context, it
+composes `NotificationCarouselState.js`,
 `UINotificationCarouselPresenter.js`, and `UINotificationCarouselView.js` so
 only one approved-art card is visible. Clickable or keyboard Left/Right arrows
 consume the visible entry and advance to the adjacent unread entry; consumed
@@ -36,22 +41,15 @@ offsets, and grants a fresh seven-second viewing window after release. The
 queue is bounded to six entries and evicts the least-important hidden card
 first.
 
-When enabled, routine entries also require a 1.4-second gap and are capped at
+Routine entries require a 1.4-second gap and are capped at
 three entries in seven seconds. Tutorial and priority-two-or-higher danger
 entries can bypass that routine admission gate.
 
-Routine confirmations do not enter this queue when a persistent HUD element or
-the action itself already proves the result. This includes audio toggles,
-ordinary save success, run/load confirmations, routine level changes, timed
-buff activation/expiry, torch and low-GP states, blocked-mining guidance,
-Heavy Punch requirements, depth records/milestones, combo checkpoints,
-constellation pickups, routine material/cave/Titan discoveries, session goals,
-expedition/earthquake recaps, tutorial starter cargo, treasure rewards, and
-repeated teleport arrivals. Persistent bars, the Journey, world reveals, and
-milestone cinematics remain authoritative. The queue is reserved for critical
-danger or failure, actual hazard/Wurm damage, exceptional action outcomes,
-player-requested inspection, and progression decisions that have no persistent
-equivalent.
+Production events do not bypass the disabled gate. Tutorial actions use a world
+marker, captions/optional voice, and Next Promise; level and combo results use
+their existing HUD; Stars use release art, Atlas, and Starlight progression.
+Player-requested Titan and Memory Reliquary lore uses the existing Game Dialog
+after Interact rather than reopening an automatic notification channel.
 
 ## Admin health panel
 

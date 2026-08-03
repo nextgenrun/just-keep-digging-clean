@@ -29,6 +29,8 @@ function inferKind(color) {
 export class UINotificationSystem {
   constructor(scene, options = {}) {
     this.scene = scene;
+    this.enabled = options.enabled
+      ?? UI_NOTIFICATION_CAROUSEL_CONFIG.enabled === true;
     this.destroyed = false;
     this.keyed = new Map();
     this._dedupeHistory = new Map();
@@ -46,6 +48,13 @@ export class UINotificationSystem {
     this.baseY = this.defaultBaseY;
     this.depth = options.depth
       ?? UI_NOTIFICATION_CAROUSEL_CONFIG.depth;
+    this.view = null;
+    this.presenter = null;
+    this.dragController = null;
+    this._keys = { previous: null, next: null, dismiss: null };
+    this._domKeyTarget = null;
+    this._onDomKeyDown = null;
+    if (!this.enabled) return;
     this.view = new UINotificationCarouselView(scene, {
       onPrevious: () => this.cyclePrevious(),
       onNext: () => this.cycleNext(),
@@ -81,7 +90,7 @@ export class UINotificationSystem {
   }
 
   show(message, options = {}) {
-    if (!message || this.destroyed || !this.scene?.time) return null;
+    if (!this.enabled || !message || this.destroyed || !this.scene?.time) return null;
     const now = Date.now();
     const normalized = this._normalizeOptions(options);
     if (!this._admitRoutine(normalized, now)) return null;
@@ -152,12 +161,12 @@ export class UINotificationSystem {
   }
 
   closeCurrent() {
-    if (!this.state.current || this.destroyed) return false;
+    if (!this.enabled || !this.state.current || this.destroyed) return false;
     return Boolean(this._removeCurrent());
   }
 
   closeAll() {
-    if (this.destroyed || this.state.size === 0) return false;
+    if (!this.enabled || this.destroyed || this.state.size === 0) return false;
     this.state.clear().forEach(entry => this._forgetEntry(entry));
     this.keyed.clear();
     this.presenter.clear();
@@ -165,7 +174,7 @@ export class UINotificationSystem {
   }
 
   closeByKey(key) {
-    if (!key || this.destroyed) return false;
+    if (!this.enabled || !key || this.destroyed) return false;
     const entry = this.keyed.get(key);
     if (!entry) return false;
     if (this.state.current?.id === entry.id) return this.closeCurrent();
@@ -210,27 +219,28 @@ export class UINotificationSystem {
       suspended: Boolean(this.presenter?.suspended),
       transitioning: Boolean(this.presenter?.transitioning),
       transitionKind: this.presenter?.transitionKind || null,
+      enabled: this.enabled,
     };
   }
 
   setPaused(paused) {
-    if (this.destroyed) return;
-    this.presenter.setPaused(paused);
+    if (!this.enabled || this.destroyed) return;
+    this.presenter?.setPaused(paused);
   }
 
   setBaseY(value) {
     if (!Number.isFinite(value) || this.destroyed || value === this.baseY) return;
     this.baseY = value;
-    this.presenter.updatePosition();
+    this.presenter?.updatePosition();
   }
 
   resize() {
-    if (this.destroyed) return;
+    if (!this.enabled || this.destroyed) return;
     const avoidanceOffsetY = this.baseY - this.defaultBaseY;
     this.defaultBaseY = this._explicitBaseY ?? this._defaultBaseY();
     this.baseY = this.defaultBaseY + avoidanceOffsetY;
-    this.view.resize(this.baseY);
-    this.presenter.refresh();
+    this.view?.resize(this.baseY);
+    this.presenter?.refresh();
   }
 
   clear() {
@@ -246,7 +256,7 @@ export class UINotificationSystem {
       this._onDomKeyDown,
       true,
     );
-    Object.values(this._keys).forEach(key => key?.destroy?.());
+    Object.values(this._keys || {}).forEach(key => key?.destroy?.());
     this.dragController?.destroy();
     this.dragController = null;
     this.presenter?.destroy();
@@ -276,8 +286,10 @@ export class UINotificationSystem {
 
   _cycle(step) {
     if (
+      !this.enabled
+      ||
       this.destroyed
-      || this.presenter.suspended
+      || this.presenter?.suspended
       || this.state.size < 2
     ) {
       return false;
@@ -414,6 +426,7 @@ export class UINotificationSystem {
       || this.scene.sys.isActive();
     return Boolean(
       !this.destroyed
+      && this.enabled
       && !this.presenter?.suspended
       && this.state?.current
       && !this.scene?._settingsKeyCaptureActive

@@ -1,0 +1,1430 @@
+{
+  "schemaVersion": 3,
+  "date": "2026-08-02",
+  "purpose": "complete material-mapped, front-facing tile destruction with perspective shards",
+  "promotionAuthority": "User explicitly requested full runtime use of the existing image library.",
+  "sourceLibrary": "visual-approval-previews/2026-07-29-high-impact-review-library-v2",
+  "selectionRule": "zero-warning source frames only; unsafe phases use pinned zero-warning donors",
+  "damageStateAssetsChanged": false,
+  "selectedSources": [
+    {
+      "id": "a0252-dry-topsoil-cycle-f02",
+      "path": "sources/a0252-dry-topsoil-cycle-f02.png",
+      "sha256": "0cd29311da74cf7ce482b143992f14ee5f1a0d31e679b07198a9cab401b49c1a"
+    },
+    {
+      "id": "a0253-dry-topsoil-cycle-f03",
+      "path": "sources/a0253-dry-topsoil-cycle-f03.png",
+      "sha256": "0722b2fc767379c8f2a869b2b29da0ac279bac644aaeca6a1bb2a51942dbeada"
+    },
+    {
+      "id": "a0254-dry-topsoil-cycle-f04",
+      "path": "sources/a0254-dry-topsoil-cycle-f04.png",
+      "sha256": "f687a5517d0353fe03db7af27dbd82b114c4b719b0261ec28d56e2f768dcf8f5"
+    },
+    {
+      "id": "a0255-dry-topsoil-cycle-f05",
+      "path": "sources/a0255-dry-topsoil-cycle-f05.png",
+      "sha256": "ccb430c651233a6ae83af3e102b4dca7cd3e5a9b2df1e5d07e4c518451e7cd9a"
+    },
+    {
+      "id": "a0257-damp-loam-cycle-f02",
+      "path": "sources/a0257-damp-loam-cycle-f02.png",
+      "sha256": "d51485a610e01d11a20fbf9de2c23ba5224235e983199b64b15cab3eaaaba679"
+    },
+    {
+      "id": "a0258-damp-loam-cycle-f03",
+      "path": "sources/a0258-damp-loam-cycle-f03.png",
+      "sha256": "44a2ea10ac5b74cf64b5638bf68d3938601153b8c4ffee8a5fd9a211727e16bd"
+    },
+    {
+      "id": "a0259-damp-loam-cycle-f04",
+      "path": "sources/a0259-damp-loam-cycle-f04.png",
+      "sha256": "38e95b9ae377db35855079ea6b47b9adbdb264d59331f6ddf21c8e0c78bec8db"
+    },
+    {
+      "id": "a0260-damp-loam-cycle-f05",
+      "path": "sources/a0260-damp-loam-cycle-f05.png",
+      "sha256": "64aab6caeefbdce24e88a1e7d50343d18642cc6a7fc6dec3d59304b25ea73daa"
+    },
+    {
+      "id": "a0277-copper-break-cycle-f02",
+      "path": "sources/a0277-copper-break-cycle-f02.png",
+      "sha256": "07d894d235bda8ffd4578e40e2fac2a7867bbc56acf7d806ac0a358dd37a781a"
+    },
+    {
+      "id": "a0279-copper-break-cycle-f04",
+      "path": "sources/a0279-copper-break-cycle-f04.png",
+      "sha256": "bc060f1cb3ff7f0dd88e222626b0876bb3284579003e8f653c7c5a91f98fc229"
+    },
+    {
+      "id": "a0280-copper-break-cycle-f05",
+      "path": "sources/a0280-copper-break-cycle-f05.png",
+      "sha256": "ee0d184b52f484200f5487ba3fb453bc3417a58c8af9fc01ea191ea2aea19e48"
+    },
+    {
+      "id": "a0282-bronze-break-cycle-f02",
+      "path": "sources/a0282-bronze-break-cycle-f02.png",
+      "sha256": "c1cb0e986de265bf552fbfbb4d3eb63b91eebecfae8fad7e0a082a9e546d22f1"
+    },
+    {
+      "id": "a0284-bronze-break-cycle-f04",
+      "path": "sources/a0284-bronze-break-cycle-f04.png",
+      "sha256": "b68cad6c28f0ae9ebf961a979c9fba7c073524799ea2c499de9a77bf029b2999"
+    },
+    {
+      "id": "a0285-bronze-break-cycle-f05",
+      "path": "sources/a0285-bronze-break-cycle-f05.png",
+      "sha256": "d86b77eb90a273185bd1c8d2bd55fc685189652f1251f6d9ef88f00a9e914c8e"
+    },
+    {
+      "id": "a0287-iron-break-cycle-f02",
+      "path": "sources/a0287-iron-break-cycle-f02.png",
+      "sha256": "05fee04dee4dfac6a332a684701ab6f96c1f4a6fcaf950c5071cf933a81b3b06"
+    },
+    {
+      "id": "a0289-iron-break-cycle-f04",
+      "path": "sources/a0289-iron-break-cycle-f04.png",
+      "sha256": "1db6abf34d89b25951c2aa1f1c9dac5741bd8715e60b24b68081d96db896782d"
+    },
+    {
+      "id": "a0290-iron-break-cycle-f05",
+      "path": "sources/a0290-iron-break-cycle-f05.png",
+      "sha256": "84b022723f89637a1d1a40c1b4e505031426a6c455143b5fe1c077a6fa6d7af4"
+    },
+    {
+      "id": "a0293-steel-break-cycle-f03",
+      "path": "sources/a0293-steel-break-cycle-f03.png",
+      "sha256": "8574e53008d8e0868a4604f8ed94640518e7430a8bfb8ac5a1d74e8dafcfe8f5"
+    },
+    {
+      "id": "a0294-steel-break-cycle-f04",
+      "path": "sources/a0294-steel-break-cycle-f04.png",
+      "sha256": "23658b0b5918ebc57e8c8cce81246d6b75cbaf1a9f662afcd58fe01d67b94ce2"
+    },
+    {
+      "id": "a0295-steel-break-cycle-f05",
+      "path": "sources/a0295-steel-break-cycle-f05.png",
+      "sha256": "9c36186d77fac00caab5c28c683fafc800fd933123990e236630c41541b7342e"
+    },
+    {
+      "id": "a0299-silver-break-cycle-f04",
+      "path": "sources/a0299-silver-break-cycle-f04.png",
+      "sha256": "3ae2f16be54aaa1e2593bab8bfd0b13927ab013bbf3e4d0ecc1c37e9a4b22ef2"
+    },
+    {
+      "id": "a0300-silver-break-cycle-f05",
+      "path": "sources/a0300-silver-break-cycle-f05.png",
+      "sha256": "230ed6e8dd983f0d697292c678da64c0c9e03ad7f97d31165390f3ea852e7fec"
+    },
+    {
+      "id": "a0302-gold-break-cycle-f02",
+      "path": "sources/a0302-gold-break-cycle-f02.png",
+      "sha256": "37e3bc9aa9b8d081f65ab20c32e9ad6a24802b4a54f3390744c45c6135483928"
+    },
+    {
+      "id": "a0303-gold-break-cycle-f03",
+      "path": "sources/a0303-gold-break-cycle-f03.png",
+      "sha256": "30cd1e379a01f732378fb9568317ef1627679387e032a146578bba4b3c00af57"
+    },
+    {
+      "id": "a0304-gold-break-cycle-f04",
+      "path": "sources/a0304-gold-break-cycle-f04.png",
+      "sha256": "19eaafe8fd9aad95499229850904b0f834552618864c010cf94f60c331a53d11"
+    },
+    {
+      "id": "a0305-gold-break-cycle-f05",
+      "path": "sources/a0305-gold-break-cycle-f05.png",
+      "sha256": "8d1ef594fdf7720d9a509a18c7de2eb39e20448a402dde807e9cd53fa24ab3a0"
+    },
+    {
+      "id": "a0309-lava-soil-break-cycle-f04",
+      "path": "sources/a0309-lava-soil-break-cycle-f04.png",
+      "sha256": "91cdab0f041c6fc4f6b0fb0e39f0594ba73d2c2d7d0f3c12a8f589e54be42be1"
+    },
+    {
+      "id": "a0310-lava-soil-break-cycle-f05",
+      "path": "sources/a0310-lava-soil-break-cycle-f05.png",
+      "sha256": "c25c0615b9a4178576a79444e769c68363afc50145c3109f1ecde5258bf8cb1e"
+    },
+    {
+      "id": "a0314-obsidian-shatter-cycle-f04",
+      "path": "sources/a0314-obsidian-shatter-cycle-f04.png",
+      "sha256": "783396d86cd29d52cb55632ad17f6870f65170d03af894b6733a0d1d2927a1c7"
+    },
+    {
+      "id": "a0315-obsidian-shatter-cycle-f05",
+      "path": "sources/a0315-obsidian-shatter-cycle-f05.png",
+      "sha256": "32cf1f1835815cf084251f4fa47b79816d88c328de2ac389c99c2092e6745725"
+    },
+    {
+      "id": "a0318-ember-ore-break-cycle-f03",
+      "path": "sources/a0318-ember-ore-break-cycle-f03.png",
+      "sha256": "45ac4c5c899714b064015917c5b7f301ed0ef0893eeafc37c3a38a4282f3c4b1"
+    },
+    {
+      "id": "a0319-ember-ore-break-cycle-f04",
+      "path": "sources/a0319-ember-ore-break-cycle-f04.png",
+      "sha256": "9d0fa1b68e1b63beb8b550b77458bb945ace30ff9379181df01312a699022ba1"
+    },
+    {
+      "id": "a0320-ember-ore-break-cycle-f05",
+      "path": "sources/a0320-ember-ore-break-cycle-f05.png",
+      "sha256": "a826f4392dfc2e96e59eff2376b8b99861637727fb14850dbbc38936b0834ec0"
+    },
+    {
+      "id": "a0322-magma-crystal-break-cycle-f02",
+      "path": "sources/a0322-magma-crystal-break-cycle-f02.png",
+      "sha256": "2a4b0ccfe2a1b5fa96d3ff89c1df5f597f16db1d2e8ff2002394f892439840f9"
+    },
+    {
+      "id": "a0323-magma-crystal-break-cycle-f03",
+      "path": "sources/a0323-magma-crystal-break-cycle-f03.png",
+      "sha256": "fee0ea1d0f73c29079258016c58911f226ab81f31c727331076a37764aba329e"
+    },
+    {
+      "id": "a0324-magma-crystal-break-cycle-f04",
+      "path": "sources/a0324-magma-crystal-break-cycle-f04.png",
+      "sha256": "1bc97cd9b66373d9bcc240bb2218732abe39570ef10ae79a0b18c94f2a67ab53"
+    },
+    {
+      "id": "a0325-magma-crystal-break-cycle-f05",
+      "path": "sources/a0325-magma-crystal-break-cycle-f05.png",
+      "sha256": "98d1289bb866f61dd65290ac6d6924f33a1baea24b5b3f128faa17945916aa7c"
+    },
+    {
+      "id": "a0337-geode-heavy-fracture-cycle-f02",
+      "path": "sources/a0337-geode-heavy-fracture-cycle-f02.png",
+      "sha256": "d0bbd69ddc31fd474e94aee965f525e03e2761c13b2765b0ad5b744e3616d13c"
+    },
+    {
+      "id": "a0338-geode-heavy-fracture-cycle-f03",
+      "path": "sources/a0338-geode-heavy-fracture-cycle-f03.png",
+      "sha256": "a985007a40681bac6951c534526efccc8a06b3544211ad73d8aee24dc5a7cd9d"
+    },
+    {
+      "id": "a0339-geode-heavy-fracture-cycle-f04",
+      "path": "sources/a0339-geode-heavy-fracture-cycle-f04.png",
+      "sha256": "b5711fb7b95de87b97c5b12f87781580506c458e8c55fd18c2e96ccda3e1d32e"
+    },
+    {
+      "id": "a0340-geode-heavy-fracture-cycle-f05",
+      "path": "sources/a0340-geode-heavy-fracture-cycle-f05.png",
+      "sha256": "9d5bf6ef886420384a32e53d05486cf8a4456b94b82e21ea0e118b05b83a5c78"
+    },
+    {
+      "id": "a0342-relic-cache-break-effect-cycle-f02",
+      "path": "sources/a0342-relic-cache-break-effect-cycle-f02.png",
+      "sha256": "00f5ed7a9e70b5f4ff3ba1c17172222cf68481a2092d4c4a93d36d5f69956705"
+    },
+    {
+      "id": "a0344-relic-cache-break-effect-cycle-f04",
+      "path": "sources/a0344-relic-cache-break-effect-cycle-f04.png",
+      "sha256": "c7c1544a7f4249785a36497bd9ab88098e04bf830930016a9876370b070c39fe"
+    },
+    {
+      "id": "a0345-relic-cache-break-effect-cycle-f05",
+      "path": "sources/a0345-relic-cache-break-effect-cycle-f05.png",
+      "sha256": "f74d9e05f9c8ebace98e3b3dcbcc16c025d3fe411a68d24930842d613e757d69"
+    },
+    {
+      "id": "a0347-special-block-activation-effect-cycle-f02",
+      "path": "sources/a0347-special-block-activation-effect-cycle-f02.png",
+      "sha256": "b41acdc2059dc578e10a222b2e5b1e0dc9de32e598cdb19d2b4963b79fc6cade"
+    },
+    {
+      "id": "a0349-special-block-activation-effect-cycle-f04",
+      "path": "sources/a0349-special-block-activation-effect-cycle-f04.png",
+      "sha256": "cce75fa455e9e008850aff8429a26dafb8027aa0fb84f23ff84348f67c02c556"
+    },
+    {
+      "id": "a0350-special-block-activation-effect-cycle-f05",
+      "path": "sources/a0350-special-block-activation-effect-cycle-f05.png",
+      "sha256": "8ebca29e8b2a943b6ebf699f932800cc85a1bbc2b3d2aa5bbce1abe6d545d83b"
+    }
+  ],
+  "families": [
+    {
+      "name": "dirt",
+      "sourceIds": [
+        "a0252-dry-topsoil-cycle-f02",
+        "a0253-dry-topsoil-cycle-f03",
+        "a0254-dry-topsoil-cycle-f04",
+        "a0255-dry-topsoil-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "damp",
+      "sourceIds": [
+        "a0257-damp-loam-cycle-f02",
+        "a0258-damp-loam-cycle-f03",
+        "a0259-damp-loam-cycle-f04",
+        "a0260-damp-loam-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "hard",
+      "sourceIds": [
+        "a0302-gold-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0304-gold-break-cycle-f04",
+        "a0305-gold-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "copper",
+      "sourceIds": [
+        "a0277-copper-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0279-copper-break-cycle-f04",
+        "a0280-copper-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "bronze",
+      "sourceIds": [
+        "a0282-bronze-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0284-bronze-break-cycle-f04",
+        "a0285-bronze-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "iron",
+      "sourceIds": [
+        "a0287-iron-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0289-iron-break-cycle-f04",
+        "a0290-iron-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "steel",
+      "sourceIds": [
+        "a0302-gold-break-cycle-f02",
+        "a0293-steel-break-cycle-f03",
+        "a0294-steel-break-cycle-f04",
+        "a0295-steel-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "silver",
+      "sourceIds": [
+        "a0302-gold-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0299-silver-break-cycle-f04",
+        "a0300-silver-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "gold",
+      "sourceIds": [
+        "a0302-gold-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0304-gold-break-cycle-f04",
+        "a0305-gold-break-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "lava",
+      "sourceIds": [
+        "a0257-damp-loam-cycle-f02",
+        "a0258-damp-loam-cycle-f03",
+        "a0309-lava-soil-break-cycle-f04",
+        "a0310-lava-soil-break-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "obsidian",
+      "sourceIds": [
+        "a0302-gold-break-cycle-f02",
+        "a0303-gold-break-cycle-f03",
+        "a0314-obsidian-shatter-cycle-f04",
+        "a0315-obsidian-shatter-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "ember",
+      "sourceIds": [
+        "a0322-magma-crystal-break-cycle-f02",
+        "a0318-ember-ore-break-cycle-f03",
+        "a0319-ember-ore-break-cycle-f04",
+        "a0320-ember-ore-break-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "magma",
+      "sourceIds": [
+        "a0322-magma-crystal-break-cycle-f02",
+        "a0323-magma-crystal-break-cycle-f03",
+        "a0324-magma-crystal-break-cycle-f04",
+        "a0325-magma-crystal-break-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "crystal",
+      "sourceIds": [
+        "a0322-magma-crystal-break-cycle-f02",
+        "a0323-magma-crystal-break-cycle-f03",
+        "a0324-magma-crystal-break-cycle-f04",
+        "a0325-magma-crystal-break-cycle-f05"
+      ],
+      "neutralTintDerivative": true
+    },
+    {
+      "name": "geode",
+      "sourceIds": [
+        "a0337-geode-heavy-fracture-cycle-f02",
+        "a0338-geode-heavy-fracture-cycle-f03",
+        "a0339-geode-heavy-fracture-cycle-f04",
+        "a0340-geode-heavy-fracture-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "relic",
+      "sourceIds": [
+        "a0342-relic-cache-break-effect-cycle-f02",
+        "a0338-geode-heavy-fracture-cycle-f03",
+        "a0344-relic-cache-break-effect-cycle-f04",
+        "a0345-relic-cache-break-effect-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    },
+    {
+      "name": "special",
+      "sourceIds": [
+        "a0347-special-block-activation-effect-cycle-f02",
+        "a0323-magma-crystal-break-cycle-f03",
+        "a0349-special-block-activation-effect-cycle-f04",
+        "a0350-special-block-activation-effect-cycle-f05"
+      ],
+      "neutralTintDerivative": false
+    }
+  ],
+  "runtime": {
+    "core": {
+      "path": "sprites/fx/tile-destruction-fx-v3/tile-break-core-v3.png",
+      "size": [
+        1024,
+        3536
+      ],
+      "sha256": "fd53516ab204a24f9ae65ee51660ab80a34d60f2d7966e802bbaa351ceef2b87",
+      "frames": {
+        "dirt": [
+          "dirt-p01",
+          "dirt-p02",
+          "dirt-p03",
+          "dirt-p04"
+        ],
+        "damp": [
+          "damp-p01",
+          "damp-p02",
+          "damp-p03",
+          "damp-p04"
+        ],
+        "hard": [
+          "hard-p01",
+          "hard-p02",
+          "hard-p03",
+          "hard-p04"
+        ],
+        "copper": [
+          "copper-p01",
+          "copper-p02",
+          "copper-p03",
+          "copper-p04"
+        ],
+        "bronze": [
+          "bronze-p01",
+          "bronze-p02",
+          "bronze-p03",
+          "bronze-p04"
+        ],
+        "iron": [
+          "iron-p01",
+          "iron-p02",
+          "iron-p03",
+          "iron-p04"
+        ],
+        "steel": [
+          "steel-p01",
+          "steel-p02",
+          "steel-p03",
+          "steel-p04"
+        ],
+        "silver": [
+          "silver-p01",
+          "silver-p02",
+          "silver-p03",
+          "silver-p04"
+        ],
+        "gold": [
+          "gold-p01",
+          "gold-p02",
+          "gold-p03",
+          "gold-p04"
+        ],
+        "lava": [
+          "lava-p01",
+          "lava-p02",
+          "lava-p03",
+          "lava-p04"
+        ],
+        "obsidian": [
+          "obsidian-p01",
+          "obsidian-p02",
+          "obsidian-p03",
+          "obsidian-p04"
+        ],
+        "ember": [
+          "ember-p01",
+          "ember-p02",
+          "ember-p03",
+          "ember-p04"
+        ],
+        "magma": [
+          "magma-p01",
+          "magma-p02",
+          "magma-p03",
+          "magma-p04"
+        ],
+        "crystal": [
+          "crystal-p01",
+          "crystal-p02",
+          "crystal-p03",
+          "crystal-p04"
+        ],
+        "geode": [
+          "geode-p01",
+          "geode-p02",
+          "geode-p03",
+          "geode-p04"
+        ],
+        "relic": [
+          "relic-p01",
+          "relic-p02",
+          "relic-p03",
+          "relic-p04"
+        ],
+        "special": [
+          "special-p01",
+          "special-p02",
+          "special-p03",
+          "special-p04"
+        ]
+      }
+    },
+    "shards": {
+      "path": "sprites/fx/tile-destruction-fx-v3/tile-break-shards-v3.png",
+      "size": [
+        400,
+        1360
+      ],
+      "sha256": "7b4d5fb3c4ca70fbcf3bab8eeb0aff80f4b5c88b22f72c1188e374fc38aa9593",
+      "frames": {
+        "dirt": [
+          {
+            "name": "dirt-s01",
+            "sourceBounds": [
+              36,
+              99,
+              268,
+              216
+            ],
+            "sourceArea": 11630
+          },
+          {
+            "name": "dirt-s02",
+            "sourceBounds": [
+              114,
+              76,
+              148,
+              115
+            ],
+            "sourceArea": 877
+          },
+          {
+            "name": "dirt-s03",
+            "sourceBounds": [
+              174,
+              104,
+              203,
+              140
+            ],
+            "sourceArea": 658
+          },
+          {
+            "name": "dirt-s04",
+            "sourceBounds": [
+              150,
+              112,
+              161,
+              126
+            ],
+            "sourceArea": 118
+          },
+          {
+            "name": "dirt-s05",
+            "sourceBounds": [
+              237,
+              118,
+              246,
+              132
+            ],
+            "sourceArea": 94
+          }
+        ],
+        "damp": [
+          {
+            "name": "damp-s01",
+            "sourceBounds": [
+              41,
+              83,
+              270,
+              205
+            ],
+            "sourceArea": 13737
+          },
+          {
+            "name": "damp-s02",
+            "sourceBounds": [
+              149,
+              73,
+              166,
+              94
+            ],
+            "sourceArea": 243
+          },
+          {
+            "name": "damp-s03",
+            "sourceBounds": [
+              92,
+              85,
+              100,
+              96
+            ],
+            "sourceArea": 72
+          },
+          {
+            "name": "damp-s04",
+            "sourceBounds": [
+              61,
+              105,
+              73,
+              122
+            ],
+            "sourceArea": 88
+          },
+          {
+            "name": "damp-s05",
+            "sourceBounds": [
+              51,
+              155,
+              59,
+              163
+            ],
+            "sourceArea": 49
+          }
+        ],
+        "hard": [
+          {
+            "name": "hard-s01",
+            "sourceBounds": [
+              73,
+              79,
+              113,
+              124
+            ],
+            "sourceArea": 1407
+          },
+          {
+            "name": "hard-s02",
+            "sourceBounds": [
+              179,
+              174,
+              245,
+              216
+            ],
+            "sourceArea": 1371
+          },
+          {
+            "name": "hard-s03",
+            "sourceBounds": [
+              88,
+              164,
+              122,
+              199
+            ],
+            "sourceArea": 867
+          },
+          {
+            "name": "hard-s04",
+            "sourceBounds": [
+              45,
+              135,
+              75,
+              168
+            ],
+            "sourceArea": 758
+          },
+          {
+            "name": "hard-s05",
+            "sourceBounds": [
+              41,
+              182,
+              95,
+              214
+            ],
+            "sourceArea": 914
+          }
+        ],
+        "copper": [
+          {
+            "name": "copper-s01",
+            "sourceBounds": [
+              120,
+              141,
+              170,
+              187
+            ],
+            "sourceArea": 1251
+          },
+          {
+            "name": "copper-s02",
+            "sourceBounds": [
+              78,
+              77,
+              114,
+              114
+            ],
+            "sourceArea": 924
+          },
+          {
+            "name": "copper-s03",
+            "sourceBounds": [
+              71,
+              195,
+              99,
+              222
+            ],
+            "sourceArea": 559
+          },
+          {
+            "name": "copper-s04",
+            "sourceBounds": [
+              96,
+              172,
+              122,
+              200
+            ],
+            "sourceArea": 542
+          },
+          {
+            "name": "copper-s05",
+            "sourceBounds": [
+              63,
+              144,
+              88,
+              169
+            ],
+            "sourceArea": 461
+          }
+        ],
+        "bronze": [
+          {
+            "name": "bronze-s01",
+            "sourceBounds": [
+              68,
+              105,
+              229,
+              217
+            ],
+            "sourceArea": 10103
+          },
+          {
+            "name": "bronze-s02",
+            "sourceBounds": [
+              97,
+              64,
+              147,
+              117
+            ],
+            "sourceArea": 1654
+          },
+          {
+            "name": "bronze-s03",
+            "sourceBounds": [
+              61,
+              171,
+              88,
+              199
+            ],
+            "sourceArea": 518
+          },
+          {
+            "name": "bronze-s04",
+            "sourceBounds": [
+              187,
+              87,
+              210,
+              112
+            ],
+            "sourceArea": 407
+          },
+          {
+            "name": "bronze-s05",
+            "sourceBounds": [
+              170,
+              62,
+              191,
+              84
+            ],
+            "sourceArea": 342
+          }
+        ],
+        "iron": [
+          {
+            "name": "iron-s01",
+            "sourceBounds": [
+              136,
+              123,
+              212,
+              216
+            ],
+            "sourceArea": 3763
+          },
+          {
+            "name": "iron-s02",
+            "sourceBounds": [
+              94,
+              64,
+              144,
+              105
+            ],
+            "sourceArea": 1456
+          },
+          {
+            "name": "iron-s03",
+            "sourceBounds": [
+              102,
+              163,
+              141,
+              199
+            ],
+            "sourceArea": 986
+          },
+          {
+            "name": "iron-s04",
+            "sourceBounds": [
+              78,
+              195,
+              106,
+              222
+            ],
+            "sourceArea": 552
+          },
+          {
+            "name": "iron-s05",
+            "sourceBounds": [
+              80,
+              128,
+              108,
+              155
+            ],
+            "sourceArea": 538
+          }
+        ],
+        "steel": [
+          {
+            "name": "steel-s01",
+            "sourceBounds": [
+              95,
+              65,
+              142,
+              122
+            ],
+            "sourceArea": 1769
+          },
+          {
+            "name": "steel-s02",
+            "sourceBounds": [
+              73,
+              144,
+              116,
+              186
+            ],
+            "sourceArea": 1112
+          },
+          {
+            "name": "steel-s03",
+            "sourceBounds": [
+              150,
+              157,
+              193,
+              198
+            ],
+            "sourceArea": 782
+          },
+          {
+            "name": "steel-s04",
+            "sourceBounds": [
+              134,
+              196,
+              157,
+              218
+            ],
+            "sourceArea": 385
+          },
+          {
+            "name": "steel-s05",
+            "sourceBounds": [
+              76,
+              193,
+              100,
+              214
+            ],
+            "sourceArea": 380
+          }
+        ],
+        "silver": [
+          {
+            "name": "silver-s01",
+            "sourceBounds": [
+              65,
+              148,
+              108,
+              191
+            ],
+            "sourceArea": 1181
+          },
+          {
+            "name": "silver-s02",
+            "sourceBounds": [
+              116,
+              116,
+              138,
+              139
+            ],
+            "sourceArea": 350
+          },
+          {
+            "name": "silver-s03",
+            "sourceBounds": [
+              114,
+              187,
+              136,
+              208
+            ],
+            "sourceArea": 343
+          },
+          {
+            "name": "silver-s04",
+            "sourceBounds": [
+              155,
+              180,
+              173,
+              197
+            ],
+            "sourceArea": 225
+          },
+          {
+            "name": "silver-s05",
+            "sourceBounds": [
+              79,
+              196,
+              93,
+              209
+            ],
+            "sourceArea": 132
+          }
+        ],
+        "gold": [
+          {
+            "name": "gold-s01",
+            "sourceBounds": [
+              73,
+              79,
+              113,
+              124
+            ],
+            "sourceArea": 1407
+          },
+          {
+            "name": "gold-s02",
+            "sourceBounds": [
+              179,
+              174,
+              245,
+              216
+            ],
+            "sourceArea": 1371
+          },
+          {
+            "name": "gold-s03",
+            "sourceBounds": [
+              88,
+              164,
+              122,
+              199
+            ],
+            "sourceArea": 867
+          },
+          {
+            "name": "gold-s04",
+            "sourceBounds": [
+              45,
+              135,
+              75,
+              168
+            ],
+            "sourceArea": 758
+          },
+          {
+            "name": "gold-s05",
+            "sourceBounds": [
+              41,
+              182,
+              95,
+              214
+            ],
+            "sourceArea": 914
+          }
+        ],
+        "lava": [
+          {
+            "name": "lava-s01",
+            "sourceBounds": [
+              41,
+              161,
+              162,
+              200
+            ],
+            "sourceArea": 1942
+          },
+          {
+            "name": "lava-s02",
+            "sourceBounds": [
+              41,
+              136,
+              74,
+              172
+            ],
+            "sourceArea": 822
+          },
+          {
+            "name": "lava-s03",
+            "sourceBounds": [
+              85,
+              76,
+              111,
+              103
+            ],
+            "sourceArea": 507
+          },
+          {
+            "name": "lava-s04",
+            "sourceBounds": [
+              196,
+              161,
+              218,
+              183
+            ],
+            "sourceArea": 374
+          },
+          {
+            "name": "lava-s05",
+            "sourceBounds": [
+              229,
+              138,
+              252,
+              160
+            ],
+            "sourceArea": 370
+          }
+        ],
+        "obsidian": [
+          {
+            "name": "obsidian-s01",
+            "sourceBounds": [
+              65,
+              117,
+              100,
+              164
+            ],
+            "sourceArea": 1069
+          },
+          {
+            "name": "obsidian-s02",
+            "sourceBounds": [
+              90,
+              170,
+              131,
+              207
+            ],
+            "sourceArea": 995
+          },
+          {
+            "name": "obsidian-s03",
+            "sourceBounds": [
+              92,
+              88,
+              118,
+              112
+            ],
+            "sourceArea": 443
+          },
+          {
+            "name": "obsidian-s04",
+            "sourceBounds": [
+              45,
+              169,
+              67,
+              192
+            ],
+            "sourceArea": 365
+          },
+          {
+            "name": "obsidian-s05",
+            "sourceBounds": [
+              190,
+              156,
+              210,
+              180
+            ],
+            "sourceArea": 344
+          }
+        ],
+        "ember": [
+          {
+            "name": "ember-s01",
+            "sourceBounds": [
+              68,
+              153,
+              149,
+              204
+            ],
+            "sourceArea": 2090
+          },
+          {
+            "name": "ember-s02",
+            "sourceBounds": [
+              104,
+              70,
+              138,
+              109
+            ],
+            "sourceArea": 897
+          },
+          {
+            "name": "ember-s03",
+            "sourceBounds": [
+              190,
+              166,
+              212,
+              188
+            ],
+            "sourceArea": 361
+          },
+          {
+            "name": "ember-s04",
+            "sourceBounds": [
+              28,
+              179,
+              59,
+              202
+            ],
+            "sourceArea": 347
+          },
+          {
+            "name": "ember-s05",
+            "sourceBounds": [
+              225,
+              133,
+              244,
+              153
+            ],
+            "sourceArea": 282
+          }
+        ],
+        "magma": [
+          {
+            "name": "magma-s01",
+            "sourceBounds": [
+              97,
+              79,
+              123,
+              118
+            ],
+            "sourceArea": 726
+          },
+          {
+            "name": "magma-s02",
+            "sourceBounds": [
+              57,
+              123,
+              85,
+              156
+            ],
+            "sourceArea": 656
+          },
+          {
+            "name": "magma-s03",
+            "sourceBounds": [
+              57,
+              184,
+              87,
+              204
+            ],
+            "sourceArea": 334
+          },
+          {
+            "name": "magma-s04",
+            "sourceBounds": [
+              86,
+              170,
+              105,
+              190
+            ],
+            "sourceArea": 294
+          },
+          {
+            "name": "magma-s05",
+            "sourceBounds": [
+              184,
+              92,
+              202,
+              115
+            ],
+            "sourceArea": 293
+          }
+        ],
+        "crystal": [
+          {
+            "name": "crystal-s01",
+            "sourceBounds": [
+              97,
+              79,
+              123,
+              118
+            ],
+            "sourceArea": 726
+          },
+          {
+            "name": "crystal-s02",
+            "sourceBounds": [
+              57,
+              123,
+              85,
+              156
+            ],
+            "sourceArea": 656
+          },
+          {
+            "name": "crystal-s03",
+            "sourceBounds": [
+              57,
+              184,
+              87,
+              204
+            ],
+            "sourceArea": 334
+          },
+          {
+            "name": "crystal-s04",
+            "sourceBounds": [
+              86,
+              170,
+              105,
+              190
+            ],
+            "sourceArea": 294
+          },
+          {
+            "name": "crystal-s05",
+            "sourceBounds": [
+              184,
+              92,
+              202,
+              115
+            ],
+            "sourceArea": 293
+          }
+        ],
+        "geode": [
+          {
+            "name": "geode-s01",
+            "sourceBounds": [
+              43,
+              164,
+              113,
+              195
+            ],
+            "sourceArea": 903
+          },
+          {
+            "name": "geode-s02",
+            "sourceBounds": [
+              177,
+              70,
+              208,
+              113
+            ],
+            "sourceArea": 731
+          },
+          {
+            "name": "geode-s03",
+            "sourceBounds": [
+              189,
+              123,
+              212,
+              147
+            ],
+            "sourceArea": 264
+          },
+          {
+            "name": "geode-s04",
+            "sourceBounds": [
+              168,
+              170,
+              187,
+              193
+            ],
+            "sourceArea": 276
+          },
+          {
+            "name": "geode-s05",
+            "sourceBounds": [
+              91,
+              128,
+              108,
+              148
+            ],
+            "sourceArea": 227
+          }
+        ],
+        "relic": [
+          {
+            "name": "relic-s01",
+            "sourceBounds": [
+              29,
+              97,
+              70,
+              183
+            ],
+            "sourceArea": 1597
+          },
+          {
+            "name": "relic-s02",
+            "sourceBounds": [
+              159,
+              59,
+              185,
+              94
+            ],
+            "sourceArea": 640
+          },
+          {
+            "name": "relic-s03",
+            "sourceBounds": [
+              210,
+              141,
+              240,
+              172
+            ],
+            "sourceArea": 617
+          },
+          {
+            "name": "relic-s04",
+            "sourceBounds": [
+              177,
+              91,
+              199,
+              112
+            ],
+            "sourceArea": 324
+          },
+          {
+            "name": "relic-s05",
+            "sourceBounds": [
+              73,
+              95,
+              91,
+              119
+            ],
+            "sourceArea": 309
+          }
+        ],
+        "special": [
+          {
+            "name": "special-s01",
+            "sourceBounds": [
+              104,
+              119,
+              190,
+              163
+            ],
+            "sourceArea": 1985
+          },
+          {
+            "name": "special-s02",
+            "sourceBounds": [
+              184,
+              151,
+              218,
+              177
+            ],
+            "sourceArea": 468
+          },
+          {
+            "name": "special-s03",
+            "sourceBounds": [
+              64,
+              155,
+              88,
+              177
+            ],
+            "sourceArea": 375
+          },
+          {
+            "name": "special-s04",
+            "sourceBounds": [
+              50,
+              101,
+              68,
+              119
+            ],
+            "sourceArea": 249
+          },
+          {
+            "name": "special-s05",
+            "sourceBounds": [
+              214,
+              104,
+              232,
+              122
+            ],
+            "sourceArea": 253
+          }
+        ]
+      }
+    }
+  },
+  "review": {
+    "path": "visual-approval-previews/tile-destruction-fx-v3/01-library-sequences-native-94px.png",
+    "sha256": "51b0d345e4d52f9e766f6e1e2fa49f1feaae87b2330b8d062e71158bea54de50"
+  }
+}

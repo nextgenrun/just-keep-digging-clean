@@ -3,6 +3,12 @@
  * Ground-level ambient effects: mist, fireflies, wind particles.
  * Extracted from AtmosphereSystem for the ≤300-line rule.
  */
+import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
+import {
+  frameRateIndependentResponse,
+  frameRateIndependentStepCount,
+} from "../../values/mathUtils.js";
+
 export class GroundEffectsAtmosphere {
   constructor(scene, config = {}, visualAssets = null) {
     this.scene = scene;
@@ -18,15 +24,24 @@ export class GroundEffectsAtmosphere {
     // Wind particles
     this.windParticles = [];
     this._windTimer = 0;
+    this._elapsedMs = 0;
 
     this._createMist();
     this._createFireflies();
   }
 
   update(delta, phase, nightAmount, windPower) {
-    this._updateMist(phase, nightAmount);
-    this._updateFireflies(phase, nightAmount);
-    this._updateWindParticles(delta, windPower);
+    const timing = ANIMATION_SMOOTHNESS_CONFIG;
+    const stepCount = frameRateIndependentStepCount(
+      delta,
+      timing.referenceFrameMs,
+      timing.maxCatchUpSteps,
+    );
+    const motionDeltaMs = stepCount * timing.referenceFrameMs;
+    this._elapsedMs += motionDeltaMs;
+    this._updateMist(phase, nightAmount, motionDeltaMs, stepCount);
+    this._updateFireflies(phase, nightAmount, motionDeltaMs, stepCount);
+    this._updateWindParticles(delta, windPower, stepCount);
   }
 
   destroy() {
@@ -80,20 +95,27 @@ export class GroundEffectsAtmosphere {
     }
   }
 
-  _updateMist(phase, nightAmount) {
+  _updateMist(phase, nightAmount, deltaMs, stepCount) {
     const isMistyTime = phase === "dawn" || phase === "morning" || (phase === "dusk" && nightAmount < 0.4);
     const targetAlpha = isMistyTime ? 1 : 0;
+    const timing = ANIMATION_SMOOTHNESS_CONFIG;
+    const response = frameRateIndependentResponse(
+      timing.groundEffects.mistAlphaResponsePerReferenceFrame,
+      deltaMs,
+      timing.referenceFrameMs,
+      timing.maxCatchUpSteps,
+    );
 
     this.mistParticles.forEach(m => {
       m.targetAlpha = targetAlpha;
-      m.alpha += (m.targetAlpha - m.alpha) * 0.02;
+      m.alpha += (m.targetAlpha - m.alpha) * response;
 
       if (m.alpha < 0.01) {
         m.sprite.setAlpha(0);
         return;
       }
 
-      m.sprite.x += m.speed * (1 / 60);
+      m.sprite.x += m.speed * (stepCount / timing.referenceFps);
       m.sprite.setAlpha(m.alpha * m.maxAlpha);
     });
   }
@@ -131,31 +153,40 @@ export class GroundEffectsAtmosphere {
     }
   }
 
-  _updateFireflies(phase, nightAmount) {
+  _updateFireflies(phase, nightAmount, deltaMs, stepCount) {
     const isFireflyTime = nightAmount > 0.2 || phase === "dusk" || phase === "sunset";
     const targetAlpha = isFireflyTime ? 1 : 0;
+    const timing = ANIMATION_SMOOTHNESS_CONFIG;
+    const response = frameRateIndependentResponse(
+      timing.groundEffects.fireflyAlphaResponsePerReferenceFrame,
+      deltaMs,
+      timing.referenceFrameMs,
+      timing.maxCatchUpSteps,
+    );
+    const now = this._elapsedMs;
 
     this.fireflies.forEach(f => {
       f.targetAlpha = targetAlpha;
-      f.alpha += (f.targetAlpha - f.alpha) * 0.03;
+      f.alpha += (f.targetAlpha - f.alpha) * response;
 
       if (f.alpha < 0.01) {
         f.sprite.setAlpha(0);
         return;
       }
 
-      const now = Date.now();
       const wobbleX = Math.sin((now / 800) + f.phase) * 0.5;
       const wobbleY = Math.sin((now / 600) + f.phase * 1.3) * 0.8;
 
-      f.x += (f.vx + wobbleX) * f.speed;
-      f.y += (f.vy + wobbleY) * f.speed;
+      f.x += (f.vx + wobbleX) * f.speed * stepCount;
+      f.y += (f.vy + wobbleY) * f.speed * stepCount;
 
       const tileSize = this.config.tileSize || 94;
       const surfaceY = (this.config.topAirRows || 65) * tileSize;
 
-      if (f.y < surfaceY - 120) f.vy += 0.1;
-      if (f.y > surfaceY + 40) f.vy -= 0.1;
+      const boundaryVelocity = timing.groundEffects.fireflyBoundaryVelocityPerReferenceFrame
+        * stepCount;
+      if (f.y < surfaceY - 120) f.vy += boundaryVelocity;
+      if (f.y > surfaceY + 40) f.vy -= boundaryVelocity;
 
       f.sprite.setPosition(f.x, f.y);
 
@@ -166,10 +197,11 @@ export class GroundEffectsAtmosphere {
 
   // ─── Wind Particles ──────────────────────────────────────
 
-  _updateWindParticles(delta, windPower) {
+  _updateWindParticles(delta, windPower, stepCount) {
     if (windPower < 0.3) {
+      const fade = ANIMATION_SMOOTHNESS_CONFIG.groundEffects.inactiveWindFadePerReferenceFrame * stepCount;
       this.windParticles.forEach(w => {
-        w.sprite.setAlpha(Math.max(0, w.sprite.alpha - 0.02));
+        w.sprite.setAlpha(Math.max(0, w.sprite.alpha - fade));
       });
       this._windTimer = 0;
       return;
@@ -184,9 +216,9 @@ export class GroundEffectsAtmosphere {
 
     for (let i = this.windParticles.length - 1; i >= 0; i--) {
       const w = this.windParticles[i];
-      w.sprite.x += w.vx * (delta / 16);
-      w.sprite.y += w.vy * (delta / 16);
-      w.sprite.setAlpha(Math.max(0, w.sprite.alpha - w.fadePerFrame));
+      w.sprite.x += w.vx * stepCount;
+      w.sprite.y += w.vy * stepCount;
+      w.sprite.setAlpha(Math.max(0, w.sprite.alpha - w.fadePerFrame * stepCount));
 
       if (w.sprite.alpha <= 0.01) {
         w.sprite.destroy();

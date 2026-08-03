@@ -1,0 +1,325 @@
+diff --git a/values/retentionConfig.js b/values/retentionConfig.js
+--- a/values/retentionConfig.js
++++ b/values/retentionConfig.js
+@@ -10,1 +10,1 @@
+ export const TOWN_TUTORIAL_STAGES = Object.freeze({
+   UNSELECTED: "unselected",
+   MOVE: "move",
+   DIG: "dig",
++  SELL: "sell",
++  UPGRADE: "upgrade",
+   FLIGHT: "flight",
+   PORTAL: "portal",
+-  SELL: "sell",
+   RESUME: "resume",
+   COMPLETE: "complete",
+   SKIPPED: "skipped",
+ });
+@@ -23,1 +23,1 @@
+ export const RETENTION_CONFIG = Object.freeze({
+-  saveVersion: 5,
++  saveVersion: 6,
+ 
+@@ -42,1 +42,1 @@
+     stages: Object.freeze(Object.values(TOWN_TUTORIAL_STAGES)),
+     activeStages: Object.freeze([
+       TOWN_TUTORIAL_STAGES.MOVE,
+       TOWN_TUTORIAL_STAGES.DIG,
++      TOWN_TUTORIAL_STAGES.SELL,
++      TOWN_TUTORIAL_STAGES.UPGRADE,
+       TOWN_TUTORIAL_STAGES.FLIGHT,
+       TOWN_TUTORIAL_STAGES.PORTAL,
+-      TOWN_TUTORIAL_STAGES.SELL,
+       TOWN_TUTORIAL_STAGES.RESUME,
+     ]),
+@@ -58,1 +58,1 @@
+     merchants: Object.freeze({
+       sell: "moneyMonster",
++      upgrade: "playerUpgrades",
++    }),
++    upgradeFunding: Object.freeze({
++      money: 2,
+     }),
+@@ -65,1 +65,1 @@
+     choice: Object.freeze({
+       title: "DO YOU WANT TO PLAY THE TUTORIAL?",
+-      body: "A short guided start through movement, digging, Flight,\na permanent return gate, selling, and resuming below.\n\nSkip it if you know the loop — Flight is still unlocked.",
++      body: "A short guided start through movement, digging, selling,\nAgility Training, Flight, and a permanent return gate.\n\nSkip it if you know the loop — Flight is still unlocked.",
+       yesLabel: "YES  •  TEACH ME",
+       noLabel: "NO  •  START PLAYING",
+       footer: "A / D OR ARROWS  CHOOSE     ENTER  CONFIRM     ESC  BACK",
+     }),
+     copy: Object.freeze({
+       move: Object.freeze({
+-        phase: "1 / 6  •  MOVE",
++        phase: "1 / 7  •  MOVE",
+         title: "GET COMFORTABLE IN TOWN",
+         body: "{left}/{right} move and aim  •  {interact} talks to people",
+       }),
+       dig: Object.freeze({
+-        phase: "2 / 6  •  DIG",
++        phase: "2 / 7  •  DIG",
+         title: "BREAK THE PRACTICE BLOCK",
+         body: "Walk to the mining marker  •  face the block  •  hold {mine} to dig",
+       }),
++      sell: Object.freeze({
++        phase: "3 / 7  •  SELL",
++        title: "TURN YOUR FIRST CARGO INTO MONEY",
++        body: "Return to the Money Monster  •  press {interact}  •  sell any stack",
++      }),
++      upgrade: Object.freeze({
++        phase: "4 / 7  •  UPGRADE",
++        title: "BUY AGILITY TRAINING",
++        body: "Visit Upgrades  •  press {interact}  •  buy {upgrade}",
++      }),
+       flight: Object.freeze({
+-        phase: "3 / 6  •  FLIGHT",
++        phase: "5 / 7  •  FLIGHT",
+         title: "PROVE LOCAL RECOVERY",
+         body: "Hold {fly} until you lift off  •  then descend toward 40m",
+       }),
+       portal: Object.freeze({
+-        phase: "4 / 6  •  RETURN GATE",
++        phase: "6 / 7  •  RETURN GATE",
+         title: "OPEN A PERMANENT ROUTE HOME",
+         body: "Follow the starter route to 40m  •  press {interact} at the gate",
+       }),
+-      sell: Object.freeze({
+-        phase: "5 / 6  •  SELL",
+-        title: "TURN YOUR REAL CARGO INTO MONEY",
+-        body: "Return to the Money Monster  •  press {interact}  •  sell any stack",
+-      }),
+       resume: Object.freeze({
+-        phase: "6 / 6  •  RESUME",
++        phase: "7 / 7  •  RESUME",
+         title: "REOPEN THE DEEP ROUTE",
+         body: "Use the surface gate  •  enter the paired sky gate  •  resume at 40m",
+       }),
+       complete: Object.freeze({
+         phase: "CORE ROUTE LEARNED",
+         title: "DIG DEEPER  •  OPEN THE WAY BACK",
+-        body: "Flight is local recovery  •  portals are long-distance return",
++        body: "Agility stays upgraded  •  Flight is local recovery  •  portals return you home",
+       }),
+diff --git a/values/firstFiveMinutes.js b/values/firstFiveMinutes.js
+--- a/values/firstFiveMinutes.js
++++ b/values/firstFiveMinutes.js
+@@ -20,1 +20,1 @@
+   surfaceSafety: Object.freeze({
+     blockedDetailMs: 1800,
+     depthGuardTolerancePx: 4,
+     recoveryScanRadiusTiles: 12,
+     safeReturnTileX: 4,
+   }),
++  flightReminders: Object.freeze({
++    count: 3,
++    intervalMs: 30000,
++    windowMs: 90000,
++    notificationKeys: Object.freeze({
++      unlock: "first-five-flight-unlocked",
++      reminder: "first-five-flight-reminder",
++    }),
++    copy: Object.freeze({
++      unlock: Object.freeze({
++        phase: "FLIGHT UNLOCKED",
++        title: "YOU UNLOCKED FLIGHT",
++        body: "PRESS {fly} TO FLY  •  KEEP HOLDING UNTIL YOU LIFT OFF",
++      }),
++      reminder: Object.freeze({
++        phase: "FLIGHT REMINDER",
++        title: "PRESS {fly} TO FLY",
++        body: "KEEP HOLDING {fly} UNTIL YOU LIFT OFF",
++      }),
++    }),
++  }),
+   copy: Object.freeze({
+diff --git a/values/tutorialNarration.js b/values/tutorialNarration.js
+--- a/values/tutorialNarration.js
++++ b/values/tutorialNarration.js
+@@ -22,1 +22,1 @@
+   dig: cue(
+     "dig",
+     "Face the block and keep mining until it breaks.",
+     "STEP 2  •  MINE THE MARKED BLOCK",
+     "FACE THE BLOCK  •  HOLD {mine}  •  KEEP THE CARGO YOU FIND",
+   ),
++  sell: cue(
++    "sell",
++    "Sell the cargo you just mined. That money starts your first real upgrade.",
++    "STEP 3  •  SELL YOUR FIRST CARGO",
++    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
++  ),
++  upgrade: cue(
++    "upgrade",
++    "Buy Agility Training. The movement-speed increase stays with you.",
++    "STEP 4  •  BUY {upgrade}",
++    "VISIT UPGRADES  •  {interact}  •  BUY THE MOVEMENT-SPEED UPGRADE",
++  ),
+   flight: cue(
+     "flight",
+     "Hold Flight to rise. Use it whenever you need to recover locally.",
+-    "STEP 3  •  PROVE YOUR LOCAL RECOVERY",
++    "STEP 5  •  PROVE YOUR LOCAL RECOVERY",
+     "HOLD {fly} UNTIL YOU LIFT OFF  •  THEN DESCEND TOWARD 40M",
+   ),
+   portal: cue(
+     "portal",
+     "Descend to the return gate. Activating it opens a permanent route home.",
+-    "STEP 4  •  FIND THE RETURN GATE AT 40M",
++    "STEP 6  •  FIND THE RETURN GATE AT 40M",
+     "DIG DOWN THE STARTER ROUTE  •  UNLOCK A PERMANENT WAY HOME",
+   ),
+   portalNear: cue(
+     "portal-near",
+     "That gate is your way home. Activate it once and it stays unlocked.",
+     "RETURN GATE NEARBY",
+     "FOLLOW ITS LIGHT  •  PRESS {interact} WHEN YOU REACH IT",
+   ),
+-  sell: cue(
+-    "sell",
+-    "Your route is open. Return to town and sell what you actually found.",
+-    "STEP 5  •  SELL YOUR REAL CARGO",
+-    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
+-  ),
+   resume: cue(
+     "resume",
+     "The surface gate now returns you to the route you opened.",
+-    "STEP 6  •  RESUME AT 40M",
++    "STEP 7  •  RESUME AT 40M",
+     "USE THE MARKED SURFACE GATE  •  THEN ENTER YOUR PAIRED SKY GATE",
+   ),
+   complete: cue(
+     "complete",
+-    "Your route is yours. Dig deeper, return through gates, and spend only what you earn.",
++    "Your Agility is permanent. Dig deeper and return through the gates you open.",
+diff --git a/values/uiNotificationCarousel.js b/values/uiNotificationCarousel.js
+--- a/values/uiNotificationCarousel.js
++++ b/values/uiNotificationCarousel.js
+@@ -74,1 +74,1 @@
+ });
++
++// Generic transient popups stay disabled. This opt-in channel is reserved for
++// rare, action-critical confirmations that the player explicitly asked to see.
++export const ESSENTIAL_UI_NOTIFICATION_CONFIG = Object.freeze({
++  enabled: true,
++  maxQueued: 2,
++});
+diff --git a/systems/progression/RetentionProgressSystem.js b/systems/progression/RetentionProgressSystem.js
+--- a/systems/progression/RetentionProgressSystem.js
++++ b/systems/progression/RetentionProgressSystem.js
+@@ -6,1 +6,1 @@
+ } from "../../values/retentionConfig.js";
++import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../../values/upgradeDefinitions.js";
+ import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
+@@ -87,1 +87,1 @@
+   getTutorialState() {
+     return {
+       choice: this.data.tutorialChoice,
+       stage: this.data.tutorialStage,
++      upgradeFundingGranted: this.data.tutorialUpgradeFundingGranted === true,
+       flightTrainingGranted: this.data.tutorialFlightTrainingGranted === true,
+@@ -113,1 +113,1 @@
+     return true;
+   }
+ 
++  claimTutorialUpgradeFunding() {
++    if (
++      this.data.tutorialUpgradeFundingGranted === true
++      || this.data.tutorialChoice !== TOWN_TUTORIAL_CHOICES.YES
++      || this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.UPGRADE
++    ) {
++      return null;
++    }
++    this.data.tutorialUpgradeFundingGranted = true;
++    return {
++      money: RETENTION_CONFIG.tutorial.upgradeFunding.money,
++    };
++  }
++
+   claimTutorialFlightTraining() {
+-    if (this.data.tutorialFlightTrainingGranted === true) return null;
+-    if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
++    if (
++      this.data.tutorialFlightTrainingGranted === true
++      || this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY
++      || ![
++        TOWN_TUTORIAL_STAGES.FLIGHT,
++        TOWN_TUTORIAL_STAGES.COMPLETE,
++        TOWN_TUTORIAL_STAGES.SKIPPED,
++      ].includes(this.data.tutorialStage)
++    ) {
++      return null;
++    }
+@@ -277,1 +277,1 @@
+   recordSale(money, units = 0) {
+     const earned = this.recordMoneyEarned(money);
+     this.data.stats.resourcesSold += finiteRetentionInt(units, 0, 1000000000);
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.SELL) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
+@@ -293,1 +293,1 @@
+   recordUpgrade(upgradeName, preview = null) {
+     this.data.stats.upgradesPurchased += 1;
++    if (
++      this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE
++      && preview?.upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID
++    ) {
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
++    }
+     this.pendingUpgradePayoff = {
+@@ -311,1 +311,1 @@
+   recordPortalActivated(label) {
+     this.data.stats.portalsActivated += 1;
+     this._discover("portals", label, label, false);
+     this._discover("journal", `portal:${label}`, `Portal: ${label}`, false);
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.PORTAL) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
+@@ -448,1 +448,1 @@
+   onFirstTileBroken() {
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.DIG) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
+diff --git a/systems/progression/retentionProgressState.js b/systems/progression/retentionProgressState.js
+--- a/systems/progression/retentionProgressState.js
++++ b/systems/progression/retentionProgressState.js
+@@ -116,1 +116,1 @@
+   const routeStage = sourceVersion === 4
+     && (v3Stage === "sell" || v3Stage === "upgrade")
+     ? TOWN_TUTORIAL_STAGES.FLIGHT
+     : v3Stage;
++  const v5Stage = sourceVersion === 5
++    && routeStage === TOWN_TUTORIAL_STAGES.SELL
++    ? TOWN_TUTORIAL_STAGES.RESUME
++    : routeStage;
+   const hasLegacyData = value && typeof value === "object";
+@@ -123,1 +123,1 @@
+   const fallbackStage = tutorialChoice === TOWN_TUTORIAL_CHOICES.YES
+     ? TOWN_TUTORIAL_STAGES.MOVE
+     : tutorialChoice === TOWN_TUTORIAL_CHOICES.NO
+       ? TOWN_TUTORIAL_STAGES.SKIPPED
+       : hasLegacyData
+-        ? (routeStage === TOWN_TUTORIAL_STAGES.COMPLETE
++        ? (v5Stage === TOWN_TUTORIAL_STAGES.COMPLETE
+           ? TOWN_TUTORIAL_STAGES.COMPLETE
+           : TOWN_TUTORIAL_STAGES.SKIPPED)
+         : TOWN_TUTORIAL_STAGES.UNSELECTED;
+-  const tutorialStage = TUTORIAL_STAGES.includes(routeStage)
+-    ? routeStage
++  const tutorialStage = TUTORIAL_STAGES.includes(v5Stage)
++    ? v5Stage
+     : fallbackStage;
+@@ -145,1 +145,1 @@
+     },
+     tutorialChoice,
+     tutorialStage,
++    tutorialUpgradeFundingGranted:
++      source.tutorialUpgradeFundingGranted === true
++      || [
++        TOWN_TUTORIAL_STAGES.FLIGHT,
++        TOWN_TUTORIAL_STAGES.PORTAL,
++        TOWN_TUTORIAL_STAGES.RESUME,
++        TOWN_TUTORIAL_STAGES.COMPLETE,
++        TOWN_TUTORIAL_STAGES.SKIPPED,
++      ].includes(tutorialStage),
+     tutorialFlightTrainingGranted:

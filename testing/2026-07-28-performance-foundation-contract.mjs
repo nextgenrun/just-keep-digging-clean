@@ -447,29 +447,25 @@ function fakeLayer(name) {
 }
 
 const activeLayer = fakeLayer("active-world");
-const activeRootLayer = fakeLayer("active-root");
 const bufferedLayer = fakeLayer("buffer-world");
-const bufferedRootLayer = fakeLayer("buffer-root");
 const paintedBatches = [];
 const fakeRenderer = {
   config: { tileSize: 94 },
   layer: activeLayer,
-  rootOverlayLayer: activeRootLayer,
   _streamTopTile: 0,
   paintWorldRows: (...args) => paintedBatches.push(args),
 };
 const buffer = new WorldRenderWindowBuffer(fakeRenderer, streamConfig, 5065)
-  .attach(bufferedLayer, bufferedRootLayer);
+  .attach(bufferedLayer);
 let committed = false;
 while (!committed) committed = buffer.update({ ty: 208 }, fakeRenderer._streamTopTile);
 assert.equal(fakeRenderer.layer, bufferedLayer);
-assert.equal(fakeRenderer.rootOverlayLayer, bufferedRootLayer);
 assert.equal(fakeRenderer._streamTopTile, streamConfig.stepTiles);
 assert.equal(activeLayer.visible, false);
 assert.equal(bufferedLayer.visible, true);
 assert.equal(paintedBatches.length, batchCount);
 assert.equal(
-  paintedBatches.reduce((sum, args) => sum + args[4], 0),
+  paintedBatches.reduce((sum, args) => sum + args[3], 0),
   streamConfig.heightTiles,
 );
 assert.equal(buffer.snapshot(fakeRenderer._streamTopTile).commits, 1);
@@ -553,7 +549,6 @@ const rendererSource = readFileSync(
 for (const token of [
   "WorldRenderWindowBuffer",
   "world-buffer",
-  "root-overlays-buffer",
   "paintWorldRows",
   "_streamBuffer.update",
   "tileStreamStaging",

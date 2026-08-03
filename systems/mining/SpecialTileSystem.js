@@ -28,6 +28,7 @@ export class SpecialTileSystem {
     this.portalOrder = [];
     this.skyPortalSlots = this._buildSkyPortalSlots();
     this.chestEventHandler = null;
+    this.optionalSpecialTilesAvailable = true;
 
     this.promptText = null;
     this.promptTile = null;
@@ -36,6 +37,19 @@ export class SpecialTileSystem {
 
   setChestEventHandler(handler = null) {
     this.chestEventHandler = handler;
+  }
+
+  setAvailability(available) {
+    this.optionalSpecialTilesAvailable = available !== false;
+    if (
+      !this.optionalSpecialTilesAvailable
+      && (this.promptTile?.type === "chest"
+        || this.promptTile?.type === "gamble"
+        || this.promptTile?.type === "gambleUsed")
+    ) {
+      this.promptText?.setVisible?.(false);
+      this.promptTile = null;
+    }
   }
 
   _initializePrompt() {
@@ -103,7 +117,7 @@ export class SpecialTileSystem {
       }
 
       const tileType = this.worldModel.getTileType(tile.tx, tile.ty);
-      if (tileType === TILE_TYPES.CHEST) {
+      if (this.optionalSpecialTilesAvailable && tileType === TILE_TYPES.CHEST) {
         const chestTile = {
           tx: tile.tx,
           ty: tile.ty,
@@ -147,7 +161,7 @@ export class SpecialTileSystem {
         break;
       }
 
-      if (tileType === TILE_TYPES.GAMBLE_TILE) {
+      if (this.optionalSpecialTilesAvailable && tileType === TILE_TYPES.GAMBLE_TILE) {
         const gambleTileKey = `${tile.tx},${tile.ty}`;
         if (!this.usedGambleTiles.has(gambleTileKey)) {
           this._showPrompt(tile.tx, tile.ty, `Press ${USER_SETTINGS.getKeyLabel("interact")} to Gamble (x3 or Lose All!)`);
@@ -784,6 +798,11 @@ export class SpecialTileSystem {
     this.playerController.teleportToTile(target.tx, target.ty);
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this._playSound("teleport");
+    if (options.kind === "skyToDungeon") {
+      const completed = this.scene.retentionProgressSystem
+        ?.recordTutorialPortalResume?.() === true;
+      if (completed) this.scene.queueDugTilesSave?.();
+    }
 
     return {
       success: true,
@@ -810,10 +829,6 @@ export class SpecialTileSystem {
       onComplete: () => ring.destroy(),
     });
     this.scene.retentionProgressSystem?.recordPortalActivated?.(label);
-    this.scene.uiNotifications?.success?.(
-      `NEW RETURN ROUTE UNLOCKED  •  ${label}`,
-      { key: "portal-activation", durationMs: cfg.statusDurationMs }
-    );
     this.scene.screenFlashSystem?.flashLucky?.();
     this.scene.shakeSystem?.shake?.("misc.depthMilestone", 0.55);
     this.scene.soundSystem?.playSfx?.("reward");

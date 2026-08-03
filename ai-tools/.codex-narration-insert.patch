@@ -1,0 +1,17 @@
+diff --git a/values/tutorialNarration.js b/values/tutorialNarration.js
+--- a/values/tutorialNarration.js
++++ b/values/tutorialNarration.js
+@@ -28,1 +28,13 @@
++  sell: cue(
++    "sell",
++    "Sell the cargo you just mined. That money starts your first real upgrade.",
++    "STEP 3  •  SELL YOUR FIRST CARGO",
++    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
++  ),
++  upgrade: cue(
++    "upgrade",
++    "Buy Agility Training. The movement-speed increase stays with you.",
++    "STEP 4  •  BUY {upgrade}",
++    "VISIT UPGRADES  •  {interact}  •  BUY THE MOVEMENT-SPEED UPGRADE",
++  ),
+   flight: cue(

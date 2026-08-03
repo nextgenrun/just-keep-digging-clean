@@ -29,8 +29,8 @@ export class PlayerPhysicsBody {
     this.onGround = false;
     this.surfaceDropThroughRow = null;
     
-    // Climbing state
-    this.isClimbing = false;
+    // Flight state; flight suspends gravity while Shift is held.
+    this.isFlightActive = false;
   }
 
   /**
@@ -38,8 +38,8 @@ export class PlayerPhysicsBody {
    * @param {number} dt - Delta time in seconds
    */
   update(dt) {
-    // Apply gravity if not climbing
-    if (!this.isClimbing) {
+    // Apply gravity when the player is not flying.
+    if (!this.isFlightActive) {
       this.vy += this.gravity * dt;
     }
     
@@ -69,11 +69,11 @@ export class PlayerPhysicsBody {
   }
 
   /**
-   * Set climbing state
-   * @param {boolean} climbing - Whether player is climbing
+   * Set flight state.
+   * @param {boolean} active - Whether powered flight is active
    */
-  setClimbing(climbing) {
-    this.isClimbing = climbing;
+  setFlightActive(active) {
+    this.isFlightActive = active === true;
   }
 
   /**

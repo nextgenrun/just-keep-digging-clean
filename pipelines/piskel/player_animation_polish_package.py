@@ -8,7 +8,8 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from PIL import Image, ImageChops
+import numpy as np
+from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +22,7 @@ from piskel_commands import validate_piskel_frames  # noqa: E402
 from piskel_document import (  # noqa: E402
     ensure_parent,
     load_manifest,
+    load_runtime_frames,
     make_piskel,
     read_piskel,
     repo_path,
@@ -30,6 +32,11 @@ from piskel_document import (  # noqa: E402
 from player_animation_polish_compositor import (  # noqa: E402
     build_transition_frames,
     frame_stability,
+)
+from player_animation_run_polish import (  # noqa: E402
+    build_polished_run,
+    build_run_action_metadata,
+    verify_source_hash,
 )
 from moving_side_dig_compositor import pack_sheet  # noqa: E402
 from player_animation_diagonal_compositor import build_diagonal_frames  # noqa: E402
@@ -55,12 +62,23 @@ def _assert_identity(
     expected: list[Image.Image],
     actual: list[Image.Image],
     entry_id: str,
+    *,
+    strict_transparent_rgb: bool = False,
 ) -> None:
     if len(expected) != len(actual):
         raise ValueError(f"{entry_id} Piskel round-trip changed the frame count")
     for index, (left, right) in enumerate(zip(expected, actual)):
-        difference = ImageChops.difference(left.convert("RGBA"), right.convert("RGBA"))
-        if difference.getbbox() is not None:
+        left_pixels = np.asarray(left.convert("RGBA"))
+        right_pixels = np.asarray(right.convert("RGBA"))
+        same = np.array_equal(left_pixels, right_pixels)
+        if not same and not strict_transparent_rgb:
+            same_alpha = np.array_equal(left_pixels[:, :, 3], right_pixels[:, :, 3])
+            visible = (left_pixels[:, :, 3] > 0) | (right_pixels[:, :, 3] > 0)
+            same = same_alpha and np.array_equal(
+                left_pixels[:, :, :3][visible],
+                right_pixels[:, :, :3][visible],
+            )
+        if not same:
             raise ValueError(f"{entry_id} Piskel round-trip changed frame {index}")
 
 
@@ -84,6 +102,13 @@ def _promote_entry(
         raise ValueError(f"{entry['id']} Piskel validation failed: {validation['errors']}")
     _assert_identity(frames, round_trip, entry["id"])
     runtime = save_runtime_frames(entry, round_trip)
+    persisted = load_runtime_frames(entry)
+    _assert_identity(
+        round_trip,
+        persisted,
+        f"{entry['id']} saved runtime atlas",
+        strict_transparent_rgb=True,
+    )
     artifacts = write_artifacts(entry, round_trip, runtime)
     return {
         "frames": round_trip,
@@ -100,7 +125,7 @@ def _diagonal_action_metadata(
     source: dict[str, Any],
     markers: dict[str, dict[str, list[float]]],
 ) -> dict[str, Any]:
-    run = runtime_manifest["actions"]["run"]
+    run = runtime_manifest["actions"][config["runPolish"]["manifestAction"]]
     family = source["family"]
     family_config = config["diagonalMining"][family]
     action_source = config["sources"][family_config["source"]]
@@ -171,6 +196,31 @@ def build_package() -> dict[str, Any]:
         source_id: Image.open(ROOT / source["file"]).convert("RGBA")
         for source_id, source in config["sources"].items()
     }
+    run_hash = verify_source_hash(
+        ROOT / config["sources"]["run"]["file"],
+        config["runPolish"]["sourceSha256"],
+    )
+    run_frames, run_markers, run_report = build_polished_run(
+        config,
+        runtime_manifest,
+        sheets["run"],
+    )
+    run_report["sourceSha256"] = run_hash
+    runtime_manifest["actions"][config["runPolish"]["manifestAction"]] = (
+        build_run_action_metadata(
+            config,
+            runtime_manifest,
+            run_frames,
+            run_markers,
+            run_report,
+        )
+    )
+    sheets["run"] = pack_sheet(
+        run_frames,
+        16,
+        int(config["frameWidth"]),
+        int(config["frameHeight"]),
+    )
 
     transition_frames, transition_layout = build_transition_frames(config, sheets)
     vertical_sources = build_vertical_source_frames(config, sheets)
@@ -197,6 +247,7 @@ def build_package() -> dict[str, Any]:
         diagonal_sheets,
     )
     expected_counts = {
+        config["sheets"]["run"]["id"]: len(run_frames),
         config["sheets"]["transitions"]["id"]: len(transition_frames),
         config["sheets"]["diagonalDig"]["id"]: len(diagonal_frames),
     }
@@ -206,6 +257,10 @@ def build_package() -> dict[str, Any]:
                 f"{entry_id} manifest frame count {entries[entry_id]['frameCount']} != {expected}",
             )
 
+    run_result = _promote_entry(
+        entries[config["sheets"]["run"]["id"]],
+        run_frames,
+    )
     transition_result = _promote_entry(
         entries[config["sheets"]["transitions"]["id"]],
         transition_frames,
@@ -221,9 +276,11 @@ def build_package() -> dict[str, Any]:
         len(transition_frames),
         diagonal_variants,
         len(diagonal_frames),
+        len(run_frames),
     )
     review_path = write_review_board(
         ROOT,
+        run_frames,
         transition_frames,
         transition_layout,
         diagonal_frames,
@@ -243,9 +300,18 @@ def build_package() -> dict[str, Any]:
 
     metrics = {
         "version": config["version"],
+        "run": {
+            **run_report,
+            "alphaAnchorStability": frame_stability(run_frames),
+        },
         "transitions": frame_stability(transition_frames),
         "diagonalDig": frame_stability(diagonal_frames),
         "reviewPath": review_path,
+        "runPiskel": {
+            "validation": run_result["validation"],
+            "runtime": run_result["runtime"],
+            "artifacts": run_result["artifacts"],
+        },
         "transitionPiskel": {
             "validation": transition_result["validation"],
             "runtime": transition_result["runtime"],
@@ -257,6 +323,8 @@ def build_package() -> dict[str, Any]:
             "artifacts": diagonal_result["artifacts"],
         },
     }
+    if run_result["validation"]["maxBottomDriftPx"] > 0:
+        raise ValueError(f"run baseline drift exceeds policy: {metrics}")
     if transition_result["validation"]["maxBottomDriftPx"] > 1:
         raise ValueError(f"transition baseline drift exceeds policy: {metrics}")
     if diagonal_result["validation"]["maxBottomDriftPx"] > 1:

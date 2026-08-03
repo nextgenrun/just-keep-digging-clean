@@ -10,7 +10,6 @@ export function hasEscapeClosableUi(scene) {
     || scene?._hardcoreRuntime?.modal?.isVisible
     || scene?.worldMapOverlay?.isOpen
     || scene?.depthGateSystem?.isOpen?.()
-    || scene?.levelUpPopup?.visible
     || scene?.shopOverlay?.isVisible
     || scene?.campfireSystem?.isSelecting?.()
     || scene?.milestoneBoardSystem?._isBoardOpen

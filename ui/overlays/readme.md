@@ -25,11 +25,10 @@ UI module — overlays.
   copy, invisible hit zones, alpha hierarchy, and bounded motion; it draws no
   visible replacement panels or buttons.
 - `SettingsPanelContent.js` — the shared ESC Settings surface. Its `GAMEPLAY`
-  tab exposes the persistent `Star Discovery Popups` ON/OFF pair beneath
-  floating-text policy and session objectives. Turning it off applies
-  immediately to `FloatingTextSystem`; it hides only the three-second
-  rarity/Sign XP card and does not change Star rewards, release animation,
-  rarity tracking, or constellation progression.
+  tab exposes floating-text policy and session objectives. The retired
+  `Star Discovery Popups` toggle no longer exists; legacy saved values are
+  ignored. Star rarity, Sign XP, releases, Atlas, and player-opened Starlight
+  progression remain live.
 - `StarlightTalentTreeView.js`, `StarlightTalentNode.js`,
   `starlightTalentStatus.js`, `starlightTalentDetailPresentation.js`,
   `starlightTalentPageNavigation.js`, `starlightEnginePagePresentation.js`,

@@ -154,6 +154,45 @@ export class VoiceLineManager {
     return this._playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
   }
 
+  /**
+   * Play one deterministic authored cue through the same streaming and ducking
+   * path as NPC voice lines.
+   */
+  playExactVoiceLine(entry) {
+    if (!entry?.key || !entry?.path) return null;
+    const selectedVoiceLine = {
+      key: String(entry.key),
+      path: String(entry.path),
+      file: String(entry.file || entry.path).split("/").pop(),
+    };
+    const library = [selectedVoiceLine];
+    if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) {
+      this.pendingVoiceLineHandle?.cancel?.();
+      this.pendingVoiceLineKey = selectedVoiceLine.key;
+      this.pendingVoiceLineHandle = this.soundSystem.loadVoiceLineAsset(
+        selectedVoiceLine,
+        () => {
+          if (this.pendingVoiceLineKey !== selectedVoiceLine.key) return;
+          this.pendingVoiceLineHandle = null;
+          this.pendingVoiceLineKey = null;
+          this._playSelectedVoiceLine(
+            "tutorial",
+            "named",
+            selectedVoiceLine,
+            library,
+          );
+        },
+      );
+      return null;
+    }
+    return this._playSelectedVoiceLine(
+      "tutorial",
+      "named",
+      selectedVoiceLine,
+      library,
+    );
+  }
+
   _playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library) {
     if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) return null;
     this.pendingVoiceLineHandle?.cancel?.();

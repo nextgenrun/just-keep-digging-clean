@@ -1,7 +1,5 @@
 // ==================== STAR RARITY + SIGN XP ====================
-// Weighted Star Block encounters, reward identity, Sign XP curves, and popup art.
-
-const asset = (key, path) => Object.freeze({ key, path });
+// Weighted Star Block encounters, reward identity, and Sign XP curves.
 const palette = (
   primary,
   secondary,
@@ -20,7 +18,6 @@ const palette = (
   glowColor,
 });
 
-const ASSET_BASE = "sprites/UI/star-discovery-v1/";
 const LEGACY_STAR_PROBABILITY = 0.018;
 const SPAWN_REDUCTION_RATIO = 0.80;
 const STAR_PROBABILITY = LEGACY_STAR_PROBABILITY * (1 - SPAWN_REDUCTION_RATIO);
@@ -150,15 +147,6 @@ const LEGACY_STAR_THRESHOLDS = Object.freeze({
   gold: 1,
 });
 
-const plateAssets = Object.freeze(RARITY_TIERS.map(tier => asset(
-  `star-discovery-${tier.id}-plate-v1`,
-  `${ASSET_BASE}star-discovery-${tier.id}-plate-v1.png?v=20260730`,
-)));
-const fillAssets = Object.freeze(RARITY_TIERS.map(tier => asset(
-  `star-discovery-${tier.id}-xp-fill-v1`,
-  `${ASSET_BASE}star-discovery-${tier.id}-xp-fill-v1.png?v=20260730`,
-)));
-
 export const STAR_RARITY_PROGRESSION_CONFIG = Object.freeze({
   schemaVersion: 2,
   spawn: Object.freeze({
@@ -177,72 +165,9 @@ export const STAR_RARITY_PROGRESSION_CONFIG = Object.freeze({
     xpTotals: SIGN_XP_TOTALS,
     legacyStarThresholds: LEGACY_STAR_THRESHOLDS,
   }),
-  popup: Object.freeze({
-    artSource: "ImageGen",
-    packageId: "star-discovery-v1",
-    plateAssets,
-    fillAssets,
-    maximumActive: 1,
-    wowMinRarityIndex: 2,
-    depthOffset: 30,
-    widthPx: 540,
-    heightPx: 242,
-    topYPx: 152,
-    starPulseSizePx: 330,
-    starPulseRarityBonusPx: 22,
-    starPulseAlpha: 0.2,
-    pulseEndScale: 1.7,
-    pulseMs: 1450,
-    fillWidthPx: 314,
-    fillHeightPx: 25,
-    fillOffsetYPx: 74,
-    titleOffsetYPx: -58,
-    signOffsetYPx: -23,
-    rewardOffsetYPx: 11,
-    levelOffsetYPx: 43,
-    titleFontSizePx: 22,
-    signFontSizePx: 17,
-    rewardFontSizePx: 15,
-    levelFontSizePx: 12,
-    textStroke: "#02060A",
-    textStrokeThicknessPx: 3,
-    enterOffsetYPx: -34,
-    exitOffsetYPx: -14,
-    enterMs: 300,
-    settleScale: 1,
-    startScale: 0.84,
-    wowStartScale: 0.72,
-    fillTweenMs: 720,
-    holdMsByRarity: Object.freeze([3000, 3000, 3000, 3000, 3000, 3000]),
-    minimumIntervalMs: 20000,
-    alwaysShowFirstRarityEncounter: true,
-    alwaysShowSignLevelUp: true,
-    exitMs: 360,
-    priorityLevelUpBonus: 10,
-    copy: Object.freeze({
-      signXp: "SIGN XP",
-      materialReward: "MATERIAL",
-      bonusReward: "BONUS STAR",
-      signLevel: "SIGN LV",
-      mastered: "MASTERED",
-      toLevel: "TO LV",
-    }),
-  }),
   health: Object.freeze({
     expectedTierCount: 6,
-    expectedAssetCount: 12,
     expectedWeightTotal: 10000,
     expectedSpawnReductionRatio: SPAWN_REDUCTION_RATIO,
-    expectedPopupHoldMs: 3000,
-    expectedPopupMinimumIntervalMs: 20000,
   }),
 });
-
-export function getStarDiscoveryPreloadAssets(
-  config = STAR_RARITY_PROGRESSION_CONFIG,
-) {
-  return [
-    ...config.popup.plateAssets,
-    ...config.popup.fillAssets,
-  ];
-}

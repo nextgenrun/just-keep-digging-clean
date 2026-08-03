@@ -1,0 +1,110 @@
+diff --git a/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs b/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
+--- a/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
++++ b/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
+@@ -14,17 +14,21 @@
+ import { TILE_TYPES } from "../values/tileTypes.js";
+ import {
+   FIRST_FIVE_STARTER_UPGRADE_ID,
++  LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID,
+   UPGRADES,
+ } from "../values/upgradeDefinitions.js";
+ 
+ const shallowDirtHp = getTileHealth(TILE_TYPES.DIRT, -1);
+ assert.equal(shallowDirtHp, 45);
+-assert.equal(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].goldCost, 4);
++assert.equal(FIRST_FIVE_STARTER_UPGRADE_ID, "agility");
++assert.equal(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].baseCost, 3);
++assert.equal(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].effectType, "walkSpeed");
++assert.equal(UPGRADES[LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID].hiddenFromShop, true);
+ assert.ok(
+-  RETENTION_CONFIG.tutorial.starterReward.money
++  RETENTION_CONFIG.tutorial.upgradeFunding.money
+     + RESOURCE_PRICES_CONFIG.basePrices.dirt
+-    >= UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].goldCost,
+-  "starter money plus one sold Dirt must fund the authored upgrade",
++    >= UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].baseCost,
++  "one sold Dirt plus tutorial funding must fund Agility",
+ );
+@@ -39,11 +43,15 @@
+ 
+ const before = dig.getHitsToBreakPreview(TILE_TYPES.DIRT, 12, 64);
+ assert.deepEqual(before, { damage: 16, hp: 45, hits: 3 });
+-upgrades.addMoney(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].goldCost);
++const baseWalkSpeed = 300;
++assert.equal(upgrades.getEffectiveWalkSpeed(baseWalkSpeed), baseWalkSpeed);
++upgrades.addMoney(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].baseCost);
+ const purchase = upgrades.purchaseUpgrade(FIRST_FIVE_STARTER_UPGRADE_ID);
+ assert.equal(purchase.success, true);
+ const after = dig.getHitsToBreakPreview(TILE_TYPES.DIRT, 12, 64);
+-assert.deepEqual(after, { damage: 24, hp: 45, hits: 2 });
++assert.deepEqual(after, before, "Agility must not change tile damage visuals or breakpoints");
++assert.equal(upgrades.getEffectiveWalkSpeed(baseWalkSpeed), baseWalkSpeed + 5);
+@@ -51,19 +59,18 @@
+ retention.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES);
+ retention.recordTutorialMovement(2);
+ retention.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+ retention.recordSale(1, 1);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), {
++  money: RETENTION_CONFIG.tutorial.upgradeFunding.money,
++});
+ retention.recordUpgrade(UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name, {
+   upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
+-  beforeHits: before.hits,
+-  afterHits: after.hits,
+-  beforeDamage: before.damage,
+-  afterDamage: after.damage,
+ });
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
+-assert.deepEqual(retention.consumeUpgradePayoff(), {
+-  upgradeName: "Miner's Grip",
+-  beforeHits: 3,
+-  afterHits: 2,
+-  beforeDamage: 16,
+-  afterDamage: 24,
+-});
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+@@ -85,26 +92,22 @@
+   "Bronze Pickaxe must not reduce starter Dirt damage below the no-pickaxe baseline",
+ );
+ 
+-const rollbackUpgrades = new UpgradeSystem(
+-  null,
+-  null,
+-  { firstFiveEnabled: false },
+-);
+-assert.deepEqual(
+-  rollbackUpgrades.canPurchaseUpgrade(FIRST_FIVE_STARTER_UPGRADE_ID),
+-  { canPurchase: false, reason: "feature_disabled" },
+-);
+-rollbackUpgrades.grantUpgrade(FIRST_FIVE_STARTER_UPGRADE_ID);
+-rollbackUpgrades.grantUpgrade("bronzePickaxe");
++const legacyUpgrades = new UpgradeSystem(null, null, { firstFiveEnabled: true });
++legacyUpgrades.setUpgradeLevels({
++  [LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID]: 1,
++});
+ assert.equal(
+-  rollbackUpgrades.getUpgradeEffects().digDamageAdditive,
+-  0,
+-  "rollback must ignore a previously saved first-five-only level",
++  legacyUpgrades.getUpgradeEffects().digDamageAdditive,
++  UPGRADES[LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID].baseEffect,
++  "retired Miner's Grip must preserve existing-save damage",
+ );
+-const rollbackDig = new DigSystem(
+-  worldModel,
+-  null,
+-  { firstFiveEnabled: false },
+-  rollbackUpgrades,
+-);
+-assert.equal(
+-  rollbackDig.getDamagePreview(TILE_TYPES.DIRT),
+-  12,
+-  "rollback must preserve the previous Bronze Pickaxe formula",
+-);
++
++const rollbackUpgrades = new UpgradeSystem(null, null, { firstFiveEnabled: false });
++rollbackUpgrades.addMoney(UPGRADES.agility.baseCost);
++assert.equal(rollbackUpgrades.purchaseUpgrade("agility").success, true);
++assert.equal(rollbackUpgrades.getUpgradeEffects().walkSpeed, 5);

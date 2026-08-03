@@ -86,7 +86,6 @@ function setGeneratedTile(worldModel, tx, ty, type, hp = null) {
   worldModel.skyTileOriginalType[idx] = 0;
   worldModel.skyTileRarity[idx] = 0;
   worldModel.skyTileIdentity[idx] = 0;
-  worldModel.rootOverlay[idx] = 0;
 }
 
 function interpolate(top, bottom, progress) {

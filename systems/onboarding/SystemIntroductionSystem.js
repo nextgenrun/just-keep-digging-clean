@@ -2,10 +2,7 @@ import {
   SYSTEM_INTRODUCTION_CONFIG,
   resolveSystemIntroductionEnabled,
 } from "../../values/systemIntroduction.js";
-import {
-  FIRST_FIVE_STARTER_UPGRADE_ID,
-  UPGRADES,
-} from "../../values/upgradeDefinitions.js";
+import { UPGRADES } from "../../values/upgradeDefinitions.js";
 import {
   RETENTION_CONFIG,
   TOWN_TUTORIAL_CHOICES,
@@ -54,11 +51,9 @@ export class SystemIntroductionSystem {
     return this.refresh();
   }
 
-  refresh({ announce = true } = {}) {
+  refresh() {
     const snapshot = this.getProgressSnapshot();
-    const previous = this.lastSnapshot;
     this.lastSnapshot = snapshot;
-    if (announce && previous) this._announceFirstNewSystem(previous, snapshot);
     this._applyRuntimeVisibility(snapshot);
     return snapshot;
   }
@@ -67,10 +62,11 @@ export class SystemIntroductionSystem {
     const journal = this.retention?.getJournalSnapshot?.() || {};
     const stats = journal.stats || {};
     const tutorial = this.retention?.getTutorialState?.() || {};
+    const playerLevel = Math.max(1, number(this.scene.playerLevelSystem?.level) || 1);
     const bestDepth = number(stats.bestDepth);
     const legacySave = tutorial.choice === TOWN_TUTORIAL_CHOICES.LEGACY;
     const tutorialComplete = legacySave || COMPLETE_TUTORIAL_STAGES.has(tutorial.stage);
-    const flightReady = tutorial.completionRewardGranted === true
+    const flightReady = tutorial.flightTrainingGranted === true
       || this.scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
     const firstReturn = number(stats.expeditionsCompleted) >= 1
       || Boolean(journal.lastExpedition)
@@ -78,6 +74,7 @@ export class SystemIntroductionSystem {
     const thresholds = this.config.thresholds;
     const snapshot = {
       bestDepth,
+      playerLevel,
       legacySave,
       tutorialComplete,
       flightReady,
@@ -85,11 +82,12 @@ export class SystemIntroductionSystem {
       coreLoopComplete: tutorialComplete
         && number(stats.totalTilesBroken) > 0
         && number(stats.resourcesSold) > 0
-        && number(stats.upgradesPurchased) > 0,
+        && number(stats.portalsActivated) > 0,
       gearRun: firstReturn && bestDepth >= thresholds.gearDepth,
       portalRun: bestDepth >= thresholds.portalDepth
         || number(stats.portalsActivated) > 0
         || number(stats.chestsOpened) > 0,
+      talentRun: playerLevel >= thresholds.talentLevel,
       constellationRun: bestDepth >= thresholds.constellationDepth
         || number(stats.starsCollected) > 0,
       caveRun: bestDepth >= thresholds.caveDepth,
@@ -149,9 +147,6 @@ export class SystemIntroductionSystem {
     if (!this.enabled || this.scene.upgradeSystem?.getUpgradeLevel?.(upgradeId) > 0) {
       return { available: true, reason: null, feature: "core", short: "AVAILABLE NOW", detail: "" };
     }
-    if (upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID) {
-      return { available: true, reason: null, feature: "core", short: "AVAILABLE NOW", detail: "" };
-    }
     const feature = this.config.upgradeUnlocks[upgradeId]
       || this.config.merchantUnlocks[upgrade.merchant]
       || "core";
@@ -180,17 +175,21 @@ export class SystemIntroductionSystem {
     if (!state || ACTIVE_TUTORIAL_STAGES.has(state.stage)) return null;
     if (!snapshot.tutorialComplete) return null;
 
-    const stats = snapshot.stats;
-    if (number(stats.totalResources) > 0 && number(stats.resourcesSold) <= 0) {
+    const affordableUpgrade = Object.entries(UPGRADES).find(([upgradeId, upgrade]) => (
+      !upgrade.comingSoon
+      && !upgrade.hiddenFromShop
+      && this.scene.upgradeSystem?.canPurchaseUpgrade?.(upgradeId)?.canPurchase === true
+    ));
+    if (affordableUpgrade) {
       return {
-        promise: "CORE LOOP  •  RETURN AND SELL",
-        detail: "BRING YOUR CARGO HOME  •  PRESS {interact} AT THE MONEY MONSTER",
+        promise: `UPGRADE AVAILABLE  •  ${affordableUpgrade[1].name.toUpperCase()}`,
+        detail: "SPEND EARNED MONEY NOW  •  OR KEEP SAVING FOR YOUR ROUTE",
       };
     }
-    if (number(stats.upgradesPurchased) <= 0) {
+    if (snapshot.playerLevel < this.config.thresholds.talentLevel) {
       return {
-        promise: "CORE LOOP  •  BUY ONE UPGRADE",
-        detail: "VISIT UPGRADES  •  CHOOSE THE NEXT CLEAR IMPROVEMENT",
+        promise: "NEXT MASTERY PATH  •  REACH LEVEL 20",
+        detail: "THE STAR PILLAR UNLOCKS YOUR FIRST CELESTIAL ABILITY",
       };
     }
 
@@ -263,19 +262,6 @@ export class SystemIntroductionSystem {
     );
     this.scene.earthquakeSystem?.setPaused?.(
       !this.isFeatureAvailable("hazards", snapshot),
-    );
-  }
-
-  _announceFirstNewSystem(previous, next) {
-    const item = this.config.promiseOrder.find(entry => (
-      !this.isFeatureAvailable(entry.feature, previous)
-      && this.isFeatureAvailable(entry.feature, next)
-      && entry.feature !== "firstReturn"
-    ));
-    if (!item) return;
-    this.scene.uiNotifications?.success?.(
-      `${item.promise}  •  NOW AVAILABLE`,
-      { key: `system-introduction-${item.feature}`, priority: 1 },
     );
   }
 

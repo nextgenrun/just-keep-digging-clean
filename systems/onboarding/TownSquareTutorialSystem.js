@@ -10,6 +10,7 @@ import {
 } from "./TownSquareTutorialDigSite.js";
 import { FirstFiveMinutesTutorialBridge } from "./FirstFiveMinutesTutorialBridge.js";
 import { TownSquareTutorialView } from "./TownSquareTutorialView.js";
+import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 
 function interpolateText(value, replacements = {}) {
   const labels = {
@@ -76,6 +77,19 @@ export class TownSquareTutorialSystem {
         }
       }
     }
+    if (
+      state.stage === TOWN_TUTORIAL_STAGES.FLIGHT
+      && this.scene.playerController?.abilities?.isFlying?.() === true
+      && this.retention.recordTutorialFlight()
+    ) {
+      this.scene.queueDugTilesSave?.();
+    }
+    if (state.stage === TOWN_TUTORIAL_STAGES.RESUME) {
+      this._pointAtResumeRoute();
+    }
+    if (state.stage === TOWN_TUTORIAL_STAGES.PORTAL) {
+      this.scene.firstSessionPortalSystem?.ensure?.();
+    }
 
     this._syncStage(false);
     this._updateFreeFlight(deltaMs);
@@ -139,23 +153,11 @@ export class TownSquareTutorialSystem {
     const state = this.retention?.getTutorialState?.();
     const stage = state?.stage;
     if (!stage || stage === this.lastStage) return;
-    const previous = this.lastStage;
     this.lastStage = stage;
-    this._enterStage(stage, {
-      celebrate: !initial
-        && RETENTION_CONFIG.tutorial.activeStages.includes(previous),
-    });
+    this._enterStage(stage);
   }
 
-  _enterStage(stage, { celebrate = false } = {}) {
-    const copy = RETENTION_CONFIG.tutorial.copy[stage];
-    if (RETENTION_CONFIG.tutorial.activeStages.includes(stage) && copy) {
-      if (this.firstFive.isEnabled()) this.view.closeGuideNotification();
-      else this.view.showGuide(interpolateCopy(copy));
-    } else {
-      if (this.firstFive.isEnabled()) this.view.closeGuideNotification();
-      else this.view.hideGuide();
-    }
+  _enterStage(stage) {
     const firstFiveHandled = this.firstFive.onStageEntered(stage);
 
     if (stage === TOWN_TUTORIAL_STAGES.MOVE) {
@@ -173,13 +175,24 @@ export class TownSquareTutorialSystem {
       );
       return;
     }
+    if (stage === TOWN_TUTORIAL_STAGES.FLIGHT) {
+      this.view.clearMarker();
+      this._grantFlightTraining();
+      return;
+    }
+    if (stage === TOWN_TUTORIAL_STAGES.PORTAL) {
+      this.scene.firstSessionPortalSystem?.ensure?.();
+      const site = this.scene.firstSessionPortalSystem?.getPortalTile?.();
+      if (site) this._pointAtSite(site);
+      else this.view.clearMarker();
+      return;
+    }
     if (stage === TOWN_TUTORIAL_STAGES.SELL) {
-      this._grantStarterReward();
       this._pointAtMerchant(RETENTION_CONFIG.tutorial.merchants.sell);
       return;
     }
-    if (stage === TOWN_TUTORIAL_STAGES.UPGRADE) {
-      this._pointAtMerchant(RETENTION_CONFIG.tutorial.merchants.upgrade);
+    if (stage === TOWN_TUTORIAL_STAGES.RESUME) {
+      this._pointAtSurfacePortal();
       return;
     }
     if (
@@ -187,49 +200,25 @@ export class TownSquareTutorialSystem {
       || stage === TOWN_TUTORIAL_STAGES.SKIPPED
     ) {
       this.view.clearMarker();
-      this._grantCompletionReward(
-        celebrate && stage === TOWN_TUTORIAL_STAGES.COMPLETE,
-      );
+      this._grantFlightTraining();
       this._ensureLegacyFlight(stage);
     }
   }
 
-  _grantStarterReward() {
-    const reward = this.retention.claimTutorialStarterReward();
-    if (!reward) return;
-    const resources = this.scene.digSystem?.getResourceTotals?.() || {};
-    Object.entries(reward.resources).forEach(([type, amount]) => {
-      resources[type] = Math.max(0, Number(resources[type]) || 0) + amount;
-    });
-    this.scene.digSystem?.setResourceTotals?.(resources);
-    this.scene.upgradeSystem?.addMoney?.(reward.money);
-    this.retention.recordMoneyEarned(reward.money);
-    this.scene.uiResourceBar?.setResources?.(resources);
-    this.scene.uiResourceBar?.setMoney?.(this.scene.upgradeSystem?.getMoney?.() || 0);
-    this.scene.queueDugTilesSave?.();
-  }
-
-  _grantCompletionReward(showReward) {
-    const reward = this.retention.claimTutorialCompletionReward();
-    if (!reward) return;
-    this.scene.upgradeSystem?.grantUpgrade?.(reward.flightUpgradeId);
-    this.scene.armHardcoreAfterFlightUnlock?.("town-tutorial-reward");
-    this.scene.upgradeSystem?.addMoney?.(reward.money);
-    this.retention.recordMoneyEarned(reward.money);
-    this.scene.playerController?.abilities?.fillGemPower?.();
-    this.scene.uiResourceBar?.setMoney?.(this.scene.upgradeSystem?.getMoney?.() || 0);
-    if (showReward && !this.firstFive.isEnabled()) {
-      this.view.showCompletion(
-        interpolateCopy(RETENTION_CONFIG.tutorial.copy.complete),
-      );
-      const [red, green, blue] = RETENTION_CONFIG.tutorial.ui.rewardFlashRgb;
-      this.scene.cameras?.main?.flash?.(
-        RETENTION_CONFIG.tutorial.ui.rewardFlashDurationMs,
-        red,
-        green,
-        blue,
-      );
+  _grantFlightTraining() {
+    const state = this.retention.getTutorialState();
+    if (
+      state.choice === TOWN_TUTORIAL_CHOICES.LEGACY
+      || state.stage === TOWN_TUTORIAL_STAGES.UNSELECTED
+    ) {
+      return;
     }
+    const newlyGranted = this.retention.claimTutorialFlightTraining();
+    const reward = newlyGranted
+      || RETENTION_CONFIG.tutorial.flightTraining;
+    this.scene.upgradeSystem?.grantUpgrade?.(reward.flightUpgradeId);
+    this.scene.armHardcoreAfterFlightUnlock?.("town-tutorial-flight-training");
+    this.scene.playerController?.abilities?.fillGemPower?.();
     this.scene.queueDugTilesSave?.();
   }
 
@@ -242,11 +231,50 @@ export class TownSquareTutorialSystem {
     ) {
       return;
     }
-    const upgradeId = RETENTION_CONFIG.tutorial.completionReward.flightUpgradeId;
+    const upgradeId = RETENTION_CONFIG.tutorial.flightTraining.flightUpgradeId;
     this.scene.upgradeSystem?.grantUpgrade?.(upgradeId);
     this.scene.armHardcoreAfterFlightUnlock?.("legacy-tutorial-migration");
     this.scene.playerController?.abilities?.fillGemPower?.();
     this.scene.queueDugTilesSave?.();
+  }
+
+  _pointAtSite(site) {
+    const tileSize = this.scene.config.tileSize;
+    this.view.pointAt(
+      (site.tx + 0.5) * tileSize,
+      site.ty * tileSize + RETENTION_CONFIG.tutorial.ui.digMarkerOffsetYPx,
+    );
+  }
+
+  _pointAtSurfacePortal() {
+    const portal = V11_SKY_ISLAND_LAYOUT.levels[0]?.groundPortal;
+    const tiles = portal?.interactionTiles || [];
+    if (tiles.length === 0) {
+      this.view.clearMarker();
+      return;
+    }
+    const tileSize = this.scene.config.tileSize;
+    const tx = tiles.reduce((sum, tile) => sum + tile.tx, 0) / tiles.length;
+    const ty = tiles.reduce((sum, tile) => sum + tile.ty, 0) / tiles.length;
+    this.view.pointAt(
+      (tx + 0.5) * tileSize,
+      (ty + 0.25) * tileSize,
+    );
+  }
+
+  _pointAtResumeRoute() {
+    const playerTile = this.scene.playerController?.getPlayerTile?.();
+    const portal = this.scene.specialTileSystem?.getActivatedPortals?.()[0];
+    const isOnSkyRoute = playerTile
+      && playerTile.ty < this.scene.config.topAirRows - 4;
+    if (isOnSkyRoute && portal?.pairData) {
+      this._pointAtSite({
+        tx: portal.pairData.skyTx,
+        ty: portal.pairData.skyTy,
+      });
+      return;
+    }
+    this._pointAtSurfacePortal();
   }
 
   _pointAtMerchant(merchantId) {

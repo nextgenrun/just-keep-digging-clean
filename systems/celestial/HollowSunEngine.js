@@ -4,10 +4,12 @@ import { enumerateDiscTiles } from "./CelestialActivationBudget.js";
 export class HollowSunEngine {
   constructor(options) {
     Object.assign(this, options);
-    this.definition = CELESTIAL_ENGINE_CONFIG.engines[this.budget.engineId];
+    this.definition = this.definitionOverride
+      || CELESTIAL_ENGINE_CONFIG.engines[this.budget.engineId];
     this.active = true;
     this.finishing = false;
     this.nextPulseIndex = 0;
+    this.masteryImpacts = 0;
     this._createVisual();
   }
 
@@ -78,7 +80,7 @@ export class HollowSunEngine {
     this.core.setScale(1 + Math.sin(age / CELESTIAL_ENGINE_CONFIG.fx.hollowCorePulseMs) * 0.05);
 
     if (this.budget.isExpired(nowMs)) {
-      this._implode();
+      this._implode(nowMs);
     }
   }
 
@@ -116,9 +118,10 @@ export class HollowSunEngine {
     });
   }
 
-  _implode() {
+  _implode(nowMs) {
     if (this.finishing || !this.active) return;
     this.finishing = true;
+    this._applyMasteryImplosion(nowMs);
     const flash = this.scene.add.circle(this.x, this.y, this.tileSize * 0.5, 0xffffff, 0.8)
       .setBlendMode(Phaser.BlendModes.ADD)
       .setDepth(CELESTIAL_ENGINE_CONFIG.fx.worldDepth + 1);
@@ -145,6 +148,25 @@ export class HollowSunEngine {
       duration: CELESTIAL_ENGINE_CONFIG.fx.finishDelayMs,
       onComplete: () => flash.destroy(),
     });
+  }
+
+  _applyMasteryImplosion(nowMs) {
+    const radius = Math.max(0, Math.floor(this.definition.implosionRadiusTiles || 0));
+    const maxImpacts = Math.max(0, Math.floor(this.definition.implosionMaxImpacts || 0));
+    if (radius <= 0 || maxImpacts <= 0) return;
+    const center = this.toTile(this.x, this.y);
+    for (const tile of enumerateDiscTiles(center, radius)) {
+      if (this.masteryImpacts >= maxImpacts) break;
+      if (!this.probeTile(tile.tx, tile.ty).diggable) continue;
+      this.masteryImpacts += 1;
+      const hitId = [
+        this.budget.activationId,
+        "implosion",
+        this.masteryImpacts,
+        tile.tx + "," + tile.ty,
+      ].join(":");
+      this.onImpact?.(tile.tx, tile.ty, hitId, nowMs);
+    }
   }
 
   _finish(reason) {

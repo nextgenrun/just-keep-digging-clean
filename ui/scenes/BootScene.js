@@ -15,7 +15,11 @@ import {
   CAMPFIRE_TIERS,
   getCampfireTierAsset,
 } from "../../values/campfireConfig.js";
-import { STARLIGHT_TALENT_TREE_CONFIG } from "../../values/starlightTalentTree.js";
+import { CELESTIAL_ACTION_BAR_EAGER_ASSETS } from "../../values/celestialActionBar.js";
+import { CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS } from
+  "../../values/celestialCurrencyHud.js";
+import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
+  "../../values/celestialTalentTreeUi.js";
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { GEM_POWER_BLOCK_TIERS } from "../../values/specialBlocks.js";
 import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260728-arc-core-dig-repair-v4";
@@ -52,13 +56,9 @@ import { getFireLightPreloadAssets } from "../../values/fireLightConfig.js";
 import { getOldSchoolLampLightPreloadAssets } from
   "../../values/oldSchoolLampLightConfig.js";
 import { getCollectedStarReleasePreloadAssets } from "../../values/starConstellations.js";
-import { getStarDiscoveryPreloadAssets } from "../../values/starRarityProgression.js";
 import { getStarIdentityPreloadAssets } from "../../values/starIdentityLibrary.js";
 import { resolveRuntimeFeatureAssetDeferralEnabled } from "../../values/runtimeAssetLoading.js";
-import {
-  getTitanDiscoveryPreloadAssets,
-  getTitanGameplayPreloadAssets,
-} from "../../values/titanDiscoveries.js";
+import { getTitanDiscoveryPreloadAssets } from "../../values/titanDiscoveries.js";
 import {
   NPC_ACTIVITY_CONFIG,
   getNpcActivityPreloadAssets,
@@ -77,6 +77,7 @@ import { getHardcoreMemorialPreloadAssets } from "../../values/hardcoreMemorials
 import { RANDOM_EVENT_PRELOAD_ASSETS } from "../../values/randomWorldEvents.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
 import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
+import { getTileDestructionFxPreloadAssets } from "../../values/tileDestructionFx.js";
 import { getMiningTargetFeedbackPreloadAssets } from "../../values/miningTargetFeedback.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
 import {
@@ -584,11 +585,9 @@ export class BootScene extends Phaser.Scene {
     this.queueImage(celestial.hollowSun, `${celestialBase}hollow-sun-core-v1.png`);
     this.queueImage(celestial.cometEngine, `${celestialBase}comet-engine-core-v1.png`);
     if (!this._deferFeatureAssets) {
-      const starlightKeys = ASSET_KEYS.ui.starlightTalentTree;
-      const starlightAssets = STARLIGHT_TALENT_TREE_CONFIG.assets;
-      Object.entries(starlightKeys).forEach(([name, key]) => {
-        this.queueImage(key, `${starlightAssets.basePath}${starlightAssets.files[name]}`);
-      });
+      for (const asset of CELESTIAL_TALENT_TREE_PRELOAD_ASSETS) {
+        this.queueImage(asset.key, asset.path);
+      }
     }
   }
 
@@ -783,7 +782,7 @@ export class BootScene extends Phaser.Scene {
     loadRuntimeSheet(player.digSidewaysSheet, "legacy-dig-sideways-clean-sheet.webp", player.digSidewaysFrames);
     loadRuntimeSheet(player.digUpSheet, "legacy-dig-up-clean-sheet.webp", player.digUpFrames);
     loadRuntimeSheet(player.digUpSidewaysSheet, "legacy-dig-up-sideways-clean-sheet.webp", player.digUpSidewaysFrames);
-    loadRuntimeSheet(player.flyClimbSheet, "legacy-fly-climb-clean-sheet.webp", player.flyClimbFrames);
+    loadRuntimeSheet(player.flightSheet, "legacy-fly-climb-clean-sheet.webp", player.flightFrames);
     this.load.image(player.digUpLookFrame, `${runtimeV8Base}/legacy-dig-up-look-clean.png?v=${legacyRuntimeVersion}`);
 
     loadRuntimeSheet(player.duckSheet, "duck-downwards-sheet.webp", player.duckFrames);
@@ -899,8 +898,6 @@ export class BootScene extends Phaser.Scene {
     this.load.image(soil.rarity.rich, `${soilBase}overlays/rarity-rich.png`);
     this.load.image(soil.rarity.packed, `${soilBase}overlays/rarity-packed.png`);
     this.load.image(soil.rarity.ancient, `${soilBase}overlays/rarity-ancient.png`);
-    this.load.image(ASSET_KEYS.tiles.rootOverlay, `${soilBase}overlays/roots-shallow.png`);
-    this.load.image(ASSET_KEYS.tiles.rootOverlayDeep, `${soilBase}overlays/roots-deep.png`);
     this.load.image(soil.material.damp, `${soilBase}overlays/material-damp.png`);
     this.load.image(soil.material.ash, `${soilBase}overlays/material-ash.png`);
     this.load.image(soil.material.rubble, `${soilBase}overlays/material-rubble.png`);
@@ -1034,9 +1031,6 @@ export class BootScene extends Phaser.Scene {
       for (const asset of getCollectedStarReleasePreloadAssets()) {
         this.queueImage(asset.key, asset.path);
       }
-      for (const asset of getStarDiscoveryPreloadAssets()) {
-        this.queueImage(asset.key, asset.path);
-      }
     }
     for (const asset of getMiningTargetFeedbackPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
@@ -1061,6 +1055,12 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadUiSprites() {
+    for (const asset of [
+      ...CELESTIAL_ACTION_BAR_EAGER_ASSETS,
+      ...CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS,
+    ]) {
+      this.queueImage(asset.key, asset.path);
+    }
     for (const asset of getStarIdentityPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
@@ -1112,13 +1112,16 @@ export class BootScene extends Phaser.Scene {
     ).forEach(([name, path]) => {
       this.queueImage(ASSET_KEYS.ui.thunderStrikeIndicator[name], path);
     });
-    const titanAssets = this._deferFeatureAssets
-      ? getTitanGameplayPreloadAssets()
-      : getTitanDiscoveryPreloadAssets();
+    // ESC navigation must never wait behind deep-world streaming work.
+    // Keep the known-good archive portraits resident with Titan gameplay art.
+    const titanAssets = getTitanDiscoveryPreloadAssets();
     for (const asset of titanAssets) {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getEarthquakeFeedbackPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
+    for (const asset of getTileDestructionFxPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getHardcoreModePreloadAssets()) {
@@ -1280,17 +1283,10 @@ export class BootScene extends Phaser.Scene {
     );
     createImageAnim(ASSET_KEYS.player.digUpLookAnim, ASSET_KEYS.player.digUpLookFrame, 1, -1);
     createSheetAnim(
-      ASSET_KEYS.player.climbAnim,
-      ASSET_KEYS.player.flyClimbSheet,
-      ASSET_KEYS.player.climbFrames,
-      ASSET_KEYS.player.flyClimbAnimationFps,
-      -1
-    );
-    createSheetAnim(
       ASSET_KEYS.player.flyAnim,
-      ASSET_KEYS.player.flyClimbSheet,
+      ASSET_KEYS.player.flightSheet,
       ASSET_KEYS.player.flyFrames,
-      ASSET_KEYS.player.flyClimbAnimationFps,
+      ASSET_KEYS.player.flightAnimationFps,
       -1
     );
 

@@ -1,0 +1,38 @@
+diff --git a/systems/onboarding/readme.md b/systems/onboarding/readme.md
+--- a/systems/onboarding/readme.md
++++ b/systems/onboarding/readme.md
+@@ -10,20 +10,23 @@
+ - `FirstFiveMinutesTutorialBridge.js` is the reversible presentation/safety
+   layer. It feeds the existing Next Promise strip with persistent remapped-key
+-  guidance, focuses SELL and Miner's Grip in the real shops, blocks the one-way
+-  surface drop during training, requires one real Flight frame, then points at
+-  the normal-HP payoff block. The consumed Flight bank persists the safety
+-  proof without a save-schema change.
++  guidance, focuses SELL and Agility Training in the real shops, blocks the
++  one-way surface drop during training, and requires one real Flight frame.
++  The consumed Flight bank persists the safety proof without a save-schema
++  change.
++- `TutorialFlightReminderSystem.js` shows the authored Flight-unlocked card,
++  schedules three reminders across 90 seconds, and cancels every pending card
++  and timer as soon as the player actually flies.
+ - `SystemIntroductionSystem.js` is the post-tutorial staged-disclosure director.
+   It reads persisted depth/return signals and supplies the single next-system
+   promise. All five Level-1 merchants remain visible and open; progression is
+   expressed through locked catalog rows with explicit unlock copy and an
+   authoritative purchase gate. The Level-2 Arc Forge and later non-shop systems
+   retain their progression gates.
+-- `TownSquareTutorialDigSite.js` authors normal-HP Dirt at x11 and a payoff
+-  block at x12 without opening a forced shaft. Under `?firstFive=0` it restores
+-  the former x24 one-HP practice tile. `TownSquareTutorialView.js` reuses the
+-  existing world marker and notification carousel; the persistent objective is
+-  rendered by `NextPromiseHudSystem`.
++- `TownSquareTutorialDigSite.js` authors the normal-HP Dirt at x12 without
++  opening a forced shaft. Under `?firstFive=0` it restores the former x24
++  one-HP practice tile. `TownSquareTutorialView.js` reuses the existing world
++  marker and authored notification carousel; the persistent objective is
++  rendered by `NextPromiseHudSystem`.
+ - Completed/skipped guided saves keep the Flight prompt only until Flight is
+-  actually demonstrated. Legacy saves remain exempt. Once Flight and the
+-  payoff block are complete, no tutorial objective remains after load.
++  actually demonstrated. Legacy saves remain exempt. Once Flight is used, no
++  tutorial objective remains after load.

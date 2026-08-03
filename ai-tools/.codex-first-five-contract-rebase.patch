@@ -1,0 +1,53 @@
+diff --git a/testing/2026-07-30-first-five-onboarding-contract.mjs b/testing/2026-07-30-first-five-onboarding-contract.mjs
+--- a/testing/2026-07-30-first-five-onboarding-contract.mjs
++++ b/testing/2026-07-30-first-five-onboarding-contract.mjs
+@@ -19,6 +19,7 @@
+   TOWN_TUTORIAL_STAGES,
+ } from "../values/retentionConfig.js";
+ import { TILE_TYPES } from "../values/tileTypes.js";
++import { TUTORIAL_NARRATION_CONFIG } from "../values/tutorialNarration.js";
+ import {
+@@ -257,5 +258,5 @@
+ assert.equal(canDropThrough(), false);
+ onDropBlocked();
+-assert.match(bridge.getNextPromiseOverride().detail, /4 STEPS/);
++assert.match(bridge.getNextPromiseOverride().detail, /MARKED STARTER ROUTE/);
+ scene.playerController.physicsBody.y = GAME_CONFIG.topAirRows * GAME_CONFIG.tileSize + 18;
+@@ -269,4 +270,5 @@
+ retention.recordTutorialMovement(2);
+ retention.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+ retention.recordSale(1, 1);
+@@ -282,5 +284,5 @@
+ });
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
+-assert.equal(retention.claimTutorialCompletionReward().freeFlightMs, 30000);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(retention.claimTutorialFlightTraining().freeFlightMs, 30000);
+ const fullFlightSave = retention.getSaveData();
+@@ -302,10 +304,13 @@
+ flightActive = true;
+ retention.consumeTutorialFreeFlight(16);
++assert.equal(retention.recordTutorialFlight(), true);
+ bridge.update();
+ assert.equal(canDropThrough(), true);
+-assert.ok(saveCount >= 1, "first real Flight use must queue persistence");
+-assert.match(view.completion.title, /MINE.*SELL.*UPGRADE.*FLY/);
++assert.match(bridge.getNextPromiseOverride().promise, /STEP 6/);
++retention.recordPortalActivated("Starter Return Gate");
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
++assert.equal(retention.recordTutorialPortalResume(), true);
+ assert.equal(bridge.hasPersistentGuide(), false);
+@@ -331,5 +336,5 @@
+ assert.equal(
+   preownedRetention.getTutorialState().stage,
+-  TOWN_TUTORIAL_STAGES.COMPLETE,
++  TOWN_TUTORIAL_STAGES.FLIGHT,
+ );
+@@ -352,6 +357,6 @@
+ assert.match(updateSource, /enforceSurfaceSafety/);
+ assert.match(updateSource, /tutorialDownwardMineBlocked/);
+-assert.ok(FIRST_FIVE_MINUTES_CONFIG.copy.dig.detail.includes("{mine}"));
+-assert.ok(FIRST_FIVE_MINUTES_CONFIG.copy.flight.promise.includes("{fly}"));
++assert.ok(TUTORIAL_NARRATION_CONFIG.cues.dig.caption.detail.includes("{mine}"));
++assert.ok(TUTORIAL_NARRATION_CONFIG.cues.flight.caption.detail.includes("{fly}"));

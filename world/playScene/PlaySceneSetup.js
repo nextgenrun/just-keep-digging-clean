@@ -82,6 +82,8 @@ import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
 import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js?rev=20260727-restart-lifecycle-v1";
 import { CelestialEngineController } from "./CelestialEngineController.js";
+import { initializeCelestialOverhaulRuntime } from
+  "./CelestialOverhaulRuntime.js";
 import { OverlayManager } from "./OverlayManager.js";
 import { NPCManager } from "./NPCManager.js";
 import { BackgroundRenderer } from "./BackgroundRenderer.js";
@@ -101,8 +103,8 @@ import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { LightFrameSync } from "../../systems/lighting/LightFrameSync.js";
 import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
-import { ClimbTrailSystem } from "../../systems/visual/ClimbTrailSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
+import { GroundFootstepFxSystem } from "../../systems/visual/GroundFootstepFxSystem.js";
 import { PostFxSystem } from "../../systems/visual/PostFxSystem.js";
 import { PlayerBodyLanguageSystem } from "../../systems/visual/PlayerBodyLanguageSystem.js";
 import { PlayerContactShadowSystem } from "../../systems/visual/PlayerContactShadowSystem.js";
@@ -115,14 +117,8 @@ import { AmbientParticleSystem } from "../../systems/environment/AmbientParticle
 import { DepthMilestoneCinematic } from "../../systems/visual/DepthMilestoneCinematic.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
-import {
-  CONSTELLATION_ABILITY_PREREQUISITES,
-  CONSTELLATION_BUFFS,
-  CONSTELLATION_MATCHING_STAR_YIELD_BONUS,
-} from "../../values/constellationBuffs.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
-import { StarHeartOverlay } from "../../ui/overlays/StarHeartOverlay.js";
-import { StarlightTalentTreeView } from "../../ui/overlays/StarlightTalentTreeView.js";
+import { CelestialTalentTreeView } from "../../ui/overlays/CelestialTalentTreeView.js";
 import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
 import { CaveAtmosphereSystem } from "../../systems/visual/CaveAtmosphereSystem.js";
 import { CaveHazardView } from "../../systems/visual/CaveHazardView.js";
@@ -146,6 +142,7 @@ import { HeavenblocksAccessSystem } from "../../systems/environment/Heavenblocks
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
+import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionPortalSystem.js";
 import { HardcoreMemorialStore } from "../../systems/hardcore/HardcoreMemorialStore.js";
 import { HardcoreMemorialWorldSystem } from "../../systems/visual/HardcoreMemorialWorldSystem.js";
 
@@ -153,12 +150,13 @@ const PLAY_SCENE_UI_FACTORIES = Object.freeze({
   createButton,
   createIconBadge,
   createModalShell,
-  createStarlightTalentTreeView: (scene, options) => (
-    new StarlightTalentTreeView(scene, options)
+  createCelestialTalentTreeView: (scene, options) => (
+    new CelestialTalentTreeView(scene, options)
   ),
 });
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
+import { TileDestructionFxSystem } from "../../systems/visual/TileDestructionFxSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js?rev=20260729-native-density-v14";
 import { CaveEntryController } from "./CaveEntryController.js";
@@ -227,7 +225,6 @@ function installDebugUiSmokeHooks(scene) {
   const closeTransientUi = () => {
     scene.shopOverlay?.hide?.();
     scene.uiInventoryPopup?.close?.();
-    scene.levelUpPopup?.hide?.();
     scene.campfireSystem?._closeBuffSelection?.();
     scene.milestoneBoardSystem?._closeBoardView?.();
     if (scene.depthGateSystem?.isOpen?.()) scene.depthGateSystem._decline?.();
@@ -246,11 +243,10 @@ function installDebugUiSmokeHooks(scene) {
       case 1: scene.shopOverlay?.show?.("playerUpgrades"); break;
       case 2: scene.shopOverlay?.show?.("moneyMonster"); if (scene.shopOverlay?.moneyMonsterMode === "buy") { scene.shopOverlay.toggleMoneyMonsterMode?.(); } break;
       case 3: scene.uiInventoryPopup?.open?.(); break;
-      case 4: scene.levelUpPopup?.show?.(2, true, ["miningPower", "resourceLuck"]); break;
-      case 5: scene.campfireSystem?._openBuffSelection?.(); break;
-      case 6: scene.milestoneBoardSystem?._openBoardView?.(); break;
-      case 7: scene.depthGateSystem?._open?.({ threshold: 100, title: "DEPTH WARNING: 100M", message: "Smoke test depth confirmation." }); break;
-      case 8: toggleAuthoredBackgroundVisualMode(scene); break;
+      case 4: scene.campfireSystem?._openBuffSelection?.(); break;
+      case 5: scene.milestoneBoardSystem?._openBoardView?.(); break;
+      case 6: scene.depthGateSystem?._open?.({ threshold: 100, title: "DEPTH WARNING: 100M", message: "Smoke test depth confirmation." }); break;
+      case 7: toggleAuthoredBackgroundVisualMode(scene); break;
       default: break;
     }
   };
@@ -331,8 +327,7 @@ function _createRobotAnims(scene) {
   cq(r.digUpLookAnim, r.digUpLookSheet, r.digUpLookFrames || [r.digUpLookFrame], 1, -1);
   cs(r.wallPushAnim, r.wallPushSheet, r.wallPushFrames, r.wallPushAnimationFps, -1);
   cs(r.combatIdleRecoverAnim, r.combatIdleRecoverSheet, r.combatIdleRecoverFrames, r.combatIdleRecoverAnimationFps, 0);
-  cs(r.climbAnim, r.climbSheet, r.climbFrames, r.flyClimbAnimationFps, -1);
-  cs(r.flyAnim, r.flySheet, r.flyFrames, r.flyClimbAnimationFps, -1);
+  cs(r.flyAnim, r.flySheet, r.flyFrames, r.flightAnimationFps || r.flyAnimationFps || 12, -1);
   cq(r.quickslashAnim, r.quickslashSheet, r.quickslashFrames, r.quickslashAnimationFps || 12, 0);
   cq(r.thunderStrikeChargeAnim, r.thunderStrikeChargeSheet, r.thunderStrikeChargeFrames, r.thunderStrikeChargeAnimationFps || 6, -1);
   cq(r.thunderStrikeStrikeAnim, r.thunderStrikeStrikeSheet, r.thunderStrikeStrikeFrames, r.thunderStrikeStrikeAnimationFps || 12, 0);
@@ -386,9 +381,7 @@ function _createLivingDrillAnims(scene, profile) {
     profile.earthquakeReactAnim,
   ], profile.idleSheet, profile.idleFrames, profile.idleAnimationFps || 7, -1);
   queue([
-    profile.climbAnim,
     profile.flyAnim,
-    profile.flyClimbAnim,
   ], profile.flySheet || profile.idleSheet, profile.flyFrames || profile.idleFrames, profile.flyAnimationFps || profile.idleAnimationFps || 7, -1);
   queue([
     profile.digSidewaysAnim,
@@ -576,7 +569,7 @@ async function _setupSceneSafe(data = {}) {
   this._safeReturnText = this.add.text(HUD_LAYOUT.warnTextX, 0, "", { fontFamily: "Consolas, monospace", fontSize: HUD_LAYOUT.safeFontSize, color: HUD_LAYOUT.safeTextColor }).setDepth(5);
   this._lastSafeReturnDepth = -1;
 
-  const warningY = (this.config.topAirRows + this.config.climbWarningDepthTiles) * this.config.tileSize;
+  const warningY = (this.config.topAirRows + this.config.flightWarningDepthTiles) * this.config.tileSize;
   this._gemPowerWarningGfx = this.add.graphics();
   this._gemPowerWarningGfx.lineStyle(HUD_LAYOUT.warnLineWidth, HUD_LAYOUT.warnLineColor, HUD_LAYOUT.warnLineAlpha);
   this._gemPowerWarningGfx.lineBetween(0, warningY, this.config.worldWidthPx, warningY);
@@ -703,24 +696,6 @@ async function _setupSceneSafe(data = {}) {
   };
   this.player.on(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
 
-  this._onAnimUpdate = (anim, frame) => {
-    const profile = this.playerAssetProfile || ASSET_KEYS.player;
-    const isWalkAnim = (profile.walkMovingAnims || ASSET_KEYS.player.walkMovingAnims).includes(anim.key);
-    const authoredFootsteps = profile.footstepFrameIndices?.[anim.key];
-    const isFootstepFrame = authoredFootsteps
-      ? authoredFootsteps.includes(frame.index)
-      : frame.index === 1 || frame.index === 5;
-    if (isWalkAnim && isFootstepFrame) {
-      if (this.playerController && this.playerController.isGrounded() && this.soundSystem) {
-        const motionState = this.playerController.getMotionState();
-        if (motionState === "walk-left" || motionState === "walk-right") {
-          this.soundSystem.playFootstep();
-        }
-      }
-    }
-  };
-  this.player.on(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
-
   this.cameras.main.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
   this.cameras.main.startFollow(this.player, true, this.config.cameraLerpX, this.config.cameraLerpY);
   const _zoomNow = this.cameras.main.zoom || 1;
@@ -789,25 +764,21 @@ async function _setupSceneSafe(data = {}) {
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
   this.starHeartProgressionSystem = new StarHeartProgressionSystem({
     isGodModeActive: () => this.upgradeSystem?.godModeActive === true,
-    onChanged: (snapshot, event) => {
-      this.queueDugTilesSave?.();
-      if (event === "heart-earned") {
-        this.uiNotifications?.success?.(
-          `STAR HEART FORGED  •  ${snapshot.charge}/${snapshot.chargeCapacity}`
-            + " CHARGE  •  RETURN TO THE STAR PILLAR",
-          { key: "star-heart-forged", durationMs: 3600 },
-        );
-      }
-    },
+    onChanged: () => this.queueDugTilesSave?.(),
   });
   this.starHeartProgressionSystem.loadSaveData(
     this._cachedSaveData?.starHeartData,
     this.floatingTextSystem.getUnlockedConstellations().length,
   );
+  initializeCelestialOverhaulRuntime(this, this._cachedSaveData);
   this.floatingTextSystem.setCollectedSkyStarCallback((detail) => {
-    const gained = this.starHeartProgressionSystem.recordCollectedSkyStar(detail.rarity);
+    const gained = this.celestialTalentProgressionSystem
+      ?.grantStarsFromRarity?.(detail.rarity) || 0;
     this.starPillarSystem?.onCollectedSkyStar?.(detail);
-    if (gained > 0) this.hudSystem?.pulseGemPower?.(true);
+    if (gained > 0) {
+      this.celestialCurrencyHudSystem?.update?.(true);
+      this.celestialCurrencyHudSystem?.pulseStars?.();
+    }
   });
   this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
   this.relicDiscoveryFxSystem = new RelicDiscoveryFxSystem(this, {
@@ -844,54 +815,38 @@ async function _setupSceneSafe(data = {}) {
   this.campfireSystem.create();
   this.digSystem.setCampfireSystem(this.campfireSystem);
   this.playerLevelSystem.setCampfireSystem(this.campfireSystem);
-  this.starHeartOverlay = new StarHeartOverlay(this, this.starHeartProgressionSystem);
+  this.starHeartOverlay = null;
   this.starPillarSystem = new StarPillarSystem(
     this,
     this.config,
     this.floatingTextSystem,
     PLAY_SCENE_UI_FACTORIES,
-    this.starHeartOverlay,
+    null,
   );
   this.starPillarSystem.create();
-  this.floatingTextSystem.setConstellationUnlockedCallback((type) => {
-    this.starPillarSystem.onConstellationUnlocked(type);
+  this.floatingTextSystem.setConstellationUnlockedCallback(() => {
     this.starHeartProgressionSystem.syncConstellationCount(
       this.floatingTextSystem.getUnlockedConstellations().length,
     );
-    const resourceNames = { dirt: 'Dirt', stone: 'Stone', copper: 'Copper', darkDirtNormal: 'Dark Dirt', darkDirtStrong: 'Hard Dirt', steel: 'Steel', iron: 'Iron', bronze: 'Bronze', silver: 'Silver', gold: 'Gold' };
-    const passiveBuffText = (
-      `${resourceNames[type] || type} Star Blocks +${CONSTELLATION_MATCHING_STAR_YIELD_BONUS}x yield`
-    );
     const abilities = this.playerController?.abilities;
-    const buff = CONSTELLATION_BUFFS[type];
-    const prerequisite = CONSTELLATION_ABILITY_PREREQUISITES[buff?.ability];
     abilities?._refreshConstellationStats?.();
-    const abilityOwned = prerequisite
-      && abilities?.[prerequisite.unlockMethod]?.() === true;
-    const mutationText = buff && prerequisite
-      ? abilityOwned
-        ? `${buff.name} active  •  ${buff.description}`
-        : `${buff.name} sealed  •  Buy ${prerequisite.abilityName} from ${prerequisite.merchantName}`
-      : "";
-    if (this.hudSystem) {
-      this.hudSystem.flashStatus(
-        `${resourceNames[type] || type} constellation mastered`
-          + `  •  ${passiveBuffText}`
-          + (mutationText ? `\n${mutationText}` : ""),
-        '#FFD700',
-        3000,
-      );
-    }
-    if (abilities) {
-      if (this.shakeSystem) this.shakeSystem.shake("misc.constellationUnlock");
-    }
+    if (abilities && this.shakeSystem) this.shakeSystem.shake("misc.constellationUnlock");
   });
 
   this._gamefeelConfig = GAMEFEEL_CONFIG;
+  this.tileDestructionFxSystem = new TileDestructionFxSystem(this);
+  this.groundFootstepFxSystem = new GroundFootstepFxSystem(
+    this,
+    this.player,
+    this.playerController,
+    this.worldModel,
+    this.playerAssetProfile,
+    { onFootstep: () => this.soundSystem?.playFootstep?.() },
+  );
+  this.groundFootstepFxSystem.create();
   this.hitstopSystem = new HitstopSystem(this, GAMEFEEL_CONFIG.hitstop);
   this.screenFlashSystem = new ScreenFlashSystem(this, GAMEFEEL_CONFIG.flash);
   this.pickaxeTrailSystem = new PickaxeTrailSystem(this, this.player, GAMEFEEL_CONFIG.trail);
-  this.climbTrailSystem = new ClimbTrailSystem(this, this.player, GAMEFEEL_CONFIG.climb);
   this.flightFootParticleSystem = new FlightFootParticleSystem(
     this,
     this.player,
@@ -981,7 +936,7 @@ async function _setupSceneSafe(data = {}) {
   this.lightFrameSync = new LightFrameSync(this);
   this.atmosphereSystem = new AtmosphereSystem(this, this.config);
   this.gameInputHandler = new GameInputHandler(this, this.inputHandler, this.playerController.input);
-  this.screenRecordSystem = new ScreenRecordSystem(this);
+  this.screenRecordSystem = GAME_CONFIG.debugMode ? new ScreenRecordSystem(this) : null;
   this._refreshSafeReturnLine();
   this._gemPowerBarBg = this.add.graphics().setScrollFactor(0).setDepth(HUD_LAYOUT.hudDepth);
   this._gemPowerBarFill = this.add.graphics().setScrollFactor(0).setDepth(HUD_LAYOUT.hudOverlayDepth);
@@ -1005,11 +960,16 @@ async function _setupSceneSafe(data = {}) {
   this.celestialEngineController = new CelestialEngineController(
     this,
     this.starHeartProgressionSystem,
+    {
+      talentProgression: this.celestialTalentProgressionSystem,
+      showLegacyHud: false,
+    },
   );
   this.nextPromiseHudSystem = new NextPromiseHudSystem(this);
   this.miningIntentPreviewSystem = new MiningIntentPreviewSystem(this);
   this.thunderStrikeActionRuntime = new ThunderStrikeActionRuntime(this);
   this.openingFlightArtifactSystem = new OpeningFlightArtifactSystem(this);
+  this.firstSessionPortalSystem = new FirstSessionPortalSystem(this);
   this.townSquareTutorialSystem = new TownSquareTutorialSystem(this);
 
   const keys = this.inputHandler.getKeys();
@@ -1054,7 +1014,6 @@ async function _setupSceneSafe(data = {}) {
     this._saveScheduler?.destroy();
     if (this.player) {
       this.player.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
-      this.player.off(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
     }
     this.thunderStrikeActionRuntime?.destroy();
     this.ualActionContactTimeline?.destroy();
@@ -1107,11 +1066,12 @@ async function _setupSceneSafe(data = {}) {
     this.nextPromiseHudSystem?.destroy();
     this.miningIntentPreviewSystem?.destroy();
     this._gpLabelText?.destroy();
+    this.groundFootstepFxSystem?.destroy();
+    this.tileDestructionFxSystem?.destroy();
     this.hitstopSystem?.destroy();
     this.screenFlashSystem?.destroy();
     this.screenRecordSystem?.destroy();
     this.pickaxeTrailSystem?.destroy();
-    this.climbTrailSystem?.destroy();
     this.flightFootParticleSystem?.destroy();
     this.postFxSystem?.destroy();
     this.playerBodyLanguage?.destroy();
@@ -1131,6 +1091,7 @@ async function _setupSceneSafe(data = {}) {
     this._livingDrillOccluder?.destroy();
     this.celestialEngineController?.destroy();
     this.starPillarSystem?.destroy();
+    this.celestialTalentProgressionSystem?.destroy();
     this.starHeartProgressionSystem?.destroy();
     this.lootPickupFxSystem?.destroy();
     this.relicDiscoveryFxSystem?.destroy();
@@ -1150,6 +1111,8 @@ async function _setupSceneSafe(data = {}) {
     this.depthGateSystem?.destroy();
     this.surfaceTunnelDoorSystem?.destroy();
     this.openingFlightArtifactSystem?.destroy();
+    this.firstSessionPortalSystem?.destroy();
+    this.firstSessionPortalSystem = null;
     this.systemIntroductionSystem?.destroy();
     this.townSquareTutorialSystem?.destroy();
     this.arcCoreVehicleSystem?.destroy();
@@ -1181,6 +1144,7 @@ async function _setupSceneSafe(data = {}) {
   if (this.retentionProgressSystem?.getTutorialState?.().choice === null) {
     this.retentionProgressSystem.configureTutorialChoice(data.tutorialChoice);
   }
+  this.firstSessionPortalSystem?.ensure();
   this.openingFlightArtifactSystem?.create();
   this.townSquareTutorialSystem?.create();
   this.syncHardcoreArmingFromFlight?.();

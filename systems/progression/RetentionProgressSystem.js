@@ -1,5 +1,3 @@
-import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
-import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../../values/upgradeDefinitions.js";
 import {
   RETENTION_CONFIG,
   RETENTION_EVENT_TYPES,
@@ -23,8 +21,6 @@ const TITAN_IDS = new Set(TITAN_DEFINITIONS.map(definition => definition.id));
 export class RetentionProgressSystem {
   constructor(options = {}) {
     this.saveSlot = finiteRetentionInt(options.saveSlot, 1, 999) || 1;
-    this.firstFiveEnabled = options.firstFiveEnabled
-      ?? resolveFirstFiveMinutesEnabled();
     this.data = sanitizeRetentionProgressData(null);
     this.expedition = createRetentionExpedition();
     this.events = [];
@@ -92,12 +88,11 @@ export class RetentionProgressSystem {
     return {
       choice: this.data.tutorialChoice,
       stage: this.data.tutorialStage,
-      starterRewardGranted: this.data.tutorialStarterRewardGranted === true,
-      completionRewardGranted: this.data.tutorialCompletionRewardGranted === true,
+      flightTrainingGranted: this.data.tutorialFlightTrainingGranted === true,
       freeFlightRemainingMs: finiteRetentionInt(
         this.data.tutorialFreeFlightRemainingMs,
         0,
-        RETENTION_CONFIG.tutorial.completionReward.freeFlightMs,
+        RETENTION_CONFIG.tutorial.flightTraining.freeFlightMs,
       ),
     };
   }
@@ -117,30 +112,25 @@ export class RetentionProgressSystem {
     return true;
   }
 
-  claimTutorialStarterReward() {
-    if (this.data.tutorialStarterRewardGranted === true) return null;
-    this.data.tutorialStarterRewardGranted = true;
-    const reward = RETENTION_CONFIG.tutorial.starterReward;
-    return {
-      money: reward.money,
-      resources: { ...reward.resources },
-    };
-  }
-
-  claimTutorialCompletionReward() {
-    if (this.data.tutorialCompletionRewardGranted === true) return null;
+  claimTutorialFlightTraining() {
+    if (this.data.tutorialFlightTrainingGranted === true) return null;
     if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
-    this.data.tutorialCompletionRewardGranted = true;
-    const reward = RETENTION_CONFIG.tutorial.completionReward;
+    this.data.tutorialFlightTrainingGranted = true;
+    const reward = RETENTION_CONFIG.tutorial.flightTraining;
     this.data.tutorialFreeFlightRemainingMs = Math.max(
       this.data.tutorialFreeFlightRemainingMs,
       reward.freeFlightMs,
     );
     return {
-      money: reward.money,
       flightUpgradeId: reward.flightUpgradeId,
       freeFlightMs: reward.freeFlightMs,
     };
+  }
+
+  recordTutorialFlight() {
+    if (this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.FLIGHT) return false;
+    this._setTutorialStage(TOWN_TUTORIAL_STAGES.PORTAL);
+    return true;
   }
 
   isTutorialFreeFlightActive() {
@@ -288,7 +278,7 @@ export class RetentionProgressSystem {
     const earned = this.recordMoneyEarned(money);
     this.data.stats.resourcesSold += finiteRetentionInt(units, 0, 1000000000);
     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.SELL) {
-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
     }
     return { money: earned, units: finiteRetentionInt(units) };
   }
@@ -302,14 +292,6 @@ export class RetentionProgressSystem {
 
   recordUpgrade(upgradeName, preview = null) {
     this.data.stats.upgradesPurchased += 1;
-    const completesTutorial = !this.firstFiveEnabled
-      || preview?.upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID;
-    if (
-      this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE
-      && completesTutorial
-    ) {
-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.COMPLETE);
-    }
     this.pendingUpgradePayoff = {
       upgradeName: String(upgradeName || "Upgrade"),
       beforeHits: finiteRetentionInt(preview?.beforeHits),
@@ -330,6 +312,15 @@ export class RetentionProgressSystem {
     this.data.stats.portalsActivated += 1;
     this._discover("portals", label, label, false);
     this._discover("journal", `portal:${label}`, `Portal: ${label}`, false);
+    if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.PORTAL) {
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
+    }
+  }
+
+  recordTutorialPortalResume() {
+    if (this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.RESUME) return false;
+    this._setTutorialStage(TOWN_TUTORIAL_STAGES.COMPLETE);
+    return true;
   }
 
   recordChest({ money = 0, star = false } = {}) {
@@ -456,7 +447,7 @@ export class RetentionProgressSystem {
 
   onFirstTileBroken() {
     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.DIG) {
-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
     }
   }
 

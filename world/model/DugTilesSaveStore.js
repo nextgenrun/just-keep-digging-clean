@@ -10,6 +10,7 @@ import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { sanitizeOpeningFlightArtifactData } from "../../values/openingFlightArtifact.js";
 import { sanitizeStarHeartData } from "../../values/celestialEngines.js";
+import { sanitizeCelestialOverhaulData } from "../../values/celestialOverhaulSave.js";
 import { sanitizeHeavenblocksProgressionData } from "../../values/heavenblocksProgressionConfig.js";
 import {
   isHardcoreMode,
@@ -242,6 +243,7 @@ export class DugTilesSaveStore {
     playerStateData = null,
     campfireData = null,
     journeyData = null,
+    celestialOverhaulData = null,
   ) {
     if (this.isDeathTombstoned()) return false;
     const payload = this.createPayload(
@@ -266,6 +268,7 @@ export class DugTilesSaveStore {
       playerStateData,
       campfireData,
       journeyData,
+      celestialOverhaulData,
     );
     const localSaved = this.saveToLocalStorage(payload);
     if (!localSaved) return false;
@@ -301,9 +304,10 @@ export class DugTilesSaveStore {
     playerStateData = null,
     campfireData = null,
     journeyData = null,
+    celestialOverhaulData = null,
   ) {
     return {
-      version: 13,
+      version: 14,
       updatedAt: new Date().toISOString(),
       playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
       world: {
@@ -333,6 +337,7 @@ export class DugTilesSaveStore {
       playerStateData: sanitizePlayerPersistenceData(playerStateData),
       campfireData: sanitizeCampfireData(campfireData),
       journeyData: sanitizeJourneySaveData(journeyData),
+      celestialOverhaulData: sanitizeCelestialOverhaulData(celestialOverhaulData),
     };
   }
 
@@ -381,6 +386,7 @@ export class DugTilesSaveStore {
       journeyData: payload.journeyData
         ? sanitizeJourneySaveData(payload.journeyData)
         : null,
+      celestialOverhaulData: sanitizeCelestialOverhaulData(payload.celestialOverhaulData),
       playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
     };
   }
@@ -818,7 +824,9 @@ export class DugTilesSaveStore {
       level: payload?.levelData?.level || 1,
       bestDepth: payload?.retentionData?.stats?.bestDepth || 0,
       wallet: payload?.upgrades?.money || 0,
-      stars: payload?.retentionData?.stats?.starsCollected || 0,
+      stars: Number(payload?.version || 0) >= 14
+        ? payload?.celestialOverhaulData?.talents?.stars || 0
+        : payload?.retentionData?.stats?.starsCollected || 0,
       backupCount: backups.length,
       backupStats: this.slotId ? this.backupManager.getBackupStats(this.slotId) : null,
       checksum: payload ? this.backupManager.calculateChecksum(payload) : null

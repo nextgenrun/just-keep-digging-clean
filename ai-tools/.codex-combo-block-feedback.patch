@@ -1,0 +1,140 @@
+diff --git a/values/specialBlocks.js b/values/specialBlocks.js
+--- a/values/specialBlocks.js
++++ b/values/specialBlocks.js
+@@ -157,6 +157,16 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
+       value: 5,                // +5 levels
+     },
+   },
++
++  // Rare rewards must confirm both the granted amount and the live total.
++  feedback: Object.freeze({
++    comboBlock: Object.freeze({
++      message: "COMBO BLOCK  •  +{amount} COMBO  •  {total} TOTAL",
++      color: "#F1C56A",
++      notificationKey: "special-block-combo-reward",
++      priority: 6,
++    }),
++  }),
+ });
+ 
+ export const GEM_POWER_BLOCK_TIERS = SPECIAL_BLOCKS_CONFIG.effects.gemPowerBlock.restoreTiers;
+diff --git a/systems/mining/DigSystem.js b/systems/mining/DigSystem.js
+--- a/systems/mining/DigSystem.js
++++ b/systems/mining/DigSystem.js
+@@ -3,7 +3,10 @@ import { MINING_CONFIG } from "../../values/miningConfig.js";
+ import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
+ import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
+ import { COMBO_CONFIG } from "../../values/comboConfig.js";
+-import { getGemPowerBlockTier } from "../../values/specialBlocks.js";
++import {
++  SPECIAL_BLOCKS_CONFIG,
++  getBlockEffect,
++  getGemPowerBlockTier,
++} from "../../values/specialBlocks.js";
+ import {
+   CONSTELLATION_MATCHING_STAR_YIELD_BONUS,
+ } from "../../values/constellationBuffs.js";
+@@ -681,6 +684,8 @@ export class DigSystem {
+     let gemPowerTierId = null;
+     let gemPowerRestoreCapacity = 0;
+     let levelsGained = 0;
++    let comboAdded = 0;
++    let comboTotal = 0;
+     let forcedLevelResult = null;
+ 
+     let isCriticalHit = false;
+@@ -754,6 +759,8 @@ export class DigSystem {
+         gemPowerTierId,
+         gemPowerRestoreCapacity,
+         levelsGained,
++        comboAdded,
++        comboTotal,
+         forcedLevelResult,
+       } = specialBlockResult);
+     }
+@@ -904,6 +911,8 @@ export class DigSystem {
+       specialBlockDestroyed,
+       gemPowerRestored,
+       levelsGained,
++      comboAdded,
++      comboTotal,
+       skyTileMultiplier,
+       skyTilePassiveBonus,
+       ancientRelics,
+@@ -1025,6 +1034,8 @@ export class DigSystem {
+       gemPowerTierId: null,
+       gemPowerRestoreCapacity: 0,
+       ancientRelics: 0,
++      comboAdded: 0,
++      comboTotal: 0,
+       rarityId: "normal",
+       rarityMultiplier: 1,
+     };
+@@ -1108,6 +1119,8 @@ export class DigSystem {
+     result.gemPowerRestored = specialResult.gemPowerRestored;
+     result.gemPowerTierId = specialResult.gemPowerTierId;
+     result.gemPowerRestoreCapacity = specialResult.gemPowerRestoreCapacity;
++    result.comboAdded = specialResult.comboAdded;
++    result.comboTotal = specialResult.comboTotal;
+     if (specialResult.levelsGained) {
+       result.levelUp = true;
+       result.newLevel = this.playerLevelSystem ? this.playerLevelSystem.level : null;
+@@ -1199,6 +1212,8 @@ export class DigSystem {
+       gemPowerTierId: null,
+       gemPowerRestoreCapacity: 0,
+       levelsGained: 0,
++      comboAdded: 0,
++      comboTotal: 0,
+       forcedLevelResult: null,
+     };
+ 
+@@ -1212,6 +1227,8 @@ export class DigSystem {
+     let gemPowerTierId = null;
+     let gemPowerRestoreCapacity = 0;
+     let levelsGained = 0;
++    let comboAdded = 0;
++    let comboTotal = 0;
+     let forcedLevelResult = null;
+     
+     // Hoist scene reference so all cases share it
+@@ -1298,10 +1315,27 @@ export class DigSystem {
+         break;
+ 
+       case TILE_TYPES.COMBO_BLOCK:
+         if (this.comboSystem && typeof this.comboSystem.addCombo === 'function') {
+-          const nowMs = scene ? scene.time.now : Date.now();
+-          this.comboSystem.addCombo(50, nowMs);
++          const comboEffect = getBlockEffect('comboBlock');
++          const amount = Math.max(0, Math.floor(Number(comboEffect?.value) || 0));
++          const before = Number(this.comboSystem.getComboCount?.()) || 0;
++          const nowMs = Number.isFinite(scene?.time?.now) ? scene.time.now : Date.now();
++          this.comboSystem.addCombo(amount, nowMs);
++          comboTotal = Math.max(0, Number(this.comboSystem.getComboCount?.()) || 0);
++          comboAdded = Math.max(0, comboTotal - before);
+           specialBlockEffect = 'comboBoost';
++
++          if (comboAdded > 0) {
++            const feedback = SPECIAL_BLOCKS_CONFIG.feedback.comboBlock;
++            const message = feedback.message
++              .replace('{amount}', String(comboAdded))
++              .replace('{total}', String(comboTotal));
++            scene?.uiNotifications?.success?.(message, {
++              key: feedback.notificationKey,
++              color: feedback.color,
++              accentColor: feedback.color,
++              priority: feedback.priority,
++              bypassPacing: true,
++            });
++          }
+         } else {
+           console.warn('[DigSystem] COMBO_BLOCK effect requires comboSystem with addCombo method');
+         }
+@@ -1354,6 +1388,8 @@ export class DigSystem {
+       gemPowerTierId,
+       gemPowerRestoreCapacity,
+       levelsGained,
++      comboAdded,
++      comboTotal,
+       forcedLevelResult,
+     };
+   }

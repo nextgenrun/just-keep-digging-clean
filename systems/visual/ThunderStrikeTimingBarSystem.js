@@ -12,6 +12,8 @@ export class ThunderStrikeTimingBarSystem {
     this.feedbackUntilMs = 0;
     this.feedbackText = "";
     this.feedbackColor = config.timingBar.titleColor;
+    this.feedbackSlamText = "";
+    this.feedbackBadgeText = "";
     this.lastSnapshot = null;
   }
 
@@ -23,12 +25,44 @@ export class ThunderStrikeTimingBarSystem {
     return this.view.getPresentedTimingSnapshot(stageIndex);
   }
 
-  showFeedback(text, color, nowMs, durationMs, snapshot = this.lastSnapshot) {
+  showFeedback(
+    text,
+    color,
+    nowMs,
+    durationMs,
+    snapshot = this.lastSnapshot,
+    presentation = {},
+  ) {
     this.feedbackText = text;
     this.feedbackColor = color;
+    this.feedbackSlamText = presentation.slamText || "";
+    this.feedbackBadgeText = presentation.badgeText || "";
     this.feedbackUntilMs = nowMs + durationMs;
     this.lastSnapshot = snapshot;
     this.update(snapshot, nowMs);
+  }
+
+  showInsufficientGp(currentGp, requiredGp, nowMs, snapshot = this.lastSnapshot) {
+    const current = Math.floor(Math.max(0, Number(currentGp) || 0));
+    const required = Math.ceil(Math.max(0, Number(requiredGp) || 0));
+    this.showFeedback(
+      `${this.config.feedback.insufficientGpText} ${current}/${required}`,
+      this.config.timingBar.dangerColor,
+      nowMs,
+      this.config.feedback.insufficientGpLingerMs,
+      snapshot,
+      {
+        slamText: this.config.feedback.insufficientGpSlamText,
+        badgeText: this.config.feedback.insufficientGpBadgeText,
+      },
+    );
+  }
+
+  clearFeedback() {
+    this.feedbackUntilMs = 0;
+    this.feedbackText = "";
+    this.feedbackSlamText = "";
+    this.feedbackBadgeText = "";
   }
 
   update(snapshot, nowMs = 0) {
@@ -51,6 +85,8 @@ export class ThunderStrikeTimingBarSystem {
       timing,
       feedbackText: feedbackActive ? this.feedbackText : "",
       feedbackColor: feedbackActive ? this.feedbackColor : null,
+      feedbackSlamText: feedbackActive ? this.feedbackSlamText : "",
+      feedbackBadgeText: feedbackActive ? this.feedbackBadgeText : "",
     });
   }
 

@@ -50,7 +50,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     const bodyVelocityY = body?.vy || 0;
     selection = runtime.locomotion.resolve({
       grounded,
-      flying: poweredFlight || motion === "climb",
+      flying: poweredFlight,
       horizontalVelocity: scene.playerKinematicMotion?.getResolvedVelocityX?.() ?? body?.vx ?? 0,
       verticalVelocity: Math.abs(bodyVelocityY) > Math.abs(resolvedVelocityY)
         ? bodyVelocityY
@@ -68,8 +68,8 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     runtime.flightTravel = flightTravel;
     scene.player.setFlipX(selection.facingFlipX);
   } else {
-    const flying = poweredFlight || motion === "climb" || motion === "airborne";
-    key = flying ? (profile.flyAnim || profile.climbAnim) : walking
+    const flying = poweredFlight || motion === "airborne";
+    key = flying ? (profile.flyAnim || profile.idleAnim) : walking
       ? (profile.walkLoopAnim || profile.walkAnim) : profile.idleAnim;
     scene.player.setFlipX(!controller.playerController.isFacingRight());
   }
@@ -93,7 +93,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
   const travelSpeed = scene.playerKinematicMotion?.getTravelSpeedPxPerSec?.();
   scene.player.anims.timeScale = Number.isFinite(selection?.timeScale)
     ? selection.timeScale
-    : profile.isUalNative && (poweredFlight || motion === "climb")
+    : profile.isUalNative && poweredFlight
       ? resolveUalFlightTimeScale(
         Number.isFinite(travelSpeed) ? travelSpeed : Math.hypot(body?.vx || 0, body?.vy || 0),
         flightTravel,
@@ -101,7 +101,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
       : (Number.isFinite(kinematicScale) ? kinematicScale : 1);
   if (!profile.isUalNative) return;
   const velocityX = scene.playerKinematicMotion?.getResolvedVelocityX?.() ?? body?.vx ?? 0;
-  const flightActive = poweredFlight || motion === "climb";
+  const flightActive = poweredFlight;
   const flight = UAL_NATIVE_ACTION_TUNING.flight;
   const velocitySign = Math.sign(velocityX) || (selection?.facingFlipX ? -1 : 1);
   const hoverRatio = Math.min(1, Math.abs(velocityX) / flight.referenceSpeedPxPerSec);

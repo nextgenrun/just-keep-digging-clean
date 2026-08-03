@@ -6,6 +6,8 @@ const TITAN_SURFACE_STANCE_ASSET_ROOT =
   "sprites/backgrounds/titan-surface-stances-v1";
 const TITAN_UNDERGROUND_ASSET_ROOT =
   "sprites/backgrounds/titan-underground-v2";
+const TITAN_UNDERGROUND_GROUNDING_ASSET_ROOT =
+  "sprites/backgrounds/titan-underground-v3";
 const DISABLED_QUERY_VALUES = Object.freeze(["0", "false", "off", "disabled"]);
 const TITAN_SURFACE_GALLERY_SCALE_BY_ID = Object.freeze({
   "mossback-wanderer": 1,
@@ -46,6 +48,14 @@ const TITAN_COVER_RESONANCE_ASSET = Object.freeze({
   key: "titan-cover-resonance-v1",
   path: `${TITAN_UNDERGROUND_ASSET_ROOT}/titan-cover-resonance-v1.png`,
 });
+const TITAN_GROUND_CONTACT_ASSET = Object.freeze({
+  key: "titan-ground-contact-v1",
+  path: `${TITAN_UNDERGROUND_GROUNDING_ASSET_ROOT}/titan-ground-contact-v1.png`,
+});
+const TITAN_UNLOCK_RESONANCE_ASSET = Object.freeze({
+  key: "titan-unlock-resonance-v1",
+  path: `${TITAN_UNDERGROUND_GROUNDING_ASSET_ROOT}/titan-unlock-resonance-v1.png`,
+});
 const TITAN_GUIDANCE_POINTER_ASSET = Object.freeze({
   key: "ui-titan-resonance-pointer-v1",
   path: "sprites/UI/titan-guidance-v1/titan-resonance-pointer-v1.png",
@@ -77,6 +87,33 @@ const TITAN_REGION_LABELS = Object.freeze([
   "Blackglass Abyss",
   "Starfire Rift",
 ]);
+const TITAN_REGION_IDS = Object.freeze([
+  "surface-entry",
+  "level1-blue",
+  "level1-blue",
+  "level1-blue",
+  "level1-blue",
+  "level1-amber",
+  "level1-amber",
+  "level1-amber",
+  "level1-amber",
+  "level1-silver",
+  "level1-silver",
+  "level1-silver",
+  "level1-silver",
+  "level1-silver",
+  "level1-magma",
+  "level1-magma",
+  "level1-magma",
+  "level2-slagworks",
+  "level2-slagworks",
+  "level2-obsidian",
+  "level2-obsidian",
+  "level2-foundry",
+  "level2-blackglass",
+  "level2-blackglass",
+  "level2-starfire",
+]);
 const titan = (
   index,
   id,
@@ -99,6 +136,7 @@ const titan = (
   travelTiles,
   travelDirection: index % 2 === 0 ? -1 : 1,
   regionLabel: TITAN_REGION_LABELS[index - 1],
+  regionId: TITAN_REGION_IDS[index - 1],
   surfaceGalleryScale: TITAN_SURFACE_GALLERY_SCALE_BY_ID[id],
   asset: Object.freeze({
     key: `titan-discovery-${id}`,
@@ -154,6 +192,8 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     walkPlinth: TITAN_WALK_PLINTH_ASSET,
     undergroundDais: TITAN_UNDERGROUND_DAIS_ASSET,
     coverResonance: TITAN_COVER_RESONANCE_ASSET,
+    groundContact: TITAN_GROUND_CONTACT_ASSET,
+    unlockResonance: TITAN_UNLOCK_RESONANCE_ASSET,
     guidancePointer: TITAN_GUIDANCE_POINTER_ASSET,
   }),
   health: Object.freeze({
@@ -161,6 +201,7 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     readyStage: "titan-discoveries-ready",
     missingAssetCode: "titan-discovery-asset-missing",
     chamberAssetCode: "titan-chamber-stream-failed",
+    environmentAssetCode: "titan-environment-stream-failed",
     incompleteRuntimeCode: "titan-discovery-runtime-incomplete",
     severity: "error",
   }),
@@ -179,7 +220,7 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     maxSourceScale: 1,
   }),
   underground: Object.freeze({
-    assetVersion: "titan-surface-stances-v1",
+    assetVersion: "titan-underground-grounding-v3",
     titanFitFraction: 0.96,
     spriteDepth: -5.96,
     glowDepth: -5.95,
@@ -189,16 +230,62 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     coverageGlowFloor: 0.28,
     discoveredAlpha: 0.995,
     peakAlpha: 1,
-    idleDriftPixels: 7,
     idlePeriodMs: 9200,
     phaseStep: 0.73,
-    daisDepth: -5.99,
-    daisGlowDepth: -5.985,
+    idleBreathScale: 0.004,
+    idleWidthScale: 0.0015,
+    titanEnvironmentTintMix: 0.3,
+    structureEnvironmentTintMix: 0.72,
+    stanceBottomPaddingPx: 24,
+    creatureContactInsetTiles: 0.035,
+    groundBaselineInsetTiles: 0.08,
+    daisDepth: -5.995,
+    daisGlowDepth: -5.99,
     daisWidthTiles: 4.6,
     daisHeightTiles: 0.88,
-    daisCenterInsetTiles: 0.08,
-    daisAlpha: 0.97,
-    daisGlowAlpha: 0.075,
+    daisAlpha: 0.24,
+    daisGlowAlpha: 0.02,
+    contactDepth: -5.93,
+    contactGlowDepth: -5.925,
+    contactMaxWidthTiles: 8.6,
+    contactMaxHeightTiles: 2.1,
+    contactDropTiles: 0.22,
+    contactCoveredAlpha: 0.78,
+    contactProgressAlpha: 0.12,
+    contactDiscoveredAlpha: 0.96,
+    contactGlowAlpha: 0.035,
+  }),
+  environmentEnvelope: Object.freeze({
+    enabledByDefault: true,
+    queryParam: "titanEnvironment",
+    disabledValues: DISABLED_QUERY_VALUES,
+    assetVersion: "biome-backdrop-enhancers-v7",
+    preloadRangeTiles: 24,
+    releaseRangeTiles: 36,
+    maxResidentTitans: 2,
+    fitFraction: 1.02,
+    lockedAlpha: 0.44,
+    lockedProgressAlpha: 0.22,
+    discoveredAlpha: 0.86,
+    tintMix: 0.32,
+    arrivalMs: 420,
+    layers: Object.freeze([
+      Object.freeze({
+        family: "side-arches",
+        depth: -6.055,
+        alphaMultiplier: 1,
+      }),
+      Object.freeze({
+        family: "ceiling-crown",
+        depth: -6.05,
+        alphaMultiplier: 0.9,
+      }),
+      Object.freeze({
+        family: "hanging-network",
+        depth: -6.045,
+        alphaMultiplier: 0.55,
+      }),
+    ]),
   }),
   coverageGlow: Object.freeze({
     activationRangeTiles: 14,
@@ -225,39 +312,38 @@ export const TITAN_DISCOVERY_CONFIG = Object.freeze({
     maxResidentCards: 2,
     nativeWidthPx: 1536,
     nativeHeightPx: 848,
-    cardDepth: -6.02,
-    cardGlowDepth: -6.01,
-    lockedCardAlpha: 0.05,
-    lockedCardProgressAlpha: 0.03,
-    discoveredCardAlpha: 0.12,
-    ambientGlowAlpha: 0.025,
+    cardDepth: -6.08,
+    cardGlowDepth: -6.07,
+    lockedCardAlpha: 0.08,
+    lockedCardProgressAlpha: 0.04,
+    discoveredCardAlpha: 0.2,
+    ambientGlowAlpha: 0.03,
   }),
   unlockFx: Object.freeze({
-    ringDepth: -5.94,
-    frontFxDepth: 2.36,
-    echoDepth: 2.34,
-    glowInMs: 620,
-    crossingMs: 3600,
-    glowScale: 1.16,
-    peakScale: 1.06,
-    ringCount: 3,
-    ringStartRadiusTiles: 0.42,
-    ringEndScale: 16,
-    ringLineWidth: 3,
-    ringAlpha: 0.82,
-    ringStaggerMs: 130,
-    ringDurationMs: 1900,
-    dustCount: 30,
-    dustRadiusMinPx: 2,
-    dustRadiusStepPx: 1,
-    dustFallMinTiles: 0.8,
-    dustFallRangeTiles: 1.7,
-    dustDurationMinMs: 900,
-    dustDurationStepMs: 85,
-    echoHeightTiles: 1.4,
-    echoDurationMs: 1700,
-    echoStartScale: 0.52,
-    echoEndScale: 0.18,
+    resonanceAssetId: "unlockResonance",
+    resonanceDepth: -5.97,
+    resonanceMaxWidthFraction: 0.9,
+    resonanceMaxHeightFraction: 0.9,
+    resonanceStartScale: 0.58,
+    resonancePeakScale: 1,
+    resonanceEndScale: 1.08,
+    resonancePeakAlpha: 0.72,
+    resonanceInMs: 420,
+    resonanceHoldMs: 120,
+    resonanceOutMs: 1050,
+    anticipationMs: 180,
+    liftMs: 360,
+    settleMs: 640,
+    compressionScaleX: 1.018,
+    compressionScaleY: 0.972,
+    compressionDropPx: 7,
+    liftScaleX: 0.992,
+    liftScaleY: 1.018,
+    liftPixels: 10,
+    weightShiftPixels: 6,
+    glowScale: 1.055,
+    groundGlowPeakAlpha: 0.24,
+    chamberGlowPeakAlpha: 0.11,
   }),
   surfaceGallery: Object.freeze({
     assetVersion: "titan-surface-stances-v1",
@@ -365,6 +451,20 @@ export function resolveTitanChambersEnabled(
   return chamberConfig.enabledByDefault;
 }
 
+export function resolveTitanEnvironmentEnabled(
+  config = TITAN_DISCOVERY_CONFIG,
+  search = globalThis.location?.search || ""
+) {
+  if (!resolveTitanDiscoveriesEnabled(config, search)) return false;
+  const environment = config.environmentEnvelope;
+  const value = new URLSearchParams(search)
+    .get(environment.queryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && environment.disabledValues.includes(value)) return false;
+  return environment.enabledByDefault;
+}
+
 export function resolveTitanChamberBlendEnabled(
   config = TITAN_DISCOVERY_CONFIG,
   search = globalThis.location?.search || ""
@@ -414,6 +514,8 @@ export function getTitanGameplayPreloadAssets(
     config.assets.walkPlinth,
     config.assets.undergroundDais,
     config.assets.coverResonance,
+    config.assets.groundContact,
+    config.assets.unlockResonance,
     config.assets.guidancePointer,
   ];
 }

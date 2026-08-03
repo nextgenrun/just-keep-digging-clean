@@ -18,10 +18,12 @@ import {
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
+import { CELESTIAL_PILLAR_ACCESS_CONFIG } from "../../values/celestialPillarAccess.js";
 import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { CELESTIAL_TALENT_TREE_UI_CONFIG } from "../../values/celestialTalentTreeUi.js";
 import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
@@ -87,6 +89,13 @@ export class StarPillarSystem {
     this._pillarCenterX = 0;
     this._pillarBaseY   = 0;
 
+    this._townPillarTileX = CELESTIAL_PILLAR_ACCESS_CONFIG.town.tileX;
+    this._townPillarTileY = 0;
+    this._townPillarCenterX = 0;
+    this._townPillarBaseY = 0;
+    this._townWorldVisual = null;
+    this._townPrompt = null;
+
     // Approved production world visual
     this._worldVisual  = null;
     this._ePrompt      = null;
@@ -106,6 +115,7 @@ export class StarPillarSystem {
     this._selectedConstellationIndex = -1;
     this._isChartUiReady = false;
     this._talentTreeView = null;
+    this._suppressNextChartInput = false;
     this._firstRevealState = new StarTalentRevealState({
       saveSlot: this.fts?.saveSlot || 1,
     });
@@ -130,10 +140,13 @@ export class StarPillarSystem {
     this._pillarBaseY   = (this.config.starPillarTileY + 1) * ts; // bottom of tile row 34
 
     this.fts.ensureConstellationsLoaded?.();
-    const initialUnlocked = this.fts.getUnlockedConstellations();
-    this._buildPillarVisual(initialUnlocked.length);
+    const initialProgress = this.scene.celestialTalentProgressionSystem
+      ?.getSnapshot?.()?.purchasedNodeIds?.length || 0;
+    this._buildPillarVisual(initialProgress);
+    this._buildTownPillarVisual(initialProgress);
     this._buildEPrompt();
-    this._lastUnlockedCount = initialUnlocked.length;
+    this._buildTownPrompt();
+    this._lastUnlockedCount = initialProgress;
   }
 
   /**
@@ -151,28 +164,31 @@ export class StarPillarSystem {
     }
     this._tryOpenPendingFirstStarReveal(time);
 
-    // ── Proximity check ──
-    const dx = Math.abs(playerTile.tx - this.config.starPillarTileX);
-    const dy = Math.abs(playerTile.ty - this.config.starPillarTileY);
-    this._playerInRange = dx <= this.config.starPillarProximityTiles &&
-                          dy <= (this.config.starPillarProximityTiles + 2);
+    const skyDistance = this._getAnchorInteractionDistance(
+      playerTile,
+      this.config.starPillarTileX,
+      this.config.starPillarTileY,
+      this.config.starPillarProximityTiles,
+      this.config.starPillarProximityTiles + 2,
+    );
+    const town = CELESTIAL_PILLAR_ACCESS_CONFIG.town;
+    const townDistance = this._getAnchorInteractionDistance(
+      playerTile,
+      this._townPillarTileX,
+      this._townPillarTileY,
+      town.proximityTiles,
+      town.verticalProximityTiles,
+    );
+    this._playerInRange = Number.isFinite(Math.min(skyDistance, townDistance));
 
-    // ── E prompt visibility ──
+    const promptAllowed = !this._isViewOpen && !this.starHeartOverlay?.isOpen?.();
     if (this._ePrompt) {
-      this._ePrompt.setVisible(
-        this._playerInRange
-        && !this._isViewOpen
-        && !this.starHeartOverlay?.isOpen?.(),
-      );
+      this._ePrompt.setVisible(Number.isFinite(skyDistance) && promptAllowed);
+    }
+    if (this._townPrompt) {
+      this._townPrompt.setVisible(Number.isFinite(townDistance) && promptAllowed);
     }
 
-    // ── Approved pillar progression dirty-check ──
-    const unlocked = this.fts.getUnlockedConstellations();
-    if (unlocked.length !== this._lastUnlockedCount) {
-      this._worldVisual?.syncUnlocked(unlocked.length, true);
-      this._lastUnlockedCount = unlocked.length;
-      this._syncPromptY();
-    }
 
     // NOTE: E key is handled by GameInputHandler + PlaySceneUpdate
     // (see handlePlayingStateInput and _updatePlayingState).
@@ -181,6 +197,11 @@ export class StarPillarSystem {
 
   _handleChartInput(keys) {
     if (!this._isChartUiReady || !keys || !Phaser.Input?.Keyboard) return;
+    if (this._suppressNextChartInput) {
+      this._suppressNextChartInput = false;
+      return;
+    }
+    if (this._talentTreeView?.handleInput?.(keys)) return;
     const justDown = (key) => key && Phaser.Input.Keyboard.JustDown(key);
 
     if (justDown(keys.interact)) {
@@ -220,7 +241,7 @@ export class StarPillarSystem {
    * Called from PlaySceneUpdate before the special-tile E handler.
    * Returns true if the E key was consumed.
    */
-  handleInteract() {
+  handleInteract(playerTile = null) {
     if (this.starHeartOverlay?.isOpen?.()) {
       this.closeConstellationView();
       return true;
@@ -229,11 +250,41 @@ export class StarPillarSystem {
       this.closeConstellationView();
       return true;
     }
-    if (this._playerInRange) {
+    const inRange = playerTile
+      ? Number.isFinite(this.getInteractionDistance(playerTile))
+      : this._playerInRange;
+    if (inRange) {
       this.openConstellationView();
       return true;
     }
     return false;
+  }
+
+  getInteractionDistance(playerTile) {
+    if (!playerTile) return Number.POSITIVE_INFINITY;
+    const skyDistance = this._getAnchorInteractionDistance(
+      playerTile,
+      this.config.starPillarTileX,
+      this.config.starPillarTileY,
+      this.config.starPillarProximityTiles,
+      this.config.starPillarProximityTiles + 2,
+    );
+    const town = CELESTIAL_PILLAR_ACCESS_CONFIG.town;
+    const townDistance = this._getAnchorInteractionDistance(
+      playerTile,
+      this._townPillarTileX,
+      this._townPillarTileY,
+      town.proximityTiles,
+      town.verticalProximityTiles,
+    );
+    return Math.min(skyDistance, townDistance);
+  }
+
+  _getAnchorInteractionDistance(playerTile, tileX, tileY, rangeX, rangeY) {
+    const dx = Math.abs(playerTile.tx - tileX);
+    const dy = Math.abs(playerTile.ty - tileY);
+    if (dx > rangeX || dy > rangeY) return Number.POSITIVE_INFINITY;
+    return dx + dy;
   }
 
   /** Save-safe visual QA hook used only by the query-gated E2E harness. */
@@ -247,19 +298,19 @@ export class StarPillarSystem {
     };
   }
 
-  /** Called by FloatingTextSystem callback when a new constellation unlocks. */
-  onConstellationUnlocked(resourceType) {
-    const idx = PILLAR_SLOT_ORDER.indexOf(resourceType);
-    if (idx === -1) return;
-
-    const unlockedCount = this.fts.getUnlockedConstellations().length;
-    this._worldVisual?.syncUnlocked(unlockedCount, true);
-    this._lastUnlockedCount = unlockedCount;
+  syncTalentProgress(snapshot = null, animate = true) {
+    const progress = Math.max(
+      0,
+      Number(snapshot?.purchasedNodeIds?.length
+        ?? this.scene.celestialTalentProgressionSystem
+          ?.getSnapshot?.()?.purchasedNodeIds?.length) || 0,
+    );
+    if (progress === this._lastUnlockedCount) return false;
+    this._worldVisual?.syncUnlocked(progress, animate);
+    this._townWorldVisual?.syncUnlocked(progress, animate);
+    this._lastUnlockedCount = progress;
     this._syncPromptY();
-
-    if (this.scene.soundSystem?.playUiConfirm) {
-      this.scene.soundSystem.playUiConfirm();
-    }
+    return true;
   }
 
   /** Star collection never opens an explanatory screen-space reveal. */
@@ -272,6 +323,10 @@ export class StarPillarSystem {
     this._worldVisual?.destroy();
     this._worldVisual = null;
     this._ePrompt?.destroy();
+    this._townWorldVisual?.destroy();
+    this._townWorldVisual = null;
+    this._townPrompt?.destroy();
+    this._townPrompt = null;
     this._viewObjects.forEach(o => o?.destroy());
     this._chartUiObjects = [];
     this._overlay?.destroy();
@@ -298,6 +353,28 @@ export class StarPillarSystem {
     ).create(unlockedCount);
   }
 
+  _buildTownPillarVisual(unlockedCount) {
+    const ts = this.config.tileSize;
+    const town = CELESTIAL_PILLAR_ACCESS_CONFIG.town;
+    this._townPillarTileY = this.config.topAirRows + town.surfaceTileYOffset;
+    this._townPillarCenterX = this._townPillarTileX * ts + ts / 2;
+    this._townPillarBaseY = (this._townPillarTileY + 1) * ts;
+    this._townVisualConfig = {
+      ...PILLAR_VISUAL_CONFIG.star,
+      maxHeightPx: town.maxHeightPx,
+      promptText: town.promptText,
+    };
+    this._townWorldVisual = new StarPillarWorldVisual(
+      this.scene,
+      this._townPillarCenterX,
+      this._townPillarBaseY,
+      ASSET_KEYS.environment.pillars.starStages,
+      ASSET_KEYS.celestialEngines.waywardStar,
+      ASSET_KEYS.celestialEngines.starHeart,
+      this._townVisualConfig,
+    ).create(unlockedCount);
+  }
+
   _buildEPrompt() {
     const visualConfig = PILLAR_VISUAL_CONFIG.star;
     this._ePrompt = this.scene.add.text(
@@ -315,8 +392,26 @@ export class StarPillarSystem {
     ).setOrigin(0.5, 1).setDepth(visualConfig.promptDepth).setVisible(false);
   }
 
+  _buildTownPrompt() {
+    const visualConfig = this._townVisualConfig;
+    this._townPrompt = this.scene.add.text(
+      this._townPillarCenterX,
+      this._getTownPromptY(),
+      this._getTownPromptText(),
+      {
+        fontFamily: UI_FONTS.mono,
+        fontSize: `${visualConfig.promptFontSizePx}px`,
+        color: UI_COLORS.info,
+        stroke: "#000022",
+        strokeThickness: 4,
+        shadow: { offsetX: 0, offsetY: 0, color: "#4488FF", blur: 8, fill: true },
+      },
+    ).setOrigin(0.5, 1).setDepth(visualConfig.promptDepth).setVisible(false);
+  }
+
   refreshInteractPromptLabels() {
     this._ePrompt?.setText(this._getInteractPromptText());
+    this._townPrompt?.setText(this._getTownPromptText());
     this._chartHint?.setText(this._getChartHintText());
   }
 
@@ -324,12 +419,21 @@ export class StarPillarSystem {
     return `[${USER_SETTINGS.getKeyLabel("interact")}] ${PILLAR_VISUAL_CONFIG.star.promptText}`;
   }
 
+  _getTownPromptText() {
+    return `[${USER_SETTINGS.getKeyLabel("interact")}] ${CELESTIAL_PILLAR_ACCESS_CONFIG.town.promptText}`;
+  }
+
   _getPromptY() {
     return this._worldVisual?.getTopY() - PILLAR_VISUAL_CONFIG.star.promptOffsetPx;
   }
 
+  _getTownPromptY() {
+    return this._townWorldVisual?.getTopY() - this._townVisualConfig.promptOffsetPx;
+  }
+
   _syncPromptY() {
     this._ePrompt?.setY(this._getPromptY());
+    this._townPrompt?.setY(this._getTownPromptY());
   }
 
   _getChartHintText() {
@@ -459,73 +563,40 @@ export class StarPillarSystem {
     }
 
     this._isViewOpen = true;
+    this._suppressNextChartInput = true;
     this._isChartUiReady = false;
     this._chartUiObjects = [];
     this._selectedConstellationIndex = -1;
     this.scene._pillarViewActive = true;
     this.scene.setShopOpen?.(true);
 
-    const unlocked = this.fts.getUnlockedConstellations() || [];
-    const progressByResource = this.fts.getConstellationProgress?.() || {};
-    const focused = options.focusResource
-      || this._getFocusedConstellation(unlocked, progressByResource);
-    this._selectedConstellationIndex = Math.max(0, PILLAR_SLOT_ORDER.indexOf(focused));
-
-    this._starShell = this.ui.createModalShell(this.scene, {
-      title: "STAR PILLAR",
-      subtitle: STARLIGHT_TALENT_TREE_CONFIG.copy.pillarHint,
-      icon: "constellation",
-      skinTexture: ASSET_KEYS.ui.starlightTalentTree.modalShell,
-      iconTexture: ASSET_KEYS.ui.starlightTalentTree.modalCrest,
-      iconSize: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconSizePx,
-      closeTexture: ASSET_KEYS.ui.starlightTalentTree.modalClose,
-      closeSize: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseSizePx,
-      headerHeight: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderHeightPx,
-      headerLayout: {
-        iconOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconOffsetXPx,
-        iconOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderIconOffsetYPx,
-        titleOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderTitleOffsetXPx,
-        titleOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderTitleOffsetYPx,
-        subtitleOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderSubtitleOffsetYPx,
-        closeOffsetX: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseOffsetXPx,
-        closeOffsetY: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarHeaderCloseOffsetYPx,
-      },
-      maxWidth: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarMaxWidthPx,
-      maxHeight: STARLIGHT_TALENT_TREE_CONFIG.layout.pillarMaxHeightPx,
-      depth: 3180,
+    this._selectedConstellationIndex = 0;
+    this._talentTreeView = this.ui.createCelestialTalentTreeView?.(this.scene, {
+      progression: this.scene.celestialTalentProgressionSystem,
+      getMoney: () => this.scene.upgradeSystem?.getMoney?.() || 0,
       onClose: () => this.closeConstellationView(),
-    });
-    this._starShell.show();
-    this._starShell.titleText?.setVisible?.(false);
-    this._starShell.subtitleText?.setVisible?.(false);
-    this._starShell.icon?.setVisible?.(false);
-    this._starShell.skin?.setVisible?.(false);
-    this._starShell.panel?.setVisible?.(false);
-    const inset = STARLIGHT_TALENT_TREE_CONFIG.layout.immersiveInsetPx;
-    this._talentTreeView = this.ui.createStarlightTalentTreeView?.(this.scene, {
-      x: -this._starShell.width / 2 + inset,
-      y: -this._starShell.height / 2 + inset,
-      width: this._starShell.width - inset * 2,
-      height: this._starShell.height - inset * 2,
-      parent: this._starShell.content,
-      floatingTextSystem: this.fts,
-      progression: this.scene.starHeartProgressionSystem,
-      abilities: this.scene.playerController?.abilities,
-      mode: "pillar",
-      focusResource: focused,
-      firstRevealResource: options.firstReveal ? focused : null,
-      onFocus: index => { this._selectedConstellationIndex = index; },
-      onEngineAction: engineId => this._openStarHeartFromTree(engineId),
+      onNodePurchased: result => {
+        const unlockedEngineIds = result.snapshot?.unlockedAbilityIds
+          || this.scene.celestialTalentProgressionSystem?.getSnapshot?.()?.unlockedAbilityIds
+          || [];
+        this.scene.starHeartProgressionSystem
+          ?.syncTalentUnlockedEngines?.(unlockedEngineIds);
+        this.scene.celestialActionBarSystem?.sync?.();
+        this.scene.celestialCurrencyHudSystem?.update?.(true);
+        this.scene.soundSystem?.playUiConfirm?.();
+        this.scene.queueDugTilesSave?.();
+      },
     });
     if (!this._talentTreeView) {
       this.scene.hudSystem?.flashStatus?.(
-        "STARLIGHT TALENT TREE UNAVAILABLE",
+        "CELESTIAL TALENT TREE UNAVAILABLE",
         "#E07030",
         1800,
       );
       this.closeConstellationView();
       return false;
     }
+    this._talentTreeView.open?.();
     this._isChartUiReady = true;
     return true;
   }
@@ -580,37 +651,18 @@ export class StarPillarSystem {
   }
 
   getTalentTreeHealthSnapshot() {
-    const signKeys = STARLIGHT_TALENT_RESOURCE_ORDER.map(
-      resourceType => ASSET_KEYS.constellations.signs[resourceType],
-    );
-    const starlightKeys = Object.values(ASSET_KEYS.ui.starlightTalentTree);
-    const engineKeys = [
-      ASSET_KEYS.ui.starlightTalentTree.waywardStar,
-      ASSET_KEYS.ui.starlightTalentTree.hollowSun,
-      ASSET_KEYS.ui.starlightTalentTree.cometEngine,
-    ];
-    const missingTextures = [...signKeys, ...starlightKeys].filter(
+    const foundationKey = CELESTIAL_TALENT_TREE_UI_CONFIG.assets.foundation.key;
+    const missingTextures = [foundationKey].filter(
       textureKey => !textureKey || !this.scene.textures?.exists?.(textureKey),
     );
-    const abilities = this.scene.playerController?.abilities;
-    const missingAbilityProviders = Object.values(
-      CONSTELLATION_ABILITY_PREREQUISITES,
-    )
-      .map(prerequisite => prerequisite.unlockMethod)
-      .filter(method => typeof abilities?.[method] !== "function");
-    const reveal = this._firstRevealState.getSnapshot();
     const activeView = this._talentTreeView?.getHealthSnapshot?.() || null;
     return {
-      ready: typeof this.ui.createStarlightTalentTreeView === "function"
+      ready: typeof this.ui.createCelestialTalentTreeView === "function"
         && missingTextures.length === 0
-        && missingAbilityProviders.length === 0
         && (!activeView || activeView.ready),
-      nodeAssetCount: signKeys.length,
-      engineOptionCount: engineKeys.length,
+      nodeAssetCount: 15,
+      engineOptionCount: 3,
       missingTextures,
-      missingAbilityProviders,
-      firstRevealSeenCount: reveal.seen.length,
-      firstRevealPendingCount: reveal.pending.length,
       activeView,
     };
   }

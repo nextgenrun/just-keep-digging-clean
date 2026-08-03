@@ -25,8 +25,8 @@ export const GAME_CONFIG = Object.freeze({
     // ScreenRecordSystem copies the live WebGL canvas into its portrait 2D
     // capture surface; preserving the drawing buffer keeps that readback
     // visible after the browser presents a frame.
-    preserveDrawingBuffer: true,
-    defaultDensityPreset: "high",
+    preserveDrawingBuffer: DEBUG_MODE,
+    defaultDensityPreset: "ultra",
     densityPresets: Object.freeze({
       legacy: 1,
       balanced: 1,

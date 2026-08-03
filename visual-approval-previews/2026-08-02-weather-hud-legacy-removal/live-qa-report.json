@@ -1,0 +1,19 @@
+{
+  "schema": "weather-hud-live-qa@1",
+  "generatedUtc": "2026-08-01T23:36:37.760Z",
+  "hud": {
+    "ready": true,
+    "approvedSkinActive": true,
+    "approvedWorldFrameVisible": true,
+    "legacyClockPanelVisible": false,
+    "legacyWeatherPanelVisible": false,
+    "legacySeasonTextVisible": false,
+    "clockTextVisible": true,
+    "weatherTextVisible": true,
+    "temperatureTextVisible": true,
+    "weatherText": "⛈ STORM",
+    "temperatureText": "-6°C"
+  },
+  "browserIssues": [],
+  "screenshotPath": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-02-weather-hud-legacy-removal\\weather-hud.png"
+}

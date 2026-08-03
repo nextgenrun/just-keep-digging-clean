@@ -1,9 +1,18 @@
 import {
+  WORLD_VISUAL_DEPTH_BACKDROPS,
+  mixWorldVisualTint,
+  resolveWorldVisualDepthBackdropTint,
+} from "../../values/worldVisualDepthBackdrops.js";
+import {
   buildTitanCreatureCoverageCells,
   countRemainingTitanCoverage,
 } from "./titanCreatureFootprint.js";
 import { fitTitanChamberScale } from "./titanChamberGeometry.js?rev=20260729-native-density-v14";
 import { getTitanCoverageRequired } from "./titanCoverageThreshold.js";
+
+function fitContactScale(sprite, widthPx, heightPx) {
+  return fitTitanChamberScale(sprite, widthPx, heightPx, 1);
+}
 
 export function createTitanDiscoveryView(
   scene,
@@ -15,47 +24,58 @@ export function createTitanDiscoveryView(
   const definition = zone.definition;
   const tileSize = worldModel.tileSize;
   const baseX = zone.centerXTile * tileSize;
-  const baseY = zone.centerYTile * tileSize;
+  const chamberCenterY = zone.centerYTile * tileSize;
   const widthPx = (zone.rightExclusive - zone.left) * tileSize;
   const heightPx = (zone.bottomExclusive - zone.top) * tileSize;
   const coverageCells = buildTitanCreatureCoverageCells(zone);
   const renderAsset = definition.surfaceAsset;
   const underground = config.underground;
-  const sprite = scene.add.image(baseX, baseY, renderAsset.key);
-  const glowSprite = scene.add.image(baseX, baseY, renderAsset.key);
+  const sprite = scene.add.image(baseX, chamberCenterY, renderAsset.key);
+  const glowSprite = scene.add.image(baseX, chamberCenterY, renderAsset.key);
+  sprite.setOrigin(0.5, 1);
+  glowSprite.setOrigin(0.5, 1);
   const baseScale = fitTitanChamberScale(
     sprite,
     widthPx * underground.titanFitFraction,
     heightPx * underground.titanFitFraction,
-    config.density.maxSourceScale,
+    config.density.maxSourceScale
   );
+  const groundY = (
+    zone.bottomExclusive - underground.groundBaselineInsetTiles
+  ) * tileSize;
+  const baseY = groundY
+    - underground.daisHeightTiles * tileSize
+    + underground.stanceBottomPaddingPx * baseScale
+    + underground.creatureContactInsetTiles * tileSize;
   sprite
+    .setPosition(baseX, baseY)
     .setDepth(underground.spriteDepth)
     .setScale(baseScale)
     .setAlpha(underground.coveredAlpha);
   glowSprite
+    .setPosition(baseX, baseY)
     .setDepth(underground.glowDepth)
     .setScale(baseScale)
     .setTint(definition.glowTint)
     .setBlendMode("ADD")
     .setAlpha(0);
-  const daisY = (
-    zone.bottomExclusive - underground.daisCenterInsetTiles
-  ) * tileSize;
+
   const daisSprite = scene.add.image(
     baseX,
-    daisY,
+    groundY,
     config.assets.undergroundDais.key
   );
   const daisGlowSprite = scene.add.image(
     baseX,
-    daisY,
+    groundY,
     config.assets.undergroundDais.key
   );
-  [daisSprite, daisGlowSprite].forEach(image => image.setDisplaySize(
-    underground.daisWidthTiles * tileSize,
-    underground.daisHeightTiles * tileSize
-  ));
+  [daisSprite, daisGlowSprite].forEach(image => image
+    .setOrigin(0.5, 1)
+    .setDisplaySize(
+      underground.daisWidthTiles * tileSize,
+      underground.daisHeightTiles * tileSize
+    ));
   daisSprite
     .setDepth(underground.daisDepth)
     .setAlpha(underground.daisAlpha);
@@ -64,6 +84,36 @@ export function createTitanDiscoveryView(
     .setTint(definition.glowTint)
     .setBlendMode("ADD")
     .setAlpha(underground.daisGlowAlpha);
+
+  const contactY = groundY + underground.contactDropTiles * tileSize;
+  const contactSprite = scene.add.image(
+    baseX,
+    contactY,
+    config.assets.groundContact.key
+  );
+  const contactGlowSprite = scene.add.image(
+    baseX,
+    contactY,
+    config.assets.groundContact.key
+  );
+  contactSprite.setOrigin(0.5, 1);
+  contactGlowSprite.setOrigin(0.5, 1);
+  const contactScale = fitContactScale(
+    contactSprite,
+    underground.contactMaxWidthTiles * tileSize,
+    underground.contactMaxHeightTiles * tileSize
+  );
+  contactSprite
+    .setDepth(underground.contactDepth)
+    .setScale(contactScale)
+    .setAlpha(underground.contactCoveredAlpha);
+  contactGlowSprite
+    .setDepth(underground.contactGlowDepth)
+    .setScale(contactScale)
+    .setTint(definition.glowTint)
+    .setBlendMode("ADD")
+    .setAlpha(underground.contactGlowAlpha);
+
   const coverageRequired = getTitanCoverageRequired(
     coverageCells.length,
     experienceConfig.encounter.requiredClearRatio
@@ -75,11 +125,16 @@ export function createTitanDiscoveryView(
     glowSprite,
     daisSprite,
     daisGlowSprite,
+    contactSprite,
+    contactGlowSprite,
     renderAsset,
     baseX,
     baseY,
+    chamberCenterY,
+    groundY,
     settledX: baseX,
     baseScale,
+    contactScale,
     tileSize,
     leftPx: zone.left * tileSize,
     topPx: zone.top * tileSize,
@@ -103,9 +158,39 @@ export function createTitanDiscoveryView(
     ready: false,
     discovered: false,
     animating: false,
+    environmentTint: 0xffffff,
+    environmentLayers: [],
     chamberSprite: null,
     chamberGlowSprite: null,
   };
+}
+
+export function syncTitanDiscoveryEnvironment(
+  view,
+  lighting,
+  config
+) {
+  const environmentTint = resolveWorldVisualDepthBackdropTint(
+    view.zone.centerYTile,
+    lighting,
+    WORLD_VISUAL_DEPTH_BACKDROPS
+  );
+  if (environmentTint === view.environmentTint) return environmentTint;
+  view.environmentTint = environmentTint;
+  const titanTint = mixWorldVisualTint(
+    0xffffff,
+    environmentTint,
+    config.underground.titanEnvironmentTintMix
+  );
+  const structureTint = mixWorldVisualTint(
+    0xffffff,
+    environmentTint,
+    config.underground.structureEnvironmentTintMix
+  );
+  view.sprite.setTint?.(titanTint);
+  view.daisSprite.setTint?.(structureTint);
+  view.contactSprite.setTint?.(structureTint);
+  return environmentTint;
 }
 
 export function syncTitanCoverageState(worldModel, view) {
@@ -142,38 +227,33 @@ export function syncTitanDiscoveryViews(
           && view.coverageCleared >= view.coverageRequired
     );
     if (view.animating) continue;
-    if (view.discovered) {
-      view.settledX = view.baseX + view.definition.travelDirection
-        * view.definition.travelTiles
-        * view.tileSize;
-      view.sprite
-        .setX(view.settledX)
-        .setAlpha(config.underground.discoveredAlpha);
-      view.glowSprite.setX(view.settledX).setAlpha(0);
-      view.chamberSprite
-        ?.setX(view.baseX)
-        .setAlpha(config.chambers.discoveredCardAlpha);
-      view.chamberGlowSprite?.setX(view.baseX).setAlpha(0);
-      view.daisSprite.setAlpha(config.underground.daisAlpha);
-      view.daisGlowSprite.setAlpha(config.underground.daisGlowAlpha);
-      continue;
-    }
     view.settledX = view.baseX;
     view.sprite
-      .setX(view.baseX)
-      .setAlpha(
-        config.underground.coveredAlpha
-        + config.underground.coverageProgressAlpha * view.coverageProgress
-      );
-    view.glowSprite.setX(view.baseX).setAlpha(0);
+      .setPosition(view.baseX, view.baseY)
+      .setScale(view.baseScale)
+      .setAlpha(view.discovered
+        ? config.underground.discoveredAlpha
+        : config.underground.coveredAlpha
+          + config.underground.coverageProgressAlpha * view.coverageProgress);
+    view.glowSprite
+      .setPosition(view.baseX, view.baseY)
+      .setScale(view.baseScale)
+      .setAlpha(0);
     view.chamberSprite
-      ?.setX(view.baseX)
-      .setAlpha(
-        config.chambers.lockedCardAlpha
-        + config.chambers.lockedCardProgressAlpha * view.coverageProgress
-      );
-    view.chamberGlowSprite?.setX(view.baseX).setAlpha(0);
+      ?.setPosition(view.baseX, view.chamberCenterY)
+      .setAlpha(view.discovered
+        ? config.chambers.discoveredCardAlpha
+        : config.chambers.lockedCardAlpha
+          + config.chambers.lockedCardProgressAlpha * view.coverageProgress);
+    view.chamberGlowSprite
+      ?.setPosition(view.baseX, view.chamberCenterY)
+      .setAlpha(0);
     view.daisSprite.setAlpha(config.underground.daisAlpha);
     view.daisGlowSprite.setAlpha(config.underground.daisGlowAlpha);
+    view.contactSprite.setAlpha(view.discovered
+      ? config.underground.contactDiscoveredAlpha
+      : config.underground.contactCoveredAlpha
+        + config.underground.contactProgressAlpha * view.coverageProgress);
+    view.contactGlowSprite.setAlpha(config.underground.contactGlowAlpha);
   }
 }

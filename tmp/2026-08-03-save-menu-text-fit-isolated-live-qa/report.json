@@ -1,0 +1,263 @@
+{
+  "schema": "save-menu-presentation-live-qa@1",
+  "generatedUtc": "2026-08-03T16:31:36.891Z",
+  "url": "http://127.0.0.1:8080/?jkd_e2e=1&skylineVfx=0",
+  "runtime": {
+    "activeScenes": [
+      "MenuAudioScene",
+      "StartMenuScene"
+    ],
+    "renderDensity": {
+      "requestedPreset": "ultra",
+      "preset": "ultra",
+      "density": 2,
+      "logicalWidth": 1280,
+      "logicalHeight": 720,
+      "backingWidth": 2560,
+      "backingHeight": 1440,
+      "renderer": "webgl",
+      "rendererMode": "webgl",
+      "coordinateSpace": "logical-input-and-camera/physical-backing"
+    },
+    "canvas": {
+      "width": 2560,
+      "height": 1440
+    },
+    "authoredSaveMenuArt": true,
+    "cardGeometry": [
+      {
+        "x": 326,
+        "y": 390,
+        "slotId": 1,
+        "authored": true
+      },
+      {
+        "x": 640,
+        "y": 390,
+        "slotId": 2,
+        "authored": true
+      },
+      {
+        "x": 954,
+        "y": 390,
+        "slotId": 3,
+        "authored": true
+      }
+    ],
+    "transferHits": [
+      {
+        "width": 220,
+        "height": 42
+      },
+      {
+        "width": 220,
+        "height": 42
+      }
+    ],
+    "textures": [
+      {
+        "key": "save-menu-slot-idle-v1",
+        "width": 870,
+        "height": 600
+      },
+      {
+        "key": "save-menu-slot-selected-v1",
+        "width": 870,
+        "height": 600
+      },
+      {
+        "key": "save-menu-modal-confirm-v1",
+        "width": 1440,
+        "height": 420
+      },
+      {
+        "key": "save-menu-modal-backup-v1",
+        "width": 1800,
+        "height": 1200
+      },
+      {
+        "key": "save-menu-modal-import-v1",
+        "width": 1500,
+        "height": 780
+      },
+      {
+        "key": "save-menu-choice-idle-v1",
+        "width": 870,
+        "height": 810
+      },
+      {
+        "key": "save-menu-choice-selected-v1",
+        "width": 870,
+        "height": 810
+      }
+    ],
+    "uiErrors": []
+  },
+  "slotTextLayout": [
+    {
+      "slotId": 1,
+      "safeLeft": 212,
+      "safeRight": 440,
+      "summaryMaxWidthPx": 216,
+      "texts": [
+        {
+          "text": "SLOT  1",
+          "left": 212,
+          "right": 258,
+          "width": 46,
+          "fontSize": 11
+        },
+        {
+          "text": "LAST  2-8-2026",
+          "left": 349,
+          "right": 440,
+          "width": 91,
+          "fontSize": 11
+        },
+        {
+          "text": "CASUAL",
+          "left": 304.5,
+          "right": 347.5,
+          "width": 43,
+          "fontSize": 12
+        },
+        {
+          "text": "LV 12  •  DEPTH 486m\nBEST DEPTH 540m\n123.456 M  •  22 STARS\n8.432 TILES DUG",
+          "left": 248,
+          "right": 404,
+          "width": 156,
+          "fontSize": 12
+        },
+        {
+          "text": "CONTINUE",
+          "left": 303,
+          "right": 369,
+          "width": 66,
+          "fontSize": 14
+        }
+      ]
+    },
+    {
+      "slotId": 2,
+      "safeLeft": 526,
+      "safeRight": 754,
+      "summaryMaxWidthPx": 216,
+      "texts": [
+        {
+          "text": "SLOT  2",
+          "left": 526,
+          "right": 572,
+          "width": 46,
+          "fontSize": 11
+        },
+        {
+          "text": "LAST  3-8-2026",
+          "left": 663,
+          "right": 754,
+          "width": 91,
+          "fontSize": 11
+        },
+        {
+          "text": "HARDCORE  •  OATH ARMED",
+          "left": 559,
+          "right": 721,
+          "width": 162,
+          "fontSize": 12
+        },
+        {
+          "text": "LV 21  •  DEPTH 910m\nBEST DEPTH 1032m\n785.000 M  •  61 STARS\n17.750 TILES DUG",
+          "left": 562,
+          "right": 718,
+          "width": 156,
+          "fontSize": 12
+        },
+        {
+          "text": "CONTINUE",
+          "left": 617,
+          "right": 683,
+          "width": 66,
+          "fontSize": 14
+        }
+      ]
+    },
+    {
+      "slotId": 3,
+      "safeLeft": 840,
+      "safeRight": 1068,
+      "summaryMaxWidthPx": 216,
+      "texts": [
+        {
+          "text": "SLOT  3",
+          "left": 840,
+          "right": 886,
+          "width": 46,
+          "fontSize": 11
+        },
+        {
+          "text": "NEW SAVE",
+          "left": 921,
+          "right": 987,
+          "width": 66,
+          "fontSize": 14
+        }
+      ]
+    }
+  ],
+  "interactions": {
+    "keyboardSelectedSlot": 2,
+    "pointerSelectedSlot": 1
+  },
+  "dialogs": {
+    "confirmInfo": {
+      "texture": "save-menu-modal-confirm-v1",
+      "controlCount": 2
+    },
+    "backupTexture": "save-menu-modal-backup-v1",
+    "importTexture": "save-menu-modal-import-v1"
+  },
+  "choices": {
+    "modeChoiceFrames": [
+      {
+        "hasFrame": true,
+        "hitWidth": 290,
+        "hitHeight": 270
+      },
+      {
+        "hasFrame": true,
+        "hitWidth": 290,
+        "hitHeight": 270
+      }
+    ],
+    "tutorialButtons": [
+      {
+        "width": 286,
+        "height": 52,
+        "authoredIdle": true
+      },
+      {
+        "width": 286,
+        "height": 52,
+        "authoredIdle": true
+      }
+    ]
+  },
+  "rollback": {
+    "authoredSaveMenuArt": false,
+    "graphicsCards": [
+      true,
+      true,
+      true
+    ]
+  },
+  "failures": [],
+  "warnings": [],
+  "screenshots": {
+    "slots": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-slots-ultra.png",
+    "confirm": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-clear-confirm-ultra.png",
+    "backup": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-backups-ultra.png",
+    "import": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-import-ultra.png",
+    "mode": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-mode-choice-ultra.png",
+    "tutorial": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-tutorial-choice-ultra.png",
+    "rollback": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-text-fit-isolated-live-qa\\save-menu-graphics-rollback.png"
+  }
+}

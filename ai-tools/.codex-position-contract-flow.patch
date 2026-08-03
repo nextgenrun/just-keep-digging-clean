@@ -1,0 +1,17 @@
+diff --git a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+--- a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
++++ b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+@@ -104,12 +104,16 @@
+-assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
++tutorial.recordSale(1, 1);
++assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.deepEqual(tutorial.claimTutorialUpgradeFunding(), { money: 2 });
++tutorial.recordUpgrade("Agility Training", { upgradeId: "agility" });
++assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+ assert.equal(tutorial.claimTutorialFlightTraining().freeFlightMs, 30000);
+ assert.equal(tutorial.recordTutorialFlight(), true);
+ tutorial.recordPortalActivated("Starter Return Gate");
+-assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+-tutorial.recordSale(1, 1);
+ assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);

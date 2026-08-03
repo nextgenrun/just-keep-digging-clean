@@ -60,7 +60,6 @@ export class NextPromiseHudSystem {
       ?.getNextPromiseOverride?.() || null;
     const hidden = this.scene.gameState !== "playing"
       || this.scene.shopOverlay?.isVisible
-      || this.scene.levelUpPopup?.visible
       || this.scene.milestoneBoardSystem?._isBoardOpen
       || this.scene.campfireSystem?.isSelecting?.()
       || this.scene._pillarViewActive

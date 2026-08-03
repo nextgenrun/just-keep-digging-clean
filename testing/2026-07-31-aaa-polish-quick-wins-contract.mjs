@@ -7,20 +7,17 @@ import { PlayerContactShadowSystem } from "../systems/visual/PlayerContactShadow
 import { AUDIO_CONFIG } from "../values/audioConfig.js";
 import { CAVE_LEVEL_CONFIG } from "../values/caveLevelConfig.js";
 import { CAVE_SCENE_CONFIG } from "../values/caveSceneConfig.js";
-import {
-  EARTHQUAKE_FEEDBACK_CONFIG,
-  getEarthquakeFeedbackPreloadAssets,
-} from "../values/earthquakeFeedback.js";
-import {
-  GAMEFEEL_CONFIG,
-  resolveAuthoredMineImpactEnabled,
-} from "../values/gamefeel.js";
 import { LEVEL_CONFIG } from "../values/levelConfig.js";
 import {
   PLAYER_CONTACT_SHADOW_CONFIG,
   resolvePlayerContactShadowEnabled,
 } from "../values/playerContactShadow.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import {
+  TILE_DESTRUCTION_FX_CONFIG,
+  getTileDestructionFxPreloadAssets,
+  resolveTileDestructionFxEnabled,
+} from "../values/tileDestructionFx.js";
 import { UI_FONT_BOOT, UI_FONTS, waitForUiFonts } from "../values/uiLayout.js";
 import { dispatchCaveMineFeedback } from "../world/playScene/caveMineFeedback.js";
 
@@ -107,26 +104,31 @@ const cavePresentation = read("systems/visual/CaveLevelPresentationSystem.js");
 assert.match(cavePresentation, /hasApprovedHudSkin/);
 assert.match(cavePresentation, /ASSET_KEYS\.ui\.approvedHud\.buffChip/);
 
-// The break burst is a single approved raster impact and no longer double-fires.
-const impactAsset = EARTHQUAKE_FEEDBACK_CONFIG.assets.impactDebris;
-assert.equal(existsSync(resolve(root, impactAsset.path)), true);
-assert.equal(
-  getEarthquakeFeedbackPreloadAssets().some(asset => asset.key === impactAsset.key),
-  true,
+// Final tile destruction is a compact animated library pack, not earthquake art.
+const destructionAssets = getTileDestructionFxPreloadAssets();
+for (const asset of destructionAssets) {
+  assert.equal(existsSync(resolve(root, asset.path)), true, `${asset.path} missing`);
+}
+assert.ok(TILE_DESTRUCTION_FX_CONFIG.core.displayWidthTiles <= 1.1);
+assert.equal(TILE_DESTRUCTION_FX_CONFIG.core.phases.length, 4);
+assert.equal(TILE_DESTRUCTION_FX_CONFIG.shards.count, 5);
+assert.ok(
+  TILE_DESTRUCTION_FX_CONFIG.shards.cameraScale
+    > TILE_DESTRUCTION_FX_CONFIG.shards.midScale,
 );
-assert.ok(GAMEFEEL_CONFIG.particles.displayWidthTiles > 1);
-assert.ok(GAMEFEEL_CONFIG.particles.startAlpha > 0);
-assert.equal(resolveAuthoredMineImpactEnabled("?authoredMineImpact=0"), false);
-assert.equal(resolveAuthoredMineImpactEnabled(""), true);
+assert.equal(resolveTileDestructionFxEnabled("?authoredMineImpact=0"), false);
+assert.equal(resolveTileDestructionFxEnabled(""), true);
 const gameplaySource = read("world/playScene/PlaySceneGameplay.js");
 const destroyMethod = gameplaySource.slice(
   gameplaySource.indexOf("prototype._applyDestroyParticles"),
   gameplaySource.indexOf("prototype._applyGlintBurst"),
 );
-assert.match(destroyMethod, /EARTHQUAKE_FEEDBACK_CONFIG\.assets\.impactDebris\.key/);
-assert.match(destroyMethod, /this\.add\.image\(/);
+assert.match(destroyMethod, /tileDestructionFxSystem\?\.play/);
+assert.doesNotMatch(destroyMethod, /EARTHQUAKE_FEEDBACK_CONFIG/);
 assert.doesNotMatch(destroyMethod, /fillCircle|this\.add\.graphics/);
-assert.match(destroyMethod, /\.setAlpha\(cfg\.startAlpha\)/);
+const destructionSystem = read("systems/visual/TileDestructionFxSystem.js");
+assert.match(destructionSystem, /setFlipX\?\.\(facing\.x > 0\)/);
+assert.match(destructionSystem, /cameraScale/);
 const tileRefreshMethod = gameplaySource.slice(
   gameplaySource.indexOf("prototype.playMineImpactFx"),
   gameplaySource.indexOf("prototype.applyMineFeedback"),
@@ -198,6 +200,6 @@ console.log("AAA_POLISH_QUICK_WINS_CONTRACT_OK", {
   uiAudioAssets: 2,
   bundledFontWeights: requestedFonts.length,
   caveShakeSignature: shakes[0][0],
-  authoredImpactKey: impactAsset.key,
+  authoredImpactKey: destructionAssets[0].key,
   contactShadowLayers: ellipses.length,
 });

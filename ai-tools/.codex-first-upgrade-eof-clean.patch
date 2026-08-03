@@ -1,0 +1,5 @@
+diff --git a/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs b/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
+--- a/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
++++ b/testing/2026-07-30-first-upgrade-breakpoint-contract.mjs
+@@ -77,1 +77,0 @@
+-

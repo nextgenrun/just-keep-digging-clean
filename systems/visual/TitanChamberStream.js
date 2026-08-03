@@ -6,6 +6,7 @@ import {
 } from "../../values/titanDiscoveries.js";
 import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
+  mixWorldVisualTint,
   resolveWorldVisualDepthBackdropTint,
 } from "../../values/worldVisualDepthBackdrops.js";
 import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
@@ -233,8 +234,16 @@ export class TitanChamberStream {
     const asset = record.asset;
     if (!this._textureExists(asset.key)) return false;
     this.textureReleases.cancel(record);
-    const card = this.scene.add.image(view.settledX, view.baseY, asset.key);
-    const glow = this.scene.add.image(view.settledX, view.baseY, asset.key);
+    const card = this.scene.add.image(
+      view.baseX,
+      view.chamberCenterY,
+      asset.key
+    );
+    const glow = this.scene.add.image(
+      view.baseX,
+      view.chamberCenterY,
+      asset.key
+    );
     const baseScale = fitTitanChamberScale(
       card,
       view.widthPx * this.config.backdrop.fitFraction,
@@ -265,10 +274,15 @@ export class TitanChamberStream {
 
   _applyTint(record) {
     if (!record.card) return false;
-    record.card.setTint?.(resolveWorldVisualDepthBackdropTint(
+    const environmentTint = resolveWorldVisualDepthBackdropTint(
       record.view.zone.centerYTile,
       this.lastLighting,
       WORLD_VISUAL_DEPTH_BACKDROPS
+    );
+    record.card.setTint?.(mixWorldVisualTint(
+      0xffffff,
+      environmentTint,
+      this.config.underground.structureEnvironmentTintMix
     ));
     return true;
   }

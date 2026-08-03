@@ -58,6 +58,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     const bodyPos = this._bodyPositionForStandingTile(tx, ty);
     this.physicsBody.setPosition(bodyPos.x, bodyPos.y);
     this.physicsBody.resetVelocity();
+    this.movement.resetGroundMotionState();
     this.collisionSystem?.resolveBodyOverlap?.(this.physicsBody);
     this._syncSpriteWithPhysics();
     this.scene?.playTeleportInAnimation?.();
@@ -78,11 +79,12 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       this.surfaceDrop.reset();
       this.movingSideDigStandOff.end();
       this.physicsBody.resetVelocity();
+      this.movement.resetGroundMotionState();
       // Clear flying state to prevent getting stuck
       this.abilities.resetFlyingState();
-      // Reset climbing state to prevent getting stuck
-      this.state.setClimbing(false);
-      this.physicsBody.setClimbing(false);
+      // Reset flight state to prevent getting stuck
+      this.state.setFlightActive(false);
+      this.physicsBody.setFlightActive(false);
     }
   }
 
@@ -118,9 +120,6 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     return this._getWalkSpeed() / baseSpeed;
   }
 
-  getDashCooldownMs() {
-    return this.abilities.getDashCooldownMs();
-  }
 
   beginMovingSideDigStandOff(options) {
     const active = this.movingSideDigStandOff.begin(options);
@@ -141,18 +140,25 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     // Update state (ground detection, coyote time, etc.)
     this.state.update(dt, this.input, this.abilities, this.collisionSystem);
     
-    // Update abilities (climbing, gem power regen)
+    // Update abilities (flight, gem power regen)
     this.abilities.update(dt, this.input, this.state.isGrounded(), this.movement.isFacingRight());
-    this.state.setClimbing(Boolean(this.abilities.isClimbing?.() || this.abilities.isFlying?.()));
+    this.state.setFlightActive(this.abilities.isFlying?.() === true);
     
     // Apply this frame's horizontal input before collision integration.
     if (this.externalKnockbackMs <= 0) {
       const horizMove = this.input.getHorizontalMovement();
-      this.movement.applyHorizontalMovement(this._getWeatherAdjustedWalkSpeed(), horizMove.left, horizMove.right);
+      const smoothGroundMotion = this.state.isGrounded() && !this.state.isFlightActive();
+      this.movement.applyHorizontalMovement(
+        this._getWeatherAdjustedWalkSpeed(),
+        horizMove.left,
+        horizMove.right,
+        dt,
+        smoothGroundMotion,
+      );
     }
 
     // Integrate and resolve against authoritative tile collision.
-    this.movement.update(dt, this.collisionSystem, this.state.isClimbing());
+    this.movement.update(dt, this.collisionSystem, this.state.isFlightActive());
     this.movingSideDigStandOff.update();
     this.state.refreshAfterPhysics(this.input, this.abilities, this.collisionSystem);
     
@@ -200,7 +206,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     // Physics body uses top-left coordinates. Most character sheets are bottom-center
     // anchored; one-tile vehicle bodies can opt into center anchoring.
     const motionState = this.getMotionState();
-    const isAirborneVisual = motionState === 'airborne' || motionState === 'climb';
+    const isAirborneVisual = motionState === 'airborne';
     const fallbackGroundedOffset = this.scene?.playerAssetProfile?.isUalNative
       ? PLAYER_KINEMATIC_MOTION_CONFIG.anchor.ualGroundedOffsetPx
       : PLAYER_KINEMATIC_MOTION_CONFIG.anchor.legacyGroundedOffsetPx;
@@ -364,8 +370,9 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     this.movingSideDigStandOff.end();
     this.physicsBody.vx = Number.isFinite(vx) ? vx : 0;
     this.physicsBody.vy = Number.isFinite(vy) ? vy : 0;
+    this.movement.resetGroundMotionState();
     this.externalKnockbackMs = PLAYER_MOTION_POLISH_CONFIG.hitReaction.externalKnockbackLockMs;
-    this.state?.setClimbing(false);
+    this.state?.setFlightActive(false);
     this.scene?.playPlayerImpactReaction?.();
   }
 

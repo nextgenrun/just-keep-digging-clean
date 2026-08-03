@@ -27,6 +27,7 @@ export class PlayerLevelSystem {
       miningPower: 0,
       resourceLuck: 0,
     };
+    this.automaticMilestoneRewards = 0;
   }
 
   setComboSystem(comboSystem) { this.comboSystem = comboSystem; }
@@ -98,23 +99,23 @@ export class PlayerLevelSystem {
     this.currentXP += xpGained;
     this.totalXP += xpGained;
     const required = this.getXPRequiredForNextLevel();
-    let levelUp = false, newLevel = null, hasChoice = false, rewards = null;
+    let levelUp = false, newLevel = null, automaticReward = null;
     if (this.currentXP >= required) {
       this.currentXP -= required;
       this.level += 1;
       newLevel = this.level;
       this._recalculateBonuses();
       levelUp = true;
-      hasChoice = LEVEL_CONFIG.hasChoiceReward(this.level);
-      if (hasChoice) rewards = Object.keys(LEVEL_CONFIG.CHOICE_REWARDS);
+      automaticReward = this._applyAutomaticMilestoneRewards([this.level]);
     }
     return {
       xpGained,
       levelUp,
       newLevel,
-      hasChoice,
-      choiceLevel: hasChoice ? newLevel : null,
-      rewards,
+      hasChoice: false,
+      choiceLevel: null,
+      rewards: [],
+      automaticReward,
     };
   }
 
@@ -123,19 +124,21 @@ export class PlayerLevelSystem {
     const gainCount = Math.max(1, levelGain);
     const startLevel = this.level;
     this.level += gainCount;
-    this._recalculateBonuses();
     const choiceLevels = [];
     for (let level = startLevel + 1; level <= this.level; level += 1) {
       if (LEVEL_CONFIG.hasChoiceReward(level)) choiceLevels.push(level);
     }
+    this._recalculateBonuses();
+    const automaticReward = this._applyAutomaticMilestoneRewards(choiceLevels);
     return {
       levelUp: true,
       newLevel: this.level,
       levelsGained: this.level - startLevel,
-      hasChoice: choiceLevels.length > 0,
-      choiceLevel: choiceLevels[0] ?? null,
-      choiceLevels,
-      rewards: choiceLevels.length > 0 ? Object.keys(LEVEL_CONFIG.CHOICE_REWARDS) : [],
+      hasChoice: false,
+      choiceLevel: null,
+      choiceLevels: [],
+      rewards: [],
+      automaticReward,
     };
   }
 
@@ -143,12 +146,19 @@ export class PlayerLevelSystem {
     return LEVEL_CONFIG.getXPRequiredForLevel(this.level + 1);
   }
 
-  applyChoiceReward(choice) {
-    const reward = LEVEL_CONFIG.CHOICE_REWARDS[choice];
-    if (!reward || !Object.hasOwn(this.choiceSelections, choice)) return null;
-    this.choiceSelections[choice] += 1;
+  _applyAutomaticMilestoneRewards(levels) {
+    const count = Array.isArray(levels)
+      ? levels.filter(level => LEVEL_CONFIG.hasChoiceReward(level)).length
+      : 0;
+    if (count <= 0) return null;
+    this.automaticMilestoneRewards += count;
     this._recalculateBonuses();
-    return { choice, count: this.choiceSelections[choice], reward };
+    return {
+      count,
+      total: this.automaticMilestoneRewards,
+      miningPower: LEVEL_CONFIG.CHOICE_REWARDS.miningPower.damageBonus * count,
+      resourceLuck: LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.luckBonus * count,
+    };
   }
 
   _recalculateBonuses() {
@@ -158,9 +168,14 @@ export class PlayerLevelSystem {
       * (config.CHOICE_REWARDS.miningPower.damageBonus || 0);
     const luckChoiceBonus = this.choiceSelections.resourceLuck
       * (config.CHOICE_REWARDS.resourceLuck.luckBonus || 0);
+    const automaticMiningBonus = this.automaticMilestoneRewards
+      * (config.CHOICE_REWARDS.miningPower.damageBonus || 0);
+    const automaticLuckBonus = this.automaticMilestoneRewards
+      * (config.CHOICE_REWARDS.resourceLuck.luckBonus || 0);
     this.calculatedBonuses.miningDamageMultiplier = 1
       + (this.level - 1) * (config.damagePerLevel || 0.05)
-      + miningChoiceBonus;
+      + miningChoiceBonus
+      + automaticMiningBonus;
     this.calculatedBonuses.miningFlatDamageBonus = Math.floor((this.level - 1) * (config.flatDamagePerLevel || 0.25));
     this.calculatedBonuses.miningSpeedBonus = Math.min((this.level - 1) * 0.005, 0.5);
     this.calculatedBonuses.criticalHitChance = Math.min((this.level - 1) * 0.002, 0.15);
@@ -168,7 +183,7 @@ export class PlayerLevelSystem {
     this.calculatedBonuses.maxHpBonus = (this.level - 1) * 5;
     this.calculatedBonuses.xpMultiplier = (this.level - 1) * 0.02;
     this.calculatedBonuses.resourceLuck = Math.min(
-      (this.level - 1) * 0.002 + luckChoiceBonus,
+      (this.level - 1) * 0.002 + luckChoiceBonus + automaticLuckBonus,
       0.95
     );
     this.calculatedBonuses.globalMiningSpeed = Math.min((this.level - 1) * 0.005, 0.5);
@@ -183,6 +198,7 @@ export class PlayerLevelSystem {
       totalXP: this.totalXP,
       calculatedBonuses: { ...this.calculatedBonuses },
       choiceSelections: { ...this.choiceSelections },
+      automaticMilestoneRewards: this.automaticMilestoneRewards,
     };
   }
 
@@ -191,6 +207,10 @@ export class PlayerLevelSystem {
     this.level = data.level || 1;
     this.currentXP = data.currentXP || 0;
     this.totalXP = data.totalXP || 0;
+    const automaticRewards = Number(data.automaticMilestoneRewards);
+    this.automaticMilestoneRewards = Number.isFinite(automaticRewards)
+      ? Math.max(0, Math.floor(automaticRewards))
+      : 0;
     if (data.choiceSelections && typeof data.choiceSelections === "object") {
       for (const key of Object.keys(this.choiceSelections)) {
         const count = Number(data.choiceSelections[key]);

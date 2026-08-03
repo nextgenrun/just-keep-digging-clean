@@ -98,11 +98,6 @@ for (let frame = 0; frame < 10; frame += 1) {
 assert.ok(system.getVerticalSpeedPxPerSec() > 99);
 assert.ok(system.getVerticalSpeedPxPerSec() <= 100);
 assert.ok(system.getResolvedVelocityY() > 99 && system.getResolvedVelocityY() <= 100);
-const climbScale = system.resolveLocomotionTimeScale(profile.climbAnim, {
-  frames: Array.from({ length: 30 }),
-  frameRate: 30,
-});
-assert.ok(climbScale > 1.05 && climbScale < 1.07);
 
 body.x += tileSize * 2;
 body.y += tileSize * 2;
@@ -163,5 +158,4 @@ console.log(JSON.stringify({
   directWalkScale: Number(directWalkScale.toFixed(3)),
   directRunScale: Number(directRunScale.toFixed(3)),
   immediateRunScale: Number(immediateRunScale.toFixed(3)),
-  climbScale: Number(climbScale.toFixed(3)),
 }, null, 2));

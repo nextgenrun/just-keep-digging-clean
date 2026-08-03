@@ -1,0 +1,143 @@
+diff --git a/systems/onboarding/FirstFiveMinutesTutorialBridge.js b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+--- a/systems/onboarding/FirstFiveMinutesTutorialBridge.js
++++ b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+@@ -4,6 +4,10 @@
+ } from "../../values/firstFiveMinutes.js";
++import {
++  FIRST_FIVE_STARTER_UPGRADE_ID,
++  UPGRADES,
++} from "../../values/upgradeDefinitions.js";
+ import {
+   RETENTION_CONFIG,
+@@ -10,6 +14,7 @@
+ import { prepareTownTutorialDigSite } from "./TownSquareTutorialDigSite.js";
++import { TutorialFlightReminderSystem } from "./TutorialFlightReminderSystem.js";
+ import { TutorialNarrationController } from "./TutorialNarrationController.js";
+@@ -30,6 +35,13 @@
+     this.narration = new TutorialNarrationController(scene, retention);
++    this.flightReminders = new TutorialFlightReminderSystem(
++      scene,
++      retention,
++      view,
++      interpolateCopy,
++    );
+     this._surfaceBlockedUntil = 0;
+@@ -43,6 +55,7 @@
+       () => this.handleSurfaceDropBlocked(),
+     );
++    this.flightReminders.resume();
+   }
+@@ -49,11 +62,29 @@
+     this.enforceSurfaceSafety();
+     this.narration.update();
++    this.flightReminders.update();
+   }
+ 
+   onStageEntered(stage) {
+     if (!this.enabled) return false;
+     this.narration.onStageEntered(stage);
++    if (stage === TOWN_TUTORIAL_STAGES.UPGRADE) {
++      if (
++        this.scene.upgradeSystem?.getUpgradeLevel?.(
++          FIRST_FIVE_STARTER_UPGRADE_ID,
++        ) > 0
++      ) {
++        this.retention.recordUpgrade(
++          UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name,
++          { upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID },
++        );
++        this.scene.queueDugTilesSave?.();
++        this.view.clearMarker();
++        return true;
++      }
++      this._grantUpgradeFunding();
++      return false;
++    }
+     if (stage !== TOWN_TUTORIAL_STAGES.MOVE) return false;
+@@ -63,6 +94,11 @@
+     return true;
+   }
+ 
++  onFlightUnlocked(announce = true) {
++    if (!this.enabled) return false;
++    return this.flightReminders.begin({ announce });
++  }
++
+   isEnabled() {
+@@ -106,6 +142,8 @@
+     return stage === TOWN_TUTORIAL_STAGES.MOVE
+       || stage === TOWN_TUTORIAL_STAGES.DIG
++      || stage === TOWN_TUTORIAL_STAGES.SELL
++      || stage === TOWN_TUTORIAL_STAGES.UPGRADE
+       || stage === TOWN_TUTORIAL_STAGES.FLIGHT;
+@@ -124,9 +162,24 @@
+   getFocusedUpgradeId(merchantId) {
+-    return null;
++    const state = this.retention?.getTutorialState?.();
++    if (
++      !this.enabled
++      || state?.stage !== TOWN_TUTORIAL_STAGES.UPGRADE
++      || merchantId !== RETENTION_CONFIG.tutorial.merchants.upgrade
++    ) {
++      return null;
++    }
++    return FIRST_FIVE_STARTER_UPGRADE_ID;
+   }
+ 
+   isUpgradeAvailable(upgradeId) {
+-    return true;
++    if (!this.enabled) return true;
++    const stage = this.retention?.getTutorialState?.()?.stage;
++    if (stage !== TOWN_TUTORIAL_STAGES.UPGRADE) return true;
++    return upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID;
+   }
+@@ -141,8 +194,17 @@
+       return "sell";
+     }
++    if (
++      this.enabled
++      && state?.stage === TOWN_TUTORIAL_STAGES.UPGRADE
++      && merchantId === RETENTION_CONFIG.tutorial.merchants.upgrade
++    ) {
++      return "buy";
++    }
+     return null;
+   }
+ 
+   getUpgradePreview(upgradeId) {
+-    return null;
++    if (!this.enabled || upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return null;
++    return { upgradeId };
+   }
+@@ -169,16 +231,36 @@
+   _pointAtSite(site) {
+     const tileSize = this.scene.config.tileSize;
+     this.view.pointAt(
+       (site.tx + 0.5) * tileSize,
+       site.ty * tileSize + RETENTION_CONFIG.tutorial.ui.digMarkerOffsetYPx,
+     );
+   }
+ 
++  _grantUpgradeFunding() {
++    const reward = this.retention?.claimTutorialUpgradeFunding?.();
++    if (!reward) return false;
++    this.scene.upgradeSystem?.addMoney?.(reward.money);
++    this.scene.uiResourceBar?.setMoney?.(
++      this.scene.upgradeSystem?.getMoney?.() || 0,
++    );
++    this.scene.queueDugTilesSave?.();
++    return true;
++  }
++
+   _interpolate(copy) {
+-    return this.interpolateCopy(copy);
++    return this.interpolateCopy(copy, {
++      upgrade: UPGRADES[FIRST_FIVE_STARTER_UPGRADE_ID].name,
++    });
+   }
+ 
+   destroy() {
+     this.scene?.playerController?.surfaceDrop?.setAccessPolicy?.(null, null);
++    this.flightReminders?.destroy();
++    this.flightReminders = null;
+     this.narration?.destroy();

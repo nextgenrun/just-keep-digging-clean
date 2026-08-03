@@ -1,0 +1,220 @@
+{
+  "schema": "save-menu-v1@1",
+  "masterSource": {
+    "path": "sprites/UI/save-menu-v1/sources/2026-08-03-save-menu-ui-kit-chroma-v1.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "0d0a8eb25d43225ed56a3dd5a5d431388eb64691ea2d6c55d70a6cb3d7a090bc"
+  },
+  "displayContract": {
+    "logicalDensity": 3,
+    "ultraBackingDensity": 2,
+    "sourcePixelsPerUltraPixel": 1.5,
+    "retargetMethod": "preserved-cap-and-centre-crest horizontal rail retarget"
+  },
+  "sources": {
+    "slot-idle": {
+      "crop": "sprites/UI/save-menu-v1/sources/2026-08-03-slot-idle-chroma-crop-v1.png",
+      "alpha": "sprites/UI/save-menu-v1/sources/2026-08-03-slot-idle-alpha-v1.png",
+      "cropBox": [
+        18,
+        28,
+        766,
+        478
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        677,
+        382
+      ],
+      "sha256": "30b8faba03b2d721471434787f20506ebdd584b75d4cde4a68caa20b345e9109"
+    },
+    "slot-selected": {
+      "crop": "sprites/UI/save-menu-v1/sources/2026-08-03-slot-selected-chroma-crop-v1.png",
+      "alpha": "sprites/UI/save-menu-v1/sources/2026-08-03-slot-selected-alpha-v1.png",
+      "cropBox": [
+        768,
+        28,
+        1524,
+        478
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        664,
+        383
+      ],
+      "sha256": "68b52e22f4e9f6cd614e5c6696551a2a474777ddebd2bfe95311e932faf27e33"
+    },
+    "modal": {
+      "crop": "sprites/UI/save-menu-v1/sources/2026-08-03-modal-chroma-crop-v1.png",
+      "alpha": "sprites/UI/save-menu-v1/sources/2026-08-03-modal-alpha-v1.png",
+      "cropBox": [
+        18,
+        480,
+        902,
+        1002
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        782,
+        357
+      ],
+      "sha256": "c551e2e7d81ca6aa7719357dd1368dd27d3e86e1e5fbb7ebe26d887d43ce8cbe"
+    },
+    "choice": {
+      "crop": "sprites/UI/save-menu-v1/sources/2026-08-03-choice-chroma-crop-v1.png",
+      "alpha": "sprites/UI/save-menu-v1/sources/2026-08-03-choice-alpha-v1.png",
+      "cropBox": [
+        900,
+        454,
+        1438,
+        1004
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        362,
+        465
+      ],
+      "sha256": "a97e8e24d0e7fc9cb6037c4f3aba41806be64eb18989ef4b4d8ea88cbb94ffe6"
+    }
+  },
+  "assets": {
+    "slotIdle": {
+      "path": "sprites/UI/save-menu-v1/save-slot-idle-v1.png",
+      "width": 870,
+      "height": 600,
+      "alphaBounds": [
+        18,
+        18,
+        852,
+        582
+      ],
+      "visiblePixels": 440685,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "60d917879ea04fec6331b5408cc87a5ce24564c4f374411fd7d4f7d198873fc8"
+    },
+    "slotSelected": {
+      "path": "sprites/UI/save-menu-v1/save-slot-selected-v1.png",
+      "width": 870,
+      "height": 600,
+      "alphaBounds": [
+        15,
+        19,
+        852,
+        582
+      ],
+      "visiblePixels": 440216,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "cc699b3f7094c87645f4bb201893828471658eea4e90eeb00810c42e3a2dc001"
+    },
+    "modalConfirm": {
+      "path": "sprites/UI/save-menu-v1/save-modal-confirm-v1.png",
+      "width": 1440,
+      "height": 420,
+      "alphaBounds": [
+        13,
+        14,
+        1427,
+        407
+      ],
+      "visiblePixels": 521179,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "b5f0106158ce0b0c64c8c7ba074e73a003a12eee0df7fda4afa02824666b9fc0"
+    },
+    "modalBackup": {
+      "path": "sprites/UI/save-menu-v1/save-modal-backup-v1.png",
+      "width": 1800,
+      "height": 1200,
+      "alphaBounds": [
+        38,
+        40,
+        1762,
+        1162
+      ],
+      "visiblePixels": 1815686,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "4de694d3b1046d2fa428529e21d5ea58210c2e6a5adad1ac78183cf4235a3aee"
+    },
+    "modalImport": {
+      "path": "sprites/UI/save-menu-v1/save-modal-import-v1.png",
+      "width": 1500,
+      "height": 780,
+      "alphaBounds": [
+        24,
+        26,
+        1476,
+        755
+      ],
+      "visiblePixels": 993235,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "98bb12f4cdd6c671736cc27def5a6bb8460938ef79de1eedfc65304c60a89c56"
+    },
+    "choiceIdle": {
+      "path": "sprites/UI/save-menu-v1/save-choice-idle-v1.png",
+      "width": 870,
+      "height": 810,
+      "alphaBounds": [
+        20,
+        20,
+        850,
+        790
+      ],
+      "visiblePixels": 619145,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "37676182bfd160e90eb8d29ae37468cfbdf0c58a9c466b0ddb65d5a064c2676d"
+    },
+    "choiceSelected": {
+      "path": "sprites/UI/save-menu-v1/save-choice-selected-v1.png",
+      "width": 870,
+      "height": 810,
+      "alphaBounds": [
+        3,
+        3,
+        867,
+        808
+      ],
+      "visiblePixels": 694025,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "d0d0d16a0f1c4e6f1b90cc38cc9428ed23ebf03b0a71921f2b72de7c323af1bd"
+    }
+  }
+}

@@ -1,5 +1,4 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
@@ -12,7 +11,6 @@ export function buildStarlightTalentTreeHealth(view) {
       resourceType => ASSET_KEYS.constellations.signs[resourceType],
     ),
     ...Object.values(ASSET_KEYS.ui.starlightTalentTree),
-    STAR_RARITY_PROGRESSION_CONFIG.popup.fillAssets[0]?.key,
   ];
   const missingTextures = textureKeys.filter(
     textureKey => !textureKey || !view.scene.textures?.exists?.(textureKey),

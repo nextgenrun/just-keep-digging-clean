@@ -1,22 +1,31 @@
 import { PLAYER_COLLISION_CONFIG } from "../values/playerCollision.js";
+import {
+  PLAYER_GROUND_MOTION_CONFIG,
+  resolvePlayerGroundMotionEnabled,
+} from "../values/playerGroundMotion.js";
+import { resolveGroundHorizontalVelocity } from "./playerGroundMotion.js";
 
 /**
  * PlayerMovement — Handles player movement, facing direction, and speed.
  * Uses TileCollisionSystem for deterministic grid-based collision resolution.
  */
 export class PlayerMovement {
-  constructor(physicsBody, config) {
+  constructor(physicsBody, config, groundMotionConfig = PLAYER_GROUND_MOTION_CONFIG) {
     this.body = physicsBody;
     this.config = config;
+    this.groundMotionConfig = groundMotionConfig;
+    this.groundMotionEnabled = resolvePlayerGroundMotionEnabled(
+      globalThis.location?.search || "",
+      groundMotionConfig,
+    );
+    this._reversalTargetSign = 0;
     this._facingRight = true;
     this._walkSpeed = config.walkSpeedPxPerSec || 200;
-    this._climbSpeed = config.climbSpeedPxPerSec || 252;
     // Maximum velocity hard cap to prevent extreme tunneling
     this.MAX_ABSOLUTE_VELOCITY = config.tileSize * PLAYER_COLLISION_CONFIG.maxVelocityTilesPerSecond;
   }
 
   setWalkSpeed(speed) { this._walkSpeed = speed; }
-  setClimbSpeed(speed) { this._climbSpeed = speed; }
 
   isFacingRight() { return this._facingRight; }
   setFacingRight(facingRight) { this._facingRight = facingRight === true; }
@@ -25,11 +34,12 @@ export class PlayerMovement {
    * Update physics with collision resolution
    * @param {number} dt - Delta time in seconds
    * @param {TileCollisionSystem} collisionSystem - Custom collision system
-   * @param {boolean} isClimbing - Whether player is climbing
+   * @param {boolean} isFlightActive - Whether powered flight is active
    */
-  update(dt, collisionSystem, isClimbing) {
+  update(dt, collisionSystem, isFlightActive) {
     if (!this.body) return;
     if (collisionSystem && !collisionSystem.resolveBodyOverlap(this.body)) {
+      this.resetGroundMotionState();
       this.body.resetVelocity();
       return;
     }
@@ -52,8 +62,8 @@ export class PlayerMovement {
       // Resolve vertical collision
       collisionSystem.moveAndCollideY(this.body, moveY);
       
-      // Sync climbing state to physics body
-      this.body.setClimbing(isClimbing);
+      // Sync flight state to physics body
+      this.body.setFlightActive(isFlightActive);
     }
   }
 
@@ -76,18 +86,45 @@ export class PlayerMovement {
     }
   }
 
-  applyHorizontalMovement(speed, left, right) {
+  applyHorizontalMovement(speed, left, right, deltaSeconds = null, smoothGroundMotion = false) {
     if (!this.body) return;
-    
+    let targetVelocity = 0;
     if (left) {
-      this.body.vx = -speed;
+      targetVelocity = -speed;
       this._facingRight = false;
     } else if (right) {
-      this.body.vx = speed;
+      targetVelocity = speed;
       this._facingRight = true;
-    } else {
-      this.body.vx = 0;
     }
+
+    const canSmooth = smoothGroundMotion
+      && this.groundMotionEnabled
+      && Number.isFinite(deltaSeconds)
+      && deltaSeconds > 0;
+    if (!canSmooth) {
+      this._reversalTargetSign = 0;
+      this.body.vx = targetVelocity;
+      return;
+    }
+
+    const targetSign = Math.sign(targetVelocity);
+    const currentSign = Math.sign(this.body.vx);
+    if (targetSign === 0) {
+      this._reversalTargetSign = 0;
+    } else if (currentSign !== 0 && currentSign !== targetSign) {
+      this._reversalTargetSign = targetSign;
+    } else if (this._reversalTargetSign !== 0 && this._reversalTargetSign !== targetSign) {
+      this._reversalTargetSign = 0;
+    }
+    this.body.vx = resolveGroundHorizontalVelocity({
+      currentVelocity: this.body.vx,
+      targetVelocity,
+      effectiveMaxSpeed: speed,
+      deltaSeconds,
+      config: this.groundMotionConfig,
+      reversing: this._reversalTargetSign === targetSign,
+    });
+    if (this.body.vx === targetVelocity) this._reversalTargetSign = 0;
   }
 
   applyVerticalMovement(speed, up, down) {
@@ -101,7 +138,12 @@ export class PlayerMovement {
    */
   stopMovement() {
     if (!this.body) return;
+    this.resetGroundMotionState();
     this.body.resetVelocity();
+  }
+
+  resetGroundMotionState() {
+    this._reversalTargetSign = 0;
   }
 
   /**
@@ -117,5 +159,4 @@ export class PlayerMovement {
   }
 
   getSpeed() { return this._walkSpeed; }
-  getClimbSpeed() { return this._climbSpeed; }
 }

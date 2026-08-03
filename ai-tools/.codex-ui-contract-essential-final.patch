@@ -1,0 +1,25 @@
+diff --git a/testing/2026-07-28-ui-notification-carousel-contract.mjs b/testing/2026-07-28-ui-notification-carousel-contract.mjs
+--- a/testing/2026-07-28-ui-notification-carousel-contract.mjs
++++ b/testing/2026-07-28-ui-notification-carousel-contract.mjs
+@@ -17,6 +17,7 @@ import {
+ } from "../ui/UINotificationCarouselPresenter.js";
+ import { RETENTION_CONFIG } from "../values/retentionConfig.js";
+ import {
++  ESSENTIAL_UI_NOTIFICATION_CONFIG,
+   UI_NOTIFICATION_CAROUSEL_CONFIG,
+ } from "../values/uiNotificationCarousel.js";
+@@ -28,6 +29,8 @@ const readSource = relativePath => readFile(path.join(root, relativePath), "utf8");
+ const makeEntry = (id, priority, createdAt) => ({ id, priority, createdAt });
+ 
+ assert.equal(UI_NOTIFICATION_CAROUSEL_CONFIG.visibleDurationMs, 7000);
++assert.equal(ESSENTIAL_UI_NOTIFICATION_CONFIG.enabled, true);
++assert.equal(ESSENTIAL_UI_NOTIFICATION_CONFIG.maxQueued, 2);
+ assert.equal(
+   APPROVED_HUD_SKIN.layout.notification.y,
+@@ -537,7 +540,8 @@ assert.ok(!specialTileSource.includes("feedback.groundArrivalPrefix"));
+ assert.ok(!specialTileSource.includes("feedback.returnPrefix"));
+ assert.ok(!specialTileSource.includes('key: "portal-activation"'));
+-assert.ok(!tutorialViewSource.includes("uiNotifications"));
++assert.ok(tutorialViewSource.includes("essentialNotifications"));
++assert.ok(tutorialViewSource.includes("showTownExitTask"));
+ assert.ok(!tutorialViewSource.includes("add.container"));

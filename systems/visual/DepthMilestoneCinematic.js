@@ -104,7 +104,6 @@ export class DepthMilestoneCinematic {
     return Boolean(
       s._randomEventModalVisible ||
       s.shopOverlay?.isVisible ||
-      s.levelUpPopup?.visible ||
       s.campfireSystem?.isSelecting?.() ||
       s.milestoneBoardSystem?._isBoardOpen ||
       s.depthGateSystem?.isOpen?.() ||

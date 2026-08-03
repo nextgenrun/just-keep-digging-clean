@@ -3,7 +3,7 @@ import { V11_SKY_ISLAND_LAYOUT } from "./v11SkyIslandLayout.js";
 // ==================== PLAYER ABILITIES CONFIG ====================
 export const PLAYER_ABILITIES_CONFIG = Object.freeze({
   // Depth warnings
-  climbWarningDepthTiles: 30,
+  flightWarningDepthTiles: 30,
   safeReturnDepthTiles: 10,
 
   // Sky island

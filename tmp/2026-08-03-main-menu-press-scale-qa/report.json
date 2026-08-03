@@ -1,0 +1,29 @@
+{
+  "schema": "main-menu-press-scale-qa@1",
+  "generatedUtc": "2026-08-03T15:28:07.800Z",
+  "productionScene": "ui/scenes/MainMenuScene.js",
+  "before": {
+    "width": 260,
+    "height": 52,
+    "scaleX": 0.12093023255813953,
+    "scaleY": 0.12093023255813953,
+    "actionCount": 0
+  },
+  "during": {
+    "width": 260,
+    "height": 52,
+    "scaleX": 0.12093023255813953,
+    "scaleY": 0.12093023255813953,
+    "actionCount": 0
+  },
+  "after": {
+    "width": 260,
+    "height": 52,
+    "scaleX": 0.12093023255813953,
+    "scaleY": 0.12093023255813953,
+    "actionCount": 1
+  },
+  "failures": [],
+  "warnings": [],
+  "screenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-main-menu-press-scale-qa\\main-menu-pressed-no-zoom.png"
+}

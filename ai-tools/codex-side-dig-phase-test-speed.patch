@@ -1,0 +1,27 @@
+diff --git a/testing/2026-07-28-phase-handoff-production-contract.mjs b/testing/2026-07-28-phase-handoff-production-contract.mjs
+--- a/testing/2026-07-28-phase-handoff-production-contract.mjs
++++ b/testing/2026-07-28-phase-handoff-production-contract.mjs
+@@ -100,6 +100,7 @@ const phaseEntry = resolveMovingSideDigAnimation({
+   actionKind: "normal",
+   grounded: true,
+   motionState: "walk-right",
++  horizontalVelocity: 200,
+   currentAnimationKey: profile.walkRunAnim,
+   currentTextureFrame: 23,
+   search: "",
+@@ -114,6 +115,7 @@ const repeatedLowerPhase = resolveMovingSideDigAnimation({
+   actionKind: "normal",
+   grounded: true,
+   motionState: "walk-right",
++  horizontalVelocity: 200,
+   currentAnimationKey: phaseEntry.animationKey,
+   currentFrameIndex: 3,
+   search: "",
+@@ -129,6 +131,7 @@ assert.equal(resolveMovingSideDigAnimation({
+   actionKind: "normal",
+   grounded: true,
+   motionState: "walk-right",
++  horizontalVelocity: 200,
+   currentAnimationKey: profile.walkRunAnim,
+   currentTextureFrame: 23,
+   search: "?phaseHandoff=0",

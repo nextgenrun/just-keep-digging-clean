@@ -1,0 +1,22 @@
+diff --git a/values/tutorialNarration.js b/values/tutorialNarration.js
+--- a/values/tutorialNarration.js
++++ b/values/tutorialNarration.js
+@@ -43,1 +43,1 @@
+-    "STEP 3  •  PROVE YOUR LOCAL RECOVERY",
++    "STEP 5  •  PROVE YOUR LOCAL RECOVERY",
+@@ -49,1 +49,1 @@
+-    "STEP 4  •  FIND THE RETURN GATE AT 40M",
++    "STEP 6  •  FIND THE RETURN GATE AT 40M",
+@@ -58,6 +58,0 @@
+-  sell: cue(
+-    "sell",
+-    "Your route is open. Return to town and sell what you actually found.",
+-    "STEP 5  •  SELL YOUR REAL CARGO",
+-    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
+-  ),
+@@ -67,1 +61,1 @@
+-    "STEP 6  •  RESUME AT 40M",
++    "STEP 7  •  RESUME AT 40M",
+@@ -72,1 +66,1 @@
+-    "Your route is yours. Dig deeper, return through gates, and spend only what you earn.",
++    "Your Agility is permanent. Dig deeper and return through the gates you open.",

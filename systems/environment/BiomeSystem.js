@@ -4,6 +4,10 @@
  * No new sprites needed — purely a screen-space color overlay.
  */
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
+import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
+import {
+  frameRateIndependentResponse,
+} from "../../values/mathUtils.js";
 
 export default class BiomeSystem {
   constructor(scene, config, worldModel) {
@@ -69,7 +73,13 @@ export default class BiomeSystem {
     }
 
     // Smooth lerp toward target
-    const lerpFactor = 0.02;
+    const motionConfig = ANIMATION_SMOOTHNESS_CONFIG;
+    const lerpFactor = frameRateIndependentResponse(
+      motionConfig.biome.blendResponsePerReferenceFrame,
+      this.scene?.game?.loop?.delta,
+      motionConfig.referenceFrameMs,
+      motionConfig.maxCatchUpSteps,
+    );
     this._currentColor = this._lerpColor(this._currentColor, targetColor, lerpFactor);
     this._currentAlpha = this._currentAlpha + (targetAlpha - this._currentAlpha) * lerpFactor;
 

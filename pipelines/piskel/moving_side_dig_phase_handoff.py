@@ -32,25 +32,27 @@ def _circular_distance(left: int, right: int, count: int) -> int:
 
 def _planted_foot(
     manifest: dict[str, Any],
+    run_action: str,
     phase: int,
     flip_x: bool = False,
 ) -> tuple[float, float]:
-    markers = manifest["actions"]["run"]["rig_markers"]["frames"][str(phase)]
+    markers = manifest["actions"][run_action]["rig_markers"]["frames"][str(phase)]
     foot = max((markers["foot_l"], markers["foot_r"]), key=lambda point: point[1])
     return ((256 - float(foot[0])) if flip_x else float(foot[0]), float(foot[1]))
 
 
 def _pivot_map(
     manifest: dict[str, Any],
+    run_action: str,
     frame_count: int,
     vertical_weight: float,
 ) -> list[int]:
     output = []
     for outgoing_phase in range(frame_count):
-        outgoing = _planted_foot(manifest, outgoing_phase)
+        outgoing = _planted_foot(manifest, run_action, outgoing_phase)
         candidates = []
         for target_phase in range(frame_count):
-            target = _planted_foot(manifest, target_phase, True)
+            target = _planted_foot(manifest, run_action, target_phase, True)
             score = abs(target[0] - outgoing[0]) + abs(target[1] - outgoing[1]) * vertical_weight
             candidates.append((score, target_phase))
         output.append(min(candidates)[1])
@@ -240,6 +242,7 @@ def build_phase_handoff_package(
     entry_ids = _entry_variant_ids(production_config, variants)
     pivot_frames = _pivot_map(
         runtime_manifest,
+        review_config["sources"]["run"]["manifestAction"],
         production_config["phaseHandoff"]["runFrameCount"],
         production_config["phaseHandoff"]["pivot"]["verticalWeight"],
     )

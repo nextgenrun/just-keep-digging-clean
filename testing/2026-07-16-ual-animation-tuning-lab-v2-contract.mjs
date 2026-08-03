@@ -79,8 +79,8 @@ assert.doesNotMatch(assetsSource, /\["dig-up", clip\(/, "rejected Sword UP motio
 
 const manifestPath = path.join(root, "sprites", "character", "ual-native-player-v1", "runtime", "manifest.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-assert.equal(Object.keys(manifest.actions).length, 23, "production action library count drifted");
-assert.equal(Object.values(manifest.actions).reduce((total, action) => total + action.frame_count, 0), 987, "production frame total drifted");
+assert.equal(Object.keys(manifest.actions).length, 22, "climb-free production action library count drifted");
+assert.equal(Object.values(manifest.actions).reduce((total, action) => total + action.frame_count, 0), 967, "climb-free production frame total drifted");
 assert.equal(manifest.actions["pickaxe-mining"].source_clip, "TreeChopping_Loop", "rejected mining review source drifted");
 assert.equal(manifest.actions["pickaxe-mining"].frame_count, 29, "rejected mining review frame count drifted");
 assert.equal(manifest.actions["punch-uppercut"].source_clip, "Melee_Hook", "promoted uppercut source drifted");

@@ -201,12 +201,25 @@ export class ThunderStrikeTimingBarView {
     if (!visible) this.presentedTimingSnapshot = null;
   }
 
-  render(snapshot, { timing = false, feedbackText = "", feedbackColor = null } = {}) {
+  render(snapshot, {
+    timing = false,
+    feedbackText = "",
+    feedbackColor = null,
+    feedbackSlamText = "",
+    feedbackBadgeText = "",
+  } = {}) {
     if (!this.root) return;
     this.root.setVisible(true);
     this._drawStages(snapshot);
     this._drawTrack(snapshot, timing);
-    this._drawCopy(snapshot, timing, feedbackText, feedbackColor);
+    this._drawCopy(
+      snapshot,
+      timing,
+      feedbackText,
+      feedbackColor,
+      feedbackSlamText,
+      feedbackBadgeText,
+    );
   }
 
   _drawStages(snapshot) {
@@ -276,7 +289,14 @@ export class ThunderStrikeTimingBarView {
     };
   }
 
-  _drawCopy(snapshot, timing, feedbackText, feedbackColor) {
+  _drawCopy(
+    snapshot,
+    timing,
+    feedbackText,
+    feedbackColor,
+    feedbackSlamText,
+    feedbackBadgeText,
+  ) {
     const ui = this.config.timingBar;
     const key = USER_SETTINGS.getKeyLabel("thunderStrike");
     const failed = feedbackText === this.config.feedback.chainBrokenText;
@@ -289,7 +309,8 @@ export class ThunderStrikeTimingBarView {
     const successCount = Math.max(0, Number(snapshot.successfulContinuations) || 0);
     const successBuffPercent = resolveThunderStrikeSuccessDamageBonusPercent(successCount);
     this.slamLabel.setText(
-      `${failed ? "FAILED" : "SLAM"} ${stageNumber}/${this.config.stages.length}`,
+      feedbackSlamText
+        || `${failed ? "FAILED" : "SLAM"} ${stageNumber}/${this.config.stages.length}`,
     );
     if (timing) {
       const nextBuffPercent = resolveThunderStrikeSuccessDamageBonusPercent(successCount + 1);
@@ -301,11 +322,13 @@ export class ThunderStrikeTimingBarView {
       const resolvedFeedbackColor = toCssColor(feedbackColor, ui.titleColor);
       this.prompt.setColor(resolvedFeedbackColor).setText(feedbackText);
       const cancelled = feedbackText === this.config.feedback.cancelledText;
-      const badgeText = cancelled
-        ? "CONTROL RESTORED"
-        : failed
-          ? "CHAIN ENDED"
-          : `DAMAGE +${successBuffPercent}%`;
+      const badgeText = feedbackBadgeText || (
+        cancelled
+          ? "CONTROL RESTORED"
+          : failed
+            ? "CHAIN ENDED"
+            : `DAMAGE +${successBuffPercent}%`
+      );
       this._drawBadge(badgeText, resolvedFeedbackColor);
     } else {
       const copy = snapshot.phase === THUNDER_STRIKE_CHAIN_PHASES.CHARGE

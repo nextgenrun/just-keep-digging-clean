@@ -212,31 +212,37 @@ export class UIMuteToggle {
 
     // --- Interactivity (hit zones) ---
     this._musicHit = this.scene.add.rectangle(0, 0, buttonWidth, buttonHeight, 0x000000, 0)
+      .setScrollFactor(0)
       .setInteractive({ useHandCursor: true });
     this.container.add(this._musicHit);
 
-    this._musicHit.on('pointerdown', () => {
+    this._musicHit.on('pointerdown', (_pointer, _localX, _localY, event) => {
+      event?.stopPropagation?.();
       if (this._destroyed || !this.soundSystem) return;
       this.scene.tweens.add({ targets: this._musicImg, scaleX: this._musicImg.scaleX * 0.85, scaleY: this._musicImg.scaleY * 0.85, duration: 60, yoyo: true, ease: 'Power2.out' });
       USER_SETTINGS.updateAudio({ musicEnabled: !this.soundSystem.musicEnabled });
       USER_SETTINGS.applyAudioTo(this.soundSystem);
       this.syncMusicState(this.soundSystem.musicEnabled);
-      this.scene.soundSystem.playUiSelect();
+      this.scene.soundSystem?.playUiSelect?.();
     });
     this._musicHit.on('pointerover', () => { if (!this._destroyed) this._musicImg.setAlpha(0.8); });
     this._musicHit.on('pointerout', () => { if (!this._destroyed) this._updateButtonState(this._musicImg, this.soundSystem.musicEnabled); });
 
     this._sfxHit = this.scene.add.rectangle(0, buttonHeight + buttonGap, buttonWidth, buttonHeight, 0x000000, 0)
+      .setScrollFactor(0)
       .setInteractive({ useHandCursor: true });
     this.container.add(this._sfxHit);
 
-    this._sfxHit.on('pointerdown', () => {
+    this._sfxHit.on('pointerdown', (_pointer, _localX, _localY, event) => {
+      event?.stopPropagation?.();
       if (this._destroyed || !this.soundSystem) return;
       this.scene.tweens.add({ targets: this._sfxImg, scaleX: this._sfxImg.scaleX * 0.85, scaleY: this._sfxImg.scaleY * 0.85, duration: 60, yoyo: true, ease: 'Power2.out' });
-      USER_SETTINGS.updateAudio({ sfxEnabled: !this.soundSystem.sfxEnabled });
+      const nextEnabled = !this.soundSystem.sfxEnabled;
+      if (!nextEnabled) this.scene.soundSystem?.playUiSelect?.();
+      USER_SETTINGS.updateAudio({ sfxEnabled: nextEnabled });
       USER_SETTINGS.applyAudioTo(this.soundSystem);
       this.syncSfxState(this.soundSystem.sfxEnabled);
-      this.scene.soundSystem.playUiSelect();
+      if (nextEnabled) this.scene.soundSystem?.playUiSelect?.();
     });
     this._sfxHit.on('pointerover', () => { if (!this._destroyed) this._sfxImg.setAlpha(0.8); });
     this._sfxHit.on('pointerout', () => { if (!this._destroyed) this._updateButtonState(this._sfxImg, this.soundSystem.sfxEnabled); });

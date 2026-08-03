@@ -41,7 +41,6 @@ function closeReviewSurface(scene) {
   scene.campfireSystem?._closeBuffSelection?.();
   scene.milestoneBoardSystem?._closeBoardView?.();
   scene.starPillarSystem?.closeConstellationView?.();
-  scene.levelUpPopup?.hide?.();
   scene.overlayManager?.hideOverlay?.();
   scene.gameState = "playing";
   scene.setShopOpen?.(false);
@@ -69,7 +68,11 @@ function openReviewSurface(scene, surface) {
       scene.starPillarSystem?.openConstellationView?.();
       break;
     case "level":
-      scene.levelUpPopup?.show?.(10, true, []);
+      scene.hudSystem?.flashStatus?.(
+        "LEVEL UPS ARE AUTOMATIC AND NONBLOCKING",
+        "#76f4ff",
+        1600,
+      );
       break;
     case "dialog":
       scene.gameState = "dialog";

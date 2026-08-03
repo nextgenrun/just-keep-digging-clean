@@ -168,15 +168,6 @@ export class HUDSystem {
       .setDepth(HUD_LAYOUT.hudOverlayDepth)
       .setVisible(false);
 
-    this.dashCooldownText = scene.add
-      .text(HUD_LAYOUT.dashCooldownX, HUD_LAYOUT.dashCooldownY, "", {
-        fontFamily: "Consolas, monospace",
-        fontSize: HUD_LAYOUT.dashCooldownFontSize,
-        color: this.colors.purple,
-      })
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudOverlayDepth)
-      .setVisible(false);
 
     this.torchTextures = ensureHudTorchTextures(scene);
     this.torchIcon = scene.add
@@ -345,16 +336,25 @@ export class HUDSystem {
 
   setSystemVisibility(visibility = {}) {
     this._systemVisibility = { ...this._systemVisibility, ...visibility };
+    const approvedSkinActive = this.approvedSkin?.active === true;
     const groups = {
-      clock: [this.clockPanel, this.clockTimeText, this.clockDayText],
-      weather: [this.weatherPanel, this.weatherText, this.weatherTempText, this.weatherSeasonText, this.weatherIntensityBar],
-      torch: [this.torchIcon, this.torchStatusText],
+      clock: [this.clockTimeText, this.clockDayText],
+      weather: [this.weatherText, this.weatherTempText, this.weatherIntensityBar],
+      torch: approvedSkinActive ? [] : [this.torchIcon, this.torchStatusText],
       combo: [this.comboText, this.comboTimerBg, this.comboTimerBar],
-      buff: [this.buffTimerText],
+      buff: approvedSkinActive ? [] : [this.buffTimerText],
     };
     Object.entries(groups).forEach(([key, objects]) => (
       objects.forEach(object => object?.setVisible(this._systemVisibility[key]))
     ));
+    this.clockPanel?.setVisible(!approvedSkinActive && this._systemVisibility.clock);
+    this.weatherPanel?.setVisible(!approvedSkinActive && this._systemVisibility.weather);
+    this.weatherSeasonText?.setVisible(!approvedSkinActive && this._systemVisibility.weather);
+    if (approvedSkinActive) {
+      this.torchIcon?.setVisible(false);
+      this.torchStatusText?.setVisible(false);
+      this.buffTimerText?.setVisible(false);
+    }
     this.approvedSkin?.worldFrame?.setVisible(
       this._systemVisibility.clock || this._systemVisibility.weather,
     );
@@ -386,6 +386,10 @@ export class HUDSystem {
       this.lootBagIcon = this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.inventory)
         .setDisplaySize(approvedInventory.width * approvedScale, approvedInventory.height * approvedScale);
       this.lootBagContainer.add(this.lootBagIcon);
+      this._wireLootBagInteraction(
+        approvedInventory.width * approvedScale,
+        approvedInventory.height * approvedScale,
+      );
       return;
     }
 
@@ -410,6 +414,31 @@ export class HUDSystem {
     }).setOrigin(0.5);
 
     this.lootBagContainer.add([bg, this.lootBagIcon, badgeBg, this.lootBagBadge]);
+    this._wireLootBagInteraction(50, 50);
+  }
+
+  _wireLootBagInteraction(width, height) {
+    if (!this.lootBagContainer) return;
+    this.lootBagHit = this.scene.add.rectangle(0, 0, width, height, 0x000000, 0)
+      .setScrollFactor(0)
+      .setInteractive({ useHandCursor: true });
+    this.lootBagContainer.add(this.lootBagHit);
+
+    this.lootBagHit.on("pointerdown", (_pointer, _localX, _localY, event) => {
+      event?.stopPropagation?.();
+      if (this._destroyed || this.lootBagContainer?.visible === false) return;
+      const inventoryPopup = this.scene.uiInventoryPopup;
+      if (typeof inventoryPopup?.open !== "function") return;
+      this.scene.soundSystem?.playUiSelect?.();
+      this.pulseLootTarget();
+      inventoryPopup.open();
+    });
+    this.lootBagHit.on("pointerover", () => {
+      if (!this._destroyed) this.lootBagIcon?.setAlpha?.(0.82);
+    });
+    this.lootBagHit.on("pointerout", () => {
+      if (!this._destroyed) this.lootBagIcon?.setAlpha?.(1);
+    });
   }
 
   _createFallbackLootBagGraphic() {
@@ -590,22 +619,6 @@ export class HUDSystem {
     }
   }
 
-  setDashCooldown(remainingMs, unlocked) {
-    if (!unlocked) {
-      this.dashCooldownText.setVisible(false);
-      return;
-    }
-    this.dashCooldownText.setVisible(true);
-    const dashKey = USER_SETTINGS.getKeyLabel("gemDash");
-    if (remainingMs <= 0) {
-      this.dashCooldownText.setColor(this.colors.purple);
-      this.dashCooldownText.setText(`${dashKey}: DASH ready`);
-    } else {
-      const secs = (remainingMs / 1000).toFixed(1);
-      this.dashCooldownText.setColor(this.colors.warning);
-      this.dashCooldownText.setText(`DASH: ${secs}s`);
-    }
-  }
 
   isDirty() {
     return this.statsDirty;
@@ -908,9 +921,11 @@ export class HUDSystem {
     this._destroyed = true;
     this._depthTween?.stop();
     this._comboPopTween?.stop();
+    this.lootBagHit?.removeAllListeners?.();
+    this.scene?.tweens?.killTweensOf?.(this.lootBagContainer);
     const objects = [
       this.hudBg, this.statsText, this.statusBg, this.statusText,
-      this.flyHintText, this.dashCooldownText, this.torchIcon, this.torchStatusText, this.buffTimerText,
+      this.flyHintText, this.torchIcon, this.torchStatusText, this.buffTimerText,
       this.comboText, this.comboTimerBg, this.comboTimerBar,
       this.progressBarBg, this.progressBar, this.progressBarText,
       this.clockPanel, this.clockTimeText, this.clockDayText,
@@ -919,6 +934,7 @@ export class HUDSystem {
       this.lootBagContainer,
     ];
     objects.forEach(obj => obj?.destroy());
+    this.lootBagHit = null;
     this.approvedSkin?.destroy();
     this.approvedSkin = null;
   }

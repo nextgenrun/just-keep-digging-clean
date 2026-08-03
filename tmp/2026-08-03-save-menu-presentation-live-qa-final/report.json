@@ -1,0 +1,153 @@
+{
+  "schema": "save-menu-presentation-live-qa@1",
+  "generatedUtc": "2026-08-03T14:58:28.064Z",
+  "url": "http://127.0.0.1:8080/?jkd_e2e=1",
+  "runtime": {
+    "activeScenes": [
+      "MenuAudioScene",
+      "StartMenuScene"
+    ],
+    "renderDensity": {
+      "requestedPreset": "ultra",
+      "preset": "ultra",
+      "density": 2,
+      "logicalWidth": 1280,
+      "logicalHeight": 720,
+      "backingWidth": 2560,
+      "backingHeight": 1440,
+      "renderer": "webgl",
+      "rendererMode": "webgl",
+      "coordinateSpace": "logical-input-and-camera/physical-backing"
+    },
+    "canvas": {
+      "width": 2560,
+      "height": 1440
+    },
+    "authoredSaveMenuArt": true,
+    "cardGeometry": [
+      {
+        "x": 326,
+        "y": 390,
+        "slotId": 1,
+        "authored": true
+      },
+      {
+        "x": 640,
+        "y": 390,
+        "slotId": 2,
+        "authored": true
+      },
+      {
+        "x": 954,
+        "y": 390,
+        "slotId": 3,
+        "authored": true
+      }
+    ],
+    "transferHits": [
+      {
+        "width": 220,
+        "height": 42
+      },
+      {
+        "width": 220,
+        "height": 42
+      }
+    ],
+    "textures": [
+      {
+        "key": "save-menu-slot-idle-v1",
+        "width": 870,
+        "height": 600
+      },
+      {
+        "key": "save-menu-slot-selected-v1",
+        "width": 870,
+        "height": 600
+      },
+      {
+        "key": "save-menu-modal-confirm-v1",
+        "width": 1440,
+        "height": 420
+      },
+      {
+        "key": "save-menu-modal-backup-v1",
+        "width": 1800,
+        "height": 1200
+      },
+      {
+        "key": "save-menu-modal-import-v1",
+        "width": 1500,
+        "height": 780
+      },
+      {
+        "key": "save-menu-choice-idle-v1",
+        "width": 870,
+        "height": 810
+      },
+      {
+        "key": "save-menu-choice-selected-v1",
+        "width": 870,
+        "height": 810
+      }
+    ],
+    "uiErrors": []
+  },
+  "interactions": {
+    "keyboardSelectedSlot": 2,
+    "pointerSelectedSlot": 1
+  },
+  "dialogs": {
+    "confirmInfo": {
+      "texture": "save-menu-modal-confirm-v1",
+      "controlCount": 2
+    },
+    "backupTexture": "save-menu-modal-backup-v1",
+    "importTexture": "save-menu-modal-import-v1"
+  },
+  "choices": {
+    "modeChoiceFrames": [
+      {
+        "hasFrame": true,
+        "hitWidth": 290,
+        "hitHeight": 270
+      },
+      {
+        "hasFrame": true,
+        "hitWidth": 290,
+        "hitHeight": 270
+      }
+    ],
+    "tutorialButtons": [
+      {
+        "width": 286,
+        "height": 52,
+        "authoredIdle": true
+      },
+      {
+        "width": 286,
+        "height": 52,
+        "authoredIdle": true
+      }
+    ]
+  },
+  "rollback": {
+    "authoredSaveMenuArt": false,
+    "graphicsCards": [
+      true,
+      true,
+      true
+    ]
+  },
+  "failures": [],
+  "warnings": [],
+  "screenshots": {
+    "slots": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-slots-ultra.png",
+    "confirm": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-clear-confirm-ultra.png",
+    "backup": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-backups-ultra.png",
+    "import": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-import-ultra.png",
+    "mode": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-mode-choice-ultra.png",
+    "tutorial": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-tutorial-choice-ultra.png",
+    "rollback": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-presentation-live-qa-final\\save-menu-graphics-rollback.png"
+  }
+}

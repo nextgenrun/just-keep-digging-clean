@@ -1,0 +1,13 @@
+diff --git a/systems/onboarding/TownSquareTutorialSystem.js b/systems/onboarding/TownSquareTutorialSystem.js
+--- a/systems/onboarding/TownSquareTutorialSystem.js
++++ b/systems/onboarding/TownSquareTutorialSystem.js
+@@ -172,6 +172,11 @@
+       );
+       return;
+     }
++    if (stage === TOWN_TUTORIAL_STAGES.UPGRADE) {
++      if (firstFiveHandled) return;
++      this._pointAtMerchant(RETENTION_CONFIG.tutorial.merchants.upgrade);
++      return;
++    }
+     if (stage === TOWN_TUTORIAL_STAGES.FLIGHT) {

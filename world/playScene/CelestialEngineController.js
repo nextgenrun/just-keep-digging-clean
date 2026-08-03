@@ -4,6 +4,7 @@ import {
   CELESTIAL_ENGINE_IDS,
   isCelestialEnginesEnabled,
 } from "../../values/celestialEngines.js";
+import { resolveCelestialTalentEngineDefinition } from "../../values/celestialTalentEffects.js";
 import { getResourceDisplayName, RESOURCE_COLORS } from "../../values/resourceTypes.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { CelestialActivationBudget, resolveCardinalDirection } from "../../systems/celestial/CelestialActivationBudget.js";
@@ -13,14 +14,17 @@ import { WaywardStarEngine } from "../../systems/celestial/WaywardStarEngine.js"
 import { CelestialEngineHudSystem } from "../../systems/visual/CelestialEngineHudSystem.js";
 
 export class CelestialEngineController {
-  constructor(scene, progression) {
+  constructor(scene, progression, options = {}) {
     this.scene = scene;
     this.progression = progression;
+    this.talentProgression = options.talentProgression || null;
     this.enabled = isCelestialEnginesEnabled();
     this.activeEffect = null;
     this.activeBudget = null;
+    this.activeDefinition = null;
     this.lastCompletion = null;
-    this.hud = this.enabled
+    this._talentActivationSequence = 0;
+    this.hud = this.enabled && options.showLegacyHud !== false
       ? new CelestialEngineHudSystem(
           scene,
           progression,
@@ -29,18 +33,18 @@ export class CelestialEngineController {
       : null;
   }
 
-  update(nowMs, deltaMs, keys) {
+  update(nowMs, deltaMs) {
     if (!this.enabled) return false;
     this.activeEffect?.update(nowMs, deltaMs);
     if (this.activeBudget) this.hud?.setActiveSnapshot(this.activeBudget.getSnapshot(nowMs));
+    return this.activeEffect?.active === true;
+  }
 
-    const activatePressed = keys?.celestialEngine
-      && Phaser.Input.Keyboard.JustDown(keys.celestialEngine);
-    if (!activatePressed) return false;
-
-    if (this.activeEffect instanceof WaywardStarEngine) {
-      const direction = this._getDirection();
-      const redirected = this.activeEffect.redirect(direction, nowMs);
+  activateEngine(engineId, nowMs = this.scene.time?.now || 0) {
+    if (!this.enabled) return { ok: false, reason: "disabled" };
+    if (this.activeEffect instanceof WaywardStarEngine
+      && this.activeBudget?.engineId === engineId) {
+      const redirected = this.activeEffect.redirect(this._getDirection(), nowMs);
       this.scene.hudSystem?.flashStatus?.(
         redirected
           ? `WAYWARD REDIRECT ${this.activeBudget.redirects}/${this.activeBudget.maxRedirects}`
@@ -48,24 +52,42 @@ export class CelestialEngineController {
         redirected ? "#65E8FF" : "#7896A8",
         1100,
       );
-      return true;
+      return { ok: redirected, reason: redirected ? null : "redirects-exhausted" };
     }
-
     if (this.activeEffect) {
       this.scene.hudSystem?.flashStatus?.(
         CELESTIAL_ENGINE_CONFIG.copy.activeBlocked,
         "#7896A8",
         1200,
       );
-      return true;
+      return { ok: false, reason: "active-engine" };
     }
 
-    this.tryActivate(nowMs);
-    return true;
+    const talentSnapshot = this.talentProgression?.getSnapshot?.();
+    const talentOwned = talentSnapshot?.unlockedAbilityIds?.includes?.(engineId) === true;
+    const godMode = this.progression?.isGodModeActive?.() === true;
+    if (!talentOwned && !godMode) {
+      this.scene.hudSystem?.flashStatus?.(
+        "UNLOCK THIS ENGINE AT THE STAR PILLAR",
+        "#7896A8",
+        1500,
+      );
+      return { ok: false, reason: "talent-locked" };
+    }
+
+    if (talentOwned) {
+      this.progression?.syncTalentUnlockedEngines?.([engineId]);
+    }
+    const selected = this.progression?.chooseEngine?.(engineId);
+    if (selected?.ok === false) return selected;
+    return this.tryActivate(nowMs);
   }
 
   tryActivate(nowMs = this.scene.time?.now || 0) {
     const snapshot = this.progression.getSnapshot();
+    const talentSnapshot = this.talentProgression?.getSnapshot?.();
+    const talentOwned = talentSnapshot?.unlockedAbilityIds
+      ?.includes?.(snapshot.selectedEngine) === true;
     if (!snapshot.selectedEngine) {
       this.scene.hudSystem?.flashStatus?.(
         snapshot.unlocked ? "CHOOSE AN ENGINE AT THE STAR PILLAR" : CELESTIAL_ENGINE_CONFIG.copy.unavailable,
@@ -74,7 +96,7 @@ export class CelestialEngineController {
       );
       return { ok: false, reason: "not-attuned" };
     }
-    if (!snapshot.charged) {
+    if (!snapshot.charged && !talentOwned) {
       this.scene.hudSystem?.flashStatus?.(
         `CELESTIAL CHARGE ${snapshot.charge}/${snapshot.chargeCapacity}  •  FIND SKY STARS`,
         "#7896A8",
@@ -83,30 +105,54 @@ export class CelestialEngineController {
       return { ok: false, reason: "not-charged" };
     }
 
-    const consumed = this.progression.consumeActivation(nowMs);
+    const consumed = talentOwned
+      ? {
+          ok: true,
+          talentPowered: true,
+          engineId: snapshot.selectedEngine,
+          activationId: [
+            "talent",
+            snapshot.selectedEngine,
+            Math.max(0, Math.floor(Number(nowMs) || 0)),
+            this._talentActivationSequence += 1,
+          ].join(":"),
+        }
+      : this.progression.consumeActivation(nowMs);
     if (!consumed.ok) return consumed;
     const direction = this._getDirection();
+    const talentEffects = this.talentProgression
+      ?.getSnapshot?.()
+      ?.unlockedEffectIds || [];
+    const definition = resolveCelestialTalentEngineDefinition(
+      consumed.engineId,
+      talentEffects,
+    );
     const budget = new CelestialActivationBudget(
       consumed.engineId,
       consumed.activationId,
       nowMs,
+      definition,
     );
 
     try {
+      this.activeDefinition = definition;
       this.activeBudget = budget;
-      this.activeEffect = this._createEffect(consumed.engineId, direction, budget);
+      this.activeEffect = this._createEffect(consumed.engineId, direction, budget, definition);
     } catch (error) {
-      this.progression.refundActivation(consumed.activationId);
+      if (!consumed.talentPowered) {
+        this.progression.refundActivation(consumed.activationId);
+      }
+      this.activeDefinition = null;
       this.activeBudget = null;
       this.activeEffect = null;
       console.error("[CelestialEngine] Activation failed:", error);
       return { ok: false, reason: "activation-failed", error };
     }
 
-    const definition = CELESTIAL_ENGINE_CONFIG.engines[consumed.engineId];
+    const displayDefinition = CELESTIAL_ENGINE_CONFIG.engines[consumed.engineId];
     this.scene.hudSystem?.flashStatus?.(
-      `${definition.shortName} RELEASED`,
-      definition.cssAccent,
+      `${displayDefinition.shortName} RELEASED`,
+      displayDefinition.cssAccent,
       1900,
     );
     this.scene.soundSystem?.playUiConfirm?.();
@@ -121,13 +167,14 @@ export class CelestialEngineController {
     return { ok: true, activationId: consumed.activationId, engineId: consumed.engineId };
   }
 
-  _createEffect(engineId, direction, budget) {
+  _createEffect(engineId, direction, budget, definitionOverride = null) {
     const position = this._getPlayerCenter();
     const common = {
       scene: this.scene,
       budget,
       direction,
       tileSize: this.scene.config.tileSize,
+      definitionOverride,
       probeTile: (tx, ty) => this._probeTile(tx, ty),
       toTile: (x, y) => this.scene.worldModel.worldToTile(x, y),
       onImpact: (tx, ty, hitId, nowMs) => this._handleImpact(tx, ty, hitId, nowMs),
@@ -146,7 +193,7 @@ export class CelestialEngineController {
     }
 
     if (engineId === CELESTIAL_ENGINE_IDS.HOLLOW_SUN) {
-      const definition = CELESTIAL_ENGINE_CONFIG.engines[engineId];
+      const definition = definitionOverride || CELESTIAL_ENGINE_CONFIG.engines[engineId];
       const playerTile = this.scene.playerController.getPlayerTile();
       const targetTile = {
         tx: playerTile.tx + direction.x * definition.placementTiles,
@@ -166,7 +213,7 @@ export class CelestialEngineController {
     }
 
     if (engineId === CELESTIAL_ENGINE_IDS.COMET_ENGINE) {
-      const definition = CELESTIAL_ENGINE_CONFIG.engines[engineId];
+      const definition = definitionOverride || CELESTIAL_ENGINE_CONFIG.engines[engineId];
       this.scene.playerController?.applyExternalKnockback?.(
         direction.x * definition.rideSpeedPxPerSecond,
         direction.y * definition.rideSpeedPxPerSecond,
@@ -219,17 +266,13 @@ export class CelestialEngineController {
   }
 
   _handleLevelUp(reward) {
-    if (!reward?.levelUp || !this.scene.levelUpPopup) return;
-    const level = reward.newLevel ?? this.scene.playerLevelSystem?.level;
-    if (reward.hasChoice && this.scene.levelUpPopup.visible) {
-      this.scene._pendingLevelUp = {
-        level,
-        hasChoice: true,
-        rewards: reward.rewards || [],
-      };
-    } else if (reward.hasChoice) {
-      this.scene.levelUpPopup.show(level, true, reward.rewards || []);
-    }
+    if (!reward?.levelUp) return;
+    const levelBonus = this.scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
+    const milestoneBonus = this.scene.milestoneBoardSystem?.getBonuses?.()?.gpMaxBonus ?? 0;
+    this.scene.playerController?.setProgressionGemPowerMaxBonus?.(
+      levelBonus + milestoneBonus,
+    );
+    this.scene.hudSystem?.pulseGemPower?.(true);
   }
 
   _impactFeedback() {
@@ -240,6 +283,7 @@ export class CelestialEngineController {
   _handleComplete(reason, health) {
     this.lastCompletion = { reason, health, completedAtMs: this.scene.time?.now || 0 };
     this.activeEffect = null;
+    this.activeDefinition = null;
     this.activeBudget = null;
     this.hud?.setActiveSnapshot(null);
     this.scene.queueDugTilesSave?.();
@@ -268,6 +312,14 @@ export class CelestialEngineController {
       || { x: 0, y: 0 };
   }
 
+  isEngineActive(engineId) {
+    return Boolean(this.activeEffect && this.activeBudget?.engineId === engineId);
+  }
+
+  isActivationAvailable() {
+    return this.enabled && !this.activeEffect;
+  }
+
   getHealthSnapshot(nowMs = this.scene.time?.now || 0) {
     return {
       enabled: this.enabled,
@@ -284,6 +336,7 @@ export class CelestialEngineController {
   destroy() {
     this.activeEffect?.destroy();
     this.activeEffect = null;
+    this.activeDefinition = null;
     this.activeBudget = null;
     this.hud?.destroy();
   }

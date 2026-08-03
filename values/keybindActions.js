@@ -1,6 +1,8 @@
+import { GAME_CONFIG } from "./gameConfig.js";
+
 export const KEYBIND_STORAGE_VERSION = 4;
 
-export const KEYBIND_ACTIONS = Object.freeze([
+const KEYBIND_ACTION_DEFINITIONS = Object.freeze([
   { id: "moveLeft", label: "Move / Aim Left", description: "Walk left and aim left.", defaultKey: "A", group: "Gameplay" },
   { id: "moveRight", label: "Move / Aim Right", description: "Walk right and aim right.", defaultKey: "D", group: "Gameplay" },
   { id: "aimUp", label: "Aim Up", description: "Aim mining and abilities upward.", defaultKey: "W", group: "Gameplay" },
@@ -19,10 +21,13 @@ export const KEYBIND_ACTIONS = Object.freeze([
   { id: "quickslash", label: "Quickslash", description: "Use quickslash when unlocked.", defaultKey: "Q", group: "Abilities" },
   { id: "thunderStrike", label: "Thunderstrike", description: "Use thunderstrike when unlocked.", defaultKey: "C", group: "Abilities" },
   { id: "torch", label: "Torch", description: "Toggle or use torch behavior.", defaultKey: "T", group: "Abilities" },
-  { id: "celestialEngine", label: "Celestial Engine", description: "Release your attuned Star Heart Engine or redirect the Wayward Star.", defaultKey: "X", group: "Abilities" },
   { id: "fullscreen", label: "Fullscreen", description: "Dedicated browser fullscreen toggle.", defaultKey: "F10", group: "Display", rebindable: false },
-  { id: "screenRecord", label: "Screen Recording", description: "Start or stop recording the game canvas.", defaultKey: "F9", group: "Display" },
+  { id: "screenRecord", label: "Screen Recording", description: "Start or stop recording the game canvas.", defaultKey: "F9", group: "Display", devOnly: true },
 ]);
+
+export const KEYBIND_ACTIONS = Object.freeze(
+  KEYBIND_ACTION_DEFINITIONS.filter(action => !action.devOnly || GAME_CONFIG.debugMode)
+);
 
 export const KEYBIND_ACTION_BY_ID = Object.freeze(
   KEYBIND_ACTIONS.reduce((map, action) => {

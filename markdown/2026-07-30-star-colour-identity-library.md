@@ -1,7 +1,7 @@
 # Star Colour Identity Library V1
 
 **Date:** 2026-07-30
-**Status:** production-wired
+**Status:** identity/Atlas production-wired; discovery popup retired 2026-08-02
 
 ## Player-facing result
 
@@ -12,7 +12,7 @@ light art, colour name, flavour line, and bounded steady-light motion profile.
 Rarity and identity deliberately remain separate:
 
 - rarity determines encounter odds, depth gate, Sign XP, material multiplier,
-  Engine charge, and the ordinary-versus-wow popup treatment;
+  Engine charge, and reward/release emphasis;
 - identity determines the exact crystal frame, colour, flavour, and light
   character;
 - a rarity can contain many colours.
@@ -43,23 +43,13 @@ always readable and does not add a second discovery lock. Phaser supplies only
 dynamic text, exact authored star images, invisible hit zones, alpha feedback,
 and a bounded preview pulse; it does not draw visible menu chrome.
 
-## Discovery popup cadence and preference
+## Retired discovery popup
 
-Every rarity reveal now settles for exactly three seconds before its exit
-animation. `starDiscoveryPopupPolicy.js` prevents repeated mining from turning
-that readable hold into a queue:
-
-- routine repeat Stars can admit one popup every 20 seconds;
-- the first lifetime encounter of each rarity can bypass the interval;
-- a Sign level-up can bypass the interval;
-- only an incoming higher-priority rarity/level reveal can replace a live card;
-- equal or lower-priority Stars keep the current card instead of restarting it.
-
-`ESC → SETTINGS → GAMEPLAY → Star Discovery Popups` is enabled by default and
-persists in `UserSettings`. Switching it off immediately closes the live card
-and blocks future cards. It does not suppress the identity crystal release,
-rarity counts, Sign XP, materials, Engine charge, constellation callbacks, or
-save state.
+The former timed discovery card, cooldown policy, and ESC preference were
+removed on 2026-08-02. The exact identity remains readable through the
+world/release presentation, I-key Star Atlas, Sign XP, and player-opened
+Starlight progression. Rewards, Engine charge, constellation callbacks, and
+save state remain unchanged.
 
 ## Runtime authority
 
@@ -75,13 +65,13 @@ reconstructed deterministically from the world seed and tile coordinate.
 
 Both normal Star mining and Heavy Punch/behind-tile Star mining pass the exact
 identity into the reward detail. `FloatingTextSystem` carries it through saved
-progress metadata, the discovery popup, and the UI-only mined-star release.
+progress metadata and the UI-only mined-star release.
 Collected Stars remain transient UI presentation and never become persistent
 world entities.
 
 The scenic semantic renderer and `SkySteadyLightRenderer` use the same exact
 atlas frame. The star therefore keeps one identity in the tile, darkness light,
-discovery popup, release, and Star Atlas. No generic star texture is tinted.
+release, and Star Atlas. No generic star texture is tinted.
 
 ## Authored asset package
 

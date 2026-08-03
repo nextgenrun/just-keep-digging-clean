@@ -46,29 +46,10 @@ function refreshMiningTargetVisual(scene) {
 }
 
 function _handleLevelUpResult(scene, result) {
-  if (!result?.levelUp || !scene.levelUpPopup) return;
-  if (scene.openingFlightArtifactSystem?.handleStarterLevelUp?.(result) === true) return;
-
-  const rewards = Array.isArray(result.rewards) ? result.rewards : [];
-  const level = Number.isFinite(result.newLevel)
-    ? result.newLevel
-    : scene.playerLevelSystem?.level;
-  const hasChoice = Boolean(result.hasChoice);
-
+  if (!result?.levelUp) return;
   syncProgressionGemPowerMax(scene);
+  scene.hudSystem?.pulseGemPower?.(true);
   scene.queueDugTilesSave?.();
-  if (!hasChoice) return;
-
-  if (scene.levelUpPopup.visible) {
-    scene._pendingLevelUp = {
-      level,
-      hasChoice,
-      rewards,
-    };
-    return;
-  }
-
-  scene.levelUpPopup.show(level, hasChoice, rewards);
 }
 
 function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
@@ -134,11 +115,6 @@ function handleRetentionEvents(scene) {
       case RETENTION_EVENT_TYPES.EARTHQUAKE_RECAP:
         break;
       case RETENTION_EVENT_TYPES.TUTORIAL:
-        if (scene.townSquareTutorialSystem) break;
-        scene.uiNotifications?.info?.(event.message, {
-          key: "first-run-contract",
-          durationMs: RETENTION_CONFIG.notifications.tutorialMs,
-        });
         break;
       case RETENTION_EVENT_TYPES.OBJECTIVE_COMPLETE: {
         const reward = Math.max(0, Number(event.objective?.rewardMoney) || 0);
@@ -197,7 +173,7 @@ function handleQuickslashMineResult(scene, result, targetTile, tileType) {
     const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
     scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
   }
-  if (result.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, result);
+  if (result.levelUp) _handleLevelUpResult(scene, result);
 }
 
 function handleNormalMineResult(scene, result, targetTile, tileType, { flushContactFeedback = true } = {}) {
@@ -255,7 +231,7 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
   }
 
   refreshMiningTargetVisual(scene);
-  if (result.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, result);
+  if (result.levelUp) _handleLevelUpResult(scene, result);
 }
 
 function handleThunderStrikeResult(scene, strikeResult, now) {
@@ -294,7 +270,7 @@ function handleThunderStrikeResult(scene, strikeResult, now) {
       tileType: result.tileType,
     }, { tx: result.tx, ty: result.ty });
     scene.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
-    if (reward.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, reward);
+    if (reward.levelUp) _handleLevelUpResult(scene, reward);
     scene.queueDugTilesSave?.();
   });
   scene.soundSystem?.playTileBreak();
@@ -362,7 +338,7 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
     recordGraveborerWurmMiningNoise(scene, "arcCore", aimTargetTile);
   }
   if (shouldSave) scene.queueDugTilesSave?.();
-  if (areaResult.levelUp && scene.levelUpPopup) _handleLevelUpResult(scene, areaResult);
+  if (areaResult.levelUp) _handleLevelUpResult(scene, areaResult);
   refreshMiningTargetVisual(scene);
   return areaResult;
 }
@@ -401,27 +377,6 @@ export function updateScene(time, delta) {
   }
 
   const keys = this.inputHandler.getKeys();
-
-  // 1. Check for level up popup input (has highest priority after global)
-  if (this.levelUpPopup && this.levelUpPopup.visible) {
-    const choice = this.levelUpPopup.handleInput();
-      if (choice) {
-        if (choice !== "continue") {
-          const applied = this.playerLevelSystem.applyChoiceReward(choice);
-          if (applied) {
-            this.queueDugTilesSave?.();
-          }
-        }
-        syncProgressionGemPowerMax(this);
-        // Check if there's a pending level up after closing current popup
-        if (this._pendingLevelUp && !this.levelUpPopup.visible) {
-          console.log('[LEVEL UP] Showing pending level up - Level:', this._pendingLevelUp.level);
-          this.levelUpPopup.show(this._pendingLevelUp.level, this._pendingLevelUp.hasChoice, this._pendingLevelUp.rewards);
-          this._pendingLevelUp = null;
-        }
-      }
-    return; // Skip all other updates while level up popup is visible
-  }
 
   if (!notificationInputBlocked && this.uiNotifications?.handleInput?.()) {
     return;
@@ -515,6 +470,8 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
     const xpRequired = this.playerLevelSystem.getXPRequiredForNextLevel();
     this.xpProgressBar.update(level, currentXP, xpRequired);
   }
+  this.celestialActionBarSystem?.sync?.();
+  this.celestialCurrencyHudSystem?.update?.();
   if (samplePerformancePhases) {
     recordPerformanceSpan(
       PERFORMANCE_TELEMETRY_CONFIG.phases.playHudProgression,
@@ -655,11 +612,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Block all gameplay while campfire menu is open (like shop overlay does)
   if (featureAvailable("campfire") && this.campfireSystem && this.campfireSystem.isSelecting()) return;
 
-  const thunderMovement = this.playerController?.input?.getHorizontalMovement?.();
-  if (thunderMovement?.left || thunderMovement?.right) {
-    this.thunderStrikeActionRuntime?.cancel?.(time);
-  }
-
+  this.celestialActionBarInputBridge?.update?.();
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
   // A player can still enter the authored surface shaft by walking into it;
@@ -697,16 +650,20 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   this.npcManager?.updateActivities?.(time, delta, playerTile);
   const arcCoreConsumedInteraction = featureAvailable("arcCore") && this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
 
-  if (featureAvailable("specialTiles")) this.specialTileSystem?.update?.();
+  // Portals are part of the core return route and remain interactive from the
+  // first session. SpecialTileSystem gates optional chests/gamble tiles itself.
+  this.specialTileSystem?.update?.();
   this.animatedCacheVisualSystem?.update?.(time, playerTile);
   if (featureAvailable("relics")) this.memoryReliquaryWorldSystem?.update?.(time, playerTile);
   this.interactiveWorldStateTextureBank?.update?.(time);
   const milestoneDistance = featureDistance("milestones", () => this.milestoneBoardSystem?.getInteractionDistance?.(playerTile));
   const nearestNpcDistance = featureDistance("core", () => this.npcManager?.getNearestInteractionDistance?.(playerTile));
   const titanStatueDistance = featureDistance("titans", () => this.worldRenderer?.getTitanSurfaceInspectionDistance?.(playerTile));
-  const specialTileDistance = featureDistance("specialTiles", () => this.specialTileSystem?.getInteractionDistance?.(playerTile));
+  const specialTileDistance = this.specialTileSystem?.getInteractionDistance?.(playerTile)
+    ?? Number.POSITIVE_INFINITY;
   const eventDistance = featureDistance("randomEvents", () => this.randomEventBridge?.getInteractionDistance?.(playerTile));
   const memoryReliquaryDistance = featureDistance("relics", () => this.memoryReliquaryWorldSystem?.getInteractionDistance?.(playerTile));
+  const pillarDistance = featureDistance("constellations", () => this.starPillarSystem?.getInteractionDistance?.(playerTile));
   const specialTileHasPriority = Number.isFinite(specialTileDistance)
     && specialTileDistance <= Math.min(
       milestoneDistance,
@@ -714,6 +671,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       titanStatueDistance,
       eventDistance,
       memoryReliquaryDistance,
+      pillarDistance,
     );
   const eventHasPriority = Number.isFinite(eventDistance)
     && eventDistance < Math.min(
@@ -722,6 +680,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       titanStatueDistance,
       specialTileDistance,
       memoryReliquaryDistance,
+      pillarDistance,
     );
   const memoryReliquaryHasPriority = Number.isFinite(memoryReliquaryDistance)
     && memoryReliquaryDistance < Math.min(
@@ -730,6 +689,16 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       titanStatueDistance,
       specialTileDistance,
       eventDistance,
+      pillarDistance,
+    );
+  const pillarHasPriority = Number.isFinite(pillarDistance)
+    && pillarDistance <= Math.min(
+      milestoneDistance,
+      nearestNpcDistance,
+      titanStatueDistance,
+      specialTileDistance,
+      eventDistance,
+      memoryReliquaryDistance,
     );
   this.memoryReliquaryWorldSystem?.setInteractionAllowed?.(
     !arcCoreConsumedInteraction && memoryReliquaryHasPriority,
@@ -740,7 +709,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     {
       allowOpen: !arcCoreConsumedInteraction
         && milestoneDistance
-        < Math.min(nearestNpcDistance, titanStatueDistance, specialTileDistance, eventDistance, memoryReliquaryDistance),
+        < Math.min(nearestNpcDistance, titanStatueDistance, specialTileDistance,
+          eventDistance, memoryReliquaryDistance, pillarDistance),
     },
   ) === true;
   const titanConsumedInteraction = featureAvailable("titans") && this.worldRenderer
@@ -751,7 +721,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
           allowInspect: !arcCoreConsumedInteraction
           && !milestoneConsumedInteraction
           && titanStatueDistance
-            < Math.min(milestoneDistance, nearestNpcDistance, specialTileDistance, eventDistance, memoryReliquaryDistance),
+            < Math.min(milestoneDistance, nearestNpcDistance, specialTileDistance,
+              eventDistance, memoryReliquaryDistance, pillarDistance),
       },
     ) === true;
 
@@ -763,6 +734,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     && !specialTileHasPriority
     && !eventHasPriority
     && !memoryReliquaryHasPriority
+    && !pillarHasPriority
   ) {
     this.npcManager.checkNPCInteraction();
   }
@@ -770,7 +742,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Update NPC interact prompts (floating "Press E" text visibility)
   this.npcManager.updateInteractPrompts(
     playerTile,
-    Math.min(milestoneDistance, titanStatueDistance, specialTileDistance, eventDistance, memoryReliquaryDistance),
+    Math.min(milestoneDistance, titanStatueDistance, specialTileDistance,
+      eventDistance, memoryReliquaryDistance, pillarDistance),
   );
 
   // Integrated caves stay in PlayScene. Only explicit compact review mouths
@@ -782,6 +755,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     && !specialTileHasPriority
     && !eventHasPriority
     && !memoryReliquaryHasPriority
+    && !pillarHasPriority
     && featureAvailable("caves")
     && this.caveEntryController?.update(playerTile, keys)
   ) return;
@@ -979,6 +953,10 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 
   // Special tile interaction (E key for gamble/teleport tiles)
   if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
+    if (pillarHasPriority && this.starPillarSystem?.handleInteract?.(playerTile)) {
+      return;
+    }
+
     if (featureAvailable("randomEvents") && eventHasPriority && this.randomEventBridge?.handleInteract?.()) {
       return;
     }
@@ -996,19 +974,14 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
         return;
       }
     }
-    const interactResult = featureAvailable("specialTiles") ? (this.specialTileSystem?.handleInteract?.() || { success: false }) : { success: false };
+    const interactResult = this.specialTileSystem?.handleInteract?.()
+      || { success: false };
     if (interactResult.success) {
       console.log('[SPECIAL TILE] Interaction successful:', interactResult.type, interactResult);
       // Refresh resources after gamble
       if (interactResult.type === 'gamble') {
         this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
       }
-      return;
-    }
-
-    // Star Pillar is the fallback when no special tile consumed E.
-    if (featureAvailable("constellations") && this.starPillarSystem && this.starPillarSystem._playerInRange) {
-      this.starPillarSystem.openConstellationView();
       return;
     }
   }
@@ -1091,10 +1064,6 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     this.hudSystem.setFlightHeight(currentHeight, maxHeight);
   }
   
-  this.hudSystem.setDashCooldown(
-    this.playerController.getDashCooldownMs(),
-    this.upgradeSystem.isGemDashUnlocked()
-  );
 
   // Refresh safe return line
   if (this.hudSystem.isDirty()) {

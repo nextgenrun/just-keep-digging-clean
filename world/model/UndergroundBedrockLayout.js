@@ -57,7 +57,6 @@ export function enforceUndergroundBedrockLayout(
     worldModel.setTile(divider.tileX, tileY, dividerType, 0);
     worldModel.skyTileOriginalType[index] = 0;
     worldModel.skyTileRarity[index] = 0;
-    worldModel.rootOverlay[index] = 0;
     if (!isSurfaceClearance) {
       report.retainedDivider += 1;
       expectedDividerTiles += 1;
@@ -73,7 +72,6 @@ export function enforceUndergroundBedrockLayout(
     worldModel.setTile(divider.legacyGateTileX, tileY, TILE_TYPES.AIR, 0);
     worldModel.skyTileOriginalType[index] = 0;
     worldModel.skyTileRarity[index] = 0;
-    worldModel.rootOverlay[index] = 0;
   }
 
   for (let tileY = firstUndergroundTileY; tileY < worldModel.depthTiles; tileY += 1) {
@@ -95,7 +93,6 @@ export function enforceUndergroundBedrockLayout(
       worldModel.setTile(tileX, tileY, nextType, nextHp);
       worldModel.skyTileOriginalType[index] = 0;
       worldModel.skyTileRarity[index] = 0;
-      worldModel.rootOverlay[index] = 0;
 
       if (nextType === TILE_TYPES.AIR) {
         report.clearedBridgeUndercroft += 1;

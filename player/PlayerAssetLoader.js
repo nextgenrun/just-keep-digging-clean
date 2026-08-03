@@ -87,7 +87,6 @@ const ROBOT_SHEETS = Object.freeze([
   ["digUpLookSheet", "dig-up-look-sheet.webp", "digUpLookFrames"],
   ["wallPushSheet", "wall-push-sheet.webp", "wallPushFrames"],
   ["combatIdleRecoverSheet", "combat-idle-recover-sheet.webp", "combatIdleRecoverFrames"],
-  ["climbSheet", "climb-sheet.webp", "climbFrames"],
   ["flySheet", "fly-sheet.webp", "flyFrames"],
   ["quickslashSheet", "quickslash-sheet.webp", "quickslashFrames"],
   ["thunderStrikeChargeSheet", "thunder-charge-sheet.webp", "thunderStrikeChargeFrames"],

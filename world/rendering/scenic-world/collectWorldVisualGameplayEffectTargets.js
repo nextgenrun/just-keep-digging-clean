@@ -3,7 +3,6 @@ import { TILE_TYPES } from "../../../values/tileTypes.js";
 export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps) {
   const skyTiles = [];
   const chestTiles = [];
-  const rootTiles = [];
   const crystalTiles = [];
   const chestKeys = new Set();
   const addChest = (tx, ty) => {
@@ -32,8 +31,6 @@ export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps
       if (type === TILE_TYPES.GLOW_CRYSTAL && crystalTiles.length < caps.maxCrystalTiles) {
         crystalTiles.push({ tx, ty });
       }
-      const overlayType = worldModel.getRootOverlayType?.(tx, ty) || 0;
-      if (overlayType && rootTiles.length < caps.maxRootTiles) rootTiles.push({ tx, ty, overlayType });
     }
   }
 
@@ -46,5 +43,5 @@ export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps
     && zone.cy + zone.ry >= bounds.top && zone.cy - zone.ry < bounds.bottom
   )).slice(0, caps.maxCrystalZones);
 
-  return { skyTiles, chestTiles, rootTiles, crystalTiles, crystalZones };
+  return { skyTiles, chestTiles, crystalTiles, crystalZones };
 }

@@ -163,14 +163,9 @@ assert.match(steadySource, /identityLight\?\.radiusScale/);
 assert.match(steadySource, /identityLight\.rotationAmplitudeRadians/);
 assert.doesNotMatch(steadySource, /\.setTint\(/);
 
-const popupSource = read("systems/visual/StarDiscoveryPopupView.js");
-assert.match(popupSource, /identity\.name\.toUpperCase/);
-assert.match(popupSource, /identity\.frameName/);
-assert.match(popupSource, /identity\.lightFrameName/);
-
 const inventoryPopupSource = read("ui/overlays/UIInventoryPopup.js");
-assert.match(inventoryPopupSource, /STAR ATLAS|starAtlas\.copy\.tabLabel/);
-assert.match(inventoryPopupSource, /renderInventoryStarAtlas/);
+assert.doesNotMatch(inventoryPopupSource, /STAR ATLAS|starAtlas\.copy\.tabLabel/);
+assert.doesNotMatch(inventoryPopupSource, /renderInventoryStarAtlas/);
 const inventoryAtlasSource = read("ui/overlays/UIInventoryStarAtlas.js");
 assert.match(inventoryAtlasSource, /star-atlas-foundation-v1|inventory\.foundation/);
 assert.match(inventoryAtlasSource, /identity\.flavour/);

@@ -285,7 +285,8 @@ assert.match(setupSource, /new StarHeartProgressionSystem/);
 assert.match(setupSource, /new CelestialEngineController/);
 assert.match(updateSource, /celestialEngineController\?\.update/);
 assert.match(bootSource, /celestial-engines/);
-assert.match(pillarSource, /createStarlightTalentTreeView/);
-assert.match(pillarSource, /starHeartOverlay\?\.open\?\.\(engineId\)/);
+assert.match(setupSource, /createCelestialTalentTreeView/);
+assert.match(pillarSource, /createCelestialTalentTreeView/);
+assert.match(pillarSource, /celestialTalentProgressionSystem/);
 
 console.log("celestial engines contract: three permanent unlocks, milestones, caps, protected tiles, rewards, and save migration passed");

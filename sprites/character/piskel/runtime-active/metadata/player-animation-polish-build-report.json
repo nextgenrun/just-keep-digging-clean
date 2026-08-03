@@ -1,9 +1,136 @@
 {
-  "version": "survival-player-animation-polish-v2-20260731",
+  "version": "survival-player-animation-polish-v3-20260803",
+  "run": {
+    "frameCount": 28,
+    "sourceAction": "run",
+    "manifestAction": "run-piskel-polished",
+    "uniformScale": 1.0,
+    "uniformTranslateX": 5,
+    "verticalShifts": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sourceBottoms": [
+      247,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      247,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248
+    ],
+    "polishedBottoms": [
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248,
+      248
+    ],
+    "sourceMedianPelvisX": 122.8735,
+    "polishedMedianPelvisX": 127.8735,
+    "maxPelvisCenterErrorPx": 0.6531,
+    "loopSeamMeanAbsolute": 0.00851,
+    "contacts": [
+      {
+        "sequenceIndex": 13,
+        "textureFrame": 12,
+        "marker": "foot_r",
+        "position": [
+          182.025,
+          236.2339
+        ]
+      },
+      {
+        "sequenceIndex": 27,
+        "textureFrame": 26,
+        "marker": "foot_l",
+        "position": [
+          164.9324,
+          247.0566
+        ]
+      }
+    ],
+    "sourceSha256": "28b2074b4c08b54e8f6cdd9f052ae69ba5f6941c6c8fb1cd4a0f500b5132c5be",
+    "alphaAnchorStability": {
+      "frameCount": 28,
+      "bottomDriftPx": 1.0,
+      "rootAnchorDriftPx": 11.753
+    }
+  },
   "transitions": {
     "frameCount": 133,
-    "bottomDriftPx": 3.0,
-    "rootAnchorDriftPx": 14.113
+    "bottomDriftPx": 2.0,
+    "rootAnchorDriftPx": 9.113
   },
   "diagonalDig": {
     "frameCount": 120,
@@ -11,6 +138,54 @@
     "rootAnchorDriftPx": 15.703
   },
   "reviewPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-runtime-review.png",
+  "runPiskel": {
+    "validation": {
+      "id": "survival-player-animation-polish-run",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/player-animation-polish-run.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 28,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 8.75,
+      "maxBBoxCenterDriftPx": 9.0,
+      "maxRootAnchorDriftPx": 8.75,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 161.0
+    },
+    "runtime": {
+      "runtimeMode": "sheet",
+      "outputs": [
+        "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp"
+      ],
+      "sheetGrid": [
+        16,
+        2
+      ],
+      "sheetSize": [
+        4096,
+        512
+      ],
+      "unusedGridFrames": [
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "artifacts": {
+      "metadataPath": "sprites/character/piskel/runtime-active/metadata/player-animation-polish-run-metadata.json",
+      "previewPath": "sprites/character/piskel/runtime-active/previews/player-animation-polish-run-preview-30fps.gif",
+      "contactSheetPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-run-review-contact-sheet.png",
+      "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-run-alignment-overlay.png",
+      "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-run-drift-report.json"
+    }
+  },
   "transitionPiskel": {
     "validation": {
       "id": "survival-player-animation-polish-transitions",
@@ -25,10 +200,10 @@
       ],
       "fps": 30,
       "anchorMode": "alpha-lower-body",
-      "maxCenterDriftPx": 10.88,
-      "maxBBoxCenterDriftPx": 36.5,
-      "maxRootAnchorDriftPx": 10.88,
-      "maxBottomDriftPx": 1.0,
+      "maxCenterDriftPx": 5.89,
+      "maxBBoxCenterDriftPx": 36.0,
+      "maxRootAnchorDriftPx": 5.89,
+      "maxBottomDriftPx": 0.0,
       "medianBBoxHeightPx": 156.0
     },
     "runtime": {
@@ -83,7 +258,7 @@
       "maxCenterDriftPx": 10.69,
       "maxBBoxCenterDriftPx": 24.5,
       "maxRootAnchorDriftPx": 10.69,
-      "maxBottomDriftPx": 1.0,
+      "maxBottomDriftPx": 0.0,
       "medianBBoxHeightPx": 158.0
     },
     "runtime": {

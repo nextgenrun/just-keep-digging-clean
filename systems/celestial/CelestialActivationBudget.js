@@ -1,8 +1,8 @@
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
 
 export class CelestialActivationBudget {
-  constructor(engineId, activationId, startedAtMs) {
-    const engine = CELESTIAL_ENGINE_CONFIG.engines[engineId];
+  constructor(engineId, activationId, startedAtMs, definitionOverride = null) {
+    const engine = definitionOverride || CELESTIAL_ENGINE_CONFIG.engines[engineId];
     if (!engine) throw new Error(`Unknown Celestial Engine: ${engineId}`);
     this.engineId = engineId;
     this.activationId = String(activationId || "");

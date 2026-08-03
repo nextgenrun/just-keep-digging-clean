@@ -86,6 +86,7 @@ function sanitizeTitanClueTracking(value) {
 
 export function sanitizeRetentionProgressData(value) {
   const source = value && typeof value === "object" ? value : {};
+  const sourceVersion = finiteRetentionInt(source.version, 0, RETENTION_CONFIG.saveVersion);
   const rawStats = source.stats && typeof source.stats === "object" ? source.stats : {};
   const stats = createStats();
   Object.keys(stats).forEach(key => {
@@ -104,6 +105,18 @@ export function sanitizeRetentionProgressData(value) {
   const legacyStage = typeof source.tutorialStage === "string"
     ? source.tutorialStage
     : null;
+  const migratedStage = sourceVersion < 3
+    && (legacyStage === "sell" || legacyStage === "upgrade")
+    ? TOWN_TUTORIAL_STAGES.PORTAL
+    : legacyStage;
+  const v3Stage = sourceVersion === 3
+    && migratedStage === TOWN_TUTORIAL_STAGES.SELL
+    ? TOWN_TUTORIAL_STAGES.RESUME
+    : migratedStage;
+  const routeStage = sourceVersion === 4
+    && (v3Stage === "sell" || v3Stage === "upgrade")
+    ? TOWN_TUTORIAL_STAGES.FLIGHT
+    : v3Stage;
   const hasLegacyData = value && typeof value === "object";
   const tutorialChoice = explicitChoice
     ?? (hasLegacyData ? TOWN_TUTORIAL_CHOICES.LEGACY : null);
@@ -112,14 +125,13 @@ export function sanitizeRetentionProgressData(value) {
     : tutorialChoice === TOWN_TUTORIAL_CHOICES.NO
       ? TOWN_TUTORIAL_STAGES.SKIPPED
       : hasLegacyData
-        ? (legacyStage === TOWN_TUTORIAL_STAGES.COMPLETE
+        ? (routeStage === TOWN_TUTORIAL_STAGES.COMPLETE
           ? TOWN_TUTORIAL_STAGES.COMPLETE
           : TOWN_TUTORIAL_STAGES.SKIPPED)
         : TOWN_TUTORIAL_STAGES.UNSELECTED;
-  const tutorialStage = TUTORIAL_STAGES.includes(legacyStage)
-    ? legacyStage
+  const tutorialStage = TUTORIAL_STAGES.includes(routeStage)
+    ? routeStage
     : fallbackStage;
-  const legacyRewardHandled = tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY;
 
   return {
     version: RETENTION_CONFIG.saveVersion,
@@ -132,14 +144,14 @@ export function sanitizeRetentionProgressData(value) {
     },
     tutorialChoice,
     tutorialStage,
-    tutorialStarterRewardGranted: legacyRewardHandled
-      || source.tutorialStarterRewardGranted === true,
-    tutorialCompletionRewardGranted: legacyRewardHandled
+    tutorialFlightTrainingGranted:
+      tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY
+      || source.tutorialFlightTrainingGranted === true
       || source.tutorialCompletionRewardGranted === true,
     tutorialFreeFlightRemainingMs: finiteRetentionInt(
       source.tutorialFreeFlightRemainingMs,
       0,
-      RETENTION_CONFIG.tutorial.completionReward.freeFlightMs,
+      RETENTION_CONFIG.tutorial.flightTraining.freeFlightMs,
     ),
     titanClueTracking: sanitizeTitanClueTracking(source.titanClueTracking),
     lastExpedition: sanitizeRetentionExpedition(source.lastExpedition),

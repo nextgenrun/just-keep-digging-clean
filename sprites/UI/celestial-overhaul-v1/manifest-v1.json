@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "packageId": "celestial-overhaul-v1",
+  "date": "2026-08-03",
+  "assets": [
+    {
+      "id": "celestial-actionbar",
+      "role": "actionbar-chroma",
+      "sourcePath": "source/celestial-actionbar-chroma-imagegen-source-v1.png",
+      "outputPath": "celestial-actionbar-v1.png",
+      "originalPath": "C:\\Users\\Mila\\.codex\\generated_images\\019fbd49-acc9-71a1-bfd2-607e9f8e05e1\\exec-860ecdcc-7872-4571-a131-641a396ec92b.png",
+      "source": {
+        "width": 1774,
+        "height": 887,
+        "mode": "RGB",
+        "alphaExtrema": null,
+        "cornerAlpha": null
+      },
+      "output": {
+        "width": 1575,
+        "height": 474,
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "sourceSha256": "a962c6debdf29ae76708393f4b8e8fc49350d194ae47201b4a8ecc872154923c",
+      "outputSha256": "f02c90d775bd8a9208dd028ec3a934658bf66b0b0052dc4826c25662a1fd745c",
+      "trim": {
+        "paddingPx": 24,
+        "alphaBoundsBeforeTrim": [
+          123,
+          235,
+          1650,
+          661
+        ],
+        "cropBox": [
+          99,
+          211,
+          1674,
+          685
+        ],
+        "resampled": false
+      },
+      "processingCommand": [
+        "C:\\Users\\Mila\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+        "C:\\Users\\Mila\\.codex\\skills\\.system\\imagegen\\scripts\\remove_chroma_key.py",
+        "--input",
+        "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\UI\\.celestial-overhaul-v1-fbd9uhb3\\celestial-overhaul-v1\\source\\celestial-actionbar-chroma-imagegen-source-v1.png",
+        "--out",
+        "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\UI\\.celestial-overhaul-v1-fbd9uhb3\\celestial-actionbar-alpha-full.png",
+        "--auto-key",
+        "border",
+        "--soft-matte",
+        "--transparent-threshold",
+        "12",
+        "--opaque-threshold",
+        "220",
+        "--despill",
+        "--force"
+      ]
+    },
+    {
+      "id": "celestial-currency-hud",
+      "role": "currency-chroma",
+      "sourcePath": "source/celestial-currency-chroma-imagegen-source-v1.png",
+      "outputPath": "celestial-currency-hud-v1.png",
+      "originalPath": "C:\\Users\\Mila\\.codex\\generated_images\\019fbd49-acc9-71a1-bfd2-607e9f8e05e1\\exec-f6650860-889e-4a47-8ade-e0d156bc2d2d.png",
+      "source": {
+        "width": 1672,
+        "height": 941,
+        "mode": "RGB",
+        "alphaExtrema": null,
+        "cornerAlpha": null
+      },
+      "output": {
+        "width": 1589,
+        "height": 314,
+        "mode": "RGBA",
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "sourceSha256": "96a602dca50aef90fe9d6c6374b41996bf1123ac9fac9c2e8238befd5c79f4a2",
+      "outputSha256": "8dccf88362ddb7d1fe2450c229e0b68d98688291251e69b9888aa7566708deb8",
+      "trim": {
+        "paddingPx": 24,
+        "alphaBoundsBeforeTrim": [
+          65,
+          327,
+          1606,
+          593
+        ],
+        "cropBox": [
+          41,
+          303,
+          1630,
+          617
+        ],
+        "resampled": false
+      },
+      "processingCommand": [
+        "C:\\Users\\Mila\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+        "C:\\Users\\Mila\\.codex\\skills\\.system\\imagegen\\scripts\\remove_chroma_key.py",
+        "--input",
+        "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\UI\\.celestial-overhaul-v1-fbd9uhb3\\celestial-overhaul-v1\\source\\celestial-currency-chroma-imagegen-source-v1.png",
+        "--out",
+        "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\UI\\.celestial-overhaul-v1-fbd9uhb3\\celestial-currency-hud-alpha-full.png",
+        "--auto-key",
+        "border",
+        "--soft-matte",
+        "--transparent-threshold",
+        "12",
+        "--opaque-threshold",
+        "220",
+        "--despill",
+        "--force"
+      ]
+    },
+    {
+      "id": "celestial-talent-foundation",
+      "role": "talent-foundation-opaque",
+      "sourcePath": "source/celestial-talent-foundation-imagegen-source-v1.png",
+      "outputPath": "celestial-talent-foundation-v1.png",
+      "originalPath": "C:\\Users\\Mila\\.codex\\generated_images\\019fbd49-acc9-71a1-bfd2-607e9f8e05e1\\exec-ba0d842c-cf09-4f51-8ae1-114bab5eaf98.png",
+      "source": {
+        "width": 1672,
+        "height": 941,
+        "mode": "RGB",
+        "alphaExtrema": null,
+        "cornerAlpha": null
+      },
+      "output": {
+        "width": 1672,
+        "height": 941,
+        "mode": "RGB",
+        "alphaExtrema": null,
+        "cornerAlpha": null
+      },
+      "sourceSha256": "d261a12083388290d43bbc6c22c3e6481135550bdc0d3962aac5bc75038c2843",
+      "outputSha256": "d261a12083388290d43bbc6c22c3e6481135550bdc0d3962aac5bc75038c2843",
+      "trim": null,
+      "processingCommand": [
+        "byte-identical-copy"
+      ]
+    }
+  ]
+}

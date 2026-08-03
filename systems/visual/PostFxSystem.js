@@ -5,7 +5,12 @@
  * All tunables live in values/postFxConfig.js.
  */
 import { POSTFX_CONFIG } from "../../values/postFxConfig.js";
-import { clamp01Finite as clamp01, lerp } from "../../values/mathUtils.js";
+import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
+import {
+  clamp01Finite as clamp01,
+  frameRateIndependentResponse,
+  lerp,
+} from "../../values/mathUtils.js";
 
 
 export class PostFxSystem {
@@ -68,7 +73,11 @@ export class PostFxSystem {
 
   _tick(time) {
     if (!this.available) return;
-    if (time - this._lastUpdateAt < this.config.updateIntervalMs) return;
+    const elapsedMs = time - this._lastUpdateAt;
+    if (elapsedMs < this.config.updateIntervalMs) return;
+    const responseElapsedMs = this._lastUpdateAt > 0
+      ? elapsedMs
+      : this.config.updateIntervalMs;
     this._lastUpdateAt = time;
 
     // Auto-disable on sustained low FPS — polish must never cost playability.
@@ -89,7 +98,13 @@ export class PostFxSystem {
     const target = clamp01(
       (depthMeters - depthCfg.startMeters) / Math.max(1, depthCfg.fullMeters - depthCfg.startMeters)
     );
-    this._depthBlend = lerp(this._depthBlend, target, this.config.lerpFactor);
+    const response = frameRateIndependentResponse(
+      this.config.lerpFactor,
+      responseElapsedMs,
+      this.config.updateIntervalMs,
+      ANIMATION_SMOOTHNESS_CONFIG.maxCatchUpSteps,
+    );
+    this._depthBlend = lerp(this._depthBlend, target, response);
     this._apply(this._depthBlend);
   }
 

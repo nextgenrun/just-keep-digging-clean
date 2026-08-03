@@ -2,6 +2,10 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import {
+  MAIN_MENU_PRESENTATION,
+  resolveMainMenuArtEnabled,
+} from "../../values/mainMenuPresentation.js";
 import { createButton } from "../PhaserUiKit.js";
 import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
@@ -20,8 +24,9 @@ const COL = {
   body:      UI_COLORS.body,
 };
 
-const BTN_W      = 260;
-const BTN_H      = 52;
+const BUTTON_ART = MAIN_MENU_PRESENTATION.button;
+const BTN_W      = BUTTON_ART.widthPx;
+const BTN_H      = BUTTON_ART.heightPx;
 const BTN_GAP    = 14;
 const BTN_X      = 640;
 const BTN_FIRST_Y = 330;
@@ -33,6 +38,20 @@ export class MainMenuScene extends Phaser.Scene {
     this._btnRefs   = [];
     this._fadeInObjs = [];
     this._overlay   = null;
+    this._useAuthoredMenuArt = false;
+  }
+
+  preload() {
+    const button = MAIN_MENU_PRESENTATION.button;
+    this._useAuthoredMenuArt = resolveMainMenuArtEnabled();
+
+    if (!this._useAuthoredMenuArt) return;
+    if (!this.textures.exists(button.idleKey)) {
+      this.load.image(button.idleKey, button.idlePath);
+    }
+    if (!this.textures.exists(button.selectedKey)) {
+      this.load.image(button.selectedKey, button.selectedPath);
+    }
   }
 
   create() {
@@ -149,20 +168,36 @@ export class MainMenuScene extends Phaser.Scene {
 
   // ─── Button builder ──────────────────────────────────────────────────────
 
-  _buildButton(x, y, label, action) {
-    // Drawn background (Graphics)
+  _buildButtonLayers(x, y) {
+    const button = MAIN_MENU_PRESENTATION.button;
+    if (this._useAuthoredMenuArt
+      && this.textures.exists(button.idleKey)
+      && this.textures.exists(button.selectedKey)) {
+      const bg = this.add.image(x, y, button.idleKey).setDisplaySize(BTN_W, BTN_H).setAlpha(0);
+      const hoverLayer = this.add.image(x, y, button.selectedKey).setDisplaySize(BTN_W, BTN_H).setAlpha(0);
+      return { bg, hoverLayer };
+    }
+
+    return this._buildGraphicsButtonLayers(x, y);
+  }
+
+  _buildGraphicsButtonLayers(x, y) {
     const bg = this.add.graphics();
     bg.lineStyle(1, COL.borderDim, 1);
     bg.fillStyle(COL.cardBase, 1);
     bg.fillRoundedRect(x - BTN_W / 2, y - BTN_H / 2, BTN_W, BTN_H, 6);
     bg.strokeRoundedRect(x - BTN_W / 2, y - BTN_H / 2, BTN_W, BTN_H, 6);
     bg.setAlpha(0);
-    this._fadeInObjs.push(bg);
 
-    // Hover colour layer — Graphics with rounded corners matching bg
     const hoverLayer = this.add.graphics().setAlpha(0);
     hoverLayer.fillStyle(COL.cardHover, 1);
     hoverLayer.fillRoundedRect(x - BTN_W / 2, y - BTN_H / 2, BTN_W, BTN_H, 6);
+    return { bg, hoverLayer };
+  }
+
+  _buildButton(x, y, label, action) {
+    const { bg, hoverLayer } = this._buildButtonLayers(x, y);
+    this._fadeInObjs.push(bg);
     this._fadeInObjs.push(hoverLayer);
 
     // Label
@@ -191,10 +226,10 @@ export class MainMenuScene extends Phaser.Scene {
       this.tweens.add({ targets: hoverLayer, alpha: 0, duration: 90, ease: 'Power1.out' });
     });
     hit.on('pointerdown', () => {
+      this.tweens.killTweensOf(hoverLayer);
       this.tweens.add({
-        targets:  [hoverLayer, text],
-        scaleX:   0.97,
-        scaleY:   0.97,
+        targets:  hoverLayer,
+        alpha:    0.82,
         duration: 55,
         ease:     'Power2.in',
         yoyo:     true,

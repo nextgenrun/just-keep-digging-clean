@@ -45,10 +45,8 @@ export class WorldVisualGameplayEffectLayer {
     this.activeBounds = null;
     this.skyTiles = [];
     this.chestTiles = [];
-    this.rootTiles = [];
     this.crystalTiles = [];
     this.crystalZones = [];
-    this.rootGraphics = null;
     this.skyGraphics = null;
     this.chestGraphics = null;
     this.crystalGlowGraphics = null;
@@ -63,7 +61,6 @@ export class WorldVisualGameplayEffectLayer {
       if (additive) graphics.setBlendMode(this.effectConfig.blendMode);
       return graphics;
     };
-    this.rootGraphics = addGraphics(this.runtimeConfig.render.rootOverlayDepth);
     this.crystalShardGraphics = addGraphics(this.runtimeConfig.render.physicalEffectDepth);
     this.skyGraphics = addGraphics(this.runtimeConfig.render.emissiveDepth, true);
     this.chestGraphics = addGraphics(this.runtimeConfig.render.emissiveDepth, true);
@@ -78,7 +75,6 @@ export class WorldVisualGameplayEffectLayer {
       bounds,
       this.effectConfig.performance
     ));
-    this.updateRootOverlays();
   }
 
   invalidateCell(tx, ty) {
@@ -275,35 +271,6 @@ export class WorldVisualGameplayEffectLayer {
       .fillCircle(cx + size * 0.16, baseY - size * 0.35, Math.max(1, size * config.sparkleRadiusScale));
   }
 
-  updateRootOverlays() {
-    const graphics = this.rootGraphics;
-    graphics?.clear();
-    if (!graphics) return false;
-    const config = this.effectConfig.roots;
-    const size = this.scene.config.tileSize;
-    for (const tile of this.rootTiles) {
-      const deep = tile.overlayType === TILE_TYPES.ROOT_OVERLAY_DEEP;
-      const color = deep ? config.deepColor : config.shallowColor;
-      const alpha = deep ? config.deepAlpha : config.shallowAlpha;
-      const x = tile.tx * size;
-      const y = tile.ty * size;
-      const inset = size * config.insetScale;
-      const bend = (hashUnit(tile.tx, tile.ty, 5) - 0.5) * size * config.bendScale;
-      const points = [[x + inset, y], [x + size * 0.44 + bend, y + size * 0.42], [x + size - inset, y + size]];
-      const stroke = (strokeColor, strokeAlpha, width) => graphics.lineStyle(width, strokeColor, strokeAlpha)
-        .beginPath().moveTo(points[0][0], points[0][1]).lineTo(points[1][0], points[1][1])
-        .lineTo(points[2][0], points[2][1]).strokePath();
-      stroke(config.shadowColor, config.shadowAlpha, Math.max(1, size * config.shadowWidthScale));
-      stroke(color, alpha, Math.max(1, size * config.coreWidthScale));
-      const direction = hashUnit(tile.tx, tile.ty, 9) > 0.5 ? 1 : -1;
-      graphics.lineStyle(Math.max(1, size * config.coreWidthScale), color, alpha * 0.82).beginPath()
-        .moveTo(points[1][0], points[1][1]).lineTo(
-          points[1][0] + direction * size * config.branchLengthScale,
-          points[1][1] - size * config.branchLengthScale
-        ).strokePath();
-    }
-    return this.rootTiles.length > 0;
-  }
 
   updateSpecialBlockGlow() {
     // Explicit visual-only no-op: persistent semantic markers are owned by
@@ -319,12 +286,10 @@ export class WorldVisualGameplayEffectLayer {
   }
 
   destroy() {
-    this.rootGraphics?.destroy();
     this.skyGraphics?.destroy();
     this.chestGraphics?.destroy();
     this.crystalGlowGraphics?.destroy();
     this.crystalShardGraphics?.destroy();
-    this.rootGraphics = null;
     this.skyGraphics = null;
     this.chestGraphics = null;
     this.crystalGlowGraphics = null;

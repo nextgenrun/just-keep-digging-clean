@@ -1,5 +1,8 @@
 # Star Identity Dedicated Light Library
 
+**Historical note (2026-08-02):** the identity/light library remains active;
+the automatic Star discovery popup referenced in this record is retired.
+
 ## Outcome
 
 All 250 Star identities now own two separate authored assets:
@@ -52,7 +55,6 @@ light atlases, and the Star Atlas foundation.
   art and a larger, lower-alpha light frame as the emissive pass.
 - `SkyStarReleaseView` keeps the core and its six core echoes, while one
   matched light follows the same bounded rise and fade path behind them.
-- `StarDiscoveryPopupView` layers the matched light below the identity core.
 - The I-key Star Atlas pairs light and core frames in every selector and the
   large dossier preview.
 

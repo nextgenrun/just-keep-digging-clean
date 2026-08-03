@@ -4,7 +4,8 @@ import { enumerateDiscTiles } from "./CelestialActivationBudget.js";
 export class WaywardStarEngine {
   constructor(options) {
     Object.assign(this, options);
-    this.definition = CELESTIAL_ENGINE_CONFIG.engines[this.budget.engineId];
+    this.definition = this.definitionOverride
+      || CELESTIAL_ENGINE_CONFIG.engines[this.budget.engineId];
     this.x = this.startX;
     this.y = this.startY;
     this.vx = this.direction.x * this.definition.speedTilesPerSecond * this.tileSize;

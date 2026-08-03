@@ -34,6 +34,8 @@ export class PlayerInput {
 
     // Mine input edge-detection state
     this._lastMineState = false;
+    this._queuedQuickslashInput = false;
+    this._queuedThunderStrikeInput = false;
   }
 
   /**
@@ -162,37 +164,43 @@ export class PlayerInput {
     return this.keys.shift.isDown || false;
   }
 
-  /**
-   * Get controlled downward flight input
-   * @returns {boolean}
-   */
-  getFlyDownInput() {
-    if (!this.controlsEnabled) {
-      return false;
-    }
-    return (this.keys.shift.isDown && this.keys.aimDown.isDown) || false;
-  }
   
   /**
    * Get Q input (for quickslash ability)
    * @returns {boolean}
    */
+  queueQuickslashInput() {
+    if (!this.controlsEnabled) return false;
+    this._queuedQuickslashInput = true;
+    return true;
+  }
+
   getQuickslashInput() {
+    const queued = this._queuedQuickslashInput;
+    this._queuedQuickslashInput = false;
     if (!this.controlsEnabled) {
       return false;
     }
-    return this.keys.q.isDown || false;
+    return queued || this.keys.q.isDown || false;
   }
   
   /**
    * Get C input (for thunder strike ability)
    * @returns {boolean}
    */
+  queueThunderStrikeInput() {
+    if (!this.controlsEnabled) return false;
+    this._queuedThunderStrikeInput = true;
+    return true;
+  }
+
   getThunderStrikeInput() {
+    const queued = this._queuedThunderStrikeInput;
+    this._queuedThunderStrikeInput = false;
     if (!this.controlsEnabled) {
       return false;
     }
-    return Phaser.Input.Keyboard.JustDown(this.keys.c) || false;
+    return queued || Phaser.Input.Keyboard.JustDown(this.keys.c) || false;
   }
   
   /**

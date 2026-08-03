@@ -1,0 +1,100 @@
+diff --git a/systems/progression/RetentionProgressSystem.js b/systems/progression/RetentionProgressSystem.js
+--- a/systems/progression/RetentionProgressSystem.js
++++ b/systems/progression/RetentionProgressSystem.js
+@@ -4,6 +4,7 @@
+   TOWN_TUTORIAL_STAGES,
+ } from "../../values/retentionConfig.js";
++import { FIRST_FIVE_STARTER_UPGRADE_ID } from "../../values/upgradeDefinitions.js";
+ import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
+@@ -89,6 +90,7 @@
+       choice: this.data.tutorialChoice,
+       stage: this.data.tutorialStage,
++      upgradeFundingGranted: this.data.tutorialUpgradeFundingGranted === true,
+       flightTrainingGranted: this.data.tutorialFlightTrainingGranted === true,
+@@ -113,6 +115,19 @@
+     return true;
+   }
+ 
++  claimTutorialUpgradeFunding() {
++    if (
++      this.data.tutorialUpgradeFundingGranted === true
++      || this.data.tutorialChoice !== TOWN_TUTORIAL_CHOICES.YES
++      || this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.UPGRADE
++    ) {
++      return null;
++    }
++    this.data.tutorialUpgradeFundingGranted = true;
++    return {
++      money: RETENTION_CONFIG.tutorial.upgradeFunding.money,
++    };
++  }
++
+   claimTutorialFlightTraining() {
+@@ -278,5 +293,5 @@
+     this.data.stats.resourcesSold += finiteRetentionInt(units, 0, 1000000000);
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.SELL) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
+     }
+@@ -292,6 +307,12 @@
+   recordUpgrade(upgradeName, preview = null) {
+     this.data.stats.upgradesPurchased += 1;
++    if (
++      this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE
++      && preview?.upgradeId === FIRST_FIVE_STARTER_UPGRADE_ID
++    ) {
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
++    }
+     this.pendingUpgradePayoff = {
+@@ -313,5 +334,5 @@
+     this._discover("journal", `portal:${label}`, `Portal: ${label}`, false);
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.PORTAL) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
+     }
+@@ -448,5 +469,5 @@
+   onFirstTileBroken() {
+     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.DIG) {
+-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.FLIGHT);
++      this._setTutorialStage(TOWN_TUTORIAL_STAGES.SELL);
+     }
+diff --git a/systems/progression/retentionProgressState.js b/systems/progression/retentionProgressState.js
+--- a/systems/progression/retentionProgressState.js
++++ b/systems/progression/retentionProgressState.js
+@@ -108,8 +108,11 @@
+   const migratedStage = sourceVersion < 3
+     && (legacyStage === "sell" || legacyStage === "upgrade")
+     ? TOWN_TUTORIAL_STAGES.PORTAL
+     : legacyStage;
++  const routeStage = sourceVersion === 3
++    && migratedStage === TOWN_TUTORIAL_STAGES.SELL
++    ? TOWN_TUTORIAL_STAGES.RESUME
++    : migratedStage;
+   const hasLegacyData = value && typeof value === "object";
+@@ -118,12 +121,12 @@
+       ? TOWN_TUTORIAL_STAGES.SKIPPED
+       : hasLegacyData
+-        ? (migratedStage === TOWN_TUTORIAL_STAGES.COMPLETE
++        ? (routeStage === TOWN_TUTORIAL_STAGES.COMPLETE
+           ? TOWN_TUTORIAL_STAGES.COMPLETE
+           : TOWN_TUTORIAL_STAGES.SKIPPED)
+         : TOWN_TUTORIAL_STAGES.UNSELECTED;
+-  const tutorialStage = TUTORIAL_STAGES.includes(migratedStage)
+-    ? migratedStage
++  const tutorialStage = TUTORIAL_STAGES.includes(routeStage)
++    ? routeStage
+     : fallbackStage;
+@@ -137,6 +140,15 @@
+     },
+     tutorialChoice,
+     tutorialStage,
++    tutorialUpgradeFundingGranted:
++      source.tutorialUpgradeFundingGranted === true
++      || [
++        TOWN_TUTORIAL_STAGES.FLIGHT,
++        TOWN_TUTORIAL_STAGES.PORTAL,
++        TOWN_TUTORIAL_STAGES.RESUME,
++        TOWN_TUTORIAL_STAGES.COMPLETE,
++        TOWN_TUTORIAL_STAGES.SKIPPED,
++      ].includes(tutorialStage),
+     tutorialFlightTrainingGranted:

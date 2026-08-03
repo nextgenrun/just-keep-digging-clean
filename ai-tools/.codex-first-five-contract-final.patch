@@ -1,0 +1,32 @@
+diff --git a/testing/2026-07-30-first-five-onboarding-contract.mjs b/testing/2026-07-30-first-five-onboarding-contract.mjs
+--- a/testing/2026-07-30-first-five-onboarding-contract.mjs
++++ b/testing/2026-07-30-first-five-onboarding-contract.mjs
+@@ -263,9 +263,18 @@
+ retention.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
++assert.match(bridge.getNextPromiseOverride().promise, /STEP 3/);
++retention.recordSale(1, 1);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
++assert.match(bridge.getNextPromiseOverride().promise, /STEP 4/);
++assert.equal(bridge.getFocusedUpgradeId("playerUpgrades"), "agility");
++assert.equal(bridge.isUpgradeAvailable("strength"), false);
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), { money: 2 });
++retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
+ assert.equal(retention.claimTutorialFlightTraining().freeFlightMs, 30000);
+ const fullFlightSave = retention.getSaveData();
+ bridge.update();
+-assert.match(bridge.getNextPromiseOverride().promise, /STEP 3/);
++assert.match(bridge.getNextPromiseOverride().promise, /STEP 5/);
+ assert.equal(canDropThrough(), false);
+@@ -287,10 +296,8 @@
+-assert.match(bridge.getNextPromiseOverride().promise, /STEP 4/);
++assert.match(bridge.getNextPromiseOverride().promise, /STEP 6/);
+ retention.recordPortalActivated("Starter Return Gate");
+-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+-assert.match(bridge.getNextPromiseOverride().promise, /STEP 5/);
+-retention.recordSale(1, 1);
+ assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+-assert.match(bridge.getNextPromiseOverride().promise, /STEP 6/);
++assert.match(bridge.getNextPromiseOverride().promise, /STEP 7/);

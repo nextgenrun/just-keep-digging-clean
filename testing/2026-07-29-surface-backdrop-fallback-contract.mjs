@@ -213,6 +213,12 @@ const blueAsset = resolveWorldVisualDepthBackdropRegionAssets(
   WORLD_VISUAL_DEPTH_BACKDROPS,
   "",
 )[0];
+const unrelatedBlueAsset = resolveWorldVisualDepthBackdropRegionAssets(
+  blueRegion,
+  WORLD_VISUAL_DEPTH_BACKDROPS,
+  "",
+)[1];
+assert.ok(unrelatedBlueAsset, "the depth region needs a second card for substitution testing");
 const bounds = { left: 0, right: 10, top: 161, bottom: 169 };
 const lighting = { farTint: 0xffffff, lightning: 0 };
 const stage = new WorldVisualDepthBackdropStage(scene);
@@ -231,6 +237,16 @@ assert.deepEqual(
   [blueAsset.key],
   "the desired biome card still streams in the background",
 );
+textureKeys.add(unrelatedBlueAsset.key);
+assert.equal(stage.sync(bounds, lighting), true);
+const stableFallbackSegment = [...stage.segments.values()][0];
+assert.equal(
+  stableFallbackSegment.asset.key,
+  fallbackAsset.key,
+  "an unrelated ready biome card may not flash behind the current depth",
+);
+assert.equal(stableFallbackSegment.requestedAssetKey, blueAsset.key);
+textureKeys.delete(unrelatedBlueAsset.key);
 
 const materialField = new WorldVisualMaterialField(
   scene,

@@ -31,14 +31,19 @@ const journal = {
 let tutorial = {
   choice: null,
   stage: TOWN_TUTORIAL_STAGES.UNSELECTED,
-  completionRewardGranted: false,
+  flightTrainingGranted: false,
 };
 
+let affordableUpgrade = false;
 const scene = {
   upgradeSystem: {
-    isGemPowerUnlocked: () => tutorial.completionRewardGranted === true,
+    isGemPowerUnlocked: () => tutorial.flightTrainingGranted === true,
     getUpgradeLevel: () => 0,
+    canPurchaseUpgrade: id => ({
+      canPurchase: affordableUpgrade && id === "agility",
+    }),
   },
+  playerLevelSystem: { level: 1 },
 };
 const retention = {
   getJournalSnapshot: () => journal,
@@ -50,6 +55,12 @@ let snapshot = pacing.refresh({ announce: false });
 assert.equal(snapshot.tutorialComplete, false);
 assert.equal(pacing.isFeatureAvailable("gemPower"), false);
 assert.equal(pacing.isFeatureAvailable("caves"), false);
+assert.equal(pacing.isFeatureAvailable("milestones"), true);
+assert.equal(pacing.isUpgradeAvailable("strength"), true);
+assert.equal(pacing.isUpgradeAvailable("bronzePickaxe"), true);
+assert.equal(pacing.isUpgradeAvailable("startResourcePrices"), true);
+assert.equal(pacing.isUpgradeAvailable("quickReflexes"), false);
+assert.equal(pacing.isUpgradeAvailable("ironPickaxe"), false);
 assert.equal(
   pacing.isFeatureAvailable("weather"),
   true,
@@ -70,10 +81,12 @@ assert.equal(pacing.getNextPromiseOverride(), null, "tutorial owns the opening p
 tutorial = {
   choice: TOWN_TUTORIAL_CHOICES.YES,
   stage: TOWN_TUTORIAL_STAGES.COMPLETE,
-  completionRewardGranted: true,
+  flightTrainingGranted: true,
 };
 stats.totalTilesBroken = 8;
 stats.totalResources = 3;
+stats.resourcesSold = 1;
+stats.portalsActivated = 1;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(snapshot.flightReady, true);
 assert.equal(snapshot.firstReturn, false);
@@ -81,20 +94,20 @@ assert.equal(pacing.isMerchantAvailable("gemPowerMerchant"), true);
 assert.equal(pacing.isMerchantUnlocked("gemPowerMerchant"), false);
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "CORE LOOP  •  RETURN AND SELL",
+  "NEXT MASTERY PATH  •  REACH LEVEL 20",
 );
 
-stats.resourcesSold = 1;
+affordableUpgrade = true;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "CORE LOOP  •  BUY ONE UPGRADE",
+  "UPGRADE AVAILABLE  •  AGILITY TRAINING",
 );
-stats.upgradesPurchased = 1;
+affordableUpgrade = false;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "NEXT: RETURN WITH CARGO",
+  "NEXT MASTERY PATH  •  REACH LEVEL 20",
 );
 
 stats.expeditionsCompleted = 1;
@@ -106,18 +119,32 @@ assert.equal(pacing.isMerchantUnlocked("gemPowerMerchant"), true);
 assert.equal(pacing.isMerchantAvailable("gearMerchant"), true);
 assert.equal(pacing.isMerchantUnlocked("gearMerchant"), false);
 assert.equal(pacing.isFeatureAvailable("comboHud"), true);
+stats.portalsActivated = 0;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("quickReflexes"), true);
+assert.equal(pacing.isUpgradeAvailable("ironPickaxe"), true);
+assert.equal(pacing.isUpgradeAvailable("nextResourcePrices"), true);
+assert.equal(pacing.isUpgradeAvailable("critChance"), false);
+assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
+assert.equal(pacing.isUpgradeAvailable("mithrilPickaxe"), false);
+assert.equal(pacing.isUpgradeAvailable("heavyPunch"), false);
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "NEXT RUN: REACH 40m",
+  "NEXT MASTERY PATH  •  REACH LEVEL 20",
 );
+
+scene.playerLevelSystem.level = 19;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isFeatureAvailable("constellations", snapshot), false);
+scene.playerLevelSystem.level = 20;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isFeatureAvailable("constellations", snapshot), true);
 
 for (const [depth, feature, expected] of [
   [39, "gearMerchant", false],
   [40, "gearMerchant", true],
   [79, "specialTiles", false],
   [80, "specialTiles", true],
-  [99, "constellations", false],
-  [100, "constellations", true],
   [139, "caves", false],
   [140, "caves", true],
   [219, "hazards", false],
@@ -149,6 +176,31 @@ assert.equal(
 stats.bestDepth = 40;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
+assert.equal(pacing.isUpgradeAvailable("critChance"), true);
+assert.equal(pacing.isUpgradeAvailable("luckyCollector"), true);
+assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
+stats.bestDepth = 80;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), true);
+stats.bestDepth = 140;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("mithrilPickaxe"), true);
+assert.equal(pacing.isUpgradeAvailable("gemPowerRegeneration"), true);
+assert.equal(pacing.isUpgradeAvailable("marketInsight"), true);
+assert.equal(pacing.isUpgradeAvailable("seismicSuppression"), false);
+stats.bestDepth = 249;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("heavyPunch"), false);
+assert.equal(pacing.isUpgradeAvailable("adamantPickaxe"), false);
+stats.bestDepth = 250;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("heavyPunch"), true);
+assert.equal(pacing.isUpgradeAvailable("adamantPickaxe"), true);
+stats.bestDepth = 999;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("worldTwoTunnelAccess"), false);
+assert.equal(pacing.isUpgradeAvailable("upOrDown"), false);
+
 
 assert.equal(resolveSystemIntroductionEnabled(SYSTEM_INTRODUCTION_CONFIG, "?systemPacing=0"), false);
 assert.equal(resolveSystemIntroductionEnabled(SYSTEM_INTRODUCTION_CONFIG, "?systemPacing=legacy"), false);
@@ -180,6 +232,7 @@ assert.equal(admission._admitRoutine({ priority: 3 }, 4200), true);
 assert.equal(admission._admitRoutine({ bypassPacing: true, priority: 0 }, 4200), true);
 
 assert.equal(UI_NOTIFICATION_CAROUSEL_CONFIG.routineGapMs >= 1000, true);
+assert.equal(UI_NOTIFICATION_CAROUSEL_CONFIG.enabled, false);
 assert.equal(UI_NOTIFICATION_CAROUSEL_CONFIG.maxRoutineInWindow <= 3, true);
 assert.equal(UI_NOTIFICATION_CAROUSEL_CONFIG.routineWindowMs >= 5000, true);
 

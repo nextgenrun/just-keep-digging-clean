@@ -1,0 +1,42 @@
+diff --git a/values/specialBlocks.js b/values/specialBlocks.js
+--- a/values/specialBlocks.js
++++ b/values/specialBlocks.js
+@@ -160,6 +160,7 @@ export const SPECIAL_BLOCKS_CONFIG = {
+   feedback: Object.freeze({
+     comboBlock: Object.freeze({
++      title: "COMBO BLOCK ACTIVATED",
+       message: "COMBO BLOCK  •  +{amount} COMBO  •  {total} TOTAL",
+       color: "#F1C56A",
+       notificationKey: "special-block-combo-reward",
+diff --git a/systems/mining/DigSystem.js b/systems/mining/DigSystem.js
+--- a/systems/mining/DigSystem.js
++++ b/systems/mining/DigSystem.js
+@@ -4,6 +4,7 @@ import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
+ import { COMBO_CONFIG } from "../../values/comboConfig.js";
+ import {
++  SPECIAL_BLOCKS_CONFIG,
+   getBlockEffect,
+   getGemPowerBlockTier,
+ } from "../../values/specialBlocks.js";
+@@ -1323,6 +1324,22 @@ export class DigSystem {
+           this.comboSystem.addCombo(amount, nowMs);
+           comboTotal = Math.max(0, Number(this.comboSystem.getComboCount?.()) || 0);
+           comboAdded = Math.max(0, comboTotal - before);
++          const feedback = SPECIAL_BLOCKS_CONFIG.feedback.comboBlock;
++          const message = feedback.message
++            .replace("{amount}", String(comboAdded))
++            .replace("{total}", String(comboTotal));
++          const notifications = scene?.essentialNotifications
++            || scene?.uiNotifications;
++          notifications?.success?.(message, {
++            key: feedback.notificationKey,
++            title: feedback.title,
++            color: feedback.color,
++            accentColor: feedback.color,
++            priority: feedback.priority,
++            noDedupe: true,
++            bypassPacing: true,
++          });
+           specialBlockEffect = 'comboBoost';
+         } else {
+           console.warn('[DigSystem] COMBO_BLOCK effect requires comboSystem with addCombo method');

@@ -1,0 +1,31 @@
+diff --git a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+--- a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
++++ b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+@@ -108,8 +108,13 @@
+ tutorial.recordUpgrade("Agility Training", {
+   upgradeId: FIRST_FIVE_STARTER_UPGRADE_ID,
+ });
+-assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
+-assert.equal(tutorial.claimTutorialCompletionReward().freeFlightMs, 30000);
++assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(tutorial.claimTutorialFlightTraining().freeFlightMs, 30000);
++assert.equal(tutorial.recordTutorialFlight(), true);
++tutorial.recordPortalActivated("Starter Return Gate");
++assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
++assert.equal(tutorial.recordTutorialPortalResume(), true);
++assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
+@@ -119,5 +124,5 @@
+ );
+ assert.equal(resumedTutorial.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES), false);
+ assert.equal(resumedTutorial.isTutorialActive(), false);
+-assert.equal(resumedTutorial.claimTutorialCompletionReward(), null);
++assert.equal(resumedTutorial.claimTutorialFlightTraining(), null);
+ assert.equal(resumedTutorial.getTutorialState().freeFlightRemainingMs, 30000);
+@@ -126,6 +131,6 @@
+ skipped.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.NO);
+ assert.equal(skipped.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SKIPPED);
+ assert.equal(skipped.isTutorialActive(), false);
+-assert.equal(skipped.claimTutorialCompletionReward().freeFlightMs, 30000);
+-assert.equal(skipped.claimTutorialCompletionReward(), null);
++assert.equal(skipped.claimTutorialFlightTraining().freeFlightMs, 30000);
++assert.equal(skipped.claimTutorialFlightTraining(), null);

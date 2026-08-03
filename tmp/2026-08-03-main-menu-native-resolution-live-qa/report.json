@@ -1,0 +1,75 @@
+{
+  "schema": "main-menu-native-resolution-live-qa@1",
+  "generatedUtc": "2026-08-03T03:36:20.372Z",
+  "url": "http://127.0.0.1:8080/?jkd_e2e=1",
+  "runtime": {
+    "activeScenes": [
+      "MenuAudioScene",
+      "MainMenuScene"
+    ],
+    "renderDensity": {
+      "requestedPreset": "ultra",
+      "preset": "ultra",
+      "density": 2,
+      "logicalWidth": 1280,
+      "logicalHeight": 720,
+      "backingWidth": 2560,
+      "backingHeight": 1440,
+      "renderer": "webgl",
+      "rendererMode": "webgl",
+      "coordinateSpace": "logical-input-and-camera/physical-backing"
+    },
+    "canvas": {
+      "width": 2560,
+      "height": 1440,
+      "cssWidth": 1280,
+      "cssHeight": 720
+    },
+    "authoredMenuArt": true,
+    "textures": [
+      {
+        "key": "main-menu-button-idle-v1",
+        "width": 2150,
+        "height": 430
+      },
+      {
+        "key": "main-menu-button-selected-v1",
+        "width": 2150,
+        "height": 430
+      }
+    ],
+    "buttons": [
+      {
+        "idleTexture": "main-menu-button-idle-v1",
+        "selectedTexture": "main-menu-button-selected-v1",
+        "width": 260,
+        "height": 52,
+        "hitWidth": 260,
+        "hitHeight": 52
+      },
+      {
+        "idleTexture": "main-menu-button-idle-v1",
+        "selectedTexture": "main-menu-button-selected-v1",
+        "width": 260,
+        "height": 52,
+        "hitWidth": 260,
+        "hitHeight": 52
+      },
+      {
+        "idleTexture": "main-menu-button-idle-v1",
+        "selectedTexture": "main-menu-button-selected-v1",
+        "width": 260,
+        "height": 52,
+        "hitWidth": 260,
+        "hitHeight": 52
+      }
+    ],
+    "uiErrors": []
+  },
+  "failures": [],
+  "warnings": [],
+  "screenshots": {
+    "idleScreenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-main-menu-native-resolution-live-qa\\main-menu-default-ultra.png",
+    "hoverScreenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-main-menu-native-resolution-live-qa\\main-menu-hover-ultra.png"
+  }
+}

@@ -13,7 +13,6 @@ const horizontalInput = { left: false, right: false };
 let quickslashHeld = false;
 const input = {
   getFlyInput: () => false,
-  getFlyDownInput: () => false,
   getQuickslashInput: () => quickslashHeld,
   getHorizontalMovement: () => ({ ...horizontalInput }),
   isUp: () => false,
@@ -25,7 +24,7 @@ const body = {
   h: 56,
   vx: 0,
   vy: 0,
-  setClimbing() {},
+  setFlightActive() {},
 };
 const abilities = new PlayerAbilities(
   null,

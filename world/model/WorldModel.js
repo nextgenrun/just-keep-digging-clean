@@ -82,7 +82,6 @@ export class WorldModel {
     this.skyTileOriginalType = new Uint8Array(tileCount);
     this.skyTileRarity = new Uint8Array(tileCount);
     this.skyTileIdentity = new Uint8Array(tileCount);
-    this.rootOverlay = new Uint8Array(tileCount);
     this.authoredTileMask = new Uint8Array(tileCount);
 
     this.dugTiles = new Map();
@@ -189,7 +188,6 @@ export class WorldModel {
     this.skyTileOriginalType.fill(0);
     this.skyTileRarity.fill(0);
     this.skyTileIdentity.fill(0);
-    this.rootOverlay.fill(0);
     this.authoredTileMask.fill(0);
     this.dugTiles.clear();
     this.dugTileSource.clear();
@@ -207,7 +205,6 @@ export class WorldModel {
     this.generateBaseTerrain();
     this.generateCaves();
     this.generateSkyTiles();
-    this.generateRootOverlays();
     this.prepareSpawnZone();
     this.applyTiledWorldOverride();
     const caveSupplement = supplementAuthoredCaveGaps(this, TILED_WORLD_OVERRIDE);
@@ -597,25 +594,6 @@ export class WorldModel {
     }
   }
 
-  generateRootOverlays() {
-    const cfg = WORLD_GEN_CONFIG.roots;
-    if (!cfg) return;
-    for (let ty = this.topAirRows + 1; ty < this.depthTiles - 1; ty += 1) {
-      for (let tx = 0; tx < this.widthTiles; tx += 1) {
-        const idx = this.index(tx, ty);
-        if (!RESOURCE_TILE_TYPES.has(this._types[idx])) continue;
-        const depthTiles = ty - this.topAirRows;
-        for (const layer of [cfg.shallow, cfg.deep]) {
-          if (depthTiles >= layer.minDepth && depthTiles < layer.maxDepth && this.rng.next() < layer.spawnChance) {
-            this.rootOverlay[idx] = layer.overlayType === "deep"
-              ? TILE_TYPES.ROOT_OVERLAY_DEEP
-              : TILE_TYPES.ROOT_OVERLAY;
-          }
-        }
-      }
-    }
-  }
-
   prepareSpawnZone() {
     const geometry = WORLD_GEN_CONFIG.spawnGeometry;
     for (let ty = 0; ty < this.topAirRows; ty += 1) {
@@ -660,7 +638,6 @@ export class WorldModel {
     }
 
     const applied = this.applyTiledRuns(override.runs);
-    this.applyTiledRootOverlays(override.rootOverlays);
     console.log(
       `[WorldModel] Applied Tiled world override: ${applied} tiles from ${override.source}`
       + (override.height < this.depthTiles ? ` (authored upper ${override.height} rows)` : "")
@@ -763,25 +740,10 @@ export class WorldModel {
         }
 
         this.setTile(tx, ty, tileType, tileType === TILE_TYPES.AIR ? 0 : this.getTileMaxHp(tx, ty, tileType));
-        if (tileType === TILE_TYPES.AIR || tileType === TILE_TYPES.BEDROCK) this.rootOverlay[idx] = 0;
         applied += 1;
       }
     }
     return applied;
-  }
-
-  applyTiledRootOverlays(rootOverlayData) {
-    const runs = Array.isArray(rootOverlayData?.runs) ? rootOverlayData.runs : [];
-    for (let i = 0; i < runs.length; i += 3) {
-      const startIndex = runs[i];
-      const runLength = runs[i + 1];
-      const overlayType = runs[i + 2];
-      if (!Number.isInteger(startIndex) || !Number.isInteger(runLength) || !Number.isInteger(overlayType)) continue;
-      for (let offset = 0; offset < runLength; offset += 1) {
-        const idx = startIndex + offset;
-        if (idx >= 0 && idx < this.rootOverlay.length) this.rootOverlay[idx] = overlayType;
-      }
-    }
   }
 
   applySecondWorldArea(secondWorldArea = TILED_WORLD_OVERRIDE.secondWorldArea) {
@@ -858,11 +820,6 @@ export class WorldModel {
       }
     }
     return "";
-  }
-
-  getRootOverlayType(tileX, tileY) {
-    if (!this.inBounds(tileX, tileY)) return 0;
-    return this.rootOverlay[this.index(tileX, tileY)];
   }
 
   getSkyTileOriginalType(tileX, tileY) {

@@ -55,17 +55,23 @@ the compressed recovery snap without accelerating the feet or moving the
 contact beat. Moving Quickslash samples 16 frames from the same Piskel-owned
 phase variants so its original sequence-4 contact and fast cadence remain
 unchanged without introducing another sprite sheet.
-The same authored package now emits the 18 px solid-face body stand-off into
-the generated runtime module and manifest; the Piskel silhouettes and their
-validated 194 px contact envelope remain unchanged.
+The same authored package emits the 21 px solid-face body stand-off into the
+generated runtime module and manifest. Rebuilding against the centered Jog
+recomputes the matching 199 px source-space contact envelope while preserving
+the same two-pixel clearance and collision-owned reach.
 
 `2026-07-28-build-player-animation-polish-piskel-package.py` is the centralized
-builder for the broader player handoff pass. It regenerates editable transition
-and moving-diagonal Piskel sources, runtime WebP atlases, contact sheets,
-alignment overlays, drift reports, rig-manifest actions, and the frozen runtime
-module from `values/playerAnimationPolishProduction.json`.
-`player_animation_polish_compositor.py` owns the planted Jog/idle, action-settle,
-landing, and wall-brace clips. `player_animation_diagonal_compositor.py` keeps
-Jog in charge of the lower body while UP-SIDE and DOWN-SIDE actions own the
-torso. Both compositors share the same 256 px canvas, bottom anchor, and drift
-validation before any generated sheet can be promoted.
+builder for the broader player handoff pass. It regenerates the editable Jog,
+transition, and moving-diagonal Piskel sources, runtime WebP atlases, contact
+sheets, alignment overlays, drift reports, rig-manifest actions, and frozen
+runtime module from `values/playerAnimationPolishProduction.json`.
+`player_animation_run_polish.py` verifies the immutable source hash, applies one
+uniform rig-pelvis root correction, locks the packed-frame ground baseline, and
+moves every foot/hand/head marker by the identical transform without rescaling
+or retiming any pose. `player_animation_polish_compositor.py` owns the planted
+Jog/idle, action-settle, landing, and wall-brace clips.
+`player_animation_diagonal_compositor.py` keeps that polished Jog in charge of
+the lower body while UP-SIDE and DOWN-SIDE actions own the torso. All three
+outputs share the same 256 px canvas and validation gates. Saved WebPs must
+round-trip every RGBA byte with zero hidden color beneath transparency,
+preventing linear-filter color bleed in Phaser.

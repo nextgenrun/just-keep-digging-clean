@@ -10,10 +10,7 @@ import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
 } from "../values/starlightTalentTree.js";
-import { PAUSE_MENU_LAYOUT } from "../values/uiLayout.js";
-import { fitUiModal } from "../ui/UiModalShell.js";
 import { resolveVisibleArtPlacement } from "../ui/overlays/starlightImagePlacement.js";
-import { resolveStarlightContentBounds } from "../ui/overlays/starlightTalentLayout.js";
 
 assert.equal(STARLIGHT_TALENT_TREE_CONFIG.branches.length, 2);
 assert.equal(STARLIGHT_TALENT_TREE_CONFIG.pages.length, 3);
@@ -40,55 +37,16 @@ for (const resourceType of STARLIGHT_TALENT_RESOURCE_ORDER) {
   assert.ok(ASSET_KEYS.constellations.signs[resourceType]);
 }
 const layout = STARLIGHT_TALENT_TREE_CONFIG.layout;
-assert.equal(
-  PAUSE_MENU_LAYOUT.maxWidth,
-  layout.pillarMaxWidthPx,
-  "ESC and Star Pillar must give the talent tree the same authored width",
-);
 assert.ok(
   layout.referenceWidthPx
-    <= PAUSE_MENU_LAYOUT.maxWidth - layout.immersiveInsetPx * 2,
-  "the full-screen ESC host must contain the authored V4 composition width",
+    <= layout.pillarMaxWidthPx - layout.immersiveInsetPx * 2,
+  "the physical Star Pillar must contain the authored V4 composition width",
 );
 assert.ok(
   layout.referenceHeightPx
-    <= PAUSE_MENU_LAYOUT.maxHeight - layout.immersiveInsetPx * 2,
-  "the full-screen ESC host must contain the authored V4 composition height",
+    <= layout.pillarMaxHeightPx - layout.immersiveInsetPx * 2,
+  "the physical Star Pillar must contain the authored V4 composition height",
 );
-function pauseTalentGeometry(viewportWidth, viewportHeight) {
-  const shell = fitUiModal(
-    { scale: { width: viewportWidth, height: viewportHeight } },
-    PAUSE_MENU_LAYOUT.maxWidth,
-    PAUSE_MENU_LAYOUT.maxHeight,
-  );
-  const page = {
-    x: 0,
-    y: 0,
-    width: shell.width - layout.immersiveInsetPx * 2,
-    height: shell.height - layout.immersiveInsetPx * 2,
-  };
-  const content = resolveStarlightContentBounds(page, layout);
-  return {
-    shell,
-    page,
-    content,
-    scale: Math.max(
-      layout.minimumLayoutScale,
-      Math.min(
-        1,
-        content.width / layout.referenceWidthPx,
-        content.height / layout.referenceHeightPx,
-      ),
-    ),
-  };
-}
-const wideEsc = pauseTalentGeometry(1280, 720);
-assert.deepEqual([wideEsc.page.width, wideEsc.page.height], [1144, 656]);
-assert.equal(wideEsc.scale, 1);
-const compactEsc = pauseTalentGeometry(960, 640);
-assert.ok(compactEsc.scale >= layout.minimumLayoutScale);
-assert.ok(compactEsc.content.width <= compactEsc.page.width);
-assert.ok(compactEsc.content.height <= compactEsc.page.height);
 assert.deepEqual(
   layout.carouselSlotXFractions,
   [0.25, 0.5, 0.75],
@@ -394,22 +352,21 @@ const [
   ),
   readFile(new URL("../ui/PhaserUiKit.js", import.meta.url), "utf8"),
 ]);
-assert.match(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"TALENTS"/);
-assert.match(pauseSource, /new StarlightTalentTreeView/);
-assert.match(pauseSource, /initialTabKey/);
-assert.match(pauseSource, /onVertical:\s*direction/);
-assert.match(setupSource, /createStarlightTalentTreeView/);
-assert.match(pauseSource, /setTalentImmersive\(true\)/);
-assert.match(pauseSource, /width:\s*shell\.width\s*-\s*inset\s*\*\s*2/);
-assert.match(pillarSource, /width:\s*this\._starShell\.width\s*-\s*inset\s*\*\s*2/);
+assert.doesNotMatch(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"TALENTS"/);
+assert.doesNotMatch(pauseSource, /StarlightTalentTreeView|setTalentImmersive/);
+assert.match(pauseSource, /\{\s*key:\s*"titans",\s*label:\s*"TITANS"/);
+assert.match(pauseSource, /new TitanArchiveView/);
+assert.match(pauseSource, /options\.initialTabKey === "talents"[\s\S]*\? "titans"/);
+assert.doesNotMatch(pauseSource, /resolveTitanDiscoveriesEnabled\(\)\s*&&\s*systemFeatureAvailable\("titans"\)/);
+assert.match(setupSource, /createCelestialTalentTreeView/);
 assert.match(setupSource, /starPillarSystem\?\.onCollectedSkyStar\?\.\(detail\)/);
-assert.match(pillarSource, /queueFirstStar\(detail\)/);
-assert.match(pillarSource, /initialTabKey:\s*"talents"/);
-assert.match(pillarSource, /firstReveal:\s*true/);
-assert.match(pillarSource, /createStarlightTalentTreeView/);
-assert.match(pillarSource, /skinTexture:\s*ASSET_KEYS\.ui\.starlightTalentTree\.modalShell/);
-assert.match(pillarSource, /iconTexture:\s*ASSET_KEYS\.ui\.starlightTalentTree\.modalCrest/);
-assert.match(pillarSource, /closeTexture:\s*ASSET_KEYS\.ui\.starlightTalentTree\.modalClose/);
+assert.match(pillarSource, /onCollectedSkyStar\(_detail\)\s*\{\s*return false;/);
+assert.doesNotMatch(pillarSource, /queueFirstStar\(detail\)/);
+assert.match(pillarSource, /createCelestialTalentTreeView/);
+assert.match(pillarSource, /progression:\s*this\.scene\.celestialTalentProgressionSystem/);
+assert.match(pillarSource, /this\._talentTreeView\.open/);
+assert.match(pillarSource, /getInteractionDistance\(playerTile\)/);
+assert.match(pillarSource, /CELESTIAL_TALENT_TREE_UI_CONFIG/);
 assert.match(treeSource, /buildStarlightTalentTreeHealth/);
 assert.match(healthSource, /Object\.values\(ASSET_KEYS\.ui\.starlightTalentTree\)/);
 assert.match(healthSource, /visiblePageCount\s*===\s*1/);
@@ -454,7 +411,7 @@ assert.match(engineDetailSource, /definition\.capLabel/);
 assert.match(layoutSource, /foundationAspectRatio/);
 assert.match(nodeSource, /textures\.boboLock/);
 assert.match(uiKitSource, /options\.onVertical/);
-assert.match(bootSource, /starlightAssets\.basePath/);
+assert.match(bootSource, /CELESTIAL_TALENT_TREE_PRELOAD_ASSETS/);
 assert.match(modalSource, /shell\.iconTexture/);
 assert.match(modalSource, /shell\.closeTexture/);
 assert.match(
@@ -465,12 +422,12 @@ assert.match(
 assert.match(
   harnessSource,
   /params\.get\("shell"\) === "pause"/,
-  "the visual harness must reproduce both the Star Pillar and ESC shells",
+  "the review harness may retain an isolated pause-shell comparison without gameplay wiring",
 );
 assert.match(
   harnessSource,
   /layout\.immersiveInsetPx/,
-  "ESC visual QA must use the same full-shell inset as the live pause menu",
+  "the isolated comparison shell must retain the authored full-shell inset",
 );
 assert.match(
   harnessSource,
@@ -495,4 +452,4 @@ const pauseChromeSource = await readFile(
 assert.match(pauseChromeSource, /"PAUSED"/);
 assert.match(pauseChromeSource, /Run controls, progression, and settings/);
 
-console.log("starlight talent tree contract: mockup-ratio V4 ESC parity, large measured card and visible-art centering, authored ImageGen chrome, readable dossier, click-only carousel, Engine caps, Bobo seal, first-reveal routing, and worker health alerts passed");
+console.log("starlight talent tree contract: physical Star Pillar ownership, large measured card and visible-art centering, authored ImageGen chrome, readable dossier, click-only carousel, Engine caps, Bobo seal, first-reveal routing, and worker health alerts passed");

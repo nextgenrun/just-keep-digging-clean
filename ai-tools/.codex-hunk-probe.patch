@@ -1,0 +1,6 @@
+diff --git a/values/retentionConfig.js b/values/retentionConfig.js
+--- a/values/retentionConfig.js
++++ b/values/retentionConfig.js
+@@ -1 +1 @@
+-  saveVersion: 5,
++  saveVersion: 6,

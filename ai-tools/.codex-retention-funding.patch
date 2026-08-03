@@ -1,0 +1,32 @@
+diff --git a/systems/progression/RetentionProgressSystem.js b/systems/progression/RetentionProgressSystem.js
+--- a/systems/progression/RetentionProgressSystem.js
++++ b/systems/progression/RetentionProgressSystem.js
+@@ -117,3 +117,23 @@
++  claimTutorialUpgradeFunding() {
++    if (
++      this.data.tutorialUpgradeFundingGranted === true
++      || this.data.tutorialChoice !== TOWN_TUTORIAL_CHOICES.YES
++      || this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.UPGRADE
++    ) {
++      return null;
++    }
++    this.data.tutorialUpgradeFundingGranted = true;
++    return {
++      money: RETENTION_CONFIG.tutorial.upgradeFunding.money,
++    };
++  }
++
+   claimTutorialFlightTraining() {
+-    if (this.data.tutorialFlightTrainingGranted === true) return null;
+-    if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
++    if (
++      this.data.tutorialFlightTrainingGranted === true
++      || this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY
++      || ![
++        TOWN_TUTORIAL_STAGES.FLIGHT,
++        TOWN_TUTORIAL_STAGES.COMPLETE,
++        TOWN_TUTORIAL_STAGES.SKIPPED,
++      ].includes(this.data.tutorialStage)
++    ) {
++      return null;
++    }

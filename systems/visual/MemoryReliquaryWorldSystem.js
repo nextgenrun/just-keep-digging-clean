@@ -275,15 +275,17 @@ export class MemoryReliquaryWorldSystem {
     const notification = this.feature.notification;
     const sections = [`“${definition.inscription}”`];
     if (newlyDiscovered) sections.push(notification.archiveHint);
-    this.scene.uiNotifications?.info?.(
-      sections.join(notification.separator),
-      {
-        key: `${notification.keyPrefix}${definition.id}`,
-        title: `${notification.titlePrefix} — ${definition.title.toUpperCase()}`,
-        priority: notification.priority,
-        noDedupe: true,
-      },
-    );
+    const title = `${notification.titlePrefix} — ${definition.title.toUpperCase()}`;
+    const body = sections.join("\n\n");
+    if (typeof this.scene.showGameDialog === "function") {
+      this.scene.showGameDialog(title, body);
+    } else {
+      this.scene.hudSystem?.flashStatus?.(
+        `${title}  •  ${sections.join('  •  ')}`,
+        undefined,
+        5000,
+      );
+    }
   }
 
   _releaseRecord(record) {

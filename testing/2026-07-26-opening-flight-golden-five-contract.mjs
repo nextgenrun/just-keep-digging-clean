@@ -335,7 +335,7 @@ assert.match(setupSource, /new TownSquareTutorialSystem\(this\)/);
 assert.match(setupSource, /townSquareTutorialSystem\?\.create\(\)/);
 assert.match(systemSource, /resolveOpeningFlightGoldenFiveEnabled/);
 assert.match(systemSource, /this\.enabled = config\.enabled === true/);
-assert.match(systemSource, /applyChoiceReward\?\.\("miningPower"\)/);
+assert.doesNotMatch(systemSource, /applyChoiceReward|levelUpPopup/);
 assert.doesNotMatch(welcomeSource, /FLIGHT IS BURIED BELOW THE HUGE ARROWS/);
 assert.match(welcomeSource, /LEARN THE TOWN LOOP TO UNLOCK FLIGHT/);
 assert.doesNotMatch(uiSource, /FLIGHT LOCKED  •  DIG BELOW/);

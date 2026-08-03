@@ -103,7 +103,6 @@ dig-game-dev-env/
 │   │   ├── ScreenFlashSystem.js    ← Screen flash effects
 │   │   ├── CameraShakeSystem.js    ← Camera shake on dig/hit
 │   │   ├── PickaxeTrailSystem.js   ← Pickaxe swing trail particles
-│   │   ├── ClimbTrailSystem.js     ← Climbing dust particles
 │   │   ├── StarPillarSystem.js     ← Depth milestone star pillars
 │   │   └── MilestoneBoardSystem.js ← Milestone display board
 │   ├── audio/
@@ -151,7 +150,6 @@ dig-game-dev-env/
 │   ├── overlays/
 │   │   ├── ShopOverlay.js          ← NPC shop overlay
 │   │   ├── UIInventoryPopup.js     ← Inventory popup
-│   │   ├── LevelUpPopup.js         ← Level-up notification
 │   │   └── SettingsPanelContent.js ← Settings panel content
 │   ├── PhaserUiKit.js              ← Button/UI component library
 │   ├── GeneratedHudTextures.js     ← Runtime HUD texture generation
@@ -338,9 +336,11 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-28-ui-notification-carousel.md` | Centered transient-card queue, seven-second per-selection timing, consumptive arrows, full-queue X, modal input isolation, and reduced floating-text default |
 | `2026-07-28-authored-mining-target-and-mouse-dig.md` | Image-backed corner targeting, adjacent primary-click digging, keyboard parity, final-hit removal, safety checks, and rollback |
 | `2026-07-30-depth-resource-economy-rebalance.md` | Continuous steep depth income, rarity yield/HP separation, richer deep composition, live Milestone bonuses, Deep Market progression, caps, health checks, measurements, and exact rollback |
+| `2026-08-03-safe-asset-resolution-polish.md` | Full raster inventory, safe Ultra backing-density promotion, authored main-menu bitmap polish, live evidence, validation, and exact rollbacks |
 | `2026-07-26-titan-chambers-production-v2.md` | 25 unique high-resolution Titan chambers, v3 seamless-edge/depth-grade amendment, colossal discovery zones, streamed runtime/archive wiring, health, and rollback |
 | `2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
 | `2026-07-28-titan-clues-and-creature-footprint-unlock.md` | Catalog clues, exact directions, 25 sharp underground/surface stances, compact dais, colored cover-tile glow, 50% auto-clear authority, plinth inspection, ESC lore, and trophy/save wiring |
+| `2026-08-02-titan-underground-grounding-runtime.md` | All-25 bottom anchoring, shared contact/resonance art, ten-biome V7 envelope reuse, short weighted unlock motion, streaming health, and rollback |
 | `2026-06-25-phase3-roadmap.md` | Current phase roadmap |
 | `2026-06-25-next-steps.md` | Immediate next steps |
 </content-file>

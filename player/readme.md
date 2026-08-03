@@ -10,6 +10,12 @@ their upper body is normalized by the 109/123 source ratio. This keeps apparent
 character height within three pixels across standing attack, Jog, and moving
 attack without enlarging the authored attack skeleton.
 
+`PlayerMovement.js` resolves grounded horizontal speed through a short
+frame-rate-independent envelope: 120 ms acceleration, 90 ms release, and 150 ms
+for a full left/right reversal. Input and facing still change on the current
+frame, while airborne and powered-flight control keep the previous direct
+velocity response. `?smoothGroundRun=0` is the isolated physics rollback.
+
 `UalActionContactTimeline.js` turns Phaser animation updates into one deterministic gameplay contact per visible action and exposes whether that contact has fired. Mining, Quickslash, and Thunder mutate tiles only at authored contact; skipped frames and animation-complete fallback still fire exactly once. Once contact plus the configured recovery delay have passed and `DigSystem` confirms the action-start cooldown is ready, held mining may replace only the visible recovery with the next action without replaying the old contact.
 
 `UalMiningComboSelector.js` owns the shared resettable UAL mining chain. Repeated side hits advance through the approved punch-only Jab, Cross, Jab, Cross sequence; UP and UP-SIDE retain alternating action keys while the default Survivor maps both to its complete Piskel-stabilized Blender dig-up clip. Changing direction or pausing beyond the configured combo window returns to the first swing in both the main world and compact caves.
@@ -47,7 +53,7 @@ zero floor and can consume the final GP.
 The development God Mode path immediately fills and preserves GP, unlocks
 Flight, Quickslash, and Thunderstrike, reports their costs as zero, applies all
 constellation ability modifiers, and makes torch drain zero. The dormant legacy
-Gem Dash fields are not a bound or advertised player ability.
+Gem Dash was removed; powered Flight is the only vertical ability.
 
 `PlayerController.getPersistenceData()` snapshots the authoritative physics
 body position rather than a tile approximation. Restore bounds-checks the exact

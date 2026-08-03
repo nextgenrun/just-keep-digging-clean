@@ -53,7 +53,7 @@ export const PILLAR_VISUAL_CONFIG = Object.freeze({
     promptOffsetPx: 16,
     promptFontSizePx: 16,
     promptDepth: 20,
-    promptText: "View Star Chart",
+    promptText: "Open Celestial Talents",
     glowColor: 0x48CFFF,
     glowWidthPx: 170,
     glowHeightPx: 34,

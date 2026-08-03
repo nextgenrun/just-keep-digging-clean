@@ -82,7 +82,6 @@ function refreshInputBindings(scene, inputHandler) {
   scene.hudSystem?.refreshKeybindHints?.();
   scene.lightSystem?.refreshKeybinds?.();
   scene.shopOverlay?.refreshKeybindHints?.();
-  scene.levelUpPopup?.refreshKeybindHints?.();
   scene.npcManager?.refreshInteractPromptLabels?.();
   scene.specialTileSystem?.refreshPromptText?.();
   scene.starPillarSystem?.refreshInteractPromptLabels?.();

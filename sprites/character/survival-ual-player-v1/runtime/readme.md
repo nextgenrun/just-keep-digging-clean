@@ -20,7 +20,11 @@ locomotion.
 
 The active Survival flight override is the approved 36-frame horizontal
 Superman render (`Push_Loop + Superman pose layer`) at its authored 16 fps.
-The active Survival run remains the UAL `Jog_Fwd_Loop` sheet. A restrained
+The active Survival run remains the 28 poses and 30 fps cadence of UAL
+`Jog_Fwd_Loop`, promoted through the centralized Piskel pass. The derived sheet
+centers the rig pelvis on the Phaser origin, locks every frame to bottom row 248,
+and carries transformed foot markers for sequence contacts 13 and 27. The
+byte-identical source sheet remains the `?animationPolish=0` rollback. A restrained
 two-foot particle tail follows that Superman pose in both runtime worlds.
 
 The pack also includes eight review-only Epic Game Animation Sample sheets:
@@ -49,12 +53,14 @@ rig markers. The runtime
 chooses one of eight total phase starts with at most two Jog frames of
 quantization error and resumes the opposite half-cycle exactly.
 
+`survival-ual-player-v1-animation-polish-run-sheet.webp` is the centralized
+28-frame production Jog atlas.
 `survival-ual-player-v1-animation-polish-transitions-sheet.webp` is the
-centralized 61-frame transition atlas for planted Jog/idle bridges, stationary
+centralized 133-frame transition atlas for planted Jog/idle bridges, stationary
 action settles, authored soft/hard landings, and wall bracing.
 `survival-ual-player-v1-animation-polish-diagonal-dig-sheet.webp` packs eight
 15-frame UP-SIDE/DOWN-SIDE strikes at four representative Jog phases. Jog owns
 the lower body throughout each diagonal clip, while the authored directional
 attack owns the torso and keeps its existing contact frame. Both atlases are
-generated from editable Piskel sources and share the runtime profile's fixed
+generated from editable Piskel sources and share the polished Jog's fixed
 bottom anchor and display size.

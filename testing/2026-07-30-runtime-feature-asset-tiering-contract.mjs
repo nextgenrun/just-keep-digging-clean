@@ -51,7 +51,7 @@ assert.equal(getRuntimeFeatureAssetGroup(getCampfireFeatureAssetGroupId(4)).asse
 
 const bootSource = readFileSync("ui/scenes/BootScene.js", "utf8");
 assert.match(bootSource, /resolveRuntimeFeatureAssetDeferralEnabled/);
-assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+const starlightKeys/s);
+assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+for \(const asset of CELESTIAL_TALENT_TREE_PRELOAD_ASSETS/s);
 assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+for \(const asset of getStarBlockSteadyLightPreloadAssets/s);
 assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+this\.queueImage\(ASSET_KEYS\.ui\.worldMapFrame/s);
 assert.match(bootSource, /getTitanGameplayPreloadAssets/);

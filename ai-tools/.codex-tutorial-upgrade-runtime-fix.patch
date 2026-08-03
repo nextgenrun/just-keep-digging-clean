@@ -1,0 +1,23 @@
+diff --git a/systems/onboarding/TutorialFlightReminderSystem.js b/systems/onboarding/TutorialFlightReminderSystem.js
+--- a/systems/onboarding/TutorialFlightReminderSystem.js
++++ b/systems/onboarding/TutorialFlightReminderSystem.js
+@@ -94,3 +94,3 @@
+       && state.flightTrainingGranted === true
+       && state.freeFlightRemainingMs
+-        >= RETENTION_CONFIG.tutorial.completionReward.freeFlightMs
++        >= RETENTION_CONFIG.tutorial.flightTraining.freeFlightMs
+diff --git a/systems/onboarding/FirstFiveMinutesTutorialBridge.js b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+--- a/systems/onboarding/FirstFiveMinutesTutorialBridge.js
++++ b/systems/onboarding/FirstFiveMinutesTutorialBridge.js
+@@ -143,5 +143,7 @@
+     return stage === TOWN_TUTORIAL_STAGES.MOVE
+       || stage === TOWN_TUTORIAL_STAGES.DIG
++      || stage === TOWN_TUTORIAL_STAGES.SELL
++      || stage === TOWN_TUTORIAL_STAGES.UPGRADE
+       || stage === TOWN_TUTORIAL_STAGES.FLIGHT;
+@@ -178,5 +180,5 @@
+   isUpgradeAvailable(upgradeId) {
+     if (upgradeId !== FIRST_FIVE_STARTER_UPGRADE_ID) return true;
+-    if (!this.enabled) return false;
++    if (!this.enabled) return true;
+     const stage = this.retention?.getTutorialState?.()?.stage;

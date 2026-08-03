@@ -15,6 +15,12 @@ tile-resonance overlay, and the hash-pinned footprint manifest. The
 and tile-mask authority as well as the independent surface poses. `?titans=0`
 is the complete asset/presentation rollback.
 
+`titan-underground-v3/` contains the approved shared grounding pair: an
+authored fractured-earth contact foreground that overlaps Titan feet and an
+authored mineral resonance used only during unlock. Both are neutral RGBA
+assets depth-tinted by Phaser across all ten underground regions; dated
+ImageGen chroma sources remain under `sources/`.
+
 `titan-chambers-v2/` retains the 25 unique opaque 1536x848 high-resolution
 ImageGen chamber cards, lossless dated sources, exact prompt provenance, hashes,
 and the rollback pipeline. `titan-chambers-v3/` is the production runtime set:
@@ -30,3 +36,5 @@ stance. Underground uses them at chamber scale with near-opaque normal
 presentation; the unlocked surface Titan Walk uses the same sharp inventory
 with identity-specific larger scales over the much thinner shared basalt dais
 inside the prop-free town-edge corridor.
+
+

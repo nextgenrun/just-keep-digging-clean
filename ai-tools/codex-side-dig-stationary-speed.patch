@@ -1,0 +1,86 @@
+diff --git a/player/UalMovingSideDigSelector.js b/player/UalMovingSideDigSelector.js
+--- a/player/UalMovingSideDigSelector.js
++++ b/player/UalMovingSideDigSelector.js
+@@ -5,11 +5,15 @@ function isDisabledByQuery(search, config) {
+ }
+ 
+ function directionFromMotion(motionState, horizontalVelocity, minimumSpeed) {
+-  if (motionState === "walk-left") return -1;
+-  if (motionState === "walk-right") return 1;
+   const velocity = Number(horizontalVelocity) || 0;
+-  return Math.abs(velocity) >= minimumSpeed ? Math.sign(velocity) : 0;
++  const threshold = Math.max(0, Number(minimumSpeed) || 0);
++  if (Math.abs(velocity) < threshold) return 0;
++
++  const direction = Math.sign(velocity);
++  if (motionState === "walk-left" && direction !== -1) return 0;
++  if (motionState === "walk-right" && direction !== 1) return 0;
++  return direction;
+ }
+ 
+ function directionFromAim(aim) {
+diff --git a/testing/2026-07-28-moving-side-dig-production-contract.mjs b/testing/2026-07-28-moving-side-dig-production-contract.mjs
+--- a/testing/2026-07-28-moving-side-dig-production-contract.mjs
++++ b/testing/2026-07-28-moving-side-dig-production-contract.mjs
+@@ -169,18 +169,20 @@ const select = (overrides = {}) => resolveMovingSideDigAnimationKey({
+   actionKind: "normal",
+   grounded: true,
+   motionState: "walk-right",
+-  horizontalVelocity: 0,
++  horizontalVelocity: 200,
+   search: "",
+   ...overrides,
+ });
+ assert.equal(select(), jab.animationKey);
+ assert.equal(select({
+   animationKey: cross.baseAnimationKey,
+   aim: "LEFT",
+   motionState: "walk-left",
++  horizontalVelocity: -200,
+ }), cross.animationKey);
+ assert.equal(select({ motionState: "idle", horizontalVelocity: 9 }), jab.animationKey);
+ assert.equal(select({ motionState: "idle", horizontalVelocity: 0 }), jab.baseAnimationKey);
++assert.equal(select({ motionState: "walk-right", horizontalVelocity: 0 }), jab.baseAnimationKey);
+ assert.equal(select({ grounded: false }), jab.baseAnimationKey);
+ assert.equal(select({ motionState: "walk-left" }), jab.baseAnimationKey);
+ assert.equal(select({ aim: "UP-RIGHT" }), jab.baseAnimationKey);
+@@ -201,6 +203,7 @@ const phaseLocked = resolveMovingSideDigAnimation({
+   actionKind: "normal",
+   grounded: true,
+   motionState: "walk-right",
++  horizontalVelocity: 200,
+   currentAnimationKey: profile.walkRunAnim,
+   currentTextureFrame: 23,
+   search: "",
+@@ -244,6 +247,7 @@ const phaseLockedQuickslash = resolveMovingSideDigAnimation({
+   actionKind: "quickslash",
+   grounded: true,
+   motionState: "walk-right",
++  horizontalVelocity: 200,
+   currentAnimationKey: profile.walkRunAnim,
+   currentTextureFrame: 23,
+   search: "",
+@@ -255,7 +259,7 @@ assert.ok(profile.movingSideQuickslashAnimationKeys.includes(phaseLockedQuicksl
+ assert.equal(phaseLockedQuickslash.movingSideDigActive, true);
+ assert.equal(phaseLockedQuickslash.targetDirectionX, 1);
+ 
+-const stationarySelection = resolveMovingSideDigAnimation({
++const collisionStoppedSelection = resolveMovingSideDigAnimation({
+   profile,
+   animationKey: jab.baseAnimationKey,
+   aim: "RIGHT",
+@@ -263,11 +267,12 @@ const stationarySelection = resolveMovingSideDigAnimation({
+   actionKind: "normal",
+   grounded: true,
+-  motionState: "idle",
++  motionState: "walk-right",
+   horizontalVelocity: 0,
+   search: "",
+ });
+-assert.equal(stationarySelection.movingSideDigActive, false);
+-assert.equal(stationarySelection.targetDirectionX, 0);
++assert.equal(collisionStoppedSelection.animationKey, jab.baseAnimationKey);
++assert.equal(collisionStoppedSelection.movingSideDigActive, false);
++assert.equal(collisionStoppedSelection.targetDirectionX, 0);
+ 
+ const tileSize = 94;

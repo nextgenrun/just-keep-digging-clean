@@ -100,6 +100,7 @@ const phaseEntry = resolveMovingSideDigAnimation({
   actionKind: "normal",
   grounded: true,
   motionState: "walk-right",
+  horizontalVelocity: 200,
   currentAnimationKey: profile.walkRunAnim,
   currentTextureFrame: 23,
   search: "",
@@ -114,6 +115,7 @@ const repeatedLowerPhase = resolveMovingSideDigAnimation({
   actionKind: "normal",
   grounded: true,
   motionState: "walk-right",
+  horizontalVelocity: 200,
   currentAnimationKey: phaseEntry.animationKey,
   currentFrameIndex: 3,
   search: "",
@@ -129,6 +131,7 @@ assert.equal(resolveMovingSideDigAnimation({
   actionKind: "normal",
   grounded: true,
   motionState: "walk-right",
+  horizontalVelocity: 200,
   currentAnimationKey: profile.walkRunAnim,
   currentTextureFrame: 23,
   search: "?phaseHandoff=0",
@@ -152,24 +155,24 @@ assert.equal(pivot.animationKey, profile.walkRunAnim);
 assert.equal(pivot.facingFlipX, true);
 assert.equal(pivot.phase, "pivot-stop");
 assert.equal(pivot.restart, true);
-assert.equal(pivot.startFrame, 20);
-assert.equal(locomotion.resolve({
-  ...moving,
-  facingFlipX: true,
-  currentFrameIndex: 20,
-  currentTextureFrame: 20,
-}).phase, "pivot-stop");
+assert.equal(pivot.startFrame, 21);
 assert.equal(locomotion.resolve({
   ...moving,
   facingFlipX: true,
   currentFrameIndex: 21,
   currentTextureFrame: 21,
-}).phase, "pivot-start");
+}).phase, "pivot-stop");
 assert.equal(locomotion.resolve({
   ...moving,
   facingFlipX: true,
   currentFrameIndex: 22,
   currentTextureFrame: 22,
+}).phase, "pivot-start");
+assert.equal(locomotion.resolve({
+  ...moving,
+  facingFlipX: true,
+  currentFrameIndex: 23,
+  currentTextureFrame: 23,
 }).phase, "run");
 
 assert.equal(locomotion.requestRunResume(10), true);
@@ -215,5 +218,5 @@ console.log("PHASE_HANDOFF_PRODUCTION_CONTRACT_OK", {
   rootAnchorDriftPx: drift.drift.maxRootAnchorDriftPx,
   bottomDriftPx: drift.drift.maxBottomDriftPx,
   approvedEntry: `${phaseEntry.outgoingJogFrame}->${phaseEntry.phaseVariantId}->${phaseEntry.resumeJogFrame}`,
-  approvedPivot: "13->20,21",
+  approvedPivot: "13->21,22",
 });

@@ -282,10 +282,6 @@ export class UpgradeSystem {
       noTorchMinVisibilityRadius: 0,
       gemLevitation: 0,
       levitationSpeed: 0,
-      gemDashUnlocked: 0,
-      gemDashDistance: 0,
-      gemDashCooldownReduction: 0,
-      gemDashExplode: 0,
       walkSpeed: 0,
       digDamageAdditive: 0,
       digDamageMultiplier: 0,
@@ -423,9 +419,9 @@ export class UpgradeSystem {
     return baseRegen + regenIncrease;
   }
 
-  getEffectiveLevitationSpeed(baseSpeed) {
+  getEffectiveFlightSpeed(baseSpeed) {
     const effects = this.getUpgradeEffects();
-    // Double the base climb speed once the Gem of Great Power is unlocked.
+    // Double the base flight speed once the Gem of Great Power is unlocked.
     // levitationSpeed upgrades then stack additively on top of the doubled base.
     const unlockBonus = this.isGemPowerUnlocked() ? baseSpeed : 0;
     return baseSpeed + unlockBonus + effects.levitationSpeed;
@@ -444,23 +440,9 @@ export class UpgradeSystem {
     return this.godModeActive || (this.upgradeLevels['gemPowerUnlock'] || 0) > 0;
   }
 
-  isGemDashUnlocked() {
-    return (this.upgradeLevels['gemDashUnlock'] || 0) > 0;
-  }
 
-  getEffectiveGemDashDistance(baseDistance) {
-    const effects = this.getUpgradeEffects();
-    return baseDistance + effects.gemDashDistance;
-  }
 
-  getEffectiveGemDashCooldown(baseCooldown) {
-    const effects = this.getUpgradeEffects();
-    return Math.max(2000, baseCooldown - effects.gemDashCooldownReduction); // Min 2 second cooldown
-  }
 
-  isGemDashExplodeUnlocked() {
-    return (this.upgradeLevels['gemDashExplode'] || 0) > 0;
-  }
 
   isQuickslashUnlocked() {
     return this.godModeActive || (this.upgradeLevels['quickslashAbility'] || 0) > 0;

@@ -1,0 +1,756 @@
+{
+  "sourcePiskel": "sprites/character/piskel/runtime-active/player-animation-polish-run.piskel",
+  "sourceMode": "piskel-runtime-active",
+  "frameCount": 28,
+  "frameSize": [
+    256,
+    256
+  ],
+  "sheetGrid": [
+    16,
+    2
+  ],
+  "sheetSize": [
+    4096,
+    512
+  ],
+  "unusedGridFrames": [
+    28,
+    29,
+    30,
+    31
+  ],
+  "phaserEndFrame": 27,
+  "runtimeFps": 30,
+  "phaserKey": "survival-ual-player-v1-animation-polish-run-sheet",
+  "orientation": "right",
+  "hitFrameGroups": [
+    [
+      12
+    ],
+    [
+      26
+    ]
+  ],
+  "centeringPolicy": {
+    "normalize": false,
+    "anchorMode": "alpha-lower-body",
+    "lowerBodyStartFraction": 0.55,
+    "anchorAlphaThreshold": 32,
+    "runtimeBaselineY": 247,
+    "bottomY": 248,
+    "bottomTolerancePx": 0,
+    "maxAnchorDriftPx": 9,
+    "enforceAnchor": true,
+    "enforceBottom": true,
+    "strictBounds": true
+  },
+  "runtimeOutputs": [
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp"
+  ],
+  "runtimeFrameStats": [
+    {
+      "frame": 0,
+      "sourceFrame": null,
+      "bbox": [
+        54,
+        86,
+        192,
+        248
+      ],
+      "bboxWidth": 138,
+      "bboxHeight": 162,
+      "centerX": 123.0,
+      "rootAnchorX": 121.98,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2685,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 1,
+      "sourceFrame": null,
+      "bbox": [
+        60,
+        87,
+        186,
+        248
+      ],
+      "bboxWidth": 126,
+      "bboxHeight": 161,
+      "centerX": 123.0,
+      "rootAnchorX": 122.89,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2645,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 2,
+      "sourceFrame": null,
+      "bbox": [
+        73,
+        91,
+        183,
+        248
+      ],
+      "bboxWidth": 110,
+      "bboxHeight": 157,
+      "centerX": 128.0,
+      "rootAnchorX": 125.1,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2683,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 3,
+      "sourceFrame": null,
+      "bbox": [
+        91,
+        90,
+        177,
+        248
+      ],
+      "bboxWidth": 86,
+      "bboxHeight": 158,
+      "centerX": 134.0,
+      "rootAnchorX": 126.79,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2129,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 4,
+      "sourceFrame": null,
+      "bbox": [
+        91,
+        87,
+        172,
+        248
+      ],
+      "bboxWidth": 81,
+      "bboxHeight": 161,
+      "centerX": 131.5,
+      "rootAnchorX": 131.09,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2123,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 5,
+      "sourceFrame": null,
+      "bbox": [
+        75,
+        84,
+        175,
+        248
+      ],
+      "bboxWidth": 100,
+      "bboxHeight": 164,
+      "centerX": 125.0,
+      "rootAnchorX": 126.91,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2369,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 6,
+      "sourceFrame": null,
+      "bbox": [
+        64,
+        86,
+        181,
+        248
+      ],
+      "bboxWidth": 117,
+      "bboxHeight": 162,
+      "centerX": 122.5,
+      "rootAnchorX": 125.46,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2421,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 7,
+      "sourceFrame": null,
+      "bbox": [
+        59,
+        87,
+        191,
+        248
+      ],
+      "bboxWidth": 132,
+      "bboxHeight": 161,
+      "centerX": 125.0,
+      "rootAnchorX": 123.8,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2390,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 8,
+      "sourceFrame": null,
+      "bbox": [
+        56,
+        87,
+        195,
+        248
+      ],
+      "bboxWidth": 139,
+      "bboxHeight": 161,
+      "centerX": 125.5,
+      "rootAnchorX": 123.49,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2448,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 9,
+      "sourceFrame": null,
+      "bbox": [
+        54,
+        87,
+        197,
+        248
+      ],
+      "bboxWidth": 143,
+      "bboxHeight": 161,
+      "centerX": 125.5,
+      "rootAnchorX": 123.53,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2470,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 10,
+      "sourceFrame": null,
+      "bbox": [
+        53,
+        88,
+        198,
+        248
+      ],
+      "bboxWidth": 145,
+      "bboxHeight": 160,
+      "centerX": 125.5,
+      "rootAnchorX": 124.76,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2590,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 11,
+      "sourceFrame": null,
+      "bbox": [
+        52,
+        92,
+        199,
+        248
+      ],
+      "bboxWidth": 147,
+      "bboxHeight": 156,
+      "centerX": 125.5,
+      "rootAnchorX": 125.69,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2777,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 12,
+      "sourceFrame": null,
+      "bbox": [
+        50,
+        91,
+        199,
+        248
+      ],
+      "bboxWidth": 149,
+      "bboxHeight": 157,
+      "centerX": 124.5,
+      "rootAnchorX": 125.4,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2888,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 13,
+      "sourceFrame": null,
+      "bbox": [
+        48,
+        88,
+        199,
+        248
+      ],
+      "bboxWidth": 151,
+      "bboxHeight": 160,
+      "centerX": 123.5,
+      "rootAnchorX": 124.22,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2839,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 14,
+      "sourceFrame": null,
+      "bbox": [
+        49,
+        85,
+        197,
+        248
+      ],
+      "bboxWidth": 148,
+      "bboxHeight": 163,
+      "centerX": 123.0,
+      "rootAnchorX": 124.0,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2779,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 15,
+      "sourceFrame": null,
+      "bbox": [
+        60,
+        89,
+        187,
+        248
+      ],
+      "bboxWidth": 127,
+      "bboxHeight": 159,
+      "centerX": 123.5,
+      "rootAnchorX": 126.66,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2835,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 16,
+      "sourceFrame": null,
+      "bbox": [
+        84,
+        92,
+        179,
+        248
+      ],
+      "bboxWidth": 95,
+      "bboxHeight": 156,
+      "centerX": 131.5,
+      "rootAnchorX": 132.66,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2799,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 17,
+      "sourceFrame": null,
+      "bbox": [
+        92,
+        91,
+        172,
+        248
+      ],
+      "bboxWidth": 80,
+      "bboxHeight": 157,
+      "centerX": 132.0,
+      "rootAnchorX": 133.73,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2232,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 18,
+      "sourceFrame": null,
+      "bbox": [
+        91,
+        87,
+        172,
+        248
+      ],
+      "bboxWidth": 81,
+      "bboxHeight": 161,
+      "centerX": 131.5,
+      "rootAnchorX": 133.33,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 1970,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 19,
+      "sourceFrame": null,
+      "bbox": [
+        82,
+        84,
+        173,
+        248
+      ],
+      "bboxWidth": 91,
+      "bboxHeight": 164,
+      "centerX": 127.5,
+      "rootAnchorX": 128.36,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2302,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 20,
+      "sourceFrame": null,
+      "bbox": [
+        69,
+        87,
+        173,
+        248
+      ],
+      "bboxWidth": 104,
+      "bboxHeight": 161,
+      "centerX": 121.0,
+      "rootAnchorX": 125.41,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2471,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 21,
+      "sourceFrame": null,
+      "bbox": [
+        64,
+        84,
+        180,
+        248
+      ],
+      "bboxWidth": 116,
+      "bboxHeight": 164,
+      "centerX": 122.0,
+      "rootAnchorX": 123.87,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2453,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 22,
+      "sourceFrame": null,
+      "bbox": [
+        61,
+        84,
+        186,
+        248
+      ],
+      "bboxWidth": 125,
+      "bboxHeight": 164,
+      "centerX": 123.5,
+      "rootAnchorX": 123.53,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2482,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 23,
+      "sourceFrame": null,
+      "bbox": [
+        59,
+        84,
+        190,
+        248
+      ],
+      "bboxWidth": 131,
+      "bboxHeight": 164,
+      "centerX": 124.5,
+      "rootAnchorX": 124.02,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2532,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 24,
+      "sourceFrame": null,
+      "bbox": [
+        58,
+        86,
+        192,
+        248
+      ],
+      "bboxWidth": 134,
+      "bboxHeight": 162,
+      "centerX": 125.0,
+      "rootAnchorX": 124.86,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2600,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 25,
+      "sourceFrame": null,
+      "bbox": [
+        57,
+        89,
+        193,
+        248
+      ],
+      "bboxWidth": 136,
+      "bboxHeight": 159,
+      "centerX": 125.0,
+      "rootAnchorX": 125.35,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2711,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 26,
+      "sourceFrame": null,
+      "bbox": [
+        56,
+        89,
+        193,
+        248
+      ],
+      "bboxWidth": 137,
+      "bboxHeight": 159,
+      "centerX": 124.5,
+      "rootAnchorX": 124.4,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2741,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "frame": 27,
+      "sourceFrame": null,
+      "bbox": [
+        55,
+        86,
+        193,
+        248
+      ],
+      "bboxWidth": 138,
+      "bboxHeight": 162,
+      "centerX": 124.0,
+      "rootAnchorX": 123.05,
+      "rootAnchorY": 248.0,
+      "rootAnchorPixels": 2685,
+      "anchorMode": "alpha-lower-body",
+      "bottom": 248,
+      "clipped": false,
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "polish": null,
+  "alignmentOverlayPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-run-alignment-overlay.png",
+  "driftReportPath": "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-run-drift-report.json"
+}

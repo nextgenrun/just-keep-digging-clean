@@ -13,6 +13,7 @@ import { PlayerSolidOcclusionSystem } from "../../systems/visual/PlayerSolidOccl
 import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinematicMotionSystem.js";
 import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
+import { GroundFootstepFxSystem } from "../../systems/visual/GroundFootstepFxSystem.js";
 import { CaveActionAnimationRuntime } from "./CaveActionAnimationRuntime.js";
 import { dispatchCaveMineFeedback } from "./caveMineFeedback.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
@@ -38,6 +39,7 @@ export class CaveGameplayController {
     this.playerKinematicMotion = null;
     this.playerRigContact = null;
     this.flightFootParticleSystem = null;
+    this.groundFootstepFxSystem = null;
     this.actionAnimationRuntime = new CaveActionAnimationRuntime(this);
     this._actionUntilMs = 0;
   }
@@ -104,6 +106,15 @@ export class CaveGameplayController {
       this.scene.player,
       this.scene.playerAssetProfile,
     );
+    this.groundFootstepFxSystem = new GroundFootstepFxSystem(
+      this.scene,
+      this.scene.player,
+      this.playerController,
+      this.worldModel,
+      this.scene.playerAssetProfile,
+      { onFootstep: () => this.originScene?.soundSystem?.playFootstep?.() },
+    );
+    this.groundFootstepFxSystem.create();
     this.actionAnimationRuntime.create();
     this.playerSolidOcclusion = new PlayerSolidOcclusionSystem(
       this.scene,
@@ -116,12 +127,12 @@ export class CaveGameplayController {
 
   update(time, delta) {
     const keys = this.inputHandler.getKeys();
-    const horizontal = this.playerController.input.getHorizontalMovement();
     const escapePressed = (
       (keys.escape && Phaser.Input.Keyboard.JustDown(keys.escape))
       || (keys.hardEscape && Phaser.Input.Keyboard.JustDown(keys.hardEscape))
     );
-    if (escapePressed || horizontal.left || horizontal.right) {
+    // A committed C strike survives held locomotion; Escape is the explicit cancel.
+    if (escapePressed) {
       this.actionAnimationRuntime.cancelThunderStrike(time);
     }
     this.playerController.update(delta);
@@ -174,6 +185,7 @@ export class CaveGameplayController {
     this.playerKinematicMotion?.destroy();
     this.playerRigContact?.destroy();
     this.flightFootParticleSystem?.destroy();
+    this.groundFootstepFxSystem?.destroy();
     this.scene.playerKinematicMotion = null;
     this.scene.playerRigContact = null;
     this.inputHandler?.destroy();

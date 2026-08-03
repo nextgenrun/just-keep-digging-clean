@@ -1,7 +1,4 @@
-import {
-  getStarDiscoveryPreloadAssets,
-  STAR_RARITY_PROGRESSION_CONFIG,
-} from "./starRarityProgression.js";
+import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
 
 function finiteNonNegative(value) {
   return Number.isFinite(value) ? Math.max(0, value) : 0;
@@ -107,16 +104,6 @@ export function validateStarRarityProgressionConfig(
   config = STAR_RARITY_PROGRESSION_CONFIG,
 ) {
   const weights = config.rarityTiers.map(tier => tier.weight);
-  const popupTimingValid = config.popup.holdMsByRarity.length
-    === config.rarityTiers.length
-    && config.popup.holdMsByRarity.every(
-      duration => duration === config.health.expectedPopupHoldMs,
-    )
-    && config.popup.minimumIntervalMs
-      === config.health.expectedPopupMinimumIntervalMs
-    && config.popup.alwaysShowFirstRarityEncounter === true
-    && config.popup.alwaysShowSignLevelUp === true;
-  const assetKeys = getStarDiscoveryPreloadAssets(config).map(entry => entry.key);
   const thresholdsValid = Object.keys(config.signProgression.xpTotals).every(
     resourceType => {
       const thresholds = getSignLevelThresholds(resourceType, config);
@@ -128,8 +115,6 @@ export function validateStarRarityProgressionConfig(
   );
   const weightTotal = weights.reduce((total, weight) => total + weight, 0);
   const ready = config.rarityTiers.length === config.health.expectedTierCount
-    && assetKeys.length === config.health.expectedAssetCount
-    && new Set(assetKeys).size === assetKeys.length
     && weightTotal === config.health.expectedWeightTotal
     && Math.abs(
       config.spawn.reductionRatio - config.health.expectedSpawnReductionRatio,
@@ -138,16 +123,13 @@ export function validateStarRarityProgressionConfig(
       config.spawn.probability
         - config.spawn.legacyProbability * (1 - config.spawn.reductionRatio),
     ) < Number.EPSILON
-    && thresholdsValid
-    && popupTimingValid;
+    && thresholdsValid;
   return Object.freeze({
     ready,
     tierCount: config.rarityTiers.length,
-    assetCount: assetKeys.length,
     weightTotal,
     spawnProbability: config.spawn.probability,
     spawnReductionRatio: config.spawn.reductionRatio,
     thresholdsValid,
-    popupTimingValid,
   });
 }

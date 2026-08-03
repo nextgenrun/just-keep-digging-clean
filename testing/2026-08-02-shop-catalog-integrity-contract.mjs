@@ -41,6 +41,11 @@ const EXPECTED_CATALOGS = Object.freeze({
     "boboWisdom",
   ]),
 });
+const EXPECTED_FRESH_AVAILABLE = Object.freeze({
+  moneyMonster: Object.freeze(["startResourcePrices"]),
+  gearMerchant: Object.freeze(["bronzePickaxe"]),
+  boboMerchant: Object.freeze([]),
+});
 
 function activeCatalogIds(merchantId) {
   return Object.entries(UPGRADES)
@@ -114,7 +119,7 @@ const journal = {
 const tutorial = {
   choice: TOWN_TUTORIAL_CHOICES.YES,
   stage: TOWN_TUTORIAL_STAGES.COMPLETE,
-  completionRewardGranted: true,
+  flightTrainingGranted: true,
 };
 const scene = {
   config: { resourceEconomyEnabled: true },
@@ -172,13 +177,18 @@ for (const [merchantId, expectedIds] of Object.entries(EXPECTED_CATALOGS)) {
     expectedIds,
     `${merchantId} must show locked rows instead of filtering them out`,
   );
-  assert.equal(
-    overlay.allUpgrades.every(upgrade => upgrade.availability?.available === false),
-    true,
-    `${merchantId} fresh-save rows must expose progression locks`,
+  assert.deepEqual(
+    overlay.allUpgrades
+      .filter(upgrade => upgrade.availability?.available === true)
+      .map(upgrade => upgrade.id),
+    EXPECTED_FRESH_AVAILABLE[merchantId],
+    `${merchantId} fresh-save availability must match staged disclosure`,
   );
+  const lockedUpgrades = overlay.allUpgrades
+    .filter(upgrade => upgrade.availability?.available === false);
+  assert.ok(lockedUpgrades.length > 0, `${merchantId} must retain progression locks`);
   assert.equal(
-    overlay.allUpgrades.every(upgrade => Boolean(upgrade.availability?.detail)),
+    lockedUpgrades.every(upgrade => Boolean(upgrade.availability?.detail)),
     true,
     `${merchantId} locks must explain their unlock condition`,
   );
@@ -314,18 +324,18 @@ assert.equal(
 
 const moneyBeforeLock = upgradeSystem.getMoney();
 const resourcesBeforeLock = { ...resources };
-const lockedMarket = upgradeSystem.purchaseUpgrade("startResourcePrices");
+const lockedMarket = upgradeSystem.purchaseUpgrade("nextResourcePrices");
 assert.equal(lockedMarket.success, false);
 assert.equal(lockedMarket.reason, "progression_locked");
 assert.equal(upgradeSystem.getMoney(), moneyBeforeLock);
-assert.equal(upgradeSystem.getUpgradeLevel("startResourcePrices"), 0);
+assert.equal(upgradeSystem.getUpgradeLevel("nextResourcePrices"), 0);
 assert.deepEqual(resources, resourcesBeforeLock);
 
-const lockedPickaxe = upgradeSystem.purchaseUpgrade("bronzePickaxe");
+const lockedPickaxe = upgradeSystem.purchaseUpgrade("ironPickaxe");
 assert.equal(lockedPickaxe.success, false);
 assert.equal(lockedPickaxe.reason, "progression_locked");
 assert.equal(upgradeSystem.getMoney(), moneyBeforeLock);
-assert.equal(upgradeSystem.getUpgradeLevel("bronzePickaxe"), 0);
+assert.equal(upgradeSystem.getUpgradeLevel("ironPickaxe"), 0);
 assert.equal(upgradeSystem.ownedPickaxe, null);
 assert.deepEqual(resources, resourcesBeforeLock);
 

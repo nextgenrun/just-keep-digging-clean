@@ -167,7 +167,7 @@ function createFakeScene(retentionProgressSystem) {
 
 assert.equal(TITAN_DEFINITIONS.length, 25);
 assert.equal(new Set(TITAN_DEFINITIONS.map(entry => entry.id)).size, 25);
-assert.equal(getTitanDiscoveryPreloadAssets().length, 54);
+assert.equal(getTitanDiscoveryPreloadAssets().length, 56);
 assert.equal(
   getTitanDiscoveryPreloadAssets(undefined, "?titans=0").length,
   0,
@@ -190,6 +190,8 @@ assert.equal(plinthPng[25], 6, "Titan Walk plinth must be RGBA");
 for (const [asset, width, height] of [
   [TITAN_DISCOVERY_CONFIG.assets.undergroundDais, 1024, 384],
   [TITAN_DISCOVERY_CONFIG.assets.coverResonance, 512, 512],
+  [TITAN_DISCOVERY_CONFIG.assets.groundContact, 1198, 292],
+  [TITAN_DISCOVERY_CONFIG.assets.unlockResonance, 1511, 1041],
 ]) {
   const png = fs.readFileSync(path.join(ROOT, asset.path));
   assert.equal(png.readUInt32BE(16), width, `${asset.key} width`);

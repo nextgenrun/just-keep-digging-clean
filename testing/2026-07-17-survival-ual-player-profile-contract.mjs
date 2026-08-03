@@ -47,7 +47,7 @@ const proneV3Promotion = JSON.parse(readFileSync(
   "utf8",
 ));
 const expectedRuntimeActions = [
-  "airborne", "climb", "crouch", "death", "falling", "fly",
+  "airborne", "crouch", "death", "falling", "fly",
   "ground-strike", "hit-react", "idle", "idle-talk", "landing",
   "moving-side-dig-cross", "moving-side-dig-jab",
   "punch-cross", "punch-jab", "punch-uppercut",
@@ -126,7 +126,7 @@ assert.equal(runtimeManifest.pipeline, "survival-body-ual-motion-unreal-ik-v1");
 assert.ok(expectedRuntimeActions.every((action) => runtimeManifest.actions[action]), "profile runtime action is missing");
 assert.equal(
   expectedRuntimeActions.reduce((total, action) => total + runtimeManifest.actions[action].frame_count, 0),
-  926,
+  906,
 );
 assert.ok(runtimeManifest.visual_skin?.retargeter?.includes("RTG_UAL_To_SurvivalCharacter_v1"));
 assert.ok(survival.sheetFiles.every(([, fileName, , sourceBasePath]) => existsSync(resolve(
@@ -198,7 +198,7 @@ assert.deepEqual(
 );
 assert.equal(
   resolvePlayerDisplaySizePx(survival, survival.displaySizePx, survival.digUpHitAnims[0]),
-  blender.sheets.digUp.displaySizePx,
+  survival.animationPolishConfig.displaySizePx,
 );
 assert.deepEqual(
   resolvePlayerVisualOrigin(survival, survival.digUpHitAnims[0], survival.digUpSheet),
@@ -210,7 +210,10 @@ assert.deepEqual(
 );
 assert.deepEqual(
   resolveUalActionContact(survival, survival.digSidewaysHitAnims[1]),
-  resolveUalActionContact(ual, ual.digSidewaysHitAnims[1]),
+  {
+    ...resolveUalActionContact(ual, ual.digSidewaysHitAnims[1]),
+    visualAlignmentEnabled: false,
+  },
 );
 assert.deepEqual(
   resolveUalActionContact(survival, survival.digDownAnim),
@@ -280,19 +283,24 @@ assert.equal(createdAnimations.get(survival.idleAnim)?.frameRate, 12);
 assert.equal(createdAnimations.get(survival.digUpLookAnim)?.frameRate, 30);
 assert.equal(createdAnimations.get(survival.landingAnim)?.frameRate, 40);
 assert.equal(createdAnimations.get(survival.landingAnim)?.frames.length, 14);
-assert.equal(createdAnimations.get(survival.digUpHitAnims[0])?.frames.length, 24);
+const promotedDigUpAnimation = survival.animationPolishConfig.verticalMining.up.animations
+  .find(({ key }) => key === survival.digUpHitAnims[0]);
+assert.ok(promotedDigUpAnimation);
+assert.equal(
+  createdAnimations.get(survival.digUpHitAnims[0])?.frames.length,
+  promotedDigUpAnimation.frames.length,
+);
 assert.equal(createdAnimations.get(survival.movingSideDigAnimationMap[survival.digSidewaysHitAnims[0]])?.frames.length, 22);
 assert.equal(createdAnimations.get(survival.movingSideDigAnimationMap[survival.digSidewaysHitAnims[1]])?.frames.length, 22);
 assert.equal(
   createdAnimations.get(survival.digUpHitAnims[0])?.frameRate,
-  blender.sheets.digUp.frameRate,
+  promotedDigUpAnimation.frameRate,
 );
 assert.ok(createdAnimations.get(survival.digUpHitAnims[0])?.frames.every(
-  ({ key }) => key === blender.sheets.digUp.key,
+  ({ key }) => key === promotedDigUpAnimation.sheet,
 ));
 for (const key of [
   survival.flyAnim,
-  survival.flyClimbAnim,
   survival.flightEnterAnim,
   survival.flightTravelEnterAnim,
   survival.flightTravelLoopAnim,

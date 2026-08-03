@@ -38,8 +38,6 @@ export class PlayerAbilities {
     this._gemPowerChangeListener = null;
     this._gemPowerFloorProvider = null;
 
-    // Climbing
-    this._climbing = false;
 
     // Flying
     this._flying = false;
@@ -93,7 +91,6 @@ export class PlayerAbilities {
     }
 
     let usingGemPowerMovement = false;
-    this._climbing = false;
 
     const freeFlightActive = this._isFreeFlightActive();
     const flightAvailable = this._godMode
@@ -101,7 +98,6 @@ export class PlayerAbilities {
       || freeFlightActive
       || this.upgradeSystem?.isGemPowerUnlocked?.();
     const flyHeld = input.getFlyInput();
-    const flyDownHeld = input.getFlyDownInput?.() === true;
     const flightContext = { source: "flight" };
     const flightDrainRequest = freeFlightActive
       ? 0
@@ -142,14 +138,11 @@ export class PlayerAbilities {
         }
 
         if (upkeepPaid) {
-          const flightDirection = (!isGrounded && flyDownHeld) ? 1 : -1;
-          this.body.vy = this._getClimbSpeed() * flightDirection;
+          this.body.vy = -this._getFlightSpeed();
           this._flying = true;
-          this._climbing = true;
           usingGemPowerMovement = true;
         } else {
           this._flying = false;
-          this._climbing = false;
           this._warnFlightPowerUnavailable(flightContext);
         }
 
@@ -176,13 +169,12 @@ export class PlayerAbilities {
     }
 
     if (!usingGemPowerMovement) {
-      this._updateClimbing(input, isGrounded);
       this._updateGemPower(dt);
     }
 
     this._updateQuickslash(input, facingRight);
 
-    if (this.body) this.body.setClimbing(this._climbing);
+    if (this.body) this.body.setFlightActive(this._flying);
   }
 
   _updateQuickslash(input, facingRight) {
@@ -213,23 +205,6 @@ export class PlayerAbilities {
     }
   }
 
-  _updateClimbing(input, isGrounded) {
-    if (!input.isUp() || !this.worldModel || isGrounded || !this.body) {
-      this._climbing = false;
-      return;
-    }
-
-    const playerTile = {
-      tx: Math.floor((this.body.x + this.body.w / 2) / this.config.tileSize),
-      ty: Math.floor((this.body.y + this.body.h) / this.config.tileSize),
-    };
-    const isAgainstWall = this.worldModel.isSolid(playerTile.tx - 1, playerTile.ty) ||
-      this.worldModel.isSolid(playerTile.tx + 1, playerTile.ty);
-    this._climbing = isAgainstWall;
-    if (this._climbing) {
-      this.body.vy = -this._getClimbSpeed();
-    }
-  }
 
   _updateGemPower(dt) {
     if (
@@ -246,7 +221,6 @@ export class PlayerAbilities {
 
   resetFlyingState() { this._flying = false; }
   isFlying() { return this._flying; }
-  isClimbing() { return this._climbing; }
 
   isQuickslashActive() { return this._quickslashActive; }
   getQuickslashDirection() { return this._quickslashDirection || 1; }
@@ -682,11 +656,11 @@ export class PlayerAbilities {
     return Math.max(0, baseDrain - (effects.gemPowerDrainReduction || 0));
   }
 
-  _getClimbSpeed() {
-    if (this.upgradeSystem?.getEffectiveLevitationSpeed) {
-      return this.upgradeSystem.getEffectiveLevitationSpeed(this.config.climbSpeedPxPerSec || 252);
+  _getFlightSpeed() {
+    if (this.upgradeSystem?.getEffectiveFlightSpeed) {
+      return this.upgradeSystem.getEffectiveFlightSpeed(this.config.flightSpeedPxPerSec || 252);
     }
-    return this.config.climbSpeedPxPerSec || 252;
+    return this.config.flightSpeedPxPerSec || 252;
   }
 
   _getFlyStartCost() {
@@ -715,5 +689,4 @@ export class PlayerAbilities {
     return this._freeFlightProvider?.() === true;
   }
 
-  getDashCooldownMs() { return 0; }
 }

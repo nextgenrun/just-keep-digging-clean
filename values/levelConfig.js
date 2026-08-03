@@ -30,7 +30,7 @@ export const LEVEL_CONFIG = Object.freeze({
     magmaCrystal: 2800,
   },
 
-  // Every 5 levels: Choose ONE of these two options
+  // Every 5 levels: grant both small passive bonuses without interrupting play.
   CHOICE_INTERVAL: 5,
   CHOICE_REWARDS: {
     miningPower: {

@@ -115,7 +115,7 @@ export class GameInputHandler {
       return true;
     }
 
-    if (justDown(keys.screenRecord)) {
+    if (GAME_CONFIG.debugMode && justDown(keys.screenRecord)) {
       this.scene.screenRecordSystem?.toggle();
       return true;
     }

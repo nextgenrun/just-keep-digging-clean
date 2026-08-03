@@ -119,8 +119,31 @@ export class ThunderStrikeActionRuntime {
 
   _beginCharge(nowMs) {
     const abilities = this._abilities();
-    if (!abilities?.startThunderStrikeCharge?.(nowMs)) return false;
+    if (!abilities?.startThunderStrikeCharge?.(nowMs)) {
+      this.inputBufferedUntilMs = -Infinity;
+      const currentGp = Number(
+        abilities?.getGemPowerExact?.()
+          ?? abilities?.getGemPowerRaw?.()
+          ?? abilities?.gemPower,
+      );
+      const requiredGp = Number(abilities?.getThunderStrikeCost?.());
+      if (
+        abilities?.isThunderStrikeUnlocked?.() === true
+        && Number.isFinite(currentGp)
+        && Number.isFinite(requiredGp)
+        && currentGp < requiredGp
+      ) {
+        this.timingBar.showInsufficientGp(
+          currentGp,
+          requiredGp,
+          nowMs,
+          this.state.getSnapshot(nowMs),
+        );
+      }
+      return false;
+    }
     this.inputBufferedUntilMs = -Infinity;
+    this.timingBar.clearFeedback();
     this.state.beginCharge(nowMs);
     this.animating = true;
     this.facingFlipX = this.scene.player?.flipX;

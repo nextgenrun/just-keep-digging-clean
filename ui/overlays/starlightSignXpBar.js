@@ -1,4 +1,4 @@
-import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 
 function clamp01(value) {
   return Math.max(0, Math.min(1, Number(value) || 0));
@@ -21,14 +21,14 @@ export function createStarlightSignXpBar({
   progress,
   alpha = 1,
 }) {
-  const asset = STAR_RARITY_PROGRESSION_CONFIG.popup.fillAssets[0];
+  const assetKey = ASSET_KEYS.ui.starlightTalentTree.progressPlaque;
   if (
-    !asset?.key
-    || (scene.textures?.exists && !scene.textures.exists(asset.key))
+    !assetKey
+    || (scene.textures?.exists && !scene.textures.exists(assetKey))
   ) {
     return null;
   }
-  const image = scene.add.image(x - width / 2, y, asset.key)
+  const image = scene.add.image(x - width / 2, y, assetKey)
     .setOrigin(0, 0.5)
     .setDisplaySize(width, height)
     .setAlpha(alpha);

@@ -130,6 +130,7 @@ for (const sheet of Object.values(polish.sheets)) {
 }
 
 for (const id of [
+  "player-animation-polish-run",
   "player-animation-polish-transitions",
   "player-animation-polish-diagonal-dig",
 ]) {
@@ -183,7 +184,8 @@ for (const variant of polish.diagonalMining.variants) {
   for (let index = 0; index < 15; index += 1) {
     const runFrame = (variant.runStartFrame + index) % 28;
     const markers = metadata.rig_markers.frames[String(index)];
-    const runMarkers = runtimeManifest.actions.run.rig_markers.frames[String(runFrame)];
+    const runMarkers = runtimeManifest.actions[profile.footstepRigAction]
+      .rig_markers.frames[String(runFrame)];
     assert.deepEqual(markers.foot_l, runMarkers.foot_l);
     assert.deepEqual(markers.foot_r, runMarkers.foot_r);
     assert.deepEqual(markers.pelvis, runMarkers.pelvis);

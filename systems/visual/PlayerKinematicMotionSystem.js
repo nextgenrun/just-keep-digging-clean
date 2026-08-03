@@ -106,14 +106,11 @@ export class PlayerKinematicMotionSystem {
   resolveLocomotionTimeScale(animationKey, animation, speedOverridePxPerSec = null) {
     if (!this.enabled || !animation) return null;
     const isRun = animationKey === this.profile.walkRunAnim;
-    const isClimb = animationKey === this.profile.climbAnim;
-    const cadence = isClimb
-      ? this.config.locomotion.climb
-      : isRun ? this.config.locomotion.run : this.config.locomotion.walk;
+    const cadence = isRun ? this.config.locomotion.run : this.config.locomotion.walk;
     const hasSpeedOverride = Number.isFinite(speedOverridePxPerSec);
     const speed = hasSpeedOverride
       ? Math.abs(speedOverridePxPerSec)
-      : isClimb ? Math.abs(this._speedY) : Math.abs(this._speedX);
+      : Math.abs(this._speedX);
     if (speed < this.config.sampling.zeroSpeedEpsilonPxPerSec) return 1;
     const tileSize = this.scene?.config?.tileSize || 1;
     return calculateStrideMatchedTimeScale({

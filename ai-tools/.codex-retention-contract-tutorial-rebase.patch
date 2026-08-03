@@ -1,0 +1,34 @@
+diff --git a/testing/2026-07-26-retention-systems-contract.mjs b/testing/2026-07-26-retention-systems-contract.mjs
+--- a/testing/2026-07-26-retention-systems-contract.mjs
++++ b/testing/2026-07-26-retention-systems-contract.mjs
+@@ -92,13 +92,12 @@
+ });
+ assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.SELL);
+-assert.deepEqual(retention.claimTutorialStarterReward(), {
+-  money: 3,
+-  resources: { dirt: 6 },
+-});
+-assert.equal(retention.claimTutorialStarterReward(), null);
+ retention.recordSale(30, 2);
+ assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.UPGRADE);
+-retention.recordUpgrade("Miner's Grip", {
++assert.deepEqual(retention.claimTutorialUpgradeFunding(), { money: 2 });
++assert.equal(retention.claimTutorialUpgradeFunding(), null);
++retention.recordUpgrade("Agility Training", {
+@@ -106,9 +105,14 @@
+   afterDamage: 12,
+ });
+-assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.COMPLETE);
+-assert.equal(retention.claimTutorialCompletionReward().freeFlightMs, 30000);
+-assert.equal(retention.claimTutorialCompletionReward(), null);
++assert.equal(retention.getJournalSnapshot().tutorialStage, TOWN_TUTORIAL_STAGES.FLIGHT);
++assert.equal(retention.claimTutorialFlightTraining().freeFlightMs, 30000);
++assert.equal(retention.claimTutorialFlightTraining(), null);
+ assert.equal(retention.isTutorialFreeFlightActive(), true);
+ retention.consumeTutorialFreeFlight(1000);
+ assert.equal(retention.getTutorialState().freeFlightRemainingMs, 29000);
++assert.equal(retention.recordTutorialFlight(), true);
++retention.recordPortalActivated("Starter Return Gate");
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
++assert.equal(retention.recordTutorialPortalResume(), true);
++assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
