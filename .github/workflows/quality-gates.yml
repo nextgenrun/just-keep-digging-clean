@@ -49,6 +49,11 @@ jobs:
       - name: Validate the live boot asset queue
         run: node testing/2026-07-26-boot-live-asset-health-contract.mjs
 
+      - name: Validate the regular loader and archived loading minigame
+        run: |
+          node testing/2026-08-03-loading-minigame-archive-contract.mjs
+          node testing/2026-07-30-pause-feature-loading-contract.mjs
+
       - name: Validate release-safety wiring
         run: node testing/2026-07-25-release-safety-contract.mjs
 

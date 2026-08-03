@@ -16,18 +16,10 @@ Single Source of Truth — ALL numeric/string/config values.
   promises, and the ?systemPacing=0 rollback. The five Town Square shops remain
   visible while upgrade purchases unlock progressively; the Level-2 Arc Forge
   stays gated.
-- `loadingScreenPresentation.js` owns the dedicated ImageGen foundation,
-  amber overall meter, cyan current-phase meter, authored retry plate, measured
-  logo/meter/minigame/tool-rail slots, four contiguous load phases, copy,
-  typography, a 0.9 MB source budget, and responsive 1280 by 720 reference
-  geometry. It contains no runtime state or loading logic.
-
-- `loadingMiningMinigame.js` owns the optional 8 by 4 loader-board inventory,
-  13 square soil/resource materials, material HP/weights, seven simultaneously
-  visible pickaxe tiers, transient strike/contact/drop timing, production
-  earthquake fracture/debris/collapse FX, layout inside the dedicated mining
-  chamber and tool rail, diagnostics, source budget, and `?loadingMine=0`
-  rollback. The state and view do not own save rewards or loader progress.
+- `pauseFeatureLoading.js` owns the retained deferred ESC-tab loading chrome,
+  its minimal three-asset foundation, crop geometry, themes, copy, and timing.
+  It no longer depends on loading-minigame configuration. The retired values
+  are preserved under `archive/2026-08-03-loading-mining-minigame/values/`.
 
 - `runtimeAssetLoading.js` owns PlayScene's shared runtime queue, three bounded
   full-resolution decodes, scenery-first priorities, atomic feature demand,

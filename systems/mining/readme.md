@@ -2,11 +2,9 @@
 
 Game system — mining.
 
-`LoadingMiningMinigameState` is a pure, session-only 8 by 4 loading-board
-model. It owns selection, HP, break/refill, chain, and visual pickaxe-tier
-state without touching WorldModel, rewards, saves, or loader progress. The
-opening board contains every configured material before weighted refills begin.
-It is presentation support, not an alternate progression system.
+The retired session-only loading-board model is preserved under
+`archive/2026-08-03-loading-mining-minigame/`; no loading minigame is part of
+the active mining runtime.
 
 `TileCollisionSystem` resolves the measured player AABB in sub-tile swept
 steps, uses a shared skin/probe contract, and can eject a body from the nearest

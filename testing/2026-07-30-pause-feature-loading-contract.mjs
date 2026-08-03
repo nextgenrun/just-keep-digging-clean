@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 
 import {
-  getLoadingMiningMinigamePreloadAssets,
   getPauseFeatureLoadingPreloadAssets,
-} from "../values/loadingMiningMinigame.js";
-import { getPauseFeatureLoadingDecorationAssets } from
+  getPauseFeatureLoadingDecorationAssets,
+  PAUSE_FEATURE_LOADING_ART_CONFIG,
+} from
   "../values/pauseFeatureLoading.js";
 import { PAUSE_FEATURE_LOADING_CONFIG } from
   "../values/pauseFeatureLoading.js";
@@ -31,13 +31,23 @@ sharedAssets.forEach(asset => {
   assert.ok(existsSync(asset.path), `shared loader art must exist: ${asset.path}`);
 });
 assert.equal(
-  getLoadingMiningMinigamePreloadAssets(undefined, "?loadingMine=0").length,
-  0,
-);
-assert.equal(
-  getPauseFeatureLoadingPreloadAssets(undefined, "?loadingMine=0").length,
+  getPauseFeatureLoadingPreloadAssets().length,
   3,
-  "the ESC loader foundation must survive the full mining-loader rollback",
+  "the ESC loader foundation must remain independent of the archived minigame",
+);
+assert.deepEqual(
+  PAUSE_FEATURE_LOADING_ART_CONFIG.layout.screen,
+  {
+    progressPanelY: 510,
+    progressBarY: 506,
+    progressBarWidth: 310,
+    progressBarHeight: 8,
+    progressBarOffsetX: -18,
+    progressFrameWidth: 400,
+    progressFrameHeight: 47,
+    progressFrameCrop: { x: 126, y: 455, width: 1528, height: 180 },
+  },
+  "the retained ESC loader must keep finite progress geometry",
 );
 assert.equal(decorationAssets[0].key, "ui-starlight-modal-crest-v2");
 

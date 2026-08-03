@@ -1,7 +1,7 @@
 import {
   getPauseFeatureLoadingPreloadAssets,
-} from "../values/loadingMiningMinigame.js";
-import { getPauseFeatureLoadingDecorationAssets } from
+  getPauseFeatureLoadingDecorationAssets,
+} from
   "../values/pauseFeatureLoading.js";
 import { PAUSE_FEATURE_LOADING_CONFIG } from
   "../values/pauseFeatureLoading.js";

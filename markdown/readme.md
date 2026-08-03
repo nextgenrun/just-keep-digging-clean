@@ -307,8 +307,8 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-30-star-colour-identity-library.md` | Fifty authored Star colours, per-identity light/flavour, deterministic within-rarity selection, the I-key Star Atlas, health checks, and rollback |
 | `2026-07-30-star-colour-identity-library-v2.md` | 250 authored Star lights, preserved V1 indices, 62.5 MiB capped atlases, twelve-card paging, authored controls, health checks, and rollback |
 | `2026-07-30-star-identity-dedicated-light-library.md` | Separate 35.16 MiB ImageGen light-only package for all 250 Stars, core/light layering, transparent-edge QA, health checks, and rollback |
-| `2026-07-31-loading-screen-imagegen-redesign.md` | Dedicated ImageGen 16:9 loader, two authored real-progress meters, separated 8 by 4 minigame, seven-tool rail, failure plate, live QA, and rollback |
-| `2026-07-30-loading-mining-minigame-runtime.md` | Optional shared-loader mining board using the approved ImageGen block, GP, Star, pickaxe, frame, target, fracture, and debris library; session-only chains, diagnostics, validation, and rollback |
+| `archive/2026-08-03-loading-mining-minigame/markdown/2026-07-31-loading-screen-imagegen-redesign.md` | Historical authored-loader design, retired when the regular pre-minigame screen was restored |
+| `archive/2026-08-03-loading-mining-minigame/markdown/2026-07-30-loading-mining-minigame-runtime.md` | Historical session-only loading-board runtime, archived with its complete rollback package |
 | `2026-07-29-runtime-asset-loading-optimization.md` | Full-quality prioritized runtime loading, off-main-thread image decode, frame-budgeted GPU activation, telemetry, contracts, and rollback |
 | `2026-07-30-runtime-feature-residency-and-save-scheduling.md` | Measured 89-file Boot deferral, atomic full-quality feature residency, decoded-memory watermarks, selected Campfire loading, coalesced idle saves, lifecycle forcing, telemetry, rollback, and contracts |
 | `2026-07-28-star-block-crystal-popout-v2.md` | Approved Choice 1 Star Block art, exact one-to-one tile pop-out, delayed growth, calmer levitation, heavy echo trail, validation, and rollback |

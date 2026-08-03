@@ -1,8 +1,6 @@
 import {
   getPauseFeatureLoadingPreloadAssets,
-  LOADING_MINING_MINIGAME_CONFIG,
-} from "../../values/loadingMiningMinigame.js";
-import {
+  PAUSE_FEATURE_LOADING_ART_CONFIG,
   getPauseFeatureLoadingDecorationAssets,
   PAUSE_FEATURE_LOADING_CONFIG,
   resolvePauseFeatureLoadingTheme,
@@ -15,7 +13,7 @@ let diagnosticSequence = 0;
 
 export function hasPauseFeatureLoadingAssets(
   scene,
-  loadingConfig = LOADING_MINING_MINIGAME_CONFIG,
+  loadingConfig = PAUSE_FEATURE_LOADING_ART_CONFIG,
   config = PAUSE_FEATURE_LOADING_CONFIG,
 ) {
   return [
@@ -30,7 +28,7 @@ export class PauseFeatureLoadingView {
     this.scene = scene;
     this.parent = options.parent;
     this.config = options.config || PAUSE_FEATURE_LOADING_CONFIG;
-    this.loadingConfig = options.loadingConfig || LOADING_MINING_MINIGAME_CONFIG;
+    this.loadingConfig = options.loadingConfig || PAUSE_FEATURE_LOADING_ART_CONFIG;
     this.themeId = options.themeId || "starlight";
     this.theme = resolvePauseFeatureLoadingTheme(this.themeId, this.config);
     this.getProgress = options.getProgress || (() => null);

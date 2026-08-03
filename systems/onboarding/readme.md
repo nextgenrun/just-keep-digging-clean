@@ -28,7 +28,7 @@ encounters.
   actually demonstrated. Legacy saves remain exempt. Once Flight and the
   payoff block are complete, no tutorial objective remains after load.
 - `?firstFive=0` is the parent rollback for this layer. It does not alter the
-  independent `?surfaceDrop=0`, `?randomEvents=0`, or `?loadingMine=0`
+  independent `?surfaceDrop=0` or `?randomEvents=0`
   diagnostic switches.
 - `OpeningFlightArtifactSystem.js` remains only as a save-compatible dormant
   facade. The Golden Five, legacy shaft, cache, and their views are retained as

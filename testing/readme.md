@@ -122,24 +122,11 @@ requests.
   default plus V1 rollback boards under
   `visual-approval-previews/ground-damage-piskel-production/`.
 
-`2026-07-30-loading-mining-minigame-contract.mjs` guards the 26 approved
-production textures, 13 square soil/resource materials, explicit exclusion of
-GP/star special blocks, the 1.6 MB source budget, all-material opening board,
-pure hit/refill/chain/tier state, image-only minigame renderer, the annotated
-upper-left logo and lower-left progress/control slots, exact reuse of the
-approved electric loading track already painted into the minigame board frame,
-removal of the notification-frame strip, the deliberately empty middle band,
-no under-board duplicate, Boot mini-preload, layered pickaxe/contact/drop FX,
-failure cleanup, and
-`?loadingMine=0` rollback.
-
-`2026-07-30-loading-mining-minigame-harness.html` runs the production shared
-loading view against a 30-second simulated loader.
-`2026-07-30-loading-mining-minigame-live-qa.mjs` drives real Edge pointer-hold
-and keyboard input, proves loader progress continues, and guards the cropped
-78-percent minigame against the fixed-height left column at 1.5 density. It
-captures a guaranteed break-contact frame and the active view, then reloads
-and captures the legacy rollback.
+`2026-08-03-loading-minigame-archive-contract.mjs` guards the restored regular
+loader, absence of active minigame imports/preloads, complete reversible archive,
+and retained pause-feature loading chrome. Historical minigame contracts,
+harnesses, live QA, and captures are stored under
+`archive/2026-08-03-loading-mining-minigame/testing/`.
 Supplying `--game-url` adds a
 real BootScene pass that requires the live diagnostic and all 27 textures while
 Boot is active.

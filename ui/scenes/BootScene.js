@@ -68,14 +68,8 @@ import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
 import { LOADING_MESSAGES } from "../../values/loadingMessages.js";
 import {
   getPauseFeatureLoadingDecorationAssets,
-} from "../../values/pauseFeatureLoading.js";
-import {
-  getLoadingMiningMinigamePreloadAssets,
   getPauseFeatureLoadingPreloadAssets,
-} from "../../values/loadingMiningMinigame.js";
-import {
-  getLoadingScreenPresentationAssets,
-} from "../../values/loadingScreenPresentation.js";
+} from "../../values/pauseFeatureLoading.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
 import { getHardcoreModePreloadAssets } from "../../values/hardcoreMode.js";
@@ -244,12 +238,6 @@ export class BootScene extends Phaser.Scene {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getPauseFeatureLoadingDecorationAssets()) {
-      this.queueImage(asset.key, asset.path);
-    }
-    for (const asset of getLoadingScreenPresentationAssets()) {
-      this.queueImage(asset.key, asset.path);
-    }
-    for (const asset of getLoadingMiningMinigamePreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
   }

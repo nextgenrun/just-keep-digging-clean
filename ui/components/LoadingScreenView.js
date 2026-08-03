@@ -2,15 +2,6 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import { LOADING_MINING_MINIGAME_CONFIG } from "../../values/loadingMiningMinigame.js";
-import {
-  createLoadingMiningMinigame,
-  hasLoadingMiningMinigameAssets,
-} from "./LoadingMiningMinigame.js";
-import {
-  createAuthoredLoadingScreenView,
-  hasAuthoredLoadingScreenAssets,
-} from "./AuthoredLoadingScreenView.js";
 
 const MENU_BACKGROUND_BASE_PATH = "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/";
 
@@ -120,28 +111,23 @@ function addCornerFrame(g, W, H) {
 }
 
 function addLogoOrTitle(scene, objects, W, options) {
-  const centerX = options.logoX ?? W / 2;
   if (options.preferLogo && scene.textures.exists(ASSET_KEYS.branding.logo)) {
-    const logo = scene.add.image(centerX, options.logoY ?? 138, ASSET_KEYS.branding.logo);
-    const scale = Math.min(
-      (options.logoMaxWidth ?? 520) / logo.width,
-      (options.logoMaxHeight ?? 160) / logo.height,
-    );
+    const logo = scene.add.image(W / 2, 138, ASSET_KEYS.branding.logo);
+    const scale = Math.min(520 / logo.width, 160 / logo.height);
     logo.setScale(scale);
     objects.push(logo);
     return;
   }
 
   const title = options.title ?? BRAND_CONFIG.name;
-  const titleY = options.titleY ?? 180;
-  const titleShadow = scene.add.text(centerX + 3, titleY + 3, title, {
+  const titleShadow = scene.add.text(W / 2 + 3, 183, title, {
     fontFamily: UI_FONTS.display,
     fontSize: "76px",
     fontStyle: "bold",
     color: COL.shadow,
   }).setOrigin(0.5).setAlpha(0.42);
 
-  const titleText = scene.add.text(centerX, titleY, title, {
+  const titleText = scene.add.text(W / 2, 180, title, {
     fontFamily: UI_FONTS.display,
     fontSize: "76px",
     fontStyle: "bold",
@@ -185,43 +171,12 @@ function createLoadingParticles(scene, W, H, objects) {
 }
 
 export function createMenuLoadingScreen(scene, options = {}) {
-  const authoredReady = options.minigame !== false
-    && hasAuthoredLoadingScreenAssets(
-      scene,
-      options.presentationConfig,
-      options.minigameConfig,
-      options.search,
-    );
-  if (authoredReady) {
-    return createAuthoredLoadingScreenView(scene, options);
-  }
-  options = { ...options, minigame: false };
-
-  const viewportWidth = scene.scale?.width ?? scene.cameras.main.width;
-  const viewportHeight = scene.scale?.height ?? scene.cameras.main.height;
+  const W = scene.scale?.width ?? scene.cameras.main.width;
+  const H = scene.scale?.height ?? scene.cameras.main.height;
   const objects = [];
   const tweens = [];
   let retryHandler = typeof options.onRetry === "function" ? options.onRetry : null;
   let inFailureState = false;
-  const minigameConfig = options.minigameConfig ?? LOADING_MINING_MINIGAME_CONFIG;
-  const minigameReady = options.minigame !== false
-    && hasLoadingMiningMinigameAssets(scene, minigameConfig, options.search);
-  const minigameScreen = minigameConfig.layout.screen;
-  const W = minigameReady
-    ? minigameConfig.layout.referenceWidth
-    : viewportWidth;
-  const H = minigameReady
-    ? minigameConfig.layout.referenceHeight
-    : viewportHeight;
-  const layoutScale = minigameReady
-    ? Math.min(viewportWidth / W, viewportHeight / H)
-    : 1;
-  const layoutOffsetX = minigameReady
-    ? (viewportWidth - W * layoutScale) / 2
-    : 0;
-  const layoutOffsetY = minigameReady
-    ? (viewportHeight - H * layoutScale) / 2
-    : 0;
 
   const bg = scene.add.rectangle(W / 2, H / 2, W, H, COL.bg);
   objects.push(bg);
@@ -243,24 +198,9 @@ export function createMenuLoadingScreen(scene, options = {}) {
   addCornerFrame(frame, W, H);
   objects.push(frame);
 
-  const logoOptions = minigameReady
-    ? {
-        ...options,
-        logoX: minigameScreen.leftColumnX,
-        logoY: minigameScreen.logoY,
-        logoMaxWidth: minigameScreen.logoMaxWidth,
-        logoMaxHeight: minigameScreen.logoMaxHeight,
-      }
-    : options;
-  addLogoOrTitle(scene, objects, W, logoOptions);
+  addLogoOrTitle(scene, objects, W, options);
 
-  const loadingColumnX = minigameReady
-    ? minigameScreen.leftColumnX
-    : W / 2;
-  const subtitleY = minigameReady
-    ? minigameScreen.subtitleY
-    : options.preferLogo ? 258 : 268;
-  const subtitle = scene.add.text(loadingColumnX, subtitleY, options.subtitle ?? "A L P H A", {
+  const subtitle = scene.add.text(W / 2, options.preferLogo ? 258 : 268, options.subtitle ?? "A L P H A", {
     fontFamily: UI_FONTS.mono,
     fontSize: "18px",
     color: "#c9a227",
@@ -268,118 +208,38 @@ export function createMenuLoadingScreen(scene, options = {}) {
   }).setOrigin(0.5);
   objects.push(subtitle);
 
-  if (!minigameReady) {
-    const sep1 = scene.add.graphics();
-    sep1.lineStyle(1, COL.borderBright, 0.75);
-    sep1.lineBetween(220, 300, W - 220, 300);
-    objects.push(sep1);
-  }
+  const sep1 = scene.add.graphics();
+  sep1.lineStyle(1, COL.borderBright, 0.75);
+  sep1.lineBetween(220, 300, W - 220, 300);
+  objects.push(sep1);
 
-  const minigame = minigameReady
-    ? createLoadingMiningMinigame(scene, { config: minigameConfig, search: options.search })
-    : null;
-  const barW = options.barWidth
-    ?? (minigame ? minigameScreen.progressBarWidth : 600);
-  const barH = options.barHeight
-    ?? (minigame ? minigameScreen.progressBarHeight : 20);
-  const barCenterX = loadingColumnX + (
-    minigame ? minigameScreen.progressBarOffsetX : 0
-  );
-  const barX = barCenterX - barW / 2;
-  const barY = options.barY ?? (minigame ? minigameScreen.progressBarY : 405);
+  const barW = options.barWidth ?? 600;
+  const barH = options.barHeight ?? 20;
+  const barX = W / 2 - barW / 2;
+  const barY = options.barY ?? 405;
 
-  let panel;
-  let miningInstructionText = null;
-  let optionalMiningText = null;
-  if (minigame) {
-    const progressCrop = minigameScreen.progressFrameCrop;
-    panel = scene.add.image(
-      loadingColumnX,
-      minigameScreen.progressPanelY,
-      minigameConfig.assets.boardFrame.key,
-    )
-      .setCrop(
-        progressCrop.x,
-        progressCrop.y,
-        progressCrop.width,
-        progressCrop.height,
-      )
-      .setScale(
-        minigameScreen.progressFrameWidth / progressCrop.width,
-        minigameScreen.progressFrameHeight / progressCrop.height,
-      );
-    miningInstructionText = scene.add.text(
-      loadingColumnX,
-      minigameScreen.progressInstructionY,
-      `${minigameConfig.copy.instruction} · ${minigameConfig.copy.keyboardInstruction}`,
-      {
-        fontFamily: UI_FONTS.mono,
-        fontSize: minigameScreen.progressInstructionFontSize,
-        color: minigameConfig.layout.text.instructionColor,
-        stroke: minigameConfig.layout.text.strokeColor,
-        strokeThickness: minigameConfig.layout.text.strokeThickness,
-      },
-    ).setOrigin(0.5);
-    optionalMiningText = scene.add.text(
-      loadingColumnX,
-      minigameScreen.progressOptionalY,
-      minigameConfig.copy.optional,
-      {
-        fontFamily: UI_FONTS.mono,
-        fontSize: minigameScreen.progressOptionalFontSize,
-        color: minigameConfig.layout.text.materialColor,
-        stroke: minigameConfig.layout.text.strokeColor,
-        strokeThickness: minigameConfig.layout.text.strokeThickness,
-      },
-    ).setOrigin(0.5);
-  } else {
-    const panelWidth = 720;
-    const panelTop = barY - 72;
-    const panelHeight = 138;
-    panel = scene.add.graphics();
-    panel.lineStyle(1, COL.borderDim, 0.95);
-    panel.fillStyle(COL.panel, 0.94);
-    panel.fillRoundedRect(W / 2 - panelWidth / 2, panelTop, panelWidth, panelHeight, 8);
-    panel.strokeRoundedRect(W / 2 - panelWidth / 2, panelTop, panelWidth, panelHeight, 8);
-    panel.fillStyle(COL.panelHi, 0.035);
-    panel.fillRoundedRect(W / 2 - panelWidth / 2 + 4, panelTop + 4, panelWidth - 8, 50, 7);
-  }
+  const panel = scene.add.graphics();
+  panel.lineStyle(1, COL.borderDim, 0.95);
+  panel.fillStyle(COL.panel, 0.94);
+  panel.fillRoundedRect(W / 2 - 360, barY - 72, 720, 138, 8);
+  panel.strokeRoundedRect(W / 2 - 360, barY - 72, 720, 138, 8);
+  panel.fillStyle(COL.panelHi, 0.035);
+  panel.fillRoundedRect(W / 2 - 356, barY - 68, 712, 50, 7);
   objects.push(panel);
-  if (miningInstructionText) objects.push(miningInstructionText);
-  if (optionalMiningText) objects.push(optionalMiningText);
 
-  const labelY = minigame ? minigameScreen.progressLabelY : barY - 36;
-  const labelText = scene.add.text(loadingColumnX, labelY, "", {
+  const labelText = scene.add.text(W / 2, barY - 36, options.label ?? "Loading...", {
     fontFamily: UI_FONTS.mono,
-    fontSize: minigame ? minigameScreen.progressLabelFontSize : "16px",
+    fontSize: "16px",
     color: "#c8dae8",
   }).setOrigin(0.5);
   objects.push(labelText);
-  const setLoadingLabel = (text) => {
-    const fullText = String(text ?? "");
-    labelText.setText(fullText);
-    if (!minigame) return labelText;
 
-    const maxWidth = minigameScreen.progressFrameWidth - 24;
-    let visibleLength = fullText.length;
-    while (labelText.width > maxWidth && visibleLength > 8) {
-      visibleLength -= 1;
-      labelText.setText(
-        `${fullText.slice(0, visibleLength).trimEnd()}...`,
-      );
-    }
-    return labelText;
-  };
-  setLoadingLabel(options.label ?? "Loading...");
-
-  if (!minigame) {
-    const barBg = scene.add.graphics();
-    barBg.fillStyle(UI_COLORS.cardBase, 1);
-    barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
-    barBg.lineStyle(1, COL.borderBright, 0.75);
-    barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
-    objects.push(barBg);
-  }
+  const barBg = scene.add.graphics();
+  barBg.fillStyle(UI_COLORS.cardBase, 1);
+  barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
+  barBg.lineStyle(1, COL.borderBright, 0.75);
+  barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
+  objects.push(barBg);
 
   const barGlow = scene.add.graphics();
   objects.push(barGlow);
@@ -404,30 +264,21 @@ export function createMenuLoadingScreen(scene, options = {}) {
   });
   tweens.push(glowTween);
 
-  const percentX = minigame
-    ? loadingColumnX + minigameScreen.progressPercentOffsetX
-    : W / 2;
-  const percentY = minigame
-    ? barY + minigameScreen.progressPercentOffsetY
-    : barY + barH + 18;
-  const pctText = scene.add.text(percentX, percentY, "0%", {
+  const pctText = scene.add.text(W / 2, barY + barH + 18, "0%", {
     fontFamily: UI_FONTS.mono,
-    fontSize: minigame ? minigameScreen.progressPercentFontSize : "15px",
+    fontSize: "15px",
     color: COL.pct,
   }).setOrigin(0.5);
   objects.push(pctText);
 
-  const detailY = barY + 76;
-  const detailText = scene.add.text(W / 2, detailY, options.detail ?? "", {
+  const detailText = scene.add.text(W / 2, barY + 76, options.detail ?? "", {
     fontFamily: UI_FONTS.mono,
     fontSize: "14px",
     color: "#7a9ab4",
   }).setOrigin(0.5);
-  detailText.setVisible(!minigame);
   objects.push(detailText);
 
-  const failureY = minigame ? minigameScreen.failureY : barY + 118;
-  const failureText = scene.add.text(W / 2, failureY, "", {
+  const failureText = scene.add.text(W / 2, barY + 118, "", {
     fontFamily: UI_FONTS.mono,
     fontSize: "14px",
     color: "#ff8f72",
@@ -436,16 +287,14 @@ export function createMenuLoadingScreen(scene, options = {}) {
   failureText.setAlpha(0);
   objects.push(failureText);
 
-  const retryY = minigame ? minigameScreen.retryY : barY + 156;
-  const retryHintY = minigame ? minigameScreen.retryHintY : barY + 182;
-  const retryButton = scene.add.rectangle(W / 2, retryY, 150, 36, 0xe07030, 0.98);
-  const retryButtonText = scene.add.text(W / 2, retryY, "RETRY", {
+  const retryButton = scene.add.rectangle(W / 2, barY + 156, 150, 36, 0xe07030, 0.98);
+  const retryButtonText = scene.add.text(W / 2, barY + 156, "RETRY", {
     fontFamily: UI_FONTS.mono,
     fontSize: "14px",
     fontStyle: "bold",
     color: "#ffffff",
   }).setOrigin(0.5);
-  const retryHintText = scene.add.text(W / 2, retryHintY, "Press RETRY only when loading has stopped due to an error.", {
+  const retryHintText = scene.add.text(W / 2, barY + 182, "Press RETRY only when loading has stopped due to an error.", {
     fontFamily: UI_FONTS.mono,
     fontSize: "11px",
     color: "#5a6f80",
@@ -469,8 +318,7 @@ export function createMenuLoadingScreen(scene, options = {}) {
 
   const showFailure = (message = "Loading failed.") => {
     inFailureState = true;
-    minigame?.setVisible(false);
-    setLoadingLabel("Loading failed");
+    labelText.setText("Loading failed");
     detailText.setText("Please fix the issue and retry loading.");
     failureText.setText(String(message));
     failureText.setAlpha(1);
@@ -488,7 +336,6 @@ export function createMenuLoadingScreen(scene, options = {}) {
 
   const clearFailure = () => {
     inFailureState = false;
-    minigame?.setVisible(true);
     failureText.setAlpha(0);
     failureText.setText("");
     retryButtonText.setText("RETRY");
@@ -507,105 +354,20 @@ export function createMenuLoadingScreen(scene, options = {}) {
     handler();
   });
 
-  if (!minigame) {
-    const sep2 = scene.add.graphics();
-    sep2.lineStyle(1, COL.borderDim, 0.65);
-    sep2.lineBetween(80, H - 82, W - 80, H - 82);
-    objects.push(sep2);
-  }
+  const sep2 = scene.add.graphics();
+  sep2.lineStyle(1, COL.borderDim, 0.65);
+  sep2.lineBetween(80, H - 82, W - 80, H - 82);
+  objects.push(sep2);
 
-  // The approved raster board already supplies the loading-screen atmosphere.
-  if (!minigame) {
-    const particleTween = createLoadingParticles(scene, W, H, objects);
-    tweens.push(particleTween);
-  }
+  // Floating spark particles
+  const particleTween = createLoadingParticles(scene, W, H, objects);
+  tweens.push(particleTween);
 
-  // Preserve the legacy procedural ambience only on the legacy loader.
-  if (!minigame) {
-    const barAreaGlow = scene.add.graphics();
-    barAreaGlow.fillStyle(UI_COLORS.cardSel, 0.15);
-    barAreaGlow.fillRoundedRect(barX - 20, barY - 60, barW + 40, barH + 100, 12);
-    objects.unshift(barAreaGlow);
-  }
-
-  if (minigame) {
-    for (const object of objects) {
-      object.x = layoutOffsetX + object.x * layoutScale;
-      object.y = layoutOffsetY + object.y * layoutScale;
-      object.scaleX *= layoutScale;
-      object.scaleY *= layoutScale;
-    }
-  }
-
-  const board = minigameConfig.layout.board;
-  const presentationScale = minigame ? board.presentationScale : 1;
-  const gridWidth = (
-    board.columns * board.cellSize
-    + (board.columns - 1) * board.cellGap
-  );
-  const visibleFrameWidth = board.frameCrop
-    ? board.width * board.frameCrop.width / board.frameCrop.sourceWidth
-    : board.width;
-  const horizontalExtent = Math.max(
-    visibleFrameWidth / 2,
-    board.counterX + board.counterWidth / 2,
-    gridWidth / 2,
-  ) * presentationScale;
-  const verticalExtent = Math.max(
-    board.frameCrop
-      ? board.height * board.frameCrop.height
-        / board.frameCrop.sourceHeight / 2
-      : board.height / 2,
-    Math.abs(board.counterY) + board.counterHeight / 2,
-  ) * presentationScale;
-  const leftColumnHalfWidth = Math.max(
-    minigameScreen.logoMaxWidth / 2,
-    minigameScreen.progressFrameWidth / 2,
-  );
-  const leftColumnBounds = minigame
-    ? Object.freeze({
-        left: layoutOffsetX + (
-          minigameScreen.leftColumnX - leftColumnHalfWidth
-        ) * layoutScale,
-        right: layoutOffsetX + (
-          minigameScreen.leftColumnX + leftColumnHalfWidth
-        ) * layoutScale,
-      })
-    : null;
-  const minigameBounds = minigame
-    ? Object.freeze({
-        left: layoutOffsetX + (
-          board.centerX - horizontalExtent
-        ) * layoutScale,
-        right: layoutOffsetX + (
-          board.centerX + horizontalExtent
-        ) * layoutScale,
-        top: layoutOffsetY + (
-          board.centerY - verticalExtent
-        ) * layoutScale,
-        bottom: layoutOffsetY + (
-          board.centerY + verticalExtent
-        ) * layoutScale,
-      })
-    : null;
-  const layout = Object.freeze({
-    viewportWidth,
-    viewportHeight,
-    logicalWidth: W,
-    logicalHeight: H,
-    scale: layoutScale,
-    offsetX: layoutOffsetX,
-    offsetY: layoutOffsetY,
-    progressPlacement: minigame ? "lower-left" : "legacy",
-    progressFrameSource: minigame ? "minigame-board-loading-track" : "legacy",
-    minigameBottomBar: false,
-    minigameScale: minigame ? layoutScale * presentationScale : null,
-    columnGap: minigame
-      ? minigameBounds.left - leftColumnBounds.right
-      : null,
-    leftColumnBounds,
-    minigameBounds,
-  });
+  // Subtle pulsing overlay rectangle behind the bar area for extra depth
+  const barAreaGlow = scene.add.graphics();
+  barAreaGlow.fillStyle(UI_COLORS.cardSel, 0.15);
+  barAreaGlow.fillRoundedRect(barX - 20, barY - 60, barW + 40, barH + 100, 12);
+  objects.unshift(barAreaGlow); // behind everything else
 
   const setProgress = (value) => {
     const clamped = Phaser.Math.Clamp(value || 0, 0, 1);
@@ -631,24 +393,20 @@ export function createMenuLoadingScreen(scene, options = {}) {
     detailText,
     pctText,
     setProgress,
-    setLabel: setLoadingLabel,
+    setLabel: (text) => labelText.setText(text),
     setDetail: (text) => detailText.setText(text),
     setFailure: showFailure,
     clearFailure,
     setRetryHandler,
-    minigame,
-    layout,
     fadeOut(duration = 300, onComplete) {
       // Stop all tweens
       tweens.forEach((t) => t?.stop?.());
-      minigame?.setPaused(true);
       scene.tweens.add({
-        targets: minigame ? [...objects, minigame.root] : objects,
+        targets: objects,
         alpha: 0,
         duration,
         ease: "Power1.in",
         onComplete: () => {
-          minigame?.destroy();
           objects.forEach((object) => object?.destroy());
           onComplete?.();
         },
@@ -656,7 +414,6 @@ export function createMenuLoadingScreen(scene, options = {}) {
     },
     destroy() {
       tweens.forEach((t) => t?.stop?.());
-      minigame?.destroy();
       objects.forEach((object) => object?.destroy());
     },
   };

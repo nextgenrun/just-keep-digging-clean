@@ -1,6 +1,61 @@
 // ==================== PAUSE FEATURE LOADING ====================
 // Compact authored loading presentation used inside deferred ESC tabs.
 
+const image = (key, path) => Object.freeze({ key, path });
+
+export const PAUSE_FEATURE_LOADING_ART_CONFIG = Object.freeze({
+  assets: Object.freeze({
+    boardFrame: image(
+      "ui-thunderstrike-chain-frame-v1",
+      "sprites/UI/thunderstrike-chain-v1/thunderstrike-chain-frame-v1.webp",
+    ),
+    counterFrame: image(
+      "ui-hud-approved-combo",
+      "sprites/UI/hud-approved-v1/combo-frame.png",
+    ),
+    target: image(
+      "fx-mining-target-corners-v1",
+      "sprites/UI/mining-target-v1/mining-target-corners-v1.webp",
+    ),
+  }),
+  layout: Object.freeze({
+    screen: Object.freeze({
+      progressPanelY: 510,
+      progressBarY: 506,
+      progressBarWidth: 310,
+      progressBarHeight: 8,
+      progressBarOffsetX: -18,
+      progressFrameWidth: 400,
+      progressFrameHeight: 47,
+      progressFrameCrop: Object.freeze({
+        x: 126,
+        y: 455,
+        width: 1528,
+        height: 180,
+      }),
+    }),
+    board: Object.freeze({
+      frameCrop: Object.freeze({
+        x: 116,
+        y: 121,
+        width: 1546,
+        height: 623,
+        sourceWidth: 1774,
+        sourceHeight: 887,
+      }),
+    }),
+  }),
+});
+
+export function getPauseFeatureLoadingPreloadAssets(
+  config = PAUSE_FEATURE_LOADING_ART_CONFIG,
+) {
+  return Object.freeze(
+    Object.values(config.assets)
+      .map(({ key, path }) => Object.freeze({ key, path })),
+  );
+}
+
 const phase = (at, label, detail, stageIndex) => Object.freeze({
   at,
   label,

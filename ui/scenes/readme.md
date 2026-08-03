@@ -2,10 +2,11 @@
 
 UI module — scenes.
 
-`BootScene.js` mini-preloads the four dedicated Loading Screen V1 ImageGen
-textures together with the complete minigame pack before starting its full
-queue. `WorldLoadScene.js` reuses the cached authored screen and its same two
-meter API while loading the selected character and nearby world package.
+`BootScene.js` mini-preloads the regular loading-screen logo/background and
+the retained deferred-feature loading chrome before starting its full queue.
+`WorldLoadScene.js` uses the same pre-minigame progress/failure API while
+loading the selected character and nearby world package. The retired loading
+minigame package is preserved under `archive/2026-08-03-loading-mining-minigame/`.
 
 `CaveScene.js` preloads one authored 3:1 interior for the selected cave identity.
 `CaveLevelPresentationSystem` stretches that single image across the world and

@@ -63,7 +63,6 @@ The switch is intentionally independent from:
 
 - `?surfaceDrop=0` — diagnostic global drop-through disable;
 - `?randomEvents=0` — focused onboarding test isolation;
-- `?loadingMine=0` — loading-minigame isolation;
 - `?npcActivities=0` — optional NPC activity isolation.
 
 ## Automated proof
