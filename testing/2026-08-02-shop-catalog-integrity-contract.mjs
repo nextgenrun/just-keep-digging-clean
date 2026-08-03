@@ -337,7 +337,11 @@ const showHarness = Object.assign(Object.create(ShopOverlay.prototype), {
     townSquareTutorialSystem: { getPreferredMerchantMode: () => "buy" },
     setShopOpen() { openCalls += 1; },
   },
-  shell: { show() {} },
+  shell: {
+    root: { active: true },
+    backdrop: { active: true },
+    show() {},
+  },
   soundSystem: { playUiSelect() {} },
   _syncMerchantChrome() {},
   populateUpgrades(merchantId) { this.populatedMerchant = merchantId; },

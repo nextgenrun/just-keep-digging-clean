@@ -283,7 +283,13 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
     playerController: { state: { getPlayerTile: () => ({ tx: 13, ty: 20 }) } },
     interactKey: { justDown: true },
     soundSystem: { playNPCVoiceLine() {} },
-    shopOverlay: { show: merchant => { openedMerchant = merchant; } },
+    shopOverlay: {
+      isOperational: () => true,
+      show: merchant => {
+        openedMerchant = merchant;
+        return true;
+      },
+    },
   };
   manager.checkNPCInteraction();
   assert.equal(openedMerchant, "magmaMoneyMonster");
@@ -312,7 +318,12 @@ function createArcScene({ unlocked = true, omegaUnlocked = false, godMode = fals
   const shown = {
     _destroyed: false,
     scene: { setShopOpen(value) { this.open = value; } },
-    shell: { show() { this.visible = true; } },
+    isOperational: ShopOverlay.prototype.isOperational,
+    shell: {
+      root: { active: true },
+      backdrop: { active: true },
+      show() { this.visible = true; },
+    },
     soundSystem: { playUiSelect() {} },
     _syncMerchantChrome() {},
     populateUpgrades(merchant) { this.populatedMerchant = merchant; },

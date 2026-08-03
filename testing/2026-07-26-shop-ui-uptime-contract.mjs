@@ -28,6 +28,20 @@ try {
   };
   const interactKey = { justDown: true };
   const openedShops = [];
+  let playerTile = { ...boboTile };
+  const shopOverlay = Object.assign(Object.create(ShopOverlay.prototype), {
+    _destroyed: false,
+    scene: null,
+    shell: {
+      root: { active: true },
+      backdrop: { active: true },
+    },
+    show(merchantId) {
+      if (!this.isOperational()) return false;
+      openedShops.push(merchantId);
+      return true;
+    },
+  });
   const scene = {
     config: {
       spawnTileX: 28,
@@ -37,16 +51,15 @@ try {
     interactKey,
     playerController: {
       state: {
-        getPlayerTile: () => ({ ...boboTile }),
+        getPlayerTile: () => ({ ...playerTile }),
       },
     },
-    shopOverlay: {
-      show: merchantId => openedShops.push(merchantId),
-    },
+    shopOverlay,
     soundSystem: {
       playNPCVoiceLine() {},
     },
   };
+  shopOverlay.scene = scene;
   const manager = new NPCManager(scene, ASSET_KEYS);
   const milestone = Object.create(MilestoneBoardSystem.prototype);
   milestone.config = scene.config;
@@ -80,6 +93,25 @@ try {
   assert.deepEqual(openedShops, ["boboMerchant"]);
   manager.setMerchantAvailability(TOWN_SQUARE_CONFIG.surfaceMerchantOrder);
   assert.equal(manager._isMerchantAvailable("magmaMoneyMonster"), false);
+  openedShops.length = 0;
+  for (const merchantId of TOWN_SQUARE_CONFIG.surfaceMerchantOrder) {
+    const npc = manager.getNPCDefs().find(candidate => (
+      candidate.merchantId === merchantId
+    ));
+    assert.ok(npc, `missing NPC definition for ${merchantId}`);
+    playerTile = { tx: npc.tx, ty: npc.ty };
+    interactKey.justDown = true;
+    assert.equal(
+      manager.checkNPCInteraction(),
+      true,
+      merchantId + " must reach the live shop overlay",
+    );
+  }
+  assert.deepEqual(
+    openedShops,
+    TOWN_SQUARE_CONFIG.surfaceMerchantOrder,
+    "all five Town Square merchants must use the same live open path",
+  );
 
   for (const npc of manager.getNPCDefs()) {
     manager.npcSprites.set(npc.merchantId, { setVisible() { return this; } });
@@ -104,6 +136,21 @@ try {
   assert.deepEqual(interactionHealth.missingPromptIds, []);
   assert.deepEqual(interactionHealth.missingVisualIds, []);
   assert.deepEqual(interactionHealth.unavailableMerchantIds, []);
+  shopOverlay._destroyed = true;
+  const destroyedOverlayHealth = manager.getInteractionHealthSnapshot();
+  assert.equal(destroyedOverlayHealth.shopReady, false);
+  assert.equal(destroyedOverlayHealth.ready, false);
+  shopOverlay._destroyed = false;
+  shopOverlay.shell.root.active = false;
+  const inactiveRootHealth = manager.getInteractionHealthSnapshot();
+  assert.equal(inactiveRootHealth.shopReady, false);
+  assert.equal(inactiveRootHealth.ready, false);
+  shopOverlay.shell.root.active = true;
+  assert.equal(
+    manager.getInteractionHealthSnapshot().ready,
+    true,
+    "restoring the live shell must restore merchant health",
+  );
   manager.setMerchantAvailability(
     TOWN_SQUARE_CONFIG.surfaceMerchantOrder.filter(id => id !== "gearMerchant"),
   );
@@ -114,6 +161,65 @@ try {
   assert.equal(manager.getInteractionHealthSnapshot().ready, true);
 
   assert.equal(SHOP_MERCHANT_PROFILES.boboMerchant.title, "BOBO'S COUNTER");
+
+  const openCounters = {
+    setShopOpen: 0,
+    syncChrome: 0,
+    populate: 0,
+    shellShow: 0,
+    layout: 0,
+    sound: 0,
+  };
+  const merchantAdmissionOverlay = Object.assign(
+    Object.create(ShopOverlay.prototype),
+    {
+      _destroyed: false,
+      currentMerchant: null,
+      isVisible: false,
+      scene: {
+        setShopOpen(open) {
+          if (open) openCounters.setShopOpen += 1;
+        },
+      },
+      shell: {
+        root: { active: true },
+        backdrop: { active: true },
+        show() {
+          openCounters.shellShow += 1;
+        },
+        hide() {},
+      },
+      soundSystem: {
+        playUiSelect() {
+          openCounters.sound += 1;
+        },
+      },
+      _syncMerchantChrome() {
+        openCounters.syncChrome += 1;
+      },
+      populateUpgrades(merchantId) {
+        this.populatedMerchant = merchantId;
+        openCounters.populate += 1;
+      },
+      _layoutChrome() {
+        openCounters.layout += 1;
+      },
+    },
+  );
+  assert.equal(merchantAdmissionOverlay.show("unknownMerchant"), false);
+  assert.equal(merchantAdmissionOverlay.show("default"), false);
+  assert.equal(merchantAdmissionOverlay.currentMerchant, null);
+  assert.equal(merchantAdmissionOverlay.isVisible, false);
+  assert.deepEqual(openCounters, {
+    setShopOpen: 0, syncChrome: 0, populate: 0, shellShow: 0, layout: 0, sound: 0,
+  });
+  assert.equal(merchantAdmissionOverlay.show("gearMerchant"), true);
+  assert.equal(merchantAdmissionOverlay.currentMerchant, "gearMerchant");
+  assert.equal(merchantAdmissionOverlay.isVisible, true);
+  assert.equal(merchantAdmissionOverlay.populatedMerchant, "gearMerchant");
+  assert.deepEqual(openCounters, {
+    setShopOpen: 1, syncChrome: 1, populate: 1, shellShow: 1, layout: 1, sound: 1,
+  });
 
   const pillarKey = { justDown: true };
   const pillarTile = {

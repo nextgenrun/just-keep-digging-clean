@@ -36,6 +36,11 @@ function isArcForgeMerchant(merchantId) {
   return merchantId === ARC_FORGE_MERCHANT_ID;
 }
 
+function isKnownShopMerchant(merchantId) {
+  return merchantId !== "default"
+    && Object.prototype.hasOwnProperty.call(SHOP_MERCHANT_PROFILES, merchantId);
+}
+
 function resourceIconKey(resource) {
   const presentation = UI_RESOURCE_PRESENTATION[resource];
   return presentation?.icon || presentation?.iconKey || resource;
@@ -168,8 +173,19 @@ export class ShopOverlay {
     }
   }
 
+  isOperational() {
+    return Boolean(
+      !this._destroyed
+      && this.scene
+      && this.shell?.root
+      && this.shell.root.active !== false
+      && this.shell?.backdrop
+      && this.shell.backdrop.active !== false
+    );
+  }
+
   show(merchantId) {
-    if (this._destroyed) return false;
+    if (!this.isOperational() || !isKnownShopMerchant(merchantId)) return false;
     if (this.scene?.systemIntroductionSystem
       && this.scene.systemIntroductionSystem.isMerchantAvailable?.(merchantId) === false) return false;
     this.currentMerchant = merchantId;

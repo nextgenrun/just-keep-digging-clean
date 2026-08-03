@@ -245,10 +245,10 @@ export class NPCManager {
     }
 
     if (nearestNPC && this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
-      const showShop = this.scene.shopOverlay?.show;
-      if (typeof showShop !== "function") return false;
-      const opened = this.scene.shopOverlay.show(nearestNPC.merchantId);
-      if (opened === false) return false;
+      const shopOverlay = this.scene.shopOverlay;
+      if (typeof shopOverlay?.show !== "function" || shopOverlay.isOperational?.() !== true) return false;
+      const opened = shopOverlay.show(nearestNPC.merchantId);
+      if (opened !== true) return false;
       this.activitySystem.settleMerchant(nearestNPC.merchantId);
       // Play NPC voice line before showing shop
       if (this.scene.soundSystem) {
@@ -309,7 +309,7 @@ export class NPCManager {
     const boboDefined = definedMerchantIds.has("boboMerchant");
     const promptReady = promptMerchantIds.has("boboMerchant");
     const visualReady = this.npcSprites.has("boboMerchant");
-    const shopReady = typeof this.scene.shopOverlay?.show === "function";
+    const shopReady = this.scene.shopOverlay?.isOperational?.() === true;
     const interactKeyReady = Boolean(this.scene.interactKey);
     return {
       ready: Boolean(
