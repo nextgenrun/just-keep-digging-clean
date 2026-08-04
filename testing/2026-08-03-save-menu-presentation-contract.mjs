@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
 
+import { HARDCORE_MODE_CONFIG } from "../values/hardcoreMode.js";
 import {
   SAVE_MENU_PRESENTATION,
   getSaveMenuAssetEntries,
@@ -41,9 +42,23 @@ const slotLayout = SAVE_MENU_PRESENTATION.slot.textLayout;
 assert.equal(SAVE_MENU_PRESENTATION.slot.displayWidthPx, 290);
 assert.equal(SAVE_MENU_PRESENTATION.slot.displayHeightPx, 200);
 assert.ok(slotLayout.horizontalSafeInsetPx >= 30);
+assert.ok(slotLayout.headerOffsetYPx >= slotLayout.headerSafeTopOffsetYPx);
+assert.ok(slotLayout.headerOffsetYPx + slotLayout.headerFontSizePx <= slotLayout.headerSafeBottomOffsetYPx);
+assert.ok(slotLayout.dividerOffsetYPx > slotLayout.headerSafeBottomOffsetYPx);
+assert.ok(100 + slotLayout.modeOffsetYPx > slotLayout.dividerOffsetYPx);
 assert.ok(slotLayout.summaryFontSizePx >= 12);
 assert.ok(slotLayout.summaryMinimumFontSizePx >= 10);
 assert.ok(slotLayout.summaryMaxWidthPx <= 290 - slotLayout.horizontalSafeInsetPx * 2);
+
+const modeLayout = HARDCORE_MODE_CONFIG.ui.modeSelector;
+assert.equal(modeLayout.selectedScale, 1);
+assert.ok(modeLayout.innerSafeInsetXPx >= 24);
+assert.ok(modeLayout.iconY - modeLayout.hardcoreIconSizePx / 2 >= modeLayout.innerSafeTopY);
+assert.ok(modeLayout.iconY + modeLayout.hardcoreIconSizePx / 2 < modeLayout.titleY);
+assert.ok(modeLayout.titleMaxWidthPx <= modeLayout.choiceWidth - modeLayout.innerSafeInsetXPx * 2);
+assert.ok(modeLayout.bodyMaxWidthPx <= modeLayout.choiceWidth - modeLayout.innerSafeInsetXPx * 2);
+assert.ok(modeLayout.selectedY < modeLayout.innerSafeBottomY);
+assert.ok(HARDCORE_MODE_CONFIG.ui.font.choiceBodyPx >= 12);
 
 const configuredAssets = new Map(getSaveMenuAssetEntries());
 const expected = {
@@ -77,6 +92,10 @@ const viewSource = fs.readFileSync(
   new URL("../ui/components/SaveMenuPresentationView.js", import.meta.url),
   "utf8",
 );
+const modeOverlaySource = fs.readFileSync(
+  new URL("../ui/scenes/StartModeSelectionOverlay.js", import.meta.url),
+  "utf8",
+);
 
 assert.match(sceneSource, /resolveSaveMenuArtEnabled\(\)/);
 assert.match(sceneSource, /preloadSaveMenuArt\(this\)/);
@@ -89,6 +108,10 @@ assert.match(sceneSource, /fitTextToWidth\(summaryTxt/);
 assert.match(sceneSource, /BEST DEPTH \$\{slot\.bestDepth\}m/);
 assert.match(sceneSource, /\$\{slot\.stars\} STARS/);
 assert.doesNotMatch(sceneSource, /DEPTH \$\{slot\.currentDepth\}m \/ BEST/);
+assert.match(modeOverlaySource, /icon\.setMask\(iconMaskGeometry\.createGeometryMask\(\)\)/);
+assert.match(modeOverlaySource, /choice\.icon\?\.clearMask\?\.\(true\)/);
+assert.match(modeOverlaySource, /modeUi\.selectedY/);
+assert.doesNotMatch(modeOverlaySource, /selectedText = this\.scene\.add\.text\(0, 117/);
 
 for (const key of ["ONE", "TWO", "THREE", "SPACE", "DELETE", "B", "E", "I", "ESC"]) {
   assert.match(sceneSource, new RegExp(`keydown-${key}`), `${key} keyboard path must remain`);

@@ -60,6 +60,10 @@ assert.equal(metrics.standing.proposedEndpointChangedPixels, 0);
 
 assert.equal(metrics.blocked.currentBodyRootExcursionPx, 21);
 assert.equal(metrics.blocked.proposedBodyRootExcursionPx, 0);
+assert.equal(metrics.blocked.authoredRunFramesInRightLane, 28);
+assert.equal(metrics.blocked.completeRunCycleInRightLane, true);
+assert.equal(metrics.blocked.runToPlantPhaseContinuous, true);
+assert.equal(metrics.blocked.rightLaneRunSpritePixelMismatches, 0);
 assert.ok(metrics.blocked.currentActionLowerAnchorTravelPx > 1);
 assert.ok(metrics.blocked.proposedActionLowerAnchorTravelPx < 5);
 assert.ok(metrics.blocked.proposedSettledLowerAnchorTravelPx < 0.1);
@@ -158,6 +162,7 @@ console.log(JSON.stringify({
       metrics.blocked.currentBodyRootExcursionPx,
       metrics.blocked.proposedBodyRootExcursionPx,
     ],
+    rightLaneAuthoredRunFrames: metrics.blocked.authoredRunFramesInRightLane,
     solidTileIntrusionPixels: [
       metrics.collision.currentSolidFrames.rightFacing.intrusionPixels,
       metrics.collision.proposedSolidFrames.rightFacing.intrusionPixels,

@@ -208,20 +208,21 @@ def _blocked_chain(
             ))
     return {
         "id": "blocked-chain",
-        "label": "Blocked run → SIDE dig · collision-safe hold",
-        "subtitle": "Current 21 px sawtooth vs one decelerated stop held across the chain",
+        "label": "Full Jog cycle → SIDE dig · collision-safe hold",
+        "subtitle": "Same 28 authored run frames · right lane decelerates without reversing",
         "kind": "side",
         "before": before,
         "after": after,
         "criticalIndex": action_ranges["jab"][0] + int(config["moving"]["contactFrame"]),
         "actionRanges": action_ranges,
+        "runLeadRange": [0, len(lead) - 1],
         "reviewFrames": [
+            0,
+            7,
+            15,
             len(lead) - 1,
             action_ranges["jab"][0],
             action_ranges["jab"][0] + int(config["moving"]["contactFrame"]),
-            action_ranges["jab"][1],
-            action_ranges["jab"][1] + 1,
-            action_ranges["cross"][0],
         ],
     }
 

@@ -17,14 +17,18 @@
     "proposedEndpointChangedPixels": 0
   },
   "blocked": {
+    "authoredRunFramesInRightLane": 28,
+    "completeRunCycleInRightLane": true,
+    "runToPlantPhaseContinuous": true,
+    "rightLaneRunSpritePixelMismatches": 0,
     "currentBodyRootExcursionPx": 21.0,
     "proposedBodyRootExcursionPx": 0.0,
     "currentRootDirectionReversals": 4,
     "proposedRootDirectionReversals": 0,
     "currentForwardReturnDistancePx": 42.0,
     "proposedForwardReturnDistancePx": 0.0,
-    "currentApproachTravelPx": 30.0,
-    "proposedApproachTravelPx": 9.0,
+    "currentApproachTravelPx": 81.0,
+    "proposedApproachTravelPx": 60.0,
     "currentActionLowerAnchorTravelPx": 16.656,
     "proposedActionLowerAnchorTravelPx": 4.267,
     "proposedSettledLowerAnchorTravelPx": 0.0
@@ -32,23 +36,23 @@
   "collision": {
     "tileFaceOffsetPx": 15.5,
     "currentSolidFrames": {
-      "checkedFrames": 125,
+      "checkedFrames": 147,
       "rightFacing": {
-        "intrusionPixels": 16475,
-        "upperIntrusionPixels": 13654,
-        "lowerIntrusionPixels": 2821,
+        "intrusionPixels": 16737,
+        "upperIntrusionPixels": 13711,
+        "lowerIntrusionPixels": 3026,
         "minimumClearancePx": -18.562
       },
       "leftFacing": {
-        "intrusionPixels": 16475,
-        "upperIntrusionPixels": 13654,
-        "lowerIntrusionPixels": 2821,
+        "intrusionPixels": 16737,
+        "upperIntrusionPixels": 13711,
+        "lowerIntrusionPixels": 3026,
         "minimumClearancePx": -18.562
       },
       "mirroredParity": true
     },
     "proposedSolidFrames": {
-      "checkedFrames": 125,
+      "checkedFrames": 147,
       "rightFacing": {
         "intrusionPixels": 0,
         "upperIntrusionPixels": 0,
@@ -155,11 +159,11 @@
   },
   "artifacts": {
     "candidateSheetBytes": 1189694,
-    "contactSheetBytes": 96137,
-    "keyframeSheetBytes": 271400,
+    "contactSheetBytes": 96226,
+    "keyframeSheetBytes": 274219,
     "comparisonGifBytes": {
       "standing-chain": 1989239,
-      "blocked-chain": 1674836,
+      "blocked-chain": 2337389,
       "running-handoff": 822649
     }
   }

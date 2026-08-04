@@ -19,7 +19,11 @@ const [
   "../values/systemIntroduction.js",
 ].map(path => readFile(new URL(path, import.meta.url), "utf8")));
 
-assert.doesNotMatch(inventorySource, /STAR ATLAS|renderInventoryStarAtlas|starAtlas/);
+assert.match(
+  inventorySource,
+  /renderInventoryStarAtlas/,
+  "the manual I-menu Star Atlas remains available after legacy popup retirement",
+);
 assert.doesNotMatch(setupSource, /STAR HEART FORGED|constellation mastered/);
 assert.doesNotMatch(controllerSource, /keys\?\.celestialEngine|keys\.celestialEngine/);
 assert.doesNotMatch(keybindSource, /id:\s*["']celestialEngine["']/);
@@ -29,5 +33,5 @@ assert.match(pillarVisualSource, /promptText:\s*["']Open Celestial Talents["']/)
 assert.match(introductionSource, /constellations:\s*["']talentRun["']/);
 
 console.log(
-  "PASS celestial retirement: no Star Atlas route, no legacy popups/X key, talent-driven Pillar",
+  "PASS celestial retirement: manual Star Atlas retained, no legacy popups/X key, talent-driven Pillar",
 );

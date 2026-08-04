@@ -1,0 +1,238 @@
+{
+  "schema": "save-menu-safe-fields-focused-qa@1",
+  "generatedUtc": "2026-08-03T17:10:05.527Z",
+  "slotHeaders": [
+    {
+      "slotId": 1,
+      "safeTop": 325,
+      "safeBottom": 340,
+      "texts": [
+        {
+          "text": "SLOT  1",
+          "top": 326,
+          "bottom": 339
+        },
+        {
+          "text": "LAST  2-8-2026",
+          "top": 326,
+          "bottom": 339
+        }
+      ]
+    },
+    {
+      "slotId": 2,
+      "safeTop": 325,
+      "safeBottom": 340,
+      "texts": [
+        {
+          "text": "SLOT  2",
+          "top": 326,
+          "bottom": 339
+        },
+        {
+          "text": "LAST  3-8-2026",
+          "top": 326,
+          "bottom": 339
+        }
+      ]
+    },
+    {
+      "slotId": 3,
+      "safeTop": 325,
+      "safeBottom": 340,
+      "texts": [
+        {
+          "text": "SLOT  3",
+          "top": 326,
+          "bottom": 339
+        }
+      ]
+    }
+  ],
+  "casualState": {
+    "selectedMode": "casual",
+    "choices": [
+      {
+        "mode": "casual",
+        "scale": 1,
+        "selectedVisible": true,
+        "iconMasked": false,
+        "safeLeft": 366,
+        "safeRight": 604,
+        "safeTop": 310,
+        "safeBottom": 514,
+        "icon": {
+          "left": 380,
+          "right": 590,
+          "top": 329.5,
+          "bottom": 376.5,
+          "width": 210,
+          "height": 47
+        },
+        "title": {
+          "left": 451,
+          "right": 519,
+          "top": 403.5,
+          "bottom": 430.5,
+          "width": 68,
+          "height": 27
+        },
+        "body": {
+          "left": 378.5,
+          "right": 591.5,
+          "top": 447,
+          "bottom": 483,
+          "width": 213,
+          "height": 36
+        },
+        "selected": {
+          "left": 454.5,
+          "right": 515.5,
+          "top": 497,
+          "bottom": 513,
+          "width": 61,
+          "height": 16
+        }
+      },
+      {
+        "mode": "hardcore",
+        "scale": 1,
+        "selectedVisible": false,
+        "iconMasked": true,
+        "safeLeft": 676,
+        "safeRight": 914,
+        "safeTop": 310,
+        "safeBottom": 514,
+        "icon": {
+          "left": 753,
+          "right": 837,
+          "top": 311,
+          "bottom": 395,
+          "width": 84,
+          "height": 84
+        },
+        "title": {
+          "left": 692.5,
+          "right": 897.5,
+          "top": 403.5,
+          "bottom": 430.5,
+          "width": 205,
+          "height": 27
+        },
+        "body": {
+          "left": 686,
+          "right": 904,
+          "top": 447,
+          "bottom": 483,
+          "width": 218,
+          "height": 36
+        },
+        "selected": {
+          "left": 764.5,
+          "right": 825.5,
+          "top": 497,
+          "bottom": 513,
+          "width": 61,
+          "height": 16
+        }
+      }
+    ],
+    "uiErrors": []
+  },
+  "hardcoreState": {
+    "selectedMode": "hardcore",
+    "choices": [
+      {
+        "mode": "casual",
+        "scale": 1,
+        "selectedVisible": false,
+        "iconMasked": false,
+        "safeLeft": 366,
+        "safeRight": 604,
+        "safeTop": 310,
+        "safeBottom": 514,
+        "icon": {
+          "left": 380,
+          "right": 590,
+          "top": 329.5,
+          "bottom": 376.5,
+          "width": 210,
+          "height": 47
+        },
+        "title": {
+          "left": 451,
+          "right": 519,
+          "top": 403.5,
+          "bottom": 430.5,
+          "width": 68,
+          "height": 27
+        },
+        "body": {
+          "left": 378.5,
+          "right": 591.5,
+          "top": 447,
+          "bottom": 483,
+          "width": 213,
+          "height": 36
+        },
+        "selected": {
+          "left": 454.5,
+          "right": 515.5,
+          "top": 497,
+          "bottom": 513,
+          "width": 61,
+          "height": 16
+        }
+      },
+      {
+        "mode": "hardcore",
+        "scale": 1,
+        "selectedVisible": true,
+        "iconMasked": true,
+        "safeLeft": 676,
+        "safeRight": 914,
+        "safeTop": 310,
+        "safeBottom": 514,
+        "icon": {
+          "left": 753,
+          "right": 837,
+          "top": 311,
+          "bottom": 395,
+          "width": 84,
+          "height": 84
+        },
+        "title": {
+          "left": 692.5,
+          "right": 897.5,
+          "top": 403.5,
+          "bottom": 430.5,
+          "width": 205,
+          "height": 27
+        },
+        "body": {
+          "left": 686,
+          "right": 904,
+          "top": 447,
+          "bottom": 483,
+          "width": 218,
+          "height": 36
+        },
+        "selected": {
+          "left": 764.5,
+          "right": 825.5,
+          "top": 497,
+          "bottom": 513,
+          "width": 61,
+          "height": 16
+        }
+      }
+    ],
+    "uiErrors": []
+  },
+  "failures": [],
+  "warnings": [],
+  "screenshots": {
+    "casualScreenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-safe-fields-live-qa\\save-menu-mode-casual-safe-field.png",
+    "hardcoreScreenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-03-save-menu-safe-fields-live-qa\\save-menu-mode-hardcore-safe-field.png"
+  }
+}

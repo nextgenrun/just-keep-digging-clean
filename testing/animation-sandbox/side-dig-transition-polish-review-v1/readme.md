@@ -7,8 +7,9 @@ atlases, manifests, profiles, selectors, collision, or transition code.
 The synchronized comparisons cover:
 
 - standing Jab/Cross chains with a fixed lower body and one stable 21 px collision hold;
-- collision-blocked running digs that decelerate into that hold instead of snapping
-  backward and returning forward after every strike;
+- collision-blocked running digs with the complete 28-frame authored Jog cycle
+  in both lanes; the candidate then decelerates into the hold instead of
+  snapping backward and returning forward after every strike;
 - genuine run-through digs with exact Jog pixels at both action boundaries.
 
 The metrics scan every opaque candidate pixel in the solid tile's vertical band.

@@ -1,6 +1,7 @@
 import {
   CELESTIAL_TALENT_NODES_BY_ID,
   CELESTIAL_TALENT_PROGRESSION_CONFIG,
+  getCelestialTalentPrerequisiteState,
   getCelestialStarPointYield,
   sanitizeCelestialTalentProgressionData,
 } from "../../values/celestialTalentProgression.js";
@@ -22,7 +23,9 @@ function purchasedSet(data) {
 
 function completedBranchIds(purchased) {
   return CELESTIAL_TALENT_PROGRESSION_CONFIG.branches
-    .filter(branch => branch.nodes.every(node => purchased.has(node.id)))
+    .filter(branch => branch.completionNodeIds.some(
+      nodeId => purchased.has(nodeId),
+    ))
     .map(branch => branch.id);
 }
 
@@ -124,8 +127,10 @@ export class CelestialTalentProgressionSystem {
       id: branch.id,
       name: branch.name,
       rootNodeId: branch.rootNodeId,
+      completionNodeIds: [...branch.completionNodeIds],
       rootPurchased: purchased.has(branch.rootNodeId),
       completed: completed.includes(branch.id),
+      mastered: branch.nodes.every(node => purchased.has(node.id)),
       purchasedCount: branch.nodes.filter(node => purchased.has(node.id)).length,
       nodeCount: branch.nodes.length,
       nodes: branch.nodes.map(node => ({
@@ -134,6 +139,12 @@ export class CelestialTalentProgressionSystem {
         ...this._buildNodeAvailability(node, level, purchased),
       })),
     }));
+    const rowTwoBranches = branches.filter(branch => branch.nodes.some(
+      node => node.row >= 2 && node.purchased,
+    )).length;
+    const allBranchesCompleted = completed.length === branches.length;
+    const pillarProgressUnits = Math.min(10,
+      roots.length + rowTwoBranches + completed.length + (allBranchesCompleted ? 1 : 0));
     const unlockedAbilities = CELESTIAL_TALENT_PROGRESSION_CONFIG.branches
       .filter(branch => purchased.has(branch.rootNodeId))
       .map(branch => {
@@ -155,7 +166,8 @@ export class CelestialTalentProgressionSystem {
       availableRootSelections: Math.max(0, rootCapacity - roots.length),
       purchasedRootNodeIds: roots,
       completedBranchIds: completed,
-      allBranchesCompleted: completed.length === CELESTIAL_TALENT_PROGRESSION_CONFIG.branches.length,
+      allBranchesCompleted,
+      pillarProgressUnits,
       unlockedAbilityIds: unlockedAbilities.map(ability => ability.abilityId),
       unlockedAbilities,
       unlockedEffectIds: ORDERED_NODE_IDS
@@ -179,13 +191,16 @@ export class CelestialTalentProgressionSystem {
   }
 
   _buildNodeAvailability(node, playerLevel, purchased) {
+    const prerequisiteState = getCelestialTalentPrerequisiteState(node, purchased);
     const base = {
       nodeId: node.id,
       requiredLevel: node.requiredLevel,
       playerLevel,
       starsCost: node.starsCost,
       starsBalance: this._data.stars,
-      missingPrerequisiteIds: node.prerequisiteIds.filter(id => !purchased.has(id)),
+      prerequisiteMode: prerequisiteState.mode,
+      purchasedPrerequisiteIds: prerequisiteState.purchasedPrerequisiteIds,
+      missingPrerequisiteIds: prerequisiteState.missingPrerequisiteIds,
     };
     if (purchased.has(node.id)) {
       return { ...base, available: false, reason: "already-purchased" };
@@ -204,7 +219,7 @@ export class CelestialTalentProgressionSystem {
         return { ...base, available: false, reason: "root-choice-locked" };
       }
     }
-    if (base.missingPrerequisiteIds.length > 0) {
+    if (!prerequisiteState.satisfied) {
       return { ...base, available: false, reason: "prerequisite-locked" };
     }
     if (this._data.stars < node.starsCost) {

@@ -1,4 +1,5 @@
 import { createIconBadge } from "../UiModalShell.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import {
@@ -30,18 +31,33 @@ function addSurface(scene, shell, x, y, width, height, selected = false) {
   shell.content.add(gfx);
 }
 
+function addResourceArtwork(scene, shell, key, x, y, size, discovered) {
+  const textureKey = ASSET_KEYS.ui.lootPickups[key];
+  if (!textureKey || scene.textures?.exists?.(textureKey) === false) return null;
+  const artwork = scene.add.image(x, y, textureKey).setOrigin(0.5);
+  const sourceWidth = Math.max(1, Number(artwork.width) || size);
+  const sourceHeight = Math.max(1, Number(artwork.height) || size);
+  artwork
+    .setScale(Math.min(size / sourceWidth, size / sourceHeight))
+    .setAlpha(discovered ? 1 : 0.68);
+  shell.content.add(artwork);
+  return artwork;
+}
+
 function renderResourceCard(scene, shell, items, key, config, metrics) {
   const discovered = Number(items[key]) > 0
     || scene.retentionProgressSystem?.hasDiscoveredMaterial?.(key) === true;
   const { x, y, width, height } = metrics;
   addSurface(scene, shell, x, y, width, height);
-  createIconBadge(scene, config.icon, {
-    x: x + UI_INVENTORY_LAYOUT.itemIconInset,
-    y: y + height / 2,
-    size: Math.min(UI_INVENTORY_LAYOUT.iconSize, height - 8),
-    iconSize: Math.min(UI_INVENTORY_LAYOUT.iconSize - 8, height - 16),
-    parent: shell.content,
-  });
+  addResourceArtwork(
+    scene,
+    shell,
+    key,
+    x + UI_INVENTORY_LAYOUT.itemIconInset,
+    y + height / 2,
+    Math.min(UI_INVENTORY_LAYOUT.iconSize - 8, height - 14),
+    discovered,
+  );
   addText(scene, shell, x + UI_INVENTORY_LAYOUT.itemTextInset, y + height / 2 - 10,
     config.name.toUpperCase(), {
       fontFamily: UI_FONTS.display,

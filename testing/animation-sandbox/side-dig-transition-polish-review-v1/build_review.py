@@ -145,7 +145,10 @@ def main() -> None:
         "standingSampleJab": standing_sample["jab"],
         "standingSampleCross": standing_sample["cross"],
         "blockedJab": build_blocked_plant(
-            standing_sample["jab"], int(moving["jabRunStartFrame"]), sheets, config
+            standing_sample["jab"],
+            int(config["blocked"]["plantRunStartFrame"]),
+            sheets,
+            config,
         ),
         "movingJab": moving_jab,
         "movingCross": moving_cross,

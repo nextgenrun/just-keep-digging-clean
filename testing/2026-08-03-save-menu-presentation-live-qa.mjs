@@ -117,8 +117,14 @@ async function main() {
     const slotTextLayout = await page.evaluate(async () => {
       const { SAVE_MENU_PRESENTATION } = await import('/values/saveMenuPresentation.js');
       const scene = window.__phaserGame.scene.getScene('StartMenuScene');
-      const { horizontalSafeInsetPx, summaryMaxWidthPx } = SAVE_MENU_PRESENTATION.slot.textLayout;
+      const {
+        horizontalSafeInsetPx,
+        headerSafeTopOffsetYPx,
+        headerSafeBottomOffsetYPx,
+        summaryMaxWidthPx,
+      } = SAVE_MENU_PRESENTATION.slot.textLayout;
       const cardWidth = SAVE_MENU_PRESENTATION.slot.displayWidthPx;
+      const cardHeight = SAVE_MENU_PRESENTATION.slot.displayHeightPx;
 
       return scene._cardObjects.map((objects, index) => {
         const card = scene._cardGraphics[index];
@@ -126,6 +132,8 @@ async function main() {
           slotId: card.slotId,
           safeLeft: card.cx - cardWidth / 2 + horizontalSafeInsetPx,
           safeRight: card.cx + cardWidth / 2 - horizontalSafeInsetPx,
+          headerSafeTop: card.cy - cardHeight / 2 + headerSafeTopOffsetYPx,
+          headerSafeBottom: card.cy - cardHeight / 2 + headerSafeBottomOffsetYPx,
           summaryMaxWidthPx,
           texts: objects
             .filter(object => object.type === 'Text')
@@ -135,6 +143,9 @@ async function main() {
                 text: object.text,
                 left: bounds.left,
                 right: bounds.right,
+                top: bounds.top,
+                bottom: bounds.bottom,
+                height: bounds.height,
                 width: bounds.width,
                 fontSize: Number.parseFloat(object.style.fontSize),
               };
@@ -210,11 +221,40 @@ async function main() {
     await page.screenshot({ path: screenshots.mode, timeout: 120_000 });
     const modeChoiceFrames = await page.evaluate(() => {
       const scene = window.__phaserGame.scene.getScene("StartMenuScene");
-      return scene._modeSelector.choiceObjects.map(choice => ({
-        hasFrame: Boolean(choice.frame?.root),
-        hitWidth: choice.hit.width,
-        hitHeight: choice.hit.height,
-      }));
+      const layout = scene._modeSelector.config.ui.modeSelector;
+      const frameWidth = layout.choiceWidth;
+      return scene._modeSelector.choiceObjects.map(choice => {
+        const hitBounds = choice.hit.getBounds();
+        const centerX = hitBounds.centerX;
+        const centerY = hitBounds.centerY;
+        const boundsOf = object => {
+          const bounds = object.getBounds();
+          return {
+            left: bounds.left,
+            right: bounds.right,
+            top: bounds.top,
+            bottom: bounds.bottom,
+            width: bounds.width,
+            height: bounds.height,
+          };
+        };
+        return {
+          mode: choice.mode,
+          hasFrame: Boolean(choice.frame?.root),
+          hitWidth: choice.hit.width,
+          hitHeight: choice.hit.height,
+          scale: choice.container.scaleX,
+          safeLeft: centerX - frameWidth / 2 + layout.innerSafeInsetXPx,
+          safeRight: centerX + frameWidth / 2 - layout.innerSafeInsetXPx,
+          safeTop: centerY + layout.innerSafeTopY,
+          safeBottom: centerY + layout.innerSafeBottomY,
+          iconMasked: Boolean(choice.icon.mask),
+          icon: boundsOf(choice.icon),
+          title: boundsOf(choice.titleText),
+          body: boundsOf(choice.bodyText),
+          selected: boundsOf(choice.selectedText),
+        };
+      });
     });
 
     await page.evaluate(() => {
@@ -300,6 +340,17 @@ async function main() {
         }
       }
     }
+    for (const card of slotTextLayout) {
+      const headerTexts = card.texts.filter(text => (
+        text.text.startsWith('SLOT') || text.text.startsWith('LAST')
+      ));
+      if (!headerTexts.length || headerTexts.some(text => (
+        text.top < card.headerSafeTop - 0.5
+        || text.bottom > card.headerSafeBottom + 0.5
+      ))) {
+        failures.push(`slot-${card.slotId}-header-outside-inner-band`);
+      }
+    }
     const summaries = slotTextLayout.flatMap(card => card.texts
       .filter(text => text.text.includes('DEPTH'))
       .map(text => ({ ...text, slotId: card.slotId, maxWidth: card.summaryMaxWidthPx })));
@@ -316,8 +367,29 @@ async function main() {
     if (backupTexture !== "save-menu-modal-backup-v1") failures.push("backup-panel-art-missing");
     if (importTexture !== "save-menu-modal-import-v1") failures.push("import-panel-art-missing");
     if (modeChoiceFrames.length !== 2 || modeChoiceFrames.some(choice => (
-      !choice.hasFrame || choice.hitWidth !== 290 || choice.hitHeight !== 270
+      !choice.hasFrame
+      || choice.hitWidth !== 290
+      || choice.hitHeight !== 270
+      || choice.scale !== 1
     ))) failures.push("mode-choice-contract-drift");
+    for (const choice of modeChoiceFrames) {
+      for (const [role, bounds] of Object.entries({
+        icon: choice.icon,
+        title: choice.title,
+        body: choice.body,
+        selected: choice.selected,
+      })) {
+        if (bounds.left < choice.safeLeft - 0.5
+          || bounds.right > choice.safeRight + 0.5
+          || bounds.top < choice.safeTop - 0.5
+          || bounds.bottom > choice.safeBottom + 0.5) {
+          failures.push(`${choice.mode}-${role}-outside-choice-safe-field`);
+        }
+      }
+    }
+    if (modeChoiceFrames[0]?.iconMasked || !modeChoiceFrames[1]?.iconMasked) {
+      failures.push("hardcore-crest-mask-drift");
+    }
     if (tutorialButtons.length !== 2 || tutorialButtons.some(button => (
       !button.authoredIdle || button.width !== 286 || button.height !== 52
     ))) failures.push("tutorial-choice-contract-drift");

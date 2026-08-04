@@ -8,6 +8,7 @@ import {
   UI_INVENTORY_LAYOUT,
   UI_RESOURCE_PRESENTATION,
 } from "../values/uiIcons.js";
+import { ASSET_KEYS } from "../values/assetKeys.js";
 import { INVENTORY_RESOURCE_GUIDE } from "../values/inventoryResourceGuide.js";
 import { UI_MODAL_LAYOUT } from "../values/uiLayout.js";
 
@@ -33,6 +34,11 @@ for (const [key, config] of entries) {
   assert.match(config.name, /\S/, `${key} needs a visible inventory name`);
   assert.match(config.icon, /\S/, `${key} needs a real icon key`);
   assert.match(config.color, /^#[0-9a-f]{6}$/i, `${key} needs a readable label color`);
+  assert.match(
+    ASSET_KEYS.ui.lootPickups[key] || "",
+    /\S/,
+    `${key} needs current pickup artwork`,
+  );
 }
 
 assert.equal(UI_INVENTORY_COPY.iconKeyTitle, "RESOURCE ICON KEY");
@@ -70,8 +76,18 @@ assert(
 
 assert.match(
   holdingsSource,
+  /ASSET_KEYS\.ui\.lootPickups\[key\]/,
+  "inventory resources must use the current pickup-art key map"
+);
+assert.match(
+  holdingsSource,
+  /scene\.add\.image\(x, y, textureKey\)/,
+  "inventory resources must render their current bitmap artwork"
+);
+assert.doesNotMatch(
+  holdingsSource,
   /createIconBadge\(scene,\s*config\.icon,/,
-  "undiscovered resources must keep their real icon visible"
+  "inventory resource cards must not return to the legacy glyph atlas"
 );
 assert.match(
   holdingsSource,

@@ -111,9 +111,10 @@
   "blocked": {
     "currentStandOffDistancePx": 21,
     "stableHoldRootOffsetPx": -21,
-    "runLeadFrames": [4, 5, 6, 7, 8, 9],
-    "currentRunLeadRootOffsetsPx": [-30, -24, -18, -12, -6, 0],
-    "proposedRunLeadRootOffsetsPx": [-30, -26, -23, -21, -21, -21],
+    "runLeadFrames": [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+    "currentRunLeadRootOffsetsPx": [-81, -78, -75, -72, -69, -66, -63, -60, -57, -54, -51, -48, -45, -42, -39, -36, -33, -30, -27, -24, -21, -18, -15, -12, -9, -6, -3, 0],
+    "proposedRunLeadRootOffsetsPx": [-81, -78, -75, -72, -69, -66, -63, -60, -57, -54, -51, -48, -45, -42, -39, -36, -33, -30, -28, -26, -25, -24, -23, -22, -21, -21, -21, -21],
+    "plantRunStartFrame": 9,
     "releaseRootOffsetsPx": [-14, -7, 0]
   },
   "render": {
@@ -140,8 +141,8 @@
     "metrics": "generated/side-dig-transition-polish-metrics.json",
     "contactSheet": "generated/side-dig-transition-before-after.png",
     "keyframeSheet": "generated/side-dig-transition-before-after-keyframes.png",
-    "standingGif": "generated/standing-side-dig-before-after.gif",
-    "blockedGif": "generated/blocked-side-dig-before-after.gif",
-    "runningGif": "generated/running-side-dig-before-after.gif"
+    "standingGif": "generated/standing-side-dig-before-after-v2.gif",
+    "blockedGif": "generated/blocked-side-dig-before-after-v2.gif",
+    "runningGif": "generated/running-side-dig-before-after-v2.gif"
   }
 }

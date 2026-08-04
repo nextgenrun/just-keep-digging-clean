@@ -1,11 +1,10 @@
-// ==================== CELESTIAL TALENT PROGRESSION ====================
-// Save-safe Stars economy and three ability-first talent branches.
+// Save-safe Stars economy and the three mockup-faithful Celestial talent lattices.
 
-export const CELESTIAL_TALENT_BRANCH_IDS = Object.freeze({
-  WAYWARD_STAR: "wayward-star",
-  HOLLOW_SUN: "hollow-sun",
-  COMET_ENGINE: "comet-engine",
-});
+import {
+  CELESTIAL_TALENT_BRANCHES,
+} from "./celestialTalentBranches.js";
+
+export { CELESTIAL_TALENT_BRANCH_IDS } from "./celestialTalentBranches.js";
 
 export const CELESTIAL_STAR_RARITY_ORDER = Object.freeze([
   "common",
@@ -25,126 +24,8 @@ const STAR_POINT_YIELDS = Object.freeze({
   astral: 30,
 });
 
-function talentNode(definition) {
-  return Object.freeze({
-    ...definition,
-    prerequisiteIds: Object.freeze([...(definition.prerequisiteIds || [])]),
-  });
-}
-
-function talentBranch(id, name, nodes) {
-  return Object.freeze({
-    id,
-    name,
-    rootNodeId: nodes[0].id,
-    nodes: Object.freeze(nodes),
-  });
-}
-
-const WAYWARD_STAR_NODES = [
-  talentNode({
-    id: "wayward-star-root", branchId: "wayward-star", tier: 0, kind: "ability",
-    name: "Wayward Star", abilityId: "wayward-star", requiredLevel: 20, starsCost: 0,
-    effectId: "unlock-wayward-star", description: "Unlock the Wayward Star ability.",
-  }),
-  talentNode({
-    id: "wayward-ricochet-matrix", branchId: "wayward-star", tier: 1, kind: "upgrade",
-    name: "Ricochet Matrix", requiredLevel: 24, starsCost: 50,
-    prerequisiteIds: ["wayward-star-root"], effectId: "wayward-extra-bounces",
-    description: "Strengthen the bounded ricochet route.",
-  }),
-  talentNode({
-    id: "wayward-vector-command", branchId: "wayward-star", tier: 2, kind: "upgrade",
-    name: "Vector Command", requiredLevel: 28, starsCost: 75,
-    prerequisiteIds: ["wayward-ricochet-matrix"], effectId: "wayward-extra-redirect",
-    description: "Add one controlled redirection opportunity.",
-  }),
-  talentNode({
-    id: "wayward-impact-lattice", branchId: "wayward-star", tier: 3, kind: "upgrade",
-    name: "Impact Lattice", requiredLevel: 32, starsCost: 100,
-    prerequisiteIds: ["wayward-vector-command"], effectId: "wayward-impact-capacity",
-    description: "Extend the capped impact budget.",
-  }),
-  talentNode({
-    id: "wayward-supernova-core", branchId: "wayward-star", tier: 4, kind: "capstone",
-    name: "Supernova Core", requiredLevel: 36, starsCost: 150,
-    prerequisiteIds: ["wayward-impact-lattice"], effectId: "wayward-supernova-mastery",
-    description: "Complete the branch and unlock another root choice.",
-  }),
-];
-
-const HOLLOW_SUN_NODES = [
-  talentNode({
-    id: "hollow-sun-root", branchId: "hollow-sun", tier: 0, kind: "ability",
-    name: "Hollow Sun", abilityId: "hollow-sun", requiredLevel: 20, starsCost: 0,
-    effectId: "unlock-hollow-sun", description: "Unlock the Hollow Sun ability.",
-  }),
-  talentNode({
-    id: "hollow-gravity-well", branchId: "hollow-sun", tier: 1, kind: "upgrade",
-    name: "Gravity Well", requiredLevel: 24, starsCost: 50,
-    prerequisiteIds: ["hollow-sun-root"], effectId: "hollow-pulse-radius",
-    description: "Widen the bounded gravity pulse.",
-  }),
-  talentNode({
-    id: "hollow-event-horizon", branchId: "hollow-sun", tier: 2, kind: "upgrade",
-    name: "Event Horizon", requiredLevel: 28, starsCost: 75,
-    prerequisiteIds: ["hollow-gravity-well"], effectId: "hollow-impact-capacity",
-    description: "Increase the capped target budget.",
-  }),
-  talentNode({
-    id: "hollow-collapse-cycle", branchId: "hollow-sun", tier: 3, kind: "upgrade",
-    name: "Collapse Cycle", requiredLevel: 32, starsCost: 100,
-    prerequisiteIds: ["hollow-event-horizon"], effectId: "hollow-pulse-tempo",
-    description: "Tighten the three-pulse collapse cycle.",
-  }),
-  talentNode({
-    id: "hollow-singularity-core", branchId: "hollow-sun", tier: 4, kind: "capstone",
-    name: "Singularity Core", requiredLevel: 36, starsCost: 150,
-    prerequisiteIds: ["hollow-collapse-cycle"], effectId: "hollow-implosion-mastery",
-    description: "Complete the branch and unlock another root choice.",
-  }),
-];
-
-const COMET_ENGINE_NODES = [
-  talentNode({
-    id: "comet-engine-root", branchId: "comet-engine", tier: 0, kind: "ability",
-    name: "Comet Engine", abilityId: "comet-engine", requiredLevel: 20, starsCost: 0,
-    effectId: "unlock-comet-engine", description: "Unlock the Comet Engine ability.",
-  }),
-  talentNode({
-    id: "comet-bore-drive", branchId: "comet-engine", tier: 1, kind: "upgrade",
-    name: "Bore Drive", requiredLevel: 24, starsCost: 50,
-    prerequisiteIds: ["comet-engine-root"], effectId: "comet-travel-capacity",
-    description: "Extend the protected, capped tunnel route.",
-  }),
-  talentNode({
-    id: "comet-rider-plating", branchId: "comet-engine", tier: 2, kind: "upgrade",
-    name: "Rider Plating", requiredLevel: 28, starsCost: 75,
-    prerequisiteIds: ["comet-bore-drive"], effectId: "comet-ride-control",
-    description: "Improve control during the bounded ride.",
-  }),
-  talentNode({
-    id: "comet-impact-wake", branchId: "comet-engine", tier: 3, kind: "upgrade",
-    name: "Impact Wake", requiredLevel: 32, starsCost: 100,
-    prerequisiteIds: ["comet-rider-plating"], effectId: "comet-impact-capacity",
-    description: "Increase the capped impact budget.",
-  }),
-  talentNode({
-    id: "comet-zenith-drive", branchId: "comet-engine", tier: 4, kind: "capstone",
-    name: "Zenith Drive", requiredLevel: 36, starsCost: 150,
-    prerequisiteIds: ["comet-impact-wake"], effectId: "comet-drive-mastery",
-    description: "Complete the branch and unlock another root choice.",
-  }),
-];
-
-const BRANCHES = Object.freeze([
-  talentBranch("wayward-star", "WAYWARD STAR", WAYWARD_STAR_NODES),
-  talentBranch("hollow-sun", "HOLLOW SUN", HOLLOW_SUN_NODES),
-  talentBranch("comet-engine", "COMET ENGINE", COMET_ENGINE_NODES),
-]);
-
 export const CELESTIAL_TALENT_PROGRESSION_CONFIG = Object.freeze({
-  saveVersion: 1,
+  saveVersion: 2,
   access: Object.freeze({
     requiredPlayerLevel: 20,
     initialFreeRootSelections: 1,
@@ -156,12 +37,37 @@ export const CELESTIAL_TALENT_PROGRESSION_CONFIG = Object.freeze({
     rarityOrder: CELESTIAL_STAR_RARITY_ORDER,
     pointsByRarity: STAR_POINT_YIELDS,
   }),
-  branches: BRANCHES,
+  branches: CELESTIAL_TALENT_BRANCHES,
 });
 
 export const CELESTIAL_TALENT_NODES_BY_ID = Object.freeze(Object.fromEntries(
-  BRANCHES.flatMap(branch => branch.nodes.map(node => [node.id, node])),
+  CELESTIAL_TALENT_BRANCHES.flatMap(
+    branch => branch.nodes.map(node => [node.id, node]),
+  ),
 ));
+
+export function getCelestialTalentPrerequisiteState(node, purchasedSource) {
+  const purchased = purchasedSource instanceof Set
+    ? purchasedSource
+    : new Set(Array.isArray(purchasedSource) ? purchasedSource : []);
+  const prerequisiteIds = node?.prerequisiteIds || [];
+  const purchasedPrerequisiteIds = prerequisiteIds.filter(id => purchased.has(id));
+  const mode = node?.prerequisiteMode === "any" ? "any" : "all";
+  const satisfied = prerequisiteIds.length === 0
+    || (mode === "any"
+      ? purchasedPrerequisiteIds.length > 0
+      : purchasedPrerequisiteIds.length === prerequisiteIds.length);
+  return Object.freeze({
+    mode,
+    satisfied,
+    purchasedPrerequisiteIds: Object.freeze(purchasedPrerequisiteIds),
+    missingPrerequisiteIds: Object.freeze(
+      satisfied && mode === "any"
+        ? []
+        : prerequisiteIds.filter(id => !purchased.has(id)),
+    ),
+  });
+}
 
 export function getCelestialStarPointYield(rarity) {
   const id = Number.isInteger(rarity)
@@ -176,31 +82,44 @@ function boundedInteger(value, maximum) {
   return Math.max(0, Math.min(maximum, Math.floor(number)));
 }
 
+function requestedNodeIds(source) {
+  const requested = new Set(
+    [source.purchasedNodeIds, source.purchasedNodes, source.unlockedNodeIds, source.unlockedNodes]
+      .find(Array.isArray) || [],
+  );
+  const legacyEngines = Array.isArray(source.unlockedEngines)
+    ? source.unlockedEngines
+    : [];
+  for (const branch of CELESTIAL_TALENT_BRANCHES) {
+    if (legacyEngines.includes(branch.id)) requested.add(branch.rootNodeId);
+  }
+  return requested;
+}
+
+function acceptRequestedGraph(requested) {
+  const accepted = new Set();
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const branch of CELESTIAL_TALENT_BRANCHES) {
+      for (const node of branch.nodes) {
+        if (!requested.has(node.id) || accepted.has(node.id)) continue;
+        if (!getCelestialTalentPrerequisiteState(node, accepted).satisfied) continue;
+        accepted.add(node.id);
+        changed = true;
+      }
+    }
+  }
+  return CELESTIAL_TALENT_BRANCHES.flatMap(branch => branch.nodes)
+    .filter(node => accepted.has(node.id))
+    .map(node => node.id);
+}
+
 export function sanitizeCelestialTalentProgressionData(data) {
   const source = data?.celestialTalents && typeof data.celestialTalents === "object"
     ? data.celestialTalents
     : data && typeof data === "object" ? data : {};
-  const requestedNodes = new Set(
-    [source.purchasedNodeIds, source.purchasedNodes, source.unlockedNodeIds, source.unlockedNodes]
-      .find(Array.isArray) || [],
-  );
-  const legacyEngines = Array.isArray(source.unlockedEngines) ? source.unlockedEngines : [];
-  for (const branch of BRANCHES) {
-    if (legacyEngines.includes(branch.id)) requestedNodes.add(branch.rootNodeId);
-  }
-
-  const purchasedNodeIds = [];
-  const accepted = new Set();
-  for (const branch of BRANCHES) {
-    for (const node of branch.nodes) {
-      if (!requestedNodes.has(node.id)) continue;
-      if (node.prerequisiteIds.every(id => accepted.has(id))) {
-        purchasedNodeIds.push(node.id);
-        accepted.add(node.id);
-      }
-    }
-  }
-
+  const purchasedNodeIds = acceptRequestedGraph(requestedNodeIds(source));
   const currency = source.currency && typeof source.currency === "object"
     ? source.currency
     : {};
@@ -214,7 +133,10 @@ export function sanitizeCelestialTalentProgressionData(data) {
   );
   const spentStars = Math.max(
     configuredSpend,
-    boundedInteger(source.spentStars, CELESTIAL_TALENT_PROGRESSION_CONFIG.currency.maximumLifetimeEarned),
+    boundedInteger(
+      source.spentStars,
+      CELESTIAL_TALENT_PROGRESSION_CONFIG.currency.maximumLifetimeEarned,
+    ),
   );
   const lifetimeStarsEarned = Math.max(
     stars + spentStars,

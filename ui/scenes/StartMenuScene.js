@@ -288,18 +288,23 @@ export class StartMenuScene extends Phaser.Scene {
         cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.headerOffsetYPx,
         `SLOT  ${slot.id}`,
         {
-        fontFamily: UI_FONTS.mono,
-        fontSize: `${SLOT_TEXT_LAYOUT.headerFontSizePx}px`,
-        fontStyle: 'bold',
-        color: '#6a8a9a',
-      });
+          fontFamily: UI_FONTS.mono,
+          fontSize: `${SLOT_TEXT_LAYOUT.headerFontSizePx}px`,
+          fontStyle: 'bold',
+          color: '#6a8a9a',
+        },
+      );
       objs.push(slotLabel);
 
       // Divider
       const divG = this.add.graphics();
       divG.lineStyle(1, 0x2a3a4a, 0.7);
-      divG.lineBetween(cx - CARD_W / 2 + 24, cy - CARD_H / 2 + 49,
-        cx + CARD_W / 2 - 24, cy - CARD_H / 2 + 49);
+      divG.lineBetween(
+        cx - CARD_W / 2 + 24,
+        cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.dividerOffsetYPx,
+        cx + CARD_W / 2 - 24,
+        cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.dividerOffsetYPx,
+      );
       objs.push(divG);
 
       if (slot.hasData) {

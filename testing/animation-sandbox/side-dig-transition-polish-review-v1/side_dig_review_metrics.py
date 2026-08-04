@@ -17,14 +17,12 @@ def _anchor_world_x(record: dict[str, Any], config: dict[str, Any]) -> float:
     local = (anchor_x - float(record["originX"]) * 256.0) * scale
     return float(record["rootXPx"]) + local
 
-
 def _visible_height(record: dict[str, Any], config: dict[str, Any]) -> float:
     alpha = np.asarray(record["frame"].getchannel("A"))
     ys, _ = np.where(alpha >= int(config["geometry"]["alphaThreshold"]))
     if len(ys) == 0:
         return 0.0
     return float(ys.max() - ys.min() + 1) * float(record["displaySizePx"]) / 256.0
-
 
 def _canonical_frame(record: dict[str, Any], config: dict[str, Any]) -> Image.Image:
     geometry = config["geometry"]
@@ -37,7 +35,6 @@ def _canonical_frame(record: dict[str, Any], config: dict[str, Any]) -> Image.Im
     output = Image.new("RGBA", (256, 256))
     output.alpha_composite(resized, (paste_x, paste_y))
     return output
-
 
 def _range(values: list[float]) -> float:
     return 0.0 if not values else max(values) - min(values)
@@ -52,11 +49,9 @@ def _root_direction_reversals(records: list[dict[str, Any]]) -> int:
             directions.append(1 if delta > 0 else -1)
     return sum(left != right for left, right in zip(directions, directions[1:]))
 
-
 def _forward_root_distance(records: list[dict[str, Any]]) -> float:
     roots = [float(record["rootXPx"]) for record in records]
     return sum(max(0.0, right - left) for left, right in zip(roots, roots[1:]))
-
 
 def _tile_frame_clearance(
     record: dict[str, Any],
@@ -96,7 +91,6 @@ def _tile_frame_clearance(
         "lowerIntrusionPixels": int(np.count_nonzero(lower)),
         "minimumClearancePx": float(np.min(clearances)),
     }
-
 
 def _collision_summary(
     records: list[dict[str, Any]],
@@ -152,6 +146,7 @@ def build_metrics(
     cross_start, cross_end = standing["actionRanges"]["cross"]
     blocked_start, blocked_end = blocked["actionRanges"]["jab"]
     blocked_cross_start, blocked_cross_end = blocked["actionRanges"]["cross"]
+    lead_start, lead_end = blocked["runLeadRange"]
     run_start, run_end = running["actionRange"]
     plant_count = len(config["standing"]["blockedPlantBlendWeights"])
     pure_run_start = _frame(sheets, config, "run", int(config["moving"]["jabRunStartFrame"]))
@@ -213,6 +208,22 @@ def build_metrics(
             ),
         },
         "blocked": {
+            "authoredRunFramesInRightLane": lead_end - lead_start + 1,
+            "completeRunCycleInRightLane": sorted(
+                config["blocked"]["runLeadFrames"]
+            ) == list(range(int(config["sources"]["run"]["frameCount"]))),
+            "runToPlantPhaseContinuous": (
+                config["blocked"]["runLeadFrames"][-1] + 1
+            ) % int(config["sources"]["run"]["frameCount"]) == int(
+                config["blocked"]["plantRunStartFrame"]
+            ),
+            "rightLaneRunSpritePixelMismatches": sum(
+                changed_pixels(left["frame"], right["frame"]) > 0
+                for left, right in zip(
+                    blocked["before"][lead_start:lead_end + 1],
+                    blocked["after"][lead_start:lead_end + 1],
+                )
+            ),
             "currentBodyRootExcursionPx": round(_range([
                 float(record["rootXPx"])
                 for record in blocked_current_hold

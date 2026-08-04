@@ -78,8 +78,9 @@ export class StartModeSelectionOverlay {
       mode: this.config.modes.casual,
       x: -modeUi.choiceGap / 2,
       iconKey: casualKey,
-      iconWidth: 210,
-      iconHeight: 47,
+      iconWidth: modeUi.casualIconWidthPx,
+      iconHeight: modeUi.casualIconHeightPx,
+      iconMaskRadius: 0,
       title: this.config.copy.casualName,
       body: this.config.copy.casualSummary,
       accent: modeUi.casualAccent,
@@ -88,15 +89,16 @@ export class StartModeSelectionOverlay {
       mode: this.config.modes.hardcore,
       x: modeUi.choiceGap / 2,
       iconKey: crestKey,
-      iconWidth: 104,
-      iconHeight: 104,
+      iconWidth: modeUi.hardcoreIconSizePx,
+      iconHeight: modeUi.hardcoreIconSizePx,
+      iconMaskRadius: modeUi.hardcoreIconMaskRadiusPx,
       title: this.config.copy.hardcoreName,
       body: this.config.copy.hardcoreSummary,
       accent: modeUi.hardcoreAccent,
     });
   }
 
-  _createChoice({ mode, x, iconKey, iconWidth, iconHeight, title, body, accent }) {
+  _createChoice({ mode, x, iconKey, iconWidth, iconHeight, iconMaskRadius, title, body, accent }) {
     const ui = this.config.ui;
     const modeUi = ui.modeSelector;
     const y = modeUi.choiceCenterY;
@@ -115,9 +117,18 @@ export class StartModeSelectionOverlay {
       0x000000,
       0,
     ).setInteractive({ useHandCursor: true });
-    const icon = this.scene.add.image(0, -66, iconKey)
+    const icon = this.scene.add.image(0, modeUi.iconY, iconKey)
       .setDisplaySize(iconWidth, iconHeight);
-    const titleText = this.scene.add.text(0, 1, title, {
+    let iconMaskGeometry = null;
+    if (iconMaskRadius > 0) {
+      const absoluteX = this.scene.scale.width / 2 + x;
+      const absoluteY = this.scene.scale.height / 2 + y + modeUi.iconY;
+      iconMaskGeometry = this.scene.make.graphics({ add: false });
+      iconMaskGeometry.fillStyle(0xffffff, 1);
+      iconMaskGeometry.fillCircle(absoluteX, absoluteY, iconMaskRadius);
+      icon.setMask(iconMaskGeometry.createGeometryMask());
+    }
+    const titleText = this.scene.add.text(0, modeUi.titleY, title, {
       fontFamily: UI_FONTS.display,
       fontSize: `${ui.font.choiceTitlePx}px`,
       fontStyle: "bold",
@@ -126,15 +137,15 @@ export class StartModeSelectionOverlay {
       strokeThickness: 4,
       align: "center",
     }).setOrigin(0.5);
-    const bodyText = this.scene.add.text(0, 35, body, {
+    const bodyText = this.scene.add.text(0, modeUi.bodyY, body, {
       fontFamily: UI_FONTS.body,
       fontSize: `${ui.font.choiceBodyPx}px`,
       color: UI_COLORS.body,
       align: "center",
-      lineSpacing: 5,
-      wordWrap: { width: modeUi.choiceWidth - 26, useAdvancedWrap: true },
+      lineSpacing: modeUi.bodyLineSpacingPx,
+      wordWrap: { width: modeUi.bodyMaxWidthPx, useAdvancedWrap: true },
     }).setOrigin(0.5, 0);
-    const selectedText = this.scene.add.text(0, 117, "SELECTED", {
+    const selectedText = this.scene.add.text(0, modeUi.selectedY, "SELECTED", {
       fontFamily: UI_FONTS.mono,
       fontSize: `${ui.font.typedPromptPx}px`,
       fontStyle: "bold",
@@ -144,7 +155,17 @@ export class StartModeSelectionOverlay {
       ? [frame.root, hit, icon, titleText, bodyText, selectedText]
       : [hit, icon, titleText, bodyText, selectedText]);
     this.root.add(container);
-    const choice = { mode, container, frame, hit, icon, titleText, bodyText, selectedText };
+    const choice = {
+      mode,
+      container,
+      frame,
+      hit,
+      icon,
+      iconMaskGeometry,
+      titleText,
+      bodyText,
+      selectedText,
+    };
     this.choiceObjects.push(choice);
     hit.on("pointerover", () => this._select(mode));
     hit.on("pointerdown", () => {
@@ -241,6 +262,10 @@ export class StartModeSelectionOverlay {
     this._keyboardAttachTimer?.remove?.(false);
     this._keyboardAttachTimer = null;
     this.scene?.input?.keyboard?.off?.("keydown", this._keyHandler);
+    for (const choice of this.choiceObjects) {
+      choice.icon?.clearMask?.(true);
+      choice.iconMaskGeometry?.destroy?.();
+    }
     this.root?.destroy(true);
     this.root = null;
     this.choiceObjects = [];
