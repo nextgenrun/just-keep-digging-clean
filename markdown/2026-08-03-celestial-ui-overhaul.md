@@ -9,18 +9,18 @@
 - Locked slots remain visible and show their real unlock condition on hover.
 - Quick Slash and Thunder Strike continue to use the existing PlayerAbilities
   GP costs and existing mining-damage path. The actionbar owns no combat values.
-- The bottom-left currency HUD displays Money and spendable Stars only.
+- The bottom-left currency HUD displays Money and spendable Star Points only.
 
 ## Stars and talents
 
 - Collected sky stars grant spendable Star points by rarity:
   Common 1, Uncommon 2, Rare 4, Epic 8, Legendary 15, Astral 30.
 - Celestial talents unlock at player Level 20.
-- Each Engine branch begins with its ability at the top and flows downward
-  through four upgrades.
-- Root abilities are free. Upgrade nodes cost Stars and have level,
+- Each Engine branch begins with its root ability at the bottom and fans upward
+  into an 11-node, three-path lattice with three alternate capstones.
+- Root abilities are free. Upgrade nodes cost Star Points and have level,
   prerequisite, and branch-completion gates.
-- Completing one Engine branch permits selecting the next root ability. All
+- Completing any capstone in one Engine branch permits selecting the next root ability. All
   three Engines can eventually be owned.
 - Talent-owned Engines do not use the retired hidden Star Heart charge gate.
   Their existing one-active-Engine and bounded-impact protections remain.
@@ -39,11 +39,10 @@
 ## Loading and persistence
 
 - The actionbar and currency HUD art are eager because they are always visible.
-- The large talent-tree foundation is deferred until the Star Pillar is used.
-- The retired Starlight talent-tree art bundle is no longer queued by the new
-  loading path.
+- The large talent-tree foundation, authored connectors, and node halo are
+  deferred until the Star Pillar is used.
 - Save schema v14 appends celestialOverhaulData after every older positional
-  field. It stores Stars, purchased nodes, migration version, and actionbar
+  field. It stores Star Points, purchased nodes, migration version, and actionbar
   order.
 - Pre-v14 saves migrate owned Celestial Engines into root nodes and convert
   their persisted rarity counts into spendable Stars once.

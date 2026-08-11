@@ -9,18 +9,19 @@ export class CelestialTalentTreeNodeView {
     this.node = node;
     this.callbacks = callbacks;
     const { assets, layout, presentation } = CELESTIAL_TALENT_TREE_UI_CONFIG;
-    const size = layout.nodeSizesPx[node.tier];
+    const size = layout.nodeSizeByKindPx[node.kind]
+      || layout.nodeSizeByKindPx.upgrade;
     this.root = scene.add.container(0, 0)
       .setSize(layout.nodeHitWidthPx, layout.nodeHitHeightPx)
       .setInteractive({ useHandCursor: true });
-    this.halo = scene.add.image(0, 0, iconKey)
-      .setDisplaySize(size * 1.22, size * 1.22)
+    this.halo = scene.add.image(0, 0, assets.nodeHalo.key)
+      .setDisplaySize(size * layout.haloWidthScale, size * layout.haloHeightScale)
       .setTint(accent)
       .setAlpha(0);
     this.icon = scene.add.image(0, 0, iconKey)
       .setDisplaySize(size, size);
     this.lock = scene.add.image(0, 0, assets.lock)
-      .setDisplaySize(layout.lockSizePx, layout.lockSizePx)
+      .setDisplaySize(layout.lockWidthPx, layout.lockHeightPx)
       .setVisible(false);
     this.status = scene.add.text(0, layout.nodeStatusOffsetYPx, "", {
       fontFamily: UI_FONTS.mono,
@@ -32,7 +33,16 @@ export class CelestialTalentTreeNodeView {
       align: "center",
     }).setOrigin(0.5);
     this.root.add([this.halo, this.icon, this.lock, this.status]);
+    this._fitIcon(size);
     this._bind();
+  }
+
+  _fitIcon(maxSize) {
+    const frame = this.scene.textures?.getFrame?.(this.icon.texture?.key);
+    const width = Number(frame?.realWidth || frame?.width) || maxSize;
+    const height = Number(frame?.realHeight || frame?.height) || maxSize;
+    const scale = Math.min(maxSize / width, maxSize / height);
+    this.icon.setDisplaySize(width * scale, height * scale);
   }
 
   _bind() {
@@ -53,12 +63,12 @@ export class CelestialTalentTreeNodeView {
         .setColor(presentation.ownedColor);
     } else if (available) {
       this.icon.setAlpha(presentation.availableAlpha);
-      this.status.setText(snapshot.starsCost > 0 ? `${snapshot.starsCost} STARS` : "FREE")
+      this.status.setText(snapshot.starsCost > 0 ? `${snapshot.starsCost} SP` : "FREE")
         .setColor(presentation.readyColor);
     } else {
       this.icon.setTint(0x69747f).setAlpha(presentation.lockedAlpha);
       const lockedLabel = snapshot?.reason === "insufficient-stars"
-        ? (snapshot.starsCost + " STARS")
+        ? (snapshot.starsCost + " SP")
         : snapshot?.reason === "root-choice-locked"
           ? "FINISH PATH"
           : snapshot?.reason === "prerequisite-locked"
@@ -71,6 +81,10 @@ export class CelestialTalentTreeNodeView {
     this.lock.setVisible(!purchased && !available);
     this.halo.setAlpha(selected || purchased ? presentation.haloAlpha : 0);
     this.root.setScale(selected ? presentation.selectedScale : 1);
+  }
+
+  setCompactStatus(compact) {
+    this.status.setVisible(compact !== true);
   }
 
   setPosition(x, y) {

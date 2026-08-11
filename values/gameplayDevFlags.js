@@ -18,6 +18,14 @@ const DEMO_MODE_DISABLED_FEATURES = Object.freeze({
   [GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE]: true,
 });
 
+// Demo builds keep the two authored Level One showcase interactions available
+// from the town square. Their own progression UIs still enforce level, Star
+// Point, prerequisite, and purchase requirements.
+const DEMO_MODE_SHOWCASE_SYSTEM_FEATURES = Object.freeze({
+  campfire: true,
+  constellations: true,
+});
+
 const UPGRADE_FEATURES = Object.freeze({
   worldTwoTunnelAccess: GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
   arcCoreVehicle: GAMEPLAY_FEATURE_IDS.ARC_CORES,
@@ -35,6 +43,11 @@ export function isDemoModeEnabled() {
 
 export function isGameplayFeatureEnabled(featureId) {
   return !isDemoModeEnabled() || DEMO_MODE_DISABLED_FEATURES[featureId] !== true;
+}
+
+export function isDemoShowcaseSystemFeature(featureId) {
+  return isDemoModeEnabled()
+    && DEMO_MODE_SHOWCASE_SYSTEM_FEATURES[featureId] === true;
 }
 
 export function isGameplayUpgradeEnabled(upgradeId) {

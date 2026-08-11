@@ -120,7 +120,7 @@ function dragTo(system, sourceIndex, targetIndex) {
   assert.equal(isCelestialActionBarOrderValid([...expectedIds].reverse()), true);
 
   assert.deepEqual(CELESTIAL_ACTION_BAR_CONFIG.layout.slotCenterRatios, [
-    0.15, 0.325, 0.5, 0.675, 0.85,
+    0.181, 0.341, 0.502, 0.663, 0.82,
   ]);
   const { foundationWidthPx, foundationHeightPx } = CELESTIAL_ACTION_BAR_CONFIG.layout;
   assert.ok(Math.abs(foundationWidthPx / foundationHeightPx - 1575 / 474) < 0.001);
@@ -202,10 +202,14 @@ function dragTo(system, sourceIndex, targetIndex) {
     assert.equal(slot.basePosition.x, expectedX);
     assert.equal(slot.basePosition.y, system.centerY + layout.slotOffsetYPx);
     assert.equal(slot.keyText.text, String(index + 1));
+    assert.equal(slot.keyText.x, layout.keyOffsetXPx);
+    assert.equal(slot.keyText.y, layout.keyOffsetYPx);
     assert.equal("socket" in slot, false);
   });
 
   const lockedSlot = system.slotsById.get("quickslash");
+  assert.equal(lockedSlot.lockImage.displayWidth, layout.lockIconWidthPx);
+  assert.equal(lockedSlot.lockImage.displayHeight, layout.lockIconHeightPx);
   lockedSlot.root.emit("pointerover", { x: lockedSlot.basePosition.x, y: lockedSlot.basePosition.y });
   assert.equal(system.getHealthSnapshot().tooltipVisible, true);
   assert.match(system.tooltip.body.text, /Reach Bobo and buy Quick Slash/);

@@ -19,7 +19,12 @@ assert.equal(config.access.initialFreeRootSelections, 1);
 assert.equal(config.branches.length, 3);
 
 for (const branch of config.branches) {
-  assert.equal(branch.nodes.length, 5);
+  assert.equal(branch.nodes.length, 11);
+  assert.equal(branch.completionNodeIds.length, 3);
+  assert.deepEqual(
+    [0, 1, 2, 3].map(row => branch.nodes.filter(node => node.row === row).length),
+    [1, 3, 3, 4],
+  );
   assert.equal(branch.nodes[0].id, branch.rootNodeId);
   assert.equal(branch.nodes[0].kind, "ability");
   assert.equal(branch.nodes[0].tier, 0);
@@ -27,15 +32,17 @@ for (const branch of config.branches) {
   assert.equal(branch.nodes[0].requiredLevel, 20);
   branch.nodes.forEach((node, index) => {
     assert.equal(node.branchId, branch.id);
-    assert.equal(node.tier, index);
+    assert.equal(node.tier, node.row);
     assert.equal(CELESTIAL_TALENT_NODES_BY_ID[node.id], node);
     if (index > 0) {
-      assert.deepEqual(node.prerequisiteIds, [branch.nodes[index - 1].id]);
-      assert.ok(node.starsCost > branch.nodes[index - 1].starsCost);
-      assert.ok(node.requiredLevel > branch.nodes[index - 1].requiredLevel);
+      assert.ok(node.prerequisiteIds.length > 0);
+      assert.ok(node.starsCost > 0);
+      assert.ok(node.requiredLevel >= 25);
     }
   });
-  assert.equal(branch.nodes.at(-1).kind, "capstone");
+  for (const nodeId of branch.completionNodeIds) {
+    assert.equal(CELESTIAL_TALENT_NODES_BY_ID[nodeId].kind, "capstone");
+  }
 }
 
 assert.deepEqual(
@@ -69,11 +76,11 @@ assert.equal(progression.purchaseNode("wayward-star-root").reason, "already-purc
 assert.equal(progression.purchaseNode("hollow-sun-root").reason, "root-choice-locked");
 assert.equal(progression.purchaseNode("wayward-ricochet-matrix").reason, "level-locked");
 
-playerLevel = 36;
+playerLevel = 40;
 assert.equal(progression.purchaseNode("wayward-vector-command").reason, "prerequisite-locked");
 assert.equal(progression.purchaseNode("wayward-ricochet-matrix").reason, "insufficient-stars");
-assert.equal(progression.grantStarsFromRarity("astral", 13), 390);
-assert.equal(progression.getSnapshot().stars, 390);
+assert.equal(progression.grantStarsFromRarity("astral", 38), 1140);
+assert.equal(progression.getSnapshot().stars, 1140);
 
 const wayward = config.branches[0];
 for (const node of wayward.nodes.slice(1)) {
@@ -83,12 +90,13 @@ for (const node of wayward.nodes.slice(1)) {
 let snapshot = progression.getSnapshot();
 assert.equal(snapshot.stars, 15);
 assert.deepEqual(snapshot.completedBranchIds, ["wayward-star"]);
+assert.equal(snapshot.pillarProgressUnits, 3);
 assert.equal(snapshot.availableRootSelections, 1);
 assert.equal(snapshot.rootSelectionCapacity, 2);
 assert.equal(progression.purchaseNode("hollow-sun-root").ok, true);
 assert.equal(progression.purchaseNode("comet-engine-root").reason, "root-choice-locked");
 
-assert.equal(progression.grantStars(735, { source: "contract" }), 735);
+assert.equal(progression.grantStars(1110, { source: "contract" }), 1110);
 const hollow = config.branches[1];
 for (const node of hollow.nodes.slice(1)) {
   assert.equal(progression.purchaseNode(node.id).ok, true, node.id);
@@ -103,15 +111,17 @@ assert.deepEqual(
 );
 
 const comet = config.branches[2];
+assert.equal(progression.grantStars(1125, { source: "contract" }), 1125);
 for (const node of comet.nodes.slice(1)) {
   assert.equal(progression.purchaseNode(node.id).ok, true, node.id);
 }
 snapshot = progression.getSnapshot();
 assert.equal(snapshot.allBranchesCompleted, true);
 assert.equal(snapshot.availableRootSelections, 0);
-assert.equal(snapshot.unlockedEffectIds.length, 15);
-assert.equal(snapshot.spentStars, 1125);
-assert.equal(snapshot.lifetimeStarsEarned, 1125);
+assert.equal(snapshot.pillarProgressUnits, 10);
+assert.equal(snapshot.unlockedEffectIds.length, 33);
+assert.equal(snapshot.spentStars, 3375);
+assert.equal(snapshot.lifetimeStarsEarned, 3375);
 assert.equal(snapshot.stars, 0);
 assert.equal("gp" in snapshot, false);
 assert.equal("gemPower" in snapshot, false);
@@ -119,8 +129,8 @@ assert.equal("miningDamage" in snapshot, false);
 
 const saveData = progression.getSaveData();
 assert.equal(saveData.version, config.saveVersion);
-assert.equal(saveData.purchasedNodeIds.length, 15);
-const roundTrip = new CelestialTalentProgressionSystem({ getPlayerLevel: () => 36 });
+assert.equal(saveData.purchasedNodeIds.length, 33);
+const roundTrip = new CelestialTalentProgressionSystem({ getPlayerLevel: () => 40 });
 roundTrip.loadSaveData(saveData);
 assert.deepEqual(roundTrip.getSaveData(), saveData);
 assert.deepEqual(roundTrip.getSnapshot().unlockedAbilityIds, snapshot.unlockedAbilityIds);

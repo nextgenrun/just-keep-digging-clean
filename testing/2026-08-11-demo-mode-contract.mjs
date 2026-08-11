@@ -12,6 +12,7 @@ import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
 import { ArcCoreVehicleSystem } from "../systems/vehicles/ArcCoreVehicleSystem.js";
 import { ScreenRecordSystem } from "../systems/visual/ScreenRecordSystem.js";
 import { NPCManager } from "../world/playScene/NPCManager.js";
+import { SystemIntroductionSystem } from "../systems/onboarding/SystemIntroductionSystem.js";
 import {
   applySecondWorldArea,
 } from "../world/secondWorld/SecondWorldGenerator.js";
@@ -23,6 +24,7 @@ import {
   GAMEPLAY_DEV_FLAGS,
   GAMEPLAY_FEATURE_IDS,
   isDemoModeEnabled,
+  isDemoShowcaseSystemFeature,
   isGameplayFeatureEnabled,
   isGameplayKeybindActionEnabled,
   isGameplayLevelEnabled,
@@ -44,6 +46,13 @@ assert.equal(isDemoModeEnabled(), true);
 assert.equal(GAME_CONFIG.demoMode, true);
 assert.equal(GAME_CONFIG.debugMode, false);
 assert.equal(GAME_CONFIG.rendererQuality.preserveDrawingBuffer, false);
+assert.equal(isDemoShowcaseSystemFeature("campfire"), true);
+assert.equal(isDemoShowcaseSystemFeature("constellations"), true);
+assert.equal(isDemoShowcaseSystemFeature("caves"), false);
+const demoPacing = Object.create(SystemIntroductionSystem.prototype);
+demoPacing.demoShowcase = true;
+assert.equal(demoPacing.isFeatureAvailable("campfire"), true);
+assert.equal(demoPacing.isFeatureAvailable("constellations"), true);
 
 for (const featureId of Object.values(GAMEPLAY_FEATURE_IDS)) {
   assert.equal(isGameplayFeatureEnabled(featureId), false, `${featureId} must be disabled`);

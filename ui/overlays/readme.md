@@ -2,6 +2,12 @@
 
 UI module — overlays.
 
+- `CelestialTalentTreeView.js`, `CelestialTalentTreeNodeView.js`, and
+  `CelestialTalentTreeConnectorLayer.js` — the physical Star Pillar's
+  image-backed 33-node Celestial progression surface. Three Engine roots fan
+  upward through authored connector art into three alternate mastery paths;
+  the view reads the live row/lane graph and Star Point authority instead of
+  hard-coding the retired five-node columns.
 - `UIInventoryPopup.js`, `UIInventoryHoldingsView.js`,
   `UIInventoryResourceGuide.js`, `UIInventoryWorldTilePreview.js`, and
   `UIInventoryStarAtlas.js` — the three-tab `I`-key field inventory. `INVENTORY` keeps all fourteen real

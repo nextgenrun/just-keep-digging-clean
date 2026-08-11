@@ -11,6 +11,7 @@ import { captureCelestialOverhaulState, initializeCelestialOverhaulRuntime } fro
 import { CelestialEngineController } from
   "../world/playScene/CelestialEngineController.js";
 import { HollowSunEngine } from "../systems/celestial/HollowSunEngine.js";
+import { StarPillarSystem } from "../systems/visual/StarPillarSystem.js";
 
 const queued = [];
 const quickScene = {
@@ -161,6 +162,33 @@ assert.equal(masteryHits.length, 3);
 assert.equal(new Set(masteryHits.map(hit => hit.hitId)).size, 3);
 assert.ok(masteryHits.every(hit => hit.hitId.includes(":implosion:")));
 
+{
+  const flashes = [];
+  const shopStates = [];
+  const failedScene = {
+    _pillarViewActive: false,
+    setShopOpen: value => shopStates.push(value),
+    hudSystem: { flashStatus: message => flashes.push(message) },
+  };
+  const failedPillar = new StarPillarSystem(
+    failedScene,
+    {},
+    { saveSlot: 1 },
+    { createCelestialTalentTreeView: () => { throw new Error("contract mount failure"); } },
+  );
+  const originalConsoleError = console.error;
+  console.error = () => {};
+  try {
+    assert.equal(failedPillar.openConstellationView(), false);
+  } finally {
+    console.error = originalConsoleError;
+  }
+  assert.equal(failedPillar._isViewOpen, false);
+  assert.equal(failedScene._pillarViewActive, false);
+  assert.equal(shopStates.at(-1), false);
+  assert.deepEqual(flashes, ["CELESTIAL TALENT TREE UNAVAILABLE"]);
+}
+
 const [setupSource, uiSource, updateSource, pillarSource, groupSource] =
   await Promise.all([
     readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
@@ -181,6 +209,9 @@ assert.match(updateSource, /pillarHasPriority/);
 assert.match(pillarSource, /getInteractionDistance\(playerTile\)/);
 assert.match(pillarSource, /queueDugTilesSave/);
 assert.match(pillarSource, /syncTalentProgress/);
+assert.match(pillarSource, /CELESTIAL_TALENT_TREE_PRELOAD_ASSETS\.map/);
+assert.match(pillarSource, /Talent tree mount failed/);
+assert.doesNotMatch(pillarSource, /nodeAssetCount:\s*15/);
 assert.doesNotMatch(setupSource, /STAR HEART FORGED|constellation mastered/);
 assert.doesNotMatch(groupSource, /getStarlightAssets/);
 

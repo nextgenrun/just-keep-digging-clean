@@ -23,7 +23,8 @@ import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import { CELESTIAL_TALENT_TREE_UI_CONFIG } from "../../values/celestialTalentTreeUi.js";
+import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
+  "../../values/celestialTalentTreeUi.js";
 import {
   STARLIGHT_TALENT_RESOURCE_ORDER,
   STARLIGHT_TALENT_TREE_CONFIG,
@@ -140,8 +141,10 @@ export class StarPillarSystem {
     this._pillarBaseY   = (this.config.starPillarTileY + 1) * ts; // bottom of tile row 34
 
     this.fts.ensureConstellationsLoaded?.();
-    const initialProgress = this.scene.celestialTalentProgressionSystem
-      ?.getSnapshot?.()?.purchasedNodeIds?.length || 0;
+    const initialSnapshot = this.scene.celestialTalentProgressionSystem
+      ?.getSnapshot?.();
+    const initialProgress = initialSnapshot?.pillarProgressUnits
+      ?? Math.min(10, initialSnapshot?.purchasedNodeIds?.length || 0);
     this._buildPillarVisual(initialProgress);
     this._buildTownPillarVisual(initialProgress);
     this._buildEPrompt();
@@ -299,12 +302,12 @@ export class StarPillarSystem {
   }
 
   syncTalentProgress(snapshot = null, animate = true) {
-    const progress = Math.max(
-      0,
-      Number(snapshot?.purchasedNodeIds?.length
-        ?? this.scene.celestialTalentProgressionSystem
-          ?.getSnapshot?.()?.purchasedNodeIds?.length) || 0,
-    );
+    const current = snapshot
+      || this.scene.celestialTalentProgressionSystem?.getSnapshot?.();
+    const progress = Math.max(0, Number(
+      current?.pillarProgressUnits
+        ?? Math.min(10, current?.purchasedNodeIds?.length || 0),
+    ) || 0);
     if (progress === this._lastUnlockedCount) return false;
     this._worldVisual?.syncUnlocked(progress, animate);
     this._townWorldVisual?.syncUnlocked(progress, animate);
@@ -553,6 +556,16 @@ export class StarPillarSystem {
           return;
         }
         this.openConstellationView(options);
+      }).catch(error => {
+        if (loadToken !== this._viewLoadToken || !this.scene) return;
+        this._isViewLoading = false;
+        manager.releaseGroup(groupId, consumer);
+        console.error("[StarPillarSystem] Talent art load failed", error);
+        this.scene.hudSystem?.flashStatus?.(
+          "STARLIGHT ART COULD NOT BE LOADED",
+          "#E07030",
+          1800,
+        );
       });
       return true;
     }
@@ -571,23 +584,31 @@ export class StarPillarSystem {
     this.scene.setShopOpen?.(true);
 
     this._selectedConstellationIndex = 0;
-    this._talentTreeView = this.ui.createCelestialTalentTreeView?.(this.scene, {
-      progression: this.scene.celestialTalentProgressionSystem,
-      getMoney: () => this.scene.upgradeSystem?.getMoney?.() || 0,
-      onClose: () => this.closeConstellationView(),
-      onNodePurchased: result => {
-        const unlockedEngineIds = result.snapshot?.unlockedAbilityIds
-          || this.scene.celestialTalentProgressionSystem?.getSnapshot?.()?.unlockedAbilityIds
-          || [];
-        this.scene.starHeartProgressionSystem
-          ?.syncTalentUnlockedEngines?.(unlockedEngineIds);
-        this.scene.celestialActionBarSystem?.sync?.();
-        this.scene.celestialCurrencyHudSystem?.update?.(true);
-        this.scene.soundSystem?.playUiConfirm?.();
-        this.scene.queueDugTilesSave?.();
-      },
-    });
-    if (!this._talentTreeView) {
+    try {
+      this._talentTreeView = this.ui.createCelestialTalentTreeView?.(this.scene, {
+        progression: this.scene.celestialTalentProgressionSystem,
+        getMoney: () => this.scene.upgradeSystem?.getMoney?.() || 0,
+        onClose: () => this.closeConstellationView(),
+        onNodePurchased: result => {
+          const unlockedEngineIds = result.snapshot?.unlockedAbilityIds
+            || this.scene.celestialTalentProgressionSystem?.getSnapshot?.()?.unlockedAbilityIds
+            || [];
+          this.scene.starHeartProgressionSystem
+            ?.syncTalentUnlockedEngines?.(unlockedEngineIds);
+          this.scene.celestialActionBarSystem?.sync?.();
+          this.scene.celestialCurrencyHudSystem?.update?.(true);
+          this.scene.soundSystem?.playUiConfirm?.();
+          this.scene.queueDugTilesSave?.();
+        },
+      });
+      if (!this._talentTreeView) throw new Error("Talent tree factory returned no view");
+      if (this._talentTreeView.open?.() === false) {
+        throw new Error("Talent tree view refused to open");
+      }
+      this._isChartUiReady = true;
+      return true;
+    } catch (error) {
+      console.error("[StarPillarSystem] Talent tree mount failed", error);
       this.scene.hudSystem?.flashStatus?.(
         "CELESTIAL TALENT TREE UNAVAILABLE",
         "#E07030",
@@ -596,9 +617,6 @@ export class StarPillarSystem {
       this.closeConstellationView();
       return false;
     }
-    this._talentTreeView.open?.();
-    this._isChartUiReady = true;
-    return true;
   }
 
   closeConstellationView() {
@@ -651,16 +669,19 @@ export class StarPillarSystem {
   }
 
   getTalentTreeHealthSnapshot() {
-    const foundationKey = CELESTIAL_TALENT_TREE_UI_CONFIG.assets.foundation.key;
-    const missingTextures = [foundationKey].filter(
+    const textureKeys = CELESTIAL_TALENT_TREE_PRELOAD_ASSETS.map(asset => asset.key);
+    const missingTextures = textureKeys.filter(
       textureKey => !textureKey || !this.scene.textures?.exists?.(textureKey),
     );
     const activeView = this._talentTreeView?.getHealthSnapshot?.() || null;
+    const nodeCount = this.scene.celestialTalentProgressionSystem?.getSnapshot?.()
+      ?.branches?.reduce((total, branch) => total + branch.nodes.length, 0) || 0;
     return {
       ready: typeof this.ui.createCelestialTalentTreeView === "function"
         && missingTextures.length === 0
         && (!activeView || activeView.ready),
-      nodeAssetCount: 15,
+      nodeAssetCount: nodeCount,
+      nodeCount,
       engineOptionCount: 3,
       missingTextures,
       activeView,

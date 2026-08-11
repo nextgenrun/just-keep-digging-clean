@@ -1,16 +1,20 @@
 // ==================== CELESTIAL CURRENCY HUD ====================
-// Always-resident Money + Stars presentation values and authored asset paths.
+// Always-resident Money + Star Points presentation values and authored asset paths.
 
-import { ASSET_KEYS } from "./assetKeys.js";
 import { UI_ICON_ATLAS, UI_ICON_FRAMES } from "./uiIcons.js";
 
 const foundation = Object.freeze({
   key: "ui-celestial-currency-hud-v1",
   path: "sprites/UI/celestial-overhaul-v1/celestial-currency-hud-v1.png",
 });
+const starPointIcon = Object.freeze({
+  key: "ui-celestial-star-point-icon-v1",
+  path: "sprites/UI/starlight-talent-tree-v4/star-heart-ui-v2.png",
+});
 
 export const CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS = Object.freeze([
   foundation,
+  starPointIcon,
 ]);
 
 export const CELESTIAL_CURRENCY_HUD_CONFIG = Object.freeze({
@@ -18,11 +22,9 @@ export const CELESTIAL_CURRENCY_HUD_CONFIG = Object.freeze({
     foundation,
     moneyIcon: Object.freeze({
       key: UI_ICON_ATLAS.key,
-      frame: UI_ICON_FRAMES.gold,
+      frame: UI_ICON_FRAMES.sell,
     }),
-    starsIcon: Object.freeze({
-      key: ASSET_KEYS.celestialEngines.starHeart,
-    }),
+    starsIcon: starPointIcon,
   }),
   layout: Object.freeze({
     referenceWidthPx: 1280,
@@ -33,13 +35,13 @@ export const CELESTIAL_CURRENCY_HUD_CONFIG = Object.freeze({
     heightPx: 58.5,
     leftPx: 14,
     bottomPx: 13,
-    moneyIconXFraction: 0.086,
-    moneyValueXFraction: 0.31,
-    starsValueXFraction: 0.69,
-    starsIconXFraction: 0.914,
+    moneyIconXFraction: 0.103,
+    moneyValueXFraction: 0.319,
+    starsValueXFraction: 0.678,
+    starsIconXFraction: 0.875,
     iconSizePx: 31,
-    starIconSizePx: 34,
-    valueOffsetYPx: 0,
+    starIconSizePx: 29,
+    valueOffsetYPx: 1,
   }),
   presentation: Object.freeze({
     depth: 1965,

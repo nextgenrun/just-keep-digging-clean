@@ -9,6 +9,7 @@ import {
   TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { isDemoShowcaseSystemFeature } from "../../values/gameplayDevFlags.js";
 
 const ACTIVE_TUTORIAL_STAGES = new Set(RETENTION_CONFIG.tutorial.activeStages);
 const COMPLETE_TUTORIAL_STAGES = new Set([
@@ -37,6 +38,7 @@ export class SystemIntroductionSystem {
     this.config = options.config || SYSTEM_INTRODUCTION_CONFIG;
     this.enabled = options.enabled
       ?? resolveSystemIntroductionEnabled(this.config, options.search);
+    this.demoShowcase = options.demoShowcase !== false;
     this.lastSnapshot = null;
     this._lastAvailabilitySignature = "";
     this._upgradeAvailabilityProvider = (upgradeId, upgrade) => (
@@ -108,13 +110,15 @@ export class SystemIntroductionSystem {
     return snapshot;
   }
 
-  isFeatureAvailable(feature, snapshot = this.lastSnapshot || this.getProgressSnapshot()) {
+  isFeatureAvailable(feature, snapshot = null) {
+    if (this.demoShowcase && isDemoShowcaseSystemFeature(feature)) return true;
     if (!this.enabled) return true;
-    if (snapshot.legacySave === true) return true;
-    if (Object.hasOwn(snapshot, feature)) return Boolean(snapshot[feature]);
+    const progress = snapshot || this.lastSnapshot || this.getProgressSnapshot();
+    if (progress.legacySave === true) return true;
+    if (Object.hasOwn(progress, feature)) return Boolean(progress[feature]);
     const unlock = this.config.featureUnlocks[feature];
     if (!unlock || unlock === "always") return true;
-    return Boolean(snapshot[unlock]);
+    return Boolean(progress[unlock]);
   }
 
   isMerchantUnlocked(merchantId) {

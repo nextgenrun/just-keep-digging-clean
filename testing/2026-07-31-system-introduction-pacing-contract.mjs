@@ -49,7 +49,7 @@ const retention = {
   getJournalSnapshot: () => journal,
   getTutorialState: () => tutorial,
 };
-const pacing = new SystemIntroductionSystem(scene, retention);
+const pacing = new SystemIntroductionSystem(scene, retention, { demoShowcase: false });
 
 let snapshot = pacing.refresh({ announce: false });
 assert.equal(snapshot.tutorialComplete, false);
@@ -205,7 +205,10 @@ assert.equal(pacing.isUpgradeAvailable("upOrDown"), false);
 assert.equal(resolveSystemIntroductionEnabled(SYSTEM_INTRODUCTION_CONFIG, "?systemPacing=0"), false);
 assert.equal(resolveSystemIntroductionEnabled(SYSTEM_INTRODUCTION_CONFIG, "?systemPacing=legacy"), false);
 assert.equal(resolveSystemIntroductionEnabled(SYSTEM_INTRODUCTION_CONFIG, "?systemPacing=1"), true);
-const rollback = new SystemIntroductionSystem(scene, retention, { search: "?systemPacing=0" });
+const rollback = new SystemIntroductionSystem(scene, retention, {
+  search: "?systemPacing=0",
+  demoShowcase: false,
+});
 assert.equal(rollback.enabled, false);
 assert.equal(rollback.isFeatureAvailable("caves"), true);
 assert.equal(rollback.isMerchantAvailable("boboMerchant"), true);
@@ -217,7 +220,7 @@ const legacyRetention = {
     stage: TOWN_TUTORIAL_STAGES.COMPLETE,
   }),
 };
-const legacy = new SystemIntroductionSystem(scene, legacyRetention);
+const legacy = new SystemIntroductionSystem(scene, legacyRetention, { demoShowcase: false });
 assert.equal(legacy.isFeatureAvailable("caves"), true);
 assert.equal(legacy.isMerchantAvailable("boboMerchant"), true);
 

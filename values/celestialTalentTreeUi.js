@@ -92,7 +92,10 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     nodeSizeByKindPx: Object.freeze({ ability: 70, upgrade: 48, capstone: 58 }),
     nodeHitWidthPx: 78,
     nodeHitHeightPx: 76,
-    lockSizePx: 34,
+    lockWidthPx: 24,
+    lockHeightPx: 34,
+    haloWidthScale: 0.82,
+    haloHeightScale: 1.18,
     nodeStatusOffsetYPx: 39,
     connectorThicknessPx: 16,
     titleYFraction: 0.058,
@@ -184,7 +187,7 @@ export function describeCelestialTalentAvailability(nodeSnapshot) {
   if (nodeSnapshot.purchased) return copy.owned;
   if (nodeSnapshot.available) {
     return nodeSnapshot.starsCost > 0
-      ? `${copy.available} Spend ${nodeSnapshot.starsCost} Stars.`
+      ? `${copy.available} Spend ${nodeSnapshot.starsCost} Star Points.`
       : `${copy.available} ${copy.free}`;
   }
   if (nodeSnapshot.reason === "talents-locked") return copy.talentsLocked;
@@ -204,7 +207,7 @@ export function describeCelestialTalentAvailability(nodeSnapshot) {
       : copy.prerequisiteLocked;
   }
   if (nodeSnapshot.reason === "insufficient-stars") {
-    return `Requires ${nodeSnapshot.starsCost} Stars. You have ${nodeSnapshot.starsBalance}.`;
+    return `Requires ${nodeSnapshot.starsCost} Star Points. You have ${nodeSnapshot.starsBalance}.`;
   }
   return copy.unknownLocked;
 }

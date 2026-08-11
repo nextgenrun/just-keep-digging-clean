@@ -4,8 +4,10 @@ import {
   CELESTIAL_TALENT_TREE_UI_CONFIG,
   describeCelestialTalentAvailability,
   getCelestialTalentNodeIconKey,
+  getCelestialTalentNodePosition,
 } from "../../values/celestialTalentTreeUi.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { CelestialTalentTreeConnectorLayer } from "./CelestialTalentTreeConnectorLayer.js";
 import { CelestialTalentTreeNodeView } from "./CelestialTalentTreeNodeView.js";
 
 function justDown(key) {
@@ -22,6 +24,7 @@ export class CelestialTalentTreeView {
     this.config = CELESTIAL_TALENT_TREE_UI_CONFIG;
     this.nodes = [];
     this.nodesById = new Map();
+    this.expectedNodeCount = 0;
     this.selectedIndex = 0;
     this.visible = false;
     this.destroyed = false;
@@ -58,21 +61,31 @@ export class CelestialTalentTreeView {
     this.root.add([this.title, this.subtitle, this.levelText, this.moneyText, this.starsText, this.closeText]);
 
     const branches = this.progression?.getSnapshot?.()?.branches || [];
+    this.expectedNodeCount = branches.reduce((total, branch) => total + branch.nodes.length, 0);
     branches.forEach((branch, branchIndex) => {
       const accent = presentation.branchAccents[branchIndex];
       const header = this._text(
-        this._x(layout.columnXFractions[branchIndex]),
+        this._x(layout.branchCenterXFractions[branchIndex]),
         this._y(layout.branchTitleYFraction),
         branch.name,
         presentation.branchFontSizePx,
         `#${accent.toString(16).padStart(6, "0")}`,
       );
       this.root.add(header);
+    });
+    this.connectorLayer = new CelestialTalentTreeConnectorLayer(
+      this.scene,
+      this.root,
+      branches,
+    );
+    branches.forEach((branch, branchIndex) => {
+      const accent = presentation.branchAccents[branchIndex];
       branch.nodes.forEach(node => {
+        const position = getCelestialTalentNodePosition(branchIndex, node);
         const view = new CelestialTalentTreeNodeView(
           this.scene,
           node,
-          getCelestialTalentNodeIconKey(branch.id, node.tier),
+          getCelestialTalentNodeIconKey(node.id),
           accent,
           {
             onHover: current => this.selectNode(current.node.id),
@@ -82,9 +95,11 @@ export class CelestialTalentTreeView {
         );
         view.branchIndex = branchIndex;
         view.tier = node.tier;
+        view.row = node.row;
+        view.lane = node.lane;
         view.setPosition(
-          this._x(layout.columnXFractions[branchIndex]),
-          this._y(layout.nodeYFractions[node.tier]),
+          this._x(position.xFraction),
+          this._y(position.yFraction),
         );
         this.nodes.push(view);
         this.nodesById.set(node.id, view);
@@ -152,13 +167,14 @@ export class CelestialTalentTreeView {
     this.snapshot = snapshot;
     this.levelText.setText(`LEVEL ${snapshot.playerLevel}`);
     this.moneyText.setText(`M ${Math.max(0, Number(this.getMoney?.()) || 0).toLocaleString("en-US")}`);
-    this.starsText.setText(`STARS ${snapshot.stars.toLocaleString("en-US")}`);
+    this.starsText.setText(`STAR POINTS ${snapshot.stars.toLocaleString("en-US")}`);
     for (const branch of snapshot.branches) {
       for (const node of branch.nodes) {
         const index = this.nodes.findIndex(view => view.node.id === node.id);
         this.nodesById.get(node.id)?.setState(node, index === this.selectedIndex);
       }
     }
+    this.connectorLayer?.refresh(this.nodesById);
     this._refreshDetail();
   }
 
@@ -186,9 +202,25 @@ export class CelestialTalentTreeView {
   moveSelection(dx, dy) {
     const current = this.nodes[this.selectedIndex];
     if (!current) return this.selectedIndex;
-    const branch = Math.max(0, Math.min(2, current.branchIndex + Math.sign(dx || 0)));
-    const tier = Math.max(0, Math.min(4, current.tier - Math.sign(dy || 0)));
-    const next = this.nodes.findIndex(view => view.branchIndex === branch && view.tier === tier);
+    const directionX = Math.sign(dx || 0);
+    const directionY = Math.sign(dy || 0);
+    const candidates = this.nodes
+      .map((view, index) => ({
+        index,
+        deltaX: view.root.x - current.root.x,
+        deltaY: view.root.y - current.root.y,
+      }))
+      .filter(candidate => candidate.index !== this.selectedIndex)
+      .filter(candidate => directionX !== 0
+        ? Math.sign(candidate.deltaX) === directionX
+        : Math.sign(candidate.deltaY) === directionY)
+      .sort((left, right) => {
+        const score = candidate => directionX !== 0
+          ? Math.abs(candidate.deltaX) + Math.abs(candidate.deltaY) * 2
+          : Math.abs(candidate.deltaY) + Math.abs(candidate.deltaX) * 2;
+        return score(left) - score(right);
+      });
+    const next = candidates[0]?.index ?? -1;
     if (next >= 0) {
       this.selectedIndex = next;
       this.refresh();
@@ -233,6 +265,8 @@ export class CelestialTalentTreeView {
       (height - inset) / layout.referenceHeightPx,
     ));
     this.root.setPosition(width / 2, height / 2).setScale(scale);
+    const compact = scale < layout.compactStatusScaleThreshold;
+    this.nodes.forEach(node => node.setCompactStatus(compact));
   }
 
   getControls() {
@@ -241,10 +275,12 @@ export class CelestialTalentTreeView {
 
   getHealthSnapshot() {
     return Object.freeze({
-      ready: !this.destroyed && this.nodes.length === 15
+      ready: !this.destroyed && this.expectedNodeCount > 0
+        && this.nodes.length === this.expectedNodeCount
         && this.scene.textures?.exists?.(this.config.assets.foundation.key) === true,
       visible: this.visible,
       nodeCount: this.nodes.length,
+      connectorCount: this.connectorLayer?.count || 0,
       selectedIndex: this.selectedIndex,
     });
   }
@@ -257,6 +293,8 @@ export class CelestialTalentTreeView {
     for (const node of this.nodes) node.destroy();
     this.nodes = [];
     this.nodesById.clear();
+    this.connectorLayer?.destroy();
+    this.connectorLayer = null;
     this.root?.destroy(true);
     this.onClose = null;
     this.onNodePurchased = null;

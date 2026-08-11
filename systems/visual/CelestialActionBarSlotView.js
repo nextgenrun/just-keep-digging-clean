@@ -48,7 +48,7 @@ export class CelestialActionBarSlotView {
     ).setOrigin(0.5);
     this.lockImage = assetHealth.lockAvailable
       ? scene.add.image(0, 0, assetHealth.chrome.lock)
-        .setDisplaySize(layout.lockIconSizePx, layout.lockIconSizePx)
+        .setDisplaySize(layout.lockIconWidthPx, layout.lockIconHeightPx)
       : null;
     this.root.add([
       this.icon,
