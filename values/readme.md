@@ -515,3 +515,12 @@ and bounded motion. Asset paths point at
 `sprites/UI/starlight-talent-tree-v4/`; talent rewards, Engine authority,
 Bobo locks, and save state remain owned by their existing progression
 definitions and systems.
+
+`approvedHudSkin.js` is the SSOT for the 1280x720 HUD alignment grid and the
+ImageGen-authored weather indicator package. Player, combo, world-state, and
+audio chrome share the 14 px top rail; XP, currency, and inventory share the
+13 px bottom rail; dynamic weather art is selected by kind while time, season,
+temperature, labels, and intensity remain live runtime values.
+`randomWorldEvents.js -> visuals.ribbonSafeGap` owns the active-event ribbon's
+minimum separation from those persistent top panels; the view derives its
+responsive width and center from the approved HUD geometry.

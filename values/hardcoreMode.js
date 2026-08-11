@@ -110,9 +110,9 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
       selectedAlpha: 1,
     }),
     statusHud: Object.freeze({
-      x: 164,
+      x: 172,
       y: 153,
-      width: 304,
+      width: 320,
       height: 48,
       crestSize: 42,
       textOffsetX: 12,

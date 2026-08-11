@@ -65,6 +65,18 @@ async function main() {
     if (!hud.clockTextVisible || !hud.weatherTextVisible || !hud.temperatureTextVisible) {
       throw new Error(`Live weather data is not visible: ${JSON.stringify(hud)}`);
     }
+    if (!hud.weatherIndicator?.ready
+      || !hud.weatherIndicator.visible
+      || hud.weatherIndicator.kind !== "storm"
+      || hud.weatherIndicator.textureKey !== "ui-hud-approved-weather-storm") {
+      throw new Error(`Authored weather indicator is not routed: ${JSON.stringify(hud)}`);
+    }
+    const ribbon = hud.randomEventRibbon;
+    if (!ribbon?.visible
+      || Math.abs(ribbon.left - ribbon.playerRight - 16) > 0.01
+      || Math.abs(ribbon.worldLeft - ribbon.right - 16) > 0.01) {
+      throw new Error(`Random-event ribbon overlaps persistent HUD: ${JSON.stringify(hud)}`);
+    }
     const legacyVisible = hud.legacyClockPanelVisible
       || hud.legacyWeatherPanelVisible
       || hud.legacySeasonTextVisible;

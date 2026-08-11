@@ -4,11 +4,41 @@ import {
 } from "../../values/randomWorldEvents.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 
 function cropFor(type, config) {
   if (type === RANDOM_EVENT_TYPES.CRYSTAL_CHOIR) return config.visuals.crops.choir;
   if (type === RANDOM_EVENT_TYPES.BLACKOUT_BLOOM) return config.visuals.crops.blackout;
   return config.visuals.crops.rush;
+}
+
+export function getRandomEventRibbonGeometry(
+  viewportWidth = APPROVED_HUD_SKIN.referenceViewport.width,
+  viewportHeight = APPROVED_HUD_SKIN.referenceViewport.height,
+  config = RANDOM_WORLD_EVENT_CONFIG,
+) {
+  const reference = APPROVED_HUD_SKIN.referenceViewport;
+  const layout = APPROVED_HUD_SKIN.layout;
+  const visuals = config.visuals;
+  const scale = Math.min(
+    viewportWidth / reference.width,
+    viewportHeight / reference.height,
+  );
+  const safeGap = visuals.ribbonSafeGap * scale;
+  const left = (layout.playerCore.x + layout.playerCore.width) * scale + safeGap;
+  const right = viewportWidth
+    - (layout.worldState.right + layout.worldState.width) * scale
+    - safeGap;
+  const width = Math.max(0, Math.min(visuals.ribbonWidth * scale, right - left));
+  return Object.freeze({
+    scale,
+    left,
+    right,
+    x: (left + right) / 2,
+    y: visuals.ribbonTop * scale,
+    width,
+    height: visuals.ribbonHeight * scale,
+  });
 }
 
 export class RandomEventWorldView {
@@ -34,7 +64,7 @@ export class RandomEventWorldView {
 
   _createRibbon() {
     const visuals = this.config.visuals;
-    this.ribbon = this.scene.add.container(this.scene.scale.width / 2, visuals.ribbonTop)
+    this.ribbon = this.scene.add.container(0, 0)
       .setScrollFactor(0)
       .setDepth(visuals.ribbonDepth)
       .setVisible(false);
@@ -59,6 +89,24 @@ export class RandomEventWorldView {
       strokeThickness: 3,
     }).setOrigin(0, 0.5);
     this.ribbon.add([this.ribbonFrame, this.ribbonIcon, this.ribbonTitle, this.ribbonDetail]);
+    this._layoutRibbon();
+  }
+
+  _layoutRibbon() {
+    const geometry = getRandomEventRibbonGeometry(
+      this.scene.scale?.width,
+      this.scene.scale?.height,
+      this.config,
+    );
+    const scale = geometry.scale;
+    this.ribbon?.setPosition(geometry.x, geometry.y);
+    this.ribbonFrame?.setDisplaySize(geometry.width, geometry.height);
+    this.ribbonIcon?.setPosition(-geometry.width / 2 + 44 * scale, 41 * scale)
+      .setDisplaySize(68 * scale, 58 * scale);
+    this.ribbonTitle?.setPosition(-geometry.width / 2 + 90 * scale, 24 * scale)
+      .setFontSize(Math.max(11, Math.round(15 * scale)));
+    this.ribbonDetail?.setPosition(-geometry.width / 2 + 90 * scale, 54 * scale)
+      .setFontSize(Math.max(10, Math.round(12 * scale)));
   }
 
   sync(active, nowMs, communication = {}) {
@@ -149,7 +197,7 @@ export class RandomEventWorldView {
   }
 
   resize() {
-    this.ribbon?.setPosition(this.scene.scale.width / 2, this.config.visuals.ribbonTop);
+    this._layoutRibbon();
   }
 
   destroy() {

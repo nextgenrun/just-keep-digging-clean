@@ -4,7 +4,7 @@ export const HUD_QUICK_CONTROLS = Object.freeze({
   depthOffset: 4,
   inventory: Object.freeze({
     right: 14,
-    bottom: 12,
+    bottom: 13,
     width: 94,
     height: 94,
     hitPadding: 4,

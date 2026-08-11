@@ -106,6 +106,7 @@ export const RANDOM_WORLD_EVENT_CONFIG = Object.freeze({
     ribbonWidth: 620,
     ribbonHeight: 82,
     ribbonTop: 18,
+    ribbonSafeGap: 16,
     crops: Object.freeze({
       choir: Object.freeze({ x: 890, y: 0, width: 620, height: 470 }),
       blackout: Object.freeze({ x: 180, y: 470, width: 620, height: 471 }),

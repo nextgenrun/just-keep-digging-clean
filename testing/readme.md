@@ -980,3 +980,12 @@ the Tutorial Town barrier sequence, Star Pillar textures, the full seven-beat
 Move → Dig → Flight → Portal → Sell → Upgrade → Resume route, and the absence
 of browser/page errors while saving its report and screenshot under
 `tmp/2026-08-11-demo-first-five-live-qa/`.
+
+`2026-08-11-weather-indicator-hud-contract.mjs` pins the authored RGBA weather
+panel and five medallions, their SSOT key/path routing, dynamic-kind adapter,
+emoji-free approved branch, 14 px top rail, symmetric 320 px top panels, exact
+weather-to-audio gap, aligned Hardcore bounds, and the shared bottom/left HUD
+gutters. The upgraded 2026-08-02 weather harness additionally proves the storm
+medallion is visible and dynamically selected in a real Phaser render.
+The same contract guards that the active random-event ribbon consumes only the
+derived lane between the player and weather panels with exact 16 px gaps.

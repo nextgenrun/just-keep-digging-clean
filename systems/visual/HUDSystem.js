@@ -8,7 +8,7 @@ import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
 import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
 import { HudQuickControls } from "./HudQuickControls.js";
 
-const WEATHER_ICONS = Object.freeze({
+const LEGACY_WEATHER_ICONS = Object.freeze({
   clear: "☀️",
   drizzle: "🌦",
   rain: "🌧",
@@ -358,6 +358,7 @@ export class HUDSystem {
     this.approvedSkin?.worldFrame?.setVisible(
       this._systemVisibility.clock || this._systemVisibility.weather,
     );
+    this.approvedSkin?.setWeatherVisible(this._systemVisibility.weather);
     this.approvedSkin?.setComboVisible(this._systemVisibility.combo && this.comboVisible);
     if (!this._systemVisibility.buff) this.approvedSkin?.setBuffLines([]);
   }
@@ -598,9 +599,8 @@ export class HUDSystem {
       const phaseLabel = dnc.getCurrentPhaseLabel();
       const day = dnc.getDay();
       if (this.approvedSkin?.active) {
-        const phaseIcon = /night|dusk/i.test(phaseLabel) ? "☾" : "☀";
         const season = dnc.getSeason();
-        setTextIfChanged(this.clockTimeText, `${phaseIcon} ${dnc.getTimeString12()}`);
+        setTextIfChanged(this.clockTimeText, dnc.getTimeString12());
         setTextIfChanged(this.clockDayText, `DAY ${day} · ${season.toUpperCase()}`);
       } else {
         setTextIfChanged(this.clockTimeText, dnc.getTimeString12());
@@ -610,7 +610,10 @@ export class HUDSystem {
 
     if (ws) {
       const snap = ws.getSnapshot();
-      const icon = WEATHER_ICONS[snap.kind] || "";
+      this.approvedSkin?.setWeatherKind(snap.kind);
+      const icon = this.approvedSkin?.active
+        ? ""
+        : LEGACY_WEATHER_ICONS[snap.kind] || "";
       const label = snap.kind.charAt(0).toUpperCase() + snap.kind.slice(1);
       const weatherLabel = [icon, label].filter(Boolean).join(" ");
       const forecast = snap.forecastKind && snap.forecastKind !== snap.kind
@@ -641,7 +644,13 @@ export class HUDSystem {
       if (intensity > 0.05) {
         this.weatherIntensityBar.fillStyle(0x1a1a2e, 0.6);
         this.weatherIntensityBar.fillRect(barX, barY, barW, barH);
-        const fillColor = snap.isStorming ? 0xff4444 : snap.kind === "rain" ? 0x4488ff : 0x88aaff;
+        const fillColor = snap.isStorming
+          ? 0xf0c765
+          : snap.kind === "snow"
+            ? 0xd9f7ff
+            : snap.kind === "rain"
+              ? 0x4488ff
+              : 0x65d8f2;
         this.weatherIntensityBar.fillStyle(fillColor, 0.8);
         this.weatherIntensityBar.fillRect(barX, barY, barW * intensity, barH);
       }

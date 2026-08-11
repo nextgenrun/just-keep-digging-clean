@@ -4,6 +4,13 @@ import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { PickaxeHudView } from "./PickaxeHudView.js";
 
 const REQUIRED_KEYS = Object.freeze(Object.values(ASSET_KEYS.ui.approvedHud));
+const WEATHER_TEXTURE_KEYS = Object.freeze({
+  clear: ASSET_KEYS.ui.approvedHud.weatherClear,
+  drizzle: ASSET_KEYS.ui.approvedHud.weatherDrizzle,
+  rain: ASSET_KEYS.ui.approvedHud.weatherRain,
+  storm: ASSET_KEYS.ui.approvedHud.weatherStorm,
+  snow: ASSET_KEYS.ui.approvedHud.weatherSnow,
+});
 
 export function hasApprovedHudSkin(scene) {
   return APPROVED_HUD_SKIN.enabled === true
@@ -30,6 +37,7 @@ export class ApprovedHudSkin {
     this.buffFrames = [];
     this.buffTexts = [];
     this.pickaxeHudView = null;
+    this.weatherKind = "clear";
     if (!this.active) return;
 
     this.scale = Math.min(
@@ -75,6 +83,14 @@ export class ApprovedHudSkin {
       layout.worldState.height * s,
       depth,
     );
+    this.weatherIcon = this.scene.add.image(
+      worldX + layout.worldState.iconX * s,
+      (layout.worldState.y + layout.worldState.iconY) * s,
+      WEATHER_TEXTURE_KEYS.clear,
+    ).setOrigin(0.5)
+      .setDisplaySize(layout.worldState.iconSize * s, layout.worldState.iconSize * s)
+      .setScrollFactor(0)
+      .setDepth(depth + 1);
 
     for (let index = 0; index < layout.buffs.maxVisible; index += 1) {
       const x = (layout.buffs.x + index * (layout.buffs.width + layout.buffs.gap)) * s;
@@ -121,13 +137,42 @@ export class ApprovedHudSkin {
     hud.comboText?.setPosition(comboX, (layout.combo.y + layout.combo.textY) * s).setOrigin(0.5, 0);
     setHudTextStyle(hud.comboText, layout.combo.fontSize * s);
 
-    hud.clockTimeText?.setPosition(worldX + layout.worldState.timeX * s, (layout.worldState.y + layout.worldState.topY) * s);
-    hud.clockDayText?.setPosition(worldX + layout.worldState.dayX * s, (layout.worldState.y + layout.worldState.topY) * s);
-    hud.weatherText?.setPosition(worldX + layout.worldState.weatherX * s, (layout.worldState.y + layout.worldState.bottomY) * s);
-    hud.weatherTempText?.setPosition(worldX + layout.worldState.temperatureX * s, (layout.worldState.y + layout.worldState.bottomY) * s);
-    [hud.clockTimeText, hud.clockDayText, hud.weatherText, hud.weatherTempText].forEach((text) => {
-      setHudTextStyle(text, layout.worldState.fontSize * s);
-    });
+    hud.clockTimeText?.setPosition(
+      worldX + layout.worldState.timeX * s,
+      (layout.worldState.y + layout.worldState.topY) * s,
+    ).setOrigin(0, 0.5);
+    hud.clockDayText?.setPosition(
+      worldX + layout.worldState.dayX * s,
+      (layout.worldState.y + layout.worldState.topY) * s,
+    ).setOrigin(0, 0.5);
+    hud.weatherText?.setPosition(
+      worldX + layout.worldState.weatherX * s,
+      (layout.worldState.y + layout.worldState.bottomY) * s,
+    ).setOrigin(0, 0.5);
+    hud.weatherTempText?.setPosition(
+      worldX + layout.worldState.temperatureX * s,
+      (layout.worldState.y + layout.worldState.bottomY) * s,
+    ).setOrigin(0, 0.5);
+    setHudTextStyle(
+      hud.clockTimeText,
+      layout.worldState.timeFontSize * s,
+      APPROVED_HUD_SKIN.font.gold,
+    );
+    setHudTextStyle(
+      hud.clockDayText,
+      layout.worldState.dayFontSize * s,
+      APPROVED_HUD_SKIN.font.secondary,
+    );
+    setHudTextStyle(
+      hud.weatherText,
+      layout.worldState.weatherFontSize * s,
+      APPROVED_HUD_SKIN.font.cyan,
+    );
+    setHudTextStyle(
+      hud.weatherTempText,
+      layout.worldState.temperatureFontSize * s,
+      APPROVED_HUD_SKIN.font.color,
+    );
   }
 
   bindGemPowerObjects(bg, fill, label) {
@@ -182,6 +227,31 @@ export class ApprovedHudSkin {
     this.comboFrame?.setVisible(Boolean(visible));
   }
 
+  setWeatherKind(kind) {
+    if (!this.active) return false;
+    const normalizedKind = WEATHER_TEXTURE_KEYS[kind] ? kind : "clear";
+    const changed = normalizedKind !== this.weatherKind;
+    if (!changed) return false;
+    this.weatherKind = normalizedKind;
+    this.weatherIcon?.setTexture(WEATHER_TEXTURE_KEYS[normalizedKind]);
+    return true;
+  }
+
+  setWeatherVisible(visible) {
+    this.weatherIcon?.setVisible(Boolean(visible));
+  }
+
+  getWeatherIndicatorSnapshot() {
+    return Object.freeze({
+      ready: this.active && Boolean(this.weatherIcon),
+      visible: this.weatherIcon?.visible === true,
+      kind: this.weatherKind,
+      textureKey: this.weatherIcon?.texture?.key || null,
+      width: this.weatherIcon?.displayWidth || 0,
+      height: this.weatherIcon?.displayHeight || 0,
+    });
+  }
+
   setTorchState(active) {
     if (!this.active) return;
     this.playerFrame?.setTexture(
@@ -213,10 +283,18 @@ export class ApprovedHudSkin {
 
   destroy() {
     this.pickaxeHudView?.destroy();
-    [this.playerFrame, this.comboFrame, this.worldFrame, ...this.buffFrames, ...this.buffTexts]
+    [
+      this.playerFrame,
+      this.comboFrame,
+      this.worldFrame,
+      this.weatherIcon,
+      ...this.buffFrames,
+      ...this.buffTexts,
+    ]
       .forEach((object) => object?.destroy());
     this.buffFrames = [];
     this.buffTexts = [];
+    this.weatherIcon = null;
     this.pickaxeHudView = null;
     this.scene = null;
     this.hud = null;

@@ -187,7 +187,7 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   hud: Object.freeze({
-    x: 16,
+    x: 14,
     // Sits one clean row above the currency strip instead of being hidden
     // directly behind it at bottom-left.
     bottom: 84,

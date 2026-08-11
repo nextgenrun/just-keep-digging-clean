@@ -14,7 +14,7 @@ Notable systems:
   controls with live remapped text, exact responsive alignment, larger invisible
   hit zones, and routing into the existing Inventory and Pause authorities
 - `MiningTargetVisualSystem.js` — image-backed four-corner world-space mining target shared by the main world and compact caves; its approved duplicate-art glow stays restrained on hover and tightens/brightens during held mouse digging; `?miningTargetVisuals=0` restores the former rectangle comparison
-- `ApprovedHudSkin.js` — optional approved image-frame presentation layer that preserves HUDSystem runtime data and legacy fallback; its player core switches between matched illustrated torch ON/OFF frames instead of drawing a status dot
+- `ApprovedHudSkin.js` — optional approved image-frame presentation layer that preserves HUDSystem runtime data and legacy fallback; its player core switches between matched illustrated torch ON/OFF frames instead of drawing a status dot. The top-right world-state frame now selects one of five ImageGen-authored weather medallions, keeps live copy in two aligned bays, and shares the 14 px top rail with player, combo, and audio chrome.
 - `PickaxeHudView.js` — permanent owned-pickaxe presentation layered over the
   approved player core; it selects the generated tier overlay, exact label,
   purchase pulse, generic fallback, and `?pickaxeHud=0` rollback without owning
@@ -95,6 +95,10 @@ Notable systems:
   the approved opening objective bitmap frame. It sits above the bottom-left
   currency strip, so guided Step 1 is visible on the first playable frame
   instead of being covered by the resource HUD.
+- `RandomEventWorldView.js` — world event sigils plus an active-event ribbon
+  whose authored frame is responsively clamped to the exact safe lane between
+  the approved player and weather panels. The 16 px side gaps prevent active
+  Rush Order, Choir, or Blackout copy from covering persistent HUD data.
 - `HardcoreMemorialWorldSystem.js` — plants the approved ImageGen grave near
   each same-slot Hardcore death position in later Casual or Hardcore runs.
   Airborne death coordinates search down and slightly sideways for the nearest
