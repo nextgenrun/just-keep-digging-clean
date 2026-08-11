@@ -12,6 +12,10 @@ import {
 import { buildWorldDepthContinuationEntries } from "./WorldDepthContinuationBuilder.js";
 import { WorldBackgroundTextureStream } from "./WorldBackgroundTextureStream.js";
 import { WorldBackgroundVisibilityIndex } from "./WorldBackgroundVisibilityIndex.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class WorldBackgroundMasterSystem {
   constructor(
@@ -108,6 +112,7 @@ export class WorldBackgroundMasterSystem {
     return resolveWorldBackgroundMasterEnabled(this.config);
   }
   resolveDepthEnabled() {
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return false;
     const search = globalThis.location?.search || "";
     const value = new URLSearchParams(search).get(this.config.depthQueryParam)?.toLowerCase();
     if (value && this.config.queryDisableValues.includes(value)) return false;

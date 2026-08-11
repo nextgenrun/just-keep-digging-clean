@@ -10,6 +10,10 @@ import {
   resolveNpcGroundContact,
 } from "../../values/npcActivityConfig.js";
 import { TOWN_SQUARE_CONFIG } from "../../values/townSquareConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class NPCManager {
   constructor(scene, ASSET_KEYS, decorationSystem = null) {
@@ -53,17 +57,18 @@ export class NPCManager {
       };
     });
 
-    return [
-      ...surfaceMerchants,
-      {
-        assetKey: merchantSprites.magmaMoneyMonster,
-        videoKey: null,
-        activityKeys: merchantActivities.magmaMoneyMonster,
-        merchantId: 'magmaMoneyMonster',
-        tx: ARC_CORE_CONFIG.merchant.tileX,
-        ty: ARC_CORE_CONFIG.merchant.tileY,
-      },
-    ];
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+      return surfaceMerchants;
+    }
+
+    return [...surfaceMerchants, {
+      assetKey: merchantSprites.magmaMoneyMonster,
+      videoKey: null,
+      activityKeys: merchantActivities.magmaMoneyMonster,
+      merchantId: 'magmaMoneyMonster',
+      tx: ARC_CORE_CONFIG.merchant.tileX,
+      ty: ARC_CORE_CONFIG.merchant.tileY,
+    }];
   }
   setMerchantAvailability(merchantIds = null) {
     this._availableMerchantIds = merchantIds
@@ -347,4 +352,3 @@ export class NPCManager {
     this._interactPrompts = [];
   }
 }
-

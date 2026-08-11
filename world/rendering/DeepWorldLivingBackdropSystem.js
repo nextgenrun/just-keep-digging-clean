@@ -6,6 +6,10 @@ import {
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { WORLD_SCENIC_FACADE } from "../../values/worldScenicFacade.js";
 import { SkylineWeatherVfxAtlas } from "../../systems/environment/SkylineWeatherVfxAtlas.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 const TAU = Math.PI * 2;
 const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
@@ -39,6 +43,7 @@ export class DeepWorldLivingBackdropSystem {
   }
 
   create() {
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return false;
     if (!resolveDeepWorldLivingBackdropEnabled(this.config)) {
       console.info("[DeepWorldLivingBackdropSystem] Disabled; use ?deepWorldLiving=1 to enable");
       return false;

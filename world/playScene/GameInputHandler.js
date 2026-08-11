@@ -5,6 +5,10 @@
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 function justDown(key) {
   return key && Phaser.Input.Keyboard.JustDown(key);
@@ -115,7 +119,11 @@ export class GameInputHandler {
       return true;
     }
 
-    if (GAME_CONFIG.debugMode && justDown(keys.screenRecord)) {
+    if (
+      isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
+      && GAME_CONFIG.debugMode
+      && justDown(keys.screenRecord)
+    ) {
       this.scene.screenRecordSystem?.toggle();
       return true;
     }

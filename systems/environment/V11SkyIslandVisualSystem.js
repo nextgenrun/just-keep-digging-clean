@@ -5,6 +5,7 @@ import {
 } from "../../values/heavenblocksVisualConfig.js?rev=20260729-native-density-v14";
 import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
 import { V11SkyPropSystem } from "./V11SkyPropSystem.js";
+import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
 
 export class V11SkyIslandVisualSystem {
   constructor(
@@ -32,6 +33,7 @@ export class V11SkyIslandVisualSystem {
       const tileSize = this.scene.config.tileSize;
 
       for (const level of this.layout.levels) {
+        if (!isGameplayLevelEnabled(level.levelId)) continue;
         this.addAuthoredImage({
           key: level.platformKey,
           left: level.leftTile * tileSize,
@@ -204,6 +206,12 @@ export class V11SkyIslandVisualSystem {
 
   setGroundPortalUnlocked(levelId, unlocked) {
     const existing = this.groundPortalSprites.get(levelId);
+    if (!isGameplayLevelEnabled(levelId)) {
+      existing?.destroy();
+      this.sprites = this.sprites.filter((sprite) => sprite !== existing);
+      this.groundPortalSprites.delete(levelId);
+      return null;
+    }
     if (!unlocked) {
       if (!existing) return null;
       existing.destroy();

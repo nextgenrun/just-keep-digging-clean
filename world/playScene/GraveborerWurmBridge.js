@@ -15,6 +15,10 @@ import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
 import { handleGraveborerWurmEvents } from "./GraveborerWurmEventBridge.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 function readBooleanQuery(params, name, fallback) {
   if (!params.has(name)) return fallback;
@@ -38,7 +42,8 @@ export function resolveGraveborerWurmFeatureFlags(
   const flags = GRAVEBORER_WURM_CONFIG.featureFlags;
   return {
     enabled: readBooleanQuery(params, flags.enabledQuery, flags.enabled),
-    devTest10x: readBooleanQuery(params, flags.devTest10xQuery, flags.devTest10x),
+    devTest10x: isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+      && readBooleanQuery(params, flags.devTest10xQuery, flags.devTest10x),
   };
 }
 
@@ -57,7 +62,8 @@ export function resolveGraveborerWurmActivation(
   const productionActive = hardcoreArmed
     && (!config.activation.requiresFlightUnlock || flightUnlocked)
     && (depth >= config.activation.minDepthTiles || encounterCommitted);
-  const devOverride = system.devTest10x === true || devForceActive === true;
+  const devOverride = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+    && (system.devTest10x === true || devForceActive === true);
   return {
     active: devOverride || productionActive,
     productionActive,
@@ -177,7 +183,8 @@ export function createGraveborerWurmRuntime(scene) {
     system,
     visual: new GraveborerWurmVisualSystem(scene),
     hud: null,
-    devToolsEnabled: GAME_CONFIG.debugMode === true,
+    devToolsEnabled: GAME_CONFIG.debugMode === true
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS),
     devSummonKeys: [],
     forcedDevEncounter: false,
     devSaveIsolation: flags.devTest10x === true,

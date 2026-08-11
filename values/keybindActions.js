@@ -1,4 +1,5 @@
 import { GAME_CONFIG } from "./gameConfig.js";
+import { isGameplayKeybindActionEnabled } from "./gameplayDevFlags.js";
 
 export const KEYBIND_STORAGE_VERSION = 4;
 
@@ -26,7 +27,10 @@ const KEYBIND_ACTION_DEFINITIONS = Object.freeze([
 ]);
 
 export const KEYBIND_ACTIONS = Object.freeze(
-  KEYBIND_ACTION_DEFINITIONS.filter(action => !action.devOnly || GAME_CONFIG.debugMode)
+  KEYBIND_ACTION_DEFINITIONS.filter(action => (
+    isGameplayKeybindActionEnabled(action.id)
+    && (!action.devOnly || GAME_CONFIG.debugMode)
+  ))
 );
 
 export const KEYBIND_ACTION_BY_ID = Object.freeze(

@@ -23,6 +23,10 @@ import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { GEM_POWER_BLOCK_TIERS } from "../../values/specialBlocks.js";
 import { ARC_CORE_VISUAL_PACK } from "../../values/arcCoreVisualAssets.js?rev=20260728-arc-core-dig-repair-v4";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 import { THUNDER_STRIKE_CHAIN_CONFIG } from "../../values/thunderStrikeChain.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
@@ -447,10 +451,12 @@ export class BootScene extends Phaser.Scene {
       ASSET_KEYS.background.levelOneGroundFacade.recognitionAtlas,
       LEVEL_ONE_GROUND_FACADE.recognitionAtlas.assetPath
     );
-    this.queueImage(
-      ASSET_KEYS.background.secondWorldTown,
-      "sprites/backgrounds/second-world/industrial-town-alcove-33x20-v2.png"
-    );
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+      this.queueImage(
+        ASSET_KEYS.background.secondWorldTown,
+        "sprites/backgrounds/second-world/industrial-town-alcove-33x20-v2.png"
+      );
+    }
 
     // Load town houses
     this.queueImage(ASSET_KEYS.background.houseMoneyMonster, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/money-monster-npc-house.webp`);
@@ -506,6 +512,9 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadScenicWorldRuntime() {
+    const surfacePropLevels = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)
+      ? ["level1", "level2"]
+      : ["level1"];
     const assets = [
       ...getWorldVisualPreloadAssets(),
       ...getWorldVisualStartupMaterialAssets(),
@@ -514,7 +523,7 @@ export class BootScene extends Phaser.Scene {
       ...getWorldVisualDamagePreloadAssets(),
       ...getWorldVisualSemanticPreloadAssets(),
       ...getWorldVisualLandmarkPreloadAssets(),
-      ...getSurfacePropPreloadAssets(),
+      ...getSurfacePropPreloadAssets(ASSET_KEYS, surfacePropLevels),
       ...getSurfaceHeroLandmarkPreloadAssets(),
     ];
     for (const asset of assets) this.queueImage(asset.key, asset.path);
@@ -623,14 +632,21 @@ export class BootScene extends Phaser.Scene {
     this.load.spritesheet(ASSET_KEYS.shadowMiner.sheet, `${base}/shadow-miner-sheet.webp`, frame1280);
 
     this.load.image(ASSET_KEYS.npcs.merchantSprites.moneyMonster, `${generatedMerchantBase}/money-monster.webp?v=${baselineVersion}`);
-    this.load.image(ASSET_KEYS.npcs.merchantSprites.magmaMoneyMonster, `${generatedMerchantBase}/magma-money-monster.webp?v=${baselineVersion}`);
+    const arcCoresEnabled = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES);
+    if (arcCoresEnabled) {
+      this.load.image(ASSET_KEYS.npcs.merchantSprites.magmaMoneyMonster, `${generatedMerchantBase}/magma-money-monster.webp?v=${baselineVersion}`);
+    }
     this.load.image(ASSET_KEYS.npcs.merchantSprites.playerUpgrades, `${generatedMerchantBase}/player-upgrades.webp?v=${baselineVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gearMerchant, `${generatedMerchantBase}/gear-merchant.webp?v=${baselineVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.boboMerchant, `${generatedMerchantBase}/bobo-merchant.webp?v=${baselineVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gemPowerMerchant, `${generatedMerchantBase}/gem-power-merchant.webp?v=${baselineVersion}`);
 
     if (resolveNpcActivitiesEnabled()) {
+      const disabledArcActivityKeys = new Set(
+        Object.values(ASSET_KEYS.npcs.merchantActivities.magmaMoneyMonster || {}),
+      );
       for (const asset of getNpcActivityPreloadAssets(ASSET_KEYS.npcs.merchantActivities)) {
+        if (!arcCoresEnabled && disabledArcActivityKeys.has(asset.key)) continue;
         this.load.image(asset.key, asset.path);
       }
     }
@@ -646,14 +662,16 @@ export class BootScene extends Phaser.Scene {
       console.warn('[BootScene] VP9 WebM is unavailable; merchant NPCs will use static fallback sprites.');
     }
 
-    this.load.image(
-      ASSET_KEYS.vehicles.arcCore.legacy,
-      "sprites/vehicles/arc-core-v1/arc-core.png?v=approved-v1-20260713",
-    );
-    this.load.pack(
-      ASSET_KEYS.vehicles.arcCore.pack,
-      `${ARC_CORE_VISUAL_PACK.path}?rev=${ARC_CORE_VISUAL_PACK.revision}`,
-    );
+    if (arcCoresEnabled) {
+      this.load.image(
+        ASSET_KEYS.vehicles.arcCore.legacy,
+        "sprites/vehicles/arc-core-v1/arc-core.png?v=approved-v1-20260713",
+      );
+      this.load.pack(
+        ASSET_KEYS.vehicles.arcCore.pack,
+        `${ARC_CORE_VISUAL_PACK.path}?rev=${ARC_CORE_VISUAL_PACK.revision}`,
+      );
+    }
 
     // Campfire sprites - grounded bottom-anchor textures for each upgrade tier.
     if (!this._deferFeatureAssets) {
@@ -861,8 +879,10 @@ export class BootScene extends Phaser.Scene {
     const v11SkyIslandBase = "sprites/backgrounds/world-v11-sky-islands-v1";
     this.load.image(ASSET_KEYS.background.skyIslands.level1Platform, `${v11SkyIslandBase}/level1-platform.webp`);
     this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
-    this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+      this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
+      this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
+    }
     this.queueImage(ASSET_KEYS.tiles.bedrock, `${approvedWorldBase}/bedrock-megalith-lock-v1.png`);
     this.load.image(caveEntrance.legacy.textureKey, caveEntrance.legacy.assetPath);
     this.load.image(caveEntrance.scenic.textureKey, caveEntrance.scenic.assetPath);

@@ -1,5 +1,30 @@
 import { JOURNEY_CONFIG } from "../../values/journeyConfig.js";
 import { JOURNEY_PROGRESSION_GRAPH } from "../../values/progressionGraph.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
+
+const LEVEL_TWO_GOAL_KINDS = new Set([
+  "worldTwoKey",
+  "heavenblockDiscovery",
+  "heavenblockInstallation",
+]);
+const ARC_CORE_GOAL_KINDS = new Set([
+  "arcCoreForge",
+  "omegaVaults",
+  "omegaArcCoreForge",
+]);
+
+function isJourneyNodeEnabled(node) {
+  if (LEVEL_TWO_GOAL_KINDS.has(node.kind)) {
+    return isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO);
+  }
+  if (ARC_CORE_GOAL_KINDS.has(node.kind)) {
+    return isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES);
+  }
+  return true;
+}
 
 function number(value, fallback = 0) {
   return Number.isFinite(value) ? value : fallback;
@@ -213,11 +238,11 @@ function resolveSupportGoal(node, progress) {
 export function resolveJourneyGoals(snapshot) {
   const progress = snapshot?.progress || {};
   const primary = JOURNEY_PROGRESSION_GRAPH
-    .filter(node => node.lane === "primary")
+    .filter(node => node.lane === "primary" && isJourneyNodeEnabled(node))
     .map(node => resolvePrimaryGoal(node, progress))
     .find(Boolean);
   const support = JOURNEY_PROGRESSION_GRAPH
-    .filter(node => node.lane === "support")
+    .filter(node => node.lane === "support" && isJourneyNodeEnabled(node))
     .map(node => ({ node, goal: resolveSupportGoal(node, progress) }))
     .filter(entry => entry.goal)
     .sort((a, b) => number(b.node.priority) - number(a.node.priority))

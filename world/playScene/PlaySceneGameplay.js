@@ -27,6 +27,10 @@ import {
   resolvePlayerTargetDirection,
 } from "../../player/playerDirectionalTargets.js";
 import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -824,6 +828,7 @@ export function setupGameplayMethods(prototype) {
   };
 
   prototype.activateDevCheat = function() {
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)) return false;
     console.log('[DEVCHEAT] ========================================');
     console.log('[DEVCHEAT] activateDevCheat() called!');
     this.digSystem.setResourceTotals({
@@ -853,6 +858,7 @@ export function setupGameplayMethods(prototype) {
     this.uiInventoryPopup?.setMoney(this.upgradeSystem.getMoney());
     this.hudSystem.flashStatus(CELESTIAL_ENGINE_CONFIG.copy.godModeActivated, "#ff00ff", 2400);
     console.log('[DEVCHEAT] ========================================');
+    return true;
   };
 
   prototype.playTeleportInAnimation = function() {

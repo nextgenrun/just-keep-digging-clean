@@ -3,6 +3,10 @@ import {
   HEAVENBLOCKS_ACCESS_CONFIG,
   resolveHeavenblocksGameplayEnabled,
 } from "../../values/heavenblocksAccessConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 const distanceTiles = (a, b) => Math.hypot(a.tx - b.tx, a.ty - b.ty);
 
@@ -113,6 +117,10 @@ export class HeavenblocksAccessSystem {
         partId: region.partId,
         newlyUnlockedRegionIds: completed.newlyUnlockedRegionIds || [],
       };
+    }
+
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES)) {
+      return { success: true, type: "heavenblock-vault-disabled", regionId: region.id };
     }
 
     const ownsArcCore = (this.upgradeSystem?.getUpgradeLevel?.(ARC_CORE_UPGRADE_ID) || 0) > 0;

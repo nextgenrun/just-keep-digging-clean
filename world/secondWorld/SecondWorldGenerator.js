@@ -1,6 +1,11 @@
 import { SECOND_WORLD_CONFIG } from "../../values/secondWorldConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
+import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
 
 function randomInt(seed, salt, min, max) {
   const lo = Math.min(min, max);
@@ -312,7 +317,42 @@ function paintLevelDivider(worldModel, config) {
   return dividerTiles;
 }
 
+function paintDemoLevelTwoWall(worldModel, config) {
+  const tileX = config.runtimeArea.leftTile;
+  let wallTiles = 0;
+  for (let tileY = 0; tileY < worldModel.depthTiles; tileY += 1) {
+    if (!worldModel.inBounds(tileX, tileY)) continue;
+    setGeneratedTile(worldModel, tileX, tileY, TILE_TYPES.BEDROCK, 0);
+    wallTiles += 1;
+  }
+  return wallTiles;
+}
+
+function paintLevelOneDepthSeal(worldModel, config) {
+  const sealTileY = WORLD_DEPTH_CONFIG.levelOneRuntimeDepthTiles;
+  let sealTiles = 0;
+  for (let tileX = 0; tileX < config.runtimeArea.leftTile; tileX += 1) {
+    if (!worldModel.inBounds(tileX, sealTileY)) continue;
+    setGeneratedTile(worldModel, tileX, sealTileY, TILE_TYPES.BEDROCK, 0);
+    sealTiles += 1;
+  }
+  return sealTiles;
+}
+
+export function applySecondWorldExclusionBoundary(worldModel, config = SECOND_WORLD_CONFIG) {
+  return {
+    applied: false,
+    excluded: true,
+    reason: "demo-mode",
+    wallTiles: paintDemoLevelTwoWall(worldModel, config),
+    depthSealTiles: paintLevelOneDepthSeal(worldModel, config),
+  };
+}
+
 export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CONFIG) {
+  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    return applySecondWorldExclusionBoundary(worldModel, config);
+  }
   if (!area?.enabled) {
     return { applied: false, reason: "disabled" };
   }

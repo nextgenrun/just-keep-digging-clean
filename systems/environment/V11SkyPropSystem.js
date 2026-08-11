@@ -17,6 +17,12 @@ import {
   resolveSkyPropScaleMultiplier,
   skyPropRectanglesIntersect,
 } from "./v11SkyPropGeometry.js";
+import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
+
+function isGameplayPlacementEnabled(item) {
+  const match = String(item?.worldRegion || "").match(/^v11-level-(\d+)$/);
+  return !match || isGameplayLevelEnabled(Number(match[1]));
+}
 
 export class V11SkyPropSystem {
   constructor(
@@ -30,7 +36,8 @@ export class V11SkyPropSystem {
     this.layout = layout;
     this.accessConfig = accessConfig;
     this.assets = WORLD_VISUAL_SKY_PROP_ASSETS_V3;
-    this.placements = WORLD_VISUAL_SKY_PROP_COMPOSITION_V3.placements;
+    this.placements = WORLD_VISUAL_SKY_PROP_COMPOSITION_V3.placements
+      .filter(isGameplayPlacementEnabled);
     this.active = new Map();
     this.created = false;
     this.lastBoundsSignature = "";

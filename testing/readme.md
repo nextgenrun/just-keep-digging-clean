@@ -1,5 +1,10 @@
 # Testing
 
+- `2026-08-11-demo-mode-contract.mjs` proves the current default-on demo profile
+  excludes Level Two, its gate and saved portals, Arc Core/Omega content,
+  developer cheats, and screen recording across state, UI, input, rendering,
+  preloading, world bounds, and save-restoration admission points.
+
 ## First five minutes — 2026-07-30
 
 - `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and

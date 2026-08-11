@@ -169,6 +169,28 @@ import {
   destroyHardcoreModeRuntime,
 } from "./HardcoreModeBridge.js";
 import { RandomEventBridge } from "./RandomEventBridge.js";
+import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
+import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
+
+function resolveGameplayWorldBounds(config) {
+  if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    return { width: config.worldWidthPx, height: config.worldDepthPx };
+  }
+  return {
+    width: Math.min(
+      config.worldWidthPx,
+      (SURFACE_TUNNEL_DOOR_CONFIG.tileX + 1) * config.tileSize,
+    ),
+    height: Math.min(
+      config.worldDepthPx,
+      (WORLD_DEPTH_CONFIG.levelOneRuntimeDepthTiles + 1) * config.tileSize,
+    ),
+  };
+}
 
 function comboShakeSignatureFor(milestone) {
   if (milestone >= 5000) return "combo.godlike";
@@ -563,7 +585,8 @@ async function _setupSceneSafe(data = {}) {
   // invisible, still-functional interaction layer.
   this.v11SkyIslandVisualSystem = new V11SkyIslandVisualSystem(this);
   this.v11SkyIslandVisualSystem.create();
-  this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
+  const gameplayWorldBounds = resolveGameplayWorldBounds(this.config);
+  this.physics.world.setBounds(0, 0, gameplayWorldBounds.width, gameplayWorldBounds.height);
 
   this._safeReturnGfx = this.add.graphics();
   this._safeReturnText = this.add.text(HUD_LAYOUT.warnTextX, 0, "", { fontFamily: "Consolas, monospace", fontSize: HUD_LAYOUT.safeFontSize, color: HUD_LAYOUT.safeTextColor }).setDepth(5);
@@ -696,7 +719,7 @@ async function _setupSceneSafe(data = {}) {
   };
   this.player.on(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
 
-  this.cameras.main.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
+  this.cameras.main.setBounds(0, 0, gameplayWorldBounds.width, gameplayWorldBounds.height);
   this.cameras.main.startFollow(this.player, true, this.config.cameraLerpX, this.config.cameraLerpY);
   const _zoomNow = this.cameras.main.zoom || 1;
   const _dzW = (this.config.viewportWidth * (this.config.cameraDeadzoneXFrac ?? 0)) / _zoomNow;

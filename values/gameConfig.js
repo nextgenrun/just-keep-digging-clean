@@ -2,6 +2,11 @@ import { V11_SKY_ISLAND_LAYOUT } from "./v11SkyIslandLayout.js";
 import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
 import { resolveDepthEconomyEnabled } from "./resourceEconomy.js";
+import {
+  GAMEPLAY_DEV_FLAGS,
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "./gameplayDevFlags.js";
 
 // ==================== GAME CONFIG (SSOT) ====================
 const TILE_SIZE = 94;
@@ -12,10 +17,12 @@ const TOP_AIR_ROWS = WORLD_DEPTH_CONFIG.topAirRows;
 // Development stays debug-enabled. The isolated production index sets this
 // marker before loading any modules, so production builds cannot enable the
 // E2E/debug harness through query parameters.
-const DEBUG_MODE = globalThis.__DIG_GAME_PRODUCTION__ !== true;
+const DEBUG_MODE = globalThis.__DIG_GAME_PRODUCTION__ !== true
+  && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
 
 export const GAME_CONFIG = Object.freeze({
   debugMode: DEBUG_MODE,
+  demoMode: GAMEPLAY_DEV_FLAGS.demoMode,
   rendererQuality: Object.freeze({
     pixelArt: false,
     antialias: true,
@@ -145,4 +152,3 @@ export const GAME_CONFIG = Object.freeze({
   ],
   cameraZoomLerp: 0.04,
 });
-

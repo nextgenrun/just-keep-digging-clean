@@ -845,9 +845,12 @@ export const ASSET_KEYS = Object.freeze({
   },
 });
 
-export function getSurfacePropPreloadAssets(assetKeys = ASSET_KEYS) {
-  return Object.values(assetKeys.environment.surfaceProps)
-    .flatMap(level => Object.values(level))
+export function getSurfacePropPreloadAssets(
+  assetKeys = ASSET_KEYS,
+  levels = Object.keys(assetKeys.environment.surfaceProps),
+) {
+  return levels
+    .flatMap(level => Object.values(assetKeys.environment.surfaceProps[level] || {}))
     .map(({ key, path }) => Object.freeze({ key, path }));
 }
 

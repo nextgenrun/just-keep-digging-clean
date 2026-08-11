@@ -2,6 +2,10 @@ import {
   HEAVENBLOCKS_PROGRESSION_CONFIG,
   sanitizeHeavenblocksProgressionData,
 } from '../../values/heavenblocksProgressionConfig.js';
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from '../../values/gameplayDevFlags.js';
 
 const success = (changed, details = {}) => ({
   success: true,
@@ -258,6 +262,7 @@ export class HeavenblocksProgressionSystem {
   }
 
   isArcCoreBlueprintEligible() {
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES)) return false;
     const blueprint = this.config.arcCoreBlueprint;
     return blueprint.requiredRegionIds.every((id) => this.isRegionCompleted(id))
       && blueprint.requiredPartIds.every((id) => this.isPartDiscovered(id));

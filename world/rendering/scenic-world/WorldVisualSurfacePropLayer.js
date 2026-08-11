@@ -13,6 +13,10 @@ import {
   resolveSurfacePropScaleMultiplier,
 } from "./surfacePropGeometry.js";
 import { setTintIfChanged } from "./worldVisualRenderState.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../../values/gameplayDevFlags.js";
 
 export class WorldVisualSurfacePropLayer {
   constructor(
@@ -38,7 +42,14 @@ export class WorldVisualSurfacePropLayer {
   }
 
   create(search = globalThis.location?.search || "", options = {}) {
-    this.enabled = resolveWorldVisualSurfacePropsEnabled(this.config, search);
+    const resolved = resolveWorldVisualSurfacePropsEnabled(this.config, search);
+    const levelTwoEnabled = resolved.level2
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO);
+    this.enabled = Object.freeze({
+      all: resolved.all && (resolved.level1 || levelTwoEnabled),
+      level1: resolved.level1,
+      level2: levelTwoEnabled,
+    });
     if (!this.enabled.all) return false;
     this.suppressedPlacementIds = Object.freeze([
       ...(options.suppressedPlacementIds || []),
@@ -220,6 +231,7 @@ export class WorldVisualSurfacePropLayer {
 
   _validateTextures() {
     for (const [level, definitions] of Object.entries(this.assets)) {
+      if (!this.enabled[level]) continue;
       for (const [assetId, definition] of Object.entries(definitions)) {
         const runtimeAsset = ASSET_KEYS.environment.surfaceProps[level][assetId];
         const texture = this.scene.textures.get(runtimeAsset.key);

@@ -13,6 +13,7 @@ import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { createZeroResourceTotals } from "../../values/resourceTypes.js";
 import { GAMBLE_TILE_CONFIG } from "../../values/gambleTileConfig.js";
+import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
 
 export class SpecialTileSystem {
   constructor(scene, worldModel, playerController, floatingTextSystem) {
@@ -82,7 +83,7 @@ export class SpecialTileSystem {
       const dungeonKeyFromSky = this.skyToDungeonMap.get(tileKey);
       if (dungeonKeyFromSky) {
         const pair = this.pairedTeleporters.get(dungeonKeyFromSky);
-        if (pair) {
+        if (pair && isGameplayLevelEnabled(pair.levelId)) {
           this._showPrompt(
             tile.tx,
             tile.ty,
@@ -136,6 +137,8 @@ export class SpecialTileSystem {
       if (tileType === TILE_TYPES.TELEPORT_TILE) {
         const pair = this.pairedTeleporters.get(tileKey);
         const fallbackLevel = tile.tx <= V11_SKY_ISLAND_LAYOUT.dividerTileX ? 1 : 2;
+        const levelId = pair?.levelId ?? fallbackLevel;
+        if (!isGameplayLevelEnabled(levelId)) continue;
         const depthTiles = Math.max(0, tile.ty - this.worldModel.config.topAirRows);
         const label = pair
           ? this._getPairLabel(pair)
@@ -431,6 +434,7 @@ export class SpecialTileSystem {
   }
 
   _hasUnlockedPortalForLevel(levelId) {
+    if (!isGameplayLevelEnabled(levelId)) return false;
     return Array.from(this.pairedTeleporters.values()).some((pair) => pair.levelId === levelId);
   }
 
@@ -455,6 +459,7 @@ export class SpecialTileSystem {
     if (!this.skyPortalSlots.length) return null;
 
     const levelId = tile.tx <= V11_SKY_ISLAND_LAYOUT.dividerTileX ? 1 : 2;
+    if (!isGameplayLevelEnabled(levelId)) return null;
     const levelSlots = this.skyPortalSlots.filter((slot) => slot.levelId === levelId);
     const usedSlots = new Set(Array.from(this.pairedTeleporters.values()).map((pair) => String(pair.gateSlotId)));
     const available = levelSlots.find((slot) => !usedSlots.has(slot.id));
@@ -485,6 +490,7 @@ export class SpecialTileSystem {
   }
 
   _registerSkyTeleporterTiles(pairData, dungeonKey) {
+    if (!isGameplayLevelEnabled(pairData?.levelId)) return;
     if (Number.isFinite(pairData?.skyTx) && Number.isFinite(pairData?.skyTy)) {
       this.skyToDungeonMap.set(`${pairData.skyTx},${pairData.skyTy}`, dungeonKey);
     }
@@ -674,7 +680,16 @@ export class SpecialTileSystem {
     const tileKey = `${tile.tx},${tile.ty}`;
 
     if (this.pairedTeleporters.has(tileKey)) {
-      return this._teleportToSky(this.pairedTeleporters.get(tileKey), false);
+      const pairData = this.pairedTeleporters.get(tileKey);
+      if (!isGameplayLevelEnabled(pairData?.levelId)) {
+        return { success: false, reason: "gameplay_mode_disabled" };
+      }
+      return this._teleportToSky(pairData, false);
+    }
+
+    const levelId = tile.tx <= V11_SKY_ISLAND_LAYOUT.dividerTileX ? 1 : 2;
+    if (!isGameplayLevelEnabled(levelId)) {
+      return { success: false, reason: "gameplay_mode_disabled" };
     }
 
     const slotCandidate = this._reserveGateSlotForNewPortal(tile, { commit: false });
@@ -704,6 +719,9 @@ export class SpecialTileSystem {
   }
 
   _teleportToSky(pairData, firstActivation, options = {}) {
+    if (!isGameplayLevelEnabled(pairData?.levelId)) {
+      return { success: false, reason: "gameplay_mode_disabled" };
+    }
     const safeTile = this._findSafeAdjacentTile(pairData.skyTx, pairData.skyTy)
       || this._findSafeReturnTile(pairData.skyLandingTx, pairData.skyLandingTy);
     const target = safeTile || { tx: pairData.skyLandingTx, ty: pairData.skyLandingTy };
@@ -738,6 +756,9 @@ export class SpecialTileSystem {
 
   _activateGroundTeleport() {
     const levelId = Number(this.promptTile?.levelId);
+    if (!isGameplayLevelEnabled(levelId)) {
+      return { success: false, reason: "gameplay_mode_disabled" };
+    }
     const level = V11_SKY_ISLAND_LAYOUT.levels.find((entry) => entry.levelId === levelId);
     if (!level?.groundPortal || !this._hasUnlockedPortalForLevel(levelId)) {
       return { success: false, reason: "ground-portal-locked" };
@@ -772,11 +793,17 @@ export class SpecialTileSystem {
     const dungeonKey = tile?.dungeonKey || this.skyToDungeonMap.get(tile?.key);
     const pair = dungeonKey ? this.pairedTeleporters.get(dungeonKey) : null;
     if (!pair) return { success: false, reason: "no-paired-teleporter" };
+    if (!isGameplayLevelEnabled(pair.levelId)) {
+      return { success: false, reason: "gameplay_mode_disabled" };
+    }
 
     return this._teleportToDungeonPair(pair, { kind: "skyToDungeon" });
   }
 
   _teleportToDungeonPair(pair, options = {}) {
+    if (!isGameplayLevelEnabled(pair?.levelId)) {
+      return { success: false, reason: "gameplay_mode_disabled" };
+    }
     const fallbackTy = pair.dungeonTy - 1;
     const safeTile = this._findSafeReturnTile(pair.dungeonTx, fallbackTy);
     const target = safeTile || { tx: pair.dungeonTx, ty: fallbackTy };
@@ -839,7 +866,7 @@ export class SpecialTileSystem {
     return this.portalOrder
       .map(key => {
         const pairData = this.pairedTeleporters.get(key);
-        if (!pairData) return null;
+        if (!pairData || !isGameplayLevelEnabled(pairData.levelId)) return null;
         return {
           key,
           pairData,
@@ -984,7 +1011,7 @@ export class SpecialTileSystem {
     for (const entry of data.pairedTeleporters) {
       if (!entry?.key || !Number.isFinite(entry.dungeonTx) || !Number.isFinite(entry.dungeonTy)) continue;
       const slot = this._resolveSavedSlot(entry, reservedSlotIds);
-      if (!slot) continue;
+      if (!slot || !isGameplayLevelEnabled(slot.levelId)) continue;
       reservedSlotIds.add(slot.id);
       const pairData = this._createPairData({ tx: entry.dungeonTx, ty: entry.dungeonTy }, slot);
       pairData.skyPortalVisual = this._spawnSkyPortalGlow(slot);

@@ -2,6 +2,10 @@ import {
   WORLD_BACKGROUND_AMBIENT_MOTION,
   resolveWorldBackgroundAmbientMotionEnabled,
 } from "../../values/worldBackgroundAmbientMotion.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 const TAU = Math.PI * 2;
 const clamp01 = value => Math.max(0, Math.min(1, value));
@@ -113,9 +117,13 @@ export class WorldBackgroundAmbientMotionSystem {
       ["townSmoke", this.config.anchors.townSmoke],
       ["crystal", this.config.anchors.level1Crystals],
       ["drip", this.config.anchors.level1Drips],
-      ["ember", this.config.anchors.level2Embers],
-      ["steam", this.config.anchors.level2Steam],
     ];
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+      groups.push(
+        ["ember", this.config.anchors.level2Embers],
+        ["steam", this.config.anchors.level2Steam],
+      );
+    }
     let order = 0;
     return groups.flatMap(([kind, anchors]) => anchors.map(anchor => ({
       ...anchor,

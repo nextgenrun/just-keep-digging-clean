@@ -1,5 +1,9 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { SECOND_WORLD_TOWN_CONFIG } from "../../values/secondWorldTown.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class SecondWorldTownRenderer {
   constructor(scene, config = SECOND_WORLD_TOWN_CONFIG) {
@@ -10,6 +14,7 @@ export class SecondWorldTownRenderer {
   }
 
   create() {
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return false;
     if (!this.config.enabled) return;
 
     const key = ASSET_KEYS.background.secondWorldTown;
@@ -40,6 +45,7 @@ export class SecondWorldTownRenderer {
 
     this.createEntryPulse(tileSize);
     this.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, this.destroy, this);
+    return true;
   }
 
   createEntryPulse(tileSize) {

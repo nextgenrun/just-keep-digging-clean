@@ -19,8 +19,15 @@ import {
 } from "../../values/heavenblocksAccessConfig.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { isSurfaceTraversalReservedTileY } from "../../values/worldDepthConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
-import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
+import {
+  applySecondWorldArea as applySecondWorldAreaToModel,
+  applySecondWorldExclusionBoundary,
+} from "../secondWorld/SecondWorldGenerator.js";
 import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import { resolveStarRarityIndex } from "../../values/starRarityProgressionMath.js";
@@ -234,6 +241,7 @@ export class WorldModel {
       + `${bedrockLayout.repairedDivider} divider gaps repaired, `
       + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced`,
     );
+    this.applyGameplayModeBoundaries();
   }
 
   generateBaseTerrain() {
@@ -446,6 +454,8 @@ export class WorldModel {
       this.setTile(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE, this.getTileMaxHp(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE));
       positions.push({ tx, ty });
     }
+
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return;
 
     const levelTwoCfg = ANCIENT_RELIC_CONFIG.levelTwoWorldCaches;
     const levelTwoMinY = Math.max(
@@ -766,6 +776,18 @@ export class WorldModel {
         + `${result.floorTiles} floor tiles`
       );
     }
+    return result;
+  }
+
+  applyGameplayModeBoundaries() {
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+      return { applied: false, excluded: false };
+    }
+    const result = applySecondWorldExclusionBoundary(this);
+    console.log(
+      `[WorldModel] Demo mode excluded Level Two: `
+      + `${result.wallTiles} boundary tiles, ${result.depthSealTiles} depth-seal tiles`,
+    );
     return result;
   }
 

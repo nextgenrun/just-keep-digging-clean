@@ -5,6 +5,11 @@ import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js
 import { resolveDepthEconomyEnabled } from "../../values/resourceEconomy.js";
 import { roundResourceCurrency } from "../../values/resourcePrices.js";
 import { resolveMovementSpeed } from "./ResolvedPlayerStats.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+  isGameplayUpgradeEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class UpgradeSystem {
   constructor(digSystem = null, playerLevelSystem = null, options = {}) {
@@ -68,6 +73,7 @@ export class UpgradeSystem {
       console.warn(`Invalid upgrade ID: ${upgradeId}`);
       return 0;
     }
+    if (!isGameplayUpgradeEnabled(upgradeId)) return 0;
     return this.upgradeLevels[upgradeId] || 0;
   }
 
@@ -110,6 +116,9 @@ export class UpgradeSystem {
     if (!upgrade) {
       return { success: false, reason: "invalid_upgrade" };
     }
+    if (!isGameplayUpgradeEnabled(upgradeId)) {
+      return { success: false, reason: "gameplay_mode_disabled" };
+    }
 
     const currentLevel = this.getUpgradeLevel(upgradeId);
     const nextLevel = upgrade.oneTimePurchase
@@ -124,13 +133,18 @@ export class UpgradeSystem {
   }
 
   getOwnedUpgrades() {
-    return Object.keys(this.upgradeLevels).filter(id => this.upgradeLevels[id] > 0);
+    return Object.keys(this.upgradeLevels).filter(id => (
+      isGameplayUpgradeEnabled(id) && this.upgradeLevels[id] > 0
+    ));
   }
 
   canPurchaseUpgrade(upgradeId) {
     const upgrade = UPGRADES[upgradeId];
     if (!upgrade) {
       return { canPurchase: false, reason: "invalid_upgrade" };
+    }
+    if (!isGameplayUpgradeEnabled(upgradeId)) {
+      return { canPurchase: false, reason: "gameplay_mode_disabled" };
     }
     if (upgrade.firstFiveOnly && !this.firstFiveEnabled) {
       return { canPurchase: false, reason: "feature_disabled" };
@@ -311,6 +325,7 @@ export class UpgradeSystem {
     for (const upgradeId in this.upgradeLevels) {
       const level = this.upgradeLevels[upgradeId];
       if (level === 0) continue;
+      if (!isGameplayUpgradeEnabled(upgradeId)) continue;
       
       const upgrade = UPGRADES[upgradeId];
       if (upgrade.firstFiveOnly && !this.firstFiveEnabled) continue;
@@ -367,6 +382,7 @@ export class UpgradeSystem {
   getProjectedUpgradeEffects(upgradeId) {
     const upgrade = UPGRADES[upgradeId];
     if (!upgrade) return this.getUpgradeEffects();
+    if (!isGameplayUpgradeEnabled(upgradeId)) return this.getUpgradeEffects();
     const currentLevel = this.getUpgradeLevel(upgradeId);
     if (upgrade.oneTimePurchase && currentLevel > 0) return this.getUpgradeEffects();
     if (upgrade.maxLevel && currentLevel >= upgrade.maxLevel) return this.getUpgradeEffects();
@@ -392,7 +408,8 @@ export class UpgradeSystem {
   }
 
   setGodMode(active) {
-    this.godModeActive = active === true;
+    this.godModeActive = active === true
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
     this.invalidateEffectsCache();
   }
 

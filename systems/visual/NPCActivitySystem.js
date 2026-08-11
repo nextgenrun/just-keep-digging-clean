@@ -9,6 +9,10 @@ import {
   startNpcPose,
   updateNpcActorVisual,
 } from "./npcActivityVisuals.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 function tileDistance(playerTile, npc) {
   if (!playerTile) return Number.POSITIVE_INFINITY;
@@ -168,7 +172,8 @@ export class NPCActivitySystem {
   }
 
   getHealthSnapshot() {
-    const expected = this.config.health.expectedActorCount;
+    const expected = this.config.health.expectedActorCount
+      - (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO) ? 0 : 1);
     const anchorViolationCount = this.actors.filter(actor => (
       visualAnchorError(actor) > this.config.health.anchorTolerancePx
     )).length;

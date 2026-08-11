@@ -19,6 +19,10 @@ import {
   leaveHardcoreBlockingModal,
   requestHardcoreMemorialInspection,
 } from "./HardcoreModalStateBridge.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 function isFlightUnlocked(scene) {
   return scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -199,6 +203,10 @@ function rescueAtCasualBoundary(scene) {
 function updateDiagnostics(scene) {
   const runtime = scene._hardcoreRuntime;
   if (!runtime || typeof window === "undefined") return;
+  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)) {
+    delete window[runtime.config.diagnostics.globalKey];
+    return;
+  }
   window[runtime.config.diagnostics.globalKey] = {
     mode: runtime.system.getSnapshot(),
     deathInProgress: scene._hardcoreDeathInProgress === true,

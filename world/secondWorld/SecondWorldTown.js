@@ -1,5 +1,9 @@
 import { SECOND_WORLD_TOWN_CONFIG } from "../../values/secondWorldTown.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 function setTownTile(worldModel, tx, ty, type, hp = null) {
   if (!worldModel.inBounds(tx, ty)) return;
@@ -27,6 +31,9 @@ function isEntrance(config, tx, ty) {
 }
 
 export function applySecondWorldTown(worldModel, config = SECOND_WORLD_TOWN_CONFIG) {
+  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    return { applied: false, excluded: true, reason: "demo-mode" };
+  }
   if (!config.enabled) return { applied: false, reason: "disabled" };
 
   const outer = config.outerBounds;

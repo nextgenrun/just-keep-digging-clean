@@ -10,12 +10,18 @@ import {
   captureBodyCollisionProfile,
 } from "./arcCoreCollisionProfile.js";
 import { resolveArcCoreDigFootprint } from "./arcCoreDigFootprint.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class ArcCoreVehicleSystem {
   constructor(scene, options = {}) {
     this.scene = scene;
-    this.visuals = options.visualSystem
-      || new ArcCoreVisualSystem(scene, options);
+    this.enabled = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES);
+    this.visuals = this.enabled
+      ? (options.visualSystem || new ArcCoreVisualSystem(scene, options))
+      : null;
     this.sprite = null;
     this.prompt = null;
     this.active = false;
@@ -25,6 +31,7 @@ export class ArcCoreVehicleSystem {
   }
 
   create() {
+    if (!this.enabled) return false;
     const tileSize = this.scene.config.tileSize;
     const parking = ARC_CORE_CONFIG.parking;
     const promptStyle = ARC_CORE_CONFIG.visual.prompt;
@@ -49,17 +56,22 @@ export class ArcCoreVehicleSystem {
 
     this.syncOwnership();
     this.visuals.update(this.scene.time?.now || 0);
+    return true;
   }
 
   isUnlocked() {
-    return this.scene.upgradeSystem?.godModeActive === true
+    return this.enabled && (
+      this.scene.upgradeSystem?.godModeActive === true
       || this.scene.upgradeSystem?.getUpgradeLevel?.(ARC_CORE_UPGRADE_ID) > 0
-      || this.scene.upgradeSystem?.getUpgradeLevel?.(OMEGA_ARC_CORE_UPGRADE_ID) > 0;
+      || this.scene.upgradeSystem?.getUpgradeLevel?.(OMEGA_ARC_CORE_UPGRADE_ID) > 0
+    );
   }
 
   isOmegaUnlocked() {
-    return this.scene.upgradeSystem?.godModeActive === true
-      || this.scene.upgradeSystem?.getUpgradeLevel?.(OMEGA_ARC_CORE_UPGRADE_ID) > 0;
+    return this.enabled && (
+      this.scene.upgradeSystem?.godModeActive === true
+      || this.scene.upgradeSystem?.getUpgradeLevel?.(OMEGA_ARC_CORE_UPGRADE_ID) > 0
+    );
   }
 
   getActiveProfile() {
@@ -67,7 +79,7 @@ export class ArcCoreVehicleSystem {
   }
 
   isActive() {
-    return this.active;
+    return this.enabled && this.active;
   }
 
   captureDefaultCollisionProfile() {
@@ -114,6 +126,10 @@ export class ArcCoreVehicleSystem {
   }
 
   syncOwnership() {
+    if (!this.enabled) {
+      this.active = false;
+      return false;
+    }
     const unlocked = this.isUnlocked();
     this.visuals?.setProfile(this.isOmegaUnlocked(), unlocked);
     if (unlocked && this.active) this.applyActiveCollisionProfile();
@@ -122,7 +138,7 @@ export class ArcCoreVehicleSystem {
   }
 
   setActive(active, options = {}) {
-    const next = Boolean(active) && this.isUnlocked();
+    const next = this.enabled && Boolean(active) && this.isUnlocked();
     if (next === this.active) return this.active;
     if (next && !this.applyActiveCollisionProfile()) return this.active;
     const transitionStarted = !options.silent
@@ -199,7 +215,7 @@ export class ArcCoreVehicleSystem {
 
   update(playerTile, keys) {
     this._interactConsumed = false;
-    if (!this.sprite || !playerTile) return false;
+    if (!this.enabled || !this.sprite || !playerTile) return false;
 
     const parking = ARC_CORE_CONFIG.parking;
     const distance = Math.abs(playerTile.tx - parking.tileX) + Math.abs(playerTile.ty - parking.tileY);
@@ -254,10 +270,12 @@ export class ArcCoreVehicleSystem {
   }
 
   resolveDigTargets(primaryTarget, aimDirection) {
+    if (!this.enabled) return [];
     return resolveArcCoreDigFootprint(primaryTarget, aimDirection, this.getActiveProfile().dig);
   }
 
   playDigAnimation(targets, aimDirection, timeMs) {
+    if (!this.enabled) return false;
     return this.visuals.startDig(targets, aimDirection, timeMs);
   }
 

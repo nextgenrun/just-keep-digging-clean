@@ -2,6 +2,10 @@ import {
   WORLD_BACKGROUND_AMBIENT_MOTION,
   resolveWorldBackgroundAmbientMotionEnabled,
 } from "../../values/worldBackgroundAmbientMotion.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class SkylineWeatherVfxWorldWisps {
   constructor(scene, config, atlas) {
@@ -23,6 +27,7 @@ export class SkylineWeatherVfxWorldWisps {
       [
         "steam",
         master.depthEnabled === true
+          && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)
           ? WORLD_BACKGROUND_AMBIENT_MOTION.anchors.level2Steam
           : [],
       ],

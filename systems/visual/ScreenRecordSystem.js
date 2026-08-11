@@ -1,6 +1,10 @@
 import { SCREEN_RECORD_CONFIG } from "../../values/screenRecordConfig.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { ScreenRecordUiVisibility } from "./ScreenRecordUiVisibility.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export function selectSupportedMimeType(mediaRecorder, preferredMimeTypes) {
   if (!mediaRecorder?.isTypeSupported) return "";
@@ -20,6 +24,7 @@ export class ScreenRecordSystem {
   constructor(scene, config = SCREEN_RECORD_CONFIG) {
     this.scene = scene;
     this.config = config;
+    this.enabled = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE);
     this.recorder = null;
     this.stream = null;
     this.chunks = [];
@@ -39,7 +44,7 @@ export class ScreenRecordSystem {
   }
 
   async toggle() {
-    if (!GAME_CONFIG.debugMode) return false;
+    if (!this.enabled || !GAME_CONFIG.debugMode) return false;
     const now = Date.now();
     if (now - this.lastToggleAt < 250) return false;
     this.lastToggleAt = now;
@@ -108,6 +113,7 @@ export class ScreenRecordSystem {
   }
 
   _start(mode) {
+    if (!this.enabled) return false;
     const canvas = this.scene?.game?.canvas;
     const mediaRecorder = globalThis.MediaRecorder;
     if (!canCaptureCanvas(canvas, mediaRecorder)) {

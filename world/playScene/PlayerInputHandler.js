@@ -8,6 +8,11 @@ import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { getAabbAdjacentAimCandidates } from "../../player/playerDirectionalTargets.js";
 import { MiningTargetVisualSystem } from "../../systems/visual/MiningTargetVisualSystem.js";
 import { MouseDigInputController } from "./MouseDigInputController.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+  isGameplayKeybindActionEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export class PlayerInputHandler {
   constructor(scene) {
@@ -35,7 +40,10 @@ export class PlayerInputHandler {
   _registerKeys() {
     const scene = this.scene;
     const binds = USER_SETTINGS.getKeybinds();
-    const addBoundKey = (actionId) => scene.input.keyboard.addKey(keyToPhaserKey(binds[actionId]));
+    const addBoundKey = (actionId) => {
+      if (!isGameplayKeybindActionEnabled(actionId) || !binds[actionId]) return null;
+      return scene.input.keyboard.addKey(keyToPhaserKey(binds[actionId]));
+    };
 
     // Register movement keys
     const moveLeft = addBoundKey("moveLeft");
@@ -57,7 +65,9 @@ export class PlayerInputHandler {
     const restart = addBoundKey("restart");
     const shift = fly;
     const enter = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    const devCheat = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
+    const devCheat = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+      ? scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V)
+      : null;
     const escape = addBoundKey("pause");
     const hardEscape = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     const map = addBoundKey("map");
@@ -71,7 +81,9 @@ export class PlayerInputHandler {
     const captureKeys = new Set([
       ...Object.values(binds).map(keyToPhaserKey),
       Phaser.Input.Keyboard.KeyCodes.ENTER,
-      Phaser.Input.Keyboard.KeyCodes.V,
+      ...(isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+        ? [Phaser.Input.Keyboard.KeyCodes.V]
+        : []),
       Phaser.Input.Keyboard.KeyCodes.ESC,
     ]);
     scene.input.keyboard.addCapture([...captureKeys]);

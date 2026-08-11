@@ -3,6 +3,10 @@ import {
   RESOURCE_KEYS,
   createZeroResourceTotals,
 } from "./resourceTypes.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "./gameplayDevFlags.js";
 
 export const RANDOM_EVENT_TYPES = Object.freeze({
   CRYSTAL_CHOIR: "crystalChoir",
@@ -148,13 +152,17 @@ export function resolveRandomEventFlags(search = globalThis.location?.search || 
   const query = RANDOM_WORLD_EVENT_CONFIG.query;
   const master = enabledParam(params, query.master);
   const requestedType = params.get(query.force);
+  const devCheatsEnabled = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
   return Object.freeze({
     master,
     crystalChoir: master && enabledParam(params, query.crystalChoir),
     blackoutBloom: master && enabledParam(params, query.blackoutBloom),
     moneyMonsterRush: master && enabledParam(params, query.moneyMonsterRush),
-    debug: params.get(query.debug) === "1" || params.get("jkd_e2e") === "1",
-    forcedType: RANDOM_EVENT_TYPE_ORDER.includes(requestedType) ? requestedType : null,
+    debug: devCheatsEnabled
+      && (params.get(query.debug) === "1" || params.get("jkd_e2e") === "1"),
+    forcedType: devCheatsEnabled && RANDOM_EVENT_TYPE_ORDER.includes(requestedType)
+      ? requestedType
+      : null,
   });
 }
 

@@ -41,6 +41,14 @@ ui/           ← Layer 3: Reads from all layers above
 - No circular dependencies — if A needs B and B needs A, inject at setup time
 - Max ~300 lines per file — split by concern using PlayScene pattern (setup/update/gameplay modules)
 
+## Active Gameplay Profile
+
+`values/gameplayDevFlags.js` currently sets `demoMode: true`. The demo profile
+excludes Level Two and its gate, both Arc Core upgrades and runtime assets,
+developer cheats, and screen capture. Set that one flag to `false` to restore
+the full-game feature set; individual systems must use the shared feature
+helpers rather than bypassing the profile.
+
 Runtime scenic assets use one prioritized PlayScene loading lane: image decode
 is moved to `createImageBitmap`, original source dimensions are preserved, and
 GPU activation is spread across post-render idle windows. See

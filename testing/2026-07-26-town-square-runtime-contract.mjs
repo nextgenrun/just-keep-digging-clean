@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { ARC_CORE_CONFIG } from "../values/arcCoreConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../values/gameplayDevFlags.js";
 import { TOWN_SQUARE_CONFIG } from "../values/townSquareConfig.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "../values/ualNativePlayerAssetProfile.js";
 import {
@@ -78,19 +82,27 @@ assert.ok(
   "surface merchants must use absolute Town Square slots rather than old spawn-relative offsets",
 );
 
-assert.deepEqual(
-  { tx: magmaMerchant.tx, ty: magmaMerchant.ty },
-  {
-    tx: ARC_CORE_CONFIG.merchant.tileX,
-    ty: ARC_CORE_CONFIG.merchant.tileY,
-  },
-  "the Level 2 Arc Core merchant must remain untouched",
-);
-assert.deepEqual(
-  magmaMerchant.activityKeys,
-  ASSET_KEYS.npcs.merchantActivities.magmaMoneyMonster,
-  "the Level 2 merchant receives presentation poses without moving its shop",
-);
+if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES)) {
+  assert.deepEqual(
+    { tx: magmaMerchant.tx, ty: magmaMerchant.ty },
+    {
+      tx: ARC_CORE_CONFIG.merchant.tileX,
+      ty: ARC_CORE_CONFIG.merchant.tileY,
+    },
+    "the Level 2 Arc Core merchant must remain untouched in the full game",
+  );
+  assert.deepEqual(
+    magmaMerchant.activityKeys,
+    ASSET_KEYS.npcs.merchantActivities.magmaMoneyMonster,
+    "the full-game Level 2 merchant receives presentation poses without moving its shop",
+  );
+} else {
+  assert.equal(
+    magmaMerchant,
+    undefined,
+    "demo mode must exclude the Level 2 Arc Core merchant",
+  );
+}
 
 assert.equal(UAL_NATIVE_PLAYER_ASSET_PROFILE.physicalHeightMeters, 1.75);
 assert.equal(pack.beauty.scaleReference.targetDoorHeightMeters, 2.1);
