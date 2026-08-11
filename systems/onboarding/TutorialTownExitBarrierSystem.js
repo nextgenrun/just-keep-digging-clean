@@ -2,10 +2,16 @@ import { FIRST_FIVE_MINUTES_CONFIG } from "../../values/firstFiveMinutes.js";
 import {
   RETENTION_CONFIG,
   TOWN_TUTORIAL_CHOICES,
+  TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 
-const BARRIER_STAGES = new Set(RETENTION_CONFIG.tutorial.activeStages);
+const BARRIER_STAGES = new Set([
+  TOWN_TUTORIAL_STAGES.MOVE,
+  TOWN_TUTORIAL_STAGES.DIG,
+  TOWN_TUTORIAL_STAGES.FLIGHT,
+  TOWN_TUTORIAL_STAGES.PORTAL,
+]);
 
 function cloneMapValue(value) {
   return value && typeof value === "object" ? { ...value } : value;

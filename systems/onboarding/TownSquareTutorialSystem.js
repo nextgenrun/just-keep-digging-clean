@@ -191,6 +191,10 @@ export class TownSquareTutorialSystem {
       this._pointAtMerchant(RETENTION_CONFIG.tutorial.merchants.sell);
       return;
     }
+    if (stage === TOWN_TUTORIAL_STAGES.UPGRADE) {
+      this._pointAtMerchant(RETENTION_CONFIG.tutorial.merchants.upgrade);
+      return;
+    }
     if (stage === TOWN_TUTORIAL_STAGES.RESUME) {
       this._pointAtSurfacePortal();
       return;

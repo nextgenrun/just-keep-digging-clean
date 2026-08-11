@@ -117,6 +117,11 @@ export function sanitizeRetentionProgressData(value) {
     && (v3Stage === "sell" || v3Stage === "upgrade")
     ? TOWN_TUTORIAL_STAGES.FLIGHT
     : v3Stage;
+  const currentStage = sourceVersion === 5
+    && routeStage === TOWN_TUTORIAL_STAGES.RESUME
+    && stats.upgradesPurchased === 0
+    ? TOWN_TUTORIAL_STAGES.UPGRADE
+    : routeStage;
   const hasLegacyData = value && typeof value === "object";
   const tutorialChoice = explicitChoice
     ?? (hasLegacyData ? TOWN_TUTORIAL_CHOICES.LEGACY : null);
@@ -125,12 +130,12 @@ export function sanitizeRetentionProgressData(value) {
     : tutorialChoice === TOWN_TUTORIAL_CHOICES.NO
       ? TOWN_TUTORIAL_STAGES.SKIPPED
       : hasLegacyData
-        ? (routeStage === TOWN_TUTORIAL_STAGES.COMPLETE
+        ? (currentStage === TOWN_TUTORIAL_STAGES.COMPLETE
           ? TOWN_TUTORIAL_STAGES.COMPLETE
           : TOWN_TUTORIAL_STAGES.SKIPPED)
         : TOWN_TUTORIAL_STAGES.UNSELECTED;
-  const tutorialStage = TUTORIAL_STAGES.includes(routeStage)
-    ? routeStage
+  const tutorialStage = TUTORIAL_STAGES.includes(currentStage)
+    ? currentStage
     : fallbackStage;
 
   return {

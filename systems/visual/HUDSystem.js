@@ -5,8 +5,8 @@ import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
-import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
+import { HudQuickControls } from "./HudQuickControls.js";
 
 const WEATHER_ICONS = Object.freeze({
   clear: "☀️",
@@ -320,7 +320,7 @@ export class HUDSystem {
 
     this.approvedSkin = new ApprovedHudSkin(scene, this);
     this.setCurrentPickaxe(scene.upgradeSystem?.ownedPickaxe, { force: true });
-    this._createLootBagTarget();
+    this._createQuickControls();
 
     this.refresh();
     this.statsDirty = false;
@@ -361,125 +361,41 @@ export class HUDSystem {
     this.approvedSkin?.setComboVisible(this._systemVisibility.combo && this.comboVisible);
     if (!this._systemVisibility.buff) this.approvedSkin?.setBuffLines([]);
   }
-  _createLootBagTarget() {
+  _createQuickControls() {
     const featureFlags = this.scene.config?.featureFlags;
     const lootVisualsEnabled = this.scene.config?.lootVisuals !== false
       && featureFlags?.lootVisuals !== false
       && featureFlags?.["loot-visuals"] !== false;
-    const vw = this.scene.scale?.width || 1280;
-    const vh = this.scene.scale?.height || 720;
-    const approvedInventory = APPROVED_HUD_SKIN.layout.inventory;
-    const approvedScale = this.approvedSkin?.scale || 1;
-    const x = this.approvedSkin?.active
-      ? vw - (approvedInventory.right + approvedInventory.width / 2) * approvedScale
-      : vw - 42;
-    const y = this.approvedSkin?.active
-      ? vh - (approvedInventory.bottom + approvedInventory.height / 2) * approvedScale
-      : vh - 42;
-
-    this.lootBagContainer = this.scene.add.container(x, y)
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudOverlayDepth + 4)
-      .setVisible(lootVisualsEnabled);
-
-    if (this.approvedSkin?.active) {
-      this.lootBagIcon = this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.inventory)
-        .setDisplaySize(approvedInventory.width * approvedScale, approvedInventory.height * approvedScale);
-      this.lootBagContainer.add(this.lootBagIcon);
-      this._wireLootBagInteraction(
-        approvedInventory.width * approvedScale,
-        approvedInventory.height * approvedScale,
-      );
-      return;
-    }
-
-    const bg = this.scene.add.rectangle(0, 0, 50, 50, 0x101820, 0.82);
-    bg.setStrokeStyle(2, 0xc9a227, 0.9);
-    bg.setOrigin(0.5);
-
-    if (this.scene.textures.exists(ASSET_KEYS.ui.lootBag)) {
-      this.lootBagIcon = this.scene.add.image(0, 0, ASSET_KEYS.ui.lootBag)
-        .setDisplaySize(46, 46);
-    } else {
-      this.lootBagIcon = this._createFallbackLootBagGraphic();
-    }
-
-    const badgeBg = this.scene.add.rectangle(15, 15, 17, 15, 0xffd98f, 1).setOrigin(0.5);
-    badgeBg.setStrokeStyle(1, 0x101820, 0.85);
-    this.lootBagBadge = this.scene.add.text(15, 15, "I", {
-      fontFamily: "Consolas, monospace",
-      fontSize: "12px",
-      color: "#101820",
-      fontStyle: "bold",
-    }).setOrigin(0.5);
-
-    this.lootBagContainer.add([bg, this.lootBagIcon, badgeBg, this.lootBagBadge]);
-    this._wireLootBagInteraction(50, 50);
-  }
-
-  _wireLootBagInteraction(width, height) {
-    if (!this.lootBagContainer) return;
-    this.lootBagHit = this.scene.add.rectangle(0, 0, width, height, 0x000000, 0)
-      .setScrollFactor(0)
-      .setInteractive({ useHandCursor: true });
-    this.lootBagContainer.add(this.lootBagHit);
-
-    this.lootBagHit.on("pointerdown", (_pointer, _localX, _localY, event) => {
-      event?.stopPropagation?.();
-      if (this._destroyed || this.lootBagContainer?.visible === false) return;
-      const inventoryPopup = this.scene.uiInventoryPopup;
-      if (typeof inventoryPopup?.open !== "function") return;
-      this.scene.soundSystem?.playUiSelect?.();
-      this.pulseLootTarget();
-      inventoryPopup.open();
+    this.quickControls = new HudQuickControls(this.scene, {
+      depth: HUD_LAYOUT.hudOverlayDepth + 4,
+      visible: lootVisualsEnabled,
+      onInventory: () => this.scene.toggleInventoryFromHud?.() === true,
+      onPause: () => this.scene.togglePauseMenuFromHud?.() === true,
     });
-    this.lootBagHit.on("pointerover", () => {
-      if (!this._destroyed) this.lootBagIcon?.setAlpha?.(0.82);
-    });
-    this.lootBagHit.on("pointerout", () => {
-      if (!this._destroyed) this.lootBagIcon?.setAlpha?.(1);
-    });
-  }
-
-  _createFallbackLootBagGraphic() {
-    const bag = this.scene.add.graphics();
-    bag.fillStyle(0x8a5a2b, 1);
-    bag.fillRoundedRect(-14, -6, 28, 23, 4);
-    bag.lineStyle(2, 0xffd98f, 0.9);
-    bag.strokeRoundedRect(-14, -6, 28, 23, 4);
-    bag.lineStyle(3, 0x5a351b, 1);
-    bag.beginPath();
-    bag.arc(0, -6, 9, Math.PI, Math.PI * 2);
-    bag.strokePath();
-    bag.fillStyle(0xffd98f, 1);
-    bag.fillRect(-3, 3, 6, 5);
-    return bag;
+    this.lootBagContainer = this.quickControls.inventoryContainer;
+    this.lootBagIcon = this.quickControls.inventoryIcon;
+    this.lootBagBadge = this.quickControls.inventoryKey;
+    this.lootBagHit = this.quickControls.inventoryHit;
+    this.pauseMenuContainer = this.quickControls.pauseContainer;
+    this.pauseMenuHit = this.quickControls.pauseHit;
   }
 
   getLootPickupTarget() {
-    if (!this.lootBagContainer) {
+    const target = this.quickControls?.getInventoryTarget?.();
+    if (!target) {
       const vw = this.scene.scale?.width || 1280;
       const vh = this.scene.scale?.height || 720;
       return { x: vw - 42, y: vh - 42 };
     }
-    return {
-      x: this.lootBagContainer.x,
-      y: this.lootBagContainer.y,
-    };
+    return target;
   }
 
   pulseLootTarget(_resourceType = null, strong = false) {
-    if (!this.lootBagContainer || this._destroyed) return;
-    const scale = strong ? 1.24 : 1.14;
-    this.scene.tweens.killTweensOf(this.lootBagContainer);
-    this.lootBagContainer.setScale(1);
-    this.scene.tweens.add({
-      targets: this.lootBagContainer,
-      scale,
-      duration: 90,
-      yoyo: true,
-      ease: "Back.out",
-    });
+    this.quickControls?.pulseInventory?.(strong);
+  }
+
+  resize() {
+    this.quickControls?.resize?.();
   }
 
   setDepth(value) {
@@ -921,8 +837,8 @@ export class HUDSystem {
     this._destroyed = true;
     this._depthTween?.stop();
     this._comboPopTween?.stop();
-    this.lootBagHit?.removeAllListeners?.();
-    this.scene?.tweens?.killTweensOf?.(this.lootBagContainer);
+    this.quickControls?.destroy();
+    this.quickControls = null;
     const objects = [
       this.hudBg, this.statsText, this.statusBg, this.statusText,
       this.flyHintText, this.torchIcon, this.torchStatusText, this.buffTimerText,
@@ -931,10 +847,13 @@ export class HUDSystem {
       this.clockPanel, this.clockTimeText, this.clockDayText,
       this.weatherPanel, this.weatherText, this.weatherTempText,
       this.weatherSeasonText, this.weatherIntensityBar,
-      this.lootBagContainer,
     ];
     objects.forEach(obj => obj?.destroy());
     this.lootBagHit = null;
+    this.lootBagContainer = null;
+    this.lootBagIcon = null;
+    this.pauseMenuContainer = null;
+    this.pauseMenuHit = null;
     this.approvedSkin?.destroy();
     this.approvedSkin = null;
   }

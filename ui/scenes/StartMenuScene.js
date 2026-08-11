@@ -22,12 +22,14 @@ import { createManualSaveFilePicker } from "../components/manualSaveFilePicker.j
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
 import {
+  getHardcoreModeLabel,
   isHardcoreMode,
   isHardcoreModeArmed,
+  isHardcoreModeExhausted,
+  isHardcoreRunActive,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
-import { StartModeSelectionOverlay } from "./StartModeSelectionOverlay.js";
-import { StartTutorialChoiceOverlay } from "./StartTutorialChoiceOverlay.js";
+import { NewRunSetupOverlay } from "./NewRunSetupOverlay.js";
 
 const SLOT_PRESENTATION = SAVE_MENU_PRESENTATION.slot;
 const SLOT_TEXT_LAYOUT = SLOT_PRESENTATION.textLayout;
@@ -84,14 +86,15 @@ export class StartMenuScene extends Phaser.Scene {
     this._saveTransferControls = [];
     this._pulseTween = null;
     this._isStartingGame = false;
-    this._modeSelector = null;
-    this._tutorialSelector = null;
+    this._newRunSetup = null;
     this._useAuthoredSaveMenuArt = false;
   }
 
   preload() {
     this._useAuthoredSaveMenuArt = resolveSaveMenuArtEnabled();
-    if (this._useAuthoredSaveMenuArt) preloadSaveMenuArt(this);
+    // The save-vault rollback query may swap its slot cards to Graphics, but
+    // the integrated first-run decision panel must remain authored bitmap UI.
+    preloadSaveMenuArt(this);
   }
 
   async create() {
@@ -149,8 +152,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._buildCards();
     this._animateCardEntry();
     this._buildSaveTransferControls(W);
-    this._modeSelector = new StartModeSelectionOverlay(this);
-    this._tutorialSelector = new StartTutorialChoiceOverlay(this);
+    this._newRunSetup = new NewRunSetupOverlay(this);
 
     // --- Start prompt (shown below cards once a slot is selected) ---
     this._startPrompt = this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
@@ -191,10 +193,8 @@ export class StartMenuScene extends Phaser.Scene {
       this.input.keyboard.off('keydown-E');
       this.input.keyboard.off('keydown-I');
       this.input.keyboard.off('keydown-ESC');
-      this._modeSelector?.destroy();
-      this._modeSelector = null;
-      this._tutorialSelector?.destroy();
-      this._tutorialSelector = null;
+      this._newRunSetup?.destroy();
+      this._newRunSetup = null;
       this._closeConfirm();
       this._closeImportPanel();
     });
@@ -325,11 +325,18 @@ export class StartMenuScene extends Phaser.Scene {
 
         const modeIsHardcore = isHardcoreMode(slot.hardcoreModeData);
         const modeIsArmed = isHardcoreModeArmed(slot.hardcoreModeData);
+        const modeIsExhausted = isHardcoreModeExhausted(slot.hardcoreModeData);
+        const modeData = sanitizeHardcoreModeData(slot.hardcoreModeData);
+        const modeLabel = getHardcoreModeLabel(modeData);
         const modeTxt = this.add.text(
           cx,
           cy + SLOT_TEXT_LAYOUT.modeOffsetYPx,
           modeIsHardcore
-            ? (modeIsArmed ? 'HARDCORE  •  OATH ARMED' : 'HARDCORE  •  ARMS AT FLIGHT')
+            ? modeIsExhausted
+              ? `${modeLabel}  •  EXPEDITION ENDED`
+              : modeIsArmed
+                ? `${modeLabel}  •  ${modeData.livesRemaining} ${modeData.livesRemaining === 1 ? 'LIFE' : 'LIVES'}`
+                : `${modeLabel}  •  ARMS AT FLIGHT`
             : 'CASUAL',
           {
             fontFamily: UI_FONTS.mono,
@@ -559,7 +566,7 @@ export class StartMenuScene extends Phaser.Scene {
     const [exportButton, importButton] = this._saveTransferControls;
     if (!exportButton || !importButton) return;
     const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
-    const hardcoreExportLocked = isHardcoreMode(selectedSave?.hardcoreModeData);
+    const hardcoreExportLocked = isHardcoreRunActive(selectedSave?.hardcoreModeData);
     exportButton.setEnabled(
       Boolean(selectedSave?.hasData) && !hardcoreExportLocked,
       hardcoreExportLocked ? "OATH LOCKED" : "",
@@ -570,40 +577,46 @@ export class StartMenuScene extends Phaser.Scene {
   // ─── Input ───────────────────────────────────────────────────────────────
 
   _setupInput() {
-    this.input.keyboard.on('keydown-ONE',   () => this._selectSlot(1));
-    this.input.keyboard.on('keydown-TWO',   () => this._selectSlot(2));
-    this.input.keyboard.on('keydown-THREE', () => this._selectSlot(3));
+    this.input.keyboard.on('keydown-ONE', () => {
+      if (!this._newRunSetup?.isVisible) this._selectSlot(1);
+    });
+    this.input.keyboard.on('keydown-TWO', () => {
+      if (!this._newRunSetup?.isVisible) this._selectSlot(2);
+    });
+    this.input.keyboard.on('keydown-THREE', () => {
+      if (!this._newRunSetup?.isVisible) this._selectSlot(3);
+    });
 
     this.input.keyboard.on('keydown-SPACE', () => {
-      if (this._confirmPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
+      if (this._confirmPanel || this._newRunSetup?.isVisible) return;
       if (this.selectedSlot !== null) this._startGame();
     });
 
     this.input.keyboard.on('keydown-DELETE', () => {
-      if (this._confirmPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
+      if (this._confirmPanel || this._newRunSetup?.isVisible) return;
       if (this.selectedSlot !== null) this._showConfirm(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-B', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetup?.isVisible) return;
       if (this.selectedSlot !== null) this._showBackupPanel(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-E', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetup?.isVisible) return;
       const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
-      if (selectedSave?.hasData && !isHardcoreMode(selectedSave.hardcoreModeData)) {
+      if (selectedSave?.hasData && !isHardcoreRunActive(selectedSave.hardcoreModeData)) {
         this._exportSave(this.selectedSlot);
       }
     });
 
     this.input.keyboard.on('keydown-I', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel || this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetup?.isVisible) return;
       if (this.selectedSlot !== null) this._showImportPanel();
     });
 
     this.input.keyboard.on('keydown-ESC', () => {
-      if (this._modeSelector?.isVisible || this._tutorialSelector?.isVisible) return;
+      if (this._newRunSetup?.isVisible) return;
       if (this._confirmPanel) { this._closeConfirm(); return; }
       if (this._backupPanel) { this._closeBackupPanel(); return; }
       if (this._importPanel) { this._closeImportPanel(); return; }
@@ -618,11 +631,21 @@ export class StartMenuScene extends Phaser.Scene {
     if (this._isStartingGame || this.selectedSlot === null) return;
     const selectedSave = this.saveSlots.find((slot) => slot.id === this.selectedSlot);
     if (!selectedSave?.hasData) {
-      this._modeSelector?.show({
-        onChoose: hardcoreModeData => this._showNewSaveTutorialChoice(
-          hardcoreModeData,
+      this._newRunSetup?.show({
+        onChoose: selection => this._launchGame(
+          selection.hardcoreModeData,
+          true,
+          selection.tutorialChoice,
         ),
       });
+      return;
+    }
+
+    if (isHardcoreModeExhausted(selectedSave.hardcoreModeData)) {
+      this._startPrompt
+        ?.setText("EXPEDITION ENDED  •  EXPORT OR CLEAR THIS SLOT")
+        ?.setColor(COL.warning);
+      this.soundSystem?.playUiSelect?.();
       return;
     }
 
@@ -631,19 +654,6 @@ export class StartMenuScene extends Phaser.Scene {
       false,
       null,
     );
-  }
-
-  _showNewSaveTutorialChoice(hardcoreModeData) {
-    this._tutorialSelector?.show({
-      onChoose: tutorialChoice => this._launchGame(
-        hardcoreModeData,
-        true,
-        tutorialChoice,
-      ),
-      onCancel: () => this._modeSelector?.show({
-        onChoose: nextMode => this._showNewSaveTutorialChoice(nextMode),
-      }),
-    });
   }
 
   _launchGame(hardcoreModeData, isNewSave, tutorialChoice) {
@@ -835,7 +845,7 @@ export class StartMenuScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     const statsText = this.add.text(px, py - ph / 2 + 100,
-      `${backups.length} ${currentHardcore ? "purge-only backups" : "backups available"}`
+      `${backups.length} ${currentHardcore ? "oath-locked backups" : "backups available"}`
         + ` • ${stats.backupStats?.totalSizeBytes ? (stats.backupStats.totalSizeBytes / 1024).toFixed(1) + ' KB' : '0 KB'}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: '13px',
@@ -908,7 +918,7 @@ export class StartMenuScene extends Phaser.Scene {
       px,
       py + ph / 2 - 80,
       currentHardcore
-        ? "Hardcore backups are erased on death and cannot rewind the run"
+        ? "Hardcore backups cannot rewind an oath; ended saves remain intact"
         : "Click restore on any Casual backup",
       {
       fontFamily: UI_FONTS.mono,

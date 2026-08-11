@@ -1,4 +1,4 @@
-// Hidden-Edge QA for the approved HUD Music/SFX buttons and inventory bag.
+// Hidden-Edge QA for approved HUD audio, Inventory, and ESC Menu controls.
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -65,6 +65,18 @@ async function main() {
     await page.waitForTimeout(350);
     const afterInventory = await readSnapshot();
 
+    await page.mouse.click(initial.positions.pause.x, initial.positions.pause.y);
+    await page.waitForFunction(() => globalThis.__HUD_CONTROLS_HARNESS__.snapshot().inventoryOpen === false);
+    const afterPauseClosedInventory = await readSnapshot();
+
+    await page.mouse.click(initial.positions.pause.x, initial.positions.pause.y);
+    await page.waitForFunction(() => globalThis.__HUD_CONTROLS_HARNESS__.snapshot().pauseOpen === true);
+    const afterPauseOpened = await readSnapshot();
+
+    await page.mouse.click(initial.positions.pause.x, initial.positions.pause.y);
+    await page.waitForFunction(() => globalThis.__HUD_CONTROLS_HARNESS__.snapshot().pauseOpen === false);
+    const afterPauseResumed = await readSnapshot();
+
     const screenshotPath = path.join(outputDir, "hud-controls-inventory-open.png");
     await page.screenshot({ path: screenshotPath });
     const report = {
@@ -74,6 +86,9 @@ async function main() {
       afterMusic,
       afterSfx,
       afterInventory,
+      afterPauseClosedInventory,
+      afterPauseOpened,
+      afterPauseResumed,
       browserIssues,
       screenshotPath,
     };
@@ -87,11 +102,23 @@ async function main() {
     if (!equalSize(initial.hitSizes.sfx, [52, 38])) {
       throw new Error(`SFX hit size mismatch: ${JSON.stringify(initial.hitSizes.sfx)}`);
     }
-    if (!equalSize(initial.hitSizes.inventory, [109, 116])) {
+    if (!equalSize(initial.visualSizes.inventory, [94, 94])) {
+      throw new Error(`Inventory visual size mismatch: ${JSON.stringify(initial.visualSizes.inventory)}`);
+    }
+    if (!equalSize(initial.hitSizes.inventory, [102, 102])) {
       throw new Error(`Inventory hit size mismatch: ${JSON.stringify(initial.hitSizes.inventory)}`);
     }
-    if (!equalSize(initial.hitSizes.inventory, initial.visualSizes.inventory)) {
-      throw new Error("Inventory visible and interactive rectangles do not match.");
+    if (!equalSize(initial.visualSizes.pause, [154, 36])) {
+      throw new Error(`Pause visual size mismatch: ${JSON.stringify(initial.visualSizes.pause)}`);
+    }
+    if (!equalSize(initial.hitSizes.pause, [164, 44])) {
+      throw new Error(`Pause hit size mismatch: ${JSON.stringify(initial.hitSizes.pause)}`);
+    }
+    if (initial.quickControls?.inventory?.keyLabel !== "I") {
+      throw new Error(`Inventory live key label mismatch: ${JSON.stringify(initial.quickControls)}`);
+    }
+    if (initial.quickControls?.pause?.label !== "ESC  MENU") {
+      throw new Error(`Pause live label mismatch: ${JSON.stringify(initial.quickControls)}`);
     }
     if (afterMusic.musicEnabled !== false || afterMusic.musicAlpha !== 0.48) {
       throw new Error(`Music click did not apply its muted state: ${JSON.stringify(afterMusic)}`);
@@ -107,6 +134,15 @@ async function main() {
       || !afterInventory.uiInputPriority
     ) {
       throw new Error(`Inventory click did not open and lock the canonical modal: ${JSON.stringify(afterInventory)}`);
+    }
+    if (afterPauseClosedInventory.inventoryOpen || afterPauseClosedInventory.pauseOpen) {
+      throw new Error("ESC Menu did not close Inventory before opening Pause.");
+    }
+    if (!afterPauseOpened.pauseOpen || afterPauseOpened.controlsEnabled) {
+      throw new Error("ESC Menu did not open Pause and disable controls.");
+    }
+    if (afterPauseResumed.pauseOpen || !afterPauseResumed.controlsEnabled) {
+      throw new Error("ESC Menu did not resume play.");
     }
     if (afterInventory.scenePointerDowns > 0 && afterInventory.lastCurrentlyOverCount < 1) {
       throw new Error("HUD pointer input reached the scene without an interactive UI hit.");

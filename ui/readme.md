@@ -12,6 +12,15 @@ fully completed, so closing a shop or menu cannot leak the same click through
 to world digging. Shop, Campfire, Milestones, Star Pillar, and
 PlayScene overlays use this visual language.
 
+## New expedition setup
+
+`scenes/NewRunSetupOverlay.js` is the integrated empty-slot decision surface.
+One authored bitmap panel presents Casual/Hardcore and Guided/Skip together;
+live text and invisible pointer zones preserve accessibility and input accuracy.
+Skip requires typed `YES`, while `ONELIFE` reveals the hidden one-life rule set
+only from the selected Hardcore + Guided state. `NewRunSetupInputController.js`
+owns keyboard focus, confirmation, cancellation, and hidden-sequence input.
+
 ## Transient notification carousel
 
 `UINotificationSystem.js` retains the bounded single-card compatibility path,

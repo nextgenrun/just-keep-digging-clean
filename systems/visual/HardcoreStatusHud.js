@@ -71,25 +71,37 @@ export class HardcoreStatusHud {
 
     const stress = Math.round(snapshot.stress || 0);
     const band = snapshot.stressBand || "calm";
-    const pending = snapshot.armed !== true;
-    const signature = `${pending}:${stress}:${band}:${Math.floor(gp)}`;
+    const exhausted = snapshot.exhausted === true;
+    const pending = snapshot.armed !== true && !exhausted;
+    const lives = Number.isFinite(snapshot.livesRemaining)
+      ? snapshot.livesRemaining
+      : 0;
+    const freeRevive = snapshot.freeReviveAvailable === true;
+    const signature = `${pending}:${exhausted}:${lives}:${freeRevive}:${stress}:${band}:${Math.floor(gp)}`;
     if (signature !== this._lastSignature) {
       this._lastSignature = signature;
-      if (pending) {
+      if (exhausted) {
+        this.label.setText("HARDCORE EXPEDITION ENDED");
+        this.detail.setText("SAVE INTACT  •  CLEAR OR EXPORT FROM SAVE VAULT");
+        this.label.setColor("#ff7468");
+        this.detail.setColor("#b9c8d3");
+      } else if (pending) {
         this.label.setText("HARDCORE OATH PENDING");
         this.detail.setText("ARMS THE MOMENT FLIGHT UNLOCKS");
         this.label.setColor("#f0c765");
         this.detail.setColor("#b9c8d3");
       } else {
-        this.label.setText(`HARDCORE  •  STRESS ${stress}%`);
+        this.label.setText(`HARDCORE  •  ${lives} ${lives === 1 ? "LIFE" : "LIVES"}  •  STRESS ${stress}%`);
         this.detail.setText(
           gp <= 1
-            ? "1 GP OR LESS  •  DEATH IS IMMINENT"
+            ? `1 GP OR LESS  •  ${freeRevive ? "FREE REVIVE READY" : "A LIFE IS AT RISK"}`
             : band === "critical"
               ? `PANIC DRAIN  ${snapshot.stressGpDrainPerSecond.toFixed(1)} GP/S`
               : band === "warning"
                 ? "FIND LIGHT  •  SLOW YOUR DESCENT"
-                : "0 GP DELETES THIS SAVE",
+                : freeRevive
+                  ? "FIRST REVIVE IS FREE  •  SAVE STAYS INTACT"
+                  : "0 GP CONSUMES ONE LIFE  •  SAVE STAYS INTACT",
         );
         this.label.setColor(band === "critical" ? "#ff7468" : band === "warning" ? "#f0c765" : "#f4e8c8");
         this.detail.setColor(gp <= 1 || band === "critical" ? "#ff8b7f" : "#b9c8d3");

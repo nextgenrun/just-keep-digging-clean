@@ -1,5 +1,6 @@
 import {
   HARDCORE_MODE_CONFIG,
+  consumeHardcoreDeath,
   isHardcoreMode,
   isHardcoreModeArmed,
   resolveHardcoreTeleportCost,
@@ -36,7 +37,11 @@ export class HardcoreModeSystem {
   }
 
   arm(source = "flight", now = Date.now()) {
-    if (!isHardcoreMode(this.state) || isHardcoreModeArmed(this.state)) {
+    if (
+      !isHardcoreMode(this.state)
+      || this.state.exhausted === true
+      || isHardcoreModeArmed(this.state)
+    ) {
       return false;
     }
     this.state = sanitizeHardcoreModeData({
@@ -213,6 +218,23 @@ export class HardcoreModeSystem {
     });
     this._events.push({ type: "teleport-paid", cost: paid });
     return true;
+  }
+
+  recordDeath(source = "unknown") {
+    const result = consumeHardcoreDeath(this.state);
+    if (result.outcome === "casual") return result;
+    this.state = sanitizeHardcoreModeData({
+      ...result.data,
+      stress: 0,
+    });
+    result.data = this.state;
+    this._events.push({
+      type: "death-consumed",
+      source,
+      outcome: result.outcome,
+      livesRemaining: result.livesRemaining,
+    });
+    return result;
   }
 
   getSaveData() {

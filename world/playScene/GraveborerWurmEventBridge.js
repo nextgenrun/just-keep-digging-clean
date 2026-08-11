@@ -91,7 +91,7 @@ function applyWurmHit(scene, runtime, event) {
       ? GRAVEBORER_WURM_CONFIG.labels.criticalHitPrefix
       : GRAVEBORER_WURM_CONFIG.labels.hitPrefix;
   const dangerSuffix = remaining <= 1 && runtime.lastGate?.hardcoreArmed
-    ? "  •  ONE TOUCH FROM PERMADEATH"
+    ? "  •  ONE TOUCH FROM A HARDCORE DEATH"
     : remaining <= 1
       ? "  •  CASUAL SAVE REMAINS SAFE"
       : "";

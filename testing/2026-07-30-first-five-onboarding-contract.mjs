@@ -65,13 +65,14 @@ function makeDigSiteScene() {
     worldRenderer: {
       updates: [],
       tutorialVisuals: [],
+      tutorialVisualClears: 0,
       applyTileUpdate(tx, ty) {
         this.updates.push({ tx, ty });
       },
       setTutorialTileVisual(tx, ty, type, visible) {
         this.tutorialVisuals.push({ tx, ty, type, visible });
       },
-      clearTutorialTileVisual() {},
+      clearTutorialTileVisual() { this.tutorialVisualClears += 1; },
     },
   };
 }
@@ -80,15 +81,11 @@ const guidedScene = makeDigSiteScene();
 const guidedSite = prepareTownTutorialDigSite(guidedScene, "");
 assert.deepEqual(guidedSite, {
   tx: FIRST_FIVE_MINUTES_CONFIG.digSite.tileX,
-  ty: GAME_CONFIG.topAirRows - 1,
+  ty: GAME_CONFIG.topAirRows,
 });
 assert.equal(guidedScene.worldModel.writes[0].hp, 45);
-assert.deepEqual(guidedScene.worldRenderer.tutorialVisuals[0], {
-  tx: guidedSite.tx,
-  ty: guidedSite.ty,
-  type: TILE_TYPES.DIRT,
-  visible: true,
-});
+assert.equal(guidedScene.worldRenderer.tutorialVisuals.length, 0);
+assert.equal(guidedScene.worldRenderer.tutorialVisualClears, 1);
 assert.ok(
   (guidedSite.tx + 1) * GAME_CONFIG.tileSize <= GAME_CONFIG.viewportWidth,
   "first marked block must fit inside the default opening viewport",
@@ -289,8 +286,11 @@ retention.recordPortalActivated("Starter Return Gate");
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
 assert.match(bridge.getNextPromiseOverride().promise, /STEP 5/);
 retention.recordSale(1, 1);
-assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
 assert.match(bridge.getNextPromiseOverride().promise, /STEP 6/);
+retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
+assert.match(bridge.getNextPromiseOverride().promise, /STEP 7/);
 assert.equal(retention.recordTutorialPortalResume(), true);
 assert.equal(bridge.hasPersistentGuide(), false);
 

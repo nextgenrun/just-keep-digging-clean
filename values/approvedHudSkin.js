@@ -14,7 +14,7 @@ export const APPROVED_HUD_SKIN = Object.freeze({
     audioMusic: "sprites/UI/hud-approved-v1/audio-music.png",
     audioSfx: "sprites/UI/hud-approved-v1/audio-sfx.png",
     xp: "sprites/UI/hud-approved-v1/xp-frame.png",
-    inventory: "sprites/UI/hud-approved-v1/inventory-bag.png",
+    inventory: "sprites/UI/loot-pickups/inventory-bag-approved-full.png",
   }),
   font: Object.freeze({
     family: UI_FONTS.display,
@@ -58,6 +58,5 @@ export const APPROVED_HUD_SKIN = Object.freeze({
     weatherBar: Object.freeze({ xInset: 56, y: 57, width: 192, height: 3 }),
     audio: Object.freeze({ right: 12, y: 20, width: 52, height: 38, gap: 4 }),
     xp: Object.freeze({ bottom: 20, width: 504, height: 38, barX: 92, barY: 13, barWidth: 286, barHeight: 12, levelX: 18, xpRight: 18, fontSize: 13 }),
-    inventory: Object.freeze({ right: 10, bottom: 9, width: 109, height: 116 }),
   }),
 });

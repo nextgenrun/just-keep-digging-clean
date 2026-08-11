@@ -8,7 +8,9 @@ export const FIRST_FIVE_MINUTES_CONFIG = Object.freeze({
   }),
   digSite: Object.freeze({
     tileX: 12,
-    surfaceRowOffset: -1,
+    // Embed the starter seam in the authored ground instead of floating one
+    // full legacy dirt square in front of the Town Square background.
+    surfaceRowOffset: 0,
     tileTypeName: "DIRT",
     useNormalTileHp: true,
   }),

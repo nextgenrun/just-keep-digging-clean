@@ -301,6 +301,7 @@ See `markdown/archive-policy.md` for full details.
 | `naming-policy.md` | Full naming convention reference |
 | `values-system.md` | How to use the /values/ system |
 | `archive-policy.md` | What to archive & when to delete |
+| `design-documents/readme.md` | Canonical design authority and runtime-alignment register |
 | `2026-07-30-fire-light-v3-runtime.md` | Fire-specific carried torch with five 4x4 ImageGen atlases, hand socket, first-solid local rays, eye adaptation, shader integration, validation, and complete/narrow rollbacks |
 | `2026-07-30-star-colour-identity-library.md` | Fifty authored Star colours, per-identity light/flavour, deterministic within-rarity selection, the I-key Star Atlas, health checks, and rollback |
 | `2026-07-30-star-colour-identity-library-v2.md` | 250 authored Star lights, preserved V1 indices, 62.5 MiB capped atlases, twelve-card paging, authored controls, health checks, and rollback |

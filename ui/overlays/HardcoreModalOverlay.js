@@ -156,11 +156,12 @@ export class HardcoreModalOverlay {
     return true;
   }
 
-  showDeath({ reason, depth, pages, onRetry, onReturn }) {
+  showDeath({ reason, depth, pages, onRetry, onReturn, presentation }) {
     this._showRecap("death", true, () => this.deathView.show({
       reason,
       depth,
       pages,
+      presentation,
       onRetry: () => this._finishRecap(onRetry),
       onReturn: () => this._finishRecap(onReturn),
     }));
@@ -190,10 +191,10 @@ export class HardcoreModalOverlay {
     this.scene.input.keyboard.on("keydown", this._keyHandler);
   }
 
-  setDeathReady(detail = "") {
+  setDeathReady(detail = "", presentation = null) {
     if (this.mode !== "death") return;
     this.busy = false;
-    this.deathView.setReady(detail);
+    this.deathView.setReady(detail, presentation);
     this.scene.tweens.add({
       targets: this.panel,
       alpha: { from: 0.7, to: 1 },
@@ -204,9 +205,19 @@ export class HardcoreModalOverlay {
     });
   }
 
+  setDeathSaving(presentation = null) {
+    if (this.mode !== "death") return;
+    this.busy = true;
+    this.deathView.setSaving(presentation);
+  }
+
   setError(message) {
     if (!this.isVisible) return;
     this.busy = false;
+    if (this.mode === "death") {
+      this.deathView.setError(message);
+      return;
+    }
     this.instruction.setText(String(message || "ACTION FAILED"));
     this.instruction.setColor(UI_COLORS.danger);
   }

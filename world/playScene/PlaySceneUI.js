@@ -51,6 +51,7 @@ import {
 import {
   isHardcoreMode,
   isHardcoreModeArmed,
+  isHardcoreRunActive,
 } from "../../values/hardcoreMode.js";
 import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
 import {
@@ -524,7 +525,7 @@ export function setupUIMethods(prototype) {
         height: bodyHeight,
         parent: tabContent,
         slotId: this.saveSlot,
-        allowExport: !isHardcoreMode(getHardcoreModeSaveData(this)),
+        allowExport: !isHardcoreRunActive(getHardcoreModeSaveData(this)),
         exportDisabledReason: "OATH LOCKED",
         onFocus: index => state.focus?.setIndex?.(index),
         onSave: async () => {
@@ -761,6 +762,33 @@ export function setupUIMethods(prototype) {
     buildContent(initialTabIndex);
     shell.show();
     return true;
+  };
+
+  prototype.toggleInventoryFromHud = function() {
+    if (this.gameState !== "playing") return false;
+    if (!this.uiInventoryPopup) return false;
+    if (hasEscapeClosableUi(this) && !this.uiInventoryPopup.isOpen) return false;
+    if (this.uiInventoryPopup.isOpen) {
+      this.uiInventoryPopup.close?.();
+    } else if (typeof this.uiInventoryPopup.toggle === "function") {
+      this.uiInventoryPopup.toggle();
+    } else {
+      this.uiInventoryPopup.open?.();
+    }
+    return true;
+  };
+
+  prototype.togglePauseMenuFromHud = function() {
+    if (this.uiInventoryPopup?.isOpen) {
+      this.uiInventoryPopup.close?.();
+      return true;
+    }
+    if (this._pausePanel || this.gameState === "paused") {
+      this.resumeGame?.();
+      return true;
+    }
+    if (this.gameState !== "playing" || hasEscapeClosableUi(this)) return false;
+    return this.showPauseMenu?.() === true;
   };
 
   prototype.hidePauseMenu = function() {
@@ -1305,6 +1333,7 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.resize = function() {
+    this.hudSystem?.resize?.();
     this.uiNotifications?.resize?.();
     this.xpProgressBar?.resize?.();
     this.celestialActionBarSystem?.resize?.();

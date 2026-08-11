@@ -107,6 +107,14 @@ assert.equal(retention.recordTutorialFlight(), true);
 retention.recordPortalActivated("Starter Return Gate");
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
 retention.recordSale(30, 2);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
+retention.recordUpgrade("Agility Training", {
+  upgradeId: "agility",
+  beforeHits: 3,
+  afterHits: 2,
+  beforeDamage: 10,
+  afterDamage: 12,
+});
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
 assert.equal(retention.recordTutorialPortalResume(), true);
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
@@ -195,7 +203,7 @@ const payload = saveStore.createPayload(
   null,
   retention.getSaveData(),
 );
-assert.equal(payload.version, 13);
+assert.equal(payload.version, 14);
 assert.equal(payload.retentionData.stats.bestDepth, 101);
 assert.equal(payload.retentionData.stats.chestsOpened, 1);
 const legacyPayload = { ...payload };

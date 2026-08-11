@@ -15,13 +15,14 @@ export const TOWN_TUTORIAL_STAGES = Object.freeze({
   FLIGHT: "flight",
   PORTAL: "portal",
   SELL: "sell",
+  UPGRADE: "upgrade",
   RESUME: "resume",
   COMPLETE: "complete",
   SKIPPED: "skipped",
 });
 
 export const RETENTION_CONFIG = Object.freeze({
-  saveVersion: 5,
+  saveVersion: 6,
 
   depth: Object.freeze({
     surfaceMaxMeters: 2,
@@ -46,17 +47,19 @@ export const RETENTION_CONFIG = Object.freeze({
       TOWN_TUTORIAL_STAGES.FLIGHT,
       TOWN_TUTORIAL_STAGES.PORTAL,
       TOWN_TUTORIAL_STAGES.SELL,
+      TOWN_TUTORIAL_STAGES.UPGRADE,
       TOWN_TUTORIAL_STAGES.RESUME,
     ]),
     moveDistanceTiles: 2,
     digSite: Object.freeze({
       tileX: 12,
-      surfaceRowOffset: -1,
+      surfaceRowOffset: 0,
       tileTypeName: "DIRT",
       tileHp: 1,
     }),
     merchants: Object.freeze({
       sell: "moneyMonster",
+      upgrade: "playerUpgrades",
     }),
     flightTraining: Object.freeze({
       flightUpgradeId: "gemPowerUnlock",
@@ -71,32 +74,37 @@ export const RETENTION_CONFIG = Object.freeze({
     }),
     copy: Object.freeze({
       move: Object.freeze({
-        phase: "1 / 6  •  MOVE",
+        phase: "1 / 7  •  MOVE",
         title: "GET COMFORTABLE IN TOWN",
         body: "{left}/{right} move and aim  •  {interact} talks to people",
       }),
       dig: Object.freeze({
-        phase: "2 / 6  •  DIG",
+        phase: "2 / 7  •  DIG",
         title: "BREAK THE PRACTICE BLOCK",
         body: "Walk to the mining marker  •  face the block  •  hold {mine} to dig",
       }),
       flight: Object.freeze({
-        phase: "3 / 6  •  FLIGHT",
+        phase: "3 / 7  •  FLIGHT",
         title: "PROVE LOCAL RECOVERY",
         body: "Hold {fly} until you lift off  •  then descend toward 15m",
       }),
       portal: Object.freeze({
-        phase: "4 / 6  •  RETURN GATE",
+        phase: "4 / 7  •  RETURN GATE",
         title: "OPEN A PERMANENT ROUTE HOME",
         body: "Follow the starter route to 15m  •  press {interact} at the gate",
       }),
       sell: Object.freeze({
-        phase: "5 / 6  •  SELL",
+        phase: "5 / 7  •  SELL",
         title: "TURN YOUR REAL CARGO INTO MONEY",
         body: "Return to the Money Monster  •  press {interact}  •  sell any stack",
       }),
+      upgrade: Object.freeze({
+        phase: "6 / 7  •  UPGRADE",
+        title: "TURN THE FIRST HAUL INTO POWER",
+        body: "Visit Player Upgrades  •  press {interact}  •  buy any affordable upgrade",
+      }),
       resume: Object.freeze({
-        phase: "6 / 6  •  RESUME",
+        phase: "7 / 7  •  RESUME",
         title: "REOPEN THE DEEP ROUTE",
         body: "Use the surface gate  •  enter the paired sky gate  •  resume at 15m",
       }),
@@ -180,12 +188,14 @@ export const RETENTION_CONFIG = Object.freeze({
 
   hud: Object.freeze({
     x: 16,
-    bottom: 14,
-    width: 350,
-    height: 58,
-    paddingX: 13,
-    promiseY: 12,
-    detailY: 36,
+    // Sits one clean row above the currency strip instead of being hidden
+    // directly behind it at bottom-left.
+    bottom: 84,
+    width: 430,
+    height: 85,
+    paddingX: 72,
+    promiseY: 27,
+    detailY: 53,
     depth: 1001,
     backgroundColor: 0x08121b,
     backgroundAlpha: 0.9,

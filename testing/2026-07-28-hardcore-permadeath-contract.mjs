@@ -5,8 +5,11 @@ import { fileURLToPath } from "node:url";
 import { HardcoreModeSystem } from "../systems/hardcore/HardcoreModeSystem.js";
 import {
   HARDCORE_MODE_CONFIG,
+  consumeHardcoreDeath,
   createHardcoreModeData,
   isHardcoreModeArmed,
+  isHardcoreModeExhausted,
+  isHardcoreRunActive,
   resolveHardcoreTeleportCost,
   sanitizeHardcoreModeData,
 } from "../values/hardcoreMode.js";
@@ -14,6 +17,8 @@ import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { sanitizePlayerPersistenceData } from "../values/playerPersistence.js";
 import { UI_NOTIFICATION_CAROUSEL_CONFIG } from "../values/uiNotificationCarousel.js";
 import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
+import { beginHardcorePermanentDeath } from
+  "../world/playScene/HardcoreDeathBridge.js";
 
 class MemoryStorage {
   constructor() {
@@ -46,7 +51,30 @@ globalThis.window = { localStorage: storage };
 const selectedHardcore = createHardcoreModeData("hardcore", 1000);
 assert.equal(selectedHardcore.mode, "hardcore");
 assert.equal(selectedHardcore.armed, false, "Hardcore must remain pending before Flight");
+assert.equal(selectedHardcore.livesRemaining, 2);
+assert.equal(selectedHardcore.freeReviveAvailable, true);
 assert.equal(isHardcoreModeArmed(selectedHardcore), false);
+
+const armedLivesSystem = new HardcoreModeSystem(selectedHardcore);
+assert.equal(armedLivesSystem.arm("flight", 2000), true);
+const freeRevive = armedLivesSystem.recordDeath("contract-free-revive");
+assert.equal(freeRevive.outcome, "free-revive");
+assert.equal(freeRevive.livesRemaining, 2);
+const firstLife = armedLivesSystem.recordDeath("contract-first-life");
+assert.equal(firstLife.outcome, "life-lost");
+assert.equal(firstLife.livesRemaining, 1);
+const exhaustion = armedLivesSystem.recordDeath("contract-exhaustion");
+assert.equal(exhaustion.outcome, "exhausted");
+assert.equal(exhaustion.livesRemaining, 0);
+assert.equal(isHardcoreModeExhausted(exhaustion.data), true);
+assert.equal(isHardcoreRunActive(exhaustion.data), false);
+assert.equal(consumeHardcoreDeath(createHardcoreModeData("casual")).outcome, "casual");
+const oneLife = consumeHardcoreDeath({
+  ...createHardcoreModeData("one-life-hardcore"),
+  armed: true,
+});
+assert.equal(oneLife.outcome, "exhausted");
+assert.equal(oneLife.livesRemaining, 0);
 
 const statusHud = HARDCORE_MODE_CONFIG.ui.statusHud;
 const statusHudLeft = statusHud.x - statusHud.width / 2;
@@ -129,6 +157,89 @@ assert.equal(
   HARDCORE_MODE_CONFIG.unstuck.cooldownMs,
 );
 
+const retryModeSystem = new HardcoreModeSystem({
+  ...createHardcoreModeData("hardcore", 1000),
+  armed: true,
+});
+let retryFlushes = 0;
+let retryRestart = null;
+const retryModal = {
+  deathOptions: null,
+  error: null,
+  ready: null,
+  savingCount: 0,
+  showDeath(options) { this.deathOptions = options; },
+  setDeathSaving() { this.savingCount += 1; },
+  setDeathReady(detail, presentation) {
+    this.ready = { detail, presentation };
+    this.error = null;
+  },
+  setError(message) { this.error = message; },
+};
+const retryScene = {
+  _hardcoreRuntime: {
+    system: retryModeSystem,
+    modal: retryModal,
+    config: HARDCORE_MODE_CONFIG,
+    updateDiagnostics() {},
+  },
+  _hardcoreDeathInProgress: false,
+  config: { topAirRows: 65, tileSize: 94 },
+  saveSlot: 1,
+  worldIdentity: "contract-retry-world",
+  playerCharacterId: "default",
+  gameState: "playing",
+  pendingDugTileSave: false,
+  hidePauseMenu() {},
+  lightSystem: { forceTorchOff() {} },
+  playerController: {
+    physicsBody: { x: 940, y: 7520, w: 60, h: 80 },
+    abilities: { fillGemPower() {} },
+    getPlayerTile() { return { tx: 10, ty: 80 }; },
+    getGemPowerMax() { return 110; },
+    setControlsEnabled() {},
+  },
+  player: { anims: { stop() {} } },
+  aimBox: { setVisible() {} },
+  digSystem: { getResourceTotals() { return {}; } },
+  upgradeSystem: { getMoney() { return 0; } },
+  _resetPlayerToSpawn() {},
+  queueDugTilesSave() {},
+  async flushDugTilesSave() {
+    retryFlushes += 1;
+    return retryFlushes > 1;
+  },
+  time: {
+    delayedCall(_delay, callback) {
+      callback();
+      return { remove() {} };
+    },
+  },
+  scene: {
+    restart(payload) { retryRestart = payload; },
+    start() {},
+  },
+};
+const originalConsoleError = console.error;
+console.error = () => {};
+try {
+  assert.equal(
+    await beginHardcorePermanentDeath(retryScene, { source: "stress" }),
+    false,
+    "A failed life-state flush must keep the death surface locked",
+  );
+} finally {
+  console.error = originalConsoleError;
+}
+assert.match(retryModal.error, /RETRY SAVE/);
+assert.equal(retryModal.ready, null);
+assert.equal(retryRestart, null);
+assert.equal(await retryModal.deathOptions.onRetry(), true);
+assert.match(retryModal.ready.detail, /SAVE INTACT/);
+assert.equal(retryRestart, null, "Retry Save must not restart on the same click");
+assert.equal(retryModal.deathOptions.onRetry(), true);
+assert.equal(retryRestart.hardcoreModeData.freeReviveAvailable, false);
+
 assert.deepEqual(
   sanitizePlayerPersistenceData({
     bodyX: 123.25,
@@ -203,7 +314,7 @@ const saveSucceeded = await store.save(
   playerState,
 );
 assert.equal(saveSucceeded, true);
-assert.equal(store.loadForDisplay()?.version, 13);
+assert.equal(store.loadForDisplay()?.version, 14);
 assert.equal(store.loadForDisplay()?.playerStateData.gemPower, 1);
 assert.equal(store.getBackups().length, 1);
 const hardcoreTransferPayload = store.loadFromLocalStorage();
@@ -241,7 +352,7 @@ assert.equal(
 );
 const liveHardcoreRestore = store.restoreFromBackup(0);
 assert.equal(liveHardcoreRestore.success, false);
-assert.match(liveHardcoreRestore.error, /purge-only/i);
+assert.match(liveHardcoreRestore.error, /oath-locked/i);
 assert.equal(store.getLatestBackup(), null);
 const hardcoreImportTarget = new DugTilesSaveStore({ slotId: 4 });
 assert.equal(
@@ -255,14 +366,14 @@ assert.equal(
 );
 const hardcoreImport = await hardcoreImportTarget.importSave({
   text: async () => JSON.stringify({
-    version: 13,
+    version: 14,
     exportedAt: new Date().toISOString(),
     slotId: 2,
     saveData: hardcoreTransferPayload,
   }),
 });
 assert.equal(hardcoreImport.success, false);
-assert.match(hardcoreImport.error, /external rollback files break permadeath/i);
+assert.match(hardcoreImport.error, /external rollback files break the oath/i);
 
 const unauthorizedDeath = store.preparePermanentDeath({
   mode: "casual",
@@ -432,28 +543,27 @@ globalThis.fetch = previousFetch;
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sourceContracts = [
-  ["ui/scenes/StartMenuScene.js", "new StartModeSelectionOverlay(this)"],
-  ["ui/scenes/StartMenuScene.js", "this._showNewSaveTutorialChoice("],
-  ["ui/scenes/StartMenuScene.js", "this._confirmKeyAttachTimer = this.time.delayedCall(0"],
+  ["ui/scenes/StartMenuScene.js", "new NewRunSetupOverlay(this)"],
   ["ui/scenes/StartMenuScene.js", '"OATH LOCKED"'],
-  ["ui/scenes/StartMenuScene.js", "purge-only backups"],
-  ["ui/scenes/StartModeSelectionOverlay.js", "this.scene.time.delayedCall(0"],
-  ["ui/scenes/StartTutorialChoiceOverlay.js", "this.scene.time.delayedCall(0"],
+  ["ui/scenes/StartMenuScene.js", "isHardcoreModeExhausted"],
+  ["ui/scenes/NewRunSetupInputController.js", "hiddenSequence"],
+  ["ui/scenes/NewRunSetupInputController.js", "skipConfirmation"],
   ["ui/scenes/StartMenuScene.js", "hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData)"],
   ["ui/scenes/WorldLoadScene.js", "isNewSave: isNewSave === true"],
   ["world/playScene/PlaySceneSetup.js", "if (data.isNewSave !== true) this.restorePersistentState();"],
-  ["world/playScene/PlaySceneUI.js", "allowExport: !isHardcoreMode"],
+  ["world/playScene/PlaySceneUI.js", "allowExport: !isHardcoreRunActive"],
   ["world/playScene/PlaySceneUI.js", "this.playerController?.getPersistenceData?.()"],
   ["world/playScene/PlaySceneUI.js", "return this.requestHardcoreUnstuck?.()"],
-  ["world/playScene/HardcoreDeathBridge.js", "preparePermanentDeath"],
-  ["world/playScene/HardcoreDeathBridge.js", "settleWithSceneTimeout"],
-  ["world/playScene/HardcoreDeathBridge.js", "purgePermanentDeath"],
+  ["world/playScene/HardcoreDeathBridge.js", "recordDeath(source)"],
+  ["world/playScene/HardcoreDeathBridge.js", "queueDugTilesSave"],
+  ["world/playScene/HardcoreDeathBridge.js", "persistLifeState"],
+  ["world/playScene/HardcoreDeathBridge.js", "setDeathSaving"],
+  ["world/playScene/HardcoreDeathBridge.js", "SAVE INTACT"],
   ["world/playScene/HardcoreDeathBridge.js", "persistHardcoreLiveCheckpoint"],
-  ["world/playScene/HardcoreDeathBridge.js", 'mode: "hardcore"'],
-  ["world/playScene/HardcoreDeathBridge.js", 'scene.scene.start("WorldLoadScene"'],
-  ["world/playScene/HardcoreDeathBridge.js", "TOWN_TUTORIAL_CHOICES.NO"],
+  ["world/playScene/HardcoreDeathBridge.js", 'scene.scene.restart({'],
   ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.retryLabel"],
   ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.menuLabel"],
+  ["ui/overlays/HardcoreDeathRecapView.js", "RETRY SAVE"],
   ["world/model/DugTilesSaveStore.js", "saveHardcoreCheckpoint"],
   ["ui/overlays/ShopOverlay.js", "requestHardcoreConversion"],
   ["systems/mining/SpecialTileSystem.js", "tryPayHardcoreTeleport"],
@@ -468,10 +578,16 @@ for (const [relativePath, expected] of sourceContracts) {
   assert.ok(source.includes(expected), `${relativePath} must contain ${expected}`);
 }
 
+const deathBridgeSource = readFileSync(
+  resolve(root, "world/playScene/HardcoreDeathBridge.js"),
+  "utf8",
+);
+assert.doesNotMatch(deathBridgeSource, /preparePermanentDeath|purgePermanentDeath|markDeathTombstone/);
+
 for (const asset of Object.values(HARDCORE_MODE_CONFIG.assets)) {
   const assetPath = resolve(root, asset.path);
   assert.equal(existsSync(assetPath), true, `Missing approved Hardcore art: ${asset.path}`);
   assert.ok(statSync(assetPath).size > 20000, `Hardcore art is unexpectedly tiny: ${asset.path}`);
 }
 
-console.log("Hardcore permadeath lifecycle contract passed.");
+console.log("Hardcore lives and durable exhaustion lifecycle contract passed.");

@@ -49,7 +49,8 @@ const defaultFlags = resolveGraveborerWurmFeatureFlags("", true);
 assert.deepEqual(defaultFlags, { enabled: true, devTest10x: false });
 assert.deepEqual(
   resolveGraveborerWurmFeatureFlags("?wurm=0&wurm10x=1", true),
-  { enabled: false, devTest10x: true },
+  { enabled: false, devTest10x: false },
+  "Demo mode must reject the removed 10x developer cheat",
 );
 assert.deepEqual(
   resolveGraveborerWurmFeatureFlags("?wurm=1&wurm10x=0", true),
@@ -104,8 +105,8 @@ gateScene.hardcoreModeData = { mode: "casual", armed: false };
 gateScene.upgradeSystem.isGemPowerUnlocked = () => false;
 assert.equal(
   resolveGraveborerWurmActivation(gateScene, { tx: 50, ty: 65 }, gateSystem).active,
-  true,
-  "The explicit 10x developer flag must bypass mode, Flight, and depth gates",
+  false,
+  "Demo mode must prevent a direct 10x flag from bypassing production gates",
 );
 gateSystem.setDevTest10x(false);
 assert.equal(
@@ -115,8 +116,8 @@ assert.equal(
     gateSystem,
     true,
   ).active,
-  true,
-  "The dev summon button must bypass gates only for its forced hunt",
+  false,
+  "Demo mode must prevent forced developer activation from bypassing production gates",
 );
 
 const casual = new GraveborerWurmSystem();
@@ -563,9 +564,13 @@ assert.equal(
 assert.deepEqual(
   sanitizeHardcoreModeData({ mode: "casual", armed: true }),
   {
-    version: 3,
-    mode: "casual",
-    armed: false,
+    version: 4,
+    mode: "hardcore",
+    armed: true,
+    livesRemaining: 2,
+    freeReviveAvailable: true,
+    deaths: 0,
+    exhausted: false,
     stress: 0,
     peakStress: 0,
     selectedAt: 0,

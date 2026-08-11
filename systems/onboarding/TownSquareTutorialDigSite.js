@@ -36,7 +36,10 @@ function prepareSite(scene, config) {
     : config.tileHp;
   world.setTile(site.tx, site.ty, type, hp);
   renderer.applyTileUpdate(site.tx, site.ty);
-  renderer.setTutorialTileVisual?.(site.tx, site.ty, type, true);
+  // The objective marker already identifies this exact cell. The former
+  // dirtHp5 overlay was a full legacy pixel square that covered the authored
+  // Town Square; clear it and let the ground facade present the embedded seam.
+  renderer.clearTutorialTileVisual?.();
   return site;
 }
 

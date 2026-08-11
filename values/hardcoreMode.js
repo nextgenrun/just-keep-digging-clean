@@ -1,6 +1,7 @@
 const MODES = Object.freeze({
   casual: "casual",
   hardcore: "hardcore",
+  oneLifeHardcore: "one-life-hardcore",
 });
 
 const TELEPORT_KIND_MULTIPLIERS = Object.freeze({
@@ -11,12 +12,31 @@ const TELEPORT_KIND_MULTIPLIERS = Object.freeze({
 });
 
 export const HARDCORE_MODE_CONFIG = Object.freeze({
-  version: 3,
+  version: 4,
+  queryParam: "runMode",
   modes: MODES,
+  rules: Object.freeze({
+    [MODES.casual]: Object.freeze({
+      startingLives: null,
+      firstReviveFree: false,
+    }),
+    [MODES.hardcore]: Object.freeze({
+      startingLives: 2,
+      firstReviveFree: true,
+    }),
+    [MODES.oneLifeHardcore]: Object.freeze({
+      startingLives: 1,
+      firstReviveFree: false,
+    }),
+  }),
   defaultData: Object.freeze({
-    version: 3,
+    version: 4,
     mode: MODES.casual,
     armed: false,
+    livesRemaining: null,
+    freeReviveAvailable: false,
+    deaths: 0,
+    exhausted: false,
     stress: 0,
     peakStress: 0,
     selectedAt: 0,
@@ -152,7 +172,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     itemId: "__hardcoreOath",
     category: "SAVE RULES",
     rowStatus: "IRREVERSIBLE • TYPE YES",
-    actionLabel: "TYPE YES • ENABLE PERMADEATH",
+    actionLabel: "TYPE YES • ENABLE HARDCORE",
   }),
   unstuck: Object.freeze({
     resourceLossRatio: 0.5,
@@ -161,6 +181,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     confirmationWord: "YES",
   }),
   death: Object.freeze({
+    automaticSaveDeletion: false,
     zeroGpEpsilon: 0.0001,
     returnDelayMs: 350,
     inFlightSaveWaitMs: 2500,
@@ -189,28 +210,31 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     errorColor: "#ff8b7f",
     stressWarningText: "Stress is rising • find light and slow your descent",
     stressCriticalText: "Critical stress • panic is draining Gem Power",
-    oneGpText: "1 GP • one mistake from permanent death",
-    armedText: "HARDCORE ARMED • 0 GP NOW ERASES THIS SAVE",
+    oneGpText: "1 GP • one mistake from a revive or life loss",
+    armedText: "HARDCORE ARMED • 0 GP CONSUMES A REVIVE OR LIFE",
   }),
   copy: Object.freeze({
     casualName: "CASUAL",
     casualSummary: "Persistent mine. Zero GP disables abilities,\nbut never deletes your save.",
-    hardcoreName: "PERMADEATH HARDCORE",
-    hardcoreSummary: "Arms at Flight. Flight and torch stop at 1 GP.\nStress and hazards can take the last.",
+    hardcoreName: "HARDCORE",
+    hardcoreSummary: "2 lives plus one free first revive. Arms at Flight.\nStress and hazards can consume a life.",
+    oneLifeName: "ONE-LIFE HARDCORE",
+    oneLifeSummary: "1 life. No free revive. Arms at Flight.\nThe save remains intact when the expedition ends.",
     pendingLabel: "HARDCORE • ARMS AT FLIGHT",
     armedLabel: "HARDCORE • OATH ARMED",
+    exhaustedLabel: "HARDCORE • EXPEDITION ENDED",
     boboOfferName: "The Hardcore Oath",
-    boboOfferSummary: "Convert this Casual save forever. Bobo fully charges GP, then 0 GP means permadeath.",
+    boboOfferSummary: "Convert this Casual save forever. Gain 2 lives and one free first revive; the save remains intact at exhaustion.",
     boboConfirmationTitle: "BOBO'S HARDCORE OATH",
     boboConfirmationBody:
-      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately. Flight and torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can take the final GP. At 0 GP the save and its local backups are erased.",
+      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately with 2 lives and one free first revive. Flight and torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can consume a revive or life. An exhausted expedition remains intact in the Save Vault.",
     unstuckTitle: "LAST RESORT RETURN",
     unstuckBody:
       "Returning to safety destroys 50% of every carried resource stack and starts a 10-minute cooldown.\n\nThis applies in Casual and Hardcore. Your wallet and permanent upgrades are not touched.",
     typedInstruction: "TYPE  YES  THEN PRESS ENTER",
-    deathTitle: "THE OATH IS CLAIMED",
-    erasingLabel: "ERASING SAVE AND BACKUPS...",
-    erasedLabel: "SAVE DELETED",
+    deathTitle: "THE OATH TAKES ITS TOLL",
+    erasingLabel: "SAVING THE NEW LIFE STATE...",
+    erasedLabel: "LIFE STATE SAVED",
     deathFooter: "PRESS ENTER OR CLICK TO RETURN TO SAVE SLOTS",
   }),
   diagnostics: Object.freeze({
@@ -227,45 +251,71 @@ function clamp(value, min, max) {
 }
 
 export function sanitizeHardcoreModeData(data) {
-  const mode = data?.mode === MODES.hardcore ? MODES.hardcore : MODES.casual;
-  const stress = mode === MODES.hardcore
+  const mode = data?.mode === MODES.oneLifeHardcore
+    ? MODES.oneLifeHardcore
+    : data?.mode === MODES.hardcore || data?.armed === true
+      ? MODES.hardcore
+      : MODES.casual;
+  const riskMode = mode !== MODES.casual;
+  const rules = HARDCORE_MODE_CONFIG.rules[mode];
+  const rawLives = Number.isFinite(data?.livesRemaining)
+    ? Math.floor(data.livesRemaining)
+    : rules.startingLives;
+  const requestedExhausted = riskMode && data?.exhausted === true;
+  const livesRemaining = riskMode
+    ? clamp(requestedExhausted ? 0 : rawLives, 0, rules.startingLives)
+    : null;
+  const exhausted = riskMode && livesRemaining <= 0;
+  const stress = riskMode
     ? clamp(finiteOr(data?.stress, 0), 0, HARDCORE_MODE_CONFIG.stress.maximum)
     : 0;
   return {
     version: HARDCORE_MODE_CONFIG.version,
     mode,
-    armed: mode === MODES.hardcore && data?.armed === true,
+    armed: riskMode && !exhausted && data?.armed === true,
+    livesRemaining,
+    freeReviveAvailable: mode === MODES.hardcore
+      && !exhausted
+      && data?.freeReviveAvailable !== false,
+    deaths: riskMode
+      ? Math.floor(clamp(
+        finiteOr(data?.deaths, 0),
+        0,
+        HARDCORE_MODE_CONFIG.runStats.maximumActionCount,
+      ))
+      : 0,
+    exhausted,
     stress,
-    peakStress: mode === MODES.hardcore
+    peakStress: riskMode
       ? clamp(Math.max(stress, finiteOr(data?.peakStress, stress)), 0, HARDCORE_MODE_CONFIG.stress.maximum)
       : 0,
     selectedAt: Math.max(0, finiteOr(data?.selectedAt, 0)),
-    armedAt: mode === MODES.hardcore && data?.armed === true
+    armedAt: riskMode && data?.armed === true
       ? Math.max(0, finiteOr(data?.armedAt, 0))
       : 0,
     lastUnstuckAt: Math.max(0, finiteOr(data?.lastUnstuckAt, 0)),
-    activePlayMs: mode === MODES.hardcore
+    activePlayMs: riskMode
       ? clamp(
         finiteOr(data?.activePlayMs, 0),
         0,
         HARDCORE_MODE_CONFIG.runStats.maximumActivePlayMs,
       )
       : 0,
-    unstuckUses: mode === MODES.hardcore
+    unstuckUses: riskMode
       ? Math.floor(clamp(
         finiteOr(data?.unstuckUses, 0),
         0,
         HARDCORE_MODE_CONFIG.runStats.maximumActionCount,
       ))
       : 0,
-    paidTeleports: mode === MODES.hardcore
+    paidTeleports: riskMode
       ? Math.floor(clamp(
         finiteOr(data?.paidTeleports, 0),
         0,
         HARDCORE_MODE_CONFIG.runStats.maximumActionCount,
       ))
       : 0,
-    teleportMoneySpent: mode === MODES.hardcore
+    teleportMoneySpent: riskMode
       ? Math.floor(clamp(
         finiteOr(data?.teleportMoneySpent, 0),
         0,
@@ -277,24 +327,81 @@ export function sanitizeHardcoreModeData(data) {
 
 export function createHardcoreModeData(mode, now = Date.now()) {
   return sanitizeHardcoreModeData({
-    mode: mode === MODES.hardcore ? MODES.hardcore : MODES.casual,
+    mode: Object.values(MODES).includes(mode) ? mode : MODES.casual,
     armed: false,
     selectedAt: Math.max(0, finiteOr(now, 0)),
   });
 }
 
 export function isHardcoreMode(data) {
-  return sanitizeHardcoreModeData(data).mode === MODES.hardcore;
+  return sanitizeHardcoreModeData(data).mode !== MODES.casual;
 }
 
 export function isHardcoreModeArmed(data) {
   const normalized = sanitizeHardcoreModeData(data);
-  return normalized.mode === MODES.hardcore && normalized.armed === true;
+  return normalized.mode !== MODES.casual
+    && normalized.armed === true
+    && normalized.exhausted !== true;
+}
+
+export function isHardcoreModeExhausted(data) {
+  const normalized = sanitizeHardcoreModeData(data);
+  return normalized.mode !== MODES.casual && normalized.exhausted === true;
+}
+
+export function isHardcoreRunActive(data) {
+  const normalized = sanitizeHardcoreModeData(data);
+  return normalized.mode !== MODES.casual && normalized.exhausted !== true;
+}
+
+export function resolveHardcoreModeFromSearch(
+  search = globalThis.location?.search || "",
+) {
+  const value = new URLSearchParams(search)
+    .get(HARDCORE_MODE_CONFIG.queryParam)
+    ?.trim()
+    .toLowerCase();
+  return Object.values(MODES).includes(value) ? value : null;
+}
+
+export function consumeHardcoreDeath(data) {
+  const current = sanitizeHardcoreModeData(data);
+  if (current.mode === MODES.casual) {
+    return { data: current, outcome: "casual", livesRemaining: null };
+  }
+  if (current.exhausted) {
+    return { data: current, outcome: "exhausted", livesRemaining: 0 };
+  }
+  if (current.freeReviveAvailable) {
+    const next = sanitizeHardcoreModeData({
+      ...current,
+      freeReviveAvailable: false,
+      deaths: current.deaths + 1,
+    });
+    return { data: next, outcome: "free-revive", livesRemaining: next.livesRemaining };
+  }
+  const next = sanitizeHardcoreModeData({
+    ...current,
+    livesRemaining: current.livesRemaining - 1,
+    deaths: current.deaths + 1,
+  });
+  return {
+    data: next,
+    outcome: next.exhausted ? "exhausted" : "life-lost",
+    livesRemaining: next.livesRemaining,
+  };
+}
+
+export function getHardcoreModeLabel(data) {
+  const mode = sanitizeHardcoreModeData(data).mode;
+  if (mode === MODES.oneLifeHardcore) return HARDCORE_MODE_CONFIG.copy.oneLifeName;
+  if (mode === MODES.hardcore) return "HARDCORE";
+  return HARDCORE_MODE_CONFIG.copy.casualName;
 }
 
 export function resolveHardcoreUpkeepGpFloor(data, source) {
   const cfg = HARDCORE_MODE_CONFIG.upkeepProtection;
-  return data?.mode === MODES.hardcore && data?.armed === true
+  return isHardcoreModeArmed(data)
     && cfg.sources.includes(source) ? cfg.floorGp : 0;
 }
 

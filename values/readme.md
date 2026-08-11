@@ -3,9 +3,9 @@
 Single Source of Truth — ALL numeric/string/config values.
 
 - `firstFiveMinutes.js` owns the default-on opening profile: the in-camera
-  normal-HP Dirt site at x12, guaranteed first portal at x12/depth 15,
-  self-healing Town doorway boundary for every active tutorial stage,
-  surface-safety timing, persistent six-stage/Flight copy, and the single
+  normal-HP Dirt seam embedded in the ground at x12, guaranteed first portal at
+  x12/depth 15, self-healing Town doorway boundary through the portal beat,
+  surface-safety timing, persistent seven-stage/Flight copy, and the single
   `?firstFive=0` rollback. Disabling the profile restores the former transient
   x24 one-HP practice tile and unrestricted tutorial descent.
 - `tutorialNarration.js` owns state-driven captions and optional exact audio
@@ -195,7 +195,8 @@ Single Source of Truth — ALL numeric/string/config values.
   v2 penumbra, falloff, core, warmth, and alpha ceiling.
 
 - `hardcoreMode.js` owns the versioned Casual/Hardcore save discriminator,
-  post-Flight armed state, typed confirmation copy, stress sources and GP
+  post-Flight armed state, Casual/Hardcore/hidden One-Life rules, the free
+  first revive plus 2→1→0 lives reducer, durable exhausted state, stress sources and GP
   drain, the armed-Hardcore Flight/Torch one-GP upkeep floor, one-second live
   position/GP/stress checkpoint cadence, paid-teleport curve, run counters,
   50% unstuck penalty/cooldown, death-source labels, and approved ImageGen UI
@@ -308,8 +309,14 @@ Single Source of Truth — ALL numeric/string/config values.
 - `supermanPoseEditor.json` owns the isolated, upright-idle Superman pose workbook: the approved Survivor v2 source, the frozen review action, five large labelled pose controls, and the review-only output paths. It never changes runtime art, animation, or collision.
 - `supermanHorizontalIdleReview.json` owns the simplified review-only Superman baseline: the frozen approved idle snapshot, a single 90-degree horizontal flip, and its clean no-controls output paths. It never changes runtime art, animation, or collision.
 - `retentionConfig.js` owns the production Town Square tutorial choices,
-  MOVE/DIG/FLIGHT/PORTAL/SELL/RESUME stages, guaranteed return route, Flight
+  MOVE/DIG/FLIGHT/PORTAL/SELL/UPGRADE/RESUME stages, guaranteed return route, Flight
   reward, 30-second flying-only bank, copy, markers, and modal/HUD layout.
+- `newRunSetup.js` owns the integrated empty-slot Casual/Hardcore and
+  Guided/Skip selection layout, typed `YES` skip guard, hidden `ONELIFE`
+  sequence, and authored first-run copy.
+- `hudQuickControls.js` owns the approved bitmap Inventory and ESC Menu target
+  dimensions, live remapped-label alignment, hit padding, and responsive
+  bottom-right anchoring.
 - `playerPersistence.js` validates the exact pixel body coordinates, facing, and
   GP snapshot stored in save schema v13.
 - `openingFlightArtifact.js` retains the rejected legacy and Golden Five

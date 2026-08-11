@@ -66,8 +66,6 @@ for (const stage of [
   TOWN_TUTORIAL_STAGES.DIG,
   TOWN_TUTORIAL_STAGES.FLIGHT,
   TOWN_TUTORIAL_STAGES.PORTAL,
-  TOWN_TUTORIAL_STAGES.SELL,
-  TOWN_TUTORIAL_STAGES.RESUME,
 ]) {
   tutorialState = { ...tutorialState, stage };
   assert.equal(barrier.sync(), true);
@@ -78,7 +76,7 @@ assert.equal(barrier.sync(), true);
 assert.equal(tiles.get("66,63"), TILE_TYPES.BEDROCK);
 assert.equal(rendererUpdates.length, 4);
 
-tutorialState = { ...tutorialState, stage: TOWN_TUTORIAL_STAGES.COMPLETE };
+tutorialState = { ...tutorialState, stage: TOWN_TUTORIAL_STAGES.SELL };
 assert.equal(barrier.sync(), false);
 for (const ty of [62, 63, 64]) {
   assert.equal(tiles.get(`66,${ty}`), TILE_TYPES.AIR);
@@ -105,7 +103,7 @@ assert.match(bridgeSource, /townExitBarrier\.update\(\)/);
 assert.doesNotMatch(bridgeSource, /TutorialFlightReminderSystem|claimTutorialUpgradeFunding/);
 assert.doesNotMatch(
   barrierSource,
-  /uiNotifications|essentialNotifications|TOWN_TUTORIAL_STAGES\.UPGRADE/,
+  /uiNotifications|essentialNotifications/,
 );
 assert.doesNotMatch(
   viewSource,
@@ -113,4 +111,3 @@ assert.doesNotMatch(
 );
 
 console.log("Tutorial Town boundary contract passed without popups or reminders.");
-

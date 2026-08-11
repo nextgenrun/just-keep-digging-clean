@@ -89,22 +89,14 @@ devHud.update({
   enabled: true,
   devTest10x: true,
 }, 1000);
-assert.equal(devScene.images[0].interactive, true);
-assert.deepEqual(
-  devScene.images[0].interactiveOptions,
-  { useHandCursor: true },
-);
-assert.equal(devScene.containers[0].visible, true);
-assert.equal(devScene.texts[0].text, GRAVEBORER_WURM_CONFIG.labels.devReady);
-assert.equal(devScene.texts[1].text, GRAVEBORER_WURM_CONFIG.labels.devBadge10x);
-assert.equal(devScene.texts[1].visible, true);
-devScene.images[0].emit("pointerover");
-devHud.update({ active: false, enabled: true }, 1000);
-assert.ok(devScene.images[0].scaleX > 1, "Hover must visibly lift the summon control");
+assert.equal(devScene.images[0].interactive, false);
+assert.equal(devScene.containers[0].visible, false);
+assert.equal(devScene.texts.length, 1);
 devScene.images[0].emit("pointerdown");
-assert.equal(summonCount, 1);
-assert.ok(devHud.devPressUntilMs > devScene.time.now);
-devScene.images[0].emit("pointerout");
+assert.equal(summonCount, 0, "Removed developer summon control must stay inert");
+devHud.update({ active: true, enabled: true }, 1000);
+assert.equal(devScene.containers[0].visible, true);
+assert.equal(devScene.texts[0].text, GRAVEBORER_WURM_CONFIG.labels.dormant);
 devHud.destroy();
 assert.equal(devScene.images[0].interactive, false);
 assert.equal(devScene.containers[0].destroyed, true);
@@ -118,7 +110,7 @@ const liveHud = new GraveborerWurmHudSystem(
 liveHud.update({ active: false, enabled: true }, 1000);
 assert.equal(liveScene.images[0].interactive, false);
 assert.equal(liveScene.containers[0].visible, false);
-assert.equal(liveScene.texts[1].visible, false);
+assert.equal(liveScene.texts.length, 1);
 liveHud.destroy();
 
-console.log("Graveborer Wurm developer HUD contract passed.");
+console.log("Graveborer Wurm production HUD without demo cheats contract passed.");

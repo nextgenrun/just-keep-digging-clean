@@ -889,7 +889,7 @@ export class ShopOverlay {
     [
       "• Hardcore is armed immediately because Flight is unlocked.",
       "• Darkness, pressure, hazards, abilities and the Wurm can drain GP.",
-      "• At 0 GP this save and every local backup are erased.",
+      "• At 0 GP the free revive or one life is consumed; the save stays intact.",
       "• This conversion can never be reversed.",
     ].forEach((line, index) => {
       this._text(x + 36, warningY + 18 + index * 27, line, {

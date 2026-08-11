@@ -49,10 +49,16 @@ export const TUTORIAL_NARRATION_CUES = Object.freeze({
     "STEP 5  •  SELL YOUR REAL CARGO",
     "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
   ),
+  upgrade: cue(
+    "upgrade",
+    "Spend part of that first haul on one upgrade. The choice is yours.",
+    "STEP 6  •  BUY ONE UPGRADE",
+    "VISIT PLAYER UPGRADES  •  BUY ANY AFFORDABLE CHOICE  •  NEXT: RESUME",
+  ),
   resume: cue(
     "resume",
     "The surface gate now returns you to the route you opened.",
-    "STEP 6  •  RESUME AT 15M",
+    "STEP 7  •  RESUME AT 15M",
     "USE THE MARKED SURFACE GATE  •  THEN ENTER YOUR PAIRED SKY GATE",
   ),
   complete: cue(

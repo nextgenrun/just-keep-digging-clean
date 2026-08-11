@@ -125,7 +125,7 @@ export class HardcoreDeathRecapView {
     }).setOrigin(0.5, options.originY ?? 0.5);
   }
 
-  show({ reason, depth, pages, onRetry, onReturn }) {
+  show({ reason, depth, pages, onRetry, onReturn, presentation = {} }) {
     const layout = this.config.recap;
     this.mode = "death";
     this.pages = Array.isArray(pages) && pages.length > 0
@@ -136,26 +136,33 @@ export class HardcoreDeathRecapView {
     this.onRetry = typeof onRetry === "function" ? onRetry : null;
     this.onReturn = typeof onReturn === "function" ? onReturn : null;
     this.onClose = null;
+    this.presentation = presentation;
     this.retryButton
       .setPosition(-layout.actionOffsetX, layout.actionY)
       .setVisible(false);
-    this.retryButton.actionLabel.setText(this.config.copy.retryLabel);
+    this.retryButton.actionLabel.setText(
+      presentation.primaryLabel || this.config.copy.retryLabel,
+    );
     this.menuButton
       .setPosition(layout.actionOffsetX, layout.actionY)
       .setVisible(false);
-    this.menuButton.actionLabel.setText(this.config.copy.menuLabel);
-    this.title.setText(this.config.copy.deathTitle);
+    this.menuButton.actionLabel.setText(
+      presentation.secondaryLabel || this.config.copy.menuLabel,
+    );
+    this.title.setText(presentation.title || this.config.copy.deathTitle);
     this.subtitle.setText(
-      `${this.config.copy.deathSubtitlePrefix}  •  `
+      `${presentation.subtitlePrefix || this.config.copy.deathSubtitlePrefix}  •  `
         + `${this.config.copy.depthLabel} ${Math.max(
           0,
           Math.floor(depth || 0),
         )}${this.config.copy.meterUpperSuffix}`,
     );
     this.reason.setText(reason || this.config.copy.unknownDeathReason);
-    this.status.setText(this.config.copy.erasingLabel).setColor(UI_COLORS.gold);
+    this.status
+      .setText(presentation.busyStatus || this.config.copy.erasingLabel)
+      .setColor(UI_COLORS.gold);
     this.detail.setText("");
-    this.footer.setText(this.config.copy.busyFooter);
+    this.footer.setText(presentation.busyFooter || this.config.copy.busyFooter);
     this.buttons.forEach(button => button.root.setVisible(false));
     this.root.setVisible(true);
     this._renderPage();
@@ -199,12 +206,48 @@ export class HardcoreDeathRecapView {
     this._renderPage();
   }
 
-  setReady(detail = "") {
+  setSaving(presentation = null) {
+    if (this.mode !== "death") return;
+    if (presentation) this.presentation = presentation;
+    const copy = this.presentation || {};
+    this.ready = false;
+    this.status
+      .setText(copy.busyStatus || this.config.copy.erasingLabel)
+      .setColor(UI_COLORS.gold);
+    this.detail.setText("");
+    this.footer.setText(copy.busyFooter || this.config.copy.busyFooter);
+    this.buttons.forEach(button => button.root.setVisible(false));
+  }
+
+  setError(message = "LIFE STATE NOT SAVED") {
     if (this.mode !== "death") return;
     this.ready = true;
-    this.status.setText(this.config.copy.readyLabel).setColor(UI_COLORS.success);
-    this.detail.setText(detail);
-    this.footer.setText(this.config.copy.readyFooter);
+    this.status
+      .setText("LIFE STATE SAVE FAILED")
+      .setColor(UI_COLORS.danger);
+    this.detail.setText(String(message));
+    this.footer.setText("ENTER OR CLICK RETRY SAVE  •  LEAVING REMAINS LOCKED");
+    this.retryButton.actionLabel.setText("RETRY SAVE");
+    this.retryButton.setVisible(true);
+    this.menuButton.setVisible(false);
+  }
+
+  setReady(detail = "", presentation = null) {
+    if (this.mode !== "death") return;
+    if (presentation) this.presentation = presentation;
+    const copy = this.presentation || {};
+    this.ready = true;
+    this.status
+      .setText(copy.readyStatus || this.config.copy.readyLabel)
+      .setColor(copy.readyColor || UI_COLORS.success);
+    this.detail.setText(detail || copy.readyDetail || "");
+    this.footer.setText(copy.readyFooter || this.config.copy.readyFooter);
+    this.retryButton.actionLabel.setText(
+      copy.primaryLabel || this.config.copy.retryLabel,
+    );
+    this.menuButton.actionLabel.setText(
+      copy.secondaryLabel || this.config.copy.menuLabel,
+    );
     this.buttons.forEach(button => button.root.setVisible(true));
   }
 

@@ -1,5 +1,6 @@
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { getCargoSellValue } from "../../values/resourcePrices.js";
+import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 
 function formatMoney(value) {
@@ -16,7 +17,11 @@ export class NextPromiseHudSystem {
     this.root = scene.add.container(this.config.x, 0)
       .setScrollFactor(0)
       .setDepth(this.config.depth);
-    this.background = scene.add.graphics();
+    this.background = scene.add.image(
+      this.config.width / 2,
+      this.config.height / 2,
+      ASSET_KEYS.onboarding.openingFlightV2.objectiveHudFrame,
+    ).setDisplaySize(this.config.width, this.config.height);
     this.promiseText = scene.add.text(
       this.config.paddingX,
       this.config.promiseY,
@@ -46,11 +51,9 @@ export class NextPromiseHudSystem {
     const height = this.config.height;
     const viewportHeight = this.scene.scale?.height || 720;
     this.root.setPosition(this.config.x, viewportHeight - this.config.bottom - height);
-    this.background.clear();
-    this.background.fillStyle(this.config.backgroundColor, this.config.backgroundAlpha);
-    this.background.fillRoundedRect(0, 0, this.config.width, height, 7);
-    this.background.lineStyle(1, this.config.borderColor, this.config.borderAlpha);
-    this.background.strokeRoundedRect(0, 0, this.config.width, height, 7);
+    this.background
+      .setPosition(this.config.width / 2, height / 2)
+      .setDisplaySize(this.config.width, height);
   }
 
   update(nowMs) {
@@ -123,6 +126,20 @@ export class NextPromiseHudSystem {
 
   resize() {
     this._layout();
+  }
+
+  getHealthSnapshot() {
+    return {
+      active: this.root?.active === true,
+      visible: this.root?.visible === true,
+      x: this.root?.x || 0,
+      y: this.root?.y || 0,
+      width: this.background?.displayWidth || 0,
+      height: this.background?.displayHeight || 0,
+      textureKey: this.background?.texture?.key || null,
+      promise: this.promiseText?.text || "",
+      detail: this.detailText?.text || "",
+    };
   }
 
   destroy() {

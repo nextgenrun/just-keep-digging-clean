@@ -19,7 +19,7 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = relativePath => readFileSync(path.join(root, relativePath), "utf8");
 
-assert.equal("UPGRADE" in TOWN_TUTORIAL_STAGES, false);
+assert.equal("UPGRADE" in TOWN_TUTORIAL_STAGES, true);
 assert.equal("upgradeFunding" in RETENTION_CONFIG.tutorial, false);
 assert.deepEqual(RETENTION_CONFIG.tutorial.activeStages, [
   TOWN_TUTORIAL_STAGES.MOVE,
@@ -27,6 +27,7 @@ assert.deepEqual(RETENTION_CONFIG.tutorial.activeStages, [
   TOWN_TUTORIAL_STAGES.FLIGHT,
   TOWN_TUTORIAL_STAGES.PORTAL,
   TOWN_TUTORIAL_STAGES.SELL,
+  TOWN_TUTORIAL_STAGES.UPGRADE,
   TOWN_TUTORIAL_STAGES.RESUME,
 ]);
 
@@ -55,8 +56,15 @@ retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
 assert.equal(
   retention.getTutorialState().stage,
   TOWN_TUTORIAL_STAGES.FLIGHT,
-  "buying any upgrade is optional and must not drive tutorial progression",
+  "buying before the Upgrade beat must not skip the authored route",
 );
+retention.claimTutorialFlightTraining();
+retention.recordTutorialFlight();
+retention.recordPortalActivated("Starter Return Gate");
+retention.recordSale(1, 1);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
+retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
 
 const tutorialSource = read("systems/onboarding/TownSquareTutorialSystem.js");
 const bridgeSource = read("systems/onboarding/FirstFiveMinutesTutorialBridge.js");
@@ -64,4 +72,4 @@ assert.doesNotMatch(tutorialSource, /Agility Training|addMoney|setResources/);
 assert.doesNotMatch(bridgeSource, /FIRST_FIVE_STARTER_UPGRADE_ID|claimTutorialUpgradeFunding/);
 assert.match(tutorialSource, /claimTutorialFlightTraining/);
 
-console.log("first upgrade compatibility contract passed: no forced purchase, legacy effect preserved");
+console.log("first upgrade handoff contract passed: real purchase beat, no forced funding, legacy effect preserved");

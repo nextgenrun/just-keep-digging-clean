@@ -15,6 +15,7 @@ import { sanitizeHeavenblocksProgressionData } from "../../values/heavenblocksPr
 import {
   isHardcoreMode,
   isHardcoreModeArmed,
+  isHardcoreRunActive,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
 import { sanitizeGraveborerWurmData } from "../../values/graveborerWurm.js";
@@ -726,7 +727,7 @@ export class DugTilesSaveStore {
     if (isHardcoreMode(current?.hardcoreModeData)) {
       return {
         success: false,
-        error: "Hardcore backups are purge-only and cannot rewind the current run",
+        error: "Hardcore backups are oath-locked and cannot rewind the current run",
       };
     }
     const restored = this.backupManager.restoreBackup(this.slotId, backupIndex);
@@ -752,8 +753,8 @@ export class DugTilesSaveStore {
       const payload = this.loadFromLocalStorage();
       if (!payload) { console.warn('[DugTilesSaveStore] No save data to export'); return false; }
       const normalized = this.normalizePayload(payload);
-      if (isHardcoreMode(normalized?.hardcoreModeData)) {
-        console.warn('[DugTilesSaveStore] Hardcore saves cannot be exported as rollback files');
+      if (isHardcoreRunActive(normalized?.hardcoreModeData)) {
+        console.warn('[DugTilesSaveStore] Active Hardcore saves cannot be exported as rollback files');
         return false;
       }
       const exportData = { version: payload.version, exportedAt: new Date().toISOString(), slotId: this.slotId, saveData: payload };
@@ -778,10 +779,10 @@ export class DugTilesSaveStore {
       if (!importData.saveData || typeof importData.saveData !== 'object') return { success: false, error: 'Invalid save file structure' };
       const saveData = this.normalizePayload(importData.saveData);
       if (!saveData) return { success: false, error: 'Invalid save data' };
-      if (isHardcoreMode(saveData.hardcoreModeData)) {
+      if (isHardcoreRunActive(saveData.hardcoreModeData)) {
         return {
           success: false,
-          error: "Hardcore saves cannot be imported because external rollback files break permadeath",
+          error: "Active Hardcore saves cannot be imported because external rollback files break the oath",
         };
       }
       if (this.isDeathTombstoned()) {

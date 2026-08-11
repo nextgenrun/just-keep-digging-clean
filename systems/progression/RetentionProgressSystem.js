@@ -117,13 +117,16 @@ export class RetentionProgressSystem {
     if (this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.LEGACY) return null;
     this.data.tutorialFlightTrainingGranted = true;
     const reward = RETENTION_CONFIG.tutorial.flightTraining;
+    const freeFlightMs = this.data.tutorialChoice === TOWN_TUTORIAL_CHOICES.YES
+      ? reward.freeFlightMs
+      : 0;
     this.data.tutorialFreeFlightRemainingMs = Math.max(
       this.data.tutorialFreeFlightRemainingMs,
-      reward.freeFlightMs,
+      freeFlightMs,
     );
     return {
       flightUpgradeId: reward.flightUpgradeId,
-      freeFlightMs: reward.freeFlightMs,
+      freeFlightMs,
     };
   }
 
@@ -278,7 +281,7 @@ export class RetentionProgressSystem {
     const earned = this.recordMoneyEarned(money);
     this.data.stats.resourcesSold += finiteRetentionInt(units, 0, 1000000000);
     if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.SELL) {
-      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.UPGRADE);
     }
     return { money: earned, units: finiteRetentionInt(units) };
   }
@@ -299,6 +302,9 @@ export class RetentionProgressSystem {
       beforeDamage: finiteRetentionInt(preview?.beforeDamage),
       afterDamage: finiteRetentionInt(preview?.afterDamage),
     };
+    if (this.data.tutorialStage === TOWN_TUTORIAL_STAGES.UPGRADE) {
+      this._setTutorialStage(TOWN_TUTORIAL_STAGES.RESUME);
+    }
   }
 
   consumeUpgradePayoff() {

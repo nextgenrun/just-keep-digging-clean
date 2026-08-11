@@ -179,6 +179,7 @@ This project uses a 3-tier version control system:
 | Document | Purpose |
 |----------|---------|
 | `/markdown/readme.md` | Full structure & policies |
+| `/markdown/design-documents/readme.md` | Canonical game vision, player journey, controls, systems, saves, world, and runtime alignment register |
 | `/markdown/naming-policy.md` | Naming conventions |
 | `/markdown/organisation-policy.md` | Layered architecture |
 | `/markdown/seperation-policy.md` | One responsibility per file |

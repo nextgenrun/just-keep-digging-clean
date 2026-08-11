@@ -33,9 +33,10 @@ assert.deepEqual(RETENTION_CONFIG.tutorial.activeStages, [
   TOWN_TUTORIAL_STAGES.FLIGHT,
   TOWN_TUTORIAL_STAGES.PORTAL,
   TOWN_TUTORIAL_STAGES.SELL,
+  TOWN_TUTORIAL_STAGES.UPGRADE,
   TOWN_TUTORIAL_STAGES.RESUME,
 ]);
-assert.equal("UPGRADE" in TOWN_TUTORIAL_STAGES, false);
+assert.equal("UPGRADE" in TOWN_TUTORIAL_STAGES, true);
 assert.equal("upgradeFunding" in RETENTION_CONFIG.tutorial, false);
 
 const retention = new RetentionProgressSystem();
@@ -60,6 +61,8 @@ assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.PORTAL);
 retention.recordPortalActivated("Starter Return Gate");
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
 retention.recordSale(1, 1);
+assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
+retention.recordUpgrade("Agility Training", { upgradeId: "agility" });
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
 assert.equal(retention.recordTutorialPortalResume(), true);
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
@@ -70,6 +73,14 @@ assert.equal(resumed.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
 assert.equal(resumed.getTutorialState().flightTrainingGranted, true);
 assert.equal("upgradeFundingGranted" in resumed.getTutorialState(), false);
 
+assert.equal(
+  sanitizeRetentionProgressData({
+    version: 5,
+    tutorialChoice: "yes",
+    tutorialStage: "resume",
+  }).tutorialStage,
+  TOWN_TUTORIAL_STAGES.UPGRADE,
+);
 assert.equal(
   sanitizeRetentionProgressData({
     version: 4,

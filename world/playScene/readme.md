@@ -40,33 +40,33 @@ the production systems, while completed or skipped saves create no guide UI.
 
 ## Hardcore oath lifecycle
 
-`HardcoreModeBridge.js` adapts Hardcore state, HUD, typed modals, paid
-teleports, and last-resort unstuck. `HardcoreDeathBridge.js` owns the single
-permanent-death transaction. A new Hardcore save remains pending until Flight
-unlocks; a Casual save may make the same irreversible oath through Bobo only
-after Flight and a typed `YES`. Casual never dies at zero GP.
+`HardcoreModeBridge.js` adapts risk state, HUD, typed modals, paid teleports,
+and last-resort unstuck. `HardcoreDeathBridge.js` owns the single lives/death
+transaction. A new Hardcore save remains pending until Flight unlocks; a
+Casual save may take the same oath through Bobo only after Flight and typed
+`YES`. Casual never consumes lives at zero GP.
 
 Once armed, every exact GP change flows through the central death boundary.
 Abilities, stress, falling rocks, cave traps, crush boundary, and Wurm hits can
-therefore kill without duplicating delete logic. Darkness, rapid descent, and
+therefore resolve through one lives reducer. Darkness, rapid descent, and
 excessive depth build stress; high stress drains GP. Flight and torch upkeep
 are the deliberate exception at the final point: both
 stop at exactly 1 GP and cannot restart without spendable GP. Stress, combat
 abilities, rocks, traps, the Wurm, and other hazards can still consume that
-last point and trigger permadeath.
+last point and trigger a revive or life loss.
 The bridge records exact position, fractional GP, and stress every second,
 with an immediate checkpoint when GP first falls into the one-GP danger band.
 Teleport costs are quoted and charged before movement. Both modes require a
 typed `YES` for unstuck, lose half of every carried resource stack, and enter
 the configured cooldown.
 
-Death captures the exact position, full retention-stat snapshot, every stored
-Journey achievement, Hardcore run counters, cause, depth, and Wurm encounters
-before any purge. The image-backed result pages remain reviewable while erase
-finishes, then offer `TRY AGAIN` or `BACK TO MENU`. Retry creates a fresh
-Hardcore save in the same slot, skips the completed-player tutorial choice, and
-still waits for Flight before arming. The memorial record lives outside the
-slot, so that grave also appears if the player starts Casual in the same slot.
+Death consumes the shared reducer: the first Hardcore death uses the free
+revive, later deaths spend lives 2→1→0, and One-Life reaches zero immediately.
+Surviving outcomes save and restart at town with full GP. Zero lives marks the
+expedition exhausted, records its memorial, and returns to the Save Vault; the
+slot remains intact and exportable until the player explicitly clears it. A
+failed life-state write switches the recap to `RETRY SAVE` and keeps every exit
+locked until the retry succeeds.
 `HardcoreModalStateBridge.js` turns a grave click into the same blocking,
 large-panel presentation used by the oath/depth-gate family, supplies every
 saved recap page, and restores controls only after explicit close. The world

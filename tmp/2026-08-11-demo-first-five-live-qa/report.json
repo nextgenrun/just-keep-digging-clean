@@ -1,0 +1,360 @@
+{
+  "schema": "demo-first-five-live-qa@1",
+  "generatedUtc": "2026-08-11T17:02:27.979Z",
+  "url": "http://127.0.0.1:8080/?jkd_e2e=1&recoveryQa=20260811-first-five",
+  "selection": {
+    "mode": "hardcore",
+    "tutorialChoice": "yes",
+    "confirmed": true
+  },
+  "initial": {
+    "tutorial": {
+      "choice": "yes",
+      "stage": "move",
+      "flightTrainingGranted": false,
+      "freeFlightRemainingMs": 0
+    },
+    "hardcore": {
+      "version": 4,
+      "mode": "hardcore",
+      "armed": false,
+      "livesRemaining": 2,
+      "freeReviveAvailable": true,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 1786467734386,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0
+    },
+    "barrier": {
+      "active": true,
+      "created": true,
+      "tileX": 66,
+      "tileCount": 3
+    },
+    "hud": {
+      "active": true,
+      "visible": true,
+      "inventory": {
+        "keyLabel": "I",
+        "width": 93.99999999999999,
+        "height": 93.99999999999999,
+        "hitWidth": 102,
+        "hitHeight": 102
+      },
+      "pause": {
+        "active": true,
+        "label": "Esc  MENU",
+        "width": 154,
+        "height": 36,
+        "hitWidth": 164,
+        "hitHeight": 44
+      }
+    },
+    "promiseHud": {
+      "active": true,
+      "visible": true,
+      "x": 16,
+      "y": 551,
+      "width": 430,
+      "height": 85,
+      "textureKey": "opening-flight-v2-objective-hud-frame",
+      "promise": "STEP 1  •  WALK TO THE MARKED GROUND",
+      "detail": "A/D MOVE  •  NEXT: MINE YOUR FIRST BLOCK"
+    },
+    "starterSite": {
+      "aboveType": 0,
+      "groundType": 1,
+      "legacySquareVisible": false
+    },
+    "townPillar": {
+      "active": true,
+      "textureKey": "environment-star-pillar-stage-1-v1",
+      "width": 74.50800915331808,
+      "height": 98.16933638443936,
+      "stageTextures": [
+        {
+          "key": "environment-star-pillar-stage-1-v1",
+          "exists": true,
+          "sourceWidth": 296,
+          "sourceHeight": 390
+        },
+        {
+          "key": "environment-star-pillar-stage-2-v1",
+          "exists": true,
+          "sourceWidth": 316,
+          "sourceHeight": 525
+        },
+        {
+          "key": "environment-star-pillar-stage-3-v1",
+          "exists": true,
+          "sourceWidth": 342,
+          "sourceHeight": 636
+        },
+        {
+          "key": "environment-star-pillar-stage-4-v1",
+          "exists": true,
+          "sourceWidth": 363,
+          "sourceHeight": 709
+        },
+        {
+          "key": "environment-star-pillar-stage-5-v1",
+          "exists": true,
+          "sourceWidth": 385,
+          "sourceHeight": 874
+        }
+      ],
+      "nearbyDisplayObjects": [
+        {
+          "type": "Image",
+          "name": "world-visual-depth-surface-entry-2-0",
+          "textureKey": "world-visual-biome-weathered-roots-root-canyon",
+          "frameName": "__BASE",
+          "x": 2020,
+          "y": 6110,
+          "width": 1536,
+          "height": 1024,
+          "depth": -6.39998,
+          "alpha": 1
+        },
+        {
+          "type": "Image",
+          "name": null,
+          "textureKey": "world-visual-surface-pack-town-benchmark-v1",
+          "frameName": "world-visual-surface-pack-town-benchmark-v1-upper-fade-15",
+          "x": 1792.9375,
+          "y": 6110,
+          "width": 8.0625,
+          "height": 534,
+          "depth": -4.2,
+          "alpha": 0
+        },
+        {
+          "type": "Image",
+          "name": null,
+          "textureKey": "world-visual-surface-pack-town-benchmark-v1",
+          "frameName": "world-visual-surface-pack-town-benchmark-v1-upper-fade-15",
+          "x": 1792.9375,
+          "y": 6110,
+          "width": 8.0625,
+          "height": 534,
+          "depth": -4.19,
+          "alpha": 0
+        },
+        {
+          "type": "Ellipse",
+          "name": null,
+          "textureKey": null,
+          "frameName": null,
+          "x": 1927,
+          "y": 6098.1,
+          "width": 170.45425430944272,
+          "height": 34,
+          "depth": 11,
+          "alpha": 0.1987975621220634
+        },
+        {
+          "type": "Image",
+          "name": null,
+          "textureKey": "environment-star-pillar-stage-1-v1",
+          "frameName": "__BASE",
+          "x": 1927,
+          "y": 6110,
+          "width": 74.50800915331808,
+          "height": 98.16933638443936,
+          "depth": 12,
+          "alpha": 1
+        }
+      ],
+      "nearbyTiles": [
+        {
+          "tx": 18,
+          "ty": 62,
+          "type": 0
+        },
+        {
+          "tx": 18,
+          "ty": 63,
+          "type": 0
+        },
+        {
+          "tx": 18,
+          "ty": 64,
+          "type": 0
+        },
+        {
+          "tx": 18,
+          "ty": 65,
+          "type": 14
+        },
+        {
+          "tx": 18,
+          "ty": 66,
+          "type": 0
+        },
+        {
+          "tx": 19,
+          "ty": 62,
+          "type": 0
+        },
+        {
+          "tx": 19,
+          "ty": 63,
+          "type": 0
+        },
+        {
+          "tx": 19,
+          "ty": 64,
+          "type": 0
+        },
+        {
+          "tx": 19,
+          "ty": 65,
+          "type": 14
+        },
+        {
+          "tx": 19,
+          "ty": 66,
+          "type": 0
+        },
+        {
+          "tx": 20,
+          "ty": 62,
+          "type": 0
+        },
+        {
+          "tx": 20,
+          "ty": 63,
+          "type": 0
+        },
+        {
+          "tx": 20,
+          "ty": 64,
+          "type": 0
+        },
+        {
+          "tx": 20,
+          "ty": 65,
+          "type": 14
+        },
+        {
+          "tx": 20,
+          "ty": 66,
+          "type": 0
+        },
+        {
+          "tx": 21,
+          "ty": 62,
+          "type": 0
+        },
+        {
+          "tx": 21,
+          "ty": 63,
+          "type": 0
+        },
+        {
+          "tx": 21,
+          "ty": 64,
+          "type": 0
+        },
+        {
+          "tx": 21,
+          "ty": 65,
+          "type": 14
+        },
+        {
+          "tx": 21,
+          "ty": 66,
+          "type": 0
+        },
+        {
+          "tx": 22,
+          "ty": 62,
+          "type": 0
+        },
+        {
+          "tx": 22,
+          "ty": 63,
+          "type": 0
+        },
+        {
+          "tx": 22,
+          "ty": 64,
+          "type": 0
+        },
+        {
+          "tx": 22,
+          "ty": 65,
+          "type": 14
+        },
+        {
+          "tx": 22,
+          "ty": 66,
+          "type": 0
+        }
+      ]
+    }
+  },
+  "route": [
+    {
+      "label": "initial",
+      "stage": "move",
+      "barrierActive": true
+    },
+    {
+      "label": "move",
+      "stage": "dig",
+      "barrierActive": true
+    },
+    {
+      "label": "dig",
+      "stage": "flight",
+      "barrierActive": true
+    },
+    {
+      "label": "flight",
+      "stage": "portal",
+      "barrierActive": true
+    },
+    {
+      "label": "portal",
+      "stage": "sell",
+      "barrierActive": false
+    },
+    {
+      "label": "sell",
+      "stage": "upgrade",
+      "barrierActive": false
+    },
+    {
+      "label": "upgrade",
+      "stage": "resume",
+      "barrierActive": false
+    },
+    {
+      "label": "resume",
+      "stage": "complete",
+      "barrierActive": false
+    }
+  ],
+  "warnings": [
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor root-oath",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor ice-bell",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor small-sun",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor mirror-shift",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor sleeping-furnace",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor rail-names",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor unbroken-choir",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor pressure-bell",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor sky-below",
+    "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor deep-constellation"
+  ],
+  "errors": [],
+  "screenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-11-demo-first-five-live-qa\\guided-opening-live.png"
+}

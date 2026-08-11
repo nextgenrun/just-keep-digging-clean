@@ -100,6 +100,7 @@ const COMPLETE_TUTORIAL = [
   "  retention.recordTutorialFlight();",
   "  retention.recordPortalActivated('QA Return Gate');",
   "  retention.recordSale(1, 1);",
+  "  retention.recordUpgrade('QA Upgrade', { upgradeId: 'agility' });",
   "  retention.recordTutorialPortalResume();",
   "  scene.townSquareTutorialSystem?.firstFive?.townExitBarrier?.sync?.();",
   "  return retention.getTutorialState();",

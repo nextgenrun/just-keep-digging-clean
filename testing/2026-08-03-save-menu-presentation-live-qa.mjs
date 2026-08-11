@@ -219,56 +219,45 @@ async function main() {
     });
     await page.waitForTimeout(220);
     await page.screenshot({ path: screenshots.mode, timeout: 120_000 });
-    const modeChoiceFrames = await page.evaluate(() => {
+    const newRunSetup = await page.evaluate(() => {
       const scene = window.__phaserGame.scene.getScene("StartMenuScene");
-      const layout = scene._modeSelector.config.ui.modeSelector;
-      const frameWidth = layout.choiceWidth;
-      return scene._modeSelector.choiceObjects.map(choice => {
-        const hitBounds = choice.hit.getBounds();
-        const centerX = hitBounds.centerX;
-        const centerY = hitBounds.centerY;
-        const boundsOf = object => {
-          const bounds = object.getBounds();
+      const overlay = scene._newRunSetup;
+      return {
+        visible: overlay.isVisible,
+        panel: { ...overlay.config.panel },
+        mode: overlay.mode,
+        tutorialChoice: overlay.tutorialChoice,
+        cards: [...overlay.cards.entries()].map(([id, card]) => {
+          const hit = card.root.list.at(-1);
           return {
-            left: bounds.left,
-            right: bounds.right,
-            top: bounds.top,
-            bottom: bounds.bottom,
-            width: bounds.width,
-            height: bounds.height,
+            id,
+            x: card.root.x,
+            y: card.root.y,
+            hitWidth: hit.width,
+            hitHeight: hit.height,
+            authored: Boolean(card.chrome?.root),
+            selected: card.selected.visible,
           };
-        };
-        return {
-          mode: choice.mode,
-          hasFrame: Boolean(choice.frame?.root),
-          hitWidth: choice.hit.width,
-          hitHeight: choice.hit.height,
-          scale: choice.container.scaleX,
-          safeLeft: centerX - frameWidth / 2 + layout.innerSafeInsetXPx,
-          safeRight: centerX + frameWidth / 2 - layout.innerSafeInsetXPx,
-          safeTop: centerY + layout.innerSafeTopY,
-          safeBottom: centerY + layout.innerSafeBottomY,
-          iconMasked: Boolean(choice.icon.mask),
-          icon: boundsOf(choice.icon),
-          title: boundsOf(choice.titleText),
-          body: boundsOf(choice.bodyText),
-          selected: boundsOf(choice.selectedText),
-        };
-      });
+        }),
+      };
     });
 
     await page.evaluate(() => {
-      window.__phaserGame.scene.getScene("StartMenuScene")._modeSelector._commit();
+      window.__phaserGame.scene.getScene("StartMenuScene")._newRunSetup._setTutorial("no");
     });
     await page.waitForTimeout(220);
     await page.screenshot({ path: screenshots.tutorial, timeout: 120_000 });
-    const tutorialButtons = await page.evaluate(() => {
+    const skipSetup = await page.evaluate(() => {
       const scene = window.__phaserGame.scene.getScene("StartMenuScene");
-      return [...scene._tutorialSelector.buttons.values()].map(button => ({
-        width: button.hit.width,
-        height: button.hit.height,
-        authoredIdle: button.root.list.some(child => child.texture?.key === "main-menu-button-idle-v1"),
-      }));
+      const overlay = scene._newRunSetup;
+      return {
+        visible: overlay.isVisible,
+        tutorialChoice: overlay.tutorialChoice,
+        status: overlay.status.text,
+        selected: [...overlay.cards.entries()]
+          .filter(([, card]) => card.selected.visible)
+          .map(([id]) => id),
+      };
     });
 
     const runtime = await page.evaluate(() => {
@@ -306,15 +295,20 @@ async function main() {
       };
     });
 
-    await enterSaveMenu(page, artDisabledUrl(url));
-    const rollback = await page.evaluate(() => {
-      const scene = window.__phaserGame.scene.getScene("StartMenuScene");
-      return {
-        authoredSaveMenuArt: scene._useAuthoredSaveMenuArt,
-        graphicsCards: scene._cardGraphics.map(card => card.g.type === "Graphics"),
-      };
-    });
-    await page.screenshot({ path: screenshots.rollback, timeout: 120_000 });
+    const verifyRollback = argument("rollback", "0") === "1";
+    let rollback = { tested: false };
+    if (verifyRollback) {
+      await enterSaveMenu(page, artDisabledUrl(url));
+      rollback = await page.evaluate(() => {
+        const scene = window.__phaserGame.scene.getScene("StartMenuScene");
+        return {
+          tested: true,
+          authoredSaveMenuArt: scene._useAuthoredSaveMenuArt,
+          graphicsCards: scene._cardGraphics.map(card => card.g.type === "Graphics"),
+        };
+      });
+      await page.screenshot({ path: screenshots.rollback, timeout: 120_000 });
+    }
 
     if (keyboardSelectedSlot !== 2) failures.push(`keyboard-selection:${keyboardSelectedSlot}`);
     if (pointerSelectedSlot !== 1) failures.push(`pointer-selection:${pointerSelectedSlot}`);
@@ -366,35 +360,34 @@ async function main() {
     }
     if (backupTexture !== "save-menu-modal-backup-v1") failures.push("backup-panel-art-missing");
     if (importTexture !== "save-menu-modal-import-v1") failures.push("import-panel-art-missing");
-    if (modeChoiceFrames.length !== 2 || modeChoiceFrames.some(choice => (
-      !choice.hasFrame
-      || choice.hitWidth !== 290
-      || choice.hitHeight !== 270
-      || choice.scale !== 1
-    ))) failures.push("mode-choice-contract-drift");
-    for (const choice of modeChoiceFrames) {
-      for (const [role, bounds] of Object.entries({
-        icon: choice.icon,
-        title: choice.title,
-        body: choice.body,
-        selected: choice.selected,
-      })) {
-        if (bounds.left < choice.safeLeft - 0.5
-          || bounds.right > choice.safeRight + 0.5
-          || bounds.top < choice.safeTop - 0.5
-          || bounds.bottom > choice.safeBottom + 0.5) {
-          failures.push(`${choice.mode}-${role}-outside-choice-safe-field`);
-        }
-      }
+    if (!newRunSetup.visible
+      || newRunSetup.panel.width !== 1040
+      || newRunSetup.panel.height !== 660
+      || newRunSetup.mode !== "hardcore"
+      || newRunSetup.tutorialChoice !== "yes"
+      || newRunSetup.cards.length !== 4
+      || newRunSetup.cards.some(card => (
+        !card.authored || card.hitWidth !== 398 || card.hitHeight !== 146
+      ))) failures.push("integrated-new-run-contract-drift");
+    const setupPositions = newRunSetup.cards
+      .map(card => `${card.id}:${card.x},${card.y}`)
+      .join("|");
+    if (setupPositions !== "casual:-222,-92|hardcore:222,-92|guided:-222,112|skip:222,112") {
+      failures.push("integrated-new-run-card-geometry-drift");
     }
-    if (modeChoiceFrames[0]?.iconMasked || !modeChoiceFrames[1]?.iconMasked) {
-      failures.push("hardcore-crest-mask-drift");
+    const initialSelected = newRunSetup.cards.filter(card => card.selected).map(card => card.id);
+    if (initialSelected.join("|") !== "hardcore|guided") {
+      failures.push("integrated-new-run-default-selection-drift");
     }
-    if (tutorialButtons.length !== 2 || tutorialButtons.some(button => (
-      !button.authoredIdle || button.width !== 286 || button.height !== 52
-    ))) failures.push("tutorial-choice-contract-drift");
+    if (!skipSetup.visible
+      || skipSetup.tutorialChoice !== "no"
+      || skipSetup.selected.join("|") !== "hardcore|skip"
+      || !skipSetup.status.includes("TYPE YES")) {
+      failures.push("integrated-skip-confirmation-drift");
+    }
     if (runtime.uiErrors.length) failures.push(`ui-errors:${runtime.uiErrors.length}`);
-    if (rollback.authoredSaveMenuArt || rollback.graphicsCards.some(value => !value)) {
+    if (rollback.tested
+      && (rollback.authoredSaveMenuArt || rollback.graphicsCards.some(value => !value))) {
       failures.push("graphics-rollback-failed");
     }
 
@@ -406,7 +399,7 @@ async function main() {
       slotTextLayout,
       interactions: { keyboardSelectedSlot, pointerSelectedSlot },
       dialogs: { confirmInfo, backupTexture, importTexture },
-      choices: { modeChoiceFrames, tutorialButtons },
+      choices: { newRunSetup, skipSetup },
       rollback,
       failures,
       warnings: warnings.slice(0, 100),

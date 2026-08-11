@@ -1,6 +1,6 @@
 {
   "schema": "save-menu-presentation-live-qa@1",
-  "generatedUtc": "2026-08-03T14:52:11.288Z",
+  "generatedUtc": "2026-08-11T16:19:27.445Z",
   "url": "http://127.0.0.1:8080/?jkd_e2e=1",
   "runtime": {
     "activeScenes": [
@@ -93,6 +93,158 @@
     ],
     "uiErrors": []
   },
+  "slotTextLayout": [
+    {
+      "slotId": 1,
+      "safeLeft": 212,
+      "safeRight": 440,
+      "headerSafeTop": 325,
+      "headerSafeBottom": 340,
+      "summaryMaxWidthPx": 216,
+      "texts": [
+        {
+          "text": "SLOT  1",
+          "left": 212,
+          "right": 258,
+          "top": 326,
+          "bottom": 339,
+          "height": 13,
+          "width": 46,
+          "fontSize": 11
+        },
+        {
+          "text": "LAST  10-8-2026",
+          "left": 343,
+          "right": 440,
+          "top": 326,
+          "bottom": 339,
+          "height": 13,
+          "width": 97,
+          "fontSize": 11
+        },
+        {
+          "text": "CASUAL",
+          "left": 304.5,
+          "right": 347.5,
+          "top": 346,
+          "bottom": 360,
+          "height": 14,
+          "width": 43,
+          "fontSize": 12
+        },
+        {
+          "text": "LV 12  •  DEPTH 486m\nBEST DEPTH 540m\n123.456 M  •  22 STARS\n8.432 TILES DUG",
+          "left": 248,
+          "right": 404,
+          "top": 367,
+          "bottom": 433,
+          "height": 66,
+          "width": 156,
+          "fontSize": 12
+        },
+        {
+          "text": "CONTINUE",
+          "left": 303,
+          "right": 369,
+          "top": 443,
+          "bottom": 460,
+          "height": 17,
+          "width": 66,
+          "fontSize": 14
+        }
+      ]
+    },
+    {
+      "slotId": 2,
+      "safeLeft": 526,
+      "safeRight": 754,
+      "headerSafeTop": 325,
+      "headerSafeBottom": 340,
+      "summaryMaxWidthPx": 216,
+      "texts": [
+        {
+          "text": "SLOT  2",
+          "left": 526,
+          "right": 572,
+          "top": 326,
+          "bottom": 339,
+          "height": 13,
+          "width": 46,
+          "fontSize": 11
+        },
+        {
+          "text": "LAST  11-8-2026",
+          "left": 657,
+          "right": 754,
+          "top": 326,
+          "bottom": 339,
+          "height": 13,
+          "width": 97,
+          "fontSize": 11
+        },
+        {
+          "text": "HARDCORE  •  2 LIVES",
+          "left": 569.5,
+          "right": 710.5,
+          "top": 346,
+          "bottom": 360,
+          "height": 14,
+          "width": 141,
+          "fontSize": 12
+        },
+        {
+          "text": "LV 21  •  DEPTH 910m\nBEST DEPTH 1032m\n785.000 M  •  61 STARS\n17.750 TILES DUG",
+          "left": 562,
+          "right": 718,
+          "top": 367,
+          "bottom": 433,
+          "height": 66,
+          "width": 156,
+          "fontSize": 12
+        },
+        {
+          "text": "CONTINUE",
+          "left": 617,
+          "right": 683,
+          "top": 443,
+          "bottom": 460,
+          "height": 17,
+          "width": 66,
+          "fontSize": 14
+        }
+      ]
+    },
+    {
+      "slotId": 3,
+      "safeLeft": 840,
+      "safeRight": 1068,
+      "headerSafeTop": 325,
+      "headerSafeBottom": 340,
+      "summaryMaxWidthPx": 216,
+      "texts": [
+        {
+          "text": "SLOT  3",
+          "left": 840,
+          "right": 886,
+          "top": 326,
+          "bottom": 339,
+          "height": 13,
+          "width": 46,
+          "fontSize": 11
+        },
+        {
+          "text": "NEW SAVE",
+          "left": 921,
+          "right": 987,
+          "top": 443,
+          "bottom": 460,
+          "height": 17,
+          "width": 66,
+          "fontSize": 14
+        }
+      ]
+    }
+  ],
   "interactions": {
     "keyboardSelectedSlot": 2,
     "pointerSelectedSlot": 1
@@ -106,38 +258,65 @@
     "importTexture": "save-menu-modal-import-v1"
   },
   "choices": {
-    "modeChoiceFrames": [
-      {
-        "hasFrame": true,
-        "hitWidth": 290,
-        "hitHeight": 270
+    "newRunSetup": {
+      "visible": true,
+      "panel": {
+        "width": 1040,
+        "height": 660
       },
-      {
-        "hasFrame": true,
-        "hitWidth": 290,
-        "hitHeight": 270
-      }
-    ],
-    "tutorialButtons": [
-      {
-        "width": 286,
-        "height": 52,
-        "authoredIdle": true
-      },
-      {
-        "width": 286,
-        "height": 52,
-        "authoredIdle": true
-      }
-    ]
+      "mode": "hardcore",
+      "tutorialChoice": "yes",
+      "cards": [
+        {
+          "id": "casual",
+          "x": -222,
+          "y": -92,
+          "hitWidth": 398,
+          "hitHeight": 146,
+          "authored": true,
+          "selected": false
+        },
+        {
+          "id": "hardcore",
+          "x": 222,
+          "y": -92,
+          "hitWidth": 398,
+          "hitHeight": 146,
+          "authored": true,
+          "selected": true
+        },
+        {
+          "id": "guided",
+          "x": -222,
+          "y": 112,
+          "hitWidth": 398,
+          "hitHeight": 146,
+          "authored": true,
+          "selected": true
+        },
+        {
+          "id": "skip",
+          "x": 222,
+          "y": 112,
+          "hitWidth": 398,
+          "hitHeight": 146,
+          "authored": true,
+          "selected": false
+        }
+      ]
+    },
+    "skipSetup": {
+      "visible": true,
+      "tutorialChoice": "no",
+      "status": "TYPE YES TO CONFIRM TUTORIAL SKIP: _",
+      "selected": [
+        "hardcore",
+        "skip"
+      ]
+    }
   },
   "rollback": {
-    "authoredSaveMenuArt": false,
-    "graphicsCards": [
-      true,
-      true,
-      true
-    ]
+    "tested": false
   },
   "failures": [],
   "warnings": [],

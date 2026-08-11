@@ -5,17 +5,17 @@ encounters.
 
 - `TownSquareTutorialSystem.js` remains the production tutorial authority. A
   chosen tutorial advances only from real movement, tile destruction, Flight,
-  first-portal activation, resource sale, and the paired return route. The only
+  first-portal activation, resource sale, one real shop upgrade, and the paired return route. The only
   idempotent grant is Flight plus a 30-second flying-only practice bank; the
-  tutorial grants no cargo, money, or required shop upgrade.
+  tutorial grants no cargo or money and never injects an upgrade purchase.
 - `FirstSessionPortalSystem.js` guarantees one real `TELEPORT_TILE` at x12
   and 40 terrain rows below the air layer. It repairs model, health, dug-source,
   and renderer state after persistent world restore, so the opening return
   promise cannot disappear behind an asynchronous save load.
 - `TutorialTownExitBarrierSystem.js` temporarily restores three authored
-  doorway cells as Bedrock during MOVE and DIG only. It restores their exact
-  model/map state when FLIGHT starts, the tutorial is skipped, or the scene is
-  destroyed; it owns no popup or reminder.
+  doorway cells as Bedrock through MOVE, DIG, FLIGHT, and PORTAL. The protected
+  15 m return advances into SELL and restores the exact prior model/map state;
+  skip, completion, and scene teardown also restore it. It owns no popup or reminder.
 - `FirstFiveMinutesTutorialBridge.js` is the reversible presentation/safety
   layer. It feeds the existing Next Promise strip with one persistent,
   remapped-key action, blocks the one-way surface drop until one real Flight
@@ -30,14 +30,16 @@ encounters.
   expressed through locked catalog rows with explicit unlock copy and an
   authoritative purchase gate. The Level-2 Arc Forge and later non-shop systems
   retain their progression gates.
-- `TownSquareTutorialDigSite.js` authors the normal-HP Dirt at x12 without
-  opening a forced shaft. Under `?firstFive=0` it restores the former x24
-  one-HP practice tile. `TownSquareTutorialView.js` reuses the existing world
-  marker only; the persistent objective is rendered by
+- `TownSquareTutorialDigSite.js` authors the normal-HP Dirt seam at x12 inside
+  the ground row without opening a forced shaft. It explicitly clears the
+  former full-tile legacy Dirt overlay, so the authored Town facade and the
+  existing objective marker carry presentation. Under `?firstFive=0` the
+  legacy profile remains available. `TownSquareTutorialView.js` reuses the
+  existing world marker only; the persistent objective is rendered by
   `NextPromiseHudSystem`.
 - Completed/skipped guided saves preserve the learned route without replaying
-  rewards. Legacy sell/upgrade stages migrate into the nearest safe step of the
-  six-stage route.
+  rewards. Skip receives Flight but no 30-second bank. Legacy stages migrate
+  into the nearest safe step of the seven-stage route.
 - `?firstFive=0` is the parent rollback for this layer. It does not alter the
   independent `?surfaceDrop=0` or `?randomEvents=0`
   diagnostic switches.

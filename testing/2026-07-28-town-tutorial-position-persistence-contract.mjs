@@ -44,7 +44,7 @@ const payload = saveStore.createPayload(
   null,
   exactUndergroundState,
 );
-assert.equal(payload.version, 13);
+assert.equal(payload.version, 14);
 assert.deepEqual(payload.playerStateData, exactUndergroundState);
 assert.deepEqual(
   saveStore.normalizePayload(payload).playerStateData,
@@ -107,6 +107,8 @@ assert.equal(tutorial.recordTutorialFlight(), true);
 tutorial.recordPortalActivated("Starter Return Gate");
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
 tutorial.recordSale(1, 1);
+assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
+tutorial.recordUpgrade("Agility Training", { upgradeId: "agility" });
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.RESUME);
 assert.equal(tutorial.recordTutorialPortalResume(), true);
 assert.equal(tutorial.getTutorialState().stage, TOWN_TUTORIAL_STAGES.COMPLETE);
@@ -126,7 +128,7 @@ const skipped = new RetentionProgressSystem();
 skipped.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.NO);
 assert.equal(skipped.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SKIPPED);
 assert.equal(skipped.isTutorialActive(), false);
-assert.equal(skipped.claimTutorialFlightTraining().freeFlightMs, 30000);
+assert.equal(skipped.claimTutorialFlightTraining().freeFlightMs, 0);
 assert.equal(skipped.claimTutorialFlightTraining(), null);
 
 const [
@@ -144,7 +146,7 @@ const [
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../values/openingFlightArtifact.js", import.meta.url), "utf8"),
 ]);
-assert.match(startMenuSource, /new StartTutorialChoiceOverlay/);
+assert.match(startMenuSource, /new NewRunSetupOverlay/);
 assert.match(startMenuSource, /tutorialChoice/);
 assert.match(loadSource, /tutorialChoice/);
 assert.match(setupSource, /new TownSquareTutorialSystem/);

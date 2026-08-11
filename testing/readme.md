@@ -4,24 +4,31 @@
   excludes Level Two, its gate and saved portals, Arc Core/Omega content,
   developer cheats, and screen recording across state, UI, input, rendering,
   preloading, world bounds, and save-restoration admission points.
+- `2026-08-11-demo-intro-recovery-contract.mjs` locks the clean aligned Inventory
+  and ESC controls, integrated new-expedition choices, typed Skip/hidden One-Life
+  guards, seven-beat route, no-bank Skip, durable Hardcore lives, and restored
+  canonical design authority.
+- `2026-08-11-new-run-setup-visual-harness.html` isolates the authored 2×2
+  empty-slot decision panel for pointer, keyboard, typed-Skip, hidden One-Life,
+  alignment, and screenshot review without touching real save slots.
 
 ## First five minutes — 2026-07-30
 
 - `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and
   `?firstFive=0` profiles, in-camera normal-HP target, persistent objective,
   remapped control copy, tutorial-specific surface gate, saved Flight practice,
-  guaranteed 15 m first portal, six real action stages, and Next Promise priority.
+  guaranteed 15 m first portal, seven real action stages, and Next Promise priority.
 - `2026-07-30-first-upgrade-breakpoint-contract.mjs` exercises the real
-  `UpgradeSystem` compatibility boundary: Agility remains a normal optional
-  purchase, legacy Miner's Grip remains hidden/save-compatible, and neither can
-  advance or fund the tutorial.
+  `UpgradeSystem` handoff: an early purchase cannot skip the route, the authored
+  Upgrade beat advances only from a real purchase, no money is injected, and
+  legacy Miner's Grip remains hidden/save-compatible.
 - The town persistence and retention fixtures complete MOVE, DIG, FLIGHT,
-  PORTAL, SELL, and RESUME without an injected wallet/resource reward.
+  PORTAL, SELL, UPGRADE, and RESUME without an injected wallet/resource reward.
 
 ## Playtester feedback implementation — 2026-08-02
 
 `2026-08-02-playtester-feedback-implementation-contract.mjs` guards the full
-six-stage route, versioned legacy-stage migration, deterministic 15 m first portal,
+seven-stage route, versioned legacy-stage migration, deterministic 15 m first portal,
 nonblocking multi-level rewards, disabled generic notification admission,
 optional narration hooks, unchanged Depth Gates and combo duration, and
 physical removal of Level Up, Star-discovery, and Flight-reminder views.
@@ -32,7 +39,7 @@ early/midgame shop lanes, and protected hazard/endgame upgrades.
 `2026-08-02-combo-block-reward-contract.mjs` keeps the authoritative +combo
 result and output fields while proving it creates no forced popup.
 `2026-08-03-tutorial-town-exit-flight-reminders-contract.mjs` now guards only
-the reversible MOVE/DIG Town boundary, exact map restoration, six-stage bridge
+the reversible MOVE/DIG/FLIGHT/PORTAL Town boundary, exact restoration at SELL, seven-stage bridge
 wiring, and the absence of notification/reminder/upgrade bypasses.
 `2026-08-03-main-menu-return-contract.mjs` reproduces the former double scene
 start and guards one shared save promise, one forced flush, one MainMenuScene
@@ -320,15 +327,12 @@ medallion as a visible, hand-cursor, hover/press developer summon control while
 proving that the same medallion remains non-interactive and hidden when inactive
 in a production runtime.
 
-`2026-07-28-hardcore-permadeath-contract.mjs` guards explicit new-save mode
-selection, Flight-delayed arming, Bobo conversion, stress/GP drain, paid
-teleports, typed 50% unstuck, exact position/fractional-GP persistence, schema
-v13 death tombstones, backup/remote purge, anti-resurrection writes, central
-hazard routing, bounded death I/O, late-purge/new-save isolation, external
-rollback-file rejection, live/other-slot backup rewind rejection, no-backup
-one-second Hardcore checkpoints, checkpoint cleanup on death, stored
-armed-Hardcore deletion evidence, cross-slot Casual preservation, fresh
-Hardcore retry routing, and approved generated UI art.
+`2026-07-28-hardcore-permadeath-contract.mjs` now guards explicit integrated
+mode selection, Flight-delayed arming, Casual no-loss behavior, Hardcore free
+revive then 2→1→0, One-Life 1→0, durable exhausted saves, stress/GP drain,
+paid teleports, typed 50% unstuck, exact position/fractional-GP persistence,
+active-oath rollback rejection, one-second checkpoints, non-destructive death
+bridge wiring, legacy purge API isolation, cross-slot preservation, and approved art.
 
 `2026-07-28-hardcore-memorial-contract.mjs` guards complete stat and bounded
 Journey-achievement recap coverage, duration/run-counter formatting,
@@ -965,5 +969,14 @@ WorldLoad transition, export, import, clear, and backup restore paths.
 flow in hidden Edge at the default Ultra 2560x1440 backing size. It uses only
 ephemeral in-scene slot fixtures, preserves storage, verifies mouse and keyboard
 selection plus all original hit geometry, captures clear/backup/import/rules/
-tutorial surfaces, rejects browser and UI errors, and boots the explicit
-Graphics rollback in the same run.
+tutorial surfaces, and rejects browser and UI errors. Pass `--rollback=1` when
+the additional explicit `?saveMenuArt=0` Graphics rollback boot is required.
+
+`2026-08-11-demo-first-five-live-qa.mjs` drives the recovered production route
+from Main Menu through Save Vault, the integrated Hardcore + Guided setup,
+WorldLoad, and PlayScene. It verifies the durable two-life Hardcore state, the
+authored Step 1 objective frame, aligned inventory and clickable ESC controls,
+the Tutorial Town barrier sequence, Star Pillar textures, the full seven-beat
+Move → Dig → Flight → Portal → Sell → Upgrade → Resume route, and the absence
+of browser/page errors while saving its report and screenshot under
+`tmp/2026-08-11-demo-first-five-live-qa/`.

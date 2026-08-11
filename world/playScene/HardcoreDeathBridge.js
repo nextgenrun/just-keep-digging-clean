@@ -3,12 +3,8 @@ import {
   buildHardcoreDeathRecapPages,
   sanitizeHardcoreMemorialRecord,
 } from "../../systems/hardcore/hardcoreMemorialRecord.js";
-import {
-  createHardcoreModeData,
-  isHardcoreModeArmed,
-} from "../../values/hardcoreMode.js";
+import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
-import { TOWN_TUTORIAL_CHOICES } from "../../values/retentionConfig.js";
 
 export function getHardcoreDepth(scene, playerTile = null) {
   const tile = playerTile || scene.playerController?.getPlayerTile?.();
@@ -107,6 +103,13 @@ export function captureHardcoreDeathRecord(scene, context = {}) {
     stats: scene.retentionProgressSystem?.getJournalSnapshot?.()?.stats,
     achievements: scene.journeySystem?.getSaveData?.()?.events,
   });
+  if (context.persistMemorial !== true) {
+    return {
+      record,
+      persisted: false,
+      pages: buildHardcoreDeathRecapPages(record),
+    };
+  }
   const store = scene.hardcoreMemorialStore || new HardcoreMemorialStore();
   scene.hardcoreMemorialStore = store;
   const appended = store.append(record);
@@ -118,36 +121,40 @@ export function captureHardcoreDeathRecord(scene, context = {}) {
   };
 }
 
-async function settleWithSceneTimeout(scene, promise, timeoutMs, fallbackValue) {
-  let timeoutEvent = null;
-  try {
-    return await Promise.race([
-      Promise.resolve(promise),
-      new Promise(resolve => {
-        timeoutEvent = scene.time.delayedCall(timeoutMs, () => {
-          resolve(fallbackValue);
-        });
-      }),
-    ]);
-  } finally {
-    timeoutEvent?.remove?.(false);
-  }
-}
-
 function waitForSceneDelay(scene, delayMs) {
   return new Promise(resolve => {
     scene.time.delayedCall(delayMs, resolve);
   });
 }
 
-function createRetryPayload(scene) {
+function buildDeathPresentation(result) {
+  if (result.outcome === "free-revive") {
+    return {
+      title: "THE OATH GRANTS ONE MERCY",
+      subtitlePrefix: "FREE FIRST REVIVE",
+      readyStatus: "FREE REVIVE SAVED • 2 LIVES REMAIN",
+      readyDetail: "RETURNING TO TOWN WITH FULL GEM POWER",
+      primaryLabel: "REVIVE IN TOWN",
+      secondaryLabel: "BACK TO SAVE VAULT",
+    };
+  }
+  if (result.outcome === "life-lost") {
+    return {
+      title: "ONE LIFE IS SPENT",
+      subtitlePrefix: "HARDCORE LIFE LOST",
+      readyStatus: `${result.livesRemaining} LIFE REMAINS • SAVE INTACT`,
+      readyDetail: "RETURNING TO TOWN WITH FULL GEM POWER",
+      primaryLabel: "REVIVE IN TOWN",
+      secondaryLabel: "BACK TO SAVE VAULT",
+    };
+  }
   return {
-    saveSlot: scene.saveSlot,
-    worldIdentity: scene.worldIdentity || `save-slot-${scene.saveSlot}`,
-    playerCharacterId: scene.playerCharacterId,
-    hardcoreModeData: createHardcoreModeData("hardcore"),
-    isNewSave: true,
-    tutorialChoice: TOWN_TUTORIAL_CHOICES.NO,
+    title: "THE EXPEDITION IS ENDED",
+    subtitlePrefix: "HARDCORE EXHAUSTED",
+    readyStatus: "0 LIVES REMAIN • SAVE AND RECORD INTACT",
+    readyDetail: "EXPORT OR CLEAR THE ENDED EXPEDITION FROM THE SAVE VAULT",
+    primaryLabel: "BACK TO SAVE VAULT",
+    secondaryLabel: "MAIN MENU",
   };
 }
 
@@ -162,7 +169,6 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
   }
 
   scene._hardcoreDeathInProgress = true;
-  scene._saveWritesBlocked = true;
   scene.pendingDugTileSave = false;
   scene.hidePauseMenu?.();
   scene.lightSystem?.forceTorchOff?.();
@@ -172,39 +178,45 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
   scene.player?.anims?.stop?.();
   scene.aimBox?.setVisible?.(false);
 
-  const memorial = captureHardcoreDeathRecord(scene, context);
+  const source = context.source || "unknown";
+  const result = runtime.system.recordDeath(source);
+  const presentation = buildDeathPresentation(result);
+  scene.hardcoreModeData = runtime.system.getSaveData();
+  const memorial = captureHardcoreDeathRecord(scene, {
+    ...context,
+    persistMemorial: result.outcome === "exhausted",
+  });
   const { record } = memorial;
-  scene.dugTileSaveStore.saveHardcoreCheckpoint(
-    scene.worldModel.getWorldIdentity(),
-    runtime.system.getSaveData(),
-    scene.playerController?.getPersistenceData?.(),
-  );
-  const authorization = {
-    mode: "hardcore",
-    armed: true,
-    source: record.source,
-    depth: record.depth,
-    memorialId: record.id,
+  scene._resetPlayerToSpawn?.();
+  scene.playerController?.abilities?.fillGemPower?.();
+  let lifeStateSaved = false;
+  let saveInFlight = false;
+  const continueFromDeath = () => {
+    if (!lifeStateSaved) {
+      return persistLifeState();
+    }
+    if (result.outcome === "exhausted") {
+      scene.scene.start("StartMenuScene");
+      return true;
+    }
+    scene.scene.restart({
+      autoStart: true,
+      saveSlot: scene.saveSlot,
+      worldIdentity: scene.worldIdentity || `save-slot-${scene.saveSlot}`,
+      playerCharacterId: scene.playerCharacterId,
+      hardcoreModeData: runtime.system.getSaveData(),
+    });
+    return true;
   };
-  let prepared = { success: false, backupsDeleted: 0 };
-  try {
-    prepared = scene.dugTileSaveStore.preparePermanentDeath(authorization);
-  } catch (error) {
-    console.error("[HardcoreDeathBridge] Immediate erase failed:", error);
-  }
-  if (!memorial.persisted && prepared.success) {
-    memorial.persisted = scene.hardcoreMemorialStore
-      .append(record)
-      .persisted;
-  }
-
-  const retryPayload = createRetryPayload(scene);
   runtime.modal.showDeath({
     reason: record.reason,
     depth: record.depth,
     pages: memorial.pages,
-    onRetry: () => scene.scene.start("WorldLoadScene", retryPayload),
-    onReturn: () => scene.scene.start("StartMenuScene"),
+    presentation,
+    onRetry: continueFromDeath,
+    onReturn: () => scene.scene.start(
+      result.outcome === "exhausted" ? "MainMenuScene" : "StartMenuScene",
+    ),
   });
   runtime.lastDeath = {
     source: record.source,
@@ -212,52 +224,40 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     memorialId: record.id,
     memorialPersisted: memorial.persisted,
     startedAt: record.diedAt,
-    localPurge: prepared,
+    outcome: result.outcome,
+    livesRemaining: result.livesRemaining,
   };
   runtime.updateDiagnostics?.();
 
-  try {
-    const inFlightSave = scene._dugTileSavePromise;
-    if (inFlightSave) {
-      await settleWithSceneTimeout(
-        scene,
-        inFlightSave.catch(() => false),
-        runtime.config.death.inFlightSaveWaitMs,
-        false,
+  async function persistLifeState() {
+    if (saveInFlight || lifeStateSaved) return lifeStateSaved;
+    saveInFlight = true;
+    runtime.modal.setDeathSaving(presentation);
+    try {
+      scene.queueDugTilesSave?.();
+      const saved = await scene.flushDugTilesSave?.({ scheduled: false, force: true });
+      if (saved === false) throw new Error("flush-returned-false");
+      await waitForSceneDelay(scene, runtime.config.death.returnDelayMs);
+      lifeStateSaved = true;
+      runtime.lastDeath.saveError = null;
+      runtime.modal.setDeathReady(
+        `${HARDCORE_MEMORIAL_CONFIG.copy.slotPrefix} ${scene.saveSlot}  •  SAVE INTACT`,
+        presentation,
       );
+      runtime.updateDiagnostics?.();
+      return true;
+    } catch (error) {
+      console.error("[HardcoreDeathBridge] Life-state save failed:", error);
+      runtime.lastDeath.saveError = String(error?.message || "unknown");
+      runtime.modal.setError("LIFE STATE NOT SAVED  •  PRESS RETRY SAVE");
+      runtime.updateDiagnostics?.();
+      return false;
+    } finally {
+      saveInFlight = false;
     }
-    const purgeFallback = {
-      success: scene.dugTileSaveStore.isDeathTombstoned(),
-      remoteDeleted: false,
-      backupsDeleted: prepared.backupsDeleted,
-      timedOut: true,
-    };
-    const purge = await settleWithSceneTimeout(
-      scene,
-      scene.dugTileSaveStore.purgePermanentDeath(
-        scene.worldModel.getWorldIdentity(),
-        { ...authorization, backupsDeleted: prepared.backupsDeleted },
-      ),
-      runtime.config.death.remotePurgeWaitMs,
-      purgeFallback,
-    );
-    runtime.lastDeath.purge = purge;
-    await waitForSceneDelay(scene, runtime.config.death.returnDelayMs);
-    const copy = HARDCORE_MEMORIAL_CONFIG.copy;
-    runtime.modal.setDeathReady(
-      `${copy.slotPrefix} ${scene.saveSlot}  •  `
-        + `${purge.backupsDeleted} ${copy.backupsErasedSuffix}`,
-    );
-    runtime.updateDiagnostics?.();
-    return purge.success === true;
-  } catch (error) {
-    console.error("[HardcoreDeathBridge] Permadeath purge failed:", error);
-    const copy = HARDCORE_MEMORIAL_CONFIG.copy;
-    runtime.modal.setDeathReady(
-      `${copy.slotPrefix} ${scene.saveSlot}  •  ${copy.eraseForcedSuffix}`,
-    );
-    return false;
   }
+
+  return persistLifeState();
 }
 
 export function handleHardcoreGpChanged(scene, event = {}) {
