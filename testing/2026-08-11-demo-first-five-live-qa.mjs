@@ -200,15 +200,26 @@ try {
   assert.equal(initial.starterSite.groundType, 1);
   assert.equal(initial.starterSite.legacySquareVisible, false);
   assert.equal(initial.hud.active, true);
+  assert.equal(initial.hud.depth, 1970);
   assert.equal(initial.hud.inventory.keyLabel, "I");
   assert.equal(Math.round(initial.hud.inventory.width), 94);
   assert.equal(Math.round(initial.hud.inventory.height), 94);
+  assert.equal(
+    initial.hud.inventory.keycapTextureKey,
+    "ui-hud-approved-inventory-keycap-v1",
+  );
+  assert.equal(Math.round(initial.hud.inventory.keycapWidth), 25);
+  assert.equal(Math.round(initial.hud.inventory.keycapHeight), 25);
   assert.equal(initial.hud.pause.active, true);
   assert.equal(initial.hud.pause.label, "Esc  MENU");
   assert.equal(Math.round(initial.hud.pause.width), 154);
   assert.equal(Math.round(initial.hud.pause.height), 36);
   assert.equal(initial.promiseHud.visible, true);
-  assert.equal(initial.promiseHud.textureKey, "opening-flight-v2-objective-hud-frame");
+  assert.equal(
+    initial.promiseHud.textureKey,
+    "ui-hud-approved-tutorial-current-action-v1",
+  );
+  assert.equal(initial.promiseHud.badge, "GUIDE 1 / 7");
   assert.match(initial.promiseHud.promise, /STEP 1.*WALK TO THE MARKED GROUND/);
   assert.ok(initial.promiseHud.y + initial.promiseHud.height < 647);
   assert.equal(initial.townPillar.active, true);

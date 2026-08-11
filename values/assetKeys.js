@@ -166,6 +166,8 @@ export const ASSET_KEYS = Object.freeze({
       audioSfx: "ui-hud-approved-audio-sfx",
       xp: "ui-hud-approved-xp",
       inventory: "ui-hud-approved-inventory",
+      inventoryKeycap: "ui-hud-approved-inventory-keycap-v1",
+      tutorialCurrentAction: "ui-hud-approved-tutorial-current-action-v1",
     },
     notificationControls: Object.freeze({
       previous: Object.freeze({

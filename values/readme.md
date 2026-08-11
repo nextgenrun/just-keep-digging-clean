@@ -309,14 +309,16 @@ Single Source of Truth — ALL numeric/string/config values.
 - `supermanPoseEditor.json` owns the isolated, upright-idle Superman pose workbook: the approved Survivor v2 source, the frozen review action, five large labelled pose controls, and the review-only output paths. It never changes runtime art, animation, or collision.
 - `supermanHorizontalIdleReview.json` owns the simplified review-only Superman baseline: the frozen approved idle snapshot, a single 90-degree horizontal flip, and its clean no-controls output paths. It never changes runtime art, animation, or collision.
 - `retentionConfig.js` owns the production Town Square tutorial choices,
-  MOVE/DIG/FLIGHT/PORTAL/SELL/UPGRADE/RESUME stages, guaranteed return route, Flight
-  reward, 30-second flying-only bank, copy, markers, and modal/HUD layout.
+  MOVE/DIG/FLIGHT/PORTAL/SELL/UPGRADE/RESUME stages, guaranteed return route,
+  Flight reward, 30-second flying-only bank, copy, markers, and the aligned
+  authored current-action badge/text layout.
 - `newRunSetup.js` owns the integrated empty-slot Casual/Hardcore and
   Guided/Skip selection layout, typed `YES` skip guard, hidden `ONELIFE`
   sequence, and authored first-run copy.
 - `hudQuickControls.js` owns the approved bitmap Inventory and ESC Menu target
-  dimensions, live remapped-label alignment, hit padding, and responsive
-  bottom-right anchoring.
+  dimensions, the subtle 25 px authored Inventory keycap and live remapped-label
+  alignment, hit padding, responsive bottom-right anchoring, and the 1970 input
+  depth that keeps both controls clickable beneath 3220+ modal shells.
 - `playerPersistence.js` validates the exact pixel body coordinates, facing, and
   GP snapshot stored in save schema v13.
 - `openingFlightArtifact.js` retains the rejected legacy and Golden Five
@@ -516,11 +518,13 @@ and bounded motion. Asset paths point at
 Bobo locks, and save state remain owned by their existing progression
 definitions and systems.
 
-`approvedHudSkin.js` is the SSOT for the 1280x720 HUD alignment grid and the
-ImageGen-authored weather indicator package. Player, combo, world-state, and
-audio chrome share the 14 px top rail; XP, currency, and inventory share the
-13 px bottom rail; dynamic weather art is selected by kind while time, season,
-temperature, labels, and intensity remain live runtime values.
+`approvedHudSkin.js` is the SSOT for the 1280x720 HUD alignment grid, the
+ImageGen-authored weather package, tutorial frame, and Inventory keycap.
+Player, combo, world-state, and audio chrome share the 14 px top rail; XP,
+currency, and inventory share the 13 px bottom rail; dynamic state, labels,
+values, and remapped controls remain live runtime data. `celestialActionBar.js`
+owns the matching five-slot v2 foundation geometry, metric plaques, and exact
+icon/key centers without taking ability or loadout authority.
 `randomWorldEvents.js -> visuals.ribbonSafeGap` owns the active-event ribbon's
 minimum separation from those persistent top panels; the view derives its
 responsive width and center from the approved HUD geometry.

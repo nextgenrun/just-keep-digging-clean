@@ -1,6 +1,7 @@
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { getCargoSellValue } from "../../values/resourcePrices.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 
 function formatMoney(value) {
@@ -20,17 +21,47 @@ export class NextPromiseHudSystem {
     this.background = scene.add.image(
       this.config.width / 2,
       this.config.height / 2,
-      ASSET_KEYS.onboarding.openingFlightV2.objectiveHudFrame,
+      ASSET_KEYS.ui.approvedHud.tutorialCurrentAction,
     ).setDisplaySize(this.config.width, this.config.height);
+    this.badgeKicker = scene.add.text(
+      this.config.badgeX,
+      this.config.badgeKickerY,
+      "CURRENT",
+      {
+        fontFamily: APPROVED_HUD_SKIN.font.family,
+        fontSize: this.config.badgeKickerFontSize,
+        fontStyle: "bold",
+        color: this.config.badgeKickerColor,
+        stroke: APPROVED_HUD_SKIN.font.shadow,
+        strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
+        align: "center",
+      },
+    ).setOrigin(0.5);
+    this.badgeValue = scene.add.text(
+      this.config.badgeX,
+      this.config.badgeValueY,
+      "GOAL",
+      {
+        fontFamily: APPROVED_HUD_SKIN.font.family,
+        fontSize: this.config.badgeValueFontSize,
+        fontStyle: "bold",
+        color: this.config.badgeValueColor,
+        stroke: APPROVED_HUD_SKIN.font.shadow,
+        strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
+        align: "center",
+      },
+    ).setOrigin(0.5);
     this.promiseText = scene.add.text(
       this.config.paddingX,
       this.config.promiseY,
       "",
       {
-        fontFamily: "Bahnschrift SemiCondensed, Trebuchet MS, sans-serif",
+        fontFamily: APPROVED_HUD_SKIN.font.family,
         fontSize: this.config.promiseFontSize,
         fontStyle: "bold",
         color: this.config.promiseColor,
+        stroke: APPROVED_HUD_SKIN.font.shadow,
+        strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
       }
     ).setOrigin(0, 0.5);
     this.detailText = scene.add.text(
@@ -38,13 +69,42 @@ export class NextPromiseHudSystem {
       this.config.detailY,
       "",
       {
-        fontFamily: "Consolas, monospace",
+        fontFamily: APPROVED_HUD_SKIN.font.family,
         fontSize: this.config.detailFontSize,
         color: this.config.detailColor,
+        stroke: APPROVED_HUD_SKIN.font.shadow,
+        strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
       }
     ).setOrigin(0, 0.5);
-    this.root.add([this.background, this.promiseText, this.detailText]);
+    this.root.add([
+      this.background,
+      this.badgeKicker,
+      this.badgeValue,
+      this.promiseText,
+      this.detailText,
+    ]);
     this._layout();
+  }
+
+  _resolveBadge(tutorialPromise, eventPromise, systemPromise, promise) {
+    if (tutorialPromise) {
+      const step = /^STEP\s+(\d+)/i.exec(promise)?.[1];
+      return { kicker: "GUIDE", value: step ? `${step} / 7` : "ROUTE" };
+    }
+    if (eventPromise) return { kicker: "WORLD", value: "EVENT" };
+    if (systemPromise) return { kicker: "NEXT", value: "UNLOCK" };
+    return { kicker: "CURRENT", value: "GOAL" };
+  }
+
+  _fitText(textObject, value, baseFontSize, minimumFontSize) {
+    const baseSize = Math.max(1, Number.parseFloat(baseFontSize) || 1);
+    textObject.setFontSize(baseSize).setText(value);
+    if (textObject.width <= this.config.textWidth) return;
+    const fittedSize = Math.max(
+      minimumFontSize,
+      Math.floor(baseSize * this.config.textWidth / textObject.width),
+    );
+    textObject.setFontSize(fittedSize);
   }
 
   _layout() {
@@ -116,11 +176,29 @@ export class NextPromiseHudSystem {
       `${this.config.cargoPrefix}  ${formatMoney(cargoValue)}`
       + (deepestPortal ? `  •  DEEPEST ${deepestPortal.depth}m` : "")
     );
-    const signature = `${promise}|${detail}`;
+    const badge = this._resolveBadge(
+      tutorialPromise,
+      eventPromise,
+      systemPromise,
+      promise,
+    );
+    const signature = `${badge.kicker}|${badge.value}|${promise}|${detail}`;
     if (signature !== this.lastSignature) {
       this.lastSignature = signature;
-      this.promiseText.setText(promise);
-      this.detailText.setText(detail);
+      this.badgeKicker.setText(badge.kicker);
+      this.badgeValue.setText(badge.value);
+      this._fitText(
+        this.promiseText,
+        promise,
+        this.config.promiseFontSize,
+        this.config.promiseMinimumFontSizePx,
+      );
+      this._fitText(
+        this.detailText,
+        detail,
+        this.config.detailFontSize,
+        this.config.detailMinimumFontSizePx,
+      );
     }
   }
 
@@ -137,6 +215,7 @@ export class NextPromiseHudSystem {
       width: this.background?.displayWidth || 0,
       height: this.background?.displayHeight || 0,
       textureKey: this.background?.texture?.key || null,
+      badge: `${this.badgeKicker?.text || ""} ${this.badgeValue?.text || ""}`.trim(),
       promise: this.promiseText?.text || "",
       detail: this.detailText?.text || "",
     };

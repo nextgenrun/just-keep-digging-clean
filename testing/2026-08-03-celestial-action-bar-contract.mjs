@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { CelestialActionBarSystem } from "../systems/visual/CelestialActionBarSystem.js";
+import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import {
   CELESTIAL_ACTION_BAR_ASSET_KEYS,
@@ -120,10 +121,10 @@ function dragTo(system, sourceIndex, targetIndex) {
   assert.equal(isCelestialActionBarOrderValid([...expectedIds].reverse()), true);
 
   assert.deepEqual(CELESTIAL_ACTION_BAR_CONFIG.layout.slotCenterRatios, [
-    0.181, 0.341, 0.502, 0.663, 0.82,
+    0.158, 0.335, 0.5, 0.665, 0.842,
   ]);
   const { foundationWidthPx, foundationHeightPx } = CELESTIAL_ACTION_BAR_CONFIG.layout;
-  assert.ok(Math.abs(foundationWidthPx / foundationHeightPx - 1575 / 474) < 0.001);
+  assert.ok(Math.abs(foundationWidthPx / foundationHeightPx - 1024 / 320) < 0.001);
   assert.equal(new Set(CELESTIAL_ACTION_BAR_EAGER_ASSETS.map(asset => asset.key)).size, 4);
   for (const asset of CELESTIAL_ACTION_BAR_EAGER_ASSETS) {
     assert.equal(asset.type, "image");
@@ -188,7 +189,7 @@ function dragTo(system, sourceIndex, targetIndex) {
   assert.deepEqual(health.fallbackEntryIds, []);
   assert.equal(system.foundation.key, CELESTIAL_ACTION_BAR_ASSET_KEYS.foundation);
   assert.equal(system.foundation.displayWidth, 420);
-  assert.equal(system.foundation.displayHeight, 126.4);
+  assert.equal(system.foundation.displayHeight, 131.25);
   assert.equal(health.metrics.ready, true);
   assert.equal(system.metrics.gpText.text, "GP 72/100");
   assert.equal(system.metrics.damageText.text, "MINE DMG 42");
@@ -241,7 +242,7 @@ function dragTo(system, sourceIndex, targetIndex) {
   scene.scale.width = 800;
   scene.scale.height = 600;
   system.resize();
-  const xp = { bottom: 20, height: 38 };
+  const xp = APPROVED_HUD_SKIN.layout.xp;
   const xpTop = scene.scale.height - (xp.bottom + xp.height) * system.uiScale;
   const foundationBottom = system.centerY + layout.foundationHeightPx * system.uiScale / 2;
   assert.ok(foundationBottom <= xpTop - layout.xpGapPx * system.uiScale + 0.001);

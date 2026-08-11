@@ -18,7 +18,7 @@ export const CELESTIAL_ACTION_BAR_DEFAULT_ORDER = Object.freeze([
 ]);
 
 export const CELESTIAL_ACTION_BAR_ASSET_KEYS = Object.freeze({
-  foundation: "celestial-actionbar-foundation-v1",
+  foundation: "celestial-actionbar-foundation-v2",
   quickslash: "celestial-actionbar-quickslash-v1",
   thunderStrike: "celestial-actionbar-thunderstrike-v1",
   lock: "celestial-actionbar-lock-v1",
@@ -28,7 +28,7 @@ export const CELESTIAL_ACTION_BAR_EAGER_ASSETS = Object.freeze([
   Object.freeze({
     type: "image",
     key: CELESTIAL_ACTION_BAR_ASSET_KEYS.foundation,
-    path: "sprites/UI/celestial-overhaul-v1/celestial-actionbar-v1.png",
+    path: "sprites/UI/hud-cohesion-v1/celestial-actionbar-v2.png",
   }),
   Object.freeze({
     type: "image",
@@ -105,18 +105,18 @@ export const CELESTIAL_ACTION_BAR_CONFIG = Object.freeze({
     minimumScale: 0.62,
     maximumScale: 1,
     foundationWidthPx: 420,
-    foundationHeightPx: 126.4,
-    slotCenterRatios: Object.freeze([0.181, 0.341, 0.502, 0.663, 0.82]),
-    slotSizePx: 58,
-    slotOffsetYPx: 0,
+    foundationHeightPx: 131.25,
+    slotCenterRatios: Object.freeze([0.158, 0.335, 0.5, 0.665, 0.842]),
+    slotSizePx: 62,
+    slotOffsetYPx: 4,
     iconSizePx: 38,
     lockIconWidthPx: 32,
     lockIconHeightPx: 45,
     keyOffsetXPx: 0,
-    keyOffsetYPx: 44,
+    keyOffsetYPx: 49,
     xpGapPx: 5,
     viewportMarginPx: 12,
-    metricOffsetXPx: 145,
+    metricOffsetXPx: 113,
     metricOffsetYPx: -48,
     tooltipWidthPx: 356,
     tooltipHeightPx: 82,

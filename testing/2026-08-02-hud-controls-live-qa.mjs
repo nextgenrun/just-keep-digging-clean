@@ -96,6 +96,9 @@ async function main() {
     fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 
     if (!initial.approvedSkinActive) throw new Error("Approved HUD skin is not active.");
+    if (initial.quickControls?.depth !== 1970) {
+      throw new Error(`Quick-control input depth mismatch: ${JSON.stringify(initial.quickControls)}`);
+    }
     if (!equalSize(initial.hitSizes.music, [52, 38])) {
       throw new Error(`Music hit size mismatch: ${JSON.stringify(initial.hitSizes.music)}`);
     }
@@ -116,6 +119,16 @@ async function main() {
     }
     if (initial.quickControls?.inventory?.keyLabel !== "I") {
       throw new Error(`Inventory live key label mismatch: ${JSON.stringify(initial.quickControls)}`);
+    }
+    if (
+      initial.quickControls?.inventory?.keycapTextureKey
+        !== "ui-hud-approved-inventory-keycap-v1"
+      || !equalSize([
+        initial.quickControls.inventory.keycapWidth,
+        initial.quickControls.inventory.keycapHeight,
+      ], [25, 25])
+    ) {
+      throw new Error(`Inventory keycap mismatch: ${JSON.stringify(initial.quickControls)}`);
     }
     if (initial.quickControls?.pause?.label !== "ESC  MENU") {
       throw new Error(`Pause live label mismatch: ${JSON.stringify(initial.quickControls)}`);

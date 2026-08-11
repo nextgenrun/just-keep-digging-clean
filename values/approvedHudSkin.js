@@ -20,6 +20,8 @@ export const APPROVED_HUD_SKIN = Object.freeze({
     audioSfx: "sprites/UI/hud-approved-v1/audio-sfx.png",
     xp: "sprites/UI/hud-approved-v1/xp-frame.png",
     inventory: "sprites/UI/loot-pickups/inventory-bag-approved-full.png",
+    inventoryKeycap: "sprites/UI/hud-cohesion-v1/inventory-keycap-v1.png",
+    tutorialCurrentAction: "sprites/UI/hud-cohesion-v1/tutorial-current-action-v1.png",
   }),
   font: Object.freeze({
     family: UI_FONTS.display,

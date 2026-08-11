@@ -21,6 +21,7 @@ export class HudQuickControls {
       : () => false;
     this.inventoryContainer = null;
     this.inventoryIcon = null;
+    this.inventoryKeyFrame = null;
     this.inventoryKey = null;
     this.inventoryHit = null;
     this.pauseContainer = null;
@@ -46,8 +47,21 @@ export class HudQuickControls {
     this.inventoryContainer = this.scene.add.container(0, 0)
       .setScrollFactor(0)
       .setDepth(this.depth)
-      .setVisible(this.visible);
+      .setVisible(this.visible)
+      .setSize(1, 1)
+      .setInteractive({ useHandCursor: true });
+    this.inventoryHit = this.inventoryContainer;
     this.inventoryIcon = this.scene.add.image(0, 0, inventoryKey);
+    this.inventoryKeyFrame = textureExists(
+      this.scene,
+      ASSET_KEYS.ui.approvedHud.inventoryKeycap,
+    )
+      ? this.scene.add.image(
+        this.config.inventory.keyOffsetX,
+        this.config.inventory.keyOffsetY,
+        ASSET_KEYS.ui.approvedHud.inventoryKeycap,
+      ).setAlpha(this.config.inventory.keycapAlpha)
+      : null;
     this.inventoryKey = this.scene.add.text(
       this.config.inventory.keyOffsetX,
       this.config.inventory.keyOffsetY,
@@ -61,13 +75,11 @@ export class HudQuickControls {
         strokeThickness: this.config.inventory.keyStrokeThickness,
       },
     ).setOrigin(0.5);
-    this.inventoryHit = this.scene.add.zone(0, 0, 1, 1)
-      .setInteractive({ useHandCursor: true });
     this.inventoryContainer.add([
       this.inventoryIcon,
+      this.inventoryKeyFrame,
       this.inventoryKey,
-      this.inventoryHit,
-    ]);
+    ].filter(Boolean));
     this._wireControl({
       hit: this.inventoryHit,
       visual: this.inventoryIcon,
@@ -82,7 +94,10 @@ export class HudQuickControls {
       this.pauseContainer = this.scene.add.container(0, 0)
         .setScrollFactor(0)
         .setDepth(this.depth)
-        .setVisible(this.visible);
+        .setVisible(this.visible)
+        .setSize(1, 1)
+        .setInteractive({ useHandCursor: true });
+      this.pauseHit = this.pauseContainer;
       this.pauseFrame = this.scene.add.image(
         0,
         0,
@@ -96,12 +111,9 @@ export class HudQuickControls {
         stroke: this.config.pause.stroke,
         strokeThickness: this.config.pause.strokeThickness,
       }).setOrigin(0.5);
-      this.pauseHit = this.scene.add.zone(0, 0, 1, 1)
-        .setInteractive({ useHandCursor: true });
       this.pauseContainer.add([
         this.pauseFrame,
         this.pauseLabel,
-        this.pauseHit,
       ]);
       this._wireControl({
         hit: this.pauseHit,
@@ -164,6 +176,10 @@ export class HudQuickControls {
     const inventoryY = viewportHeight - (inventory.bottom * scale) - inventoryHeight / 2;
     this.inventoryContainer.setPosition(inventoryX, inventoryY);
     this.inventoryIcon.setDisplaySize(inventoryWidth, inventoryHeight);
+    this.inventoryKeyFrame
+      ?.setPosition(inventory.keyOffsetX * scale, inventory.keyOffsetY * scale)
+      .setDisplaySize(inventory.keycapWidth * scale, inventory.keycapHeight * scale)
+      .setAlpha(inventory.keycapAlpha);
     this.inventoryKey
       .setPosition(inventory.keyOffsetX * scale, inventory.keyOffsetY * scale)
       .setFontSize(Math.max(11, Math.round(inventory.keyFontSize * scale)))
@@ -225,10 +241,14 @@ export class HudQuickControls {
     return {
       active: Boolean(this.inventoryContainer),
       visible: this.inventoryContainer?.visible === true,
+      depth: this.inventoryContainer?.depth || 0,
       inventory: {
         keyLabel: this.inventoryKey?.text || "",
         width: this.inventoryIcon?.displayWidth || 0,
         height: this.inventoryIcon?.displayHeight || 0,
+        keycapTextureKey: this.inventoryKeyFrame?.texture?.key || null,
+        keycapWidth: this.inventoryKeyFrame?.displayWidth || 0,
+        keycapHeight: this.inventoryKeyFrame?.displayHeight || 0,
         hitWidth: this.inventoryHit?.input?.hitArea?.width || 0,
         hitHeight: this.inventoryHit?.input?.hitArea?.height || 0,
       },
@@ -254,6 +274,9 @@ export class HudQuickControls {
     this.pauseContainer?.destroy(true);
     this.inventoryContainer = null;
     this.pauseContainer = null;
+    this.inventoryIcon = null;
+    this.inventoryKeyFrame = null;
+    this.inventoryKey = null;
     this.inventoryHit = null;
     this.pauseHit = null;
     this.scene = null;

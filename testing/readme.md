@@ -975,11 +975,19 @@ the additional explicit `?saveMenuArt=0` Graphics rollback boot is required.
 `2026-08-11-demo-first-five-live-qa.mjs` drives the recovered production route
 from Main Menu through Save Vault, the integrated Hardcore + Guided setup,
 WorldLoad, and PlayScene. It verifies the durable two-life Hardcore state, the
-authored Step 1 objective frame, aligned inventory and clickable ESC controls,
-the Tutorial Town barrier sequence, Star Pillar textures, the full seven-beat
-Move → Dig → Flight → Portal → Sell → Upgrade → Resume route, and the absence
-of browser/page errors while saving its report and screenshot under
+authored Step 1 current-action frame and live `GUIDE 1 / 7` badge, the subtle
+25 px Inventory keycap, aligned clickable ESC control, Tutorial Town barrier
+sequence, Star Pillar textures, the full seven-beat Move → Dig → Flight →
+Portal → Sell → Upgrade → Resume route, and the absence of browser/page errors
+while saving its report and screenshot under
 `tmp/2026-08-11-demo-first-five-live-qa/`.
+
+`2026-08-03-celestial-action-bar-contract.mjs` now pins the v2 1024x320 authored
+foundation ratio, five equal slot centers, aligned live-number tabs and metric
+plaques while retaining activation, lock, drag-save rollback, keyboard, resize,
+and teardown coverage. `2026-08-02-hud-controls-live-qa.mjs` additionally pins
+the authored Inventory keycap texture and 25x25 display size without changing
+the 94x94 bag target or its 102x102 click area.
 
 `2026-08-11-weather-indicator-hud-contract.mjs` pins the authored RGBA weather
 panel and five medallions, their SSOT key/path routing, dynamic-kind adapter,

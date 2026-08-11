@@ -5,6 +5,7 @@ import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
+import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
 import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
 import { HudQuickControls } from "./HudQuickControls.js";
 
@@ -368,7 +369,7 @@ export class HUDSystem {
       && featureFlags?.lootVisuals !== false
       && featureFlags?.["loot-visuals"] !== false;
     this.quickControls = new HudQuickControls(this.scene, {
-      depth: HUD_LAYOUT.hudOverlayDepth + 4,
+      depth: HUD_QUICK_CONTROLS.depth,
       visible: lootVisualsEnabled,
       onInventory: () => this.scene.toggleInventoryFromHud?.() === true,
       onPause: () => this.scene.togglePauseMenuFromHud?.() === true,
