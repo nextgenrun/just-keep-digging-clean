@@ -1,5 +1,10 @@
 import { V11_SKY_ISLAND_LAYOUT } from "./v11SkyIslandLayout.js";
 import { WORLD_DEPTH_CONFIG } from "./worldDepthConfig.js";
+import {
+  GAMEPLAY_DEV_FLAGS,
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "./gameplayDevFlags.js";
 
 // ==================== GAME CONFIG (SSOT) ====================
 const TILE_SIZE = 94;
@@ -7,12 +12,13 @@ const WORLD_WIDTH_TILES = 280;
 const WORLD_DEPTH_TILES = WORLD_DEPTH_CONFIG.worldDepthTiles;
 const TOP_AIR_ROWS = WORLD_DEPTH_CONFIG.topAirRows;
 
-// Development stays debug-enabled. The isolated production index sets this
-// marker before loading any modules, so production builds cannot enable the
-// E2E/debug harness through query parameters.
-const DEBUG_MODE = globalThis.__DIG_GAME_PRODUCTION__ !== true;
+// Debug tools stay available in normal development. Production and the active
+// demo profile both suppress every debug/cheat entry point.
+const DEBUG_MODE = globalThis.__DIG_GAME_PRODUCTION__ !== true
+  && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
 
 export const GAME_CONFIG = Object.freeze({
+  demoMode: GAMEPLAY_DEV_FLAGS.demoMode,
   debugMode: DEBUG_MODE,
   rendererQuality: Object.freeze({
     pixelArt: false,

@@ -2,6 +2,7 @@
 
 | Archived Item | Original Location | Date Archived | Reason |
 |---------------|------------------|---------------|--------|
+| 2026-08-10-superseded-design-document-drafts | `markdown/design-documents/player-journey.md`, `markdown/design-documents/systems.md`, and the June Phase 2/3 roadmaps | 2026-08-10 | Replaced raw/stale product direction with a runtime-grounded canonical design source and explicit alignment register |
 | rejected-arc-review-random-art | Arc v3 tile source/Piskel/runtime/mockups, legacy HTML/placeholder review board, and supplied rejected screenshots | 2026-07-26 | User approved the Small/Omega machine and VFX package but rejected the ornamental HUD, random generated tiles, and low-quality browser presentation; active production uses only the fixed-center Piskel machine/VFX roles |
 | manifests/tiled-world-retirement | active Tiled-era world assembly (staged only) | 2026-07-16 | Scenic-v2 is default; physical move waits until the explicit legacy rollback and hidden layout imports are retired |
 | experiments/rejected-legacy-miner-unreal-walk | testing/unreal-legacy-miner-walk and testing/animation-sandbox/legacy-miner-unreal-walk-poc | 2026-07-15 | Rejected visual experiment; likeness, walk quality, and side-view result were unacceptable |

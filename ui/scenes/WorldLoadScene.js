@@ -32,6 +32,10 @@ export class WorldLoadScene extends Phaser.Scene {
     const queryCharacterId = resolvePlayerCharacterIdFromSearch(globalThis.window?.location?.search || "");
     const playerCharacterId = normalizePlayerCharacterId(queryCharacterId ?? data.playerCharacterId);
     const playerAssetProfile = getPlayerAssetProfile(playerCharacterId);
+    const newRunData = {
+      hardcoreModeData: data.hardcoreModeData || null,
+      openingFlightArtifactData: data.openingFlightArtifactData || null,
+    };
 
     this._startedPlayScene = false;
     this.loadingUi = createMenuLoadingScreen(this, {
@@ -85,7 +89,7 @@ export class WorldLoadScene extends Phaser.Scene {
         }
       },
       onComplete: () => {
-        this._startPlayScene(saveSlot, worldIdentity, playerCharacterId);
+        this._startPlayScene(saveSlot, worldIdentity, playerCharacterId, newRunData);
       },
     });
   }
@@ -97,7 +101,7 @@ export class WorldLoadScene extends Phaser.Scene {
     this.scene.get("MenuAudioScene")?.attachTo?.(this);
   }
 
-  _startPlayScene(saveSlot, worldIdentity, playerCharacterId) {
+  _startPlayScene(saveSlot, worldIdentity, playerCharacterId, newRunData = {}) {
     if (this._startedPlayScene) return;
     this._startedPlayScene = true;
     this.loadingUi?.setProgress(1);
@@ -109,7 +113,13 @@ export class WorldLoadScene extends Phaser.Scene {
     this.time.delayedCall(200, () => {
       try {
         this.scene.get("MenuAudioScene")?.stopForGameStart?.();
-        this.scene.start("PlayScene", { saveSlot, worldIdentity, autoStart: true, playerCharacterId });
+        this.scene.start("PlayScene", {
+          saveSlot,
+          worldIdentity,
+          autoStart: true,
+          playerCharacterId,
+          ...newRunData,
+        });
       } catch (err) {
         console.error('[WorldLoadScene] Failed to start PlayScene:', err);
         // Last-resort fallback: show a static error screen with a retry button

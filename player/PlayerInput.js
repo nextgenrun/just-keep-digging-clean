@@ -47,11 +47,16 @@ export class PlayerInput {
     return scene.input.keyboard.addKeys({
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
+      arrowLeft: Phaser.Input.Keyboard.KeyCodes.LEFT,
+      arrowRight: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+      arrowUp: Phaser.Input.Keyboard.KeyCodes.UP,
+      arrowDown: Phaser.Input.Keyboard.KeyCodes.DOWN,
       aimLeft: Phaser.Input.Keyboard.KeyCodes.A,
       aimRight: Phaser.Input.Keyboard.KeyCodes.D,
       aimUp: Phaser.Input.Keyboard.KeyCodes.W,
       aimDown: Phaser.Input.Keyboard.KeyCodes.S,
       mine: Phaser.Input.Keyboard.KeyCodes.F,
+      spaceMine: Phaser.Input.Keyboard.KeyCodes.SPACE,
       reset: Phaser.Input.Keyboard.KeyCodes.R,
       shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
       z: "Z",
@@ -82,8 +87,8 @@ export class PlayerInput {
     }
     
     return {
-      left: this.keys.left.isDown || false,
-      right: this.keys.right.isDown || false
+      left: this.keys.left?.isDown === true || this.keys.arrowLeft?.isDown === true,
+      right: this.keys.right?.isDown === true || this.keys.arrowRight?.isDown === true,
     };
   }
   
@@ -97,8 +102,8 @@ export class PlayerInput {
     }
     
     return {
-      up: this.keys.aimUp.isDown || false,
-      down: this.keys.aimDown.isDown || false
+      up: this.keys.aimUp?.isDown === true || this.keys.arrowUp?.isDown === true,
+      down: this.keys.aimDown?.isDown === true || this.keys.arrowDown?.isDown === true,
     };
   }
   
@@ -115,7 +120,9 @@ export class PlayerInput {
    * @returns {boolean}
    */
   getMineInput() {
-    const result = this.controlsEnabled && this.keys.mine.isDown;
+    const result = this.controlsEnabled && (
+      this.keys.mine?.isDown === true || this.keys.spaceMine?.isDown === true
+    );
     
     // Log when F key is pressed
     if (result && !this._lastMineState) {
@@ -154,7 +161,7 @@ export class PlayerInput {
     if (!this.controlsEnabled) {
       return false;
     }
-    return this.keys.shift.isDown || false;
+    return this.keys.shift?.isDown === true;
   }
 
   /**
@@ -165,7 +172,7 @@ export class PlayerInput {
     if (!this.controlsEnabled) {
       return false;
     }
-    return (this.keys.shift.isDown && this.keys.aimDown.isDown) || false;
+    return this.keys.shift?.isDown === true && this.getVerticalAim().down;
   }
   
   /**
@@ -198,21 +205,23 @@ export class PlayerInput {
       return;
     }
 
-    if (this.keys.aimUp.isDown && this.keys.aimLeft.isDown) {
+    const { left, right } = this.getHorizontalMovement();
+    const { up, down } = this.getVerticalAim();
+    if (up && left) {
       this.aim = { x: -1, y: -1, label: "UP-LEFT" };
-    } else if (this.keys.aimUp.isDown && this.keys.aimRight.isDown) {
+    } else if (up && right) {
       this.aim = { x: 1, y: -1, label: "UP-RIGHT" };
-    } else if (this.keys.aimDown.isDown && this.keys.aimLeft.isDown) {
+    } else if (down && left) {
       this.aim = { x: -1, y: 1, label: "DOWN-LEFT" };
-    } else if (this.keys.aimDown.isDown && this.keys.aimRight.isDown) {
+    } else if (down && right) {
       this.aim = { x: 1, y: 1, label: "DOWN-RIGHT" };
-    } else if (this.keys.aimUp.isDown) {
+    } else if (up) {
       this.aim = { x: 0, y: -1, label: "UP" };
-    } else if (this.keys.aimDown.isDown) {
+    } else if (down) {
       this.aim = { x: 0, y: 1, label: "DOWN" };
-    } else if (this.keys.left.isDown) {
+    } else if (left) {
       this.aim = { x: -1, y: 0, label: "LEFT" };
-    } else if (this.keys.right.isDown) {
+    } else if (right) {
       this.aim = { x: 1, y: 0, label: "RIGHT" };
     }
   }
@@ -243,10 +252,10 @@ export class PlayerInput {
     }
 
     return (
-      this.keys.left.isDown ||
-      this.keys.right.isDown ||
-      this.keys.aimUp.isDown ||
-      this.keys.aimDown.isDown
+      this.getHorizontalMovement().left ||
+      this.getHorizontalMovement().right ||
+      this.getVerticalAim().up ||
+      this.getVerticalAim().down
     );
   }
 }

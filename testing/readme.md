@@ -1,5 +1,12 @@
 # Testing
 
+`2026-08-10-design-vision-runtime-alignment-contract.mjs` guards the canonical
+design-document set, archived predecessor index, empty-slot mode/tutorial
+contract, typed skip semantics, Hardcore free-revive and lives reducer,
+deterministic self-healing 15m portal, guided town barrier install/repair/release,
+scene handoff, arrow/Space aliases, approved-art run setup, clickable Inventory
+and ESC Menu wiring, and save-before-revive death flow.
+
 `2026-07-16-scenic-world-pipeline-smoke.py` verifies the offline scenic bake
 foundation: the shared 94 px orthographic contract, 2x master profile, required
 beauty/data passes, syntax, environment-only Meshy authentication, explicit

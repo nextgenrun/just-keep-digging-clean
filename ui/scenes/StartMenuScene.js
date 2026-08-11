@@ -10,6 +10,12 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import { createButton } from "../PhaserUiKit.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
+import { NewRunSetupPanel } from "../components/NewRunSetupPanel.js";
+import {
+  createHardcoreModeData,
+  getHardcoreModeLabel,
+} from "../../values/hardcoreMode.js";
+import { createOpeningFlightTutorialData } from "../../values/openingFlightArtifact.js";
 
 const CARD_W = 290;
 const CARD_H = 200;
@@ -51,6 +57,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._importPanel = null;
     this._pulseTween = null;
     this._isStartingGame = false;
+    this._newRunSetupPanel = null;
   }
 
   async create() {
@@ -99,12 +106,12 @@ export class StartMenuScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     // Separator above controls
-    const sepLine2 = this.add.graphics();
-    sepLine2.lineStyle(1, 0x1e2a36, 1);
-    sepLine2.lineBetween(80, 640, W - 80, 640);
+    this._lowerSeparator = this.add.graphics();
+    this._lowerSeparator.lineStyle(1, 0x1e2a36, 1);
+    this._lowerSeparator.lineBetween(80, 640, W - 80, 640);
 
     // --- Hint bar ---
-    this.add.text(W / 2, 656, '1 / 2 / 3: choose save     SPACE: start     DEL / BACKSPACE: clear     B: backups     E: export     I: import     ESC: menu', {
+    this._hintBarText = this.add.text(W / 2, 656, '1 / 2 / 3: choose save     SPACE: start     DEL / BACKSPACE: clear     B: backups     E: export     I: import     ESC: menu', {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.hint,
@@ -121,6 +128,8 @@ export class StartMenuScene extends Phaser.Scene {
 
     // Remove specific keyboard listeners on scene shutdown to prevent accumulation
     this.events.once('shutdown', () => {
+      this._newRunSetupPanel?.destroy();
+      this._newRunSetupPanel = null;
       this.input.keyboard.off('keydown-ONE');
       this.input.keyboard.off('keydown-TWO');
       this.input.keyboard.off('keydown-THREE');
@@ -161,6 +170,7 @@ export class StartMenuScene extends Phaser.Scene {
             bestDepth: saveData.retentionData?.stats?.bestDepth || 0,
             wallet: saveData.upgrades?.money || 0,
             stars: saveData.retentionData?.stats?.starsCollected || 0,
+            hardcoreModeData: saveData.hardcoreModeData,
           });
         } else {
           slots.push({ id: i, hasData: false, dugTiles: 0, resources: { dirt: 0, stone: 0, copper: 0 }, updatedAt: null, playerCharacterId: null });
@@ -223,6 +233,7 @@ export class StartMenuScene extends Phaser.Scene {
           cx,
           cy - 34,
           `LV ${slot.level}  •  DEPTH ${slot.currentDepth}m / BEST ${slot.bestDepth}m`
+            + `\n${getHardcoreModeLabel(slot.hardcoreModeData)}`
             + `\n${Number(slot.wallet).toLocaleString()} M  •  ${slot.stars} stars`
             + `\n${slot.dugTiles.toLocaleString()} tiles dug`,
           {
@@ -316,6 +327,7 @@ export class StartMenuScene extends Phaser.Scene {
   // ─── Selection ───────────────────────────────────────────────────────────
 
   _selectSlot(slotId) {
+    if (this._newRunSetupPanel) return;
     this.soundSystem?.playUiSelect?.();
 
     // Stop existing pulse
@@ -373,31 +385,32 @@ export class StartMenuScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-THREE', () => this._selectSlot(3));
 
     this.input.keyboard.on('keydown-SPACE', () => {
-      if (this._confirmPanel) return;
+      if (this._confirmPanel || this._newRunSetupPanel) return;
       if (this.selectedSlot !== null) this._startGame();
     });
 
     this.input.keyboard.on('keydown-DELETE', () => {
-      if (this._confirmPanel) return;
+      if (this._confirmPanel || this._newRunSetupPanel) return;
       if (this.selectedSlot !== null) this._showConfirm(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-B', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetupPanel) return;
       if (this.selectedSlot !== null) this._showBackupPanel(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-E', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetupPanel) return;
       if (this.selectedSlot !== null) this._exportSave(this.selectedSlot);
     });
 
     this.input.keyboard.on('keydown-I', () => {
-      if (this._confirmPanel || this._backupPanel || this._importPanel) return;
+      if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetupPanel) return;
       this._showImportPanel();
     });
 
     this.input.keyboard.on('keydown-ESC', () => {
+      if (this._newRunSetupPanel) { this._closeNewRunSetup(); return; }
       if (this._confirmPanel) { this._closeConfirm(); return; }
       if (this._backupPanel) { this._closeBackupPanel(); return; }
       if (this._importPanel) { this._closeImportPanel(); return; }
@@ -409,6 +422,45 @@ export class StartMenuScene extends Phaser.Scene {
   // ─── Start game ──────────────────────────────────────────────────────────
 
   _startGame() {
+    if (this._isStartingGame || this.selectedSlot === null) return;
+    const selectedSave = this.saveSlots.find((slot) => slot.id === this.selectedSlot);
+    if (selectedSave?.hasData !== true) {
+      this._showNewRunSetup();
+      return;
+    }
+    this._launchGame();
+  }
+
+  _showNewRunSetup() {
+    if (this._newRunSetupPanel || this._isStartingGame) return;
+    this.soundSystem?.playUiSelect?.();
+    this._cardObjects.forEach((objects) => objects.forEach((object) => object.setVisible(false)));
+    this._startPrompt?.setVisible(false);
+    this._lowerSeparator?.setVisible(false);
+    this._hintBarText?.setVisible(false);
+    this._newRunSetupPanel = new NewRunSetupPanel(this, {
+      onCancel: () => this._closeNewRunSetup(),
+      onConfirm: ({ mode, tutorialChoice }) => {
+        this._closeNewRunSetup();
+        this._launchGame({
+          hardcoreModeData: createHardcoreModeData(mode),
+          openingFlightArtifactData: createOpeningFlightTutorialData(tutorialChoice),
+        });
+      },
+    });
+  }
+
+  _closeNewRunSetup() {
+    const panel = this._newRunSetupPanel;
+    this._newRunSetupPanel = null;
+    panel?.destroy();
+    this._cardObjects.forEach((objects) => objects.forEach((object) => object.setVisible(true)));
+    this._startPrompt?.setVisible(true);
+    this._lowerSeparator?.setVisible(true);
+    this._hintBarText?.setVisible(true);
+  }
+
+  _launchGame(newRunData = {}) {
     if (this._isStartingGame || this.selectedSlot === null) return;
     this._isStartingGame = true;
     this.soundSystem?.playUiConfirm?.();
@@ -427,6 +479,7 @@ export class StartMenuScene extends Phaser.Scene {
       saveSlot: this.selectedSlot,
       worldIdentity,
       playerCharacterId: queryCharacterId ?? savedCharacterId ?? DEFAULT_PLAYER_CHARACTER_ID,
+      ...newRunData,
     });
   }
 

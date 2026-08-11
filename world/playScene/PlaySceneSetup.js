@@ -24,6 +24,12 @@ import {
 import { createUalNativePlayerAnimations } from "../../player/UalNativePlayerAnimations.js";
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
+import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
+import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { WorldModel } from "../WorldModel.js";
 import { createWorldRenderer } from "../rendering/WorldRenderFactory.js";
@@ -115,6 +121,8 @@ import { V11SkyIslandVisualSystem } from "../../systems/environment/V11SkyIsland
 import { HeavenblocksAccessSystem } from "../../systems/environment/HeavenblocksAccessSystem.js";
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
+import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionPortalSystem.js";
+import { OpeningFlightTownExitBarrierSystem } from "../../systems/onboarding/OpeningFlightTownExitBarrierSystem.js";
 import {
   OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
   shouldUseOpeningFlightGoldenSpawn,
@@ -144,6 +152,16 @@ function comboShakeSignatureFor(milestone) {
   if (milestone >= 50) return "combo.medium";
   if (milestone >= 25) return "combo.medium";
   return "combo.small";
+}
+
+function resolveGameplayWorldBounds(config) {
+  if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    return Object.freeze({ width: config.worldWidthPx, height: config.worldDepthPx });
+  }
+  return Object.freeze({
+    width: (SURFACE_TUNNEL_DOOR_CONFIG.tileX + 1) * config.tileSize,
+    height: (WORLD_DEPTH_CONFIG.levelOneRuntimeDepthTiles + 1) * config.tileSize,
+  });
 }
 
 function setAuthoredBackgroundVisualMode(scene, mode) {
@@ -394,14 +412,25 @@ async function _setupSceneSafe(data = {}) {
   this.worldModel = new WorldModel(this.config);
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
-  this._cachedSaveData = initialCachedSave;
-  this.hardcoreModeData = sanitizeHardcoreModeData(initialCachedSave?.hardcoreModeData);
+  const requestedNewRunData = !initialCachedSave
+    && (data.hardcoreModeData || data.openingFlightArtifactData)
+    ? {
+      hardcoreModeData: sanitizeHardcoreModeData(data.hardcoreModeData),
+      openingFlightArtifactData: data.openingFlightArtifactData || null,
+    }
+    : null;
+  const initialPersistentData = initialCachedSave || requestedNewRunData;
+  this._cachedSaveData = initialPersistentData;
+  this._hasNewRunSeedData = requestedNewRunData !== null;
+  this.hardcoreModeData = sanitizeHardcoreModeData(
+    initialPersistentData?.hardcoreModeData,
+  );
   this._openingFlightGoldenFiveSpawn = shouldUseOpeningFlightGoldenSpawn(
-    initialCachedSave,
+    initialPersistentData,
     OPENING_FLIGHT_GOLDEN_FIVE_CONFIG,
   );
   if (this._openingFlightGoldenFiveSpawn) {
-    const openingState = initialCachedSave?.openingFlightArtifactData;
+    const openingState = initialPersistentData?.openingFlightArtifactData;
     const resumeProtectedEscape = openingState?.artifactCollected === true
       && openingState?.surfaceReturnCelebrated !== true;
     this.config = Object.freeze({
@@ -416,7 +445,7 @@ async function _setupSceneSafe(data = {}) {
           + OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.layout.surfaceRowOffset,
     });
   }
-  const cachedPlayerCharacterId = resolvePersistedPlayerCharacterId(initialCachedSave?.playerCharacterId);
+  const cachedPlayerCharacterId = resolvePersistedPlayerCharacterId(initialPersistentData?.playerCharacterId);
   this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? cachedPlayerCharacterId);
   this.playerAssetProfile = getPlayerAssetProfile(this.playerCharacterId);
 
@@ -538,7 +567,8 @@ async function _setupSceneSafe(data = {}) {
   // invisible, still-functional interaction layer.
   this.v11SkyIslandVisualSystem = new V11SkyIslandVisualSystem(this);
   this.v11SkyIslandVisualSystem.create();
-  this.physics.world.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
+  this.gameplayWorldBounds = resolveGameplayWorldBounds(this.config);
+  this.physics.world.setBounds(0, 0, this.gameplayWorldBounds.width, this.gameplayWorldBounds.height);
 
   this._safeReturnGfx = this.add.graphics();
   this._safeReturnText = this.add.text(HUD_LAYOUT.warnTextX, 0, "", { fontFamily: "Consolas, monospace", fontSize: HUD_LAYOUT.safeFontSize, color: HUD_LAYOUT.safeTextColor }).setDepth(5);
@@ -669,7 +699,7 @@ async function _setupSceneSafe(data = {}) {
   };
   this.player.on(Phaser.Animations.Events.ANIMATION_UPDATE, this._onAnimUpdate);
 
-  this.cameras.main.setBounds(0, 0, this.config.worldWidthPx, this.config.worldDepthPx);
+  this.cameras.main.setBounds(0, 0, this.gameplayWorldBounds.width, this.gameplayWorldBounds.height);
   this.cameras.main.startFollow(this.player, true, this.config.cameraLerpX, this.config.cameraLerpY);
   const _zoomNow = this.cameras.main.zoom || 1;
   const _dzW = (this.config.viewportWidth * (this.config.cameraDeadzoneXFrac ?? 0)) / _zoomNow;
@@ -940,6 +970,11 @@ async function _setupSceneSafe(data = {}) {
   this.miningIntentPreviewSystem = new MiningIntentPreviewSystem(this);
   this.thunderStrikeActionRuntime = new ThunderStrikeActionRuntime(this);
   this.openingFlightArtifactSystem = new OpeningFlightArtifactSystem(this);
+  this.firstSessionPortalSystem = new FirstSessionPortalSystem(this);
+  this.openingFlightTownExitBarrierSystem = new OpeningFlightTownExitBarrierSystem(
+    this,
+    this.openingFlightArtifactSystem,
+  );
 
   const keys = this.inputHandler.getKeys();
   this.interactKey = keys.interact;
@@ -989,6 +1024,8 @@ async function _setupSceneSafe(data = {}) {
     this.worldBackgroundAmbientMotionSystem?.destroy();
     this.levelOneLivingBackdropSystem?.destroy();
     this.v11SkyIslandVisualSystem?.destroy();
+    this.openingFlightTownExitBarrierSystem?.destroy();
+    this.firstSessionPortalSystem?.destroy();
     this.worldRenderer?.destroy();
     this.bgObjectPlacer?.destroy();
     this.caveTemplateVisualSystem?.destroy();
@@ -1064,6 +1101,9 @@ async function _setupSceneSafe(data = {}) {
   if (cachedSave && cachedSave.comboData) { this.comboSystem.fromJSON(cachedSave.comboData); }
   this.applyPersistentState(cachedSave, false);
   this.openingFlightArtifactSystem?.create();
+  this.firstSessionPortalSystem?.create();
+  this.openingFlightTownExitBarrierSystem?.create();
+  if (this._hasNewRunSeedData) this.queueDugTilesSave?.();
   this.surfaceTunnelDoorSystem?.syncFromUpgrade();
   this.arcCoreVehicleSystem?.syncOwnership();
   this.updatePlayerVisualState(true);

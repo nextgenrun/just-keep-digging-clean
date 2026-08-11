@@ -1,310 +1,83 @@
-# Dig Game Dev Environment — README
+# Dig Game knowledge center
 
-**Last updated:** 2026-07-26
+Last organized: 2026-08-10
 
-## Table of Contents
-1. [Directory Structure Overview](#directory-structure-overview)
-2. [Naming Policy](#naming-policy)
-3. [Import Rules](#import-rules)
-4. [Value System (Single Source of Truth)](#value-system)
-5. [Scene Lifecycle](#scene-lifecycle)
-6. [System Categories](#system-categories)
-7. [Tools & Pipelines](#tools--pipelines)
-8. [Archive Policy](#archive-policy)
-9. [Related Documents](#related-documents)
+This directory contains product design, architecture policy, implementation
+records, validation notes, feedback, and operational guidance. It is not one
+flat roadmap.
 
----
+## Start here
 
-## Directory Structure Overview
+1. `../.clinerules` — mandatory repository and visual-production rules.
+2. `design-documents/readme.md` — canonical product source of truth.
+3. `design-documents/2026-08-10-game-vision.md` — final-game promise.
+4. `design-documents/2026-08-10-runtime-alignment-register.md` — what is
+   actually shipped, partial, gated, or still a target.
+5. `../readme.md` — runtime architecture, scene flow, and how to run.
 
-```
-dig-game-dev-env/
-├── index.php / index.html          ← Entry point (loads Phaser + js/main.js)
-├── serve.py, package.json          ← Dev server & tooling
-│
-├── values/                         ← SINGLE SOURCE OF TRUTH for ALL config
-│   ├── constants.js                ← Viewport, tile grid, physics, spawns
-│   ├── player.js                   ← Player stats, abilities, characters
-│   ├── ui.js                       ← HUD layout, UI colors, UI config
-│   ├── tileTypes.js                ← TILE_TYPES enum (AIR=0…GLOW_CRYSTAL=30)
-│   ├── upgrades.js                 ← Upgrade definitions, costs, formulas
-│   ├── abilities.js                ← Ability configs (gem power, flight, etc.)
-│   ├── resources.js                ← Resource prices, rarity, spawn rates
-│   ├── world.js                    ← World gen params, soil bands, tile health
-│   ├── gamefeel.js                 ← Camera shake, hitstop, screen flash
-│   ├── lighting.js                 ← Light system config
-│   ├── combo.js                    ← Combo system config
-│   ├── assetKeys.js                ← ALL asset keys (single source for paths)
-│   ├── audioConfig.js              ← Audio levels, categories
-│   ├── miningConfig.js             ← Mining damage, cooldowns, pickaxes
-│   ├── merchants/                  ← Merchant configs (bobo, gear, gem, etc.)
-│   ├── timeConfig.js               ← Day/night cycle config
-│   ├── weatherConfig.js            ← Weather system config
-│   ├── shaderConfig.js             ← Shader uniforms/config
-│   └── levelConfig.js              ← Leveling XP curves
-│
-├── world/                          ← World generation + model + rendering
-│   ├── PlayScene.js                ← Primary game scene orchestrator
-│   ├── model/
-│   │   ├── TileGrid.js             ← Typed array tile storage (types + HP)
-│   │   ├── WorldState.js           ← Runtime world state (overlays, etc.)
-│   │   ├── Queries.js              ← Read-only tile queries (isSolid, isDiggable)
-│   │   ├── WorldModel.js           ← Coordinates grid + state + queries
-│   │   ├── SeededRandom.js         ← Deterministic PRNG
-│   │   └── SaveManager.js          ← Save/load/backup/export system
-│   ├── generation/
-│   │   ├── WorldGenerator.js       ← Orchestrates generation pipeline
-│   │   ├── CaveGenerator.js        ← Cave carving system
-│   │   ├── GeodeGenerator.js       ← Geode pocket generation
-│   │   ├── TerrainGenerator.js     ← Base terrain + depth bands
-│   │   └── BiomeSystem.js          ← Biome distribution
-│   ├── rendering/
-│   │   ├── WorldRenderer.js        ← Phaser tilemap + tilesheet management
-│   │   ├── TilesheetBuilder.js     ← Runtime canvas tilesheet composition
-│   │   └── tileRenderMap.js        ← Tile type → render index mapping
-│   └── playScene/                  ← PlayScene sub-modules
-│       ├── PlayScene.js            ← Main scene class (in world/ root)
-│       ├── PlaySceneSetup.js       ← create() logic
-│       ├── PlaySceneUpdate.js      ← update() logic
-│       ├── PlaySceneGameplay.js    ← Mining/dig gameplay methods
-│       ├── PlaySceneUI.js          ← UI management methods
-│       ├── BackgroundRenderer.js   ← Parallax background compositing
-│       ├── GameInputHandler.js     ← Global game input handling
-│       ├── PlayerInputHandler.js   ← Player-specific input handling
-│       ├── NPCManager.js           ← NPC placement & interaction
-│       └── OverlayManager.js       ← Shop/inventory/level-up overlays
-│
-├── player/                         ← Player logic ONLY
-│   ├── PlayerController.js         ← Player state machine & coordination
-│   ├── PhysicsBody.js              ← Custom physics (gravity, collision)
-│   ├── PlayerInput.js              ← Input mapping & state
-│   ├── PlayerMovement.js           ← Movement state machine
-│   ├── PlayerState.js              ← Player state enum & transitions
-│   ├── PlayerAbilities.js          ← Ability logic (gem dash, vision, flight)
-│   └── ShadowMiner/
-│       ├── ShadowMinerSystem.js    ← Shadow miner NPC behavior
-│       └── ShadowMinerPhysicsBody.js ← Shadow miner physics
-│
-├── systems/                        ← Game systems (non-player, non-world)
-│   ├── mining/
-│   │   ├── DigSystem.js            ← Mining/digging coordination
-│   │   ├── TileCollisionSystem.js  ← Tile-level collision detection
-│   │   ├── SpecialTileSystem.js    ← Special block effects
-│   │   └── SpecialBlockEffectsManager.js ← Visual FX for special blocks
-│   ├── progression/
-│   │   ├── PlayerLevelSystem.js    ← XP, levels, milestones
-│   │   ├── UpgradeSystem.js        ← Purchaseable upgrades
-│   │   └── DepthGateSystem.js      ← Depth-based unlock gates
-│   ├── visual/
-│   │   ├── HUDSystem.js            ← HP/GP bars, depth, interact prompts
-│   │   ├── FloatingTextSystem.js   ← Floating damage/collect numbers
-│   │   ├── EarthquakeFeedbackUI.js ← Seismic phase/intensity and escape HUD
-│   │   ├── EarthquakeHazardOverlay.js ← Cave-in, rock-lane, and rubble telegraphs
-│   │   ├── ScreenFlashSystem.js    ← Screen flash effects
-│   │   ├── CameraShakeSystem.js    ← Camera shake on dig/hit
-│   │   ├── PickaxeTrailSystem.js   ← Pickaxe swing trail particles
-│   │   ├── ClimbTrailSystem.js     ← Climbing dust particles
-│   │   ├── StarPillarSystem.js     ← Depth milestone star pillars
-│   │   └── MilestoneBoardSystem.js ← Milestone display board
-│   ├── audio/
-│   │   ├── SoundSystem.js          ← Sound playback & management
-│   │   ├── SoundLibraryManager.js  ← SFX library loading
-│   │   └── VoiceLineManager.js     ← NPC voice line scheduling
-│   ├── environment/
-│   │   ├── DayNightCycle.js        ← Day/night transitions
-│   │   ├── WeatherSystem.js        ← Weather effects (rain, fog)
-│   │   ├── AtmosphereSystem.js     ← Atmospheric effects (fog layers)
-│   │   ├── EarthquakeSystem.js     ← World-space seismic events and cave-ins
-│   │   ├── AboveGroundDecorationSystem.js ← Trees, grass, clouds
-│   │   ├── CampfireSystem.js       ← Campfire visuals & mechanics
-│   │   ├── SurfaceTunnelDoorSystem.js ← Town exit tunnel door
-│   │   └── BiomeSystem.js          ← Biome state & transitions
-│   ├── lighting/
-│   │   ├── LightSystem.js          ← Runtime point light management
-│   │   └── ShaderSystem.js         ← Pipeline shader management
-│   ├── health/
-│   │   ├── RuntimeCanarySystem.js  ← Runtime lifecycle/error/invariant monitor
-│   │   ├── RuntimeCanaryReporter.js ← Local critical report + optional endpoint
-│   │   └── runtimeCanaryChecks.js  ← Deterministic canvas/scene/loop checks
-│   └── combo/
-│       ├── ComboSystem.js          ← Dig combo multiplier
-│       └── HitstopSystem.js        ← Hit pause on tile break
-│
-├── ui/                             ← UI components & scenes
-│   ├── admin/
-│   │   └── AdminHealthPanel.js     ← Opt-in admin canary status panel
-│   ├── scenes/                     ← Phaser scene classes
-│   │   ├── BootScene.js            ← Asset preloading + splash
-│   │   ├── MenuAudioScene.js       ← Audio manager scene (runs alongside menus)
-│   │   ├── MainMenuScene.js        ← Title screen with PLAY/SETTINGS/CREDITS
-│   │   ├── StartMenuScene.js       ← Save slot selection + character select
-│   │   ├── WorldLoadScene.js       ← Loading screen → PlayScene transition
-│   │   └── PlayScene.js            ← Re-export from world/PlayScene.js
-│   ├── shared/
-│   │   └── LoadingScreenView.js    ← Reusable loading screen component
-│   ├── hud/
-│   │   ├── HUDSystem.js            ← Re-export from systems/visual/HUDSystem.js
-│   │   ├── XPProgressBar.js        ← XP bar component
-│   │   ├── UIResourceBar.js        ← Resource inventory bar
-│   │   ├── UIMuteToggle.js         ← Mute button
-│   │   └── UIOverlay.css           ← UI styles
-│   ├── overlays/
-│   │   ├── ShopOverlay.js          ← NPC shop overlay
-│   │   ├── UIInventoryPopup.js     ← Inventory popup
-│   │   ├── LevelUpPopup.js         ← Level-up notification
-│   │   └── SettingsPanelContent.js ← Settings panel content
-│   ├── PhaserUiKit.js              ← Button/UI component library
-│   ├── GeneratedHudTextures.js     ← Runtime HUD texture generation
-│   └── UINotificationSystem.js     ← Toast notification system
-│
-├── animations/                     ← Animation creation & frame definitions
-│   ├── PlayerAnims.js              ← Player animation setup
-│   ├── NpcAnims.js                 ← NPC animation setup
-│   └── RobotAnims.js               ← Robot character animation setup
-│
-├── audio/                          ← Audio files (managed by SoundSystem)
-│   ├── sfx/                        ← Sound effects
-│   ├── music/                      ← Background music
-│   └── voice-lines/                ← NPC voice lines
-│
-├── shaders/                        ← GLSL shader code
-│   ├── index.js                    ← Re-exports all shaders
-│   ├── shaderUniforms.js           ← Common shader uniforms
-│   ├── darknessLightShader.js      ← Darkness/light shader
-│   ├── lightningFlashShader.js     ← Lightning flash shader
-│   └── weatherAtmosphereShader.js  ← Weather atmosphere shader
-│
-├── sprites/                        ← Static image assets (.webp, .png)
-│   ├── tiles/                      ← Tile sprites (dynamic-soil, hp-stages, overlays)
-│   ├── player/                     ← Character spritesheets
-│   ├── npcs/                       ← NPC spritesheets
-│   ├── backgrounds/                ← World backgrounds, sky, underground
-│   ├── ui/                         ← UI element textures
-│   ├── fx/                         ← Particle and effect textures
-│   ├── branding/                   ← Logo
-│   └── constellations/             ← Star sign sprites
-│
-├── exports/                        ← Tiled workspace files + piskel exports
-│   └── tiled/                      ← Tiled project files (.tmj, .tsj, .tsx)
-│
-├── pipelines/                      ← Asset pipeline scripts (from tools/ + utilities/)
-│   ├── blender/                    ← Blender pipeline scripts
-│   ├── piskel/                     ← Piskel pipeline scripts
-│   └── audio/                      ← Audio conversion pipeline
-│
-├── tools/                          ← Development tools & utilities
-│   ├── piskel-mcp/                 ← Piskel MCP server
-│   ├── piskel-workspace/           ← Piskel workspace app
-│   ├── ffmpeg/                     ← FFmpeg binary
-│   ├── build scripts               ← Asset building scripts
-│   ├── deploy scripts              ← Deployment scripts
-│   └── test scripts                ← Testing utilities
-│
-├── testing/                        ← Test infrastructure
-│   └── JkdE2EHarness.js            ← E2E test harness
-│
-├── debugging/                      ← Active debugging workspace
-├── feedback/                       ← Player feedback & plans
-├── markdown/                       ← Knowledge center (all .md files)
-├── archive/                        ← Deprecated content, date-stamped
-├── css/                            ← CSS styles (minimal)
-│   └── style.css                   ← Game page styling
-│
-├── _ssh-git/                       ← SSH/git credentials (gitignored)
-└── libs/
-    └── phaser.js                   ← Phaser 3 framework
-```
+## Document classes
 
----
+| Class | Location | Authority |
+|---|---|---|
+| Canonical product design | `design-documents/` | Intended final player experience and current alignment |
+| Architecture/policy | policy files in this directory | Mandatory code/document organization rules |
+| Subsystem ownership | nearest directory `readme.md` outside `/markdown/` | Technical boundaries and active implementation ownership |
+| Dated implementation record | `YYYY-MM-DD-*.md` in this directory | Historical evidence; not product direction unless linked from canonical design |
+| Feedback and diagnosis | `feedback/` | Evidence and recommendations; not approved implementation by itself |
+| Debugging/validation | `debugging/`, `testing/`, related dated notes | Reproduction and proof |
+| Archived material | `../archive/` | Non-authoritative provenance |
 
-## Naming Policy
+## Canonical design set
 
-See [naming-policy.md](naming-policy.md) for full details.
+- `design-documents/2026-08-10-game-vision.md`
+- `design-documents/2026-08-10-player-journey.md`
+- `design-documents/2026-08-10-gameplay-systems.md`
+- `design-documents/2026-08-10-world-and-content.md`
+- `design-documents/2026-08-10-controls-and-interface.md`
+- `design-documents/2026-08-10-progression-economy-and-saves.md`
+- `design-documents/2026-08-10-runtime-alignment-register.md`
 
-**Quick reference:**
-- Directories: `kebab-case` (e.g., `systems/mining/`)
-- Classes/Constructors: `PascalCase` (e.g., `TileCollisionSystem`)
-- Functions/variables: `camelCase` (e.g., `getRenderIndex()`)
-- Constants/config: `UPPER_SNAKE_CASE` or `Object.freeze()` with PascalCase key
-- Markdown files: `YYYY-MM-DD-topic.md`
-- AI tools/scripts: date-stamped filename, placed in `/ai-tools/`
+Read the design index before using any older roadmap or feature note. The June
+foundation roadmaps and original raw design drafts were superseded and moved to
+`../archive/2026-08-10-superseded-design-document-drafts/`.
 
----
-
-## Import Rules
-
-```
-values/  ←  systems/  ←  world/  ←  ui/scenes/
-   ↑                       ↑
-   └── NEVER import from    └── PlayScene orchestrates all
-       systems or world
-```
-
-1. `/values/` imports NOTHING from the project — pure data
-2. `/systems/` imports from `/values/` only
-3. `/world/` imports from `/values/` and `/systems/`
-4. `/ui/scenes/` imports from all layers
-5. NO circular dependencies — if A needs B and B needs A, inject at setup time
-
----
-
-## Value System
-
-Every numeric or string game constant lives in `/values/`. This is the single source of truth.
-
-**Never hardcode magic numbers anywhere else.** Examples of what belongs in values:
-- Tile sizes, viewport dimensions
-- Physics constants (gravity, max speed)
-- Spawn rates, resource prices
-- Upgrade costs and multipliers
-- UI colors, layouts, fonts
-- Player stats (walk speed, climb/fly speed)
-
----
-
-## Scene Lifecycle
-
-```
-BootScene → MenuAudioScene (launched alongside menus)
-  ↓
-MainMenuScene → PLAY
-  ↓
-StartMenuScene → select save slot → SPACE
-  ↓
-WorldLoadScene → loading bar
-  ↓
-PlayScene (game runs here, MenuAudioScene stopped)
-```
-
----
-
-## Archive Policy
-
-See `markdown/archive-policy.md` for full details.
-
-**Quick rules:**
-- Move unused tools/scripts to `/archive/` with date prefix
-- Keep a manifest of archived items in `archive/INDEX.md`
-- Archive if: no longer used, replaced by new version, experimental/failed
-- Delete from archive if: older than 180 days AND no references exist
-- Never delete active game code — only tools, scripts, experimental content
-
----
-
-## Related Documents
+## Mandatory policies
 
 | Document | Purpose |
 |---|---|
-| `.clinerules` | AI entry point & mandatory rules |
-| `readme.md` (root) | Points to this file |
-| `naming-policy.md` | Full naming convention reference |
-| `values-system.md` | How to use the /values/ system |
-| `archive-policy.md` | What to archive & when to delete |
-| `2026-07-26-underground-biome-background-runtime-wiring.md` | Sixty-card ten-biome background, ground-depth, streaming, motion, and rollback contract |
-| `2026-07-26-underground-biome-motion-runtime-v1.md` | Rejected Graphics-overlay motion history and V2 supersession pointer |
-| `2026-07-26-underground-biome-baked-motion-runtime-v2.md` | Ten actual moving-image backgrounds, painted keyframes, VP9 pipeline, ground separation, streaming, performance, and rollback contract |
-| `2026-07-26-modular-surface-props-runtime-v1.md` | Approved modular Level 1/Level 2 surface props, physical scale, terrain contact, coverage, streaming, testing, and rollback contract |
-| `2026-06-25-phase3-roadmap.md` | Current phase roadmap |
-| `2026-06-25-next-steps.md` | Immediate next steps |
-</content-file>
-</write_to_file>
+| `naming-policy.md` | Directory, file, symbol, and dated-document naming |
+| `organisation-policy.md` | Layer responsibilities and import direction |
+| `seperation-policy.md` | One responsibility per file and split rules |
+| `single-source-of-truth-policy.md` | Runtime values/config ownership |
+| `duplication-prevention-policy.md` | Avoid duplicate code and configuration |
+| `archive-policy.md` | Archive location, INDEX requirements, safe deletion rules |
+| `version-control/version-control.md` | Local, backup, and Git workflow |
+| `pathing/readme.md` | Import/path resolution |
+| `tools/readme.md` | Development-tool inventory |
+
+## Status language
+
+Product claims use the status vocabulary defined in
+`design-documents/readme.md`: SHIPPED, PARTIAL, GATED, TARGET, DECISION, and
+RETIRED. A dated document saying “done” does not override a PARTIAL/GATED row in
+the runtime alignment register.
+
+## Adding or changing documentation
+
+- Update an existing canonical owner instead of creating a competing roadmap.
+- Date new standalone Markdown files `YYYY-MM-DD-topic.md`.
+- Keep exact numbers in `/values/`; documents explain why they exist and link
+  the owner.
+- If player behavior changes, update the owning design doc and alignment row in
+  the same change.
+- Put superseded material under the root `/archive/YYYY-MM-DD-description/` and
+  update both that directory’s `INDEX.md` and `archive/INDEX.md`.
+- Do not move active code or required assets merely to make documentation look
+  tidy.
+
+## Current release note
+
+The active runtime uses `demoMode: true`, so Level Two, Arc Core, developer
+cheats, and screen capture are gated. Older full-world implementation notes may
+describe those modules, but the alignment register is the current reachability
+truth.

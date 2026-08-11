@@ -19,6 +19,11 @@ special blocks, town foundations, bedrock, cave walls, relics, or sky tiles.
 There is no jump counterplay: the telegraphed line is avoided with lateral
 flight, retreat, or existing terrain geometry.
 
+Zero GP enters the shared versioned mode-death reducer. Normal Hardcore uses
+one free first revive followed by two lives; One-Life has one life and no free
+revive; Casual never admits the production Wurm. Exhaustion preserves the save
+and returns through the normal menu/save flow rather than silently deleting it.
+
 There are exactly two developer query flags: `?wurm=0` disables the feature
 (`?wurm=1` explicitly enables it), and `?wurm10x=1` bypasses the unfinished
 Hardcore/Flight/depth gate while multiplying noise and encounter frequency by

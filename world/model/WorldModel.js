@@ -19,7 +19,10 @@ import {
 } from "../../values/heavenblocksAccessConfig.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
-import { applySecondWorldArea as applySecondWorldAreaToModel } from "../secondWorld/SecondWorldGenerator.js";
+import {
+  applySecondWorldArea as applySecondWorldAreaToModel,
+  applySecondWorldExclusionBoundary as applySecondWorldExclusionBoundaryToModel,
+} from "../secondWorld/SecondWorldGenerator.js";
 import { isInsideEllipse } from "../../values/deterministicMath.js";
 import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
 import {
@@ -30,6 +33,10 @@ import {
 import { finalizeCaveGameplay } from "./CaveGameplayPlanner.js";
 import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 const DIGGABLE_TYPES = new Set([
@@ -214,6 +221,7 @@ export class WorldModel {
     finalizeCaveIdentities(this);
     finalizeCaveGameplay(this);
     this.applyHeavenblocksLayout();
+    this.applyGameplayModeBoundaries();
   }
 
   generateBaseTerrain() {
@@ -456,6 +464,8 @@ export class WorldModel {
       this.setTile(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE, this.getTileMaxHp(tx, ty, TILE_TYPES.ANCIENT_RELIC_CACHE));
       positions.push({ tx, ty });
     }
+
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return;
 
     const levelTwoCfg = ANCIENT_RELIC_CONFIG.levelTwoWorldCaches;
     const levelTwoMinY = Math.max(
@@ -805,6 +815,13 @@ export class WorldModel {
       );
     }
     return result;
+  }
+
+  applyGameplayModeBoundaries() {
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+      return { applied: false, reason: "full-game-mode" };
+    }
+    return applySecondWorldExclusionBoundaryToModel(this);
   }
 
   getTileMaxHp(tileX, tileY, type = this.getType(tileX, tileY)) {

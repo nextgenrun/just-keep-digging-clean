@@ -11,6 +11,10 @@ import {
   resolveSurfacePropDisplayGeometry,
   resolveSurfacePropGroundContact,
 } from "./surfacePropGeometry.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../../values/gameplayDevFlags.js";
 
 export class WorldVisualSurfacePropLayer {
   constructor(
@@ -35,7 +39,14 @@ export class WorldVisualSurfacePropLayer {
   }
 
   create(search = globalThis.location?.search || "") {
-    this.enabled = resolveWorldVisualSurfacePropsEnabled(this.config, search);
+    const resolved = resolveWorldVisualSurfacePropsEnabled(this.config, search);
+    const levelTwoEnabled = resolved.level2
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO);
+    this.enabled = Object.freeze({
+      all: resolved.all && (resolved.level1 || levelTwoEnabled),
+      level1: resolved.level1,
+      level2: levelTwoEnabled,
+    });
     if (!this.enabled.all) return false;
     this.placements = this.layout.placements.filter(item => this.enabled[item.level]);
     this.coverage = auditSurfacePropCoverage(this.layout, this.assets);

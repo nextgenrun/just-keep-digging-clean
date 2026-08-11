@@ -3,6 +3,13 @@
 Game systems that teach production mechanics through short, persisted opening
 encounters.
 
+- `FirstSessionPortalSystem.js` guarantees the universal Level One portal at
+  x=12 and exactly 15m, repairs it after world/save mutation, and delegates all
+  activation/pairing behavior to `SpecialTileSystem`.
+- `OpeningFlightTownExitBarrierSystem.js` snapshots the three town-exit cells,
+  self-heals Guided containment, and restores the originals only after the
+  protected ascent sets `surfaceReturnCelebrated`. Skip never installs it.
+
 - `OpeningFlightArtifactSystem.js` is the stable scene/save facade. The default
   path delegates to the Golden Five runtime; `?openingFlightV2=0` restores the
   previous procedural five-tile encounter without touching saves.
@@ -25,3 +32,7 @@ encounters.
   reached the surface and is actively flying.
 - `OpeningFlightArtifactView.js` and `OpeningFlightTrialView.js` are retained as
   the explicit rollback presentation through `OpeningFlightLegacyRuntime.js`.
+
+New-run selection itself lives in `ui/components/NewRunSetupPanel.js`; it passes
+only versioned mode/tutorial state through the scene handoff. Onboarding systems
+do not own menu presentation or Hardcore lives.

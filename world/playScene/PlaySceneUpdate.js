@@ -723,6 +723,8 @@ function _updatePlayingState(time, delta, keys) {
   this.playerController.update(delta);
   this.celestialEngineController?.update(time, delta, keys);
   this.openingFlightArtifactSystem?.update(delta);
+  this.firstSessionPortalSystem?.update(delta);
+  this.openingFlightTownExitBarrierSystem?.update();
   this.playerKinematicMotion?.samplePhysics(delta);
   this.playerRigContact?.update(delta);
 
@@ -761,7 +763,7 @@ function _updatePlayingState(time, delta, keys) {
   const rawAimTargetTile = this.inputHandler.resolveAimTargetTile();
   const aimTargetTile = this.inputHandler.resolveStableMineTarget(
     rawAimTargetTile,
-    keys.mine?.isDown === true,
+    keys.mine?.isDown === true || keys.spaceMine?.isDown === true,
     this.playerController.getAimLabel()
   );
   this.inputHandler.updateAimBox(aimTargetTile, this.inputHandler.isSolidAimTarget(aimTargetTile));

@@ -22,6 +22,10 @@ import {
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
 import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
 import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -284,16 +288,21 @@ export function setupGameplayMethods(prototype) {
     );
   };
 
+  prototype.canInterruptUalDigRecovery = function() {
+    const profile = getP(this);
+    if (!profile.isUalNative || !this.isDigAnimating) return false;
+    if (this.ualActionContactTimeline?.contactFired !== true) return false;
+    return Number.isFinite(this._ualActionContactAtMs);
+  };
+
   prototype.canReplaceUalDigRecovery = function(
     now = this.time?.now || 0,
     abilities = this.playerController?.abilities,
   ) {
-    const profile = getP(this);
-    if (!profile.isUalNative || !this.isDigAnimating) return false;
-    if (this.ualActionContactTimeline?.contactFired !== true) return false;
+    if (!this.canInterruptUalDigRecovery()) return false;
     const contactAtMs = this._ualActionContactAtMs;
     const recoveryDelayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
-    if (!Number.isFinite(contactAtMs) || now - contactAtMs < recoveryDelayMs) return false;
+    if (now - contactAtMs < recoveryDelayMs) return false;
     if (typeof this.digSystem?.isMineCooldownReady === "function") {
       return this.digSystem.isMineCooldownReady(now, abilities);
     }
@@ -304,14 +313,19 @@ export function setupGameplayMethods(prototype) {
     return now - lastMineTime >= cooldownMs;
   };
 
-  prototype.cancelUalDigRecovery = function(now, abilities) {
-    if (!this.canReplaceUalDigRecovery(now, abilities)) return false;
+  prototype.cancelCommittedUalDigRecovery = function() {
+    if (!this.canInterruptUalDigRecovery()) return false;
     this.ualActionContactTimeline?.cancel();
     this.playerRigContact?.endAction();
     this.isDigAnimating = false;
     this._ualActionContactAtMs = -Infinity;
     if (this.player?.anims) this.player.anims.timeScale = 1;
     return true;
+  };
+
+  prototype.cancelUalDigRecovery = function(now, abilities) {
+    if (!this.canReplaceUalDigRecovery(now, abilities)) return false;
+    return this.cancelCommittedUalDigRecovery();
   };
 
   prototype.playMineImpactFx = function(targetTile, destroyed) {
@@ -795,6 +809,7 @@ export function setupGameplayMethods(prototype) {
   };
 
   prototype.activateDevCheat = function() {
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)) return false;
     console.log('[DEVCHEAT] ========================================');
     console.log('[DEVCHEAT] activateDevCheat() called!');
     this.digSystem.setResourceTotals({
@@ -824,6 +839,7 @@ export function setupGameplayMethods(prototype) {
     this.uiInventoryPopup?.setMoney(this.upgradeSystem.getMoney());
     this.hudSystem.flashStatus(CELESTIAL_ENGINE_CONFIG.copy.godModeActivated, "#ff00ff", 2400);
     console.log('[DEVCHEAT] ========================================');
+    return true;
   };
 
   prototype.playTeleportInAnimation = function() {

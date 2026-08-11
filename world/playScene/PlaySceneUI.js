@@ -30,7 +30,11 @@ import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
 import { LevelUpPopup } from "../../ui/overlays/LevelUpPopup.js";
 import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
-import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
+import {
+  consumeHardcoreDeath,
+  getHardcoreModeLabel,
+  sanitizeHardcoreModeData,
+} from "../../values/hardcoreMode.js";
 import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
 import {
   getGraveborerWurmSaveData,
@@ -708,7 +712,7 @@ export function setupUIMethods(prototype) {
     }
   };
 
-  prototype.enterDeathState = function(depth) {
+  prototype.enterDeathState = function(depth, cause = {}) {
     this.hidePauseMenu?.();
     if (this.gameState !== "playing") return;
 
@@ -719,20 +723,65 @@ export function setupUIMethods(prototype) {
     this.player.anims.stop();
     this.aimBox.setVisible(false);
 
+    const death = consumeHardcoreDeath(this.hardcoreModeData);
+    this.hardcoreModeData = death.data;
     const resources = this.digSystem.getResourceTotals();
+    const sourceLine = cause?.source === "graveborer-wurm"
+      ? "The Graveborer Wurm consumed your remaining GP."
+      : `You reached crush depth at ${depth} m.`;
+    const consequence = death.outcome === "free-revive"
+      ? `FREE REVIVE USED  •  ${death.livesRemaining} LIVES REMAIN`
+      : death.outcome === "life-lost"
+        ? `LIFE LOST  •  ${death.livesRemaining} ${death.livesRemaining === 1 ? "LIFE" : "LIVES"} REMAIN`
+        : death.outcome === "exhausted"
+          ? "NO LIVES REMAIN  •  EXPEDITION EXHAUSTED"
+          : "CASUAL MODE  •  NO LIVES LOST";
+    const actionLine = death.outcome === "exhausted"
+      ? `Press ${USER_SETTINGS.getKeyLabel("restart")} or ENTER to return to the menu.`
+      : `Press ${USER_SETTINGS.getKeyLabel("restart")} or ENTER to revive at town.`;
     const body = [
-      `You reached crush depth at ${depth} tiles.`,
+      `${getHardcoreModeLabel(this.hardcoreModeData)}  •  ${consequence}`,
+      sourceLine,
       `Broken: ${this.digSystem.getTilesBroken()}  Au:${resources.gold} Ag:${resources.silver} Fe:${resources.iron} Bn:${resources.bronze} St:${resources.steel} Cu:${resources.copper} Stn:${resources.stone} Dt:${resources.dirt}`,
-      `Press ${USER_SETTINGS.getKeyLabel("restart")} to restart instantly.`,
+      actionLine,
     ].join("\n");
 
-    this.showOverlay("Run Over", body);
-    this.hudSystem.flashStatus("Run over", "#ff8a8a", UI_CONFIG.flashRunOver);
+    this.showOverlay(
+      death.outcome === "exhausted" ? "Expedition Exhausted" : "Run Over",
+      body,
+    );
+    this.hudSystem.flashStatus(consequence, "#ff8a8a", UI_CONFIG.flashRunOver);
+    this.queueDugTilesSave?.();
   };
 
-  prototype.restartRun = function() {
+  prototype.handleHardcoreGpDepleted = function(cause = {}) {
+    const playerTile = this.playerController?.getPlayerTile?.();
+    const depth = Math.max(0, (playerTile?.ty || 0) - this.config.topAirRows);
+    this.enterDeathState(depth, cause);
+  };
+
+  prototype.restartRun = async function() {
     this.queueDugTilesSave();
-    this.scene.restart({ autoStart: true });
+    const saved = await this.flushDugTilesSave();
+    if (saved === false) {
+      this.hudSystem?.flashStatus?.(
+        "Save failed — retry before leaving the run",
+        "#ff6b6b",
+        2600,
+      );
+      return;
+    }
+    const mode = sanitizeHardcoreModeData(this.hardcoreModeData);
+    if (mode.exhausted) {
+      this.returnToMainMenu();
+      return;
+    }
+    this.scene.restart({
+      saveSlot: this.saveSlot,
+      worldIdentity: this.worldIdentity,
+      playerCharacterId: this.playerCharacterId,
+      autoStart: true,
+    });
   };
 
   prototype.applyPersistentState = function(savedData, showStatus) {

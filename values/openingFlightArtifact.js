@@ -11,6 +11,11 @@ export const OPENING_FLIGHT_STAGES = Object.freeze({
   COMPLETE: "complete",
 });
 
+export const OPENING_FLIGHT_TUTORIAL_CHOICES = Object.freeze({
+  guided: "guided",
+  skip: "skip",
+});
+
 const COPY = Object.freeze({
   objectiveTitle: "FIND THE FLIGHT GEM",
   objectiveSurface: "Follow the huge arrows to the marked starter shaft",
@@ -54,7 +59,7 @@ const COLORS = Object.freeze({
 
 export const OPENING_FLIGHT_ARTIFACT_CONFIG = Object.freeze({
   enabled: true,
-  saveVersion: 2,
+  saveVersion: 3,
   upgradeId: "gemPowerUnlock",
   flyActionId: "fly",
   trialDurationMs: 30000,
@@ -182,7 +187,7 @@ export const OPENING_FLIGHT_GOLDEN_FIVE_CONFIG = Object.freeze({
   queryDisableValues: Object.freeze(["0", "off", "false", "legacy"]),
   freeFlightBankMs: 30000,
   revealControlLockMs: 650,
-  saveVersion: 2,
+  saveVersion: 3,
   openingWeather: Object.freeze({
     kind: "clear",
     intensity: 0.08,
@@ -476,6 +481,9 @@ export function shouldUseOpeningFlightGoldenSpawn(
 
   const opening = saveData.openingFlightArtifactData;
   if (opening && typeof opening === "object") {
+    if (opening.tutorialChoice === OPENING_FLIGHT_TUTORIAL_CHOICES.skip) {
+      return false;
+    }
     return opening.onboardingComplete !== true && opening.cacheCollected !== true;
   }
 
@@ -495,6 +503,9 @@ export function shouldUseOpeningFlightGoldenSpawn(
 
 export function sanitizeOpeningFlightArtifactData(data) {
   const config = OPENING_FLIGHT_ARTIFACT_CONFIG;
+  const tutorialChoice = data?.tutorialChoice === OPENING_FLIGHT_TUTORIAL_CHOICES.skip
+    ? OPENING_FLIGHT_TUTORIAL_CHOICES.skip
+    : OPENING_FLIGHT_TUTORIAL_CHOICES.guided;
   const artifactCollected = data?.artifactCollected === true;
   const surfaceReturnCelebrated = artifactCollected
     && data?.surfaceReturnCelebrated === true;
@@ -520,6 +531,7 @@ export function sanitizeOpeningFlightArtifactData(data) {
         : OPENING_FLIGHT_STAGES.FREE_FLIGHT;
   return {
     version: Number.isInteger(data?.version) ? data.version : config.saveVersion,
+    tutorialChoice,
     stage: validStages.has(data?.stage) ? data.stage : inferredStage,
     artifactCollected,
     firstDigCelebrated: data?.firstDigCelebrated === true,
@@ -535,4 +547,28 @@ export function sanitizeOpeningFlightArtifactData(data) {
     rewardGranted: cacheCollected && data?.rewardGranted !== false,
     onboardingComplete: cacheCollected || data?.onboardingComplete === true,
   };
+}
+
+export function createOpeningFlightTutorialData(
+  tutorialChoice = OPENING_FLIGHT_TUTORIAL_CHOICES.guided,
+) {
+  if (tutorialChoice !== OPENING_FLIGHT_TUTORIAL_CHOICES.skip) {
+    return sanitizeOpeningFlightArtifactData({
+      tutorialChoice: OPENING_FLIGHT_TUTORIAL_CHOICES.guided,
+    });
+  }
+  return sanitizeOpeningFlightArtifactData({
+    tutorialChoice: OPENING_FLIGHT_TUTORIAL_CHOICES.skip,
+    stage: OPENING_FLIGHT_STAGES.COMPLETE,
+    artifactCollected: true,
+    firstDigCelebrated: true,
+    ringsPassed: 3,
+    trialStarted: false,
+    trialRemainingMs: 0,
+    trialComplete: true,
+    surfaceReturnCelebrated: true,
+    cacheCollected: true,
+    rewardGranted: true,
+    onboardingComplete: true,
+  });
 }

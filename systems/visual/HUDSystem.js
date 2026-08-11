@@ -320,6 +320,8 @@ export class HUDSystem {
 
     this.approvedSkin = new ApprovedHudSkin(scene, this);
     this._createLootBagTarget();
+    this._bindLootBagInteraction();
+    this._createPauseMenuTarget();
 
     this.refresh();
     this.statsDirty = false;
@@ -397,6 +399,68 @@ export class HUDSystem {
     bag.fillStyle(0xffd98f, 1);
     bag.fillRect(-3, 3, 6, 5);
     return bag;
+  }
+
+  _bindLootBagInteraction() {
+    if (!this.lootBagContainer) return;
+    const layout = APPROVED_HUD_SKIN.layout.inventory;
+    const scale = this.approvedSkin?.scale || 1;
+    const width = this.approvedSkin?.active ? layout.width * scale : 50;
+    const height = this.approvedSkin?.active ? layout.height * scale : 50;
+    this.lootBagContainer.setSize(width, height).setInteractive({ useHandCursor: true });
+    this.lootBagContainer.on("pointerover", () => this.lootBagIcon?.setTint?.(0xffe39a));
+    this.lootBagContainer.on("pointerout", () => this.lootBagIcon?.clearTint?.());
+    this.lootBagContainer.on("pointerdown", () => {
+      if (this._destroyed || this.scene.gameState !== "playing") return;
+      this.scene.soundSystem?.playUiConfirm?.();
+      this.scene.uiInventoryPopup?.toggle?.();
+    });
+  }
+
+  _createPauseMenuTarget() {
+    if (!this.approvedSkin?.active) return;
+    const layout = APPROVED_HUD_SKIN.layout.inventory;
+    const scale = this.approvedSkin.scale || 1;
+    const vw = this.scene.scale?.width || 1280;
+    const vh = this.scene.scale?.height || 720;
+    const width = layout.width * scale;
+    const height = 32 * scale;
+    const x = vw - (layout.right + layout.width / 2) * scale;
+    const y = vh - (layout.bottom + layout.height + 20) * scale;
+    this.pauseMenuContainer = this.scene.add.container(x, y)
+      .setScrollFactor(0)
+      .setDepth(HUD_LAYOUT.hudOverlayDepth + 4)
+      .setSize(width, height)
+      .setInteractive({ useHandCursor: true });
+    this.pauseMenuFrame = this.scene.add.image(
+      0,
+      0,
+      ASSET_KEYS.ui.approvedHud.buffChip,
+    ).setDisplaySize(width, height);
+    this.pauseMenuText = this.scene.add.text(0, 0, "ESC  MENU", {
+      fontFamily: APPROVED_HUD_SKIN.font.family,
+      fontSize: `${Math.round(12 * scale)}px`,
+      fontStyle: "bold",
+      color: APPROVED_HUD_SKIN.font.color,
+      stroke: APPROVED_HUD_SKIN.font.shadow,
+      strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
+    }).setOrigin(0.5);
+    this.pauseMenuContainer.add([this.pauseMenuFrame, this.pauseMenuText]);
+    this.pauseMenuContainer.on("pointerover", () => this.pauseMenuFrame?.setTint?.(0xffe39a));
+    this.pauseMenuContainer.on("pointerout", () => this.pauseMenuFrame?.clearTint?.());
+    this.pauseMenuContainer.on("pointerdown", () => {
+      if (this._destroyed) return;
+      this.scene.soundSystem?.playUiConfirm?.();
+      if (this.scene.uiInventoryPopup?.isOpen) {
+        this.scene.uiInventoryPopup.close?.();
+        return;
+      }
+      if (this.scene.gameState === "paused") {
+        this.scene.resumeGame?.();
+      } else if (this.scene.gameState === "playing") {
+        this.scene.showPauseMenu?.();
+      }
+    });
   }
 
   getLootPickupTarget() {
@@ -878,6 +942,7 @@ export class HUDSystem {
       this.weatherPanel, this.weatherText, this.weatherTempText,
       this.weatherSeasonText, this.weatherIntensityBar,
       this.lootBagContainer,
+      this.pauseMenuContainer,
     ];
     objects.forEach(obj => obj?.destroy());
     this.approvedSkin?.destroy();

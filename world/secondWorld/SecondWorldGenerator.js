@@ -1,6 +1,11 @@
 import { SECOND_WORLD_CONFIG } from "../../values/secondWorldConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
+import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
 
 function randomInt(seed, salt, min, max) {
   const lo = Math.min(min, max);
@@ -251,7 +256,47 @@ function paintUndergroundDivider(worldModel, config) {
   return dividerTiles;
 }
 
+function paintLevelOneDepthSeal(worldModel, config) {
+  const sealTileY = config.runtimeArea.levelOneBottomTileY + 1;
+  let sealTiles = 0;
+  for (let tx = 0; tx < config.runtimeArea.leftTile; tx += 1) {
+    if (!worldModel.inBounds(tx, sealTileY)) continue;
+    setGeneratedTile(worldModel, tx, sealTileY, TILE_TYPES.BEDROCK, 0);
+    sealTiles += 1;
+  }
+  return sealTiles;
+}
+
+function paintDemoLevelTwoWall(worldModel) {
+  const tileX = SURFACE_TUNNEL_DOOR_CONFIG.tileX;
+  let wallTiles = 0;
+  for (
+    let tileY = SURFACE_TUNNEL_DOOR_CONFIG.topTileY;
+    tileY < worldModel.depthTiles;
+    tileY += 1
+  ) {
+    if (!worldModel.inBounds(tileX, tileY)) continue;
+    setGeneratedTile(worldModel, tileX, tileY, TILE_TYPES.BEDROCK, 0);
+    wallTiles += 1;
+  }
+  return wallTiles;
+}
+
+export function applySecondWorldExclusionBoundary(worldModel, config = SECOND_WORLD_CONFIG) {
+  return {
+    applied: false,
+    excluded: true,
+    reason: "demo-mode",
+    demoWallTiles: paintDemoLevelTwoWall(worldModel),
+    dividerTiles: paintUndergroundDivider(worldModel, config),
+    depthSealTiles: paintLevelOneDepthSeal(worldModel, config),
+  };
+}
+
 export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CONFIG) {
+  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    return applySecondWorldExclusionBoundary(worldModel, config);
+  }
   if (!area?.enabled) {
     return { applied: false, reason: "disabled" };
   }

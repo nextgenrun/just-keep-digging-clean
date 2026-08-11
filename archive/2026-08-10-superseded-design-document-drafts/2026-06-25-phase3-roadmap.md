@@ -1,5 +1,9 @@
 # Phase 3 Roadmap — Systems Integration & Gameplay Polish
 
+> Archived on 2026-08-10. Its open checkboxes no longer describe the current
+> runtime; the canonical gap list is now
+> `markdown/design-documents/2026-08-10-runtime-alignment-register.md`.
+
 All core files are written. Phase 3 is about connecting everything, adding visual polish, and making the game playable.
 
 ## Priority Order

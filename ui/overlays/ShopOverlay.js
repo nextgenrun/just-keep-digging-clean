@@ -10,6 +10,7 @@ import { UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { OPENING_FLIGHT_ARTIFACT_CONFIG } from "../../values/openingFlightArtifact.js";
 import { CRAFTING_RECIPES } from "../../values/craftingRecipes.js";
+import { isGameplayUpgradeEnabled } from "../../values/gameplayDevFlags.js";
 import {
   MONEY_MONSTER_RESOURCE_KEYS,
   SECOND_WORLD_RESOURCE_KEYS,
@@ -223,14 +224,17 @@ export class ShopOverlay {
   populateUpgrades(merchantId = this.currentMerchant) {
     this.currentMerchant = merchantId;
     this.allUpgrades = Object.entries(UPGRADES)
-      .filter(([, upgrade]) => (
+      .filter(([upgradeId, upgrade]) => (
+        isGameplayUpgradeEnabled(upgradeId) &&
         upgrade.merchant === merchantId &&
         !upgrade.comingSoon &&
         !upgrade.hiddenFromShop
       ))
       .map(([id, upgrade]) => ({ ...upgrade, id }));
     this.forgeRecipes = isArcForgeMerchant(merchantId)
-      ? Object.values(CRAFTING_RECIPES)
+      ? Object.values(CRAFTING_RECIPES).filter(recipe => (
+        isGameplayUpgradeEnabled(recipe.output?.upgradeId)
+      ))
       : [];
     this.sellItems = sellResourceKeysForMerchant(merchantId).map(resource => ({
       resource,

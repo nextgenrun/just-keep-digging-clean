@@ -4,6 +4,7 @@ import {
   getCraftingRecipe,
 } from "../../values/craftingRecipes.js";
 import { getResourceDisplayName } from "../../values/resourceTypes.js";
+import { isGameplayUpgradeEnabled } from "../../values/gameplayDevFlags.js";
 
 const prettyId = (value) => String(value || "")
   .replace(/[-_]+/g, " ")
@@ -39,12 +40,17 @@ export class CraftingSystem {
   }
 
   getRecipes() {
-    return Object.values(CRAFTING_RECIPES);
+    return Object.values(CRAFTING_RECIPES).filter(recipe => (
+      isGameplayUpgradeEnabled(recipe.output?.upgradeId)
+    ));
   }
 
   getRecipeStatus(recipeId) {
     const recipe = getCraftingRecipe(recipeId);
     if (!recipe) return { canCraft: false, reason: "invalid_recipe", recipeId, checks: [] };
+    if (!isGameplayUpgradeEnabled(recipe.output?.upgradeId)) {
+      return { canCraft: false, reason: "gameplay_mode_disabled", recipeId, recipe, checks: [] };
+    }
     const systemsFailure = this._getSystemsFailure(recipeId);
     if (systemsFailure) return systemsFailure;
 

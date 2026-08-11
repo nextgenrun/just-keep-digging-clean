@@ -88,6 +88,7 @@ export class OpeningFlightLegacyRuntime {
   getSaveData() {
     return {
       version: this.config.saveVersion,
+      tutorialChoice: this.state.tutorialChoice,
       artifactCollected: this.state.artifactCollected,
       trialStarted: this.state.trialStarted,
       trialRemainingMs: Math.ceil(this.state.trialRemainingMs),

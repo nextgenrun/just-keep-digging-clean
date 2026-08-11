@@ -43,7 +43,9 @@ export class PlayScene extends Phaser.Scene {
 
   async create(data = {}) {
     await setupScene.call(this, data);
-    this._uiReviewHarness = installUiReviewHarness(this);
+    this._uiReviewHarness = GAME_CONFIG.debugMode
+      ? installUiReviewHarness(this)
+      : null;
   }
 
   update(time, delta) {

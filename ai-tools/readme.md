@@ -121,3 +121,6 @@ WebPs live under `sprites/environment/graveborer-wurm-v1/`.
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.
+
+
+07-08-2026- moved all old scripting for one shot usage too \archive\old-ai-tools-batch if neede can move some back but directory had way to many one shot scripts, in this directory we want to keep only scripting often used and \archive\old-ai-tools-batch older batches of one shot one usage scripts

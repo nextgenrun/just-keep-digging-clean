@@ -8,6 +8,10 @@ import {
 } from "../../values/graveborerWurm.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 
 const CARVABLE_WURM_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 
@@ -24,7 +28,8 @@ export function resolveGraveborerWurmFeatureFlags(search = globalThis.location?.
   const flags = GRAVEBORER_WURM_CONFIG.featureFlags;
   return {
     enabled: readBooleanQuery(params, flags.enabledQuery, flags.enabled),
-    devTest10x: readBooleanQuery(params, flags.devTest10xQuery, flags.devTest10x),
+    devTest10x: isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+      && readBooleanQuery(params, flags.devTest10xQuery, flags.devTest10x),
   };
 }
 
@@ -125,7 +130,7 @@ function applyWurmHit(scene, runtime, event) {
   );
   scene.hudSystem?.flashStatus?.(
     remaining <= 1 && runtime.lastGate?.hardcoreArmed
-      ? `${remaining} GP — ONE TOUCH FROM PERMADEATH`
+      ? `${remaining} GP — THE NEXT WURM HIT COSTS A LIFE`
       : remaining <= 1
         ? `DEV WURM TEST — CASUAL SAVE SAFE AT ${remaining} GP`
       : `GRAVEBORER IMPACT — ${remaining} GP REMAINING`,

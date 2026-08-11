@@ -3,6 +3,10 @@ import {
   resolveNpcActivitiesEnabled,
 } from "../../values/npcActivityConfig.js";
 import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
+import {
   createNpcActivityActor,
   finishNpcActor,
   restoreNpcBase,
@@ -152,7 +156,8 @@ export class NPCActivitySystem {
   }
 
   getHealthSnapshot() {
-    const expected = this.config.health.expectedActorCount;
+    const expected = this.config.health.expectedActorCount
+      - (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO) ? 0 : 1);
     const anchorViolationCount = this.actors.filter(actor => (
       visualAnchorError(actor) > this.config.health.anchorTolerancePx
     )).length;

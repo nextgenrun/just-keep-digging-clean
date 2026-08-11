@@ -1,3 +1,0 @@
-# Generation
-
-Game system — generation.

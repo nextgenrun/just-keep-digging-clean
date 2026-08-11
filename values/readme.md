@@ -7,8 +7,12 @@ Single Source of Truth — ALL numeric/string/config values.
   `?playerLight=legacy` rollback. `shaderConfig.js -> darknessLight` owns the
   v2 penumbra, falloff, core, warmth, and alpha ceiling.
 
-- `hardcoreMode.js` owns the versioned Casual/Hardcore save discriminator and
-  armed-state sanitizer. `graveborerWurm.js` owns the two Wurm developer flags,
+- `hardcoreMode.js` owns the versioned Casual/Hardcore/One-Life save
+  discriminator, two-life plus free-first-revive rules, death reducer,
+  exhaustion repair, hidden-mode query, and armed-state sanitizer.
+  `firstSessionRoute.js` owns the universal x=12/15m starter portal and the
+  guided x=66 three-cell town-barrier coordinates/release flag.
+  `graveborerWurm.js` owns the two Wurm developer flags,
   post-Flight/depth gate, mining-noise weights, warning/travel/cooldown timing,
   committed-path geometry, one-hit GP damage, ImageGen asset paths, HUD motion,
   labels, persistence limits, and diagnostics key.
@@ -32,6 +36,11 @@ Single Source of Truth — ALL numeric/string/config values.
   `earthquakes.js` and `EarthquakeSystem`.
 
 - `gameConfig.js -> rendererQuality` owns the painterly WebGL sampling contract: antialiasing stays enabled, pixel rounding stays disabled, High 1.5x is the default backing density, Ultra is 2x, and all rollback query names/presets are centralized there. Logical gameplay coordinates remain 1280x720.
+
+- `gameplayDevFlags.js` owns the development-facing gameplay profiles. Its
+  `demoMode` switch is currently on and excludes Level 2, Arc Cores, developer
+  cheats, and screen capture while preserving their save-backed state for the
+  full game when the switch is turned off.
 
 - `worldVisualDepthBackdrops.js` owns 50 streamed background-only plates across the ten row 65..5064 material bands, with five deterministic 1536x1024 WebP cards per biome. It also owns the negative render depth that keeps all scenic architecture behind `terrainDepth: 0.1`, `?biomeBackdropVariants=0` legacy-pool rollback, and `?biomeBackdropMotion=0` camera-response rollback. The rejected Graphics, duplicate-emissive, drifting-mist, and choppy optical-flow video paths are absent from production selection. Motion is limited to the complete finished image card until a new moving-image candidate is explicitly approved. `?levelOneBackdrops=0` and `?shallowCavern=0` still disable the complete presentation without touching simulation state.
 
@@ -80,11 +89,12 @@ Single Source of Truth — ALL numeric/string/config values.
 - `supermanFlightProneV3Runtime.json` is the explicit production promotion recipe for the latest `DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3` Blender pose. It owns the versioned 36-frame output, right-facing pack mirror, restrained whole-body hover offsets, 256px cell geometry, and rollback-safe runtime filename; the former Push Loop sheet remains untouched.
 - `supermanPoseEditor.json` owns the isolated, upright-idle Superman pose workbook: the approved Survivor v2 source, the frozen review action, five large labelled pose controls, and the review-only output paths. It never changes runtime art, animation, or collision.
 - `supermanHorizontalIdleReview.json` owns the simplified review-only Superman baseline: the frozen approved idle snapshot, a single 90-degree horizontal flip, and its clean no-controls output paths. It never changes runtime art, animation, or collision.
-- `openingFlightArtifact.js` is the one opening-flight SSOT. It owns the legacy
-  encounter, production Golden Five config, fresh/resume spawn eligibility,
+- `openingFlightArtifact.js` is the one opening-flight SSOT. It owns Guided/Skip
+  selection and safe skip-state creation as well as the legacy encounter,
+  production Golden Five config, fresh/resume spawn eligibility,
   calm five-minute weather, 14-cell reward seam, artifact/escape geometry,
   protected ascent rings, paused-when-grounded 30-second bank, permanent cache
-  rewards, remap-safe copy, v2 save schema, and `?openingFlightV2=0` rollback.
+  rewards, remap-safe copy, v3 save schema, and `?openingFlightV2=0` rollback.
 - `directionalSidePunchReview.json` owns the review-only Blender Punch Cross source, the side/high/low torso-only layers, and their generated candidate paths. It never changes runtime action routing, collision, or mining contact timing.
 - `playerCollision.js` owns body skin, ground probe, swept-step size, velocity cap, frame-delta cap, and overlap-recovery policy for the custom tile solver.
 - `playerMotionPolish.js` owns deterministic UAL idle-fidget timing, calm 18 fps fidget cadence, the seven-second first-fidget delay, restrained breathing cadence, wall-push delay, falling threshold, and impact-reaction cooldowns.

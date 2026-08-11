@@ -3,6 +3,10 @@
  * Centralizes all input action triggers and game-state-specific input logic
  */
 import { GAME_CONFIG } from "../../values/gameConfig.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../../values/gameplayDevFlags.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 
 function justDown(key) {
@@ -49,7 +53,10 @@ export class GameInputHandler {
       return true;
     }
 
-    if (justDown(keys.screenRecord)) {
+    if (
+      isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
+      && justDown(keys.screenRecord)
+    ) {
       this.scene.screenRecordSystem?.toggle();
       return true;
     }
@@ -109,8 +116,7 @@ export class GameInputHandler {
 
   handleDeadStateInput() {
     const keys = this.inputHandler.getKeys();
-    if ((GAME_CONFIG.debugMode && justDown(keys.restart)) ||
-        justDown(keys.enter)) {
+    if (justDown(keys.restart) || justDown(keys.enter)) {
       console.log('[INPUT] R or ENTER pressed - restart run');
       this.scene.restartRun();
       return true;

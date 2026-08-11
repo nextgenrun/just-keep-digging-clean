@@ -1,164 +1,127 @@
-# Dig Game — Dev Environment
+# Dig Game development environment
 
-**Root entry point. Read this first.**
+Last reconciled: 2026-08-10
 
----
+This repository contains the Phaser/JavaScript Dig Game runtime, production
+assets, values, tests, tooling, and canonical game design.
 
-## Reading Order (must follow)
+## Required reading order
 
-| # | File | What it covers |
-|---|------|----------------|
-| 1 | `.clinerules` | AI rules, core rules, naming quick ref, scene lifecycle, workflow |
-| 2 | **this file** → `/readme.md` | Reading order, architecture overview, directory structure, how to run |
-| 3 | `/markdown/readme.md` | Full directory structure, naming policy, import rules, value system, scene lifecycle, system categories, archive policy |
-| 4 | `/markdown/naming-policy.md` | Full naming conventions (directories, files, code, imports, dates) |
-| 5 | `/markdown/organisation-policy.md` | Layered architecture, directory responsibilities, import direction rules |
-| 6 | `/markdown/seperation-policy.md` | One responsibility per file, how to split, when to split |
-| 7 | `/markdown/single-source-of-truth-policy.md` | Values system — all config goes in /values/, no magic numbers |
-| 8 | `/markdown/duplication-prevention-policy.md` | Detecting & eliminating duplicate code and config values |
-| 9 | `/markdown/version-control/version-control.md` | 3-tier version control: local dev, backups, git |
-| 10 | `/markdown/tools/readme.md` | Available AI tools, what they fix, when to use them |
-| 11 | `/markdown/archive-policy.md` | What to archive, naming format, deletion rules |
-| 12 | `/markdown/pathing/readme.md` | How to resolve import path issues |
+1. `.clinerules` — mandatory repository, architecture, archive, and visual rules.
+2. `markdown/design-documents/readme.md` — canonical product source of truth.
+3. `markdown/design-documents/2026-08-10-game-vision.md` — intended final game.
+4. `markdown/design-documents/2026-08-10-runtime-alignment-register.md` — current
+   shipped/partial/gated truth.
+5. `markdown/readme.md` — documentation map and policies.
+6. The nearest directory `readme.md` for the subsystem being changed.
 
----
+## Current player route
 
-## Architecture Principles
+For an empty save slot:
 
-```
-values/       ← Layer 0: Pure data, no imports from project
-    ↓
-systems/      ← Layer 1: Reads from values/ only
-    ↓
-world/        ← Layer 2: Reads from values/ and systems/
-player/       ← Layer 2: Reads from values/ and systems/
-    ↓
-ui/           ← Layer 3: Reads from all layers above
+```text
+Boot → Main Menu → Save Slot → Mode + Tutorial Choice → World Load → Play
 ```
 
-**Key rules:**
-- `/values/` is the SINGLE SOURCE OF TRUTH — every numeric/string/config value lives here
-- No circular dependencies — if A needs B and B needs A, inject at setup time
-- Max ~300 lines per file — split by concern using PlayScene pattern (setup/update/gameplay modules)
+The intended first complete loop is:
 
----
-
-## Scene Lifecycle
-
-```
-BootScene → MenuAudioScene (launched alongside menus)
-  ↓
-MainMenuScene → PLAY
-  ↓
-StartMenuScene → select save slot → SPACE
-  ↓
-WorldLoadScene → loading bar
-  ↓
-PlayScene (game runs here, MenuAudioScene stopped)
+```text
+Move → Dig → Flight → Portal → Sell → Upgrade → Resume deeper
 ```
 
----
+Guided runs use the authored Golden Five Flight opening and temporary town-exit
+barrier. Tutorial Skip requires typed confirmation and grants Flight without the
+guided cache rewards. Every mode/tutorial combination receives the guaranteed
+15 m starter portal.
 
-## Game Systems Map
+## Active release profile
 
-| Category | Directory | Systems |
-|----------|-----------|---------|
-| Mining | `/systems/mining/` | DigSystem, TileCollisionSystem, SpecialTileSystem, SpecialBlockEffectsManager |
-| Progression | `/systems/progression/` | PlayerLevelSystem, UpgradeSystem, DepthGateSystem |
-| Visual | `/systems/visual/` | HUDSystem, FloatingTextSystem, EarthquakeFeedbackUI, EarthquakeHazardOverlay, GraveborerWurmVisualSystem, GraveborerWurmHudSystem, ScreenFlashSystem, CameraShakeSystem, PickaxeTrailSystem, ClimbTrailSystem, StarPillarSystem, MilestoneBoardSystem |
-| Audio | `/systems/audio/` | SoundSystem, SoundLibraryManager, VoiceLineManager |
-| Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, GraveborerWurmSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
-| Lighting | `/systems/lighting/` | LightSystem, ShaderSystem |
-| Combo | `/systems/combo/` | ComboSystem, HitstopSystem |
-| Health | `/systems/health/` | RuntimeCanarySystem, RuntimeCanaryReporter, deterministic runtime checks |
+`values/gameplayDevFlags.js` currently sets `demoMode: true`. The active player
+boundary is Level One through 2,000 m. Level Two, Arc Core vehicles, developer
+cheats, and screen capture are gated even though implementation/assets remain
+in the repository. Do not describe those systems as currently reachable; see
+the alignment register.
 
-`DayNightCycle` owns the sun/moon world-space orbit. `LightSystem`, weather,
-atmosphere, and shaders consume camera-projected positions from that same source;
-celestial sprites must not be converted back to fixed-screen objects.
+## Architecture
 
----
-
-## Directory Structure
-
-```
-dig-game-dev-env-cleaned/
-├── .clinerules              ← AI entry rules (thin)
-├── readme.md                ← this file (thick orchestrator)
-├── main.js                  ← Root Phaser entry (6 scenes)
-├── index.html               ← Game page
-├── serve.py                 ← Dev server
-│
-├── values/                  ← 46+ config files — SINGLE SOURCE OF TRUTH
-├── world/                   ← Game world model, generation, rendering, PlayScene
-├── player/                  ← Player controller, physics, input, abilities
-├── systems/                 ← Game systems (mining, audio, visual, etc.)
-├── ui/                      ← Scenes, HUD, overlays, UI components
-├── animations/              ← Animation frame definitions
-├── shaders/                 ← GLSL shader code
-│
-├── sprites/                 ← Static image assets (.webp, .png)
-├── sound/                   ← Audio files (.ogg, .wav)
-├── libs/phaser.js           ← Phaser 3 framework
-│
-├── css/style.css            ← Page styling
-├── js/                      ← Legacy build output
-│
-├── ai-tools/                ← AI-created scripts (date-stamped)
-├── markdown/                ← All documentation
-├── debugging/               ← Active debugging
-├── feedback/                ← Player feedback & plans
-├── exports/                 ← Tiled, piskel exports
-├── pipelines/               ← Asset pipeline scripts
-├── testing/                 ← E2E test harness
-├── archive/                 ← Deprecated content
-├── _ssh-git/                ← SSH/git credentials (gitignored)
+```text
+values/   ← pure runtime configuration and constants
+   ↓
+systems/  ← focused game systems using values
+   ↓
+world/ and player/ ← model, scene orchestration, player authority
+   ↓
+ui/       ← scenes, HUD, overlays, interaction surfaces
 ```
 
----
+Core rules:
 
-## How to Run
+- `/values/` is the technical single source of truth for tunables and IDs.
+- One authority owns each gameplay fact; UI and journals consume it.
+- Avoid circular dependencies; inject collaborators during scene setup.
+- Split files around one responsibility before they become unreviewable.
+- Player-facing production UI uses approved/generated bitmap art with live text
+  and invisible interaction plumbing—not visible placeholder primitives.
+- Presentation cannot mutate WorldModel, rewards, progression, or saves.
 
-```bash
-cd dig-game-dev-env-cleaned
+## Main directories
+
+| Directory | Responsibility |
+|---|---|
+| `values/` | Config, IDs, layouts, balance, feature gates, asset keys |
+| `world/` | World model, generation, rendering, PlayScene orchestration |
+| `player/` | Player input, movement, collision-facing state, abilities |
+| `systems/` | Mining, progression, onboarding, environment, visual, map, save, celestial, crafting, vehicle systems |
+| `ui/` | Phaser scenes, HUD, overlays, components, notifications |
+| `sprites/`, `sound/`, `shaders/` | Production media and rendering inputs |
+| `testing/` | Deterministic contracts and visual harnesses |
+| `markdown/` | Canonical design, policies, evidence, feedback, operations |
+| `archive/` | Dated non-authoritative provenance with INDEX files |
+
+Every active directory should contain a `readme.md` explaining ownership.
+
+## Scene lifecycle
+
+```text
+BootScene
+  → MainMenuScene
+  → StartMenuScene (slot; empty slots choose mode/tutorial)
+  → WorldLoadScene
+  → PlayScene
+```
+
+`MenuAudioScene` runs alongside menu scenes and stops at game entry. PlayScene
+is decomposed across `world/playScene/` setup, update, gameplay, UI, input, and
+bridge modules.
+
+## How to run
+
+From this directory:
+
+```powershell
 python serve.py 8080
-# then open http://localhost:8080
 ```
 
-Or use PHP:
-```bash
-php -S localhost:8080
-```
+Open `http://127.0.0.1:8080/`. The development server disables caching for
+HTML, JavaScript modules, CSS, and JSON so reloads do not mix module revisions.
+Media remains cacheable.
 
-`serve.py` disables browser caching for HTML, JavaScript modules, CSS, and JSON.
-This prevents a development reload from mixing old and new ES-module versions
-after runtime renderer or scene changes. Image/audio assets remain cacheable.
+## Verification expectations
 
----
+- Pure values/state: deterministic Node contract.
+- World mutation: install/self-heal/restore contract.
+- Persistence: save, reload/readback, interruption, idempotency.
+- Visible/input behavior: real browser playthrough and screenshot.
+- Feature promotion: feature-on and feature-off tests plus normal-player E2E.
 
-## Version Control
+HTTP liveness, syntax, or a structural contract is not visual approval.
 
-This project uses a 3-tier version control system:
-1. **`dig-game-dev-env-cleaned/`** — active development, only place code is added/changed
-2. **`back-ups-dig-game/`** — local backup directory with date-stamped snapshots
-3. **GitHub** — remote repo via `_ssh-git/` credentials (see `/markdown/version-control/version-control.md`)
+## Documentation and archive
 
----
+Use `markdown/design-documents/` for product direction. Dated Markdown files
+elsewhere are implementation evidence, not parallel roadmaps. Superseded
+documents belong in `/archive/YYYY-MM-DD-description/` with a local `INDEX.md`
+and an entry in `archive/INDEX.md`.
 
-## Related Documents
-
-| Document | Purpose |
-|----------|---------|
-| `/markdown/readme.md` | Full structure & policies |
-| `/markdown/naming-policy.md` | Naming conventions |
-| `/markdown/organisation-policy.md` | Layered architecture |
-| `/markdown/seperation-policy.md` | One responsibility per file |
-| `/markdown/single-source-of-truth-policy.md` | Values system |
-| `/markdown/duplication-prevention-policy.md` | Duplicate prevention |
-| `/markdown/version-control/version-control.md` | 3-tier version control |
-| `/markdown/tools/readme.md` | AI tools inventory |
-| `/markdown/archive-policy.md` | Archive rules, naming format, deletion policy |
-| `/markdown/pathing/readme.md` | Import path resolution |
-| `/markdown/2026-06-25-next-steps.md` | Immediate next steps |
-| `/markdown/2026-06-25-phase3-roadmap.md` | Phase 3 roadmap |
-| `/markdown/2026-07-12-v11-polished-runtime-backgrounds.md` | V11 polished surface/depth streaming package and rollback |
-| `/markdown/2026-07-13-v11-split-sky-islands-tmx.md` | V11 open-sky bedrock cleanup and two four-portal sky-island banks |
+The pre-reconciliation player-journey draft and obsolete June roadmaps are in
+`archive/2026-08-10-superseded-design-document-drafts/`.

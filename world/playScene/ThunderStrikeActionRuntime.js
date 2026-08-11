@@ -118,6 +118,15 @@ export class ThunderStrikeActionRuntime {
   _beginCharge(nowMs) {
     const abilities = this._abilities();
     if (!abilities?.startThunderStrikeCharge?.(nowMs)) return false;
+    const replacingCommittedDig = !this.adapter.canStart
+      && this.scene.isDigAnimating;
+    if (
+      replacingCommittedDig
+      && this.scene.cancelCommittedUalDigRecovery?.() !== true
+    ) {
+      abilities.cancelThunderStrikeChain?.();
+      return false;
+    }
     this.inputBufferedUntilMs = -Infinity;
     this.state.beginCharge(nowMs);
     this.animating = true;
@@ -261,7 +270,9 @@ export class ThunderStrikeActionRuntime {
 
   _canStart(nowMs) {
     if (this.adapter.canStart) return this.adapter.canStart(nowMs) === true;
-    return !this.scene.isDigAnimating && !this.scene._teleportInAnimating;
+    if (this.scene._teleportInAnimating) return false;
+    return !this.scene.isDigAnimating
+      || this.scene.canInterruptUalDigRecovery?.() === true;
   }
 
   _setLocked(locked) {

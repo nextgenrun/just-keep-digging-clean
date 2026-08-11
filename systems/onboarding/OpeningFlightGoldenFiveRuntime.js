@@ -96,6 +96,7 @@ export class OpeningFlightGoldenFiveRuntime {
   getSaveData() {
     return {
       version: this.config.saveVersion,
+      tutorialChoice: this.state.tutorialChoice,
       stage: this.state.stage,
       artifactCollected: this.state.artifactCollected,
       firstDigCelebrated: this.state.firstDigCelebrated,

@@ -1,3 +1,5 @@
+import { isGameplayKeybindActionEnabled } from "./gameplayDevFlags.js";
+
 export const KEYBIND_STORAGE_VERSION = 4;
 
 export const KEYBIND_ACTIONS = Object.freeze([
@@ -22,7 +24,7 @@ export const KEYBIND_ACTIONS = Object.freeze([
   { id: "celestialEngine", label: "Celestial Engine", description: "Release your attuned Star Heart Engine or redirect the Wayward Star.", defaultKey: "X", group: "Abilities" },
   { id: "fullscreen", label: "Fullscreen", description: "Dedicated browser fullscreen toggle.", defaultKey: "F10", group: "Display", rebindable: false },
   { id: "screenRecord", label: "Screen Recording", description: "Start or stop recording the game canvas.", defaultKey: "F9", group: "Display" },
-]);
+].filter(action => isGameplayKeybindActionEnabled(action.id)));
 
 export const KEYBIND_ACTION_BY_ID = Object.freeze(
   KEYBIND_ACTIONS.reduce((map, action) => {

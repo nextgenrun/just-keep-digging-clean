@@ -2,6 +2,11 @@
 
 UI module — scenes.
 
+`StartMenuScene.js` opens `NewRunSetupPanel` only for empty slots, then passes
+the versioned mode/tutorial seed through `WorldLoadScene` into PlayScene.
+Existing slots bypass setup and keep their persisted rules. Save cards show the
+normalized mode label.
+
 `BootScene.js` preloads the ten approved Milestone/Star Pillar stage sprites,
 the constellation Star Heart used inside Star Pillar sockets, and only the Level
 1 facade recognition atlas and start chunk;

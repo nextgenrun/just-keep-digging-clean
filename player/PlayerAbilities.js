@@ -17,6 +17,10 @@ import {
   resolveThunderStrikeSuccessDamageMultiplier,
 } from "../values/thunderStrikeChain.js";
 import { getPlayerBodyTileSpan } from "./playerDirectionalTargets.js";
+import {
+  GAMEPLAY_FEATURE_IDS,
+  isGameplayFeatureEnabled,
+} from "../values/gameplayDevFlags.js";
 
 export class PlayerAbilities {
   constructor(sprite, worldModel, config, upgradeSystem = null, physicsBody = null, playerLevelSystem = null, comboSystem = null) {
@@ -63,7 +67,8 @@ export class PlayerAbilities {
   }
 
   setGodMode(enabled) {
-    this._godMode = enabled === true;
+    this._godMode = enabled === true
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
     this._constellationStatsSig = null;
     if (this._godMode) this.fillGemPower();
   }

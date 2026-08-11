@@ -1,5 +1,9 @@
 # Next Steps — Phase 2 Implementation
 
+> Archived on 2026-08-10. Every listed foundation item has been replaced or
+> implemented in the active game. See `markdown/design-documents/readme.md` for
+> the current product direction and alignment register.
+
 After the clean architecture foundation (Phase 1), the following systems need to be implemented:
 
 ## Priority Order
