@@ -228,7 +228,7 @@ const payload = saveStore.createPayload(
   null,
   savedProgression,
 );
-assert.equal(payload.version, 13);
+assert.equal(payload.version, 15);
 assert.deepEqual(payload.heavenblocksData, savedProgression);
 const legacy = saveStore.normalizePayload({
   version: 10,

@@ -44,7 +44,8 @@ const payload = store.createPayload(
   null,
   celestial,
 );
-assert.equal(payload.version, 14);
+assert.equal(payload.version, 15);
+assert.equal(payload.revisionMetadata.revision, 1);
 assert.equal(payload.celestialOverhaulData.talents.stars, 68);
 assert.deepEqual(
   payload.celestialOverhaulData.talents.purchasedNodeIds,
@@ -60,4 +61,4 @@ assert.equal(legacy.version, 13);
 assert.equal(legacy.celestialOverhaulData.talents.stars, 0);
 assert.equal(legacy.celestialOverhaulData.legacyRarityMigrationVersion, 0);
 
-console.log("Celestial v14 save contract passed.");
+console.log("Celestial v15 save contract and v13 compatibility passed.");

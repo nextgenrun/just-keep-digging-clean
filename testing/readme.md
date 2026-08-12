@@ -16,6 +16,10 @@
   persistence failures, proves phase ordering/quarantine/safe blocking, checks
   nested suspension restoration, and verifies idempotent reverse teardown plus
   the world-to-UI composition boundary.
+- `2026-08-12-save-v15-integrity-contract.mjs` proves one-time v14 sidecar
+  migration, v15 primary authority, monotonic/out-of-order save rejection,
+  interrupted-write recovery, corrupted payload rejection, rounding, numeric
+  bounds, and duplicate reward protection.
 
 - `2026-08-11-demo-mode-contract.mjs` proves the current default-on demo profile
   excludes Level Two, its gate and saved portals, Arc Core/Omega content,

@@ -1,16 +1,15 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
+import { GameSaveCoordinator } from "../systems/save-system/GameSaveCoordinator.js";
 import { SAVE_SCHEDULING_CONFIG } from "../values/saveScheduling.js";
-import { PlaySceneSaveScheduler } from "../world/playScene/PlaySceneSaveScheduler.js";
 
 let nowMs = 0;
 let nextTimerId = 0;
 const timers = new Map();
 let idleCallback = null;
 let idleTimeout = null;
-let cancelledIdle = 0;
-const flushes = [];
+const writes = [];
 const documentListeners = new Map();
 const windowListeners = new Map();
 const documentRef = {
@@ -26,13 +25,12 @@ const windowRef = {
     if (windowListeners.get(event) === listener) windowListeners.delete(event);
   },
 };
-const scene = {
-  async flushDugTilesSave(options) {
-    flushes.push(options);
-    return true;
-  },
-};
-const scheduler = new PlaySceneSaveScheduler(scene, SAVE_SCHEDULING_CONFIG, {
+const coordinator = new GameSaveCoordinator({
+  initialRevision: 4,
+  capture: metadata => ({ metadata }),
+  validate: () => ({ ok: true }),
+  async write(snapshot) { writes.push(snapshot); return true; },
+}, SAVE_SCHEDULING_CONFIG, {
   now: () => nowMs,
   setTimer(callback, delay) {
     const id = nextTimerId += 1;
@@ -45,19 +43,16 @@ const scheduler = new PlaySceneSaveScheduler(scene, SAVE_SCHEDULING_CONFIG, {
     idleTimeout = options.timeout;
     return 91;
   },
-  cancelIdle() {
-    idleCallback = null;
-    cancelledIdle += 1;
-  },
+  cancelIdle() { idleCallback = null; },
   documentRef,
   windowRef,
 });
 
 assert.equal(documentListeners.has(SAVE_SCHEDULING_CONFIG.events.visibilityChange), true);
 assert.equal(windowListeners.has(SAVE_SCHEDULING_CONFIG.events.pageHide), true);
-assert.equal(scheduler.schedule(), true);
+assert.equal(coordinator.requestSnapshot("mine"), true);
 nowMs = 100;
-assert.equal(scheduler.schedule(), true);
+assert.equal(coordinator.requestSnapshot("mine"), true);
 assert.equal(timers.size, 1, "repeated mutations must keep one debounce timer");
 assert.equal([...timers.values()][0].delay, SAVE_SCHEDULING_CONFIG.debounceMs);
 const firstTimer = [...timers.values()][0];
@@ -69,48 +64,54 @@ const runIdle = idleCallback;
 idleCallback = null;
 runIdle({ didTimeout: false, timeRemaining: () => 8 });
 await Promise.resolve();
-assert.equal(flushes.length, 1);
-assert.deepEqual(flushes[0], { scheduled: true });
-assert.equal(scheduler.getSnapshot().coalescedRequests, 1);
+await Promise.resolve();
+assert.equal(writes.length, 1);
+assert.equal(writes[0].metadata.revision, 5);
+assert.equal(writes[0].metadata.parentRevision, 4);
+assert.equal(coordinator.getSnapshot().coalescedRequests, 1);
 
 nowMs = 1000;
-scheduler.schedule();
+coordinator.requestSnapshot("world-change");
 nowMs = 2700;
-scheduler.schedule();
+coordinator.requestSnapshot("world-change");
 assert.equal([...timers.values()][0].delay, 100, "max delay must cap debounce extension");
-scheduler.cancelPending();
-assert.equal(scheduler.getSnapshot().pending, false);
+coordinator.cancelPending();
+assert.equal(coordinator.getSnapshot().pending, true, "cancel only removes timing handles, not dirty state");
+await coordinator.flush({ force: true, reason: "manual" });
+assert.equal(writes.at(-1).metadata.revision, 6);
 
-scheduler.recordTiming({ captureMs: 12, writeMs: 25, totalMs: 40 });
-scheduler.recordTiming({ captureMs: 18, writeMs: 35, totalMs: 55 });
-const timingSnapshot = scheduler.getSnapshot();
-assert.equal(timingSnapshot.capture.p95Ms, 18);
-assert.equal(timingSnapshot.write.p95Ms, 35);
-assert.equal(timingSnapshot.total.p95Ms, 55);
+const mutationOrder = [];
+const transaction = await coordinator.transaction({
+  id: "reward:one",
+  mutate() { mutationOrder.push("mutate"); return 7; },
+  rollback() { mutationOrder.push("rollback"); },
+});
+assert.equal(transaction.success, true);
+assert.equal(writes.at(-1).metadata.revision, 7);
+assert.equal(writes.at(-1).metadata.transactionId, "reward:one");
+const duplicate = await coordinator.transaction({
+  id: "reward:one",
+  mutate() { mutationOrder.push("duplicate-mutate"); },
+});
+assert.equal(duplicate.duplicate, true);
+assert.deepEqual(mutationOrder, ["mutate"]);
 
 documentRef.visibilityState = SAVE_SCHEDULING_CONFIG.events.hiddenState;
+coordinator.requestSnapshot("hidden-test");
 documentListeners.get(SAVE_SCHEDULING_CONFIG.events.visibilityChange)();
-await Promise.resolve();
-assert.deepEqual(flushes.at(-1), { scheduled: false, force: true });
-windowListeners.get(SAVE_SCHEDULING_CONFIG.events.pageHide)();
-await Promise.resolve();
-assert.equal(scheduler.getSnapshot().forcedFlushes, 2);
+await coordinator.flush();
+assert.equal(coordinator.getSnapshot().forcedFlushes, 2);
 
-scheduler.destroy();
+coordinator.destroy();
 assert.equal(documentListeners.size, 0);
 assert.equal(windowListeners.size, 0);
-assert.ok(cancelledIdle >= 0);
 
 const uiSource = readFileSync("world/playScene/PlaySceneUI.js", "utf8");
-const queueSource = uiSource.match(/prototype\.queueDugTilesSave[\s\S]*?\n  };/)?.[0] || "";
-assert.match(queueSource, /_saveScheduler\?\.schedule/);
-assert.doesNotMatch(queueSource, /this\.flushDugTilesSave\(\);/);
-assert.match(uiSource, /flushDugTilesSave = async function\(\{ scheduled = false, force = false \}/);
-assert.match(uiSource, /recordTiming/);
-const setupSource = readFileSync("world/playScene/PlaySceneSetup.js", "utf8");
+assert.match(uiSource, /gameSaveCoordinator\?\.requestSnapshot/);
+assert.match(uiSource, /gameSaveCoordinator\?\.flush/);
+assert.doesNotMatch(uiSource, /savingDugTiles|_dugTileSavePromise/);
 const lifecycleSource = readFileSync("world/playScene/PlaySceneLifecycle.js", "utf8");
 assert.match(lifecycleSource, /SAVE_SCHEDULING_CONFIG\.autosaveIntervalMs/);
-assert.match(lifecycleSource, /flushDugTilesSave\?\.\(\{ scheduled: false, force: true \}\)/);
-assert.match(setupSource, /installPlaySceneLifecycle\(this\)/);
+assert.match(lifecycleSource, /reason: "scene-shutdown"/);
 
-console.log("play scene save scheduling contract: ok");
+console.log("game save coordinator contract: ordered revisions, coalescing, transactions, lifecycle flush");

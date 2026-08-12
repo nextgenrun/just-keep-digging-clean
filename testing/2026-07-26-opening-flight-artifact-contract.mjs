@@ -218,6 +218,7 @@ const [
   artifactSystemSource,
   legacyRuntimeSource,
   lifecycleSource,
+  saveRuntimeSource,
 ] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
@@ -225,6 +226,7 @@ const [
   readFile(new URL("../systems/onboarding/OpeningFlightArtifactSystem.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/onboarding/OpeningFlightLegacyRuntime.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneLifecycle.js", import.meta.url), "utf8"),
+  readFile(new URL("../world/playScene/PlaySceneSaveRuntime.js", import.meta.url), "utf8"),
 ]);
 assert.match(setupSource, /new OpeningFlightArtifactSystem\(this\)/);
 assert.match(setupSource, /openingFlightArtifactSystem\?\.create\(\)/);
@@ -233,7 +235,7 @@ assert.match(lifecycleSource, /resource\.destroy\(\)/);
 assert.match(updateSource, /openingFlightArtifactSystem\?\.update\(delta\)/);
 assert.doesNotMatch(updateSource, /handleStarterLevelUp|levelUpPopup/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.loadSaveData/);
-assert.match(uiSource, /openingFlightArtifactSystem\?\.getSaveData/);
+assert.match(saveRuntimeSource, /openingFlightArtifactSystem\?\.getSaveData/);
 assert.match(artifactSystemSource, /new OpeningFlightLegacyRuntime/);
 assert.match(artifactSystemSource, /this\.runtime = !this\.enabled/);
 assert.doesNotMatch(artifactSystemSource, /applyChoiceReward|uiNotifications/);

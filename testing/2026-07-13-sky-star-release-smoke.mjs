@@ -27,9 +27,11 @@ globalThis.Phaser = {
 function createSceneHarness() {
   const images = [];
   const tweens = [];
+  const saveRequests = [];
 
   const scene = {
     config: {},
+    queueDugTilesSave(reason) { saveRequests.push(reason); },
     textures: { exists: () => true },
     add: {
       image(x, y, textureKey) {
@@ -73,23 +75,25 @@ function createSceneHarness() {
     },
   };
 
-  return { scene, images, tweens };
+  return { scene, images, tweens, saveRequests };
 }
 
-const { scene, images, tweens } = createSceneHarness();
+const { scene, images, tweens, saveRequests } = createSceneHarness();
 const system = new FloatingTextSystem(scene, 1);
 system.releaseCollectedSkyStar(0, 500, 700, "dirt");
 
 assert.deepEqual(
-  JSON.parse(storedValues.get("dig-game-star-counts-slot-1")),
-  { dirt: 1 },
+  system.getSaveData().constellationCounts.dirt,
+  1,
   "collection progress should reach the UI immediately"
 );
 assert.equal(
-  JSON.parse(storedValues.get("dig-game-star-rarity-counts-slot-1"))[0],
+  system.getSaveData().rarityCounts[0],
   1,
   "rarity badge progress should update immediately"
 );
+assert.ok(saveRequests.includes("star-collected"));
+assert.equal(storedValues.has("dig-game-star-counts-slot-1"), false);
 assert.equal(system._townStars.length, 0, "a collected star must not enter the persistent world pool");
 assert.equal(
   images.length,

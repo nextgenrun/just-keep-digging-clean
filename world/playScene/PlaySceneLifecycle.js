@@ -4,7 +4,7 @@ import { destroyHardcoreModeRuntime } from "./HardcoreModeBridge.js";
 
 const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "caveEntryController",
-  "_saveScheduler",
+  "gameSaveCoordinator",
   "thunderStrikeActionRuntime",
   "ualActionContactTimeline",
   "worldMapOverlay",
@@ -182,8 +182,8 @@ export function installPlaySceneLifecycle(scene) {
   );
   registry.register(() => {
     scene._isShuttingDown = true;
-    scene.queueDugTilesSave?.();
-    void scene.flushDugTilesSave?.({ scheduled: false, force: true });
+    scene.queueDugTilesSave?.("scene-shutdown");
+    void scene.flushDugTilesSave?.({ force: true, reason: "scene-shutdown" });
   }, { id: "last-valid-save-flush" });
 
   const shutdownEvent = Phaser.Scenes.Events.SHUTDOWN;

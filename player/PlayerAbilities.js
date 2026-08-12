@@ -22,6 +22,16 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../values/gameplayDevFlags.js";
+import {
+  canSpendGemPower,
+  consumeGemPower,
+  drainAllGemPower,
+  fillGemPower,
+  resolveGemPowerMaximum,
+  restoreGemPower,
+  setGemPowerExact,
+  setProgressionGemPowerMaxBonus,
+} from "../systems/progression/GemPowerMutationAuthority.js";
 
 export class PlayerAbilities {
   constructor(sprite, worldModel, config, upgradeSystem = null, physicsBody = null, playerLevelSystem = null, comboSystem = null) {
@@ -549,22 +559,8 @@ export class PlayerAbilities {
   getGemPowerRaw() { return Math.floor(this.gemPower); }
   getGemPowerExact() { return this.gemPower; }
 
-  setProgressionGemPowerMaxBonus(bonus) {
-    const nextBonus = Math.max(0, Math.floor(Number.isFinite(bonus) ? bonus : 0));
-    if (nextBonus === this._progressionGemPowerMaxBonus) return;
-    this._progressionGemPowerMaxBonus = nextBonus;
-    this._gemPowerMax = this._baseGemPowerMax + nextBonus;
-    this.gemPower = Math.min(this.gemPower, this.getGemPowerMax());
-  }
-
-  getGemPowerMax() {
-    if (this.upgradeSystem?.getEffectiveGemPowerMax) {
-      return this.upgradeSystem.getEffectiveGemPowerMax(this._gemPowerMax);
-    }
-    let max = this._gemPowerMax;
-    if (this.upgradeSystem) max += this.upgradeSystem.getUpgradeEffects().gemPowerMax || 0;
-    return max;
-  }
+  setProgressionGemPowerMaxBonus(bonus) { return setProgressionGemPowerMaxBonus(this, bonus); }
+  getGemPowerMax() { return resolveGemPowerMaximum(this); }
 
   hasGemPower() { return this.gemPower > 0; }
   getGemPowerFloor(context = {}) {
@@ -578,49 +574,12 @@ export class PlayerAbilities {
   hasSpendableGemPower(context = {}) {
     return this.getSpendableGemPower(context) > Number.EPSILON;
   }
-  canSpendGemPower(amount, context = {}) {
-    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
-    return this.getSpendableGemPower(context) + Number.EPSILON >= requested;
-  }
-  fillGemPower(context = { source: "fill" }) {
-    const previous = this.gemPower;
-    this.gemPower = this.getGemPowerMax();
-    const restored = Math.max(0, this.gemPower - previous);
-    if (restored > 0) this._emitGemPowerChange(previous, context);
-    return restored;
-  }
-  restoreGemPower(amount, context = { source: "restore" }) {
-    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
-    const previous = this.gemPower;
-    this.gemPower = Math.min(this.getGemPowerMax(), this.gemPower + requested);
-    const restored = Math.max(0, this.gemPower - previous);
-    if (restored > 0) this._emitGemPowerChange(previous, context);
-    return restored;
-  }
-  setGemPowerExact(amount, { silent = false, source = "restore" } = {}) {
-    const previous = this.gemPower;
-    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
-    this.gemPower = Math.min(this.getGemPowerMax(), requested);
-    if (!silent) this._emitGemPowerChange(previous, { source });
-    return this.gemPower;
-  }
-  consumeGemPower(amount, context = {}) {
-    if (this._godMode) return Math.max(0, Number.isFinite(amount) ? amount : 0);
-    const requested = Math.max(0, Number.isFinite(amount) ? amount : 0);
-    const previous = this.gemPower;
-    const consumed = Math.min(this.getSpendableGemPower(context), requested);
-    this.gemPower = Math.max(0, this.gemPower - consumed);
-    if (consumed > 0) this._emitGemPowerChange(previous, context);
-    return consumed;
-  }
-  drainAllGemPower(context = {}) {
-    if (this._godMode) return 0;
-    const drained = this.getSpendableGemPower(context);
-    const previous = this.gemPower;
-    this.gemPower = Math.max(0, this.gemPower - drained);
-    if (drained > 0) this._emitGemPowerChange(previous, context);
-    return drained;
-  }
+  canSpendGemPower(amount, context = {}) { return canSpendGemPower(this, amount, context); }
+  fillGemPower(context = { source: "fill" }) { return fillGemPower(this, context); }
+  restoreGemPower(amount, context = { source: "restore" }) { return restoreGemPower(this, amount, context); }
+  setGemPowerExact(amount, options = {}) { return setGemPowerExact(this, amount, options); }
+  consumeGemPower(amount, context = {}) { return consumeGemPower(this, amount, context); }
+  drainAllGemPower(context = {}) { return drainAllGemPower(this, context); }
 
   _emitGemPowerChange(previous, context = {}) {
     this._gemPowerChangeListener?.({

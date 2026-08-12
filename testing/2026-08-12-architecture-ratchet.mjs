@@ -14,6 +14,11 @@ const SOURCE_ROOTS = Object.freeze(["values", "systems", "sound", "world", "play
 const LAYERS = Object.freeze({ values: 0, systems: 1, sound: 1, world: 2, player: 2, ui: 3 });
 const SKIP_DIRECTORIES = new Set(["archive", "generated", "library-v2", "playlists", "soundEffects", "voice-lines"]);
 const MAX_MODULE_LINES = 300;
+const ALLOWED_STORAGE_WRITERS = new Set([
+  "systems/UserSettings.js",
+  "systems/save-system/SaveBackupManager.js",
+  "world/model/DugTilesSaveStore.js",
+]);
 const IMPORT_PATTERNS = Object.freeze([
   /^\s*import\s+(?:[\s\S]*?\s+from\s+)?["']([^"']+)["']/gm,
   /^\s*export\s+(?:\*|\{[\s\S]*?\})\s+from\s+["']([^"']+)["']/gm,
@@ -144,7 +149,10 @@ function createSnapshot(files, graphData) {
     if (lines > MAX_MODULE_LINES) oversizedModules[relativePath] = lines;
     const stateWrites = countMatches(source, /\.(?:gameState|paused|isInDialogue|isInShop)\s*=(?!=)/g);
     if (stateWrites) stateWriterCounts[relativePath] = stateWrites;
-    const storageWrites = countMatches(source, /\blocalStorage\.(?:setItem|removeItem)\s*\(/g);
+    const storageWrites = countMatches(
+      source,
+      /\blocalStorage\b[\s\S]{0,80}?\??\.(?:setItem|removeItem)\??\s*\(/g,
+    );
     if (storageWrites) localStorageWriterCounts[relativePath] = storageWrites;
     if (!reached.has(file)) unreachableModules[relativePath] = classifyUnreachable(relativePath);
   }
@@ -186,6 +194,12 @@ assert.deepEqual(
 assertNoNewMapEntries(snapshot.oversizedModules, baseline.oversizedModules, "oversized modules");
 assertNoNewMapEntries(snapshot.stateWriterCounts, baseline.stateWriterCounts, "direct scene-state writers");
 assertNoNewMapEntries(snapshot.localStorageWriterCounts, baseline.localStorageWriterCounts, "localStorage writers");
+assert.deepEqual(
+  Object.keys(snapshot.localStorageWriterCounts)
+    .filter(relativePath => !ALLOWED_STORAGE_WRITERS.has(relativePath)),
+  [],
+  "Direct localStorage writes must stay inside settings or save repositories",
+);
 assertNoNewMapEntries(snapshot.unreachableModules, baseline.unreachableModules, "unclassified unreachable modules");
 
 console.log(`ARCHITECTURE_RATCHET_OK modules=${files.length} layers=${snapshot.layerViolations.length} oversized=${Object.keys(snapshot.oversizedModules).length} unreachable=${Object.keys(snapshot.unreachableModules).length}`);

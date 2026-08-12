@@ -146,7 +146,7 @@ export class PerformanceTelemetrySystem {
         audio: activeScene?.soundSystem?.getRuntimeAudioSnapshot?.() || null,
         assetLoads: activeScene?.runtimeAssetLoadCoordinator?.getSnapshot?.() || null,
         featureAssets: activeScene?.runtimeFeatureAssetManager?.getSnapshot?.() || null,
-        saves: activeScene?._saveScheduler?.getSnapshot?.() || null,
+        saves: activeScene?.gameSaveCoordinator?.getSnapshot?.() || null,
       },
     };
   }

@@ -5,131 +5,32 @@
  */
 import { SaveBackupManager } from "../../systems/save-system/SaveBackupManager.js";
 import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
-import { RESOURCE_ZERO_TOTALS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
-import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
-import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
-import { sanitizeOpeningFlightArtifactData } from "../../values/openingFlightArtifact.js";
-import { sanitizeStarHeartData } from "../../values/celestialEngines.js";
-import { sanitizeCelestialOverhaulData } from "../../values/celestialOverhaulSave.js";
-import { sanitizeHeavenblocksProgressionData } from "../../values/heavenblocksProgressionConfig.js";
+import { RESOURCE_ZERO_TOTALS } from "../../values/resourceTypes.js";
 import {
   isHardcoreMode,
   isHardcoreModeArmed,
   isHardcoreRunActive,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
-import { sanitizeGraveborerWurmData } from "../../values/graveborerWurm.js";
-import { sanitizeRetentionProgressData } from "../../systems/progression/retentionProgressState.js";
 import { sanitizePlayerPersistenceData } from "../../values/playerPersistence.js";
-import { sanitizeCampfireData } from "../../values/campfireConfig.js";
-import { sanitizeJourneySaveData } from "../../systems/progression/JourneyLedger.js";
+import { LegacyProgressSidecarRepository } from
+  "../../systems/save-system/LegacyProgressSidecarRepository.js";
+import {
+  SAVE_PAYLOAD_VERSION,
+  sanitizeMilestoneData,
+  sanitizeSaveRevisionMetadata,
+  sanitizeStarCollectionData,
+} from "../../values/savePayloadV15.js";
+import {
+  createDugTilesSavePayload,
+  normalizeDugTilesSavePayload,
+  worldMatches,
+} from "./DugTilesSaveCodec.js";
+export { sanitizeCaveSceneData } from "./DugTilesSaveCodec.js";
 
 const DEFAULT_ENDPOINT = "save-dug-tiles.php";
 const LOCAL_STORAGE_KEY = "dig-game-dug-tiles-admin";
-const MAX_DUG_TILE_KEYS = 500000;
-const MAX_RUBBLE_TILES = 500000;
-const MAX_CAVE_SCENE_NODE_KEYS = 10000;
-const LEGACY_WORLD_WIDTH_TILES = 120;
 const PERMANENT_DEATH_TOMBSTONE_TOKEN = Symbol("permanent-death-tombstone");
-
-function sanitizeDugTileKeys(dugTileKeys) {
-  if (!Array.isArray(dugTileKeys)) return [];
-  const normalized = [];
-  const seen = new Set();
-  for (const tileKey of dugTileKeys) {
-    if (typeof tileKey !== "string") continue;
-    const [txText, tyText] = tileKey.split(",");
-    const tx = Number.parseInt(txText, 10);
-    const ty = Number.parseInt(tyText, 10);
-    if (!Number.isInteger(tx) || !Number.isInteger(ty) || tx < 0 || ty < 0) continue;
-    const normalizedKey = `${tx},${ty}`;
-    if (seen.has(normalizedKey)) continue;
-    seen.add(normalizedKey);
-    normalized.push(normalizedKey);
-    if (normalized.length >= MAX_DUG_TILE_KEYS) break;
-  }
-  return normalized;
-}
-
-function sanitizeRubbleTiles(rubbleTiles) {
-  if (!Array.isArray(rubbleTiles)) return [];
-  const normalized = [];
-  const seen = new Set();
-  for (const rubble of rubbleTiles) {
-    const tx = Number.isInteger(rubble?.tx) ? rubble.tx : null;
-    const ty = Number.isInteger(rubble?.ty) ? rubble.ty : null;
-    const type = Number.isInteger(rubble?.type) ? rubble.type : null;
-    if (tx === null || ty === null || type === null || tx < 0 || ty < 0 || type <= 0) continue;
-    const key = `${tx},${ty}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    normalized.push({
-      tx, ty, type,
-      hp: Math.max(1, Math.floor(Number.isFinite(rubble.hp) ? rubble.hp : 1)),
-      maxHp: Math.max(1, Math.floor(Number.isFinite(rubble.maxHp) ? rubble.maxHp : rubble.hp || 1)),
-    });
-    if (normalized.length >= MAX_RUBBLE_TILES) break;
-  }
-  return normalized;
-}
-
-export function sanitizeCaveSceneData(data) {
-  const collectedNodes = Array.isArray(data?.collectedNodes) ? data.collectedNodes : [];
-  const normalized = [];
-  const seen = new Set();
-  for (const key of collectedNodes) {
-    if (typeof key !== "string") continue;
-    const coordinateMatch = /^([a-z0-9][a-z0-9-]{0,63}):(\d{1,3}),(\d{1,3})$/i.exec(key);
-    const legacyMatch = /^([a-z0-9][a-z0-9-]{0,63}):(\d{1,2})$/i.exec(key);
-    const legacyNode = legacyMatch
-      ? CAVE_SCENE_CONFIG.rewards.nodeLayout[Number.parseInt(legacyMatch[2], 10)]
-      : null;
-    if (!coordinateMatch && !legacyNode) continue;
-    const caveId = coordinateMatch?.[1] || legacyMatch[1];
-    const tx = coordinateMatch ? Number.parseInt(coordinateMatch[2], 10) : legacyNode.tx;
-    const ty = coordinateMatch ? Number.parseInt(coordinateMatch[3], 10) : legacyNode.ty;
-    if (tx < 0 || ty < 0 || tx >= 1000 || ty >= 1000) continue;
-    const normalizedKey = `${caveId}:${tx},${ty}`;
-    if (seen.has(normalizedKey)) continue;
-    seen.add(normalizedKey);
-    normalized.push(normalizedKey);
-    if (normalized.length >= MAX_CAVE_SCENE_NODE_KEYS) break;
-  }
-  return { collectedNodes: normalized };
-}
-
-function sanitizeAncientRelicData(data) {
-  const count = Number.isFinite(data?.count) ? Math.floor(data.count) : 0;
-  return {
-    count: Math.max(0, Math.min(ANCIENT_RELIC_CONFIG.persistence.maxRelics, count)),
-  };
-}
-
-function normalizeDepthGateData(data) {
-  const valid = new Set([100, 300, 1000]);
-  const acceptedThresholds = Array.isArray(data?.acceptedThresholds)
-    ? [...new Set(data.acceptedThresholds
-        .map(v => (v === 999 ? 1000 : valid.has(v) ? v : null))
-        .filter(v => v !== null))].sort((a, b) => a - b)
-    : [];
-  return { acceptedThresholds };
-}
-
-function worldMatches(expectedWorld, candidateWorld) {
-  if (!expectedWorld || !candidateWorld) return false;
-  const widthMatches = expectedWorld.width === candidateWorld.width
-    || (candidateWorld.width === LEGACY_WORLD_WIDTH_TILES && expectedWorld.width >= LEGACY_WORLD_WIDTH_TILES);
-  const expectedLayoutId = expectedWorld.layoutId || WORLD_GAMEPLAY_LAYOUT.id;
-  const candidateLayoutId = candidateWorld.layoutId || WORLD_GAMEPLAY_LAYOUT.id;
-  const expectedLayoutRevision = expectedWorld.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision;
-  const candidateLayoutRevision = candidateWorld.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision;
-  return expectedWorld.seed === candidateWorld.seed
-    && widthMatches
-    && expectedWorld.depth === candidateWorld.depth
-    && expectedWorld.topAirRows === candidateWorld.topAirRows
-    && expectedLayoutId === candidateLayoutId
-    && expectedLayoutRevision === candidateLayoutRevision;
-}
 
 export class DugTilesSaveStore {
   constructor(options = {}) {
@@ -143,6 +44,9 @@ export class DugTilesSaveStore {
     this.hardcoreCheckpointKey = options.hardcoreCheckpointKey
       ?? `dig-game-hardcore-checkpoint-${this.slotId || this.localStorageKey}`;
     this._deathTombstoned = false;
+    this._lastCommittedRevision = 0;
+    this.legacyProgressRepository = options.legacyProgressRepository
+      ?? new LegacyProgressSidecarRepository({ slotId: this.slotId || 1 });
 
     // In-memory dug tile tracker (for runtime O(1) lookups)
     this._store = new Map();
@@ -194,7 +98,7 @@ export class DugTilesSaveStore {
   loadCached(worldIdentity) {
     if (this.isDeathTombstoned()) return null;
     const localPayload = this.loadFromLocalStorage();
-    const localData = this.normalizePayload(localPayload);
+    const localData = this._normalizeAndMigratePayload(localPayload, true);
     if (localData && worldMatches(worldIdentity, localData.world)) {
       return this.applyHardcoreCheckpoint(localData, worldIdentity);
     }
@@ -204,7 +108,7 @@ export class DugTilesSaveStore {
   loadForDisplay() {
     if (this.isDeathTombstoned()) return null;
     const payload = this.loadFromLocalStorage();
-    return this.normalizePayload(payload);
+    return this._normalizeAndMigratePayload(payload, true);
   }
 
   async load(worldIdentity) {
@@ -214,7 +118,7 @@ export class DugTilesSaveStore {
     if (!this.endpoint) return null;
     const remotePayload = await this.loadFromEndpoint();
     if (this.isDeathTombstoned()) return null;
-    const remoteData = this.normalizePayload(remotePayload);
+    const remoteData = this._normalizeAndMigratePayload(remotePayload, false);
     if (remoteData && worldMatches(worldIdentity, remoteData.world)) {
       this.saveToLocalStorage(remoteData);
       return this.applyHardcoreCheckpoint(remoteData, worldIdentity);
@@ -245,6 +149,9 @@ export class DugTilesSaveStore {
     campfireData = null,
     journeyData = null,
     celestialOverhaulData = null,
+    milestoneData = null,
+    starCollectionData = null,
+    revisionMetadata = null,
   ) {
     if (this.isDeathTombstoned()) return false;
     const payload = this.createPayload(
@@ -270,14 +177,53 @@ export class DugTilesSaveStore {
       campfireData,
       journeyData,
       celestialOverhaulData,
+      milestoneData,
+      starCollectionData,
+      revisionMetadata,
     );
-    const localSaved = this.saveToLocalStorage(payload);
-    if (!localSaved) return false;
+    return this.commitPayload(payload);
+  }
+
+  saveSnapshot(snapshot) {
+    return this.commitPayload(this.createPayload(
+      snapshot.worldIdentity,
+      snapshot.dugTileKeys,
+      snapshot.resources,
+      snapshot.upgrades,
+      snapshot.levelData,
+      snapshot.specialTileData,
+      snapshot.depthGateData,
+      snapshot.dayNightData,
+      snapshot.rubbleTiles,
+      snapshot.playerCharacterId,
+      snapshot.caveSceneData,
+      snapshot.ancientRelicData,
+      snapshot.openingFlightArtifactData,
+      snapshot.starHeartData,
+      snapshot.retentionData,
+      snapshot.heavenblocksData,
+      snapshot.hardcoreModeData,
+      snapshot.graveborerWurmData,
+      snapshot.playerStateData,
+      snapshot.campfireData,
+      snapshot.journeyData,
+      snapshot.celestialOverhaulData,
+      snapshot.milestoneData,
+      snapshot.starCollectionData,
+      snapshot.revisionMetadata,
+    ));
+  }
+
+  async commitPayload(payload) {
+    if (this.isDeathTombstoned()) return false;
+    const revision = sanitizeSaveRevisionMetadata(payload?.revisionMetadata).revision;
+    const storedRevision = this.normalizePayload(this.loadFromLocalStorage())
+      ?.revisionMetadata?.revision || 0;
+    if (revision <= Math.max(this._lastCommittedRevision, storedRevision)) return false;
+    if (!this.saveToLocalStorage(payload)) return false;
+    this._lastCommittedRevision = revision;
     this.clearHardcoreCheckpoint();
-    if (this.isDeathTombstoned()) {
-      this.clearSave();
-      return false;
-    }
+    if (this.isDeathTombstoned()) { this.clearSave(); return false; }
     if (this.slotId) this.backupManager.createBackup(this.slotId, payload);
     if (!this.endpoint) return true;
     return this.saveToEndpoint(payload);
@@ -306,90 +252,73 @@ export class DugTilesSaveStore {
     campfireData = null,
     journeyData = null,
     celestialOverhaulData = null,
+    milestoneData = null,
+    starCollectionData = null,
+    revisionMetadata = null,
   ) {
-    return {
-      version: 14,
-      updatedAt: new Date().toISOString(),
-      playerCharacterId: typeof playerCharacterId === "string" ? playerCharacterId : null,
-      world: {
-        seed: worldIdentity.seed,
-        width: worldIdentity.width,
-        depth: worldIdentity.depth,
-        topAirRows: worldIdentity.topAirRows,
-        layoutId: worldIdentity.layoutId || WORLD_GAMEPLAY_LAYOUT.id,
-        layoutRevision: worldIdentity.layoutRevision ?? WORLD_GAMEPLAY_LAYOUT.revision,
-      },
-      dugTiles: sanitizeDugTileKeys(dugTileKeys),
-      rubbleTiles: sanitizeRubbleTiles(rubbleTiles),
-      resources: sanitizeResourceTotals(resources),
-      upgrades: upgrades || null,
-      levelData: levelData || null,
-      specialTileData: specialTileData || null,
-      depthGateData: normalizeDepthGateData(depthGateData),
-      dayNightData: dayNightData || null,
-      caveSceneData: sanitizeCaveSceneData(caveSceneData),
-      ancientRelicData: sanitizeAncientRelicData(ancientRelicData),
-      openingFlightArtifactData: sanitizeOpeningFlightArtifactData(openingFlightArtifactData),
-      starHeartData: sanitizeStarHeartData(starHeartData),
-      retentionData: sanitizeRetentionProgressData(retentionData),
-      heavenblocksData: sanitizeHeavenblocksProgressionData(heavenblocksData),
-      hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData),
-      graveborerWurmData: sanitizeGraveborerWurmData(graveborerWurmData),
-      playerStateData: sanitizePlayerPersistenceData(playerStateData),
-      campfireData: sanitizeCampfireData(campfireData),
-      journeyData: sanitizeJourneySaveData(journeyData),
-      celestialOverhaulData: sanitizeCelestialOverhaulData(celestialOverhaulData),
-    };
+    return createDugTilesSavePayload({
+      worldIdentity, dugTileKeys, resources, upgrades, levelData,
+      specialTileData, depthGateData, dayNightData, rubbleTiles,
+      playerCharacterId, caveSceneData, ancientRelicData,
+      openingFlightArtifactData, starHeartData, retentionData,
+      heavenblocksData, hardcoreModeData, graveborerWurmData,
+      playerStateData, campfireData, journeyData, celestialOverhaulData,
+      milestoneData, starCollectionData,
+      revisionMetadata: revisionMetadata ?? this._createNextRevisionMetadata("direct-save"),
+    });
   }
 
   normalizePayload(payload) {
-    if (!payload || typeof payload !== "object") return null;
-    const world = payload.world;
-    if (!world || typeof world !== "object") return null;
-    if (!["seed", "width", "depth", "topAirRows"].every(f => Number.isInteger(world[f]))) return null;
+    return normalizeDugTilesSavePayload(payload);
+  }
+
+  _createNextRevisionMetadata(reason) {
+    const stored = this.normalizePayload(this.loadFromLocalStorage())
+      ?.revisionMetadata?.revision || 0;
+    const parentRevision = Math.max(this._lastCommittedRevision, stored);
     return {
-      version: Number.isInteger(payload.version) ? payload.version : 1,
-      updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : null,
-      world: {
-        seed: world.seed,
-        width: world.width,
-        depth: world.depth,
-        topAirRows: world.topAirRows,
-        layoutId: typeof world.layoutId === "string" ? world.layoutId : WORLD_GAMEPLAY_LAYOUT.id,
-        layoutRevision: Number.isInteger(world.layoutRevision)
-          ? world.layoutRevision
-          : WORLD_GAMEPLAY_LAYOUT.revision,
-      },
-      dugTiles: sanitizeDugTileKeys(payload.dugTiles),
-      rubbleTiles: sanitizeRubbleTiles(payload.rubbleTiles),
-      resources: sanitizeResourceTotals(payload.resources),
-      upgrades: payload.upgrades || null,
-      levelData: payload.levelData || null,
-      specialTileData: payload.specialTileData || null,
-      depthGateData: normalizeDepthGateData(payload.depthGateData),
-      dayNightData: payload.dayNightData || null,
-      caveSceneData: sanitizeCaveSceneData(payload.caveSceneData),
-      ancientRelicData: sanitizeAncientRelicData(payload.ancientRelicData),
-      openingFlightArtifactData: payload.openingFlightArtifactData
-        ? sanitizeOpeningFlightArtifactData(payload.openingFlightArtifactData)
-        : null,
-      starHeartData: payload.starHeartData
-        ? sanitizeStarHeartData(payload.starHeartData)
-        : null,
-      retentionData: sanitizeRetentionProgressData(payload.retentionData),
-      heavenblocksData: sanitizeHeavenblocksProgressionData(payload.heavenblocksData),
-      hardcoreModeData: sanitizeHardcoreModeData(payload.hardcoreModeData),
-      graveborerWurmData: sanitizeGraveborerWurmData(payload.graveborerWurmData),
-      playerStateData: sanitizePlayerPersistenceData(payload.playerStateData),
-      campfireData: payload.campfireData
-        ? sanitizeCampfireData(payload.campfireData)
-        : null,
-      journeyData: payload.journeyData
-        ? sanitizeJourneySaveData(payload.journeyData)
-        : null,
-      celestialOverhaulData: sanitizeCelestialOverhaulData(payload.celestialOverhaulData),
-      playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
+      revision: parentRevision + 1,
+      parentRevision,
+      transactionId: null,
+      reason,
+      capturedAt: new Date().toISOString(),
     };
+  }
+
+  _normalizeAndMigratePayload(payload, persistMigration) {
+    const normalized = this.normalizePayload(payload);
+    if (!normalized || normalized.version !== 14) {
+      this._lastCommittedRevision = Math.max(
+        this._lastCommittedRevision,
+        normalized?.revisionMetadata?.revision || 0,
+      );
+      return normalized;
+    }
+    const revisionMetadata = sanitizeSaveRevisionMetadata({
+      revision: 1,
+      parentRevision: 0,
+      transactionId: "migration:v14-v15",
+      reason: "legacy-sidecar-merge",
+      capturedAt: new Date().toISOString(),
+    }, 1);
+    const migrated = {
+      ...normalized,
+      version: SAVE_PAYLOAD_VERSION,
+      updatedAt: new Date().toISOString(),
+      revisionMetadata,
+      campfireData: payload?.campfireData && typeof payload.campfireData === "object"
+        ? normalized.campfireData
+        : this.legacyProgressRepository.readCampfireData(),
+      milestoneData: payload?.milestoneData
+        ? sanitizeMilestoneData(payload.milestoneData)
+        : sanitizeMilestoneData(this.legacyProgressRepository.readMilestoneData()),
+      starCollectionData: payload?.starCollectionData
+        ? sanitizeStarCollectionData(payload.starCollectionData)
+        : sanitizeStarCollectionData(this.legacyProgressRepository.readStarCollectionData()),
+    };
+    if (persistMigration) this.saveToLocalStorage(migrated);
+    this._lastCommittedRevision = Math.max(this._lastCommittedRevision, 1);
+    return migrated;
   }
 
   loadFromLocalStorage() {

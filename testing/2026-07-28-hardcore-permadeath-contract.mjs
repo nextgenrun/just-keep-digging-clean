@@ -319,7 +319,7 @@ const saveSucceeded = await store.save(
   playerState,
 );
 assert.equal(saveSucceeded, true);
-assert.equal(store.loadForDisplay()?.version, 14);
+assert.equal(store.loadForDisplay()?.version, 15);
 assert.equal(store.loadForDisplay()?.playerStateData.gemPower, 1);
 assert.equal(store.getBackups().length, 1);
 const hardcoreTransferPayload = store.loadFromLocalStorage();
@@ -557,7 +557,7 @@ const sourceContracts = [
   ["ui/scenes/WorldLoadScene.js", "isNewSave: isNewSave === true"],
   ["world/playScene/PlaySceneSetup.js", "if (data.isNewSave !== true) this.restorePersistentState();"],
   ["world/playScene/PlaySceneUI.js", "allowExport: !isHardcoreRunActive"],
-  ["world/playScene/PlaySceneUI.js", "this.playerController?.getPersistenceData?.()"],
+  ["world/playScene/PlaySceneSaveRuntime.js", "scene.playerController?.getPersistenceData?.()"],
   ["world/playScene/PlaySceneUI.js", "return this.requestHardcoreUnstuck?.()"],
   ["world/playScene/HardcoreDeathBridge.js", "recordDeath(source)"],
   ["world/playScene/HardcoreDeathBridge.js", "queueDugTilesSave"],

@@ -32,7 +32,7 @@ import { RuntimeAssetLoadCoordinator } from
   "../rendering/RuntimeAssetLoadCoordinator.js";
 import { RuntimeFeatureAssetManager } from
   "../rendering/RuntimeFeatureAssetManager.js";
-import { PlaySceneSaveScheduler } from "./PlaySceneSaveScheduler.js";
+import { createPlaySceneSaveCoordinator } from "./PlaySceneSaveRuntime.js";
 import { RuntimeFeaturePrefetchSystem } from
   "../rendering/RuntimeFeaturePrefetchSystem.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
@@ -755,7 +755,11 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.hudSystem = new HUDSystem(this, this.config.worldWidthTiles - 1, this.config.hudRefreshIntervalMs);
   this.hudSystem.setComboSystem(this.comboSystem);
   this.hudSystem.setSpecialBlockEffectsManager(this.specialBlockEffectsManager);
-  this.floatingTextSystem = new FloatingTextSystem(this, this.saveSlot);
+  this.floatingTextSystem = new FloatingTextSystem(
+    this,
+    this.saveSlot,
+    this._cachedSaveData?.starCollectionData,
+  );
   this.worldMapDiscoverySystem = new WorldMapDiscoverySystem(this, this.saveSlot);
   this.worldMapActivityRegistry = new WorldMapActivityRegistry();
   this.worldMapDiscoverySystem.updatePlayerDiscovery(true);
@@ -802,14 +806,22 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     this.worldModel,
     uiPorts.worldUiFactories,
     this.saveSlot,
-    this.retentionProgressSystem
+    this.retentionProgressSystem,
+    this._cachedSaveData?.milestoneData,
   );
   this.milestoneBoardSystem.create();
   this.digSystem.setDepthMilestoneBonusProvider(
     () => this.milestoneBoardSystem?.getBonuses?.() || {},
   );
   this.biomeSystem = new BiomeSystem(this, this.config, this.worldModel);
-  this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel, uiPorts.worldUiFactories, this.saveSlot);
+  this.campfireSystem = new CampfireSystem(
+    this,
+    this.config,
+    this.worldModel,
+    uiPorts.worldUiFactories,
+    this.saveSlot,
+    this._cachedSaveData?.campfireData,
+  );
   this.campfireSystem.create();
   this.digSystem.setCampfireSystem(this.campfireSystem);
   this.playerLevelSystem.setCampfireSystem(this.campfireSystem);
@@ -1000,7 +1012,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   installDebugUiSmokeHooks(this);
   installJkdE2EHarness(this);
 
-  this._saveScheduler = new PlaySceneSaveScheduler(this);
+  this.gameSaveCoordinator = createPlaySceneSaveCoordinator(this);
   installPlaySceneLifecycle(this);
 
   const worldIdentity = worldIdentityForSave;

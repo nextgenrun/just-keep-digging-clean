@@ -2,6 +2,14 @@
 
 Game system — progression.
 
+- Currency, resources, Gem Power, levels, cooldowns, and reward grants are
+  validated at their mutation authorities. Non-finite, negative, fractional
+  integer totals, overflowed, and duplicate mutations are rejected and
+  reported without replacing the last valid state.
+- `GemPowerMutationAuthority.js` and `ResourceTotalAuthority.js` keep bounded
+  numeric mutation rules out of player/world orchestration. Save snapshots are
+  independently checked by `progressionInvariants.js` before persistence.
+
 - `DepthGateSystem.js` owns the blocking 100m, 300m, and 1000m progression
   decisions and save acceptance. Its visible presentation is injected from the
   same approved Phaser typed-confirmation modal used by Unstuck; the system

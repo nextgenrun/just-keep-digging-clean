@@ -4,6 +4,7 @@ export class JackpotSaveTransaction {
   constructor(scene, director) {
     this.scene = scene;
     this.director = director;
+    this.sequence = 0;
   }
 
   capture({ chest = null } = {}) {
@@ -24,6 +25,16 @@ export class JackpotSaveTransaction {
   }
 
   async commit(snapshot) {
+    if (this.scene.gameSaveCoordinator?.transaction) {
+      this.sequence += 1;
+      await this.scene.gameSaveCoordinator.transaction({
+        id: `sleeping-jackpot:${this.sequence}`,
+        reason: "sleeping-jackpot",
+        mutate: () => true,
+        rollback: () => this.restore(snapshot),
+      });
+      return true;
+    }
     this.scene.queueDugTilesSave?.();
     let saved = true;
     try {

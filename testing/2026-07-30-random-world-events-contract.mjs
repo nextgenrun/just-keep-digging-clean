@@ -348,6 +348,7 @@ const files = {
   setup: readFileSync("world/playScene/PlaySceneSetup.js", "utf8"),
   update: readFileSync("world/playScene/PlaySceneUpdate.js", "utf8"),
   ui: readFileSync("world/playScene/PlaySceneUI.js", "utf8"),
+  saveRuntime: readFileSync("world/playScene/PlaySceneSaveRuntime.js", "utf8"),
   shop: readFileSync("ui/overlays/ShopOverlay.js", "utf8"),
   special: readFileSync("systems/mining/SpecialTileSystem.js", "utf8"),
   promise: readFileSync("systems/visual/NextPromiseHudSystem.js", "utf8"),
@@ -370,7 +371,7 @@ assert.match(files.setup, /setChestEventHandler/);
 assert.match(files.update, /randomEventBridge\?\.update/);
 assert.match(files.update, /shouldConsumeMineTarget/);
 assert.match(files.update, /checkJackpotMaturity/);
-assert.match(files.ui, /randomWorldEvents: this\.randomEventBridge/);
+assert.match(files.saveRuntime, /randomWorldEvents: scene\.randomEventBridge/);
 assert.match(files.shop, /quoteSaleUnit/);
 assert.match(files.shop, /recordRushSale/);
 assert.match(files.special, /consumeChestForEvent/);

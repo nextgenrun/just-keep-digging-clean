@@ -11,7 +11,6 @@ import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js
 import {
   getSignProgress,
   getStarRarityTier,
-  migrateLegacyStarCountToXp,
   validateStarRarityProgressionConfig,
 } from "../../values/starRarityProgressionMath.js";
 import {
@@ -28,6 +27,7 @@ import {
   RUNTIME_FEATURE_ASSET_CONSUMERS,
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
 } from "../../values/runtimeAssetLoading.js";
+import { sanitizeStarCollectionData } from "../../values/savePayloadV15.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
 const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
@@ -40,7 +40,7 @@ const COLLECTED_STAR_RELEASE_FX = STAR_CONSTELLATION_CONFIG.collectedStarRelease
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class FloatingTextSystem {
-  constructor(scene, saveSlot = 1) {
+  constructor(scene, saveSlot = 1, initialData = null) {
     this.scene = scene;
     this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
     this.activeFloatingTexts = [];
@@ -51,6 +51,7 @@ export class FloatingTextSystem {
     this._constellationCounts = {};
     this._constellationXp = {};
     this._starRarityCounts = new Array(SKY_RARITY_FALLBACKS.length).fill(0);
+    this._unlockedConstellations = [];
     this._constellationsLoaded = false;
     this._activeSkyStarReleaseViews = new Set();
     this._runtimeFeatureRequestSequence = 0;
@@ -58,23 +59,7 @@ export class FloatingTextSystem {
     this._constellationStarsBeingAnimated = new Set(); // Track stars being animated
     this._onConstellationUnlocked = null; // callback(resourceType) wired by StarPillarSystem
     this._onCollectedSkyStar = null; // callback(detail) wired by Star Heart progression
-    this._loadPersistedStarCounts();
-    this._loadPersistedSignXp();
-    this._loadPersistedStarRarityCounts();
-  }
-
-  _getPersistenceKey(baseKey) {
-    return `${baseKey}-slot-${this.saveSlot}`;
-  }
-
-  _readPersistedValue(baseKey, fallback) {
-    const scopedKey = this._getPersistenceKey(baseKey);
-    let raw = localStorage.getItem(scopedKey);
-    if (!raw && this.saveSlot === 1) {
-      raw = localStorage.getItem(baseKey);
-      if (raw) localStorage.setItem(scopedKey, raw);
-    }
-    return raw || fallback;
+    this.loadSaveData(initialData);
   }
 
   /** Wire a callback to be called when a constellation unlocks. */
@@ -86,23 +71,18 @@ export class FloatingTextSystem {
     this._onCollectedSkyStar = typeof fn === "function" ? fn : null;
   }
 
-  /** Return array of resource types whose constellations are unlocked (from localStorage). */
+  /** Return array of resource types whose constellations are unlocked. */
   getUnlockedConstellations() {
-    try {
-      return JSON.parse(this._readPersistedValue('dig-game-constellations', '[]'));
-    } catch (e) { return []; }
+    return [...this._unlockedConstellations];
   }
 
   /** Return physical Star Block encounter counts by material. */
   getConstellationCounts() {
-    this._loadPersistedStarCounts();
-    return this._constellationCounts || {};
+    return { ...(this._constellationCounts || {}) };
   }
 
   /** Return the five-level Sign XP state used by the talent tree and unlocks. */
   getConstellationProgress() {
-    this._loadPersistedStarCounts();
-    this._loadPersistedSignXp();
     return Object.fromEntries(
       Object.keys(STAR_RARITY_PROGRESSION_CONFIG.signProgression.xpTotals)
         .map(resourceType => [
@@ -133,15 +113,35 @@ export class FloatingTextSystem {
 
   /** Return collected-star counts per sky tile rarity tier. */
   getStarRarityCounts() {
-    this._loadPersistedStarRarityCounts();
     return [...(this._starRarityCounts || [])];
+  }
+
+  getSaveData() {
+    return sanitizeStarCollectionData({
+      constellationCounts: this._constellationCounts,
+      signXp: this._constellationXp,
+      rarityCounts: this._starRarityCounts,
+      unlockedConstellations: this._unlockedConstellations,
+    });
+  }
+
+  loadSaveData(data) {
+    if (!data || typeof data !== "object") return this.getSaveData();
+    const normalized = sanitizeStarCollectionData(data);
+    this._constellationCounts = { ...normalized.constellationCounts };
+    this._constellationXp = { ...normalized.signXp };
+    this._starRarityCounts = [...normalized.rarityCounts];
+    while (this._starRarityCounts.length < SKY_RARITY_FALLBACKS.length) {
+      this._starRarityCounts.push(0);
+    }
+    this._unlockedConstellations = [...normalized.unlockedConstellations];
+    return this.getSaveData();
   }
 
   /** Ensure saved star progress is available to the constellation UI. */
   ensureConstellationsLoaded() {
     if (this._constellationsLoaded) return;
     this._constellationsLoaded = true;
-    this._restorePersistedConstellationProgress();
   }
 
   /** Public anchor helper used by StarPillarSystem so every view uses the same sky math. */
@@ -1137,9 +1137,6 @@ export class FloatingTextSystem {
     this._constellationXp[resourceType] = nextXp;
     const after = getSignProgress(resourceType, nextXp);
     const wasUnlocked = this.getUnlockedConstellations().includes(resourceType);
-    this._saveStarCounts();
-    this._saveSignXp();
-
     if (!wasUnlocked && after.mastered) this.tryUnlockEligibleConstellations();
     const progress = {
       ...after,
@@ -1175,6 +1172,7 @@ export class FloatingTextSystem {
       relicRequired: getConstellationRelicRequirement(resourceType),
       unlocked: this.getUnlockedConstellations().includes(resourceType),
     };
+    this._queuePrimarySave("star-collected");
     this._onCollectedSkyStar?.(progress);
     return progress;
   }
@@ -1188,7 +1186,6 @@ export class FloatingTextSystem {
       this._starRarityCounts = next;
     }
     this._starRarityCounts[safeRarity] = (this._starRarityCounts[safeRarity] || 0) + 1;
-    this._saveStarRarityCounts();
     return this._starRarityCounts[safeRarity];
   }
 
@@ -1198,7 +1195,8 @@ export class FloatingTextSystem {
     if (!def) return;
     if (this.getUnlockedConstellations().includes(resourceType)) return;
 
-    this._saveConstellationUnlock(resourceType);
+    this._unlockedConstellations.push(resourceType);
+    this._queuePrimarySave("constellation-unlocked");
     if (this._onConstellationUnlocked) this._onConstellationUnlocked(resourceType);
   }
 
@@ -1298,120 +1296,8 @@ export class FloatingTextSystem {
     });
   }
 
-  /**
-   * Persist current star counts to localStorage so partial progress survives reloads.
-   * @private
-   */
-  _saveStarCounts() {
-    try {
-      if (this._constellationCounts) {
-        localStorage.setItem(this._getPersistenceKey('dig-game-star-counts'), JSON.stringify(this._constellationCounts));
-      }
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  /**
-   * Load persisted star counts on session start, merging with any already-counted stars.
-   * @private
-   */
-  _loadPersistedStarCounts() {
-    try {
-      const saved = JSON.parse(this._readPersistedValue('dig-game-star-counts', '{}'));
-      if (!this._constellationCounts) this._constellationCounts = {};
-      for (const [k, v] of Object.entries(saved)) {
-        if (!this._constellationCounts[k]) this._constellationCounts[k] = v;
-      }
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  _saveSignXp() {
-    try {
-      const progression = STAR_RARITY_PROGRESSION_CONFIG.signProgression;
-      localStorage.setItem(
-        this._getPersistenceKey(progression.saveKey),
-        JSON.stringify({
-          version: progression.saveVersion,
-          xp: this._constellationXp || {},
-        }),
-      );
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  _loadPersistedSignXp() {
-    const progression = STAR_RARITY_PROGRESSION_CONFIG.signProgression;
-    if (!this._constellationXp) this._constellationXp = {};
-    try {
-      const raw = this._readPersistedValue(progression.saveKey, '');
-      let saved = null;
-      try { saved = raw ? JSON.parse(raw) : null; } catch (e) { saved = null; }
-      const hasCurrentSave = saved?.version === progression.saveVersion
-        && saved.xp
-        && typeof saved.xp === 'object';
-      const unlocked = new Set(this.getUnlockedConstellations());
-
-      for (const resourceType of Object.keys(progression.xpTotals)) {
-        const storedXp = Number(saved?.xp?.[resourceType]);
-        const migratedXp = migrateLegacyStarCountToXp(
-          resourceType,
-          this._constellationCounts?.[resourceType] || 0,
-        );
-        const candidate = hasCurrentSave && Number.isFinite(storedXp)
-          ? storedXp
-          : migratedXp;
-        const requiredXp = progression.xpTotals[resourceType];
-        this._constellationXp[resourceType] = getSignProgress(
-          resourceType,
-          unlocked.has(resourceType) ? requiredXp : candidate,
-        ).xp;
-      }
-      if (!hasCurrentSave) this._saveSignXp();
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  _saveStarRarityCounts() {
-    try {
-      if (this._starRarityCounts) {
-        localStorage.setItem(this._getPersistenceKey('dig-game-star-rarity-counts'), JSON.stringify(this._starRarityCounts));
-      }
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  _loadPersistedStarRarityCounts() {
-    try {
-      const saved = JSON.parse(this._readPersistedValue('dig-game-star-rarity-counts', '[]'));
-      const targetLen = Math.max(SKY_RARITY_FALLBACKS.length, Array.isArray(saved) ? saved.length : 0);
-      if (!this._starRarityCounts || this._starRarityCounts.length < targetLen) {
-        this._starRarityCounts = new Array(targetLen).fill(0);
-      }
-      if (Array.isArray(saved)) {
-        saved.forEach((count, i) => {
-          this._starRarityCounts[i] = Math.max(0, Number.isFinite(count) ? Math.floor(count) : 0);
-        });
-      }
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  /**
-   * Persist a constellation unlock to localStorage.
-   * @private
-   */
-  _saveConstellationUnlock(resourceType) {
-    try {
-      const arr = JSON.parse(this._readPersistedValue('dig-game-constellations', '[]'));
-      if (!arr.includes(resourceType)) {
-        arr.push(resourceType);
-        localStorage.setItem(this._getPersistenceKey('dig-game-constellations'), JSON.stringify(arr));
-      }
-    } catch (e) { /* storage unavailable */ }
-  }
-
-  /** Load saved counts for the UI without restoring any world-space stars. */
-  _restorePersistedConstellationProgress() {
-    if (!this._constellationCounts) this._constellationCounts = {};
-    if (!this._constellationXp) this._constellationXp = {};
-    this._loadPersistedStarCounts();
-    this._loadPersistedSignXp();
-    this._loadPersistedStarRarityCounts();
+  _queuePrimarySave(reason) {
+    this.scene?.queueDugTilesSave?.(reason);
   }
 
   getStarProgressionHealthSnapshot() {

@@ -175,10 +175,11 @@ assert.equal(atmosphere.clouds.length, 0);
 // Campfire tier state is slot-scoped; buffs expire and paid upgrades persist atomically.
 let money = 9999;
 const spent = [];
+const campfireSaveRequests = [];
 const campScene = {
   game: { loop: { delta: 16 } }, textures: { exists: () => true },
   upgradeSystem: { getMoney: () => money, spendMoney: (value) => { spent.push(value); money -= value; } },
-  hudSystem: { flashStatus() {} }, queueDugTilesSave() {},
+  hudSystem: { flashStatus() {} }, queueDugTilesSave(reason) { campfireSaveRequests.push(reason); },
 };
 const campfire = new CampfireSystem(campScene, { tileSize: 94 }, {}, {}, 3);
 campfire._applyBuff(campfire._buffs[0]);
@@ -188,7 +189,9 @@ assert.equal(campfire.getActiveBuff(), null);
 const upgrade = campfire.upgradeCampfire();
 assert.equal(upgrade.success, true);
 assert.equal(campfire.getCampfireLevel(), 2);
-assert.equal(storage.get("jkd-campfire-level-slot-3"), "2");
+assert.equal(campfire.getSaveData().level, 2);
+assert.equal(storage.has("jkd-campfire-level-slot-3"), false);
+assert.equal(campfireSaveRequests.length, 1);
 assert.equal(spent.length, 1);
 
 // Sky-island visual unlocks are idempotent and remove only their owned portal sprite.

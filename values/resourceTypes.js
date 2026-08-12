@@ -87,6 +87,7 @@ export const RESOURCE_BY_TILE_TYPE = Object.freeze({
 });
 
 export const RESOURCE_TILE_TYPE_VALUES = Object.freeze(Object.keys(RESOURCE_BY_TILE_TYPE).map(Number));
+export const MAX_RESOURCE_TOTAL = Number.MAX_SAFE_INTEGER;
 
 export const HARD_RESOURCE_TILE_TYPES = Object.freeze(new Set([
   TILE_TYPES.STONE,
@@ -103,7 +104,9 @@ export const HARD_RESOURCE_TILE_TYPES = Object.freeze(new Set([
 ]));
 
 function clampResourceCount(value) {
-  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+  return Number.isFinite(value)
+    ? Math.min(MAX_RESOURCE_TOTAL, Math.max(0, Math.floor(value)))
+    : 0;
 }
 
 export function createZeroResourceTotals() {
@@ -116,6 +119,17 @@ export function sanitizeResourceTotals(resources) {
     result[key] = clampResourceCount(resources?.[key]);
   }
   return result;
+}
+
+export function validateResourceTotals(resources) {
+  if (!resources || typeof resources !== "object" || Array.isArray(resources)) return false;
+  return RESOURCE_KEYS.every(key => {
+    const value = resources[key] ?? 0;
+    return Number.isFinite(value)
+      && Number.isInteger(value)
+      && value >= 0
+      && value <= MAX_RESOURCE_TOTAL;
+  });
 }
 
 export function tileTypeToResource(tileType) {

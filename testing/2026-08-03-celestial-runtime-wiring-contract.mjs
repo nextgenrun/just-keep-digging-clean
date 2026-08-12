@@ -191,7 +191,7 @@ assert.ok(masteryHits.every(hit => hit.hitId.includes(":implosion:")));
   assert.deepEqual(flashes, ["CELESTIAL TALENT TREE UNAVAILABLE"]);
 }
 
-const [setupSource, uiSource, updateSource, pillarSource, groupSource, portsSource] =
+const [setupSource, uiSource, updateSource, pillarSource, groupSource, portsSource, saveRuntimeSource] =
   await Promise.all([
     readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
     readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
@@ -199,12 +199,13 @@ const [setupSource, uiSource, updateSource, pillarSource, groupSource, portsSour
     readFile(new URL("../systems/visual/StarPillarSystem.js", import.meta.url), "utf8"),
     readFile(new URL("../world/rendering/runtimeFeatureAssetGroups.js", import.meta.url), "utf8"),
     readFile(new URL("../ui/scenes/PlayScenePorts.js", import.meta.url), "utf8"),
+    readFile(new URL("../world/playScene/PlaySceneSaveRuntime.js", import.meta.url), "utf8"),
   ]);
 assert.match(setupSource, /uiPorts\.worldUiFactories/);
 assert.match(portsSource, /createCelestialTalentTreeView/);
 assert.match(setupSource, /talentProgression: this\.celestialTalentProgressionSystem/);
 assert.match(setupSource, /showLegacyHud: false/);
-assert.match(uiSource, /captureCelestialOverhaulState\(this\)/);
+assert.match(saveRuntimeSource, /captureCelestialOverhaulState\(scene\)/);
 assert.match(uiSource, /new CelestialActionBarSystem/);
 assert.match(uiSource, /new CelestialCurrencyHudSystem/);
 assert.match(uiSource, /getCelestialActionBarMetrics/);

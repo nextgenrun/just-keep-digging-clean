@@ -439,7 +439,7 @@ function resetTestSave() {
 export function installJkdE2EHarness(scene) {
   if (!e2eEnabled()) return;
 
-  scene.pendingDugTileSave = false;
+  scene.gameSaveCoordinator?.discardPending?.();
   scene.queueDugTilesSave = () => undefined;
   scene.flushDugTilesSave = async () => true;
   for (const threshold of [100, 300, 1000]) {

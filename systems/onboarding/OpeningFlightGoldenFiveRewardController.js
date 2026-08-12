@@ -1,5 +1,7 @@
 import { OPENING_FLIGHT_STAGES } from "../../values/openingFlightArtifact.js";
 import { interpolateOpeningFlightCopy } from "./openingFlightGoldenFiveCopy.js";
+import { validateRewardMutation } from "../../values/progressionInvariants.js";
+import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
 
 export class OpeningFlightGoldenFiveRewardController {
   constructor(runtime) {
@@ -14,8 +16,24 @@ export class OpeningFlightGoldenFiveRewardController {
   grantCacheReward() {
     const runtime = this.runtime;
     const { scene, config, state, view } = runtime;
-    if (state.rewardGranted) return;
+    if (state.rewardGranted) return false;
     const cache = config.cache;
+    const rewardValidation = validateRewardMutation({
+      id: "opening-flight-cache",
+      amounts: {
+        money: cache.money,
+        levels: cache.minimumPlayerLevel,
+        ...cache.resources,
+      },
+    });
+    if (!rewardValidation.ok) {
+      reportProgressionInvariantFailure({
+        authority: "opening-flight-reward",
+        reason: rewardValidation.reason,
+        value: cache.money,
+      });
+      return false;
+    }
     scene.upgradeSystem?.grantUpgrade?.(
       cache.tankUpgradeId,
       cache.tankUpgradeLevel,
@@ -73,6 +91,7 @@ export class OpeningFlightGoldenFiveRewardController {
       },
     );
     scene.queueDugTilesSave?.();
+    return true;
   }
 
   destroy() {

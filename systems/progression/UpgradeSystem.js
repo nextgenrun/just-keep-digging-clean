@@ -4,6 +4,8 @@ import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "../../values/earthquakes.js";
 import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
 import { resolveDepthEconomyEnabled } from "../../values/resourceEconomy.js";
 import { roundResourceCurrency } from "../../values/resourcePrices.js";
+import { validateMoney } from "../../values/progressionInvariants.js";
+import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
 import { resolveMovementSpeed } from "./ResolvedPlayerStats.js";
 import {
   GAMEPLAY_FEATURE_IDS,
@@ -23,15 +25,11 @@ export class UpgradeSystem {
     this.digSystem = digSystem; // Reference to DigSystem for resource tracking
     this.playerLevelSystem = playerLevelSystem; // Reference to PlayerLevelSystem for level requirements
     
-    // Initialize all upgrades at level 0
     this.initializeUpgrades();
-    
-    // Performance optimization: Cache upgrade effects
     this._cachedEffects = null;
     this._effectsCacheTime = 0;
     this._CACHE_DURATION_MS = 100; // Refresh every 100ms
 
-    // GodMode flag
     this.godModeActive = false;
     this.progressionStateProvider = null;
     this.upgradeAvailabilityProvider = null;
@@ -48,27 +46,41 @@ export class UpgradeSystem {
   }
 
   setMoney(amount) {
-    this.money = Number.isFinite(amount) ? roundResourceCurrency(amount) : 0;
+    const validation = validateMoney(amount);
+    if (!validation.ok) {
+      reportProgressionInvariantFailure({ authority: "money", reason: validation.reason, value: amount });
+      return this.money;
+    }
+    this.money = roundResourceCurrency(validation.value);
     return this.money;
   }
 
   addMoney(amount) {
-    this.money = roundResourceCurrency(
-      this.money + (Number.isFinite(amount) ? amount : 0),
-    );
+    const delta = validateMoney(amount);
+    const total = validateMoney(this.money + amount);
+    if (!delta.ok || !total.ok) {
+      const failure = !delta.ok ? delta : total;
+      reportProgressionInvariantFailure({ authority: "money", reason: failure.reason, value: amount });
+      return this.money;
+    }
+    this.money = roundResourceCurrency(total.value);
     return this.money;
   }
 
   spendMoney(amount) {
-    if (this.money >= amount) {
-      this.money = roundResourceCurrency(this.money - amount);
+    const validation = validateMoney(amount);
+    if (!validation.ok) {
+      reportProgressionInvariantFailure({ authority: "money-spend", reason: validation.reason, value: amount });
+      return false;
+    }
+    if (this.money >= validation.value) {
+      this.money = roundResourceCurrency(this.money - validation.value);
       return true;
     }
     return false;
   }
 
   getUpgradeLevel(upgradeId) {
-    // Validate upgradeId exists before accessing
     if (!upgradeId || typeof upgradeId !== 'string' || !Object.hasOwn(UPGRADES, upgradeId)) {
       console.warn(`Invalid upgrade ID: ${upgradeId}`);
       return 0;
@@ -168,7 +180,6 @@ export class UpgradeSystem {
 
     const currentLevel = this.getUpgradeLevel(upgradeId);
     
-    // Check if already maxed out
     if (upgrade.oneTimePurchase && currentLevel > 0) {
       return { canPurchase: false, reason: "max_level" };
     }
@@ -177,7 +188,6 @@ export class UpgradeSystem {
       return { canPurchase: false, reason: "max_level" };
     }
     
-    // BALANCE OVERHAUL: Check player level requirement
     if (upgrade.requiresLevel) {
       const playerLevel = this.playerLevelSystem ? this.playerLevelSystem.level : 1;
       if (playerLevel < upgrade.requiresLevel) {
@@ -201,7 +211,6 @@ export class UpgradeSystem {
       }
     }
     
-    // Prerequisite locks should be communicated before price/material locks.
     if (upgrade.requires) {
       const requiredLevel = this.getUpgradeLevel(upgrade.requires);
       if (requiredLevel === 0) {
@@ -209,13 +218,11 @@ export class UpgradeSystem {
       }
     }
 
-    // Check gold cost
     const goldCost = getUpgradeCost(upgradeId, currentLevel);
     if (this.money < goldCost) {
       return { canPurchase: false, reason: "not_enough_money", needed: goldCost - this.money };
     }
     
-    // Check resource costs.
     if (upgrade.resources) {
       if (!this.digSystem?.getResourceTotals) {
         return { canPurchase: false, reason: "resource_system_unavailable" };
@@ -249,7 +256,6 @@ export class UpgradeSystem {
       return { success: false, reason: "not_enough_money" };
     }
     
-    // Spend every required resource as one transaction.
     const upgrade = UPGRADES[upgradeId];
     if (upgrade.resources) {
       const resourceResult = this.digSystem?.trySpendResources?.(upgrade.resources);
@@ -266,10 +272,8 @@ export class UpgradeSystem {
     const currentLevel = this.upgradeLevels[upgradeId] || 0;
     this.upgradeLevels[upgradeId] = currentLevel + 1;
     
-    // Invalidate cache when upgrade changes
     this.invalidateEffectsCache();
     
-    // If it's a pickaxe, set it as equipped
     if (upgrade.category === "pickaxes") {
       this.ownedPickaxe = upgradeId;
     }
@@ -281,7 +285,6 @@ export class UpgradeSystem {
   }
 
   getUpgradeEffects() {
-    // Performance optimization: Cache effects to avoid recalculating every frame
     const now = performance.now();
     if (this._cachedEffects && now - this._effectsCacheTime < this._CACHE_DURATION_MS) {
       return this._cachedEffects;
@@ -302,7 +305,6 @@ export class UpgradeSystem {
       mineCooldownReduction: 0,
       pickaxeDamage: 0,
       pickaxeId: this.ownedPickaxe,
-      // Money Monster effects
       sellAllUnlocked: 0,
       startResourceBonus: 0,
       nextResourceBonus: 0,
@@ -319,7 +321,6 @@ export class UpgradeSystem {
       [EARTHQUAKE_SUPPRESSION_UPGRADE.effectType]: 0,
     };
 
-    // Track pickaxes by metal tier to only apply the highest one
     const pickaxeUpgrades = {};
 
     for (const upgradeId in this.upgradeLevels) {
@@ -331,7 +332,6 @@ export class UpgradeSystem {
       if (upgrade.firstFiveOnly && !this.firstFiveEnabled) continue;
       if (upgrade.depthEconomyOnly && !this.depthEconomyEnabled) continue;
       
-      // For pickaxes, track them by tier instead of adding
       if (upgrade.category === "pickaxes" && upgrade.metalTier) {
         if (!pickaxeUpgrades[upgrade.metalTier]) {
           pickaxeUpgrades[upgrade.metalTier] = {
@@ -345,7 +345,6 @@ export class UpgradeSystem {
       const effect = getUpgradeEffect(upgradeId, level);
       
       if (Object.hasOwn(effects, upgrade.effectType)) {
-        // FIX: Apply custom softcap for heavy punch
         if (upgrade.effectType === "heavyPunchDamage" && upgrade.softcapLevel) {
           effects[upgrade.effectType] = calculateHeavyPunchEffect(
             upgrade.softcapValue,
@@ -360,7 +359,6 @@ export class UpgradeSystem {
       }
     }
 
-    // Apply only the highest-tier pickaxe
     let highestPickaxeTier = 0;
     for (const tier in pickaxeUpgrades) {
       if (parseInt(tier) > highestPickaxeTier) {
@@ -372,7 +370,6 @@ export class UpgradeSystem {
       effects.pickaxeMultipliers = pickaxeUpgrades[highestPickaxeTier].damageMultipliers;
     }
 
-    // Cache the results
     this._cachedEffects = effects;
     this._effectsCacheTime = now;
 
@@ -401,7 +398,6 @@ export class UpgradeSystem {
     return projected.getUpgradeEffects();
   }
 
-  // Invalidate cache when upgrades change (call after purchasing)
   invalidateEffectsCache() {
     this._cachedEffects = null;
     this._effectsCacheTime = 0;
@@ -417,7 +413,6 @@ export class UpgradeSystem {
     return this.godModeActive;
   }
 
-  // Get effective values for game systems
   getEffectiveGemPowerMax(baseMax) {
     const effects = this.getUpgradeEffects();
     return baseMax + effects.gemPowerMax;
@@ -432,7 +427,6 @@ export class UpgradeSystem {
   getEffectiveGemPowerRegen(baseRegen, depthRatio) {
     const effects = this.getUpgradeEffects();
     const regenIncrease = effects.gemPowerRegenIncrease;
-    // Apply regen increase to both surface and deep regen
     return baseRegen + regenIncrease;
   }
 
@@ -472,8 +466,6 @@ export class UpgradeSystem {
   getEffectiveDigDamageMultiplier(baseDamage) {
     if (this.godModeActive) return 99999;
     const effects = this.getUpgradeEffects();
-    // Strength adds damage additively (+2 per level)
-    // Pickaxe multiplies damage multiplicatively
     const additiveDamage = effects.digDamageAdditive;
     const pickaxeMultiplier = 1 + effects.pickaxeDamage;
     return (baseDamage + additiveDamage) * pickaxeMultiplier;
@@ -486,7 +478,6 @@ export class UpgradeSystem {
     return baseCooldown * (1 - reduction);
   }
 
-  // Serialization for save system
   toJSON() {
     return {
       upgradeLevels: this.upgradeLevels,

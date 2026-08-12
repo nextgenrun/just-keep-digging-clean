@@ -1,5 +1,5 @@
 export const SAVE_SCHEDULING_CONFIG = Object.freeze({
-  schemaVersion: 1,
+  schemaVersion: 2,
   debounceMs: 350,
   maxDelayMs: 1800,
   idleTimeoutMs: 750,

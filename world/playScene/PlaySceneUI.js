@@ -26,7 +26,6 @@ import {
 } from "./CelestialActionBarRuntime.js";
 import {
   applyCelestialOverhaulState,
-  captureCelestialOverhaulState,
 } from "./CelestialOverhaulRuntime.js";
 import {
   isHardcoreMode,
@@ -41,7 +40,6 @@ import {
 import { JOURNEY_CONFIG } from "../../values/journeyConfig.js";
 import { SCENE_BASE_PHASES, SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 import {
-  getGraveborerWurmSaveData,
   loadGraveborerWurmSaveData,
 } from "./GraveborerWurmBridge.js";
 import {
@@ -1117,6 +1115,8 @@ export function setupUIMethods(prototype, dependencies) {
 
     this.digSystem.setResourceTotals(savedData.resources);
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
+    this.floatingTextSystem?.loadSaveData?.(savedData.starCollectionData);
+    this.milestoneBoardSystem?.loadSaveData?.(savedData.milestoneData);
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);
     const recoveredRelicTiles = this.worldModel.ensureAncientRelicMilestoneReachable?.(
@@ -1209,127 +1209,14 @@ export function setupUIMethods(prototype, dependencies) {
     }
   };
 
-  prototype.queueDugTilesSave = function() {
+  prototype.queueDugTilesSave = function(reason = "gameplay-mutation") {
     if (this._saveWritesBlocked || this._hardcoreDeathInProgress) return false;
-    this.pendingDugTileSave = true;
-
-    if (this.savingDugTiles) {
-      return this._dugTileSavePromise;
-    }
-    if (this._saveScheduler?.schedule?.()) return true;
-    return this.flushDugTilesSave({ scheduled: false });
+    return this.gameSaveCoordinator?.requestSnapshot?.(reason) === true;
   };
 
-  prototype.flushDugTilesSave = async function({ scheduled = false, force = false } = {}) {
-    if (this._saveWritesBlocked || this._hardcoreDeathInProgress) {
-      this.pendingDugTileSave = false;
-      return false;
-    }
-    if (!scheduled) this._saveScheduler?.cancelPending?.();
-    if (!this.pendingDugTileSave) return;
-    if (this.savingDugTiles) {
-      if (!scheduled || force) this._forceNextDugTileSave = true;
-      return this._dugTileSavePromise;
-    }
-
-    this.pendingDugTileSave = false;
-    this.savingDugTiles = true;
-    let resolveInFlight;
-    this._dugTileSavePromise = new Promise((resolve) => {
-      resolveInFlight = resolve;
-    });
-    const now = () => globalThis.performance?.now?.() ?? Date.now();
-    const totalStartedAtMs = now();
-    let captureMs = 0;
-    let writeMs = 0;
-    let writeStartedAtMs = null;
-    let saved = true;
-
-    try {
-      const captureStartedAtMs = now();
-      const worldIdentity = this.worldModel.getWorldIdentity();
-      const dugTileKeys = this.worldModel.getDugTileKeys();
-      const rubbleTiles = this.worldModel.getRubbleTiles();
-      const resources = this.digSystem.getResourceTotals();
-      const upgrades = this.upgradeSystem.toJSON();
-      const levelData = this.playerLevelSystem?.toJSON?.() ?? null;
-      const baseSpecialTileData = this.specialTileSystem?.getSaveData?.() ?? null;
-      const specialTileData = baseSpecialTileData ? {
-        ...baseSpecialTileData,
-        randomWorldEvents: this.randomEventBridge?.getSaveData?.() ?? null,
-      } : null;
-      const depthGateData = this.depthGateSystem?.getSaveData?.() ?? null;
-      const dayNightData = this.dayNightCycle?.toJSON?.() ?? null;
-      const caveSceneData = this.caveEntryController?.getSaveData?.();
-      const ancientRelicData = this.ancientRelicSystem?.getSaveData?.();
-      const openingFlightData = this.openingFlightArtifactSystem?.getSaveData?.();
-      const starHeartData = this.starHeartProgressionSystem?.getSaveData?.();
-      const retentionData = this.retentionProgressSystem?.getSaveData?.();
-      const heavenblocksData = this.heavenblocksProgressionSystem?.getSaveData?.();
-      const hardcoreModeData = getHardcoreModeSaveData(this);
-      const graveborerWurmData = getGraveborerWurmSaveData(this);
-      const playerStateData = this.playerController?.getPersistenceData?.();
-      const campfireData = this.campfireSystem?.getSaveData?.();
-      const journeyData = this.journeySystem?.getSaveData?.();
-      const celestialOverhaulData = captureCelestialOverhaulState(this);
-      captureMs = Math.max(0, now() - captureStartedAtMs);
-
-      writeStartedAtMs = now();
-      const saveResult = await this.dugTileSaveStore.save(
-        worldIdentity,
-        dugTileKeys,
-        resources,
-        upgrades,
-        levelData,
-        specialTileData,
-        depthGateData,
-        dayNightData,
-        rubbleTiles,
-        this.playerCharacterId,
-        caveSceneData,
-        ancientRelicData,
-        openingFlightData,
-        starHeartData,
-        retentionData,
-        heavenblocksData,
-        hardcoreModeData,
-        graveborerWurmData,
-        playerStateData,
-        campfireData,
-        journeyData,
-        celestialOverhaulData,
-      );
-      writeMs = Math.max(0, now() - writeStartedAtMs);
-      if (saveResult === false) saved = false;
-    } catch (error) {
-      if (writeStartedAtMs !== null) writeMs = Math.max(0, now() - writeStartedAtMs);
-      saved = false;
-      console.warn('[PlayScene] Save I/O failed:', error);
-    } finally {
-      this._saveScheduler?.recordTiming?.({
-        captureMs,
-        writeMs,
-        totalMs: Math.max(0, now() - totalStartedAtMs),
-      });
-      this.savingDugTiles = false;
-    }
-
-    const forceNext = this._forceNextDugTileSave === true;
-    this._forceNextDugTileSave = false;
-    if (this.pendingDugTileSave) {
-      if (scheduled && !forceNext && this._saveScheduler && !this._saveScheduler.destroyed) {
-        this._saveScheduler.schedule();
-      } else {
-        const nextSaveSucceeded = await this.flushDugTilesSave({
-          scheduled: false,
-          force: forceNext,
-        });
-        saved = saved && nextSaveSucceeded !== false;
-      }
-    }
-    resolveInFlight(saved);
-    this._dugTileSavePromise = null;
-    return saved;
+  prototype.flushDugTilesSave = function({ scheduled = false, force = false, reason = "manual-flush" } = {}) {
+    if (this._saveWritesBlocked || this._hardcoreDeathInProgress) return Promise.resolve(false);
+    return this.gameSaveCoordinator?.flush?.({ scheduled, force, reason }) ?? Promise.resolve(false);
   };
 
   prototype.resize = function() {

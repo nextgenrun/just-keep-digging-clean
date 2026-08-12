@@ -33,8 +33,6 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import {
   CAMPFIRE_CONFIG,
   CAMPFIRE_TIERS,
-  getCampfireStorageKey,
-  readStoredCampfireLevel,
   sanitizeCampfireData,
 } from "../../values/campfireConfig.js";
 import { getCampfireFeatureAssetGroupId } from "../../values/runtimeAssetLoading.js";
@@ -63,7 +61,7 @@ const COL = {
 };
 
 export class CampfireSystem {
-  constructor(scene, config, worldModel, ui, saveSlot = 1) {
+  constructor(scene, config, worldModel, ui, saveSlot = 1, initialData = null) {
     this.scene = scene;
     this.config = config;
     this.worldModel = worldModel;
@@ -110,7 +108,7 @@ export class CampfireSystem {
     this._prevEnter = false; // prev-frame for Enter (manual JustDown)
 
     // Upgrade tier
-    this._campfireLevel = 1; // 1-10
+    this._campfireLevel = sanitizeCampfireData(initialData).level;
     this._campfireRequestedGroupId = null;
     this._campfireResidentGroupId = null;
     this._destroyed = false;
@@ -126,8 +124,6 @@ export class CampfireSystem {
   // ── Public API ──────────────────────────────────────────────────────────
 
   create() {
-    this._loadCampfireLevel();
-
     const ts = this.config.tileSize;
     const campTileX = CAMPFIRE_CONFIG.surfaceTileX;
     const campTileY = this.config.topAirRows - 1;
@@ -324,7 +320,6 @@ export class CampfireSystem {
     if (!data || typeof data !== "object") return this.getSaveData();
     const normalized = sanitizeCampfireData(data);
     this._campfireLevel = normalized.level;
-    this._saveCampfireLevel();
     void this._ensureCampfireTierTexture(this._campfireLevel);
     return this.getSaveData();
   }
@@ -351,7 +346,6 @@ export class CampfireSystem {
     }
 
     this._campfireLevel = nextTier.level;
-    this._saveCampfireLevel();
 
     // Update campfire sprite to match new level
     void this._ensureCampfireTierTexture(this._campfireLevel);
@@ -381,18 +375,6 @@ export class CampfireSystem {
       critBonus: tier.critBonus,
       durationMs: tier.durationMs,
     };
-  }
-
-  _loadCampfireLevel() {
-    this._campfireLevel = readStoredCampfireLevel(this.saveSlot);
-  }
-
-  _saveCampfireLevel() {
-    try {
-      localStorage.setItem(getCampfireStorageKey(this.saveSlot), String(this._campfireLevel));
-    } catch {
-      // Ignore storage failures; the normal save payload still carries campfire state.
-    }
   }
 
   _ensureCampfireTierTexture(level = this._campfireLevel) {
@@ -861,4 +843,3 @@ export class CampfireSystem {
     this._campfireRequestedGroupId = null;
   }
 }
-

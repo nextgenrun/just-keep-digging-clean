@@ -1,5 +1,11 @@
 import { LEVEL_CONFIG } from "../../values/levelConfig.js";
 import { GEM_POWER_CONFIG } from "../../values/gemPower.js";
+import {
+  PROGRESSION_LIMITS,
+  validateBoundedNumber,
+  validateLevel,
+} from "../../values/progressionInvariants.js";
+import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
 
 export class PlayerLevelSystem {
   constructor() {
@@ -93,11 +99,23 @@ export class PlayerLevelSystem {
   }
 
   gainXP(resourceType) {
+    if (this.level >= LEVEL_CONFIG.HARDCAP) {
+      return { xpGained: 0, levelUp: false, newLevel: null, hasChoice: false, rewards: [] };
+    }
     const baseXP = LEVEL_CONFIG.TILE_XP[resourceType] || LEVEL_CONFIG.defaultXP || 1;
     const xpMultiplier = 1 + this.getXpMultiplier();
     const xpGained = Math.floor(baseXP * xpMultiplier);
-    this.currentXP += xpGained;
-    this.totalXP += xpGained;
+    const nextCurrent = validateBoundedNumber(this.currentXP + xpGained, {
+      name: "current-xp", max: PROGRESSION_LIMITS.xp, integer: true,
+    });
+    const nextTotal = validateBoundedNumber(this.totalXP + xpGained, {
+      name: "total-xp", max: PROGRESSION_LIMITS.xp, integer: true,
+    });
+    if (!nextCurrent.ok || !nextTotal.ok) {
+      return this._rejectLevelMutation((!nextCurrent.ok ? nextCurrent : nextTotal).reason, xpGained);
+    }
+    this.currentXP = nextCurrent.value;
+    this.totalXP = nextTotal.value;
     const required = this.getXPRequiredForNextLevel();
     let levelUp = false, newLevel = null, automaticReward = null;
     if (this.currentXP >= required) {
@@ -120,8 +138,15 @@ export class PlayerLevelSystem {
   }
 
   gainLevel() {
-    const levelGain = Number.isFinite(arguments[0]) ? Math.floor(arguments[0]) : 1;
-    const gainCount = Math.max(1, levelGain);
+    const requested = arguments.length === 0 ? 1 : arguments[0];
+    const gain = validateBoundedNumber(requested, {
+      name: "level-gain", min: 1, max: LEVEL_CONFIG.HARDCAP, integer: true,
+    });
+    const target = validateLevel(this.level + (gain.ok ? gain.value : 0));
+    if (!gain.ok || !target.ok) {
+      return this._rejectLevelMutation((!gain.ok ? gain : target).reason, requested);
+    }
+    const gainCount = gain.value;
     const startLevel = this.level;
     this.level += gainCount;
     const choiceLevels = [];
@@ -148,7 +173,7 @@ export class PlayerLevelSystem {
 
   _applyAutomaticMilestoneRewards(levels) {
     const count = Array.isArray(levels)
-      ? levels.filter(level => LEVEL_CONFIG.hasChoiceReward(level)).length
+      ? [...new Set(levels)].filter(level => LEVEL_CONFIG.hasChoiceReward(level)).length
       : 0;
     if (count <= 0) return null;
     this.automaticMilestoneRewards += count;
@@ -203,13 +228,24 @@ export class PlayerLevelSystem {
   }
 
   fromJSON(data) {
-    if (!data) return;
-    this.level = data.level || 1;
-    this.currentXP = data.currentXP || 0;
-    this.totalXP = data.totalXP || 0;
+    if (!data) return false;
+    const level = validateLevel(data.level || 1);
+    const currentXP = validateBoundedNumber(data.currentXP || 0, {
+      name: "current-xp", max: PROGRESSION_LIMITS.xp, integer: true,
+    });
+    const totalXP = validateBoundedNumber(data.totalXP || 0, {
+      name: "total-xp", max: PROGRESSION_LIMITS.xp, integer: true,
+    });
+    if (!level.ok || !currentXP.ok || !totalXP.ok) {
+      this._rejectLevelMutation("invalid-level-save", data.level);
+      return false;
+    }
+    this.level = level.value;
+    this.currentXP = currentXP.value;
+    this.totalXP = totalXP.value;
     const automaticRewards = Number(data.automaticMilestoneRewards);
     this.automaticMilestoneRewards = Number.isFinite(automaticRewards)
-      ? Math.max(0, Math.floor(automaticRewards))
+      ? Math.min(Math.floor(this.level / LEVEL_CONFIG.CHOICE_INTERVAL), Math.max(0, Math.floor(automaticRewards)))
       : 0;
     if (data.choiceSelections && typeof data.choiceSelections === "object") {
       for (const key of Object.keys(this.choiceSelections)) {
@@ -217,7 +253,7 @@ export class PlayerLevelSystem {
         this.choiceSelections[key] = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
       }
       this._recalculateBonuses();
-      return;
+      return true;
     }
 
     // Legacy saves did not persist choices separately. Preserve any positive
@@ -240,5 +276,19 @@ export class PlayerLevelSystem {
       );
       this._recalculateBonuses();
     }
+    return true;
+  }
+
+  _rejectLevelMutation(reason, value) {
+    reportProgressionInvariantFailure({ authority: "player-level", reason, value });
+    return {
+      success: false,
+      reason,
+      xpGained: 0,
+      levelUp: false,
+      newLevel: null,
+      hasChoice: false,
+      rewards: [],
+    };
   }
 }

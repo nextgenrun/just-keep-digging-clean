@@ -170,7 +170,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
   }
 
   scene._hardcoreDeathInProgress = true;
-  scene.pendingDugTileSave = false;
+  scene.gameSaveCoordinator?.discardPending?.();
   scene.hidePauseMenu?.();
   scene.lightSystem?.forceTorchOff?.();
   scene.sceneModeController.clearSuspensions();

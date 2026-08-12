@@ -44,7 +44,7 @@ const payload = saveStore.createPayload(
   null,
   exactUndergroundState,
 );
-assert.equal(payload.version, 14);
+assert.equal(payload.version, 15);
 assert.deepEqual(payload.playerStateData, exactUndergroundState);
 assert.deepEqual(
   saveStore.normalizePayload(payload).playerStateData,
@@ -138,6 +138,7 @@ const [
   uiSource,
   updateSource,
   openingConfigSource,
+  saveRuntimeSource,
 ] = await Promise.all([
   readFile(new URL("../ui/scenes/StartMenuScene.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/scenes/WorldLoadScene.js", import.meta.url), "utf8"),
@@ -145,6 +146,7 @@ const [
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../values/openingFlightArtifact.js", import.meta.url), "utf8"),
+  readFile(new URL("../world/playScene/PlaySceneSaveRuntime.js", import.meta.url), "utf8"),
 ]);
 assert.match(startMenuSource, /new NewRunSetupOverlay/);
 assert.match(startMenuSource, /tutorialChoice/);
@@ -152,7 +154,7 @@ assert.match(loadSource, /tutorialChoice/);
 assert.match(setupSource, /new TownSquareTutorialSystem/);
 assert.doesNotMatch(setupSource, /shouldUseOpeningFlightGoldenSpawn/);
 assert.match(updateSource, /townSquareTutorialSystem\?\.update/);
-assert.match(uiSource, /getPersistenceData/);
+assert.match(saveRuntimeSource, /getPersistenceData/);
 assert.match(uiSource, /restorePersistenceData/);
 assert.match(uiSource, /_restoredPlayerPosition/);
 assert.match(

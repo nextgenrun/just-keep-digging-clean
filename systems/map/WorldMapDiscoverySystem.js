@@ -1,12 +1,14 @@
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
+import { BrowserStorageRepository } from "../save-system/BrowserStorageRepository.js";
 
 export class WorldMapDiscoverySystem {
-  constructor(scene, saveSlot = 1) {
+  constructor(scene, saveSlot = 1, storageRepository = null) {
     this.scene = scene;
     this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
     this.cells = new Set();
     this.lastPlayerCellKey = "";
     this.persistTimer = null;
+    this.storageRepository = storageRepository ?? new BrowserStorageRepository();
     this._load();
   }
 
@@ -20,9 +22,8 @@ export class WorldMapDiscoverySystem {
 
   _load() {
     try {
-      const raw = globalThis.localStorage?.getItem(this._storageKey());
-      if (!raw) return;
-      const saved = JSON.parse(raw);
+      const saved = this.storageRepository.readJson(this._storageKey());
+      if (!saved) return;
       if (
         saved?.schemaVersion !== WORLD_MAP_CONFIG.schemaVersion
         || saved?.worldRevision !== WORLD_MAP_CONFIG.worldRevision
@@ -48,12 +49,11 @@ export class WorldMapDiscoverySystem {
   flush() {
     try {
       const cells = Array.from(this.cells).slice(0, WORLD_MAP_CONFIG.discovery.maxPersistedCells);
-      globalThis.localStorage?.setItem(this._storageKey(), JSON.stringify({
+      return this.storageRepository.writeJson(this._storageKey(), {
         schemaVersion: WORLD_MAP_CONFIG.schemaVersion,
         worldRevision: WORLD_MAP_CONFIG.worldRevision,
         cells,
-      }));
-      return true;
+      });
     } catch (_) {
       return false;
     }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "inventory": {
-    "count": 250,
-    "sha256": "abab02b8e3b2da0e5ce50851ea98b6275a6012b36e038fef8ad75e5ef26ce2b6"
+    "count": 251,
+    "sha256": "fedc3ec44c9f5563a070ab2e60d496c95c6c9145a61cea1b2a1f11c2832ed3e0"
   },
   "artifactReviewNameTokens": [
     "review",
@@ -22,7 +22,6 @@
     "2026-07-13-v11-sky-island-teleport-route-smoke.mjs",
     "2026-07-15-deep-world-living-backdrop-smoke.mjs",
     "2026-07-15-world-wisp-ownership-smoke.mjs",
-    "2026-07-16-scenic-world-runtime-foundation.mjs",
     "2026-07-20-screen-record-contract.mjs",
     "2026-07-26-arc-core-production-visual-contract.mjs",
     "2026-07-26-cave-identity-overhaul-contract.mjs",
@@ -30,7 +29,6 @@
     "2026-07-26-crafting-system-contract.mjs",
     "2026-07-26-godmode-abilities-contract.mjs",
     "2026-07-26-heavenblocks-progression-core-contract.mjs",
-    "2026-07-26-heavenblocks-progression-integration-contract.mjs",
     "2026-07-26-surface-props-contract.mjs",
     "2026-07-28-journey-integration-contract.mjs",
     "2026-07-28-natural-surface-and-drop-through-contract.mjs",
@@ -50,7 +48,6 @@
       "2026-07-13-v11-sky-island-teleport-route-smoke.mjs": "897941fa4bb3be8120ba85f5ff45e80bfafc8f970e8b59484feb4adb3d19b2ab",
       "2026-07-15-deep-world-living-backdrop-smoke.mjs": "be3b720cc3723217db6b8c203ff0a0fd9c905bce83c65ed1ecca1218e98676a3",
       "2026-07-15-world-wisp-ownership-smoke.mjs": "3b8a2433b105b662bd2b0c3d69508ab79854fb9232e0d7e9def84a224d498d6b",
-      "2026-07-16-scenic-world-runtime-foundation.mjs": "6bf683da17ad5a3fdf8ecb78b1b79f8869cb5c23ae92602032c512b9971cde0d",
       "2026-07-20-screen-record-contract.mjs": "4c45e1343388ec06c50ab50986aea429410cbf84cb3e4a4aea8e93a9f44066fb",
       "2026-07-26-arc-core-production-visual-contract.mjs": "32a4f68e3b343f2182c2f0cc16e4e0ab986363d05f8540c0d31b9ffe7755ae8f",
       "2026-07-26-cave-identity-overhaul-contract.mjs": "0a0c4a207523145cfd6259a19d7ef9d1ed7466ae641ea1a6d52e4de545a1e9f9",
@@ -58,7 +55,6 @@
       "2026-07-26-crafting-system-contract.mjs": "7e50cb852642e6dffdbdf4642b1d49c9f36b35ec099d5140d21d34b62ac50fb8",
       "2026-07-26-godmode-abilities-contract.mjs": "96dad4bdbd7cc4365600b1e0c507910ab3d13cdd49e097532c71d93a9d952b74",
       "2026-07-26-heavenblocks-progression-core-contract.mjs": "22940d86cbb0ec03c85f997cc06b492c0232506b29a9b182975d6dd256521a85",
-      "2026-07-26-heavenblocks-progression-integration-contract.mjs": "30a8869451406645105e4d5660e350f9c685010fef3f7e2eed1a44c6befe0279",
       "2026-07-26-surface-props-contract.mjs": "c0a995c411fa8e322ec7dc173e613646c78f473b54a5557d06f26c7a361ba980",
       "2026-07-28-journey-integration-contract.mjs": "5f05ade4e95ca514a29d5f7ea57ea09bb45b826b778c7b113ebcbb5738727f35",
       "2026-07-28-natural-surface-and-drop-through-contract.mjs": "8b9093f9fcaf88a0e989a9cc1d87423494d16e3a33f6ca3dbcbf36cd5f8d3c8c",

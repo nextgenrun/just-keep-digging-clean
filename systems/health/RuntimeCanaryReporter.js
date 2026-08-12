@@ -1,12 +1,16 @@
 import { RUNTIME_CANARY_CONFIG } from "../../values/runtimeCanaryConfig.js";
+import { BrowserStorageRepository } from "../save-system/BrowserStorageRepository.js";
 
 export class RuntimeCanaryReporter {
   constructor({
     globalRef = globalThis,
     config = RUNTIME_CANARY_CONFIG,
+    storageRepository = null,
   } = {}) {
     this.globalRef = globalRef;
     this.config = config;
+    this.storageRepository = storageRepository
+      ?? new BrowserStorageRepository(globalRef.localStorage);
     this.lastCritical = this._readLastCritical();
   }
 
@@ -16,11 +20,7 @@ export class RuntimeCanaryReporter {
 
   clearLastCritical() {
     this.lastCritical = null;
-    try {
-      this.globalRef.localStorage?.removeItem?.(this.config.storage.lastCriticalKey);
-    } catch (_) {
-      // Storage is optional and may be blocked by browser privacy settings.
-    }
+    this.storageRepository.remove(this.config.storage.lastCriticalKey);
   }
 
   handle(event, snapshot) {
@@ -39,23 +39,11 @@ export class RuntimeCanaryReporter {
   }
 
   _readLastCritical() {
-    try {
-      const raw = this.globalRef.localStorage?.getItem?.(this.config.storage.lastCriticalKey);
-      return raw ? JSON.parse(raw) : null;
-    } catch (_) {
-      return null;
-    }
+    return this.storageRepository.readJson(this.config.storage.lastCriticalKey);
   }
 
   _persist(report) {
-    try {
-      this.globalRef.localStorage?.setItem?.(
-        this.config.storage.lastCriticalKey,
-        JSON.stringify(report),
-      );
-    } catch (_) {
-      // The in-memory report remains available when storage is unavailable.
-    }
+    this.storageRepository.writeJson(this.config.storage.lastCriticalKey, report);
   }
 
   _post(report) {

@@ -32,6 +32,9 @@ import {
   sanitizeResourceTotals,
   tileTypeToResource,
 } from "../../values/resourceTypes.js";
+import { validateCooldownMs } from "../../values/progressionInvariants.js";
+import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
+import { grantResourceTotal, replaceResourceTotals } from "./ResourceTotalAuthority.js";
 
 const RESOURCE_KEY_SET = new Set(RESOURCE_KEYS);
 
@@ -303,7 +306,6 @@ export class DigSystem {
         relicCount: finalRelicCount,
       });
     } catch (error) {
-      // Presentation is deliberately unable to fail or roll back the award.
       const health = RELIC_DISCOVERY_FX_CONFIG.health;
       globalThis.__jkdHealth?.captureSystemFinding?.({
         key: health.presentationFailureCode,
@@ -337,7 +339,6 @@ export class DigSystem {
       cooldown = this.upgradeSystem.getEffectiveMineCooldown(cooldown);
     }
     
-    // Apply level-based mining speed bonus
     if (this.playerLevelSystem) {
       const speedBonus = this.playerLevelSystem.getMiningSpeedBonus();
       cooldown = cooldown * (1 - speedBonus);
@@ -348,7 +349,6 @@ export class DigSystem {
       cooldown *= 1 - milestoneBonuses.miningSpeedReduction;
     }
 
-    // Apply special block mining speed boost (e.g., Speed Block)
     if (this.specialBlockEffectsManager) {
       const speedMult = this.specialBlockEffectsManager.getMiningSpeedMultiplier();
       if (speedMult > 1.0) {
@@ -356,7 +356,6 @@ export class DigSystem {
       }
     }
     
-    // Apply quickslash multiplier if active
     if (playerAbilities && playerAbilities.isQuickslashActive && playerAbilities.isQuickslashActive()) {
       cooldown = cooldown / PLAYER_ABILITIES_CONFIG.quickslashSpeedMultiplier;
       const stats = playerAbilities.getConstellationStats?.() || {};
@@ -366,7 +365,6 @@ export class DigSystem {
       }
     }
 
-    // Apply combo momentum — mild dig-speed reward for sustained combos
     const momentum = COMBO_CONFIG.momentum;
     if (momentum?.enabled && this.comboSystem && typeof this.comboSystem.getComboCount === "function") {
       const combo = this.comboSystem.getComboCount();
@@ -376,7 +374,16 @@ export class DigSystem {
       }
     }
 
-    return cooldown;
+    const validation = validateCooldownMs(cooldown);
+    if (validation.ok) return validation.value;
+    reportProgressionInvariantFailure({
+      authority: "mining-cooldown",
+      reason: validation.reason,
+      value: cooldown,
+    });
+    return validateCooldownMs(this.config.mineCooldownMs).ok
+      ? this.config.mineCooldownMs
+      : MINING_CONFIG.mineCooldownMs;
   }
 
   _getDamage(baseDamage, tileType, effectsOverride = null) {
@@ -413,7 +420,6 @@ export class DigSystem {
       damage += strengthBonus + levelFlatBonus;
     }
     
-    // Apply special block damage boost (e.g., Berserk Block)
     if (this.specialBlockEffectsManager) {
       const dmgMult = this.specialBlockEffectsManager.getDamageMultiplier();
       if (dmgMult > 1.0) {
@@ -421,7 +427,6 @@ export class DigSystem {
       }
     }
     
-    // Guard against NaN propagation — if damage isn't finite, default to baseDamage
     if (!Number.isFinite(damage)) {
       return Math.max(1, baseDamage);
     }
@@ -554,8 +559,11 @@ export class DigSystem {
           heavyPunchResult.behindResourceAmount = this._capResourceYield(
             heavyPunchResult.behindResourceAmount,
           );
-          this.resources[heavyPunchResult.behindResourceType] =
-            (this.resources[heavyPunchResult.behindResourceType] || 0) + heavyPunchResult.behindResourceAmount;
+          heavyPunchResult.behindResourceAmount = grantResourceTotal(
+            this.resources,
+            heavyPunchResult.behindResourceType,
+            heavyPunchResult.behindResourceAmount,
+          );
           if (this.playerLevelSystem) {
             this.playerLevelSystem.gainXP(heavyPunchResult.behindResourceType);
           }
@@ -613,7 +621,6 @@ export class DigSystem {
     const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
 
     if (!this.worldModel.isDiggable(targetTile.tx, targetTile.ty)) {
-      // Show hint for GEODE_WALL (requires Heavy Punch upgrade)
       if (tileType === TILE_TYPES.GEODE_WALL) {
         const hasHeavyPunch = this._getHeavyPunchFraction() > 0;
         if (hasHeavyPunch && !options.skipHeavyPunch) {
@@ -676,7 +683,6 @@ export class DigSystem {
       playerAbilities.spendQuickslashCost?.();
     }
 
-    // Use baseDamageHard for mineral/ore tiles, baseDamage for dirt/soft tiles
     let baseDamage = this._getBaseDamageForTile(tileType);
     let specialBlockEffect = null;
     let specialBlockDestroyed = false;
@@ -700,7 +706,6 @@ export class DigSystem {
           ?? 0;
       }
       critChance += this._getDepthMilestoneBonuses().critChance;
-      // Guaranteed crit from special blocks (e.g., Crit Block)
       if (this.specialBlockEffectsManager && this.specialBlockEffectsManager.isGuaranteedCritActive()) {
         isCriticalHit = true;
       }
@@ -731,7 +736,6 @@ export class DigSystem {
       if (Number.isFinite(critMultiplier) && critMultiplier > 0) {
         damage = Math.max(1, Math.floor(damage * critMultiplier));
       }
-      // If critMultiplier is invalid, keep damage as-is (already applied)
     }
 
     if (Number.isFinite(options.damageMultiplier) && options.damageMultiplier > 0) {
@@ -749,7 +753,6 @@ export class DigSystem {
 
     this.worldRenderer.applyTileUpdate(targetTile.tx, targetTile.ty);
 
-    // Handle special block effects and apply returned values to outer scope
     if (!result.wasRubble) {
       const specialBlockResult = this._handleSpecialBlockEffects(result, targetTile);
       ({
@@ -765,12 +768,10 @@ export class DigSystem {
       } = specialBlockResult);
     }
 
-    // Increment combo only on tile destruction
     if (result.destroyed && !result.wasRubble && this.comboSystem && typeof this.comboSystem.incrementCombo === 'function') {
       this.comboSystem.incrementCombo(nowMs);
     }
 
-    // Heavy Punch
     const heavyPunchResult = options.skipHeavyPunch
       ? this._tryApplyHeavyPunchBehind(null, damage, aimDirection)
       : this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection);
@@ -834,7 +835,7 @@ export class DigSystem {
           }
           resourceAmount = this._capResourceYield(resourceAmount);
 
-          this.resources[resourceType] = (this.resources[resourceType] || 0) + resourceAmount;
+          resourceAmount = grantResourceTotal(this.resources, resourceType, resourceAmount);
 
           if (this.playerLevelSystem) {
             const xpMultiplier = isSkyTileBonus ? 2 : 1;
@@ -1000,7 +1001,9 @@ export class DigSystem {
   }
 
   setResourceTotals(resources) {
+    if (!replaceResourceTotals(this.resources, resources)) return false;
     this.resources = sanitizeResourceTotals(resources);
+    return true;
   }
 
   getCopperCollected() {
@@ -1050,7 +1053,6 @@ export class DigSystem {
 
     result.ancientRelics = this._awardAncientRelics(tileType, tx, ty);
 
-    // Grant resource
     let rewardTileType = tileType;
     let resourceType = tileTypeToResource(tileType);
     let skyMultiplier = 1;
@@ -1077,7 +1079,7 @@ export class DigSystem {
         result.isLuckyDrop = true;
       }
       result.resourceAmount = this._capResourceYield(result.resourceAmount);
-      this.resources[resourceType] = (this.resources[resourceType] || 0) + result.resourceAmount;
+      result.resourceAmount = grantResourceTotal(this.resources, resourceType, result.resourceAmount);
     }
 
     if (tileType === TILE_TYPES.SKY_TILE && resourceType && this.floatingTextSystem) {
@@ -1098,7 +1100,6 @@ export class DigSystem {
       result.skyTilePassiveBonus = skyTilePassiveBonus;
     }
 
-    // Grant XP
     if (this.playerLevelSystem && resourceType) {
       const xpResult = this.playerLevelSystem.gainXP(resourceType);
       result.xpGained = xpResult.xpGained;
@@ -1109,7 +1110,6 @@ export class DigSystem {
       result.rewards = xpResult.rewards || [];
     }
 
-    // Apply every special reward, including instant GP tiers that do not need the timed-effect manager.
     const specialResult = this._handleSpecialBlockEffects(
       { destroyed: true, typeBeforeDamage: tileType },
       { tx, ty }
@@ -1130,8 +1130,6 @@ export class DigSystem {
       result.rewards = specialResult.forcedLevelResult?.rewards || [];
     }
 
-    // Add combo points only if explicitly requested (prevents infinite combo loops)
-    // Thunder Strike and abilities should NOT add combo points to avoid feedback loops
     if (addComboPoints && this.comboSystem) {
       this.comboSystem.addCombo(nowMs);
     }
@@ -1220,7 +1218,6 @@ export class DigSystem {
     const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
     const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
     
-    // Local variables to track special block effects
     let specialBlockEffect = null;
     let specialBlockDestroyed = false;
     let gemPowerRestored = 0;
@@ -1231,12 +1228,10 @@ export class DigSystem {
     let comboTotal = 0;
     let forcedLevelResult = null;
     
-    // Hoist scene reference so all cases share it
     const scene = this.scene || (this.worldRenderer?.scene);
 
     switch (result.typeBeforeDamage) {
       case TILE_TYPES.GEM_POWER_BLOCK:
-        // One depth resolver owns the texture family and restoration capacity.
         {
           const depthTiles = Math.max(
             0,
@@ -1368,7 +1363,6 @@ export class DigSystem {
         break;
     }
 
-    // Return special block effects
     return {
       specialBlockEffect,
       specialBlockDestroyed,

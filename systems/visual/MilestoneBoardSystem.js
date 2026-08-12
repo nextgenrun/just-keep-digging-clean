@@ -7,6 +7,7 @@ import { PILLAR_VISUAL_CONFIG, resolvePillarStageIndex } from "../../values/pill
 import { USER_SETTINGS } from "../UserSettings.js";
 import { openMilestonePillarModal } from "./MilestonePillarModal.js";
 import { ProgressivePillarSprite } from "./ProgressivePillarSprite.js";
+import { sanitizeMilestoneData } from "../../values/savePayloadV15.js";
 
 /**
  * MilestoneBoardSystem
@@ -16,7 +17,7 @@ import { ProgressivePillarSprite } from "./ProgressivePillarSprite.js";
  * Milestones persist per save slot via localStorage.
  */
 export class MilestoneBoardSystem {
-  constructor(scene, config, worldModel, ui, saveSlot = 1, retentionProgressSystem = null) {
+  constructor(scene, config, worldModel, ui, saveSlot = 1, retentionProgressSystem = null, initialData = null) {
     this.scene = scene;
     this.config = config;
     this.worldModel = worldModel;
@@ -25,8 +26,7 @@ export class MilestoneBoardSystem {
     this.retentionProgressSystem = retentionProgressSystem;
 
     // Persisted milestone state
-    this._reachedDepths = []; // array of depths reached (e.g. [100, 200, 300])
-    this._loadMilestones();
+    this._reachedDepths = [...sanitizeMilestoneData(initialData).reachedDepths];
 
     // Approved production pillar visual
     this._pillarVisual = null;
@@ -150,7 +150,7 @@ export class MilestoneBoardSystem {
 
     // Reach milestone
     this._reachedDepths.push(depth);
-    this._saveMilestones();
+    this.scene.queueDugTilesSave?.("milestone-reached");
     this._updateBoardDisplay();
 
     // Return the milestone for the scene to handle (flash, shake, etc.)
@@ -169,6 +169,18 @@ export class MilestoneBoardSystem {
    */
   getReachedDepths() {
     return [...this._reachedDepths];
+  }
+
+  getSaveData() {
+    return sanitizeMilestoneData({ reachedDepths: this._reachedDepths });
+  }
+
+  loadSaveData(data) {
+    if (!data || typeof data !== "object") return this.getSaveData();
+    this._reachedDepths = [...sanitizeMilestoneData(data).reachedDepths];
+    this._maxDepthThisRun = Math.max(0, ...this._reachedDepths);
+    this._updateBoardDisplay();
+    return this.getSaveData();
   }
 
   getNextMilestone() {
@@ -230,29 +242,6 @@ export class MilestoneBoardSystem {
     return this._pillarVisual?.getTopY() - PILLAR_VISUAL_CONFIG.milestone.promptOffsetPx;
   }
 
-  _saveMilestones() {
-    try {
-      localStorage.setItem(`dig-game-milestones-slot-${this.saveSlot}`, JSON.stringify(this._reachedDepths));
-    } catch (e) {}
-  }
-
-  _loadMilestones() {
-    try {
-      const storageKey = `dig-game-milestones-slot-${this.saveSlot}`;
-      let data = localStorage.getItem(storageKey);
-      if (!data && this.saveSlot === 1) {
-        data = localStorage.getItem('dig-game-milestones');
-        if (data) localStorage.setItem(storageKey, data);
-      }
-      if (data) {
-        this._reachedDepths = JSON.parse(data);
-        if (!Array.isArray(this._reachedDepths)) this._reachedDepths = [];
-      }
-    } catch (e) {
-      this._reachedDepths = [];
-    }
-  }
-
   destroy() {
     this._closeBoardView();
     this._pillarVisual?.destroy();
@@ -260,4 +249,3 @@ export class MilestoneBoardSystem {
     this._ePrompt?.destroy();
   }
 }
-

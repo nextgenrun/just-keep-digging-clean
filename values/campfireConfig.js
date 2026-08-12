@@ -89,7 +89,6 @@ export function readStoredCampfireLevel(
     let saved = storage.getItem(storageKey);
     if (!saved && slot === 1) {
       saved = storage.getItem(config.persistence.legacyKey);
-      if (saved) storage.setItem?.(storageKey, saved);
     }
     return sanitizeCampfireData({ level: Number.parseInt(saved, 10) }).level;
   } catch {
