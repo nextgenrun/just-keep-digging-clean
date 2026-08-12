@@ -101,15 +101,19 @@ const updateSource = readFileSync(
   resolve(root, "world/playScene/PlaySceneUpdate.js"),
   "utf8"
 );
+const phaseSource = readFileSync(
+  resolve(root, "world/playScene/PlaySceneFramePhases.js"),
+  "utf8"
+);
+const sceneSource = readFileSync(resolve(root, "ui/scenes/PlayScene.js"), "utf8");
 const systemsCall = updateSource.indexOf(
   "_updateSystems.call(this, time, delta, keys, samplePerformancePhases)"
 );
-const cameraCall = updateSource.indexOf("updateCameraSystems(this, time, delta)");
-const lightingCall = updateSource.indexOf(
-  "updateLightingSystems(this, time, delta, this._framePlayerTile)"
-);
-assert.ok(systemsCall >= 0 && systemsCall < cameraCall);
-assert.ok(cameraCall < lightingCall);
+const cameraCall = phaseSource.indexOf("updateCameraSystems(scene, time, delta)");
+const lightingCall = phaseSource.indexOf("updateLightingSystems(scene, time, delta, scene._framePlayerTile)");
+assert.ok(systemsCall >= 0);
+assert.ok(cameraCall >= 0 && cameraCall < lightingCall);
+assert.ok(sceneSource.indexOf('id: "play-frame-authority"') < sceneSource.indexOf('id: "play-frame-camera"'));
 assert.ok(updateSource.includes("const activePlayerTile = this._framePlayerTile"));
 assert.ok(updateSource.includes("{ playerTile: activePlayerTile }"));
 assert.ok(updateSource.includes("scene.lightFrameSync.queue(time, delta, lightDepth, gameplayActive)"));

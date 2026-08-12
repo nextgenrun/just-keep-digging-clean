@@ -13,6 +13,7 @@ import {
   getTitanLoreEntry,
 } from "../values/titanLore.js";
 import { TitanSurfaceGallery } from "../systems/visual/TitanSurfaceGallery.js";
+import { resolveInteractionPriorities } from "../world/playScene/interactionPriority.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -256,10 +257,9 @@ for (const rendererSource of [legacySource, scenicSource]) {
   assert.match(rendererSource, /updateTitanSurfaceInspection/);
 }
 assert.match(playUpdateSource, /titanStatueDistance/);
-assert.match(
-  playUpdateSource,
-  /Math\.min\(milestoneDistance, nearestNpcDistance, specialTileDistance, eventDistance, memoryReliquaryDistance\)/,
-);
+assert.equal(resolveInteractionPriorities({ titan: 1, milestone: 2, npc: 3 }).titan, true);
+assert.equal(resolveInteractionPriorities({ titan: 2, pillar: 1 }).titan, false);
+assert.match(playUpdateSource, /priority\.titan/);
 assert.match(playUpdateSource, /!titanConsumedInteraction/);
 assert.match(e2eSource, /previewFirstUnlockedTitanStatue/);
 assert.match(e2eSource, /event\.code === "KeyI"/);

@@ -224,11 +224,15 @@ def coverage_audit(contracts: list[Path], systems: list[Path]) -> tuple[Result, 
 def wiring_audit() -> Result:
     source_files = sorted((ROOT / "world" / "playScene").glob("*.js"))
     corpus = "\n".join(path.read_text(encoding="utf-8", errors="replace") for path in source_files)
+    lifecycle_source = (ROOT / "world" / "playScene" / "PlaySceneLifecycle.js").read_text(
+        encoding="utf-8", errors="replace"
+    )
+    lifecycle_properties = set(re.findall(r'^\s+"(\w+)",?\s*$', lifecycle_source, re.MULTILINE))
     assignments = re.findall(r"(?:this|scene)\.(\w+)\s*=\s*new\s+(\w+)", corpus)
     orphaned = []
     for property_name, class_name in assignments:
         references = len(re.findall(rf"\b(?:this|scene)\.{re.escape(property_name)}\b", corpus))
-        if references < 2:
+        if references < 2 and property_name not in lifecycle_properties:
             orphaned.append(f"{property_name}:{class_name}")
     detail = f"constructed collaborators={len(assignments)}"
     if orphaned:

@@ -7,6 +7,7 @@ import { DEPTH_MILESTONES } from "../values/depthMilestones.js";
 import { MILESTONE_PILLAR_REVIEW } from "../values/milestonePillarReview.js";
 import { MILESTONE_PILLAR_UI } from "../values/milestonePillarUi.js";
 import { TOWN_SQUARE_CONFIG } from "../values/townSquareConfig.js";
+import { resolveInteractionPriorities } from "../world/playScene/interactionPriority.js";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const REVIEW_ROOT = path.join(
@@ -161,16 +162,13 @@ const updateSource = read("world/playScene/PlaySceneUpdate.js");
 assert.match(npcSource, /updateInteractPrompts\(playerTile,\s*competingDistance/);
 assert.match(npcSource, /dist\s*<=\s*competingDistance/);
 assert.match(updateSource, /allowOpen:\s*!arcCoreConsumedInteraction/);
-assert.match(
-  updateSource,
-  /milestoneDistance\s*<\s*Math\.min\(nearestNpcDistance,\s*titanStatueDistance,\s*specialTileDistance,\s*eventDistance,\s*memoryReliquaryDistance\)/,
-);
-assert.match(
-  updateSource,
-  /updateInteractPrompts\(\s*playerTile,\s*Math\.min\(milestoneDistance,\s*titanStatueDistance,\s*specialTileDistance,\s*eventDistance,\s*memoryReliquaryDistance\)/,
-);
-assert.match(updateSource, /specialTileDistance\s*<=\s*Math\.min\(/);
-assert.match(updateSource, /&&\s*!specialTileHasPriority\s*&&\s*!eventHasPriority\s*&&\s*!memoryReliquaryHasPriority\s*\)\s*{\s*this\.npcManager\.checkNPCInteraction/);
+const milestonePriority = resolveInteractionPriorities({
+  milestone: 2, npc: 4, titan: 3, specialTile: 5, event: 6, memoryReliquary: 7, pillar: 8,
+});
+assert.equal(milestonePriority.milestone, true);
+assert.equal(milestonePriority.npcCompetitionDistance, 2);
+assert.equal(resolveInteractionPriorities({ milestone: 2, pillar: 1 }).milestone, false);
+assert.match(updateSource, /resolveInteractionPriorities/);
 assert.ok(
   updateSource.indexOf("specialTileSystem?.update")
     < updateSource.indexOf("milestoneBoardSystem?.update"),

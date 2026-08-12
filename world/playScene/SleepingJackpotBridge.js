@@ -1,4 +1,3 @@
-import { SleepingJackpotModalOverlay } from "../../ui/overlays/SleepingJackpotModalOverlay.js";
 import { RANDOM_WORLD_EVENT_CONFIG } from "../../values/randomWorldEvents.js";
 import { createZeroResourceTotals } from "../../values/resourceTypes.js";
 import { SleepingJackpotWorldSupport } from "./SleepingJackpotWorldSupport.js";
@@ -20,7 +19,11 @@ export class SleepingJackpotBridge {
     this.scene = scene;
     this.director = director;
     this.flags = flags;
-    this.modal = new SleepingJackpotModalOverlay(scene);
+    const createModal = scene.uiPorts?.createSleepingJackpotModalOverlay;
+    if (typeof createModal !== "function") {
+      throw new Error("Sleeping jackpot requires an injected modal overlay port");
+    }
+    this.modal = createModal(scene);
     this.transaction = new JackpotSaveTransaction(scene, director);
     this.worldSupport = new SleepingJackpotWorldSupport(scene, director, flags);
     this.resolving = false;

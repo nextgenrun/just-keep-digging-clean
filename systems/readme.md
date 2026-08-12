@@ -25,3 +25,12 @@ canvas/scene/game-loop checks, and exposes the read-only
 `window.__jkdHealth.snapshot()` admin surface. Reporting and pure checks stay in
 separate modules so lifecycle wiring, persistence, and rules can be tested
 independently.
+
+## Scene runtime authority
+
+`runtime/SceneModeController.js` owns the base scene phase plus nestable pause,
+dialog, shop, depth-warning, and Hardcore-modal suspension tokens.
+`runtime/SceneLifecycleRegistry.js` adopts listeners, timers, abortable jobs,
+and scene systems for idempotent reverse-order teardown.
+`runtime/FramePhaseScheduler.js` preserves phase order and applies the
+presentation-quarantine versus authority-safe-pause fault policy.

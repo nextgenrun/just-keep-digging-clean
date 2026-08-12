@@ -238,7 +238,7 @@ assert.doesNotMatch(updateSource, /const escPressed\s*=/);
 assert.match(uiSource, /starHeartOverlay\?\.isOpen\?\.\(\)/);
 assert.match(
   uiSource,
-  /gameState === "dialog"[\s\S]*?hideOverlay\?\.\(\)[\s\S]*?gameState = "playing"/,
+  /gameState === "dialog"[\s\S]*?hideOverlay\?\.\(\)[\s\S]*?releaseSceneSuspension\(this, "_dialogSuspension"\)/,
 );
 assert.ok(
   uiSource.indexOf("starHeartOverlay?.isOpen?.()")

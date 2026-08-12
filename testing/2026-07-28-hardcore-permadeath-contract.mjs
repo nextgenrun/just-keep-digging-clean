@@ -16,6 +16,8 @@ import {
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { sanitizePlayerPersistenceData } from "../values/playerPersistence.js";
 import { UI_NOTIFICATION_CAROUSEL_CONFIG } from "../values/uiNotificationCarousel.js";
+import { SceneModeController } from "../systems/runtime/SceneModeController.js";
+import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
 import { beginHardcorePermanentDeath } from
   "../world/playScene/HardcoreDeathBridge.js";
@@ -176,6 +178,7 @@ const retryModal = {
   },
   setError(message) { this.error = message; },
 };
+const retryModeController = new SceneModeController({ basePhase: SCENE_BASE_PHASES.ACTIVE });
 const retryScene = {
   _hardcoreRuntime: {
     system: retryModeSystem,
@@ -188,7 +191,8 @@ const retryScene = {
   saveSlot: 1,
   worldIdentity: "contract-retry-world",
   playerCharacterId: "default",
-  gameState: "playing",
+  sceneModeController: retryModeController,
+  setSceneBasePhase: (phase, context) => retryModeController.setBasePhase(phase, context),
   pendingDugTileSave: false,
   hidePauseMenu() {},
   lightSystem: { forceTorchOff() {} },
@@ -220,6 +224,7 @@ const retryScene = {
     start() {},
   },
 };
+Object.defineProperty(retryScene, "gameState", { get: () => retryModeController.legacyGameState });
 const originalConsoleError = console.error;
 console.error = () => {};
 try {

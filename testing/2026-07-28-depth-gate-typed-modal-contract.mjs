@@ -4,6 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { DepthGateSystem } from "../systems/progression/DepthGateSystem.js";
+import { SceneModeController } from "../systems/runtime/SceneModeController.js";
+import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 import { HardcoreModalOverlay } from "../ui/overlays/HardcoreModalOverlay.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -56,9 +58,11 @@ function createFixture(depth = 100) {
     flashes: [],
   };
   const modal = new TypedModalStub();
+  const sceneModeController = new SceneModeController({ basePhase: SCENE_BASE_PHASES.ACTIVE });
   const scene = {
     config: { topAirRows: 65 },
-    gameState: "playing",
+    sceneModeController,
+    acquireSceneSuspension: (kind, owner) => sceneModeController.acquire(kind, owner),
     playerController: {
       getPlayerTile: () => ({ ty: 65 + depth - 1 }),
       setControlsEnabled: enabled => calls.controls.push(enabled),
@@ -78,6 +82,10 @@ function createFixture(depth = 100) {
       },
     },
   };
+  Object.defineProperty(scene, "gameState", {
+    enumerable: true,
+    get: () => sceneModeController.legacyGameState,
+  });
   return {
     calls,
     modal,

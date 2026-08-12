@@ -1,6 +1,5 @@
 import { HardcoreModeSystem } from "../../systems/hardcore/HardcoreModeSystem.js";
 import { HardcoreStatusHud } from "../../systems/visual/HardcoreStatusHud.js";
-import { HardcoreModalOverlay } from "../../ui/overlays/HardcoreModalOverlay.js";
 import {
   HARDCORE_MODE_CONFIG,
   isHardcoreMode,
@@ -220,13 +219,14 @@ function updateDiagnostics(scene) {
 
 export function createHardcoreModeRuntime(scene) {
   if (scene._hardcoreRuntime) return scene._hardcoreRuntime;
-  const config = HARDCORE_MODE_CONFIG;
+  const config = HARDCORE_MODE_CONFIG, createModal = scene.uiPorts?.createHardcoreModalOverlay;
+  if (typeof createModal !== "function") throw new Error("Hardcore mode requires an injected modal overlay port");
   const system = new HardcoreModeSystem(scene.hardcoreModeData, config);
   const runtime = {
     config,
     system,
     hud: new HardcoreStatusHud(scene, config),
-    modal: new HardcoreModalOverlay(scene, config),
+    modal: createModal(scene, config),
     oneGpWarned: false,
     lastPersistedStress: system.state.stress,
     lastStressPersistAt: 0,

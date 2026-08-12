@@ -1,5 +1,6 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
+import { SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 import { WorldMapRenderer } from "./world-map/WorldMapRenderer.js";
 
 export class WorldMapOverlay {
@@ -8,7 +9,7 @@ export class WorldMapOverlay {
     this.discoverySystem = options.discoverySystem;
     this.activityRegistry = options.activityRegistry;
     this.isOpen = false;
-    this.previousGameState = "playing";
+    this._modeToken = null;
     this.dragPointerId = null;
     this.lastPointer = null;
     this.dynamicObjects = [];
@@ -335,8 +336,7 @@ export class WorldMapOverlay {
 
   open() {
     if (this.isOpen || this._destroyed) return false;
-    this.previousGameState = this.scene.gameState || "playing";
-    this.scene.gameState = "paused";
+    this._modeToken = this.scene.acquireSceneSuspension(SCENE_SUSPENSION_KINDS.PAUSE, "world-map");
     this.scene.playerController?.setControlsEnabled?.(false);
     this.scene.inputHandler?.setAimBoxVisible?.(false);
     this.discoverySystem.updatePlayerDiscovery(true);
@@ -352,10 +352,9 @@ export class WorldMapOverlay {
     this.root?.setVisible(false);
     this.dragPointerId = null;
     this.lastPointer = null;
-    this.scene.gameState = this.previousGameState || "playing";
-    if (this.scene.gameState === "playing") {
-      this.scene.playerController?.setControlsEnabled?.(true);
-    }
+    this._modeToken?.release?.();
+    this._modeToken = null;
+    this.scene.playerController?.setControlsEnabled?.(this.scene.sceneModeController.isGameplayActive);
     return true;
   }
 

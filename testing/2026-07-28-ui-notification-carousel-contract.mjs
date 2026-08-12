@@ -497,7 +497,7 @@ assert.ok(
   !hudSource.includes('key: "hud-status"'),
   "distinct HUD statuses must queue instead of overwriting each other",
 );
-assert.ok(setupSource.includes("this.uiNotifications = new UINotificationSystem(this)"));
+assert.ok(setupSource.includes("this.uiNotifications = uiPorts.createNotificationSystem(this)"));
 assert.ok(uiSource.includes("this.uiNotifications ||= new UINotificationSystem(this)"));
 assert.ok(updateSource.includes("hasEscapeClosableUi(this)"));
 assert.ok(updateSource.includes("depthMilestoneCinematic?.isActive?.()"));

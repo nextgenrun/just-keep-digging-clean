@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "inventory": {
-    "count": 249,
-    "sha256": "35c3ba04951d54ace1cfb14aca0e3571a4f0af39ef8a0e66df35c107693caa8b"
+    "count": 250,
+    "sha256": "abab02b8e3b2da0e5ce50851ea98b6275a6012b36e038fef8ad75e5ef26ce2b6"
   },
   "artifactReviewNameTokens": [
     "review",
@@ -72,9 +72,6 @@
     },
     "artifact-review": {
       "2026-07-17-survival-ual-player-profile-contract.mjs": "9b9cfbb6f443121998f36c91347add9ac3aa10d9e1af1df842625cf649e5b876",
-      "2026-07-26-milestone-pillar-review-contract.mjs": "1ca736f66b3a72c3d6c3fbd487ecdd965edbf1a8ff2b4fc00fedc7a3b1b39bdc",
-      "2026-07-28-starlight-talent-tree-contract.mjs": "78c0393e70c823f6ddf409c149e75457fcc527f352066819c5c85e73ae449f4b",
-      "2026-07-28-titan-lore-and-statue-inspection-contract.mjs": "62e46a354f06fddc0f69c01c753a1f22ef15980aae6e5459b99c31da3b204f9a",
       "2026-07-29-held-dig-next-five-review-contract.mjs": "df5cd742ccfaab0e62a422392c29d68d2f82cbab12a514376e2ac8c081911daa",
       "2026-07-29-surface-sky-props-v3-contract.mjs": "8beea829b9ff1a7e902f18726c682f367201875bddfc743e60038a7f0d6667b3",
       "2026-07-29-world-texture-native-density-contract.mjs": "9292143c787d8bd6350721bea6e387ad1009620cc9d779c137f2514eda1ba467",

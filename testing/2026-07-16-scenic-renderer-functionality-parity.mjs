@@ -136,6 +136,13 @@ for (const file of callSiteFiles) {
     invokedMethods.add(match[1]);
   }
 }
+const lifecycleSource = fs.readFileSync(
+  new URL("../world/playScene/PlaySceneLifecycle.js", import.meta.url),
+  "utf8",
+);
+if (lifecycleSource.includes('"worldRenderer"') && lifecycleSource.includes("resource.destroy()")) {
+  invokedMethods.add("destroy");
+}
 for (const required of ["create", "applyTileUpdate", "updateRenderWindow", "update", "updateSkyTileGlow", "updateChestGlow", "updateGlowCrystals", "setEmissiveRenderDepth", "destroy"]) {
   assert.ok(invokedMethods.has(required), `call-site audit should find ${required}`);
 }

@@ -1,15 +1,18 @@
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import { createModalShell } from "../../ui/UiModalShell.js";
 
 export class OverlayManager {
-  constructor(scene) {
+  constructor(scene, createModalShell) {
+    if (typeof createModalShell !== "function") {
+      throw new TypeError("OverlayManager requires an injected modal-shell factory");
+    }
     this.scene = scene;
+    this.createModalShell = createModalShell;
   }
 
   createOverlay() {
-    this.shell = createModalShell(this.scene, {
+    this.shell = this.createModalShell(this.scene, {
       title: "",
       subtitle: "",
       icon: "journal",
@@ -38,7 +41,7 @@ export class OverlayManager {
         this.scene.startRun();
       } else if (this.scene.gameState === "dialog") {
         this.hideOverlay();
-        this.scene.gameState = "playing";
+        this.scene.closeGameDialog?.();
       }
     });
   }
@@ -122,4 +125,3 @@ export class OverlayManager {
     this.shell = null;
   }
 }
-

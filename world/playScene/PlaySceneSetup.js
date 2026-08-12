@@ -25,7 +25,6 @@ import { createUalNativePlayerAnimations } from "../../player/UalNativePlayerAni
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
-import { SAVE_SCHEDULING_CONFIG } from "../../values/saveScheduling.js";
 import { WorldModel } from "../WorldModel.js";
 import { createWorldRenderer } from
   "../rendering/WorldRenderFactory.js?rev=20260729-native-density-v14";
@@ -62,9 +61,6 @@ import { MemoryReliquaryWorldSystem } from
   "../../systems/visual/MemoryReliquaryWorldSystem.js";
 import { WorldMapDiscoverySystem } from "../../systems/map/WorldMapDiscoverySystem.js";
 import { WorldMapActivityRegistry } from "../../systems/map/WorldMapActivityRegistry.js";
-import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
-import { createButton } from "../../ui/PhaserUiKit.js";
-import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
@@ -118,7 +114,6 @@ import { DepthMilestoneCinematic } from "../../systems/visual/DepthMilestoneCine
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ComboSystem } from "../../systems/combo/ComboSystem.js";
 import { StarPillarSystem } from "../../systems/visual/StarPillarSystem.js";
-import { CelestialTalentTreeView } from "../../ui/overlays/CelestialTalentTreeView.js";
 import { CaveTemplateVisualSystem } from "../../systems/visual/CaveTemplateVisualSystem.js";
 import { CaveAtmosphereSystem } from "../../systems/visual/CaveAtmosphereSystem.js";
 import { CaveHazardView } from "../../systems/visual/CaveHazardView.js";
@@ -146,14 +141,6 @@ import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionP
 import { HardcoreMemorialStore } from "../../systems/hardcore/HardcoreMemorialStore.js";
 import { HardcoreMemorialWorldSystem } from "../../systems/visual/HardcoreMemorialWorldSystem.js";
 
-const PLAY_SCENE_UI_FACTORIES = Object.freeze({
-  createButton,
-  createIconBadge,
-  createModalShell,
-  createCelestialTalentTreeView: (scene, options) => (
-    new CelestialTalentTreeView(scene, options)
-  ),
-});
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { TileDestructionFxSystem } from "../../systems/visual/TileDestructionFxSystem.js";
@@ -162,13 +149,12 @@ import { installJkdE2EHarness } from "../../testing/JkdE2EHarness.js?rev=2026072
 import { CaveEntryController } from "./CaveEntryController.js";
 import {
   createGraveborerWurmRuntime,
-  destroyGraveborerWurmRuntime,
 } from "./GraveborerWurmBridge.js";
 import {
   createHardcoreModeRuntime,
-  destroyHardcoreModeRuntime,
 } from "./HardcoreModeBridge.js";
 import { RandomEventBridge } from "./RandomEventBridge.js";
+import { installPlaySceneLifecycle } from "./PlaySceneLifecycle.js";
 import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
 import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
 import {
@@ -279,9 +265,9 @@ function installDebugUiSmokeHooks(scene) {
  * Entry point for PlayScene setup. Handles fatal errors with a visible error overlay.
  * Async so robot spritesheets can be loaded on-demand before animation creation.
  */
-export async function setupScene(data = {}) {
+export async function setupScene(data = {}, uiPorts = this.uiPorts) {
   try {
-    await _setupSceneSafe.call(this, data);
+    await _setupSceneSafe.call(this, data, uiPorts);
   } catch (err) {
     this.memoryReliquaryWorldSystem?.destroy();
     this.animatedCacheVisualSystem?.destroy();
@@ -292,26 +278,11 @@ export async function setupScene(data = {}) {
     this.runtimeFeatureAssetManager?.destroy();
     this.runtimeAssetLoadCoordinator?.destroy();
     reportPlaySceneSetupFailure(err);
-    // Show error on screen for diagnosis
+    this._saveWritesBlocked = true;
+    this.sceneModeController?.enterSafePause?.({ subsystem: "play-scene-setup" });
     try {
-      // Create visible error overlay
-      this.add.rectangle(this.cameras.main.width / 2, this.cameras.main.height / 2,
-        this.cameras.main.width, this.cameras.main.height, 0x000000, 0.95).setDepth(10000);
-      this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 40,
-        '⚠ GAME CRASH', {
-          fontFamily: 'Consolas, monospace', fontSize: '24px', color: '#ff4444'
-        }).setOrigin(0.5).setDepth(10001);
-      this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 10,
-        err?.message || String(err), {
-          fontFamily: 'Consolas, monospace', fontSize: '14px', color: '#ff8888',
-          wordWrap: { width: this.cameras.main.width - 80 }
-        }).setOrigin(0.5).setDepth(10001);
-      this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 80,
-        'Error logged to console. Click to return to menu.', {
-          fontFamily: 'Consolas, monospace', fontSize: '12px', color: '#aaaaaa'
-        }).setOrigin(0.5).setDepth(10001).setInteractive().on('pointerdown', () => {
-          this.scene.start('MainMenuScene');
-        });
+      this._recoveryOverlay ||= uiPorts.createRecoveryOverlay(this);
+      this._recoveryOverlay.show({ id: "play-scene-setup", phase: "loading", error: err });
     } catch (_) { /* ignore visual error */ }
     // Attempt to restore menu audio and return gracefully
     try {
@@ -446,7 +417,11 @@ async function _ensureUalNativePlayer(scene, profile) {
   console.log('[PlaySceneSetup] UAL profile-timed animations and measured hitbox ready');
 }
 
-async function _setupSceneSafe(data = {}) {
+async function _setupSceneSafe(data = {}, uiPorts = {}) {
+  if (typeof uiPorts.createNotificationSystem !== "function" || !uiPorts.worldUiFactories) {
+    throw new Error("[PlaySceneSetup] Required UI ports were not injected.");
+  }
+  this.uiPorts = uiPorts;
   this._isShuttingDown = false;
   this.saveSlot = data.saveSlot || 1;
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
@@ -736,7 +711,7 @@ async function _setupSceneSafe(data = {}) {
   this.inputHandler = new PlayerInputHandler(this);
   this.caveEntryController = new CaveEntryController(this);
   this.caveEntryController.create();
-  this.overlayManager = new OverlayManager(this);
+  this.overlayManager = new OverlayManager(this, uiPorts.worldUiFactories.createModalShell);
   this.comboSystem = new ComboSystem();
   this.specialBlockEffectsManager = new SpecialBlockEffectsManager(this);
   this.digSystem = new DigSystem(this.worldModel, this.worldRenderer, this.config, null, null, null, this.comboSystem, this.specialBlockEffectsManager);
@@ -776,7 +751,7 @@ async function _setupSceneSafe(data = {}) {
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
-  this.uiNotifications = new UINotificationSystem(this);
+  this.uiNotifications = uiPorts.createNotificationSystem(this);
   this.hudSystem = new HUDSystem(this, this.config.worldWidthTiles - 1, this.config.hudRefreshIntervalMs);
   this.hudSystem.setComboSystem(this.comboSystem);
   this.hudSystem.setSpecialBlockEffectsManager(this.specialBlockEffectsManager);
@@ -825,7 +800,7 @@ async function _setupSceneSafe(data = {}) {
     this,
     this.config,
     this.worldModel,
-    PLAY_SCENE_UI_FACTORIES,
+    uiPorts.worldUiFactories,
     this.saveSlot,
     this.retentionProgressSystem
   );
@@ -834,7 +809,7 @@ async function _setupSceneSafe(data = {}) {
     () => this.milestoneBoardSystem?.getBonuses?.() || {},
   );
   this.biomeSystem = new BiomeSystem(this, this.config, this.worldModel);
-  this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel, PLAY_SCENE_UI_FACTORIES, this.saveSlot);
+  this.campfireSystem = new CampfireSystem(this, this.config, this.worldModel, uiPorts.worldUiFactories, this.saveSlot);
   this.campfireSystem.create();
   this.digSystem.setCampfireSystem(this.campfireSystem);
   this.playerLevelSystem.setCampfireSystem(this.campfireSystem);
@@ -843,7 +818,7 @@ async function _setupSceneSafe(data = {}) {
     this,
     this.config,
     this.floatingTextSystem,
-    PLAY_SCENE_UI_FACTORIES,
+    uiPorts.worldUiFactories,
     null,
   );
   this.starPillarSystem.create();
@@ -1026,137 +1001,7 @@ async function _setupSceneSafe(data = {}) {
   installJkdE2EHarness(this);
 
   this._saveScheduler = new PlaySceneSaveScheduler(this);
-  this._autosaveInterval = setInterval(() => this.queueDugTilesSave(), SAVE_SCHEDULING_CONFIG.autosaveIntervalMs);
-
-  this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-    this._isShuttingDown = true;
-    this.caveEntryController?.destroy();
-    clearInterval(this._autosaveInterval);
-    this.queueDugTilesSave();
-    void this.flushDugTilesSave({ scheduled: false, force: true });
-    this._saveScheduler?.destroy();
-    if (this.player) {
-      this.player.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this._onAnimComplete);
-    }
-    this.thunderStrikeActionRuntime?.destroy();
-    this.ualActionContactTimeline?.destroy();
-    if (this._debugKey) { this._debugKey.off('down', this._debugKeyHandler); }
-    if (this._debugUiSmokeKeyHandler) { this.input.keyboard.off('keydown', this._debugUiSmokeKeyHandler); this._debugUiSmokeKeyHandler = null; }
-    if (this._resizeHandler) { this.scale.off('resize', this._resizeHandler); }
-    this.worldMapOverlay?.destroy?.();
-    this.worldMapOverlay = null;
-    this.randomEventBridge?.destroy();
-    this.worldModel?.setTileDamageGuard?.(null);
-    this.randomEventBridge = null;
-    this.specialTileSystem?.setChestEventHandler?.(null);
-    destroyHardcoreModeRuntime(this);
-    this.hardcoreMemorialSystem?.destroy();
-    this.hardcoreMemorialSystem = null;
-    this.hardcoreMemorialStore = null;
-    this.destroySceneUI();
-    this.titanClueSystem?.destroy();
-    this.npcManager?.destroy();
-    this.overlayManager?.destroy();
-    this.startZoneScenicBackgroundSystem?.destroy();
-    this.levelOneGroundFacadeSystem?.destroy();
-    this.startZoneGroundFacadeSystem?.destroy();
-    this.deepWorldLivingBackdropSystem?.destroy();
-    this.worldScenicFacadeSystem?.destroy();
-    this.worldBackgroundAmbientMotionSystem?.destroy();
-    this.levelOneLivingBackdropSystem?.destroy();
-    this.v11SkyIslandVisualSystem?.destroy();
-    this.worldRenderer?.destroy();
-    this.bgObjectPlacer?.destroy();
-    this.caveTemplateVisualSystem?.destroy();
-    this.caveAtmosphereSystem?.destroy();
-    this.caveHazardSystem?.destroy();
-    this.caveInteriorOcclusionSystem?.destroy();
-    this.specialBlockEffectsManager?.destroy();
-    this.milestoneBoardSystem?.destroy();
-    this.biomeSystem?.destroy();
-    this.campfireSystem?.destroy();
-    this.memoryReliquaryWorldSystem?.destroy();
-    this.memoryReliquaryWorldSystem = null;
-    this.animatedCacheVisualSystem?.destroy();
-    this.animatedCacheVisualSystem = null;
-    this.memoryReliquaryDiscoverySystem?.destroy();
-    this.memoryReliquaryDiscoverySystem = null;
-    this.interactiveWorldStateTextureBank?.destroy();
-    this.interactiveWorldStateTextureBank = null;
-    this.specialTileSystem?.destroy();
-    this.heavenblocksAccessSystem?.destroy();
-    this.heavenblocksPresentationSystem?.destroy();
-    this.nextPromiseHudSystem?.destroy();
-    this.miningIntentPreviewSystem?.destroy();
-    this._gpLabelText?.destroy();
-    this.groundFootstepFxSystem?.destroy();
-    this.tileDestructionFxSystem?.destroy();
-    this.hitstopSystem?.destroy();
-    this.screenFlashSystem?.destroy();
-    this.screenRecordSystem?.destroy();
-    this.pickaxeTrailSystem?.destroy();
-    this.flightFootParticleSystem?.destroy();
-    this.postFxSystem?.destroy();
-    this.playerBodyLanguage?.destroy();
-    this.playerContactShadow?.destroy();
-    this.playerMotionPolish?.destroy();
-    this.playerKinematicMotion?.destroy();
-    this.ualLocomotionTransitionSelector?.reset();
-    this.ualLocomotionTransitionSelector = null;
-    this.playerRigContact?.destroy();
-    this.ualMiningComboSelector?.reset?.();
-    this.ualMiningComboSelector = null;
-    this._ualFlightTravelVisual = false;
-    this.playerSolidOcclusion?.destroy();
-    this.ambientParticleSystem?.destroy();
-    this.depthMilestoneCinematic?.destroy();
-    this._livingDrillTween?.stop();
-    this._livingDrillOccluder?.destroy();
-    this.celestialEngineController?.destroy();
-    this.starPillarSystem?.destroy();
-    this.celestialTalentProgressionSystem?.destroy();
-    this.starHeartProgressionSystem?.destroy();
-    this.lootPickupFxSystem?.destroy();
-    this.relicDiscoveryFxSystem?.destroy();
-    this.floatingTextSystem?.destroy();
-    this.worldMapDiscoverySystem?.destroy();
-    this.worldMapActivityRegistry?.destroy();
-    this.weatherSystem?.destroy();
-    this.lightFrameSync?.destroy();
-    this.shaderSystem?.destroy();
-    this.atmosphereSystem?.destroy();
-    this.soundSystem?.destroy();
-    this.hudSystem?.destroy();
-    this.dayNightCycle?.destroy();
-    this.lightSystem?.destroy();
-    this.shadowMinerSystem?.destroy();
-    this.voiceLineManager?.destroy();
-    this.depthGateSystem?.destroy();
-    this.surfaceTunnelDoorSystem?.destroy();
-    this.openingFlightArtifactSystem?.destroy();
-    this.firstSessionPortalSystem?.destroy();
-    this.firstSessionPortalSystem = null;
-    this.systemIntroductionSystem?.destroy();
-    this.townSquareTutorialSystem?.destroy();
-    this.arcCoreVehicleSystem?.destroy();
-    destroyGraveborerWurmRuntime(this);
-    this.earthquakeSystem?.destroy();
-    this.earthquakeFeedbackUI?.destroy();
-    this.earthquakeHazardOverlay?.destroy();
-    this.earthquakeTileFeedbackSystem?.destroy();
-    this.shakeSystem?.stop();
-    this.runtimeFeaturePrefetchSystem?.destroy();
-    this.runtimeFeaturePrefetchSystem = null;
-    this.runtimeFeatureAssetManager?.destroy();
-    this.runtimeFeatureAssetManager = null;
-    this.runtimeAssetLoadCoordinator?.destroy();
-    this.runtimeAssetLoadCoordinator = null;
-
-    if (this._activeParticleChips) {
-      this._activeParticleChips.forEach(chip => { this.tweens.killTweensOf(chip); chip.destroy(); });
-      this._activeParticleChips = [];
-    }
-  });
+  installPlaySceneLifecycle(this);
 
   const worldIdentity = worldIdentityForSave;
   const cachedSave = this._cachedSaveData;
@@ -1181,5 +1026,11 @@ async function _setupSceneSafe(data = {}) {
   if (data.autoStart !== false) { this.startRun(); } else { this.enterTitleState(); }
   if (data.isNewSave === true) this.queueDugTilesSave?.();
   this._resizeHandler = (gameSize, baseSize, displaySize, previousWidth, previousHeight) => { if (this.resize) { this.resize(gameSize, baseSize, displaySize, previousWidth, previousHeight); } };
-  this.scale.on('resize', this._resizeHandler);
+  this.lifecycleRegistry.listen(
+    this.scale,
+    "resize",
+    this._resizeHandler,
+    undefined,
+    "scene-resize-listener",
+  );
 }

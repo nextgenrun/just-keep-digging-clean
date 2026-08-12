@@ -15,6 +15,7 @@ import { CaveWorldModel, makeCaveTileSaveKey } from "../../world/model/CaveWorld
 import { WorldRenderer } from "../../world/rendering/WorldRenderer.js";
 import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { ScreenFlashSystem } from "../../systems/visual/ScreenFlashSystem.js";
 import { CaveLevelPresentationSystem } from "../../systems/visual/CaveLevelPresentationSystem.js?rev=20260729-native-density-v14";
@@ -250,7 +251,8 @@ export class CaveScene extends Phaser.Scene {
     this.originScene.queueDugTilesSave?.();
     this.originScene.playerController?.setControlsEnabled(true);
     if (this.originScene.caveEntryController) this.originScene.caveEntryController.isTransitioning = false;
-    this.originScene.gameState = "playing";
+    this.originScene.sceneModeController?.clearSuspensions?.();
+    this.originScene.setSceneBasePhase?.(SCENE_BASE_PHASES.ACTIVE, { owner: "cave-exit" });
   }
 
   _returnToWorld() {

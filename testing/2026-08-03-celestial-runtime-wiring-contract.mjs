@@ -10,6 +10,8 @@ import { captureCelestialOverhaulState, initializeCelestialOverhaulRuntime } fro
   "../world/playScene/CelestialOverhaulRuntime.js";
 import { CelestialEngineController } from
   "../world/playScene/CelestialEngineController.js";
+import { resolveInteractionPriorities } from
+  "../world/playScene/interactionPriority.js";
 import { HollowSunEngine } from "../systems/celestial/HollowSunEngine.js";
 import { StarPillarSystem } from "../systems/visual/StarPillarSystem.js";
 
@@ -189,15 +191,17 @@ assert.ok(masteryHits.every(hit => hit.hitId.includes(":implosion:")));
   assert.deepEqual(flashes, ["CELESTIAL TALENT TREE UNAVAILABLE"]);
 }
 
-const [setupSource, uiSource, updateSource, pillarSource, groupSource] =
+const [setupSource, uiSource, updateSource, pillarSource, groupSource, portsSource] =
   await Promise.all([
     readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
     readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
     readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
     readFile(new URL("../systems/visual/StarPillarSystem.js", import.meta.url), "utf8"),
     readFile(new URL("../world/rendering/runtimeFeatureAssetGroups.js", import.meta.url), "utf8"),
+    readFile(new URL("../ui/scenes/PlayScenePorts.js", import.meta.url), "utf8"),
   ]);
-assert.match(setupSource, /createCelestialTalentTreeView/);
+assert.match(setupSource, /uiPorts\.worldUiFactories/);
+assert.match(portsSource, /createCelestialTalentTreeView/);
 assert.match(setupSource, /talentProgression: this\.celestialTalentProgressionSystem/);
 assert.match(setupSource, /showLegacyHud: false/);
 assert.match(uiSource, /captureCelestialOverhaulState\(this\)/);
@@ -205,7 +209,9 @@ assert.match(uiSource, /new CelestialActionBarSystem/);
 assert.match(uiSource, /new CelestialCurrencyHudSystem/);
 assert.match(uiSource, /getCelestialActionBarMetrics/);
 assert.match(updateSource, /celestialActionBarInputBridge\?\.update/);
-assert.match(updateSource, /pillarHasPriority/);
+assert.equal(resolveInteractionPriorities({ pillar: 2, npc: 3 }).pillar, true);
+assert.equal(resolveInteractionPriorities({ pillar: 3, npc: 2 }).pillar, false);
+assert.equal(resolveInteractionPriorities({ pillar: 2, specialTile: 2 }).pillar, true);
 assert.match(pillarSource, /getInteractionDistance\(playerTile\)/);
 assert.match(pillarSource, /queueDugTilesSave/);
 assert.match(pillarSource, /syncTalentProgress/);

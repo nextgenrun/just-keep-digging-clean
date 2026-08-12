@@ -5,6 +5,7 @@ import {
 } from "../../systems/hardcore/hardcoreMemorialRecord.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
+import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
 
 export function getHardcoreDepth(scene, playerTile = null) {
   const tile = playerTile || scene.playerController?.getPlayerTile?.();
@@ -172,7 +173,8 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
   scene.pendingDugTileSave = false;
   scene.hidePauseMenu?.();
   scene.lightSystem?.forceTorchOff?.();
-  scene.gameState = "dead";
+  scene.sceneModeController.clearSuspensions();
+  scene.setSceneBasePhase(SCENE_BASE_PHASES.DEAD, { owner: "hardcore-death" });
   scene.playerController?.setControlsEnabled?.(false);
   scene.isDigAnimating = false;
   scene.player?.anims?.stop?.();

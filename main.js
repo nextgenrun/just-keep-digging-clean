@@ -4,7 +4,7 @@ import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
 import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";
 import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
-import { PlayScene } from "./world/PlayScene.js?rev=20260729-native-density-v14";
+import { PlayScene } from "./ui/scenes/PlayScene.js?rev=20260812-stability-foundation";
 import { CaveScene } from "./ui/scenes/CaveScene.js?rev=20260729-native-density-v14";
 import {
   finalizeRenderDensityFoundation,
@@ -90,7 +90,10 @@ const phaserConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   callbacks: {
-    preBoot: game => installRenderDensityFoundation(game, renderDensityProfile),
+    preBoot: game => {
+      game.registry.set("gameplayCapabilities", gameplayCapabilities);
+      installRenderDensityFoundation(game, renderDensityProfile);
+    },
     postBoot: game => {
       finalizeRenderDensityFoundation(game, renderDensityProfile);
       runtimeCanarySystem.attachGame(game);

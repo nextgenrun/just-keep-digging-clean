@@ -20,6 +20,7 @@ import {
 } from "./GraveborerWurmBridge.js";
 import { updateHardcoreModeRuntime } from "./HardcoreModeBridge.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
+import { resolveInteractionPriorities } from "./interactionPriority.js";
 
 function syncProgressionGemPowerMax(scene) {
   const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
@@ -350,13 +351,12 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
  */
 export function updateScene(time, delta) {
   // Safety guard: if setup hasn't completed, skip update
-  if (!this.gameInputHandler) return;
+  if (!this.gameInputHandler) return false;
   if (this._hardcoreRuntime?.modal?.isVisible || this._randomEventModalVisible) {
     this.uiNotifications?.setPaused?.(true);
-    return;
+    return false;
   }
 
-  this.worldBackgroundMasterSystem?.update();
   const notificationInputBlocked = this.gameState !== "playing"
     || this._settingsKeyCaptureActive
     || this.depthMilestoneCinematic?.isActive?.()
@@ -365,28 +365,28 @@ export function updateScene(time, delta) {
 
   // 0. Handle global input (works in any state, including during popups)
   if (this.gameInputHandler.handleGlobalInput()) {
-    return; // Global input consumed, exit early
+    return false; // Global input consumed, exit early
   }
 
   if (this._settingsKeyCaptureActive) {
-    return;
+    return false;
   }
 
   if (this.gameInputHandler.handleEscapeInput()) {
-    return;
+    return false;
   }
 
   const keys = this.inputHandler.getKeys();
 
   if (!notificationInputBlocked && this.uiNotifications?.handleInput?.()) {
-    return;
+    return false;
   }
 
   // 2. Check for shop overlay closing (R key)
   if (this.shopOverlay && this.shopOverlay.isVisible && Phaser.Input.Keyboard.JustDown(keys.restart)) {
     if (this.soundSystem) this.soundSystem.playUiConfirm();
     this.shopOverlay.hide();
-    return; // Input consumed, exit early
+    return false; // Input consumed, exit early
   }
 
   // 3. Handle game-state-specific input
@@ -411,32 +411,16 @@ export function updateScene(time, delta) {
 
   // If input was handled in a non-playing state, skip the rest
   if (inputHandled && this.gameState !== "playing") {
-    return;
+    return false;
   }
 
   const samplePerformancePhases = shouldSamplePerformancePhases(this);
+  this._samplePerformancePhases = samplePerformancePhases;
 
   // 4. Update systems for all states
   _updateSystems.call(this, time, delta, keys, samplePerformancePhases);
 
-  // Update underground loop background visibility based on player depth
-  if (this.backgroundRenderer && this.playerController) {
-    const playerPos = this.playerController.getPlayerPosition();
-    if (playerPos) {
-      this.backgroundRenderer.updateUndergroundLoopVisibility(playerPos.y);
-    }
-  }
-
-  // Per-frame camera shake / look-ahead / depth-band zoom / UI zoom compensation
-  const cameraLightingStartedAtMs = samplePerformancePhases ? performanceNow() : null;
-  updateCameraSystems(this, time, delta);
-  updateLightingSystems(this, time, delta, this._framePlayerTile);
-  if (samplePerformancePhases) {
-    recordPerformanceSpan(
-      PERFORMANCE_TELEMETRY_CONFIG.phases.playCameraLighting,
-      cameraLightingStartedAtMs
-    );
-  }
+  return true;
 }
 
 /**
@@ -664,53 +648,24 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   const eventDistance = featureDistance("randomEvents", () => this.randomEventBridge?.getInteractionDistance?.(playerTile));
   const memoryReliquaryDistance = featureDistance("relics", () => this.memoryReliquaryWorldSystem?.getInteractionDistance?.(playerTile));
   const pillarDistance = featureDistance("constellations", () => this.starPillarSystem?.getInteractionDistance?.(playerTile));
-  const specialTileHasPriority = Number.isFinite(specialTileDistance)
-    && specialTileDistance <= Math.min(
-      milestoneDistance,
-      nearestNpcDistance,
-      titanStatueDistance,
-      eventDistance,
-      memoryReliquaryDistance,
-      pillarDistance,
-    );
-  const eventHasPriority = Number.isFinite(eventDistance)
-    && eventDistance < Math.min(
-      milestoneDistance,
-      nearestNpcDistance,
-      titanStatueDistance,
-      specialTileDistance,
-      memoryReliquaryDistance,
-      pillarDistance,
-    );
-  const memoryReliquaryHasPriority = Number.isFinite(memoryReliquaryDistance)
-    && memoryReliquaryDistance < Math.min(
-      milestoneDistance,
-      nearestNpcDistance,
-      titanStatueDistance,
-      specialTileDistance,
-      eventDistance,
-      pillarDistance,
-    );
-  const pillarHasPriority = Number.isFinite(pillarDistance)
-    && pillarDistance <= Math.min(
-      milestoneDistance,
-      nearestNpcDistance,
-      titanStatueDistance,
-      specialTileDistance,
-      eventDistance,
-      memoryReliquaryDistance,
-    );
+  const priority = resolveInteractionPriorities({
+    milestone: milestoneDistance,
+    npc: nearestNpcDistance,
+    titan: titanStatueDistance,
+    specialTile: specialTileDistance,
+    event: eventDistance,
+    memoryReliquary: memoryReliquaryDistance,
+    pillar: pillarDistance,
+  });
   this.memoryReliquaryWorldSystem?.setInteractionAllowed?.(
-    !arcCoreConsumedInteraction && memoryReliquaryHasPriority,
+    !arcCoreConsumedInteraction && priority.memoryReliquary,
   );
   const milestoneConsumedInteraction = featureAvailable("milestones") && this.milestoneBoardSystem?.update?.(
     playerTile,
     this.inputHandler?.getKeys?.(),
     {
       allowOpen: !arcCoreConsumedInteraction
-        && milestoneDistance
-        < Math.min(nearestNpcDistance, titanStatueDistance, specialTileDistance,
-          eventDistance, memoryReliquaryDistance, pillarDistance),
+        && priority.milestone,
     },
   ) === true;
   const titanConsumedInteraction = featureAvailable("titans") && this.worldRenderer
@@ -720,9 +675,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       {
           allowInspect: !arcCoreConsumedInteraction
           && !milestoneConsumedInteraction
-          && titanStatueDistance
-            < Math.min(milestoneDistance, nearestNpcDistance, specialTileDistance,
-              eventDistance, memoryReliquaryDistance, pillarDistance),
+          && priority.titan,
       },
     ) === true;
 
@@ -731,10 +684,10 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     !arcCoreConsumedInteraction
     && !milestoneConsumedInteraction
     && !titanConsumedInteraction
-    && !specialTileHasPriority
-    && !eventHasPriority
-    && !memoryReliquaryHasPriority
-    && !pillarHasPriority
+    && !priority.specialTile
+    && !priority.event
+    && !priority.memoryReliquary
+    && !priority.pillar
   ) {
     this.npcManager.checkNPCInteraction();
   }
@@ -742,8 +695,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Update NPC interact prompts (floating "Press E" text visibility)
   this.npcManager.updateInteractPrompts(
     playerTile,
-    Math.min(milestoneDistance, titanStatueDistance, specialTileDistance,
-      eventDistance, memoryReliquaryDistance, pillarDistance),
+    priority.npcCompetitionDistance,
   );
 
   // Integrated caves stay in PlayScene. Only explicit compact review mouths
@@ -752,10 +704,10 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     !arcCoreConsumedInteraction
     && !milestoneConsumedInteraction
     && !titanConsumedInteraction
-    && !specialTileHasPriority
-    && !eventHasPriority
-    && !memoryReliquaryHasPriority
-    && !pillarHasPriority
+    && !priority.specialTile
+    && !priority.event
+    && !priority.memoryReliquary
+    && !priority.pillar
     && featureAvailable("caves")
     && this.caveEntryController?.update(playerTile, keys)
   ) return;
@@ -953,11 +905,11 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 
   // Special tile interaction (E key for gamble/teleport tiles)
   if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
-    if (pillarHasPriority && this.starPillarSystem?.handleInteract?.(playerTile)) {
+    if (priority.pillar && this.starPillarSystem?.handleInteract?.(playerTile)) {
       return;
     }
 
-    if (featureAvailable("randomEvents") && eventHasPriority && this.randomEventBridge?.handleInteract?.()) {
+    if (featureAvailable("randomEvents") && priority.event && this.randomEventBridge?.handleInteract?.()) {
       return;
     }
 
@@ -966,7 +918,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       console.log("[HEAVENBLOCKS] Interaction successful:", heavenblocksResult.type, heavenblocksResult);
       return;
     }
-    if (featureAvailable("relics") && memoryReliquaryHasPriority) {
+    if (featureAvailable("relics") && priority.memoryReliquary) {
       const memoryResult = this.memoryReliquaryWorldSystem?.handleInteract?.()
         || { success: false };
       if (memoryResult.success) {

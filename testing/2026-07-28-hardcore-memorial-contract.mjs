@@ -14,6 +14,8 @@ import {
 import { HardcoreDeathRecapView } from "../ui/overlays/HardcoreDeathRecapView.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../values/hardcoreMemorials.js";
+import { SceneModeController } from "../systems/runtime/SceneModeController.js";
+import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 import {
   UAL_NATIVE_PLAYER_ASSET_PROFILE,
 } from "../values/ualNativePlayerAssetProfile.js";
@@ -357,8 +359,10 @@ graveSystem.destroy();
 let modalOptions = null;
 let controlsEnabled = true;
 let aimVisible = true;
+const modalModeController = new SceneModeController({ basePhase: SCENE_BASE_PHASES.ACTIVE });
 const modalScene = {
-  gameState: "playing",
+  sceneModeController: modalModeController,
+  acquireSceneSuspension: (kind, owner) => modalModeController.acquire(kind, owner),
   _hardcoreDeathInProgress: false,
   _hardcoreRuntime: {
     modal: {
@@ -378,6 +382,7 @@ const modalScene = {
     setVisible: value => { aimVisible = value; },
   },
 };
+Object.defineProperty(modalScene, "gameState", { get: () => modalModeController.legacyGameState });
 assert.equal(requestHardcoreMemorialInspection(modalScene, record), true);
 assert.equal(modalScene.gameState, "hardcore-modal");
 assert.equal(controlsEnabled, false);

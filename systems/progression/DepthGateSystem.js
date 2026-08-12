@@ -1,4 +1,5 @@
 import { DEPTH_GATE_CONFIG } from "../../values/depthGateConfig.js";
+import { SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 
 function normalizeGateThreshold(value) {
   const normalized = DEPTH_GATE_CONFIG.legacyThresholdAliases[value] ?? value;
@@ -16,7 +17,7 @@ export class DepthGateSystem {
     this.modal = typedConfirmationModal;
     this.accepted = new Set();
     this.activeGate = null;
-    this._previousGameState = "playing";
+    this._modeToken = null;
   }
 
   update() {
@@ -53,6 +54,8 @@ export class DepthGateSystem {
       this.modal.close?.();
     }
     this.activeGate = null;
+    this._modeToken?.release?.();
+    this._modeToken = null;
     this.modal = null;
     this.scene = null;
   }
@@ -61,10 +64,10 @@ export class DepthGateSystem {
     if (!gate || this.activeGate || this.modal.isVisible) return false;
 
     this.activeGate = gate;
-    this._previousGameState = this.scene.gameState && this.scene.gameState !== "depth-warning"
-      ? this.scene.gameState
-      : "playing";
-    this.scene.gameState = "depth-warning";
+    this._modeToken = this.scene.acquireSceneSuspension(
+      SCENE_SUSPENSION_KINDS.DEPTH_WARNING,
+      "depth-gate",
+    );
     this.scene.playerController?.setControlsEnabled(false);
     this.scene.earthquakeSystem?.setPaused(true);
     const opened = this.modal.showConfirmation({
@@ -110,8 +113,9 @@ export class DepthGateSystem {
   }
 
   _resumeScene() {
-    this.scene.gameState = this._previousGameState === "playing" ? "playing" : this._previousGameState;
-    this.scene.playerController?.setControlsEnabled(this.scene.gameState === "playing");
+    this._modeToken?.release?.();
+    this._modeToken = null;
+    this.scene.playerController?.setControlsEnabled(this.scene.sceneModeController.isGameplayActive);
     this.scene.earthquakeSystem?.setPaused(false);
     this._resetKeyboardState();
   }
@@ -128,4 +132,3 @@ export class DepthGateSystem {
     Object.values(keys).forEach(key => key?.reset?.());
   }
 }
-

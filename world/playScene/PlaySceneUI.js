@@ -12,26 +12,6 @@ import {
   SETTINGS_PANEL_LAYOUT,
   UI_FONTS,
 } from "../../values/uiLayout.js?rev=20260727-save-transfer-v1";
-import { createIconBadge, createModalShell } from "../../ui/UiModalShell.js";
-import {
-  createButton,
-  createFocusController,
-  createHintLegend,
-  createPanel,
-  createTabBar,
-} from "../../ui/PhaserUiKit.js";
-import { createSettingsPanelContent } from "../../ui/overlays/SettingsPanelContent.js";
-import { createSaveTransferPanelContent } from "../../ui/overlays/SaveTransferPanelContent.js";
-import { createJourneyPanelContent } from "../../ui/overlays/JourneyView.js";
-import { TitanArchiveView } from "../../ui/overlays/TitanArchiveView.js";
-import { createPauseFeatureLoadingView } from
-  "../../ui/components/PauseFeatureLoadingView.js";
-import { WorldMapOverlay } from "../../ui/overlays/WorldMapOverlay.js";
-import { UIMuteToggle } from "../../ui/hud/UIMuteToggle.js";
-import { UIInventoryPopup } from "../../ui/overlays/UIInventoryPopup.js";
-import { ShopOverlay } from "../../ui/overlays/ShopOverlay.js";
-import { XPProgressBar } from "../../ui/hud/XPProgressBar.js";
-import { UINotificationSystem } from "../../ui/UINotificationSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { CelestialActionBarSystem } from
   "../../systems/visual/CelestialActionBarSystem.js";
@@ -59,6 +39,7 @@ import {
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
 } from "../../values/runtimeAssetLoading.js";
 import { JOURNEY_CONFIG } from "../../values/journeyConfig.js";
+import { SCENE_BASE_PHASES, SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 import {
   getGraveborerWurmSaveData,
   loadGraveborerWurmSaveData,
@@ -68,11 +49,17 @@ import {
   loadHardcoreModeSaveData,
 } from "./HardcoreModeBridge.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
+import { enterSceneBasePhase, releaseSceneSuspension } from "./SceneModeBridge.js";
 
 /**
  * Mix in UI methods to PlayScene prototype
  */
-export function setupUIMethods(prototype) {
+export function setupUIMethods(prototype, dependencies) {
+  const { createButton, createFocusController, createHintLegend, createIconBadge,
+    createJourneyPanelContent, createModalShell, createPanel, createPauseFeatureLoadingView,
+    createSaveTransferPanelContent, createSettingsPanelContent, createTabBar, ShopOverlay,
+    TitanArchiveView, UIMuteToggle, UINotificationSystem, UIInventoryPopup, WorldMapOverlay,
+    XPProgressBar } = dependencies;
   prototype.createOverlay = function() {
     this.overlayManager.createOverlay();
   };
@@ -147,6 +134,8 @@ export function setupUIMethods(prototype) {
     this.celestialActionBarInputBridge = null;
     this.celestialActionBarSystem = null;
     this.celestialCurrencyHudSystem = null;
+    releaseSceneSuspension(this, "_dialogSuspension");
+    releaseSceneSuspension(this, "_pauseSuspension");
   };
 
   prototype.showOverlay = function(title, body) {
@@ -157,8 +146,16 @@ export function setupUIMethods(prototype) {
     this.overlayManager.hideOverlay();
   };
 
+  prototype.closeGameDialog = function() {
+    releaseSceneSuspension(this, "_dialogSuspension");
+    this.playerController?.setControlsEnabled?.(this.sceneModeController.isGameplayActive);
+  };
+
   prototype.showGameDialog = function(title, body) {
-    this.gameState = "dialog";
+    this._dialogSuspension ||= this.acquireSceneSuspension(
+      SCENE_SUSPENSION_KINDS.DIALOG,
+      "game-dialog",
+    );
     this.shopOverlay?.hide();
     this.overlayManager.showGameDialog(title, body);
   };
@@ -248,7 +245,10 @@ export function setupUIMethods(prototype) {
   // Unified pause menu implementation.
   prototype.showPauseMenu = function(options = {}) {
     if (this._pausePanel) return false;
-    this.gameState = "paused";
+    this._pauseSuspension ||= this.acquireSceneSuspension(
+      SCENE_SUSPENSION_KINDS.PAUSE,
+      "pause-menu",
+    );
     this.playerController.setControlsEnabled(false);
     this.openingFlightArtifactSystem?.view?.hideHud?.();
 
@@ -561,7 +561,7 @@ export function setupUIMethods(prototype) {
           const saveSlot = this.saveSlot || 1;
           const playerCharacterId = result.saveData?.playerCharacterId || this.playerCharacterId;
           this.hidePauseMenu();
-          this.gameState = "transitioning";
+          enterSceneBasePhase(this, SCENE_BASE_PHASES.TRANSITIONING, "save-import");
           this.scene.start("WorldLoadScene", {
             saveSlot,
             worldIdentity: `save-slot-${saveSlot}`,
@@ -927,8 +927,8 @@ export function setupUIMethods(prototype) {
       && this.overlayManager?.shell?.root?.visible
     ) {
       this.hideOverlay?.();
-      this.gameState = "playing";
-      this.playerController?.setControlsEnabled?.(true);
+      releaseSceneSuspension(this, "_dialogSuspension");
+      this.playerController?.setControlsEnabled?.(this.sceneModeController.isGameplayActive);
       return true;
     }
 
@@ -958,9 +958,9 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.resumeGame = function() {
-    this.gameState = "playing";
     this.hidePauseMenu();
-    this.playerController.setControlsEnabled(true);
+    releaseSceneSuspension(this, "_pauseSuspension");
+    this.playerController.setControlsEnabled(this.sceneModeController.isGameplayActive);
   };
 
   prototype._resetPlayerToSpawn = function() {
@@ -985,7 +985,7 @@ export function setupUIMethods(prototype) {
       } catch (error) {
         console.warn('[PlayScene] Pause cleanup failed while returning to the main menu:', error);
       }
-      this.gameState = "transitioning";
+      enterSceneBasePhase(this, SCENE_BASE_PHASES.TRANSITIONING, "return-main-menu");
 
       let saved = true;
       try {
@@ -1035,7 +1035,7 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.enterTitleState = function() {
-    this.gameState = "title";
+    enterSceneBasePhase(this, SCENE_BASE_PHASES.LOADING, "title-state");
     this.playerController.setControlsEnabled(false);
     this.isDigAnimating = false;
     this.aimBox.setVisible(false);
@@ -1049,7 +1049,7 @@ export function setupUIMethods(prototype) {
   };
 
   prototype.startRun = function() {
-    this.gameState = "playing";
+    enterSceneBasePhase(this, SCENE_BASE_PHASES.ACTIVE, "start-run");
     this.hideOverlay();
     this.playerController.setControlsEnabled(true);
     this.activeImpactFx = 0;
@@ -1074,12 +1074,12 @@ export function setupUIMethods(prototype) {
 
   prototype.restartRun = async function() {
     if (this._hardcoreDeathInProgress) return false;
-    this.gameState = "transitioning";
+    enterSceneBasePhase(this, SCENE_BASE_PHASES.TRANSITIONING, "restart-run");
     this.playerController?.setControlsEnabled?.(false);
     this.queueDugTilesSave();
     const saved = await this.flushDugTilesSave();
     if (saved === false) {
-      this.gameState = "playing";
+      this.setSceneBasePhase(SCENE_BASE_PHASES.ACTIVE, { owner: "restart-save-failed" });
       this.playerController?.setControlsEnabled?.(true);
       this.hudSystem?.flashStatus?.("Restart blocked • current position was not saved", UI_COLORS.danger, UI_CONFIG.flashRunOver);
       return false;

@@ -1,9 +1,19 @@
 import assert from "node:assert/strict";
 
 import { setupUIMethods } from "../world/playScene/PlaySceneUI.js";
+import { SceneModeController } from "../systems/runtime/SceneModeController.js";
+import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 
 const prototype = {};
-setupUIMethods(prototype);
+setupUIMethods(prototype, {});
+
+function attachSceneMode(scene) {
+  const controller = new SceneModeController({ basePhase: SCENE_BASE_PHASES.ACTIVE });
+  scene.sceneModeController = controller;
+  scene.setSceneBasePhase = (phase, context) => controller.setBasePhase(phase, context);
+  Object.defineProperty(scene, "gameState", { get: () => controller.legacyGameState });
+  return scene;
+}
 
 function deferred() {
   let resolve;
@@ -19,7 +29,7 @@ const calls = {
   starts: [],
   flushOptions: null,
 };
-const scene = Object.assign(Object.create(prototype), {
+const scene = attachSceneMode(Object.assign(Object.create(prototype), {
   hidePauseMenu() { calls.hide += 1; },
   queueDugTilesSave() { calls.queue += 1; },
   flushDugTilesSave(options) {
@@ -30,7 +40,7 @@ const scene = Object.assign(Object.create(prototype), {
   scene: {
     start(key) { calls.starts.push(key); },
   },
-});
+}));
 
 const firstExit = scene.returnToMainMenu();
 const duplicateExit = scene.returnToMainMenu();
@@ -49,14 +59,14 @@ const warnings = [];
 console.warn = (...args) => warnings.push(args);
 try {
   const saveFailureStarts = [];
-  const saveFailureScene = Object.assign(Object.create(prototype), {
+  const saveFailureScene = attachSceneMode(Object.assign(Object.create(prototype), {
     hidePauseMenu() {},
     queueDugTilesSave() {},
     async flushDugTilesSave() { throw new TypeError("simulated save teardown"); },
     scene: {
       start(key) { saveFailureStarts.push(key); },
     },
-  });
+  }));
   assert.equal(await saveFailureScene.returnToMainMenu(), true);
   assert.deepEqual(saveFailureStarts, ["MainMenuScene"]);
   assert.equal(warnings.length >= 2, true, "save failure must be reported without aborting exit");

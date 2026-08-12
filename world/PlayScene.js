@@ -1,55 +1,45 @@
-/**
- * PlayScene - Main game scene
- * Delegates setup to PlaySceneSetup and PlaySceneGameplay modules
- */
 import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260729-native-density-v14";
-import { setupUIMethods } from "./playScene/PlaySceneUI.js?rev=20260727-save-transfer-v1";
 import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260727-restart-lifecycle-v1";
 import { updateScene } from "./playScene/PlaySceneUpdate.js";
+import {
+  updatePlaySceneCameraPhase,
+  updatePlaySceneLightingPhase,
+  updatePlayScenePresentationPhase,
+  updatePlaySceneWorldPhase,
+} from "./playScene/PlaySceneFramePhases.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { PLAYER_STATS_CONFIG } from "../values/playerStats.js";
 import { PLAYER_ABILITIES_CONFIG } from "../values/playerAbilities.js";
 import { UI_CONFIG } from "../values/uiConfig.js";
 import { MINING_CONFIG } from "../values/miningConfig.js";
 import { WEATHER_CONFIG } from "../values/weatherConfig.js";
-import { installUiReviewHarness } from "../testing/UiReviewHarness.js";
 
-export class PlayScene extends Phaser.Scene {
-  constructor() {
-    super("PlayScene");
-    this.config = Object.freeze({
-      ...GAME_CONFIG,
-      ...PLAYER_STATS_CONFIG,
-      ...PLAYER_ABILITIES_CONFIG,
-      ...UI_CONFIG,
-      ...MINING_CONFIG,
-      weather: WEATHER_CONFIG,
-    });
-    this.gameState = "title";
-    this.isDigAnimating = false;
-    this.dugTileSaveStore = null;
-    this.openingFlightArtifactSystem = null;
-    this.starHeartProgressionSystem = null;
-    this.celestialEngineController = null;
-    this.tileHitOriginStrength = 0;
-    this.crouching = false;
-    this.paused = false;
-    this.isInDialogue = false;
-    this.isInShop = false;
-    this.hudReady = false;
-    this._lastCutscene = null;
-  }
-
-  async create(data = {}) {
-    await setupScene.call(this, data);
-    this._uiReviewHarness = installUiReviewHarness(this);
-  }
-
-  update(time, delta) {
-    updateScene.call(this, time, delta);
-  }
+export function createPlaySceneConfig() {
+  return Object.freeze({
+    ...GAME_CONFIG,
+    ...PLAYER_STATS_CONFIG,
+    ...PLAYER_ABILITIES_CONFIG,
+    ...UI_CONFIG,
+    ...MINING_CONFIG,
+    weather: WEATHER_CONFIG,
+  });
 }
 
-// Prototype methods — must be after class declaration (ES module hoisting rules)
-setupUIMethods(PlayScene.prototype);
-setupGameplayMethods(PlayScene.prototype);
+export function installPlaySceneWorldMethods(prototype) {
+  setupGameplayMethods(prototype);
+}
+
+export async function createPlaySceneWorld(scene, data, uiPorts) {
+  return setupScene.call(scene, data, uiPorts);
+}
+
+export function updatePlaySceneWorld(scene, time, delta) {
+  return updateScene.call(scene, time, delta);
+}
+
+export {
+  updatePlaySceneCameraPhase,
+  updatePlaySceneLightingPhase,
+  updatePlayScenePresentationPhase,
+  updatePlaySceneWorldPhase,
+};

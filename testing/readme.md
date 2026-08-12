@@ -12,6 +12,10 @@
   select the local `full-review` profile. The NPC shop interaction contract
   executes merchant selection and overlay admission instead of pinning source
   spelling in the production HTTP canary.
+- `2026-08-12-scene-runtime-stability-contract.mjs` injects presentation and
+  persistence failures, proves phase ordering/quarantine/safe blocking, checks
+  nested suspension restoration, and verifies idempotent reverse teardown plus
+  the world-to-UI composition boundary.
 
 - `2026-08-11-demo-mode-contract.mjs` proves the current default-on demo profile
   excludes Level Two, its gate and saved portals, Arc Core/Omega content,

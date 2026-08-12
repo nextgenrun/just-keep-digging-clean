@@ -2,6 +2,18 @@
 
 UI module — scenes.
 
+`PlayScene.js` is the Phaser composition root. It injects concrete modal,
+notification, HUD, inventory, shop, and recovery ports into the world layer;
+world modules no longer import UI implementations. Its read-only legacy
+`gameState`, `paused`, `isInDialogue`, and `isInShop` getters are backed by the
+scene mode controller while the migration continues.
+
+The live frame is registered across input, simulation, world, presentation,
+camera/lighting, and telemetry boundaries. A presentation fault quarantines
+only that registration. A progression, simulation, or persistence fault blocks
+input, prevents further save writes, and opens the authored recovery surface so
+the player can reload the previous valid snapshot or return to the menu.
+
 `BootScene.js` mini-preloads the regular loading-screen logo/background and
 the retained deferred-feature loading chrome before starting its full queue.
 `WorldLoadScene.js` uses the same pre-minigame progress/failure API while

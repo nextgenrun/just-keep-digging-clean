@@ -108,7 +108,9 @@ assert.doesNotMatch(queueSource, /this\.flushDugTilesSave\(\);/);
 assert.match(uiSource, /flushDugTilesSave = async function\(\{ scheduled = false, force = false \}/);
 assert.match(uiSource, /recordTiming/);
 const setupSource = readFileSync("world/playScene/PlaySceneSetup.js", "utf8");
-assert.match(setupSource, /SAVE_SCHEDULING_CONFIG\.autosaveIntervalMs/);
-assert.match(setupSource, /flushDugTilesSave\(\{ scheduled: false, force: true \}\)/);
+const lifecycleSource = readFileSync("world/playScene/PlaySceneLifecycle.js", "utf8");
+assert.match(lifecycleSource, /SAVE_SCHEDULING_CONFIG\.autosaveIntervalMs/);
+assert.match(lifecycleSource, /flushDugTilesSave\?\.\(\{ scheduled: false, force: true \}\)/);
+assert.match(setupSource, /installPlaySceneLifecycle\(this\)/);
 
 console.log("play scene save scheduling contract: ok");

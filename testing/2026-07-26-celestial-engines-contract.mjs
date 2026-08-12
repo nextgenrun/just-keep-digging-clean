@@ -275,17 +275,19 @@ assert.ok(
   ),
 );
 
-const [setupSource, updateSource, bootSource, pillarSource] = await Promise.all([
+const [setupSource, updateSource, bootSource, pillarSource, portsSource] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/scenes/BootScene.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/StarPillarSystem.js", import.meta.url), "utf8"),
+  readFile(new URL("../ui/scenes/PlayScenePorts.js", import.meta.url), "utf8"),
 ]);
 assert.match(setupSource, /new StarHeartProgressionSystem/);
 assert.match(setupSource, /new CelestialEngineController/);
 assert.match(updateSource, /celestialEngineController\?\.update/);
 assert.match(bootSource, /celestial-engines/);
-assert.match(setupSource, /createCelestialTalentTreeView/);
+assert.match(setupSource, /uiPorts\.worldUiFactories/);
+assert.match(portsSource, /createCelestialTalentTreeView/);
 assert.match(pillarSource, /createCelestialTalentTreeView/);
 assert.match(pillarSource, /celestialTalentProgressionSystem/);
 

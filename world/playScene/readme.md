@@ -2,6 +2,21 @@
 
 World layer module — playScene.
 
+## Composition and lifecycle boundary
+
+`ui/scenes/PlayScene.js` now owns Phaser composition. `world/PlayScene.js`
+exports only world setup, update, and gameplay adapters. Concrete UI classes
+arrive through `PlayScenePorts`; the world layer consumes factories without
+importing the UI layer.
+
+`PlaySceneLifecycle.js` replaces the manual shutdown chain with registry-owned
+listeners, autosave timing, abortable async work, and reverse-order system
+teardown. `PlaySceneFramePhases.js` separates world, presentation, camera, and
+lighting boundaries from the authority update. `interactionPriority.js` is the
+single pure arbitration rule for Milestone, NPC, Titan, special-tile, event,
+Reliquary, and Star Pillar prompts, preventing independent comparisons from
+silently disagreeing.
+
 `PlayerInputHandler` resolves mining targets through the actual player body AABB. The shared resolver is used unchanged by main-world and compact-cave gameplay, so directional aim never selects a tile occupied by the taller UAL collider.
 
 `MouseDigInputController` adds primary-click and held-click mining without

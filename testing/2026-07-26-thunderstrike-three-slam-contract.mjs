@@ -292,6 +292,10 @@ const gameplaySource = readFileSync(
   new URL("../world/playScene/PlaySceneGameplay.js", import.meta.url),
   "utf8",
 );
+const lifecycleSource = readFileSync(
+  new URL("../world/playScene/PlaySceneLifecycle.js", import.meta.url),
+  "utf8",
+);
 const updateSource = readFileSync(
   new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url),
   "utf8",
@@ -376,7 +380,9 @@ const indicatorAssets = indicatorAssetNames.map((name) => readFileSync(
 
 assert.match(setupSource, /new ThunderStrikeActionRuntime\(this\)/);
 assert.match(setupSource, /this\._isShuttingDown = false/);
-assert.match(setupSource, /SHUTDOWN[\s\S]{0,120}this\._isShuttingDown = true/);
+assert.match(lifecycleSource, /SHUTDOWN/);
+assert.match(lifecycleSource, /scene\._isShuttingDown = true/);
+assert.match(lifecycleSource, /"thunderStrikeActionRuntime"/);
 assert.match(
   gameplaySource,
   /this\._isShuttingDown \|\| !this\.player\?\.anims \|\| !this\.playerController/,

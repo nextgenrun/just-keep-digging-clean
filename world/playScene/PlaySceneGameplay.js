@@ -31,6 +31,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { setBlockingSurfaceOpen } from "./SceneModeBridge.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -368,9 +369,7 @@ export function setupGameplayMethods(prototype) {
     }
   };
 
-  prototype.setShopOpen = function(open) {
-    if (this.playerController) this.playerController.setControlsEnabled(!open);
-  };
+  prototype.setShopOpen = function(open) { setBlockingSurfaceOpen(this, open); };
 
   prototype.queueDigImpactFeedback = function(feedback) {
     if (!feedback?.result) { this._pendingDigImpactFeedback = null; return; }

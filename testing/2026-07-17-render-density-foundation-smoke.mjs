@@ -173,7 +173,11 @@ const mainSource = fs.readFileSync(new URL("../main.js", import.meta.url), "utf8
 assert.match(mainSource, /type:\s*renderDensityProfile\.rendererMode === "auto" \? Phaser\.AUTO : Phaser\.WEBGL/);
 assert.match(mainSource, /width:\s*renderDensityProfile\.backingWidth/);
 assert.match(mainSource, /height:\s*renderDensityProfile\.backingHeight/);
-assert.match(mainSource, /preBoot:\s*game => installRenderDensityFoundation/);
+assert.match(
+  mainSource,
+  /preBoot:\s*game =>\s*\{[\s\S]{0,240}installRenderDensityFoundation\(game, renderDensityProfile\)/,
+);
+assert.match(mainSource, /game\.registry\.set\("gameplayCapabilities", gameplayCapabilities\)/);
 assert.match(
   mainSource,
   /postBoot:\s*game =>\s*(?:\{\s*)?finalizeRenderDensityFoundation\(game, renderDensityProfile\)/,

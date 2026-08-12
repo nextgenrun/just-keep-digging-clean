@@ -217,16 +217,19 @@ const [
   uiSource,
   artifactSystemSource,
   legacyRuntimeSource,
+  lifecycleSource,
 ] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/onboarding/OpeningFlightArtifactSystem.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/onboarding/OpeningFlightLegacyRuntime.js", import.meta.url), "utf8"),
+  readFile(new URL("../world/playScene/PlaySceneLifecycle.js", import.meta.url), "utf8"),
 ]);
 assert.match(setupSource, /new OpeningFlightArtifactSystem\(this\)/);
 assert.match(setupSource, /openingFlightArtifactSystem\?\.create\(\)/);
-assert.match(setupSource, /openingFlightArtifactSystem\?\.destroy\(\)/);
+assert.match(lifecycleSource, /"openingFlightArtifactSystem"/);
+assert.match(lifecycleSource, /resource\.destroy\(\)/);
 assert.match(updateSource, /openingFlightArtifactSystem\?\.update\(delta\)/);
 assert.doesNotMatch(updateSource, /handleStarterLevelUp|levelUpPopup/);
 assert.match(uiSource, /openingFlightArtifactSystem\?\.loadSaveData/);

@@ -167,7 +167,7 @@ export class GameInputHandler {
         justDown(keys.interact) ||
         this.playerInput.hasMovementInput()) {
       this.scene.hideOverlay();
-      this.scene.gameState = "playing";
+      this.scene.closeGameDialog?.();
       return true;
     }
     return false;

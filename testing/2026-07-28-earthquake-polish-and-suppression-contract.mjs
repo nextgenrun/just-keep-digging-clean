@@ -139,11 +139,12 @@ function imageDouble() {
   feedback.destroy();
 }
 
-const [systemSource, setupSource, shopSource, tileFxSource] = await Promise.all([
+const [systemSource, setupSource, shopSource, tileFxSource, lifecycleSource] = await Promise.all([
   readSource("systems/environment/EarthquakeSystem.js"),
   readSource("world/playScene/PlaySceneSetup.js"),
   readSource("ui/overlays/ShopOverlay.js"),
   readSource("systems/visual/EarthquakeTileFeedbackSystem.js"),
+  readSource("world/playScene/PlaySceneLifecycle.js"),
 ]);
 
 assert.ok(systemSource.includes("syncSuppression()"));
@@ -152,7 +153,7 @@ assert.ok(systemSource.includes("earthquakeTileFeedbackSystem?.showDamage?.({"))
 assert.ok(systemSource.includes("earthquakeTileFeedbackSystem?.showCaveInFracture?.({"));
 assert.ok(systemSource.includes("earthquakeTileFeedbackSystem?.showRestore?.({"));
 assert.ok(setupSource.includes("new EarthquakeTileFeedbackSystem(this)"));
-assert.ok(setupSource.includes("earthquakeTileFeedbackSystem?.destroy()"));
+assert.ok(lifecycleSource.includes('"earthquakeTileFeedbackSystem"'));
 assert.ok(shopSource.includes("earthquakeSystem?.syncSuppression?.()"));
 assert.ok(shopSource.includes("upgrade.purchaseCopy"));
 assert.ok(!tileFxSource.includes("add.graphics"));

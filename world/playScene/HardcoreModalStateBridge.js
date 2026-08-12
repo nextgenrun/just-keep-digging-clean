@@ -2,11 +2,15 @@ import {
   buildHardcoreDeathRecapPages,
   sanitizeHardcoreMemorialRecord,
 } from "../../systems/hardcore/hardcoreMemorialRecord.js";
+import { SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 
 export function enterHardcoreBlockingModal(scene) {
   scene.hidePauseMenu?.();
   scene.shopOverlay?.hide?.();
-  scene.gameState = "hardcore-modal";
+  scene._hardcoreModalSuspension ||= scene.acquireSceneSuspension(
+    SCENE_SUSPENSION_KINDS.HARDCORE_MODAL,
+    "hardcore-modal",
+  );
   scene.playerController?.setControlsEnabled?.(false);
   scene.isDigAnimating = false;
   scene.aimBox?.setVisible?.(false);
@@ -14,8 +18,9 @@ export function enterHardcoreBlockingModal(scene) {
 
 export function leaveHardcoreBlockingModal(scene) {
   if (scene._hardcoreDeathInProgress) return;
-  scene.gameState = "playing";
-  scene.playerController?.setControlsEnabled?.(true);
+  scene._hardcoreModalSuspension?.release?.();
+  scene._hardcoreModalSuspension = null;
+  scene.playerController?.setControlsEnabled?.(scene.sceneModeController.isGameplayActive);
   scene.aimBox?.setVisible?.(true);
 }
 
