@@ -43,11 +43,11 @@ ui/           ← Layer 3: Reads from all layers above
 
 ## Active Gameplay Profile
 
-`values/gameplayDevFlags.js` currently sets `demoMode: true`. The demo profile
-excludes Level Two and its gate, both Arc Core upgrades and runtime assets,
-developer cheats, and screen capture. Set that one flag to `false` to restore
-the full-game feature set; individual systems must use the shared feature
-helpers rather than bypassing the profile.
+`values/gameplayCapabilities.js` owns the immutable `demo` and `full-review`
+profiles. Production always resolves `demo`, excluding Level Two and its gate,
+Arc Core, Heavenblocks, developer cheats, and screen capture. Local review can
+request `?gameplayProfile=full-review`; remote and production hosts ignore that
+override. `gameplayDevFlags.js` is the compatibility facade for untouched code.
 
 Runtime scenic assets use one prioritized PlayScene loading lane: image decode
 is moved to `createImageBitmap`, original source dimensions are preserved, and

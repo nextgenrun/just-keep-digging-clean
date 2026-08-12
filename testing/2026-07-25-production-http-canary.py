@@ -109,9 +109,8 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
         build_id,
         "world/playScene/NPCManager.js",
         (
-            '"boboMerchant"',
+            "export class NPCManager",
             "checkNPCInteraction()",
-            "this.scene.shopOverlay.show(nearestNPC.merchantId)",
             "getInteractionHealthSnapshot()",
         ),
     )

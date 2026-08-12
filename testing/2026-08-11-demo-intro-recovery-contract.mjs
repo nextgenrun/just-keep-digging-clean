@@ -31,8 +31,8 @@ assert.equal(
 assert.equal(existsSync(resolve(root, APPROVED_HUD_SKIN.paths.inventory)), true);
 assert.equal(HUD_QUICK_CONTROLS.inventory.width, 94);
 assert.equal(HUD_QUICK_CONTROLS.inventory.height, 94);
-assert.equal(HUD_QUICK_CONTROLS.inventory.keyOffsetX, 25);
-assert.equal(HUD_QUICK_CONTROLS.inventory.keyOffsetY, 21);
+assert.equal(HUD_QUICK_CONTROLS.inventory.keyOffsetX, 27);
+assert.equal(HUD_QUICK_CONTROLS.inventory.keyOffsetY, 25);
 assert.equal(HUD_QUICK_CONTROLS.pause.label, "{key}  MENU");
 
 assert.match(NEW_RUN_SETUP_CONFIG.copy.hardcoreBody, /2 lives.*first revive free/s);
@@ -83,7 +83,8 @@ const startMenu = read("ui/scenes/StartMenuScene.js");
 assert.match(startMenu, /new NewRunSetupOverlay\(this\)/);
 assert.doesNotMatch(startMenu, /new StartModeSelectionOverlay|new StartTutorialChoiceOverlay/);
 const quickControls = read("systems/visual/HudQuickControls.js");
-assert.match(quickControls, /add\.zone/);
+assert.match(quickControls, /setInteractive\(\{ useHandCursor: true \}\)/);
+assert.match(quickControls, /inventoryHit = this\.inventoryContainer/);
 assert.match(quickControls, /getKeyLabel\("inventory"\)/);
 assert.match(quickControls, /getKeyLabel\("pause"\)/);
 const playUi = read("world/playScene/PlaySceneUI.js");

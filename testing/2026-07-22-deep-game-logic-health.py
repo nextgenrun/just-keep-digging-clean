@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -18,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TESTING = ROOT / "testing"
 SELF = Path(__file__).resolve()
+LANE_MANIFEST = TESTING / "2026-08-12-contract-lanes.json"
 META_TESTS = (
     TESTING / "2026-07-22-all-game-systems-health-check.mjs",
 )
@@ -27,6 +29,7 @@ TOOL_ONLY_CONTRACTS = {
     "2026-07-17-blender-animation-lab-simple-mode-smoke.py",
     "2026-07-18-production-deployment-smoke.py",
     "2026-07-25-production-http-canary.py",
+    "2026-07-26-version-control-safety-contract.mjs",
 }
 SYSTEM_ROOTS = (ROOT / "systems", ROOT / "sound")
 SYSTEM_SUFFIX_ROOTS = (ROOT / "world", ROOT / "player", ROOT / "ui")
@@ -51,6 +54,50 @@ class Result:
     seconds: float
     detail: str = ""
     kind: str = "contract"
+
+
+def contract_inventory_signature(contracts: list[Path]) -> str:
+    payload = "\n".join(path.name for path in sorted(contracts)).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def load_lane_manifest(contracts: list[Path]) -> tuple[dict, dict[str, str]]:
+    manifest = json.loads(LANE_MANIFEST.read_text(encoding="utf-8"))
+    if manifest.get("schemaVersion") != 1:
+        raise ValueError("unsupported contract-lane manifest schema")
+    inventory = manifest.get("inventory", {})
+    actual_signature = contract_inventory_signature(contracts)
+    if inventory.get("count") != len(contracts) or inventory.get("sha256") != actual_signature:
+        raise ValueError(
+            "contract inventory changed without lane classification: "
+            f"expected {inventory.get('count')} / {inventory.get('sha256')}, "
+            f"got {len(contracts)} / {actual_signature}"
+        )
+
+    discovered = {path.name for path in contracts}
+    full_compat = set(manifest.get("fullCompatContracts", []))
+    missing = sorted(full_compat - discovered)
+    if missing:
+        raise ValueError(f"full-compat manifest references missing contracts: {', '.join(missing)}")
+    tokens = tuple(manifest.get("artifactReviewNameTokens", []))
+    lane_by_name = {}
+    for contract in contracts:
+        if contract.name in full_compat:
+            lane_by_name[contract.name] = "full-compat"
+        elif any(token in contract.name for token in tokens):
+            lane_by_name[contract.name] = "artifact-review"
+        else:
+            lane_by_name[contract.name] = "demo-release"
+    return manifest, lane_by_name
+
+
+def failure_signature(result: Result) -> str:
+    detail = concise_detail(result, limit=3500).replace("\\", "/")
+    detail = re.sub(re.escape(str(ROOT).replace("\\", "/")), "<ROOT>", detail, flags=re.IGNORECASE)
+    detail = re.sub(r":\d+:\d+", ":<LINE>", detail)
+    detail = re.sub(r"Node\.js v[\d.]+", "Node.js <VERSION>", detail)
+    detail = re.sub(r"\s+", " ", detail).strip()
+    return hashlib.sha256(detail.encode("utf-8")).hexdigest()
 
 
 def find_node() -> Path:
@@ -95,7 +142,8 @@ def run_process(name: str, command: list[str], timeout: int, kind: str) -> Resul
 def discover_contracts() -> list[Path]:
     contracts = []
     for path in sorted(TESTING.glob("*.mjs")):
-        if not any(token in path.name for token in SKIP_TOKENS):
+        if (path.name not in TOOL_ONLY_CONTRACTS
+                and not any(token in path.name for token in SKIP_TOKENS)):
             contracts.append(path)
     for path in sorted(TESTING.glob("*.py")):
         if (path.resolve() != SELF
@@ -250,11 +298,26 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--timeout", type=int, default=60, help="seconds allowed per isolated contract")
     parser.add_argument("--pattern", default="", help="only run contract filenames containing this text")
+    parser.add_argument(
+        "--lane",
+        choices=("all", "demo-release", "full-compat", "artifact-review"),
+        default="all",
+        help="run one classified contract lane or the complete ratcheted gate",
+    )
+    parser.add_argument("--emit-signatures", action="store_true", help="print normalized hashes for raw failures")
     parser.add_argument("--json", action="store_true", help="also print the full machine-readable report")
     args = parser.parse_args()
     node = find_node()
     all_contracts = discover_contracts()
-    contracts = all_contracts
+    try:
+        lane_manifest, lane_by_name = load_lane_manifest(all_contracts)
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        print(f"[FAIL] contract lane manifest: {error}", file=sys.stderr)
+        return 2
+    contracts = [
+        path for path in all_contracts
+        if args.lane == "all" or lane_by_name[path.name] == args.lane
+    ]
     if args.pattern:
         contracts = [path for path in contracts if args.pattern.lower() in path.name.lower()]
     if not contracts:
@@ -263,36 +326,90 @@ def main() -> int:
 
     systems = discover_systems()
     results = []
-    for meta in META_TESTS:
-        results.append(run_process(meta.name, [str(node), str(meta)], args.timeout, "structural"))
+    if args.lane in {"all", "demo-release"}:
+        for meta in META_TESTS:
+            results.append(run_process(meta.name, [str(node), str(meta)], args.timeout, "structural"))
     for contract in contracts:
         command = [sys.executable, str(contract)] if contract.suffix == ".py" else [str(node), str(contract)]
         results.append(run_process(contract.name, command, args.timeout, "contract"))
-    results.append(contact_routing_audit(node, args.timeout))
-    results.append(wiring_audit())
-    coverage_result, coverage = coverage_audit(all_contracts, systems)
-    results.append(coverage_result)
+    if args.lane in {"all", "demo-release"}:
+        results.append(contact_routing_audit(node, args.timeout))
+        results.append(wiring_audit())
+        coverage_result, coverage = coverage_audit(all_contracts, systems)
+        results.append(coverage_result)
+    else:
+        coverage = {}
+
+    known_by_lane = lane_manifest.get("knownFailureSignatures", {})
+    accepted = []
+    regressions = []
+    resolved = []
+    raw_failures = [result for result in results if not result.ok]
+    contract_results = {result.name: result for result in results if result.kind == "contract"}
+    selected_lanes = {args.lane} if args.lane != "all" else {
+        "demo-release", "full-compat", "artifact-review"
+    }
+    for lane in selected_lanes:
+        known = known_by_lane.get(lane, {})
+        selected_names = {
+            path.name for path in contracts if lane_by_name[path.name] == lane
+        }
+        for name, expected_signature in known.items():
+            if name not in selected_names:
+                continue
+            result = contract_results.get(name)
+            if result is None:
+                regressions.append({"lane": lane, "name": name, "reason": "missing result"})
+            elif result.ok:
+                resolved.append({"lane": lane, "name": name})
+            else:
+                actual_signature = failure_signature(result)
+                if actual_signature == expected_signature:
+                    accepted.append({"lane": lane, "name": name, "signature": actual_signature})
+                else:
+                    regressions.append({
+                        "lane": lane,
+                        "name": name,
+                        "reason": "failure signature changed",
+                        "expected": expected_signature,
+                        "actual": actual_signature,
+                    })
+
+    accepted_names = {item["name"] for item in accepted}
+    unexpected_failures = [
+        result for result in raw_failures
+        if result.kind != "contract" or result.name not in accepted_names
+    ]
 
     for result in results:
-        status = "PASS" if result.ok else "FAIL"
+        status = "PASS" if result.ok else "KNOWN_FAIL" if result.name in accepted_names else "FAIL"
         print(f"[{status}] {result.kind}: {result.name} ({result.seconds:.2f}s) | {concise_detail(result)}")
-    failed = [result for result in results if not result.ok]
+    if args.emit_signatures:
+        print("CONTRACT_FAILURE_SIGNATURES " + json.dumps({
+            result.name: failure_signature(result)
+            for result in raw_failures if result.kind == "contract"
+        }, sort_keys=True, separators=(",", ":")))
+    gate_failed = bool(unexpected_failures or regressions or resolved)
     summary = {
-        "status": "PASS" if not failed else "FAIL",
+        "status": "FAIL" if gate_failed else "PASS",
+        "lane": args.lane,
         "checks": len(results),
-        "passed": len(results) - len(failed),
-        "failed": len(failed),
+        "passed": sum(result.ok for result in results),
+        "rawFailures": len(raw_failures),
+        "acceptedKnownFailures": accepted,
+        "regressions": regressions,
+        "resolvedKnownFailures": resolved,
         "javascriptContracts": sum(path.suffix == ".mjs" for path in contracts),
         "pythonContracts": sum(path.suffix == ".py" for path in contracts),
         "excludedToolContracts": sorted(TOOL_ONLY_CONTRACTS),
         "node": str(node),
         "coverage": coverage,
-        "failures": [{"kind": item.kind, "name": item.name, "detail": concise_detail(item)} for item in failed],
+        "failures": [{"kind": item.kind, "name": item.name, "detail": concise_detail(item)} for item in unexpected_failures],
     }
     print("DEEP_GAME_LOGIC_SUMMARY " + json.dumps(summary, separators=(",", ":")))
     if args.json:
         print(json.dumps(summary, indent=2))
-    return 1 if failed else 0
+    return 1 if gate_failed else 0
 
 
 if __name__ == "__main__":

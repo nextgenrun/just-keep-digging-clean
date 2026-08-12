@@ -235,7 +235,7 @@ loot.maxActiveSprites = 2; loot.showResourcePickup({ worldX: 20, worldY: 30, res
 assert.equal(loot.activeSprites.length, 2); assert.deepEqual(loot._worldToScreen(20, 30), { x: 22, y: 23 }); loot.destroy(); assert.equal(loot.activeSprites.length, 0);
 
 // Notifications replace keyed entries, dedupe repeats, enforce caps, and clear timers/actors.
-const noticeScene = makeScene(false); const notices = new UINotificationSystem(noticeScene, { maxToasts: 2, dedupeWindowMs: 5000 });
+const noticeScene = makeScene(false); const notices = new UINotificationSystem(noticeScene, { enabled: true, maxToasts: 2, dedupeWindowMs: 5000 });
 assert.equal(notices.dragController.zone.draggable, true);
 const keyed = notices.show("one", { key: "status" });
 assert.equal(notices.show("updated", { key: "status" }), keyed); assert.equal(keyed.message, "updated");

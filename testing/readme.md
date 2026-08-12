@@ -1,5 +1,18 @@
 # Testing
 
+- `2026-07-22-deep-game-logic-health.py --lane demo-release` is the strict
+  production-demo gate. `--lane full-compat` and `--lane artifact-review`
+  accept only the exact reviewed failure hashes in
+  `2026-08-12-contract-lanes.json`; a new test, changed failure, or resolved
+  baseline fails until it is deliberately classified.
+- `2026-08-12-architecture-ratchet.mjs` blocks missing imports, cycles, new
+  layer violations, larger oversized modules, new direct scene-state/storage
+  writers, and unclassified unreachable runtime modules.
+- `2026-08-12-gameplay-capabilities-contract.mjs` proves production cannot
+  select the local `full-review` profile. The NPC shop interaction contract
+  executes merchant selection and overlay admission instead of pinning source
+  spelling in the production HTTP canary.
+
 - `2026-08-11-demo-mode-contract.mjs` proves the current default-on demo profile
   excludes Level Two, its gate and saved portals, Arc Core/Omega content,
   developer cheats, and screen recording across state, UI, input, rendering,

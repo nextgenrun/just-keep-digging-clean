@@ -19,6 +19,7 @@ import {
   resolveRuntimeAssetQueueEnabled,
 } from "./values/runtimeAssetLoading.js";
 import { waitForUiFonts } from "./values/uiLayout.js";
+import { resolveGameplayCapabilities } from "./values/gameplayCapabilities.js";
 
 const runtimeCanarySystem = installRuntimeCanarySystem({
   globalRef: window,
@@ -50,6 +51,11 @@ document.addEventListener("keydown", event => {
 
 const renderDensityProfile = resolveRenderDensityProfile(globalThis.window?.location?.search || "");
 const runtimeAssetQueueEnabled = resolveRuntimeAssetQueueEnabled();
+const gameplayCapabilities = resolveGameplayCapabilities({
+  search: globalThis.window?.location?.search || "",
+  hostname: globalThis.window?.location?.hostname || "",
+  allowProfileOverride: globalThis.__DIG_GAME_PRODUCTION__ !== true,
+});
 
 const phaserConfig = {
   type: renderDensityProfile.rendererMode === "auto" ? Phaser.AUTO : Phaser.WEBGL,
@@ -65,6 +71,7 @@ const phaserConfig = {
     preserveDrawingBuffer: GAME_CONFIG.rendererQuality.preserveDrawingBuffer,
   },
   backgroundColor: "#111820",
+  gameplayCapabilities,
   ...(runtimeAssetQueueEnabled ? {
     loader: {
       maxParallelDownloads: RUNTIME_ASSET_LOADING.phaserLoader.maxParallelDownloads,
@@ -105,4 +112,3 @@ try {
   captureUiError(runtimeCanarySystem.config.events.runtimeError, error);
   throw error;
 }
-

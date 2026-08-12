@@ -36,7 +36,7 @@ const abilities = new PlayerAbilities(
   },
   body,
 );
-abilities.setGodMode(true);
+abilities.gemPower = abilities.getGemPowerMax();
 
 const releaseQuickslash = () => {
   quickslashHeld = false;
