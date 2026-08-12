@@ -15,6 +15,9 @@ import {
   validateStarIdentityLibraryConfig,
 } from "../values/starIdentityLibraryMath.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../values/starRarityProgression.js";
+import { RUNTIME_FEATURE_ASSET_GROUP_IDS } from "../values/runtimeAssetLoading.js";
+import { getRuntimeFeatureAssetGroup } from
+  "../world/rendering/runtimeFeatureAssetGroups.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = relativePath => fs.readFileSync(path.join(root, relativePath), "utf8");
@@ -149,7 +152,7 @@ assert.match(floatingSource, /validateStarIdentityLibraryConfig/);
 assert.match(floatingSource, /textureFrame/);
 
 const semanticSource = read(
-  "world/rendering/scenic-world/WorldVisualSemanticAssetLayer.js",
+  "world/rendering/scenic-world/WorldVisualSemanticStarPresenter.js",
 );
 assert.match(semanticSource, /getSkyTileIdentity/);
 assert.match(semanticSource, /identity\.frameName/);
@@ -181,9 +184,17 @@ assert.match(atlasControlsSource, /notificationControls\.next/);
 assert.match(atlasControlsSource, /selectorsPerPage/);
 assert.doesNotMatch(atlasControlsSource, /add\.graphics|fillRect|strokeRect/);
 
-const bootSource = read("ui/scenes/BootScene.js");
-assert.match(bootSource, /getStarIdentityPreloadAssets/);
-assert.match(bootSource, /for \(const asset of getStarIdentityPreloadAssets\(\)\)/);
+const identityAssets = getStarIdentityPreloadAssets();
+const starThresholdGroup = getRuntimeFeatureAssetGroup(
+  RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx,
+);
+const starThresholdKeys = new Set(
+  starThresholdGroup.assets.map(asset => asset.key),
+);
+assert.ok(
+  identityAssets.every(asset => starThresholdKeys.has(asset.key)),
+  "every full-quality Star identity must be owned by the depth-threshold pack",
+);
 
 assert.equal(STAR_RARITY_PROGRESSION_CONFIG.rarityTiers.length, 6);
 console.log("star identity library contract: PASS (250 identities, 6 rarities)");

@@ -4,10 +4,13 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  getPlayerDeferredAssetPack,
   hasPlayerProfileSheets,
   hasPlayerRigManifest,
   queuePlayerProfileSheets,
 } from "../player/PlayerAssetLoader.js";
+import { PLAYER_DEFERRED_ASSET_PACK_IDS } from
+  "../values/playerDeferredAssetPacks.js";
 import { createUalNativePlayerAnimations } from "../player/UalNativePlayerAnimations.js";
 import { PlayerMotionPolishSystem } from "../systems/visual/PlayerMotionPolishSystem.js";
 import { setupGameplayMethods } from "../world/playScene/PlaySceneGameplay.js";
@@ -139,9 +142,12 @@ const loaderScene = {
     json: (key, url) => queuedManifests.push({ key, url }),
   },
 };
+const deferredAssets = Object.values(PLAYER_DEFERRED_ASSET_PACK_IDS)
+  .flatMap(packId => getPlayerDeferredAssetPack(profile, packId));
 
 assert.equal(queuePlayerProfileSheets(loaderScene, profile), true);
-assert.equal(queuedSheets.length, 18);
+assert.equal(queuedSheets.length, profile.sheetFiles.length - deferredAssets.length);
+assert.equal(new Set(queuedSheets.map(sheet => sheet.key)).size, queuedSheets.length);
 assert.deepEqual(queuedManifests, [{
   key: profile.rigManifestKey,
   url: `${profile.basePath}/${profile.rigManifestFile}?v=${profile.version}`,
@@ -160,6 +166,11 @@ loadedManifests.set(profile.rigManifestKey, runtimeManifest);
 assert.equal(hasPlayerProfileSheets(loaderScene, profile), true);
 assert.equal(hasPlayerRigManifest(loaderScene, profile), true);
 assert.equal(queuePlayerProfileSheets(loaderScene, profile), false);
+
+assert.equal(deferredAssets.length, 8);
+for (const asset of deferredAssets) {
+  loadedFrames.set(asset.key, new Set(range(asset.frameConfig.endFrame + 1)));
+}
 
 const animationSpecs = new Map();
 globalThis.Phaser = { Textures: { FilterMode: { LINEAR: 1 } } };
@@ -511,6 +522,10 @@ for (const [action, metadata] of Object.entries(runtimeManifest.actions)) {
 const worldLoadSource = readFileSync(resolve(root, "ui/scenes/WorldLoadScene.js"), "utf8");
 const bootSource = readFileSync(resolve(root, "ui/scenes/BootScene.js"), "utf8");
 const playSetupSource = readFileSync(resolve(root, "world/playScene/PlaySceneSetup.js"), "utf8");
+const playerAssetSetupSource = readFileSync(
+  resolve(root, "world/playScene/PlayScenePlayerAssetSetup.js"),
+  "utf8",
+);
 const playGameplaySource = readFileSync(resolve(root, "world/playScene/PlaySceneGameplay.js"), "utf8");
 const playUpdateSource = readFileSync(resolve(root, "world/playScene/PlaySceneUpdate.js"), "utf8");
 const thunderRuntimeSource = readFileSync(
@@ -531,9 +546,8 @@ const retargetSource = readFileSync(resolve(root, "pipelines/blender/ualGameRigR
 assert.match(worldLoadSource, /isUalNative[\s\S]{0,100}queuePlayerProfileSheets/);
 assert.doesNotMatch(bootSource, /^\s*this\.preloadPlayerSprites\(\);/m);
 assert.match(bootSource, /legacyPlayerAvailable/);
-assert.match(playSetupSource, /createUalNativePlayerAnimations\(scene, profile\)/);
-assert.match(playSetupSource, /await _ensureUalNativePlayer\(this, this\.playerAssetProfile\)/);
-assert.match(playSetupSource, /playerBodyWidthPx: profile\.playerBodyWidthPx/);
+assert.match(playerAssetSetupSource, /createUalNativePlayerAnimations\(scene, profile\)/);
+assert.match(playerAssetSetupSource, /playerBodyWidthPx: profile\.playerBodyWidthPx/);
 assert.match(playSetupSource, /new UalActionContactTimeline\(this\.player\)/);
 assert.match(playSetupSource, /new PlayerKinematicMotionSystem/);
 assert.match(playSetupSource, /new UalNativeLocomotionTransitionSelector/);

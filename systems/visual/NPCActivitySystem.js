@@ -18,7 +18,6 @@ function tileDistance(playerTile, npc) {
   if (!playerTile) return Number.POSITIVE_INFINITY;
   return Math.abs(playerTile.tx - npc.tx) + Math.abs(playerTile.ty - npc.ty);
 }
-
 function visualAnchorError(actor) {
   const visuals = [actor.baseVisual, actor.overlay];
   return visuals.reduce((maximum, visual) => Math.max(
@@ -66,7 +65,7 @@ export class NPCActivitySystem {
     this.assetKeys = assetKeys;
     this.config = config;
     this.random = random;
-    this.enabled = resolveNpcActivitiesEnabled(config);
+    this.enabled = resolveNpcActivitiesEnabled(config, undefined, scene.gameplayCapabilities);
     this.actors = [];
     this.actorById = new Map();
     this.startedAt = null;

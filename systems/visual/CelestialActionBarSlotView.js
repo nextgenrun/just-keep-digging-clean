@@ -178,13 +178,18 @@ export class CelestialActionBarSlotView {
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
-    this.scene.tweens?.killTweensOf?.(this.root);
-    if (this.draggable) this.scene.input?.setDraggable?.(this.root, false);
+    const root = this.root;
+    const isLive = root?.scene?.sys != null;
+    if (isLive) this.scene?.tweens?.killTweensOf?.(root);
+    if (isLive && this.draggable && root.input) {
+      this.scene?.input?.setDraggable?.(root, false);
+    }
     this.draggable = false;
     for (const { eventName, handler } of this.bindings) {
-      this.root.off(eventName, handler);
+      root?.off?.(eventName, handler);
     }
     this.bindings = [];
-    this.root.destroy(true);
+    root?.destroy?.(true);
+    this.root = null;
   }
 }

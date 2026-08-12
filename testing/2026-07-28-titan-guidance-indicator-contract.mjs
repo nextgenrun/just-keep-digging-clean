@@ -94,8 +94,8 @@ const indicatorSource = readFileSync(
   new URL("../systems/visual/TitanGuidanceIndicator.js", import.meta.url),
   "utf8",
 );
-const bootSource = readFileSync(
-  new URL("../ui/scenes/BootScene.js", import.meta.url),
+const runtimeAssetGroupsSource = readFileSync(
+  new URL("../world/rendering/runtimeFeatureAssetGroups.js", import.meta.url),
   "utf8",
 );
 assert.doesNotMatch(guidanceSource, /uiNotifications\.info/);
@@ -116,7 +116,7 @@ assert.doesNotMatch(
   indicatorSource,
   /add\.(graphics|rectangle|circle|triangle)|fillTriangle|strokeTriangle/,
 );
-assert.match(bootSource, /getTitanDiscoveryPreloadAssets/);
+assert.match(runtimeAssetGroupsSource, /getTitanArchivePreloadAssets/);
 assert.equal(
   TITAN_DISCOVERY_CONFIG.assets.guidancePointer.path,
   "sprites/UI/titan-guidance-v1/titan-resonance-pointer-v1.png",

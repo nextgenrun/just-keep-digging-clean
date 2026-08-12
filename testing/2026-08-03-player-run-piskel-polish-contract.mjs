@@ -103,7 +103,7 @@ createUalNativePlayerAnimations({
     exists: (key) => registered.has(key),
     create: (config) => registered.set(config.key, config),
   },
-  textures: { exists: () => false },
+  textures: { exists: () => true },
 }, profile);
 const runAnimation = registered.get(profile.walkRunAnim);
 assert.equal(runAnimation.frames.length, 28);

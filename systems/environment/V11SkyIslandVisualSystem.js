@@ -6,6 +6,7 @@ import {
 import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
 import { V11SkyPropSystem } from "./V11SkyPropSystem.js";
 import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
+import { GAMEPLAY_FEATURE_IDS } from "../../values/gameplayCapabilities.js";
 
 export class V11SkyIslandVisualSystem {
   constructor(
@@ -79,6 +80,10 @@ export class V11SkyIslandVisualSystem {
 
   createHeavenblocks() {
     if (this.heavenblocksRequested) return;
+    if (
+      this.scene.gameplayCapabilities
+      && !this.scene.gameplayCapabilities.isEnabled(GAMEPLAY_FEATURE_IDS.HEAVENBLOCKS)
+    ) return;
     if (!resolveHeavenblocksVisualsEnabled(this.heavenblocksConfig)) return;
 
     this.heavenblocksRequested = true;

@@ -6,6 +6,15 @@ import { fileURLToPath } from "node:url";
 
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import {
+  createGameplayCapabilities,
+  GAMEPLAY_PROFILE_IDS,
+} from "../values/gameplayCapabilities.js";
+import {
+  getCapabilitySurfaceHeroAssets,
+  getCapabilitySurfaceSkyPropAtlases,
+} from
+  "../ui/scenes/BootCapabilityAssetPreloader.js";
+import {
   WORLD_VISUAL_PROP_ASSET_BY_ID_V3,
   WORLD_VISUAL_SURFACE_PROP_ASSETS_V3,
 } from "../values/generated/worldVisualPropLibraryV3/index.js";
@@ -204,16 +213,46 @@ const layerSource = source(
   "world/rendering/scenic-world/WorldVisualSurfaceHeroLandmarkLayer.js",
 );
 const runtimeSource = source("world/rendering/scenic-world/WorldVisualRuntime.js");
+const heroRuntimeSource = source(
+  "world/rendering/scenic-world/WorldVisualSurfaceHeroRuntime.js",
+);
 const bootSource = source("ui/scenes/BootScene.js");
 assert.doesNotMatch(
   layerSource,
   /tweens\.add|Math\.(?:sin|cos)|setPosition\(|setRotation\(|setScale\(/,
 );
-assert.match(runtimeSource, /new WorldVisualSurfaceHeroLandmarkLayer/);
-assert.match(runtimeSource, /resolveWorldVisualSurfaceHeroLandmarkSuppression/);
+assert.match(runtimeSource, /createWorldVisualSurfaceHeroOwner/);
+assert.match(heroRuntimeSource, /new WorldVisualSurfaceHeroLandmarkLayer/);
+assert.match(heroRuntimeSource, /resolveWorldVisualSurfaceHeroLandmarkSuppression/);
+assert.match(heroRuntimeSource, /GAMEPLAY_FEATURE_IDS\.LEVEL_TWO/);
 assert.match(runtimeSource, /surfaceHeroLandmarkLayer\?\.sync/);
 assert.match(runtimeSource, /surfaceHeroLandmarkLayer\?\.destroy/);
-assert.match(bootSource, /\.\.\.getSurfaceHeroLandmarkPreloadAssets\(\)/);
+assert.equal(
+  getCapabilitySurfaceHeroAssets(
+    createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.DEMO),
+  ).length,
+  0,
+);
+assert.equal(
+  getCapabilitySurfaceHeroAssets(
+    createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW),
+  ).length,
+  Object.keys(WORLD_VISUAL_SURFACE_HERO_LANDMARK_ASSETS).length,
+);
+assert.match(bootSource, /getCapabilitySurfaceHeroAssets\(this\.gameplayCapabilities\)/);
+const demoAtlases = getCapabilitySurfaceSkyPropAtlases(
+  createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.DEMO),
+);
+assert.deepEqual(demoAtlases.map(asset => asset.key), [
+  "surface-sky-props-v3-sky-islands",
+]);
+assert.equal(
+  getCapabilitySurfaceSkyPropAtlases(
+    createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW),
+  ).length,
+  10,
+);
+assert.match(bootSource, /getCapabilitySurfaceSkyPropAtlases\(this\.gameplayCapabilities\)/);
 
 console.log(
   "Surface hero landmarks V4 static rendering, suppression, and wiring passed",

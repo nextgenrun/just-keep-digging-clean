@@ -4,12 +4,20 @@ World layer module — rendering.
 
 - `scenic-world/WorldVisualRuntime.js` is the default authoritative visible-world renderer. It renders continuous world-space materials and separately layered production plates while the hidden `WorldModel` grid retains gameplay precision. Stable camera windows keep their 20 Hz tint refresh but skip full mask/decal/effect rescans. `WorldVisualAssetCache.js` cancels obsolete not-yet-started loads, while all seven scenic caches demand only assets intersecting the visible window. Exact-state guards suppress redundant Phaser setters without changing any visual value. `WorldVisualPerformanceTracker.js` exposes sync, demand, cancellation, and all scenic cache counters to runtime health. Use `?scenicStreamScheduler=0`, `?scenicAssetScheduler=0`, and `?scenicDemandStreaming=0` for narrow performance rollbacks, or `?worldVisualRuntime=legacy` for the temporary all-or-nothing renderer rollback. Scenic mode never constructs the tilemap/background/facade stack.
 - `RuntimeAssetLoadCoordinator.js` is PlayScene's shared full-quality demand-load lane. It priority-orders the seven scenic caches plus Titan chambers and Heavenblocks, deduplicates keys, keeps at most three network/bitmap decodes active, prioritizes the complete modern scenic stack above optional FX, and serializes original-resolution Phaser activation after rendered-frame and idle windows. Unsupported image decode and video use the bounded Phaser-loader fallback. `RuntimeAssetActivationScheduler.js` owns loader/render/idle sequencing, and `RuntimeAssetLoadMetrics.js` publishes queue, cancellation, fallback, decode, and GPU-activation timing. Use `?runtimeAssetBitmap=0` for the serialized Phaser decode fallback or `?runtimeAssetQueue=0` for the previous direct-loading rollback; neither selector enables Tiled or the legacy world renderer.
+- `RuntimeAssetCatalog.js` is the canonical texture ownership manifest. Each
+  queued or adopted source records its owner, capability, original dimensions,
+  priority, residency class, pack, and consumers. Production's immutable demo
+  profile rejects Level Two, Arc Core, Heavenblocks, and screen-capture owners
+  before they can enter a loader; local full-review retains those exact sources.
 - `RuntimeFeatureAssetManager.js` composes atomic Star Block FX, Starlight,
-  World Map, and Campfire groups on that same lane. It also recognizes the
-  eagerly resident Titan Archive group so Escape navigation stays immediate. It retains
+  Titan Archive, World Map, and Campfire groups on that same lane. It retains
   explicit consumers, cancels abandoned groups, removes only textures it owns,
   delays closed-view release to prevent tab thrash, and trims unused feature
-  groups against `RuntimeTextureMemoryTracker.js` decoded-memory estimates.
+  groups in least-recently-used order against `RuntimeTextureMemoryTracker.js`
+  decoded-memory estimates. Optional packs wait above 704 MiB and time out
+  without committing their action; eviction continues toward 640 MiB. Boot and
+  WorldLoad sources are adopted into the same tracker, so the health snapshot
+  reports unclassified texture sources instead of hiding them as Boot debt.
   `getGroupProgress()` derives loaded/total/pending/progress from actual texture
   residency, and those same fields reach the manager health snapshot; feature
   UIs never invent timer-based progress.

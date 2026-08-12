@@ -11,6 +11,8 @@ export const GAMEPLAY_FEATURE_IDS = Object.freeze({
   HEAVENBLOCKS: "heavenblocks",
   DEV_CHEATS: "devCheats",
   SCREEN_CAPTURE: "screenCapture",
+  DEEP_TITAN_CATALOG: "deepTitanCatalog",
+  NPC_ACTIVITIES: "npcActivities",
 });
 
 export const GAMEPLAY_CAPABILITY_CONFIG = Object.freeze({
@@ -26,6 +28,8 @@ const DEMO_DISABLED_FEATURES = Object.freeze({
   [GAMEPLAY_FEATURE_IDS.HEAVENBLOCKS]: true,
   [GAMEPLAY_FEATURE_IDS.DEV_CHEATS]: true,
   [GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE]: true,
+  [GAMEPLAY_FEATURE_IDS.DEEP_TITAN_CATALOG]: true,
+  [GAMEPLAY_FEATURE_IDS.NPC_ACTIVITIES]: true,
 });
 
 const DEMO_SHOWCASE_SYSTEM_FEATURES = Object.freeze({

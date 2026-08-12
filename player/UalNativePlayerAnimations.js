@@ -2,6 +2,7 @@ import { PLAYER_MOTION_POLISH_CONFIG } from "../values/playerMotionPolish.js";
 
 function createAnimation(scene, key, sheet, frames, frameRate, repeat) {
   if (!key || !sheet || !frames?.length || scene.anims.exists(key)) return;
+  if (!scene.textures?.exists?.(sheet)) return;
   scene.anims.create({
     key,
     frames: frames.map((frame) => ({ key: sheet, frame })),

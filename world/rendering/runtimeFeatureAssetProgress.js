@@ -75,5 +75,6 @@ export function getRuntimeFeatureManagerSnapshot(manager) {
     evictions: manager.evictions,
     failedGroups: manager.failedGroups,
     cancelledGroups: manager.cancelledGroups,
+    pressure: manager.pressureGate?.getSnapshot?.() || null,
   };
 }

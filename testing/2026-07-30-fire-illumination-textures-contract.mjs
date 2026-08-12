@@ -12,6 +12,8 @@ import { FIRE_LIGHT_CONFIG } from "../values/fireLightConfig.js";
 import { FireIlluminationRenderer } from
   "../systems/lighting/FireIlluminationRenderer.js";
 import { FireLightSystem } from "../systems/lighting/FireLightSystem.js";
+import { queueCapabilityFireAssets } from
+  "../ui/scenes/BootCapabilityAssetPreloader.js";
 
 const root = resolve(import.meta.dirname, "..");
 const manifest = JSON.parse(readFileSync(
@@ -262,9 +264,14 @@ assert.equal(partialSystem.illuminationRenderer.available, false);
 assert.equal(partialSystem.getProceduralShaderMix(), 0.18);
 partialSystem.destroy();
 
-const bootSource = readFileSync(resolve(root, "ui/scenes/BootScene.js"), "utf8");
-assert.ok(bootSource.includes("getFireIlluminationPreloadAssets"));
-assert.ok(bootSource.includes("load.spritesheet"));
+const queuedLayeredSheets = [];
+queueCapabilityFireAssets({
+  textures: { exists: () => false },
+  load: { spritesheet: key => queuedLayeredSheets.push(key) },
+}, "?fireLightStyle=layered");
+for (const asset of FIRE_ILLUMINATION_ASSETS) {
+  assert.ok(queuedLayeredSheets.includes(asset.key));
+}
 const rendererSource = readFileSync(
   resolve(root, "systems/lighting/FireIlluminationRenderer.js"),
   "utf8"

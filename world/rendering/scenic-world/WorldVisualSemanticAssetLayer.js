@@ -1,20 +1,17 @@
 import { RESOURCE_BY_TILE_TYPE } from "../../../values/resourceTypes.js";
 import { TILE_TYPES, isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
-import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../../values/starIdentityLibrary.js";
-import { getStarIdentity } from "../../../values/starIdentityLibraryMath.js";
-import { installStarIdentityTextureFrames } from "../../../systems/visual/installStarIdentityTextureFrames.js";
 import {
   WORLD_VISUAL_SEMANTIC_ASSETS,
   resolveWorldVisualSemanticAssetsEnabled,
   resolveWorldVisualSemanticResourceFrame,
   resolveWorldVisualSemanticSpecialFrame,
-  resolveWorldVisualSemanticStarFrame,
 } from "../../../values/worldVisualSemanticAssets.js";
 import { WorldVisualBedrockMaterialLayer } from "./WorldVisualBedrockMaterialLayer.js";
+import { resolveTownFloorOcclusionBounds } from "./WorldVisualTownFloorOcclusion.js";
 import {
-  cellIntersectsTownFloorOcclusion,
-  resolveTownFloorOcclusionBounds,
-} from "./WorldVisualTownFloorOcclusion.js";
+  refreshSemanticStarIdentityFrames,
+  showWorldVisualSemanticStar,
+} from "./WorldVisualSemanticStarPresenter.js";
 import { setTintIfChanged } from "./worldVisualRenderState.js";
 
 function hashUnit(tx, ty, salt = 0) {
@@ -52,7 +49,7 @@ export class WorldVisualSemanticAssetLayer {
     this._installFrames(this.config.resources.atlas);
     this._installFrames(this.config.skyTile.beautyAtlas);
     this._installFrames(this.config.skyTile.emissiveAtlas);
-    this.identityFramesReady = installStarIdentityTextureFrames(this.scene);
+    refreshSemanticStarIdentityFrames(this);
     this._installFrames(this.config.specialBlocks.beautyAtlas);
     if (this.config.specialBlocks.emissiveAtlas) {
       this._installFrames(this.config.specialBlocks.emissiveAtlas);
@@ -186,94 +183,9 @@ export class WorldVisualSemanticAssetLayer {
   }
 
   _showStar(index, tx, ty, size, lighting) {
-    const fallbackFrame = resolveWorldVisualSemanticStarFrame(
-      this.worldModel.getSkyTileRarity?.(tx, ty) || 0,
-      this.config
+    return showWorldVisualSemanticStar(
+      this, index, tx, ty, size, lighting, hashUnit(tx, ty, 19) * Math.PI * 2,
     );
-    const identity = getStarIdentity(
-      this.worldModel.getSkyTileIdentity?.(tx, ty) || 0,
-    );
-    const identityAtlas = STAR_IDENTITY_LIBRARY_CONFIG.atlases[
-      identity.rarityIndex
-    ];
-    const identityLightAtlas = STAR_IDENTITY_LIBRARY_CONFIG.lightAtlases[
-      identity.rarityIndex
-    ];
-    const identityReady = this.identityFramesReady
-      && identityAtlas
-      && this.scene.textures.exists(identityAtlas.key);
-    const identityLightReady = this.identityFramesReady
-      && identityLightAtlas
-      && this.scene.textures.exists(identityLightAtlas.key);
-    const beautyAtlas = identityReady
-      ? identityAtlas
-      : this.config.skyTile.beautyAtlas;
-    const emissiveAtlas = identityLightReady
-      ? identityLightAtlas
-      : this.config.skyTile.emissiveAtlas;
-    const beautyFrame = identityReady
-      ? identity.frameName
-      : `${beautyAtlas.framePrefix}${fallbackFrame}`;
-    const emissiveFrame = identityLightReady
-      ? identity.lightFrameName
-      : `${emissiveAtlas.framePrefix}${fallbackFrame}`;
-    const beauty = this.starBeautyPool[index] || this._createImage(
-      this.starBeautyPool,
-      beautyAtlas.key,
-      this.config.render.starBeautyDepth,
-      this.config.skyTile.beautyBlendMode
-    );
-    const emissive = this.starEmissivePool[index] || this._createImage(
-      this.starEmissivePool,
-      emissiveAtlas.key,
-      this.currentEmissiveDepth,
-      this.config.render.emissiveBlendMode
-    );
-    const x = (tx + 0.5) * size;
-    const y = (ty + 0.5) * size;
-    const displaySize = size
-      * this.config.skyTile.scale
-      * (identityReady
-        ? STAR_IDENTITY_LIBRARY_CONFIG.visual.worldTileScale
-        : 1);
-    const identityVisualReady = identityReady || identityLightReady;
-    const opacityScale = identityVisualReady ? identity.light.opacityScale : 1;
-    const lightDisplaySize = identityLightReady
-      ? displaySize * STAR_IDENTITY_LIBRARY_CONFIG.visual.worldLightScale
-      : displaySize;
-    const lightAlphaScale = identityLightReady
-      ? STAR_IDENTITY_LIBRARY_CONFIG.visual.worldLightAlphaScale
-      : 1;
-    const townFloorOccluded = cellIntersectsTownFloorOcclusion(
-      this.townFloorOcclusion, tx, ty, size
-    );
-    beauty.setPosition(x, y)
-      .setTexture(beautyAtlas.key, beautyFrame)
-      .setDisplaySize(displaySize, displaySize)
-      .setAlpha(this.config.skyTile.beautyAlpha * opacityScale)
-      .setTint(
-        this.config.skyTile.beautyReceivesTerrainTint === false
-          ? 0xffffff
-          : (lighting?.terrainTint || 0xffffff)
-      )
-      .setVisible(true);
-    emissive.setPosition(x, y)
-      .setDepth(townFloorOccluded
-        ? this.config.render.townFloorOccludedEmissiveDepth
-        : this.currentEmissiveDepth)
-      .setTexture(emissiveAtlas.key, emissiveFrame)
-      .setDisplaySize(lightDisplaySize, lightDisplaySize)
-      .setAlpha(
-        this.config.skyTile.emissiveAlpha * opacityScale * lightAlphaScale)
-      .setVisible(true);
-    this.activeStars.push({
-      beauty,
-      emissive,
-      townFloorOccluded,
-      identity: identityVisualReady ? identity : null,
-      lightAlphaScale,
-      phase: hashUnit(tx, ty, 19) * Math.PI * 2,
-    });
   }
 
   _showSpecial(index, tx, ty, frame, size, lighting) {
@@ -321,6 +233,10 @@ export class WorldVisualSemanticAssetLayer {
         atlas.frameSizePx
       );
     }
+  }
+
+  refreshStarIdentityFrames() {
+    return refreshSemanticStarIdentityFrames(this);
   }
 
   update(now) {

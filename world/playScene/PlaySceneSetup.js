@@ -4,24 +4,13 @@
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
-  PLAYER_CHARACTER_IDS,
-  normalizePlayerCharacterId,
-  resolvePersistedPlayerCharacterId,
-} from "../../values/playerCharacters.js?rev=20260718";
-import {
-  PLAYER_ASSET_PROFILES,
-  getPlayerAssetProfile,
   resolvePlayerDisplaySizePx,
   resolvePlayerVisualOrigin,
 } from "../../values/playerAssetProfiles.js?rev=20260718-mesh-grounded";
-import {
-  awaitLoadComplete,
-  hasPlayerProfileSheets,
-  queueLivingDrillSheets,
-  queuePlayerProfileSheets,
-  queueRobotSheets,
-} from "../../player/PlayerAssetLoader.js";
-import { createUalNativePlayerAnimations } from "../../player/UalNativePlayerAnimations.js";
+import { PlayerAbilityAssetController } from
+  "../../player/PlayerAbilityAssetController.js";
+import { PlayerDeferredAnimationAssetController } from
+  "../../player/PlayerDeferredAnimationAssetController.js";
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
@@ -33,6 +22,7 @@ import { RuntimeAssetLoadCoordinator } from
 import { RuntimeFeatureAssetManager } from
   "../rendering/RuntimeFeatureAssetManager.js";
 import { createPlaySceneSaveCoordinator } from "./PlaySceneSaveRuntime.js";
+import { preparePlayScenePlayerAssets } from "./PlayScenePlayerAssetSetup.js";
 import { RuntimeFeaturePrefetchSystem } from
   "../rendering/RuntimeFeaturePrefetchSystem.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
@@ -73,7 +63,6 @@ import { SystemIntroductionSystem } from "../../systems/onboarding/SystemIntrodu
 import { CraftingSystem } from "../../systems/crafting/CraftingSystem.js";
 import { StarHeartProgressionSystem } from "../../systems/celestial/StarHeartProgressionSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
-import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 import { GameInputHandler } from "./GameInputHandler.js";
 import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js?rev=20260727-restart-lifecycle-v1";
@@ -138,8 +127,7 @@ import { HeavenblocksPresentationSystem } from "../../systems/visual/Heavenblock
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
 import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionPortalSystem.js";
-import { HardcoreMemorialStore } from "../../systems/hardcore/HardcoreMemorialStore.js";
-import { HardcoreMemorialWorldSystem } from "../../systems/visual/HardcoreMemorialWorldSystem.js";
+import { isHardcoreMode } from "../../values/hardcoreMode.js";
 
 import { LightSystem } from "../../systems/lighting/LightSystem.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
@@ -153,6 +141,8 @@ import {
 import {
   createHardcoreModeRuntime,
 } from "./HardcoreModeBridge.js";
+import { ensureHardcorePresentationRuntime } from
+  "./HardcorePresentationRuntime.js";
 import { RandomEventBridge } from "./RandomEventBridge.js";
 import { installPlaySceneLifecycle } from "./PlaySceneLifecycle.js";
 import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
@@ -268,6 +258,7 @@ function installDebugUiSmokeHooks(scene) {
 export async function setupScene(data = {}, uiPorts = this.uiPorts) {
   try {
     await _setupSceneSafe.call(this, data, uiPorts);
+    return true;
   } catch (err) {
     this.memoryReliquaryWorldSystem?.destroy();
     this.animatedCacheVisualSystem?.destroy();
@@ -289,132 +280,8 @@ export async function setupScene(data = {}, uiPorts = this.uiPorts) {
       this.scene.launch('MenuAudioScene');
       this.scene.get('MenuAudioScene')?.attachTo?.(this);
     } catch (_) { /* ignore */ }
+    return false;
   }
-}
-
-function _createRobotAnims(scene) {
-  const cs = (key, sheetKey, frames, frameRate, repeat = -1) => {
-    if (!frames?.length || scene.anims.exists(key)) return;
-    scene.anims.create({key,frames: frames.map(f => ({key: sheetKey, frame: f})),frameRate,repeat});
-  };
-  const ch = (animKeys, sheetKey, frameGroups, frameRate) => {
-    animKeys.forEach((key, i) => cs(key, sheetKey, frameGroups[i], frameRate, 0));
-  };
-  const cq = (key, sheetKey, frames, frameRate, repeat = -1) => {
-    if (!frames?.length || scene.anims.exists(key)) return;
-    scene.anims.create({key,frames:frames.map(f => Number.isInteger(f) ? {key: sheetKey, frame: f} : {key: f}),frameRate,repeat});
-  };
-  const r = PLAYER_ASSET_PROFILES.robot;
-  cs(r.idleAnim, r.idleSheet, r.idleFrames, r.idleAnimationFps, -1);
-  cs(r.walkStartAnim, r.walkStartSheet, r.walkStartFrames, r.walkAnimation.baseFps, 0);
-  cs(r.walkLoopAnim, r.walkLoopSheet, r.walkLoopFrames, r.walkAnimation.baseFps, -1);
-  cs(r.walkRunAnim, r.walkRunSheet, r.walkRunFrames, r.walkRunAnimationFps, -1);
-  cs(r.walkStopAnim, r.walkStopSheet, r.walkStopFrames, r.walkAnimation.baseFps, 0);
-  cq(r.airborneAnim, r.airborneSheet, r.airborneFrames, r.airborneAnimationFps || 12, 0);
-  cs(r.fallingAnim, r.fallingSheet, r.fallingFrames, r.fallingAnimationFps, -1);
-  cq(r.duckAnim, r.duckSheet, r.duckFrames, r.duckAnimationFps || 8, 0);
-  cs(r.digDownAnim, r.digDownSheet, r.digDownFrames, r.digDownAnimationFps, 0);
-  ch(r.digSidewaysHitAnims, r.digSidewaysSheet, r.digSidewaysHitFrames, r.digSidewaysAnimationFps);
-  ch(r.digUpHitAnims, r.digUpSheet, r.digUpHitFrames, r.digUpAnimationFps);
-  ch(r.digUpSidewaysHitAnims, r.digUpSidewaysSheet, r.digUpSidewaysHitFrames, r.digUpAnimationFps);
-  cq(r.digUpLookAnim, r.digUpLookSheet, r.digUpLookFrames || [r.digUpLookFrame], 1, -1);
-  cs(r.wallPushAnim, r.wallPushSheet, r.wallPushFrames, r.wallPushAnimationFps, -1);
-  cs(r.combatIdleRecoverAnim, r.combatIdleRecoverSheet, r.combatIdleRecoverFrames, r.combatIdleRecoverAnimationFps, 0);
-  cs(r.flyAnim, r.flySheet, r.flyFrames, r.flightAnimationFps || r.flyAnimationFps || 12, -1);
-  cq(r.quickslashAnim, r.quickslashSheet, r.quickslashFrames, r.quickslashAnimationFps || 12, 0);
-  cq(r.thunderStrikeChargeAnim, r.thunderStrikeChargeSheet, r.thunderStrikeChargeFrames, r.thunderStrikeChargeAnimationFps || 6, -1);
-  cq(r.thunderStrikeStrikeAnim, r.thunderStrikeStrikeSheet, r.thunderStrikeStrikeFrames, r.thunderStrikeStrikeAnimationFps || 12, 0);
-  cs(r.attackDownAnim, r.attackDownSheet, r.attackDownFrames, 12, 0);
-  cs(r.earthquakeReactAnim, r.earthquakeReactSheet, r.earthquakeReactFrames, 10, 0);
-}
-
-function _createLivingDrillAnims(scene, profile) {
-  const assertSheet = (sheetKey, frames) => {
-    if (!scene.textures.exists(sheetKey)) {
-      throw new Error(`[LivingDrill] Missing required spritesheet: ${sheetKey}`);
-    }
-    const missingFrame = frames.find(frame => !scene.textures.getFrame(sheetKey, String(frame)));
-    if (missingFrame !== undefined) {
-      throw new Error(`[LivingDrill] Spritesheet ${sheetKey} is missing frame ${missingFrame}`);
-    }
-  };
-  const specs = new Map();
-  const queue = (keys, sheetKey, frames, frameRate, repeat = -1) => {
-    const keyList = Array.isArray(keys) ? keys : [keys];
-    keyList.forEach(key => {
-      if (!key || specs.has(key)) return;
-      specs.set(key, { sheetKey, frames, frameRate, repeat });
-    });
-  };
-  const create = (key, { sheetKey, frames, frameRate, repeat }) => {
-    assertSheet(sheetKey, frames);
-    if (scene.anims.exists(key)) scene.anims.remove(key);
-    scene.anims.create({
-      key,
-      frames: frames.map(frame => ({ key: sheetKey, frame: String(frame) })),
-      frameRate,
-      repeat,
-    });
-  };
-
-  queue([
-    profile.idleAnim,
-    profile.walkAnim,
-    profile.walkStartAnim,
-    profile.walkLoopAnim,
-    profile.walkRunAnim,
-    profile.walkStopAnim,
-    profile.airborneAnim,
-    profile.fallingAnim,
-    profile.duckAnim,
-    profile.digUpLookAnim,
-    profile.wallPushAnim,
-    profile.combatIdleRecoverAnim,
-    profile.thunderStrikeChargeAnim,
-    profile.earthquakeReactAnim,
-  ], profile.idleSheet, profile.idleFrames, profile.idleAnimationFps || 7, -1);
-  queue([
-    profile.flyAnim,
-  ], profile.flySheet || profile.idleSheet, profile.flyFrames || profile.idleFrames, profile.flyAnimationFps || profile.idleAnimationFps || 7, -1);
-  queue([
-    profile.digSidewaysAnim,
-    profile.digDownAnim,
-    profile.digUpAnim,
-    profile.digUpSidewaysAnim,
-    profile.quickslashAnim,
-    profile.thunderStrikeStrikeAnim,
-    profile.attackDownAnim,
-    ...(profile.digSidewaysHitAnims || []),
-    ...(profile.digUpHitAnims || []),
-    ...(profile.digUpSidewaysHitAnims || []),
-  ], profile.digSheet, profile.digFrames, profile.digAnimationFps || 14, 0);
-  specs.forEach((spec, key) => create(key, spec));
-}
-
-async function _ensureUalNativePlayer(scene, profile) {
-  const queuedUalSheets = queuePlayerProfileSheets(scene, profile);
-  if (queuedUalSheets) {
-    const loadComplete = awaitLoadComplete(scene, {
-      forceNextLoad: true,
-      onLoadError: (file) => {
-        console.warn('[PlaySceneSetup] UAL native sheet load error:', file?.key || file?.src || file);
-      },
-    });
-    scene.load.start();
-    await loadComplete;
-  }
-  if (!hasPlayerProfileSheets(scene, profile)) {
-    throw new Error('UAL native production sheets failed to load; no substitute character path is allowed');
-  }
-  createUalNativePlayerAnimations(scene, profile);
-  scene.config = Object.freeze({
-    ...scene.config,
-    playerBodyWidthPx: profile.playerBodyWidthPx,
-    playerBodyHeightPx: profile.playerBodyHeightPx,
-    playerDisplaySizePx: profile.displaySizePx,
-    playerVisualOriginCenter: false,
-  });
-  console.log('[PlaySceneSetup] UAL profile-timed animations and measured hitbox ready');
 }
 
 async function _setupSceneSafe(data = {}, uiPorts = {}) {
@@ -422,6 +289,16 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     throw new Error("[PlaySceneSetup] Required UI ports were not injected.");
   }
   this.uiPorts = uiPorts;
+  const setupStartedAtMs = globalThis.performance?.now?.() || Date.now();
+  const markSetupPhase = phase => {
+    this._setupPhase = phase;
+    this._setupTimeline ||= [];
+    this._setupTimeline.push({
+      phase,
+      elapsedMs: Math.round((globalThis.performance?.now?.() || Date.now()) - setupStartedAtMs),
+    });
+  };
+  markSetupPhase("world-model");
   this._isShuttingDown = false;
   this.saveSlot = data.saveSlot || 1;
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
@@ -431,75 +308,13 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
   this._cachedSaveData = initialCachedSave;
-  this.hardcoreModeData = sanitizeHardcoreModeData(
-    initialCachedSave?.hardcoreModeData ?? data.hardcoreModeData,
-  );
-  const cachedPlayerCharacterId = resolvePersistedPlayerCharacterId(initialCachedSave?.playerCharacterId);
-  this.playerCharacterId = normalizePlayerCharacterId(data.playerCharacterId ?? cachedPlayerCharacterId);
-  this.playerAssetProfile = getPlayerAssetProfile(this.playerCharacterId);
-
-  if (this.playerAssetProfile.isUalNative) {
-    await _ensureUalNativePlayer(this, this.playerAssetProfile);
-  }
-
-  if (this.playerAssetProfile.isLivingDrill) {
-    this.config = Object.freeze({
-      ...this.config,
-      playerBodyWidthPx: this.config.tileSize,
-      playerBodyHeightPx: this.config.tileSize,
-      playerDisplaySizePx: this.config.tileSize,
-      playerVisualOriginCenter: true,
-    });
-    const queuedLivingDrillSheets = queueLivingDrillSheets(this);
-    if (queuedLivingDrillSheets) {
-      const loadComplete = awaitLoadComplete(this, {
-        forceNextLoad: true,
-        onLoadError: (file) => {
-          console.warn('[PlaySceneSetup] Character sheet load error:', file?.key || file?.src || file);
-        },
-      });
-      this.load.start();
-      await loadComplete;
-    }
-    _createLivingDrillAnims(this, this.playerAssetProfile);
-  }
-
-  // ── Robot spritesheets — load on demand if missing, then create animations ─
-  if (this.playerCharacterId === PLAYER_CHARACTER_IDS.robot) {
-    const missingSheets = !this.textures.exists(PLAYER_ASSET_PROFILES.robot.idleSheet);
-    if (missingSheets) {
-      console.warn('[PlaySceneSetup] Robot sheets not found, loading on demand...');
-      const queuedRobotSheets = queueRobotSheets(this);
-      if (queuedRobotSheets) {
-        const loadComplete = awaitLoadComplete(this, {
-          forceNextLoad: true,
-          onLoadError: (file) => {
-            console.warn('[PlaySceneSetup] Robot sheet load error:', file?.key || file?.src || file);
-          },
-        });
-        this.load.start();
-        await loadComplete;
-      }
-    } else if (this.load.isLoading()) {
-      this.load.start();
-      await awaitLoadComplete(this);
-    }
-    // Only create robot animations if the idle sheet actually loaded
-    if (this.textures.exists(PLAYER_ASSET_PROFILES.robot.idleSheet)) {
-      _createRobotAnims(this);
-      console.log('[PlaySceneSetup] Robot animations created');
-    } else {
-      console.warn('[PlaySceneSetup] Robot idle sheet failed to load, falling back to UAL native');
-      this.playerCharacterId = PLAYER_CHARACTER_IDS.ualNative;
-      this.playerAssetProfile = getPlayerAssetProfile(PLAYER_CHARACTER_IDS.ualNative);
-      await _ensureUalNativePlayer(this, this.playerAssetProfile);
-    }
-  }
+  await preparePlayScenePlayerAssets(this, data, initialCachedSave);
+  markSetupPhase("runtime-assets");
   this.runtimeAssetLoadCoordinator = new RuntimeAssetLoadCoordinator(this);
   this.npcManager = new NPCManager(this, ASSET_KEYS);
   this.runtimeFeatureAssetManager = new RuntimeFeatureAssetManager(this);
   this.runtimeFeaturePrefetchSystem = new RuntimeFeaturePrefetchSystem(this, this.runtimeFeatureAssetManager);
-  this.runtimeFeaturePrefetchSystem.start();
+  void this.runtimeFeaturePrefetchSystem.start();
   this.backgroundRenderer = new BackgroundRenderer(this, ASSET_KEYS);
   const worldVisualSelection = createWorldRenderer(this, this.worldModel, this.config);
   this.worldVisualRuntimeMode = worldVisualSelection.mode;
@@ -543,6 +358,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     this.worldRenderer.create();
     console.info("[PlaySceneSetup] Scenic-v2 owns the complete visible world; legacy visual stack was not constructed");
   }
+  markSetupPhase("world-presentation");
 
   // Cave identity is part of gameplay presentation, so it remains active in
   // both the production scenic renderer and the explicit legacy rollback.
@@ -751,6 +567,16 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
+  this.playerAbilityAssetController = new PlayerAbilityAssetController(
+    this,
+    this.playerAssetProfile,
+  );
+  this.playerDeferredAnimationAssetController =
+    new PlayerDeferredAnimationAssetController(this, this.playerAssetProfile);
+  this.playerController.abilities.setAbilityAssetReadiness(
+    this.playerAbilityAssetController,
+  );
+  markSetupPhase("player-runtime");
   this.uiNotifications = uiPorts.createNotificationSystem(this);
   this.hudSystem = new HUDSystem(this, this.config.worldWidthTiles - 1, this.config.hudRefreshIntervalMs);
   this.hudSystem.setComboSystem(this.comboSystem);
@@ -834,6 +660,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     null,
   );
   this.starPillarSystem.create();
+  markSetupPhase("world-interactions");
   this.floatingTextSystem.setConstellationUnlockedCallback(() => {
     this.starHeartProgressionSystem.syncConstellationCount(
       this.floatingTextSystem.getUnlockedConstellations().length,
@@ -961,12 +788,11 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.soundSystem.printStats();
 
   this.createSceneUI();
-  this.hardcoreMemorialStore = new HardcoreMemorialStore();
-  this.hardcoreMemorialSystem = new HardcoreMemorialWorldSystem(
-    this,
-    this.hardcoreMemorialStore.getForSlot(this.saveSlot),
-  );
-  createHardcoreModeRuntime(this);
+  const hardcoreRuntime = createHardcoreModeRuntime(this);
+  if (
+    isHardcoreMode(this.hardcoreModeData)
+    && !await ensureHardcorePresentationRuntime(this, hardcoreRuntime)
+  ) throw new Error("[PlaySceneSetup] Hardcore presentation assets failed to load.");
   this.celestialEngineController = new CelestialEngineController(
     this,
     this.starHeartProgressionSystem,
@@ -1014,12 +840,14 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
 
   this.gameSaveCoordinator = createPlaySceneSaveCoordinator(this);
   installPlaySceneLifecycle(this);
+  markSetupPhase("persistent-state");
 
   const worldIdentity = worldIdentityForSave;
   const cachedSave = this._cachedSaveData;
   if (cachedSave && cachedSave.levelData) { this.playerLevelSystem.fromJSON(cachedSave.levelData); }
   if (cachedSave && cachedSave.comboData) { this.comboSystem.fromJSON(cachedSave.comboData); }
   this.applyPersistentState(cachedSave, false);
+  this.playerAbilityAssetController.update();
   this.journeySystem?.seedCurrentState?.();
   if (this.retentionProgressSystem?.getTutorialState?.().choice === null) {
     this.retentionProgressSystem.configureTutorialChoice(data.tutorialChoice);
@@ -1036,6 +864,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   // once beginNewSave() has intentionally cleared the local tombstone.
   if (data.isNewSave !== true) this.restorePersistentState();
   if (data.autoStart !== false) { this.startRun(); } else { this.enterTitleState(); }
+  markSetupPhase("ready");
   if (data.isNewSave === true) this.queueDugTilesSave?.();
   this._resizeHandler = (gameSize, baseSize, displaySize, previousWidth, previousHeight) => { if (this.resize) { this.resize(gameSize, baseSize, displaySize, previousWidth, previousHeight); } };
   this.lifecycleRegistry.listen(

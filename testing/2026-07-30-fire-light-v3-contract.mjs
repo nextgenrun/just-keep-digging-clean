@@ -12,6 +12,8 @@ import {
   resolveReducedFireFlicker,
 } from "../values/fireLightConfig.js";
 import { FireLightSystem } from "../systems/lighting/FireLightSystem.js";
+import { queueCapabilityFireAssets } from
+  "../ui/scenes/BootCapabilityAssetPreloader.js";
 import {
   advanceEyeAdaptation,
   computeEyeAdaptationTarget,
@@ -268,8 +270,20 @@ assert.equal(missingAssetSystem.enabled, false);
 assert.equal(missingAssetSystem.disabledReason, "missing-authored-assets");
 assert.equal(missingAssetScene.actors.length, 0);
 
+const queuedFireSheets = [];
+queueCapabilityFireAssets({
+  textures: { exists: () => false },
+  load: { spritesheet: key => queuedFireSheets.push(key) },
+}, "");
+const activeLayerIds = new Set(["steadyFlame", "stateFlame"]);
+if (resolveFireRaysEnabled("")) activeLayerIds.add("rays");
+assert.deepEqual(
+  queuedFireSheets,
+  FIRE_LIGHT_ASSETS.filter(asset => activeLayerIds.has(asset.id))
+    .map(asset => asset.key),
+);
+
 const sourceChecks = new Map([
-  ["ui/scenes/BootScene.js", ["getFireLightPreloadAssets", "load.spritesheet"]],
   ["systems/lighting/LightSystem.js", ["new FireLightSystem", "resolveFireLightAnchor", "ownsTorchPresentation", "usesProceduralWorldGlow"]],
   ["systems/lighting/ShaderSystem.js", ["uFireLightProceduralMix"]],
   ["systems/lighting/darknessLightShader.js", ["uFireLightProceduralMix"]],

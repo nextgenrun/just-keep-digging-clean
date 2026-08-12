@@ -86,7 +86,7 @@ createUalNativePlayerAnimations({
     exists: (key) => registeredAnimations.has(key),
     create: (config) => registeredAnimations.set(config.key, config),
   },
-  textures: { exists: () => false },
+  textures: { exists: () => true },
 }, profile);
 const registeredDigDown = registeredAnimations.get(profile.digDownAnim);
 assert.deepEqual(

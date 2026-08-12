@@ -59,7 +59,7 @@ const digUpVariants = Object.freeze(digUpAnimationKeys.map((key) => Object.freez
 })));
 const blenderOverrides = Object.freeze({
   idleSheet: Object.freeze({ key: blenderV2.sheets.idle.key, fileName: blenderV2.sheets.idle.fileName }),
-  idleTalkSheet: Object.freeze({ key: blenderV2.sheets.idle.idleTalkKey, fileName: blenderV2.sheets.idle.fileName }),
+  idleTalkSheet: Object.freeze({ key: blenderV2.sheets.idle.key, fileName: blenderV2.sheets.idle.fileName }),
   walkSheet: Object.freeze({ key: blenderV2.sheets.walk.key, fileName: blenderV2.sheets.walk.fileName }),
   flySheet: Object.freeze({
     key: blenderV2.sheets.fly.key,
@@ -72,9 +72,8 @@ const blenderOverrides = Object.freeze({
     framesKey: "digUpFrames",
   }),
 });
-
 const sheetFiles = Object.freeze([
-  ...remappedProfile.sheetFiles.map(([profileKey, fileName, framesKey]) => {
+  ...remappedProfile.sheetFiles.filter(([profileKey]) => !animationPolish.runPolishEnabled || profileKey !== "walkRunSheet").map(([profileKey, fileName, framesKey]) => {
     const override = blenderOverrides[profileKey];
     return Object.freeze(override
       ? [profileKey, override.fileName, override.framesKey || framesKey, blenderV2.basePath]
@@ -171,7 +170,7 @@ export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   landingAnim: animationPolish.landingAnim,
   softLandingAnim: animationPolish.softLandingAnim,
   idleSheet: blenderV2.sheets.idle.key,
-  idleTalkSheet: blenderV2.sheets.idle.idleTalkKey,
+  idleTalkSheet: blenderV2.sheets.idle.key,
   walkSheet: blenderV2.sheets.walk.key,
   walkStartSheet: blenderV2.sheets.walk.key,
   walkLoopSheet: blenderV2.sheets.walk.key,

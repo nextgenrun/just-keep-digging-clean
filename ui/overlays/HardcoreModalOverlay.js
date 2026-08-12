@@ -1,8 +1,7 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HARDCORE_MODE_CONFIG } from "../../values/hardcoreMode.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
 import { HardcoreDeathRecapView } from "./HardcoreDeathRecapView.js";
+import { createHardcoreModalView } from "./HardcoreModalViewFactory.js";
 
 export class HardcoreModalOverlay {
   constructor(scene, config = HARDCORE_MODE_CONFIG) {
@@ -33,85 +32,12 @@ export class HardcoreModalOverlay {
   }
 
   _create() {
-    const ui = this.config.ui;
-    const width = this.scene.scale.width;
-    const height = this.scene.scale.height;
-    const panelKey = ASSET_KEYS.ui.hardcore.oathPanel;
-    if (!this.scene.textures.exists(panelKey)) {
-      throw new Error("[HardcoreModalOverlay] Approved Hardcore panel art is missing.");
-    }
+    Object.assign(this, createHardcoreModalView(this.scene, this.config));
+  }
 
-    this.root = this.scene.add.container(width / 2, height / 2)
-      .setScrollFactor(0)
-      .setDepth(ui.depth)
-      .setVisible(false);
-    const shade = this.scene.add.rectangle(
-      0,
-      0,
-      width,
-      height,
-      0x020104,
-      0.86,
-    ).setInteractive();
-    this.panel = this.scene.add.image(0, 0, panelKey)
-      .setDisplaySize(ui.panelWidth, ui.panelHeight);
-    this.title = this.scene.add.text(0, ui.titleY, "", {
-      fontFamily: UI_FONTS.display,
-      fontSize: `${ui.font.titlePx}px`,
-      fontStyle: "bold",
-      color: UI_COLORS.title,
-      stroke: "#080204",
-      strokeThickness: 5,
-      align: "center",
-    }).setOrigin(0.5);
-    this.subtitle = this.scene.add.text(0, ui.subtitleY, "", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: `${ui.font.subtitlePx}px`,
-      fontStyle: "bold",
-      color: UI_COLORS.danger,
-      align: "center",
-    }).setOrigin(0.5);
-    this.body = this.scene.add.text(0, ui.bodyY, "", {
-      fontFamily: UI_FONTS.body,
-      fontSize: `${ui.font.bodyPx}px`,
-      color: UI_COLORS.body,
-      align: "center",
-      lineSpacing: 8,
-      wordWrap: { width: ui.bodyWidth, useAdvancedWrap: true },
-    }).setOrigin(0.5, 0);
-    this.instruction = this.scene.add.text(0, ui.typedPromptY, "", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: `${ui.font.typedPromptPx}px`,
-      fontStyle: "bold",
-      color: UI_COLORS.gold,
-      align: "center",
-    }).setOrigin(0.5);
-    this.typed = this.scene.add.text(0, ui.typedValueY, "", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: `${ui.font.typedValuePx}px`,
-      fontStyle: "bold",
-      color: UI_COLORS.danger,
-      stroke: "#080204",
-      strokeThickness: 4,
-      align: "center",
-    }).setOrigin(0.5);
-    this.footer = this.scene.add.text(0, ui.footerY, "", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: `${ui.font.footerPx}px`,
-      color: UI_COLORS.hint,
-      align: "center",
-    }).setOrigin(0.5);
-    this.confirmationRoot = this.scene.add.container(0, 0);
-    this.confirmationRoot.add([
-      this.title,
-      this.subtitle,
-      this.body,
-      this.instruction,
-      this.typed,
-      this.footer,
-    ]);
-    this.root.add([shade, this.panel, this.confirmationRoot]);
-    this.deathView = new HardcoreDeathRecapView(this.scene, this.root);
+  _ensureDeathView() {
+    this.deathView ||= new HardcoreDeathRecapView(this.scene, this.root);
+    return this.deathView;
   }
 
   showConfirmation({
@@ -135,7 +61,7 @@ export class HardcoreModalOverlay {
     this.busy = false;
     this.onConfirm = typeof onConfirm === "function" ? onConfirm : null;
     this.onCancel = typeof onCancel === "function" ? onCancel : null;
-    this.deathView.hide();
+    this.deathView?.hide();
     this.confirmationRoot.setVisible(true);
     this.title.setText(title || "");
     this.subtitle.setText(subtitle);
@@ -157,7 +83,8 @@ export class HardcoreModalOverlay {
   }
 
   showDeath({ reason, depth, pages, onRetry, onReturn, presentation }) {
-    this._showRecap("death", true, () => this.deathView.show({
+    const deathView = this._ensureDeathView();
+    this._showRecap("death", true, () => deathView.show({
       reason,
       depth,
       pages,
@@ -169,7 +96,8 @@ export class HardcoreModalOverlay {
 
   showMemorial({ reason, depth, slotId, pages, onClose }) {
     if (this.isVisible) return false;
-    this._showRecap("memorial", false, () => this.deathView.showMemorial({
+    const deathView = this._ensureDeathView();
+    this._showRecap("memorial", false, () => deathView.showMemorial({
       reason,
       depth,
       slotId,
@@ -305,7 +233,7 @@ export class HardcoreModalOverlay {
   _resetAndHide() {
     this.scene.input.keyboard.off("keydown", this._keyHandler);
     this.root.setVisible(false).setAlpha(1);
-    this.deathView.hide();
+    this.deathView?.hide();
     this.confirmationRoot.setVisible(true);
     this.instruction.setColor(UI_COLORS.gold);
     this.mode = null;

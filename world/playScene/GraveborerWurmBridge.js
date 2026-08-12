@@ -297,6 +297,7 @@ export function destroyGraveborerWurmRuntime(scene) {
   const runtime = scene.graveborerWurmRuntime;
   if (!runtime) return;
   scene.graveborerWurmData = getGraveborerWurmSaveData(scene);
+  scene.graveborerWurmRuntime = scene.graveborerWurmSystem = null;
   const key = GRAVEBORER_WURM_CONFIG.diagnostics.globalKey;
   if (
     typeof globalThis.window !== "undefined"
@@ -308,6 +309,4 @@ export function destroyGraveborerWurmRuntime(scene) {
   runtime.hud?.destroy?.();
   runtime.devSummonKeys?.forEach(binding => binding.key?.destroy?.());
   runtime.devSummonKeys = [];
-  scene.graveborerWurmRuntime = null;
-  scene.graveborerWurmSystem = null;
 }

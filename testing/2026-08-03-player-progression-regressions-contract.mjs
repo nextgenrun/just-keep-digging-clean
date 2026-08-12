@@ -96,15 +96,14 @@ assert.doesNotMatch(
   /resolveTitanDiscoveriesEnabled\(\)\s*&&\s*systemFeatureAvailable\("titans"\)/,
 );
 
-const bootSource = await readFile(
-  new URL("../ui/scenes/BootScene.js", import.meta.url),
+const runtimeAssetGroupsSource = await readFile(
+  new URL("../world/rendering/runtimeFeatureAssetGroups.js", import.meta.url),
   "utf8",
 );
 assert.match(
-  bootSource,
-  /const titanAssets = getTitanDiscoveryPreloadAssets\(\);/,
-  "the ESC Titan archive portraits must be resident before PlayScene starts",
-
+  runtimeAssetGroupsSource,
+  /getTitanArchivePreloadAssets\(\)/,
+  "the ESC Titan archive portraits must be owned by the on-demand archive pack",
 );
 const unlocks = SYSTEM_INTRODUCTION_CONFIG.upgradeUnlocks;
 assert.equal(SYSTEM_INTRODUCTION_CONFIG.featureUnlocks.milestones, "always");

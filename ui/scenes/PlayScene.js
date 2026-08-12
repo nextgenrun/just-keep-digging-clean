@@ -36,11 +36,12 @@ export class PlayScene extends Phaser.Scene {
     this._resetSceneAuthorities();
     this.gameplayCapabilities = this.registry?.get?.("gameplayCapabilities")
       || DEFAULT_GAMEPLAY_CAPABILITIES;
-    await createPlaySceneWorld(this, data, this.uiPorts);
+    this._sceneSetupReady = await createPlaySceneWorld(this, data, this.uiPorts) === true;
     this._uiReviewHarness = installUiReviewHarness(this);
   }
 
   update(time, delta) {
+    if (!this._sceneSetupReady) return;
     this.framePhaseScheduler?.runFrame(time, delta, this);
   }
 
@@ -66,6 +67,8 @@ export class PlayScene extends Phaser.Scene {
   }
 
   _resetSceneAuthorities() {
+    this._sceneSetupReady = false;
+    this._continueFrame = false;
     this._recoveryOverlay = null;
     this._dialogSuspension = null;
     this._pauseSuspension = null;
@@ -88,6 +91,18 @@ export class PlayScene extends Phaser.Scene {
       phase: "input",
       criticality: FRAME_CRITICALITIES.SIMULATION,
       update: () => { this._continueFrame = false; },
+    });
+    this.framePhaseScheduler.register({
+      id: "player-ability-asset-unlocks",
+      phase: "simulation",
+      criticality: FRAME_CRITICALITIES.PRESENTATION,
+      update: () => this.playerAbilityAssetController?.update(),
+    });
+    this.framePhaseScheduler.register({
+      id: "player-action-asset-residency",
+      phase: "simulation",
+      criticality: FRAME_CRITICALITIES.PRESENTATION,
+      update: () => this.playerDeferredAnimationAssetController?.update(),
     });
     this.framePhaseScheduler.register({
       id: "play-frame-authority",

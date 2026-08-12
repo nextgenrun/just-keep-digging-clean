@@ -3,8 +3,6 @@ import {
   getHeavenblocksSkyAltarPreloadAssets,
   getPickaxeHudPreloadAssets,
   getPickaxeIconPreloadAssets,
-  getSurfaceHeroLandmarkPreloadAssets,
-  getSurfaceSkyPropAtlasPreloadAssets,
   getSurfacePropPreloadAssets,
 } from "../../values/assetKeys.js";
 import {
@@ -54,15 +52,18 @@ import {
   getStarBlockPulsePreloadAssets,
   getStarBlockSteadyLightPreloadAssets,
 } from "../../values/lightConfig.js";
-import { getFireIlluminationPreloadAssets } from
-  "../../values/fireIlluminationConfig.js";
-import { getFireLightPreloadAssets } from "../../values/fireLightConfig.js";
 import { getOldSchoolLampLightPreloadAssets } from
   "../../values/oldSchoolLampLightConfig.js";
 import { getCollectedStarReleasePreloadAssets } from "../../values/starConstellations.js";
 import { getStarIdentityPreloadAssets } from "../../values/starIdentityLibrary.js";
-import { resolveRuntimeFeatureAssetDeferralEnabled } from "../../values/runtimeAssetLoading.js";
-import { getTitanDiscoveryPreloadAssets } from "../../values/titanDiscoveries.js";
+import {
+  RUNTIME_ASSET_LOADING,
+  RUNTIME_ASSET_RESIDENCY_CLASSES,
+  resolveRuntimeFeatureAssetDeferralEnabled,
+} from "../../values/runtimeAssetLoading.js";
+import { getCapabilityTitanGameplayPreloadAssets } from
+  "../../values/titanRuntimeCapabilities.js";
+import { RuntimeAssetCatalog } from "../../world/rendering/RuntimeAssetCatalog.js";
 import {
   NPC_ACTIVITY_CONFIG,
   getNpcActivityPreloadAssets,
@@ -76,8 +77,6 @@ import {
 } from "../../values/pauseFeatureLoading.js";
 import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
-import { getHardcoreModePreloadAssets } from "../../values/hardcoreMode.js";
-import { getHardcoreMemorialPreloadAssets } from "../../values/hardcoreMemorials.js";
 import { RANDOM_EVENT_PRELOAD_ASSETS } from "../../values/randomWorldEvents.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
 import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
@@ -90,6 +89,13 @@ import {
   getSelectedMenuBackgroundAsset,
   getSelectedMenuBackgroundKey,
 } from "../components/LoadingScreenView.js";
+import {
+  getCapabilitySurfaceSkyPropAtlases,
+  getCapabilitySurfaceHeroAssets,
+  queueCapabilityFireAssets,
+  queueCapabilityUiAssets,
+  queueLevelTwoResourceTileAssets,
+} from "./BootCapabilityAssetPreloader.js";
 
 const SKY_PORTAL_CANONICAL_PATH = TELEPORT_PORTAL_CONFIG.canonicalAssetPath;
 const SKY_PORTAL_FILENAME = TELEPORT_PORTAL_CONFIG.gateFilename;
@@ -236,6 +242,11 @@ export class BootScene extends Phaser.Scene {
   preload() {
     console.log('[BootScene] ===== MINI PRELOAD STARTED =====');
 
+    this.gameplayCapabilities = this.registry?.get?.("gameplayCapabilities");
+    this.runtimeAssetCatalog = this.registry?.get?.("runtimeAssetCatalog")
+      || new RuntimeAssetCatalog(this.gameplayCapabilities);
+    this.registry?.set?.("runtimeAssetCatalog", this.runtimeAssetCatalog);
+
     const menuBackground = getSelectedMenuBackgroundAsset();
     this.queueImage(ASSET_KEYS.branding.logo, BRAND_CONFIG.logoAssetPath);
     this.queueImage(menuBackground.key, menuBackground.path);
@@ -267,6 +278,15 @@ export class BootScene extends Phaser.Scene {
 
   queueImage(key, path) {
     if (this.textures.exists(key)) return;
+    if (this.runtimeAssetCatalog && !this.runtimeAssetCatalog.registerQueuedAsset(
+      { key, path },
+      {
+        priority: RUNTIME_ASSET_LOADING.priorities.bootCore,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.boot,
+        managed: false,
+        consumers: ["boot"],
+      },
+    )) return;
 
     if (!this._queuedImagePaths.has(path)) {
       this._queuedImagePaths.set(path, new Set());
@@ -325,9 +345,7 @@ export class BootScene extends Phaser.Scene {
       this.startFullPreload();
     });
 
-    // Build a shuffled index pool so we cycle randomly without repeats
     let msgPool = Array.from({ length: totalMessages }, (_, i) => i);
-    // Fisher-Yates shuffle
     for (let i = msgPool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [msgPool[i], msgPool[j]] = [msgPool[j], msgPool[i]];
@@ -336,13 +354,11 @@ export class BootScene extends Phaser.Scene {
     let hasLoadFailure = false;
     const failedKeys = [];
 
-    // Start at a random message
     const startIndex = Math.floor(Math.random() * totalMessages);
     const initial = LOADING_MESSAGES[startIndex];
     this.loadingUi?.setLabel(initial.label || initialLabel);
     this.loadingUi?.setDetail(initial.detail || "Preparing your adventure...");
 
-    // Cycle messages every 8 seconds — randomly shuffled
     this._messageTimer = this.time.addEvent({
       delay: 8000,
       loop: true,
@@ -392,6 +408,7 @@ export class BootScene extends Phaser.Scene {
       this.loadingUi?.setProgress(1);
       this.loadingUi?.setLabel("Loading complete!");
       this.loadingUi?.setDetail("The mine awaits...");
+      this.runtimeAssetCatalog?.adoptTextureManager?.(this.textures);
       this.loadingUi?.fadeOut(300, () => {
         this._isPreloading = false;
         this.finishBoot();
@@ -451,14 +468,13 @@ export class BootScene extends Phaser.Scene {
       ASSET_KEYS.background.levelOneGroundFacade.recognitionAtlas,
       LEVEL_ONE_GROUND_FACADE.recognitionAtlas.assetPath
     );
-    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, this.gameplayCapabilities)) {
       this.queueImage(
         ASSET_KEYS.background.secondWorldTown,
         "sprites/backgrounds/second-world/industrial-town-alcove-33x20-v2.png"
       );
     }
 
-    // Load town houses
     this.queueImage(ASSET_KEYS.background.houseMoneyMonster, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/money-monster-npc-house.webp`);
     this.queueImage(ASSET_KEYS.background.housePlayerUpgrade, `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-town/player-upgrade-npc-house.webp`);
     
@@ -476,7 +492,6 @@ export class BootScene extends Phaser.Scene {
       this.load.image(background.source, `${undergroundBase}depth-${startDepth}-${endDepth}.png`);
     });
 
-    // Load layered sky backgrounds (above ground)
     const sky = ASSET_KEYS.background.skyBackgrounds;
     const skyBase = `${FULL_NON_TILE_SPRITES_BASE}backgrounds/background-database/sky-background-v3/`;
     this.load.image(sky.base, skyBase + "sky-v3-base.webp");
@@ -512,7 +527,11 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadScenicWorldRuntime() {
-    const surfacePropLevels = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)
+    const levelTwoEnabled = isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+      this.gameplayCapabilities,
+    );
+    const surfacePropLevels = levelTwoEnabled
       ? ["level1", "level2"]
       : ["level1"];
     const assets = [
@@ -524,7 +543,7 @@ export class BootScene extends Phaser.Scene {
       ...getWorldVisualSemanticPreloadAssets(),
       ...getWorldVisualLandmarkPreloadAssets(),
       ...getSurfacePropPreloadAssets(ASSET_KEYS, surfacePropLevels),
-      ...getSurfaceHeroLandmarkPreloadAssets(),
+      ...getCapabilitySurfaceHeroAssets(this.gameplayCapabilities),
     ];
     for (const asset of assets) this.queueImage(asset.key, asset.path);
     console.info(
@@ -533,14 +552,14 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadSurfaceSkyPropAtlasesV3() {
-    const atlases = getSurfaceSkyPropAtlasPreloadAssets();
+    const atlases = getCapabilitySurfaceSkyPropAtlases(this.gameplayCapabilities);
     for (const asset of atlases) {
       if (!this.textures.exists(asset.key)) {
         this.load.atlas(asset.key, asset.path, asset.dataPath);
       }
     }
     console.info(
-      `[BootScene] Queued ${atlases.length} surface/sky prop V3 atlases for both renderer modes`
+      `[BootScene] Queued ${atlases.length} capability-owned surface/sky prop V3 atlases`
     );
   }
 
@@ -628,11 +647,19 @@ export class BootScene extends Phaser.Scene {
     const frame1024 = { frameWidth: 1024, frameHeight: 1024 };
     const frame1280 = { frameWidth: 1280, frameHeight: 1280 };
 
-    this.load.spritesheet(ASSET_KEYS.npcs.boboIdleSheet, `${base}/bobo-idle-sheet.webp`, frame1024);
-    this.load.spritesheet(ASSET_KEYS.shadowMiner.sheet, `${base}/shadow-miner-sheet.webp`, frame1280);
+    const reviewLegacySheets = this.gameplayCapabilities?.profileId === "full-review"
+      && new URLSearchParams(globalThis.location?.search || "")
+        .get("legacyNpcSheets") === "1";
+    if (reviewLegacySheets) {
+      this.load.spritesheet(ASSET_KEYS.npcs.boboIdleSheet, `${base}/bobo-idle-sheet.webp`, frame1024);
+      this.load.spritesheet(ASSET_KEYS.shadowMiner.sheet, `${base}/shadow-miner-sheet.webp`, frame1280);
+    }
 
     this.load.image(ASSET_KEYS.npcs.merchantSprites.moneyMonster, `${generatedMerchantBase}/money-monster.webp?v=${baselineVersion}`);
-    const arcCoresEnabled = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES);
+    const arcCoresEnabled = isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.ARC_CORES,
+      this.gameplayCapabilities,
+    );
     if (arcCoresEnabled) {
       this.load.image(ASSET_KEYS.npcs.merchantSprites.magmaMoneyMonster, `${generatedMerchantBase}/magma-money-monster.webp?v=${baselineVersion}`);
     }
@@ -641,7 +668,11 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.npcs.merchantSprites.boboMerchant, `${generatedMerchantBase}/bobo-merchant.webp?v=${baselineVersion}`);
     this.load.image(ASSET_KEYS.npcs.merchantSprites.gemPowerMerchant, `${generatedMerchantBase}/gem-power-merchant.webp?v=${baselineVersion}`);
 
-    if (resolveNpcActivitiesEnabled()) {
+    if (resolveNpcActivitiesEnabled(
+      NPC_ACTIVITY_CONFIG,
+      globalThis.location?.search || "",
+      this.gameplayCapabilities,
+    )) {
       const disabledArcActivityKeys = new Set(
         Object.values(ASSET_KEYS.npcs.merchantActivities.magmaMoneyMonster || {}),
       );
@@ -673,7 +704,6 @@ export class BootScene extends Phaser.Scene {
       );
     }
 
-    // Campfire sprites - grounded bottom-anchor textures for each upgrade tier.
     if (!this._deferFeatureAssets) {
       for (let level = 1; level <= CAMPFIRE_TIERS.length; level += 1) {
         const asset = getCampfireTierAsset(level);
@@ -687,9 +717,6 @@ export class BootScene extends Phaser.Scene {
       this.createAnimations();
       console.log('[BootScene] Menu and NPC animations created successfully');
       this.ensureMenuAudioScene();
-      // Start music IMMEDIATELY during BootScene splash — if AudioContext is
-      // locked (browser policy), the MenuAudioScene gesture listeners will
-      // trigger it on the first keypress/click.
       this.scene.get("MenuAudioScene")?.startMenuAudio();
       this.showBootSplash();
     } catch (error) {
@@ -877,9 +904,13 @@ export class BootScene extends Phaser.Scene {
     const approvedWorldBase = "sprites/tiles/approved-world";
     const caveEntrance = CAVE_SCENE_CONFIG.overworldEntrance;
     const v11SkyIslandBase = "sprites/backgrounds/world-v11-sky-islands-v1";
+    const levelTwoEnabled = isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+      this.gameplayCapabilities,
+    );
     this.load.image(ASSET_KEYS.background.skyIslands.level1Platform, `${v11SkyIslandBase}/level1-platform.webp`);
     this.load.image(ASSET_KEYS.background.skyIslands.level1Portal, `${v11SkyIslandBase}/level1-eclipse-gate.webp`);
-    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    if (levelTwoEnabled) {
       this.load.image(ASSET_KEYS.background.skyIslands.level2Platform, `${v11SkyIslandBase}/level2-platform.webp`);
       this.load.image(ASSET_KEYS.background.skyIslands.level2Portal, `${v11SkyIslandBase}/level2-eclipse-gate.webp`);
     }
@@ -958,7 +989,6 @@ export class BootScene extends Phaser.Scene {
       "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong"
     );
 
-    // Resource tiles
     loadOpaqueImageGenResource(
       [ASSET_KEYS.tiles.bronzeHp1, ASSET_KEYS.tiles.bronzeHp2, ASSET_KEYS.tiles.bronzeHp3, ASSET_KEYS.tiles.bronzeHp4, ASSET_KEYS.tiles.bronzeHp5],
       "bronze"
@@ -979,35 +1009,22 @@ export class BootScene extends Phaser.Scene {
       [ASSET_KEYS.tiles.goldHp1, ASSET_KEYS.tiles.goldHp2, ASSET_KEYS.tiles.goldHp3, ASSET_KEYS.tiles.goldHp4, ASSET_KEYS.tiles.goldHp5],
       "gold"
     );
-    loadDamageStages(
-      [ASSET_KEYS.tiles.lavaDirtHp1, ASSET_KEYS.tiles.lavaDirtHp2, ASSET_KEYS.tiles.lavaDirtHp3, ASSET_KEYS.tiles.lavaDirtHp4, ASSET_KEYS.tiles.lavaDirtHp5],
-      "sprites/tiles/second-world/lava-dirt"
-    );
-    loadOpaqueImageGenResource(
-      [ASSET_KEYS.tiles.obsidianHp1, ASSET_KEYS.tiles.obsidianHp2, ASSET_KEYS.tiles.obsidianHp3, ASSET_KEYS.tiles.obsidianHp4, ASSET_KEYS.tiles.obsidianHp5],
-      "obsidian"
-    );
-    loadOpaqueImageGenResource(
-      [ASSET_KEYS.tiles.emberOreHp1, ASSET_KEYS.tiles.emberOreHp2, ASSET_KEYS.tiles.emberOreHp3, ASSET_KEYS.tiles.emberOreHp4, ASSET_KEYS.tiles.emberOreHp5],
-      "ember-ore"
-    );
-    loadOpaqueImageGenResource(
-      [ASSET_KEYS.tiles.magmaCrystalHp1, ASSET_KEYS.tiles.magmaCrystalHp2, ASSET_KEYS.tiles.magmaCrystalHp3, ASSET_KEYS.tiles.magmaCrystalHp4, ASSET_KEYS.tiles.magmaCrystalHp5],
-      "magma-crystal"
-    );
+    if (levelTwoEnabled) {
+      queueLevelTwoResourceTileAssets(ASSET_KEYS, {
+        loadDamageStages,
+        loadOpaqueImageGenResource,
+      });
+    }
 
-    // Special tiles
     this.load.image(
       ASSET_KEYS.tiles.teleportTile,
       "sprites/tiles/special-tiles-v2/teleport-tile.webp"
     );
     this.load.image(ASSET_KEYS.tiles.gambleTile, "sprites/tiles/special-tiles-imagegen-v3/gamble.webp");
 
-    // Town floor tiles
     this.load.image(ASSET_KEYS.tiles.floorTown1, "sprites/tiles/base-tiles/floor-town-1.webp");
     this.load.image(ASSET_KEYS.tiles.floorTown2, "sprites/tiles/base-tiles/floor-town-2.webp");
 
-    // Approved ImageGen special blocks. Teleport Up remains the exact approved v2 asset.
     for (const tier of GEM_POWER_BLOCK_TIERS) {
       this.load.image(ASSET_KEYS.tiles.gemPowerBlockTiers[tier.id], tier.assetPath);
     }
@@ -1019,23 +1036,12 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.tiles.comboBlock, "sprites/tiles/special-tiles-imagegen-v3/combo.webp");
     this.load.image(ASSET_KEYS.tiles.legendBlock, "sprites/tiles/special-tiles-imagegen-v3/legend.webp");
 
-    // Sky tile uses bedrock texture as base with graphics overlay effects
-    // No separate texture file needed
   }
 
   preloadFxSprites() {
     this.load.image(ASSET_KEYS.fx.break1, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-1.webp");
     this.load.image(ASSET_KEYS.fx.break2, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp");
-    for (const asset of getFireLightPreloadAssets()) {
-      if (!this.textures.exists(asset.key)) {
-        this.load.spritesheet(asset.key, asset.path, asset.frameConfig);
-      }
-    }
-    for (const asset of getFireIlluminationPreloadAssets()) {
-      if (!this.textures.exists(asset.key)) {
-        this.load.spritesheet(asset.key, asset.path, asset.frameConfig);
-      }
-    }
+    queueCapabilityFireAssets(this);
     for (const asset of getOldSchoolLampLightPreloadAssets()) {
       if (!this.textures.exists(asset.key)) {
         this.load.spritesheet(asset.key, asset.path, asset.frameConfig);
@@ -1058,6 +1064,10 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadHeavenblocksSkyAltars() {
+    if (!isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.HEAVENBLOCKS,
+      this.gameplayCapabilities,
+    )) return;
     for (const asset of getHeavenblocksSkyAltarPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
@@ -1081,8 +1091,10 @@ export class BootScene extends Phaser.Scene {
     ]) {
       this.queueImage(asset.key, asset.path);
     }
-    for (const asset of getStarIdentityPreloadAssets()) {
-      this.queueImage(asset.key, asset.path);
+    if (!this._deferFeatureAssets) {
+      for (const asset of getStarIdentityPreloadAssets()) {
+        this.queueImage(asset.key, asset.path);
+      }
     }
     this.load.spritesheet(UI_ICON_ATLAS.key, UI_ICON_ATLAS.path, {
       frameWidth: UI_ICON_ATLAS.frameWidth,
@@ -1100,10 +1112,6 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.copper, "sprites/UI/copper/copper-icon.webp");
-    this.load.image(ASSET_KEYS.ui.resources.lavaDirt, "sprites/UI/second-world/lava-dirt-icon.webp");
-    this.load.image(ASSET_KEYS.ui.resources.obsidian, "sprites/UI/second-world/obsidian-icon.webp");
-    this.load.image(ASSET_KEYS.ui.resources.emberOre, "sprites/UI/second-world/ember-ore-icon.webp");
-    this.load.image(ASSET_KEYS.ui.resources.magmaCrystal, "sprites/UI/second-world/magma-crystal-icon.webp");
     this.load.image(ASSET_KEYS.ui.lootBag, "sprites/UI/loot-pickups/inventory-bag.png");
     Object.entries(ASSET_KEYS.ui.approvedHud).forEach(([name, key]) => {
       const path = APPROVED_HUD_SKIN.paths[name];
@@ -1132,9 +1140,12 @@ export class BootScene extends Phaser.Scene {
     ).forEach(([name, path]) => {
       this.queueImage(ASSET_KEYS.ui.thunderStrikeIndicator[name], path);
     });
-    // ESC navigation must never wait behind deep-world streaming work.
-    // Keep the known-good archive portraits resident with Titan gameplay art.
-    const titanAssets = getTitanDiscoveryPreloadAssets();
+    // Keep gameplay-critical Titan chamber and guidance art resident.
+    const titanAssets = getCapabilityTitanGameplayPreloadAssets(
+      undefined,
+      undefined,
+      this.gameplayCapabilities,
+    );
     for (const asset of titanAssets) {
       this.queueImage(asset.key, asset.path);
     }
@@ -1142,12 +1153,6 @@ export class BootScene extends Phaser.Scene {
       this.queueImage(asset.key, asset.path);
     }
     for (const asset of getTileDestructionFxPreloadAssets()) {
-      this.queueImage(asset.key, asset.path);
-    }
-    for (const asset of getHardcoreModePreloadAssets()) {
-      this.queueImage(asset.key, asset.path);
-    }
-    for (const asset of getHardcoreMemorialPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
     this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");
@@ -1160,16 +1165,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.lootPickups.bronze, "sprites/UI/loot-pickups/bronze.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.silver, "sprites/UI/loot-pickups/silver.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.gold, "sprites/UI/loot-pickups/gold.png");
-    this.load.image(ASSET_KEYS.ui.lootPickups.lavaDirt, "sprites/UI/second-world/lava-dirt-icon.webp");
-    this.load.image(ASSET_KEYS.ui.lootPickups.obsidian, "sprites/UI/second-world/obsidian-icon.webp");
-    this.load.image(ASSET_KEYS.ui.lootPickups.emberOre, "sprites/UI/second-world/ember-ore-icon.webp");
-    this.load.image(ASSET_KEYS.ui.lootPickups.magmaCrystal, "sprites/UI/second-world/magma-crystal-icon.webp");
-    const heavenblocksUiBase = "sprites/UI/heavenblocks-v1";
-    this.load.image(ASSET_KEYS.ui.heavenblocks.ancientRelicToken, `${heavenblocksUiBase}/ancient-relic-token-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.ancientRelicIcon, `${heavenblocksUiBase}/ancient-relic-icon-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.aetherTurbine, `${heavenblocksUiBase}/aether-turbine-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.haloRegulator, `${heavenblocksUiBase}/halo-regulator-v1.png`);
-    this.load.image(ASSET_KEYS.ui.heavenblocks.eclipseCrucible, `${heavenblocksUiBase}/eclipse-crucible-v1.png`);
+    queueCapabilityUiAssets(this, ASSET_KEYS, this.gameplayCapabilities);
   }
 
   createAnimations() {

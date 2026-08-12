@@ -220,8 +220,11 @@ function resolveFlag(defaultValue, queryParam, search, config) {
 export function resolveNpcActivitiesEnabled(
   config = NPC_ACTIVITY_CONFIG,
   search = globalThis.location?.search || "",
+  capabilities = null,
 ) {
-  return resolveFlag(config.enabled, config.queries.activities, search, config);
+  return resolveFlag(config.enabled, config.queries.activities, search, config)
+    && (!capabilities
+      || capabilities.isEnabled?.(GAMEPLAY_FEATURE_IDS.NPC_ACTIVITIES) === true);
 }
 
 export function getNpcActivityPreloadAssets(
@@ -242,3 +245,4 @@ export function getNpcActivityPreloadAssets(
   }
   return Object.freeze(assets);
 }
+import { GAMEPLAY_FEATURE_IDS } from "./gameplayCapabilities.js";

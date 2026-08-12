@@ -18,6 +18,7 @@ import {
   leaveHardcoreBlockingModal,
   requestHardcoreMemorialInspection,
 } from "./HardcoreModalStateBridge.js";
+import { requestHardcoreConversion } from "./HardcoreConversionRuntime.js";
 import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
@@ -74,51 +75,6 @@ function armAfterFlightUnlock(scene, source = "flight") {
   );
   scene.queueDugTilesSave?.();
   return true;
-}
-
-function requestConversion(scene) {
-  const runtime = scene._hardcoreRuntime;
-  if (
-    !runtime
-    || isHardcoreMode(runtime.system.state)
-    || !isFlightUnlocked(scene)
-    || runtime.modal.isVisible
-  ) {
-    return false;
-  }
-
-  enterHardcoreBlockingModal(scene);
-  return runtime.modal.showConfirmation({
-    title: runtime.config.copy.boboConfirmationTitle,
-    body: runtime.config.copy.boboConfirmationBody,
-    onCancel: () => leaveHardcoreBlockingModal(scene),
-    onConfirm: async () => {
-      scene.playerController?.fillGemPower?.();
-      if (!runtime.system.convertFromCasual("bobo")) {
-        leaveHardcoreBlockingModal(scene);
-        return false;
-      }
-      syncSceneModeData(scene);
-      processSystemEvents(scene);
-      const saved = await persistNow(scene);
-      if (!saved) {
-        flash(
-          scene,
-          "Hardcore conversion save failed • retry SAVE GAME",
-          runtime.config.feedback.errorColor,
-          runtime.config.feedback.errorFlashMs,
-        );
-      }
-      flash(
-        scene,
-        runtime.config.feedback.armedText,
-        runtime.config.feedback.armedColor,
-        runtime.config.feedback.armedFlashMs,
-      );
-      leaveHardcoreBlockingModal(scene);
-      return true;
-    },
-  });
 }
 
 function requestUnstuck(scene) {
@@ -267,7 +223,10 @@ export function createHardcoreModeRuntime(scene) {
   runtime.bindings.canOfferHardcoreConversion = () => (
     !isHardcoreMode(runtime.system.state) && isFlightUnlocked(scene)
   );
-  runtime.bindings.requestHardcoreConversion = () => requestConversion(scene);
+  runtime.bindings.requestHardcoreConversion = () => requestHardcoreConversion(
+    scene,
+    { isFlightUnlocked, syncSceneModeData, processSystemEvents, persistNow, flash },
+  );
   runtime.bindings.requestHardcoreUnstuck = () => requestUnstuck(scene);
   runtime.bindings.inspectHardcoreMemorial = record => (
     requestHardcoreMemorialInspection(scene, record)

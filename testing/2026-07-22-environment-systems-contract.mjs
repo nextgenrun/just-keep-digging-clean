@@ -23,6 +23,7 @@ const { CampfireSystem } = await import("../systems/environment/CampfireSystem.j
 const { GroundEffectsAtmosphere } = await import("../systems/environment/GroundEffectsAtmosphere.js");
 const { LightRayAtmosphere } = await import("../systems/environment/LightRayAtmosphere.js");
 const { V11SkyIslandVisualSystem } = await import("../systems/environment/V11SkyIslandVisualSystem.js");
+const { V11SkyPropSystem } = await import("../systems/environment/V11SkyPropSystem.js");
 const { StartZoneGroundFacadeSystem } = await import("../world/rendering/StartZoneGroundFacadeSystem.js");
 const { StartZoneScenicBackgroundSystem } = await import("../world/rendering/StartZoneScenicBackgroundSystem.js");
 const { TILE_TYPES } = await import("../values/tileTypes.js");
@@ -178,7 +179,7 @@ const spent = [];
 const campfireSaveRequests = [];
 const campScene = {
   game: { loop: { delta: 16 } }, textures: { exists: () => true },
-  upgradeSystem: { getMoney: () => money, spendMoney: (value) => { spent.push(value); money -= value; } },
+  upgradeSystem: { getMoney: () => money, spendMoney: (value) => { spent.push(value); money -= value; return true; } },
   hudSystem: { flashStatus() {} }, queueDugTilesSave(reason) { campfireSaveRequests.push(reason); },
 };
 const campfire = new CampfireSystem(campScene, { tileSize: 94 }, {}, {}, 3);
@@ -186,7 +187,7 @@ campfire._applyBuff(campfire._buffs[0]);
 assert.ok(campfire.getMiningSpeedBonus() > 0);
 campfire._updateBuffTimer(campfire.getRemainingMs() + 1);
 assert.equal(campfire.getActiveBuff(), null);
-const upgrade = campfire.upgradeCampfire();
+const upgrade = await campfire.upgradeCampfire();
 assert.equal(upgrade.success, true);
 assert.equal(campfire.getCampfireLevel(), 2);
 assert.equal(campfire.getSaveData().level, 2);
@@ -208,6 +209,7 @@ const portal = islands.setGroundPortalUnlocked("one", true);
 assert.equal(islands.setGroundPortalUnlocked("one", true), portal);
 islands.setGroundPortalUnlocked("one", false);
 assert.equal(portal.destroyed, true);
+assert.doesNotThrow(() => new V11SkyPropSystem(scene)._validatePlacements());
 
 // Start-zone scenic plate and tile facade stay world-anchored and mirror live WorldModel state.
 const scenicConfig = {

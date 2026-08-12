@@ -188,3 +188,16 @@ export function getCollectedStarReleasePreloadAssets(config = STAR_CONSTELLATION
     ...(Array.isArray(releaseFx?.fractureAssets) ? releaseFx.fractureAssets : []),
   ];
 }
+
+export function getCollectedStarReleaseRarityAssets(
+  rarity,
+  config = STAR_CONSTELLATION_CONFIG,
+) {
+  const releaseFx = config.collectedStarReleaseFx;
+  const maximum = Math.max(0, (releaseFx?.coreAssets?.length || 1) - 1);
+  const index = Math.max(0, Math.min(maximum, Math.floor(Number(rarity) || 0)));
+  return [
+    releaseFx?.coreAssets?.[index],
+    releaseFx?.fractureAssets?.[index],
+  ].filter(Boolean);
+}

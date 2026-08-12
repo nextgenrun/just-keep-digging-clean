@@ -72,6 +72,7 @@ export class RuntimeAssetLoadMetrics {
     externalLoaderWaits,
     schemaVersion,
     enabled,
+    assetCatalog,
   }) {
     const queuedByOwner = {};
     for (const record of queue) {
@@ -111,6 +112,7 @@ export class RuntimeAssetLoadMetrics {
       externalLoaderWaits,
       decodedSources,
       textureMemory,
+      assetCatalog,
       totalMs: summarize(this.totalDurations),
       decodeMs: summarize(this.decodeDurations),
       activationMs: summarize(this.activationDurations),

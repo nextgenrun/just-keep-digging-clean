@@ -859,12 +859,10 @@ export function setupGameplayMethods(prototype) {
     console.log('[DEVCHEAT] ========================================');
     return true;
   };
-
   prototype.playTeleportInAnimation = function() {
     const profile = getP(this);
     const animationKey = profile.teleportInAnim;
-    if (!animationKey || !this.player || !this.anims.exists(animationKey)) return false;
-
+    if (!this.player || !this.playerDeferredAnimationAssetController?.isReadyOrRequest(animationKey)) return false;
     this.ualActionContactTimeline?.cancel();
     this.playerRigContact?.endAction();
     this.isDigAnimating = false;
@@ -1135,6 +1133,7 @@ export function setupGameplayMethods(prototype) {
       flipX = !flipX;
     }
 
+    targetAnim = this.playerDeferredAnimationAssetController.resolveOrRequest(targetAnim, profile.idleAnim || ASSET_KEYS.player.idleAnim);
     this.player.setFlipX(flipX);
     if (profile.isUalNative) {
       const body = this.playerController?.physicsBody;

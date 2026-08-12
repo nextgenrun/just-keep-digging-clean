@@ -2,7 +2,19 @@
 
 player directory.
 
-`PlayerAssetLoader.js` loads selected character profiles, including full source-sheet bounds even when runtime actions use trimmed/reordered segments. Gameplay queues 18 active UAL sheets; the generated UAL manifest retains 21 actions for review and rollback evidence. `UalNativePlayerAnimations.js` creates the weapon-free production motion library and its calm one-shot fidgets.
+`PlayerAssetLoader.js` loads the selected character in WorldLoad, including full
+source-sheet bounds even when runtime actions use trimmed/reordered segments.
+Every sheet is registered in the runtime catalog as an immutable player-core
+pack with its original path and frame geometry; no resize, substitute, or
+quality downgrade is permitted. Dedicated Quickslash and Thunder Strike sheets
+are excluded while locked. `PlayerAbilityAssetController.js` admits those
+spritesheet packs when an existing save owns the upgrade or immediately after
+unlock; `PlayerAbilities` will not begin the action or spend GP until the pack
+and animation are ready. Shared Jab/Ground Strike sources remain player-core.
+Gameplay queues 18 active UAL sheets across the core and unlocked packs; the
+generated UAL manifest retains 21 actions for review and rollback evidence.
+`UalNativePlayerAnimations.js` creates the weapon-free production motion
+library and its calm one-shot fidgets.
 
 Idle and authored standing actions use the 109px base display size. The
 production grounded gait and Piskel-composited moving strikes use 123px because

@@ -59,6 +59,10 @@ try {
     null,
     { timeout: 180_000 },
   );
+  await page.waitForFunction(() => {
+    const scene = window.__phaserGame?.scene?.getScene?.("StartMenuScene");
+    return Boolean(scene?._startPrompt?.active && scene?._cardGraphics?.length);
+  }, null, { timeout: 180_000 });
   await page.evaluate(() => {
     const scene = window.__phaserGame.scene.getScene("StartMenuScene");
     scene._selectSlot(1);

@@ -1,15 +1,54 @@
 import { PLAYER_ASSET_PROFILES } from "../values/playerAssetProfiles.js";
+import {
+  RUNTIME_ASSET_LOADING,
+  RUNTIME_ASSET_RESIDENCY_CLASSES,
+} from "../values/runtimeAssetLoading.js";
+import {
+  PLAYER_ABILITY_ASSET_IDS,
+  PLAYER_ABILITY_ASSET_PACKS,
+  getUniquePlayerSheetEntries,
+  highestReferencedPlayerFrame,
+  isPlayerAbilityUnlocked,
+} from "./PlayerAssetSheetCatalog.js";
 
-function highestReferencedFrame(frames) {
-  return frames.reduce((highest, frame) => Math.max(highest, Number(frame) || 0), 0);
+export { PLAYER_ABILITY_ASSET_IDS };
+
+function registerPlayerAsset(scene, key, path, profile, abilityId = null, deferredId = null) {
+  const catalog = scene.registry?.get?.("runtimeAssetCatalog");
+  if (!catalog) return true;
+  const ability = PLAYER_ABILITY_ASSET_PACKS[abilityId];
+  return Boolean(catalog.registerQueuedAsset({ key, path }, {
+    owner: ability?.owner || (deferredId
+      ? RUNTIME_ASSET_LOADING.owners.playerMode
+      : RUNTIME_ASSET_LOADING.owners.playerCore),
+    priority: ability
+      ? RUNTIME_ASSET_LOADING.priorities.abilityUnlock
+      : deferredId
+        ? RUNTIME_ASSET_LOADING.priorities.playerMode
+      : RUNTIME_ASSET_LOADING.priorities.playerCore,
+    residencyClass: ability
+      ? RUNTIME_ASSET_RESIDENCY_CLASSES.unlock
+      : deferredId
+        ? RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand
+      : RUNTIME_ASSET_RESIDENCY_CLASSES.core,
+    packId: ability
+      ? `ability:${abilityId}:${profile?.characterId || "unknown"}`
+      : deferredId
+        ? `player-action:${deferredId}:${profile?.characterId || "unknown"}`
+      : `player-core:${profile?.characterId || "unknown"}`,
+    consumers: [abilityId || deferredId || "selected-player"],
+    managed: Boolean(ability || deferredId),
+  }));
 }
 
-function queueRobotSheet(scene, sheetKey, fileName, frames, robot) {
+function queueRobotSheet(scene, sheetKey, fileName, frames, robot, abilityId = null) {
   if (!sheetKey || !frames?.length || scene.textures.exists(sheetKey)) return false;
-  scene.load.spritesheet(sheetKey, `${robot.basePath}/${fileName}?v=${robot.version}`, {
+  const path = `${robot.basePath}/${fileName}?v=${robot.version}`;
+  if (!registerPlayerAsset(scene, sheetKey, path, robot, abilityId)) return false;
+  scene.load.spritesheet(sheetKey, path, {
     frameWidth: 341,
     frameHeight: 341,
-    endFrame: highestReferencedFrame(frames),
+    endFrame: highestReferencedPlayerFrame(frames),
   });
   return true;
 }
@@ -20,10 +59,12 @@ function queueDrillSheet(scene, sheetKey, fileName, frames, drill) {
     && frames.every((frame) => scene.textures.getFrame(sheetKey, String(frame)));
   if (hasExpectedFrames) return false;
   if (scene.textures.exists(sheetKey)) scene.textures.remove(sheetKey);
-  scene.load.spritesheet(sheetKey, `${drill.basePath}/${fileName}?v=${drill.version}`, {
+  const path = `${drill.basePath}/${fileName}?v=${drill.version}`;
+  if (!registerPlayerAsset(scene, sheetKey, path, drill)) return false;
+  scene.load.spritesheet(sheetKey, path, {
     frameWidth: drill.frameWidth || 94,
     frameHeight: drill.frameHeight || 94,
-    endFrame: highestReferencedFrame(frames),
+    endFrame: highestReferencedPlayerFrame(frames),
   });
   return true;
 }
@@ -37,17 +78,27 @@ function hasExpectedSheetFrames(scene, sheetKey, frames) {
   );
 }
 
-function queueProfileSheet(scene, sheetKey, fileName, frames, profile, sourceBasePath = profile.basePath) {
+function queueProfileSheet(
+  scene,
+  sheetKey,
+  fileName,
+  frames,
+  profile,
+  sourceBasePath = profile.basePath,
+  abilityId = null,
+) {
   if (!sheetKey || !frames?.length) return false;
   if (hasExpectedSheetFrames(scene, sheetKey, frames)) return false;
   if (scene.textures.exists(sheetKey)) scene.textures.remove(sheetKey);
+  const path = `${sourceBasePath}/${fileName}?v=${profile.version}`;
+  if (!registerPlayerAsset(scene, sheetKey, path, profile, abilityId)) return false;
   scene.load.spritesheet(
     sheetKey,
-    `${sourceBasePath}/${fileName}?v=${profile.version}`,
+    path,
     {
       frameWidth: profile.frameWidth,
       frameHeight: profile.frameHeight,
-      endFrame: highestReferencedFrame(frames),
+      endFrame: highestReferencedPlayerFrame(frames),
     },
   );
   return true;
@@ -71,34 +122,41 @@ export function queuePlayerRigManifest(scene, profile) {
   return true;
 }
 
-const ROBOT_SHEETS = Object.freeze([
-  ["idleSheet", "idle-sheet.webp", "idleFrames"],
-  ["walkStartSheet", "walk-start-sheet.webp", "walkStartFrames"],
-  ["walkLoopSheet", "walk-loop-sheet.webp", "walkLoopFrames"],
-  ["walkRunSheet", "walk-run-sheet.webp", "walkRunFrames"],
-  ["walkStopSheet", "walk-stop-sheet.webp", "walkStopFrames"],
-  ["airborneSheet", "jump-sheet.webp", "airborneFrames"],
-  ["fallingSheet", "falling-sheet.webp", "fallingFrames"],
-  ["duckSheet", "duck-sheet.webp", "duckFrames"],
-  ["digDownSheet", "dig-down-sheet.webp", "digDownFrames"],
-  ["digSidewaysSheet", "dig-sideways-sheet.webp", "digSidewaysFrames"],
-  ["digUpSheet", "dig-up-sheet.webp", "digUpFrames"],
-  ["digUpSidewaysSheet", "dig-up-sideways-sheet.webp", "digUpSidewaysFrames"],
-  ["digUpLookSheet", "dig-up-look-sheet.webp", "digUpLookFrames"],
-  ["wallPushSheet", "wall-push-sheet.webp", "wallPushFrames"],
-  ["combatIdleRecoverSheet", "combat-idle-recover-sheet.webp", "combatIdleRecoverFrames"],
-  ["flySheet", "fly-sheet.webp", "flyFrames"],
-  ["quickslashSheet", "quickslash-sheet.webp", "quickslashFrames"],
-  ["thunderStrikeChargeSheet", "thunder-charge-sheet.webp", "thunderStrikeChargeFrames"],
-  ["thunderStrikeStrikeSheet", "thunder-strike-sheet.webp", "thunderStrikeStrikeFrames"],
-  ["attackDownSheet", "attack-down-sheet.webp", "attackDownFrames"],
-  ["earthquakeReactSheet", "earthquake-react-sheet.webp", "earthquakeReactFrames"],
-]);
+export function getPlayerAbilityAssetPack(profile, abilityId) {
+  const ability = PLAYER_ABILITY_ASSET_PACKS[abilityId];
+  if (!ability) return Object.freeze([]);
+  return Object.freeze(getUniquePlayerSheetEntries(profile)
+    .filter(entry => entry.abilityId === abilityId)
+    .map(entry => Object.freeze({
+      key: entry.key,
+      path: entry.path,
+      type: RUNTIME_ASSET_LOADING.types.spritesheet,
+      frameConfig: entry.frameConfig,
+    })));
+}
 
-export function queueRobotSheets(scene) {
+export function getPlayerDeferredAssetPack(profile, deferredId) {
+  return Object.freeze(getUniquePlayerSheetEntries(profile)
+    .filter(entry => entry.deferredIds.includes(deferredId))
+    .map(entry => Object.freeze({
+      key: entry.key, path: entry.path,
+      type: RUNTIME_ASSET_LOADING.types.spritesheet,
+      frameConfig: entry.frameConfig,
+    })));
+}
+
+export function queueRobotSheets(scene, { upgradeLevels = {} } = {}) {
   const robot = PLAYER_ASSET_PROFILES.robot;
-  return ROBOT_SHEETS
-    .map(([sheet, fileName, frames]) => queueRobotSheet(scene, robot[sheet], fileName, robot[frames], robot))
+  return getUniquePlayerSheetEntries(robot)
+    .filter(entry => isPlayerAbilityUnlocked(entry.abilityId, upgradeLevels))
+    .map(entry => queueRobotSheet(
+      scene,
+      entry.key,
+      entry.fileName,
+      entry.frames,
+      robot,
+      entry.abilityId,
+    ))
     .some(Boolean);
 }
 
@@ -112,18 +170,29 @@ export function queueLivingDrillSheets(scene) {
     .some(Boolean);
 }
 
-export function hasPlayerProfileSheets(scene, profile) {
+export function hasPlayerProfileSheets(scene, profile, { upgradeLevels = {} } = {}) {
   if (!profile?.sheetFiles?.length) return false;
-  return profile.sheetFiles.every(([sheet, , frames]) => (
-    hasExpectedSheetFrames(scene, profile[sheet], profile[frames])
-  ));
+  return getUniquePlayerSheetEntries(profile)
+    .filter(entry => entry.deferredIds.length === 0)
+    .filter(entry => isPlayerAbilityUnlocked(entry.abilityId, upgradeLevels))
+    .every(entry => hasExpectedSheetFrames(scene, entry.key, entry.frames));
 }
 
-export function queuePlayerProfileSheets(scene, profile) {
+export function queuePlayerProfileSheets(scene, profile, { upgradeLevels = {} } = {}) {
   if (!profile?.sheetFiles?.length) return false;
-  const sheetsQueued = profile.sheetFiles
-    .map(([sheet, fileName, frames, sourceBasePath]) => (
-      queueProfileSheet(scene, profile[sheet], fileName, profile[frames], profile, sourceBasePath)
+  const sheetsQueued = getUniquePlayerSheetEntries(profile)
+    .filter(entry => entry.deferredIds.length === 0)
+    .filter(entry => isPlayerAbilityUnlocked(entry.abilityId, upgradeLevels))
+    .map(entry => (
+      queueProfileSheet(
+        scene,
+        entry.key,
+        entry.fileName,
+        entry.frames,
+        profile,
+        entry.sourceBasePath,
+        entry.abilityId,
+      )
     ))
     .some(Boolean);
   return queuePlayerRigManifest(scene, profile) || sheetsQueued;

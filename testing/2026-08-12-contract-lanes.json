@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "inventory": {
-    "count": 251,
-    "sha256": "fedc3ec44c9f5563a070ab2e60d496c95c6c9145a61cea1b2a1f11c2832ed3e0"
+    "count": 255,
+    "sha256": "b0f8f961dd6bf969646ba75c7447fac6cf0b4f4d188c6fb1338306a26576320b"
   },
   "artifactReviewNameTokens": [
     "review",
@@ -72,8 +72,7 @@
       "2026-07-29-surface-sky-props-v3-contract.mjs": "8beea829b9ff1a7e902f18726c682f367201875bddfc743e60038a7f0d6667b3",
       "2026-07-29-world-texture-native-density-contract.mjs": "9292143c787d8bd6350721bea6e387ad1009620cc9d779c137f2514eda1ba467",
       "2026-07-30-fire-light-piskel-anchor-contract.py": "6d695fdfdabe8e467904588c0f35d6d4e94fe9fe5f1b82a8bb846ab024e031ca",
-      "2026-07-30-ground-damage-piskel-anchor-v2-contract.py": "830de751657bffbba50af940005b721a1f88d27b33a1d3898da9453a097e2ca1",
-      "2026-07-30-runtime-feature-asset-tiering-contract.mjs": "2d192d47a67fe534ad1fa5c4d7483a2410a0b9ce19c2482c3c529ac73475a06d"
+      "2026-07-30-ground-damage-piskel-anchor-v2-contract.py": "830de751657bffbba50af940005b721a1f88d27b33a1d3898da9453a097e2ca1"
     }
   }
 }

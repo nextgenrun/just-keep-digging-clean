@@ -13,6 +13,7 @@ import {
 } from "../../player/PlayerAssetLoader.js";
 import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 import { queueWorldLoadFeatureAssets } from "./WorldLoadAssetPreloader.js";
+import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js";
 
 /**
  * Load robot spritesheets into Phaser's texture manager so they exist
@@ -34,8 +35,16 @@ export class WorldLoadScene extends Phaser.Scene {
     const queryCharacterId = resolvePlayerCharacterIdFromSearch(globalThis.window?.location?.search || "");
     const playerCharacterId = normalizePlayerCharacterId(queryCharacterId ?? data.playerCharacterId);
     const playerAssetProfile = getPlayerAssetProfile(playerCharacterId);
-    const hardcoreModeData = sanitizeHardcoreModeData(data.hardcoreModeData);
     const isNewSave = data.isNewSave === true;
+    const primarySave = isNewSave
+      ? null
+      : new DugTilesSaveStore({ slotId: saveSlot }).loadForDisplay();
+    const playerAssetOptions = {
+      upgradeLevels: primarySave?.upgrades?.upgradeLevels || {},
+    };
+    const hardcoreModeData = sanitizeHardcoreModeData(
+      primarySave?.hardcoreModeData ?? data.hardcoreModeData,
+    );
     const tutorialChoice = data.tutorialChoice;
 
     this._startedPlayScene = false;
@@ -54,14 +63,22 @@ export class WorldLoadScene extends Phaser.Scene {
     // pipeline needs to complete before textures can be referenced by animations.
     let characterLoadNeeded = false;
     if (playerAssetProfile.isUalNative) {
-      characterLoadNeeded = queuePlayerProfileSheets(this, playerAssetProfile);
+      characterLoadNeeded = queuePlayerProfileSheets(
+        this,
+        playerAssetProfile,
+        playerAssetOptions,
+      );
     } else if (playerCharacterId === PLAYER_CHARACTER_IDS.robot) {
-      characterLoadNeeded = queueRobotSheets(this);
+      characterLoadNeeded = queueRobotSheets(this, playerAssetOptions);
     } else if (playerCharacterId === PLAYER_CHARACTER_IDS.drillHead) {
       characterLoadNeeded = queueLivingDrillSheets(this);
     }
 
-    const featureLoad = queueWorldLoadFeatureAssets(this, { saveSlot });
+    const featureLoad = queueWorldLoadFeatureAssets(this, {
+      saveSlot,
+      campfireData: primarySave?.campfireData,
+      hardcoreModeData,
+    });
     const loadNeeded = characterLoadNeeded || featureLoad.queued;
 
     if (loadNeeded) {
@@ -73,6 +90,7 @@ export class WorldLoadScene extends Phaser.Scene {
       const loadComplete = awaitLoadComplete(this, { forceNextLoad: true });
       this.load.start();
       await loadComplete;
+      this.registry?.get?.("runtimeAssetCatalog")?.adoptTextureManager?.(this.textures);
       this.loadingUi?.setProgress(0.7);
     }
 

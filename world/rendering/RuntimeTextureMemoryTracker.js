@@ -33,7 +33,16 @@ export class RuntimeTextureMemoryTracker {
     this.cached = this._emptySnapshot();
   }
 
-  register(key, { owner = "runtime", width = 0, height = 0, managed = true } = {}) {
+  register(key, {
+    owner = "runtime",
+    width = 0,
+    height = 0,
+    managed = true,
+    capability = null,
+    residencyClass = "runtime",
+    packId = null,
+    consumers = [],
+  } = {}) {
     if (!key) return false;
     this.records.set(key, {
       key,
@@ -41,6 +50,10 @@ export class RuntimeTextureMemoryTracker {
       width: Math.max(0, Number(width) || 0),
       height: Math.max(0, Number(height) || 0),
       managed,
+      capability,
+      residencyClass,
+      packId,
+      consumers,
       lastUsedAtMs: this.now(),
     });
     return true;
@@ -55,6 +68,10 @@ export class RuntimeTextureMemoryTracker {
 
   release(key) {
     return this.records.delete(key);
+  }
+
+  isManaged(key) {
+    return this.records.get(key)?.managed === true;
   }
 
   sample(force = false) {
@@ -77,12 +94,19 @@ export class RuntimeTextureMemoryTracker {
   _scanTextureManager(keys, textureManager) {
     const seenSources = new Set();
     const bytesByOwner = new Map();
+    const bytesByResidencyClass = new Map();
+    const bytesByPack = new Map();
+    const largestSources = [];
     let estimatedBytes = 0;
     let sourceCount = 0;
+    let untrackedSourceCount = 0;
 
     for (const key of keys) {
       const texture = textureManager.get?.(key);
-      const owner = this.records.get(key)?.owner || "boot-or-untracked";
+      const record = this.records.get(key);
+      const owner = record?.owner || "catalog-unclassified";
+      const residencyClass = record?.residencyClass || "unclassified";
+      const packId = record?.packId || "catalog-unclassified";
       for (const source of getTextureSources(texture)) {
         const metrics = getSourceMetrics(source);
         if (!metrics.identity || seenSources.has(metrics.identity)) continue;
@@ -91,25 +115,84 @@ export class RuntimeTextureMemoryTracker {
           * this.config.estimatedBytesPerPixel;
         estimatedBytes += bytes;
         sourceCount += 1;
+        if (!record) untrackedSourceCount += 1;
         bytesByOwner.set(owner, (bytesByOwner.get(owner) || 0) + bytes);
+        bytesByResidencyClass.set(
+          residencyClass,
+          (bytesByResidencyClass.get(residencyClass) || 0) + bytes,
+        );
+        bytesByPack.set(packId, (bytesByPack.get(packId) || 0) + bytes);
+        largestSources.push({
+          key,
+          owner,
+          packId,
+          residencyClass,
+          bytes,
+          width: metrics.width,
+          height: metrics.height,
+          managed: record?.managed === true,
+        });
       }
     }
-    return this._makeSnapshot(estimatedBytes, sourceCount, bytesByOwner);
+    return this._makeSnapshot(
+      estimatedBytes,
+      sourceCount,
+      bytesByOwner,
+      bytesByResidencyClass,
+      untrackedSourceCount,
+      bytesByPack,
+      largestSources,
+    );
   }
 
   _scanRegisteredRecords() {
     const bytesByOwner = new Map();
+    const bytesByResidencyClass = new Map();
+    const bytesByPack = new Map();
+    const largestSources = [];
     let estimatedBytes = 0;
     for (const record of this.records.values()) {
       const bytes = record.width * record.height
         * this.config.estimatedBytesPerPixel;
       estimatedBytes += bytes;
       bytesByOwner.set(record.owner, (bytesByOwner.get(record.owner) || 0) + bytes);
+      bytesByResidencyClass.set(
+        record.residencyClass,
+        (bytesByResidencyClass.get(record.residencyClass) || 0) + bytes,
+      );
+      const packId = record.packId || "catalog-unclassified";
+      bytesByPack.set(packId, (bytesByPack.get(packId) || 0) + bytes);
+      largestSources.push({
+        key: record.key,
+        owner: record.owner,
+        packId,
+        residencyClass: record.residencyClass,
+        bytes,
+        width: record.width,
+        height: record.height,
+        managed: record.managed === true,
+      });
     }
-    return this._makeSnapshot(estimatedBytes, this.records.size, bytesByOwner);
+    return this._makeSnapshot(
+      estimatedBytes,
+      this.records.size,
+      bytesByOwner,
+      bytesByResidencyClass,
+      0,
+      bytesByPack,
+      largestSources,
+    );
   }
 
-  _makeSnapshot(estimatedBytes, sourceCount, bytesByOwner) {
+  _makeSnapshot(
+    estimatedBytes,
+    sourceCount,
+    bytesByOwner,
+    bytesByResidencyClass = new Map(),
+    untrackedSourceCount = 0,
+    bytesByPack = new Map(),
+    largestSources = [],
+  ) {
     const bytesPerMiB = this.config.bytesPerMiB;
     return {
       estimatedBytes,
@@ -121,11 +204,17 @@ export class RuntimeTextureMemoryTracker {
       overBudget: estimatedBytes > this.config.highWatermarkBytes,
       sourceCount,
       registeredRuntimeTextures: this.records.size,
+      untrackedSourceCount,
       bytesByOwner: Object.fromEntries(bytesByOwner),
+      bytesByResidencyClass: Object.fromEntries(bytesByResidencyClass),
+      bytesByPack: Object.fromEntries(bytesByPack),
+      largestSources: Object.freeze(
+        largestSources.sort((left, right) => right.bytes - left.bytes).slice(0, 160),
+      ),
     };
   }
 
   _emptySnapshot() {
-    return this._makeSnapshot(0, 0, new Map());
+    return this._makeSnapshot(0, 0, new Map(), new Map(), 0, new Map(), []);
   }
 }

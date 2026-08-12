@@ -13,6 +13,12 @@ import { TITAN_DISCOVERY_EXPERIENCE } from "../values/titanDiscoveryExperience.j
 import { TITAN_CLUE_CATALOG_CONFIG } from "../values/titanClueCatalog.js";
 import { getTitanLoreEntry } from "../values/titanLore.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
+import {
+  GAMEPLAY_PROFILE_IDS,
+  createGameplayCapabilities,
+} from "../values/gameplayCapabilities.js";
+import { getCapabilityTitanGameplayPreloadAssets } from
+  "../values/titanRuntimeCapabilities.js";
 import { RetentionProgressSystem } from "../systems/progression/RetentionProgressSystem.js";
 import { TitanDiscoverySystem } from "../systems/visual/TitanDiscoverySystem.js";
 import { buildTitanDiscoveryZones } from "../systems/visual/titanDiscoveryZones.js";
@@ -405,7 +411,10 @@ const legacyRendererSource = fs.readFileSync(
   path.join(ROOT, "world/rendering/WorldRenderer.js"),
   "utf8"
 );
-const bootSource = fs.readFileSync(path.join(ROOT, "ui/scenes/BootScene.js"), "utf8");
+const runtimeAssetGroupsSource = fs.readFileSync(
+  path.join(ROOT, "world/rendering/runtimeFeatureAssetGroups.js"),
+  "utf8"
+);
 const pauseSource = fs.readFileSync(
   path.join(ROOT, "world/playScene/PlaySceneUI.js"),
   "utf8"
@@ -422,7 +431,19 @@ assert.match(legacyRendererSource, /titanDiscoverySystem\?\.update/);
 assert.match(legacyRendererSource, /titanDiscoverySystem\?\.invalidateTile/);
 assert.match(legacyRendererSource, /titanDiscoverySystem\?\.refresh/);
 assert.match(legacyRendererSource, /titanDiscoverySystem\?\.destroy/);
-assert.match(bootSource, /getTitanDiscoveryPreloadAssets/);
+assert.ok(
+  getCapabilityTitanGameplayPreloadAssets(
+    TITAN_DISCOVERY_CONFIG,
+    "",
+    createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.DEMO),
+  ).length
+  < getCapabilityTitanGameplayPreloadAssets(
+    TITAN_DISCOVERY_CONFIG,
+    "",
+    createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW),
+  ).length,
+);
+assert.match(runtimeAssetGroupsSource, /getTitanArchivePreloadAssets/);
 assert.match(pauseSource, /new TitanArchiveView/);
 assert.match(pauseSource, /resolveTitanDiscoveriesEnabled/);
 assert.match(archiveSource, /columns/);

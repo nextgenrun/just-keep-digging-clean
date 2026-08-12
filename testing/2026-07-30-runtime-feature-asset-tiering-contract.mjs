@@ -1,20 +1,31 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 
 import { CAMPFIRE_CONFIG } from "../values/campfireConfig.js";
 import { LIGHT_CONFIG } from "../values/lightConfig.js";
+import { getStarIdentityRarityAssets } from "../values/starIdentityRuntimeAssets.js";
 import {
   RUNTIME_ASSET_LOADING,
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
   getCampfireFeatureAssetGroupId,
+  getStarRarityFeatureAssetGroupId,
+  getStarReleaseFeatureAssetGroupId,
   resolveRuntimeFeatureAssetDeferralEnabled,
 } from "../values/runtimeAssetLoading.js";
 import { TITAN_DISCOVERY_CONFIG } from "../values/titanDiscoveries.js";
+import {
+  GAMEPLAY_PROFILE_IDS,
+  createGameplayCapabilities,
+} from "../values/gameplayCapabilities.js";
+import { getCapabilityTitanGameplayPreloadAssets } from
+  "../values/titanRuntimeCapabilities.js";
 import { SkyBeaconPulseRenderer } from "../systems/lighting/SkyBeaconPulseRenderer.js";
 import { SkySteadyLightRenderer } from "../systems/lighting/SkySteadyLightRenderer.js";
 import { queueWorldLoadFeatureAssets } from "../ui/scenes/WorldLoadAssetPreloader.js";
 import { RuntimeFeatureAssetManager } from "../world/rendering/RuntimeFeatureAssetManager.js";
 import { getRuntimeFeatureAssetGroup } from "../world/rendering/runtimeFeatureAssetGroups.js";
+import { installStarIdentityTextureFrames } from
+  "../systems/visual/installStarIdentityTextureFrames.js";
 
 assert.equal(resolveRuntimeFeatureAssetDeferralEnabled(RUNTIME_ASSET_LOADING, ""), true);
 assert.equal(
@@ -28,6 +39,11 @@ assert.equal(
 
 const groupIds = [
   RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx,
+  getStarRarityFeatureAssetGroupId(0),
+  getStarRarityFeatureAssetGroupId(5),
+  getStarReleaseFeatureAssetGroupId(0),
+  getStarReleaseFeatureAssetGroupId(5),
+  RUNTIME_FEATURE_ASSET_GROUP_IDS.starAtlas,
   RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight,
   RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive,
   RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap,
@@ -48,14 +64,45 @@ assert.equal(
 );
 assert.equal(getRuntimeFeatureAssetGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap).assets.length, 1);
 assert.equal(getRuntimeFeatureAssetGroup(getCampfireFeatureAssetGroupId(4)).assets.length, 1);
+for (let rarity = 0; rarity < 6; rarity += 1) {
+  const rarityGroup = getRuntimeFeatureAssetGroup(
+    getStarRarityFeatureAssetGroupId(rarity),
+  );
+  assert.deepEqual(
+    rarityGroup.assets.map(asset => asset.key),
+    getStarIdentityRarityAssets(rarity).map(asset => asset.key),
+  );
+  assert.equal(
+    getRuntimeFeatureAssetGroup(getStarReleaseFeatureAssetGroupId(rarity))
+      .assets.length,
+    3,
+  );
+}
+const installedFrames = new Set();
+const partialFrameScene = {
+  textures: {
+    exists: key => getStarIdentityRarityAssets(0).some(asset => asset.key === key),
+    get: () => ({
+      has: frame => installedFrames.has(frame),
+      add: frame => installedFrames.add(frame),
+    }),
+  },
+};
+assert.equal(installStarIdentityTextureFrames(partialFrameScene), true);
+assert.ok(installedFrames.size > 0, "resident rarity atlases must install independently");
 
-const bootSource = readFileSync("ui/scenes/BootScene.js", "utf8");
-assert.match(bootSource, /resolveRuntimeFeatureAssetDeferralEnabled/);
-assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+for \(const asset of CELESTIAL_TALENT_TREE_PRELOAD_ASSETS/s);
-assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+for \(const asset of getStarBlockSteadyLightPreloadAssets/s);
-assert.match(bootSource, /if \(!this\._deferFeatureAssets\) \{\s+this\.queueImage\(ASSET_KEYS\.ui\.worldMapFrame/s);
-assert.match(bootSource, /getTitanGameplayPreloadAssets/);
-assert.match(bootSource, /CAMPFIRE_TIERS\.length/);
+const demoTitanAssets = getCapabilityTitanGameplayPreloadAssets(
+  TITAN_DISCOVERY_CONFIG,
+  "",
+  createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.DEMO),
+);
+const fullTitanAssets = getCapabilityTitanGameplayPreloadAssets(
+  TITAN_DISCOVERY_CONFIG,
+  "",
+  createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW),
+);
+assert.ok(demoTitanAssets.length < fullTitanAssets.length);
+assert.ok(demoTitanAssets.every(asset => existsSync(asset.path)));
 
 const queuedWorldAssets = [];
 const featureLoad = queueWorldLoadFeatureAssets({
@@ -63,13 +110,17 @@ const featureLoad = queueWorldLoadFeatureAssets({
   load: { image: (key, assetPath) => queuedWorldAssets.push({ key, path: assetPath }) },
 }, {
   saveSlot: 3,
-  storage: { getItem: key => key.endsWith("-3") ? "4" : null, setItem() {} },
+  campfireData: { level: 4 },
   search: "",
 });
 assert.equal(featureLoad.campfireLevel, 4);
 assert.deepEqual(
   queuedWorldAssets.map(asset => asset.key),
-  [CAMPFIRE_CONFIG.spriteKeys[3], CAMPFIRE_CONFIG.spriteKeys[4]],
+  [
+    CAMPFIRE_CONFIG.spriteKeys[3],
+    CAMPFIRE_CONFIG.spriteKeys[4],
+    "ui-hardcore-oath-panel-v1",
+  ],
 );
 assert.equal(queueWorldLoadFeatureAssets({ load: { image() {} } }, {
   search: "?runtimeFeatureAssets=0",

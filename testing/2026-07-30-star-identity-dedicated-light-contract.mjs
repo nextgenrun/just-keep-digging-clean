@@ -9,6 +9,8 @@ import {
 import {
   validateStarIdentityLibraryConfig,
 } from "../values/starIdentityLibraryMath.js";
+import { showWorldVisualSemanticStar } from
+  "../world/rendering/scenic-world/WorldVisualSemanticStarPresenter.js";
 
 const read = relativePath => readFileSync(
   new URL(`../${relativePath}`, import.meta.url),
@@ -45,13 +47,58 @@ assert.match(steady, /starIdentity\.lightFrameName/);
 assert.doesNotMatch(steady, /starIdentity\.frameName/);
 assert.doesNotMatch(steady, /setTint|add\.graphics|createCanvas/);
 
-const semantic = read(
-  "world/rendering/scenic-world/WorldVisualSemanticAssetLayer.js",
-);
-assert.match(semantic, /identityLightAtlas/);
-assert.match(semantic, /identity\.lightFrameName/);
-assert.match(semantic, /worldLightScale/);
-assert.match(semantic, /worldLightAlphaScale/);
+const makeImage = () => ({
+  textureKey: null,
+  frameName: null,
+  setPosition() { return this; },
+  setDepth() { return this; },
+  setTexture(key, frame) { this.textureKey = key; this.frameName = frame; return this; },
+  setDisplaySize() { return this; },
+  setAlpha() { return this; },
+  setTint() { return this; },
+  setVisible() { return this; },
+});
+const beauty = makeImage();
+const emissive = makeImage();
+const semanticLayer = {
+  identityFramesReady: true,
+  worldModel: {
+    getSkyTileRarity: () => 0,
+    getSkyTileIdentity: () => 0,
+  },
+  config: {
+    skyTile: {
+      beautyAtlas: { frameCount: 6, framePrefix: "fallback-beauty-" },
+      emissiveAtlas: { framePrefix: "fallback-light-" },
+      pulsePeriodMs: 1000,
+      pulseAlphaRange: [0.7, 1],
+      scale: 1,
+      beautyAlpha: 1,
+      emissiveAlpha: 1,
+      beautyReceivesTerrainTint: false,
+    },
+    render: {
+      starBeautyDepth: 1,
+      emissiveBlendMode: "ADD",
+      beautyBlendMode: "NORMAL",
+      townFloorOccludedEmissiveDepth: 2,
+    },
+  },
+  scene: {
+    textures: { exists: () => true },
+    runtimeFeatureAssetManager: { enabled: true },
+  },
+  starBeautyPool: [beauty],
+  starEmissivePool: [emissive],
+  currentEmissiveDepth: 3,
+  townFloorOcclusion: null,
+  activeStars: [],
+};
+assert.equal(showWorldVisualSemanticStar(semanticLayer, 0, 1, 2, 94, {}, 0), true);
+assert.equal(beauty.textureKey, config.atlases[0].key);
+assert.equal(beauty.frameName, config.identities[0].frameName);
+assert.equal(emissive.textureKey, config.lightAtlases[0].key);
+assert.equal(emissive.frameName, config.identities[0].lightFrameName);
 
 const release = read("systems/visual/playSkyStarReleaseIdentityLight.js");
 assert.match(release, /entry\.lightTextureKey/);

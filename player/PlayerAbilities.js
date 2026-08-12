@@ -42,8 +42,7 @@ export class PlayerAbilities {
     this.body = physicsBody;
     this.playerLevelSystem = playerLevelSystem;
     this.comboSystem = comboSystem;
-
-    // Gem power
+    this._abilityAssetReadiness = null;
     this.gemPower = 0;
     this._baseGemPowerMax = GEM_POWER_CONFIG.baseMax || 100;
     this._progressionGemPowerMaxBonus = 0;
@@ -51,29 +50,20 @@ export class PlayerAbilities {
     this._gemPowerRegenRate = GEM_POWER_CONFIG.baseRegen || 2;
     this._gemPowerChangeListener = null;
     this._gemPowerFloorProvider = null;
-
-
-    // Flying
     this._flying = false;
     this._flyToggleCooldown = 0;
     this._groundLevelY = this.body ? this.body.y + this.body.h : 0;
     this._warnedLowGemPower = false;
     this._freeFlightProvider = null;
-
-    // Quickslash
     this._quickslashActive = false;
     this._quickslashDirection = 1;
     this._quickslashTimer = 0;
     this._constellationStats = getDefaultAbilityStats();
     this._constellationStatsSig = null;
-
-    // Thunder strike
     this._thunderStrikeCharging = false;
     this._thunderStrikeChargeStart = 0;
     this._thunderStrikeFollowUpStageIndex = null;
     this._thunderStrikeFollowUpSuccessCount = 0;
-
-    // God mode
     this._godMode = false;
   }
 
@@ -92,6 +82,13 @@ export class PlayerAbilities {
   }
   setGemPowerFloorProvider(provider) {
     this._gemPowerFloorProvider = typeof provider === "function" ? provider : null;
+  }
+  setAbilityAssetReadiness(readiness) { this._abilityAssetReadiness = readiness || null; }
+
+  _abilityAssetsReady(abilityId) {
+    if (!this._abilityAssetReadiness || this._abilityAssetReadiness.isReady(abilityId)) return true;
+    void this._abilityAssetReadiness.ensure(abilityId);
+    return false;
   }
 
   update(dt, input, isGrounded, facingRight) {
@@ -194,7 +191,8 @@ export class PlayerAbilities {
 
   _updateQuickslash(input, facingRight) {
     const wantsQuickslash = input?.getQuickslashInput?.() === true;
-    if (!wantsQuickslash || !PLAYER_ABILITIES_CONFIG.quickslashEnabled || !this._isQuickslashUnlocked()) {
+    if (!wantsQuickslash || !PLAYER_ABILITIES_CONFIG.quickslashEnabled
+      || !this._isQuickslashUnlocked() || !this._abilityAssetsReady("quickslash")) {
       this._quickslashActive = false;
       return;
     }
@@ -219,8 +217,6 @@ export class PlayerAbilities {
       }
     }
   }
-
-
   _updateGemPower(dt) {
     if (
       !this._godMode
@@ -303,9 +299,7 @@ export class PlayerAbilities {
 
   startThunderStrikeCharge(nowMs = this.sprite?.scene?.time?.now ?? Date.now()) {
     this.cancelThunderStrikeChain();
-    if (!this._isThunderStrikeUnlocked()) {
-      return false;
-    }
+    if (!this._isThunderStrikeUnlocked() || !this._abilityAssetsReady("thunderStrike")) return false;
     if (this.gemPower >= this.getThunderStrikeCost() || this._godMode) {
       this._thunderStrikeCharging = true;
       this._thunderStrikeChargeStart = Number.isFinite(nowMs) ? nowMs : 0;
@@ -354,6 +348,9 @@ export class PlayerAbilities {
     const initialSlam = normalizedStageIndex === 0;
     let chainSuccessCount = 0;
     if (initialSlam) {
+      if (!this._abilityAssetsReady("thunderStrike")) {
+        return { success: false, reason: "assets-loading" };
+      }
       if (!this._thunderStrikeCharging) return { success: false, reason: "not-charging" };
       this._thunderStrikeCharging = false;
       const cost = this.getThunderStrikeCost();

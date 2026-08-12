@@ -17,7 +17,10 @@ the player can reload the previous valid snapshot or return to the menu.
 `BootScene.js` mini-preloads the regular loading-screen logo/background and
 the retained deferred-feature loading chrome before starting its full queue.
 `WorldLoadScene.js` uses the same pre-minigame progress/failure API while
-loading the selected character and nearby world package. The retired loading
+loading the selected character, current/next Campfire art, and the selected
+Hardcore mode package. Boot adopts every texture into the runtime catalog;
+WorldLoad extends that same catalog without changing or resizing authored
+sources. The retired loading
 minigame package is preserved under `archive/2026-08-03-loading-mining-minigame/`.
 
 `CaveScene.js` preloads one authored 3:1 interior for the selected cave identity.
@@ -83,21 +86,22 @@ boot queue. No production system consumes it; loading the 3840x3840 sheet only
 adds texture pressure and can prevent PlayScene from starting on constrained
 renderers. The smaller active Shadow Miner sheet remains available.
 
-The shared UI Boot preload keeps the 25 independent Titan surface stances, the
-walk plinth, underground dais, resonance overlay, guidance pointer, and 25
-compact archive portraits resident. Escape can therefore open TITANS immediately
-instead of placing its UI behind the deep-world streaming queue. Other optional
-feature packages still honor `?runtimeFeatureAssets=0`, while `?titans=0` still
-disables the complete Titan feature. Source chroma, alpha masters, contact
-sheets, and intermediate atlases remain tooling-only.
+The shared UI Boot preload keeps only Titan gameplay-critical surface stances,
+walk plinth, underground dais, resonance overlay, and guidance pointer. The 25
+compact archive portraits form an on-demand pack owned by the Escape TITANS
+tab; its loading surface holds the tab without blocking the live simulation.
+Star identities move to the pre-depth-threshold pack. Source chroma, alpha
+masters, contact sheets, and intermediate atlases remain tooling-only.
 
 
 `WorldLoadScene` also queues only the save slot's current Campfire tier and its
 next upgrade before PlayScene starts; the other eight tiers no longer occupy
-Boot transfer or decoded memory.
+Boot transfer or decoded memory. Casual does not queue Hardcore/memorial art;
+Hardcore queues that full-quality mode pack only after selection.
 
-`BootScene.js` also queues exactly the 25 live modular surface-prop cutouts
-returned by `getSurfacePropPreloadAssets()`: the retained 18-piece Level
-1/Level 2 kit plus seven additive Level 2 chapter anchors. Review panoramas,
+`BootScene.js` queues the live Level One modular surface-prop cutouts. Level
+Two chapter anchors and hero landmarks are capability-owned and therefore
+absent from the production demo queue while remaining available in full-review.
+Review panoramas,
 chroma sources, alpha masters, scale sheets, and retained Level 2 v1 tone
 sources are never loaded at runtime.

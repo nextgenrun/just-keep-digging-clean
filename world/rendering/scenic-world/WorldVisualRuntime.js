@@ -14,8 +14,6 @@ import {
   WORLD_VISUAL_LANDMARKS,
   resolveWorldVisualLandmarksEnabled,
 } from "../../../values/worldVisualLandmarks.js";
-import { resolveWorldVisualSurfaceHeroLandmarkSuppression } from
-  "../../../values/worldVisualSurfaceHeroLandmarks.js";
 import { WorldVisualFeedbackLayer } from "./WorldVisualFeedbackLayer.js";
 import { WorldVisualGameplayEffectLayer } from "./WorldVisualGameplayEffectLayer.js";
 import { WorldVisualLandmarkLayer } from "./WorldVisualLandmarkLayer.js";
@@ -33,10 +31,8 @@ import { WorldVisualUndergroundDetailLayer } from
 import { WorldVisualSurfaceStage } from
   "./WorldVisualSurfaceStage.js?rev=20260730-surface-transition-v1";
 import { WorldVisualSurfaceAtmosphereLayer } from "./WorldVisualSurfaceAtmosphereLayer.js";
-import { WorldVisualSurfacePropExpansionLayer } from
-  "./WorldVisualSurfacePropExpansionLayer.js";
-import { WorldVisualSurfaceHeroLandmarkLayer } from
-  "./WorldVisualSurfaceHeroLandmarkLayer.js";
+import { createWorldVisualSurfaceHeroOwner } from
+  "./WorldVisualSurfaceHeroRuntime.js";
 import { WorldVisualSurfacePropLayer } from "./WorldVisualSurfacePropLayer.js";
 import { WorldVisualSkyCohesionLayer } from
   "./WorldVisualSkyCohesionLayer.js?rev=20260730-sky-order-v2";
@@ -89,26 +85,18 @@ export class WorldVisualRuntime {
     this.skyCohesionLayer = new WorldVisualSkyCohesionLayer(this.scene);
     this.skyCohesionLayer.create();
     const search = globalThis.location?.search || "";
-    const heroSuppression = resolveWorldVisualSurfaceHeroLandmarkSuppression(
-      undefined,
-      search,
+    const heroOwner = createWorldVisualSurfaceHeroOwner(
+      this.scene, this.worldModel, search,
     );
+    const heroSuppression = heroOwner.suppression;
     this.surfacePropLayer = new WorldVisualSurfacePropLayer(this.scene, this.worldModel);
     this.surfacePropLayer.create(search, {
       suppressedPlacementIds: heroSuppression.retained,
     });
-    this.surfacePropExpansionLayer = new WorldVisualSurfacePropExpansionLayer(
-      this.scene,
-      this.worldModel,
+    this.surfacePropExpansionLayer = heroOwner.createExpansion(
+      heroSuppression.expansion,
     );
-    this.surfacePropExpansionLayer.create(search, {
-      suppressedPlacementIds: heroSuppression.expansion,
-    });
-    this.surfaceHeroLandmarkLayer = new WorldVisualSurfaceHeroLandmarkLayer(
-      this.scene,
-      this.worldModel,
-    );
-    this.surfaceHeroLandmarkLayer.create(search);
+    this.surfaceHeroLandmarkLayer = heroOwner.create();
     this.surfaceAtmosphereLayer = new WorldVisualSurfaceAtmosphereLayer(this.scene);
     this.surfaceAtmosphereLayer.create();
     this.depthBackdropStage = new WorldVisualDepthBackdropStage(this.scene);

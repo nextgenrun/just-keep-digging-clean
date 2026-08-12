@@ -6,6 +6,8 @@ import {
 import { RuntimeAssetActivationScheduler } from "./RuntimeAssetActivationScheduler.js";
 import { RuntimeAssetLoadMetrics } from "./RuntimeAssetLoadMetrics.js";
 import { RuntimeTextureMemoryTracker } from "./RuntimeTextureMemoryTracker.js";
+import { queueRuntimeAsset, registerRuntimeTexture, removeRuntimeAsset,
+  resolveRuntimeAssetType, runtimeAssetExists } from "./RuntimeAssetTextureRegistry.js";
 
 function defaultNow() {
   return globalThis.performance?.now?.() ?? Date.now();
@@ -32,17 +34,17 @@ export class RuntimeAssetLoadCoordinator {
       && resolveRuntimeAssetBitmapDecodeEnabled(config, search)
       && Boolean(this.fetchAsset && this.decodeBitmap && scene.textures?.addImage)
     );
-    this.records = new Map();
-    this.queue = [];
-    this.activeRecords = new Set();
-    this.sequence = 0;
-    this.subscriberSequence = 0;
-    this.destroyed = false;
-    this.pumpScheduled = false;
-    this.bitmapSources = new Map();
+    this.records = new Map(); this.queue = [];
+    this.activeRecords = new Set(); this.bitmapSources = new Map();
+    this.sequence = 0; this.subscriberSequence = 0;
+    this.destroyed = false; this.pumpScheduled = false;
     this.scheduler = new RuntimeAssetActivationScheduler(scene, config, dependencies);
     this.metrics = new RuntimeAssetLoadMetrics(config, this.now);
     this.textureMemory = new RuntimeTextureMemoryTracker(scene, config, this.now);
+    this.assetCatalog = dependencies.assetCatalog
+      || scene.registry?.get?.("runtimeAssetCatalog")
+      || null;
+    this.assetCatalog?.adoptIntoTracker?.(this.textureMemory, scene.textures);
   }
   request(asset, {
     owner = this.config.owners.default,
@@ -51,15 +53,21 @@ export class RuntimeAssetLoadCoordinator {
     onStart = null,
     onReady = null,
     onError = null,
+    capability = null,
+    residencyClass = null,
+    packId = null,
+    consumers = [],
   } = {}) {
     if (!this.enabled || this.destroyed || !asset?.key || !asset?.path) return null;
-    const type = asset.type === this.config.types.video
-      ? this.config.types.video
-      : asset.type === this.config.types.audio
-        ? this.config.types.audio
-        : this.config.types.image;
+    const descriptor = this.assetCatalog?.registerQueuedAsset?.(asset, {
+      owner, priority, capability, residencyClass, packId, consumers, managed: true,
+    });
+    if (this.assetCatalog && !descriptor) return null;
+    const type = resolveRuntimeAssetType(asset, this.config);
     if (this._assetExists(asset, type)) {
-      if (type === this.config.types.image) this._registerTexture({ asset, type, owner }, false);
+      if ([this.config.types.image, this.config.types.spritesheet].includes(type)) {
+        this._registerTexture({ asset, type, owner }, false);
+      }
       onStart?.(asset);
       onReady?.(asset);
       return { cancel: () => false };
@@ -73,6 +81,10 @@ export class RuntimeAssetLoadCoordinator {
         asset,
         type,
         owner,
+        capability: descriptor?.capability || capability,
+        residencyClass: descriptor?.residencyClass || residencyClass,
+        packId: descriptor?.packId || packId,
+        consumers: descriptor?.consumers || consumers,
         priority,
         videoNoAudio,
         sequence: this.sequence += 1,
@@ -110,6 +122,7 @@ export class RuntimeAssetLoadCoordinator {
     if (!record?.subscribers.delete(subscriberId)) return false;
     if (record.subscribers.size > 0) return true;
     this.metrics.cancelled += 1;
+    record.abortController?.abort?.();
     if (!this.activeRecords.has(record)) {
       this.queue = this.queue.filter(candidate => candidate !== record);
       this.records.delete(record.id);
@@ -195,6 +208,7 @@ export class RuntimeAssetLoadCoordinator {
     } catch (error) {
       bitmap?.close?.();
       if (!this._isCurrent(record) || this.destroyed) return;
+      if (record.subscribers.size === 0) return this._finish(record, null, true);
       this.metrics.bitmapFallbacks += 1;
       record.backend = "phaser-fallback";
       this._loadWithPhaser(record, error);
@@ -232,13 +246,7 @@ export class RuntimeAssetLoadCoordinator {
       };
       loader.once?.(eventName, record.loaderComplete);
       loader.on?.(this.config.phaserLoader.errorEvent, record.loaderError);
-      if (record.type === this.config.types.video) {
-        loader.video?.(record.asset.key, record.asset.path, record.videoNoAudio);
-      } else if (record.type === this.config.types.audio) {
-        loader.audio?.(record.asset.key, record.asset.path);
-      } else {
-        loader.image?.(record.asset.key, record.asset.path);
-      }
+      queueRuntimeAsset(loader, record, this.config);
       if (!loader.isLoading?.()) loader.start?.();
     } catch (error) {
       if (this._isCurrent(record)) this._finish(record, error);
@@ -248,17 +256,17 @@ export class RuntimeAssetLoadCoordinator {
     const loader = this.scene.load;
     loader?.off?.(eventName, record.loaderComplete);
     loader?.off?.(this.config.phaserLoader.errorEvent, record.loaderError);
-    record.loaderComplete = null;
-    record.loaderError = null;
+    record.loaderComplete = null; record.loaderError = null;
   }
   _finish(record, error = null, cancelled = false) {
     if (!record || (!this._isCurrent(record) && !this.records.has(record.id))) return;
+    if (record.subscribers.size === 0) cancelled = true;
     const eventName = `filecomplete-${record.type}-${record.asset.key}`;
     this._clearLoaderListeners(record, eventName);
     record.abortController = null;
-    this.records.delete(record.id);
-    this.activeRecords.delete(record);
+    this.records.delete(record.id); this.activeRecords.delete(record);
     this.metrics.recordCompletion(record, error, cancelled);
+    if (cancelled) removeRuntimeAsset(this.scene, record.asset, record.type, this.config);
     if (!error && !cancelled) {
       this._registerTexture(record, true);
     }
@@ -280,21 +288,13 @@ export class RuntimeAssetLoadCoordinator {
   }
 
   _assetExists(asset, type) {
-    if (type === this.config.types.video) {
-      return Boolean(this.scene.cache?.video?.exists?.(asset.key));
-    }
-    if (type === this.config.types.audio) {
-      return Boolean(this.scene.cache?.audio?.exists?.(asset.key));
-    }
-    return Boolean(this.scene.textures?.exists?.(asset.key));
+    return runtimeAssetExists(this.scene, asset, type, this.config);
   }
-
   _isCurrent(record) {
     return !this.destroyed
       && this.activeRecords.has(record)
       && this.records.get(record.id) === record;
   }
-
   releaseDecodedSource(key) {
     if (this.scene.textures?.exists?.(key)) return false;
     const bitmap = this.bitmapSources.get(key);
@@ -305,22 +305,21 @@ export class RuntimeAssetLoadCoordinator {
   }
 
   _registerTexture(record, managed = true) {
-    if (record?.type !== this.config.types.image) return false;
-    const texture = this.scene.textures?.get?.(record.asset.key);
-    const source = texture?.source?.[0]?.image
-      || texture?.getSourceImage?.()
-      || null;
-    const width = Number(record.width || source?.width || source?.naturalWidth || 0);
-    const height = Number(record.height || source?.height || source?.naturalHeight || 0);
-    return this.textureMemory.register(record.asset.key, {
-      owner: record.owner,
-      width,
-      height,
+    return registerRuntimeTexture({
+      scene: this.scene,
+      catalog: this.assetCatalog,
+      textureMemory: this.textureMemory,
+      record,
       managed,
+      config: this.config,
     });
   }
 
   getSnapshot() {
+    this.assetCatalog?.adoptIntoTracker?.(
+      this.textureMemory,
+      this.scene.textures,
+    );
     return this.metrics.snapshot({
       schemaVersion: this.config.schemaVersion,
       enabled: this.enabled,
@@ -328,7 +327,8 @@ export class RuntimeAssetLoadCoordinator {
       queue: this.queue,
       active: [...this.activeRecords],
       decodedSources: this.bitmapSources.size,
-      textureMemory: this.textureMemory.sample(),
+      textureMemory: this.textureMemory.sample(true),
+      assetCatalog: this.assetCatalog?.getSnapshot?.(this.scene.textures) || null,
       externalLoaderWaits: this.scheduler.externalLoaderWaits,
     });
   }
@@ -342,8 +342,6 @@ export class RuntimeAssetLoadCoordinator {
       this._clearLoaderListeners(record, eventName);
     }
     this.scheduler.destroy();
-    this.queue.length = 0;
-    this.records.clear();
-    this.activeRecords.clear();
+    this.queue.length = 0; this.records.clear(); this.activeRecords.clear();
   }
 }

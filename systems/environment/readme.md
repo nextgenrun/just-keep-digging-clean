@@ -19,6 +19,10 @@ Notable systems:
   It adopts the current tier queued by `WorldLoadScene`, keeps that exact visual
   until an upgraded tier is fully ready, then releases the previous
   manager-owned texture without changing upgrade or persistence semantics.
+  `CampfireUpgradeTransaction.js` loads and validates the next full-quality tier
+  before spending, rechecks the level and wallet after the wait, and coalesces
+  duplicate clicks. A failed, cancelled, or pressure-timed-out load spends no
+  gold and writes no save.
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
 - `V11SkyIslandVisualSystem.js` submits the six Heavenblocks backdrops/facades
   as separate low-priority requests to the shared runtime coordinator. Each

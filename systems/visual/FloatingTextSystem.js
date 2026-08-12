@@ -5,7 +5,8 @@ import { getResourceDisplayName } from "../../values/resourceTypes.js";
 import { getConstellationRelicRequirement } from "../../values/ancientRelics.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
 import { USER_SETTINGS } from "../UserSettings.js";
-import { SkyStarReleaseView } from "./SkyStarReleaseView.js";
+import { showCollectedSkyStarReleaseWithAssets } from
+  "./StarReleaseAssetCoordinator.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
 import {
@@ -23,10 +24,6 @@ import {
   validateStarIdentityLibraryConfig,
 } from "../../values/starIdentityLibraryMath.js";
 import { installStarIdentityTextureFrames } from "./installStarIdentityTextureFrames.js";
-import {
-  RUNTIME_FEATURE_ASSET_CONSUMERS,
-  RUNTIME_FEATURE_ASSET_GROUP_IDS,
-} from "../../values/runtimeAssetLoading.js";
 import { sanitizeStarCollectionData } from "../../values/savePayloadV15.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
@@ -782,51 +779,9 @@ export class FloatingTextSystem {
    * persist, or notify progression and is safe for visual review harnesses.
   */
   showCollectedSkyStarRelease(rarity, startWorldX, startWorldY, resourceType = null, progress = null) {
-    const manager = this.scene?.runtimeFeatureAssetManager;
-    const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx;
-    if (manager?.enabled && !manager.isReady(groupId)) {
-      const consumer = `${RUNTIME_FEATURE_ASSET_CONSUMERS.starReleasePrefix}${this._runtimeFeatureRequestSequence += 1}`;
-      manager.ensureGroup(groupId, { consumer }).then(result => {
-        if (result.ready && !this._destroyed && this.scene) {
-          this.showCollectedSkyStarRelease(rarity, startWorldX, startWorldY, resourceType, progress);
-        }
-        manager.releaseGroup(groupId, consumer);
-      });
-      return null;
-    }
-
-    const entry = this._createSkyStarEntry(
-      startWorldX,
-      startWorldY,
-      rarity,
-      resourceType,
-      progress?.identityIndex,
-    );
-    if (!entry) return null;
-
-    const star = entry.graphic;
-    const releaseView = new SkyStarReleaseView(this.scene);
-    const discardReleasedStar = () => {
-      const index = this.activeFloatingTexts.indexOf(star);
-      if (index !== -1) this.activeFloatingTexts.splice(index, 1);
-      this._activeSkyStarReleaseViews.delete(releaseView);
-    };
-
-    this.activeFloatingTexts.push(star);
-    this._activeSkyStarReleaseViews.add(releaseView);
-    const started = releaseView.play({
-      entry,
-      startWorldX,
-      startWorldY,
-      onComplete: discardReleasedStar,
+    return showCollectedSkyStarReleaseWithAssets(this, {
+      rarity, startWorldX, startWorldY, resourceType, progress,
     });
-    if (!started) {
-      releaseView.destroy();
-      if (star.active) star.destroy();
-      discardReleasedStar();
-      return null;
-    }
-    return releaseView;
   }
 
 

@@ -37,6 +37,7 @@ import {
 } from "../../values/campfireConfig.js";
 import { getCampfireFeatureAssetGroupId } from "../../values/runtimeAssetLoading.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../UserSettings.js";
+import { executeCampfireUpgrade } from "./CampfireUpgradeTransaction.js";
 
 // ── Main Menu Theme Palette (matches ShopOverlay / MainMenuScene) ──────────
 const COL = {
@@ -329,35 +330,18 @@ export class CampfireSystem {
    * Returns { success: boolean, message: string }
    */
   upgradeCampfire() {
-    const currentIdx = this._campfireLevel - 1;
-    const nextTier = CAMPFIRE_TIERS[currentIdx + 1];
-    if (!nextTier) {
-      return { success: false, message: 'Already max level!' };
-    }
-
-    const money = this.scene.upgradeSystem ? this.scene.upgradeSystem.getMoney() : 0;
-    if (money < nextTier.cost) {
-      return { success: false, message: `Need ${nextTier.cost} gold!` };
-    }
-
-    // Spend money
-    if (this.scene.upgradeSystem) {
-      this.scene.upgradeSystem.spendMoney(nextTier.cost);
-    }
-
-    this._campfireLevel = nextTier.level;
-
-    // Update campfire sprite to match new level
-    void this._ensureCampfireTierTexture(this._campfireLevel);
-    this._syncMoneyUi();
-    this.scene.queueDugTilesSave?.();
-    this.scene.hudSystem?.flashStatus?.(`CAMPFIRE UPGRADED  •  ${nextTier.label}`, COL.cssSuccess, 1800);
-
-    return {
-      success: true,
-      message: `Campfire upgraded to ${nextTier.label}.`,
-      tier: nextTier,
-    };
+    if (this._campfireUpgradePromise) return this._campfireUpgradePromise;
+    this._campfireUpgradePromise = executeCampfireUpgrade(this)
+      .then(result => {
+        if (result.success) this.scene.hudSystem?.flashStatus?.(
+          `CAMPFIRE UPGRADED  •  ${result.tier.label}`,
+          COL.cssSuccess,
+          1800,
+        );
+        return result;
+      })
+      .finally(() => { this._campfireUpgradePromise = null; });
+    return this._campfireUpgradePromise;
   }
 
   // ── Private helpers ─────────────────────────────────────────────────────
@@ -682,8 +666,8 @@ export class CampfireSystem {
         fontSize: "11px",
         enabled: canUpgrade,
         disabledReason: "NEED " + upgradeCost.toLocaleString() + " GOLD",
-        onClick: () => {
-          const result = this.upgradeCampfire();
+        onClick: async () => {
+          const result = await this.upgradeCampfire();
           if (result.success) this._rebuffSelection();
         },
       });

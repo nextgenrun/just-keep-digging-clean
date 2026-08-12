@@ -87,6 +87,10 @@ export class SkySteadyLightRenderer {
     const light = this._lights[this._usedCount];
     if (!light || !entry?.asset?.key) return false;
 
+    if (!this._identityFramesReady) {
+      this._identityFramesReady = installStarIdentityTextureFrames(this.scene);
+    }
+
     const starIdentity = getStarIdentity(identity);
     const identityLightAtlas = STAR_IDENTITY_LIBRARY_CONFIG.lightAtlases[
       starIdentity.rarityIndex
@@ -94,6 +98,7 @@ export class SkySteadyLightRenderer {
     const identityReady = this._identityFramesReady
       && identityLightAtlas
       && this.scene.textures?.exists?.(identityLightAtlas.key);
+    if (this.scene.runtimeFeatureAssetManager?.enabled && !identityReady) return false;
     const requestedAsset = identityReady
       ? identityLightAtlas
       : this.scene.textures?.exists?.(entry.asset.key)

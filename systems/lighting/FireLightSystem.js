@@ -16,7 +16,7 @@ import {
 import { EyeAdaptationSystem } from "./EyeAdaptationSystem.js";
 import { FireIlluminationRenderer } from "./FireIlluminationRenderer.js";
 import { FireLightRayRenderer } from "./FireLightRayRenderer.js";
-import { FireLightRenderer } from "./FireLightRenderer.js";
+import { createFireLightRenderer } from "./FireLightRuntimeFactory.js";
 import { clampFireLight01 } from "./fireLightMath.js";
 /**
  * Carried-fire presentation only.
@@ -59,18 +59,14 @@ export class FireLightSystem {
 
   _create() {
     if (!this.requested) return;
-    const textureKeys = Object.values(this.config.assetKeys);
-    if (!textureKeys.every(key => this.scene.textures?.exists?.(key))) {
-      this.disabledReason = "missing-authored-assets";
-      return;
-    }
-    this.renderer = new FireLightRenderer(this.scene, this.config);
-    if (!this.renderer.available) {
-      this.disabledReason = "renderer-unavailable";
-      this.renderer.destroy();
-      this.renderer = null;
-      return;
-    }
+    const rendererResult = createFireLightRenderer(
+      this.scene,
+      this.config,
+      this.presentation,
+      this.raysRequested,
+    );
+    this.renderer = rendererResult.renderer;
+    if (!this.renderer) return void (this.disabledReason = rendererResult.disabledReason);
     this.illuminationRenderer = new FireIlluminationRenderer(
       this.scene,
       this.illuminationConfig,

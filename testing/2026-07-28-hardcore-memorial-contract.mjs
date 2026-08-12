@@ -442,9 +442,9 @@ for (const asset of Object.values(config.assets)) {
 }
 
 const sourceContracts = [
-  ["ui/scenes/BootScene.js", "getHardcoreMemorialPreloadAssets"],
-  ["world/playScene/PlaySceneSetup.js", "new HardcoreMemorialStore()"],
-  ["world/playScene/PlaySceneSetup.js", "new HardcoreMemorialWorldSystem("],
+  ["ui/scenes/WorldLoadAssetPreloader.js", "getHardcoreMemorialPreloadAssets"],
+  ["world/playScene/HardcorePresentationRuntime.js", "new HardcoreMemorialStore()"],
+  ["world/playScene/HardcorePresentationRuntime.js", "new HardcoreMemorialWorldSystem("],
   ["world/playScene/HardcoreDeathBridge.js", "captureHardcoreDeathRecord"],
   ["world/playScene/HardcoreDeathBridge.js", "store.append(record)"],
   ["world/playScene/HardcoreDeathBridge.js", "buildHardcoreDeathRecapPages"],

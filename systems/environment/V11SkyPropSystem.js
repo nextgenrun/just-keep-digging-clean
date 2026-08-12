@@ -5,8 +5,6 @@ import {
 } from "../../values/generated/worldVisualPropLibraryV3/index.js";
 import { HEAVENBLOCKS_ACCESS_CONFIG } from "../../values/heavenblocksAccessConfig.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
-import { WORLD_VISUAL_SKY_PROP_COMPOSITION_V3 } from
-  "../../values/worldVisualSkyPropCompositionV3.js";
 import {
   WORLD_VISUAL_SURFACE_SKY_PROPS_V3,
   resolveWorldVisualSurfaceSkyPropsV3Enabled,
@@ -17,12 +15,7 @@ import {
   resolveSkyPropScaleMultiplier,
   skyPropRectanglesIntersect,
 } from "./v11SkyPropGeometry.js";
-import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
-
-function isGameplayPlacementEnabled(item) {
-  const match = String(item?.worldRegion || "").match(/^v11-level-(\d+)$/);
-  return !match || isGameplayLevelEnabled(Number(match[1]));
-}
+import { resolveV11SkyPropRuntimeAssets } from "./v11SkyPropCapabilityPolicy.js";
 
 export class V11SkyPropSystem {
   constructor(
@@ -36,8 +29,10 @@ export class V11SkyPropSystem {
     this.layout = layout;
     this.accessConfig = accessConfig;
     this.assets = WORLD_VISUAL_SKY_PROP_ASSETS_V3;
-    this.placements = WORLD_VISUAL_SKY_PROP_COMPOSITION_V3.placements
-      .filter(isGameplayPlacementEnabled);
+    this.capabilities = scene.gameplayCapabilities || null;
+    const runtimeAssets = resolveV11SkyPropRuntimeAssets(this.capabilities);
+    this.placements = runtimeAssets.placements;
+    this.residentAssets = runtimeAssets.assets;
     this.active = new Map();
     this.created = false;
     this.lastBoundsSignature = "";
@@ -47,7 +42,7 @@ export class V11SkyPropSystem {
   create(search = globalThis.location?.search || "") {
     const enabled = resolveWorldVisualSurfaceSkyPropsV3Enabled(this.config, search);
     if (!enabled.sky) return false;
-    const atlasKeys = new Set(this.assets.map(asset => asset.atlasKey));
+    const atlasKeys = new Set(this.residentAssets.map(asset => asset.atlasKey));
     if (
       typeof this.scene.textures.exists === "function"
       && [...atlasKeys].some(key => !this.scene.textures.exists(key))
@@ -248,7 +243,7 @@ export class V11SkyPropSystem {
   _validateTextures() {
     const maximumScale = Math.max(...Object.values(this.config.scale.sizeVariants))
       * Math.max(...Object.values(this.config.scale.lanePerspective));
-    for (const asset of this.assets) {
+    for (const asset of this.residentAssets) {
       const dimensions = getSkyPropFrameDimensions(
         this.scene.textures,
         asset.atlasKey,
@@ -280,6 +275,7 @@ export class V11SkyPropSystem {
       version: this.config.version,
       created: this.created,
       totalAssets: this.assets.length,
+      residentAssets: this.residentAssets.length,
       totalPlacements: this.placements.length,
       activePlacements: this.active.size,
       staticTransforms: true,

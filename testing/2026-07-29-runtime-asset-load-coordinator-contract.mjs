@@ -69,6 +69,10 @@ class FakeLoader extends Emitter {
     this.queued.push({ key, path: assetPath, type: "image" });
   }
 
+  spritesheet(key, assetPath, frameConfig) {
+    this.queued.push({ key, path: assetPath, type: "spritesheet", frameConfig });
+  }
+
   video(key, assetPath) {
     this.queued.push({ key, path: assetPath, type: "video" });
   }
@@ -176,6 +180,62 @@ terrainCache.destroy();
 detailCache.destroy();
 skyCache.destroy();
 coordinator.destroy();
+
+const cancelledLoader = new FakeLoader();
+const cancelledKeys = new Set();
+let cancelledReady = 0;
+const cancelledCoordinator = new RuntimeAssetLoadCoordinator({
+  load: cancelledLoader,
+  game: { events: new Emitter() },
+  textures: {
+    exists: key => cancelledKeys.has(key),
+    remove: key => cancelledKeys.delete(key),
+  },
+}, SERIAL_RUNTIME_ASSET_LOADING, "?runtimeAssetBitmap=0");
+const cancelledHandle = cancelledCoordinator.request({
+  key: "cancelled-active-texture",
+  path: "cancelled-active-texture.webp",
+}, { onReady: () => { cancelledReady += 1; } });
+await flush();
+assert.equal(cancelledHandle.cancel(), true);
+cancelledKeys.add("cancelled-active-texture");
+cancelledLoader.emit("filecomplete-image-cancelled-active-texture");
+await flush();
+assert.equal(cancelledReady, 0);
+assert.equal(cancelledKeys.has("cancelled-active-texture"), false);
+assert.equal(
+  cancelledCoordinator.textureMemory.isManaged("cancelled-active-texture"),
+  false,
+);
+cancelledCoordinator.destroy();
+
+const sheetLoader = new FakeLoader();
+const sheetKeys = new Set();
+const sheetCoordinator = new RuntimeAssetLoadCoordinator({
+  load: sheetLoader,
+  game: { events: new Emitter() },
+  textures: {
+    exists: key => sheetKeys.has(key),
+    get: () => ({ source: [{ image: { width: 341, height: 682 } }] }),
+  },
+}, SERIAL_RUNTIME_ASSET_LOADING, "?runtimeAssetBitmap=0");
+const sheetReady = new Promise((resolve, reject) => sheetCoordinator.request({
+  key: "ability-sheet",
+  path: "full-quality-ability.webp",
+  type: RUNTIME_ASSET_LOADING.types.spritesheet,
+  frameConfig: { frameWidth: 341, frameHeight: 341, endFrame: 1 },
+}, { onReady: resolve, onError: reject }));
+await flush();
+assert.deepEqual(sheetLoader.queued, [{
+  key: "ability-sheet",
+  path: "full-quality-ability.webp",
+  type: "spritesheet",
+  frameConfig: { frameWidth: 341, frameHeight: 341, endFrame: 1 },
+}]);
+sheetKeys.add("ability-sheet");
+sheetLoader.emit("filecomplete-spritesheet-ability-sheet");
+await sheetReady;
+sheetCoordinator.destroy();
 
 const concurrentTextureKeys = new Set();
 const concurrentFetches = new Map();

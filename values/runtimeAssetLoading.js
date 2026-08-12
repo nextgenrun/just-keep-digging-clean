@@ -2,6 +2,9 @@ const QUERY_ENABLE_VALUES = Object.freeze(["1", "on", "true"]);
 const QUERY_DISABLE_VALUES = Object.freeze(["0", "off", "false"]);
 
 export const RUNTIME_ASSET_LOAD_PRIORITIES = Object.freeze({
+  bootCore: 140,
+  playerCore: 135,
+  playerMode: 130,
   audioMusic: 121,
   materialField: 120,
   skyCohesion: 119,
@@ -15,6 +18,7 @@ export const RUNTIME_ASSET_LOAD_PRIORITIES = Object.freeze({
   titanEnvironment: 99,
   worldFacade: 98,
   featureStarBlockFx: 92,
+  abilityUnlock: 90,
   audioVoice: 85,
   featureStarlight: 82,
   featureTitanArchive: 78,
@@ -25,6 +29,18 @@ export const RUNTIME_ASSET_LOAD_PRIORITIES = Object.freeze({
 });
 
 export const RUNTIME_ASSET_LOAD_OWNERS = Object.freeze({
+  bootCore: "boot-core",
+  playerCore: "player-core",
+  playerMode: "player-mode",
+  typedConfirmation: "typed-confirmation",
+  hardcoreMode: "mode-hardcore",
+  abilityQuickslash: "ability-quickslash",
+  abilityThunderStrike: "ability-thunder-strike",
+  celestialThreshold: "celestial-threshold",
+  starRarity: "star-rarity",
+  levelTwo: "level-two",
+  arcCore: "arc-core",
+  screenCapture: "screen-capture",
   audioMusic: "audio-music",
   featureCampfire: "feature-campfire",
   materialField: "material-field",
@@ -48,15 +64,44 @@ export const RUNTIME_ASSET_LOAD_OWNERS = Object.freeze({
 
 export const RUNTIME_FEATURE_ASSET_GROUP_IDS = Object.freeze({
   starBlockFx: "star-block-fx",
+  starRarity: "star-rarity",
+  starRarityPrefix: "star-rarity:",
+  starRelease: "star-release",
+  starReleasePrefix: "star-release:",
+  starAtlas: "star-atlas",
   starlight: "starlight",
   titanArchive: "titan-archive",
   worldMap: "world-map",
+  hardcoreMode: "hardcore-mode",
   campfirePrefix: "campfire-tier:",
+});
+
+export const RUNTIME_ASSET_RESIDENCY_CLASSES = Object.freeze({
+  boot: "boot",
+  core: "core",
+  mode: "mode",
+  unlock: "unlock",
+  threshold: "threshold",
+  onDemand: "on-demand",
+  optional: "optional",
+});
+
+export const RUNTIME_ASSET_PACK_IDS = Object.freeze({
+  bootCore: "boot-core",
+  playerCore: "player-core",
+  playerModePrefix: "player-mode:",
+  starRarity: "star-rarity",
+  celestialThreshold: "celestial-threshold",
+  levelTwo: "level-two",
+  arcCore: "arc-core",
+  heavenblocks: "heavenblocks",
+  screenCapture: "screen-capture",
 });
 
 export const RUNTIME_FEATURE_ASSET_CONSUMERS = Object.freeze({
   starBlockProximity: "star-block-proximity",
   starReleasePrefix: "star-release-",
+  inventoryStarAtlas: "inventory-star-atlas",
   pauseStarlight: "pause-starlight",
   pauseTitanArchive: "pause-titan-archive",
   pillarStarlight: "pillar-starlight",
@@ -64,7 +109,7 @@ export const RUNTIME_FEATURE_ASSET_CONSUMERS = Object.freeze({
 });
 
 export const RUNTIME_ASSET_LOADING = Object.freeze({
-  schemaVersion: 3,
+  schemaVersion: 4,
   enabled: true,
   queryParam: "runtimeAssetQueue",
   queryEnableValues: QUERY_ENABLE_VALUES,
@@ -72,6 +117,7 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
   types: Object.freeze({
     audio: "audio",
     image: "image",
+    spritesheet: "spritesheet",
     video: "video",
   }),
   bitmapDecode: Object.freeze({
@@ -100,31 +146,62 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
     queryEnableValues: QUERY_ENABLE_VALUES,
     queryDisableValues: QUERY_DISABLE_VALUES,
     releaseDelayMs: 5000,
+    pressureRetryMs: 250,
+    optionalLoadTimeoutMs: 8000,
     consumers: RUNTIME_FEATURE_ASSET_CONSUMERS,
     groups: Object.freeze({
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.starBlockFx]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarBlockFx,
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarBlockFx,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.threshold,
         releaseWhenUnused: false,
+      }),
+      [RUNTIME_FEATURE_ASSET_GROUP_IDS.starRarity]: Object.freeze({
+        owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarBlockFx,
+        priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarBlockFx,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.threshold,
+        releaseWhenUnused: true,
+      }),
+      [RUNTIME_FEATURE_ASSET_GROUP_IDS.starRelease]: Object.freeze({
+        owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarBlockFx,
+        priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarBlockFx,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
+        releaseWhenUnused: true,
+      }),
+      [RUNTIME_FEATURE_ASSET_GROUP_IDS.starAtlas]: Object.freeze({
+        owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarBlockFx,
+        priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarBlockFx,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
+        releaseWhenUnused: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarlight,
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarlight,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureTitanArchive,
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureTitanArchive,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureWorldMap,
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureWorldMap,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
+      }),
+      [RUNTIME_FEATURE_ASSET_GROUP_IDS.hardcoreMode]: Object.freeze({
+        owner: RUNTIME_ASSET_LOAD_OWNERS.hardcoreMode,
+        priority: RUNTIME_ASSET_LOAD_PRIORITIES.playerMode,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.mode,
+        releaseWhenUnused: false,
       }),
       campfire: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureCampfire,
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureCampfire,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
       }),
     }),
@@ -137,8 +214,8 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
   textureMemory: Object.freeze({
     estimatedBytesPerPixel: 4,
     bytesPerMiB: 1048576,
-    // The measured tiered Boot baseline is roughly 552 MiB decoded. Leave
-    // headroom for core world streaming, then evict closed feature views.
+    // Optional packs wait above 704 MiB. Unused LRU packs are evicted until
+    // the same full-quality sources settle at or below the 640 MiB watermark.
     highWatermarkBytes: 738197504,
     lowWatermarkBytes: 671088640,
     sampleIntervalMs: 1000,
@@ -187,4 +264,16 @@ export function resolveRuntimeFeatureAssetDeferralEnabled(
 export function getCampfireFeatureAssetGroupId(level) {
   const safeLevel = Math.max(1, Math.min(10, Math.floor(Number(level) || 1)));
   return `${RUNTIME_FEATURE_ASSET_GROUP_IDS.campfirePrefix}${safeLevel}`;
+}
+
+function clampStarRarity(rarity) {
+  return Math.max(0, Math.min(5, Math.floor(Number(rarity) || 0)));
+}
+
+export function getStarRarityFeatureAssetGroupId(rarity) {
+  return `${RUNTIME_FEATURE_ASSET_GROUP_IDS.starRarityPrefix}${clampStarRarity(rarity)}`;
+}
+
+export function getStarReleaseFeatureAssetGroupId(rarity) {
+  return `${RUNTIME_FEATURE_ASSET_GROUP_IDS.starReleasePrefix}${clampStarRarity(rarity)}`;
 }

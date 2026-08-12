@@ -129,8 +129,10 @@ export class GraveborerWurmHudSystem {
   destroy() {
     this.scene?.scale?.off?.("resize", this._resizeHandler);
     this.medallion?.removeAllListeners?.();
-    this.medallion?.disableInteractive?.();
-    this.root?.destroy(true);
+    if (this.medallion?.scene?.sys && this.medallion.input) {
+      this.medallion.disableInteractive();
+    }
+    this.root?.destroy?.(true);
     this.root = null;
     this.medallion = null;
     this.label = null;

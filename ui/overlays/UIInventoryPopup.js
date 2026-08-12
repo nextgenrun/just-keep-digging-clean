@@ -12,6 +12,8 @@ import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
 import { renderInventoryHoldingsView } from "./UIInventoryHoldingsView.js";
 import { renderInventoryResourceGuide } from "./UIInventoryResourceGuide.js";
 import { renderInventoryStarAtlas } from "./UIInventoryStarAtlas.js";
+import { UIInventoryStarAtlasAssetController } from
+  "./UIInventoryStarAtlasAssetController.js";
 
 export class UIInventoryPopup {
   constructor(scene) {
@@ -29,6 +31,7 @@ export class UIInventoryPopup {
     this.selectedGuideResource = INVENTORY_RESOURCE_GUIDE.resourceKeys[0];
     this.selectedStarRarity = 0;
     this.selectedStarIdentity = 0;
+    this.starAtlasAssets = new UIInventoryStarAtlasAssetController(scene);
     Object.keys(UI_RESOURCE_PRESENTATION).forEach(key => {
       this.items[key] = 0;
     });
@@ -78,6 +81,8 @@ export class UIInventoryPopup {
     shell?.hide?.(() => shell.destroy?.());
     this.scene.setShopOpen?.(false);
     this.scene.playerController?.setControlsEnabled?.(true);
+    this.starAtlasAssets.releaseAll();
+    this.activeTab = 0;
   }
 
   createPopup() {
@@ -140,6 +145,10 @@ export class UIInventoryPopup {
       fontSize: "10px",
       parent: this.shell.content,
       onChange: index => {
+        if (index === 2) {
+          void this._activateStarAtlasRarity(this.selectedStarRarity);
+          return;
+        }
         this.activeTab = index;
         this._render();
       },
@@ -182,10 +191,7 @@ export class UIInventoryPopup {
         this.selectedStarRarity,
         this.selectedStarIdentity,
         rarityIndex => {
-          this.selectedStarRarity = rarityIndex;
-          this.selectedStarIdentity = STAR_IDENTITY_LIBRARY_CONFIG.identities
-            .find(identity => identity.rarityIndex === rarityIndex)?.index || 0;
-          this._render();
+          void this._activateStarAtlasRarity(rarityIndex);
         },
         identityIndex => {
           this.selectedStarIdentity = identityIndex;
@@ -209,6 +215,17 @@ export class UIInventoryPopup {
       fontSize: "11px",
       onClick: () => this.close(),
     });
+  }
+
+  async _activateStarAtlasRarity(rarityIndex) {
+    const result = await this.starAtlasAssets.ensureRarity(rarityIndex);
+    if (!result.ready || !this.isOpen) return false;
+    this.activeTab = 2;
+    this.selectedStarRarity = rarityIndex;
+    this.selectedStarIdentity = STAR_IDENTITY_LIBRARY_CONFIG.identities
+      .find(identity => identity.rarityIndex === rarityIndex)?.index || 0;
+    this._render();
+    return true;
   }
 
   setMoney(amount) {
@@ -237,5 +254,6 @@ export class UIInventoryPopup {
     else this.shell?.destroy?.();
     this.inventoryKey?.off("down", this.handleInventoryToggle, this);
     this.escapeKey?.off("down", this.handleInventoryClose, this);
+    this.starAtlasAssets.destroy();
   }
 }

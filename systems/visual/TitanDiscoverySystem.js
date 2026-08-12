@@ -2,6 +2,7 @@ import {
   TITAN_DISCOVERY_CONFIG,
   resolveTitanDiscoveriesEnabled,
 } from "../../values/titanDiscoveries.js?rev=20260729-native-density-v14";
+import { resolveTitanRuntimeConfig } from "../../values/titanRuntimeCapabilities.js";
 import {
   TITAN_DISCOVERY_EXPERIENCE,
   resolveTitanEncounterMode,
@@ -21,7 +22,6 @@ import { TitanEnvironmentEnvelopeStream } from "./TitanEnvironmentEnvelopeStream
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js?rev=20260729-native-density-v14";
 import { TitanUnlockController } from "./TitanUnlockController.js";
 import { publishTitanDiscoveryHealth } from "./titanDiscoveryHealth.js";
-
 export class TitanDiscoverySystem {
   constructor(
     scene,
@@ -31,13 +31,13 @@ export class TitanDiscoverySystem {
   ) {
     this.scene = scene;
     this.worldModel = worldModel;
-    this.config = config;
+    this.config = resolveTitanRuntimeConfig(config, scene.gameplayCapabilities);
     this.experienceConfig = experienceConfig;
     this.encounterMode = resolveTitanEncounterMode(experienceConfig);
     this.zoneViews = [];
-    this.surfaceGallery = new TitanSurfaceGallery(scene, worldModel, config);
+    this.surfaceGallery = new TitanSurfaceGallery(scene, worldModel, this.config);
     this.guidance = new TitanDiscoveryGuidance(scene, experienceConfig);
-    this.coverGlow = new TitanCoverageGlowSystem(scene, worldModel, config);
+    this.coverGlow = new TitanCoverageGlowSystem(scene, worldModel, this.config);
     const handleStreamChange = () => {
       this.forceProgressSync = true;
       if (this.created) this._publishHealth(true);
@@ -45,13 +45,13 @@ export class TitanDiscoverySystem {
     this.chamberStream = new TitanChamberStream(
       scene,
       worldModel,
-      config,
+      this.config,
       handleStreamChange
     );
     this.environmentStream = new TitanEnvironmentEnvelopeStream(
       scene,
       worldModel,
-      config,
+      this.config,
       handleStreamChange
     );
     this.groundingReady = false;
@@ -60,7 +60,7 @@ export class TitanDiscoverySystem {
     this.unlockController = new TitanUnlockController({
       scene,
       worldModel,
-      config,
+      config: this.config,
       experienceConfig,
       surfaceGallery: this.surfaceGallery,
       guidance: this.guidance,
@@ -126,7 +126,6 @@ export class TitanDiscoverySystem {
     const needsSync = this.forceProgressSync
       || dugCount !== this.lastDugCount
       || discoverySignature !== this.lastDiscoverySignature;
-
     const discovered = new Set(discoveredIds);
     if (needsSync) {
       syncTitanDiscoveryViews(

@@ -1,9 +1,10 @@
 import { clampFireLight01, mixFireLight } from "./fireLightMath.js";
+import { resolveFireLightLayerPolicy } from "./fireLightLayerPolicy.js";
 const frameAt = (time, fps, frameCount, offset = 0) => (
   (Math.floor(Math.max(0, time) * fps / 1000) + offset) % frameCount
 );
 export class FireLightRenderer {
-  constructor(scene, config) {
+  constructor(scene, config, presentation = {}) {
     this.scene = scene;
     this.config = config;
     this.available = false;
@@ -19,32 +20,31 @@ export class FireLightRenderer {
       state: "off",
       flameFrame: 0,
     };
-    this._create();
+    this._create(presentation);
   }
 
-  _create() {
+  _create(presentation) {
     const keys = this.config.assetKeys;
-    const required = [
-      keys.steadyFlame,
-      keys.stateFlame,
-      keys.lightVolume,
-      keys.atmosphere,
-    ];
-    if (!required.every(key => this.scene.textures?.exists?.(key))) return;
+    const policy = resolveFireLightLayerPolicy(this.config, presentation);
+    if (!policy.textureKeys.every(key => this.scene.textures?.exists?.(key))) return;
 
     try {
-      this.volume = this._makeImage(
-        keys.lightVolume,
-        0.5,
-        0.5,
-        this.config.renderDepth.lightVolume
-      );
-      this.atmosphere = this._makeImage(
-        keys.atmosphere,
-        0.5,
-        this.config.atmosphere.originY,
-        this.config.renderDepth.atmosphere
-      );
+      if (policy.volumeEnabled) {
+        this.volume = this._makeImage(
+          keys.lightVolume,
+          0.5,
+          0.5,
+          this.config.renderDepth.lightVolume
+        );
+      }
+      if (policy.atmosphereEnabled) {
+        this.atmosphere = this._makeImage(
+          keys.atmosphere,
+          0.5,
+          this.config.atmosphere.originY,
+          this.config.renderDepth.atmosphere
+        );
+      }
       this.flame = this._makeImage(
         keys.steadyFlame,
         0.5,
@@ -160,7 +160,7 @@ export class FireLightRenderer {
       * Math.max(alphaPulseFloor, alphaPulse);
 
     this.volume
-      .setFrame(volumeFrame)
+      ?.setFrame(volumeFrame)
       .setPosition(sourceX, sourceY + this.config.lightVolume.verticalOffsetTiles * safeTileSize)
       .setDisplaySize(
         radiusWorld * this.config.lightVolume.diameterScale * scalePulse,
@@ -200,7 +200,7 @@ export class FireLightRenderer {
         fuel / this.config.flame.lowFuelRatio
       );
     this.atmosphere
-      .setFrame(atmosphereFrame)
+      ?.setFrame(atmosphereFrame)
       .setPosition(
         sourceX,
         sourceY + this.config.atmosphere.verticalOffsetTiles * safeTileSize

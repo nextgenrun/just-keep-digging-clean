@@ -10,10 +10,12 @@ export function installStarIdentityTextureFrames(
     !scene?.textures
     || typeof scene.textures.get !== "function"
   ) return false;
+  let installedAtlases = 0;
   for (const atlases of [config.atlases, config.lightAtlases]) {
     for (const atlas of atlases) {
-      if (!scene.textures.exists(atlas.key)) return false;
+      if (!scene.textures.exists(atlas.key)) continue;
       const texture = scene.textures.get(atlas.key);
+      installedAtlases += 1;
       for (let frame = 0; frame < atlas.frameCount; frame += 1) {
         const frameName = `${atlas.framePrefix}${frame}`;
         if (texture.has(frameName)) continue;
@@ -28,5 +30,5 @@ export function installStarIdentityTextureFrames(
       }
     }
   }
-  return true;
+  return installedAtlases > 0;
 }
