@@ -1,3 +1,6 @@
+import { prepareGuidedTutorialMineTarget } from
+  "./2026-08-13-roboplaytest-guided-opening.mjs";
+
 function stringifyError(error) {
   return error?.stack || error?.message || String(error);
 }
@@ -177,6 +180,10 @@ export class GameDriver {
         hp: model.getTileHp(target.tx, target.ty),
       };
     });
+  }
+
+  async prepareGuidedTutorialMineTarget() {
+    return prepareGuidedTutorialMineTarget(this);
   }
 
   async prepareMineTarget({ minimumDepth = 1, maximumDepth = 90, level = 1 } = {}) {

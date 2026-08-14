@@ -76,6 +76,9 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
       + itemWidth / 2;
     const y = listTop + row * (itemHeight + layout.selectorGap) + itemHeight / 2;
     const presentation = UI_RESOURCE_PRESENTATION[resourceKey];
+    const labelSize = presentation.name.length > 15
+      ? (desktop ? "8px" : "7px")
+      : (desktop ? "10px" : "8px");
     const button = createButton(scene, {
       x,
       y,
@@ -83,7 +86,7 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
       height: itemHeight,
       label: presentation.name.toUpperCase(),
       labelColor: presentation.color,
-      fontSize: desktop ? "10px" : "8px",
+      fontSize: labelSize,
       align: "left",
       autoIcon: false,
       selected: resourceKey === selectedKey,
@@ -113,7 +116,11 @@ function renderSelectors(scene, parent, atlas, rect, selectedKey, onSelect, desk
         size: thumbnailSize,
       });
     }
-    button.text.setX(-itemWidth / 2 + thumbnailSize + 14);
+    button.text
+      .setX(-itemWidth / 2 + thumbnailSize + 14)
+      .setOrigin(0, 0.5);
+    button.text.setWordWrapWidth?.(itemWidth - thumbnailSize - 22);
+    button.text.setAlign?.("left");
     button.setSelected(resourceKey === selectedKey);
     return button;
   });
@@ -154,13 +161,13 @@ function renderPreview(scene, parent, atlas, rect, resourceKey) {
       fontSize: "11px",
       color: UI_COLORS.body,
     });
-  addText(scene, parent, rect.right - layout.panelPadding, rect.top + 14,
+  addText(scene, parent, rect.left + layout.panelPadding, rect.top + 57,
     artLabel, {
       fontFamily: UI_FONTS.mono,
       fontSize: "9px",
       color: UI_COLORS.gold,
-    }, 1, 0);
-  addText(scene, parent, rect.left + layout.panelPadding, rect.top + 55,
+    });
+  addText(scene, parent, rect.left + layout.panelPadding, rect.top + 76,
     previewHint, {
       fontFamily: UI_FONTS.mono,
       fontSize: "8px",

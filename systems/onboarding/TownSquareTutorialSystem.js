@@ -11,6 +11,8 @@ import {
 import { FirstFiveMinutesTutorialBridge } from "./FirstFiveMinutesTutorialBridge.js";
 import { TownSquareTutorialView } from "./TownSquareTutorialView.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
+import { TutorialMovementDistanceTracker } from
+  "./TutorialMovementDistanceTracker.js";
 
 function interpolateText(value, replacements = {}) {
   const labels = {
@@ -50,7 +52,7 @@ export class TownSquareTutorialSystem {
       options,
     );
     this.lastStage = null;
-    this.moveOriginX = null;
+    this.movementDistance = new TutorialMovementDistanceTracker();
     this._flightSaveElapsedMs = 0;
   }
 
@@ -69,8 +71,7 @@ export class TownSquareTutorialSystem {
     if (state.stage === TOWN_TUTORIAL_STAGES.MOVE) {
       const bodyX = this.scene.playerController?.physicsBody?.x;
       if (Number.isFinite(bodyX)) {
-        if (!Number.isFinite(this.moveOriginX)) this.moveOriginX = bodyX;
-        const distanceTiles = Math.abs(bodyX - this.moveOriginX)
+        const distanceTiles = this.movementDistance.update(bodyX)
           / this.scene.config.tileSize;
         if (this.retention.recordTutorialMovement(distanceTiles)) {
           this.scene.queueDugTilesSave?.();
@@ -133,6 +134,10 @@ export class TownSquareTutorialSystem {
     return this.firstFive.isDescentBlocked();
   }
 
+  getRequiredDigSite() {
+    return getTownTutorialDigSite(this.scene);
+  }
+
   handleDescentBlocked() {
     this.firstFive.handleDescentBlocked();
   }
@@ -161,7 +166,9 @@ export class TownSquareTutorialSystem {
     const firstFiveHandled = this.firstFive.onStageEntered(stage);
 
     if (stage === TOWN_TUTORIAL_STAGES.MOVE) {
-      this.moveOriginX = this.scene.playerController?.physicsBody?.x ?? null;
+      this.movementDistance.reset(
+        this.scene.playerController?.physicsBody?.x ?? null,
+      );
       if (!firstFiveHandled) this.view.clearMarker();
       return;
     }

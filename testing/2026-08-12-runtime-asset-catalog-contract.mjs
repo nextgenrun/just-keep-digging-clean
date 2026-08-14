@@ -204,13 +204,25 @@ assert.equal(timedOutResult.ready, false);
 assert.equal(timedOutResult.timedOut, true);
 assert.equal(requests, 0);
 
+const starAtlasLoad = pressureManager.ensureGroup(
+  RUNTIME_FEATURE_ASSET_GROUP_IDS.starAtlas,
+  { consumer: "player-opened-star-atlas" },
+);
+const starAtlasResult = await starAtlasLoad;
+assert.equal(
+  starAtlasResult.ready,
+  true,
+  "player-opened Star Atlas art must bypass pressure deferral and remain closable",
+);
+assert.equal(requests, 1);
+
 overBudget = false;
 const readyResult = await pressureManager.ensureGroup(
   RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap,
   { consumer: "pressure-recovered" },
 );
 assert.equal(readyResult.ready, true);
-assert.equal(requests, 1);
+assert.equal(requests, 2);
 pressureManager.destroy();
 
 function makeCampfireSystem(manager) {

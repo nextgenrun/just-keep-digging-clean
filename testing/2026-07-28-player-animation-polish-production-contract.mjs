@@ -28,6 +28,10 @@ const piskelManifest = JSON.parse(readFileSync(
   resolve(root, "sprites/character/piskel/character-animation-manifest.json"),
   "utf8",
 ));
+const transitionDrift = JSON.parse(readFileSync(resolve(
+  root,
+  "sprites/character/piskel/runtime-active/contact-sheets/player-animation-polish-transitions-drift-report.json",
+), "utf8"));
 
 assert.equal(polish.version, sourceConfig.version);
 assert.equal(polish.enabledByDefault, true);
@@ -45,6 +49,14 @@ assert.equal(profile.softLandingAnim, polish.landing.soft.key);
 assert.equal(profile.wallBraceEnterAnim, polish.wallBrace.entry.key);
 assert.equal(profile.wallBraceExitAnim, polish.wallBrace.exit.key);
 assert.equal(profile.wallPushAnim, polish.wallBrace.loop.key);
+for (const frameIndex of polish.groundHandoff.start.frames) {
+  const visibleHeight = transitionDrift.frames[frameIndex].bboxHeight
+    * polish.displaySizePx / polish.frameHeight;
+  assert.ok(
+    Math.abs(visibleHeight - 75.2) <= 3,
+    `startup Piskel frame ${frameIndex} exceeds the grounded visible-height tolerance`,
+  );
+}
 assert.equal(polish.wallBrace.loop.frames.length, 16);
 assert.equal(polish.wallBrace.loop.repeat, -1);
 for (const sourceId of ["groundStrike", "punchJab", "punchCross", "landing", "wallPush"]) {

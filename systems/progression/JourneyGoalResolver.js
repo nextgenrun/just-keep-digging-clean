@@ -16,12 +16,12 @@ const ARC_CORE_GOAL_KINDS = new Set([
   "omegaArcCoreForge",
 ]);
 
-function isJourneyNodeEnabled(node) {
+function isJourneyNodeEnabled(node, capabilities = undefined) {
   if (LEVEL_TWO_GOAL_KINDS.has(node.kind)) {
-    return isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO);
+    return isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, capabilities);
   }
   if (ARC_CORE_GOAL_KINDS.has(node.kind)) {
-    return isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES);
+    return isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES, capabilities);
   }
   return true;
 }
@@ -235,14 +235,14 @@ function resolveSupportGoal(node, progress) {
   }
 }
 
-export function resolveJourneyGoals(snapshot) {
+export function resolveJourneyGoals(snapshot, capabilities = undefined) {
   const progress = snapshot?.progress || {};
   const primary = JOURNEY_PROGRESSION_GRAPH
-    .filter(node => node.lane === "primary" && isJourneyNodeEnabled(node))
+    .filter(node => node.lane === "primary" && isJourneyNodeEnabled(node, capabilities))
     .map(node => resolvePrimaryGoal(node, progress))
     .find(Boolean);
   const support = JOURNEY_PROGRESSION_GRAPH
-    .filter(node => node.lane === "support" && isJourneyNodeEnabled(node))
+    .filter(node => node.lane === "support" && isJourneyNodeEnabled(node, capabilities))
     .map(node => ({ node, goal: resolveSupportGoal(node, progress) }))
     .filter(entry => entry.goal)
     .sort((a, b) => number(b.node.priority) - number(a.node.priority))

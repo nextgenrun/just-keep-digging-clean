@@ -5,9 +5,8 @@
  *   - 10 star slots (one per resource constellation, lights up when unlocked)
  *   - 6 rarity-tier badges on the opposite face
  *
- * Press E near the pillar to open the shared Starlight Talent Tree. It shows
- * all ten permanent constellation mutations and routes the three bounded
- * Celestial Engine choices into the Star Heart overlay.
+ * Press E near the pillar to open the authored Celestial Talent Tree. The
+ * retired Starlight carousel is never mounted by this production system.
  */
 
 import {
@@ -26,14 +25,9 @@ import { UI_FONTS } from "../../values/uiLayout.js";
 import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
   "../../values/celestialTalentTreeUi.js";
 import {
-  STARLIGHT_TALENT_RESOURCE_ORDER,
-  STARLIGHT_TALENT_TREE_CONFIG,
-} from "../../values/starlightTalentTree.js";
-import {
   RUNTIME_FEATURE_ASSET_CONSUMERS,
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
 } from "../../values/runtimeAssetLoading.js";
-import { StarTalentRevealState } from "./StarTalentRevealState.js";
 import { StarPillarWorldVisual } from "./StarPillarWorldVisual.js";
 
 // ─── Module-level constants ───────────────────────────────────────────────────
@@ -117,10 +111,6 @@ export class StarPillarSystem {
     this._isChartUiReady = false;
     this._talentTreeView = null;
     this._suppressNextChartInput = false;
-    this._firstRevealState = new StarTalentRevealState({
-      saveSlot: this.fts?.saveSlot || 1,
-    });
-    this._firstRevealNotBeforeMs = 0;
 
     // Camera saved state
     this._origZoom     = 1;
@@ -165,8 +155,6 @@ export class StarPillarSystem {
     } else if (this._isViewOpen) {
       this._handleChartInput(keys);
     }
-    this._tryOpenPendingFirstStarReveal(time);
-
     const skyDistance = this._getAnchorInteractionDistance(
       playerTile,
       this.config.starPillarTileX,
@@ -662,10 +650,6 @@ export class StarPillarSystem {
     }
     this.closeConstellationView();
     return this.starHeartOverlay?.open?.(engineId) || false;
-  }
-
-  _tryOpenPendingFirstStarReveal(timeMs) {
-    return false;
   }
 
   getTalentTreeHealthSnapshot() {

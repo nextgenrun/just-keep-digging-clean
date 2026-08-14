@@ -20,6 +20,12 @@ import { CraftingSystem } from "../systems/crafting/CraftingSystem.js";
 import { DigSystem } from "../systems/mining/DigSystem.js";
 import { HeavenblocksProgressionSystem } from "../systems/progression/HeavenblocksProgressionSystem.js";
 import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
+import {
+  createGameplayCapabilities,
+  GAMEPLAY_PROFILE_IDS,
+} from "../values/gameplayCapabilities.js";
+
+const FULL_REVIEW_CAPABILITIES = createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW);
 
 function completeHeavenblocks(progression, { installParts = true } = {}) {
   assert.equal(progression.activateSkyGate().success, true);
@@ -42,12 +48,15 @@ function createHarness({
 } = {}) {
   const digSystem = new DigSystem(null, null, {});
   digSystem.setResourceTotals(resources);
-  const upgradeSystem = new UpgradeSystem(digSystem, null);
+  const upgradeSystem = new UpgradeSystem(digSystem, null, {
+    gameplayCapabilities: FULL_REVIEW_CAPABILITIES,
+  });
   if (grantTunnel) upgradeSystem.grantUpgrade("worldTwoTunnelAccess");
   if (grantArc) upgradeSystem.grantUpgrade(ARC_CORE_UPGRADE_ID);
   const ancientRelicSystem = { getCount: () => relics };
   const progressionSystem = new HeavenblocksProgressionSystem({
     relicCountProvider: () => relics,
+    gameplayCapabilities: FULL_REVIEW_CAPABILITIES,
   });
   if (completeSky) completeHeavenblocks(progressionSystem, { installParts });
   if (grantKeystone) progressionSystem.grantZenithKeystone();
@@ -56,6 +65,7 @@ function createHarness({
     upgradeSystem,
     ancientRelicSystem,
     heavenblocksProgressionSystem: progressionSystem,
+    gameplayCapabilities: FULL_REVIEW_CAPABILITIES,
   });
   return {
     digSystem,

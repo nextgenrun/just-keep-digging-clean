@@ -1,6 +1,7 @@
-// Full authored three-Engine talent tree, opened only through a physical Star Pillar.
+// Full authored three-Engine talent tree shared by ESC and the physical Star Pillar.
 
 import {
+  CELESTIAL_TALENT_TREE_PRELOAD_ASSETS,
   CELESTIAL_TALENT_TREE_UI_CONFIG,
   describeCelestialTalentAvailability,
   getCelestialTalentNodeIconKey,
@@ -9,6 +10,7 @@ import {
 import { UI_FONTS } from "../../values/uiLayout.js";
 import { CelestialTalentTreeConnectorLayer } from "./CelestialTalentTreeConnectorLayer.js";
 import { CelestialTalentTreeNodeView } from "./CelestialTalentTreeNodeView.js";
+import { CelestialTalentTooltipView } from "./CelestialTalentTooltipView.js";
 
 function justDown(key) {
   return Boolean(key && Phaser.Input.Keyboard.JustDown(key));
@@ -29,6 +31,8 @@ export class CelestialTalentTreeView {
     this.visible = false;
     this.destroyed = false;
     this._build();
+    this._pointerDownHandler = pointer => this._handlePointerDown(pointer);
+    this.scene.input?.on?.("pointerdown", this._pointerDownHandler);
     this.unsubscribe = this.progression?.subscribe?.(() => this.refresh());
     this._resizeHandler = () => this.resize();
     this.scene.scale?.on?.("resize", this._resizeHandler);
@@ -42,8 +46,7 @@ export class CelestialTalentTreeView {
       .setDepth(presentation.depth)
       .setVisible(false);
     this.foundation = this.scene.add.image(0, 0, assets.foundation.key)
-      .setDisplaySize(layout.referenceWidthPx, layout.referenceHeightPx)
-      .setInteractive();
+      .setDisplaySize(layout.referenceWidthPx, layout.referenceHeightPx);
     this.root.add(this.foundation);
     this.title = this._text(0, this._y(layout.titleYFraction), copy.title,
       presentation.titleFontSizePx, presentation.titleColor);
@@ -55,10 +58,29 @@ export class CelestialTalentTreeView {
       presentation.headerFontSizePx, presentation.titleColor);
     this.starsText = this._text(this._x(layout.starsXFraction), this._y(layout.headerYFraction), "",
       presentation.headerFontSizePx, presentation.readyColor);
-    this.closeText = this._text(this._x(layout.closeXFraction), this._y(layout.headerYFraction), copy.close,
-      presentation.headerFontSizePx, presentation.titleColor).setInteractive({ useHandCursor: true });
-    this.closeText.on("pointerdown", () => this.onClose?.());
-    this.root.add([this.title, this.subtitle, this.levelText, this.moneyText, this.starsText, this.closeText]);
+    this.closeText = this._text(this._x(layout.closeXFraction), this._y(layout.closeYFraction), copy.close,
+      presentation.closeFontSizePx, presentation.titleColor).setInteractive({ useHandCursor: true });
+    this.closeText.disableInteractive();
+    // A real authored-image display object is intentional here. Phaser Zones
+    // nested in the scaled immersive tree did not receive browser pointer
+    // events consistently, even though the Input Manager registered them.
+    this.closeHit = this.scene.add.image(
+      this._x(layout.closeXFraction),
+      this._y(layout.closeYFraction),
+      assets.nodeHalo.key,
+    )
+      .setDisplaySize(layout.closeHitWidthPx, layout.closeHitHeightPx)
+      .setAlpha(0.001)
+      .setInteractive({ useHandCursor: true });
+    this.root.add([
+      this.title,
+      this.subtitle,
+      this.levelText,
+      this.moneyText,
+      this.starsText,
+      this.closeText,
+      this.closeHit,
+    ]);
 
     const branches = this.progression?.getSnapshot?.()?.branches || [];
     this.expectedNodeCount = branches.reduce((total, branch) => total + branch.nodes.length, 0);
@@ -88,8 +110,8 @@ export class CelestialTalentTreeView {
           getCelestialTalentNodeIconKey(node.id),
           accent,
           {
-            onHover: current => this.selectNode(current.node.id),
-            onOut: () => {},
+            onHover: current => this.selectNode(current.node.id, true),
+            onOut: () => this.tooltip?.hide(),
             onActivate: current => this.purchaseNode(current.node.id),
           },
         );
@@ -120,6 +142,7 @@ export class CelestialTalentTreeView {
       presentation.detailStatusFontSizePx, presentation.readyColor,
     );
     this.root.add([this.detailTitle, this.detailBody, this.detailStatus]);
+    this.tooltip = new CelestialTalentTooltipView(this.scene, this.root);
   }
 
   _x(fraction) {
@@ -143,6 +166,36 @@ export class CelestialTalentTreeView {
     }).setOrigin(0.5);
   }
 
+  _handlePointerDown(pointer) {
+    if (!this.isOpen() || !pointer) return false;
+    const { layout } = this.config;
+    const closePoint = this.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
+    const closeX = this._x(layout.closeXFraction);
+    const closeY = this._y(layout.closeYFraction);
+    if (
+      Math.abs(closePoint.x - closeX) <= layout.closeHitWidthPx / 2
+      && Math.abs(closePoint.y - closeY) <= layout.closeHitHeightPx / 2
+    ) {
+      this.onClose?.();
+      return true;
+    }
+
+    for (const view of this.nodes) {
+      const point = view.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
+      if (
+        Math.abs(point.x) <= layout.nodeHitWidthPx / 2
+        && Math.abs(point.y) <= layout.nodeHitHeightPx / 2
+      ) {
+        const confirmed = this.tooltip?.visible === true
+          && this.tooltip.nodeId === view.node.id;
+        this.selectNode(view.node.id, true);
+        if (confirmed) this.purchaseNode(view.node.id);
+        return true;
+      }
+    }
+    return false;
+  }
+
   open() {
     if (this.destroyed) return false;
     this.visible = true;
@@ -153,6 +206,7 @@ export class CelestialTalentTreeView {
 
   close() {
     this.visible = false;
+    this.tooltip?.hide();
     this.root?.setVisible(false);
   }
 
@@ -178,11 +232,15 @@ export class CelestialTalentTreeView {
     this._refreshDetail();
   }
 
-  selectNode(nodeId) {
+  selectNode(nodeId, showPopup = false) {
     const nextIndex = this.nodes.findIndex(view => view.node.id === nodeId);
     if (nextIndex < 0) return false;
     this.selectedIndex = nextIndex;
     this.refresh();
+    if (showPopup) {
+      const view = this.nodes[nextIndex];
+      this.tooltip?.show(view, view.snapshot);
+    }
     return true;
   }
 
@@ -222,8 +280,7 @@ export class CelestialTalentTreeView {
       });
     const next = candidates[0]?.index ?? -1;
     if (next >= 0) {
-      this.selectedIndex = next;
-      this.refresh();
+      this.selectNode(this.nodes[next].node.id, true);
     }
     return this.selectedIndex;
   }
@@ -252,6 +309,7 @@ export class CelestialTalentTreeView {
     this.detailTitle.setText(view.node.name.toUpperCase());
     this.detailBody.setText(view.node.description);
     this.detailStatus.setText(describeCelestialTalentAvailability(node));
+    this.tooltip?.refresh(node);
   }
 
   resize() {
@@ -270,18 +328,43 @@ export class CelestialTalentTreeView {
   }
 
   getControls() {
-    return this.nodes.map(view => view.root);
+    return this.nodes.map((view, index) => ({
+      activate: () => this.purchaseNode(view.node.id),
+      isEnabled: () => true,
+      setFocused: focused => {
+        if (focused) this.selectControl(index, true);
+      },
+    }));
+  }
+
+  selectControl(index, showPopup = false) {
+    const nextIndex = Math.max(0, Math.min(
+      this.nodes.length - 1,
+      Number(index) || 0,
+    ));
+    if (!this.nodes[nextIndex]) return false;
+    return this.selectNode(this.nodes[nextIndex].node.id, showPopup);
+  }
+
+  get selectedControlIndex() {
+    return this.selectedIndex;
   }
 
   getHealthSnapshot() {
+    const missingTextureKeys = CELESTIAL_TALENT_TREE_PRELOAD_ASSETS
+      .map(asset => asset.key)
+      .filter(key => this.scene.textures?.exists?.(key) !== true);
     return Object.freeze({
       ready: !this.destroyed && this.expectedNodeCount > 0
         && this.nodes.length === this.expectedNodeCount
-        && this.scene.textures?.exists?.(this.config.assets.foundation.key) === true,
+        && missingTextureKeys.length === 0,
       visible: this.visible,
       nodeCount: this.nodes.length,
       connectorCount: this.connectorLayer?.count || 0,
       selectedIndex: this.selectedIndex,
+      tooltipVisible: this.tooltip?.visible === true,
+      tooltipNodeId: this.tooltip?.nodeId || null,
+      missingTextureKeys,
     });
   }
 
@@ -289,12 +372,15 @@ export class CelestialTalentTreeView {
     if (this.destroyed) return;
     this.destroyed = true;
     this.unsubscribe?.();
+    this.scene.input?.off?.("pointerdown", this._pointerDownHandler);
     this.scene.scale?.off?.("resize", this._resizeHandler);
     for (const node of this.nodes) node.destroy();
     this.nodes = [];
     this.nodesById.clear();
     this.connectorLayer?.destroy();
     this.connectorLayer = null;
+    this.tooltip?.destroy();
+    this.tooltip = null;
     this.root?.destroy(true);
     this.onClose = null;
     this.onNodePurchased = null;

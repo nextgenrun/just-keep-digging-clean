@@ -163,6 +163,16 @@ assert.match(pauseSource, /manager\.getGroupProgress\(groupId\)/);
 assert.match(pauseSource, /state\.featureLoadingView\.complete/);
 assert.match(pauseSource, /state\.featureLoadingView\?\.destroy/);
 assert.doesNotMatch(pauseSource, /LOADING FULL-QUALITY ART/);
+assert.doesNotMatch(
+  pauseSource,
+  /tabKey === "titans"\) return RUNTIME_FEATURE_ASSET_GROUP_IDS\.titanArchive/,
+  "the ESC Titan archive must never return to the pressure-gated loading screen",
+);
+assert.match(
+  bootSource,
+  /queueResidentUiImage\(asset\.key, asset\.path, "titan-archive-ui"\)/,
+  "all Titan archive portraits must be admitted as Boot-resident UI art",
+);
 
 const productionFiles = [
   "ui/components/pauseFeatureLoadingArt.js",

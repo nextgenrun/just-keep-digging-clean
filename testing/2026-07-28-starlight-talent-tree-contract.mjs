@@ -354,11 +354,12 @@ const [
   readFile(new URL("../ui/PhaserUiKit.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/scenes/PlayScenePorts.js", import.meta.url), "utf8"),
 ]);
-assert.doesNotMatch(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"TALENTS"/);
-assert.doesNotMatch(pauseSource, /StarlightTalentTreeView|setTalentImmersive/);
+assert.match(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"STARS"/);
+assert.match(pauseSource, /createCelestialTalentTreeView|setTalentImmersive/);
 assert.match(pauseSource, /\{\s*key:\s*"titans",\s*label:\s*"TITANS"/);
 assert.match(pauseSource, /new TitanArchiveView/);
-assert.match(pauseSource, /options\.initialTabKey === "talents"[\s\S]*\? "titans"/);
+assert.doesNotMatch(pauseSource, /options\.initialTabKey === "talents"[\s\S]*\? "titans"/);
+assert.match(pauseSource, /RUNTIME_FEATURE_ASSET_GROUP_IDS\.starlight/);
 assert.doesNotMatch(pauseSource, /resolveTitanDiscoveriesEnabled\(\)\s*&&\s*systemFeatureAvailable\("titans"\)/);
 assert.match(setupSource, /uiPorts\.worldUiFactories/);
 assert.match(portsSource, /createCelestialTalentTreeView/);
@@ -369,7 +370,7 @@ assert.match(pillarSource, /createCelestialTalentTreeView/);
 assert.match(pillarSource, /progression:\s*this\.scene\.celestialTalentProgressionSystem/);
 assert.match(pillarSource, /this\._talentTreeView\.open/);
 assert.match(pillarSource, /getInteractionDistance\(playerTile\)/);
-assert.match(pillarSource, /STARLIGHT_TALENT_TREE_CONFIG/);
+assert.doesNotMatch(pillarSource, /STARLIGHT_TALENT_TREE_CONFIG|StarTalentRevealState/);
 assert.match(pillarSource, /CELESTIAL_PILLAR_ACCESS_CONFIG/);
 assert.match(treeSource, /buildStarlightTalentTreeHealth/);
 assert.match(healthSource, /Object\.values\(ASSET_KEYS\.ui\.starlightTalentTree\)/);

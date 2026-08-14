@@ -54,7 +54,8 @@ import { enterSceneBasePhase, releaseSceneSuspension } from "./SceneModeBridge.j
  */
 export function setupUIMethods(prototype, dependencies) {
   const { createButton, createFocusController, createHintLegend, createIconBadge,
-    createJourneyPanelContent, createModalShell, createPanel, createPauseFeatureLoadingView,
+    createCelestialTalentTreeView, createJourneyPanelContent, createModalShell, createPanel,
+    createPauseFeatureLoadingView,
     createSaveTransferPanelContent, createSettingsPanelContent, createTabBar, ShopOverlay,
     TitanArchiveView, UIMuteToggle, UINotificationSystem, UIInventoryPopup, WorldMapOverlay,
     XPProgressBar } = dependencies;
@@ -271,6 +272,7 @@ export function setupUIMethods(prototype, dependencies) {
       settings: null,
       saveTransfer: null,
       journeyView: null,
+      talentTree: null,
       titanArchive: null,
       activeFeatureGroup: null,
       activeFeatureConsumer: null,
@@ -289,13 +291,14 @@ export function setupUIMethods(prototype, dependencies) {
         ? [{ key: "titans", label: "TITANS", icon: "journal" }]
         : []),
       { key: "settings", label: "SETTINGS", icon: "settings" },
+      // The immersive Star surface owns left/right navigation, so it stays at
+      // the terminal tab instead of trapping access to later pause sections.
+      { key: "talents", label: "STARS", icon: "constellation" },
     ];
     state.tabKeys = pauseTabs.map(tab => tab.key);
     const requestedTabKey = options.initialTabKey === "stats"
       ? "journey"
-      : options.initialTabKey === "talents"
-        ? "titans"
-        : options.initialTabKey;
+      : options.initialTabKey;
     const requestedInitialTab = pauseTabs.findIndex(
       tab => tab.key === requestedTabKey,
     );
@@ -303,11 +306,13 @@ export function setupUIMethods(prototype, dependencies) {
     this._currentPauseTab = initialTabIndex;
     const settingsTabIndex = pauseTabs.findIndex(tab => tab.key === "settings");
     const featureGroupForTab = tabKey => {
-      if (tabKey === "titans") return RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive;
+      if (tabKey === "talents") return RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight;
+      // Titan portraits are Boot-resident because ESC navigation must remain
+      // synchronous even when optional runtime packs are under memory pressure.
       return null;
     };
-    const featureConsumerForGroup = () => RUNTIME_FEATURE_ASSET_CONSUMERS.pauseTitanArchive;
-    const featureThemeForGroup = () => "titanArchive";
+    const featureConsumerForGroup = () => RUNTIME_FEATURE_ASSET_CONSUMERS.pauseStarlight;
+    const featureThemeForGroup = () => "starlight";
     const releaseActiveFeature = () => {
       if (!state.activeFeatureGroup) return;
       this.runtimeFeatureAssetManager?.releaseGroup?.(
@@ -338,16 +343,30 @@ export function setupUIMethods(prototype, dependencies) {
       state.settings?.destroy?.();
       state.saveTransfer?.destroy?.();
       state.journeyView?.destroy?.();
+      state.talentTree?.destroy?.();
       state.titanArchive?.destroy?.();
       state.featureLoadingView?.destroy?.();
       state.settings = null;
       state.saveTransfer = null;
       state.journeyView = null;
+      state.talentTree = null;
       state.titanArchive = null;
       state.featureLoadingView = null;
       state.controls = [];
       releaseActiveFeature();
       tabContent.removeAll(true);
+    };
+
+    const setTalentImmersive = active => {
+      const visible = !active;
+      state.tabs?.root?.setVisible?.(visible);
+      state.hint?.root?.setVisible?.(visible);
+      shell.titleText?.setVisible?.(visible);
+      shell.subtitleText?.setVisible?.(visible);
+      shell.icon?.setVisible?.(visible);
+      shell.closeButton?.root?.setVisible?.(visible);
+      shell.skin?.setVisible?.(visible);
+      shell.panel?.setVisible?.(visible && !shell.skin);
     };
 
 
@@ -583,6 +602,28 @@ export function setupUIMethods(prototype, dependencies) {
       state.controls = [];
     };
 
+    const buildTalents = () => {
+      setTalentImmersive(true);
+      state.talentTree = createCelestialTalentTreeView(this, {
+        progression: this.celestialTalentProgressionSystem,
+        getMoney: () => this.upgradeSystem?.getMoney?.() || 0,
+        onClose: () => state.tabs?.setActive?.(0),
+        onNodePurchased: result => {
+          const unlockedEngineIds = result.snapshot?.unlockedAbilityIds
+            || this.celestialTalentProgressionSystem?.getSnapshot?.()?.unlockedAbilityIds
+            || [];
+          this.starHeartProgressionSystem
+            ?.syncTalentUnlockedEngines?.(unlockedEngineIds);
+          this.celestialActionBarSystem?.sync?.();
+          this.celestialCurrencyHudSystem?.update?.(true);
+          this.soundSystem?.playUiConfirm?.();
+          this.queueDugTilesSave?.();
+        },
+      });
+      state.talentTree.open();
+      state.controls = state.talentTree.getControls();
+    };
+
 
     const buildSettings = () => {
       state.settings = createSettingsPanelContent(this, {
@@ -630,6 +671,7 @@ export function setupUIMethods(prototype, dependencies) {
 
       if (groupId && manager?.enabled && !assetsRetained && !manager.isReady(groupId)) {
         clearContent();
+        setTalentImmersive(false);
         state.activeTab = tabIndex;
         this._currentPauseTab = tabIndex;
         state.tabs?.setActive?.(tabIndex, true);
@@ -694,6 +736,7 @@ export function setupUIMethods(prototype, dependencies) {
       }
 
       clearContent();
+      setTalentImmersive(false);
       if (groupId && manager?.enabled) {
         if (!assetsRetained) manager.ensureGroup(groupId, { consumer });
         state.activeFeatureGroup = groupId;
@@ -705,11 +748,14 @@ export function setupUIMethods(prototype, dependencies) {
       if (tabKey === "general") buildGeneral();
       else if (tabKey === "saves") buildSaves();
       else if (tabKey === "journey") buildJourney();
+      else if (tabKey === "talents") buildTalents();
       else if (tabKey === "titans") buildTitans();
       else buildSettings();
       state.focus?.setItems?.(
         state.controls,
-        state.titanArchive?.selectedIndex ?? 0
+        state.titanArchive?.selectedIndex
+          ?? state.talentTree?.selectedControlIndex
+          ?? 0
       );
     };
 
@@ -746,9 +792,21 @@ export function setupUIMethods(prototype, dependencies) {
       onCancel: () => this.resumeGame(),
       onFocus: index => {
         state.titanArchive?.selectControl?.(index);
+        state.talentTree?.selectControl?.(index);
+      },
+      onVertical: direction => {
+        if (pauseTabs[state.activeTab]?.key !== "talents") return false;
+        const next = state.talentTree?.moveSelection?.(0, direction);
+        if (Number.isFinite(next)) state.focus?.setIndex?.(next);
+        return true;
       },
       onHorizontal: direction => {
         if (state.activeTab === settingsTabIndex) return;
+        if (pauseTabs[state.activeTab]?.key === "talents") {
+          const next = state.talentTree?.moveSelection?.(direction, 0);
+          if (Number.isFinite(next)) state.focus?.setIndex?.(next);
+          return;
+        }
         const next = (
           state.activeTab + direction + pauseTabs.length
         ) % pauseTabs.length;
@@ -798,6 +856,7 @@ export function setupUIMethods(prototype, dependencies) {
     pause.state?.settings?.destroy?.();
     pause.state?.saveTransfer?.destroy?.();
     pause.state?.journeyView?.destroy?.();
+    pause.state?.talentTree?.destroy?.();
     pause.state?.titanArchive?.destroy?.();
     pause.state?.releaseFeatureAssets?.();
     pause.state?.tabs?.destroy?.();

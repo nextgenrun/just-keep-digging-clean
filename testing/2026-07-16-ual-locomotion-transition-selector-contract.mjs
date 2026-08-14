@@ -87,6 +87,34 @@ assert.equal(result.phase, PHASE.RUN);
 assert.equal(result.startFrame, PLAYER_ANIMATION_POLISH.groundHandoff.resumeJogFrame);
 assert.equal(result.facingFlipX, false);
 assert.notEqual(result.animationKey, profile.walkLoopAnim, "low-speed motion selected slow walk");
+
+const skippedPlayingTickSelector = new UalNativeLocomotionTransitionSelector(profile);
+let skippedTickResult = skippedPlayingTickSelector.resolve({
+  grounded: true,
+  flying: false,
+  horizontalVelocity: 6,
+  verticalVelocity: 0,
+  groundMovementActive: true,
+  currentAnimationKey: profile.idleAnim,
+  isPlaying: true,
+  facingFlipX: false,
+});
+assert.equal(skippedTickResult.animationKey, PLAYER_ANIMATION_POLISH.groundHandoff.start.key);
+skippedTickResult = skippedPlayingTickSelector.resolve({
+  grounded: true,
+  flying: false,
+  horizontalVelocity: 6,
+  verticalVelocity: 0,
+  groundMovementActive: true,
+  currentAnimationKey: PLAYER_ANIMATION_POLISH.groundHandoff.start.key,
+  isPlaying: false,
+  facingFlipX: false,
+});
+assert.equal(
+  skippedTickResult.animationKey,
+  profile.walkRunAnim,
+  "a two-frame startup bridge that completed between ticks restarted forever",
+);
 currentAnimationKey = profile.walkRunAnim;
 isPlaying = true;
 result = resolveState({

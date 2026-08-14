@@ -17,9 +17,15 @@ function formatValue(value, precision = 0) {
 }
 
 export class JourneySystem {
-  constructor({ snapshotProvider = null, onChanged = null, initialData = null } = {}) {
+  constructor({
+    snapshotProvider = null,
+    onChanged = null,
+    initialData = null,
+    capabilities = undefined,
+  } = {}) {
     this.snapshotProvider = typeof snapshotProvider === "function" ? snapshotProvider : null;
     this.onChanged = typeof onChanged === "function" ? onChanged : null;
+    this.capabilities = capabilities;
     this.ledger = new JourneyLedger(initialData);
     this.baseline = null;
     this.lastPollAt = Number.NEGATIVE_INFINITY;
@@ -152,7 +158,7 @@ export class JourneySystem {
     const snapshot = this.captureSnapshot() || this.baseline || {};
     return {
       build: this._buildCards(snapshot),
-      goals: resolveJourneyGoals(snapshot),
+      goals: resolveJourneyGoals(snapshot, this.capabilities),
       history: this.ledger.getEvents(JOURNEY_CONFIG.maxVisibleHistory),
     };
   }

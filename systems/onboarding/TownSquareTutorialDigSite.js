@@ -2,7 +2,10 @@ import {
   FIRST_FIVE_MINUTES_CONFIG,
   resolveFirstFiveMinutesEnabled,
 } from "../../values/firstFiveMinutes.js";
-import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import {
+  RETENTION_CONFIG,
+  TOWN_TUTORIAL_STAGES,
+} from "../../values/retentionConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 
 function getDigSiteConfig(search) {
@@ -48,6 +51,17 @@ export function getTownTutorialDigSite(
   search = globalThis.location?.search || "",
 ) {
   return getSite(scene, getDigSiteConfig(search));
+}
+
+export function isRequiredTownTutorialDigTarget(
+  scene,
+  target,
+  search = globalThis.location?.search || "",
+) {
+  if (!target || scene.retentionProgressSystem?.getTutorialState?.()?.stage
+    !== TOWN_TUTORIAL_STAGES.DIG) return false;
+  const site = getTownTutorialDigSite(scene, search);
+  return target.tx === site.tx && target.ty === site.ty;
 }
 
 export function prepareTownTutorialDigSite(

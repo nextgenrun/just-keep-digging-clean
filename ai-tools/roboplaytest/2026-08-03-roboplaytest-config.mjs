@@ -26,12 +26,17 @@ Options:
   --url=<url>                 Existing game URL (default starts an isolated local server)
   --output=<directory>        Artifact directory (default: OS temp directory)
   --edge=<path>               Edge/Chromium executable
-  --profile=<deep|critical>   Coverage profile (default: deep)
+  --profile=<deep|critical|opening|ui|human> Coverage profile (default: deep)
+  --viewport-width=<number>  Browser viewport width (default: 1280)
+  --viewport-height=<number> Browser viewport height (default: 720)
+  --tutorial=<guided|skip>    Fresh-save opening route (default: skip)
   --headed=1                  Show the automated browser
   --no-server=1               Never start the built-in local server
   --load-timeout-ms=<number>  Boot/world-load timeout (default: 240000)
   --phase-timeout-ms=<number> Per-action timeout (default: 30000)
   --natural-dig-ms=<number>   Maximum real-input mining hold (default: 90000)
+  --goal-money=<number>       Human campaign wallet goal in M (default: 2000)
+  --human-cycles=<number>     Maximum mine/sell campaign cycles (default: 36)
   --fail-on-warning=1         Return failure when only warnings were found
   --help                      Show this help
 
@@ -73,12 +78,13 @@ function createRunId(now = new Date()) {
   return now.toISOString().replace(/[:.]/g, "-");
 }
 
-export function normalizeGameUrl(rawUrl) {
+export function normalizeGameUrl(rawUrl, gameplayProfile = "full-review") {
   const url = new URL(rawUrl);
   url.searchParams.set("jkd_e2e", "1");
   url.searchParams.set("nativeDensity", "0");
   url.searchParams.set("runtimeAssetQueue", "1");
   url.searchParams.set("runtimeAudioQueue", "1");
+  url.searchParams.set("gameplayProfile", gameplayProfile);
   return url.toString();
 }
 
@@ -89,8 +95,12 @@ export function parseRoboplaytestConfig(argv = process.argv.slice(2), now = new 
   const runId = createRunId(now);
   const suppliedUrl = options.get("url");
   const profile = String(options.get("profile") || "deep").toLowerCase();
-  if (!["deep", "critical"].includes(profile)) {
-    throw new Error("--profile must be deep or critical");
+  if (!["deep", "critical", "opening", "ui", "human"].includes(profile)) {
+    throw new Error("--profile must be deep, critical, opening, ui, or human");
+  }
+  const tutorial = String(options.get("tutorial") || "skip").toLowerCase();
+  if (!["guided", "skip"].includes(tutorial)) {
+    throw new Error("--tutorial must be guided or skip");
   }
   const baseUrl = suppliedUrl || "http://127.0.0.1:8092/";
   const output = path.resolve(
@@ -102,19 +112,28 @@ export function parseRoboplaytestConfig(argv = process.argv.slice(2), now = new 
     schema: ROBOPLAYTEST_SCHEMA,
     runId,
     root: ROBOPLAYTEST_ROOT,
-    url: normalizeGameUrl(baseUrl),
+    url: normalizeGameUrl(
+      baseUrl,
+      profile === "opening" || profile === "human" ? "demo" : "full-review",
+    ),
     output,
     edgePath: path.resolve(options.get("edge") || DEFAULT_EDGE_PATH),
     headed: booleanOption(options, "headed"),
     noServer: booleanOption(options, "no-server", Boolean(suppliedUrl)),
     profile,
+    tutorial,
     failOnWarning: booleanOption(options, "fail-on-warning"),
     loadTimeoutMs: integerOption(options, "load-timeout-ms", 240_000, 10_000),
     phaseTimeoutMs: integerOption(options, "phase-timeout-ms", 30_000, 1_000),
     naturalDigMs: integerOption(options, "natural-dig-ms", 90_000, 1_000),
+    goalMoney: integerOption(options, "goal-money", 2_000, 100),
+    humanCycles: integerOption(options, "human-cycles", 36, 4),
     playwrightPath: options.get("playwright") || DEFAULT_PLAYWRIGHT_PATH,
     sharpPath: options.get("sharp") || DEFAULT_SHARP_PATH,
-    viewport: Object.freeze({ width: 1280, height: 720 }),
+    viewport: Object.freeze({
+      width: integerOption(options, "viewport-width", 1280, 800),
+      height: integerOption(options, "viewport-height", 720, 600),
+    }),
     performanceThresholds: Object.freeze({
       frameP95WarningMs: 50,
       onePercentLowWarningFps: 20,

@@ -193,11 +193,13 @@ export const RETENTION_CONFIG = Object.freeze({
     bottom: 84,
     width: 430,
     height: 107.5,
+    // Measured against the authored 1024x256 foundation: the medallion is
+    // centered at source x160 and the readable plaque ends before x950.
     paddingX: 119,
-    textWidth: 293,
+    textWidth: 280,
     promiseY: 39,
     detailY: 69,
-    badgeX: 55,
+    badgeX: 67,
     badgeKickerY: 42,
     badgeValueY: 63,
     depth: 1001,

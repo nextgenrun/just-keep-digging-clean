@@ -87,8 +87,8 @@ const pauseSource = await readFile(
   new URL("../world/playScene/PlaySceneUI.js", import.meta.url),
   "utf8",
 );
-assert.doesNotMatch(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"TALENTS"/);
-assert.doesNotMatch(pauseSource, /StarlightTalentTreeView|setTalentImmersive/);
+assert.match(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"STARS"/);
+assert.match(pauseSource, /createCelestialTalentTreeView|setTalentImmersive/);
 assert.match(pauseSource, /\{\s*key:\s*"titans",\s*label:\s*"TITANS"/);
 assert.match(pauseSource, /new TitanArchiveView/);
 assert.doesNotMatch(

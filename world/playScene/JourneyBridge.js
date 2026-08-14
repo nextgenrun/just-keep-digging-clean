@@ -130,5 +130,6 @@ export function createJourneyRuntime(scene) {
   return new JourneySystem({
     snapshotProvider: () => createJourneySnapshot(scene),
     onChanged: () => scene.queueDugTilesSave?.(),
+    capabilities: scene.gameplayCapabilities,
   });
 }

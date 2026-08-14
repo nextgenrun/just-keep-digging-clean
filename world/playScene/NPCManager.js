@@ -57,7 +57,10 @@ export class NPCManager {
       };
     });
 
-    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    if (!isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+      this.scene.gameplayCapabilities,
+    )) {
       return surfaceMerchants;
     }
 

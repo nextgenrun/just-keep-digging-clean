@@ -9,6 +9,8 @@ import { HEAVENBLOCKS_ACCESS_CONFIG } from "../values/heavenblocksAccessConfig.j
 import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 import { createTitanE2EPreviewController } from "./JkdE2ETitanPreview.js";
+import { isLocalGameplayProfileHost } from "../values/gameplayCapabilities.js";
+import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
   100, 350, 700, 1100, 1450, 1800, 2500, 3500, 4500, 4990,
@@ -49,7 +51,11 @@ const TEXTURE_AUDIT_SPECIAL_TYPES = Object.freeze([
 ]);
 
 function e2eEnabled() {
-  if (!GAME_CONFIG.debugMode || typeof window === "undefined") return false;
+  if (
+    typeof window === "undefined"
+    || globalThis.__DIG_GAME_PRODUCTION__ === true
+    || !isLocalGameplayProfileHost(window.location?.hostname)
+  ) return false;
   try {
     return new URLSearchParams(window.location.search).has("jkd_e2e");
   } catch (_) {
@@ -72,6 +78,16 @@ function center(scene) {
   };
 }
 
+function ensureGameplayActive(scene, owner = "jkd-e2e") {
+  if (!scene || scene.gameState === "playing") return;
+  scene.sceneModeController?.clearSuspensions?.();
+  scene._dialogSuspension = null;
+  scene._pauseSuspension = null;
+  scene._hardcoreModalSuspension = null;
+  scene._shopSuspensionTokens = [];
+  scene.setSceneBasePhase?.(SCENE_BASE_PHASES.ACTIVE, { owner });
+}
+
 function closeTransientUi(scene) {
   if (!scene) return;
   const wasPaused = scene.gameState === "paused";
@@ -88,10 +104,10 @@ function closeTransientUi(scene) {
   if (scene.overlayManager?.overlayBackdrop?.visible) {
     scene.hideOverlay?.();
     if (scene.gameState === "dialog" || scene.gameState === "dead") {
-      scene.gameState = "playing";
+      ensureGameplayActive(scene, "jkd-close-overlay");
     }
   }
-  if (wasPaused) scene.gameState = "playing";
+  if (wasPaused) ensureGameplayActive(scene, "jkd-close-pause");
   scene.playerController?.setControlsEnabled?.(scene.gameState === "playing");
 }
 
@@ -204,7 +220,7 @@ function openSurface(scene, surface, options = {}) {
 
   closeTransientUi(scene);
   if (scene.gameState !== "playing") {
-    scene.gameState = "playing";
+    ensureGameplayActive(scene, "jkd-open-surface");
     scene.playerController?.setControlsEnabled?.(true);
   }
 
@@ -271,7 +287,7 @@ function openSurface(scene, surface, options = {}) {
       scene.showGameDialog?.("E2E Dialog", "E2E modal dialog.\nPress any key or interact to close.");
       break;
     case "death":
-      scene.gameState = "playing";
+      ensureGameplayActive(scene, "jkd-open-death");
       scene.enterDeathState?.(999);
       break;
     default:
@@ -288,7 +304,20 @@ function forcePlayerState(scene, options = {}) {
   const ty = Number.isFinite(options.ty)
     ? options.ty
     : (Number.isFinite(scene.config.playerSpawnTileY) ? scene.config.playerSpawnTileY : scene.config.spawnTileY);
+  // A RoboPlaytest checkpoint may be requested while a native UAL contact
+  // timeline is recovering. Teleporting the body without clearing that
+  // presentation-only action leaves mining latched behind a stale animation.
+  scene.ualActionContactTimeline?.cancel?.();
+  scene.playerRigContact?.endAction?.();
+  scene.playerController?.endMovingSideDigStandOff?.();
+  scene.thunderStrikeActionRuntime?.cancel?.();
+  scene.isDigAnimating = false;
+  scene._ualActionContactAtMs = -Infinity;
+  scene._actionFlipX = null;
+  scene._postActionFacingFlipX = null;
+  scene.player?.anims?.stop?.();
   scene.playerController?.teleportToTile?.(tx, ty);
+  scene.updatePlayerVisualState?.(true);
   scene.playerController?.setControlsEnabled?.(options.controlsEnabled !== false);
   if (Number.isFinite(options.money)) {
     scene.upgradeSystem?.setMoney?.(options.money);

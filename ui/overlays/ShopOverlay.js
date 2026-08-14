@@ -274,7 +274,7 @@ export class ShopOverlay {
     );
     this.allUpgrades = Object.entries(UPGRADES)
       .filter(([id, upgrade]) => (
-        isGameplayUpgradeEnabled(id) &&
+        isGameplayUpgradeEnabled(id, this.scene.gameplayCapabilities) &&
         upgrade.merchant === merchantId &&
         !upgrade.comingSoon &&
         !upgrade.hiddenFromShop &&
@@ -314,7 +314,7 @@ export class ShopOverlay {
     }
     this.forgeRecipes = isArcForgeMerchant(merchantId)
       ? Object.values(CRAFTING_RECIPES).filter(recipe => (
-        isGameplayUpgradeEnabled(recipe.output?.upgradeId)
+        isGameplayUpgradeEnabled(recipe.output?.upgradeId, this.scene.gameplayCapabilities)
       ))
       : [];
     this.sellItems = sellResourceKeysForMerchant(merchantId).map(resource => ({

@@ -13,6 +13,14 @@ const launchPath = path.join(ROOT, "ai-tools", "2026-08-03-roboplaytest.mjs");
 const readmePath = path.join(ROOT, "ai-tools", "roboplaytest", "readme.md");
 const moduleRoot = path.join(ROOT, "ai-tools", "roboplaytest");
 const harnessSource = fs.readFileSync(path.join(ROOT, "testing", "JkdE2EHarness.js"), "utf8");
+const driverSource = fs.readFileSync(
+  path.join(moduleRoot, "2026-08-03-roboplaytest-driver.mjs"),
+  "utf8",
+);
+const guidedOpeningSource = fs.readFileSync(
+  path.join(moduleRoot, "2026-08-13-roboplaytest-guided-opening.mjs"),
+  "utf8",
+);
 const deepModules = [
   "2026-08-03-roboplaytest-deep-core.mjs",
   "2026-08-03-roboplaytest-deep-ui.mjs",
@@ -32,6 +40,7 @@ assert.equal(url.searchParams.get("jkd_e2e"), "1");
 assert.equal(url.searchParams.get("nativeDensity"), "0");
 assert.equal(url.searchParams.get("runtimeAssetQueue"), "1");
 assert.equal(url.searchParams.get("runtimeAudioQueue"), "1");
+assert.equal(url.searchParams.get("gameplayProfile"), "full-review");
 
 const config = parseRoboplaytestConfig([
   "--url=http://127.0.0.1:8123/",
@@ -40,6 +49,7 @@ const config = parseRoboplaytestConfig([
 ], new Date("2026-08-03T12:00:00.000Z"));
 assert.equal(config.headed, true);
 assert.equal(config.profile, "deep");
+assert.equal(config.tutorial, "skip");
 assert.equal(config.schema, "dig-game-roboplaytest@2");
 assert.equal(config.noServer, true);
 assert.equal(config.loadTimeoutMs, 240_000);
@@ -47,11 +57,28 @@ assert.equal(config.naturalDigMs, 90_000);
 assert.equal(config.performanceThresholds.frameP95WarningMs, 50);
 assert.match(config.runId, /^2026-08-03T12-00-00-000Z$/);
 
+const guidedConfig = parseRoboplaytestConfig(["--tutorial=guided"]);
+assert.equal(guidedConfig.tutorial, "guided");
+assert.throws(() => parseRoboplaytestConfig(["--tutorial=fast"]), /guided or skip/);
+
 
 const critical = parseRoboplaytestConfig(["--profile=critical"]);
 assert.equal(critical.profile, "critical");
-assert.throws(() => parseRoboplaytestConfig(["--profile=wide"]), /deep or critical/);
+const opening = parseRoboplaytestConfig(["--profile=opening"]);
+assert.equal(opening.profile, "opening");
+assert.equal(new URL(opening.url).searchParams.get("gameplayProfile"), "demo");
+const ui = parseRoboplaytestConfig(["--profile=ui"]);
+assert.equal(ui.profile, "ui");
+const human = parseRoboplaytestConfig(["--profile=human", "--goal-money=2000"]);
+assert.equal(human.profile, "human");
+assert.equal(human.goalMoney, 2000);
+assert.equal(new URL(human.url).searchParams.get("gameplayProfile"), "demo");
+assert.throws(() => parseRoboplaytestConfig(["--profile=wide"]), /deep, critical, opening, ui, or human/);
 assert.match(harnessSource, /dialogVisible: Boolean\(scene\.overlayManager\?\.shell\?\.root\?\.visible\)/);
+assert.match(harnessSource, /isLocalGameplayProfileHost/);
+assert.match(harnessSource, /__DIG_GAME_PRODUCTION__ === true/);
+assert.match(driverSource, /prepareGuidedTutorialMineTarget/);
+assert.match(guidedOpeningSource, /stage === "dig"/);
 const summary = buildSummaryMarkdown({
   status: "warning",
   url: config.url,

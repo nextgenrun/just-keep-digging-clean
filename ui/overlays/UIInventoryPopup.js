@@ -27,6 +27,7 @@ export class UIInventoryPopup {
     this.moneyText = null;
     this.summaryText = null;
     this.returnButton = null;
+    this.tabs = null;
     this.activeTab = 0;
     this.selectedGuideResource = INVENTORY_RESOURCE_GUIDE.resourceKeys[0];
     this.selectedStarRarity = 0;
@@ -78,6 +79,7 @@ export class UIInventoryPopup {
     this.moneyText = null;
     this.summaryText = null;
     this.returnButton = null;
+    this.tabs = null;
     shell?.hide?.(() => shell.destroy?.());
     this.scene.setShopOpen?.(false);
     this.scene.playerController?.setControlsEnabled?.(true);
@@ -127,7 +129,7 @@ export class UIInventoryPopup {
       UI_INVENTORY_COPY.title,
       subtitle
     );
-    createTabBar(this.scene, {
+    this.tabs = createTabBar(this.scene, {
       x: 0,
       y: fullRect.top + guide.layout.tabTopInset,
       tabs: [
@@ -146,6 +148,9 @@ export class UIInventoryPopup {
       parent: this.shell.content,
       onChange: index => {
         if (index === 2) {
+          // Keep the visible tab state truthful until its on-demand art is
+          // actually ready. The successful render below selects STAR ATLAS.
+          this.tabs?.setActive?.(this.activeTab, true);
           void this._activateStarAtlasRarity(this.selectedStarRarity);
           return;
         }
@@ -219,7 +224,10 @@ export class UIInventoryPopup {
 
   async _activateStarAtlasRarity(rarityIndex) {
     const result = await this.starAtlasAssets.ensureRarity(rarityIndex);
-    if (!result.ready || !this.isOpen) return false;
+    if (!result.ready || !this.isOpen) {
+      this.tabs?.setActive?.(this.activeTab, true);
+      return false;
+    }
     this.activeTab = 2;
     this.selectedStarRarity = rarityIndex;
     this.selectedStarIdentity = STAR_IDENTITY_LIBRARY_CONFIG.identities
@@ -247,6 +255,17 @@ export class UIInventoryPopup {
 
   resize() {
     if (this.isOpen) this._render();
+  }
+
+  getHealthSnapshot() {
+    return Object.freeze({
+      open: this.isOpen,
+      activeTab: this.activeTab,
+      selectedTab: this.tabs?.getActive?.() ?? null,
+      selectedGuideResource: this.selectedGuideResource,
+      selectedStarRarity: this.selectedStarRarity,
+      selectedStarIdentity: this.selectedStarIdentity,
+    });
   }
 
   destroy() {

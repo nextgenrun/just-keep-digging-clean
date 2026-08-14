@@ -2,6 +2,12 @@ import {
   runEarlyDeepScenarios,
   runLateDeepScenarios,
 } from "./2026-08-03-roboplaytest-deep-scenarios.mjs";
+import { destroyGuidedTutorialBlock } from
+  "./2026-08-13-roboplaytest-guided-opening.mjs";
+import { runUiMenuAuditScenarios } from
+  "./2026-08-13-roboplaytest-ui-menus.mjs";
+import { runHumanCampaignScenarios } from
+  "./2026-08-14-roboplaytest-human-campaign.mjs";
 
 async function bootFreshSave(driver) {
   const { page, config } = driver;
@@ -22,15 +28,15 @@ async function bootFreshSave(driver) {
   await page.keyboard.press("1");
   await page.keyboard.press("Space");
   await driver.waitFor(() => (
-    globalThis.__phaserGame?.scene?.getScene?.("StartMenuScene")?._modeSelector?.isVisible === true
-  ), "casual/hardcore selector");
+    globalThis.__phaserGame?.scene?.getScene?.("StartMenuScene")?._newRunSetup?.isVisible === true
+  ), "new expedition setup");
   await page.waitForTimeout(80);
-  await page.keyboard.press("Enter");
-  await driver.waitFor(() => (
-    globalThis.__phaserGame?.scene?.getScene?.("StartMenuScene")?._tutorialSelector?.isVisible === true
-  ), "tutorial selector");
-  await page.waitForTimeout(80);
-  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowLeft");
+  if (config.tutorial === "skip") {
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.type("YES");
+  }
   await page.keyboard.press("Enter");
   await driver.waitFor(() => (
     globalThis.__phaserGame?.scene?.isActive?.("PlayScene")
@@ -45,7 +51,7 @@ async function bootFreshSave(driver) {
   await page.waitForTimeout(500);
   active = await page.evaluate(() => globalThis.__phaserGame.scene.getScenes(true).map(scene => scene.scene.key));
   if (!active.includes("PlayScene")) throw new Error(`PlayScene is not active: ${active.join(", ")}`);
-  return { activeScenes: active, saveSlot: 1, tutorial: "no", openingGateWaitMs };
+  return { activeScenes: active, saveSlot: 1, tutorial: config.tutorial, openingGateWaitMs };
 }
 
 async function purchaseFirstUpgrade(driver) {
@@ -213,10 +219,37 @@ export async function runRoboplaytestScenarios(driver) {
     { id: "fresh-save", title: "Boot, menu navigation, and isolated fresh save", fatal: true },
     () => bootFreshSave(driver),
   );
+  if (driver.config.profile === "ui") {
+    await runUiMenuAuditScenarios(driver);
+    return;
+  }
   await driver.runPhase(
-    { id: "starter-dig", title: "Real keyboard mining input changes a live tile" },
-    async () => driver.minePreparedTarget(await driver.prepareStarterMineTarget()),
+    {
+      id: "starter-dig",
+      title: driver.config.tutorial === "guided"
+        ? "Real movement and dig input mine the guided first block"
+        : "Real keyboard mining input changes a live tile",
+    },
+    async () => {
+      const target = await (driver.config.tutorial === "guided"
+        ? driver.prepareGuidedTutorialMineTarget()
+        : driver.prepareStarterMineTarget());
+      if (driver.config.tutorial === "guided" && (
+        target?.tutorialStage !== "dig"
+        || target?.display?.width > 123
+        || target?.display?.height > 123
+      )) throw new Error(`Guided startup target/scale invariant failed: ${JSON.stringify(target)}`);
+      const result = driver.config.tutorial === "guided"
+        ? await destroyGuidedTutorialBlock(driver, target)
+        : await driver.minePreparedTarget(target);
+      return { target, result };
+    },
   );
+  if (driver.config.profile === "opening") return;
+  if (driver.config.profile === "human") {
+    await runHumanCampaignScenarios(driver);
+    return;
+  }
   await driver.runPhase(
     { id: "first-upgrade", title: "Player shop completes a permanent upgrade transaction" },
     () => purchaseFirstUpgrade(driver),

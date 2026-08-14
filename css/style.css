@@ -154,7 +154,7 @@ body::before {
 
 #fs-btn {
   position: absolute;
-  top: 104px;
+  bottom: 10px;
   right: 10px;
   z-index: 10;
   width: 32px;

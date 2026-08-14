@@ -237,6 +237,7 @@ export function createButton(scene, options = {}) {
   function activate() {
     if (state.pressing) return false;
     if (!state.enabled) return false;
+    if (!root?.active) return false;
     state.pressing = true;
     scene.tweens.killTweensOf(root);
     scene.tweens.add({
@@ -248,6 +249,9 @@ export function createButton(scene, options = {}) {
       ease: "Power2.out",
       onComplete: () => {
         state.pressing = false;
+        // A tab rebuild can destroy the button during its press tween. Never
+        // dispatch a delayed action into a view that no longer owns a scene.
+        if (!root?.active) return;
         if (playSounds) scene.soundSystem?.playUiConfirm?.();
         onClick?.();
       },
@@ -299,6 +303,7 @@ export function createButton(scene, options = {}) {
       draw();
     },
     setEnabled(value, reason = null) {
+      if (!root?.active) return;
       state.enabled = Boolean(value);
       state.pressing = false;
       if (!state.enabled) state.focused = false;
@@ -332,6 +337,8 @@ export function createButton(scene, options = {}) {
       root.setVisible(value);
     },
     destroy() {
+      scene.tweens?.killTweensOf?.(root);
+      hit?.removeAllListeners?.();
       root.destroy(true);
     },
   };

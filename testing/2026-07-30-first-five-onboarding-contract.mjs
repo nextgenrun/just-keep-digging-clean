@@ -3,8 +3,11 @@ import { readFile } from "node:fs/promises";
 
 import { PlayerSurfaceDropController } from "../player/PlayerSurfaceDropController.js";
 import { FirstFiveMinutesTutorialBridge } from "../systems/onboarding/FirstFiveMinutesTutorialBridge.js";
+import { TutorialMovementDistanceTracker } from
+  "../systems/onboarding/TutorialMovementDistanceTracker.js";
 import {
   getTownTutorialDigSite,
+  isRequiredTownTutorialDigTarget,
   prepareTownTutorialDigSite,
 } from "../systems/onboarding/TownSquareTutorialDigSite.js";
 import { RetentionProgressSystem } from "../systems/progression/RetentionProgressSystem.js";
@@ -33,6 +36,16 @@ for (const value of ["0", "off", "false", "legacy"]) {
 assert.equal(
   resolveFirstFiveMinutesEnabled(FIRST_FIVE_MINUTES_CONFIG, "?firstFive=1"),
   true,
+);
+
+const movementDistance = new TutorialMovementDistanceTracker();
+movementDistance.reset(0);
+assert.equal(movementDistance.update(GAME_CONFIG.tileSize * 1.8), GAME_CONFIG.tileSize * 1.8);
+assert.ok(
+  Math.abs(
+    movementDistance.update(GAME_CONFIG.tileSize) - GAME_CONFIG.tileSize * 2.6,
+  ) < 0.001,
+  "turning around must keep earned tutorial walking distance",
 );
 
 function makeWorld() {
@@ -195,6 +208,7 @@ const view = {
   },
 };
 const scene = {
+  retentionProgressSystem: retention,
   config: {
     tileSize: GAME_CONFIG.tileSize,
     topAirRows: GAME_CONFIG.topAirRows,
@@ -257,6 +271,16 @@ assert.deepEqual(scene.playerController.teleports.at(-1), {
 assert.equal(bridge.isDescentBlocked(), true);
 
 retention.recordTutorialMovement(2);
+const requiredDigSite = getTownTutorialDigSite(scene);
+assert.equal(isRequiredTownTutorialDigTarget(scene, requiredDigSite), true);
+assert.equal(isRequiredTownTutorialDigTarget(scene, {
+  tx: requiredDigSite.tx + 1,
+  ty: requiredDigSite.ty,
+}), false);
+assert.equal(isRequiredTownTutorialDigTarget(scene, {
+  tx: requiredDigSite.tx,
+  ty: requiredDigSite.ty + 1,
+}), false);
 retention.recordMiningResult({ success: true, destroyed: true, resourceAmount: 1 });
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.FLIGHT);
 assert.equal(retention.claimTutorialFlightTraining().freeFlightMs, 30000);

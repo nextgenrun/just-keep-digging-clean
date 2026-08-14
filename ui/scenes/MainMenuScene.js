@@ -286,6 +286,10 @@ export class MainMenuScene extends Phaser.Scene {
       if (this._overlay) return;
       this._btnRefs[this._menuIndex]?.hit.emit('pointerdown');
     });
+    this.input.keyboard.on('keydown-SPACE', () => {
+      if (this._overlay) return;
+      this._btnRefs[this._menuIndex]?.hit.emit('pointerdown');
+    });
     this.input.keyboard.on('keydown-ESC', () => {
       if (this._overlay) this._closeOverlay();
     });
@@ -435,4 +439,3 @@ export class MainMenuScene extends Phaser.Scene {
     this._overlay = { objs: [base.shade, base.panel, base.titleText, base.sep, base.closeHint, base.closeBtn.root, body] };
   }
 }
-

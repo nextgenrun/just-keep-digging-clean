@@ -467,6 +467,7 @@ export function setupGameplayMethods(prototype) {
       }
     }
 
+    const stationaryAnimKey = animKey;
     const movingSideDig = resolveMovingSideDigAnimation({
       profile,
       animationKey: animKey,
@@ -497,8 +498,31 @@ export function setupGameplayMethods(prototype) {
       currentTextureFrame: Number(this.player.anims.currentFrame?.textureFrame),
     });
     animKey = movingDiagonalDig.animationKey;
+    if (!this.anims.exists(animKey)) {
+      animKey = this.playerDeferredAnimationAssetController?.resolveOrRequest?.(
+        animKey,
+        stationaryAnimKey,
+      ) || stationaryAnimKey;
+    }
+    if (!this.anims.exists(animKey)) {
+      const safeFallback = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
+      this.playerDeferredAnimationAssetController?.ensureForAnimation?.(animKey);
+      animKey = this.anims.exists(safeFallback) ? safeFallback : null;
+    }
     this._ualMovingSideDigResumeJogFrame = movingDiagonalDig.resumeJogFrame
       ?? movingSideDig.resumeJogFrame;
+    if (!animKey) {
+      this.ualActionContactTimeline?.cancel();
+      this.playerRigContact?.endAction();
+      this.isDigAnimating = false;
+      mineFeedback?.onContact?.({
+        now: this.time?.now || 0,
+        aim,
+        targetTile: mineFeedback?.targetTile || null,
+        trigger: "missing-animation-fallback",
+      });
+      return false;
+    }
     const animation = this.anims.get(animKey);
     const frameCount = animation?.frames?.length || 1;
     const frameRate = animation?.frameRate || profile.digSidewaysAnimationFps || 30;
@@ -551,7 +575,10 @@ export function setupGameplayMethods(prototype) {
         targetTile: mineFeedback?.targetTile,
         direction: rigDirection,
       });
-      if (movingSideDig.movingSideDigActive === true) {
+      if (
+        movingSideDig.movingSideDigActive === true
+        && animKey === movingSideDig.animationKey
+      ) {
         this.playerController?.beginMovingSideDigStandOff?.({
           targetTile: mineFeedback?.targetTile,
           directionX: movingSideDig.targetDirectionX,

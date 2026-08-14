@@ -50,6 +50,15 @@ node ai-tools\2026-08-03-roboplaytest.mjs --output=C:\tmp\dig-game-roboplaytest
 
 # Run only the shorter beginning-to-end route
 node ai-tools\2026-08-03-roboplaytest.mjs --profile=critical
+
+# Audit every I-menu and ESC-menu tab with real pointer input
+node ai-tools\2026-08-03-roboplaytest.mjs --profile=ui
+
+# Repeat the menu audit in a compact viewport
+node ai-tools\2026-08-03-roboplaytest.mjs --profile=ui --viewport-width=960 --viewport-height=640
+
+# Exercise real movement and the guided first test block
+node ai-tools\2026-08-03-roboplaytest.mjs --profile=opening --tutorial=guided
 ```
 
 Use `--help` for all options.

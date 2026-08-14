@@ -58,11 +58,14 @@ import { getCollectedStarReleasePreloadAssets } from "../../values/starConstella
 import { getStarIdentityPreloadAssets } from "../../values/starIdentityLibrary.js";
 import {
   RUNTIME_ASSET_LOADING,
+  RUNTIME_ASSET_PACK_IDS,
   RUNTIME_ASSET_RESIDENCY_CLASSES,
   resolveRuntimeFeatureAssetDeferralEnabled,
 } from "../../values/runtimeAssetLoading.js";
 import { getCapabilityTitanGameplayPreloadAssets } from
   "../../values/titanRuntimeCapabilities.js";
+import { getTitanArchivePreloadAssets } from
+  "../../values/titanDiscoveries.js";
 import { RuntimeAssetCatalog } from "../../world/rendering/RuntimeAssetCatalog.js";
 import {
   NPC_ACTIVITY_CONFIG,
@@ -276,7 +279,7 @@ export class BootScene extends Phaser.Scene {
     }
   }
 
-  queueImage(key, path) {
+  queueImage(key, path, metadata = {}) {
     if (this.textures.exists(key)) return;
     if (this.runtimeAssetCatalog && !this.runtimeAssetCatalog.registerQueuedAsset(
       { key, path },
@@ -285,6 +288,7 @@ export class BootScene extends Phaser.Scene {
         residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.boot,
         managed: false,
         consumers: ["boot"],
+        ...metadata,
       },
     )) return;
 
@@ -298,6 +302,16 @@ export class BootScene extends Phaser.Scene {
     if (path && path !== "") {
       this.load.image(key, path);
     }
+  }
+
+  queueResidentUiImage(key, path, consumer) {
+    this.queueImage(key, path, {
+      owner: RUNTIME_ASSET_LOADING.owners.bootCore,
+      packId: RUNTIME_ASSET_PACK_IDS.bootCore,
+      residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.boot,
+      managed: false,
+      consumers: ["boot", consumer],
+    });
   }
 
   queueAudio(key, path, { preload = true } = {}) {
@@ -593,29 +607,11 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadConstellationSprites() {
-    const signs = ASSET_KEYS.constellations.signs;
-    const base = "sprites/constellations/star-signs-v2/";
-    const celestial = ASSET_KEYS.celestialEngines;
-    const celestialBase = "sprites/celestial-engines/";
-
-    this.queueImage(signs.dirt, `${base}dirt-shovel.png`);
-    this.queueImage(signs.stone, `${base}stone-mountain.png`);
-    this.queueImage(signs.copper, `${base}copper-anvil.png`);
-    this.queueImage(signs.darkDirtNormal, `${base}darkDirtNormal-cave.png`);
-    this.queueImage(signs.darkDirtStrong, `${base}darkDirtStrong-fortress.png`);
-    this.queueImage(signs.bronze, `${base}bronze-shield.png`);
-    this.queueImage(signs.steel, `${base}steel-sword.png`);
-    this.queueImage(signs.iron, `${base}iron-hammer.png`);
-    this.queueImage(signs.silver, `${base}silver-crescent.png`);
-    this.queueImage(signs.gold, `${base}gold-crown.png`);
-    this.queueImage(celestial.starHeart, `${celestialBase}star-heart-core-v1.png`);
-    this.queueImage(celestial.waywardStar, `${celestialBase}wayward-star-core-v1.png`);
-    this.queueImage(celestial.hollowSun, `${celestialBase}hollow-sun-core-v1.png`);
-    this.queueImage(celestial.cometEngine, `${celestialBase}comet-engine-core-v1.png`);
-    if (!this._deferFeatureAssets) {
-      for (const asset of CELESTIAL_TALENT_TREE_PRELOAD_ASSETS) {
-        this.queueImage(asset.key, asset.path);
-      }
+    // ESC and the physical Star Pillar share one complete resident asset pack.
+    // The pack owns every visible node icon as well as its authored chrome so
+    // memory-pressure cleanup cannot leave loaded sockets with missing art.
+    for (const asset of CELESTIAL_TALENT_TREE_PRELOAD_ASSETS) {
+      this.queueResidentUiImage(asset.key, asset.path, "starlight-ui");
     }
   }
 
@@ -1014,6 +1010,15 @@ export class BootScene extends Phaser.Scene {
         loadDamageStages,
         loadOpaqueImageGenResource,
       });
+    } else {
+      // The inventory collection remains a complete visual field guide even
+      // when Level Two gameplay is excluded from the active capability pack.
+      loadDamageStages(
+        [ASSET_KEYS.tiles.lavaDirtHp1, ASSET_KEYS.tiles.lavaDirtHp2,
+          ASSET_KEYS.tiles.lavaDirtHp3, ASSET_KEYS.tiles.lavaDirtHp4,
+          ASSET_KEYS.tiles.lavaDirtHp5],
+        "sprites/tiles/second-world/lava-dirt",
+      );
     }
 
     this.load.image(
@@ -1140,15 +1145,29 @@ export class BootScene extends Phaser.Scene {
     ).forEach(([name, path]) => {
       this.queueImage(ASSET_KEYS.ui.thunderStrikeIndicator[name], path);
     });
-    // Keep gameplay-critical Titan chamber and guidance art resident.
-    const titanAssets = getCapabilityTitanGameplayPreloadAssets(
-      undefined,
-      undefined,
-      this.gameplayCapabilities,
-    );
+    // ESC navigation is synchronous: keep all 25 archive portraits resident.
+    // Capability filtering still owns the separate in-world Titan assets.
+    const titanArchiveAssets = getTitanArchivePreloadAssets();
+    const titanAssets = [
+      ...getCapabilityTitanGameplayPreloadAssets(
+        undefined,
+        undefined,
+        this.gameplayCapabilities,
+      ),
+      ...titanArchiveAssets,
+    ];
     for (const asset of titanAssets) {
-      this.queueImage(asset.key, asset.path);
+      const archivePortrait = asset.key?.startsWith("titan-discovery-")
+        && !asset.key.includes("chamber");
+      if (archivePortrait) {
+        this.queueResidentUiImage(asset.key, asset.path, "titan-archive-ui");
+      } else {
+        this.queueImage(asset.key, asset.path);
+      }
     }
+    console.info(
+      `[BootScene] Resident Titan archive portraits queued: ${titanArchiveAssets.length}`,
+    );
     for (const asset of getEarthquakeFeedbackPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }

@@ -11,16 +11,14 @@ export class CelestialTalentTreeNodeView {
     const { assets, layout, presentation } = CELESTIAL_TALENT_TREE_UI_CONFIG;
     const size = layout.nodeSizeByKindPx[node.kind]
       || layout.nodeSizeByKindPx.upgrade;
-    this.root = scene.add.container(0, 0)
-      .setSize(layout.nodeHitWidthPx, layout.nodeHitHeightPx)
-      .setInteractive({ useHandCursor: true });
+    this.root = scene.add.container(0, 0);
     this.halo = scene.add.image(0, 0, assets.nodeHalo.key)
       .setDisplaySize(size * layout.haloWidthScale, size * layout.haloHeightScale)
       .setTint(accent)
       .setAlpha(0);
     this.icon = scene.add.image(0, 0, iconKey)
       .setDisplaySize(size, size);
-    this.lock = scene.add.image(0, 0, assets.lock)
+    this.lock = scene.add.image(0, 0, assets.lock.key)
       .setDisplaySize(layout.lockWidthPx, layout.lockHeightPx)
       .setVisible(false);
     this.status = scene.add.text(0, layout.nodeStatusOffsetYPx, "", {
@@ -32,7 +30,18 @@ export class CelestialTalentTreeNodeView {
       strokeThickness: presentation.shadowThicknessPx,
       align: "center",
     }).setOrigin(0.5);
-    this.root.add([this.halo, this.icon, this.lock, this.status]);
+    // Reuse the authored halo as a near-transparent display hit target. The
+    // immersive container transform made Phaser Zone hit tests unreliable in
+    // real browser input, while an Image retains the same visual-art contract.
+    this.hit = scene.add.image(
+      0,
+      0,
+      assets.nodeHalo.key,
+    )
+      .setDisplaySize(layout.nodeHitWidthPx, layout.nodeHitHeightPx)
+      .setAlpha(0.001)
+      .setInteractive({ useHandCursor: true });
+    this.root.add([this.halo, this.icon, this.lock, this.status, this.hit]);
     this._fitIcon(size);
     this._bind();
   }
@@ -46,9 +55,8 @@ export class CelestialTalentTreeNodeView {
   }
 
   _bind() {
-    this.root.on("pointerover", () => this.callbacks.onHover?.(this));
-    this.root.on("pointerout", () => this.callbacks.onOut?.(this));
-    this.root.on("pointerdown", () => this.callbacks.onActivate?.(this));
+    this.hit.on("pointerover", () => this.callbacks.onHover?.(this));
+    this.hit.on("pointerout", () => this.callbacks.onOut?.(this));
   }
 
   setState(snapshot, selected = false) {
@@ -59,24 +67,16 @@ export class CelestialTalentTreeNodeView {
     this.icon.clearTint();
     if (purchased) {
       this.icon.setAlpha(presentation.purchasedAlpha);
-      this.status.setText(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.owned)
+      this.status.setText(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.nodeOwned)
         .setColor(presentation.ownedColor);
     } else if (available) {
       this.icon.setAlpha(presentation.availableAlpha);
       this.status.setText(snapshot.starsCost > 0 ? `${snapshot.starsCost} SP` : "FREE")
         .setColor(presentation.readyColor);
     } else {
-      this.icon.setTint(0x69747f).setAlpha(presentation.lockedAlpha);
-      const lockedLabel = snapshot?.reason === "insufficient-stars"
-        ? (snapshot.starsCost + " SP")
-        : snapshot?.reason === "root-choice-locked"
-          ? "FINISH PATH"
-          : snapshot?.reason === "prerequisite-locked"
-            ? "PREVIOUS NODE"
-            : snapshot?.reason === "talents-locked"
-              ? "LV 20"
-              : "LV " + (snapshot?.requiredLevel || 20);
-      this.status.setText(lockedLabel).setColor(presentation.lockedColor);
+      this.icon.setTint(presentation.lockedTint).setAlpha(presentation.lockedAlpha);
+      this.status.setText(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.nodeLocked)
+        .setColor(presentation.lockedColor);
     }
     this.lock.setVisible(!purchased && !available);
     this.halo.setAlpha(selected || purchased ? presentation.haloAlpha : 0);
@@ -92,7 +92,7 @@ export class CelestialTalentTreeNodeView {
   }
 
   destroy() {
-    this.root.removeAllListeners();
+    this.hit?.removeAllListeners?.();
     this.root.destroy(true);
   }
 }

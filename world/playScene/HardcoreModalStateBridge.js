@@ -5,7 +5,11 @@ import {
 import { SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 
 export function enterHardcoreBlockingModal(scene) {
-  scene.hidePauseMenu?.();
+  // A modal launched from the ESC menu must release the pause suspension,
+  // not merely destroy its visuals. Otherwise closing the modal leaves the
+  // scene paused with no panel and controls permanently disabled.
+  if (scene._pausePanel || scene.gameState === "paused") scene.resumeGame?.();
+  else scene.hidePauseMenu?.();
   scene.shopOverlay?.hide?.();
   scene._hardcoreModalSuspension ||= scene.acquireSceneSuspension(
     SCENE_SUSPENSION_KINDS.HARDCORE_MODAL,

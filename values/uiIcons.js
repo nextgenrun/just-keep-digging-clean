@@ -103,7 +103,7 @@ export const UI_INVENTORY_LAYOUT = Object.freeze({
   minItemHeight: 42,
   maxItemHeight: 66,
   itemIconInset: 30,
-  itemTextInset: 60,
+  itemTextInset: 66,
   itemQuantityInset: 14,
-  iconSize: 44,
+  iconSize: 40,
 });

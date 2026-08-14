@@ -152,8 +152,8 @@ import {
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
 
-function resolveGameplayWorldBounds(config) {
-  if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+function resolveGameplayWorldBounds(config, gameplayCapabilities) {
+  if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, gameplayCapabilities)) {
     return { width: config.worldWidthPx, height: config.worldDepthPx };
   }
   return {
@@ -304,7 +304,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.worldIdentity = data.worldIdentity || `save-slot-${this.saveSlot}`;
   this.dugTileSaveStore = new DugTilesSaveStore({ slotId: this.saveSlot });
   if (data.isNewSave === true) this.dugTileSaveStore.beginNewSave();
-  this.worldModel = new WorldModel(this.config);
+  this.worldModel = new WorldModel(this.config, this.gameplayCapabilities);
   const worldIdentityForSave = this.worldModel.getWorldIdentity();
   const initialCachedSave = this.dugTileSaveStore.loadCached(worldIdentityForSave);
   this._cachedSaveData = initialCachedSave;
@@ -376,7 +376,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   // invisible, still-functional interaction layer.
   this.v11SkyIslandVisualSystem = new V11SkyIslandVisualSystem(this);
   this.v11SkyIslandVisualSystem.create();
-  const gameplayWorldBounds = resolveGameplayWorldBounds(this.config);
+  const gameplayWorldBounds = resolveGameplayWorldBounds(this.config, this.gameplayCapabilities);
   this.physics.world.setBounds(0, 0, gameplayWorldBounds.width, gameplayWorldBounds.height);
 
   this._safeReturnGfx = this.add.graphics();
@@ -538,6 +538,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.heavenblocksProgressionSystem = new HeavenblocksProgressionSystem({
     relicCountProvider: () => this.ancientRelicSystem?.getCount?.() || 0,
     initialData: this._cachedSaveData?.heavenblocksData,
+    gameplayCapabilities: this.gameplayCapabilities,
   });
   this.playerLevelSystem = new PlayerLevelSystem();
   this.playerLevelSystem.setComboSystem(this.comboSystem);
@@ -546,6 +547,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   );
   this.upgradeSystem = new UpgradeSystem(this.digSystem, this.playerLevelSystem, {
     depthEconomyEnabled: this.config.resourceEconomyEnabled,
+    gameplayCapabilities: this.gameplayCapabilities,
   });
   this.titanClueSystem = new TitanClueSystem({
     retention: this.retentionProgressSystem,
@@ -559,6 +561,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     upgradeSystem: this.upgradeSystem,
     ancientRelicSystem: this.ancientRelicSystem,
     heavenblocksProgressionSystem: this.heavenblocksProgressionSystem,
+    gameplayCapabilities: this.gameplayCapabilities,
   });
   const craftingHealth = this.craftingSystem.getHealthSnapshot();
   if (!craftingHealth.ready) {

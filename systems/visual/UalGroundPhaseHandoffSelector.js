@@ -161,10 +161,10 @@ export class UalGroundPhaseHandoffSelector {
           transition.observedPlaying = true;
         }
         if (
-          transition.observedPlaying
-          && currentAnimationKey === transition.animationKey
+          currentAnimationKey === transition.animationKey
           && isPlaying !== true
         ) {
+          // A two-frame bridge can finish between ticks; its selected key still proves it started.
           this._bridgeTransition = null;
           if (transition.kind === "start" && moving === true) {
             return {

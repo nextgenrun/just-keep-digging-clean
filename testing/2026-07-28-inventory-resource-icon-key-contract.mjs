@@ -76,13 +76,18 @@ assert(
 
 assert.match(
   holdingsSource,
-  /ASSET_KEYS\.ui\.lootPickups\[key\]/,
-  "inventory resources must use the current pickup-art key map"
+  /addInventoryWorldTile\(scene, shell\.content/,
+  "inventory resources must use the exact production ground compositor"
 );
 assert.match(
   holdingsSource,
-  /scene\.add\.image\(x, y, textureKey\)/,
-  "inventory resources must render their current bitmap artwork"
+  /installInventoryResourceFrames\(scene\)/,
+  "inventory resources must install the production semantic atlas frames"
+);
+assert.match(
+  holdingsSource,
+  /addInventoryLavaDirtTile\(scene, shell\.content/,
+  "Lava Dirt must render its exact production tile rather than a substitute icon"
 );
 assert.doesNotMatch(
   holdingsSource,

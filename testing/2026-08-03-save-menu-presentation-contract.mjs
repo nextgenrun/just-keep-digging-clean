@@ -117,6 +117,11 @@ for (const key of ["ONE", "TWO", "THREE", "SPACE", "DELETE", "B", "E", "I", "ESC
   assert.match(sceneSource, new RegExp(`keydown-${key}`), `${key} keyboard path must remain`);
 }
 assert.match(sceneSource, /this\.scene\.start\("WorldLoadScene"/);
+assert.match(
+  sceneSource,
+  /if \(this\.selectedSlot === slot\.id\)[\s\S]{0,140}this\._startGame\(\)/,
+  "a second click on the focused save card must launch like Enter or Space",
+);
 assert.match(sceneSource, /store\.exportSave\(\)/);
 assert.match(sceneSource, /await store\.importSave\(file\)/);
 assert.match(sceneSource, /await store\.clearSave\(\)/);

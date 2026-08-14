@@ -23,6 +23,7 @@ import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js?rev=20
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
 import {
   getHardcoreModeLabel,
+  getHardcoreModePreloadAssets,
   isHardcoreMode,
   isHardcoreModeArmed,
   isHardcoreModeExhausted,
@@ -95,6 +96,11 @@ export class StartMenuScene extends Phaser.Scene {
     // The save-vault rollback query may swap its slot cards to Graphics, but
     // the integrated first-run decision panel must remain authored bitmap UI.
     preloadSaveMenuArt(this);
+    for (const asset of getHardcoreModePreloadAssets()) {
+      if (!this.textures.exists(asset.key)) {
+        this.load.image(asset.key, asset.path);
+      }
+    }
   }
 
   async create() {
@@ -155,7 +161,7 @@ export class StartMenuScene extends Phaser.Scene {
     this._newRunSetup = new NewRunSetupOverlay(this);
 
     // --- Start prompt (shown below cards once a slot is selected) ---
-    this._startPrompt = this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, 'SELECT  A  SLOT,  THEN  PRESS  SPACE  TO  START', {
+    this._startPrompt = this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, 'SELECT  A  SLOT,  THEN  PRESS  ENTER  OR  SPACE', {
       fontFamily: UI_FONTS.mono,
       fontSize: '16px',
       color: COL.dim,
@@ -167,7 +173,7 @@ export class StartMenuScene extends Phaser.Scene {
     sepLine2.lineBetween(80, SAVE_TRANSFER_UI.startMenu.dividerY, W - 80, SAVE_TRANSFER_UI.startMenu.dividerY);
 
     // --- Hint bar ---
-    this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.hintY, '1 / 2 / 3: choose     SPACE: start     DEL: clear     B: backups     E: export     I: import     ESC: menu', {
+    this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.hintY, '1 / 2 / 3: choose     ENTER / SPACE: start     DEL: clear     B: backups     E: export     I: import     ESC: menu', {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.hint,
@@ -187,6 +193,7 @@ export class StartMenuScene extends Phaser.Scene {
       this.input.keyboard.off('keydown-ONE');
       this.input.keyboard.off('keydown-TWO');
       this.input.keyboard.off('keydown-THREE');
+      this.input.keyboard.off('keydown-ENTER');
       this.input.keyboard.off('keydown-SPACE');
       this.input.keyboard.off('keydown-DELETE');
       this.input.keyboard.off('keydown-B');
@@ -418,7 +425,16 @@ export class StartMenuScene extends Phaser.Scene {
           this._updateCard(g, cx, cy, COL.cardBase, COL.borderDim);
         }
       });
-      hit.on('pointerdown', () => this._selectSlot(slot.id));
+      hit.on('pointerdown', () => {
+        // The first click focuses a record so export/import actions remain
+        // deliberate. Clicking the already-focused card is the pointer
+        // equivalent of Enter/Space and must actually enter that record.
+        if (this.selectedSlot === slot.id) {
+          this._startGame();
+          return;
+        }
+        this._selectSlot(slot.id);
+      });
 
       this._cardGraphics.push({ g, cx, cy, slotId: slot.id });
       this._cardObjects.push(objs);
@@ -504,8 +520,8 @@ export class StartMenuScene extends Phaser.Scene {
     const selectedSave = this.saveSlots?.find((slot) => slot.id === slotId);
     this._startPrompt.setText(
       selectedSave?.hasData
-        ? 'PRESS  SPACE  TO  CONTINUE'
-        : 'PRESS  SPACE  TO  CHOOSE  SAVE  RULES',
+        ? 'PRESS  ENTER  OR  SPACE  TO  CONTINUE'
+        : 'PRESS  ENTER  OR  SPACE  TO  CHOOSE  SAVE  RULES',
     );
     this._startPrompt.setColor(COL.green);
     this.tweens.killTweensOf(this._startPrompt);
@@ -587,10 +603,12 @@ export class StartMenuScene extends Phaser.Scene {
       if (!this._newRunSetup?.isVisible) this._selectSlot(3);
     });
 
-    this.input.keyboard.on('keydown-SPACE', () => {
+    const startSelectedSlot = () => {
       if (this._confirmPanel || this._newRunSetup?.isVisible) return;
       if (this.selectedSlot !== null) this._startGame();
-    });
+    };
+    this.input.keyboard.on('keydown-ENTER', startSelectedSlot);
+    this.input.keyboard.on('keydown-SPACE', startSelectedSlot);
 
     this.input.keyboard.on('keydown-DELETE', () => {
       if (this._confirmPanel || this._newRunSetup?.isVisible) return;

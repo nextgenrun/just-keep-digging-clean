@@ -1,7 +1,6 @@
 // Authored full-screen multi-path talent layout, art routing, and hover copy.
 
 import { ASSET_KEYS } from "./assetKeys.js";
-import { CELESTIAL_ACTION_BAR_ASSET_KEYS } from "./celestialActionBar.js";
 import { CELESTIAL_TALENT_NODES_BY_ID } from "./celestialTalentProgression.js";
 
 const foundation = Object.freeze({
@@ -20,16 +19,47 @@ const nodeHalo = Object.freeze({
   key: "ui-celestial-talent-node-halo-v1",
   path: "sprites/UI/starlight-talent-tree-v4/node-selection-halo-v2.png",
 });
+const tooltip = Object.freeze({
+  key: "ui-celestial-talent-tooltip-v1",
+  path: "sprites/UI/hud-approved-v1/notification-frame.png",
+});
+const lock = Object.freeze({
+  key: "ui-celestial-talent-lock-v1",
+  path: "sprites/UI/starlight-talent-tree-v4/bobo-lock-seal-v2.png",
+});
+
+const signs = ASSET_KEYS.constellations.signs;
+const engines = ASSET_KEYS.celestialEngines;
+const signBasePath = "sprites/constellations/star-signs-v2/";
+const engineBasePath = "sprites/celestial-engines/";
+
+export const CELESTIAL_TALENT_NODE_ICON_ASSETS = Object.freeze([
+  Object.freeze({ key: signs.dirt, path: `${signBasePath}dirt-shovel.png` }),
+  Object.freeze({ key: signs.stone, path: `${signBasePath}stone-mountain.png` }),
+  Object.freeze({ key: signs.copper, path: `${signBasePath}copper-anvil.png` }),
+  Object.freeze({ key: signs.darkDirtNormal, path: `${signBasePath}darkDirtNormal-cave.png` }),
+  Object.freeze({ key: signs.darkDirtStrong, path: `${signBasePath}darkDirtStrong-fortress.png` }),
+  Object.freeze({ key: signs.bronze, path: `${signBasePath}bronze-shield.png` }),
+  Object.freeze({ key: signs.steel, path: `${signBasePath}steel-sword.png` }),
+  Object.freeze({ key: signs.iron, path: `${signBasePath}iron-hammer.png` }),
+  Object.freeze({ key: signs.silver, path: `${signBasePath}silver-crescent.png` }),
+  Object.freeze({ key: signs.gold, path: `${signBasePath}gold-crown.png` }),
+  Object.freeze({ key: engines.starHeart, path: `${engineBasePath}star-heart-core-v1.png` }),
+  Object.freeze({ key: engines.waywardStar, path: `${engineBasePath}wayward-star-core-v1.png` }),
+  Object.freeze({ key: engines.hollowSun, path: `${engineBasePath}hollow-sun-core-v1.png` }),
+  Object.freeze({ key: engines.cometEngine, path: `${engineBasePath}comet-engine-core-v1.png` }),
+]);
 
 export const CELESTIAL_TALENT_TREE_PRELOAD_ASSETS = Object.freeze([
   foundation,
   connectorGold,
   connectorBlue,
   nodeHalo,
+  tooltip,
+  lock,
+  ...CELESTIAL_TALENT_NODE_ICON_ASSETS,
 ]);
 
-const signs = ASSET_KEYS.constellations.signs;
-const engines = ASSET_KEYS.celestialEngines;
 const nodeIconKeys = Object.freeze({
   "wayward-star-root": engines.waywardStar,
   "wayward-stellar-bearings": signs.silver,
@@ -38,10 +68,10 @@ const nodeIconKeys = Object.freeze({
   "wayward-echo-orbit": signs.darkDirtNormal,
   "wayward-vector-command": signs.copper,
   "wayward-fracture-bloom": signs.steel,
-  "wayward-perihelion-loop": CELESTIAL_ACTION_BAR_ASSET_KEYS.quickslash,
+  "wayward-perihelion-loop": signs.silver,
   "wayward-impact-lattice": signs.iron,
   "wayward-supernova-core": engines.starHeart,
-  "wayward-white-dwarf-shell": CELESTIAL_ACTION_BAR_ASSET_KEYS.thunderStrike,
+  "wayward-white-dwarf-shell": signs.gold,
   "hollow-sun-root": engines.hollowSun,
   "hollow-orbit-anchor": signs.silver,
   "hollow-gravity-well": signs.darkDirtNormal,
@@ -52,18 +82,18 @@ const nodeIconKeys = Object.freeze({
   "hollow-abyssal-field": engines.hollowSun,
   "hollow-collapse-cycle": signs.steel,
   "hollow-singularity-core": engines.starHeart,
-  "hollow-chronosphere": CELESTIAL_ACTION_BAR_ASSET_KEYS.thunderStrike,
+  "hollow-chronosphere": signs.silver,
   "comet-engine-root": engines.cometEngine,
   "comet-ignition-coil": signs.gold,
   "comet-bore-drive": signs.iron,
   "comet-fracture-nose": signs.steel,
   "comet-longburn-reservoir": signs.copper,
   "comet-rider-plating": signs.bronze,
-  "comet-wide-wake": CELESTIAL_ACTION_BAR_ASSET_KEYS.thunderStrike,
+  "comet-wide-wake": signs.gold,
   "comet-aphelion-drive": engines.cometEngine,
   "comet-impact-wake": signs.darkDirtStrong,
   "comet-zenith-drive": engines.starHeart,
-  "comet-shockfront": CELESTIAL_ACTION_BAR_ASSET_KEYS.quickslash,
+  "comet-shockfront": signs.steel,
 });
 
 export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
@@ -72,8 +102,8 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     connectorGold,
     connectorBlue,
     nodeHalo,
-    tooltip: ASSET_KEYS.ui.approvedHud.notification,
-    lock: CELESTIAL_ACTION_BAR_ASSET_KEYS.lock,
+    tooltip,
+    lock,
     connectorKeysByBranch: Object.freeze({
       "wayward-star": connectorGold.key,
       "hollow-sun": connectorBlue.key,
@@ -86,10 +116,14 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     referenceHeightPx: 941,
     minimumScale: 0.56,
     viewportInsetPx: 8,
-    branchCenterXFractions: Object.freeze([0.219, 0.5, 0.781]),
-    rowYFractions: Object.freeze([0.79, 0.64, 0.475, 0.285]),
+    // Authored branch socket centers measured from the 1672 px foundation.
+    branchCenterXFractions: Object.freeze([0.194, 0.5, 0.804]),
+    // Measured authored sockets: bottom root, lower tier, middle tier, apex.
+    // Keeping the root above the dossier prevents the former panel collision.
+    rowYFractions: Object.freeze([0.695, 0.552, 0.455, 0.235]),
+    bridgeRowYFraction: 0.345,
     laneStepXFraction: 0.062,
-    nodeSizeByKindPx: Object.freeze({ ability: 70, upgrade: 48, capstone: 58 }),
+    nodeSizeByKindPx: Object.freeze({ ability: 88, upgrade: 62, capstone: 72 }),
     nodeHitWidthPx: 78,
     nodeHitHeightPx: 76,
     lockWidthPx: 24,
@@ -101,40 +135,47 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     titleYFraction: 0.058,
     subtitleYFraction: 0.112,
     branchTitleYFraction: 0.178,
-    levelXFraction: 0.132,
-    moneyXFraction: 0.81,
-    starsXFraction: 0.92,
+    levelXFraction: 0.091,
+    moneyXFraction: 0.859,
+    starsXFraction: 0.94,
     headerYFraction: 0.071,
-    closeXFraction: 0.965,
+    closeXFraction: 0.982,
+    closeYFraction: 0.018,
+    closeHitWidthPx: 96,
+    closeHitHeightPx: 48,
     detailTitleXFraction: 0.31,
-    detailTitleYFraction: 0.925,
+    detailTitleYFraction: 0.886,
     detailBodyXFraction: 0.51,
-    detailBodyYFraction: 0.925,
+    detailBodyYFraction: 0.886,
     detailStatusXFraction: 0.82,
-    detailStatusYFraction: 0.925,
+    detailStatusYFraction: 0.886,
     detailBodyWidthPx: 620,
-    tooltipWidthPx: 330,
-    tooltipHeightPx: 108,
-    tooltipGapPx: 16,
-    tooltipTitleOffsetYPx: -29,
-    tooltipBodyOffsetYPx: -2,
-    tooltipStatusOffsetYPx: 30,
-    tooltipBodyWidthPx: 286,
+    tooltipWidthPx: 390,
+    tooltipHeightPx: 152,
+    tooltipGapPx: 20,
+    tooltipViewportMarginPx: 22,
+    tooltipTitleOffsetYPx: -49,
+    tooltipMetaOffsetYPx: -27,
+    tooltipBodyOffsetYPx: 7,
+    tooltipStatusOffsetYPx: 52,
+    tooltipBodyWidthPx: 338,
     compactStatusScaleThreshold: 0.7,
   }),
   presentation: Object.freeze({
     depth: 4200,
     titleFontSizePx: 42,
     subtitleFontSizePx: 17,
-    headerFontSizePx: 21,
+    headerFontSizePx: 17,
+    closeFontSizePx: 15,
     branchFontSizePx: 25,
     nodeStatusFontSizePx: 10,
     detailTitleFontSizePx: 20,
     detailBodyFontSizePx: 14,
     detailStatusFontSizePx: 14,
-    tooltipTitleFontSizePx: 16,
-    tooltipBodyFontSizePx: 11,
-    tooltipStatusFontSizePx: 11,
+    tooltipTitleFontSizePx: 18,
+    tooltipMetaFontSizePx: 11,
+    tooltipBodyFontSizePx: 13,
+    tooltipStatusFontSizePx: 12,
     titleColor: "#E8C984",
     bodyColor: "#D7DFE6",
     dimColor: "#8797A5",
@@ -143,9 +184,10 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     lockedColor: "#A9B3BC",
     shadowColor: "#010408",
     shadowThicknessPx: 3,
-    lockedAlpha: 0.31,
-    availableAlpha: 0.9,
+    lockedAlpha: 0.58,
+    availableAlpha: 1,
     purchasedAlpha: 1,
+    lockedTint: 0x8c9ba8,
     selectedScale: 1.08,
     haloAlpha: 0.62,
     connectorLockedAlpha: 0.18,
@@ -158,6 +200,8 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     subtitle: "LEVEL 20 ROOT ABILITY  -  CHOOSE A PATH  -  MASTER UPWARD",
     close: "ESC",
     owned: "OWNED",
+    nodeOwned: "1/1",
+    nodeLocked: "0/1",
     free: "FREE",
     inspect: "Hover a node to inspect its effect and exact unlock condition.",
     talentsLocked: "Requires Player Level 20.",
@@ -165,8 +209,22 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     prerequisiteLocked: "Requires an earlier node on this path.",
     unknownLocked: "This talent is currently locked.",
     available: "Click to unlock.",
+    rootChoice: "ROOT ABILITY",
+    upgradeChoice: "UPGRADE CHOICE",
+    bridgeChoice: "BRIDGE UPGRADE",
+    capstoneChoice: "CAPSTONE CHOICE",
+    levelLabel: "LEVEL",
+    starPointLabel: "SP",
   }),
 });
+
+export function getCelestialTalentChoiceLabel(node) {
+  const copy = CELESTIAL_TALENT_TREE_UI_CONFIG.copy;
+  if (node?.displayRole === "bridge") return copy.bridgeChoice;
+  if (node?.kind === "ability") return copy.rootChoice;
+  if (node?.kind === "capstone") return copy.capstoneChoice;
+  return copy.upgradeChoice;
+}
 
 export function getCelestialTalentNodeIconKey(nodeId) {
   return nodeIconKeys[nodeId] || engines.starHeart;
@@ -177,7 +235,9 @@ export function getCelestialTalentNodePosition(branchIndex, node) {
   return Object.freeze({
     xFraction: layout.branchCenterXFractions[branchIndex]
       + node.lane * layout.laneStepXFraction,
-    yFraction: layout.rowYFractions[node.row],
+    yFraction: node.displayRole === "bridge"
+      ? layout.bridgeRowYFraction
+      : layout.rowYFractions[node.row],
   });
 }
 

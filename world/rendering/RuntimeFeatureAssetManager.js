@@ -151,6 +151,10 @@ export class RuntimeFeatureAssetManager {
   _startOrDefer(record) {
     const promise = new Promise(resolve => { record.settle = resolve; });
     record.promise = promise;
+    if (record.definition.bypassPressureGate === true) {
+      this._start(record);
+      return promise;
+    }
     const deferred = this.pressureGate.begin(record, {
       ready: () => this._start(record),
       timeout: () => this._timeout(record),

@@ -6,6 +6,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from '../../values/gameplayDevFlags.js';
+import { DEFAULT_GAMEPLAY_CAPABILITIES } from '../../values/gameplayCapabilities.js';
 
 const success = (changed, details = {}) => ({
   success: true,
@@ -26,8 +27,14 @@ const normalizeRelicCount = (value) => {
 };
 
 export class HeavenblocksProgressionSystem {
-  constructor({ relicCountProvider = null, initialData = null, relicCount } = {}) {
+  constructor({
+    relicCountProvider = null,
+    initialData = null,
+    relicCount,
+    gameplayCapabilities = DEFAULT_GAMEPLAY_CAPABILITIES,
+  } = {}) {
     this.config = HEAVENBLOCKS_PROGRESSION_CONFIG;
+    this.gameplayCapabilities = gameplayCapabilities;
     this.relicCountProvider = typeof relicCountProvider === 'function'
       ? relicCountProvider
       : null;
@@ -262,7 +269,10 @@ export class HeavenblocksProgressionSystem {
   }
 
   isArcCoreBlueprintEligible() {
-    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.ARC_CORES)) return false;
+    if (!isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.ARC_CORES,
+      this.gameplayCapabilities,
+    )) return false;
     const blueprint = this.config.arcCoreBlueprint;
     return blueprint.requiredRegionIds.every((id) => this.isRegionCompleted(id))
       && blueprint.requiredPartIds.every((id) => this.isPartDiscovered(id));

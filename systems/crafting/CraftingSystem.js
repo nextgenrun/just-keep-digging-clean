@@ -5,6 +5,7 @@ import {
 } from "../../values/craftingRecipes.js";
 import { getResourceDisplayName } from "../../values/resourceTypes.js";
 import { isGameplayUpgradeEnabled } from "../../values/gameplayDevFlags.js";
+import { DEFAULT_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
 
 const prettyId = (value) => String(value || "")
   .replace(/[-_]+/g, " ")
@@ -24,6 +25,7 @@ export class CraftingSystem {
     ancientRelicSystem = null,
     heavenblocksProgressionSystem = null,
     progressionStateProvider = null,
+    gameplayCapabilities = DEFAULT_GAMEPLAY_CAPABILITIES,
   } = {}) {
     this.digSystem = digSystem;
     this.upgradeSystem = upgradeSystem;
@@ -32,6 +34,7 @@ export class CraftingSystem {
     this.progressionStateProvider = typeof progressionStateProvider === "function"
       ? progressionStateProvider
       : null;
+    this.gameplayCapabilities = gameplayCapabilities;
     this._craftInProgress = false;
   }
 
@@ -42,7 +45,7 @@ export class CraftingSystem {
   getRecipes() {
     return Object.values(CRAFTING_RECIPES).filter(recipe => (
       recipe.output?.type !== "upgrade"
-      || isGameplayUpgradeEnabled(recipe.output.upgradeId)
+      || isGameplayUpgradeEnabled(recipe.output.upgradeId, this.gameplayCapabilities)
     ));
   }
 
@@ -51,7 +54,7 @@ export class CraftingSystem {
     if (!recipe) return { canCraft: false, reason: "invalid_recipe", recipeId, checks: [] };
     if (
       recipe.output?.type === "upgrade"
-      && !isGameplayUpgradeEnabled(recipe.output.upgradeId)
+      && !isGameplayUpgradeEnabled(recipe.output.upgradeId, this.gameplayCapabilities)
     ) {
       return {
         canCraft: false,
@@ -283,7 +286,15 @@ export class CraftingSystem {
     ) {
       return { reason: "progression_system_unavailable" };
     }
-    const failed = checks.find((entry) => !entry.met);
+    // Missing installed parts are more actionable than the derived blueprint
+    // check, which also becomes false when any required part is absent.
+    const firstFailed = checks.find((entry) => !entry.met);
+    const missingPart = checks.find((entry) => entry.id.startsWith("part:") && !entry.met);
+    const failed = firstFailed?.id === "arc-core-blueprint"
+      && missingPart
+      && progression?.isPartDiscovered?.(missingPart.partId) === true
+      ? missingPart
+      : firstFailed;
     if (!failed) return null;
     if (failed.id === "ancient-relics") {
       return {

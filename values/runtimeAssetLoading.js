@@ -161,6 +161,7 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarBlockFx,
         residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.threshold,
         releaseWhenUnused: true,
+        bypassPressureGate: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.starRelease]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarBlockFx,
@@ -173,6 +174,7 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarBlockFx,
         residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
+        bypassPressureGate: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureStarlight,

@@ -4,6 +4,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { DEFAULT_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
 
 function setTownTile(worldModel, tx, ty, type, hp = null) {
   if (!worldModel.inBounds(tx, ty)) return;
@@ -30,8 +31,12 @@ function isEntrance(config, tx, ty) {
     && ty < entrance.topY + entrance.height;
 }
 
-export function applySecondWorldTown(worldModel, config = SECOND_WORLD_TOWN_CONFIG) {
-  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+export function applySecondWorldTown(
+  worldModel,
+  config = SECOND_WORLD_TOWN_CONFIG,
+  gameplayCapabilities = DEFAULT_GAMEPLAY_CAPABILITIES,
+) {
+  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, gameplayCapabilities)) {
     return { applied: false, excluded: true, reason: "demo-mode" };
   }
   if (!config.enabled) return { applied: false, reason: "disabled" };

@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { CELESTIAL_ENGINE_CONFIG } from "../values/celestialEngines.js";
+import { CELESTIAL_TALENT_PROGRESSION_CONFIG } from
+  "../values/celestialTalentProgression.js";
 import {
   resolveCelestialTalentEngineDefinition,
 } from "../values/celestialTalentEffects.js";
@@ -42,4 +44,16 @@ assert.equal(comet.maxImpacts, baseComet.maxImpacts + 6);
 assert.equal(comet.sideBurstEveryTiles, 2);
 assert.equal(resolveCelestialTalentEngineDefinition("missing"), null);
 
-console.log("Celestial talent effects contract passed.");
+for (const branch of CELESTIAL_TALENT_PROGRESSION_CONFIG.branches) {
+  const base = resolveCelestialTalentEngineDefinition(branch.id, []);
+  for (const node of branch.nodes.filter(candidate => candidate.kind !== "ability")) {
+    const modified = resolveCelestialTalentEngineDefinition(branch.id, [node.effectId]);
+    assert.notDeepEqual(
+      modified,
+      base,
+      `${node.id} must change the live ${branch.id} Engine definition`,
+    );
+  }
+}
+
+console.log("PASS Celestial effects: every purchased upgrade changes its live Engine definition");

@@ -23,6 +23,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { DEFAULT_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
 import { getRubbleRenderIndex, getTileRenderIndex } from "../rendering/tileRenderMap.js";
 import {
   applySecondWorldArea as applySecondWorldAreaToModel,
@@ -71,8 +72,9 @@ function makeTileKey(tx, ty) {
  * dug tile tracking, save restoration, and renderer accessors.
  */
 export class WorldModel {
-  constructor(config = GAME_CONFIG) {
+  constructor(config = GAME_CONFIG, gameplayCapabilities = DEFAULT_GAMEPLAY_CAPABILITIES) {
     this.config = config;
+    this.gameplayCapabilities = gameplayCapabilities;
     this.widthTiles = config.worldWidthTiles;
     this.depthTiles = config.worldDepthTiles;
     this.width = this.widthTiles;
@@ -455,7 +457,7 @@ export class WorldModel {
       positions.push({ tx, ty });
     }
 
-    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return;
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, this.gameplayCapabilities)) return;
 
     const levelTwoCfg = ANCIENT_RELIC_CONFIG.levelTwoWorldCaches;
     const levelTwoMinY = Math.max(
@@ -757,7 +759,12 @@ export class WorldModel {
   }
 
   applySecondWorldArea(secondWorldArea = TILED_WORLD_OVERRIDE.secondWorldArea) {
-    const result = applySecondWorldAreaToModel(this, secondWorldArea);
+    const result = applySecondWorldAreaToModel(
+      this,
+      secondWorldArea,
+      undefined,
+      this.gameplayCapabilities,
+    );
     if (result.applied) {
       console.log(
         `[WorldModel] Applied second world area: ${result.cells} marker cells, ` +
@@ -769,7 +776,7 @@ export class WorldModel {
   }
 
   applySecondWorldTown() {
-    const result = applySecondWorldTownToModel(this);
+    const result = applySecondWorldTownToModel(this, undefined, this.gameplayCapabilities);
     if (result.applied) {
       console.log(
         `[WorldModel] Applied second world town: ${result.bedrockTiles} bedrock tiles, `
@@ -780,7 +787,7 @@ export class WorldModel {
   }
 
   applyGameplayModeBoundaries() {
-    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+    if (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, this.gameplayCapabilities)) {
       return { applied: false, excluded: false };
     }
     const result = applySecondWorldExclusionBoundary(this);

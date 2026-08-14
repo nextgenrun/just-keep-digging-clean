@@ -11,6 +11,10 @@ import {
 } from "../systems/progression/ResolvedPlayerStats.js";
 import { CAMPFIRE_CONFIG } from "../values/campfireConfig.js";
 import { JOURNEY_CONFIG } from "../values/journeyConfig.js";
+import {
+  createGameplayCapabilities,
+  GAMEPLAY_PROFILE_IDS,
+} from "../values/gameplayCapabilities.js";
 import { TOWN_SQUARE_CONFIG } from "../values/townSquareConfig.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
 import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
@@ -48,6 +52,8 @@ function createSnapshot(progress = {}, stats = {}) {
   };
 }
 
+const fullReviewCapabilities = createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW);
+
 // Movement display and physics share one resolved authority.
 assert.equal(resolveMovementSpeed({ baseSpeed: 200, flatBonus: 5 }), 205);
 assert.equal(
@@ -76,7 +82,7 @@ const blockedAtWorldTwo = createSnapshot({
   worldTwoRequirementsMet: 3,
   worldTwoNextRequirement: "40 obsidian",
 });
-const blockedGoals = resolveJourneyGoals(blockedAtWorldTwo);
+const blockedGoals = resolveJourneyGoals(blockedAtWorldTwo, fullReviewCapabilities);
 assert.equal(blockedGoals[0].id, "world-two-key");
 assert.match(blockedGoals[0].detail, /40 obsidian/);
 assert.doesNotMatch(blockedGoals[0].title, /reach \d+m/i);
@@ -95,7 +101,7 @@ const forgeGoals = resolveJourneyGoals(createSnapshot({
     total: 6,
     nextRequirement: "Ancient Relic x3",
   },
-}));
+}), fullReviewCapabilities);
 assert.equal(forgeGoals[0].id, "arc-core-forge");
 assert.match(forgeGoals[0].detail, /Ancient Relic x3/);
 
@@ -262,6 +268,7 @@ const [
   setupSource,
   updateSource,
   pauseSource,
+  saveRuntimeSource,
 ] = await Promise.all([
   readFile(new URL("../player/PlayerController.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/overlays/ShopOverlay.js", import.meta.url), "utf8"),
@@ -269,6 +276,7 @@ const [
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUI.js", import.meta.url), "utf8"),
+  readFile(new URL("../world/playScene/PlaySceneSaveRuntime.js", import.meta.url), "utf8"),
 ]);
 assert.match(playerSource, /createResolvedMovementSnapshot/);
 assert.match(playerSource, /getResolvedStatsSnapshot/);
@@ -278,7 +286,7 @@ assert.doesNotMatch(hudSource, /getNextComboGpCheckpoint|GP\s*@/);
 assert.doesNotMatch(setupSource, /\+\$\{restored\}\s*GP|GP\s*@/);
 assert.doesNotMatch(updateSource, /Total:\s*\+\$\{bonuses\.gpMaxBonus\}\s*GP/);
 assert.match(pauseSource, /key:\s*"journey",\s*label:\s*JOURNEY_CONFIG\.copy\.tabLabel/);
-assert.match(pauseSource, /this\.journeySystem\?\.getSaveData/);
+assert.match(saveRuntimeSource, /scene\.journeySystem\?\.getSaveData/);
 
 console.log("Journey integration contract OK", {
   movementSpeed: movementSnapshot.movementSpeedPxPerSec,

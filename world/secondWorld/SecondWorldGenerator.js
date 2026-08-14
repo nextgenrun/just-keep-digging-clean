@@ -5,6 +5,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { DEFAULT_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
 import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
 
 function randomInt(seed, salt, min, max) {
@@ -349,8 +350,13 @@ export function applySecondWorldExclusionBoundary(worldModel, config = SECOND_WO
   };
 }
 
-export function applySecondWorldArea(worldModel, area, config = SECOND_WORLD_CONFIG) {
-  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
+export function applySecondWorldArea(
+  worldModel,
+  area,
+  config = SECOND_WORLD_CONFIG,
+  gameplayCapabilities = DEFAULT_GAMEPLAY_CAPABILITIES,
+) {
+  if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, gameplayCapabilities)) {
     return applySecondWorldExclusionBoundary(worldModel, config);
   }
   if (!area?.enabled) {

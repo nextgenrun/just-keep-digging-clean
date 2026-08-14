@@ -18,6 +18,7 @@ import { PlaySceneRecoveryOverlay } from "./PlaySceneRecoveryOverlay.js";
 
 export const PLAY_SCENE_UI_METHOD_DEPENDENCIES = Object.freeze({
   createButton,
+  createCelestialTalentTreeView: (scene, options) => new CelestialTalentTreeView(scene, options),
   createFocusController,
   createHintLegend,
   createIconBadge,

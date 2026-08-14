@@ -1,12 +1,19 @@
 import { createIconBadge } from "../UiModalShell.js";
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import {
+  INVENTORY_RESOURCE_GUIDE,
+} from "../../values/inventoryResourceGuide.js";
 import {
   UI_INVENTORY_COPY,
   UI_INVENTORY_LAYOUT,
   UI_RESOURCE_PRESENTATION,
 } from "../../values/uiIcons.js";
+import {
+  addInventoryLavaDirtTile,
+  addInventoryWorldTile,
+  installInventoryResourceFrames,
+} from "./UIInventoryWorldTilePreview.js";
 
 function addText(scene, shell, x, y, value, style = {}, originX = 0, originY = 0) {
   const text = scene.add.text(x, y, value, {
@@ -31,20 +38,32 @@ function addSurface(scene, shell, x, y, width, height, selected = false) {
   shell.content.add(gfx);
 }
 
-function addResourceArtwork(scene, shell, key, x, y, size, discovered) {
-  const textureKey = ASSET_KEYS.ui.lootPickups[key];
-  if (!textureKey || scene.textures?.exists?.(textureKey) === false) return null;
-  const artwork = scene.add.image(x, y, textureKey).setOrigin(0.5);
-  const sourceWidth = Math.max(1, Number(artwork.width) || size);
-  const sourceHeight = Math.max(1, Number(artwork.height) || size);
-  artwork
-    .setScale(Math.min(size / sourceWidth, size / sourceHeight))
-    .setAlpha(discovered ? 1 : 0.68);
-  shell.content.add(artwork);
+function addResourceArtwork(scene, shell, atlas, key, x, y, size, discovered) {
+  const guide = INVENTORY_RESOURCE_GUIDE;
+  const artwork = key === "lavaDirt"
+    ? addInventoryLavaDirtTile(scene, shell.content, {
+        stage: 5,
+        x,
+        y,
+        size,
+      })
+    : addInventoryWorldTile(scene, shell.content, {
+        atlas,
+        resourceKey: guide.formationKeys.includes(key) ? key : null,
+        variant: guide.resourceKeys.indexOf(key) % atlas.variants,
+        groundSlot: (guide.groundMaterialSlots[key] || guide.grounds)[0],
+        groundTypeIndex: guide.groundTypeIndices[key] ?? 0,
+        x,
+        y,
+        size,
+      });
+  const layers = artwork?.groundLayers || [artwork?.image || artwork];
+  layers.filter(Boolean).forEach(layer => layer.setAlpha?.(discovered ? 1 : 0.62));
+  artwork?.resource?.setAlpha?.(discovered ? 1 : 0.62);
   return artwork;
 }
 
-function renderResourceCard(scene, shell, items, key, config, metrics) {
+function renderResourceCard(scene, shell, atlas, items, key, config, metrics) {
   const discovered = Number(items[key]) > 0
     || scene.retentionProgressSystem?.hasDiscoveredMaterial?.(key) === true;
   const { x, y, width, height } = metrics;
@@ -52,16 +71,19 @@ function renderResourceCard(scene, shell, items, key, config, metrics) {
   addResourceArtwork(
     scene,
     shell,
+    atlas,
     key,
     x + UI_INVENTORY_LAYOUT.itemIconInset,
     y + height / 2,
     Math.min(UI_INVENTORY_LAYOUT.iconSize - 8, height - 14),
     discovered,
   );
+  const labelSize = config.name.length > 15 ? "10px"
+    : config.name.length > 10 ? "12px" : "14px";
   addText(scene, shell, x + UI_INVENTORY_LAYOUT.itemTextInset, y + height / 2 - 10,
     config.name.toUpperCase(), {
       fontFamily: UI_FONTS.display,
-      fontSize: "14px",
+      fontSize: labelSize,
       fontStyle: "bold",
       color: config.color,
     }, 0, 0.5);
@@ -81,6 +103,7 @@ function renderResourceCard(scene, shell, items, key, config, metrics) {
 }
 
 export function renderInventoryHoldingsView(scene, shell, rect, items, money) {
+  const atlas = installInventoryResourceFrames(scene);
   const values = Object.values(items).map(Number).filter(Number.isFinite);
   const unique = values.filter(value => value > 0).length;
   const total = values.reduce((sum, value) => sum + Math.max(0, value), 0);
@@ -137,7 +160,7 @@ export function renderInventoryHoldingsView(scene, shell, rect, items, money) {
   entries.forEach(([key, config], index) => {
     const row = Math.floor(index / columns);
     const column = index % columns;
-    renderResourceCard(scene, shell, items, key, config, {
+    renderResourceCard(scene, shell, atlas, items, key, config, {
       x: rect.left + column * (cardWidth + UI_INVENTORY_LAYOUT.columnGap),
       y: gridTop + row * (cardHeight + UI_INVENTORY_LAYOUT.rowGap),
       width: cardWidth,

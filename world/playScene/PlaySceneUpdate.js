@@ -21,6 +21,8 @@ import {
 import { updateHardcoreModeRuntime } from "./HardcoreModeBridge.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 import { resolveInteractionPriorities } from "./interactionPriority.js";
+import { isRequiredTownTutorialDigTarget } from
+  "../../systems/onboarding/TownSquareTutorialDigSite.js";
 
 function syncProgressionGemPowerMax(scene) {
   const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
@@ -808,7 +810,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   const keyboardMineRequested = this.playerController.consumeMineInput();
   const normalMineRequested = keyboardMineRequested || miningInputState.mouseRequested;
   const tutorialDownwardMineBlocked = isTutorialDescentBlocked(this)
-    && isDownwardAimLabel(effectiveAimLabel);
+    && isDownwardAimLabel(effectiveAimLabel)
+    && !isRequiredTownTutorialDigTarget(this, aimTargetTile);
   if (tutorialDownwardMineBlocked && normalMineRequested && !isQuickslashActive) {
     if (miningInputState.mouseRequested) {
       this.inputHandler.acknowledgeMouseMineRequest();

@@ -2,6 +2,19 @@
 
 All scripts created by LLMs to audit, fix, or edit the codebase.
 
+`2026-08-14-render-survival-global-benchmark-review.py` renders all twenty
+Survival motion roles into an isolated review directory using the approved
+four-light, Non-Color-normal, AgX, preserve-volume benchmark; the accepted
+Blender rollback `MINER_run` replaces only the review run source.
+
+`2026-08-14-build-survival-review-texture-cache.py` mirrors the protected
+Survival texture library into a review-only 2K cache, retaining hashes and
+relative paths so Blender can avoid decoding/resizing the 8K masters in-process.
+
+`2026-08-14-build-survival-global-benchmark-reels.py` packages those isolated
+renders into four synchronized MP4 approval reels with inspection-scale and
+true-123-pixel motion checks; it never writes runtime assets.
+
 ## Rules (per `.clinerules` §4)
 1. **Date-stamp all filenames:** `YYYY-MM-DD-description.ext`
 2. **Archive outdated tools:** Move to `/archive/` with date prefix when superseded
@@ -53,6 +66,9 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-30-prepare-surface-hero-landmarks-v4.py` | Reproducibly crop all seven Level 2 hero-landmark alpha masters, validate green/magenta key removal, exact existing-pixel parity and the open portal center, and emit grounded dimensions plus SHA-256 provenance |
 | Tool | Purpose |
 |------|---------|
+| `2026-08-14-build-animation-mesh-motion-comparisons.py` | Build review-only H.264 locomotion/action comparisons from exact current, Blender rollback, and Unreal GASP Survival sheets, plus the rendered Blender material A/B |
+| `2026-08-14-render-animation-mesh-lighting-ab.py` | Render a paired current-seven-light versus coherent-four-light/normal-map/preserve-volume Survival idle loop without saving the production Blender master |
+| `2026-08-14-build-animation-mesh-polish-board.py` | Compose the exact current Survival impact frame and the review-only mesh/deformation target into the V1 approval board |
 | `2026-08-03-roboplaytest.mjs` | Run the save-isolated deep Phaser playtest, exercising the full progression route plus runtime, world, controls, economy, UI, weather, hazards, events, mining-depth, visual, performance, and Starlight lifecycle analysis with JSON/Markdown/PNG evidence |
 | `2026-07-30-build-fire-light-piskel-polish-v1.py` | Orchestrate ten independent Fire Light `.piskel` authorities, 160-frame round-trip, candidate/rollback atlases, reports, and review boards without changing production |
 | `2026-07-30-fire-light-piskel-core.py` | Split and pack the shared 313 px grid, measure source-root/luminous-core anchors, apply integer-only group registration, preserve light energy, and enforce true-black borders |

@@ -14,7 +14,10 @@ export class SecondWorldTownRenderer {
   }
 
   create() {
-    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return false;
+    if (!isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+      this.scene.gameplayCapabilities,
+    )) return false;
     if (!this.config.enabled) return;
 
     const key = ASSET_KEYS.background.secondWorldTown;

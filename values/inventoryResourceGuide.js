@@ -123,7 +123,7 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     panelPadding: 12,
     selectorHeaderHeight: 46,
     selectorGap: 7,
-    previewHeaderHeight: 76,
+    previewHeaderHeight: 102,
     previewColumns: 3,
     previewGap: 10,
     previewLabelHeight: 18,
