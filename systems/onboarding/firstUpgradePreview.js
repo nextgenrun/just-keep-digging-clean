@@ -20,11 +20,13 @@ export function resolveFirstUpgradePreview({
   ) {
     return null;
   }
-  const damageFor = effects => Math.max(
-    1,
-    Math.floor((MINING_CONFIG.baseDamage + (effects.digDamageAdditive || 0))
-      * (1 + (effects.pickaxeDamage || 0))),
-  );
+  const damageFor = effects => scene.digSystem?.getDamagePreview?.(
+    TILE_TYPES.DIRT,
+    effects,
+  ) || Math.max(
+    MINING_CONFIG.baseDamage,
+    Number(effects.pickaxeDamage) || 0,
+  ) + (Number(effects.digDamageAdditive) || 0);
   const beforeDamage = damageFor(upgrades.getUpgradeEffects());
   const afterDamage = damageFor(upgrades.getProjectedUpgradeEffects(upgradeId));
   const site = prepareTownTutorialDigSite(scene, search);

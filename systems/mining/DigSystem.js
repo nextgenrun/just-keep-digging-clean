@@ -5,6 +5,7 @@ import { PLAYER_ABILITIES_CONFIG } from "../../values/playerAbilities.js";
 import { COMBO_CONFIG } from "../../values/comboConfig.js";
 import {
   getBlockEffect,
+  getGemPowerBlockRestoreCapacity,
   getGemPowerBlockTier,
 } from "../../values/specialBlocks.js";
 import {
@@ -1250,7 +1251,12 @@ export class DigSystem {
           );
           const tier = getGemPowerBlockTier(depthTiles);
           gemPowerTierId = tier.id;
-          gemPowerRestoreCapacity = tier.restoreAmount;
+          const maximumGemPower = scene?.playerController?.abilities
+            ?.getGemPowerMax?.() || 0;
+          gemPowerRestoreCapacity = getGemPowerBlockRestoreCapacity(
+            depthTiles,
+            maximumGemPower,
+          );
         }
         if (scene && scene.playerController && scene.playerController.abilities) {
           const abilities = scene.playerController.abilities;

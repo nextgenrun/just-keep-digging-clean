@@ -1014,7 +1014,11 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   this.understarEndingSystem?.update?.(time, delta, playerTile, depth);
   const inTown = playerTile.ty >= this.config.topAirRows - 4
     && playerTile.ty <= this.config.topAirRows;
-  this.retentionProgressSystem?.updateDepth?.(depth, { isTown: inTown });
+  this.retentionProgressSystem?.updateDepth?.(depth, {
+    isTown: inTown,
+    deltaMs: delta,
+    gemPower: this.playerController?.abilities?.getGemPowerExact?.(),
+  });
   if (featureAvailable("randomEvents")) this.randomEventBridge?.checkJackpotMaturity?.(depth);
 
   // Update biome system with current depth

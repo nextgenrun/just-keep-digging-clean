@@ -189,7 +189,7 @@ export const UPGRADES = Object.freeze({
     id: "ironPickaxe",
     category: UPGRADE_CATEGORIES.PICKAXES,
     name: "Iron Pickaxe",
-    description: "10 flat damage. Efficient on steel, copper, stone.",
+    description: "18 flat damage. Efficient on steel, copper, stone.",
     goldCost: 150,
     resources: {
       copper: 20,
@@ -211,7 +211,7 @@ export const UPGRADES = Object.freeze({
     id: "steelPickaxe",
     category: UPGRADE_CATEGORIES.PICKAXES,
     name: "Steel Pickaxe",
-    description: "15 flat damage. Efficient on iron and above. Bonus on bronze.",
+    description: "24 flat damage. Efficient on iron and above. Bonus on bronze.",
     goldCost: 600,
     resources: {
       copper: 50,
@@ -219,7 +219,7 @@ export const UPGRADES = Object.freeze({
       steel: 20,
       iron: 5
     },
-    baseDamage: 15,
+    baseDamage: 24,
     damageMultipliers: {
       iron: 1.0,
       bronze: 1.5,
@@ -246,7 +246,8 @@ export const UPGRADES = Object.freeze({
     damageMultipliers: {
       silver: 1.0,
       default: 1.0,
-      steel: 1.5
+      steel: 1.5,
+      bronze: 1.5,
     },
     metalTier: 4,
     requiresLevel: 50,
@@ -257,7 +258,7 @@ export const UPGRADES = Object.freeze({
     id: "adamantPickaxe",
     category: UPGRADE_CATEGORIES.PICKAXES,
     name: "Adamant Pickaxe",
-    description: "40 flat damage. Efficient on all above. Bonus on mithril. Reduced on gold.",
+    description: "40 flat damage. Efficient on all above. Bonus on mithril.",
     goldCost: 15000,
     resources: {
       copper: 200,
@@ -268,7 +269,7 @@ export const UPGRADES = Object.freeze({
     },
     baseDamage: 40,
     damageMultipliers: {
-      gold: 0.5,
+      gold: 1.0,
       default: 1.0,
       mithril: 1.5
     },

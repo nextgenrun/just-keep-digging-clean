@@ -48,3 +48,14 @@ Game system — progression.
   Tunnel Key and adds 15% Level Two material value per level through level 10.
   Legacy mode hides and ignores the upgrade without deleting its saved level.
   Wallet mutation is normalized to the shared two-decimal currency boundary.
+- `upgradeDefinitionAudit.js` machine-checks registry identity, player copy,
+  costs, the 250-money GP regeneration invariant, Bobo-owned Quickslash,
+  early survival tools, merchant resource ownership, and effective pickaxe
+  monotonicity across every resource. `UpgradeRecommendationPolicy.js` ranks
+  attainable core/survival goals and applies bounded anti-repeat history, so
+  the Town HUD rotates relevant upgrades instead of pinning the global cheapest.
+- Retention save v9 records each expedition's active time, mined gross value,
+  GP spent/restored, HP loss, return/failure cost, and risk-adjusted net value
+  per active minute. These fields are measurement evidence; they do not silently
+  rebalance rewards. Gem Power blocks retain five authored fixed tiers but cap
+  one block at 65% of the current maximum, preventing a full empty-bar refill.

@@ -3,6 +3,10 @@ import { getCargoSellValue } from "../../values/resourcePrices.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import {
+  UPGRADE_RECOMMENDATION_CONFIG,
+  resolveUpgradeRecommendations,
+} from "../progression/UpgradeRecommendationPolicy.js";
 
 function formatMoney(value) {
   return `${Math.max(0, Math.floor(Number(value) || 0)).toLocaleString()} M`;
@@ -14,6 +18,9 @@ export class NextPromiseHudSystem {
     this.config = RETENTION_CONFIG.hud;
     this.lastRefreshAt = -Infinity;
     this.lastSignature = "";
+    this.upgradeRecommendation = null;
+    this.upgradeRecommendationHistory = [];
+    this.nextUpgradeRotationAt = 0;
 
     this.root = scene.add.container(this.config.x, 0)
       .setScrollFactor(0)
@@ -116,6 +123,28 @@ export class NextPromiseHudSystem {
       .setDisplaySize(this.config.width, height);
   }
 
+  _getUpgradeRecommendation(now) {
+    if (this.upgradeRecommendation && now < this.nextUpgradeRotationAt) {
+      return this.upgradeRecommendation;
+    }
+    const candidates = resolveUpgradeRecommendations({
+      upgradeSystem: this.scene.upgradeSystem,
+      bestDepth: this.scene.retentionProgressSystem?.getBestDepth?.() || 0,
+      gemPowerPercent: this.scene.playerController?.abilities
+        ?.getGemPowerPercent?.() ?? 100,
+      history: this.upgradeRecommendationHistory,
+    });
+    this.upgradeRecommendation = candidates[0] || null;
+    if (this.upgradeRecommendation) {
+      this.upgradeRecommendationHistory.push(this.upgradeRecommendation.id);
+      this.upgradeRecommendationHistory = this.upgradeRecommendationHistory.slice(
+        -UPGRADE_RECOMMENDATION_CONFIG.historySize,
+      );
+    }
+    this.nextUpgradeRotationAt = now + UPGRADE_RECOMMENDATION_CONFIG.rotationMs;
+    return this.upgradeRecommendation;
+  }
+
   update(nowMs) {
     if (!this.root?.active || nowMs - this.lastRefreshAt < this.config.refreshMs) return;
     this.lastRefreshAt = nowMs;
@@ -150,6 +179,9 @@ export class NextPromiseHudSystem {
     const atTown = playerTile
       && playerTile.ty >= this.scene.config.topAirRows - 4
       && playerTile.ty <= this.scene.config.topAirRows;
+    const recommendedUpgrade = atTown
+      ? this._getUpgradeRecommendation(now)
+      : null;
 
     let promise = "";
     if (priorityPromise) {
@@ -158,6 +190,8 @@ export class NextPromiseHudSystem {
       promise = `TREASURE FURY  •  ${chestSeconds}s ultra crit damage`;
     } else if (showObjective && !objective.complete) {
       promise = `SESSION  •  ${objective.label}  ${Math.floor(objective.progress)}/${objective.target}`;
+    } else if (recommendedUpgrade) {
+      promise = `NEXT UPGRADE  •  ${recommendedUpgrade.name}`;
     } else if (atTown && deepestPortal) {
       promise = `QUICK RESUME  •  ${deepestPortal.label}`;
     } else if (nextMilestone) {
@@ -172,10 +206,10 @@ export class NextPromiseHudSystem {
     const effects = this.scene.upgradeSystem?.getUpgradeEffects?.() || {};
     const cargoValue = this.scene.randomEventBridge?.quoteCargoValue?.(resources, effects)
       ?? getCargoSellValue(resources, effects);
-    const detail = priorityPromise?.detail || (
-      `${this.config.cargoPrefix}  ${formatMoney(cargoValue)}`
-      + (deepestPortal ? `  •  DEEPEST ${deepestPortal.depth}m` : "")
-    );
+    const detail = priorityPromise?.detail || (recommendedUpgrade
+      ? `${recommendedUpgrade.affordable ? "AFFORDABLE" : "TARGET"}  •  ${formatMoney(recommendedUpgrade.cost)}`
+      : `${this.config.cargoPrefix}  ${formatMoney(cargoValue)}`
+        + (deepestPortal ? `  •  DEEPEST ${deepestPortal.depth}m` : ""));
     const badge = this._resolveBadge(
       tutorialPromise,
       eventPromise,

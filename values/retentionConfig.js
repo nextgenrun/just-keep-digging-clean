@@ -28,7 +28,7 @@ export const TUTORIAL_FREE_TELEPORT_PASSES = Object.freeze({
 });
 
 export const RETENTION_CONFIG = Object.freeze({
-  saveVersion: 8,
+  saveVersion: 9,
 
   depth: Object.freeze({
     surfaceMaxMeters: 2,

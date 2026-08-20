@@ -471,8 +471,11 @@ export class UpgradeSystem {
     if (this.godModeActive) return 99999;
     const effects = this.getUpgradeEffects();
     const additiveDamage = effects.digDamageAdditive;
-    const pickaxeMultiplier = 1 + effects.pickaxeDamage;
-    return (baseDamage + additiveDamage) * pickaxeMultiplier;
+    const pickaxeDamage = effects.pickaxeDamage || 0;
+    const effectiveBase = pickaxeDamage > 0
+      ? (this.firstFiveEnabled ? Math.max(baseDamage, pickaxeDamage) : pickaxeDamage)
+      : baseDamage;
+    return effectiveBase + additiveDamage;
   }
 
   getEffectiveMineCooldown(baseCooldown) {

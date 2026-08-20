@@ -65,6 +65,7 @@ export class PlayerAbilities {
     this._thunderStrikeFollowUpStageIndex = null;
     this._thunderStrikeFollowUpSuccessCount = 0;
     this._godMode = false;
+    this._abilityUseEvents = [];
   }
 
   setGodMode(enabled) {
@@ -87,6 +88,21 @@ export class PlayerAbilities {
     this._gemPowerFloorProvider = typeof provider === "function" ? provider : null;
   }
   setAbilityAssetReadiness(readiness) { this._abilityAssetReadiness = readiness || null; }
+
+  _recordAbilityUse(ability, payload = {}) {
+    this._abilityUseEvents ||= [];
+    this._abilityUseEvents.push(Object.freeze({
+      ability,
+      atMs: this.sprite?.scene?.time?.now ?? 0,
+      ...payload,
+    }));
+    if (this._abilityUseEvents.length > 128) this._abilityUseEvents.shift();
+  }
+
+  drainAbilityUseEvents() {
+    this._abilityUseEvents ||= [];
+    return this._abilityUseEvents.splice(0);
+  }
 
   _abilityAssetsReady(abilityId) {
     if (!this._abilityAssetReadiness || this._abilityAssetReadiness.isReady(abilityId)) return true;
@@ -140,6 +156,13 @@ export class PlayerAbilities {
       if (canStartFlying || canContinueFlying) {
         if (canStartFlying && !this._godMode && !freeFlightActive) {
           this.consumeGemPower(this._getFlyStartCost(), flightContext);
+        }
+        if (canStartFlying) {
+          this._recordAbilityUse("flight", {
+            unlocked: flightAvailable,
+            cost: freeFlightActive || this._godMode ? 0 : this._getFlyStartCost(),
+            freeTraining: freeFlightActive,
+          });
         }
         let upkeepPaid = true;
         if (!freeFlightActive) {
@@ -209,6 +232,12 @@ export class PlayerAbilities {
         input?.getHorizontalMovement?.(),
         facingRight,
       );
+      this._recordAbilityUse("quickslash", {
+        unlocked: true,
+        direction: this._quickslashDirection,
+        cost: this.getQuickslashCost(),
+        affordable: this.canPayQuickslashCost(),
+      });
     }
     this._quickslashActive = true;
     if (this.body) {
@@ -428,7 +457,7 @@ export class PlayerAbilities {
         overkillDamage: dmgResult.overkillDamage || 0,
       });
     }
-    return {
+    const response = {
       success: true,
       results,
       chainStageIndex: normalizedStageIndex,
@@ -442,6 +471,15 @@ export class PlayerAbilities {
       ),
       followUpCost: THUNDER_STRIKE_CHAIN_CONFIG.followUpCost,
     };
+    this._recordAbilityUse("thunderStrike", {
+      unlocked: true,
+      stage: normalizedStageIndex,
+      cost: initialSlam ? this.getThunderStrikeCost() : 0,
+      hit: results.length > 0,
+      targetCount: results.length,
+      damage: results.reduce((total, result) => total + result.damage, 0),
+    });
+    return response;
   }
 
   getThunderStrikePreview() {

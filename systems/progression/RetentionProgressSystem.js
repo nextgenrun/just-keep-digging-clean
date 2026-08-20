@@ -231,7 +231,11 @@ export class RetentionProgressSystem {
     });
   }
 
-  updateDepth(depth, { isTown = false } = {}) {
+  updateDepth(depth, {
+    isTown = false,
+    deltaMs = 0,
+    gemPower = null,
+  } = {}) {
     const nextDepth = finiteRetentionInt(depth, 0, 100000);
     this.data.stats.currentDepth = nextDepth;
     const previousBest = this.data.stats.bestDepth;
@@ -265,6 +269,18 @@ export class RetentionProgressSystem {
     if (nextDepth >= RETENTION_CONFIG.depth.expeditionStartMeters) {
       this.expedition.active = true;
       this.expedition.maxDepth = Math.max(this.expedition.maxDepth, nextDepth);
+      this.expedition.activeMs += finiteRetentionInt(deltaMs, 0, 1000);
+      const currentGemPower = Number(gemPower);
+      if (Number.isFinite(currentGemPower)) {
+        const hasPreviousGemPower = this.expedition.lastGemPower !== null;
+        const previousGemPower = Number(this.expedition.lastGemPower);
+        if (hasPreviousGemPower && Number.isFinite(previousGemPower)) {
+          const delta = currentGemPower - previousGemPower;
+          if (delta < 0) this.expedition.gpSpent += Math.abs(delta);
+          if (delta > 0) this.expedition.gpRestored += delta;
+        }
+        this.expedition.lastGemPower = currentGemPower;
+      }
     }
     if (!this._objective.complete && this._objective.event === "depthGain") {
       if (!Number.isFinite(this._objective.startDepth)) this._objective.startDepth = nextDepth;
@@ -315,6 +331,8 @@ export class RetentionProgressSystem {
     if (units > 0) {
       this.data.stats.totalResources += units;
       this.expedition.resourceUnits += units;
+      this.expedition.grossValue += units
+        * (RESOURCE_PRICES_CONFIG.basePrices[result.resourceType] || 0);
       this._advanceObjective("resource", units);
     }
     if (result.resourceType) {
@@ -342,6 +360,22 @@ export class RetentionProgressSystem {
     this.data.stats.moneyEarned += earned;
     this.expedition.moneyEarned += earned;
     return earned;
+  }
+
+  recordExpeditionCost({ hpLost = 0, returnCost = 0, failureLoss = 0 } = {}) {
+    this.expedition.hpLost += finiteRetentionInt(hpLost, 0, 1000000000);
+    this.expedition.returnCost += finiteRetentionInt(
+      returnCost,
+      0,
+      1000000000000,
+    );
+    this.expedition.failureLoss += finiteRetentionInt(
+      failureLoss,
+      0,
+      1000000000000,
+    );
+    if (Number(failureLoss) > 0) this.expedition.failed = true;
+    return sanitizeRetentionExpedition(this.expedition);
   }
 
   recordUpgrade(upgradeName, preview = null) {

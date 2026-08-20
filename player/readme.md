@@ -57,6 +57,12 @@ combo-local damage for each successful continuation. Any early, late, or
 expired follow-up ends the chain immediately. Citadel Storm adds +10%
 Thunderstrike damage without widening the damage footprint.
 
+`abilityRoles.js` keeps the five retained verbs distinct: local route recovery,
+horizontal burst, committed vertical chain, behind-target pierce, and held
+hazard defense. `PlayerAbilities` publishes a bounded local event stream for
+Flight, Quickslash, and Thunder Strike with unlock, cost, direction, hit, target,
+and damage fields; mining and hazard systems remain the result authorities.
+
 `PlayerAbilities.js` also owns the injected GP-consumption floor. Normal play
 has a zero floor. Armed Hardcore injects a one-GP floor only for Flight and
 torch sources; Flight admission includes its startup plus current-frame upkeep,

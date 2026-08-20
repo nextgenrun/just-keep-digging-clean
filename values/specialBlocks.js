@@ -77,6 +77,7 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
     gemPowerBlock: {
       type: 'instant',
       effect: 'restoreGemPower',
+      maximumRestoreFraction: 0.65,
       restoreTiers: Object.freeze([
         Object.freeze({
           id: 'gp100',
@@ -188,4 +189,11 @@ export function getGemPowerBlockTier(depthTiles) {
 
 export function getGemPowerBlockRestoreAmount(depthTiles) {
   return getGemPowerBlockTier(depthTiles).restoreAmount;
+}
+
+export function getGemPowerBlockRestoreCapacity(depthTiles, maximumGemPower) {
+  const fixedAmount = getGemPowerBlockRestoreAmount(depthTiles);
+  const maximum = Math.max(0, Math.floor(Number(maximumGemPower) || 0));
+  const fraction = SPECIAL_BLOCKS_CONFIG.effects.gemPowerBlock.maximumRestoreFraction;
+  return Math.max(0, Math.min(fixedAmount, Math.floor(maximum * fraction)));
 }

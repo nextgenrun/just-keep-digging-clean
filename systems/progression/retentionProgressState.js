@@ -54,11 +54,34 @@ export function createRetentionExpedition() {
     chests: 0,
     relics: 0,
     bestMaterial: null,
+    activeMs: 0,
+    grossValue: 0,
+    gpSpent: 0,
+    gpRestored: 0,
+    hpLost: 0,
+    returnCost: 0,
+    failureLoss: 0,
+    failed: false,
+    lastGemPower: null,
   };
 }
 
 export function sanitizeRetentionExpedition(value) {
   if (!value || typeof value !== "object") return null;
+  const activeMs = finiteRetentionInt(value.activeMs, 0, 86400000);
+  const grossValue = finiteRetentionInt(
+    value.grossValue,
+    finiteRetentionInt(value.moneyEarned),
+    1000000000000,
+  );
+  const gpSpent = finiteRetentionInt(value.gpSpent, 0, 1000000000);
+  const hpLost = finiteRetentionInt(value.hpLost, 0, 1000000000);
+  const returnCost = finiteRetentionInt(value.returnCost, 0, 1000000000000);
+  const failureLoss = finiteRetentionInt(value.failureLoss, 0, 1000000000000);
+  const netValue = Math.max(
+    0,
+    grossValue - returnCost - failureLoss - gpSpent - hpLost * 25,
+  );
   return {
     maxDepth: finiteRetentionInt(value.maxDepth, 0, 100000),
     tilesBroken: finiteRetentionInt(value.tilesBroken, 0, 100000000),
@@ -70,6 +93,18 @@ export function sanitizeRetentionExpedition(value) {
     bestMaterial: typeof value.bestMaterial === "string" && value.bestMaterial.length <= 48
       ? value.bestMaterial
       : null,
+    activeMs,
+    grossValue,
+    gpSpent,
+    gpRestored: finiteRetentionInt(value.gpRestored, 0, 1000000000),
+    hpLost,
+    returnCost,
+    failureLoss,
+    failed: value.failed === true,
+    netValue,
+    netValuePerActiveMinute: activeMs > 0
+      ? Math.round((netValue * 60000 / activeMs) * 100000) / 100000
+      : 0,
   };
 }
 
